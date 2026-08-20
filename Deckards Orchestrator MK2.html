@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20j &middot; the war horn calls once and is heard out; the fight grows a second foot and loses its hall</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20k &middot; the comping hand stops landing on beat one: it pushes the chord over the bar line, and hesitates</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -2068,6 +2068,29 @@ function nearestDegree(root, mode, rootPc){
    clauses below. The pattern earns the chromatic notes and then has to land. */
 function noteFits(n, nx, chSet, key, mode){
   if(n.seq) return true;
+  /* ── AN ANTICIPATION IS ASKED OF THE CHORD IT ANTICIPATES ─────────────────
+     A note marked `ant` belongs to the NEXT bar's harmony and was sounded early
+     on purpose. It is a non-chord tone in the bar it is written in, and that is
+     the DEFINITION rather than a defect: "an unaccented non-chord note which is
+     an early sounding of the following chord note" [corpus:mymusictheory];
+     "basically a note of the second chord played early"
+     [corpus:wikipedia/Anticipation].
+
+     So it is checked against the chord it is an early sounding OF. This is not
+     a loosening of the check -- the note still has to be a real tone of a real
+     chord in this material, it is simply asked about the right one. The
+     alternative was to let the general `inKey` pass carry it, which works only
+     while every anticipated chord happens to be diatonic and fails silently
+     the moment one is not. It failed loudly instead, on lofi bar 2, which is
+     the better outcome and is why this is here.
+
+     Nothing else in the file sets `ant`, so no note that did not opt in is
+     judged by a different rule than before. [docs/genre-research/
+     the-comp-does-not-land-on-one.md §4] */
+  if(n.ant && chSet && chSet.length){
+    const ach = chSet[((n.bar + 1) % chSet.length + chSet.length) % chSet.length];
+    if(ach && ach.tones.some(t => pc(t) === pc(n.pitch))) return true;
+  }
   if(inKey(key, mode, n.pitch)) return true;
   const ch = chSet && chSet[n.bar % chSet.length];
   if(ch && ch.tones.some(t => pc(t) === pc(n.pitch))) return true;
@@ -20419,6 +20442,23 @@ const GENRE = {
 
     /* ── stage 3: materials ── */
     pocket: [[[0, 10], 5], [[0, 7, 10], 3], [[0, 10, 14], 2], [[0, 6, 10], 2]],
+    /* ── WHERE THE COMP ENTERS. This genre's comp is the one the sources are
+       literally about -- a jazz comping hand on an electric piano -- and it was
+       entering on beat one in 100.0% of its bars, measured across four seeds.
+
+       The offsets are Berklee's own magnitudes at four steps to the beat, not
+       weights I liked the look of: -2 the 8th-note anticipation, -1 the 16th,
+       +2 the 8th-note delayed attack ("hesitation"), +1 the 16th
+       [corpus:berklee/glossary]. The downbeat stays the single heaviest entry
+       and is still outweighed 11:5 by everything that is not it, which is the
+       Red Garland reading: the rhythm section already has the downbeat twice
+       over, so the hand goes looking for "the 'and of two' as well as the 'and
+       of four'" [corpus:jazz-library/comping].
+
+       THE WEIGHTS ARE [EAR]; the steps are sourced and the direction is
+       sourced. Nobody has heard them.
+       docs/genre-research/the-comp-does-not-land-on-one.md */
+    compEntry: [[0, 5], [-2, 4], [2, 3], [-1, 2], [1, 2]],
     kit: {
       snare:       [4, 12],            // the backbeat, as sixteenth indices
       hatEvery:    2,                  // straight eighths
@@ -23036,6 +23076,28 @@ const GENRE = {
        shapes the score gives, in one bar. */
     pocket: [[[0, 4, 8, 12], 6], [[0, 12, 14], 5], [[0, 4, 8, 12, 14], 4],
              [[0, 12, 14, 15], 3], [[0, 6, 12], 2], [[0, 8], 2], [[0], 1]],
+    /* ── AND WHY THIS GENRE DECLARES NO `compEntry` ────────────────────────
+       It was declared here, briefly, and then measured: the pool never reached
+       a note. `keysStyle: "hold"` a few lines up means this genre's first
+       keyboard is a HELD PAD, not a comping hand -- `buildKeys` is called with
+       `sustain`, and the entry treatment is gated `!opts.sustain` because every
+       source behind it is about a hand comping on a keyboard.
+
+       So the vocabulary genuinely does not apply here, and leaving the
+       declaration in would have been dead config of exactly the class this file
+       keeps logging: a table that says the thing while the music never does it.
+
+       THE 100% ON BEAT ONE IS REAL IN THIS GENRE TOO -- measured, all four
+       seeds -- but it is not a comping defect. It is a pad pressing once a bar,
+       which is what the two primary sources ask for: a pad on "just a one and
+       five" held, and a choir holding one note for a whole measure
+       [docs/genre-research/dungeon-synth-technique.md]. Medieval syncopation is
+       real and sourced ("syncopation has been important in European composition
+       since at least the Middle Ages", and "many 14th-century Italian and
+       French compositions use syncopation" [corpus:wikipedia/Syncopation]) --
+       but it is not an argument for syncopating a part whose whole declared job
+       is to hold, and that decision has its own sheet.
+       Left as an open question in the-comp-does-not-land-on-one.md §3. */
     /* the kit is nearly empty by design. No hats to speak of, no ghosts; the
        toms ARE the timpani and they answer phrases rather than keeping time.
        "when used, it tends toward martial snare patterns or timpani rolls
@@ -26439,6 +26501,9 @@ GENRE.fantasysynth = (function(D){
            [[0, 4, 8, 12, 14], 5],      // the walk with a pickup into the next
            [[0, 2, 4, 8, 10, 12], 3],   // the double-time walk, for the fight
            [[0, 8], 2]],                // half-time, for a leg that thins
+  /* NO `compEntry` HERE EITHER, and for the parent's reason: this genre
+     inherits `keysStyle: "hold"`, so its first keyboard is a pad and the
+     comping vocabulary is gated out of it. See the parent's note. */
   kit: merge(D.kit, {
     /* ── A TIME-KEEPING LANE, WHICH THIS FAMILY HAS NEVER HAD ──────────────
        `hatEvery: 16` is one tick a bar and the parent means it. Here the lane
@@ -32210,6 +32275,69 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        close already gates the pads and the second keyboard out); and no new
        draw, so a genre declaring nothing is byte-identical. */
     const CEIL = (!opts.band && openVoicing && R.keysUp) ? BAND[1] + R.keysUp : BAND[1];
+    /* ── WHERE THE CHORD ENTERS, AND IT WAS ALWAYS BEAT ONE ─────────────
+       MEASURED before this existed, reading the PERFORMANCE across four seeds
+       and every genre in the program: of 1,965 bars carrying a keys event, the
+       bar's first onset was step 0 in 100.0% of them. The distribution had ONE
+       entry in it. Not a lean -- the comp has never entered anywhere but the
+       downbeat, in any genre, in the life of the program.
+
+       AND NOTHING EVER SAID IT SHOULD. `strikes` starts life as
+       `pocket.slice()`, and every pocket in this file leads with 0 -- correctly,
+       because that is what a pocket IS. The comp then inherited the drummer's
+       downbeat as its own entry and had no vocabulary for anything else. Dead
+       config in its purest form: the table says nothing, and the silence was
+       being played.
+
+       THE VOCABULARY IS NAMED AND ITS MAGNITUDES ARE STATED, so no number in
+       the pools is a taste of mine: "the most common anticipations occur
+       one-half beat early (an 8th note anticipation), a quarter-of-a-beat early
+       (a 16th note anticipation)", and a delayed attack is the same list run
+       backwards -- "one-half beat late (an 8th note delayed attack or
+       hesitation) ... or one full beat late. The opposite of an anticipation"
+       [corpus:berklee/glossary]. A beat is four steps here, so the glossary
+       converts straight into the pool: -2 the 8th early, -1 the 16th early,
+       +2 the hesitation, +4 the full beat late.
+
+       AND THE COMP IS THE RIGHT LANE TO TAKE THE DOWNBEAT OFF, because in this
+       program the downbeat is already covered twice before the comp plays a
+       note -- the kick owns `pocket` and the bass reads the same object. That
+       is the sourced argument, not a preference: "he counted on the rest of the
+       rhythm section to handle the downbeats ... which allowed him to focus on
+       the off-beat swung-eighth notes" [corpus:jazz-library/comping, on Red
+       Garland, whose comping "emphasized the 'and of two' as well as the 'and
+       of four'"]. The and of four is step 14, which is 0 minus 2: the same
+       number the glossary gives, reached from a different direction.
+
+       A NEGATIVE OFFSET IS THE PREVIOUS BAR, NOT A NEGATIVE STEP. The stage-6
+       grid check throws on `step < 0`, and it is right to -- an anticipation
+       "is basically a note of the second chord played early"
+       [corpus:wikipedia/Anticipation], which is literally a note written in the
+       bar before. Declined at bar 0, which has no previous bar and whose chord
+       should land square anyway; declined where this part already sounds on
+       that step, rather than stacking on itself.
+
+       ON ITS OWN NAMED SUBSTREAM [Law 3], drawn for every bar before the loop,
+       so a genre that declares no pool draws nothing here and composes
+       byte-identically [Law 7]. Synthwave declares none BY DECISION and with
+       its own sources -- its chords are the backdrop the arpeggio moves over --
+       and that decision is worked in the sheet rather than left as an omission.
+
+       Gated `!opts.sustain`: a pad does not do this. The sources here are about
+       a comping hand, and `the-second-keyboard-rhythm.md` already owns how a
+       pad presses.
+       docs/genre-research/the-comp-does-not-land-on-one.md ── */
+    const ENTRY_POOL = (!opts.sustain && G.compEntry && G.compEntry.length)
+                     ? G.compEntry : null;
+    const entryOff = [];
+    if(ENTRY_POOL){
+      const entryRng = stream(chart.seed, "compEntry:" + streamName);
+      for(let b = 0; b < BARS; b++) entryOff.push(wpick(entryRng, ENTRY_POOL));
+    }
+    /* which (bar, step) this part has already sounded on, so an anticipation
+       reaching back into the previous bar can DECLINE rather than collide with
+       the figure that bar already played. */
+    const sounded = new Set();
     for(let b = 0; b < BARS; b++){
       /* A HELD PAD DOES NOT SPEAK ON THIS BAR AT ALL. Skipped rather than
          written and shortened, because there is no correcting pass here: the
@@ -32809,9 +32937,31 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          instead, and a bar with no room simply does not roll. Nothing is clamped
          and nothing is moved afterwards. */
       const emit = [];
+      /* THE ENTRY TREATMENT FOR THIS BAR [see ENTRY_POOL above], resolved to a
+         bar and a step HERE so the arrival below reads two variables and the
+         roll arithmetic it already had is untouched. A delayed attack that
+         would reach the next strike is declined: a chord that enters on top of
+         its own restatement is not late, it is missing. */
+      let entry = ENTRY_POOL ? entryOff[b] : 0;
+      let arrBar = b, arrStep = strikes[0];
+      if(entry < 0){
+        const at = 16 + entry;
+        if(b === 0 || sounded.has((b - 1) + ":" + at)) entry = 0;
+        else { arrBar = b - 1; arrStep = at; }
+      }
+      else if(entry > 0){
+        const lim = strikes.length > 1 ? strikes[1] : 16;
+        if(strikes[0] + entry >= lim) entry = 0;
+        else arrStep = strikes[0] + entry;
+      }
       /* THE ARRIVAL — the voicing itself, rolled from the bottom. */
       {
-        const st = strikes[0], nxt = strikes.length > 1 ? strikes[1] : 16;
+        const st = arrStep;
+        /* an anticipation has the bar line ahead of it, not the next strike --
+           which is why a push comes out a block stab: one step of room makes
+           the roll width 0 and every voice speaks together, without being told
+           to. That is what a push IS. */
+        const nxt = entry < 0 ? 16 : (strikes.length > 1 ? strikes[1] : 16);
         const room = Math.max(0, (nxt - 1) - st);
         const want = opts.sustain ? 0
                    : Math.round(ROLL * (spread < 0.42 ? 1 : spread < 0.8 ? 1 : 2));
@@ -32861,12 +33011,21 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              declare `hold`, so that case is the arithmetic it always was.
              The extra presses inside the bar take the room up to the next one. */
           const nextIn = strikes.find(x => x > at);
+          /* AN ANTICIPATED CHORD RINGS THROUGH THE BAR LINE. It is bar b's
+             harmony sounded early, so it holds INTO bar b and stops where the
+             plain arrival would have stopped: the room left in this bar, plus
+             the bar it actually belongs to. Anything shorter is a grace note in
+             front of a silence, not a push. */
           const ring = opts.sustain
                      ? (nextIn != null ? Math.max(2, nextIn - at)
                                        : Math.max(2, 16 * padRing[b] - at))
+                     : entry < 0 ? (16 - at) + Math.max(2, (16 - strikes[0]) - 1)
                      : Math.max(2, (16 - at) - 1);
-          emit.push({ bar: b, step: at, dur: ring, pitch: voiced[v],
-                      vel: 0.8, role: "keys", roll: k });
+          emit.push({ bar: arrBar, step: at, dur: ring, pitch: voiced[v],
+                      vel: 0.8, role: "keys", roll: k,
+                      /* this voicing is bar b's harmony written into bar b-1;
+                         say so, so the key check asks the right bar */
+                      ant: entry < 0 ? 1 : undefined });
         }
       }
       /* THE FIGURE — the inner voice, on the material's own cell, every bar.
@@ -32910,7 +33069,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       }
       for(let si = 1; si < strikes.length && !opts.sustain; si++){
         const st = strikes[si];
-        if(emit.some(n => n.step === st)) continue;
+        /* ...ASKED OF THIS BAR. The arrival may now be sitting in the PREVIOUS
+           bar, and a pocket that contains 14 would have seen an anticipation's
+           step 14 and skipped a restatement that is not there. */
+        if(emit.some(n => n.bar === b && n.step === st)) continue;
         const top = voiced.slice(Math.max(0, voiced.length - 2));
         for(let v = 0; v < top.length; v++){
           const at = st + (ROLL > 0 && spread >= 0.5 ? v : 0);
@@ -32933,9 +33095,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           const ring = opts.sustain ? 16 : Math.max(2, Math.round((nxt - st) * 0.6));
           for(const pch of voiced)
             notes.push({ bar: b, step: st, dur: ring, pitch: pch, vel: si === 0 ? 0.8 : 0.55, role: "keys" });
+          sounded.add(b + ":" + st);
         }
       } else {
-        for(const n of emit) notes.push(n);
+        for(const n of emit){ notes.push(n); sounded.add(n.bar + ":" + n.step); }
       }
     }
     return notes;
