@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20t &middot; twelve instruments, one per recording, and this time it is true</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20u &middot; the roster says how long each recording is, and which seven of them can hold a note for ever</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6734,7 +6734,37 @@ const erangControls = (patchMax, patchLabel, fams) => ([
    `family` is the PLAYING family -- what stage 5 does with the line -- and it
    is not the pack's folder name: a held string recording is `tape` (it
    sustains), a struck key is `struck`, a plucked one is `plucked`. That
-   distinction already exists in PLAY_FAMILY and these join it. */
+   distinction already exists in PLAY_FAMILY and these join it.
+
+   ── AND THE ROSTER SPLITS IN TWO BY LENGTH, WHICH IS THE FACT THAT DECIDES
+      HOW EACH ONE MAY BE PLAYED ────────────────────────────────────────────
+   Measured off the bank, not off the filenames:
+
+     SUSTAINING -- 12 s and LOOPED, so a note may be held for ever
+       erLeadMid   12.00 s   C3      erStringsHi   12.00 s   C4
+       erLeadHi    12.00 s   C4      erStringsMid  12.00 s   C3
+       erLeadLow   11.98 s   C1      erStringsLow  11.98 s   C1
+       erPad       11.34 s   C2
+
+     FINITE -- one-shots that stop when the recording does
+       erWind       9.42 s   D#5     erKeyMid       1.48 s   C4
+       erKeyLong    7.68 s   C5      erKeyHi        2.00 s   C5
+       erPluck      3.55 s   C4
+
+   THE SEVEN LOOPED ONES REALLY DO HOLD: `src.loop = true` with the bank's own
+   loop points, so the drone's 500-second notes ring rather than stopping at
+   twelve seconds. The five finite ones cannot, which is what the length-fit
+   fallback below is for.
+
+   ⚠ AND THE SUSTAINING ONES ARE NOT BEING USED THAT WAY. Measured over six
+   records (dungeon + fantasy synth, three seeds each): `erLeadMid` writes 344
+   notes with a MEAN OF 1.00 s and a maximum of 2.00 s, out of twelve seconds
+   of looped recording; `erLeadHi` averages 0.92 s. Only `erStringsHi` stretches
+   out -- mean 4.11 s, max 10.91 s -- and it is the one on a `keys` slot rather
+   than a `lead` one. A twelve-second sustaining recording on a lane that writes
+   half-bar notes is using its attack and throwing the rest away.
+   [owner, 2026-08-20: "each of the instrument files is 12 seconds long and
+   should be used accordingly"] -- BACKLOG 0ab. */
 /* ── THE STRINGS: one sound, three registers, which is a section ─────────── */
 INSTRUMENTS.erStringsHi = {
   slot: "keys", label: "Erang Strings · C4",
