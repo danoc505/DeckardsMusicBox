@@ -20246,7 +20246,7 @@ const GENRE = {
          "music in the 60-70 BPM range promotes the production of alpha waves,
           associated with relaxed attention" [corpus:mihata]
        Four earlier sources in lofi-production.md give four bands whose only
-       COMMON ground is 70-80, and the backlog has carried that as an open a verdict on it
+       COMMON ground is 70-80, and the backlog has carried that as an open ear
        call since 2026-08-03. [70, 84] puts the mean at about 77 -- inside the
        common ground, still a beat tape rather than a ballad, and the top of the
        band no longer leaves the genre. One line, and reversible. */
@@ -21159,7 +21159,7 @@ const GENRE = {
          they were wired. This is the first time any genre has SET them, which is
          why the numbers here are the shipped constants rather than a taste
          call: darker than the panel default on the sub, and the chip left at the
-         patch's own brightness. Move them from here, with a verdict on it. */
+         patch's own brightness. Move them from here, with ears. */
       /* was `subbass` + `chipbass`; engines `sub` and `chip` of the bass unit */
       tb303:     { sCut: 720, sDrive: 0.18, cBright: 0.60 },
       /* a quarter note, soft, dark: a tape slap rather than a dub delay */
@@ -21394,7 +21394,7 @@ const GENRE = {
            sibling (which reaches -27%/+49% of the hat's length): the two lanes
            land on different steps of the same bar on the same hat, and this
            genre's own note above says "small numbers -- you notice it on the
-           third play and not the first". test/a verdict on it/LOG.md `05c`. */
+           third play and not the first". test/ears/LOG.md `05c`. */
         hDecay:[{ kind: "plock", density: [0.10, 0.22], amt: [-0.18, 0.26] }],
         sVerb: [{ kind: "occurrence", step: [0.03, 0.09], cap: 3 },
                 { kind: "section", by: { chorus: [0.03, 0.10], outro: [0.04, 0.12] } }],
@@ -22175,7 +22175,7 @@ const GENRE = {
          failed the "kit is audible in its own band" check as well. Eighteen
          assertions, one cause. One beat of decay is long -- far longer than the
          acoustic kick -- without the kick playing through its own next hit.
-         [CHOSEN: 0.55 is a beat at this tempo; the user's a verdict on it own the final value] */
+         [CHOSEN: 0.55 is a beat at this tempo; the user's ears own the final value] */
       /* THE CHAINS. Synthwave's gated snare is the genre's signature and it is
          exactly a per-voice send: the snare goes to a big room and the kick and
          hats stay dry, which a shared bus cannot express at all. */
@@ -25655,105 +25655,61 @@ GENRE.fantasysynth = (function(D){
      [owner: "how can we use the fx and all the knobs we have to help tell the
      story?"]
 
-     THE MECHANISM IS `kind: "section"` AND THERE IS NO NEW ONE. It is the
-     plainest motion kind in the file -- `d += mv.by[secFn[bar]]`, a flat
-     offset per section FUNCTION -- and because this genre's movement pools had
-     to be function-disjoint for the tempo arc, a function already names a
-     movement. So every lane below reads as prose:
+     NO NEW MECHANISM. `kind: "section"` is the plainest motion kind in the file
+     -- a flat offset per section function -- and because this genre's movement
+     pools are function-disjoint for the tempo arc, a function already names a
+     movement. So every lane below reads as prose: before dawn, the road, the
+     descent, the fight, the walk back, the last tag.
 
-         intro                 before dawn
-         "setting out"         the road
-         "into the deep"       the descent
-         "the fight"           whatever functions it alternates
-         "the long way home"   the walk back
-         outro                 the last sixteen-bar tag
+     THE KEYS ARE MOVEMENTS, NOT SECTION NAMES. Keyed on `verse`/`chorus` these
+     lanes were wrong twice over: one naming only `chorus` BLINKED off and back
+     across a fight that alternates two functions, and once the legs shared
+     functions `verse` would have fired in three movements at once.
 
-     AND THE KEYS ARE MOVEMENTS, NOT SECTION NAMES, which is the second thing
-     `mv` fixed without being aimed at it. These lanes were keyed on `verse`,
-     `bridge`, `chorus` and `instrumental`, and that was wrong in two ways at
-     once: a lane naming only `chorus` BLINKED all the way off and back across a
-     fight that alternates two functions, and the moment the legs started
-     sharing functions -- which is what let each leg be a song rather than two
-     enormous sections -- `verse` would have fired in three different movements
-     at once. A movement is one thing however it is built, so both go away.
+     WHAT DOES NOT GO BACK. A `section` offset vanishes when its function does;
+     an `arc` runs one way across the record. So the DAMAGE -- crusher and drive
+     -- is an arc with a section spike on top: absent at the start, huge at the
+     fight, and at the end the spike is gone and the arc is not. "Triumphant but
+     thinned: something was lost." A loop would end where it began; the
+     arithmetic is what makes this one not.
 
-     THE SECOND MECHANISM IS WHAT DOES NOT GO BACK. A `section` offset vanishes the moment its function
-     does; an `arc` runs one way across the whole record and is at its far end
-     when the record stops. So the DAMAGE -- the crusher and the drive -- is
-     written as an arc with a section spike on top: absent at the start, huge at
-     the fight, and at the end the spike is gone and the arc is not. "Triumphant
-     but thinned: something was lost." A loop would end where it began; this
-     does not, and the arithmetic is what makes that true rather than the
-     comment.
+     A CROSSING AT ZERO CAN BE OPENED BY A LANE ALONE. `space` puts seven sends
+     on the grid at a base of ZERO, and the offset is added before the clamp --
+     so those effects do not exist until the movement that wants them. That is
+     the difference between an effect being ON and an effect ARRIVING.
 
-     AND A CROSSING AT ZERO CAN BE OPENED BY A LANE ALONE. `space` above puts
-     drumsSpring, leadFlange, drumsDP4, leadDP4, keysBarber, leadBarber and
-     droneBarber on the grid at a base of ZERO. A send at zero is silent, and
-     the offset is added to the base before the clamp -- so those effects do not
-     exist in the record until the movement that wants them. That is the
-     difference between an effect being ON and an effect ARRIVING, and arriving
-     is the only one of the two that can tell you anything.
+     WHICH IS WHY NONE OF THOSE SEVEN CELLS CARRIES A BIPOLAR LANE: an LFO on a
+     cell at zero spends its positive half audible and would leak the fight into
+     the first movement. The matrix's own axis modulators already refuse these
+     cells (`if(!(lvl > 0)) continue`); the hand-written lanes hold to it too.
 
-     WHICH IS WHY NONE OF THOSE SEVEN CELLS CARRIES A BIPOLAR LANE. An LFO on a
-     cell at zero spends its positive half AUDIBLE, which would leak the fight
-     into the first movement -- the exact clamp mistake `leadRoom` and the stage
-     depths were both caught by, in its mirror image. The matrix's own axis
-     modulators already refuse these cells (`if(!(lvl > 0)) continue`), and the
-     hand-written lanes here hold to the same rule.
+     AN ARC FROM ZERO IS THE EXCEPTION and is the only thing that can carry the
+     residue. Putting the damage on the DP/4's return levels alone measured as
+     silence -- a return level with nothing arriving at it -- so the crusher
+     vanished for thirty-two bars and came back for the outro, which is a fault,
+     not a story. The sends carry an arc of their own now.
 
-     AN ARC THAT STARTS AT ZERO IS NOT BIPOLAR AND IS THE EXCEPTION. `from: [0,
-     0]` leaves the cell shut on bar one and can only climb, so it is safe here
-     and it is the only thing that CAN carry the residue: the first version put
-     the damage on the DP/4's return levels alone, and measured, the road-home
-     verses had every send into the box at zero -- a return level with nothing
-     arriving at it is silence. The crusher vanished for thirty-two bars and
-     came back for the outro, which is a fault, not a story. The sends carry an
-     arc of their own now and the box is never fully clean again after the
-     fight.
+     THE ROOM OPENS FOR THE FIGHT rather than closing. "Modal orchestral dungeon
+     synth where everything opens up and its moving and large" -- an orchestra
+     in a cavern, where the SIZE is the climax. The opposite argument (dry is
+     close, close is violent) is correct about a fist fight in a corridor and is
+     kept in docs/genre-research/planning-the-fx.md for the genre that wants it.
 
-     AND THE ROOM DOES NOT CLOSE FOR THE FIGHT ANY MORE. It did, for two
-     builds, on a film-scoring argument that is sound and was aimed at the wrong
-     scene: distance IS the reverb, so a big room at a climax puts the fight
-     across the valley from you, and dry is close and close is violent. That is
-     right about a fist fight in a corridor.
+     ══ THE NULL TEST ══ Rendered against the same record with this `motion`
+     block removed and nothing else changed. The residue is how much of what you
+     hear is this table, per movement (seed 1, dB below the excerpt's signal):
 
-     The owner's third leg is not that. "Modal orchestral dungeon synth where
-     everything opens up and its moving and large" -- an orchestra in a cavern,
-     where the SIZE is the climax. So the rooms and the delays open for the
-     fight, and the record's two widest places are the fight and the walk home,
-     with the descent between them.
+         before dawn -20.5   setting out -16.5   into the deep -8.2
+         the fight -4.4 (chorus) / -1.7 (instrumental)   walk home -9.5
 
-     The old reasoning is kept rather than deleted: it is correct about a climax
-     this record does not have, and the next genre wanting a violent close-up
-     should find the argument instead of re-deriving it.
+     Read the column, not any number: at the fight the desk is within two dB of
+     the entire mix and at the intro it is twenty below. Every knob this file
+     has caught reaching nothing was found by a measurement like this one.
 
-     ══ AND IT IS NOT A DECIMAL. THE NULL TEST ═════════════════════════════
-     The whole scheme rendered against the same record with this `motion` block
-     removed and nothing else changed -- same seed, same form, same notes, the
-     inherited dungeon-synth lanes still running underneath. The residue is how
-     much of what you hear is this table, per movement (seed 1, dB below the
-     excerpt's own signal):
-
-         before dawn ........  -20.5      barely touched, which is right
-         setting out ........  -16.5
-         into the deep ......   -8.2
-         the fight ..........   -4.4      (chorus)
-         the fight ..........   -1.7      (instrumental)
-         the long way home ..   -9.5
-
-     Read the column, not any one number: it is the story's own shape. At the
-     fight the difference the desk is making is within two decibels of the
-     entire mix, and at the intro it is twenty below. Everything this file has
-     learned about knobs that turn out to reach nothing -- the rack that was
-     never plugged in, `leadRoom` travelling 0.00% of its dial, the sixteen
-     effect knobs no genre had ever moved -- was found by a measurement like
-     this one and by nothing else.
-
-     ONE LIMITATION STATED PLAINLY: `MIX_ROLE_BUS.counter` is `"lead"`, so the
-     monster and the hero share a matrix row. `leadFlange` and `leadDP4` colour
-     BOTH duellists, not the monster alone. A `counter` row of its own is the
-     fix and it is a matrix change, not a table one -- recorded in the backlog
-     rather than faked here with a lane that cannot do what its name says. */
+     ONE LIMITATION: `MIX_ROLE_BUS.counter` is `"lead"`, so the monster and the
+     hero share a matrix row -- `leadFlange` and `leadDP4` colour both duellists.
+     A `counter` row of its own is a matrix change, not a table one; it is in the
+     backlog rather than faked here with a lane that cannot do what it says. */
   motion: merge(D.motion, {
     /* ══ AND THE KICK GETS SHORTER WHEN THERE ARE TWO FEET ON IT ════════════
        MEASURED, and it is why this lane exists: with the double-pedal figure
@@ -26565,53 +26521,34 @@ GENRE.fantasysynth = (function(D){
 
      THE WALK HOME IS NOT HERE, and the reason is above the pools. */
   /* ══ THE FOUR ACTS, AND HOW FAR BEHIND THE BEAT EACH ONE SITS ═══════════
-     [owner, 2026-08-20: "We want to incorporate the sound of Doom and Sludge
-     metal in the first half of the song, move to Mathcore at the peak and end
-     with Progrock"]
+     [owner, 2026-08-20: "...Doom and Sludge metal in the first half of the
+     song, move to Mathcore at the peak and end with Progrock"]
 
-     The legs already had four moods and two foot-vocabularies. This names what
-     the first three of them ARE, and the naming buys a number, because two of
-     these genres describe their feel as a time offset rather than as a sound.
+     DOOM FIRST, SLUDGE SECOND, and the ordering is sourced rather than
+     preferred: sludge "combines doom metal and hardcore punk" where doom
+     "focuses on slower tempos without the punk-influenced aggression"
+     [corpus:wikipedia/Doom metal]. Sludge is doom plus the thing the fight is
+     made of, so the line runs one way only.
 
-     WHY DOOM FIRST AND SLUDGE SECOND, rather than both spread across the half:
-     the ordering is sourced, not a preference. Sludge "combines doom metal and
-     hardcore punk", where doom "focuses on slower tempos without the
-     punk-influenced aggression characteristic of sludge"
-     [corpus:wikipedia/Doom metal]. Sludge is doom PLUS the thing the fight is
-     made of, so doom -> sludge -> mathcore is one continuous line of increasing
-     violence and putting doom second would run it backwards. The energy table
-     already climbs 0.60 -> 0.82 across these two legs; this says what the climb
-     is made of.
+     THE TWO LEGS DRAG DIFFERENTLY, which feel would have got wrong -- the
+     sources do not say the same thing twice:
 
-     AND THE TWO LEGS DRAG DIFFERENTLY, which is the part I would have got wrong
-     by feel. The sources do not say the same thing twice:
+       doom    "Keep DRUMS behind the beat"    [corpus:melodigging/doom-metal]
+       sludge  "RIFFS drag slightly behind"    [corpus:melodigging/sludge-metal]
 
-       doom    "Keep DRUMS behind the beat with heavy kick/snare emphasis"
-               [corpus:melodigging/doom-metal]
-       sludge  "RIFFS drag slightly behind the beat"
-               [corpus:melodigging/sludge-metal]
+     Different lanes. Doom sags the whole floor; sludge holds the kit on the
+     line and drags the weight against it, which is the tension the first leg
+     does not have. The fight declares nothing on purpose -- mathcore wants
+     "tight, articulate... fast-transient" [corpus:melodigging/mathcore] -- and
+     only reads as a snap because the two legs before it did not.
 
-     Different lanes. Doom puts the kit behind and the band plays with it --
-     the whole floor sags. Sludge holds the kit on the line and drags the
-     weight-bearing parts against it, which is a tension the first leg does not
-     have and is why the second one reads as more agitated at a similar tempo.
+     The walk home also declares nothing, and that one is a live question:
+     a prog ending is usually a resolution. Left on the grid, flagged in §7.2.
 
-     THE FIGHT DECLARES NOTHING, and that is the point rather than an omission:
-     mathcore wants "tight, articulate tones... fast-transient drum sounds"
-     [corpus:melodigging/mathcore]. It snaps to the grid, and it only reads as a
-     snap because the two legs before it did not. The drag is what makes the
-     snap land.
-
-     THE WALK HOME ALSO DECLARES NOTHING, and that one is a live question rather
-     than a decision I am confident in. A prog ending is usually a RESOLUTION,
-     which argues for the grid; a dragging outro is exhaustion. Left on the grid
-     and flagged in the sheet's §7.2 rather than chosen quietly.
-
-     THE NUMBERS ARE [EAR] AND THE CEILING IS NOT. lofi's own lane comment gives
-     it: "a full 32nd at this tempo is about 89 ms, which is further than a
-     whole genre should sit." These legs run 79-97 BPM, where a 32nd is 77-95
-     ms, so everything here is a third to a half of that -- far enough to be
-     felt as weight, not far enough to read as a mistake. Nobody has heard them.
+     THE NUMBERS ARE [EAR]; THE CEILING IS NOT. lofi's lane comment gives it --
+     "a full 32nd at this tempo is about 89 ms, which is further than a whole
+     genre should sit." These legs run 79-97 BPM, a 32nd is 77-95 ms, so
+     everything here is a third to a half of that. Nobody has heard them.
      docs/genre-research/the-four-acts.md §1, §5.1 ═══════════════════════════ */
   groove: merge(D.groove, {
     setLean: {
@@ -27343,7 +27280,7 @@ const BLEND_NAME = {
   "sevenths":          "how rich the chords are",
   "theme.count":       "how many notes the tune has",
   "gate":              "the gated sound",
-  /* the words the owner has already read for this one, in test/a verdict on it/LOG.md:
+  /* the words the owner has already read for this one, in test/ears/LOG.md:
      "the kick pushing everything aside" */
   /* how many bars the loop runs before it starts again -- the thing that gives
      a cycle of seven room to walk and come home */
@@ -30882,7 +30819,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* ══ THE PART THAT ANSWERS ═════════════════════════════════════════════════
      Sean Booth, describing their setup:
 
-       "A sequencer is spitting out stuff and we're using our a verdict on it and the
+       "A sequencer is spitting out stuff and we're using our ears and the
         faders to make the music... one fader determines how often a snare does
         a little roll or skip, and ANOTHER THING ANSWERS AND SAYS 'if that snare
         plays that roll three times, then I'll do this.'"   [corpus:soundonsound]
@@ -32481,56 +32418,29 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        draw, so a genre declaring nothing is byte-identical. */
     const CEIL = (!opts.band && openVoicing && R.keysUp) ? BAND[1] + R.keysUp : BAND[1];
     /* ── WHERE THE CHORD ENTERS, AND IT WAS ALWAYS BEAT ONE ─────────────
-       MEASURED before this existed, reading the PERFORMANCE across four seeds
-       and every genre in the program: of 1,965 bars carrying a keys event, the
-       bar's first onset was step 0 in 100.0% of them. The distribution had ONE
-       entry in it. Not a lean -- the comp has never entered anywhere but the
-       downbeat, in any genre, in the life of the program.
+       MEASURED, four seeds, every genre: of 1,965 bars carrying a keys event,
+       the bar's first onset was step 0 in 100.0% of them. One entry in the whole
+       distribution. Nothing ever asked for that -- `strikes` starts as
+       `pocket.slice()` and every pocket leads with 0, correctly, so the comp
+       inherited the drummer's downbeat and had no vocabulary for anything else.
 
-       AND NOTHING EVER SAID IT SHOULD. `strikes` starts life as
-       `pocket.slice()`, and every pocket in this file leads with 0 -- correctly,
-       because that is what a pocket IS. The comp then inherited the drummer's
-       downbeat as its own entry and had no vocabulary for anything else. Dead
-       config in its purest form: the table says nothing, and the silence was
-       being played.
+       THE MAGNITUDES ARE SOURCED, so no number in the pools is a taste:
+       anticipations occur "one-half beat early (an 8th note anticipation), a
+       quarter-of-a-beat early (a 16th note anticipation)", and a delayed attack
+       is that list run backwards, "or one full beat late. The opposite of an
+       anticipation" [corpus:berklee/glossary]. Four steps to the beat here, so
+       the glossary IS the pool: -2, -1, +2, +4.
 
-       THE VOCABULARY IS NAMED AND ITS MAGNITUDES ARE STATED, so no number in
-       the pools is a taste of mine: "the most common anticipations occur
-       one-half beat early (an 8th note anticipation), a quarter-of-a-beat early
-       (a 16th note anticipation)", and a delayed attack is the same list run
-       backwards -- "one-half beat late (an 8th note delayed attack or
-       hesitation) ... or one full beat late. The opposite of an anticipation"
-       [corpus:berklee/glossary]. A beat is four steps here, so the glossary
-       converts straight into the pool: -2 the 8th early, -1 the 16th early,
-       +2 the hesitation, +4 the full beat late.
+       A NEGATIVE OFFSET IS THE PREVIOUS BAR, NOT A NEGATIVE STEP -- the stage-6
+       grid check throws on `step < 0`, and an anticipation "is basically a note
+       of the second chord played early" [corpus:wikipedia/Anticipation], which
+       is literally a note in the bar before. Declined at bar 0, and declined
+       where this part already sounds on that step.
 
-       AND THE COMP IS THE RIGHT LANE TO TAKE THE DOWNBEAT OFF, because in this
-       program the downbeat is already covered twice before the comp plays a
-       note -- the kick owns `pocket` and the bass reads the same object. That
-       is the sourced argument, not a preference: "he counted on the rest of the
-       rhythm section to handle the downbeats ... which allowed him to focus on
-       the off-beat swung-eighth notes" [corpus:jazz-library/comping, on Red
-       Garland, whose comping "emphasized the 'and of two' as well as the 'and
-       of four'"]. The and of four is step 14, which is 0 minus 2: the same
-       number the glossary gives, reached from a different direction.
-
-       A NEGATIVE OFFSET IS THE PREVIOUS BAR, NOT A NEGATIVE STEP. The stage-6
-       grid check throws on `step < 0`, and it is right to -- an anticipation
-       "is basically a note of the second chord played early"
-       [corpus:wikipedia/Anticipation], which is literally a note written in the
-       bar before. Declined at bar 0, which has no previous bar and whose chord
-       should land square anyway; declined where this part already sounds on
-       that step, rather than stacking on itself.
-
-       ON ITS OWN NAMED SUBSTREAM [Law 3], drawn for every bar before the loop,
-       so a genre that declares no pool draws nothing here and composes
-       byte-identically [Law 7]. Synthwave declares none BY DECISION and with
-       its own sources -- its chords are the backdrop the arpeggio moves over --
-       and that decision is worked in the sheet rather than left as an omission.
-
-       Gated `!opts.sustain`: a pad does not do this. The sources here are about
-       a comping hand, and `the-second-keyboard-rhythm.md` already owns how a
-       pad presses.
+       ON ITS OWN NAMED SUBSTREAM [Law 3], drawn per bar before the loop, so a
+       genre declaring no pool is byte-identical [Law 7]. Gated `!opts.sustain`:
+       every source here is about a comping hand, and a pad's rhythm is owned by
+       the-second-keyboard-rhythm.md.
        docs/genre-research/the-comp-does-not-land-on-one.md ── */
     const ENTRY_POOL = (!opts.sustain && G.compEntry && G.compEntry.length)
                      ? G.compEntry : null;
@@ -39300,49 +39210,34 @@ function makePerformance(chart, form, materials, sections){
   };
   let fillNo = 0;                      // which fill this boundary gets
   /* ══ THE STOP — WHERE THE BAND TAKES ITS HANDS OFF ═══════════════════════
-     FOUR independently-sourced genre descriptions name this device, which is as
-     strong a signal as this kind of research produces:
+     FOUR independently-sourced genres name this device -- doom "strategic
+     silences", sludge "dynamic drops to near-silence", post-hardcore "drop to
+     near-silence before a climactic return", mathcore "strategic negative
+     space: sudden silences and dropouts" -- and it answers the record's worst
+     measured fault, 6-8 attacks a second across twenty minutes.
 
-       doom           "strategic silences", "space and decay"
-       sludge         "dynamic drops to near-silence"
-       post-hardcore  "drop to near-silence before a climactic return"
-       mathcore       "strategic negative space: sudden silences and dropouts"
+     There was no bar-level silence in this file: `gaps` is spent only on
+     effects, `roles` drops a lane for a whole movement, `stripHalf` takes drums
+     and bass out of half a section. Nothing could take the band out for two
+     bars and bring it back.
 
-     And it is the direct answer to the record's worst measured fault: 6-8 note
-     attacks a second sustained across twenty minutes, on a record whose brief
-     is atmospheric.
+     THIS IS NOT `stripHalf`. makeMaterials is right that deletion is not
+     DEVELOPMENT -- six of the seven classical ways to develop a motif change no
+     notes at all. A stop is ARRANGEMENT: the material stays whole and what
+     comes back after the hole is the entire figure.
 
-     THERE WAS NO BAR-LEVEL SILENCE IN THIS FILE. `gaps` is computed and spent
-     only on effects; `roles` drops a lane for a whole movement; `stripHalf`
-     takes the drums and bass out of half a section. Nothing could take the band
-     out for two bars and bring it back.
+     PLANNED PER MOVEMENT, NOT PER SECTION -- a measured correction. Spacing
+     stops inside each section failed because sections run 12-20 bars and
+     mathcore's interval is 10-18, so almost every section drew a gap longer
+     than itself: the fight took ONE silent bar in 444. Never on a section's
+     first bar; a stop on an arrival is a missing entrance.
 
-     THIS IS NOT `stripHalf`, and the distinction is the one makeMaterials
-     argues at length. That comment is right that DELETION IS NOT DEVELOPMENT --
-     six of the seven classical ways to develop a motif change no notes at all,
-     and answering a vary demand by deleting half the tune "retains nothing". A
-     stop is not development. It is ARRANGEMENT: the material stays whole, and
-     what comes back after the hole is the entire figure rather than a thinned
-     one.
+     NEAR-silence for three of the four, so `keep` names the roles that ride
+     through -- doom pairs its silences with "drone layers" in the same breath.
+     Mathcore says "dropouts" and keeps nothing.
 
-     PLANNED PER MOVEMENT, NOT PER SECTION, and that was a measured correction
-     rather than a design. The first version spaced stops inside each section --
-     but sections here run 12-20 bars and mathcore's start-stop interval is 10
-     to 18, so almost every section drew a gap longer than itself and got
-     nothing. Measured: the fight took ONE silent bar in 444. A movement is the
-     span the source is describing, so the walk is over the movement's bars and
-     a section boundary is not a wall.
-
-     NEVER ON A SECTION'S FIRST BAR -- a stop on an arrival is not a stop, it is
-     a missing entrance.
-
-     NEAR-silence, not silence, for three of the four, so `keep` names the roles
-     that ride through. Doom pairs its silences with "drone layers" in the same
-     breath, so a drone holding under a stopped band is the sourced shape rather
-     than a softening of it. Mathcore says "dropouts" and keeps nothing.
-
-     ON ITS OWN NAMED SUBSTREAM per movement, so a genre that declares no `stop`
-     draws nothing and is byte-identical [Law 3, Law 7].
+     Own named substream per movement, so a genre declaring no `stop` is
+     byte-identical [Law 3, Law 7].
      docs/genre-research/the-four-acts.md §5.4 ═══════════════════════════════ */
   const STOPAT = new Map();                       // bar -> the roles that ride through
   if(FSTOP){
