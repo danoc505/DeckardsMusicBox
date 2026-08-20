@@ -26682,6 +26682,79 @@ GENRE.fantasysynth = (function(D){
      [EAR for the weights; the sizes are the source's.]
      docs/genre-research/the-four-acts.md §5.5 ══════════════════════════════ */
   extensionsAt: { lift: [[4, 5], [5, 4], [3, 3], [6, 1]] },
+  /* ══ THE BASS GETS A JOB, AND EACH ACT GETS A DIFFERENT ONE ═══════════════
+     [owner: "the bass is still not a bassline"]
+
+     MEASURED off the printout: 2 distinct pitches in the whole record on seed
+     1 (C#2, G#2), ONE on seed 7 (F1), printing |*---------------| in 243 of
+     250 bars. The part was doing exactly what the table asked -- this genre
+     declared nothing bass-related and inherited dungeon synth's
+     `bassStyle: "drone"` with `bassPedal` and `bassPedalDouble`, whose pedal
+     writes step 0 / dur 16 on every bar at the tonic plus its fifth. Seed 1
+     won the double coin, seed 7 lost it.
+
+     `bassRoles` has been built and declared by no genre since it shipped.
+     The precedent for turning it on is exact: jungle had the same
+     `bassStyle: "drone"` fault at 99.8% of bars holding one pitch, and a
+     `bassRiff` table took it to 14.4% and 2.35 distinct pitches a bar
+     (commit 83cd5c1).
+
+     A JOB PER ACT, DECLARED RATHER THAN DRAWN. Single-entry pools on purpose:
+     a weighted list would make which leg walks and which pedals a coin, and
+     these are four different musics.
+
+       A     doom      `drone`   the power chord, held
+       C     sludge    `riff`    the bass is ON the riff, in unison
+       B     mathcore  `riff`    driving, not root support
+       lift  prog      `follow`  a line that moves -- and INERT, see below
+
+     THE DOOM LEG KEEPS WHAT IT HAD, and that is the finding rather than a
+     shrug. Root and fifth struck together and held is what doom asks for --
+     power chords are "typically the root and the fifth", and "a basic approach
+     is to play a power chord or single note and let it sustain"
+     [corpus:doesitdoom]. What was wrong is that it was never CHOSEN.
+     `the-weight-and-the-stop.md` §3.1: "A drone is a decision. A shortage is
+     an accident. They can produce an identical pitch-class histogram and they
+     do not sound alike."
+
+     ⚠ `lift` IS DECLARED AND CANNOT SOUND: `roles` drops the bass from "the
+     long way home" entirely. Squire's counterline needs the lane put back into
+     a leg deliberately built at energy 0.30, which is an arrangement decision
+     and the owner's, so it is written here and left inert rather than slipped
+     in. docs/genre-research/the-bass-has-a-job.md §5. */
+  bassRoles: { A:    [["drone",  1]],
+               C:    [["riff",   1]],
+               B:    [["riff",   1]],
+               lift: [["follow", 1]],
+               T:    [["drone",  1]] },
+  /* ── THE FIGURE, AND WHAT THE MODE WILL LET IT REACH ──────────────────────
+     `bassRiff` degrees are DIATONIC offsets from the chord's degree, so the
+     riff transposes with the harmony and cannot leave the mode. That decides
+     the pool: in natural minor, degrees 0, 2, 3, 4 and 6 ARE the minor
+     pentatonic, which is what both genres' sources name -- "power chords,
+     minor pentatonic and blues scales" [corpus:melodigging/sludge-metal].
+     The blues b5 and the chromatic slide are NOT reachable and are not
+     pretended at; the b2 is, but only in the fight, whose material stands in
+     phrygian where it is degree 1.
+
+     ANCHOR = the power chord. Root heaviest, fifth beside it. SPICE = the rest
+     of the pentatonic, with the second at low weight so the fight gets its
+     minor second and the minor legs get a passing tone.
+
+     SPARSE, and the sources are unanimous about that if not about numbers:
+     "You don't need a million notes to make an impact; sometimes a slow,
+     crushing riff can be more powerful than a complex one", "simplicity is
+     your friend", "don't be afraid to repeat a riff and let it breathe"
+     [corpus:riffhard]. Two bars for the "cyclical, mantra-like repetition"
+     [corpus:melodigging/doom-metal], a long `hold` so notes ring into each
+     other rather than stopping.
+
+     EVERY COUNT HERE IS [CHOSEN], exactly as jungle's was and for the same
+     reason: the sources fix the note pool and the density in words, and
+     nobody publishes a weight table. */
+  bassRiff: { bars: 2, notes: [4, 6], grid: 2, hold: 6, strong: [0, 8],
+              anchor: [[0, 7], [4, 4]],
+              spice:  [[2, 3], [6, 3], [3, 2], [1, 1]] },
   ostinato: merge(D.ostinato, {
     cellsAt: {
       B: [[[0, 4, 7, 4, 2, 4, 7], 5],      // seven against four
@@ -31600,10 +31673,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     return notes;
   }
 
-  function buildBass(chordSet, streamName, rootsOnly){
-    return acidize(buildBassLine(chordSet, streamName, rootsOnly), streamName);
+  function buildBass(chordSet, streamName, rootsOnly, matKey){
+    return acidize(buildBassLine(chordSet, streamName, rootsOnly, matKey), streamName);
   }
-  function buildBassLine(chordSet, streamName, rootsOnly){
+  function buildBassLine(chordSet, streamName, rootsOnly, matKey){
     const rng = stream(chart.seed, streamName);
     /* the same groove the drums of this material are in, asked of the chord set
        this material is built on -- so the bass and the kick still land together
@@ -31668,7 +31741,30 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        nothing and are always legal. A genre whose whole list is unplayable
        falls back to its own `bassStyle`, which is the answer it had before. */
     const BASS_TABLE = { acid: "acidLine", riff: "bassRiff", pulse: "bassPulse" };
-    const legal = (G.bassRoles || [[G.bassStyle, 1]])
+    /* ── AND THE JOB MAY BE DECLARED PER MATERIAL, NOT ONLY DRAWN ───────────
+       `bassRoles` as a flat pool gives the record a job PER SEED: every
+       material draws from the same list, so which leg walks and which pedals
+       is a coin rather than a decision. For a record whose four acts are four
+       different musics that is the wrong shape -- doom and sludge want the
+       bass in unison with the riff, post-hardcore wants "melodic counterlines
+       that lock with drums, often driving riffs rather than just root
+       support", and prog wants Squire's contrapuntal line. Those are four
+       DECISIONS.
+
+       So `bassRoles` also accepts a map keyed by material -- the same shape
+       and the same idea as `form.setMode`, which already says which mode each
+       material stands in. `matKey` is passed by the caller rather than
+       derived by comparing chord sets, because `liftChords` is declared after
+       this function and a comparison would sit in its temporal dead zone on
+       every earlier call.
+
+       A flat array still works and is still drawn, so a genre that declares
+       one composes exactly what it did. `A` is the fallback key, so a map
+       that names only some materials leaves the rest on A's job. */
+    const RAW = G.bassRoles && !Array.isArray(G.bassRoles)
+              ? (G.bassRoles[matKey] || G.bassRoles.A || null)
+              : (G.bassRoles || null);
+    const legal = (RAW || [[G.bassStyle, 1]])
                     .filter(r => !BASS_TABLE[r[0]] || G[BASS_TABLE[r[0]]]);
     const STYLE = wpick(stream(chart.seed, "bassrole:" + streamName),
                         legal.length ? legal : [[G.bassStyle, 1]]);
@@ -35756,7 +35852,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const drumsB = pin(buildDrums("drumsB", "lift"), "drums", "B");     // the chorus opens up
   const drumsBvar = pin(buildDrums("drumsB:var", "lift", DRUM_PHRASE_END), "drums", "Bvar");
   const drumsC = pin(buildDrums("drumsC", "depart"), "drums", "C");   // the bridge thins out
-  const bassA  = pin(buildBass(chords, "bass", false), "bass", "A");
+  const bassA  = pin(buildBass(chords, "bass", false, "A"), "bass", "A");
   /* ── AND THE RETURN GETS ITS OWN BASS AND COMP ────────────────────────────
      Built on `chordsRet` -- the same chords with the last one transformed --
      and ON THE SAME NAMED STREAM as the first statement. That is the whole
@@ -35767,7 +35863,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
 
      Returned by identity when the genre declares no cadence, so `Avar` keeps
      sharing `A`'s parts exactly as it always did [Law 3]. */
-  const bassAvar = NEW_RET ? pin(buildBass(chordsRet, "bass", false), "bass", "Avar") : bassA;
+  const bassAvar = NEW_RET ? pin(buildBass(chordsRet, "bass", false, "A"), "bass", "Avar") : bassA;
   /* ── THE COMP HAS TO BE LEGAL IN BOTH MATERIALS IT APPEARS IN ──────────────
      `keysA` is built once and used TWICE: in A against `ostA`, and in Avar
      against `ostAvar`, which is a different cell in its second half. It was
@@ -35791,7 +35887,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      still wins -- all the takes come back as that grid and the cycling is a
      no-op, which is the correct answer to "the user typed this pattern". */
   const bassATakes = takesOf("bass", "A", bassA,
-                             t => pin(buildBass(chords, "bass:" + t, false), "bass", "A"));
+                             t => pin(buildBass(chords, "bass:" + t, false, "A"), "bass", "A"));
   const bassAx = allOf(bassA, bassATakes);
   /* ── AND THE RETURNING BASS BELONGS IN HERE TOO ───────────────────────────
      THE NOTE ABOVE THIS ONE COLLECTS ITS DEBT A FOURTH TIME. It says the comp
@@ -36008,14 +36104,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      the changes are new the bass and the figure are rebuilt against them, and
      when they are not these are the same arrays A uses -- identity, not a
      copy, so nothing downstream can tell the difference. */
-  const bassB = NEW_CHORUS ? pin(buildBass(chorusChords, "bassB", false), "bass", "B") : bassA;
+  const bassB = NEW_CHORUS ? pin(buildBass(chorusChords, "bassB", false, "B"), "bass", "B") : bassA;
   const ostB  = NEW_CHORUS ? buildOstinato("ostinatoB", false, chorusChords, "B") : ostA;
   /* the town's band takes too -- `keys` sounds in the chorus and the bridge as
      well as the verse, so takes on the A family alone left the wurly measured
      flat at 45 distinct bars whatever the record's length. A part is only as
      un-repetitive as its THINNEST material. */
   const bassBTakes = NEW_CHORUS ? takesOf("bass", "B", bassB,
-                       t => pin(buildBass(chorusChords, "bass:" + t, false), "bass", "B")) : bassATakes;
+                       t => pin(buildBass(chorusChords, "bass:" + t, false, "B"), "bass", "B")) : bassATakes;
   const ostBTakes  = NEW_CHORUS ? takesOf("ostinato", "B", ostB,
                        t => buildOstinato("ostinato:" + t, false, chorusChords, "B")) : ostATakes;
   const bassBx  = allOf(bassB, bassBTakes);
@@ -36033,7 +36129,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      sweep reading 800/800 GREEN, because the part had vanished rather than
      collided. The declaration moves ABOVE its readers; the readers do not move
      down to it. */
-  const bassBvar = NEW_RET ? pin(buildBass(chorusRet, "bassB", false), "bass", "Bvar") : bassB;
+  const bassBvar = NEW_RET ? pin(buildBass(chorusRet, "bassB", false, "B"), "bass", "Bvar") : bassB;
   /* and the comp the chorus's return plays must clear that bass, for the
      reason `placed` states four times over */
   const placedB = NEW_CHORUS ? reserve(ostBx.concat(bassBx, bassBvar)) : placed;
@@ -36181,11 +36277,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      going stale the moment a second way to satisfy it existed -- the same
      shape as `whichChanges`'s own note four hundred lines up. */
   const ostC = (cKey !== root || cMode !== mode) ? ostCkey : ostA;
-  const bassC  = pin(buildBass(bridgeChords, "bassC", true), "bass", "C");
+  const bassC  = pin(buildBass(bridgeChords, "bassC", true, "C"), "bass", "C");
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
                                                    avoid: reserve(ostC.concat(bassC)) });
   const bassCTakes = takesOf("bass", "C", bassC,
-                       t => pin(buildBass(bridgeChords, "bass:" + t, true), "bass", "C"));
+                       t => pin(buildBass(bridgeChords, "bass:" + t, true, "C"), "bass", "C"));
   const keysCTakes = takesOf("keys", "C", keysC,
                        t => buildKeys(bridgeChords, "keys:" + t, { sustain: true,
                                       avoid: reserve(ostC.concat(bassC)) }));
@@ -36499,9 +36595,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const ostAvarlTakes = LIFT ? takesOf("ostinato", "Avarlift", ostAvarl,
                           t => buildOstinato("ostinato:" + t, true, liftChords)) : ostAvarTakes;
   const ostAvarlx  = allOf(ostAvarl, ostAvarlTakes);
-  const bassAl     = LIFT ? pin(buildBass(liftChords, "bass", false), "bass", "A") : bassA;
+  const bassAl     = LIFT ? pin(buildBass(liftChords, "bass", false, "lift"), "bass", "A") : bassA;
   const bassAlTakes = LIFT ? takesOf("bass", "Alift", bassAl,
-                               t => pin(buildBass(liftChords, "bass:" + t, false), "bass", "A")) : bassATakes;
+                               t => pin(buildBass(liftChords, "bass:" + t, false, "lift"), "bass", "A")) : bassATakes;
   const bassAlx    = allOf(bassAl, bassAlTakes);
   const placedl    = LIFT ? reserve(ostAlx.concat(ostAvarlx, bassAlx)) : placed;
   const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
@@ -36711,7 +36807,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      varied kit rather than a new one -- "less going on than the a section" is
      about the parts present, and a genre that wants its transition to drop the
      kit entirely does that with `form.roles`. */
-  const bassT = pin(buildBass(transChords, "bassT", false), "bass", "T");
+  const bassT = pin(buildBass(transChords, "bassT", false, "T"), "bass", "T");
   const keysT = buildKeys(transChords, "keysT", { dense: false,
                           avoid: reserve(bassT), sustain: HOLD,
                           at: HOLD ? 0 : undefined });
@@ -37074,7 +37170,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     const sortN = ns => ns.slice().sort((a2, z) => a2.bar - z.bar || a2.step - z.step);
     const redraw = (role, cs, tag) => {
       const rs = reserve([]);
-      if(role === "bass")     return pin(buildBass(cs, "bass:" + tag, false), "bass", "A");
+      if(role === "bass")     return pin(buildBass(cs, "bass:" + tag, false, "A"), "bass", "A");
       if(role === "ostinato") return buildOstinato("ostinato:" + tag, false, cs);
       if(role === "keys")     return buildKeys(cs, "keys:" + tag, { dense: false, avoid: rs,
                                        sustain: HOLD, at: HOLD ? 0 : undefined });
