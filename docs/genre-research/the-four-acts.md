@@ -437,6 +437,51 @@ Negative space inside near-silence is not a device, it is a gap.
 
 lofi, synthwave and dungeon synth declare no `stop` and are **byte-identical**.
 
+### 5. PROG'S HARMONY — BUILT
+
+The prog row that most clearly is **not** what this genre already does:
+"modal interchange, **extended chords (maj7, 9, 11)**, and chromatic
+voice-leading".
+
+Measured before building: fantasy synth declares no `extensions` and
+`sevenths: false`, so **every chord in the record is a plain triad**, for the
+whole twenty minutes.
+
+That is right for the parent and wrong for the last act. Dungeon synth is
+deliberately open — "a chord that leaves out the third", `parallels: 0.85` for
+organum — so extending the *record* would fight the three acts that want it
+bare in order to serve the one that does not. `extensionsAt` keys the appetite
+on the **chord set**, and `material` routes the walk home (and the outro tag
+after it) to `Alift` alone.
+
+| | chord sizes, seeds 1–3 |
+|---|---|
+| the record | 3,3,3,3 · 3,2,4,4 · 3,3,4,4 |
+| **Alift — the walk home** | **4,6,5,4 · 5,4,3,5 · 5,5,4,3** |
+
+(4 = seventh, 5 = ninth, 6 = eleventh.)
+
+**And it costs almost no attacks**, which is why it is the right prog device for
+*this* leg: `keysStyle: "hold"` makes the first keyboard a pad here, so a bigger
+chord is a richer voicing under the same single press. The leg went 1.10 → 1.24
+attacks/bar and remains by far the quietest in the record (the fight is 12.86).
+It gained colour, not density.
+
+No new draw — `extRolls` was already rolled unconditionally; this only changes
+which table those rolls are read against. lofi, synthwave and dungeon synth are
+**byte-identical**.
+
+### 6. WHAT PROG DID NOT GET, AND WHY
+
+- **The flute.** §2 found that prog is the one genre whose *timbre* transfers,
+  and "flute, sax, strings, or choir for symphonic breadth" is its instrument
+  row. The strings and the pads are already pinned on this leg. The flute is
+  not, and pinning one is not free: the file's own comment records that a lane's
+  band is intersected with **every** machine that can hold it, so "adding a
+  narrow instrument to a pool narrows every record of that genre." That is a
+  real cost against every act, paid for one. Left as §7.3's question.
+- **Polymeter.** Nowhere to put it — see §5.3.
+
 ---
 
 ## §6 WHAT I AM NOT PROPOSING

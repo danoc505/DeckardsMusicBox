@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20p &middot; the band takes its hands off: the stop, which all four acts name and the file never had</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20q &middot; the walk home reaches further than the record does: sevenths, ninths and an eleventh on the way out</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -26648,6 +26648,33 @@ GENRE.fantasysynth = (function(D){
      new intervals -- this is a rhythm change, and giving it new pitches too
      would make it a different figure rather than the same figure displaced.
      [EAR for the weights; the 7:4 and 5:4 ratios are the source's.] */
+  /* ══ THE WALK HOME REACHES FURTHER THAN THE REST OF THE RECORD ══════════
+     Prog rock at the end, and this is the row that most clearly is not what
+     this genre already does: "modal interchange, EXTENDED CHORDS (maj7, 9, 11),
+     and chromatic voice-leading" [corpus:melodigging/progressive-rock].
+
+     Measured before this existed: this genre declares no `extensions` and
+     `sevenths: false`, so EVERY CHORD IN THE RECORD IS A PLAIN TRIAD, for the
+     whole twenty minutes. That is correct for the parent -- dungeon synth is
+     deliberately open, "a chord that leaves out the third", `parallels: 0.85`
+     for organum -- and it is the one thing the last act cannot inherit.
+
+     `extensionsAt` keys the appetite on the CHORD SET rather than the genre, so
+     the three acts before this keep their bare triads and only the leg the
+     movement table routes to `Alift` reaches. The sizes are the source's own
+     list: 4 is the seventh, 5 the ninth, 6 the eleventh.
+
+     AND IT COSTS NO ATTACKS, which is why it is the right prog device for THIS
+     leg. `keysStyle: "hold"` makes the first keyboard a pad here; a bigger
+     chord is a richer voicing under the same single press, not more notes in
+     the bar. The leg measures 3.44 attacks a bar against the fight's 27.48 and
+     stays that way -- it gains colour, not density.
+
+     The triad keeps real weight because a record that has been open for
+     eighteen minutes should not slam shut into jazz harmony on the way out.
+     [EAR for the weights; the sizes are the source's.]
+     docs/genre-research/the-four-acts.md §5.5 ══════════════════════════════ */
+  extensionsAt: { lift: [[4, 5], [5, 4], [3, 3], [6, 1]] },
   ostinato: merge(D.ostinato, {
     cellsAt: {
       B: [[[0, 4, 7, 4, 2, 4, 7], 5],      // seven against four
@@ -29557,9 +29584,27 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      the gap this closes: BACKLOG §6.1. */
   const rngX = stream(chart.seed, "extend");
   const extRolls = [0, 1, 2, 3].map(() => rngX());
-  const sizeAt = i => {
-    if(!G.extensions) return G.sevenths ? 4 : 3;
-    const pairs = G.extensions;
+  /* ── AND ONE CHORD SET MAY REACH FURTHER THAN THE RECORD DOES ───────────
+     `pool` overrides the genre's own appetite for ONE set of chords. Prog
+     rock's harmony row is "modal interchange, extended chords (maj7, 9, 11),
+     and chromatic voice-leading" [corpus:melodigging/progressive-rock], and
+     this genre declares no `extensions` at all with `sevenths: false` -- so
+     every chord in the record is a plain triad, which is right for its parent
+     and wrong for its last act.
+
+     A SET AT A TIME, because the parent's triads are not an oversight. Dungeon
+     synth is deliberately open -- "a chord that leaves out the third",
+     `parallels: 0.85` for organum -- and extending the whole record would fight
+     the three acts that want it bare in order to serve the one that does not.
+
+     NO NEW DRAW [Law 3]: `extRolls` is already rolled unconditionally, and this
+     only changes which table those rolls are read against. A genre that
+     declares no per-set pool reads `G.extensions` exactly as before and is
+     byte-identical [Law 7].
+     docs/genre-research/the-four-acts.md §2, §5.5 ── */
+  const sizeAt = (i, pool) => {
+    const pairs = pool || G.extensions;
+    if(!pairs) return G.sevenths ? 4 : 3;
     let total = 0; for(const p of pairs) total += p[1];
     let x = extRolls[i % extRolls.length] * total;
     for(const p of pairs){ x -= p[1]; if(x <= 0) return p[0]; }
@@ -29654,12 +29699,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      something against a stated scale. Before this the counting was done
      against the SONG's key by every part, everywhere, which was correct only
      for as long as a song had exactly one. */
-  const mkChords = (degs, k, md) => {
+  const mkChords = (degs, k, md, extPool) => {
     const K = k == null ? root : k, M = md || mode;
     return degs.map((d, i) => {
       const quality = pickQuality(d, i, M);
       const q = quality && QUALITY[quality];
-      const size = Math.max(sizeAt(i), q ? q.length : 0);
+      const size = Math.max(sizeAt(i, extPool), q ? q.length : 0);
       return Object.freeze({
         degree: d,
         size,
@@ -36408,10 +36453,15 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      back somewhere else -- for a different reason. */
   const lMode = planModeOf("lift");
   const LIFT = lMode ? true : (bKey !== root || bMode !== mode);
+  /* THE WALK HOME'S OWN HARMONY. `material` routes that movement -- and the
+     outro tag after it -- to `Alift`, so this is the one chord set the last act
+     stands in, and `extensionsAt.lift` is where prog rock's extended chords
+     land without touching the three acts before it. */
+  const LEXT = G.extensionsAt && G.extensionsAt.lift;
   const liftChords = lMode
     ? mkChords(wpick(stream(chart.seed, "liftmode"),
-                     G.progressions[lMode] || G.progressions[mode]), root, lMode)
-    : (LIFT ? mkChords(degrees, bKey, bMode) : chords);
+                     G.progressions[lMode] || G.progressions[mode]), root, lMode, LEXT)
+    : (LIFT ? mkChords(degrees, bKey, bMode, LEXT) : chords);
   const ostAl      = LIFT ? buildOstinato("ostinato", false, liftChords) : ostA;
   const ostAvarl   = LIFT ? buildOstinato("ostinato", true,  liftChords) : ostAvar;
   /* the lifted copy gets its OWN takes, in the lifted key, rather than a
