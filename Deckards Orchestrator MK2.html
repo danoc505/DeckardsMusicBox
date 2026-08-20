@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-19z · fantasy synth: four movements, four modes, a tempo arc and a stacked drone</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20a · the hero's theme walks the record, and the monster duels it at the fight</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -28017,8 +28017,31 @@ GENRE.fantasysynth = (function(D){
        minutes of twenty and the arc is what decides how loud and how full the
        record is at a given bar. Dungeon synth apexes at 0.62-0.74. */
     arc: merge(D.form.arc, { apexAt: [0.73, 0.78], floor: [0.16, 0.28],
-                             tail: [0.42, 0.58] }),
+                             tail: [0.42, 0.58],
+                             /* the counter is a duellist here, so the arc may
+                                not thin it away at the fight */
+                             thin: merge(D.form.arc.thin, { counter: 0.3, lead: 0.3 }) }),
+    /* and it arrives early, because the monster is foreshadowed rather than
+       introduced */
+    build: merge(D.form.build, { enter: merge(D.form.build.enter,
+                                              { counter: [0.06, 0.04] }) }),
   }),
+  /* ══ THE CHASE — THE DUEL AT THE FIGHT ═══════════════════════════════════
+     [owner: "the monster theme takes the lead on its own instrument duelling
+     with the actual lead"]
+
+     Two soloists trading has a name -- a CHASE -- and the escalation is the
+     length of the turn rather than the volume: fours, then twos ("forces each
+     player to come up with succinct musical phrases and invites each player to
+     respond"), then ones, then 0, which means the turn-taking stops and both
+     sound together.
+
+     `a` is the hero -- the lead, carrying the theme DIMINISHED at this point
+     in the story. `b` is the monster: the counter line, on its own instrument,
+     which until now was an occasional colour and is here a second soloist. The
+     band keeps playing under both. */
+  chase: { on: ["chorus", "instrumental"], a: "lead", b: "counter",
+           turns: [4, 4, 2, 1, 0] },
   /* ══ THE HERO'S THEME, THROUGH THE FOUR MOVEMENTS ════════════════════════
      One tune, four states, and each operation is chosen for what the sources
      say it MEANS rather than for variety:
@@ -28042,7 +28065,25 @@ GENRE.fantasysynth = (function(D){
      changed from two notes to eight. Caught by the note-identity check, which
      is the only thing that could have caught it.
      docs/genre-research/telling-a-story-with-instruments.md §1 */
-  theme: merge(D.theme, { story: { C: "fragment", B: "diminish", lift: "augment" } }),
+  /* ── THE MONSTER IS A SOLOIST, NOT A COLOUR ───────────────────────────────
+     The counter line is `density: 0.1` in the parent -- one note answering
+     every tenth note of the tune, which is a decoration -- and the arc thins it
+     by 88% and does not let it in until 28% of the record has gone. MEASURED
+     with the chase declared and none of this changed: the turn lengths ran
+     4, 2, 1, 0 exactly as declared and THE MONSTER NEVER SOUNDED ONCE, because
+     there was nothing on the lane to sound.
+
+     A duel needs two players. `answer` is the style -- the counter responding
+     to the tune rather than doubling it, which is the call-and-response half of
+     a chase -- at a density that makes it a line. It arrives early because the
+     monster is foreshadowed from the start, and it is barely thinned because
+     the arc must not take one of the duellists away at the moment they fight. */
+  counter: merge(D.counter, { density: 0.8, answer: 0.9 }),
+  /* AND THE TUNES ARE DENSER THAN A CAVERN'S. Dungeon synth writes one or two
+     notes a bar because it is an atmosphere; this genre has a TUNE and two
+     soloists trading it, and a duel of one-note phrases is not a duel. */
+  theme: merge(D.theme, { count: { hooky: [2, 3], breath: [1, 2], normal: [2, 3] },
+                          story: { C: "fragment", B: "diminish", lift: "augment" } }),
   /* ── MIXOLYDIAN HAS TO HAVE CHANGES OF ITS OWN ─────────────────────────
      The mode pool above names mixolydian and the inherited tables do not have
      it: dungeon synth writes progressions for minor, dorian, carpathian,
@@ -38552,6 +38593,28 @@ function makeArrangement(chart, form, materials){
     return rung[Math.max(0, Math.min(R - 1, S.cur))];
   };
 
+  /* ══ THE CHASE'S SCHEDULE, WORKED OUT ONCE FOR THE WHOLE MOVEMENT ════════
+     Which sections are in the chase, where it starts, and how long the turn is
+     by the time each one arrives. Done above the map because a turn length is a
+     property of the DUEL's progress, not of a section: section seven of the
+     fight has to know it is section seven of the fight.
+
+     A genre that declares no `chase` gets nulls and stage 6 never looks. */
+  const CHASE = chart.table.chase || null;
+  const chaseIx = [];
+  if(CHASE && CHASE.on) form.forEach((s, i) => {
+    if(CHASE.on.indexOf(s.fn) >= 0) chaseIx.push(i);
+  });
+  const chaseStart = chaseIx.length ? form[chaseIx[0]].startBar : null;
+  const chaseAt = i => {
+    if(!CHASE || !chaseIx.length) return null;
+    const at = chaseIx.indexOf(i);
+    if(at < 0) return null;
+    const T = CHASE.turns && CHASE.turns.length ? CHASE.turns : [4, 2, 1, 0];
+    /* the turn shortens as the duel goes on: fours, twos, ones, then both */
+    const k = chaseIx.length > 1 ? Math.floor(at / chaseIx.length * T.length) : T.length - 1;
+    return T[Math.max(0, Math.min(T.length - 1, k))];
+  };
   const laid = form.map((sec, i) => {
     let material = MAT[sec.fn];
     let stripHalf = false;
@@ -38989,6 +39052,30 @@ function makeArrangement(chart, form, materials){
       emptyLastBar: atPeak || (!!next && mayEmpty && eRoll < (EMPTY.chance || 0)),
       emptySize: atPeak ? (eSize === "beat" ? "bar" : eSize) : eSize,
       endingLastBar: sec.fn === "outro",
+      /* ══ THE CHASE ═══════════════════════════════════════════════════════
+         [owner: "the monster theme takes the lead on its own instrument
+         duelling with the actual lead" -- a DUEL, not a takeover]
+
+         Two soloists trading phrases has a name in the music that does it most:
+         "Two different instrumental soloists can trade 4s with each other, such
+         as the trumpet and the sax. THIS IS CALLED A CHASE." And the
+         intensification is not volume or tempo, it is THE LENGTH OF THE TURN:
+         fours, then twos -- which "forces each player to come up with SUCCINCT
+         musical phrases and invites each player to RESPOND to his/her partner"
+         -- then ones, then both at once.
+
+         So `chase.turns` is a list of turn lengths in bars, walked across the
+         movement, and 0 means the turn-taking stops and the two play together.
+         The last entry being 0 is what makes it escalate rather than merely
+         alternate: the duel gets faster until it collapses into both voices
+         sounding, which is the fight going the way fights go.
+
+         `chaseFrom` is the first bar of the whole chase and not of this
+         section, so the turns run CONTINUOUSLY across the section boundaries
+         inside the movement -- a duel does not restart every sixteen bars.
+         docs/genre-research/telling-a-story-with-instruments.md §2 */
+      chaseTurn: chaseAt(i),
+      chaseFrom: chaseStart,
       /* ── WHICH INSTRUMENT PLAYS THIS SECTION ────────────────────────────
          "An instrument doesnt have to be going all the time... we can bring
          things in as flairs."
@@ -39237,6 +39324,10 @@ function makeArrangement(chart, form, materials){
    half. This is a static part of the one gain formula, not a pass. */
 
 function makePerformance(chart, form, materials, sections){
+  /* the two roles the chase alternates; null for every genre that declares
+     none, and then the gate below is never entered */
+  const CHASE_A = (chart.table.chase && chart.table.chase.a) || null;
+  const CHASE_B = (chart.table.chase && chart.table.chase.b) || null;
   /* SECONDS PER STEP. `/ 4` was "four sixteenths to a beat", true in every
      simple metre and false in every compound one: a 6/8 beat is a dotted
      quarter and holds SIX. Asked of the metre now, and 4/4 answers 4.
@@ -40018,6 +40109,23 @@ function makePerformance(chart, form, materials, sections){
            on; this is stage 5 obeying it, exactly the way it obeys `active` --
            selection upstream, no note edited here. */
         if(sec.enterBar[role] != null && bar < sec.enterBar[role]) continue;
+        /* ── AND IN THE CHASE THE TWO SOLOISTS TAKE TURNS ────────────────────
+           `chaseTurn` is how many bars a turn lasts here; `chaseFrom` is where
+           the whole duel began, so the turns run continuously across the
+           section boundaries inside the movement rather than restarting every
+           sixteen bars. At 0 the turn-taking has collapsed and both play at
+           once, which is the last thing the escalation does.
+
+           A DROPPED TURN IS A REST, NOT A DELETION. The other voice is playing;
+           this one is listening, which is what makes it a conversation rather
+           than two people talking. Only the two named roles are gated -- the
+           drums, the bass, the drone and the keys carry straight on underneath,
+           because a duel happens over a band and not instead of one. */
+        if(CHASE_A && sec.chaseTurn && (role === CHASE_A || role === CHASE_B)){
+          const turn = Math.floor(Math.max(0, bar - (sec.chaseFrom || 0)) / sec.chaseTurn);
+          const mine = (turn % 2 === 0) ? CHASE_A : CHASE_B;
+          if(role !== mine) continue;
+        }
         if(sec.endingLastBar && lastBar){
           if(role === "keys" || role === "bass") notes = materials.ending.filter(n => n.role === role);
           else continue;

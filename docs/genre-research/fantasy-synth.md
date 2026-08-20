@@ -233,3 +233,94 @@ All five genres: **0 of 48 seeds throw**.
 ### 6.6 Still to build
 
 The two leitmotifs with the six transformation operations, and the chase.
+
+---
+
+## 7. THE TWO THEMES AND THE CHASE — `2026-08-20a`
+
+### 7.1 Transformation is a named operation, and `augmentOf` was one of them
+
+The program already had **augmentation** — `themeC` is A's rhythm with every
+duration doubled. That is one member of a closed list named since Liszt and
+Berlioz, and each member *means* something:
+
+| operation | what it says |
+|---|---|
+| augmentation | "a sense of grandeur or drama" |
+| diminution | "a sense of urgency or excitement" |
+| **fragmentation** | **"by not completing the leitmotif, you communicate something about how that character is developing or responding to events"** |
+
+A genre now declares which operation its tune takes in each chord set. Fantasy
+synth's hero:
+
+| movement | operation | why |
+|---|---|---|
+| setting out | **whole** | in the record's own mode |
+| into the deep | **fragmented** | he is struggling, and an unfinished tune is how you say so |
+| the fight | **diminished** | the same figure at twice the rate |
+| the journey home | **augmented** | grandeur, and whole for the first time since the opening |
+
+And because each movement's chord set stands in its own mode, the tune is
+transposed and modulated too — a seventh operation for nothing.
+
+**Measured, 16 records, the lead of each material:**
+
+| | notes/record | mean note length |
+|---|---|---|
+| setting out — whole | 4.4 | 4.24 steps |
+| into the deep — fragmented | **2.3** | 4.19 |
+| the fight — diminished | **7.7** | **2.30** |
+| journey home — augmented | 3.6 | **7.17** |
+
+Half as many notes at the same length; nearly double the notes at half the
+length; double the length. The textbook signature of each.
+
+⚠ **I put the declaration in the wrong table.** `theme.story` went into *dungeon
+synth's* theme block, which fantasy synth inherits whole — so every measurement
+above came back correct while dungeon synth's material C silently went from two
+notes to eight. Only the note-identity check could have caught it, and did.
+
+### 7.2 The chase
+
+Two soloists trading has a name: **"Two different instrumental soloists can
+trade 4s with each other… this is called a chase."** And the intensification is
+the **length of the turn**, not the volume — fours, then twos ("forces each
+player to come up with succinct musical phrases and invites each player to
+respond"), then ones, then both at once.
+
+`chase: { on: ["chorus","instrumental"], a: "lead", b: "counter", turns: [4,4,2,1,0] }`
+
+A turn of 0 means the turn-taking has collapsed and both play. The turns run
+from the **first bar of the whole duel**, not of each section, so they carry
+across section boundaries — a duel does not restart every sixteen bars. Only
+the two named roles are gated: the drums, bass, drone and keys carry straight
+on underneath, because a duel happens *over* a band, not instead of one.
+
+**Measured, seed 1, bar by bar through the fight** (`h` hero, `m` monster,
+`B` both):
+
+```
+hhhh...hhhhh....hhh      fours — the hero holds the floor
+mmm.Bhhh.mmmBhhhmmm      still fours — they trade
+hh..hh..hh..hh.          twos
+hBmhBhmhBhmhBhm          ones — alternating every bar
+hhhhhhhhhh mm.mmm.mmm    zero — the gate lifts, both free
+```
+
+### 7.3 The monster had to be given a voice first
+
+Declared and measured with nothing else changed: the turn lengths ran 4, 2, 1,
+0 exactly as written and **the monster never sounded once**. The counter line is
+`density: 0.1` in the parent — one note answering every tenth note of the tune,
+which is a decoration — thinned 88% by the arc and not admitted until 28% of the
+record had gone. There was nothing on the lane to sound.
+
+A duel needs two players: density 0.8 in `answer` style, thinning down to 0.3,
+entering at 6%. And the tunes themselves are denser than a cavern's — dungeon
+synth writes one or two notes a bar because it is an atmosphere, and **a duel of
+one-note phrases is not a duel**.
+
+### 7.4 State
+
+All five genres: **0 of 40 seeds throw**; lofi, synthwave, dungeon synth and
+boxcar **0 of 6 records changed**.
