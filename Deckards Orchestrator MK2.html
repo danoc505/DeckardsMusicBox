@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20d · the fx are planned off the track, the pack's pads play the drone, and the air changes with the movement</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20e · a movement is a first-class thing: every leg is a song's worth of sections, and the desk has one owner again</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -7248,7 +7248,14 @@ function motionAt(plan, key, ev, offset){
        Clamped rather than wrapped, because a render can be asked for a moment
        past the last bar and a knob reading `undefined` is a NaN. */
     else if(mv.kind === "curve") d += mv.at[Math.min(mv.at.length - 1, bar * STEPS + step)] || 0;
-    else if(mv.kind === "section") d += mv.by[plan.secFn[bar]] || 0;
+    /* THE MOVEMENT FIRST, THE FUNCTION AS THE FALLBACK. A `section` lane may
+       be written about a leg of the record ("into the deep") or about a
+       section name ("bridge"), and a genre that names no movements reads
+       exactly what it always read. */
+    else if(mv.kind === "section"){
+      const m = plan.secMv && plan.secMv[bar];
+      d += (m != null && mv.by[m] != null ? mv.by[m] : mv.by[plan.secFn[bar]]) || 0;
+    }
     else if(mv.kind === "lfo"){
       /* the reset trigger: the cycle counts from the last trigger rather than
          from the top of the record. `resetBarOf` states what a trigger is. */
@@ -7393,6 +7400,12 @@ function makeMotion(chart, form, sections, materials){
   const secFn = new Array(nBars).fill("verse");
   for(const s of sections)
     for(let b = s.startBar; b < s.endBar && b < nBars; b++) secFn[b] = s.fn;
+  /* and which MOVEMENT owns each bar, so a `section` lane can be written about
+     a leg rather than about a section name. Null everywhere for a planless
+     genre, which is what makes the lookup below fall straight through. */
+  const secMv = new Array(nBars).fill(null);
+  for(const s of sections)
+    for(let b = s.startBar; b < s.endBar && b < nBars; b++) secMv[b] = s.mv || null;
   /* ── WHICH STATEMENT OF ITS FUNCTION EACH BAR BELONGS TO ───────────────────
      Form already counts this -- `occurrence` is 1 for the first verse, 2 for the
      second, 3 for the third -- and it is what the rule of three is stated in.
@@ -8387,6 +8400,7 @@ function makeMotion(chart, form, sections, materials){
            ? materials.drumPhrase.A.concat(materials.drumPhrase.Avar) : null;
   return Object.freeze({ spb, clock: CLK, nBars, phrase: PH ? Object.freeze(PH) : null,
                          secFn: Object.freeze(secFn),
+                         secMv: Object.freeze(secMv),
                          secOcc: Object.freeze(secOcc),
                          secStart: Object.freeze(secStart),
                          drums: (chart.picks && chart.picks.drums) || "kit",
@@ -24827,48 +24841,47 @@ GENRE.fantasysynth = (function(D){
      Twenty minutes at a mean of 96 BPM is about 320 bars of 4/4, so the base
      triples and the steps widen. The four movements then divide it. */
   form: merge(D.form, {
-    target: [480, 3, 8],           // the plan plus a 16-bar intro and the outro
-    /* ══ A ONE-FUNCTION MOVEMENT IS EXACTLY TWO SECTIONS LONG ═══════════════
-       AND THAT IS WHY THESE NUMBERS ARE NOT ALL SIXTEEN. The first version of
-       this table gave every function 16 bars and declared movement budgets of
-       96, 128, 160 and 40. MEASURED, seed 1: 32, 32, 160 and 32. The record was
-       13:47 against an ask of twenty minutes and three movements out of four
-       ran at a third of their declared length -- with the FX story below
-       written on top of the proportions they were supposed to have.
+    target: [432, 3, 8],           // the plan plus a 16-bar intro and a 16-bar tag
+    /* ══ SIXTEEN BARS, BECAUSE A LEG IS A SONG AND NOT A SECTION ═══════════
+       [owner, 2026-08-20: "each 5 min is its own song, its own leg. Youve made
+       5 min sections and its horribly boring."]
 
-       THE CAUSE IS H1, THE RULE OF THREE: "a function cannot follow itself
-       twice". A movement whose pool holds one function can therefore admit it
-       exactly twice, and then `lawful` returns false, the phase walk's fallback
-       finds nothing legal and hands over -- silently, and correctly, because H1
-       is a law and a budget is a budget. Only the fight escaped it, because it
-       alternates two functions.
+       He is right, and the diagnosis is not the obvious one. MEASURED: 88% of
+       the bars in one of these records are note-shapes not heard before in
+       their own section, so nothing is looping. What was wrong is that a
+       SIXTY-BAR SECTION IS ONE ARRANGEMENT STATE FOR THREE MINUTES: one set of
+       voices, one energy, one entry pattern, one fill, because every
+       arrangement device in this program works per section. The fight, built of
+       sixteen-bar sections, gets a new state every sixteen bars and never had
+       the problem.
 
-       So a one-function movement's LENGTH IS `2 x lengths[fn]`, and its `bars`
-       budget is a statement about it rather than a draw on it. That is stated
-       here instead of being worked around: dungeon synth's own plan gives every
-       phase two or three functions and never met this. The variation that a
-       narrow budget cannot supply comes from `extend` below, which is the
-       mechanism this program already has for it.
+       WHY THEY WERE SIXTY BARS is worth keeping, because it is a real law and
+       it will bite the next person: H1, the rule of three, says a function
+       cannot follow itself twice, so a movement whose pool holds ONE function
+       admits it exactly twice and hands over -- and the only way to make a
+       two-section leg last five minutes is to make the sections enormous. The
+       first version of this table declared budgets of 96 and 128 bars and got
+       32 and 32.
 
-       AND THE JOURNEY HOME IS THE OUTRO OUTRIGHT. It was a `verse` phase plus a
-       64-bar outro, which put the walk home on the SAME section function as the
-       walk out -- so no `section` lane could tell the two apart, and the story's
-       last movement was written in a hand the desk could not read. An outro can
-       only be last and comes exactly once, which is what that movement needs;
-       ninety-six bars of it at a falling tempo IS the last five minutes. `verse`
-       now means setting out and nothing else. */
-    lengths: { intro: 16, verse: 48, chorus: 16, bridge: 60,
-               instrumental: 16, outro: 84 },
+       AND THE ONE FUNCTION PER LEG WAS ITSELF FORCED, by `tempoArc` and
+       `form.material` both keying on the section's NAME. That is fixed at the
+       root: a section carries `mv`, the movement that admitted it, and both
+       tables ask the movement first. So a leg may hold two or three functions,
+       alternate them, and run six to ten sections -- a song's worth of
+       arrangement inside each five minutes, which is what was being asked for.
+
+       Sixteen bars everywhere, and the outro is four statements of it. */
+    lengths: { intro: 16, verse: 16, chorus: 16, bridge: 16,
+               instrumental: 16, outro: 16 },
     /* and so no two records have the same movement lengths: the one draw a
        one-function phase still has. Four to twelve bars on a 48-bar verse is
        one to three passes of the material, which is a difference somebody can
        hear without it being a different record. */
-    /* NOT on `chorus` or `instrumental`: the fight is ten or eleven sections,
-       and a 45% chance of eight more bars on each of them is thirty-five bars
-       of extra fight -- measured as the fight taking 31% of the record while
-       setting out took 19%. An extension belongs where a movement has two
-       sections to put it on, not where it compounds. */
-    extend: { chance: 0.45, bars: [4, 8, 12], fn: ["verse", "bridge"] },
+    /* every leg is many sections now, so an extension no longer compounds on
+       one of them -- it is the ordinary cadential extension this mechanism was
+       built for, spread thin across the record. Smaller, and on everything. */
+    extend: { chance: 0.22, bars: [4, 8], fn: ["verse", "bridge", "chorus",
+                                               "instrumental"] },
     /* ── WHICH MODE EACH CHORD SET STANDS IN ────────────────────────────────
        Declared here rather than on the movements, because the movement that
        carries `lift` is the OUTRO and an outro sits outside the plan by law.
@@ -24886,8 +24899,16 @@ GENRE.fantasysynth = (function(D){
        was built for. Sixty-four bars of it, in mixolydian, at a falling tempo.
        "Triumphant but thinned -- something was lost": same material, brighter
        mode, fewer voices than the fight. */
-    material: { intro: "A", verse: "A", bridge: "C", chorus: "B",
-                instrumental: "B", outro: "Alift" },
+    /* ── KEYED ON THE MOVEMENT, WHICH IS WHY THE FUNCTIONS CAN REPEAT ──────
+       Each leg stands in its own chord set and its own mode, and it used to be
+       the FUNCTION that said so -- which is what forced one function per leg
+       and capped every leg at two sections. The movement says so now, so
+       `verse` and `instrumental` can appear in three legs and mean something
+       different in each. `intro` and `outro` belong to no movement and are
+       still keyed by name. */
+    material: { intro: "A", outro: "Alift",
+                "setting out": "A", "into the deep": "C", "the fight": "B",
+                "the long way home": "Alift" },
     /* ── THE FOUR MOVEMENTS ────────────────────────────────────────────────
        Dungeon synth already had a named movement plan -- descend, halls,
        deeper, return -- so this is that mechanism with the story the owner
@@ -24933,16 +24954,36 @@ GENRE.fantasysynth = (function(D){
          that set is built in. Movement one names none: it IS the record's own
          chords in the record's own drawn mode, which is what makes the mode
          pool above still mean something. */
-      /* two 48-bar verses. The budget is what it will be, not what it draws. */
-      { name: "setting out",  pool: ["verse"],  bars: [96, 1, 8] },
-      /* two 64-bar bridges: the longest sections in the record, because a
-         descent is the part of a journey that goes on */
-      { name: "into the deep", pool: ["bridge"], bars: [128, 1, 8] },
-      /* the only movement that alternates, and so the only one whose budget is
-         a real draw -- ten or eleven sixteen-bar sections trading */
-      { name: "the fight",    pool: ["chorus", "instrumental"],
-        bars: [144, 3, 8], endOn: "chorus" },
-      /* THE LONG WAY HOME IS THE OUTRO. See `lengths` above. */
+      /* ── EVERY LEG ALTERNATES, AND THAT IS THE WHOLE FIX ─────────────────
+         Two functions each, so H1 never stops a leg short and each one runs six
+         to ten sections. The functions repeat across the legs -- `verse` opens
+         the road AND carries the descent's plainer half, `instrumental` is a
+         passage on the road AND the monster's half of the fight -- and they
+         mean different things in each because the MOVEMENT decides the chord
+         set, the mode and the tempo. That is the point of `mv` existing.
+
+         The budgets are real draws now: with sixteen-bar sections a leg lands
+         within a section of its number rather than being pinned to twice a
+         length. */
+      { name: "setting out",   pool: ["verse", "instrumental"],
+        bars: [80, 3, 8] },
+      { name: "into the deep", pool: ["bridge", "verse"],
+        bars: [96, 3, 8], endOn: "bridge" },
+      { name: "the fight",     pool: ["chorus", "instrumental"],
+        bars: [128, 3, 8], endOn: "chorus" },
+      /* ── AND THE WALK HOME IS A LEG AGAIN, WHICH IT COULD NOT BE BEFORE ───
+         It was the outro outright, for a good reason at the time: an outro can
+         only be last and comes exactly once, and with `material` keyed on the
+         FUNCTION there was no other way to give the last movement its own
+         chord set. The cost was that it was ONE SECTION -- three minutes of a
+         single arrangement state, the exact fault the owner named.
+
+         `mv` removes the reason. `verse` and `instrumental` here are a third
+         and fourth statement of the same two functions, in the lift's chords,
+         in mixolydian, at a falling tempo -- the same material walking home,
+         which is what the lift was built for. The outro shrinks to a tag. */
+      { name: "the long way home", pool: ["verse", "instrumental"],
+        bars: [72, 3, 8] },
     ],
     /* ── THE TEMPO ARC, AND THIS IS THE FIRST GENRE EVER TO DECLARE ONE ────
        `form.tempoArc` has been built and unused since it was written. The
@@ -24959,12 +25000,15 @@ GENRE.fantasysynth = (function(D){
     /* `verse` used to be described here as "the neutral one whose multiplier is
        ~1", because it had to serve setting out AND the walk home at once. It
        serves one movement now and gets that movement's own gait. */
-    tempoArc: { by: { intro:        [0.76, 0.90],   // before dawn
-                      verse:        [0.92, 1.00],   // setting out: a walk
-                      bridge:       [1.02, 1.22],   // into the deep: the climb
-                      instrumental: [1.28, 1.40],   // the fight
-                      chorus:       [1.36, 1.48],   // the fight, hardest
-                      outro:        [0.96, 0.78] }, // the long way home
+    /* KEYED ON THE MOVEMENTS, not on the section names, which is what lets the
+       legs share functions. `intro` and `outro` belong to no leg and are still
+       keyed by name -- the lookup takes the movement first and falls back. */
+    tempoArc: { by: { intro:                 [0.76, 0.90],   // before dawn
+                      "setting out":         [0.90, 1.02],   // a walk that quickens
+                      "into the deep":       [1.04, 1.24],   // the climb down
+                      "the fight":           [1.32, 1.46],   // hardest
+                      "the long way home":   [1.00, 0.82],   // easing off
+                      outro:                 [0.80, 0.70] }, // the last tag
                 ease: "cos" },
     /* THE APEX MOVES TO THREE QUARTERS, because the fight is at fifteen
        minutes of twenty and the arc is what decides how loud and how full the
@@ -25038,19 +25082,21 @@ GENRE.fantasysynth = (function(D){
      to be function-disjoint for the tempo arc, a function already names a
      movement. So every lane below reads as prose:
 
-         intro         before dawn
-         verse         SETTING OUT
-         bridge        INTO THE DEEP
-         chorus }      THE FIGHT   (chorus is the harder of the two)
-         instrumental }
-         outro         THE LONG WAY HOME
+         intro                 before dawn
+         "setting out"         the road
+         "into the deep"       the descent
+         "the fight"           whatever functions it alternates
+         "the long way home"   the walk back
+         outro                 the last sixteen-bar tag
 
-     AND `verse` MEANS ONE MOVEMENT, WHICH IT DID NOT AT FIRST. The plan gave
-     the walk home thirty-two bars of `verse` before the outro, so a third of
-     the last movement sat on the same section function as the first one and no
-     `section` lane could tell them apart -- the story's ending written in a
-     hand the desk cannot read. `form.lengths` fixes it: the journey home is the
-     OUTRO outright, eighty-four bars of it, and `verse` is setting out alone.
+     AND THE KEYS ARE MOVEMENTS, NOT SECTION NAMES, which is the second thing
+     `mv` fixed without being aimed at it. These lanes were keyed on `verse`,
+     `bridge`, `chorus` and `instrumental`, and that was wrong in two ways at
+     once: a lane naming only `chorus` BLINKED all the way off and back across a
+     fight that alternates two functions, and the moment the legs started
+     sharing functions -- which is what let each leg be a song rather than two
+     enormous sections -- `verse` would have fired in three different movements
+     at once. A movement is one thing however it is built, so both go away.
 
      THE SECOND MECHANISM IS WHAT DOES NOT GO BACK. A `section` offset vanishes the moment its function
      does; an `arc` runs one way across the whole record and is at its far end
@@ -25129,46 +25175,52 @@ GENRE.fantasysynth = (function(D){
          a CUT off the wire, per the 10a law. Read the column downward and it
          is the story: a modest room outside, a bigger one underground, almost
          none at the fight, and the whole hall at the end. */
-      keysRoom: [{ kind: "section", by: { intro:  [-0.30, -0.18],
-                                          verse:  [-0.34, -0.24],
-                                          bridge: [-0.14, -0.06],
-                                          chorus: [-0.62, -0.48],
-                                          instrumental: [-0.55, -0.42] } },
+      /* ── AND THE STORY'S CUT IS SIZED AGAINST THE PLANNER'S ──────────────
+         These were written before the planner existed and were the whole cut
+         on their own. With the planner ALSO pulling the room down on density,
+         the two summed past the bottom of the dial: measured, `keysRoom` sat
+         CLAMPED AT ZERO for 21% of the record and `leadRoom` for 14% -- travel
+         written that is not there, which is the same 10a-law defect that caught
+         `leadRoom` travelling 0.00% of its dial two builds ago, arriving from
+         the opposite direction. Scaled so the two together land near the floor
+         and stop, instead of pressing against it. */
+      keysRoom: [{ kind: "section", by: { intro:  [-0.20, -0.12],
+                                          "setting out":  [-0.22, -0.16],
+                                          "into the deep": [-0.10, -0.04],
+                                          "the fight": [-0.38, -0.30] } },
                  { kind: "lfo", bars: [[67, 1]], depth: [0.04, 0.09],
                    shape: "sin", freePhase: true, off: -0.09 }],
       /* the hero is dried out hardest of anything on the record at the fight:
          the tune is the thing you must hear the detail of when it matters */
-      leadRoom: [{ kind: "section", by: { intro:  [-0.34, -0.22],
-                                          verse:  [-0.40, -0.30],
-                                          bridge: [-0.18, -0.08],
-                                          chorus: [-0.72, -0.58],
-                                          instrumental: [-0.66, -0.52],
-                                          outro:  [-0.05, 0] } }],
+      leadRoom: [{ kind: "section", by: { intro:  [-0.22, -0.14],
+                                          "setting out":  [-0.26, -0.20],
+                                          "into the deep": [-0.12, -0.05],
+                                          "the fight": [-0.44, -0.36],
+                                          "the long way home":  [-0.03, 0],
+                                          outro:  [-0.03, 0] } }],
       /* the drums are the one room crossing that CLIMBS -- base 0.30, so it has
          headroom -- and it climbs underground and at the end, not at the fight.
          A war drum in a cavern is the descent; a war drum in your face is the
          fight. The fill gesture stays: the march still steps into the hall
          across each seam. */
-      drumsRoom:[{ kind: "section", by: { verse:  [-0.20, -0.12],
-                                          bridge: [0.15, 0.30],
-                                          chorus: [-0.28, -0.18],
-                                          instrumental: [-0.24, -0.14],
+      drumsRoom:[{ kind: "section", by: { "setting out":  [-0.20, -0.12],
+                                          "into the deep": [0.15, 0.30],
+                                          "the fight": [-0.28, -0.18],
+                                          "the long way home":  [0.35, 0.60],
                                           outro:  [0.35, 0.60] } },
                  { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
                    to: [0.10, 0.20], curve: "exp" }],
       /* the bass follows the band rather than leading it, and stays wetter than
          the tune at the fight so the floor does not vanish with the distance */
-      bassRoom: [{ kind: "section", by: { verse:  [-0.25, -0.15],
-                                          bridge: [-0.08, 0],
-                                          chorus: [-0.45, -0.30],
-                                          instrumental: [-0.40, -0.26] } }],
+      bassRoom: [{ kind: "section", by: { "setting out":  [-0.25, -0.15],
+                                          "into the deep": [-0.08, 0],
+                                          "the fight": [-0.45, -0.30] } }],
       /* the drone is the WORLD and the world does not go away when they fight,
          so it is cut least of the five -- enough to move with the mix, not
          enough to leave the record without a floor */
-      droneRoom: [{ kind: "section", by: { verse:  [-0.30, -0.20],
-                                           bridge: [-0.08, 0],
-                                           chorus: [-0.40, -0.28],
-                                           instrumental: [-0.36, -0.24] } },
+      droneRoom: [{ kind: "section", by: { "setting out":  [-0.30, -0.20],
+                                           "into the deep": [-0.08, 0],
+                                           "the fight": [-0.40, -0.28] } },
                   { kind: "lfo", bars: [[83, 1]], depth: [0.05, 0.10],
                     shape: "sin", freePhase: true, off: -0.10 }],
       /* ── THE ECHO IS THE CAVERN ANSWERING ──────────────────────────────
@@ -25178,20 +25230,19 @@ GENRE.fantasysynth = (function(D){
          `matrixDraw` pool; a hand-written lane wins there (`if(!mx[k]`), so
          declaring them here takes them out of the draw on purpose and leaves
          bassEcho, drumsEcho and bassRoom still varying song to song. */
-      keysEcho: [{ kind: "section", by: { verse:  [-0.10, -0.05],
-                                          bridge: [0.20, 0.40],
-                                          chorus: [-0.18, -0.12],
-                                          instrumental: [-0.16, -0.10],
+      keysEcho: [{ kind: "section", by: { "setting out":  [-0.10, -0.05],
+                                          "into the deep": [0.20, 0.40],
+                                          "the fight": [-0.18, -0.12],
+                                          "the long way home":  [0.30, 0.55],
                                           outro:  [0.30, 0.55] } }],
       leadEcho: [{ kind: "section", by: { intro:  [-0.30, -0.18],
-                                          verse:  [-0.35, -0.22],
-                                          bridge: [-0.10, 0],
-                                          chorus: [-0.55, -0.40],
-                                          instrumental: [-0.50, -0.35] } }],
-      droneEcho: [{ kind: "section", by: { verse:  [-0.12, -0.06],
-                                           bridge: [0.30, 0.55],
-                                           chorus: [-0.18, -0.10],
-                                           instrumental: [-0.16, -0.08],
+                                          "setting out":  [-0.35, -0.22],
+                                          "into the deep": [-0.10, 0],
+                                          "the fight": [-0.55, -0.40] } }],
+      droneEcho: [{ kind: "section", by: { "setting out":  [-0.12, -0.06],
+                                           "into the deep": [0.30, 0.55],
+                                           "the fight": [-0.18, -0.10],
+                                           "the long way home":  [0.35, 0.60],
                                            outro:  [0.35, 0.60] } },
                   { kind: "lfo", bars: [[41, 2], [59, 1]], depth: [0.02, 0.07],
                     shape: "sin", freePhase: true }],
@@ -25200,12 +25251,12 @@ GENRE.fantasysynth = (function(D){
          movement. A spring tank is the one reverb that sounds like a MATERIAL
          rather than a volume of air, which is why it belongs to the descent and
          not to the daylight. */
-      drumsSpring: [{ kind: "section", by: { bridge: [0.28, 0.48],
-                                             chorus: [0.14, 0.26],
-                                             instrumental: [0.12, 0.22],
+      drumsSpring: [{ kind: "section", by: { "into the deep": [0.28, 0.48],
+                                             "the fight": [0.14, 0.26],
+                                             "the long way home":  [0.05, 0.12],
                                              outro:  [0.05, 0.12] } }],
-      droneSpring: [{ kind: "section", by: { verse:  [-0.10, -0.06],
-                                             bridge: [0.24, 0.42] } },
+      droneSpring: [{ kind: "section", by: { "setting out":  [-0.10, -0.06],
+                                             "into the deep": [0.24, 0.42] } },
                     { kind: "lfo", bars: [[61, 1]], depth: [0.05, 0.11],
                       shape: "sin", freePhase: true }],
       /* ── THE FLANGE IS THE MONSTER'S COLOUR ─────────────────────────────
@@ -25215,13 +25266,12 @@ GENRE.fantasysynth = (function(D){
          home. It is on the LEAD row and so it is on the hero too; see the
          limitation stated above. */
       leadFlange: [{ kind: "arc", from: [0, 0], to: [0.05, 0.12], curve: "exp" },
-                   { kind: "section", by: { bridge: [0.06, 0.14],
-                                            chorus: [0.30, 0.52],
-                                            instrumental: [0.26, 0.46],
+                   { kind: "section", by: { "into the deep": [0.06, 0.14],
+                                            "the fight": [0.30, 0.52],
+                                            "the long way home":  [0.08, 0.18],
                                             outro:  [0.08, 0.18] } }],
-      droneFlange: [{ kind: "section", by: { bridge: [0.10, 0.20],
-                                             chorus: [0.22, 0.40],
-                                             instrumental: [0.18, 0.34] } },
+      droneFlange: [{ kind: "section", by: { "into the deep": [0.10, 0.20],
+                                             "the fight": [0.22, 0.40] } },
                     { kind: "lfo", bars: [[73, 1]], depth: [0.06, 0.13],
                       shape: "tri", freePhase: true }],
       /* ── THE DP/4 IS THE DAMAGE ─────────────────────────────────────────
@@ -25230,18 +25280,26 @@ GENRE.fantasysynth = (function(D){
          fight. On the sends the shape is section-only for the same
          zero-base reason; the part that does not go back lives on the return
          levels, where an arc can run. */
-      drumsDP4: [{ kind: "arc", from: [0, 0], to: [0.08, 0.16], curve: "exp" },
-                 { kind: "section", by: { chorus: [0.34, 0.55],
-                                          instrumental: [0.30, 0.50],
-                                          outro:  [0.10, 0.20] } }],
+      /* ── AND THE WAR DRUM DOES NOT GO THROUGH THE CRUSHER AT HALF ────────
+         This reached 0.53 into a box whose crusher and drive returns were
+         themselves climbing, and the owner heard it: "the low sounding drums
+         blow out the frequency". A bit crusher works on a snare because a
+         snare is already noise; on a 52 Hz drum head it is intermodulation,
+         which is what "blows out" means in numbers. The drive belongs on the
+         TUNE, where a reed or a horn pushed hard is a player leaning in.
+         A third of what it was, and the arc with it. */
+      drumsDP4: [{ kind: "arc", from: [0, 0], to: [0.03, 0.06], curve: "exp" },
+                 { kind: "section", by: { "the fight": [0.12, 0.20],
+                                          "the long way home":  [0.04, 0.08],
+                                          outro:  [0.04, 0.08] } }],
       leadDP4:  [{ kind: "arc", from: [0, 0], to: [0.06, 0.14], curve: "exp" },
-                 { kind: "section", by: { bridge: [0.05, 0.12],
-                                          chorus: [0.28, 0.46],
-                                          instrumental: [0.24, 0.40],
+                 { kind: "section", by: { "into the deep": [0.05, 0.12],
+                                          "the fight": [0.28, 0.46],
+                                          "the long way home":  [0.08, 0.16],
                                           outro:  [0.08, 0.16] } }],
-      droneDP4: [{ kind: "section", by: { verse:  [-0.14, -0.08],
-                                          chorus: [0.30, 0.50],
-                                          instrumental: [0.26, 0.44],
+      droneDP4: [{ kind: "section", by: { "setting out":  [-0.14, -0.08],
+                                          "the fight": [0.30, 0.50],
+                                          "the long way home":  [0.05, 0.14],
                                           outro:  [0.05, 0.14] } },
                  { kind: "lfo", bars: [[47, 1]], depth: [0.07, 0.16],
                    shape: "sin", freePhase: true },
@@ -25254,42 +25312,45 @@ GENRE.fantasysynth = (function(D){
          one, so this is the only place the illusion is used at full. The keys
          and the drone get it because they are the sustained voices; a falling
          notch needs something to fall through. */
-      keysBarber:  [{ kind: "section", by: { bridge: [0.22, 0.40],
-                                             chorus: [0.10, 0.20],
-                                             instrumental: [0.08, 0.16] } }],
-      droneBarber: [{ kind: "section", by: { bridge: [0.20, 0.36] } }],
+      keysBarber:  [{ kind: "section", by: { "into the deep": [0.22, 0.40],
+                                             "the fight": [0.10, 0.20] } }],
+      droneBarber: [{ kind: "section", by: { "into the deep": [0.20, 0.36] } }],
       /* and a smear on the tune at the hardest of the fight, nowhere else */
-      leadBarber:  [{ kind: "section", by: { chorus: [0.08, 0.18],
-                                             instrumental: [0.06, 0.14] } }],
+      leadBarber:  [{ kind: "section", by: { "the fight": [0.08, 0.18] } }],
     }),
-    /* ══ THE DESK IS THE LIGHT ════════════════════════════════════════════
-       These are dB on a -30..+8 shelf, so they are the bluntest and most
-       legible thing on this list: the top end IS how much light there is.
-       Daylight on the road, the top rolled off underground, and then the top
-       comes BACK for the fight -- as harshness rather than as air, which is the
-       same knob doing the opposite job because the low end is up with it. */
-    desk: merge(D.motion.desk, {
-      high: [{ kind: "section", by: { intro:  [-1.0, -0.4],
-                                      verse:  [1.0, 2.2],
-                                      bridge: [-4.5, -2.5],
-                                      chorus: [2.0, 4.0],
-                                      instrumental: [1.5, 3.2],
-                                      outro:  [-1.5, -0.5] } },
-             { kind: "apex", from: [-1.2, -0.3], to: [0.2, 1.0] }],
-      /* the low end warms all the way home and is at its widest there -- the
-         one band that does not come back down */
-      low:  [{ kind: "section", by: { verse:  [0, 0.5],
-                                      bridge: [1.0, 2.4],
-                                      chorus: [1.5, 3.0],
-                                      instrumental: [1.2, 2.6],
-                                      outro:  [2.0, 4.0] } }],
-      /* the mid scoops for the fight, which is the loudness trick, and comes
-         back for the walk home, which is where a voice sounds human again */
-      mid:  [{ kind: "section", by: { bridge: [-1.0, -0.3],
-                                      chorus: [-2.5, -1.2],
-                                      instrumental: [-2.0, -1.0],
-                                      outro:  [0.5, 1.5] } }],
-    }),
+    /* ══ THE DESK HAS EXACTLY ONE OWNER AND IT IS THE PLANNER ══════════════
+       [owner, 2026-08-20: "the low sounding drums blow out the frequency they
+       are not the low sounding drums they used to be its shit"]
+
+       He is right and it was this block. THREE `section` lanes lived here --
+       high, low and mid -- and the fx planner was ALSO given `desk.high` and
+       `desk.low`, and I wrote the words "both are declared, both compile to
+       lanes on the same controls, and they SUM" without ever measuring the sum.
+
+       MEASURED AFTERWARDS, seed 1, against the build before any of this:
+
+         mix RMS          -17.5  ->  -13.0 dB      four and a half decibels
+         under 120 Hz     -22.4  ->  -15.5 dB      SEVEN
+         crest             14.5  ->   11.3 dB      three decibels of life gone
+         desk.low          -3.0 flat  ->  -1.75 .. +3.43
+
+       And the solo kick rendered BIT-IDENTICAL in both builds, which is the
+       half of the measurement that says what it is not: nothing changed about
+       the drums, or the drum bus, or the matrix. A mix-wide low shelf pushed
+       six decibels above where it sat is what "the low drums blow out" sounds
+       like, and it was two lanes on one knob, each defensible alone.
+
+       THE RULE THIS EARNS: a tone shelf across the whole mix is a MIXING
+       decision, so it belongs to the thing that measures the mix. The story
+       keeps the EFFECTS -- the room, the echo, the drive, the flanger, the
+       barberpole -- which are colours and are what a narrative can actually
+       have an opinion about. The desk is not a colour, it is the level of the
+       bands, and a story does not get to have an opinion about that.
+
+       So these three lanes are gone and the planner's three stand alone, with
+       their travel written so the sum cannot climb out of the dial. See
+       `fxPlan.follow` below for the numbers and the ceiling. */
+    desk: D.motion.desk,
     /* ══ THE DELAY'S OWN KNOBS, NOT ONLY ITS SENDS ════════════════════════
        `echo.tone` has never been moved by any genre in this file. It is the one
        knob that says how FAR a repeat is: bright repeats are a hard surface a
@@ -25297,21 +25358,21 @@ GENRE.fantasysynth = (function(D){
        goes dark underground, gets hard and bright at the fight, and goes soft
        for the walk home. `fb` is how many times the cavern answers. */
     echo: merge(D.motion.echo, {
-      send: [{ kind: "section", by: { verse:  [-0.06, -0.02],
-                                      bridge: [0.10, 0.20],
-                                      chorus: [-0.10, -0.05],
-                                      instrumental: [-0.08, -0.04],
+      send: [{ kind: "section", by: { "setting out":  [-0.06, -0.02],
+                                      "into the deep": [0.10, 0.20],
+                                      "the fight": [-0.10, -0.05],
+                                      "the long way home":  [0.12, 0.24],
                                       outro:  [0.12, 0.24] } },
              { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
                to: [0.08, 0.16], curve: "exp" }],
-      fb:   [{ kind: "section", by: { bridge: [0.14, 0.26],
-                                      chorus: [-0.12, -0.06],
-                                      instrumental: [-0.10, -0.05],
+      fb:   [{ kind: "section", by: { "into the deep": [0.14, 0.26],
+                                      "the fight": [-0.12, -0.06],
+                                      "the long way home":  [0.20, 0.34],
                                       outro:  [0.20, 0.34] } }],
-      tone: [{ kind: "section", by: { verse:  [400, 1100],
-                                      bridge: [-1200, -600],
-                                      chorus: [600, 1600],
-                                      instrumental: [500, 1400],
+      tone: [{ kind: "section", by: { "setting out":  [400, 1100],
+                                      "into the deep": [-1200, -600],
+                                      "the fight": [600, 1600],
+                                      "the long way home":  [-900, -400],
                                       outro:  [-900, -400] } }],
     }),
     /* ══ THE FLANGER SPEEDS UP AND RESONATES ══════════════════════════════
@@ -25322,24 +25383,22 @@ GENRE.fantasysynth = (function(D){
        an actual whoosh. The feedback is what turns a flanger metallic; it is
        held near nothing until the thing is in the room. */
     flange: {
-      rate: [{ kind: "section", by: { bridge: [0.02, 0.08],
-                                      chorus: [0.35, 0.75],
-                                      instrumental: [0.28, 0.60],
+      rate: [{ kind: "section", by: { "into the deep": [0.02, 0.08],
+                                      "the fight": [0.35, 0.75],
+                                      "the long way home":  [0.03, 0.10],
                                       outro:  [0.03, 0.10] } }],
-      fb:   [{ kind: "section", by: { bridge: [0.05, 0.12],
-                                      chorus: [0.22, 0.40],
-                                      instrumental: [0.18, 0.34],
+      fb:   [{ kind: "section", by: { "into the deep": [0.05, 0.12],
+                                      "the fight": [0.22, 0.40],
+                                      "the long way home":  [0.04, 0.10],
                                       outro:  [0.04, 0.10] } }],
     },
     barber: {
       /* the pole turns faster as they go down and faster again in the fight --
          the illusion of accelerating descent, which is only a rate change */
-      rate: [{ kind: "section", by: { bridge: [0.02, 0.06],
-                                      chorus: [0.10, 0.24],
-                                      instrumental: [0.08, 0.18] } }],
-      depth:[{ kind: "section", by: { bridge: [0.10, 0.24],
-                                      chorus: [0.06, 0.16],
-                                      instrumental: [0.05, 0.13] } }],
+      rate: [{ kind: "section", by: { "into the deep": [0.02, 0.06],
+                                      "the fight": [0.10, 0.24] } }],
+      depth:[{ kind: "section", by: { "into the deep": [0.10, 0.24],
+                                      "the fight": [0.06, 0.16] } }],
     },
     /* ══ THE FOUR BLOCKS OF THE DP/4, AND THE THING THAT DOES NOT GO BACK ══
        A = crush, B = drive, C = Leslie, D = phaser, and all four return at ZERO
@@ -25358,33 +25417,39 @@ GENRE.fantasysynth = (function(D){
        and it never returns to the nothing it started at. */
     dp4: merge(D.motion.dp4, {
       aLvl: [{ kind: "arc", from: [0, 0], to: [0.08, 0.16], curve: "exp" },
-             { kind: "section", by: { chorus: [0.30, 0.46],
-                                      instrumental: [0.26, 0.40] } },
+             { kind: "section", by: { "the fight": [0.30, 0.46] } },
              { kind: "gesture", on: "empty", bars: 4,
                from: [0.00, 0.02], to: [0.10, 0.22], curve: "exp" }],
-      bLvl: [{ kind: "arc", from: [0, 0], to: [0.10, 0.20], curve: "exp" },
-             { kind: "section", by: { bridge: [0.06, 0.14],
-                                      chorus: [0.34, 0.52],
-                                      instrumental: [0.30, 0.46] } }],
+      /* THREE LANES ON ONE KNOB -- this arc, this section, and the planner's
+         `energy` line -- reaching 0.71 together. Each was written as if it were
+         the only one. The residue arc stays (it is the thing that does not go
+         back) and the section spike is halved, so the three sum to about 0.45
+         at the fight instead of pinning the return. */
+      bLvl: [{ kind: "arc", from: [0, 0], to: [0.08, 0.15], curve: "exp" },
+             { kind: "section", by: { "into the deep": [0.03, 0.07],
+                                      "the fight": [0.16, 0.26] } }],
       bAmt: [{ kind: "lfo", bars: [[101, 1]], depth: [0.04, 0.10],
                shape: "sin", freePhase: true },
-             { kind: "section", by: { chorus: [0.14, 0.26],
-                                      instrumental: [0.12, 0.22] } }],
+             { kind: "section", by: { "the fight": [0.14, 0.26] } }],
       /* the Leslie: the world turning around them, and it belongs to the
          descent for the same reason the barberpole does */
-      /* ── AND `instrumental` IS NAMED WHEREVER `chorus` IS ────────────────
-         The fight alternates the two functions every sixteen bars, so a lane
-         that names only `chorus` does not surge -- it BLINKS, all the way off
-         and back, four or five times. MEASURED at seed 1 before this: cLvl,
-         keysBarber and leadBarber each went 0.14 -> 0.00 -> 0.14 across the
-         fight. Where the two are meant to differ they differ by a fraction
-         (chorus is the harder of the pair); where a colour is simply present,
-         both are named. */
-      cLvl: [{ kind: "section", by: { bridge: [0.18, 0.32],
-                                      chorus: [0.10, 0.20],
-                                      instrumental: [0.08, 0.16],
+      /* ── AND THE BLINKING IS GONE BECAUSE THE KEY IS THE MOVEMENT ────────
+         This block used to name `chorus` and `instrumental` separately and had
+         to, because those were the two functions the fight alternated -- and a
+         lane naming only one of them BLINKED, all the way off and back four or
+         five times across the fight. The fix then was to name both at slightly
+         different amounts.
+
+         The key is `"the fight"` now, which is one movement however many
+         functions it alternates, so there is nothing left to blink. That is the
+         second defect `mv` closed without being aimed at it: keying automation
+         on a section NAME meant every lane had to know which names a leg
+         happened to be built from. */
+      cLvl: [{ kind: "section", by: { "into the deep": [0.18, 0.32],
+                                      "the fight": [0.10, 0.20],
+                                      "the long way home":  [0.06, 0.14],
                                       outro:  [0.06, 0.14] } }],
-      cAmt: [{ kind: "section", by: { bridge: [0.10, 0.22] } },
+      cAmt: [{ kind: "section", by: { "into the deep": [0.10, 0.22] } },
              { kind: "lfo", bars: [[89, 1]], depth: [0.04, 0.10],
                shape: "sin", freePhase: true }],
       /* ── AND ONE THING IN THIS RECORD ONLY HAPPENS ONCE ──────────────────
@@ -25394,7 +25459,8 @@ GENRE.fantasysynth = (function(D){
          before and then is. It is the smallest entry here and it is the one an
          ear notices, because a new timbre at the end of a long form is the
          oldest way of saying that what came back is not what set out. */
-      dLvl: [{ kind: "section", by: { outro: [0.16, 0.30] } }],
+      dLvl: [{ kind: "section", by: { "the long way home": [0.16, 0.30],
+                                      outro: [0.16, 0.30] } }],
       dAmt: [{ kind: "lfo", bars: [[79, 1]], depth: [0.05, 0.12],
                shape: "sin", freePhase: true }],
     }),
@@ -25410,15 +25476,14 @@ GENRE.fantasysynth = (function(D){
                   shape: "sin", freePhase: true },
                 { kind: "arc", from: [-0.0004, 0], to: [0.0003, 0.0012],
                   curve: "sCurve" },
-                { kind: "section", by: { verse:  [-0.0018, -0.0010],
-                                         bridge: [0.0012, 0.0026],
-                                         chorus: [0.0008, 0.0020],
-                                         instrumental: [0.0006, 0.0016] } }],
+                { kind: "section", by: { "setting out":  [-0.0018, -0.0010],
+                                         "into the deep": [0.0012, 0.0026],
+                                         "the fight": [0.0008, 0.0020] } }],
       flutter: [{ kind: "lfo", bars: [[31, 1]], depth: [0.0003, 0.0008],
                   shape: "tri", freePhase: true },
-                { kind: "section", by: { bridge: [0.0010, 0.0022],
-                                         chorus: [0.0014, 0.0028],
-                                         instrumental: [0.0010, 0.0022],
+                { kind: "section", by: { "into the deep": [0.0010, 0.0022],
+                                         "the fight": [0.0014, 0.0028],
+                                         "the long way home":  [-0.0008, -0.0002],
                                          outro:  [-0.0008, -0.0002] } }],
     }),
   }),
@@ -25466,8 +25531,24 @@ GENRE.fantasysynth = (function(D){
       "echo.fb":         { read: "gaps",   by: [-0.08, 0.18] },
       "dp4.bLvl":        { read: "energy", by: [0.00, 0.22] },
       "matrix.leadDP4":  { read: "energy", by: [0.00, 0.20] },
-      "desk.high":       { read: "air",    by: [-2.5, 2.0] },
-      "desk.low":        { read: "weight", by: [-1.0, 2.5] },
+      /* ── THE DESK, AND THESE ARE THE ONLY LANES ON IT ────────────────────
+         Written as travel from the base, and the base is dungeon synth's own
+         (-3 low, -1 high) rather than the -2/-1 this genre had briefly: the
+         parent's numbers are the ones that have been listened to. The
+         ceilings are the point --
+
+           low    -3 base, -1.2 .. +1.2  ->  never above -1.8 dB
+           high   -1 base, -3.0 .. +1.8  ->  never above +0.8 dB
+           mid     0 base, -1.5 .. +0.8
+
+         -- so the whole shelf stays under the flat setting the parent uses,
+         and the record gets its weight from the arrangement and the drive
+         rather than from a mix-wide boost. A low shelf is the last place to
+         buy loudness: it is the one band where every part overlaps, so a
+         decibel there is a decibel on everything at once. */
+      "desk.high":       { read: "air",    by: [-3.0, 1.8] },
+      "desk.low":        { read: "weight", by: [-1.2, 1.2] },
+      "desk.mid":        { read: "space",  by: [0.8, -1.5] },
       "flange.rate":     { read: "change", by: [0.00, 0.35] },
       "matrix.leadFlange": { read: "change", by: [0.00, 0.18] },
       /* the drone's own crossings are the record's floor and the cut must not
@@ -25537,7 +25618,12 @@ GENRE.fantasysynth = (function(D){
               dAlgo: 1, dAmt: 0.40, dLvl: 0 },
     flange: { rate: 0.05, depth: 0.52, fb: 0.10, mix: 0.44 },
     barber: { rate: 0.04, depth: 0.50, mix: 0.55, dir: -1 },
-    desk:   { low: -2, mid: 0, high: -1, lowF: 200, midF: 1000, highF: 4000 },
+    /* the parent's own shelf. This read -2/-1 for one build on the argument
+       that "this record's bands are moved BY the movements, so a table that has
+       already spent the travel has none left" -- which was true and became the
+       licence for six decibels of low boost. The travel is bounded now, so the
+       base can be the one that has been listened to. */
+    desk:   { low: -3, mid: 0, high: -1, lowF: 200, midF: 1000, highF: 4000 },
     echo:   { div: 3, send: 0.14, fb: 0.30, tone: 2600, hp: 180,
               verb: 0.5, width: 0.25 },
   }),
@@ -25624,6 +25710,35 @@ GENRE.fantasysynth = (function(D){
      the journey home is also the one that sounds most like parallel fifths.
      Degrees, as everywhere: 0 is the tonic, 6 is the flat seventh. [CHOSEN,
      inside the mode's own definition] */
+  /* ══ AND THE TRANSITIONS ARE THIS GENRE'S, NOT A CAVERN'S ════════════════
+     A leg alternates two functions, so what decides how it alternates is the
+     arrow table -- and the inherited one is written for a record that wanders a
+     cave. MEASURED on the first build of the three-leg plan: "into the deep"
+     came out five verses and three bridges, because the parent gives
+     verse -> bridge weight 1 against verse -> verse 4. A descent that is mostly
+     the road is not a descent.
+
+     Written so each PAIR trades: verse and instrumental on the road, verse and
+     bridge underground, chorus and instrumental at the fight. The weights are
+     inside the pool the movement declares, so an arrow to a function this leg
+     does not hold is simply zeroed by the walk and costs nothing.
+
+     AND THE BRIDGE IS UNGATED HERE. H2 says a bridge needs choruses to depart
+     from, which is a law about POP RECORDS and this genre's `bridge` is not a
+     pop bridge -- it is the second movement of a journey, and it arrives before
+     the record has had a chorus at all. `bridgeAfterChorus` gates on how many
+     choruses have been HEARD, so the entry that mattered was `verse: 2`; at 0
+     the bridge may follow a verse from the start. The other entries stay: once
+     the fight has happened, the same law reads normally. */
+  transitions: merge(D.transitions, {
+    intro:        [["verse", 8], ["instrumental", 3]],
+    verse:        [["instrumental", 5], ["bridge", 5], ["verse", 2], ["chorus", 3]],
+    bridge:       [["verse", 5], ["bridge", 1], ["chorus", 3]],
+    instrumental: [["verse", 5], ["chorus", 4], ["instrumental", 1], ["bridge", 2]],
+    chorus:       [["instrumental", 5], ["chorus", 2], ["verse", 2], ["bridge", 1]],
+    outro:        [],
+  }),
+  bridgeAfterChorus: merge(D.bridgeAfterChorus, { verse: 0, instrumental: 0 }),
   progressions: merge(D.progressions, {
     mixolydian: [
       [[0, 0, 6, 6], 6],        // I-bVII: the signature, and a step
@@ -27479,10 +27594,16 @@ function makeForm(chart){
      started running past its ending in a genre whose table does not list the
      intro as extendable. Every push site pushes here too. */
   const EXTB = [];
+  /* the same contract, one array over: which movement admitted each section.
+     Declared HERE, beside `EXTB`, and not further down where it was first
+     written -- a `const` below the intro's push site is a temporal-dead-zone
+     throw on the one path that pushes before the walk starts, which is exactly
+     the "three places push a section" hazard the comment above is about. */
+  const MVS = [];
   const extRng = stream(chart.seed, "sectionExtend");
   const EXT = F.extend;
   const coldOpen = rng() < F.coldOpen;                  // a cold open is a choice, not an absence
-  if(!coldOpen){ fns.push("intro"); EXTB.push(0); }
+  if(!coldOpen){ fns.push("intro"); EXTB.push(0); MVS.push(null); }
   /* ── THE PAYOFF IS A GENRE'S CHOICE, NOT THE WORD "CHORUS" ────────────────
      This function named `chorus` in four places: the opening draw, the repeat
      counter that unlocks the bridge, the break that ends a song on its payoff,
@@ -27587,6 +27708,36 @@ function makeForm(chart){
      So the draw moves to the one place that knows the running total. Same
      device, same numbers, same stream -- it is only asked EARLIER, and the
      section map below reads what was drawn instead of drawing again. */
+  /* ══ WHICH MOVEMENT ADMITTED EACH SECTION ═════════════════════════════════
+     [owner, 2026-08-20: "each 5 min is its own song, its own leg. Youve made 5
+     min sections and its horribly boring. It is a 20 min song broken into 5 min
+     pieces the whole thing connected by its motif"]
+
+     THE DIAGNOSIS IS EXACT AND IT IS NOT REPETITION. Measured: 88% of the bars
+     in a fantasy synth record are note-shapes not heard before in their own
+     section, so nothing is looping. What was wrong is that a SIXTY-BAR SECTION
+     IS ONE ARRANGEMENT STATE FOR THREE MINUTES -- one set of voices, one
+     energy, one entry pattern, one fill at the end, because every arrangement
+     device this program has operates per section. The fight, built of sixteen-
+     bar sections, gets a new state every sixteen bars and does not have the
+     problem. So a leg needs MANY sections, not two long ones.
+
+     WHAT WAS BLOCKING THAT was `tempoArc` and `form.material` both keying on a
+     section's FUNCTION. With only four freely-usable functions (verse, chorus,
+     bridge, instrumental -- prechorus must reach a chorus and postchorus may
+     only follow one) three movements could not have two functions each without
+     sharing, and sharing carried one movement's tempo and material into
+     another. So the movements were given ONE function each, and H1 caps a
+     one-function movement at two sections. Everything followed from that.
+
+     A MOVEMENT IS THE FIRST-CLASS THING, and it was always available: the phase
+     walk knows exactly which entry of `form.plan` admitted each section and
+     simply threw it away. Recording it lets the tempo arc, the material map and
+     the fx section lanes all ask "which movement" instead of "which function",
+     and functions are free to repeat across legs again. A genre with no plan
+     records nothing and every lookup falls back to the function, which is
+     bit-identical to before this existed. */
+  let mvNow = null;
   const admit = () => {
     let ext = 0;
     if(EXT && (EXT.fn || []).indexOf(fn) >= 0 && extRng() < (EXT.chance || 0)){
@@ -27594,6 +27745,7 @@ function makeForm(chart){
       ext = pool[Math.floor(extRng() * pool.length) % pool.length];
     }
     EXTB.push(ext);
+    MVS.push(mvNow);
     fns.push(fn); bars += LEN[fn] + ext;
     if(fn === PAY) chorusSeen++;
     if(fn === "bridge") bridgeUsed = true;
@@ -27741,6 +27893,7 @@ function makeForm(chart){
     }
     let pending = true;
     for(const ph of PLAN){
+      mvNow = ph.name || null;
       const budget = Math.max(1, Math.round(
         (ph.bars[0] + Math.floor(rng() * ph.bars[1]) * ph.bars[2]) * stretch));
       const start = bars;
@@ -27772,8 +27925,9 @@ function makeForm(chart){
       }
     }
   }
-  fns.push("outro"); EXTB.push(0);
-  return { fns, len: LEN, ext: EXTB,
+  mvNow = null;
+  fns.push("outro"); EXTB.push(0); MVS.push(null);
+  return { fns, len: LEN, ext: EXTB, mvs: MVS,
            bars: fns.reduce((t, f, i) => t + LEN[f] + (EXTB[i] || 0), 0) };
   };
 
@@ -27910,6 +28064,9 @@ function makeForm(chart){
          time it slipped an intro ran past its own ending. A splice into one is
          a splice into the other, always. */
       if(built.ext) built.ext.splice(i, 0, 0);
+      /* the same index contract EXTB is held to -- a transition belongs to no
+         movement, and forgetting this line is how the arrays slip by one */
+      if(built.mvs) built.mvs.splice(i, 0, null);
       TLEN.splice(i, 0, wpick(trRng, TRN.bars));
     }
   }
@@ -27921,6 +28078,10 @@ function makeForm(chart){
     const ext = (i < fns.length - 1 && built.ext) ? (built.ext[i] || 0) : 0;
     const o = {
       fn: f, startBar: bar,
+      /* which movement admitted this section, or null for a planless genre and
+         for the intro, the outro and the transitions -- which belong to the
+         record rather than to a leg */
+      mv: (built.mvs && built.mvs[i]) || null,
       endBar: bar + (f === "transition" ? TLEN[i] : SLEN[f] + ext),
       occurrence: seen[f],
       /* how many bars this section runs past its own expected ending, so a
@@ -28159,7 +28320,16 @@ function makeTempoMap(chart, sections, nBars){
   const EASE = A.ease === "lin" ? (u => u) : (u => 0.5 - 0.5 * Math.cos(Math.PI * u));
   const mult = new Array(nBars).fill(1);
   for(const s of sections){
-    const pair = A.by[s.fn];
+    /* ── THE MOVEMENT IS ASKED FIRST ──────────────────────────────────────
+       "Two sections with the same name are at different speeds if one is
+       pulling out of a station and the other is braking into the next" -- the
+       journey tempo below already knew this and the arc did not, so a genre
+       wanting per-movement speed had to give every movement its own function
+       and was capped at two sections a leg by the rule of three. It asks the
+       movement first now and falls back to the function, so a genre that names
+       no movements is bit-identical and one that does may repeat functions
+       across its legs. */
+    const pair = (s.mv && A.by[s.mv]) || A.by[s.fn];
     if(!pair) continue;
     const span = Math.max(1, s.endBar - s.startBar);
     for(let b = s.startBar; b < s.endBar && b < nBars; b++){
@@ -36226,7 +36396,11 @@ function makeArrangement(chart, form, materials){
     return T[Math.max(0, Math.min(T.length - 1, k))];
   };
   const laid = form.map((sec, i) => {
-    let material = MAT[sec.fn];
+    /* the movement first, the function as the fallback -- the same rule the
+       tempo arc uses, and for the same reason: a leg stands in its own chord
+       set, and tying that to the function name is what forced one function per
+       leg. `form.material` may now be keyed by either. */
+    let material = (sec.mv && MAT[sec.mv]) || MAT[sec.fn];
     let stripHalf = false;
     if(sec.demand === "vary"){
       /* THE ANSWER IS A RE-PRESENTATION, NEVER A DELETION. `stripHalf` used to
@@ -36557,6 +36731,13 @@ function makeArrangement(chart, form, materials){
                      (!EMPTY.before || (next && EMPTY.before.indexOf(next.fn) >= 0));
     return ({
       fn: sec.fn, startBar: sec.startBar, endBar: sec.endBar,
+      /* WHICH MOVEMENT, carried through. Stage 4 rebuilds the section object
+         from scratch rather than extending stage 2's, so a field added up
+         there and not listed here is silently dropped -- which is exactly what
+         happened to `mv` on its first run: the walk recorded it, the form
+         carried it, and the arrangement threw it away without a word. Anything
+         a later stage needs has to appear in BOTH places. */
+      mv: sec.mv || null,
       energy: sec.energy, peak: sec.peak, occurrence: sec.occurrence,
       material, stripHalf,
       /* WHAT THIS SECTION'S PLACE IN THE RECORD DOES TO THE DRUMS. `drumArc` is
