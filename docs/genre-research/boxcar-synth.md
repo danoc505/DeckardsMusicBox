@@ -1,5 +1,23 @@
 # BOXCAR SYNTH — the founding sheet of a new subgenre
 
+> ## ⚠ THE GENRE WAS DELETED FROM THE PROGRAM ON 2026-08-20
+>
+> Owner: *"Delete all of the boxcar genre, samples tables and all."* The table,
+> the three sample banks, the instruments, the drum kit, the rigs and the `rail`
+> matrix row are gone from `Deckards Orchestrator MK2.html`.
+>
+> **THIS SHEET STAYS, and that is a rule rather than sentiment:** the research
+> is the reasoning, and a comment or a sheet outlives the code it was written
+> for. Everything below — the 39-foot rail joint arithmetic behind the tempo,
+> the licence positions on the BBC and Philharmonia sources, the measured
+> windows, the finding that a fiddle is a violin PLAYED DIFFERENTLY — is
+> re-usable and expensive to re-derive. The audio is an afternoon; this is not.
+>
+> **The reason it went was SIZE.** The program is one self-contained HTML file
+> published to a page with a 16 MiB ceiling, and this genre's three banks were
+> 6.27 MiB of it. See `docs/START-HERE.md` for the full accounting.
+
+
 
 > **THE BRANCH IS `claude/code-review-6jd9cz`.** All of this genre's work is
 > there and nowhere else. `main` is a snapshot from 2026-08-03 and looks

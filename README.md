@@ -130,7 +130,6 @@ MK2.genres()
 | `docs/` | Genre research, corpus sources, licensing, arrangement and synth research. |
 | `corpus/` | Python scripts that ingest open sources and build the embedded tables. |
 | `samples/` | Sample assets that belong to the repo (payloads are embedded, corpora never are). |
-| `Boxcar Synth.html` | **Dead.** A one-genre side file, abandoned 2026-08-18 — "you can't arrange non pianos it just sounds like crap" [owner]. Nothing reads it. Nothing should. |
 | `Improv Machine playable_BETA 0.1.html` | **MK1. Frozen** — reference and corpus source only. Its synthwave synth and drums are worth reading before redoing either. |
 
 ## Running the tools

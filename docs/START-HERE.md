@@ -1,5 +1,45 @@
 # START HERE — the prompt for whoever picks this up next
 
+> ## ⚠ 2026-08-20 — BOXCAR SYNTH IS DELETED. READ THIS FIRST.
+>
+> The owner, 2026-08-20: *"Delete all of the boxcar genre, samples tables and
+> all."* Done, and **every sentence below about boxcar synth is history rather
+> than instruction.** There are four genres now: **lofi, synthwave, dungeon
+> synth, fantasy synth.**
+>
+> **THE REASON WAS SIZE, AND IT IS THE FACT TO CARRY FORWARD.** This program is
+> one self-contained HTML file published to a page with a **16 MiB ceiling**.
+> The build that added fantasy synth's FX automation came out at **16.03 MiB**
+> — over, and unpublishable — and **eighty per cent of the file is sample
+> banks.** Boxcar synth carried three of its own: `RAIL_B64` (3.27 MiB),
+> `BAND_B64` (1.76 MiB) and `FIDDLE_B64` (1.24 MiB), 6.27 MiB between them, and
+> not one remaining genre drew a voice out of any of them.
+>
+> **A genre that carries its own sample bank spends a fifth of the page's whole
+> budget.** That is now a design constraint, not a footnote. The file is
+> **9.69 MiB** after this, so there is room — but the next sampled instrument
+> should be costed before it is fetched.
+>
+> **What went:** the genre table, the three banks and their encoder scripts
+> (`harness/rail_bank.py`, `band_bank.py`, `fiddle_bank.py`), the instruments
+> that read them (banjo, harmonica, fiddle, washboard, brake drum, anvil,
+> trainbox) and the synthesised hobo band beside them (jug, washtub, diddley
+> bow, steam whistle), the `freight` drum kit, the `freight` and `hobo` rigs,
+> the sixteen rail beds, the `rail` matrix row and its blind plates, and
+> `Boxcar Synth.html`.
+>
+> **What stayed, deliberately:** `docs/genre-research/boxcar-synth.md` and the
+> audit sheets — the research is the reasoning and it outlives the table. And
+> the **trip planner** (`form.trip`: an itinerary, a time of day, terrain
+> passing while the train moves) stayed, because it is a general form mechanism
+> with no data of its own. Its level-crossing defaults named rail beds that no
+> longer exist, so it now **throws** rather than silently emitting nothing.
+>
+> Verified: the four surviving genres are **byte-identical** across 32 records,
+> 128 songs threw 0, and **144 of 144 blends** now build (two were failing
+> before, both boxcar's).
+
+
 > ## ⚠ 2026-08-18 — READ THIS BEFORE ANYTHING ELSE IN THIS FILE
 >
 > Four things changed on 2026-08-18 and they contradict a lot of what is
