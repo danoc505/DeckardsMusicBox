@@ -37758,7 +37758,32 @@ function makeArrangement(chart, form, materials){
            is not a device, so it drops out of the rotation rather than taking a
            turn and doing nothing. */
         const NTH = sec.occurrence || 2;
-        const fam = String(material).charAt(0) === "B" ? "B" : "A";
+        /* ── A VARIANT BELONGS TO THE MATERIAL IT VARIES ────────────────────
+           This read `String(material).charAt(0) === "B" ? "B" : "A"`, so the
+           family came from the material name's FIRST CHARACTER. "C" is not
+           "B", so it fell through to "A"; "Alift" begins with "A", so it did
+           too. A leg that declared its own material was handed the A material
+           at its third hearing and stood in A's chord set for the rest of the
+           record.
+
+           MEASURED, fantasy synth seed 1: `into the deep` declares material C
+           and played it in 2 of 6 sections; `the long way home` declares
+           `Alift` and got 3 of 6. The rest were Avar/Adev. That is handoff
+           item 4, and it is upstream of items 3 and 6 -- a leg standing in
+           another leg's harmony is why the record has 7-10 chords, and a bass
+           that follows roots has almost nothing to follow.
+
+           The name is the family now. A, B and every genre's A/B materials
+           behave exactly as before; C and Alift stop being hijacked.
+
+           THEY DEVELOP BY THINNING RATHER THAN BY SWAPPING. No CVar/Cdev/Cseq
+           is built -- the variants are hand-assembled per family from their own
+           parts, so making them is a build and not a table entry -- and the
+           filter below already drops a device that does not exist. The
+           `sec.occurrence >= 3` thinning underneath is unconditional and still
+           fires, which is the file's own "a device the genre did not declare
+           hands back the material unchanged" rule doing its job. */
+        const fam = String(material);
         const vary = fam + "var";
         const spin = [vary, fam + "dev", fam + "seq"]
                        .filter(k => materials[k] && materials[k].lead && materials[k].lead.length);
