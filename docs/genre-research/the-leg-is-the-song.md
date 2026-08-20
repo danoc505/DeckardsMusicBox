@@ -296,3 +296,114 @@ deleted: it is correct about a climax this record does not have.
 - offline render vs live: **−83.7 dB** below signal on a −30 dB excerpt
   (−114 dB absolute, the numerical floor)
 - no clipping anywhere in a 63-render sweep
+
+---
+
+## 7. The drums — "like a child smashing random drums"
+
+> "The drums suck across the whole song. They dont sound like a march nor a drum
+> pattern its like a child smashing random drums with zero rythem or reason"
+> — owner, 2026-08-20
+
+**Printed the drums**, which is what the one test in this repo is for. The most
+common bar in the whole opening leg:
+
+```
+hat    |x...............|      one tick, on the downbeat
+kick   |x...........x.x.|      beat 1, then 4 and the "and" of 4
+snare  |........x.......|      beat 3
+```
+
+Nothing on beat 2. No subdivision anywhere. The only steady layer plays once a
+bar. And across 80 bars there were **29 distinct core patterns**, the most
+common accounting for 14% — no figure for an ear to lock onto. "Zero rhythm or
+reason" is an accurate transcription.
+
+### None of it was a bug
+
+Every number came from dungeon synth's table and is defended there: *"the kit is
+nearly empty by design. No hats to speak of, no ghosts; the toms ARE the timpani
+and they answer phrases rather than keeping time"*, on the source *"sparse or
+absent; when used, it tends toward martial snare patterns or timpani rolls
+rather than driving drum kits"* [corpus:melodigging]. **That is a cavern, and it
+is correct for the parent.** Fantasy synth is a party on the move at 92–106 bpm
+and had been asked for a march twice.
+
+### Two fixes, one of them general
+
+**1. Fantasy synth gets its own kit.** A march is the most regular thing in
+percussion: a pulse on every beat, a figure on the snare, and a stick keeping
+the subdivision so the pulse can be *felt* between beats.
+
+- `pocket` — the four-beat walk `[0,4,8,12]` at nearly half the weight. The
+  parent's lopsided `[0,12,14]` — which is what seed 1 drew, and what the
+  printout above is — is gone: a figure with nothing on beats 2 and 3 is a
+  fanfare, not a march.
+- `hatEvery: 2` — **a time-keeping lane, which this family has never had.** The
+  lane is the taiko *ka*, the rim struck with the stick; on eighths that is what
+  a drummer's stick does between strokes.
+- `snarePocket` — the backbeats and the broken-16th beating lead; the lone toll
+  drops to a colour and the silent option goes.
+- and the descent's `kickKeep: 1` — mine, from the leg before — went back to 4.
+  It had cut the kick to **one hit a bar**, leaving a tom trill over nothing.
+  The toms lead by being on, not by the walk being switched off.
+
+**2. A drum pattern is a figure, not a cloud.** The arc's note thinner keyed its
+per-note keep-draw on the **record's** bar:
+
+```js
+stream(seed, "thin:" + role + ":" + bar + ":" + n.step + ":" + lane)()
+```
+
+So the same hit, same step, same lane, drew a fresh coin every bar of the song —
+the figure was re-diced 470 times a record. The comment there says the skeleton
+is protected, and it is: the downbeat never thins and strong positions survive
+first. But that protects the **downbeat**, not the **figure**.
+
+The distinction is between a line and a pattern. For a melody, losing a
+different note each time round is variation, which is why it was written per
+bar. For drums it is noise: *a drummer told to play less plays the same fewer
+notes.* Drums now thin on `n.bar` — the material's own bar — so the threshold
+still moves with the arc and the kit still opens up across the record, but it
+opens up by the same hits arriving in the same order. A pattern growing rather
+than a pattern being re-rolled.
+
+### Measured — how often the eight-bar figure comes round
+
+| genre | before | after |
+|---|---|---|
+| fantasy synth | 29% | **55%** |
+| dungeon synth | 30% | **57%** |
+| lofi (seed 1) | 5% | **25%** |
+| synthwave | 0% | **2–16%** |
+
+**This changes three shipped genres and that is deliberate** — the defect was on
+the shared path and the measurement says every one of them improved. It is the
+only place in this session where a fix knowingly moves a genre nobody complained
+about.
+
+And the opening leg's modal groove is now:
+
+```
+kick   |x...x...x...x...|
+snare  |....x.x.....x.x.|
+hat    |x.x.x.x.x.x.x.x.|
+```
+
+with an eight-bar sentence that repeats exactly — bars 48–55 and 56–63 are
+identical, tom answer in bar 6, fill at the end.
+
+### Three probes, two of them wrong
+
+Worth recording because it cost the time:
+
+1. **Steps computed from `spb`.** Every hit came out on step 15. This record has
+   a **tempo map**, so no two bars are the same length. The program's own
+   printout was right and the probe was wrong — `clk.stepAt` is the only correct
+   answer.
+2. **"Mean run length of the core groove."** Reported 1.0–1.3 bars and did not
+   move when the thinner was fixed. A four-bar drum phrase *legitimately* differs
+   bar to bar; run length cannot see a loop. The right question is whether the
+   figure **comes round**, at the period the phrase is actually written in — and
+   that is `2 × material bars`, because the drum phrase is main-copy-then-variant.
+   Asking at period 4 answered 22% for a kit that was looping fine at period 8.

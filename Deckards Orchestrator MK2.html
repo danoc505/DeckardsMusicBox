@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20f · each leg is its own microgenre — fantasy, dinosynth, orchestral, ambient — connected by one motif</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20g · the drums march: a walk, a snare figure, a stick keeping time, and a pattern that comes round</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -25927,7 +25927,71 @@ GENRE.fantasysynth = (function(D){
      PERCUSSION REMAINS SINGLE-SOURCED". Taken at that strength and no further:
      the drums move to the front of that leg, and nothing here claims to know
      what the subgenre's snare does. */
+  /* ══ AND IT HAS TO SOUND LIKE A MARCH ════════════════════════════════════
+     [owner, 2026-08-20: "The drums suck across the whole song. They dont sound
+     like a march nor a drum pattern its like a child smashing random drums with
+     zero rythem or reason"]
+
+     PRINTED THE DRUMS, WHICH IS WHAT THE ONE TEST IN THIS REPO IS FOR, and he
+     is right. Seed 1, the most common bar in the whole opening leg:
+
+         hat    |x...............|      one tick, on the downbeat
+         kick   |x...........x.x.|      beat 1, then 4 and the "and" of 4
+         snare  |........x.......|      beat 3
+
+     Nothing on beat 2. No subdivision anywhere. The only steady layer plays
+     once a bar. And ACROSS 80 BARS THERE WERE 40 DISTINCT PATTERNS, the most
+     common accounting for 14% of them -- so there is no figure for an ear to
+     lock onto either. "Zero rhythm or reason" is an accurate transcription.
+
+     NONE OF IT IS A BUG. Every number came from dungeon synth's table and is
+     right there: "the kit is nearly empty by design. No hats to speak of, no
+     ghosts; the toms ARE the timpani and they answer phrases rather than
+     keeping time", on the source "sparse or absent; when used, it tends toward
+     martial snare patterns or timpani rolls rather than driving drum kits"
+     [corpus:melodigging]. That is a CAVERN, and it is correct for the parent.
+
+     This genre is a party on the move at 92-106 bpm and has been asked for a
+     march twice. A march is not a sparse kit -- it is the most regular thing in
+     percussion: a pulse on every beat, a figure on the snare, and a stick tick
+     keeping the subdivision so the pulse can be FELT between the beats. So it
+     gets its own pocket, its own snare vocabulary and, for the first time in
+     this family, a time-keeping lane. */
+  /* THE KICK WALKS. `[0, 4, 8, 12]` is the even four-beat walk and it carries
+     nearly half the weight; the parent's lopsided `[0, 12, 14]` -- which is
+     what seed 1 drew and what the printout above is -- is gone, because a
+     figure with nothing on beats 2 and 3 is a fanfare and not a march. What
+     stays beside the walk are the two shapes that are still marches: the walk
+     with a pickup, and the half-time toll for the quiet legs. */
+  pocket: [[[0, 4, 8, 12], 9],          // the walk. This is the march.
+           [[0, 4, 8, 12, 14], 5],      // the walk with a pickup into the next
+           [[0, 2, 4, 8, 10, 12], 3],   // the double-time walk, for the fight
+           [[0, 8], 2]],                // half-time, for a leg that thins
   kit: merge(D.kit, {
+    /* ── A TIME-KEEPING LANE, WHICH THIS FAMILY HAS NEVER HAD ──────────────
+       `hatEvery: 16` is one tick a bar and the parent means it. Here the lane
+       is the taiko KA -- the rim of the drum, struck with the stick -- and
+       playing it on every eighth is not a hi-hat pretending to be in a cavern,
+       it is what a drummer's stick does between the strokes. It is the layer
+       that makes a tempo felt rather than counted, and its absence is most of
+       why the parent's kit reads as unrelated thumps at this speed.
+       `hatVel` stays low: a tick under the drums, not a groove on top. */
+    hatEvery: 2, hatVel: 0.16,
+    /* ── AND THE SNARE KEEPS A FIGURE ──────────────────────────────────────
+       The parent's pool leads with `[8]` -- one strike a bar -- and keeps
+       silence at real weight, both correct for a cavern. A march's snare is a
+       FIGURE, repeated, which is the whole of how a column stays together. The
+       backbeats and the broken-16th beating carry it here; the lone toll drops
+       to a colour and the empty option goes, because a march with no snare in
+       it is a different piece of music. The figures themselves are the
+       parent's own -- march drumming's vocabulary, already researched there. */
+    snarePocket: [
+      [[4, 12], 6],                                 // the backbeats
+      [[0, 3, 4, [8, "drag"], 11, 12], 5],          // broken 16ths, drag on the 3
+      [[4, [6, "drag"], 12, 14], 4],                // the dotted beating
+      [[[8, "drag"], 14, 15], 2],                   // backbeat and a pickup
+      [[8], 1],                                     // the toll, as a colour
+    ],
     arc: Object.assign({}, D.kit.arc, {
       floorAt: { "into the deep": 2, "the fight": 3 },
       /* THE TOMS TAKE THE FRONT, said outright rather than hoped for from a
@@ -25961,7 +26025,15 @@ GENRE.fantasysynth = (function(D){
            about how much bottom the mix has. */
         "into the deep": { toms: { loop: 1.0, loopBars: [0, 1, 2, 3],
                                    loopLanes: ["tom1", "tom2"] },
-                           kickKeep: 1, hatVel: 0.04 },
+                           /* ── AND THE MARCH KEEPS ITS BASS DRUM ──────────
+                              This read `kickKeep: 1`, which took the kick down
+                              to ONE HIT A BAR and left the leg with a tom run
+                              and no pulse at all -- printed, the descent's most
+                              common bar was `kick |x...............|` under a
+                              tom trill. That is not "the toms take the front",
+                              it is the floor being removed. The toms lead by
+                              being ON, not by the walk being switched off. */
+                           kickKeep: 4, hatVel: 0.10 },
         "the fight":     { toms: { loop: 0.85 }, kickKeep: 5, hatVel: 0.22 },
       },
     }),
@@ -38356,7 +38428,42 @@ function makePerformance(chart, form, materials, sections){
              the bass; lofi sets 0.30. The material is the same either way --
              this decides how much of it you are allowed to hear yet. */
           const th = THIN[role] || 0;
-          const keepR = stream(chart.seed, "thin:" + role + ":" + bar + ":" + n.step + ":" + lane)();
+          /* ══ AND A DRUM PATTERN IS A FIGURE, NOT A CLOUD ═══════════════════
+             [owner, 2026-08-20: "The drums suck across the whole song. They
+             dont sound like a march nor a drum pattern its like a child
+             smashing random drums with zero rythem or reason"]
+
+             The key was seeded on `bar` -- the RECORD's bar -- so the same hit,
+             on the same step, on the same lane, drew a fresh coin every bar of
+             the song. MEASURED: the mean run of an unchanged core groove
+             (kick+snare+hat) was 1.0 to 1.3 BARS, in every genre in the file.
+             The pattern was re-diced four hundred and seventy times a record.
+
+             The comment above says the skeleton is protected, and it is -- the
+             downbeat never thins and strong positions survive first -- but that
+             protects the DOWNBEAT, not the FIGURE. What was left was a
+             different subset of the same figure every bar, which is precisely
+             what "zero rhythm or reason" describes.
+
+             THE DISTINCTION IS BETWEEN A LINE AND A PATTERN. For a melody,
+             losing a different note each time round is variation and is why
+             this was written per bar. For drums it is not variation, it is
+             noise: a drummer told to play less plays the SAME fewer notes.
+
+             So the drums thin on `n.bar`, the MATERIAL's own bar, which repeats
+             every time the material does. The threshold still moves with the
+             arc, so the kit still opens up across the record -- but it opens up
+             by the same hits arriving in the same order, which is a pattern
+             growing rather than a pattern being re-rolled. Every other role is
+             untouched.
+
+             THIS CHANGES DUNGEON SYNTH'S DRUMS TOO, and it should: the
+             measurement above found the same 1.0-1.5 bar runs there. It is the
+             one place in this session where a fix deliberately moves a shipped
+             genre, and it moves it toward the thing its own table has always
+             asked for -- "martial snare patterns", which are figures. */
+          const thinBar = role === "drums" ? n.bar : bar;
+          const keepR = stream(chart.seed, "thin:" + role + ":" + thinBar + ":" + n.step + ":" + lane)();
           if(th > 0 && n.step > 0 && !slideSafe.has(lane + ":" + n.bar + ":" + n.step)){
             /* the metric weight of this step: downbeats survive, then the
                half-bar, then quarters, then everything else */
