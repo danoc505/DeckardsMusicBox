@@ -206,3 +206,93 @@ parser, not a regex.
 - lofi, synthwave, dungeon synth: **0 of 24 records changed**, byte for byte
 - blends, 144 pairs: **0 throw**
 - offline render vs live: numerical floor (−114 dB absolute)
+
+---
+
+## 5. Each leg is its own microgenre
+
+> "the last section is Modal ambient dungeon synth (why not have the motif fade
+> off into the atmosphere?), the first section Modal fantasy synth, the second
+> Modal dinosynth inspired the toms take front role and lead, the rest is
+> harsher and getting more amped up, the third Modal orchestral dungeon synth
+> where everything opens up and its moving and large" — owner, 2026-08-20
+
+This only became **sayable** once the tables stopped asking "what is this
+section called". Five of them did, and all five ask the movement first now:
+
+| table | what a leg can now own |
+|---|---|
+| `form.tempoArc` | its speed |
+| `form.material` | its chord set |
+| `form.energy` | its weight — **and its drum rung**, which is ⅓ energy |
+| `form.roles` | **its band** |
+| `form.setMachines` | **its instruments** |
+
+Plus two new, both keyed the same way: `kit.arc.floorAt` (a floor on the drum
+ladder) and `kit.arc.setAt` (the drum override itself).
+
+### The four legs, measured
+
+```
+                    band                              lead        drums
+setting out         full, no counter                  drawn       rung 1, toms 7-15%
+into the deep       drums bass keys2 lead drone       bassOboe    rung 2, toms 27-34%
+the fight           all eight roles                   carnyx      rung 3, kick 36-45%
+the long way home   keys lead drone only              —           NONE
+```
+
+- **Modal fantasy synth** — the genre's own draw, left alone. Sometimes a brass
+  band, sometimes the Erang pack; that is what makes it the default.
+- **Modal dinosynth** — the pretty half of the band is out (no counter, no
+  ostinato, no keys), mellotron on the second keyboard, a bass oboe on the tune.
+  The repo's own research is one practitioner and says so — *"one timpani hit on
+  beat 1 of each bar"*, *"dinosaurs steadily marching on"*, and its own note that
+  **"DINO SYNTH PERCUSSION REMAINS SINGLE-SOURCED"**. Taken at that strength and
+  no further.
+- **Modal orchestral dungeon synth** — every seat filled, horns on the chords,
+  brass under them, the war horn carrying the theme.
+- **Modal ambient dungeon synth** — **no drums, no bass, no ostinato**. The
+  drone, the chords and the tune, over the loudest atmosphere bed in the record.
+  The motif fading into the air is the arrangement losing its parts while the
+  bed comes up.
+
+### The fight's room: a decision overturned
+
+Two builds ago the room **closed** for the fight, on the film-scoring argument
+that distance *is* the reverb and dry is close and close is violent. That is
+right about a fist fight in a corridor. *"Everything opens up and its moving and
+large"* is an orchestra in a cavern, where the size **is** the climax — so the
+rooms and delays open for it now, and the record's two widest places are the
+fight and the walk home. The old reasoning is kept at the lane rather than
+deleted: it is correct about a climax this record does not have.
+
+### Two things I got wrong here, both caught by measuring
+
+1. **A ladder cannot express "the toms take the front".** The first attempt was
+   `kit.arc.floorAt`, moving the descent up the drum ladder. Measured: its toms
+   went from 13% of hits to **7**, because *which* override sits on which rung
+   is a per-song draw and rung 2 on that seed had no tom move in it. "More" is
+   not "this". `kit.arc.setAt` — the override itself, merged over the rung — is
+   the lever that works.
+
+2. **I blamed the sub tom for a low end that was not the problem.** The descent
+   came out the hottest section in the record (RMS −10.1 vs the reference
+   build's −14.9, crest 8.8 vs 12.1). Having just been told the low drums blow
+   out, I pulled `tom3` off the loop. **It moved nothing** — under 120 Hz went
+   −15.0 → −14.6, crest stayed 8.8. The numbers say the section is 4.8 dB louder
+   *overall* and its low end is proportionally **less** dominant than the
+   reference's (−4.5 dB below its own RMS against −3.6). It is the loudest leg
+   of the record reading as the loudest leg, which is what was asked for.
+
+   The lane restriction stayed anyway, for the reason that *did* survive: with
+   `tom1`/`tom2` looping, the kick falls from 35–50% of the leg's hits to 17–23%
+   and the toms rise from 7–15% to 27–34%. That is the brief in numbers.
+
+## 6. State
+
+- 4 genres × 32 seeds: **0 throw**
+- lofi, synthwave, dungeon synth: **0 of 24 records changed**, byte for byte
+- blends, 144 pairs: **0 throw**
+- offline render vs live: **−83.7 dB** below signal on a −30 dB excerpt
+  (−114 dB absolute, the numerical floor)
+- no clipping anywhere in a 63-render sweep

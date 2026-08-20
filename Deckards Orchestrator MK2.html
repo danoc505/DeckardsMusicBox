@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20e · a movement is a first-class thing: every leg is a song's worth of sections, and the desk has one owner again</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20f · each leg is its own microgenre — fantasy, dinosynth, orchestral, ambient — connected by one motif</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -24882,6 +24882,110 @@ GENRE.fantasysynth = (function(D){
        built for, spread thin across the record. Smaller, and on everything. */
     extend: { chance: 0.22, bars: [4, 8], fn: ["verse", "bridge", "chorus",
                                                "instrumental"] },
+    /* ══ EACH LEG IS ITS OWN MICROGENRE ══════════════════════════════════════
+       [owner, 2026-08-20: "the last section is Modal ambient dungeon synth
+       (why not have the motif fade off into the atmosphere?), the first section
+       Modal fantasy synth, the second Modal dinosynth inspired the toms take
+       front role and lead, the rest is harsher and getting more amped up, the
+       third Modal orchestral dungeon synth where everything opens up and its
+       moving and large"]
+
+       This is the thing `mv` was for and it only became sayable once five
+       tables stopped asking "what is this section called" -- `tempoArc`,
+       `material`, `energy`, `roles` and `setMachines` all ask the MOVEMENT
+       first now. A leg can therefore declare its own band, its own weight, its
+       own instruments, its own chords and its own tempo, which between them is
+       what the word "microgenre" actually means here.
+
+       WHAT CONNECTS THEM IS UNCHANGED AND IS THE POINT: one motif, transformed
+       leg by leg (whole, fragmented, diminished, augmented), the same players
+       carrying it, one story. The owner's sentence says both halves -- four
+       microgenres, "the whole thing connected by its motif".
+
+       AND THE THIRD LEG OVERTURNS A DECISION MADE TWO BUILDS AGO. The fx story
+       had the room CLOSING for the fight, on the film-scoring argument that dry
+       is close and close is violent. "Everything opens up and its moving and
+       large" is the opposite instruction and it is the owner's record: the
+       fight's rooms are written open below. The old reasoning is kept at the
+       lane because it is right about a different kind of climax -- a fist fight
+       in a corridor -- and this one is an orchestra in a cavern. */
+    roles: {
+      /* MODAL FANTASY SYNTH — the band on the road. The record's own default. */
+      "setting out":  ["drums", "bass", "keys", "keys2", "lead", "ostinato", "drone"],
+      /* ── MODAL DINOSYNTH — THE TOMS TAKE THE FRONT ────────────────────────
+         The repo's own research on this subgenre is one practitioner and says
+         so: "one timpani hit on beat 1 of each bar, layered with extra
+         percussion, staccato violins as percussive-melodic", "dinosaurs
+         steadily marching on" [ds-research-2026-08-06.json, and its own note
+         that "DINO SYNTH PERCUSSION REMAINS SINGLE-SOURCED"]. Taken at that
+         strength: the drums lead, the pretty half of the band is out.
+
+         `counter` and `ostinato` are dropped and `keys2` stays, so what is left
+         is a low, plain band with the kettles on top of it. The toms arrive by
+         ARITHMETIC rather than by a tom switch: `drumLevel` is two thirds
+         position and one third the section's ENERGY, and this leg's energy is
+         the second highest in the record, so it sits high on the drum ladder
+         where the tom rungs live. */
+      "into the deep": ["drums", "bass", "keys2", "lead", "drone"],
+      /* ── MODAL ORCHESTRAL DUNGEON SYNTH — EVERYTHING OPENS ────────────────
+         Every seat filled, which is the one leg where that is true. */
+      "the fight":    ["drums", "bass", "keys", "keys2", "lead", "counter",
+                       "ostinato", "drone"],
+      /* ── MODAL AMBIENT DUNGEON SYNTH — THE MOTIF FADES INTO THE AIR ───────
+         [owner: "why not have the motif fade off into the atmosphere?"]
+
+         The drums go. So does the bass, the second keyboard and the ostinato.
+         What is left is the drone, the chords and the TUNE -- and the tune is
+         the motif, augmented, in mixolydian, over a bed that is the loudest it
+         has been all record. Ambient dungeon synth is the half of the genre
+         that is a place rather than a march, and a leg with no percussion in
+         it is the plainest way this program can say so.
+
+         The fade is not a fade-out on the master: it is the arrangement losing
+         its parts one by one while the atmosphere comes up underneath, which is
+         what "fades off into the atmosphere" describes and what `form.thinTo`
+         has always done to the last section of a record. */
+      "the long way home": ["keys", "lead", "drone"],
+      intro:  ["drums", "keys", "lead", "drone"],
+      outro:  ["keys", "drone"],
+      verse:  ["drums", "bass", "keys", "keys2", "lead", "ostinato", "drone"],
+      chorus: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato", "drone"],
+      bridge: ["drums", "bass", "keys2", "lead", "drone"],
+      instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter", "drone"],
+    },
+    /* ── AND THE WEIGHT OF EACH LEG, WHICH IS ALSO ITS DRUM LADDER ──────────
+       `drumLevel` is two thirds position and one third this number, so these
+       five values are the percussion arc as much as they are the dynamics: the
+       descent climbs the ladder, the fight is at the top of it, and the walk
+       home steps off it entirely (there are no drums in that leg's band). */
+    energy: { intro: 0.42, outro: 0.34,
+              "setting out":      0.60,
+              "into the deep":    0.82,   // harsher, and getting more amped up
+              "the fight":        0.96,   // the top
+              "the long way home": 0.30,  // ambient
+              verse: 0.60, chorus: 0.92, bridge: 0.74, instrumental: 0.84,
+              chorusPeak: 1.0 },
+    /* ── WHO IS PLAYING IN EACH LEG ─────────────────────────────────────────
+       An ARRANGEMENT FACT, not a draw: this leg is played by these machines,
+       every record. A hand on the rack still outranks it.
+
+         setting out    left alone -- the genre's own draw, so a record is
+                        sometimes a brass band and sometimes the Erang pack,
+                        which is what makes the opening leg the genre's default
+         into the deep  the low, plain half of the shelf: the mellotron's tape
+                        choir on the chords and a bass oboe on the tune. No
+                        horns, no flute -- a marching leg is not a bright one
+         the fight      the orchestra: horns on the chords, brass under them,
+                        the war horn carrying the theme. This is the "opens up"
+         the walk home  the pack's own held sounds: the string/pad shelf on the
+                        chords and the recorded pads on the drone, so the leg
+                        that dissolves into the atmosphere is played by the
+                        instruments that are closest to being atmosphere */
+    setMachines: {
+      "into the deep":     { keys2: "mellotron", lead: "bassOboe" },
+      "the fight":         { keys: "horns", keys2: "brass", lead: "carnyx" },
+      "the long way home": { keys: "erangStrings", drone: "erangPad" },
+    },
     /* ── WHICH MODE EACH CHORD SET STANDS IN ────────────────────────────────
        Declared here rather than on the movements, because the movement that
        carries `lift` is the OUTRO and an outro sits outside the plan by law.
@@ -25132,14 +25236,21 @@ GENRE.fantasysynth = (function(D){
      arc of their own now and the box is never fully clean again after the
      fight.
 
-     THE ONE THAT IS NOT A SWELL: THE ROOM CLOSES FOR THE FIGHT. Every generator
-     opens the reverb at the climax because bigger reads as more. It is the
-     wrong way round -- distance is the reverb, so a big room at the climax puts
-     the fight across the valley from you. Dry is close and close is violent, so
-     keysRoom, leadRoom, bassRoom, drumsRoom and droneRoom are all pulled DOWN
-     for `chorus` and `instrumental` and let all the way out for `outro`. The
-     widest the record ever sounds is the walk home, which is also the only
-     place in it where nothing is happening.
+     AND THE ROOM DOES NOT CLOSE FOR THE FIGHT ANY MORE. It did, for two
+     builds, on a film-scoring argument that is sound and was aimed at the wrong
+     scene: distance IS the reverb, so a big room at a climax puts the fight
+     across the valley from you, and dry is close and close is violent. That is
+     right about a fist fight in a corridor.
+
+     The owner's third leg is not that. "Modal orchestral dungeon synth where
+     everything opens up and its moving and large" -- an orchestra in a cavern,
+     where the SIZE is the climax. So the rooms and the delays open for the
+     fight, and the record's two widest places are the fight and the walk home,
+     with the descent between them.
+
+     The old reasoning is kept rather than deleted: it is correct about a climax
+     this record does not have, and the next genre wanting a violent close-up
+     should find the argument instead of re-deriving it.
 
      ══ AND IT IS NOT A DECIMAL. THE NULL TEST ═════════════════════════════
      The whole scheme rendered against the same record with this `motion` block
@@ -25187,7 +25298,7 @@ GENRE.fantasysynth = (function(D){
       keysRoom: [{ kind: "section", by: { intro:  [-0.20, -0.12],
                                           "setting out":  [-0.22, -0.16],
                                           "into the deep": [-0.10, -0.04],
-                                          "the fight": [-0.38, -0.30] } },
+                                          "the fight": [-0.05, 0.00] } },
                  { kind: "lfo", bars: [[67, 1]], depth: [0.04, 0.09],
                    shape: "sin", freePhase: true, off: -0.09 }],
       /* the hero is dried out hardest of anything on the record at the fight:
@@ -25195,7 +25306,7 @@ GENRE.fantasysynth = (function(D){
       leadRoom: [{ kind: "section", by: { intro:  [-0.22, -0.14],
                                           "setting out":  [-0.26, -0.20],
                                           "into the deep": [-0.12, -0.05],
-                                          "the fight": [-0.44, -0.36],
+                                          "the fight": [-0.08, -0.02],
                                           "the long way home":  [-0.03, 0],
                                           outro:  [-0.03, 0] } }],
       /* the drums are the one room crossing that CLIMBS -- base 0.30, so it has
@@ -25205,7 +25316,7 @@ GENRE.fantasysynth = (function(D){
          across each seam. */
       drumsRoom:[{ kind: "section", by: { "setting out":  [-0.20, -0.12],
                                           "into the deep": [0.15, 0.30],
-                                          "the fight": [-0.28, -0.18],
+                                          "the fight": [0.30, 0.52],
                                           "the long way home":  [0.35, 0.60],
                                           outro:  [0.35, 0.60] } },
                  { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
@@ -25214,13 +25325,13 @@ GENRE.fantasysynth = (function(D){
          the tune at the fight so the floor does not vanish with the distance */
       bassRoom: [{ kind: "section", by: { "setting out":  [-0.25, -0.15],
                                           "into the deep": [-0.08, 0],
-                                          "the fight": [-0.45, -0.30] } }],
+                                          "the fight": [-0.10, -0.02] } }],
       /* the drone is the WORLD and the world does not go away when they fight,
          so it is cut least of the five -- enough to move with the mix, not
          enough to leave the record without a floor */
       droneRoom: [{ kind: "section", by: { "setting out":  [-0.30, -0.20],
                                            "into the deep": [-0.08, 0],
-                                           "the fight": [-0.40, -0.28] } },
+                                           "the fight": [-0.08, 0.00] } },
                   { kind: "lfo", bars: [[83, 1]], depth: [0.05, 0.10],
                     shape: "sin", freePhase: true, off: -0.10 }],
       /* ── THE ECHO IS THE CAVERN ANSWERING ──────────────────────────────
@@ -25232,16 +25343,16 @@ GENRE.fantasysynth = (function(D){
          bassEcho, drumsEcho and bassRoom still varying song to song. */
       keysEcho: [{ kind: "section", by: { "setting out":  [-0.10, -0.05],
                                           "into the deep": [0.20, 0.40],
-                                          "the fight": [-0.18, -0.12],
+                                          "the fight": [0.14, 0.26],
                                           "the long way home":  [0.30, 0.55],
                                           outro:  [0.30, 0.55] } }],
       leadEcho: [{ kind: "section", by: { intro:  [-0.30, -0.18],
                                           "setting out":  [-0.35, -0.22],
                                           "into the deep": [-0.10, 0],
-                                          "the fight": [-0.55, -0.40] } }],
+                                          "the fight": [-0.10, 0.00] } }],
       droneEcho: [{ kind: "section", by: { "setting out":  [-0.12, -0.06],
                                            "into the deep": [0.30, 0.55],
-                                           "the fight": [-0.18, -0.10],
+                                           "the fight": [0.16, 0.30],
                                            "the long way home":  [0.35, 0.60],
                                            outro:  [0.35, 0.60] } },
                   { kind: "lfo", bars: [[41, 2], [59, 1]], depth: [0.02, 0.07],
@@ -25360,13 +25471,13 @@ GENRE.fantasysynth = (function(D){
     echo: merge(D.motion.echo, {
       send: [{ kind: "section", by: { "setting out":  [-0.06, -0.02],
                                       "into the deep": [0.10, 0.20],
-                                      "the fight": [-0.10, -0.05],
+                                      "the fight": [0.06, 0.14],
                                       "the long way home":  [0.12, 0.24],
                                       outro:  [0.12, 0.24] } },
              { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
                to: [0.08, 0.16], curve: "exp" }],
       fb:   [{ kind: "section", by: { "into the deep": [0.14, 0.26],
-                                      "the fight": [-0.12, -0.06],
+                                      "the fight": [0.05, 0.12],
                                       "the long way home":  [0.20, 0.34],
                                       outro:  [0.20, 0.34] } }],
       tone: [{ kind: "section", by: { "setting out":  [400, 1100],
@@ -25799,6 +25910,61 @@ GENRE.fantasysynth = (function(D){
        stack better than one recording layered three times; the pad wins often
        enough that it is a different record when it does. */
     drone: [["dronebox", 6], ["erangPad", 4]],
+  }),
+  /* ── AND THE DESCENT STANDS HIGH ON THE DRUM LADDER ──────────────────────
+     [owner: "the second Modal dinosynth inspired the toms take front role and
+     lead, the rest is harsher and getting more amped up"]
+
+     The rung is two thirds POSITION, so a leg a third of the way through cannot
+     climb however loud its `energy` is -- measured, the descent came out on
+     rung 1 of 3 with toms on 13% of its hits. A floor is the honest lever: the
+     ladder still climbs above it and the fight still ends higher, but the
+     dinosynth leg does not have to wait its turn.
+
+     The repo's own research on the subgenre is one practitioner and says so --
+     "one timpani hit on beat 1 of each bar, layered with extra percussion",
+     "dinosaurs steadily marching on", and its own note that "DINO SYNTH
+     PERCUSSION REMAINS SINGLE-SOURCED". Taken at that strength and no further:
+     the drums move to the front of that leg, and nothing here claims to know
+     what the subgenre's snare does. */
+  kit: merge(D.kit, {
+    arc: Object.assign({}, D.kit.arc, {
+      floorAt: { "into the deep": 2, "the fight": 3 },
+      /* THE TOMS TAKE THE FRONT, said outright rather than hoped for from a
+         draw. `loop` at 1 with all four bars named is the kit's own heaviest
+         tom move -- it is in the parent's `moves` pool at weight 5, so this is
+         the genre choosing a move the kit already has rather than a new one --
+         and `kickKeep` low takes the war drum out from under it so what leads
+         is the toms and not the kick. The fight keeps the kick. */
+      setAt: {
+        /* ── IT LEADS ON THE HIGH AND MID TOMS, AND THE REASON IS NOT THE
+           ONE I PREDICTED. The first version named no lanes, so the loop used
+           all three, and this leg came out the hottest section in the record:
+           RMS -10.1 against the reference build's -14.9 and a crest of 8.8 dB
+           against its 12.1. Having just been told the low drums were blowing
+           out, I assumed the sub tom and pulled `tom3` off the loop.
+
+           MEASURED, AND IT MOVED NOTHING: under 120 Hz went -15.0 to -14.6 and
+           the crest stayed at 8.8. The hypothesis was wrong. What the numbers
+           actually say is that the section is 4.8 dB louder OVERALL, and that
+           its low end is proportionally LESS dominant than the reference's
+           (-4.5 dB below its own RMS against the reference's -3.6). It is not a
+           low-end fault. It is a leg written at energy 0.82 with the drums two
+           rungs up, which is "harsher and getting more amped up" arriving as
+           asked -- the loudest leg of a record should read as the loudest leg.
+
+           The lane restriction STAYS, for the reason that did survive
+           measurement: with `tom1` and `tom2` looping, the kick falls from
+           35-50% of the leg's hits to 17-23% and the toms rise from 7-15% to
+           27-34%. That is "the toms take front role and lead" in numbers, and
+           it is a statement about which drum carries the pattern rather than
+           about how much bottom the mix has. */
+        "into the deep": { toms: { loop: 1.0, loopBars: [0, 1, 2, 3],
+                                   loopLanes: ["tom1", "tom2"] },
+                           kickKeep: 1, hatVel: 0.04 },
+        "the fight":     { toms: { loop: 0.85 }, kickKeep: 5, hatVel: 0.22 },
+      },
+    }),
   }),
   /* ── THE DRONES ARE STACKED ────────────────────────────────────────────
      [owner: "more drones... more at once, two or three stacked" and "drones
@@ -28071,6 +28237,10 @@ function makeForm(chart){
     }
   }
   const lastChorus = fns.lastIndexOf(PAY);
+  /* which movement admitted section i -- the same array the section object
+     carries, asked one line earlier because `energy` is computed inside the
+     literal that builds it */
+  const mvOf = i => (built.mvs && built.mvs[i]) || null;
   const out = fns.map((f, i) => {
     seen[f] = (seen[f] || 0) + 1;
     /* what `admit` drew for this section -- and never on the LAST one, since a
@@ -28144,9 +28314,21 @@ function makeForm(chart){
                && (f === "verse" || f === "chorus")) ? "vary" : null,
       /* a transition drops back -- "less going on than the a section" [002] --
          and it says so itself rather than borrowing a neighbour's number */
+      /* ── THE MOVEMENT FIRST, HERE TOO ────────────────────────────────────
+         The fifth and last of the tables that asked "what is this section
+         called" when the question was "where in the record is it". A leg may
+         now declare its own weight, and because `drumLevel` is two thirds
+         position and one third THIS number, a leg's energy is also how far up
+         the drum ladder it sits -- which is how a movement gets its own
+         percussion without a second mechanism.
+         The payoff section keeps its peak rule: that is about the last chorus
+         being the last chorus, which is a fact about the record and not about
+         the leg. */
       energy: f === "transition" ? (TRN && TRN.energy != null ? TRN.energy : 0.5)
-            : f === PAY ? (i === lastChorus ? F.energy.chorusPeak : F.energy[PAY])
-                        : F.energy[f],
+            : f === PAY ? (i === lastChorus ? F.energy.chorusPeak
+                                            : (mvOf(i) && F.energy[mvOf(i)] != null
+                                               ? F.energy[mvOf(i)] : F.energy[PAY]))
+            : (mvOf(i) && F.energy[mvOf(i)] != null ? F.energy[mvOf(i)] : F.energy[f]),
       peak: i === lastChorus,
     };
     bar += (f === "transition" ? TLEN[i] : SLEN[f] + ext);
@@ -36220,7 +36402,8 @@ function makeArrangement(chart, form, materials){
       return [m[0], m[1] * (wantAdd ? (takes ? 0.25 : 3) : (takes ? 3 : 0.25))];
     });
     const closingSet = drawFrom(weighted, hi);
-    return { lo, hi, rung, closing: closingSet.length ? merge(closingSet) : rung[hi] };
+    return { lo, hi, rung, floorAt: A.floorAt || null, setAt: A.setAt || null,
+             closing: closingSet.length ? merge(closingSet) : rung[hi] };
   })();
 
   /* ── THIS RECORD'S OWN LOUD AND QUIET ─────────────────────────────────────
@@ -36551,7 +36734,13 @@ function makeArrangement(chart, form, materials){
        the genre's `form.roles` decides where it plays; a machine the USER put
        in a rack must sound wherever there is music, or the picker is a lie. */
     const loaded = sl => !!(chart.picks && chart.picks.byHand && chart.picks.byHand[sl]);
-    let allowed = ROLES[sec.fn];
+    /* the movement first, the function as the fallback -- the same rule the
+       tempo arc, the material map and the energy table all follow. This is what
+       lets a leg be a different BAND: an ambient one where only the drone, the
+       keys and the tune are allowed, a percussive one where the drums and the
+       low voices are. A genre that names no movements reads what it always
+       read. */
+    let allowed = (sec.mv && ROLES[sec.mv]) || ROLES[sec.fn];
     if(allowed.some(r => PITCHED.includes(r))){
       const add = [];
       if(loaded("keys2") && !allowed.includes("keys2")) add.push("keys2");
@@ -36718,7 +36907,42 @@ function makeArrangement(chart, form, materials){
       const e = Math.max(0, Math.min(1, sec.energy == null ? 0.5 : sec.energy));
       const want = ARC.lo + (ARC.hi - ARC.lo) * (0.65 * t + 0.35 * e);
       drumLevel = Math.max(ARC.lo, Math.min(ARC.hi, Math.round(want)));
+      /* ── AND A LEG MAY STAND HIGHER ON THE LADDER THAN ITS PLACE ─────────
+         The rung is two thirds POSITION, which is right for a record that
+         accretes and wrong for a record whose second movement is the loud one.
+         [owner: "the second Modal dinosynth inspired the toms take front role
+         and lead, the rest is harsher and getting more amped up"] -- and
+         measured, that leg came out on rung 1 of 3 with toms on 13% of its
+         hits, barely above the leg before it, because it sits a third of the
+         way through and no amount of `energy` could outvote that.
+
+         `kit.arc.floorAt` is a per-movement (or per-function) FLOOR, not a
+         setting: the ladder still climbs, and a leg that would already be
+         higher stays where it is. A genre that declares none is untouched.
+         Keyed the same way every other table now is -- movement first, then
+         function -- so it costs no new idea. */
+      const FL = ARC.floorAt;
+      if(FL){
+        const f2 = (sec.mv && FL[sec.mv] != null) ? FL[sec.mv] : FL[sec.fn];
+        if(f2 != null) drumLevel = Math.max(drumLevel, Math.min(ARC.hi, Math.round(f2)));
+      }
       drumArc = ARC.rung[drumLevel] || null;
+      /* ── AND A LEG MAY SAY WHAT ITS DRUMS DO, NOT ONLY HOW LOUD ──────────
+         The floor above moves a leg UP THE LADDER, and that turned out not to
+         be enough: WHICH override sits on which rung is a per-song draw, so
+         measured, floor 2 on the descent moved its toms from 13% of hits to
+         SEVEN -- rung 2 on that seed simply had no tom move in it. A ladder
+         cannot express "the toms take the front"; it can only express "more".
+
+         `kit.arc.setAt` is the override itself, merged on top of whatever rung
+         the section landed on, keyed by movement or function like everything
+         else. The ladder still decides how much; this decides what. Overriding
+         rather than drawing is the point -- a genre asking for a specific
+         percussion character is making an arrangement statement, and an
+         arrangement statement that only comes true on some seeds is not one. */
+      const SA = ARC.setAt;
+      const sa = SA && ((sec.mv && SA[sec.mv]) || SA[sec.fn]);
+      if(sa) drumArc = Object.assign({}, drumArc || {}, sa);
     }
     const next = form[i + 1];
     /* the empty's two draws, spent whatever the genre declares [see below] */
@@ -37049,10 +37273,14 @@ function makeArrangement(chart, form, materials){
         }
         /* the written source lands LAST — an arrangement fact outranks a coin
            and a rung, and only a hand outranks the arrangement */
-        if(SET && SET[sec.fn])
-          for(const slot of Object.keys(SET[sec.fn])){
+        /* and the movement first here too, so a leg may name its own
+           instruments -- which is most of what makes one leg a different
+           microgenre from the next */
+        const SETK = SET && ((sec.mv && SET[sec.mv]) || SET[sec.fn]);
+        if(SETK)
+          for(const slot of Object.keys(SETK)){
             const pinned = chart.picks && chart.picks.byHand && chart.picks.byHand[slot];
-            if(!pinned) out[slot] = SET[sec.fn][slot];
+            if(!pinned) out[slot] = SETK[slot];
           }
         /* ── AND LAST OF ALL, THE HANDOVER ─────────────────────────────────
            A journey's form has already decided who carries this leg and who
