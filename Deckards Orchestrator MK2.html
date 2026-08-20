@@ -1624,7 +1624,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-20i &middot; the places have animals in them: bullfrogs, crickets, a loon, an owl, two rivers and thunder</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-20j &middot; the war horn calls once and is heard out; the fight grows a second foot and loses its hall</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6829,14 +6829,67 @@ INSTRUMENTS.erPluck = {
   controls: erangControls(0, "plucked", ["Plucked"]),
   panel: erangPanel("Erang — Plucked", "C4, struck and decaying"),
 };
-/* ── AND THE WIND, WHOSE ROOT IS NOT A C ─────────────────────────────────── */
+/* ── AND THE WIND IS A WAR HORN, WHICH IS NOT A LEAD ─────────────────────────
+   [owner, 2026-08-20: "The bard wind is meant to be played full it has the
+   sound of a war horn, it cant be used over and over again."]
+
+   It was in both genres' LEAD pool, which is the melody: measured on fantasy
+   synth over eight seeds where the ladder drew it, 87 to 140 notes a record,
+   average length 0.6 s, on a nine-and-a-half-second recording. A war horn
+   playing a tune in quavers is the padding impropriety this file already
+   caught once with the carnyx, arriving through a different door.
+
+   THE PROGRAM ALREADY KNOWS WHAT TO DO WITH ONE. `signal: true` was written
+   for the carnyx -- "it calls and answers, one voice at a time; it does not
+   double the accompaniment" -- and the fix there was to move it off the lead
+   and onto the COUNTER, the single answering line derived to speak in the
+   tune's gaps. Same instrument class, same answer.
+
+   AND THEN `play.call`, WHICH IS NEW, because `signal` alone only stops the
+   doubling engine drawing it. Two numbers, and they are the owner's sentence
+   turned into arithmetic:
+     `gap`  the least time between two blasts. "It cant be used over and over
+            again" is a MINIMUM SILENCE, and it is the only thing that makes a
+            call a call rather than a part.
+     `full` play the recording out. A blast is one breath and the whole of it;
+            the note's written length is a placement, not a duration.
+   Read in stage 5 beside the breath rule, where `ev.voice` is the instrument
+   that was actually drawn. Nothing else in the file declares `play.call`, so
+   nothing else changes. */
 INSTRUMENTS.erWind = {
-  slot: "lead", label: "Erang Wind",
-  family: "reed",
-  lanes: { lead: "erWind", counter: "erWind" },
-  lines: { repeat: 0.55 },
+  slot: "counter", label: "Erang Wind — war horn",
+  family: "brass",
+  lanes: { counter: "erWind" },
+  signal: true,
+  /* ── AND IT STAYS NEAR THE NOTE IT WAS BLOWN AT ────────────────────────────
+     MEASURED after `play.call` landed and before `sit` existed: the blasts came
+     out 12 to 20 SECONDS long. That is not a fuller blast, it is a slowed
+     recording -- the counter writes an octave under the sample's D#5, the
+     sampler halves the playback rate, and "play the recording out" faithfully
+     doubled its length and dropped every formant in it with the pitch.
+
+     `range` IS THE OBVIOUS FIELD AND IT IS THE WRONG ONE. `playable` takes the
+     INTERSECTION of every machine that could land on the lane, whether or not
+     it does -- so declaring [68, 80] here would narrow this genre's counter
+     band against the carnyx's [27, 77] in every record ever made, including
+     the four seeds in five where the horn is not drawn. The comment beside
+     that function warns about this exact move. Measured before believing it:
+     the declaration changed nothing at all, because the counter is not a
+     laddered slot with a swap weight, so the horn's range was never consulted.
+     Two reasons to use a different lever, and the second one is the honest
+     one -- it did not work.
+
+     `sit` is the window a CALL sounds in, applied in stage 5 where the horn is
+     known to be playing, by whole octaves so the pitch class and therefore the
+     harmony never move. A fifth below the recording's root to a fourth above
+     keeps the horn recognisably the instrument that was blown, and costs
+     nothing to any record that did not draw it. */
+  /* 9.42 s of audio at its own root. `sample` is named rather than assumed so
+     the rule that reads it can ask the BANK how long the recording is instead
+     of carrying a number that goes stale the day the pack changes. */
+  play: { call: { gap: 22, full: true, sample: "erWind", sit: [68, 80] } },
   controls: erangControls(0, "wind", ["Wind"]),
-  panel: erangPanel("Erang — Wind", "D#5 — the one file in the pack that is not a C"),
+  panel: erangPanel("Erang — war horn", "D#5, nine seconds, one blast at a time"),
 };
 
 /* ── `erangDrums` WAS DELETED HERE, verified dead the same way ──────────
@@ -9474,7 +9527,11 @@ const RIG = {
   shire:   { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
              brk:"brk",
              tom1:"tom1", tom2:"tom2", tom3:"tom3",
-             bass:"bass", keys:"erPluck", lead:"erWind", counter:"erLeadHi",
+             /* the war horn came OFF the lead here on 2026-08-20: this rack's
+                own label says the flute takes the tune, and a signal
+                instrument playing a pastoral melody was never that. The
+                middle lead takes the tune and the horn answers it. */
+             bass:"bass", keys:"erPluck", lead:"erLeadHi", counter:"erWind",
              ostinato:"erKeyHi",
              rim:"rim", clap:"clap", crash:"crash", ride:"ride" },
   citadel: { kick:"kick", snare:"snare", ghost:"ghost", hat:"hat", openhat:"openhat",
@@ -9717,7 +9774,11 @@ const drumSoundName = v => DRUM_SOUND_NAME[v] || v;
    — the playing pass reads it to shape the notes, `MK2.playFamilies()` reads
    it so a check can prove no record writes a note the instrument cannot play.
    [docs/genre-research/playing-the-hobo-band.md] */
-const PLAY_AIR = { erWind: 5.5, bariSax: 6.0, carnyx: 6.0, horns: 7.0,
+/* erWind is a WAR HORN and its budget is the recording: a signal blast is one
+   breath and the whole of it, which is the point of a signal. 10.0 clears the
+   9.42 s sample at its own root with room for a note written below it, so the
+   breath rule never truncates a call. See INSTRUMENTS.erWind. */
+const PLAY_AIR = { erWind: 10.0, bariSax: 6.0, carnyx: 6.0, horns: 7.0,
                   bassoon: 7.0, corAnglais: 10.0, bassOboe: 10.0,
                   /* the harmonica breathes BY CONSTRUCTION — it alternates
                      blow and draw — and a long tone is a practised skill
@@ -9736,7 +9797,7 @@ const PLAY_FAMILY = {
       /* WIND -- must breathe. The horn is included on RK's own instruction:
          "The remarks on breathing, in the section devoted to the wood-wind,
          apply with equal force to the brass." */
-      erWind: "wind", horns: "wind", sax: "wind",
+      erWind: "wind", horns: "wind", sax: "wind",   /* the horn still breathes */
       /* and the low dark voices, the moment they existed -- a family rule that
          has to be edited by hand for each new instrument is a rule that will be
          forgotten, so this list is the FIRST thing a new voice joins */
@@ -23653,7 +23714,7 @@ const GENRE = {
                         ["vp330", 2], ["erPluck", 3],
                         ["bassoon", 3], ["bariSax", 2], ["bassOboe", 2],
                         ["auto", 1]],
-                lead:  [["erLeadHi", 4], ["erLeadMid", 3], ["erWind", 2],
+                lead:  [["erLeadHi", 4], ["erLeadMid", 3], ["erLeadLow", 1],
                         ["corAnglais", 2], ["auto", 4]],
                 keys2: [["erStringsMid", 4], ["vp330", 3], ["mellotron", 3],
                         ["erKeyMid", 2], ["horns", 2], ["erPluck", 2],
@@ -23689,7 +23750,14 @@ const GENRE = {
                    the counter pool's draw is a new call on the rack stream,
                    so this genre's keys2/kit deals reshuffle with it — this
                    genre ONLY, measured; every other genre byte-identical. */
-                counter: [["auto", 7], ["carnyx", 3]] },
+                /* ── TWO WAR HORNS NOW, AND THEY SHARE ONE CHAIR ────────
+                   The Erang wind joins the carnyx here rather than on the lead
+                   for the carnyx's own reason, quoted three paragraphs up: one
+                   voice, at moments, answering over the heads of the band.
+                   Weighted under it because the carnyx is this genre's own
+                   instrument and the horn is the pack's -- a record led by
+                   either is a battle, and this genre is a dungeon. */
+                counter: [["auto", 6], ["carnyx", 3], ["erWind", 2]] },
     params: {
       /* ── THE RACK THE DRONE IS RUNNING THROUGH ─────────────────────────────
          The DP/4's four blocks are independent, so this genre uses TWO of them
@@ -24993,6 +25061,45 @@ const GENRE = {
    AND NOTHING BELOW MOVES A NOTE IN ANY OTHER GENRE, because a genre is a
    parameter table and no code under stage 1 names one [Law 4].
    ═══════════════════════════════════════════════════════════════════════════ */
+/* ══ THE TWO FOOT VOCABULARIES, AND THEY ARE THIS GENRE'S ═══════════════════
+   Declared above the genre because `kit.arc.setAt` names them from inside the
+   literal and a literal cannot refer to itself. Read nowhere else. */
+const HARDCORE_FEET = [
+  /* the straight run: both feet, sixteen strokes, no gaps */
+  [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 5],
+  /* THE GALLOP -- beat, then two strokes leaning into the next beat. This is
+     the figure the style is recognised by and it is the one a listener can
+     count, which is why it carries the most weight of the four. */
+  [[0, 2, 3, 4, 6, 7, 8, 10, 11, 12, 14, 15], 6],
+  /* the run that breathes on beat three, so the bar has a shape */
+  [[0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 15], 4],
+  /* eighths with a double under each backbeat: accent, not wall */
+  [[0, 2, 4, 5, 6, 8, 10, 12, 13, 14], 3],
+];
+const SLUDGE_FEET = [
+  [[0, 4, 8, 12], 8],        // the walk, unhurried
+  [[0, 8], 5],               // half-time: two bars of music, one bar of drum
+  [[0, 4, 8, 10], 4],        // the walk with a drag off the half-bar
+  [[0, 6, 8], 3],            // the strike that arrives late
+];
+/* ── AND THERE WAS A FOURTH POOL HERE, FOR THE WALK HOME ────────────────────
+   `SLUDGE_HOME` -- the toll, thinning to one stroke a bar. It was written, it
+   was named from `setAt`, and it could never have made a sound: MEASURED over
+   24 seeds, the walk home has drums in ZERO of 118 sections. Its `roles` entry
+   does not list them, deliberately, because that leg is the motif fading off
+   into the atmosphere.
+
+   So it is deleted rather than left in looking like it works. A table entry
+   that quietly does nothing is the defect this file has logged five times, and
+   writing one four hours after writing that sentence about the drone override
+   would be a poor way to have learned it. If that leg ever takes drums, the
+   pool is three lines and this paragraph says what it was. */
+const SLUDGE_SNARE = [
+  [[4, 12], 7],                                 // the backbeats, and nothing else
+  [[8], 5],                                     // the toll
+  [[4, [6, "drag"], 12], 3],                    // the backbeat with a drag on it
+  [[12], 2],                                    // one, on the four
+];
 GENRE.fantasysynth = (function(D){
   const merge = (a, b) => Object.assign({}, a, b);
   return merge(D, {
@@ -25519,6 +25626,33 @@ GENRE.fantasysynth = (function(D){
      fix and it is a matrix change, not a table one -- recorded in the backlog
      rather than faked here with a lane that cannot do what its name says. */
   motion: merge(D.motion, {
+    /* ══ AND THE KICK GETS SHORTER WHEN THERE ARE TWO FEET ON IT ════════════
+       MEASURED, and it is why this lane exists: with the double-pedal figure
+       in and nothing else changed, the fight's low-band envelope had 11.9 dB
+       between its quietest and loudest tenth, against 41.1 dB in the sludge
+       leg beside it. Thirty decibels of difference, and it means the strokes
+       were not landing as strokes -- at three and a half a second, a drum with
+       a one-and-a-half-second body never gets out of its own way and the low
+       end becomes one continuous rumble. That is the difference between a
+       double pedal and a wash, and no amount of writing more sixteenths fixes
+       it. The drum has to get shorter.
+
+       `kDecay` is the kick channel's own decay multiplier -- base 0.8 here,
+       inherited -- and it is a `gesture` control, read once per note, which is
+       exactly what a per-section lane can move. Down to 0.36-0.44 for the
+       fight: less than half the tail, on the one leg that is playing three
+       times as many strokes.
+
+       CONCATENATED, NOT REPLACED. The parent already rides `kDecay` on a slow
+       LFO and `merge` is one level deep, so writing a bare array here would
+       have deleted that ride along with kVerb, kTune, kCut, sDecay and the
+       rest of the parent's block. Same trap the kit's `variants` overlay was
+       built to survive, one table along. */
+    tr1000: merge(D.motion.tr1000, {
+      kDecay: (D.motion.tr1000.kDecay || []).concat([
+        { kind: "section", by: { "the fight": [-0.44, -0.36] } }]),
+      pRel: [{ kind: "section", by: { "the fight": [-1.38, -1.30] } }],
+    }),
     matrix: merge(D.motion.matrix, {
       /* ── THE ROOM, THROUGH THE FOUR MOVEMENTS ──────────────────────────
          Routed (base 1), so these can only be played DOWN and every number is
@@ -25553,9 +25687,24 @@ GENRE.fantasysynth = (function(D){
          A war drum in a cavern is the descent; a war drum in your face is the
          fight. The fill gesture stays: the march still steps into the hall
          across each seam. */
+      /* ── AND THE TABLE SAID THE OPPOSITE OF THE PARAGRAPH ABOVE IT ───────
+         "it climbs underground and at the end, NOT AT THE FIGHT... a war drum
+         in your face is the fight" -- and the fight was written at +0.30 to
+         +0.52 on a base of 0.30, which is 0.60 to 0.82: the second-wettest
+         crossing in the record and wetter than the cavern. The prose was
+         right and the number was its opposite, which is worse than either
+         being wrong on its own, because the prose is what the next hand reads.
+
+         MEASURED, and it is also what the double pedal needed. Rendered dry
+         against rendered with the room, the fight's drums gain 2.2 dB of
+         envelope depth at 30-160 Hz, 4.3 dB at 160-600 and 6.8 dB at 1-4 kHz
+         -- the reverb was filling the gaps between the strokes, which is
+         exactly the thing a foot pattern must not have. A hall is what makes a
+         march sound like an army; it is also what turns sixteen kicks a bar
+         into one continuous noise. */
       drumsRoom:[{ kind: "section", by: { "setting out":  [-0.20, -0.12],
                                           "into the deep": [0.15, 0.30],
-                                          "the fight": [0.30, 0.52],
+                                          "the fight": [-0.18, -0.10],
                                           "the long way home":  [0.35, 0.60],
                                           outro:  [0.35, 0.60] } },
                  { kind: "gesture", on: "fill", bars: 3, from: [0, 0],
@@ -26175,7 +26324,13 @@ GENRE.fantasysynth = (function(D){
      pack, and neither is the default. */
   machines: merge(D.machines, {
     lead:  [["carnyx", 4], ["corAnglais", 3], ["bassOboe", 3], ["erLeadHi", 4],
-            ["erWind", 3], ["auto", 3]],
+            ["erLeadMid", 3], ["auto", 3]],
+    /* ── AND THE HORN ANSWERS MORE OFTEN HERE THAN IN A CAVERN ────────────
+       The parent weights the Erang horn at 2 against the carnyx's 3, because a
+       record a war horn leads is a battle and that genre is a dungeon. THIS
+       genre has a battle in it -- a whole leg called "the fight" -- so the
+       horn is even money with the carnyx and the empty chair is rarer. */
+    counter: [["auto", 4], ["carnyx", 3], ["erWind", 3]],
     keys:  [["horns", 4], ["brass", 3], ["auto", 6]],
     /* ── AND THE DRONE IS A DRAW NOW, NOT A FIXTURE ────────────────────────
        The synth and the pack's pads are two different instruments for the same
@@ -26257,6 +26412,29 @@ GENRE.fantasysynth = (function(D){
      figure with nothing on beats 2 and 3 is a fanfare and not a march. What
      stays beside the walk are the two shapes that are still marches: the walk
      with a pickup, and the half-time toll for the quiet legs. */
+  /* ══ THE TWO FOOT VOCABULARIES, DECLARED BESIDE THE POCKET ═══════════════
+     Pools, not patterns, drawn per material like every other figure in this
+     kit -- so two seeds do not fight the same fight. `kit.arc.setAt` names
+     which movement plays which; see it below for the reasoning.
+
+     HARDCORE. What "double kick" means at this genre's 92-106 bpm: straight
+     sixteenths are 6.1 to 7.1 strokes a second, which is a real double pedal's
+     working speed and not a machine-only number. Four figures, and each one is
+     a thing a player does rather than a subdivision:
+       - the straight run, both feet, no gaps. The blast.
+       - the GALLOP, the one figure this style is identified by: a beat, then a
+         two-stroke pickup into the next. Hardcore and d-beat live here.
+       - the run that BREATHES on beat three, so the bar has a shape and the
+         listener can hear where they are.
+       - eighths with a double under each backbeat: the pattern a player uses
+         when the point is the accent and not the wall.
+
+     SLUDGE. The walk, and then room. The same [0,4,8,12] march the genre is
+     built on, and around it the figures that drag: the strike that arrives
+     late off the half-bar, and the half-time toll where two bars of music get
+     one bar of drum. Nothing here is faster than an eighth.
+
+     THE WALK HOME IS NOT HERE, and the reason is above the pools. */
   pocket: [[[0, 4, 8, 12], 9],          // the walk. This is the march.
            [[0, 4, 8, 12, 14], 5],      // the walk with a pickup into the next
            [[0, 2, 4, 8, 10, 12], 3],   // the double-time walk, for the fight
@@ -26317,6 +26495,30 @@ GENRE.fantasysynth = (function(D){
            27-34%. That is "the toms take front role and lead" in numbers, and
            it is a statement about which drum carries the pattern rather than
            about how much bottom the mix has. */
+        /* ══ TWO KINDS OF HEAVY, AND THE RECORD HAS BOTH ═══════════════════
+           [owner, 2026-08-20: "What about double kick pedal at the fight, that
+           part of the song should be like hardcore music, where as the other
+           parts are more like Sludge metal"]
+
+           These are not two tempos -- the record is one tempo arc and the
+           story is continuous -- they are two ways of playing it, and the
+           difference between them is entirely in the drums.
+
+           SLUDGE is weight and space: the stroke lands and you wait for it.
+           The walk stays, because the owner asked for a march three messages
+           ago and a march is what the walk is, but the TICKING STOPS. This
+           genre keeps a taiko stick on every eighth, which is the layer that
+           makes a tempo felt -- and it is also the single most un-sludge thing
+           a kit can do. `hatEvery: 8` puts it on the half-bar: still there,
+           no longer counting. The snare goes to the backbeats and the toll and
+           drops the broken sixteenths, for the same reason.
+
+           HARDCORE is the opposite of all of that, which is why the two legs
+           either side of it read as heavier for being next to it. The stick
+           comes back on the eighth, the snare takes its busiest figure, and
+           the kick gets the second foot. */
+        "setting out":   { kickPattern: SLUDGE_FEET, hatEvery: 8, hatVel: 0.13,
+                           snarePocket: SLUDGE_SNARE },
         "into the deep": { toms: { loop: 1.0, loopBars: [0, 1, 2, 3],
                                    loopLanes: ["tom1", "tom2"] },
                            /* ── AND THE MARCH KEEPS ITS BASS DRUM ──────────
@@ -26327,8 +26529,19 @@ GENRE.fantasysynth = (function(D){
                               tom trill. That is not "the toms take the front",
                               it is the floor being removed. The toms lead by
                               being ON, not by the walk being switched off. */
-                           kickKeep: 4, hatVel: 0.10 },
-        "the fight":     { toms: { loop: 0.85 }, kickKeep: 5, hatVel: 0.22 },
+                           kickKeep: 4, hatVel: 0.10, hatEvery: 8,
+                           kickPattern: SLUDGE_FEET, snarePocket: SLUDGE_SNARE },
+        /* ── THE FIGHT: BOTH FEET ─────────────────────────────────────────
+           `kickKeep: 16` is "play the whole figure": the patterns below are
+           already the vocabulary and thinning them would be a drummer holding
+           back in the one bar of the record that is not about holding back.
+           The toms stay high -- this is still the leg the owner asked to be
+           "harsher and getting more amped up" -- and they now sit over a foot
+           pattern rather than beside a walk. */
+        "the fight":     { toms: { loop: 0.85 }, kickKeep: 16, hatVel: 0.22,
+                           hatEvery: 2, kickPattern: HARDCORE_FEET },
+        /* no entry for "the long way home": it has no drums, in 0 of 118
+           sections over 24 seeds, because its `roles` does not list them. */
       },
     }),
   }),
@@ -30196,9 +30409,56 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     const snarePat = K.snarePocket
       ? wpick(stream(chart.seed, "snarePocket:" + streamName), K.snarePocket)
       : K.snare;
+    /* ══ AND THE KICK MAY BE A FIGURE THIS SECTION OWNS ══════════════════════
+       [owner, 2026-08-20: "What about double kick pedal at the fight, that part
+       of the song should be like hardcore music, where as the other parts are
+       more like Sludge metal"]
+
+       `pocket` is the RECORD's groove: one pool, drawn per material, and the
+       bass and the keys read the same object so the three lock together. That
+       is exactly right and it is why it cannot answer this. A double pedal is
+       not a different groove, it is the same groove with a second foot filling
+       between its strikes -- the bass still walks, the kick does not.
+
+       So `kickPattern` overrides the KICK LANE ONLY, and because it lives on
+       the kit it can be set by `arc.setAt`, which is keyed on the movement.
+       That is the whole mechanism: one leg of the record gets a foot pattern
+       the others do not have, and nothing about the pocket, the bass or the
+       keys moves with it.
+
+       A POOL, NOT A PATTERN, like every other figure in this kit -- drawn per
+       material on its own named substream so a genre that declares none draws
+       nothing and every existing record is byte-identical [Law 3, Law 7].
+
+       `kickKeep` STILL APPLIES, so a movement can ask for the double pedal and
+       then thin it: the pattern is the vocabulary and `kickKeep` is how much
+       of it the drummer is playing. */
+    const kickPat = K.kickPattern
+      ? wpick(stream(chart.seed, "kickPattern:" + streamName), K.kickPattern)
+      : pocket;
     for(let b = 0; b < BARS; b++){
-      for(const s of pocket.slice(0, K.kickKeep))
-        notes.push({ bar: b, step: s, dur: 1, lane: "kick", vel: s === 0 ? 1.0 : 0.9, role: "drums" });
+      /* ── THE SECOND FOOT IS NOT AS STRONG AS THE FIRST ────────────────────
+         A double pedal's slave beater is lighter and further from the head,
+         and every player's off-foot strokes read quieter than the lead foot's;
+         a machine-flat run of sixteen identical kicks is the thing that makes
+         programmed double bass sound programmed. So the downbeat is full, the
+         other beats are nearly full, and everything BETWEEN the beats -- which
+         is precisely what the second foot plays -- sits back.
+
+         GATED ON A DECLARED PATTERN, and the first version of this line was
+         not. It read "every off-beat stroke sits back" and claimed no record
+         moved, which was wrong and would have shipped: the walk-with-a-pickup
+         `[0,4,8,12,14]`, lofi's `[0,10]` and the parent's `[0,7,10]` all have
+         strikes off the beat, and every one of them would have dropped from
+         0.9 to 0.66 in every song ever made. The claim was checkable and I
+         wrote it before checking. A kit that has not asked for a foot pattern
+         gets the flat 0.9 it has always had, to the number. */
+      const twoFeet = !!K.kickPattern;
+      for(const s of kickPat.slice(0, K.kickKeep))
+        notes.push({ bar: b, step: s, dur: 1, lane: "kick",
+                     vel: s === 0 ? 1.0
+                        : !twoFeet ? 0.9
+                        : (s % 4 === 0 ? 0.9 : 0.66), role: "drums" });
       for(const s of snarePat){
         const st = Array.isArray(s) ? s[0] : s;
         const n = { bar: b, step: st, dur: 1, lane: "snare", vel: 1.0, role: "drums" };
@@ -39849,6 +40109,86 @@ function makePerformance(chart, form, materials, sections){
           sounded += e.durSec;
         }
         prevEnd = end;
+      }
+    }
+
+    /* ══ A SIGNAL INSTRUMENT CALLS, AND THEN IT SHUTS UP ═════════════════════
+       [owner, 2026-08-20: "The bard wind is meant to be played full it has the
+       sound of a war horn, it cant be used over and over again."]
+
+       The breath rule above asks how long ONE note may be. This asks the two
+       questions a signal instrument raises that no other instrument does: how
+       long since the last one, and does this note play the recording out.
+
+       WHY IT CANNOT BE DONE UPSTREAM. Which instrument plays a line is decided
+       by the ladder, the rig and the hand, all of them after the notes exist --
+       the same reason the breath rule lives here rather than in stage 3. A
+       part written for the counter does not know it will be handed a war horn
+       until this point, and by here `ev.voice` says so.
+
+       HOW LONG "FULL" IS, ASKED OF THE BANK. The sampler plays at
+       target/root, so the whole recording lasts `n / rate * root / target`
+       seconds -- LONGER for a note written below the sample's own pitch and
+       shorter above it. Written as arithmetic on the bank's own measured root
+       rather than as a number here, because a number here goes stale the day
+       the pack changes, which it did four hours ago.
+
+       WHAT IS DROPPED IS DROPPED, NOT MOVED. A blast inside the gap is
+       removed; the ones around it do not slide up to fill the hole. A signal
+       is silence and then a call, and closing the gaps would turn a thinned
+       part back into a continuous one wearing longer notes. */
+    {
+      const callOf = v => {
+        const M = v && INSTRUMENTS[machineOfVoice2(v)];
+        return (M && M.play && M.play.call) || null;
+      };
+      const byRoleCall = {};
+      for(const e of events){
+        if(e.pitch == null || !callOf(e.voice)) continue;
+        (byRoleCall[e.role] = byRoleCall[e.role] || []).push(e);
+      }
+      const drop = new Set();
+      for(const r in byRoleCall){
+        const list = byRoleCall[r].sort((a, z) => a.tSec - z.tSec);
+        let last = -Infinity;
+        for(const e of list){
+          const C = callOf(e.voice);
+          if(e.tSec - last < (C.gap || 0)){ drop.add(e); continue; }
+          last = e.tSec;
+          const i = events.indexOf(e);
+          if(i < 0) continue;
+          /* ── WHERE A CALL SITS, BY OCTAVES ────────────────────────────────
+             Whole octaves only, so the pitch class is untouched and the
+             harmony cannot move -- the same "in place first, then octaves"
+             the band binder uses one stage up, applied to one note instead of
+             to a whole part. A note already inside the window is not touched;
+             one outside is walked toward it and stops at the edge, so a call
+             can never be moved PAST its window by a rounding. */
+          let pitch = e.pitch;
+          if(C.sit){
+            while(pitch < C.sit[0] && pitch + 12 <= C.sit[1]) pitch += 12;
+            while(pitch > C.sit[1] && pitch - 12 >= C.sit[0]) pitch -= 12;
+          }
+          const m = C.sample && ERANG.meta(C.sample);
+          const hz = 440 * Math.pow(2, (pitch - 69) / 12);
+          const full = (C.full && m && m.root > 0)
+            ? (m.n / ERANG.rate) * (m.root / hz) : 0;
+          if(pitch === e.pitch && !(full > e.durSec)) continue;
+          const c = Object.assign({}, e, { pitch, call: true });
+          if(full > e.durSec) c.durSec = full;
+          /* `from` is the pitch a slur glides OUT OF; moved with the note or
+             dropped, never left pointing at a note that is no longer there --
+             the doubling engine learned this one the hard way (129 leaping
+             "stepwise" slurs, every one exactly an octave). */
+          if(c.from != null){
+            const f = c.from + (pitch - e.pitch);
+            if(f < 21 || f > 108) delete c.from; else c.from = f;
+          }
+          events[i] = Object.freeze(c);
+        }
+      }
+      if(drop.size){
+        for(let i = events.length - 1; i >= 0; i--) if(drop.has(events[i])) events.splice(i, 1);
       }
     }
 
