@@ -27261,6 +27261,44 @@ GENRE.doomsludge = (function(F){
      program wrongly and reports the program as broken is worse than no probe,
      and it nearly had a correct architecture torn up to chase it.
      ═══════════════════════════════════════════════════════════════════════ */
+  ostinato: merge(F.ostinato, {
+    /* ══ THE FIGHT'S FIGURE GETS RESTS, AND THAT IS THE WHOLE FIX ═══════════
+       MEASURED off the printout, every material of this record:
+
+         A  Adev  Avar  B  Bdev  Bvar   ->  ALL `*---*---*---*---`
+         material B: 82 ostinato bars, ONE distinct grid
+
+       Four even quarters, every bar, in every act. The parent already declares
+       `run: true` and the cells above were already seven-against-four, so the
+       POLYMETER WAS REAL AND INAUDIBLE: with `unit: 4` there are four slots a
+       bar and every one of them sounded, so the running index changed which
+       PITCH landed on each quarter and could never change the RHYTHM. A cell
+       of seven against a bar of four is only polymeter if something moves.
+
+       `deg == null` IS ALREADY A REST in this builder -- the mechanism was
+       there and no cell used it. So the fix is a table, not a mechanism.
+
+       WHY IT MATTERS HERE AND NOWHERE ELSE. The fight is the mathcore act and
+       every mathcore source read for it is about displacement, not speed:
+       "accent displacement means moving the strong beat within a phrase so the
+       pattern feels shifted -- it is how you make a riff sound off kilter while
+       still grounded" [riffhard]. The tabs say it in note lengths -- Botch's
+       verse runs eight, eight, eight, then FIVE PLUS THREE, and The Number
+       Twelve sets a five-grouping against a two-grouping in consecutive bars.
+       A rest is how a grid of four says five.
+
+       The cells below keep their seven- and five-against-four lengths and put
+       the rests INSIDE them, so with `run: true` the rest positions walk the
+       bar line and the printed grid differs bar to bar instead of being one
+       shape 82 times. The doom act is untouched and keeps its four-square
+       march, which is what "cyclical, mantra-like repetition" asks for.
+       [CHOSEN: which slots rest -- no source gives a cell] */
+    cellsAt: {
+      B: [[[0, 4, null, 7, 4, null, 2], 5],   // seven against four, two rests
+          [[0, null, 2, 4, 7, null, 4, 2, null], 3],  // nine against four
+          [[0, 4, null, 7, 2], 2]],           // five against four, one rest
+    },
+  }),
   space: merge(F.space, {
     fuzz: {
       rows: ["bass", "keys"], amt: 1, sustain: 0.45, tone: 0.35, level: 0.50,
