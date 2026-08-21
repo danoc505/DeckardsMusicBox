@@ -27036,6 +27036,90 @@ GENRE.fantasysynth = (function(D){
 })(GENRE.dungeonsynth);
 
 
+/* ══ DOOM AND SLUDGE SYNTH — fantasy synth, forked ═════════════════════════
+   [owner, 2026-08-21: "Lets copy the fantasy synth and paste it rename it as
+   Doom and Sludge Synth and do our work on that new genre."]
+
+   IT IS A DELTA, NOT A DUPLICATE, and that is the copy-and-paste asked for
+   rather than a departure from it. `merge(F, {...})` inherits every one of
+   fantasy synth's keys, so at birth this genre IS fantasy synth -- the same
+   tables, the same draws, the same record. What a literal 1,700-line paste
+   would add is 60 KB against a 16 MiB ceiling and, far worse, a second copy
+   of every number in this file to drift out of step with the first. Config
+   that says one thing while the music does another is this repo's named
+   fault class; two tables for one genre is how you manufacture it.
+
+   The delta is also the point: everything below this line is the doom and
+   sludge WORK, readable as the diff from the parent, instead of buried in a
+   reprint of it.
+
+   THE FORK IS VERIFIABLE, and that is why it lands as its own commit before
+   any of the work. `stream(seed, name)` hashes `name + ":" + seed` and the
+   GENRE NAME IS NOT IN IT, so a genre whose tables match its parent's draws
+   the parent's record note for note. Measured rather than asserted: the
+   printout for doomsludge and fantasysynth on the same seed is identical
+   except for the header. Anything that diverges later diverges because a
+   line below asked it to. ══════════════════════════════════════════════════ */
+GENRE.doomsludge = (function(F){
+  const merge = (a, b) => Object.assign({}, a, b);
+  return merge(F, {
+  label: "doom and sludge synth",
+
+  /* ══ THE FUZZ, AND IT IS THE FIRST GENRE TO DECLARE ONE ═══════════════════
+     `space.fuzz` shipped with no genre naming it, which is the dead-config
+     shape this file chases hardest -- a unit built, measured and switched on
+     by nobody. This is the genre it was built for.
+
+     ── THE ROWS COME FROM THE SOURCES, NOT FROM TASTE ────────────────────
+     SLUDGE PUTS THE BASS ON THE RIFF: "guitars and bass playing the same
+     riff in unison, creating a loud and BASS-HEAVY WALL OF SOUND"
+     [corpus:wikipedia/Sludge metal]. So `bass` is the row this exists for.
+
+     DOOM PUTS THE MASS IN THE SUSTAINED CHORD: "power chords, parallel
+     fourths/fifths, and sustained unisons enhance mass"; "play a power chord
+     or single note and LET IT SUSTAIN" [corpus:melodigging/doom-metal]. In
+     this program that is `keys`, which the printout shows striking one chord
+     on step 0 and holding the bar -- accidentally the right shape for doom,
+     and the fuzz is what makes it heavy rather than merely long.
+
+     NOT THE LEAD, NOT THE DRONE. The lead carries the motif through four
+     movements and a fuzz across it would cost the tune its intelligibility at
+     the exact moment the record needs it most; the drone is three notes held
+     for twenty minutes and clipping a static tone just makes a louder static
+     tone. Both are decisions, so both are written down.
+
+     ── AND THE SETTINGS ARE DOOM'S RESTRAINT, NOT SLUDGE'S EXCESS ────────
+     Doom's production row asks for "LOW-MID HEFT, natural drum rooms,
+     CONTROLLED HIGH-END FIZZ" -- and it asks for that BEFORE it says anything
+     about gain at all. `the-four-acts.md` §6 refused distortion outright on
+     that reading. It is built now because sludge names it explicitly, but the
+     parent's caution sets the numbers:
+
+       sustain 0.45  under the middle of a knob whose law is 60^s, so about
+                     6.6x into the first clipper -- dirt, not annihilation
+       tone    0.35  below the midpoint, which opens the LOWPASS leg wider
+                     than the highpass one: heft up, fizz down, in one knob
+       level   0.50  the measured level match, so declaring this changes the
+                     record's SHAPE and not its loudness -- the drum bus's
+                     rule, applied to the unit next door
+
+     ── THE LIMIT, STATED BECAUSE IT IS REAL ──────────────────────────────
+     `space` IS PER GENRE AND THE ACTS ARE MOVEMENTS INSIDE IT, so this fuzz
+     is on for all twenty minutes. It cannot be doom-restrained in the first
+     act and sludge-heavy in the second, which is exactly what the sources
+     describe. `form.setMachines`, `setMode` and `setLean` all switch per
+     movement and `space` has no equivalent; building one is a mechanism, not
+     a table entry, and it is logged rather than smuggled in here. The numbers
+     above are therefore the DOOM setting, held for the record, because the
+     restrained end of a range is the honest place to sit when you can only
+     pick one. ═══════════════════════════════════════════════════════════ */
+  space: merge(F.space, {
+    fuzz: { rows: ["bass", "keys"], amt: 1, sustain: 0.45, tone: 0.35, level: 0.50 },
+  }),
+  });
+})(GENRE.fantasysynth);
+
+
 /* ══ NOTES THAT LOST THEIR KEY IN THE CONVERSION ═══════════════════════════
    The merge is gone and these comments documented keys whose position moved
    or whose name no longer appears at the depth it sat at. NOT ONE IS
