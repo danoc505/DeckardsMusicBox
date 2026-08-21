@@ -11383,6 +11383,27 @@ registerProcessor("mk2-room", MK2Room);
         ch.fuzz = null;
       }
     };
+    /* ── AND THE SAME FIVE GAINS, SCHEDULED ────────────────────────────────
+       `setFuzz` writes `.value`, which is right at song-arm and wrong for a
+       record whose acts want different settings. This is the identical
+       arithmetic through `setValueAtTime`, so a movement boundary moves the
+       pedal without anything being rebuilt. Topology is untouched -- the rows
+       are armed once for the whole song and only the NUMBERS move -- which is
+       what keeps "buildGraph runs once" true. */
+    g.schedFuzz = function(fz, cfg, when){
+      if(!fz) return;
+      const c = cfg || {};
+      const a  = Math.max(0, Math.min(1, c.amt || 0));
+      const lv = c.level != null ? c.level : 1;
+      const sus = Math.max(0, Math.min(1, c.sustain != null ? c.sustain : 0.5));
+      const tn  = Math.max(0, Math.min(1, c.tone != null ? c.tone : 0.5));
+      const at = Math.max(0, when);
+      fz.dry.gain.setValueAtTime(1 - a, at);
+      fz.wet.gain.setValueAtTime(a * lv * 0.40, at);
+      fz.pre.gain.setValueAtTime(Math.pow(60, sus), at);
+      fz.loG.gain.setValueAtTime(1 - tn, at);
+      fz.hiG.gain.setValueAtTime(tn, at);
+    };
     g.setFuzz = function(fz, amt, sustain, tone, level){
       const a = Math.max(0, Math.min(1, amt || 0));
       fz.dry.gain.value = 1 - a;
@@ -19515,15 +19536,57 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          An unknown row name THROWS, which is the duck's rule and this file's:
          a typo that silently fuzzes nothing is the knob-that-does-nothing
          defect wearing a table. */
+      /* ── AND THE FUZZ IS PER MOVEMENT, WHICH IT HAD TO BE ─────────────────
+         This first shipped as one setting for the whole record, and the
+         comment beside it called that a limit of the mechanism. It was not a
+         limit, it was a missing reader: `space` is per genre, but the MOTION
+         PLAN already carries `secMv[bar]` and `secFn[bar]` and a clock that
+         turns a bar into a second, which is everything a per-movement lookup
+         needs. Nothing new was invented here; a `section` motion lane has
+         resolved exactly this way since it was written.
+
+         `space.fuzz.by` therefore takes the SAME lookup rule as that lane --
+         THE MOVEMENT FIRST, THE SECTION FUNCTION AS THE FALLBACK, the bare
+         `space.fuzz` numbers as the default under both -- so a genre naming no
+         movements reads exactly what it always read.
+
+         ROWS STAY GENRE-WIDE ON PURPOSE. A movement may change the four
+         NUMBERS; it may not change which parts are patched, because that is a
+         topology edit and those happen at song-arm or not at all. A movement
+         that wants no fuzz says `amt: 0`, which is the pedal off rather than
+         the pedal unplugged -- and at amt 0 `dry` is 1 and `wet` is 0, so it
+         is the wire either way. */
       const fz = space.fuzz;
       const wanted = new Set();
-      if(fz && fz.amt > 0)
+      const every = [];
+      if(fz){
+        if(fz.amt > 0) every.push(fz);
+        for(const k in (fz.by || {})) if(fz.by[k] && fz.by[k].amt > 0) every.push(fz.by[k]);
+      }
+      if(every.length)
         for(const k of (fz.rows || [])){
           const cs = chansOfBus(k);
           if(!cs.length) throw new Error("space.fuzz names no such bus: " + k);
           for(const r of cs) wanted.add(r);
         }
-      for(const r in g.chan) g.armFuzz(g.chan[r], wanted.has(r) ? fz : null);
+      /* armed with the FIRST setting the record will use, so a song that never
+         reaches its scheduler still sounds like something a table asked for */
+      for(const r in g.chan) g.armFuzz(g.chan[r], wanted.has(r) ? every[0] : null);
+      const MP = g.motion;
+      if(wanted.size && fz.by && MP && MP.clock && MP.secMv){
+        const nB = MP.nBars || MP.secMv.length;
+        let prev = "";
+        for(let b = 0; b < nB; b++){
+          const mv = MP.secMv[b], fn = MP.secFn && MP.secFn[b];
+          const cfg = (mv != null && fz.by[mv] != null) ? fz.by[mv]
+                    : (fn != null && fz.by[fn] != null) ? fz.by[fn] : fz;
+          const sig = [cfg.amt, cfg.sustain, cfg.tone, cfg.level].join(",");
+          if(sig === prev) continue;                 // only the CHANGES are scheduled
+          prev = sig;
+          const at = MP.clock.at(b, 0) - (g.motionOffset || 0) + (busT0 || 0);
+          for(const r of wanted) g.schedFuzz(g.chan[r].fuzz, cfg, at);
+        }
+      }
     }
     /* WHO feeds it: the MATRIX. Each route's base is the song's own
        declaration -- keys and lead always breathe, `space.feeds` adds the
@@ -27103,18 +27166,81 @@ GENRE.doomsludge = (function(F){
                      record's SHAPE and not its loudness -- the drum bus's
                      rule, applied to the unit next door
 
-     ── THE LIMIT, STATED BECAUSE IT IS REAL ──────────────────────────────
-     `space` IS PER GENRE AND THE ACTS ARE MOVEMENTS INSIDE IT, so this fuzz
-     is on for all twenty minutes. It cannot be doom-restrained in the first
-     act and sludge-heavy in the second, which is exactly what the sources
-     describe. `form.setMachines`, `setMode` and `setLean` all switch per
-     movement and `space` has no equivalent; building one is a mechanism, not
-     a table entry, and it is logged rather than smuggled in here. The numbers
-     above are therefore the DOOM setting, held for the record, because the
-     restrained end of a range is the honest place to sit when you can only
-     pick one. ═══════════════════════════════════════════════════════════ */
+     Those are the numbers UNDER `by` -- the default a movement inherits when
+     it names nothing -- and they are doom's, because the restrained end is the
+     honest place to sit when one setting has to cover an unnamed leg.
+
+     ── AND THEN EACH ACT GETS ITS OWN, WHICH IS THE WHOLE POINT ──────────
+     This was first written with one setting for the record and a paragraph
+     explaining that `space` is per genre so it could not be otherwise. That
+     paragraph was wrong: the motion plan already carried the movement per bar
+     and a clock to turn a bar into a second, so what was missing was a reader,
+     not a mechanism. `space.fuzz.by` is that reader and it resolves exactly
+     like a `section` motion lane -- movement first, section function as the
+     fallback, the numbers above as the default under both.
+
+       setting out / DOOM     the numbers above. "Low-mid heft ... controlled
+         high-end fizz", and the sources put that BEFORE gain.
+
+       into the deep / SLUDGE the only act whose sources name distortion
+         outright -- "down-tuned, HEAVILY DISTORTED guitars" [wikipedia] over
+         a bass that is on the riff in unison. sustain 0.78 is most of a knob
+         whose law is 60^s; tone stays LOW at 0.28 because the source's word
+         is "bass-heavy wall", not "bright".
+
+       the fight / MATHCORE   LESS, and brighter, and that is the finding from
+         reading the tabs rather than a compromise. Botch's guitar is
+         "dissonant, single-note lines ... AVOIDING POWER CHORDS", The Number
+         Twelve voices root+octave+ninth, and both live on attack -- "sudden
+         stops", 5-groupings against 2-groupings. A wall of fuzz eats attack
+         and turns an angular line into mud, so this act gets 0.40 and a tone
+         of 0.58, above the midpoint, where the highpass leg opens and the
+         note's front edge survives.
+
+       the long way home      OFF. [owner: "The last section i was thinking
+         more calm and atmospheric like pink floyd."] Measured on the Shine On
+         MIDI, its calm opening is seven parts trading two-note voicings with
+         the harmony still moving -- not one loud thing. Nothing there is
+         distorted, so nothing here is. `amt: 0` is the pedal off, and at 0 the
+         dry gain is 1 and the wet is 0, so the strip is the wire.
+
+     ROWS STAY GENRE-WIDE across all four, because changing WHICH parts are
+     patched is a topology edit and those happen at song-arm or not at all.
+
+     ⚠ AND THESE FOUR KEYS MATCH NOTHING TODAY. READ THIS BEFORE TRUSTING THE
+     TABLE ABOVE. The reader is built and works; the KEYS are unreached, and
+     that was found by measuring rather than by assuming. `composeSong` was
+     asked what movements it actually produces, both with and without a length:
+
+       composeSong({seed:1, genre:"doomsludge"})              8 sections, 51 bars, 164 s
+       composeSong({seed:1, genre:"doomsludge", wantSec:1200}) 8 sections, 51 bars, 164 s
+       distinct sec.mv, both:   ["establish", "twopart", "answer"]
+
+     Those are the DEFAULT plan's movement names, not this genre's. The
+     four-leg plan declared at `form.plan` -- "setting out", "into the deep",
+     "the fight", "the long way home" -- is not what comes back, and `wantSec`
+     is ignored outright, so the twenty-minute four-act record this whole genre
+     is about is not what `composeSong` builds.
+
+     THE FUZZ IS THE SYMPTOM, NOT THE BUG, and the bug is much larger than
+     this table. Logged in BACKLOG. These four entries are left standing rather
+     than deleted or renamed to the default plan's words, because renaming them
+     would make the fuzz look correct while hiding the real fault, and deleting
+     them would lose the sourced settings the moment the plan is reached. The
+     lookup falls back to the numbers above when a key is absent, so what this
+     genre plays TODAY is the doom setting for the whole record -- which is
+     what it played before the reader existed, and is safe.
+     ═══════════════════════════════════════════════════════════════════════ */
   space: merge(F.space, {
-    fuzz: { rows: ["bass", "keys"], amt: 1, sustain: 0.45, tone: 0.35, level: 0.50 },
+    fuzz: {
+      rows: ["bass", "keys"], amt: 1, sustain: 0.45, tone: 0.35, level: 0.50,
+      by: {
+        "setting out":      { amt: 1, sustain: 0.45, tone: 0.35, level: 0.50 },
+        "into the deep":    { amt: 1, sustain: 0.78, tone: 0.28, level: 0.50 },
+        "the fight":        { amt: 1, sustain: 0.40, tone: 0.58, level: 0.50 },
+        "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50 },
+      },
+    },
   }),
   });
 })(GENRE.fantasysynth);

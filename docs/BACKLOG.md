@@ -11,6 +11,14 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ---
 
+## 0ae. NAMED 2026-08-21 — THE FOUR-ACT PLAN IS NOT WHAT `composeSong` BUILDS
+
+| what | why it is open | what closes it |
+|---|---|---|
+| **`composeSong` returns the DEFAULT plan's movements, never the genre's, and ignores `wantSec`** | Found while verifying the per-movement fuzz, by asking the program instead of trusting it. Both `composeSong({seed:1,genre:"doomsludge"})` and the same call with `wantSec:1200` return **8 sections, 51 bars, 164 seconds**, and `sec.mv` over both is **`["establish","twopart","answer"]`** — the default plan's names. Fantasy synth and doomsludge declare a four-leg `form.plan` (`"setting out"`, `"into the deep"`, `"the fight"`, `"the long way home"`) and **it does not come back from compose.** `mk2_score.js` prints a 457-bar / 19:46 record for the same genre and seed, so the printer reaches a path compose does not. **This is the record's whole architecture — four acts, twenty minutes, one motif walking them — and the compose API does not produce it.** Every per-movement table in the file (`setMachines`, `setMode`, `setLean`, `roles`, `tempoArc`, and now `space.fuzz.by`) is keyed on names this path never emits. | Finding why the printer and `composeSong` disagree, and whether the legs are real in the rendered record or only in the printout. Until then no per-movement declaration in this file can be assumed live, and the several that already ship should each be re-measured rather than trusted. |
+
+---
+
 ## 0ad. NAMED 2026-08-21 BUILDING THE FUZZ — the renderer is not deterministic
 
 | what | why it is open | what closes it |
