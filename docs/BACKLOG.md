@@ -2213,3 +2213,55 @@ number and no browser, and also counts unescaped backticks inside both worklet
 strings by name. The room's own comment records the same class of trap one
 layer along: `btoa` threw on a box-drawing character in a worklet comment, the
 catch swallowed it, and the reverb silently fell back to a convolver.
+
+## §0aj — `longLoop` is dead for the part it was written for (2026-08-21)
+
+`form.longLoop: { lead: 2, keys2: 2 }` says those two parts come round every
+eight bars instead of four, and its comment quotes the source it came from:
+*"We're going to make the choir part twice as long as the harp part."*
+
+**It does nothing for `keys2`.** The swap is guarded — correctly — on the
+variant being a different array (*"A and Avar share their bass and their comp
+on purpose, and swapping identity for identity would be a line of code
+pretending to be movement"*), and `Avar`'s keys2 **is** `A`'s keys2. So the
+guard declines every time.
+
+MEASURED, fantasy synth seed 1: the second keyboard plays **5 distinct bars in
+89**, and is identical to the bar four back **100% of the time** at lag 4, 8
+and 16. A four-bar cell, twenty-two times, unvaried, in a genre that declares a
+table saying it should not be.
+
+The rule-of-three work this build routes around it — a part with no usable
+variant lays out for the second half of every third pass instead — but that is
+the first rung of the ladder answering a demand the second rung should have
+taken. The real fix is stage 3: `Avar` must compose a genuinely different
+`keys2` (and the same question should be asked of every material/part pair —
+nothing has audited which of them are identity).
+
+## §0ak — the bass is masked, not quiet (2026-08-21, PARTLY FIXED)
+
+[owner: *"our bass is most inaudible"*]
+
+MEASURED: deleting every bass event changed the record by 0.05 / 0.04 / 0.01 dB
+in the three heavy acts. Three levers were tried:
+
+| lever | what it did |
+|---|---|
+| `roleGain` 0.22 → 0.55 | bass alone rms 0.0224 → 0.0604 (+8.6 dB) |
+| octave pedal | +3 points of distribution — and found a real bug: the rectifier's coupling cap was a **120 Hz** high-pass, which deletes the 69 Hz octave of a 34.6 Hz bass. Fixed to 40 Hz, where a DC blocker belongs. |
+| register [24,41] → [31,48] | up a fifth, G1–C3 |
+
+**And it is still only worth 0.2 dB in its own 40–80 Hz band.** That is the
+finding: the band belongs to the kick (`drumDrive: 1.75`, `roleGain.drums:
+1.40`) and the drone (`[21,31]`, 27–49 Hz), and a part cannot be made audible
+by raising it inside a slot two louder things already own.
+
+What is still owed is a frequency-slot decision, not another fader:
+- carve the kick where the bass fundamental sits, or the reverse;
+- give the bass a presence band (700 Hz–1.5 kHz) so it is heard through its
+  growl rather than its fundamental, which is how bass is heard in any dense
+  mix. The per-role EQ hook for that does not exist — `g.grp[role]` has three
+  biquads and no genre table writes them.
+- or move the drone off the bass's octave.
+
+Named here rather than left as "improved a bit".

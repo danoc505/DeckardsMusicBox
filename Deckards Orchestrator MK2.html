@@ -11943,8 +11943,20 @@ registerProcessor("mk2-room", MK2Room);
         }
         sh.curve = cv; sh.oversample = "2x";
       }
+      /* ── AND THE COUPLING CAP WAS DELETING THE OCTAVE IT EXISTS FOR ──────
+         120 Hz was a keyboard's number and it was measured wrong the moment
+         this pedal was pointed at a bass. A rectifier doubles the frequency,
+         so the octave of this genre's bass -- C#1 at 34.6 Hz -- comes out at
+         69 Hz, and a 120 Hz high-pass takes it away. MEASURED: the octave
+         blended onto the bass at 0.24 moved the part's energy distribution by
+         three percentage points, which is nothing, because the thing it makes
+         was being filtered out downstream of making it.
+
+         The cap is there to remove the DC a rectifier necessarily creates
+         (`|x|` has a mean), and DC is at zero, not at 120 Hz. 40 Hz does that
+         job and leaves the octave alone. */
       const dc = c.createBiquadFilter(); dc.type = "highpass";
-      dc.frequency.value = 120; dc.Q.value = 0.707;   // the coupling cap
+      dc.frequency.value = 40; dc.Q.value = 0.707;    // the coupling cap
       const wet = c.createGain(); wet.gain.value = 0;
       inp.connect(dry); dry.connect(out);
       inp.connect(sh); sh.connect(dc); dc.connect(wet); wet.connect(out);
@@ -29148,15 +29160,158 @@ GENRE.doomsludge = (function(F){
      configurations were then rendered across twelve seeds each and the lowest
      one that passes all twelve is what is below. Reasoning about it twice got
      it wrong twice; the sweep settled it. */
-  registers: { bass: [24, 41], keys: [44, 67], counter: [54, 71],
-               bassWalk: [24, 41], ostinato: [60, 81],
+  /* ── AND THE BASS CAME UP A FIFTH, WHICH IS THE ONLY LEVER THAT WORKED ───
+     [owner: "our bass is most inaudible"]
+
+     [24, 41] is C1 to F2 -- 32.7 to 87 Hz -- and the printout says the sludge
+     act's bass actually lives at the bottom of it, C#1 and E1, 34.6 and 41.2.
+     Deleting every bass event from the record changed it by 0.05, 0.04 and
+     0.01 dB in the three heavy acts. Not quiet: absent.
+
+     THREE LEVERS WERE TRIED AND MEASURED IN THIS ORDER.
+
+     THE FADER moved it 8 dB nominal and the record by 0.01 dB, because rms is
+     not where the problem is. THE OCTAVE PEDAL moved the part's energy
+     distribution by three points -- and finding out why was worth the trip: a
+     rectifier doubles the frequency, so the octave of C#1 is 69 Hz, and the
+     pedal's own coupling cap was a 120 Hz high-pass that deleted it. Fixed at
+     40 Hz where a DC blocker belongs. It still did not make the bass audible,
+     because on this material almost everything the rectifier makes is ALSO
+     under 120 Hz.
+
+     THE REGISTER IS THE ONE THAT WORKS, and this file already said so before I
+     started: the `roleGain` note one genre up rules that a part living at
+     41-98 Hz cannot be fixed with a fader because "the ear is 30-45 dB down; no
+     fader fixes physics... the levers are register-shaped". I read that
+     paragraph, kept going, and spent two measurements confirming it.
+
+     UP A FIFTH, NOT AN OCTAVE. [31, 48] is G1 to C3, 49 to 130 Hz -- still
+     below every other part on the record, still the bottom of the band, and
+     now inside the range where a listener has ears. It is also where a doom
+     bassist actually plays: the low string is the tuning, the RIFF is up the
+     neck. The drone keeps [21, 31] and holds the floor, which is what a drone
+     is for and why it can afford to be felt rather than heard. */
+  registers: { bass: [31, 48], keys: [44, 67], counter: [54, 71],
+               bassWalk: [31, 48], ostinato: [60, 81],
                themeA: [57, 78], themeB: [59, 80], themeC: [55, 76],
                drone: [21, 31] },
   desk: { low: 4, mid: 0, high: -6, lowF: 200, midF: 1000, highF: 4000 },
   /* the valve amp at high volume, on the one bus that models one */
   drumDrive: 1.75,
 
+  /* ══ AND THE BASS WAS NOT QUIET, IT WAS ABSENT ═════════════════════════════
+     [owner: "our bass is most inaudible"]
+
+     MEASURED, seed 1, three six-second excerpts rendered twice each -- the full
+     mix, and the identical mix with every bass event DELETED:
+
+         act        with bass   without    what the bass is worth
+         doom        0.2468      0.2454     0.05 dB
+         sludge      0.2628      0.2614     0.04 dB
+         the fight   0.3071      0.3067     0.01 dB
+
+     A hundredth of a decibel. Taking the bass out of the fight is inaudible by
+     any definition of the word, and the two nulls put it 19 and 25 dB under the
+     record. It is not mixed low; it is not there.
+
+     TWO CAUSES AND BOTH GET AN ANSWER.
+
+     THE FADER. Inherited `roleGain` puts the bass at 0.22 -- the second
+     quietest pitched part in the table, under the figure at 0.50 and the tune
+     at 0.57, against drums at 1.40. That ranking is dungeon synth's and it is
+     right there: a genre of "atmosphere over loudness" whose bass is a pedal
+     tone under a pad. It is wrong here. Doom and sludge are bass music --
+     "a loud and bass-heavy wall of sound", bass and guitars playing "the same
+     riff in unison" -- so the bass sits with the tune, not under the pad.
+
+     AND PHYSICS, WHICH NO FADER FIXES. This genre's bass plays C#1 and E1 --
+     34.6 and 41.2 Hz, read off the printout -- where the ear is 30-45 dB down.
+     The file already knows this: the `roleGain` note one genre up says of the
+     drone that "no fader fixes physics... the levers are register-shaped".
+
+     So the second answer is the OCTAVE, and it is the pedal I took off this
+     genre two builds ago for a good reason that does not apply to the bass.
+     `makeOctave` is a full-wave rectifier -- an octave UP -- and an octave up
+     from C#1 is C#2, which is where a doom guitar plays and where the ear
+     actually is. Blended UNDER the fundamental, never replacing it, so the
+     bottom stays and something audible sits on top of it. That is the Univox
+     Super-Fuzz's "distinct upper octave" doing the one job it is good for
+     [corpus:noisecreep], and it is why a bass fuzz has that switch. */
+  roleGain: merge(F.roleGain, { bass: 0.55 }),
+
   form: merge(F.form, {
+    /* ══ AND THE DOUBLING IS AN OCTAVE HERE, NOT A UNISON ══════════════════
+       MEASURED, seed 1: 1,462 of this record's 6,543 notes -- TWENTY-TWO
+       PERCENT -- were exact duplicates. Same part, same step, same pitch,
+       twice. Every one of them was the keyboard, because the drawn doubling
+       landed at `semis: 0` and the keys lane comps five chords a bar: two
+       instruments hitting the identical dyad twenty times a bar is not a
+       thicker chord, it is one chord at +6 dB with the transients smeared.
+
+       AND THE TABLE THIS INHERITS ALREADY CARRIES THE WARNING. The comment
+       directly above dungeon synth's `double` block quotes Belkin: constant
+       unison doubling is "the beginner's most common fault" -- and then sets
+       `uni: 0.70`, so seven doublings in ten are unisons. The quote and the
+       number disagree, and on a pad you can argue the number; on a comping
+       keyboard you cannot.
+
+       An OCTAVE doubling of the same line is the doom sound anyway -- the
+       guitar and its octave -- so this is not a retreat from doubling, it is
+       the doubling the genre actually wants. `pick` and `of` are untouched:
+       the same number of doublings on the same parts, an octave apart. */
+    double: merge(F.form.double, { uni: 0.12 }),
+    /* ══ WHO THE SECTION IS ABOUT ══════════════════════════════════════════
+       [owner: "To many instruments playing their own notes and its not
+       cohering, there is no solos, no duels, just a mash of colliding noise"]
+
+       MEASURED, seed 1, before this: the fight ran FIVE pitched parts in nine
+       of its ten sections and never fewer than four, with the keyboard alone
+       firing 338 events a section against one to three a bar for everything
+       else. He is describing the measurement.
+
+       THE ROTATION IS THE FIX AND ITS SHAPE IS THE ACT'S. Each leg gets a
+       different pattern of solo, duel and tutti because each leg is a
+       different music:
+
+       DOOM opens with the band and then hands one part the room. Sleep's own
+       method is "minor differences in the constant repetition" over very long
+       spans, so the doom leg changes WHO rather than WHAT, slowly -- tutti,
+       tutti, then the figure alone, then the band back.
+
+       SLUDGE trades. The genre is doom crossed with hardcore punk, and the
+       hardcore half is call-and-response: bass answering guitar, one riff
+       thrown between two players. Two duels in six sections.
+
+       THE FIGHT IS MOSTLY NOT TUTTI, and that is the whole correction. Mathcore
+       is "start-stop stabs, sudden tempo drops and syncopated accents"
+       [corpus:melodigging] -- a music made of holes, where the band hitting
+       together LANDS because most of the time it is not. So the fight gets one
+       full-band section in four and the rest are solos and duels. It also gets
+       the one three-way sequence on the record: keys alone, then keys against
+       bass, then the band -- which is a build made of arrangement rather than
+       of level.
+
+       THE WALK HOME is Gilmour, and the sourcing there is already in this
+       file: on Shine On the motif lives in the ACCOMPANIMENT and the lead
+       plays it zero times, over seven parts moving about one chord a bar. So
+       that leg keeps its band and gets one duel -- the lead against the second
+       keyboard -- rather than being carved up. A calm act broken into solos
+       stops being calm.
+
+       A `null` entry is a full band and every leg has at least one: a record
+       where every section is a solo is as flat as one where none is. */
+    feature: {
+      "setting out":       [null, null, { solo: "ostinato" }, null,
+                            { duel: ["bass", "lead"] }, null],
+      "into the deep":     [null, { duel: ["bass", "keys2"] }, { solo: "lead" },
+                            null, { duel: ["ostinato", "keys2"] }, null],
+      "the fight":         [{ solo: "keys" }, { duel: ["keys", "bass"] }, null,
+                            { solo: "bass" }, { duel: ["lead", "ostinato"] },
+                            { solo: "keys2" }, null, { duel: ["keys", "lead"] },
+                            { solo: "lead" }, null],
+      "the long way home": [null, { duel: ["lead", "keys2"] }, null, null,
+                            { solo: "keys" }, null],
+    },
     roles: merge(F.form.roles, {
       /* ── AND THE SLUDGE ACT GETS A FIGURE LANE ────────────────────────
          It has none: `into the deep` lists drums, bass, keys2, lead and drone,
@@ -29420,6 +29575,13 @@ GENRE.doomsludge = (function(F){
          source says is the requirement: dividers "are ok for single notes but
          not chords" [corpus:electronicmusic.fandom]. */
       subRows: ["lead"],
+      /* ── AND THE OCTAVE-UP GOES ON THE BASS, WHICH IS THE ONE PART IT HELPS ─
+         See `roleGain` above for the measurement. A full-wave rectifier is an
+         octave UP and that is wrong for a guitar in this genre -- it is why it
+         came off the keyboards. On a bass playing 34.6 Hz it is the only lever
+         that puts the note where the ear is, and it is what the switch on a
+         bass fuzz has always been for. */
+      octRows: ["bass"],
       /* ── AND THE FACE IS NOT ON THE BASS ─────────────────────────────────
          Stacking it there was measured and it was arithmetic rather than
          taste: the sludge act's bass plays C#1, and a hard-clipped 34.6 Hz
@@ -29482,7 +29644,8 @@ GENRE.doomsludge = (function(F){
         /* DOOM. The sub an octave down under the bass, the Face just barely
            in — the Muff is doing the work here and the Face is thickening its
            input. Gate high enough that the divider shuts up between notes. */
-        "setting out":       { sub:  { amt: 0.30, two: 0, gate: 0.016, tone: 780 },
+        "setting out":       { oct:  { amt: 0.28 },
+                               sub:  { amt: 0.30, two: 0, gate: 0.016, tone: 780 },
                                meat: { amt: 0.30, dirt: 0.55, bias: 0.10,
                                        dark: 0.30, level: 0.45 },
                                /* the Doomsaw voicing: dimed gyrators, top taken off */
@@ -29494,7 +29657,8 @@ GENRE.doomsludge = (function(F){
                                        recov: 0.22, drive: 0.30 } },
         /* SLUDGE. Two octaves down and the Face stacked into the Muff at
            three quarters — the wall. Darkest setting on the board. */
-        "into the deep":     { sub:  { amt: 0.38, two: 0.40, gate: 0.012, tone: 620 },
+        "into the deep":     { oct:  { amt: 0.34 },
+                               sub:  { amt: 0.38, two: 0.40, gate: 0.012, tone: 620 },
                                meat: { amt: 0.72, dirt: 0.74, bias: 0.16,
                                        dark: 0.18, level: 0.50 },
                                saw:  { amt: 0.50, dist: 0.72, low: 1, high: 0.62,
@@ -29508,7 +29672,8 @@ GENRE.doomsludge = (function(F){
                                        recov: 0.34, drive: 0.38 } },
         /* MATHCORE. No sub — a divider on a part that changes note every beat
            is a smear. The Face alone, biased into the velcro, and the comp. */
-        "the fight":         { meat: { amt: 0.62, dirt: 0.58, bias: 0.62,
+        "the fight":         { oct:  { amt: 0.22 },
+                               meat: { amt: 0.62, dirt: 0.58, bias: 0.62,
                                        dark: 0.62, level: 0.34 },
                                /* CHAINSAW CITY: every knob up, the tame filter
                                   open, which is the setting the pedal is famous
@@ -29824,6 +29989,12 @@ const BLEND_DRAW = new Set([
   "seventhOn",
   "bassStyle", "bassRiff", "gate", "chop", "ostinato",
   "registers", "form.lengths", "form.material", "form.roles", "form.target",
+  /* THE FEATURE ROTATION NAMES ROLES, so it arrives whole or not at all --
+     the same rule `form.build` is held to, one line down, and for the identical
+     reason: half of one genre's solo order blended into another genre's role
+     lists names parts that leg does not have, and a feature naming nobody is a
+     section that quietly stays a mash. */
+  "form.feature",
   /* the transition arrives with the map that says what it plays. It names a
      material ("T"), a set of arrivals to stand before, and lengths the rest of
      the grid never uses -- averaging any of that with a genre that has no
@@ -29984,6 +30155,8 @@ const BLEND_GROUP = {
      role lists -- an entry point for a part that section never plays is inert,
      and worse, silently so */
   "form.build": "form",
+  /* and the feature rotation names them too, for the same reason */
+  "form.feature": "form",
   "form.target": "form", "form.bridgeAfterChorus": "form",
   /* ── AND EVERYTHING ELSE THAT NAMES A SECTION FUNCTION ────────────────────
      The comment below says why the transition table is grouped: it NAMES
@@ -40819,6 +40992,97 @@ function makeArrangement(chart, form, materials){
          a rest, it is a hole in the record */
       if(kept.length) active = kept;
     }
+    /* ══ AND SOMEBODY HAS TO BE IN FRONT ═══════════════════════════════════
+       [owner: "To many instruments playing their own notes and its not
+       cohering, there is no solos, no duels, just a mash of colliding noise"]
+
+       MEASURED before this, doomsludge seed 1, the fight: FIVE pitched parts in
+       nine of its ten sections, every one of them playing continuously, and the
+       keyboard alone firing 338 events a section -- twenty-one a bar against
+       one to three for everything else. Nobody is ever in front, because
+       everybody is always playing.
+
+       `form.rest` was the only shaping this had, and it is the wrong tool for
+       this job by its own design: it is a per-role COIN, so it thins the band
+       by an expected amount and never says WHO the section is about. Its own
+       comment sizes it to leave "about five" parts, which is exactly what the
+       fight measured.
+
+       WHAT THE ARRANGING SOURCES SAY IS MISSING. A texture is three layers, not
+       one: "the FOREGROUND consists of the primary melodic elements that
+       capture the listener's immediate attention... the MIDDLEGROUND supports
+       the foreground... the BACKGROUND contains ambient and supportive
+       elements", and the named failure mode is exactly the one measured here --
+       "a common problem among beginning composers is adding too many elements
+       without structuring them properly, resulting in a sound that is
+       unfocused, messy and rather chaotic" [corpus:sykstudios depth in
+       compositions; evenant foreground/middleground/background]. And for this
+       act in particular the genre agrees: mathcore is built on "start-stop
+       stabs, sudden tempo drops and syncopated accents", which is a music of
+       gaps [corpus:melodigging mathcore].
+
+       SO A SECTION MAY BE ABOUT SOMEBODY. `form.feature` is a per-movement
+       ROTATION, read with the same movement-then-function rule as every other
+       per-movement table in this file:
+
+           feature: { "the fight": [ { solo: "lead" },
+                                     { duel: ["keys", "bass"] },
+                                     null,                        // tutti
+                                     { solo: "keys" } ] }
+
+       `solo` keeps that part and the ground; `duel` keeps two and marks the
+       section so they TRADE (below); `null` is a full band, and it has to be in
+       the list -- a record where every section is a solo is as flat as one where
+       none is. The rotation cycles across the movement's own sections, so it is
+       a shape rather than a coin, which is the whole difference between "the
+       band thins sometimes" and "this section is the bass's".
+
+       WHAT SURVIVES A FEATURE. The drums and the drone are the ground and are
+       never removed by it: a solo over silence is a different piece of music
+       from a solo, and the ground is what the foreground is in front of. That
+       is the background layer the sources name, kept by name.
+
+       AND IT RUNS AFTER `rest` AND BEFORE `thinTo`, deliberately. After rest,
+       because a part that has already sat out cannot also be soloing; before
+       thinTo, because the last section's strip is the record's ending and
+       outranks any rotation. Every draw above it is untouched, so a genre that
+       declares no `feature` is bit-identical [Law 3]. */
+    let duel = null;
+    if(F.feature){
+      const FT = (sec.mv && F.feature[sec.mv]) || F.feature[sec.fn] || null;
+      if(FT && FT.length){
+        /* WHICH ENTRY THIS SECTION GETS: its index among the sections of its
+           own movement, so the rotation is a shape the leg walks through rather
+           than a per-section coin. Counted here rather than carried, because
+           the form is already built and this is the only reader. */
+        let nth = 0;
+        for(let q = 0; q < i; q++){
+          const p2 = form[q];
+          if((p2.mv || p2.fn) === (sec.mv || sec.fn)) nth++;
+        }
+        const spec = FT[nth % FT.length];
+        if(spec){
+          const front = spec.solo ? [spec.solo] : (spec.duel || []);
+          if(front.length){
+            const ground = active.filter(r => r === "drums" || r === "drone");
+            const keep = ground.concat(front.filter(r => active.includes(r)));
+            /* a feature naming a part this section never had is not a hole:
+               if nothing in front survives, the section stays as it was */
+            if(keep.some(r => r !== "drums" && r !== "drone")) active = keep;
+            /* ── AND IT IS BUILT INTO THE SECTION, NOT BOLTED ONTO IT ─────
+               This wrote `sec.duel = ...` and threw on the first record:
+               "Cannot add property duel, object is not extensible". The
+               sections are FROZEN, deliberately -- a section is a statement
+               about the record and nothing downstream may edit one. So the
+               duel joins the object being constructed below, like every other
+               fact about a section. The throw was the design working. */
+            if(spec.duel && spec.duel.length === 2 &&
+               spec.duel.every(r => active.includes(r)))
+              duel = spec.duel.slice();
+          }
+        }
+      }
+    }
     /* ── AND THE LAST SECTION TAKES THINGS AWAY ──────────────────────────────
        A record that accretes for nine minutes and then stops has no shape; one
        that accretes and then strips back does. `form.thinTo` is HOW MANY parts
@@ -41007,6 +41271,9 @@ function makeArrangement(chart, form, materials){
          only that it does. Null on a genre that declares no arc. */
       drumArc, drumLevel,
       active: Object.freeze(active),
+      /* the two parts trading this section, or null. Stage 5 reads it in its
+         per-bar loop; see `form.feature` for what a duel is. */
+      duel: duel ? Object.freeze(duel) : null,
       /* the bar each arriving role starts on, for the roles that arrive INSIDE
          this section. Stage 5 reads it; nothing else does. */
       enterBar: Object.freeze(enterBar),
@@ -42372,6 +42639,25 @@ function makePerformance(chart, form, materials, sections){
       const firstHalf = (bar - sec.startBar) < (sec.endBar - sec.startBar) / 2;
       const strumAt = {};                       // per (step): index within a keys strike
       for(const role of sec.active){
+        /* ── THE DUEL: TWO BARS EACH, TURN ABOUT ────────────────────────────
+           `sec.duel` is set by the feature rotation in stage 4 and names two
+           parts. Here they trade: two bars for the first, two for the second,
+           round and round for the length of the section.
+
+           TWO BARS AND NOT FOUR, and not one. One is a hocket -- the two read
+           as a single stuttering line rather than as two players. Four is a
+           conversation so slow that at this record's tempi each turn is most
+           of ten seconds and the section becomes two solos end to end. Two bars
+           is long enough to be a statement and short enough to be an answer,
+           which is what trading is. [CHOSEN: the sources name the device --
+           call and response -- and none of them gives a bar count.]
+
+           It is a SKIP, not a re-composition: both parts wrote a full section
+           and each is heard in half of it, so what you hear is what they would
+           have played, with the other half of it taken away. That is what a
+           player does when they lay out. */
+        if(sec.duel && sec.duel.indexOf(role) >= 0 &&
+           sec.duel[Math.floor((bar - sec.startBar) / 2) % 2] !== role) continue;
         let notes = mat[role];
         /* the long loop, before anything else touches the choice: a part
            whose cycle has not come round reads the variant instead. Only
@@ -42381,6 +42667,110 @@ function makePerformance(chart, form, materials, sections){
         if(LONG[role] && alt && alt[role] && alt[role].length &&
            alt[role] !== mat[role] && (cycle % LONG[role]) !== 0)
           notes = alt[role];
+        /* ══ THE RULE OF THREE, AT THE LEVEL IT WAS NEVER ENFORCED ══════════
+           [owner: "Also i feel like else where there is to much repetition. I
+           want the Rule of Three to be the law still."]
+
+           IT IS LAW AT TWO LEVELS AND WAS ABSENT AT THE THIRD. `FORM-RESEARCH.md`
+           §2 lists four, each with its own counter -- motif, bar, LOOP, section
+           -- and this file enforces the section level (H1: a function cannot
+           follow itself twice) and the bar level (the fill answers on the
+           fourth). The LOOP -- "the 4-bar cell inside a section", third
+           occurrence at "the 3rd pass through the section" -- had nothing.
+
+           MEASURED, and it is the level the record actually repeats at.
+           Percentage of a part's bars identical to the bar N back:
+
+                              lag1   lag2   lag4   lag8  lag16   distinct
+             keys2 (fantasy)    0%    41%   100%   100%   100%    5 of 89
+             keys2 (doom)       0%    20%    79%    71%    44%   21 of 165
+             ostinato           0%     0%    49%    47%    47%   35 of 274
+             counter            0%     0%    49%    46%    44%   17 of 57
+             bass              27%    45%    28%    28%    23%   38 of 237
+
+           Consecutive bars almost never repeat -- lag1 is 0% nearly everywhere,
+           which is the bar-level rule doing its job. Four bars back is a
+           different story: the second keyboard plays FIVE DISTINCT BARS in
+           eighty-nine and is identical to the bar four back ONE HUNDRED PERCENT
+           of the time. That is a four-bar cell played twenty-two times without
+           one change, and no counter in the program was watching.
+
+           THE CHANGE IS THE ONE THE SOURCES CALL FOR BY NAME. Their ladder runs
+           subtle / PARTIAL VARIATION / full variation / new idea, and they
+           single the second one out as "the most useful": "start the concept
+           the same way for the third repetition, but then take it in a
+           different direction halfway through". Same opening, different ending
+           -- the listener is rewarded for recognising it and surprised anyway.
+
+           So: from the THIRD pass of a cell, the second half of that pass plays
+           the material's variant. Not the first half, which is the whole point;
+           not from the second pass, because two identical hearings are what
+           ESTABLISH an idea and the sources are explicit that the third is
+           where attention goes.
+
+           AND IT COSTS NOTHING TO BUILD. `alt` is the variant `longLoop`
+           already alternates to -- built against the same reservations, already
+           the file's answer to "how does a part change without becoming a
+           different part". This is a second reader of it, at a different
+           counter.
+
+           `notes === mat[role]` guards it: a part whose long loop has ALREADY
+           moved it off the material this pass is varied, and varying a
+           variation is not the rule, it is noise. */
+        /* ── AND WHEN THERE IS NO VARIANT, THE PART LAYS OUT ────────────────
+           MEASURED the moment the variant road was built: fantasy synth's
+           second keyboard did not move ONE BAR. Its lag-4 stayed at 100%, five
+           distinct bars in eighty-nine, exactly as before -- because `Avar`'s
+           keys2 IS `A`'s keys2. The variant exists and is the same array.
+
+           WHICH ALSO MEANS ITS `longLoop: { keys2: 2 }` HAS ALWAYS BEEN DEAD.
+           That table says the second keyboard comes round every eight bars
+           instead of four, and the guard one block up -- "only where the
+           variant is actually a different array" -- has been correctly
+           declining to swap identity for identity ever since it was written.
+           Declared, read, and incapable of doing anything: the fault this file
+           is named after, sitting inside the mechanism meant to prevent it.
+           Fixing that is stage 3's job and is in the backlog.
+
+           So the rule of three gets a second road that needs no variant, and
+           it is the first rung of the sources' own ladder -- "instrumentation
+           or dynamics alters while the material stays". The part STOPS. Two
+           passes state the idea; on the third the second half is silence, and
+           the fourth pass brings it back. A player who has said the same thing
+           twice does not say it a third time louder, they lay out.
+
+           NOT THE DRUMS AND NOT THE GROUND. The kit already answers this rule
+           at the bar level with its fills and measures 178 distinct bars in
+           287; taking half of every third pass out of it would be a hole in the
+           record rather than an arrangement. The drone is what the arrangement
+           happens over -- see the roles block -- and a ground that stops is a
+           different piece of music. */
+        /* EVERY THIRD PASS, AND THE COUNTER RESETS. `cycle >= 2` was the first
+           reading and it was stricter than the rule: it varied the third pass
+           and every pass after it, which measured as sixty percent of the
+           ostinato's bars and sixty-two percent of the bass's leaving the
+           record. The sources say the opposite -- "whenever a musical pattern
+           is going to be repeated FOR A THIRD TIME, it's best to change it in
+           some way", and a change RESETS the count, because what follows it is
+           no longer an unbroken run. The trap paragraph of the same sheet says
+           so outright: "only consecutive, unvaried statements count".
+
+           So the third pass changes, the fourth and fifth state it again, the
+           sixth changes. One pass in three.
+
+           AND THE BASS KEEPS ITS BARS. It takes the variant road when there is
+           one and never the silence: it had just been measured as contributing
+           0.05 dB to the record, and answering "the bass is inaudible" by
+           deleting a third of it is not an arrangement, it is the same fault
+           twice. Foundation parts state the rule by CHANGING, not by leaving --
+           which is what the drums do already, at the bar level, with fills. */
+        if((cycle % 3) === 2 && notes === mat[role] &&
+           loopBar >= materials.bars / 2){
+          if(alt && alt[role] && alt[role].length && alt[role] !== mat[role])
+            notes = alt[role];
+          else if(role !== "drums" && role !== "drone" && role !== "bass")
+            continue;
+        }
         /* ══ THE CYCLE'S OWN TAKE ══════════════════════════════════════════
            This line is the answer to "the same exact notes played for 20 mins".
            Everything above it selects WHICH frozen array to replay; stage 3 now
