@@ -2162,3 +2162,54 @@ row with no board draws a knob with nothing to bypass. A hand opening
 `<bus>Pedals` on the matrix panel now arms a board on that bus — but only if a
 pedal is switched on, because the crossing is the cable and the four pedal
 panels are the footswitches.
+
+## §0ah — the fight act renders under realtime, and it is not the pedals (2026-08-21)
+
+MEASURED, doomsludge seed 1, nine-second offline renders at four points in the
+record, on the build **before** this session's pedal work and after it:
+
+```
+                         pre-session      now
+  t= 270  (doom)          1.28x           1.14x
+  t= 428  (sludge)        1.31x           1.18x
+  t= 655  (the fight)     0.80x           0.61x
+  t= 942  (walk home)     1.16x           1.01x
+```
+
+**The fight act was already under realtime before a single pedal was added.**
+This session cost it a further 0.19x, and the pedals are a fifth of that act's
+total: removing every meathead unit saves 1.3 s of 12.4, the chainsaw 0.8, the
+divider 0.8, the sag nothing above the noise. Trimming row lists was tried and
+moved less than the run-to-run spread.
+
+So four fifths of the cost is the arrangement — six roles, a dense kit at
+118 bpm, the FDN room and the rack worklet — and that is a separate job from
+the board. Candidates, none measured yet: the per-instrument channel strips
+`ensureChannels` builds (a fader, three biquads and an analyser each), the
+drum kit's own sub-mixer, and the fact that `renderWav` builds every node for
+the whole excerpt up front, which the harness's own note says is super-linear
+in length.
+
+**One caveat before anyone optimises on these numbers**: an offline render is
+not live playback. `renderWav` holds every node for every quantum of the whole
+excerpt; the live graph schedules voices as they arrive. The offline figure is
+the honest worst case and the right thing to watch, but a 0.61x here is not
+proof the page stutters — that has to be measured live, and has not been.
+
+## §0ai — a backtick in a worklet comment kills the page silently (2026-08-21, GUARDED)
+
+`RACK_DSP` and `ROOM_FDN` are template literals holding AudioWorklet source. A
+bare backtick written in a comment inside one ends the literal, and the file
+then fails to parse with an error naming whatever identifier follows:
+
+```
+SyntaxError: Unexpected identifier 'recov'
+```
+
+Hit twice in one hour while writing the sag. The render battery does catch it —
+by hanging for three minutes waiting on a `window.MK2` that never arrives.
+`harness/mk2_syntax.js` now says the same thing in a second, with a line
+number and no browser, and also counts unescaped backticks inside both worklet
+strings by name. The room's own comment records the same class of trap one
+layer along: `btoa` threw on a box-drawing character in a worklet comment, the
+catch swallowed it, and the reverb silently fell back to a convolver.

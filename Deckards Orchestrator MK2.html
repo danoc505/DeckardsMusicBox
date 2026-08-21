@@ -5131,6 +5131,64 @@ const INSTRUMENTS = {
              groups: [{ label: "", keys: ["power", "dirt", "bias", "dark", "level"] }] },
   },
 
+  /* ══ THE CHAINSAW ═════════════════════════════════════════════════════════
+     A Boss HM-2. "Every knob turned all the way up. That's all. Chainsaw city"
+     [corpus:catalinbread] — so LOW and HIGH default to 1 and the panel opens
+     dimed, which is the only setting anybody uses it at. `g.makeSaw` carries
+     the three gyrator frequencies and the three diode sets. */
+  saw: {
+    slot: "saw", label: "the chainsaw (HM-2)", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power", label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1,
+        kind:"switch", live:true },
+      { k:"dist",  label:"dist",  cap:"DIST",  min:0, max:1, step:0.01, def:0.70, kind:"gesture" },
+      /* the gyrator at 86.79 Hz, and +10 dB is what dimed means */
+      { k:"low",   label:"low (86.8 Hz)",  cap:"LOW",  min:0, max:1, step:0.01, def:1, kind:"voicing" },
+      /* the two at 958.47 and 1278.6 Hz — one knob, two filters, as built */
+      { k:"high",  label:"high (958 + 1279 Hz)", cap:"HIGH", min:0, max:1, step:0.01, def:1,
+        kind:"voicing" },
+      /* the series germanium pair: crossover distortion, and the gate that
+         makes an HM-2 stop dead between chugs */
+      { k:"gate",  label:"crossover gate", cap:"GATE", min:0, max:0.3, step:0.005, def:0.06,
+        kind:"voicing" },
+      /* the Doomsaw's "reduced high frequency harshness" */
+      { k:"tame",  label:"harshness",  cap:"TAME", min:1200, max:12000, step:100, def:6000,
+        unit:"Hz", kind:"voicing" },
+      { k:"level", label:"level", cap:"LEVEL", min:0, max:1, step:0.01, def:0.50, kind:"bus" },
+    ],
+    panel: { skin: "erang", maker: "", title: "chainsaw",
+             sub: "three gyrators at 86.8, 958 and 1279 Hz — dimed is the setting",
+             groups: [{ label: "", keys: ["power", "dist", "level"] },
+                      { label: "GYRATORS", keys: ["low", "high", "gate", "tame"] }] },
+  },
+
+  /* ══ AND THE POWER SUPPLY ═════════════════════════════════════════════════
+     Two different things under one word, both built: IDLE is the static starve
+     ("a 5k pot in series with +9V"), DEPTH and RECOVERY are the dynamic sag
+     ("under heavy demand, the power supply voltage momentarily drops, creating
+     a subtle compression effect"). `MK2Sag` carries the measured droop rate. */
+  sag: {
+    slot: "sag", label: "the sag (dying battery)", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power", label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1,
+        kind:"switch", live:true },
+      /* how far the rail falls when you hit it */
+      { k:"depth", label:"sag",  cap:"SAG",  min:0, max:1, step:0.01, def:0.50, kind:"bus" },
+      /* the static starve: 1 is a fresh battery, 0.18 is one that owes you nothing */
+      { k:"idle",  label:"battery", cap:"BATT", min:0.18, max:1, step:0.01, def:1, kind:"voicing" },
+      /* 0.02 s is a solid-state rectifier, 0.40 a tired valve one */
+      { k:"recov", label:"recovery", cap:"RECOV", min:0.01, max:0.6, step:0.005, def:0.12,
+        unit:"s", kind:"voicing" },
+      { k:"drive", label:"draw", cap:"DRAW", min:0, max:1, step:0.01, def:0.25, kind:"gesture" },
+    ],
+    panel: { skin: "erang", maker: "", title: "sag",
+             sub: "the rail falls in 11 ms and comes back when you let it — touch response",
+             groups: [{ label: "", keys: ["power", "depth", "drive"] },
+                      { label: "SUPPLY", keys: ["idle", "recov"] }] },
+  },
+
   /* ══ AND THE OCTAVE DIVIDER ═══════════════════════════════════════════════
      "Pedals pitched one or two octaves down for maximum heaviness"
      [corpus:boostguitarpedals]. A flip-flop, in the worklet -- `MK2Sub`. */
@@ -11203,6 +11261,118 @@ class MK2Sub extends AudioWorkletProcessor {
   }
 }
 registerProcessor("mk2-sub", MK2Sub);
+
+/* NOTE FOR ANYONE EDITING INSIDE THIS STRING: it is a TEMPLATE LITERAL, so a
+   bare backtick in a comment ENDS THE WORKLET and the page dies at parse with
+   something unrelated-looking ("Unexpected identifier 'recov'"). It happened
+   while writing the block below. The room's own note records the same trap one
+   layer along -- btoa throwing on a box-drawing character in a comment, caught
+   and swallowed, the room silently falling back to a convolver. Worklet source
+   inside a string is code the tooling cannot see; escape or avoid.
+
+   == THE SAG, WHICH IS THE POWER SUPPLY AND NOT A KNOB ON THE SIGNAL =========
+   The last thing on the sludge sources that was named and not built. A fuzz
+   circuit is "extremely sensitive to the amount of voltage that they receive,
+   thus any change in the voltage from your power supply will cause drastically
+   different tones", and running one low "produced a unique, rougher sound...
+   takes their already hard clipped, nasty sound and takes it to new extremes"
+   [corpus:perfectcircuit what is voltage sag]. Eric Johnson and Duane Allman
+   used dying batteries on purpose.
+
+   THERE ARE TWO DIFFERENT THINGS UNDER THAT ONE WORD AND THIS BUILDS BOTH.
+
+   A STARVE is static: "a 5k pot in series with +9V ... will affect DC
+   operating points in a fuzz, but in a PROPORTIONAL way" [corpus:pedalpcb
+   fuzz face voltage starve/dying battery mod]. That is the IDLE parameter.
+
+   SAG is dynamic, and it is the one that could not be a waveshaper: "under
+   heavy demand, the power supply voltage momentarily drops, creating a subtle
+   compression effect that players describe as feel or touch response... as the
+   power level increases, creating more demand for current, the DC power supply
+   voltage sags" [corpus:aikenamps what is sag; fractalaudio]. It depends on
+   what the signal has been doing for the last few milliseconds, which is state,
+   which is a processor.
+
+   THE SHAPE IS TAKEN FROM A MEASURED SUPPLY rather than invented. AmpBooks'
+   digital model of a Fender Deluxe 5E3 supply gives dVPP/dt = (I_ideal - IP -
+   IS)/C1, a Thevenin source of 410 V behind 593 ohms, and under a power chord
+   a "sag rate of 2.88 kilovolts per second -- 2.88 volts per millisecond" with
+   the plate supply falling 360 V to 328 V as the draw goes 84 mA to 138 mA
+   [corpus:ampbooks digital modeling of a guitar amplifier power supply]. That
+   is a 8.9% droop reached in about 11 ms, and 11 ms is the FALL constant here.
+
+   The RISE is slower and that asymmetry is the whole effect: "tube rectifiers,
+   as a rule, are relatively slower to respond to high demand than are solid
+   state rectifiers, and they tend to induce more compression-like sag as a
+   result" [corpus:aikenamps]. The recovery is the knob, and its range spans
+   solid-state to tube-rectifier.
+
+   WHAT THE FALLING SUPPLY DOES TO THE SIGNAL, and it is not a volume dip. A
+   lower rail is LESS HEADROOM, so the same signal clips harder AND comes out
+   quieter, and when the rail recovers the note blooms back. Both come out of
+   one line: clip against the rail, then scale by it.
+
+   [CHOSEN] the depth of the droop. The 8.9% figure above is a Deluxe at
+   moderate draw; a dying 9 V battery in a fuzz is a far deeper starve and no
+   source gives a number for "how flat is flat". The knob spans the two. */
+class MK2Sag extends AudioWorkletProcessor {
+  static get parameterDescriptors(){
+    return [
+      /* how far the rail falls under load. 0 is a stiff supply. */
+      { name: "amt",   defaultValue: 0, minValue: 0, maxValue: 1, automationRate: "k-rate" },
+      /* the idle rail: the series pot, a fresh battery at 1 */
+      { name: "idle",  defaultValue: 1, minValue: 0.18, maxValue: 1, automationRate: "k-rate" },
+      /* seconds to come back. 0.02 is a solid-state rectifier, 0.40 a tired
+         valve one that squishes every note. */
+      { name: "recov", defaultValue: 0.12, minValue: 0.01, maxValue: 0.6, automationRate: "k-rate" },
+      /* the drive into the rail -- how hard the circuit is asking for current */
+      { name: "drive", defaultValue: 1.4, minValue: 0.2, maxValue: 40, automationRate: "k-rate" },
+    ];
+  }
+  constructor(){ super(); this.env = 0; this.v = 1; }
+  process(inputs, outputs, prm){
+    const I = inputs[0], O = outputs[0];
+    if(!O || !O[0]) return true;
+    const n = O[0].length;
+    const src = (I && I[0]) ? I[0] : null;
+    const amt = prm.amt[0], idle = prm.idle[0], rec = prm.recov[0], drv = prm.drive[0];
+    /* the follower: 1 ms to see the transient, 40 ms to forget it */
+    const eUp = Math.exp(-1 / (0.001 * sampleRate));
+    const eDn = Math.exp(-1 / (0.040 * sampleRate));
+    /* 11 ms down, the measured plate rate; the recovery knob up */
+    const kFall = 1 - Math.exp(-1 / (0.011 * sampleRate));
+    const kRise = 1 - Math.exp(-1 / (Math.max(0.005, rec) * sampleRate));
+    for(let i = 0; i < n; i++){
+      const x = src ? src[i] : 0;
+      const a = x < 0 ? -x : x;
+      this.env = a > this.env ? (eUp * this.env + (1 - eUp) * a)
+                              : (eDn * this.env + (1 - eDn) * a);
+      const draw = this.env * 4 > 1 ? 1 : this.env * 4;
+      const targ = idle - amt * 0.82 * draw;
+      this.v += (targ - this.v) * (targ < this.v ? kFall : kRise);
+      const head = this.v > 0.05 ? this.v : 0.05;
+      /* clip against the rail and come out AT the rail: less headroom is more
+         distortion and less level at the same time, which is the effect */
+      /* ── AND A SUPPLY DOES NOT ADD GAIN, IT TAKES AWAY HEADROOM ────────
+         The first version returned tanh(x*drive/head)*head directly, which for
+         a small signal is x*drive -- so a DRAW knob at a quarter turn was a
+         plus twenty-one decibel boost and the fight act came back peaking at
+         1.000, clipped. A rail is not a booster. Dividing the small-signal
+         gain back out leaves exactly the thing that IS the effect: the ceiling
+         is head-over-drive and it moves, so a stiff supply is a wire and a
+         collapsing one clips earlier and quieter and blooms back. */
+      let y = Math.tanh(x * drv / head) * head / drv;
+      /* a starved rail also skews the bias, so the clipping goes asymmetric as
+         it collapses -- the "rougher" the sources describe. The DC this makes
+         is removed by a coupling cap on the node side, as on the Fuzz Face. */
+      y += (1 - this.v) * 0.015;
+      O[0][i] = y;
+      if(O[1]) O[1][i] = y;
+    }
+    return true;
+  }
+}
+registerProcessor("mk2-sag", MK2Sag);
 `;
   let rackErr = "";
   async function addRackModule(c){
@@ -11842,7 +12012,12 @@ registerProcessor("mk2-room", MK2Room);
       const cap = c.createBiquadFilter(); cap.type = "highpass";
       cap.frequency.value = 32; cap.Q.value = 0.707;
       const pre = c.createGain(); pre.gain.value = 1;     // the FUZZ pot's feedback
-      const sh  = c.createWaveShaper(); sh.oversample = "4x";
+      /* 2x, which is what the Muff's two stages and the DP/4's drive stage
+         both use -- and it is not a detail here: MEASURED, the board with the
+         chainsaw and the sag added cost 8,157 ms on a nine-second render,
+         1.10x realtime, against 1.31x before this session. That is the same
+         margin the stutter was found in. */
+      const sh  = c.createWaveShaper(); sh.oversample = "2x";
       /* the DEAD ZONE is baked into the same curve as the asymmetry, because
          both are one transfer function of a badly biased pair. Rebuilt when
          BIAS moves -- a table per board, not per channel. */
@@ -11927,6 +12102,184 @@ registerProcessor("mk2-room", MK2Room);
         m.pre.gain.setValueAtTime(pre, at);
         m.dk.frequency.setValueAtTime(hz, at);
       }
+    };
+
+    /* ══ THE CHAINSAW — A BOSS HM-2 WITH EVERY KNOB UP ═════════════════════
+       The last named-and-unbuilt pedal on the doom sheet, and the one with the
+       most specific provenance of anything in this file. Daniel Ekeroth gave
+       the Swedish death metal guitar sound away in a 2008 video: "a Boss HM-2
+       with EVERY KNOB TURNED ALL THE WAY UP. That's all. Chainsaw city."
+       [corpus:catalinbread Boss HM-2]
+
+       AND THE THREE FREQUENCIES ARE PUBLISHED TO TWO DECIMAL PLACES, so there
+       is nothing here for me to invent: "the L knob is centered at 86.79 Hz,
+       while the H knob is TWICE AS POWERFUL, using TWO SIMULTANEOUS GYRATORS
+       centered at 958.47 Hz and 1278.6 Hz" [ibid]. The pedal uses gyrators --
+       "a transistorised simulation of an inductor, to provide super-powerful,
+       console-style EQ circuits that boost or cut the frequency at which they
+       are centered" -- which is a PEAKING filter, and a peaking biquad is the
+       same object. Dimed is all three at +10 dB: "a rich harmonic distortion
+       boosting all three of those frequency bands by 10 dB is a punishing
+       spatial filler that sounds pretty much exactly like Swedish death metal,
+       no matter how you slice it."
+
+       WHY THE HIGH KNOB IS ONE CONTROL AND TWO FILTERS: because the pedal is.
+       Collapsing them into one peaking band at 1.1 kHz would be tidier and
+       would not be the circuit -- two overlapping bells make a wider, flatter
+       shelf across the upper mids than one bell of the same gain, and that
+       plateau is the chainsaw. Building one is how a sourced number becomes a
+       number that merely looks sourced.
+
+       THE CLIPPING IS THREE THINGS AT ONCE, and this is the part that makes it
+       not-a-Muff: "both asymmetric soft-clipping diodes, hard clipping diodes
+       and a Ge diode pair IN SERIES with the signal for CROSSOVER DISTORTION
+       and simple NOISE GATE" [corpus:davidross/hobby-hour HM-2 analysis]. So
+       the curve is a soft asymmetric bend, then a hard ceiling, then a dead
+       zone -- and the dead zone is not a fault, it is the pedal's gate, which
+       is why an HM-2 stops dead between chugs. Germanium is a ~0.3 V drop
+       against a swing of about a volt at that point in the circuit, so the
+       zone is small.
+
+       AND THE DOOM VERSION IS THE SAME BOX AIMED LOWER. The Doomsaw is "a
+       gruesome single knob adaptation of the DIMED HM-2 chainsaw circuit"
+       whose "Level, Low EQ and High EQ are MAXED INTERNALLY" and whose voicing
+       is "an increased and extended Low EQ combined with a modified High EQ
+       for a pummeling chainsaw dirge with REDUCED HIGH FREQUENCY HARSHNESS"
+       [corpus:doesitdoom Doomsaw]. That last clause is the TAME control. */
+    g.makeSaw = function(){
+      const inp = c.createGain(); inp.gain.value = 1;
+      const out = c.createGain(); out.gain.value = 1;
+      const dry = c.createGain(); dry.gain.value = 1;
+      const pre = c.createGain(); pre.gain.value = 1;
+      const sh  = c.createWaveShaper(); sh.oversample = "2x";
+      /* the series germanium pair makes DC the same way any asymmetry does */
+      const dc  = c.createBiquadFilter(); dc.type = "highpass";
+      dc.frequency.value = 45; dc.Q.value = 0.707;
+      /* the three gyrators, at the frequencies the article prints */
+      const gL  = c.createBiquadFilter(); gL.type = "peaking";
+      gL.frequency.value = 86.79;  gL.Q.value = 0.9; gL.gain.value = 0;
+      /* ── AND THE Q IS LOW BECAUSE THE ARTICLE SAYS CONSOLE, NOT NOTCH ────
+         "A gyrator... to provide super-powerful, CONSOLE-STYLE EQ circuits"
+         and the dimed sound is "a punishing SPATIAL FILLER". A console band is
+         broad. MEASURED at Q 1.1, the two bells stacked into a spike: 45% of
+         the fight act's whole energy inside one octave around 1 kHz, which is
+         a honk rather than a chainsaw. At 0.75 the pair merges into the
+         plateau across the upper mids that the phrase describes. */
+      const gH1 = c.createBiquadFilter(); gH1.type = "peaking";
+      gH1.frequency.value = 958.47; gH1.Q.value = 0.75; gH1.gain.value = 0;
+      const gH2 = c.createBiquadFilter(); gH2.type = "peaking";
+      gH2.frequency.value = 1278.6; gH2.Q.value = 0.75; gH2.gain.value = 0;
+      const tame = c.createBiquadFilter(); tame.type = "lowpass";
+      tame.frequency.value = 6000; tame.Q.value = 0.707;
+      const wet = c.createGain(); wet.gain.value = 0;
+      inp.connect(dry); dry.connect(out);
+      inp.connect(pre); pre.connect(sh); sh.connect(dc);
+      dc.connect(gL); gL.connect(gH1); gH1.connect(gH2); gH2.connect(tame);
+      tame.connect(wet); wet.connect(out);
+      const m = { inp, out, dry, wet, pre, sh, gL, gH1, gH2, tame, gate: -1 };
+      g.sawCurve(m, 0.06);
+      return m;
+    };
+    /* soft asymmetric bend, hard ceiling, germanium dead zone -- in that order,
+       which is the order the three diode sets sit in */
+    g.sawCurve = function(m, gate){
+      const gt = Math.max(0, Math.min(0.3, gate));
+      if(Math.abs(m.gate - gt) < 0.002) return;
+      m.gate = gt;
+      const N = 4097, cv = new Float32Array(N);
+      const off = 0.08, base = Math.tanh(1.9 * off), ceil = 0.72;
+      let top = 0;
+      for(let i = 0; i < N; i++){
+        const x = (i / (N - 1)) * 2 - 1;
+        let y = Math.tanh(1.9 * (x + off)) - base;      // asymmetric soft pair
+        y = y > ceil ? ceil : (y < -ceil ? -ceil : y);  // the hard pair
+        const a = y < 0 ? -y : y;                       // the series Ge pair
+        y = a <= gt ? 0 : (y < 0 ? -(a - gt) : (a - gt));
+        cv[i] = y;
+        if(a > top) top = Math.abs(y);
+      }
+      const k = top > 0 ? 1 / top : 1;
+      for(let i = 0; i < N; i++) cv[i] = Math.max(-1, Math.min(1, cv[i] * k));
+      m.sh.curve = cv;
+    };
+    g.setSaw = function(m, cfg, when){
+      const C = cfg || {};
+      const a = Math.max(0, Math.min(1, C.amt || 0));
+      /* the same rescaled law the other two clippers needed -- a subgroup
+         peaks near 0.055 and a waveshaper's knee is near 0.5 */
+      const pre = 3 * Math.pow(280, Math.max(0, Math.min(1, C.dist != null ? C.dist : 0.7)));
+      const lo = 10 * Math.max(0, Math.min(1, C.low  != null ? C.low  : 1));
+      const hi = 10 * Math.max(0, Math.min(1, C.high != null ? C.high : 1));
+      const tm = Math.max(1200, Math.min(12000, C.tame != null ? C.tame : 6000));
+      const lv = C.level != null ? C.level : 0.5;
+      g.sawCurve(m, C.gate != null ? C.gate : 0.06);
+      if(when == null){
+        m.dry.gain.value = 1 - a;  m.wet.gain.value = a * lv * 1.5;
+        m.pre.gain.value = pre;    m.gL.gain.value = lo;
+        m.gH1.gain.value = hi;     m.gH2.gain.value = hi;
+        m.tame.frequency.value = tm;
+      } else {
+        const at = Math.max(0, when);
+        m.dry.gain.setValueAtTime(1 - a, at);
+        m.wet.gain.setValueAtTime(a * lv * 1.5, at);
+        m.pre.gain.setValueAtTime(pre, at);
+        m.gL.gain.setValueAtTime(lo, at);
+        m.gH1.gain.setValueAtTime(hi, at);
+        m.gH2.gain.setValueAtTime(hi, at);
+        m.tame.frequency.setValueAtTime(tm, at);
+      }
+    };
+
+    /* ══ AND THE POWER SUPPLY ITSELF ═══════════════════════════════════════
+       `MK2Sag` in the rack worklet module carries the sourcing and the
+       measured droop rate. This is the node side, and it has one honest
+       compromise written down rather than hidden:
+
+       A REAL STARVE IS A RAIL, NOT A STAGE. Turning the supply down on a Fuzz
+       Face moves the bias of BOTH its transistors and every filter that sits
+       on their collectors; here the pedals are separate blocks with their own
+       supplies, so a rail shared between them is not something this graph can
+       express. So the sag is a STAGE, placed last in the dirt chain, where it
+       squishes whatever the clippers in front of it have made. That is the
+       behaviour -- touch response, the note collapsing and blooming back --
+       without the claim that it is the same circuit.
+
+       AND IT NEEDS THE COUPLING CAP, for the reason the Fuzz Face's own note
+       records: a rail that skews the bias as it falls makes a DC term that
+       rides the envelope, and a DC term riding the envelope is a thump. */
+    g.makeSag = function(){
+      const inp = c.createGain(); inp.gain.value = 1;
+      const out = c.createGain(); out.gain.value = 1;
+      const dry = c.createGain(); dry.gain.value = 1;
+      inp.connect(dry); dry.connect(out);
+      if(!g.rackReady) return { inp, out, dry, wet: null, node: null };
+      let node = null;
+      try {
+        node = new AudioWorkletNode(c, "mk2-sag", {
+          numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [2],
+        });
+      } catch(e){ return { inp, out, dry, wet: null, node: null }; }
+      const dc = c.createBiquadFilter(); dc.type = "highpass";
+      dc.frequency.value = 42; dc.Q.value = 0.707;
+      const wet = c.createGain(); wet.gain.value = 0;
+      inp.connect(node); node.connect(dc); dc.connect(wet); wet.connect(out);
+      return { inp, out, dry, wet, node, dc };
+    };
+    g.setSag = function(sg, cfg, when){
+      if(!sg || !sg.node) return;
+      const C = cfg || {};
+      const a = Math.max(0, Math.min(1, C.amt || 0));
+      const P = sg.node.parameters;
+      const put = (k, v) => { const p = P.get(k); if(!p) return;
+        if(when == null) p.value = v; else p.setValueAtTime(v, Math.max(0, when)); };
+      put("amt",   Math.max(0, Math.min(1, C.depth != null ? C.depth : 0.5)));
+      put("idle",  Math.max(0.18, Math.min(1, C.idle  != null ? C.idle  : 1)));
+      put("recov", Math.max(0.01, Math.min(0.6, C.recov != null ? C.recov : 0.12)));
+      put("drive", Math.max(0.2, Math.min(40, 3 * Math.pow(120,
+                     Math.max(0, Math.min(1, C.drive != null ? C.drive : 0.25))))));
+      if(when == null){ sg.dry.gain.value = 1 - a; sg.wet.gain.value = a; }
+      else { const at = Math.max(0, when);
+             sg.dry.gain.setValueAtTime(1 - a, at); sg.wet.gain.setValueAtTime(a, at); }
     };
 
     /* ══ THE SUB — AN OCTAVE DIVIDER, NOT AN OCTAVE MULTIPLIER ══════════════
@@ -12077,14 +12430,23 @@ registerProcessor("mk2-room", MK2Room);
        reverse; the Face is the raw one and the Muff is the compressor and the
        tone stack after it. */
     g.makeBoard = function(spec){
-      const S = spec || { comp: true, sub: true, oct: true, meat: true, fuzz: true, phase: true };
-      const bd = { comp: null, sub: null, oct: null, meat: null, fuzz: null, phase: null };
+      const S = spec || { comp: true, sub: true, oct: true, meat: true,
+                          fuzz: true, saw: true, sag: true, phase: true };
+      const bd = { comp: null, sub: null, oct: null, meat: null,
+                   fuzz: null, saw: null, sag: null, phase: null };
       const chain = [];
       if(S.comp)  { bd.comp  = g.makeComp();   chain.push(bd.comp); }
       if(S.sub)   { bd.sub   = g.makeSub();    chain.push(bd.sub); }
       if(S.oct)   { bd.oct   = g.makeOctave(); chain.push(bd.oct); }
       if(S.meat)  { bd.meat  = g.makeMeat();   chain.push(bd.meat); }
       if(S.fuzz)  { bd.fuzz  = g.makeFuzz();   chain.push(bd.fuzz); }
+      /* THE CHAINSAW AFTER THE MUFF, because on the pedal it models the tone
+         section IS the sound: an HM-2 with the EQ dimed is the last voicing
+         anything sees, not a drive feeding another drive.
+         THE SAG LAST OF THE DIRT, because a supply squishes what the circuit
+         in front of it is drawing -- see its own note on why it is a stage. */
+      if(S.saw)   { bd.saw   = g.makeSaw();    chain.push(bd.saw); }
+      if(S.sag)   { bd.sag   = g.makeSag();    chain.push(bd.sag); }
       if(S.phase) { bd.phase = g.makePhase();  chain.push(bd.phase); }
       if(!chain.length){                       // nothing on: a wire
         const w = c.createGain(); w.gain.value = 1;
@@ -12291,7 +12653,7 @@ registerProcessor("mk2-room", MK2Room);
        A board with everything bypassed is still four blocks of arithmetic per
        channel, so it is spliced out entirely when nothing on it is on -- the
        same argument the fuzz's own splice makes, now covering four pedals. */
-    g.PEDALS = ["comp", "sub", "oct", "meat", "fuzz", "phase"];
+    g.PEDALS = ["comp", "sub", "oct", "meat", "fuzz", "saw", "sag", "phase"];
     g.boardOn = cfg => !!(cfg && g.PEDALS.some(k => cfg[k] && cfg[k].amt > 0));
     /* ── AND THE BOARD BELONGS TO THE PART, NOT TO EACH INSTRUMENT ─────────
        The first build spliced a board into every CHANNEL, and a channel is one
@@ -12384,6 +12746,8 @@ registerProcessor("mk2-room", MK2Room);
       const P = (cfg && cfg.phase) || {}, F = (cfg && cfg.fuzz) || {};
       if(bd.meat) g.setMeat(bd.meat, (cfg && cfg.meat) || {}, null);
       if(bd.sub)  g.setSub(bd.sub,   (cfg && cfg.sub)  || {}, null);
+      if(bd.saw)  g.setSaw(bd.saw,   (cfg && cfg.saw)  || {}, null);
+      if(bd.sag)  g.setSag(bd.sag,   (cfg && cfg.sag)  || {}, null);
       const ca = Math.max(0, Math.min(1, C.amt || 0));
       if(bd.comp){
       bd.comp.dry.gain.value = 1 - ca;
@@ -12448,6 +12812,8 @@ registerProcessor("mk2-room", MK2Room);
       if(bd.fuzz) g.schedFuzz(bd.fuzz, (cfg && cfg.fuzz) || {}, at);
       if(bd.meat) g.setMeat(bd.meat, (cfg && cfg.meat) || {}, at);
       if(bd.sub)  g.setSub(bd.sub,   (cfg && cfg.sub)  || {}, at);
+      if(bd.saw)  g.setSaw(bd.saw,   (cfg && cfg.saw)  || {}, at);
+      if(bd.sag)  g.setSag(bd.sag,   (cfg && cfg.sag)  || {}, at);
     };
     g.schedFuzz = function(fz, cfg, when){
       if(!fz) return;
@@ -20687,7 +21053,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          `space.fuzz.by` and a `section` motion lane: movement first, section
          function second, the bare declaration under both */
       const boardOf = (f, mv, fn) => {
-        const o = { comp: {}, sub: {}, oct: {}, meat: {}, phase: {}, fuzz: f || {} };
+        const o = { comp: {}, sub: {}, oct: {}, meat: {}, saw: {}, sag: {},
+                    phase: {}, fuzz: f || {} };
         if(!PED) return o;
         const pick = k => {
           const by = PED.by || {};
@@ -20696,6 +21063,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         };
         o.comp = pick("comp"); o.oct = pick("oct"); o.phase = pick("phase");
         o.sub = pick("sub"); o.meat = pick("meat");
+        o.saw = pick("saw"); o.sag = pick("sag");
         if(PED.fuzz || (PED.by && ((mv != null && PED.by[mv] && PED.by[mv].fuzz) ||
                                    (fn != null && PED.by[fn] && PED.by[fn].fuzz))))
           o.fuzz = pick("fuzz");
@@ -20753,7 +21121,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         return rs ? new Set(rs) : null;
       };
       const RW = { comp: pedRows("comp"), sub: pedRows("sub"), oct: pedRows("oct"),
-                   meat: pedRows("meat"), phase: pedRows("phase"), fuzz: pedRows("fuzz") };
+                   meat: pedRows("meat"), phase: pedRows("phase"), fuzz: pedRows("fuzz"),
+                   saw: pedRows("saw"), sag: pedRows("sag") };
       /* ── AND THE OTHER THREE PEDALS HAVE HANDS TOO ────────────────────────
          Same three-way as the fuzz, one per pedal: -1 leaves the genre alone,
          0 takes that pedal out of the chain whatever the genre asked for, and
@@ -20778,6 +21147,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       const H_SUB = pedHand("sub", () => ({
         amt: panelValue("sub", "blend", 0.35), two: panelValue("sub", "two", 0),
         gate: panelValue("sub", "gate", 0.012), tone: panelValue("sub", "tone", 900) }));
+      const H_SAW = pedHand("saw", () => ({
+        amt: 1, dist: panelValue("saw", "dist", 0.70), low: panelValue("saw", "low", 1),
+        high: panelValue("saw", "high", 1), gate: panelValue("saw", "gate", 0.06),
+        tame: panelValue("saw", "tame", 6000), level: panelValue("saw", "level", 0.50) }));
+      const H_SAG = pedHand("sag", () => ({
+        amt: 1, depth: panelValue("sag", "depth", 0.5), idle: panelValue("sag", "idle", 1),
+        recov: panelValue("sag", "recov", 0.12), drive: panelValue("sag", "drive", 0.25) }));
       /* a hand overrides the row list too: a pedal you switched on plays on
          every part the board covers, not only the ones a table named */
       const handed = (k, h) => { if(h) RW[k] = null; };
@@ -20785,16 +21161,19 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       handed("phase", H_PHASE && !H_PHASE.off ? H_PHASE : null);
       handed("meat", H_MEAT && !H_MEAT.off ? H_MEAT : null);
       handed("sub", H_SUB && !H_SUB.off ? H_SUB : null);
+      handed("saw", H_SAW && !H_SAW.off ? H_SAW : null);
+      handed("sag", H_SAG && !H_SAG.off ? H_SAG : null);
       const HAND_PED = { comp: H_COMP, oct: H_OCT, phase: H_PHASE,
-                         meat: H_MEAT, sub: H_SUB };
+                         meat: H_MEAT, sub: H_SUB, saw: H_SAW, sag: H_SAG };
       const forRow = (r, cfg) => {
-        const o = { comp: {}, sub: {}, oct: {}, meat: {}, phase: {}, fuzz: {} };
+        const o = { comp: {}, sub: {}, oct: {}, meat: {}, saw: {}, sag: {},
+                    phase: {}, fuzz: {} };
         for(const k of g.PEDALS)
           if(!RW[k] || RW[k].has(r)) o[k] = cfg[k] || {};
         /* the hand, last, over whatever the table said for this part. The
            MUFF is not in this list because its hand arrives through `fz`
            above, which is the older road and still the one that carries it. */
-        for(const k of ["comp", "oct", "phase", "meat", "sub"]){
+        for(const k of ["comp", "oct", "phase", "meat", "sub", "saw", "sag"]){
           const h = HAND_PED[k];
           if(h) o[k] = h.off ? { amt: 0 } : h;
         }
@@ -20802,7 +21181,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       };
       const handOn = k => { const h = HAND_PED[k]; return !!(h && !h.off); };
       const ROWS = (PED && PED.rows) || (fz && fz.rows) || [];
-      if(every.length || anyPed() || ["comp", "oct", "phase", "meat", "sub"].some(handOn))
+      if(every.length || anyPed() || ["comp", "oct", "phase", "meat", "sub", "saw", "sag"].some(handOn))
         for(const k of ROWS){
           /* ── EXACT ROLE MATCH, NO BUS FALLBACK ─────────────────────────
              The subgroups are keyed by role and `MIX_ROLE_BUS` puts keys2,
@@ -20842,7 +21221,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       /* WHICH PEDALS THIS RECORD EVER TURNS ON, asked across every movement
          and not only the first — a pedal used solely in the walk home still
          has to exist when the record is armed. */
-      const SPEC = { comp: false, sub: false, oct: false, meat: false, fuzz: false, phase: false };
+      const SPEC = { comp: false, sub: false, oct: false, meat: false,
+                     fuzz: false, saw: false, sag: false, phase: false };
       {
         const look = b => {
           if(!b) return;
@@ -20853,7 +21233,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         for(const k in ((fz && fz.by) || {})) look(boardOf(fz.by[k], k, null));
         for(const k in ((PED && PED.by) || {})) look(boardOf(every[0], k, null));
       }
-      for(const k of ["comp", "oct", "phase", "meat", "sub"]) if(handOn(k)) SPEC[k] = true;
+      for(const k of ["comp", "oct", "phase", "meat", "sub", "saw", "sag"]) if(handOn(k)) SPEC[k] = true;
       const specFor = r => {
         const o = {};
         for(const k of g.PEDALS) o[k] = SPEC[k] && (!RW[k] || RW[k].has(r));
@@ -29054,23 +29434,92 @@ GENRE.doomsludge = (function(F){
          keyboards: `keys` is G#2..G4 and `lead` is A3..F#5. So the Face goes
          where a guitarist's would and the bass keeps the Muff, which is the
          ordinary division on any stage. */
+      /* ── AND THE ROW LISTS ARE A BUDGET, NOT A PREFERENCE ────────────────
+         `SPEC` is computed across EVERY movement, so a pedal one act uses is
+         BUILT on its rows for the whole record -- that is what "topology at
+         song-arm" costs, and it is the right rule. It means each name in these
+         lists is a unit that exists for twenty minutes.
+
+         MEASURED at the fight, seed 1, a nine-second render: every meathead
+         unit removed saves 1.3 s of 12.4, the chainsaw 0.8, the divider 0.8,
+         the sag none that rises above the noise. So the whole board is about
+         20% of that act.
+
+         AND THE OTHER 80% IS THE ARRANGEMENT, WHICH IS NOT A PEDAL PROBLEM.
+         The same act on the build BEFORE any of this session's work rendered
+         at 0.80x realtime -- already under the line. Trimming rows was tried
+         and measured and moved it by less than the run-to-run noise, so the
+         rows are set by what the music wants and the cost is recorded in
+         BACKLOG as the separate job it is. `keys2` stays: the wall is what
+         this genre is for.
+
+         `sawRows` is the one that stays narrow, on a musical argument rather
+         than a budget: an HM-2 is a guitar in front of a mic, and two of them
+         an octave apart is a phaser nobody asked for. */
       meatRows: ["keys", "keys2", "lead", "ostinato"],
+      /* ── AND THE CHAINSAW IS THE FIGHT'S, NOT THE DOOM ACT'S ─────────────
+         An HM-2 dimed is Swedish death metal -- Entombed, not Sleep -- and the
+         act on this record whose sources are hardcore-adjacent attack is the
+         mathcore leg. Putting it on the doom act would be a genre error with a
+         citation attached. The other two heavy acts get the DOOMSAW voicing of
+         it instead: the same dimed circuit aimed lower, "an increased and
+         extended Low EQ ... with reduced high frequency harshness"
+         [corpus:doesitdoom], which is TAME down and the gyrators still at 10 dB.
+
+         On the RIFF instruments only. The chainsaw's whole character is what
+         it does to a chugging guitar; on a sustained pad it is just fizz. */
+      sawRows: ["keys", "lead"],
+      /* ── AND THE SAG IS THE BASS'S AND THE LEAD'S ────────────────────────
+         Touch response is a thing you hear on the part that is being PLAYED --
+         "a subtle compression effect that players describe as feel"
+         [corpus:aikenamps]. On the bass it is the note collapsing under the
+         pick and blooming back, which is the doom half of this record's whole
+         gesture; on the lead it is the sustain the drone acts want. Not on the
+         ostinato, which repeats too fast for a 120 ms recovery to be anything
+         but a tremolo nobody asked for. */
+      sagRows: ["bass", "lead"],
       by: {
         /* DOOM. The sub an octave down under the bass, the Face just barely
            in — the Muff is doing the work here and the Face is thickening its
            input. Gate high enough that the divider shuts up between notes. */
         "setting out":       { sub:  { amt: 0.30, two: 0, gate: 0.016, tone: 780 },
                                meat: { amt: 0.30, dirt: 0.55, bias: 0.10,
-                                       dark: 0.30, level: 0.45 } },
+                                       dark: 0.30, level: 0.45 },
+                               /* the Doomsaw voicing: dimed gyrators, top taken off */
+                               saw:  { amt: 0.35, dist: 0.62, low: 1, high: 0.70,
+                                       gate: 0.05, tame: 3200, level: 0.13 },
+                               /* a tired supply, breathing with the riff. The
+                                  battery is still good; only the sag is on. */
+                               sag:  { amt: 0.45, depth: 0.55, idle: 1,
+                                       recov: 0.22, drive: 0.30 } },
         /* SLUDGE. Two octaves down and the Face stacked into the Muff at
            three quarters — the wall. Darkest setting on the board. */
         "into the deep":     { sub:  { amt: 0.38, two: 0.40, gate: 0.012, tone: 620 },
                                meat: { amt: 0.72, dirt: 0.74, bias: 0.16,
-                                       dark: 0.18, level: 0.50 } },
+                                       dark: 0.18, level: 0.50 },
+                               saw:  { amt: 0.50, dist: 0.72, low: 1, high: 0.62,
+                                       gate: 0.06, tame: 2600, level: 0.15 },
+                               /* AND THE BATTERY IS DYING. This is the act
+                                  that wants "molten lava, congealing tar" --
+                                  a starved rail is where the sources put that
+                                  sound, and the slowest recovery on the record
+                                  is what makes every note collapse and swell. */
+                               sag:  { amt: 0.62, depth: 0.72, idle: 0.72,
+                                       recov: 0.34, drive: 0.38 } },
         /* MATHCORE. No sub — a divider on a part that changes note every beat
            is a smear. The Face alone, biased into the velcro, and the comp. */
         "the fight":         { meat: { amt: 0.62, dirt: 0.58, bias: 0.62,
-                                       dark: 0.62, level: 0.48 },
+                                       dark: 0.62, level: 0.34 },
+                               /* CHAINSAW CITY: every knob up, the tame filter
+                                  open, which is the setting the pedal is famous
+                                  for and the only one anybody uses it at */
+                               saw:  { amt: 0.70, dist: 0.76, low: 1, high: 1,
+                                       gate: 0.09, tame: 7500, level: 0.09 },
+                               /* a fast rail here -- a mathcore act needs the
+                                  attack back before the next hit, so this is
+                                  the solid-state end of the recovery range */
+                               sag:  { amt: 0.30, depth: 0.42, idle: 1,
+                                       recov: 0.035, drive: 0.34 },
                                comp: { amt: 0.45, sustain: 0.35, level: 0.5 } },
         /* THE WALK HOME. Everything off but the two Gilmour pedals. */
         "the long way home": { phase: { amt: 0.55, rate: 0.10 },
