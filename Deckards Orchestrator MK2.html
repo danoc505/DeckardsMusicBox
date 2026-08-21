@@ -27261,6 +27261,63 @@ GENRE.doomsludge = (function(F){
      program wrongly and reports the program as broken is worse than no probe,
      and it nearly had a correct architecture torn up to chase it.
      ═══════════════════════════════════════════════════════════════════════ */
+  /* ══ ONLY THE DOOM ACT HOLDS ═══════════════════════════════════════════
+     MEASURED off the printout, this record's first keyboard:
+
+       act            events   on step 0   distinct bar-grids
+       setting out        57       100%         1
+       the fight         570       100%         1
+       the long way home 288       100%         1
+
+     One chord, struck on the downbeat, held the bar, for the whole leg, in
+     three different musics. It is a pad wearing a comp's name.
+
+     AND IT IS EXACTLY RIGHT FOR ONE OF THEM. Doom asks for it outright --
+     "power chords, parallel fourths/fifths, and SUSTAINED UNISONS enhance
+     mass"; "play a power chord or single note and LET IT SUSTAIN"
+     [corpus:melodigging/doom-metal] -- and epic doom puts keyboards there for
+     the same reason: "organ, choir pads, mellotron ... to heighten the
+     monumental feel", "SUSTAINED TONES over speed or virtuosity"
+     [corpus:melodigging/epic-doom-metal]. So `A` keeps it, and keeping it is
+     now a DECISION rather than the accident it has been.
+
+     THE OTHER THREE ASK FOR THE OPPOSITE, each in its own words:
+
+       C  sludge    the bass and the guitars are "playing the SAME RIFF in
+                    unison" -- a riff, not a wash. A pad cannot be in unison
+                    with a riff.
+       B  mathcore  Botch is "dissonant, single-note lines ... AVOIDING POWER
+                    CHORDS", The Number Twelve voices root+octave+ninth, and
+                    both live on attack. A whole-bar chord has no attack after
+                    its first sixteenth.
+       lift  prog   measured on the Shine On MIDI: its calm opening is seven
+                    parts trading TWO-NOTE voicings with the harmony changing
+                    about once a bar. Sparse in density per part, not in parts
+                    and not in motion -- the opposite of one held triad.
+
+     ── AND A COMP NEEDS SOMEWHERE TO ENTER ────────────────────────────────
+     `compEntry` is the per-bar entry offset and this genre inherits none, so
+     freeing the three acts above would have handed them a comp that still
+     starts every bar on the downbeat. The pool below is weighted AWAY from
+     zero for the reason the repo's own sheet is named after -- the comp does
+     not land on one -- and toward the anticipation, which is the oldest move a
+     comping hand has: "rhythm is vital and LEAVING SPACE is a huge part of
+     effective and appropriate comping technique", varied with "long notes,
+     short held notes, short stabs" [corpus:pianogroove/comping-hammond-organ].
+     [CHOSEN: the weights -- no source publishes a table]
+
+     ⚠ AND `C` IS INERT TODAY, SAID HERE RATHER THAN LEFT TO LOOK LIVE.
+     MEASURED on the printout after declaring it: 0 `keys` lines inside any
+     material C section. `form.roles["into the deep"]` is
+     ["drums","bass","keys2","lead","drone"] -- the sludge act has NO `keys`
+     lane at all, so its first keyboard cannot comp because it never plays.
+     The entry is kept because it is the right answer the moment that leg gets
+     the lane, and putting `keys` into a movement's roles is an arrangement
+     decision rather than a comp one. It is the same shape as the bass sheet's
+     §5 finding about the walk home, and it goes to the owner, not into this
+     table quietly. */
+  keysStyleAt: { A: "hold", C: "comp", B: "comp", lift: "comp" },
+  compEntry: [[-2, 5], [2, 4], [-1, 3], [0, 3], [1, 2], [3, 2]],
   ostinato: merge(F.ostinato, {
     /* ══ THE FIGHT'S FIGURE GETS RESTS, AND THAT IS THE WHOLE FIX ═══════════
        MEASURED off the printout, every material of this record:
@@ -36383,7 +36440,26 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      NOTE for a whole measure and changing "about halfway through the harp
      part" [Frances, BandLab tutorial]. So it is a genre's declaration now,
      and every genre that says nothing still comps exactly as it did. */
-  const HOLD = chart.table.keysStyle === "hold";
+  /* ── AND WHETHER THE FIRST KEYBOARD HOLDS IS PER MATERIAL NOW ──────────
+     `keysStyle` is one word for a whole record, and it pinned every act's
+     comp to step 0 for the whole bar. MEASURED off the printout: `keys` in
+     three of four acts was 100% on step 0 with ONE distinct bar-grid for the
+     entire leg -- 570 events in the fight, one shape.
+
+     That is RIGHT for exactly one of the four. Doom's sources ask for it in
+     as many words -- "power chords, parallel fourths/fifths, and SUSTAINED
+     UNISONS enhance mass", "play a power chord or single note and LET IT
+     SUSTAIN" -- and `the-weight-and-the-stop.md` §3.1's rule applies: a drone
+     is a decision, a shortage is an accident, and they can look identical.
+     Declaring it per material converts the accident into the decision for the
+     act that wants it and frees the three that do not.
+
+     `keysStyleAt` mirrors `setMode` and `bassRoles`: a map keyed by material,
+     falling through to the genre's own `keysStyle`, so a genre that declares
+     nothing reads exactly what it always read [Law 4]. */
+  const KSA = chart.table.keysStyleAt || null;
+  const holdFor = mat => ((KSA && mat && KSA[mat]) || chart.table.keysStyle) === "hold";
+  const HOLD = holdFor("A");
   const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed,
                                              sustain: HOLD, at: HOLD ? 0 : undefined });
   const keysAvar = NEW_RET ? buildKeys(chordsRet, "keys", { dense: false, avoid: placed,
@@ -36587,8 +36663,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* and the comp the chorus's return plays must clear that bass, for the
      reason `placed` states four times over */
   const placedB = NEW_CHORUS ? reserve(ostBx.concat(bassBx, bassBvar)) : placed;
+  const HOLD_B = holdFor("B");
   const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB,
-                                             sustain: HOLD, at: HOLD ? 0 : undefined });
+                                             sustain: HOLD_B, at: HOLD_B ? 0 : undefined });
   const keysBTakes = takesOf("keys", "B", keysB,
                        t => buildKeys(chorusChords, "keys:" + t, { dense: true, avoid: placedB,
                                       sustain: HOLD, at: HOLD ? 0 : undefined }));
@@ -36600,7 +36677,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      same chorus three times below the tune. (Its bass is built further up, so
      the reserve this comp avoids can include it -- see `placedB`.) */
   const keysBvar = NEW_RET ? buildKeys(chorusRet, "keysB", { dense: true, avoid: placedB,
-                                             sustain: HOLD, at: HOLD ? 0 : undefined }) : keysB;
+                                             sustain: HOLD_B, at: HOLD_B ? 0 : undefined }) : keysB;
   /* ── ONE PAD, TWO MATERIALS, SO IT CLEARS BOTH ────────────────────────────
      `keys2B` sounds in B, in Bvar AND in Bdev, and on a genre with a cadence
      the returning ones carry a different bass and comp. Shown only B's, it
@@ -36732,12 +36809,20 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      shape as `whichChanges`'s own note four hundred lines up. */
   const ostC = (cKey !== root || cMode !== mode) ? ostCkey : ostA;
   const bassC  = pin(buildBass(bridgeChords, "bassC", true, "C"), "bass", "C");
-  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: true,
+  /* `sustain: true` was hardcoded here, so the sludge act's first keyboard was
+     a pad no matter what any table said. It reads the same per-material door
+     as the rest now, and `holdFor("C")` returns the genre's own `keysStyle`
+     for every genre that declares nothing -- which is `true` for the two that
+     hold, so nothing moves for them. */
+  const HOLD_C = holdFor("C");
+  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: HOLD_C,
+                                                   at: HOLD_C ? 0 : undefined,
                                                    avoid: reserve(ostC.concat(bassC)) });
   const bassCTakes = takesOf("bass", "C", bassC,
                        t => pin(buildBass(bridgeChords, "bass:" + t, true, "C"), "bass", "C"));
   const keysCTakes = takesOf("keys", "C", keysC,
-                       t => buildKeys(bridgeChords, "keys:" + t, { sustain: true,
+                       t => buildKeys(bridgeChords, "keys:" + t, { sustain: HOLD_C,
+                                      at: HOLD_C ? 0 : undefined,
                                       avoid: reserve(ostC.concat(bassC)) }));
   const bassCx = allOf(bassC, bassCTakes), keysCx = allOf(keysC, keysCTakes);
   const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
@@ -37054,8 +37139,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                                t => pin(buildBass(liftChords, "bass:" + t, false, "lift"), "bass", "A")) : bassATakes;
   const bassAlx    = allOf(bassAl, bassAlTakes);
   const placedl    = LIFT ? reserve(ostAlx.concat(ostAvarlx, bassAlx)) : placed;
+  const HOLD_L = holdFor("lift");
   const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
-                                               sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
+                                               sustain: HOLD_L, at: HOLD_L ? 0 : undefined }) : keysA;
   const keysAlTakes = LIFT ? takesOf("keys", "Alift", keysAl,
                         t => buildKeys(liftChords, "keys:" + t, { dense: false, avoid: placedl,
                                        sustain: HOLD, at: HOLD ? 0 : undefined })) : keysATakes;
