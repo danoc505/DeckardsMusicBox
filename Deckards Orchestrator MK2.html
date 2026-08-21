@@ -4911,6 +4911,73 @@ const INSTRUMENTS = {
                    per-act table -- which is what a hand on a pedal does.
      A switch rather than a dial because in or out is what an effect IS -- the
      barberpole's DIRECTION control one entry down makes the same argument. */
+  /* ══ THE PEDALBOARD'S OTHER THREE ═════════════════════════════════════════
+     [owner: "And I asked you to build a pedal board! Why the hell did you not
+     build it?"]
+
+     The DSP for all four shipped and only the fuzz got a panel, so three of
+     them were audible and unturnable — the mirror of this file's cardinal sin,
+     and the second time in this session I have shipped that shape.
+
+     Each reads the same way the fuzz's does: POWER is the tape machine's
+     three-way (-1 genre / 0 off / 1 the knobs below), read straight through
+     `panelValue` and folded into the genre's declaration in setSpace. */
+
+  comp: {
+    slot: "comp", label: "compressor (Dyna Comp)", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power",   label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1,
+        kind:"switch", live:true },
+      /* the pedal has two knobs and so does this. SUSTAIN drives the threshold
+         down — more of the signal falls under it, so more is squashed and the
+         makeup lifts more of the quiet material with it, which is the
+         "amplifying weak signals" the teardown describes. */
+      { k:"sustain", label:"sustain", cap:"SUSTAIN", min:0, max:1, step:0.01, def:0.5, kind:"gesture" },
+      { k:"level",   label:"output",  cap:"LEVEL",   min:0, max:1, step:0.01, def:0.5, kind:"bus" },
+    ],
+    panel: { skin: "erang", maker: "", title: "compressor",
+             sub: "OTA — 3 ms attack, 1.5 s release, on the lead",
+             groups: [{ label: "", keys: ["power", "sustain", "level"] }] },
+  },
+
+  octave: {
+    slot: "octave", label: "octave fuzz (Super-Fuzz)", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power", label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1,
+        kind:"switch", live:true },
+      /* ONE knob, because what a full-wave rectifier gives you is one thing in
+         one amount. Blended rather than swapped: too much of the rectified
+         copy and the note loses its pitch, which is the octave-up cancelling
+         the fundamental it was made from. */
+      { k:"blend", label:"octave",  cap:"BLEND", min:0, max:1, step:0.01, def:0.3, kind:"voicing" },
+    ],
+    panel: { skin: "erang", maker: "", title: "octave fuzz",
+             sub: "full-wave rectifier — the fundamental cancels, the 2nd doubles",
+             groups: [{ label: "", keys: ["power", "blend"] }] },
+  },
+
+  phase: {
+    slot: "phase", label: "phaser (Phase 90)", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power", label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1,
+        kind:"switch", live:true },
+      /* ONE KNOB, AND THE REAL PEDAL HAS EXACTLY ONE: "modulation is controlled
+         by one knob which sets the SPEED of the effect (frequency of the LFO)"
+         [corpus:electrosmash/mxr-phase90]. Depth and mix are the circuit's own
+         and are not exposed, which is the argument INSTRUMENTS.flange makes
+         about the SPX90's band limit: a control the real unit does not have is
+         a control this file does not add. */
+      { k:"rate",  label:"speed",   cap:"SPEED", min:0, max:1, step:0.01, def:0.3, kind:"gesture" },
+      { k:"mix",   label:"depth",   cap:"MIX",   min:0, max:1, step:0.01, def:0.55, kind:"bus" },
+    ],
+    panel: { skin: "erang", maker: "", title: "phaser",
+             sub: "four all-pass stages, summed with dry — the notches are the effect",
+             groups: [{ label: "", keys: ["power", "rate", "mix"] }] },
+  },
+
   fuzz: {
     slot: "fuzz", label: "the fuzz (Big Muff Pi)", fixed: true,
     lanes: {},
@@ -19976,7 +20043,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          a name matching neither still throws. Both vocabularies work and the
          precise one is available where it matters. */
       const ROWS = (PED && PED.rows) || (fz && fz.rows) || [];
-      if(every.length || anyPed())
+      if(every.length || anyPed() || handOn("comp") || handOn("oct") || handOn("phase"))
         for(const k of ROWS){
           /* ── EXACT ROLE MATCH, NO BUS FALLBACK ─────────────────────────
              The subgroups are keyed by role and `MIX_ROLE_BUS` puts keys2,
@@ -20020,12 +20087,44 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       };
       const RW = { comp: pedRows("comp"), oct: pedRows("oct"),
                    phase: pedRows("phase"), fuzz: pedRows("fuzz") };
+      /* ── AND THE OTHER THREE PEDALS HAVE HANDS TOO ────────────────────────
+         Same three-way as the fuzz, one per pedal: -1 leaves the genre alone,
+         0 takes that pedal out of the chain whatever the genre asked for, and
+         1 puts the panel's own knobs across the whole record. A pedal switched
+         ON from the glass reaches every part the board is on, because that is
+         what stepping on a pedal does — it does not consult the table. */
+      const pedHand = (slot, build) => {
+        const pw = Math.round(panelValue(slot, "power", -1));
+        return pw === 0 ? { off: true } : pw === 1 ? build() : null;
+      };
+      const H_COMP = pedHand("comp", () => ({
+        amt: 1, sustain: panelValue("comp", "sustain", 0.5),
+        level: panelValue("comp", "level", 0.5) }));
+      const H_OCT = pedHand("octave", () => ({
+        amt: panelValue("octave", "blend", 0.3) }));
+      const H_PHASE = pedHand("phase", () => ({
+        amt: panelValue("phase", "mix", 0.55), rate: panelValue("phase", "rate", 0.3) }));
+      /* a hand overrides the row list too: a pedal you switched on plays on
+         every part the board covers, not only the ones a table named */
+      const handed = (k, h) => { if(h) RW[k] = null; };
+      handed("comp", H_COMP && !H_COMP.off ? H_COMP : null);
+      handed("phase", H_PHASE && !H_PHASE.off ? H_PHASE : null);
+      const HAND_PED = { comp: H_COMP, oct: H_OCT, phase: H_PHASE };
       const forRow = (r, cfg) => {
         const o = { comp: {}, oct: {}, phase: {}, fuzz: {} };
         for(const k of ["comp", "oct", "phase", "fuzz"])
           if(!RW[k] || RW[k].has(r)) o[k] = cfg[k] || {};
+        /* the hand, last, over whatever the table said for this part */
+        for(const k of ["comp", "oct", "phase"]){
+          const h = HAND_PED[k];
+          if(h) o[k] = h.off ? { amt: 0 } : h;
+        }
         return o;
       };
+      const handOn = k => { const h = HAND_PED[k]; return !!(h && !h.off); };
+      if(handOn("comp"))  SPEC.comp  = true;
+      if(handOn("oct"))   SPEC.oct   = true;
+      if(handOn("phase")) SPEC.phase = true;
       const specFor = r => ({
         comp:  SPEC.comp  && (!RW.comp  || RW.comp.has(r)),
         oct:   SPEC.oct   && (!RW.oct   || RW.oct.has(r)),
