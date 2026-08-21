@@ -27469,6 +27469,14 @@ GENRE.doomsludge = (function(F){
      answer to "calm" is more voices, not a band. */
   form: merge(F.form, {
     roles: merge(F.form.roles, {
+      /* ── AND THE SLUDGE ACT GETS A FIGURE LANE ────────────────────────
+         It has none: `into the deep` lists drums, bass, keys2, lead and drone,
+         so material C has NO ostinato in any bar of the record. If doom and
+         sludge are one music then the second act cannot be missing the part
+         the first one is built on. Same lane, same cells, and the punk half of
+         sludge is carried by tempo and the fuzz rather than by a different
+         figure -- which is what the sources describe. */
+      "into the deep": ["drums", "bass", "keys2", "lead", "ostinato", "drone"],
       "the long way home": ["keys", "keys2", "counter", "lead", "drone"],
       /* ── AND THE RECORD DOES NOT END ON ONE HELD NOTE ──────────────────
          The outro belongs to the RECORD rather than to a leg, so it never
@@ -27565,6 +27573,61 @@ GENRE.doomsludge = (function(F){
        march, which is what "cyclical, mantra-like repetition" asks for.
        [CHOSEN: which slots rest -- no source gives a cell] */
     cellsAt: {
+      /* ── AND THE DOOM ACT GETS THE SAME LANGUAGE, SLOWER ─────────────────
+         [owner: "Doom and Sludge are almost the same thing! Their differences
+         are minor and mostly because of Southern Sludge which does have more
+         hardcore punk influnence and Stoner Metal"]
+
+         Correct, and the sources say it outright: sludge "combines the SLOW
+         TEMPOS, HEAVY RHYTHMS and dark, pessimistic atmosphere OF DOOM METAL
+         with the aggressive style, shouted vocals and FAST TEMPOS OF HARDCORE
+         PUNK", and is "generally regarded as a FUSION of the doom metal and
+         hardcore punk genres, often displaying SOUTHERN ROCK influence"
+         [corpus:wikipedia/Sludge metal]. Southern sludge adds "strong blues
+         and southern rock influences" and mid-tempo grooves.
+
+         So acts one and two are one music with a punk layer on the second,
+         and they should SHARE a vocabulary. Building them as two different
+         languages was the wrong shape.
+
+         AND THE REAL FAULT WAS NOT THAT THEY SOUND ALIKE. Measured against
+         the parent genre: the doom act is 100 of 100 bars IDENTICAL to fantasy
+         synth. It never had a doom vocabulary at all -- 66 of its 68 ostinato
+         bars are `*---*---*---*---`, four even quarters, four pitches, never
+         varying. That is the parent's walking figure with a doom label on it,
+         and "the sources say let it sustain" was the excuse I used to change
+         nothing.
+
+         THE CELLS ARE THE FIGHT'S IDEA AT A MANTRA'S SPEED. Doom asks for
+         "cyclical, MANTRA-LIKE REPETITION with subtle variation"
+         [corpus:melodigging/doom-metal], and the Dopesmoker analysis puts the
+         emphasis exactly where the program had none: "there are actually MINOR
+         DIFFERENCES in the constant repetition of the theme -- a little bass
+         tone more here, a little rhythm change there". Repetition WITH
+         variation. The program had repetition with none.
+
+         So: long cells, ONE rest each, against four slots a bar. Five, six and
+         seven against four realign every five, three and seven bars -- the
+         figure turns over slowly instead of jittering, which is the difference
+         between a mantra and the fight. And because the rest walks the bar
+         line, no bar closes where the last one did, which is the other thing
+         Sleep's riffs do: "because there isn't a clear resolution at the end of
+         the bar, the riffs repeat seamlessly, acting as ONE LONG PHRASE".
+         [CHOSEN: which slot rests -- no source gives a cell] */
+      A: [[[0, 4, null, 7, 4], 5],            // five against four, one rest
+          [[0, 4, 7, 4, null, 2], 3],         // six against four
+          [[0, null, 4, 7, 4, 2, 4], 2]],     // seven against four
+      /* SLUDGE SHARES DOOM'S CELLS, WHICH IS THE POINT OF THE OWNER'S NOTE.
+         The second act is the first act with hardcore punk and southern rock
+         on it, not a different figure -- so the figure is the same one, and
+         what separates them is tempo (90-105 against 67-77), the drums, and a
+         fuzz at sustain 0.78 against 0.45. Declared as its own key rather than
+         left to fall through, because falling through reaches `O.cells`, which
+         is the PARENT's rest-free pool and is how this act ended up playing
+         four even quarters in all 75 of its bars. */
+      C: [[[0, 4, null, 7, 4], 5],
+          [[0, 4, 7, 4, null, 2], 3],
+          [[0, null, 4, 7, 4, 2, 4], 2]],
       B: [[[0, 4, null, 7, 4, null, 2], 5],   // seven against four, two rests
           [[0, null, 2, 4, 7, null, 4, 2, null], 3],  // nine against four
           [[0, 4, null, 7, 2], 2]],           // five against four, one rest
@@ -36480,13 +36543,19 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   }
 
   /* ── A: the verse set ── */
-  const ostA = buildOstinato("ostinato", false, chords);
+  /* ── AND MATERIAL A NAMES ITSELF NOW ──────────────────────────────────
+     `cellsAt` is keyed by material and these calls passed none, so a genre
+     could declare a cell pool for `A` and it could never be reached -- the
+     lookup needs a truthy `mat`. Naming it costs nothing: a genre with no
+     `cellsAt.A` still falls through to `O.cells`, which is every genre in the
+     file except the one that asks. */
+  const ostA = buildOstinato("ostinato", false, chords, "A");
   /* the varied cell for Avar, and -- for a genre whose kit IS the tune -- a
      second chop. Both are cheap and both are no-ops for a genre that says
      nothing, so no existing song moves. */
   /* ...and it reads the RETURNING chords, so the figure lands on the
      transformed cadence rather than on the chord it replaced */
-  const ostAvar = buildOstinato("ostinato", true, chordsRet);
+  const ostAvar = buildOstinato("ostinato", true, chordsRet, "A");
   /* ══ TAKES — THE RHYTHM SECTION DOES NOT PLAY THE SAME BAR TWICE ══════════
      [owner, 2026-08-16: "the same exact notes played for 20 mins is NOT music";
      then "I think the problem is fundamental to the architecture of the
@@ -36588,7 +36657,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      `placed` is that bug with two figures, and N takes is it N times */
   const allOf = (first, takes) => takes ? first.concat.apply(first, takes.slice(1)) : first;
   const ostATakes = takesOf("ostinato", "A", ostA,
-                            t => buildOstinato("ostinato:" + t, false, chords));
+                            t => buildOstinato("ostinato:" + t, false, chords, "A"));
   /* WHAT EVERY OTHER PART HAS TO AVOID. The note above `placed` records what
      happens when a comp is shown only one of two figures it will actually play
      against: it voices onto a seat the other one takes. Two variants was
@@ -36610,7 +36679,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        Avar draws its own takes, varied like its own cell, and they go into the
        reserves that see `ostAvar`. */
   const ostAvarTakes = takesOf("ostinato", "Avar", ostAvar,
-                               t => buildOstinato("ostinato:" + t, true, chords));
+                               t => buildOstinato("ostinato:" + t, true, chords, "A"));
   const ostAvarx = allOf(ostAvar, ostAvarTakes);
   /* THE ONE PLACE A PINNED PATTERN ENTERS. Every drum and bass pattern in the
      song goes through `pin`, so a grid the user has programmed substitutes for
@@ -37075,7 +37144,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      key -- every genre that declares no `keyShift`, and every record of the two
      that do where the draw said no -- C gets `ostA` itself, the same array by
      identity, so nothing downstream can tell this line exists. */
-  const ostCkey = buildOstinato("ostinato", false, bridgeChords);
+  const ostCkey = buildOstinato("ostinato", false, bridgeChords, "C");
   /* ── AND THIS ASKED THE WRONG PAIR ────────────────────────────────────────
      It read `bKey`/`bMode` -- keyShift's draw -- which was the only way the
      bridge could move when this line was written. A movement declaring C's
