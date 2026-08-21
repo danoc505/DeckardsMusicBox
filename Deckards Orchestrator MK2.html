@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-21b &middot; doom and sludge synth, and the motif survives its own transformations</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-21c &middot; the amp, the room and the pedal &mdash; doom and sludge get a texture</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -19664,10 +19664,21 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         if(fz.amt > 0) every.push(fz);
         for(const k in (fz.by || {})) if(fz.by[k] && fz.by[k].amt > 0) every.push(fz.by[k]);
       }
+      /* ── AND THE FUZZ'S ROWS NAME ROLES, NOT BUSES ────────────────────────
+         The duck names BUSES because "duck the keys" is one statement whatever
+         is on that bus. A fuzz is not: it is a pedal in front of ONE
+         instrument, and `MIX_ROLE_BUS` puts keys2, the ostinato AND THE DRONE
+         all on the keys bus. Naming buses here would have fuzzed the ground,
+         which this table refuses in as many words two paragraphs up -- clipping
+         a static tone only makes a louder static tone.
+
+         So a row matches a channel's ROLE first and falls back to its BUS, and
+         a name matching neither still throws. Both vocabularies work and the
+         precise one is available where it matters. */
       if(every.length)
         for(const k of (fz.rows || [])){
-          const cs = chansOfBus(k);
-          if(!cs.length) throw new Error("space.fuzz names no such bus: " + k);
+          const cs = Object.keys(g.chan).filter(r => g.chan[r].role === k || g.chan[r].bus === k);
+          if(!cs.length) throw new Error("space.fuzz names no such role or bus: " + k);
           for(const r of cs) wanted.add(r);
         }
       /* armed with the FIRST setting the record will use, so a song that never
@@ -27467,6 +27478,49 @@ GENRE.doomsludge = (function(F){
      this act is only five minutes long, and the bass sheet's §5 already
      refused to put a rhythm section into a leg written at energy 0.30. The
      answer to "calm" is more voices, not a band. */
+  /* ══ THE AMP, THE ROOM AND THE PEDALS ═════════════════════════════════════
+     [owner: "But these genres are not just about notes! Its the effects that
+     are used! Its the heavy distortion its the FX PEDALS used in combination
+     and you didnt even bother at all with any of that!"]
+
+     Right, and the count was damning: of eighteen `space` keys this genre
+     inherited SEVENTEEN from fantasy synth unchanged, and the eighteenth was a
+     fuzz on two lanes moving two decibels. The kick, the drum drive and the
+     gate were identical. So the texture WAS fantasy synth's, note the notes.
+
+     ── THE AMP, FROM THE PLAYERS ─────────────────────────────────────────
+     The doom/stoner tone advice is specific and it is an EQ curve: "setting
+     your pickup selector in the middle position with HIGHS BACKED OFF and MIDS
+     AT HALFWAY while TURNING UP BASS" [corpus:ultimate-guitar doom tone
+     thread], over "an old valve amp at high volumes with a fuzz pedal"
+     [corpus:noisecreep]. That is three numbers on a desk and one on a drum bus,
+     and this genre had the cavern's.
+
+     ── THE ROOM, WHICH WAS THE WRONG ROOM ────────────────────────────────
+     `irSec: 8.5` is the longest reverb in the file and dungeon synth chose it
+     to be a cathedral -- "long reverbs and modest delay to suggest halls and
+     caverns". Doom does not want a cathedral: its production row asks for
+     "natural drum rooms" and "ROOMY, NATURAL AMBIENCE"
+     [corpus:melodigging/doom-metal], and sludge is a room with the amps in it.
+     4.2 s is still a big room and is half a cavern.
+
+     ── THE PEDAL, ON EVERYTHING ──────────────────────────────────────────
+     The Big Muff Pi is "virtually eponymous with epically heavy stoner and
+     doom metal gear... arguably the most popular fuzz pedal in the genre"
+     [corpus:noisecreep]; EarthQuaker's Hoof is "loosely based on the classic
+     green Russian fuzz circuit", and the Hizumitas is voiced so it "sits
+     perfectly over a THICK BASS TONE AND A LOUD DRUMMER without getting lost"
+     [corpus:earthquakerdevices, sarahleeandjohnny]. Electric Wizard ran an
+     FZ-2 into a Sound City for Dopethrone.
+
+     None of those bands fuzz two lanes. The pedal is in front of the amp and
+     everything pitched goes through it, so the rows are every pitched lane the
+     record has except the drone -- clipping a static tone only makes a louder
+     static tone, which is the refusal the fuzz table already records. */
+  desk: { low: 4, mid: 0, high: -6, lowF: 200, midF: 1000, highF: 4000 },
+  /* the valve amp at high volume, on the one bus that models one */
+  drumDrive: 1.75,
+
   form: merge(F.form, {
     roles: merge(F.form.roles, {
       /* ── AND THE SLUDGE ACT GETS A FIGURE LANE ────────────────────────
@@ -27634,14 +27688,24 @@ GENRE.doomsludge = (function(F){
     },
   }),
   space: merge(F.space, {
+    /* half a cavern: a big room with amps in it, not a cathedral */
+    wet: 0.38, irSec: 4.2, tailDark: 0.50,
     fuzz: {
-      rows: ["bass", "keys"], amt: 1, sustain: 0.45, tone: 0.35, level: 0.50,
+      rows: ["bass", "keys", "keys2", "lead", "ostinato"],
+      amt: 1, sustain: 0.45, tone: 0.35, level: 0.50,
       by: {
         /* cab: the doom and sludge acts WANT the top gone -- "controlled
            high-end fizz", a bass-heavy wall. The fight does not; it is the
            only act whose sources are about attack, so its speaker opens to
            9 kHz and lets the front edge of the note through. */
-        "setting out":      { amt: 1, sustain: 0.45, tone: 0.35, level: 0.50, cab: 4500 },
+        /* 0.45 WAS TOO TIMID AND THE RENDER SAID SO. Measured full-mix
+           against the parent, the doom act moved -0.1 dB overall while the
+           sludge act at 0.78 moved +21 dB in the low end. I had set it low on
+           one cautious reading -- "low-mid heft ... before gain" -- and the
+           same research says these bands run "an old valve amp at HIGH VOLUMES
+           with a fuzz pedal". Electric Wizard ran an FZ-2 into a Sound City.
+           Doom is quieter than sludge, not clean. */
+        "setting out":      { amt: 1, sustain: 0.72, tone: 0.32, level: 0.50, cab: 4500 },
         "into the deep":    { amt: 1, sustain: 0.78, tone: 0.28, level: 0.50, cab: 3800 },
         "the fight":        { amt: 1, sustain: 0.40, tone: 0.58, level: 0.50, cab: 9000 },
         "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50, cab: 4500 },
