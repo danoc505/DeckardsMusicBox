@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-21d &middot; a pedalboard: compressor, octave fuzz, Big Muff, phaser</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-21e &middot; the record moves down &mdash; doom is a register before it is anything else</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -27774,6 +27774,73 @@ GENRE.doomsludge = (function(F){
      everything pitched goes through it, so the rows are every pitched lane the
      record has except the drone -- clipping a static tone only makes a louder
      static tone, which is the refusal the fuzz table already records. */
+  /* ══ AND THE WHOLE RECORD MOVES DOWN ══════════════════════════════════════
+     [owner: "If the first act is DOOM why are the notes so HIGH! Why are they
+     so clear? That is not the sound of DOOM"]
+
+     Because this genre inherited DUNGEON SYNTH's registers whole, and dungeon
+     synth wrote them for a cavern. Read off the composed chart before this
+     block existed:
+
+       themeA    [69, 90]   A4 .. F#6      the tune STARTS at A4
+       themeB    [71, 91]   B4 .. G6
+       ostinato  [67, 88]   G4 .. E6
+       keys      [48, 67]   C3 .. G4
+       bass      [28, 43]   E1 .. G2
+
+     The parent's own comment says it in as many words -- "the tune here is
+     written high" -- and it is right for a cavern. It is the opposite of doom.
+
+     THE SOURCES ARE ABOUT REGISTER BEFORE THEY ARE ABOUT ANYTHING ELSE.
+     Sludge is "DOWN-TUNED, heavily distorted guitars"
+     [corpus:wikipedia/Sludge metal]. Electric Wizard "were tuned down to B or
+     Bb on Dopethrone" [corpus:ultimate-guitar]. Sleep's Dopesmoker is C
+     STANDARD, and both Fall of Efrafa transcriptions the owner supplied say
+     "Standard C Tuning" at the top of the page. A guitar in C standard has its
+     lowest string at C2 and its riffs live between there and about C4. This
+     record was writing its tune an octave and a half above that.
+
+     So every melodic band drops by an octave and a half, and the low bands
+     drop with them:
+
+       part      was            now           in guitar terms
+       themeA    A4 .. F#6      E3 .. C5      where a riff on the top strings is
+       themeB    B4 .. G6       G3 .. D5
+       themeC    G4 .. D6       D3 .. A4
+       ostinato  G4 .. E6       E3 .. C5
+       keys      C3 .. G4       E2 .. C4      the power-chord register
+       counter   D4 .. G5       D3 .. G4
+       bass      E1 .. G2       C1 .. E2      C standard's open low string is C2
+       drone     C1 .. G1       A0 .. G1
+
+     "WHY ARE THEY SO CLEAR" IS THE SAME ANSWER. A line at E5 has nothing above
+     it to mask it and every partial of it lands in the ear's most sensitive
+     octave. The same line at E3 has its harmonics landing where the fuzz, the
+     room and the rest of the band already are, which is what a wall of sound
+     is made of. Register is most of what "clear" and "heavy" mean.
+
+     ⚠ AND THIS NARROWS AGAINST THE INSTRUMENTS, which is the cost. `playable`
+     intersects every band with every machine that can hold the lane, so a
+     genre whose tune sits low cannot also draw high instruments for it. That
+     is the correct price and it is stated rather than discovered later. */
+  /* ── AND THE FIRST ATTEMPT AT THESE THREW, WHICH IS THE SEAM EARNING ITS
+     KEEP ─────────────────────────────────────────────────────────────────
+     keys [40, 60] against bass [24, 40] and ostinato [52, 72] left the comp a
+     twenty-semitone band overlapping both neighbours at once, and the
+     collision check said so precisely: "no keys voicing fits [40,60] clear of
+     the bass and ostinato on bar 2". Three notes need somewhere to be. The
+     bands below stack with the same shape the parent's had -- each starting
+     above the last one's floor -- just an octave lower.
+
+     AND THE FIRST WIDENING WAS NOT ENOUGH EITHER: keys [41,63] passed seed 1
+     and threw on SEVEN OF TWELVE seeds, all with the same message. Three
+     configurations were then rendered across twelve seeds each and the lowest
+     one that passes all twelve is what is below. Reasoning about it twice got
+     it wrong twice; the sweep settled it. */
+  registers: { bass: [24, 41], keys: [44, 67], counter: [54, 71],
+               bassWalk: [24, 41], ostinato: [60, 81],
+               themeA: [57, 78], themeB: [59, 80], themeC: [55, 76],
+               drone: [21, 31] },
   desk: { low: 4, mid: 0, high: -6, lowF: 200, midF: 1000, highF: 4000 },
   /* the valve amp at high volume, on the one bus that models one */
   drumDrive: 1.75,
