@@ -4885,6 +4885,55 @@ const INSTRUMENTS = {
      and nothing is ever heard to wrap.
 
      DIRECTION is a switch, not a dial: up or down is what the effect IS. */
+  /* ══ THE FUZZ — the rack for the unit that had none ═══════════════════════
+     [owner: "Where is the rack for the distortion you supposidly built?"]
+
+     Fair, and the answer was nowhere. The unit was built, measured and wired
+     into every channel strip, and then it had no panel -- so it could not be
+     seen, could not be turned, and could only be reached by editing a genre
+     table. This file's cardinal sin is a knob that does nothing; the mirror of
+     it is a thing that does something and has no knob, and that is what
+     shipped.
+
+     IT IS NOT IN `g.rack`, AND THAT IS DELIBERATE. The five units up there --
+     echo, spring, flange, DP/4, barberpole -- live inside an AudioWorklet and
+     reach their values through `g.rack.parameters`. The fuzz is plain nodes on
+     each CHANNEL STRIP, because a fuzz has to be in line with one part rather
+     than a send the whole mix passes through, which is the argument the unit's
+     own comment makes at length. So its panel reads the way the tape machine's
+     does: `panelValue` straight, folded into the genre's declaration in
+     `setSpace`.
+
+     POWER IS THE TAPE MACHINE'S THREE-WAY, exactly, and for the same reason.
+       -1  GENRE   whatever `space.fuzz` says, per movement. The default.
+        0  OFF     the pedal out of the chain, whatever the genre asked for.
+        1  ON      the four knobs below, for the whole record, overriding the
+                   per-act table -- which is what a hand on a pedal does.
+     A switch rather than a dial because in or out is what an effect IS -- the
+     barberpole's DIRECTION control one entry down makes the same argument. */
+  fuzz: {
+    slot: "fuzz", label: "the fuzz (Big Muff Pi)", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power",   label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1,
+        kind:"switch", live:true },
+      /* the input booster, and its law is 60^s -- measured, because the linear
+         taper spent thirty-six of its forty decibels in the first quarter turn */
+      { k:"sustain", label:"sustain",  cap:"SUSTAIN", min:0, max:1, step:0.01, def:0.45, kind:"gesture" },
+      /* the tone stack's blend: 0 is all lowpass, 1 all highpass, and the
+         1 kHz scoop only exists in the middle where both legs are open */
+      { k:"tone",    label:"tone",     cap:"TONE",    min:0, max:1, step:0.01, def:0.35, kind:"voicing" },
+      { k:"level",   label:"level",    cap:"LEVEL",   min:0, max:1, step:0.01, def:0.50, kind:"bus" },
+      /* the speaker stand-in, and it is NOT a cabinet -- there is no impulse
+         response in this file and the unit's comment says so. Per act in the
+         table; here it is one number for the record. */
+      { k:"cab",     label:"speaker",  cap:"CAB", min:1500, max:16000, step:100, def:4500,
+        unit:"Hz", kind:"voicing" },
+    ],
+    panel: { skin: "erang", maker: "", title: "the fuzz",
+             sub: "two soft clippers into a 1 kHz scoop — in line, not a send",
+             groups: [{ label: "", keys: ["power", "sustain", "tone", "level", "cab"] }] },
+  },
   barber: {
     slot: "barber", label: "barberpole phaser", fixed: true,
     lanes: {},
@@ -19588,7 +19637,27 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          that wants no fuzz says `amt: 0`, which is the pedal off rather than
          the pedal unplugged -- and at amt 0 `dry` is 1 and `wet` is 0, so it
          is the wire either way. */
-      const fz = space.fuzz;
+      /* ── THE HAND ON THE PEDAL, WHICH OUTRANKS THE TABLE ─────────────────
+         `fuzz.power` is the tape machine's three-way and reads the same way:
+         -1 leaves the genre's declaration alone, 0 takes the pedal out of the
+         chain whatever the genre asked for, and 1 puts the panel's own four
+         knobs across the WHOLE record -- overriding the per-movement table,
+         because that is what a hand on a pedal does. A genre that declares no
+         fuzz still gets one at power 1, on bass and keys, so the unit is
+         reachable from the glass in every genre rather than only in the one
+         whose table happens to name it. */
+      const FPOW = Math.round(panelValue("fuzz", "power", -1));
+      const HAND = FPOW === 1 ? {
+        amt: 1,
+        sustain: panelValue("fuzz", "sustain", 0.45),
+        tone:    panelValue("fuzz", "tone",    0.35),
+        level:   panelValue("fuzz", "level",   0.50),
+        cab:     panelValue("fuzz", "cab",     4500),
+      } : null;
+      const fz = FPOW === 0 ? null
+               : HAND ? Object.assign({ rows: (space.fuzz && space.fuzz.rows) || ["bass", "keys"] },
+                                      HAND, { by: null })
+               : space.fuzz;
       const wanted = new Set();
       const every = [];
       if(fz){
