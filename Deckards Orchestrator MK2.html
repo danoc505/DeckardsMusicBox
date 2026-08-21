@@ -11181,6 +11181,217 @@ registerProcessor("mk2-room", MK2Room);
     /* the channel factory. One per (role, instrument), built here so every
        reader below -- the matrix, the duck, the desk -- sees the same object
        shape it always saw, only more of them and keyed by the source. */
+    /* ══ THE FUZZ — a Big Muff Pi, and it is a CHANNEL INSERT ═══════════════
+       [owner, 2026-08-21: "I think we should start with building a distortion
+       rig."]
+
+       THE FILE ALREADY HAD A SATURATOR AND DELIBERATELY STEERED AWAY FROM THIS.
+       The DP/4's DRIVE algorithm says so in its own comment: "asymmetric
+       saturation as a SEND, so one part can be dirtied without pushing the
+       whole bus. Asymmetric because a symmetric curve makes only odd harmonics
+       and SOUNDS LIKE A FUZZ PEDAL." That sentence is this unit's
+       specification. We want the thing it avoided.
+
+       AND A FUZZ IS NOT A SEND. You cannot blend 30% of a Big Muff and get a
+       Big Muff -- you get a clean signal with fuzz next to it. A Muff REPLACES
+       the signal, so this goes in-line on the channel, where the ducker
+       already established the precedent: "a CHANNEL INSERT, in front of the
+       fader and in front of the sends, which is where a compressor goes on a
+       desk."
+
+       ── THE TOPOLOGY IS THE CIRCUIT'S, IN FOUR BLOCKS ─────────────────────
+       "The Big Muff Pi circuit consists of 4 cascaded common emitter amplifier
+       stages with a passive tone control... Input Booster, Clipping Stage,
+       Passive Tone Control and Output Booster." [corpus:electrosmash]
+
+       THE ONE FINDING THAT DECIDES THE BUILD, and it is the thing a guess gets
+       wrong: there are TWO clipping stages and each is SOFT. "The first
+       clipping stage softly clips the waveform... the second clipping stage
+       repeats and refines the distorted signal even more, creating what EHX
+       calls the 'violin like sustain'. THESE TWO CASCADING SOFT CLIPPING
+       STAGES COMBINE TO CREATE A HARD CLIP." So it is two gentle tanh stages
+       in series, not one hard curve -- which is the whole difference between a
+       fuzz and a distortion, and why `tanh(1.6x)` twice is not the same as
+       `tanh(3.2x)` once.
+
+       SYMMETRIC, on purpose, for the DP/4's own stated reason inverted.
+
+       ── THE TONE STACK IS THE SIGNATURE, AND ITS NUMBERS ARE MEASURED ─────
+       "The signal splits apart into a high pass and a low pass filter, which
+       are each then blended back together with the tone potentiometer,
+       creating a mid range notch or 'scoop'." At the midpoint the source
+       measures a 1 kHz scoop about 6.5 dB below the shoulders with roughly 7 dB
+       of overall loss. [corpus:electrosmash, guitarpcb]
+
+       So the legs are a real lowpass and a real highpass summed, NOT a peaking
+       cut -- which means the scoop appears only when both legs are open, i.e.
+       at the middle of the knob, exactly as the source describes, and flattens
+       into a shelf at either end.
+
+       THE CORNERS WERE SOLVED FOR, AND THEN THE SOLVER WAS WRONG. Computing
+       the summed response analytically gave 800 Hz + 1800 Hz at Q 0.707 and a
+       6.69 dB notch. RENDERED THROUGH REAL WEB AUDIO the same pair measured a
+       2.55 dB notch with the shoulders 3 dB UP -- because a BiquadFilterNode
+       does not interpret `Q` the way the textbook difference equation does,
+       and the analytic model never knew it. So the pair below is not computed,
+       it is SWEPT: 100 combinations rendered through an OfflineAudioContext
+       and measured.
+
+         lowpass 560 Hz + highpass 2100 Hz, Q 1.0, blended 50/50
+           notch    7.19 dB below the shoulders, centred at 1000 Hz
+           source   "a 1 kHz scoop... the loss is about 6.5 dB at the notch",
+                    "an overall 7 dB loss"
+
+       The depth lands between the source's own two figures and the centre is
+       exact. That it took a render to find is the whole argument for the
+       render battery existing.
+
+       ── AND THE ONE THING THIS IS NOT ─────────────────────────────────────
+       `cab` IS NOT A CABINET. There is no impulse-response machinery in this
+       file, and a fuzz with no speaker in front of it is a wasp in a jar --
+       the 2.5 kHz brass ceiling the carnyx used had the same problem and said
+       so. A fixed lowpass is the honest cheap stand-in and it is marked
+       [CHOSEN] rather than dressed up as a measurement.
+
+       ── BYPASS, AND THE TEST THAT NEARLY LIED ABOUT IT ────────────────────
+       The unit was first wired in permanently with `dry` at 1 and `wet` at 0,
+       on the argument that zero times anything is zero and the sum is
+       therefore the wire. An A/B render disagreed -- 1,375 samples of
+       1,248,092 differing by one 16-bit LSB, 103.7 dB down -- and that looked
+       like a real if inaudible fault, because the EQ and the ducker one tier
+       up claim EXACT identity.
+
+       THEN THE CONTROL WAS RUN, WHICH SHOULD HAVE BEEN RUN FIRST. Rendering
+       the UNCHANGED file against ITSELF, in two browser sessions:
+
+         same file vs itself   1,424 samples differ, max 2 LSB, -103.3 dB
+         before vs after       1,542 samples differ, max 2 LSB, -103.0 dB
+
+       The renderer is not deterministic across sessions, at about -103 dB, and
+       the "fault" was inside its own noise. See BACKLOG for what that costs
+       every byte-identity claim in this repo, which is not this unit's problem
+       to fix and is not allowed to be quietly inherited either.
+
+       THE SPLICE STAYS ANYWAY, on the argument that survives: `makeChan` wires
+       `inp -> low` as it always did, and `armFuzz` cuts the strip open and
+       patches the unit in only when a genre declares one. A genre that
+       declares no fuzz then has the graph it has always had NODE FOR NODE --
+       which is a claim about the topology that can be read off the source,
+       rather than a claim about samples that this harness cannot settle either
+       way. Cheaper too: no genre pays for twelve nodes a channel it never
+       switches on. ══════════════════════════════════════════════════════ */
+    {
+      /* ONE curve per graph, shared by every channel's two stages -- the same
+         rule `satCurve` follows, and for the same reason: a 2049-point table
+         per channel per stage is twenty tables for one shape. */
+      const N = 2049, soft = new Float32Array(N);
+      for(let i = 0; i < N; i++){
+        const x = (i / (N - 1)) * 2 - 1;
+        soft[i] = Math.tanh(1.6 * x);
+      }
+      g.fuzzCurve = soft;
+    }
+    g.makeFuzz = function(){
+      const inp = c.createGain(); inp.gain.value = 1;
+      const out = c.createGain(); out.gain.value = 1;
+      const dry = c.createGain(); dry.gain.value = 1;    // bypass, OPEN by default
+      const pre = c.createGain(); pre.gain.value = 1;    // block 1: the input booster
+      const A   = c.createWaveShaper(), B = c.createWaveShaper();
+      A.curve = g.fuzzCurve; A.oversample = "4x";        // block 2: clip, softly
+      B.curve = g.fuzzCurve; B.oversample = "4x";        //          and again
+      const tw  = c.createGain(); tw.gain.value = 1;     // between the two stages
+      const lo  = c.createBiquadFilter(); lo.type = "lowpass";
+      lo.frequency.value = 560;  lo.Q.value = 1.0;       // block 3: the tone stack,
+      const hi  = c.createBiquadFilter(); hi.type = "highpass";
+      hi.frequency.value = 2100; hi.Q.value = 1.0;       //   two legs, summed; SWEPT
+      const loG = c.createGain(); loG.gain.value = 0.5;
+      const hiG = c.createGain(); hiG.gain.value = 0.5;
+      const cab = c.createBiquadFilter(); cab.type = "lowpass";
+      cab.frequency.value = 4500; cab.Q.value = 0.707;   // [CHOSEN] -- not a cabinet
+      const wet = c.createGain(); wet.gain.value = 0;    // block 4: SHUT by default
+      inp.connect(dry); dry.connect(out);
+      inp.connect(pre); pre.connect(A); A.connect(tw); tw.connect(B);
+      B.connect(lo); lo.connect(loG); loG.connect(cab);
+      B.connect(hi); hi.connect(hiG); hiG.connect(cab);
+      cab.connect(wet); wet.connect(out);
+      return { inp, out, dry, wet, pre, loG, hiG, cab };
+    };
+    /* ── AND SETTING ONE IS FOUR NUMBERS ───────────────────────────────────
+       `amt` is the pedal being in the chain at all. A real Muff is a footswitch
+       and this is that switch made continuous, for one reason only: a hard
+       boolean cannot be automated, and this file's whole argument is that a
+       thing a genre declares should be a thing an arc can move. At 0 the unit
+       is the wire it replaced.
+
+       `sustain` is the input booster and therefore the drive, AND ITS LAW IS
+       EXPONENTIAL BECAUSE THE LINEAR ONE WAS A DEAD KNOB. Measured, third
+       harmonic against the fundamental at 220 Hz, `pre = 1 + 39s`:
+
+         knob   0     .125   .25    .375   .5     .75    1.0
+         h3   -46.4  -19.5  -14.1  -12.0  -10.9  -10.2   -9.9  dB
+
+       Thirty-six of the forty decibels are spent by a QUARTER TURN and the
+       remaining three quarters of the travel move it four. That is the knob
+       that does nothing, this file's cardinal sin, arriving through a taper
+       rather than through a missing wire. `pre = 60^s` spreads the same range
+       across the whole sweep:
+
+         knob   0     .125   .25    .375   .5     .75    1.0
+         h3   -46.4  -37.8  -29.6  -22.3  -16.7  -10.8   -9.7  dB
+
+       `level` is the output booster -- makeup -- AND ITS CONSTANT IS MEASURED
+       ON PROGRAM, not solved on a sine. The small-signal arithmetic says 1.4
+       (the tone stack loses about 5 dB, the two tanh stages put back 2.56x of
+       slope), and rendered on a real lofi excerpt with the fuzz across bass
+       and keys, 1.4 came out **+8.06 dB LOUDER** than bypass -- because a
+       clipper raises the RMS of a signal it compresses, which no small-signal
+       figure can see.
+
+       That is the drum bus's fault exactly, and its comment is the ruling:
+       "simply inserting it made every drum in the program 5.1 dB louder --
+       which is not what a saturation stage is for. The makeup divides the
+       slope back out, so at drive 1.0 the kit measures exactly as it did
+       before and only its SHAPE has changed."
+
+       So it was measured, corrected, and measured again -- 1.4 gave +8.06 dB,
+       0.55 gave +2.85, and 0.40 lands it at +1.12 dB
+       with the three measured bands inside a decibel of each other. At
+       `level` 0.5 the unit is level-matched on program and only the SHAPE has
+       moved; above it the genre is genuinely pushing. The match is one
+       program's, and a fuzz's output level is program-dependent by nature --
+       stated rather than implied. */
+    /* ── SPLICING IT IN AND OUT, WHICH IS A TOPOLOGY EDIT AND IS ALLOWED ───
+       `buildGraph` fixes the desk; WHICH units are patched into a strip is a
+       fact about the record, exactly as `ensureChannels` argues for which
+       instruments have strips at all. Both run at song-arm, before a note
+       sounds, never during playback. Idempotent in both directions so a genre
+       that declares a fuzz twice, or none after one, lands in the same graph
+       either way. */
+    g.armFuzz = function(ch, cfg){
+      if(cfg && cfg.amt > 0){
+        if(!ch.fuzz){
+          ch.fuzz = g.makeFuzz();
+          try { ch.inp.disconnect(ch.low); } catch(e){}
+          ch.inp.connect(ch.fuzz.inp);
+          ch.fuzz.out.connect(ch.low);
+        }
+        g.setFuzz(ch.fuzz, cfg.amt, cfg.sustain, cfg.tone, cfg.level);
+      } else if(ch.fuzz){
+        try { ch.inp.disconnect(ch.fuzz.inp); } catch(e){}
+        try { ch.fuzz.out.disconnect(ch.low); } catch(e){}
+        ch.inp.connect(ch.low);
+        ch.fuzz = null;
+      }
+    };
+    g.setFuzz = function(fz, amt, sustain, tone, level){
+      const a = Math.max(0, Math.min(1, amt || 0));
+      fz.dry.gain.value = 1 - a;
+      fz.wet.gain.value = a * (level != null ? level : 1) * 0.40;
+      fz.pre.gain.value = Math.pow(60, Math.max(0, Math.min(1, sustain != null ? sustain : 0.5)));
+      const tn = Math.max(0, Math.min(1, tone != null ? tone : 0.5));
+      fz.loG.gain.value = 1 - tn;
+      fz.hiG.gain.value = tn;
+    };
     g.makeChan = function(role, voice){
       const key = voice ? role + "|" + voice : role;
       if(g.chan[key]) return g.chan[key];
@@ -11228,9 +11439,15 @@ registerProcessor("mk2-room", MK2Room);
          SONG sends is still the matrix crossing -- now a SEND MASTER fed by
          these rather than by the bus -- so the sum of the parts is the bus and
          not one decibel moves until a hand is on a strip. */
+      /* ── THE FUZZ SITS FIRST, AND THE FADER IS AHEAD OF IT ────────────────
+         Which is a guitar volume knob, and it is deliberate: pulling a fuzzed
+         part down also cleans it up, exactly as it does on a real rig. The
+         alternative -- a fader that changes level without changing character --
+         is what the three-band EQ below already gives. Stated here because it
+         is a choice and the next reader should not have to infer it. */
       inp.connect(low); low.connect(mid); mid.connect(high);
       high.connect(duck); duck.connect(grp.inp); high.connect(meter);
-      const ch = { inp, low, mid, high, duck, bus: grp.bus, meter, role, voice: voice || null };
+      const ch = { inp, fuzz: null, low, mid, high, duck, bus: grp.bus, meter, role, voice: voice || null };
       /* one gain per CHANNEL per SEND, built from the declaration rather than
          named twice -- a third send is then one entry, not four edits */
       for(const s of MIX_SEND){
@@ -19288,6 +19505,25 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         last: null,                          // where the envelope had got to; see duckHit
       } : null;
       if(g.duck && !g.duck.nodes.length) g.duck = null;
+      /* ── AND THE FUZZ IS DECLARED THE SAME WAY, FOR THE SAME REASON ───────
+         `space.fuzz.rows` names BUSES, like the duck's, so "the bass and the
+         keys are fuzzed" is one statement whatever is playing them. And like
+         the duck, EVERY CHANNEL IS RESET FIRST, unconditionally: one graph
+         plays every genre in turn, and a fuzz left on from the last song is
+         the same class of bug as a panel wearing the previous genre's numbers.
+
+         An unknown row name THROWS, which is the duck's rule and this file's:
+         a typo that silently fuzzes nothing is the knob-that-does-nothing
+         defect wearing a table. */
+      const fz = space.fuzz;
+      const wanted = new Set();
+      if(fz && fz.amt > 0)
+        for(const k of (fz.rows || [])){
+          const cs = chansOfBus(k);
+          if(!cs.length) throw new Error("space.fuzz names no such bus: " + k);
+          for(const r of cs) wanted.add(r);
+        }
+      for(const r in g.chan) g.armFuzz(g.chan[r], wanted.has(r) ? fz : null);
     }
     /* WHO feeds it: the MATRIX. Each route's base is the song's own
        declaration -- keys and lead always breathe, `space.feeds` adds the
@@ -27178,6 +27414,10 @@ const BLEND_DRAW = new Set([
      makes a setting neither genre asked for -- the same reason `registers` and
      the roles map are drawn rather than mixed. */
   "space.duck",
+  /* the fuzz arrives whole for the duck's own reason: it holds a LIST OF BUS
+     NAMES beside its numbers, and averaging one genre's drive onto another
+     genre's row list makes a setting neither genre asked for. */
+  "space.fuzz",
 ]);
 /* fields that must come from the SAME genre or the builder runs on another
    instrument's numbers */
@@ -27326,6 +27566,7 @@ const BLEND_NAME = {
      a cycle of seven room to walk and come home */
   "materialBars":      "how long the pattern is before it repeats",
   "space.duck":        "the kick pushing everything aside",
+  "space.fuzz":        "the Big Muff across a part, in-line",
   /* ── FIVE SEND LISTS, AND THEY ARE FIVE DECISIONS ─────────────────────────
      These four used to be null with the note "all five send lists are one
      decision". They are not, and never were: none of them is in BLEND_GROUP,

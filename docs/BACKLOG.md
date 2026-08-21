@@ -11,6 +11,14 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ---
 
+## 0ad. NAMED 2026-08-21 BUILDING THE FUZZ — the renderer is not deterministic
+
+| what | why it is open | what closes it |
+|---|---|---|
+| **The offline render differs from itself across browser sessions** | MEASURED while A/B-ing the fuzz, and found only because the CONTROL was run: the **unchanged file rendered against itself** in two Chromium sessions gives **1,424 differing samples of 1,248,092, max 2 LSB of 16-bit, diff RMS −103.3 dB** below the signal. The before/after render of an actual change measured −103.0 dB — inside the noise. So every "byte-identical" and "render A/B holds it" claim in this file (the three-band EQ, the ducker, the channel tier, the matrix at defaults, Law 10's offline-equals-live) **is unverifiable by this harness across sessions.** It is ~103 dB down and inaudible; it is also the exact reason a real regression of this size could not be seen. | Finding the source — most likely a-rate parameter smoothing, denormal flushing, or FFT/convolver scheduling that varies with process state — and either fixing it or writing down, next to every byte-identity claim, that the claim is topological rather than sample-level. `render_audio.js` already renders `dup_` pairs *within one session*, which is why this never surfaced: same-session renders may well be exact, and the batteries only ever compared those. |
+
+---
+
 ## 0ac. NAMED 2026-08-21 WHEN THE WAR HORN WAS DELETED — two
 
 | what | why it is open | what closes it |
