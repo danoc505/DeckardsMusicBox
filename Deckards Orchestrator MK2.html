@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-21c &middot; the amp, the room and the pedal &mdash; doom and sludge get a texture</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-21d &middot; a pedalboard: compressor, octave fuzz, Big Muff, phaser</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -11369,6 +11369,163 @@ registerProcessor("mk2-room", MK2Room);
       }
       g.fuzzCurve = soft;
     }
+    /* ══ THE PEDALBOARD ═══════════════════════════════════════════════════════
+       [owner: "Build us a pedal board with clones of the stated FX units HOW
+       else are we going to get the FXs in the program?"]
+
+       Right -- a genre's texture is its pedals, and naming them in a research
+       sheet gets none of it into the audio. These are circuit ARCHETYPES built
+       from published teardowns, the same way this file already builds an SPX90
+       flanger, a DP/4, a PCM90 hall and a Bode phaser.
+
+       THE ORDER IS A REAL BOARD'S, instrument first:
+
+         COMP -> OCTAVE -> FUZZ -> PHASE -> the channel EQ
+
+       Compressor first because that is where an OTA compressor goes -- it is
+       levelling the instrument, not the effects. Fuzz after the octave so the
+       octave's rectified harmonics are what gets clipped, which is what a
+       Super-Fuzz does internally. Modulation last before the amp, which is
+       where a Phase 90 sits on every board that has one.
+
+       EACH PEDAL IS BYPASSED BY ITS OWN dry/wet PAIR at 1/0, and the whole
+       board is SPLICED OUT of the strip when nothing on it is on -- so a genre
+       that asks for no pedals has the graph it always had, node for node. */
+
+    /* ── THE COMPRESSOR — a Dyna Comp ─────────────────────────────────────
+       "The Dyna Comp's relatively simple circuit employs Operational
+       Transconductance Amplifier (OTA) compression, which provides a FAST
+       ATTACK and relatively SLOW decay and release". "The Envelope Detector
+       will measure how big or small the guitar signal is at a time and gives
+       to the OTA a current feedback proportional to the guitar level,
+       AMPLIFYING WEAK SIGNALS." The release RC is "a very slow charge constant
+       of approximately 1.5 seconds". [corpus:electrosmash/mxr-dyna-comp]
+
+       So: fast attack, ~1.5 s release, a high ratio, and MAKEUP that lifts the
+       quiet material -- amplifying weak signals is what the pedal is for and
+       is why it sustains. Two knobs, which is what the pedal has: SUSTAIN
+       (how hard) and LEVEL (makeup).
+
+       A DynamicsCompressorNode is the honest tool here: it is a feed-forward
+       envelope-controlled gain, which is the same topology as the OTA and its
+       detector. What it is NOT is the OTA's own distortion, and that is
+       recorded rather than implied. */
+    g.makeComp = function(){
+      const inp = c.createGain(), out = c.createGain();
+      const dry = c.createGain(); dry.gain.value = 1;
+      const cmp = c.createDynamicsCompressor();
+      cmp.attack.value = 0.003;      // fast, per the teardown
+      cmp.release.value = 1.5;       // the 1.5 s RC, verbatim
+      cmp.knee.value = 6;
+      cmp.ratio.value = 8;
+      cmp.threshold.value = -24;
+      const mk = c.createGain(); mk.gain.value = 1;
+      const wet = c.createGain(); wet.gain.value = 0;
+      inp.connect(dry); dry.connect(out);
+      inp.connect(cmp); cmp.connect(mk); mk.connect(wet); wet.connect(out);
+      return { inp, out, dry, wet, cmp, mk };
+    };
+
+    /* ── THE OCTAVE FUZZ — a Super-Fuzz ───────────────────────────────────
+       "The Univox Super-Fuzz produces a velcro-like fuzz with a DISTINCT UPPER
+       OCTAVE effect and is considered by many to be a holy grail amongst fuzz
+       pedals." [corpus:noisecreep]
+
+       The upper octave in these circuits is a FULL-WAVE RECTIFIER: fold the
+       waveform's negative half up and the fundamental cancels while the second
+       harmonic doubles, so the pitch appears an octave higher. That is
+       `Math.abs`, and a waveshaper is exactly the right tool -- this is one of
+       the few pedal blocks that is genuinely a single nonlinearity.
+
+       Rectifying alone leaves a DC offset (an all-positive signal), so the
+       block is highpassed after it, which is what the real circuit's coupling
+       capacitor does. */
+    g.makeOctave = function(){
+      const inp = c.createGain(), out = c.createGain();
+      const dry = c.createGain(); dry.gain.value = 1;
+      const sh = c.createWaveShaper();
+      {
+        const N = 2049, cv = new Float32Array(N);
+        for(let i = 0; i < N; i++){
+          const x = (i / (N - 1)) * 2 - 1;
+          cv[i] = Math.abs(x) * 2 - 1;      // full-wave rectify, re-centred
+        }
+        sh.curve = cv; sh.oversample = "4x";
+      }
+      const dc = c.createBiquadFilter(); dc.type = "highpass";
+      dc.frequency.value = 120; dc.Q.value = 0.707;   // the coupling cap
+      const wet = c.createGain(); wet.gain.value = 0;
+      inp.connect(dry); dry.connect(out);
+      inp.connect(sh); sh.connect(dc); dc.connect(wet); wet.connect(out);
+      return { inp, out, dry, wet };
+    };
+
+    /* ── THE PHASER — a Phase 90 ──────────────────────────────────────────
+       "The MXR Phase 90 is composed by FOUR PHASE SHIFTING STAGES, and
+       modulation is controlled by ONE KNOB which sets the SPEED of the effect
+       (frequency of the LFO)." The stages are all-pass filters reaching "a
+       total phase shift of up to 720 degrees across the four stages", and "the
+       last Output Mixer Stage will combine the WET AND DRY signal in order to
+       create the SIGNAL CANCELLATION". [corpus:electrosmash/mxr-phase90]
+
+       Every one of those sentences is a build instruction, and the last is the
+       important one: a phaser is not a filter you hear, it is the NOTCHES that
+       appear where the phase-shifted copy cancels the dry one. So the dry path
+       stays at unity and the wet is summed with it -- never crossfaded, which
+       would remove the cancellation and leave a wobble.
+
+       ONE KNOB, because the pedal has one. Depth and mix are fixed at the
+       circuit's own values rather than exposed, which is the same argument
+       `INSTRUMENTS.flange`'s band limit makes: a control the real unit does not
+       have is a control this file does not add.
+
+       AND IT IS NOT THE BARBERPOLE. That one climbs forever and never resolves;
+       this one sweeps up and down and its notches move together. Two different
+       effects that happen to share a family name. */
+    g.makePhase = function(){
+      const inp = c.createGain(), out = c.createGain();
+      const dry = c.createGain(); dry.gain.value = 1;
+      const wet = c.createGain(); wet.gain.value = 0;
+      const lfo = c.createOscillator(); lfo.type = "sine";
+      lfo.frequency.value = 0.5;
+      /* the LFO in unit range; each stage scales it to its own base below */
+      const dep = c.createGain(); dep.gain.value = 1;
+      lfo.connect(dep);
+      /* ── AND THE SWEEP MUST NOT DRIVE A STAGE THROUGH ZERO ────────────────
+         The first build gave every stage the SAME +/-900 Hz swing, and the
+         lowest stage sits at 320 Hz: at the bottom of the LFO that asks a
+         BiquadFilterNode for MINUS 580 Hz. Measured, and it is why this was
+         caught rather than shipped -- the walk home act, the only one with the
+         phaser on, came back +68 dB in the 80-320 Hz bands and +33 dB overall
+         against the parent. That is not a phaser, it is a filter blowing up.
+
+         A real phaser's JFETs vary a RESISTANCE, so each stage's corner moves
+         by a RATIO, not by a fixed number of hertz. So the depth is per stage
+         and proportional -- 60% of its own base -- which keeps every stage
+         inside its own octave and can never reach zero. */
+      const stages = [];
+      let node = inp;
+      for(let i = 0; i < 4; i++){                          // FOUR stages
+        const ap = c.createBiquadFilter(); ap.type = "allpass";
+        const base = 320 * Math.pow(2.0, i);               // spread across the band
+        ap.frequency.value = base; ap.Q.value = 0.7;
+        const d = c.createGain(); d.gain.value = base * 0.6;
+        dep.connect(d); d.connect(ap.frequency);
+        node.connect(ap); node = ap; stages.push(ap);
+      }
+      node.connect(wet);
+      inp.connect(dry); dry.connect(out); wet.connect(out);
+      lfo.start(0);
+      return { inp, out, dry, wet, rate: lfo.frequency, stages };
+    };
+
+    /* the whole board, in order, as one object the strip can splice */
+    g.makeBoard = function(){
+      const comp = g.makeComp(), oct = g.makeOctave();
+      const fz = g.makeFuzz(), ph = g.makePhase();
+      comp.out.connect(oct.inp); oct.out.connect(fz.inp); fz.out.connect(ph.inp);
+      return { inp: comp.inp, out: ph.out, comp, oct, fuzz: fz, phase: ph };
+    };
     g.makeFuzz = function(){
       const inp = c.createGain(); inp.gain.value = 1;
       const out = c.createGain(); out.gain.value = 1;
@@ -11445,21 +11602,63 @@ registerProcessor("mk2-room", MK2Room);
        sounds, never during playback. Idempotent in both directions so a genre
        that declares a fuzz twice, or none after one, lands in the same graph
        either way. */
+    /* ── ONE PEDAL ON MEANS THE BOARD IS PATCHED IN ────────────────────────
+       A board with everything bypassed is still four blocks of arithmetic per
+       channel, so it is spliced out entirely when nothing on it is on -- the
+       same argument the fuzz's own splice makes, now covering four pedals. */
+    g.boardOn = cfg => !!(cfg && ((cfg.fuzz && cfg.fuzz.amt > 0) ||
+                                  (cfg.comp && cfg.comp.amt > 0) ||
+                                  (cfg.oct && cfg.oct.amt > 0) ||
+                                  (cfg.phase && cfg.phase.amt > 0)));
     g.armFuzz = function(ch, cfg){
-      if(cfg && cfg.amt > 0){
-        if(!ch.fuzz){
-          ch.fuzz = g.makeFuzz();
+      const want = g.boardOn(cfg);
+      if(want){
+        if(!ch.board){
+          ch.board = g.makeBoard();
+          ch.fuzz = ch.board.fuzz;              // the old name still reaches it
           try { ch.inp.disconnect(ch.low); } catch(e){}
-          ch.inp.connect(ch.fuzz.inp);
-          ch.fuzz.out.connect(ch.low);
+          ch.inp.connect(ch.board.inp);
+          ch.board.out.connect(ch.low);
         }
-        g.setFuzz(ch.fuzz, cfg.amt, cfg.sustain, cfg.tone, cfg.level, cfg.cab);
-      } else if(ch.fuzz){
-        try { ch.inp.disconnect(ch.fuzz.inp); } catch(e){}
-        try { ch.fuzz.out.disconnect(ch.low); } catch(e){}
+        g.setBoard(ch.board, cfg);
+      } else if(ch.board){
+        try { ch.inp.disconnect(ch.board.inp); } catch(e){}
+        try { ch.board.out.disconnect(ch.low); } catch(e){}
         ch.inp.connect(ch.low);
-        ch.fuzz = null;
+        ch.board = null; ch.fuzz = null;
       }
+    };
+    /* ── AND EACH PEDAL'S KNOBS ────────────────────────────────────────────
+       `amt` is the footswitch on every one of them, made continuous for the
+       reason the fuzz's already records: a boolean cannot be automated. */
+    g.setBoard = function(bd, cfg){
+      const C = (cfg && cfg.comp) || {}, O = (cfg && cfg.oct) || {};
+      const P = (cfg && cfg.phase) || {}, F = (cfg && cfg.fuzz) || {};
+      const ca = Math.max(0, Math.min(1, C.amt || 0));
+      bd.comp.dry.gain.value = 1 - ca;
+      bd.comp.wet.gain.value = ca;
+      /* SUSTAIN drives the threshold DOWN, which is what the pedal's one knob
+         does: more of the signal falls under it, so more is squashed and the
+         makeup lifts more of the quiet material with it. */
+      const cs = Math.max(0, Math.min(1, C.sustain != null ? C.sustain : 0.5));
+      bd.comp.cmp.threshold.value = -6 - 36 * cs;
+      /* MAKEUP, NOT A BOOST. The first build used `level * 2 * (1 + cs)` and
+         measured +6.4 dB on program against the same act with no pedals —
+         which is the drum bus's fault exactly ("that is not what a saturation
+         stage is for"). A compressor's job is to level; the sustain knob makes
+         quiet material louder RELATIVE to loud material, not the whole part
+         louder. Halved, measured back to about a decibel. */
+      bd.comp.mk.gain.value = (C.level != null ? C.level : 0.5) * (1 + cs);
+      const oa = Math.max(0, Math.min(1, O.amt || 0));
+      /* the octave is BLENDED, never a replacement: the pedal's own mix keeps
+         the fundamental under the rectified copy or the note loses its pitch */
+      bd.oct.dry.gain.value = 1 - 0.45 * oa;
+      bd.oct.wet.gain.value = 0.9 * oa;
+      const pa = Math.max(0, Math.min(1, P.amt || 0));
+      /* SUMMED with dry, never crossfaded — the notches ARE the effect */
+      bd.phase.wet.gain.value = pa;
+      bd.phase.rate.value = 0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3));
+      g.setFuzz(bd.fuzz, F.amt, F.sustain, F.tone, F.level, F.cab);
     };
     /* ── AND THE SAME FIVE GAINS, SCHEDULED ────────────────────────────────
        `setFuzz` writes `.value`, which is right at song-arm and wrong for a
@@ -11468,6 +11667,24 @@ registerProcessor("mk2-room", MK2Room);
        pedal without anything being rebuilt. Topology is untouched -- the rows
        are armed once for the whole song and only the NUMBERS move -- which is
        what keeps "buildGraph runs once" true. */
+    g.schedBoard = function(bd, cfg, when){
+      if(!bd) return;
+      const at = Math.max(0, when);
+      const C = (cfg && cfg.comp) || {}, O = (cfg && cfg.oct) || {}, P = (cfg && cfg.phase) || {};
+      const ca = Math.max(0, Math.min(1, C.amt || 0));
+      bd.comp.dry.gain.setValueAtTime(1 - ca, at);
+      bd.comp.wet.gain.setValueAtTime(ca, at);
+      const cs = Math.max(0, Math.min(1, C.sustain != null ? C.sustain : 0.5));
+      bd.comp.cmp.threshold.setValueAtTime(-6 - 36 * cs, at);
+      bd.comp.mk.gain.setValueAtTime((C.level != null ? C.level : 0.5) * (1 + cs), at);
+      const oa = Math.max(0, Math.min(1, O.amt || 0));
+      bd.oct.dry.gain.setValueAtTime(1 - 0.45 * oa, at);
+      bd.oct.wet.gain.setValueAtTime(0.9 * oa, at);
+      const pa = Math.max(0, Math.min(1, P.amt || 0));
+      bd.phase.wet.gain.setValueAtTime(pa, at);
+      bd.phase.rate.setValueAtTime(0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3)), at);
+      g.schedFuzz(bd.fuzz, (cfg && cfg.fuzz) || {}, at);
+    };
     g.schedFuzz = function(fz, cfg, when){
       if(!fz) return;
       const c = cfg || {};
@@ -19658,6 +19875,38 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
                : HAND ? Object.assign({ rows: (space.fuzz && space.fuzz.rows) || ["bass", "keys"] },
                                       HAND, { by: null })
                : space.fuzz;
+      /* ── AND A FUZZ SETTING IS ONE PEDAL ON A BOARD ────────────────────────
+         `space.fuzz` came first and every genre that declares it keeps working
+         unchanged: it is lifted into the board's `fuzz` slot and the other
+         three pedals stay off. `space.pedals` is the fuller shape -- the same
+         `rows` and the same per-movement `by`, with a block per pedal. A genre
+         may declare either; declaring both merges, pedals last. */
+      const PED = space.pedals || null;
+      /* the movement's own board, falling through to the genre's, exactly like
+         `space.fuzz.by` and a `section` motion lane: movement first, section
+         function second, the bare declaration under both */
+      const boardOf = (f, mv, fn) => {
+        const o = { comp: {}, oct: {}, phase: {}, fuzz: f || {} };
+        if(!PED) return o;
+        const pick = k => {
+          const by = PED.by || {};
+          const b = (mv != null && by[mv]) || (fn != null && by[fn]) || null;
+          return (b && b[k]) || PED[k] || {};
+        };
+        o.comp = pick("comp"); o.oct = pick("oct"); o.phase = pick("phase");
+        if(PED.fuzz || (PED.by && ((mv != null && PED.by[mv] && PED.by[mv].fuzz) ||
+                                   (fn != null && PED.by[fn] && PED.by[fn].fuzz))))
+          o.fuzz = pick("fuzz");
+        return o;
+      };
+      /* is ANY pedal on anywhere in this record? decides whether the board is
+         patched in at all, and it must ask every movement, not just the first */
+      const anyPed = () => {
+        if(!PED) return false;
+        if(g.boardOn(boardOf(null, null, null))) return true;
+        for(const k in (PED.by || {})) if(g.boardOn(boardOf(null, k, null))) return true;
+        return false;
+      };
       const wanted = new Set();
       const every = [];
       if(fz){
@@ -19675,15 +19924,17 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          So a row matches a channel's ROLE first and falls back to its BUS, and
          a name matching neither still throws. Both vocabularies work and the
          precise one is available where it matters. */
-      if(every.length)
-        for(const k of (fz.rows || [])){
+      const ROWS = (PED && PED.rows) || (fz && fz.rows) || [];
+      if(every.length || anyPed())
+        for(const k of ROWS){
           const cs = Object.keys(g.chan).filter(r => g.chan[r].role === k || g.chan[r].bus === k);
-          if(!cs.length) throw new Error("space.fuzz names no such role or bus: " + k);
+          if(!cs.length) throw new Error("space.fuzz/pedals names no such role or bus: " + k);
           for(const r of cs) wanted.add(r);
         }
       /* armed with the FIRST setting the record will use, so a song that never
          reaches its scheduler still sounds like something a table asked for */
-      for(const r in g.chan) g.armFuzz(g.chan[r], wanted.has(r) ? every[0] : null);
+      for(const r in g.chan)
+        g.armFuzz(g.chan[r], wanted.has(r) ? boardOf(every[0], null, null) : null);
       /* ── AND A RENDER MAY START IN THE MIDDLE OF THE RECORD ────────────────
          `motionOffset` is where in the song this render begins, so an excerpt
          cut from the fight has every earlier bar landing at a NEGATIVE time.
@@ -19702,7 +19953,13 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       if(wanted.size && fz.by && MP && MP.clock && MP.secMv){
         const nB = MP.nBars || MP.secMv.length;
         const T0 = busT0 || 0, OFF = g.motionOffset || 0;
-        let prev = "", opening = every[0];
+        /* ── THE OPENING CARRIES ITS MOVEMENT TOO ────────────────────────
+           This kept only the fuzz cfg and threw the movement away, so every
+           excerpt opened on a board with the new pedals OFF -- and since a
+           render that starts mid-record folds every earlier bar into the
+           opening, that was every excerpt in the record. Measured: the octave
+           and the phaser changed nothing at all until this line kept `mv`. */
+        let prev = "", opening = every[0], openMv = null, openFn = null;
         for(let b = 0; b < nB; b++){
           const mv = MP.secMv[b], fn = MP.secFn && MP.secFn[b];
           const cfg = (mv != null && fz.by[mv] != null) ? fz.by[mv]
@@ -19711,10 +19968,10 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
           if(sig === prev) continue;                 // only the CHANGES are scheduled
           prev = sig;
           const at = MP.clock.at(b, 0) - OFF + T0;
-          if(at <= T0) { opening = cfg; continue; }  // before the window: it is the opening
-          for(const r of wanted) g.schedFuzz(g.chan[r].fuzz, cfg, at);
+          if(at <= T0) { opening = cfg; openMv = mv; openFn = fn; continue; }  // the opening
+          for(const r of wanted) g.schedBoard(g.chan[r].board, boardOf(cfg, mv, fn), at);
         }
-        for(const r of wanted) g.schedFuzz(g.chan[r].fuzz, opening, T0);
+        for(const r of wanted) g.schedBoard(g.chan[r].board, boardOf(opening, openMv, openFn), T0);
       }
     }
     /* WHO feeds it: the MATRIX. Each route's base is the song's own
@@ -27690,6 +27947,42 @@ GENRE.doomsludge = (function(F){
   space: merge(F.space, {
     /* half a cavern: a big room with amps in it, not a cathedral */
     wet: 0.38, irSec: 4.2, tailDark: 0.50,
+    /* ══ THE BOARD, PER ACT ═══════════════════════════════════════════════
+       The four pedals in `makeBoard`, declared where the sources put them.
+
+       OCTAVE on the first two acts. "The Univox Super-Fuzz produces a
+       velcro-like fuzz with a DISTINCT UPPER OCTAVE effect and is considered
+       by many to be a holy grail amongst fuzz pedals" [corpus:noisecreep], and
+       it is a stoner/doom staple. Blended low: the rectified copy is an
+       octave up, so too much of it takes the pitch off the riff.
+
+       PHASE + COMP ON THE WALK HOME, and this is the most specific finding in
+       the whole research pass: the MXR Phase 90 and the Dynacomp were used
+       together for the FOUR-NOTE SYD RIFF on Shine On Parts I-V
+       [corpus:gilmourish, uberproaudio]. That is not a genre-flavoured guess;
+       it is the pedal pair on the exact passage this act is modelled on. The
+       phaser is slow -- the Shine On sweep is a long one -- and the compressor
+       is what makes the four notes ring on rather than decay.
+
+       NO FUZZ THERE. The act is `amt: 0` on the fuzz already and stays so; a
+       Muff was on Gilmour's board but not on that riff, and the owner's brief
+       for this act is calm.
+
+       COMP ON THE FIGHT, lightly. Mathcore lives on attack and a compressor
+       levels it -- but it also stops the loudest hits from swallowing the
+       quiet ones, which is what makes a displaced accent readable. Low, and
+       flagged as the one entry here that is a judgement rather than a source.
+       ══════════════════════════════════════════════════════════════════════ */
+    pedals: {
+      rows: ["bass", "keys", "keys2", "lead", "ostinato"],
+      by: {
+        "setting out":       { oct: { amt: 0.22 } },
+        "into the deep":     { oct: { amt: 0.34 } },
+        "the fight":         { comp: { amt: 0.45, sustain: 0.35, level: 0.5 } },
+        "the long way home": { phase: { amt: 0.55, rate: 0.10 },
+                               comp:  { amt: 0.70, sustain: 0.62, level: 0.55 } },
+      },
+    },
     fuzz: {
       rows: ["bass", "keys", "keys2", "lead", "ostinato"],
       amt: 1, sustain: 0.45, tone: 0.35, level: 0.50,
