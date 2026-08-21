@@ -27431,6 +27431,34 @@ GENRE.doomsludge = (function(F){
          this one is a lead, not a result. */
       outro: ["keys", "lead", "drone"],
     }),
+    /* ══ AND THE ENDING KEEPS A BAND, WHICH IS WHERE THE OUTRO ACTUALLY WENT ══
+       The `outro` roles above were declared and the outro still printed
+       NOTHING -- one atmosphere event at bar 456 and sixteen empty bars after
+       it. Reading the printout rather than a summary is what found the cause,
+       and it is not `roles` at all:
+
+         `form.thinTo` strips the LAST SECTION down to a drawn number of parts,
+         after every other draw has happened. This genre inherits [1, 2].
+
+       So the ending kept one part and the draw kept `drone` -- and the drone is
+       welded into one continuous note by `drone.continuous`, struck at bar 0.
+       A part that never strikes again prints no notes. The outro was one
+       seventy-second held tone, and the header said `playing: drone` while the
+       bars underneath it were blank. Both were true.
+
+       MEASURED against the ending this act is being asked to resemble: Shine
+       On's final two minutes are the clean electric guitar and the saxophone
+       TRADING -- 134 and 135 notes in the last thirty-second window, the two
+       DENSEST parts of the whole fourteen minutes. A Floyd ending is a thinner
+       band still playing, not a fade to one tone. Sludge's sources agree from
+       the other side: "end with feedback, noise, or a final unison hit for
+       BLUNT CLOSURE".
+
+       [3, 4] keeps a small band. It is still a strip -- the fight ends on
+       seven parts -- and `thinTo` still says only HOW MANY while the draw says
+       which, which is the distinction the parent's comment argues for and this
+       does not touch. */
+    thinTo: [3, 4],
   }),
   theme: merge(F.theme, { carry: true }),
   keysStyleAt: { A: "hold", C: "comp", B: "comp", lift: "comp" },
