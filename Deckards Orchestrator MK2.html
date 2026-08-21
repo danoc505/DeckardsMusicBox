@@ -19572,10 +19572,25 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       /* armed with the FIRST setting the record will use, so a song that never
          reaches its scheduler still sounds like something a table asked for */
       for(const r in g.chan) g.armFuzz(g.chan[r], wanted.has(r) ? every[0] : null);
+      /* ── AND A RENDER MAY START IN THE MIDDLE OF THE RECORD ────────────────
+         `motionOffset` is where in the song this render begins, so an excerpt
+         cut from the fight has every earlier bar landing at a NEGATIVE time.
+         The first build clamped those with Math.max(0, when) and scheduled
+         them anyway -- which put every act's setting at t=0 in bar order, so
+         the LAST one won every excerpt. Measured: the whole record came back
+         0.00 dB, because the last act is `amt: 0` and it was overwriting the
+         other three at the top of every render.
+
+         So a bar before the window is not scheduled, it is REMEMBERED: it
+         becomes the setting the render OPENS on, applied once at the window's
+         own start. An excerpt from the fight then begins already fuzzed the
+         way the fight asks, which is what "the pedal was set before you
+         started listening" means. */
       const MP = g.motion;
       if(wanted.size && fz.by && MP && MP.clock && MP.secMv){
         const nB = MP.nBars || MP.secMv.length;
-        let prev = "";
+        const T0 = busT0 || 0, OFF = g.motionOffset || 0;
+        let prev = "", opening = every[0];
         for(let b = 0; b < nB; b++){
           const mv = MP.secMv[b], fn = MP.secFn && MP.secFn[b];
           const cfg = (mv != null && fz.by[mv] != null) ? fz.by[mv]
@@ -19583,9 +19598,11 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
           const sig = [cfg.amt, cfg.sustain, cfg.tone, cfg.level].join(",");
           if(sig === prev) continue;                 // only the CHANGES are scheduled
           prev = sig;
-          const at = MP.clock.at(b, 0) - (g.motionOffset || 0) + (busT0 || 0);
+          const at = MP.clock.at(b, 0) - OFF + T0;
+          if(at <= T0) { opening = cfg; continue; }  // before the window: it is the opening
           for(const r of wanted) g.schedFuzz(g.chan[r].fuzz, cfg, at);
         }
+        for(const r of wanted) g.schedFuzz(g.chan[r].fuzz, opening, T0);
       }
     }
     /* WHO feeds it: the MATRIX. Each route's base is the song's own
@@ -27207,29 +27224,25 @@ GENRE.doomsludge = (function(F){
      ROWS STAY GENRE-WIDE across all four, because changing WHICH parts are
      patched is a topology edit and those happen at song-arm or not at all.
 
-     ⚠ AND THESE FOUR KEYS MATCH NOTHING TODAY. READ THIS BEFORE TRUSTING THE
-     TABLE ABOVE. The reader is built and works; the KEYS are unreached, and
-     that was found by measuring rather than by assuming. `composeSong` was
-     asked what movements it actually produces, both with and without a length:
+     ⚠ AND THE FIRST VERIFICATION OF THIS TABLE WAS WRONG, WHICH IS WORTH
+     KEEPING. It reported that these four keys reached nothing -- that compose
+     returned movements called "establish", "twopart" and "answer" and ignored
+     the record's length. That was a FALSE ALARM and the fault was in the probe,
+     not the program: `composeSong` is POSITIONAL --
 
-       composeSong({seed:1, genre:"doomsludge"})              8 sections, 51 bars, 164 s
-       composeSong({seed:1, genre:"doomsludge", wantSec:1200}) 8 sections, 51 bars, 164 s
-       distinct sec.mv, both:   ["establish", "twopart", "answer"]
+       composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wantSec)
 
-     Those are the DEFAULT plan's movement names, not this genre's. The
-     four-leg plan declared at `form.plan` -- "setting out", "into the deep",
-     "the fight", "the long way home" -- is not what comes back, and `wantSec`
-     is ignored outright, so the twenty-minute four-act record this whole genre
-     is about is not what `composeSong` builds.
+     -- and the probe passed an options object as the first argument, so `seed`
+     was an object and `genre` was undefined. It measured the default genre's
+     short record and blamed this one. Called correctly:
 
-     THE FUZZ IS THE SYMPTOM, NOT THE BUG, and the bug is much larger than
-     this table. Logged in BACKLOG. These four entries are left standing rather
-     than deleted or renamed to the default plan's words, because renaming them
-     would make the fuzz look correct while hiding the real fault, and deleting
-     them would lose the sourced settings the moment the plan is reached. The
-     lookup falls back to the numbers above when a key is absent, so what this
-     genre plays TODAY is the doom setting for the whole record -- which is
-     what it played before the reader existed, and is safe.
+       composeSong(1, undefined, "doomsludge")
+         28 sections, 472 bars, 19.8 minutes
+         movements: setting out, into the deep, the fight, the long way home
+
+     The four legs are exactly what the plan declares. A probe that calls the
+     program wrongly and reports the program as broken is worse than no probe,
+     and it nearly had a correct architecture torn up to chase it.
      ═══════════════════════════════════════════════════════════════════════ */
   space: merge(F.space, {
     fuzz: {
