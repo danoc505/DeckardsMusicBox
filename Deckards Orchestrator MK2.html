@@ -6065,9 +6065,9 @@ const INSTRUMENTS = {
      [user: "Id rather have a basson or that old war horn that is large and
      wraps around a person, id rather have bass oboes, and sax"]
 
-     Four reeds off one engine and one war horn. The acoustics, the measured
-     numbers, what is derived and what could not be found at all are all written
-     out at `REED_BODY` and `V.carnyx` in stage 6 -- including the negative
+     Four reeds off one engine. The acoustics, the measured numbers, what is
+     derived and what could not be found at all are all written out at
+     `REED_BODY` in stage 6 -- including the negative
      result that Synth Secrets never covers a reed instrument, so unlike every
      other synthesised voice in this file there was no patch to lift.
 
@@ -6226,35 +6226,6 @@ const INSTRUMENTS = {
              sub: "measured formants 930 and 2300 Hz, lowest note E3",
              groups: [{ label: "REED", keys: ["push", "air"] },
                       { label: "BODY", keys: ["tone", "body", "vib"] },
-                      panGroup()] },
-  },
-  carnyx: {
-    slot: "lead", label: "carnyx — war horn",
-    family: "brass",
-    lanes: { lead:"carnyx" },
-    /* A SIGNAL INSTRUMENT: it calls and answers, one voice at a time -- it
-       does not double the accompaniment. Polybius's massed horns at Telamon
-       were a wall of independent blasts, not a section voicing the pad. Read
-       by the drawn-doubling engine, which declines rather than re-draws; a
-       HAND asking for a war horn doubling still gets it, which is Belkin's
-       exception exactly as the unison already keeps it.
-       [docs/genre-research/carnyx-usage.md §2] */
-    signal: true,
-    /* THE SEVEN MEASURED PLAYING FREQUENCIES SPAN E flat 0 TO F5, and this is
-       that span. The seven themselves are in the voice, as the body's own
-       resonances -- a note between two of them speaks thin and quiet, which is
-       what the real instrument does. Nothing snaps; see V.carnyx. */
-    range: [27, 77],
-    controls: [
-      ...panControls(),
-      { k:"blaze",  label:"blown",       cap:"BLAZE", min:0, max:1, step:0.01, def:0.50, kind:"gesture" },
-      { k:"mute",   label:"the 1500 dip",cap:"MUTE",  min:0, max:1, step:0.01, def:0.60, kind:"voicing" },
-      { k:"ring",   label:"hinged ears", cap:"RING",  min:0, max:1, step:0.01, def:0.55, kind:"voicing" },
-      { k:"attack", label:"attack",      cap:"ATTACK",min:0.02, max:0.4, step:0.01, def:0.06, unit:"s", kind:"voicing" },
-    ],
-    panel: { skin: "erang", maker: "", title: "carnyx",
-             sub: "Iron Age war horn — seven notes, and ears that ring after",
-             groups: [{ label: "", keys: ["blaze", "mute", "ring", "attack"] },
                       panGroup()] },
   },
   waveseq: {
@@ -9806,7 +9777,7 @@ const drumSoundName = v => DRUM_SOUND_NAME[v] || v;
    breath and the whole of it, which is the point of a signal. 10.0 clears the
    9.42 s sample at its own root with room for a note written below it, so the
    breath rule never truncates a call. See INSTRUMENTS.erWind. */
-const PLAY_AIR = { erWind: 10.0, bariSax: 6.0, carnyx: 6.0, horns: 7.0,
+const PLAY_AIR = { erWind: 10.0, bariSax: 6.0, horns: 7.0,
                   bassoon: 7.0, corAnglais: 10.0, bassOboe: 10.0,
                   /* the harmonica breathes BY CONSTRUCTION — it alternates
                      blow and draw — and a long tone is a practised skill
@@ -9830,7 +9801,6 @@ const PLAY_FAMILY = {
          has to be edited by hand for each new instrument is a rule that will be
          forgotten, so this list is the FIRST thing a new voice joins */
       bassoon: "wind", bassOboe: "wind", corAnglais: "wind", bariSax: "wind",
-      carnyx: "wind",
       /* ── AND THE COMMENT ABOVE WAS RIGHT, MEASURED ────────────────────────
          "this list is the FIRST thing a new voice joins" — and then three
          builds added five voices and joined none of them. The owner heard it
@@ -16246,127 +16216,32 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
   V.bassOboe   = reedVoice("bassOboe");
   V.bariSax    = reedVoice("bariSax");
 
-  /* ══ THE CARNYX — the war horn that wraps around a person ═══════════════════
-     [user: "that old war horn that is large and wraps around a person"]
+  /* ── `V.carnyx` WAS DELETED HERE ───────────────────────────────────────
+     [owner, 2026-08-21: "Delete the carnex it sounds like shit and should
+     never have been used like it is."]
 
-     THE INSTRUMENT THE USER DESCRIBED IS THE ROMAN CORNU, AND THE CORNU HAS NO
-     REACHABLE ACOUSTIC DATA. Say that first because it changes what got built:
-     the one modern study is IRCAM's and it is 403/Cloudflare-blocked, the
-     Wayback copy is refused by this environment's egress policy, and the
-     second-hand figures floating around are unattributed. The lituus and the
-     buccina have no acoustic study at all. The bronze lur was measured in
-     Copenhagen in 1947-48 and that paper sits behind a broken TLS certificate.
+     What stood here was a physical model of an Iron Age war horn built from
+     the Tintignac and Deskford reconstruction measurements: seven real
+     playing frequencies (39, 77, 169.5, 266, 526, 623, 696 Hz) as body
+     resonances, a transfer-function minimum at 1500 Hz, brassiness B = 0.69,
+     and the beast's head ears ringing on past the note. The measurements were
+     right and the voice did what they said. The DEPLOYMENT was the fault, and
+     it is worth writing down because it is a fault this file can commit
+     again: an instrument that can only play seven pitches across five octaves
+     was weighted 4 -- the joint highest -- in fantasy synth's LEAD pool, and
+     pinned as the declared lead of a whole movement. A tune written in a mode
+     lands on one of its seven resonances by accident, so the printout showed
+     it hammering ONE PITCH A BAR, and every note that missed came out thin
+     and quiet by the model's own design. `signal: true` was declared on it,
+     the doubling engine honoured that, and nothing connected either to the
+     weight-4 lead chair. A part-writing table can put an instrument somewhere
+     its own datasheet says it cannot go, and no check in this file catches it.
 
-     THE CARNYX, HOWEVER, IS FULLY MEASURED, and it is the same idea -- a tall
-     Iron Age war horn carried upright, played over the heads of an army, with a
-     beast's head for a bell. So this is a carnyx and it is called one.
-
-     Everything below is from the Tintignac and Deskford reconstruction work:
-       - SEVEN real playing frequencies, and that is the whole instrument:
-         39, 77, 169.5, 266, 526, 623, 696 Hz. Not a harmonic series -- a real
-         object with the resonances it happens to have.
-       - lattice-free brass ceiling at 2500 Hz.
-       - a transfer-function MINIMUM at 1500 Hz with two peaks between 2000 and
-         3000 Hz, described in the source as sounding "like a trombone mute".
-       - brassiness B = 0.69, and the players' own report of the Tintignac
-         instrument: "mainly conical, it is very difficult to get brassy
-         sounds". So the shockwave brightening that makes a trumpet blare is
-         DELIBERATELY WEAK here, and that is measured, not taste.
-       - the beast's head has hinged EARS and a wooden tongue, and they ring:
-         a "mechanical reverberation" that OUTLASTS THE NOTE.
-
-     ── WHAT TO DO WITH SEVEN NOTES, GIVEN THIS PROGRAM'S RULES ───────────────
-     A real carnyx can play those seven pitches and nothing else. The tempting
-     move is to snap the written pitch to the nearest one -- and that is exactly
-     the correcting pass this file does not have (`INSTRUMENTS.sax`: "Clamping a
-     pitch in the voice would be a correcting pass"). So the pitch is left
-     alone and the SEVEN RESONANCES ARE BUILT INTO THE BODY instead. A note that
-     lands on one rings; a note between two speaks thin and weak, which is what
-     a real horn does when you ask it for a note its tube will not support.
-     Nothing is corrected and nothing is faked -- the instrument's own physics
-     decides how well each note comes out. ═══════════════════════════════════ */
-  const CARNYX_HZ = [39, 77, 169.5, 266, 526, 623, 696];
-  V.carnyx = function(g, ev, t){
-    const c = g.ctx, f = F(ev.pitch);
-    const ringK = P(g, ev, "carnyx", "ring", 0.55);   // the hinged ears
-    const blaze = P(g, ev, "carnyx", "blaze", 0.5);   // how hard it is blown
-    const mute  = P(g, ev, "carnyx", "mute", 0.6);    // the 1500 Hz minimum
-    const atk   = P(g, ev, "carnyx", "attack", 0.06);
-    const RING  = 0.5 + 1.6 * ringK;                  // seconds the ears go on for
-    const end = t + ev.durSec + RING + 0.4;
-    const out = c.createGain();
-    out.connect(stereoOut(g, ev, t, "carnyx", kbdBus(ev)));
-    const made = [];
-
-    /* HOW WELL THE TUBE SUPPORTS THIS NOTE. Distance in cents to the nearest of
-       the seven, on a Gaussian -- 1.0 on a resonance, near nothing a tritone
-       off it. 350 cents is [CHOSEN]: it makes the seven read as a playable set
-       rather than as seven isolated points, which is how a brass player finds
-       a note by lipping toward it. */
-    let cents = 9999;
-    for(const hz of CARNYX_HZ)
-      cents = Math.min(cents, Math.abs(1200 * Math.log2(f / hz)));
-    const sup = Math.exp(-Math.pow(cents / 350, 2));
-
-    /* the brass column, and B = 0.69 caps how brassy it is allowed to get */
-    const dyn = Math.max(0, Math.min(1, ev.gain * (0.55 + 0.8 * blaze)));
-    const sh = c.createWaveShaper();
-    sh.curve = reedCurve(g, c, 1.2 + 1.4 * dyn * 0.69, 0.10);
-    sh.oversample = "2x";
-    const pre = c.createGain(); pre.gain.value = 0.8; pre.connect(sh);
-
-    /* the tube's own resonance at the nearest of the seven -- present when the
-       note is on it, gone when it is not */
-    const res = c.createBiquadFilter(); res.type = "peaking";
-    res.frequency.value = CARNYX_HZ.reduce((a, hz) =>
-      Math.abs(1200 * Math.log2(f / hz)) < Math.abs(1200 * Math.log2(f / a)) ? hz : a, CARNYX_HZ[0]);
-    res.Q.value = 3.2; res.gain.value = 9 * sup;
-    /* "like a trombone mute": the minimum, then the two peaks above it */
-    const notch = c.createBiquadFilter(); notch.type = "peaking";
-    notch.frequency.value = 1500; notch.Q.value = 1.4; notch.gain.value = -9 * mute;
-    const p1 = c.createBiquadFilter(); p1.type = "peaking";
-    p1.frequency.value = 2200; p1.Q.value = 2.2; p1.gain.value = 5 * mute;
-    const p2 = c.createBiquadFilter(); p2.type = "peaking";
-    p2.frequency.value = 2800; p2.Q.value = 2.4; p2.gain.value = 4 * mute;
-    const lp = c.createBiquadFilter(); lp.type = "lowpass";
-    lp.frequency.value = 2500; lp.Q.value = 0.8;
-    sh.connect(res); res.connect(notch); notch.connect(p1); p1.connect(p2);
-    p2.connect(lp); lp.connect(out);
-
-    for(const cents2 of [-4, 5]){
-      const o = c.createOscillator(); o.type = "sawtooth";
-      o.frequency.setValueAtTime(f * 0.978, t);              // lipped up into
-      o.frequency.linearRampToValueAtTime(f, t + 0.06);
-      o.detune.value = cents2;
-      const og = c.createGain(); og.gain.value = 0.5;
-      o.connect(og); og.connect(pre); o.start(t); o.stop(end); made.push(o);
-    }
-
-    /* THE EARS. Two high-Q resonators, FIXED in frequency because they are
-       hinged metal and do not care what note was played, fed from the column
-       and ringing on past it. This is the "mechanical reverberation" -- it is
-       part of the instrument, not of the room, so it is inside the voice and
-       not on a send. */
-    if(ringK > 0.02){
-      const rg = c.createGain(); rg.gain.value = 0.16 * ringK * (0.5 + 0.5 * sup);
-      lp.connect(rg);
-      for(const hz of [3050, 4270]){
-        const bp = c.createBiquadFilter(); bp.type = "bandpass";
-        bp.frequency.value = hz; bp.Q.value = 22;
-        const tailG = c.createGain();
-        tailG.gain.setValueAtTime(1, t);
-        tailG.gain.setValueAtTime(1, t + ev.durSec);
-        tailG.gain.exponentialRampToValueAtTime(0.0002, t + ev.durSec + RING);
-        rg.connect(bp); bp.connect(tailG); tailG.connect(out);
-      }
-    }
-
-    /* a horn that is not being supported by its tube is also QUIETER -- the
-       same fact as the thin timbre, and it is why the seven notes matter */
-    adsr(c, out, t, kbdLevel(ev) * 1.7 * ev.gain * (0.45 + 0.55 * sup) * (0.75 + 0.5 * blaze),
-         atk, 0.22, 0.86, t + ev.durSec, 0.18);
-    return made;
-  };
+     The research it was built from stays at docs/genre-research/
+     carnyx-usage.md, and the checks it FOUND stay in the code -- `signal`,
+     the playable-band intersection, the octave escape hatch. `erWind` is now
+     the file's only war horn, and it is a recording of one rather than a
+     model. ══════════════════════════════════════════════════════════════ */
 
   /* ══ THE LOW DRONE ════════════════════════════════════════════════════════
      A Prophet-10 low drone [corpus:nemostudios br03 gear list]. Two detuned
@@ -23805,7 +23680,13 @@ const GENRE = {
                                      two semitones off the top
                      counter[62,79]  carnyx [27,77]   ->  [62,77]
                                      the same two semitones — the answer band
-                                     pays what the pad band was already paying
+                                     pays what the pad band was already paying.
+                                     THE CARNYX IS GONE (2026-08-21) and the
+                                     Erang wind declares no range for the
+                                     reason written beside it, so this band is
+                                     [62,79] again — recorded because it is a
+                                     real widening of every dungeon synth
+                                     record's answering line, not a tidy-up
                      lead   [69,91]  corAnglais [52,81]      ->  [69,81]
                                      the plaintive solo double reed, and the
                                      only one of the five that can go this high
@@ -23831,38 +23712,28 @@ const GENRE = {
                         ["auto", 1]],
                 /* ── THE WAR HORN ANSWERS; IT DOES NOT PAD ────────────────────
                    [owner, 2026-08-15: "can we make sure we are using the
-                   carnyx properly?"] It sat in the keys2 pool above — the
-                   SUSTAINED CHORD PAD — which is two improprieties at once: a
-                   valveless one-note tube voicing block chords, and a signal
-                   instrument padding softly through verses at whatever energy
-                   the section had. The sources say what it is for: its blasts
-                   "signal the start of swift, violent assaults, where timing
-                   was critical"; Diodorus calls it "a harsh sound which suits
-                   the tumult of war"; and massed at Telamon it was a wall of
-                   independent noise, never harmony — nobody dealt a triad
-                   across a Gallic horn line. John Kenny's reconstructions add
-                   the subtle half (drones, growls, a scream at the top), all
-                   of it ONE VOICE AT A TIME. [docs/genre-research/
-                   carnyx-usage.md]
+                   carnyx properly?"] The carnyx sat in the keys2 pool above —
+                   the SUSTAINED CHORD PAD — which was two improprieties at
+                   once: a valveless one-note tube voicing block chords, and a
+                   signal instrument padding softly through verses at whatever
+                   energy the section had. It moved HERE, to the counter, and
+                   then [owner, 2026-08-21: "Delete the carnex it sounds like
+                   shit and should never have been used like it is"] it was
+                   deleted outright. The lane and the reasoning stay because
+                   they were never about that one instrument: the counter is
+                   the single answering line derived to speak in the tune's
+                   gaps, which is a war horn's actual job — one voice, at
+                   moments, answering over the heads of the band. The sources
+                   are what say so: the blasts "signal the start of swift,
+                   violent assaults, where timing was critical"; Diodorus calls
+                   it "a harsh sound which suits the tumult of war"; massed at
+                   Telamon it was a wall of independent noise, never harmony.
+                   [docs/genre-research/carnyx-usage.md]
 
-                   So it moves to the COUNTER — the single answering line
-                   derived to speak in the tune's gaps — which is a war horn's
-                   actual job: one voice, at moments, answering over the
-                   heads of the band. The blaze/apex ride built with the voice
-                   finally has a part the shape of the thing it rides.
-                   Weighted low for the old comment's own reason: a record the
-                   war horn leads is a battle, not a dungeon. Blast radius:
-                   the counter pool's draw is a new call on the rack stream,
-                   so this genre's keys2/kit deals reshuffle with it — this
-                   genre ONLY, measured; every other genre byte-identical. */
-                /* ── TWO WAR HORNS NOW, AND THEY SHARE ONE CHAIR ────────
-                   The Erang wind joins the carnyx here rather than on the lead
-                   for the carnyx's own reason, quoted three paragraphs up: one
-                   voice, at moments, answering over the heads of the band.
-                   Weighted under it because the carnyx is this genre's own
-                   instrument and the horn is the pack's -- a record led by
-                   either is a battle, and this genre is a dungeon. */
-                counter: [["auto", 6], ["carnyx", 3], ["erWind", 2]] },
+                   So the Erang wind holds the chair alone. Weighted low for
+                   the old comment's own reason: a record the war horn leads is
+                   a battle, not a dungeon. */
+                counter: [["auto", 6], ["erWind", 2]] },
     params: {
       /* ── THE RACK THE DRONE IS RUNNING THROUGH ─────────────────────────────
          The DP/4's four blocks are independent, so this genre uses TWO of them
@@ -24392,16 +24263,6 @@ const GENRE = {
         pan:    [{ kind: "lfo", bars: [[144, 1]], depth: [0.02, 0.05], shape: "sin", freePhase: true }],
         panHz:  [{ kind: "lfo", bars: [[112, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
         panDep: [{ kind: "arc", from: [0, 0.01], to: [0.02, 0.06], curve: "log" }],
-      },
-      /* the war horn is the exception, and it is the loudest travel in the
-         genre: a carnyx was played over an army, and the whole reason it is on
-         the top rung is the apex. It gets MORE than the brass rank, not less. */
-      carnyx: {
-        blaze:  [{ kind: "apex", from: [-0.30, -0.18], to: [0.14, 0.30] },
-                 { kind: "section", by: { bridge: [-0.22, -0.10], outro: [-0.18, -0.08] } }],
-        pan:    [{ kind: "lfo", bars: [[160, 1]], depth: [0.03, 0.08], shape: "sin", freePhase: true }],
-        panHz:  [{ kind: "lfo", bars: [[92, 1]], depth: [0.01, 0.03], shape: "sin", freePhase: true }],
-        panDep: [{ kind: "arc", from: [0, 0.02], to: [0.04, 0.10], curve: "log" }],
       },
       /* ── AND THE AUTOMATION HAD TO MOVE WITH THE DRUMS TOO ──────────────
          This block was keyed `procession` -- 63 lanes riding the war drum's
@@ -25417,7 +25278,18 @@ GENRE.fantasysynth = (function(D){
                         instruments that are closest to being atmosphere */
     setMachines: {
       "into the deep":     { keys2: "mellotron", lead: "bassOboe" },
-      "the fight":         { keys: "horns", keys2: "brass", lead: "carnyx" },
+      /* ── AND THE FIGHT'S TUNE IS THE COR ANGLAIS, NOT A WAR HORN ───────
+         This read `carnyx` until the war horn was deleted. The replacement is
+         not a taste call: of every instrument that can hold the lead lane, the
+         file has already measured which one reaches the band this genre writes
+         its tune in -- "the plaintive solo double reed, and the only one of the
+         five that can go this high" [dungeon synth's `machines`, the lead-band
+         working]. A bass oboe tops out at 76 and is already the declared lead
+         of `into the deep`; the Erang leads are the shelf this leg is spending
+         its one orchestral moment getting away from. So: horns hold the chords,
+         brass sits under them, and the double reed carries the theme over the
+         top of both, which is where a theme goes over a brass wall. */
+      "the fight":         { keys: "horns", keys2: "brass", lead: "corAnglais" },
       /* ── AND IT IS THE C3 STRING, WHICH IS A TIMBRE CHOICE AND NOT A
          BAND CHOICE ─────────────────────────────────────────────────────
          This read `erangStrings` until the pack was replaced, and that was a
@@ -26468,7 +26340,8 @@ GENRE.fantasysynth = (function(D){
   }),
   /* ── THE HEROES GET HORNS ──────────────────────────────────────────────
      Every one of these instruments is already built -- `horns` and `brass` on
-     the keys shelf, `carnyx`, `bassOboe` and `corAnglais` on the lead. What
+     the keys shelf, `bassOboe` and `corAnglais` on the lead (`carnyx` was
+     here too until it was deleted; see stage 6). What
      was missing was a genre that draws them. Battle music "goes hand in hand"
      with brass -- "stabs, rips, effects, and bold epic melodies on horns"
      [corpus:professionalcomposers] -- and a horn call is the most legible
@@ -26476,14 +26349,15 @@ GENRE.fantasysynth = (function(D){
      instead of them, so a record is sometimes a brass band and sometimes the
      pack, and neither is the default. */
   machines: merge(D.machines, {
-    lead:  [["carnyx", 4], ["corAnglais", 3], ["bassOboe", 3], ["erLeadHi", 4],
+    lead:  [["corAnglais", 3], ["bassOboe", 3], ["erLeadHi", 4],
             ["erLeadMid", 3], ["auto", 3]],
     /* ── AND THE HORN ANSWERS MORE OFTEN HERE THAN IN A CAVERN ────────────
-       The parent weights the Erang horn at 2 against the carnyx's 3, because a
-       record a war horn leads is a battle and that genre is a dungeon. THIS
+       The parent weights the Erang horn at 2 against a `6` empty chair. THIS
        genre has a battle in it -- a whole leg called "the fight" -- so the
-       horn is even money with the carnyx and the empty chair is rarer. */
-    counter: [["auto", 4], ["carnyx", 3], ["erWind", 3]],
+       horn is drawn oftener and the empty chair is rarer. It is the only war
+       horn in the file since the carnyx was deleted (see the note in stage 6),
+       and it is a recording of one being blown rather than a model of one. */
+    counter: [["auto", 4], ["erWind", 3]],
     keys:  [["horns", 4], ["brass", 3], ["auto", 6]],
     /* ── AND THE DRONE IS A DRAW NOW, NOT A FIXTURE ────────────────────────
        The synth and the pack's pads are two different instruments for the same
@@ -36025,11 +35899,13 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const k2raw = (k2m && k2m !== "auto") ? allocKeysBand(R) : null;
   /* ── AND THE ALLOCATED WINDOW IS THEN NARROWED TO WHAT CAN PLAY IT ────────
      The allocator's job is to find a register nothing else is using; it has no
-     opinion about the instrument. MEASURED: a laddered genre's keys2 ladder tops
-     out with the carnyx, whose highest measured playing frequency is 696 Hz --
-     MIDI 77 -- and the allocator was handing the lane a band up to 79. Two
-     semitones of notes a war horn does not have, on the one part of the record
-     the ladder saves for its loudest moment.
+     opinion about the instrument. MEASURED: a laddered genre's keys2 ladder
+     topped out with the carnyx, whose highest measured playing frequency was
+     696 Hz -- MIDI 77 -- and the allocator was handing the lane a band up to
+     79. Two semitones of notes a war horn does not have, on the one part of
+     the record the ladder saves for its loudest moment. The carnyx has since
+     been deleted; the narrowing stays because it is general -- the bassoon,
+     the bass oboe and the cor anglais all top out under a keys2 band too.
 
      NARROWED ONLY, never moved: `playable` may offer a band an octave to find
      room, and moving THIS one would walk it into a register the allocator has

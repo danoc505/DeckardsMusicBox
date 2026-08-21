@@ -11,6 +11,15 @@ a source. Items are grouped by what they cost, not by when they appeared.
 
 ---
 
+## 0ac. NAMED 2026-08-21 WHEN THE WAR HORN WAS DELETED — two
+
+| what | why it is open | what closes it |
+|---|---|---|
+| **Nothing checks that a part-writing table can be played by the instrument it names** | The carnyx declared `range: [27, 77]` and a body of seven resonances, and was weighted **4 — the joint highest** — in fantasy synth's LEAD pool and pinned as the declared lead of a whole movement. Both facts were in the file, both were read the same day, and neither check exists to connect them: a mode's tune lands on one of seven pitches by accident, so the printout showed the war horn hammering **one pitch a bar** while every missed note came out thin and quiet by the model's own design. `signal: true` was honoured by the doubling engine and by nothing else. The instrument is gone; **the hole is not**, and `erWind` sits behind the same door. | A seam check that reads a declared `signal` or a sparse resonance set against the lane weights that can reach it, and refuses a table that puts a one-voice-at-a-time instrument on a melody lane. Not written — named here so the next table change has to answer it. |
+| **lofi seed 17 will not compose** | `out of key, not in the chord, and does not resolve into the next one, in Bdev: keys2 82 bar 3`. PRE-EXISTING — reproduces identically on the pre-deletion file, so it is not the war horn's. It is the same class as the `Bdev` collision counted in §0aa's blend row, arriving through the single-genre door instead. | Diagnosing it. One seed in twelve; not understood, not claimed to be. |
+
+---
+
 ## 0ab. NAMED 2026-08-20 DURING THE HOUSE-CLEAN — five, measured
 
 | what | why it is open | what closes it |

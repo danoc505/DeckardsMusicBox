@@ -117,24 +117,8 @@ const PROBES = [
   { name: 'lead',        voice: 'lead',    role: 'lead',    gain: 0.85, durSec: 1.20, n: 2, spacing: 1.80, pitch: 72 },
   { name: 'counter',     voice: 'counter', role: 'counter', gain: 0.85, durSec: 1.20, n: 2, spacing: 1.80, pitch: 72 },
   { name: 'cs80',        voice: 'cs80',    role: 'lead',    gain: 0.85, durSec: 1.20, n: 2, spacing: 1.80, pitch: 64 },
-  /* ── THE CARNYX, ON ITS OWN AND ON ITS OWN RESONANCES ────────────────────
-     [owner, 2026-08-20: "the whole file sounds more like a blowing horn than
-     the carnex we have does"]
-
-     `V.carnyx` is physically modelled from the Tintignac and Deskford
-     reconstruction measurements -- `CARNYX_HZ = [39, 77, 169.5, 266, 526, 623,
-     696]` -- and has never been listenable on its own: it is a `signal`
-     instrument, so it only appears buried in a fight. A judgement about whether
-     it sounds like a horn needs it soloed.
-
-     Probed ON two of its own seven resonances rather than at a convenient
-     pitch, because the voice's whole claim is that a note between two of them
-     "speaks thin and quiet". 266 Hz is midi 60.2 and 77 Hz is midi 40.4, so
-     these are the two nearest playable notes to a resonance -- which is where
-     the instrument is supposed to sound its best, and therefore the fair test.
-     `erWind` beside it is the sampled horn the owner says sounds more like one. */
-  { name: 'carnyx_res266', voice: 'carnyx', role: 'lead', gain: 0.85, durSec: 1.60, n: 2, spacing: 2.20, pitch: 60 },
-  { name: 'carnyx_res77',  voice: 'carnyx', role: 'lead', gain: 0.85, durSec: 1.60, n: 2, spacing: 2.20, pitch: 40 },
+  /* the war horn probe: the carnyx was deleted 2026-08-21, so this is the
+     Erang wind, which is the file's only war horn now and is a recording. */
   { name: 'erWind_horn',   voice: 'erWind', role: 'counter', gain: 0.85, durSec: 1.60, n: 2, spacing: 2.20, pitch: 60 },
   /* the RIBBON, probed so it cannot rot while it waits for its genre. No genre
      ships a ribbon yet (Blade Runner is not built), so without this the glide
