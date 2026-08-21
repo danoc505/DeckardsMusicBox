@@ -11250,8 +11250,22 @@ registerProcessor("mk2-room", MK2Room);
        `cab` IS NOT A CABINET. There is no impulse-response machinery in this
        file, and a fuzz with no speaker in front of it is a wasp in a jar --
        the 2.5 kHz brass ceiling the carnyx used had the same problem and said
-       so. A fixed lowpass is the honest cheap stand-in and it is marked
-       [CHOSEN] rather than dressed up as a measurement.
+       so. A lowpass is the honest cheap stand-in and it is marked [CHOSEN]
+       rather than dressed up as a measurement.
+
+       IT WAS FIXED AT 4500 Hz AND THAT WAS WRONG, MEASURED. Spectrum per act,
+       fuzzed parts alone, fuzz on against fuzz null: the fight LOST 10.5 dB at
+       5-10 kHz while gaining only 4.7 at 1.25-2.5k. The tone knob was doing
+       its job -- 0.58 opens the highpass leg -- and the fixed speaker threw the
+       result away above 4.5 kHz. ATTACK IS THE ONE THING MATHCORE CANNOT LOSE:
+       Botch is "dissonant, single-note lines ... avoiding power chords", The
+       Number Twelve sets 5-groupings against 2-groupings, and both live on the
+       front edge of the note. A cabinet that eats the front edge is the wrong
+       cabinet for that act.
+
+       So `cab` is per act like the other four, clamped to 1500-16000 Hz --
+       under 1500 it stops being a speaker and becomes a second tone control,
+       which is a knob this unit already has.
 
        ── BYPASS, AND THE TEST THAT NEARLY LIED ABOUT IT ────────────────────
        The unit was first wired in permanently with `dry` at 1 and `wet` at 0,
@@ -11307,7 +11321,7 @@ registerProcessor("mk2-room", MK2Room);
       const loG = c.createGain(); loG.gain.value = 0.5;
       const hiG = c.createGain(); hiG.gain.value = 0.5;
       const cab = c.createBiquadFilter(); cab.type = "lowpass";
-      cab.frequency.value = 4500; cab.Q.value = 0.707;   // [CHOSEN] -- not a cabinet
+      cab.frequency.value = 4500; cab.Q.value = 0.707;   // per act; see `cab` below
       const wet = c.createGain(); wet.gain.value = 0;    // block 4: SHUT by default
       inp.connect(dry); dry.connect(out);
       inp.connect(pre); pre.connect(A); A.connect(tw); tw.connect(B);
@@ -11375,7 +11389,7 @@ registerProcessor("mk2-room", MK2Room);
           ch.inp.connect(ch.fuzz.inp);
           ch.fuzz.out.connect(ch.low);
         }
-        g.setFuzz(ch.fuzz, cfg.amt, cfg.sustain, cfg.tone, cfg.level);
+        g.setFuzz(ch.fuzz, cfg.amt, cfg.sustain, cfg.tone, cfg.level, cfg.cab);
       } else if(ch.fuzz){
         try { ch.inp.disconnect(ch.fuzz.inp); } catch(e){}
         try { ch.fuzz.out.disconnect(ch.low); } catch(e){}
@@ -11403,8 +11417,10 @@ registerProcessor("mk2-room", MK2Room);
       fz.pre.gain.setValueAtTime(Math.pow(60, sus), at);
       fz.loG.gain.setValueAtTime(1 - tn, at);
       fz.hiG.gain.setValueAtTime(tn, at);
+      fz.cab.frequency.setValueAtTime(
+        Math.max(1500, Math.min(16000, c.cab != null ? c.cab : 4500)), at);
     };
-    g.setFuzz = function(fz, amt, sustain, tone, level){
+    g.setFuzz = function(fz, amt, sustain, tone, level, cab){
       const a = Math.max(0, Math.min(1, amt || 0));
       fz.dry.gain.value = 1 - a;
       fz.wet.gain.value = a * (level != null ? level : 1) * 0.40;
@@ -11412,6 +11428,7 @@ registerProcessor("mk2-room", MK2Room);
       const tn = Math.max(0, Math.min(1, tone != null ? tone : 0.5));
       fz.loG.gain.value = 1 - tn;
       fz.hiG.gain.value = tn;
+      fz.cab.frequency.value = Math.max(1500, Math.min(16000, cab != null ? cab : 4500));
     };
     g.makeChan = function(role, voice){
       const key = voice ? role + "|" + voice : role;
@@ -19595,7 +19612,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
           const mv = MP.secMv[b], fn = MP.secFn && MP.secFn[b];
           const cfg = (mv != null && fz.by[mv] != null) ? fz.by[mv]
                     : (fn != null && fz.by[fn] != null) ? fz.by[fn] : fz;
-          const sig = [cfg.amt, cfg.sustain, cfg.tone, cfg.level].join(",");
+          const sig = [cfg.amt, cfg.sustain, cfg.tone, cfg.level, cfg.cab].join(",");
           if(sig === prev) continue;                 // only the CHANGES are scheduled
           prev = sig;
           const at = MP.clock.at(b, 0) - OFF + T0;
@@ -27248,10 +27265,14 @@ GENRE.doomsludge = (function(F){
     fuzz: {
       rows: ["bass", "keys"], amt: 1, sustain: 0.45, tone: 0.35, level: 0.50,
       by: {
-        "setting out":      { amt: 1, sustain: 0.45, tone: 0.35, level: 0.50 },
-        "into the deep":    { amt: 1, sustain: 0.78, tone: 0.28, level: 0.50 },
-        "the fight":        { amt: 1, sustain: 0.40, tone: 0.58, level: 0.50 },
-        "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50 },
+        /* cab: the doom and sludge acts WANT the top gone -- "controlled
+           high-end fizz", a bass-heavy wall. The fight does not; it is the
+           only act whose sources are about attack, so its speaker opens to
+           9 kHz and lets the front edge of the note through. */
+        "setting out":      { amt: 1, sustain: 0.45, tone: 0.35, level: 0.50, cab: 4500 },
+        "into the deep":    { amt: 1, sustain: 0.78, tone: 0.28, level: 0.50, cab: 3800 },
+        "the fight":        { amt: 1, sustain: 0.40, tone: 0.58, level: 0.50, cab: 9000 },
+        "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50, cab: 4500 },
       },
     },
   }),
