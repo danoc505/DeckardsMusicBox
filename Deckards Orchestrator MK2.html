@@ -5083,10 +5083,75 @@ const INSTRUMENTS = {
          table; here it is one number for the record. */
       { k:"cab",     label:"speaker",  cap:"CAB", min:1500, max:16000, step:100, def:4500,
         unit:"Hz", kind:"voicing" },
+      /* ── THE TWO KNOBS EVERY SLUDGE MUFF ON THE MARKET HAS ────────────────
+         The Balrog's MIDS and DEPTH, the Supercollider's MIDS and MASS, the
+         Sludgehammer's BODY, the Fuzz O)))'s LOW [corpus:guitarpedalx]. A
+         stock Muff is scooped 13 dB at 1 kHz and these are what the builders
+         sell to undo it -- so a panel with a TONE knob and neither of these is
+         a panel for a pedal nobody in the genre actually uses.
+
+         MIDS is the AMZ mod: the treble leg's corner walks down from the
+         Ram's Head 1206 Hz toward 240, which fills the notch in.
+         MASS is a clean low-passed copy of the input alongside the fuzz --
+         the fundamental kept clean under the dirt, which is how a bass fuzz
+         has always been built and is not something a tone stack can do. */
+      { k:"mids",    label:"mids",     cap:"MIDS",  min:0, max:1, step:0.01, def:0, kind:"voicing" },
+      { k:"mass",    label:"clean low", cap:"MASS", min:0, max:1, step:0.01, def:0, kind:"bus" },
     ],
     panel: { skin: "erang", maker: "", title: "the fuzz",
-             sub: "two soft clippers into a 1 kHz scoop — in line, not a send",
-             groups: [{ label: "", keys: ["power", "sustain", "tone", "level", "cab"] }] },
+             sub: "two soft clippers, the Ram's Head stack, and the mids put back",
+             groups: [{ label: "", keys: ["power", "sustain", "tone", "level", "cab"] },
+                      { label: "SLUDGE", keys: ["mids", "mass"] }] },
+  },
+
+  /* ══ THE FUZZ FACE, WHICH IS FIVE OF THE NINE PEDALS ON THE LIST ══════════
+     The D*A*M M-13 Meathead and its clones -- the Tyrant, the Mud Giant, the
+     Furious Dope, the Sunmachine Fuzz O))) -- are all one two-transistor
+     circuit and it is not a Muff [corpus:guitarpedalx 9 of the best compact
+     doom/drone/sludge/stoner fuzz pedals]. `g.makeMeat` carries the sourcing;
+     these are its knobs, named after theirs. */
+  meat: {
+    slot: "meat", label: "the fuzz face (Meathead)", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power", label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1,
+        kind:"switch", live:true },
+      /* the Fuzz O)))'s own knob name */
+      { k:"dirt",  label:"dirt",   cap:"DIRT",  min:0, max:1, step:0.01, def:0.60, kind:"gesture" },
+      /* the starve. "Bias Q1 too low and you get starved Q2: gated decay,
+         sputtery, volume drop... that ripping velcro tone is saturation
+         setting in" [corpus:pedalpcb; geofex] */
+      { k:"bias",  label:"bias / gate", cap:"BIAS", min:0, max:1, step:0.01, def:0.15, kind:"voicing" },
+      /* the Fuzz O)))'s "Dark variety with Low Pass Filter" */
+      { k:"dark",  label:"dark",   cap:"DARK",  min:0, max:1, step:0.01, def:0.50, kind:"voicing" },
+      { k:"level", label:"loud",   cap:"LOUD",  min:0, max:1, step:0.01, def:0.50, kind:"bus" },
+    ],
+    panel: { skin: "erang", maker: "", title: "meathead",
+             sub: "two unmatched transistors, asymmetric, and it gates when you starve it",
+             groups: [{ label: "", keys: ["power", "dirt", "bias", "dark", "level"] }] },
+  },
+
+  /* ══ AND THE OCTAVE DIVIDER ═══════════════════════════════════════════════
+     "Pedals pitched one or two octaves down for maximum heaviness"
+     [corpus:boostguitarpedals]. A flip-flop, in the worklet -- `MK2Sub`. */
+  sub: {
+    slot: "sub", label: "the octave divider", fixed: true,
+    lanes: {},
+    controls: [
+      { k:"power", label:"genre / off / on", cap:"POWER", min:-1, max:1, step:1, def:-1,
+        kind:"switch", live:true },
+      { k:"blend", label:"blend",      cap:"BLEND", min:0, max:1, step:0.01, def:0.35, kind:"bus" },
+      /* one flip-flop or two: an octave down, or two octaves */
+      { k:"two",   label:"−1 oct / −2", cap:"RANGE", min:0, max:1, step:0.01, def:0, kind:"voicing" },
+      /* the 4013's "or nothing if it isn't", as a knob */
+      { k:"gate",  label:"gate",       cap:"GATE",  min:0.0005, max:0.08, step:0.0005, def:0.012,
+        kind:"voicing" },
+      { k:"tone",  label:"tame",       cap:"TAME",  min:120, max:4000, step:20, def:900,
+        unit:"Hz", kind:"voicing" },
+    ],
+    panel: { skin: "erang", maker: "", title: "octave down",
+             sub: "a flip-flop halves the rate — one note at a time, never a chord",
+             groups: [{ label: "", keys: ["power", "blend", "two", "gate", "tone"] }] },
   },
   barber: {
     slot: "barber", label: "barberpole phaser", fixed: true,
@@ -11036,6 +11101,108 @@ class MK2Rack extends AudioWorkletProcessor {
   }
 }
 registerProcessor("mk2-rack", MK2Rack);
+
+/* == THE OCTAVE DIVIDER, WHICH IS A FLIP-FLOP AND CANNOT BE A WAVESHAPER ====
+   [owner: "all it does is increase the pitch! No fuzz no degradation no
+   deepening of the sound"]
+
+   He was describing the pedal I built. \`makeOctave\` is a full-wave rectifier,
+   |x|*2-1, and a full-wave rectifier is an OCTAVE UP -- an Octavia. Doom and
+   sludge want the other direction: "pedals pitched one or two octaves down for
+   maximum heaviness" [corpus:boostguitarpedals doom tone].
+
+   AND AN OCTAVE DOWN IS NOT A CURVE. Up is memoryless -- every output sample
+   depends only on this input sample, which is what a WaveShaper can express.
+   Down is not: "octave dividers use a FLIP-FLOP circuit which changes its
+   state on each leading edge of the input signal, which implies that the
+   output takes the form of a SQUARE WAVE... a flip-flop produces an output of
+   exactly half the input frequency, which is one octave lower. Multiple flip
+   flops are used for deeper octaves (1/4 frequency, 1/8 frequency)"
+   [corpus:electronicmusic.fandom octave divider; allaboutcircuits flip-flop].
+   A flip-flop is one bit of STATE, so this is a processor and not a table.
+
+   THE SQUARE IS NOT A BUG, IT IS THE PEDAL: "a digital IC does not pass
+   amplitude variations from its input to its output -- whatever shows up on
+   the Clock pin, the output will be a square wave IF THE INPUT IS LOUD ENOUGH,
+   OR NOTHING IF IT ISN'T. So no matter how much signal filtering you do before
+   the 4013, it is going to have a serious fuzz effect after. This can then be
+   low-passed to make less harmonics." Every clause of that is built below: a
+   constant-amplitude square, a hard gate rather than a fade, and the taming
+   low-pass on the node side where a biquad already exists.
+
+   AND ITS LIMIT IS STATED RATHER THAN DISCOVERED: "they are ok for single
+   notes but not chords". A divider clocks off zero crossings, and a chord has
+   no single zero crossing to clock off -- which is exactly why the pedal
+   belongs on the BASS and the drone and not across the keyboards. */
+class MK2Sub extends AudioWorkletProcessor {
+  static get parameterDescriptors(){
+    return [
+      /* the first flip-flop: one octave down, a square at half the rate */
+      { name: "one", defaultValue: 0, minValue: 0, maxValue: 2, automationRate: "k-rate" },
+      /* the second, clocked off the first: two octaves down */
+      { name: "two", defaultValue: 0, minValue: 0, maxValue: 2, automationRate: "k-rate" },
+      /* how loud the input has to be before the divider clocks at all. The
+         4013's "or nothing if it isn't", as a number. */
+      { name: "gate", defaultValue: 0.010, minValue: 0.0002, maxValue: 0.3, automationRate: "k-rate" },
+    ];
+  }
+  constructor(){
+    super();
+    this.q1 = 1; this.q2 = 1;      // the two flip-flops
+    this.prev = 0;                 // last input sign, for the leading edge
+    this.env = 0;                  // the gate's envelope follower
+    this.open = 0;                 // the gate itself, smoothed over 2 ms
+  }
+  process(inputs, outputs, prm){
+    const I = inputs[0], O = outputs[0];
+    if(!O || !O[0]) return true;
+    const n = O[0].length;
+    const src = (I && I[0]) ? I[0] : null;
+    const g1 = prm.one[0], g2 = prm.two[0], th = prm.gate[0];
+    /* 20 ms to fall, 1 ms to rise: long enough not to chatter inside a cycle
+       of a low bass note, short enough that the gate shuts on the note's tail
+       rather than a beat later */
+    const aUp = Math.exp(-1 / (0.001 * sampleRate));
+    const aDn = Math.exp(-1 / (0.020 * sampleRate));
+    const sm  = Math.exp(-1 / (0.002 * sampleRate));
+    for(let i = 0; i < n; i++){
+      const x = src ? src[i] : 0;
+      const a = x < 0 ? -x : x;
+      this.env = a > this.env ? (aUp * this.env + (1 - aUp) * a)
+                              : (aDn * this.env + (1 - aDn) * a);
+      const want = this.env > th ? 1 : 0;
+      this.open = sm * this.open + (1 - sm) * want;
+      /* THE LEADING EDGE. A sign change upward is one clock; the flip-flop
+         toggles, so it changes state once per two input cycles. Nothing here
+         looks at how big x is, which is the whole property the source names. */
+      const sg = x > 0 ? 1 : (x < 0 ? -1 : this.prev);
+      if(sg > 0 && this.prev <= 0){
+        this.q1 = -this.q1;
+        if(this.q1 > 0) this.q2 = -this.q2;     // the second divider clocks off the first
+      }
+      this.prev = sg;
+      /* ── AND IT FOLLOWS THE ENVELOPE, WHICH THE 4013 DOES NOT ───────────
+         The chip's constant amplitude is faithfully what the source says and
+         it was WRONG HERE BY TWENTY DECIBELS. A real divider sits after a
+         guitar at instrument level and its blend knob is set against a signal
+         of comparable size; this one sits on a subgroup whose peak measured
+         0.055, so a plus-or-minus 0.55 square was four times louder than the
+         part it was tracking and it swallowed the record. Measured, sludge
+         act, bass alone: 92.8% of the energy in 20-60 Hz, and the square was
+         most of it.
+
+         So the divider still makes a square and still gates hard -- both of
+         those are the pedal -- and its LEVEL rides the input. That is what the
+         analogue pedals put a VCA in the output for, and it is the difference
+         between an octave under the note and an octave instead of it. */
+      const y = (this.q1 * g1 + this.q2 * g2) * (this.env * 2.4) * this.open;
+      O[0][i] = y;
+      if(O[1]) O[1][i] = y;
+    }
+    return true;
+  }
+}
+registerProcessor("mk2-sub", MK2Sub);
 `;
   let rackErr = "";
   async function addRackModule(c){
@@ -11614,6 +11781,221 @@ registerProcessor("mk2-room", MK2Room);
       return { inp, out, dry, wet };
     };
 
+    /* ══ THE MEATHEAD — A FUZZ FACE, WHICH IS A DIFFERENT ANIMAL ═══════════
+       [owner: "I can not believe for one second that doom and sludge are 2
+       pedals! Did you bother to try and source how to build these pedals?"]
+
+       No, and the list he sent settles what was missing. NINE pedals, and the
+       Big Muff is the minority: the D*A*M M-13 Meathead, the Nine of Swords
+       Tyrant ("D*A*M M-13 Meathead-style, 2N3904 + BC182L"), the Minotaur Mud
+       Giant ("Fuzz Face style with high-gain Silicon transistors... core
+       Silicon Meathead territory"), the Occvlt Furious Dope ("Fuzz Face style,
+       unmatched transistors") and the Sunmachine Fuzz O))) ("D*A*M Meathead
+       clone, Dark variety, with Low Pass Filter") are all ONE circuit, and it
+       is not the Muff. Five of nine [corpus:guitarpedalx 9 best doom/drone/
+       sludge/stoner fuzz pedals]. The Fuzz O)))'s sound is the target: "like
+       the feeling of wading through molten lava, congealing tar or treacle".
+
+       WHAT MAKES IT DIFFERENT FROM THE MUFF, sourced clause by clause:
+
+       TWO transistors, not four, with the second one's emitter tied back to
+       the first one's base through 100k -- "the main interest of the circuit"
+       [corpus:coda-effects Fuzz Face analysis]. One feedback pair rather than
+       two cascaded clippers, so it is coarser and less compressed.
+
+       IT KEEPS ITS BASS. The stock input cap is 2.2 uF, and the Analogman
+       Sunface mod drops it to 1 uF specifically to make "a brighter fuzz with
+       reduced low-end response" [ibid]. The bright version is the modification;
+       the dark one is the pedal. 2.2 uF into the circuit's own low input
+       impedance is a corner down near 30 Hz, so the fundamental of a detuned
+       bass goes straight in -- which is the opposite of what my first fuzz did.
+
+       IT CLIPS ASYMMETRICALLY. Two transistors of different types (the
+       Meathead's whole idea is "two unmatched/disparate silicon transistors")
+       clip the two halves of the wave by different amounts, which is even
+       harmonics. The open-source way to say that is an OFFSET before the
+       shaper: Faust's `ef.cubicnl` in misceffects.lib takes "an offset for
+       bringing in even harmonics", and guitarix uses it [corpus:faustlibraries
+       misceffects; dsprelated PASP nonlinear distortion]. So: add a DC term,
+       shape, subtract the shaped DC term back out.
+
+       AND IT GATES, WHICH IS THE SOUND PEOPLE BUY IT FOR. "What happens if we
+       deliberately skew the bias point so that Q2 saturates? The feedback loop
+       is broken and Q2's gain approaches zero. The precipitous drop in Q2's
+       gain kills the guitar signal and we have GATING. That ripping velcro
+       tone is saturation setting in." Bias Q1 too low and you get "starved Q2:
+       gated decay, sputtery, volume drop" [corpus:geofex fuzzface technology;
+       pedalpcb biasing BJTs]. A starved bias is a DEAD ZONE around zero in the
+       transfer curve -- so that is what BIAS is here, and because it is on the
+       output of a high-gain stage it bites only on the note's tail. The note
+       does not fade, it sputters and stops, which is the velcro.
+
+       Four controls, and they are the ones the pedals on his list have: DIRT
+       (the Fuzz O)))'s), LOUD (the Furious Dope's), BIAS, and DARK (the
+       Fuzz O)))'s low-pass, and the Doomsaw's "reduced high frequency
+       harshness"). */
+    g.makeMeat = function(){
+      const inp = c.createGain(); inp.gain.value = 1;
+      const out = c.createGain(); out.gain.value = 1;
+      const dry = c.createGain(); dry.gain.value = 1;
+      /* the 2.2 uF input cap: the fundamental of a detuned bass survives it */
+      const cap = c.createBiquadFilter(); cap.type = "highpass";
+      cap.frequency.value = 32; cap.Q.value = 0.707;
+      const pre = c.createGain(); pre.gain.value = 1;     // the FUZZ pot's feedback
+      const sh  = c.createWaveShaper(); sh.oversample = "4x";
+      /* the DEAD ZONE is baked into the same curve as the asymmetry, because
+         both are one transfer function of a badly biased pair. Rebuilt when
+         BIAS moves -- a table per board, not per channel. */
+      /* ── THE OUTPUT COUPLING CAP, AND WHY IT IS NOT OPTIONAL ─────────────
+         "A simple 0.1 uF coupling capacitor to ELIMINATE DC CURRENT, and a
+         volume potentiometer wired as a variable resistor" [corpus:coda-effects
+         Fuzz Face]. I left it out of the first build and the omission was
+         measured within the hour: an ASYMMETRIC transfer curve has a non-zero
+         mean by definition, so a symmetric input comes out with a DC offset
+         that RIDES THE NOTE'S ENVELOPE -- a thump at the attack rate rather
+         than a harmonic of the note.
+
+         MEASURED, sludge act, the bass alone with only this pedal on: 99.2% of
+         its energy in the 20-60 Hz band, 0.4% in the next one up, rms 0.277
+         against a raw bass of 0.018. Twenty-four decibels of nothing you can
+         hear. That is what a missing coupling cap does, and it is why every
+         one of these circuits has one.
+
+         Every real fuzz that clips asymmetrically has this cap for exactly
+         this reason: the asymmetry is what makes the even harmonics, and the
+         cap is what stops the asymmetry from also making a rumble. */
+      const dc = c.createBiquadFilter(); dc.type = "highpass";
+      dc.frequency.value = 48; dc.Q.value = 0.707;
+      const dk = c.createBiquadFilter(); dk.type = "lowpass";
+      dk.frequency.value = 1800; dk.Q.value = 0.707;      // the Dark variety
+      const wet = c.createGain(); wet.gain.value = 0;
+      inp.connect(dry); dry.connect(out);
+      inp.connect(cap); cap.connect(pre); pre.connect(sh);
+      sh.connect(dc); dc.connect(dk); dk.connect(wet); wet.connect(out);
+      const m = { inp, out, dry, wet, pre, sh, dk, bias: -1 };
+      g.meatCurve(m, 0.15);
+      return m;
+    };
+    /* the transfer function, both halves of it. `off` is the asymmetry and
+       `dead` is the starve; one table, rebuilt only when the number moves. */
+    g.meatCurve = function(m, bias){
+      const b = Math.max(0, Math.min(1, bias));
+      if(Math.abs(m.bias - b) < 0.004) return;
+      m.bias = b;
+      const N = 4097, cv = new Float32Array(N);
+      const off = 0.10 + 0.35 * b;              // the skewed bias point
+      const dead = 0.55 * b;                    // Q2 saturating: the gate
+      const base = Math.tanh(2.4 * off);
+      let top = 0;
+      for(let i = 0; i < N; i++){
+        const x = (i / (N - 1)) * 2 - 1;
+        let y = Math.tanh(2.4 * (x + off)) - base;
+        const a = y < 0 ? -y : y;
+        y = a <= dead ? 0 : (y < 0 ? -(a - dead) : (a - dead)) / (1 - dead);
+        cv[i] = y;
+        if(a > top) top = Math.abs(y);
+      }
+      /* NORMALISE RATHER THAN CLAMP. The skewed curve runs further on one side
+         than the other, so clamping at -1 flattened the negative half against
+         the rail and made the asymmetry a hard rectification instead of a
+         lean. Scaling keeps the shape and lets the coupling cap above deal
+         with what the shape leaves behind. */
+      const k = top > 1 ? 1 / top : 1;
+      for(let i = 0; i < N; i++) cv[i] = Math.max(-1, Math.min(1, cv[i] * k));
+      m.sh.curve = cv;
+    };
+    g.setMeat = function(m, cfg, when){
+      const C = cfg || {};
+      const a  = Math.max(0, Math.min(1, C.amt || 0));
+      const dirt = Math.max(0, Math.min(1, C.dirt != null ? C.dirt : 0.6));
+      const loud = C.level != null ? C.level : 0.5;
+      const dark = Math.max(0, Math.min(1, C.dark != null ? C.dark : 0.5));
+      /* the same exponential law the Muff's SUSTAIN earned, and for the same
+         measured reason: a linear drive knob spends its range in a quarter turn */
+      const pre = 3 * Math.pow(260, dirt);
+      const hz  = 320 * Math.pow(14, 1 - dark);       // 4480 Hz open, 320 Hz dark
+      g.meatCurve(m, C.bias != null ? C.bias : 0.15);
+      if(when == null){
+        m.dry.gain.value = 1 - a;
+        m.wet.gain.value = a * loud * 1.6;
+        m.pre.gain.value = pre;
+        m.dk.frequency.value = hz;
+      } else {
+        const at = Math.max(0, when);
+        m.dry.gain.setValueAtTime(1 - a, at);
+        m.wet.gain.setValueAtTime(a * loud * 1.6, at);
+        m.pre.gain.setValueAtTime(pre, at);
+        m.dk.frequency.setValueAtTime(hz, at);
+      }
+    };
+
+    /* ══ THE SUB — AN OCTAVE DIVIDER, NOT AN OCTAVE MULTIPLIER ══════════════
+       "Pedals pitched ONE OR TWO OCTAVES DOWN for maximum heaviness"
+       [corpus:boostguitarpedals crushing doom tone]. The flip-flop that does
+       it is `MK2Sub` in the rack worklet module, with the sourcing on it; this
+       is the node side.
+
+       TWO FILTERS AROUND IT, both named by the source. Before: a low-pass, so
+       the divider clocks off the FUNDAMENTAL's zero crossings and not off a
+       harmonic -- which is the whole reason a divider mistracks. After: "this
+       can then be low-passed to make less harmonics", because a flip-flop's
+       output is a square and a square two octaves down is mostly a buzz
+       [corpus:electronicmusic.fandom octave divider].
+
+       AND IT IS BLENDED UNDER THE DRY, never a replacement. The pedal supplies
+       the octave; the note keeps its own pitch, and that is the difference
+       between a heavier bass and a bass an octave lower. */
+    g.makeSub = function(){
+      const inp = c.createGain(); inp.gain.value = 1;
+      const out = c.createGain(); out.gain.value = 1;
+      const dry = c.createGain(); dry.gain.value = 1;
+      inp.connect(dry); dry.connect(out);
+      /* no worklet, no divider. The same graceful nothing the rack does on a
+         browser without one, said here rather than discovered as a silence. */
+      if(!g.rackReady) return { inp, out, dry, wet: null, node: null, post: null };
+      let node = null;
+      try {
+        node = new AudioWorkletNode(c, "mk2-sub", {
+          numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [2],
+        });
+      } catch(e){ return { inp, out, dry, wet: null, node: null, post: null }; }
+      const trk = c.createBiquadFilter(); trk.type = "lowpass";
+      trk.frequency.value = 260; trk.Q.value = 0.707;     // clock off the fundamental
+      const post = c.createBiquadFilter(); post.type = "lowpass";
+      post.frequency.value = 900; post.Q.value = 0.707;   // tame the square
+      /* AND A FLOOR UNDER IT. An octave below this genre's bass register is
+         16-43 Hz, which no speaker in the world reproduces and which measured
+         as 82% of the sludge act's total energy. The divider keeps its note
+         and loses the part of it that was only ever eating headroom. */
+      const flr = c.createBiquadFilter(); flr.type = "highpass";
+      flr.frequency.value = 38; flr.Q.value = 0.707;
+      const wet = c.createGain(); wet.gain.value = 0;
+      inp.connect(trk); trk.connect(node); node.connect(flr); flr.connect(post);
+      post.connect(wet); wet.connect(out);
+      return { inp, out, dry, wet, node, post, trk, flr };
+    };
+    g.setSub = function(sb, cfg, when){
+      if(!sb || !sb.node) return;
+      const C = cfg || {};
+      const a  = Math.max(0, Math.min(1, C.amt || 0));
+      const two = Math.max(0, Math.min(1, C.two != null ? C.two : 0));
+      const gate = Math.max(0.0002, Math.min(0.3, C.gate != null ? C.gate : 0.010));
+      const hz = Math.max(120, Math.min(4000, C.tone != null ? C.tone : 900));
+      const P = sb.node.parameters;
+      const one = P.get("one"), tw = P.get("two"), gt = P.get("gate");
+      if(when == null){
+        one.value = 0.55 * (1 - 0.5 * two); tw.value = 0.55 * two; gt.value = gate;
+        sb.wet.gain.value = a; sb.post.frequency.value = hz;
+      } else {
+        const at = Math.max(0, when);
+        one.setValueAtTime(0.55 * (1 - 0.5 * two), at);
+        tw.setValueAtTime(0.55 * two, at);
+        gt.setValueAtTime(gate, at);
+        sb.wet.gain.setValueAtTime(a, at);
+        sb.post.frequency.setValueAtTime(hz, at);
+      }
+    };
+
     /* ── THE PHASER — a Phase 90 ──────────────────────────────────────────
        "The MXR Phase 90 is composed by FOUR PHASE SHIFTING STAGES, and
        modulation is controlled by ONE KNOB which sets the SPEED of the effect
@@ -11684,12 +12066,24 @@ registerProcessor("mk2-room", MK2Room);
        never constructed. A missing pedal is not bypassed, it is ABSENT, and
        the chain closes over the gap — which is exactly what taking a pedal off
        a board does. A genre that uses one pedal pays for one. */
+    /* ── AND THE ORDER ON THE BOARD IS THE ORDER ON THE FLOOR ──────────────
+       COMP first (it is levelling the instrument, not the dirt), then SUB,
+       then the two fuzzes, then the phaser last.
+
+       SUB BEFORE THE DIRT because a divider clocks off zero crossings and a
+       fuzzed signal has crossings everywhere -- pitch tracking goes in front
+       of distortion on any board for the same reason. MEAT BEFORE MUFF because
+       stacking a Fuzz Face into a Muff is the ordinary sludge move and not the
+       reverse; the Face is the raw one and the Muff is the compressor and the
+       tone stack after it. */
     g.makeBoard = function(spec){
-      const S = spec || { comp: true, oct: true, fuzz: true, phase: true };
-      const bd = { comp: null, oct: null, fuzz: null, phase: null };
+      const S = spec || { comp: true, sub: true, oct: true, meat: true, fuzz: true, phase: true };
+      const bd = { comp: null, sub: null, oct: null, meat: null, fuzz: null, phase: null };
       const chain = [];
       if(S.comp)  { bd.comp  = g.makeComp();   chain.push(bd.comp); }
+      if(S.sub)   { bd.sub   = g.makeSub();    chain.push(bd.sub); }
       if(S.oct)   { bd.oct   = g.makeOctave(); chain.push(bd.oct); }
+      if(S.meat)  { bd.meat  = g.makeMeat();   chain.push(bd.meat); }
       if(S.fuzz)  { bd.fuzz  = g.makeFuzz();   chain.push(bd.fuzz); }
       if(S.phase) { bd.phase = g.makePhase();  chain.push(bd.phase); }
       if(!chain.length){                       // nothing on: a wire
@@ -11700,6 +12094,57 @@ registerProcessor("mk2-room", MK2Room);
       bd.inp = chain[0].inp; bd.out = chain[chain.length - 1].out;
       return bd;
     };
+    /* ══ AND THE TONE STACK WAS WRONG, WHICH IS WHY IT GOT BRIGHTER ═════════
+       [owner: "It is not a wall of sound and distortion about all it does is
+       increase the pitch! No fuzz no degradation no deepening of the sound"]
+
+       He is right, and the numbers above were mine rather than the pedal's.
+       The Big Muff tone stack is a low-pass leg and a high-pass leg summed,
+       and the RAM'S HEAD values are published: the treble leg is 33k with
+       0.004 uF, corner **1206 Hz**, and the bass leg is 33k with 0.01 uF,
+       corner **482 Hz** [corpus:coda-effects Big Muff tonestack]. Their
+       interweaving "introduces a middle-frequency scoop/notch at 1 kHz when
+       the potentiometer is set to the middle position... the signal is
+       attenuated around 13 dB" [corpus:electrosmash Big Muff Pi analysis].
+
+       I had written 560 and **2100**. The bass leg was close; the treble leg
+       was an OCTAVE TOO HIGH, which does not make a 1 kHz notch, it makes a
+       hole from 560 Hz to 2.1 kHz with everything above it let straight
+       through. That is a thin, fizzy sound with no middle and no bottom, and
+       it is precisely what he heard.
+
+       ── AND THE SCOOP IS THE ENEMY HERE, WHICH THE PEDALS THEMSELVES SAY ───
+       Every sludge fuzz on the list he sent has a control for putting the
+       middle or the bottom BACK: the Blackhawk Balrog has Mids and Depth, the
+       Earthbound Supercollider has Mids and Mass and is described as a "huge
+       low end component - perfect for sludge", the Greenhouse Sludgehammer has
+       Body, the Sunmachine Fuzz O))) has Low [corpus:guitarpedalx 9 best
+       doom/drone/sludge fuzz pedals]. A stock Muff scooped at 1 kHz vanishes
+       under a band; these pedals exist because of that.
+
+       So two controls the first build did not have:
+
+       MIDS is the AMZ mod, and it is the sourced one: "replace R5 with a
+       resistor plus a potentiometer... lowering the resistor value reduces the
+       high-pass cutoff frequency, recovering midrange content"
+       [corpus:coda-effects]. Here that is the treble leg's corner sweeping
+       from its stock 1206 Hz down to about 240, which walks the notch out of
+       the midrange and fills it in.
+
+       MASS is the low shelf after the clipper -- the Supercollider's, the
+       Fuzz O)))'s Low, the Doomsaw's "increased and extended Low EQ combines
+       with a modified High EQ for a pummeling chainsaw dirge with reduced high
+       frequency harshness" [corpus:doesitdoom Doomsaw]. A tone stack can only
+       take away; this is the part that puts the bottom back.
+
+       ── AND THE MILLER CAPS, WHICH ARE WHY IT WAS FIZZING ─────────────────
+       "Three out of four stages include feedback resistors and MILLER
+       CAPACITORS, which stabilize the behavior and frequency response"
+       [corpus:electrosmash Big Muff Pi]. My two clipping stages had none, so
+       the second stage was clipping the first one's raw square edges at full
+       bandwidth and every harmonic it made landed on top. One pole after each
+       clipper is what the caps do and it is the difference between fuzz and
+       fizz. */
     g.makeFuzz = function(){
       const inp = c.createGain(); inp.gain.value = 1;
       const out = c.createGain(); out.gain.value = 1;
@@ -11708,22 +12153,74 @@ registerProcessor("mk2-room", MK2Room);
       const A   = c.createWaveShaper(), B = c.createWaveShaper();
       A.curve = g.fuzzCurve; A.oversample = "2x";        // block 2: clip, softly
       B.curve = g.fuzzCurve; B.oversample = "2x";        //          and again
-      const tw  = c.createGain(); tw.gain.value = 1;     // between the two stages
+      /* the Miller caps: one pole inside each clipping stage */
+      const m1 = c.createBiquadFilter(); m1.type = "lowpass";
+      m1.frequency.value = 5200; m1.Q.value = 0.707;
+      const m2 = c.createBiquadFilter(); m2.type = "lowpass";
+      m2.frequency.value = 5200; m2.Q.value = 0.707;
       const lo  = c.createBiquadFilter(); lo.type = "lowpass";
-      lo.frequency.value = 560;  lo.Q.value = 1.0;       // block 3: the tone stack,
+      lo.frequency.value = 482;  lo.Q.value = 0.707;     // block 3: the tone stack.
       const hi  = c.createBiquadFilter(); hi.type = "highpass";
-      hi.frequency.value = 2100; hi.Q.value = 1.0;       //   two legs, summed; SWEPT
+      hi.frequency.value = 1206; hi.Q.value = 0.707;     //  33k/0.01u and 33k/0.004u
       const loG = c.createGain(); loG.gain.value = 0.5;
-      const hiG = c.createGain(); hiG.gain.value = 0.5;
+      const hiG = c.createGain(); hiG.gain.value = 0.5;  //  the TONE pot is this blend
+      /* MASS: the low shelf the sludge pedals all have and the stock Muff
+         does not. After the tone stack, because a scoop you then fill is a
+         different sound from a scoop you never made. */
+      /* ── AND MASS IS A CLEAN LOW BLEND, NOT A SHELF ON THE FUZZ ───────────
+         The first version of this control was a low shelf AFTER the clipper,
+         and MEASURED on the printed notes it made the problem worse rather
+         than better. The sludge act's bass plays C#1 and E1 -- 34.6 and 41.2
+         Hz, read off the score, not guessed -- and with the shelf in place
+         the fuzzed bass came back 92.9% of its energy in the 20-60 Hz band
+         and 1.6% between 120 and 250. A clipper turns 35 Hz into a stack of
+         harmonics at 70, 104, 138, 173; the tone stack's LOW LEG then threw
+         every one of them away and the shelf boosted what was left. Twenty-six
+         decibels louder and not one decibel more audible.
+
+         A bass fuzz is not built that way and never was. The pedals on the
+         owner's list all carry the same control -- the Supercollider's MASS,
+         the Fuzz O)))'s LOW, the Sludgehammer's BODY -- and what it does is
+         keep the FUNDAMENTAL CLEAN underneath the dirt. Splitting the band is
+         the whole technique: the clean path owns everything below about 160 Hz
+         and the fuzz owns everything above, so the note keeps its weight and
+         the distortion keeps its grind instead of the two cancelling out.
+
+         So the wet path's floor moves up to 90 Hz -- the fuzz stops competing
+         for the bottom at all -- and MASS is the level of a clean low-passed
+         copy summed beside it. */
+      const bLo = c.createBiquadFilter(); bLo.type = "lowpass";
+      bLo.frequency.value = 160; bLo.Q.value = 0.707;
+      const bLo2 = c.createBiquadFilter(); bLo2.type = "lowpass";
+      bLo2.frequency.value = 160; bLo2.Q.value = 0.707;   // 24 dB/oct, a real crossover
+      const mass = c.createGain(); mass.gain.value = 0;
+      /* ── AND A SPEAKER IS A BANDPASS, WHICH THE FIRST BUILD FORGOT ────────
+         `cab` was a low-pass only, so the clipper's output ran all the way to
+         DC. MEASURED after the mass shelf went in, doom act, seed 1: SIXTY-FIVE
+         PERCENT of the record's energy landed in 20-60 Hz and the sludge act
+         81.7% -- because the bass register here is C1..F2 and an octave down
+         from C1 is 16 Hz. That is not weight, it is rumble: inaudible on any
+         speaker, and it takes the limiter down with it so everything you CAN
+         hear gets quieter. The wall got thinner by being given more bottom.
+
+         A real cabinet cannot do that. "4x12 cabinets or full stacks to handle
+         low frequencies" [corpus:boostguitarpedals] still roll off below the
+         box tuning, and a bass cab is tuned around 50 Hz. So the speaker has
+         both ends now, and the subsonic never reaches the mix. */
+      const air = c.createBiquadFilter(); air.type = "highpass";
+      air.frequency.value = 90; air.Q.value = 0.707;
       const cab = c.createBiquadFilter(); cab.type = "lowpass";
       cab.frequency.value = 4500; cab.Q.value = 0.707;   // per act; see `cab` below
+      const sum = c.createGain(); sum.gain.value = 1;    // the tone stack's two legs
       const wet = c.createGain(); wet.gain.value = 0;    // block 4: SHUT by default
       inp.connect(dry); dry.connect(out);
-      inp.connect(pre); pre.connect(A); A.connect(tw); tw.connect(B);
-      B.connect(lo); lo.connect(loG); loG.connect(cab);
-      B.connect(hi); hi.connect(hiG); hiG.connect(cab);
-      cab.connect(wet); wet.connect(out);
-      return { inp, out, dry, wet, pre, loG, hiG, cab };
+      inp.connect(pre); pre.connect(A); A.connect(m1); m1.connect(B); B.connect(m2);
+      m2.connect(lo); lo.connect(loG); loG.connect(sum);
+      m2.connect(hi); hi.connect(hiG); hiG.connect(sum);
+      sum.connect(air); air.connect(cab); cab.connect(wet); wet.connect(out);
+      /* and the clean bottom, beside it rather than through it */
+      inp.connect(bLo); bLo.connect(bLo2); bLo2.connect(mass); mass.connect(out);
+      return { inp, out, dry, wet, pre, loG, hiG, cab, hi, mass, air };
     };
     /* ── AND SETTING ONE IS FOUR NUMBERS ───────────────────────────────────
        `amt` is the pedal being in the chain at all. A real Muff is a footswitch
@@ -11731,6 +12228,20 @@ registerProcessor("mk2-room", MK2Room);
        boolean cannot be automated, and this file's whole argument is that a
        thing a genre declares should be a thing an arc can move. At 0 the unit
        is the wire it replaced.
+
+       ── AND THE DRIVE LAW WAS CALIBRATED AGAINST NOTHING ──────────────────
+       The taper below was measured on a full-scale sine, where `pre = 60^s`
+       reaches the tanh knee comfortably. The signal on a role SUBGROUP is not
+       full scale: the sludge act's bass measured 0.055 PEAK at the mix, and a
+       waveshaper's knee sits near 0.5, so 27x of a 0.05 signal lands at 1.4 --
+       barely into the bend. MEASURED, the bass with only the Fuzz Face on:
+       98.8% of its energy still at the FUNDAMENTAL and rms up 25 dB. That is
+       not a fuzz, it is a clean boost with a curve drawn on it, and it is what
+       the owner heard when he said "no fuzz no degradation".
+
+       So the law is scaled to where the signal actually is. A knob calibrated
+       on a test tone and never checked against the program is the same defect
+       as a table nothing reads.
 
        `sustain` is the input booster and therefore the drive, AND ITS LAW IS
        EXPONENTIAL BECAUSE THE LINEAR ONE WAS A DEAD KNOB. Measured, third
@@ -11780,10 +12291,8 @@ registerProcessor("mk2-room", MK2Room);
        A board with everything bypassed is still four blocks of arithmetic per
        channel, so it is spliced out entirely when nothing on it is on -- the
        same argument the fuzz's own splice makes, now covering four pedals. */
-    g.boardOn = cfg => !!(cfg && ((cfg.fuzz && cfg.fuzz.amt > 0) ||
-                                  (cfg.comp && cfg.comp.amt > 0) ||
-                                  (cfg.oct && cfg.oct.amt > 0) ||
-                                  (cfg.phase && cfg.phase.amt > 0)));
+    g.PEDALS = ["comp", "sub", "oct", "meat", "fuzz", "phase"];
+    g.boardOn = cfg => !!(cfg && g.PEDALS.some(k => cfg[k] && cfg[k].amt > 0));
     /* ── AND THE BOARD BELONGS TO THE PART, NOT TO EACH INSTRUMENT ─────────
        The first build spliced a board into every CHANNEL, and a channel is one
        INSTRUMENT: `lead`, `keys` and `keys2` each draw four voices on this
@@ -11873,6 +12382,8 @@ registerProcessor("mk2-room", MK2Room);
     g.setBoard = function(bd, cfg){
       const C = (cfg && cfg.comp) || {}, O = (cfg && cfg.oct) || {};
       const P = (cfg && cfg.phase) || {}, F = (cfg && cfg.fuzz) || {};
+      if(bd.meat) g.setMeat(bd.meat, (cfg && cfg.meat) || {}, null);
+      if(bd.sub)  g.setSub(bd.sub,   (cfg && cfg.sub)  || {}, null);
       const ca = Math.max(0, Math.min(1, C.amt || 0));
       if(bd.comp){
       bd.comp.dry.gain.value = 1 - ca;
@@ -11903,7 +12414,7 @@ registerProcessor("mk2-room", MK2Room);
       bd.phase.wet.gain.value = pa;
       bd.phase.rate.value = 0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3));
       }
-      if(bd.fuzz) g.setFuzz(bd.fuzz, F.amt, F.sustain, F.tone, F.level, F.cab);
+      if(bd.fuzz) g.setFuzz(bd.fuzz, F.amt, F.sustain, F.tone, F.level, F.cab, F.mids, F.mass);
     };
     /* ── AND THE SAME FIVE GAINS, SCHEDULED ────────────────────────────────
        `setFuzz` writes `.value`, which is right at song-arm and wrong for a
@@ -11935,6 +12446,8 @@ registerProcessor("mk2-room", MK2Room);
         bd.phase.rate.setValueAtTime(0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3)), at);
       }
       if(bd.fuzz) g.schedFuzz(bd.fuzz, (cfg && cfg.fuzz) || {}, at);
+      if(bd.meat) g.setMeat(bd.meat, (cfg && cfg.meat) || {}, at);
+      if(bd.sub)  g.setSub(bd.sub,   (cfg && cfg.sub)  || {}, at);
     };
     g.schedFuzz = function(fz, cfg, when){
       if(!fz) return;
@@ -11945,21 +12458,43 @@ registerProcessor("mk2-room", MK2Room);
       const tn  = Math.max(0, Math.min(1, c.tone != null ? c.tone : 0.5));
       const at = Math.max(0, when);
       fz.dry.gain.setValueAtTime(1 - a, at);
-      fz.wet.gain.setValueAtTime(a * lv * 0.40, at);
-      fz.pre.gain.setValueAtTime(Math.pow(60, sus), at);
+      fz.wet.gain.setValueAtTime(a * lv * 0.80, at);
+      fz.pre.gain.setValueAtTime(3 * Math.pow(320, sus), at);
       fz.loG.gain.setValueAtTime(1 - tn, at);
       fz.hiG.gain.setValueAtTime(tn, at);
+      /* the two new numbers ride with the other five -- a movement that asks
+         for more bottom gets it at the bar line, not at song-arm */
+      const md = Math.max(0, Math.min(1, c.mids != null ? c.mids : 0));
+      if(fz.hi) fz.hi.frequency.setValueAtTime(1206 * Math.pow(0.2, md), at);
+      if(fz.mass) fz.mass.gain.setValueAtTime(a * (c.mass != null ? c.mass : 0), at);
       fz.cab.frequency.setValueAtTime(
         Math.max(1500, Math.min(16000, c.cab != null ? c.cab : 4500)), at);
     };
-    g.setFuzz = function(fz, amt, sustain, tone, level, cab){
+    /* MIDS and MASS, both 0..1, both derived above. `hi` sweeps from the
+       Ram's Head 1206 Hz down to 241 at full -- the AMZ mod's "lowering the
+       resistor value reduces the high-pass cutoff frequency, recovering
+       midrange content" -- and `mass` is the low shelf in decibels.
+
+       AND THE LEVEL KNOB CAN NOW BE LOUDER THAN THE BYPASS, which is the point
+       he was making. The old constant was 0.40, chosen so the pedal was
+       level-matched on program at level 0.5 and could never be pushed above
+       it. That is a fair rule for a saturation stage on a drum bus; it is the
+       wrong rule for the pedal a doom record is BUILT on, where "a high
+       powered amp set pretty clean" is fed by the pedal doing the heavy
+       lifting [corpus:boostguitarpedals]. Doubled, so 0.5 is exactly the
+       measured match it always was and the top half of the travel is genuinely
+       pushing the front end. */
+    g.setFuzz = function(fz, amt, sustain, tone, level, cab, mids, mass){
       const a = Math.max(0, Math.min(1, amt || 0));
       fz.dry.gain.value = 1 - a;
-      fz.wet.gain.value = a * (level != null ? level : 1) * 0.40;
-      fz.pre.gain.value = Math.pow(60, Math.max(0, Math.min(1, sustain != null ? sustain : 0.5)));
+      fz.wet.gain.value = a * (level != null ? level : 1) * 0.80;
+      fz.pre.gain.value = 3 * Math.pow(320, Math.max(0, Math.min(1, sustain != null ? sustain : 0.5)));
       const tn = Math.max(0, Math.min(1, tone != null ? tone : 0.5));
       fz.loG.gain.value = 1 - tn;
       fz.hiG.gain.value = tn;
+      const md = Math.max(0, Math.min(1, mids != null ? mids : 0));
+      if(fz.hi) fz.hi.frequency.value = 1206 * Math.pow(0.2, md);
+      if(fz.mass) fz.mass.gain.value = a * (mass != null ? mass : 0);
       fz.cab.frequency.value = Math.max(1500, Math.min(16000, cab != null ? cab : 4500));
     };
     g.makeChan = function(role, voice){
@@ -20134,6 +20669,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         tone:    panelValue("fuzz", "tone",    0.35),
         level:   panelValue("fuzz", "level",   0.50),
         cab:     panelValue("fuzz", "cab",     4500),
+        mids:    panelValue("fuzz", "mids",    0),
+        mass:    panelValue("fuzz", "mass",    0),
       } : null;
       const fz = FPOW === 0 ? null
                : HAND ? Object.assign({ rows: (space.fuzz && space.fuzz.rows) || ["bass", "keys"] },
@@ -20150,7 +20687,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          `space.fuzz.by` and a `section` motion lane: movement first, section
          function second, the bare declaration under both */
       const boardOf = (f, mv, fn) => {
-        const o = { comp: {}, oct: {}, phase: {}, fuzz: f || {} };
+        const o = { comp: {}, sub: {}, oct: {}, meat: {}, phase: {}, fuzz: f || {} };
         if(!PED) return o;
         const pick = k => {
           const by = PED.by || {};
@@ -20158,6 +20695,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
           return (b && b[k]) || PED[k] || {};
         };
         o.comp = pick("comp"); o.oct = pick("oct"); o.phase = pick("phase");
+        o.sub = pick("sub"); o.meat = pick("meat");
         if(PED.fuzz || (PED.by && ((mv != null && PED.by[mv] && PED.by[mv].fuzz) ||
                                    (fn != null && PED.by[fn] && PED.by[fn].fuzz))))
           o.fuzz = pick("fuzz");
@@ -20214,8 +20752,8 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         const rs = (PED && PED[k + "Rows"]) || null;
         return rs ? new Set(rs) : null;
       };
-      const RW = { comp: pedRows("comp"), oct: pedRows("oct"),
-                   phase: pedRows("phase"), fuzz: pedRows("fuzz") };
+      const RW = { comp: pedRows("comp"), sub: pedRows("sub"), oct: pedRows("oct"),
+                   meat: pedRows("meat"), phase: pedRows("phase"), fuzz: pedRows("fuzz") };
       /* ── AND THE OTHER THREE PEDALS HAVE HANDS TOO ────────────────────────
          Same three-way as the fuzz, one per pedal: -1 leaves the genre alone,
          0 takes that pedal out of the chain whatever the genre asked for, and
@@ -20233,18 +20771,30 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         amt: panelValue("octave", "blend", 0.3) }));
       const H_PHASE = pedHand("phase", () => ({
         amt: panelValue("phase", "mix", 0.55), rate: panelValue("phase", "rate", 0.3) }));
+      const H_MEAT = pedHand("meat", () => ({
+        amt: 1, dirt: panelValue("meat", "dirt", 0.60),
+        bias: panelValue("meat", "bias", 0.15), dark: panelValue("meat", "dark", 0.50),
+        level: panelValue("meat", "level", 0.50) }));
+      const H_SUB = pedHand("sub", () => ({
+        amt: panelValue("sub", "blend", 0.35), two: panelValue("sub", "two", 0),
+        gate: panelValue("sub", "gate", 0.012), tone: panelValue("sub", "tone", 900) }));
       /* a hand overrides the row list too: a pedal you switched on plays on
          every part the board covers, not only the ones a table named */
       const handed = (k, h) => { if(h) RW[k] = null; };
       handed("comp", H_COMP && !H_COMP.off ? H_COMP : null);
       handed("phase", H_PHASE && !H_PHASE.off ? H_PHASE : null);
-      const HAND_PED = { comp: H_COMP, oct: H_OCT, phase: H_PHASE };
+      handed("meat", H_MEAT && !H_MEAT.off ? H_MEAT : null);
+      handed("sub", H_SUB && !H_SUB.off ? H_SUB : null);
+      const HAND_PED = { comp: H_COMP, oct: H_OCT, phase: H_PHASE,
+                         meat: H_MEAT, sub: H_SUB };
       const forRow = (r, cfg) => {
-        const o = { comp: {}, oct: {}, phase: {}, fuzz: {} };
-        for(const k of ["comp", "oct", "phase", "fuzz"])
+        const o = { comp: {}, sub: {}, oct: {}, meat: {}, phase: {}, fuzz: {} };
+        for(const k of g.PEDALS)
           if(!RW[k] || RW[k].has(r)) o[k] = cfg[k] || {};
-        /* the hand, last, over whatever the table said for this part */
-        for(const k of ["comp", "oct", "phase"]){
+        /* the hand, last, over whatever the table said for this part. The
+           MUFF is not in this list because its hand arrives through `fz`
+           above, which is the older road and still the one that carries it. */
+        for(const k of ["comp", "oct", "phase", "meat", "sub"]){
           const h = HAND_PED[k];
           if(h) o[k] = h.off ? { amt: 0 } : h;
         }
@@ -20252,7 +20802,7 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       };
       const handOn = k => { const h = HAND_PED[k]; return !!(h && !h.off); };
       const ROWS = (PED && PED.rows) || (fz && fz.rows) || [];
-      if(every.length || anyPed() || handOn("comp") || handOn("oct") || handOn("phase"))
+      if(every.length || anyPed() || ["comp", "oct", "phase", "meat", "sub"].some(handOn))
         for(const k of ROWS){
           /* ── EXACT ROLE MATCH, NO BUS FALLBACK ─────────────────────────
              The subgroups are keyed by role and `MIX_ROLE_BUS` puts keys2,
@@ -20292,29 +20842,23 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       /* WHICH PEDALS THIS RECORD EVER TURNS ON, asked across every movement
          and not only the first — a pedal used solely in the walk home still
          has to exist when the record is armed. */
-      const SPEC = { comp: false, oct: false, fuzz: false, phase: false };
+      const SPEC = { comp: false, sub: false, oct: false, meat: false, fuzz: false, phase: false };
       {
         const look = b => {
           if(!b) return;
-          if(b.comp  && b.comp.amt  > 0) SPEC.comp  = true;
-          if(b.oct   && b.oct.amt   > 0) SPEC.oct   = true;
-          if(b.phase && b.phase.amt > 0) SPEC.phase = true;
-          if(b.fuzz  && b.fuzz.amt  > 0) SPEC.fuzz  = true;
+          for(const k of g.PEDALS) if(b[k] && b[k].amt > 0) SPEC[k] = true;
         };
         look(boardOf(every[0], null, null));
         for(const cf of every) look(boardOf(cf, null, null));
         for(const k in ((fz && fz.by) || {})) look(boardOf(fz.by[k], k, null));
         for(const k in ((PED && PED.by) || {})) look(boardOf(every[0], k, null));
       }
-      if(handOn("comp"))  SPEC.comp  = true;
-      if(handOn("oct"))   SPEC.oct   = true;
-      if(handOn("phase")) SPEC.phase = true;
-      const specFor = r => ({
-        comp:  SPEC.comp  && (!RW.comp  || RW.comp.has(r)),
-        oct:   SPEC.oct   && (!RW.oct   || RW.oct.has(r)),
-        phase: SPEC.phase && (!RW.phase || RW.phase.has(r)),
-        fuzz:  SPEC.fuzz  && (!RW.fuzz  || RW.fuzz.has(r)),
-      });
+      for(const k of ["comp", "oct", "phase", "meat", "sub"]) if(handOn(k)) SPEC[k] = true;
+      const specFor = r => {
+        const o = {};
+        for(const k of g.PEDALS) o[k] = SPEC[k] && (!RW[k] || RW[k].has(r));
+        return o;
+      };
       g.pedFor = forRow;
       for(const r in g.grp)
         g.armFuzz(g.grp[r], wanted.has(r) ? forRow(r, boardOf(every[0], null, null)) : null, specFor(r));
@@ -20347,7 +20891,11 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
           const mv = MP.secMv[b], fn = MP.secFn && MP.secFn[b];
           const cfg = (mv != null && fz.by[mv] != null) ? fz.by[mv]
                     : (fn != null && fz.by[fn] != null) ? fz.by[fn] : fz;
-          const sig = [cfg.amt, cfg.sustain, cfg.tone, cfg.level, cfg.cab].join(",");
+          /* MIDS and MASS join the signature, or an act that changes only its
+             bottom end is read as "no change" and never scheduled -- the same
+             dead-config shape as a table nothing reads. */
+          const sig = [cfg.amt, cfg.sustain, cfg.tone, cfg.level, cfg.cab,
+                       cfg.mids, cfg.mass, mv, fn].join(",");
           if(sig === prev) continue;                 // only the CHANGES are scheduled
           prev = sig;
           const at = MP.clock.at(b, 0) - OFF + T0;
@@ -28423,6 +28971,48 @@ GENRE.doomsludge = (function(F){
        quiet ones, which is what makes a displaced accent readable. Low, and
        flagged as the one entry here that is a judgement rather than a source.
        ══════════════════════════════════════════════════════════════════════ */
+    /* ══ AND THE BOARD WAS REBUILT AFTER THE OWNER LISTENED TO IT ══════════
+       [owner: "It is not a wall of sound and distortion about all it does is
+       increase the pitch! ... I can not believe for one second that doom and
+       sludge are 2 pedals! Did you bother to try and source how to build these
+       pedals?"]
+
+       Every clause of that was correct and the table below is the answer to
+       it, sourced off the list he sent [corpus:guitarpedalx 9 of the best
+       compact doom/drone/sludge/stoner fuzz pedals].
+
+       THE OCTAVE IS GONE FROM THIS GENRE. It was `oct: 0.22` and `0.34` on the
+       first two acts, and `makeOctave` is a full-wave rectifier -- AN OCTAVE
+       UP. So the one pedal move the doom half of this record made was to raise
+       the pitch, which is exactly what he described hearing. The pedal still
+       exists (a Super-Fuzz's upper octave is a real stoner sound and the note
+       below stands), but it is not what these two acts want. They get the SUB:
+       "pedals pitched one or two octaves down for maximum heaviness"
+       [corpus:boostguitarpedals].
+
+       AND THE SUB IS ON THE BASS ALONE, because a divider "is ok for single
+       notes but not chords" [corpus:electronicmusic.fandom]. Naming the
+       keyboards here would be declaring a fault.
+
+       THE MEATHEAD JOINS THE MUFF, because five of the nine pedals on his list
+       are Fuzz Face derivatives and only two are Muffs. Stacked -- Face into
+       Muff -- for the sludge act in particular, which is where "wading through
+       molten lava, congealing tar or treacle" is the target (the Sunmachine
+       Fuzz O))), a "Meathead clone, Dark variety, with Low Pass Filter").
+
+       THE BIAS KNOB IS THE FIGHT'S. A starved bias gives "gated decay,
+       sputtery" and "that ripping velcro tone" [corpus:pedalpcb; geofex], and
+       a mathcore act built on stop-start attack is the one place on this
+       record that wants a fuzz which cuts off between hits.
+
+       PHASE + COMP ON THE WALK HOME is unchanged and is the most specific
+       finding of the whole research pass: the MXR Phase 90 and the Dynacomp
+       were used together for the FOUR-NOTE SYD RIFF on Shine On Parts I-V
+       [corpus:gilmourish, uberproaudio]. Not a genre-flavoured guess -- the
+       pedal pair on the exact passage this act is modelled on.
+
+       COMP ON THE FIGHT, lightly, and still the one judgement call here rather
+       than a source. ══════════════════════════════════════════════════════ */
     pedals: {
       rows: ["bass", "keys", "keys2", "lead", "ostinato"],
       /* the compressor is on the LEAD alone — a Dyna Comp sits in front of the
@@ -28432,10 +29022,57 @@ GENRE.doomsludge = (function(F){
       compRows: ["lead"],
       /* and the phaser with it: the Shine On pair is one guitar, not a band */
       phaseRows: ["lead"],
+      /* ── AND THE DIVIDER GOES ON THE LEAD, NOT THE BASS ──────────────────
+         Two reasons, both measured off the printout rather than assumed.
+
+         THE BASS IS ALREADY THERE. The sludge act's bass plays C#1 and E1 --
+         34.6 Hz and 41.2 -- so an octave below it is 17 Hz, which no speaker
+         reproduces and which measured as most of the act's total energy. An
+         octave-down pedal on a part that is already at the bottom of the
+         piano is not heavier, it is inaudible and it eats the headroom
+         everything else needs.
+
+         AND THE LEAD IS WHERE IT BELONGS ANYWAY. A divider is a guitar pedal:
+         you put it under a line playing in the guitar's register and it hands
+         you the bass octave of that line. `lead` here is A3..F#5 -- 220 to 740
+         Hz -- so one octave down is 110-370 and two is 55-185, both squarely
+         audible. It is also the one MONOPHONIC part on the record, which the
+         source says is the requirement: dividers "are ok for single notes but
+         not chords" [corpus:electronicmusic.fandom]. */
+      subRows: ["lead"],
+      /* ── AND THE FACE IS NOT ON THE BASS ─────────────────────────────────
+         Stacking it there was measured and it was arithmetic rather than
+         taste: the sludge act's bass plays C#1, and a hard-clipped 34.6 Hz
+         square puts 89% of its power at 34.6 Hz whatever you do to it -- the
+         third harmonic of a square carries a ninth of the fundamental, which
+         is the shape and not a fault. Two fuzzes in series on that note make a
+         LOUDER 34.6 Hz and nothing else, and it measured 13 dB above the same
+         part with only the Muff on, swamping the parts that were supposed to
+         be the wall.
+
+         The wall lives in the guitar register, and on this record that is the
+         keyboards: `keys` is G#2..G4 and `lead` is A3..F#5. So the Face goes
+         where a guitarist's would and the bass keeps the Muff, which is the
+         ordinary division on any stage. */
+      meatRows: ["keys", "keys2", "lead", "ostinato"],
       by: {
-        "setting out":       { oct: { amt: 0.22 } },
-        "into the deep":     { oct: { amt: 0.34 } },
-        "the fight":         { comp: { amt: 0.45, sustain: 0.35, level: 0.5 } },
+        /* DOOM. The sub an octave down under the bass, the Face just barely
+           in — the Muff is doing the work here and the Face is thickening its
+           input. Gate high enough that the divider shuts up between notes. */
+        "setting out":       { sub:  { amt: 0.30, two: 0, gate: 0.016, tone: 780 },
+                               meat: { amt: 0.30, dirt: 0.55, bias: 0.10,
+                                       dark: 0.30, level: 0.45 } },
+        /* SLUDGE. Two octaves down and the Face stacked into the Muff at
+           three quarters — the wall. Darkest setting on the board. */
+        "into the deep":     { sub:  { amt: 0.38, two: 0.40, gate: 0.012, tone: 620 },
+                               meat: { amt: 0.72, dirt: 0.74, bias: 0.16,
+                                       dark: 0.18, level: 0.50 } },
+        /* MATHCORE. No sub — a divider on a part that changes note every beat
+           is a smear. The Face alone, biased into the velcro, and the comp. */
+        "the fight":         { meat: { amt: 0.62, dirt: 0.58, bias: 0.62,
+                                       dark: 0.62, level: 0.48 },
+                               comp: { amt: 0.45, sustain: 0.35, level: 0.5 } },
+        /* THE WALK HOME. Everything off but the two Gilmour pedals. */
         "the long way home": { phase: { amt: 0.55, rate: 0.10 },
                                comp:  { amt: 0.70, sustain: 0.62, level: 0.55 } },
       },
@@ -28455,10 +29092,40 @@ GENRE.doomsludge = (function(F){
            same research says these bands run "an old valve amp at HIGH VOLUMES
            with a fuzz pedal". Electric Wizard ran an FZ-2 into a Sound City.
            Doom is quieter than sludge, not clean. */
-        "setting out":      { amt: 1, sustain: 0.72, tone: 0.32, level: 0.50, cab: 4500 },
-        "into the deep":    { amt: 1, sustain: 0.78, tone: 0.28, level: 0.50, cab: 3800 },
-        "the fight":        { amt: 1, sustain: 0.40, tone: 0.58, level: 0.50, cab: 9000 },
-        "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50, cab: 4500 },
+        /* ── AND MIDS AND MASS ARE WHY IT IS A WALL NOW ─────────────────
+           The stock Muff is scooped 13 dB at 1 kHz and every sludge pedal on
+           the owner's list sells a knob to undo that: Balrog MIDS and DEPTH,
+           Supercollider MIDS and MASS ("huge low end component - perfect for
+           sludge"), Sludgehammer BODY, Fuzz O))) LOW. The record had none of
+           them, which is most of why it came out thin.
+
+           MIDS is high through the doom and sludge acts -- "gritty, filled
+           with mids ... classic tube-driven distortion inspired by classic
+           1970s tones" -- and lower on the fight, which is the act whose
+           sources are about attack rather than weight
+           [corpus:boostguitarpedals; sevenstring sludge tone].
+
+           MASS is highest on the sludge act, which is the one this record
+           calls a wall. LEVEL is above the level-match on both heavy acts,
+           because the pedal is supposed to be pushing the front end. */
+        /* ── AND THE TONE KNOB WAS BACKWARDS FOR THIS INSTRUMENT ────────
+           `tone` is the BLEND between the stack's two legs, not a filter
+           sweep: at 0.24 three quarters of the signal goes through a 482 Hz
+           low-pass, which on a bass playing C#1 is the fundamental and
+           nothing else. "Dark" and "no harmonics" are not the same setting
+           and I had written the second one meaning the first. The grind lives
+           in the treble leg; the WEIGHT now lives in MASS, which is a clean
+           path and does not have to be bought back out of the tone stack.
+           So tone comes up and darkness is the CAB's job, which is what a
+           speaker is. */
+        "setting out":      { amt: 1, sustain: 0.68, tone: 0.52, level: 0.34,
+                              mids: 0.62, mass: 0.45, cab: 3800 },
+        "into the deep":    { amt: 1, sustain: 0.78, tone: 0.46, level: 0.38,
+                              mids: 0.70, mass: 0.55, cab: 3000 },
+        "the fight":        { amt: 1, sustain: 0.42, tone: 0.62, level: 0.30,
+                              mids: 0.34, mass: 0.30, cab: 9000 },
+        "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50,
+                              mids: 0, mass: 0, cab: 4500 },
       },
     },
   }),
