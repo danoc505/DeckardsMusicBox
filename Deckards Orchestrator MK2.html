@@ -2111,6 +2111,21 @@ function nearestTone(m, tones){
   return best;
 }
 /* step through the mode from midi m by `steps` scale degrees [theory] */
+/* WHICH SCALE DEGREE A PITCH IS, by scaleStep's own method -- the same exact
+   three-octave search, factored out so a caller can ask the question directly
+   instead of asking for a step of zero and comparing. Needed by the theme's
+   transformations, which have to know the SOURCE's contour in degrees before
+   they can carry it into another mode. */
+function degreeOf(root, mode, m){
+  let bestD = 0, bd = 1e9;
+  const oct0 = Math.floor((m - root) / 12);
+  for(let o = oct0 - 1; o <= oct0 + 1; o++)
+    for(let s = 0; s < 7; s++){
+      const d = o * 7 + s, dist = Math.abs(degMidi(root, mode, d) - m);
+      if(dist < bd){ bd = dist; bestD = d; }
+    }
+  return bestD;
+}
 function scaleStep(root, mode, m, steps){
   /* Locate m's degree EXACTLY. This used to scan d in [-21,42] and take the
      nearest -- but degMidi treats root as a pitch class, so d=42 is only
@@ -27316,6 +27331,30 @@ GENRE.doomsludge = (function(F){
      decision rather than a comp one. It is the same shape as the bass sheet's
      §5 finding about the walk home, and it goes to the owner, not into this
      table quietly. */
+  /* ══ THE THEME ARRIVES AS A THEME ═════════════════════════════════════
+     [owner: "Modal Jazz is what keeps the 20 min song coherent, is modal jazz
+     not based around motifs? And is not having a motif that changes and alters
+     and comes back home how we create a 20 min song with four act that are all
+     connected and in the end on single song?"]
+
+     Yes, and the sources are unambiguous. Modal jazz "sustains a single chord
+     or mode for extended periods", so "the main creative focus [is] melodic
+     shape, rhythmic variation and timbral nuance AS OPPOSED TO harmonic
+     movement" [corpus:thejazzpianosite]; with functional harmony removed,
+     motivic development is what carries the music. And a theme transformed
+     across movements to bind a long work is Liszt's and Berlioz's device by
+     name -- thematic transformation, cyclic form, the idee fixe that "recurs
+     throughout the five movements in various rhythmic forms" and "takes on a
+     different character in each movement" [corpus:wikipedia/Thematic
+     transformation; corpus:britannica].
+
+     This genre already declared the journey -- `theme.story` names fragment,
+     diminish and augment for C, B and lift -- and the branch that executes it
+     carried the RHYTHM and redrew the PITCHES. `theme.carry` switches that
+     off: the source's contour is carried in scale degrees, so each act's
+     restatement is the same tune in that act's own mode. See the branch in
+     `buildTheme` for the measurement that found it. */
+  theme: merge(F.theme, { carry: true }),
   keysStyleAt: { A: "hold", C: "comp", B: "comp", lift: "comp" },
   compEntry: [[-2, 5], [2, 4], [-1, 3], [0, 3], [1, 2], [3, 2]],
   ostinato: merge(F.ostinato, {
@@ -34739,9 +34778,54 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          arriving at twice the rate. Fragmentation stops early and the rest of
          the loop is silence, which is the whole point of it. */
       const M_LIST = M_OP === "diminish" ? M_SRC.concat(M_SRC) : M_SRC;
+      /* ══ AND THE TRANSFORMATION CARRIES THE TUNE, NOT ONLY ITS RHYTHM ══════
+         THE DEFECT, MEASURED off the printout before this line existed. The
+         loop below read `src.dur` from the source and NOTHING ELSE: every
+         pitch was a fresh random walk (`wpick` of +1/-1/0) snapped to the chord
+         under it. So augmentation, diminution and fragmentation carried the
+         theme's RHYTHM and threw its MELODY away. What came back:
+
+           setting out  A      D#5 E5 F#4 G#4 F#4 G#4 A#4 B4  -- a real theme,
+                               and the only one, because A goes through the
+                               question-and-answer branch instead of this one
+           into the deep C     E5 E5 E5 E5 E5 E5 E5 E5 E5 E5
+                               intervals: +0 +0 +0 +0 +0 +0 +0 +0 +0
+           the fight    B      G#4 G#4 G#4 G#4 A4 A4 A4 ...
+           walk home    lift   B4 C#5 D#5 D#5 A#4, four bars, sixteen times
+
+         The sludge act's "one pitch" was never a separate defect: it is this
+         branch, with two chords under it and `nearestTone` snapping every step
+         of a random walk onto the same chord tone. The file's own comment two
+         lines down says that is where the repeats come from.
+
+         WHY IT MATTERS MORE THAN ANY OTHER PART. The owner's brief is modal
+         jazz holding twenty minutes together, and modal jazz is motif-driven
+         BY NECESSITY: it "sustains a single chord or mode for extended
+         periods" so "the main creative focus [is] melodic shape, rhythmic
+         variation and timbral nuance AS OPPOSED TO harmonic movement"
+         [corpus:thejazzpianosite]. Take the melody out of the transformations
+         and the one thing connecting four acts is gone. Liszt and Berlioz name
+         the same closed list this table already uses -- augmentation,
+         diminution, fragmentation -- and every one of them is an operation ON
+         A THEME, not a rhythm with a new tune poured into it.
+
+         THE CONTOUR IS CARRIED IN SCALE DEGREES, not semitones, so it arrives
+         in each movement's own mode without a single accidental: that is the
+         "transposition-and-modulation, a seventh operation, for free" this
+         block already claims to do and did not.
+
+         THE DRAW STILL RUNS EITHER WAY [Law 3] and this is gated on a genre
+         declaration, so every genre that does not ask for it is byte-identical
+         [Law 7]. */
+      const CARRY = !!(G.theme && G.theme.carry);
+      const M_DEG = CARRY ? M_LIST.map(n => degreeOf(keyOf(chordSet), modeOf(chordSet), n.pitch)) : null;
       const M_TAKE = M_OP === "fragment"
         ? Math.max(2, Math.ceil(M_SRC.length * 0.45)) : M_LIST.length;
       let m = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), 9), LO, HI);
+      /* the running DEGREE for a carried contour, seeded where the untouched
+         branch starts so the first note of every restatement is the same note
+         it always was */
+      let dcur = degreeOf(keyOf(chordSet), modeOf(chordSet), m);
       let t = 0, taken = 0;
       for(const src of M_LIST){
         if(taken++ >= M_TAKE) break;
@@ -34757,8 +34841,31 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const st = at % STEPS, b = Math.floor(at / STEPS);
         t += src.dur;
         const tones = CH(chordSet, b).tones;
-        const step = wpick(rng, [[1, 2], [-1, 3], [0, 2]]);
-        m = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, step), tones), LO, HI);
+        /* DRAWN UNCONDITIONALLY so the stream cannot shift [Law 3]; used only
+           where the genre has not asked for its theme to be carried. */
+        const drawn = wpick(rng, [[1, 2], [-1, 3], [0, 2]]);
+        if(CARRY){
+          /* ── AND THE CARRIED NOTE DOES NOT GO THROUGH `nearestTone` ────────
+             Carrying the contour as a STEP into the old line did not work and
+             the printout said so: material C stayed on one pitch and B fell
+             from six to four. `nearestTone` snaps whatever it is handed onto
+             the chord under it, and a leg with two chords has three or four
+             tones in it -- so every step of any contour lands back on the same
+             note. That is the same collapse the random walk suffered; the
+             source of the steps was never the binding constraint.
+
+             So a carried note is placed on the SCALE DEGREE the theme asks
+             for. `degMidi` is in-mode by construction, so the out-of-key law
+             holds without a special case, and a note that is not in the chord
+             under it is the whole point -- Gilmour's four-note cell is a fifth
+             and a sixth with "the last note [that] doesn't quite belong", the
+             natural 6 measured at 3.8% of every note in Shine On. A tune that
+             can only touch chord tones cannot have one of those. */
+          dcur += (taken > 1) ? (M_DEG[taken - 1] - M_DEG[taken - 2]) : 0;
+          m = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), dcur), LO, HI);
+        } else {
+          m = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, drawn), tones), LO, HI);
+        }
         /* AND AN AUGMENTATION DOES NOT STUTTER EITHER. `nearestTone` snaps to
            the chord under the note, and consecutive notes over one chord snap
            to the same tone -- which is where this branch's repeats came from,
