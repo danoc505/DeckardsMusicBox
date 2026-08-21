@@ -27354,6 +27354,84 @@ GENRE.doomsludge = (function(F){
      off: the source's contour is carried in scale degrees, so each act's
      restatement is the same tune in that act's own mode. See the branch in
      `buildTheme` for the measurement that found it. */
+  /* ══ THE WALK HOME GETS MORE PLAYERS, NOT MORE VOLUME ══════════════════
+     [owner: "The last section i was thinking more calm and atmospheric like
+     pink floyd."]
+
+     MEASURED, this record's last act, bars 356-472 (14:42 to the end):
+
+       356-376   drone ONLY               55 seconds
+       376-392   keys lead drone
+       392-408   lead drone
+       408-424   keys lead drone
+       424-440   keys lead drone
+       440-456   keys lead drone
+       456-472   drone ONLY               the outro
+
+     Five minutes and twenty seconds with a ceiling of THREE parts, and two
+     sections that hold one.
+
+     AND CALM IS NOT THE SAME AS EMPTY. Measured off the Shine On MIDI, its
+     calm opening -- the four and a half minutes before the drums arrive, which
+     is the passage this act is being asked to resemble:
+
+       SEVEN parts play in it   piano 137 notes, jazz guitar 93, synth brass
+                                57, strings 42, organ 34, xylophone 27, bass 2
+       26 distinct pitch-sets, 54 changes over 60 bars -- the harmony moves
+                                about once a bar even in the quiet part
+       the commonest sonorities are DYADS   D-G, C-Bb, D-F, G-Bb, F-G.
+                                Two notes. The triads are the exception.
+
+     So Floyd-calm is MANY VOICES EACH PLAYING VERY LITTLE, over a harmony that
+     keeps moving. This act is sparse in the wrong dimension: not many parts
+     playing thinly, but three parts playing steadily.
+
+     `keys2` IS ALREADY BEING DRAWN FOR THIS LEG AND CANNOT SOUND. Read off
+     the same printout: the arrangement picks `keys2=mellotron`,
+     `keys2=erKeyMid`, `keys2=hurdyGurdy` in three of its sections -- a machine
+     chosen, per section, for a lane the roles do not list. Adding it costs
+     nothing that has not already been paid.
+
+     `counter` joins it because the answering line is the one part built to
+     speak in the tune's gaps, which is what a thinning arrangement is made of.
+     DRUMS AND BASS STAY OUT: Floyd's drums do not arrive until 4:30 of a piece
+     this act is only five minutes long, and the bass sheet's §5 already
+     refused to put a rhythm section into a leg written at energy 0.30. The
+     answer to "calm" is more voices, not a band. */
+  form: merge(F.form, {
+    roles: merge(F.form.roles, {
+      "the long way home": ["keys", "keys2", "counter", "lead", "drone"],
+      /* ── AND THE RECORD DOES NOT END ON ONE HELD NOTE ──────────────────
+         The outro belongs to the RECORD rather than to a leg, so it never
+         reads the movement above it -- `mv` is null for the intro, the outro
+         and the transitions, by design -- and this genre declared no `outro`
+         entry at all. Measured: `bars 456-472, playing: drone`. Sixteen bars,
+         seventy seconds, one held note, and that is how the record stops.
+
+         Measured off Shine On instead: its final two minutes are the clean
+         electric guitar and the saxophone TRADING -- 134 and 135 notes in the
+         last thirty-second window, the two densest parts of the whole
+         fourteen minutes. A Floyd ending is not an absence; it is a thinner
+         band still playing. Sludge's own sources say the same from the other
+         end -- "end with feedback, noise, or a final unison hit for BLUNT
+         CLOSURE" -- and both agree the one thing an ending is not is a fade
+         to a single sustained tone.
+
+         Three parts, at the outro's own low energy: the tune, the chords it
+         has been sitting on, and the ground it started from.
+
+         ⚠ AND IT IS NOT WORKING YET, SAID HERE RATHER THAN LEFT TO LOOK DONE.
+         The entry lands -- probed off the composed chart, `form.roles.outro`
+         reads ["keys","lead","drone"] -- and the outro STILL sounds nothing:
+         one event, role `scene`, an atmosphere one-shot, across all sixteen
+         bars from 1186s. So `roles` is not what is emptying it and something
+         downstream of the roles lookup is. Not diagnosed, not guessed at, and
+         left declared because the declaration is right whatever the cause
+         turns out to be. The walk-home entry above IS working and is measured;
+         this one is a lead, not a result. */
+      outro: ["keys", "lead", "drone"],
+    }),
+  }),
   theme: merge(F.theme, { carry: true }),
   keysStyleAt: { A: "hold", C: "comp", B: "comp", lift: "comp" },
   compEntry: [[-2, 5], [2, 4], [-1, 3], [0, 3], [1, 2], [3, 2]],
