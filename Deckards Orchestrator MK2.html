@@ -3419,6 +3419,42 @@ const MATRIX = {
     { k: "Barber", label: "POLE",   cap: "G", feeds: "barberFeeds" },
     { k: "Tape",   label: "TAPE",   cap: "H", feeds: "tapeFeeds"   },
     { k: "Medium", label: "MEDIUM", cap: "I", feeds: "mediumFeeds" },
+    /* ── AND THE PEDALBOARD IS A COLUMN, WHICH IS THE WHOLE POINT OF A GRID ──
+       [owner: "And all FX need to be added to the matrix mixer"]
+
+       He is right and the board was the last thing in this program with no
+       cell of its own. The fuzz, the compressor, the octave and the phaser
+       were spliced onto the role subgroups by `space.fuzz.rows` -- a LIST OF
+       NAMES, which is the binary model this grid's own comment spends forty
+       lines demolishing: "in the list meant FULL SEND, out of it meant SILENT,
+       there was no third answer anywhere in the grid". The board had exactly
+       that defect, one build after the grid stopped having it.
+
+       IT IS AN INSERT AND THE COLUMN SAYS SO. A distortion is not a send --
+       putting a fuzz in parallel with its own dry gives you a clean part with
+       some dirt on top, which is not what a Muff does to a bass. So this
+       column does not feed a return: the crossing is the WET/DRY DEPTH of the
+       board already sitting in that row's path, `wet = depth` and
+       `dry = 1 - depth`, driven from one ConstantSource so the two can never
+       disagree. At 1 the board is in, at 0 it is a wire, and at 0.4 it is
+       parallel distortion -- a thing this program could not say yesterday.
+       That is what the tape's own note calls "the insert, said in the grid's
+       words", and the tape is the precedent: it was a master insert until an
+       owner asked for it on the grid, and became a column.
+
+       WHERE ITS BASE COMES FROM, so there is no second table: the board's own
+       `rows`. `space.pedals.rows` / `space.fuzz.rows` name the parts the board
+       is patched across, and `routeLevel` reads THAT -- role or bus -- as this
+       column's opening level. A genre that declares a board is routed on the
+       grid without writing a line, and `pedalFeeds` is there to say a LEVEL
+       (`[["keys", 0.4]]`) rather than to repeat the list.
+
+       THE LETTER IS ARRIVAL ORDER, NOT SIGNAL ORDER. The board sits in FRONT
+       of every send -- it is on the subgroup, ahead of the bus -- so if the
+       caps were the chain this would be A. They are the order the columns were
+       built in, which is what every other letter here is, and re-lettering
+       eight columns to move one would rename controls for a picture. */
+    { k: "Pedals", label: "PEDALS", cap: "J", feeds: "pedalFeeds" },
   ],
   /* ── THE CELLS THAT ARE NOT PLAIN NEW KNOBS ────────────────────────────────
      ALIAS: a crossing this program already had a knob for, years before the
@@ -3655,6 +3691,35 @@ const MATRIX = {
       "flanged river is not a river, it is a synth patch, and the same goes " +
       "for the spring, the DP/4 and the pole";
   }
+  /* ── AND A PEDAL GOES IN FRONT OF A PLAYER, NOT BEHIND A REVERB ───────────
+     The PEDALS column is an INSERT on a channel strip, so the rows it can act
+     on are the rows that HAVE a strip. Every return row -- the echo, the room,
+     the spring, the flanger, the DP/4, the pole, the tape, the medium and the
+     master -- is the output of a machine, and there is no subgroup between it
+     and the desk to splice a board into. Those are blind plates, and the fix
+     for anyone who wants a fuzzed delay is the one a pedalboard has always
+     had: put the pedal in front of the part and send THAT to the delay.
+
+     The generated forward-order reason above would have plated these anyway
+     and said something false while doing it -- `col["Pedals"]` is undefined,
+     so the string would have read "signal only flows forward, echo sits after
+     undefined". A plate whose reason is a bug is worse than no plate. */
+  for(const i of MATRIX.ins){
+    if(!i.ret) continue;
+    MATRIX.none[i.k + "Pedals"] =
+      "a pedalboard is an INSERT on a channel strip and a return has no strip " +
+      "to insert it into -- it is a machine's output, not a player. Put the " +
+      "pedal in front of the part and send that part to this machine";
+  }
+  /* the world's own plate, for the reason its four above already give: a place
+     that has obviously been through a fuzz box stops being a place. The room
+     and the echo stay open there because distance and a room are things a
+     recording of a river actually has. */
+  MATRIX.none.worldPedals =
+    "the world is a RECORDING OF A PLACE. A fuzz, an octave divider and a " +
+    "phaser all announce themselves, and a river that sounds pedalled is not " +
+    "a river any more -- the same ruling the spring, the flanger, the DP/4 " +
+    "and the pole get on this row";
 })();
 
 /* every crossing that is a matrix control of its own, in grid order */
@@ -3890,6 +3955,28 @@ function routeLevel(space, dest, row){
      dial them DOWN (`["keys", 0.4]`) as well as leave them alone; before this
      they were forced to 1 and a genre naming them could only repeat itself. */
   if(dest === "Room" && (row === "keys" || row === "lead")) return 1;
+  /* ── AND THE PEDALBOARD'S BASE IS THE BOARD'S OWN ROW LIST ────────────────
+     ONE OWNER. `space.pedals.rows` (or the older `space.fuzz.rows`) is where a
+     genre says which parts the board is patched across, and that sentence is
+     the routing -- so this column reads it rather than asking the genre to
+     write the same list twice under a second name. A table that says both is
+     the dead-config fault this file is named after, arriving as a courtesy.
+
+     Checked AFTER the list, so `pedalFeeds` is free to say a LEVEL where the
+     board's rows only say yes: `pedalFeeds: [["keys", 0.4]]` is the board half
+     in on the keyboards, which is parallel distortion and is a real setting.
+
+     THE ROWS NAME ROLES AND THIS GRID'S ROWS ARE BUSES, so both are matched --
+     `MIX_ROLE_BUS` is the map between them and the board's own comment already
+     rules that a row matches "a channel's ROLE first and falls back to its
+     BUS". Naming `ostinato` opens the KEYS crossing, because the ostinato
+     plays into the keys bus and that is the row this grid has. */
+  if(dest === "Pedals"){
+    const rows = (space.pedals && space.pedals.rows) ||
+                 (space.fuzz && space.fuzz.rows) || [];
+    for(const r of rows) if(r === row || MIX_ROLE_BUS[r] === row) return 1;
+    return 0;
+  }
   return 0;
 }
 function routeBaseFor(space, cell, bare, noLift){
@@ -11715,6 +11802,38 @@ registerProcessor("mk2-room", MK2Room);
 
        The waveshapers drop to 2x oversampling with it — the DP/4's own DRIVE
        stage has used 2x for the identical job since it was written. */
+    /* ── THE BOARD'S DEPTH IS A MATRIX CROSSING, ONE PER ROW ────────────────
+       [owner: "And all FX need to be added to the matrix mixer"]
+
+       `<bus>Pedals` -- the crossing this returns the parameter for. It is a
+       ConstantSourceNode rather than a plain gain because the crossing has to
+       drive TWO gains in opposite directions: the board's wet at `depth` and
+       its dry at `1 - depth`. Two separately scheduled params would be two
+       owners of one number and would disagree the first time an automation
+       lane touched only one of them; one source, one negating gain, and the
+       complement is arithmetic in the graph instead.
+
+       ONE PER BUS, NOT ONE PER BOARD. The grid's rows are buses and a bus can
+       carry three boards (keys, keys2 and the ostinato all play into `keys`),
+       so they share the source -- which is exactly what the crossing means:
+       "how far in is the pedalboard on the keyboards".
+
+       No cycle: the source feeds AudioParams, never audio. `g.route` keys it
+       under the cell name so `rideBus` automates it identically to every other
+       crossing, and `{ gain: ... }` is the shape that loop reads. */
+    g.pedDepthFor = function(bus){
+      if(!bus) return null;
+      if(!g.pedDep) g.pedDep = {};
+      if(!g.pedDep[bus]){
+        const dep = c.createConstantSource(); dep.offset.value = 1;
+        const neg = c.createGain(); neg.gain.value = -1;
+        dep.connect(neg);
+        try { dep.start(0); } catch(e){}
+        g.pedDep[bus] = { dep, neg };
+        if(g.route) g.route[bus + "Pedals"] = { gain: dep.offset };
+      }
+      return g.pedDep[bus];
+    };
     g.armFuzz = function(gr, cfg, spec){
       if(!gr) return;
       const want = g.boardOn(cfg);
@@ -11722,16 +11841,30 @@ registerProcessor("mk2-room", MK2Room);
         if(!gr.board){
           gr.board = g.makeBoard(spec);
           gr.fuzz = gr.board.fuzz;              // the old name still reaches it
+          /* the splice, with the crossing across it. `bwet` opens at 0 and is
+             SUMMED with the depth source; `bdry` opens at 1 and is summed with
+             its negative -- so the pair reads `depth` and `1 - depth` and the
+             row is bit-exactly what it was before this existed at depth 1. */
+          const D = g.pedDepthFor(gr.bus);
+          const wet = c.createGain(); wet.gain.value = 0;
+          const dry = c.createGain(); dry.gain.value = 1;
+          if(D){ D.dep.connect(wet.gain); D.neg.connect(dry.gain); }
+          else { wet.gain.value = 1; dry.gain.value = 0; }
           try { gr.inp.disconnect(gr.low); } catch(e){}
           gr.inp.connect(gr.board.inp);
-          gr.board.out.connect(gr.low);
+          gr.board.out.connect(wet); wet.connect(gr.low);
+          gr.inp.connect(dry);       dry.connect(gr.low);
+          gr.bwet = wet; gr.bdry = dry;
         }
         g.setBoard(gr.board, cfg);
       } else if(gr.board){
         try { gr.inp.disconnect(gr.board.inp); } catch(e){}
-        try { gr.board.out.disconnect(gr.low); } catch(e){}
+        try { gr.board.out.disconnect(gr.bwet || gr.low); } catch(e){}
+        try { gr.inp.disconnect(gr.bdry); } catch(e){}
+        try { if(gr.bwet) gr.bwet.disconnect(); } catch(e){}
+        try { if(gr.bdry) gr.bdry.disconnect(); } catch(e){}
         gr.inp.connect(gr.low);
-        gr.board = null; gr.fuzz = null;
+        gr.board = null; gr.fuzz = null; gr.bwet = null; gr.bdry = null;
       }
     };
     /* ── AND EACH PEDAL'S KNOBS ────────────────────────────────────────────
@@ -13025,6 +13158,19 @@ registerProcessor("mk2-room", MK2Room);
       outK === "Barber" ? g.barberIn :
       outK === "Tape"   ? g.tapeIn :
       outK === "Medium" ? g.medIn :
+      /* ── THE PEDALS COLUMN HAS NO DESTINATION NODE, AND MUST NOT GET ONE ───
+         Every other column is a place signal GOES. This one is a depth on an
+         insert that already sits in the row's path, so its crossing is built
+         where the board is built -- in `armFuzz`, as the wet gain of that
+         splice -- and this generic loop must leave it alone. Returning null
+         drops out at the `if(!src || !dst) continue` below.
+
+         Falling through to the `g.mix` default instead would have wired every
+         bus a SECOND time straight into the mix at gain 0, which is five
+         summing wires that do nothing until somebody turns the knob and then
+         doubles the part. Named because the default at the bottom of this
+         lookup makes that failure silent. */
+      outK === "Pedals" ? null :
       /* THE MIX COLUMN IS TWO SUMMING POINTS AND MUST STAY TWO. An instrument
          goes into `mix`, ahead of the master shaper, so the band saturates
          together; an effect RETURN lands on `post`, past it -- which is where
@@ -20042,39 +20188,22 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
          So a row matches a channel's ROLE first and falls back to its BUS, and
          a name matching neither still throws. Both vocabularies work and the
          precise one is available where it matters. */
-      const ROWS = (PED && PED.rows) || (fz && fz.rows) || [];
-      if(every.length || anyPed() || handOn("comp") || handOn("oct") || handOn("phase"))
-        for(const k of ROWS){
-          /* ── EXACT ROLE MATCH, NO BUS FALLBACK ─────────────────────────
-             The subgroups are keyed by role and `MIX_ROLE_BUS` puts keys2,
-             the ostinato AND THE DRONE on the keys bus and the counter on the
-             lead bus. A bus fallback here therefore handed a board to the
-             ground and to two parts nobody asked for -- MEASURED as NINE
-             boards where five were declared. A pedal goes in front of one
-             part; naming that part is the whole point. */
-          const cs = Object.keys(g.grp).filter(r => r === k);
-          if(!cs.length) throw new Error("space.fuzz/pedals names no such role or bus: " + k);
-          for(const r of cs) wanted.add(r);
-        }
-      /* armed with the FIRST setting the record will use, so a song that never
-         reaches its scheduler still sounds like something a table asked for */
-      /* WHICH PEDALS THIS RECORD EVER TURNS ON, asked across every movement
-         and not only the first — a pedal used solely in the walk home still
-         has to exist when the record is armed. */
-      const SPEC = { comp: false, oct: false, fuzz: false, phase: false };
-      {
-        const look = b => {
-          if(!b) return;
-          if(b.comp  && b.comp.amt  > 0) SPEC.comp  = true;
-          if(b.oct   && b.oct.amt   > 0) SPEC.oct   = true;
-          if(b.phase && b.phase.amt > 0) SPEC.phase = true;
-          if(b.fuzz  && b.fuzz.amt  > 0) SPEC.fuzz  = true;
-        };
-        look(boardOf(every[0], null, null));
-        for(const cf of every) look(boardOf(cf, null, null));
-        for(const k in ((fz && fz.by) || {})) look(boardOf(fz.by[k], k, null));
-        for(const k in ((PED && PED.by) || {})) look(boardOf(every[0], k, null));
-      }
+      /* ── AND THE HANDS ARE READ BEFORE ANYTHING ASKS ABOUT THEM ─────────
+         THIS BLOCK USED TO SIT SIXTY LINES BELOW, and the guard on the row
+         loop just under here calls `handOn`. MEASURED: lofi, synthwave,
+         dungeon synth and fantasy synth ALL THREW
+         `Cannot access 'handOn' before initialization` and rendered no audio
+         at all — a `const` read above its own declaration is a temporal dead
+         zone, not a hoisted function, and the four genres that reach the
+         guard's third term are exactly the four that declare no pedals. Doom
+         and sludge never saw it because `every.length` short-circuits the
+         guard before `handOn` is touched.
+
+         So the declarations come first and nothing below them reads forward.
+         Shipped broken in the panel commit and caught by the render battery
+         one build later; the lesson is the one this file keeps relearning —
+         a check that only exercises the genre you are working on is not a
+         check. */
       /* ── AND A PEDAL MAY NAME ITS OWN PARTS ────────────────────────────
          A Dyna Comp goes on the instrument in your hands, not across the band
          — Gilmour's was on his guitar, which is this record's LEAD. Building
@@ -20122,6 +20251,61 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
         return o;
       };
       const handOn = k => { const h = HAND_PED[k]; return !!(h && !h.off); };
+      const ROWS = (PED && PED.rows) || (fz && fz.rows) || [];
+      if(every.length || anyPed() || handOn("comp") || handOn("oct") || handOn("phase"))
+        for(const k of ROWS){
+          /* ── EXACT ROLE MATCH, NO BUS FALLBACK ─────────────────────────
+             The subgroups are keyed by role and `MIX_ROLE_BUS` puts keys2,
+             the ostinato AND THE DRONE on the keys bus and the counter on the
+             lead bus. A bus fallback here therefore handed a board to the
+             ground and to two parts nobody asked for -- MEASURED as NINE
+             boards where five were declared. A pedal goes in front of one
+             part; naming that part is the whole point. */
+          const cs = Object.keys(g.grp).filter(r => r === k);
+          if(!cs.length) throw new Error("space.fuzz/pedals names no such role or bus: " + k);
+          for(const r of cs) wanted.add(r);
+        }
+      /* ── AND A HAND ON THE GRID IS A PATCH CABLE ──────────────────────────
+         "If I turn a knob it should always work for me no matter what the
+         genre is. The user is the end of the line." The PEDALS column is that
+         knob for the board: opening `drumsPedals` on the matrix panel puts the
+         board in front of the kit on a genre whose table never mentions one,
+         and the row's own crossing then rides it.
+
+         It is the exact twin of the rule `routeBaseFor` already has for the
+         return units, and it is safe for the same three reasons: hand-only
+         (`TRIM` is the hand's layer, so an untouched song is unchanged to the
+         sample), reversible (release the trim and the board is torn down
+         again), and derived (nothing here names a genre).
+
+         AND IT STILL NEEDS A PEDAL SWITCHED ON. A board with everything at
+         zero is a wire, `boardOn` says so, and `armFuzz` tears it straight
+         back out -- so opening the crossing is the ROUTING and the four pedal
+         panels are the SWITCHES. Two statements, which is what they are on a
+         real board: the cable and the footswitch. */
+      for(const role in MIX_ROLE_BUS){
+        if(!g.grp[role]) continue;
+        if((TRIM["matrix." + MIX_ROLE_BUS[role] + "Pedals"] || 0) > 0) wanted.add(role);
+      }
+      /* armed with the FIRST setting the record will use, so a song that never
+         reaches its scheduler still sounds like something a table asked for */
+      /* WHICH PEDALS THIS RECORD EVER TURNS ON, asked across every movement
+         and not only the first — a pedal used solely in the walk home still
+         has to exist when the record is armed. */
+      const SPEC = { comp: false, oct: false, fuzz: false, phase: false };
+      {
+        const look = b => {
+          if(!b) return;
+          if(b.comp  && b.comp.amt  > 0) SPEC.comp  = true;
+          if(b.oct   && b.oct.amt   > 0) SPEC.oct   = true;
+          if(b.phase && b.phase.amt > 0) SPEC.phase = true;
+          if(b.fuzz  && b.fuzz.amt  > 0) SPEC.fuzz  = true;
+        };
+        look(boardOf(every[0], null, null));
+        for(const cf of every) look(boardOf(cf, null, null));
+        for(const k in ((fz && fz.by) || {})) look(boardOf(fz.by[k], k, null));
+        for(const k in ((PED && PED.by) || {})) look(boardOf(every[0], k, null));
+      }
       if(handOn("comp"))  SPEC.comp  = true;
       if(handOn("oct"))   SPEC.oct   = true;
       if(handOn("phase")) SPEC.phase = true;

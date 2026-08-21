@@ -2095,3 +2095,70 @@ The planner emits its cut as a rectangle folded into the curve rather than as a
 `snap` spec, because one mechanism was cheaper than two. `snap` therefore still
 has no user. Either give it one or fold it into the planner and delete it — a
 kind nobody declares is the same defect as a knob nobody rides.
+
+## §0af — the four parent genres shipped SILENT for one build (2026-08-21, CLOSED)
+
+Commit `a65d843` ("the pedalboard gets its glass") put
+
+```js
+if(every.length || anyPed() || handOn("comp") || handOn("oct") || handOn("phase"))
+```
+
+sixty lines **above** `const handOn = k => …`. A `const` read before its own
+declaration is a temporal dead zone, not a hoisted function, so that line threw
+`Cannot access 'handOn' before initialization` — and `setSpace` died with it.
+
+MEASURED, seed 1, a 6-second excerpt from each genre:
+
+```
+lofi          THREW      synthwave     THREW
+dungeonsynth  THREW      fantasysynth  THREW
+doomsludge    ok
+```
+
+Doom and sludge alone survived because `every.length` is truthy there and the
+guard short-circuits before the third term is ever touched — so the genre I was
+working on was the one genre that could not show me the bug, and I reported
+"5 seeds × 5 genres, no throws" on the strength of a check that never reached
+the render. **A check that only exercises the genre you are working on is not a
+check.** Fixed by moving the hand-pedal declarations above their first reader;
+the render battery now covers all five.
+
+## §0ag — the pedalboard is on the matrix mixer (2026-08-21, CLOSED)
+
+[owner: *"And all FX need to be added to the matrix mixer"*]
+
+The board was patched by `space.fuzz.rows` — a list of names, which is the
+binary model `routeLevel`'s own comment spends forty lines demolishing. It is a
+column now: `PEDALS`, whose crossing is the board's **insert depth** on that row
+(`wet = depth`, `dry = 1 - depth`, both driven from one ConstantSource so they
+cannot disagree). Its base is read off the board's own `rows`, so there is no
+second table to go stale, and `pedalFeeds` exists only to say a *level*.
+
+MEASURED, doom leg, seed 1, bass + keys:
+
+```
+crossing at 1 (the genre)   rms 9.332e-2
+crossing at 0.4             rms 3.622e-2
+crossing at 0 (bypassed)    rms 3.297e-2      -9.03 dB
+```
+
+And it joined the automated set by itself, which is the point of the grid:
+`axisMod` walks every column, so seed 1's doom record now rides
+
+```
+matrix.bassPedals   0.562 … 0.989   mean 0.811
+matrix.keysPedals   0.581 … 0.977   mean 0.811
+matrix.leadPedals   0.665 … 1.000   mean 0.848
+```
+
+— the fuzz breathing on 19- and 31-bar cycles rather than sitting at one depth
+for twenty minutes. Notes unchanged in all five genres; lofi and dungeon synth
+null at 1 LSB, and synthwave's 25 LSB is its own repeat-render floor measured
+against a control in the same build (§0ad).
+
+STILL OPEN, stated rather than implied: the crossing is an insert depth, so a
+row with no board draws a knob with nothing to bypass. A hand opening
+`<bus>Pedals` on the matrix panel now arms a board on that bus — but only if a
+pedal is switched on, because the crossing is the cable and the four pedal
+panels are the footswitches.
