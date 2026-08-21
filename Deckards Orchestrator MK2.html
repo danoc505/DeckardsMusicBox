@@ -11450,7 +11450,7 @@ registerProcessor("mk2-room", MK2Room);
           const x = (i / (N - 1)) * 2 - 1;
           cv[i] = Math.abs(x) * 2 - 1;      // full-wave rectify, re-centred
         }
-        sh.curve = cv; sh.oversample = "4x";
+        sh.curve = cv; sh.oversample = "2x";
       }
       const dc = c.createBiquadFilter(); dc.type = "highpass";
       dc.frequency.value = 120; dc.Q.value = 0.707;   // the coupling cap
@@ -11519,12 +11519,32 @@ registerProcessor("mk2-room", MK2Room);
       return { inp, out, dry, wet, rate: lfo.frequency, stages };
     };
 
-    /* the whole board, in order, as one object the strip can splice */
-    g.makeBoard = function(){
-      const comp = g.makeComp(), oct = g.makeOctave();
-      const fz = g.makeFuzz(), ph = g.makePhase();
-      comp.out.connect(oct.inp); oct.out.connect(fz.inp); fz.out.connect(ph.inp);
-      return { inp: comp.inp, out: ph.out, comp, oct, fuzz: fz, phase: ph };
+    /* ── THE BOARD BUILDS ONLY THE PEDALS THE RECORD USES ──────────────────
+       A pedal nobody switches on is still a pedal in the signal path, and
+       these are not free: MEASURED against the same render before this board
+       existed, building all four on all five parts cost +2,846 ms on a
+       nine-second render — 5,257 ms to 8,103 ms, 1.7x realtime down to 1.1x.
+       That is the stutter, and a DynamicsCompressorNode is most of it.
+
+       So `spec` names which pedals this record ever turns on and the rest are
+       never constructed. A missing pedal is not bypassed, it is ABSENT, and
+       the chain closes over the gap — which is exactly what taking a pedal off
+       a board does. A genre that uses one pedal pays for one. */
+    g.makeBoard = function(spec){
+      const S = spec || { comp: true, oct: true, fuzz: true, phase: true };
+      const bd = { comp: null, oct: null, fuzz: null, phase: null };
+      const chain = [];
+      if(S.comp)  { bd.comp  = g.makeComp();   chain.push(bd.comp); }
+      if(S.oct)   { bd.oct   = g.makeOctave(); chain.push(bd.oct); }
+      if(S.fuzz)  { bd.fuzz  = g.makeFuzz();   chain.push(bd.fuzz); }
+      if(S.phase) { bd.phase = g.makePhase();  chain.push(bd.phase); }
+      if(!chain.length){                       // nothing on: a wire
+        const w = c.createGain(); w.gain.value = 1;
+        bd.inp = w; bd.out = w; return bd;
+      }
+      for(let i = 0; i + 1 < chain.length; i++) chain[i].out.connect(chain[i + 1].inp);
+      bd.inp = chain[0].inp; bd.out = chain[chain.length - 1].out;
+      return bd;
     };
     g.makeFuzz = function(){
       const inp = c.createGain(); inp.gain.value = 1;
@@ -11532,8 +11552,8 @@ registerProcessor("mk2-room", MK2Room);
       const dry = c.createGain(); dry.gain.value = 1;    // bypass, OPEN by default
       const pre = c.createGain(); pre.gain.value = 1;    // block 1: the input booster
       const A   = c.createWaveShaper(), B = c.createWaveShaper();
-      A.curve = g.fuzzCurve; A.oversample = "4x";        // block 2: clip, softly
-      B.curve = g.fuzzCurve; B.oversample = "4x";        //          and again
+      A.curve = g.fuzzCurve; A.oversample = "2x";        // block 2: clip, softly
+      B.curve = g.fuzzCurve; B.oversample = "2x";        //          and again
       const tw  = c.createGain(); tw.gain.value = 1;     // between the two stages
       const lo  = c.createBiquadFilter(); lo.type = "lowpass";
       lo.frequency.value = 560;  lo.Q.value = 1.0;       // block 3: the tone stack,
@@ -11610,22 +11630,41 @@ registerProcessor("mk2-room", MK2Room);
                                   (cfg.comp && cfg.comp.amt > 0) ||
                                   (cfg.oct && cfg.oct.amt > 0) ||
                                   (cfg.phase && cfg.phase.amt > 0)));
-    g.armFuzz = function(ch, cfg){
+    /* ── AND THE BOARD BELONGS TO THE PART, NOT TO EACH INSTRUMENT ─────────
+       The first build spliced a board into every CHANNEL, and a channel is one
+       INSTRUMENT: `lead`, `keys` and `keys2` each draw four voices on this
+       record, so each got a strip plus four more. MEASURED: nineteen boards —
+       nineteen DynamicsCompressors, SEVENTY-SIX four-times-oversampled
+       waveshapers and seventy-six allpass filters, built whether or not the
+       pedal they belong to was switched on. That is why the page stuttered and
+       would not play, and it was a cost I never counted.
+
+       A fuzz on the lead is the same fuzz whichever instrument is holding the
+       lane. So the board sits on the ROLE SUBGROUP — one tier down from the
+       channels, still in front of the bus and still in front of every send,
+       which is the insert position the ducker's comment argues for. Five
+       boards instead of nineteen, and the pedal is per PART, which is what a
+       pedal is.
+
+       The waveshapers drop to 2x oversampling with it — the DP/4's own DRIVE
+       stage has used 2x for the identical job since it was written. */
+    g.armFuzz = function(gr, cfg, spec){
+      if(!gr) return;
       const want = g.boardOn(cfg);
       if(want){
-        if(!ch.board){
-          ch.board = g.makeBoard();
-          ch.fuzz = ch.board.fuzz;              // the old name still reaches it
-          try { ch.inp.disconnect(ch.low); } catch(e){}
-          ch.inp.connect(ch.board.inp);
-          ch.board.out.connect(ch.low);
+        if(!gr.board){
+          gr.board = g.makeBoard(spec);
+          gr.fuzz = gr.board.fuzz;              // the old name still reaches it
+          try { gr.inp.disconnect(gr.low); } catch(e){}
+          gr.inp.connect(gr.board.inp);
+          gr.board.out.connect(gr.low);
         }
-        g.setBoard(ch.board, cfg);
-      } else if(ch.board){
-        try { ch.inp.disconnect(ch.board.inp); } catch(e){}
-        try { ch.board.out.disconnect(ch.low); } catch(e){}
-        ch.inp.connect(ch.low);
-        ch.board = null; ch.fuzz = null;
+        g.setBoard(gr.board, cfg);
+      } else if(gr.board){
+        try { gr.inp.disconnect(gr.board.inp); } catch(e){}
+        try { gr.board.out.disconnect(gr.low); } catch(e){}
+        gr.inp.connect(gr.low);
+        gr.board = null; gr.fuzz = null;
       }
     };
     /* ── AND EACH PEDAL'S KNOBS ────────────────────────────────────────────
@@ -11635,6 +11674,7 @@ registerProcessor("mk2-room", MK2Room);
       const C = (cfg && cfg.comp) || {}, O = (cfg && cfg.oct) || {};
       const P = (cfg && cfg.phase) || {}, F = (cfg && cfg.fuzz) || {};
       const ca = Math.max(0, Math.min(1, C.amt || 0));
+      if(bd.comp){
       bd.comp.dry.gain.value = 1 - ca;
       bd.comp.wet.gain.value = ca;
       /* SUSTAIN drives the threshold DOWN, which is what the pedal's one knob
@@ -11649,16 +11689,21 @@ registerProcessor("mk2-room", MK2Room);
          quiet material louder RELATIVE to loud material, not the whole part
          louder. Halved, measured back to about a decibel. */
       bd.comp.mk.gain.value = (C.level != null ? C.level : 0.5) * (1 + cs);
+      }
       const oa = Math.max(0, Math.min(1, O.amt || 0));
+      if(bd.oct){
       /* the octave is BLENDED, never a replacement: the pedal's own mix keeps
          the fundamental under the rectified copy or the note loses its pitch */
       bd.oct.dry.gain.value = 1 - 0.45 * oa;
       bd.oct.wet.gain.value = 0.9 * oa;
+      }
       const pa = Math.max(0, Math.min(1, P.amt || 0));
+      if(bd.phase){
       /* SUMMED with dry, never crossfaded — the notches ARE the effect */
       bd.phase.wet.gain.value = pa;
       bd.phase.rate.value = 0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3));
-      g.setFuzz(bd.fuzz, F.amt, F.sustain, F.tone, F.level, F.cab);
+      }
+      if(bd.fuzz) g.setFuzz(bd.fuzz, F.amt, F.sustain, F.tone, F.level, F.cab);
     };
     /* ── AND THE SAME FIVE GAINS, SCHEDULED ────────────────────────────────
        `setFuzz` writes `.value`, which is right at song-arm and wrong for a
@@ -11672,18 +11717,24 @@ registerProcessor("mk2-room", MK2Room);
       const at = Math.max(0, when);
       const C = (cfg && cfg.comp) || {}, O = (cfg && cfg.oct) || {}, P = (cfg && cfg.phase) || {};
       const ca = Math.max(0, Math.min(1, C.amt || 0));
-      bd.comp.dry.gain.setValueAtTime(1 - ca, at);
-      bd.comp.wet.gain.setValueAtTime(ca, at);
       const cs = Math.max(0, Math.min(1, C.sustain != null ? C.sustain : 0.5));
-      bd.comp.cmp.threshold.setValueAtTime(-6 - 36 * cs, at);
-      bd.comp.mk.gain.setValueAtTime((C.level != null ? C.level : 0.5) * (1 + cs), at);
+      if(bd.comp){
+        bd.comp.dry.gain.setValueAtTime(1 - ca, at);
+        bd.comp.wet.gain.setValueAtTime(ca, at);
+        bd.comp.cmp.threshold.setValueAtTime(-6 - 36 * cs, at);
+        bd.comp.mk.gain.setValueAtTime((C.level != null ? C.level : 0.5) * (1 + cs), at);
+      }
       const oa = Math.max(0, Math.min(1, O.amt || 0));
-      bd.oct.dry.gain.setValueAtTime(1 - 0.45 * oa, at);
-      bd.oct.wet.gain.setValueAtTime(0.9 * oa, at);
+      if(bd.oct){
+        bd.oct.dry.gain.setValueAtTime(1 - 0.45 * oa, at);
+        bd.oct.wet.gain.setValueAtTime(0.9 * oa, at);
+      }
       const pa = Math.max(0, Math.min(1, P.amt || 0));
-      bd.phase.wet.gain.setValueAtTime(pa, at);
-      bd.phase.rate.setValueAtTime(0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3)), at);
-      g.schedFuzz(bd.fuzz, (cfg && cfg.fuzz) || {}, at);
+      if(bd.phase){
+        bd.phase.wet.gain.setValueAtTime(pa, at);
+        bd.phase.rate.setValueAtTime(0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3)), at);
+      }
+      if(bd.fuzz) g.schedFuzz(bd.fuzz, (cfg && cfg.fuzz) || {}, at);
     };
     g.schedFuzz = function(fz, cfg, when){
       if(!fz) return;
@@ -11766,7 +11817,7 @@ registerProcessor("mk2-room", MK2Room);
          is a choice and the next reader should not have to infer it. */
       inp.connect(low); low.connect(mid); mid.connect(high);
       high.connect(duck); duck.connect(grp.inp); high.connect(meter);
-      const ch = { inp, fuzz: null, low, mid, high, duck, bus: grp.bus, meter, role, voice: voice || null };
+      const ch = { inp, low, mid, high, duck, bus: grp.bus, meter, role, voice: voice || null };
       /* one gain per CHANNEL per SEND, built from the declaration rather than
          named twice -- a third send is then one entry, not four edits */
       for(const s of MIX_SEND){
@@ -19927,14 +19978,63 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       const ROWS = (PED && PED.rows) || (fz && fz.rows) || [];
       if(every.length || anyPed())
         for(const k of ROWS){
-          const cs = Object.keys(g.chan).filter(r => g.chan[r].role === k || g.chan[r].bus === k);
+          /* ── EXACT ROLE MATCH, NO BUS FALLBACK ─────────────────────────
+             The subgroups are keyed by role and `MIX_ROLE_BUS` puts keys2,
+             the ostinato AND THE DRONE on the keys bus and the counter on the
+             lead bus. A bus fallback here therefore handed a board to the
+             ground and to two parts nobody asked for -- MEASURED as NINE
+             boards where five were declared. A pedal goes in front of one
+             part; naming that part is the whole point. */
+          const cs = Object.keys(g.grp).filter(r => r === k);
           if(!cs.length) throw new Error("space.fuzz/pedals names no such role or bus: " + k);
           for(const r of cs) wanted.add(r);
         }
       /* armed with the FIRST setting the record will use, so a song that never
          reaches its scheduler still sounds like something a table asked for */
-      for(const r in g.chan)
-        g.armFuzz(g.chan[r], wanted.has(r) ? boardOf(every[0], null, null) : null);
+      /* WHICH PEDALS THIS RECORD EVER TURNS ON, asked across every movement
+         and not only the first — a pedal used solely in the walk home still
+         has to exist when the record is armed. */
+      const SPEC = { comp: false, oct: false, fuzz: false, phase: false };
+      {
+        const look = b => {
+          if(!b) return;
+          if(b.comp  && b.comp.amt  > 0) SPEC.comp  = true;
+          if(b.oct   && b.oct.amt   > 0) SPEC.oct   = true;
+          if(b.phase && b.phase.amt > 0) SPEC.phase = true;
+          if(b.fuzz  && b.fuzz.amt  > 0) SPEC.fuzz  = true;
+        };
+        look(boardOf(every[0], null, null));
+        for(const cf of every) look(boardOf(cf, null, null));
+        for(const k in ((fz && fz.by) || {})) look(boardOf(fz.by[k], k, null));
+        for(const k in ((PED && PED.by) || {})) look(boardOf(every[0], k, null));
+      }
+      /* ── AND A PEDAL MAY NAME ITS OWN PARTS ────────────────────────────
+         A Dyna Comp goes on the instrument in your hands, not across the band
+         — Gilmour's was on his guitar, which is this record's LEAD. Building
+         one on all five parts cost 2.8 s of a nine-second render on its own.
+         `PED.compRows` and friends narrow a single pedal; anything unnamed
+         uses the board's `rows`. */
+      const pedRows = k => {
+        const rs = (PED && PED[k + "Rows"]) || null;
+        return rs ? new Set(rs) : null;
+      };
+      const RW = { comp: pedRows("comp"), oct: pedRows("oct"),
+                   phase: pedRows("phase"), fuzz: pedRows("fuzz") };
+      const forRow = (r, cfg) => {
+        const o = { comp: {}, oct: {}, phase: {}, fuzz: {} };
+        for(const k of ["comp", "oct", "phase", "fuzz"])
+          if(!RW[k] || RW[k].has(r)) o[k] = cfg[k] || {};
+        return o;
+      };
+      const specFor = r => ({
+        comp:  SPEC.comp  && (!RW.comp  || RW.comp.has(r)),
+        oct:   SPEC.oct   && (!RW.oct   || RW.oct.has(r)),
+        phase: SPEC.phase && (!RW.phase || RW.phase.has(r)),
+        fuzz:  SPEC.fuzz  && (!RW.fuzz  || RW.fuzz.has(r)),
+      });
+      g.pedFor = forRow;
+      for(const r in g.grp)
+        g.armFuzz(g.grp[r], wanted.has(r) ? forRow(r, boardOf(every[0], null, null)) : null, specFor(r));
       /* ── AND A RENDER MAY START IN THE MIDDLE OF THE RECORD ────────────────
          `motionOffset` is where in the song this render begins, so an excerpt
          cut from the fight has every earlier bar landing at a NEGATIVE time.
@@ -19969,9 +20069,9 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
           prev = sig;
           const at = MP.clock.at(b, 0) - OFF + T0;
           if(at <= T0) { opening = cfg; openMv = mv; openFn = fn; continue; }  // the opening
-          for(const r of wanted) g.schedBoard(g.chan[r].board, boardOf(cfg, mv, fn), at);
+          for(const r of wanted) g.schedBoard(g.grp[r].board, forRow(r, boardOf(cfg, mv, fn)), at);
         }
-        for(const r of wanted) g.schedBoard(g.chan[r].board, boardOf(opening, openMv, openFn), T0);
+        for(const r of wanted) g.schedBoard(g.grp[r].board, forRow(r, boardOf(opening, openMv, openFn)), T0);
       }
     }
     /* WHO feeds it: the MATRIX. Each route's base is the song's own
@@ -28042,6 +28142,13 @@ GENRE.doomsludge = (function(F){
        ══════════════════════════════════════════════════════════════════════ */
     pedals: {
       rows: ["bass", "keys", "keys2", "lead", "ostinato"],
+      /* the compressor is on the LEAD alone — a Dyna Comp sits in front of the
+         instrument being played, and Gilmour's was on his guitar. It is also
+         the single most expensive node on the board, so putting it on five
+         parts cost 2.8 s of a nine-second render for no musical reason. */
+      compRows: ["lead"],
+      /* and the phaser with it: the Shine On pair is one guitar, not a band */
+      phaseRows: ["lead"],
       by: {
         "setting out":       { oct: { amt: 0.22 } },
         "into the deep":     { oct: { amt: 0.34 } },
