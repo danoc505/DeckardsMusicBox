@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22d &middot; no part goes missing, and the ground stops landing on the comp</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22e &middot; one tune, told four ways &mdash; every genre gets a leitmotif that comes back</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22681,6 +22681,34 @@ const GENRE = {
        it repeats exactly and does not breathe, not that it plays more notes. */
     theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [3, 2] },
              onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]],
+             /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
+                [owner, 2026-08-22: "the whole of the song is missing ... a
+                repeating altering motif. The thing that holds it together."]
+
+                MEASURED before this, over 20 seeds: how much of A's opening
+                contour the chorus and the bridge kept was 5% for the chorus and 6% for the bridge -- which is
+                chance. Every act was a different tune, so nothing came back and
+                there was nothing to recognise.
+
+                The operations are not decoration and each one MEANS something
+                [docs/genre-research/telling-a-story-with-instruments.md §1]:
+                AUGMENTATION lengthens the theme, "a sense of grandeur or
+                drama"; DIMINUTION shortens it, "a sense of urgency or
+                excitement"; FRAGMENTATION plays only part of it -- "by NOT
+                COMPLETING the leitmotif you communicate something about how
+                that character is developing".
+
+                So the chorus is the verse's hook OPENED OUT -- this is a genre
+                whose chorus is an arrival you sink into rather than one that
+                hurries, so augmentation and not diminution -- and the bridge
+                quotes a piece of it and does not finish.
+
+                `carry` is what makes them operations on a THEME rather than on
+                a rhythm; without it the branch keeps the source's durations and
+                pours a fresh random walk into them. */
+             carry: true,
+             story: { B: "augment", C: "fragment" },
+
              /* THE PHRASE STOPS HALFWAY THROUGH ITS SECOND BAR. The breath bar
                 keeps its 1-2 notes; they may no longer land in the back half,
                 so the tune goes quiet before the phrase comes round again.
@@ -24025,7 +24053,34 @@ const GENRE = {
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
     theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
-             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]] },
+             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]],
+             /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
+                [owner, 2026-08-22: "the whole of the song is missing ... a
+                repeating altering motif. The thing that holds it together."]
+
+                MEASURED before this, over 20 seeds: how much of A's opening
+                contour the chorus and the bridge kept was 5% for the chorus and 8% for the bridge -- which is
+                chance. Every act was a different tune, so nothing came back and
+                there was nothing to recognise.
+
+                The operations are not decoration and each one MEANS something
+                [docs/genre-research/telling-a-story-with-instruments.md §1]:
+                AUGMENTATION lengthens the theme, "a sense of grandeur or
+                drama"; DIMINUTION shortens it, "a sense of urgency or
+                excitement"; FRAGMENTATION plays only part of it -- "by NOT
+                COMPLETING the leitmotif you communicate something about how
+                that character is developing".
+
+                The chorus of a synthwave record is the widescreen moment and
+                augmentation is the operation that means exactly that; the
+                bridge takes the same tune away half-finished.
+
+                `carry` is what makes them operations on a THEME rather than on
+                a rhythm; without it the branch keeps the source's durations and
+                pours a fresh random walk into them. */
+             carry: true,
+             story: { B: "augment", C: "fragment" },
+           },
     progressions: {
       minor: [[[0,5,2,6], 6],  // i-VI-III-VII, the synthwave loop [tut:futureproof]
               [[0,6,5,3], 5],  // i-VII-VI-iv -- Kavinsky "Nightcall" verse [corpus:reverbmachine]
@@ -25284,6 +25339,38 @@ const GENRE = {
                styles: { double: { density: 0.85, octaves: [-12] } } },
     theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [1, 2] },
              onsetPool: [[0, 8], [8, 5], [4, 2], [12, 2], [6, 1]],
+             /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
+                [owner, 2026-08-22: "the whole of the song is missing ... a
+                repeating altering motif. The thing that holds it together."]
+
+                MEASURED before this, over 20 seeds: how much of A's opening
+                contour the chorus and the bridge kept was 9% for the chorus and 12% for the bridge -- which is
+                chance. Every act was a different tune, so nothing came back and
+                there was nothing to recognise.
+
+                The operations are not decoration and each one MEANS something
+                [docs/genre-research/telling-a-story-with-instruments.md §1]:
+                AUGMENTATION lengthens the theme, "a sense of grandeur or
+                drama"; DIMINUTION shortens it, "a sense of urgency or
+                excitement"; FRAGMENTATION plays only part of it -- "by NOT
+                COMPLETING the leitmotif you communicate something about how
+                that character is developing".
+
+                NO ENTRY FOR THE CHORUS, deliberately. This genre writes one or
+                two notes a bar because it is an atmosphere, and both of the
+                operations that change the RATE -- diminution doubling it,
+                augmentation halving it -- fight the one number the genre's own
+                community guide is most specific about. So the chorus states
+                the theme whole and the two places a leitmotif can be bent are
+                the bridge, which breaks it, and the lift, which brings it home
+                grand. A genre may take fewer of these than another.
+
+                `carry` is what makes them operations on a THEME rather than on
+                a rhythm; without it the branch keeps the source's durations and
+                pours a fresh random walk into them. */
+             carry: true,
+             story: { C: "fragment", lift: "augment" },
+
              /* THE ARCH, from the only hard melodic numbers the genre's
                 community guide gives: a range of "no more than about 12 notes"
                 and "the high note should only be hit one time. Same for the
@@ -28362,7 +28449,25 @@ GENRE.fantasysynth = (function(D){
   /* AND THE TUNES ARE DENSER THAN A CAVERN'S. Dungeon synth writes one or two
      notes a bar because it is an atmosphere; this genre has a TUNE and two
      soloists trading it, and a duel of one-note phrases is not a duel. */
+  /* ── AND THE STORY ONLY MEANS ANYTHING WITH `carry` BESIDE IT ──────────
+     This genre declared the three operations and never switched on the thing
+     that makes them operations ON A THEME. Without `carry` the branch keeps the
+     source's RHYTHM and pours a fresh random walk into it, which is the exact
+     defect its own comment in `buildTheme` records at length -- so fantasy
+     synth had a leitmotif plan and no leitmotif.
+
+     MEASURED, 20 seeds, how much of A's opening contour each restatement keeps:
+
+                     B vs A   C vs A   lift vs A
+       without carry     3%      13%          5%
+       with it           see the commit
+
+     Doom sludge already said `carry: true` in its own table, which is why it
+     was the only genre in the file whose acts were related to each other. It
+     inherits this block, so that line is now the parent's and doom is
+     unchanged by it. */
   theme: merge(D.theme, { count: { hooky: [2, 3], breath: [1, 2], normal: [2, 3] },
+                          carry: true,
                           story: { C: "fragment", B: "diminish", lift: "augment" } }),
   /* ── MIXOLYDIAN HAS TO HAVE CHANGES OF ITS OWN ─────────────────────────
      The mode pool above names mixolydian and the inherited tables do not have
@@ -37276,7 +37381,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          declaration, so every genre that does not ask for it is byte-identical
          [Law 7]. */
       const CARRY = !!(G.theme && G.theme.carry);
-      const M_DEG = CARRY ? M_LIST.map(n => degreeOf(keyOf(chordSet), modeOf(chordSet), n.pitch)) : null;
+      /* THE SOURCE'S OWN SCALE, not the one it is arriving in. See `motifFrom`
+         at the call sites: reading A's pitches as degrees of the lift's mode is
+         measuring a foot in metres, and the contour is the DIFFERENCES between
+         these numbers, so a wrong ruler does not shift the tune, it deforms it. */
+      const M_FROM = opts.motifFrom || chordSet;
+      const M_DEG = CARRY ? M_LIST.map(n => degreeOf(keyOf(M_FROM), modeOf(M_FROM), n.pitch)) : null;
       const M_TAKE = M_OP === "fragment"
         ? Math.max(2, Math.ceil(M_SRC.length * 0.45)) : M_LIST.length;
       let m = intoBand(degMidi(keyOf(chordSet), modeOf(chordSet), 9), LO, HI);
@@ -39165,8 +39275,30 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      A genre that says nothing gets what it always got: `themeC` augmented (the
      one operation this file already had) and fresh draws elsewhere. */
   const STORY = (G.theme && G.theme.story) || {};
-  const motif = (set, src) => STORY[set]
-    ? { motifOf: src, motifOp: STORY[set] } : null;
+  /* ── AND A THEME'S DEGREES ARE MEASURED IN ITS OWN KEY ────────────────────
+     [owner, 2026-08-22: "I think the whole of the song is missing ... a
+     repeating altering motif. The thing that holds it together."]
+
+     `motifFrom` is the chord set the SOURCE was written against, and it is here
+     because the carry read the source's pitches as degrees of the TARGET's
+     scale. For `B` and `C` that is harmless -- they stand in the same key and
+     mode as A, so the two scales are the same object and the sum is right by
+     luck. THE LIFT IS A DIFFERENT KEY OR MODE BY DEFINITION, which is what a
+     lift IS, so every one of A's pitches was being read off the wrong ruler and
+     the differences between consecutive degrees -- which is the whole contour --
+     came out mangled.
+
+     MEASURED, doomsludge, 20 seeds, how much of A's opening contour the
+     restatement keeps:
+
+                    before      after
+       B   vs A       72%        (unchanged -- same key, never was broken)
+       C   vs A       73%        (unchanged)
+       lift vs A      35%         see the commit
+
+     A foot measured in metres. */
+  const motif = (set, src, from) => STORY[set]
+    ? { motifOf: src, motifOp: STORY[set], motifFrom: from || chords } : null;
   const themeA = buildTheme(chords, "themeA", resA, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1], comp: keysA, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1, hooky: !!(G.theme && G.theme.verseHook) });
   const counterA = deriveCounter(themeA.notes, resA, "counterA", chords, keysA);
   /* ── THE TUNE TOO, AND FEWER OF THEM ON PURPOSE ──────────────────────────
@@ -39274,7 +39406,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const themeB = buildTheme(chorusChords, "themeB", resB,
     { lo: playable(R.themeB)[0], hi: playable(R.themeB)[1], comp: keysB, dir: 1,
       hooky: !STORY.B, moveBias: themeA.dna.map(mv => -mv),
-      ...(motif("B", themeA.notes) || {}) });
+      ...(motif("B", themeA.notes, chords) || {}) });
   const counterB = deriveCounter(themeB.notes, resB, "counterB", chorusChords, keysB);
   const themeBTakes = takesOf("lead", "B", themeB.notes, t =>
     buildTheme(chorusChords, "themeB:" + t, resB,
@@ -39400,7 +39532,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                             against: keysC, avoid: reserve(ostC.concat(bassCx, keysCx)) }));
   const resC   = reserve(ostC.concat(bassCx, keysCx, keys2C));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC,
-                                       ...(motif("C", themeA.notes) || { augmentOf: themeA.notes }) });
+                                       ...(motif("C", themeA.notes, chords) || { augmentOf: themeA.notes }) });
 
   /* ── Avar = vary(A): first half of the tune identical, second half redrawn --
      the canonical rule-of-three answer at the material level ── */
@@ -39739,7 +39871,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const resAl      = reserve(ostAlx.concat(bassAlx, keysAlx, keys2Al, keys2Avarl));
   const themeAl    = LIFT ? buildTheme(liftChords, "themeA", resAl, { lo: playable(R.themeA)[0], hi: playable(R.themeA)[1],
                               comp: keysAl, dir: stream(chart.seed, "dirA")() < 0.5 ? 1 : -1,
-                              ...(motif("lift", themeA.notes) || {}) }) : themeA;
+                              ...(motif("lift", themeA.notes, chords) || {}) }) : themeA;
   const counterAl  = LIFT ? deriveCounter(themeAl.notes, resAl, "counterA", liftChords, keysAl) : counterA;
   const themeAlTakes = LIFT ? takesOf("lead", "Alift", themeAl.notes, t =>
       buildTheme(liftChords, "themeA:" + t, resAl,

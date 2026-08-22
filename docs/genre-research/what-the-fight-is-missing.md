@@ -453,3 +453,118 @@ nothing, and measurably does.
    what the tables accidentally produce; do it on purpose.
 5. **A harmony voice that plays.** The counter exists and is silent; either give
    it work or stop declaring it.
+
+---
+
+# PART 3 — BUILT. And a correction to Part 2 that I owe the file.
+
+## THE CORRECTION FIRST
+
+**Part 2 said the transformations keep "0%" of their parent. That number was my
+measurement's fault, not the program's.** I fingerprinted a tune as
+*(interval, time-gap)* pairs — and `diminish` halves every time gap while
+`augment` doubles it, so a restatement could carry the melody perfectly and
+still score zero by construction. The conclusion "nothing comes back" was
+overstated.
+
+Measured properly — the **contour** of the opening, which is what survives
+augmentation and diminution — doomsludge was already at **72% / 73%** for the
+fight and the sludge act before any of this work. The motif machinery exists
+(`theme.story`, `theme.carry`, `motifOf`/`motifOp` in `buildTheme`), it is
+sourced, and for one genre it was already working.
+
+**What was true in Part 2, and remains true:** the reprise did not return, the
+other four genres had no motif at all, and no part of the file could measure any
+of it.
+
+## WHAT WAS ACTUALLY WRONG — three things, all now fixed
+
+### 1. THE LIFT READ THE SOURCE OFF THE WRONG RULER
+
+```js
+const M_DEG = M_LIST.map(n => degreeOf(keyOf(chordSet), modeOf(chordSet), n.pitch));
+```
+
+`chordSet` is the **target's**. For `B` and `C` that is harmless — they stand in
+A's key and mode, so the ruler happens to be the right one. **The lift is a
+different key or mode by definition**, so A's pitches were being read as degrees
+of the lift's scale, and since the contour is the *differences* between those
+numbers, a wrong ruler does not shift the tune — it deforms it.
+
+`motifFrom` now carries the source's own chord set. A foot measured in metres.
+
+### 2. FANTASY SYNTH HAD A LEITMOTIF PLAN AND NO LEITMOTIF
+
+It declared `story: { C: "fragment", B: "diminish", lift: "augment" }` and never
+declared `carry`. Without `carry` the branch keeps the source's **rhythm** and
+pours a fresh random walk into it — the exact defect `buildTheme`'s own comment
+records at length. Doom sludge said `carry: true` in its own table, which is why
+it was the only genre in the file whose acts were related. The line is now the
+parent's, so doom is unchanged by the move.
+
+### 3. THREE GENRES HAD NO STORY AT ALL
+
+lofi, synthwave and dungeon synth declared neither. Each now has one, chosen by
+what the operations *mean* rather than by taste:
+
+- **lofi** `{ B: "augment", C: "fragment" }` — a chorus you sink into, not one
+  that hurries; the bridge quotes part and does not finish.
+- **synthwave** `{ B: "augment", C: "fragment" }` — the chorus is the
+  widescreen moment, which is what augmentation means.
+- **dungeon synth** `{ C: "fragment", lift: "augment" }` — and **no entry for
+  the chorus, deliberately**. This genre writes one or two notes a bar because
+  it is an atmosphere, and both operations that change the *rate* fight the one
+  number its own community guide is most specific about. Its chorus states the
+  theme whole.
+
+## MEASURED — how much of A's opening contour each restatement keeps, 20 seeds
+
+```
+                    B vs A        C vs A       lift vs A
+                 before after  before after  before after
+  lofi              5%   75%      6%   81%     (no lift material)
+  synthwave         5%   67%      8%   87%     (no lift material)
+  dungeonsynth      9%    9%     12%   80%      32%   37%   (lift in 1 record in 8)
+  fantasysynth      3%   39%     13%   66%       5%   70%
+  doomsludge       72%   72%     73%   77%      35%   56%
+```
+
+dungeon synth's chorus is unchanged **by design** — it has no story entry.
+lofi and synthwave have no lift material at all, so those cells are not
+applicable rather than failing.
+
+## THE RESULT, AS NOTES — doomsludge seed 1
+
+```
+  setting out    D#4 E4  E4  D#4 C#4 C#4 B3 A#3     / = \ \ = \ \
+  into the deep  E4  F#4 F#4 E4                     / = \             fragmented: it stops
+  THE FIGHT      E4  F#4 F#4 E4  D4  C#4 B3 E4 ...  / = \ \ \ \ / /   diminished: twice the rate
+  walk home      F4  F#4 F#4 F4  D#4 D#4            / = \ \ =         augmented, lifted key
+```
+
+**Every act opens with the same gesture — up, hold, down.** The walk home before
+this read `F4 F4 F4 F4 D#4 D#4`: four identical notes and no shape at all.
+
+## BLAST RADIUS AND COST
+
+- **50 of 60 records changed** (5 genres x 3 seeds x 4 lengths). Only dungeon
+  synth is mostly untouched (2 of 12), because its chorus keeps no story entry.
+  This is the largest deliberate change to what these records play in the file's
+  history, and it is what was asked for.
+- **Throws: 2 in 600 before, 3 in 600 after.** All three are the same
+  pre-existing law — *"out of key, not in the chord, and does not resolve"* —
+  and the seeds moved rather than multiplied. The carry places notes on scale
+  degrees rather than chord tones, which is deliberate (`buildTheme`'s comment
+  argues it: Gilmour's cell has "the last note that doesn't quite belong"), so
+  it raises exposure to that law slightly. §0aq still owns it.
+- The one test: 10 records, 0 threw.
+
+## STILL OWED
+
+- **The contour figures are 56–87%, not 100%.** Notes are still dropped when
+  their slot is reserved, which breaks the chain, and `intoBand` folds a line
+  that hits the register ceiling. Both flatten a restatement's shape.
+- **Nothing in the program can measure this.** The whole of Part 3 was measured
+  from outside. A motif check belongs beside the out-of-key law: a named
+  transformation that keeps none of its parent should fail loudly, the way a
+  note outside the key does.
