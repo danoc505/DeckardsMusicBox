@@ -302,3 +302,154 @@ Worth stating so it does not get "fixed":
   (C#3–B4 against Omar's E2–B4) are both idiomatic.
 - Section-level arrangement now guarantees no part vanishes for a whole leg
   (§0ap), which is the coarse version of complaint (b).
+
+---
+
+# PART 2 — "the whole of the song is missing a harmony, a hook, and a repeating
+# altering motif. The thing that holds it together."
+
+*The owner's read after the comparison above, and it is a deeper and better
+criticism than the seven findings in Part 1. It is also correct, it is program-
+wide rather than doomsludge's, and one half of it is a deliberate design decision
+that produced the opposite of what it intended.*
+
+## 1. THE TUNE IS EIGHT NOTES
+
+Material `A`'s lead, doomsludge seed 1 — the melodic identity of the record's
+first five minutes:
+
+```
+  A       8 notes over 4 bars:   D#4 E4 E4 D#4 C#4 C#4 B3 A#3
+```
+
+Averaged over 12 seeds and every genre, material A's lead is **4 to 9 notes**.
+That is not a fault by itself — Botch's main riff is one note — but it means
+everything depends on what happens to those eight notes over twenty minutes.
+
+## 2. NOTHING THAT IS SUPPOSED TO COME BACK COMES BACK
+
+Measuring what fraction of a variant's melodic shapes (interval + rhythmic gap,
+2-gram) also occur in the parent it is named after. 12 seeds, doomsludge:
+
+```
+  Avar    keeps  39%  of A     the variation — real, if thin
+  Adev    keeps   1%  of A     the DEVELOPMENT of A
+  Aseq    keeps   0%  of A
+  Alift   keeps   0%  of A     the RETURN of A, in a new key
+  B       keeps   0%  of A     in every one of 12 seeds
+```
+
+And across the whole file:
+
+```
+  genre           A notes   Avar    Adev    Aseq   Alift    B vs A
+  lofi                9      29%     4%       -       -       3%
+  synthwave           9      38%     1%       -       -       2%
+  dungeonsynth        4      18%    12%       -     67%       0%
+  fantasysynth        8      35%    10%       -      0%       0%
+  doomsludge          9      39%     1%      0%      0%       0%
+```
+
+**This is the whole complaint in one table.** A "development" that keeps 1% of
+what it develops is not a development. A "lift" that keeps 0% is not a return.
+
+**Dungeon synth's lift keeps 67%**, which proves the machinery can do it — that
+genre's lift lands on a transposition of its own progression, so composing
+against it lands near the same tune. Every other genre's lift draws a *different
+mode and a different progression*, so `buildTheme` writes a different tune.
+
+## 3. THE REPRISE WAS REPLACED ON PURPOSE, AND THE REASON IS IN THE FILE
+
+`themeA  = buildTheme(chords,     "themeA", resA,  ...)`
+`themeAl = buildTheme(liftChords, "themeA", resAl, ...)`
+
+Built again, from scratch. The rationale is written beside it:
+
+> *"the lifted copy gets its OWN takes, in the lifted key, rather than a
+> transposed reprint of the road's — otherwise the sunrise arrives and the banjo
+> plays the same four bars it has been playing all night, a fifth up."*
+
+The fear is right: a literal transposition **is** dull. But the answer chosen —
+compose something else — removes the only thing that makes a reprise a reprise.
+The cure for "the same four bars a fifth up" is *the same four bars, altered* —
+displaced, truncated, augmented, re-harmonised — not four different bars.
+
+**The record's shape is currently A → C → B → (something new).** There is no
+return, so there is nothing to hold it together, which is exactly what was
+reported.
+
+## 4. WHAT THE FIGHT IS, RELATIVE TO THE RECORD
+
+`B` shares **0%** of its shapes with `A`, in every seed of every genre. The
+fight is a different song spliced into the middle of the record. There is no
+motivic reason for it to be the same piece of music as the movement before it.
+
+And the near-miss is worth recording, because it shows how close this is:
+
+```
+  A   D#4 E4  E4  D#4 C#4 C#4 B3 A#3     up a semitone, repeat, back, descend
+  B   E4  F#4 F#4 E4  D4  C#4 B3         up a TONE,     repeat, back, descend
+  C   E4  F#4 F#4 E4                     the first four notes of B
+```
+
+**The contour is already shared** — step up, repeat it, step back, walk down.
+`C` is literally B's first four notes. Nothing in the program knows this or did
+it on purpose; the interval sets do not match because A steps by semitone where
+B steps by tone, so every measure of relatedness reads zero. The material is
+*accidentally* related and *structurally* unrelated.
+
+## 5. THERE IS NO HARMONY VOICE
+
+`counter` is the only part whose job is to move against the tune. In the fight
+it plays **11 notes across 153 bars**. Over the whole record, 51 against the
+lead's 395. lofi's counter plays **0 notes per record**.
+
+A harmony is two voices moving together. We have one voice and a comp.
+
+## 6. THERE IS NO HOOK
+
+The most-repeated four-note shape of every part, doomsludge seed 1:
+
+```
+  lead       -2, 0, 2, 0     x16     down a tone and back
+  ostinato   -5, 5, -5, 5    x33     a fourth, down and up
+  bass        7,-7, 7,-7     x34     an octave, down and up
+  counter    -2, 2,-2, 2     x7      down a tone and back
+  keys      -19, 7, 5, 7     x170    the power-chord voicing, arpeggiated
+```
+
+**Every one of them is an oscillation or an artefact of the voicing.** Not one
+is a figure. The most repeated thing in the record is the shape of a chord being
+spread out, which nobody hears as a tune.
+
+## 7. WHAT MATHCORE ACTUALLY NEEDS FROM THIS
+
+The genre is not held together by groove or by key — it changes both constantly.
+It is held together by **one small cell subjected to violent transformation while
+staying recognisable**: displaced by a sixteenth, truncated, stretched, moved to
+another instrument, played at half speed under a new riff. Botch's
+`8+5+3 / 8+5+3 / 16-flat` is exactly that — the rhythm is the invariant and
+everything else moves.
+
+Our program has the vocabulary (`Avar`, `Adev`, `Aseq`, `Alift`, `twist`,
+`takes`) and it has no **invariant**. Every transformation is free to keep
+nothing, and measurably does.
+
+## 8. WHAT TO BUILD, IN ORDER
+
+1. **A motif that belongs to the RECORD, not to a material.** Three to six
+   notes, drawn once in stage 3, carried in the chart. Every material is
+   obliged to contain it somewhere — same intervals, any transposition, any
+   rhythm.
+2. **A floor on every transformation.** `Adev` must keep a stated fraction of
+   `A` and the seam check should fail when it does not, exactly as the out-of-key
+   law fails. A named transformation that keeps 1% is a bug the program cannot
+   currently see.
+3. **The reprise returns the material, altered.** `Alift` transposes `themeA`
+   and then varies it, instead of calling `buildTheme` again. The banjo problem
+   is solved by the variation, not by replacement.
+4. **Make the fight a transformation of the record, not a new song.** `B` should
+   be derived from `A` — the same contour at a different step size is already
+   what the tables accidentally produce; do it on purpose.
+5. **A harmony voice that plays.** The counter exists and is silent; either give
+   it work or stop declaring it.
