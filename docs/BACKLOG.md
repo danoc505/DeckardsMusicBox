@@ -3096,3 +3096,157 @@ kick is doubling a riff nobody is playing.
 
 The act's own source describes *"down-tuned, HEAVILY DISTORTED guitars"* over a
 bass in unison. It currently has a mellotron pad, a figure, a lead and no guitar.
+
+---
+
+## §0ax — two acts of four played one material six times (2026-08-22, FIXED)
+
+[owner: *"Im seeing the rule of three not being adhered to. I dont want songs
+that ONLY repeat the same notes that is not the same as making sure something
+comes back at other points or that the motif travels through."*]
+
+### MEASURED — what each movement plays, in order
+
+```
+  seeds 1, 7 and 42 alike
+    setting out         A  Adev  A  Avar  A            two devices, working
+    into the deep       C  C  C  C  C  C               ← six statements, one tune
+    the fight           B  B  B  Bdev  B  Bvar  B      two devices, working
+    the long way home   Alift ×6                       ← six statements, one tune
+```
+
+Half the record was one tune stated over and over. `006` names it: *"repeating
+something beyond three times is generally speaking overusing that idea, and
+actually using it more than two times is overusing it."*
+
+Two separate causes, and neither was a missing mechanism.
+
+### 1 — THE WALK HOME'S VARIANT WAS BUILT AND LOOKED UP UNDER THE WRONG NAME
+
+`Avarlift` is assembled beside `Alift`, given its own takes, and frozen with
+every other material. Stage 5 looked for it as `Aliftvar` — a name nothing has
+ever stored anything under — so the device list came back empty for the whole
+final movement.
+
+The suffix goes on the **inside** for a lifted material, because `lift` is not a
+device: it is which key the material is in, applied after the device was chosen.
+`Alift` + `var` is `Avarlift` — A, varied, lifted.
+
+**This is the third time this file has shipped a lookup under a name its own
+builder does not use** — `materialTakes` under the occurrence tag, `drumPhrase`
+under a private copy's name, and now this. All three had the same signature:
+built, declared, frozen, and silently missed, so nothing reported a fault
+because nothing was ever reached.
+
+### 2 — THE THIRD MATERIAL HAD NO DEVICE TO COME BACK WITH
+
+The file already knew and wrote it down: *"THEY DEVELOP BY THINNING RATHER THAN
+BY SWAPPING. No Cvar/Cdev/Cseq is built — the variants are hand-assembled per
+family from their own parts, so making them is a build and not a table entry."*
+
+That is true, and this is the build. `Cvar` keeps the opening two bars and
+redraws the tail; `Cdev` keeps the rhythm exactly and redraws the notes — the
+same two devices A and B have had since they shipped, assembled the same way
+from C's own parts, against C's own accompaniment, inside C's own register.
+Verified per seed: `Cdev` keeps C's rhythm exactly, `Cvar` keeps C's opening two
+bars exactly, and all three differ from each other.
+
+`twist` gained an optional register argument for this (it had A's band
+hardcoded, which is within a tone of B's and a fourth off C's). Both existing
+callers pass nothing and compute the identical line.
+
+**It is not "make the record repeat."** Both devices keep something and change
+something, which is what a restatement is. The accompaniment does not move, for
+the reason `Avar`'s own note gives: *"the tune is what develops; changing the
+band as well would make it a different section rather than a restatement of this
+one."*
+
+### AND THE SPLICE NEEDED THE LAW ASKED OF IT
+
+A drawn part is legal by construction. A part **assembled from two others** is
+not. Giving C the `vary` device threw on the first sweep — `dungeonsynth 102:
+out of key ... in Cvar: lead 78 bar 2` — because a `vary` splice joins one
+tune's opening to another's tail, the line is a **loop**, and the last note's
+resolution is the first note, which the splice replaces.
+
+`legalise` already existed for exactly this, inside the hand-edit block, under a
+comment explaining the same hazard in the same words. It is now defined once in
+stage 3 and both callers ask it. There were two copies of that law for one
+commit, and that is one more than this file allows.
+
+### MEASURED — after
+
+```
+  genre          sections repeating the one before them      longest run of one material
+                    before        after                        before      after
+  lofi                10%          10%                           1.8        1.8
+  synthwave           17%          17%                           2.8        2.8
+  dungeonsynth        17%          17%                           2.4        2.4
+  doomsludge          55%          21%                           6.5        2.8
+```
+
+Doom sludge now sits with the other three. The genres that were already fine did
+not move — the C devices exist for every genre and are only reached where a
+section actually asks a bridge to vary, so nothing changed where nothing was
+wrong. 600-record sweep: 3 throws before, the same 3 after.
+
+### ⚠ STILL OWED
+
+- **Nothing comes back ACROSS acts.** Each movement plays its own family and
+  then abandons it: `A` never returns after the opening, `C` and `B` never
+  return at all. The named technique is **cyclic form** — *"the repetition, in a
+  later movement or part of the piece, of motives, themes, or whole sections
+  from an earlier movement in order to unify structure"* [wikipedia/Cyclic form],
+  and Berlioz's idée fixe is the same idea *"introduced in the first movement and
+  varied or transformed in each of the subsequent movements."* The motif already
+  travels (the printout's tune block shows A → augment → fragment); whole
+  materials do not. `form.material` is one string per movement and would have to
+  become a plan that names a recall.
+- **`drumVariantOf("Bdev")` answers `"main"`, not `"lift"`.** `Bdev` is the
+  chorus developed and should carry the chorus's kit. It looks like the same
+  stale-list fault one family over; it is left alone because fixing it moves
+  records this change has nothing to do with.
+
+---
+
+## §0ay — the speaker was open to 9 kHz (2026-08-22, FIXED)
+
+[owner: *"Dial back the FX a bit its getting to harsh at times."*]
+
+Two ceilings in the fight's chain sat outside anything a real rig does.
+
+```
+  the fight, before          after
+    fuzz cab   9000 Hz       5000 Hz      the speaker
+    saw tame   7500 Hz       5200 Hz      the knob whose panel caption is "harshness"
+```
+
+`tame` is literally labelled **harshness** in its own panel, its default is 6000,
+and the fight had it at 7500 — above the default, on the one control named for
+the thing the owner complained about.
+
+The sources are unanimous and specific: *"the usual bandwidth limit of a guitar
+speaker is about 4-5 kHz (-3 dB roll off)"*; cabinet simulators *"in their
+simplest form use a typical low pass filter with roll off at about 4-5 kHz"*; the
+*"steep drop-off above 5K keeps distorted tones and harmonics from sounding
+fizzy"*; and where speakers do run flat past 10 kHz, distortion comes back
+*"fizzy on top of fizzy"* [wgsusa; hexefx]. Speaker fizz is catalogued as **low
+fizz 2–4.5 kHz** and **high fizz 4.5–7 kHz** [guitarrecordinglounge]. Ours ran to
+9 kHz with a two-stage clipper in front of it.
+
+5000 is the **top** of the real range, so the fight is still the brightest of the
+four acts (3800 / 3000 / 5000 / 4500-off) and the front edge of the note still
+arrives — a transient's edge lives under 5 kHz. 5200 puts `tame` on the Miller
+poles the fuzz already builds inside its own clipping stages, so the two units
+stop at the same place.
+
+### MEASURED — the filter's own response, 44.1 kHz, Q 0.707
+
+```
+   2 kHz  -0.1 dB      5 kHz  -2.8 dB      8 kHz   -8.0 dB
+   4 kHz  -1.3 dB      6 kHz  -4.6 dB     10 kHz  -10.3 dB
+```
+
+Nothing below 3 kHz moves by half a decibel. It is the fizz band and only the
+fizz band. No drive, level or gyrator setting was touched: the chainsaw keeps
+its teeth and loses its fizz.

@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22j &middot; the drone lane holds drones &mdash; and the doubling reaches the record</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22k &middot; the third act can come back changed &mdash; and the speaker is a speaker</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -30104,11 +30104,31 @@ GENRE.doomsludge = (function(F){
         "the fight":         { oct:  { amt: 0.22 },
                                meat: { amt: 0.62, dirt: 0.58, bias: 0.62,
                                        dark: 0.62, level: 0.34 },
-                               /* CHAINSAW CITY: every knob up, the tame filter
-                                  open, which is the setting the pedal is famous
-                                  for and the only one anybody uses it at */
+                               /* CHAINSAW CITY: every knob up. The gyrators
+                                  stay dimed -- that is the setting the pedal is
+                                  famous for and the only one anybody uses it at.
+                                  ── BUT `tame` IS THE CONTROL LABELLED
+                                  "harshness" AND IT WAS ABOVE THE DEFAULT ────
+                                  [owner: "Dial back the FX a bit its getting to
+                                   harsh at times."]
+                                  7500 against a panel default of 6000, on the
+                                  one knob in this unit whose caption is the
+                                  word the owner used. It is a lowpass, and past
+                                  5 kHz there is nothing up there but clipping
+                                  products: "speaker fizz" is catalogued as LOW
+                                  FIZZ 2-4.5 kHz and HIGH FIZZ 4.5-7 kHz
+                                  [guitarrecordinglounge], and no guitar speaker
+                                  passes it -- "the usual bandwidth limit of a
+                                  guitar speaker is about 4-5 kHz", and the
+                                  "steep drop-off above 5K keeps distorted tones
+                                  and harmonics from sounding fizzy" [wgsusa].
+                                  5200 puts it on the Miller poles this file
+                                  already builds inside the fuzz's own clipping
+                                  stages, so the two units stop at the same
+                                  place. Nothing else in the row moves: the
+                                  chainsaw keeps its teeth and loses its fizz. */
                                saw:  { amt: 0.70, dist: 0.76, low: 1, high: 1,
-                                       gate: 0.09, tame: 7500, level: 0.09 },
+                                       gate: 0.09, tame: 5200, level: 0.09 },
                                /* a fast rail here -- a mathcore act needs the
                                   attack back before the next hit, so this is
                                   the solid-state end of the recovery range */
@@ -30125,9 +30145,35 @@ GENRE.doomsludge = (function(F){
       amt: 1, sustain: 0.45, tone: 0.35, level: 0.50,
       by: {
         /* cab: the doom and sludge acts WANT the top gone -- "controlled
-           high-end fizz", a bass-heavy wall. The fight does not; it is the
-           only act whose sources are about attack, so its speaker opens to
-           9 kHz and lets the front edge of the note through. */
+           high-end fizz", a bass-heavy wall. The fight is the only act whose
+           sources are about attack, so its speaker is the most open of the
+           four -- but it was open to NINE KILOHERTZ, and that is not a speaker.
+
+           ── THE CAB IS THE SPEAKER AND A SPEAKER STOPS AT 4-5 kHz ──────────
+           [owner: "Dial back the FX a bit its getting to harsh at times."]
+           "The usual bandwidth limit of a guitar speaker is about 4-5 kHz
+           (-3 dB roll off)", and cabinet simulators "in their simplest form use
+           a typical low pass filter with roll off at about 4-5 kHz" for exactly
+           that reason; the "steep drop-off above 5K keeps distorted tones and
+           harmonics from sounding fizzy", and where speakers do run flat past
+           10 kHz the distortion comes back "fizzy on top of fizzy"
+           [wgsusa; hexefx; guitarrecordinglounge]. Ours ran to 9 kHz with a
+           clipper in front of it, which is that sentence exactly.
+
+           5000 is the TOP of the real range, so this act is still the brightest
+           of the four and the front edge of the note still arrives -- a
+           transient's edge lives under 5 kHz, and Botch were played through a
+           4x12 like everybody else. What goes is the band above it, which held
+           nothing but clipping products.
+
+           MEASURED, the filter's own response at 44.1 kHz, Q 0.707 -- what the
+           change actually removes:
+
+             2 kHz  -0.1 dB     5 kHz  -2.8 dB     8 kHz   -8.0 dB
+             4 kHz  -1.3 dB     6 kHz  -4.6 dB    10 kHz  -10.3 dB
+
+           Nothing below 3 kHz moves by half a decibel. It is the fizz band and
+           only the fizz band. */
         /* 0.45 WAS TOO TIMID AND THE RENDER SAID SO. Measured full-mix
            against the parent, the doom act moved -0.1 dB overall while the
            sludge act at 0.78 moved +21 dB in the low end. I had set it low on
@@ -30166,7 +30212,7 @@ GENRE.doomsludge = (function(F){
         "into the deep":    { amt: 1, sustain: 0.78, tone: 0.46, level: 0.38,
                               mids: 0.70, mass: 0.55, cab: 3000 },
         "the fight":        { amt: 1, sustain: 0.42, tone: 0.62, level: 0.30,
-                              mids: 0.34, mass: 0.30, cab: 9000 },
+                              mids: 0.34, mass: 0.30, cab: 5000 },
         "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50,
                               mids: 0, mass: 0, cab: 4500 },
       },
@@ -33143,6 +33189,40 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      move its key they are the song's own, which is what they were before. */
   const keyOf  = cs => (cs && cs[0] && cs[0].key != null) ? cs[0].key : root;
   const modeOf = cs => (cs && cs[0] && cs[0].mode) ? cs[0].mode : mode;
+  /* ══ THE LAW, ASKED OF A LINE THAT WAS SPLICED RATHER THAN DRAWN ══════════
+     A drawn part is legal by construction. A part ASSEMBLED from two others is
+     not, and the reason is the one the hand-edit block already states: legality
+     here "is not a property of a note, it is a property of a note AND ITS
+     NEIGHBOUR -- an out-of-key passing tone is legal precisely BECAUSE of what
+     follows it, so dropping or reordering its neighbour strands it."
+
+     A `vary` device is exactly that splice: the opening two bars of one tune
+     joined to the redrawn tail of another. The line is a LOOP, so the last
+     note's resolution is the FIRST note of the line -- and the join replaces
+     that first note with the other tune's. MEASURED the moment C got the same
+     device A and B have always had: dungeon synth seed 102 threw "out of key
+     ... in Cvar: lead 78 bar 2". The device was correct; the splice orphaned a
+     note that had been resolving into a note the splice removed.
+
+     Twice, because dropping one note can orphan the next. This is the same
+     function the hand's edits are held to, moved out here so both callers ask
+     the law once instead of twice -- which is the mistake `whichChanges` exists
+     to have stopped, and this file has made four times. */
+  const legalise = (ns, cs) => {
+    if(!cs || !cs.length) return ns;
+    const key = keyOf(cs), mode2 = modeOf(cs);
+    const srt2 = a => a.slice().sort((x, z) => x.bar - z.bar || x.step - z.step);
+    let out = ns;
+    for(let pass = 0; pass < 2; pass++){
+      const srt = srt2(out);
+      const nxt = new Map();
+      for(let i = 0; i < srt.length; i++) nxt.set(srt[i], srt[(i + 1) % srt.length]);
+      const keep = srt.filter(n => n.pitch == null || noteFits(n, nxt.get(n), cs, key, mode2));
+      if(keep.length === srt.length) return keep;
+      out = keep;
+    }
+    return out;
+  };
   /* ── THE CHROMATIC PROGRESSIONS ────────────────────────────────────────
      A genre that declares `harmony` can have its changes generated by chord
      TRANSFORMATION rather than by scale degree. Both draws run unconditionally,
@@ -40019,11 +40099,16 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      Avar's, so that is what it is held clear of; A's own tune is not reserved
      because this REPLACES it. */
   const resDev = reserve(ostAvar.concat(bassAvar, keysAvar, keys2Avar));
-  const twist = (rhythm, from, res, cs) => {
+  /* `reg` is WHICH TUNE'S REGISTER, and it defaults to what this always used.
+     The device was written for A and B, whose bands are within a tone of each
+     other, so the band was hardcoded. C's is a fourth lower on one genre and a
+     fifth on another, and twisting C's tune inside A's band would move it. Both
+     existing callers pass nothing and compute the identical line. */
+  const twist = (rhythm, from, res, cs, reg) => {
     const rh = rhythm.filter(n => n.pitch != null).slice().sort(byTime);
     const pl = from.filter(n => n.pitch != null).map(n => n.pitch);
     if(!rh.length || !pl.length) return rhythm;
-    const LO = playable(R.themeA)[0], HI = playable(R.themeA)[1];
+    const LO = playable(reg || R.themeA)[0], HI = playable(reg || R.themeA)[1];
     /* ── AND THE TWIST HAS TO OBEY THE HARMONY IT LANDS ON ──────────────────
        This checked the register, the taken seats and the no-repeat law, and
        NOT WHETHER THE NOTE IS LEGAL UNDER THE CHORD IT IS MOVED ONTO. That is
@@ -40218,6 +40303,57 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const leadBdev = JOIN(twist(themeB.notes, varTailB.notes,
                               reserve(ostB.concat(bassBvar, keysBvar, keys2B, counterBvar)),
                               chorusRet));
+
+  /* ══ AND THE THIRD MATERIAL HAD NO WAY TO COME BACK CHANGED ═══════════════
+     [owner: "Im seeing the rule of three not being adhered to. I dont want
+      songs that ONLY repeat the same notes"]
+
+     MEASURED, doomsludge seeds 1, 7 and 42 alike -- the materials each movement
+     plays, in order:
+
+       setting out         A  Adev  A  Avar  A          two devices, working
+       into the deep       C  C  C  C  C  C             ← six statements, one tune
+       the fight           B  B  B  Bdev  B  Bvar  B    two devices, working
+       the long way home   Alift ×6                     ← fixed separately, see the
+                                                          lookup note in stage 5
+
+     The file already knew and wrote it down: "THEY DEVELOP BY THINNING RATHER
+     THAN BY SWAPPING. No Cvar/Cdev/Cseq is built -- the variants are
+     hand-assembled per family from their own parts, so making them is a build
+     and not a table entry." That is true, and this is the build. Six sections
+     of one tune is not thinning, it is the fault `006` names outright:
+     "repeating something beyond three times is generally speaking overusing
+     that idea, and actually using it more than two times is overusing it."
+
+     WHAT IT IS NOT. It is not "make the record repeat" -- the owner ruled that
+     out in the same sentence, and it would be the wrong reading anyway. Both
+     devices here keep something and change something, which is what a
+     RESTATEMENT is: `Cvar` keeps the opening two bars so the tune is
+     recognised and redraws the tail; `Cdev` keeps the RHYTHM exactly and
+     redraws the notes. Same two devices A and B have had since they shipped,
+     assembled the same way from C's own parts, against C's own accompaniment
+     and inside C's own register.
+
+     THE ACCOMPANIMENT DOES NOT MOVE. Avar's note says why and it holds here:
+     "the tune is what develops; changing the band as well would make it a
+     different section rather than a restatement of this one." So both carry
+     C's drums, bass, comp, pad, figure and ground unchanged, and only the tune
+     turns. C's figure runs straight through by design -- "a constant cell with
+     the harmony moving under it is the device these tracks are built on" -- and
+     that is exactly the thing a returning tune should be recognised against.
+
+     Drawn on their own named streams, so every genre's other materials are
+     byte-identical and a record that never asks a C section to vary is
+     unchanged [Law 3, Law 7]. */
+  const resVC    = reserve(ostC.concat(bassCx, keysCx, keys2C,
+                                       themeC.notes.filter(n => n.bar < 2)));
+  const varTailC = buildTheme(bridgeChords, "themeC:var", resVC,
+                              { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], dir: -1 });
+  const leadCvar = JOIN(legalise(themeC.notes.filter(n => n.bar < 2)
+    .concat(varTailC.notes.filter(n => n.bar >= 2)), bridgeChords));
+  const leadCdev = JOIN(twist(themeC.notes, varTailC.notes,
+                              reserve(ostC.concat(bassC, keysC, keys2C)),
+                              bridgeChords, R.themeC));
 
   /* ══ AND THE RECORD ITSELF MOVES, NOT ONLY ITS BRIDGE ══════════════════════
      MEASURED, AND THE MEASUREMENT IS WHY THIS EXISTS. With the key shift living
@@ -40537,6 +40673,13 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        is the device these tracks are built on, applied at section scale instead
        of bar scale. Dropping it made the bridge stop sounding like the genre. */
     C:    { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: themeC.notes, counter: [], ostinato: ostC, drone: droneC },
+    /* Cvar = vary(C) and Cdev = twist(C): the departure's rule-of-three
+       answers, built above. Same band as C for the reason Avar's own note
+       gives -- only the tune turns. An empty lead (a genre whose bridge has no
+       tune, or a device that declined) is filtered out by the device list in
+       stage 5, so a material that cannot vary is not offered as one. */
+    Cvar: { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: leadCvar, counter: [], ostinato: ostC, drone: droneC },
+    Cdev: { drums: drumsC, bass: bassC, keys: keysC, keys2: keys2C, lead: leadCdev, counter: [], ostinato: ostC, drone: droneC },
     fill, fills: fillSet, ending,
   };
   /* ── THE TAKES, KEYED `material|role` ────────────────────────────────────
@@ -40993,8 +41136,17 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      harmonic event and a kit has no pitch to move -- so the `lift` suffix is
      stripped before asking. */
   const drumBaseOf    = m => String(m).split("@")[0].replace(/lift$/, "");
+  /* ── AND A `C` VARIANT WAS BUILT WITH `C`'S KIT ──────────────────────────
+     `Cvar` and `Cdev` carry C's own drum array, so the arc has to rebuild them
+     against the same setting or a section with an arc gets the WRONG KIT for
+     the act it is in -- the departure's drums replaced by the opening's. The
+     B family is left exactly as it was: `Bdev` answers "main" here today and
+     changing that would move records this change has nothing to do with. It
+     looks like the same fault one family over and it is written down in
+     BACKLOG §0ax rather than fixed in passing. */
   const drumVariantOf = m => { const b = drumBaseOf(m);
-    return (b === "B" || b === "Bvar") ? "lift" : b === "C" ? "depart" : "main"; };
+    return (b === "B" || b === "Bvar") ? "lift"
+         : (b === "C" || b === "Cvar" || b === "Cdev") ? "depart" : "main"; };
   const drumPhraseOf  = m => { const b = drumBaseOf(m);
     return (b === "Avar" || b === "Bvar") ? DRUM_PHRASE_END : DRUM_PHRASE; };
 
@@ -41064,21 +41216,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       if(role === "drums")    return pin(buildDrums("drums:" + tag, "main"), "drums", "A");
       return null;                                     // no builder: keep what is there
     };
-    /* the law, asked of the hand's work exactly as it is asked of the draw's */
-    const legalise = (ns, cs) => {
-      if(!cs || !cs.length) return ns;
-      const key = keyOf(cs), mode = modeOf(cs);
-      let out = ns;
-      for(let pass = 0; pass < 2; pass++){
-        const srt = sortN(out);
-        const nxt = new Map();
-        for(let i = 0; i < srt.length; i++) nxt.set(srt[i], srt[(i + 1) % srt.length]);
-        const keep = srt.filter(n => n.pitch == null || noteFits(n, nxt.get(n), cs, key, mode));
-        if(keep.length === srt.length) return keep;
-        out = keep;
-      }
-      return out;
-    };
+    /* the law, asked of the hand's work exactly as it is asked of the draw's --
+       and asked of the ONE `legalise` in stage 3, which the spliced `vary`
+       devices are held to as well. There were two copies of this for one
+       commit and that is one more than this file allows. */
     const apply = (ns, role, e, cs) => {
       const src = sortN(ns || []);
       if(e.op === "delete")  return [];
@@ -41775,9 +41916,33 @@ function makeArrangement(chart, form, materials){
            `sec.occurrence >= 3` thinning underneath is unconditional and still
            fires, which is the file's own "a device the genre did not declare
            hands back the material unchanged" rule doing its job. */
-        const fam = String(material);
-        const vary = fam + "var";
-        const spin = [vary, fam + "dev", fam + "seq"]
+        /* ══ AND A LIFTED MATERIAL'S VARIANT IS SPELLED THE OTHER WAY ROUND ══
+           [owner: "Im seeing the rule of three not being adhered to."]
+
+           `Avarlift` IS BUILT. It is assembled beside `Alift`, given its own
+           takes, frozen with every other material, and this line looked for it
+           under `Aliftvar` -- a name nothing has ever stored anything under. So
+           the device list came back empty for the whole final movement and the
+           walk home played `Alift` SIX SECTIONS RUNNING, measured on seeds 1, 7
+           and 42 alike.
+
+           That is the third time this file has shipped a lookup under a name
+           its own builder does not use -- `materialTakes` under the occurrence
+           tag, `drumPhrase` under a private copy's name, and now this. All
+           three had the same signature: built, declared, frozen, and silently
+           missed, so the mechanism reported nothing wrong because it was never
+           reached.
+
+           The suffix goes on the INSIDE for a lifted material, because `lift`
+           is not a device -- it is which key the material is in, applied after
+           the device was chosen. `Alift` + `var` is `Avarlift`: A, varied,
+           lifted. Any name without the suffix behaves exactly as before. */
+        const fam  = String(material);
+        const LFT  = /lift$/.test(fam);
+        const stem = LFT ? fam.slice(0, -4) : fam;
+        const named = d => LFT ? stem + d + "lift" : fam + d;
+        const vary = named("var");
+        const spin = [vary, named("dev"), named("seq")]
                        .filter(k => materials[k] && materials[k].lead && materials[k].lead.length);
         /* ── AND WHICH DEVICE TAKES WHICH TURN IS DRAWN, NOT FIXED ──────────
            A fixed order put the third device on the FOURTH hearing, and a
