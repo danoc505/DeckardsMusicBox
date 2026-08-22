@@ -2448,3 +2448,91 @@ records, 0 threw.
 This gives back a few per cent of a gap that needs about 45%, and the two routes
 named there — fewer nodes in the floor, and the `keys` part's twenty-four
 oscillators a strike — are still where the stutter actually lives.
+
+## §0an — a short record lost its lead for the whole fight (2026-08-22, MOSTLY FIXED)
+
+[owner: *"I shortnd the song to 4 mins, and the lead just cut out and stop
+playing half way through the fight."*]
+
+Reproduced exactly, and it was structural rather than unlucky.
+
+`form.feature` is the solos-and-duels rotation. Its own comment says the
+rotation is *"a shape the leg walks through rather than a per-section coin"* —
+and **a leg of one section walks nothing. It stops on frame one.** doomsludge's
+`"the fight"` list opens `{ solo: "keys" }`, so in **every** short record, at
+**every** seed, the fight was a keys solo and the lead was not in it at all.
+
+MEASURED, doomsludge seed 1 asked for four minutes: seven sections, one of them
+the fight. The lead is absent from it AND from the bridge in front of it — 49
+seconds of a 245-second record, ending on the climax. Exactly what was reported.
+
+**The full-length record hides it** because its fight has nine sections and
+walks the shape properly. This is why turning the length dial down changed the
+music's character and not just its length, which is a thing a length dial must
+never do.
+
+### THE FIX, AND IT IS ABOUT THE OUTCOME AND NOT THE LENGTH
+
+A feature may not keep a part out of a whole leg. If the rotation would drop the
+same part in every section this leg has, that part comes back — **in the leg's
+last section**, so a two-section leg still opens on its solo and the missing
+part walks in for the close. It is taken from `allowed` and not from `active`,
+so it outranks the `rest` coin in that one section; a guarantee about the leg
+that any per-section draw can undo is not a guarantee.
+
+MEASURED over 21 records a length, counting those with **no lead anywhere in the
+fight**:
+
+```
+             before   feature-guard   +outranks rest
+   2:00        10           1               0
+   3:00        12           3               2
+   4:00        12           2               0
+   5:00        11           2               2
+   6:00         9           3               2
+   full         0           0               0
+```
+
+**Roughly half of every short record was affected.** Blast radius of the fix:
+60 records (5 genres x 3 seeds x 4 lengths), **4 changed — all doomsludge, all
+shortened, and no full-length record in any genre.** Bar counts unchanged, so
+the form is untouched and only who-plays moved. Only doomsludge declares
+`feature`, so the other four genres are bit-identical by construction [Law 3].
+The one test: 10 records, 0 threw.
+
+### STILL OWED
+
+**The residual 2-in-21 is a different mechanism and was left alone deliberately.**
+Those are legs the rotation never empties — it hands them a tutti — where the
+`rest` coin then happens to sit the lead out of every section anyway. The guard
+cannot see it: the guard reads a table, `rest` is a draw made section by
+section. Catching it wants the leg checked **after** its sections are laid,
+which means `form.map` building the sections in two passes rather than one — not
+a second copy of the rest rule living next to the feature, which is the bug this
+file has shipped three times.
+
+**And the full-length record has its own hole, from the same pair of mechanisms
+compounding.** doomsludge seed 1 at full length: sections at bars 204, 220, 236
+and 252 — **four consecutive, about 130 seconds** — have no lead, right across
+the opening of the fight. Three are the rotation (`solo keys`, `duel keys+bass`,
+`solo bass`); the fourth is a tutti the rest coin emptied. The fix above does
+not touch it, because no part is missing from the *whole* leg there. The rule
+that would catch it is the one this file already believes in for section
+functions — state, repeat, **change on the third** — applied to absence: no part
+goes missing for three sections running. That changes every genre's arrangement,
+so it is the owner's call and not a thing to slip in.
+
+## §0ao — doomsludge seed 8 throws at every length (2026-08-22)
+
+Found while sweeping 24 seeds x 6 lengths for §0an, and **it is not new** — it
+throws identically on the build before that work:
+
+```
+  Error: collision in A at 0:0:52 — drone lands on keys (bar 0, step 0, pitch 52)
+```
+
+doomsludge, seed 8, at 2:00, 3:00, 4:00, 5:00, 6:00 and full length — every
+length, so it is the material and not the form. 6 of 144 doomsludge records in
+that sweep. The collision guard is doing its job and saying so loudly; what it
+is catching is the drone and the keys being written the same note in the same
+cell of material A. Not investigated further this session.

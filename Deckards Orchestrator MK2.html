@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22b &middot; the sag is back, and costs a third of what it did &mdash; the call was the cost, not the circuit</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22c &middot; a short record gets its lead back &mdash; a leg of one section cannot walk a rotation</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -41157,17 +41157,92 @@ function makeArrangement(chart, form, materials){
            own movement, so the rotation is a shape the leg walks through rather
            than a per-section coin. Counted here rather than carried, because
            the form is already built and this is the only reader. */
-        let nth = 0;
-        for(let q = 0; q < i; q++){
+        let nth = 0, nInLeg = 0;
+        const mvKey = sec.mv || sec.fn;
+        for(let q = 0; q < form.length; q++){
           const p2 = form[q];
-          if((p2.mv || p2.fn) === (sec.mv || sec.fn)) nth++;
+          if((p2.mv || p2.fn) !== mvKey) continue;
+          if(q < i) nth++;
+          nInLeg++;
         }
         const spec = FT[nth % FT.length];
         if(spec){
           const front = spec.solo ? [spec.solo] : (spec.duel || []);
           if(front.length){
             const ground = active.filter(r => r === "drums" || r === "drone");
-            const keep = ground.concat(front.filter(r => active.includes(r)));
+            let keep = ground.concat(front.filter(r => active.includes(r)));
+            /* ── AND A FEATURE MAY NOT KEEP A PART OUT OF A WHOLE LEG ───────
+               [owner, 2026-08-22: "I shortnd the song to 4 mins, and the lead
+               just cut out and stop playing half way through the fight."]
+
+               A rotation is a shape the leg WALKS THROUGH -- the comment above
+               says exactly that -- and A LEG OF ONE SECTION WALKS NOTHING. It
+               stops on frame one. `the fight` opens `{ solo: "keys" }`, so in
+               EVERY short record, at every seed, the fight was a keys solo and
+               the lead was not in it at all. That is not the rotation coming up
+               unlucky; it is the rotation never starting.
+
+               MEASURED, doomsludge seed 1 asked for four minutes: seven
+               sections, one of them the fight, and the lead absent from it AND
+               from the bridge in front of it -- 49 seconds of a 245-second
+               record, ending on the climax. The full-length record has nine
+               fight sections and walks the shape properly, which is why this
+               never showed up until the length dial was turned down.
+
+               SO THE RULE IS ABOUT THE OUTCOME AND NOT ABOUT THE LENGTH: if the
+               rotation would drop the same part in every section this leg has,
+               that part stays. A leg of one section then plays as a band --
+               which is what a `null` entry in the list is for, and what the leg
+               would have reached had it been long enough to get there. A leg
+               long enough to walk the shape is untouched, so the full-length
+               records of every genre are bit-identical [Law 3]. */
+            const dropsAt = (k, r) => {
+              const sp = FT[k % FT.length];
+              if(!sp) return false;                    /* a tutti drops nobody */
+              const fr = sp.solo ? [sp.solo] : (sp.duel || []);
+              return fr.length ? !fr.includes(r) : false;
+            };
+            const outAllLeg = r => {
+              for(let k = 0; k < nInLeg; k++) if(!dropsAt(k, r)) return false;
+              return true;
+            };
+            /* AND IT COMES BACK FOR THE LEG'S LAST SECTION, not for all of
+               them. Handing the part back everywhere would delete the shape in
+               order to rescue it -- a two-section leg that opens on a solo
+               should still open on a solo. Returning at the end is also the
+               better shape: the part the leg has been without walks back in for
+               its close. A leg of one section is its own last section, which is
+               the four-minute case above. */
+            /* AND IT IS TAKEN FROM `allowed`, NOT FROM `active`, WHICH IS THE
+               WHOLE POINT. The rest draw runs before this and may already have
+               sat the part out of exactly this section -- and then a rescue
+               that only looked at what was still standing would find nothing to
+               rescue and the part would be gone from the leg after all. The
+               guarantee is about the LEG, so in the one section that carries it
+               the guarantee outranks the rest coin. MEASURED over 21 records
+               a length, counting those with NO LEAD ANYWHERE IN THE FIGHT:
+
+                          before   feature-guard   +outranks rest
+                 2:00       10           1               0
+                 3:00       12           3               2
+                 4:00       12           2               0
+                 5:00       11           2               2
+                 6:00        9           3               2
+                 full        0           0               0
+
+               NOT ZERO, AND THE REMAINDER IS NOT THIS RULE'S. Those are legs
+               the feature never empties -- the rotation gives them a tutti --
+               where the REST COIN then happens to sit the lead out of every
+               section anyway. This guard cannot see that: it reads the
+               rotation, which is a table, and rest is a draw made section by
+               section. Catching it wants the leg checked AFTER its sections are
+               laid, not a second copy of the rest rule living here -- a rule
+               written out twice is the bug this file has shipped three times.
+               Recorded in the backlog rather than bodged. */
+            const stays = nth === nInLeg - 1
+              ? allowed.filter(r => hasArrived(r, sec.endBar) &&
+                                    !keep.includes(r) && outAllLeg(r)) : [];
+            if(stays.length) keep = keep.concat(stays);
             /* a feature naming a part this section never had is not a hole:
                if nothing in front survives, the section stays as it was */
             if(keep.some(r => r !== "drums" && r !== "drone")) active = keep;
