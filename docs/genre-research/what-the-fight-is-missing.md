@@ -568,3 +568,82 @@ this read `F4 F4 F4 F4 D#4 D#4`: four identical notes and no shape at all.
   from outside. A motif check belongs beside the out-of-key law: a named
   transformation that keeps none of its parent should fail loudly, the way a
   note outside the key does.
+
+---
+
+# PART 4 — TWO OF MY OWN FINDINGS WERE WRONG. Corrected here.
+
+*Checked while working through the plan this document generated. Both errors are
+the same shape: I measured note ONSETS inside a time window and called their
+absence silence.*
+
+## (c) "THE DRONE IS SILENT FOR THE ENTIRE FIGHT" — WRONG
+
+Part 1 reported the drone at **0 notes across the fight's 153 bars** and called
+it the missing open-string pedal. The count was right and the conclusion was
+wrong. doomsludge seed 1's drone:
+
+```
+  starts    0s   lasts 1322s   pitch 25   (C#1)
+  starts    0s   lasts 1322s   pitch 32   (G#1)
+  starts  339s   lasts  291s   pitch 49
+```
+
+**The drone sounds for 100% of the fight and 100% of the record.** It is two
+notes — a root and its fifth — held for twenty-two minutes. A note that begins
+at 0s has no onset inside a window starting at 585s, which is all my count was
+measuring.
+
+**The real gap is a different one and smaller.** Botch's open string is not a
+sustained pedal; it is a *re-struck* open string inside the riff — `13p0`,
+`12p0 x32` — a rhythmic event. We have a continuous ground and no re-articulated
+open string. That is worth wanting, but it is not "the drone is missing".
+
+## (b) "THE LEAD FLICKERS" — TRUE, BUT MOSTLY THE THEME'S OWN BREATH
+
+The lead plays 54% of the bars in sections that carry it (doom sludge), against
+86% for lofi. That looked like a fault. Measured at the material level, where
+the theme lives:
+
+```
+  genre          bar0   bar1   bar2   bar3     (of the theme's four)
+  lofi           100%    71%    63%    54%
+  doomsludge     100%    71%    58%    42%
+  fantasysynth   100%    75%    46%    29%
+```
+
+**The theme thins toward its own last bar in every genre.** That is
+`theme.count.breath` doing exactly what it is declared to do — a phrase states
+and then leaves space. Some of the section-level gap is still unexplained
+(doom's 54% is below its own material's 68% average), but the headline "the
+lead flickers 22 times" is largely a four-bar phrase with a breath in it,
+repeating.
+
+The section-level version of this complaint — the lead absent from a whole leg,
+or three sections running — was real and is fixed (§0an, §0ap).
+
+## AND THE DRUMS CLAIM IN (a) WAS ALSO OVERSTATED
+
+Recorded in full at §0ar: the Televators MIDI's "Drumkit" track is **hi-hat and
+ride only**, so it cannot support any claim about kick and snare repetition. Its
+real lesson is a small vocabulary — 15 distinct bars over 59, each used about
+four times, and *no bar ever repeated twice in a row*.
+
+## WHAT THIS LEAVES OF THE ORIGINAL SEVEN
+
+```
+  (a) drums never repeat a bar        -> reframed: they were UNRELATED to the
+                                        riff, which is fixed (§0ar, §0as)
+  (b) the lead flickers               -> section-level part fixed; the rest is
+                                        the theme's own breath
+  (c) the drone is silent             -> WRONG, it sounds 100% of the record
+  (d) unison is forbidden by law      -> still true, still unbuilt
+  (e) the climax is thin              -> still true, unmeasured since
+  (f) the bass is in a 10-semitone box-> still true, unmeasured since
+  (g) no cell with a count            -> still true, unbuilt
+```
+
+**Three of seven survive intact.** The lesson for the next session is the one
+this file keeps relearning: a count of onsets in a window is not a measure of
+whether something is sounding, and a fingerprint that includes rhythm cannot
+see a transformation that changes rhythm.

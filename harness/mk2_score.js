@@ -276,6 +276,53 @@ function score(M, opts){
   say(`    ${printedBars} bars printed of ${lastBar + 1}`);
   say("");
 
+  /* ══ AND DOES THE RECORD HAVE A TUNE THAT COMES BACK ═══════════════════════
+     [owner, 2026-08-22: "the whole of the song is missing ... a repeating
+     altering motif. The thing that holds it together."]
+
+     A genre may declare `theme.story` -- which operation its tune takes in each
+     chord set -- and `theme.carry`, which is what makes those operations act on
+     the TUNE rather than only on its rhythm. When both are on, every restatement
+     should open with the shape A opened with.
+
+     THIS PRINTS IT AND DOES NOT JUDGE IT, and that is deliberate. A throw was
+     the obvious idea and was measured first: the agreement is BIMODAL -- doom
+     sludge's chorus has a median of 67% and sixteen seeds in fifty-nine below
+     20% -- so a law at any threshold would refuse to compose a quarter of the
+     records rather than catch a defect. A wrong note is unambiguous and throws;
+     "the motif faded here" is a matter of degree and gets read.
+
+     THE CONTOUR, not the intervals. Diminution halves every gap and augmentation
+     doubles it, so a test keyed on rhythm scores zero on a restatement that
+     carried the tune perfectly -- which is a mistake this harness's own author
+     made and published before checking it. Direction is what survives. */
+  /* GENRE may be a blend object rather than a name, and a blend has no table */
+  const TH = (typeof GENRE === "string" && M.GENRE[GENRE] && M.GENRE[GENRE].theme) || {};
+  if(TH.story && TH.carry && song.materials){
+    const lead = m => ((song.materials[m] && song.materials[m].lead) || [])
+                        .slice().sort((a, b) => (a.bar - b.bar) || (a.step - b.step));
+    const contour = a => { const o = [];
+      for(let i = 0; i + 1 < a.length; i++){ const d = a[i + 1].pitch - a[i].pitch;
+        o.push(d > 0 ? "/" : d < 0 ? "\\" : "="); } return o; };
+    const A = contour(lead("A"));
+    if(A.length >= 3){
+      say("  THE TUNE, AND WHETHER IT COMES BACK");
+      say(`    A        ${A.join(" ")}   (${lead("A").length} notes)`);
+      for(const set of Object.keys(TH.story)){
+        const mat = set === "lift" ? "Alift" : set;
+        const B = contour(lead(mat));
+        if(B.length < 2){ say(`    ${mat.padEnd(8)} (this record has none)`); continue; }
+        let same = 0;
+        const L = Math.min(A.length, B.length);
+        while(same < L && A[same] === B[same]) same++;
+        say(`    ${mat.padEnd(8)} ${B.slice(0, 9).join(" ")}   ${TH.story[set]}, ` +
+            `opens with ${same} of A's ${L} steps` +
+            (same === 0 ? "   <- SHARES NOTHING WITH A" : ""));
+      }
+      say("");
+    }
+  }
+
   return lines;
 }
 
