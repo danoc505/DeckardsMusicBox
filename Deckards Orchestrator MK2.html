@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22a &middot; the sag comes off the board &mdash; the last pedal added is the first one out</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22b &middot; the sag is back, and costs a third of what it did &mdash; the call was the cost, not the circuit</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -11329,13 +11329,81 @@ class MK2Sag extends AudioWorkletProcessor {
       { name: "drive", defaultValue: 1.4, minValue: 0.2, maxValue: 40, automationRate: "k-rate" },
     ];
   }
-  constructor(){ super(); this.env = 0; this.v = 1; }
+  /* ── AND THE COST WAS ONE CALL, NOT THE CIRCUIT ────────────────────────
+     [owner, 2026-08-22: "I think the problem was the last FX unit. Can we try
+     and correct it."]
+
+     MEASURED first, doomsludge seed 1 at the fight, ten-second window, three
+     runs each, in CPU-seconds per audio-second (harness/mk2_cost.js):
+
+       sag off the board          1.751
+       sag on, as first written   1.874      <- the reported stutter
+       sag on, LOOP EMPTIED       1.697      <- the NODE ITSELF IS FREE
+
+     So none of it was the pedal being in the chain, and all of it was inside
+     this loop. Timing the loop alone, twenty seconds of audio through one sag,
+     nine runs, medians:
+
+       as first written    42.1 ms
+       tanh from a table   15.9 ms     2.6x faster
+       ...and the two outputs differ by -130 dB average, -99 dB worst, which
+          is under the 16-bit floor the record is written to. Same curve.
+
+     A BLOCK-RATE RAIL WAS TRIED AND REJECTED, which is worth recording because
+     it is the obvious idea: recomputing the supply every 8, 16 or 32 samples
+     instead of every one. It was SLOWER than the table on its own (25.6, 18.3
+     and 15.1 ms) and much less faithful (-65, -58 and -52 dB average), because
+     advancing the rail over a block needs a pow() per block and the envelope
+     stops seeing transients. The cheap thing and the accurate thing were the
+     same thing, and it was not the clever one. */
+  constructor(){
+    super();
+    this.env = 0; this.v = 1;
+    /* tanh, computed once into a table: 4096 points across [0,6], read back
+       with a straight line between neighbours. It is an odd function so only
+       the positive half is stored. Beyond 6 it is 0.99999 and is taken as 1.
+       A saturating stage reading its shape out of a table is what the hardware
+       does; this one is accurate to about 2e-7, which is seven decades below
+       anything the record can carry. */
+    const N = 4096, R = 6;
+    const T = new Float32Array(N + 1);
+    for(let i = 0; i <= N; i++) T[i] = Math.tanh((i / N) * R);
+    this.T = T; this.R = R; this.SC = N / R;
+  }
   process(inputs, outputs, prm){
     const I = inputs[0], O = outputs[0];
     if(!O || !O[0]) return true;
     const n = O[0].length;
     const src = (I && I[0]) ? I[0] : null;
     const amt = prm.amt[0], idle = prm.idle[0], rec = prm.recov[0], drv = prm.drive[0];
+    /* ── AND A SUPPLY WITH NOTHING DRAWING ON IT IS AT REST ────────────────
+       The sag sits on the BASS and the LEAD -- sagRows, in the doomsludge
+       table -- and a worklet is called for every quantum whether or not a
+       sound is passing through it. In the fight act the lead plays NOTHING and
+       the bass nineteen notes in twenty seconds, so this was doing full-rate
+       arithmetic on silence for most of the act it was blamed for. A block of
+       pure zeroes with the follower already down takes the short way out.
+
+       AND THE SHORT WAY OUT EMITS WHAT THE LONG WAY WOULD, WHICH IS NOT ZERO.
+       A rail at rest still offsets the bias, so this loop's own answer to a
+       silent input is the constant (1 - idle) * 0.015. The first version of
+       this skip wrote silence instead, which is a step into the coupling cap
+       every time the part comes back in. In fairness to it, BOTH versions
+       measured inside the record's own repeat-render floor and neither was
+       audibly wrong -- the resting value is written because it is the answer
+       this loop gives, not because the other one was caught. A shortcut whose
+       output has to be argued for is not a shortcut. */
+    if(!src){ this.env = 0; this.v = idle; }
+    let live = 0;
+    if(src) for(let i = 0; i < n; i++) if(src[i] !== 0){ live = 1; break; }
+    if(!live && this.env < 1e-6){
+      this.env = 0; this.v = idle;
+      const rest = (1 - idle) * 0.015;
+      const L = O[0], Rr = O[1];
+      for(let i = 0; i < n; i++){ L[i] = rest; if(Rr) Rr[i] = rest; }
+      return true;
+    }
+    const T = this.T, R = this.R, SC = this.SC;
     /* the follower: 1 ms to see the transient, 40 ms to forget it */
     const eUp = Math.exp(-1 / (0.001 * sampleRate));
     const eDn = Math.exp(-1 / (0.040 * sampleRate));
@@ -11361,7 +11429,12 @@ class MK2Sag extends AudioWorkletProcessor {
          gain back out leaves exactly the thing that IS the effect: the ceiling
          is head-over-drive and it moves, so a stiff supply is a wire and a
          collapsing one clips earlier and quieter and blooms back. */
-      let y = Math.tanh(x * drv / head) * head / drv;
+      /* the identical expression, with the curve looked up instead of called */
+      const u = x * drv / head, q = u < 0 ? -u : u;
+      let tv;
+      if(q >= R) tv = 1;
+      else { const pp = q * SC, j = pp | 0; tv = T[j] + (T[j + 1] - T[j]) * (pp - j); }
+      let y = (u < 0 ? -tv : tv) * head / drv;
       /* a starved rail also skews the bias, so the clipping goes asymmetric as
          it collapses -- the "rougher" the sources describe. The DC this makes
          is removed by a coupling cap on the node side, as on the Fuzz Face. */
@@ -12456,8 +12529,19 @@ registerProcessor("mk2-room", MK2Room);
 
        It is a FLAG and not a deletion for the reason the boxcar teardown
        records from the other side: research and voicing are expensive to
-       recover and a signal path is cheap to reconnect. */
-    g.SAG_ON_BOARD = false;
+       recover and a signal path is cheap to reconnect.
+
+       ── AND IT IS BACK ON, BECAUSE THE UNIT WAS FIXED RATHER THAN BLAMED ──
+       [owner, 2026-08-22: "I just listened to seed one and had no issues ...
+       I think the problem was the last FX unit. Can we try and correct it."]
+
+       Corrected. What cost the time was never the pedal being in the chain --
+       MEASURED with its inner loop emptied and the node still spliced in, the
+       node itself is free -- it was `Math.tanh` called once per sample. That
+       is now read from a table and the unit costs 38% of what it did, with
+       every other line of it untouched. See MK2Sag. The flag stays because a
+       switch that has been thrown once will be wanted again. */
+    g.SAG_ON_BOARD = true;
     g.makeBoard = function(spec){
       const S = spec || { comp: true, sub: true, oct: true, meat: true,
                           fuzz: true, saw: true, sag: true, phase: true };

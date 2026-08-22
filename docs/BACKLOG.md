@@ -2351,8 +2351,9 @@ The owner named the effects units, and they are a real cost but a small one:
 every pedal switched off is ~0.17 of 2.18, about **8%**. The **sag alone is
 5.3%** (1.883 -> 1.778, consistent across three paired runs).
 
-**The sag is disconnected** at the owner's instruction — `g.SAG_ON_BOARD`, one
-flag in `makeBoard`. It is disconnected and NOT deleted: `makeSag`, `setSag`,
+**The sag was disconnected** at the owner's instruction — `g.SAG_ON_BOARD`, one
+flag in `makeBoard` — and **is now back on, fixed** (§0am). It was disconnected
+and never deleted: `makeSag`, `setSag`,
 the `mk2-sag` worklet, the rack panel and all three `sag:` blocks in the
 doomsludge table are still here and still correct. Both `mk2-sag` worklet nodes
 are gone from the graph; lofi, dungeon synth and fantasy synth null at 1-3 LSB
@@ -2375,3 +2376,75 @@ One thing that is NOT a route, and was tried: `V.horns` stops its oscillators
 1.4 s after the note while the amp envelope has finished at 0.22 s. Cutting the
 tail to 0.35 s measured within the noise. It is still a waste of a second of six
 oscillators and worth fixing on its own merits; it is not the stutter.
+
+## §0am — the sag was one function call, not a circuit (2026-08-22, FIXED)
+
+[owner: *"I just listened to seed one and had no issues ... I think the problem
+was the last FX unit. Can we try and correct it."*]
+
+The owner was right about the unit and it did not have to be given up. The cost
+was never the pedal being in the signal path — it was `Math.tanh`, called once
+per sample.
+
+**MEASURED FIRST, so the fix aimed at something.** doomsludge seed 1, the fight
+act, ten-second window, three runs each, CPU-seconds per audio-second:
+
+```
+  sag off the board          1.751
+  sag on, as first written   1.874      <- the reported stutter
+  sag on, LOOP EMPTIED       1.697      <- THE NODE ITSELF IS FREE
+```
+
+An AudioWorkletNode spliced into the chain and doing nothing costs nothing
+measurable. All of it was inside the loop.
+
+**THE LOOP, TIMED ON ITS OWN** — twenty seconds of audio through one sag, nine
+runs, medians, no browser and no graph, so the ratio is the unit's ratio:
+
+```
+                      ms     speed    vs the original: worst    average
+  as first written   42.1     1.0x
+  tanh from a table  15.9     2.6x         -98.8 dB          -130.5 dB
+  table + rail/8     25.6     1.6x         -39.5 dB           -65.1 dB
+  table + rail/16    18.3     2.3x         -32.9 dB           -58.5 dB
+  table + rail/32    15.1     2.8x         -26.7 dB           -52.5 dB
+```
+
+**The obvious clever idea was the wrong one and is recorded so nobody tries it
+twice.** Recomputing the supply rail per block instead of per sample sounds like
+the saving — a rail falls on 11 ms, so five hundred answers a second is absurd —
+but it was SLOWER than the table alone (advancing a rail across a block needs a
+`pow` per block) and far less faithful (the envelope stops seeing transients).
+The cheap thing and the accurate thing were the same thing.
+
+**So the table is the whole fix**, plus one free thing: the sag sits on the bass
+and the lead, and in the fight act the lead plays nothing at all while the bass
+plays nineteen notes in twenty seconds — but a worklet is called every quantum
+whether or not sound is passing through it. A block of silence with the follower
+already down now returns the rail's resting value directly instead of computing
+it 128 times.
+
+### AND THE FIDELITY QUESTION HAS A FLOOR NOBODY HAD MEASURED
+
+The rebuilt sag renders the fight act **-73.5 dB RMS** from the original, which
+looked like a real change until the obvious control was run:
+
+```
+  doomsludge, the SAME build rendered twice   -72.8 dB RMS, worst 1064 LSB
+  original sag vs rebuilt sag                 -73.5 dB RMS, worst 1059 LSB
+```
+
+**The difference is smaller than what the record makes against itself.** The FDN
+room's feedback makes doomsludge far noisier render-to-render than the LSB-level
+floors the other genres have — this is the number to quote for doomsludge from
+now on, the way synthwave's is 44 LSB (also measured this session, and also
+bigger than the 25 previously quoted).
+
+Other genres, against the build before any of this: lofi 2 LSB, dungeon synth 1,
+fantasy synth 1, synthwave 23 — all inside their floors. The one test: 10
+records, 0 threw.
+
+**Still true, and unchanged by this**: §0al's fight act is still the fight act.
+This gives back a few per cent of a gap that needs about 45%, and the two routes
+named there — fewer nodes in the floor, and the `keys` part's twenty-four
+oscillators a strike — are still where the stutter actually lives.
