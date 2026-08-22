@@ -36349,7 +36349,64 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          declared [52,74]. Fold FIRST, then invert by lifting the lowest voices
          -- that is what an inversion is. Candidates that push past the ceiling
          are not clamped, they are not offered. */
-      const base = ch.tones.map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
+      /* ══ AND A DISTORTED CHORD LEAVES THE THIRD OUT ═══════════════════════
+         [owner: "Then fight is smashed garbled trash"]
+
+         MEASURED, doomsludge's fight act over 12 records — every interval its
+         comp strikes together:
+
+           perfect 4th  331    MINOR 3RD  213    perfect 5th  137
+           MAJOR 3RD    154    minor 6th   89    major 6th     23
+
+         51% of its chord strikes contain a third or a sixth, and every one of
+         them is fed to a two-stage clipper at a pre-gain of 3 x 320^0.42. That
+         is not a mix problem, it is the defining property of the device:
+         distortion "adds partials to the existing notes through an effect
+         called INTERMODULATION ... additional partials are generated at the
+         sums and differences of the frequencies of the harmonics of those
+         notes", and "when a typical chord containing such intervals (for
+         example, a major or minor chord) is played through distortion, the
+         number of different frequencies generated, and the complex ratios
+         between them, can make the resulting sound MESSY AND INDISTINCT"
+         [gearspace; musictheoryforguitar]. A major chord through gain "will
+         often sound cluttered because there are simply too many notes too
+         close together" — and the answer every guitarist already knows:
+         "REMOVE THE THIRD from that chord and you reduce the competing
+         frequencies, allowing the distortion to fill out the sound without
+         sounding cluttered. Power chords sound great through a very distorted
+         amp because the IMD products are in harmony with the notes being
+         played" [discmakers].
+
+         AND THIS PROGRAM IS THE WORST CASE OF IT, because the board is armed
+         ONE PER PART GROUP (`for(const r in g.grp) g.armFuzz(...)`) — every
+         voice on the comp lane sums into a single clipper before it clips. The
+         source names the opposite arrangement and why it works: "if the guitar
+         has a hexaphonic pickup, each string may be distorted separately, which
+         produces NO INTERMODULATION between strings" [gearspace]. We are the
+         one-pickup case, with four notes on it.
+
+         The genre's own sources have been asking for this in as many words the
+         whole time and the voicer was not listening: power chords are
+         "typically the root and the fifth", and a doom part is "a power chord
+         or single note ... let it sustain" [corpus:doesitdoom]. The fight's
+         own tabs go further — Botch is "dissonant, SINGLE-NOTE lines ...
+         AVOIDING POWER CHORDS".
+
+         `chordTones` returns stacked thirds in order, so the third IS index 1
+         (CHORD_ROLE) — the same derivation the rootless block below already
+         relies on. Nothing is clamped and nothing is re-drawn: the chord simply
+         arrives with one fewer member, so every filter and the voice-leading
+         cost run exactly as they did. A seventh chord keeps its seventh; a
+         triad becomes root and fifth, which is what a power chord is.
+
+         OPT-IN AND DERIVED, NEVER LISTED TWICE. `opts.power` is computed at the
+         call site from the FUZZ TABLE ITSELF, so an act whose distortion is
+         turned off keeps its full harmony and the two tables cannot drift
+         apart. Every genre that declares no fuzz passes nothing here and is
+         byte-identical. */
+      const TONES = (opts.power && ch.tones.length > 2)
+                  ? ch.tones.filter((_, i) => i !== 1) : ch.tones;
+      const base = TONES.map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
       /* ── ROOTLESS: THE VOICING THAT MAKES ROOM FOR THE EXTENSIONS ─────────
          An extended chord voiced with every tone is not a richer chord, it is
          a CLUSTER -- measured on the first build that could draw ninths, a
@@ -36377,8 +36434,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          wins only where it genuinely voice-leads or spreads better. [BACKLOG
          §6.2, and the isNCT union above is what makes it safe for the tune.] */
       const drops = [];
-      if(ch.tones.length >= 5){
-        const keep = idx => ch.tones.filter((_, i) => !idx.includes(i))
+      if(TONES.length >= 5){
+        const keep = idx => TONES.filter((_, i) => !idx.includes(i))
                                     .map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
         drops.push(keep([0]), keep([0, 2]));
       }
@@ -39672,16 +39729,43 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const KSA = chart.table.keysStyleAt || null;
   const holdFor = mat => ((KSA && mat && KSA[mat]) || chart.table.keysStyle) === "hold";
   const HOLD = holdFor("A");
-  const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed,
+  /* ══ WHICH ACTS ARE DISTORTED — ASKED OF THE FUZZ, NOT OF A SECOND LIST ═══
+     The comp leaves the third out where it goes through a clipper [see the
+     voicing block in buildKeys for the measurement and the sources]. WHICH acts
+     those are is already written down once, in `space.fuzz`, per movement — so
+     this reads that table rather than restating it. Turn the fuzz off for an
+     act and its harmony comes back on its own; a hand-written list here would
+     be the fifth time this file shipped one rule in two places.
+
+     `form.material` says which material each movement plays, so the map is
+     inverted rather than typed out. A genre with no fuzz, or one whose fuzz
+     names no acts, gets `false` everywhere and passes `undefined` into every
+     call below — byte-identical, and no draw moves [Law 3]. */
+  const FUZ = chart.table.space && chart.table.space.fuzz;
+  const POWER_OF = (() => {
+    const out = {};
+    if(!FUZ || !FUZ.by) return out;
+    const MATOF = (chart.table.form && chart.table.form.material) || {};
+    /* the whole record's fuzz is the floor: `amt` on the table itself applies
+       to any act the `by` map does not name */
+    for(const mv in MATOF){
+      const row = FUZ.by[mv];
+      const amt = row && row.amt != null ? row.amt : FUZ.amt;
+      if(amt > 0) out[MATOF[mv]] = true;
+    }
+    return out;
+  })();
+  const powerFor = mat => !!POWER_OF[mat] || undefined;
+  const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed, power: powerFor("A"),
                                              sustain: HOLD, at: HOLD ? 0 : undefined });
-  const keysAvar = NEW_RET ? buildKeys(chordsRet, "keys", { dense: false, avoid: placed,
+  const keysAvar = NEW_RET ? buildKeys(chordsRet, "keys", { dense: false, avoid: placed, power: powerFor("A"),
                                              sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
   /* the comp finds new voicings, which is the one thing every account of a
      rhythm section agrees on -- Bill Evans does not play the same voicing twice
      in twenty minutes. Each take avoids `placed`, so it clears the bass and the
      figure exactly as the first one had to. */
   const keysATakes = takesOf("keys", "A", keysA,
-                             t => buildKeys(chords, "keys:" + t, { dense: false, avoid: placed,
+                             t => buildKeys(chords, "keys:" + t, { dense: false, avoid: placed, power: powerFor("A"),
                                             sustain: HOLD, at: HOLD ? 0 : undefined }));
   const keysAx = allOf(keysA, keysATakes);
   /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
@@ -39755,7 +39839,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      silence, which is the worse of the two.
      Avar already has its own drums and its own tune for exactly this reason.
      Give it its own pad and each one clears one cell. */
-  const keys2A = tryPad(band => buildKeys(chords, "keys2", { sustain: true, at: 2, band,
+  const keys2A = tryPad(band => buildKeys(chords, "keys2", { sustain: true, at: 2, band, power: powerFor("A"),
                             against: keysA, avoid: reserve(ostAx.concat(bassAx, keysAx)) }));
   /* AND IT CLEARS THE RETURNING BASS AND COMP, which are different notes the
      moment a genre declares a cadence. Pointed at `bassAx`/`keysAx` -- the
@@ -39764,7 +39848,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      of 200 lofi seeds. The file's own note above `keysA` says every collision
      in Avar this project has ever reported is a reserve pointing at the wrong
      material; this is that note collecting its debt one more time. */
-  const keys2Avar = tryPad(band => buildKeys(chordsRet, "keys2:var", { sustain: true, at: 2, band,
+  const keys2Avar = tryPad(band => buildKeys(chordsRet, "keys2:var", { sustain: true, at: 2, band, power: powerFor("A"),
                             against: keysAvar, avoid: reserve(ostAvarx.concat(bassAvar, keysAvar)) }));
   /* BOTH PADS, and the reason is two lines of history. The note above `resV`
      records fixing this for Avar's redrawn TAIL and it missed Avar's retained
@@ -39898,10 +39982,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      reason `placed` states four times over */
   const placedB = NEW_CHORUS ? reserve(ostBx.concat(bassBx, bassBvar)) : placed;
   const HOLD_B = holdFor("B");
-  const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB,
+  const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB, power: powerFor("B"),
                                              sustain: HOLD_B, at: HOLD_B ? 0 : undefined });
   const keysBTakes = takesOf("keys", "B", keysB,
-                       t => buildKeys(chorusChords, "keys:" + t, { dense: true, avoid: placedB,
+                       t => buildKeys(chorusChords, "keys:" + t, { dense: true, avoid: placedB, power: powerFor("B"),
                                       sustain: HOLD, at: HOLD ? 0 : undefined }));
   const keysBx = allOf(keysB, keysBTakes);
   /* ── AND THE CHORUS'S RETURN GETS ITS OWN COMP TOO ───────────────────────
@@ -39910,7 +39994,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      `B` outright before this, which is why a chorus heard three times was the
      same chorus three times below the tune. (Its bass is built further up, so
      the reserve this comp avoids can include it -- see `placedB`.) */
-  const keysBvar = NEW_RET ? buildKeys(chorusRet, "keysB", { dense: true, avoid: placedB,
+  const keysBvar = NEW_RET ? buildKeys(chorusRet, "keysB", { dense: true, avoid: placedB, power: powerFor("B"),
                                              sustain: HOLD_B, at: HOLD_B ? 0 : undefined }) : keysB;
   /* ── ONE PAD, TWO MATERIALS, SO IT CLEARS BOTH ────────────────────────────
      `keys2B` sounds in B, in Bvar AND in Bdev, and on a genre with a cadence
@@ -39930,7 +40014,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      vanished rather than collided. This file's own note about the first pad
      says it in one line -- "fixed a collision by causing a silence, which is
      the worse of the two". Second time. */
-  const keys2B = tryPad(band => buildKeys(chorusChords, "keys2B", { sustain: true, at: 2, band,
+  const keys2B = tryPad(band => buildKeys(chorusChords, "keys2B", { sustain: true, at: 2, band, power: powerFor("B"),
                             against: keysB,
                             avoid: reserve(ostBx.concat(bassBx, keysBx, bassBvar, keysBvar)) }));
   const resB   = reserve(ostBx.concat(bassBx, keysBx, keys2B));
@@ -40049,7 +40133,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      for every genre that declares nothing -- which is `true` for the two that
      hold, so nothing moves for them. */
   const HOLD_C = holdFor("C");
-  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: HOLD_C,
+  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: HOLD_C, power: powerFor("C"),
                                                    at: HOLD_C ? 0 : undefined,
                                                    avoid: reserve(ostC.concat(bassC)) });
   /* ══ EVERY KIT IS BUILT HERE, AFTER THE RIFFS ═══════════════════════════
@@ -40091,11 +40175,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const bassCTakes = takesOf("bass", "C", bassC,
                        t => pin(buildBass(bridgeChords, "bass:" + t, true, "C"), "bass", "C"));
   const keysCTakes = takesOf("keys", "C", keysC,
-                       t => buildKeys(bridgeChords, "keys:" + t, { sustain: HOLD_C,
+                       t => buildKeys(bridgeChords, "keys:" + t, { sustain: HOLD_C, power: powerFor("C"),
                                       at: HOLD_C ? 0 : undefined,
                                       avoid: reserve(ostC.concat(bassC)) }));
   const bassCx = allOf(bassC, bassCTakes), keysCx = allOf(keysC, keysCTakes);
-  const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
+  const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band, power: powerFor("C"),
                             against: keysC, avoid: reserve(ostC.concat(bassCx, keysCx)) }));
   const resC   = reserve(ostC.concat(bassCx, keysCx, keys2C));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC,
@@ -40466,15 +40550,15 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const bassAlx    = allOf(bassAl, bassAlTakes);
   const placedl    = LIFT ? reserve(ostAlx.concat(ostAvarlx, bassAlx)) : placed;
   const HOLD_L = holdFor("lift");
-  const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
+  const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl, power: powerFor("lift"),
                                                sustain: HOLD_L, at: HOLD_L ? 0 : undefined }) : keysA;
   const keysAlTakes = LIFT ? takesOf("keys", "Alift", keysAl,
-                        t => buildKeys(liftChords, "keys:" + t, { dense: false, avoid: placedl,
+                        t => buildKeys(liftChords, "keys:" + t, { dense: false, avoid: placedl, power: powerFor("lift"),
                                        sustain: HOLD, at: HOLD ? 0 : undefined })) : keysATakes;
   const keysAlx    = allOf(keysAl, keysAlTakes);
-  const keys2Al    = LIFT ? tryPad(band => buildKeys(liftChords, "keys2", { sustain: true, at: 2, band,
+  const keys2Al    = LIFT ? tryPad(band => buildKeys(liftChords, "keys2", { sustain: true, at: 2, band, power: powerFor("lift"),
                               against: keysAl, avoid: reserve(ostAlx.concat(bassAlx, keysAlx)) })) : keys2A;
-  const keys2Avarl = LIFT ? tryPad(band => buildKeys(liftChords, "keys2:var", { sustain: true, at: 2, band,
+  const keys2Avarl = LIFT ? tryPad(band => buildKeys(liftChords, "keys2:var", { sustain: true, at: 2, band, power: powerFor("lift"),
                               against: keysAl, avoid: reserve(ostAvarlx.concat(bassAlx, keysAlx)) })) : keys2Avar;
   /* ── AND THE LIFTED PATH RESERVES BOTH PADS, LIKE THE PATH IT COPIES ─────
      `resA` a few hundred lines up already carries this fix, with a note that
