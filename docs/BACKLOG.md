@@ -2957,17 +2957,23 @@ beginner's most common fault."* Two acts of four double; two do not.
 
 ### MEASURED — bass notes landing on a comp onset, 20 seeds
 
+⚠ **The first version of this table was wrong** and is corrected here. I put
+fantasy synth's numbers in the doom sludge "before" column, which understated
+the baseline by a factor of three and made the change look far larger than it
+is. Doom sludge's bass already landed on two thirds of the comp's onsets by
+coincidence — both parts are dense — and what the doubling adds is that they
+are the same *notes*, not that they are at the same *time*.
+
 ```
-  act     doomsludge before   doomsludge after   fantasysynth (untouched)
-  A            83%                  83%                  83%     <- drone, coincidence
-  B (fight)    26%                 100%                  26%
-  C (sludge)   22%                 100%                  22%
-  lift         22%                  79%                  22%
+  act          doomsludge before   doomsludge after
+  A                  83%                 83%     <- held chord, coincidence
+  B (fight)          69%                 69%     <- not doubled, see below
+  C (sludge)         67%                100%
 ```
 
-Contour agreement between the two lines in the doubled acts: **90%** (fight),
-**84%** (sludge). The shortfall is the handful of notes folded at the band edge
-plus the ones `clearAgainst` moved off an accidental collision.
+Contour agreement between the two lines in the doubled act: **84%**. The
+shortfall is the handful of notes folded at the band edge plus the ones
+`clearAgainst` moved off an accidental collision.
 
 Printout, doomsludge bar 317 — one figure, three parts on it:
 
@@ -2994,3 +3000,99 @@ notes sharing a pitch and an instant, 8.3% — was **not** reached and is not
 reachable without changing `registers.bass`. Raising its top so the two bands
 genuinely meet is an arrangement decision with an audible cost (a thinner low
 end) and it is the owner's, so it is written here and not slipped in.
+
+---
+
+## §0av — the drone lane was playing a string section (2026-08-22, FIXED)
+
+[owner: *"The drone is broken not working anymore. And the only drone should be
+the Drone, or the drone WAV or the Pad WAV NOT strings or anything else"*]
+
+### MEASURED
+
+```
+  doomsludge, 20 records — what served the `drone` lane
+    dronebox        67 events        the drone rack
+    erStringsLow    56 events        a string section
+    erPad           27 events        the pad
+```
+
+Seed 1's drone was `erStringsLow` for the **whole record** — one event, 1321
+seconds, pitch 25. Seed 7 was a lead sample for six minutes of it. The lane's
+own name says what belongs on it and three quarters of the pool did not.
+
+### WHY IT HAPPENED, KEPT RATHER THAN DELETED
+
+The pool was widened to `erLeadLow` on a real measurement: the sample pack's pad
+carries 3.4% of its energy at 60–120 Hz against the lead's 28.0%, and *"a drone
+with no bottom is not a drone."* That reasoning was sound and the conclusion was
+still wrong. The answer to a pad with no floor is not to put a **lead recording**
+on the floor lane. An instrument that measures well in one band is still a lead,
+and the record has been hearing it as one.
+
+```
+  drone: [["dronebox", 5], ["erPad", 2]]        // was 4 machines, two of them not drones
+```
+
+Also removed: the ladder row `"the long way home": { drone: "erStringsLow" }`.
+Its own note said it was *"the intent and not yet the effect"* because the drone
+is dealt once per record rather than per section — an intent to break the rule
+the moment the drone became sectional, which is the worst kind of entry to leave
+standing. The **keys** override on that row stays: that leg's chords are a string
+section on purpose, and `erStringsHi` is a chord voice doing a chord voice's job.
+
+After: `dronebox` 26 records of 39, `erPad` 13. Rendered alone, seed 1's drone
+measures RMS 0.031 — it sounds, and it now sounds like a drone.
+
+### ⚠ THE DRONE WAV IS NOT IN THE POOL, BECAUSE IT CANNOT PLAY A NOTE
+
+The bank holds `sfxDrone`. Its root frequency in `ERANG_INDEX` is `0.0000` — an
+**unpitched** recording, which is why it is filed as an atmosphere bed and has no
+`INSTRUMENTS` entry to name. The file already has the mechanism for a ground like
+that (`drone.unpitched`, built for boxcar synth's train, which *"is not playing a
+note"*), so putting the drone WAV on this lane is possible and is a separate
+piece of work. Written down rather than half-done.
+
+---
+
+## §0aw — the doubling never reached the audio, and the hash check caught it (2026-08-22, FIXED)
+
+Build 2026-08-22i shipped §0au's unison doubling. **It changed nothing that
+sounds.** The material held the doubled line, the printout showed it, and the
+performance was byte-identical to the build before it across every seed.
+
+`materialTakes: { bass: 3 }` builds three realisations of that lane, and stage 5
+swaps one in for every occurrence — gated on `notes === mat[role]`, which is true
+precisely *because* the unison pass replaced that array. So the doubled line was
+written, stored, printed, and then overwritten by one of three undoubled takes
+every time it was about to sound.
+
+The fix is to drop that lane's takes in the acts that double, and it is the right
+answer musically rather than a way out of a bug. Takes exist because *"nobody
+plays the same bar twice"* — they are three **different** realisations of a part.
+A doubling has one: it is the other part's line. The variation now has to come
+from the leader, which is where it belongs, and the source is asking for exactly
+that in this act — sludge's bass is *"monotonous and heavy"*, a *"'rocking to
+sleep' bass that locks to the guitar"* [melodigging].
+
+**The lesson is the check, not the bug.** A feature that measures right in the
+materials and byte-identical in the performance is a feature that does not exist.
+`hashnotes` over 60 records is what said so; the printout and the material-level
+measurement both reported success.
+
+### ⚠ AND IT STILL CANNOT BE HEARD, FOR A SECOND REASON — OWNER'S CALL
+
+`form.roles["into the deep"]` is `["drums","bass","keys2","lead","ostinato",
+"drone"]`. **The sludge act has no `keys` lane**, so the part the bass was told to
+double does not play in the act that doubles it. The file already knew: the
+`compEntry` note beside `keysStyleAt` says in as many words that *"`C` is inert
+today ... the sludge act has NO `keys` lane at all ... putting `keys` into a
+movement's roles is an arrangement decision rather than a comp one. It goes to
+the owner, not into this table quietly."*
+
+Two features are now waiting on that one decision, and a third thing follows from
+it: the kick's `followRiff` locks to material C's `keys` too, so in that act the
+kick is doubling a riff nobody is playing.
+
+The act's own source describes *"down-tuned, HEAVILY DISTORTED guitars"* over a
+bass in unison. It currently has a mellotron pad, a figure, a lead and no guitar.

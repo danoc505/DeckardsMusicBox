@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22i &middot; the bass plays the riff &mdash; two parts on one line, on purpose</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22j &middot; the drone lane holds drones &mdash; and the doubling reaches the record</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -27586,15 +27586,17 @@ GENRE.fantasysynth = (function(D){
          fifth is a string section; pitched an octave and a half it is a
          cartoon. C4 it is, and the reason is written here so the next hand
          does not re-litigate it from the word "low". */
-      /* the drone override is the LOW string rather than the pad, so this leg's
-         floor and its chords are the same instrument two octaves apart -- and
-         because the pack's pad has no bottom (see `machines.drone` for the
-         measurement). It reaches the sound only if a record's drone is ever
-         dealt per section; today the drone is one event for the whole record,
-         so this line is the intent and not yet the effect. Said plainly rather
-         than deleted: a table entry that quietly does nothing is the defect
-         this file keeps finding, and one that says so is not. */
-      "the long way home": { keys: "erStringsHi", drone: "erStringsLow" },
+      /* ── AND THE DRONE OVERRIDE IS GONE FROM THIS ROW ─────────────────────
+         It pinned `erStringsLow` to the drone lane for this leg, on the same
+         reasoning `machines.drone` has now thrown out: strings are not a
+         drone. Its own note said the line was "the intent and not yet the
+         effect" because the drone is dealt once per record rather than per
+         section -- so it was an intent to break the rule the moment the drone
+         became sectional, which is the worst kind of entry to leave in. The
+         KEYS override stays: that leg's chords are a string section on
+         purpose, and `erStringsHi` is a chord voice doing a chord voice's job.
+         [owner: "NOT strings or anything else"] */
+      "the long way home": { keys: "erStringsHi" },
     },
     /* ── WHICH MODE EACH CHORD SET STANDS IN ────────────────────────────────
        Declared here rather than on the movements, because the movement that
@@ -28671,7 +28673,41 @@ GENRE.fantasysynth = (function(D){
        arrive. The pad stays in the pool because it is the right colour when
        the record wants air rather than ground, and the synth still wins most
        often for the reason below. */
-    drone: [["dronebox", 5], ["erLeadLow", 4], ["erPad", 2], ["erStringsLow", 2]],
+    /* ══ AND THE DRONE LANE HOLDS DRONES. THAT IS THE WHOLE RULE ══════════
+       [owner: "The drone is broken not working anymore. And the only drone
+        should be the Drone, or the drone WAV or the Pad WAV NOT strings or
+        anything else"]
+
+       MEASURED, 20 records of this genre: `erStringsLow` served the drone lane
+       56 times and `erPad` 27 against the drone rack's 67. Seed 1's drone is a
+       STRING SECTION for the whole record -- one event, 1321 seconds, pitch 25
+       -- and seed 7 is a lead sample for six minutes of it. The lane's own
+       name says what belongs on it and three quarters of the pool did not.
+
+       THE PARAGRAPH ABOVE IS WHY IT HAPPENED, and it is worth keeping rather
+       than quietly deleting: the pool was widened to `erLeadLow` on a real
+       measurement (28.0% of its energy at 60-120 Hz against the pad's 3.4%),
+       because the replacement pack's pad has no bottom and "a drone with no
+       bottom is not a drone". That reasoning was sound and the conclusion was
+       still wrong -- the answer to a pad with no floor is not to put a LEAD
+       RECORDING on the floor lane. A borrowed instrument that measures well in
+       one band is still a lead, and the record has been hearing it as one.
+
+       So the pool is the two things that are drones: the drone rack, and the
+       pad, which is "what it was recorded for" in its own declaration. The
+       rack keeps the larger weight because it is a synth and can put out real
+       bottom on demand, where the pad is "the right colour when the record
+       wants air rather than ground".
+
+       ⚠ AND THE DRONE WAV IS NOT HERE, BECAUSE IT CANNOT PLAY A NOTE. The bank
+       holds `sfxDrone`, and its root frequency in `ERANG_INDEX` is 0.0000 --
+       an UNPITCHED recording, which is why it is filed as an atmosphere bed
+       and has no `INSTRUMENTS` entry to name here. The file already has the
+       mechanism for a ground like that (`drone.unpitched`, built for boxcar
+       synth's train, which "is not playing a note"), so putting the drone WAV
+       on this lane is possible and is a separate piece of work. Written down
+       rather than half-done. */
+    drone: [["dronebox", 5], ["erPad", 2]],
   }),
   /* ── AND THE DESCENT STANDS HIGH ON THE DRUM LADDER ──────────────────────
      [owner: "the second Modal dinosynth inspired the toms take front role and
@@ -29740,21 +29776,41 @@ GENRE.doomsludge = (function(F){
      measures 201 of 2,416, 8.3%. The Botch tabs are the same figure written
      twice: the guitar's is `--2-2-2--` on the low D, the bass's is `D-2222`.
 
-     WHICH ACTS, AND WHY NOT ALL OF THEM. `C` is the sludge act, where the
-     source names the unison outright. `B` is the fight, where the tabs do --
-     both Botch tabs are guitar and bass on one line. `A` keeps its held power
-     chord because doom's source asks for "a power chord or single note ... let
-     it sustain", which is a different job, and the lift keeps its own line
-     because Belkin's warning is real from the other side: constant unison
-     doubling is "the beginner's most common fault". Two acts of four double;
-     two do not, and the record has both to compare.
+     WHICH ACTS, AND WHY IT IS ONE.
+     [owner: "we are NOT trying to copy botch ... There is just as much reason
+      to make the bass stand out, music is not about copying someone elses
+      sound."]
+
+     `C`, THE SLUDGE ACT, AND ONLY IT. That is where the sources put a locked
+     bass and they put it there in as many words: sludge's signature is a
+     "'rocking to sleep' bass that LOCKS TO THE GUITAR, characterized by a
+     monotonous and heavy playing style", following the guitar "through
+     repetitive, rough, and sometimes atonal riffs" [melodigging/sludge-metal].
+     Monotony is the effect being asked for. It is the one act where a bass
+     that never leaves is the point rather than a shortage.
+
+     THE FIGHT WAS DECLARED HERE FIRST AND IT WAS WRONG, and the source that
+     says so is the same scene's. Mathcore's bassists do not read the guitar
+     part: Dillinger Escape Plan's Liam Wilson "has worked out 90% of his bass
+     lines ... by himself", taking "an independent approach to composing bass
+     lines rather than simply following guitar parts directly"
+     [forbassplayersonly; geargods]. The Botch tabs put the two on one line and
+     I read that as a rule when it is one band's arrangement of one figure. A
+     hundred per cent lock across a whole act is not what that page shows and
+     it is not what the players describe. The fight's bass writes its own.
+
+     `A` keeps its held power chord because doom's source asks for "a power
+     chord or single note ... let it sustain", which is a different job, and
+     the lift keeps its own line. One act of four doubles; three do not, and
+     the record has both to compare -- which is the whole reason the doubling
+     reads as a decision when it arrives.
 
      THE LEADER IS `keys` because this genre's kit already says so -- `riffLane:
      "keys"` on the line directly above, declared off a measurement (2.9 distinct
      strike-steps a bar against the figure's 1.2) that the comp is what carries
      the rhythm here. The bass joins the thing the kick is already locked to,
      which is what "the rhythm section" means. */
-  unison: { lane: "bass", of: "keys", at: ["C", "B"] },
+  unison: { lane: "bass", of: "keys", at: ["C"] },
   keysStyleAt: { A: "hold", C: "comp", B: "comp", lift: "comp" },
   compEntry: [[-2, 5], [2, 4], [-1, 3], [0, 3], [1, 2], [3, 2]],
   ostinato: merge(F.ostinato, {
@@ -35549,6 +35605,67 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const a = wpick(rng, F.anchor), s = wpick(rng, F.spice);
         cell.push({ step: st, deg: strong ? a : s });
       }
+      /* ══ AND EVERY NOTE IN IT WAS A CHORD TONE, WHICH IS NOT A LINE ═══════
+         [owner: "There is just as much reason to make the bass stand out"]
+
+         MEASURED across 20 records, how this genre's bass moves from one note
+         to the next: 82% LEAPS, 13% steps, 5% repeats. It is not walking
+         anywhere. It is arpeggiating, and the reason is in the two pools above
+         rather than in any code: `anchor` is degrees 0 and 4 (root and fifth)
+         and `spice` is weighted 3-3-2-1 onto 2, 6, 3, 1 -- root, third, fifth,
+         seventh are the chord, and every distance BETWEEN chord tones is a
+         leap. Only degree 1 gives a step from the root and it carries the
+         smallest weight in the table.
+
+         Two sources, and they agree from opposite ends. The theory: a PASSING
+         TONE is "a nonchord tone that fills the space between two different
+         chord tones USING STEPWISE MOTION", it "creates a sense of forward
+         motion and smooths out leaps", and it must be "approached and left by
+         step -- if the motion leaps, it is not a passing tone"
+         [openmusictheory; fiveable]. The practice: "a classic bassline
+         technique is to travel to the next root note using notes in between as
+         STEPPING STONES -- listeners can tell the notes are moving towards the
+         next target root" [mixedinkey]. And the balance is named outright:
+         the most compelling lines "employ both conjunct and disjunct motion"
+         and keep an equilibrium between them [iconcollective].
+
+         13% against 82% is not an equilibrium. So the figure keeps its leaps
+         -- the bass is the one voice that is ALLOWED to leap more than the
+         others [fiveable] -- and gets the connecting notes it never had.
+
+         HOW IT PLACES THEM, AND WHY THE DIRECTION IS NOT DRAWN. A slot that
+         nothing sounds in, directly before a note that does, is filled with a
+         note ONE DIATONIC STEP from that note -- on the side the line is
+         already coming from, so it lands BETWEEN the two and continues the
+         travel. That is the definition rather than a flavour of it: a passing
+         tone is defined by its neighbours, so asking a coin which way to go
+         would be drawing the one thing the theory determines. The only draw is
+         WHICH gap gets filled.
+
+         A DIATONIC step is always in the mode, so an approach note cannot
+         reach for the out-of-key law -- this adds motion, not chromaticism.
+         Drawn on its own named substream, a fixed number of times whether or
+         not a gap can be found, so a genre declaring no `approach` draws
+         nothing here and is byte-identical [Law 3, Law 7]. */
+      const APP = stream(chart.seed, "bassapproach:" + streamName);
+      for(let a = 0; a < (F.approach || 0); a++){
+        const r = APP();
+        const free = [];
+        for(let ci = 0; ci < cell.length; ci++){
+          const prev = cell[ci].step - F.grid;
+          if(prev < 0 || cell.some(c => c.step === prev)) continue;
+          free.push(ci);
+        }
+        if(!free.length) continue;
+        const ci = free[Math.min(free.length - 1, Math.floor(r * free.length))];
+        const tgt = cell[ci];
+        /* the note the line is coming FROM, if the figure has one yet */
+        const from = ci > 0 ? cell[ci - 1] : null;
+        const dir = !from || from.deg === tgt.deg ? -1
+                  : (from.deg < tgt.deg ? -1 : +1);
+        cell.push({ step: tgt.step - F.grid, deg: tgt.deg + dir });
+        cell.sort((x, z) => x.step - z.step);
+      }
       for(let ci = 0; ci < cell.length; ci++){
         const next = ci + 1 < cell.length ? cell[ci + 1].step : LEN;
         cell[ci].dur = Math.min(F.hold, next - cell[ci].step);
@@ -40759,6 +40876,45 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       if(!unisonFor(m)) continue;
       const lead = mat[UNI.of];
       if(!Array.isArray(lead) || !lead.length || !Array.isArray(mat[UNI.lane])) continue;
+      /* ══ AND THE BASS TAKES ONE NOTE OF THE CHORD, NOT THE CHORD ══════════
+         THIS SHIPPED BROKEN AND THE MEASUREMENT FOUND IT. A comp plays
+         VOICINGS -- three and four notes struck together -- and copying it
+         note for note handed the bass those stacks whole. Measured: moments
+         where the bass sounded more than one pitch at once went 0% -> 71% in
+         the fight and 0% -> 64% in the sludge act, up to FOUR notes at a time,
+         in a lane whose top note is MIDI 48.
+
+         That is the one thing a bass register may not do. Low notes "move
+         slowly and have a ton of sonic information in them", and stacking them
+         makes a sound where "our ears can't pick out the actual notes being
+         played" [bassox]; intervals "are closer to one another in frequency at
+         deeper frequencies and are thus harder to distinguish", which is the
+         LOW INTERVAL LIMIT -- the lowest position an interval can be played
+         without turning to mud [robin-hoffmann; sweetwater]. A minor third's
+         limit sits around C3/E♭3, and this lane tops out a semitone below
+         that. Every stacked third the doubling wrote was under the limit.
+         Bass players have the same rule from the playing side: chords "sound
+         better up high on the bass ... below the seventh fret, chords can get
+         muddy" [bassbuzz].
+
+         So the doubling takes the BOTTOM OF EACH VOICING and nothing else: one
+         note per instant, which is what a bass plays. The figure is unchanged
+         -- the comp's lowest voice is the line a bass would read off it.
+
+         THE DOOM ACT'S TWO-NOTE BASS IS NOT THIS AND IS NOT TOUCHED. It is a
+         declared power chord, root and fifth, and the fifth is the interval
+         with the LOWEST low-interval-limit there is -- which is precisely why
+         a power chord is the one thing that works down there. It is written by
+         the bass builder, not by this pass, and it measured 46% before this
+         work and 46% after. */
+      const low = new Map();
+      for(const n of lead){
+        if(!n || n.pitch == null) continue;
+        const at = n.bar + ":" + n.step;
+        const had = low.get(at);
+        if(!had || n.pitch < had.pitch) low.set(at, n);
+      }
+      const voice = [...low.values()];
       /* ── ONE OCTAVE FOR THE WHOLE LINE, NOT ONE PER NOTE ─────────────────
          The first version folded each note into the band on its own, and that
          is not a transposition -- it is a fold, and it BREAKS THE CONTOUR at
@@ -40780,14 +40936,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       let shift = 0, worst = 1e9;
       for(let k = -4; k <= 4; k++){
         let bad = 0;
-        for(const n of lead)
-          if(n && n.pitch != null &&
-             (n.pitch + 12 * k < BAND[0] || n.pitch + 12 * k > BAND[1])) bad++;
+        for(const n of voice)
+          if(n.pitch + 12 * k < BAND[0] || n.pitch + 12 * k > BAND[1]) bad++;
         if(bad < worst){ worst = bad; shift = k; }
       }
       const dbl = [];
-      for(const n of lead){
-        if(!n || n.pitch == null) continue;
+      for(const n of voice){
         dbl.push({ bar: n.bar, step: n.step, dur: n.dur,
                    pitch: intoBand(n.pitch + 12 * shift, BAND[0], BAND[1]),
                    vel: n.vel, role: UNI.lane });
@@ -40801,6 +40955,32 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       clearAgainst(mat, UNI.lane, -1, BAND[0], BAND[1], UNI.of);
       const act = whichChanges(m).replace(/ret$/, "");
       mat[UNI.lane] = pin(mat[UNI.lane], UNI.lane, act === "lift" ? "A" : act);
+      /* ══ AND THE TAKES HAVE TO GO, OR NONE OF THIS IS HEARD ═══════════════
+         THE FIRST VERSION OF THIS PASS CHANGED NOTHING AT ALL and said so with
+         a straight face: the printout showed the doubling, the material held
+         it, and the RECORD was byte-identical to the build before it across
+         every seed. `materialTakes: { bass: 3 }` builds three realisations of
+         this lane, and stage 5 swaps one in for every occurrence -- gated on
+         `notes === mat[role]`, which is true precisely because this pass
+         replaced that array. So the doubled line was written, stored, printed,
+         and then overwritten by one of three undoubled takes every time it was
+         about to sound. A whole build shipped on a claim that never reached
+         the audio, and the hash check is what caught it.
+
+         Deleting them is also the right answer musically rather than a way out
+         of a bug. Takes exist because "nobody plays the same bar twice" -- they
+         are three DIFFERENT realisations of a part. A doubling has one: it is
+         the other part's line. Three takes of it would be three copies, and
+         the variation now has to come from the leader, which is where it
+         belongs. The source is asking for exactly that in this act -- sludge's
+         bass is "monotonous and heavy", a "'rocking to sleep' bass that locks
+         to the guitar" [melodigging] -- so the lane repeats WITH the comp
+         instead of wandering off it three ways.
+
+         Keyed on the bare name because that is how `putTakes` stores them; a
+         private copy `C@6` is the same material played again. Acts the genre
+         did not name keep their takes untouched. */
+      if(materials.takes) delete materials.takes[String(m).split("@")[0] + "|" + UNI.lane];
     }
   }
   /* ── WHICH KIT SETTING AND WHICH LETTERS A MATERIAL'S DRUMS WERE BUILT WITH ─
