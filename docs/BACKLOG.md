@@ -2449,7 +2449,7 @@ This gives back a few per cent of a gap that needs about 45%, and the two routes
 named there — fewer nodes in the floor, and the `keys` part's twenty-four
 oscillators a strike — are still where the stutter actually lives.
 
-## §0an — a short record lost its lead for the whole fight (2026-08-22, MOSTLY FIXED)
+## §0an — a short record lost its lead for the whole fight (2026-08-22, FIXED)
 
 [owner: *"I shortnd the song to 4 mins, and the lead just cut out and stop
 playing half way through the fight."*]
@@ -2522,7 +2522,7 @@ functions — state, repeat, **change on the third** — applied to absence: no 
 goes missing for three sections running. That changes every genre's arrangement,
 so it is the owner's call and not a thing to slip in.
 
-## §0ao — doomsludge seed 8 throws at every length (2026-08-22)
+## §0ao — doomsludge seed 8 throws at every length (2026-08-22, FIXED)
 
 Found while sweeping 24 seeds x 6 lengths for §0an, and **it is not new** — it
 throws identically on the build before that work:
@@ -2536,3 +2536,105 @@ length, so it is the material and not the form. 6 of 144 doomsludge records in
 that sweep. The collision guard is doing its job and saying so loudly; what it
 is catching is the drone and the keys being written the same note in the same
 cell of material A. Not investigated further this session.
+
+## §0ap — the three holes, closed (2026-08-22, FIXED)
+
+[owner: *"Fix the issues"*]
+
+Three things were named at the end of §0an and §0ao. All three are done.
+
+### 1. THE REST COIN AND THE ROTATION COMPOUNDED, AND NOTHING WATCHED THE OUTCOME
+
+The feature guard added in §0an reads the **rotation**, which is a table. It
+cannot see `rest`, which is a coin drawn section by section — so the two made
+holes neither of them chose. doomsludge seed 1 at full length had **four
+consecutive sections, bars 204–268, about 130 seconds, with no lead at all**,
+across the opening of the fight: three from the rotation, the fourth a tutti the
+rest coin emptied.
+
+So there is now a check on the **outcome**, made where the outcome finally
+exists — after arrival, after rest, after the feature. Two rules, both of them
+rules this file already held elsewhere:
+
+- **Three in a row.** *State, repeat, change on the third* is the law this
+  program already applies to section functions. A part may sit out twice; the
+  third time it comes back.
+- **Not for a whole leg.** At a leg's last section, a part the leg's own roles
+  list and that has not been heard once in it comes back.
+
+**It only ever rescues from `allowed`, and that is what makes it safe.** The
+deliberate long absences here are *declared*, not drawn — doomsludge's
+`the long way home` lists no drums and no bass, so neither is ever in `allowed`
+there and neither can be dragged back in. The record's last section is left to
+`thinTo`, because the ending outranks a rule about the middle.
+
+MEASURED, 400 records (5 genres x 16 seeds x 5 lengths), counting a part that
+**had been playing** and then went quiet:
+
+```
+                                              before   after
+  goes quiet for 3+ sections                    325      0
+  longest such run                                8      2
+  lead absent from the WHOLE fight, per length   see §0an   0 at every length
+```
+
+### 2. THE GROUND WAS LANDING ON THE COMP — TWO BUGS, NOT ONE
+
+`collision in A at 0:0:52 — drone lands on keys` took **5 of 60 doomsludge
+seeds**, at every length. Two faults compounding:
+
+**A stack folding onto itself.** The drone's stack is folded into its own band
+by `intoBand`, and a fold can put two different voices on ONE pitch — a root at
+45 and its octave at 57 both come back as 33 in a band that stops below 45. The
+lane emitted `[33, 40, 33]`. That is not two voices, it is one voice written
+twice, and it forced the collision walk to move a note that was only there by
+accident.
+
+**`clearAgainst` mutating notes shared between materials, which is the real
+one.** `droneA` is the ground of A, Avar, Adev, Aseq *and* T, and `droneB` is
+the same object again whenever a record has no new chorus. The walk moved notes
+**in place**, so clearing one material moved the note in all of them and the
+material that went first was silently un-cleared by the one that went last —
+and nothing re-checked it. MEASURED: A's ground was cleared to `[45, 40]` and
+came out of the loop as `[45, 52]`, because a later material found 40 taken and
+walked it up to 52, straight onto A's comp — the one pitch A had just been
+cleared of.
+
+Each material now clears its **own copy**. A ground shared by five materials
+sits under five different sets of parts and has no business being one object
+once it starts negotiating with them.
+
+MEASURED: **600 records (5 genres x 120 seeds), 10 threw before, 2 after** — and
+both survivors are a different fault entirely (§0aq).
+
+### BLAST RADIUS
+
+60 records (5 genres x 3 seeds x 4 lengths): **33 changed**. lofi and synthwave
+are untouched at every length and seed tested; doomsludge, dungeon synth and
+fantasy synth moved. That is the arrangement rules doing what was asked of them,
+and it is the largest deliberate change to what these records play since the
+rule-of-three work. The one test: 10 records, 0 threw.
+
+## §0aq — the last two throws are a harmony fault, not an arrangement one (2026-08-22)
+
+After §0ap, **2 records in 600 still throw**, and both are the same law:
+
+```
+  lofi seed 17          out of key, not in the chord, and does not resolve
+                        into the next one, in Bdev: keys2 82 bar 3
+  dungeonsynth seed 114 ... in Alift: counter 64 bar 0
+```
+
+Both are **pre-existing** — identical on the build before this session's work.
+
+**The obvious explanation is wrong and was checked.** The law's own comment says
+it is the check that catches *"a part left behind"* by a key change, and `Alift`
+is the key-lift material — but `counterAl` **is** derived against `liftChords`
+(`deriveCounter(themeAl.notes, resAl, "counterA", liftChords, keysAl)`), so the
+counter does come with the lift. The bad note is being produced *inside* the
+derivation, not inherited from the old key. `Bdev`'s keys2 is the same shape one
+material along.
+
+Not investigated further. It is 0.33% of records, it fails loudly rather than
+silently, and it wants someone reading `deriveCounter` and the `Bdev` derivation
+with the printout open — which is a different session's work from this one.

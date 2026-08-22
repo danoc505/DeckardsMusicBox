@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22c &middot; a short record gets its lead back &mdash; a leg of one section cannot walk a rotation</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22d &middot; no part goes missing, and the ground stops landing on the comp</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -34361,8 +34361,23 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          inside the register rather than one above it, and the re-strike rule
          above still compares the ROOT -- a stack that has not changed root has
          not changed, and does not re-attack. */
+      /* ── AND A STACK MAY NOT WRITE A UNISON WITH ITSELF ────────────────
+         The stack is folded into the drone's own band by `intoBand`, and a
+         fold can land two different voices on ONE pitch: a root at 45 and its
+         octave at 57 both come back as 33 in a band that stops below 45. That
+         is not two voices, it is one voice written twice -- and downstream it
+         is worse than useless, because `clearAgainst` then has to move a note
+         that is only there by accident, and the walk it takes to get out of
+         its own way is what put the ground on top of the comp.
+
+         MEASURED, doomsludge seed 8: the lane emitted [33, 40, 33] at bar 0.
+         5 of 60 doomsludge seeds threw `collision in A ... drone lands on
+         keys` and every one of them began here. A unison is one voice. */
       held.length = 0;
+      const wrote = new Set();
       for(const ps of want){
+        if(wrote.has(ps)) continue;
+        wrote.add(ps);
         const n = { bar: b, step: 0, dur: unit * 16 * hold, pitch: ps,
                     vel: (b === 0 ? 0.8 : 0.7) * (ps === p ? 1 : 0.82),
                     role: "drone" };
@@ -40039,7 +40054,25 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       for(const n of mat[r]) if(n.pitch != null) taken.add(n.bar + ":" + n.step + ":" + n.pitch);
     }
     const clear = [];
-    for(const n of (mat[ROLE] || [])){
+    for(const n0 of (mat[ROLE] || [])){
+      /* ── AND A MATERIAL GETS ITS OWN COPY OF THE NOTE ────────────────────
+         This walked the array in place, and THE ARRAY IS SHARED. `droneA` is
+         the ground of A, Avar, Adev, Aseq and T, and `droneB` is the same
+         object again whenever a record has no new chorus -- so moving a note
+         to clear one material moved it in all of them, and the material that
+         went first was silently un-cleared by the one that went last. Nothing
+         re-checked it.
+
+         MEASURED, doomsludge seed 8: A's ground was cleared to [45, 40] and
+         came out of the loop as [45, 52], because a later material found 40
+         taken and walked it up to 52 -- straight onto A's comp, which is the
+         one pitch A had just been cleared of. That is the `collision in A ...
+         drone lands on keys` throw, and it took 5 of 60 seeds.
+
+         So each material clears its OWN copy. A ground shared by five
+         materials sits under five different sets of parts and has no business
+         being one object once it starts negotiating with them. */
+      const n = (n0 && n0.pitch != null) ? Object.assign({}, n0) : n0;
       if(n.pitch == null){ clear.push(n); continue; }
       const key = p2 => n.bar + ":" + n.step + ":" + p2;
       const tries = [0, prefer * 12, -prefer * 12, prefer * 24];
@@ -40865,6 +40898,11 @@ function makeArrangement(chart, form, materials){
     const k = chaseIx.length > 1 ? Math.floor(at / chaseIx.length * T.length) : T.length - 1;
     return T[Math.max(0, Math.min(T.length - 1, k))];
   };
+  /* how long each part has been silent, in sections, and whether it has been
+     heard yet in the leg being laid. Both are carried across the map below,
+     which walks the form in order; see "NO PART GOES MISSING" inside it. */
+  const goneFor = {}, heardInLeg = {};
+  let legNow = null;
   const laid = form.map((sec, i) => {
     /* the movement first, the function as the fallback -- the same rule the
        tempo arc uses, and for the same reason: a leg stands in its own chord
@@ -41257,6 +41295,58 @@ function makeArrangement(chart, form, materials){
                spec.duel.every(r => active.includes(r)))
               duel = spec.duel.slice();
           }
+        }
+      }
+    }
+    /* ══ AND NO PART GOES MISSING, EITHER FOR A LEG OR FOR THREE IN A ROW ════
+       [owner, 2026-08-22: "the lead just cut out and stop playing half way
+       through the fight", and then: "Fix the issues"]
+
+       The guard inside the feature reads the ROTATION, which is a table. It
+       cannot see the `rest` coin, which is drawn section by section -- so the
+       two of them compound, and the record ends up with holes neither of them
+       chose. MEASURED before this, doomsludge seed 1 at full length: FOUR
+       CONSECUTIVE SECTIONS, bars 204 to 268, about 130 seconds, with no lead at
+       all, right across the opening of the fight. Three of the four are the
+       rotation; the fourth is a tutti the rest coin emptied.
+
+       This is the check on the OUTCOME that the rotation guard cannot make, and
+       it is made here because here is where the outcome finally exists -- after
+       arrival, after rest, after the feature. Two rules, and both of them are
+       rules this file already holds elsewhere:
+
+       1. THREE IN A ROW. `state, repeat, change on the third` is the law this
+          program already applies to section functions, quoted in its own words
+          a few hundred lines above. A part may sit out twice. The third time,
+          it comes back. Two is a gesture; four is a part that stopped playing,
+          which is exactly what it was reported as.
+
+       2. NOT FOR A WHOLE LEG. At a leg's last section, a part that this leg's
+          own roles list and that has not been heard once in it comes back. A
+          leg is the unit a listener hears as a passage, and a passage that
+          never contains a part the table says is in it is the table not being
+          true.
+
+       IT ONLY EVER RESCUES FROM `allowed`, WHICH IS WHAT MAKES IT SAFE. The
+       deliberate long absences in this program are declared in `form.roles`,
+       not drawn -- doomsludge's `the long way home` lists no drums and no bass,
+       so neither is ever in `allowed` there and neither can be dragged back by
+       this. What it restores is only ever a part the movement itself says is
+       playing.
+
+       AND IT LEAVES THE RECORD'S LAST SECTION ALONE, because `thinTo` below is
+       the ending and the ending outranks a rule about the middle. */
+    if(i < form.length - 1){
+      const mvKey2 = sec.mv || sec.fn;
+      if(mvKey2 !== legNow){ legNow = mvKey2; for(const k in heardInLeg) delete heardInLeg[k]; }
+      const lastOfLeg = ((form[i + 1].mv || form[i + 1].fn) !== mvKey2);
+      for(const r of allowed){
+        if(!hasArrived(r, sec.endBar)) continue;
+        if(active.includes(r)){ goneFor[r] = 0; heardInLeg[r] = true; continue; }
+        goneFor[r] = (goneFor[r] || 0) + 1;
+        if(goneFor[r] >= 3 || (lastOfLeg && !heardInLeg[r])){
+          active = active.concat([r]);
+          goneFor[r] = 0; heardInLeg[r] = true;
         }
       }
     }
