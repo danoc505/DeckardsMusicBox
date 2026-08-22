@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22g &middot; the kick plays the riff, in every genre and every act</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22h &middot; the mid drum catches the riff too &mdash; and there was never a snare in it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -24000,6 +24000,11 @@ const GENRE = {
              [[0, 4, 8, 12, 14], 1]],        // driving four with a pickup [CHOSEN]
     kit: {
       snare:       [4, 12],    // beats 2 and 4, unanimous across every source read
+      /* AND THE SNARE HERE IS A REAL SNARE ON A REAL BACKBEAT -- 2 and 4,
+         "unanimous across every source read", says the line above. It catches
+         one accent and no more; a synthwave backbeat that chases the arpeggio
+         is not the genre. */
+      followRiffSnare: 1,
       /* ── AND THE KICK PLAYS WHAT THE RIFF PLAYS ──────────────────────
          [owner, 2026-08-22: "Why would you focus on one part when we are
          dealing with WHOLE song issues?" — right, and the first pass declared
@@ -25224,6 +25229,10 @@ const GENRE = {
               strike-steps a bar against the comp's 1.0, and a held chord is not
               a thing a kick can lock to. */
            riffLane: "ostinato",
+           /* the hand drum is the busiest lane this genre has -- 261 hits a
+              record against the kick's 234 -- so it catches one accent, not
+              two. A cavern is not a drum circle. */
+           followRiffSnare: 1,
       /* ── AND THE KICK PLAYS WHAT THE RIFF PLAYS ──────────────────────
          [owner, 2026-08-22: "Why would you focus on one part when we are
          dealing with WHOLE song issues?" — right, and the first pass declared
@@ -28962,6 +28971,10 @@ GENRE.fantasysynth = (function(D){
        together, locking to all of them is a machine. The fight is the leg that
        wants the machine. */
     followRiff: 4,
+    /* the mid taiko catches TWO of the riff's accents on top of its backbeat.
+       Two and not four: the kick already has four, and a mid drum doubling
+       every hit the big drum doubles is not a second voice. */
+    followRiffSnare: 2,
     /* ...AND THE FAMILY DRIVES ON ITS COMP, so `riffLane` stays the default.
        Fantasy synth's own comp is thinner than doom's -- 0.6 strike-steps a bar
        against 2.9 -- and the floor inside buildDrums hands those bars back to
@@ -34094,11 +34107,53 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                      vel: s === 0 ? 1.0
                         : (!twoFeet && !followed) ? 0.9
                         : (s % 4 === 0 ? 0.9 : 0.66), role: "drums" });
+      const snareOn = new Set();
       for(const s of snarePat){
         const st = Array.isArray(s) ? s[0] : s;
+        snareOn.add(st);
         const n = { bar: b, step: st, dur: 1, lane: "snare", vel: 1.0, role: "drums" };
         if(Array.isArray(s) && s[1] === "drag") n.art = "drag";
         notes.push(n);
+      }
+      /* ══ AND THE MID DRUM CATCHES THE RIFF TOO, BY ADDING, NOT REPLACING ═══
+         [owner, 2026-08-22: "Do the snare also. But our genre focuses on the
+         toms not the snare so im not sure if this is correct to worry about the
+         snare. I dont even think we have a snare in the kits"]
+
+         HALF RIGHT, AND THE HALF THAT IS RIGHT MATTERS. There is no wire snare
+         anywhere in this family: the lane called `snare` holds `tkMid` -- the
+         mid taiko -- or `erangDrum`, a hand drum. Counted over six seeds a
+         genre, hits per record:
+
+           doomsludge    hat 1199   kick 1006   "snare" 685   toms 481 all told
+           dungeonsynth  "snare" 261   kick 234   hat 123   toms 139
+
+         So the lane is misnamed and it is also the third busiest thing in the
+         kit -- bigger than all three toms together, and in dungeon synth the
+         busiest lane there is. Worth locking; worth locking CAREFULLY.
+
+         AND IT ADDS RATHER THAN REPLACES, which is where it differs from the
+         kick above. The kick's pocket is a pulse and a riff can stand in for a
+         pulse. `snarePocket` is a BACKBEAT -- the thing that says where the bar
+         is -- and a backbeat that moves to wherever the guitar went has stopped
+         being one. So the pocket plays in full and the riff's accents are laid
+         on top of it, which is what a drummer catching a figure actually does:
+         he does not stop keeping time to do it.
+
+         `followRiffSnare` is how many accents it may catch, and it is a smaller
+         number than the kick's by default because two drums doubling every hit
+         of a riff is one drum with a chorus on it. */
+      if(K.followRiffSnare && rAcc && rAcc.size >= 2){
+        let added = 0;
+        for(const st of [...rAcc].sort((x, y) => x - y)){
+          if(added >= K.followRiffSnare) break;
+          if(snareOn.has(st) || st === 0) continue;   /* already there, or the kick's */
+          snareOn.add(st); added++;
+          notes.push({ bar: b, step: st, dur: 1, lane: "snare",
+                       /* a caught accent is a lighter stroke than the backbeat
+                          it is decorating, for the reason the second foot is */
+                       vel: st % 4 === 0 ? 0.85 : 0.7, role: "drums" });
+        }
       }
       const hatSteps = [];
       /* `hatEvery: 0` means NO HAT AT ALL, and it has to be said explicitly

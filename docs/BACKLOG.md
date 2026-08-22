@@ -2807,3 +2807,68 @@ The one test: 10 records, 0 threw.
 - **The snare is still untouched**, though the sources name it beside the kick.
 - **`phraseBar` decorates after the kick is placed**, which blurs an intended
   unison. That is why the figures are 80-88% and not higher.
+
+## §0at — the "snare" is a taiko, and it catches the riff by adding (2026-08-22, FIXED)
+
+[owner: *"Do the snare also. But our genre focuses on the toms not the snare so
+im not sure if this is correct to worry about the snare. I dont even think we
+have a snare in the kits"*]
+
+**Half right, and the half that is right matters.** Counted over six seeds a
+genre, hits per record:
+
+```
+  doomsludge     hat 1199   kick 1006   "snare" 685   tom1+2+3 481 all told
+  fantasysynth   hat 1191   kick  847   "snare" 684   toms 475
+  dungeonsynth   "snare" 261   kick 234   hat 123   toms 139
+  lofi           hat 232   kick 99   snare 89   ...   toms 8
+  synthwave      hat 689   kick 231   ride 195   snare 128   ...
+```
+
+**There is no wire snare anywhere in the taiko family.** The lane called `snare`
+holds `tkMid` — the mid taiko — or `erangDrum`, a hand drum. The owner is right
+about that and the name is a lie the file tells itself.
+
+**But it is the third busiest lane in doom sludge and the busiest lane in
+dungeon synth**, and bigger than all three toms put together in both. The toms
+are the *smallest* lanes in the family, not the focus. So it was worth locking.
+
+### IT ADDS, WHERE THE KICK REPLACES
+
+`followRiffSnare` lays riff accents **on top of** `snarePocket` instead of
+replacing it. The kick's pocket is a pulse and a riff can stand in for a pulse;
+a backbeat is the thing that says where the bar is, and one that moves to
+wherever the guitar went has stopped being one. A drummer catching a figure does
+not stop keeping time to do it.
+
+Declared: doom sludge and fantasy synth 2, dungeon synth 1 (its hand drum is
+already the busiest lane it has), synthwave 1 (a real snare on a real backbeat —
+"2 and 4, unanimous across every source read"), lofi none.
+
+### MEASURED — the mid-drum lane, off-beat hits landing on a riff note
+
+```
+  genre          before          after
+  doomsludge     33%  1.46x      60%  2.54x
+  synthwave      17%  0.58x      73%  1.66x    <- it was AVOIDING the riff
+  lofi           55%  1.08x      unchanged, not declared
+  dungeonsynth / fantasysynth    their figure never syncopates — unreadable
+```
+
+Printout, doomsludge seed 1 bar 204 — backbeat kept, accent caught:
+
+```
+  keys   |*--**-*-*--**--.|   riff at 0, 3, 4, 6, 8, 11, 12
+  kick   |x..xx.x.x..x....|   follows the riff
+  snare  |....x.x.....x...|   pocket 4 and 12 kept, 6 caught from the riff
+```
+
+### STILL OWED
+
+- **The lane should be renamed.** Calling a taiko a snare is the same class of
+  defect as a table that lies about the music, which this file checks for
+  everywhere else.
+- **The toms are untouched** and are the genre's smallest lanes despite being
+  what it is thought of as leaning on. Whether that gap is the fault is a
+  separate question nobody has measured.
+- Dungeon synth and fantasy synth still cannot be READ by this test.
