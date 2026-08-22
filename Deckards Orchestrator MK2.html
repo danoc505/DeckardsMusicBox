@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22k &middot; the third act can come back changed &mdash; and the speaker is a speaker</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22l &middot; the drone plays &mdash; a note that starts before zero had not gone</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -21829,7 +21829,47 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
        song zero rather than restarting the automation */
     liveT0 = t0; liveSound = { space, kick, drumDrive, gate, motion };
     let i = 0;
-    while(i < events.length && events[i].tSec < skip) i++;
+    /* ══ AND THE GROUND WAS ALREADY RINGING WHEN THE NEEDLE LANDED ═══════════
+       [owner: "I just played a random seed and NO DRONE WORKING."]
+
+       THIS LINE ATE THE DRONE, and the mid-flight rule below — written for
+       exactly this fault, under exactly this complaint — could never see it.
+       That rule lives in the PUMP, and the pump only judges events this loop
+       has left in the stream. Anything fast-forwarded past here is gone before
+       the question is asked.
+
+       Two ways it lost the ground, and the first is the one a random seed hits:
+
+       1. `tSec < skip` WITH `skip` AT ZERO STILL SKIPS. Humanising moves every
+          onset a few milliseconds either way, so the drone's own start lands on
+          either side of song zero on a coin. MEASURED by instrumenting
+          `dispatch` and driving the real play button, doomsludge seed 2: the
+          drone is events 0 and 1 at `tSec = -0.01`, and the dispatch log for
+          three seconds of playback reads `tape|tape`, `tape|atmos`,
+          `weather|atmos` and NOTHING ELSE. Not dispatched, not dropped as late,
+          no error — a ten-millisecond head start on a twenty-minute note was
+          read as "this moment has passed". That is why it renders and does not
+          play: `perform` walks every event and has no skip at all.
+
+       2. SEEKING PAST A NOTE THAT IS STILL SOUNDING. Start at 400 s and the
+          ground that began at zero and runs for 1246 s is fast-forwarded past
+          here, so the record plays the rest of its length with no floor. The
+          comment below says this was fixed. It was fixed for a STALL and never
+          for a SEEK, and nothing measured the difference.
+
+       So the skip asks the same question the pump asks: not "has it started"
+       but "is it still sounding". Anything genuinely finished is skipped as
+       before and costs nothing; anything still ringing is carried and struck at
+       the needle with what is left of its life, which is what walking into a
+       room where a note is already going sounds like. Same threshold as the
+       pump's rule, deliberately — only a note longer than the horizon can be
+       caught, so nothing percussive and nothing melodic is ever revived late. */
+    const carry = [];
+    while(i < events.length && events[i].tSec < skip){
+      const e = events[i], dur = e.durSec || 0, left = (e.tSec + dur) - skip;
+      if(dur > 1.2 && left > 1.2) carry.push([e, left]);
+      i++;
+    }
     lateDropped = 0;
     legatoHeld = {}; legatoTied = {};
     /* ── THE PUMP, AND THE ONE RULE THAT KEEPS IT FROM EXPLODING ─────────────
@@ -21933,6 +21973,15 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
       }
       if(i >= events.length){ clearInterval(liveTimer); liveTimer = null; }
     };
+    /* struck at the needle, before the first tick, so the floor is under the
+       record from its first instant rather than from its second */
+    for(const [e, left] of carry){
+      const at = ctx.currentTime + 0.02;
+      const mid = Object.freeze(Object.assign({}, e,
+                    { tSec: at - t0, durSec: left, midFlight: true }));
+      dispatch(liveGraph, mid, at, liveHandles);
+      if(onEvent){ try { onEvent(mid, at); } catch(err){} }
+    }
     pump();
     liveTimer = setInterval(pump, 100);
     return t0;

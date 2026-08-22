@@ -3250,3 +3250,90 @@ stop at the same place.
 Nothing below 3 kHz moves by half a decibel. It is the fizz band and only the
 fizz band. No drive, level or gyrator setting was touched: the chainsaw keeps
 its teeth and loses its fizz.
+
+---
+
+## §0az — the drone never reached the live graph, and the fix for it could not see it (2026-08-22, FIXED)
+
+[owner: *"I just played a random seed and NO DRONE WORKING."*]
+
+### THE SYMPTOM THAT MISLED ME
+
+§0av fixed a real fault — the drone lane was drawing a string section — and I
+verified it by **rendering the drone alone**: RMS 0.031, it sounds. That check
+could not have failed, because the offline renderer was never the broken path.
+
+`perform` walks every event and has no skip at all. `playLive` has one.
+
+### MEASURED — driving the real play button with `dispatch` instrumented
+
+doomsludge seed 2, three seconds of live playback. Everything dispatched:
+
+```
+   tape|tape        1
+   tape|atmos       1
+   weather|atmos    1
+```
+
+And nothing else. The drone is events **0 and 1** of the array. Not dispatched,
+not counted as dropped, no error thrown. The live channel list confirms it from
+the other side — `bass|bass`, `bass|contrabassoon`, `keys|horns`,
+`lead|bassOboe` all exist after playback; **there is no `drone|dronebox`.**
+
+### THE LINE
+
+```js
+    let i = 0;
+    while(i < events.length && events[i].tSec < skip) i++;    // skip = 0
+```
+
+The drone's `tSec` is **-0.01**. Humanising moves every onset a few milliseconds
+either way, so the ground's own start lands on either side of song zero **on a
+coin** — which is exactly why it worked on some seeds and not others, and why a
+random seed found it when three fixed ones had not.
+
+A ten-millisecond head start on a twenty-minute note was read as *"this moment
+has passed."*
+
+### AND THE RULE WRITTEN FOR THIS FAULT COULD NEVER FIRE
+
+The pump already carries a mid-flight rule, added under the owner's *"now the
+drone makes zero noise"*, whose comment states the case exactly: *"A GROUND THAT
+STARTS AT ZERO AND LASTS TEN MINUTES HAS MEANING AT EVERY INSTANT OF THOSE TEN
+MINUTES, and playing the record from anywhere but its first second dropped it for
+the whole rest of the record."*
+
+That rule lives in the **pump**, and the pump only judges events the skip loop
+has left in the stream. It was fixed for a **stall** and never for a **seek**,
+and nothing measured the difference. Two builds carried a comment claiming a fix
+that the line above it had already made unreachable.
+
+### THE FIX
+
+The skip asks the same question the pump asks — not *"has it started"* but *"is
+it still sounding"*. Anything genuinely finished is skipped as before; anything
+still ringing is carried and struck at the needle with what is left of its life.
+Same threshold as the pump's rule, so nothing percussive or melodic is revived
+late.
+
+### MEASURED — the drone bus meter during live playback
+
+```
+  seed / start        before      after
+  seed 2, from 0 s     0.0%        7.3%
+  seed 2, from 400 s   0.0%       14.2%
+  seed 1, from 0 s     0.0%        7.8%
+  seed 1, from 400 s   0.0%       11.7%
+```
+
+Composition is **byte-identical** across all 60 hash records — this touches
+playback only. 600-record sweep: 3 throws before, the same 3 after.
+
+### THE LESSON, AND IT IS THE SECOND TIME THIS WEEK
+
+§0aw: a feature that measured right in the materials and byte-identical in the
+performance did not exist. This one measured right in the **render** and silent
+in **playback**. Both times the check I ran was on the wrong side of the seam
+from the thing the owner was listening to. A drone verified by `renderWav` says
+nothing at all about whether pressing play produces a drone, and the harness has
+no live-playback probe. That gap is what let two builds ship.
