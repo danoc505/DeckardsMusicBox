@@ -2639,7 +2639,7 @@ Not investigated further. It is 0.33% of records, it fails loudly rather than
 silently, and it wants someone reading `deriveCounter` and the `Bdev` derivation
 with the printout open — which is a different session's work from this one.
 
-## §0ar — the kick and the riff were two parts that met by accident (2026-08-22, FIXED for the fight)
+## §0ar — the kick and the riff were two parts that met by accident (2026-08-22, FIXED song-wide)
 
 [owner: *"I think your wrong and you need to use the web to back yourself up.
 The drums have to adhear to what the rest of the song is doing and vis versa
@@ -2728,3 +2728,82 @@ alone**, before any genre declared `followRiff`.
 - **The phrase and arc decoration blurs the lock.** `phraseBar` adds hits after
   the kick is placed, so a bar that should be exact unison prints a few extra.
   That is why the figure is 67% and not higher.
+
+## §0as — and it was one leg of one genre, which was the wrong scope (2026-08-22, FIXED)
+
+[owner: *"Why would you focus on one part when we are dealing with WHOLE song
+issues?"*]
+
+Fair. §0ar declared `followRiff` on `the fight` alone — one quarter of one
+genre, against a complaint that was never about one act. Rolled out.
+
+### AND "THE RIFF" IS NOT THE SAME LANE IN EVERY GENRE
+
+MEASURED, distinct strike-steps a bar, which is what *carries the rhythm* means
+when you count it:
+
+```
+  genre           keys  ostinato
+  lofi             7.5     0.0
+  doomsludge       2.9     1.2     <- the comp is the riff
+  synthwave        8.2    15.9
+  dungeonsynth     1.0     3.2     <- the FIGURE is the riff
+  fantasysynth     0.6     1.8     <- and here too
+```
+
+Defaulting every genre to `keys` was a lofi habit — the same shape of mistake
+`theme.count` records two thousand lines up. `kit.riffLane` is declared now and
+`keys` is only the default.
+
+**And an inherited default is still a default.** `riffLane: "ostinato"` sits on
+dungeon synth and is inherited by fantasy synth (correctly — 1.8 against 0.6)
+and by doom sludge (**wrongly** — 2.9 against 1.2). Caught by measurement rather
+than by reading: with the inherited value the fight's off-beat kicks fell from
+1,172 to 92 and the lock from 3.42x to 1.57x, because the kick was pointed at
+the sparser lane and the floor then handed most bars back to the pocket. Doom
+sludge overrides it back to `keys`.
+
+### AND A BAR THE RIFF BARELY TOUCHES KEEPS ITS OWN PULSE
+
+A floor of **two accents**. Below that the bar is not a riff to lock to, it is a
+held chord, and the kit plays the pocket it would have played. This file has
+already learned that lesson expensively: `kickKeep: 1` on the descent *"took the
+kick down to ONE HIT A BAR and left the leg with a tom run and no pulse at
+all"*. The floor is what makes this safe to declare on a sparse genre.
+
+### MEASURED, each genre against ITS OWN riff lane
+
+Off-beat kicks only — everybody hits beat one, so agreement there proves nothing.
+
+```
+  genre          lane        off-beat kicks   on a riff note   chance   ratio
+  lofi           keys              438            90%           51%     1.76x   (untouched)
+  synthwave      keys              990            88%           41%     2.12x   (was 1.41x)
+  doomsludge     keys             1172            80%           23%     3.42x   (was 1.26x)
+  dungeonsynth   ostinato    its figure never syncopates — nothing off-beat to lock to
+  fantasysynth   ostinato    same
+```
+
+### LOFI IS DELIBERATELY LEFT ALONE
+
+It was already the most locked kit in the file at **1.76x**, the best number
+there was, because a laid-back kick and a comp sharing their accents is most of
+what the style already is. Declaring 4 was tried and measured: off-beat kicks
+doubled (438 → 865) and the ratio **fell to 1.56x** — more of the kit locked in
+absolute terms and less in proportion, which is a change and not an improvement.
+A genre that measures healthy does not get operated on.
+
+### COST
+
+48 of 60 records changed — every genre but lofi. Throws unchanged at 3 in 600.
+The one test: 10 records, 0 threw.
+
+### STILL OWED
+
+- **Dungeon synth and fantasy synth cannot be read by this test**, because their
+  figures only strike on the beat. The declaration is in place and changes their
+  records, but whether it helps them is unmeasured — it needs a test that reads
+  on-beat agreement against a proper baseline.
+- **The snare is still untouched**, though the sources name it beside the kick.
+- **`phraseBar` decorates after the kick is placed**, which blurs an intended
+  unison. That is why the figures are 80-88% and not higher.

@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22f &middot; the kick plays the riff &mdash; the fight stops being two parts that meet by accident</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22g &middot; the kick plays the riff, in every genre and every act</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22489,6 +22489,18 @@ const GENRE = {
     compEntry: [[0, 5], [-2, 4], [2, 3], [-1, 2], [1, 2]],
     kit: {
       snare:       [4, 12],            // the backbeat, as sixteenth indices
+      /* ── AND THIS GENRE IS LEFT ALONE, ON THE MEASUREMENT ────────────────
+         `followRiff` is declared on every other genre and NOT here. Lofi was
+         already the most locked kit in the file -- 90% of its off-beat kicks
+         landed on a comp note against 51% by chance, 1.76x, the best number
+         there was -- because a laid-back kick and a comp that share their
+         accents is most of what the style already IS.
+
+         Declaring 4 here was tried and MEASURED: the off-beat kicks doubled,
+         438 to 865, and the ratio fell to 1.56x. More of the kit locked in
+         absolute terms and less of it in proportion, which is a change and not
+         an improvement. The complaint that started this work was never about
+         lofi. A genre that measures healthy does not get operated on. */
       hatEvery:    2,                  // straight eighths
       hatVel:      0.62,
       ghostChance: 0.55,
@@ -23988,6 +24000,28 @@ const GENRE = {
              [[0, 4, 8, 12, 14], 1]],        // driving four with a pickup [CHOSEN]
     kit: {
       snare:       [4, 12],    // beats 2 and 4, unanimous across every source read
+      /* ── AND THE KICK PLAYS WHAT THE RIFF PLAYS ──────────────────────
+         [owner, 2026-08-22: "Why would you focus on one part when we are
+         dealing with WHOLE song issues?" — right, and the first pass declared
+         this on one leg of one genre.]
+
+         `followRiff` is how many of the riff's own accents the kick doubles in
+         a bar. The sources: mathcore's "kicks are orchestrated to MIRROR OR
+         CONTRADICT guitar groupings" [corpus:lyricassistant], metal's "the kick
+         and snare pattern ... closely follows the main riff"
+         [corpus:wikipedia heavy metal drumming].
+
+         MEASURED, and the test is the SYNCOPATIONS -- everybody hits beat one,
+         so agreement there proves nothing. Off-beat kicks landing on a riff
+         note, against what chance alone would give: synthwave 60% against 43% by chance, 1.41x
+
+         1.41x -- there was a relationship and it was weak. The four-on-the
+         -floor pulse is the genre's spine and `snare` keeps the backbeat, so
+         what moves here is only which of the riff's hits the foot picks up.
+
+         A bar the riff strikes fewer than twice keeps the kit's own pocket, so
+         this cannot thin a sparse genre out. */
+      followRiff:  4,
       hatEvery:    2,
       hatVel:      0.58,       // [tut:native-instruments] their walkthrough programs hats at 74/127
       ghostChance: 0.10,       // [tut:modeaudio] "virtually no velocity deviation is used"
@@ -25186,6 +25220,34 @@ const GENRE = {
        "when used, it tends toward martial snare patterns or timpani rolls
        rather than driving drum kits" [corpus:melodigging] */
     kit: { snare: [8], hatEvery: 16, hatVel: 0.1, ghostChance: 0,
+           /* THE FIGURE IS THIS GENRE'S RIFF, not the comp: measured at 3.2
+              strike-steps a bar against the comp's 1.0, and a held chord is not
+              a thing a kick can lock to. */
+           riffLane: "ostinato",
+      /* ── AND THE KICK PLAYS WHAT THE RIFF PLAYS ──────────────────────
+         [owner, 2026-08-22: "Why would you focus on one part when we are
+         dealing with WHOLE song issues?" — right, and the first pass declared
+         this on one leg of one genre.]
+
+         `followRiff` is how many of the riff's own accents the kick doubles in
+         a bar. The sources: mathcore's "kicks are orchestrated to MIRROR OR
+         CONTRADICT guitar groupings" [corpus:lyricassistant], metal's "the kick
+         and snare pattern ... closely follows the main riff"
+         [corpus:wikipedia heavy metal drumming].
+
+         MEASURED, and the test is the SYNCOPATIONS -- everybody hits beat one,
+         so agreement there proves nothing. Off-beat kicks landing on a riff
+         note, against what chance alone would give: dungeon synth 1% against 5% by chance, 0.19x
+
+         THE WORST NUMBER IN THE FILE, and it is below 1.0: this genre's
+         kick was actively AVOIDING the riff, landing on a riff note less often
+         than a coin would. Two, because the genre writes one or two notes a bar
+         and the floor above will hand most bars back to the pocket anyway.
+
+         A bar the riff strikes fewer than twice keeps the kit's own pocket, so
+         this cannot thin a sparse genre out. */
+      followRiff:  2,
+
            /* ── THE HAND DRUM LEARNS ITS FIGURES ────────────────────────────
               The snare lane here is the Erang percussion sampler -- a dark
               hand drum, not a wire snare -- and it played [8], one strike a
@@ -28884,6 +28946,27 @@ GENRE.fantasysynth = (function(D){
      inherits `keysStyle: "hold"`, so its first keyboard is a pad and the
      comping vocabulary is gated out of it. See the parent's note. */
   kit: merge(D.kit, {
+    /* ── AND THE WHOLE RECORD'S KICK PLAYS THE RIFF, NOT JUST THE FIGHT ────
+       [owner, 2026-08-22: "Why would you focus on one part when we are dealing
+       with WHOLE song issues?"]
+
+       The first pass declared `followRiff` on `the fight` alone, which left
+       three legs of the record with a kick drawn without reference to the
+       guitar. It is declared on the family's BASE kit now, so every material's
+       kick doubles its own material's riff, and a leg that wants a different
+       count says so in its own entry below.
+
+       Four here against the fight's six: the acts either side of it are the
+       slow ones, and the sources' "mirror OR CONTRADICT" is the whole point --
+       a doom leg locking to four of the riff's accents is a band moving
+       together, locking to all of them is a machine. The fight is the leg that
+       wants the machine. */
+    followRiff: 4,
+    /* ...AND THE FAMILY DRIVES ON ITS COMP, so `riffLane` stays the default.
+       Fantasy synth's own comp is thinner than doom's -- 0.6 strike-steps a bar
+       against 2.9 -- and the floor inside buildDrums hands those bars back to
+       the pocket rather than locking a kick to a held chord. That is the guard
+       working, not the declaration failing. */
     /* ── A TIME-KEEPING LANE, WHICH THIS FAMILY HAS NEVER HAD ──────────────
        `hatEvery: 16` is one tick a bar and the parent means it. Here the lane
        is the taiko KA -- the rim of the drum, struck with the stick -- and
@@ -29605,6 +29688,19 @@ GENRE.doomsludge = (function(F){
     thinTo: [3, 4],
   }),
   theme: merge(F.theme, { carry: true }),
+  /* ── AND THIS GENRE'S RIFF IS ITS COMP, WHICH THE PARENT'S IS NOT ────────
+     `riffLane: "ostinato"` is declared three genres up, on dungeon synth, and
+     inherited all the way down here -- correctly for fantasy synth, whose
+     figure carries 1.8 strike-steps a bar against its comp's 0.6, and WRONGLY
+     for this one, whose comp carries 2.9 against the figure's 1.2. Caught by
+     measurement, not by reading: with the inherited value the fight's off-beat
+     kicks fell from 1,172 to 92 and the lock from 3.42x to 1.57x, because the
+     kick was being pointed at the sparser of the two lanes and the floor inside
+     `buildDrums` then handed most bars back to the pocket.
+
+     An inherited default is still a default. This genre's chug is the thing the
+     kit locks to and it says so itself. */
+  kit: merge(F.kit, { riffLane: "keys" }),
   keysStyleAt: { A: "hold", C: "comp", B: "comp", lift: "comp" },
   compEntry: [[-2, 5], [2, 4], [-1, 3], [0, 3], [1, 2], [3, 2]],
   ostinato: merge(F.ostinato, {
@@ -33978,8 +34074,17 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          pocket it always got, to the step. */
       let kickSteps = kickPat.slice(0, K.kickKeep);
       let followed = false;
-      if(K.followRiff && riffAt[b % BARS] && riffAt[b % BARS].size){
-        const acc = [...riffAt[b % BARS]].sort((x, y) => x - y)
+      const rAcc = riffAt[b % BARS];
+      /* ── AND A BAR THE RIFF BARELY TOUCHES KEEPS ITS OWN PULSE ────────────
+         Following a riff that strikes once in a bar would leave the kick with
+         one hit in it, and this file has already learned that lesson the
+         expensive way: `kickKeep: 1` on the descent "took the kick down to ONE
+         HIT A BAR and left the leg with a tom run and no pulse at all". The
+         floor is TWO accents -- below that the bar is not a riff to lock to,
+         it is a held chord, and the kit keeps the pocket it would have played.
+         That is what makes this safe to declare on a sparse genre. */
+      if(K.followRiff && rAcc && rAcc.size >= 2){
+        const acc = [...rAcc].sort((x, y) => x - y)
                       .slice(0, Math.max(1, K.followRiff));
         if(acc.indexOf(0) < 0) acc.unshift(0);       /* the kit keeps its downbeat */
         kickSteps = acc; followed = true;
@@ -39611,11 +39716,29 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      and `buildDrums` touches neither `placed` nor `reserved`, so going later
      cannot take a seat from a pitched part. A genre that does not declare
      `followRiff` is byte-identical across the move, and that is the proof. */
-  const drumsA = pin(buildDrums("drums", "main", null, null, keysA), "drums", "A");
-  const drumsAvar = pin(buildDrums("drums:var", "main", DRUM_PHRASE_END, null, keysAvar), "drums", "Avar");
-  const drumsB = pin(buildDrums("drumsB", "lift", null, null, keysB), "drums", "B");
-  const drumsBvar = pin(buildDrums("drumsB:var", "lift", DRUM_PHRASE_END, null, keysBvar), "drums", "Bvar");
-  const drumsC = pin(buildDrums("drumsC", "depart", null, null, keysC), "drums", "C");
+  /* ── AND WHICH LANE IS "THE RIFF" IS THE GENRE'S TO SAY ──────────────────
+     MEASURED, distinct strike-steps a bar, which is what "carries the rhythm"
+     means when you count it:
+
+       genre           keys  ostinato
+       lofi             7.5     0.0
+       doomsludge       2.9     1.2      <- the comp is the riff
+       synthwave        8.2    15.9
+       dungeonsynth     1.0     3.2      <- the FIGURE is the riff
+       fantasysynth     0.6     1.8      <- and here too
+
+     Doom sludge and lofi drive on the comp; dungeon synth and fantasy synth
+     drive on the figure and their comp is a held chord that a kick cannot lock
+     to at all. Defaulting every genre to `keys` was a lofi habit -- the same
+     shape of mistake `theme.count` records two thousand lines up -- so the lane
+     is declared and `keys` is only the default. */
+  const riffLane = (G.kit && G.kit.riffLane) === "ostinato";
+  const riffOf = (k, o) => riffLane ? o : k;
+  const drumsA = pin(buildDrums("drums", "main", null, null, riffOf(keysA, ostA)), "drums", "A");
+  const drumsAvar = pin(buildDrums("drums:var", "main", DRUM_PHRASE_END, null, riffOf(keysAvar, ostAvar)), "drums", "Avar");
+  const drumsB = pin(buildDrums("drumsB", "lift", null, null, riffOf(keysB, ostB)), "drums", "B");
+  const drumsBvar = pin(buildDrums("drumsB:var", "lift", DRUM_PHRASE_END, null, riffOf(keysBvar, ostB)), "drums", "Bvar");
+  const drumsC = pin(buildDrums("drumsC", "depart", null, null, riffOf(keysC, ostC)), "drums", "C");
 
   const bassCTakes = takesOf("bass", "C", bassC,
                        t => pin(buildBass(bridgeChords, "bass:" + t, true, "C"), "bass", "C"));
@@ -40504,7 +40627,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          path was the one road where the two came apart again -- and the fight
          is reached through this road, so it was the one that mattered. */
       cur.drums = pin(buildDrums("drums:arc:" + tag, drumVariantOf(a.mat),
-                                 drumPhraseOf(a.mat), a.arc, base.keys), "drums", drumBaseOf(a.mat));
+                                 drumPhraseOf(a.mat), a.arc,
+                                 (G.kit && G.kit.riffLane === "ostinato") ? base.ostinato : base.keys),
+                      "drums", drumBaseOf(a.mat));
       materials[key] = cur;
     }
   }
