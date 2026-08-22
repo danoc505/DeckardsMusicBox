@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-21j &middot; solos, duels, and the rule of three at the loop level &mdash; 1,462 duplicate notes gone</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22a &middot; the sag comes off the board &mdash; the last pedal added is the first one out</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -12441,6 +12441,23 @@ registerProcessor("mk2-room", MK2Room);
        stacking a Fuzz Face into a Muff is the ordinary sludge move and not the
        reverse; the Face is the raw one and the Muff is the compressor and the
        tone stack after it. */
+    /* ── AND THE SAG IS OFF THE BOARD ──────────────────────────────────────
+       [owner, 2026-08-21: "There was an issue with the most recent effects
+       units the program is stuttering upon playback" ... "Disconnect the last
+       fx unit"]
+
+       The sag was the last unit built — `the chainsaw and the sag`, the commit
+       that closed the pedalboard — and it is the one taken back out. It is
+       DISCONNECTED, NOT DELETED. `makeSag`, `setSag`, the `mk2-sag` worklet,
+       the rack panel and every `sag:` block in the genre tables are all still
+       here and all still correct; the doom, sludge and fight acts still declare
+       the settings they declared. Putting the pedal back on the board is this
+       one flag, which is what a pedal being off a board actually is.
+
+       It is a FLAG and not a deletion for the reason the boxcar teardown
+       records from the other side: research and voicing are expensive to
+       recover and a signal path is cheap to reconnect. */
+    g.SAG_ON_BOARD = false;
     g.makeBoard = function(spec){
       const S = spec || { comp: true, sub: true, oct: true, meat: true,
                           fuzz: true, saw: true, sag: true, phase: true };
@@ -12458,7 +12475,8 @@ registerProcessor("mk2-room", MK2Room);
          THE SAG LAST OF THE DIRT, because a supply squishes what the circuit
          in front of it is drawing -- see its own note on why it is a stage. */
       if(S.saw)   { bd.saw   = g.makeSaw();    chain.push(bd.saw); }
-      if(S.sag)   { bd.sag   = g.makeSag();    chain.push(bd.sag); }
+      if(S.sag && g.SAG_ON_BOARD)
+                  { bd.sag   = g.makeSag();    chain.push(bd.sag); }
       if(S.phase) { bd.phase = g.makePhase();  chain.push(bd.phase); }
       if(!chain.length){                       // nothing on: a wire
         const w = c.createGain(); w.gain.value = 1;

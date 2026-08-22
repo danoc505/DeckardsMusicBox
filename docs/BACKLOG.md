@@ -2196,6 +2196,11 @@ excerpt; the live graph schedules voices as they arrive. The offline figure is
 the honest worst case and the right thing to watch, but a 0.61x here is not
 proof the page stutters — that has to be measured live, and has not been.
 
+> **MEASURED LIVE 2026-08-22, and this caveat is now answered: §0al.** The page
+> does stutter, in exactly one act. The guesses in the paragraph above were
+> wrong in their shape — the cost is not one expensive subsystem, it is nine
+> hundred cheap nodes plus one part.
+
 ## §0ai — a backtick in a worklet comment kills the page silently (2026-08-21, GUARDED)
 
 `RACK_DSP` and `ROOM_FDN` are template literals holding AudioWorklet source. A
@@ -2265,3 +2270,108 @@ What is still owed is a frequency-slot decision, not another fader:
 - or move the drone off the bass's octave.
 
 Named here rather than left as "improved a bit".
+
+## §0al — the stutter, measured live at last, and what it actually is (2026-08-22)
+
+[owner: *"There was an issue with the most recent effects units the program is
+stuttering upon playback"*, then *"Disconnect the last fx unit"*]
+
+§0ah ended by saying its own 0.61x was not proof the page stutters and that
+someone had to measure it live. `harness/mk2_cost.js --live` does that: it
+drives the real play button, starts the record at a named second and watches the
+audio clock against the wall clock. A context that keeps up reads 1.000; one
+that cannot reads short, and the shortfall IS the dropout.
+
+```
+  lofi          t= 30    1.000        every genre, and three of doomsludge's
+  synthwave     t= 60    1.000        four acts, keep up exactly
+  dungeonsynth  t=120    1.001
+  doomsludge    t=270    1.002   doom
+  doomsludge    t=428    1.002   sludge
+  doomsludge    t=655    0.886   THE FIGHT   <-- the stutter, and only here
+  doomsludge    t=942    1.004   walk home
+```
+
+**The stutter is one act of one genre.** Roughly one playback second in eight
+is not rendered in the fight act, which is what "stuttering" describes.
+
+### AND THE FIRST TWO ATTEMPTS TO ATTRIBUTE IT WERE NOISE
+
+Wall-clock timing on this container swings ±25% run to run. It produced a build
+comparison that was monotone and convincing and, three runs later, was not; and
+a role ablation in which **removing the drums made the record slower**, which is
+not a thing that can happen. Anything measured that way — including any
+before/after in this file — is a number wearing a result's clothes.
+
+So `mk2_cost.js` counts **CPU-seconds per audio-second** off `/proc`, summed
+over the whole chrome process tree. Another process competing for a core changes
+how LONG a render takes and not how MUCH of a core it burns. Stable to ~3%.
+1.0 is one whole core, and Web Audio renders a graph on one thread.
+
+### WHAT THE FIGHT ACT IS MADE OF
+
+```
+  doom       t=270   1.19          the four acts
+  sludge     t=428   1.15
+  THE FIGHT  t=655   1.89
+  walk home  t=942   1.17
+  lofi       t= 30   1.19
+```
+
+**Read the walk home again: ten events in ten seconds, and it costs what lofi's
+hundred and thirty-two costs.** About **1.15 is a FLOOR paid before a note
+sounds** — strips, buses, returns, the matrix, two worklets: some nine hundred
+nodes standing still. That is 60% of the fight act and 97% of the walk home,
+and **every genre pays it**.
+
+Nothing in the floor is worth more than a tenth of it. Substituting a plain gain
+for each node type in turn: 38 meter taps 6%, the two convolvers 9%, the four
+compressors 6%, the waveshapers 7%. **It is not one expensive thing; it is nine
+hundred cheap ones**, so there is no single fix in there — only fewer nodes.
+
+The other 40% is **one part**. Dropping each role from the fight:
+
+```
+  no keys        1.23     <- the entire variable cost, in one part
+  no drums       2.16     (baseline 2.18)
+  no bass        2.34
+  no ostinato    2.03
+  no keys2       2.08
+```
+
+`keys` plays four-note chords on `horns` five to seven times a bar there, and
+`V.horns` builds **six sawtooth oscillators per note** — one strike of that
+chord is twenty-four oscillators, and they overlap. The printout shows it plainly
+at bar 220: `C#3 G#3 C#4 G#4` struck at steps 0, 6, 8, 11 and 12. Musically it
+is a power chord tremolo and it is right for the act. It is also the fight act.
+
+### WHAT THE PEDALS ACTUALLY COST, AND WHAT WAS DONE
+
+The owner named the effects units, and they are a real cost but a small one:
+every pedal switched off is ~0.17 of 2.18, about **8%**. The **sag alone is
+5.3%** (1.883 -> 1.778, consistent across three paired runs).
+
+**The sag is disconnected** at the owner's instruction — `g.SAG_ON_BOARD`, one
+flag in `makeBoard`. It is disconnected and NOT deleted: `makeSag`, `setSag`,
+the `mk2-sag` worklet, the rack panel and all three `sag:` blocks in the
+doomsludge table are still here and still correct. Both `mk2-sag` worklet nodes
+are gone from the graph; lofi, dungeon synth and fantasy synth null at 1-3 LSB
+and synthwave's 44 is exactly its own same-build repeat-render floor, measured
+in the same run (its floor is bigger than the 25 LSB previously quoted).
+
+### STILL OWED, AND NAMED SO IT IS NOT MISTAKEN FOR DONE
+
+**The fight act still does not play.** 1.78 cpu-s per audio-second where one
+thread has 1.0. Taking the sag off recovered 5.3% of a gap that needs about 45%.
+The two honest routes, neither of them this session's to choose:
+
+1. **Fewer nodes in the floor.** Nine hundred standing still, no single one
+   dominant. Real, structural, helps every genre and every act.
+2. **The fight act's `keys` part.** Twenty-four oscillators a strike is the
+   whole variable cost. Thinning it — fewer flankers at high `section`, or a
+   narrower chord — is a MUSICAL decision and belongs to the owner.
+
+One thing that is NOT a route, and was tried: `V.horns` stops its oscillators
+1.4 s after the note while the amp envelope has finished at 0.22 s. Cutting the
+tail to 0.35 s measured within the noise. It is still a waste of a second of six
+oscillators and worth fixing on its own merits; it is not the stutter.
