@@ -2638,3 +2638,93 @@ material along.
 Not investigated further. It is 0.33% of records, it fails loudly rather than
 silently, and it wants someone reading `deriveCounter` and the `Bdev` derivation
 with the printout open — which is a different session's work from this one.
+
+## §0ar — the kick and the riff were two parts that met by accident (2026-08-22, FIXED for the fight)
+
+[owner: *"I think your wrong and you need to use the web to back yourself up.
+The drums have to adhear to what the rest of the song is doing and vis versa
+its not just do what ever."*]
+
+The owner was right and my previous plan was wrong. I had proposed giving the
+drums a small VOCABULARY of bars to reuse — which still treats the kit as an
+independent part doing its own independent thing, only less randomly.
+
+**THE SOURCES SAY IT IS A RELATIONSHIP.** Mathcore: *"kicks are orchestrated to
+mirror or contradict guitar groupings"* [corpus:lyricassistant]. Metal
+generally: *"the kick often accentuates key rhythmic parts of the guitar"*
+[corpus:ujam] and *"the kick and snare pattern ... closely follows the main
+riff, which is played on the guitar and doubled by the bass"*
+[corpus:wikipedia heavy metal drumming].
+
+### THE MEASUREMENT THAT SETTLED IT
+
+A bar has 16 slots. Slots 0, 4, 8 and 12 are the beats and every part likes
+those anyway, so agreement there proves nothing. **The test is the
+syncopations**: when the riff plays off the beat, does the kick catch it?
+
+```
+  genre          off-beat kicks landing on a riff note   by chance   ratio
+  lofi                        90%                           51%      1.76x
+  synthwave                   60%                           43%      1.41x
+  doomsludge                  28%                           22%      1.26x
+  dungeonsynth                 1%                            5%      0.19x
+```
+
+**1.0x is no relationship at all.** Doom sludge sat at 1.26x — the riff
+syncopated one way, the kick syncopated another, and they met by accident.
+Dungeon synth's kick actively *avoided* the riff.
+
+### AND A CORRECTION TO §0al's COMPANION RESEARCH
+
+The research doc said Televators' drums repeat and ours do not. **The Televators
+MIDI's "Drumkit" track is hi-hat and ride only — no kick, no snare** — so it
+cannot answer this question at all and should not have been quoted for it. What
+it does show is a small vocabulary: 15 distinct bars over 59, each used ~4
+times, and *no bar ever repeated twice in a row*. Drums change constantly in
+that record too. That was the owner's point and the measurement agrees with him.
+
+### WHAT WAS BUILT
+
+`kit.followRiff` — how many of the riff's own accents the kick doubles in a bar.
+The kit keeps its downbeat whatever the riff does, because that is the kit's and
+not the guitar's. Declared so far on **the fight only**, at 6, which is what
+that leg's comp actually strikes (bar 220: keys on steps 0, 6, 8, 11, 12).
+
+It overrides `kickPattern` there deliberately. HARDCORE_FEET is a good foot
+pattern chosen without reference to the guitar, and a leg whose whole character
+is the band hitting together does not want two good independent parts.
+
+**AND IT FIXES THE REPETITION COMPLAINT FOR FREE**, which is why it is this and
+not a vocabulary of drum bars: if the riff repeats, the kick repeats with it,
+because they are the same pattern.
+
+MEASURED after: doomsludge **28% -> 67%, 1.26x -> 3.04x** across the whole
+record, with the declaration on one leg of four. In the printout at bar 204:
+
+```
+  keys  |*--**-*-*--**--.|   riff accents at 0, 3, 4, 6, 8, 11, 12
+  kick  |x..xx.x.x..x....|   kick        at 0, 3, 4, 6, 8, 11
+```
+
+### THE MOVE THAT MADE IT POSSIBLE, AND THE PROOF IT WAS SAFE
+
+All five `buildDrums` calls used to stand hundreds of lines ABOVE `keysA`. A kick
+that follows the riff cannot be built before the riff exists, so they moved as a
+block to just after `keysC`. Every builder draws from its own named stream, so
+the order of two independent builders is not a fact a record can observe —
+and `buildDrums` touches neither `placed` nor `reserved`, so going later cannot
+take a seat from a pitched part. **Verified: 0 of 60 records changed by the move
+alone**, before any genre declared `followRiff`.
+
+### STILL OWED
+
+- **Three legs of doom sludge and every other genre still have an independent
+  kick.** `setting out` and `into the deep` carry SLUDGE_FEET, a deliberately
+  sparse foot pattern; whether they want the riff instead is a musical call.
+  Dungeon synth's 0.19x — a kick that dodges the riff — is the worst number in
+  the table and is untouched.
+- **The snare is untouched.** The sources say "kick AND SNARE ... follows the
+  main riff"; only the kick does here.
+- **The phrase and arc decoration blurs the lock.** `phraseBar` adds hits after
+  the kick is placed, so a bar that should be exact unison prints a few extra.
+  That is why the figure is 67% and not higher.

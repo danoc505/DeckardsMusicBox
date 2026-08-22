@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22e &middot; one tune, told four ways &mdash; every genre gets a leitmotif that comes back</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22f &middot; the kick plays the riff &mdash; the fight stops being two parts that meet by accident</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -28982,8 +28982,24 @@ GENRE.fantasysynth = (function(D){
            The toms stay high -- this is still the leg the owner asked to be
            "harsher and getting more amped up" -- and they now sit over a foot
            pattern rather than beside a walk. */
+        /* ── AND THE FIGHT'S KICK PLAYS THE RIFF ──────────────────────────
+           [owner: "The drums have to adhear to what the rest of the song is
+           doing and vis versa its not just do what ever."]
+
+           `followRiff: 6` is "double up to six of the riff's own accents in a
+           bar". The sources put it the same way -- mathcore's "kicks are
+           orchestrated to MIRROR OR CONTRADICT guitar groupings"
+           [corpus:lyricassistant], and metal's "the kick and snare pattern
+           closely follows the main riff" [corpus:wikipedia heavy metal
+           drumming] -- and six is what this leg's comp actually strikes: the
+           printout at bar 220 has the keys on steps 0, 6, 8, 11 and 12.
+
+           IT OVERRIDES `kickPattern` HERE, DELIBERATELY. HARDCORE_FEET is a
+           good foot pattern and it is a foot pattern chosen without reference
+           to the guitar. A leg whose whole character is the band hitting
+           together does not want two good independent parts; it wants one. */
         "the fight":     { toms: { loop: 0.85 }, kickKeep: 16, hatVel: 0.22,
-                           hatEvery: 2, kickPattern: HARDCORE_FEET },
+                           hatEvery: 2, kickPattern: HARDCORE_FEET, followRiff: 6 },
         /* no entry for "the long way home": it has no drums, in 0 of 118
            sections over 24 seeds, because its `roles` does not list them. */
       },
@@ -33755,7 +33771,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      and stacked by how far into the song the section sits. It is the THIRD
      layer on the kit and it works exactly like the second one: the drums are
      BUILT this way, never built and then corrected. */
-  function buildDrums(streamName, variant, phrase, arcKit){
+  function buildDrums(streamName, variant, phrase, arcKit, riff){
     /* WHICH GROOVE THIS MATERIAL IS IN. `variant` already says: "main" is the
        verse set, "lift" the chorus, "depart" the bridge. See POCKETS above. */
     const pocket = POCKETS[variant === "lift" ? "B" : variant === "depart" ? "C" : "A"];
@@ -33896,6 +33912,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     const kickPat = K.kickPattern
       ? wpick(stream(chart.seed, "kickPattern:" + streamName), K.kickPattern)
       : pocket;
+    /* which steps the riff strikes, bar by bar. A chord is one accent however
+       many notes it has, so this is a SET of steps and not a count of notes. */
+    const riffAt = {};
+    if(K.followRiff && riff)
+      for(const n of riff)
+        (riffAt[n.bar] = riffAt[n.bar] || new Set()).add(n.step);
     for(let b = 0; b < BARS; b++){
       /* ── THE SECOND FOOT IS NOT AS STRONG AS THE FIRST ────────────────────
          A double pedal's slave beater is lighter and further from the head,
@@ -33914,10 +33936,58 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          wrote it before checking. A kit that has not asked for a foot pattern
          gets the flat 0.9 it has always had, to the number. */
       const twoFeet = !!K.kickPattern;
-      for(const s of kickPat.slice(0, K.kickKeep))
+      /* ══ AND THE KICK PLAYS WHAT THE RIFF PLAYS ══════════════════════════
+         [owner, 2026-08-22: "The drums have to adhear to what the rest of the
+         song is doing and vis versa its not just do what ever."]
+
+         Right, and the sources say it in the same words. Mathcore: "kicks are
+         orchestrated to MIRROR OR CONTRADICT guitar groupings"
+         [corpus:lyricassistant mathcore]. Metal generally: "the kick often
+         accentuates key rhythmic parts of the guitar" [corpus:ujam], and "the
+         kick and snare pattern ... closely follows the main riff, which is
+         played on the guitar and doubled by the bass" [corpus:wikipedia heavy
+         metal drumming]. Either way it is a RELATIONSHIP. What it is not is two
+         parts drawn independently and left to meet by accident.
+
+         MEASURED before this, and the measurement is the argument. A bar has 16
+         slots; slots 0, 4, 8 and 12 are the beats and every part likes those
+         anyway, so agreement there proves nothing. The test is the SYNCOPATIONS:
+         when the riff plays off the beat, does the kick catch it?
+
+           genre          off-beat kicks landing on a riff note   by chance
+           lofi                        90%                          51%
+           synthwave                   60%                          43%
+           doomsludge                  28%                          22%   <- 1.26x
+           dungeonsynth                 1%                           5%   <- 0.19x
+
+         1.0x is no relationship at all. Doom sludge sat at 1.26x -- the riff
+         syncopated one way, the kick syncopated another, and they met by
+         accident. Dungeon synth's kick actively AVOIDED the riff.
+
+         So a kit may now declare `followRiff`: how many of the riff's own
+         accents the kick doubles in a bar. The downbeat stays whatever the riff
+         does, because it is the kit's and not the guitar's, and the velocity
+         shaping is the one the second-foot note above already argues for.
+
+         THIS ALSO FIXES THE REPETITION COMPLAINT FOR FREE, and that is why it
+         is here rather than a vocabulary of drum bars: if the riff repeats, the
+         kick repeats with it, because they are the same pattern. A drum part
+         that echoes the riff cannot be more random than the riff is.
+
+         GATED ON THE DECLARATION [Law 3]: a kit that says nothing gets the
+         pocket it always got, to the step. */
+      let kickSteps = kickPat.slice(0, K.kickKeep);
+      let followed = false;
+      if(K.followRiff && riffAt[b % BARS] && riffAt[b % BARS].size){
+        const acc = [...riffAt[b % BARS]].sort((x, y) => x - y)
+                      .slice(0, Math.max(1, K.followRiff));
+        if(acc.indexOf(0) < 0) acc.unshift(0);       /* the kit keeps its downbeat */
+        kickSteps = acc; followed = true;
+      }
+      for(const s of kickSteps)
         notes.push({ bar: b, step: s, dur: 1, lane: "kick",
                      vel: s === 0 ? 1.0
-                        : !twoFeet ? 0.9
+                        : (!twoFeet && !followed) ? 0.9
                         : (s % 4 === 0 ? 0.9 : 0.66), role: "drums" });
       for(const s of snarePat){
         const st = Array.isArray(s) ? s[0] : s;
@@ -39018,7 +39088,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      needs to know that a bar was typed rather than drawn, and everything
      downstream still proves it. */
   const pin = (notes, role, pat) => applyPins(notes, role, pat, chart.pins);
-  const drumsA = pin(buildDrums("drums", "main"), "drums", "A");
   /* A GENRE WHOSE KIT IS THE TUNE RE-CHOPS FOR Avar. Such a genre has no lead
      and no counter, so `vary(A)` had nothing to redraw and its instrumental came
      out identical to its verse. The break IS the melodic content there, so varying
@@ -39038,10 +39107,19 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      argument for a drum part that never phrases -- it is an argument for the
      variation being in the KIT rather than in the notes, which is exactly what
      a letter is. */
-  const drumsAvar = pin(buildDrums("drums:var", "main", DRUM_PHRASE_END), "drums", "Avar");
-  const drumsB = pin(buildDrums("drumsB", "lift"), "drums", "B");     // the chorus opens up
-  const drumsBvar = pin(buildDrums("drumsB:var", "lift", DRUM_PHRASE_END), "drums", "Bvar");
-  const drumsC = pin(buildDrums("drumsC", "depart"), "drums", "C");   // the bridge thins out
+  /* ── AND THE CHORUS AND BRIDGE KITS ARE BUILT FURTHER DOWN NOW ────────────
+     They used to be built here, three lines after A's, and a kit that follows
+     its riff cannot be built before the riff exists: `keysB` and `keysC` are
+     written hundreds of lines below this point. They move to just after them.
+
+     NOTHING ELSE MOVES WITH THEM. Every builder in this file draws from its
+     OWN named stream -- `stream(chart.seed, "drumsB")` answers the same numbers
+     wherever it is called from -- so the order of two independent builders is
+     not a fact any record can observe. Checked: nothing between here and there
+     reads `drumsB`, `drumsBvar` or `drumsC`, and `buildDrums` touches neither
+     `placed` nor `reserved`, so it cannot take a seat from a pitched part by
+     going later. A genre that does not declare `followRiff` is byte-identical
+     across the move, which is the proof that it was safe. */
   const bassA  = pin(buildBass(chords, "bass", false, "A"), "bass", "A");
   /* ── AND THE RETURN GETS ITS OWN BASS AND COMP ────────────────────────────
      Built on `chordsRet` -- the same chords with the last one transformed --
@@ -39521,6 +39599,24 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const keysC  = buildKeys(bridgeChords, "keysC", { sustain: HOLD_C,
                                                    at: HOLD_C ? 0 : undefined,
                                                    avoid: reserve(ostC.concat(bassC)) });
+  /* ══ EVERY KIT IS BUILT HERE, AFTER THE RIFFS ═══════════════════════════
+     A kick that doubles the riff has to be able to see one, and all five of
+     these used to stand hundreds of lines above `keysA`. They move as a block.
+
+     NOTHING ELSE MOVES WITH THEM AND NOTHING CAN TELL. Every builder in this
+     file draws from its OWN named stream -- `stream(chart.seed, "drumsB")`
+     answers the same numbers wherever it is called from -- so the order of two
+     independent builders is not a fact a record can observe. Checked before
+     moving: nothing between the old site and this one reads any of these five,
+     and `buildDrums` touches neither `placed` nor `reserved`, so going later
+     cannot take a seat from a pitched part. A genre that does not declare
+     `followRiff` is byte-identical across the move, and that is the proof. */
+  const drumsA = pin(buildDrums("drums", "main", null, null, keysA), "drums", "A");
+  const drumsAvar = pin(buildDrums("drums:var", "main", DRUM_PHRASE_END, null, keysAvar), "drums", "Avar");
+  const drumsB = pin(buildDrums("drumsB", "lift", null, null, keysB), "drums", "B");
+  const drumsBvar = pin(buildDrums("drumsB:var", "lift", DRUM_PHRASE_END, null, keysBvar), "drums", "Bvar");
+  const drumsC = pin(buildDrums("drumsC", "depart", null, null, keysC), "drums", "C");
+
   const bassCTakes = takesOf("bass", "C", bassC,
                        t => pin(buildBass(bridgeChords, "bass:" + t, true, "C"), "bass", "C"));
   const keysCTakes = takesOf("keys", "C", keysC,
@@ -40403,8 +40499,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const key = a.mat + "@" + a.sec;
       const cur = Object.assign({}, materials[key] || base);
       const tag = drumBaseOf(a.mat) + ":" + JSON.stringify(a.arc);
+      /* the material's OWN riff goes with it, so a kit that follows the riff
+         still follows it when the arc rebuilds the kit. Without this the arc
+         path was the one road where the two came apart again -- and the fight
+         is reached through this road, so it was the one that mattered. */
       cur.drums = pin(buildDrums("drums:arc:" + tag, drumVariantOf(a.mat),
-                                 drumPhraseOf(a.mat), a.arc), "drums", drumBaseOf(a.mat));
+                                 drumPhraseOf(a.mat), a.arc, base.keys), "drums", drumBaseOf(a.mat));
       materials[key] = cur;
     }
   }
