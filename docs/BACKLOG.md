@@ -3337,3 +3337,116 @@ in **playback**. Both times the check I ran was on the wrong side of the seam
 from the thing the owner was listening to. A drone verified by `renderWav` says
 nothing at all about whether pressing play produces a drone, and the harness has
 no live-playback probe. That gap is what let two builds ship.
+
+---
+
+## §0b0 — the mathcore comes out; the climax is made of tempo (2026-08-22)
+
+[owner: *"WE ARE NOT COPYING THESE GENRES I ALREADY MADE THIS EXPLICIT TO YOU!
+NO Guitar. This is an offshoot of Dungeon Synth that injects rock genres back
+into the Dungeon Synth!"*]
+[owner: *"Take out the Mathrock ... The last section the progrock sounds really
+good, the sounds and effects are great. Lets bring that to the forefront. We
+still want the fight the high point of the song and we want it to be a faster
+BPM than the rest of the song more."*]
+
+### WHAT I HAD WRONG
+
+I spent a day reading this genre as a band — measuring its comp as a guitar,
+proposing a guitar be added, treating the orchestral palette as the defect. It
+is not a band and never was. **It is dungeon synth with rock driven into it**,
+and the horns, strings, string machine and taiko are the point.
+
+That correction invalidated my own previous change (power-chord voicing, §0au's
+successor) and it has been **reverted in full**: it was aimed at a guitar
+reading, it hollowed out the minor colour dungeon synth lives on, and it cost a
+throw. 600-record sweep back to the standing 3.
+
+### THE FIGHT
+
+Mathcore's whole vocabulary — start-stop riffing, accent displacement,
+single-note dissonance — is written for a picked electric guitar. Asking this
+record to do it produced the chainsaw dimed over a five-part orchestra: 7.5
+notes ringing at once with 5.2 of them in one clipper, which the owner heard as
+*"smashed garbled trash"*.
+
+So the climax is now made the way this record already makes its best section:
+
+| | before | after |
+|---|---|---|
+| **the fight, BPM** | **120** | **139** |
+| setting out | 72 | 69 |
+| into the deep | 96 | 92 |
+| the long way home | 77 | 74 |
+
+The fight was 1.67× the opening act. It is now **2.01×** — twice the tempo of
+the music it interrupts.
+
+- **`saw` off in this act.** The HM-2 was the one unit whose entire character
+  was the genre being removed, and it is the unit that turned five voices to
+  mud. The Muff stays and goes hotter — drive was never the fault. The other
+  two acts keep theirs untouched.
+- **`fuzz.amt` 1 → 0.62**, so the dry half of every part comes back.
+- **`kickPattern: HARDCORE_FEET` dropped.** A sixteenth-run double-kick figure
+  at 139 BPM is a blast beat. The leg falls back to the genre's own walk, played
+  fast. `followRiff` 6 → 4, the family's number.
+- **The polymeter cells go.** Seven- and five-against-four are accent
+  displacement. Replaced with six-against-four — a hemiola, which is what a prog
+  keyboard ostinato is built on and sits *inside* the metre instead of fighting
+  it.
+
+### THE PHASER IS THE RECORD'S SOUND, NOT ONE SECTION'S
+
+`phaseRows` was `["lead"]`, on the reasoning that *"the Shine On pair is one
+guitar, not a band"* — correct about Gilmour, wrong about a record with no
+guitar. What the owner is hearing in the walk home is a phaser on a **string
+machine**: the sweep is what turns a static pad into weather.
+
+```
+  phaseRows: ["lead"]  ->  ["lead", "keys", "keys2", "ostinato"]
+```
+
+The two sustained parts that most want it are the two it never reached. The
+**compressor is not widened with it** — it is the most expensive node on the
+board (2.8 s of a nine-second render across five parts) and genuinely is a
+per-instrument pedal. The fight also gets the phaser, run fast (rate 0.62
+against the walk home's 0.10): one record, one sound, two tempos.
+
+### AND A THINNING THAT NEVER FILLS BACK IN IS A FADE
+
+[owner: *"there is a large section prior to the fight that is just nothingness"*]
+
+`into the deep` runs six sections of one material, so `sec.occurrence >= 3`
+thinned **30 of its 48 sections** — a four-minute decrescendo. The device is
+right; what was wrong is that it only ever went one way. It alternates now:
+3rd thin, 4th full, 5th thin.
+
+⚠ I wrote in the code first that this would be byte-identical for genres that
+never reach a fourth statement. **The hash check refuted it on the first run** —
+5 dungeon synth, 8 lofi and 11 synthwave records moved. Fourth statements are
+not rare.
+
+```
+  genre          thinned share       longest run of thinned sections
+  lofi            17% -> 15%              2 -> 2
+  synthwave       31% -> 18%              2 -> 1
+  dungeonsynth    23% -> 17%              3 -> 2
+  fantasysynth    39% -> 21%              4 -> 2
+  doomsludge      39% -> 21%              4 -> 2
+```
+
+The runs matter more than the shares: nothing anywhere can thin twice in a row
+now, so no genre can fade for four sections together. That fault was never only
+this record's.
+
+### STILL OWED
+
+- **The comp is 55% of the fight's sound**, 1,715 notes against the tune's 162.
+  The motif is structurally correct and buried ten to one. Untouched by this
+  pass.
+- **Hard stops.** My first diagnosis — that the figure, pad and counter get no
+  reverb — was **wrong**: `MIX_ROLE_BUS` puts `keys2` and `ostinato` on the keys
+  bus and `counter` on the lead bus, so `space.feeds` already covers them. The
+  real candidates are release times: brass 0.13 s, hurdy-gurdy 0.09 s,
+  contrabassoon 0.16 s, each sourced for the real instrument and each wrong for
+  a genre rooted in sustain. Not yet addressed.

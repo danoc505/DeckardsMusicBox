@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22l &middot; the drone plays &mdash; a note that starts before zero had not gone</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22m &middot; the fight is fast now, not angular &mdash; and the phaser is the whole record</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -27799,7 +27799,18 @@ GENRE.fantasysynth = (function(D){
     tempoArc: { by: { intro:                 [0.74, 0.86],
                       "setting out":         [0.78, 0.87],
                       "into the deep":       [1.00, 1.18],
-                      "the fight":           [1.30, 1.44],
+                      /* ── THE CLIMAX IS MADE OF TEMPO NOW ───────────────
+                         [owner: "we want it to be a faster BPM than the rest of
+                          the song more"] — and it is also what replaces the
+                         removed mathcore: this act used to get its height from
+                         dissonance and stop-start, and it gets it from SPEED
+                         and drive instead. On this genre's 84-96 base that is
+                         roughly 130-168 BPM against a record sitting at 84-96,
+                         so the fight runs half again as fast as everything
+                         around it where it used to run a third faster. Prog's
+                         own sources ask for exactly this shape: a suite "with
+                         contrasting tempos" [corpus:melodigging]. */
+                      "the fight":           [1.55, 1.75],
                       "the long way home":   [0.96, 0.80],
                       outro:                 [0.78, 0.68] },
                 ease: "cos" },
@@ -29036,9 +29047,25 @@ GENRE.fantasysynth = (function(D){
   materialTakes: { bass: 3 },
   ostinato: merge(D.ostinato, {
     cellsAt: {
-      B: [[[0, 4, 7, 4, 2, 4, 7], 5],      // seven against four
-          [[0, 2, 4, 7, 4, 2, 0], 3],      // seven, as an arch
-          [[0, 4, 7, 2, 4], 2]],           // five against four
+      /* ── AND THE POLYMETER GOES WITH THE MATHCORE ────────────────────
+         [owner: "Take out the Mathrock"]
+         Seven-against-four and five-against-four are ACCENT DISPLACEMENT --
+         "moving the strong beat within a phrase ... how you make a riff sound
+         off kilter while still grounded" [riffhard] -- and that is the mathcore
+         device, chosen for this act when this act was mathcore.
+
+         Prog does not give it up, it uses it DIFFERENTLY: a prog figure sits in
+         an odd metre and stays inside it, where a mathcore one fights the metre
+         it is in. So the cells become SIX against four -- a figure that reads as
+         three groups of two over two groups of two, which is the oldest
+         hemiola there is and the shape every prog keyboard ostinato is built on
+         -- and an eight, which simply runs twice a bar at this tempo. Both are
+         still figures with rests in them, which is what the fix two comments up
+         was actually about, and neither is off-kilter.
+         The other two acts keep the cells they had. */
+      B: [[[0, 4, 7, null, 4, 2], 5],      // six against four -- the hemiola
+          [[0, 2, 4, 7, null, 4, 2, null], 3],  // eight: twice a bar, fast
+          [[0, null, 4, 7, 4, null], 2]],  // six, opened out
     },
   }),
   pocket: [[[0, 4, 8, 12], 9],          // the walk. This is the march.
@@ -29188,8 +29215,28 @@ GENRE.fantasysynth = (function(D){
            good foot pattern and it is a foot pattern chosen without reference
            to the guitar. A leg whose whole character is the band hitting
            together does not want two good independent parts; it wants one. */
+        /* ── AND THE FEET COME OFF THE HARDCORE PATTERN ─────────────────────
+           [owner: "Take out the Mathrock"]
+           `HARDCORE_FEET` is a sixteenth-run double-kick figure, and at the
+           tempo this act now runs -- roughly 130-168 BPM against the record's
+           84-96 -- a sixteenth run is a blast beat. That was the point when the
+           act was mathcore and it is the wrong instrument for a prog climax,
+           where the drums drive on EIGHTHS and the height comes from the tempo
+           itself. Dropping the override hands the leg back to the genre's own
+           `kickPattern` pool, which is the walk this record is built on, played
+           fast.
+
+           `followRiff` drops from 6 to 4, the family's own number: six was
+           chosen to lock the kick onto a mathcore comp that struck six times a
+           bar, and this act's comp is no longer that. The kick still doubles
+           the riff -- that work stands and is what makes the band hit together
+           -- it simply stops catching every one of them.
+
+           The toms KEEP their loop and their front-of-stage place: they are the
+           genre's own voice [owner: "the toms take front role and lead"] and
+           nothing about removing mathcore touches them. */
         "the fight":     { toms: { loop: 0.85 }, kickKeep: 16, hatVel: 0.22,
-                           hatEvery: 2, kickPattern: HARDCORE_FEET, followRiff: 6 },
+                           hatEvery: 2, followRiff: 4 },
         /* no entry for "the long way home": it has no drums, in 0 of 118
            sections over 24 seeds, because its `roles` does not list them. */
       },
@@ -30033,8 +30080,27 @@ GENRE.doomsludge = (function(F){
          the single most expensive node on the board, so putting it on five
          parts cost 2.8 s of a nine-second render for no musical reason. */
       compRows: ["lead"],
-      /* and the phaser with it: the Shine On pair is one guitar, not a band */
-      phaseRows: ["lead"],
+      /* ══ AND THE PHASER IS THE RECORD'S SOUND, NOT ONE SECTION'S ══════════
+         [owner: "The last section the progrock sounds really good, the sounds
+          and effects are great. Lets bring that to the forefront."]
+
+         It was on the LEAD ALONE, on the reasoning that "the Shine On pair is
+         one guitar, not a band" -- correct about Gilmour and wrong about this
+         record, because THIS RECORD HAS NO GUITAR. It is dungeon synth with
+         rock driven into it, and the thing the owner is hearing in the walk
+         home is a phaser on a STRING MACHINE, which is a different instrument
+         with a different history: the sweep is what turns a static synth pad
+         into weather. Every prog keyboard record leans on it for exactly that,
+         and the parts that most want it here are the two the pedal never
+         reached -- the pad and the figure, which are the sustained ones.
+
+         The compressor is NOT widened with it, and that is measured rather
+         than conservative: it is the most expensive node on the board and
+         putting it on five parts cost 2.8 s of a nine-second render. A Dyna
+         Comp also genuinely is a per-instrument pedal. The phaser is cheap --
+         an all-pass chain and one LFO -- so the two are separated instead of
+         moved together. */
+      phaseRows: ["lead", "keys", "keys2", "ostinato"],
       /* ── AND THE DIVIDER GOES ON THE LEAD, NOT THE BASS ──────────────────
          Two reasons, both measured off the printout rather than assumed.
 
@@ -30148,42 +30214,74 @@ GENRE.doomsludge = (function(F){
                                   is what makes every note collapse and swell. */
                                sag:  { amt: 0.62, depth: 0.72, idle: 0.72,
                                        recov: 0.34, drive: 0.38 } },
-        /* MATHCORE. No sub — a divider on a part that changes note every beat
-           is a smear. The Face alone, biased into the velcro, and the comp. */
+        /* ══ THE HIGH POINT, AND IT IS NO LONGER MATHCORE ══════════════════
+           [owner: "Take out the Mathrock ... We still want the fight the high
+            point of the song and we want it to be a faster BPM than the rest
+            of the song more. But Mathcore is just too much for you. We can
+            achieve what we want in other ways."]
+
+           The mathcore reading of this act asked the program to be angular
+           where it has no instrument that can be angular. Its whole vocabulary
+           -- start-stop riffing, accent displacement, single-note dissonance --
+           is written for a picked electric guitar, and this record's front line
+           is horns, strings and a string machine. What the tables actually
+           produced was the chainsaw dimed over a five-part orchestra, measured
+           at 7.5 notes ringing at once with 5.2 of them in one clipper.
+
+           SO THE CLIMAX IS MADE THE WAY PROG MAKES ONE, which is the way this
+           record already gets its best section: TEMPO, DRIVE AND MOTION rather
+           than dissonance and stops. `form.tempoArc` carries the first (this
+           act now runs half again as fast as the record around it); the pedals
+           below carry the other two.
+
+           The chainsaw is GONE from this act -- it was the one unit whose whole
+           character was the genre being removed, and it is the unit that turned
+           a five-voice orchestra to mud. The Muff stays and gets HOTTER, because
+           drive is not the problem and never was; what goes is the fizz and the
+           velcro gate. The phaser arrives at speed, which is the walk home's
+           own pedal asked to run instead of drift -- one record, one sound, two
+           tempos. The compressor stays, harder, so the faster line holds
+           together. `sag` keeps its fast rail: that was chosen so the attack is
+           back before the next hit, and it is even more right at this tempo. */
         "the fight":         { oct:  { amt: 0.22 },
-                               meat: { amt: 0.62, dirt: 0.58, bias: 0.62,
-                                       dark: 0.62, level: 0.34 },
-                               /* CHAINSAW CITY: every knob up. The gyrators
-                                  stay dimed -- that is the setting the pedal is
-                                  famous for and the only one anybody uses it at.
-                                  ── BUT `tame` IS THE CONTROL LABELLED
-                                  "harshness" AND IT WAS ABOVE THE DEFAULT ────
-                                  [owner: "Dial back the FX a bit its getting to
-                                   harsh at times."]
-                                  7500 against a panel default of 6000, on the
-                                  one knob in this unit whose caption is the
-                                  word the owner used. It is a lowpass, and past
-                                  5 kHz there is nothing up there but clipping
-                                  products: "speaker fizz" is catalogued as LOW
-                                  FIZZ 2-4.5 kHz and HIGH FIZZ 4.5-7 kHz
-                                  [guitarrecordinglounge], and no guitar speaker
-                                  passes it -- "the usual bandwidth limit of a
-                                  guitar speaker is about 4-5 kHz", and the
-                                  "steep drop-off above 5K keeps distorted tones
-                                  and harmonics from sounding fizzy" [wgsusa].
-                                  5200 puts it on the Miller poles this file
-                                  already builds inside the fuzz's own clipping
-                                  stages, so the two units stop at the same
-                                  place. Nothing else in the row moves: the
-                                  chainsaw keeps its teeth and loses its fizz. */
-                               saw:  { amt: 0.70, dist: 0.76, low: 1, high: 1,
-                                       gate: 0.09, tame: 5200, level: 0.09 },
-                               /* a fast rail here -- a mathcore act needs the
-                                  attack back before the next hit, so this is
-                                  the solid-state end of the recovery range */
+                               phase:{ amt: 0.42, rate: 0.62 },
+                               meat: { amt: 0.70, dirt: 0.66, bias: 0.30,
+                                       dark: 0.34, level: 0.40 },
+                               /* ── THE CHAINSAW IS OFF IN THIS ACT ──────────
+                                  It was dimed here -- "every knob up, the tame
+                                  filter open" -- and it is an HM-2, the single
+                                  most genre-specific box on the board. Two
+                                  reasons it goes, and the first is the owner's:
+                                  the act it was chosen for no longer exists.
+
+                                  The second is measured. The board is armed ONE
+                                  PER PART GROUP, so every voice on a lane sums
+                                  into one clipper before it clips; the fight had
+                                  7.5 notes ringing at once with 5.2 of them in
+                                  the dirt. A clipper "adds partials at the sums
+                                  and differences of the frequencies of the
+                                  harmonics of those notes", so a chord through
+                                  one comes back "messy and indistinct"
+                                  [gearspace; musictheoryforguitar] -- and this
+                                  record's front line is horns, strings and a
+                                  string machine, not one picked guitar. The
+                                  Muff above still drives it; what leaves is the
+                                  unit whose job was fizz and velcro.
+
+                                  `sawRows` is untouched, so the other two acts
+                                  keep theirs exactly as they were. */
+                               /* a fast rail, and it earns its place twice over
+                                  now: it was chosen so the attack is back before
+                                  the next hit, and this act is the fastest on
+                                  the record */
                                sag:  { amt: 0.30, depth: 0.42, idle: 1,
                                        recov: 0.035, drive: 0.34 },
-                               comp: { amt: 0.45, sustain: 0.35, level: 0.5 } },
+                               /* harder than it was: the line is quicker here
+                                  and a compressor is what holds a fast part
+                                  together — the same pedal, and nearly the same
+                                  setting, as the section this record is being
+                                  steered toward */
+                               comp: { amt: 0.62, sustain: 0.52, level: 0.55 } },
         /* THE WALK HOME. Everything off but the two Gilmour pedals. */
         "the long way home": { phase: { amt: 0.55, rate: 0.10 },
                                comp:  { amt: 0.70, sustain: 0.62, level: 0.55 } },
@@ -30260,7 +30358,15 @@ GENRE.doomsludge = (function(F){
                               mids: 0.62, mass: 0.45, cab: 3800 },
         "into the deep":    { amt: 1, sustain: 0.78, tone: 0.46, level: 0.38,
                               mids: 0.70, mass: 0.55, cab: 3000 },
-        "the fight":        { amt: 1, sustain: 0.42, tone: 0.62, level: 0.30,
+        /* AND THE FIGHT'S OWN FUZZ COMES DOWN WITH THE CHAINSAW. `amt` was 1 —
+           the whole front line wet — over a clipper that was already the
+           densest thing on the record. At 0.62 the dry half of every part comes
+           back, which is what lets five voices stay five voices; the note count
+           has not changed, only how much of it arrives pre-mangled. Sustain
+           rises a little because DRIVE was never the fault, and the speaker
+           stays at the top of the real range so this act is still the brightest
+           of the four. */
+        "the fight":        { amt: 0.62, sustain: 0.50, tone: 0.56, level: 0.34,
                               mids: 0.34, mass: 0.30, cab: 5000 },
         "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50,
                               mids: 0, mass: 0, cab: 4500 },
@@ -36349,64 +36455,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          declared [52,74]. Fold FIRST, then invert by lifting the lowest voices
          -- that is what an inversion is. Candidates that push past the ceiling
          are not clamped, they are not offered. */
-      /* ══ AND A DISTORTED CHORD LEAVES THE THIRD OUT ═══════════════════════
-         [owner: "Then fight is smashed garbled trash"]
-
-         MEASURED, doomsludge's fight act over 12 records — every interval its
-         comp strikes together:
-
-           perfect 4th  331    MINOR 3RD  213    perfect 5th  137
-           MAJOR 3RD    154    minor 6th   89    major 6th     23
-
-         51% of its chord strikes contain a third or a sixth, and every one of
-         them is fed to a two-stage clipper at a pre-gain of 3 x 320^0.42. That
-         is not a mix problem, it is the defining property of the device:
-         distortion "adds partials to the existing notes through an effect
-         called INTERMODULATION ... additional partials are generated at the
-         sums and differences of the frequencies of the harmonics of those
-         notes", and "when a typical chord containing such intervals (for
-         example, a major or minor chord) is played through distortion, the
-         number of different frequencies generated, and the complex ratios
-         between them, can make the resulting sound MESSY AND INDISTINCT"
-         [gearspace; musictheoryforguitar]. A major chord through gain "will
-         often sound cluttered because there are simply too many notes too
-         close together" — and the answer every guitarist already knows:
-         "REMOVE THE THIRD from that chord and you reduce the competing
-         frequencies, allowing the distortion to fill out the sound without
-         sounding cluttered. Power chords sound great through a very distorted
-         amp because the IMD products are in harmony with the notes being
-         played" [discmakers].
-
-         AND THIS PROGRAM IS THE WORST CASE OF IT, because the board is armed
-         ONE PER PART GROUP (`for(const r in g.grp) g.armFuzz(...)`) — every
-         voice on the comp lane sums into a single clipper before it clips. The
-         source names the opposite arrangement and why it works: "if the guitar
-         has a hexaphonic pickup, each string may be distorted separately, which
-         produces NO INTERMODULATION between strings" [gearspace]. We are the
-         one-pickup case, with four notes on it.
-
-         The genre's own sources have been asking for this in as many words the
-         whole time and the voicer was not listening: power chords are
-         "typically the root and the fifth", and a doom part is "a power chord
-         or single note ... let it sustain" [corpus:doesitdoom]. The fight's
-         own tabs go further — Botch is "dissonant, SINGLE-NOTE lines ...
-         AVOIDING POWER CHORDS".
-
-         `chordTones` returns stacked thirds in order, so the third IS index 1
-         (CHORD_ROLE) — the same derivation the rootless block below already
-         relies on. Nothing is clamped and nothing is re-drawn: the chord simply
-         arrives with one fewer member, so every filter and the voice-leading
-         cost run exactly as they did. A seventh chord keeps its seventh; a
-         triad becomes root and fifth, which is what a power chord is.
-
-         OPT-IN AND DERIVED, NEVER LISTED TWICE. `opts.power` is computed at the
-         call site from the FUZZ TABLE ITSELF, so an act whose distortion is
-         turned off keeps its full harmony and the two tables cannot drift
-         apart. Every genre that declares no fuzz passes nothing here and is
-         byte-identical. */
-      const TONES = (opts.power && ch.tones.length > 2)
-                  ? ch.tones.filter((_, i) => i !== 1) : ch.tones;
-      const base = TONES.map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
+      const base = ch.tones.map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
       /* ── ROOTLESS: THE VOICING THAT MAKES ROOM FOR THE EXTENSIONS ─────────
          An extended chord voiced with every tone is not a richer chord, it is
          a CLUSTER -- measured on the first build that could draw ninths, a
@@ -36434,8 +36483,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          wins only where it genuinely voice-leads or spreads better. [BACKLOG
          §6.2, and the isNCT union above is what makes it safe for the tune.] */
       const drops = [];
-      if(TONES.length >= 5){
-        const keep = idx => TONES.filter((_, i) => !idx.includes(i))
+      if(ch.tones.length >= 5){
+        const keep = idx => ch.tones.filter((_, i) => !idx.includes(i))
                                     .map(t => intoBand(t, BAND[0], BAND[1])).sort((a, z) => a - z);
         drops.push(keep([0]), keep([0, 2]));
       }
@@ -39729,43 +39778,16 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const KSA = chart.table.keysStyleAt || null;
   const holdFor = mat => ((KSA && mat && KSA[mat]) || chart.table.keysStyle) === "hold";
   const HOLD = holdFor("A");
-  /* ══ WHICH ACTS ARE DISTORTED — ASKED OF THE FUZZ, NOT OF A SECOND LIST ═══
-     The comp leaves the third out where it goes through a clipper [see the
-     voicing block in buildKeys for the measurement and the sources]. WHICH acts
-     those are is already written down once, in `space.fuzz`, per movement — so
-     this reads that table rather than restating it. Turn the fuzz off for an
-     act and its harmony comes back on its own; a hand-written list here would
-     be the fifth time this file shipped one rule in two places.
-
-     `form.material` says which material each movement plays, so the map is
-     inverted rather than typed out. A genre with no fuzz, or one whose fuzz
-     names no acts, gets `false` everywhere and passes `undefined` into every
-     call below — byte-identical, and no draw moves [Law 3]. */
-  const FUZ = chart.table.space && chart.table.space.fuzz;
-  const POWER_OF = (() => {
-    const out = {};
-    if(!FUZ || !FUZ.by) return out;
-    const MATOF = (chart.table.form && chart.table.form.material) || {};
-    /* the whole record's fuzz is the floor: `amt` on the table itself applies
-       to any act the `by` map does not name */
-    for(const mv in MATOF){
-      const row = FUZ.by[mv];
-      const amt = row && row.amt != null ? row.amt : FUZ.amt;
-      if(amt > 0) out[MATOF[mv]] = true;
-    }
-    return out;
-  })();
-  const powerFor = mat => !!POWER_OF[mat] || undefined;
-  const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed, power: powerFor("A"),
+  const keysA  = buildKeys(chords, "keys", { dense: false, avoid: placed,
                                              sustain: HOLD, at: HOLD ? 0 : undefined });
-  const keysAvar = NEW_RET ? buildKeys(chordsRet, "keys", { dense: false, avoid: placed, power: powerFor("A"),
+  const keysAvar = NEW_RET ? buildKeys(chordsRet, "keys", { dense: false, avoid: placed,
                                              sustain: HOLD, at: HOLD ? 0 : undefined }) : keysA;
   /* the comp finds new voicings, which is the one thing every account of a
      rhythm section agrees on -- Bill Evans does not play the same voicing twice
      in twenty minutes. Each take avoids `placed`, so it clears the bass and the
      figure exactly as the first one had to. */
   const keysATakes = takesOf("keys", "A", keysA,
-                             t => buildKeys(chords, "keys:" + t, { dense: false, avoid: placed, power: powerFor("A"),
+                             t => buildKeys(chords, "keys:" + t, { dense: false, avoid: placed,
                                             sustain: HOLD, at: HOLD ? 0 : undefined }));
   const keysAx = allOf(keysA, keysATakes);
   /* the ostinato goes into every reservation set BEFORE the tunes are drawn.
@@ -39839,7 +39861,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      silence, which is the worse of the two.
      Avar already has its own drums and its own tune for exactly this reason.
      Give it its own pad and each one clears one cell. */
-  const keys2A = tryPad(band => buildKeys(chords, "keys2", { sustain: true, at: 2, band, power: powerFor("A"),
+  const keys2A = tryPad(band => buildKeys(chords, "keys2", { sustain: true, at: 2, band,
                             against: keysA, avoid: reserve(ostAx.concat(bassAx, keysAx)) }));
   /* AND IT CLEARS THE RETURNING BASS AND COMP, which are different notes the
      moment a genre declares a cadence. Pointed at `bassAx`/`keysAx` -- the
@@ -39848,7 +39870,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      of 200 lofi seeds. The file's own note above `keysA` says every collision
      in Avar this project has ever reported is a reserve pointing at the wrong
      material; this is that note collecting its debt one more time. */
-  const keys2Avar = tryPad(band => buildKeys(chordsRet, "keys2:var", { sustain: true, at: 2, band, power: powerFor("A"),
+  const keys2Avar = tryPad(band => buildKeys(chordsRet, "keys2:var", { sustain: true, at: 2, band,
                             against: keysAvar, avoid: reserve(ostAvarx.concat(bassAvar, keysAvar)) }));
   /* BOTH PADS, and the reason is two lines of history. The note above `resV`
      records fixing this for Avar's redrawn TAIL and it missed Avar's retained
@@ -39982,10 +40004,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      reason `placed` states four times over */
   const placedB = NEW_CHORUS ? reserve(ostBx.concat(bassBx, bassBvar)) : placed;
   const HOLD_B = holdFor("B");
-  const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB, power: powerFor("B"),
+  const keysB  = buildKeys(chorusChords, "keysB", { dense: true, avoid: placedB,
                                              sustain: HOLD_B, at: HOLD_B ? 0 : undefined });
   const keysBTakes = takesOf("keys", "B", keysB,
-                       t => buildKeys(chorusChords, "keys:" + t, { dense: true, avoid: placedB, power: powerFor("B"),
+                       t => buildKeys(chorusChords, "keys:" + t, { dense: true, avoid: placedB,
                                       sustain: HOLD, at: HOLD ? 0 : undefined }));
   const keysBx = allOf(keysB, keysBTakes);
   /* ── AND THE CHORUS'S RETURN GETS ITS OWN COMP TOO ───────────────────────
@@ -39994,7 +40016,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      `B` outright before this, which is why a chorus heard three times was the
      same chorus three times below the tune. (Its bass is built further up, so
      the reserve this comp avoids can include it -- see `placedB`.) */
-  const keysBvar = NEW_RET ? buildKeys(chorusRet, "keysB", { dense: true, avoid: placedB, power: powerFor("B"),
+  const keysBvar = NEW_RET ? buildKeys(chorusRet, "keysB", { dense: true, avoid: placedB,
                                              sustain: HOLD_B, at: HOLD_B ? 0 : undefined }) : keysB;
   /* ── ONE PAD, TWO MATERIALS, SO IT CLEARS BOTH ────────────────────────────
      `keys2B` sounds in B, in Bvar AND in Bdev, and on a genre with a cadence
@@ -40014,7 +40036,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      vanished rather than collided. This file's own note about the first pad
      says it in one line -- "fixed a collision by causing a silence, which is
      the worse of the two". Second time. */
-  const keys2B = tryPad(band => buildKeys(chorusChords, "keys2B", { sustain: true, at: 2, band, power: powerFor("B"),
+  const keys2B = tryPad(band => buildKeys(chorusChords, "keys2B", { sustain: true, at: 2, band,
                             against: keysB,
                             avoid: reserve(ostBx.concat(bassBx, keysBx, bassBvar, keysBvar)) }));
   const resB   = reserve(ostBx.concat(bassBx, keysBx, keys2B));
@@ -40133,7 +40155,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      for every genre that declares nothing -- which is `true` for the two that
      hold, so nothing moves for them. */
   const HOLD_C = holdFor("C");
-  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: HOLD_C, power: powerFor("C"),
+  const keysC  = buildKeys(bridgeChords, "keysC", { sustain: HOLD_C,
                                                    at: HOLD_C ? 0 : undefined,
                                                    avoid: reserve(ostC.concat(bassC)) });
   /* ══ EVERY KIT IS BUILT HERE, AFTER THE RIFFS ═══════════════════════════
@@ -40175,11 +40197,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const bassCTakes = takesOf("bass", "C", bassC,
                        t => pin(buildBass(bridgeChords, "bass:" + t, true, "C"), "bass", "C"));
   const keysCTakes = takesOf("keys", "C", keysC,
-                       t => buildKeys(bridgeChords, "keys:" + t, { sustain: HOLD_C, power: powerFor("C"),
+                       t => buildKeys(bridgeChords, "keys:" + t, { sustain: HOLD_C,
                                       at: HOLD_C ? 0 : undefined,
                                       avoid: reserve(ostC.concat(bassC)) }));
   const bassCx = allOf(bassC, bassCTakes), keysCx = allOf(keysC, keysCTakes);
-  const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band, power: powerFor("C"),
+  const keys2C = tryPad(band => buildKeys(bridgeChords, "keys2C", { sustain: true, at: 2, band,
                             against: keysC, avoid: reserve(ostC.concat(bassCx, keysCx)) }));
   const resC   = reserve(ostC.concat(bassCx, keysCx, keys2C));
   const themeC = buildTheme(bridgeChords, "themeC", resC, { lo: playable(R.themeC)[0], hi: playable(R.themeC)[1], comp: keysC,
@@ -40550,15 +40572,15 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const bassAlx    = allOf(bassAl, bassAlTakes);
   const placedl    = LIFT ? reserve(ostAlx.concat(ostAvarlx, bassAlx)) : placed;
   const HOLD_L = holdFor("lift");
-  const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl, power: powerFor("lift"),
+  const keysAl     = LIFT ? buildKeys(liftChords, "keys", { dense: false, avoid: placedl,
                                                sustain: HOLD_L, at: HOLD_L ? 0 : undefined }) : keysA;
   const keysAlTakes = LIFT ? takesOf("keys", "Alift", keysAl,
-                        t => buildKeys(liftChords, "keys:" + t, { dense: false, avoid: placedl, power: powerFor("lift"),
+                        t => buildKeys(liftChords, "keys:" + t, { dense: false, avoid: placedl,
                                        sustain: HOLD, at: HOLD ? 0 : undefined })) : keysATakes;
   const keysAlx    = allOf(keysAl, keysAlTakes);
-  const keys2Al    = LIFT ? tryPad(band => buildKeys(liftChords, "keys2", { sustain: true, at: 2, band, power: powerFor("lift"),
+  const keys2Al    = LIFT ? tryPad(band => buildKeys(liftChords, "keys2", { sustain: true, at: 2, band,
                               against: keysAl, avoid: reserve(ostAlx.concat(bassAlx, keysAlx)) })) : keys2A;
-  const keys2Avarl = LIFT ? tryPad(band => buildKeys(liftChords, "keys2:var", { sustain: true, at: 2, band, power: powerFor("lift"),
+  const keys2Avarl = LIFT ? tryPad(band => buildKeys(liftChords, "keys2:var", { sustain: true, at: 2, band,
                               against: keysAl, avoid: reserve(ostAvarlx.concat(bassAlx, keysAlx)) })) : keys2Avar;
   /* ── AND THE LIFTED PATH RESERVES BOTH PADS, LIKE THE PATH IT COPIES ─────
      `resA` a few hundred lines up already carries this fix, with a note that
@@ -42092,7 +42114,46 @@ function makeArrangement(chart, form, materials){
         const spinFrom = Math.floor(stream(chart.seed, "devicespin")() * 3);
         if(materials[vary] && spin.length)
           material = spin[(NTH - 2 + spinFrom + spin.length * 2) % spin.length];
-        if(sec.occurrence >= 3) stripHalf = true;
+        /* ══ AND A THINNING THAT NEVER FILLS BACK IN IS A FADE ════════════
+           [owner: "there is a large section prior to the fight that is just
+            nothingness a few notes not held just hit"]
+
+           MEASURED, doomsludge over 8 records: `into the deep` runs SIX
+           sections of one material, so its occurrences climb 1..6 and this line
+           thinned 30 of its 48 sections — 63% of the act with parts taken out,
+           and each one thinner than the last. That is not developing variation,
+           it is a decrescendo four minutes long, and the owner heard it as
+           nothingness.
+
+           The device is right and its own note says why: a third statement
+           should be "FURTHER ALONG than the one before rather than merely
+           different". What was wrong is that it only ever goes one way. A band
+           that takes something out on the third pass PUTS SOMETHING BACK on the
+           fourth — that is what makes the fifth landing feel like a return
+           instead of the end of a long exhale.
+
+           So the thin ALTERNATES from the third statement on: 3rd thin, 4th
+           full, 5th thin, 6th full. Every material still thins on its third
+           hearing exactly as before, which is the case the rule was written and
+           measured for, and no material can thin twice running.
+
+           ⚠ AND IT MOVES EVERY GENRE, which I wrote here first as "a form that
+           never reaches a fourth statement is byte-identical" and the hash
+           check refuted on the first run: 5 dungeon synth records, 8 lofi and
+           11 synthwave moved. Fourth statements are not rare. MEASURED, share
+           of sections thinned and the longest run of thinned sections in a row,
+           over 20 records a genre:
+
+             lofi          17% -> 15%     run 2 -> 2
+             synthwave     31% -> 18%     run 2 -> 1
+             dungeonsynth  23% -> 17%     run 3 -> 2
+             fantasysynth  39% -> 21%     run 4 -> 2
+             doomsludge    39% -> 21%     run 4 -> 2
+
+           The runs are the point rather than the shares: nothing anywhere can
+           now thin twice in a row, so no genre can fade for four sections
+           together. That is the fault, and it was never only this record's. */
+        if(sec.occurrence >= 3 && (sec.occurrence % 2)) stripHalf = true;
       }
     }
     /* AND THEN, IF THE RECORD MOVED KEY, THIS STRETCH PLAYS THE OTHER COPY.
