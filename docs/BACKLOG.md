@@ -2872,3 +2872,125 @@ Printout, doomsludge seed 1 bar 204 — backbeat kept, accent caught:
   what it is thought of as leaning on. Whether that gap is the fault is a
   separate question nobody has measured.
 - Dungeon synth and fantasy synth still cannot be READ by this test.
+
+---
+
+## §0au — "two parts on one pitch is one part" was an opinion, not a law (2026-08-22, FIXED)
+
+[owner: *"Why is this a rule? And also understand this is code and the only
+rules are music theory and constraints not baked in values."*]
+
+### THE RULE, AND WHERE IT CAME FROM
+
+The seam check threw on any two parts sharing a bar, a step and a pitch. Its
+justification, written above `clearAgainst`, is one sentence:
+
+> Two parts on one pitch at one instant is one part.
+
+That is a claim about **waste**, not a rule of music. It was written to catch
+two real accidents, and it caught them:
+
+- a **blend** averaging two genres' register tables put a drone genre's ground
+  on another genre's bass in **110 of 1080 pairs**;
+- the **drone** and **generative** lanes place notes without reserving a seat,
+  so they can land on a written part after the fact.
+
+Both are register allocation going wrong. Neither is anybody **deciding** to
+double a line — and deciding to double a line is ordinary orchestration. Belkin,
+already quoted twice in the program, states it from the other side: *"it is
+better to double them in unison."* This genre's own sources say it outright —
+sludge is bass and guitar playing *"the riff in unison, creating a loud and
+BASS-HEAVY WALL OF SOUND"*, and *"sustained unisons enhance mass"*
+[corpus:doesitdoom]. The Botch tabs read for the fight are the same figure
+written twice: the guitar's is `--2-2-2--` on the low D, the bass's is `D-2222`.
+
+The guard could not tell an accident from a decision because **nothing in the
+file had ever said which pairs were meant**.
+
+### AND THE TABLE SAID IT DID THIS ALREADY. IT DID NOT.
+
+`bassRoles` has carried this row since the day it shipped:
+
+```
+  C     sludge    `riff`    the bass is ON the riff, in unison
+```
+
+The builder never did it. `bassStyle: "riff"` draws the bass its **own** two-bar
+figure from its **own** pools on its **own** stream; the comp is a different
+figure drawn somewhere else. Two riffs at once is not a unison, it is
+counterpoint — the opposite of what the source asked for.
+
+### WHAT LANDED
+
+- `unison: { lane, of, at }` — a genre names one **follower**, one **leader**,
+  and which acts double. The follower is rewritten to play the leader's figure
+  note for note.
+- The line moves in **whole octaves as a body**, not note by note. The first
+  version folded each note into the band on its own, and that is not a
+  transposition — on this genre's numbers a comp note at MIDI 60 came down to 48
+  and the next at 61 came down to 37, an eleventh *below* it, where the line it
+  was copying had gone *up* a semitone. Same pitch classes, different figure.
+- It still negotiates with **everything except its leader** (`clearAgainst`
+  gained an `except`), so the accidental collisions the walk exists for are
+  still found.
+- The seam check exempts exactly the declared pair, read off `materials.unisonOf`
+  beside `chordsOf` — one owner for the rule, so the check and the pass cannot
+  disagree about which acts it covers, and a hand edit's private copy (`A@5`)
+  is covered by the fact its parent was.
+- `unison` is in `BLEND_DRAW`: it names roles and acts, so half of one is a
+  follower with no leader.
+
+### DECLARED ON THE CHILD, AND THAT WAS CAUGHT BY MEASUREMENT
+
+Written first beside `bassRoles` — which is **fantasy synth's** table, not doom
+sludge's — it doubled fantasy synth's bass too, onto a comp that is a held pad
+(0.6 distinct strike-steps a bar against the figure's 1.8). The blast-radius
+check showed fantasy synth's whole record moving. Same leak, same catch, as
+`riffLane` two sections up.
+
+`at: ["C", "B"]` — the sludge act, where the source names the unison, and the
+fight, where both Botch tabs are guitar and bass on one line. `A` keeps its held
+power chord (doom's source asks for *"a power chord or single note ... let it
+sustain"*, a different job) and the lift keeps its own line, because Belkin's
+warning is real from the other side: constant unison doubling is *"the
+beginner's most common fault."* Two acts of four double; two do not.
+
+### MEASURED — bass notes landing on a comp onset, 20 seeds
+
+```
+  act     doomsludge before   doomsludge after   fantasysynth (untouched)
+  A            83%                  83%                  83%     <- drone, coincidence
+  B (fight)    26%                 100%                  26%
+  C (sludge)   22%                 100%                  22%
+  lift         22%                  79%                  22%
+```
+
+Contour agreement between the two lines in the doubled acts: **90%** (fight),
+**84%** (sludge). The shortfall is the handful of notes folded at the band edge
+plus the ones `clearAgainst` moved off an accidental collision.
+
+Printout, doomsludge bar 317 — one figure, three parts on it:
+
+```
+  keys   |*-*-*---*--****-|   C#3 E3 A3 ...
+  bass   |*-*-*---*--****-|   C#2 E2 A2 ...
+  kick   |x.x.x...x.xxx...|
+```
+
+600-record sweep: **3 throws before, 3 after**, the same three. Blast radius:
+doom sludge only, 12 of 60 records.
+
+### AND IT IS AN OCTAVE DOUBLE, NOT A SAME-PITCH UNISON — SAY SO
+
+Same-pitch coincidence across the record went 1.1% → 1.1%. It did not move,
+and it was never going to: this genre's bass band is MIDI **31–48** and its comp
+band is **44–67**, so the two barely overlap and the doubled line sits an octave
+under. That is what most metal actually sounds like, and the Botch tabs are
+notated the same way for the same reason — a drop-D guitar's low D is D2, a
+bass's is D1.
+
+The comparison number quoted when this work started — Televators, 201 of 2416
+notes sharing a pitch and an instant, 8.3% — was **not** reached and is not
+reachable without changing `registers.bass`. Raising its top so the two bands
+genuinely meet is an arrangement decision with an audible cost (a thinner low
+end) and it is the owner's, so it is written here and not slipped in.

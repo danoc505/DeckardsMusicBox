@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22h &middot; the mid drum catches the riff too &mdash; and there was never a snare in it</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22i &middot; the bass plays the riff &mdash; two parts on one line, on purpose</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -28887,6 +28887,15 @@ GENRE.fantasysynth = (function(D){
                B:    [["riff",   1]],
                lift: [["follow", 1]],
                T:    [["drone",  1]] },
+  /* ⚠ AND THE WORD "IN UNISON" IN THE TABLE ABOVE IS NOT DONE HERE. This table
+     is FANTASY SYNTH'S -- the doom and sludge work reads as a diff from it and
+     the row list was written in the parent -- so a `unison` declared beside it
+     would double fantasy synth's bass as well, onto a comp that is a HELD PAD
+     (measured: 0.6 distinct strike-steps a bar against the figure's 1.8), which
+     is not a riff and cannot be doubled onto. It is declared on the CHILD, and
+     this is written here because putting it here first is exactly what I did,
+     and the blast-radius check caught fantasy synth's whole record moving --
+     the same leak, and the same way it was caught, as `riffLane`. */
   /* ── THE FIGURE, AND WHAT THE MODE WILL LET IT REACH ──────────────────────
      `bassRiff` degrees are DIATONIC offsets from the chord's degree, so the
      riff transposes with the harmony and cannot leave the mode. That decides
@@ -29714,6 +29723,38 @@ GENRE.doomsludge = (function(F){
      An inherited default is still a default. This genre's chug is the thing the
      kit locks to and it says so itself. */
   kit: merge(F.kit, { riffLane: "keys" }),
+  /* ══ AND "IN UNISON" WAS A WORD IN A COMMENT, NOT A THING THE FILE DID ════
+     The parent's `bassRoles` table has said `C  sludge  riff  the bass is ON
+     the riff, in unison` since the day it shipped, and the sources it was written
+     from say it in as many words -- bass and guitar play "the riff in unison,
+     creating a loud and BASS-HEAVY WALL OF SOUND", and "fourths/fifths, and
+     sustained unisons enhance mass" [corpus:doesitdoom]. THE BUILDER NEVER
+     DID IT. `bassStyle: "riff"` draws the bass its OWN two-bar figure from its
+     OWN pools on its OWN stream; the guitar's chug is a different figure drawn
+     somewhere else. Two riffs at once is not a unison, it is counterpoint, and
+     counterpoint is the opposite of the thing the source asked for.
+
+     MEASURED before this landed: 46 notes of this record shared a pitch and an
+     instant with another part out of 4,177 -- 1.1%, and every one of them an
+     accident of register allocation. The Televators MIDI read for the fight
+     measures 201 of 2,416, 8.3%. The Botch tabs are the same figure written
+     twice: the guitar's is `--2-2-2--` on the low D, the bass's is `D-2222`.
+
+     WHICH ACTS, AND WHY NOT ALL OF THEM. `C` is the sludge act, where the
+     source names the unison outright. `B` is the fight, where the tabs do --
+     both Botch tabs are guitar and bass on one line. `A` keeps its held power
+     chord because doom's source asks for "a power chord or single note ... let
+     it sustain", which is a different job, and the lift keeps its own line
+     because Belkin's warning is real from the other side: constant unison
+     doubling is "the beginner's most common fault". Two acts of four double;
+     two do not, and the record has both to compare.
+
+     THE LEADER IS `keys` because this genre's kit already says so -- `riffLane:
+     "keys"` on the line directly above, declared off a measurement (2.9 distinct
+     strike-steps a bar against the figure's 1.2) that the comp is what carries
+     the rhythm here. The bass joins the thing the kick is already locked to,
+     which is what "the rhythm section" means. */
+  unison: { lane: "bass", of: "keys", at: ["C", "B"] },
   keysStyleAt: { A: "hold", C: "comp", B: "comp", lift: "comp" },
   compEntry: [[-2, 5], [2, 4], [-1, 3], [0, 3], [1, 2], [3, 2]],
   ostinato: merge(F.ostinato, {
@@ -30320,6 +30361,12 @@ const BLEND_DRAW = new Set([
      indexes the mode at a fraction. Drawn whole, the day it was declared. */
   "seventhOn",
   "bassStyle", "bassRiff", "gate", "chop", "ostinato",
+  /* `unison` NAMES TWO ROLES AND A LIST OF ACTS, so it arrives whole or not at
+     all -- the same rule `form.feature` is held to one screen down, and for the
+     identical reason: half of one genre's doubling is a follower with no leader
+     named, which is either inert or a lane rewritten from a part that is not
+     there. There is nothing in it to average. */
+  "unison",
   "registers", "form.lengths", "form.material", "form.roles", "form.target",
   /* THE FEATURE ROTATION NAMES ROLES, so it arrives whole or not at all --
      the same rule `form.build` is held to, one line down, and for the identical
@@ -40453,10 +40500,19 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      drone goes DOWN, because it is the floor and the floor should get lower;
      the generative voice goes UP, because it is the top line. Dropped only if
      both octaves are taken too, which is the honest outcome. */
-  const clearAgainst = (mat, ROLE, prefer, lo, hi) => {
+  /* ── AND ONE PART MAY BE EXEMPT, BECAUSE IT IS THE ONE BEING DOUBLED ─────
+     `except` names a role this lane is DELIBERATELY on the same pitches as
+     [see the unison pass below]. Without it the walk would treat the very
+     notes the lane was just told to play as obstacles and move away from all
+     of them, which would undo the doubling one note at a time and leave the
+     part sounding like a bass that keeps nearly landing on the riff. Every
+     other part is still an obstacle, so the accidental collisions this walk
+     exists for are found exactly as before. Callers that pass nothing get the
+     identical walk. */
+  const clearAgainst = (mat, ROLE, prefer, lo, hi, except) => {
     const taken = new Set();
     for(const r in mat){
-      if(r === ROLE || !Array.isArray(mat[r])) continue;
+      if(r === ROLE || r === except || !Array.isArray(mat[r])) continue;
       for(const n of mat[r]) if(n.pitch != null) taken.add(n.bar + ":" + n.step + ":" + n.pitch);
     }
     const clear = [];
@@ -40641,6 +40697,112 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const chordsFor = m => ({ C: bridgeChords, B: chorusChords, Bret: chorusRet,
                             lift: liftChords, A: chords, Aret: chordsRet,
                             T: transChords })[whichChanges(m)];
+  /* ══ AND SOMETIMES TWO PARTS ON ONE PITCH IS THE POINT ════════════════════
+     [owner: "this is code and the only rules are music theory and constraints
+      not baked in values"]
+
+     THE COLLISION LAW SAYS "two parts on one pitch at one instant is one
+     part", and that sentence is an OPINION ABOUT WASTE, not a rule of music.
+     It was written to catch two real accidents and it caught them: a blend
+     averaging two register tables put a drone genre's ground on another
+     genre's bass in 110 of 1080 pairs, and the drone and generative lanes
+     place notes without asking anyone's permission. Both are register
+     allocation going wrong. Neither is anybody DECIDING to double a line.
+
+     Deciding to double a line is one of the oldest things an arranger does.
+     Belkin, already quoted twice in this file, states it as a law from the
+     other side -- "it is better to double them in unison" -- and this genre's
+     own sources say it outright: sludge is bass and guitar playing "the riff
+     in unison, creating a loud and BASS-HEAVY WALL OF SOUND", and "sustained
+     unisons enhance mass". The Botch tabs the fight was measured against are
+     the same thing written twice: the guitar's figure is `--2-2-2--` on the
+     low D and the bass's riff is `D-2222`. Same pitch, same rhythm, two
+     instruments. MEASURED on the Televators MIDI, 201 of its 2416 notes share
+     a pitch and an instant with another part -- 8.3%. This program's whole
+     record measured 1.1%, and every one of those was an accident.
+
+     So the accident and the decision are separated, and the guard keeps
+     catching the accident. A genre DECLARES the doubling -- which lane
+     follows which -- and the follower is rewritten to play the leader's
+     figure note for note, moved into its own register in WHOLE OCTAVES so the
+     contour is identical and the pitch classes are the leader's. Where the two
+     registers overlap that is a true unison; where they do not it is an octave
+     double, which is the same decision and the same figure. A genre that
+     declares nothing gets `undefined` here, changes nothing, and draws
+     nothing [Law 3 -- this pass makes no random draws at all].
+
+     `at` names which acts double, because doubling everywhere is the fault
+     Belkin warns about in the same breath. The bass keeps its own written
+     line in the acts not named. */
+  /* ── WHICH TWO PARTS A MATERIAL WAS TOLD TO DOUBLE — THE RULE, ONCE ───────
+     Asked by the pass below, which does the doubling, and by the SEAM CHECK
+     five thousand lines down, which has to know that a pair on one pitch was
+     meant. Two copies of that answer is the mistake this file has made four
+     times and `whichChanges` exists to have stopped, so there is one, and the
+     check reads it off `materials.unisonOf` beside `chordsOf`.
+     Returns a two-way map, follower→leader and leader→follower, because a
+     collision is found from whichever side the walk reaches first. */
+  const unisonFor = m => {
+    const U = G.unison;
+    if(!U || !U.lane || !U.of) return null;
+    /* `Aret`/`Bret` are the same act coming back and double with it */
+    if(U.at && U.at.indexOf(whichChanges(m).replace(/ret$/, "")) < 0) return null;
+    const o = {}; o[U.lane] = U.of; o[U.of] = U.lane; return o;
+  };
+  const UNI = G.unison;
+  if(UNI && UNI.lane && UNI.of){
+    const WANT = R[UNI.lane] || [36, 55];
+    const BAND = playable(WANT, UNI.lane) || WANT;
+    for(const m in materials){
+      const mat = materials[m];
+      if(!mat || Array.isArray(mat) || !mat.drums) continue;
+      if(!unisonFor(m)) continue;
+      const lead = mat[UNI.of];
+      if(!Array.isArray(lead) || !lead.length || !Array.isArray(mat[UNI.lane])) continue;
+      /* ── ONE OCTAVE FOR THE WHOLE LINE, NOT ONE PER NOTE ─────────────────
+         The first version folded each note into the band on its own, and that
+         is not a transposition -- it is a fold, and it BREAKS THE CONTOUR at
+         the band's edge. Measured on this genre's own numbers: the bass band
+         tops out at MIDI 48, so a comp note at 60 came down to 48 and the very
+         next one at 61 came down to 37, an eleventh BELOW it, when the line it
+         was copying had gone UP a semitone. That is not the same figure, it is
+         the same pitch classes in a different order, and the whole claim of a
+         doubling is that the figure is the same one.
+
+         So the line moves in WHOLE OCTAVES, as a body -- the same rule
+         `playable` already states for moving a genre's band to fit an
+         instrument, and for the same reason: it is the only transposition that
+         leaves the contour identical. The octave chosen is the one that leaves
+         fewest notes outside the band, lowest on a tie because this is the low
+         voice. Notes still outside after that are folded, which is what a
+         player with four strings does with the two notes at the top of a
+         guitar figure, and it is a handful rather than the whole line. */
+      let shift = 0, worst = 1e9;
+      for(let k = -4; k <= 4; k++){
+        let bad = 0;
+        for(const n of lead)
+          if(n && n.pitch != null &&
+             (n.pitch + 12 * k < BAND[0] || n.pitch + 12 * k > BAND[1])) bad++;
+        if(bad < worst){ worst = bad; shift = k; }
+      }
+      const dbl = [];
+      for(const n of lead){
+        if(!n || n.pitch == null) continue;
+        dbl.push({ bar: n.bar, step: n.step, dur: n.dur,
+                   pitch: intoBand(n.pitch + 12 * shift, BAND[0], BAND[1]),
+                   vel: n.vel, role: UNI.lane });
+      }
+      if(!dbl.length) continue;
+      mat[UNI.lane] = dbl;
+      /* AND IT STILL NEGOTIATES WITH EVERYONE ELSE. The doubled lane has just
+         been handed pitches it never reserved a seat for, so it walks off any
+         part it landed on by accident -- every part except the one it was told
+         to double. Downward first, because it is the low voice. */
+      clearAgainst(mat, UNI.lane, -1, BAND[0], BAND[1], UNI.of);
+      const act = whichChanges(m).replace(/ret$/, "");
+      mat[UNI.lane] = pin(mat[UNI.lane], UNI.lane, act === "lift" ? "A" : act);
+    }
+  }
   /* ── WHICH KIT SETTING AND WHICH LETTERS A MATERIAL'S DRUMS WERE BUILT WITH ─
      ONE OWNER. Stage 3 used exactly this mapping when it built the five drum
      parts above, `phraseFor` below now reads it instead of restating it, and
@@ -40865,6 +41027,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   const cOf = {};
   for(const m of MAT_KEYS) cOf[m] = frozenFor(m);
   materials.chordsOf = Object.freeze(cOf);
+  /* and the declared doublings, asked of `unisonFor` for the same reason and
+     over the same list -- so a PRIVATE COPY minted by a hand edit (`A@5`) is
+     covered by the fact its parent was, instead of the seam check throwing on
+     the one section the user touched. Empty for every genre that declares
+     nothing, and the check then behaves exactly as it always has. */
+  const uOf = {};
+  for(const m of MAT_KEYS){ const u = unisonFor(m); if(u) uOf[m] = Object.freeze(u); }
+  materials.unisonOf = Object.freeze(uOf);
   /* WHAT THE RECORD DID WITH ITS KEY, stated once, so the arrangement, the roll
      and the seam check all read the same fact rather than each deriving it. */
   /* the lift's OWN key and mode, for the same reason: a movement may have
@@ -45619,6 +45789,10 @@ function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wa
        failure you can act on and one you can only re-run. It changes no music
        and no draw; it is the error message doing its job. */
     const seen = new Map();
+    /* WHICH TWO PARTS THIS MATERIAL WAS TOLD TO DOUBLE, or nothing. Read off
+       the material list rather than re-derived, so the check and the pass that
+       did the doubling can never disagree about which acts it covers. */
+    const UNI_PAIR = (materials.unisonOf && materials.unisonOf[m]) || null;
     /* WHICH CHANGES THIS MATERIAL IS ON. C is the bridge and has its own. */
     const chSet = materials.chordsOf[m] || materials.chords;
     for(const role in materials[m]){
@@ -45719,7 +45893,23 @@ function composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wa
           }
         }
         const k = n.bar + ":" + n.step + ":" + n.pitch;
-        if(seen.has(k)) throw new Error("collision in " + m + " at " + k +
+        /* ── AND A DOUBLING THAT WAS ASKED FOR IS NOT A COLLISION ────────────
+           The law this guard enforces reads "two parts on one pitch at one
+           instant is one part". That is true of an ACCIDENT -- a blend
+           averaging two register tables, a drone landing where a bass already
+           was -- and false of a DECISION, which is called unison doubling and
+           is ordinary orchestration [see the unison pass in stage 3 for the
+           sources]. The guard could not tell them apart because nothing in the
+           file had ever said which pairs were meant.
+
+           Now one thing does. `unison` names exactly one follower and one
+           leader, so this exemption is two named roles wide: everything else
+           in the material — every other pair, and this pair in every act the
+           genre did not name — throws exactly as before, which is the whole
+           reason the guard is worth keeping. Nine genres declare nothing and
+           are checked byte for byte as they were. */
+        if(seen.has(k) && !(UNI_PAIR && UNI_PAIR[role] === seen.get(k)))
+             throw new Error("collision in " + m + " at " + k +
               " — " + role + " lands on " + seen.get(k) +
               " (bar " + n.bar + ", step " + n.step + ", pitch " + n.pitch + ")");
         seen.set(k, role);
