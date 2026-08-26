@@ -3594,3 +3594,78 @@ I spent this session measuring parts in isolation and asking the owner to
 adjudicate arrangement questions. The answer was sitting in the record the whole
 time: **one act works, one act is the same material and does not, so diff them.**
 Nothing about that needed a source, a genre reading, or permission.
+
+---
+
+## §0b3 — the over-reach, reverted; and the law a derived tune never asked (2026-08-22)
+
+[owner: *"I didnt tell you i wanted to whole song to be like the end i said
+thats the only part that is working right now"*]
+
+§0b2 read a REPORT as an INSTRUCTION. "The ending is the only part working" is a
+statement about the current state; I turned it into "make everything resemble the
+ending" and shipped five changes on that basis. Reverted:
+
+- `keysStyleAt.A` back to `"hold"` — the held chord is doom's own character and
+  the only thing giving that act a shape of its own. Making all three acts comp
+  is a *worse* answer to "the whole thing is disconnected" than the fault it was
+  meant to fix: one texture for the whole record.
+- The HM-2 back on both slow acts, and the ending's phaser/compressor off them.
+- `fuzz.amt` back to 1 on both. These acts **are** the wall — *"down-tuned,
+  heavily distorted"*, *"a bass-heavy wall of sound"* — and the owner has never
+  complained about them. He complained about the fight, and the fight is gone.
+
+The A/B those changes leaned on is **confounded four ways**: the act that works
+also has no drums, no bass and no figure. Picking the dirt out of that and acting
+on it was a guess presented as a finding.
+
+### THE ONE THING KEPT
+
+`into the deep` gets a `keys` lane. It had **none** — its largest voice was the
+bass at 57%. That stands on its own: the owner complained about that act, in
+those words, before he ever said which act worked. With `keysStyleAt.C: "hold"`
+rather than `"comp"`, because comping took the act from 2.38 notes a second to
+**4.85 — denser than the ending** — and buys a busy bass with it, since this
+genre doubles its bass onto the comp. Held chords fill the harmony without
+flooding it: average note length in that act goes **1.38 s → 2.66 s**.
+
+### AND THE BUG UNDERNEATH IT ALL — 3 STANDING THROWS DOWN TO 1
+
+Seed `doomsludge 119` threw **twice this week from two unrelated changes** —
+once when the comp stopped voicing thirds, once when it went from comping to
+held. Both were changes to the **comp**. Neither touched the tune.
+
+A builder where editing one part can make a *different* part illegal has a hole
+in it, and the hole is that the motif branch of `buildTheme` never asks the law.
+A **drawn** theme is legal by construction — every branch places notes with
+`degMidi` (in-mode by definition) or `nearestTone` (a chord tone by definition).
+A **derived** theme is not:
+
+- **The source's mode is not this one.** Material A stands in C phrygian, the
+  bridge in C minor. Phrygian has a flat second; minor does not. A contour
+  carried between them can land on a pitch class this mode has never had.
+- **The law is about a note AND ITS NEIGHBOUR.** An out-of-key note is legal when
+  it steps into a chord tone — so whether it survives depends on what comes next,
+  and what comes next depends on the comp the tune was drawn against.
+
+`legalise` is already the single owner of that law and already asked by the
+hand's edits and by the spliced `vary` devices. The motif branch asks it now.
+
+```
+  600-record sweep     before: 3 threw      after: 1 threw
+    dungeonsynth 64      threw   ->  composes
+    doomsludge   35      threw   ->  composes
+    doomsludge  119      threw   ->  composes
+    lofi         17      threw   ->  still throws (a different cause, unfixed)
+```
+
+Two of those three had been standing for days and were logged as a harmony fault
+in `deriveCounter`. They were this instead.
+
+### AND THE HONEST LIMIT ON ALL OF IT
+
+Every judgement in this file about whether something *sounds* better is an
+inference from note counts. There is no listening loop. Six consecutive builds
+have been reported as improvements and heard as no change or worse. The note
+counts are real; the claim that they mean anything to a listener is not, and
+should be read that way until something renders and measures actual audio.
