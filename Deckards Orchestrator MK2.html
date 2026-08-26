@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22n &middot; the fight is deleted &mdash; three acts, and the record keeps its tempo</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22o &middot; every act gets the chord bed &mdash; and the chainsaw comes off the record</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -29848,7 +29848,31 @@ GENRE.doomsludge = (function(F){
          the first one is built on. Same lane, same cells, and the punk half of
          sludge is carried by tempo and the fuzz rather than by a different
          figure -- which is what the sources describe. */
-      "into the deep": ["drums", "bass", "keys2", "lead", "ostinato", "drone"],
+      /* ══ AND THE ACT WITH NO CHORDS IN IT GETS CHORDS ═══════════════════
+         [owner: "The whole thing is disconnected. And wrong. The only part
+          that works is the pink floyd ending. The rest is trash."]
+
+         MEASURED, and the owner's A/B is inside his own record. `setting out`
+         plays material A. `the long way home` plays `Alift` — THE SAME TUNE,
+         lifted into another key. He loves one and calls the other trash, so the
+         difference cannot be the music. It is the arrangement, and here it is,
+         8 records, share of each act's notes by part:
+
+           the long way home   keys 81%  keys2 10%  lead 8%  counter 1%
+           setting out         ostinato 42%  keys 21%  bass 18%  lead 13%
+           into the deep       bass 57%  ostinato 24%  lead 11%  keys2 8%  KEYS 0%
+
+         The act that works is a CHORD BED with a tune over it. The two that do
+         not are a rhythm section with no bed under them — and the sludge act
+         has literally no chord part at all, because this line did not list one.
+         Its 57% is the BASS. That is what "disconnected" is: nothing is holding
+         the harmony, so every part is a separate event.
+
+         This was found days ago, written down as an owner decision and left
+         [see the note beside `keysStyleAt`]. Leaving it was the mistake. An act
+         with no chords is not an arrangement choice waiting for approval, it is
+         a hole. */
+      "into the deep": ["drums", "bass", "keys", "keys2", "lead", "ostinato", "drone"],
       "the long way home": ["keys", "keys2", "counter", "lead", "drone"],
       /* ── AND THE RECORD DOES NOT END ON ONE HELD NOTE ──────────────────
          The outro belongs to the RECORD rather than to a leg, so it never
@@ -29975,7 +29999,19 @@ GENRE.doomsludge = (function(F){
      the rhythm here. The bass joins the thing the kick is already locked to,
      which is what "the rhythm section" means. */
   unison: { lane: "bass", of: "keys", at: ["C"] },
-  keysStyleAt: { A: "hold", C: "comp", B: "comp", lift: "comp" },
+  /* ══ AND THE OPENING ACT'S CHORDS MOVE NOW ════════════════════════════════
+     `A: "hold"` came from doom's own source — "play a power chord or single
+     note and let it sustain" — and it is the reason `setting out` measures 21%
+     keys against the walk home's 81% on the SAME MATERIAL. A held pad puts four
+     notes in a bar; a comp puts a chord under every phrase.
+
+     The source is about a guitar, this record has none, and the owner's verdict
+     is the measurement that outranks the citation: the act with a comp is the
+     one he says works and the act with the pad is the one he calls trash. Both
+     are material A.
+
+     `hold` is not deleted, it is no longer what the doom act uses. */
+  keysStyleAt: { A: "comp", C: "comp", B: "comp", lift: "comp" },
   compEntry: [[-2, 5], [2, 4], [-1, 3], [0, 3], [1, 2], [3, 2]],
   ostinato: merge(F.ostinato, {
     /* ══ THE FIGHT'S FIGURE GETS RESTS, AND THAT IS THE WHOLE FIX ═══════════
@@ -30256,13 +30292,41 @@ GENRE.doomsludge = (function(F){
         /* DOOM. The sub an octave down under the bass, the Face just barely
            in — the Muff is doing the work here and the Face is thickening its
            input. Gate high enough that the divider shuts up between notes. */
+        /* ══ AND THE CHAINSAW COMES OFF THE WHOLE RECORD ══════════════════
+           [owner: "The only part that works is the pink floyd ending. The rest
+            is trash."]
+
+           The act he names has NO DIRT UNIT ON IT AT ALL — phaser and
+           compressor and nothing else — and every act he calls trash had the
+           HM-2 dimed over it. That is the clearest A/B in this file and it
+           points one way. The saw is off in all three acts now; it was already
+           off in the fight when that act was deleted.
+
+           The MUFF STAYS on both slow acts, and hotter on the sludge one. Drive
+           is not the fault and never was — the sources for these acts are about
+           weight ("down-tuned, HEAVILY distorted", "molten lava, congealing
+           tar") and a Muff is a warm, sustaining, second-order box. The HM-2 is
+           a fizz-and-velcro pedal built for one specific guitar sound, and this
+           record has no guitar. Rock is still being injected; it is being
+           injected with the unit that adds mass rather than the one that adds
+           teeth.
+
+           `sawRows` is left declared so the unit can come back per act. */
+        /* AND THE TWO PEDALS FROM THE ENDING ARE ON EVERY ACT NOW. The walk
+           home's whole board is `phase` + `comp`, and it is the only act the
+           owner says works. Slower and shallower here than there, because these
+           acts carry drums and a bass and the sweep should be weather rather
+           than the subject — but present, so the record is one sound world with
+           three weights instead of three unrelated ones. That is the answer to
+           "the whole thing is disconnected" on the FX side; the chord bed above
+           is the answer to it on the music side. */
         "setting out":       { oct:  { amt: 0.28 },
+                               phase:{ amt: 0.34, rate: 0.08 },
+                               comp: { amt: 0.50, sustain: 0.50, level: 0.50 },
                                sub:  { amt: 0.30, two: 0, gate: 0.016, tone: 780 },
                                meat: { amt: 0.30, dirt: 0.55, bias: 0.10,
                                        dark: 0.30, level: 0.45 },
                                /* the Doomsaw voicing: dimed gyrators, top taken off */
-                               saw:  { amt: 0.35, dist: 0.62, low: 1, high: 0.70,
-                                       gate: 0.05, tame: 3200, level: 0.13 },
                                /* a tired supply, breathing with the riff. The
                                   battery is still good; only the sag is on. */
                                sag:  { amt: 0.45, depth: 0.55, idle: 1,
@@ -30270,11 +30334,11 @@ GENRE.doomsludge = (function(F){
         /* SLUDGE. Two octaves down and the Face stacked into the Muff at
            three quarters — the wall. Darkest setting on the board. */
         "into the deep":     { oct:  { amt: 0.34 },
+                               phase:{ amt: 0.40, rate: 0.06 },
+                               comp: { amt: 0.55, sustain: 0.55, level: 0.52 },
                                sub:  { amt: 0.38, two: 0.40, gate: 0.012, tone: 620 },
                                meat: { amt: 0.72, dirt: 0.74, bias: 0.16,
                                        dark: 0.18, level: 0.50 },
-                               saw:  { amt: 0.50, dist: 0.72, low: 1, high: 0.62,
-                                       gate: 0.06, tame: 2600, level: 0.15 },
                                /* AND THE BATTERY IS DYING. This is the act
                                   that wants "molten lava, congealing tar" --
                                   a starved rail is where the sources put that
@@ -30422,9 +30486,16 @@ GENRE.doomsludge = (function(F){
            path and does not have to be bought back out of the tone stack.
            So tone comes up and darkness is the CAB's job, which is what a
            speaker is. */
-        "setting out":      { amt: 1, sustain: 0.68, tone: 0.52, level: 0.34,
+        /* AND `amt` IS NOT 1 ANY MORE. It is a dry/wet blend, and at 1 every
+           part on the row arrives fully clipped with no clean signal beside it
+           — over a chord bed that is now half the act's notes, that is the mud
+           the fight was made of. The act the owner likes runs at 0, so these
+           two move most of the way toward it and keep enough to be the rock
+           injection this genre is. Sustain rises on both, because what is
+           wanted from these acts is WEIGHT and weight is drive, not blend. */
+        "setting out":      { amt: 0.42, sustain: 0.72, tone: 0.48, level: 0.38,
                               mids: 0.62, mass: 0.45, cab: 3800 },
-        "into the deep":    { amt: 1, sustain: 0.78, tone: 0.46, level: 0.38,
+        "into the deep":    { amt: 0.50, sustain: 0.82, tone: 0.44, level: 0.42,
                               mids: 0.70, mass: 0.55, cab: 3000 },
         /* AND THE FIGHT'S OWN FUZZ COMES DOWN WITH THE CHAINSAW. `amt` was 1 —
            the whole front line wet — over a clipper that was already the

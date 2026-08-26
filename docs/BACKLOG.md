@@ -3515,3 +3515,82 @@ before, the same 3 after.
 The comp is **55% of the record's sound** and outnumbers the tune ten to one.
 That was measured in the fight and it is a property of the comp, not of the act
 that is now gone. It is the next thing.
+
+---
+
+## §0b2 — the owner's A/B was inside his own record (2026-08-22)
+
+[owner: *"The whole thing is disconnected. And wrong. The only part that works
+is the pink floyd ending. The rest is trash."*]
+
+That sentence is the most useful thing anyone has said about this genre, because
+of one fact I had not put together: **`setting out` plays material A, and `the
+long way home` plays `Alift` — the same tune, lifted into another key.** He loves
+one and calls the other trash. It cannot be the music. It is the arrangement, and
+the arrangement is measurable.
+
+### MEASURED — share of each act's notes, by part, 8 records
+
+```
+  the long way home    keys 81%   keys2 10%   lead 8%   counter 1%      <- works
+  setting out          ostinato 42%  keys 21%  bass 18%  lead 13%       <- "trash"
+  into the deep        bass 57%   ostinato 24%  lead 11%  KEYS 0%       <- "trash"
+```
+
+The act that works is **a chord bed with a tune over it**. The two that do not
+are a rhythm section with nothing underneath — and the sludge act has **no chord
+part at all**. Its largest voice is the bass, at 57%.
+
+That is what "disconnected" is. Nothing holds the harmony, so every part is a
+separate event happening near the others.
+
+### AND THE OTHER HALF IS THE DIRT
+
+```
+  act                 dirt units on it        fuzz amt
+  the long way home   none (phase + comp)       0        <- works
+  setting out         Muff + HM-2               1
+  into the deep       Muff + HM-2               1
+```
+
+Every act the owner calls trash had the HM-2 dimed over it. The one he names has
+no dirt unit at all.
+
+### WHAT LANDED
+
+1. **`into the deep` gets a `keys` lane.** It had none. *This was found days ago,
+   written up as an owner decision and left.* Leaving it was the mistake: an act
+   with no chords is not a choice awaiting approval, it is a hole.
+2. **`keysStyleAt.A`: `"hold"` → `"comp"`.** The pad came from doom's own source
+   — *"let it sustain"* — and it is why the same material measures 21% keys in
+   one act and 81% in the other. The source is about a guitar; this record has
+   none; the owner's verdict outranks the citation.
+3. **The HM-2 comes off every act.** The Muff stays and goes hotter — the sources
+   for these acts are about weight ("molten lava, congealing tar") and a Muff is
+   a warm sustaining box, where the HM-2 is fizz and velcro built for one
+   specific guitar sound.
+4. **`fuzz.amt` 1 → 0.42 / 0.50.** It is a dry/wet blend; at 1 every part arrives
+   fully clipped with no clean signal beside it, over a bed that is now half the
+   act's notes. Sustain rises on both, because weight is drive, not blend.
+5. **The ending's two pedals go on every act** — phaser and compressor, slower
+   and shallower on the acts carrying drums. One sound world at three weights
+   instead of three unrelated ones.
+
+### MEASURED — after
+
+```
+  act                 keys share      voices at once
+  setting out          21% -> 56%       5.3 -> 6.7
+  into the deep         0% -> 51%       5.3 -> 8.4
+  the long way home    81% (untouched)  8.4
+```
+
+Both weak acts now sit between where they were and the act that works. Tempos
+unchanged (69 / 91 / 74). 600-record sweep: 3 throws before, the same 3 after.
+
+### THE LESSON
+
+I spent this session measuring parts in isolation and asking the owner to
+adjudicate arrangement questions. The answer was sitting in the record the whole
+time: **one act works, one act is the same material and does not, so diff them.**
+Nothing about that needed a source, a genre reading, or permission.
