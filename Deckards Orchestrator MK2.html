@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22m &middot; the fight is fast now, not angular &mdash; and the phaser is the whole record</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22n &middot; the fight is deleted &mdash; three acts, and the record keeps its tempo</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -27436,7 +27436,30 @@ GENRE.fantasysynth = (function(D){
      are cut to pay for this and the running time is measured back to 20:01
      mean. A tempo change in this genre is always two edits.
      docs/genre-research/the-four-acts.md §5.2 ── */
-  tempo: [84, 96],
+  /* ══ AND THE BASE IS THE RECORD'S MEAN, SO REMOVING THE FAST ACT MOVED IT ══
+     [owner: "Erase the mathcore section altogether!"]
+
+     `form.tempoArc` is NORMALISED — its own note says it "redistributes time and
+     never adds any" — which makes this number the record's MEAN tempo rather
+     than any act's. Delete the fastest third of a record and every remaining
+     act has to speed up to hold that mean. MEASURED the moment the fight came
+     out, with this still at [84, 96]:
+
+       act                 before    after the deletion    wanted
+       setting out           72             81               72
+       into the deep         96            107               96
+       the long way home     77             86               77
+
+     The sludge act at 107 BPM is outside the band its own sources give it
+     ("roughly 60-110" and it was sitting at 96), and nobody asked for a faster
+     record — only for one act to go. So the mean comes down by the amount the
+     fight was holding it up, and the three legs land back on the tempos they
+     had: 69, 91 and 74 against 72, 96 and 77. Within a couple of BPM, which is
+     inside the seed-to-seed spread.
+
+     THIS IS THE PARENT'S TABLE, so fantasy synth moves with it. Said rather
+     than skipped [owner: "fantasy synth is dead. Dont worry about it"]. */
+  tempo: [72, 82],
   /* ── THE MODES ARE THE MOVEMENTS ───────────────────────────────────────
      Modal jazz's first device is the mode change itself, and Holst is the
      proof it carries a long form: seven movements, an hour, "no story line,
@@ -27453,7 +27476,15 @@ GENRE.fantasysynth = (function(D){
      Twenty minutes at a mean of 96 BPM is about 320 bars of 4/4, so the base
      triples and the steps widen. The four movements then divide it. */
   form: merge(D.form, {
-    target: [432, 3, 8],           // the plan plus a 16-bar intro and a 16-bar tag
+    /* ── AND THE RECORD IS SHORTER BY THE ACT THAT WAS REMOVED ────────────
+       [owner: "Erase the mathcore section altogether!"] The three legs that
+       remain budget 67 + 79 + 74 = 220 bars, plus a 16-bar intro and a 16-bar
+       tag: 252. That is the whole record now, and it is roughly three quarters
+       of what it was. Leaving the target at 432 would have made the arranger
+       stretch three acts over four acts' worth of bars, which is the same
+       mistake as handing them the fight's budget — it does not restore the
+       music, it dilutes what is left. */
+    target: [252, 3, 8],           // the three legs plus a 16-bar intro and a 16-bar tag
     /* ══ SIXTEEN BARS, BECAUSE A LEG IS A SONG AND NOT A SECTION ═══════════
        [owner, 2026-08-20: "each 5 min is its own song, its own leg. Youve made
        5 min sections and its horribly boring."]
@@ -27671,8 +27702,10 @@ GENRE.fantasysynth = (function(D){
        `verse` and `instrumental` can appear in three legs and mean something
        different in each. `intro` and `outro` belong to no movement and are
        still keyed by name. */
+    /* `"the fight": "B"` is gone with the movement [see form.plan]. Material B
+       is still BUILT and is now unplayed — BACKLOG §0b1. */
     material: { intro: "A", outro: "Alift",
-                "setting out": "A", "into the deep": "C", "the fight": "B",
+                "setting out": "A", "into the deep": "C",
                 "the long way home": "Alift" },
     /* ── THE FOUR MOVEMENTS ────────────────────────────────────────────────
        Dungeon synth already had a named movement plan -- descend, halls,
@@ -27744,12 +27777,47 @@ GENRE.fantasysynth = (function(D){
          The budgets are real draws now: with sixteen-bar sections a leg lands
          within a section of its number rather than being pinned to twice a
          length. */
+      /* ══ AND THE FIGHT IS GONE ═══════════════════════════════════════════
+         [owner: "Erase the mathcore section altogether!"]
+
+         It was 116 bars — a third of the record — and it was the mathcore act.
+         Two rounds of taking the mathcore OUT of it did not work, and the
+         reason is in what was left: the act's whole identity was a vocabulary
+         written for a picked electric guitar, and this record has no guitar and
+         is not going to get one. Removing the chainsaw, the blast feet and the
+         polymeter left an act with nothing of its own. The owner heard exactly
+         that both times.
+
+         So the movement is deleted rather than softened. THE RECORD IS THREE
+         ACTS: setting out, into the deep, the long way home.
+
+         AND ITS BARS ARE NOT HANDED TO THE OTHERS, which is what I did first
+         and the clock caught: the arc is NORMALISED — "it redistributes time
+         and never adds any" — so giving three legs a third more bars to cover
+         inside the same total seconds simply speeds the whole record up.
+         Measured: every act rose about 15% (setting out 69 -> 80 BPM, into the
+         deep 92 -> 107), which nobody asked for and which is the sludge act
+         losing its own tempo band. The legs keep the budgets they had. A record
+         with a third of its music removed is a SHORTER record, not a faster
+         one, and `form.target` comes down with it.
+
+         ⚠ WHAT THIS COSTS, SAID PLAINLY: one movement plays one material
+         family, so with this leg gone MATERIAL B — the chorus, and the whole
+         `Bvar`/`Bdev`/`Bseq` family with it — is built and never played. That
+         is dead weight and it is the owner's call whether the hook comes back
+         somewhere else or the family stops being built. It is written here
+         rather than quietly patched, because giving another leg a chorus to
+         soak it up would be a musical decision nobody asked for.
+
+         Every table entry keyed `"the fight"` below — the fuzz, the pedals, the
+         kit, the motion curves, the feature rotation — is now unreachable. They
+         are LEFT IN PLACE and listed in BACKLOG §0b1: a genre that is asked for
+         a battle again should get its tables back, and forty deletions in the
+         same pass that removes the act is how a revert becomes impossible. */
       { name: "setting out",   pool: ["verse", "instrumental"],
         bars: [67, 3, 8] },
       { name: "into the deep", pool: ["bridge", "verse"],
         bars: [79, 3, 8], endOn: "bridge" },
-      { name: "the fight",     pool: ["chorus", "instrumental"],
-        bars: [116, 3, 8], endOn: "chorus" },
       /* ── AND THE WALK HOME IS A LEG AGAIN, WHICH IT COULD NOT BE BEFORE ───
          It was the outro outright, for a good reason at the time: an outro can
          only be last and comes exactly once, and with `material` keyed on the

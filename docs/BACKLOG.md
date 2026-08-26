@@ -3450,3 +3450,68 @@ this record's.
   real candidates are release times: brass 0.13 s, hurdy-gurdy 0.09 s,
   contrabassoon 0.16 s, each sourced for the real instrument and each wrong for
   a genre rooted in sustain. Not yet addressed.
+
+---
+
+## §0b1 — the fight is deleted (2026-08-22)
+
+[owner: *"There was ZERO change its shit! Erase the mathcore section
+altogether!"*]
+
+Two rounds of taking the mathcore **out of** the act did not work. The reason is
+what was left: the act's whole identity was a vocabulary written for a picked
+electric guitar — start-stop riffing, accent displacement, single-note dissonance
+— and this record has no guitar and is not getting one. Strip the chainsaw, the
+blast feet and the polymeter and there is nothing of its own underneath.
+
+Checked first that the page was not stale: the published artifact carried build
+`2026-08-22m`. The changes shipped and were not enough.
+
+**The movement is deleted.** The record is three acts: setting out, into the
+deep, the long way home.
+
+### AND TWO THINGS I GOT WRONG ON THE WAY, BOTH CAUGHT BY THE CLOCK
+
+**1. I handed the fight's 116 bars to the other three legs.** The arc is
+normalised — *"it redistributes time and never adds any"* — so three legs
+covering a third more bars inside the same total seconds simply runs the whole
+record faster. Every act rose about 15%. A record with a third of its music
+removed is a **shorter** record, not a faster one. The legs keep their own
+budgets and `form.target` comes down from 432 bars to 252.
+
+**2. The base tempo is the record's MEAN, not any act's.** Deleting the fastest
+third makes every remaining act speed up to hold that mean:
+
+```
+  act                 before    fight removed    after fixing the base
+  setting out           72           81                  69
+  into the deep         96          107                  91
+  the long way home     77           86                  74
+```
+
+107 BPM is outside the band the sludge act's own sources give it, and nobody
+asked for a faster record — only for one act to go. `tempo` comes down from
+[84, 96] to [72, 82] by the amount the fight was holding it up.
+
+### WHAT IT COSTS, STATED RATHER THAN PATCHED
+
+One movement plays one material family, so with this leg gone **material B — the
+chorus, and the whole `Bvar`/`Bdev`/`Bseq` family — is built and never played.**
+That is dead weight. Giving another leg a chorus to soak it up would be a musical
+decision nobody asked for, so it is written here instead: the owner decides
+whether the hook returns somewhere else or B stops being built.
+
+Every table entry keyed `"the fight"` is now unreachable — the fuzz row, the
+pedalboard, the kit, ~30 motion curves, the feature rotation, `floorAt`,
+`empty`. **They are left in place**, because forty deletions in the same pass
+that removes the act is how a revert becomes impossible. A genre asked for a
+battle again should get its tables back.
+
+Record: 316 bars, 19 sections, ~16 minutes (was ~19). 600-record sweep: 3 throws
+before, the same 3 after.
+
+### AND THE THING THAT IS STILL TRUE
+
+The comp is **55% of the record's sound** and outnumbers the tune ten to one.
+That was measured in the fight and it is a property of the comp, not of the act
+that is now gone. It is the next thing.
