@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22w &middot; the toms are the kit &mdash; and the copied patterns are gone</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-27a &middot; the erhu, synthesised &mdash; a bow, no fingerboard, and a slide that travels</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -6569,6 +6569,65 @@ const INSTRUMENTS = {
                       { label: "BODY", keys: ["tone", "body", "vib"] },
                       panGroup()] },
   },
+  /* ── THE ERHU, `2026-08-27` ───────────────────────────────────────────────
+     [owner: "Can you see if we can add and Erhu to the program? You will need
+      to learn how to program it also"]
+
+     SYNTHESISED, and there is no recording of one in this file to lift from,
+     which is the whole reason the acoustics below are written down: the voice
+     is built from the measurements, not from an ear.
+
+     WHY THE TOP IS D6 AND NOT A7. The instrument's playing range is "D4 to A7"
+     [corpus:UBC PHYS341 erhu acoustics], and declaring that would be the
+     obvious move and the wrong one. A professional erhu player writing FOR
+     COMPOSERS: "the erhu sounds the best in the first two octaves", notes above
+     E6 are "very soft and not as clean" with audible "white noise" in quiet
+     passages, and on the lower string "notes above one octave does not speak
+     well" [corpus:lantungmusic, info for composers]. D4..D6 is those two
+     octaves. It is also what `playable` will intersect into every band of every
+     genre that pools this box, for ever, so an honest ceiling here is worth
+     more than a flattering one -- see the working in dungeon synth's
+     `machines`.
+
+     ONE LANE DECLARED, which is not an omission. `canFill` lends a pitched box
+     to another lane only when it declares EXACTLY ONE, so `{ lead }` is what
+     buys it the counter and the second keyboard as well. The fiddle learned
+     this the expensive way (it declared two and drew the counter zero times in
+     60 records) and the lesson is written down in `canFill`. */
+  erhu: {
+    slot: "lead", label: "erhu",
+    /* bowed, so it files with the strings rather than with the reeds it sits
+       next to in this table */
+    family: "strings",
+    lanes: { lead:"erhu" },
+    /* D4 to D6 -- the two octaves the sources call its best, not the four it
+       physically has. The open strings are D4 and A4, a fifth apart, and D4 is
+       therefore a hard floor: there is nothing below the lower open string. */
+    range: [62, 86],
+    controls: [
+      ...panControls(),
+      /* THE BOW. `bow` is arm -- speed and weight together, the one number the
+         string stage reads. `hair` is what the hair itself makes: the scratch
+         in front of the note and the bed under it. */
+      { k:"bow",   label:"bow",       cap:"BOW",   min:0, max:1, step:0.01, def:0.55, kind:"gesture" },
+      { k:"hair",  label:"bow hair",  cap:"HAIR",  min:0, max:1, step:0.01, def:0.35, kind:"gesture" },
+      /* THE LEFT HAND. There is no fingerboard on this instrument -- the string
+         is stopped in mid-air -- which is why these two are the erhu's own
+         controls and not a violin's. */
+      { k:"slide", label:"slide",     cap:"SLIDE", min:0, max:1, step:0.01, def:0.55, kind:"gesture" },
+      { k:"vib",   label:"vibrato",   cap:"VIB",   min:0, max:1, step:0.01, def:0.40, kind:"voicing" },
+      /* THE BOX. How present the membrane-cavity pair is. */
+      { k:"body",  label:"soundbox",  cap:"BODY",  min:0, max:1, step:0.01, def:0.55, kind:"voicing" },
+    ],
+    /* the reeds' skin, because the rack it stands in is the same wooden one and
+       a new CSS block would be a new surface to keep true for no gain */
+    panel: { skin: "erang", maker: "", title: "erhu",
+             sub: "two strings D4 and A4, no fingerboard, a 13 cm box with a skin on it",
+             groups: [{ label: "THE BOW", keys: ["bow", "hair"] },
+                      { label: "THE HAND", keys: ["slide", "vib"] },
+                      { label: "THE BOX", keys: ["body"] },
+                      panGroup()] },
+  },
   waveseq: {
     slot: "keys", label: "wave sequence",
     lanes: { keys:"waveseq" },
@@ -10179,7 +10238,22 @@ const PLAY_FAMILY = {
          string samples are machines that hold forever, and giving any of them a
          bow's limit would be a rule invented for a tidier table. The research is
          kept HERE so a future bowed instrument gets it back in one edit rather
-         than one afternoon. */
+         than one afternoon.
+
+         ── AND THE ONE EDIT IS THIS LINE, `2026-08-27` ──────────────────────
+         The erhu arrived and the family has a member again. The split rule
+         below was never deleted -- only its last member was -- so restoring
+         the discipline cost exactly what the paragraph above promised it
+         would: one row in this table, no change to the rule that reads it.
+
+         IT IS BOWED AND NOT WIND, and the check is the same one that was run
+         for the fiddle rather than an assumption inherited from it. An erhu
+         bow does not leave the strings at all -- the hair is threaded BETWEEN
+         them -- so it has no breath to run out of and every note ends where
+         the arm ends. The budget below is a bow ARM's, not an instrument's,
+         which is why the same sourced numbers apply to a second bowed voice
+         without being re-derived for it. */
+      erhu: "bowed",
       contrabassoon: "wind",
     };
 
@@ -18068,6 +18142,366 @@ V.erangDrum    = erangVoice("erangDrums",   ["percussion"], ERANG_KIT_LANES);
   V.corAnglais = reedVoice("corAnglais");
   V.bassOboe   = reedVoice("bassOboe");
   V.bariSax    = reedVoice("bariSax");
+
+  /* ══ THE ERHU ══════════════════════════════════════════════════════════════
+     [owner, 2026-08-27: "Can you see if we can add and Erhu to the program?
+      You will need to learn how to program it also"]
+
+     THE SECOND HALF OF THAT SENTENCE IS THE WORK. There is no erhu recording in
+     the bank, so this is a MODEL, and a model is only worth having if the thing
+     it models was measured first. What follows is that measurement, and every
+     number in the code below is either traced to it or marked CHOSEN.
+
+     ── THE INSTRUMENT, MEASURED ──────────────────────────────────────────────
+     Two steel strings tuned D4 and A4, a fifth apart. A tube soundbox "about
+     10 cm in diameter" that spans "13 cm from its python-skin front to open
+     rear". No fingerboard: the pole only guides the strings and the left hand
+     stops them IN MID-AIR. The bow hair is threaded BETWEEN the two strings --
+     "a distance of 0.5 cm" -- so the bow never leaves the instrument.
+     [corpus:UBC PHYS341 erhu acoustics; corpus:organology erhu]
+
+     ── WHY IT SOUNDS LIKE A VOICE, AND IT IS ARITHMETIC ──────────────────────
+     "The radiation spectrum of the erhu is dominated by pairs of coupled
+     membrane-cavity resonances that RESEMBLE THE FORMANTS OF THE HUMAN VOICE"
+     [corpus:Acoustical Society of America, A simple model of the Erhu
+     soundbox]. And the reason that comparison is not a metaphor is the length:
+     "the length of the soundbox (13 cm) is also similar to the length of the
+     human vocal tract", and it "produces resonant frequencies in ODD HARMONIC
+     RATIOS (1:3:5:7 modes)" -- one end skinned, one end open, which is a
+     quarter-wave tube.
+
+     So the formants are not chosen, they are computed:
+
+       f  =  c / 4L  =  343 / (4 x 0.13)  =  660 Hz          the 1st mode
+       3f =  1980 Hz                                          the 3rd
+       5f =  3300 Hz                                          the 5th
+
+     AND THE MIDDLE ONE IS THE LOUD ONE, which is the other measurement paying
+     off: "the lowest erhu membrane mode frequency is around 2 kHz". 1980 and
+     "around 2 kHz" are the same number. That coincidence IS the coupled
+     membrane-cavity pair the ASA paper names -- the skin's first mode landing
+     on the cavity's third -- so it gets the biggest gain of the three and the
+     nasal, reedy, singing quality everybody describes comes out of one line of
+     arithmetic rather than out of my ear.
+
+     ── WHAT IT IS NOT: IT IS NOT A REED, SO IT IS NOT `reedVoice` ────────────
+     The obvious move was `reedVoice("erhu")` -- five double reeds already run
+     through it and it is the file's melodic-voice idiom. It would have been
+     wrong, and precisely wrong, in the one place that voice's whole
+     architecture turns on. `reedVoice` puts its waveshaper BEFORE a lowpass
+     body, and the comment beside it says why: the tone-hole lattice is a
+     CEILING, "600 Hz is 600 Hz whether you breathe on the instrument or lean on
+     it", which is why a fortissimo bassoon gets fatter and not shriller.
+
+     The erhu has no such ceiling. "The erhu's skin face is acoustically
+     TRANSPARENT: it vibrates at the string frequencies with MINIMAL FILTERING,
+     giving the erhu its characteristic tone, less full-bodied sustain than a
+     violin, but more direct control of articulation and vibrato." A membrane
+     radiates what the string gives it. So the chain here is formants and a
+     TILT, never a wall. Sharing `reedVoice` would have made the erhu quieter
+     and darker the harder it was played, which is the opposite of the
+     instrument -- MEASURED on the reed's own published table, that voice's
+     spectral centroid falls 400 -> 330 Hz as it gets louder, and the erhu's
+     job is to go the other way.
+
+     AND THE MECHANISM THAT MAKES IT GO THE OTHER WAY IS NOT THE TILT. It is the
+     source waveform, and finding that out cost this voice a whole revision --
+     the working is beside `THE STRING` below, with the table that failed.
+
+     ── AND IT HAS NO BOTTOM, WHICH IS THE SAME FACT FROM THE OTHER SIDE ──────
+     A 10 cm drum head on a 13 cm tube radiates nothing at the bottom of its own
+     range: D4 is 294 Hz and the box's first mode is 660. "Less full-bodied
+     sustain than a violin" is that sentence in words. The highpass at 185 Hz is
+     that sentence in a filter -- CHOSEN as a number, sourced in direction, and
+     it is what stops this reading as a small viola.
+
+     ── THE LEFT HAND: NO FINGERBOARD, SO THE SLIDE IS THE INSTRUMENT ─────────
+     "The left hand does not press strings against a fingerboard but instead
+     presses the strings from the side in mid-air, giving the player INFINITE
+     PITCH FLEXIBILITY and enabling the effortless SLIDING and VIBRATO that
+     defines the instrument's style" [corpus:organology erhu]. Huayin -- the
+     slide -- and rouyin -- the vibrato -- are named techniques, and a player's
+     own guide for composers says slides are "most often between minor 3rd"
+     [corpus:lantungmusic].
+
+     THAT LAST NUMBER IS WHAT MAKES THE SLIDE SAFE TO SHIP. An unbounded
+     portamento between every pair of notes is a pitch-bend pedal, not an
+     ornament; a slide of at most three semitones, only where the notes already
+     touch, is what the player does. Both gates are read from facts this
+     program already computes -- `ev.tied` is stage 5's "these two notes touch,
+     one line, no wider than an octave" -- so nothing had to be invented in the
+     composition to feed this voice.
+
+     WHERE THE PREVIOUS PITCH COMES FROM, and it is the one thing here that is
+     not already on the event. A slide is by definition a relationship to the
+     note before it, and `ev.slide` -- which the 303 reads -- is written by the
+     BASS builder only. Rather than widen a composition fact for one voice, the
+     hand remembers where it was: a memo on the GRAPH, keyed by part. It is
+     honest for the same reason the fact would be -- notes are dispatched in
+     time order in both the offline render and the live pump -- and it costs
+     nothing to any other voice. Two things are deliberately excluded from it:
+     a `midFlight` note (the live pump's mid-note carry, which arrives out of
+     order after a seek) and the very first note after one, which simply does
+     not slide. A hand that has not been on the string cannot slide onto it.
+
+     ── AND THE VIBRATO GOES UP, WHICH A VIOLIN'S DOES NOT ────────────────────
+     "Because the instrument does not have a fingerboard, the erhu player can
+     PRESS HARD on the strings to RAISE the pitch slightly" [corpus:organology].
+     A violinist rocks along the string and the pitch swings either side of the
+     stopped note. An erhu player rocks against a string stopped in mid-air, and
+     pressure adds tension, and tension only goes one way. So the LFO here is
+     offset by its own depth: the excursion runs from the written pitch UPWARD,
+     never below it. It is one line and it is the difference between this and a
+     small violin.
+
+     ── HOW LOUD, AND WHERE IT STOPS SPEAKING ─────────────────────────────────
+     "The erhu is NOT AS LOUD AS THE VIOLIN" and can struggle to balance against
+     a loud ensemble without amplification [corpus:lantungmusic]. The reeds take
+     `kbdLevel * 1.5`; this takes 1.25, and it is a deliberate 2 dB under the
+     lane's other soloists rather than a level to be trimmed later.
+
+     THE TWO STRINGS ARE TWO DIFFERENT INSTRUMENTS, which is the same shape as
+     `reedVoice`'s register break and a different cause. The inner (D) string is
+     "softer", the outer (A) string "brighter", and the crossover is A4 because
+     that is where the outer string's own open note is. Below MIDI 69 the hand
+     is on the D string; at 69 and above it is on the A string, and the tilt
+     opens up. Sourced in direction; the two cutoff numbers are CHOSEN.
+
+     WHAT IS DELIBERATELY NOT MODELLED, stated rather than left silent. The
+     other string is in contact with the hair the whole time, so sympathetic
+     ringing is physically available -- and the only source I have on sympathy
+     describes the MEMBRANE vibrating with the strings, not string with string,
+     and the only double stop a player will admit to is a fifth that is "very
+     rough" and "aggressive" [corpus:lantungmusic]. A good player damps the
+     other string. Modelling a bleed I have no measurement for, to add a colour
+     the instrument's own technique works to remove, would be inventing. It is
+     left out, and this paragraph is why. */
+  V.erhu = function(g, ev, t){
+    const c = g.ctx, f = F(ev.pitch), end = t + ev.durSec + 0.9;
+    const out = c.createGain();
+    out.connect(stereoOut(g, ev, t, "erhu", kbdBus(ev)));
+    const made = [];
+    const bowK   = P(g, ev, "erhu", "bow",   0.55);   // arm: speed and weight together
+    const hairK  = P(g, ev, "erhu", "hair",  0.35);   // what the hair itself makes
+    const slideK = P(g, ev, "erhu", "slide", 0.55);   // huayin
+    const vibK   = P(g, ev, "erhu", "vib",   0.40);   // rouyin
+    const bodyK  = P(g, ev, "erhu", "body",  0.55);   // the membrane-cavity pair
+
+    /* the same one number every melodic voice in this file reads: the
+       performance's own gain, so a phrase the arranger wrote quiet arrives at
+       the bow quiet and leaves it darker, with no brightness automation */
+    const dyn = Math.max(0, Math.min(1, ev.gain * (0.55 + 0.75 * bowK)));
+
+    /* WHICH STRING THE HAND IS ON. A4 is the outer string's open note, so it is
+       where a player crosses; below it the softer inner string, at and above it
+       the brighter outer one. */
+    const OUTER = ev.pitch >= 69;
+    /* AND THE TOP OF THE RANGE THINS OUT. Sourced in direction only -- above E6
+       the tone is "very soft and not as clean" with audible white noise -- and
+       the range declared for this box stops at D6 so that region is mostly
+       never written. This is the approach to it, and the curve is CHOSEN. */
+    const thin = Math.max(0, Math.min(1, (ev.pitch - 74) / 14));
+
+    /* ── THE BOX ────────────────────────────────────────────────────────────
+       Built as a chain so the order is the signal's order and reads that way. */
+    let head = null, tail = null;
+    const add = n => { if(tail) tail.connect(n); else head = n; tail = n; };
+    /* nothing radiates below the box, see above */
+    const hp = c.createBiquadFilter(); hp.type = "highpass";
+    hp.frequency.value = 185; hp.Q.value = 0.7; add(hp);
+    const peakAt = (hz, dB, q) => {
+      const bq = c.createBiquadFilter(); bq.type = "peaking";
+      bq.frequency.value = hz; bq.Q.value = q;
+      bq.gain.value = dB * (0.35 + 1.1 * bodyK);
+      add(bq);
+    };
+    peakAt( 660, 4.5, 1.6);            // c/4L, the cavity's first mode
+    peakAt(1980, 7.5, 2.4);            // the third -- and the skin's first: the pair
+    peakAt(3300, 3.0, 2.8);            // the fifth
+    /* A TILT AND NOT A CEILING -- the skin passes what the string gives it, so
+       this is the string's own rolloff and the membrane's damping, not a
+       tone-hole lattice. It tracks the pitch, so a high note is not dulled by a
+       corner written for a low one, and the outer string is the brighter one. */
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.value = Math.min(9000,
+      Math.max(1500, f * (OUTER ? 6.0 : 4.5)) * (0.78 + 0.44 * dyn));
+    lp.Q.value = 0.6; add(lp);
+    tail.connect(out);
+
+    /* ── THE STRING ─────────────────────────────────────────────────────────
+       The Helmholtz motion of a bowed string: it sticks to the hair, is
+       dragged, releases, and snaps back, once per period. One string's worth,
+       because this is a soloist -- a detuned pair here would be a section.
+
+       ── AND THE FIRST VERSION OF THIS VOICE HAD NO DYNAMIC TONE AT ALL ──────
+       It was ONE sawtooth into a lowpass, and the comment above claimed the
+       brightness "moves with the bow the way a bowed string's does". MEASURED,
+       on the same table `reedVoice` publishes for the bassoon -- one pitch,
+       MIDI 74, four dynamics, so nothing is confounded by register:
+
+                                gain 0.25   0.50   0.75   1.00
+           upper harmonics / h1     0.395  0.392  0.390  0.389   the erhu
+           h2/h1                    0.328  0.325  0.323  0.320
+           the cor anglais beside it 0.156  0.217  0.268  0.311
+
+       Flat, and if anything falling. The reed doubles over the same four notes
+       and this did nothing, because a sawtooth's harmonic content is FIXED and
+       the filter above it was sitting over the harmonics that carry the energy
+       -- at MIDI 74 those are 1175, 1762 and 2349 Hz and the corner was at
+       3782. A filter placed above everything it is meant to move is decoration.
+
+       WHAT ACTUALLY CHANGES ON A BOWED STRING, and it is not the filter. Bow
+       force sharpens the CORNER of the Helmholtz motion: lean on the string and
+       the release is abrupt and the spectrum is a sawtooth's; play it light and
+       the corner rounds off and the upper partials go with it. So the source
+       waveform is the dynamic. A triangle is the rounded corner -- odd partials
+       only, falling as 1/n^2 -- and a sawtooth is the sharp one, everything,
+       falling as 1/n. Crossfaded by the bow, in phase, at one pitch.
+
+       This is the same job `reedVoice` gives its waveshaper and it is a
+       different mechanism for a different instrument: a reed's drive makes NEW
+       harmonics that the body then refuses to pass, and a bow's force selects
+       between two shapes the string already has.
+
+       AFTER, same probe, same four notes, and every row is monotone:
+
+                                gain 0.25   0.50   0.75   1.00
+           upper harmonics / h1     0.148  0.205  0.275  0.362
+           h2/h1                    0.107  0.161  0.223  0.295
+           h3/h1                    0.011  0.045  0.084  0.133
+           h4/h1                    0.085  0.096  0.107  0.123
+
+       2.4x over the range against the cor anglais's 2.0x, which is the right
+       way round: the reed's climb is capped by a lattice this instrument does
+       not have.
+
+       AND THE CENTROID IS THE WRONG METRIC HERE TOO, for the second time in
+       this file and for a different reason. `reedVoice` records that it
+       conflates tone with breath; here it is pinned by the FUNDAMENTAL. At
+       MIDI 62 the erhu's h1 is 20 dB over everything above it, so the centroid
+       reads 331 Hz at pp and 333 at ff while the table above moves by a factor
+       of three underneath it. The first measurement of this voice was a
+       centroid and it said the instrument was a buzzsaw at 3517 Hz -- that
+       number was the genre's REVERB, sampled on a 40 Hz grid across a tail,
+       and it was wrong about the direction of the fault as well as its size.
+       Read the table. */
+    /* ── HUAYIN: WHERE THE HAND ALREADY WAS ─────────────────────────────────
+       The memo, and the two gates. `ev.tied` is stage 5's fact -- these two
+       notes touch, one line, no wider than an octave -- and the three-semitone
+       cap is the player's own: slides are "most often between minor 3rd"
+       [corpus:lantungmusic]. Beyond that the finger lifts and there is nothing
+       to slide along.
+
+       The previous PITCH is the one thing not already on the event, so the hand
+       remembers it: a memo on the GRAPH, keyed by part, written in the order
+       notes are dispatched -- which is time order in the offline render and in
+       the live pump alike. A `midFlight` note is excluded both ways: it is the
+       live pump's mid-note carry after a seek, it arrives out of order, and a
+       hand that has not been on the string cannot slide onto it. */
+    g.erhuHand = g.erhuHand || {};
+    const part = ev.role || "?";
+    const was  = g.erhuHand[part];
+    const step = was == null ? 99 : Math.abs(was - ev.pitch);
+    const slid = slideK > 0.02 && ev.tied && !ev.midFlight &&
+                 was != null && step > 0 && step <= 3;
+    if(!ev.midFlight) g.erhuHand[part] = ev.pitch;
+    /* long enough to hear as a hand travelling, short enough to stay an
+       ornament on the note it lands on rather than a bend across it. A slide
+       "starts on pitch, travels smoothly, and lands on pitch", so it is bounded
+       by the NOTE as well as by the knob. */
+    const trip = Math.min(0.17, Math.max(0.045, ev.durSec * 0.28)) *
+                 (0.35 + 0.75 * slideK);
+
+    let vibAmt = null, vibOn = 0, vibDepth = 0;
+    /* ROUYIN, AND IT ONLY GOES UP. See the note above: pressure raises tension,
+       tension raises pitch, and there is no fingerboard to rock along. Each
+       oscillator's own detune carries the offset and one shared LFO carries the
+       swing, so the excursion is [written pitch, written pitch + depth] and the
+       two waveforms stay locked to each other. Late, and only on a note long
+       enough to hold one -- later still after a slide, because the hand is
+       still travelling. */
+    if(vibK > 0.02 && ev.durSec > 0.30){
+      vibDepth = 46 * vibK;                             // cents, CHOSEN
+      vibOn = t + (slid ? 0.20 : 0.10) + Math.min(0.30, ev.durSec * 0.30);
+      const lfo = c.createOscillator(); lfo.type = "sine";
+      lfo.frequency.value = 5.4;                        // Hz, CHOSEN
+      vibAmt = c.createGain();
+      vibAmt.gain.setValueAtTime(0.0001, t);
+      vibAmt.gain.setValueAtTime(0.0001, vibOn);
+      vibAmt.gain.linearRampToValueAtTime(vibDepth * 0.5,
+                                          vibOn + Math.min(0.35, ev.durSec * 0.35));
+      lfo.connect(vibAmt); lfo.start(t); lfo.stop(end); made.push(lfo);
+    }
+    const og = c.createGain();
+    og.gain.value = 0.55 * (1 - 0.25 * thin);
+    og.connect(head);
+    const sharp = 0.18 + 0.78 * dyn;                    // how much of the corner
+    for(const [type, lvl] of [["sawtooth", sharp], ["triangle", 1 - sharp]]){
+      if(lvl <= 0.01) continue;
+      const o = c.createOscillator(); o.type = type;
+      /* HUAYIN. Where the hand already was, if it was anywhere. */
+      if(slid){
+        o.frequency.setValueAtTime(F(was), t);
+        o.frequency.exponentialRampToValueAtTime(f, t + trip);
+      } else {
+        o.frequency.setValueAtTime(f, t);
+      }
+      if(vibAmt){
+        o.detune.setValueAtTime(0, t);
+        o.detune.linearRampToValueAtTime(vibDepth * 0.5, vibOn);
+        vibAmt.connect(o.detune);
+      }
+      const lg = c.createGain(); lg.gain.value = lvl;
+      o.connect(lg); lg.connect(og); o.start(t); o.stop(end); made.push(o);
+    }
+
+    /* ── THE HAIR ───────────────────────────────────────────────────────────
+       Two different noises and they are not the same gesture. The BITE is the
+       rosin catching at the start of a stroke -- narrow, high, and it grows
+       with how hard the bow is pushed, because a heavy bow start scratches and
+       a light one does not. The BED is the hair travelling, which is quiet,
+       constant, and gets more audible at the top of the range where the tone
+       itself is thinning. That second clause is the source's "white noise"
+       reported at the top, so the bed is tilted by register and not by dynamic.
+
+       This is the same bug `reedVoice` records at length, avoided rather than
+       repeated: tilting the bed toward the QUIET end made a soft reed measure
+       as a hissier one. A quiet bow is quiet. */
+    if(hairK > 0.01){
+      const nb = c.createBufferSource(); nb.buffer = g.noise; nb.loop = true;
+      const nf = c.createBiquadFilter(); nf.type = "bandpass";
+      nf.frequency.value = OUTER ? 3200 : 2400; nf.Q.value = 0.8;
+      const ng = c.createGain();
+      const bed  = 0.012 * hairK * (0.55 + 0.85 * thin);
+      const bite = 0.052 * hairK * (0.35 + 1.10 * dyn);
+      ng.gain.setValueAtTime(0.0001, t);
+      ng.gain.exponentialRampToValueAtTime(Math.max(0.0002, bite), t + 0.018);
+      ng.gain.exponentialRampToValueAtTime(Math.max(0.0001, bed),  t + 0.14);
+      ng.gain.setValueAtTime(Math.max(0.0001, bed), Math.max(t + 0.15, t + ev.durSec));
+      ng.gain.exponentialRampToValueAtTime(0.0001, t + ev.durSec + 0.10);
+      nb.connect(nf); nf.connect(og);
+      nb.start(t); nb.stop(end); made.push(nb);
+    }
+
+    /* ── THE STROKE ─────────────────────────────────────────────────────────
+       A bow does not speak instantly and it does not stop instantly either, and
+       an erhu speaks LESS sharply than a violin: detache on this instrument is
+       "not as sharp as the violin" because of where the hair sits
+       [corpus:lantungmusic]. So the attack is slower than the reeds' 0.040 and
+       gets faster with the bow, and the release is longer than a wind's,
+       because the string is still moving when the arm stops.
+
+       A BOW CHANGE IS AUDIBLE AND IS NOT A SLUR. The bowed rule in stage 5
+       splits a note the arm cannot finish and the halves abut exactly -- "a
+       fresh attack where the bow turns" is that rule's own words. Those halves
+       inherit `tied` from the note they came from, which would have `adsr`
+       suppress the very onset the split exists to place, so the second half is
+       told plainly that it is not tied. */
+    const atk = 0.070 - 0.038 * dyn;
+    adsr(c, out, t, kbdLevel(ev) * 1.25 * ev.gain * (0.75 + 0.45 * bowK),
+         atk, 0.18, 0.90, t + ev.durSec, 0.16, ev.bowChange ? false : undefined);
+    return made;
+  };
 
   /* ── `V.carnyx` WAS DELETED HERE ───────────────────────────────────────
      [owner, 2026-08-21: "Delete the carnex it sounds like shit and should
@@ -29640,6 +30074,48 @@ GENRE.ds2 = (function(D){
         return:  { meat: { amt: 0.20, dirt: 0.38, bias: 0.08, dark: 0.36, level: 0.48 } },
       },
     },
+  }),
+
+  /* ── 6. THE ERHU JOINS THE TWO SOLO LANES ────────────────────────────────
+     [owner, 2026-08-27: "Can you see if we can add and Erhu to the program?"]
+
+     Added HERE and not to the parent, on purpose. Putting it in dungeon
+     synth's own pools would deal it into fantasy synth as well -- that genre
+     merges `D.machines` -- and into every existing record of both. This genre
+     is the one being built, so this is where a new instrument is tried; the
+     hand can still load an erhu in any genre from the rack, because the picker
+     offers whatever `canFill` allows and not merely what a pool names.
+
+     WHICH LANES, AND WHAT EACH ONE COSTS. `playable` intersects a lane's band
+     with every machine that could hold it -- but only where the genre declares
+     a `swap` coin for that slot, because a pool that cannot win must not
+     narrow anything.
+
+       counter   inherited swap: NONE          ->  the pool is never consulted,
+                                                   so this entry costs the band
+                                                   exactly nothing
+       lead      inherited swap: 0.40          ->  consulted, and the erhu's
+                                                   [62, 86] against the cor
+                                                   anglais's [52, 81] already
+                                                   in the pool leaves the top
+                                                   at 81 and the bottom at the
+                                                   band's own 69. Also nothing.
+
+     So this is free on both, and it is free because the range declared on the
+     box is an honest D4..D6 rather than the D4..A7 the instrument physically
+     spans. An erhu declaring a top of A7 would have cost this genre nothing
+     either -- but it would have been written notes it cannot speak cleanly,
+     which is the carnyx's mistake and it is recorded in `playable`.
+
+     WEIGHTS [CHOSEN]. Heavier on the counter than on the lead: the counter is
+     the single answering line written to speak in the tune's gaps, and one
+     unaccompanied singing voice answering a keyboard is what this instrument
+     does. On the lead it is one draw among five, so a record is sometimes an
+     erhu record and is not usually one. */
+  machines: merge(D.machines, {
+    lead:    [["erLeadHi", 4], ["erLeadMid", 3], ["erLeadLow", 1],
+              ["corAnglais", 2], ["erhu", 3], ["auto", 4]],
+    counter: [["auto", 5], ["erWind", 2], ["erhu", 4]],
   }),
   });
 })(GENRE.dungeonsynth);

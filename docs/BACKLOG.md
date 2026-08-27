@@ -4252,3 +4252,179 @@ The double pedal stays in the climax — the owner asked for it directly — and
 tom roll lane comes up with it.
 
 Blast radius: ds2 only. 600-record sweep: 1 throw, unchanged.
+
+---
+
+## §0bb — the erhu, synthesised (2026-08-27)
+
+[owner: "Can you see if we can add and Erhu to the program? You will need to
+learn how to program it also"]
+
+There is no erhu recording in the bank, so this is a model. What follows is the
+measurement it was built from and the two things it got wrong on the way.
+
+### What the sources gave
+
+* two steel strings, D4 and A4, a fifth apart; playing range D4–A7
+  [UBC PHYS341, Erhu Acoustics]
+* soundbox 13 cm from the python-skin front to the open rear, ~10 cm across
+* "produces resonant frequencies in ODD HARMONIC RATIOS (1:3:5:7… modes)" and
+  its length "is also similar to the length of the human vocal tract"
+* "the lowest erhu membrane mode frequency is around 2 kHz"
+* the radiation spectrum "is dominated by pairs of coupled membrane-cavity
+  resonances that resemble the formants of the human voice" [ASA, *A simple
+  model of the Erhu soundbox*]
+* the skin face is "acoustically transparent: it vibrates at the string
+  frequencies with minimal filtering… less full-bodied sustain than a violin"
+* NO FINGERBOARD — the string is stopped in mid-air, which gives "infinite
+  pitch flexibility and enables the effortless sliding and vibrato that defines
+  the instrument's style"; and pressing harder RAISES the pitch
+  [organology.net]
+* for composers: "the erhu sounds the best in the first two octaves"; above E6
+  is "very soft and not as clean"; "the erhu is not as loud as the violin";
+  slides are "most often between minor 3rd"; détaché "not as sharp as the
+  violin" [lantungmusic, info for composers]
+
+### The formants are arithmetic, not taste
+
+A quarter-wave tube 13 cm long: **c/4L = 343/(4×0.13) = 660 Hz**, with odd modes
+at 1980 and 3300. And 1980 is where "the lowest membrane mode… around 2 kHz"
+lands — the skin's first mode on the cavity's third. That coincidence *is* the
+coupled pair the ASA paper names, so 1980 gets the largest peaking gain of the
+three. The nasal singing quality comes out of one line of arithmetic.
+
+### Range declared D4–D6, not D4–A7
+
+`playable` intersects a lane's band with every machine that could hold it, for
+ever. D4–D6 is the two octaves the sources call best. Declaring the full four
+would have bought nothing and written notes the instrument cannot speak
+cleanly — which is the carnyx's mistake, already recorded in `playable`.
+
+### FAULT 1 — the first measurement was wrong about the fault
+
+The first probe read a spectral centroid and said the erhu was a buzzsaw at
+3517 Hz against 1515 for the cor anglais. **That number was the genre's
+reverb**, sampled on a 40 Hz grid across a tail. Measured over the harmonic
+series instead, the erhu sits at 678 Hz — between the cor anglais (636) and the
+sampled Erang lead (1455), which is where a nasal bowed string belongs. The
+"real defect" called in that first pass did not exist.
+
+### FAULT 2 — and there was a real one underneath it
+
+`reedVoice` records that the centroid is the wrong metric for a reed. It is the
+wrong metric here too, for a different reason: at MIDI 62 the erhu's h1 is 20 dB
+over everything above it, so the centroid barely moves. Read the harmonic table,
+which is what the reed's own comment says to do. One pitch, MIDI 74, four
+dynamics:
+
+```
+                        gain 0.25   0.50   0.75   1.00
+BEFORE
+  upper harmonics / h1     0.395  0.392  0.390  0.389      the erhu
+  h2/h1                    0.328  0.325  0.323  0.320
+  the cor anglais           0.156  0.217  0.268  0.311
+```
+
+Flat, and if anything falling — while the voice's own comment claimed the
+brightness "moves with the bow the way a bowed string's does". A sawtooth's
+harmonic content is fixed and the filter above it was sitting at 3782 Hz, over
+every harmonic that carries energy (1175, 1762, 2349). A filter placed above
+everything it is meant to move is decoration.
+
+The fix is the mechanism, not the number. Bow force sharpens the corner of the
+Helmholtz motion: lean and the release is abrupt and the spectrum is a
+sawtooth's; play light and the corner rounds and the upper partials go with it.
+So the SOURCE WAVEFORM is the dynamic — a triangle (odd partials, 1/n²)
+crossfaded in phase with a sawtooth (everything, 1/n).
+
+```
+AFTER
+  upper harmonics / h1     0.148  0.205  0.275  0.362      2.4x
+  h2/h1                    0.107  0.161  0.223  0.295
+  h3/h1                    0.011  0.045  0.084  0.133
+  h4/h1                    0.085  0.096  0.107  0.123
+```
+
+Against the cor anglais's 2.0×, and the right way round: the reed's climb is
+capped by a tone-hole lattice this instrument does not have.
+
+### Huayin, measured in the audio
+
+`ev.tied` (stage 5's "these two notes touch") plus a three-semitone cap (the
+player's own "most often between minor 3rd"). The previous PITCH is the one
+fact not already on the event, so the hand keeps a memo on the graph, keyed by
+part — notes are dispatched in time order in the offline render and the live
+pump alike. `midFlight` notes are excluded both ways.
+
+A4 → B4, second note metered from its own onset, 22 ms window:
+
+```
+  tied (huayin)   +20 +50 +80 +110 +140 +180 +300 ms:  441 445 455 464 474 496 496
+  not tied        +20 +50 +80 +110 +140 +180 +300 ms:  441 450 490 496 490 496 490
+```
+
+The slide travels for ~130 ms and passes through the pitches in between. The
+untied note is there by 80 ms. (The 441 at +20 on both is the previous note's
+reverb tail, not the new note.)
+
+### Rouyin goes UP
+
+Pressure raises tension and there is no fingerboard to rock along, so the LFO is
+offset by its own depth and the excursion runs from the written pitch upward,
+never below. One line, and it is the difference between this and a small violin.
+
+### The bowed family has a member again
+
+PLAY_FAMILY's comment said the research was "kept HERE so a future bowed
+instrument gets it back in one edit rather than one afternoon". It cost exactly
+one row — the split rule was never deleted, only its last member was.
+
+**And it is inert in this genre, stated rather than implied.** 60 ds2 records,
+2497 erhu notes, ZERO over the bow budget; the closest came to 54% of it (4.17 s
+against a 7.68 s budget at that dynamic). The rule is armed and correct and this
+genre does not write notes long enough to trip it.
+
+### Where it plays
+
+ds2 only, not the parent — dungeon synth's pools are merged by fantasy synth as
+well, and this is the genre being built. Counter weight 4, lead weight 3.
+
+* **counter** — ds2 inherits no `swap` coin for that slot, so `playable` never
+  consults the pool and the entry costs the band nothing
+* **lead** — swap 0.40, consulted, and [62,86] against the cor anglais's [52,81]
+  already in the pool leaves the band exactly where it was
+
+### Guards
+
+* `mk2_syntax.js` clean
+* 600-record sweep: **1 throw**, the pre-existing `lofi 17`, unchanged
+* blast radius, 60 records × 5 genres: **9 rows moved, all ds2**. Bar counts
+  identical on every one. The written music moved on one record only (ds2 seed
+  42, where the erhu was not even drawn): the new pool weights shifted the coin,
+  the counter drew `erWind` instead of `brass`, and the wind breath rule and the
+  signal-call gap then applied to 6 durations and dropped 2 blasts. No pitch, no
+  tempo, no band changed anywhere.
+* **LIVE PLAYBACK, not just the offline render** — the seam a previous build
+  shipped a silent drone across. ds2 seeds 3, 4, 6 meter `lead|erhu` at 15.1%,
+  15.5% and 24.7%; seed 5 puts it on the counter (38 of 38 notes) and that
+  channel meters 4.3%.
+* level: rms 0.199 against the cor anglais's 0.267 at the same note and gain —
+  2.5 dB under, which is "not as loud as the violin" as a number.
+
+### Owed, and not done here
+
+* "Continuous or fast jumping between positions can be difficult or even not
+  playable" and "avoid keys with more than 3 sharps or flats" are both
+  composition-side rules. Neither is enforced.
+* the sympathetic ring of the un-bowed string is deliberately absent — the only
+  sourced sympathy is the MEMBRANE with the strings, and the one double stop a
+  player admits to is a fifth that is "very rough". Modelling a bleed with no
+  measurement, to add a colour the technique works to remove, would be
+  inventing.
+* the bow-change seam is a small dip, not a re-articulation: the previous half's
+  0.16 s release largely fills the new attack. Moot while nothing trips the
+  rule.
+
+### The standing caveat
+
+Every claim here is about notes and spectra. There is still no listening loop.
