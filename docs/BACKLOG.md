@@ -4428,3 +4428,109 @@ well, and this is the genre being built. Counter weight 4, lead weight 3.
 ### The standing caveat
 
 Every claim here is about notes and spectra. There is still no listening loop.
+
+---
+
+## §0bc — open-source erhu recordings, found and measured (2026-08-27)
+
+[owner: "Look for open source Erhu's"]
+
+Nothing taken yet. This is the survey and the arithmetic, so the decision is a
+decision and not a guess.
+
+### The find
+
+**`sfzinstruments/aliexpress-erhu`** — <https://github.com/sfzinstruments/aliexpress-erhu>
+
+* **Licence: CC0-1.0.** Verified by reading the repo's `LICENSE`, not the badge.
+  Public domain, no attribution required — cleaner than the hurdy-gurdy's
+  CC BY-SA and far cleaner than the Philharmonia and BBC positions this file
+  already carries.
+* Its own readme: *"Samples of a cheap erhu bought from Aliexpress and played by
+  someone who's more of a violinist. Close miked in stereo."* Honest about both
+  the instrument and the player, which is worth more than a marketing sheet.
+* 170 WAVs, 167 MB on disk, 24-bit / 44.1 kHz / stereo. Real audio, not LFS
+  pointers — headers parsed and durations read.
+
+### What is actually in it, measured
+
+| set | files | notes | sounding range | per note | total |
+|---|---|---|---|---|---|
+| `sus` sustains | 40 | 20, fully chromatic | **D4 (62) – A5 (81)** | 2 round robins | 107 s |
+| `stac` staccato | 80 | 20, fully chromatic | D4 (62) – A5 (81) | 4 round robins | 73 s |
+| `st` sul tasto | 50 | 25, fully chromatic | D4 (62) – **D6 (86)** | 2 round robins | 170 s |
+
+**THE FILE NAMES ARE AN OCTAVE UP AND THE SFZ MAPPING IS AN OCTAVE DOWN.** Both
+found by measuring rather than by reading, which is this file's own rule for
+sample roots. `erhu_a5_sus_rr1.wav` measures 442.7 Hz — that is A4, MIDI 69, the
+outer open string. Every file in all three sets carries the same constant −12
+offset from its name (median −11.97 semitones over 20 sustains). Separately, the
+SFZ program maps that same file to `pitch_keycenter=57` (A3), so playing the
+library as shipped sounds an octave above the key pressed. Neither would have
+been visible from the repo page.
+
+**The sounding range is D4–D6**, which is the erhu's real range and exactly what
+`INSTRUMENTS.erhu` already declares — arrived at independently from the written
+sources, and the recordings agree.
+
+**Tuning.** The sustains are clean: mean 7.7 cents from their own naming, worst
+25 cents, zero outliers past 60. The short and sul tasto sets threw 3 and 5
+apparent outliers, and those are the DETECTOR failing on short bowed material
+(a `d5` reading exactly half its pitch is an octave error, not a flat note), not
+established mistuning. They need per-file verification before use. Said plainly
+because "the library is out of tune" would have been the easy wrong claim.
+
+**The samples carry no vibrato** — the SFZ adds it with an LFO. And its numbers
+independently corroborate `V.erhu`'s: `lfo01_freq_oncc112=5.5` Hz against the
+5.4 chosen here, with a 0.4 s delay and 0.4 s fade against this voice's late
+onset. Somebody with the instrument in their hands landed on the same figures.
+Their depth is wider — 78 + 37 cents of LFO against this voice's 46 — which is a
+number worth revisiting whether or not the samples are ever used.
+
+### What it would cost in the page
+
+Through this repo's own `erang_bank.py` chain — stereo→mono, 44.1→22.05 kHz,
+24→16 bit, IMA ADPCM, base64 — and **untrimmed**, which is the pessimistic case:
+
+```
+  sus    40 files   107 s    26.9 MB on disk  ->  1.50 MB of base64
+  stac   80 files    73 s    18.5 MB          ->  1.03 MB
+  st     50 files   170 s    43.0 MB          ->  2.39 MB
+                                          all three:  4.91 MB
+```
+
+The page is 10.81 MB against a 16.00 MB artifact ceiling — **5.19 MB of
+headroom**. All three articulations would leave 0.28 MB, which is not a margin.
+The sustains alone are comfortable, and trim-plus-loop (which the erang chain
+does and this estimate does not) would cut them well below 1.50 MB.
+
+### What else is out there, and why none of it is this
+
+* **Freesound** — `ricemutt/Erhu-LongerNotes` and `tarane468/Chinese Erhu`.
+  Nine single notes on a whole-tone spacing in the second, phrases in the first;
+  licences not stated on the pack pages, and one of the sounds checked has since
+  been deleted. Not a chromatic instrument.
+* **ChMusic** — a Chinese-instrument dataset built for *recognition* research.
+  Performances, not note-by-note recordings.
+* **Everything else found** (Splice, Looperman, Sample Focus, Noiiz, Kong Audio,
+  EW Silk, Ethno World) is loops-and-phrases or commercial. A loop is not an
+  instrument this program can play.
+
+The `sfzinstruments` organisation is the same kind of source the hurdy-gurdy came
+from and is worth remembering for the rest of its 76 repositories.
+
+### Blocked, and it is small
+
+`numpy` is not installed in this environment and `pip install` timed out against
+`files.pythonhosted.org`. Both existing bank scripts import it. Everything above
+was measured with a hand-rolled WAV reader and an autocorrelator in Node; a real
+bank build needs numpy back, or the encoder ported.
+
+### The open question
+
+A recording and a model are not the same instrument, and this file already has
+both kinds. `V.erhu` is synthesised, has huayin and an upward rouyin the samples
+do not, and costs nothing. The recordings have a real bow, a real skin and a real
+player, and cannot slide between notes that were recorded separately. Whether
+they go in beside each other — the way the drone rack weighs a synthesised stack
+against a recorded pad — is the owner's call, not mine.
