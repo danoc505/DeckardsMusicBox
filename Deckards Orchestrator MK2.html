@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22s &middot; DS2 &mdash; the root, a faster climax with double kick, and no hard switching</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22t &middot; the double kick actually plays &mdash; and the bass is a bassline</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -29366,6 +29366,68 @@ GENRE.ds2 = (function(D){
   return merge(D, {
   label: "dungeon synth II",
 
+  /* ── 5. AND THE BASS IS A BASSLINE ──────────────────────────────────────
+     [owner: "And the bass is NOT a bassline"]
+
+     It was not. MEASURED, this genre and its parent, 20 records each:
+
+       notes a bar 1.44   STEPWISE MOTION 0%   leaps 78%   span 6.4 semitones
+
+     `bassStyle: "drone"` with `bassPedal` holds a root and its fifth and lets
+     the harmony move over it. That is a PEDAL, and a pedal is a legitimate
+     thing for dungeon synth to do — but it is not a line, and 0% stepwise
+     motion is not a stylistic choice, it is the absence of one.
+
+     The sources are unanimous about what the difference is. Stepwise motion
+     "makes it easier for the listener to follow" and gives "a sense of forward
+     motion and coherence" [iconcollective]. A PASSING TONE is "a nonchord tone
+     that fills the space between two different chord tones USING STEPWISE
+     MOTION", and it "smooths out leaps" [openmusictheory]. And the practical
+     version of the same rule: "a classic bassline technique is to travel to
+     the next root note using notes in between as STEPPING STONES — listeners
+     can tell the notes are moving towards the next target root" [mixedinkey].
+     The bass is allowed to leap more than the upper voices [fiveable], but
+     "the most compelling melodies employ both conjunct and disjunct motion"
+     and keep an equilibrium [iconcollective]. 0% against 78% is not one.
+
+     So this genre declares the riff style and a table built for stepwise
+     motion rather than against it:
+
+       `spice` is weighted onto degree 1 and 3 — the two NON-CHORD tones, which
+       are the only degrees that are a STEP from the root. The table this
+       program has carried until now weighted 2 and 6 (the third and the
+       seventh) highest, which are chord tones, and every distance between
+       chord tones is a leap. That one line is why the measurement read 78%.
+
+       `approach` is the passing-tone mechanism: a slot that nothing sounds in,
+       directly before a note that does, is filled with a note ONE DIATONIC STEP
+       from that note, on the side the line is already coming from — so it lands
+       BETWEEN the two and continues the travel. Two per two-bar cell.
+
+       `ownLine` is the chance the figure is a GROUND BASS — built on the
+       material's tonic and staying there while the chords move over it, which
+       is the pedal this genre had, kept as one option among several instead of
+       being the only thing it can do. */
+  /* ⚠ AND THE BASS'S LEVEL IS NOT TOUCHED, ON PURPOSE. I raised it here from
+     the parent's 0.22 to 0.50 on the grounds that the bass bus "metered 0.0%
+     live while the drums metered 140%", and THE MEASUREMENT WAS WRONG. The
+     bare `bass` channel is a group leftover that nothing routes through: every
+     part plays through `role|voice`, and `bass|bass` metered 9.2% in the same
+     window — a healthy level beside `keys|erStringsHi` at 7.1% and
+     `keys|mellotron` at 6.7%, both of which also read 0.0% on their bare
+     channels. The bass was audible the whole time and I was reading the wrong
+     meter.
+
+     So the parent's balance stands. Whether a line wants more level than a
+     pedal did is a real question and an owner's ear answers it; it is not
+     something to change on a reading that turned out to be an artefact. */
+  bassStyle: "riff",
+  bassRiff: { bars: 2, notes: [5, 8], grid: 2, hold: 4, strong: [0, 8],
+              anchor: [[0, 7], [4, 4]],
+              spice:  [[1, 5], [3, 3], [2, 3], [6, 2]],
+              approach: 2,
+              ownLine: 0.30 },
+
   form: merge(D.form, {
     /* ── 1. THE CLIMAX ────────────────────────────────────────────────────
        Dungeon synth's four movements are `descend`, `halls`, `deeper` and
@@ -33516,17 +33578,74 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          floor is TWO accents -- below that the bar is not a riff to lock to,
          it is a held chord, and the kit keeps the pocket it would have played.
          That is what makes this safe to declare on a sparse genre. */
+      /* ══ AND A DECLARED FOOT PATTERN IS ADDED TO, NEVER REPLACED ══════════
+         [owner: "There was xero double kick pedal action going on"]
+
+         THERE WAS NONE, AND THIS LINE IS WHY. `kickSteps = acc` REPLACED the
+         whole kick bar with the riff's accents, so a leg that declared a
+         sixteen-stroke double-kick run had it computed and then thrown away,
+         every bar, and played the riff's four beats instead. MEASURED on ds2's
+         climax before this: the arc carried `HARDCORE_FEET`, `kickPattern` was
+         true and `kickKeep` was 16 at the build — and the material came out
+         `|x...x...x...x...|`. A quarter-note walk. The double kick existed at
+         every layer except the one that makes a sound.
+
+         The file already had the right answer one lane down: `followRiffSnare`
+         "lays riff accents ON TOP OF `snarePocket` instead of replacing it",
+         because "a drummer catching a figure does not stop keeping time to do
+         it". That is exactly as true of the feet, and more so — a double pedal
+         IS the timekeeping.
+
+         So the riff's accents are UNIONED into the run wherever a foot pattern
+         is declared. Where none is, the old replacement stands to the step, so
+         every genre that has never declared `kickPattern` is byte-identical. */
       if(K.followRiff && rAcc && rAcc.size >= 2){
         const acc = [...rAcc].sort((x, y) => x - y)
                       .slice(0, Math.max(1, K.followRiff));
         if(acc.indexOf(0) < 0) acc.unshift(0);       /* the kit keeps its downbeat */
-        kickSteps = acc; followed = true;
+        kickSteps = twoFeet ? [...new Set([...kickSteps, ...acc])].sort((x, y) => x - y)
+                            : acc;
+        followed = true;
       }
-      for(const s of kickSteps)
-        notes.push({ bar: b, step: s, dur: 1, lane: "kick",
-                     vel: s === 0 ? 1.0
-                        : (!twoFeet && !followed) ? 0.9
-                        : (s % 4 === 0 ? 0.9 : 0.66), role: "drums" });
+      /* ══ AND A RUN OF SIXTEENTHS IS NOT SIXTEEN IDENTICAL HITS ════════════
+         "With 16ths or 32nds, try having the highest value on the first note
+         and DESCENDING VALUES on the succeeding notes, like 84,70,59,44 for
+         instance ... to make them more realistic and less MACHINE-GUN
+         sounding" [musicradar; medium/CNothdurfter]. Every source on
+         programming double bass says the same thing in the same words, and it
+         is the single difference between a programmed run and a played one.
+
+         The old shaping was two levels — on the beat 0.9, off it 0.66 — which
+         is right for a gallop and wrong for a run: it makes every sixteenth in
+         a flurry identical to every other sixteenth in that flurry, which is
+         the machine gun the sources name.
+
+         So velocity descends ACROSS EACH CONSECUTIVE RUN and resets at every
+         gap, which is what a drummer's foot actually does: the first stroke of
+         a burst is the strongest and the rest fall away until the burst ends.
+
+         ⚠ GATED ON A DECLARED FOOT PATTERN, and the first version was not.
+         I wrote here that "a pattern with no consecutive steps has no runs, so
+         every stroke keeps the velocity it had, to the number" — and the hash
+         check refuted it immediately: SYNTHWAVE AND FANTASY SYNTH BOTH MOVED,
+         12 records each. Neither declares `kickPattern`, but both declare
+         `followRiff`, and a riff's accents can land on adjacent sixteenths —
+         so the shaping caught bars it was never meant for. Every source behind
+         this rule is about DOUBLE BASS specifically, so it applies where a
+         double pedal has been declared and nowhere else. That is the same
+         mistake, and the same fix, as the `twoFeet` gate four lines up, whose
+         own comment records me making it once already. */
+      let runFrom = null;
+      for(let ki = 0; ki < kickSteps.length; ki++){
+        const st = kickSteps[ki];
+        if(ki === 0 || kickSteps[ki - 1] !== st - 1) runFrom = ki;
+        const inRun = twoFeet ? ki - runFrom : 0;    /* 0 = first of the burst */
+        const base = st === 0 ? 1.0
+                   : (!twoFeet && !followed) ? 0.9
+                   : (st % 4 === 0 ? 0.9 : 0.66);
+        notes.push({ bar: b, step: st, dur: 1, lane: "kick",
+                     vel: Math.max(0.42, base - 0.085 * inRun), role: "drums" });
+      }
       const snareOn = new Set();
       for(const s of snarePat){
         const st = Array.isArray(s) ? s[0] : s;

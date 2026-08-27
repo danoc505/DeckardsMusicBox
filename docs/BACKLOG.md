@@ -3928,3 +3928,103 @@ writes.
 
 Verified in a real browser at 300 s into a record: drone, bass, keys, drums and
 ostinato all metering, no page errors. 600-record sweep: 1 throw, unchanged.
+
+---
+
+## §0b7 — the double kick was computed and thrown away, every bar (2026-08-22)
+
+[owner: *"There was xero double kick pedal action going on you need to use the
+web to find out how to program double kick pedal patterns. And the bass is NOT a
+bassline"*]
+
+Both true, and the first one was a bug rather than a setting.
+
+### THE DOUBLE KICK EXISTED AT EVERY LAYER EXCEPT THE ONE THAT SOUNDS
+
+Traced it layer by layer. The genre declared `HARDCORE_FEET`; the section's
+`drumArc` carried it; the arc rebuilt the material's drums; and instrumenting
+the builder showed `kickPattern? true, keep 16` at the moment of the build. The
+material still came out `|x...x...x...x...|` — a quarter-note walk.
+
+```js
+      if(K.followRiff && rAcc && rAcc.size >= 2){
+        ...
+        kickSteps = acc;        // ← the sixteen-stroke run is discarded here
+      }
+```
+
+`followRiff` **replaced** the kick bar with the riff's accents. A leg that asked
+for a double pedal had it computed and thrown away on every bar of every record.
+
+The file already had the right answer one lane down: `followRiffSnare` *"lays
+riff accents ON TOP OF `snarePocket` instead of replacing it"*, because *"a
+drummer catching a figure does not stop keeping time to do it."* That is more
+true of the feet, not less — a double pedal **is** the timekeeping. The accents
+are unioned into the run now wherever a foot pattern is declared; where none is,
+the old replacement stands to the step.
+
+```
+  kick hits per second     descend 0.37   halls 0.43   deeper 2.35   return 0.33
+                                                       (was 0.94)
+```
+
+### AND A RUN OF SIXTEENTHS IS NOT SIXTEEN IDENTICAL HITS
+
+> *"With 16ths or 32nds, try having the highest value on the first note and
+> descending values on the succeeding notes, like 84,70,59,44 for instance ...
+> to make them more realistic and less machine-gun sounding"* [musicradar]
+
+The old shaping was two levels — 0.9 on the beat, 0.66 off it — which is right
+for a gallop and wrong for a run: every sixteenth inside a flurry came out
+identical to every other one, which is precisely the machine gun the sources
+name. Velocity now descends across each consecutive run and resets at every gap:
+
+```
+  one bar of the climax     0:1.00  2:0.66  4:0.90  5:0.58  6:0.49
+                            8:0.90  10:0.66  12:0.90  13:0.58  14:0.49
+```
+
+⚠ I gated this on a declared foot pattern **after** the hash check refuted my
+first claim that it would be byte-identical elsewhere: synthwave and fantasy
+synth both moved, because a riff's accents can land on adjacent sixteenths. The
+sources are all about double bass specifically, so it applies where a double
+pedal is declared and nowhere else.
+
+The sources also name a third thing not yet done: *"you don't just have to
+hammer out constant 16th-notes — the effectiveness of double kick drums can be
+due to the SPACES between each flurry as much as the hits"*, and alternating two
+samples for left and right foot. `HARDCORE_FEET` already has gaps in three of
+its four entries; the two-sample alternation is not built.
+
+### THE BASS WAS A PEDAL, NOT A LINE
+
+```
+  before   notes/bar 1.44   STEPWISE 0%   leaps 78%   span 6.4 semitones
+  after    notes/bar 4.30   stepwise 46%  leaps 39%   span 9.3 semitones
+```
+
+0% stepwise motion is not a stylistic choice, it is the absence of one. Stepwise
+motion gives *"a sense of forward motion and coherence"*; a passing tone *"fills
+the space between two chord tones USING STEPWISE MOTION"* and *"smooths out
+leaps"*; and *"the most compelling melodies employ both conjunct and disjunct
+motion"* in equilibrium [iconcollective; openmusictheory; mixedinkey].
+
+DS2 declares the riff style with a table built **for** stepwise motion: `spice`
+weighted onto degrees 1 and 3 — the two non-chord tones, the only degrees a
+STEP from the root — where every table this program has carried weighted the
+third and the seventh, which are chord tones, and every distance between chord
+tones is a leap. Plus `approach: 2`, the passing-tone mechanism. `ownLine: 0.30`
+keeps the old pedal as one option among several rather than the only thing the
+lane can do.
+
+Dungeon synth itself is untouched: still 1.44 notes a bar, 0% stepwise.
+
+### ⚠ AND A MEASUREMENT OF MINE WAS AN ARTEFACT
+
+I raised the bass from the parent's 0.22 to 0.50 because "the bass bus metered
+0.0% live while the drums metered 140%". **The bare `bass` channel is a group
+leftover that nothing routes through** — every part plays through `role|voice`,
+and `bass|bass` metered **9.2%** in the same window, beside `keys|erStringsHi`
+at 7.1% and `keys|mellotron` at 6.7%, both of which also read 0.0% on their bare
+channels. The bass was audible the whole time and I was reading the wrong meter.
+The level change is reverted and the parent's balance stands.
