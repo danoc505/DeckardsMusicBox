@@ -3,8 +3,8 @@
    MK2_COST — WHAT THE RECORD COSTS TO PLAY, AND WHETHER IT CAN BE PLAYED.
 
        node harness/mk2_cost.js                       every genre, the cost of a cut
-       node harness/mk2_cost.js doomsludge 1 655 10   one genre, one seed, one window
-       node harness/mk2_cost.js doomsludge 1 655 20 --live    ...played, not rendered
+       node harness/mk2_cost.js ds2 1 655 10   one genre, one seed, one window
+       node harness/mk2_cost.js ds2 1 655 20 --live    ...played, not rendered
 
    WHY THIS EXISTS. §0ah measured the fight act at 0.61x realtime in an OFFLINE
    render and then said the honest thing about its own number:

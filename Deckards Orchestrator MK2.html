@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22r &middot; four acts &mdash; doom, sludge, a hardcore fight, and the walk home</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22s &middot; DS2 &mdash; the root, a faster climax with double kick, and no hard switching</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -12182,10 +12182,10 @@ registerProcessor("mk2-room", MK2Room);
         m.dk.frequency.value = hz;
       } else {
         const at = Math.max(0, when);
-        m.dry.gain.setValueAtTime(1 - a, at);
-        m.wet.gain.setValueAtTime(a * loud * 1.6, at);
-        m.pre.gain.setValueAtTime(pre, at);
-        m.dk.frequency.setValueAtTime(hz, at);
+        g.glide(m.dry.gain, 1 - a, at);
+        g.glide(m.wet.gain, a * loud * 1.6, at);
+        g.glide(m.pre.gain, pre, at);
+        g.glide(m.dk.frequency, hz, at);
       }
     };
 
@@ -12305,13 +12305,13 @@ registerProcessor("mk2-room", MK2Room);
         m.tame.frequency.value = tm;
       } else {
         const at = Math.max(0, when);
-        m.dry.gain.setValueAtTime(1 - a, at);
-        m.wet.gain.setValueAtTime(a * lv * 1.5, at);
-        m.pre.gain.setValueAtTime(pre, at);
-        m.gL.gain.setValueAtTime(lo, at);
-        m.gH1.gain.setValueAtTime(hi, at);
-        m.gH2.gain.setValueAtTime(hi, at);
-        m.tame.frequency.setValueAtTime(tm, at);
+        g.glide(m.dry.gain, 1 - a, at);
+        g.glide(m.wet.gain, a * lv * 1.5, at);
+        g.glide(m.pre.gain, pre, at);
+        g.glide(m.gL.gain, lo, at);
+        g.glide(m.gH1.gain, hi, at);
+        g.glide(m.gH2.gain, hi, at);
+        g.glide(m.tame.frequency, tm, at);
       }
     };
 
@@ -12356,7 +12356,7 @@ registerProcessor("mk2-room", MK2Room);
       const a = Math.max(0, Math.min(1, C.amt || 0));
       const P = sg.node.parameters;
       const put = (k, v) => { const p = P.get(k); if(!p) return;
-        if(when == null) p.value = v; else p.setValueAtTime(v, Math.max(0, when)); };
+        if(when == null) p.value = v; else g.glide(p, v, Math.max(0, when)); };
       put("amt",   Math.max(0, Math.min(1, C.depth != null ? C.depth : 0.5)));
       put("idle",  Math.max(0.18, Math.min(1, C.idle  != null ? C.idle  : 1)));
       put("recov", Math.max(0.01, Math.min(0.6, C.recov != null ? C.recov : 0.12)));
@@ -12364,7 +12364,7 @@ registerProcessor("mk2-room", MK2Room);
                      Math.max(0, Math.min(1, C.drive != null ? C.drive : 0.25))))));
       if(when == null){ sg.dry.gain.value = 1 - a; sg.wet.gain.value = a; }
       else { const at = Math.max(0, when);
-             sg.dry.gain.setValueAtTime(1 - a, at); sg.wet.gain.setValueAtTime(a, at); }
+             g.glide(sg.dry.gain, 1 - a, at); g.glide(sg.wet.gain, a, at); }
     };
 
     /* ══ THE SUB — AN OCTAVE DIVIDER, NOT AN OCTAVE MULTIPLIER ══════════════
@@ -12426,11 +12426,11 @@ registerProcessor("mk2-room", MK2Room);
         sb.wet.gain.value = a; sb.post.frequency.value = hz;
       } else {
         const at = Math.max(0, when);
-        one.setValueAtTime(0.55 * (1 - 0.5 * two), at);
-        tw.setValueAtTime(0.55 * two, at);
-        gt.setValueAtTime(gate, at);
-        sb.wet.gain.setValueAtTime(a, at);
-        sb.post.frequency.setValueAtTime(hz, at);
+        g.glide(one, 0.55 * (1 - 0.5 * two), at);
+        g.glide(tw, 0.55 * two, at);
+        g.glide(gt, gate, at);
+        g.glide(sb.wet.gain, a, at);
+        g.glide(sb.post.frequency, hz, at);
       }
     };
 
@@ -12901,6 +12901,44 @@ registerProcessor("mk2-room", MK2Room);
        pedal without anything being rebuilt. Topology is untouched -- the rows
        are armed once for the whole song and only the NUMBERS move -- which is
        what keeps "buildGraph runs once" true. */
+    /* ══ AND A PEDAL DOES NOT TELEPORT ════════════════════════════════════════
+       [owner: "make sure that there is no HARD switching only at transitions"]
+
+       Every number on this board was written with `setValueAtTime`, which is an
+       INSTANT JUMP: at a movement boundary the drive, the tone, the cabinet, the
+       compressor and the sag all snapped to new values inside one sample. That
+       is a hand yanking five knobs at once, and it is audible as a click and a
+       lurch — the "hard switching" the owner heard.
+
+       `glide` is the same schedule with a ramp on it. Two things make it
+       correct rather than merely smoother:
+
+         `cancelAndHoldAtTime` FREEZES THE CURVE AT `at` and ramps from
+         whatever the value actually was THEN. Reading `param.value` instead
+         would read the value NOW — at song-arm, when the whole record's
+         automation is written in one pass — so every ramp would start from the
+         wrong place. Where the browser lacks it, the call falls back to the
+         jump it replaces, so nothing is worse than it was.
+
+         THE RAMP STARTS AT THE TRANSITION, not before it. The owner asked for
+         changes only at transitions and that is exactly what this preserves:
+         the act's setting is still whatever the table says for the whole act,
+         and the boundary is where the move happens. What changes is that the
+         move TAKES A MOMENT instead of being instantaneous.
+
+       GLIDE_SEC is one and a half seconds — long enough that no ramp is a
+       click, short enough that a movement is in its own setting well inside its
+       first bar at any tempo this file writes. */
+    const GLIDE_SEC = 1.5;
+    g.glide = function(param, value, at){
+      if(!param) return;
+      const t = Math.max(0, at);
+      if(t <= 0){ param.setValueAtTime(value, 0); return; }
+      try { param.cancelAndHoldAtTime(t); }
+      catch(e){ try { param.setValueAtTime(param.value, t); } catch(e2){} }
+      try { param.linearRampToValueAtTime(value, t + GLIDE_SEC); }
+      catch(e){ param.setValueAtTime(value, t); }
+    };
     g.schedBoard = function(bd, cfg, when){
       if(!bd) return;
       const at = Math.max(0, when);
@@ -12908,20 +12946,20 @@ registerProcessor("mk2-room", MK2Room);
       const ca = Math.max(0, Math.min(1, C.amt || 0));
       const cs = Math.max(0, Math.min(1, C.sustain != null ? C.sustain : 0.5));
       if(bd.comp){
-        bd.comp.dry.gain.setValueAtTime(1 - ca, at);
-        bd.comp.wet.gain.setValueAtTime(ca, at);
-        bd.comp.cmp.threshold.setValueAtTime(-6 - 36 * cs, at);
-        bd.comp.mk.gain.setValueAtTime((C.level != null ? C.level : 0.5) * (1 + cs), at);
+        g.glide(bd.comp.dry.gain, 1 - ca, at);
+        g.glide(bd.comp.wet.gain, ca, at);
+        g.glide(bd.comp.cmp.threshold, -6 - 36 * cs, at);
+        g.glide(bd.comp.mk.gain, (C.level != null ? C.level : 0.5) * (1 + cs), at);
       }
       const oa = Math.max(0, Math.min(1, O.amt || 0));
       if(bd.oct){
-        bd.oct.dry.gain.setValueAtTime(1 - 0.45 * oa, at);
-        bd.oct.wet.gain.setValueAtTime(0.9 * oa, at);
+        g.glide(bd.oct.dry.gain, 1 - 0.45 * oa, at);
+        g.glide(bd.oct.wet.gain, 0.9 * oa, at);
       }
       const pa = Math.max(0, Math.min(1, P.amt || 0));
       if(bd.phase){
-        bd.phase.wet.gain.setValueAtTime(pa, at);
-        bd.phase.rate.setValueAtTime(0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3)), at);
+        g.glide(bd.phase.wet.gain, pa, at);
+        g.glide(bd.phase.rate, 0.05 + 3.5 * Math.max(0, Math.min(1, P.rate != null ? P.rate : 0.3)), at);
       }
       if(bd.fuzz) g.schedFuzz(bd.fuzz, (cfg && cfg.fuzz) || {}, at);
       if(bd.meat) g.setMeat(bd.meat, (cfg && cfg.meat) || {}, at);
@@ -12937,17 +12975,17 @@ registerProcessor("mk2-room", MK2Room);
       const sus = Math.max(0, Math.min(1, c.sustain != null ? c.sustain : 0.5));
       const tn  = Math.max(0, Math.min(1, c.tone != null ? c.tone : 0.5));
       const at = Math.max(0, when);
-      fz.dry.gain.setValueAtTime(1 - a, at);
-      fz.wet.gain.setValueAtTime(a * lv * 0.80, at);
-      fz.pre.gain.setValueAtTime(3 * Math.pow(320, sus), at);
-      fz.loG.gain.setValueAtTime(1 - tn, at);
-      fz.hiG.gain.setValueAtTime(tn, at);
+      g.glide(fz.dry.gain, 1 - a, at);
+      g.glide(fz.wet.gain, a * lv * 0.80, at);
+      g.glide(fz.pre.gain, 3 * Math.pow(320, sus), at);
+      g.glide(fz.loG.gain, 1 - tn, at);
+      g.glide(fz.hiG.gain, tn, at);
       /* the two new numbers ride with the other five -- a movement that asks
          for more bottom gets it at the bar line, not at song-arm */
       const md = Math.max(0, Math.min(1, c.mids != null ? c.mids : 0));
-      if(fz.hi) fz.hi.frequency.setValueAtTime(1206 * Math.pow(0.2, md), at);
-      if(fz.mass) fz.mass.gain.setValueAtTime(a * (c.mass != null ? c.mass : 0), at);
-      fz.cab.frequency.setValueAtTime(
+      if(fz.hi) g.glide(fz.hi.frequency, 1206 * Math.pow(0.2, md), at);
+      if(fz.mass) g.glide(fz.mass.gain, a * (c.mass != null ? c.mass : 0), at);
+      g.glide(fz.cab.frequency,
         Math.max(1500, Math.min(16000, c.cab != null ? c.cab : 4500)), at);
     };
     /* MIDS and MASS, both 0..1, both derived above. `hi` sweeps from the
@@ -29294,1243 +29332,131 @@ GENRE.fantasysynth = (function(D){
 })(GENRE.dungeonsynth);
 
 
-/* ══ DOOM AND SLUDGE SYNTH — fantasy synth, forked ═════════════════════════
-   [owner, 2026-08-21: "Lets copy the fantasy synth and paste it rename it as
-   Doom and Sludge Synth and do our work on that new genre."]
+/* ═══════════════════════════════════════════════════════════════════════════
+   DUNGEON SYNTH II — the root, with rock driven into it
+   ───────────────────────────────────────────────────────────────────────────
+   [owner: "DELTE the Doom and Sludge genre! Its a failure. We might as well
+    take the Dungeon synth genre clone it rename it to DS2. Then we tweek it so
+    that it has a climax that has a higher tempo and double kick pedal. And we
+    want to turn on the heavy FX, make sure that there is no HARD switching
+    only at transitions."]
 
-   IT IS A DELTA, NOT A DUPLICATE, and that is the copy-and-paste asked for
-   rather than a departure from it. `merge(F, {...})` inherits every one of
-   fantasy synth's keys, so at birth this genre IS fantasy synth -- the same
-   tables, the same draws, the same record. What a literal 1,700-line paste
-   would add is 60 KB against a 16 MiB ceiling and, far worse, a second copy
-   of every number in this file to drift out of step with the first. Config
-   that says one thing while the music does another is this repo's named
-   fault class; two tables for one genre is how you manufacture it.
+   `doomsludge` IS DELETED. It was 24 of dungeon synth's tables overridden and
+   12 added — a different genre wearing the name, and every attempt to steer it
+   back was steering a thing that had already left. Its research is not lost:
+   the sourced notes live in docs/genre-research and in this file's history, and
+   the constants it introduced (SLUDGE_FEET, HARDCORE_FEET) are still here.
 
-   The delta is also the point: everything below this line is the doom and
-   sludge WORK, readable as the diff from the parent, instead of buried in a
-   reprint of it.
+   THIS GENRE IS A CLONE PLUS FOUR THINGS, and the list is the whole design:
 
-   THE FORK IS VERIFIABLE, and that is why it lands as its own commit before
-   any of the work. `stream(seed, name)` hashes `name + ":" + seed` and the
-   GENRE NAME IS NOT IN IT, so a genre whose tables match its parent's draws
-   the parent's record note for note. Measured rather than asserted: the
-   printout for doomsludge and fantasysynth on the same seed is identical
-   except for the header. Anything that diverges later diverges because a
-   line below asked it to. ══════════════════════════════════════════════════ */
-GENRE.doomsludge = (function(F, ROOT){
+     1. A CLIMAX AT A HIGHER TEMPO      `form.tempoArc`
+     2. A DOUBLE KICK IN THAT CLIMAX    `kit.arc.setAt.deeper`
+     3. THE HEAVY FX, ON                `space.fuzz`, `space.pedals`
+     4. NO HARD SWITCHING               the board GLIDES between settings now,
+                                        which is a change to the engine rather
+                                        than to this table — see `g.glide`.
+
+   Everything else is dungeon synth's, by inheritance, untouched: its harmony,
+   its figure, its tune, its registers, its rooms, its instruments. If this
+   record sounds disconnected it will be because of something on that list of
+   four, and there is nowhere else to look.
+   ═══════════════════════════════════════════════════════════════════════════ */
+GENRE.ds2 = (function(D){
   const merge = (a, b) => Object.assign({}, a, b);
-  const TABLE = merge(F, {
-  label: "doom and sludge synth",
-
-  /* ══ THE FUZZ, AND IT IS THE FIRST GENRE TO DECLARE ONE ═══════════════════
-     `space.fuzz` shipped with no genre naming it, which is the dead-config
-     shape this file chases hardest -- a unit built, measured and switched on
-     by nobody. This is the genre it was built for.
-
-     ── THE ROWS COME FROM THE SOURCES, NOT FROM TASTE ────────────────────
-     SLUDGE PUTS THE BASS ON THE RIFF: "guitars and bass playing the same
-     riff in unison, creating a loud and BASS-HEAVY WALL OF SOUND"
-     [corpus:wikipedia/Sludge metal]. So `bass` is the row this exists for.
-
-     DOOM PUTS THE MASS IN THE SUSTAINED CHORD: "power chords, parallel
-     fourths/fifths, and sustained unisons enhance mass"; "play a power chord
-     or single note and LET IT SUSTAIN" [corpus:melodigging/doom-metal]. In
-     this program that is `keys`, which the printout shows striking one chord
-     on step 0 and holding the bar -- accidentally the right shape for doom,
-     and the fuzz is what makes it heavy rather than merely long.
-
-     NOT THE LEAD, NOT THE DRONE. The lead carries the motif through four
-     movements and a fuzz across it would cost the tune its intelligibility at
-     the exact moment the record needs it most; the drone is three notes held
-     for twenty minutes and clipping a static tone just makes a louder static
-     tone. Both are decisions, so both are written down.
-
-     ── AND THE SETTINGS ARE DOOM'S RESTRAINT, NOT SLUDGE'S EXCESS ────────
-     Doom's production row asks for "LOW-MID HEFT, natural drum rooms,
-     CONTROLLED HIGH-END FIZZ" -- and it asks for that BEFORE it says anything
-     about gain at all. `the-four-acts.md` §6 refused distortion outright on
-     that reading. It is built now because sludge names it explicitly, but the
-     parent's caution sets the numbers:
-
-       sustain 0.45  under the middle of a knob whose law is 60^s, so about
-                     6.6x into the first clipper -- dirt, not annihilation
-       tone    0.35  below the midpoint, which opens the LOWPASS leg wider
-                     than the highpass one: heft up, fizz down, in one knob
-       level   0.50  the measured level match, so declaring this changes the
-                     record's SHAPE and not its loudness -- the drum bus's
-                     rule, applied to the unit next door
-
-     Those are the numbers UNDER `by` -- the default a movement inherits when
-     it names nothing -- and they are doom's, because the restrained end is the
-     honest place to sit when one setting has to cover an unnamed leg.
-
-     ── AND THEN EACH ACT GETS ITS OWN, WHICH IS THE WHOLE POINT ──────────
-     This was first written with one setting for the record and a paragraph
-     explaining that `space` is per genre so it could not be otherwise. That
-     paragraph was wrong: the motion plan already carried the movement per bar
-     and a clock to turn a bar into a second, so what was missing was a reader,
-     not a mechanism. `space.fuzz.by` is that reader and it resolves exactly
-     like a `section` motion lane -- movement first, section function as the
-     fallback, the numbers above as the default under both.
-
-       setting out / DOOM     the numbers above. "Low-mid heft ... controlled
-         high-end fizz", and the sources put that BEFORE gain.
-
-       into the deep / SLUDGE the only act whose sources name distortion
-         outright -- "down-tuned, HEAVILY DISTORTED guitars" [wikipedia] over
-         a bass that is on the riff in unison. sustain 0.78 is most of a knob
-         whose law is 60^s; tone stays LOW at 0.28 because the source's word
-         is "bass-heavy wall", not "bright".
-
-       the fight / MATHCORE   LESS, and brighter, and that is the finding from
-         reading the tabs rather than a compromise. Botch's guitar is
-         "dissonant, single-note lines ... AVOIDING POWER CHORDS", The Number
-         Twelve voices root+octave+ninth, and both live on attack -- "sudden
-         stops", 5-groupings against 2-groupings. A wall of fuzz eats attack
-         and turns an angular line into mud, so this act gets 0.40 and a tone
-         of 0.58, above the midpoint, where the highpass leg opens and the
-         note's front edge survives.
-
-       the long way home      OFF. [owner: "The last section i was thinking
-         more calm and atmospheric like pink floyd."] Measured on the Shine On
-         MIDI, its calm opening is seven parts trading two-note voicings with
-         the harmony still moving -- not one loud thing. Nothing there is
-         distorted, so nothing here is. `amt: 0` is the pedal off, and at 0 the
-         dry gain is 1 and the wet is 0, so the strip is the wire.
-
-     ROWS STAY GENRE-WIDE across all four, because changing WHICH parts are
-     patched is a topology edit and those happen at song-arm or not at all.
-
-     ⚠ AND THE FIRST VERIFICATION OF THIS TABLE WAS WRONG, WHICH IS WORTH
-     KEEPING. It reported that these four keys reached nothing -- that compose
-     returned movements called "establish", "twopart" and "answer" and ignored
-     the record's length. That was a FALSE ALARM and the fault was in the probe,
-     not the program: `composeSong` is POSITIONAL --
-
-       composeSong(seed, rig, genre, picks, pins, edits, traitRoll, traits, wantSec)
-
-     -- and the probe passed an options object as the first argument, so `seed`
-     was an object and `genre` was undefined. It measured the default genre's
-     short record and blamed this one. Called correctly:
-
-       composeSong(1, undefined, "doomsludge")
-         28 sections, 472 bars, 19.8 minutes
-         movements: setting out, into the deep, the fight, the long way home
-
-     The four legs are exactly what the plan declares. A probe that calls the
-     program wrongly and reports the program as broken is worse than no probe,
-     and it nearly had a correct architecture torn up to chase it.
-     ═══════════════════════════════════════════════════════════════════════ */
-  /* ══ ONLY THE DOOM ACT HOLDS ═══════════════════════════════════════════
-     MEASURED off the printout, this record's first keyboard:
-
-       act            events   on step 0   distinct bar-grids
-       setting out        57       100%         1
-       the fight         570       100%         1
-       the long way home 288       100%         1
-
-     One chord, struck on the downbeat, held the bar, for the whole leg, in
-     three different musics. It is a pad wearing a comp's name.
-
-     AND IT IS EXACTLY RIGHT FOR ONE OF THEM. Doom asks for it outright --
-     "power chords, parallel fourths/fifths, and SUSTAINED UNISONS enhance
-     mass"; "play a power chord or single note and LET IT SUSTAIN"
-     [corpus:melodigging/doom-metal] -- and epic doom puts keyboards there for
-     the same reason: "organ, choir pads, mellotron ... to heighten the
-     monumental feel", "SUSTAINED TONES over speed or virtuosity"
-     [corpus:melodigging/epic-doom-metal]. So `A` keeps it, and keeping it is
-     now a DECISION rather than the accident it has been.
-
-     THE OTHER THREE ASK FOR THE OPPOSITE, each in its own words:
-
-       C  sludge    the bass and the guitars are "playing the SAME RIFF in
-                    unison" -- a riff, not a wash. A pad cannot be in unison
-                    with a riff.
-       B  mathcore  Botch is "dissonant, single-note lines ... AVOIDING POWER
-                    CHORDS", The Number Twelve voices root+octave+ninth, and
-                    both live on attack. A whole-bar chord has no attack after
-                    its first sixteenth.
-       lift  prog   measured on the Shine On MIDI: its calm opening is seven
-                    parts trading TWO-NOTE voicings with the harmony changing
-                    about once a bar. Sparse in density per part, not in parts
-                    and not in motion -- the opposite of one held triad.
-
-     ── AND A COMP NEEDS SOMEWHERE TO ENTER ────────────────────────────────
-     `compEntry` is the per-bar entry offset and this genre inherits none, so
-     freeing the three acts above would have handed them a comp that still
-     starts every bar on the downbeat. The pool below is weighted AWAY from
-     zero for the reason the repo's own sheet is named after -- the comp does
-     not land on one -- and toward the anticipation, which is the oldest move a
-     comping hand has: "rhythm is vital and LEAVING SPACE is a huge part of
-     effective and appropriate comping technique", varied with "long notes,
-     short held notes, short stabs" [corpus:pianogroove/comping-hammond-organ].
-     [CHOSEN: the weights -- no source publishes a table]
-
-     ⚠ AND `C` IS INERT TODAY, SAID HERE RATHER THAN LEFT TO LOOK LIVE.
-     MEASURED on the printout after declaring it: 0 `keys` lines inside any
-     material C section. `form.roles["into the deep"]` is
-     ["drums","bass","keys2","lead","drone"] -- the sludge act has NO `keys`
-     lane at all, so its first keyboard cannot comp because it never plays.
-     The entry is kept because it is the right answer the moment that leg gets
-     the lane, and putting `keys` into a movement's roles is an arrangement
-     decision rather than a comp one. It is the same shape as the bass sheet's
-     §5 finding about the walk home, and it goes to the owner, not into this
-     table quietly. */
-  /* ══ THE THEME ARRIVES AS A THEME ═════════════════════════════════════
-     [owner: "Modal Jazz is what keeps the 20 min song coherent, is modal jazz
-     not based around motifs? And is not having a motif that changes and alters
-     and comes back home how we create a 20 min song with four act that are all
-     connected and in the end on single song?"]
-
-     Yes, and the sources are unambiguous. Modal jazz "sustains a single chord
-     or mode for extended periods", so "the main creative focus [is] melodic
-     shape, rhythmic variation and timbral nuance AS OPPOSED TO harmonic
-     movement" [corpus:thejazzpianosite]; with functional harmony removed,
-     motivic development is what carries the music. And a theme transformed
-     across movements to bind a long work is Liszt's and Berlioz's device by
-     name -- thematic transformation, cyclic form, the idee fixe that "recurs
-     throughout the five movements in various rhythmic forms" and "takes on a
-     different character in each movement" [corpus:wikipedia/Thematic
-     transformation; corpus:britannica].
-
-     This genre already declared the journey -- `theme.story` names fragment,
-     diminish and augment for C, B and lift -- and the branch that executes it
-     carried the RHYTHM and redrew the PITCHES. `theme.carry` switches that
-     off: the source's contour is carried in scale degrees, so each act's
-     restatement is the same tune in that act's own mode. See the branch in
-     `buildTheme` for the measurement that found it. */
-  /* ══ THE WALK HOME GETS MORE PLAYERS, NOT MORE VOLUME ══════════════════
-     [owner: "The last section i was thinking more calm and atmospheric like
-     pink floyd."]
-
-     MEASURED, this record's last act, bars 356-472 (14:42 to the end):
-
-       356-376   drone ONLY               55 seconds
-       376-392   keys lead drone
-       392-408   lead drone
-       408-424   keys lead drone
-       424-440   keys lead drone
-       440-456   keys lead drone
-       456-472   drone ONLY               the outro
-
-     Five minutes and twenty seconds with a ceiling of THREE parts, and two
-     sections that hold one.
-
-     AND CALM IS NOT THE SAME AS EMPTY. Measured off the Shine On MIDI, its
-     calm opening -- the four and a half minutes before the drums arrive, which
-     is the passage this act is being asked to resemble:
-
-       SEVEN parts play in it   piano 137 notes, jazz guitar 93, synth brass
-                                57, strings 42, organ 34, xylophone 27, bass 2
-       26 distinct pitch-sets, 54 changes over 60 bars -- the harmony moves
-                                about once a bar even in the quiet part
-       the commonest sonorities are DYADS   D-G, C-Bb, D-F, G-Bb, F-G.
-                                Two notes. The triads are the exception.
-
-     So Floyd-calm is MANY VOICES EACH PLAYING VERY LITTLE, over a harmony that
-     keeps moving. This act is sparse in the wrong dimension: not many parts
-     playing thinly, but three parts playing steadily.
-
-     `keys2` IS ALREADY BEING DRAWN FOR THIS LEG AND CANNOT SOUND. Read off
-     the same printout: the arrangement picks `keys2=mellotron`,
-     `keys2=erKeyMid`, `keys2=hurdyGurdy` in three of its sections -- a machine
-     chosen, per section, for a lane the roles do not list. Adding it costs
-     nothing that has not already been paid.
-
-     `counter` joins it because the answering line is the one part built to
-     speak in the tune's gaps, which is what a thinning arrangement is made of.
-     DRUMS AND BASS STAY OUT: Floyd's drums do not arrive until 4:30 of a piece
-     this act is only five minutes long, and the bass sheet's §5 already
-     refused to put a rhythm section into a leg written at energy 0.30. The
-     answer to "calm" is more voices, not a band. */
-  /* ══ THE AMP, THE ROOM AND THE PEDALS ═════════════════════════════════════
-     [owner: "But these genres are not just about notes! Its the effects that
-     are used! Its the heavy distortion its the FX PEDALS used in combination
-     and you didnt even bother at all with any of that!"]
-
-     Right, and the count was damning: of eighteen `space` keys this genre
-     inherited SEVENTEEN from fantasy synth unchanged, and the eighteenth was a
-     fuzz on two lanes moving two decibels. The kick, the drum drive and the
-     gate were identical. So the texture WAS fantasy synth's, note the notes.
-
-     ── THE AMP, FROM THE PLAYERS ─────────────────────────────────────────
-     The doom/stoner tone advice is specific and it is an EQ curve: "setting
-     your pickup selector in the middle position with HIGHS BACKED OFF and MIDS
-     AT HALFWAY while TURNING UP BASS" [corpus:ultimate-guitar doom tone
-     thread], over "an old valve amp at high volumes with a fuzz pedal"
-     [corpus:noisecreep]. That is three numbers on a desk and one on a drum bus,
-     and this genre had the cavern's.
-
-     ── THE ROOM, WHICH WAS THE WRONG ROOM ────────────────────────────────
-     `irSec: 8.5` is the longest reverb in the file and dungeon synth chose it
-     to be a cathedral -- "long reverbs and modest delay to suggest halls and
-     caverns". Doom does not want a cathedral: its production row asks for
-     "natural drum rooms" and "ROOMY, NATURAL AMBIENCE"
-     [corpus:melodigging/doom-metal], and sludge is a room with the amps in it.
-     4.2 s is still a big room and is half a cavern.
-
-     ── THE PEDAL, ON EVERYTHING ──────────────────────────────────────────
-     The Big Muff Pi is "virtually eponymous with epically heavy stoner and
-     doom metal gear... arguably the most popular fuzz pedal in the genre"
-     [corpus:noisecreep]; EarthQuaker's Hoof is "loosely based on the classic
-     green Russian fuzz circuit", and the Hizumitas is voiced so it "sits
-     perfectly over a THICK BASS TONE AND A LOUD DRUMMER without getting lost"
-     [corpus:earthquakerdevices, sarahleeandjohnny]. Electric Wizard ran an
-     FZ-2 into a Sound City for Dopethrone.
-
-     None of those bands fuzz two lanes. The pedal is in front of the amp and
-     everything pitched goes through it, so the rows are every pitched lane the
-     record has except the drone -- clipping a static tone only makes a louder
-     static tone, which is the refusal the fuzz table already records. */
-  /* ══ AND THE WHOLE RECORD MOVES DOWN ══════════════════════════════════════
-     [owner: "If the first act is DOOM why are the notes so HIGH! Why are they
-     so clear? That is not the sound of DOOM"]
-
-     Because this genre inherited DUNGEON SYNTH's registers whole, and dungeon
-     synth wrote them for a cavern. Read off the composed chart before this
-     block existed:
-
-       themeA    [69, 90]   A4 .. F#6      the tune STARTS at A4
-       themeB    [71, 91]   B4 .. G6
-       ostinato  [67, 88]   G4 .. E6
-       keys      [48, 67]   C3 .. G4
-       bass      [28, 43]   E1 .. G2
-
-     The parent's own comment says it in as many words -- "the tune here is
-     written high" -- and it is right for a cavern. It is the opposite of doom.
-
-     THE SOURCES ARE ABOUT REGISTER BEFORE THEY ARE ABOUT ANYTHING ELSE.
-     Sludge is "DOWN-TUNED, heavily distorted guitars"
-     [corpus:wikipedia/Sludge metal]. Electric Wizard "were tuned down to B or
-     Bb on Dopethrone" [corpus:ultimate-guitar]. Sleep's Dopesmoker is C
-     STANDARD, and both Fall of Efrafa transcriptions the owner supplied say
-     "Standard C Tuning" at the top of the page. A guitar in C standard has its
-     lowest string at C2 and its riffs live between there and about C4. This
-     record was writing its tune an octave and a half above that.
-
-     So every melodic band drops by an octave and a half, and the low bands
-     drop with them:
-
-       part      was            now           in guitar terms
-       themeA    A4 .. F#6      E3 .. C5      where a riff on the top strings is
-       themeB    B4 .. G6       G3 .. D5
-       themeC    G4 .. D6       D3 .. A4
-       ostinato  G4 .. E6       E3 .. C5
-       keys      C3 .. G4       E2 .. C4      the power-chord register
-       counter   D4 .. G5       D3 .. G4
-       bass      E1 .. G2       C1 .. E2      C standard's open low string is C2
-       drone     C1 .. G1       A0 .. G1
-
-     "WHY ARE THEY SO CLEAR" IS THE SAME ANSWER. A line at E5 has nothing above
-     it to mask it and every partial of it lands in the ear's most sensitive
-     octave. The same line at E3 has its harmonics landing where the fuzz, the
-     room and the rest of the band already are, which is what a wall of sound
-     is made of. Register is most of what "clear" and "heavy" mean.
-
-     ⚠ AND THIS NARROWS AGAINST THE INSTRUMENTS, which is the cost. `playable`
-     intersects every band with every machine that can hold the lane, so a
-     genre whose tune sits low cannot also draw high instruments for it. That
-     is the correct price and it is stated rather than discovered later. */
-  /* ── AND THE FIRST ATTEMPT AT THESE THREW, WHICH IS THE SEAM EARNING ITS
-     KEEP ─────────────────────────────────────────────────────────────────
-     keys [40, 60] against bass [24, 40] and ostinato [52, 72] left the comp a
-     twenty-semitone band overlapping both neighbours at once, and the
-     collision check said so precisely: "no keys voicing fits [40,60] clear of
-     the bass and ostinato on bar 2". Three notes need somewhere to be. The
-     bands below stack with the same shape the parent's had -- each starting
-     above the last one's floor -- just an octave lower.
-
-     AND THE FIRST WIDENING WAS NOT ENOUGH EITHER: keys [41,63] passed seed 1
-     and threw on SEVEN OF TWELVE seeds, all with the same message. Three
-     configurations were then rendered across twelve seeds each and the lowest
-     one that passes all twelve is what is below. Reasoning about it twice got
-     it wrong twice; the sweep settled it. */
-  /* ── AND THE BASS CAME UP A FIFTH, WHICH IS THE ONLY LEVER THAT WORKED ───
-     [owner: "our bass is most inaudible"]
-
-     [24, 41] is C1 to F2 -- 32.7 to 87 Hz -- and the printout says the sludge
-     act's bass actually lives at the bottom of it, C#1 and E1, 34.6 and 41.2.
-     Deleting every bass event from the record changed it by 0.05, 0.04 and
-     0.01 dB in the three heavy acts. Not quiet: absent.
-
-     THREE LEVERS WERE TRIED AND MEASURED IN THIS ORDER.
-
-     THE FADER moved it 8 dB nominal and the record by 0.01 dB, because rms is
-     not where the problem is. THE OCTAVE PEDAL moved the part's energy
-     distribution by three points -- and finding out why was worth the trip: a
-     rectifier doubles the frequency, so the octave of C#1 is 69 Hz, and the
-     pedal's own coupling cap was a 120 Hz high-pass that deleted it. Fixed at
-     40 Hz where a DC blocker belongs. It still did not make the bass audible,
-     because on this material almost everything the rectifier makes is ALSO
-     under 120 Hz.
-
-     THE REGISTER IS THE ONE THAT WORKS, and this file already said so before I
-     started: the `roleGain` note one genre up rules that a part living at
-     41-98 Hz cannot be fixed with a fader because "the ear is 30-45 dB down; no
-     fader fixes physics... the levers are register-shaped". I read that
-     paragraph, kept going, and spent two measurements confirming it.
-
-     UP A FIFTH, NOT AN OCTAVE. [31, 48] is G1 to C3, 49 to 130 Hz -- still
-     below every other part on the record, still the bottom of the band, and
-     now inside the range where a listener has ears. It is also where a doom
-     bassist actually plays: the low string is the tuning, the RIFF is up the
-     neck. The drone keeps [21, 31] and holds the floor, which is what a drone
-     is for and why it can afford to be felt rather than heard. */
-  registers: { bass: [31, 48], keys: [44, 67], counter: [54, 71],
-               bassWalk: [31, 48], ostinato: [60, 81],
-               themeA: [57, 78], themeB: [59, 80], themeC: [55, 76],
-               drone: [21, 31] },
-  desk: { low: 4, mid: 0, high: -6, lowF: 200, midF: 1000, highF: 4000 },
-  /* the valve amp at high volume, on the one bus that models one */
-  drumDrive: 1.75,
-
-  /* ══ AND THE BASS WAS NOT QUIET, IT WAS ABSENT ═════════════════════════════
-     [owner: "our bass is most inaudible"]
-
-     MEASURED, seed 1, three six-second excerpts rendered twice each -- the full
-     mix, and the identical mix with every bass event DELETED:
-
-         act        with bass   without    what the bass is worth
-         doom        0.2468      0.2454     0.05 dB
-         sludge      0.2628      0.2614     0.04 dB
-         the fight   0.3071      0.3067     0.01 dB
-
-     A hundredth of a decibel. Taking the bass out of the fight is inaudible by
-     any definition of the word, and the two nulls put it 19 and 25 dB under the
-     record. It is not mixed low; it is not there.
-
-     TWO CAUSES AND BOTH GET AN ANSWER.
-
-     THE FADER. Inherited `roleGain` puts the bass at 0.22 -- the second
-     quietest pitched part in the table, under the figure at 0.50 and the tune
-     at 0.57, against drums at 1.40. That ranking is dungeon synth's and it is
-     right there: a genre of "atmosphere over loudness" whose bass is a pedal
-     tone under a pad. It is wrong here. Doom and sludge are bass music --
-     "a loud and bass-heavy wall of sound", bass and guitars playing "the same
-     riff in unison" -- so the bass sits with the tune, not under the pad.
-
-     AND PHYSICS, WHICH NO FADER FIXES. This genre's bass plays C#1 and E1 --
-     34.6 and 41.2 Hz, read off the printout -- where the ear is 30-45 dB down.
-     The file already knows this: the `roleGain` note one genre up says of the
-     drone that "no fader fixes physics... the levers are register-shaped".
-
-     So the second answer is the OCTAVE, and it is the pedal I took off this
-     genre two builds ago for a good reason that does not apply to the bass.
-     `makeOctave` is a full-wave rectifier -- an octave UP -- and an octave up
-     from C#1 is C#2, which is where a doom guitar plays and where the ear
-     actually is. Blended UNDER the fundamental, never replacing it, so the
-     bottom stays and something audible sits on top of it. That is the Univox
-     Super-Fuzz's "distinct upper octave" doing the one job it is good for
-     [corpus:noisecreep], and it is why a bass fuzz has that switch. */
-  roleGain: merge(F.roleGain, { bass: 0.55 }),
-
-  form: merge(F.form, {
-    /* ══ AND THE DOUBLING IS AN OCTAVE HERE, NOT A UNISON ══════════════════
-       MEASURED, seed 1: 1,462 of this record's 6,543 notes -- TWENTY-TWO
-       PERCENT -- were exact duplicates. Same part, same step, same pitch,
-       twice. Every one of them was the keyboard, because the drawn doubling
-       landed at `semis: 0` and the keys lane comps five chords a bar: two
-       instruments hitting the identical dyad twenty times a bar is not a
-       thicker chord, it is one chord at +6 dB with the transients smeared.
-
-       AND THE TABLE THIS INHERITS ALREADY CARRIES THE WARNING. The comment
-       directly above dungeon synth's `double` block quotes Belkin: constant
-       unison doubling is "the beginner's most common fault" -- and then sets
-       `uni: 0.70`, so seven doublings in ten are unisons. The quote and the
-       number disagree, and on a pad you can argue the number; on a comping
-       keyboard you cannot.
-
-       An OCTAVE doubling of the same line is the doom sound anyway -- the
-       guitar and its octave -- so this is not a retreat from doubling, it is
-       the doubling the genre actually wants. `pick` and `of` are untouched:
-       the same number of doublings on the same parts, an octave apart. */
-    double: merge(F.form.double, { uni: 0.12 }),
-    /* ══ WHO THE SECTION IS ABOUT ══════════════════════════════════════════
-       [owner: "To many instruments playing their own notes and its not
-       cohering, there is no solos, no duels, just a mash of colliding noise"]
-
-       MEASURED, seed 1, before this: the fight ran FIVE pitched parts in nine
-       of its ten sections and never fewer than four, with the keyboard alone
-       firing 338 events a section against one to three a bar for everything
-       else. He is describing the measurement.
-
-       THE ROTATION IS THE FIX AND ITS SHAPE IS THE ACT'S. Each leg gets a
-       different pattern of solo, duel and tutti because each leg is a
-       different music:
-
-       DOOM opens with the band and then hands one part the room. Sleep's own
-       method is "minor differences in the constant repetition" over very long
-       spans, so the doom leg changes WHO rather than WHAT, slowly -- tutti,
-       tutti, then the figure alone, then the band back.
-
-       SLUDGE trades. The genre is doom crossed with hardcore punk, and the
-       hardcore half is call-and-response: bass answering guitar, one riff
-       thrown between two players. Two duels in six sections.
-
-       THE FIGHT IS MOSTLY NOT TUTTI, and that is the whole correction. Mathcore
-       is "start-stop stabs, sudden tempo drops and syncopated accents"
-       [corpus:melodigging] -- a music made of holes, where the band hitting
-       together LANDS because most of the time it is not. So the fight gets one
-       full-band section in four and the rest are solos and duels. It also gets
-       the one three-way sequence on the record: keys alone, then keys against
-       bass, then the band -- which is a build made of arrangement rather than
-       of level.
-
-       THE WALK HOME is Gilmour, and the sourcing there is already in this
-       file: on Shine On the motif lives in the ACCOMPANIMENT and the lead
-       plays it zero times, over seven parts moving about one chord a bar. So
-       that leg keeps its band and gets one duel -- the lead against the second
-       keyboard -- rather than being carved up. A calm act broken into solos
-       stops being calm.
-
-       A `null` entry is a full band and every leg has at least one: a record
-       where every section is a solo is as flat as one where none is. */
-    feature: {
-      "setting out":       [null, null, { solo: "ostinato" }, null,
-                            { duel: ["bass", "lead"] }, null],
-      "into the deep":     [null, { duel: ["bass", "keys2"] }, { solo: "lead" },
-                            null, { duel: ["ostinato", "keys2"] }, null],
-      "the fight":         [{ solo: "keys" }, { duel: ["keys", "bass"] }, null,
-                            { solo: "bass" }, { duel: ["lead", "ostinato"] },
-                            { solo: "keys2" }, null, { duel: ["keys", "lead"] },
-                            { solo: "lead" }, null],
-      "the long way home": [null, { duel: ["lead", "keys2"] }, null, null,
-                            { solo: "keys" }, null],
-    },
-    roles: merge(F.form.roles, {
-      /* ── AND THE SLUDGE ACT GETS A FIGURE LANE ────────────────────────
-         It has none: `into the deep` lists drums, bass, keys2, lead and drone,
-         so material C has NO ostinato in any bar of the record. If doom and
-         sludge are one music then the second act cannot be missing the part
-         the first one is built on. Same lane, same cells, and the punk half of
-         sludge is carried by tempo and the fuzz rather than by a different
-         figure -- which is what the sources describe. */
-      /* ══ AND THE ACT WITH NO CHORDS IN IT GETS CHORDS ═══════════════════
-         [owner: "there is a large section prior to the fight that is just
-          nothingness a few notes not held just hit"]
-
-         MEASURED, 8 records, this act's notes by part BEFORE:
-
-           bass 57%   ostinato 24%   lead 11%   keys2 8%   KEYS 0%
-
-         It had no chord part at all — not thin, absent, because this line did
-         not list one. The largest voice in the act was the BASS. That is the
-         "nothingness", and it is a hole rather than a style.
-
-         ⚠ THIS IS THE ONE THING KEPT from the build that tried to make the whole
-         record resemble the ending, and it is kept because it stands on its
-         own: the owner complained about THIS act, in these words, before he
-         ever said which act worked. Everything else in that build — the doom
-         act's chords made to move, the HM-2 taken off, the fuzz blended back,
-         the ending's pedals put everywhere — was reading "this part works" as
-         "make everything this part", and all of it is reverted.
-         [owner: "I didnt tell you i wanted to whole song to be like the end
-          i said thats the only part that is working right now"]
-
-         AND `keysStyleAt.C` IS `hold`, WHICH IS THE OTHER HALF OF THE
-         COMPLAINT. With `comp` this act went from 2.38 notes a second to 4.85 —
-         denser than the ending, which is the wrong direction for a sludge act —
-         and it buys a busy bass with it, because this genre doubles its bass
-         onto the comp. Held chords fill the harmony without flooding it and
-         answer the words actually used: average note length in this act goes
-         from 1.38 s to 2.66 s. Notes that are HELD, not hit. */
-      "into the deep": ["drums", "bass", "keys", "keys2", "lead", "ostinato", "drone"],
-      "the long way home": ["keys", "keys2", "counter", "lead", "drone"],
-      /* ── AND THE RECORD DOES NOT END ON ONE HELD NOTE ──────────────────
-         The outro belongs to the RECORD rather than to a leg, so it never
-         reads the movement above it -- `mv` is null for the intro, the outro
-         and the transitions, by design -- and this genre declared no `outro`
-         entry at all. Measured: `bars 456-472, playing: drone`. Sixteen bars,
-         seventy seconds, one held note, and that is how the record stops.
-
-         Measured off Shine On instead: its final two minutes are the clean
-         electric guitar and the saxophone TRADING -- 134 and 135 notes in the
-         last thirty-second window, the two densest parts of the whole
-         fourteen minutes. A Floyd ending is not an absence; it is a thinner
-         band still playing. Sludge's own sources say the same from the other
-         end -- "end with feedback, noise, or a final unison hit for BLUNT
-         CLOSURE" -- and both agree the one thing an ending is not is a fade
-         to a single sustained tone.
-
-         Three parts, at the outro's own low energy: the tune, the chords it
-         has been sitting on, and the ground it started from.
-
-         ⚠ AND IT IS NOT WORKING YET, SAID HERE RATHER THAN LEFT TO LOOK DONE.
-         The entry lands -- probed off the composed chart, `form.roles.outro`
-         reads ["keys","lead","drone"] -- and the outro STILL sounds nothing:
-         one event, role `scene`, an atmosphere one-shot, across all sixteen
-         bars from 1186s. So `roles` is not what is emptying it and something
-         downstream of the roles lookup is. Not diagnosed, not guessed at, and
-         left declared because the declaration is right whatever the cause
-         turns out to be. The walk-home entry above IS working and is measured;
-         this one is a lead, not a result. */
-      outro: ["keys", "lead", "drone"],
+  return merge(D, {
+  label: "dungeon synth II",
+
+  form: merge(D.form, {
+    /* ── 1. THE CLIMAX ────────────────────────────────────────────────────
+       Dungeon synth's four movements are `descend`, `halls`, `deeper` and
+       `return`, and `deeper` is already the one its own plan points at: it is
+       the only leg that ends on a chorus and the only one whose pool leads with
+       one. It is the climax; it has simply never been faster than its
+       neighbours.
+
+       THE NUMBERS ARE MULTIPLIERS AND THE MAP IS NORMALISED, so this
+       REDISTRIBUTES time rather than adding any: the record stays the length it
+       was and the climax covers more bars inside its share. That also means the
+       base `tempo` is the record's MEAN and not any leg's — which is why the
+       three quiet legs sit BELOW 1 here. Pulling them down is what buys the
+       climax its jump without making the whole record faster. */
+    tempoArc: { by: { descend: [0.84, 0.80], halls: [0.92, 0.96],
+                      deeper:  [1.42, 1.58], return: [0.90, 0.84] },
+                ease: "cos" },
+  }),
+
+  /* ── 2. THE DOUBLE KICK, IN THE CLIMAX AND NOWHERE ELSE ─────────────────
+     `HARDCORE_FEET` is the sixteenth-run double-kick figure this file already
+     holds. `kit.arc.setAt` is the per-movement override the drum arc reads, so
+     naming `deeper` here puts the feet in the climax and leaves the other three
+     legs on dungeon synth's own walk, untouched.
+
+     The rest of the row is what a fast leg needs around a double kick and
+     nothing more: the hats come off sixteen-bar spacing so they can keep up,
+     the kick keeps every hit it is given, and `followRiff` doubles the figure
+     so the feet and the ostinato arrive together instead of being two good
+     independent parts. */
+  kit: merge(D.kit, {
+    arc: Object.assign({}, D.kit.arc, {
+      floorAt: { deeper: 3 },
+      setAt: { deeper: { kickPattern: HARDCORE_FEET, kickKeep: 16,
+                         hatEvery: 2, hatVel: 0.22, followRiff: 4 } },
     }),
-    /* ══ AND THE ENDING KEEPS A BAND, WHICH IS WHERE THE OUTRO ACTUALLY WENT ══
-       The `outro` roles above were declared and the outro still printed
-       NOTHING -- one atmosphere event at bar 456 and sixteen empty bars after
-       it. Reading the printout rather than a summary is what found the cause,
-       and it is not `roles` at all:
-
-         `form.thinTo` strips the LAST SECTION down to a drawn number of parts,
-         after every other draw has happened. This genre inherits [1, 2].
-
-       So the ending kept one part and the draw kept `drone` -- and the drone is
-       welded into one continuous note by `drone.continuous`, struck at bar 0.
-       A part that never strikes again prints no notes. The outro was one
-       seventy-second held tone, and the header said `playing: drone` while the
-       bars underneath it were blank. Both were true.
-
-       MEASURED against the ending this act is being asked to resemble: Shine
-       On's final two minutes are the clean electric guitar and the saxophone
-       TRADING -- 134 and 135 notes in the last thirty-second window, the two
-       DENSEST parts of the whole fourteen minutes. A Floyd ending is a thinner
-       band still playing, not a fade to one tone. Sludge's sources agree from
-       the other side: "end with feedback, noise, or a final unison hit for
-       BLUNT CLOSURE".
-
-       [3, 4] keeps a small band. It is still a strip -- the fight ends on
-       seven parts -- and `thinTo` still says only HOW MANY while the draw says
-       which, which is the distinction the parent's comment argues for and this
-       does not touch. */
-    thinTo: [3, 4],
   }),
-  theme: merge(F.theme, { carry: true }),
-  /* ── AND THIS GENRE'S RIFF IS ITS COMP, WHICH THE PARENT'S IS NOT ────────
-     `riffLane: "ostinato"` is declared three genres up, on dungeon synth, and
-     inherited all the way down here -- correctly for fantasy synth, whose
-     figure carries 1.8 strike-steps a bar against its comp's 0.6, and WRONGLY
-     for this one, whose comp carries 2.9 against the figure's 1.2. Caught by
-     measurement, not by reading: with the inherited value the fight's off-beat
-     kicks fell from 1,172 to 92 and the lock from 3.42x to 1.57x, because the
-     kick was being pointed at the sparser of the two lanes and the floor inside
-     `buildDrums` then handed most bars back to the pocket.
 
-     An inherited default is still a default. This genre's chug is the thing the
-     kit locks to and it says so itself. */
-  kit: merge(F.kit, { riffLane: "keys" }),
-  /* ══ AND "IN UNISON" WAS A WORD IN A COMMENT, NOT A THING THE FILE DID ════
-     The parent's `bassRoles` table has said `C  sludge  riff  the bass is ON
-     the riff, in unison` since the day it shipped, and the sources it was written
-     from say it in as many words -- bass and guitar play "the riff in unison,
-     creating a loud and BASS-HEAVY WALL OF SOUND", and "fourths/fifths, and
-     sustained unisons enhance mass" [corpus:doesitdoom]. THE BUILDER NEVER
-     DID IT. `bassStyle: "riff"` draws the bass its OWN two-bar figure from its
-     OWN pools on its OWN stream; the guitar's chug is a different figure drawn
-     somewhere else. Two riffs at once is not a unison, it is counterpoint, and
-     counterpoint is the opposite of the thing the source asked for.
+  /* ── 3. THE HEAVY FX ────────────────────────────────────────────────────
+     Dungeon synth declares no dirt at all. This is the rock being injected, and
+     it is deliberately ONE unit plus a cabinet rather than the five-pedal board
+     the deleted genre carried: a Big Muff is a warm, sustaining, second-order
+     box, and warmth is what makes a synth orchestra heavy rather than fizzy.
 
-     MEASURED before this landed: 46 notes of this record shared a pitch and an
-     instant with another part out of 4,177 -- 1.1%, and every one of them an
-     accident of register allocation. The Televators MIDI read for the fight
-     measures 201 of 2,416, 8.3%. The Botch tabs are the same figure written
-     twice: the guitar's is `--2-2-2--` on the low D, the bass's is `D-2222`.
+     `rows` is the pitched front line. The DRUMS ARE NOT ON IT — a taiko through
+     a fuzz is a different instrument, and the kit is already the loudest thing
+     in the mix.
 
-     WHICH ACTS, AND WHY IT IS ONE.
-     [owner: "we are NOT trying to copy botch ... There is just as much reason
-      to make the bass stand out, music is not about copying someone elses
-      sound."]
+     THE CAB IS A REAL SPEAKER. "The usual bandwidth limit of a guitar speaker
+     is about 4-5 kHz", and the "steep drop-off above 5K keeps distorted tones
+     and harmonics from sounding fizzy" [wgsusa; hexefx]. Everything here sits
+     inside that, and the climax gets the top of the range rather than past it.
 
-     `C`, THE SLUDGE ACT, AND ONLY IT. That is where the sources put a locked
-     bass and they put it there in as many words: sludge's signature is a
-     "'rocking to sleep' bass that LOCKS TO THE GUITAR, characterized by a
-     monotonous and heavy playing style", following the guitar "through
-     repetitive, rough, and sometimes atonal riffs" [melodigging/sludge-metal].
-     Monotony is the effect being asked for. It is the one act where a bass
-     that never leaves is the point rather than a shortage.
-
-     THE FIGHT WAS DECLARED HERE FIRST AND IT WAS WRONG, and the source that
-     says so is the same scene's. Mathcore's bassists do not read the guitar
-     part: Dillinger Escape Plan's Liam Wilson "has worked out 90% of his bass
-     lines ... by himself", taking "an independent approach to composing bass
-     lines rather than simply following guitar parts directly"
-     [forbassplayersonly; geargods]. The Botch tabs put the two on one line and
-     I read that as a rule when it is one band's arrangement of one figure. A
-     hundred per cent lock across a whole act is not what that page shows and
-     it is not what the players describe. The fight's bass writes its own.
-
-     `A` keeps its held power chord because doom's source asks for "a power
-     chord or single note ... let it sustain", which is a different job, and
-     the lift keeps its own line. One act of four doubles; three do not, and
-     the record has both to compare -- which is the whole reason the doubling
-     reads as a decision when it arrives.
-
-     THE LEADER IS `keys` because this genre's kit already says so -- `riffLane:
-     "keys"` on the line directly above, declared off a measurement (2.9 distinct
-     strike-steps a bar against the figure's 1.2) that the comp is what carries
-     the rhythm here. The bass joins the thing the kick is already locked to,
-     which is what "the rhythm section" means. */
-  unison: { lane: "bass", of: "keys", at: ["C"] },
-  /* ⚠ `A: "hold"` WAS CHANGED TO `"comp"` FOR ONE BUILD AND PUT BACK.
-     [owner: "I didnt tell you i wanted to whole song to be like the end
-      i said thats the only part that is working right now"]
-     The reasoning was that the walk home comps and the doom act holds, and the
-     walk home is the act that works — so make them the same. That is the wrong
-     inference from the right observation. "This part works" is a fact about the
-     current state, not an instruction to copy it everywhere, and acting on it
-     made all three acts comp: one texture for the whole record, which is a
-     WORSE answer to "the whole thing is disconnected" than the fault it was
-     trying to fix. The held chord is doom's own character and the only thing
-     giving that act a shape of its own. */
-  keysStyleAt: { A: "hold", C: "hold", B: "comp", lift: "comp" },
-  compEntry: [[-2, 5], [2, 4], [-1, 3], [0, 3], [1, 2], [3, 2]],
-  ostinato: merge(F.ostinato, {
-    /* ══ THE FIGHT'S FIGURE GETS RESTS, AND THAT IS THE WHOLE FIX ═══════════
-       MEASURED off the printout, every material of this record:
-
-         A  Adev  Avar  B  Bdev  Bvar   ->  ALL `*---*---*---*---`
-         material B: 82 ostinato bars, ONE distinct grid
-
-       Four even quarters, every bar, in every act. The parent already declares
-       `run: true` and the cells above were already seven-against-four, so the
-       POLYMETER WAS REAL AND INAUDIBLE: with `unit: 4` there are four slots a
-       bar and every one of them sounded, so the running index changed which
-       PITCH landed on each quarter and could never change the RHYTHM. A cell
-       of seven against a bar of four is only polymeter if something moves.
-
-       `deg == null` IS ALREADY A REST in this builder -- the mechanism was
-       there and no cell used it. So the fix is a table, not a mechanism.
-
-       WHY IT MATTERS HERE AND NOWHERE ELSE. The fight is the mathcore act and
-       every mathcore source read for it is about displacement, not speed:
-       "accent displacement means moving the strong beat within a phrase so the
-       pattern feels shifted -- it is how you make a riff sound off kilter while
-       still grounded" [riffhard]. The tabs say it in note lengths -- Botch's
-       verse runs eight, eight, eight, then FIVE PLUS THREE, and The Number
-       Twelve sets a five-grouping against a two-grouping in consecutive bars.
-       A rest is how a grid of four says five.
-
-       The cells below keep their seven- and five-against-four lengths and put
-       the rests INSIDE them, so with `run: true` the rest positions walk the
-       bar line and the printed grid differs bar to bar instead of being one
-       shape 82 times. The doom act is untouched and keeps its four-square
-       march, which is what "cyclical, mantra-like repetition" asks for.
-       [CHOSEN: which slots rest -- no source gives a cell] */
-    cellsAt: {
-      /* ── AND THE DOOM ACT GETS THE SAME LANGUAGE, SLOWER ─────────────────
-         [owner: "Doom and Sludge are almost the same thing! Their differences
-         are minor and mostly because of Southern Sludge which does have more
-         hardcore punk influnence and Stoner Metal"]
-
-         Correct, and the sources say it outright: sludge "combines the SLOW
-         TEMPOS, HEAVY RHYTHMS and dark, pessimistic atmosphere OF DOOM METAL
-         with the aggressive style, shouted vocals and FAST TEMPOS OF HARDCORE
-         PUNK", and is "generally regarded as a FUSION of the doom metal and
-         hardcore punk genres, often displaying SOUTHERN ROCK influence"
-         [corpus:wikipedia/Sludge metal]. Southern sludge adds "strong blues
-         and southern rock influences" and mid-tempo grooves.
-
-         So acts one and two are one music with a punk layer on the second,
-         and they should SHARE a vocabulary. Building them as two different
-         languages was the wrong shape.
-
-         AND THE REAL FAULT WAS NOT THAT THEY SOUND ALIKE. Measured against
-         the parent genre: the doom act is 100 of 100 bars IDENTICAL to fantasy
-         synth. It never had a doom vocabulary at all -- 66 of its 68 ostinato
-         bars are `*---*---*---*---`, four even quarters, four pitches, never
-         varying. That is the parent's walking figure with a doom label on it,
-         and "the sources say let it sustain" was the excuse I used to change
-         nothing.
-
-         THE CELLS ARE THE FIGHT'S IDEA AT A MANTRA'S SPEED. Doom asks for
-         "cyclical, MANTRA-LIKE REPETITION with subtle variation"
-         [corpus:melodigging/doom-metal], and the Dopesmoker analysis puts the
-         emphasis exactly where the program had none: "there are actually MINOR
-         DIFFERENCES in the constant repetition of the theme -- a little bass
-         tone more here, a little rhythm change there". Repetition WITH
-         variation. The program had repetition with none.
-
-         So: long cells, ONE rest each, against four slots a bar. Five, six and
-         seven against four realign every five, three and seven bars -- the
-         figure turns over slowly instead of jittering, which is the difference
-         between a mantra and the fight. And because the rest walks the bar
-         line, no bar closes where the last one did, which is the other thing
-         Sleep's riffs do: "because there isn't a clear resolution at the end of
-         the bar, the riffs repeat seamlessly, acting as ONE LONG PHRASE".
-         [CHOSEN: which slot rests -- no source gives a cell] */
-      A: [[[0, 4, null, 7, 4], 5],            // five against four, one rest
-          [[0, 4, 7, 4, null, 2], 3],         // six against four
-          [[0, null, 4, 7, 4, 2, 4], 2]],     // seven against four
-      /* SLUDGE SHARES DOOM'S CELLS, WHICH IS THE POINT OF THE OWNER'S NOTE.
-         The second act is the first act with hardcore punk and southern rock
-         on it, not a different figure -- so the figure is the same one, and
-         what separates them is tempo (90-105 against 67-77), the drums, and a
-         fuzz at sustain 0.78 against 0.45. Declared as its own key rather than
-         left to fall through, because falling through reaches `O.cells`, which
-         is the PARENT's rest-free pool and is how this act ended up playing
-         four even quarters in all 75 of its bars. */
-      C: [[[0, 4, null, 7, 4], 5],
-          [[0, 4, 7, 4, null, 2], 3],
-          [[0, null, 4, 7, 4, 2, 4], 2]],
-      B: [[[0, 4, null, 7, 4, null, 2], 5],   // seven against four, two rests
-          [[0, null, 2, 4, 7, null, 4, 2, null], 3],  // nine against four
-          [[0, 4, null, 7, 2], 2]],           // five against four, one rest
-    },
-  }),
-  space: merge(F.space, {
-    /* half a cavern: a big room with amps in it, not a cathedral */
-    wet: 0.38, irSec: 4.2, tailDark: 0.50,
-    /* ══ THE BOARD, PER ACT ═══════════════════════════════════════════════
-       The four pedals in `makeBoard`, declared where the sources put them.
-
-       OCTAVE on the first two acts. "The Univox Super-Fuzz produces a
-       velcro-like fuzz with a DISTINCT UPPER OCTAVE effect and is considered
-       by many to be a holy grail amongst fuzz pedals" [corpus:noisecreep], and
-       it is a stoner/doom staple. Blended low: the rectified copy is an
-       octave up, so too much of it takes the pitch off the riff.
-
-       PHASE + COMP ON THE WALK HOME, and this is the most specific finding in
-       the whole research pass: the MXR Phase 90 and the Dynacomp were used
-       together for the FOUR-NOTE SYD RIFF on Shine On Parts I-V
-       [corpus:gilmourish, uberproaudio]. That is not a genre-flavoured guess;
-       it is the pedal pair on the exact passage this act is modelled on. The
-       phaser is slow -- the Shine On sweep is a long one -- and the compressor
-       is what makes the four notes ring on rather than decay.
-
-       NO FUZZ THERE. The act is `amt: 0` on the fuzz already and stays so; a
-       Muff was on Gilmour's board but not on that riff, and the owner's brief
-       for this act is calm.
-
-       COMP ON THE FIGHT, lightly. Mathcore lives on attack and a compressor
-       levels it -- but it also stops the loudest hits from swallowing the
-       quiet ones, which is what makes a displaced accent readable. Low, and
-       flagged as the one entry here that is a judgement rather than a source.
-       ══════════════════════════════════════════════════════════════════════ */
-    /* ══ AND THE BOARD WAS REBUILT AFTER THE OWNER LISTENED TO IT ══════════
-       [owner: "It is not a wall of sound and distortion about all it does is
-       increase the pitch! ... I can not believe for one second that doom and
-       sludge are 2 pedals! Did you bother to try and source how to build these
-       pedals?"]
-
-       Every clause of that was correct and the table below is the answer to
-       it, sourced off the list he sent [corpus:guitarpedalx 9 of the best
-       compact doom/drone/sludge/stoner fuzz pedals].
-
-       THE OCTAVE IS GONE FROM THIS GENRE. It was `oct: 0.22` and `0.34` on the
-       first two acts, and `makeOctave` is a full-wave rectifier -- AN OCTAVE
-       UP. So the one pedal move the doom half of this record made was to raise
-       the pitch, which is exactly what he described hearing. The pedal still
-       exists (a Super-Fuzz's upper octave is a real stoner sound and the note
-       below stands), but it is not what these two acts want. They get the SUB:
-       "pedals pitched one or two octaves down for maximum heaviness"
-       [corpus:boostguitarpedals].
-
-       AND THE SUB IS ON THE BASS ALONE, because a divider "is ok for single
-       notes but not chords" [corpus:electronicmusic.fandom]. Naming the
-       keyboards here would be declaring a fault.
-
-       THE MEATHEAD JOINS THE MUFF, because five of the nine pedals on his list
-       are Fuzz Face derivatives and only two are Muffs. Stacked -- Face into
-       Muff -- for the sludge act in particular, which is where "wading through
-       molten lava, congealing tar or treacle" is the target (the Sunmachine
-       Fuzz O))), a "Meathead clone, Dark variety, with Low Pass Filter").
-
-       THE BIAS KNOB IS THE FIGHT'S. A starved bias gives "gated decay,
-       sputtery" and "that ripping velcro tone" [corpus:pedalpcb; geofex], and
-       a mathcore act built on stop-start attack is the one place on this
-       record that wants a fuzz which cuts off between hits.
-
-       PHASE + COMP ON THE WALK HOME is unchanged and is the most specific
-       finding of the whole research pass: the MXR Phase 90 and the Dynacomp
-       were used together for the FOUR-NOTE SYD RIFF on Shine On Parts I-V
-       [corpus:gilmourish, uberproaudio]. Not a genre-flavoured guess -- the
-       pedal pair on the exact passage this act is modelled on.
-
-       COMP ON THE FIGHT, lightly, and still the one judgement call here rather
-       than a source. ══════════════════════════════════════════════════════ */
-    pedals: {
-      rows: ["bass", "keys", "keys2", "lead", "ostinato"],
-      /* the compressor is on the LEAD alone — a Dyna Comp sits in front of the
-         instrument being played, and Gilmour's was on his guitar. It is also
-         the single most expensive node on the board, so putting it on five
-         parts cost 2.8 s of a nine-second render for no musical reason. */
-      compRows: ["lead"],
-      /* ══ AND THE PHASER IS THE RECORD'S SOUND, NOT ONE SECTION'S ══════════
-         [owner: "The last section the progrock sounds really good, the sounds
-          and effects are great. Lets bring that to the forefront."]
-
-         It was on the LEAD ALONE, on the reasoning that "the Shine On pair is
-         one guitar, not a band" -- correct about Gilmour and wrong about this
-         record, because THIS RECORD HAS NO GUITAR. It is dungeon synth with
-         rock driven into it, and the thing the owner is hearing in the walk
-         home is a phaser on a STRING MACHINE, which is a different instrument
-         with a different history: the sweep is what turns a static synth pad
-         into weather. Every prog keyboard record leans on it for exactly that,
-         and the parts that most want it here are the two the pedal never
-         reached -- the pad and the figure, which are the sustained ones.
-
-         The compressor is NOT widened with it, and that is measured rather
-         than conservative: it is the most expensive node on the board and
-         putting it on five parts cost 2.8 s of a nine-second render. A Dyna
-         Comp also genuinely is a per-instrument pedal. The phaser is cheap --
-         an all-pass chain and one LFO -- so the two are separated instead of
-         moved together. */
-      phaseRows: ["lead", "keys", "keys2", "ostinato"],
-      /* ── AND THE DIVIDER GOES ON THE LEAD, NOT THE BASS ──────────────────
-         Two reasons, both measured off the printout rather than assumed.
-
-         THE BASS IS ALREADY THERE. The sludge act's bass plays C#1 and E1 --
-         34.6 Hz and 41.2 -- so an octave below it is 17 Hz, which no speaker
-         reproduces and which measured as most of the act's total energy. An
-         octave-down pedal on a part that is already at the bottom of the
-         piano is not heavier, it is inaudible and it eats the headroom
-         everything else needs.
-
-         AND THE LEAD IS WHERE IT BELONGS ANYWAY. A divider is a guitar pedal:
-         you put it under a line playing in the guitar's register and it hands
-         you the bass octave of that line. `lead` here is A3..F#5 -- 220 to 740
-         Hz -- so one octave down is 110-370 and two is 55-185, both squarely
-         audible. It is also the one MONOPHONIC part on the record, which the
-         source says is the requirement: dividers "are ok for single notes but
-         not chords" [corpus:electronicmusic.fandom]. */
-      subRows: ["lead"],
-      /* ── AND THE OCTAVE-UP GOES ON THE BASS, WHICH IS THE ONE PART IT HELPS ─
-         See `roleGain` above for the measurement. A full-wave rectifier is an
-         octave UP and that is wrong for a guitar in this genre -- it is why it
-         came off the keyboards. On a bass playing 34.6 Hz it is the only lever
-         that puts the note where the ear is, and it is what the switch on a
-         bass fuzz has always been for. */
-      octRows: ["bass"],
-      /* ── AND THE FACE IS NOT ON THE BASS ─────────────────────────────────
-         Stacking it there was measured and it was arithmetic rather than
-         taste: the sludge act's bass plays C#1, and a hard-clipped 34.6 Hz
-         square puts 89% of its power at 34.6 Hz whatever you do to it -- the
-         third harmonic of a square carries a ninth of the fundamental, which
-         is the shape and not a fault. Two fuzzes in series on that note make a
-         LOUDER 34.6 Hz and nothing else, and it measured 13 dB above the same
-         part with only the Muff on, swamping the parts that were supposed to
-         be the wall.
-
-         The wall lives in the guitar register, and on this record that is the
-         keyboards: `keys` is G#2..G4 and `lead` is A3..F#5. So the Face goes
-         where a guitarist's would and the bass keeps the Muff, which is the
-         ordinary division on any stage. */
-      /* ── AND THE ROW LISTS ARE A BUDGET, NOT A PREFERENCE ────────────────
-         `SPEC` is computed across EVERY movement, so a pedal one act uses is
-         BUILT on its rows for the whole record -- that is what "topology at
-         song-arm" costs, and it is the right rule. It means each name in these
-         lists is a unit that exists for twenty minutes.
-
-         MEASURED at the fight, seed 1, a nine-second render: every meathead
-         unit removed saves 1.3 s of 12.4, the chainsaw 0.8, the divider 0.8,
-         the sag none that rises above the noise. So the whole board is about
-         20% of that act.
-
-         AND THE OTHER 80% IS THE ARRANGEMENT, WHICH IS NOT A PEDAL PROBLEM.
-         The same act on the build BEFORE any of this session's work rendered
-         at 0.80x realtime -- already under the line. Trimming rows was tried
-         and measured and moved it by less than the run-to-run noise, so the
-         rows are set by what the music wants and the cost is recorded in
-         BACKLOG as the separate job it is. `keys2` stays: the wall is what
-         this genre is for.
-
-         `sawRows` is the one that stays narrow, on a musical argument rather
-         than a budget: an HM-2 is a guitar in front of a mic, and two of them
-         an octave apart is a phaser nobody asked for. */
-      meatRows: ["keys", "keys2", "lead", "ostinato"],
-      /* ── AND THE CHAINSAW IS THE FIGHT'S, NOT THE DOOM ACT'S ─────────────
-         An HM-2 dimed is Swedish death metal -- Entombed, not Sleep -- and the
-         act on this record whose sources are hardcore-adjacent attack is the
-         mathcore leg. Putting it on the doom act would be a genre error with a
-         citation attached. The other two heavy acts get the DOOMSAW voicing of
-         it instead: the same dimed circuit aimed lower, "an increased and
-         extended Low EQ ... with reduced high frequency harshness"
-         [corpus:doesitdoom], which is TAME down and the gyrators still at 10 dB.
-
-         On the RIFF instruments only. The chainsaw's whole character is what
-         it does to a chugging guitar; on a sustained pad it is just fizz. */
-      sawRows: ["keys", "lead"],
-      /* ── AND THE SAG IS THE BASS'S AND THE LEAD'S ────────────────────────
-         Touch response is a thing you hear on the part that is being PLAYED --
-         "a subtle compression effect that players describe as feel"
-         [corpus:aikenamps]. On the bass it is the note collapsing under the
-         pick and blooming back, which is the doom half of this record's whole
-         gesture; on the lead it is the sustain the drone acts want. Not on the
-         ostinato, which repeats too fast for a 120 ms recovery to be anything
-         but a tremolo nobody asked for. */
-      sagRows: ["bass", "lead"],
-      by: {
-        /* DOOM. The sub an octave down under the bass, the Face just barely
-           in — the Muff is doing the work here and the Face is thickening its
-           input. Gate high enough that the divider shuts up between notes. */
-        /* ⚠ THE HM-2 CAME OFF BOTH SLOW ACTS FOR ONE BUILD AND IS BACK, and
-           so are the ending's two pedals which I put on every act in the same
-           pass. Both were the same mistake: the walk home has no dirt and a
-           phaser, the walk home is the act that works, therefore give every act
-           no dirt and a phaser. That reads a REPORT as an INSTRUCTION, and the
-           A/B it leans on is confounded four ways over — the act that works
-           also has no drums, no bass and no figure. Picking the dirt out of
-           that and acting on it was a guess presented as a finding. */
-        "setting out":       { oct:  { amt: 0.28 },
-                               sub:  { amt: 0.30, two: 0, gate: 0.016, tone: 780 },
-                               meat: { amt: 0.30, dirt: 0.55, bias: 0.10,
-                                       dark: 0.30, level: 0.45 },
-                               /* the Doomsaw voicing: dimed gyrators, top taken off */
-                               saw:  { amt: 0.35, dist: 0.62, low: 1, high: 0.70,
-                                       gate: 0.05, tame: 3200, level: 0.13 },
-                               /* a tired supply, breathing with the riff. The
-                                  battery is still good; only the sag is on. */
-                               sag:  { amt: 0.45, depth: 0.55, idle: 1,
-                                       recov: 0.22, drive: 0.30 } },
-        /* SLUDGE. Two octaves down and the Face stacked into the Muff at
-           three quarters — the wall. Darkest setting on the board. */
-        "into the deep":     { oct:  { amt: 0.34 },
-                               sub:  { amt: 0.38, two: 0.40, gate: 0.012, tone: 620 },
-                               meat: { amt: 0.72, dirt: 0.74, bias: 0.16,
-                                       dark: 0.18, level: 0.50 },
-                               saw:  { amt: 0.50, dist: 0.72, low: 1, high: 0.62,
-                                       gate: 0.06, tame: 2600, level: 0.15 },
-                               /* AND THE BATTERY IS DYING. This is the act
-                                  that wants "molten lava, congealing tar" --
-                                  a starved rail is where the sources put that
-                                  sound, and the slowest recovery on the record
-                                  is what makes every note collapse and swell. */
-                               sag:  { amt: 0.62, depth: 0.72, idle: 0.72,
-                                       recov: 0.34, drive: 0.38 } },
-        /* ══ THE HIGH POINT, AND IT IS NO LONGER MATHCORE ══════════════════
-           [owner: "Take out the Mathrock ... We still want the fight the high
-            point of the song and we want it to be a faster BPM than the rest
-            of the song more. But Mathcore is just too much for you. We can
-            achieve what we want in other ways."]
-
-           The mathcore reading of this act asked the program to be angular
-           where it has no instrument that can be angular. Its whole vocabulary
-           -- start-stop riffing, accent displacement, single-note dissonance --
-           is written for a picked electric guitar, and this record's front line
-           is horns, strings and a string machine. What the tables actually
-           produced was the chainsaw dimed over a five-part orchestra, measured
-           at 7.5 notes ringing at once with 5.2 of them in one clipper.
-
-           SO THE CLIMAX IS MADE THE WAY PROG MAKES ONE, which is the way this
-           record already gets its best section: TEMPO, DRIVE AND MOTION rather
-           than dissonance and stops. `form.tempoArc` carries the first (this
-           act now runs half again as fast as the record around it); the pedals
-           below carry the other two.
-
-           The chainsaw is GONE from this act -- it was the one unit whose whole
-           character was the genre being removed, and it is the unit that turned
-           a five-voice orchestra to mud. The Muff stays and gets HOTTER, because
-           drive is not the problem and never was; what goes is the fizz and the
-           velcro gate. The phaser arrives at speed, which is the walk home's
-           own pedal asked to run instead of drift -- one record, one sound, two
-           tempos. The compressor stays, harder, so the faster line holds
-           together. `sag` keeps its fast rail: that was chosen so the attack is
-           back before the next hit, and it is even more right at this tempo. */
-        /* ── AND THE DIRT COMES BACK, BECAUSE HARDCORE IS HEAVY ─────────────
-           The phaser was put here to make this a prog climax when the act was
-           being steered away from being a fight at all. It is off again: a
-           sweeping filter is the opposite of blunt, and blunt is the brief.
-           The Muff stays hot and the chainsaw is back beside it — this is the
-           one act on the record whose sources are about aggression rather than
-           weight, and the HM-2 is what aggression sounds like. */
-        "the fight":         { oct:  { amt: 0.22 },
-                               meat: { amt: 0.70, dirt: 0.66, bias: 0.42,
-                                       dark: 0.40, level: 0.40 },
-                               saw:  { amt: 0.62, dist: 0.74, low: 1, high: 0.86,
-                                       gate: 0.08, tame: 5200, level: 0.11 },
-                               /* ── THE CHAINSAW IS OFF IN THIS ACT ──────────
-                                  It was dimed here -- "every knob up, the tame
-                                  filter open" -- and it is an HM-2, the single
-                                  most genre-specific box on the board. Two
-                                  reasons it goes, and the first is the owner's:
-                                  the act it was chosen for no longer exists.
-
-                                  The second is measured. The board is armed ONE
-                                  PER PART GROUP, so every voice on a lane sums
-                                  into one clipper before it clips; the fight had
-                                  7.5 notes ringing at once with 5.2 of them in
-                                  the dirt. A clipper "adds partials at the sums
-                                  and differences of the frequencies of the
-                                  harmonics of those notes", so a chord through
-                                  one comes back "messy and indistinct"
-                                  [gearspace; musictheoryforguitar] -- and this
-                                  record's front line is horns, strings and a
-                                  string machine, not one picked guitar. The
-                                  Muff above still drives it; what leaves is the
-                                  unit whose job was fizz and velcro.
-
-                                  `sawRows` is untouched, so the other two acts
-                                  keep theirs exactly as they were. */
-                               /* a fast rail, and it earns its place twice over
-                                  now: it was chosen so the attack is back before
-                                  the next hit, and this act is the fastest on
-                                  the record */
-                               sag:  { amt: 0.30, depth: 0.42, idle: 1,
-                                       recov: 0.035, drive: 0.34 },
-                               /* harder than it was: the line is quicker here
-                                  and a compressor is what holds a fast part
-                                  together — the same pedal, and nearly the same
-                                  setting, as the section this record is being
-                                  steered toward */
-                               comp: { amt: 0.62, sustain: 0.52, level: 0.55 } },
-        /* THE WALK HOME. Everything off but the two Gilmour pedals. */
-        "the long way home": { phase: { amt: 0.55, rate: 0.10 },
-                               comp:  { amt: 0.70, sustain: 0.62, level: 0.55 } },
-      },
-    },
+     AND IT IS A BLEND, NOT A WALL. `amt` is dry/wet: at 1 every part arrives
+     fully clipped with no clean signal beside it, which over a five-part
+     orchestra is mud rather than weight. The quiet legs sit low, the climax
+     sits high, and the difference between them is most of what makes the
+     climax arrive. */
+  space: merge(D.space, {
     fuzz: {
       rows: ["bass", "keys", "keys2", "lead", "ostinato"],
-      amt: 1, sustain: 0.45, tone: 0.35, level: 0.50,
+      amt: 0.30, sustain: 0.55, tone: 0.42, level: 0.45,
       by: {
-        /* cab: the doom and sludge acts WANT the top gone -- "controlled
-           high-end fizz", a bass-heavy wall. The fight is the only act whose
-           sources are about attack, so its speaker is the most open of the
-           four -- but it was open to NINE KILOHERTZ, and that is not a speaker.
-
-           ── THE CAB IS THE SPEAKER AND A SPEAKER STOPS AT 4-5 kHz ──────────
-           [owner: "Dial back the FX a bit its getting to harsh at times."]
-           "The usual bandwidth limit of a guitar speaker is about 4-5 kHz
-           (-3 dB roll off)", and cabinet simulators "in their simplest form use
-           a typical low pass filter with roll off at about 4-5 kHz" for exactly
-           that reason; the "steep drop-off above 5K keeps distorted tones and
-           harmonics from sounding fizzy", and where speakers do run flat past
-           10 kHz the distortion comes back "fizzy on top of fizzy"
-           [wgsusa; hexefx; guitarrecordinglounge]. Ours ran to 9 kHz with a
-           clipper in front of it, which is that sentence exactly.
-
-           5000 is the TOP of the real range, so this act is still the brightest
-           of the four and the front edge of the note still arrives -- a
-           transient's edge lives under 5 kHz, and Botch were played through a
-           4x12 like everybody else. What goes is the band above it, which held
-           nothing but clipping products.
-
-           MEASURED, the filter's own response at 44.1 kHz, Q 0.707 -- what the
-           change actually removes:
-
-             2 kHz  -0.1 dB     5 kHz  -2.8 dB     8 kHz   -8.0 dB
-             4 kHz  -1.3 dB     6 kHz  -4.6 dB    10 kHz  -10.3 dB
-
-           Nothing below 3 kHz moves by half a decibel. It is the fizz band and
-           only the fizz band. */
-        /* 0.45 WAS TOO TIMID AND THE RENDER SAID SO. Measured full-mix
-           against the parent, the doom act moved -0.1 dB overall while the
-           sludge act at 0.78 moved +21 dB in the low end. I had set it low on
-           one cautious reading -- "low-mid heft ... before gain" -- and the
-           same research says these bands run "an old valve amp at HIGH VOLUMES
-           with a fuzz pedal". Electric Wizard ran an FZ-2 into a Sound City.
-           Doom is quieter than sludge, not clean. */
-        /* ── AND MIDS AND MASS ARE WHY IT IS A WALL NOW ─────────────────
-           The stock Muff is scooped 13 dB at 1 kHz and every sludge pedal on
-           the owner's list sells a knob to undo that: Balrog MIDS and DEPTH,
-           Supercollider MIDS and MASS ("huge low end component - perfect for
-           sludge"), Sludgehammer BODY, Fuzz O))) LOW. The record had none of
-           them, which is most of why it came out thin.
-
-           MIDS is high through the doom and sludge acts -- "gritty, filled
-           with mids ... classic tube-driven distortion inspired by classic
-           1970s tones" -- and lower on the fight, which is the act whose
-           sources are about attack rather than weight
-           [corpus:boostguitarpedals; sevenstring sludge tone].
-
-           MASS is highest on the sludge act, which is the one this record
-           calls a wall. LEVEL is above the level-match on both heavy acts,
-           because the pedal is supposed to be pushing the front end. */
-        /* ── AND THE TONE KNOB WAS BACKWARDS FOR THIS INSTRUMENT ────────
-           `tone` is the BLEND between the stack's two legs, not a filter
-           sweep: at 0.24 three quarters of the signal goes through a 482 Hz
-           low-pass, which on a bass playing C#1 is the fundamental and
-           nothing else. "Dark" and "no harmonics" are not the same setting
-           and I had written the second one meaning the first. The grind lives
-           in the treble leg; the WEIGHT now lives in MASS, which is a clean
-           path and does not have to be bought back out of the tone stack.
-           So tone comes up and darkness is the CAB's job, which is what a
-           speaker is. */
-        /* ⚠ `amt` WAS TAKEN TO 0.42 / 0.50 FOR ONE BUILD AND PUT BACK, in the
-           same pass and for the same wrong reason as the pedals: the act that
-           works runs at 0, so move everything toward 0. These two acts ARE the
-           wall — "down-tuned, heavily distorted", "a bass-heavy wall of sound" —
-           and the owner has never once complained about them. He complained
-           about the fight, and the fight is gone. */
-        "setting out":      { amt: 1, sustain: 0.68, tone: 0.52, level: 0.34,
-                              mids: 0.62, mass: 0.45, cab: 3800 },
-        "into the deep":    { amt: 1, sustain: 0.78, tone: 0.46, level: 0.38,
-                              mids: 0.70, mass: 0.55, cab: 3000 },
-        /* AND THE FIGHT'S OWN FUZZ COMES DOWN WITH THE CHAINSAW. `amt` was 1 —
-           the whole front line wet — over a clipper that was already the
-           densest thing on the record. At 0.62 the dry half of every part comes
-           back, which is what lets five voices stay five voices; the note count
-           has not changed, only how much of it arrives pre-mangled. Sustain
-           rises a little because DRIVE was never the fault, and the speaker
-           stays at the top of the real range so this act is still the brightest
-           of the four. */
-        /* full wet again — this is the loud act and it is supposed to be. The
-           speaker stays at 5 kHz, the top of what a real cabinet passes, which
-           is the harshness fix and has nothing to do with how heavy it is. */
-        "the fight":        { amt: 1, sustain: 0.58, tone: 0.54, level: 0.32,
-                              mids: 0.34, mass: 0.30, cab: 5000 },
-        "the long way home":{ amt: 0, sustain: 0.45, tone: 0.35, level: 0.50,
-                              mids: 0, mass: 0, cab: 4500 },
+        descend: { amt: 0.22, sustain: 0.48, tone: 0.38, level: 0.42,
+                   mids: 0.30, mass: 0.30, cab: 3600 },
+        halls:   { amt: 0.34, sustain: 0.58, tone: 0.42, level: 0.44,
+                   mids: 0.40, mass: 0.38, cab: 3800 },
+        deeper:  { amt: 0.68, sustain: 0.74, tone: 0.52, level: 0.40,
+                   mids: 0.46, mass: 0.44, cab: 4800 },
+        return:  { amt: 0.18, sustain: 0.45, tone: 0.36, level: 0.45,
+                   mids: 0.24, mass: 0.26, cab: 3400 },
+      },
+    },
+    /* the Muff, and a compressor on the tune so the fast leg holds together.
+       `meatRows` keeps the dirt off the bass: this genre's bass sits at 28-43,
+       and a clipper on a part that low spends its output on rumble. */
+    pedals: {
+      rows: ["bass", "keys", "keys2", "lead", "ostinato"],
+      meatRows: ["keys", "keys2", "lead", "ostinato"],
+      compRows: ["lead"],
+      by: {
+        descend: { meat: { amt: 0.24, dirt: 0.42, bias: 0.10, dark: 0.34, level: 0.46 } },
+        halls:   { meat: { amt: 0.40, dirt: 0.54, bias: 0.14, dark: 0.30, level: 0.46 } },
+        deeper:  { meat: { amt: 0.66, dirt: 0.70, bias: 0.30, dark: 0.26, level: 0.42 },
+                   comp: { amt: 0.55, sustain: 0.50, level: 0.52 } },
+        return:  { meat: { amt: 0.20, dirt: 0.38, bias: 0.08, dark: 0.36, level: 0.48 } },
       },
     },
   }),
   });
-  /* ══ AND THE ROOT'S CHARACTER COMES BACK ════════════════════════════════════
-     [owner: "All I wanted to do was take Dungeon synth and inject the heavy
-      distortion of rock back into it and make it a little more lively this can
-      be done with bpm and instrumentation"]
-
-     THAT IS THREE CHANGES. MEASURED against dungeon synth, this genre made 36:
-     24 of its tables overridden and 12 added. Twenty-seven were inherited
-     untouched, and they are the small ones — `tape`, `rig`, `legato`, `accent`.
-     What got overridden is everything that decides what a genre SOUNDS LIKE:
-
-       ostinato      the repeating figure — dungeon synth's whole identity, and
-                     the thing the owner has asked for three times as "a
-                     repeating altering motif, the thing that holds it together"
-       theme         the tune
-       modes, progressions, bridgeProgressions, chorusProgressions   the harmony
-       registers     where every part sits
-       voicing, counter, drone, parallels, pocket, groove, roleGain
-
-     None of those is BPM, instrumentation or distortion. The genre stopped
-     being dungeon synth with rock in it and became a different genre wearing
-     the name, and "the whole thing is disconnected" is what that sounds like:
-     the root's glue was replaced part by part until nothing was holding it.
-
-     So the root's tables are handed back, and this genre keeps EXACTLY the
-     three things the concept names, plus the two it cannot do without:
-
-       KEPT   tempo         the BPM
-              machines, kit the instrumentation, and the drums are instruments
-              space         the distortion — fuzz, pedalboard, the room
-              form          the three acts and the ending, which is the one part
-                            the owner says works and lives nowhere else
-              label, params, motion, atmos, drumDrive
-
-     ⚠ THE SUPERSEDED TABLES ARE LEFT IN THE FILE ABOVE. They are sourced work —
-     the four-acts research, the bass sheet, the voicing measurements — and
-     deleting a thousand lines in the same pass that switches them off is how a
-     revert becomes impossible. This list is the switch. Take a name out of it
-     and that table is live again on the next build.
-
-     ── AND TWO NAMES CAME BACK OFF THIS LIST ───────────────────────────────
-     [owner: "i wanted sludge and doom and a heavy fast hardcore fight and the
-      pink floyd homecoming"]
-
-     `pocket` and `roleGain` are not the root's CHARACTER, they are this
-     record's WEIGHT, and weight is what doom and sludge are made of:
-
-       pocket    the root's kick pool has no double-time entry. This genre's own
-                 holds one -- 0,2,4,8,10,12 -- and the note beside it says what
-                 it is for in six words: "the double-time walk, for the fight".
-                 Handing that back to the root took the fast act's own feet away
-                 in the same pass that was meant to make it faster.
-       roleGain  the mix. The root balances a QUIET genre: bass 0.22, lead 0.57,
-                 keys 0.32. This is a loud record and it set its own: bass 0.55,
-                 lead 0.72, keys 0.38, drone 0.42. Taking the root's balance
-                 HALVED THE BASS on a record whose first two acts are a wall.
-
-     Everything else on the list stays the root's, because everything else on it
-     decides what the music IS rather than how hard it hits.
-     ══════════════════════════════════════════════════════════════════════════ */
-  const FROM_ROOT = ["modes", "progressions", "bridgeProgressions", "chorusProgressions",
-                     "registers", "voicing", "ostinato", "theme", "counter", "drone",
-                     "parallels", "groove"];
-  const out = merge(TABLE, {});
-  for(const k of FROM_ROOT) if(k in ROOT) out[k] = ROOT[k];
-  return out;
-})(GENRE.fantasysynth, GENRE.dungeonsynth);
+})(GENRE.dungeonsynth);
 
 
 /* ══ NOTES THAT LOST THEIR KEY IN THE CONVERSION ═══════════════════════════

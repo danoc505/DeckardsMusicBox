@@ -3832,3 +3832,99 @@ Everything else on that list stays the root's: it decides what the music *is*
 rather than how hard it hits. Overrides now 12, inherited 39.
 
 600-record sweep: 1 throw, unchanged.
+
+---
+
+## §0b6 — doom sludge deleted; DS2 is the root plus four things (2026-08-22)
+
+[owner: *"DELTE the Doom and Sludge genre! Its a failure. We might as well take
+the Dungeon synth genre clone it rename it to DS2. Then we tweek it so that it
+has a climax that has a higher tempo and double kick pedal. And we want to turn
+on the heavy FX, make sure that there is no HARD switching only at transitions."*]
+
+`doomsludge` is **deleted** — 1,213 lines. It had grown to 24 of dungeon synth's
+tables overridden and 12 added, which is a different genre wearing the name, and
+every attempt to steer it back was steering something that had already left. The
+sourced research survives in `docs/genre-research` and in the file's history;
+the constants it introduced (`SLUDGE_FEET`, `HARDCORE_FEET`) are still here and
+one of them is now load-bearing again.
+
+`GENRE.ds2` is a clone of dungeon synth plus **four** things, and the list is the
+whole design. Everything else — harmony, figure, tune, registers, rooms,
+instruments — is the parent's by inheritance.
+
+### 1. A CLIMAX AT A HIGHER TEMPO
+
+`deeper` is already the leg the parent's own plan points at: the only one that
+ends on a chorus and the only one whose pool leads with one. It had simply never
+been faster than its neighbours.
+
+```
+  movement    dungeon synth      DS2
+  descend          64             51
+  halls            62             57
+  deeper           63             92     <- the climax
+  return           64             54
+```
+
+The parent is flat at 62–64. The climax now runs at **1.7× the legs around it.**
+`tempoArc` is normalised, so this redistributes time rather than adding any —
+which is also why the three quiet legs sit below 1: pulling them down is what
+buys the climax its jump without making the whole record faster.
+
+### 2. A DOUBLE KICK, IN THE CLIMAX AND NOWHERE ELSE
+
+`HARDCORE_FEET` on `kit.arc.setAt.deeper` — the sixteenth-run double-kick figure
+this file already held, put in one leg and no other.
+
+```
+  kick hits per second     descend 0.37   halls 0.43   deeper 0.94   return 0.33
+```
+
+### 3. THE HEAVY FX, ON
+
+The parent declares no dirt at all. One unit and a cabinet rather than the
+five-pedal board the deleted genre carried: a Big Muff is warm, sustaining and
+second-order, and warmth is what makes a synth orchestra heavy instead of fizzy.
+The drums are deliberately **not** on the row — a taiko through a fuzz is a
+different instrument.
+
+```
+  movement    fuzz amt   sustain   cab      Muff
+  descend       0.22      0.48     3600     0.24
+  halls         0.34      0.58     3800     0.40
+  deeper        0.68      0.74     4800     0.66  + compressor
+  return        0.18      0.45     3400     0.20
+```
+
+Every cab sits inside what a real speaker passes (4–5 kHz), and `amt` is a
+dry/wet blend rather than a wall — the difference between the quiet legs and the
+climax is most of what makes the climax arrive.
+
+### 4. NO HARD SWITCHING — AND THIS ONE IS AN ENGINE FAULT, NOT A TABLE
+
+**Every number on the pedalboard was written with `setValueAtTime`, which is an
+instantaneous jump.** At a movement boundary the drive, tone, cabinet, mids,
+mass, compressor and sag all snapped to new values inside one sample — a hand
+yanking seven knobs at once. That is the hard switching, and it was in the engine
+the whole time, affecting every genre that ever declared a per-section board.
+
+`g.glide` replaces the jump with a ramp. **29 automation calls converted**, plus
+four written by hand. Two things make it correct rather than merely smoother:
+
+- `cancelAndHoldAtTime` freezes the curve **at the boundary** and ramps from
+  whatever the value actually was then. Reading `param.value` instead would read
+  the value *now* — at song-arm, when the whole record's automation is written
+  in one pass — so every ramp would start from the wrong place. Where a browser
+  lacks the call it falls back to the jump it replaces, so nothing is worse.
+- The ramp **starts at the transition**, which is exactly what was asked: the
+  act's setting is still whatever the table says for the whole act, and the
+  boundary is still where the move happens. What changed is that the move now
+  takes a moment.
+
+`GLIDE_SEC` is 1.5 s — long enough that no ramp is a click, short enough that a
+movement is in its own setting well inside its first bar at any tempo this file
+writes.
+
+Verified in a real browser at 300 s into a record: drone, bass, keys, drums and
+ostinato all metering, no page errors. 600-record sweep: 1 throw, unchanged.
