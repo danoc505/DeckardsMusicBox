@@ -4534,3 +4534,93 @@ do not, and costs nothing. The recordings have a real bow, a real skin and a rea
 player, and cannot slide between notes that were recorded separately. Whether
 they go in beside each other — the way the drone rack weighs a synthesised stack
 against a recorded pad — is the owner's call, not mine.
+
+---
+
+## §0bd — "An Erhu is not long notes is it?" (2026-08-27)
+
+[owner, on the sample library found in §0bc: "I want this answered what about
+the expressions? An Erhu is not long notes is it?"]
+
+He is right, and the question is the right one to have asked before any of the
+size arithmetic in §0bc. Answered here rather than put back to him as a menu.
+
+### No. And this library has no slide in it anywhere.
+
+Every `.sfz` in the repo, read: five programs — long, short, sul tasto, a
+marcato that is the long and short layered, and a keyswitch that selects between
+them. Three recorded articulations and no fourth.
+
+`grep` finds `trigger=legato` nine times and it is not what it sounds like:
+
+```
+    trigger=legato
+    offset=15000
+    ampeg_attack=0.2
+```
+
+That plays the SAME sustain sample from 0.34 s in with a slow attack — it skips
+the bow's onset when a note is already sounding. It is a legato *dodge*, not a
+recorded transition, and it is exactly what `V.hurdyGurdy` already does in this
+file with `ev.tied` and the loop-start point. **There is no note-to-note
+recording in the library.** Neither is there vibrato: the samples are recorded
+straight and the SFZ wobbles them with an LFO afterwards.
+
+So the two things that make an erhu an erhu — huayin and rouyin — are both
+absent from the recordings, by design.
+
+### But a recording in THIS program can slide, and that is measured
+
+`playbackRate` is an AudioParam and this file already rides it (the tape wow and
+flutter LFOs at 14849 and 15112 are connected straight to it). So the same ramp
+`V.erhu` puts on an oscillator's `frequency` goes on a sample's rate.
+
+Proved rather than argued: a scratch copy with a probe branch on the Erang
+sampler, an existing RECORDED voice, A4 → B4, pitch tracked from the onset in
+22 ms windows:
+
+```
+  bent (2 semitones)  +20 +50 +80 +110 +140 +180 +300 ms:    0 445 455 469 479 490 490
+  plain                                                       0 496 496 496 496 490 490
+```
+
+The recording travels. The shipped file was never touched — the probe lives in
+the scratchpad.
+
+### So what the recordings actually buy, and what they cost
+
+BUY, and none of it can be faked:
+
+* a real bow on a real skin, played by a person
+* **two bow pressures** — `sus` and `st` are the same 20+ notes bowed normally
+  and softly. That is the dynamic timbre `V.erhu` had to manufacture by
+  crossfading a triangle against a sawtooth (§0bb, FAULT 2), available as an
+  actual measurement of an actual instrument at two efforts.
+* four different short strokes per note, so a repeated staccato is not the
+  identical waveform four times
+
+COST:
+
+* a bent sample is a PITCH BEND, not a bowed slide. A real player's finger
+  travelling changes the tone as it goes; a resampled note does not. The gesture
+  is right, the timbre through the gesture is not.
+* the long and short sets stop at **A5 (81)**. Only the sul tasto set reaches
+  D6 (86). Above A5 a normal-bow record would be running on the soft-bow
+  samples or on nothing.
+* size, per §0bc: 1.50 MB for the sustains, 4.91 MB for all three, against
+  5.19 MB of headroom.
+
+### The reading
+
+Long notes ARE the wrong frame, and it is the frame a sample library forces
+because that is all anyone records. The expression was never going to come out
+of the samples on any budget — the commercial erhu libraries that DO ship
+recorded slides cost money and are not CC0. It has to come from the program, and
+in this program it already does.
+
+Which means the recordings and `V.erhu` are not two candidates for one job. The
+model owns the gesture; the recording owns the tone. `sus` + `st` together are
+the pair worth having, because two bow pressures is the one thing the model is
+guessing at.
+
+Still not built. Still the owner's call.
