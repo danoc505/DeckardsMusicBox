@@ -4096,3 +4096,84 @@ Also unbuilt, from the same chart: the drums are **tacet for eight bars** and
 enter at B (we have `form.build.enter`, which is a fade-in rather than a hard
 entry), and each section carries its own written dynamic with a crescendo
 hairpin between two of them.
+
+---
+
+## §0b9 — the reference parsed, and it corrected me twice (2026-08-22)
+
+[owner: sent the *Chop Suey!* drum sheet PDF and a MIDI, no words]
+
+The MIDI is the useful one — 9 tracks, 480 ticks/quarter, a `Drumkit` track of
+1,107 notes on channel 9. Parsed all 141 drum bars.
+
+### ⚠ FIRST, WHAT THE FILE CANNOT TELL ME
+
+**Every velocity in it is 80.** Kick, snare, tom, crash, all one value; the hat
+has two (72 and 80). It is a transcription, not a performance, so it says nothing
+about velocity shaping. The descending-run velocities added in §0b7 stand on the
+web sources alone and this file neither supports nor contradicts them. Said
+plainly because it would have been easy to cite it as if it did.
+
+### THERE IS NO DOUBLE KICK IN THIS SONG
+
+```
+  x...............  x42     one kick on the downbeat — the commonest bar by far
+  x.....x.........  x18     0 and 6
+  x.............x.  x16     0 and 14
+  x.....x.....x...  x14     0, 6, 12
+  x...x.....x...x.  x12
+  x...x...x...x...  x10     quarters
+  x.....x...x.....  x8
+  x.x.x.x.x.x.x...  x1      the ONLY run in the song — one bar, a fill
+```
+
+The busiest kick bar appears **once**, as a fill into a tempo change. The
+vocabulary is syncopation — 6, 10 and 14 are off-beat sixteenths — not runs.
+
+The owner asked for a double pedal in as many words, so `HARDCORE_FEET` stays
+and the climax still reaches for it. `SOAD_FEET` now sits beside it in the same
+pool, weighted as measured.
+
+### AND WHEN IT DOUBLES, THE CYMBAL TAKES OVER FROM THE HAT
+
+The MIDI has seven tempo events: 136 BPM, then 272, then back, alternating.
+Split the bars by region:
+
+```
+  region     bars   kick/bar   hat/bar   snare/bar   crash/bar
+  136 BPM     59      2.29       5.22      0.86        0.17
+  272 BPM     82      2.12       1.66      1.34        1.32
+```
+
+**The hat gets sparser and the cymbal takes over. The kick barely moves.** That
+is a drummer coming off the hi-hat and riding a cymbal, and it is what makes a
+fast section sound *bigger* rather than just busier — a hat played fast is a
+hiss; a cymbal is a beat you can still hear at speed.
+
+**This reverses §0b8.** I had read the photographed chart's D and G sections as
+"sixteenth hats in the driving parts" and set the climax to `hatEvery: 1`. The
+MIDI says the opposite. The climax now rides on 1 and 3 —
+`x.......x.......`, the single most common cymbal bar in the reference at 46 of
+141 — and its hat drops to the same two positions instead of climbing to sixteen.
+
+`rideEvery` is the right mechanism: the crash lane here is an **arrival** marker,
+one per loop, and its own note says *"a crash on every bar is a cymbal wash,
+which is a different instrument."* Riding a cymbal on the beat is what
+`rideEvery` was built for.
+
+```
+  movement    kick/bar   hat/bar   snare/bar   ride/bar
+  descend       1.79      5.92       2.95       0.00
+  halls         1.95      5.71       2.85       0.00
+  deeper        2.85      3.95       2.68       0.71
+  return        1.53      5.42       2.45       0.00
+```
+
+Blast radius: ds2 only. 600-record sweep: 1 throw, unchanged.
+
+### STILL NOT BUILT
+
+The **2/4 bars** (chart bars 28 and 45). The MIDI does not encode them — it
+carries one time-signature event, 4/4 at tick 0 — so the PDF is the only source
+for them and §0b8's note stands: metre is read once per record, and per-section
+metre is real surgery.
