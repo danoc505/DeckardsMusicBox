@@ -4177,3 +4177,78 @@ The **2/4 bars** (chart bars 28 and 45). The MIDI does not encode them — it
 carries one time-signature event, 4/4 at tick 0 — so the PDF is the only source
 for them and §0b8's note stands: metre is read once per record, and per-section
 metre is real surgery.
+
+---
+
+## §0ba — the toms are the kit, and the copied patterns are out (2026-08-22)
+
+[owner: *"We do not want to COPY! We also are not that intersted in high hats.
+We are interested in TOMS"*]
+
+Both halves are corrections to me.
+
+### THE COPIED MATERIAL IS REMOVED
+
+`SOAD_FEET` — a kick vocabulary counted straight off someone else's record — and
+the ride-on-1-and-3 lifted from the same file are gone. Measuring a reference
+carefully does not stop it being copying; it just makes it accurate copying. The
+findings that came out of parsing it stay in §0b9 as *reading*, which is what a
+reference is for.
+
+### AND THE HAT WAS THE WRONG INSTRUMENT FOR THE RIGHT FINDING
+
+Two builds running I put a hi-hat engine in, on the finding that this kit had no
+timekeeping layer. **The finding was right and the instrument was wrong.** The
+toms are the timekeeping layer in this genre and always should have been — the
+owner has said so twice before: *"the toms take front role and lead"*, *"our
+genre focuses on the toms not the snare"*.
+
+MEASURED before this — the toms were the **least used lane in their own kit**:
+
+```
+  movement    TOM/bar   hat/bar   kick/bar   snare/bar
+  descend      1.02      5.92      1.79       2.95
+  halls        1.25      5.71      1.95       2.85
+  deeper       1.78      3.95      2.85       2.68
+```
+
+Two reasons, both in the table and neither in the code:
+
+- **`loopBars: [1, 3]`** — toms fire on two bars of four.
+- **Every tom shape lives in steps 6–15**, the back half of the bar. They were
+  written as an *answer at the end of a phrase* — which is what the comment above
+  them says, and which is true of a kit with a hi-hat on it and false of a kit
+  whose front line is three taiko.
+
+### AFTER
+
+Toms play every bar, and the figures run across the whole bar instead of leaning
+into the next one. Written for this genre rather than counted off a record: a low
+drum keeping the pulse with the mid and high answering it, which is what a
+marching drum line does and what this genre's war-drum palette was built for.
+
+```
+  movement    TOM/bar   kick/bar   snare/bar   hat/bar
+  descend      3.79      1.76       2.76       1.57
+  halls        3.84      1.98       3.43       3.23
+  deeper       3.64      5.14       2.66       2.23
+  return       2.73      1.48       2.39       1.38
+```
+
+And what a bar actually is now — the tom lanes written as 3/2/1, low to high:
+
+```
+  bar 0   toms |3...3.2.3...3.2.|   kick |x...x...........|   hat |x.......x.......|
+  bar 2   toms |3..2..1.3..2..1.|   kick |x...x...........|   hat |x.......x.......|
+```
+
+The hat drops to two strokes a bar — present, marking the beat, not the engine.
+The one hat setting kept from the last build is `hatEvery: 3` in `halls`, and it
+is kept as a **spacing** rather than a borrowed figure: 0, 3, 6, 9, 12, 15
+against a four-beat bar is three against four, and this genre's own figure lane
+already runs seven against four.
+
+The double pedal stays in the climax — the owner asked for it directly — and the
+tom roll lane comes up with it.
+
+Blast radius: ds2 only. 600-record sweep: 1 throw, unchanged.

@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22v &middot; measured off the reference &mdash; the cymbal takes over when it doubles</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22w &middot; the toms are the kit &mdash; and the copied patterns are gone</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -27397,43 +27397,6 @@ const HARDCORE_FEET = [
   /* eighths with a double under each backbeat: accent, not wall */
   [[0, 2, 4, 5, 6, 8, 10, 12, 13, 14], 3],
 ];
-/* ══ AND THE MEASURED VOCABULARY, OFF THE REFERENCE ITSELF ══════════════════
-   [owner: sent the Chop Suey drum sheet and MIDI]
-
-   PARSED, all 141 drum bars of the MIDI. The kick bars it actually plays, with
-   the count of each:
-
-     x...............  x42     one kick, the downbeat, and it is the commonest
-     x.....x.........  x18     0 and 6
-     x.............x.  x16     0 and 14
-     x.....x.....x...  x14     0, 6, 12
-     x...x.....x...x.  x12
-     x...x...x...x...  x10     quarters
-     x...x...........  x10
-     x.....x...x.....  x8
-     x..x............  x7
-     x.x.x.x.x.x.x...  x1      the ONLY run in the song, one bar, a fill
-
-   ⚠ THERE IS NO DOUBLE KICK IN THIS SONG. The busiest kick bar appears once,
-   as a fill into a tempo change. Kick density is 2.29 hits a bar in the slow
-   sections and 2.12 in the fast ones -- it does not go up when the song
-   doubles. What drives it is TEMPO and CYMBAL, not feet.
-
-   The owner asked for a double pedal in as many words, so `HARDCORE_FEET`
-   stays and the climax still reaches for it. This pool sits BESIDE it: the
-   figures a band actually plays at speed, which are syncopations rather than
-   runs -- 6, 10 and 14 are all off-beat sixteenths. Weighted as measured, so
-   the common bars are common. */
-const SOAD_FEET = [
-  [[0, 6],           18],
-  [[0, 14],          16],
-  [[0, 6, 12],       14],
-  [[0, 4, 10, 14],   12],
-  [[0, 4, 8, 12],    10],
-  [[0, 4],           10],
-  [[0, 6, 10],        8],
-  [[0, 3],            7],
-];
 const SLUDGE_FEET = [
   [[0, 4, 8, 12], 8],        // the walk, unhurried
   [[0, 8], 5],               // half-time: two bars of music, one bar of drum
@@ -29526,15 +29489,71 @@ GENRE.ds2 = (function(D){
      So the default is straight eighths and each movement says its own spacing,
      which is what the chart does. `hatVel` comes up from 0.10, a level chosen
      when the lane fired once a bar and nothing had to sit under anything. */
+  /* ══ THE TOMS ARE THE KIT, AND THE HAT IS NOT ═════════════════════════════
+     [owner: "We do not want to COPY! We also are not that intersted in high
+      hats. We are interested in TOMS"]
+
+     Both halves of that are corrections to me. I read a reference and lifted
+     its patterns — a cymbal figure and a kick vocabulary counted straight off
+     someone else's record — which is copying however well measured it is. Those
+     are removed. And I built a hi-hat engine two builds running on the finding
+     that this kit had no timekeeping layer. The finding was right and the
+     instrument was wrong: THE TOMS ARE THE TIMEKEEPING LAYER in this genre, and
+     they always should have been. [owner, earlier: "the toms take front role
+     and lead", "our genre focuses on the toms not the snare"]
+
+     MEASURED before this, hits per bar — the toms were the LEAST used lane in
+     their own kit:
+
+       movement   TOM    hat    kick   snare
+       descend    1.02   5.92   1.79   2.95
+       halls      1.25   5.71   1.95   2.85
+       deeper     1.78   3.95   2.85   2.68
+
+     Two reasons, both in the table rather than the code. `loopBars: [1, 3]`
+     fires the toms on two bars of four, and EVERY tom shape it can draw lives
+     in steps 6-15 — the back half of the bar. They were written as an ANSWER at
+     the end of a phrase, which is what the comment above them says: "the tom
+     answer at the end of a phrase is a habit, not an event". True of a drum kit
+     with a hi-hat on it. Not true of a kit whose front line is three taiko.
+
+     So the toms play EVERY bar, and the figures below run across the whole bar
+     instead of leaning into the next one. They are written for this genre
+     rather than counted off anybody's record: a low drum keeping the pulse with
+     the mid and high answering it, which is what a marching drum line does and
+     what the war-drum palette this genre already carries was built for.
+
+     The hat drops to two strokes a bar — present, marking the beat, and not the
+     engine. */
   kit: merge(D.kit, {
-    hatEvery: 2, hatVel: 0.18,
+    hatEvery: 8, hatVel: 0.15,
+    toms: Object.assign({}, D.kit.toms, {
+      use: 0.95, loop: 1.0, loopBars: [0, 1, 2, 3],
+      loopLanes: ["tom3", "tom2", "tom1"],
+      loopShapes: [
+        /* the pulse: the low drum on the beat, the mid answering off it */
+        [[[0,"tom3"],[4,"tom3"],[6,"tom2"],[8,"tom3"],[12,"tom3"],[14,"tom2"]], 5],
+        /* eighths across the bar, the drum line walking */
+        [[[0,"tom3"],[2,"tom3"],[4,"tom2"],[6,"tom2"],[8,"tom3"],[10,"tom3"],[12,"tom2"],[14,"tom1"]], 4],
+        /* three against the bar — the figure rolls rather than marches */
+        [[[0,"tom3"],[3,"tom2"],[6,"tom1"],[8,"tom3"],[11,"tom2"],[14,"tom1"]], 4],
+        /* sparse and syncopated, so the pulse is not always a wall */
+        [[[0,"tom3"],[6,"tom2"],[8,"tom3"],[14,"tom2"]], 3],
+        /* the low drum alone, holding the floor */
+        [[[0,"tom3"],[8,"tom3"]], 2],
+      ],
+    }),
+    tomRoll: Object.assign({}, D.kit.tomRoll, { chance: 0.7 }),
     arc: Object.assign({}, D.kit.arc, {
       floorAt: { deeper: 3 },
       setAt: {
-        /* quiet eighths going in — the chart's mf sections */
-        descend: { hatEvery: 2, hatVel: 0.14 },
-        /* the dotted-eighth figure, three against four */
-        halls:   { hatEvery: 3, hatVel: 0.20 },
+        descend: { hatEvery: 8, hatVel: 0.12 },
+        /* the dotted-eighth spacing is kept — 0, 3, 6, 9, 12, 15 against a
+           four-beat bar is three against four, and this genre's own figure
+           lane already runs seven against four. It is a HAT setting rather
+           than a borrowed pattern, and at this velocity it is texture under
+           the toms rather than a part. */
+        halls:   { hatEvery: 3, hatVel: 0.13 },
         /* ══ THE CLIMAX, CORRECTED AGAINST THE MIDI ═══════════════════════
            I had this leg running the hat in SIXTEENTHS, on the strength of the
            chart's D and G sections read off a photograph. Parsing the MIDI says
@@ -29561,11 +29580,12 @@ GENRE.ds2 = (function(D){
 
            The double pedal stays because the owner asked for one, and the
            measured syncopations sit beside it in the pool. */
-        deeper:  { kickPattern: HARDCORE_FEET.concat(SOAD_FEET), kickKeep: 16,
-                   hatEvery: 8, hatVel: 0.20, followRiff: 4,
-                   rideEvery: 8, rideVel: 0.62 },
-        /* and the walk home goes back to quiet eighths */
-        return:  { hatEvery: 2, hatVel: 0.13 },
+        /* THE CLIMAX. The double pedal the owner asked for, and the toms at
+           their loudest — the roll lane on, every bar carrying a figure, and
+           the hat left where it is. Nothing here is counted off a reference. */
+        deeper:  { kickPattern: HARDCORE_FEET, kickKeep: 16,
+                   hatEvery: 4, hatVel: 0.16, followRiff: 4 },
+        return:  { hatEvery: 8, hatVel: 0.11 },
       },
     }),
   }),
