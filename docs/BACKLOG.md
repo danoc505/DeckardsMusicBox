@@ -4028,3 +4028,71 @@ and `bass|bass` metered **9.2%** in the same window, beside `keys|erStringsHi`
 at 7.1% and `keys|mellotron` at 6.7%, both of which also read 0.0% on their bare
 channels. The bass was audible the whole time and I was reading the wrong meter.
 The level change is reverted and the parent's balance stands.
+
+---
+
+## §0b8 — one hi-hat per bar (2026-08-22)
+
+[owner: sent the *Chop Suey!* drum chart, no words]
+
+### MEASURED BEFORE READING IT
+
+```
+  movement    hat/bar   kick/bar   snare/bar   tom/bar
+  descend       0.90      1.75       2.83       0.94
+  halls         1.00      1.94       3.16       1.07
+  return        0.84      1.49       1.83       1.05
+```
+
+**One hat a bar.** The parent declares `hatEvery: 16` and a bar is 16 steps, so
+the loop that lays the lane runs exactly once. There is no timekeeping layer in
+this kit at all — and no amount of tempo or distortion makes a record feel
+lively without one, which is a large part of why every attempt so far has failed
+to.
+
+### THE CHART IS BOTH THE ARGUMENT AND THE SCHEME
+
+Chop Suey is ♩=128 in 4/4. Its hat is the engine of the song, and what changes
+between its sections is almost entirely the hat's **spacing**:
+
+```
+  E, H   straight eighths        hatEvery 2     marked mf
+  D, G   sixteenth bursts        hatEvery 1     the driving sections
+  C, F   dotted-eighth figures   hatEvery 3
+```
+
+That last one is free and exact. The lane is laid with
+`for(s = 0; s < STEPS; s += hatEvery)`, so **3 gives steps 0, 3, 6, 9, 12, 15** —
+a dotted eighth, three against four, which is the figure written at C and F. No
+mechanism needed; the number was simply never used.
+
+DS2's default is straight eighths now and each movement names its own spacing,
+the way the chart does. `hatVel` comes up from 0.10 — a level chosen when the
+lane fired once a bar and had nothing to sit under.
+
+```
+  movement    hat/bar before → after     kick/bar
+  descend        0.90  →  5.92             1.79
+  halls          1.00  →  5.71             1.95
+  deeper         3.22  →  8.40             5.47
+  return         0.84  →  5.42             1.53
+```
+
+Blast radius: ds2 only. 600-record sweep: 1 throw, unchanged.
+
+### ⚠ WHAT THE CHART HAS THAT THIS PROGRAM CANNOT DO
+
+**The two 2/4 bars** — bar 28 and bar 45, each landing immediately before a
+section change, truncating the phrase by half a bar and pulling the next section
+in early. It is a lot of why that song lurches.
+
+`METRE_GRID` already holds `"2/4": { steps: 8, beats: 2 }`, but `metreOf` reads
+`chart.table.metre` — **one signature for a whole record**. A 2/4 bar inside a
+4/4 song needs metre per SECTION, which means the step grid, the clock, the
+material loop and the roll all stop being able to assume a constant bar. That is
+real surgery and it is written down rather than half-started.
+
+Also unbuilt, from the same chart: the drums are **tacet for eight bars** and
+enter at B (we have `form.build.enter`, which is a fade-in rather than a hard
+entry), and each section carries its own written dynamic with a crescendo
+hairpin between two of them.

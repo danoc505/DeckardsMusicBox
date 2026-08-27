@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22t &middot; the double kick actually plays &mdash; and the bass is a bassline</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22u &middot; the hat is the engine &mdash; one a bar became eight</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -29458,11 +29458,53 @@ GENRE.ds2 = (function(D){
      the kick keeps every hit it is given, and `followRiff` doubles the figure
      so the feet and the ostinato arrive together instead of being two good
      independent parts. */
+  /* ══ AND THE HAT IS THE THING THAT WAS MISSING ════════════════════════════
+     [owner: sent the Chop Suey drum chart]
+
+     MEASURED before reading it, hits per bar in this genre:
+
+       movement    hat    kick   snare   tom
+       descend     0.90   1.75   2.83    0.94
+       halls       1.00   1.94   3.16    1.07
+       return      0.84   1.49   1.83    1.05
+
+     ONE HAT A BAR. The parent declares `hatEvery: 16` and a bar is 16 steps, so
+     the loop that lays the hat runs exactly once. There is no timekeeping layer
+     in this kit at all — and no amount of tempo or distortion makes a record
+     feel lively without one, which is why every attempt so far has failed to.
+
+     THE CHART IS THE ARGUMENT AND ALSO THE SCHEME. Chop Suey is 128 BPM in 4/4
+     and its hat is the engine of the song; what changes between its sections is
+     almost entirely the hat's SPACING, and the chart marks each one:
+
+       E, H   straight eighths          `hatEvery: 2`   marked mf
+       D, G   sixteenth bursts          `hatEvery: 1`   the driving sections
+       C, F   dotted-eighth figures     `hatEvery: 3`
+
+     That last one is free and exact. The lane is laid with
+     `for(s = 0; s < STEPS; s += hatEvery)`, so 3 gives steps 0, 3, 6, 9, 12, 15
+     — a dotted eighth, three against four, which is the figure written at C and
+     F. No mechanism needed; the number was simply never used.
+
+     So the default is straight eighths and each movement says its own spacing,
+     which is what the chart does. `hatVel` comes up from 0.10, a level chosen
+     when the lane fired once a bar and nothing had to sit under anything. */
   kit: merge(D.kit, {
+    hatEvery: 2, hatVel: 0.18,
     arc: Object.assign({}, D.kit.arc, {
       floorAt: { deeper: 3 },
-      setAt: { deeper: { kickPattern: HARDCORE_FEET, kickKeep: 16,
-                         hatEvery: 2, hatVel: 0.22, followRiff: 4 } },
+      setAt: {
+        /* quiet eighths going in — the chart's mf sections */
+        descend: { hatEvery: 2, hatVel: 0.14 },
+        /* the dotted-eighth figure, three against four */
+        halls:   { hatEvery: 3, hatVel: 0.20 },
+        /* SIXTEENTHS AND THE DOUBLE PEDAL. The chart's own driving sections run
+           the hat in sixteenths and this is the leg that is meant to arrive. */
+        deeper:  { kickPattern: HARDCORE_FEET, kickKeep: 16,
+                   hatEvery: 1, hatVel: 0.26, followRiff: 4 },
+        /* and the walk home goes back to quiet eighths */
+        return:  { hatEvery: 2, hatVel: 0.13 },
+      },
     }),
   }),
 
