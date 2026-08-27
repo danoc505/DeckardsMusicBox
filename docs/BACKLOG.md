@@ -3759,3 +3759,76 @@ Twelve keys were **added** rather than overridden — `bassRiff`, `bassRoles`,
 rather than replacements of the root's character, so they are left alone. Some
 of them are the rule-of-three machinery and earn their place; others may be more
 of the same drift and have not been examined.
+
+---
+
+## §0b5 — mathcore is not hardcore, and the fight comes back (2026-08-22)
+
+[owner: *"But i wanted sludge and doom and a heavy fast hardcore fight and the
+pink floyd homecoming. But youve failed to pull that off"*]
+
+I deleted this act on *"erase the mathcore section"* and that was the wrong
+reading of the wrong word. **Mathcore and hardcore are not the same music**, and
+the difference is exactly why one of them failed here and the other need not:
+
+```
+  mathcore   angular, technical, odd metres, accent displacement, single-note
+             dissonance, start-stop. Written for a picked electric guitar,
+             which this record does not have — which is why two rounds of
+             tuning it produced nothing an ear could find.
+  hardcore   FAST, BLUNT, DRIVING, REPETITIVE. Straight feet, a riff that
+             hammers, no cleverness. None of that needs a guitar. It needs
+             tempo, weight and a kit, and this record has all three.
+```
+
+The act came back as the **simpler** music, not the harder one.
+
+### THE FOUR ACTS THE OWNER ASKED FOR, MEASURED
+
+```
+  act                 BPM   notes/s  avg note  leading part   dirt
+  setting out    doom   69    1.44     2.18s   ostinato 56%   Muff + HM-2, fuzz 1
+  into the deep  sludge 92    1.46     2.18s   ostinato 48%   Muff + HM-2, fuzz 1
+  the fight      HC    139    6.70     0.99s   keys 70%       Muff + HM-2, fuzz 1
+  the long way   Floyd  74    3.39     1.77s   keys 81%       phaser + comp, fuzz 0
+```
+
+The fight runs at **twice the tempo of the act it interrupts**, at a quarter of
+its note length, and it is the only act whose board is about aggression rather
+than weight. The walk home is untouched — it is the one part the owner says
+works and nothing in this pass went near it.
+
+### WHAT MADE IT HARDCORE RATHER THAN MATHCORE
+
+- **`HARDCORE_FEET` back on the kick.** I removed it on "take out the mathcore"
+  and the name of the constant is the argument against having done that: it is a
+  *hardcore* kick figure. What makes an act mathcore is the feet fighting the
+  metre; what makes it hardcore is a straight relentless run that never varies.
+  The pattern was always right — the act around it was the wrong genre.
+- **`followRiff` back to 6.** Its own note: a leg *"whose whole character is the
+  band hitting together does not want two good independent parts; it wants
+  one."* That is more true of hardcore than it ever was of mathcore.
+- **The chainsaw is back on this act and this act only.** The phaser I put here
+  is off again — a sweeping filter is the opposite of blunt, and blunt is the
+  brief. The speaker stays at 5 kHz, which was the harshness fix and is
+  unrelated to how heavy it is.
+- **The polymeter stays gone.** Seven-against-four is accent displacement, which
+  is the mathcore device. Hardcore does not do that.
+
+### AND TWO NAMES CAME OFF `FROM_ROOT`
+
+The previous build handed 14 tables back to dungeon synth. Two of them were not
+the root's *character*, they were this record's *weight*:
+
+- **`pocket`** — the root's kick pool has no double-time entry. This genre's own
+  holds one, and the note beside it says what it is for in six words: *"the
+  double-time walk, for the fight."* Handing it back took the fast act's feet
+  away in the same pass meant to make it faster.
+- **`roleGain`** — the root balances a quiet genre (bass 0.22, lead 0.57). This
+  is a loud record with its own (bass 0.55, lead 0.72). Restoring the root's
+  balance **halved the bass** on a record whose first two acts are a wall.
+
+Everything else on that list stays the root's: it decides what the music *is*
+rather than how hard it hits. Overrides now 12, inherited 39.
+
+600-record sweep: 1 throw, unchanged.
