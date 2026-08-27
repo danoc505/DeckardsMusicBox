@@ -3669,3 +3669,93 @@ inference from note counts. There is no listening loop. Six consecutive builds
 have been reported as improvements and heard as no change or worse. The note
 counts are real; the claim that they mean anything to a listener is not, and
 should be read that way until something renders and measures actual audio.
+
+---
+
+## §0b4 — the genre was 36 changes when the concept was three (2026-08-22)
+
+[owner: *"All I wanted to do was take Dungeon synth and inject the heavy
+distortion of rock back into it and make it a little more lively this can be done
+with bpm and instrumentation"*]
+
+That is the whole concept, stated plainly for the first time, and it is three
+changes: **distortion, BPM, instrumentation.**
+
+### MEASURED — doom sludge against its root
+
+```
+  identical to dungeon synth : 27      <- and they are the small ones:
+  OVERRIDDEN                 : 24         tape, rig, legato, accent, kick, swap
+  added by doom sludge       : 12
+```
+
+Twenty-four overrides, and what they replaced is everything that decides what a
+genre *sounds like*:
+
+```
+  ostinato       the repeating figure — dungeon synth's whole identity, and the
+                 thing the owner has asked for three times as "a repeating
+                 altering motif, the thing that holds it together"
+  theme          the tune
+  modes, progressions, bridgeProgressions, chorusProgressions    the harmony
+  registers      where every part sits
+  voicing, counter, drone, parallels, pocket, groove, roleGain
+```
+
+**None of those is BPM, instrumentation or distortion.** The genre stopped being
+dungeon synth with rock in it and became a different genre wearing the name —
+and *"the whole thing is disconnected"* is what that sounds like from the
+outside. The root's glue was replaced piece by piece until nothing was holding
+it together.
+
+### WHAT LANDED
+
+The root's tables are handed back at the end of the genre's own definition. What
+stays overridden is the concept and nothing else:
+
+```
+  KEPT   tempo              the BPM
+         machines, kit      the instrumentation — drums are instruments
+         space              the distortion: fuzz, pedalboard, room
+         form               the three acts and the ending, which is the one part
+                            the owner says works and lives nowhere else
+         label, params, motion, atmos, drumDrive
+
+  overrides: 24 -> 10        inherited unchanged: 27 -> 41
+```
+
+### MEASURED — the record after
+
+```
+  act                notes/s   avg note   voices at once   leading part
+  setting out          1.65      2.29s        4.4          ostinato 49%
+  into the deep        1.49      2.36s        4.4          ostinato 47%
+  the long way home    3.17      1.79s        6.3          keys 82%   (untouched)
+```
+
+The **ostinato is the backbone of both slow acts** — dungeon synth's repeating
+figure carrying the record, which is what the genre is. Notes are held about
+70% longer than before (1.38 s → 2.36 s in the sludge act), and the crowding
+drops from 5.3 simultaneous voices to 4.4.
+
+Instrumentation and distortion are untouched: taiko kit, horns, mellotron,
+hurdy-gurdy, cor anglais, string machine, the Muff and the HM-2 still on the
+two heavy acts. Tempo untouched at 69 / 91 / 74 against the root's 52–78.
+
+600-record sweep: 1 throw, unchanged. Blast radius: doom sludge only.
+
+### ⚠ THE SUPERSEDED TABLES ARE STILL IN THE FILE
+
+They are sourced work — the four-acts research, the bass sheet, the voicing
+measurements — and deleting a thousand lines in the same pass that switches them
+off is how a revert becomes impossible. `FROM_ROOT` is the switch: take a name
+out of that list and the genre's own table is live again on the next build.
+
+### AND THE OPEN QUESTION
+
+Twelve keys were **added** rather than overridden — `bassRiff`, `bassRoles`,
+`unison`, `keysStyleAt`, `compEntry`, `materialTakes`, `extensionsAt`, `chase`,
+`transitions`, `fxPlan`, `desk`, `bridgeAfterChorus`. They are additive features
+rather than replacements of the root's character, so they are left alone. Some
+of them are the rule-of-three machinery and earn their place; others may be more
+of the same drift and have not been examined.

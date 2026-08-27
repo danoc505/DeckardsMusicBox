@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-22p &middot; reverted the over-reach &mdash; and a derived tune now obeys the law</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-22q &middot; dungeon synth with rock in it &mdash; 36 changes back down to three</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -29360,9 +29360,9 @@ GENRE.fantasysynth = (function(D){
    printout for doomsludge and fantasysynth on the same seed is identical
    except for the header. Anything that diverges later diverges because a
    line below asked it to. ══════════════════════════════════════════════════ */
-GENRE.doomsludge = (function(F){
+GENRE.doomsludge = (function(F, ROOT){
   const merge = (a, b) => Object.assign({}, a, b);
-  return merge(F, {
+  const TABLE = merge(F, {
   label: "doom and sludge synth",
 
   /* ══ THE FUZZ, AND IT IS THE FIRST GENRE TO DECLARE ONE ═══════════════════
@@ -30496,7 +30496,52 @@ GENRE.doomsludge = (function(F){
     },
   }),
   });
-})(GENRE.fantasysynth);
+  /* ══ AND THE ROOT'S CHARACTER COMES BACK ════════════════════════════════════
+     [owner: "All I wanted to do was take Dungeon synth and inject the heavy
+      distortion of rock back into it and make it a little more lively this can
+      be done with bpm and instrumentation"]
+
+     THAT IS THREE CHANGES. MEASURED against dungeon synth, this genre made 36:
+     24 of its tables overridden and 12 added. Twenty-seven were inherited
+     untouched, and they are the small ones — `tape`, `rig`, `legato`, `accent`.
+     What got overridden is everything that decides what a genre SOUNDS LIKE:
+
+       ostinato      the repeating figure — dungeon synth's whole identity, and
+                     the thing the owner has asked for three times as "a
+                     repeating altering motif, the thing that holds it together"
+       theme         the tune
+       modes, progressions, bridgeProgressions, chorusProgressions   the harmony
+       registers     where every part sits
+       voicing, counter, drone, parallels, pocket, groove, roleGain
+
+     None of those is BPM, instrumentation or distortion. The genre stopped
+     being dungeon synth with rock in it and became a different genre wearing
+     the name, and "the whole thing is disconnected" is what that sounds like:
+     the root's glue was replaced part by part until nothing was holding it.
+
+     So the root's tables are handed back, and this genre keeps EXACTLY the
+     three things the concept names, plus the two it cannot do without:
+
+       KEPT   tempo         the BPM
+              machines, kit the instrumentation, and the drums are instruments
+              space         the distortion — fuzz, pedalboard, the room
+              form          the three acts and the ending, which is the one part
+                            the owner says works and lives nowhere else
+              label, params, motion, atmos, drumDrive
+
+     ⚠ THE SUPERSEDED TABLES ARE LEFT IN THE FILE ABOVE. They are sourced work —
+     the four-acts research, the bass sheet, the voicing measurements — and
+     deleting a thousand lines in the same pass that switches them off is how a
+     revert becomes impossible. This list is the switch. Take a name out of it
+     and that table is live again on the next build.
+     ══════════════════════════════════════════════════════════════════════════ */
+  const FROM_ROOT = ["modes", "progressions", "bridgeProgressions", "chorusProgressions",
+                     "registers", "voicing", "ostinato", "theme", "counter", "drone",
+                     "parallels", "pocket", "groove", "roleGain"];
+  const out = merge(TABLE, {});
+  for(const k of FROM_ROOT) if(k in ROOT) out[k] = ROOT[k];
+  return out;
+})(GENRE.fantasysynth, GENRE.dungeonsynth);
 
 
 /* ══ NOTES THAT LOST THEIR KEY IN THE CONVERSION ═══════════════════════════
