@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-28e &middot; one highest note, one lowest &mdash; the phrase gets a climax</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-28f &middot; the review was right &mdash; a hole in the climax, a duel that never traded, 47 broken blends</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22994,7 +22994,7 @@ const GENRE = {
       feature: {
         establish: [null, { solo: "keys" }],
         twopart:   [{ duel: ["lead", "keys"] }, null],
-        answer:    [null, { solo: "lead" }],
+        answer:    [null, { solo: "keys" }],
       },
       transitions: {
         verse:        [["chorus", 8], ["verse", 1], ["bridge", 1]],
@@ -24611,9 +24611,25 @@ const GENRE = {
          carries the pulse; a bass-and-arp trade is that idea with somebody
          actually in front of it. */
       feature: {
+        /* ⚠ `hook` AND `strip` ARE TWO ENTRIES, NOT THREE, AND THAT IS
+           MEASURED. 100 seeds at natural length: `rise` runs 3-5 sections,
+           `rise2` 3-5, `climax` 2-5 -- but `hook` runs 1-2 and `strip` 1-2, so
+           a third entry on either was never reached in any record. Dead config
+           by this file's own rule, found by an adversarial review of this
+           table on 2026-08-28 and confirmed by asking the program for its
+           movements rather than reading the plan's `bars` triple.
+
+           AND `hook` IS A DUEL RATHER THAN THE SOLO IT WAS. Its pool is
+           ["chorus", "postchorus"] and `postchorus` has no `lead` in its roles,
+           so `{ solo: "lead" }` there filtered to nothing, the guard left the
+           section exactly as it was, and the leg named for this genre's hook
+           did nothing at all in half its sections. A duel degrades instead: on
+           a chorus the two trade, on a postchorus the arp keeps it alone --
+           which is what a postchorus IS here, "the hook still ringing" with the
+           voice gone. */
         rise:   [null, { solo: "ostinato" }, null],
-        hook:   [null, { solo: "lead" }, null],
-        strip:  [{ duel: ["bass", "ostinato"] }, null, { solo: "keys" }],
+        hook:   [null, { duel: ["lead", "ostinato"] }],
+        strip:  [{ duel: ["bass", "ostinato"] }, null],
         rise2:  [null, { duel: ["lead", "ostinato"] }, null],
         climax: [null, { duel: ["lead", "ostinato"] }, null],
       },
@@ -30329,28 +30345,51 @@ GENRE.ds2 = (function(D){
          null                          the whole band, at the top of the arc
          { solo: "lead" }              and one line left over the wall
 
-       ⚠ THIS IS THE ONE PLACE `keys2` IS FRONT-LINE, AND IT IS SAFE ONLY
-       BECAUSE THE LEAD IS BESIDE IT. Fantasy synth's table one genre up records
-       the rule and the 16-bar hole that produced it: `tryPad` returns an EMPTY
-       ARRAY when the second keyboard finds no register, the role stays in
-       `active` regardless, and a feature can therefore hand a section to a part
-       with nothing to play. MEASURED, this genre, 20 seeds: NO SECOND KEYBOARD
-       AT ALL on 7 of them -- seeds 2, 7, 12, 13, 14, 19, 20, a 13/20 fit rate
-       this file asked to have reported and nobody had reported.
+       ⚠⚠ THIS DUEL NAMED `keys2` AND THE COMMENT HERE SAID THAT WAS SAFE. IT
+       WAS NOT, AND THE CLAIM WAS FALSE ON ITS OWN TERMS. What stood here was:
+       "A DUEL CANNOT LEAVE A HOLE THE WAY A SOLO CAN... `lead` is built
+       unconditionally, so on the records where the pad is missing this degrades
+       to a lead solo over the double kick -- thinner than intended, never
+       silent."
 
-       A DUEL CANNOT LEAVE A HOLE THE WAY A SOLO CAN, which is the whole reason
-       this one stays. `lead` is built unconditionally, so on the 7 records in 20
-       where the pad is missing this degrades to a lead solo over the double kick
-       -- thinner than intended, never silent. A `{ solo: "keys2" }` here would
-       be a hole on those same records, and there is not one anywhere in the
-       file.
+       The duel gate contradicts it, and reading it was enough:
+       `spec.duel.every(r => active.includes(r))` asks `active`, and `active` is
+       a ROLE-LIST fact -- `allowed.filter(r => hasArrived(...))`, where
+       `hasArrived` reads arrival times and never notes. `keys2` is in this
+       genre's roles for verse, chorus and instrumental, which is the whole
+       `deeper` pool. So on a record where `tryPad` returned `[]` the gate still
+       passed, `sec.duel` was still set, and stage 5 then SKIPPED THE LEAD on
+       every one of the missing part's turns. Not a lead solo: two bars of lead,
+       two bars of drums and a held drone, round and round.
 
-       So the owner's second keyboard IS the other guitar in this leg, on the two
-       records in three where it exists. Making that three in three is Phase 4 of
-       docs/NEXT-BUILD-THE-PART-YOU-REMEMBER.md, and the fit rate above is the
-       number that says the work is needed rather than a fallback that hides it. */
+       MEASURED after the fix that took the pad to 20/20 -- so this survived
+       Phase 4 -- ds2 seed 39, the chorus at bars 68-84: EIGHT OF ITS SIXTEEN
+       BARS carried no pitched attack at all. The section header announced
+       `drums lead keys2 drone`; keys2 printed no row anywhere in the record.
+
+       AND THE RULE THAT FORBIDS THIS WAS ALREADY WRITTEN, BY ME, ONE GENRE UP.
+       Fantasy synth's table states it: "Nothing downstream knows the difference
+       between a role that is present and a role that has notes... The front line
+       here is therefore drawn only from parts that are built unconditionally:
+       lead, bass, keys, ostinato." This declaration suspended that rule on an
+       argument the code contradicts, which is an unearned green in a comment
+       sitting on top of a live hole -- the exact thing §0 of the handoff exists
+       to prevent.
+
+       SO THE FRONT LINE HERE OBEYS THE SAME FOUR-PART RULE. `keys` is in the
+       roles list for all three of `deeper`'s section functions, is built by
+       `buildKeys` directly rather than through `tryPad`, and measured zero-event
+       on 0 of 60 records. The leg keeps its trade and the climax keeps a line on
+       every turn. `ostinato` would serve equally; `keys` keeps this leg distinct
+       from the parent's `halls` duel, which already spends the ostinato.
+
+       KEYS2 MAY COME BACK when two things are true, not one: its fit rate is
+       20/20 (Phase 4 did that) AND the engine can tell a role that is present
+       from a role that has notes (it still cannot). The owner's second keyboard
+       is still the other guitar in this leg -- it plays through the whole
+       section rather than being handed half of it. */
     feature: merge(D.form.feature, {
-      deeper: [{ duel: ["lead", "keys2"] }, null, { solo: "lead" }],
+      deeper: [{ duel: ["lead", "keys"] }, null, { solo: "lead" }],
     }),
   }),
 
@@ -30857,6 +30896,23 @@ const BLEND_DRAW = new Set([
      the grid never uses -- averaging any of that with a genre that has no
      transition at all is a setup for a section that is not there. */
   "form.transition",
+  /* ⚠ AND THE EXTENSION IS HERE FOR THE IDENTICAL REASON, ADDED 2026-08-28
+     AFTER IT BROKE 47 BLENDS. `form.extend` names a POOL of bar counts and a
+     list of section functions, and averaging one genre's `bars: [2, 4]` with a
+     genre that declares none gave a length the grid cannot build --
+     "Invalid array length", thrown out of the form builder.
+
+     MEASURED, 180 ordered pairs x three weights x three seeds: 179/180 composed
+     before the extension was declared on three genres, 132/180 after. Forty-
+     seven blends, and the single-genre sweeps that guarded that build could not
+     see one of them, because the printout prints one genre at a time. The
+     backlog already says this in as many words -- "ask the blend question BY
+     HAND when a build touches material selection, because nothing asks it for
+     you now" -- and this build did not.
+
+     Its `BLEND_GROUP` entry was already correct; only the atomic list was
+     missing it, which is why the fault was a length rather than a mismatch. */
+  "form.extend",
   /* the build arrives whole or not at all: averaging one genre's entry points
      with another's -- or with a genre that has none -- gives a record that
      accretes halfway, which is not a blend of two arrangements, it is neither */
@@ -44444,8 +44500,33 @@ function makePerformance(chart, form, materials, sections){
            and each is heard in half of it, so what you hear is what they would
            have played, with the other half of it taken away. That is what a
            player does when they lay out. */
+        /* ══ AND THE TURN WAS PHASE-LOCKED TO THE MATERIAL, SO NOBODY TRADED ══
+           FOUND 2026-08-28 by an adversarial review of the feature declarations
+           and verified by reading: the turn was
+           `Math.floor((bar - sec.startBar) / 2) % 2` -- two bars, alternating --
+           and the material cell is `materials.bars`, which is
+           `chart.table.materialBars || 4` with NO GENRE IN THE FILE DECLARING
+           `materialBars`. So the cell is four bars in all five genres and the
+           turn is two, and the two periods lock:
+
+             bar offset 0,1 -> turn A -> cell bars 0,1
+             bar offset 2,3 -> turn B -> cell bars 2,3
+             bar offset 4,5 -> turn A -> cell bars 0,1   <- the same half again
+
+           THE FIRST DUELLIST ONLY EVER PLAYED THE FIRST HALF OF THE MATERIAL
+           AND THE SECOND ONLY EVER THE SECOND. That is not two players trading
+           a passage, it is a permanent split of it, and the comment above --
+           "both parts wrote a full section and each is heard in half of it" --
+           was describing something the arithmetic never did: each was heard in
+           the same half of it, for the length of the record.
+
+           `cycle` (declared above, the material's own repeat counter) is added
+           to the turn index, which makes the period 2 and the period 4 coprime
+           and swaps the halves every cycle: A takes cell 0-1, then B takes it
+           next time round while A takes 2-3. One token, and it needs no new
+           draw so no other genre's stream moves [Law 3]. */
         if(sec.duel && sec.duel.indexOf(role) >= 0 &&
-           sec.duel[Math.floor((bar - sec.startBar) / 2) % 2] !== role) continue;
+           sec.duel[(Math.floor((bar - sec.startBar) / 2) + cycle) % 2] !== role) continue;
         let notes = mat[role];
         /* the long loop, before anything else touches the choice: a part
            whose cycle has not come round reads the variant instead. Only

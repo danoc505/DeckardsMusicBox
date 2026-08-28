@@ -16,6 +16,84 @@ built. Every number in §2 was measured off `harness/mk2_score.js` on build
 
 ---
 
+## 0a. ⚠ WHAT AN ADVERSARIAL REVIEW OF THIS BUILD FOUND — READ BEFORE THE PHASES
+
+*An adversarial review of the Phase 1 declarations (four lenses, every finding
+independently verified by a second agent trying to refute it) returned
+**15 confirmed findings and 15 refuted**. Three were real defects in shipped
+code and two were false claims in my own commit messages. All are corrected in
+build `2026-08-28f`. The phases below are left as written and this block is
+where they are wrong.*
+
+### The three defects, all now fixed
+
+**1. DS2's climax had a hole, and the comment said it could not.** The
+declaration was `deeper: [{ duel: ["lead", "keys2"] }, …]` above a comment
+reading *"A DUEL CANNOT LEAVE A HOLE THE WAY A SOLO CAN… never silent."* The
+duel gate asks `active.includes(r)`, and `active` is a **role-list** fact —
+`hasArrived` reads arrival times and never notes. So on a record where the pad
+built nothing, the gate still passed and stage 5 skipped **the lead** on the
+missing part's turns. Measured, ds2 seed 39, chorus at bars 68–84: **8 of 16
+bars carried no pitched attack at all.** It survived Phase 4. The rule that
+forbids this was one I had already written into fantasy synth one genre up.
+Fixed: the front line is `keys`, which is built unconditionally. **659 duel
+sections across 5 genres × 60 seeds now name a silent part 0 times.**
+
+**2. A duel never traded.** The turn was `floor((bar - startBar) / 2) % 2` — two
+bars — and the material cell is `materialBars || 4`, which **no genre declares**,
+so it is 4 everywhere. The two periods lock: the first duellist only ever played
+cell bars 0–1 and the second only ever bars 2–3, for the length of the record.
+The comment above it — *"both parts wrote a full section and each is heard in
+half of it"* — described something the arithmetic never did. Fixed by folding
+the material's own `cycle` into the turn index, making the periods coprime.
+
+**3. Phase 2 broke 47 blends and the single-genre sweep could not see it.**
+`form.extend` was missing from the blend atomic list, so one genre's `bars`
+pool was averaged with a genre that declares none. **Blends: 179/180 → 132/180
+at Phase 2, restored to 179/180.** The backlog already warned about exactly
+this — *"ask the blend question BY HAND when a build touches material selection,
+because nothing asks it for you now"* — and this build did not.
+
+### The two false claims in my own commit messages
+
+**"NO NEW HOLES, checked rather than asserted."** (commit `632af4e`) **False.**
+I measured the *longest run* of ground-only bars, found it unchanged, and
+reported that as "no new holes" — a different claim from the one the numbers
+support. Ground-only bars across ten records:
+
+```
+  baseline 33   ->   after Phase 1  98   ->   after these fixes  75
+```
+
+Still more than double the baseline. Some is intended (a solo section where the
+featured part rests a bar is ground-only, and drums-plus-drone is not silence),
+but it is **not** "no new holes" and it is stated here rather than left standing.
+
+**"The line-up also churns less — one change every 4.0 bars against 5.9."**
+Reported as synthwave's headline. The direction is real but it was read as
+evidence the change was working when it is partly an artefact of sections
+thinning. Not load-bearing for any decision; corrected for the record.
+
+### Dead config the review found, now removed
+
+`hook` and `strip` on synthwave carried **3-entry rotations on legs that run 1–2
+sections** (measured, 100 seeds), so the third entry was never reached. And
+`hook`'s `{ solo: "lead" }` sat on a leg pooling `postchorus`, which has no lead
+in its roles — so the leg named for this genre's hook did nothing in half its
+sections. Both fixed.
+
+### Still open, named not built
+
+- **The rescue undoes a rotation entry on a leg's last section**, because it
+  runs in the same iteration and re-adds there. A verified finding; the fix
+  changes the mechanism's documented behaviour and deserves its own build.
+- **Per-leg section counts in several comments are averaged or wrong.** The
+  measured truth, 100 seeds: lofi 1–3, synthwave 1–5 by leg, dungeon synth
+  descend 1–2 / halls 2–3 / deeper 2–4 / return 1–3, fantasy synth 4–9.
+- **`erPad` can fill no rack** (`slot: "drone"`, which is not a rack slot).
+
+---
+
 ## 0. THE FINDING THAT SHAPES THIS WHOLE PLAN
 
 **Five of the six things below already exist in the engine.** They are built,
