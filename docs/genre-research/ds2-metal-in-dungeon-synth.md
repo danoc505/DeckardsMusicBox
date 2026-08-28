@@ -108,9 +108,35 @@ Inanimus (psych-doom with a dungeon synth member).
 The community's own subgenre indices — which list old school, comfy, winter,
 chip, forest, sea synth, dark dungeon music, dino synth
 [corpus:dungeon-synth.neocities.org/subgenres, corpus:albumoftheyear subgenre
-list] — **do not name a metal-forward one.** So "DS2" is naming a real hole.
-That is a fair claim to make in the banner and it is the only claim of novelty
-this sheet supports.
+list] — do not name a metal-forward one.
+
+### ⚠ CORRECTED 2026-08-28 — AND THE CORRECTION IS THE OWNER'S
+
+This sheet originally read: *"So 'DS2' is naming a real hole. That is a fair
+claim to make in the banner and it is the only claim of novelty this sheet
+supports."* **That was wrong, and the owner named the counter-example in one
+line:** *"The dinosynth band Synthosaurus uses guitars and distortion so yes
+Dinosynth does do the thing you say nothing does."*
+
+He is right. [Synthosaurus](https://synthosaurus.bandcamp.com/album/rise-of-the-synthosaurs)
+is dino synth with real guitars and aggressive drums — "Ripping Raptor" is
+dinosaurs shredding — across **18 releases** on Bandcamp, tagged dungeon synth
+and dino synth. The heavier hybrid is being made, inside a named subgenre, right
+now.
+
+**What that costs this sheet, precisely.** The absence of a *label* in a
+subgenre index is not the absence of the *music*, and I read the first as
+evidence of the second. That is the same error shape this repo already
+catalogues — reasoning between two true facts to a mechanism nobody checked.
+The two facts were true (the indices really do not list one; the blackened acts
+in §2c really are catalogued) and the conclusion between them was not.
+
+**So DS2 claims no novelty.** What survives is stronger and needed no novelty:
+the hybrid has working prior art in at least three directions — Summoning doing
+it with keyboards in 1995 (§2a), Tänzelcore doing it toward hard dance (§2b),
+and Synthosaurus doing it with actual guitars today. DS2 is a well-populated
+tradition rather than an empty space, which is a better position to build from
+because there is something to measure against.
 
 ---
 
@@ -285,4 +311,5 @@ describe. **The owner's ear decides which are worth closing.**
 - [Mastering the 140-170 BPM range — Wannabe Drummer](https://wannabedrummer.wordpress.com/2019/12/15/140-170-bpm-double-bass-ostinato-technique/) — the 140 / 170 technique thresholds
 - [Helly: Extreme Double Bass — Tom Tom Magazine](https://tomtommag.com/2018/04/helly-extreme-double-bass/) — 16ths at 200
 - [How to Get a Black Metal Guitar Tone — Riffhard](https://www.riffhard.com/how-to-get-a-black-metal-guitar-tone/) · [How to Play Black Metal Guitar](https://www.riffhard.com/how-to-play-black-metal-guitar/) · [An Intro to Black Metal Guitar — NYC Guitar School](https://nycguitarschool.com/an-intro-to-black-metal-guitar/) · [Guitar Mastery Method](https://www.guitarmasterymethod.com/how-to-make-your-electric-guitar-sound-like-black-metal/)
+- [Synthosaurus — Rise of the Synthosaurs](https://synthosaurus.bandcamp.com/album/rise-of-the-synthosaurs) — dino synth with guitars, named by the owner
 - `DS001`, `DS002`, `Dinosynth` — practitioner transcripts, repo root
