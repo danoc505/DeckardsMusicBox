@@ -32702,7 +32702,6 @@ function makeJourney(chart){
       soloOf: p.soloOf || null,
       hand: p.hand && Object.keys(p.hand).length ? Object.freeze(p.hand) : null,
       /* ── AND THE FIELDS EVERY STAGE BELOW ALREADY READS ─────────────────── */
-      demand: seen[p.fn] >= 2 ? "vary" : null,
       energy, peak: i === peakAt,
     };
     bar += p.len;
@@ -33407,8 +33406,15 @@ function makeForm(chart){
          `varyAsBefore` path is untouched and still means what it meant: it
          changes HOW the vary happens as well as when, which is why it could not
          simply be turned on here. */
-      demand: (seen[f] >= (F.varyAt || (F.varyAsBefore ? 3 : 2))
-               && (f === "verse" || f === "chorus")) ? "vary" : null,
+      /* ⚠ `demand` STOOD HERE AND IS GONE. Both section builders wrote it and
+         NOTHING READS IT ANY MORE -- the rule of three moved onto the MATERIAL,
+         in makeArrangement, where the research for it is written out in full.
+         The two builders disagreed about it anyway: this one read `form.varyAt`
+         and the journey builder hardcoded 2, which is why declaring `varyAt: 3`
+         on four genres measured as doing nothing to two of them. Left as a
+         field it would be exactly the dead config this project's own RULE ONE-B
+         is about, so it is removed rather than described. `form.varyAt` is
+         still live and still means what it says. */
       /* a transition drops back -- "less going on than the a section" [002] --
          and it says so itself rather than borrowing a neighbour's number */
       /* ── THE MOVEMENT FIRST, HERE TOO ────────────────────────────────────
@@ -42980,6 +42986,9 @@ function makeArrangement(chart, form, materials){
      heard yet in the leg being laid. Both are carried across the map below,
      which walks the form in order; see "NO PART GOES MISSING" inside it. */
   const goneFor = {}, heardInLeg = {};
+  /* how many times each MATERIAL has been said so far -- see the rule of three
+     at the material chooser below. Carried across the map, like the two above. */
+  const saidTimes = {};
   let legNow = null;
   const laid = form.map((sec, i) => {
     /* the movement first, the function as the fallback -- the same rule the
@@ -42988,7 +42997,64 @@ function makeArrangement(chart, form, materials){
        leg. `form.material` may now be keyed by either. */
     let material = (sec.mv && MAT[sec.mv]) || MAT[sec.fn];
     let stripHalf = false;
-    if(sec.demand === "vary"){
+    /* ══ THE RULE OF THREE IS ABOUT THE IDEA, NOT ABOUT THE LABEL ══════════
+       [owner, 2026-08-28:] "YOUVE STATED THIS THREE TIMES THREE TIMES NOT
+       TWICE NOT ONCE THREE TIMES!"
+
+       `sec.demand` is computed one stage up from `seen[fn]` -- how many times a
+       FUNCTION NAME has been used. But `MAT` maps several function names onto
+       the SAME material, so the tune gets stated once per name before any of
+       them reaches its own third. MEASURED, dungeon synth seed 1, materials in
+       section order:
+
+         intro A · verse A · verse A · instrumental A · verse Avar · ...
+
+       FOUR STATEMENTS OF THE SAME TUNE before the first variation, because
+       intro, verse and instrumental all point at A and each counted separately.
+       The whole record: 81% of tunes are stated ONCE and then never again, and
+       three-in-a-row -- the shape every source names -- happens 0% of the time.
+       It goes one, or it goes four and five. Never three.
+
+       The sources are unanimous and they agree at three scales:
+         - the SENTENCE is a basic idea, its repetition, then a continuation
+           that fragments it [corpus:openmusictheory/sentence, Mozart K.283 i]
+         - "repeat it one time so you're playing it TWO TIMES IN TOTAL... and
+           the THIRD TIME go somewhere different" [doc 006; corpus:omnionsound]
+         - AABA plays the A section THREE TIMES, the bridge existing to withhold
+           it [corpus:wikipedia/Thirty-two_bar_form]
+
+       So the count is kept on the MATERIAL, and the third statement of a tune
+       varies whoever asked for it.
+
+       NO DRAW IS SPENT. This reads a counter and picks between materials that
+       were all built upstream; `rng` is not called, so no later draw moves
+       [Law 3]. */
+    const said = (saidTimes[material] = (saidTimes[material] || 0) + 1);
+    /* ⚠ AND IT IS EVERY THIRD, NOT EVERYTHING FROM THE THIRD ON. Written first
+       as `said >= 3` and MEASURED: the opening tune was then stated exactly
+       2.0 times a record and RETURNED IN 0% OF SONGS, because once the counter
+       passed the threshold every later statement was a variant forever. That is
+       the opposite of the rule -- AABA's whole point is that A COMES BACK, and
+       "the bridge generates heightened expectation for the RETURN of A"
+       [corpus:wikipedia/Thirty-two_bar_form]. Doc 006 describes a GROUP of
+       three -- say it, say it again, third goes somewhere different -- and then
+       the group can come round. So the variation lands on every third
+       statement and the two either side of it are the tune itself. */
+    /* ── AND THE FUNCTION COUNT IS NOT OR'd IN ─────────────────────────────
+       The first version read `sec.demand === "vary" || said % 3 === 0`, on the
+       argument that keeping the old test could only add. It could not: once
+       `seen[fn]` passes its own threshold it stays past it, so in a long record
+       EVERY later section demanded a vary and the tune never came back plain.
+       MEASURED, fantasy synth seed 1, its last leg:
+
+         with the OR   Avarlift Avarlift Avarlift Avarlift Avarlift Avarlift Alift
+         without it    Alift Alift Avarlift Alift Alift Avarlift Alift
+
+       The material count subsumes the function count -- when one function owns
+       one material they are the same number -- so the OR added nothing but the
+       leak. `sec.demand` is not computed at all any more -- with this site no
+       longer consulting it, nothing did, and both producers were removed. */
+    if(said % (F.varyAt || 3) === 0){
       /* THE ANSWER IS A RE-PRESENTATION, NEVER A DELETION. `stripHalf` used to
          answer for the chorus -- take notes out -- which is the one move
          motivic development never makes, and measured it left the third chorus
@@ -43065,7 +43131,12 @@ function makeArrangement(chart, form, materials){
            fit, hands back the material unchanged -- and an unchanged material
            is not a device, so it drops out of the rotation rather than taking a
            turn and doing nothing. */
-        const NTH = sec.occurrence || 2;
+        /* WHICH statement this is, counted on the material for the same reason
+           the threshold above is: `sec.occurrence` is the function's count and
+           a tune stated by three different function names had three separate
+           1s. The variant chain needs to know it is on its fourth hearing even
+           when every hearing was called something else. */
+        const NTH = Math.max(said, sec.occurrence || 2);
         /* ── A VARIANT BELONGS TO THE MATERIAL IT VARIES ────────────────────
            This read `String(material).charAt(0) === "B" ? "B" : "A"`, so the
            family came from the material name's FIRST CHARACTER. "C" is not
