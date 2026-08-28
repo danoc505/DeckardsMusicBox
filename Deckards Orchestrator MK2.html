@@ -32918,11 +32918,36 @@ function makeForm(chart){
      ONE OWNER: both walks below -- the grammar walk and the phase walk -- read
      the laws through this one helper, so the laws cannot drift into two
      hand-copied versions that disagree. */
+  /* ── H1 ASKS THE IDEA, NOT THE LABEL ──────────────────────────────────────
+     [owner, 2026-08-28:] "Music theory is LAW. The rule of three IS music
+     theory in action! Hard laws are things like intro can only be at the start
+     and a soft law is a constraint that allows for emergence."
+
+     H1 was already the rule of three and already in the right place -- a law
+     that ZEROES A WEIGHT rather than picking a section. It asked the wrong
+     question. `to === cur` compares FUNCTION NAMES, and `form.material` maps
+     several names onto one material, so the same tune could be stated four and
+     five times running without the law ever noticing:
+
+       intro A · verse A · verse A · instrumental A · verse A       H1 never fires
+
+     MEASURED, 32 seeds a genre before this: a tune was stated four or more
+     times without turning in 15-16% of its groups on dungeon synth and fantasy
+     synth. The law's own sentence is about the IDEA -- "two hearings establish
+     an idea; the third identical one is where attention goes" -- and an idea is
+     the material, not the word above it.
+
+     `matOf` reads the same map the arrangement reads, so the two cannot drift.
+     Where a genre names no material for a function the answer is the function
+     itself, which is exactly the old behaviour, so a genre with a 1:1 map is
+     unmoved. ── */
+  const matOf = f => (F.material && F.material[f]) || f;
   const lawTable = cur => {
-    const consec = fns.length >= 2 && fns[fns.length - 1] === fns[fns.length - 2];
+    const consec = fns.length >= 2 &&
+      matOf(fns[fns.length - 1]) === matOf(fns[fns.length - 2]);
     const need = F.bridgeAfterChorus[cur];
     let table = F.transitions[cur].map(([to, w]) => [to, w]);
-    table = table.map(([to, w]) => [to, (to === cur && consec) ? 0 : w]);          // H1
+    table = table.map(([to, w]) => [to, (matOf(to) === matOf(cur) && consec) ? 0 : w]);  // H1
     table = table.map(([to, w]) => [to, to === "bridge"                            // H2
       ? ((!bridgeUsed && need != null && chorusSeen >= need) ? w : 0) : w]);
     table = table.map(([to, w]) => [to, (to === "postchorus" && cur !== "chorus")  // H3
@@ -42989,9 +43014,9 @@ function makeArrangement(chart, form, materials){
   /* how many times each MATERIAL has been said so far -- see the rule of three
      at the material chooser below. Carried across the map, like the two above. */
   const saidTimes = {};
-  /* and, per material, the last statement of the group being said and which
-     group that is -- see "how many statements is drawn" at the chooser */
-  const sayLen = {}, sayAt = {};
+  /* the CONSECUTIVE run of the material being said, and what the last section
+     said -- H1 applied where a plan genre's succession is actually decided */
+  const runOf = {}; let prevMat = null;
   let legNow = null;
   const laid = form.map((sec, i) => {
     /* the movement first, the function as the fallback -- the same rule the
@@ -43033,71 +43058,48 @@ function makeArrangement(chart, form, materials){
        were all built upstream; `rng` is not called, so no later draw moves
        [Law 3]. */
     const said = (saidTimes[material] = (saidTimes[material] || 0) + 1);
-    /* ══ AND HOW MANY STATEMENTS IS DRAWN, NOT BAKED ══════════════════════
-       [owner, 2026-08-28, on the first version of this:] "we do NOT bake in
-       values it is anything any combo of likely progressions and ABA is NOT
-       even EVER a whole song!"
+    const run = (runOf[material] = (material === prevMat ? (runOf[material] || 0) : 0) + 1);
+    prevMat = material;
+    /* ══ AND THE VARIATION IS WHAT THE LAW LEAVES BEHIND ══════════════════
+       [owner:] "Music theory is LAW... a soft law is a constraint that allows
+       for emergence."
 
-       He is right on both counts and the first was a plain regression. Written
-       as `said % 3 === 0`, this was a METRONOME: every group in every record
-       came out exactly two-then-a-variation, forever. Printed, fantasy synth
-       seed 1:
+       ⚠ THIS HELD A GENRE VALUE AND IT SHOULD NEVER HAVE. The first version
+       drew the group length from `form.sayTimes`, a pool I put in the genre
+       table -- so a genre could have declared `[[9, 1]]` and said one idea nine
+       times, and music theory would have been a taste. The rule of three is not
+       a taste. It is H1, in the succession laws one stage up, where a law
+       ZEROES A WEIGHT and the walk then chooses freely among what is left: the
+       hard part is that an idea may not be stated a third time running, and
+       what actually follows EMERGES from the genre's own weights. `sayTimes`
+       is deleted; nothing here draws.
 
-         A A Avar  A A Adev  C C Cvar  C C Cdev  B B Bdev  B B Bdev  B B Bvar
+       WHAT IS LEFT FOR THIS SITE is the other half of the same sentence --
+       "two hearings establish an idea; THE THIRD IDENTICAL ONE is where
+       attention goes" [H1's own wording]. The law stops the third IDENTICAL
+       statement. It does not stop a third statement; it stops an identical
+       one. So when the walk comes back to a material the ear has already had
+       twice, this turns it rather than repeating it, and the variant chain
+       below is the device. No draw, no threshold in a table -- a counter and
+       the law's own number. */
+    /* ⚠ AND IT IS THE RUN, NOT THE TOTAL. Written first as `said >= 3` -- the
+       material's count across the whole record -- and printed:
 
-       That is more formulaic than what it replaced, and "the songs are always
-       too safe and formulaic" is where this whole run of work started. A rule
-       of three enforced by arithmetic is not the rule of three; the source
-       itself says so -- "this rule is a GUIDELINE, one that you can break, but
-       if you don't know it then you may be breaking it unintentionally"
-       [doc 006]. Unintentionally is the part that was wrong, not variety.
+         A A Avar Adev Avar Adev C C Cvar Cdev Cdev Cdev B B Bdev Bdev Bvar ...
 
-       So the group length is DRAWN, per group, from a pool the genre owns, and
-       the pool's weights are where the rule lives: mostly two statements then a
-       departure, sometimes three, because doc 006 says "repeating something
-       beyond three times is generally speaking overusing that idea, and
-       actually using it more than two times is overusing it." Two is the
-       middle of that sentence and three is its edge.
-
-       ITS OWN SUBSTREAM, keyed on the material and the group index, so no other
-       draw in the file moves [Law 3/7] and two records that both said A three
-       times still depart differently. */
-    const SAY = F.sayTimes || [[2, 5], [3, 3]];
-    if(sayLen[material] == null || said > sayLen[material]){
-      /* a new group begins: draw how long THIS one runs before it turns */
-      sayAt[material] = (sayAt[material] || 0) + 1;
-      /* the drawn number is HOW MANY PLAIN STATEMENTS the group gets, so the
-         one that turns is the next one after them. Written first without the
-         `+ 1` and printed: `A Adev A A Avar` -- the tune stated ONCE and varied
-         on the second, which is the defect this whole rule exists to stop. */
-      sayLen[material] = said + wpick(
-        stream(chart.seed, "say:" + material + ":" + sayAt[material]), SAY);
-    }
-    /* ⚠ AND IT IS EVERY THIRD, NOT EVERYTHING FROM THE THIRD ON. Written first
-       as `said >= 3` and MEASURED: the opening tune was then stated exactly
-       2.0 times a record and RETURNED IN 0% OF SONGS, because once the counter
-       passed the threshold every later statement was a variant forever. That is
-       the opposite of the rule -- AABA's whole point is that A COMES BACK, and
-       "the bridge generates heightened expectation for the RETURN of A"
-       [corpus:wikipedia/Thirty-two_bar_form]. Doc 006 describes a GROUP of
-       three -- say it, say it again, third goes somewhere different -- and then
-       the group can come round. So the variation lands on every third
-       statement and the two either side of it are the tune itself. */
-    /* ── AND THE FUNCTION COUNT IS NOT OR'd IN ─────────────────────────────
-       The first version read `sec.demand === "vary" || said % 3 === 0`, on the
-       argument that keeping the old test could only add. It could not: once
-       `seen[fn]` passes its own threshold it stays past it, so in a long record
-       EVERY later section demanded a vary and the tune never came back plain.
-       MEASURED, fantasy synth seed 1, its last leg:
-
-         with the OR   Avarlift Avarlift Avarlift Avarlift Avarlift Avarlift Alift
-         without it    Alift Alift Avarlift Alift Alift Avarlift Alift
-
-       The material count subsumes the function count -- when one function owns
-       one material they are the same number -- so the OR added nothing but the
-       leak. `sec.demand` is not computed at all any more -- with this site no
-       longer consulting it, nothing did, and both producers were removed. */
-    if(said === sayLen[material]){
+       Past the third statement EVERYTHING is a variant, so the tune is heard
+       plain twice in the first minute and never again in ten. That is not
+       developing variation, it is the tune vanishing. H1's sentence is about
+       three IN A ROW -- "a function cannot follow itself twice" -- so the
+       counter has to be the consecutive run, and a departure resets it. Then a
+       return after a bridge is the tune again, which is what a return is. */
+    const runKey = material;
+    if(run >= 3){
+      /* and the turn ENDS the run, so the group comes round: two statements,
+         a third that turns, then the tune again. Without this the run kept
+         counting past the turn and every later statement was a variant --
+         fantasy synth printed `A A Avar Adev Avar Adev` for a whole leg. */
+      runOf[runKey] = 0;
       /* THE ANSWER IS A RE-PRESENTATION, NEVER A DELETION. `stripHalf` used to
          answer for the chorus -- take notes out -- which is the one move
          motivic development never makes, and measured it left the third chorus
