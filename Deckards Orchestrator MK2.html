@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-28f &middot; the review was right &mdash; a hole in the climax, a duel that never traded, 47 broken blends</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-28g &middot; the tune has notes in it now &mdash; a note every 1.7 seconds became one a second</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -26092,7 +26092,53 @@ const GENRE = {
                density: 0.10, intervals: [-3, -4, -5, -7, -12],
                octaves: [-12, 12], answer: 0.85,
                styles: { double: { density: 0.85, octaves: [-12] } } },
-    theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [1, 2] },
+    /* ══ AND THE TUNE WAS THE SPARSEST IN THE FILE, IN TIME ═════════════════
+       [owner, 2026-08-28, on what the peak rule could not reach: "The residue is
+        tunes too thin to shape... Dungeon synth's tune is still under one note a
+        bar."]
+
+       THE TABLE'S UNIT IS THE BAR AND THIS GENRE HAS THE LONGEST BARS IN THE
+       FILE, which is how a value that looks ordinary became the thinnest tune
+       here. Measured, 20 seeds a genre, the tune in TIME rather than in bars:
+
+         genre         tempo    sec/bar   notes/bar   NOTES PER SECOND
+         dungeonsynth  52-78      3.7       2.20          0.60
+         lofi          70-84      3.1       2.15          0.69
+         synthwave     92-132     2.1       3.42          1.59
+         fantasysynth  84-96      2.7       4.36          1.63
+
+       A NOTE EVERY 1.7 SECONDS, and fantasy synth -- this genre's own clone, on
+       the same engine and the same materials -- runs at nearly three times the
+       rate. `count` is per bar, so at 52-78 bpm the same number buys half the
+       music it buys at 92-132.
+
+       AND IT IS WHY THE TUNE HAS NO RANGE EITHER, which is the same defect
+       wearing another face. The sources want "about an octave to an octave-and-
+       a-half" of melodic range [corpus:edmprod ultimate melody guide], and this
+       genre's own practitioners cap it at "no more than about 12 notes apart"
+       [corpus:dungeon-synth.neocities.org]. Measured span: 5.1 semitones, under
+       half an octave. This genre draws the SHARED default move pool -- one scale
+       step at a time, mostly -- and a stepwise phrase of four to six notes
+       physically cannot cover an octave however it is shaped. Range and density
+       are one problem, and the phrase length is it.
+
+       MEASURED AT THREE VALUES before choosing, 20 seeds:
+
+         hooky      span     top struck once
+         [2, 2]     5.1          76%          (what it was)
+         [3, 2]     6.4          62%
+         [4, 2]     7.1          72%
+
+       [4, 2] is four to five notes a bar, which at this tempo is about one note
+       a second -- still sparser than every other genre in the file and still the
+       "sparse or absent" this genre's research asks for, but a phrase with
+       enough notes in it to have a shape. `normal` and `breath` are untouched,
+       so the materials that are not hooky keep the sparser hand they had.
+
+       [CHOSEN]: no source gives a note count for this music. What is sourced is
+       the RANGE this buys, and the comparison that shows the per-bar unit was
+       hiding the problem. */
+    theme: { count: { hooky: [4, 2], breath: [1, 1], normal: [1, 2] },
              /* ══ THE VERSE SAYS ITS FIGURE TWICE ═════════════════════════════
                 [owner, 2026-08-28: "There never is a memorable part that
                  defines a song and this is a program wide issue."]

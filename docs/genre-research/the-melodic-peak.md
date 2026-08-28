@@ -181,3 +181,90 @@ built.
 - [The Secret Language of Melody — CJW Music Hub](https://www.cjwmusichub.com/blog/the-secret-language-of-melody-understanding-melodic-contours) · [A Good Melody: Contour — Compose Create](https://composecreate.com/a-good-melody-contour/) — the arch, and the apex about two thirds in
 - [Melodic Contour — Fiveable](https://fiveable.me/ap-music-theory/key-terms/melodic-contour) · [Melody shape — About Music Theory](https://www.aboutmusictheory.com/melody-shape.html)
 - `docs/genre-research/melodic-math.md` — this project's prior contour work, on the motif rather than the extreme
+
+---
+
+## 7. THE TWO OPEN ITEMS, ANSWERED — 2026-08-28, build `2026-08-28g`
+
+> **The owner, quoting §6 back:** *"The residue is tunes too thin to shape...
+> The apex is still in the wrong place."*
+
+### 7a. THE THINNESS — FIXED, and the per-bar unit was hiding it
+
+The tune measured in **time** rather than in bars, which is the comparison §6
+never made:
+
+```
+  genre         tempo    sec/bar   notes/bar   NOTES PER SECOND
+  dungeonsynth  52-78      3.7       2.20          0.60
+  lofi          70-84      3.1       2.15          0.69
+  synthwave     92-132     2.1       3.42          1.59
+  fantasysynth  84-96      2.7       4.36          1.63
+```
+
+**A note every 1.7 seconds — the sparsest in the file — and fantasy synth, this
+genre's own clone on the same engine, runs at nearly three times the rate.**
+`theme.count` is per BAR and this genre has the longest bars in the file, so a
+value that looks ordinary bought half the music.
+
+**And it was the same defect as the narrow range.** The sources want "about an
+octave to an octave-and-a-half" of melodic range [corpus:edmprod], and the
+genre's own practitioners cap it at "no more than about 12 notes apart"
+[corpus:dungeon-synth.neocities.org]. This genre draws the *shared default* move
+pool — one scale step at a time — and **a stepwise phrase of four to six notes
+physically cannot cover an octave however it is shaped.** Range and density are
+one problem and the phrase length is it.
+
+`count.hooky` `[2,2]` → `[4,2]`, A/B'd at three values first:
+
+```
+  hooky      span     top struck once        after, in time
+  [2, 2]     5.1          76%                notes/bar 2.20 -> 3.51
+  [3, 2]     6.4          62%                notes/sec 0.60 -> 0.95
+  [4, 2]     7.1          72%   <- shipped   span      5.1  -> 7.1
+```
+
+**The tune the owner quoted, ds2 seed 1** — `D#5, E5, E5`, three notes spanning
+two semitones:
+
+```
+  bar 0  |*---*---*---*--.|  B4  C#5  D#5  E5
+  bar 1  |*---*---........|  G#5  G#5          <- the peak, held
+  bar 2  |*---*---*---*--.|  B4  C#5  D#5  E5  <- the hook, verbatim
+  bar 3  |*---*---........|  G#5  G#5
+
+  12 notes, span 9 semitones
+```
+
+A line that climbs to a held high note and says it twice. `normal` and `breath`
+are untouched, so non-hooky materials keep the sparser hand. **[CHOSEN]** — no
+source gives a note count; what is sourced is the range it buys.
+
+### 7b. THE APEX — TRIED, MEASURED, REVERTED, AND §6's NUMBER WAS WRONG
+
+§6 reported the apex at "0.22–0.25 of the phrase". **That was measured per
+MATERIAL, and a hooky material puts its copy after the original, which drags the
+first occurrence of the top toward the front.** Per *phrase* — the unit that is
+written — it was already:
+
+```
+  lofi 0.58    dungeonsynth 0.46    ds2 0.46    synthwave 0.39    fantasysynth 0.37
+```
+
+Against the softer of the two sources — *"typically in the last half"*
+[corpus:pianowithjonny] — lofi passes and the dungeon synths are on the line. The
+"quarter of the way in" claim was an artefact, and this is the **third**
+per-material/per-phrase confusion in this build.
+
+A narrowing was still built and run: in the phrase's first bar, a candidate that
+would set a new running maximum is stepped back down. **Measured, it moved
+dungeon synth 0.46 → 0.47 and fantasy synth 0.37 → 0.39, and cost lofi four
+points of top-struck-once (84% → 80%).** Reverted — the file was diffed back to
+byte-identical before the density change went in.
+
+**What it would actually take**, and why it is not a narrowing: the apex is a
+property of the whole contour, so placing it means shaping the phrase's arc
+before the notes are drawn — a target the phrase aims at — rather than nudging
+one candidate at a time. That is a different mechanism and it wants its own
+build. **Named, not built, and now with the honest baseline: 0.37–0.58, not
+0.22.**
