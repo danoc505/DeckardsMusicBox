@@ -42989,6 +42989,9 @@ function makeArrangement(chart, form, materials){
   /* how many times each MATERIAL has been said so far -- see the rule of three
      at the material chooser below. Carried across the map, like the two above. */
   const saidTimes = {};
+  /* and, per material, the last statement of the group being said and which
+     group that is -- see "how many statements is drawn" at the chooser */
+  const sayLen = {}, sayAt = {};
   let legNow = null;
   const laid = form.map((sec, i) => {
     /* the movement first, the function as the fallback -- the same rule the
@@ -43030,6 +43033,46 @@ function makeArrangement(chart, form, materials){
        were all built upstream; `rng` is not called, so no later draw moves
        [Law 3]. */
     const said = (saidTimes[material] = (saidTimes[material] || 0) + 1);
+    /* ══ AND HOW MANY STATEMENTS IS DRAWN, NOT BAKED ══════════════════════
+       [owner, 2026-08-28, on the first version of this:] "we do NOT bake in
+       values it is anything any combo of likely progressions and ABA is NOT
+       even EVER a whole song!"
+
+       He is right on both counts and the first was a plain regression. Written
+       as `said % 3 === 0`, this was a METRONOME: every group in every record
+       came out exactly two-then-a-variation, forever. Printed, fantasy synth
+       seed 1:
+
+         A A Avar  A A Adev  C C Cvar  C C Cdev  B B Bdev  B B Bdev  B B Bvar
+
+       That is more formulaic than what it replaced, and "the songs are always
+       too safe and formulaic" is where this whole run of work started. A rule
+       of three enforced by arithmetic is not the rule of three; the source
+       itself says so -- "this rule is a GUIDELINE, one that you can break, but
+       if you don't know it then you may be breaking it unintentionally"
+       [doc 006]. Unintentionally is the part that was wrong, not variety.
+
+       So the group length is DRAWN, per group, from a pool the genre owns, and
+       the pool's weights are where the rule lives: mostly two statements then a
+       departure, sometimes three, because doc 006 says "repeating something
+       beyond three times is generally speaking overusing that idea, and
+       actually using it more than two times is overusing it." Two is the
+       middle of that sentence and three is its edge.
+
+       ITS OWN SUBSTREAM, keyed on the material and the group index, so no other
+       draw in the file moves [Law 3/7] and two records that both said A three
+       times still depart differently. */
+    const SAY = F.sayTimes || [[2, 5], [3, 3]];
+    if(sayLen[material] == null || said > sayLen[material]){
+      /* a new group begins: draw how long THIS one runs before it turns */
+      sayAt[material] = (sayAt[material] || 0) + 1;
+      /* the drawn number is HOW MANY PLAIN STATEMENTS the group gets, so the
+         one that turns is the next one after them. Written first without the
+         `+ 1` and printed: `A Adev A A Avar` -- the tune stated ONCE and varied
+         on the second, which is the defect this whole rule exists to stop. */
+      sayLen[material] = said + wpick(
+        stream(chart.seed, "say:" + material + ":" + sayAt[material]), SAY);
+    }
     /* ⚠ AND IT IS EVERY THIRD, NOT EVERYTHING FROM THE THIRD ON. Written first
        as `said >= 3` and MEASURED: the opening tune was then stated exactly
        2.0 times a record and RETURNED IN 0% OF SONGS, because once the counter
@@ -43054,7 +43097,7 @@ function makeArrangement(chart, form, materials){
        one material they are the same number -- so the OR added nothing but the
        leak. `sec.demand` is not computed at all any more -- with this site no
        longer consulting it, nothing did, and both producers were removed. */
-    if(said % (F.varyAt || 3) === 0){
+    if(said === sayLen[material]){
       /* THE ANSWER IS A RE-PRESENTATION, NEVER A DELETION. `stripHalf` used to
          answer for the chorus -- take notes out -- which is the one move
          motivic development never makes, and measured it left the third chorus
