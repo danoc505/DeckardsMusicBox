@@ -150,9 +150,28 @@ unconditionally. The single exception is ds2's `deeper`, where a lead+keys2
 20** ds2 records (seeds 2, 7, 12, 13, 14, 19, 20). The file had asked for that
 rate to be "reported rather than assumed" and nobody had ever reported it.
 
-**Still open from this phase:** lofi seed 1 did not move (4 → 4). Its legs are
-two sections long and the record is 49 bars; not yet diagnosed, not claimed to be
-understood.
+**⚠ AND THE TABLE ABOVE UNDERSTATES IT, BECAUSE THE MEASUREMENT WAS WRONG FOR
+SHORT RECORDS.** It counts featured bars outside a fixed 16-bar margin at each
+end — sized for a 156-bar dungeon synth record. On a **49-bar lofi** record that
+throws away 32 of 49 bars, including the whole final chorus. lofi seed 1 was
+reported as "did not move", and reading the section table shows it plainly did:
+its peak chorus went from `drums bass keys keys2 lead` to `drums lead keys2`.
+
+Re-measured with a **proportional** window (skip the first and last 10%):
+
+```
+  lofi-1           8 ->  16          dungeonsynth-1   28 ->  52
+  lofi-7          12 ->  20          dungeonsynth-7   34 ->  53
+  synthwave-1      0 ->  26          fantasysynth-1  163 -> 209
+  synthwave-7      1 ->  29          fantasysynth-7  210 -> 224
+  ds2-1           28 ->  69          ds2-7            34 ->  75
+```
+
+**Every record improved, lofi seed 1 doubled, and nothing was open.** Third time
+this session that "suspect the measurement first" was the right call — the other
+two were groove offsets counted as note content, and a `sed` line range that
+reported the second keyboard missing from 20 of 20 records when it was present in
+13.
 
 ---
 
