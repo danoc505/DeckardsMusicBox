@@ -259,18 +259,13 @@ it is not evidence that any work was done.
 
 ## 6. WHAT THIS DOES NOT FIX
 
-**The counter is still four quarter notes.** From the same printout, every bar
-of dungeon synth seed 1:
-
-```
-  ostinato counter  |*---*---*---*---|   C#5@0:4  G#4@4:4  C#5@8:4  G#4@12:4
-```
-
-The owner: *"What is a counter and why does it always look the same?"* The lead
-now leaves the silence it needs — `gapAfter` mean 1.00 → 1.29 steps, zero on
-79% → 57% — and the counter still lands on a lead onset **80% of the time on
-dungeon synth against a declared `answer: 0.85`.** That is the second half of
-the instruction and it is next.
+**The counter — DONE NEXT, in `the-counter-and-the-figure.md`.** The line I
+pointed at here as "the counter" was the **ostinato** (the rig prints
+`ostinato=counter`), and the `answer: 0.85` I measured against is a field this
+file states is never read for these genres. Both errors are recorded in §1 of
+that sheet. What the lead's rhythm bought is real and is what made the fix
+possible: `gapAfter` mean 1.00 → 1.29 steps, zero on 79% → 57%, which is the
+silence a second voice answers into.
 
 **The bass is still a drone** in dungeon synth — `C#2@0:18>` held across bars.
 Named before, still open.

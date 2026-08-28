@@ -25071,10 +25071,16 @@ const GENRE = {
        octave -- which is what a hardware arp in UP mode plays. */
     ostinato: {
       unit: 1, vel: 0.34, run: false, follow: true, ratchet: 0,
+      /* THE GATE. Same finding as the dungeon family above -- one bar-pattern
+         over 768 bars, here all sixteen sixteenths -- and the same fix, in the
+         idiom this genre actually has one for: a gated arp. A rest in the cell
+         is the gate closing, and at `unit: 1` a cell whose length does not
+         divide sixteen moves it around the bar. The UP cell keeps its four
+         notes and gains a fifth slot that is silent; the others gain one each. */
       cells: [
-        [[0, 2, 4, 7], 5],           // UP -- the default on every hardware arp
-        [[0, 2, 4, 7, 4, 2], 3],     // UP/DOWN
-        [[7, 4, 2, 0], 2],           // DOWN
+        [[0, 2, 4, 7, null], 5],     // UP -- the default on every hardware arp, gated
+        [[0, 2, 4, 7, null, 4, 2], 3], // UP/DOWN
+        [[7, 4, null, 2, 0], 2],     // DOWN
       ],
     },
 
@@ -26516,9 +26522,75 @@ const GENRE = {
        `follow` on, so it does not restart at the bar and it reads the chord:
        this is the Berlin-School sequencer door, used here for the layered
        ostinato the genre is built from. */
-    ostinato: { unit: 4, vel: 0.34, run: true, follow: true, ratchet: 0,
-                cells: [[[0, 4, 7, 4, 2, 4], 5], [[0, 2, 4, 7, 4, 2], 3],
-                        [[0, 4, 2, 7], 2]] },
+    /* ── THE FIGURE HAS A RHYTHM, AND UNTIL NOW IT HAD A PULSE ────────────
+       MEASURED, 32 seeds, every bar this part plays in three genres:
+
+         dungeonsynth / ds2   ONE distinct bar-pattern over 768 bars: [0,4,8,12]
+         fantasysynth         [0,4,8,12] in 76% of them
+         synthwave            ONE pattern over 768: all sixteen sixteenths
+
+       [owner: "What is a counter and why does it always look the same?"]
+
+       ⚠ AND THE ROW HE IS READING IS THIS ONE. The rig prints
+       `ostinato=counter` -- the ostinato's INSTRUMENT is named "counter" -- so
+       the line on the printout that says `ostinato counter |*---*---*---*---|`
+       every bar for ten minutes is the ostinato, not `deriveCounter`'s part.
+       I answered the question about the wrong lane, twice, and the owner said
+       so: "I think you're bullshitting about what the counter looks like."
+
+       `unit: 4` puts a note on every fourth sixteenth and the cells hold
+       PITCHES, so this part had no rhythm to repeat -- four even notes is a
+       pulse, not a figure.
+
+       WHAT A FIGURE IS, from the two canonical ones:
+
+         MARS  the ostinato is "five even pulses followed by a SHORT REST",
+               and it "never stops -- it runs underneath almost the entire
+               movement like an engine". [corpus:professorcarol,
+               corpus:calstate/Holst analysis] The REST is the figure.
+
+         CARMINA BURANA  "while the time signature is clearly 3, the
+               accompanying figure in the orchestra is really in 2... the
+               effect of a HEMIOLA over every two bars."
+               [corpus:ryanbrandau, corpus:indianapolissymphony]
+
+       And the definition allows both: an ostinato is "any short, perpetually
+       repeating RHYTHMIC, chordal, or melodic pattern"
+       [corpus:britannica/ostinato].
+
+       BOTH MECHANISMS WERE ALREADY IN THIS BUILDER and neither reached this
+       genre. `null` in a cell is a rest -- built for the banjo, on the owner's
+       own words, "THE GAP IMPLIES THE RHYTHM AT TIMES. But it's a chain of
+       notes" -- and `run: true` lets the cell index cross the bar line. So a
+       cell whose LENGTH does not divide the slots in a bar puts its rest
+       somewhere new every bar and comes back round on its own cycle -- 9 slots
+       against 8 realigns every 9 bars, 7 against 8 every 7. That is Mars's rest and
+       Carmina's displacement out of two fields that already existed.
+
+       ⚠ AND THE GRID HAD TO MOVE WITH IT, which the first version of this fix
+       missed. At unit 4 the figure can only ever strike a quarter note, so
+       the most a rest can do is silence one of four -- 5 bar-patterns, and it
+       THINNED the part (16.0 notes a material down to 13.3) because the only
+       thing a rest could remove was a whole beat. A/B'd on the printout and on
+       the numbers:
+
+                       bar-patterns   notes/material   landing on a lead onset
+         unit 4, no rests (before)        1                16.0        57%
+         unit 4, rests                    5                13.3        40%
+         unit 2, rests  <- shipped        7                20.8        30%
+
+       At an eighth-note grid the rest is a rest INSIDE the figure rather than
+       a missing beat, so the part gets denser and more varied at once, and it
+       stops shadowing the tune. Printed, seed 1:
+
+         bar 0 |*-..*-*-..*-*-..|   bar 1 |*-*-..*-*-..*-*-|
+         bar 2 |..*-*-..*-*-..*-|   bar 3 |*-..*-*-..*-*-..|
+
+       An engine with a limp in it, moving. ── */
+    ostinato: { unit: 2, vel: 0.34, run: true, follow: true, ratchet: 0,
+                cells: [[[0, null, 4, 7, null, 4, 2, null, 4], 5],   // 9 slots against 8
+                        [[0, 2, null, 4, 7, null, 4, 2, null], 3],   // 9 slots, rests moved
+                        [[0, null, 4, null, 2, 7, null], 2]] },      // 7 against 8
     /* THE HALL. "long reverbs and modest delay to suggest halls and caverns;
        avoid overly bright transients" [corpus:melodigging], and a practitioner
        puts "a single reverb... in a bus channel with sends from all
@@ -40109,16 +40181,31 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          silence that follows it. `at` and `dur` are decided here and used below
          in the one place the note is written. */
       let at = n.step, dur = n.dur;
-      if(ANSWER){
-        /* the whole bar's worth moves together, into that bar's silence, with
-           the call's spacing kept. Where the bar gives it nowhere to go the
-           note stays on the tune's onset, which is the `line` answer and is
-           honest about the bar rather than dropping the note. */
-        const a = answerAt(n);
-        if(a != null){
-          at = a;
-          dur = Math.max(1, Math.min(n.dur || 1, 16 - at));
-        }
+      /* the whole bar's worth moves together, into that bar's silence, with
+         the call's spacing kept. */
+      const a = ANSWER ? answerAt(n) : null;
+      if(a != null){
+        at = a;
+        dur = Math.max(1, Math.min(n.dur || 1, 16 - at));
+      /* ── AND WHERE THE BAR HAS NO ROOM FOR A PHRASE, IT STILL STEPS OFF ────
+         MEASURED, 32 seeds, instrumented at the placement rather than inferred
+         from the output: of the notes an `answer`-style counter writes, 61%
+         are moved into the tune's silence and **39% are refused because the
+         bar's largest silence is under two steps** -- and a refused note used
+         to fall through to nothing at all and sound exactly on the tune's
+         onset. Not a step behind it. On it.
+
+         That is the case the branch below already describes in its own words --
+         "PREFER the silence, but do not REQUIRE it... a dense tune leaves no
+         silence to answer into" -- so it is the case it should handle, and
+         until now `if(ANSWER)` swallowed it. Chained instead of exclusive, and
+         `answer`, the tuned number the table kept for exactly this and which
+         no style could reach, is live again.
+
+         Both draws still run for every note whatever the outcome [Law 3/7];
+         only which branch reads them changes. A genre whose style is `line`
+         computes what it always computed -- `a` is null there by
+         construction. ── */
       } else if(style !== "double" && ansDraw < (CT.answer || 0)){
         /* PREFER the silence, but do not REQUIRE it. Measured with the gap as a
            precondition: one genre moved 5.6% of its notes and vgm 11.4%, because a
