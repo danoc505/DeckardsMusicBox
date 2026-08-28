@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-27a &middot; the erhu, synthesised &mdash; a bow, no fingerboard, and a slide that travels</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-28a &middot; somebody is in front &mdash; every genre now has solos, duels and a band</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22951,6 +22951,27 @@ const GENRE = {
         { name: "answer",    pool: ["bridge", "verse", "chorus"],       bars: [8, 2, 8],
           endOn: "chorus" },
       ],
+      /* ══ AND SOMEBODY IS IN FRONT ═══════════════════════════════════════════
+         MEASURED off the printout before this, seeds 1 and 7: this genre thins
+         to one or two parts in 4 and 8 bars of a record -- better than the two
+         that measure zero, and still nothing anybody would call a solo. Every
+         other bar runs two to four parts and the shape is flat.
+
+         THE LEGS ARE SHORT AND SO IS THE ROTATION. A whole lofi record is 49 to
+         52 bars and eight or nine sections, which is two or three a leg, so two
+         entries walk the shape and a third would rarely be reached.
+
+         AND THE FRONT LINE IS WHAT THIS GENRE HAS, which is not much: no
+         ostinato, no counter, and `keys2` only in the chorus. So it is the comp,
+         the tune and the bass -- and the comp leads, because in this music the
+         chord IS the record and the tune is the guest. The `instrumental` has no
+         lead in its own role list, so a leg pooling it is already a comp
+         passage; the feature says so out loud rather than by omission. */
+      feature: {
+        establish: [null, { solo: "keys" }],
+        twopart:   [{ duel: ["lead", "keys"] }, null],
+        answer:    [null, { solo: "lead" }],
+      },
       transitions: {
         verse:        [["chorus", 8], ["verse", 1], ["bridge", 1]],
         chorus:       [["verse", 5], ["chorus", 2], ["bridge", 3], ["instrumental", 2]],
@@ -24485,6 +24506,37 @@ const GENRE = {
         { name: "rise2",  pool: ["verse", "instrumental"],          bars: [16, 2, 8], endOn: "prechorus" },
         { name: "climax", pool: ["chorus", "postchorus"],           bars: [16, 2, 8], endOn: "chorus" },
       ],
+      /* ══ AND SOMEBODY IS IN FRONT ═══════════════════════════════════════════
+         THIS GENRE HAS THE WORST MEASUREMENT IN THE FILE and it is why the
+         declaration is here as well as on the dungeon synths. Off the printout,
+         seeds 1 and 7: **0 and 1 bars** in a whole record carry fewer than three
+         pitched parts. Not "rarely thins" -- 71 of 112 bars run four parts and
+         28 run five, start to finish. Every part plays in almost every bar of
+         every section: keys 112 bars of 112, ostinato 111, bass 100, lead 95.
+         That is the mash the mechanism was built for, in its purest form.
+
+         FIVE LEGS, THREE SECTIONS EACH at 17-18 sections a record, so three
+         entries a rotation.
+
+         `postchorus` HAS NO LEAD in its role list, so an entry naming the lead
+         degrades to whatever else it names -- the mechanism drops a front-line
+         part that is not in `active` and keeps the section as a band if nothing
+         is left. In `climax`, which pools chorus and postchorus, that is the
+         intended behaviour rather than a hole: the tune fronts the chorus and
+         the arp takes the postchorus, which is what a postchorus IS here ("the
+         hook still ringing" with the voice gone, per this genre's own comment).
+
+         AND `strip` GETS THE ONLY DUEL WITHOUT THE LEAD IN IT. The leg is named
+         for subtraction and its own note says the kit steps out and the arp
+         carries the pulse; a bass-and-arp trade is that idea with somebody
+         actually in front of it. */
+      feature: {
+        rise:   [null, { solo: "ostinato" }, null],
+        hook:   [null, { solo: "lead" }, null],
+        strip:  [{ duel: ["bass", "ostinato"] }, null, { solo: "keys" }],
+        rise2:  [null, { duel: ["lead", "ostinato"] }, null],
+        climax: [null, { duel: ["lead", "ostinato"] }, null],
+      },
       /* the weights are the measured ones where a measurement exists:
          verse->prechorus 18%, prechorus->chorus 88%, postchorus->verse 53%.
          [corpus:harvest_structure, Harmonix 428 sections] */
@@ -27644,6 +27696,64 @@ const GENRE = {
          about five, which is the 4-6 the ten measured records run at. */
       rest: { counter: 0.34, keys2: 0.26, lead: 0.20, ostinato: 0.14,
               drums: 0.09, keys: 0.07, bass: 0.04 },
+      /* ══ AND SOMEBODY IS IN FRONT ═══════════════════════════════════════════
+         [owner, 2026-08-28: "There never is a memorable part that defines a
+          song and this is a program wide issue... there never is a pure solo or
+          something out of the box interesting and different."]
+
+         MEASURED before this, off the printout, four records of this genre and
+         its clone at seeds 1 and 7: the band NEVER thins on purpose. Zero bars
+         of total silence. The lead is never unaccompanied anywhere except the
+         first and last sixteen bars, and in seed 7 it is never unaccompanied at
+         all. The line-up churns constantly instead -- someone enters or leaves
+         every 1.8 to 2.5 bars, 88 and 59 changes in a record -- which is motion
+         without shape: nothing is ever withheld long enough for its return to
+         be an event.
+
+         `form.feature` is the mechanism for exactly this and it has NEVER RUN.
+         It was built at `d930d6c` for the owner's own words -- "no solos, no
+         duels, just a mash of colliding noise" -- and the only genre that ever
+         declared it was `doomsludge`, which has since been deleted. So the
+         mechanism, its leg guard, its rescue rule and its three-in-a-row check
+         have all been sitting in this file unreachable. This is the declaration
+         that reaches them.
+
+         THE ROTATION IS AS LONG AS THE LEG, AND THAT IS THE WHOLE SIZING RULE.
+         Doomsludge declared six to ten entries because ITS legs ran six to ten
+         sections. This genre's `plan` below asks for a minimum of two sections
+         a leg and measures at two, two, three, three on seed 1 -- so a
+         six-entry rotation here would be four entries of dead config, and the
+         mechanism's own history says what that costs: "a leg of one section
+         walks nothing. It stops on frame one", and the fight was a keys solo in
+         every short record because of it. Two or three entries, never more.
+
+         EVERY LEG HAS A `null`. The mechanism's own comment: "a record where
+         every section is a solo is as flat as one where none is."
+
+         WHY EACH LEG IS THE ONE IT IS:
+           descend  the genre's own thesis is already written above -- "the
+                    record opens on ONE KEYBOARD ALONE nearly every time" -- so
+                    the descent states that and then opens out.
+           halls    the tune and the figure trade. A duel is two parts and they
+                    swap every two bars, which is the call-and-response this leg
+                    has always described and never done.
+           deeper   the climax opens as a band and puts the tune in front of it.
+                    Not the other way round: the arrival is the band, and the
+                    solo is what it arrives AT.
+           return   the figure alone walks home, the band answers, and the
+                    keyboard closes -- `thinTo` then strips the last section
+                    further, which is the ending and outranks this.
+
+         `counter` IS NAMED NOWHERE HERE, deliberately. It is reachable in only
+         one section function per leg (intro, instrumental, chorus) and it is
+         built as a shadow of the lead, so a leg that features it is a leg
+         featuring the lead's own reflection. [CHOSEN] */
+      feature: {
+        descend: [{ solo: "keys" }, null],
+        halls:   [{ duel: ["lead", "ostinato"] }, null],
+        deeper:  [null, { solo: "lead" }, null],
+        return:  [{ solo: "ostinato" }, null, { solo: "keys" }],
+      },
       /* ── AND TWO PARTS TAKE EIGHT BARS TO COME ROUND ─────────────────────
          "We're going to make the choir part twice as long as the harp part"
          [Frances, BandLab dungeon synth tutorial]. The tune and the second
@@ -27971,6 +28081,71 @@ GENRE.fantasysynth = (function(D){
        built for, spread thin across the record. Smaller, and on everything. */
     extend: { chance: 0.22, bars: [4, 8], fn: ["verse", "bridge", "chorus",
                                                "instrumental"] },
+    /* ══ AND SOMEBODY IS IN FRONT ═══════════════════════════════════════════
+       Declared outright rather than merged, so the parent's four leg names go
+       with it: `form` is assigned shallow here, and dungeon synth's rotation is
+       keyed on `descend`/`halls`/`deeper`/`return`, none of which this genre's
+       movements are called. Inheriting them would carry four entries that can
+       never match a section, which is dead config by this file's own rule.
+
+       THE ROTATIONS ARE LONG HERE BECAUSE THE LEGS ARE. This genre measures 28
+       sections over four movements at seed 1 -- six or seven a leg against
+       dungeon synth's two or three -- so six entries walk the shape rather than
+       stopping on frame one. That sizing is the whole difference between this
+       table and its parent's, and it is the mechanism's own hard-won lesson.
+
+       AND EACH LEG'S FRONT LINE IS DRAWN FROM WHAT THAT LEG ACTUALLY HAS. The
+       role lists above are per-movement here, which no other genre's are, so a
+       feature can be checked against them exactly:
+
+         setting out       has everything; the keyboards lead and the tune joins
+         into the deep     has NO keys and NO ostinato -- so this leg's front
+                           line can only be bass and lead
+         the fight         has everything
+         the long way home has ONLY keys, lead and drone -- no drums, so here
+                           the ground IS the drone, and a solo is one line over
+                           a held note, which is what "the motif fades off into
+                           the atmosphere" was always describing
+
+       ⚠ AND `keys2` AND `counter` ARE NOT FRONT-LINE PARTS ANYWHERE, WHICH IS A
+       CORRECTION TO MY OWN FIRST DRAFT AND THE ONLY REGRESSION THIS BUILD
+       CAUSED. The first version featured both. It put a 16-BAR HOLE in seed 7's
+       bridge at bar 180: the section announced `drums drone keys2`, the feature
+       dropped the bass to put the second keyboard in front, and THE SECOND
+       KEYBOARD HAD NO NOTES -- so sixteen bars ran as a drum part under a
+       ringing drone. Measured: the longest run of bars with no pitched part went
+       8 -> 16 on that record, and that bridge went from `heard=[bass]` to
+       `heard=[]`.
+
+       THE CAUSE IS NOT THIS TABLE, and that is why the fix is a rule rather than
+       a patch. `keys2` is built by `tryPad`, which returns an EMPTY ARRAY when no
+       register band clears the parts already placed -- documented one screen up
+       as the right degradation ("if it still does not fit, there is no second
+       keyboard"). `counter` can come back empty the same way. Both are still in
+       `form.roles`, so both are in `active`, so a feature can hand the section to
+       a part that has nothing to play. Nothing downstream knows the difference
+       between a role that is present and a role that has notes.
+
+       MEASURED, ds2, 20 seeds: THE SECOND KEYBOARD IS ABSENT ON 7 OF THEM
+       (2, 7, 12, 13, 14, 19, 20) -- a 13/20 fit rate that this file asked for
+       ("Measured fit rate is reported rather than assumed") and that nobody had
+       ever reported. So a front line naming it is a hole one record in three.
+
+       The front line here is therefore drawn only from parts that are built
+       unconditionally: lead, bass, keys, ostinato. Verified across ten records
+       before and after -- the only roles that ever announce and stay silent are
+       keys2 and counter, never these four. Closing the pad's fit rate is Phase 4
+       of docs/NEXT-BUILD-THE-PART-YOU-REMEMBER.md; until it closes, a solo is
+       not built on a part that may not exist. */
+    feature: {
+      "setting out":       [null, { solo: "keys" }, null,
+                            { duel: ["lead", "ostinato"] }, null, { solo: "ostinato" }],
+      "into the deep":     [null, { duel: ["bass", "lead"] }, null,
+                            { solo: "lead" }, null, { solo: "bass" }],
+      "the fight":         [null, { duel: ["keys", "lead"] }, null,
+                            { solo: "ostinato" }, { duel: ["ostinato", "bass"] }, null],
+      "the long way home": [null, { solo: "lead" }, null, { solo: "keys" }],
+    },
     /* ══ EACH LEG IS ITS OWN MICROGENRE ══════════════════════════════════════
        [owner, 2026-08-20: "the last section is Modal ambient dungeon synth
        (why not have the motif fade off into the atmosphere?), the first section
@@ -29879,6 +30054,58 @@ GENRE.ds2 = (function(D){
     tempoArc: { by: { descend: [0.84, 0.80], halls: [0.92, 0.96],
                       deeper:  [1.42, 1.58], return: [0.90, 0.84] },
                 ease: "cos" },
+
+    /* ── 7. AND THE CLIMAX IS THE ONE LEG THAT IS NOT THE PARENT'S ──────────
+       MEASURED, and this is the finding that made this override necessary:
+       `ds2` and `dungeonsynth` at seed 1 are the SAME ARRANGEMENT. Identical
+       section grid, identical line-up changes (88 over 156 bars), identical
+       pitched-parts-per-bar distribution, identical bar counts on every lane.
+       The two records differ by 1,370 printed lines -- the tempo really does go
+       54-100-55 against a flat 66, the kick really does run sixteenths, the
+       fuzz really does open to 0.68 -- but NOT ONE of this genre's four changes
+       touches WHO PLAYS WHEN. The metal is in the tempo, the feet and the FX,
+       and the arrangement underneath it is untouched dungeon synth. That is why
+       the climax has never landed as a climax.
+
+       So the parent's rotation is inherited for three legs and `deeper` is
+       replaced. The parent opens that leg as a band and puts the tune in front;
+       this one does the opposite thing on purpose, because this leg has a wall
+       behind it that the parent's does not:
+
+         { duel: ["lead", "keys2"] }   the two keyboards TRADE, two bars each,
+                                       over the double kick -- the second
+                                       keyboard treated as the other guitar,
+                                       which is the owner's own framing and is
+                                       Summoning's documented method: Protector
+                                       "composed cool guitar riffs on the
+                                       keyboard" [ds2-metal-in-dungeon-synth.md
+                                       §2a]
+         null                          the whole band, at the top of the arc
+         { solo: "lead" }              and one line left over the wall
+
+       ⚠ THIS IS THE ONE PLACE `keys2` IS FRONT-LINE, AND IT IS SAFE ONLY
+       BECAUSE THE LEAD IS BESIDE IT. Fantasy synth's table one genre up records
+       the rule and the 16-bar hole that produced it: `tryPad` returns an EMPTY
+       ARRAY when the second keyboard finds no register, the role stays in
+       `active` regardless, and a feature can therefore hand a section to a part
+       with nothing to play. MEASURED, this genre, 20 seeds: NO SECOND KEYBOARD
+       AT ALL on 7 of them -- seeds 2, 7, 12, 13, 14, 19, 20, a 13/20 fit rate
+       this file asked to have reported and nobody had reported.
+
+       A DUEL CANNOT LEAVE A HOLE THE WAY A SOLO CAN, which is the whole reason
+       this one stays. `lead` is built unconditionally, so on the 7 records in 20
+       where the pad is missing this degrades to a lead solo over the double kick
+       -- thinner than intended, never silent. A `{ solo: "keys2" }` here would
+       be a hole on those same records, and there is not one anywhere in the
+       file.
+
+       So the owner's second keyboard IS the other guitar in this leg, on the two
+       records in three where it exists. Making that three in three is Phase 4 of
+       docs/NEXT-BUILD-THE-PART-YOU-REMEMBER.md, and the fit rate above is the
+       number that says the work is needed rather than a fallback that hides it. */
+    feature: merge(D.form.feature, {
+      deeper: [{ duel: ["lead", "keys2"] }, null, { solo: "lead" }],
+    }),
   }),
 
   /* ── 2. THE DOUBLE KICK, IN THE CLIMAX AND NOWHERE ELSE ─────────────────

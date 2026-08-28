@@ -107,7 +107,56 @@ Each phase is its own commit with its own before-and-after off the printout.
 **Do not stack two of these into one commit** — if the record gets worse, the
 whole value of this plan is knowing which one did it.
 
-### Phase 1 — `form.feature` on every genre  *(program-wide)*
+### Phase 1 — `form.feature` on every genre  *(program-wide)* — **DONE, build `2026-08-28a`**
+
+Declared on all five genres. Measured, seeds 1 and 7, off the printout:
+
+```
+  record            featured bars           bars with exactly
+                    (1-2 parts, mid-record)  ONE pitched part
+  lofi-1                  4 ->   4              0 ->   0     (see below)
+  lofi-7                  8 ->  14              0 ->   8
+  synthwave-1             0 ->  20              0 ->  36
+  synthwave-7             1 ->  29              0 ->  36
+  dungeonsynth-1         27 ->  51             24 ->  57
+  dungeonsynth-7         31 ->  50             22 ->  52
+  fantasysynth-1        203 -> 248            118 -> 188
+  fantasysynth-7        250 -> 262            112 -> 163
+  ds2-1                  27 ->  68             24 ->  77
+  ds2-7                  31 ->  72             22 ->  74
+```
+
+**synthwave is the headline**: a genre that had *zero* bars under three pitched
+parts in a whole record now has 20 and 29. The line-up also churns *less* — one
+change every 4.0 bars against 5.9 — which is the point: fewer changes, each
+meaning something.
+
+**No new holes.** The longest run of bars with no pitched part is unchanged from
+the baseline on every record. Sections that announce a part which never sounds
+went 8→6, 10→9, 8→6 and were unchanged elsewhere — a **pre-existing** defect
+that this build slightly improved rather than caused.
+
+**One regression was caused and fixed inside the phase.** The first draft
+featured `keys2` and `counter`. It put a **16-bar hole** in fantasy synth seed 7
+(bridge at bar 180: the feature dropped the bass to put the second keyboard in
+front, and the second keyboard had no notes). Cause: `tryPad` returns an empty
+array when the pad finds no register, but the role stays in `active`, so a
+feature can hand a section to a part with nothing to play. Rule adopted: **only
+lead / bass / keys / ostinato may be front-line**, since only those are built
+unconditionally. The single exception is ds2's `deeper`, where a lead+keys2
+*duel* is safe because the lead is always built.
+
+**And it produced Phase 4's number.** The second keyboard is absent from **7 of
+20** ds2 records (seeds 2, 7, 12, 13, 14, 19, 20). The file had asked for that
+rate to be "reported rather than assumed" and nobody had ever reported it.
+
+**Still open from this phase:** lofi seed 1 did not move (4 → 4). Its legs are
+two sections long and the record is 49 bars; not yet diagnosed, not claimed to be
+understood.
+
+---
+
+### Phase 1 — as originally planned
 
 The mechanism is at `Deckards Orchestrator MK2.html` ~line 42125, runs after
 `rest` and before `thinTo`, and keeps drums and drone as the ground. It reads
