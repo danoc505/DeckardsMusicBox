@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-28d &middot; the second keyboard exists now &mdash; a rack that refused its own machines</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-28e &middot; one highest note, one lowest &mdash; the phrase gets a climax</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -37908,6 +37908,93 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              clash(b, steps[i], intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI)))
             move = move > 0 ? 1 : -1;
           let cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI);
+          /* ══ THE PHRASE HAS ONE HIGHEST NOTE AND ONE LOWEST ══════════════════
+             [owner, 2026-08-28: "There never is a memorable part that defines a
+              song... they never go to an extreme."]
+
+             The rule comes from the genre's own practitioners rather than from
+             theory: "pick a low note and a high note no more than about 12 notes
+             apart... THE HIGH NOTE SHOULD ONLY BE HIT ONE TIME. Same for the low
+             note." [corpus:dungeon-synth.neocities.org/music-making-guide] And
+             the theory says why it matters: a melody "often has a single, clear
+             climax", the contour "builds towards this climax, reaches it, and
+             then recedes", and a phrase that hammers its own ceiling has no
+             climax to arrive at [corpus:musictheoryauthority, corpus:cjwmusichub].
+
+             MEASURED BEFORE THIS, 16 seeds a genre, materials A/B/C, the lead:
+
+               genre         tunes whose top note is struck ONCE   mean strikes
+               lofi                      63%                          1.46
+               synthwave                 38%                          2.40
+               dungeonsynth              22%                          2.26
+               fantasysynth              22%                          3.07
+               ds2                       22%                          2.26
+
+             Four tunes in five had no single high point. The span was never the
+             problem -- 5.0 to 6.8 semitones against the source's "no more than
+             about 12" -- so this is about how often the ceiling is touched, not
+             how high it is.
+
+             IT IS A NARROWING ON THE NEXT CHOICE, NOT A REPAIR, which is this
+             file's first law. The candidate is nudged one scale step off the
+             ceiling BEFORE the melody targets, the seat walk, the arrival law
+             and the hang resolution all run -- so every existing rule still
+             validates the note that actually gets written, and this one never
+             overrides them.
+
+             AND IT CANNOT BE UNSATISFIABLE, which is why it is a preference and
+             not a filter. If the step off the ceiling does not fit, the original
+             candidate stands: "a constraint that can be unsatisfiable must be a
+             cost", and this file has made that mistake three times.
+
+             THE UNIT IS THE PHRASE, NOT THE MATERIAL, and that is what makes it
+             compose with the hook. `phrase()` writes two bars from `ph0`, and a
+             hooky material copies those two bars verbatim -- so the ceiling is
+             struck once per STATEMENT and twice per material, which is what a
+             hook is. Measuring the material would have reported this rule
+             failing on exactly the genres where the hook is working.
+
+             NO DRAW IS SPENT HERE. `rng()` is not called, so no later draw
+             moves and the change is confined to the pitch it adjusts [Law 3]. */
+          if(!hang && notes.length > ph0){
+            let phHi = -Infinity, phLo = Infinity;
+            for(let q = ph0; q < notes.length; q++){
+              if(notes[q].pitch > phHi) phHi = notes[q].pitch;
+              if(notes[q].pitch < phLo) phLo = notes[q].pitch;
+            }
+            /* only the RUNNING extreme is protected. A candidate may still go
+               ABOVE it -- that is the climax moving, and the old ceiling stops
+               being the ceiling -- so the phrase ends with exactly one of each
+               rather than with a flat top it was forbidden to leave. */
+            const off = cand === phHi ? -1 : cand === phLo ? 1 : 0;
+            if(off){
+              /* ── AND IT TRIES FOUR WAYS OUT, NOT ONE ────────────────────────
+                 MEASURED with one: the candidate sat on the running extreme 68
+                 to 184 times per sixteen seeds and the single step off it
+                 succeeded only about 43% of those, so most duplicates were
+                 written anyway and the phrase-level rate barely moved. The
+                 failures were the whole result.
+
+                 The four are the same shape `NOREPEAT` uses one screen down --
+                 "a step each way first, then a third, which is the smallest
+                 interval that is unmistakably a move" -- and the direction that
+                 goes FURTHER OUT is offered first on purpose. Stepping up from
+                 the ceiling does not break the rule, it MOVES the climax: the
+                 new pitch is the phrase's only highest note and the old one is
+                 no longer an extreme at all. That is the arch the sources
+                 describe, "builds towards this climax, reaches it, and then
+                 recedes", rather than a tune kept away from its own top. */
+              for(const d of [-off, off, -2 * off, 2 * off]){
+                const t = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), cand, d), LO, HI);
+                if(t === cand || t === phHi || t === phLo) continue;
+                if(!fits(b, steps[i], t)) continue;
+                /* a resolution steps, and this may not turn one into a leap --
+                   the same guard the repeat rule applies to its own list */
+                if(hang && Math.abs(t - m) > 2) continue;
+                cand = t; break;
+              }
+            }
+          }
           /* ── MELODY TARGETS [corpus:sax-material.md: strong beats 84.1%
              stable, held notes 85.8% stable, in two corpora]. A horn line puts
              chord tones on the strong beats and under the long notes; the

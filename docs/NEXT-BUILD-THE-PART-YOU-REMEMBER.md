@@ -383,7 +383,43 @@ through the Big Muff, trading with the tune under the double kick.
 **Verify:** `keys2` bar count per record across 8 seeds — today 0 to 71 out of
 ~150. And read the climax bars in the printout to see the figure repeat.
 
-### Phase 5 — the melodic peak  *(program-wide, the one new mechanism)*
+### Phase 5 — the melodic peak — **DONE, build `2026-08-28e`**
+
+Research: `docs/genre-research/the-melodic-peak.md`. The only new engine code in
+this plan, and it is a narrowing on the next choice, never a repair.
+
+**Measured per two-bar phrase, which is the unit `phrase()` writes:**
+
+```
+                     top struck once         bottom struck once
+  genre         before  after    Δ       before  after    Δ
+  lofi            78%    84%   +6          78%    84%   +6
+  synthwave       67%    65%   -2          66%    65%   -1
+  dungeonsynth    67%    83%  +16          65%    72%   +7
+  fantasysynth    51%    53%   +2          43%    51%   +8
+  ds2             67%    83%  +16          65%    72%   +7
+```
+
+**And the tunes got wider** — span 4.8 → 5.2 in the dungeon synths, 4.9 → 5.6 in
+fantasy synth, 6.4 → 7.3 in lofi — because the candidate is offered a step
+*further out* before a step back in, so the climax moves rather than folding
+back. That was not the aim and it is the closest thing in this build to "going
+to an extreme". Note loss under 4% everywhere, zero on fantasy synth.
+
+**Two measurement corrections inside the phase**, both caught by suspecting the
+measurement: measuring per *material* reported "22% → 22%, does nothing" — wrong,
+because a hooky material copies its phrase and duplicates the top by
+construction; and the first implementation offered one way off the extreme and
+succeeded only ~43% of the time, which instrumentation showed was the failures
+themselves, not downstream interference.
+
+**Not fixed, and named**: the apex still sits at a quarter of the phrase against
+the sources' two thirds; and the residue is tunes too thin to shape — ds2 seed 1's
+tune is three notes spanning two semitones, and no contour rule reaches that.
+
+---
+
+### Phase 5 — as originally planned
 
 In `buildTheme`, alongside the existing contour constraints: the phrase's
 highest note is struck **once**, and its lowest once. Sourced from the community
