@@ -25077,9 +25077,13 @@ const GENRE = {
          is the gate closing, and at `unit: 1` a cell whose length does not
          divide sixteen moves it around the bar. The UP cell keeps its four
          notes and gains a fifth slot that is silent; the others gain one each. */
+      /* the UP/DOWN cell was `0 2 4 7 4 2` and holds two A-B-A triples read as a
+         ring -- (4,7,4) and (2,0,2). Same law as the dungeon family above: no
+         degree may return with one note between it. The seventh replaces the
+         second fifth, so it still comes back DOWN and no longer pivots. */
       cells: [
         [[0, 2, 4, 7, null], 5],     // UP -- the default on every hardware arp, gated
-        [[0, 2, 4, 7, null, 4, 2], 3], // UP/DOWN
+        [[0, 2, 4, 7, null, 6, 4], 3], // UP/DOWN
         [[7, 4, null, 2, 0], 2],     // DOWN
       ],
     },
@@ -26587,9 +26591,38 @@ const GENRE = {
          bar 2 |..*-*-..*-*-..*-|   bar 3 |*-..*-*-..*-*-..|
 
        An engine with a limp in it, moving. ── */
+    /* ── AND THE CELL MAY NOT PIVOT ───────────────────────────────────────
+       [owner:] "What is this part of a song that is just two notes going back
+       and forth? Its bad! It shows up in ds2 seed one... It is the OSTINATO!
+       That is shit! It is annoying as fuck and ive never heard anything like
+       that in a song ever!"
+
+       He is right, and it was written into the degrees. ds2 seed 1, bar 86,
+       off the printout:
+
+         ostinato |..*-*-..*-*-..*-|   G#4  C#5  G#4  C#5  G#4
+
+       MEASURED, 32 seeds a genre: 48% OF THE FIGURE'S NOTE TRIPLES ARE A-B-A,
+       and 12% of its bars hold only two pitches. The cause is the heaviest cell
+       in the pool, `0 4 7 4 2 4` -- the FIFTH THREE TIMES OUT OF SIX, pivoting
+       against the root, the octave and the third in turn. Checked cyclically,
+       because `run: true` wraps the cell, it holds THREE A-B-A triples:
+       (4,7,4), (4,2,4) and (4,0,4). A figure that returns to the same degree
+       every other note is not an arpeggio, it is a trill with extra steps.
+
+       THE TEST IS MECHANICAL AND IT IS RUN ON THE DEGREES, not on the output:
+       write the cell's sounding degrees in a ring and look for any `a b a`.
+       Every cell below has zero. It is the same shape as the tune's own law one
+       screen up -- a line may not play the same pitch twice in a row -- said
+       about the figure, where "twice in a row" means "twice with one note
+       between", which is what an ear actually hears as hammering.
+
+       Adding the rests did NOT fix this and did not touch it: the rests are the
+       figure's RHYTHM and this is its PITCH. Both were wrong and they were
+       wrong separately. ── */
     ostinato: { unit: 2, vel: 0.34, run: true, follow: true, ratchet: 0,
-                cells: [[[0, null, 4, 7, null, 4, 2, null, 4], 5],   // 9 slots against 8
-                        [[0, 2, null, 4, 7, null, 4, 2, null], 3],   // 9 slots, rests moved
+                cells: [[[0, null, 2, 4, null, 7, 2, null, 4], 5],   // 9 slots against 8
+                        [[0, 2, null, 4, 7, null, 6, 4, null], 3],   // up to the octave, then down
                         [[0, null, 4, null, 2, 7, null], 2]] },      // 7 against 8
     /* THE HALL. "long reverbs and modest delay to suggest halls and caverns;
        avoid overly bright transients" [corpus:melodigging], and a practitioner
@@ -30309,9 +30342,14 @@ GENRE.fantasysynth = (function(D){
          still figures with rests in them, which is what the fix two comments up
          was actually about, and neither is off-kilter.
          The other two acts keep the cells they had. */
-      B: [[[0, 4, 7, null, 4, 2], 5],      // six against four -- the hemiola
-          [[0, 2, 4, 7, null, 4, 2, null], 3],  // eight: twice a bar, fast
-          [[0, null, 4, 7, 4, null], 2]],  // six, opened out
+      /* all three of these pivoted on the fifth as the parent's did -- read as
+         rings they held (4,7,4), (4,7,4)+(2,0,2) and (4,7,4)+(4,0,4). The
+         lengths and the rest positions are UNCHANGED, so the polymeter this
+         block is about is untouched; only the degrees no longer return with
+         one note between them. */
+      B: [[[0, 2, 7, null, 4, 6], 5],      // six against four -- the hemiola
+          [[0, 2, 4, 7, null, 6, 4, null], 3],  // eight: twice a bar, fast
+          [[0, null, 4, 7, 2, null], 2]],  // six, opened out
     },
   }),
   pocket: [[[0, 4, 8, 12], 9],          // the walk. This is the march.
