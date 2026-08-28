@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-28b &middot; the grid comes apart &mdash; sections that run past their ending, and one-bar transitions</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-28c &middot; the verse says its figure twice &mdash; a hook, in every genre but one</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -23253,6 +23253,24 @@ const GENRE = {
        a normal phrase, and that is fine: what makes a hook a hook here is that
        it repeats exactly and does not breathe, not that it plays more notes. */
     theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [3, 2] },
+             /* ── AND THIS IS THE ONE GENRE THAT DOES *NOT* GET `verseHook` ───
+                On 2026-08-28 the other four declared it, on the measurement that
+                the verse tune carries a repeated cell in 0 of 12 records
+                everywhere. lofi measures the same and is still left out, because
+                the mechanism's own author wrote the exception down when they
+                built it: "A GENRE DECLARATION, not a new law, because it is a
+                taste: LOFI'S VERSE WANDERING IS LOFI BEING LOFI."
+
+                That is a taste call by somebody who had the whole file in front
+                of them, and it agrees with the genre: a beat tape is a mood held
+                for two and a half minutes, and its tune is meant to drift over
+                the loop rather than to announce itself. The hook in this music
+                is the DRUM PATTERN and the chord, both of which repeat already.
+
+                Declared here as a decision rather than left as an absence,
+                because an absence reads as an oversight the next time somebody
+                counts which genres have it. If the ear disagrees, one word
+                changes it. */
              onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]],
              /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
                 [owner, 2026-08-22: "the whole of the song is missing ... a
@@ -24703,6 +24721,21 @@ const GENRE = {
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
     theme: { count: { hooky: [4, 2], breath: [1, 2], normal: [3, 2] },
+             /* ══ THE VERSE SAYS ITS FIGURE TWICE ═════════════════════════════
+                MEASURED: this genre's verse tune contains a repeated cell in
+                0 OF 12 RECORDS — and so does its CHORUS, 0 of 12, which is the
+                surprise in the measurement and the reason this declaration
+                matters more here than anywhere else in the file. **Synthwave is
+                the hook genre.** Its whole form is a ramp into an arrival: the
+                plan's legs are literally named `rise`, `hook`, `strip`, `rise2`,
+                `climax`, the pre-chorus "plays the hook's own material" so the
+                arrival feels prepared, and the post-chorus is "the hook still
+                ringing" with the voice gone. Three tables in this genre describe
+                a hook and none of them ever made one.
+
+                `opts.hooky` writes one two-bar phrase and copies it to bars 2-3
+                exactly. That is what the pre-chorus has been ramping into. */
+             verseHook: true,
              onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]],
              /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
                 [owner, 2026-08-22: "the whole of the song is missing ... a
@@ -26020,6 +26053,33 @@ const GENRE = {
                octaves: [-12, 12], answer: 0.85,
                styles: { double: { density: 0.85, octaves: [-12] } } },
     theme: { count: { hooky: [2, 2], breath: [1, 1], normal: [1, 2] },
+             /* ══ THE VERSE SAYS ITS FIGURE TWICE ═════════════════════════════
+                [owner, 2026-08-28: "There never is a memorable part that
+                 defines a song and this is a program wide issue."]
+
+                MEASURED, and this is the number the complaint turns out to be:
+                THE VERSE TUNE CONTAINS A REPEATED CELL IN 0 OF 12 RECORDS, and
+                it is 0 of 12 IN EVERY GENRE IN THE FILE. Not rare — never. Four
+                bars of continuous invention, every record, in the material that
+                is most of the record.
+
+                The chorus is the only place a hook has ever lived here: `themeB`
+                has passed `hooky: true` since it was written, and this genre's B
+                measures a repeated cell in 10 of 12. So the mechanism works and
+                the verse has simply never been allowed it. `opts.hooky` writes
+                ONE two-bar phrase and copies it to bars 2-3 exactly — an `aa`
+                over a four-bar tune.
+
+                AND A HOOK IS THE OPPOSITE OF THE THING THE OWNER IS EVOLVING
+                PAST. [owner, same day: "We dont want the same repetitve Mortis
+                type music."] A record that loops one idea for nine minutes is
+                monotony; a two-bar cell said twice inside a tune that then
+                develops is RECOGNITION, which is the thing that was missing.
+                The sources draw exactly this line: "a hook is usually repeated
+                the same way each time, while a motif serves as material that is
+                modified and developed" [corpus:aimm]. This program had only
+                motifs. */
+             verseHook: true,
              onsetPool: [[0, 8], [8, 5], [4, 2], [12, 2], [6, 1]],
              /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
                 [owner, 2026-08-22: "the whole of the song is missing ... a
@@ -29401,6 +29461,13 @@ GENRE.fantasysynth = (function(D){
      was the only genre in the file whose acts were related to each other. It
      inherits this block, so that line is now the parent's and doom is
      unchanged by it. */
+  /* `verseHook` arrives by inheritance from dungeon synth and is NOT re-stated
+     here — this merge is shallow over `D.theme`, so naming `count`, `carry` and
+     `story` keeps every other key the parent set. Said out loud because the
+     next reader will look for it: a genre that inherits a hook and does not
+     mention it reads identically to a genre that never got one. Measured the
+     same as the parent — this genre's verse tune carried a repeated cell in
+     0 of 12 records before this. */
   theme: merge(D.theme, { count: { hooky: [2, 3], breath: [1, 2], normal: [2, 3] },
                           carry: true,
                           story: { C: "fragment", B: "diminish", lift: "augment" } }),

@@ -36,8 +36,34 @@ dungeon synths declare neither.
 
 ---
 
-## 2. ⚠ THE GENRE'S FOUNDING RECORD ARGUES AGAINST THIS, AND THAT IS THE MOST
-## IMPORTANT THING ON THIS SHEET
+> ## ⚠ RULED ON BY THE OWNER, 2026-08-28, AFTER THIS SHEET WAS WRITTEN
+>
+> *"We dont want the same repetitve Mortis type music we are evolving past that
+> style."*
+>
+> **This overturns the weight §2 gives its own counter-evidence, and it is a
+> standing ruling rather than a note on one build.** §2 remains accurate as
+> research — Mortiis really did make one 53-minute song out of numbing
+> repetition, and the practitioner guides really do describe an endless loop.
+> What is withdrawn is the *deference*: that record is now explicitly named as
+> the thing this program is evolving PAST, not a target to be faithful to.
+>
+> **What that changes going forward.** "Dungeon synth is repetitive by nature"
+> is no longer an argument for leaving something monotonous alone, and no future
+> table should cite Mortiis to decline variety. Where a device would add shape,
+> the question is whether it is musically right, not whether 1994 did it.
+>
+> **What it does not change.** Phase 2's actual decisions stand on their own
+> feet and were re-checked against this ruling rather than assumed safe: the
+> extension and the transition ADD rather than cut, which is a variety argument
+> and not a fidelity one; and the base `form.lengths` were left alone partly for
+> Mortiis (withdrawn) and partly because the owner ruled out spending record
+> length the same day (still standing). **If the grid still reads as too regular
+> once these are heard, re-sizing `form.lengths` per function is the next move
+> and §2 is no longer standing in its way.**
+
+## 2. THE GENRE'S FOUNDING RECORD ARGUES AGAINST THIS — AND THE OWNER HAS
+## OVERRULED IT (see the block above before reading this section as guidance)
 
 The honest finding, written down first because it is the inconvenient one.
 

@@ -256,7 +256,56 @@ Two edits that must land together or the second has nothing to vary:
 **Verify:** the section-length histogram. Today `{4: 1, 16: 10}` in every
 record. Expect several distinct lengths and at least one extension per record.
 
-### Phase 3 — a hook that returns identically  *(program-wide mechanism, per-genre taste)*
+### Phase 3 — a hook that returns identically — **DONE, build `2026-08-28c`**
+
+Research: `docs/genre-research/the-hook.md`.
+
+**THE INVESTIGATION THE PLAN DEMANDED CAME BACK NEGATIVE, AND THAT MATTERS.**
+The plan said to find out *why* a returning material matches 13 of 16 bars
+rather than 16 of 16, and named three suspects. Measured directly from the
+composed song: **two occurrences of the same material carry byte-identical notes,
+100% of the time**, across every material, every role, twelve seeds. There was no
+defect. The 13/16 was my own printout comparison lining up sections of different
+length and different personnel — in one case a 4-bar intro against a 16-bar
+verse. **Restatement in this program was already exact.**
+
+**The real gap was one level down.** The tune itself never repeated anything:
+
+```
+              repeated cell in the tune      after
+              A (verse)   B (chorus)         A
+  lofi          0/12        1/12             0/12  (deliberately left out)
+  synthwave     0/12        0/12            12/12
+  dungeonsynth  0/12       10/12            12/12
+  fantasysynth  0/12        0/12            10/12
+  ds2           0/12       10/12            12/12
+```
+
+**Zero of twelve, in every genre.** Four bars of continuous invention in the
+material that is most of every record. `theme.verseHook` was declared on four
+genres; the tune now states a two-bar cell and repeats it exactly.
+
+**The tune also got denser** — lead notes per bar 0.68 → 0.99 in the dungeon
+synths, 1.48 → 1.95 in synthwave — because each genre's `theme.count.hooky`
+allows more notes than its `normal`. Not the aim, and worth stating.
+
+**And the right-hand column explains itself**: `hooky: !STORY.B`, so any genre
+declaring `theme.story.B` gets a *derived* chorus instead of a hooky one. Three
+of the five do. Synthwave — whose plan legs are literally named `rise`, `hook`,
+`strip`, `rise2`, `climax` — had **no hook in its verse or its chorus**.
+
+**Phases 1 and 2 held**: featured bars unchanged or better, section lengths
+identical. 124 of 125 records compose; the one failure is lofi seed 17, the
+pre-existing `BACKLOG` §0ac fault, in the one genre this phase did not touch.
+
+**Named and not built** (`the-hook.md` §5): the sources say the strongest hooks
+repeat *with a small variation* — "the cell returns, but something small changes"
+— and ours is a byte-exact copy. That is the next move, and it is the one that
+speaks directly to "we are evolving past Mortiis".
+
+---
+
+### Phase 3 — as originally planned
 
 `theme.verseHook` makes `themeA` restate its first four bars instead of writing
 a fresh phrase over bars 5–8. Declare it on dungeon synth and DS2 first, then
