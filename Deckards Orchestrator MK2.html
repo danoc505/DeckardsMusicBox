@@ -23340,7 +23340,42 @@ const GENRE = {
                 because an absence reads as an oversight the next time somebody
                 counts which genres have it. If the ear disagrees, one word
                 changes it. */
-             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]],
+             /* ── THE WEAK BEATS, AND NO LEAD IN THIS FILE COULD PLAY ONE ──
+                MEASURED off the printout, dungeon synth seed 1 -- and it is the
+                whole tune, not a sample of it:
+
+                  bar 0  |*---*---*---*--.|   bar 1  |*---*---*---*---|
+                  bar 2  |*---*---*---*--.|   bar 3  |*---*---*---*---|
+
+                Four quarter notes, every bar, forever. The cause is arithmetic
+                rather than taste: the pool had FIVE seats and `count.hooky`
+                draws four to five notes, so every bar took nearly the whole
+                pool and there was nothing left to vary. 49 distinct bar-rhythms
+                across 339 bars of tune.
+
+                THE HIERARCHY IS THE OWNER'S OWN SOURCE, stated as three tiers
+                [docs 004, on syncopation]:
+
+                  "if the 1 2 3 and 4 of our beats are the STRONG beats, the
+                   next weakest are the OFFBEATS, the ANDS -- the ones between
+                   the 1 2 3 and 4. From there we can access what I call the E's
+                   and the A's... these are generally the WEAKEST beats that you
+                   will address when making most rhythms. YOU CAN DO A LOT WITH
+                   THESE PARTS OF THE RHYTHM TO GIVE A SENSE OF INTEREST."
+
+                And syncopation is defined there as "the utilization of the
+                weaker subdivided beats... this creates a sense of rhythmic
+                tension or surprise."
+
+                So the pool is that hierarchy and the weights ARE the tiers:
+                strong beats heaviest, the ands beneath them, the e's and a's
+                lightest. Nothing here is a list of nice-sounding steps -- it is
+                one ordering, derived, and every genre's pool is the same
+                ordering with its own accents on top. */
+             onsetPool: [[0,8],[4,6],[8,6],[12,6],
+                         [2,4],[6,4],[10,4],[14,4],
+                         [3,1],[7,1],[11,1],[15,1],
+                         [1,1],[5,1],[9,1],[13,1]],
              /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
                 [owner, 2026-08-22: "the whole of the song is missing ... a
                 repeating altering motif. The thing that holds it together."]
@@ -24821,7 +24856,42 @@ const GENRE = {
                 `opts.hooky` writes one two-bar phrase and copies it to bars 2-3
                 exactly. That is what the pre-chorus has been ramping into. */
              verseHook: true,
-             onsetPool: [[0,5],[2,3],[4,4],[6,3],[8,4],[10,3],[12,4],[14,3]],
+             /* ── THE WEAK BEATS, AND NO LEAD IN THIS FILE COULD PLAY ONE ──
+                MEASURED off the printout, dungeon synth seed 1 -- and it is the
+                whole tune, not a sample of it:
+
+                  bar 0  |*---*---*---*--.|   bar 1  |*---*---*---*---|
+                  bar 2  |*---*---*---*--.|   bar 3  |*---*---*---*---|
+
+                Four quarter notes, every bar, forever. The cause is arithmetic
+                rather than taste: the pool had FIVE seats and `count.hooky`
+                draws four to five notes, so every bar took nearly the whole
+                pool and there was nothing left to vary. 49 distinct bar-rhythms
+                across 339 bars of tune.
+
+                THE HIERARCHY IS THE OWNER'S OWN SOURCE, stated as three tiers
+                [docs 004, on syncopation]:
+
+                  "if the 1 2 3 and 4 of our beats are the STRONG beats, the
+                   next weakest are the OFFBEATS, the ANDS -- the ones between
+                   the 1 2 3 and 4. From there we can access what I call the E's
+                   and the A's... these are generally the WEAKEST beats that you
+                   will address when making most rhythms. YOU CAN DO A LOT WITH
+                   THESE PARTS OF THE RHYTHM TO GIVE A SENSE OF INTEREST."
+
+                And syncopation is defined there as "the utilization of the
+                weaker subdivided beats... this creates a sense of rhythmic
+                tension or surprise."
+
+                So the pool is that hierarchy and the weights ARE the tiers:
+                strong beats heaviest, the ands beneath them, the e's and a's
+                lightest. Nothing here is a list of nice-sounding steps -- it is
+                one ordering, derived, and every genre's pool is the same
+                ordering with its own accents on top. */
+             onsetPool: [[0,8],[4,6],[8,6],[12,6],
+                         [2,4],[6,4],[10,4],[14,4],
+                         [3,1],[7,1],[11,1],[15,1],
+                         [1,1],[5,1],[9,1],[13,1]],
              /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
                 [owner, 2026-08-22: "the whole of the song is missing ... a
                 repeating altering motif. The thing that holds it together."]
@@ -26229,7 +26299,41 @@ const GENRE = {
                 modified and developed" [corpus:aimm]. This program had only
                 motifs. */
              verseHook: true,
-             onsetPool: [[0, 8], [8, 5], [4, 2], [12, 2], [6, 1]],
+             /* ── THE WEAK BEATS, AND NO LEAD IN THIS FILE COULD PLAY ONE ──
+                MEASURED off the printout, dungeon synth seed 1 -- and it is the
+                whole tune, not a sample of it:
+
+                  bar 0  |*---*---*---*--.|   bar 1  |*---*---*---*---|
+                  bar 2  |*---*---*---*--.|   bar 3  |*---*---*---*---|
+
+                Four quarter notes, every bar, forever. The cause is arithmetic
+                rather than taste: the pool had FIVE seats and `count.hooky`
+                draws four to five notes, so every bar took nearly the whole
+                pool and there was nothing left to vary. 49 distinct bar-rhythms
+                across 339 bars of tune.
+
+                THE HIERARCHY IS THE OWNER'S OWN SOURCE, stated as three tiers
+                [docs 004, on syncopation]:
+
+                  "if the 1 2 3 and 4 of our beats are the STRONG beats, the
+                   next weakest are the OFFBEATS, the ANDS -- the ones between
+                   the 1 2 3 and 4. From there we can access what I call the E's
+                   and the A's... these are generally the WEAKEST beats that you
+                   will address when making most rhythms. YOU CAN DO A LOT WITH
+                   THESE PARTS OF THE RHYTHM TO GIVE A SENSE OF INTEREST."
+
+                And syncopation is defined there as "the utilization of the
+                weaker subdivided beats... this creates a sense of rhythmic
+                tension or surprise."
+
+                So the pool is that hierarchy and the weights ARE the tiers:
+                strong beats heaviest, the ands beneath them, the e's and a's
+                lightest. Nothing here is a list of nice-sounding steps -- it is
+                one ordering, derived, and every genre's pool is the same
+                ordering with its own accents on top. */
+             onsetPool: [[0, 8], [8, 5], [4, 3], [12, 3],
+                         [6, 2], [2, 2], [10, 2], [14, 2],
+                         [3, 1], [7, 1], [11, 1], [15, 1]],
              /* ── AND THIS GENRE'S THEME IS ONE THEME ──────────────────────
                 [owner, 2026-08-22: "the whole of the song is missing ... a
                 repeating altering motif. The thing that holds it together."]
@@ -37802,6 +37906,35 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        seeds in 25, because dungeon synth draws `bardFlute` and `bardWind` for
        its lead too and nobody asked for its tunes to change. */
     const REPEAT_MIN = (LINES && LINES.repeat) || 0;
+    /* how often the tune releases a note before the next one starts, and how
+       often the answering phrase borrows the question's rhythm. Both default to
+       zero, and zero means "draw nothing and behave exactly as before". */
+    /* ══ AND THESE HAVE REAL DEFAULTS, WHICH IS THE WHOLE POINT ════════════
+       [owner, on the first version of this build, which defaulted both to zero
+       and then PROVED the record was byte-identical:]
+
+         "Why are you concerned if everything stays the same when you're
+          supposedly CHANGING the way everything is? Something in your
+          instructions is making you make changes that DO NOTHING and then you
+          prove they done nothing by testing that they have not changed
+          anything! This is WRONG WRONG WRONG."
+
+       He is right and the mistake is worth writing down because it is a habit
+       and not a slip. This file's law is "a genre that declares nothing draws
+       what it always drew" -- it exists so a change cannot break music nobody
+       measured. It is NOT a licence to ship every fix as a dial set to zero and
+       then pass a test whose success condition is that the music did not move.
+
+       WHAT DECIDES WHETHER A NUMBER IS AN ENGINE DEFAULT OR A GENRE'S: whether
+       the thing it governs is a TASTE or is what the object IS. `moves` is a
+       taste -- an interval budget, Shire versus Rohan -- and its default is the
+       old hardcoded four. Note LENGTH is not a taste. A tune whose durations
+       are `steps[i+1] - steps[i]` and nothing else has no rhythm at all, in any
+       genre, and that was true of all five here. So the default is the fix, and
+       a genre may argue with it downward.
+       ═══════════════════════════════════════════════════════════════════════ */
+    const DETACH = TH.detach != null ? TH.detach : 0.5;
+    const MOTIF  = TH.motif  != null ? TH.motif  : 1;
     const STEP_SEC = (60 / chart.tempo) / 4;
     /* A seat is only free if the note can ALSO sit in its restatement. The hook
        states bars 0-1 and then repeats them at 2-3 exactly, so a pitch that
@@ -37915,8 +38048,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       return (s && s.size) ? !s.has(pc(p))
                            : !CH(chordSet, b).tones.some(t => pc(t) === pc(p));
     };
-    function phrase(startBar, dir, endOnTone, moveBias){
+    function phrase(startBar, dir, endOnTone, moveBias, rhythmOf){
       const ph0 = notes.length;
+      /* what THIS phrase's two bars actually put their onsets on, handed back
+         to the caller so the ANSWER can be given the QUESTION's rhythm. */
+      const shape = [];
       /* the pickup roll runs before anything else in the phrase so its place
          in the stream is fixed; only a lines instrument spends it */
       const puRoll = LINES ? rng() : -1;
@@ -37929,7 +38065,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const isBreath = (b === startBar + 1) && !opts.hooky;
         const cnt = opts.hooky ? TH.count.hooky : isBreath ? TH.count.breath : TH.count.normal;
         const count = cnt[0] + Math.floor(rng() * cnt[1]);
-        const steps = [];
+        let steps = [];
         /* ── AND THE PHRASE ENDS IN SILENCE, WHERE A GENRE ASKS FOR IT ───────
            A phrase here is TWO bars and the second is already the "breath" --
            it draws 1-2 notes where the first draws 3-4. But those notes could
@@ -37969,6 +38105,60 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           steps.push(st);
         }
         steps.sort((a, z) => a - z);
+        /* ══ THE ANSWER SAYS IT IN THE SAME RHYTHM ═════════════════════════
+           MEASURED before this line, 32 seeds a genre, over every lead note
+           in materials A/B/C and their variants: two ADJACENT bars of the tune
+           carry the same rhythm 0-3% of the time. Not "rarely" -- never. The
+           only rhythmic repetition anywhere in the record was the hook copying
+           bars 0-1 to 2-3 verbatim, which repeats the PITCHES too and is a
+           different thing.
+
+           And a repeated rhythm is not a decoration, it is what the sources say
+           a melody IS:
+
+             "the rhythm in the melody is repeated VERBATIM throughout the
+              verse, EVEN THOUGH THE NOTES CHANGE... The melody changes, but
+              the melodic rhythm stays the same." [corpus:sonicbids]
+
+             a rhythmic motif is "a short, recurring pattern of beats or
+              rhythms, WITHOUT SPECIFIC PITCHES" -- Beethoven's Fifth is three
+              short and one long, restated at pitch after pitch.
+              [corpus:vaia, corpus:lumen/motive]
+
+           And the owner's own source says the same thing about how many times:
+           "repeat it one time so you're playing it two times in total... the
+           third time, simply go somewhere different" [docs 006, the rule of 3].
+           A question and its answer sharing a rhythm and differing in their
+           tune is what a period IS -- antecedent and consequent -- and this
+           program had the two halves drawing independent rhythms.
+
+           IT IS THE ANSWER THAT BORROWS, never the question, so the shape is
+           still drawn fresh once per material and the tune's rhythm is its own.
+           THE HOOK IS UNTOUCHED: it already restates bars 0-1 exactly, and
+           handing it a rhythm would be handing it its own.
+
+           IT SPENDS THE SAME DRAWS EITHER WAY [Law 3]. The `wpick` loop above
+           runs to completion before this line is reached and the roll that
+           decides it lives on its OWN substream, so a genre that declares no
+           `motif` is byte-identical -- proven by snapshot, not asserted. */
+        const reuse = rhythmOf && rhythmOf[b - startBar];
+        if(reuse && reuse.steps.length) steps = reuse.steps.slice();
+        /* WHICH BAR'S RHYTHM IS BEING PLAYED, which is not always this bar. A
+           restatement has to carry the RELEASES too or it is not verbatim: the
+           detach draw below is keyed on the bar, so an answer that borrowed the
+           question's onsets and then re-rolled its own releases came out as a
+           DIFFERENT rhythm -- measured, and it took the repetition DOWN rather
+           than up. Keyed on the source bar, question and answer breathe in the
+           same places and the restatement is exact. */
+        const rhyBar = reuse ? reuse.bar : b;
+        /* AND THE SHAPE IS WHAT WAS WRITTEN, NOT WHAT WAS ASKED FOR. Recording
+           the drawn steps looked right and MEASURED at 16%: an onset can still
+           be refused below -- no pitch fits the seat, or the repeat-merge
+           absorbs it into the note before -- and the question and the answer
+           lose a DIFFERENT subset of the same list, so handing over the
+           intention handed over a rhythm neither bar plays. The restatement has
+           to start from the rhythm you can hear. */
+        const barStart = notes.length;
         for(let i = 0; i < steps.length; i++){
           /* ══ THE INTERVAL BUDGET, AND THIS LINE WAS THE WHOLE MELODY ═══════
              Reported five times, most recently: "the song starts with a lead
@@ -38282,7 +38472,51 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              business. ── */
           if(!hang && i + 1 >= steps.length &&
              Math.abs(cand - m) > 2 && clash(b, steps[i], cand)) continue;
-          const dur = plannedDur;
+          /* ══ A NOTE MAY END BEFORE THE NEXT ONE STARTS ═════════════════════
+             THE DEFECT, MEASURED off the notes rather than off a property of
+             them, 32 seeds a genre: a lead note's duration EQUALS the gap to
+             the next onset 74-82% of the time, and 78-85% of notes have ZERO
+             silence after them. That is not a rhythm. `plannedDur` is
+             `steps[i+1] - steps[i]` and nothing else, so the tune had no note
+             LENGTHS at all -- only onsets, with the space between them filled
+             in. Every note ran into its successor and the line never breathed.
+
+             It is the same finding from two directions:
+
+               "varying note durations, introducing syncopation, and
+                strategically placing rests can add interest and drive to a
+                melody... the rhythm of a melody is composed of a VARIETY of
+                subdivisions of the beat" [corpus:masterclass/rhythm,
+                corpus:schoolofcomposition]
+
+               "a lead part doesn't usually go constantly throughout the whole
+                song, so IN THE SPACES IT LEAVES you often want to add a little
+                something else to maintain the interest" [docs 009] -- which is
+                the counter's job description, and it cannot do it against a
+                lead that leaves no spaces.
+
+             THE SIZE OF THE GAP IS MEASURED, not chosen. The same saxophone
+             study this file already cites for `artic`: STACCATO silence is
+             25-29% of the inter-onset interval (0.29 slow, 0.27 medium, 0.25
+             fast), and it is a PROPORTION rather than a duration -- the faster
+             the line, the shorter the gap in milliseconds and the same fraction
+             of the beat. [corpus:Li/Palmer/Dalla Bella, PMC4097958] At a
+             sixteenth grid 27% of four is one sixteenth, which is exactly the
+             resolution the grid has.
+
+             HOW OFTEN is the table's, because the paper measures how big the
+             gap is and never how often a player takes one -- the same sentence
+             `articulate` already carries about its own 0.35. A genre that
+             declares no `detach` draws nothing and does not move.
+
+             ITS OWN SUBSTREAM [Law 3/7], so no other draw shifts, and the draw
+             runs for every note that COULD be detached whether or not the genre
+             asks -- there is no branch above it to skip. */
+          let dur = plannedDur;
+          if(DETACH > 0 && plannedDur > 1 &&
+             stream(chart.seed, "det:" + streamName + ":" + rhyBar + ":" + steps[i])() < DETACH){
+            dur = Math.max(1, plannedDur - Math.max(1, Math.round(plannedDur * 0.27)));
+          }
           /* ══ A LINE MAY NOT PLAY THE SAME PITCH TWICE IN A ROW. ═════════════
              Reported six times. The sixth was not a bug report:
 
@@ -38380,9 +38614,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(cand !== m) hangDir = cand > m ? 1 : -1;
           hang = isNCT(b, steps[i], cand);
           m = cand;
-          notes.push({ bar: b, step: steps[i], dur, pitch: cand, vel: steps[i] === 0 ? 0.85 : 0.7, role: "lead" });
+          notes.push({ bar: b, step: steps[i], dur, pitch: cand, vel: steps[i] === 0 ? 0.85 : 0.7, role: "lead",
+                       ...(dur < plannedDur ? { det: true } : {}) });
           reserved.add(key(b % BARS, steps[i], cand));
         }
+        shape.push({ bar: rhyBar, steps: notes.slice(barStart).map(n => n.step) });
       }
       /* LAND THE PHRASE ON A CHORD TONE. This is the owner finishing its own
          note, not a correcting pass -- but it has to keep the owner's own books
@@ -38463,7 +38699,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              the line across the bar boundary (where the old cap of 8 split
              every phrase in two and the join measured as having done
              nothing), short enough that an empty second bar still breathes */
-          if(gap > n.dur && gap <= 12) n.dur = gap;
+          /* ...but NOT over a note that was released early on purpose. The
+             join exists because our phrases died between notes by accident;
+             a detached note is the owner having decided otherwise. */
+          if(!n.det && gap > n.dur && gap <= 12) n.dur = gap;
         }
         /* ── THE PICKUP [corpus:omnibook: 26.3% of phrases open before their
            barline, landing the first strong note ON it]. A step below the
@@ -38484,6 +38723,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           }
         }
       }
+      return shape;
     }
     if(opts.hooky){
       /* THE HOOK: one 2-bar phrase... then the SAME phrase again, exactly.
@@ -38671,9 +38911,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          unfinished, and the consequent answers it. The two phrases are still
          contrary and the consequent still resolves; the only thing that
          changed is that the question stops making a mess for it to clear up. */
-      phrase(0, opts.dir, true, opts.moveBias);
+      const qShape = phrase(0, opts.dir, true, opts.moveBias);
       const qDir = notes.length >= 2 && notes[notes.length - 1].pitch >= notes[0].pitch ? 1 : -1;
-      phrase(2, -qDir, true, null);                     // the answer: contrary, resolving
+      /* the answer is CONTRARY and RESOLVING in pitch, and where the genre asks
+         for it, IDENTICAL IN RHYTHM -- which is what makes the two halves read
+         as one sentence rather than two. Its own substream, so a genre that
+         declares no `motif` never draws this and does not move. */
+      const mRoll = stream(chart.seed, "motif:" + streamName)();
+      phrase(2, -qDir, true, null, mRoll < MOTIF ? qShape : null);
     }
     /* ══ AND THE REST OF THE MATERIAL GETS A TUNE TOO ═══════════════════════
        REPORTED, twice, and it took printing the notes to see it: "there are
