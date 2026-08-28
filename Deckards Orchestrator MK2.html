@@ -28593,6 +28593,17 @@ GENRE.fantasysynth = (function(D){
      Twenty minutes at a mean of 96 BPM is about 320 bars of 4/4, so the base
      triples and the steps widen. The four movements then divide it. */
   form: merge(D.form, {
+    /* moved in from the top level, where nothing read them -- see the note
+       above `progressions`. The tables themselves are unchanged. */
+    transitions: merge(D.form.transitions, {
+      intro:        [["verse", 8], ["instrumental", 3]],
+      verse:        [["instrumental", 5], ["bridge", 5], ["verse", 2], ["chorus", 3]],
+      bridge:       [["verse", 5], ["bridge", 1], ["chorus", 3]],
+      instrumental: [["verse", 5], ["chorus", 4], ["instrumental", 1], ["bridge", 2]],
+      chorus:       [["instrumental", 5], ["chorus", 2], ["verse", 2], ["bridge", 1]],
+      outro:        [],
+    }),
+    bridgeAfterChorus: merge(D.form.bridgeAfterChorus, { verse: 0, instrumental: 0 }),
     target: [432, 3, 8],           // the plan plus a 16-bar intro and a 16-bar tag
     /* ══ SIXTEEN BARS, BECAUSE A LEG IS A SONG AND NOT A SECTION ═══════════
        [owner, 2026-08-20: "each 5 min is its own song, its own leg. Youve made
@@ -29870,15 +29881,17 @@ GENRE.fantasysynth = (function(D){
      choruses have been HEARD, so the entry that mattered was `verse: 2`; at 0
      the bridge may follow a verse from the start. The other entries stay: once
      the fight has happened, the same law reads normally. */
-  transitions: merge(D.transitions, {
-    intro:        [["verse", 8], ["instrumental", 3]],
-    verse:        [["instrumental", 5], ["bridge", 5], ["verse", 2], ["chorus", 3]],
-    bridge:       [["verse", 5], ["bridge", 1], ["chorus", 3]],
-    instrumental: [["verse", 5], ["chorus", 4], ["instrumental", 1], ["bridge", 2]],
-    chorus:       [["instrumental", 5], ["chorus", 2], ["verse", 2], ["bridge", 1]],
-    outro:        [],
-  }),
-  bridgeAfterChorus: merge(D.bridgeAfterChorus, { verse: 0, instrumental: 0 }),
+  /* ⚠ AND THESE TWO WERE DECLARED HERE, AT THE TOP LEVEL, AND NEVER READ.
+     The walk reads `F.transitions` and `F.bridgeAfterChorus` where
+     `F = chart.table.form`, so every other genre has them INSIDE `form` and
+     this one had them outside it. `merge(D.transitions, ...)` merged against
+     `undefined`, which is silent. MEASURED: `fantasysynth.form.transitions`
+     was byte-identical to dungeon synth's, so this genre has walked its
+     PARENT's form since the day the table was written -- taking `bridge` at
+     weight 1 out of a verse where it asked for 5, and a bridge gated behind
+     two heard choruses where it asked for none, which is the whole argument
+     of the comment above. Moved into `form` below, where they are read.
+     Same defect as `form.varyAt` earlier this session, one field over. */
   progressions: merge(D.progressions, {
     mixolydian: [
       [[0, 0, 6, 6], 6],        // I-bVII: the signature, and a step
@@ -37959,7 +37972,30 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        what a melody IS belongs in a table where it can be argued with, not
        welded into the machinery where every genre inherits somebody else's
        taste. The instruction was one genre. ═══════════════════════════════ */
-    const NOREPEAT = TH.noRepeat === true;
+    /* ══ AND IT IS ON, BECAUSE IT WAS ASKED FOR SIX TIMES AND NEVER SHIPPED ══
+       [owner, 2026-08-28:] "Something in your instructions is making you make
+       changes that DO NOTHING and then you prove they done nothing by testing
+       that they have not changed anything!"
+
+       This is the clearest instance of that in the file. The law below was
+       built after the owner reported the same defect SIX times, the sixth in
+       capitals -- and it was then put behind `TH.noRepeat === true`, which NO
+       GENRE IN THIS FILE HAS EVER DECLARED. MEASURED before this line changed,
+       32 seeds a genre: the lead plays the same pitch twice in a row 7.9% to
+       12.8% of the time, in runs of up to FOUR. The complaint was never fixed;
+       a switch for fixing it was added and left off.
+
+       ⚠ AND THE BRANCH HAD A REFERENCE ERROR IN IT -- `step`, which is not a
+       variable in that scope -- sitting in shipped code, because with no genre
+       declaring the flag the path had NEVER ONCE EXECUTED. Nothing caught it:
+       the test being run was "did the music stay the same", and it did, because
+       the code never ran.
+
+       So the default is ON and a genre may argue with it by saying
+       `noRepeat: false`. The old note below is kept because its reasoning is
+       still right about WHAT the rule does -- it is the "leave it switched off"
+       half that was wrong. ═══════════════════════════════════════════════════ */
+    const NOREPEAT = TH.noRepeat !== false;
     /* THE LINE DISCIPLINE of whatever is holding the lane -- the same door as
        the range above. Null for every instrument that does not declare one,
        and every draw below that exists only for LINES is gated on it, so a
@@ -38957,7 +38993,13 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            cannot find one inside the band, the note is not played. */
         if(NOREPEAT && notes.length && m === notes[notes.length - 1].pitch){
           let alt = null;
-          for(const d of [step >= 0 ? 1 : -1, step >= 0 ? -1 : 1, 2, -2]){
+          /* ⚠ `step` STOOD HERE AND IT IS NOT A VARIABLE IN THIS SCOPE. A plain
+             ReferenceError, in shipped code, on the path this whole block
+             exists for -- and it never threw because NO GENRE HAS EVER
+             DECLARED `theme.noRepeat`, so the branch has never once executed.
+             The direction already asked for is `drawn`, which is what the
+             comment above says and what the loop draws two screens up. */
+          for(const d of [drawn >= 0 ? 1 : -1, drawn >= 0 ? -1 : 1, 2, -2]){
             const t2 = intoBand(nearestTone(scaleStep(keyOf(chordSet), modeOf(chordSet), m, d), tones), LO, HI);
             if(t2 !== m){ alt = t2; break; }
           }
@@ -40002,7 +40044,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     if(!CT) return [];
     /* the same declaration the tune is held to, read the same way. A genre
        that says nothing computes exactly what it always computed. */
-    const NOREPEAT = !!(G.theme && G.theme.noRepeat);
+    /* on by default, like the tune's -- see buildTheme. A second voice that
+       hammers one pitch is the same defect in a quieter part. */
+    const NOREPEAT = !(G.theme && G.theme.noRepeat === false);
     /* ── THE STYLE MAY BE A DRAW ──────────────────────────────────────────────
        `style` was one string per genre, so a genre's second voice related to
        its tune the same way in every record it ever made. Shore's method is
