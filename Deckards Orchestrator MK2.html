@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-28g &middot; the tune has notes in it now &mdash; a note every 1.7 seconds became one a second</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-28h &middot; the idea is said twice before it changes, and the tune has a skeleton</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -22893,6 +22893,19 @@ const GENRE = {
     empty: { chance: 0.28, size: [["beat", 4], ["bar", 3], ["all", 1]] },
 
     form: {
+      /* ══ THE IDEA IS SAID TWICE BEFORE IT CHANGES [doc 006, "rule of 3"] ══
+         The owner's own source: "play an idea, repeat it one time so you're
+         playing it two times in total -- this is REINFORCING the concept... and
+         the third time, simply go somewhere different." And: "if I only play it
+         one time it's more likely that you'll actually not remember it."
+
+         THE THRESHOLD WAS 2, so the vary fired on the SECOND hearing and the
+         idea was stated ONCE. Measured off the printout, lofi seed 1's material
+         map: A@0 T B T Bdev Adev Bvar A(outro) -- material A played once, every
+         later verse a redraw, and the outro carries no lead. The tune the record
+         opens with is never heard again. That is the defect the owner reported:
+         "why does the intro give a memorable line but NEVER comes back?" */
+      varyAt: 3,
       lengths:    { intro: 4, verse: 8, chorus: 8, bridge: 8, instrumental: 8, outro: 4 },
       /* which material each function plays, and who is in the room for it.
          A genre with no drums simply never lists "drums". */
@@ -23277,6 +23290,38 @@ const GENRE = {
        a normal phrase, and that is fine: what makes a hook a hook here is that
        it repeats exactly and does not breathe, not that it plays more notes. */
     theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [3, 2] },
+             /* ── AND THE TUNE GETS A SKELETON, NOT JUST A WALK [doc 003] ──
+                Every melody in this file drew the SHARED DEFAULT move pool,
+                `[[0,2],[1,5],[2,2],[-1,2]]` -- one or two scale steps, never
+                more. No genre had ever declared its own. So the lead was a
+                stepwise random walk, which the algorithmic-composition
+                literature says in as many words produces "more scalar and
+                broken-chord passages... reducing the number of changes in
+                direction" [corpus:Techniques for Generative Melodies Inspired
+                by Music Cognition]. The owner read it off the printout first:
+                "just a series of notes played one step higher than the last".
+
+                THE ZELDA ANALYSIS IN doc 003 IS THE MODEL, and it is the
+                opposite shape: the melody's skeleton is the ROOT AND THE FIFTH
+                -- "this leap down from the root to the fifth" -- and the scale
+                run is what FILLS THE SPACE BETWEEN THEM: "we jump up from the
+                root to the fifth above it, and then the space in between there
+                is filled in with a run up the major scale."
+
+                So the pool keeps steps dominant and adds the leaps that make a
+                skeleton: 3 scale steps is a fourth, 4 is a fifth. Steps still
+                win about two draws in three, so the runs survive -- they now
+                run BETWEEN somewhere and somewhere instead of being the tune. */
+             /* ⚠ AND THE FIRST POOL OVERSHOT, MEASURED: leaps went 43% -> 63%
+                on seed 1 and 50% -> 70% on seed 2, which is the opposite error.
+                A melody is predominantly stepwise with leaps as the STRUCTURAL
+                events -- "the most compelling melodies employ both conjunct and
+                disjunct motion" and keep an equilibrium. In scale steps here,
+                +-1 is a second, +-2 a THIRD, +-3 a fourth, +-4 a fifth, so
+                counting only +-1 as a step is what let the leaps take over.
+                Reweighted for roughly seven draws in ten stepwise. */
+             moves: [[0, 2], [1, 10], [-1, 8], [2, 2], [-2, 2],
+                     [4, 2], [-4, 1], [3, 1], [-3, 1]],
              /* ── AND THIS IS THE ONE GENRE THAT DOES *NOT* GET `verseHook` ───
                 On 2026-08-28 the other four declared it, on the measurement that
                 the verse tune carries a repeated cell in 0 of 12 records
@@ -26139,6 +26184,24 @@ const GENRE = {
        the RANGE this buys, and the comparison that shows the per-bar unit was
        hiding the problem. */
     theme: { count: { hooky: [4, 2], breath: [1, 1], normal: [1, 2] },
+             /* ── THE SKELETON [doc 003] ────────────────────────────────────
+                MEASURED off the printout, seed 1: the lead played
+                `B4 C#5 D#5 E5` in bar after bar for twenty bars -- four
+                consecutive scale steps -- and used SEVEN DISTINCT PITCHES in a
+                ten-minute record. Seeds 2 and 3 the same. That is the shared
+                default move pool with nothing bigger than a third in it.
+
+                Fewer leaps than lofi's, because this genre's sources really do
+                ask for stepwise modal writing -- but not NONE, which is what it
+                had. The fifth is the one that matters: it is the interval the
+                genre's own open-fifth harmony is built on, so a leap to it is
+                the tune agreeing with the chord under it rather than fighting
+                it. */
+             /* reweighted with lofi's, and a shade more stepwise still: this
+                genre's sources really do ask for modal stepwise writing. About
+                three draws in four are a step; the rest are the skeleton. */
+             moves: [[0, 2], [1, 11], [-1, 9], [2, 2], [-2, 2],
+                     [4, 2], [-4, 1], [3, 1], [-3, 1]],
              /* ══ THE VERSE SAYS ITS FIGURE TWICE ═════════════════════════════
                 [owner, 2026-08-28: "There never is a memorable part that
                  defines a song and this is a program wide issue."]
@@ -27757,6 +27820,19 @@ const GENRE = {
          of docs/genre-research/section-lengths.md §3 and of
          docs/genre-research/breaking-the-grid.md §2. It also spends no record
          length, which the owner ruled out separately the same day. */
+      /* ══ THE IDEA IS SAID TWICE BEFORE IT CHANGES [doc 006] -- see lofi ══
+         The owner's own source: "play an idea, repeat it one time so you're
+         playing it two times in total -- this is REINFORCING the concept... and
+         the third time, simply go somewhere different." And: "if I only play it
+         one time it's more likely that you'll actually not remember it."
+
+         THE THRESHOLD WAS 2, so the vary fired on the SECOND hearing and the
+         idea was stated ONCE. Measured off the printout, lofi seed 1's material
+         map: A@0 T B T Bdev Adev Bvar A(outro) -- material A played once, every
+         later verse a redraw, and the outro carries no lead. The tune the record
+         opens with is never heard again. That is the defect the owner reported:
+         "why does the intro give a memorable line but NEVER comes back?" */
+      varyAt: 3,
       lengths: { intro: 4, verse: 16, chorus: 16, bridge: 16, instrumental: 16, outro: 16 },
       /* ── THE SECTION THAT RUNS PAST ITS OWN ENDING ────────────────────────
          The cadential extension -- "the addition of musical material beyond the
@@ -33076,7 +33152,35 @@ function makeForm(chart){
          and written down here rather than left as a comment that says the
          clause is arbitrary — it is not, it is load-bearing until there is
          something better to give those sections. */
-      demand: (seen[f] >= (F.varyAsBefore ? 3 : 2)
+      /* ══ THE RULE OF THREE, AT THE THRESHOLD IT WAS ALWAYS MISSING ═════════
+         [owner's own source, doc `006 (rule of 3)`]: "play an idea, repeat it
+         one time so you're playing it two times in total -- this is REINFORCING
+         the concept... and the third time you have the first option, which is
+         to simply go somewhere different." And: "if I only play it one time
+         it's more likely that you'll actually not remember it... but if I play
+         it TWICE you're more likely to remember it."
+
+         THIS THRESHOLD WAS 2, so the vary fired on the SECOND hearing. The
+         idea was stated once and never heard again, which is the opposite of
+         the rule and the exact defect the owner reported off the printout:
+         "why does the intro of seed 1 lofi give a memorable line but NEVER
+         comes back?"
+
+         MEASURED, and the material map is the whole proof. lofi seed 1:
+
+           A@0 -> T -> B -> T -> Bdev -> Adev -> Bvar -> A(outro, no lead)
+
+         Material A is played ONCE. Every later verse is Avar or Adev -- the
+         rhythm kept, the notes redrawn. Seeds 2 and 3 the same. The tune the
+         record opens with is stated at bars 0-2, repeated at 4-6 inside its own
+         section, and then never returns.
+
+         `varyAt` is the threshold as its own number, defaulting to what it was.
+         A genre that says nothing composes exactly what it composed before. The
+         `varyAsBefore` path is untouched and still means what it meant: it
+         changes HOW the vary happens as well as when, which is why it could not
+         simply be turned on here. */
+      demand: (seen[f] >= (F.varyAt || (F.varyAsBefore ? 3 : 2))
                && (f === "verse" || f === "chorus")) ? "vary" : null,
       /* a transition drops back -- "less going on than the a section" [002] --
          and it says so itself rather than borrowing a neighbour's number */
