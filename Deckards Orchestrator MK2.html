@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-28c &middot; the verse says its figure twice &mdash; a hook, in every genre but one</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-28d &middot; the second keyboard exists now &mdash; a rack that refused its own machines</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -10309,8 +10309,32 @@ const loadableSlots = () => LOADABLE_SLOTS || (LOADABLE_SLOTS = RACK_SLOTS.filte
 function canFill(slot, k){
   const M = INSTRUMENTS[k];
   if(!M || M.legacy || M.fixed) return false;
+  /* ══ A RACK ACCEPTS ITS OWN MACHINES. THIS LINE DID NOT. ═════════════════
+     `SLOT_ACCEPTS` REPLACED a slot's identity instead of EXTENDING it. The only
+     entry in it is `{ keys2: "keys" }` -- meaning "the second keyboard also
+     takes first-keyboard boxes" -- and because `kind` overwrote `slot`, the
+     second keyboard rack accepted every `keys` machine and REFUSED EVERY
+     MACHINE DECLARING `slot: "keys2"`. Two of the Erang sampled instruments
+     declare exactly that, so `canFill("keys2", "erStringsMid")` was false for a
+     box whose own declaration names that rack.
+
+     MEASURED, ds2 over 20 records, before this: NO SECOND KEYBOARD AT ALL on 7
+     of them. The cause was traced to `tryPad` degrading when no register fits
+     and WRITTEN UP THAT WAY IN TWO COMMITS -- and that was wrong. The register
+     never came into it. `resolvePicks` computes
+     `out[slot] = fits(want) ? want : (fits(drawn) ? drawn : "auto")`, so a draw
+     that lands on a box `canFill` refuses falls silently through to "auto" --
+     and `k2raw` is null for "auto", so the pad is never built at all. The pool
+     weights say it exactly: erStringsMid(4) + erKeyMid(2) + erPluck(2) = 8 of
+     23, 34.8%, against 7 of 20 records observed.
+
+     ONE LINE, AND IT CANNOT REACH ANY OTHER RACK. For every slot without a
+     `SLOT_ACCEPTS` entry `kind === slot`, so the added test is already true and
+     changes nothing; `keys2` is the only entry there is. What it recovers is
+     two boxes into one rack: a strings sample at C3 and a key sample at C4,
+     which is pad material by construction. */
   const kind = SLOT_ACCEPTS[slot] || slot;
-  if(M.slot === kind) return true;
+  if(M.slot === kind || M.slot === slot) return true;
   /* ── AND A BASS BOX IS NOT LENT TO THE COMP ───────────────────────────────
      FOUND 2026-08-17 by the battery ABORTING rather than failing: forcing the
      washtub into `keys` on lofi, or the contrabassoon into `keys` on synthwave,
@@ -26635,14 +26659,40 @@ const GENRE = {
                    record ever made, to buy two instruments an occasional turn.
                    They are low instruments; the tune here is written high; so
                    they play the low lanes. That is the whole reasoning. */
+                /* ⚠ THREE ENTRIES WERE REMOVED FROM THESE POOLS ON 2026-08-28
+                   BECAUSE THEY NAMED A BOX THAT CANNOT SIT IN THE RACK. Audited
+                   across every pool in the file: 32 of 287 weight named a
+                   machine `canFill` refuses, and a refused draw falls silently
+                   through to "auto" in `resolvePicks`. Two of the three faults
+                   were `canFill`'s and are fixed there (a rack refusing its own
+                   machines); these are the table's own and are fixed here.
+
+                     keys    erPluck(3)     `slot: "ostinato"` — it is the
+                                            PLUCKED sample, a figure instrument,
+                                            and the ostinato pool is where it
+                                            already lives and works
+                     keys2   erPluck(2)     the same box, the same reason
+                     lead    erLeadLow(1)   `slot: "bass"` — and the bank index
+                                            agrees with the declaration: this
+                                            sample sounds at 32.7 Hz, which is
+                                            C1. It is the low Erang lead and it
+                                            is a bass instrument.
+
+                   REMOVING THEM CHANGES THE DRAW, and that is the honest cost:
+                   the remaining weights now divide a smaller total, so which
+                   machine a given seed gets will move. The alternative was to
+                   leave weight in a pool that resolves to silence, which is
+                   worse — in the keys2 pool "auto" does not mean "the rig's
+                   default", it means NO SECOND KEYBOARD AT ALL, because
+                   `k2raw` is null unless a machine was actually picked. */
                 keys:  [["mellotron", 4], ["erStringsHi", 4], ["erKeyLong", 3],
-                        ["vp330", 2], ["erPluck", 3],
+                        ["vp330", 2],
                         ["bassoon", 3], ["bariSax", 2], ["bassOboe", 2],
                         ["auto", 1]],
-                lead:  [["erLeadHi", 4], ["erLeadMid", 3], ["erLeadLow", 1],
+                lead:  [["erLeadHi", 4], ["erLeadMid", 3],
                         ["corAnglais", 2], ["auto", 4]],
                 keys2: [["erStringsMid", 4], ["vp330", 3], ["mellotron", 3],
-                        ["erKeyMid", 2], ["horns", 2], ["erPluck", 2],
+                        ["erKeyMid", 2], ["horns", 2],
                         ["bassoon", 3],
                         /* the wheel: range [59,84] against the keys2 band
                            [62,79] — zero narrowing, the medieval second
@@ -30536,7 +30586,11 @@ GENRE.ds2 = (function(D){
      does. On the lead it is one draw among five, so a record is sometimes an
      erhu record and is not usually one. */
   machines: merge(D.machines, {
-    lead:    [["erLeadHi", 4], ["erLeadMid", 3], ["erLeadLow", 1],
+    /* `erLeadLow` is gone from here for the reason the parent's pool now states:
+       it declares `slot: "bass"` and the bank index agrees — 32.7 Hz, C1 — so
+       `canFill("lead", …)` refused it and the draw fell through to "auto". One
+       weight of seventeen, dead since this pool was written. */
+    lead:    [["erLeadHi", 4], ["erLeadMid", 3],
               ["corAnglais", 2], ["erhu", 3], ["auto", 4]],
     counter: [["auto", 5], ["erWind", 2], ["erhu", 4]],
   }),

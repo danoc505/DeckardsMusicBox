@@ -323,7 +323,54 @@ says gets "fixed" wrongly by guessing.
 material, per lane. Today: lead 13/16, ostinato 16/16, keys 4–11/16. A hook
 should read 16/16 on its own bars.
 
-### Phase 4 — the second keyboard is a character  *(DS2 and dungeon synth)*
+### Phase 4 — the second keyboard is a character — **DONE, build `2026-08-28d`**
+
+Research: `docs/genre-research/the-second-keyboard-was-never-there.md`.
+
+**MY OWN PHASE 1 DIAGNOSIS WAS WRONG AND IT WAS IN WRITING TWICE.** I reported —
+in a commit message and in a code comment — that the second keyboard goes
+missing because `tryPad` degrades when no register fits. **The register never
+came into it.**
+
+The real chain: `canFill` computed `const kind = SLOT_ACCEPTS[slot] || slot` and
+tested `M.slot === kind`, so `SLOT_ACCEPTS = {keys2: "keys"}` **replaced** the
+slot's identity instead of extending it — and **the second-keyboard rack refused
+every machine declaring `slot: "keys2"`.** A refused draw falls silently through
+to `"auto"` in `resolvePicks`, and for this slot `"auto"` means *no pad is built
+at all*. The pool's dead weight (8 of 23 = 34.8%) and the observed absence
+(7 of 20) were the same number, and I had both in front of me.
+
+**An audit of every pool in the file then found 32 of 287 weight — 11.1% —
+naming a box that cannot be racked**, including three sampled instruments that
+could fill *no* rack at all. Two faults were the engine's (fixed with one line)
+and two were the tables' (`erPluck` is `slot: "ostinato"`; `erLeadLow` sounds at
+32.7 Hz and is `slot: "bass"` — both declarations verified against the bank
+index and both correct, so the pools were wrong).
+
+```
+  records with a second keyboard      dead pool weight
+    ds2           13/20 -> 20/20        32/287 -> 0/273
+    dungeonsynth  13/20 -> 20/20
+    fantasysynth  13/20 -> 20/20
+```
+
+**Surgical, which is the evidence it was a fault and not a taste:** lofi and
+synthwave are **byte-identical** (no Erang boxes in their pools); fantasy synth
+seed 1 moved 4 lines of 3085; the records that were already fine moved ~1%; and
+**seed 7 — zero bars of second keyboard in every measurement this session — now
+has 52 to 67.**
+
+**ITEM H IS BLOCKED BY ARCHITECTURE, not declined.** The plan wanted the pad to
+carry a rhythmic figure through the climax. The mechanism exists (`pad.press`)
+and the sources license it *only* for "upbeat productions" — which the climax
+is — but `const PAD = (opts.sustain && G.pad) || {}` is read at **material build
+time**, and a material plays in several legs, so it cannot be scoped to one.
+What the part does instead is the sourced rhythm-guitar role anyway: a held wall
+through the Big Muff, trading with the tune under the double kick.
+
+---
+
+### Phase 4 — as originally planned
 
 - It must be present. Seed 7 has none for 11 minutes; find whether that is
   `form.roles`, the `rest` coin (`keys2: 0.26`), or the entry fractions, and fix
