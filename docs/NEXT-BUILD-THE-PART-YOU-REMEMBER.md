@@ -194,7 +194,51 @@ second keyboard trading with the tune under the fuzz — and `return` gets
 every record with no mid-record thin bars. Expect whole sections at 1–2 pitched
 parts plus the ground, and say how many.
 
-### Phase 2 — the 16-bar grid comes apart  *(dungeon synth + DS2 tables, then `extend` program-wide)*
+### Phase 2 — the 16-bar grid comes apart — **DONE, build `2026-08-28b`**
+
+Research: `docs/genre-research/breaking-the-grid.md`. **The base `form.lengths`
+were NOT changed**, and that is the sheet's main finding: the genre's founding
+record (Mortiis, *Født til å herske* — one 53-minute song, "numbing repetition",
+"subtle variations rather than dramatic structural changes") argues *for* the
+uniform block. Both devices used instead **add and never cut**, so the block is
+kept and only its edge is broken — and no record length is spent, which the
+owner ruled out separately.
+
+**Section lengths, 20 records a genre:**
+
+```
+  dungeonsynth / ds2   {4, 16}  ->  {1×6, 2×12, 3×5, 4×20, 16×176, 18×10, 20×13}
+  lofi          {2,3,4,8}  ->  {1×5, 2×15, 3×8, 4×34, 8×93, 10×5, 12×10}
+  synthwave         {4, 8}  ->  {4×95, 8×208, 10×14, 12×17}
+  fantasysynth                  unchanged — BYTE-IDENTICAL, it already had the device
+```
+
+**The extension rate lands on its source.** Kallstrom's repertoire survey gives
+roughly one section in seven; measured here: **dungeon synth 11.6%, synthwave
+13.0%, lofi 13.9%** of eligible sections.
+
+**The transition is the bigger device for the dungeon synths**, because it is
+the only door to a section shorter than four bars — it fires in 15 of 20 records
+at 1 to 3 bars, which at 54 BPM is 4 to 13 seconds.
+
+**Record length drift**: +4% to +8% (dungeon synth seed 7, 11:05 → 11:50).
+synthwave seed 7 got *shorter* (5:06 → 4:56) — the form builder hits its target
+with fewer sections once sections can extend.
+
+**No throws in 100 records** across five genres, except **lofi seed 17**, which
+is the pre-existing failure already filed in `BACKLOG` §0ac and reproduces
+identically.
+
+**And it corrected a Phase 1 overclaim.** An adversarial review agent found, and
+direct measurement confirmed, that dungeon synth's `descend` leg gets **one
+section in 9 records of 20** — so its rotation is rescued and inert there, and
+"the descent opens on one keyboard" is a promise about half the records rather
+than all. The mechanism is behaving correctly; the comment was wrong and is
+fixed.
+
+---
+
+### Phase 2 — as originally planned
 
 Two edits that must land together or the second has nothing to vary:
 

@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-28a &middot; somebody is in front &mdash; every genre now has solos, duels and a band</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-28b &middot; the grid comes apart &mdash; sections that run past their ending, and one-bar transitions</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -23000,7 +23000,26 @@ const GENRE = {
          should have one. Every arrival taking one would make the device the
          rule rather than the surprise. */
       transition: { before: ["chorus", "bridge"], chance: 0.55,
-                    bars: [[2, 5], [1, 3], [3, 2]], energy: 0.5, on: 4 },
+                    /* ⚠ `on: 4` STOOD HERE AND NOTHING HAS EVER READ IT. The
+                       reader takes `TRN.bars`, `TRN.before`, `TRN.chance` and
+                       `TRN.energy`; there is no `TRN.on` anywhere in the file.
+                       Removed rather than left, because this table is the one
+                       the next genre copies -- dungeon synth's new transition
+                       was written from it on 2026-08-28 and the dead key was
+                       caught on the way past. breaking-the-grid.md §5. */
+                    bars: [[2, 5], [1, 3], [3, 2]], energy: 0.5 },
+      /* ── AND ITS SECTIONS RUN PAST THEIR ENDING TOO ──────────────────────
+         The cadential extension, `chance: 0.14` from Kallstrom's repertoire
+         survey -- three asymmetrical periods in about twenty-four, all three of
+         them extensions. `bars` is a POOL, not a range: two bars or four, never
+         three. On an eight-bar lofi section that is a quarter or a half.
+
+         This genre already had the MOST varied lengths in the file -- measured
+         {2, 3, 4, 8}, because it is the only genre that ever declared a
+         transition -- so this is the smaller half of its fix. It gets the
+         device because the defect the device answers is program-wide: every
+         section function in every genre had exactly one length. */
+      extend: { chance: 0.14, bars: [2, 4], fn: ["verse", "chorus", "instrumental"] },
       energy: { intro: 0.55, outro: 0.5, bridge: 0.68, instrumental: 0.72,
                 chorus: 0.92, chorusPeak: 1.0, verse: 0.74 },
       /* a beat tape does not climb much: it sets a mood and stays in it. High
@@ -24450,6 +24469,25 @@ const GENRE = {
          which genre gets which function is [CHOSEN]] */
       lengths:  { intro: 8, verse: 8, prechorus: 4, chorus: 8, postchorus: 4,
                   bridge: 8, instrumental: 8, outro: 4 },
+      /* ── AND A SECTION MAY RUN PAST ITS ENDING ───────────────────────────
+         The cadential extension, `chance: 0.14` from Kallstrom's repertoire
+         survey. `bars` is a POOL and not a range -- two bars or four, never
+         three -- which on an eight-bar section is a quarter or a half.
+
+         THIS GENRE'S LENGTHS WERE NEVER THE COMPLAINT and the device is here
+         because the defect is program-wide, not because synthwave was the worst
+         of it. Measured, seeds 1 and 7: it already runs {4, 8}, two lengths,
+         because the pre-chorus and post-chorus are half-length by declaration.
+         Its measured fault was texture -- ZERO bars under three pitched parts
+         in a whole record -- and that is what `form.feature` answered one
+         commit ago.
+
+         NOT on prechorus or postchorus. Both are already four bars against
+         everything else's eight, and they are RAMPS: "the pre-chorus is a ramp
+         INTO the hook" by this table's own comment. A ramp that refuses to end
+         is a ramp that misses its arrival, which is the one thing this genre's
+         form is built to land. */
+      extend: { chance: 0.14, bars: [2, 4], fn: ["verse", "chorus", "instrumental"] },
       /* the pre-chorus is a RAMP INTO the hook, so it plays the hook's own
          material -- that is what makes the arrival feel prepared rather than
          announced. The post-chorus is the hook still ringing, so it takes it
@@ -27524,9 +27562,78 @@ const GENRE = {
          Four bars is 18 seconds at this tempo, which is where the measurement
          of ten real records puts the whole texture being assembled (median
          17.6 s). The intro is a way in, not a movement. */
+      /* ══ THESE LENGTHS ARE NOT CHANGING, AND THE REASON IS SOURCED ═════════
+         [owner, 2026-08-28: "The songs are always too safe and formulaic."]
+
+         MEASURED, four records at seeds 1, 3, 7 and 42: EVERY SECTION IS 16
+         BARS. 41 of 41 across the four, intro aside. The complaint is real and
+         this table is where it lives.
+
+         AND THE OBVIOUS FIX IS THE WRONG ONE. Giving each function its own
+         length would change the shape of the block, and the block is the one
+         thing every source about this genre defends: its founding record --
+         Mortiis, `Født til å herske`, 1994 -- is ONE SONG OF 53 MINUTES split
+         across two tracks, built on "numbing repetition" and "small yet
+         intricate variations on its repeating parts... rather than dramatic
+         structural changes". The practitioner guides agree ("a single loop
+         repeated endlessly"), and so do this repo's own transcripts ("in dungeon
+         synth we can really get away with looping the same").
+
+         So the two devices below ADD and never cut. A 16-bar section that runs
+         to 18 is still a 16-bar block; it refuses to end where you expected.
+         The block is kept and its EDGE is broken, which is the whole argument
+         of docs/genre-research/section-lengths.md §3 and of
+         docs/genre-research/breaking-the-grid.md §2. It also spends no record
+         length, which the owner ruled out separately the same day. */
       lengths: { intro: 4, verse: 16, chorus: 16, bridge: 16, instrumental: 16, outro: 16 },
+      /* ── THE SECTION THAT RUNS PAST ITS OWN ENDING ────────────────────────
+         The cadential extension -- "the addition of musical material beyond the
+         point at which a cadence is expected" [corpus:Kallstrom, PHRASE AND
+         PERIOD STRUCTURE]. `chance: 0.14` is that survey's own proportion:
+         three asymmetrical periods in about twenty-four, and all three of them
+         extensions rather than odd lengths.
+
+         `bars: [2, 4]` IS A POOL AND NOT A RANGE -- the draw is
+         `pool[floor(rng * pool.length)]` -- so this is two bars or four, never
+         three. A quarter or a half of this genre's eight-bar material: long
+         enough to hear as an extra breath, short enough to read as the section
+         refusing to end rather than as a new section.
+
+         NOT on intro, outro or bridge. The first two are the record's bookends
+         and the bridge is the one departure, where a longer departure is only a
+         longer departure. */
+      extend: { chance: 0.14, bars: [2, 4], fn: ["verse", "chorus", "instrumental"] },
+      /* ── AND THE ONE SECTION SHORTER THAN FOUR BARS THIS FILE CAN MAKE ────
+         MEASURED across four genres and 24 records each, before this mechanism
+         existed: "every section is 4, 8, 10, 12, 16, 18 or 20 bars, and NOTHING
+         IS EVER 1, 2, 3, 5 OR 7." The transition is the only door to those
+         lengths, and until now lofi was the only genre through it.
+
+         IT IS PROPORTIONALLY BIGGER HERE THAN IN LOFI, which is the argument
+         for putting it on this genre in particular. A bar at 54 bpm is 4.4
+         seconds, so a two-bar transition is NINE SECONDS -- an event, not a
+         hiccup. The same declaration in a beat tape at 78 bpm buys three.
+
+         The theory names the shape: transitional writing shows "irregular
+         hypermeter and irregular phrase lengths" [corpus:openmusictheory]. And
+         the transition material `T` is defined by an ABSENCE -- drums, bass and
+         chords, no tune, no figure -- which is `002`'s finding that "the lack of
+         melody was literally the only difference between the setup and the
+         section that followed".
+
+         `chance: 0.35` IS [EAR], as lofi's 0.55 is and for the reason lofi's own
+         comment gives: the sources say what a transition IS, not how often a
+         record should have one. It is lower than lofi's on purpose -- this is
+         the genre whose founding record argues for being surprised less.
+
+         `on:` IS NOT DECLARED HERE. lofi's transition carries `on: 4` and
+         NOTHING READS IT -- the reader takes bars, before, chance and energy and
+         nothing else. Dead config, reported in breaking-the-grid.md §5 rather
+         than inherited by copying the line above it. */
+      transition: { before: ["chorus", "bridge"], chance: 0.35,
+                    bars: [[2, 5], [3, 3], [1, 2]], energy: 0.5 },
       material: { intro: "A", verse: "A", chorus: "B", bridge: "C",
-                  instrumental: "A", outro: "A" },
+                  instrumental: "A", outro: "A", transition: "T" },
       /* THE LAYERS ARRIVE. The intro is one keyboard alone; the bass and the
          figure join; the drums are absent from half the record, which is the
          sources' "sparse or absent" written as an arrangement rather than as a
@@ -27610,6 +27717,15 @@ const GENRE = {
                chorus:       ["keys", "keys2", "bass", "lead", "counter", "ostinato", "drums"],
                bridge:       ["keys", "bass", "ostinato", "drums"],
                instrumental: ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"],
+               /* THE TRANSITION IS THE GROUND AND THE HARMONY, AND NO TUNE. The
+                  material `T` is already built without a lead, a counter or a
+                  figure -- that is what makes it a transition rather than the
+                  section it introduces -- so this list agrees with it rather
+                  than contradicting it. A roles list that named the lead here
+                  would be a genre asking for a part the material does not carry,
+                  which is the "announces a part that never sounds" shape this
+                  file already has too much of. */
+               transition:   ["drums", "keys", "bass"],
                outro:        ["drums", "bass", "keys", "keys2", "lead", "counter", "ostinato"] },
       /* one or two parts left at the end; the draw picks WHICH */
       thinTo: [1, 2],
@@ -27734,6 +27850,19 @@ const GENRE = {
            descend  the genre's own thesis is already written above -- "the
                     record opens on ONE KEYBOARD ALONE nearly every time" -- so
                     the descent states that and then opens out.
+                    ⚠ AND IT ONLY LANDS IN ELEVEN RECORDS OF TWENTY, which the
+                    first version of this comment overclaimed. MEASURED by
+                    asking the program for its movements rather than reading
+                    them off the printout (which does not print them):
+                    `descend` gets ONE section in 9 records of 20 and two in 11.
+                    On a one-section leg the mechanism's own guard returns every
+                    part it would have dropped -- "a leg of one section walks
+                    nothing" -- so the rotation is correctly inert there and the
+                    opening is a band. That is the guard working, not a fault,
+                    and there is no rotation that can beat it: a leg with one
+                    section has no shape to walk. It is written down because
+                    "the descent opens on one keyboard" reads as a promise about
+                    every record and it is a promise about half of them.
            halls    the tune and the figure trade. A duel is two parts and they
                     swap every two bars, which is the call-and-response this leg
                     has always described and never done.
