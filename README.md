@@ -60,6 +60,33 @@
 > you think nothing moved, this is how you find out you were wrong. If something
 > did move, this is the only place you can see what.
 >
+> ## ⚠ RULE ONE-A — A CHANGE THAT LEAVES THE MUSIC BYTE-IDENTICAL HAS NOT BEEN MADE.
+>
+> > *"Why are you concerned if everything stays the same when you're supposedly
+> > CHANGING the way everything is? Something in your instructions is making you
+> > make changes that DO NOTHING and then you prove they done nothing by testing
+> > that they have not changed anything! This is WRONG WRONG WRONG."*
+> > — the owner, 2026-08-28
+>
+> **A test whose passing condition is that the music did not move is a test that
+> the fix was not applied.** Byte-identity has one legitimate use: proving a new
+> mechanism is inert while it is still switched off, as one step before you
+> switch it on **in the same build**. It is never a result and never evidence
+> that work was done.
+>
+> **The corollary, which cost this program real music: a default that no genre
+> overrides is a fix that was never made.** `theme.noRepeat` gated the fix for a
+> defect the owner reported **six times**. No genre ever declared it. So the
+> defect ran at 8–13% of the lead's notes for the flag's whole life — and the
+> code behind the flag held a **ReferenceError that had never once executed**,
+> because the test being run was "did the music stay the same", and it did.
+>
+> Before you put a number in a table, ask whether it is a **taste** or whether
+> it is **what the thing is**. An interval budget is a taste and defaults to the
+> old value. A note having a *length* is not — so it defaults to the fix, and a
+> genre argues downward. If it is a fix, ship it **on**, in the same build, and
+> print the notes.
+>
 > **Why the battery went.** Two reasons, and the second is the bad one:
 >
 > - It took twelve to fifteen minutes and printed **zero notes**. Everything it

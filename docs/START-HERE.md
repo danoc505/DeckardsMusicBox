@@ -75,18 +75,20 @@
 > `mk2_test.js`, the snapshot, `mk2_ui.js`, `mk2_blend.js`, `mk2_midi.js` or any
 > `probe_*` — those files do not exist.
 >
-> **4. FOUR GENRES, and three of them are the work.** `vgm` and `boxcarsynth2`
-> were deleted from the program on the owner's instruction. What is left is
-> **lofi, synthwave, dungeonsynth, boxcarsynth** — and the owner named the three
-> to focus on: **lofi hip hop, dungeon synth, boxcar synth.** Synthwave stays in
-> the file; nobody is working on it.
+> **4. FIVE GENRES.** Derived from `MK2.GENRE`, not remembered: **lofi,
+> synthwave, dungeonsynth, fantasysynth, ds2.** `fantasysynth` and `ds2` both
+> descend from `dungeonsynth` through `merge(D, {...})`, so a change to the
+> parent's tables reaches all three — check which of the three you moved.
+> `vgm`, `boxcarsynth` and `boxcarsynth2` were deleted from the program on the
+> owner's instruction and any sentence below that names them is history.
 >
-> The artifact is `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`
-> and it is build `2026-08-20a`. `harness/mk2_build.json` is the record.
+> The artifact is `https://claude.ai/code/artifact/b7004a11-15b7-4e76-be6e-dd39bb86ed06`.
+> `harness/mk2_build.json` is the record and `mk2_stamp.js check` is the test —
+> never a build number typed into prose, including this one.
 
 
-*Everything below is verified at `2026-08-16j` unless it says otherwise (the
-newest build; its entry is under "What happened last"). If you
+*Everything below is history unless it says otherwise; run
+`node harness/mk2_stamp.js check` for the build you actually have. If you
 are an AI coder starting a fresh session on this project, read this file
 first and then the two it sends you to. If you are the user handing this to
 someone, the whole file is the prompt — paste it as-is.*
@@ -955,49 +957,72 @@ wanted, and nobody should quietly re-add costs to the other files either.
 
 ## The commands
 
-Build `2026-08-15i`. The commands, each in the DEFAULT form, which is the form
-to use. `mk2_stamp.js check` tells you whether the file in front of you is the
-build these documents describe — that, not a battery, is the pickup check.
+`mk2_stamp.js check` tells you whether the file in front of you is the build
+these documents describe — that, not a battery, is the pickup check. The build
+number is not written here on purpose: one was, it went stale, and a stale
+number in prose is the same defect as a stale list of tools.
+
+> **⚠ THE LIST THAT STOOD HERE NAMED THIRTEEN COMMANDS AND ELEVEN OF THEM DO
+> NOT EXIST.** `mk2_roll`, `mk2_test`, `mk2_snapshot`, `mk2_ui`, `mk2_blend`,
+> `mk2_midi` and every `probe_*` were deleted on 2026-08-18. One of the lines
+> read *"did the music move?"* as though a **no** were a pass. It is not. See
+> RULE ONE-A below.
 
 ```
-node harness/mk2_roll.js 1 --genre <g>      the notes. RULE ONE
-node harness/mk2_test.js                    the seam checks
-node harness/mk2_test.js kit                ...only the ones whose names contain "kit"
-node harness/mk2_snapshot.js check harness/mk2_baseline.snap    did the music move?
-node harness/mk2_ui.js                      the front panel, real browser (flaky ~1 in 5)
-node harness/mk2_blend.js                   the blend sliders
-node harness/mk2_midi.js                    the MIDI port and the .mid export
-node harness/probe_mixer.js                 the desk reaches the graph
-node harness/probe_dronerack.js             the drone rack's panel, its LFOs, and whether a
-                                             hand-patched modulator bank slot reaches rendered audio
-node harness/probe_brass.js                 the recorded section: tables, cuivré, the chair,
-                                             the register deal and the mutes A/B'd on renders
-node harness/probe_drumarc.js               does the drum part have a SHAPE
-node harness/probe_blendshare.js 30 --all   what share of a song each genre on
-                                            the faders actually supplied
-node harness/mk2_roll.js 1 --genre <g> --len 2:00        the notes, at a length
-node harness/mk2_roll.js 1 --blend a:50,b:50 --trait kit=b   ...and aimed
+node harness/mk2_score.js --genre <g> --seed <n>   THE TEST. The whole song,
+                                                  every instrument, every bar,
+                                                  as notes. Read all of it.
+node harness/mk2_score.js --mid out/              ...and write real .mid files
+node harness/mk2_syntax.js                        does the file still parse
+node harness/mk2_stamp.js check                   is the artifact this build
+node harness/mk2_cost.js                          what a change costs in tokens
+node harness/mk2_render.js                        offline audio, for LISTENING
 ```
 
-**Three of those have a `--full` form and DEFAULT TO THE CHEAP ONE ON PURPOSE.**
-`mk2_snapshot check` samples seeds; `--full` sweeps the whole baseline.
-`mk2_ui` runs a fast core; `--full` adds the graph-growth check and the
-declared-vs-drawn sweep. Use `--full` when you can say what it would see that
-the default cannot, and say that out loud before you run it.
+That is the whole harness. It is derived from `ls harness/*.js` rather than
+remembered, because a hand-written list of what the program contains is exactly
+what this file's own "derive, never list" law is about, and this list went stale
+for ten days without anyone noticing.
 
-On a fresh clone, FIRST: `npm install playwright`. `node_modules` is not in
-the repo and every browser probe dies with "Cannot find module 'playwright'",
-which reads like a broken probe and is not. Do **not** run
-`playwright install` — the browser is already in the image.
+**Print it before the change and after, save both to files, and diff them —
+then READ the bars.** Not the summary line at the top. The bars.
 
 ## THE TESTING RULE, CORRECTED 2026-08-07, AND AGAIN ON PICKUP
 
-### ⚠ FIRST, THE ONE THAT KEEPS BEING GOT WRONG: ON PICKUP, RUN NOTHING.
+### ⚠ RULE ONE-A — A CHANGE THAT LEAVES THE MUSIC BYTE-IDENTICAL HAS NOT BEEN MADE.
+
+> **The owner, 2026-08-28**, on a build that added two mechanisms and then
+> proved ten records printed unchanged:
+>
+> *"Why are you concerned if everything stays the same when you're supposedly
+> CHANGING the way everything is? Something in your instructions is making you
+> make changes that DO NOTHING and then you prove they done nothing by testing
+> that they have not changed anything! This is WRONG WRONG WRONG."*
+
+**A test whose passing condition is that the music did not move is a test that
+the fix was not applied.** Byte-identity has one legitimate use: proving a new
+mechanism is inert while it is still off, as one step before switching it on in
+the same build. It is never a result and never evidence that work was done.
+
+**And the corollary, which has cost this program real music: a default that no
+genre overrides is a fix that was never made.** `theme.noRepeat` gated the fix
+for a defect the owner reported **six times**. No genre ever declared it. So the
+defect ran at 8–13% of the lead's notes for the flag's whole life — and the code
+behind the flag held a **ReferenceError that had never once executed**, because
+the test being run was "did the music stay the same," and it did.
+
+Before you put a number in a table, ask whether it is a TASTE or whether it is
+what the thing IS. An interval budget is a taste and defaults to the old value.
+A note having a *length* is not — so it defaults to the fix, and a genre argues
+downward. **If it is a fix, ship it ON, in the same build, and print the notes.**
+
+### AND ON PICKUP, RUN NOTHING EXCEPT THE PRINTOUT.
 
 **Starting a session is not working.** Read, orient, pick a job from the
-backlog, start it. Do not run the seam battery, do not run a probe, do not
-"establish a baseline" — the baseline is written in these files, and
-`mk2_stamp.js check` already proves your file is the one it was written from.
+backlog, start it. The one thing worth running first is the printout you are
+about to compare against — save it to a file; that IS the baseline. And
+`mk2_stamp.js check`, which proves your file is the one these documents were
+written from.
 
 **Because a battery is a DIFFERENCE instrument.** It compares the program to a
 recorded number. With nothing changed there is no difference to find, so the
@@ -1039,28 +1064,22 @@ the snapshot is a diff against a file you already know is identical. Running it
 and then reporting "not one note moved" is not evidence. It is a sentence that
 was true before the work started.
 
-**So the rule is: run what can see what you touched.**
+**⚠ AND THIS SECTION USED TO END IN A TABLE ROUTING YOU TO SIX TOOLS, FIVE OF
+WHICH NO LONGER EXIST — AND ITS ROW FOR "a genre table, a stage, a voice's
+notes" SAID `and the snapshot — this is what it is for`.** That is precisely
+the instruction that produced a year of changes whose reported result was *"not
+one note moved."* The table is gone. There is one test:
 
-| what you touched | what can see it |
-|---|---|
-| labels, CSS, panel layout, what is DRAWN | `mk2_ui` only |
-| a machine's declaration (controls, kits, panel fields) | `mk2_ui` + `mk2_test` |
-| a genre table, a stage, a voice's notes, `voiceFor`, `resolvePicks` | + `mk2_roll`, **and the snapshot — this is what it is for** |
-| the audio graph, a voice's SOUND | + the rendered-audio battery, `probe_render_determinism` |
-| the blend sliders / the MIDI export | `mk2_blend` / `mk2_midi` — and only then |
+```
+node harness/mk2_score.js --genre <g> --seed <n>
+```
 
-**AND THE ONE THAT LOOKS LIKE A FALSE ALARM AND IS NOT.** The snapshot hashes
-*every field an event carries*, on purpose — "a field added tomorrow is in the
-hash tomorrow, by construction". So **attaching a new field to a note moves all
-2400 lines even when no note moved**, and the honest response is not to shrug at
-it and not to hide the field somewhere the hash cannot see. It is: hash the same
-songs with the new field REMOVED, show that matches the old baseline, then
-rewrite the baseline. That is what was done for `holdSec` on `2026-08-08d`, and
-the one-off is worth writing again the next time it happens.
-
-**And say which one you skipped and why.** "The snapshot cannot see a label" is
-a better sentence than a green IDENTICAL, because it says you knew what you
-were changing.
+If what you touched cannot move a note — a label, a colour, a panel layout —
+then say so in one sentence and do not run anything. **If what you touched CAN
+move a note, then it had better move one, and the printout is where you show
+it.** A change to a genre table, a stage, a voice's notes, `voiceFor` or
+`resolvePicks` that prints identical bars did not do anything, and the correct
+report is "not applied", not "safe".
 
 ### The tools default to the cheap form. Let them.
 
@@ -1073,15 +1092,14 @@ the docs that will just get you to do it again."* He is right, and the fix was
 structural rather than written: **the expensive form is now behind a flag, so
 it cannot be reached by habit.**
 
-- **While working:** `mk2_roll.js` and `mk2_test.js`, and prefer the targeted
-  form — a name filter on the battery, or a short query against the composer,
-  when the question is about one seam. Add a probe if the question needs
-  measuring: `probe_stems.js` for balance, `probe_static.js` for how much a
-  record changes, `probe_palette.js` for which sounds a genre reaches.
-- **Once, before publishing:** the snapshot, `mk2_ui.js`, `mk2_blend.js`,
-  `mk2_midi.js`, and any probe the change touches.
-- **Never** the whole chain after every edit, and **never a `--full` sweep by
-  reflex.**
+- **While working:** `mk2_score.js`, before and after, saved to files and
+  diffed — and read the bars, not the diff count. `mk2_syntax.js` after any
+  edit to the file, because a broken template literal is invisible until
+  something loads it.
+- **Once, before publishing:** `mk2_stamp.js write`, and the printout one more
+  time on the build you are actually shipping.
+- **Never** reach for some other instrument because the printout is long. It is
+  long because a song is long. Reading it is the job.**
 
 **AND THE REAL REASON THE RULE KEEPS BREAKING.** It is not forgetfulness — the
 session that wrote this section broke it within the hour. It is that a large
@@ -1147,22 +1165,18 @@ only ever catches change you did not intend, and only if you look.
 The graph, a voice, a genre's `space` or `kick`, the master chain:
 
 ```bash
-node harness/probe_render_determinism.js      # every genre repeatable
-node harness/probe_stems.js <genre> <seed>    # levels, A-weighted, leave-one-out
-node harness/render_audio.js /tmp/aud 1,2
-python3 harness/test_audio.py /tmp/aud        # 313 passed, 18 FAILED
+node harness/render_audio.js /tmp/aud 1,2     # render it and LISTEN
+node harness/mk2_render.js                    # the offline renderer
 ```
 
-**About those 18 failures.** Eleven are one check whose ceiling was calibrated
-before the program had a stereo stage — it now fails a correct mix. The other
-seven are four `presence above 2 kHz`, two `both channels carry the mix` and
-one `solo tape`. All 18 were confirmed identical on the commit before, so none
-belongs to the newest build — but **the count grew from 15 to 18 somewhere in
-`04a`…`05d` and nobody has attributed it to a build.** `BACKLOG.md` §1 has the
-numbers. **Do not just raise the number**: that check's value is failing when
-the reverb vanishes, and a ceiling chosen to make today's mix pass proves
-nothing. And do not inherit the habit that produced it — this battery once sat
-at 8 failures filed as "pre-existing", and two were real defects in the music.
+**⚠ `probe_render_determinism.js`, `probe_stems.js` and `harness/test_audio.py`
+were listed here and none of them exists.** The audio battery — "313 passed, 18
+FAILED" — was deleted with the rest on 2026-08-18, and the paragraph that stood
+here spent fifteen lines litigating those 18 failures. Its one durable sentence
+is worth keeping because it is the same disease as RULE ONE-A, pointed at
+sound: **this battery once sat at 8 failures filed as "pre-existing", and two of
+them were real defects in the music.** A number you have stopped reading is not
+a test. Render it and listen.
 
 ## What to do next
 

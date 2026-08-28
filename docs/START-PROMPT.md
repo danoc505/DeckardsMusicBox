@@ -35,24 +35,69 @@ and is the same file. It is how the user answers.
 
 These are binding. Several were written after being broken.
 
-**RULE ZERO — ON PICKUP, RUN NOTHING.** Starting a session is not working.
-Read, orient, take a job from `docs/BACKLOG.md`, start it. **Do not run the
-seam battery or any probe to "establish a baseline."** The baseline is written
-in these files, and a battery is a *difference* instrument — with nothing
-changed there is no difference to find, so it cannot return anything you did
-not already have. It is a diff against a file you know is identical. This cost
-a session two `mk2_test` runs on an untouched program on 2026-08-07, the second
-killed by the container for memory, and the instruction that caused it was
-real: three copies of "run all of these before you claim anything" had survived
-in `HANDOFF-MK2.md` for a week after the rule replaced them. **The one thing
-worth running on pickup is `node harness/mk2_stamp.js check`** — one second, and
-it is the only check that can genuinely come back false before you have done
-anything.
+**RULE ZERO — ON PICKUP, RUN NOTHING EXCEPT THE PRINTOUT.** Starting a session
+is not working. Read, orient, take a job from `docs/BACKLOG.md`, start it.
+**Do not run anything to "establish a baseline" beyond the printout you are
+about to compare against.** `node harness/mk2_score.js --genre <g> --seed <n>`
+saved to a file IS the baseline, and it is the one you will diff. Nothing else
+is worth running on pickup except `node harness/mk2_stamp.js check` — one
+second, and the only check that can genuinely come back false before you have
+done anything.
 
-**RULE ONE — print the notes and read them, every time.**
-`node harness/mk2_roll.js 1 --genre <g>`, before and after any change, side by
-side. `--genre` is a flag; a bare genre name silently composes lofi. This is a
-test *in addition to* every other one, never instead of one.
+**RULE ONE — PRINT THE MIDI OF THE WHOLE SONG, ALL INSTRUMENTS, AND READ THE
+WHOLE THING. IT IS THE ONLY TEST.**
+
+```sh
+node harness/mk2_score.js --genre <g> --seed <n>
+```
+
+Before the change and after, side by side, and **read it** — not the summary
+line, the bars. `mk2_roll.js`, `mk2_test.js`, `mk2_snapshot.js`, `mk2_blend.js`
+and the 87 probes named elsewhere in these documents **do not exist**; they were
+deleted on 2026-08-18 and any instruction to run them is stale.
+
+> **The owner, 2026-08-28:** *"The ONLY ONLY ONLY TEST IS PRINTING MIDI OF WHOLE
+> SONG ALL INSTRUMENTS AND READING THE WHOLE SONG."*
+
+**RULE ONE-A — A CHANGE THAT LEAVES THE MUSIC BYTE-IDENTICAL HAS NOT BEEN MADE.**
+
+This is the rule that had to be written, and it is written because the opposite
+was being practised. From the owner, on a build that added two mechanisms and
+then proved ten records printed unchanged:
+
+> *"Why are you concerned if everything stays the same when you're supposedly
+> CHANGING the way everything is? Something in your instructions is making you
+> make changes that DO NOTHING and then you prove they done nothing by testing
+> that they have not changed anything! This is WRONG WRONG WRONG."*
+
+**A test whose passing condition is that the music did not move is a test that
+the fix was not applied.** Byte-identity has exactly one legitimate use: proving
+a new mechanism is INERT while it is still switched off, as one step before you
+switch it on in the same build. It is never a result, never a finish line, and
+never evidence that work was done. If a session ends with the notes unchanged,
+the session shipped nothing — say so in those words rather than dressing the
+snapshot up as a pass.
+
+**RULE ONE-B — A DEFAULT THAT NO GENRE OVERRIDES IS A FIX THAT WAS NEVER MADE.**
+
+The corollary, and it has cost this program real music. `theme.noRepeat` gated
+the fix for a defect the owner reported **six times**; no genre ever declared
+it, so for its whole life the flag was off, the defect was at 8–13% of the
+lead's notes, and **the code behind the flag contained a ReferenceError that had
+never once executed.** Nothing caught it, because the test being run was "did
+the music stay the same," and it did.
+
+So, before you put a number in a table:
+
+- **Is this a TASTE or is it what the thing IS?** An interval budget is a taste
+  and defaults to the old value. A note having a *length* is not a taste — it is
+  what a melody is — so it defaults to the fix and a genre may argue downward.
+- **If it is a fix, ship it ON, in the same build, and print the notes.** "A
+  genre that declares nothing draws what it always drew" exists so you cannot
+  break music nobody measured. It is not a licence to ship every fix switched
+  off and pass a test for having done so.
+- **If you leave a switch off, say in the commit that the fix is not yet
+  applied.** Not "byte-identical, safe." Not applied.
 
 **Research every genre or unit you touch, fresh, in its own doc with named
 sources.** Prior research does not count on its own — use it and add to it
@@ -129,28 +174,29 @@ freezing its output. No correcting passes.
 
 ## THE HARNESS
 
-Everything is `node harness/<name>.js`. The ones that matter most:
+**⚠ THIS TABLE USED TO LIST NINE TOOLS AND SEVEN OF THEM DO NOT EXIST.**
+`mk2_roll.js`, `mk2_test.js`, `mk2_snapshot.js`, `mk2_ui.js` and every
+`probe_*.js` were deleted on 2026-08-18. An instruction to run them is not a
+stale convenience — it is an instruction to go and find some other test than
+the printout, which is the one thing RULE ONE forbids. This is the whole
+harness, derived from `ls harness/*.js`:
 
 | | what it answers | cost |
 |---|---|---|
-| `mk2_roll.js <seed> --genre <g>` | **what the song actually is.** `--dump`/`--vs` compare two songs by bar and step | instant |
-| `mk2_test.js` | the seam checks — tables, contracts, provenance | ~1 min |
-| `mk2_snapshot.js check harness/mk2_baseline.snap` | 2100 songs' notes against a baseline: *did I change the music by accident* | ~10 min |
-| `mk2_ui.js` | the real page in Chromium (flaky ~1 in 5; rerun and report both) | ~2 min |
-| `probe_rack.js <machine>` | **one machine, five questions**: drawn, audible, isolated, switching, automated | ~3 min |
-| `probe_pads.js` | the pad bay: wiring, geometry, crosstalk, HOLD, audibility per genre | ~2 min |
-| `probe_controls.js [machine]` | every knob against the sound | ~9 min |
-| `probe_busedge.js` | every hard step in every motion plan, and whether it lands | ~1 min |
-| `probe_barber.js` | the barberpole, isolated as a difference signal | ~4 min |
+| `mk2_score.js [--genre g] [--seed n] [--mid out/]` | **THE TEST.** The whole song, every instrument, every bar, as notes — and real `.mid` files with `--mid` | seconds |
+| `mk2_syntax.js` | does the file still parse | instant |
+| `mk2_stamp.js check\|write` | is the published artifact the build in the file | instant |
+| `mk2_cost.js` | the token cost of a change | instant |
+| `mk2_render.js` · `render_audio.js` | offline audio, for listening rather than for testing | slow |
 
-**Run browser probes one at a time.** Four cores; four Chromium renders at
-once finish slower than four in a row, and once finished none of them.
-
-**A probe that is wrong reports a defect that is not there.** Every measurement
-in this project that failed, failed in that direction. Before believing a
-finding: was the machine actually in the slot, was the motion plan passed, was
-the element on screen, was the window long enough, is the baseline the values
-that were there or the ones that were declared.
+**A measurement that is wrong reports a defect that is not there.** Every
+measurement in this project that failed, failed in that direction — and the
+three worst were all the same shape: **an aggregate quoted instead of notes
+read.** "22% of tunes" measured per material when the rule governs the phrase.
+"82% against a declared `answer: 0.85`" measured against a field the file says
+is never read. "The counter always looks the same" answered about the counter
+when the row on the printout was the ostinato. **When a number surprises you,
+print the bars and look at them before you believe it.**
 
 ---
 
