@@ -35,10 +35,11 @@ constraint and the program works inside it. *That an intro comes first is hard.
 What an intro sounds like is not.* A literal value wired into stage logic is a
 defect even when it sounds right.
 
-**4. The printed notes are the test.** `node harness/mk2_score.js --roll` prints
-the whole song as a piano roll — every part on one grid, pitch up the page, time
-across it. Print before your change and after, and read both. A change meant to
-move the music that leaves it identical has not been made.
+**4. The printed notes are the test.** `node harness/mk2_roll.js` draws the whole
+record as a piano roll on one page — every part, one colour each, pitch up the
+page and time across it. `node harness/mk2_score.js` prints the same song as
+exact notes. Do both before your change and after, and read them. A change meant
+to move the music that leaves it identical has not been made.
 
 ---
 
@@ -117,7 +118,7 @@ with `MK2.genres()`.
 No build step — the printer reads the shipped HTML directly.
 
 ```sh
-node harness/mk2_score.js --roll                # THE test. The whole song as a piano roll
+node harness/mk2_roll.js                        # THE test. The whole record, drawn
 node harness/mk2_score.js                       # the same song as notes, bar by bar
 node harness/mk2_score.js --genre lofi --seed 7 # one record
 node harness/mk2_score.js --mid out/            # ...and real .mid files with it

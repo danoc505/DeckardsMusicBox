@@ -33,3 +33,4 @@ harness/output_renders*/
 # commit. `npm install` restores them; the browser is already on the image at
 # PLAYWRIGHT_BROWSERS_PATH, so no download is needed.
 node_modules/
+roll.html

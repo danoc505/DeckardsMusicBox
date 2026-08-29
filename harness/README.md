@@ -3,20 +3,18 @@
 **There is one test.** It prints the notes.
 
 ```sh
-node harness/mk2_score.js --roll     the whole song as a piano roll
+node harness/mk2_roll.js             the whole record, drawn, on one page
 node harness/mk2_score.js            the same song as notes, bar by bar
 ```
 
 Every genre, twice — seed 1 and one drawn fresh each run — every instrument,
 every bar, start to finish. Nothing in it is a pass or a fail. You read it.
 
-**The roll** puts pitch up the page and time across it, with every instrument
-on the one grid: four bars to a block, one row per semitone, so the vertical
-distance on the page is the interval. A note is its part's letter where it is
-struck and a rule for as long as it sounds. Two parts on the same pitch and
-step is a `+`. C rows are dotted as an octave ruler, and the drums sit under
-the grid, one row a voice. It is the view that shows what the parts do to each
-other.
+**The roll** writes an HTML file — the whole record on one page, pitch up the
+page and time across it, one colour a part, the kit desaturated in its own band
+underneath, the sections named along the top. Hover a note to name it, click a
+part in the key to take it out, drag the zoom to go from the whole record down
+to single bars. It is the view that shows what the parts do to each other.
 
 **The note list** gives the exact figures: every note as `NAME@step:length`,
 and how many milliseconds it sits off its step.
@@ -27,7 +25,6 @@ being graded is never a silent default.
 ## The printout
 
 ```sh
-node harness/mk2_score.js --roll                   the piano roll, every genre
 node harness/mk2_score.js                          every genre, seed 1 + a drawn one
 node harness/mk2_score.js --genre lofi             one genre, seed 1 + a drawn one
 node harness/mk2_score.js --genre lofi --seed 7    one genre, one seed

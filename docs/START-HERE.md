@@ -98,17 +98,23 @@ number is standing in for, and write that instead.
 ### 4. The printout is the prime test.
 
 ```sh
-node harness/mk2_score.js --roll        # the whole song as a piano roll
-node harness/mk2_score.js               # the whole song as notes
+node harness/mk2_roll.js                # the whole song, drawn, as a piano roll
+node harness/mk2_score.js               # the whole song, exact, as notes
 ```
 
 **This is how you check your work and how you prove it.** Print before the
 change, print after, and read both. Not the summary at the top — the bars.
 
-The roll puts pitch up the page and time across it with every instrument on one
-grid, so you can see what the parts do to each other: register collisions, an
-empty octave, a hole where everything stops. The note list gives you exact
-steps, lengths, and how many milliseconds each note sits off its step.
+`mk2_roll.js` writes an HTML file. Open it: the whole record on one page, pitch
+up the page and time across it, one colour a part, the kit in its own band
+underneath, the sections named along the top. It is the view that shows what the
+parts do to each other — a register two of them are fighting over, an empty
+octave, a part that stops and never comes back, a hole where everything stops at
+once. Hover a note to name it; click a part in the key to take it out.
+
+The note list is the exact figures: every note as `NAME@step:length`, and how
+many milliseconds it sits off its step. Use the roll to see the shape and the
+list to read the detail.
 
 **A change that was meant to move the music and did not move it has not been
 made.** If you touched a genre table, a stage, a material, or a voice's notes
@@ -143,8 +149,8 @@ they can read it.
 Derived from `ls harness/*.js`, never remembered:
 
 ```
-node harness/mk2_score.js --roll        THE TEST. The whole song, every part,
-                                        as a piano roll.
+node harness/mk2_roll.js                THE TEST. The whole record, drawn, on
+                                        one page. Writes roll.html.
 node harness/mk2_score.js               the same song as notes, bar by bar
 node harness/mk2_score.js --mid out/    write real .mid files
 node harness/mk2_syntax.js              does the file still parse
