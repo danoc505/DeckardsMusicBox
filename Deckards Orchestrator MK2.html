@@ -1912,6 +1912,142 @@ const QUALITY = Object.freeze({
 const QUALITY_TABLE = mode => (mode === "major" || mode === "minor") ? mode : null;
 const NOTE_NAMES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const pc = m => ((m % 12) + 12) % 12;
+
+/* ══ MELODIC MATH — THE NOTATION ═══════════════════════════════════════════
+   docs/MELODIC-MATH-ENGINE.md
+
+   A line is built of MOTIFS. A motif is a list of LENGTHS with a MOVEMENT
+   between each pair of them, written on one line:
+
+       8 ( E2 ) 4 ( N ) 3
+       │   │     │       └── the third note's length
+       │   │     └────────── the second note's length
+       │   └──────────────── how far the pitch moves into the third note
+       └──────────────────── the first note's length
+
+   Lengths are sixteenths. There is always one movement fewer than there are
+   notes.
+
+   A MOVEMENT IS WRITTEN AT ONE OF THREE STRENGTHS, and the difference between
+   them is the whole point of this notation:
+
+       (ii)    move by 2, DIRECTION FREE      -- a constraint; the engine draws
+                                                 which way
+       (E2)    up 2      (F2) down 2         -- a value; the motif decided
+       (N)     do not move at all            -- a value, and its own device:
+                                                 a motif on one repeated pitch
+       +       nothing declared              -- the sheets' rhythm-only form,
+                                                 `4+4` or `1/1/1/1/2`
+
+   AND A MOVEMENT MAY COME LAST, AFTER THE FINAL NOTE. `B = 4(N)` and
+   `B = 6(N)` are both in the sheets: one note, and then a movement with
+   nothing after it. [owner's sheet] "Motif 'B' becomes 6(N) to express the
+   length of 6*16ths while having no movement." That trailing movement is how
+   the motif HANDS OVER -- where the pitch goes as this motif ends and the next
+   thing begins -- and `N` there means it goes nowhere, which is what makes
+   Smoke On The Water's B sit still. It is kept as `tail`, so `moves` stays one
+   shorter than `rhythm` and the handover is not confused with the movements
+   inside.
+
+   [owner's sheet] "Motif 'A' ... has a Melodic Movement of 2. Becoming 4(ii)4.
+   THE DIRECTION IS UP TO YOUR OWN PERSONAL TASTE."  That sentence is why a
+   roman numeral and an `E` are different things here and not two spellings of
+   one thing.
+
+   WHAT THIS OBJECT IS NOT: it says nothing about which section the motif is
+   in, nothing about what any other part is doing, and nothing about how many
+   times it may repeat. Those are the arrangement's and the genre's. This is
+   one line's own construction and no more. ═══════════════════════════════ */
+const MM = (() => {
+  const ROMAN = ["", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix",
+                 "x", "xi", "xii"];
+  const romanOf = n => ROMAN[n] || String(n);
+  const valOf = r => { const i = ROMAN.indexOf(r); return i > 0 ? i : null; };
+
+  /* one movement, from the text between the brackets */
+  function move(txt){
+    const t = String(txt).trim();
+    if(/^N$/i.test(t))               return { n: 0, dir: "N" };
+    let m = /^([EF])\s*(\d+)$/i.exec(t);
+    if(m)                            return { n: +m[2], dir: m[1].toUpperCase() };
+    if(/^[ivx]+$/i.test(t)){
+      const v = valOf(t.toLowerCase());
+      if(v != null)                  return { n: v, dir: null };
+    }
+    if(/^\d+$/.test(t))              return { n: +t, dir: null };   // (2) == (ii)
+    throw new Error("melodic math: cannot read the movement `" + txt + "`");
+  }
+
+  function moveText(mv){
+    if(mv == null)         return null;             // undeclared
+    if(mv.dir === "N")     return "N";
+    if(mv.dir)             return mv.dir + mv.n;
+    return romanOf(mv.n);
+  }
+
+  /* `1(i)1(i)4`, `4+4`, `1/1/1/1/2`, `6(N)` -> a motif */
+  function parse(code, opts){
+    const src = String(code).replace(/\s+/g, "");
+    if(!src) throw new Error("melodic math: empty motif");
+    const rhythm = [], moves = [];
+    let sep = "+";                       // which undeclared separator was used
+    let tail = undefined;                // the handover, when one is written
+    let i = 0;
+    for(;;){
+      const d = /^\d+/.exec(src.slice(i));
+      if(!d) throw new Error("melodic math: expected a length at `" +
+                             src.slice(i, i + 8) + "` in `" + code + "`");
+      rhythm.push(+d[0]); i += d[0].length;
+      if(i >= src.length) break;
+      const c = src[i];
+      if(c === "("){
+        const j = src.indexOf(")", i);
+        if(j < 0) throw new Error("melodic math: unclosed ( in `" + code + "`");
+        const mv = move(src.slice(i + 1, j)); i = j + 1;
+        /* nothing after it -- this is the handover, not an inner movement */
+        if(i >= src.length){ tail = mv; break; }
+        moves.push(mv);
+      } else if(c === "+" || c === "/"){
+        sep = c; moves.push(null); i += 1;
+      } else {
+        throw new Error("melodic math: cannot read `" + src.slice(i) +
+                        "` in `" + code + "`");
+      }
+    }
+    if(rhythm.some(n => n <= 0))
+      throw new Error("melodic math: a note has no length, in `" + code + "`");
+    return Object.freeze({
+      rhythm: Object.freeze(rhythm),
+      moves:  Object.freeze(moves),
+      /* THE SPAN IS SUM OF THE LENGTHS and it is not always the invariant --
+         Televators keeps a motif's head and lets its span change, Chop Suey
+         keeps the span and moves the attacks. Which one a genre preserves is
+         a dial, so this is recorded and never enforced here. */
+      span:   rhythm.reduce((t, n) => t + n, 0),
+      notes:  rhythm.length,
+      tail,                                          // the handover, or undefined
+      moveUnit: (opts && opts.moveUnit) || "step",   // or "semitone"
+      sep,
+      silent: !!(opts && opts.silent),
+    });
+  }
+
+  /* back to the one line it was written as */
+  function print(mo){
+    let out = "";
+    for(let i = 0; i < mo.rhythm.length; i++){
+      out += mo.rhythm[i];
+      if(i < mo.rhythm.length - 1){
+        const t = moveText(mo.moves[i]);
+        out += (t == null) ? (mo.sep || "+") : "(" + t + ")";
+      }
+    }
+    if(mo.tail) out += "(" + moveText(mo.tail) + ")";
+    return out;
+  }
+
+  return { parse, print, move, moveText, romanOf };
+})();
 /* midi of scale degree d (any integer) in a mode rooted at `root` (pitch class) */
 function degMidi(root, mode, d){
   const sc = MODES[mode];
@@ -52935,6 +53071,7 @@ else boot();
 
 /* hooks for the render/measure harness — the same functions the UI uses */
 window.MK2 = {
+  MM,
   composeSong, newSong,
   referenceEvents,
   renderWav: (events, seconds, sr, space, kick, drumDrive, gate, motion, motionOffset) =>

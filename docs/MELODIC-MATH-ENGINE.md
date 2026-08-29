@@ -72,6 +72,14 @@ One movement fewer than there are notes. From the sheet: *"we can combine these
 | `(E2)` | up 2 | the motif |
 | `(F2)` | down 2 | the motif |
 | `(N)` | none — the pitch repeats | the motif |
+| `+` or `/` | nothing declared — the sheets' rhythm-only form, `4+4`, `1/1/1/1/2` | the engine draws all of it |
+
+**And a movement may come last, after the final note.** `B = 4(N)` and `B = 6(N)`
+are both in the sheets — one note, then a movement with nothing after it. That
+trailing movement is how the motif **hands over**: where the pitch goes as this
+motif ends and the next thing begins. `N` there means it goes nowhere, which is
+what makes Smoke On The Water's `B` sit still. It is kept separately from the
+movements inside the motif, so `moves` stays one shorter than `rhythm`.
 
 The sheet says this outright: *"Motif 'A' … has a Melodic Movement of 2.
 Becoming 4(ii)4. **The direction is up to your own personal taste.**"*
@@ -335,7 +343,7 @@ a dial.
 
 | # | what | proved by |
 |---|---|---|
-| **1** | The notation: parse and print, the motif object, `N` and roman numerals both legal. Nothing wired in. | round-trip — parse then print returns the input string, for every motif in the sheets and in the three measured songs |
+| **1** | The notation: parse and print, the motif object, `N` and roman numerals both legal. Nothing wired in. **DONE** — `MM` in the program, `node harness/mk2_mm.js`. | round-trip — 31 motifs from the sheets and the three songs, every one comes back the string it went in as |
 | **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
 | **3** | The law: L1–L5 enforced on the LEAD, with the dials drawn from genre ranges. | the roll — the phrase stops copying itself. **157 of 199 must fall.** |
 | **4** | The same law on the BASS: `pocket` becomes the pool a motif is built from, not the thing drawn every bar. | the roll — the bass grows an `A` and a `B`. **69 of 199 must fall, and the four-position rhythm must break.** |
