@@ -1,9 +1,16 @@
 # THE MELODIC MATH ENGINE — the plan
 
 *Designed from the owner's eight annotated piano-roll sheets and from three
-complete songs measured note by note: System of a Down "Chop Suey" (vocal),
-The Mars Volta "Televators" (vocal), Pink Floyd "Shine On You Crazy Diamond"
-(lead guitar). The research behind it is `docs/genre-research/melodic-math.md`.*
+complete songs measured note by note — System of a Down "Chop Suey", The Mars
+Volta "Televators", Pink Floyd "Shine On You Crazy Diamond" — reading the
+**melody and the bass of each**. The research behind it is
+`docs/genre-research/melodic-math.md`.*
+
+**This is not a melody engine. It is a LINE engine.** The law below governs any
+single line the program writes — the lead, the bass, the counter, the repeating
+figure. The owner's own *Nobody Else* sheets analyse a bassline in exactly this
+notation (`A = 1/1/1/1/2`, `B = 2/2`, formula `A+a+B / A+A+B / A+a+B / A+a+b`),
+and the bass turns out to need it more than the melody does.
 
 ---
 
@@ -25,8 +32,8 @@ open, on purpose, so that different music can come out of the same engine.
 
 ### And what it is NOT
 
-Melodic math describes **one line's own construction**. It does not describe the
-song around that line.
+Melodic math describes **one line's own construction** — whichever line that is.
+It does not describe the song around that line.
 
 | melodic math | NOT melodic math |
 |---|---|
@@ -164,13 +171,46 @@ And Televators states a phrase **twice** before moving on (bars 25–26, then
 31–32 identical), where Chop Suey states three times. Both are music. The
 repeat limit is a dial.
 
+### And the same law, on the bass
+
+The three basslines are as different from each other as the three melodies, and
+different again from the melodies beside them.
+
+| | Chop Suey bass | Televators bass | Shine On bass |
+|---|---|---|---|
+| the motif | `2(F1)2` then `2(F1)2(E1)2(F1)2(E1)2(F1)2(E1)2(F1)2` | a **3-bar** cell: `12` @4 · `12(F9)12` · `6(E2)6` @8 | a 3-note turn, `2(E2)2(F2)2`, between held notes of 18–20 |
+| span | 16, two bars alternating | **48 — three bars** | the turn is 6; the held notes are 20 |
+| movement | `F1` and `E1` only — a semitone trill | 2, 5, 9, 12 | 1–3 |
+| variation | **none at all across 16 bars** | the make-up changes twice in one song | the turn's intervals change, the shape does not |
+
+Three facts come out of this that the melody alone would never have shown.
+
+**1. Two parts can carry the same motif and different movements.** Chop Suey's
+bass plays the vocal's rhythm exactly — one bar of `2 . 2`, one bar of eight
+eighths — and the movements are the opposite: the vocal is `2(N)×8`, all one
+pitch; the bass is `2(F1)2(E1)2(F1)…`, a semitone trill. Same skeleton, opposite
+motion. Whether two parts are handed the same motif is the arrangement's choice;
+what each of them then does with it is this law's.
+
+**2. The bass may be the thing that does NOT vary.** Chop Suey's bass states
+A+B eight times over sixteen bars without one change, while the vocal changes on
+the fourth. L4 is per line, not per record — one line can be the anchor and
+another the thing that moves.
+
+**3. A line's make-up can change inside a song.** Televators' bass has three
+constitutions: a three-bar riff (bars 41–49), then a pedal of one note every
+three bars (53–74), then a dense line of three to six notes a bar with leaps of
+up to twelve (77–86). One part, one song, three make-ups.
+
 ### The dials, listed
 
 Span · notes per motif · which lengths exist · which movements exist ·
 movement unit · how much silence and where · alignment to the bar ·
 statements before a change · which of L3's four things is preserved ·
 which change is used (subdivide, swap, alter the head, free the tail) ·
-the interval between restatements.
+the interval between restatements · **whether this line borrows another line's
+rhythm** · **how often the make-up is redrawn — once a record, or once a
+section**.
 
 ---
 
@@ -183,8 +223,10 @@ calling it a genre.
 A genre declares **ranges**. The seed draws a make-up inside them, once per
 record, and freezes it as a stage-1 fact like everything else.
 
+Declared per line, because a bass is not a lead:
+
 ```js
-theme: {
+line: {          // one of these per role — lead, bass, counter, ostinato
   motifSpan:    [8, 32],          // sixteenths
   notesPer:     [2, 8],
   lengthPool:   [1, 2, 4, 8],     // which lengths this genre may use
@@ -195,6 +237,9 @@ theme: {
   repeatLimit:  [2, 4],
   preserve:     ["span", "head", "moves", "attacks"],   // L3: draw which one
   change:       ["subdivide", "swap", "alterHead", "freeTail"],
+  rhythmOf:     null,             // or "lead" — borrow that line's rhythm,
+                                  // keep your own movements
+  redraw:       ["record", "section"],   // when the make-up is drawn again
 }
 ```
 
@@ -233,6 +278,35 @@ The three devices that exist — `Avar`, `Adev`, `Aseq` — are each a complete
 alternative note array chosen per section. They vary the whole phrase or none of
 it. None can say "play A, leave B out this time".
 
+### And the bass is broken a different way
+
+Measured the same, 40 seeds a genre, `materials.A.bass`:
+
+| | |
+|---|---|
+| copying itself | **69 of 199** records have a bass whose second half duplicates its first — dungeonsynth and fantasysynth 25 of 40 each, ds2 19, lofi and synthwave 0 |
+| no movement | **15% to 43%**, by genre. Reachable, and used. Not a gap |
+| movement character | already genre-shaped and worth keeping: synthwave 43% `N` and 36% at twelve or more — root and octave; dungeon synth and fantasy synth 63% at 5–7 — root and fifth; lofi and ds2 mostly steps |
+
+**But the bass has no motif at all, and that is the real defect.** Its rhythm
+comes from `pocket`, a weighted table of sixteenth positions drawn independently
+every bar. Five lofi seeds, twenty bars:
+
+```
+seed 1  [0/8 10/2] [0/8 10/2 14/2] [0/8 10/2 14/2] [0/8 10/2 14/2]
+seed 5  [0/7 7/2 10/2] [0/7 7/2 10/2] [0/7 7/2 10/2] [0/7 7/2 10/2 14/2]
+```
+
+Every onset in every bar of every seed lands on one of four positions — 0, 7,
+10, 14 — and each bar is that pocket minus a note or two, redrawn. There is no
+`A`, no `B`, no restatement and no formula. It is not a bassline that repeats
+too much; it is a bassline that was never made of anything.
+
+So the two parts fail in opposite directions and need the same law:
+
+- **the lead** has an accidental rhythm and wandering pitch
+- **the bass** has a fixed rhythm pool and no cell above the bar
+
 ---
 
 ## 7. WHERE IT GOES
@@ -263,12 +337,14 @@ a dial.
 |---|---|---|
 | **1** | The notation: parse and print, the motif object, `N` and roman numerals both legal. Nothing wired in. | round-trip — parse then print returns the input string, for every motif in the sheets and in the three measured songs |
 | **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
-| **3** | The law: L1–L5 enforced, with the dials drawn from genre ranges. | the roll — the phrase stops copying itself. **157 of 199 must fall.** |
-| **4** | The change vocabulary: subdivide, swap, alter the head, free the tail — genre draws which. | the printout — two records of the same genre come out with different make-ups |
-| **5** | Movement: `N` reachable, magnitudes honoured, direction drawn where the motif left it free. | the printout — no-movement stops being 0% |
+| **3** | The law: L1–L5 enforced on the LEAD, with the dials drawn from genre ranges. | the roll — the phrase stops copying itself. **157 of 199 must fall.** |
+| **4** | The same law on the BASS: `pocket` becomes the pool a motif is built from, not the thing drawn every bar. | the roll — the bass grows an `A` and a `B`. **69 of 199 must fall, and the four-position rhythm must break.** |
+| **5** | The change vocabulary: subdivide, swap, alter the head, free the tail — genre draws which. Plus `rhythmOf`, so a line may borrow another's rhythm and keep its own movements. | the printout — two records of the same genre come out with different make-ups |
+| **6** | Movement: `N` reachable on the lead, magnitudes honoured, direction drawn where the motif left it free. | the printout — the lead's no-movement stops being 0% |
 
-Phase 3 is the one that answers the owner's report. Phases 1 and 2 exist so that
-phase 3 is a small change rather than a rewrite.
+Phases 3 and 4 answer the owner's report on each part. Phases 1 and 2 exist so
+that both are small changes rather than rewrites. The counter and the repeating
+figure come last and for free — they are lines, and the law is per line.
 
 ---
 
@@ -282,8 +358,11 @@ count, each motif's span in each statement.
 
 And two numbers carry the build:
 
-- **Of 199 records, how many have a lead whose second half copies its first.**
-  It is 157. A phase that does not move it has not been applied.
+- **Of 199 records, how many have a line whose second half copies its first.**
+  The lead is 157, the bass 69. A phase that does not move its number has not
+  been applied.
+- **How many onset positions the bass uses across a record.** It is four. A
+  bass built of motifs cannot still be four.
 - **How different two records of the same genre are from each other.** If every
   lofi record comes out with the same make-up, the dials were written as values
   and the whole point has been missed.

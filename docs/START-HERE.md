@@ -132,8 +132,9 @@ one sentence and print nothing.
 
 ## WHAT IS BEING BUILT
 
-`docs/MELODIC-MATH-ENGINE.md` — the law that lets the melody generator be set
-free without it making noise. Five things that must be true for a line to be a
+`docs/MELODIC-MATH-ENGINE.md` — the law that lets a line generator be set free
+without it making noise. It governs any line the program writes: the lead, the
+bass, the counter, the repeating figure. Five things that must be true for a line to be a
 tune; everything else is a dial the genre declares as a range and the seed draws
 inside. Designed from the owner's eight sheets and from three complete songs
 measured note by note. The research behind it is
