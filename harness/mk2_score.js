@@ -62,6 +62,7 @@ function score(M, opts){
   const SEED  = (opts && opts.seed  != null) ? opts.seed : 1;
   const FROM  = (opts && opts.from  != null) ? opts.from : 0;
   const TO    = (opts && opts.to    != null) ? opts.to   : 999999;
+  const ROLL  = !!(opts && opts.roll);
 
   const NOTE = NOTE_NAMES;
   const nn = p => NOTE[((p % 12) + 12) % 12] + (Math.floor(p / 12) - 1);
@@ -170,9 +171,122 @@ function score(M, opts){
   say("  than hidden.");
   say("");
 
+  /* ══ THE PIANO ROLL ═══════════════════════════════════════════════════════
+     Pitch up the page, time across it, every instrument on the one grid. A
+     list of notes tells you what each part did on its own; the roll is the
+     only view that shows what they did TO EACH OTHER — the register the lead
+     and the keys are fighting over, a bass note that lands under nothing, a
+     hole where four parts stop at once. It is the whole song, laid out to be
+     read.
+
+     Four bars to a block, sixteen columns to a bar, one row per semitone from
+     the lowest to the highest note sounding in that block, so the vertical
+     distance on the page IS the interval. A note is its part's letter on the
+     step it is struck and `─` for as long as it sounds, across bar lines and
+     out of the block if it runs that far. Where two parts hold the same
+     pitch on the same step the cell is `+`, because a unison is a thing you
+     want to see. C rows are dotted as an octave ruler. */
+  const LETTER = { lead:"L", counter:"C", keys2:"2", keys:"K", ostinato:"O", bass:"B", drone:"D" };
+  const BARSPERBLOCK = 4;
+
+  function pianoRoll(){
+    /* absolute step positions, so a note can be drawn through a bar line */
+    const notes = [];
+    for(const p of placed){
+      if(p.e.pitch == null || !PITCHED.has(p.e.role)) continue;
+      const a = p.bar * STEPS + p.step;
+      const len = Math.max(1, Math.round((p.e.durSec || 0) / clock.stepSec(p.bar)));
+      notes.push({ a, len, pitch: p.e.pitch, role: p.e.role });
+    }
+    const hits = [];
+    for(const p of placed){
+      if(p.e.role !== "drums") continue;
+      hits.push({ a: p.bar * STEPS + p.step, voice: p.e.voice || p.e.name || "drum" });
+    }
+
+    say("");
+    say("█".repeat(80));
+    say("█  THE PIANO ROLL — pitch up the page, time across it, every part on one grid");
+    say("█".repeat(80));
+    say("");
+    say("  " + Object.keys(LETTER).filter(r => notes.some(n => n.role === r))
+                 .map(r => LETTER[r] + " " + r).join("   ") +
+        (hits.length ? "   ·  drums, under the grid" : ""));
+    say("  `─` the note still sounding   `+` two parts on the same pitch and step");
+    say("");
+
+    for(let b0 = 0; b0 <= lastBar; b0 += BARSPERBLOCK){
+      const b1 = Math.min(b0 + BARSPERBLOCK - 1, lastBar);
+      if(b1 < FROM || b0 > TO) continue;
+      const s0 = b0 * STEPS, s1 = (b1 + 1) * STEPS;      /* [s0, s1) */
+      const W  = s1 - s0;
+
+      /* a section that opens inside this block is named above it */
+      for(let b = b0; b <= b1; b++) if(secAt[b]){
+        const sec = secAt[b];
+        say("");
+        say(`  ── ${String(sec.fn).toUpperCase()}   bars ${sec.startBar}-${sec.endBar}   ` +
+            `${mmss(clock.at(b))}   ${Math.round(clock.tempoAt(b))} bpm ` + "─".repeat(20));
+      }
+
+      const live = notes.filter(n => n.a < s1 && n.a + n.len > s0);
+      const bang = hits.filter(h => h.a >= s0 && h.a < s1);
+
+      say("");
+      let ruler = "       ";
+      for(let b = b0; b <= b1; b++) ruler += "│" + ("bar " + b).padEnd(STEPS);
+      say(ruler + "│   " + mmss(clock.at(b0)));
+
+      if(!live.length && !bang.length){
+        say("       │" + " ".repeat(W - 1) + "│   ██ SILENT — not one part plays in these bars");
+        continue;
+      }
+
+      if(live.length){
+        const lo = live.reduce((m, n) => Math.min(m, n.pitch), 999);
+        const hi = live.reduce((m, n) => Math.max(m, n.pitch), -999);
+        /* one row per semitone, high to low, so the page reads like a stave */
+        for(let pitch = hi; pitch >= lo; pitch--){
+          const isC = ((pitch % 12) + 12) % 12 === 0;
+          const cell = new Array(W).fill(isC ? "·" : " ");
+          for(const n of live){
+            if(n.pitch !== pitch) continue;
+            for(let a = Math.max(n.a, s0); a < Math.min(n.a + n.len, s1); a++){
+              const i = a - s0;
+              const mark = (a === n.a) ? (LETTER[n.role] || "?") : "─";
+              /* an occupied cell being struck again by a different part is a
+                 unison, and it is worth a character of its own */
+              if(cell[i] !== " " && cell[i] !== "·" && cell[i] !== mark) cell[i] = "+";
+              else if(cell[i] === " " || cell[i] === "·" || mark !== "─") cell[i] = mark;
+            }
+          }
+          let row = "";
+          for(let b = 0; b <= b1 - b0; b++)
+            row += "│" + cell.slice(b * STEPS, (b + 1) * STEPS).join("");
+          say(nn(pitch).padStart(6) + " " + row + "│");
+        }
+      }
+
+      if(bang.length){
+        const voices = [...new Set(bang.map(h => h.voice))].sort();
+        for(const v of voices){
+          const cell = new Array(W).fill(".");
+          for(const h of bang) if(h.voice === v) cell[h.a - s0] = "x";
+          let row = "";
+          for(let b = 0; b <= b1 - b0; b++)
+            row += "│" + cell.slice(b * STEPS, (b + 1) * STEPS).join("");
+          say(String(v).slice(0, 6).padStart(6) + " " + row + "│");
+        }
+      }
+    }
+    say("");
+  }
+
   let printedBars = 0, silentBars = 0, runLen = 0, longestRun = 0, longestAt = 0;
 
-  for(let bar = 0; bar <= lastBar; bar++){
+  if(ROLL) pianoRoll();
+
+  for(let bar = 0; bar <= lastBar && !ROLL; bar++){
     if(bar < FROM || bar > TO) continue;
     const here = placed.filter(p => p.bar === bar);
 
@@ -396,6 +510,9 @@ module.exports = { score };
      node harness/mk2_score.js --genre lofi        one genre, seed 1 + a drawn one
      node harness/mk2_score.js --genre lofi --seed 7      one genre, one seed
      node harness/mk2_score.js --seeds 1,7,42      the seeds you name, every genre
+     node harness/mk2_score.js --roll              the same song as a PIANO ROLL —
+                                                   pitch up the page, time across it,
+                                                   every part on the one grid
      node harness/mk2_score.js --from 0 --to 8     a window of bars, not the whole song
      node harness/mk2_score.js --out score.txt     to a file instead of the screen
      node harness/mk2_score.js --mid out/          ...and write real .mid files too
@@ -427,6 +544,7 @@ if(require.main === module){
     return i >= 0 && argv[i + 1] != null ? argv[i + 1] : dflt;
   };
 
+  const ROLL   = argv.includes("--roll");
   const OUT    = argOf("--out", null);
   const MIDDIR = argOf("--mid", null);
   const HTML   = argOf("--file", path.resolve(__dirname, "..", "Deckards Orchestrator MK2.html"));
@@ -526,7 +644,7 @@ if(require.main === module){
                             " --seed " + seed + ")" : ""));
       say("█".repeat(80));
       try {
-        say(score(M, { genre, seed, from: FROM, to: TO, rig: RIG, picks: PICKS,
+        say(score(M, { genre, seed, from: FROM, to: TO, rig: RIG, picks: PICKS, roll: ROLL,
                        traits: TRAITS, deal: DEAL, wantSec: WANTSEC }).join("\n"));
       } catch(e){
         /* A PRINTER THAT THREW IS THE FINDING. Not a caught error to move past:
