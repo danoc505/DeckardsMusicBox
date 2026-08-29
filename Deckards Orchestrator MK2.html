@@ -2046,7 +2046,105 @@ const MM = (() => {
     return out;
   }
 
-  return { parse, print, move, moveText, romanOf };
+  /* ══ READING A LINE THAT ALREADY EXISTS ═══════════════════════════════════
+     Given the notes of one line, name the motifs it is made of.
+
+     A MOTIF IS RECOGNISED BY ITS RHYTHM. That is the one claim every sheet
+     makes in the same words -- "the A & B always have the same Rhythmic
+     structure ... but change their key and contour" -- so the signature is
+     WHERE the notes fall and HOW LONG they are, and nothing about pitch. Two
+     cells with the same signature are the same motif however far apart their
+     pitches sit. Chop Suey proves why it has to be that way round: its bass
+     plays the vocal's rhythm exactly and moves the opposite direction.
+
+     THE CELL LENGTH IS A DIAL, NOT A LAW, so this reader takes the bar as its
+     default and reports what other cell lengths would have found. A genre will
+     declare its own range later; nothing here decides for it.
+
+     This only READS. It builds no notes and moves none. */
+  function readLine(notes, opts){
+    const O = opts || {};
+    const steps = O.steps || 16;
+    const cell  = O.cell  || steps;
+    let src = (notes || []).filter(n => n && n.pitch != null)
+                 .map(n => ({ a: (n.bar || 0) * steps + (n.step || 0),
+                              d: Math.max(1, n.dur || 1), p: n.pitch }))
+                 .sort((x, y) => (x.a - y.a) || (y.p - x.p));
+    if(!src.length) return null;
+    /* ── A CHORD IS ONE EVENT IN A LINE, NOT FOUR MOVEMENTS ─────────────────
+       `keys` and `keys2` strike three or four notes on the same step. Read
+       note by note, the interval between two of them is a HARMONIC interval
+       and this called it a melodic movement: the first draft of this reader
+       reported the chord part moving by nine and the second voice by
+       twenty-six semitones, and gave one four-bar cell a span of 162 -- the
+       chord tones counted as though they were played one after another.
+       A line is what you would sing, so simultaneous notes collapse to the
+       top one, which is the voice a listener follows. */
+    const mono = [];
+    for(let i = 0; i < src.length; ){
+      let j = i;
+      while(j + 1 < src.length && src[j + 1].a === src[i].a) j++;
+      mono.push(src[i]);                       // sorted high-first above
+      i = j + 1;
+    }
+    src = mono;
+
+    const cells = {};
+    for(const n of src){
+      const i = Math.floor(n.a / cell);
+      (cells[i] || (cells[i] = [])).push({ at: n.a % cell, d: n.d, p: n.p });
+    }
+    const idx = Object.keys(cells).map(Number).sort((a, b) => a - b);
+
+    /* the signature is the rhythm alone */
+    const sigOf = g => g.map(n => n.at + ":" + n.d).join(" ");
+
+    const motifs = {}, byS = {}, statements = [];
+    let next = 0;
+    const LETTER = i => String.fromCharCode(65 + (i % 26)) + (i >= 26 ? String(1 + (i / 26 | 0)) : "");
+    for(const i of idx){
+      const g = cells[i].slice().sort((x, y) => x.at - y.at);
+      const sig = sigOf(g);
+      let name = byS[sig];
+      if(name == null){ name = byS[sig] = LETTER(next++); }
+      /* the movements of THIS statement, and the handover into the next note
+         the line plays, whichever cell that lands in */
+      const mv = [];
+      for(let k = 0; k + 1 < g.length; k++) mv.push(g[k + 1].p - g[k].p);
+      const here = src.indexOf(src.find(n => n.a === i * cell + g[g.length - 1].at));
+      const after = src[here + 1];
+      const tail = after ? after.p - g[g.length - 1].p : null;
+      const code = MMcode(g, mv);
+      if(!motifs[name])
+        motifs[name] = { name, sig, code, span: g.reduce((t, n) => t + n.d, 0),
+                         notes: g.length, at: g[0].at, cell, said: 0 };
+      motifs[name].said++;
+      statements.push({ name, cell: i, code, root: g[0].p, tail,
+                        same: code === motifs[name].code });
+    }
+    /* how much of the line is a restatement rather than a first hearing */
+    const repeats = statements.filter(s => motifs[s.name].said > 1).length;
+    return Object.freeze({
+      cell, motifs, statements,
+      formula: statements.map(s => s.name).join("+"),
+      distinct: Object.keys(motifs).length,
+      repeatShare: statements.length ? repeats / statements.length : 0,
+    });
+  }
+  /* one cell's notes -> the one-line code, with E/F/N read off the pitches */
+  function MMcode(g, mv){
+    let out = "";
+    for(let i = 0; i < g.length; i++){
+      out += g[i].d;
+      if(i < g.length - 1){
+        const d = mv[i];
+        out += "(" + (d === 0 ? "N" : (d > 0 ? "E" : "F") + Math.abs(d)) + ")";
+      }
+    }
+    return out;
+  }
+
+  return { parse, print, move, moveText, romanOf, readLine };
 })();
 /* midi of scale degree d (any integer) in a mode rooted at `root` (pitch class) */
 function degMidi(root, mode, d){
@@ -42769,6 +42867,32 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      declared them and then bKey/bMode are not what liftChords stands in */
   materials.lift = Object.freeze(LIFT ? { key: lMode ? root : bKey,
                                           mode: lMode || bMode } : null);
+
+  /* ══ WHAT EACH LINE IS MADE OF, NAMED ══════════════════════════════════════
+     docs/MELODIC-MATH-ENGINE.md
+
+     Stage 3 has always handed on a flat array of notes per role, and a flat
+     array has no parts. Nothing downstream could ask WHICH MOTIF a note is in,
+     so nothing downstream could leave one out, restate one, or vary one --
+     which is every device the sheets describe.
+
+     So the motifs are named here, beside the notes, and the notes are not
+     touched. `materials.motifs[material][role]` is the reading: which cells
+     share a rhythm, what each one's one-line code is, and the formula they
+     spell. Nothing consumes it yet. It exists so that the law can be applied
+     to a thing that has parts rather than to an array. */
+  const mm = {};
+  for(const m of MAT_KEYS){
+    const perRole = {};
+    for(const role in materials[m]){
+      if(!Array.isArray(materials[m][role])) continue;
+      const read = MM.readLine(materials[m][role], { steps: STEPS });
+      if(read) perRole[role] = read;
+    }
+    if(Object.keys(perRole).length) mm[m] = Object.freeze(perRole);
+  }
+  materials.motifs = Object.freeze(mm);
+
   return Object.freeze(materials);
 }
 

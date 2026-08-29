@@ -102,6 +102,48 @@ for(const code of ["4(ii)4", "4(E2)4", "4(F2)4", "4(N)4", "4+4"]){
     : mv.dir          ? "move " + (mv.dir === "E" ? "up" : "down") + " " + mv.n + " — the motif decided"
     :                   "move by " + mv.n + ", DIRECTION FREE — the engine draws which way"));
 }
+/* ══ AND WHAT THE PROGRAM'S OWN LINES ARE MADE OF ═══════════════════════════
+   The same reading, applied to the file this tool just loaded. Nothing here is
+   a pass or a fail. It is the first time the program has been able to say what
+   a part of its own tune is called. */
+const MK = global.window.MK2;
+say("");
+say("█".repeat(78));
+say("█  WHAT THIS PROGRAM'S LINES ARE MADE OF");
+say("█".repeat(78));
+for(const g of MK.genres()){
+  let song;
+  try { song = MK.composeSong(1, undefined, g, undefined, undefined, undefined, 0,
+                              undefined, undefined); }
+  catch(e){ say("\n  " + g + " seed 1: " + e.message); continue; }
+  const mm = song.materials.motifs || {};
+  say("");
+  say("─".repeat(78));
+  say("  " + g.toUpperCase() + "   seed 1   material A");
+  say("─".repeat(78));
+  const A = mm.A || {};
+  for(const role of ["lead", "counter", "keys2", "keys", "ostinato", "bass", "drone"]){
+    const r = A[role];
+    if(!r) continue;
+    say("  " + role.padEnd(9) + r.formula.padEnd(22) +
+        r.distinct + " motif" + (r.distinct === 1 ? " " : "s") +
+        "   " + Math.round(100 * r.repeatShare) + "% of the line is a restatement");
+    for(const k of Object.keys(r.motifs)){
+      const x = r.motifs[k];
+      say("      " + k + " = " + x.code.padEnd(40).slice(0, 40) +
+          " span " + String(x.span).padStart(3) + "   said " + x.said);
+    }
+    /* where two statements of one motif differ, that difference is the thing
+       the law will later be about */
+    const seen = {};
+    for(const st of r.statements){
+      if(seen[st.name] && seen[st.name] !== st.code)
+        say("      " + st.name + " restated DIFFERENTLY: " + st.code);
+      seen[st.name] = st.code;
+    }
+  }
+}
+
 say("");
 say("═".repeat(78));
 say("  " + n + " motifs read.  " + (bad ? bad + " DID NOT COME BACK THE SAME" :

@@ -344,7 +344,7 @@ a dial.
 | # | what | proved by |
 |---|---|---|
 | **1** | The notation: parse and print, the motif object, `N` and roman numerals both legal. Nothing wired in. **DONE** — `MM` in the program, `node harness/mk2_mm.js`. | round-trip — 31 motifs from the sheets and the three songs, every one comes back the string it went in as |
-| **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
+| **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. **DONE** — `MM.readLine`, printed by `mk2_mm.js`. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
 | **3** | The law: L1–L5 enforced on the LEAD, with the dials drawn from genre ranges. | the roll — the phrase stops copying itself. **157 of 199 must fall.** |
 | **4** | The same law on the BASS: `pocket` becomes the pool a motif is built from, not the thing drawn every bar. | the roll — the bass grows an `A` and a `B`. **69 of 199 must fall, and the four-position rhythm must break.** |
 | **5** | The change vocabulary: subdivide, swap, alter the head, free the tail — genre draws which. Plus `rhythmOf`, so a line may borrow another's rhythm and keep its own movements. | the printout — two records of the same genre come out with different make-ups |
