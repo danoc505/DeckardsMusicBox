@@ -32818,7 +32818,47 @@ function makeForm(chart){
     return o;
   };
   const spine = (aim, lenScale) => {
-  const LEN = (lenScale == null || lenScale === 1) ? chart.table.form.lengths : scaled(lenScale);
+  /* ══ A SECTION THAT STATES AN IDEA MUST HAVE ROOM TO STATE IT THREE TIMES ══
+     [owner, 2026-08-28, looking at the roll:] "HOW many times does this
+     repeat?" -- the answer was TWICE. And: "You repeat three times and the
+     third time there is change, we prefer to keep the shape of the tune but
+     alter its insides."
+
+     THE DEVICE FOR THIS ALREADY EXISTS AND HAS NEVER BEEN ABLE TO FIRE. The
+     performance loop holds the rule at the pass level, and it is exactly the
+     second of doc 006's two options -- "start the concept the same the third
+     time but go somewhere different with it, maybe halfway through":
+
+       if((cycle % 3) === 2 && loopBar >= materials.bars / 2)  -> the variant
+
+     `cycle` is which pass through the material this bar is. It can only reach
+     2 if the section is at least THREE passes long. MEASURED, 16 seeds a
+     genre, sections that carry a material:
+
+       lofi          93% of sections are shorter than three passes
+       synthwave     95%
+       dungeonsynth  13%      fantasysynth  0%
+
+     lofi and synthwave declare eight-bar verses over a four-bar tune. Two
+     passes. The third statement -- the one the whole rule is about -- had
+     nowhere to happen, so the ear got the idea twice and then a transition.
+
+     THIS IS A FLOOR, NOT A LENGTH. The genre still declares its own lengths and
+     its own proportions, and anything already at or above three passes is
+     untouched -- dungeon synth's sixteens and fantasy synth's do not move. It
+     only refuses to state an idea fewer times than the rule needs, which is
+     what a law does: it narrows, it does not choose.
+
+     AND IT IS THE STATEMENT SECTIONS ONLY. An intro, an outro, a transition, a
+     pre- or post-chorus are CONNECTORS -- they hand over rather than establish,
+     and the file already builds them at four bars for that reason. A rule about
+     how many times to state an idea does not apply to a section whose job is
+     not to state one. ══════════════════════════════════════════════════════ */
+  const MB3 = 3 * (chart.table.materialBars || 4);
+  const STATES = { verse: 1, chorus: 1, instrumental: 1, bridge: 1 };
+  const LEN_D = (lenScale == null || lenScale === 1) ? chart.table.form.lengths : scaled(lenScale);
+  const LEN = {};
+  for(const f in LEN_D) LEN[f] = STATES[f] ? Math.max(LEN_D[f], MB3) : LEN_D[f];
   const rng = stream(chart.seed, "form");
   const fns = [];
   /* INDEX-ALIGNED WITH `fns`, AND THAT ALIGNMENT IS THE WHOLE CONTRACT. Three
