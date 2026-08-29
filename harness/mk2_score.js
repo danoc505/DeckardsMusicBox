@@ -117,7 +117,18 @@ function score(M, opts){
     placed.push({ e, bar, step, offMs });
   }
 
-  const lastBar = placed.reduce((m, p) => Math.max(m, p.bar), 0);   // an integer, per above
+  /* ── THE END OF THE RECORD IS THE FORM'S, NOT THE LAST NOTE'S ─────────────
+     This read `placed.reduce(max p.bar)` — the last bar that happened to carry
+     an event — so a record that stopped PLAYING before it stopped RUNNING
+     ended, as far as this printout was concerned, at its last note.
+     fantasysynth seed 1 runs 472 bars and its last event falls in bar 456:
+     fifteen bars of dead air at the end of the record, and the printout had no
+     line for them because it had already decided the song was 457 bars long.
+     A printer that takes its length from the notes can never show a missing
+     note. The form owns the length; the events are measured against it. */
+  const formEnd   = (song.form || []).reduce((m, s) => Math.max(m, s.endBar), 0);
+  const lastEvBar = placed.reduce((m, p) => Math.max(m, p.bar), 0);
+  const lastBar   = Math.max(formEnd - 1, lastEvBar);   // an integer, per above
   const PITCHED = new Set(ORDER);
 
   /* what each section is, keyed by its first bar */
@@ -159,7 +170,7 @@ function score(M, opts){
   say("  than hidden.");
   say("");
 
-  let printedBars = 0, silentRun = 0;
+  let printedBars = 0, silentBars = 0, runLen = 0, longestRun = 0, longestAt = 0;
 
   for(let bar = 0; bar <= lastBar; bar++){
     if(bar < FROM || bar > TO) continue;
@@ -186,8 +197,22 @@ function score(M, opts){
     const drums   = here.filter(p => p.e.role === "drums");
     const world   = here.filter(p => !PITCHED.has(p.e.role) && p.e.role !== "drums");
 
-    if(!pitched.length && !drums.length && !world.length){ silentRun++; continue; }
-    if(silentRun){ say(`      … ${silentRun} bar(s) with nothing in them`); silentRun = 0; }
+    /* ── A SILENT BAR IS PRINTED, NOT COLLAPSED ───────────────────────────
+       This folded a run of empty bars into one grey line — "… 19 bar(s) with
+       nothing in them" — which reads as bookkeeping and scrolls past.
+       fantasysynth seed 1 has 112 of them, a 19-bar hole and a 10-bar hole
+       among them, and every one of those lines had been printing for as long
+       as this file has existed without once being read as what it is. Silence
+       in the middle of a record is the loudest defect this printout can show,
+       so it gets a line of its own, at the same weight as a bar of music. */
+    if(!pitched.length && !drums.length && !world.length){
+      silentBars++; runLen++;
+      say(`  bar ${String(bar).padStart(3)}   ${mmss(clock.at(bar))}   ` +
+          `██ SILENT — not one part plays in this bar`);
+      continue;
+    }
+    if(runLen > longestRun){ longestRun = runLen; longestAt = bar - runLen; }
+    runLen = 0;
 
     say("");
     say(`  bar ${String(bar).padStart(3)}   ${mmss(clock.at(bar))}`);
@@ -255,7 +280,7 @@ function score(M, opts){
     }
     printedBars++;
   }
-  if(silentRun) say(`      … ${silentRun} bar(s) with nothing in them`);
+  if(runLen > longestRun){ longestRun = runLen; longestAt = lastBar + 1 - runLen; }
 
   /* ── AND THE TOTALS, so the printout can be checked against itself ────── */
   say("");
@@ -273,7 +298,19 @@ function score(M, opts){
     say(`    ${r.padEnd(10)} ${String(tot[r].n).padStart(5)} events   ` +
         (tot[r].hi > -999 ? `${nn(tot[r].lo)}..${nn(tot[r].hi)}   ` : "") +
         [...tot[r].voices].join(" "));
-  say(`    ${printedBars} bars printed of ${lastBar + 1}`);
+  say(`    ${printedBars + silentBars} bars printed of ${lastBar + 1}   ` +
+      `(${printedBars} with music, ${silentBars} silent)`);
+  if(silentBars){
+    say("");
+    say(`  ██ SILENCE — ${silentBars} of ${lastBar + 1} bars have no part playing at all, ` +
+        `${Math.round(silentBars / (lastBar + 1) * 100)}% of the record.`);
+    if(longestRun > 1)
+      say(`  ██ the longest hole is ${longestRun} bars, from bar ${longestAt} at ${mmss(clock.at(longestAt))}.`);
+  }
+  if(lastBar > lastEvBar)
+    say(`  ██ DEAD TAIL — the record stops playing at bar ${lastEvBar} and stops running at ` +
+        `bar ${lastBar}: ${lastBar - lastEvBar} bars, ` +
+        `${mmss(clock.at(lastBar + 1) - clock.at(lastEvBar + 1))}, of nothing at the end.`);
   say("");
 
   /* ══ AND DOES THE RECORD HAVE A TUNE THAT COMES BACK ═══════════════════════
