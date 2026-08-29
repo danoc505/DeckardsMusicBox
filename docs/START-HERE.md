@@ -130,6 +130,16 @@ one sentence and print nothing.
 
 ---
 
+## WHAT IS BEING BUILT
+
+`docs/MELODIC-MATH-ENGINE.md` — the melody's motifs, their movements, and the
+formula that says which of them sound in each statement. Designed from the
+owner's eight annotated piano-roll sheets; the research behind it is
+`docs/genre-research/melodic-math.md`. It is the next build, and it is written
+in phases so each one moves notes on its own.
+
+---
+
 ## PLAIN ENGLISH
 
 The person this is built for is not a musician and not an engineer. Write
