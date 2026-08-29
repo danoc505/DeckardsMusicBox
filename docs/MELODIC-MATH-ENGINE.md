@@ -1,312 +1,289 @@
 # THE MELODIC MATH ENGINE — the plan
 
-*Designed 2026-08-29 from the eight annotated piano-roll sheets, against the
-research already collected in `docs/genre-research/melodic-math.md`. That sheet
-is the reasoning; this file is the build.*
-
-The sheets analyse three records — Europe *The Final Countdown* (melody), Deep
-Purple *Smoke On The Water* (main riff), NTFO & Karmon *Nobody Else* (melody and
-bassline) — and between them they describe a complete, writable notation for a
-melody. The program has none of it. This is how it gets built.
+*Designed from the owner's eight annotated piano-roll sheets and from three
+complete songs measured note by note: System of a Down "Chop Suey" (vocal),
+The Mars Volta "Televators" (vocal), Pink Floyd "Shine On You Crazy Diamond"
+(lead guitar). The research behind it is `docs/genre-research/melodic-math.md`.*
 
 ---
 
-## 1. THE NOTATION, READ OFF THE SHEETS
+## 1. WHAT MELODIC MATH IS FOR
 
-### 1a. A motif is a list of durations with movements between them
+**It is the law that lets the melody generator be set free without it making
+noise.**
+
+That is the whole reason it exists. This program's fourth principle already
+says it:
+
+> *Music is novelty, constrained. Pure rule is a loop; pure dice is a shuffle.
+> The music lives between, and the constraint is the generator.*
+
+Melodic math is that constraint, written down. It says what a tune is made of —
+lengths, and the movements between them — and it says the few things that must
+be true for a line to be a tune rather than a wander. Everything else it leaves
+open, on purpose, so that different music can come out of the same engine.
+
+### And what it is NOT
+
+Melodic math describes **one line's own construction**. It does not describe the
+song around that line.
+
+| melodic math | NOT melodic math |
+|---|---|
+| a motif's lengths and movements | which section of the song it is in |
+| a silence inside a motif, with a length | call and response between the voice and the chords |
+| a motif restated and varied | a verse coming back longer the second time |
+| the order motifs are played in, inside a phrase | the order of the sections |
+
+The Europe sheet is precise about this and it is easy to read past: `S = 6` is
+melodic math, because six sixteenths of rest is part of the motif. What the
+arrangement then does with that hole — put chords in it, answer it with a guitar
+— is the arrangement's business. A rule about one is not a rule about the other.
+
+---
+
+## 2. THE NOTATION
+
+### 2a. A motif is lengths with movements between them
 
 ```
      8 ( E2 ) 4 ( N ) 3
-     │   │     │       └── duration of the third note
-     │   │     └────────── duration of the second note
+     │   │     │       └── the third note's length
+     │   │     └────────── the second note's length
      │   └──────────────── how far the pitch moves into the third note
-     └──────────────────── duration of the first note
+     └──────────────────── the first note's length
 ```
 
-`duration ( movement ) duration ( movement ) duration …` — one movement fewer
-than there are notes. Straight from the sheet: *"we can combine these 2 functions
-to give a simple single line of 'code' to lock in the motif."*
+One movement fewer than there are notes. From the sheet: *"we can combine these
+2 functions to give a simple single line of 'code' to lock in the motif."*
 
-### 1b. The duration unit is DECLARED, not assumed
+### 2b. Movement is written at one of two strengths
 
-The three sheets use three different units and each says which:
-
-| sheet | key |
-|---|---|
-| *Smoke On The Water* | `1 = 16th, 2 = 8th, 4 = 1/4, 8 = 1/2` |
-| *Nobody Else* — melody | `1 = 1/4 note, 4 = 1 bar` |
-| *Nobody Else* — bassline | `1 = 16th note, 2 = 8th note` |
-
-So a motif carries its unit. `A = 4+4` means eight sixteenths in one sheet and
-two bars in another. **The engine stores spans in sixteenths and the unit is a
-notation convenience only** — otherwise the same string means two things.
-
-### 1c. Movement has two levels of constraint, and that distinction is the point
-
-| written | means | who decides direction |
+| written | means | who picks the direction |
 |---|---|---|
 | `(ii)` | move by 2, **direction free** | the engine draws it |
-| `(E2)` | elevate by 2 | the motif |
-| `(F2)` | fall by 2 | the motif |
-| `(N)` | no movement, repeat the pitch | the motif |
+| `(E2)` | up 2 | the motif |
+| `(F2)` | down 2 | the motif |
+| `(N)` | none — the pitch repeats | the motif |
 
-The sheet is explicit about the first row: *"Motif 'A' being 4+4 in terms of
-Rhythm and has a Melodic Movement of 2. Becoming 4(ii)4. **The direction is up to
-your own personal taste.**"* And about the second: *"the 'x' value in the melodic
-movement can be replaced with 'E' for Elevate, or 'F' for fall to give a strong
-sense of familiarity."*
+The sheet says this outright: *"Motif 'A' … has a Melodic Movement of 2.
+Becoming 4(ii)4. **The direction is up to your own personal taste.**"*
 
-**That is this program's third law written in someone else's handwriting.** A
-roman numeral is a constraint — a magnitude with the direction left open. `E`/`F`
-is a value. Both are legal and the genre chooses which it is declaring.
+A roman numeral is a constraint. An `E` or `F` is a value. **Both are legal and
+the genre chooses which it is writing.** This is the program's third law inside
+the notation itself.
 
-### 1d. WHAT THE NUMBER COUNTS — the sheets and their captions disagree
+### 2c. The units are declared, never assumed
 
-The *Smoke On The Water* caption says *"a melodic movement of 'x2' meaning it
-moves by 2 **semitones** at a time."* The notes it points at are D3 → F3, which
-is **three** semitones — and exactly **two steps** of G Phrygian (D, Eb, F). The
-`C` motif's `x1` is G3 → G#3, one step of the same scale and also one semitone,
-so it does not separate the two readings. *The Final Countdown*'s `A = 1(i)1(i)4`
-is C#4 → B3 → C#4 in F# minor: one scale step each way, two semitones each way.
+The three sheets use three different length units and each states its own:
+`1 = 16th` in one, `1 = 1/4 note` in another. So a motif carries its unit. The
+engine stores every length in sixteenths; the unit is a convenience for writing.
 
-**Every diagram is consistent with scale steps; only the prose says semitones.**
-This is not resolved by guessing. The motif declares its unit:
+The movement unit is declared the same way. The *Smoke On The Water* caption says
+`x2` means *"2 semitones"* and points at D3 → F3, which is three semitones and
+exactly two steps of G Phrygian. Every diagram in the sheets reads as scale
+steps; only the prose says semitones. So the motif says which it means —
+`moveUnit: "step"` or `"semitone"` — and nothing is guessed.
 
-```
-moveUnit: "step"      degrees of the current scale   (the default)
-moveUnit: "semitone"  chromatic
-```
-
-A genre that wants chromatic movement says so. Nothing has to be assumed and
-nothing silently means the wrong thing.
-
-### 1e. Silence is a named motif with a length
+### 2d. Silence is a motif with a length
 
 ```
 S = 6        (Silence)
 ```
 
-From *The Final Countdown*: *"the 'S' motif (which represents silence) keeps the
-other motifs happening at the same time, in the song this gives the arrangement
-room for the chords to play at the start of every bar, acting like a **Call &
-Response**."*
+Not a gap left over. A named element with a span, placed on purpose.
 
-An `S` motif is not a gap left over. It is six sixteenths of nothing, placed on
-purpose, and the reason it exists is so something else can answer.
-
-### 1f. The structural formula — upper case ON, lower case OFF
+### 2e. Capital letters sound, small letters do not
 
 ```
-Nobody Else, bassline:   A+a+B / A+A+B / A+a+B / A+a+b
-                         (A+A+B)*4 with variations
-                         Upper case turned on, lower case turned off
-
-Smoke On The Water:      A+B+A+C+A+B+A+c
+A+a+B / A+A+B / A+a+B / A+a+b
+A+B+A+C+A+B+A+c
 ```
 
-Four statements of the same three slots. What changes between them is **which
-slots sound**. In the roll the lower-case slots are drawn as empty outlines: the
-notes are written and not sounding. *"The 'B' rotates from being active and
-inactive to give rest."*
-
-### 1g. Balance, and deliberate imbalance
-
-```
-Nobody Else:      A = 4+3+1+4 = 12,  B = 4,  A+B = 16  (factors into 4/4)  BALANCE!
-Smoke On The Water:  A = 4+4 = 8,  B = 6,  C = 2+8 = 10,  A+B+A+C = 32
-```
-
-The formula's total span must land on a whole number of bars. And then, once:
-
-> *"Note in the 3rd 'A' a note is missed to create unbalance and create
-> additional tension."*
-
-One note removed from one statement. Not a transformation — a hole.
-
-### 1h. Rhythmic acceleration — a subdivision inside the same span
-
-```
-A  = 1(i)1(i)4          A2 = 1(i)1(i)2(i)2
-B  = 4(N)               B2 = 2(i)2
-```
-
-*"'A2' has the last note split into 2, still taking up the same amount of space,
-but allowing for an extra key change."*
-
-The span is the invariant, not each duration. A note may be split within its own
-span, and the point of splitting it is that the new note carries a new movement.
-
-### 1i. The last statement turns to close
-
-> *"The 'A' motif elevates ('E') on the first 3, but on the 4th one it falls,
-> giving variation and a sense of closure by ending where the melody starts on
-> the key of D."*
-
-`E, E, E, F` — a cadence written as a movement table. It is why the riff sounds
-finished rather than merely stopped.
+Same slots every statement. What changes is which of them sound. In the roll the
+lower-case ones are drawn as empty outlines — written, and not played.
 
 ---
 
-## 2. WHAT THE PROGRAM DOES TODAY, MEASURED
+## 3. THE LAW — five things, and the engine may not break them
 
-`materials.A.lead` is a flat array of `{bar, step, dur, pitch}`. There is no
-motif, no name for a part of a phrase, no formula. Printed in the sheets' own
-notation, lofi seed 1's tune is:
+These held in all three songs measured, and they are all that held.
+
+**L1. The line is built of motifs.** It is not drawn note by note. A melody that
+was never made of named cells cannot be varied, only replaced.
+
+**L2. A motif comes back.** Something recurs, or there is no hook to recognise.
+
+**L3. When it comes back, at least one declared thing is preserved** — the span,
+the opening, the movements, or the attack pattern. Which one is the genre's
+business. Preserving *nothing* is not a restatement, it is a new motif.
+
+**L4. Something changes before the repeat limit.** How many identical statements
+are allowed is a number the genre sets. That a change must come is the law.
+
+**L5. Every movement is stated.** A magnitude at least, a direction if the motif
+says so. No note is an independent draw. This is what makes it a line rather
+than a walk.
+
+That is the whole law. Note what is *not* in it: no length, no interval size, no
+repeat count, no bar alignment, no rule about which thing gets preserved.
+
+---
+
+## 4. THE DIALS — the make-up, and it is different in every song
+
+Everything the law leaves open is a dial. Measured across the three songs, the
+same four rules produced three completely different constitutions:
+
+| | Chop Suey | Televators | Shine On |
+|---|---|---|---|
+| notes in a motif | 2 or 8 | 2–5 | 1–3 |
+| lengths used | mostly 2 and 4 | 2, 4, 6, 8, 12 | 12, 18, 20, 21 |
+| motif span | 16, locked to the bar | 12–20, crosses bar lines | one *note* is 20 |
+| where it starts | on the downbeat | @2, @6, @8, @12 — off it | @4, never on it |
+| movements inside | `N`, `F1`, `E1`; `E5` and `F12` when it grows | 1 to 11 | 1–2 on top |
+| silence | 12 of every 16 in the call motif | short, irregular | gaps of 29 to 76 |
+| statements before a change | 3 | 2 | irregular, 3–6 bars apart |
+| what the change keeps | the span and the opening | the head — and throws the span away | the lengths |
+| how it changes | splits a note; alters the first movement | **swaps two lengths**; frees the tail | moves pitch only |
+
+Two of these are worth reading twice, because they are the ones that prove the
+law is not a style.
+
+**Chop Suey's answer motif has no movement at all.** `2(N)2(N)2(N)2(N)2(N)2(N)2(N)2`
+— eight attacks on one pitch, a whole bar of it. Three statements identical
+(bars 33, 35, 37), then bar 39 alters the first two movements and nothing else.
+
+**Televators swaps two lengths and keeps everything else.** Bar 42 is
+`4(E3)2(N)4(F3)2(E5)4` and bar 45 is `2(E3)4(N)4(F3)2(E5)4`. Same span, same
+movements, the first two lengths exchanged — so the attacks move and the shape
+does not. Chop Suey never does this, and a rule that said "keep the attacks"
+would forbid it.
+
+And Televators states a phrase **twice** before moving on (bars 25–26, then
+31–32 identical), where Chop Suey states three times. Both are music. The
+repeat limit is a dial.
+
+### The dials, listed
+
+Span · notes per motif · which lengths exist · which movements exist ·
+movement unit · how much silence and where · alignment to the bar ·
+statements before a change · which of L3's four things is preserved ·
+which change is used (subdivide, swap, alter the head, free the tail) ·
+the interval between restatements.
+
+---
+
+## 5. WHERE THE MAKE-UP COMES FROM — ranges, drawn per record
+
+**A genre must not declare the dials as numbers.** Writing `span: 16,
+repeatLimit: 3, moves: [1,2]` into lofi is putting Chop Suey in a table and
+calling it a genre.
+
+A genre declares **ranges**. The seed draws a make-up inside them, once per
+record, and freezes it as a stage-1 fact like everything else.
+
+```js
+theme: {
+  motifSpan:    [8, 32],          // sixteenths
+  notesPer:     [2, 8],
+  lengthPool:   [1, 2, 4, 8],     // which lengths this genre may use
+  movePool:     [0, 1, 2, 3, 5],  // 0 means N is reachable
+  moveUnit:     "step",
+  silenceShare: [0.0, 0.75],
+  alignToBar:   [true, false],
+  repeatLimit:  [2, 4],
+  preserve:     ["span", "head", "moves", "attacks"],   // L3: draw which one
+  change:       ["subdivide", "swap", "alterHead", "freeTail"],
+}
+```
+
+So one lofi record comes out of short cells with three-quarters silence, and the
+next out of long held notes with wide gaps, and both are lofi because the ranges
+were lofi's. **The make-up emerges per record; the law never moves.**
+
+This is the same law one level up: the genre says how far, the seed says which
+way.
+
+---
+
+## 6. WHAT THE PROGRAM DOES TODAY, MEASURED
+
+`materials.A.lead` is a flat array of notes. There is no motif, no name for part
+of a phrase, no formula. Printed in the sheets' notation, lofi seed 1's tune is:
 
 ```
 8(F5)4(F2)3(E2)4(E12)8(E2)4(F4)3(F1)4
 ```
 
-The rhythm `8/4/3/4` does occur twice, so a motif is accidentally there — but
-every movement differs and the second statement opens with a twelve-step leap.
-Nothing declared it and nothing can name it.
+**Measured over 40 seeds a genre:**
 
-**Measured over 40 seeds a genre, `materials.A.lead`:**
-
-| | finding |
+| | |
 |---|---|
-| movement magnitude | median **2**, and 69–81% of all movements are 1–2. This MATCHES the sheets and is not a gap. |
-| no-movement (`N`) | **0% of ~2,680 movements.** The program never repeats a pitch, and `B = 4(N)` / `6(N)` — a whole motif on one note — is a device in two of the three sheets. |
-| the phrase repeating itself | **157 of 199 records** have a lead whose second half is a bar-for-bar literal copy of its first: synthwave 40/40, dungeonsynth 39/40, fantasysynth 39/40, ds2 39/40. Only lofi varies (0/39). |
+| movement size | median 2, and 69–81% are 1–2 — inside what the songs do, and not the gap |
+| no movement | **0% of ~2,680 movements.** `N` is unreachable, and a motif on one repeated pitch is the loudest thing in Chop Suey |
+| the phrase repeating | **157 of 199 records** have a lead whose second half is a bar-for-bar copy of its first — synthwave 40/40, dungeonsynth 39/40, fantasysynth 39/40, ds2 39/40, lofi 0/39 |
 
-The last row is the whole problem in one number, and it is the owner's original
-report — *"Right now those nine notes are on repeat."*
+That last row is both failure modes at once, and it is exactly what having no
+law looks like: **lofi wanders** — 0 of 39 repeat, a note-by-note random walk,
+pure dice. **The other four copy** — pure rule. Nothing sits in between because
+there is no constraint holding the middle open.
 
-The three variation devices that exist — `Avar`, `Adev`, `Aseq` — are each a
-**complete alternative note array** chosen per section. They vary the whole
-phrase or nothing. None of them can express "play A, leave B out this time",
-which is the primary device in all three sheets.
-
----
-
-## 3. THE ENGINE
-
-### 3a. The objects
-
-```js
-/* a motif: a rhythm, the movements between its notes, and its unit */
-{ name: "A",
-  rhythm: [1, 1, 4],              // sixteenths
-  moves:  [{n:1}, {n:1}],         // magnitude only — direction is the engine's
-  span:   6,                      // = sum(rhythm), the invariant
-  moveUnit: "step" }              // or "semitone"
-
-/* B = 4(N) — a movement of N is a declared repeat, not an absence */
-{ name: "B", rhythm: [4], moves: [], span: 4 }
-
-/* S = 6 — silence, with a length and a reason */
-{ name: "S", rhythm: [6], silent: true, span: 6 }
-
-/* a theme: the motifs, and the formula that orders them */
-theme: {
-  motifs: { A: "1(i)1(i)4", A2: "1(i)1(i)2(i)2", B: "4(N)", B2: "2(i)2", S: "6" },
-  formula: ["A+S+B+S", "A2+S+B+S", "A+S+B+S", "A2+S+B2+s"],
-  close:   "F",                   // the last statement turns to close
-}
-```
-
-`A2` is not a separate motif. It is `A` with its last duration subdivided, and
-the engine can derive it from `A` — but a genre may write it out, because
-writing it out is how the sheets do it.
-
-### 3b. The parser is the whole interface
-
-```js
-MM.parse("1(i)1(i)2(i)2")   ->  the motif object
-MM.print(motif)             ->  "1(i)1(i)2(i)2"
-```
-
-Round-trip is the check: parse then print must give back the same string. That
-is one line and it is the only test the notation needs.
-
-Accepts both levels of constraint — `(i)`, `(ii)`, `(iii)` for a free-direction
-magnitude; `(E2)`, `(F1)`, `(N)` for a fixed one. Prints back what it was given.
-
-### 3c. Where it slots into the six stages
-
-Stage 3 (MATERIALS) already owns "what the tune is". It keeps that job and gains
-an internal structure:
-
-```
-STAGE 3, today          themeA(...)  ->  [ {bar,step,dur,pitch}, ... ]
-
-STAGE 3, after          motifs      ->  statements  ->  [ {bar,step,dur,pitch}, ... ]
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^      ^^^^^^^^^^^^^^^^^^^^^^^^
-                        the new part                    the SAME output
-```
-
-**The flat note array stays exactly what it is.** It becomes a *render* of the
-motif list rather than the primary thing. Every stage downstream — the
-arrangement, the performance, the voices, the export, the roll — is untouched,
-because what it receives has not changed shape.
-
-And the motif list is published beside it, so a section can ask *which motif is
-this note in* — which is the question nothing downstream can currently ask.
-
-### 3d. The hard laws — the engine refuses
-
-These are definitional. Break one and the thing is no longer a motif.
-
-1. **A motif's SPAN is invariant across every statement of it.** `A` is six
-   sixteenths in statement one and six in statement four.
-2. **A motif's attack points may not move** — except by declared subdivision,
-   which splits a duration inside its own span and never crosses into the next.
-3. **The formula's total span equals the phrase length.** Balance. A formula
-   that does not land on a bar line is rejected at build, not corrected later.
-4. **A slot that is off is silent for its whole span** — the phrase does not
-   close up around it. That hole is the point.
-5. **Silence is scheduled.** An `S` motif occupies its span; nothing may be
-   placed in it.
-
-### 3e. The soft laws — declared as constraints, drawn per statement
-
-6. **Which slots sound**, per statement — the case pattern in the formula. A
-   genre declares the rows; the seed picks which row this statement uses.
-7. **Direction**, wherever the motif gave a magnitude only. Drawn, and bound by
-   the close rule below.
-8. **Which variant** — `A` or `A2` — where both are declared.
-9. **The close**: the final statement's last movement turns against the
-   prevailing direction. `E,E,E,F`.
-10. **The imbalance**: one note dropped from one statement, once a phrase, when
-    the genre declares an appetite for it.
-
-### 3f. What this replaces
-
-The rule of three (`materials.third`) stops being a separate mechanism. A
-four-row formula whose rows differ **cannot** state the same thing three times
-running — the law becomes a consequence of the structure rather than a patch
-applied after it. That is the program's own "no correcting passes" rule finally
-reaching the melody.
+The three devices that exist — `Avar`, `Adev`, `Aseq` — are each a complete
+alternative note array chosen per section. They vary the whole phrase or none of
+it. None can say "play A, leave B out this time".
 
 ---
 
-## 4. BUILD ORDER
+## 7. WHERE IT GOES
 
-Five phases. Each one ships ON, each one moves notes, and each one is read in
-the roll and the printout before the next starts.
+Stage 3 already owns what the tune is. It keeps that job and gains an inside:
+
+```
+today      themeA(...)  ->  [ {bar,step,dur,pitch}, ... ]
+
+after      motifs  ->  statements  ->  [ {bar,step,dur,pitch}, ... ]
+           ^^^^^^^^^^^^^^^^^^^^^^      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+           the new part                the SAME output
+```
+
+The flat note array stays exactly what it is — it becomes a *render* of the
+motif list. Every stage downstream is untouched, because what it receives has
+not changed shape. The motif list is published beside it, so a section can ask
+*which motif is this note in*, which is the question nothing can currently ask.
+
+The rule of three stops being a separate mechanism. It is L4, and its number is
+a dial.
+
+---
+
+## 8. BUILD ORDER
 
 | # | what | proved by |
 |---|---|---|
-| **1** | `MM.parse` / `MM.print`, the motif object, the round-trip check. Nothing wired in. | the round-trip: parse→print is the input string, for every motif in the three sheets |
-| **2** | Stage 3 publishes `materials.motifs` beside the note arrays — the CURRENT tune, segmented, not a new one. | the printout is byte-identical; this is the one legitimate use of that check, and it is one step, not a result |
-| **3** | The formula drives which slots sound. On/off, per statement. | the roll: the phrase stops being a literal copy of itself. The 157-of-199 number must fall. |
-| **4** | Movement: magnitude honoured, direction drawn, `N` legal, the close turns. | the printout: `\|mv\|=0` stops being 0%, and the last statement's last move opposes the others |
-| **5** | Subdivision (`A2`), and the one-note imbalance. | the roll: same span, one more attack, one more pitch change |
+| **1** | The notation: parse and print, the motif object, `N` and roman numerals both legal. Nothing wired in. | round-trip — parse then print returns the input string, for every motif in the sheets and in the three measured songs |
+| **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
+| **3** | The law: L1–L5 enforced, with the dials drawn from genre ranges. | the roll — the phrase stops copying itself. **157 of 199 must fall.** |
+| **4** | The change vocabulary: subdivide, swap, alter the head, free the tail — genre draws which. | the printout — two records of the same genre come out with different make-ups |
+| **5** | Movement: `N` reachable, magnitudes honoured, direction drawn where the motif left it free. | the printout — no-movement stops being 0% |
 
-Phase 3 is the one that answers the owner's original report. Phases 1 and 2 exist
-so that phase 3 is a small change rather than a rewrite.
+Phase 3 is the one that answers the owner's report. Phases 1 and 2 exist so that
+phase 3 is a small change rather than a rewrite.
 
 ---
 
-## 5. HOW IT IS PROVED
+## 9. HOW IT IS PROVED
 
-`node harness/mk2_roll.js` — the phrase repeating itself is a picture, and the
-picture is what showed it. Print the roll before phase 3 and after; the literal
-second-half copy is visible without counting anything.
+`node harness/mk2_roll.js` — a phrase copying itself is a picture, and the
+picture is what showed it. Print before and after; read it.
 
-`node harness/mk2_score.js` — the exact figures: the movement histogram, the
-`N` count, the span of each motif in each statement.
+`node harness/mk2_score.js` — the figures: the movement histogram, the `N`
+count, each motif's span in each statement.
 
-And one measurement carries the whole build: **of 199 records, how many have a
-lead whose second half is a literal copy of its first.** It is 157 today. A
-phase that does not move it has not been applied.
+And two numbers carry the build:
+
+- **Of 199 records, how many have a lead whose second half copies its first.**
+  It is 157. A phase that does not move it has not been applied.
+- **How different two records of the same genre are from each other.** If every
+  lofi record comes out with the same make-up, the dials were written as values
+  and the whole point has been missed.

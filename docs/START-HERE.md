@@ -132,11 +132,13 @@ one sentence and print nothing.
 
 ## WHAT IS BEING BUILT
 
-`docs/MELODIC-MATH-ENGINE.md` — the melody's motifs, their movements, and the
-formula that says which of them sound in each statement. Designed from the
-owner's eight annotated piano-roll sheets; the research behind it is
-`docs/genre-research/melodic-math.md`. It is the next build, and it is written
-in phases so each one moves notes on its own.
+`docs/MELODIC-MATH-ENGINE.md` — the law that lets the melody generator be set
+free without it making noise. Five things that must be true for a line to be a
+tune; everything else is a dial the genre declares as a range and the seed draws
+inside. Designed from the owner's eight sheets and from three complete songs
+measured note by note. The research behind it is
+`docs/genre-research/melodic-math.md`. It is the next build, in phases, each one
+moving notes on its own.
 
 ---
 
