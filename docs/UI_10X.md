@@ -23,7 +23,7 @@
 > 2 — see `harness/mk2_midi.js`). Not built and still worth wanting: the live
 > roll, keyboard shortcuts, tap tempo, the waveform/onset view.
 >
-> For what to actually do next, read `docs/HANDOFF-MK2.md` §5 and §9.
+> For what to do next, read `docs/BACKLOG.md`.
 
 
 *Grounded in the actual file (`Improv Machine playable_BETA 0.1.html`) and in who the user

@@ -1,42 +1,33 @@
 # harness — the printout, and the few things that are not it
 
-**There is one test now.** It prints the notes.
+**There is one test.** It prints the notes.
 
 ```sh
-node harness/mk2_score.js
+node harness/mk2_score.js --roll     the whole song as a piano roll
+node harness/mk2_score.js            the same song as notes, bar by bar
 ```
 
 Every genre, twice — seed 1 and one drawn fresh each run — every instrument,
-every bar, start to finish. It takes about three seconds and prints about ten
-thousand lines. Nothing in it is a pass or a fail. You read it.
+every bar, start to finish. Nothing in it is a pass or a fail. You read it.
 
-## Why this folder is now four files instead of ninety-three
+**The roll** puts pitch up the page and time across it, with every instrument
+on the one grid: four bars to a block, one row per semitone, so the vertical
+distance on the page is the interval. A note is its part's letter where it is
+struck and a rule for as long as it sounds. Two parts on the same pitch and
+step is a `+`. C rows are dotted as an octave ruler, and the drums sit under
+the grid, one row a voice. It is the view that shows what the parts do to each
+other.
 
-The owner, 2026-08-18:
+**The note list** gives the exact figures: every note as `NAME@step:length`,
+and how many milliseconds it sits off its step.
 
-> "the tests they are a huge waste of time and the main test that needs to be
->  done is to print out the midi of seed 1 and a random seed all the instruments
->  and the whole song. This is the real test that should be being done its the
->  only way you can actually see your work is doing something correct."
-
-So on that day, deleted: `mk2_test.js` (190 checks, 4,300 lines, twelve to
-fifteen minutes a run, **zero notes printed**), all 87 probes, the snapshot and
-its 147 KB baseline, the browser batteries, and the audio assertions.
-23,059 lines.
-
-**And there was a second reason, worse than slowness.** Every one of those
-ninety-odd tools read `Boxcar Synth.html` — a one-genre side file — instead of
-`Deckards Orchestrator MK2.html`, which is the program. It had been that way
-since 2026-08-17, commit `49e3391`, and nothing said so anywhere you would see
-it. `mk2_roll.js 1 --genre lofi` printed **boxcar synth** and exited 0. So the
-whole folder was grading a file nobody was working on, and reporting green.
-
-The printout names the file it read on its first line now. That is not a
-courtesy — it is the thing that would have caught this in one glance.
+The printout names the file it read on its first line, so which program is
+being graded is never a silent default.
 
 ## The printout
 
 ```sh
+node harness/mk2_score.js --roll                   the piano roll, every genre
 node harness/mk2_score.js                          every genre, seed 1 + a drawn one
 node harness/mk2_score.js --genre lofi             one genre, seed 1 + a drawn one
 node harness/mk2_score.js --genre lofi --seed 7    one genre, one seed
