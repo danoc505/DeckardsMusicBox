@@ -33430,19 +33430,14 @@ function makeForm(chart){
          those: `postchorus` in synthwave, `instrumental` in dungeon synth,
          both playing the base material four times running.
 
-         SO I TRIED REMOVING THE CLAUSE, AND IT MADE THINGS WORSE. Measured,
-         six records: synthwave's identical returns went 17% -> 28%. With every
-         repeating function funnelled into the same four materials, the
-         instrumental stopped playing A and started playing Avar — the same
-         thing the verse beside it was playing. Two devices cannot serve five
-         repeating functions; asking them to collapses the variety that the
-         different labels were providing for free.
-
-         The real answer is more devices, or a device that composes with the
-         section's own identity, and neither is a one-line change. Reverted,
-         and written down here rather than left as a comment that says the
-         clause is arbitrary — it is not, it is load-bearing until there is
-         something better to give those sections. */
+         THE CLAUSE IS LOAD-BEARING, NOT ARBITRARY. Two devices cannot serve
+         five repeating functions. Measured over six records, funnelling every
+         repeating function into the same four materials takes synthwave's
+         identical returns from 17% to 28%: the instrumental stops playing A
+         and starts playing Avar, which is what the verse beside it is already
+         playing, so the variety the different labels were providing for free
+         collapses. The way past it is more devices, or a device that composes
+         with the section's own identity. */
       /* ══ THE RULE OF THREE, AT THE THRESHOLD IT WAS ALWAYS MISSING ═════════
          [owner's own source, doc `006 (rule of 3)`]: "play an idea, repeat it
          one time so you're playing it two times in total -- this is REINFORCING
@@ -39307,12 +39302,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       }
     }
     /* ── AND THE LAST WORD IS A SWEEP, WHICH IS A REVERSAL ────────────────
-       A blanket pass over the finished line was tried here once and reverted,
-       and the reasoning for reverting it was sound: it MERGED adjacent
-       identical pairs, reached across a restatement boundary to do it, broke
-       the hook on 7 seeds in 120 and put one blended note out of key. A
-       merger has to pick one of the two notes to lengthen, and at a seam that
-       means editing one copy of a phrase and not the other.
+       THIS PASS DROPS AND MAY NEVER MERGE. A merger has to pick one of two
+       adjacent notes to lengthen, and at a restatement seam that means editing
+       one copy of a phrase and not the other: measured over 120 seeds, a
+       merging pass reached across the boundary, broke the hook on 7 of them
+       and put one blended note out of key.
 
        This is not that pass. It DROPS, it is the only thing in this function
        that can see the line in time order, and every construction-time rule
@@ -43850,10 +43844,10 @@ function makeArrangement(chart, form, materials){
          emptyLastBar fires on exactly one section per song and what survives is
          `kick step 0` plus `hat step 0 at 0.34` -- the same downbeat the loop bar
          would have given, with a SOFTER hat, which is the right direction for a
-         bar that is emptying out. I "fixed" this once by suppressing fillInto
-         under emptyLastBar; measured, that changed exactly one hat per song from
-         0.34 to 0.53, i.e. it made the empty bar louder. Reverted. Leaving the
-         reasoning here so the next reader does not re-fix it either. */
+         bar that is emptying out. THE CONSTRAINT IS THAT AN EMPTY BAR MAY
+         NOT COME OUT LOUDER THAN THE LOOP BAR IT REPLACES, and this precedence
+         is what satisfies it: suppressing the fill under an empty instead
+         raises that surviving hat from 0.34 to 0.53. */
       /* the drums have to have ARRIVED to roll a fill, not merely be allowed to
          -- before the build this was the same list */
       /* ── AND A FILL IS NOT A CHORUS'S PRIVILEGE ────────────────────────────
