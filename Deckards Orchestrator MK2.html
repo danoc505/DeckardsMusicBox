@@ -23056,7 +23056,8 @@ const GENRE = {
          transition -- so this is the smaller half of its fix. It gets the
          device because the defect the device answers is program-wide: every
          section function in every genre had exactly one length. */
-      extend: { chance: 0.14, bars: [2, 4], fn: ["verse", "chorus", "instrumental"] },
+      extend: { chance: 0.14, bars: [2, 4],
+                 fn: ["intro", "verse", "chorus", "instrumental", "outro"] },
       energy: { intro: 0.55, outro: 0.5, bridge: 0.68, instrumental: 0.72,
                 chorus: 0.92, chorusPeak: 1.0, verse: 0.74 },
       /* a beat tape does not climb much: it sets a mood and stays in it. High
@@ -24609,7 +24610,8 @@ const GENRE = {
          INTO the hook" by this table's own comment. A ramp that refuses to end
          is a ramp that misses its arrival, which is the one thing this genre's
          form is built to land. */
-      extend: { chance: 0.14, bars: [2, 4], fn: ["verse", "chorus", "instrumental"] },
+      extend: { chance: 0.14, bars: [2, 4],
+                 fn: ["intro", "verse", "chorus", "instrumental", "outro"] },
       /* the pre-chorus is a RAMP INTO the hook, so it plays the hook's own
          material -- that is what makes the arrival feel prepared rather than
          announced. The post-chorus is the hook still ringing, so it takes it
@@ -28059,7 +28061,8 @@ const GENRE = {
          NOT on intro, outro or bridge. The first two are the record's bookends
          and the bridge is the one departure, where a longer departure is only a
          longer departure. */
-      extend: { chance: 0.14, bars: [2, 4], fn: ["verse", "chorus", "instrumental"] },
+      extend: { chance: 0.14, bars: [2, 4],
+                 fn: ["intro", "verse", "chorus", "instrumental", "outro"] },
       /* ── AND THE ONE SECTION SHORTER THAN FOUR BARS THIS FILE CAN MAKE ────
          MEASURED across four genres and 24 records each, before this mechanism
          existed: "every section is 4, 8, 10, 12, 16, 18 or 20 bars, and NOTHING
@@ -28676,8 +28679,9 @@ GENRE.fantasysynth = (function(D){
     /* every leg is many sections now, so an extension no longer compounds on
        one of them -- it is the ordinary cadential extension this mechanism was
        built for, spread thin across the record. Smaller, and on everything. */
-    extend: { chance: 0.22, bars: [4, 8], fn: ["verse", "bridge", "chorus",
-                                               "instrumental"] },
+    extend: { chance: 0.22, bars: [4, 8],
+                 fn: ["intro", "verse", "bridge", "chorus",
+                      "instrumental", "outro"] },
     /* ══ AND SOMEBODY IS IN FRONT ═══════════════════════════════════════════
        Declared outright rather than merged, so the parent's four leg names go
        with it: `form` is assigned shallow here, and dungeon synth's rotation is
@@ -32876,8 +32880,30 @@ function makeForm(chart){
   const MVS = [];
   const extRng = stream(chart.seed, "sectionExtend");
   const EXT = F.extend;
+  /* ── HOW LONG A SECTION IS, ASKED THE SAME WAY WHEREVER IT IS PUSHED ──────
+     THAT an intro comes first is a hard law and it is enforced above. HOW LONG
+     an intro is is not hard, and it was: this read `EXTB.push(0)` at the intro
+     and the outro while every other section drew an extension here, so those
+     two came out at exactly the genre's declared number in every record ever
+     made. Measured over 300 records before this: lofi's intro was 4 bars 47
+     times out of 47, synthwave's 8 bars 53 of 53, dungeon synth's 4 bars 82 of
+     82, fantasy synth's 16 bars 56 of 56, and every outro likewise frozen,
+     while the verse and the chorus beside them breathed between 12 and 16.
+
+     A genre says which sections may stretch and by how much, and that is a
+     constraint. A section length written once and never drawn is a value. This
+     is the constraint, and all three push sites go through it. */
+  const drawExt = f => {
+    if(!(EXT && (EXT.fn || []).indexOf(f) >= 0)) return 0;
+    if(!(extRng() < (EXT.chance || 0))) return 0;
+    const pool = EXT.bars || [2];
+    return pool[Math.floor(extRng() * pool.length) % pool.length];
+  };
   const coldOpen = rng() < F.coldOpen;                  // a cold open is a choice, not an absence
-  if(!coldOpen){ fns.push("intro"); EXTB.push(0); MVS.push(null); }
+  /* drawn whether or not there is an intro, so a cold open cannot move the
+     songs that have one [Law 3] */
+  const introExt = drawExt("intro");
+  if(!coldOpen){ fns.push("intro"); EXTB.push(introExt); MVS.push(null); }
   /* ── THE PAYOFF IS A GENRE'S CHOICE, NOT THE WORD "CHORUS" ────────────────
      This function named `chorus` in four places: the opening draw, the repeat
      counter that unlocks the bridge, the break that ends a song on its payoff,
@@ -32917,7 +32943,11 @@ function makeForm(chart){
     const tail = (LEN.outro || 0) + (coldOpen ? 0 : (LEN.intro || 4));
     target = Math.max(LEN[PAY] || 4, aim - tail);
   }
-  let bars = coldOpen ? 0 : 4, bridgeUsed = false, chorusSeen = 0;
+  /* THE INTRO'S OWN LENGTH, NOT A LITERAL. This read `: 4`, so the walk
+     believed every intro was four bars: synthwave declares eight and fantasy
+     synth sixteen, and for those two the remaining room was over-counted by
+     four and twelve bars on every record. */
+  let bars = coldOpen ? 0 : (LEN.intro || 4) + introExt, bridgeUsed = false, chorusSeen = 0;
   /* ══ THE HARD LAWS OF SUCCESSION ══════════════════════════════════════════
      The genre supplies WEIGHTS; stage 2 supplies LAWS. Every law below zeroes
      a weight rather than picking a section, so a genre can lean however it
@@ -33038,11 +33068,7 @@ function makeForm(chart){
      bit-identical to before this existed. */
   let mvNow = null;
   const admit = () => {
-    let ext = 0;
-    if(EXT && (EXT.fn || []).indexOf(fn) >= 0 && extRng() < (EXT.chance || 0)){
-      const pool = EXT.bars || [2];
-      ext = pool[Math.floor(extRng() * pool.length) % pool.length];
-    }
+    const ext = drawExt(fn);
     EXTB.push(ext);
     MVS.push(mvNow);
     fns.push(fn); bars += LEN[fn] + ext;
@@ -33225,7 +33251,7 @@ function makeForm(chart){
     }
   }
   mvNow = null;
-  fns.push("outro"); EXTB.push(0); MVS.push(null);
+  fns.push("outro"); EXTB.push(drawExt("outro")); MVS.push(null);
   return { fns, len: LEN, ext: EXTB, mvs: MVS,
            bars: fns.reduce((t, f, i) => t + LEN[f] + (EXTB[i] || 0), 0) };
   };
@@ -33376,9 +33402,14 @@ function makeForm(chart){
   const mvOf = i => (built.mvs && built.mvs[i]) || null;
   const out = fns.map((f, i) => {
     seen[f] = (seen[f] || 0) + 1;
-    /* what `admit` drew for this section -- and never on the LAST one, since a
-       record whose final bars are a tag has no cadence left to extend past */
-    const ext = (i < fns.length - 1 && built.ext) ? (built.ext[i] || 0) : 0;
+    /* what `admit` drew for this section. The last one's extension was
+       discarded outright, because stretching a record that ends on its PAYOFF
+       adds bars after the final cadence. An outro is not that case: it IS the
+       ending, so a genre that declares the outro extendable is asking for a
+       longer ending rather than for bars after one. The last section keeps its
+       extension when it is the outro and loses it otherwise. */
+    const isLast = i === fns.length - 1;
+    const ext = (built.ext && (!isLast || f === "outro")) ? (built.ext[i] || 0) : 0;
     const o = {
       fn: f, startBar: bar,
       /* which movement admitted this section, or null for a planless genre and
