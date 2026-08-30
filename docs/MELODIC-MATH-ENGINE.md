@@ -298,24 +298,44 @@ Measured the same, 40 seeds a genre, `materials.A.bass`:
 | no movement | **15% to 43%**, by genre. Reachable, and used. Not a gap |
 | movement character | already genre-shaped and worth keeping: synthwave 43% `N` and 36% at twelve or more — root and octave; dungeon synth and fantasy synth 63% at 5–7 — root and fifth; lofi and ds2 mostly steps |
 
-**But the bass has no motif at all, and that is the real defect.** Its rhythm
-comes from `pocket`, a weighted table of sixteenth positions drawn independently
-every bar. Five lofi seeds, twenty bars:
+### AND THE BASS IS MOSTLY NOT BROKEN — measured, and it was claimed otherwise
+
+An earlier version of this sheet said the bass "was never made of anything",
+from lofi's five seeds and a reading of the `pocket` loop. **Measured across all
+five genres, that is wrong, and it is wrong in the way this program's third law
+is about: one genre's numbers stated as the program's.**
+
+Each genre's bass, material A, seed 1:
+
+| genre | notes | steps it uses | what it is |
+|---|---|---|---|
+| lofi | 11 | 0, 10, 14 | the `pocket` loop |
+| synthwave | 30 | 0,2,4,6,8,10,12,14 | a driving eighth-note line — **not the pocket loop** |
+| dungeonsynth | 8 | 0 only, dur 16 | **a pedal**: one whole note a bar |
+| fantasysynth | 8 | 0 only, dur 16 | a pedal |
+| ds2 | 14 | 0,2,4,8,10,12 | **not the pocket loop** |
+
+**Only lofi runs the `pocket` loop at all.** Two genres hold a pedal, which for
+dungeon synth is right rather than broken, and two build their line another way
+entirely.
+
+And the bass already restates. Distinct bar rhythms per record, 40 seeds a
+genre:
 
 ```
-seed 1  [0/8 10/2] [0/8 10/2 14/2] [0/8 10/2 14/2] [0/8 10/2 14/2]
-seed 5  [0/7 7/2 10/2] [0/7 7/2 10/2] [0/7 7/2 10/2] [0/7 7/2 10/2 14/2]
+lofi 2.46   synthwave 2.33   dungeonsynth 1.23   fantasysynth 1.10   ds2 1.98
+                            86% of all bars are a restatement of another bar
 ```
 
-Every onset in every bar of every seed lands on one of four positions — 0, 7,
-10, 14 — and each bar is that pocket minus a note or two, redrawn. There is no
-`A`, no `B`, no restatement and no formula. It is not a bassline that repeats
-too much; it is a bassline that was never made of anything.
+So **the 69 of 199 is not a defect count.** In dungeon synth and fantasy synth,
+where 50 of those 69 sit, the bass is a pedal following a two-bar chord loop —
+the halves match because the CHORDS do, which is the music working. The lead's
+157 was a real defect; the bass's 69 is mostly a measurement of the chord
+progression's period.
 
-So the two parts fail in opposite directions and need the same law:
-
-- **the lead** has an accidental rhythm and wandering pitch
-- **the bass** has a fixed rhythm pool and no cell above the bar
+**What the bass actually needs is therefore an open question, not a settled
+one**, and the honest next step is to ask it per genre rather than to apply the
+lead's answer to a part that is not failing the lead's way.
 
 ---
 
@@ -348,7 +368,7 @@ a dial.
 | **1** | The notation: parse and print, the motif object, `N` and roman numerals both legal. Nothing wired in. **DONE** — `MM` in the program, `node harness/mk2_mm.js`. | round-trip — 31 motifs from the sheets and the three songs, every one comes back the string it went in as |
 | **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. **DONE** — `MM.readLine`, printed by `mk2_mm.js`. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
 | **3** | The law on the LEAD: the verbatim hook copy becomes a restatement governed by L3 and L4, displaced in scale steps, with `restate` drawn per record. **DONE.** | **157 of 199 copies → 88.** The rhythm survives every displacement it makes: 7 of 160 restatements in the hook genres lose it, down from 42 |
-| **4** | The same law on the BASS: `pocket` becomes the pool a motif is built from, not the thing drawn every bar. | the roll — the bass grows an `A` and a `B`. **69 of 199 must fall, and the four-position rhythm must break.** |
+| **4** | **WITHDRAWN AS SPECIFIED.** It was written against the `pocket` loop, which only lofi runs; the other four hold a pedal or build their line another way. Built and measured, it changed 1.81 distinct bar rhythms to 1.82 — a change four genres never execute. The bass question has to be re-asked per genre first. | — |
 | **5** | The change vocabulary: subdivide, swap, alter the head, free the tail — genre draws which. Plus `rhythmOf`, so a line may borrow another's rhythm and keep its own movements. | the printout — two records of the same genre come out with different make-ups |
 | **6** | Movement: `N` reachable on the lead, magnitudes honoured, direction drawn where the motif left it free. | the printout — the lead's no-movement stops being 0% |
 
@@ -368,11 +388,13 @@ count, each motif's span in each statement.
 
 And two numbers carry the build:
 
-- **Of 199 records, how many have a line whose second half copies its first.**
-  The lead is 157, the bass 69. A phase that does not move its number has not
-  been applied.
-- **How many onset positions the bass uses across a record.** It is four. A
-  bass built of motifs cannot still be four.
+- **Of 199 records, how many have a lead whose second half copies its first.**
+  It was 157 and is 88. A phase that does not move it has not been applied.
+  *The bass's 69 is NOT this measure — see §6; it counts the chord loop's
+  period, not a fault.*
+- **Distinct bar rhythms per record, per line.** This is the measure that says
+  whether a line is made of cells. The bass is at 1.81 and the number is only
+  meaningful read per genre.
 - **How different two records of the same genre are from each other.** If every
   lofi record comes out with the same make-up, the dials were written as values
   and the whole point has been missed.
