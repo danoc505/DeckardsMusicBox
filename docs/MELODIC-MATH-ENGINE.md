@@ -461,7 +461,30 @@ hook differed, nothing could be a departure from anything — there was no
 established figure to depart from. Making the motif recur is what makes a
 placed break possible, and the sheets already name the device: *"Note in the 3rd
 'A' a note is missed to create unbalance and create additional tension."* The
-break is **not built** — the ground for it is.
+break is built, and it needed that ground first.
+
+### The break
+
+One bar of the record loses **one note** of its figure. Which bar is drawn per
+record from a pool of statement numbers the genre declares — default `[3, 4]`,
+the two the sheets name — and only from a section where the part that breaks is
+actually playing. Never the downbeat, and never from a bar of fewer than three
+notes: a break takes a note out of a phrase, it does not delete the phrase.
+
+Measured against a build without it, 8 seeds a genre: **exactly one note
+removed, in 26 records of 40.** The other 14 are records where the drawn bar
+held no phrase big enough to take a note out of — the device declining rather
+than failing.
+
+Two faults, both found by diffing against a build without it rather than by
+reading the code:
+
+- It matched the statement NUMBER alone, and `occurrence` counts per *function*
+  — so the third verse, the third chorus and the third instrumental all broke,
+  and the material loops inside each. **3 to 36 notes went from a record where
+  the device is one.** A break that happens thirty times is a thinner.
+- Fixed to one bar, it then chose bars in sections the lead sits out, landing in
+  23 records of 40. A break nobody hears is not one.
 
 ---
 
