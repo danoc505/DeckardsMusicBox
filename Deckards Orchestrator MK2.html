@@ -44834,6 +44834,53 @@ function makePerformance(chart, form, materials, sections){
   /* how much of each part this genre is willing to lose at the bottom of the
      arc. Read here, used in the one place notes are emitted. */
   const THIN = (chart.table.form.arc && chart.table.form.arc.thin) || {};
+  /* ══ AND ONCE, THE RULE IS BROKEN ON PURPOSE ══════════════════════════════
+     docs/MELODIC-MATH-ENGINE.md
+
+     [owner:] "we have to be able to break the rules at times at certain points
+     and to have that be something important in that song."
+
+     The sheets name the device twice. NTFO & Karmon: "Note in the 3rd 'A' a
+     note is MISSED to create unbalance and create additional tension." Deep
+     Purple: "The 'A' motif elevates on the first 3, but on the 4th one it
+     FALLS, giving variation and a sense of closure."
+
+     BOTH LAND ON A COUNTED STATEMENT, not at random. That is the whole point of
+     it -- a break is only an event if the rule was kept, and it is only placed
+     if something counted to it. It could not have meant anything in this
+     program until the statement above this one: while every statement of a hook
+     came out a different figure there was nothing to depart from.
+
+     So: one statement of the record, chosen from a pool the genre declares,
+     loses ONE note of its figure. Never the downbeat, and never from a bar with
+     only one note in it -- a break takes a note out of a phrase, it does not
+     delete the phrase. Which statement is drawn per record, so two records of
+     one genre break in different places. */
+  const BRK_POOL = (chart.table.theme && chart.table.theme.breakAt) || [3, 4];
+  const BRK_ROLES = (chart.table.theme && chart.table.theme.breakRoles) || ["lead"];
+  /* ONE BAR OF THE RECORD, NOT ONE PER BAR. The first draft matched on the
+     statement number alone, and `occurrence` counts per FUNCTION -- so the
+     third verse, the third chorus and the third instrumental all broke, and
+     inside each of them the material loops, so a note went from every bar of
+     every one of them. Measured against a build without it: 3 to 36 notes
+     removed a record, where the device is ONE. A break that happens thirty
+     times is not a break, it is a thinner. So the bar is chosen once, here. */
+  let BRK_BAR = -1;
+  if(BRK_POOL.length){
+    const br = stream(chart.seed, "breakAt");
+    const pick = br(), where = br();          // both drawn whatever follows [Law 3]
+    /* and only where the part that breaks is actually playing -- a break bar
+       chosen in a section the lead sits out is a break nobody hears, which is
+       why the first version of this landed in 23 records of 40 */
+    const cands = (sections || []).filter(x =>
+      BRK_POOL.indexOf(x.occurrence) >= 0 &&
+      BRK_ROLES.some(r => (x.active || []).indexOf(r) >= 0));
+    if(cands.length){
+      const sec0 = cands[Math.floor(pick * cands.length) % cands.length];
+      const span = Math.max(1, sec0.endBar - sec0.startBar);
+      BRK_BAR = sec0.startBar + Math.floor(where * span) % span;
+    }
+  }
   /* ── A SLIDE NEEDS THE NOTE IT SLIDES FROM ──────────────────────────────────
      Stage 3 writes `slide` on the note being slid INTO, and the note it glides
      from is simply its predecessor in that lane. Thin that predecessor away and
@@ -45987,8 +46034,19 @@ function makePerformance(chart, form, materials, sections){
         }
         const useBar = (role === "drums" && lastBar && sec.fillInto) ? 0
                      : (sec.endingLastBar && lastBar) ? 0 : loopBar;
+        /* which note this statement drops, if this is the statement that breaks */
+        let breakStep = -1;
+        if(bar === BRK_BAR && BRK_ROLES.indexOf(role) >= 0){
+          const cand = notes.filter(x => x.bar === useBar && x.step > 0);
+          if(cand.length > 1){
+            const br = stream(chart.seed, "break:" + sec.material + ":" + role +
+                                          ":" + useBar)();
+            breakStep = cand[Math.floor(br * cand.length) % cand.length].step;
+          }
+        }
         for(const n of notes){
           if(n.bar !== useBar) continue;
+          if(n.step === breakStep) continue;         // the break: one note missed
           /* ── THE EMPTY, AT THE SIZE THIS BOUNDARY DREW ────────────────────
              `bar` is what this line always did. `beat` subtracts only the last
              beat, which is 004's smallest empty and is a different amount of
