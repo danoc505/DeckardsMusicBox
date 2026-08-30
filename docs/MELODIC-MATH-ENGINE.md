@@ -133,6 +133,11 @@ was never made of named cells cannot be varied, only replaced.
 the opening, the movements, or the attack pattern. Which one is the genre's
 business. Preserving *nothing* is not a restatement, it is a new motif.
 
+*Built: each device declares what it keeps, and the engine holds it to that.
+`displace` keeps the rhythm and moves the pitch; `swap` and `subdivide` keep the
+SPAN and move the attacks. A law that said "keep the rhythm" would forbid two of
+the three, and Televators would be illegal music.*
+
 **L4. Something changes before the repeat limit.** How many identical statements
 are allowed is a number the genre sets. That a change must come is the law.
 
@@ -390,7 +395,7 @@ a dial.
 | **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. **DONE** — `MM.readLine`, printed by `mk2_mm.js`. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
 | **3** | The law on the LEAD: the verbatim hook copy becomes a restatement governed by L3 and L4, displaced in scale steps, with `restate` drawn per record. **DONE.** | **157 of 199 copies → 88.** The rhythm survives every displacement it makes: 7 of 160 restatements in the hook genres lose it, down from 42 |
 | **4** | **RE-AIMED AND DONE.** As first specified it was written against the `pocket` loop, which only lofi runs; built and measured it moved 1.81 distinct bar rhythms to 1.82 and was reverted. The real fault was the PEDAL — `bassStyle: "drone"`, ruled a defect by the owner — and it is now a style pool per genre. | dungeon synth 1.46 notes a bar and **0% stepwise** → 3.35 and 37%; fantasy synth 1.43 and 6% → 3.16 and 32%; bars holding one pitch 54% and 58% → 35% and 5%. ds2, which was already right, is unchanged at 4.33 and 53% |
-| **5** | The change vocabulary: subdivide, swap, alter the head, free the tail — genre draws which. Plus `rhythmOf`, so a line may borrow another's rhythm and keep its own movements. | the printout — two records of the same genre come out with different make-ups |
+| **5** | The change vocabulary — **displace, subdivide, swap**, weighted by the genre and searched. **DONE.** (`rhythmOf`, a line borrowing another's rhythm, is not built.) | of 199 records: 87 keep the exact hook, 65 displace, 37 change the span. Dungeon synth's ten first seeds use four different devices between them |
 | **6** | Movement: `N` reachable on the lead, magnitudes honoured, direction drawn where the motif left it free. | the printout — the lead's no-movement stops being 0% |
 
 Phases 3 and 4 answer the owner's report on each part. Phases 1 and 2 exist so

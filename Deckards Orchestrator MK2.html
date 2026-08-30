@@ -39311,76 +39311,171 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const RS = (TH.restate && TH.restate.length === 2) ? TH.restate : [1, 2];
       const identical = RS[0] + Math.floor(rsR() * (RS[1] - RS[0] + 1));
       const byRoll = rsR();          // drawn whatever `identical` came out [Law 3]
+      const devRoll = rsR();         // and so is which device [Law 3]
       const head = notes.filter(n => n.bar < 2);
       let restated = null;
       if(identical < 2 && head.length){
-        /* how far it displaces, in SCALE STEPS, so the restatement stays in
-           the key it is restating in */
+        /* ══ HOW A RESTATEMENT DIFFERS — A VOCABULARY, AND THE GENRE PICKS ══
+           docs/MELODIC-MATH-ENGINE.md
+
+           There is more than one way to say a thing again, and the three
+           songs measured for this use different ones:
+
+             DISPLACE   same rhythm, moved to another pitch level. Chop Suey's
+                        verse, and the sequence the sheets draw as E and F.
+             SUBDIVIDE  a note split inside its own span, so the phrase gains
+                        an attack and a movement and loses no time. The sheets
+                        name it: `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2`,
+                        "the last note split into 2, still taking up the same
+                        amount of space, but allowing for an extra key change".
+                        Chop Suey's outro does it on the fourth statement --
+                        `4(F2)4(F1)8` becomes `4(F2)2(F3)8`.
+             SWAP       two adjacent lengths exchanged. Same span, same
+                        movements, the attacks move. Televators, bar 42
+                        `4(E3)2(N)4(F3)2(E5)4` and bar 45
+                        `2(E3)4(N)4(F3)2(E5)4`.
+
+           EACH ONE PRESERVES A DIFFERENT THING, and that is L3 working rather
+           than a single rule: displace keeps the rhythm and moves the pitch,
+           swap and subdivide keep the SPAN and move the attacks. A law that
+           said "keep the rhythm" would forbid two of the three, and Televators
+           would be illegal music.
+
+           The genre declares which it will use and how it weights them; the
+           draw says where to start looking and the engine takes the first
+           candidate that satisfies the law. ═══════════════════════════════ */
+        const DEV = (TH.change && TH.change.length) ? TH.change
+                  : [["displace", 4], ["subdivide", 2], ["swap", 2]];
         const POOL = (TH.restateBy && TH.restateBy.length) ? TH.restateBy
                                                            : [-2, -1, 1, 2];
-        /* ── THE POOL IS TRIED, NOT SAMPLED ONCE ───────────────────────────
-           The genre declares which displacements it will accept and the draw
-           says where to start looking; the engine then takes the first one
-           that satisfies the law. Drawing once and giving up on failure threw
-           away a legal restatement whenever the first pick happened to
-           collide, and put the exact copy back in a quarter of the records
-           for no musical reason. A constraint that is searched is a
-           generator; a constraint that is sampled once is a coin. */
-        const start = Math.floor(byRoll * POOL.length) % POOL.length;
-        const sig = ns => ns.slice()
+        const rhythmOf = ns => ns.slice()
           .sort((x, y) => (x.bar - y.bar) || (x.step - y.step))
           .map(n => (n.bar % 2) + ":" + n.step + ":" + n.dur).join(" ");
-        const want = sig(head);
-        for(let k = 0; k < POOL.length && !restated; k++){
-          const by = POOL[(start + k) % POOL.length];
-          const moved = [];
-          let ok = true;
+        const spanOf = ns => ns.reduce((t, n) => t + n.dur, 0);
+        const wantRhythm = rhythmOf(head), wantSpan = spanOf(head);
+        const inTime = ns => ns.slice()
+          .sort((x, y) => (x.bar - y.bar) || (x.step - y.step));
+
+        /* every candidate is offered whole and taken whole. Half a
+           restatement is not one: the write loop below skips a note whose
+           slot is taken, and a phrase that loses a note out of its middle has
+           lost the thing this device was preserving. */
+        const accept = (cand, keeps) => {
+          if(!cand || !cand.length) return false;
+          if(keeps === "rhythm" && rhythmOf(cand) !== wantRhythm) return false;
+          if(keeps === "span"   && spanOf(cand)   !== wantSpan)   return false;
+          if(cand.some(cp => cp.step < 0 || cp.step >= STEPS ||
+                             cp.bar < 2 || cp.bar >= 4)) return false;
+          if(cand.some(cp => reserved.has(key(cp.bar, cp.step, cp.pitch)))) return false;
+          /* two notes of the candidate on one instant is not a line */
+          const seen = new Set();
+          for(const cp of cand){
+            const k2 = cp.bar + ":" + cp.step;
+            if(seen.has(k2)) return false;
+            seen.add(k2);
+          }
+          /* ── AND IT MUST NOT HAND THE NO-REPEAT RULE A NOTE TO DELETE ─────
+             `noRepeats` runs after this and drops a note whose pitch equals
+             the one before it. A candidate that creates such a pair loses
+             that note, and with it whatever this device was preserving. Two
+             laws meet here and the answer is not to let one break the other:
+             the candidate is rejected and the next is tried. */
+          if(NOREPEAT){
+            const line = inTime(head.concat(cand));
+            for(let q = 1; q < line.length; q++)
+              if(line[q].pitch === line[q - 1].pitch) return false;
+          }
+          return true;
+        };
+
+        /* ── THE THREE DEVICES ─────────────────────────────────────────── */
+        const displace = k => {
+          const by = POOL[k % POOL.length];
+          const out = [];
           for(const n of head){
             const p = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
                                          n.pitch, by), LO, HI);
             /* the band clamped it back onto the note it started from, so this
                displacement would not have moved that note */
-            if(p === n.pitch){ ok = false; break; }
-            moved.push({ ...n, bar: n.bar + 2, pitch: p });
+            if(p === n.pitch) return null;
+            out.push({ ...n, bar: n.bar + 2, pitch: p });
           }
-          if(!ok) continue;
-          /* bars 2-3 may sit on different chords than 0-1, so the displaced
-             notes go through the same legaliser the derived materials use
-             rather than being trusted */
-          const cand = legalise(moved, chordSet);
-          if(sig(cand) !== want) continue;
-          if(cand.some(cp => reserved.has(key(cp.bar, cp.step, cp.pitch)))) continue;
-          /* ── AND IT MUST NOT HAND THE NO-REPEAT RULE A NOTE TO DELETE ─────
-             `noRepeats` runs after this and drops a note whose pitch equals
-             the one before it. A displacement that creates such a pair loses
-             that note, and with it the rhythm this restatement exists to
-             preserve -- 16 of 160 restatements went that way before this
-             check. Two laws meet here and the answer is not to let one break
-             the other: the displacement that would collide is rejected and
-             the next one in the pool is tried. */
-          if(NOREPEAT){
-            const line = head.concat(cand)
-              .slice().sort((x, y) => (x.bar - y.bar) || (x.step - y.step));
-            let clash = false;
-            for(let q = 1; q < line.length; q++)
-              if(line[q].pitch === line[q - 1].pitch){ clash = true; break; }
-            if(clash) continue;
+          return legalise(out, chordSet);
+        };
+        /* a note long enough to be two, split in its own span. The new note
+           takes a pitch from the chord under it, which is where the extra
+           movement the sheets describe comes from. */
+        const subdivide = k => {
+          const src = inTime(head);
+          const able = [];
+          for(let q = 0; q < src.length; q++) if(src[q].dur >= 2) able.push(q);
+          if(!able.length) return null;
+          const at = able[k % able.length];
+          const out = [];
+          for(let q = 0; q < src.length; q++){
+            const n = src[q];
+            if(q !== at){ out.push({ ...n, bar: n.bar + 2 }); continue; }
+            const a = Math.floor(n.dur / 2), b = n.dur - a;
+            const nx = src[q + 1];
+            /* the second half steps toward wherever the phrase was going, so
+               the split is a movement and not a stutter */
+            const dir = nx ? (nx.pitch >= n.pitch ? 1 : -1) : -1;
+            const p2 = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
+                                          n.pitch, dir), LO, HI);
+            if(p2 === n.pitch) return null;
+            out.push({ ...n, bar: n.bar + 2, dur: a });
+            out.push({ ...n, bar: n.bar + 2, step: n.step + a, dur: b, pitch: p2,
+                       vel: Math.max(0.4, (n.vel || 0.7) - 0.06) });
           }
-          restated = cand;
+          return legalise(out, chordSet);
+        };
+        /* two adjacent lengths exchanged, which moves the attack between them
+           and leaves the span and both pitches alone. Only where the pair is
+           contiguous -- with a rest between them there is no shared boundary
+           to move. */
+        const swap = k => {
+          const src = inTime(head);
+          const able = [];
+          for(let q = 0; q + 1 < src.length; q++)
+            if(src[q].bar === src[q + 1].bar &&
+               src[q].step + src[q].dur === src[q + 1].step &&
+               src[q].dur !== src[q + 1].dur) able.push(q);
+          if(!able.length) return null;
+          const at = able[k % able.length];
+          const out = src.map(n => ({ ...n, bar: n.bar + 2 }));
+          const a = out[at], b = out[at + 1];
+          const da = a.dur, db = b.dur;
+          a.dur = db; b.step = a.step + db; b.dur = da;
+          return legalise(out, chordSet);
+        };
+        const MAKE = { displace, subdivide, swap };
+        const KEEPS = { displace: "rhythm", subdivide: "span", swap: "span" };
+
+        /* the device is drawn, then every device is tried from there, and
+           every variant within a device -- a constraint that is searched is a
+           generator, a constraint that is sampled once is a coin */
+        const names = DEV.map(d => d[0]).filter(n => MAKE[n]);
+        /* THE WEIGHTS ARE READ. The first draft of this declared
+           [displace 4, subdivide 2, swap 2] and then picked the starting
+           device with a flat draw, so the weights were three numbers nothing
+           looked at -- the same defect as a flag no genre sets, one line
+           after writing that a genre declares "how it weights them". */
+        let acc = devRoll * DEV.reduce((t, d) => t + (d[1] || 1), 0);
+        let head0 = names[0];
+        for(const d of DEV){
+          acc -= (d[1] || 1);
+          if(acc <= 0 && MAKE[d[0]]){ head0 = d[0]; break; }
+        }
+        const first = Math.max(0, names.indexOf(head0));
+        const start = Math.floor(byRoll * POOL.length) % POOL.length;
+        for(let d = 0; d < names.length && !restated; d++){
+          const nm = names[(first + d) % names.length];
+          for(let k = 0; k < 4 && !restated; k++){
+            const cand = MAKE[nm](start + k);
+            if(accept(cand, KEEPS[nm])) restated = cand;
+          }
         }
       }
-      /* ── AND IT IS ALL OR NOTHING, BECAUSE HALF A RESTATEMENT IS NOT ONE ──
-         The write loop below skips a note whose slot is already taken. Applied
-         to a displaced phrase that drops one note out of the middle of it, and
-         the rhythm -- the one thing L3 is preserving here -- is gone with it:
-         measured, 42 of 160 displaced restatements came out with a different
-         rhythm from the phrase they were restating, which the reader duly
-         named as a new motif rather than a return of the old one.
-
-         So the displacement is offered whole and taken whole. If any note of
-         it cannot be placed, or the legaliser did not hand back the same
-         rhythm it was given, the exact copy is used instead. A genre gets its
-         hook or it gets a displacement of its hook, and never a hole. */
       if(!restated) restated = head.map(n => ({ ...n, bar: n.bar + 2 }));
       for(const cp of restated){
         if(reserved.has(key(cp.bar, cp.step, cp.pitch))) continue;
