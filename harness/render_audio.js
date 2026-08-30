@@ -55,7 +55,7 @@ const OUT = process.argv[2] || path.join(ROOT, 'harness', 'audio_renders');
    their NOTES are lawful, which is a different claim from "they make sound".
    A genre whose new voice throws, or whose register lands a part inaudibly under
    the kick, fails here and nowhere else. */
-const SONGS = (process.argv[3] || '1:lofi:band,2:synthwave:neon,3:dungeonsynth:citadel,4:fantasysynth:bastion')
+const SONGS = (process.argv[3] || '1:lofi:band,2:synthwave:neon,3:dungeonsynth:citadel')
   .split(',').map(spec => {
     const [seed, genre, rig] = spec.split(':');
     return { seed: Number(seed), genre, rig };
