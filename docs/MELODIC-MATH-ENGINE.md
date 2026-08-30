@@ -243,6 +243,8 @@ line: {          // one of these per role — lead, bass, counter, ostinato
   silenceShare: [0.0, 0.75],
   alignToBar:   [true, false],
   repeatLimit:  [2, 4],
+  restate:      [1, 2],           // how many IDENTICAL statements are allowed
+  restateBy:    [-2, -1, 1, 2],   // the displacements this genre will accept
   preserve:     ["span", "head", "moves", "attacks"],   // L3: draw which one
   change:       ["subdivide", "swap", "alterHead", "freeTail"],
   rhythmOf:     null,             // or "lead" — borrow that line's rhythm,
@@ -345,7 +347,7 @@ a dial.
 |---|---|---|
 | **1** | The notation: parse and print, the motif object, `N` and roman numerals both legal. Nothing wired in. **DONE** — `MM` in the program, `node harness/mk2_mm.js`. | round-trip — 31 motifs from the sheets and the three songs, every one comes back the string it went in as |
 | **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. **DONE** — `MM.readLine`, printed by `mk2_mm.js`. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
-| **3** | The law: L1–L5 enforced on the LEAD, with the dials drawn from genre ranges. | the roll — the phrase stops copying itself. **157 of 199 must fall.** |
+| **3** | The law on the LEAD: the verbatim hook copy becomes a restatement governed by L3 and L4, displaced in scale steps, with `restate` drawn per record. **DONE.** | **157 of 199 copies → 88.** The rhythm survives every displacement it makes: 7 of 160 restatements in the hook genres lose it, down from 42 |
 | **4** | The same law on the BASS: `pocket` becomes the pool a motif is built from, not the thing drawn every bar. | the roll — the bass grows an `A` and a `B`. **69 of 199 must fall, and the four-position rhythm must break.** |
 | **5** | The change vocabulary: subdivide, swap, alter the head, free the tail — genre draws which. Plus `rhythmOf`, so a line may borrow another's rhythm and keep its own movements. | the printout — two records of the same genre come out with different make-ups |
 | **6** | Movement: `N` reachable on the lead, magnitudes honoured, direction drawn where the motif left it free. | the printout — the lead's no-movement stops being 0% |

@@ -39224,9 +39224,105 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const gone = notes.pop();
         reserved.delete(key(gone.bar % BARS, gone.step, gone.pitch));
       }
-      for(const n of notes.slice()){
-        if(n.bar >= 2) break;
-        const cp = { ...n, bar: n.bar + 2 };
+      /* ══ AND HOW THE SECOND STATEMENT DIFFERS IS A DIAL ═══════════════════
+         docs/MELODIC-MATH-ENGINE.md
+
+         This copied bars 0-1 into bars 2-3 note for note, always. That is the
+         hook device above and it is sourced, but ALWAYS is a value where a
+         range belongs: measured over 40 seeds a genre, 157 of 199 records had
+         a lead whose second half was a bar-for-bar duplicate of its first, and
+         the whole four bars then loop for the length of the section.
+
+         L3 AND L4 OF THE LAW: a restatement preserves at least one declared
+         thing, and something changes before the repeat limit. The rhythm is
+         what is preserved -- "the A & B always have the same Rhythmic
+         structure ... but change their key and contour to stay interesting"
+         [Nobody Else] -- and the pitch level is what moves. That is tonal
+         displacement, "moving your motif to different notes within the scale
+         while RETAINING THE RHYTHM AND CONTOUR" [corpus:soundfly-flypaper],
+         and it is the sequence the sheets draw as E and F.
+
+         `restate` is how many IDENTICAL statements this genre allows. Drawn
+         per record, so one record keeps the exact hook the corpus describes
+         and the next displaces it, and both are the same genre. Televators
+         states a phrase exactly twice before moving on and Chop Suey three
+         times, so neither answer is the law -- the range is. */
+      const rsR = stream(chart.seed, streamName + ":restate");
+      const RS = (TH.restate && TH.restate.length === 2) ? TH.restate : [1, 2];
+      const identical = RS[0] + Math.floor(rsR() * (RS[1] - RS[0] + 1));
+      const byRoll = rsR();          // drawn whatever `identical` came out [Law 3]
+      const head = notes.filter(n => n.bar < 2);
+      let restated = null;
+      if(identical < 2 && head.length){
+        /* how far it displaces, in SCALE STEPS, so the restatement stays in
+           the key it is restating in */
+        const POOL = (TH.restateBy && TH.restateBy.length) ? TH.restateBy
+                                                           : [-2, -1, 1, 2];
+        /* ── THE POOL IS TRIED, NOT SAMPLED ONCE ───────────────────────────
+           The genre declares which displacements it will accept and the draw
+           says where to start looking; the engine then takes the first one
+           that satisfies the law. Drawing once and giving up on failure threw
+           away a legal restatement whenever the first pick happened to
+           collide, and put the exact copy back in a quarter of the records
+           for no musical reason. A constraint that is searched is a
+           generator; a constraint that is sampled once is a coin. */
+        const start = Math.floor(byRoll * POOL.length) % POOL.length;
+        const sig = ns => ns.slice()
+          .sort((x, y) => (x.bar - y.bar) || (x.step - y.step))
+          .map(n => (n.bar % 2) + ":" + n.step + ":" + n.dur).join(" ");
+        const want = sig(head);
+        for(let k = 0; k < POOL.length && !restated; k++){
+          const by = POOL[(start + k) % POOL.length];
+          const moved = [];
+          let ok = true;
+          for(const n of head){
+            const p = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
+                                         n.pitch, by), LO, HI);
+            /* the band clamped it back onto the note it started from, so this
+               displacement would not have moved that note */
+            if(p === n.pitch){ ok = false; break; }
+            moved.push({ ...n, bar: n.bar + 2, pitch: p });
+          }
+          if(!ok) continue;
+          /* bars 2-3 may sit on different chords than 0-1, so the displaced
+             notes go through the same legaliser the derived materials use
+             rather than being trusted */
+          const cand = legalise(moved, chordSet);
+          if(sig(cand) !== want) continue;
+          if(cand.some(cp => reserved.has(key(cp.bar, cp.step, cp.pitch)))) continue;
+          /* ── AND IT MUST NOT HAND THE NO-REPEAT RULE A NOTE TO DELETE ─────
+             `noRepeats` runs after this and drops a note whose pitch equals
+             the one before it. A displacement that creates such a pair loses
+             that note, and with it the rhythm this restatement exists to
+             preserve -- 16 of 160 restatements went that way before this
+             check. Two laws meet here and the answer is not to let one break
+             the other: the displacement that would collide is rejected and
+             the next one in the pool is tried. */
+          if(NOREPEAT){
+            const line = head.concat(cand)
+              .slice().sort((x, y) => (x.bar - y.bar) || (x.step - y.step));
+            let clash = false;
+            for(let q = 1; q < line.length; q++)
+              if(line[q].pitch === line[q - 1].pitch){ clash = true; break; }
+            if(clash) continue;
+          }
+          restated = cand;
+        }
+      }
+      /* ── AND IT IS ALL OR NOTHING, BECAUSE HALF A RESTATEMENT IS NOT ONE ──
+         The write loop below skips a note whose slot is already taken. Applied
+         to a displaced phrase that drops one note out of the middle of it, and
+         the rhythm -- the one thing L3 is preserving here -- is gone with it:
+         measured, 42 of 160 displaced restatements came out with a different
+         rhythm from the phrase they were restating, which the reader duly
+         named as a new motif rather than a return of the old one.
+
+         So the displacement is offered whole and taken whole. If any note of
+         it cannot be placed, or the legaliser did not hand back the same
+         rhythm it was given, the exact copy is used instead. A genre gets its
+         hook or it gets a displacement of its hook, and never a hole. */
+      if(!restated) restated = head.map(n => ({ ...n, bar: n.bar + 2 }));
+      for(const cp of restated){
         if(reserved.has(key(cp.bar, cp.step, cp.pitch))) continue;
         notes.push(cp); reserved.add(key(cp.bar, cp.step, cp.pitch));
       }
