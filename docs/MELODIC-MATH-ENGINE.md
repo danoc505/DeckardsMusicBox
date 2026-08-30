@@ -578,3 +578,133 @@ where the DEVICES came from and they are good for that. They are not reasons.
 "Chop Suey does it" is one record's make-up; a reason has to come from the
 program's own state or from a law. Phase 6 was written the wrong way round and
 would have reversed a fix the owner asked for six times.
+
+---
+
+## 12. THE ENGINE RAN BACKWARDS — and the reversal, built 2026-08-30
+
+> [owner:] *"I think we built the Melody Math Engine WRONG."*
+
+Right, and the fault is one sentence: **the program wrote the notes first and
+named the motifs afterwards.**
+
+`buildTheme.phrase` drew onsets seat by seat out of `onsetPool` and drew a fresh
+movement for every note. Only after the array was finished did `MM.readLine`
+chop it into cells and name them. So melodic math was a **label**, not a
+generator — it could describe any tune and could not cause one. The proof was
+sitting in the file: `materials.motifs` was written once and **read nowhere**,
+and its own comment said *"Nothing consumes it yet."*
+
+Every measured symptom in §6 and in `interval-encoding.md` §10 falls out of that
+one fact:
+
+- **L5 measured 4.23%** ("every movement is stated"). It was never a law that
+  failed — it is an automatic consequence of building from motifs, and nothing
+  was building from motifs.
+- **The lead's rhythm copied itself in 76% of records.** There was one phrase
+  and edits to it, not an inventory to choose between.
+- **Nine of §5's dials grep to zero.** They are settings for a motif generator
+  that did not exist.
+- **`moveUnit` and `silent` parse and are read by nothing** — same reason.
+
+And the build order shows how it happened. Phase 1 was *parse and print*, phase
+2 *read the current tune into cells*, phases 3–5 *vary the finished array*.
+**There was never a phase that composed the tune out of motifs.** It went from
+describing straight to varying and skipped generating.
+
+There is external support for how easy this was to do. `interval-encoding.md` §9
+records Rami Yacoub, of Cheiron, on how the doctrine is actually used:
+*"We never start writing by implementing the melodic math."* It is a thing you
+check a melody against afterwards. **The program had faithfully built the
+diagnostic.**
+
+### What was built
+
+Two splice points in `buildTheme`, and the laws downstream were not touched.
+
+```
+BEFORE   per bar: draw onsets from onsetPool
+         per note: move = wpick(rng, MOVES) * dir
+         at the end: MM.readLine names the cells
+
+AFTER    once per line: draw an INVENTORY of 2-3 motifs
+                        (rhythm from onsetPool, movements from theme.moves)
+                        and a FORMULA over the slots
+         per bar: play the slot the formula names
+         per note: move = the motif's, already stated
+```
+
+- **The inventory** draws three motifs and keeps two or three, so the stream
+  spends the same either way [Law 7]. Each motif is a rhythm plus one movement
+  into each of its notes. Density comes from `count.hooky` or `count.normal`
+  according to the line, which is what the genre already declares.
+- **The formula** is *state, contrast, restate, depart* — slot 0 opens, slot 1
+  must differ, slot 2 restates slot 0, slot 3 is the only free draw. That is the
+  one property `melodic-math.md` §3's two formulae share: `A+B+A+C+A+B+A+c` and
+  `A+a+B / A+A+B` are different shapes, but in both the opening cell comes back
+  after one contrasting slot. It is also the classical period.
+- **`materials.motifsDeclared`** publishes what each line was built from, beside
+  the reading. The declaration is now the cause; the reading is a check on it.
+- **The borrowed rhythm defers to the formula.** "The answer says it in the same
+  rhythm" is now the formula's job — slot 2 restates slot 0's cell, so the
+  answer carries the question's rhythm because it is playing the question's
+  cell. Leaving the old borrow to fire on a bar the formula sent elsewhere made
+  every record `A+B+A+B`.
+
+**L1 and L5 are now true by construction rather than policed.** There is nothing
+else for a line to be built from, and there is no per-note movement draw left in
+the file.
+
+### Measured, 40 seeds a genre, material A lead
+
+| | 2nd half = 1st (rhythm) | distinct bar rhythms | mean interval (st) |
+|---|---|---|---|
+| lofi | **31/39 → 11/39** | 2.08 → **2.51** | 2.77 → 2.87 |
+| synthwave | 32/40 → 29/40 | 2.20 → 2.27 | 2.65 → 2.67 |
+| dungeonsynth | 30/40 → 27/40 | 2.27 → 2.30 | 2.86 → 2.86 |
+| ds2 | 30/40 → 27/40 | 2.27 → 2.30 | 2.86 → 2.86 |
+| **total** | **123/159 (77%) → 94/159 (59%)** | | |
+
+lofi carries the change because it is the genre with no `verseHook`: its answer
+used to copy the question's rhythm and now plays a different slot. The three
+hook genres keep a high copy rate **by design** — `verseHook` restates bars 0-1
+at 2-3 verbatim, and that is the hook working, not a defect.
+
+The mean interval is unmoved at 2.55–2.87 semitones, so the reversal did not
+cost the genres their interval budget. `%N` stays 0.0% on the lead, so
+`noRepeats` is undisturbed.
+
+### Two faults found by measuring, both mine, both fixed
+
+- **The measurement was wrong first.** `composeSong` is positional
+  — `(seed, rig, genre, …)` — and the first probe passed an object, so it
+  composed the same default song 160 times and reported 40/40 and "exactly
+  3.00" with no variance. The repo's own law caught it: *when a measurement
+  surprises you, suspect the measurement first.* Every number above is from the
+  corrected probe, whose control reproduces the audit's figures to two decimals.
+- **The inventory read `count.normal` for every line.** A genre whose material A
+  is a hook draws from `count.hooky`, so dungeon synth's motifs were built at
+  1-2 notes instead of 4-5. Seed 19's lead went from 18 notes to **one**, in all
+  three materials. A motif-first engine has no per-bar redraw to hide a starved
+  cell behind, which is the one new class of risk this design carries: a bad
+  motif is a whole-line fault, not a one-bar fault.
+
+### What is still not built
+
+- The **upper/lower-case slot formula** — `A+a+B / A+A+B`, a slot written and
+  not sounding. The inventory and formula are the ground it needs, and now
+  exist; the case flag does not.
+- **Silence as a named motif with a span** (`S = 6`). The breath is still
+  fragmentation of the sounding cell, not a slot of its own.
+- `alterHead`, `freeTail`, `rhythmOf` across lines — still absent, as §8 said.
+- **`displace`, `subdivide` and `swap` still operate on the finished note
+  array.** They should operate on the motif and the formula. That is the next
+  phase and it is where the change vocabulary stops being edits and becomes
+  variation of a thing with parts.
+- The eleven dials of §5 are still engine literals. The inventory is what would
+  read them, so they are now buildable where before they were not.
+
+**Verified:** `mk2_syntax` parses clean; `mk2_mm` reads 31 motifs and every one
+round-trips; `mk2_roll` composes all four genres on two seeds; 159 of 160
+records compose, the one failure being the pre-existing `lofi seed 17` seam
+throw that predates this work.

@@ -36433,6 +36433,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     }
     return band;
   };
+  /* WHAT EACH LINE DECIDED BEFORE IT PLAYED A NOTE. `materials.motifs` is a
+     READING -- `MM.readLine` chopping a finished array into cells. This is the
+     other thing, and it is the one that caused the notes: the inventory and
+     formula each line was built from. Published beside the notes so a section
+     can ask what a line is MADE of rather than inferring it back out. */
+  const DECLARED = {};
   function buildTheme(chordSet, streamName, reserved, opts){
     const rng = stream(chart.seed, streamName);
     const LO = opts.lo, HI = opts.hi;
@@ -36642,6 +36648,112 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       return (s && s.size) ? !s.has(pc(p))
                            : !CH(chordSet, b).tones.some(t => pc(t) === pc(p));
     };
+    /* ══ THE MOTIF INVENTORY, AND THE FORMULA OVER IT ═════════════════════
+       THE ENGINE USED TO RUN BACKWARDS. It drew onsets seat by seat and a
+       fresh movement per note, and then `MM.readLine` chopped the finished
+       array into motifs and named them. That is the notation used as a
+       LABEL: it could describe any tune and could not cause one.
+       `materials.motifs` was written and read by nothing, and its own
+       comment said so.
+
+       Melodic math is the other order. A motif is decided FIRST -- a rhythm
+       and the movements between its notes -- and the line is those motifs
+       played in a formula. `docs/genre-research/melodic-math.md` §1: "A motif
+       is recognised by its RHYTHM; its pitches are free," and §3's structural
+       formula, "upper case turned ON, lower case turned OFF."
+
+       So the inventory is drawn here, before a note exists, and the bar loop
+       below PLAYS it. Two laws stop being rules anyone has to police and
+       become true by construction:
+
+         L1 the line is built of motifs -- it is, there is nothing else to
+            build it from
+         L5 every movement is stated -- every one comes from a motif. It
+            measured 4.23% when notes were drawn one at a time.
+
+       THREE ARE ALWAYS DRAWN AND THE TAIL IS DISCARDED [Law 7], so a genre
+       that uses two spends the same stream as one that uses three.
+
+       The genre keeps its character because the rhythm still comes from its
+       own `onsetPool` and the movements from its own `theme.moves` -- the two
+       dials it already declares. What is new is that they are drawn ONCE for
+       the line instead of afresh at every note. */
+    const INV = (() => {
+      const irng = stream(chart.seed, streamName + ":motifs");
+      const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
+      /* THE MOTIF IS AS DENSE AS THE LINE IT IS FOR. This read `count.normal`
+         for every line, and a genre whose material A is a HOOK draws its notes
+         from `count.hooky` -- dungeon synth wants 4-5 there and 1-2 elsewhere.
+         Starving the inventory starved the whole line, because every bar plays
+         a motif: seed 19's lead went from 18 notes to ONE, in all three
+         materials, and the record was a silent melody. A motif-first engine
+         has no per-bar redraw to hide a bad cell behind, so the cell has to be
+         right when it is made. */
+      const cnt = opts.hooky ? TH.count.hooky : TH.count.normal;
+      const out = [];
+      for(let k = 0; k < 3; k++){
+        const n = cnt[0] + Math.floor(irng() * cnt[1]);
+        const pool = onsetPool.slice(), st = [];
+        while(st.length < n && pool.length){
+          const at = wpick(irng, pool);
+          pool.splice(pool.findIndex(x => x[0] === at), 1);
+          st.push(at);
+        }
+        st.sort((a, z) => a - z);
+        /* one movement INTO each note, including the first: the motif says
+           where it starts from as well as how it moves inside itself. */
+        out.push({ steps: st, moves: st.map(() => wpick(irng, MOVES)) });
+      }
+      const keep = 2 + Math.floor(irng() * 2);          // 2 or 3, tail discarded
+      return out.slice(0, keep);
+    })();
+    /* THE FORMULA -- which motif each bar of the loop plays. Bar 0 is always
+       the first motif, because a formula departs from something heard; the
+       rest are drawn. This is `A+B+A+C` in the sheets' notation, one slot per
+       bar, and it is what makes the tune a line of PARTS rather than four
+       independent bars. */
+    const FORM = (() => {
+      const frng = stream(chart.seed, streamName + ":formula");
+      const f = [];
+      for(let i = 0; i < BARS; i++) f.push(Math.floor(frng() * INV.length));
+      /* AND THE FORMULA IS DRAWN INSIDE TWO LAWS, NOT WRITTEN OUT. The first
+         version of this hardcoded `A+B+A+C` -- f[0]=0, f[2]=0, f[3]!=f[1] --
+         and every record in the file came out with exactly three distinct bar
+         rhythms, no variance at all. That is the same defect this program
+         found in its own sequence table: one song's shape shipped as a
+         default and called a pool. `melodic-math.md` §3's two formulae are
+         `A+B+A+C+A+B+A+c` AND `A+a+B / A+A+B`, which are different shapes, so
+         the shape is not the law.
+
+         What both obey, and what IS the law:
+
+           L2  a motif comes back -- if every slot is a different cell there
+               is no hook to recognise, so the formula is not one
+           L4  something changes -- all four slots the same is a loop
+
+         The draw above is free; these two narrow it, and everything between
+         them is reachable. `A+A+B+C`, `A+B+A+C`, `A+B+B+A` all pass. */
+      /* STATE, CONTRAST, RESTATE, DEPART -- and only the departure is free.
+         This is the one thing `melodic-math.md` §3's two formulae share:
+         `A+B+A+C+A+B+A+c` and `A+a+B / A+A+B` are different shapes, but in
+         both the opening cell COMES BACK after one contrasting slot. That is
+         L2 given a position, and it is the classical period besides -- an
+         antecedent and a consequent that begins the same way.
+
+         Slot 1 must differ from slot 0 because a genre with `verseHook`
+         plays ONLY bars 0-1 and copies them to 2-3; two identical opening
+         slots make that record a loop, which is what L4 forbids. Measured
+         when slot 1 was free: distinct bar rhythms fell to 1.64 in the hook
+         genres, against 2.27 before any of this work.
+
+         Slot 3 is the only free draw, and it is where a record gets to be
+         `A+B+A+C` or `A+B+A+A` or `A+B+A+B`. */
+      f[0] = 0;
+      if(f[1] === f[0]) f[1] = 1 + Math.floor(frng() * (INV.length - 1));
+      f[2] = f[0];
+      return f;
+    })();
+    DECLARED[streamName] = Object.freeze({ inv: INV, formula: FORM });
     function phrase(startBar, dir, endOnTone, moveBias, rhythmOf){
       const ph0 = notes.length;
       /* what THIS phrase's two bars actually put their onsets on, handed back
@@ -36691,12 +36803,20 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            NO SOURCE GIVES A LENGTH FOR THE REST. Every one of them says it
            exists and not one measures it, so the number is [CHOSEN] and is
            labelled so in the table. */
-        const last = isBreath && TH.breathLast != null ? TH.breathLast : 15;
-        const poolCopy = onsetPool.filter(x => x[0] <= last);
-        while(steps.length < count && poolCopy.length){
-          const st = wpick(rng, poolCopy);
-          poolCopy.splice(poolCopy.findIndex(x => x[0] === st), 1);
-          steps.push(st);
+        /* THE BAR PLAYS ITS SLOT IN THE FORMULA. The onsets are the motif's,
+           not a fresh handful of seats -- which is the whole reversal. */
+        const MI = FORM[((b % BARS) + BARS) % BARS] % INV.length;
+        const MO = INV[MI];
+        steps = MO.steps.slice();
+        /* A BREATH IS THE MOTIF FRAGMENTED, NOT A DIFFERENT RHYTHM. The bar
+           keeps its motif's opening and drops the tail, so the phrase still
+           stops where the genre asks and what is left is recognisably the
+           same cell. Fragmentation is the canonical way to shorten a motif
+           [melodic-math.md §7]; drawing a second, unrelated rhythm is not.
+           `breathLast` still bounds where a breath bar may sound. */
+        if(isBreath){
+          const last = TH.breathLast != null ? TH.breathLast : 15;
+          steps = steps.filter(x => x <= last).slice(0, Math.max(1, count));
         }
         steps.sort((a, z) => a - z);
         /* ══ THE ANSWER SAYS IT IN THE SAME RHYTHM ═════════════════════════
@@ -36735,7 +36855,16 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            runs to completion before this line is reached and the roll that
            decides it lives on its OWN substream, so a genre that declares no
            `motif` is byte-identical -- proven by snapshot, not asserted. */
-        const reuse = rhythmOf && rhythmOf[b - startBar];
+        /* AND THE BORROW DEFERS TO THE FORMULA. "The answer says it in the
+           same rhythm" is right and is now the FORMULA's job: slot 2 restates
+           slot 0's motif, so the answer carries the question's rhythm because
+           it is playing the question's cell. Letting the borrow fire on a bar
+           whose formula says a DIFFERENT motif overwrote the departure and
+           made every record A+B+A+B -- measured at 160 of 160 before this
+           line. So it applies only where the two bars play the same slot,
+           where it is a no-op that keeps the releases aligned. */
+        const src = rhythmOf && rhythmOf[b - startBar];
+        const reuse = (src && src.mi === MI) ? src : null;
         if(reuse && reuse.steps.length) steps = reuse.steps.slice();
         /* WHICH BAR'S RHYTHM IS BEING PLAYED, which is not always this bar. A
            restatement has to carry the RELEASES too or it is not verbatim: the
@@ -36803,10 +36932,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              and that moved nine genres nobody asked about. A genre that does
              not want repeated pitches says so in ITS OWN table, and one
              genre's palette has no hold in it for exactly that reason. */
-          const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
+          /* AND IT IS STATED BY THE MOTIF, NOT DRAWN HERE. This line used to
+             be `wpick(rng, MOVES) * dir` -- one independent draw per note,
+             which is the walk L5 exists to forbid. The palette above is still
+             the genre's; it is spent when the INVENTORY is drawn, once, and
+             every note now reads its movement off the cell it belongs to. */
           let move = (moveBias && moveBias.length > dna.length)
                    ? moveBias[dna.length]                            // derivation: follow given DNA
-                   : wpick(rng, MOVES) * dir;
+                   : MO.moves[i % MO.moves.length] * dir;
           /* the DNA is recorded as DRAWN, before the law narrows it: B is
              derived from A's shape, and A's shape is what A wanted, not what
              the chord under it allowed. */
@@ -37212,7 +37345,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                        ...(dur < plannedDur ? { det: true } : {}) });
           reserved.add(key(b % BARS, steps[i], cand));
         }
-        shape.push({ bar: rhyBar, steps: notes.slice(barStart).map(n => n.step) });
+        shape.push({ bar: rhyBar, mi: MI, steps: notes.slice(barStart).map(n => n.step) });
       }
       /* LAND THE PHRASE ON A CHORD TONE. This is the owner finishing its own
          note, not a correcting pass -- but it has to keep the owner's own books
@@ -41173,6 +41306,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     if(Object.keys(perRole).length) mm[m] = Object.freeze(perRole);
   }
   materials.motifs = Object.freeze(mm);
+  /* THE DECLARATION, beside the reading. Same shape for every line: the cells
+     it was built from and the formula over them. */
+  materials.motifsDeclared = Object.freeze(DECLARED);
 
   return Object.freeze(materials);
 }
