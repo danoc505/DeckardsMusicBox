@@ -455,12 +455,22 @@ Per material bar:
 
 **Four points, not twelve.** Real, and much smaller than the first reading of it.
 
-**And 22% of same-bar pairs are still arbitrary.** Attributed against the
-per-section devices, 92% of the non-nested pairs have *none* of `takes`,
-`stripHalf`, `enterBar`, `empty`, `duel` or `ending` differing between them — so
-the cause is not those, and it is not yet known. That is the open question, and
-it is where `materials.motifs` would earn its keep: the perform stage reshapes a
-line's motifs without being able to ask what they are.
+**And the "22% arbitrary" closed, by reading the bars.** It was three things:
+
+- **7 points were the probe's own bar-line bug** — a note struck exactly on the
+  next bar's downbeat was counted into the previous bar, the same rounding fault
+  `mk2_score.js` documents and fixes. With it fixed: 85% nested.
+- **14 points are the tail-variant device, working.** The verse plays
+  `A A | A A′ | A A′` — the first cycle whole, later cycles with the rule of
+  three's varied tail — and the variant itself recurs exactly (dungeon synth
+  seed 1: bars 10≡14, 11≡15). Counting each side against the record, both are
+  established figures. That is a motif and its variant, not noise.
+- **2% is real noise.** Per genre: 0–6%.
+
+So the engine's output survives the perform stage: 98% of same-bar statement
+pairs are either the figure or an established variant of it. The lesson is the
+sheet's own warning applied to measurement — the statistic said "arbitrary" and
+the bars said "the rule of three". Read the bars.
 
 ### And this is what the break needs
 
