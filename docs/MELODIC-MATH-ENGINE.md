@@ -333,9 +333,30 @@ the halves match because the CHORDS do, which is the music working. The lead's
 157 was a real defect; the bass's 69 is mostly a measurement of the chord
 progression's period.
 
-**What the bass actually needs is therefore an open question, not a settled
-one**, and the honest next step is to ask it per genre rather than to apply the
-lead's answer to a part that is not failing the lead's way.
+### AND THE PEDAL IS THE FAULT — ruled by the owner, then measured
+
+> [owner:] *"the pedal bass is a defect of the genre. It doesnt work in any
+> case."*
+
+So the two genres holding one are wrong, and the numbers say how wrong. Twenty
+records a genre, material A:
+
+| | notes a bar | stepwise | distinct pitches | bars on one pitch |
+|---|---|---|---|---|
+| dungeonsynth, before | 1.46 | **0%** | 2.1 | 54% |
+| fantasysynth, before | 1.43 | 6% | 1.9 | 58% |
+| ds2 | 4.33 | 53% | 5.4 | 0% |
+
+**The fix already existed in the file and was in the wrong place.** ds2 met this
+same fault, was given a line, and is the best bass here — while the parent it
+was forked from, and fantasy synth beside it, kept the pedal. A fix that lands
+in a fork and not in the thing that was broken is a fix that was never made.
+
+`bassStyle: "drone"` is one value where a pool belongs. Both genres now declare
+a weighted style pool with no pedal in it, dungeon synth gains `bassTones`
+carrying the `step` choice that was built and reachable by no genre, and ds2
+declares its own pool so an inherited one cannot widen the genre that was
+already right.
 
 ---
 
@@ -368,7 +389,7 @@ a dial.
 | **1** | The notation: parse and print, the motif object, `N` and roman numerals both legal. Nothing wired in. **DONE** — `MM` in the program, `node harness/mk2_mm.js`. | round-trip — 31 motifs from the sheets and the three songs, every one comes back the string it went in as |
 | **2** | Stage 3 publishes `materials.motifs` beside the notes — the CURRENT tune, segmented. **DONE** — `MM.readLine`, printed by `mk2_mm.js`. | the printout is byte-identical. The one legitimate use of that check, and it is a step, not a result |
 | **3** | The law on the LEAD: the verbatim hook copy becomes a restatement governed by L3 and L4, displaced in scale steps, with `restate` drawn per record. **DONE.** | **157 of 199 copies → 88.** The rhythm survives every displacement it makes: 7 of 160 restatements in the hook genres lose it, down from 42 |
-| **4** | **WITHDRAWN AS SPECIFIED.** It was written against the `pocket` loop, which only lofi runs; the other four hold a pedal or build their line another way. Built and measured, it changed 1.81 distinct bar rhythms to 1.82 — a change four genres never execute. The bass question has to be re-asked per genre first. | — |
+| **4** | **RE-AIMED AND DONE.** As first specified it was written against the `pocket` loop, which only lofi runs; built and measured it moved 1.81 distinct bar rhythms to 1.82 and was reverted. The real fault was the PEDAL — `bassStyle: "drone"`, ruled a defect by the owner — and it is now a style pool per genre. | dungeon synth 1.46 notes a bar and **0% stepwise** → 3.35 and 37%; fantasy synth 1.43 and 6% → 3.16 and 32%; bars holding one pitch 54% and 58% → 35% and 5%. ds2, which was already right, is unchanged at 4.33 and 53% |
 | **5** | The change vocabulary: subdivide, swap, alter the head, free the tail — genre draws which. Plus `rhythmOf`, so a line may borrow another's rhythm and keep its own movements. | the printout — two records of the same genre come out with different make-ups |
 | **6** | Movement: `N` reachable on the lead, magnitudes honoured, direction drawn where the motif left it free. | the printout — the lead's no-movement stops being 0% |
 

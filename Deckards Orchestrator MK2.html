@@ -26661,7 +26661,53 @@ const GENRE = {
        record, each swelling in over three seconds -- and what you hear is a bow
        being drawn again every fourteen seconds. [see the merge in stage 5] */
     drone: { unit: 8, hold: 2, pedal: 0.8, octave: 0, continuous: true },
-    bassStyle: "drone",
+    /* ══ AND THE BASS IS NOT A PEDAL ═══════════════════════════════════════
+       [owner:] "the pedal bass is a defect of the genre. It doesnt work in
+       any case."
+
+       MEASURED, 20 records, material A, before this:
+
+         notes a bar 1.46     STEPWISE MOTION 0%     leaps 99%
+         2.1 distinct pitches in a whole record
+         54% of bars holding one pitch for their whole length
+
+       `bassStyle: "drone"` is one value where a pool belongs, and THE FIX
+       ALREADY EXISTED IN THIS FILE, IN THE WRONG PLACE. ds2 met this same
+       fault, was given a line, and comes out at 4.33 notes a bar with 53%
+       stepwise motion and no held bars at all -- while the parent it was
+       forked from, and fantasy synth beside it, kept the pedal. A fix that
+       lands in a fork and not in the thing that was broken is a fix that was
+       never made, and this file already said so once about `bassRoles` having
+       "been built and declared by no genre since it shipped".
+
+       So the style is a pool and the seed draws inside it. `follow` walks this
+       genre's pocket under the chord; `pulse` is the eighth-note line it
+       already declares a table for. Neither of them is a pedal.
+
+       AND `riff` IS IN THE POOL THOUGH THIS GENRE HAS NO RIFF TABLE. The style
+       list is filtered to what a genre can actually play, so `riff` drops out
+       here and survives in the two children that declare a `bassRiff` of their
+       own. Without it, this pool -- which children inherit -- OVERRODE ds2's
+       `bassStyle: "riff"` and took the one genre whose bass was already right
+       from 4.33 notes a bar back down to 3.11. A pool a child inherits has to
+       contain the child's answer.
+       docs/genre-research/the-bass-has-a-job.md */
+    bassRoles: [["riff", 3], ["follow", 3], ["pulse", 1]],
+    bassStyle: "follow",
+    /* ── AND WHAT IT MAY PLAY, BECAUSE THE DEFAULT IS ROOT-HEAVY ──────────
+       This genre declared no `bassTones` and took the shared default,
+       [root 5, fifth 3, rest 2] -- five draws in ten land on the root, so a
+       bar of three notes is often three of the same pitch. With the pedal
+       gone it still held one pitch through 48% of its bars and moved by step
+       in 21% of its intervals, against 40% and 53% in the two genres whose
+       bass reads as a line.
+
+       STEPWISE MOTION IS WHAT A BASS LINE IS MADE OF and this table has a
+       `step` choice that walks one scale degree toward the next chord's root,
+       already built and reachable by no genre. It is in the pool now and the
+       root's share comes down to make room for it. Weights, so a genre that
+       wants its root can lean back on it. */
+    bassTones: [["root", 4], ["fifth", 3], ["step", 3], ["third", 2], ["rest", 2]],
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
     bassAccent: { accent: 0, slide: 0 },
     /* ── THE TUNE HOLDS TO THE NEXT NOTE, and so does the second keyboard ────
@@ -30495,11 +30541,17 @@ GENRE.fantasysynth = (function(D){
      a leg deliberately built at energy 0.30, which is an arrangement decision
      and the owner's, so it is written here and left inert rather than slipped
      in. docs/genre-research/the-bass-has-a-job.md §5. */
-  bassRoles: { A:    [["drone",  1]],
+  /* A AND T HELD A PEDAL WHILE THE RIFF TABLE BESIDE THEM WENT UNUSED.
+     This genre declares its own `bassRiff` and reached it from B and C and
+     nowhere else, so its MAIN material -- the one most of the record is built
+     on -- ran the parent's drone: 1.43 notes a bar, 1.9 distinct pitches in a
+     whole record, 58% of bars holding one pitch. Every key is a pool now and
+     none of them is a pedal. */
+  bassRoles: { A:    [["riff",   3], ["follow", 1]],
                C:    [["riff",   1]],
                B:    [["riff",   1]],
                lift: [["follow", 1]],
-               T:    [["drone",  1]] },
+               T:    [["riff",   2], ["follow", 1]] },
   /* ⚠ AND THE WORD "IN UNISON" IN THE TABLE ABOVE IS NOT DONE HERE. This table
      is FANTASY SYNTH'S -- the doom and sludge work reads as a diff from it and
      the row list was written in the parent -- so a `unison` declared beside it
@@ -30879,6 +30931,14 @@ GENRE.ds2 = (function(D){
      So the parent's balance stands. Whether a line wants more level than a
      pedal did is a real question and an owner's ear answers it; it is not
      something to change on a reading that turned out to be an artefact. */
+  /* AND IT KEEPS ITS OWN ANSWER. The parent has a style pool now, and an
+     inherited pool would have this genre drawing `follow` and `pulse` half the
+     time: measured before the parent had one, it was 4.33 notes a bar at 53%
+     stepwise motion with no held bars, the best bass in the file and the
+     reading by which the parent's pedal was recognised as a fault. The parent
+     was what was broken; this genre was what was right, and fixing one is not
+     licence to widen the other. */
+  bassRoles: [["riff", 1]],
   bassStyle: "riff",
   bassRiff: { bars: 2, notes: [5, 8], grid: 2, hold: 4, strong: [0, 8],
               anchor: [[0, 7], [4, 4]],
