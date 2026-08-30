@@ -484,6 +484,27 @@ placed break possible, and the sheets already name the device: *"Note in the 3rd
 'A' a note is missed to create unbalance and create additional tension."* The
 break is built, and it needed that ground first.
 
+### The movement table across statements
+
+Read off seed 782's printout: the chorus phrase was heard sixteen times and all
+sixteen began A#4 — displacement happened once, at build, and then the material
+looped pitch-identical for the record. The sheets' per-statement device was
+missing: *"elevates on the first 3, but on the 4th one it falls, ending where
+the melody starts."*
+
+Built in stage 5, where the material loops: each statement of a section carries
+an offset in scale steps, read from a direction string drawn per record from a
+genre pool — `N` holds the base, `E` lifts by the drawn magnitude, `F` falls.
+Diatonic, so the key holds by construction; the rhythm untouched, so every
+established figure stays recognisable. First letter of every default shape is
+`N`: a sequence departs from something heard. `theme.seq: false` refuses;
+`by`, `dir` and `roles` reshape it. The lead and counter move; the ostinato
+stays anchored, a ground under a moving line.
+
+Proved on the same seed: statements go base, base, **elevated**, **fallen**,
+home — same rhythm `1/1/5/2` throughout. Fifty records sampled: all fifty now
+carry their most-heard figure at more than one pitch level.
+
 ### The break
 
 One bar of the record loses **one note** of its figure. Which bar is drawn per

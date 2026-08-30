@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-30a &middot; the melody is motifs now: the hook restates, displaced or split or swapped, and once a record one note goes missing on purpose</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-30b &middot; the phrase moves across its statements: elevated, then falling, then home, the way the sheets close a riff</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -44892,6 +44892,56 @@ function makePerformance(chart, form, materials, sections){
      only one note in it -- a break takes a note out of a phrase, it does not
      delete the phrase. Which statement is drawn per record, so two records of
      one genre break in different places. */
+  /* ══ THE PHRASE MOVES ACROSS ITS STATEMENTS ═══════════════════════════════
+     docs/MELODIC-MATH-ENGINE.md
+
+     READ OFF THE PRINTOUT, seed 782: the chorus phrase was heard SIXTEEN times
+     and all sixteen began A#4. The engine could displace a restatement once,
+     at build, inside the material -- and then the material looped for the rest
+     of the record pitch-identical. Variation across the statements of a song
+     was thinning and the one break, nothing else. That is the owner's original
+     "on repeat" complaint surviving one level up.
+
+     The sheets name the missing device exactly. Smoke On The Water: "The 'A'
+     motif elevates ('E') on the first 3, but ON THE 4TH ONE IT FALLS, giving
+     variation and a sense of closure by ending where the melody starts."
+     Chop Suey's verse alternates its pitch level bar-pair by bar-pair. A
+     MOVEMENT TABLE PER STATEMENT: the same figure, restated at a moved level,
+     and the last statement turns to close.
+
+     So each statement of a section (each pass through the material) carries an
+     offset in SCALE STEPS, read from a direction string the genre declares a
+     pool of: N holds the base, E lifts by `by`, F falls by it. Diatonic, so
+     the key holds by construction; the rhythm is untouched, so every figure
+     the record established stays recognisable -- which is the whole law:
+     the rhythm is the identity, the pitch is free.
+
+     Drawn once per record [Law 3]: which magnitude, which shape. The first
+     letter of every default shape is N so the first statement is always the
+     written phrase -- a sequence departs from something heard. A genre may
+     refuse with `theme.seq: false` or reshape the pools. */
+  const SEQ_T = chart.table.theme && chart.table.theme.seq;
+  const SEQ_ON = SEQ_T !== false;
+  const SEQ_ROLES = (SEQ_T && SEQ_T.roles) || ["lead", "counter"];
+  const seqR = stream(chart.seed, "stmtSeq");
+  const SEQ_BY  = (() => { const P = (SEQ_T && SEQ_T.by) || [1, 2];
+                           return P[Math.floor(seqR() * P.length) % P.length]; })();
+  const SEQ_DIR = (() => { const P = (SEQ_T && SEQ_T.dir) ||
+                             ["NEEF", "NNEF", "NEFN", "NENF"];
+                           return P[Math.floor(seqR() * P.length) % P.length]; })();
+  const seqOff = (sec, bar) => {
+    if(!SEQ_ON) return 0;
+    const cyc = Math.floor(Math.max(0, bar - sec.startBar) / materials.bars);
+    const ch = SEQ_DIR[cyc % SEQ_DIR.length];
+    return ch === "E" ? SEQ_BY : ch === "F" ? -SEQ_BY : 0;
+  };
+  /* the lift plays in its own key, and a sequence written against the home
+     mode would move its notes out of it */
+  const seqKey = sec => {
+    const lifted = /lift/i.test(String(sec.material)) && materials.lift;
+    return lifted ? materials.lift : { key: chart.root, mode: chart.mode };
+  };
+
   const BRK_POOL = (chart.table.theme && chart.table.theme.breakAt) || [3, 4];
   const BRK_ROLES = (chart.table.theme && chart.table.theme.breakRoles) || ["lead"];
   /* ONE BAR OF THE RECORD, NOT ONE PER BAR. The first draft matched on the
@@ -46583,7 +46633,19 @@ function makePerformance(chart, form, materials, sections){
               rise: PRESS.rise[0] + rise * PRESS.rise[1],
             };
           }
-          if(n.pitch != null) ev.pitch = n.pitch;
+          if(n.pitch != null){
+            ev.pitch = n.pitch;
+            /* the statement's movement -- see THE PHRASE MOVES above. Applied
+               to the whole statement uniformly, so every interval inside the
+               phrase survives and the figure stays itself. */
+            if(SEQ_ROLES.indexOf(role) >= 0){
+              const off = seqOff(sec, bar);
+              if(off !== 0){
+                const K = seqKey(sec);
+                ev.pitch = scaleStep(K.key, K.mode, n.pitch, off);
+              }
+            }
+          }
           /* ACCENT AND SLIDE ride along. Stage 3 owns them -- it decided which
              steps are accented and how far each slide travels -- and stage 5
              does here what it does for pitch: carries the decision without
