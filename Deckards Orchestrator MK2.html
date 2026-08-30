@@ -2144,7 +2144,70 @@ const MM = (() => {
     return out;
   }
 
-  return { parse, print, move, moveText, romanOf, readLine };
+  /* ══ THE SHAPE CHANGES ═══════════════════════════════════════════════════
+     A restatement differs by a NAMED device, and two of the three are changes
+     of shape alone: they move where the attacks fall and touch no pitch. Those
+     belong here, with the notation, because the notation is what they are
+     about. The third -- displacement -- moves the pitch level and needs the
+     chord under it, so it stays with the harmony and calls nothing here.
+
+     THESE LIVED INLINE IN `buildTheme` AND THAT WAS THE SAME DEFECT THIS FILE
+     NAMES EVERYWHERE ELSE: what a motif is and how it varies existed in two
+     places, a notation module nothing called and a hand-rolled copy that ran.
+     One owner.
+
+     Both take notes as `{step, dur, pitch}` and hand back a new list or null
+     when the device does not apply. Neither invents a pitch: `subdivide` asks
+     for one through `pitchFor`, so whoever knows the harmony decides it. */
+  function inTime(ns){
+    return ns.slice().sort((x, y) => (x.bar - y.bar) || (x.step - y.step));
+  }
+  /* a note long enough to be two, split inside its own span, so the phrase
+     gains an attack and a movement and loses no time. The sheets:
+     `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2`. */
+  function subdivide(notes, k, pitchFor){
+    const src = inTime(notes), able = [];
+    for(let q = 0; q < src.length; q++) if(src[q].dur >= 2) able.push(q);
+    if(!able.length) return null;
+    const at = able[k % able.length];
+    const out = [];
+    for(let q = 0; q < src.length; q++){
+      const n = src[q];
+      if(q !== at){ out.push({ ...n }); continue; }
+      const a = Math.floor(n.dur / 2), b = n.dur - a;
+      /* the second half steps toward wherever the phrase was going, so the
+         split is a movement and not a stutter */
+      const nx = src[q + 1];
+      const dir = nx ? (nx.pitch >= n.pitch ? 1 : -1) : -1;
+      const p2 = pitchFor(n, dir);
+      if(p2 == null || p2 === n.pitch) return null;
+      out.push({ ...n, dur: a });
+      out.push({ ...n, step: n.step + a, dur: b, pitch: p2,
+                 vel: Math.max(0.4, (n.vel || 0.7) - 0.06) });
+    }
+    return out;
+  }
+  /* two adjacent lengths exchanged, which moves the attack between them and
+     leaves the span and both pitches alone. Only where the pair is contiguous
+     -- with a rest between them there is no shared boundary to move.
+     Televators, bar 42 `4(E3)2(N)...` and bar 45 `2(E3)4(N)...`. */
+  function swap(notes, k){
+    const src = inTime(notes), able = [];
+    for(let q = 0; q + 1 < src.length; q++)
+      if(src[q].bar === src[q + 1].bar &&
+         src[q].step + src[q].dur === src[q + 1].step &&
+         src[q].dur !== src[q + 1].dur) able.push(q);
+    if(!able.length) return null;
+    const at = able[k % able.length];
+    const out = src.map(n => ({ ...n }));
+    const a = out[at], b = out[at + 1];
+    const da = a.dur, db = b.dur;
+    a.dur = db; b.step = a.step + db; b.dur = da;
+    return out;
+  }
+
+  return { parse, print, move, moveText, romanOf, readLine,
+           inTime, subdivide, swap };
 })();
 /* midi of scale degree d (any integer) in a mode rooted at `root` (pitch class) */
 function degMidi(root, mode, d){
@@ -39353,8 +39416,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           .map(n => (n.bar % 2) + ":" + n.step + ":" + n.dur).join(" ");
         const spanOf = ns => ns.reduce((t, n) => t + n.dur, 0);
         const wantRhythm = rhythmOf(head), wantSpan = spanOf(head);
-        const inTime = ns => ns.slice()
-          .sort((x, y) => (x.bar - y.bar) || (x.step - y.step));
+        const inTime = MM.inTime;      // one owner, in the notation module
 
         /* every candidate is offered whole and taken whole. Half a
            restatement is not one: the write loop below skips a note whose
@@ -39405,48 +39467,22 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         /* a note long enough to be two, split in its own span. The new note
            takes a pitch from the chord under it, which is where the extra
            movement the sheets describe comes from. */
+        /* the two shape changes are MM's -- see the notation module. This
+           supplies the harmony they are not entitled to know about: where a
+           split note's new pitch comes from, and the legaliser for the chords
+           bars 2-3 sit on. */
+        const shift = ns => ns && ns.map(n => ({ ...n, bar: n.bar + 2 }));
         const subdivide = k => {
-          const src = inTime(head);
-          const able = [];
-          for(let q = 0; q < src.length; q++) if(src[q].dur >= 2) able.push(q);
-          if(!able.length) return null;
-          const at = able[k % able.length];
-          const out = [];
-          for(let q = 0; q < src.length; q++){
-            const n = src[q];
-            if(q !== at){ out.push({ ...n, bar: n.bar + 2 }); continue; }
-            const a = Math.floor(n.dur / 2), b = n.dur - a;
-            const nx = src[q + 1];
-            /* the second half steps toward wherever the phrase was going, so
-               the split is a movement and not a stutter */
-            const dir = nx ? (nx.pitch >= n.pitch ? 1 : -1) : -1;
-            const p2 = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
-                                          n.pitch, dir), LO, HI);
-            if(p2 === n.pitch) return null;
-            out.push({ ...n, bar: n.bar + 2, dur: a });
-            out.push({ ...n, bar: n.bar + 2, step: n.step + a, dur: b, pitch: p2,
-                       vel: Math.max(0.4, (n.vel || 0.7) - 0.06) });
-          }
-          return legalise(out, chordSet);
+          const out = MM.subdivide(head, k, (n, dir) => {
+            const p = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
+                                         n.pitch, dir), LO, HI);
+            return p;
+          });
+          return out ? legalise(shift(out), chordSet) : null;
         };
-        /* two adjacent lengths exchanged, which moves the attack between them
-           and leaves the span and both pitches alone. Only where the pair is
-           contiguous -- with a rest between them there is no shared boundary
-           to move. */
         const swap = k => {
-          const src = inTime(head);
-          const able = [];
-          for(let q = 0; q + 1 < src.length; q++)
-            if(src[q].bar === src[q + 1].bar &&
-               src[q].step + src[q].dur === src[q + 1].step &&
-               src[q].dur !== src[q + 1].dur) able.push(q);
-          if(!able.length) return null;
-          const at = able[k % able.length];
-          const out = src.map(n => ({ ...n, bar: n.bar + 2 }));
-          const a = out[at], b = out[at + 1];
-          const da = a.dur, db = b.dur;
-          a.dur = db; b.step = a.step + db; b.dur = da;
-          return legalise(out, chordSet);
+          const out = MM.swap(head, k);
+          return out ? legalise(shift(out), chordSet) : null;
         };
         const MAKE = { displace, subdivide, swap };
         const KEEPS = { displace: "rhythm", subdivide: "span", swap: "span" };
