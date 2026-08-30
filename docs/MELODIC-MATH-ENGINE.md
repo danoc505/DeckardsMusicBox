@@ -434,22 +434,33 @@ material's own bar now. The threshold still moves with the arc, so a part still
 opens out across the record — it opens out by the SAME notes arriving in the
 same order.
 
-**The right measure is nesting, not distinctness.** A hook thinning to its
-skeleton and building back gives *different* rhythms that are *nested* subsets;
-a re-roll gives arbitrary ones. Statement pairs of one material:
+**The right measure is nesting, not distinctness** — a hook thinning to its
+skeleton and building back gives *different* rhythms that are *nested* subsets,
+where a re-roll gives arbitrary ones — **and it has to be taken per MATERIAL BAR,
+not per statement.** `arcE` is a per-bar quantity, so within one four-bar
+statement each bar has its own threshold; two statements can each be nested
+bar-against-bar and still cross when compared as wholes. Measured per statement
+the fix reads 43% → 55%, and that number is inflated by the arc doing its job.
+Per material bar:
 
 ```
                    before   after
-  dungeonsynth       22%     39%   nested
-  ds2                24%     38%
-  synthwave          28%     37%
-  fantasysynth       61%     71%
-  TOTAL              43%     55%
+  synthwave          61%     66%   nested
+  dungeonsynth       64%     69%
+  ds2                64%     69%
+  lofi               70%     70%
+  fantasysynth       88%     92%
+  TOTAL              74%     78%
 ```
 
-**Still only 55%.** The rest is reshaped by the other per-section devices —
-`enterBar`, `stripHalf`, the duel, the empty. That is the next thing to look at
-and it is not done.
+**Four points, not twelve.** Real, and much smaller than the first reading of it.
+
+**And 22% of same-bar pairs are still arbitrary.** Attributed against the
+per-section devices, 92% of the non-nested pairs have *none* of `takes`,
+`stripHalf`, `enterBar`, `empty`, `duel` or `ending` differing between them — so
+the cause is not those, and it is not yet known. That is the open question, and
+it is where `materials.motifs` would earn its keep: the perform stage reshapes a
+line's motifs without being able to ask what they are.
 
 ### And this is what the break needs
 
