@@ -493,8 +493,30 @@ missing: *"elevates on the first 3, but on the 4th one it falls, ending where
 the melody starts."*
 
 Built in stage 5, where the material loops: each statement of a section carries
-an offset in scale steps, read from a direction string drawn per record from a
-genre pool — `N` holds the base, `E` lifts by the drawn magnitude, `F` falls.
+an offset in scale steps — `N` holds the base, `E` lifts by the drawn magnitude,
+`F` falls.
+
+**The shape is GENERATED, and the first version of it was not.** It shipped four
+hand-written strings — `["NEEF","NNEF","NEFN","NENF"]` — as the default for
+every genre, and `NEEF` is Smoke On The Water's own `E,E,E,F` with an `N` in
+front; the other three were invented to make one riff's contour look like a
+pool. No genre declares `theme.seq`, so every record in the file got that one
+song's shape. A baked-in value in a constraint's clothes.
+
+It comes from rules now, and the rules are theory rather than any song:
+
+- **A sequence departs from something heard.** The first statement of a section
+  is the base — you cannot hear a move away from a thing not yet stated.
+- **A departure returns.** The last statement comes home. That is cadence, and
+  it is why a section sounds finished rather than cut off.
+- **It may not sit still three times running** — the rule of three, one level up.
+
+Everything between is drawn, with `away` the share of middle statements that
+leave the base. **48 distinct shapes are heard across 776 sections**, where four
+were written down. And `NEEF` occurs **zero** times, because "a departure
+returns" makes the last statement come home — Smoke's `F` on the fourth *is* a
+return to the origin pitch. The hardcoded default had copied the letters and
+lost the meaning.
 Diatonic, so the key holds by construction; the rhythm untouched, so every
 established figure stays recognisable. First letter of every default shape is
 `N`: a sequence departs from something heard. `theme.seq: false` refuses;

@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-30b &middot; the phrase moves across its statements: elevated, then falling, then home, the way the sheets close a riff</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-30c &middot; the sequence shape is generated from theory, not copied off a riff: depart from what was heard, and return</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -44924,16 +44924,68 @@ function makePerformance(chart, form, materials, sections){
   const SEQ_ON = SEQ_T !== false;
   const SEQ_ROLES = (SEQ_T && SEQ_T.roles) || ["lead", "counter"];
   const seqR = stream(chart.seed, "stmtSeq");
-  const SEQ_BY  = (() => { const P = (SEQ_T && SEQ_T.by) || [1, 2];
-                           return P[Math.floor(seqR() * P.length) % P.length]; })();
-  const SEQ_DIR = (() => { const P = (SEQ_T && SEQ_T.dir) ||
-                             ["NEEF", "NNEF", "NEFN", "NENF"];
-                           return P[Math.floor(seqR() * P.length) % P.length]; })();
+  /* HOW FAR, IN SCALE STEPS. A sequence classically moves by a second or a
+     third [theory]; the pool is a dial and a genre may widen it. */
+  const SEQ_BY = (() => { const P = (SEQ_T && SEQ_T.by) || [1, 2];
+                          return P[Math.floor(seqR() * P.length) % P.length]; })();
+  /* how many of a section's statements may sit away from the base */
+  const SEQ_AWAY = (SEQ_T && SEQ_T.away) || 0.55;
+  /* ── THE SHAPE IS GENERATED, NOT LISTED ─────────────────────────────────
+     ⚠ THE FIRST VERSION OF THIS SHIPPED FOUR HAND-WRITTEN STRINGS —
+     ["NEEF","NNEF","NEFN","NENF"] — as the default for every genre. `NEEF` is
+     Smoke On The Water's own E,E,E,F with an N in front, and the other three
+     were invented to make one example's shape look like a pool. No genre
+     declares `theme.seq`, so every record in the file got that one riff's
+     contour. That is a baked-in value wearing a constraint's clothes, and it
+     is the defect this whole engine exists to stop.
+
+     THE SHAPE COMES FROM RULES INSTEAD, and the rules are theory rather than
+     any song:
+
+       A SEQUENCE DEPARTS FROM SOMETHING HEARD.  The first statement of a
+       section is always the base — you cannot hear a move away from a thing
+       that has not been stated.
+
+       A DEPARTURE RETURNS.  The last statement of a section comes home. That
+       is cadence, and it is why a section sounds finished rather than cut.
+
+       AND IT MAY NOT SIT STILL THREE TIMES RUNNING.  The rule of three, one
+       level up: three identical levels in a row is the same stasis the rule
+       forbids inside a phrase.
+
+     Everything between those is drawn. `away` is the share of the middle
+     statements that leave the base — a dial. The four strings above are all
+     still reachable; so are dozens this file could not have written. */
+  const seqShape = (() => {
+    const cache = {};
+    return sec => {
+      const key = sec.startBar;
+      if(cache[key]) return cache[key];
+      const cycles = Math.max(1, Math.floor(
+        Math.max(1, sec.endBar - sec.startBar) / materials.bars));
+      const out = [0];                                   // depart from what was heard
+      for(let c = 1; c < cycles - 1; c++){
+        const r = stream(chart.seed, "seq:" + key + ":" + c);
+        let v = r() < SEQ_AWAY ? (r() < 0.5 ? SEQ_BY : -SEQ_BY) : 0;
+        /* not the same level three times running */
+        const n = out.length;
+        if(n >= 2 && out[n - 1] === v && out[n - 2] === v)
+          v = v === 0 ? (r() < 0.5 ? SEQ_BY : -SEQ_BY) : 0;
+        out.push(v);
+      }
+      if(cycles > 1) out.push(0);                        // and it returns
+      /* a section that drew no departure at all is not a sequence; move the
+         middle one, so the device is never silently inert */
+      if(out.length > 2 && out.every(v => v === 0))
+        out[out.length >> 1] = seqR() < 0.5 ? SEQ_BY : -SEQ_BY;
+      return (cache[key] = out);
+    };
+  })();
   const seqOff = (sec, bar) => {
     if(!SEQ_ON) return 0;
+    const sh = seqShape(sec);
     const cyc = Math.floor(Math.max(0, bar - sec.startBar) / materials.bars);
-    const ch = SEQ_DIR[cyc % SEQ_DIR.length];
-    return ch === "E" ? SEQ_BY : ch === "F" ? -SEQ_BY : 0;
+    return sh[Math.min(cyc, sh.length - 1)] || 0;
   };
   /* the lift plays in its own key, and a sequence written against the home
      mode would move its notes out of it */
