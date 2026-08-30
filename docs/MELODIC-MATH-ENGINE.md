@@ -281,7 +281,7 @@ of a phrase, no formula. Printed in the sheets' notation, lofi seed 1's tune is:
 | | |
 |---|---|
 | movement size | median 2, and 69–81% are 1–2 — inside what the songs do, and not the gap |
-| no movement | **0% of ~2,680 movements.** `N` is unreachable, and a motif on one repeated pitch is the loudest thing in Chop Suey |
+| no movement on the lead | 0% of ~2,680 movements — **and that is a fix working, not a gap.** The owner reported the lead repeating a pitch as a defect six times; `noRepeats` is the answer and is deliberately on. `N` is reachable elsewhere: the bass uses it 15–43% of the time. A genre may argue with it by declaring `noRepeat: false` |
 | the phrase repeating | **157 of 199 records** have a lead whose second half is a bar-for-bar copy of its first — synthwave 40/40, dungeonsynth 39/40, fantasysynth 39/40, ds2 39/40, lofi 0/39 |
 
 That last row is both failure modes at once, and it is exactly what having no
@@ -396,7 +396,7 @@ a dial.
 | **3** | The law on the LEAD: the verbatim hook copy becomes a restatement governed by L3 and L4, displaced in scale steps, with `restate` drawn per record. **DONE.** | **157 of 199 copies → 88.** The rhythm survives every displacement it makes: 7 of 160 restatements in the hook genres lose it, down from 42 |
 | **4** | **RE-AIMED AND DONE.** As first specified it was written against the `pocket` loop, which only lofi runs; built and measured it moved 1.81 distinct bar rhythms to 1.82 and was reverted. The real fault was the PEDAL — `bassStyle: "drone"`, ruled a defect by the owner — and it is now a style pool per genre. | dungeon synth 1.46 notes a bar and **0% stepwise** → 3.35 and 37%; fantasy synth 1.43 and 6% → 3.16 and 32%; bars holding one pitch 54% and 58% → 35% and 5%. ds2, which was already right, is unchanged at 4.33 and 53% |
 | **5** | The change vocabulary — **displace, subdivide, swap**, weighted by the genre and searched. **DONE.** (`rhythmOf`, a line borrowing another's rhythm, is not built.) | of 199 records: 87 keep the exact hook, 65 displace, 37 change the span. Dungeon synth's ten first seeds use four different devices between them |
-| **6** | Movement: `N` reachable on the lead, magnitudes honoured, direction drawn where the motif left it free. | the printout — the lead's no-movement stops being 0% |
+| **6** | **WITHDRAWN.** It said "make `N` reachable on the lead", justified by one song having a motif on a repeated pitch. The program's own record says the opposite: a repeating lead pitch is a defect the owner reported six times, `noRepeats` is the fix, and it is on by a default any genre may argue with. Building this would have undone it. What remains of the phase — magnitudes honoured and direction drawn where a motif leaves it free — is already how `displace` works. | — |
 
 Phases 3 and 4 answer the owner's report on each part. Phases 1 and 2 exist so
 that both are small changes rather than rewrites. The counter and the repeating
@@ -424,3 +424,9 @@ And two numbers carry the build:
 - **How different two records of the same genre are from each other.** If every
   lofi record comes out with the same make-up, the dials were written as values
   and the whole point has been missed.
+
+**And a warning about this sheet's own evidence.** The three measured songs are
+where the DEVICES came from and they are good for that. They are not reasons.
+"Chop Suey does it" is one record's make-up; a reason has to come from the
+program's own state or from a law. Phase 6 was written the wrong way round and
+would have reversed a fix the owner asked for six times.
