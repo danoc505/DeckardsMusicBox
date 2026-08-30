@@ -404,6 +404,67 @@ figure come last and for free — they are lines, and the law is per line.
 
 ---
 
+## 8b. AND IT HAS TO SURVIVE THE WHOLE SONG
+
+Everything above works inside one material. A material is four bars; a record
+plays it ten or twelve times. **Measured, aligned to each section's start, the
+lead only:**
+
+```
+  dungeon synth   material A   10 statements   10 distinct rhythms   0 repeats
+  ds2             material A   10 statements   10 distinct           0
+  synthwave       material A@1  7 statements    7 distinct           0
+  fantasy synth   material A   12 statements   11 distinct           1
+```
+
+Not one statement of the hook came back the way it had been heard. The motif
+existed in `materials.A` and was reshaped before it reached the ear, every time.
+
+**The cause was one token.** `thin` gates notes by the arc, and its draw was
+seeded on the RECORD's bar, so the same note of the same figure drew a fresh
+coin at every statement. The drums had been fixed for exactly this — the file
+records the owner on "a child smashing random drums with zero rhythm or reason"
+and the groove being re-diced 470 times a record — and the fix stopped at the
+kit, under a stated hypothesis: *"for a melody, losing a different note each
+time round is variation."*
+
+The measurement falsifies it. One note lost is variation; a different subset
+every time is the thing that same note condemns. Every role thins on the
+material's own bar now. The threshold still moves with the arc, so a part still
+opens out across the record — it opens out by the SAME notes arriving in the
+same order.
+
+**The right measure is nesting, not distinctness.** A hook thinning to its
+skeleton and building back gives *different* rhythms that are *nested* subsets;
+a re-roll gives arbitrary ones. Statement pairs of one material:
+
+```
+                   before   after
+  dungeonsynth       22%     39%   nested
+  ds2                24%     38%
+  synthwave          28%     37%
+  fantasysynth       61%     71%
+  TOTAL              43%     55%
+```
+
+**Still only 55%.** The rest is reshaped by the other per-section devices —
+`enterBar`, `stripHalf`, the duel, the empty. That is the next thing to look at
+and it is not done.
+
+### And this is what the break needs
+
+> [owner:] *"we have to be able to break the rules at times at certain points
+> and to have that be something important in that song."*
+
+A break is only an event if the rule was kept. While every statement of the
+hook differed, nothing could be a departure from anything — there was no
+established figure to depart from. Making the motif recur is what makes a
+placed break possible, and the sheets already name the device: *"Note in the 3rd
+'A' a note is missed to create unbalance and create additional tension."* The
+break is **not built** — the ground for it is.
+
+---
+
 ## 9. HOW IT IS PROVED
 
 `node harness/mk2_roll.js` — a phrase copying itself is a picture, and the

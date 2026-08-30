@@ -46215,7 +46215,34 @@ function makePerformance(chart, form, materials, sections){
              one place in this session where a fix deliberately moves a shipped
              genre, and it moves it toward the thing its own table has always
              asked for -- "martial snare patterns", which are figures. */
-          const thinBar = role === "drums" ? n.bar : bar;
+          /* ══ AND A MELODY IS A FIGURE TOO — MEASURED ═══════════════════════
+             The note above drew a line: drums thin on the material's bar so
+             the pattern recurs, "for a melody, losing a different note each
+             time round is variation and is why this was written per bar."
+
+             THAT WAS A HYPOTHESIS AND THE MEASUREMENT FALSIFIES IT. Statements
+             of one material across a whole record, aligned to their section
+             starts, lead only:
+
+               dungeon synth   material A   10 statements   10 distinct rhythms
+               ds2             material A   10 statements   10 distinct
+               synthwave       material A@1  7 statements    7 distinct
+               fantasy synth   material A   12 statements   11 distinct
+
+             Not one statement of the hook comes back the way it was heard
+             before. Losing a DIFFERENT note each time is variation when it is
+             one note; measured, it is a different subset every time, which is
+             the same sentence the drum note above condemns -- "a different
+             subset of the same figure every bar" -- applied to the tune.
+
+             So every role thins on the material's own bar. The threshold still
+             moves with the arc, so a part still opens out across the record --
+             it opens out by the SAME notes arriving in the same order, which is
+             a figure growing rather than a figure re-rolled. What was variation
+             by accident becomes variation that can be placed, which is the only
+             way a break in the pattern can mean anything: a rule that is never
+             kept cannot be broken. */
+          const thinBar = n.bar;
           const keepR = stream(chart.seed, "thin:" + role + ":" + thinBar + ":" + n.step + ":" + lane)();
           if(th > 0 && n.step > 0 && !slideSafe.has(lane + ":" + n.bar + ":" + n.step)){
             /* the metric weight of this step: downbeats survive, then the
