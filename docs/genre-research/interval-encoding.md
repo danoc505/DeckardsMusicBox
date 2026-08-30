@@ -1,8 +1,13 @@
 # INTERVAL ENCODING — what the literature knows about writing a tune as deltas
 
-*Web research, 2026-08-30, at the owner's instruction: "deep research: interval
-based encoding and Melodic Math." Four research passes, ~340 tool calls, every
-number below traced to a named corpus or experiment.*
+*2026-08-30, at the owner's instruction: "deep research: interval based encoding
+and Melodic Math." Five passes — four on the literature, one auditing and
+measuring the engine — ~440 tool calls. Every number traced to a named corpus,
+an experiment, or a script that was run against this branch.*
+
+**§10 is the measured half and the part with teeth.** The literature sections
+say what is known; §10 says what this program actually does, and it found four
+defects, including two genres that turn out to be one.
 
 **This is the companion sheet to `melodic-math.md`, not a replacement for it.**
 That sheet has the notation and where it came from — the owner's annotated
@@ -591,22 +596,231 @@ a chorus from a verse.
 
 ---
 
-## 10. THE SHORT LIST — what this sheet actually asks the program to do
+## 10. MEASURED AGAINST THE PROGRAM
+
+*An audit pass ran alongside the research, on this branch at `40d1a4d`, stamp
+`2026-08-30c`. Population: 5 genres × 40 seeds = 200, of which **199 compose**
+(`lofi seed 17` throws the pre-existing `Bdev: keys2` seam error). Scripts in a
+scratchpad, nothing written to the repo; the two probes that patch the source
+patch it in memory, assert exactly one match, and carry a control that composes
+both builds and compares every event — **identical on 50/50 records**.*
+
+**What I verified myself, by reading the file rather than taking the report:**
+the four `noRepeat` gates, the zero grep counts for §5's dial names, the two
+`theme.moves` tables, `ds2` inheriting its whole `theme`, and `fantasysynth`
+overriding part of one. Those are marked ✔. The rest are the audit's
+measurements, reported as its own.
+
+### 10a. The engine's intervals ARE folk-song sized — in every genre
+
+Mean absolute melodic interval, lead, material A:
+
+| genre | mean \|d\| | median | % at 1–2 st | % `N` |
+|---|---|---|---|---|
+| lofi | 2.77 | 2 | 68.7 | 0.0 |
+| synthwave | 2.65 | 2 | 79.4 | 0.0 |
+| dungeonsynth | 2.86 | 2 | 73.6 | 0.0 |
+| fantasysynth | 2.92 | 2 | 72.7 | 0.0 |
+| ds2 | 2.86 | 2 | 73.6 | 0.0 |
+| **Essen folksong** [corpus:chiu-temperley-2024] | **2.8** | | | |
+| **Weimar Jazz Database** | **2.7** | | | |
+| **Billboard** | **3.8** | | | |
+
+**This is item 4 of §11, and it half-answers itself.** Every genre in the file
+writes leads whose mean interval is 2.65–2.92 semitones — Essen's number, to
+within the noise, for all five. None of them is anywhere near Billboard's 3.8.
+The program writes folk song, and it writes it in synthwave too.
+
+That is consistent with §3b's other reading: the two declared `theme.moves`
+tables sit at 56% directional inertia and the default at 78%, and neither the
+mean interval nor the inertia is a genre decision anywhere it matters yet.
+
+**And in scale steps — the unit the engine actually draws in — the lead never
+exceeds 4.** Everything at ≥8 semitones is `intoBand` folding an octave, exactly
+as the comment at :38786 says. Direction is close to balanced and the phrases do
+**not** descend on average (lofi 514 up / 542 down, synthwave 1015/834,
+dungeonsynth 1018/974) — worth noting against Tierney et al.'s Essen finding
+that descent significantly outnumbers ascent.
+
+### 10b. The docs' own headline numbers, checked
+
+| claim | today | verdict |
+|---|---|---|
+| lead's second half copies its first: **88/199** | **87/199** | 1 out; no reading of the predicate gives 88 |
+| bass: **69/199** | **41/199** | §9 still quotes the pre-phase-4 number |
+| lead movement: median 2, 69–81% at 1–2, 0% `N` | 2, 68.7–79.4%, 0.0% | **reproduces** |
+| bass `%N` 15–43%; synthwave 43% `N` / 36% ≥12 | 14.3–43.4%; 43.4% / 37.0% | **reproduces** |
+| distinct bar rhythms, bass, per genre | lofi 2.46, synthwave 2.33, ds2 1.98 **exact**; dungeonsynth 1.23→2.10, fantasysynth 1.10→2.08 | **reproduces — the cleanest in the file** |
+| nesting 78%, 85% after the bar-line fix, +7 points | 82% → 88%, **+6 points** | shape reproduces; absolutes 3 points high, and the pairing may be two rulers rather than two states |
+| break: exactly one note, 26 of 40 | **26/40 at 8 seeds**; 102/199 with **17 losing two** at 40 seeds | reproduces at its own N, fails beyond it |
+| 48 distinct sequence shapes; `NEEF` zero | **53 distinct; `NEEF` = 0** | **reproduces** |
+| "all fifty records now carry their figure at >1 pitch level" | **19/50** by rhythm, 36/50 by interval; control **1/50** | control reproduces exactly; **the headline overstates** |
+
+The pattern is worth naming: **the control measurements reproduce and the
+headline claims drift.** Where the doc says "before this, 1 of 50", that is
+exact. Where it says "all fifty now", it is 19. The before-numbers were measured
+and the after-numbers were rounded up.
+
+### 10c. And a second half that is still a copy — of the rhythm
+
+The doc's headline counts pitch **and** rhythm. Counting rhythm alone:
+
+```
+lead second half is a bar-for-bar RHYTHM copy of its first:  152 of 199  (76%)
+```
+
+Because `displace` — weight 4 of 8 in the change pool — preserves the rhythm by
+design (`KEEPS`, :39488), and because the answering phrase borrows the question's
+rhythm **100% of the time in every genre** (`TH.motif` defaults to `1` at :38537,
+used as `mRoll < MOTIF` at :39691, and `mRoll ∈ [0,1)` — a probability dial
+pinned open). **The pitches moved; the rhythm did not.** Against `melodic-math.md`
+§1 — *"a motif is recognised by its RHYTHM; its pitches are free"* — that is the
+invariant holding and the variation happening in the one dimension the sheet says
+is free. Whether that is right is a question for the ear, but it is not what the
+178-word §1 describes.
+
+### 10d. ✔ Two genres are one melodic program
+
+`GENRE.ds2 = (function(D){ … merge(D, {…}) })(GENRE.dungeonsynth)` at :30937–31347,
+where `merge` is a shallow `Object.assign`. **`ds2` declares no `theme:` key
+anywhere in those 410 lines**, so it inherits dungeonsynth's entire theme object.
+
+This is not a limitation of the fork mechanism — `fantasysynth` uses it properly
+at :30226, `theme: merge(D.theme, { count: …, story: … })`. `ds2` simply does not
+override the theme.
+
+Measured consequence: **every pitched line — lead, counter, keys, keys2, ostinato
+— plus key, mode and chords are byte-identical between `dungeonsynth` and `ds2`
+on every seed tested (40/40).** Only drums, bass and sometimes drone differ.
+
+**So any per-genre melodic number reported for both is one measurement counted
+twice** — including rows in `MELODIC-MATH-ENGINE.md` §6 and §8b, and two rows of
+§10a above, which are printed as measured and marked here instead.
+
+### 10e. ✔ `noRepeat` is read through four gates, and the two that matter are dead
+
+| line | gate | effect |
+|---|---|---|
+| :38490 | `TH.noRepeat !== false` | **on** by default |
+| :40704 | `!(G.theme && G.theme.noRepeat === false)` | **on** by default |
+| :41057 | `(G.theme && G.theme.noRepeat) ? …` | truthy — **`JOIN` is a no-op at all 10 call sites** |
+| :47865 | `chart.table.theme.noRepeat === true` | **never runs** |
+
+No genre declares `theme.noRepeat`. The file documents this exact failure twice
+in its own comments — :38474 (*"it was then put behind `TH.noRepeat === true`,
+which NO [genre declares]"*) and :39655 (*"so the branch has never once
+executed"*) — **and it recurred.**
+
+Measured: the repeated-pitch rule holds inside the material (0.0–1.1%) and not in
+the record — **2,246 repeated pitches in 49,585 performance events, 4.5%**, worst
+single record fantasysynth seed 19 with **385**. That is the owner's
+six-times-reported complaint, fixed in the material and not in what is heard.
+
+### 10f. ✔ Eleven of §5's fourteen dials are engine literals
+
+Whole-file grep: `motifSpan`, `notesPer`, `lengthPool`, `movePool`,
+`silenceShare`, `alignToBar`, `repeatLimit`, `preserve:`, `redraw:` — **0
+occurrences each**. `moveUnit` — **1**, the assignment; no reader, so §2c's "the
+units are declared, never assumed" is true of the notation and false of the
+generator, which is unconditionally scale-steps.
+
+`restate` `[1,2]`, `restateBy` `[-2,-1,1,2]`, `change` `[[displace,4],[subdivide,2],[swap,2]]`,
+`detach` `0.5`, `seq.by` `[1,2]`, `seq.away` `0.55`, `breakAt` `[3,4]` all exist
+only as reads against a hardcoded default, **and no genre declares any of them.**
+`alterHead` and `freeTail` — named in §4's summary row and §5's `change:` pool —
+have **0 occurrences**; the doc concedes `rhythmOf` and there are two more in the
+same position.
+
+### 10g. The answer to §9 — and it is the reverse of what §9 feared
+
+§9 asks: *"If every lofi record comes out with the same make-up, the dials were
+written as values and the whole point has been missed."*
+
+**Every record has a distinct make-up** — 39/39, 40/40, 40/40, 40/40, 40/40. The
+fear is not realised. But the spread comparison says where the variety is:
+
+| dial | within-genre sd | between-genre sd | ratio |
+|---|---|---|---|
+| notes | 2.030 | 3.456 | **1.70** |
+| sounding | 11.473 | 11.267 | 0.98 |
+| span | 2.631 | 0.603 | 0.23 |
+| meanMove | 0.435 | 0.066 | 0.15 |
+| distinctRhy | 0.464 | 0.033 | **0.07** |
+| pctN | 0 | 0 | — |
+
+**The problem is not that records are alike. It is that the genres are.** The
+seed moves `distinctRhy` 14×, `meanMove` 7× and `span` 4× more than the genre
+does. Only `notes` carries real genre identity — and it comes from `count` and
+`onsetPool`, the two dials genres actually declare. Which follows directly from
+10f: eleven of fourteen melodic dials are one number shared by all five tables.
+
+`pctN` takes exactly one value in every record of every genre: **zero.**
+
+### 10h. L5 is not built
+
+*"Every movement is stated… No note is an independent draw. This is what makes it
+a line rather than a walk."*
+
+Instrumented over 124 records: **400 movements stated, 9,062 drawn fresh —
+4.23%.** `moveBias` reaches only themeB and its variants (:41682, :41688) and is
+capped at four entries by `if(dna.length < 4)` (:38819). 95.8% of the lead's
+movements are independent draws from a weighted pool.
+
+**This is the law §3 of the engine doc calls load-bearing, and the thing it
+forbids is what the program does.** It is also the one place where this sheet's
+literature and the audit agree on a direction: §2's drift, §4a's range argument
+and §7's "interval is the identity unit, harmony is the placement unit" all
+describe a line whose movements are *stated somewhere* and realised against
+harmony. Here they are drawn per note.
+
+### 10i. And two smaller ones
+
+- **`materials.motifs` is dead data.** Written at :43181, **read at zero other
+  sites.** Its own comment (:43169) says "Nothing consumes it yet." Phase 2 ships
+  a printout, not the capability §7 says is the point — nothing can ask which
+  motif a note is in.
+- **The break removes an instant, not a note.** :46182 draws a `breakStep` and
+  :46187 skips *every* note at that step, so a doubled or duplicated lead loses
+  both: **17 records of 199 lose two notes.** And §8b says "never from a bar of
+  fewer than three notes" while the guard is `cand.length > 1` over notes with
+  `step > 0` — not the same predicate.
+
+---
+
+## 11. THE SHORT LIST — what this sheet actually asks the program to do
 
 Nothing here is a wish; each is a measurement or a named source, in the order
 they cost.
 
+Nothing here is a wish. Each is a measurement or a named source. **The first
+four are defects found by measurement and outrank the rest.**
+
 | # | what | why |
 |---|---|---|
-| 1 | **Fix `melodic-math.md:53`** — the movement unit is scale steps | §1. One line, and it misleads anyone who reads it. |
-| 2 | **Relabel the *Smoke On The Water* mode** and note the parallel-fourths reading | §1. The arithmetic stands; the label does not. |
-| 3 | **Give `theme.moves` its measured numbers, and reconsider the default** | §3b. The table is built and only two regions declare one. The default's 78% directional inertia is more inertial than any measured corpus; the corpus range is 43–71%. |
-| 4 | **Measure the realised interval histogram against a corpus target** | §3a, §4b. Nothing in the harness compares the engine's interval distribution to anything. Targets exist: 2.8 st folk, 3.8 st Billboard, 2.7 st jazz. |
-| 5 | **Give `away` a measured target** | §6. 50–71% of long-range repetition is literal in rock. The dial has no target today. |
-| 6 | **Adopt an interval n-gram similarity measure in `mk2_score.js`** | §5d. Two independent lines converge on n-gram-5 count-distinct. |
-| 7 | **Mark augmentation `[theory]`, not corpus** | §5a and the motif pass: **no experiment measuring recognition under proportional duration scaling was found.** Material C rests on pedagogy alone. |
-| 8 | **Do not build post-skip reversal or gap-fill** | §4a. Real statistic, false mechanism. |
-| 9 | **Fix or retire the `+1.5 st` provenance** | §9. It names no document. |
+| **1** | **`ds2` declares no `theme` and inherits dungeonsynth's whole melodic program** | §10d. 40/40 seeds byte-identical on every pitched line. Two of the file's five genres are one tune-writer. Any melodic statistic reported for both — in this sheet and in `MELODIC-MATH-ENGINE.md` — is one number counted twice. `fantasysynth` shows the correct pattern at :30226. |
+| **2** | **`noRepeat` is read through four gates and the two covering the record are dead** | §10e. 4.5% repeated pitches in the performance against 0.0–1.1% in the material; 385 in one record. The file's own comments document this failure twice and it recurred. This is the owner's six-times-reported complaint, still live where it is heard. |
+| **3** | **L5 is not built — 95.8% of lead movements are independent draws** | §10h. 400 stated against 9,062 drawn. `moveBias` reaches themeB only and is capped at four entries. The law the engine doc calls load-bearing forbids exactly what the program does. |
+| **4** | **The break removes an instant, not a note** | §10i. 17 records of 199 lose two notes. And its guard is not the predicate §8b describes. |
+| 5 | **Eleven of §5's fourteen dials are engine literals, one set for all five genres** | §10f. Nine grep to zero; `alterHead` and `freeTail` do not exist. Consequence in §10g: between-genre separation is 0.07–0.23 of within-genre spread on four of six melodic dials. **The records differ; the genres do not.** |
+| 6 | **Give `theme.moves` its measured numbers, and reconsider the default** | §3b, §10a. The table is built; two regions declare one. The default's 78% directional inertia is above every measured corpus. Every genre's lead currently means 2.65–2.92 semitones — Essen's 2.8 — including the pop-facing ones, against Billboard's 3.8. |
+| 7 | **Give `away` a measured target** | §6. 50–71% of long-range repetition is literal in rock; the dial has none, and is 0.55 everywhere. |
+| 8 | **Adopt an interval n-gram similarity measure in `mk2_score.js`** | §5d. Two independent lines converge on n-gram-5 count-distinct. |
+| 9 | **Mark augmentation `[theory]`, not corpus** | §5a. **No experiment measuring recognition under proportional duration scaling was found.** Material C rests on pedagogy alone. |
+| 10 | **Correct the four drifted headline numbers** | §10b. 88→87, bass 69→41, "all fifty"→19 of 50, and the break's 26/40 holds only at its own sample size. The controls reproduce; the after-numbers were rounded up. |
+| 11 | **Fix `melodic-math.md:53`** — the movement unit is scale steps | §1. One line, and it misleads anyone who reads it. |
+| 12 | **Relabel the *Smoke On The Water* mode**, and note the parallel-fourths reading | §1. The arithmetic stands; the label does not. |
+| 13 | **Do not build post-skip reversal or gap-fill** | §4a. Real statistic, false mechanism. Encode range. |
+| 14 | **Fix or retire the `+1.5 st` provenance** | §9. It names no document. |
+
+**And one that is not a defect but is the largest thing here.** §10c: the lead's
+second half is still a bar-for-bar **rhythm** copy of its first in **152 of 199**
+records, because `displace` preserves the rhythm by design and the answering
+phrase borrows the question's rhythm 100% of the time in every genre. The
+headline 87 counts pitch *and* rhythm and so reads as progress. Against
+`melodic-math.md` §1 — *"a motif is recognised by its RHYTHM; its pitches are
+free"* — the program is varying the dimension the sheet calls free and holding
+the one it calls the identity. That may be right. It is not what §1 describes,
+and nothing in the file has noticed the difference.
 
 ---
 
