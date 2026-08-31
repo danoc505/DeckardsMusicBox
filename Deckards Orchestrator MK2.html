@@ -39015,12 +39015,37 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const fin = notes[notes.length - 1], pen = notes[notes.length - 2];
       const sameBarish = (fin.bar - pen.bar) * STEPS + (fin.step - pen.step);
       if(fin.pitch - pen.pitch === 1 && sameBarish >= 2 && pen.dur >= 2){
-        /* the scale step below the leading tone, in the record's own mode */
-        const SC = MODES[mode] || [];
+        /* ── THE SCALE STEP BELOW THE LEADING TONE, IN *THIS MATERIAL'S* MODE
+           ⚠ THIS READ THE SONG'S `mode` AND `root`, AND A MATERIAL MAY HAVE
+           LEFT THEM. Every other pitch in this function is placed with
+           `keyOf(chordSet)` / `modeOf(chordSet)` -- the key the material is
+           actually in -- and this one figure asked the record's opening key
+           instead. Where a section had moved, the cadence note was chosen from
+           a scale the music was no longer in, and the composer threw:
+
+             dungeonsynth seed 55, material Avarlift, G phrygian over Bb-D-F.
+             The tune wrote G, the cadence inserted F#, and F# is not in G
+             phrygian. It then leapt to Ab -- in the mode but not in the chord --
+             so the law's second clause could not save it either.
+             MEASURED: 2 of 240 records would not compose.
+
+           It is the exact failure the seam check's own comment predicts:
+           "THIS IS ALSO THE CHECK THAT CATCHES A PART LEFT BEHIND. If a section
+           changes key and some part does not come with it, that part's notes are
+           now out of the section's scale and this throws." A part was left
+           behind, and it was one figure inside a part.
+
+           NOT A NEW RULE AND NOT A WIDER ONE: the figure was always meant to be
+           in the mode -- its own comment says "it is refused if the sixth is not
+           in the mode" -- and it is now asked about the mode it is actually in.
+           A record whose materials never leave the key is unchanged, which is
+           every record but the ones that threw. */
+        const LK = keyOf(chordSet), LM = modeOf(chordSet);
+        const SC = MODES[LM] || [];
         let six = null;
         for(let d = 1; d <= 3 && six == null; d++){
           const cand = pen.pitch - d;
-          if(SC.includes((((cand - root) % 12) + 12) % 12)) six = cand;
+          if(SC.includes((((cand - LK) % 12) + 12) % 12)) six = cand;
         }
         const at = pen.step + Math.max(1, pen.dur - 1);
         const atBar = pen.bar + Math.floor(at / STEPS), atStep = at % STEPS;

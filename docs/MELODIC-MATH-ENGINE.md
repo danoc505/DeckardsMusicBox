@@ -2013,3 +2013,90 @@ measuring them myself and they held. **I passed on the citation one without
 opening the document**, and it was wrong in a way that would have sent the next
 reader to delete a good source. A provenance claim is checkable in one command;
 there is no excuse for relaying one.
+
+---
+
+## 26. A REGRESSION I SHIPPED, AND THE BUG UNDER IT
+
+*2026-08-31. Found while measuring melodic direction, not while looking for it.*
+
+### 26a. What broke
+
+§24's change — lengths read off the genre's own onsets — moved the dice, and two
+records stopped composing:
+
+| | before §24 | after §24 | now |
+|---|---|---|---|
+| records that will not compose (240) | **1** | **3** | **1** |
+
+The one that remains was already there and is not the tune's (§26d).
+
+**My sweep missed it, and the harness did not.** `mk2_score.js` printed
+*"✗ 1 of them the program could not make"* and my grep pattern looked for
+`error|cannot read|NaN`. The tool said the right thing and the test around it
+was wrong.
+
+### 26b. The bug was not in the cell engine
+
+The failing note was `lead 78 bar 3` — F#5 in **G phrygian** over a Bb–D–F
+chord. F# is not in the mode and not in the chord, and the note after it was Ab:
+in the mode, but not in the chord, so the law's second clause could not save it
+either.
+
+Tracing it, the tune's own note chooser never wrote F# at all — it wrote G, then
+Ab. **The F# was inserted afterwards by the Landini cadence**, the figure that
+makes an ending sound medieval by dropping the leading tone to the sixth before
+leaping to the final.
+
+And that figure chose its note like this:
+
+```js
+const SC = MODES[mode] || [];              // the SONG's mode
+if(SC.includes((((cand - root) % 12) + 12) % 12)) six = cand;   // the SONG's root
+```
+
+**It asked the record's opening key.** Every other pitch in that function is
+placed with `keyOf(chordSet)` / `modeOf(chordSet)` — the key the *material* is
+actually in. Where a section had moved key, the cadence note was drawn from a
+scale the music had left.
+
+This is the exact failure the seam check's own comment predicts:
+
+> "THIS IS ALSO THE CHECK THAT CATCHES A PART LEFT BEHIND. If a section changes
+> key and some part does not come with it, that part's notes are now out of the
+> section's scale and this throws."
+
+A part was left behind. It was one *figure inside* a part.
+
+### 26c. Fixed, and the blast radius is exactly the bug
+
+`LK = keyOf(chordSet)`, `LM = modeOf(chordSet)`. Not a new rule and not a wider
+one — the figure's own comment already said *"it is refused if the sixth is not
+in the mode"*; it is now asked about the mode it is in.
+
+Over 240 records, hashing every note's role, pitch and time:
+
+> **2 of 240 changed — dungeon synth seed 55 and ds2 seed 55, both from "would
+> not compose" to composing. Every other record is byte-identical.**
+
+600 records now compose with one failure, and that one is §26d.
+
+**Two guesses were tried first and are recorded as guesses, not fixes.** I
+patched the note chooser twice — first requiring a hanging dissonance to resolve
+onto a chord tone, then refusing an unresolvable dissonance at the point of
+choice — and re-measured: **3 failures, unchanged.** Both were reverted, because
+the tune's chooser was never writing the note. Neither patch was wrong about the
+law; both were wrong about where the note came from, and a patch that does not
+move the number is not a fix.
+
+### 26d. The one that was already broken, diagnosed and not fixed
+
+`lofi seed 17`, material Bdev: **`keys2`, not the tune.** Pitch 82 (B♭) over a
+chord whose `tones` are A, C, E, G, resolving to C ten semitones away.
+
+The pitch comes from `voiced[v]` — the comp's own voicing. So **the voicer is
+playing a pitch that the chord object's `tones` array does not contain**, and
+the law reads `tones`. That is a disagreement between the voicer and the chord
+about what the chord is, in the comp, and it has nothing to do with the melodic
+math engine. Recorded here so it is not lost; it belongs to whoever works on the
+comp next.
