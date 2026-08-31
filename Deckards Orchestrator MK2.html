@@ -36695,6 +36695,19 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          The only thing the LAW needs is that a cell can come back, which
          means span <= half the material; everything inside that is the
          genre's, and the default is the whole of it. */
+      /* ── A MOVEMENT MAY STATE ITS DIRECTION, OR LEAVE IT FREE ───────────
+         The notation separates the two and the sheet is explicit about why:
+           `4(ii)4`  -- magnitude 2, and "THE DIRECTION IS UP TO YOUR OWN
+                        PERSONAL TASTE"
+           `4(E2)4`  -- up 2, stated, because "the 'x' value can be replaced
+                        with 'E' for Elevate, or 'F' for fall TO GIVE A STRONG
+                        SENSE OF FAMILIARITY"
+         Every movement here took its sign from the phrase's own direction, so
+         a motif could carry a size and never a direction -- half the notation
+         with no way to say it. A stated movement keeps its sign wherever the
+         phrase is going; a free one still turns with it. */
+      const ST = TH.stated || [0, 1];
+      const statedW = ST[0] + irng() * (ST[1] - ST[0]);
       const NC  = TH.cells   || [2, 4];
       const CAP = TH.cellMax || [0.2, 0.5];
       const capF = CAP[0] + irng() * (CAP[1] - CAP[0]);
@@ -36702,10 +36715,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const out = [];
       for(let k = 0; k < 4; k++){                       // four drawn, tail cut [Law 7]
         const n = Math.max(1, cnt[0] + Math.floor(irng() * cnt[1]));
-        const lengths = [], moves = [];
+        const lengths = [], moves = [], fixed = [];
         for(let i = 0; i < n; i++){
           lengths.push(wpick(irng, LEN));
-          if(i) moves.push(wpick(irng, MOVES));          // one movement between notes
+          const mv = wpick(irng, MOVES), fx = irng() < statedW;   // both drawn always
+          if(i){ moves.push(mv); fixed.push(fx); }
         }
         /* A CELL MUST LEAVE ROOM FOR ITSELF TO COME BACK, AND FOR SOMETHING
            ELSE BESIDES. Half the material was the first cap and it is not
@@ -36718,7 +36732,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         while(lengths.reduce((a, z) => a + z, 0) > cap && lengths.length > 1){
           lengths.pop(); moves.pop();
         }
-        out.push({ lengths, moves, span: lengths.reduce((a, z) => a + z, 0) });
+        out.push({ lengths, moves, fixed, span: lengths.reduce((a, z) => a + z, 0) });
       }
       const keep = NC[0] + Math.floor(irng() * (NC[1] - NC[0] + 1));
       return out.slice(0, keep);
@@ -36796,6 +36810,57 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       L[a] -= k; L[b] += k;
       return { lengths: L, moves: cell.moves, span: cell.span };
     };
+    /* ══ THE THREE DEVICES THE NOTATION NAMES ════════════════════════════
+       Each changes what is inside a cell and CANNOT change its span, so the
+       equation still balances and nothing is checked afterwards.
+
+       SPLIT -- the Europe sheet, and the most-named device in the set:
+         "'A2' has the last note SPLIT INTO 2, still taking up the same amount
+          of space, but allowing for an extra key change, we can call this
+          rhythmic acceleration."
+         `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2`. The new note carries a
+         movement of its own -- that is the point of it, not a side effect.
+
+       DROP -- Nobody Else:
+         "Note in the 3rd 'A' A NOTE IS MISSED to create unbalance and create
+          additional tension."
+         The note's length goes to the note before it, so the cell keeps its
+         span and its attack points move. Never the first note: a cell has to
+         start where it starts to be recognised.
+
+       SWAP -- Televators, measured off the MIDI:
+         `B3 D4 D4 B3 E4 F#4` is `4+2+4+2+4+8` and comes back `2+4+4+2+4+4`,
+         the first two lengths exchanged. Same notes, attacks moved.
+
+       WHICH DEVICE, AND HOW OFTEN, IS THE GENRE'S. The default weights every
+       one of them the same, including doing nothing -- the widest the law
+       allows. A weighting that favoured one would be a song again. */
+    const splitCell = (cell, r, mv) => {
+      const L = cell.lengths.slice(), M = cell.moves.slice();
+      const c = []; for(let i = 0; i < L.length; i++) if(L[i] >= 2) c.push(i);
+      if(!c.length) return cell;
+      const i = c[Math.floor(r * c.length) % c.length];
+      const a = Math.floor(L[i] / 2);
+      L.splice(i, 1, a, L[i] - a);
+      M.splice(i, 0, mv);                       // the extra key change
+      const F = (cell.fixed || []).slice(); F.splice(i, 0, false);
+      return { lengths: L, moves: M, fixed: F, span: cell.span };
+    };
+    const dropCell = (cell, r) => {
+      const L = cell.lengths.slice(), M = cell.moves.slice();
+      if(L.length < 3) return cell;
+      const i = 1 + (Math.floor(r * (L.length - 1)) % (L.length - 1));
+      L[i - 1] += L[i]; L.splice(i, 1); M.splice(i - 1, 1);
+      const F = (cell.fixed || []).slice(); F.splice(i - 1, 1);
+      return { lengths: L, moves: M, fixed: F, span: cell.span };
+    };
+    const swapCell = (cell, r) => {
+      const L = cell.lengths.slice();
+      if(L.length < 2) return cell;
+      const i = Math.floor(r * (L.length - 1)) % (L.length - 1);
+      const t = L[i]; L[i] = L[i + 1]; L[i + 1] = t;
+      return { lengths: L, moves: cell.moves, fixed: cell.fixed, span: cell.span };
+    };
     /* KEEP ONLY THE SPAN. The slot holds its place in the equation and
        everything inside it is drawn again. */
     const redrawCell = (cell, rrng) => {
@@ -36807,7 +36872,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         L.push(pick); left -= pick;
         if(L.length >= 12){ L[L.length - 1] += left; left = 0; }
       }
-      return { lengths: L, moves: L.slice(1).map(() => wpick(rrng, MV)), span: cell.span };
+      return { lengths: L, moves: L.slice(1).map(() => wpick(rrng, MV)),
+               fixed: L.slice(1).map(() => false), span: cell.span };
     };
     /* ══ THE FORMULA — cells laid end to end until the spans balance ══════
        `A+B+A+C = 32`. Cells are appended until the material is full, and a
@@ -36834,16 +36900,43 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       FDIALS.recur = RECUR;
       const slots = [];
       const seen = {};
+      /* ── S IS A CELL YOU PLACE, NOT ONLY WHAT IS LEFT OVER ──────────────
+         The Europe sheet declares `S = 6` in its key beside A and B, and puts
+         it in the formula four times on purpose:
+
+           "the 'S' motif (which represents silence) KEEPS THE OTHER MOTIFS
+            HAPPENING AT THE SAME TIME... this gives the arrangment room for
+            the chords to play at the start of every bar, acting like a Call
+            & Reponse."
+
+         Chop Suey does the same, measured: its verse cell is 20 long on a
+         32 cycle, so `A(20) + S(12) = 32`, every time.
+
+         Here S could only ever be the remainder at the END -- whatever was
+         needed to make the sum come out. That is S doing arithmetic, not S
+         doing a job. It now has a DECLARED span and is drawn into the
+         formula like any other cell, and the mop-up at the end stays as the
+         guarantee that the balance always closes. */
+      const RL = TH.restLen || [1, Math.max(2, Math.round(SPAN_T / 3))];
+      const SLEN = Math.max(1, Math.min(SPAN_T - 1,
+                     RL[0] + Math.floor(frng() * (RL[1] - RL[0] + 1))));
+      const RW = TH.rest || [0, 1];
+      const restW = RW[0] + frng() * (RW[1] - RW[0]);
       let left = SPAN_T, guard = 0;
       while(left > 0 && guard++ < 64){
         const fits = [];
         for(let i = 0; i < INV.length; i++)
           if(INV[i].span > 0 && INV[i].span <= left) fits.push([i, seen[i] ? RECUR : 1]);
+        /* S sits in the same draw as the cells, weighted by the genre. Never
+           first: a rest before anything has been said is not a rest. */
+        const rr = frng();                                  // unconditional [Law 7]
+        if(SLEN <= left && slots.length && rr < restW) fits.push([-1, 1]);
         if(!fits.length) break;
         const mi = wpick(frng, fits);
-        slots.push({ mi, span: INV[mi].span, on: true, entry: wpick(frng, MOVES), flip: false });
-        seen[mi] = (seen[mi] || 0) + 1;
-        left -= INV[mi].span;
+        const span = mi < 0 ? SLEN : INV[mi].span;
+        slots.push({ mi, span, on: mi >= 0, entry: wpick(frng, MOVES), flip: false });
+        if(mi >= 0) seen[mi] = (seen[mi] || 0) + 1;
+        left -= span;
       }
       if(left > 0) slots.push({ mi: -1, span: left, on: false, entry: 0, flip: false });   // S
       /* ── L2, AND IT IS PAID FOR IN SPAN ──────────────────────────────────
@@ -36876,6 +36969,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const offRoll = frng(), offWhich = Math.floor(frng() * Math.max(1, later.length));
       if(later.length && offRoll < silentW)
         slots[later[offWhich]].on = false;
+      /* a slot that does not sound cannot carry a variation anybody can hear.
+         Same rule as the turn: the declaration says what happens, not what
+         was rolled. */
+      for(const sl of slots) if(!sl.on) sl.dev = "none";
       /* ── AND THE LAST TIME ROUND, IT TURNS ───────────────────────────────
          "The 'A' motif elevates on the first 3, but ON THE 4TH ONE IT FALLS,
           giving variation and a sense of closure by ENDING WHERE THE MELODY
@@ -36919,13 +37016,21 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          outcome [Law 7]. The first time a cell is heard there is nothing to
          preserve yet -- it IS the statement -- so it is marked `first` and
          its realised pitches become what a later `pitch` restatement holds. */
+      const DEVS = TH.devices || [["none", 1], ["split", 1], ["drop", 1], ["swap", 1]];
       const met = {};
       for(const sl of slots){
         const roll = frng(); sl.r1 = frng(); sl.r2 = frng();
-        if(sl.mi < 0){ sl.keep = null; continue; }
-        if(!met[sl.mi]){ sl.keep = "first"; met[sl.mi] = true; continue; }
+        sl.dev = wpick(frng, DEVS);                     // unconditional [Law 7]
+        sl.dr = frng(); sl.dm = wpick(frng, TH.moves || [[0,2],[1,5],[2,2],[-1,2]]);
+        if(sl.mi < 0){ sl.keep = null; sl.dev = "none"; continue; }
+        if(!met[sl.mi]){ sl.keep = "first"; sl.dev = "none"; met[sl.mi] = true; continue; }
         sl.keep = roll < KEEP.rhythm ? "rhythm"
                 : roll < KEEP.rhythm + KEEP.pitch ? "pitch" : "span";
+        /* a device is the variation ON a cell that is otherwise identical. A
+           `pitch` restatement already moves its lengths and a `span` one is
+           redrawn entirely, so neither takes one -- there would be nothing
+           left of the cell to vary. */
+        if(sl.keep !== "rhythm") sl.dev = "none";
       }
       return slots;
     })();
@@ -36936,14 +37041,18 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       for(const sl of FORM){
         if(sl.on && sl.mi >= 0){
           const base = INV[sl.mi];
-          const cell = sl.keep === "pitch" ? reflow(base, sl.r1, sl.r2)
-                     : sl.keep === "span"  ? redrawCell(base, stream(chart.seed,
-                                              streamName + ":redraw:" + si))
-                     : base;
+          let cell = sl.keep === "pitch" ? reflow(base, sl.r1, sl.r2)
+                   : sl.keep === "span"  ? redrawCell(base, stream(chart.seed,
+                                            streamName + ":redraw:" + si))
+                   : base;
+          if(sl.dev === "split") cell = splitCell(cell, sl.dr, sl.dm);
+          else if(sl.dev === "drop") cell = dropCell(cell, sl.dr);
+          else if(sl.dev === "swap") cell = swapCell(cell, sl.dr);
           let t = at;
           for(let i = 0; i < cell.lengths.length; i++){
             out.push({ at: t, dur: cell.lengths[i], mi: sl.mi, head: i === 0, ci: i,
                        first: sl.keep === "first", hold: sl.keep === "pitch",
+                       fixed: i > 0 && !!(cell.fixed && cell.fixed[i - 1]),
                        move: i === 0 ? sl.entry : cell.moves[i - 1] * (sl.flip ? -1 : 1) });
             t += cell.lengths[i];
           }
@@ -36958,7 +37067,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       hook: !!opts.hooky, spanTarget: SPAN_T,
       cells: INV.map(c => c.lengths.join("+") + " (" + c.span + ")"),
       formula: FORM.map(sl => sl.mi < 0 ? "S" + sl.span
-                        : (sl.on ? "ABC"[sl.mi] : "abc"[sl.mi]) + (sl.flip ? "↓" : "")).join(" + "),
+                        : (sl.on ? "ABCD"[sl.mi] : "abcd"[sl.mi])
+                          + (sl.dev === "split" ? "2" : sl.dev === "drop" ? "-"
+                             : sl.dev === "swap" ? "~" : "")
+                          + (sl.flip ? "↓" : "")).join(" + "),
+      devices: FORM.map(sl => sl.dev || "-"),
       balance: FORM.reduce((a, sl) => a + sl.span, 0) + " / " + SPAN_T,
       weights: { rhythm: +KEEP.rhythm.toFixed(3), pitch: +KEEP.pitch.toFixed(3),
                  span: +(1 - KEEP.rhythm - KEEP.pitch).toFixed(3),
@@ -37164,7 +37277,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              every note now reads its movement off the cell it belongs to. */
           let move = (moveBias && moveBias.length > dna.length)
                    ? moveBias[dna.length]                            // derivation: follow given DNA
-                   : P.move * dir;
+                   : (P.fixed ? P.move : P.move * dir);   // stated keeps its sign
           /* the DNA is recorded as DRAWN, before the law narrows it: B is
              derived from A's shape, and A's shape is what A wanted, not what
              the chord under it allowed. */
