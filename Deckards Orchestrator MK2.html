@@ -36599,7 +36599,32 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              (a cell that cannot recur is not a hook) and a bound that one case
              walks through is not a bound. */
           if(lengths.length === 1 && lengths[0] > cap) lengths[0] = Math.max(1, Math.floor(cap));
-          out.push({ lengths, moves, fixed, span: lengths.reduce((a, z) => a + z, 0) });
+          /* ── THE HAND-OVER BELONGS TO THE CELL ──────────────────────────
+             `MM.parse` has produced a `tail` since it was written -- the
+             movement AFTER the final note, "where the pitch goes as this motif
+             ends and the next thing begins". `B = 4(N)` in Smoke On The Water
+             is exactly that: one note, then a movement with nothing after it,
+             and the `N` is why B sits still.
+
+             `mmLine` had no tail. The movement INTO a slot was drawn fresh by
+             the FORMULA, per slot -- so the pitch level of every restatement
+             was a separate coin. MEASURED over 1,369 cells stated twice or
+             more: the entry interval is the same on every statement in 150 of
+             them, 11.0%.
+
+             That is why `melodic-math.md` §4 names TWO things the program
+             cannot say and this engine only ever built the second. The first
+             is SEQUENCE proper -- "a motif's pitch level moves by a FIXED
+             INTERVAL, the same every time, not a redrawn transposition" -- and
+             it needs the hand-over to be a property of the cell, because a
+             cell that always leaves the same way always arrives the same way.
+
+             It is also what makes `theme.close` audible. The turn mirrors a
+             cell's own movements to come home; coming home means nothing if
+             the cell was never in the same place twice. */
+          const tail = wpick(irng, MOVES);        // drawn with the cell [Law 7]
+          out.push({ lengths, moves, fixed, tail,
+                     span: lengths.reduce((a, z) => a + z, 0) });
         }
         const keep = NC[0] + Math.floor(irng() * (NC[1] - NC[0] + 1));
         return out.slice(0, keep);
@@ -36711,7 +36736,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         L.splice(i, 1, a, L[i] - a);
         M.splice(i, 0, mv);                       // the extra key change
         const F = (cell.fixed || []).slice(); F.splice(i, 0, false);
-        return { lengths: L, moves: M, fixed: F, span: cell.span };
+        return { lengths: L, moves: M, fixed: F, tail: cell.tail, span: cell.span };
       };
       const dropCell = (cell, r) => {
         const L = cell.lengths.slice(), M = cell.moves.slice();
@@ -36719,14 +36744,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const i = 1 + (Math.floor(r * (L.length - 1)) % (L.length - 1));
         L[i - 1] += L[i]; L.splice(i, 1); M.splice(i - 1, 1);
         const F = (cell.fixed || []).slice(); F.splice(i - 1, 1);
-        return { lengths: L, moves: M, fixed: F, span: cell.span };
+        return { lengths: L, moves: M, fixed: F, tail: cell.tail, span: cell.span };
       };
       const swapCell = (cell, r) => {
         const L = cell.lengths.slice();
         if(L.length < 2) return cell;
         const i = Math.floor(r * (L.length - 1)) % (L.length - 1);
         const t = L[i]; L[i] = L[i + 1]; L[i + 1] = t;
-        return { lengths: L, moves: cell.moves, fixed: cell.fixed, span: cell.span };
+        return { lengths: L, moves: cell.moves, fixed: cell.fixed, tail: cell.tail, span: cell.span };
       };
       /* KEEP ONLY THE SPAN. The slot holds its place in the equation and
          everything inside it is drawn again. */
@@ -36740,7 +36765,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(L.length >= 12){ L[L.length - 1] += left; left = 0; }
         }
         return { lengths: L, moves: L.slice(1).map(() => wpick(rrng, MV)),
-                 fixed: L.slice(1).map(() => false), span: cell.span };
+                 fixed: L.slice(1).map(() => false), tail: cell.tail, span: cell.span };
       };
       /* ══ THE FORMULA — cells laid end to end until the spans balance ══════
          `A+B+A+C = 32`. Cells are appended until the material is full, and a
@@ -36806,8 +36831,39 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
             if(INV[i].span > 0 && INV[i].span <= left) fits.push([i, seen[i] ? RECUR : 1]);
           /* S sits in the same draw as the cells, weighted by the genre. Never
              first: a rest before anything has been said is not a rest. */
+          /* ── L2 AS A RESTRICTION, NOT A REPAIR ──────────────────────────
+             The rescue below this loop reached back and REWROTE a slot already
+             drawn -- a correcting pass, which the house rules forbid outright.
+             The law is reachable as a constraint instead: once the remaining
+             span can hold only one more cell and nothing has come back yet,
+             that cell may only be one already heard. The choice is narrowed,
+             not repaired. */
+          const minSpan = Math.min.apply(null, INV.map(c => c.span || 1e9));
+          const recurred = Object.keys(seen).some(k => seen[k] > 1);
+          const sounding = slots.filter(x => x.mi >= 0).length;
+          /* A NEW CELL MAY ONLY BE TAKEN IF A RECURRENCE IS STILL POSSIBLE
+             AFTER IT. The first cut of this waited until the span could hold
+             only one more cell and then insisted it be a repeat -- but by then
+             the room was often already gone, and 46 of 954 lines still came out
+             with nothing recurring. A cell that leaves no space behind it has
+             spent the law before it is reached, so the restriction belongs on
+             the choice that spends the room, not on the last one left. */
+          if(!recurred){
+            const room = fits.filter(f => seen[f[0]] || left - INV[f[0]].span >= minSpan);
+            if(room.length){ fits.length = 0; room.forEach(f => fits.push(f)); }
+            else {
+              const back = fits.filter(f => seen[f[0]]);
+              if(back.length){ fits.length = 0; back.forEach(f => fits.push(f)); }
+            }
+          }
+          /* AND A LINE NEEDS TWO SOUNDING SLOTS BEFORE IT CAN REST. One cell
+             and then silence -- `B + S24 + S19`, measured 954 lines -- can
+             neither recur nor change, so it fails both laws at once and no
+             later rescue can reach it. Silence is offered only once the line
+             has something to be silent between. */
+          const canRest = sounding >= 2;
           const rr = frng();                                  // unconditional [Law 7]
-          if(SLEN <= left && slots.length && rr < restW) fits.push([-1, 1]);
+          if(SLEN <= left && canRest && rr < restW) fits.push([-1, 1]);
           if(!fits.length) break;
           const mi = wpick(frng, fits);
           const span = mi < 0 ? SLEN : INV[mi].span;
@@ -36903,6 +36959,25 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(!met[sl.mi]){ sl.keep = "first"; sl.dev = "none"; met[sl.mi] = true; continue; }
           sl.keep = roll < KEEP.rhythm ? "rhythm"
                   : roll < KEEP.rhythm + KEEP.pitch ? "pitch" : "span";
+          /* ── L4, AND IT HAD NO RESCUE AT ALL ──────────────────────────────
+             §14 says "the rescues that enforce L2 and L4 pick their position
+             from the stream" -- plural. Only one was ever written. MEASURED: 3
+             of 954 lines have nothing declared changing across their statements
+             (`B + B + B + B`, every keep `rhythm`, every device `none`, no
+             flip) -- a loop, which L4 forbids. It held 951 times by accident,
+             through the pitch walk, not by law. Narrowed at the draw like L2
+             above: the last sounding slot of a formula in which nothing has
+             changed yet may not draw `none`. */
+          /* the last slot may be silence, and silence cannot carry a device --
+             so the rescue lands on the last slot that SOUNDS. Keyed on the last
+             slot outright, `B + C + C + S6` escaped it entirely. */
+          const lastSounding = slots.reduce((a, x, i) => x.mi >= 0 && x.on !== false ? i : a, -1);
+          if(slots.indexOf(sl) === lastSounding &&
+             slots.every(x => x.mi < 0 || (x.keep !== "pitch" && x.keep !== "span" &&
+                                           (x.dev === "none" || x.dev === undefined)))){
+            const alt = DEVS.filter(d => d[0] !== "none");
+            if(alt.length) sl.dev = wpick(frng, alt);
+          }
           /* a device is the variation ON a cell that is otherwise identical. A
              `pitch` restatement already moves its lengths and a `span` one is
              redrawn entirely, so neither takes one -- there would be nothing
@@ -36914,7 +36989,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       /* ══ THE PLAN — the formula walked out onto the sixteenth grid ════════ */
       const PLAN = (() => {
         const out = [];
-        let at = 0, si = 0;
+        let at = 0, si = 0, prevTail = null;
         for(const sl of FORM){
           if(sl.on && sl.mi >= 0){
             const base = INV[sl.mi];
@@ -36930,9 +37005,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
               out.push({ at: t, dur: cell.lengths[i], mi: sl.mi, head: i === 0, ci: i,
                          first: sl.keep === "first", hold: sl.keep === "pitch",
                          fixed: i > 0 && !!(cell.fixed && cell.fixed[i - 1]),
-                         move: i === 0 ? sl.entry : cell.moves[i - 1] * (sl.flip ? -1 : 1) });
+                         move: i === 0 ? (prevTail != null ? prevTail : sl.entry)
+                                       : cell.moves[i - 1] * (sl.flip ? -1 : 1) });
               t += cell.lengths[i];
             }
+            /* the cell hands over the way IT says, so the next slot always
+               arrives from the same place and a restatement sits at a constant
+               interval from the one before it -- sequence, not a fresh coin. */
+            prevTail = INV[sl.mi].tail;
           }
           at += sl.span; si++;
         }
@@ -36942,7 +37022,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
          be read against it rather than taken on trust */
       const declared = Object.freeze({
         hook: !!hooky, spanTarget: SPAN_T,
-        cells: INV.map(c => c.lengths.join("+") + " (" + c.span + ")"),
+        cells: INV.map(c => c.lengths.join("+") + " (" + c.span + ")" +
+                           (c.tail != null ? " →" + (c.tail > 0 ? "E" + c.tail
+                                            : c.tail < 0 ? "F" + (-c.tail) : "N") : "")),
         formula: FORM.map(sl => sl.mi < 0 ? "S" + sl.span
                           : (sl.on ? "ABCD"[sl.mi] : "abcd"[sl.mi])
                             + (sl.dev === "split" ? "2" : sl.dev === "drop" ? "-"
