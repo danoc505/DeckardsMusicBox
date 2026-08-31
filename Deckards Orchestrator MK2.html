@@ -36849,19 +36849,56 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              spent the law before it is reached, so the restriction belongs on
              the choice that spends the room, not on the last one left. */
           if(!recurred){
-            const room = fits.filter(f => seen[f[0]] || left - INV[f[0]].span >= minSpan);
+            /* the room reserved must fit a cell that can ACTUALLY come back --
+               one already heard. Reserving `minSpan` reserved the smallest cell
+               in the inventory, including ones never used, so `A + B + S15`
+               passed the guard with fifteen sixteenths left and neither A nor B
+               able to fit in it. */
+            /* and the room a NEW cell must leave is room for ITSELF. Reserving
+               the smallest cell in the inventory let a big one in on the
+               strength of a small one that was never used: `S52 + A + S5`
+               passed with twelve left and A ten wide. A cell may be introduced
+               only if it can come back, which is L2 stated as arithmetic. */
+            const room = fits.filter(f => seen[f[0]] || left >= 2 * INV[f[0]].span);
             if(room.length){ fits.length = 0; room.forEach(f => fits.push(f)); }
             else {
               const back = fits.filter(f => seen[f[0]]);
               if(back.length){ fits.length = 0; back.forEach(f => fits.push(f)); }
+              /* AND IF NEITHER IS AVAILABLE, STOP RATHER THAN SPEND THE LAW.
+                 The residue was `A + B + C + S2`: no seen cell still fits and no
+                 new one leaves room for a recurrence, so taking a third
+                 DIFFERENT cell buys a slot at the cost of L2 -- and of L4 with
+                 it, because a formula of nothing but first statements has no
+                 restatement for a device to land on. The mop-up rest below
+                 fills what is left, which is the piece whose whole job is
+                 making the equation come out. */
+              else break;
             }
           }
-          /* AND A LINE NEEDS TWO SOUNDING SLOTS BEFORE IT CAN REST. One cell
-             and then silence -- `B + S24 + S19`, measured 954 lines -- can
-             neither recur nor change, so it fails both laws at once and no
-             later rescue can reach it. Silence is offered only once the line
-             has something to be silent between. */
-          const canRest = sounding >= 2;
+          /* ── AND A LINE MAY OPEN ON SILENCE ─────────────────────────────
+             The first cut required two sounding cells before any rest, which
+             killed `B + S24 + S19` (a line that can neither recur nor change)
+             and ALSO killed the leading `S` -- and the Final Countdown sheet
+             OPENS on one: `S + A + B + S + A2 + B + S + A + B + S + A2 + B2`.
+             Its whole stated job is at the front of the bar: "this gives the
+             arrangment room for the chords to play at the START of every bar,
+             acting like a Call & Reponse."
+
+             So the guard is not "two cells first" but "the laws must still be
+             reachable after this rest": a rest may go anywhere, first
+             included, as long as the span it leaves can still hold the two
+             sounding cells L2 and L4 need. */
+          const seenMin = Object.keys(seen).length
+            ? Math.min.apply(null, Object.keys(seen).map(k => INV[k].span))
+            : minSpan;
+          /* and what a rest must leave behind is not "two cells" but "a
+             RECURRENCE" -- reserving two cell-widths let the two be different
+             cells, and L2 went from 23 violations to 67 the moment a leading
+             rest was allowed. Before anything has come back, a rest must leave
+             room for the cell already heard to be heard again; before anything
+             has sounded at all, for two. */
+          const stillNeed = recurred ? 0 : (sounding >= 1 ? seenMin : 2 * minSpan);
+          const canRest = (left - SLEN) >= stillNeed;
           const rr = frng();                                  // unconditional [Law 7]
           if(SLEN <= left && canRest && rr < restW) fits.push([-1, 1]);
           if(!fits.length) break;
@@ -36899,9 +36936,39 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const SS = TH.silentSlot || [0, 0.5];        // a range, drawn per record
         const silentW = SS[0] + frng() * (SS[1] - SS[0]);
         FDIALS.silent = silentW;
-        const offRoll = frng(), offWhich = Math.floor(frng() * Math.max(1, later.length));
-        if(later.length && offRoll < silentW)
-          slots[later[offWhich]].on = false;
+        /* ── EVERY ELIGIBLE SLOT ROLLS, NOT ONE ───────────────────────────
+           This drew one roll and one index and muted at most ONE slot ever.
+           MEASURED: 0 of 954 lines had two lower-case slots -- so the sheets'
+           own formula was inexpressible, because `A+a+B / A+A+B / A+a+B /
+           A+a+b` ends on a statement with TWO of them.
+
+           The "at most one" rule was written in §13, when a cell was a whole
+           BAR and the reasoning was "a four-bar loop missing two bars is not a
+           phrase with a rest in it". §15 made a cell a LENGTH; two silent
+           three-sixteenth cells are nothing like two missing bars. A stale
+           constraint from a superseded model.
+
+           Every restatement now rolls its own case, held only by the law
+           already in force: two sounding slots. A roll is spent per eligible
+           slot whether or not it mutes [Law 7]. */
+        /* AND MUTING MAY NOT SILENCE THE RECURRENCE ITSELF. Guarding only on
+           "two slots still sound" let the mute fall on the second statement of
+           the only cell that came back -- `A + a` sounds once, and L2 is about
+           what can be HEARD. Measured: L2 violations went 23 -> 63 the moment
+           every slot could roll. A slot goes lower-case only if some cell still
+           sounds twice afterwards. */
+        const audibleRecur = () => {
+          const c = {};
+          for(const x of slots) if(x.mi >= 0 && x.on !== false) c[x.mi] = (c[x.mi] || 0) + 1;
+          return Object.keys(c).some(k => c[k] > 1);
+        };
+        const offRolls = later.map(() => frng());
+        later.forEach((ix, j) => {
+          if(offRolls[j] >= silentW) return;
+          const was = slots[ix].on;
+          slots[ix].on = false;
+          if(!audibleRecur()) slots[ix].on = was;      // put it back; the law wins
+        });
         /* a slot that does not sound cannot carry a variation anybody can hear.
            Same rule as the turn: the declaration says what happens, not what
            was rolled. */
@@ -36959,30 +37026,35 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(!met[sl.mi]){ sl.keep = "first"; sl.dev = "none"; met[sl.mi] = true; continue; }
           sl.keep = roll < KEEP.rhythm ? "rhythm"
                   : roll < KEEP.rhythm + KEEP.pitch ? "pitch" : "span";
-          /* ── L4, AND IT HAD NO RESCUE AT ALL ──────────────────────────────
-             §14 says "the rescues that enforce L2 and L4 pick their position
-             from the stream" -- plural. Only one was ever written. MEASURED: 3
-             of 954 lines have nothing declared changing across their statements
-             (`B + B + B + B`, every keep `rhythm`, every device `none`, no
-             flip) -- a loop, which L4 forbids. It held 951 times by accident,
-             through the pitch walk, not by law. Narrowed at the draw like L2
-             above: the last sounding slot of a formula in which nothing has
-             changed yet may not draw `none`. */
-          /* the last slot may be silence, and silence cannot carry a device --
-             so the rescue lands on the last slot that SOUNDS. Keyed on the last
-             slot outright, `B + C + C + S6` escaped it entirely. */
-          const lastSounding = slots.reduce((a, x, i) => x.mi >= 0 && x.on !== false ? i : a, -1);
-          if(slots.indexOf(sl) === lastSounding &&
-             slots.every(x => x.mi < 0 || (x.keep !== "pitch" && x.keep !== "span" &&
-                                           (x.dev === "none" || x.dev === undefined)))){
-            const alt = DEVS.filter(d => d[0] !== "none");
-            if(alt.length) sl.dev = wpick(frng, alt);
-          }
+
           /* a device is the variation ON a cell that is otherwise identical. A
              `pitch` restatement already moves its lengths and a `span` one is
              redrawn entirely, so neither takes one -- there would be nothing
              left of the cell to vary. */
           if(sl.keep !== "rhythm") sl.dev = "none";
+        }
+        /* ── L4, AND IT HAD NO RESCUE AT ALL ────────────────────────────────
+           §14 says "the rescues that enforce L2 and L4 pick their position from
+           the stream" -- plural. Only one was ever written, and the first cut of
+           this one sat INSIDE the keeps loop, where a slot that is a cell's
+           FIRST statement `continue`s past it: `A + A + C + S2` escaped
+           entirely and L4 measured 24 violations of 954.
+
+           A device can only be decided once every keep is known, so it is
+           decided here. Nothing is repaired: the last RESTATEMENT's device is
+           the last free choice in the formula, and when the formula has
+           declared no change anywhere that choice is narrowed to the members
+           that are one. A roll is spent whether or not it is needed [Law 7]. */
+        const l4Roll = frng();
+        const changed = slots.some(x => x.mi >= 0 &&
+          (x.keep === "pitch" || x.keep === "span" || (x.dev && x.dev !== "none") || x.flip));
+        if(!changed){
+          const lastRe = slots.reduce((a, x, i) => (x.mi >= 0 && x.keep && x.keep !== "first") ? i : a, -1);
+          const alt = DEVS.filter(d => d[0] !== "none");
+          if(lastRe >= 0 && alt.length){
+            let acc = 0; const tot = alt.reduce((t, d) => t + d[1], 0);
+            for(const d of alt){ acc += d[1]; if(l4Roll * tot <= acc){ slots[lastRe].dev = d[0]; break; } }
+          }
         }
         return slots;
       })();

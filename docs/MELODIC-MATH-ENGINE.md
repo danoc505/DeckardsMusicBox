@@ -1388,3 +1388,120 @@ lead's:
 **Verified:** `mk2_syntax` clean; the lift byte-identical over 21,610 note
 lines; `mk2_mm` 31/31 round-trip; balance 954/954; `mk2_roll` composes all four
 genres; 159 of 160 records compose.
+
+---
+
+## 20. THE LAWS HOLD BY CONSTRUCTION — L2 and L4 at 0 of 954
+
+An 11-agent workflow scoped the five remaining items and adversarially challenged
+each plan. **All five were refuted with high confidence**, and the completeness
+critic found more than the five items did. What follows is what survived.
+
+### The laws were never enforced
+
+`melodic-math.md` and §14 both claim L2 and L4 are law. Measured across 954
+declared lines, at the start of this pass:
+
+```
+  L2  a motif comes back — nothing recurs            68 of 954
+  L4  something changes — nothing changes            70 of 954
+```
+
+They held the rest of the time **by accident**, through the pitch walk. And the
+one rescue that existed reached back and rewrote a slot already drawn — a
+correcting pass, which the house rules forbid outright.
+
+Both are now **restrictions on the draw**, and the arithmetic that makes them
+reachable is the interesting part:
+
+- **A cell may be introduced only if it can come back** — `left >= 2 * span`.
+  That is L2 stated as arithmetic. Three weaker versions failed first, each
+  measured: waiting until one slot remained (the room was already spent, 46
+  left); reserving the smallest cell in the *inventory* (let a wide cell in on
+  the strength of a narrow one never used — `S52 + A + S5`); reserving the
+  smallest cell *seen* (`A + B + S15`, neither able to fit the remainder).
+- **A rest must leave room for a recurrence, not for two cells** — reserving two
+  cell-widths let the two be different cells, and L2 went 23 → 67 the moment a
+  leading rest was allowed.
+- **When neither is available, stop** and let the mop-up rest fill what is left,
+  rather than buy a slot at the cost of the law.
+- **L4's device is decided after every keep is known.** Inside the keeps loop, a
+  slot that is a cell's FIRST statement `continue`s past the rescue — `A + A + C
+  + S2` escaped it entirely. The last restatement's device is the last free
+  choice in the formula; when nothing else has changed, that choice is narrowed
+  to the members that are a change.
+
+```
+  L2 violations   68  →  0        L4 violations   70  →  0        of 954
+```
+
+### The hand-over belongs to the cell
+
+`MM.parse` has produced a `tail` since it was written — *"where the pitch goes
+as this motif ends and the next thing begins"*. `mmLine` had none: the movement
+INTO a slot was drawn fresh per slot, so the pitch level of every restatement
+was a separate coin.
+
+The cell now owns its outgoing movement. **Measured, and the first measurement
+was worthless** — a cell stated twice has one interval and a set of one is
+always "constant", so the test could not fail. Restricted to cells stated three
+or more times, it went 4.1% → 9.2%, and then back to **2.2%** once the L2 work
+made cells recur across more intervening material.
+
+**So sequence proper is still not built, and that is the honest reading.** The
+hand-over is necessary and not sufficient: the interval between two statements
+accumulates through everything between them. Setting a statement's pitch level
+directly is a different change, and it is the one `melodic-math.md` §4 names.
+
+### The silence work
+
+- **A line may open on a rest.** The Final Countdown sheet *does* — `S + A + B +
+  S + A2 + B + …` — and its stated job is at the front of the bar: *"room for
+  the chords to play at the START of every bar, acting like a Call & Reponse."*
+  88 of 954 lines now open on one.
+- **Every eligible slot rolls its own case, not one per line.** Measured: 0 of
+  954 lines had two lower-case slots, so the sheets' own `A+a+B / A+A+B / A+a+B
+  / A+a+b` was inexpressible — its last statement has two. The "at most one"
+  rule was written in §13 when a cell was a whole BAR; §15 made a cell a LENGTH,
+  and two silent three-sixteenth cells are nothing like two missing bars. A
+  stale constraint from a superseded model. Now **125 lines carry two or more,
+  52 carry three or more**.
+- **Muting may not silence the recurrence itself.** Guarding only on "two slots
+  still sound" let the mute fall on the second statement of the only cell that
+  came back — `A + a` sounds once, and L2 is about what can be HEARD. L2 went
+  23 → 63 before this was caught.
+
+### Where it stands
+
+```
+  balance                954 lines, 0 unbalanced
+  L2 / L4 violations     0 / 0
+  repeated pitches       0.00% of 23,758 lead+counter transitions
+  lines opening on a rest              88
+  lines with 2+ lower-case slots      125
+  mk2_mm                 31/31 round-trip
+  records composing      159 of 160 (the pre-existing lofi seed 17 seam throw)
+```
+
+### Not done, and named
+
+- **Sequence proper** — the statement pitch set directly rather than walked to.
+- **The counter and the ostinato as cell lines.** Both plans were refuted:
+  the counter's for verifying a configuration it did not propose and for dead
+  code; the ostinato's for a fabricated citation, a song-traceable default span,
+  and a `DECLARED` key collision across three call sites. The counter's core
+  finding survives and is worth building on — `deriveCounter` **already has a
+  weighted style pool** at its own line, so `cells` is a fourth member of an
+  existing mechanism, exactly as it was a sixth bass role.
+- **`moveUnit`** — verified dead on arrival for a deeper reason than a missing
+  consumer: `scaleStep(0,'minor',61,0) === 60`. The function locates the nearest
+  *degree* before adding steps, so a chromatic pitch cannot even be held. This
+  is a pitch-representation change, not a dial.
+- **`redraw` per section** — verified dead on arrival: the `takes` rail it would
+  ride requires `materialTakes`, which **0 of 4 genres declare**.
+- **The balance dial** — refused, and the reason is worth keeping: over-fill is
+  silently discarded before a pitch exists, while `declared.formula` keeps
+  printing the truncated cell whole. That is a declaration that lies, which this
+  project holds to be worse than none.
+- **No genre declares any of the twelve dials.** Still the standing work, and
+  still the reason all four genres measure alike.
