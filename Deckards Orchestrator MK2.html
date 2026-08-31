@@ -25426,7 +25426,14 @@ const GENRE = {
        Degrees are 0-2-4-7 against the current chord -- root, third, fifth,
        octave -- which is what a hardware arp in UP mode plays. */
     ostinato: {
-      unit: 1, vel: 0.34, run: false, follow: true, ratchet: 0,
+      /* the share of records whose figure the engine writes rather than picks
+         from the gated cells below -- see dungeonsynth's copy of this dial.
+         LOWER HERE ON PURPOSE and the reason is in this table's own comment
+         underneath: the cells are a GATED ARP, and the gate is the genre. A
+         written figure is a different instrument in the same seat, so it gets
+         a smaller share of this genre than of one whose figure is a tune.
+         [CHOSEN], and the ear's to move. */
+      unit: 1, vel: 0.34, run: false, follow: true, ratchet: 0, mm: 0.2,
       /* THE GATE. Same finding as the dungeon family above -- one bar-pattern
          over 768 bars, here all sixteen sixteenths -- and the same fix, in the
          idiom this genre actually has one for: a gated arp. A rest in the cell
@@ -26823,7 +26830,22 @@ const GENRE = {
        from 4.33 notes a bar back down to 3.11. A pool a child inherits has to
        contain the child's answer.
        docs/genre-research/the-bass-has-a-job.md */
-    bassRoles: [["riff", 3], ["follow", 3], ["pulse", 1]],
+    /* ── AND `cells` WAS BUILT AND REACHED BY NOTHING ─────────────────────
+       The bass's melodic-math role shipped with the line engine pass and no
+       table ever named it, so `mmLine` was called for the bass in ZERO of 160
+       records -- measured. This table's own comment two paragraphs up names
+       that exact failure about this exact field: `bassRoles` had "been built
+       and declared by no genre since it shipped". It happened again, to the
+       role added next to that sentence.
+
+       THIS GENRE IS THE ONE THE NOTATION ASKS FOR. Two of the eight sheets the
+       whole melodic math comes from are a BASSLINE, analysed in the notation
+       exactly as a melody is -- "the 'A' and 'B' motifs always stay in the same
+       rhythm, thus giving them a strong hook... kept interesting by CHANGING
+       THE ORDER" -- and that is a bass instruction, not a melody one.
+       The existing three keep their ratios to each other; the new role takes
+       its share from the whole. WEIGHT [CHOSEN]. */
+    bassRoles: [["riff", 3], ["follow", 3], ["pulse", 1], ["cells", 2]],
     bassStyle: "follow",
     /* ── AND WHAT IT MAY PLAY, BECAUSE THE DEFAULT IS ROOT-HEAVY ──────────
        This genre declared no `bassTones` and took the shared default,
@@ -27033,7 +27055,14 @@ const GENRE = {
        Adding the rests did NOT fix this and did not touch it: the rests are the
        figure's RHYTHM and this is its PITCH. Both were wrong and they were
        wrong separately. ── */
-    ostinato: { unit: 2, vel: 0.34, run: true, follow: true, ratchet: 0,
+    /* HOW OFTEN THE FIGURE IS WRITTEN RATHER THAN PICKED. The three cells
+       below stay and stay weighted; this is the share of records whose figure
+       the melodic math engine writes instead, with an inventory and a formula
+       like the other three lines. A WEIGHT, not a switch. [CHOSEN] -- nothing
+       in the research ranks a written figure against a typed one, and the ear
+       is the only thing that can. The genre's own sources want "repetitive
+       patterns"; both halves of this dial give it one. */
+    ostinato: { unit: 2, vel: 0.34, run: true, follow: true, ratchet: 0, mm: 0.35,
                 cells: [[[0, null, 2, 4, null, 7, 2, null, 4], 5],   // 9 slots against 8
                         [[0, 2, null, 4, 7, null, 6, 4, null], 3],   // up to the octave, then down
                         [[0, null, 4, null, 2, 7, null], 2]] },      // 7 against 8
@@ -29063,7 +29092,11 @@ GENRE.ds2 = (function(D){
      reading by which the parent's pedal was recognised as a fault. The parent
      was what was broken; this genre was what was right, and fixing one is not
      licence to widen the other. */
-  bassRoles: [["riff", 1]],
+  /* the parent's melodic-math bass role, at a smaller share: this genre's
+     departure from its parent is "a more aggresive sound with the DRUMS and FX"
+     [owner], so its riff stays dominant and the written line is the minority
+     voice rather than the other way round. WEIGHT [CHOSEN]. */
+  bassRoles: [["riff", 3], ["cells", 1]],
   bassStyle: "riff",
   bassRiff: { bars: 2, notes: [5, 8], grid: 2, hold: 4, strong: [0, 8],
               anchor: [[0, 7], [4, 4]],
@@ -39332,7 +39365,66 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        sheet's own phrase rather than a hedge I am adding here.
        docs/genre-research/the-four-acts.md §5.3 ═══════════════════════════════ */
     const POOL = (O.cellsAt && mat && O.cellsAt[mat]) || O.cells;
-    const cell = wpick(rng, POOL);
+    /* drawn UNCONDITIONALLY, whether or not the engine below replaces it, so a
+       genre that declares no `mm` weight spends the same stream it always did
+       and is byte-identical [Law 7] */
+    let cell = wpick(rng, POOL);
+    /* ══ THE REPEATING FIGURE, BUILT OF CELLS ══════════════════════════════
+       [owner:] "Finish the last two lanes"
+
+       The fourth and last of the lines `MELODIC-MATH-ENGINE.md` names in its
+       opening sentence -- "the lead, the bass, the counter, THE REPEATING
+       FIGURE". Every figure this builder has ever played came out of `O.cells`,
+       a list of literal degree patterns typed into the genre table. That is a
+       legitimate thing for a genre to declare and it is not being removed: a
+       sequencer figure somebody wrote down is exactly what this music often is,
+       and `mm` at 0 -- which is every genre that says nothing -- keeps it.
+
+       What could not happen was the other thing: a figure the PROGRAM writes,
+       with an inventory and a formula and restatements, like the other three
+       lines. `mm` is the weight of that happening, drawn on its own named
+       substream so declaring it in one table cannot move a note in another.
+       A WEIGHT AND NOT A SWITCH, which is the owner's standing rule for every
+       dial in this engine.
+
+       THE CONVERSION IS EXACT, not an approximation. This builder consumes a
+       cell as a run of SLOTS -- one entry per `unit` sixteenths, a scale degree
+       where the figure speaks and `null` where it holds -- and an mm cell is a
+       run of LENGTHS with a movement between each pair. They are the same
+       object said two ways: a length of L sixteenths is one sounding slot
+       followed by L/unit - 1 held ones, and the degrees are the movements
+       accumulated from the cell's own start. Nothing is invented in the
+       translation and nothing is dropped.
+
+       FOLDED INTO AN OCTAVE, because a figure is a figure. Every declared cell
+       in this file sits inside 0..7 -- the movements accumulate without bound
+       and a figure that climbs out of its own register is an arpeggio with a
+       destination, which is the thing `follow` already turned this builder into
+       once and which the owner heard and called "a slow arp". */
+    const mmW = Math.max(0, Math.min(1, O.mm == null ? 0 : O.mm));
+    if(stream(chart.seed, "ostmmroll:" + streamName)() < mmW){
+      const T = G.ostinatoTheme || G.theme;
+      const L = mmLine("ostmm:" + streamName, BARS * 16, T, false);
+      DECLARED["ostmm:" + streamName] = L.declared;
+      const U = Math.max(1, O.unit || 1);
+      const inv = L.inv && L.inv[0];
+      if(inv && inv.lengths && inv.lengths.length){
+        const slots = [];
+        let deg = 0;
+        for(let i = 0; i < inv.lengths.length; i++){
+          if(i) deg += (inv.moves[i - 1] || 0);
+          while(deg > 7) deg -= 7;
+          while(deg < 0) deg += 7;
+          slots.push(deg);
+          const hold = Math.max(1, Math.round(inv.lengths[i] / U)) - 1;
+          for(let h = 0; h < hold; h++) slots.push(null);
+        }
+        /* a figure of one slot is a pulse, not a figure -- if the formula came
+           back that thin the declared cell stands, which is the same
+           fall-through the bass and the counter use */
+        if(slots.length >= 2) cell = slots;
+      }
+    }
     /* the ALTERNATE cell, drawn unconditionally whether or not it gets used
        [Law 7], and drawn from the cells that are NOT the one already chosen --
        an "alternate" that can come back identical is not one. */

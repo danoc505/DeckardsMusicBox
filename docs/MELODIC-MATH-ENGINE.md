@@ -2100,3 +2100,105 @@ the law reads `tones`. That is a disagreement between the voicer and the chord
 about what the chord is, in the comp, and it has nothing to do with the melodic
 math engine. Recorded here so it is not lost; it belongs to whoever works on the
 comp next.
+
+---
+
+## 27. ALL FOUR LINES
+
+*2026-08-31. [owner:] "Finish the last two lanes NO do not stop till its done!"*
+
+This file's first sentence has always been:
+
+> "This is not a melody engine. It is a **LINE engine**. The law below governs
+> any single line the program writes — the lead, the **bass**, the **counter**,
+> the **repeating figure**."
+
+It governed one. Not two — **one.**
+
+### 27a. What was actually connected
+
+`mmLine` had two call sites: the lead and the bass. So I reported two of four.
+Then I counted records instead of call sites:
+
+| lane | records where `mmLine` writes it (160) |
+|---|---|
+| lead | **159** |
+| bass | **0** |
+| counter | — no branch existed |
+| ostinato | — no branch existed |
+
+**The bass role was built and no table ever named it.** `bassRoles` is a
+weighted pool of jobs and `cells` was in none of them, so the branch never ran
+in any record of any genre.
+
+And the file had already said this, about this exact field, two paragraphs
+above where the role was added:
+
+> "`bassRoles` had **been built and declared by no genre since it shipped**."
+
+It happened again, next to the sentence warning about it. **A call site is not
+a connection. Only a count is.**
+
+### 27b. The counter
+
+Every existing style *derives*: `deriveCounter` walks the tune's notes and emits
+one against each, so the second voice has the tune's rhythm (`double`) or the
+tune's rhythm moved into the tune's silence (`answer`). Both are relationships
+to the tune. Neither is a line.
+
+`cells` is a third member of the same weighted pool, and it is the one that
+does not read `themeNotes` at all — its own inventory, its own formula, its own
+restatements, its own table (`counterTheme`, else `theme`) and its own direction
+stream. **Legal by construction:** each cell head lands on a tone of the bar's
+own chord and every movement after it is a `scaleStep`, in the material's key by
+definition, so no note here can be the out-of-key non-chord tone §26 threw on. A
+seat the tune holds is not contested — the note is dropped, because this file
+drops rather than relocates.
+
+### 27c. The ostinato
+
+Every figure came from `O.cells`, literal degree patterns typed into the genre
+table. That stays, and `mm: 0` — every genre that says nothing — keeps it
+exactly.
+
+`mm` is the weight of the figure being **written** instead. **The conversion is
+exact, not an approximation:** this builder consumes a cell as slots (one entry
+per `unit` sixteenths, a degree where it speaks, `null` where it holds), and an
+mm cell is lengths with movements between them. They are the same object said
+two ways — a length of L is one sounding slot plus `L/unit − 1` held ones, and
+the degrees are the movements accumulated. Folded into an octave, because every
+declared cell in the file sits inside 0–7 and a figure that climbs out of its
+register is the "slow arp" the owner already heard once.
+
+### 27d. Measured — records where the engine writes the part, 40 seeds a genre
+
+| genre | lead | bass | counter | ostinato |
+|---|---|---|---|---|
+| lofi | 39/40 | — | — | — |
+| synthwave | 40/40 | — | 26/40 | 11/40 |
+| dungeonsynth | 40/40 | **30/40** | **26/40** | **23/40** |
+| ds2 | 40/40 | **25/40** | **26/40** | **23/40** |
+
+Dungeon synth seed 10 writes all four from one notation:
+
+```
+ostmm:ostinatoB   8+8 (16) →F1   8+11 (19) →F2   6 (6) →F1
+                  A + B + B~↓ + C + S4                    balance 64 / 64
+countermm:counterB   11+2 (13) →N   16 (16) →E1
+                  A + a2 + A↓ + B + S9                    balance 64 / 64
+bassmm:bassT      6 (6) →E1   6+10 (16) →E2   4+12 (16) →F4
+                  A + S25 + A + A + A2 + A + A- + S3      balance 64 / 64
+```
+
+The em-dashes are not gaps. **lofi declares `counter: null` and
+`ostinato: null`** — it has no second voice and no figure, so there is nothing
+to connect. lofi and synthwave declare a single `bassStyle` string rather than a
+role pool, and synthwave's is sourced as a sequencer — *"a SEQUENCER, not a bass
+player"*. Giving either a written bass is a genre decision, not a wiring one,
+and it is the owner's.
+
+**Every weight added here is `[CHOSEN]`** and labelled so in the tables. Nothing
+ranks a written line against a derived one but the ear.
+
+240 records compose with one failure — the pre-existing comp bug of §26d, which
+is not the tune.
