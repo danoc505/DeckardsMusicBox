@@ -36753,7 +36753,101 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       f[2] = f[0];
       return f;
     })();
-    DECLARED[streamName] = Object.freeze({ inv: INV, formula: FORM });
+    /* ══ UPPER CASE SOUNDS, LOWER CASE DOES NOT ═══════════════════════════
+       `melodic-math.md` §3, on the diagram it calls the most important one:
+       `A+a+B / A+A+B / A+a+B / A+a+b`, "upper case turned ON, lower case
+       turned OFF", and "the 'B' rotates from being ACTIVE and INACTIVE to
+       give rest." The slot is still there and still has its span; it just
+       does not sound this time round.
+
+       This is the mechanism the sheet said the program did not have, and it
+       needed the inventory and the formula to exist before it could.
+
+       TWO CONSTRAINTS, and they are the reason it is safe to draw:
+         - slot 0 always sounds. You cannot turn off a cell that has not been
+           stated -- there is nothing for the silence to be a hole IN.
+         - at most one slot is silent. A four-bar loop with two bars missing
+           is not a phrase with a rest in it, it is a shorter phrase.
+       Everything else is the draw's. */
+    const CASE = (() => {
+      const crng = stream(chart.seed, streamName + ":case");
+      const on = [];
+      for(let i = 0; i < BARS; i++) on.push(true);
+      const roll = crng(), which = 1 + Math.floor(crng() * (BARS - 1));
+      if(roll < (TH.silentSlot != null ? TH.silentSlot : 0.25)) on[which] = false;
+      return on;
+    })();
+    /* ══ AND THE MOTIF MAY BE ALTERED, INSIDE WHAT THE EQUATION FIXES ══════
+       [owner:] "isnt the melodic math meant to allow the program to alter the
+       motif in random ways but the equation keeps a constraint on what can be
+       altered?"
+
+       Yes, and the constraint is the SPAN. §2's balance rule -- `A+B = 16`,
+       "factors into 4/4" -- is what makes a slot substitutable: any variation
+       that still occupies the same span drops into the same equation and the
+       bar arithmetic still holds. So the inside of a cell is free and its
+       length is not.
+
+       The alteration built here is the Europe sheet's own, named on the
+       diagram: `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2` -- "the last note
+       split into 2, STILL TAKING UP THE SAME AMOUNT OF SPACE, but allowing
+       for an extra key change... we can call this rhythmic acceleration."
+
+       Splitting fills a gap and moves neither the first onset nor the last,
+       so the span is preserved BY CONSTRUCTION rather than checked
+       afterwards. And it is only ever applied to a RESTATEMENT -- a slot that
+       has already sounded earlier in the formula -- because a variation of
+       something not yet heard is just a different cell. */
+    const VAR = (() => {
+      const vrng = stream(chart.seed, streamName + ":vary");
+      const v = [], seen = {};
+      for(let i = 0; i < BARS; i++){
+        const slot = FORM[i], heard = !!seen[slot];
+        const roll = vrng();                                   // unconditional [Law 7]
+        v.push(heard && roll < (TH.varySlot != null ? TH.varySlot : 0.5));
+        seen[slot] = true;
+      }
+      return v;
+    })();
+    /* the split itself: one gap, halved. Returns a NEW cell; the inventory is
+       never mutated, so `A` stays `A` wherever else the formula names it. */
+    const splitOne = (mo, r) => {
+      if(mo.steps.length < 2) return mo;
+      const gaps = [];
+      for(let i = 0; i + 1 < mo.steps.length; i++)
+        if(mo.steps[i + 1] - mo.steps[i] >= 2) gaps.push(i);
+      if(!gaps.length) return mo;
+      const g = gaps[Math.floor(r * gaps.length) % gaps.length];
+      const at = mo.steps[g] + Math.floor((mo.steps[g + 1] - mo.steps[g]) / 2);
+      const steps = mo.steps.slice(), moves = mo.moves.slice();
+      steps.splice(g + 1, 0, at);
+      /* the new note takes the movement of the note it was split from, so the
+         cell's shape is unchanged and only its rhythm accelerates */
+      moves.splice(g + 1, 0, mo.moves[g] || 0);
+      return { steps, moves };
+    };
+    /* ══ AND A HOOK ALTERS NOTHING, AND MUST SAY SO ═══════════════════════
+       A `verseHook` line writes bars 0-1 and COPIES them to 2-3 as notes, so
+       slots 2 and 3 are never played. The first version of this declared a
+       silent or varied slot there anyway -- 11 records of 40 claimed a rest
+       that could not sound and 36 claimed a variation that never ran. A
+       declaration that does not match what happens is worse than none,
+       because it stops anyone checking.
+
+       So the hook's equation is written out as what it is: slots 2-3 restate
+       slots 0-1 exactly, nothing is silent, nothing is varied. That IS a
+       melodic-math formula -- `A+B+A+B` with the alteration budget set to
+       zero -- and it is the one the hook has always played. The devices reach
+       the lines that are free to move, and the hook stays the invariant. */
+    if(opts.hooky){
+      for(let i = 0; i < BARS; i++){
+        CASE[i] = CASE[i % 2];
+        VAR[i]  = false;
+      }
+      FORM[2] = FORM[0]; FORM[3] = FORM[1];
+    }
+    DECLARED[streamName] = Object.freeze({ inv: INV, formula: FORM, sounds: CASE,
+                                           varied: VAR, hook: !!opts.hooky });
     function phrase(startBar, dir, endOnTone, moveBias, rhythmOf){
       const ph0 = notes.length;
       /* what THIS phrase's two bars actually put their onsets on, handed back
@@ -36805,8 +36899,16 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            labelled so in the table. */
         /* THE BAR PLAYS ITS SLOT IN THE FORMULA. The onsets are the motif's,
            not a fresh handful of seats -- which is the whole reversal. */
-        const MI = FORM[((b % BARS) + BARS) % BARS] % INV.length;
-        const MO = INV[MI];
+        const SLOT = ((b % BARS) + BARS) % BARS;
+        const MI = FORM[SLOT] % INV.length;
+        /* a lower-case slot: written, and not played. The shape still records
+           the bar so a restatement keeps its place in the formula. */
+        if(!CASE[SLOT] && !opts.hooky){
+          shape.push({ bar: b, mi: MI, steps: [] });
+          continue;
+        }
+        const MO = VAR[SLOT] ? splitOne(INV[MI], stream(chart.seed, streamName + ":split:" + SLOT)())
+                             : INV[MI];
         steps = MO.steps.slice();
         /* A BREATH IS THE MOTIF FRAGMENTED, NOT A DIFFERENT RHYTHM. The bar
            keeps its motif's opening and drops the tail, so the phrase still

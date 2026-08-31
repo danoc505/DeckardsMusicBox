@@ -708,3 +708,100 @@ cost the genres their interval budget. `%N` stays 0.0% on the lead, so
 round-trips; `mk2_roll` composes all four genres on two seeds; 159 of 160
 records compose, the one failure being the pre-existing `lofi seed 17` seam
 throw that predates this work.
+
+---
+
+## 13. THE LOWER-CASE SLOT, AND WHAT THE EQUATION IS ACTUALLY FOR
+
+> [owner:] *"The lower case letters are silent parts and isnt the melodic math
+> meant to allow the program to alter the motif in random ways but the equation
+> keeps a constraint on what can be altered?"*
+
+Both right, and the second is a better statement of the design than §12's.
+
+**The equation is not a playlist of cells. It is the thing that makes altering
+a cell safe.** §2's balance rule — `A = 4+3+1+4 = 12`, `B = 4`, `A+B = 16`,
+"factors into 4/4" — is what lets a slot be substituted: any variation that
+still occupies the same **span** drops into the same equation and the bar
+arithmetic still holds. So the inside of a cell is free and its length is not.
+That is this program's fourth principle at motif scale — *novelty, constrained*
+— and the constraint is arithmetic rather than taste.
+
+### Built
+
+**Lower case — a slot written and not sounding.** `melodic-math.md` §3 called
+this "the single most important diagram" and "the mechanism this program does
+not have", and it needed the inventory and formula of §12 to exist first. Two
+constraints, and they are why it is safe to draw:
+
+- **slot 0 always sounds** — you cannot turn off a cell that has not been
+  stated; there is nothing for the silence to be a hole in
+- **at most one slot is silent** — a four-bar loop missing two bars is not a
+  phrase with a rest in it, it is a shorter phrase
+
+`theme.silentSlot` is the chance, default 0.25, and no genre declares it yet.
+
+**The alteration, and the span is what constrains it.** The device is the
+Europe sheet's own, named on its diagram: `A = 1(i)1(i)4` becomes
+`A2 = 1(i)1(i)2(i)2` — *"the last note split into 2, still taking up the same
+amount of space, but allowing for an extra key change… we can call this
+rhythmic acceleration."* Splitting fills a gap and moves neither the first
+onset nor the last, so **the span is preserved by construction rather than
+checked afterwards** — no correcting pass, which is the house rule.
+
+It applies only to a **restatement** — a slot already sounded earlier in the
+formula — because a variation of something not yet heard is just a different
+cell. `theme.varySlot` is the chance, default 0.5.
+
+**And a hook alters nothing, and now says so.** A `verseHook` line writes bars
+0-1 and copies them to 2-3 as notes, so slots 2-3 never play. The first version
+of this declared a silent or varied slot there anyway: 11 records of 40 claimed
+a rest that could not sound and 36 claimed a variation that never ran. That is
+a declaration not matching what happens, which this project holds to be worse
+than none. The hook's equation is now written out as what it is — `A+B+A+B`
+with the alteration budget at zero, which is itself a melodic-math formula.
+
+### Measured, 40 seeds a genre, material A
+
+```
+                 silent slot   varied slot   distinct formulae   themeA hooky
+  lofi             10/39         32/39            20              0/39
+  synthwave         3/40          0/40             3             40/40
+  dungeonsynth      5/40         14/40            14             26/40
+  ds2               5/40         14/40            14             26/40
+```
+
+The formulae now print the way the sheets write them:
+
+```
+  A+B+A2+A   A+B+A2+B   A+B+A+A   A+B+A2+C   A+B+A2+b
+  A+C+A+C    A+b+A+b    A+B+A+B2  A+B+A+b
+```
+
+Twenty distinct formulae in lofi where §12 left it with one shape. The
+variation counts track hookiness exactly — dungeon synth is hooky in 26 records
+of 40 and varies in the other 14, which is 40 − 26 and not a coincidence: the
+devices reach the lines free to move and leave the hook alone.
+
+The lead's rhythm copying itself moved again in the one genre free to show it:
+**lofi 31/39 → 11/39 (§12) → 8/39.** Mean interval unmoved at 2.81; `%N` still
+0.0.
+
+### Still not built
+
+- **Silence as a named motif with a span of its own** (`S = 6`). A lower-case
+  slot is a whole bar; the sheets' `S` is a cell like any other and can be six
+  sixteenths inside a bar.
+- **The other span-preserving alterations.** Splitting is one. The sheets also
+  name **swapping two lengths** (Televators: `4(E3)2(N)4…` → `2(E3)4(N)4…`,
+  same span, attacks moved) and **a note missed** for deliberate imbalance.
+  `MM.swap` and `MM.subdivide` already exist and still operate on the finished
+  note array rather than on the cell — moving them onto the motif is the next
+  phase and would make the change vocabulary one thing instead of two.
+- `theme.silentSlot` and `theme.varySlot` are engine defaults that **no genre
+  declares**, which is §5's complaint again. They are now dials that exist and
+  can be declared, where before there was nothing to declare them to.
+
+**Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
+all four genres; 159 of 160 records compose, the one failure the pre-existing
+`lofi seed 17` seam throw.
