@@ -1704,6 +1704,9 @@ Found by the agents, independent of who is right about genre:
 - `GENRE.lofi.theme`'s `moves` justifies its ±3/±4 tail in its own comment by
   citing **doc 003, a Zelda analysis** — video game music, cited in a lofi
   table. The +1/−1 asymmetry (10 against 8) has no source at all.
+  **⚠ The first half of this is wrong — see §25.** The agent's objection was a
+  genre mismatch; doc 003 is not a genre document. The real defect is different
+  and worse. The asymmetry finding stands.
 - `GENRE.dungeonsynth.theme`'s `moves` comment claims *"about three draws in
   four are a step"*; the pool computes **20/31 = 64.5%**.
 - `lofi.md`'s `cadence: "none"` rests on one album, *Modal Soul* — the
@@ -1904,3 +1907,109 @@ it is a design question, not a repair.
 mechanism is replaced, the genre declarations feeding the old one are not
 leftovers to delete — they are the sourced part, and they are the half worth
 keeping. The code is the disposable half.
+
+---
+
+## 25. THE ZELDA CITATION — I WAS WRONG ABOUT WHY IT WAS WRONG
+
+*2026-08-31. The owner, after §22h flagged lofi's `moves` for citing a "Zelda
+analysis":*
+
+> "Did you find the doc the zelda citation is from? It is in the main branch.
+> It is not about Zelda is it?"
+
+I had not found it. I passed on a research agent's flag without opening the
+file. Opening it corrects me twice.
+
+### 25a. Doc 003 is not a genre document
+
+It is `003 (Transitions)` in `main`, and it is one of the owner's **nine
+numbered craft transcripts**. Not one of them is about a genre:
+
+| | |
+|---|---|
+| 001, 008, 009 | turning a loop into a finished song |
+| 002, 007 (structure) | song structure and form |
+| 004 (Drums) | rhythm — the syncopation hierarchy this file's `onsetPool` is built on |
+| 005 (loops) | arrangement |
+| 006 (rule of 3) | the rule of three |
+| 007 (8bar) | escaping the eight-bar loop |
+| **003 (Transitions)** | **how one musical idea becomes the next** |
+
+The owner filed 003 as **Transitions**. Its thesis sentence is:
+
+> "Each phrase takes the last piece of the melody and adds something to it or
+> twists it in a new way, giving the melody a **step-by-step progression from
+> each bar to the next**."
+
+That is this engine's entire subject, stated generally. **Zelda is the worked
+example, not the topic.** So the objection in §22h — *"VGM, not lofi"* — is a
+category error. Citing doc 003 in a lofi table is not a genre mismatch, and the
+agent's flag and my repetition of it were both wrong.
+
+### 25b. The real defect is worse, and it is the familiar one
+
+What the code actually took from it was:
+
+> "THE ZELDA ANALYSIS IN doc 003 IS THE MODEL"
+
+— and it derived a pitch pool for a whole genre from **one piece of music**:
+the root-and-fifth skeleton with a scale run filling the gap. That is the
+single-record defect this file has now shipped eight times.
+
+**And the source says so itself,** in a sentence the comment did not quote:
+
+> "The structure of **this melody is totally unique compared to most game
+> music**."
+
+The engine took as its model a tune its own source calls unique.
+
+### 25c. The tell was the name
+
+The comment called it *"the Zelda analysis"*. The owner filed it as
+*"Transitions"*.
+
+**Naming a document by its example instead of its subject is the mechanism by
+which an example becomes a rule** — and here the mechanism is visible in the
+citation itself, which is why the citation read as a genre error to an auditor
+and as a licence to copy one melody to whoever wrote it. [owner:] *"an EXAMPLE
+is not a fact in of itself it is generally just ONE way to do many things."*
+
+### 25d. Fixed, with no number touched
+
+Both citations of doc 003 now name it as `"Transitions"`, a craft transcript,
+with a note not to read it as a genre document.
+
+**Lofi's pool is re-grounded on the general claim that was already in the same
+comment** — a melody is predominantly stepwise with leaps as the *structural*
+events, *"the most compelling melodies employ both conjunct and disjunct
+motion"*. That is a claim about melody rather than about one tune, and it
+carries the same numbers on its own. The leaps stay; the tune they were copied
+from does not.
+
+**Dungeon synth's pool never needed the doc.** It stands on a measurement — the
+lead used seven distinct pitches in a ten-minute record — and on the genre's own
+open-fifth harmony. Its citation is downgraded to a pointer.
+
+Comments only: `mk2_score.js` for lofi seed 12 hashes identically before and
+after. **No note moved.**
+
+### 25e. What doc 003 does support, and is worth spending properly
+
+Its definition of **sequence**, which it attributes to the classical repertoire
+and not to Zelda:
+
+> "Taking a melodic idea and moving it down a scale in steps is called a
+> sequence. And it's a very classical technique. **You won't hear a Mozart piece
+> that doesn't move a melody around in sequence at least once.**"
+
+That is a general claim about melody and a legitimate source for the `sequence`
+dial built in §21, which currently has none.
+
+### 25f. The lesson, which is about how I audit
+
+Three agents produced twenty-three findings. I checked the arithmetic ones by
+measuring them myself and they held. **I passed on the citation one without
+opening the document**, and it was wrong in a way that would have sent the next
+reader to delete a good source. A provenance claim is checkable in one command;
+there is no excuse for relaying one.

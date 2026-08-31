@@ -23588,7 +23588,10 @@ const GENRE = {
        a normal phrase, and that is fine: what makes a hook a hook here is that
        it repeats exactly and does not breathe, not that it plays more notes. */
     theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [3, 2] },
-             /* ── AND THE TUNE GETS A SKELETON, NOT JUST A WALK [doc 003] ──
+             /* ── AND THE TUNE GETS A SKELETON, NOT JUST A WALK ────────────
+                [doc 003, "Transitions" -- a craft transcript on how one musical
+                idea becomes the next. NOT a genre document; see the correction
+                below before citing it as one.]
                 Every melody in this file drew the SHARED DEFAULT move pool,
                 `[[0,2],[1,5],[2,2],[-1,2]]` -- one or two scale steps, never
                 more. No genre had ever declared its own. So the lead was a
@@ -23599,17 +23602,59 @@ const GENRE = {
                 by Music Cognition]. The owner read it off the printout first:
                 "just a series of notes played one step higher than the last".
 
-                THE ZELDA ANALYSIS IN doc 003 IS THE MODEL, and it is the
-                opposite shape: the melody's skeleton is the ROOT AND THE FIFTH
-                -- "this leap down from the root to the fifth" -- and the scale
-                run is what FILLS THE SPACE BETWEEN THEM: "we jump up from the
-                root to the fifth above it, and then the space in between there
-                is filled in with a run up the major scale."
+                ⚠ THIS COMMENT USED TO READ "THE ZELDA ANALYSIS IN doc 003 IS
+                THE MODEL", and derived the pool from that one melody's shape --
+                the root-and-fifth skeleton with a scale run filling the gap
+                ("we jump up from the root to the fifth above it, and then the
+                space in between there is filled in with a run up the major
+                scale"). Corrected 2026-08-31; the NUMBERS are unchanged and the
+                reasoning under them is not.
 
-                So the pool keeps steps dominant and adds the leaps that make a
-                skeleton: 3 scale steps is a fourth, 4 is a fifth. Steps still
-                win about two draws in three, so the runs survive -- they now
-                run BETWEEN somewhere and somewhere instead of being the tune. */
+                TWO THINGS WERE WRONG WITH IT, and the first is not what an
+                audit of this table first reported. It was flagged as a GENRE
+                mismatch -- video game music cited in a lofi table -- and that
+                is a category error. Doc 003 is not a document about video game
+                music. It is one of the owner's NINE numbered craft transcripts,
+                none of which is about a genre: 001 and 008 and 009 turn a loop
+                into a song, 002 and 007 are structure, 004 is rhythm, 005 is
+                loops, 006 is the rule of three. The owner filed 003 as
+                "TRANSITIONS", and its subject is how one idea becomes the next:
+                "each phrase takes the last piece of the melody and adds
+                something to it or twists it in a new way, giving the melody a
+                step-by-step progression from each bar to the next." That is
+                this engine's whole subject, stated generally. Citing it here is
+                right.
+
+                WHAT WAS ACTUALLY WRONG IS THE FAMILIAR DEFECT: a pitch pool for
+                a whole genre derived from ONE PIECE OF MUSIC. And the source
+                says so itself, in a sentence the old comment did not quote:
+                "the structure of THIS MELODY IS TOTALLY UNIQUE COMPARED TO MOST
+                GAME MUSIC." The engine took as its model a tune its own source
+                calls unique.
+
+                THE TELL WAS THE NAME. The comment called it "the Zelda
+                analysis"; the owner filed it as "Transitions". Naming a
+                document by its EXAMPLE instead of its SUBJECT is the mechanism
+                by which an example becomes a rule, and it is visible in the
+                citation itself. [owner:] "an EXAMPLE is not a fact in of itself
+                it is generally just ONE way to do many things."
+
+                SO THE POOL IS RE-GROUNDED ON THE GENERAL CLAIM THAT WAS ALREADY
+                HERE, below: a melody is predominantly stepwise with leaps as the
+                STRUCTURAL events, "the most compelling melodies employ both
+                conjunct and disjunct motion", keeping an equilibrium. That is a
+                claim about melody, not about one tune, and it carries the same
+                numbers on its own -- steps dominant, 3 scale steps a fourth and
+                4 a fifth present as the skeleton. The leaps stay; the tune they
+                were copied from does not.
+
+                WHAT DOC 003 DOES SUPPORT GENERALLY, and is worth spending
+                elsewhere rather than losing: its definition of SEQUENCE, which
+                it attributes to the classical repertoire and not to Zelda --
+                "taking a melodic idea and moving it down a scale in steps is
+                called a sequence. And it's a very classical technique. You
+                won't hear a Mozart piece that doesn't move a melody around in
+                sequence at least once." */
              /* ⚠ AND THE FIRST POOL OVERSHOT, MEASURED: leaps went 43% -> 63%
                 on seed 1 and 50% -> 70% on seed 2, which is the opposite error.
                 A melody is predominantly stepwise with leaps as the STRUCTURAL
@@ -26563,7 +26608,11 @@ const GENRE = {
        the RANGE this buys, and the comparison that shows the per-bar unit was
        hiding the problem. */
     theme: { count: { hooky: [4, 2], breath: [1, 1], normal: [1, 2] },
-             /* ── THE SKELETON [doc 003] ────────────────────────────────────
+             /* ── THE SKELETON ─────────────────────────────────────────────
+                [doc 003, "Transitions", read for its general claim only -- see
+                the correction in lofi's copy of this comment. THIS genre's
+                number does not lean on that doc: it stands on the MEASUREMENT
+                below and on this genre's own open-fifth harmony.]
                 MEASURED off the printout, seed 1: the lead played
                 `B4 C#5 D#5 E5` in bar after bar for twenty bars -- four
                 consecutive scale steps -- and used SEVEN DISTINCT PITCHES in a
