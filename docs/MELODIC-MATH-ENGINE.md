@@ -1801,3 +1801,106 @@ reason to touch them:
 - **Two-note cells are still lopsided** (`15+1`). That is a flat pool being
   flat, not the squeeze, and it is legal music.
 - §22g's inertia finding, and §22h's three bad citations.
+
+---
+
+## 24. WHY WAS THERE A BAKED-IN DEFAULT AT ALL?
+
+*2026-08-31, the owner, one hour after §23 shipped:*
+
+> "Why is there a baked in default at all?"
+
+### 24a. The answer is that I orphaned the genre's own declaration and then filled the hole with a number
+
+Three genres declare **`onsetPool`** — where in the bar a note starts, weighted,
+sourced, and argued over in its own comment: *"nothing here is a list of
+nice-sounding steps — it is one ordering, derived, and every genre's pool is the
+same ordering with its own accents on top."*
+
+**Where the notes start and how long they are is one fact.** The gaps between
+onsets *are* the lengths. And `onsetPool` was live code until `c5093e6` — this
+session's own *"a cell is a length, not a bar"* — where a cell was built by
+drawing its notes straight out of it:
+
+```js
+const pool = onsetPool.slice(), st = [];
+while(st.length < n && pool.length){ ... }
+```
+
+Rebuilding the cell as a run of lengths was right; the notation *is* lengths.
+**Dropping the genre's declaration instead of converting it was not.**
+`onsetPool` has been assigned-and-never-read ever since — four mentions in the
+whole file, three declarations and one dead `const`. Lofi's `breathLast: 7` died
+the same day and now exists only *inside a comment describing what it does*.
+
+So the default was never filling a gap in what the genre had said. **It was
+overruling it with a number nobody sourced.**
+
+### 24b. And "flat" is not the absence of an opinion
+
+A default feels safe because it looks like neutrality. It is not neutral, and it
+is the most powerful value in the program: a declared number gets argued with,
+a default gets inherited in silence by everything that did not speak.
+
+Flat over `1..M` says a **seven**-sixteenth note is exactly as likely as a
+**four**. No music does that — meter makes 2, 4 and 8 common and 7 rare.
+Uniform over something that is not uniform is a bias with the lights off. This
+is the same defect as the seven song-traceable defaults §16–§17 removed, wearing
+better clothes.
+
+### 24c. Built: the lengths are read off the genre's own onsets
+
+The pool is tiled across the cell's window (a cell crosses bar lines; the pool
+is one bar), **n+1** seats are drawn from it without replacement exactly as the
+old code drew them, sorted, and the gaps between them are the cell's lengths —
+the last seat being where the cell stops.
+
+No transform, no fitted distribution, no invented weight, no correcting pass.
+The count is exact; the span cannot exceed the cap because the window *is* the
+cap. A declared `theme.lengths` still wins outright.
+
+**A derived table was tried first and is wrong — recorded so nobody rebuilds
+it.** Weighting each length by `w[a]·w[b]` over every pair of onset positions
+gives dungeon synth a mean length of **8.0** against the true **4.0**, and puts
+its heaviest weight on 8 where the truth is 2. It counts gaps that another onset
+falls inside.
+
+### 24d. Measured
+
+All four genres in this file declare or inherit an `onsetPool`, **so the flat
+pool is now unreachable.** It is kept only because a genre is allowed to declare
+neither, and it is labelled for what it is: the maximum-entropy answer for a
+table that has said nothing, not a statement about music.
+
+Where the lengths land, 10 seeds a genre, as a share of all lengths drawn:
+
+| | 1 | 2 | 4 | 8 | 5 | 7 | 9 | 13 |
+|---|---|---|---|---|---|---|---|---|
+| lofi | 223 | 201 | 135 | 40 | 40 | 17 | 25 | 7 |
+| dungeonsynth | 232 | 192 | 89 | 62 | **6** | 14 | **3** | **1** |
+
+Both now weight the beat grid. **And they differ from each other** — dungeon
+synth's odd lengths are near-absent because its declared pool has no seats at
+all on 1, 5, 9 and 13, where lofi's pool seats every sixteenth. That is a real
+between-genre difference produced by a sourced declaration rather than an
+invented one.
+
+It is worth naming what kind of difference it is: **rhythm, not melodic
+transformation** — which is exactly where §22 says a genre lives.
+
+Unchanged by this: mean notes per cell **3.21** (710 cells, 4 genres, 10 seeds),
+all 31 sheet motifs read back identical, 32 records print clean, no cell over
+cap.
+
+### 24e. Still dead, and not fixed here
+
+**`breathLast`** — lofi declares `breathLast: 7`, which was *"the last sixteenth
+a breath bar may put an onset on"*, and it died in the same commit. Nothing
+reads it. The mechanism it belonged to (a phrase's second bar drawing fewer
+notes and stopping early) has no equivalent in the cell engine yet, so reviving
+it is a design question, not a repair.
+
+**The general lesson, which this file should stop having to relearn:** when a
+mechanism is replaced, the genre declarations feeding the old one are not
+leftovers to delete — they are the sourced part, and they are the half worth
+keeping. The code is the disposable half.

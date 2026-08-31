@@ -36581,10 +36581,69 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
 
            Nothing legal left the pool that could ever have been drawn: a cell
            of n notes cannot contain a length above `cap - (n-1)` no matter what
-           pool it comes from. A ONE-note cell still reaches the whole cap. */
+           pool it comes from. A ONE-note cell still reaches the whole cap.
+
+           AND THEN THE DEFAULT TURNED OUT TO BE ANSWERING A QUESTION THE
+           GENRE HAD ALREADY ANSWERED. [owner:] "Why is there a baked in
+           default at all?"
+
+           Three genres declare `onsetPool` -- WHERE IN THE BAR A NOTE STARTS,
+           weighted, sourced, argued over in its own comment ("nothing here is a
+           list of nice-sounding steps -- it is one ordering, derived"). Where
+           the notes start and how long they are is ONE FACT: the gaps between
+           the onsets ARE the lengths. And `onsetPool` was LIVE CODE until
+           c5093e6, this session's own "a cell is a length, not a bar" -- the
+           cell was made by drawing its notes straight out of it:
+
+             const pool = onsetPool.slice(), st = [];
+             while(st.length < n && pool.length){ ... }
+
+           Rebuilding the cell as a run of LENGTHS was right; the notation is
+           lengths. Dropping the genre's declaration instead of converting it
+           was not. `onsetPool` has been assigned-and-never-read since -- four
+           mentions in the file, three declarations and one dead `const` -- and
+           lofi's `breathLast: 7` died the same day and now exists only inside a
+           comment describing what it does.
+
+           So the default was not filling a gap in what the genre had said. It
+           was overruling it with a number nobody sourced. And "flat" is not the
+           absence of an opinion: flat over 1..M says a seven-sixteenth note is
+           exactly as likely as a four, and meter says otherwise in every music
+           there is. Uniform over something that is not uniform is a bias with
+           the lights off.
+
+           THE LENGTHS ARE NOW READ OFF THE GENRE'S OWN ONSETS. The pool is
+           tiled across the cell's window (a cell crosses bar lines, the pool is
+           one bar), n+1 seats are drawn from it without replacement exactly as
+           the old code drew them, sorted, and the gaps between them are the
+           cell's lengths -- the last seat being where the cell stops. No
+           transform, no fitted distribution, no invented weight, and no
+           correcting pass: the count is exact and the span cannot exceed the
+           cap because the window is the cap.
+
+           A DERIVED TABLE WAS TRIED FIRST AND IS WRONG, recorded so nobody
+           rebuilds it: weighting each length by `w[a]·w[b]` over every pair of
+           onset positions gives dungeon synth a mean length of 8.0 against the
+           true 4.0, and puts its heaviest weight on 8 where the truth is 2. It
+           counts gaps that another onset falls inside.
+
+           All four genres in this file declare or inherit an `onsetPool`, so
+           the flat pool below is now UNREACHABLE. It is kept because a genre is
+           allowed to declare neither, and it is labelled for what it is: the
+           maximum-entropy answer for a table that has said nothing, not a
+           statement about music. */
+        /* the genre's own onsets, tiled over the cell's window, as [pos, weight] */
+        const seatsFor = () => {
+          const W = Math.max(2, Math.floor(cap)), seats = [];
+          for(let q = 0; q < W; q++){
+            const hit = TH.onsetPool.find(x => x[0] === q % 16);
+            if(hit && hit[1] > 0) seats.push([q, hit[1]]);
+          }
+          return seats;
+        };
         const LENFOR = TH.lengths ? () => TH.lengths : (n) => {
           const p = [], top = Math.max(2, Math.floor(2 * cap / Math.max(1, n) - 1));
-          for(let v = 1; v <= top; v++) p.push([v, 1]);
+          for(let v = 1; v <= top; v++) p.push([v, 1]);   // no information, not a claim
           return p;
         };
         const out = [];
@@ -36629,19 +36688,43 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              [owner:] "Music is an art defined by mathematical constraints that
              are creatively broken" -- this is the arithmetic half, and it is
              the half that is not anyone's taste. */
-          const lengths = [], moves = [], fixed = [], LEN = LENFOR(n);
-          let room = cap;
-          for(let i = 0; i < n; i++){
-            const most = Math.floor(room - (n - i - 1));   // one each for the rest
-            const fits = most >= 1 ? LEN.filter(x => x[0] <= most) : [];
-            const v = fits.length ? wpick(irng, fits) : 1;
-            lengths.push(v); room -= v;
+          const lengths = [], moves = [], fixed = [];
+          if(!TH.lengths && TH.onsetPool){
+            /* THE GENRE ALREADY SAID WHERE ITS NOTES GO. n+1 seats, sorted, and
+               the gaps between them are the lengths -- the last seat is where
+               the cell stops. The order is NOT shuffled here: these gaps are in
+               time order because the onsets they came from are. */
+            const pool = seatsFor(), st = [], take = Math.min(n + 1, pool.length);
+            while(st.length < take && pool.length){
+              const at = wpick(irng, pool);
+              pool.splice(pool.findIndex(x => x[0] === at), 1);
+              st.push(at);
+            }
+            st.sort((a, z) => a - z);
+            for(let i = 0; i + 1 < st.length; i++) lengths.push(st[i + 1] - st[i]);
+            if(!lengths.length) lengths.push(1);        // a cap too small to hold two seats
+          } else {
+            /* nothing declared. Each length is drawn from the part of the pool
+               that still fits, leaving one sixteenth for every note not yet
+               placed, and the lengths are then SHUFFLED -- the room shrinks as
+               the cell fills, which front-loads the long notes, and the
+               constraint has no opinion about order. */
+            const LEN = LENFOR(n);
+            let room = cap;
+            for(let i = 0; i < n; i++){
+              const most = Math.floor(room - (n - i - 1));   // one each for the rest
+              const fits = most >= 1 ? LEN.filter(x => x[0] <= most) : [];
+              const v = fits.length ? wpick(irng, fits) : 1;
+              lengths.push(v); room -= v;
+            }
+            for(let i = lengths.length - 1; i > 0; i--){
+              const j = Math.floor(irng() * (i + 1));
+              const t = lengths[i]; lengths[i] = lengths[j]; lengths[j] = t;
+            }
+          }
+          for(let i = 0; i < lengths.length; i++){
             const mv = wpick(irng, MOVES), fx = irng() < statedW;   // both drawn always
             if(i){ moves.push(mv); fixed.push(fx); }
-          }
-          for(let i = lengths.length - 1; i > 0; i--){        // the order is free
-            const j = Math.floor(irng() * (i + 1));
-            const t = lengths[i]; lengths[i] = lengths[j]; lengths[j] = t;
           }
           /* ── THE HAND-OVER BELONGS TO THE CELL ──────────────────────────
              `MM.parse` has produced a `tail` since it was written -- the
