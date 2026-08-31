@@ -805,3 +805,64 @@ The lead's rhythm copying itself moved again in the one genre free to show it:
 **Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
 all four genres; 159 of 160 records compose, the one failure the pre-existing
 `lofi seed 17` seam throw.
+
+---
+
+## 14. AND THE SHAPE OF THE FORMULA WAS BAKED IN — twice
+
+> [owner:] *"the formulae can be anything with in bounds and is not baked in
+> what it must be correct?"*
+
+Correct, and it was not. Two cuts of §12/§13 hardcoded the shape:
+
+1. `A+B+A+C` written out entirely.
+2. `f[2] = f[0]` — so every formula in the file came out **`A+?+A+?`**. The
+   printout showed twenty "distinct formulae" in lofi and they were twenty
+   spellings of one shape.
+
+This is the project's own recurring defect and the file names it twice
+elsewhere: one song's make-up shipped as a default and called a pool, exactly
+as the per-statement sequence table shipped `NEEF` — *Smoke On The Water*'s own
+letters — as the default for every genre.
+
+**What is actually law is only what `melodic-math.md` §3's two formulae agree
+on**, and `A+B+A+C+A+B+A+c` and `A+a+B / A+A+B` agree on two things:
+
+- **L2, a motif comes back.** All slots different is no hook.
+- **L4, something changes.** All slots the same is a loop.
+
+**Where the restatement falls is not law.** It is drawn now, and the rescues
+that enforce L2 and L4 pick their position from the stream too, so a formula
+needing one does not get a fixed answer. `A+A+B+C`, `A+B+B+C`, `A+B+A+C` and
+`A+B+C+B` are all reachable.
+
+The one line that still carries a positional constraint is the **hook**, and
+the constraint belongs to the hook rather than to formulae: a `verseHook` line
+plays bars 0-1 and copies them to 2-3, so those two bars are the whole tune —
+if they name the same cell the material is one cell four times, which L4
+forbids.
+
+### Measured, 40 seeds a genre, material A lead
+
+```
+                 distinct formulae      2nd half = 1st (rhythm)   distinctRhy
+  lofi            20  ->  31             8/39  ->  2/39           2.51 -> 2.87
+  synthwave        3  ->   3            29/40  -> 29/40           2.27 -> 2.27
+  dungeonsynth    14  ->  15            27/40  -> 27/40           2.30 -> 2.30
+  ds2             14  ->  15            27/40  -> 27/40           2.30 -> 2.30
+```
+
+lofi is the genre free to show it — no `verseHook` — and it is where the change
+lands: 31 shapes, and its lead's second half now repeats its first in **2
+records of 39**, from 31 of 39 before any of this work. Shapes now reached that
+`f[2]=f[0]` made unreachable: `A+B+B2+A`, `A+A2+A2+C`, `A+C+A+B`.
+
+synthwave stays at three because it is hooky in 40 records of 40, and a hook
+is `A+B+A+B` by definition. That is the declaration being honest, not a dial
+stuck.
+
+Mean interval unmoved at 2.67–2.86 semitones; `%N` still 0.0.
+
+**Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
+all four genres; 159 of 160 records compose, the one failure the pre-existing
+`lofi seed 17` seam throw.

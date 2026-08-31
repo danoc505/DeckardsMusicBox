@@ -36748,9 +36748,46 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
 
          Slot 3 is the only free draw, and it is where a record gets to be
          `A+B+A+C` or `A+B+A+A` or `A+B+A+B`. */
+      /* ── THE POSITION OF THE RESTATEMENT IS DRAWN, NOT WRITTEN ─────────
+         [owner:] "the formulae can be anything with in bounds and is not
+         baked in what it must be correct?"
+
+         Correct, and the first two cuts of this were not. One hardcoded
+         `A+B+A+C`; the second hardcoded `f[2] = f[0]`, so every formula in
+         the file came out `A+?+A+?` -- twenty shapes that were all the same
+         shape. That is this program's own recurring defect: one song's make-up
+         shipped as a default and called a pool, the same fault the sequence
+         table had when it shipped `NEEF`.
+
+         What is actually law is `melodic-math.md` §3's two formulae AGREEING,
+         and they only agree on two things:
+
+           L2  a motif comes back -- `A+B+A+C+A+B+A+c` and `A+a+B / A+A+B`
+               both restate. A formula where every slot is a different cell
+               has no hook to recognise.
+           L4  something changes -- all four slots the same is a loop.
+
+         WHERE the restatement falls is not law and is now drawn. `A+A+B+C`,
+         `A+B+B+C`, `A+B+A+C` and `A+B+C+B` are all reachable.
+
+         The rescues below pick their position from the stream too, so a
+         formula that needs one does not get a fixed answer. */
       f[0] = 0;
-      if(f[1] === f[0]) f[1] = 1 + Math.floor(frng() * (INV.length - 1));
-      f[2] = f[0];
+      if(new Set(f).size === f.length){                        // L2: nothing recurs
+        const at = 1 + Math.floor(frng() * (BARS - 1));
+        f[at] = f[Math.floor(frng() * at)];
+      }
+      if(new Set(f).size === 1){                               // L4: nothing changes
+        const at = 1 + Math.floor(frng() * (BARS - 1));
+        f[at] = (f[0] + 1 + Math.floor(frng() * Math.max(1, INV.length - 1))) % INV.length;
+      }
+      /* AND A HOOK IS THE ONE LINE THAT CANNOT TAKE A FREE FORMULA. It plays
+         bars 0-1 and copies them to 2-3, so those two bars ARE the record's
+         tune: if they name the same cell the whole material is one cell four
+         times, which is what L4 forbids. The constraint is on the hook, not
+         on formulae in general. */
+      if(opts.hooky && f[1] === f[0] && INV.length > 1)
+        f[1] = 1 + Math.floor(frng() * (INV.length - 1));
       return f;
     })();
     /* ══ UPPER CASE SOUNDS, LOWER CASE DOES NOT ═══════════════════════════
