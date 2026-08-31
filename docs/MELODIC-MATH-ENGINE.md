@@ -1109,8 +1109,33 @@ laws downstream. Both are measured rather than claimed, and both are the same
 question — how much a decided note may be overruled — which the next pass
 should answer once rather than in three places.
 
-`theme.keep` is a dial **no genre declares yet**. The default range is deliberately
-Chop-Suey-ish; a Televators genre would declare `pitch: [0.5, 0.9]`.
+### AND THE SONGS ARE NOT TARGETS
+
+> [owner:] *"STOP talking about songs like they are goals! We are building the
+> melodic math engine!"*
+
+This section first shipped `keep` with a default of `rhythm [0.55,0.95]`,
+`pitch [0,0.35]` — a range shaped to lean on the rhythm because two of the
+songs read here happen to. **That is a song used as a goal**, and it is the
+same defect the file has already caught twice: `NEEF` shipped as a default
+because one riff spelled it, `A+B+A+C` written out because one riff spelled
+that. Three times now, from three different directions.
+
+A song is **evidence that a capability is real and gets used** — Televators
+proves a line can hold its pitches and move its rhythm, so the engine must be
+ABLE to. Nothing follows about what anything should sound like.
+
+So the default is now the widest range the law allows, `[0,1]` on both, and
+**narrowing it is the genre's job.** An engine that can only express what four
+sheets happened to do is a transcription tool, not a generator.
+
+Measured after widening: the drawn weight now ranges **0.01–0.89** across
+records (it was 0.55–0.92, i.e. the default was doing the choosing), and
+pitch-keeping restatements went from 17 to 44 in lofi, 26 to 69 in dungeon
+synth. The capability was there and the default was suppressing it.
+
+`theme.keep` is declared by **no genre**. That is the open work, and the ranges
+have to come from what a genre needs, never from what a record does.
 
 **Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
 all four genres; 159 of 160 records compose, the one failure the pre-existing

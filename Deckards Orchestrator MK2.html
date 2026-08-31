@@ -36743,8 +36743,24 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        restatement under L3 and it is the loosest one the law allows. */
     const KEEP = (() => {
       const krng = stream(chart.seed, streamName + ":keep");
-      const R = (TH.keep && TH.keep.rhythm) || [0.55, 0.95];
-      const P = (TH.keep && TH.keep.pitch)  || [0.00, 0.35];
+      /* ── THE DEFAULT IS THE WHOLE RANGE, BECAUSE NO SONG IS THE TARGET ──
+         This shipped as [0.55,0.95] / [0.00,0.35] -- a range shaped to lean
+         on the rhythm, chosen because two of the songs I had read do that.
+         That is a song used as a goal, and it is the same defect this file
+         has already caught twice: `NEEF` shipped as a default because one
+         riff spelled it, and `A+B+A+C` written out because one riff spelled
+         that.
+
+         THE SONGS ARE NOT TARGETS. They are evidence that a capability is
+         real and gets used -- Televators proves a line can hold its pitches
+         and move its rhythm, so the engine must be ABLE to; it does not
+         follow that anything should sound like Televators.
+
+         So the default is the widest range the law allows, and NARROWING IT
+         IS THE GENRE'S JOB. An engine that can only express what the four
+         sheets happened to do is a transcription tool, not a generator. */
+      const R = (TH.keep && TH.keep.rhythm) || [0, 1];
+      const P = (TH.keep && TH.keep.pitch)  || [0, 1];
       const kr = R[0] + krng() * (R[1] - R[0]);
       const kp = P[0] + krng() * (P[1] - P[0]);
       const sum = kr + kp;
