@@ -34635,6 +34635,16 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       /* published beside the lead's, because a line the program cannot show
          its working for is a line nobody can check */
       DECLARED["bassmm:" + streamName] = L.declared;
+      /* ── AND THE BASS NEEDS A DIRECTION, OR HALF THE NOTATION IS DEAD HERE
+         `theme.stated` decides whether a movement carries its own sign or
+         turns with the phrase. The lead has a phrase direction to turn with;
+         this read `P.fixed ? P.move : P.move` -- BOTH BRANCHES IDENTICAL --
+         because the bass had none, so every movement behaved as stated and the
+         dial was drawn for this line and read by nothing.
+         A line's direction is a property of the line, not of the lead, so the
+         bass draws its own, once per material. Now a free movement turns and a
+         stated one does not, which is what the notation distinguishes. */
+      const bdir = stream(chart.seed, "bassdir:" + streamName)() < 0.5 ? 1 : -1;
       let m = null;
       for(const P of L.plan){
         const b = Math.floor(P.at / 16), st = P.at % 16;
@@ -34642,7 +34652,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const ch = CH(chordSet, b);
         if(P.head || m == null) m = ch.rootMidi;
         else m = scaleStep(keyOf(chordSet), modeOf(chordSet), m,
-                           P.fixed ? P.move : P.move);
+                           P.fixed ? P.move : P.move * bdir);
         while(m > ch.rootMidi + 12) m -= 12;
         while(m < ch.rootMidi - 5)  m += 12;
         notes.push({ bar: b, step: st, dur: Math.max(1, Math.min(16 - st, P.dur)),
@@ -36514,12 +36524,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const INV = (() => {
         const irng = stream(chart.seed, streamName + ":cells");
         const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
-        /* the lengths a cell may be made of, on the sixteenth grid. Every value
-           here appears in the sheets: 1 and 2 in the bassline, 3 and 4 and 6 and
-           8 across Smoke On The Water and the melody. A genre may declare its
-           own; none does yet, which is §5's complaint and now has somewhere to
-           land. */
-        const LEN = TH.lengths || [[1, 1], [2, 1], [3, 1], [4, 1], [6, 1], [8, 1]];
         const cnt = hooky ? TH.count.hooky : TH.count.normal;
         /* HOW MANY CELLS, and HOW LONG ONE MAY BE. Both were literals: three
            drawn and two-or-three kept, and a cap of a third of the material
@@ -36545,8 +36549,30 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const CAP = TH.cellMax || [0.2, 0.5];
         const capF = CAP[0] + irng() * (CAP[1] - CAP[0]);
         const cap  = Math.max(2, Math.min(SPAN_T / 2, SPAN_T * capF));
+        /* ── THE FIFTH SONG-TRACEABLE DEFAULT, AND IT WAS THE MEMBERSHIP ────
+           This read `[[1,1],[2,1],[3,1],[4,1],[6,1],[8,1]]` and said so in its
+           own comment: "Every value here appears in the sheets: 1 and 2 in the
+           bassline, 3 and 4 and 6 and 8 across Smoke On The Water and the
+           melody." A bibliography as a justification.
+
+           §17 fixed the WEIGHTS of this pool (flat) and left the MEMBERSHIP,
+           which is the half that decides what is reachable at all. Measured
+           over 954 lines: 5 and 7 occur ZERO times and nothing above 8 exists
+           -- while this document's own §4 table records Televators using 12
+           and Shine On using 12, 18, 20 and 21. THE ENGINE COULD NOT EXPRESS
+           TWO OF THE THREE SONGS ITS OWN DOCUMENT MEASURES.
+
+           The law says nothing whatever about which lengths exist. The widest
+           it allows is every whole number that fits inside the cap, flat, and
+           that is now the default. `theme.lengths` still takes a weighted pool
+           for a genre that wants one. */
+        const LEN = TH.lengths || (() => {
+          const p = [];
+          for(let v = 1; v <= Math.max(2, Math.floor(cap)); v++) p.push([v, 1]);
+          return p;
+        })();
         const out = [];
-        for(let k = 0; k < 4; k++){                       // four drawn, tail cut [Law 7]
+        for(let k = 0; k < NC[1]; k++){        // as many as the dial can keep [Law 7]
           const n = Math.max(1, cnt[0] + Math.floor(irng() * cnt[1]));
           const lengths = [], moves = [], fixed = [];
           for(let i = 0; i < n; i++){
@@ -36565,6 +36591,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           while(lengths.reduce((a, z) => a + z, 0) > cap && lengths.length > 1){
             lengths.pop(); moves.pop();
           }
+          /* AND A SINGLE LENGTH ESCAPED THE CAP ENTIRELY. The loop above stops
+             at one note, so a lone length longer than the cap survived it.
+             Harmless while the pool topped out at 8 and the cap was 12.8, and
+             fatal the moment a caller asks for a short span -- one length of 8
+             fills a whole bar. Clamped, because the cap is the law's own bound
+             (a cell that cannot recur is not a hook) and a bound that one case
+             walks through is not a bound. */
+          if(lengths.length === 1 && lengths[0] > cap) lengths[0] = Math.max(1, Math.floor(cap));
           out.push({ lengths, moves, fixed, span: lengths.reduce((a, z) => a + z, 0) });
         }
         const keep = NC[0] + Math.floor(irng() * (NC[1] - NC[0] + 1));
@@ -36750,7 +36784,17 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            doing a job. It now has a DECLARED span and is drawn into the
            formula like any other cell, and the mop-up at the end stays as the
            guarantee that the balance always closes. */
-        const RL = TH.restLen || [1, Math.max(2, Math.round(SPAN_T / 3))];
+        /* ── AND THE SIXTH: THE SAME THIRD, SURVIVING IN ANOTHER PLACE ──────
+         This read `[1, SPAN_T / 3]`. The only "third" in this file's history is
+         the one §17 condemned -- the cell-span cap "justified in this file's
+         own comment by 'Smoke On The Water is 8, 6 and 10 filling 32'" -- which
+         became `theme.cellMax`. The number was taken out of the cap and left
+         standing here, unremarked. It does not even match the song it came
+         from: Chop Suey's S is 12 of 32, which is 0.375.
+
+         The law's own bound is SPAN_T - 1: a rest may be anything that still
+         leaves room for a note. That is the default now. */
+      const RL = TH.restLen || [1, Math.max(2, SPAN_T - 1)];
         const SLEN = Math.max(1, Math.min(SPAN_T - 1,
                        RL[0] + Math.floor(frng() * (RL[1] - RL[0] + 1))));
         const RW = TH.rest || [0, 1];

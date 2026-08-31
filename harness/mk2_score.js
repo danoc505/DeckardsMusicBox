@@ -157,6 +157,45 @@ function score(M, opts){
   }
   say("  " + band.join("   "));
   say("");
+  /* ══ WHAT EACH LINE WAS BUILT FROM, BEFORE IT PLAYED A NOTE ═══════════════
+     `materials.motifsDeclared` is the melodic math engine's own working: the
+     cells it drew, the formula it laid them out in, what each restatement was
+     told to keep, which device it carries, and whether the spans balance.
+
+     IT WAS WRITTEN AND READ BY NOTHING. Two writers (`buildTheme` and the
+     bass's `cells` role), one publication, and a grep of the HTML, the roll
+     and every file in `harness/` found ZERO readers. That is verbatim the
+     defect the engine doc's §12 records against `materials.motifs` --
+     "written once and read nowhere, and its own comment said 'Nothing
+     consumes it yet'" -- happening a second time, on the thing that replaced
+     it. A declaration nobody can see is not a declaration.
+
+     So it prints here, beside the notes it caused, and the two can be read
+     against each other by eye: if the formula says a slot is silent and there
+     is a note in it, that is visible in one glance instead of in a scratch
+     script that will not exist tomorrow. */
+  const DECL = song.materials && song.materials.motifsDeclared;
+  if(DECL && Object.keys(DECL).length){
+    say("  ── WHAT THE LINES DECLARED, before a note existed ──");
+    for(const key of Object.keys(DECL)){
+      const d = DECL[key];
+      if(!d) continue;
+      const w = d.weights || {};
+      say(`    ${key}${d.hook ? "  (hook)" : ""}`);
+      say(`        cells   ${(d.cells || []).join("   ")}`);
+      say(`        formula ${d.formula}          balance ${d.balance}`);
+      if(d.keeps)   say(`        keeps   ${d.keeps.join(" ")}`);
+      if(d.devices) say(`        devices ${d.devices.join(" ")}`);
+      say(`        drawn   rhythm ${w.rhythm} pitch ${w.pitch} span ${w.span}` +
+          `  close ${w.close} silent ${w.silent} recur ${w.recur} cells ${w.cells}`);
+    }
+    say("");
+    say("  READ IT AGAINST THE NOTES BELOW. Upper case sounds, lower case is");
+    say("  written and silent, `S<n>` is n sixteenths of declared silence, `2`");
+    say("  is a note split, `-` a note missed, `~` two lengths swapped, `↓` the");
+    say("  cell's last sounding statement turning to close.");
+    say("");
+  }
   say("  READ IT: one line a part, 16 sixteenths a bar. `*` is a strike, `-` is the");
   say("  note still sounding, `.` is silence.");
   say("");
