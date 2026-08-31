@@ -1576,3 +1576,228 @@ actually sounds like** when every one of the thirteen dials is at its default,
 and it is the clearest argument yet for the standing work: **no genre declares a
 single dial.** The engine can now express far more than any genre has asked it
 for.
+
+---
+
+## 22. MELODIC TRANSFORMATION IS NOT A GENRE FACT
+
+*2026-08-31. This section reverses a direction this file was about to take, and
+it reverses it because the owner stopped it:*
+
+> "I think your all WRONG! I think you can find a song in any genre that does
+> just about anything with its melodic transformations. That is NOT a genre
+> determinate. Prove me wrong! Music is an art defined by mathematical
+> constraints that are creatively broken. No genre exsist is someone did not
+> break the rules. Lofi hip hop is hip hop drums over jazzy chords with an
+> average of a slow BPM"
+
+### 22a. What was about to happen
+
+§20 recorded that on four of the six melodic dials, the separation *between*
+genres was 0.07–0.23 of the spread *within* a genre. That was written down as a
+defect with a number to move, and three research agents were sent to move it —
+one per genre — to find sourced ranges for the thirteen dials so that lofi,
+synthwave and dungeon synth would finally measure differently.
+
+All three came back. Between them they proposed twenty-three declarations. Not
+one of them has been applied, and this section is why.
+
+### 22b. The refutation was already in this file
+
+§16 compares three songs and every row disagrees:
+
+| | Chop Suey | Televators |
+|---|---|---|
+| what is kept | rhythm | **pitches** |
+| what moves | key | **rhythm** |
+| fixed grid | yes, 32 | **none** |
+| repeated pitch | nine in a row | **none** |
+
+Chop Suey and Televators are 2001 and 2003, the same scene, the same shelf.
+They are opposite on `keep`, which is the single largest melodic dial. If two
+neighbours inside one genre disagree on it completely, the genre is not what
+sets it. §16 was written to kill the claim that *one* song is a fact; it also
+kills the claim that a *genre* is one, and that half went unnoticed for a week.
+
+### 22c. What the three agents actually found
+
+Read as evidence rather than as answers, the three reports argue for the
+owner's position, not against it:
+
+1. **The sources are how-to posts.** "How to make synthwave melodies in
+   Ableton", "Making dungeon synth without perfectionism". These are one
+   person's advice on one way to do it — an example, which §16 already ruled is
+   not a fact. They are not measurements of what the genre's records do.
+2. **Every genre contradicted itself.** Dungeon synth: `dungeon-synth-
+   critique.md` says *"the naive repeat is the genre"*; `dungeon-synth-
+   technique.md` carries the owner saying *"We dont want the same repetitve
+   Mortis type music"*. Lofi: `GENRE.lofi.theme` says the wandering is *"lofi
+   being lofi"*; §6 of this file calls the same behaviour *"pure dice"*. Three
+   agents, three genres, three internal contradictions, all self-reported.
+3. **Every agent left three or four dials wide** because nothing anywhere spoke
+   to them — `stated` and `restLen` in all three cases.
+4. **One proposal was flagged by its own author** as arriving at the shape of
+   the `[0.55,0.95]` default that §16 deleted for being Chop Suey and
+   Televators. Different route, same numbers, which is what it looks like when
+   a taste is being rediscovered rather than a fact found.
+
+### 22d. The one real counter-argument, and why it does not carry
+
+Large measured corpora *do* differ. Essen folk averages 2.8 semitones between
+notes; Billboard pop 3.8 (§3a, §3b). That is real data over thousands of songs,
+not a tutorial.
+
+But the spread **inside** each corpus is far larger than the gap **between**
+them. A corpus mean shifts an average; it does not tell any single song what to
+do, and a Billboard song with folk-sized intervals is not rare, it is ordinary.
+A weak shift in a distribution is precisely a **weight**, which is what the
+owner already said a dial has to be, and it is nowhere near a genre rule.
+
+### 22e. What this means for the architecture
+
+The draw is three-level: **genre declares a range → the seed draws one value
+per record → each restatement rolls against it.** The finding renames the
+levels rather than breaking them.
+
+> **The melodic-math dials belong to the SEED, not the genre.** Genre stays
+> wide on them; the record picks the point. That is what the second level was
+> built for.
+
+The genre's identity is carried by the things the owner named — *"hip hop drums
+over jazzy chords with an average of a slow BPM"*: kit, harmony, tempo, timbre,
+form. Those live in other parts of the genre table, they already differ, and
+none of them is a melodic transformation.
+
+So §20's number is **not a defect and there is nothing to move.** Genres
+measuring alike on `keep`, `close`, `devices` and `sequence` is the correct
+result. Pasting the twenty-three proposals would have bought between-genre
+separation at the price of within-genre separation: every lofi record holding
+its rhythm, every dungeon synth record restating literally, on the authority of
+a blog post. That is a narrower engine, not a better one.
+
+**Anything that narrows a melodic dial now needs a reason that is not a genre.**
+Two qualify, and both point the same way — *widen where the engine is narrower
+than all music; fix the arithmetic where the numbers cannot work.*
+
+### 22f. What survived: the arithmetic (built, §23)
+
+Two agents independently found, and measurement confirmed, that the cell draw
+could not produce the note count any genre declared. That is not a genre claim
+at all — it is true in every genre and it was true before any of this research
+started. Built; see §23.
+
+### 22g. What survived: the engine is more inertial than all music
+
+§3b measured the default `moves` table at **78% directional inertia** — a
+movement following the one before it — against Essen folk 71%, Rolling Stone
+48%, Billboard 43%. The engine is not writing one genre. It is narrower than
+**every corpus ever measured**, folk included.
+
+That is an engine defect by the owner's own standard, and the fix runs toward
+wide rather than toward any genre. **Not built.** It needs the ear, because
+widening the movement pool changes every line in the program.
+
+### 22h. What survived: three citations that are wrong regardless
+
+Found by the agents, independent of who is right about genre:
+
+- `GENRE.lofi.theme`'s `moves` justifies its ±3/±4 tail in its own comment by
+  citing **doc 003, a Zelda analysis** — video game music, cited in a lofi
+  table. The +1/−1 asymmetry (10 against 8) has no source at all.
+- `GENRE.dungeonsynth.theme`'s `moves` comment claims *"about three draws in
+  four are a step"*; the pool computes **20/31 = 64.5%**.
+- `lofi.md`'s `cadence: "none"` rests on one album, *Modal Soul* — the
+  single-record defect this repo has now shipped seven times.
+
+**Not fixed.** They are comment-and-provenance repairs, not number changes, and
+they should not be bundled with a behaviour change.
+
+---
+
+## 23. THE CELL WAS DRAWN AND THEN CUT
+
+*2026-08-31. The one thing §22 left standing, built the same day.*
+
+### 23a. The bug
+
+`INV` drew a cell's lengths free of the cap and then ran:
+
+```js
+while(lengths.reduce((a,z) => a+z, 0) > cap && lengths.length > 1){
+  lengths.pop(); moves.pop();
+}
+```
+
+Two things wrong with it. It is a **correcting pass**, which this file's house
+rules forbid — the draw is supposed to be legal by construction, the way L2 and
+L4 were made legal in §20. And the arithmetic made it fire on nearly every
+cell.
+
+The default length pool was **every whole number from 1 to `cap`, flat**. §17
+called that "the widest the law allows". It is not. A flat pool over `1..cap`
+has a **mean of half the cap**, so two notes already overflow and the loop
+cuts. Measured over 40,000 cells:
+
+| span | cellMax | count asked | notes actually kept |
+|---|---|---|---|
+| 64 | 0.35 | 4–5 | **1.66** |
+| 64 | 0.20 | 4–5 | **1.61** |
+| 32 | 0.35 | 4–5 | **1.60** |
+
+**Every genre's declared note count was dead on arrival.** Raising `cellMax`
+does not help — the pool grows with the cap, so the ratio is pinned near 1.6
+whatever a genre asks for. Dungeon synth's `count.hooky: [4,2]` was set by
+*measuring this program's own output* and raised deliberately; this loop threw
+that measurement away every time, silently, and the printout showed the count
+dial sitting there looking obeyed.
+
+`1..cap` was never the widest legal default. **It was a one-note default.**
+
+### 23b. The fix, both halves arithmetic
+
+**Each length is drawn from the part of the pool that still fits**, leaving one
+sixteenth for every note not yet placed. The cell comes out at exactly the
+count the dial asked for, never over cap, and no note is discarded. The lengths
+are then **shuffled** — the room shrinks as the cell fills, which front-loads
+the long notes, and the constraint has no opinion about order.
+
+**The default pool is sized to the count it is handed**: flat `1..2·cap/n − 1`,
+whose mean is `cap/n`, so n of them average out at the cap. Notes forced down
+to a single sixteenth because the room ran out rather than because the pool
+drew one: **29% → 16%**, against the 10% the pool gives on its own. The last
+six points are the cap doing its job.
+
+A declared `theme.lengths` is used **exactly as declared** — the sizing is the
+default's business only.
+
+**Nothing legal became unreachable.** A cell of n notes can never contain a
+length above `cap − (n−1)`, whatever pool it comes from; the values that left
+the default were the arithmetically impossible ones. A one-note cell still
+reaches the whole cap.
+
+### 23c. Measured
+
+| | before | after |
+|---|---|---|
+| mean notes per cell (704 cells, 4 genres, 10 seeds) | **1.47** | **3.22** |
+| cells over cap | — | **0** |
+| sheet motifs read back unchanged | 31/31 | 31/31 |
+| records printing without error | 32/32 | 32/32 |
+
+In the printout, dungeon synth seed 7's hook went from cells reading `15+1`
+and `2+14` to `1+3+2+2+4`, `1+2+1+5` and `1+4+3+3+2`. Lofi seed 12's went to
+`6+2+2+3`, `1+2+5+4`, `2+2+2+4`. The count dials that four genres declared are
+now actually spent.
+
+### 23d. Still open, and visible in the same printout
+
+Not touched, because they are separate and because §22 says a genre is not the
+reason to touch them:
+
+- **`restLen` at the wide default is extreme.** Lofi seed 12 declared `C + S50
+  + C↓` — fifty of sixty-four sixteenths as one silence. The law permits it and
+  no source in the repo measures rest *length* in any genre. It needs the ear,
+  not research.
+- **Two-note cells are still lopsided** (`15+1`). That is a flat pool being
+  flat, not the squeeze, and it is legal music.
+- §22g's inertia finding, and §22h's three bad citations.
