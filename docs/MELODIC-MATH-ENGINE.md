@@ -1140,3 +1140,74 @@ have to come from what a genre needs, never from what a record does.
 **Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
 all four genres; 159 of 160 records compose, the one failure the pre-existing
 `lofi seed 17` seam throw.
+
+---
+
+## 17. THE OTHER DIALS, AUDITED FOR SONG VALUES
+
+> [owner:] *"Now check the other dials for baked in song values"*
+
+Six found. One of them is the same defect as §16's, committed in the same
+section an hour earlier.
+
+| was | where it came from | now |
+|---|---|---|
+| **the turn, applied always** | Smoke On The Water | `theme.close`, default `[0,1]` |
+| cell span capped at `SPAN_T/3` | this file's own comment: *"Smoke On The Water is 8, 6 and 10 filling 32"* | `theme.cellMax`, default `[0.2,0.5]` |
+| length pool `1:2 2:5 3:2 4:5 6:2 8:1` | weighted to look like the sheets | flat `1:1` across, genre reweights |
+| 2 or 3 cells | literal | `theme.cells`, default `[2,4]` |
+| heard cell outweighs new `5 : 2` | a number chosen to make `A+B+A+C` come out | `theme.recur`, default `[1,8]` |
+| `silentSlot` 0.25 | a single number | a range, default `[0,0.5]` |
+
+### The worst one
+
+```js
+for(const mi in lastOf) if(sounded[mi] > 1) slots[lastOf[mi]].flip = true;
+```
+
+Unconditional. **Every cell that sounded twice had its last statement mirrored,
+in every record of every genre, forever** — because one riff does that:
+
+> "The 'A' motif elevates ('E') on the first 3, but on the 4th one it falls."
+
+Nobody Else does not do it; its `B` rotates on and off instead. Televators does
+not; it redistributes rhythm. It is one song's device promoted to a law of the
+engine — **the third time this file has caught that pattern, and the second time
+in this section alone.**
+
+It is now `theme.close`, a weight drawn per record over the whole range: some
+records close every recurring cell, some none, most in between.
+
+### Measured, 40 seeds a genre
+
+Every dial drawn per record, and every one moves across nearly the whole range
+it is allowed:
+
+```
+  rhythm 0.01-0.89   pitch 0.00-0.94   close 0.01-1.00
+  silent 0.01-0.50   recur 1.25-7.71   cells 2-4
+
+  distinct formulae   lofi 39/39   synthwave 38/40   dungeonsynth 39/40
+  balance             954 lines, 0 unbalanced
+  lofi distinct bar rhythms   2.51 -> 3.85
+  lofi second half copies first   2/39 -> 0/39
+```
+
+**The dials read the same for all four genres, and that is correct rather than a
+bug: not one genre declares any of them.** They all run the widest default the
+law allows. Narrowing them is the genre's job and it is the open work — and the
+ranges have to come from what a genre needs, never from what a record does.
+
+### The rule this section is really about
+
+A song is **evidence that a capability is real and gets used.** It is never a
+target, and it is never a default. Three times now this file has shipped one
+riff's spelling as the engine's behaviour — `NEEF`, `A+B+A+C`, and the turn.
+Each time it looked like a pool and was one example wearing a pool's clothes.
+
+**Test for it:** if a default can be traced to a particular record, it is a
+defect, whatever it sounds like.
+
+**Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
+all four genres; 159 of 160 records compose, the one failure the pre-existing
+`lofi seed 17` seam throw.
