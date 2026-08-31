@@ -34598,6 +34598,60 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        drones)"] The length comes from touch.bassArtic, which multiplies duration
        in stage 5 -- so a genre that wants two bars of one note asks for it
        there, in the stage that owns duration, instead of here. */
+    /* ══ THE BASS, BUILT OF CELLS ════════════════════════════════════════
+       [owner:] "do the line engine pass now"
+
+       Two of the eight sheets the whole notation comes from are a BASSLINE,
+       and until this role the melodic math engine could not write one. The
+       `Nobody Else` bass is analysed in the notation exactly as its melody is:
+
+         A = 1/1/1/1/2 (6)    B = 2/2 (4)    A+A+B = 16, one bar
+         Structural Formula:  A+a+B / A+A+B / A+a+B / A+a+b
+         "Upper case turned on, lower case turned off"
+
+       And what it says about that line is a bass instruction, not a melody
+       one: "The 'A' and 'B' motifs ALWAYS STAY IN THE SAME RHYTHM, thus
+       giving them a strong hook... It is kept interesting by CHANGING THE
+       ORDER the 'A' & 'B' is played and BY CHANGING KEY."
+
+       So this is a ROLE, drawn from `bassRoles` per material like every other
+       one, not a replacement for them. A genre that wants its bass built of
+       cells asks for it; a genre whose bass is a pedal or a sequencer is
+       untouched, and none of the five roles already here moved.
+
+       ITS OWN TABLE. `bassTheme` if the genre declares one, `theme` if not --
+       every dial in this engine is per LINE, which is what §5 of the engine
+       doc has said since it was written and what the lead-only version could
+       not express.
+
+       THE CELL STARTS FROM THE HARMONY and moves by its own movements from
+       there, then folds into the octave around the root: a bass says which
+       chord this is, and a cell that wandered out of the bass register would
+       be a melody played low. The harmony places, the cell shapes -- the same
+       order the lead uses. */
+    if(STYLE === "cells"){
+      const T = G.bassTheme || G.theme;
+      const L = mmLine("bassmm:" + streamName, BARS * 16, T, false);
+      /* published beside the lead's, because a line the program cannot show
+         its working for is a line nobody can check */
+      DECLARED["bassmm:" + streamName] = L.declared;
+      let m = null;
+      for(const P of L.plan){
+        const b = Math.floor(P.at / 16), st = P.at % 16;
+        if(b >= BARS) break;
+        const ch = CH(chordSet, b);
+        if(P.head || m == null) m = ch.rootMidi;
+        else m = scaleStep(keyOf(chordSet), modeOf(chordSet), m,
+                           P.fixed ? P.move : P.move);
+        while(m > ch.rootMidi + 12) m -= 12;
+        while(m < ch.rootMidi - 5)  m += 12;
+        notes.push({ bar: b, step: st, dur: Math.max(1, Math.min(16 - st, P.dur)),
+                     pitch: m, vel: st === 0 ? 0.72 : 0.58, role: "bass" });
+      }
+      if(notes.length) return notes;
+      /* a formula that yielded nothing is not a bassline; fall through to the
+         genre's own style rather than ship a silent part */
+    }
     if(STYLE === "drone"){
       /* ── A DRONE FOLLOWS THE CHORDS; A PEDAL DOES NOT ────────────────────
          The two are different things and this only did the first. A drone
@@ -36433,6 +36487,433 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     }
     return band;
   };
+  /* ══ THE MELODIC MATH ENGINE, FOR ANY LINE ═══════════════════════════════
+     [owner:] "do the line engine pass now"
+
+     This was written inside `buildTheme` as a closure, so it was a LEAD
+     engine: `buildBass`, `buildOstinato` and `deriveCounter` contained no
+     inventory, no formula, no plan and no weights -- grep returned zero. And
+     `MELODIC-MATH-ENGINE.md` opens by saying the opposite:
+
+       "This is not a melody engine. It is a LINE engine. The law below governs
+        any single line the program writes -- the lead, the bass, the counter,
+        the repeating figure. The owner's own Nobody Else sheets analyse a
+        BASSLINE in exactly this notation, and the bass turns out to need it
+        more than the melody does."
+
+     Two of the eight sheets ARE a bassline. So the engine is lifted out whole
+     and takes its table as an argument: every dial is per line, which is what
+     §5 has said since it was written. Nothing about it changed in the lifting
+     -- the stream names are identical, so the lead composes exactly what it
+     composed before, proven by comparing every note rather than asserted. */
+  function mmLine(streamName, spanT, TH, hooky){
+      const SPAN_T = spanT;
+      /* the formula's own dials, recorded as drawn so a record can be read
+         against the numbers it was actually given rather than the table's */
+      const FDIALS = { close: 0, silent: 0, recur: 0 };
+      const INV = (() => {
+        const irng = stream(chart.seed, streamName + ":cells");
+        const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
+        /* the lengths a cell may be made of, on the sixteenth grid. Every value
+           here appears in the sheets: 1 and 2 in the bassline, 3 and 4 and 6 and
+           8 across Smoke On The Water and the melody. A genre may declare its
+           own; none does yet, which is §5's complaint and now has somewhere to
+           land. */
+        const LEN = TH.lengths || [[1, 1], [2, 1], [3, 1], [4, 1], [6, 1], [8, 1]];
+        const cnt = hooky ? TH.count.hooky : TH.count.normal;
+        /* HOW MANY CELLS, and HOW LONG ONE MAY BE. Both were literals: three
+           drawn and two-or-three kept, and a cap of a third of the material
+           justified in this file's own comment by "Smoke On The Water is 8, 6
+           and 10 filling 32". A song's proportions written into stage logic.
+           The only thing the LAW needs is that a cell can come back, which
+           means span <= half the material; everything inside that is the
+           genre's, and the default is the whole of it. */
+        /* ── A MOVEMENT MAY STATE ITS DIRECTION, OR LEAVE IT FREE ───────────
+           The notation separates the two and the sheet is explicit about why:
+             `4(ii)4`  -- magnitude 2, and "THE DIRECTION IS UP TO YOUR OWN
+                          PERSONAL TASTE"
+             `4(E2)4`  -- up 2, stated, because "the 'x' value can be replaced
+                          with 'E' for Elevate, or 'F' for fall TO GIVE A STRONG
+                          SENSE OF FAMILIARITY"
+           Every movement here took its sign from the phrase's own direction, so
+           a motif could carry a size and never a direction -- half the notation
+           with no way to say it. A stated movement keeps its sign wherever the
+           phrase is going; a free one still turns with it. */
+        const ST = TH.stated || [0, 1];
+        const statedW = ST[0] + irng() * (ST[1] - ST[0]);
+        const NC  = TH.cells   || [2, 4];
+        const CAP = TH.cellMax || [0.2, 0.5];
+        const capF = CAP[0] + irng() * (CAP[1] - CAP[0]);
+        const cap  = Math.max(2, Math.min(SPAN_T / 2, SPAN_T * capF));
+        const out = [];
+        for(let k = 0; k < 4; k++){                       // four drawn, tail cut [Law 7]
+          const n = Math.max(1, cnt[0] + Math.floor(irng() * cnt[1]));
+          const lengths = [], moves = [], fixed = [];
+          for(let i = 0; i < n; i++){
+            lengths.push(wpick(irng, LEN));
+            const mv = wpick(irng, MOVES), fx = irng() < statedW;   // both drawn always
+            if(i){ moves.push(mv); fixed.push(fx); }
+          }
+          /* A CELL MUST LEAVE ROOM FOR ITSELF TO COME BACK, AND FOR SOMETHING
+             ELSE BESIDES. Half the material was the first cap and it is not
+             enough: two cells of fifteen fill a two-bar hook exactly and NEITHER
+             CAN RECUR -- measured, dungeon synth seed 3 came out `B + A + S3`,
+             which has no hook in it at all. The sheets keep a cell to about a
+             third: Smoke On The Water is 8, 6 and 10 filling 32, and A gets to
+             happen twice. A third is the number, and it makes L2 reachable by
+             arithmetic instead of by rescue. */
+          while(lengths.reduce((a, z) => a + z, 0) > cap && lengths.length > 1){
+            lengths.pop(); moves.pop();
+          }
+          out.push({ lengths, moves, fixed, span: lengths.reduce((a, z) => a + z, 0) });
+        }
+        const keep = NC[0] + Math.floor(irng() * (NC[1] - NC[0] + 1));
+        return out.slice(0, keep);
+      })();
+      /* ══ WHAT A RESTATEMENT KEEPS — A WEIGHT, NOT A SWITCH ═══════════════
+         [owner:] "even the dials shoulnt be strict on or offs that would be a
+         switch right"
+
+         Right, and the four sheets are only four EXAMPLES. Measured off the
+         MIDI of two songs nobody drew, they disagree with each other on the
+         thing I had been treating as the law:
+
+           Chop Suey    the verse cell is `2x10` and comes back with the SAME
+                        RHYTHM and different pitches -- G4 nine times, then
+                        F#4 nine times. Rhythm held, key moved.
+           Televators   the cell F#4-E4-D4-D4 comes back as 4+4+4+12, then
+                        2+4+6+12, then 2+4+6+12. SAME PITCHES, same span, the
+                        rhythm redistributed inside it. Pitch held, rhythm moved.
+
+         They are opposites. So "the rhythm is the invariant" is one song's
+         habit, not a law, and `melodic-math.md` §1 states it too strongly.
+         What IS law is L3: SOMETHING is preserved, and which one is the
+         genre's business.
+
+         And it cannot be a switch. A switch gives two songs. This program's
+         own second principle says a soft law is "a habit with WEIGHTS, and
+         lives in the genre tables where a genre can lean on it or not."
+
+         So it is drawn at three levels, which is this project's usual shape:
+           the GENRE declares a range        keep.rhythm [0.55, 0.95]
+           the SEED draws one value a record            0.71
+           each RESTATEMENT rolls against it            keep rhythm / pitch / span
+
+         A roll past both weights keeps only the SPAN -- the cell's place in the
+         equation, with everything inside it redrawn. That is still a
+         restatement under L3 and it is the loosest one the law allows. */
+      const KEEP = (() => {
+        const krng = stream(chart.seed, streamName + ":keep");
+        /* ── THE DEFAULT IS THE WHOLE RANGE, BECAUSE NO SONG IS THE TARGET ──
+           This shipped as [0.55,0.95] / [0.00,0.35] -- a range shaped to lean
+           on the rhythm, chosen because two of the songs I had read do that.
+           That is a song used as a goal, and it is the same defect this file
+           has already caught twice: `NEEF` shipped as a default because one
+           riff spelled it, and `A+B+A+C` written out because one riff spelled
+           that.
+
+           THE SONGS ARE NOT TARGETS. They are evidence that a capability is
+           real and gets used -- Televators proves a line can hold its pitches
+           and move its rhythm, so the engine must be ABLE to; it does not
+           follow that anything should sound like Televators.
+
+           So the default is the widest range the law allows, and NARROWING IT
+           IS THE GENRE'S JOB. An engine that can only express what the four
+           sheets happened to do is a transcription tool, not a generator. */
+        const R = (TH.keep && TH.keep.rhythm) || [0, 1];
+        const P = (TH.keep && TH.keep.pitch)  || [0, 1];
+        const kr = R[0] + krng() * (R[1] - R[0]);
+        const kp = P[0] + krng() * (P[1] - P[0]);
+        const sum = kr + kp;
+        return sum > 1 ? { rhythm: kr / sum, pitch: kp / sum }
+                       : { rhythm: kr, pitch: kp };
+      })();
+      /* KEEP THE PITCHES, MOVE THE RHYTHM -- Televators' own device, measured:
+         4+4+4+12 becomes 2+4+6+12, the same four notes over the same 24. Units
+         are moved from one length to another, so the span cannot drift and no
+         check afterwards is needed. */
+      const reflow = (cell, r1, r2) => {
+        const L = cell.lengths.slice();
+        if(L.length < 2) return cell;
+        const a = Math.floor(r1 * L.length) % L.length;
+        let b = Math.floor(r2 * L.length) % L.length;
+        if(b === a) b = (a + 1) % L.length;
+        const k = Math.max(1, Math.floor(L[a] / 2));
+        if(L[a] - k < 1) return cell;
+        L[a] -= k; L[b] += k;
+        return { lengths: L, moves: cell.moves, span: cell.span };
+      };
+      /* ══ THE THREE DEVICES THE NOTATION NAMES ════════════════════════════
+         Each changes what is inside a cell and CANNOT change its span, so the
+         equation still balances and nothing is checked afterwards.
+
+         SPLIT -- the Europe sheet, and the most-named device in the set:
+           "'A2' has the last note SPLIT INTO 2, still taking up the same amount
+            of space, but allowing for an extra key change, we can call this
+            rhythmic acceleration."
+           `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2`. The new note carries a
+           movement of its own -- that is the point of it, not a side effect.
+
+         DROP -- Nobody Else:
+           "Note in the 3rd 'A' A NOTE IS MISSED to create unbalance and create
+            additional tension."
+           The note's length goes to the note before it, so the cell keeps its
+           span and its attack points move. Never the first note: a cell has to
+           start where it starts to be recognised.
+
+         SWAP -- Televators, measured off the MIDI:
+           `B3 D4 D4 B3 E4 F#4` is `4+2+4+2+4+8` and comes back `2+4+4+2+4+4`,
+           the first two lengths exchanged. Same notes, attacks moved.
+
+         WHICH DEVICE, AND HOW OFTEN, IS THE GENRE'S. The default weights every
+         one of them the same, including doing nothing -- the widest the law
+         allows. A weighting that favoured one would be a song again. */
+      const splitCell = (cell, r, mv) => {
+        const L = cell.lengths.slice(), M = cell.moves.slice();
+        const c = []; for(let i = 0; i < L.length; i++) if(L[i] >= 2) c.push(i);
+        if(!c.length) return cell;
+        const i = c[Math.floor(r * c.length) % c.length];
+        const a = Math.floor(L[i] / 2);
+        L.splice(i, 1, a, L[i] - a);
+        M.splice(i, 0, mv);                       // the extra key change
+        const F = (cell.fixed || []).slice(); F.splice(i, 0, false);
+        return { lengths: L, moves: M, fixed: F, span: cell.span };
+      };
+      const dropCell = (cell, r) => {
+        const L = cell.lengths.slice(), M = cell.moves.slice();
+        if(L.length < 3) return cell;
+        const i = 1 + (Math.floor(r * (L.length - 1)) % (L.length - 1));
+        L[i - 1] += L[i]; L.splice(i, 1); M.splice(i - 1, 1);
+        const F = (cell.fixed || []).slice(); F.splice(i - 1, 1);
+        return { lengths: L, moves: M, fixed: F, span: cell.span };
+      };
+      const swapCell = (cell, r) => {
+        const L = cell.lengths.slice();
+        if(L.length < 2) return cell;
+        const i = Math.floor(r * (L.length - 1)) % (L.length - 1);
+        const t = L[i]; L[i] = L[i + 1]; L[i + 1] = t;
+        return { lengths: L, moves: cell.moves, fixed: cell.fixed, span: cell.span };
+      };
+      /* KEEP ONLY THE SPAN. The slot holds its place in the equation and
+         everything inside it is drawn again. */
+      const redrawCell = (cell, rrng) => {
+        const LEN = TH.lengths || [[1, 1], [2, 1], [3, 1], [4, 1], [6, 1], [8, 1]];
+        const MV  = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
+        const L = []; let left = cell.span;
+        while(left > 0){
+          const pick = Math.min(left, wpick(rrng, LEN));
+          L.push(pick); left -= pick;
+          if(L.length >= 12){ L[L.length - 1] += left; left = 0; }
+        }
+        return { lengths: L, moves: L.slice(1).map(() => wpick(rrng, MV)),
+                 fixed: L.slice(1).map(() => false), span: cell.span };
+      };
+      /* ══ THE FORMULA — cells laid end to end until the spans balance ══════
+         `A+B+A+C = 32`. Cells are appended until the material is full, and a
+         cell already heard is weighted over a new one, which is what produces
+         `A+B+A+C` rather than four different letters. Whatever space is left at
+         the end becomes `S`, the sheets' own silence cell:
+
+           "the 'S' motif (which represents silence) keeps the other motifs
+            happening at the same time... gives the arrangment room for the
+            chords to play at the start of every bar, acting like a Call &
+            Reponse."
+
+         S is why the balance can always be struck exactly. It is not a
+         leftover -- it is the piece that makes the equation come out. */
+      const FORM = (() => {
+        const frng = stream(chart.seed, streamName + ":formula");
+        const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
+        /* HOW MUCH A CELL ALREADY HEARD OUTWEIGHS A NEW ONE. This was `5 : 2`,
+           a number I chose to make `A+B+A+C` come out. The law is only that a
+           cell comes back; how strongly the formula leans on what it has
+           already said is the genre's. */
+        const RC = TH.recur || [1, 8];
+        const RECUR = RC[0] + frng() * (RC[1] - RC[0]);
+        FDIALS.recur = RECUR;
+        const slots = [];
+        const seen = {};
+        /* ── S IS A CELL YOU PLACE, NOT ONLY WHAT IS LEFT OVER ──────────────
+           The Europe sheet declares `S = 6` in its key beside A and B, and puts
+           it in the formula four times on purpose:
+
+             "the 'S' motif (which represents silence) KEEPS THE OTHER MOTIFS
+              HAPPENING AT THE SAME TIME... this gives the arrangment room for
+              the chords to play at the start of every bar, acting like a Call
+              & Reponse."
+
+           Chop Suey does the same, measured: its verse cell is 20 long on a
+           32 cycle, so `A(20) + S(12) = 32`, every time.
+
+           Here S could only ever be the remainder at the END -- whatever was
+           needed to make the sum come out. That is S doing arithmetic, not S
+           doing a job. It now has a DECLARED span and is drawn into the
+           formula like any other cell, and the mop-up at the end stays as the
+           guarantee that the balance always closes. */
+        const RL = TH.restLen || [1, Math.max(2, Math.round(SPAN_T / 3))];
+        const SLEN = Math.max(1, Math.min(SPAN_T - 1,
+                       RL[0] + Math.floor(frng() * (RL[1] - RL[0] + 1))));
+        const RW = TH.rest || [0, 1];
+        const restW = RW[0] + frng() * (RW[1] - RW[0]);
+        let left = SPAN_T, guard = 0;
+        while(left > 0 && guard++ < 64){
+          const fits = [];
+          for(let i = 0; i < INV.length; i++)
+            if(INV[i].span > 0 && INV[i].span <= left) fits.push([i, seen[i] ? RECUR : 1]);
+          /* S sits in the same draw as the cells, weighted by the genre. Never
+             first: a rest before anything has been said is not a rest. */
+          const rr = frng();                                  // unconditional [Law 7]
+          if(SLEN <= left && slots.length && rr < restW) fits.push([-1, 1]);
+          if(!fits.length) break;
+          const mi = wpick(frng, fits);
+          const span = mi < 0 ? SLEN : INV[mi].span;
+          slots.push({ mi, span, on: mi >= 0, entry: wpick(frng, MOVES), flip: false });
+          if(mi >= 0) seen[mi] = (seen[mi] || 0) + 1;
+          left -= span;
+        }
+        if(left > 0) slots.push({ mi: -1, span: left, on: false, entry: 0, flip: false });   // S
+        /* ── L2, AND IT IS PAID FOR IN SPAN ──────────────────────────────────
+           If no cell came back, one slot is replaced by an earlier cell OF THE
+           SAME SPAN. Same span means the equation still balances, so the law is
+           satisfied without breaking the arithmetic it depends on. If no equal
+           span exists the formula stands as drawn and says so. */
+        const sounding = slots.filter(x => x.mi >= 0);
+        const rep = {}; for(const x of sounding) rep[x.mi] = (rep[x.mi] || 0) + 1;
+        if(sounding.length > 1 && !Object.values(rep).some(c => c > 1)){
+          const first = sounding[0];
+          for(let i = 1; i < slots.length; i++)
+            if(slots[i].mi >= 0 && slots[i].span === first.span){ slots[i].mi = first.mi; break; }
+        }
+        /* ── UPPER CASE ON, LOWER CASE OFF ───────────────────────────────────
+           "The 'B' rotates from being active and inactive to give rest."
+           The slot keeps its span and stops sounding, so `A+a+B` occupies
+           exactly what `A+A+B` did. Never the first time a cell is heard --
+           there is nothing for the silence to be a hole in. */
+        const later = [];
+        const heard = {};
+        for(let i = 0; i < slots.length; i++){
+          if(slots[i].mi < 0) continue;
+          if(heard[slots[i].mi]) later.push(i);
+          heard[slots[i].mi] = true;
+        }
+        const SS = TH.silentSlot || [0, 0.5];        // a range, drawn per record
+        const silentW = SS[0] + frng() * (SS[1] - SS[0]);
+        FDIALS.silent = silentW;
+        const offRoll = frng(), offWhich = Math.floor(frng() * Math.max(1, later.length));
+        if(later.length && offRoll < silentW)
+          slots[later[offWhich]].on = false;
+        /* a slot that does not sound cannot carry a variation anybody can hear.
+           Same rule as the turn: the declaration says what happens, not what
+           was rolled. */
+        for(const sl of slots) if(!sl.on) sl.dev = "none";
+        /* ── AND THE LAST TIME ROUND, IT TURNS ───────────────────────────────
+           "The 'A' motif elevates on the first 3, but ON THE 4TH ONE IT FALLS,
+            giving variation and a sense of closure by ENDING WHERE THE MELODY
+            STARTS." The cell's own movements are mirrored on its final
+            occurrence -- same rhythm, same sizes, opposite direction -- so the
+            line comes home. Only for a cell heard more than once, because a
+            closure needs something to close. */
+        /* THE LAST SOUNDING ONE, not the last one. Marking the final occurrence
+           regardless of case put the turn on a lower-case slot -- dungeon synth
+           seed 3 came out `B + A + a↓`, a closure nobody can hear. A cadence has
+           to be audible to be a cadence. */
+        /* ── AND THE TURN IS A WEIGHT, BECAUSE IT WAS ONE RIFF'S DEVICE ─────
+           This read `if(sounded[mi] > 1) flip = true` -- unconditional. Every
+           cell that sounded twice had its last statement mirrored, in every
+           record of every genre, forever. The justification in this file was
+           Smoke On The Water: "the 'A' motif elevates on the first 3, but on
+           the 4th one it falls."
+
+           ONE RIFF DOES THAT. Nobody Else does not; its B rotates on and off
+           instead. Televators does not; it redistributes rhythm. Applying it
+           always is a song's device promoted to a law of the engine, which is
+           the third time this file has caught that and the second time I have
+           done it in this section alone.
+
+           `theme.close` is the weight, and its default is the whole range:
+           some records close every recurring cell, some none, most in
+           between. A genre that wants the device leans on it. */
+        const CL = TH.close || [0, 1];
+        const CLOSE = CL[0] + frng() * (CL[1] - CL[0]);
+        FDIALS.close = CLOSE;
+        const lastOf = {};
+        for(let i = 0; i < slots.length; i++) if(slots[i].mi >= 0 && slots[i].on) lastOf[slots[i].mi] = i;
+        const sounded = {};
+        for(const x of slots) if(x.mi >= 0 && x.on) sounded[x.mi] = (sounded[x.mi] || 0) + 1;
+        for(let mi = 0; mi < INV.length; mi++){
+          const roll = frng();                            // unconditional [Law 7]
+          if(sounded[mi] > 1 && lastOf[mi] != null && roll < CLOSE) slots[lastOf[mi]].flip = true;
+        }
+        /* ── AND WHAT EACH RESTATEMENT KEEPS ────────────────────────────────
+           Three draws a slot, always, so the stream does not move with the
+           outcome [Law 7]. The first time a cell is heard there is nothing to
+           preserve yet -- it IS the statement -- so it is marked `first` and
+           its realised pitches become what a later `pitch` restatement holds. */
+        const DEVS = TH.devices || [["none", 1], ["split", 1], ["drop", 1], ["swap", 1]];
+        const met = {};
+        for(const sl of slots){
+          const roll = frng(); sl.r1 = frng(); sl.r2 = frng();
+          sl.dev = wpick(frng, DEVS);                     // unconditional [Law 7]
+          sl.dr = frng(); sl.dm = wpick(frng, TH.moves || [[0,2],[1,5],[2,2],[-1,2]]);
+          if(sl.mi < 0){ sl.keep = null; sl.dev = "none"; continue; }
+          if(!met[sl.mi]){ sl.keep = "first"; sl.dev = "none"; met[sl.mi] = true; continue; }
+          sl.keep = roll < KEEP.rhythm ? "rhythm"
+                  : roll < KEEP.rhythm + KEEP.pitch ? "pitch" : "span";
+          /* a device is the variation ON a cell that is otherwise identical. A
+             `pitch` restatement already moves its lengths and a `span` one is
+             redrawn entirely, so neither takes one -- there would be nothing
+             left of the cell to vary. */
+          if(sl.keep !== "rhythm") sl.dev = "none";
+        }
+        return slots;
+      })();
+      /* ══ THE PLAN — the formula walked out onto the sixteenth grid ════════ */
+      const PLAN = (() => {
+        const out = [];
+        let at = 0, si = 0;
+        for(const sl of FORM){
+          if(sl.on && sl.mi >= 0){
+            const base = INV[sl.mi];
+            let cell = sl.keep === "pitch" ? reflow(base, sl.r1, sl.r2)
+                     : sl.keep === "span"  ? redrawCell(base, stream(chart.seed,
+                                              streamName + ":redraw:" + si))
+                     : base;
+            if(sl.dev === "split") cell = splitCell(cell, sl.dr, sl.dm);
+            else if(sl.dev === "drop") cell = dropCell(cell, sl.dr);
+            else if(sl.dev === "swap") cell = swapCell(cell, sl.dr);
+            let t = at;
+            for(let i = 0; i < cell.lengths.length; i++){
+              out.push({ at: t, dur: cell.lengths[i], mi: sl.mi, head: i === 0, ci: i,
+                         first: sl.keep === "first", hold: sl.keep === "pitch",
+                         fixed: i > 0 && !!(cell.fixed && cell.fixed[i - 1]),
+                         move: i === 0 ? sl.entry : cell.moves[i - 1] * (sl.flip ? -1 : 1) });
+              t += cell.lengths[i];
+            }
+          }
+          at += sl.span; si++;
+        }
+        return out;
+      })();
+      /* what the line was built from, in the sheets' own terms, so the notes can
+         be read against it rather than taken on trust */
+      const declared = Object.freeze({
+        hook: !!hooky, spanTarget: SPAN_T,
+        cells: INV.map(c => c.lengths.join("+") + " (" + c.span + ")"),
+        formula: FORM.map(sl => sl.mi < 0 ? "S" + sl.span
+                          : (sl.on ? "ABCD"[sl.mi] : "abcd"[sl.mi])
+                            + (sl.dev === "split" ? "2" : sl.dev === "drop" ? "-"
+                               : sl.dev === "swap" ? "~" : "")
+                            + (sl.flip ? "↓" : "")).join(" + "),
+        devices: FORM.map(sl => sl.dev || "-"),
+        balance: FORM.reduce((a, sl) => a + sl.span, 0) + " / " + SPAN_T,
+        weights: { rhythm: +KEEP.rhythm.toFixed(3), pitch: +KEEP.pitch.toFixed(3),
+                   span: +(1 - KEEP.rhythm - KEEP.pitch).toFixed(3),
+                   close: +FDIALS.close.toFixed(3), silent: +FDIALS.silent.toFixed(3),
+                   recur: +FDIALS.recur.toFixed(2), cells: INV.length },
+        keeps: FORM.map(sl => sl.mi < 0 ? "S" : (sl.keep || "-"))
+      });
+    return { inv: INV, form: FORM, plan: PLAN, declared, spanT: SPAN_T };
+  }
   /* WHAT EACH LINE DECIDED BEFORE IT PLAYED A NOTE. `materials.motifs` is a
      READING -- `MM.readLine` chopping a finished array into cells. This is the
      other thing, and it is the one that caused the notes: the inventory and
@@ -36674,411 +37155,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        because the line arrives at each restatement from somewhere else --
        which is "change their key and contour to stay interesting" falling
        out of the construction rather than being applied to it. */
-    const SPAN_T = (opts.hooky ? 2 : BARS) * 16;
-    /* the formula's own dials, recorded as drawn so a record can be read
-       against the numbers it was actually given rather than the table's */
-    const FDIALS = { close: 0, silent: 0, recur: 0 };
-    const INV = (() => {
-      const irng = stream(chart.seed, streamName + ":cells");
-      const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
-      /* the lengths a cell may be made of, on the sixteenth grid. Every value
-         here appears in the sheets: 1 and 2 in the bassline, 3 and 4 and 6 and
-         8 across Smoke On The Water and the melody. A genre may declare its
-         own; none does yet, which is §5's complaint and now has somewhere to
-         land. */
-      const LEN = TH.lengths || [[1, 1], [2, 1], [3, 1], [4, 1], [6, 1], [8, 1]];
-      const cnt = opts.hooky ? TH.count.hooky : TH.count.normal;
-      /* HOW MANY CELLS, and HOW LONG ONE MAY BE. Both were literals: three
-         drawn and two-or-three kept, and a cap of a third of the material
-         justified in this file's own comment by "Smoke On The Water is 8, 6
-         and 10 filling 32". A song's proportions written into stage logic.
-         The only thing the LAW needs is that a cell can come back, which
-         means span <= half the material; everything inside that is the
-         genre's, and the default is the whole of it. */
-      /* ── A MOVEMENT MAY STATE ITS DIRECTION, OR LEAVE IT FREE ───────────
-         The notation separates the two and the sheet is explicit about why:
-           `4(ii)4`  -- magnitude 2, and "THE DIRECTION IS UP TO YOUR OWN
-                        PERSONAL TASTE"
-           `4(E2)4`  -- up 2, stated, because "the 'x' value can be replaced
-                        with 'E' for Elevate, or 'F' for fall TO GIVE A STRONG
-                        SENSE OF FAMILIARITY"
-         Every movement here took its sign from the phrase's own direction, so
-         a motif could carry a size and never a direction -- half the notation
-         with no way to say it. A stated movement keeps its sign wherever the
-         phrase is going; a free one still turns with it. */
-      const ST = TH.stated || [0, 1];
-      const statedW = ST[0] + irng() * (ST[1] - ST[0]);
-      const NC  = TH.cells   || [2, 4];
-      const CAP = TH.cellMax || [0.2, 0.5];
-      const capF = CAP[0] + irng() * (CAP[1] - CAP[0]);
-      const cap  = Math.max(2, Math.min(SPAN_T / 2, SPAN_T * capF));
-      const out = [];
-      for(let k = 0; k < 4; k++){                       // four drawn, tail cut [Law 7]
-        const n = Math.max(1, cnt[0] + Math.floor(irng() * cnt[1]));
-        const lengths = [], moves = [], fixed = [];
-        for(let i = 0; i < n; i++){
-          lengths.push(wpick(irng, LEN));
-          const mv = wpick(irng, MOVES), fx = irng() < statedW;   // both drawn always
-          if(i){ moves.push(mv); fixed.push(fx); }
-        }
-        /* A CELL MUST LEAVE ROOM FOR ITSELF TO COME BACK, AND FOR SOMETHING
-           ELSE BESIDES. Half the material was the first cap and it is not
-           enough: two cells of fifteen fill a two-bar hook exactly and NEITHER
-           CAN RECUR -- measured, dungeon synth seed 3 came out `B + A + S3`,
-           which has no hook in it at all. The sheets keep a cell to about a
-           third: Smoke On The Water is 8, 6 and 10 filling 32, and A gets to
-           happen twice. A third is the number, and it makes L2 reachable by
-           arithmetic instead of by rescue. */
-        while(lengths.reduce((a, z) => a + z, 0) > cap && lengths.length > 1){
-          lengths.pop(); moves.pop();
-        }
-        out.push({ lengths, moves, fixed, span: lengths.reduce((a, z) => a + z, 0) });
-      }
-      const keep = NC[0] + Math.floor(irng() * (NC[1] - NC[0] + 1));
-      return out.slice(0, keep);
-    })();
-    /* ══ WHAT A RESTATEMENT KEEPS — A WEIGHT, NOT A SWITCH ═══════════════
-       [owner:] "even the dials shoulnt be strict on or offs that would be a
-       switch right"
-
-       Right, and the four sheets are only four EXAMPLES. Measured off the
-       MIDI of two songs nobody drew, they disagree with each other on the
-       thing I had been treating as the law:
-
-         Chop Suey    the verse cell is `2x10` and comes back with the SAME
-                      RHYTHM and different pitches -- G4 nine times, then
-                      F#4 nine times. Rhythm held, key moved.
-         Televators   the cell F#4-E4-D4-D4 comes back as 4+4+4+12, then
-                      2+4+6+12, then 2+4+6+12. SAME PITCHES, same span, the
-                      rhythm redistributed inside it. Pitch held, rhythm moved.
-
-       They are opposites. So "the rhythm is the invariant" is one song's
-       habit, not a law, and `melodic-math.md` §1 states it too strongly.
-       What IS law is L3: SOMETHING is preserved, and which one is the
-       genre's business.
-
-       And it cannot be a switch. A switch gives two songs. This program's
-       own second principle says a soft law is "a habit with WEIGHTS, and
-       lives in the genre tables where a genre can lean on it or not."
-
-       So it is drawn at three levels, which is this project's usual shape:
-         the GENRE declares a range        keep.rhythm [0.55, 0.95]
-         the SEED draws one value a record            0.71
-         each RESTATEMENT rolls against it            keep rhythm / pitch / span
-
-       A roll past both weights keeps only the SPAN -- the cell's place in the
-       equation, with everything inside it redrawn. That is still a
-       restatement under L3 and it is the loosest one the law allows. */
-    const KEEP = (() => {
-      const krng = stream(chart.seed, streamName + ":keep");
-      /* ── THE DEFAULT IS THE WHOLE RANGE, BECAUSE NO SONG IS THE TARGET ──
-         This shipped as [0.55,0.95] / [0.00,0.35] -- a range shaped to lean
-         on the rhythm, chosen because two of the songs I had read do that.
-         That is a song used as a goal, and it is the same defect this file
-         has already caught twice: `NEEF` shipped as a default because one
-         riff spelled it, and `A+B+A+C` written out because one riff spelled
-         that.
-
-         THE SONGS ARE NOT TARGETS. They are evidence that a capability is
-         real and gets used -- Televators proves a line can hold its pitches
-         and move its rhythm, so the engine must be ABLE to; it does not
-         follow that anything should sound like Televators.
-
-         So the default is the widest range the law allows, and NARROWING IT
-         IS THE GENRE'S JOB. An engine that can only express what the four
-         sheets happened to do is a transcription tool, not a generator. */
-      const R = (TH.keep && TH.keep.rhythm) || [0, 1];
-      const P = (TH.keep && TH.keep.pitch)  || [0, 1];
-      const kr = R[0] + krng() * (R[1] - R[0]);
-      const kp = P[0] + krng() * (P[1] - P[0]);
-      const sum = kr + kp;
-      return sum > 1 ? { rhythm: kr / sum, pitch: kp / sum }
-                     : { rhythm: kr, pitch: kp };
-    })();
-    /* KEEP THE PITCHES, MOVE THE RHYTHM -- Televators' own device, measured:
-       4+4+4+12 becomes 2+4+6+12, the same four notes over the same 24. Units
-       are moved from one length to another, so the span cannot drift and no
-       check afterwards is needed. */
-    const reflow = (cell, r1, r2) => {
-      const L = cell.lengths.slice();
-      if(L.length < 2) return cell;
-      const a = Math.floor(r1 * L.length) % L.length;
-      let b = Math.floor(r2 * L.length) % L.length;
-      if(b === a) b = (a + 1) % L.length;
-      const k = Math.max(1, Math.floor(L[a] / 2));
-      if(L[a] - k < 1) return cell;
-      L[a] -= k; L[b] += k;
-      return { lengths: L, moves: cell.moves, span: cell.span };
-    };
-    /* ══ THE THREE DEVICES THE NOTATION NAMES ════════════════════════════
-       Each changes what is inside a cell and CANNOT change its span, so the
-       equation still balances and nothing is checked afterwards.
-
-       SPLIT -- the Europe sheet, and the most-named device in the set:
-         "'A2' has the last note SPLIT INTO 2, still taking up the same amount
-          of space, but allowing for an extra key change, we can call this
-          rhythmic acceleration."
-         `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2`. The new note carries a
-         movement of its own -- that is the point of it, not a side effect.
-
-       DROP -- Nobody Else:
-         "Note in the 3rd 'A' A NOTE IS MISSED to create unbalance and create
-          additional tension."
-         The note's length goes to the note before it, so the cell keeps its
-         span and its attack points move. Never the first note: a cell has to
-         start where it starts to be recognised.
-
-       SWAP -- Televators, measured off the MIDI:
-         `B3 D4 D4 B3 E4 F#4` is `4+2+4+2+4+8` and comes back `2+4+4+2+4+4`,
-         the first two lengths exchanged. Same notes, attacks moved.
-
-       WHICH DEVICE, AND HOW OFTEN, IS THE GENRE'S. The default weights every
-       one of them the same, including doing nothing -- the widest the law
-       allows. A weighting that favoured one would be a song again. */
-    const splitCell = (cell, r, mv) => {
-      const L = cell.lengths.slice(), M = cell.moves.slice();
-      const c = []; for(let i = 0; i < L.length; i++) if(L[i] >= 2) c.push(i);
-      if(!c.length) return cell;
-      const i = c[Math.floor(r * c.length) % c.length];
-      const a = Math.floor(L[i] / 2);
-      L.splice(i, 1, a, L[i] - a);
-      M.splice(i, 0, mv);                       // the extra key change
-      const F = (cell.fixed || []).slice(); F.splice(i, 0, false);
-      return { lengths: L, moves: M, fixed: F, span: cell.span };
-    };
-    const dropCell = (cell, r) => {
-      const L = cell.lengths.slice(), M = cell.moves.slice();
-      if(L.length < 3) return cell;
-      const i = 1 + (Math.floor(r * (L.length - 1)) % (L.length - 1));
-      L[i - 1] += L[i]; L.splice(i, 1); M.splice(i - 1, 1);
-      const F = (cell.fixed || []).slice(); F.splice(i - 1, 1);
-      return { lengths: L, moves: M, fixed: F, span: cell.span };
-    };
-    const swapCell = (cell, r) => {
-      const L = cell.lengths.slice();
-      if(L.length < 2) return cell;
-      const i = Math.floor(r * (L.length - 1)) % (L.length - 1);
-      const t = L[i]; L[i] = L[i + 1]; L[i + 1] = t;
-      return { lengths: L, moves: cell.moves, fixed: cell.fixed, span: cell.span };
-    };
-    /* KEEP ONLY THE SPAN. The slot holds its place in the equation and
-       everything inside it is drawn again. */
-    const redrawCell = (cell, rrng) => {
-      const LEN = TH.lengths || [[1, 1], [2, 1], [3, 1], [4, 1], [6, 1], [8, 1]];
-      const MV  = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
-      const L = []; let left = cell.span;
-      while(left > 0){
-        const pick = Math.min(left, wpick(rrng, LEN));
-        L.push(pick); left -= pick;
-        if(L.length >= 12){ L[L.length - 1] += left; left = 0; }
-      }
-      return { lengths: L, moves: L.slice(1).map(() => wpick(rrng, MV)),
-               fixed: L.slice(1).map(() => false), span: cell.span };
-    };
-    /* ══ THE FORMULA — cells laid end to end until the spans balance ══════
-       `A+B+A+C = 32`. Cells are appended until the material is full, and a
-       cell already heard is weighted over a new one, which is what produces
-       `A+B+A+C` rather than four different letters. Whatever space is left at
-       the end becomes `S`, the sheets' own silence cell:
-
-         "the 'S' motif (which represents silence) keeps the other motifs
-          happening at the same time... gives the arrangment room for the
-          chords to play at the start of every bar, acting like a Call &
-          Reponse."
-
-       S is why the balance can always be struck exactly. It is not a
-       leftover -- it is the piece that makes the equation come out. */
-    const FORM = (() => {
-      const frng = stream(chart.seed, streamName + ":formula");
-      const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
-      /* HOW MUCH A CELL ALREADY HEARD OUTWEIGHS A NEW ONE. This was `5 : 2`,
-         a number I chose to make `A+B+A+C` come out. The law is only that a
-         cell comes back; how strongly the formula leans on what it has
-         already said is the genre's. */
-      const RC = TH.recur || [1, 8];
-      const RECUR = RC[0] + frng() * (RC[1] - RC[0]);
-      FDIALS.recur = RECUR;
-      const slots = [];
-      const seen = {};
-      /* ── S IS A CELL YOU PLACE, NOT ONLY WHAT IS LEFT OVER ──────────────
-         The Europe sheet declares `S = 6` in its key beside A and B, and puts
-         it in the formula four times on purpose:
-
-           "the 'S' motif (which represents silence) KEEPS THE OTHER MOTIFS
-            HAPPENING AT THE SAME TIME... this gives the arrangment room for
-            the chords to play at the start of every bar, acting like a Call
-            & Reponse."
-
-         Chop Suey does the same, measured: its verse cell is 20 long on a
-         32 cycle, so `A(20) + S(12) = 32`, every time.
-
-         Here S could only ever be the remainder at the END -- whatever was
-         needed to make the sum come out. That is S doing arithmetic, not S
-         doing a job. It now has a DECLARED span and is drawn into the
-         formula like any other cell, and the mop-up at the end stays as the
-         guarantee that the balance always closes. */
-      const RL = TH.restLen || [1, Math.max(2, Math.round(SPAN_T / 3))];
-      const SLEN = Math.max(1, Math.min(SPAN_T - 1,
-                     RL[0] + Math.floor(frng() * (RL[1] - RL[0] + 1))));
-      const RW = TH.rest || [0, 1];
-      const restW = RW[0] + frng() * (RW[1] - RW[0]);
-      let left = SPAN_T, guard = 0;
-      while(left > 0 && guard++ < 64){
-        const fits = [];
-        for(let i = 0; i < INV.length; i++)
-          if(INV[i].span > 0 && INV[i].span <= left) fits.push([i, seen[i] ? RECUR : 1]);
-        /* S sits in the same draw as the cells, weighted by the genre. Never
-           first: a rest before anything has been said is not a rest. */
-        const rr = frng();                                  // unconditional [Law 7]
-        if(SLEN <= left && slots.length && rr < restW) fits.push([-1, 1]);
-        if(!fits.length) break;
-        const mi = wpick(frng, fits);
-        const span = mi < 0 ? SLEN : INV[mi].span;
-        slots.push({ mi, span, on: mi >= 0, entry: wpick(frng, MOVES), flip: false });
-        if(mi >= 0) seen[mi] = (seen[mi] || 0) + 1;
-        left -= span;
-      }
-      if(left > 0) slots.push({ mi: -1, span: left, on: false, entry: 0, flip: false });   // S
-      /* ── L2, AND IT IS PAID FOR IN SPAN ──────────────────────────────────
-         If no cell came back, one slot is replaced by an earlier cell OF THE
-         SAME SPAN. Same span means the equation still balances, so the law is
-         satisfied without breaking the arithmetic it depends on. If no equal
-         span exists the formula stands as drawn and says so. */
-      const sounding = slots.filter(x => x.mi >= 0);
-      const rep = {}; for(const x of sounding) rep[x.mi] = (rep[x.mi] || 0) + 1;
-      if(sounding.length > 1 && !Object.values(rep).some(c => c > 1)){
-        const first = sounding[0];
-        for(let i = 1; i < slots.length; i++)
-          if(slots[i].mi >= 0 && slots[i].span === first.span){ slots[i].mi = first.mi; break; }
-      }
-      /* ── UPPER CASE ON, LOWER CASE OFF ───────────────────────────────────
-         "The 'B' rotates from being active and inactive to give rest."
-         The slot keeps its span and stops sounding, so `A+a+B` occupies
-         exactly what `A+A+B` did. Never the first time a cell is heard --
-         there is nothing for the silence to be a hole in. */
-      const later = [];
-      const heard = {};
-      for(let i = 0; i < slots.length; i++){
-        if(slots[i].mi < 0) continue;
-        if(heard[slots[i].mi]) later.push(i);
-        heard[slots[i].mi] = true;
-      }
-      const SS = TH.silentSlot || [0, 0.5];        // a range, drawn per record
-      const silentW = SS[0] + frng() * (SS[1] - SS[0]);
-      FDIALS.silent = silentW;
-      const offRoll = frng(), offWhich = Math.floor(frng() * Math.max(1, later.length));
-      if(later.length && offRoll < silentW)
-        slots[later[offWhich]].on = false;
-      /* a slot that does not sound cannot carry a variation anybody can hear.
-         Same rule as the turn: the declaration says what happens, not what
-         was rolled. */
-      for(const sl of slots) if(!sl.on) sl.dev = "none";
-      /* ── AND THE LAST TIME ROUND, IT TURNS ───────────────────────────────
-         "The 'A' motif elevates on the first 3, but ON THE 4TH ONE IT FALLS,
-          giving variation and a sense of closure by ENDING WHERE THE MELODY
-          STARTS." The cell's own movements are mirrored on its final
-          occurrence -- same rhythm, same sizes, opposite direction -- so the
-          line comes home. Only for a cell heard more than once, because a
-          closure needs something to close. */
-      /* THE LAST SOUNDING ONE, not the last one. Marking the final occurrence
-         regardless of case put the turn on a lower-case slot -- dungeon synth
-         seed 3 came out `B + A + a↓`, a closure nobody can hear. A cadence has
-         to be audible to be a cadence. */
-      /* ── AND THE TURN IS A WEIGHT, BECAUSE IT WAS ONE RIFF'S DEVICE ─────
-         This read `if(sounded[mi] > 1) flip = true` -- unconditional. Every
-         cell that sounded twice had its last statement mirrored, in every
-         record of every genre, forever. The justification in this file was
-         Smoke On The Water: "the 'A' motif elevates on the first 3, but on
-         the 4th one it falls."
-
-         ONE RIFF DOES THAT. Nobody Else does not; its B rotates on and off
-         instead. Televators does not; it redistributes rhythm. Applying it
-         always is a song's device promoted to a law of the engine, which is
-         the third time this file has caught that and the second time I have
-         done it in this section alone.
-
-         `theme.close` is the weight, and its default is the whole range:
-         some records close every recurring cell, some none, most in
-         between. A genre that wants the device leans on it. */
-      const CL = TH.close || [0, 1];
-      const CLOSE = CL[0] + frng() * (CL[1] - CL[0]);
-      FDIALS.close = CLOSE;
-      const lastOf = {};
-      for(let i = 0; i < slots.length; i++) if(slots[i].mi >= 0 && slots[i].on) lastOf[slots[i].mi] = i;
-      const sounded = {};
-      for(const x of slots) if(x.mi >= 0 && x.on) sounded[x.mi] = (sounded[x.mi] || 0) + 1;
-      for(let mi = 0; mi < INV.length; mi++){
-        const roll = frng();                            // unconditional [Law 7]
-        if(sounded[mi] > 1 && lastOf[mi] != null && roll < CLOSE) slots[lastOf[mi]].flip = true;
-      }
-      /* ── AND WHAT EACH RESTATEMENT KEEPS ────────────────────────────────
-         Three draws a slot, always, so the stream does not move with the
-         outcome [Law 7]. The first time a cell is heard there is nothing to
-         preserve yet -- it IS the statement -- so it is marked `first` and
-         its realised pitches become what a later `pitch` restatement holds. */
-      const DEVS = TH.devices || [["none", 1], ["split", 1], ["drop", 1], ["swap", 1]];
-      const met = {};
-      for(const sl of slots){
-        const roll = frng(); sl.r1 = frng(); sl.r2 = frng();
-        sl.dev = wpick(frng, DEVS);                     // unconditional [Law 7]
-        sl.dr = frng(); sl.dm = wpick(frng, TH.moves || [[0,2],[1,5],[2,2],[-1,2]]);
-        if(sl.mi < 0){ sl.keep = null; sl.dev = "none"; continue; }
-        if(!met[sl.mi]){ sl.keep = "first"; sl.dev = "none"; met[sl.mi] = true; continue; }
-        sl.keep = roll < KEEP.rhythm ? "rhythm"
-                : roll < KEEP.rhythm + KEEP.pitch ? "pitch" : "span";
-        /* a device is the variation ON a cell that is otherwise identical. A
-           `pitch` restatement already moves its lengths and a `span` one is
-           redrawn entirely, so neither takes one -- there would be nothing
-           left of the cell to vary. */
-        if(sl.keep !== "rhythm") sl.dev = "none";
-      }
-      return slots;
-    })();
-    /* ══ THE PLAN — the formula walked out onto the sixteenth grid ════════ */
-    const PLAN = (() => {
-      const out = [];
-      let at = 0, si = 0;
-      for(const sl of FORM){
-        if(sl.on && sl.mi >= 0){
-          const base = INV[sl.mi];
-          let cell = sl.keep === "pitch" ? reflow(base, sl.r1, sl.r2)
-                   : sl.keep === "span"  ? redrawCell(base, stream(chart.seed,
-                                            streamName + ":redraw:" + si))
-                   : base;
-          if(sl.dev === "split") cell = splitCell(cell, sl.dr, sl.dm);
-          else if(sl.dev === "drop") cell = dropCell(cell, sl.dr);
-          else if(sl.dev === "swap") cell = swapCell(cell, sl.dr);
-          let t = at;
-          for(let i = 0; i < cell.lengths.length; i++){
-            out.push({ at: t, dur: cell.lengths[i], mi: sl.mi, head: i === 0, ci: i,
-                       first: sl.keep === "first", hold: sl.keep === "pitch",
-                       fixed: i > 0 && !!(cell.fixed && cell.fixed[i - 1]),
-                       move: i === 0 ? sl.entry : cell.moves[i - 1] * (sl.flip ? -1 : 1) });
-            t += cell.lengths[i];
-          }
-        }
-        at += sl.span; si++;
-      }
-      return out;
-    })();
-    /* what the line was built from, in the sheets' own terms, so the notes can
-       be read against it rather than taken on trust */
-    DECLARED[streamName] = Object.freeze({
-      hook: !!opts.hooky, spanTarget: SPAN_T,
-      cells: INV.map(c => c.lengths.join("+") + " (" + c.span + ")"),
-      formula: FORM.map(sl => sl.mi < 0 ? "S" + sl.span
-                        : (sl.on ? "ABCD"[sl.mi] : "abcd"[sl.mi])
-                          + (sl.dev === "split" ? "2" : sl.dev === "drop" ? "-"
-                             : sl.dev === "swap" ? "~" : "")
-                          + (sl.flip ? "↓" : "")).join(" + "),
-      devices: FORM.map(sl => sl.dev || "-"),
-      balance: FORM.reduce((a, sl) => a + sl.span, 0) + " / " + SPAN_T,
-      weights: { rhythm: +KEEP.rhythm.toFixed(3), pitch: +KEEP.pitch.toFixed(3),
-                 span: +(1 - KEEP.rhythm - KEEP.pitch).toFixed(3),
-                 close: +FDIALS.close.toFixed(3), silent: +FDIALS.silent.toFixed(3),
-                 recur: +FDIALS.recur.toFixed(2), cells: INV.length },
-      keeps: FORM.map(sl => sl.mi < 0 ? "S" : (sl.keep || "-"))
-    });
+    const MML = mmLine(streamName, (opts.hooky ? 2 : BARS) * 16, TH, !!opts.hooky);
+    const SPAN_T = MML.spanT, INV = MML.inv, FORM = MML.form, PLAN = MML.plan;
+    DECLARED[streamName] = MML.declared;
     /* the pitches each cell sounded on its FIRST statement. A `pitch`
        restatement plays these again; the laws below may still refuse one, and
        that refusal is measured rather than hidden. */

@@ -1296,3 +1296,95 @@ them would be the same defect this document has now caught four times.
 **Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
 all four genres; balance 954/954; 159 of 160 records compose, the one failure the
 pre-existing `lofi seed 17` seam throw.
+
+---
+
+## 19. THE LINE ENGINE PASS
+
+> [owner:] *"do the line engine pass now"*
+
+§18 recorded the biggest remaining gap: the engine was a LEAD engine. `grep`
+returned **zero** cell machinery in `buildBass`, `buildOstinato` and
+`deriveCounter` — while two of the eight sheets the notation comes from are a
+**bassline**, and this document's own first paragraph says:
+
+> *"This is not a melody engine. It is a LINE engine… the owner's own Nobody
+> Else sheets analyse a bassline in exactly this notation, and the bass turns
+> out to need it more than the melody does."*
+
+### 1. The engine is lifted out, and it is proven neutral
+
+The inventory, formula, plan, devices and weights were written inside
+`buildTheme`'s closure. They are now `mmLine(streamName, spanT, TH, hooky)` and
+**take their table as an argument** — every dial is per LINE, which is what §5
+has said since it was written and what a closure could not express.
+
+Nothing about the lead changed in the lifting, and that is measured rather than
+asserted: every note of every material of every role, four genres × 25 seeds —
+
+```
+  lines compared 21,610      differing 0      IDENTICAL
+```
+
+### 2. The bass can be built of cells
+
+Not as a replacement for the five bass roles — as a **sixth role**, drawn from
+`bassRoles` per material exactly like the others. A genre whose bass is a pedal
+or a sequencer is untouched; none of the existing roles moved.
+
+The `Nobody Else` bassline is analysed in the notation exactly as its melody is:
+
+```
+  A = 1/1/1/1/2 (6)    B = 2/2 (4)    A+A+B = 16, one bar
+  Structural Formula:  A+a+B / A+A+B / A+a+B / A+a+b
+```
+
+and what the sheet says about it is a bass instruction, not a melody one:
+*"The 'A' and 'B' motifs always stay in the same rhythm… kept interesting by
+changing the ORDER the 'A' & 'B' is played and by CHANGING KEY."*
+
+**Its own table** — `bassTheme` if the genre declares one, `theme` if not.
+**The harmony places, the cell shapes**: a cell starts from the chord root,
+moves by its own movements, and folds into the octave around that root — a bass
+says which chord this is, and a cell that wandered out of the register would be
+a melody played low. Same order the lead uses.
+
+### 3. Measured, with the role forced on
+
+The role is reachable and undeclared, so it had to be tested by forcing it, not
+by trusting that it would work if asked:
+
+```
+                  records   notes/record   distinct bar rhythms
+  lofi              24          14.8              3.75
+  synthwave         25          14.9              3.76
+  dungeonsynth      25          17.7              3.84
+  ds2               25          17.7              3.84
+```
+
+Against the bass the audit measured on the old roles — 1.98 to 2.46 distinct bar
+rhythms — a cell-built bass is markedly more varied. One record threw, and it is
+the pre-existing `lofi seed 17` seam error, not this.
+
+A worked example, lofi seed 3, the bass publishing its own working beside the
+lead's:
+
+```
+  cells   : 2+8+2+1 (13) | 3+2+6 (11) | 6+2+2+8 (18) | 3+1+6+8 (18)
+  formula : B + A + D + A + S9        balance 64 / 64
+```
+
+### What is still not done
+
+- **The counter and the ostinato.** `deriveCounter` derives from the lead's
+  notes and `buildOstinato` has its own figure logic. Both are lines and both
+  should be able to ask; neither does yet.
+- **No genre declares `cells` in its `bassRoles`.** The role exists and is
+  reachable through the mechanism genres already use — that is a capability, not
+  dead data — but choosing which genre gets it and at what weight needs a source
+  for that genre, and inventing one is the defect this document has now caught
+  four times.
+
+**Verified:** `mk2_syntax` clean; the lift byte-identical over 21,610 note
+lines; `mk2_mm` 31/31 round-trip; balance 954/954; `mk2_roll` composes all four
+genres; 159 of 160 records compose.
