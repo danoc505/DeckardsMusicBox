@@ -1505,3 +1505,74 @@ directly is a different change, and it is the one `melodic-math.md` §4 names.
   project holds to be worse than none.
 - **No genre declares any of the twelve dials.** Still the standing work, and
   still the reason all four genres measure alike.
+
+---
+
+## 21. SEQUENCE PROPER — built, and the trade is not free
+
+`melodic-math.md` §4 names two things the program cannot say. §17 built the
+second, the turn. **This is the first**, quoted there verbatim:
+
+> *"A motif's pitch level moves by a FIXED INTERVAL, the same every time — not a
+> redrawn transposition. This is SEQUENCE proper. The engine's device draws ±1
+> or ±2 scale steps at random each time, which is not a sequence — it is a
+> wander."*
+
+§20's hand-over was necessary and not sufficient: a cell that always leaves the
+same way still *arrives* wherever the material between two of its statements
+happened to end. **A sequence is not walked to — it is a pitch level the
+statement is placed at.**
+
+- The cell draws a `step` with itself, and every statement of it is placed at
+  `first-statement pitch + lvl × step`.
+- **The turn now means what the sheet says.** `theme.close` sets the last
+  sounding statement's level back to 0 — *"a sense of closure by ending where
+  the melody starts, on D"* — which was only expressible once a statement had a
+  level at all.
+- `theme.sequence` is the weight, default `[0,1]`.
+
+### Three faults found by measuring, all mine
+
+- **It threw.** `dungeonsynth seed 39`, Avarlift's lead: placing the note
+  ignores where the line was going, and where it was going was the only
+  resolution a hanging dissonance had. Placement now waits for the next onset,
+  like every other choice here.
+- **The climb compounds.** `lvl × step` asks for ten scale steps by the fifth
+  statement, outside any register a line has. Bounded to a fourth either way.
+- **A placement may land on the pitch it comes from.** Refused at the choice.
+
+### The trade, measured, and it is not free
+
+```
+  cells stated 3+ times, statements at a constant interval    2.2%  ->  9.3%
+  mean lead notes per record                                  11.1  ->  10.0
+  repeated pitches, lead+counter                              0     ->  3 of 21,149
+```
+
+**That is roughly one note in eleven, for a device that lands 9% of the time.**
+The reason it lands so rarely is the same reason it costs notes: a placed pitch
+ignores the line's state, so the counterpoint laws — the dissonance must resolve
+by step, the seat must be free — overrule most of it, and each overruled
+placement leaves `m` somewhere the next note cannot reach.
+
+⚠ **The 3 repeats are not explained.** The guard written for them did not move
+the number; the cause is elsewhere and is not identified. It is 0.01% against
+the 4.21% that prompted the original complaint, and it is recorded here rather
+than left looking fixed.
+
+**This one needs the ear.** The mechanism is correct and sourced, the arithmetic
+is right, and whether a 4× gain in sequence is worth a note in eleven is not a
+question a measurement can answer. `theme.sequence: [0, 0]` turns it off.
+
+### And the wide defaults are now visibly too wide
+
+`lofi seed 12` composes `S17 + S17 + A + A↓ + S4` where cell A is a **single note
+of length 13** — a legal formula, both laws satisfied, and a lead of one note.
+Near-empty lines already existed before this section (1 record of 159); the
+stream shift made it 2, one of them a single note.
+
+This is not a defect in the laws. It is what **"the widest range the law allows"
+actually sounds like** when every one of the thirteen dials is at its default,
+and it is the clearest argument yet for the standing work: **no genre declares a
+single dial.** The engine can now express far more than any genre has asked it
+for.

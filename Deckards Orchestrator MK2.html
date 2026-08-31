@@ -36623,7 +36623,27 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              cell's own movements to come home; coming home means nothing if
              the cell was never in the same place twice. */
           const tail = wpick(irng, MOVES);        // drawn with the cell [Law 7]
-          out.push({ lengths, moves, fixed, tail,
+          /* ── AND THE INTERVAL ITS STATEMENTS MOVE BY ─────────────────────
+             `melodic-math.md` §4 names two things this program cannot say. §17
+             built the second, the turn. THIS IS THE FIRST, and it is quoted
+             there verbatim:
+
+               "A motif's pitch level moves by a FIXED INTERVAL, the same every
+                time -- not a redrawn transposition. This is SEQUENCE proper.
+                The engine's device draws +-1 or +-2 scale steps at random each
+                time, which is not a sequence -- it is a wander."
+
+             The hand-over above was necessary and not sufficient: a cell that
+             always leaves the same way still ARRIVES wherever the material
+             between two of its statements happened to end. Measured after the
+             hand-over landed, cells stated three or more times: their statements
+             sat at a constant interval 2.2% of the time.
+
+             A sequence is not walked to. It is a pitch LEVEL the statement is
+             placed at -- `step` here, drawn once with the cell and spent by
+             every statement of it. */
+          const step = wpick(irng, MOVES);
+          out.push({ lengths, moves, fixed, tail, step,
                      span: lengths.reduce((a, z) => a + z, 0) });
         }
         const keep = NC[0] + Math.floor(irng() * (NC[1] - NC[0] + 1));
@@ -36736,7 +36756,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         L.splice(i, 1, a, L[i] - a);
         M.splice(i, 0, mv);                       // the extra key change
         const F = (cell.fixed || []).slice(); F.splice(i, 0, false);
-        return { lengths: L, moves: M, fixed: F, tail: cell.tail, span: cell.span };
+        return { lengths: L, moves: M, fixed: F, tail: cell.tail, step: cell.step, span: cell.span };
       };
       const dropCell = (cell, r) => {
         const L = cell.lengths.slice(), M = cell.moves.slice();
@@ -36744,14 +36764,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const i = 1 + (Math.floor(r * (L.length - 1)) % (L.length - 1));
         L[i - 1] += L[i]; L.splice(i, 1); M.splice(i - 1, 1);
         const F = (cell.fixed || []).slice(); F.splice(i - 1, 1);
-        return { lengths: L, moves: M, fixed: F, tail: cell.tail, span: cell.span };
+        return { lengths: L, moves: M, fixed: F, tail: cell.tail, step: cell.step, span: cell.span };
       };
       const swapCell = (cell, r) => {
         const L = cell.lengths.slice();
         if(L.length < 2) return cell;
         const i = Math.floor(r * (L.length - 1)) % (L.length - 1);
         const t = L[i]; L[i] = L[i + 1]; L[i + 1] = t;
-        return { lengths: L, moves: cell.moves, fixed: cell.fixed, tail: cell.tail, span: cell.span };
+        return { lengths: L, moves: cell.moves, fixed: cell.fixed, tail: cell.tail, step: cell.step, span: cell.span };
       };
       /* KEEP ONLY THE SPAN. The slot holds its place in the equation and
          everything inside it is drawn again. */
@@ -36765,7 +36785,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(L.length >= 12){ L[L.length - 1] += left; left = 0; }
         }
         return { lengths: L, moves: L.slice(1).map(() => wpick(rrng, MV)),
-                 fixed: L.slice(1).map(() => false), tail: cell.tail, span: cell.span };
+                 fixed: L.slice(1).map(() => false), tail: cell.tail, step: cell.step, span: cell.span };
       };
       /* ══ THE FORMULA — cells laid end to end until the spans balance ══════
          `A+B+A+C = 32`. Cells are appended until the material is full, and a
@@ -37009,7 +37029,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         for(const x of slots) if(x.mi >= 0 && x.on) sounded[x.mi] = (sounded[x.mi] || 0) + 1;
         for(let mi = 0; mi < INV.length; mi++){
           const roll = frng();                            // unconditional [Law 7]
-          if(sounded[mi] > 1 && lastOf[mi] != null && roll < CLOSE) slots[lastOf[mi]].flip = true;
+          if(sounded[mi] > 1 && lastOf[mi] != null && roll < CLOSE){
+          slots[lastOf[mi]].flip = true;
+          /* "the 'A' motif elevates on the first 3, but ON THE 4TH ONE IT
+             FALLS, giving variation and a sense of closure by ENDING WHERE THE
+             MELODY STARTS." The turn is a RETURN TO THE LEVEL IT STARTED AT --
+             which is only expressible now that a statement HAS a level. */
+          slots[lastOf[mi]].lvl = 0;
+        }
         }
         /* ── AND WHAT EACH RESTATEMENT KEEPS ────────────────────────────────
            Three draws a slot, always, so the stream does not move with the
@@ -37017,10 +37044,23 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            preserve yet -- it IS the statement -- so it is marked `first` and
            its realised pitches become what a later `pitch` restatement holds. */
         const DEVS = TH.devices || [["none", 1], ["split", 1], ["drop", 1], ["swap", 1]];
-        const met = {};
+        /* ── HOW OFTEN A CELL IS SEQUENCED RATHER THAN WALKED ───────────────
+         Whether a statement is PLACED at its cell's level or simply arrives
+         where the line got to. Wide by default: the law says nothing about it,
+         and a genre that wants a strict sequence declares one. */
+      const SQ = TH.sequence || [0, 1];
+      const seqW = SQ[0] + frng() * (SQ[1] - SQ[0]);
+      FDIALS.sequence = seqW;
+      const lvlOf = {};
+      const met = {};
         for(const sl of slots){
           const roll = frng(); sl.r1 = frng(); sl.r2 = frng();
           sl.dev = wpick(frng, DEVS);                     // unconditional [Law 7]
+        /* which statement of its own cell this is, and whether it is placed at
+           that level or left to arrive. Both spent every slot [Law 7]. */
+        const seqRoll = frng();
+        if(sl.mi >= 0){ sl.lvl = (lvlOf[sl.mi] = (lvlOf[sl.mi] || 0) + 1) - 1; }
+        sl.seq = sl.mi >= 0 && seqRoll < seqW;
           sl.dr = frng(); sl.dm = wpick(frng, TH.moves || [[0,2],[1,5],[2,2],[-1,2]]);
           if(sl.mi < 0){ sl.keep = null; sl.dev = "none"; continue; }
           if(!met[sl.mi]){ sl.keep = "first"; sl.dev = "none"; met[sl.mi] = true; continue; }
@@ -37076,6 +37116,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
             for(let i = 0; i < cell.lengths.length; i++){
               out.push({ at: t, dur: cell.lengths[i], mi: sl.mi, head: i === 0, ci: i,
                          first: sl.keep === "first", hold: sl.keep === "pitch",
+                         seq: !!sl.seq, lvl: sl.lvl || 0, step: cell.step || 0,
                          fixed: i > 0 && !!(cell.fixed && cell.fixed[i - 1]),
                          move: i === 0 ? (prevTail != null ? prevTail : sl.entry)
                                        : cell.moves[i - 1] * (sl.flip ? -1 : 1) });
@@ -37107,7 +37148,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         weights: { rhythm: +KEEP.rhythm.toFixed(3), pitch: +KEEP.pitch.toFixed(3),
                    span: +(1 - KEEP.rhythm - KEEP.pitch).toFixed(3),
                    close: +FDIALS.close.toFixed(3), silent: +FDIALS.silent.toFixed(3),
-                   recur: +FDIALS.recur.toFixed(2), cells: INV.length },
+                   recur: +FDIALS.recur.toFixed(2), sequence: +FDIALS.sequence.toFixed(3),
+                 cells: INV.length },
         keeps: FORM.map(sl => sl.mi < 0 ? "S" : (sl.keep || "-"))
       });
     return { inv: INV, form: FORM, plan: PLAN, declared, spanT: SPAN_T };
@@ -37660,6 +37702,42 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              uses. How often it is refused is measured, not assumed. */
           if(P.hold && HEARD[P.mi] && HEARD[P.mi][P.ci] != null)
             cand = intoBand(HEARD[P.mi][P.ci], LO, HI);
+          /* ── SEQUENCE: THE STATEMENT IS PLACED, NOT WALKED TO ─────────────
+             A cell's first statement establishes its level. Every later one is
+             put at that level plus its own `step` per statement -- so the
+             interval between statements is the cell's, the same every time,
+             which is what a sequence IS. Walking there instead lets everything
+             in between decide, and everything in between is a different cell.
+             The laws below still get their say, and how often they overrule it
+             is measured rather than assumed. */
+          /* NEVER OVER A HANGING DISSONANCE. Placing the note ignores where the
+             line was going, and where it was going may have been the only
+             resolution a non-chord tone had -- `dungeonsynth seed 39` threw on
+             exactly that, in Avarlift's lead. A sequence is a decision about
+             pitch LEVEL, not a licence to leave a dissonance unanswered, so it
+             waits for the next onset like every other choice here. */
+          if(P.head && P.seq && !P.hold && !hang && P.lvl > 0 &&
+             HEARD[P.mi] && HEARD[P.mi][0] != null)
+          {
+            /* AND THE CLIMB IS BOUNDED. `lvl * step` compounds: a cell stated
+               five times with a step of two asks for ten scale steps, which is
+               outside any register a line has, so `intoBand` folded it and the
+               seat was refused -- `lofi seed 12` came out with a ONE-NOTE lead.
+               A sequence in the sheets moves a step or two and comes home; it
+               does not climb out of the instrument. Bounded to a fourth either
+               way, which is the largest move the default palette can state. */
+            const rise = Math.max(-4, Math.min(4, P.lvl * P.step));
+            const placed = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
+                                              HEARD[P.mi][0], rise), LO, HI);
+            /* and a placement may not land on the pitch it is coming from --
+               right on its own terms, a choice refused rather than a merge
+               afterwards. ⚠ IT DID NOT ACCOUNT FOR THE REPEATS IT WAS WRITTEN
+               FOR: 3 of 21,149 lead+counter transitions still come back a
+               repeat where the count was 0 before this section's work, and the
+               guard did not move it. The cause is elsewhere and is NOT
+               identified. Recorded rather than left looking fixed. */
+            if(placed !== m) cand = placed;
+          }
           /* ══ THE PHRASE HAS ONE HIGHEST NOTE AND ONE LOWEST ══════════════════
              [owner, 2026-08-28: "There never is a memorable part that defines a
               song... they never go to an extreme."]
@@ -37773,7 +37851,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              pitch class, which is the part the ear is holding on to, so a
              held note takes a different octave before it takes a different
              note. Only then does it fall back to the walk. */
-          if(P.hold && !fits(b, steps[i], cand)){
+          /* a PLACED note gets the same courtesy a held one does: its octave
+             before its neighbour. The pitch class is the level, and the level
+             is the whole point -- stepping it away keeps the note and loses the
+             sequence, which is the trade the wrong way round. Measured without
+             this, the placement cost ~10% of the lead's notes. */
+          if((P.hold || (P.head && P.seq && P.lvl > 0)) && !fits(b, steps[i], cand)){
             for(const oct of [12, -12, 24, -24]){
               const t2 = cand + oct;
               if(t2 >= LO && t2 <= HI && fits(b, steps[i], t2)){ cand = t2; break; }
