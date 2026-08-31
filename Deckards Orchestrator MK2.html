@@ -1620,7 +1620,7 @@
        A stamp that does not move is worse than no stamp, for the same reason a
        provenance that does not match its constant is worse than none -- it
        stops anyone checking. -->
-  <span id="buildStamp" title="which build this page is">build 2026-08-31a &middot; all four lines are written by the melodic math engine: the lead, the bass, the counter and the repeating figure</span>
+  <span id="buildStamp" title="which build this page is">build 2026-08-31b &middot; the melodic math engine is out: the tune, the bass, the counter and the figure are written the way they were before it</span>
 <!-- ══ THE SONG RACK ═══════════════════════════════════════════════════════
      The user: "we need a top rack for the genre selection and a midi display
      rack ect."  Right, and it is the same argument as moving the machine
@@ -1912,303 +1912,6 @@ const QUALITY = Object.freeze({
 const QUALITY_TABLE = mode => (mode === "major" || mode === "minor") ? mode : null;
 const NOTE_NAMES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const pc = m => ((m % 12) + 12) % 12;
-
-/* ══ MELODIC MATH — THE NOTATION ═══════════════════════════════════════════
-   docs/MELODIC-MATH-ENGINE.md
-
-   A line is built of MOTIFS. A motif is a list of LENGTHS with a MOVEMENT
-   between each pair of them, written on one line:
-
-       8 ( E2 ) 4 ( N ) 3
-       │   │     │       └── the third note's length
-       │   │     └────────── the second note's length
-       │   └──────────────── how far the pitch moves into the third note
-       └──────────────────── the first note's length
-
-   Lengths are sixteenths. There is always one movement fewer than there are
-   notes.
-
-   A MOVEMENT IS WRITTEN AT ONE OF THREE STRENGTHS, and the difference between
-   them is the whole point of this notation:
-
-       (ii)    move by 2, DIRECTION FREE      -- a constraint; the engine draws
-                                                 which way
-       (E2)    up 2      (F2) down 2         -- a value; the motif decided
-       (N)     do not move at all            -- a value, and its own device:
-                                                 a motif on one repeated pitch
-       +       nothing declared              -- the sheets' rhythm-only form,
-                                                 `4+4` or `1/1/1/1/2`
-
-   AND A MOVEMENT MAY COME LAST, AFTER THE FINAL NOTE. `B = 4(N)` and
-   `B = 6(N)` are both in the sheets: one note, and then a movement with
-   nothing after it. [owner's sheet] "Motif 'B' becomes 6(N) to express the
-   length of 6*16ths while having no movement." That trailing movement is how
-   the motif HANDS OVER -- where the pitch goes as this motif ends and the next
-   thing begins -- and `N` there means it goes nowhere, which is what makes
-   Smoke On The Water's B sit still. It is kept as `tail`, so `moves` stays one
-   shorter than `rhythm` and the handover is not confused with the movements
-   inside.
-
-   [owner's sheet] "Motif 'A' ... has a Melodic Movement of 2. Becoming 4(ii)4.
-   THE DIRECTION IS UP TO YOUR OWN PERSONAL TASTE."  That sentence is why a
-   roman numeral and an `E` are different things here and not two spellings of
-   one thing.
-
-   WHAT THIS OBJECT IS NOT: it says nothing about which section the motif is
-   in, nothing about what any other part is doing, and nothing about how many
-   times it may repeat. Those are the arrangement's and the genre's. This is
-   one line's own construction and no more. ═══════════════════════════════ */
-const MM = (() => {
-  const ROMAN = ["", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix",
-                 "x", "xi", "xii"];
-  const romanOf = n => ROMAN[n] || String(n);
-  const valOf = r => { const i = ROMAN.indexOf(r); return i > 0 ? i : null; };
-
-  /* one movement, from the text between the brackets */
-  function move(txt){
-    const t = String(txt).trim();
-    if(/^N$/i.test(t))               return { n: 0, dir: "N" };
-    let m = /^([EF])\s*(\d+)$/i.exec(t);
-    if(m)                            return { n: +m[2], dir: m[1].toUpperCase() };
-    if(/^[ivx]+$/i.test(t)){
-      const v = valOf(t.toLowerCase());
-      if(v != null)                  return { n: v, dir: null };
-    }
-    if(/^\d+$/.test(t))              return { n: +t, dir: null };   // (2) == (ii)
-    throw new Error("melodic math: cannot read the movement `" + txt + "`");
-  }
-
-  function moveText(mv){
-    if(mv == null)         return null;             // undeclared
-    if(mv.dir === "N")     return "N";
-    if(mv.dir)             return mv.dir + mv.n;
-    return romanOf(mv.n);
-  }
-
-  /* `1(i)1(i)4`, `4+4`, `1/1/1/1/2`, `6(N)` -> a motif */
-  function parse(code, opts){
-    const src = String(code).replace(/\s+/g, "");
-    if(!src) throw new Error("melodic math: empty motif");
-    const rhythm = [], moves = [];
-    let sep = "+";                       // which undeclared separator was used
-    let tail = undefined;                // the handover, when one is written
-    let i = 0;
-    for(;;){
-      const d = /^\d+/.exec(src.slice(i));
-      if(!d) throw new Error("melodic math: expected a length at `" +
-                             src.slice(i, i + 8) + "` in `" + code + "`");
-      rhythm.push(+d[0]); i += d[0].length;
-      if(i >= src.length) break;
-      const c = src[i];
-      if(c === "("){
-        const j = src.indexOf(")", i);
-        if(j < 0) throw new Error("melodic math: unclosed ( in `" + code + "`");
-        const mv = move(src.slice(i + 1, j)); i = j + 1;
-        /* nothing after it -- this is the handover, not an inner movement */
-        if(i >= src.length){ tail = mv; break; }
-        moves.push(mv);
-      } else if(c === "+" || c === "/"){
-        sep = c; moves.push(null); i += 1;
-      } else {
-        throw new Error("melodic math: cannot read `" + src.slice(i) +
-                        "` in `" + code + "`");
-      }
-    }
-    if(rhythm.some(n => n <= 0))
-      throw new Error("melodic math: a note has no length, in `" + code + "`");
-    return Object.freeze({
-      rhythm: Object.freeze(rhythm),
-      moves:  Object.freeze(moves),
-      /* THE SPAN IS SUM OF THE LENGTHS and it is not always the invariant --
-         Televators keeps a motif's head and lets its span change, Chop Suey
-         keeps the span and moves the attacks. Which one a genre preserves is
-         a dial, so this is recorded and never enforced here. */
-      span:   rhythm.reduce((t, n) => t + n, 0),
-      notes:  rhythm.length,
-      tail,                                          // the handover, or undefined
-      moveUnit: (opts && opts.moveUnit) || "step",   // or "semitone"
-      sep,
-      silent: !!(opts && opts.silent),
-    });
-  }
-
-  /* back to the one line it was written as */
-  function print(mo){
-    let out = "";
-    for(let i = 0; i < mo.rhythm.length; i++){
-      out += mo.rhythm[i];
-      if(i < mo.rhythm.length - 1){
-        const t = moveText(mo.moves[i]);
-        out += (t == null) ? (mo.sep || "+") : "(" + t + ")";
-      }
-    }
-    if(mo.tail) out += "(" + moveText(mo.tail) + ")";
-    return out;
-  }
-
-  /* ══ READING A LINE THAT ALREADY EXISTS ═══════════════════════════════════
-     Given the notes of one line, name the motifs it is made of.
-
-     A MOTIF IS RECOGNISED BY ITS RHYTHM. That is the one claim every sheet
-     makes in the same words -- "the A & B always have the same Rhythmic
-     structure ... but change their key and contour" -- so the signature is
-     WHERE the notes fall and HOW LONG they are, and nothing about pitch. Two
-     cells with the same signature are the same motif however far apart their
-     pitches sit. Chop Suey proves why it has to be that way round: its bass
-     plays the vocal's rhythm exactly and moves the opposite direction.
-
-     THE CELL LENGTH IS A DIAL, NOT A LAW, so this reader takes the bar as its
-     default and reports what other cell lengths would have found. A genre will
-     declare its own range later; nothing here decides for it.
-
-     This only READS. It builds no notes and moves none. */
-  function readLine(notes, opts){
-    const O = opts || {};
-    const steps = O.steps || 16;
-    const cell  = O.cell  || steps;
-    let src = (notes || []).filter(n => n && n.pitch != null)
-                 .map(n => ({ a: (n.bar || 0) * steps + (n.step || 0),
-                              d: Math.max(1, n.dur || 1), p: n.pitch }))
-                 .sort((x, y) => (x.a - y.a) || (y.p - x.p));
-    if(!src.length) return null;
-    /* ── A CHORD IS ONE EVENT IN A LINE, NOT FOUR MOVEMENTS ─────────────────
-       `keys` and `keys2` strike three or four notes on the same step. Read
-       note by note, the interval between two of them is a HARMONIC interval
-       and this called it a melodic movement: the first draft of this reader
-       reported the chord part moving by nine and the second voice by
-       twenty-six semitones, and gave one four-bar cell a span of 162 -- the
-       chord tones counted as though they were played one after another.
-       A line is what you would sing, so simultaneous notes collapse to the
-       top one, which is the voice a listener follows. */
-    const mono = [];
-    for(let i = 0; i < src.length; ){
-      let j = i;
-      while(j + 1 < src.length && src[j + 1].a === src[i].a) j++;
-      mono.push(src[i]);                       // sorted high-first above
-      i = j + 1;
-    }
-    src = mono;
-
-    const cells = {};
-    for(const n of src){
-      const i = Math.floor(n.a / cell);
-      (cells[i] || (cells[i] = [])).push({ at: n.a % cell, d: n.d, p: n.p });
-    }
-    const idx = Object.keys(cells).map(Number).sort((a, b) => a - b);
-
-    /* the signature is the rhythm alone */
-    const sigOf = g => g.map(n => n.at + ":" + n.d).join(" ");
-
-    const motifs = {}, byS = {}, statements = [];
-    let next = 0;
-    const LETTER = i => String.fromCharCode(65 + (i % 26)) + (i >= 26 ? String(1 + (i / 26 | 0)) : "");
-    for(const i of idx){
-      const g = cells[i].slice().sort((x, y) => x.at - y.at);
-      const sig = sigOf(g);
-      let name = byS[sig];
-      if(name == null){ name = byS[sig] = LETTER(next++); }
-      /* the movements of THIS statement, and the handover into the next note
-         the line plays, whichever cell that lands in */
-      const mv = [];
-      for(let k = 0; k + 1 < g.length; k++) mv.push(g[k + 1].p - g[k].p);
-      const here = src.indexOf(src.find(n => n.a === i * cell + g[g.length - 1].at));
-      const after = src[here + 1];
-      const tail = after ? after.p - g[g.length - 1].p : null;
-      const code = MMcode(g, mv);
-      if(!motifs[name])
-        motifs[name] = { name, sig, code, span: g.reduce((t, n) => t + n.d, 0),
-                         notes: g.length, at: g[0].at, cell, said: 0 };
-      motifs[name].said++;
-      statements.push({ name, cell: i, code, root: g[0].p, tail,
-                        same: code === motifs[name].code });
-    }
-    /* how much of the line is a restatement rather than a first hearing */
-    const repeats = statements.filter(s => motifs[s.name].said > 1).length;
-    return Object.freeze({
-      cell, motifs, statements,
-      formula: statements.map(s => s.name).join("+"),
-      distinct: Object.keys(motifs).length,
-      repeatShare: statements.length ? repeats / statements.length : 0,
-    });
-  }
-  /* one cell's notes -> the one-line code, with E/F/N read off the pitches */
-  function MMcode(g, mv){
-    let out = "";
-    for(let i = 0; i < g.length; i++){
-      out += g[i].d;
-      if(i < g.length - 1){
-        const d = mv[i];
-        out += "(" + (d === 0 ? "N" : (d > 0 ? "E" : "F") + Math.abs(d)) + ")";
-      }
-    }
-    return out;
-  }
-
-  /* ══ THE SHAPE CHANGES ═══════════════════════════════════════════════════
-     A restatement differs by a NAMED device, and two of the three are changes
-     of shape alone: they move where the attacks fall and touch no pitch. Those
-     belong here, with the notation, because the notation is what they are
-     about. The third -- displacement -- moves the pitch level and needs the
-     chord under it, so it stays with the harmony and calls nothing here.
-
-     THESE LIVED INLINE IN `buildTheme` AND THAT WAS THE SAME DEFECT THIS FILE
-     NAMES EVERYWHERE ELSE: what a motif is and how it varies existed in two
-     places, a notation module nothing called and a hand-rolled copy that ran.
-     One owner.
-
-     Both take notes as `{step, dur, pitch}` and hand back a new list or null
-     when the device does not apply. Neither invents a pitch: `subdivide` asks
-     for one through `pitchFor`, so whoever knows the harmony decides it. */
-  function inTime(ns){
-    return ns.slice().sort((x, y) => (x.bar - y.bar) || (x.step - y.step));
-  }
-  /* a note long enough to be two, split inside its own span, so the phrase
-     gains an attack and a movement and loses no time. The sheets:
-     `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2`. */
-  function subdivide(notes, k, pitchFor){
-    const src = inTime(notes), able = [];
-    for(let q = 0; q < src.length; q++) if(src[q].dur >= 2) able.push(q);
-    if(!able.length) return null;
-    const at = able[k % able.length];
-    const out = [];
-    for(let q = 0; q < src.length; q++){
-      const n = src[q];
-      if(q !== at){ out.push({ ...n }); continue; }
-      const a = Math.floor(n.dur / 2), b = n.dur - a;
-      /* the second half steps toward wherever the phrase was going, so the
-         split is a movement and not a stutter */
-      const nx = src[q + 1];
-      const dir = nx ? (nx.pitch >= n.pitch ? 1 : -1) : -1;
-      const p2 = pitchFor(n, dir);
-      if(p2 == null || p2 === n.pitch) return null;
-      out.push({ ...n, dur: a });
-      out.push({ ...n, step: n.step + a, dur: b, pitch: p2,
-                 vel: Math.max(0.4, (n.vel || 0.7) - 0.06) });
-    }
-    return out;
-  }
-  /* two adjacent lengths exchanged, which moves the attack between them and
-     leaves the span and both pitches alone. Only where the pair is contiguous
-     -- with a rest between them there is no shared boundary to move.
-     Televators, bar 42 `4(E3)2(N)...` and bar 45 `2(E3)4(N)...`. */
-  function swap(notes, k){
-    const src = inTime(notes), able = [];
-    for(let q = 0; q + 1 < src.length; q++)
-      if(src[q].bar === src[q + 1].bar &&
-         src[q].step + src[q].dur === src[q + 1].step &&
-         src[q].dur !== src[q + 1].dur) able.push(q);
-    if(!able.length) return null;
-    const at = able[k % able.length];
-    const out = src.map(n => ({ ...n }));
-    const a = out[at], b = out[at + 1];
-    const da = a.dur, db = b.dur;
-    a.dur = db; b.step = a.step + db; b.dur = da;
-    return out;
-  }
-
-  return { parse, print, move, moveText, romanOf, readLine,
-           inTime, subdivide, swap };
-})();
 /* midi of scale degree d (any integer) in a mode rooted at `root` (pitch class) */
 function degMidi(root, mode, d){
   const sc = MODES[mode];
@@ -23588,10 +23291,7 @@ const GENRE = {
        a normal phrase, and that is fine: what makes a hook a hook here is that
        it repeats exactly and does not breathe, not that it plays more notes. */
     theme: { count: { hooky: [3, 2], breath: [1, 2], normal: [3, 2] },
-             /* ── AND THE TUNE GETS A SKELETON, NOT JUST A WALK ────────────
-                [doc 003, "Transitions" -- a craft transcript on how one musical
-                idea becomes the next. NOT a genre document; see the correction
-                below before citing it as one.]
+             /* ── AND THE TUNE GETS A SKELETON, NOT JUST A WALK [doc 003] ──
                 Every melody in this file drew the SHARED DEFAULT move pool,
                 `[[0,2],[1,5],[2,2],[-1,2]]` -- one or two scale steps, never
                 more. No genre had ever declared its own. So the lead was a
@@ -23602,59 +23302,17 @@ const GENRE = {
                 by Music Cognition]. The owner read it off the printout first:
                 "just a series of notes played one step higher than the last".
 
-                ⚠ THIS COMMENT USED TO READ "THE ZELDA ANALYSIS IN doc 003 IS
-                THE MODEL", and derived the pool from that one melody's shape --
-                the root-and-fifth skeleton with a scale run filling the gap
-                ("we jump up from the root to the fifth above it, and then the
-                space in between there is filled in with a run up the major
-                scale"). Corrected 2026-08-31; the NUMBERS are unchanged and the
-                reasoning under them is not.
+                THE ZELDA ANALYSIS IN doc 003 IS THE MODEL, and it is the
+                opposite shape: the melody's skeleton is the ROOT AND THE FIFTH
+                -- "this leap down from the root to the fifth" -- and the scale
+                run is what FILLS THE SPACE BETWEEN THEM: "we jump up from the
+                root to the fifth above it, and then the space in between there
+                is filled in with a run up the major scale."
 
-                TWO THINGS WERE WRONG WITH IT, and the first is not what an
-                audit of this table first reported. It was flagged as a GENRE
-                mismatch -- video game music cited in a lofi table -- and that
-                is a category error. Doc 003 is not a document about video game
-                music. It is one of the owner's NINE numbered craft transcripts,
-                none of which is about a genre: 001 and 008 and 009 turn a loop
-                into a song, 002 and 007 are structure, 004 is rhythm, 005 is
-                loops, 006 is the rule of three. The owner filed 003 as
-                "TRANSITIONS", and its subject is how one idea becomes the next:
-                "each phrase takes the last piece of the melody and adds
-                something to it or twists it in a new way, giving the melody a
-                step-by-step progression from each bar to the next." That is
-                this engine's whole subject, stated generally. Citing it here is
-                right.
-
-                WHAT WAS ACTUALLY WRONG IS THE FAMILIAR DEFECT: a pitch pool for
-                a whole genre derived from ONE PIECE OF MUSIC. And the source
-                says so itself, in a sentence the old comment did not quote:
-                "the structure of THIS MELODY IS TOTALLY UNIQUE COMPARED TO MOST
-                GAME MUSIC." The engine took as its model a tune its own source
-                calls unique.
-
-                THE TELL WAS THE NAME. The comment called it "the Zelda
-                analysis"; the owner filed it as "Transitions". Naming a
-                document by its EXAMPLE instead of its SUBJECT is the mechanism
-                by which an example becomes a rule, and it is visible in the
-                citation itself. [owner:] "an EXAMPLE is not a fact in of itself
-                it is generally just ONE way to do many things."
-
-                SO THE POOL IS RE-GROUNDED ON THE GENERAL CLAIM THAT WAS ALREADY
-                HERE, below: a melody is predominantly stepwise with leaps as the
-                STRUCTURAL events, "the most compelling melodies employ both
-                conjunct and disjunct motion", keeping an equilibrium. That is a
-                claim about melody, not about one tune, and it carries the same
-                numbers on its own -- steps dominant, 3 scale steps a fourth and
-                4 a fifth present as the skeleton. The leaps stay; the tune they
-                were copied from does not.
-
-                WHAT DOC 003 DOES SUPPORT GENERALLY, and is worth spending
-                elsewhere rather than losing: its definition of SEQUENCE, which
-                it attributes to the classical repertoire and not to Zelda --
-                "taking a melodic idea and moving it down a scale in steps is
-                called a sequence. And it's a very classical technique. You
-                won't hear a Mozart piece that doesn't move a melody around in
-                sequence at least once." */
+                So the pool keeps steps dominant and adds the leaps that make a
+                skeleton: 3 scale steps is a fourth, 4 is a fifth. Steps still
+                win about two draws in three, so the runs survive -- they now
+                run BETWEEN somewhere and somewhere instead of being the tune. */
              /* ⚠ AND THE FIRST POOL OVERSHOT, MEASURED: leaps went 43% -> 63%
                 on seed 1 and 50% -> 70% on seed 2, which is the opposite error.
                 A melody is predominantly stepwise with leaps as the STRUCTURAL
@@ -25180,19 +24838,7 @@ const GENRE = {
        the one place synthwave wants exactly what lofi does not. +/-7 scale
        steps is +/-1 octave in a 7-note mode. [theory] */
     /* the octave double, not a counter-line. [theory: an octave is 12 semitones] */
-    /* ── AND THE SECOND VOICE MAY BE A LINE, NOT ONLY A SHADOW ────────────
-       `style` was the plain string "double", and that string is well sourced:
-       this genre's research says deriveCounter's design "is built to prevent
-       what synthwave wants", which is the octave thickener. That claim is not
-       being overturned -- `double` keeps the weight.
-       What is being fixed is that `cells` had nowhere to be drawn. The engine
-       doc's first sentence says this engine governs "the lead, the bass, the
-       COUNTER, the repeating figure", and a style no table can reach is the
-       defect this file has shipped before: a switch built and left off.
-       THE WEIGHTS ARE [CHOSEN] -- no source ranks a doubled second voice
-       against a written one, and the ear is the only thing that can. */
-    counter: { style: [["double", 7], ["cells", 3]],
-               density: 0.90, octaves: [-12, 12], intervals: [-7, 7] },
+    counter: { style: "double", density: 0.90, octaves: [-12, 12], intervals: [-7, 7] },
     sevenths: false,           // synthwave is TRIADS; the seventh is a lofi habit
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
@@ -25426,14 +25072,7 @@ const GENRE = {
        Degrees are 0-2-4-7 against the current chord -- root, third, fifth,
        octave -- which is what a hardware arp in UP mode plays. */
     ostinato: {
-      /* the share of records whose figure the engine writes rather than picks
-         from the gated cells below -- see dungeonsynth's copy of this dial.
-         LOWER HERE ON PURPOSE and the reason is in this table's own comment
-         underneath: the cells are a GATED ARP, and the gate is the genre. A
-         written figure is a different instrument in the same seat, so it gets
-         a smaller share of this genre than of one whose figure is a tune.
-         [CHOSEN], and the ear's to move. */
-      unit: 1, vel: 0.34, run: false, follow: true, ratchet: 0, mm: 0.2,
+      unit: 1, vel: 0.34, run: false, follow: true, ratchet: 0,
       /* THE GATE. Same finding as the dungeon family above -- one bar-pattern
          over 768 bars, here all sixteen sixteenths -- and the same fix, in the
          idiom this genre actually has one for: a gated arp. A rest in the cell
@@ -26576,14 +26215,7 @@ const GENRE = {
        the melody DOUBLED an octave down at real density: the theme carried by
        more than one instrument, which is how a score makes a statement heroic
        rather than louder. On the citadel rig that doubling is the horns. */
-    /* `cells` added as a third seat; the 7:3 between the two derived styles is
-       UNCHANGED, so the balance the earlier work measured is kept and the new
-       style takes its share from the whole rather than from `answer`. This
-       genre is the one whose own critique sheet asks for a real second player
-       -- antiphonal practice is "two halves of the choir ALTERNATE", two
-       voices, not a voice and its shadow -- but the WEIGHT itself is [CHOSEN]
-       and is the ear's to move. */
-    counter: { style: [["answer", 7], ["double", 3], ["cells", 4]],
+    counter: { style: [["answer", 7], ["double", 3]],
                density: 0.10, intervals: [-3, -4, -5, -7, -12],
                octaves: [-12, 12], answer: 0.85,
                styles: { double: { density: 0.85, octaves: [-12] } } },
@@ -26634,11 +26266,7 @@ const GENRE = {
        the RANGE this buys, and the comparison that shows the per-bar unit was
        hiding the problem. */
     theme: { count: { hooky: [4, 2], breath: [1, 1], normal: [1, 2] },
-             /* ── THE SKELETON ─────────────────────────────────────────────
-                [doc 003, "Transitions", read for its general claim only -- see
-                the correction in lofi's copy of this comment. THIS genre's
-                number does not lean on that doc: it stands on the MEASUREMENT
-                below and on this genre's own open-fifth harmony.]
+             /* ── THE SKELETON [doc 003] ────────────────────────────────────
                 MEASURED off the printout, seed 1: the lead played
                 `B4 C#5 D#5 E5` in bar after bar for twenty bars -- four
                 consecutive scale steps -- and used SEVEN DISTINCT PITCHES in a
@@ -26799,68 +26427,7 @@ const GENRE = {
        record, each swelling in over three seconds -- and what you hear is a bow
        being drawn again every fourteen seconds. [see the merge in stage 5] */
     drone: { unit: 8, hold: 2, pedal: 0.8, octave: 0, continuous: true },
-    /* ══ AND THE BASS IS NOT A PEDAL ═══════════════════════════════════════
-       [owner:] "the pedal bass is a defect of the genre. It doesnt work in
-       any case."
-
-       MEASURED, 20 records, material A, before this:
-
-         notes a bar 1.46     STEPWISE MOTION 0%     leaps 99%
-         2.1 distinct pitches in a whole record
-         54% of bars holding one pitch for their whole length
-
-       `bassStyle: "drone"` is one value where a pool belongs, and THE FIX
-       ALREADY EXISTED IN THIS FILE, IN THE WRONG PLACE. ds2 met this same
-       fault, was given a line, and comes out at 4.33 notes a bar with 53%
-       stepwise motion and no held bars at all -- while the parent it was
-       forked from, and fantasy synth beside it, kept the pedal. A fix that
-       lands in a fork and not in the thing that was broken is a fix that was
-       never made, and this file already said so once about `bassRoles` having
-       "been built and declared by no genre since it shipped".
-
-       So the style is a pool and the seed draws inside it. `follow` walks this
-       genre's pocket under the chord; `pulse` is the eighth-note line it
-       already declares a table for. Neither of them is a pedal.
-
-       AND `riff` IS IN THE POOL THOUGH THIS GENRE HAS NO RIFF TABLE. The style
-       list is filtered to what a genre can actually play, so `riff` drops out
-       here and survives in the two children that declare a `bassRiff` of their
-       own. Without it, this pool -- which children inherit -- OVERRODE ds2's
-       `bassStyle: "riff"` and took the one genre whose bass was already right
-       from 4.33 notes a bar back down to 3.11. A pool a child inherits has to
-       contain the child's answer.
-       docs/genre-research/the-bass-has-a-job.md */
-    /* ── AND `cells` WAS BUILT AND REACHED BY NOTHING ─────────────────────
-       The bass's melodic-math role shipped with the line engine pass and no
-       table ever named it, so `mmLine` was called for the bass in ZERO of 160
-       records -- measured. This table's own comment two paragraphs up names
-       that exact failure about this exact field: `bassRoles` had "been built
-       and declared by no genre since it shipped". It happened again, to the
-       role added next to that sentence.
-
-       THIS GENRE IS THE ONE THE NOTATION ASKS FOR. Two of the eight sheets the
-       whole melodic math comes from are a BASSLINE, analysed in the notation
-       exactly as a melody is -- "the 'A' and 'B' motifs always stay in the same
-       rhythm, thus giving them a strong hook... kept interesting by CHANGING
-       THE ORDER" -- and that is a bass instruction, not a melody one.
-       The existing three keep their ratios to each other; the new role takes
-       its share from the whole. WEIGHT [CHOSEN]. */
-    bassRoles: [["riff", 3], ["follow", 3], ["pulse", 1], ["cells", 2]],
-    bassStyle: "follow",
-    /* ── AND WHAT IT MAY PLAY, BECAUSE THE DEFAULT IS ROOT-HEAVY ──────────
-       This genre declared no `bassTones` and took the shared default,
-       [root 5, fifth 3, rest 2] -- five draws in ten land on the root, so a
-       bar of three notes is often three of the same pitch. With the pedal
-       gone it still held one pitch through 48% of its bars and moved by step
-       in 21% of its intervals, against 40% and 53% in the two genres whose
-       bass reads as a line.
-
-       STEPWISE MOTION IS WHAT A BASS LINE IS MADE OF and this table has a
-       `step` choice that walks one scale degree toward the next chord's root,
-       already built and reachable by no genre. It is in the pool now and the
-       root's share comes down to make room for it. Weights, so a genre that
-       wants its root can lean back on it. */
-    bassTones: [["root", 4], ["fifth", 3], ["step", 3], ["third", 2], ["rest", 2]],
+    bassStyle: "drone",
     bassPulse: { unit: 8, rootBias: 1, octaveJump: 0, restChance: 0 },
     bassAccent: { accent: 0, slide: 0 },
     /* ── THE TUNE HOLDS TO THE NEXT NOTE, and so does the second keyboard ────
@@ -27055,14 +26622,7 @@ const GENRE = {
        Adding the rests did NOT fix this and did not touch it: the rests are the
        figure's RHYTHM and this is its PITCH. Both were wrong and they were
        wrong separately. ── */
-    /* HOW OFTEN THE FIGURE IS WRITTEN RATHER THAN PICKED. The three cells
-       below stay and stay weighted; this is the share of records whose figure
-       the melodic math engine writes instead, with an inventory and a formula
-       like the other three lines. A WEIGHT, not a switch. [CHOSEN] -- nothing
-       in the research ranks a written figure against a typed one, and the ear
-       is the only thing that can. The genre's own sources want "repetitive
-       patterns"; both halves of this dial give it one. */
-    ostinato: { unit: 2, vel: 0.34, run: true, follow: true, ratchet: 0, mm: 0.35,
+    ostinato: { unit: 2, vel: 0.34, run: true, follow: true, ratchet: 0,
                 cells: [[[0, null, 2, 4, null, 7, 2, null, 4], 5],   // 9 slots against 8
                         [[0, 2, null, 4, 7, null, 6, 4, null], 3],   // up to the octave, then down
                         [[0, null, 4, null, 2, 7, null], 2]] },      // 7 against 8
@@ -29085,18 +28645,6 @@ GENRE.ds2 = (function(D){
      So the parent's balance stands. Whether a line wants more level than a
      pedal did is a real question and an owner's ear answers it; it is not
      something to change on a reading that turned out to be an artefact. */
-  /* AND IT KEEPS ITS OWN ANSWER. The parent has a style pool now, and an
-     inherited pool would have this genre drawing `follow` and `pulse` half the
-     time: measured before the parent had one, it was 4.33 notes a bar at 53%
-     stepwise motion with no held bars, the best bass in the file and the
-     reading by which the parent's pedal was recognised as a fault. The parent
-     was what was broken; this genre was what was right, and fixing one is not
-     licence to widen the other. */
-  /* the parent's melodic-math bass role, at a smaller share: this genre's
-     departure from its parent is "a more aggresive sound with the DRUMS and FX"
-     [owner], so its riff stays dominant and the written line is the minority
-     voice rather than the other way round. WEIGHT [CHOSEN]. */
-  bassRoles: [["riff", 3], ["cells", 1]],
   bassStyle: "riff",
   bassRiff: { bars: 2, notes: [5, 8], grid: 2, hold: 4, strong: [0, 8],
               anchor: [[0, 7], [4, 4]],
@@ -34699,70 +34247,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        drones)"] The length comes from touch.bassArtic, which multiplies duration
        in stage 5 -- so a genre that wants two bars of one note asks for it
        there, in the stage that owns duration, instead of here. */
-    /* ══ THE BASS, BUILT OF CELLS ════════════════════════════════════════
-       [owner:] "do the line engine pass now"
-
-       Two of the eight sheets the whole notation comes from are a BASSLINE,
-       and until this role the melodic math engine could not write one. The
-       `Nobody Else` bass is analysed in the notation exactly as its melody is:
-
-         A = 1/1/1/1/2 (6)    B = 2/2 (4)    A+A+B = 16, one bar
-         Structural Formula:  A+a+B / A+A+B / A+a+B / A+a+b
-         "Upper case turned on, lower case turned off"
-
-       And what it says about that line is a bass instruction, not a melody
-       one: "The 'A' and 'B' motifs ALWAYS STAY IN THE SAME RHYTHM, thus
-       giving them a strong hook... It is kept interesting by CHANGING THE
-       ORDER the 'A' & 'B' is played and BY CHANGING KEY."
-
-       So this is a ROLE, drawn from `bassRoles` per material like every other
-       one, not a replacement for them. A genre that wants its bass built of
-       cells asks for it; a genre whose bass is a pedal or a sequencer is
-       untouched, and none of the five roles already here moved.
-
-       ITS OWN TABLE. `bassTheme` if the genre declares one, `theme` if not --
-       every dial in this engine is per LINE, which is what §5 of the engine
-       doc has said since it was written and what the lead-only version could
-       not express.
-
-       THE CELL STARTS FROM THE HARMONY and moves by its own movements from
-       there, then folds into the octave around the root: a bass says which
-       chord this is, and a cell that wandered out of the bass register would
-       be a melody played low. The harmony places, the cell shapes -- the same
-       order the lead uses. */
-    if(STYLE === "cells"){
-      const T = G.bassTheme || G.theme;
-      const L = mmLine("bassmm:" + streamName, BARS * 16, T, false);
-      /* published beside the lead's, because a line the program cannot show
-         its working for is a line nobody can check */
-      DECLARED["bassmm:" + streamName] = L.declared;
-      /* ── AND THE BASS NEEDS A DIRECTION, OR HALF THE NOTATION IS DEAD HERE
-         `theme.stated` decides whether a movement carries its own sign or
-         turns with the phrase. The lead has a phrase direction to turn with;
-         this read `P.fixed ? P.move : P.move` -- BOTH BRANCHES IDENTICAL --
-         because the bass had none, so every movement behaved as stated and the
-         dial was drawn for this line and read by nothing.
-         A line's direction is a property of the line, not of the lead, so the
-         bass draws its own, once per material. Now a free movement turns and a
-         stated one does not, which is what the notation distinguishes. */
-      const bdir = stream(chart.seed, "bassdir:" + streamName)() < 0.5 ? 1 : -1;
-      let m = null;
-      for(const P of L.plan){
-        const b = Math.floor(P.at / 16), st = P.at % 16;
-        if(b >= BARS) break;
-        const ch = CH(chordSet, b);
-        if(P.head || m == null) m = ch.rootMidi;
-        else m = scaleStep(keyOf(chordSet), modeOf(chordSet), m,
-                           P.fixed ? P.move : P.move * bdir);
-        while(m > ch.rootMidi + 12) m -= 12;
-        while(m < ch.rootMidi - 5)  m += 12;
-        notes.push({ bar: b, step: st, dur: Math.max(1, Math.min(16 - st, P.dur)),
-                     pitch: m, vel: st === 0 ? 0.72 : 0.58, role: "bass" });
-      }
-      if(notes.length) return notes;
-      /* a formula that yielded nothing is not a bassline; fall through to the
-         genre's own style rather than ship a silent part */
-    }
     if(STYLE === "drone"){
       /* ── A DRONE FOLLOWS THE CHORDS; A PEDAL DOES NOT ────────────────────
          The two are different things and this only did the first. A drone
@@ -36598,796 +36082,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     }
     return band;
   };
-  /* ══ THE MELODIC MATH ENGINE, FOR ANY LINE ═══════════════════════════════
-     [owner:] "do the line engine pass now"
-
-     This was written inside `buildTheme` as a closure, so it was a LEAD
-     engine: `buildBass`, `buildOstinato` and `deriveCounter` contained no
-     inventory, no formula, no plan and no weights -- grep returned zero. And
-     `MELODIC-MATH-ENGINE.md` opens by saying the opposite:
-
-       "This is not a melody engine. It is a LINE engine. The law below governs
-        any single line the program writes -- the lead, the bass, the counter,
-        the repeating figure. The owner's own Nobody Else sheets analyse a
-        BASSLINE in exactly this notation, and the bass turns out to need it
-        more than the melody does."
-
-     Two of the eight sheets ARE a bassline. So the engine is lifted out whole
-     and takes its table as an argument: every dial is per line, which is what
-     §5 has said since it was written. Nothing about it changed in the lifting
-     -- the stream names are identical, so the lead composes exactly what it
-     composed before, proven by comparing every note rather than asserted. */
-  function mmLine(streamName, spanT, TH, hooky){
-      const SPAN_T = spanT;
-      /* the formula's own dials, recorded as drawn so a record can be read
-         against the numbers it was actually given rather than the table's */
-      const FDIALS = { close: 0, silent: 0, recur: 0 };
-      const INV = (() => {
-        const irng = stream(chart.seed, streamName + ":cells");
-        const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
-        const cnt = hooky ? TH.count.hooky : TH.count.normal;
-        /* HOW MANY CELLS, and HOW LONG ONE MAY BE. Both were literals: three
-           drawn and two-or-three kept, and a cap of a third of the material
-           justified in this file's own comment by "Smoke On The Water is 8, 6
-           and 10 filling 32". A song's proportions written into stage logic.
-           The only thing the LAW needs is that a cell can come back, which
-           means span <= half the material; everything inside that is the
-           genre's, and the default is the whole of it. */
-        /* ── A MOVEMENT MAY STATE ITS DIRECTION, OR LEAVE IT FREE ───────────
-           The notation separates the two and the sheet is explicit about why:
-             `4(ii)4`  -- magnitude 2, and "THE DIRECTION IS UP TO YOUR OWN
-                          PERSONAL TASTE"
-             `4(E2)4`  -- up 2, stated, because "the 'x' value can be replaced
-                          with 'E' for Elevate, or 'F' for fall TO GIVE A STRONG
-                          SENSE OF FAMILIARITY"
-           Every movement here took its sign from the phrase's own direction, so
-           a motif could carry a size and never a direction -- half the notation
-           with no way to say it. A stated movement keeps its sign wherever the
-           phrase is going; a free one still turns with it. */
-        const ST = TH.stated || [0, 1];
-        const statedW = ST[0] + irng() * (ST[1] - ST[0]);
-        const NC  = TH.cells   || [2, 4];
-        const CAP = TH.cellMax || [0.2, 0.5];
-        const capF = CAP[0] + irng() * (CAP[1] - CAP[0]);
-        const cap  = Math.max(2, Math.min(SPAN_T / 2, SPAN_T * capF));
-        /* ── THE FIFTH SONG-TRACEABLE DEFAULT, AND IT WAS THE MEMBERSHIP ────
-           This read `[[1,1],[2,1],[3,1],[4,1],[6,1],[8,1]]` and said so in its
-           own comment: "Every value here appears in the sheets: 1 and 2 in the
-           bassline, 3 and 4 and 6 and 8 across Smoke On The Water and the
-           melody." A bibliography as a justification.
-
-           §17 fixed the WEIGHTS of this pool (flat) and left the MEMBERSHIP,
-           which is the half that decides what is reachable at all. Measured
-           over 954 lines: 5 and 7 occur ZERO times and nothing above 8 exists
-           -- while this document's own §4 table records Televators using 12
-           and Shine On using 12, 18, 20 and 21. THE ENGINE COULD NOT EXPRESS
-           TWO OF THE THREE SONGS ITS OWN DOCUMENT MEASURES.
-
-           The law says nothing whatever about which lengths exist. The widest
-           it allows is every whole number that fits, flat, and that is the
-           default. `theme.lengths` still takes a weighted pool for a genre that
-           wants one, and a declared pool is used exactly as declared.
-
-           WHAT "FITS" MEANS WAS THE SECOND HALF OF THE BUG. This read `1..cap`,
-           whose mean is HALF THE CAP -- a pool that can hold exactly one note.
-           It was not the widest legal default; it was a one-note default, and
-           every genre's `count` dial then argued with it and lost (see the draw
-           below). The pool has to be able to hold the count it is handed, which
-           is arithmetic and nobody's taste: a flat pool `1..2·cap/n - 1` has
-           mean `cap/n`, so n of them average out at the cap. MEASURED over
-           40,000 cells at cap 22.4, count 4 -- notes forced down to a single
-           sixteenth because the room ran out, rather than because the pool drew
-           one: 29% on the old pool, 16% on this one, against the 10% the pool
-           would give on its own. The last six points are the cap doing its job.
-
-           Nothing legal left the pool that could ever have been drawn: a cell
-           of n notes cannot contain a length above `cap - (n-1)` no matter what
-           pool it comes from. A ONE-note cell still reaches the whole cap.
-
-           AND THEN THE DEFAULT TURNED OUT TO BE ANSWERING A QUESTION THE
-           GENRE HAD ALREADY ANSWERED. [owner:] "Why is there a baked in
-           default at all?"
-
-           Three genres declare `onsetPool` -- WHERE IN THE BAR A NOTE STARTS,
-           weighted, sourced, argued over in its own comment ("nothing here is a
-           list of nice-sounding steps -- it is one ordering, derived"). Where
-           the notes start and how long they are is ONE FACT: the gaps between
-           the onsets ARE the lengths. And `onsetPool` was LIVE CODE until
-           c5093e6, this session's own "a cell is a length, not a bar" -- the
-           cell was made by drawing its notes straight out of it:
-
-             const pool = onsetPool.slice(), st = [];
-             while(st.length < n && pool.length){ ... }
-
-           Rebuilding the cell as a run of LENGTHS was right; the notation is
-           lengths. Dropping the genre's declaration instead of converting it
-           was not. `onsetPool` has been assigned-and-never-read since -- four
-           mentions in the file, three declarations and one dead `const` -- and
-           lofi's `breathLast: 7` died the same day and now exists only inside a
-           comment describing what it does.
-
-           So the default was not filling a gap in what the genre had said. It
-           was overruling it with a number nobody sourced. And "flat" is not the
-           absence of an opinion: flat over 1..M says a seven-sixteenth note is
-           exactly as likely as a four, and meter says otherwise in every music
-           there is. Uniform over something that is not uniform is a bias with
-           the lights off.
-
-           THE LENGTHS ARE NOW READ OFF THE GENRE'S OWN ONSETS. The pool is
-           tiled across the cell's window (a cell crosses bar lines, the pool is
-           one bar), n+1 seats are drawn from it without replacement exactly as
-           the old code drew them, sorted, and the gaps between them are the
-           cell's lengths -- the last seat being where the cell stops. No
-           transform, no fitted distribution, no invented weight, and no
-           correcting pass: the count is exact and the span cannot exceed the
-           cap because the window is the cap.
-
-           A DERIVED TABLE WAS TRIED FIRST AND IS WRONG, recorded so nobody
-           rebuilds it: weighting each length by `w[a]·w[b]` over every pair of
-           onset positions gives dungeon synth a mean length of 8.0 against the
-           true 4.0, and puts its heaviest weight on 8 where the truth is 2. It
-           counts gaps that another onset falls inside.
-
-           All four genres in this file declare or inherit an `onsetPool`, so
-           the flat pool below is now UNREACHABLE. It is kept because a genre is
-           allowed to declare neither, and it is labelled for what it is: the
-           maximum-entropy answer for a table that has said nothing, not a
-           statement about music. */
-        /* the genre's own onsets, tiled over the cell's window, as [pos, weight] */
-        const seatsFor = () => {
-          const W = Math.max(2, Math.floor(cap)), seats = [];
-          for(let q = 0; q < W; q++){
-            const hit = TH.onsetPool.find(x => x[0] === q % 16);
-            if(hit && hit[1] > 0) seats.push([q, hit[1]]);
-          }
-          return seats;
-        };
-        const LENFOR = TH.lengths ? () => TH.lengths : (n) => {
-          const p = [], top = Math.max(2, Math.floor(2 * cap / Math.max(1, n) - 1));
-          for(let v = 1; v <= top; v++) p.push([v, 1]);   // no information, not a claim
-          return p;
-        };
-        const out = [];
-        for(let k = 0; k < NC[1]; k++){        // as many as the dial can keep [Law 7]
-          const n = Math.max(1, cnt[0] + Math.floor(irng() * cnt[1]));
-          /* ══ THE CELL IS DRAWN TO FIT, RATHER THAN DRAWN AND THEN CUT ═════
-             A CELL MUST LEAVE ROOM FOR ITSELF TO COME BACK, AND FOR SOMETHING
-             ELSE BESIDES -- half the material was the first cap and it is not
-             enough: two cells of fifteen fill a two-bar hook exactly and NEITHER
-             CAN RECUR (measured, dungeon synth seed 3 came out `B + A + S3`,
-             which has no hook in it at all). That bound is right and it stays.
-             HOW it was enforced was the defect.
-
-             The lengths were drawn free of the cap and a `while(sum > cap)
-             pop()` threw notes away until they fitted. That is a correcting
-             pass, which this file's house rules forbid, and the arithmetic made
-             it fire on nearly every cell: the default pool is every whole
-             number from 1 to `cap`, flat, so its MEAN IS HALF THE CAP and two
-             notes already overflow. MEASURED, 40,000 cells:
-
-               spanT 64, cellMax 0.35, count.hooky [4,2] -> asked 4-5, got 1.66
-               spanT 64, cellMax 0.20, count.hooky [4,2] -> asked 4-5, got 1.61
-               spanT 32, cellMax 0.35, count.hooky [4,2] -> asked 4-5, got 1.60
-
-             EVERY GENRE'S DECLARED NOTE COUNT WAS DEAD ON ARRIVAL, dungeon
-             synth's included -- and that one was set by measuring our own
-             output, so a measurement was taken, acted on, and then silently
-             discarded by this loop. Raising `cellMax` did not help: the pool
-             grows with the cap, so the ratio is fixed at ~1.6 notes whatever
-             the genre declares.
-
-             So each length is drawn from the part of the pool that STILL FITS,
-             leaving one sixteenth for each note not yet placed. The cell comes
-             out at exactly the count the dial asked for, never over cap, and no
-             note is discarded. The lengths are then shuffled: the room shrinks
-             as the cell fills, which would otherwise front-load the long notes,
-             and the ORDER is not something the constraint has any opinion about.
-
-             Nothing legal became unreachable. The lengths that dropped out of
-             reach are the arithmetically impossible ones -- a 22-sixteenth note
-             inside a 4-note cell capped at 22.4 leaves 0.4 for three notes.
-             [owner:] "Music is an art defined by mathematical constraints that
-             are creatively broken" -- this is the arithmetic half, and it is
-             the half that is not anyone's taste. */
-          const lengths = [], moves = [], fixed = [];
-          if(!TH.lengths && TH.onsetPool){
-            /* THE GENRE ALREADY SAID WHERE ITS NOTES GO. n+1 seats, sorted, and
-               the gaps between them are the lengths -- the last seat is where
-               the cell stops. The order is NOT shuffled here: these gaps are in
-               time order because the onsets they came from are. */
-            const pool = seatsFor(), st = [], take = Math.min(n + 1, pool.length);
-            while(st.length < take && pool.length){
-              const at = wpick(irng, pool);
-              pool.splice(pool.findIndex(x => x[0] === at), 1);
-              st.push(at);
-            }
-            st.sort((a, z) => a - z);
-            for(let i = 0; i + 1 < st.length; i++) lengths.push(st[i + 1] - st[i]);
-            if(!lengths.length) lengths.push(1);        // a cap too small to hold two seats
-          } else {
-            /* nothing declared. Each length is drawn from the part of the pool
-               that still fits, leaving one sixteenth for every note not yet
-               placed, and the lengths are then SHUFFLED -- the room shrinks as
-               the cell fills, which front-loads the long notes, and the
-               constraint has no opinion about order. */
-            const LEN = LENFOR(n);
-            let room = cap;
-            for(let i = 0; i < n; i++){
-              const most = Math.floor(room - (n - i - 1));   // one each for the rest
-              const fits = most >= 1 ? LEN.filter(x => x[0] <= most) : [];
-              const v = fits.length ? wpick(irng, fits) : 1;
-              lengths.push(v); room -= v;
-            }
-            for(let i = lengths.length - 1; i > 0; i--){
-              const j = Math.floor(irng() * (i + 1));
-              const t = lengths[i]; lengths[i] = lengths[j]; lengths[j] = t;
-            }
-          }
-          for(let i = 0; i < lengths.length; i++){
-            const mv = wpick(irng, MOVES), fx = irng() < statedW;   // both drawn always
-            if(i){ moves.push(mv); fixed.push(fx); }
-          }
-          /* ── THE HAND-OVER BELONGS TO THE CELL ──────────────────────────
-             `MM.parse` has produced a `tail` since it was written -- the
-             movement AFTER the final note, "where the pitch goes as this motif
-             ends and the next thing begins". `B = 4(N)` in Smoke On The Water
-             is exactly that: one note, then a movement with nothing after it,
-             and the `N` is why B sits still.
-
-             `mmLine` had no tail. The movement INTO a slot was drawn fresh by
-             the FORMULA, per slot -- so the pitch level of every restatement
-             was a separate coin. MEASURED over 1,369 cells stated twice or
-             more: the entry interval is the same on every statement in 150 of
-             them, 11.0%.
-
-             That is why `melodic-math.md` §4 names TWO things the program
-             cannot say and this engine only ever built the second. The first
-             is SEQUENCE proper -- "a motif's pitch level moves by a FIXED
-             INTERVAL, the same every time, not a redrawn transposition" -- and
-             it needs the hand-over to be a property of the cell, because a
-             cell that always leaves the same way always arrives the same way.
-
-             It is also what makes `theme.close` audible. The turn mirrors a
-             cell's own movements to come home; coming home means nothing if
-             the cell was never in the same place twice. */
-          const tail = wpick(irng, MOVES);        // drawn with the cell [Law 7]
-          /* ── AND THE INTERVAL ITS STATEMENTS MOVE BY ─────────────────────
-             `melodic-math.md` §4 names two things this program cannot say. §17
-             built the second, the turn. THIS IS THE FIRST, and it is quoted
-             there verbatim:
-
-               "A motif's pitch level moves by a FIXED INTERVAL, the same every
-                time -- not a redrawn transposition. This is SEQUENCE proper.
-                The engine's device draws +-1 or +-2 scale steps at random each
-                time, which is not a sequence -- it is a wander."
-
-             The hand-over above was necessary and not sufficient: a cell that
-             always leaves the same way still ARRIVES wherever the material
-             between two of its statements happened to end. Measured after the
-             hand-over landed, cells stated three or more times: their statements
-             sat at a constant interval 2.2% of the time.
-
-             A sequence is not walked to. It is a pitch LEVEL the statement is
-             placed at -- `step` here, drawn once with the cell and spent by
-             every statement of it. */
-          const step = wpick(irng, MOVES);
-          out.push({ lengths, moves, fixed, tail, step,
-                     span: lengths.reduce((a, z) => a + z, 0) });
-        }
-        const keep = NC[0] + Math.floor(irng() * (NC[1] - NC[0] + 1));
-        return out.slice(0, keep);
-      })();
-      /* ══ WHAT A RESTATEMENT KEEPS — A WEIGHT, NOT A SWITCH ═══════════════
-         [owner:] "even the dials shoulnt be strict on or offs that would be a
-         switch right"
-
-         Right, and the four sheets are only four EXAMPLES. Measured off the
-         MIDI of two songs nobody drew, they disagree with each other on the
-         thing I had been treating as the law:
-
-           Chop Suey    the verse cell is `2x10` and comes back with the SAME
-                        RHYTHM and different pitches -- G4 nine times, then
-                        F#4 nine times. Rhythm held, key moved.
-           Televators   the cell F#4-E4-D4-D4 comes back as 4+4+4+12, then
-                        2+4+6+12, then 2+4+6+12. SAME PITCHES, same span, the
-                        rhythm redistributed inside it. Pitch held, rhythm moved.
-
-         They are opposites. So "the rhythm is the invariant" is one song's
-         habit, not a law, and `melodic-math.md` §1 states it too strongly.
-         What IS law is L3: SOMETHING is preserved, and which one is the
-         genre's business.
-
-         And it cannot be a switch. A switch gives two songs. This program's
-         own second principle says a soft law is "a habit with WEIGHTS, and
-         lives in the genre tables where a genre can lean on it or not."
-
-         So it is drawn at three levels, which is this project's usual shape:
-           the GENRE declares a range        keep.rhythm [0.55, 0.95]
-           the SEED draws one value a record            0.71
-           each RESTATEMENT rolls against it            keep rhythm / pitch / span
-
-         A roll past both weights keeps only the SPAN -- the cell's place in the
-         equation, with everything inside it redrawn. That is still a
-         restatement under L3 and it is the loosest one the law allows. */
-      const KEEP = (() => {
-        const krng = stream(chart.seed, streamName + ":keep");
-        /* ── THE DEFAULT IS THE WHOLE RANGE, BECAUSE NO SONG IS THE TARGET ──
-           This shipped as [0.55,0.95] / [0.00,0.35] -- a range shaped to lean
-           on the rhythm, chosen because two of the songs I had read do that.
-           That is a song used as a goal, and it is the same defect this file
-           has already caught twice: `NEEF` shipped as a default because one
-           riff spelled it, and `A+B+A+C` written out because one riff spelled
-           that.
-
-           THE SONGS ARE NOT TARGETS. They are evidence that a capability is
-           real and gets used -- Televators proves a line can hold its pitches
-           and move its rhythm, so the engine must be ABLE to; it does not
-           follow that anything should sound like Televators.
-
-           So the default is the widest range the law allows, and NARROWING IT
-           IS THE GENRE'S JOB. An engine that can only express what the four
-           sheets happened to do is a transcription tool, not a generator. */
-        const R = (TH.keep && TH.keep.rhythm) || [0, 1];
-        const P = (TH.keep && TH.keep.pitch)  || [0, 1];
-        const kr = R[0] + krng() * (R[1] - R[0]);
-        const kp = P[0] + krng() * (P[1] - P[0]);
-        const sum = kr + kp;
-        return sum > 1 ? { rhythm: kr / sum, pitch: kp / sum }
-                       : { rhythm: kr, pitch: kp };
-      })();
-      /* KEEP THE PITCHES, MOVE THE RHYTHM -- Televators' own device, measured:
-         4+4+4+12 becomes 2+4+6+12, the same four notes over the same 24. Units
-         are moved from one length to another, so the span cannot drift and no
-         check afterwards is needed. */
-      const reflow = (cell, r1, r2) => {
-        const L = cell.lengths.slice();
-        if(L.length < 2) return cell;
-        const a = Math.floor(r1 * L.length) % L.length;
-        let b = Math.floor(r2 * L.length) % L.length;
-        if(b === a) b = (a + 1) % L.length;
-        const k = Math.max(1, Math.floor(L[a] / 2));
-        if(L[a] - k < 1) return cell;
-        L[a] -= k; L[b] += k;
-        return { lengths: L, moves: cell.moves, span: cell.span };
-      };
-      /* ══ THE THREE DEVICES THE NOTATION NAMES ════════════════════════════
-         Each changes what is inside a cell and CANNOT change its span, so the
-         equation still balances and nothing is checked afterwards.
-
-         SPLIT -- the Europe sheet, and the most-named device in the set:
-           "'A2' has the last note SPLIT INTO 2, still taking up the same amount
-            of space, but allowing for an extra key change, we can call this
-            rhythmic acceleration."
-           `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2`. The new note carries a
-           movement of its own -- that is the point of it, not a side effect.
-
-         DROP -- Nobody Else:
-           "Note in the 3rd 'A' A NOTE IS MISSED to create unbalance and create
-            additional tension."
-           The note's length goes to the note before it, so the cell keeps its
-           span and its attack points move. Never the first note: a cell has to
-           start where it starts to be recognised.
-
-         SWAP -- Televators, measured off the MIDI:
-           `B3 D4 D4 B3 E4 F#4` is `4+2+4+2+4+8` and comes back `2+4+4+2+4+4`,
-           the first two lengths exchanged. Same notes, attacks moved.
-
-         WHICH DEVICE, AND HOW OFTEN, IS THE GENRE'S. The default weights every
-         one of them the same, including doing nothing -- the widest the law
-         allows. A weighting that favoured one would be a song again. */
-      const splitCell = (cell, r, mv) => {
-        const L = cell.lengths.slice(), M = cell.moves.slice();
-        const c = []; for(let i = 0; i < L.length; i++) if(L[i] >= 2) c.push(i);
-        if(!c.length) return cell;
-        const i = c[Math.floor(r * c.length) % c.length];
-        const a = Math.floor(L[i] / 2);
-        L.splice(i, 1, a, L[i] - a);
-        M.splice(i, 0, mv);                       // the extra key change
-        const F = (cell.fixed || []).slice(); F.splice(i, 0, false);
-        return { lengths: L, moves: M, fixed: F, tail: cell.tail, step: cell.step, span: cell.span };
-      };
-      const dropCell = (cell, r) => {
-        const L = cell.lengths.slice(), M = cell.moves.slice();
-        if(L.length < 3) return cell;
-        const i = 1 + (Math.floor(r * (L.length - 1)) % (L.length - 1));
-        L[i - 1] += L[i]; L.splice(i, 1); M.splice(i - 1, 1);
-        const F = (cell.fixed || []).slice(); F.splice(i - 1, 1);
-        return { lengths: L, moves: M, fixed: F, tail: cell.tail, step: cell.step, span: cell.span };
-      };
-      const swapCell = (cell, r) => {
-        const L = cell.lengths.slice();
-        if(L.length < 2) return cell;
-        const i = Math.floor(r * (L.length - 1)) % (L.length - 1);
-        const t = L[i]; L[i] = L[i + 1]; L[i + 1] = t;
-        return { lengths: L, moves: cell.moves, fixed: cell.fixed, tail: cell.tail, step: cell.step, span: cell.span };
-      };
-      /* KEEP ONLY THE SPAN. The slot holds its place in the equation and
-         everything inside it is drawn again. */
-      const redrawCell = (cell, rrng) => {
-        const LEN = TH.lengths || [[1, 1], [2, 1], [3, 1], [4, 1], [6, 1], [8, 1]];
-        const MV  = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
-        const L = []; let left = cell.span;
-        while(left > 0){
-          const pick = Math.min(left, wpick(rrng, LEN));
-          L.push(pick); left -= pick;
-          if(L.length >= 12){ L[L.length - 1] += left; left = 0; }
-        }
-        return { lengths: L, moves: L.slice(1).map(() => wpick(rrng, MV)),
-                 fixed: L.slice(1).map(() => false), tail: cell.tail, step: cell.step, span: cell.span };
-      };
-      /* ══ THE FORMULA — cells laid end to end until the spans balance ══════
-         `A+B+A+C = 32`. Cells are appended until the material is full, and a
-         cell already heard is weighted over a new one, which is what produces
-         `A+B+A+C` rather than four different letters. Whatever space is left at
-         the end becomes `S`, the sheets' own silence cell:
-
-           "the 'S' motif (which represents silence) keeps the other motifs
-            happening at the same time... gives the arrangment room for the
-            chords to play at the start of every bar, acting like a Call &
-            Reponse."
-
-         S is why the balance can always be struck exactly. It is not a
-         leftover -- it is the piece that makes the equation come out. */
-      const FORM = (() => {
-        const frng = stream(chart.seed, streamName + ":formula");
-        const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
-        /* HOW MUCH A CELL ALREADY HEARD OUTWEIGHS A NEW ONE. This was `5 : 2`,
-           a number I chose to make `A+B+A+C` come out. The law is only that a
-           cell comes back; how strongly the formula leans on what it has
-           already said is the genre's. */
-        const RC = TH.recur || [1, 8];
-        const RECUR = RC[0] + frng() * (RC[1] - RC[0]);
-        FDIALS.recur = RECUR;
-        const slots = [];
-        const seen = {};
-        /* ── S IS A CELL YOU PLACE, NOT ONLY WHAT IS LEFT OVER ──────────────
-           The Europe sheet declares `S = 6` in its key beside A and B, and puts
-           it in the formula four times on purpose:
-
-             "the 'S' motif (which represents silence) KEEPS THE OTHER MOTIFS
-              HAPPENING AT THE SAME TIME... this gives the arrangment room for
-              the chords to play at the start of every bar, acting like a Call
-              & Reponse."
-
-           Chop Suey does the same, measured: its verse cell is 20 long on a
-           32 cycle, so `A(20) + S(12) = 32`, every time.
-
-           Here S could only ever be the remainder at the END -- whatever was
-           needed to make the sum come out. That is S doing arithmetic, not S
-           doing a job. It now has a DECLARED span and is drawn into the
-           formula like any other cell, and the mop-up at the end stays as the
-           guarantee that the balance always closes. */
-        /* ── AND THE SIXTH: THE SAME THIRD, SURVIVING IN ANOTHER PLACE ──────
-         This read `[1, SPAN_T / 3]`. The only "third" in this file's history is
-         the one §17 condemned -- the cell-span cap "justified in this file's
-         own comment by 'Smoke On The Water is 8, 6 and 10 filling 32'" -- which
-         became `theme.cellMax`. The number was taken out of the cap and left
-         standing here, unremarked. It does not even match the song it came
-         from: Chop Suey's S is 12 of 32, which is 0.375.
-
-         The law's own bound is SPAN_T - 1: a rest may be anything that still
-         leaves room for a note. That is the default now. */
-      const RL = TH.restLen || [1, Math.max(2, SPAN_T - 1)];
-        const SLEN = Math.max(1, Math.min(SPAN_T - 1,
-                       RL[0] + Math.floor(frng() * (RL[1] - RL[0] + 1))));
-        const RW = TH.rest || [0, 1];
-        const restW = RW[0] + frng() * (RW[1] - RW[0]);
-        let left = SPAN_T, guard = 0;
-        while(left > 0 && guard++ < 64){
-          const fits = [];
-          for(let i = 0; i < INV.length; i++)
-            if(INV[i].span > 0 && INV[i].span <= left) fits.push([i, seen[i] ? RECUR : 1]);
-          /* S sits in the same draw as the cells, weighted by the genre. Never
-             first: a rest before anything has been said is not a rest. */
-          /* ── L2 AS A RESTRICTION, NOT A REPAIR ──────────────────────────
-             The rescue below this loop reached back and REWROTE a slot already
-             drawn -- a correcting pass, which the house rules forbid outright.
-             The law is reachable as a constraint instead: once the remaining
-             span can hold only one more cell and nothing has come back yet,
-             that cell may only be one already heard. The choice is narrowed,
-             not repaired. */
-          const minSpan = Math.min.apply(null, INV.map(c => c.span || 1e9));
-          const recurred = Object.keys(seen).some(k => seen[k] > 1);
-          const sounding = slots.filter(x => x.mi >= 0).length;
-          /* A NEW CELL MAY ONLY BE TAKEN IF A RECURRENCE IS STILL POSSIBLE
-             AFTER IT. The first cut of this waited until the span could hold
-             only one more cell and then insisted it be a repeat -- but by then
-             the room was often already gone, and 46 of 954 lines still came out
-             with nothing recurring. A cell that leaves no space behind it has
-             spent the law before it is reached, so the restriction belongs on
-             the choice that spends the room, not on the last one left. */
-          if(!recurred){
-            /* the room reserved must fit a cell that can ACTUALLY come back --
-               one already heard. Reserving `minSpan` reserved the smallest cell
-               in the inventory, including ones never used, so `A + B + S15`
-               passed the guard with fifteen sixteenths left and neither A nor B
-               able to fit in it. */
-            /* and the room a NEW cell must leave is room for ITSELF. Reserving
-               the smallest cell in the inventory let a big one in on the
-               strength of a small one that was never used: `S52 + A + S5`
-               passed with twelve left and A ten wide. A cell may be introduced
-               only if it can come back, which is L2 stated as arithmetic. */
-            const room = fits.filter(f => seen[f[0]] || left >= 2 * INV[f[0]].span);
-            if(room.length){ fits.length = 0; room.forEach(f => fits.push(f)); }
-            else {
-              const back = fits.filter(f => seen[f[0]]);
-              if(back.length){ fits.length = 0; back.forEach(f => fits.push(f)); }
-              /* AND IF NEITHER IS AVAILABLE, STOP RATHER THAN SPEND THE LAW.
-                 The residue was `A + B + C + S2`: no seen cell still fits and no
-                 new one leaves room for a recurrence, so taking a third
-                 DIFFERENT cell buys a slot at the cost of L2 -- and of L4 with
-                 it, because a formula of nothing but first statements has no
-                 restatement for a device to land on. The mop-up rest below
-                 fills what is left, which is the piece whose whole job is
-                 making the equation come out. */
-              else break;
-            }
-          }
-          /* ── AND A LINE MAY OPEN ON SILENCE ─────────────────────────────
-             The first cut required two sounding cells before any rest, which
-             killed `B + S24 + S19` (a line that can neither recur nor change)
-             and ALSO killed the leading `S` -- and the Final Countdown sheet
-             OPENS on one: `S + A + B + S + A2 + B + S + A + B + S + A2 + B2`.
-             Its whole stated job is at the front of the bar: "this gives the
-             arrangment room for the chords to play at the START of every bar,
-             acting like a Call & Reponse."
-
-             So the guard is not "two cells first" but "the laws must still be
-             reachable after this rest": a rest may go anywhere, first
-             included, as long as the span it leaves can still hold the two
-             sounding cells L2 and L4 need. */
-          const seenMin = Object.keys(seen).length
-            ? Math.min.apply(null, Object.keys(seen).map(k => INV[k].span))
-            : minSpan;
-          /* and what a rest must leave behind is not "two cells" but "a
-             RECURRENCE" -- reserving two cell-widths let the two be different
-             cells, and L2 went from 23 violations to 67 the moment a leading
-             rest was allowed. Before anything has come back, a rest must leave
-             room for the cell already heard to be heard again; before anything
-             has sounded at all, for two. */
-          const stillNeed = recurred ? 0 : (sounding >= 1 ? seenMin : 2 * minSpan);
-          const canRest = (left - SLEN) >= stillNeed;
-          const rr = frng();                                  // unconditional [Law 7]
-          if(SLEN <= left && canRest && rr < restW) fits.push([-1, 1]);
-          if(!fits.length) break;
-          const mi = wpick(frng, fits);
-          const span = mi < 0 ? SLEN : INV[mi].span;
-          slots.push({ mi, span, on: mi >= 0, entry: wpick(frng, MOVES), flip: false });
-          if(mi >= 0) seen[mi] = (seen[mi] || 0) + 1;
-          left -= span;
-        }
-        if(left > 0) slots.push({ mi: -1, span: left, on: false, entry: 0, flip: false });   // S
-        /* ── L2, AND IT IS PAID FOR IN SPAN ──────────────────────────────────
-           If no cell came back, one slot is replaced by an earlier cell OF THE
-           SAME SPAN. Same span means the equation still balances, so the law is
-           satisfied without breaking the arithmetic it depends on. If no equal
-           span exists the formula stands as drawn and says so. */
-        const sounding = slots.filter(x => x.mi >= 0);
-        const rep = {}; for(const x of sounding) rep[x.mi] = (rep[x.mi] || 0) + 1;
-        if(sounding.length > 1 && !Object.values(rep).some(c => c > 1)){
-          const first = sounding[0];
-          for(let i = 1; i < slots.length; i++)
-            if(slots[i].mi >= 0 && slots[i].span === first.span){ slots[i].mi = first.mi; break; }
-        }
-        /* ── UPPER CASE ON, LOWER CASE OFF ───────────────────────────────────
-           "The 'B' rotates from being active and inactive to give rest."
-           The slot keeps its span and stops sounding, so `A+a+B` occupies
-           exactly what `A+A+B` did. Never the first time a cell is heard --
-           there is nothing for the silence to be a hole in. */
-        const later = [];
-        const heard = {};
-        for(let i = 0; i < slots.length; i++){
-          if(slots[i].mi < 0) continue;
-          if(heard[slots[i].mi]) later.push(i);
-          heard[slots[i].mi] = true;
-        }
-        const SS = TH.silentSlot || [0, 0.5];        // a range, drawn per record
-        const silentW = SS[0] + frng() * (SS[1] - SS[0]);
-        FDIALS.silent = silentW;
-        /* ── EVERY ELIGIBLE SLOT ROLLS, NOT ONE ───────────────────────────
-           This drew one roll and one index and muted at most ONE slot ever.
-           MEASURED: 0 of 954 lines had two lower-case slots -- so the sheets'
-           own formula was inexpressible, because `A+a+B / A+A+B / A+a+B /
-           A+a+b` ends on a statement with TWO of them.
-
-           The "at most one" rule was written in §13, when a cell was a whole
-           BAR and the reasoning was "a four-bar loop missing two bars is not a
-           phrase with a rest in it". §15 made a cell a LENGTH; two silent
-           three-sixteenth cells are nothing like two missing bars. A stale
-           constraint from a superseded model.
-
-           Every restatement now rolls its own case, held only by the law
-           already in force: two sounding slots. A roll is spent per eligible
-           slot whether or not it mutes [Law 7]. */
-        /* AND MUTING MAY NOT SILENCE THE RECURRENCE ITSELF. Guarding only on
-           "two slots still sound" let the mute fall on the second statement of
-           the only cell that came back -- `A + a` sounds once, and L2 is about
-           what can be HEARD. Measured: L2 violations went 23 -> 63 the moment
-           every slot could roll. A slot goes lower-case only if some cell still
-           sounds twice afterwards. */
-        const audibleRecur = () => {
-          const c = {};
-          for(const x of slots) if(x.mi >= 0 && x.on !== false) c[x.mi] = (c[x.mi] || 0) + 1;
-          return Object.keys(c).some(k => c[k] > 1);
-        };
-        const offRolls = later.map(() => frng());
-        later.forEach((ix, j) => {
-          if(offRolls[j] >= silentW) return;
-          const was = slots[ix].on;
-          slots[ix].on = false;
-          if(!audibleRecur()) slots[ix].on = was;      // put it back; the law wins
-        });
-        /* a slot that does not sound cannot carry a variation anybody can hear.
-           Same rule as the turn: the declaration says what happens, not what
-           was rolled. */
-        for(const sl of slots) if(!sl.on) sl.dev = "none";
-        /* ── AND THE LAST TIME ROUND, IT TURNS ───────────────────────────────
-           "The 'A' motif elevates on the first 3, but ON THE 4TH ONE IT FALLS,
-            giving variation and a sense of closure by ENDING WHERE THE MELODY
-            STARTS." The cell's own movements are mirrored on its final
-            occurrence -- same rhythm, same sizes, opposite direction -- so the
-            line comes home. Only for a cell heard more than once, because a
-            closure needs something to close. */
-        /* THE LAST SOUNDING ONE, not the last one. Marking the final occurrence
-           regardless of case put the turn on a lower-case slot -- dungeon synth
-           seed 3 came out `B + A + a↓`, a closure nobody can hear. A cadence has
-           to be audible to be a cadence. */
-        /* ── AND THE TURN IS A WEIGHT, BECAUSE IT WAS ONE RIFF'S DEVICE ─────
-           This read `if(sounded[mi] > 1) flip = true` -- unconditional. Every
-           cell that sounded twice had its last statement mirrored, in every
-           record of every genre, forever. The justification in this file was
-           Smoke On The Water: "the 'A' motif elevates on the first 3, but on
-           the 4th one it falls."
-
-           ONE RIFF DOES THAT. Nobody Else does not; its B rotates on and off
-           instead. Televators does not; it redistributes rhythm. Applying it
-           always is a song's device promoted to a law of the engine, which is
-           the third time this file has caught that and the second time I have
-           done it in this section alone.
-
-           `theme.close` is the weight, and its default is the whole range:
-           some records close every recurring cell, some none, most in
-           between. A genre that wants the device leans on it. */
-        const CL = TH.close || [0, 1];
-        const CLOSE = CL[0] + frng() * (CL[1] - CL[0]);
-        FDIALS.close = CLOSE;
-        const lastOf = {};
-        for(let i = 0; i < slots.length; i++) if(slots[i].mi >= 0 && slots[i].on) lastOf[slots[i].mi] = i;
-        const sounded = {};
-        for(const x of slots) if(x.mi >= 0 && x.on) sounded[x.mi] = (sounded[x.mi] || 0) + 1;
-        for(let mi = 0; mi < INV.length; mi++){
-          const roll = frng();                            // unconditional [Law 7]
-          if(sounded[mi] > 1 && lastOf[mi] != null && roll < CLOSE){
-          slots[lastOf[mi]].flip = true;
-          /* "the 'A' motif elevates on the first 3, but ON THE 4TH ONE IT
-             FALLS, giving variation and a sense of closure by ENDING WHERE THE
-             MELODY STARTS." The turn is a RETURN TO THE LEVEL IT STARTED AT --
-             which is only expressible now that a statement HAS a level. */
-          slots[lastOf[mi]].lvl = 0;
-        }
-        }
-        /* ── AND WHAT EACH RESTATEMENT KEEPS ────────────────────────────────
-           Three draws a slot, always, so the stream does not move with the
-           outcome [Law 7]. The first time a cell is heard there is nothing to
-           preserve yet -- it IS the statement -- so it is marked `first` and
-           its realised pitches become what a later `pitch` restatement holds. */
-        const DEVS = TH.devices || [["none", 1], ["split", 1], ["drop", 1], ["swap", 1]];
-        /* ── HOW OFTEN A CELL IS SEQUENCED RATHER THAN WALKED ───────────────
-         Whether a statement is PLACED at its cell's level or simply arrives
-         where the line got to. Wide by default: the law says nothing about it,
-         and a genre that wants a strict sequence declares one. */
-      const SQ = TH.sequence || [0, 1];
-      const seqW = SQ[0] + frng() * (SQ[1] - SQ[0]);
-      FDIALS.sequence = seqW;
-      const lvlOf = {};
-      const met = {};
-        for(const sl of slots){
-          const roll = frng(); sl.r1 = frng(); sl.r2 = frng();
-          sl.dev = wpick(frng, DEVS);                     // unconditional [Law 7]
-        /* which statement of its own cell this is, and whether it is placed at
-           that level or left to arrive. Both spent every slot [Law 7]. */
-        const seqRoll = frng();
-        if(sl.mi >= 0){ sl.lvl = (lvlOf[sl.mi] = (lvlOf[sl.mi] || 0) + 1) - 1; }
-        sl.seq = sl.mi >= 0 && seqRoll < seqW;
-          sl.dr = frng(); sl.dm = wpick(frng, TH.moves || [[0,2],[1,5],[2,2],[-1,2]]);
-          if(sl.mi < 0){ sl.keep = null; sl.dev = "none"; continue; }
-          if(!met[sl.mi]){ sl.keep = "first"; sl.dev = "none"; met[sl.mi] = true; continue; }
-          sl.keep = roll < KEEP.rhythm ? "rhythm"
-                  : roll < KEEP.rhythm + KEEP.pitch ? "pitch" : "span";
-
-          /* a device is the variation ON a cell that is otherwise identical. A
-             `pitch` restatement already moves its lengths and a `span` one is
-             redrawn entirely, so neither takes one -- there would be nothing
-             left of the cell to vary. */
-          if(sl.keep !== "rhythm") sl.dev = "none";
-        }
-        /* ── L4, AND IT HAD NO RESCUE AT ALL ────────────────────────────────
-           §14 says "the rescues that enforce L2 and L4 pick their position from
-           the stream" -- plural. Only one was ever written, and the first cut of
-           this one sat INSIDE the keeps loop, where a slot that is a cell's
-           FIRST statement `continue`s past it: `A + A + C + S2` escaped
-           entirely and L4 measured 24 violations of 954.
-
-           A device can only be decided once every keep is known, so it is
-           decided here. Nothing is repaired: the last RESTATEMENT's device is
-           the last free choice in the formula, and when the formula has
-           declared no change anywhere that choice is narrowed to the members
-           that are one. A roll is spent whether or not it is needed [Law 7]. */
-        const l4Roll = frng();
-        const changed = slots.some(x => x.mi >= 0 &&
-          (x.keep === "pitch" || x.keep === "span" || (x.dev && x.dev !== "none") || x.flip));
-        if(!changed){
-          const lastRe = slots.reduce((a, x, i) => (x.mi >= 0 && x.keep && x.keep !== "first") ? i : a, -1);
-          const alt = DEVS.filter(d => d[0] !== "none");
-          if(lastRe >= 0 && alt.length){
-            let acc = 0; const tot = alt.reduce((t, d) => t + d[1], 0);
-            for(const d of alt){ acc += d[1]; if(l4Roll * tot <= acc){ slots[lastRe].dev = d[0]; break; } }
-          }
-        }
-        return slots;
-      })();
-      /* ══ THE PLAN — the formula walked out onto the sixteenth grid ════════ */
-      const PLAN = (() => {
-        const out = [];
-        let at = 0, si = 0, prevTail = null;
-        for(const sl of FORM){
-          if(sl.on && sl.mi >= 0){
-            const base = INV[sl.mi];
-            let cell = sl.keep === "pitch" ? reflow(base, sl.r1, sl.r2)
-                     : sl.keep === "span"  ? redrawCell(base, stream(chart.seed,
-                                              streamName + ":redraw:" + si))
-                     : base;
-            if(sl.dev === "split") cell = splitCell(cell, sl.dr, sl.dm);
-            else if(sl.dev === "drop") cell = dropCell(cell, sl.dr);
-            else if(sl.dev === "swap") cell = swapCell(cell, sl.dr);
-            let t = at;
-            for(let i = 0; i < cell.lengths.length; i++){
-              out.push({ at: t, dur: cell.lengths[i], mi: sl.mi, head: i === 0, ci: i,
-                         first: sl.keep === "first", hold: sl.keep === "pitch",
-                         seq: !!sl.seq, lvl: sl.lvl || 0, step: cell.step || 0,
-                         fixed: i > 0 && !!(cell.fixed && cell.fixed[i - 1]),
-                         move: i === 0 ? (prevTail != null ? prevTail : sl.entry)
-                                       : cell.moves[i - 1] * (sl.flip ? -1 : 1) });
-              t += cell.lengths[i];
-            }
-            /* the cell hands over the way IT says, so the next slot always
-               arrives from the same place and a restatement sits at a constant
-               interval from the one before it -- sequence, not a fresh coin. */
-            prevTail = INV[sl.mi].tail;
-          }
-          at += sl.span; si++;
-        }
-        return out;
-      })();
-      /* what the line was built from, in the sheets' own terms, so the notes can
-         be read against it rather than taken on trust */
-      const declared = Object.freeze({
-        hook: !!hooky, spanTarget: SPAN_T,
-        cells: INV.map(c => c.lengths.join("+") + " (" + c.span + ")" +
-                           (c.tail != null ? " →" + (c.tail > 0 ? "E" + c.tail
-                                            : c.tail < 0 ? "F" + (-c.tail) : "N") : "")),
-        formula: FORM.map(sl => sl.mi < 0 ? "S" + sl.span
-                          : (sl.on ? "ABCD"[sl.mi] : "abcd"[sl.mi])
-                            + (sl.dev === "split" ? "2" : sl.dev === "drop" ? "-"
-                               : sl.dev === "swap" ? "~" : "")
-                            + (sl.flip ? "↓" : "")).join(" + "),
-        devices: FORM.map(sl => sl.dev || "-"),
-        balance: FORM.reduce((a, sl) => a + sl.span, 0) + " / " + SPAN_T,
-        weights: { rhythm: +KEEP.rhythm.toFixed(3), pitch: +KEEP.pitch.toFixed(3),
-                   span: +(1 - KEEP.rhythm - KEEP.pitch).toFixed(3),
-                   close: +FDIALS.close.toFixed(3), silent: +FDIALS.silent.toFixed(3),
-                   recur: +FDIALS.recur.toFixed(2), sequence: +FDIALS.sequence.toFixed(3),
-                 cells: INV.length },
-        keeps: FORM.map(sl => sl.mi < 0 ? "S" : (sl.keep || "-"))
-      });
-    return { inv: INV, form: FORM, plan: PLAN, declared, spanT: SPAN_T };
-  }
-  /* WHAT EACH LINE DECIDED BEFORE IT PLAYED A NOTE. `materials.motifs` is a
-     READING -- `MM.readLine` chopping a finished array into cells. This is the
-     other thing, and it is the one that caused the notes: the inventory and
-     formula each line was built from. Published beside the notes so a section
-     can ask what a line is MADE of rather than inferring it back out. */
-  const DECLARED = {};
   function buildTheme(chordSet, streamName, reserved, opts){
     const rng = stream(chart.seed, streamName);
     const LO = opts.lo, HI = opts.hi;
@@ -37597,39 +36291,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       return (s && s.size) ? !s.has(pc(p))
                            : !CH(chordSet, b).tones.some(t => pc(t) === pc(p));
     };
-    /* ══ THE CELLS, AND THE EQUATION THEY MUST ADD UP TO ═════════════════
-       Rebuilt 2026-08-30 from the owner's eight sheets, after a first version
-       that made every cell exactly one bar long. That was wrong in the way
-       that matters: a letter is A SMALL PIECE WITH A LENGTH, and the lengths
-       are the whole point.
-
-         Smoke On The Water   A = 4+4 (8)   B = 6   C = 2+8 (10)
-                              A+B+A+C = 32                    -- two bars
-         Nobody Else, bass    A = 1/1/1/1/2 (6)   B = 2/2 (4)
-                              (A+A+B)*4, A+A+B = 16           -- one bar
-         Nobody Else, melody  A = 4+3+1+4 (12)   B = 4 (4)
-                              A+B = 16  "(factors into 4/4) BALANCE!"
-
-       A is half a bar in one sheet and three bars in another. So a cell is a
-       run of NOTE LENGTHS whose sum is its span, and the formula lays cells
-       end to end until the spans add up to whole bars. With bar-sized cells
-       nothing could add up to anything and the arithmetic did no work at all.
-
-       WHAT THE SHEETS SAY IS FIXED, and is therefore fixed here:
-         "The 'A' and 'B' motifs ALWAYS STAY IN THE SAME RHYTHM, thus giving
-          them a strong hook... It is kept interesting by CHANGING THE ORDER
-          the 'A' & 'B' is played and by CHANGING KEY."
-       So the rhythm of a cell never changes once drawn. Its pitches float,
-       because the line arrives at each restatement from somewhere else --
-       which is "change their key and contour to stay interesting" falling
-       out of the construction rather than being applied to it. */
-    const MML = mmLine(streamName, (opts.hooky ? 2 : BARS) * 16, TH, !!opts.hooky);
-    const SPAN_T = MML.spanT, INV = MML.inv, FORM = MML.form, PLAN = MML.plan;
-    DECLARED[streamName] = MML.declared;
-    /* the pitches each cell sounded on its FIRST statement. A `pitch`
-       restatement plays these again; the laws below may still refuse one, and
-       that refusal is measured rather than hidden. */
-    const HEARD = {};
     function phrase(startBar, dir, endOnTone, moveBias, rhythmOf){
       const ph0 = notes.length;
       /* what THIS phrase's two bars actually put their onsets on, handed back
@@ -37679,20 +36340,14 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            NO SOURCE GIVES A LENGTH FOR THE REST. Every one of them says it
            exists and not one measures it, so the number is [CHOSEN] and is
            labelled so in the table. */
-        /* THE BAR IS A WINDOW ONTO THE PLAN. Cells do not respect bar lines --
-           `A = 4+4` is half a bar and `A = 4+3+1+4` is three of them -- so the
-           bar no longer owns a motif. It shows whatever the formula put in
-           these sixteen sixteenths, which may be the tail of one cell and the
-           head of the next. */
-        const CELLS = PLAN.filter(pn => Math.floor(pn.at / 16) === b);
-        const MI = CELLS.length ? CELLS[0].mi : -1;
-        if(!CELLS.length){ shape.push({ bar: b, mi: MI, steps: [] }); continue; }
-        steps = CELLS.map(pn => pn.at % 16);
-        /* THE BREATH IS THE FORMULA'S JOB NOW. It used to trim the second bar
-           of a phrase to make it stop; the sheets put the stop in the equation
-           instead, as `S` and as a lower-case slot, both of which occupy their
-           span and sound nothing. `count` above is still drawn so the stream
-           does not move [Law 7]; it no longer decides anything. */
+        const last = isBreath && TH.breathLast != null ? TH.breathLast : 15;
+        const poolCopy = onsetPool.filter(x => x[0] <= last);
+        while(steps.length < count && poolCopy.length){
+          const st = wpick(rng, poolCopy);
+          poolCopy.splice(poolCopy.findIndex(x => x[0] === st), 1);
+          steps.push(st);
+        }
+        steps.sort((a, z) => a - z);
         /* ══ THE ANSWER SAYS IT IN THE SAME RHYTHM ═════════════════════════
            MEASURED before this line, 32 seeds a genre, over every lead note
            in materials A/B/C and their variants: two ADJACENT bars of the tune
@@ -37729,25 +36384,8 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            runs to completion before this line is reached and the roll that
            decides it lives on its OWN substream, so a genre that declares no
            `motif` is byte-identical -- proven by snapshot, not asserted. */
-        /* AND THE BORROW DEFERS TO THE FORMULA. "The answer says it in the
-           same rhythm" is right and is now the FORMULA's job: slot 2 restates
-           slot 0's motif, so the answer carries the question's rhythm because
-           it is playing the question's cell. Letting the borrow fire on a bar
-           whose formula says a DIFFERENT motif overwrote the departure and
-           made every record A+B+A+B -- measured at 160 of 160 before this
-           line. So it applies only where the two bars play the same slot,
-           where it is a no-op that keeps the releases aligned. */
-        /* AND THE BORROW IS GONE, BECAUSE THE EQUATION DOES ITS JOB. "The
-           answer says it in the same rhythm" was a separate mechanism that
-           copied the question's onsets onto the answer's bar. A formula that
-           names the same cell twice already produces that, exactly, and by
-           construction -- and the borrow could only get it wrong now, because
-           it replaced the onsets without replacing the cell they came from,
-           leaving the durations and movements pointing at notes that were no
-           longer there. `ds2` seed 28 threw on precisely that. The releases
-           still key on the source bar so a restatement breathes the same. */
-        const src = rhythmOf && rhythmOf[b - startBar];
-        const reuse = (src && src.mi === MI && src.steps.length === steps.length) ? src : null;
+        const reuse = rhythmOf && rhythmOf[b - startBar];
+        if(reuse && reuse.steps.length) steps = reuse.steps.slice();
         /* WHICH BAR'S RHYTHM IS BEING PLAYED, which is not always this bar. A
            restatement has to carry the RELEASES too or it is not verbatim: the
            detach draw below is keyed on the bar, so an answer that borrowed the
@@ -37765,9 +36403,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            to start from the rhythm you can hear. */
         const barStart = notes.length;
         for(let i = 0; i < steps.length; i++){
-          /* the plan entry this onset came from: its length, and the movement
-             the cell states into it. Both were written before a note existed. */
-          const P = CELLS[i];
           /* ══ THE INTERVAL BUDGET, AND THIS LINE WAS THE WHOLE MELODY ═══════
              Reported five times, most recently: "the song starts with a lead
              that REPEATS its nots like it is on echo only its not echo its just
@@ -37817,14 +36452,10 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              and that moved nine genres nobody asked about. A genre that does
              not want repeated pitches says so in ITS OWN table, and one
              genre's palette has no hold in it for exactly that reason. */
-          /* AND IT IS STATED BY THE MOTIF, NOT DRAWN HERE. This line used to
-             be `wpick(rng, MOVES) * dir` -- one independent draw per note,
-             which is the walk L5 exists to forbid. The palette above is still
-             the genre's; it is spent when the INVENTORY is drawn, once, and
-             every note now reads its movement off the cell it belongs to. */
+          const MOVES = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
           let move = (moveBias && moveBias.length > dna.length)
                    ? moveBias[dna.length]                            // derivation: follow given DNA
-                   : (P.fixed ? P.move : P.move * dir);   // stated keeps its sign
+                   : wpick(rng, MOVES) * dir;
           /* the DNA is recorded as DRAWN, before the law narrows it: B is
              derived from A's shape, and A's shape is what A wanted, not what
              the chord under it allowed. */
@@ -37836,10 +36467,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
                direction the dissonance arrived by. */
             move = move !== 0 ? (move > 0 ? 1 : -1) : (hangDir || dir);
           }
-          /* THE LENGTH IS THE CELL'S. `A = 4+4` means two quarter notes, and
-             the note's length is what the notation WRITES DOWN -- deriving it
-             from the gap to the next onset threw the sheet's own numbers away. */
-          const plannedDur = Math.max(1, P.dur);
+          const plannedDur = i + 1 < steps.length ? Math.max(1, steps[i + 1] - steps[i]) : (isBreath ? 4 : 3);
           /* ── AND A DISSONANCE MUST BE ARRIVED AT ───────────────────────────
              The law above is the DEPARTURE half and it has been here since
              2026-07-30. This is the other half, and until now nothing in this
@@ -37919,53 +36547,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              clash(b, steps[i], intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI)))
             move = move > 0 ? 1 : -1;
           let cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI);
-          /* ── A `pitch` RESTATEMENT PLAYS THE PITCHES IT WAS FIRST HEARD AT.
-             This is the half of L3 the engine could not express: Televators
-             holds the notes and moves the rhythm, and holding the notes means
-             the ACTUAL pitches, not a movement sequence that drifts to
-             wherever the line happens to be. The laws below still get their
-             say -- a held pitch that collides or that leaves a dissonance
-             unresolved is refused like any other -- so this proposes and the
-             counterpoint disposes, which is the order everything else here
-             uses. How often it is refused is measured, not assumed. */
-          if(P.hold && HEARD[P.mi] && HEARD[P.mi][P.ci] != null)
-            cand = intoBand(HEARD[P.mi][P.ci], LO, HI);
-          /* ── SEQUENCE: THE STATEMENT IS PLACED, NOT WALKED TO ─────────────
-             A cell's first statement establishes its level. Every later one is
-             put at that level plus its own `step` per statement -- so the
-             interval between statements is the cell's, the same every time,
-             which is what a sequence IS. Walking there instead lets everything
-             in between decide, and everything in between is a different cell.
-             The laws below still get their say, and how often they overrule it
-             is measured rather than assumed. */
-          /* NEVER OVER A HANGING DISSONANCE. Placing the note ignores where the
-             line was going, and where it was going may have been the only
-             resolution a non-chord tone had -- `dungeonsynth seed 39` threw on
-             exactly that, in Avarlift's lead. A sequence is a decision about
-             pitch LEVEL, not a licence to leave a dissonance unanswered, so it
-             waits for the next onset like every other choice here. */
-          if(P.head && P.seq && !P.hold && !hang && P.lvl > 0 &&
-             HEARD[P.mi] && HEARD[P.mi][0] != null)
-          {
-            /* AND THE CLIMB IS BOUNDED. `lvl * step` compounds: a cell stated
-               five times with a step of two asks for ten scale steps, which is
-               outside any register a line has, so `intoBand` folded it and the
-               seat was refused -- `lofi seed 12` came out with a ONE-NOTE lead.
-               A sequence in the sheets moves a step or two and comes home; it
-               does not climb out of the instrument. Bounded to a fourth either
-               way, which is the largest move the default palette can state. */
-            const rise = Math.max(-4, Math.min(4, P.lvl * P.step));
-            const placed = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
-                                              HEARD[P.mi][0], rise), LO, HI);
-            /* and a placement may not land on the pitch it is coming from --
-               right on its own terms, a choice refused rather than a merge
-               afterwards. ⚠ IT DID NOT ACCOUNT FOR THE REPEATS IT WAS WRITTEN
-               FOR: 3 of 21,149 lead+counter transitions still come back a
-               repeat where the count was 0 before this section's work, and the
-               guard did not move it. The cause is elsewhere and is NOT
-               identified. Recorded rather than left looking fixed. */
-            if(placed !== m) cand = placed;
-          }
           /* ══ THE PHRASE HAS ONE HIGHEST NOTE AND ONE LOWEST ══════════════════
              [owner, 2026-08-28: "There never is a memorable part that defines a
               song... they never go to an extreme."]
@@ -38014,16 +36595,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
 
              NO DRAW IS SPENT HERE. `rng()` is not called, so no later draw
              moves and the change is confined to the pitch it adjusts [Law 3]. */
-          /* ── AND A HELD PITCH IS EXEMPT FROM THE PEAK RULE ───────────────
-             The rule below moves a candidate off the phrase's running highest
-             or lowest note, so the extreme is heard once. That is right for a
-             note being DRAWN and wrong for one being HELD: a restatement that
-             is nudged off its own pitch is not a restatement, and a hook
-             returning to the note it returned on is the figure coming back,
-             not the tune hitting an extreme twice. The rule keeps every note
-             it was written for; it just stops overwriting a decision that was
-             already made. */
-          if(!hang && !P.hold && notes.length > ph0){
+          if(!hang && notes.length > ph0){
             let phHi = -Infinity, phLo = Infinity;
             for(let q = ph0; q < notes.length; q++){
               if(notes[q].pitch > phHi) phHi = notes[q].pitch;
@@ -38071,25 +36643,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              isNCT(b, steps[i], cand))
             cand = intoBand(nearestTone(cand, CH(chordSet, b).tones), LO, HI);
           let tries = 0;
-          /* ── A HELD PITCH LOOKS FOR ITS OWN OCTAVE FIRST ─────────────────
-             The walk below steps the pitch up until it finds a free seat,
-             which is right for a note being drawn and wrong for one being
-             HELD: stepping changes the note, and the whole point of a `pitch`
-             restatement is that the note is the same. An octave keeps the
-             pitch class, which is the part the ear is holding on to, so a
-             held note takes a different octave before it takes a different
-             note. Only then does it fall back to the walk. */
-          /* a PLACED note gets the same courtesy a held one does: its octave
-             before its neighbour. The pitch class is the level, and the level
-             is the whole point -- stepping it away keeps the note and loses the
-             sequence, which is the trade the wrong way round. Measured without
-             this, the placement cost ~10% of the lead's notes. */
-          if((P.hold || (P.head && P.seq && P.lvl > 0)) && !fits(b, steps[i], cand)){
-            for(const oct of [12, -12, 24, -24]){
-              const t2 = cand + oct;
-              if(t2 >= LO && t2 <= HI && fits(b, steps[i], t2)){ cand = t2; break; }
-            }
-          }
           while(!fits(b, steps[i], cand) && tries < 3){
             cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), cand, 1), LO, HI); tries++;
           }
@@ -38202,25 +36755,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              ITS OWN SUBSTREAM [Law 3/7], so no other draw shifts, and the draw
              runs for every note that COULD be detached whether or not the genre
              asks -- there is no branch above it to skip. */
-          /* ── AND THE RELEASE BELONGS TO THE CELL, NOT TO THE BAR ─────────
-             This drew on `rhyBar` and `steps[i]`. A cell does not sit at the
-             same bar and step every time it is played -- that is the whole
-             point of a formula -- so the same note of the same figure drew a
-             FRESH COIN at every statement and came back a different length.
-             Measured: of 182 restatements that kept every one of their notes,
-             only 19 came back with the rhythm they were promised.
-
-             The file has already fixed this exact fault once, for `thin`,
-             whose draw was seeded on the record's bar: "the same note of the
-             same figure drew a fresh coin at every statement." Same fault, one
-             layer down, and it silently undid the law above it.
-
-             Keyed on the CELL and the note's place inside it, the same note
-             breathes the same way wherever the formula puts it, and a
-             restatement is a restatement in the ear as well as on paper. */
           let dur = plannedDur;
           if(DETACH > 0 && plannedDur > 1 &&
-             stream(chart.seed, "det:" + streamName + ":" + P.mi + ":" + P.ci)() < DETACH){
+             stream(chart.seed, "det:" + streamName + ":" + rhyBar + ":" + steps[i])() < DETACH){
             dur = Math.max(1, plannedDur - Math.max(1, Math.round(plannedDur * 0.27)));
           }
           /* ══ A LINE MAY NOT PLAY THE SAME PITCH TWICE IN A ROW. ═════════════
@@ -38320,16 +36857,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(cand !== m) hangDir = cand > m ? 1 : -1;
           hang = isNCT(b, steps[i], cand);
           m = cand;
-          /* what the cell actually sounded on its first statement, recorded as
-             it is written rather than as it was asked for -- a later `pitch`
-             restatement must hold what was HEARD, not what was intended. */
-          if(P.first && HEARD[P.mi] === undefined) HEARD[P.mi] = [];
-          if(P.first) HEARD[P.mi][P.ci] = cand;
           notes.push({ bar: b, step: steps[i], dur, pitch: cand, vel: steps[i] === 0 ? 0.85 : 0.7, role: "lead",
                        ...(dur < plannedDur ? { det: true } : {}) });
           reserved.add(key(b % BARS, steps[i], cand));
         }
-        shape.push({ bar: rhyBar, mi: MI, steps: notes.slice(barStart).map(n => n.step) });
+        shape.push({ bar: rhyBar, steps: notes.slice(barStart).map(n => n.step) });
       }
       /* LAND THE PHRASE ON A CHORD TONE. This is the owner finishing its own
          note, not a correcting pass -- but it has to keep the owner's own books
@@ -38458,173 +36990,9 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
         const gone = notes.pop();
         reserved.delete(key(gone.bar % BARS, gone.step, gone.pitch));
       }
-      /* ══ AND HOW THE SECOND STATEMENT DIFFERS IS A DIAL ═══════════════════
-         docs/MELODIC-MATH-ENGINE.md
-
-         This copied bars 0-1 into bars 2-3 note for note, always. That is the
-         hook device above and it is sourced, but ALWAYS is a value where a
-         range belongs: measured over 40 seeds a genre, 157 of 199 records had
-         a lead whose second half was a bar-for-bar duplicate of its first, and
-         the whole four bars then loop for the length of the section.
-
-         L3 AND L4 OF THE LAW: a restatement preserves at least one declared
-         thing, and something changes before the repeat limit. The rhythm is
-         what is preserved -- "the A & B always have the same Rhythmic
-         structure ... but change their key and contour to stay interesting"
-         [Nobody Else] -- and the pitch level is what moves. That is tonal
-         displacement, "moving your motif to different notes within the scale
-         while RETAINING THE RHYTHM AND CONTOUR" [corpus:soundfly-flypaper],
-         and it is the sequence the sheets draw as E and F.
-
-         `restate` is how many IDENTICAL statements this genre allows. Drawn
-         per record, so one record keeps the exact hook the corpus describes
-         and the next displaces it, and both are the same genre. Televators
-         states a phrase exactly twice before moving on and Chop Suey three
-         times, so neither answer is the law -- the range is. */
-      const rsR = stream(chart.seed, streamName + ":restate");
-      const RS = (TH.restate && TH.restate.length === 2) ? TH.restate : [1, 2];
-      const identical = RS[0] + Math.floor(rsR() * (RS[1] - RS[0] + 1));
-      const byRoll = rsR();          // drawn whatever `identical` came out [Law 3]
-      const devRoll = rsR();         // and so is which device [Law 3]
-      const head = notes.filter(n => n.bar < 2);
-      let restated = null;
-      if(identical < 2 && head.length){
-        /* ══ HOW A RESTATEMENT DIFFERS — A VOCABULARY, AND THE GENRE PICKS ══
-           docs/MELODIC-MATH-ENGINE.md
-
-           There is more than one way to say a thing again, and the three
-           songs measured for this use different ones:
-
-             DISPLACE   same rhythm, moved to another pitch level. Chop Suey's
-                        verse, and the sequence the sheets draw as E and F.
-             SUBDIVIDE  a note split inside its own span, so the phrase gains
-                        an attack and a movement and loses no time. The sheets
-                        name it: `A = 1(i)1(i)4` becomes `A2 = 1(i)1(i)2(i)2`,
-                        "the last note split into 2, still taking up the same
-                        amount of space, but allowing for an extra key change".
-                        Chop Suey's outro does it on the fourth statement --
-                        `4(F2)4(F1)8` becomes `4(F2)2(F3)8`.
-             SWAP       two adjacent lengths exchanged. Same span, same
-                        movements, the attacks move. Televators, bar 42
-                        `4(E3)2(N)4(F3)2(E5)4` and bar 45
-                        `2(E3)4(N)4(F3)2(E5)4`.
-
-           EACH ONE PRESERVES A DIFFERENT THING, and that is L3 working rather
-           than a single rule: displace keeps the rhythm and moves the pitch,
-           swap and subdivide keep the SPAN and move the attacks. A law that
-           said "keep the rhythm" would forbid two of the three, and Televators
-           would be illegal music.
-
-           The genre declares which it will use and how it weights them; the
-           draw says where to start looking and the engine takes the first
-           candidate that satisfies the law. ═══════════════════════════════ */
-        const DEV = (TH.change && TH.change.length) ? TH.change
-                  : [["displace", 4], ["subdivide", 2], ["swap", 2]];
-        const POOL = (TH.restateBy && TH.restateBy.length) ? TH.restateBy
-                                                           : [-2, -1, 1, 2];
-        const rhythmOf = ns => ns.slice()
-          .sort((x, y) => (x.bar - y.bar) || (x.step - y.step))
-          .map(n => (n.bar % 2) + ":" + n.step + ":" + n.dur).join(" ");
-        const spanOf = ns => ns.reduce((t, n) => t + n.dur, 0);
-        const wantRhythm = rhythmOf(head), wantSpan = spanOf(head);
-        const inTime = MM.inTime;      // one owner, in the notation module
-
-        /* every candidate is offered whole and taken whole. Half a
-           restatement is not one: the write loop below skips a note whose
-           slot is taken, and a phrase that loses a note out of its middle has
-           lost the thing this device was preserving. */
-        const accept = (cand, keeps) => {
-          if(!cand || !cand.length) return false;
-          if(keeps === "rhythm" && rhythmOf(cand) !== wantRhythm) return false;
-          if(keeps === "span"   && spanOf(cand)   !== wantSpan)   return false;
-          if(cand.some(cp => cp.step < 0 || cp.step >= STEPS ||
-                             cp.bar < 2 || cp.bar >= 4)) return false;
-          if(cand.some(cp => reserved.has(key(cp.bar, cp.step, cp.pitch)))) return false;
-          /* two notes of the candidate on one instant is not a line */
-          const seen = new Set();
-          for(const cp of cand){
-            const k2 = cp.bar + ":" + cp.step;
-            if(seen.has(k2)) return false;
-            seen.add(k2);
-          }
-          /* ── AND IT MUST NOT HAND THE NO-REPEAT RULE A NOTE TO DELETE ─────
-             `noRepeats` runs after this and drops a note whose pitch equals
-             the one before it. A candidate that creates such a pair loses
-             that note, and with it whatever this device was preserving. Two
-             laws meet here and the answer is not to let one break the other:
-             the candidate is rejected and the next is tried. */
-          if(NOREPEAT){
-            const line = inTime(head.concat(cand));
-            for(let q = 1; q < line.length; q++)
-              if(line[q].pitch === line[q - 1].pitch) return false;
-          }
-          return true;
-        };
-
-        /* ── THE THREE DEVICES ─────────────────────────────────────────── */
-        const displace = k => {
-          const by = POOL[k % POOL.length];
-          const out = [];
-          for(const n of head){
-            const p = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
-                                         n.pitch, by), LO, HI);
-            /* the band clamped it back onto the note it started from, so this
-               displacement would not have moved that note */
-            if(p === n.pitch) return null;
-            out.push({ ...n, bar: n.bar + 2, pitch: p });
-          }
-          return legalise(out, chordSet);
-        };
-        /* a note long enough to be two, split in its own span. The new note
-           takes a pitch from the chord under it, which is where the extra
-           movement the sheets describe comes from. */
-        /* the two shape changes are MM's -- see the notation module. This
-           supplies the harmony they are not entitled to know about: where a
-           split note's new pitch comes from, and the legaliser for the chords
-           bars 2-3 sit on. */
-        const shift = ns => ns && ns.map(n => ({ ...n, bar: n.bar + 2 }));
-        const subdivide = k => {
-          const out = MM.subdivide(head, k, (n, dir) => {
-            const p = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet),
-                                         n.pitch, dir), LO, HI);
-            return p;
-          });
-          return out ? legalise(shift(out), chordSet) : null;
-        };
-        const swap = k => {
-          const out = MM.swap(head, k);
-          return out ? legalise(shift(out), chordSet) : null;
-        };
-        const MAKE = { displace, subdivide, swap };
-        const KEEPS = { displace: "rhythm", subdivide: "span", swap: "span" };
-
-        /* the device is drawn, then every device is tried from there, and
-           every variant within a device -- a constraint that is searched is a
-           generator, a constraint that is sampled once is a coin */
-        const names = DEV.map(d => d[0]).filter(n => MAKE[n]);
-        /* THE WEIGHTS ARE READ. The first draft of this declared
-           [displace 4, subdivide 2, swap 2] and then picked the starting
-           device with a flat draw, so the weights were three numbers nothing
-           looked at -- the same defect as a flag no genre sets, one line
-           after writing that a genre declares "how it weights them". */
-        let acc = devRoll * DEV.reduce((t, d) => t + (d[1] || 1), 0);
-        let head0 = names[0];
-        for(const d of DEV){
-          acc -= (d[1] || 1);
-          if(acc <= 0 && MAKE[d[0]]){ head0 = d[0]; break; }
-        }
-        const first = Math.max(0, names.indexOf(head0));
-        const start = Math.floor(byRoll * POOL.length) % POOL.length;
-        for(let d = 0; d < names.length && !restated; d++){
-          const nm = names[(first + d) % names.length];
-          for(let k = 0; k < 4 && !restated; k++){
-            const cand = MAKE[nm](start + k);
-            if(accept(cand, KEEPS[nm])) restated = cand;
-          }
-        }
-      }
-      if(!restated) restated = head.map(n => ({ ...n, bar: n.bar + 2 }));
-      for(const cp of restated){
+      for(const n of notes.slice()){
+        if(n.bar >= 2) break;
+        const cp = { ...n, bar: n.bar + 2 };
         if(reserved.has(key(cp.bar, cp.step, cp.pitch))) continue;
         notes.push(cp); reserved.add(key(cp.bar, cp.step, cp.pitch));
       }
@@ -39067,37 +37435,12 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const fin = notes[notes.length - 1], pen = notes[notes.length - 2];
       const sameBarish = (fin.bar - pen.bar) * STEPS + (fin.step - pen.step);
       if(fin.pitch - pen.pitch === 1 && sameBarish >= 2 && pen.dur >= 2){
-        /* ── THE SCALE STEP BELOW THE LEADING TONE, IN *THIS MATERIAL'S* MODE
-           ⚠ THIS READ THE SONG'S `mode` AND `root`, AND A MATERIAL MAY HAVE
-           LEFT THEM. Every other pitch in this function is placed with
-           `keyOf(chordSet)` / `modeOf(chordSet)` -- the key the material is
-           actually in -- and this one figure asked the record's opening key
-           instead. Where a section had moved, the cadence note was chosen from
-           a scale the music was no longer in, and the composer threw:
-
-             dungeonsynth seed 55, material Avarlift, G phrygian over Bb-D-F.
-             The tune wrote G, the cadence inserted F#, and F# is not in G
-             phrygian. It then leapt to Ab -- in the mode but not in the chord --
-             so the law's second clause could not save it either.
-             MEASURED: 2 of 240 records would not compose.
-
-           It is the exact failure the seam check's own comment predicts:
-           "THIS IS ALSO THE CHECK THAT CATCHES A PART LEFT BEHIND. If a section
-           changes key and some part does not come with it, that part's notes are
-           now out of the section's scale and this throws." A part was left
-           behind, and it was one figure inside a part.
-
-           NOT A NEW RULE AND NOT A WIDER ONE: the figure was always meant to be
-           in the mode -- its own comment says "it is refused if the sixth is not
-           in the mode" -- and it is now asked about the mode it is actually in.
-           A record whose materials never leave the key is unchanged, which is
-           every record but the ones that threw. */
-        const LK = keyOf(chordSet), LM = modeOf(chordSet);
-        const SC = MODES[LM] || [];
+        /* the scale step below the leading tone, in the record's own mode */
+        const SC = MODES[mode] || [];
         let six = null;
         for(let d = 1; d <= 3 && six == null; d++){
           const cand = pen.pitch - d;
-          if(SC.includes((((cand - LK) % 12) + 12) % 12)) six = cand;
+          if(SC.includes((((cand - root) % 12) + 12) % 12)) six = cand;
         }
         const at = pen.step + Math.max(1, pen.dur - 1);
         const atBar = pen.bar + Math.floor(at / STEPS), atStep = at % STEPS;
@@ -39365,66 +37708,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
        sheet's own phrase rather than a hedge I am adding here.
        docs/genre-research/the-four-acts.md §5.3 ═══════════════════════════════ */
     const POOL = (O.cellsAt && mat && O.cellsAt[mat]) || O.cells;
-    /* drawn UNCONDITIONALLY, whether or not the engine below replaces it, so a
-       genre that declares no `mm` weight spends the same stream it always did
-       and is byte-identical [Law 7] */
-    let cell = wpick(rng, POOL);
-    /* ══ THE REPEATING FIGURE, BUILT OF CELLS ══════════════════════════════
-       [owner:] "Finish the last two lanes"
-
-       The fourth and last of the lines `MELODIC-MATH-ENGINE.md` names in its
-       opening sentence -- "the lead, the bass, the counter, THE REPEATING
-       FIGURE". Every figure this builder has ever played came out of `O.cells`,
-       a list of literal degree patterns typed into the genre table. That is a
-       legitimate thing for a genre to declare and it is not being removed: a
-       sequencer figure somebody wrote down is exactly what this music often is,
-       and `mm` at 0 -- which is every genre that says nothing -- keeps it.
-
-       What could not happen was the other thing: a figure the PROGRAM writes,
-       with an inventory and a formula and restatements, like the other three
-       lines. `mm` is the weight of that happening, drawn on its own named
-       substream so declaring it in one table cannot move a note in another.
-       A WEIGHT AND NOT A SWITCH, which is the owner's standing rule for every
-       dial in this engine.
-
-       THE CONVERSION IS EXACT, not an approximation. This builder consumes a
-       cell as a run of SLOTS -- one entry per `unit` sixteenths, a scale degree
-       where the figure speaks and `null` where it holds -- and an mm cell is a
-       run of LENGTHS with a movement between each pair. They are the same
-       object said two ways: a length of L sixteenths is one sounding slot
-       followed by L/unit - 1 held ones, and the degrees are the movements
-       accumulated from the cell's own start. Nothing is invented in the
-       translation and nothing is dropped.
-
-       FOLDED INTO AN OCTAVE, because a figure is a figure. Every declared cell
-       in this file sits inside 0..7 -- the movements accumulate without bound
-       and a figure that climbs out of its own register is an arpeggio with a
-       destination, which is the thing `follow` already turned this builder into
-       once and which the owner heard and called "a slow arp". */
-    const mmW = Math.max(0, Math.min(1, O.mm == null ? 0 : O.mm));
-    if(stream(chart.seed, "ostmmroll:" + streamName)() < mmW){
-      const T = G.ostinatoTheme || G.theme;
-      const L = mmLine("ostmm:" + streamName, BARS * 16, T, false);
-      DECLARED["ostmm:" + streamName] = L.declared;
-      const U = Math.max(1, O.unit || 1);
-      const inv = L.inv && L.inv[0];
-      if(inv && inv.lengths && inv.lengths.length){
-        const slots = [];
-        let deg = 0;
-        for(let i = 0; i < inv.lengths.length; i++){
-          if(i) deg += (inv.moves[i - 1] || 0);
-          while(deg > 7) deg -= 7;
-          while(deg < 0) deg += 7;
-          slots.push(deg);
-          const hold = Math.max(1, Math.round(inv.lengths[i] / U)) - 1;
-          for(let h = 0; h < hold; h++) slots.push(null);
-        }
-        /* a figure of one slot is a pulse, not a figure -- if the formula came
-           back that thin the declared cell stands, which is the same
-           fall-through the bass and the counter use */
-        if(slots.length >= 2) cell = slots;
-      }
-    }
+    const cell = wpick(rng, POOL);
     /* the ALTERNATE cell, drawn unconditionally whether or not it gets used
        [Law 7], and drawn from the cells that are NOT the one already chosen --
        an "alternate" that can come back identical is not one. */
@@ -39920,69 +38204,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     const LO = CB[0], HI = CB[1];
     const src = themeNotes.slice().sort((a, z) => a.bar - z.bar || a.step - z.step);
     const out = [];
-    /* ══ THE COUNTER, BUILT OF CELLS ═══════════════════════════════════════
-       [owner:] "Finish the last two lanes"
-
-       `MELODIC-MATH-ENGINE.md` opens by saying this engine governs "the lead,
-       the BASS, the COUNTER, the repeating figure", and until this branch it
-       governed two of the four. Every other style here DERIVES: the function
-       walks the tune's notes and emits one against each, so the second voice
-       has the tune's rhythm (`double`), or the tune's rhythm moved into the
-       tune's own silence (`answer`). Both are relationships to the tune. What
-       none of them is, is a LINE -- a thing with its own inventory, its own
-       formula, and its own restatements.
-
-       So `cells` is a third member of the same weighted pool the styles
-       already draw from, and it is the one that does not read `themeNotes` at
-       all. The counter gets a cell inventory and a formula of its own, exactly
-       as the bass got one, and the two parts then relate as two players
-       reading two parts rather than as a part and its shadow.
-
-       ITS OWN TABLE, like every line here: `counterTheme` if the genre
-       declares one, `theme` if not [engine doc §5, every dial is per LINE].
-
-       LEGAL BY CONSTRUCTION, not by repair. The head of each cell is placed on
-       a tone of the bar's own chord, and every movement after it is a
-       `scaleStep` -- in the material's key and mode by definition -- so no note
-       here can be the out-of-key non-chord tone the seam check throws on. A
-       seat the tune has already taken is not contested: the note is dropped,
-       because two parts on one pitch at one instant is one part, and this file
-       drops rather than relocates.
-
-       ITS OWN DIRECTION, for the reason the bass needed one: `theme.stated`
-       decides whether a movement carries its own sign or turns with the
-       phrase, and a line with no direction of its own makes both branches
-       identical and the dial dead. A counter's direction is the counter's. */
-    if(style === "cells"){
-      const T = G.counterTheme || G.theme;
-      const L = mmLine("countermm:" + streamName, BARS * 16, T, false);
-      /* published beside the lead's and the bass's -- a line the program
-         cannot show its working for is a line nobody can check */
-      DECLARED["countermm:" + streamName] = L.declared;
-      const cdir = stream(chart.seed, "counterdir:" + streamName)() < 0.5 ? 1 : -1;
-      const mid = Math.round((LO + HI) / 2);
-      let m = null;
-      for(const P of L.plan){
-        const b = Math.floor(P.at / 16), st = P.at % 16;
-        if(b >= BARS) break;
-        const ch = CH(chordSet, b);
-        /* the harmony places the cell, the cell shapes itself from there --
-           the same order the lead and the bass both use */
-        m = (P.head || m == null)
-          ? intoBand(nearestTone(mid, ch.tones), LO, HI)
-          : intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m,
-                               P.fixed ? P.move : P.move * cdir), LO, HI);
-        if(reserved.has(key(b, st, m))) continue;      // the tune is on that seat
-        out.push({ bar: b, step: st,
-                   dur: Math.max(1, Math.min(16 - st, P.dur)),
-                   pitch: m, vel: st === 0 ? 0.62 : 0.5, role: "counter" });
-        reserved.add(key(b, st, m));
-      }
-      /* a formula that yielded nothing is not a second voice; fall through to
-         the derived styles rather than ship a silent part -- the same rule the
-         bass's own cells role follows */
-      if(out.length) return NOREPEAT ? noRepeats(out) : out;
-    }
     /* ── WHERE THE LEAD IS NOT ─────────────────────────────────────────────
        MEASURED: 100% of counter notes landed on the same step as a lead note,
        in every genre. Pitches were independent -- 0.0% duplication -- but the
@@ -40312,21 +38533,7 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* a splice is a JOIN: the head's last note meets the tail's first, and no
      rule inside either half can see that seam. Gated on the genre's own
      declaration, so a genre that says nothing splices exactly as it did. */
-  /* ── ONE FLAG, ONE SENSE. `theme.noRepeat` was read through FOUR gates with
-     two different meanings: `!== false` and `!(=== false)` default it ON, while
-     this line and the stage-5 merge tested it TRUTHY -- against a flag no genre
-     sets. So `JOIN` was a no-op at all ten of its call sites and the stage-5
-     merge never ran once, while the material-level rule did. Measured: 0.0-1.1%
-     repeated pitches inside the material and 4.5% in the finished record, 2,246
-     of 49,585 events, 385 in one record. That is the owner's six-times-reported
-     complaint, fixed where it is composed and not where it is heard.
-
-     The file documents this exact failure twice in its own comments -- ":38474"
-     and ":39655" both say a branch behind `=== true` has never executed -- and
-     it happened again in two more places. Read once, from one helper, and every
-     site agrees. */
-  const wantsNoRepeat = () => !(G.theme && G.theme.noRepeat === false);
-  const JOIN = notes => wantsNoRepeat() ? noRepeats(notes) : notes;
+  const JOIN = notes => (G.theme && G.theme.noRepeat) ? noRepeats(notes) : notes;
   const noRepeats = notes => {
     const seq = notes.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
     const drop = new Set();
@@ -42426,35 +40633,6 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
      declared them and then bKey/bMode are not what liftChords stands in */
   materials.lift = Object.freeze(LIFT ? { key: lMode ? root : bKey,
                                           mode: lMode || bMode } : null);
-
-  /* ══ WHAT EACH LINE IS MADE OF, NAMED ══════════════════════════════════════
-     docs/MELODIC-MATH-ENGINE.md
-
-     Stage 3 has always handed on a flat array of notes per role, and a flat
-     array has no parts. Nothing downstream could ask WHICH MOTIF a note is in,
-     so nothing downstream could leave one out, restate one, or vary one --
-     which is every device the sheets describe.
-
-     So the motifs are named here, beside the notes, and the notes are not
-     touched. `materials.motifs[material][role]` is the reading: which cells
-     share a rhythm, what each one's one-line code is, and the formula they
-     spell. Nothing consumes it yet. It exists so that the law can be applied
-     to a thing that has parts rather than to an array. */
-  const mm = {};
-  for(const m of MAT_KEYS){
-    const perRole = {};
-    for(const role in materials[m]){
-      if(!Array.isArray(materials[m][role])) continue;
-      const read = MM.readLine(materials[m][role], { steps: STEPS });
-      if(read) perRole[role] = read;
-    }
-    if(Object.keys(perRole).length) mm[m] = Object.freeze(perRole);
-  }
-  materials.motifs = Object.freeze(mm);
-  /* THE DECLARATION, beside the reading. Same shape for every line: the cells
-     it was built from and the formula over them. */
-  materials.motifsDeclared = Object.freeze(DECLARED);
-
   return Object.freeze(materials);
 }
 
@@ -44145,155 +42323,6 @@ function makePerformance(chart, form, materials, sections){
   /* how much of each part this genre is willing to lose at the bottom of the
      arc. Read here, used in the one place notes are emitted. */
   const THIN = (chart.table.form.arc && chart.table.form.arc.thin) || {};
-  /* ══ AND ONCE, THE RULE IS BROKEN ON PURPOSE ══════════════════════════════
-     docs/MELODIC-MATH-ENGINE.md
-
-     [owner:] "we have to be able to break the rules at times at certain points
-     and to have that be something important in that song."
-
-     The sheets name the device twice. NTFO & Karmon: "Note in the 3rd 'A' a
-     note is MISSED to create unbalance and create additional tension." Deep
-     Purple: "The 'A' motif elevates on the first 3, but on the 4th one it
-     FALLS, giving variation and a sense of closure."
-
-     BOTH LAND ON A COUNTED STATEMENT, not at random. That is the whole point of
-     it -- a break is only an event if the rule was kept, and it is only placed
-     if something counted to it. It could not have meant anything in this
-     program until the statement above this one: while every statement of a hook
-     came out a different figure there was nothing to depart from.
-
-     So: one statement of the record, chosen from a pool the genre declares,
-     loses ONE note of its figure. Never the downbeat, and never from a bar with
-     only one note in it -- a break takes a note out of a phrase, it does not
-     delete the phrase. Which statement is drawn per record, so two records of
-     one genre break in different places. */
-  /* ══ THE PHRASE MOVES ACROSS ITS STATEMENTS ═══════════════════════════════
-     docs/MELODIC-MATH-ENGINE.md
-
-     READ OFF THE PRINTOUT, seed 782: the chorus phrase was heard SIXTEEN times
-     and all sixteen began A#4. The engine could displace a restatement once,
-     at build, inside the material -- and then the material looped for the rest
-     of the record pitch-identical. Variation across the statements of a song
-     was thinning and the one break, nothing else. That is the owner's original
-     "on repeat" complaint surviving one level up.
-
-     The sheets name the missing device exactly. Smoke On The Water: "The 'A'
-     motif elevates ('E') on the first 3, but ON THE 4TH ONE IT FALLS, giving
-     variation and a sense of closure by ending where the melody starts."
-     Chop Suey's verse alternates its pitch level bar-pair by bar-pair. A
-     MOVEMENT TABLE PER STATEMENT: the same figure, restated at a moved level,
-     and the last statement turns to close.
-
-     So each statement of a section (each pass through the material) carries an
-     offset in SCALE STEPS, read from a direction string the genre declares a
-     pool of: N holds the base, E lifts by `by`, F falls by it. Diatonic, so
-     the key holds by construction; the rhythm is untouched, so every figure
-     the record established stays recognisable -- which is the whole law:
-     the rhythm is the identity, the pitch is free.
-
-     Drawn once per record [Law 3]: which magnitude, which shape. The first
-     letter of every default shape is N so the first statement is always the
-     written phrase -- a sequence departs from something heard. A genre may
-     refuse with `theme.seq: false` or reshape the pools. */
-  const SEQ_T = chart.table.theme && chart.table.theme.seq;
-  const SEQ_ON = SEQ_T !== false;
-  const SEQ_ROLES = (SEQ_T && SEQ_T.roles) || ["lead", "counter"];
-  const seqR = stream(chart.seed, "stmtSeq");
-  /* HOW FAR, IN SCALE STEPS. A sequence classically moves by a second or a
-     third [theory]; the pool is a dial and a genre may widen it. */
-  const SEQ_BY = (() => { const P = (SEQ_T && SEQ_T.by) || [1, 2];
-                          return P[Math.floor(seqR() * P.length) % P.length]; })();
-  /* how many of a section's statements may sit away from the base */
-  const SEQ_AWAY = (SEQ_T && SEQ_T.away) || 0.55;
-  /* ── THE SHAPE IS GENERATED, NOT LISTED ─────────────────────────────────
-     ⚠ THE FIRST VERSION OF THIS SHIPPED FOUR HAND-WRITTEN STRINGS —
-     ["NEEF","NNEF","NEFN","NENF"] — as the default for every genre. `NEEF` is
-     Smoke On The Water's own E,E,E,F with an N in front, and the other three
-     were invented to make one example's shape look like a pool. No genre
-     declares `theme.seq`, so every record in the file got that one riff's
-     contour. That is a baked-in value wearing a constraint's clothes, and it
-     is the defect this whole engine exists to stop.
-
-     THE SHAPE COMES FROM RULES INSTEAD, and the rules are theory rather than
-     any song:
-
-       A SEQUENCE DEPARTS FROM SOMETHING HEARD.  The first statement of a
-       section is always the base — you cannot hear a move away from a thing
-       that has not been stated.
-
-       A DEPARTURE RETURNS.  The last statement of a section comes home. That
-       is cadence, and it is why a section sounds finished rather than cut.
-
-       AND IT MAY NOT SIT STILL THREE TIMES RUNNING.  The rule of three, one
-       level up: three identical levels in a row is the same stasis the rule
-       forbids inside a phrase.
-
-     Everything between those is drawn. `away` is the share of the middle
-     statements that leave the base — a dial. The four strings above are all
-     still reachable; so are dozens this file could not have written. */
-  const seqShape = (() => {
-    const cache = {};
-    return sec => {
-      const key = sec.startBar;
-      if(cache[key]) return cache[key];
-      const cycles = Math.max(1, Math.floor(
-        Math.max(1, sec.endBar - sec.startBar) / materials.bars));
-      const out = [0];                                   // depart from what was heard
-      for(let c = 1; c < cycles - 1; c++){
-        const r = stream(chart.seed, "seq:" + key + ":" + c);
-        let v = r() < SEQ_AWAY ? (r() < 0.5 ? SEQ_BY : -SEQ_BY) : 0;
-        /* not the same level three times running */
-        const n = out.length;
-        if(n >= 2 && out[n - 1] === v && out[n - 2] === v)
-          v = v === 0 ? (r() < 0.5 ? SEQ_BY : -SEQ_BY) : 0;
-        out.push(v);
-      }
-      if(cycles > 1) out.push(0);                        // and it returns
-      /* a section that drew no departure at all is not a sequence; move the
-         middle one, so the device is never silently inert */
-      if(out.length > 2 && out.every(v => v === 0))
-        out[out.length >> 1] = seqR() < 0.5 ? SEQ_BY : -SEQ_BY;
-      return (cache[key] = out);
-    };
-  })();
-  const seqOff = (sec, bar) => {
-    if(!SEQ_ON) return 0;
-    const sh = seqShape(sec);
-    const cyc = Math.floor(Math.max(0, bar - sec.startBar) / materials.bars);
-    return sh[Math.min(cyc, sh.length - 1)] || 0;
-  };
-  /* the lift plays in its own key, and a sequence written against the home
-     mode would move its notes out of it */
-  const seqKey = sec => {
-    const lifted = /lift/i.test(String(sec.material)) && materials.lift;
-    return lifted ? materials.lift : { key: chart.root, mode: chart.mode };
-  };
-
-  const BRK_POOL = (chart.table.theme && chart.table.theme.breakAt) || [3, 4];
-  const BRK_ROLES = (chart.table.theme && chart.table.theme.breakRoles) || ["lead"];
-  /* ONE BAR OF THE RECORD, NOT ONE PER BAR. The first draft matched on the
-     statement number alone, and `occurrence` counts per FUNCTION -- so the
-     third verse, the third chorus and the third instrumental all broke, and
-     inside each of them the material loops, so a note went from every bar of
-     every one of them. Measured against a build without it: 3 to 36 notes
-     removed a record, where the device is ONE. A break that happens thirty
-     times is not a break, it is a thinner. So the bar is chosen once, here. */
-  let BRK_BAR = -1;
-  if(BRK_POOL.length){
-    const br = stream(chart.seed, "breakAt");
-    const pick = br(), where = br();          // both drawn whatever follows [Law 3]
-    /* and only where the part that breaks is actually playing -- a break bar
-       chosen in a section the lead sits out is a break nobody hears, which is
-       why the first version of this landed in 23 records of 40 */
-    const cands = (sections || []).filter(x =>
-      BRK_POOL.indexOf(x.occurrence) >= 0 &&
-      BRK_ROLES.some(r => (x.active || []).indexOf(r) >= 0));
-    if(cands.length){
-      const sec0 = cands[Math.floor(pick * cands.length) % cands.length];
-      const span = Math.max(1, sec0.endBar - sec0.startBar);
-      BRK_BAR = sec0.startBar + Math.floor(where * span) % span;
-    }
-  }
   /* ── A SLIDE NEEDS THE NOTE IT SLIDES FROM ──────────────────────────────────
      Stage 3 writes `slide` on the note being slid INTO, and the note it glides
      from is simply its predecessor in that lane. Thin that predecessor away and
@@ -45447,19 +43476,8 @@ function makePerformance(chart, form, materials, sections){
         }
         const useBar = (role === "drums" && lastBar && sec.fillInto) ? 0
                      : (sec.endingLastBar && lastBar) ? 0 : loopBar;
-        /* which note this statement drops, if this is the statement that breaks */
-        let breakStep = -1;
-        if(bar === BRK_BAR && BRK_ROLES.indexOf(role) >= 0){
-          const cand = notes.filter(x => x.bar === useBar && x.step > 0);
-          if(cand.length > 1){
-            const br = stream(chart.seed, "break:" + sec.material + ":" + role +
-                                          ":" + useBar)();
-            breakStep = cand[Math.floor(br * cand.length) % cand.length].step;
-          }
-        }
         for(const n of notes){
           if(n.bar !== useBar) continue;
-          if(n.step === breakStep) continue;         // the break: one note missed
           /* ── THE EMPTY, AT THE SIZE THIS BOUNDARY DREW ────────────────────
              `bar` is what this line always did. `beat` subtracts only the last
              beat, which is 004's smallest empty and is a different amount of
@@ -45686,34 +43704,7 @@ function makePerformance(chart, form, materials, sections){
              one place in this session where a fix deliberately moves a shipped
              genre, and it moves it toward the thing its own table has always
              asked for -- "martial snare patterns", which are figures. */
-          /* ══ AND A MELODY IS A FIGURE TOO — MEASURED ═══════════════════════
-             The note above drew a line: drums thin on the material's bar so
-             the pattern recurs, "for a melody, losing a different note each
-             time round is variation and is why this was written per bar."
-
-             THAT WAS A HYPOTHESIS AND THE MEASUREMENT FALSIFIES IT. Statements
-             of one material across a whole record, aligned to their section
-             starts, lead only:
-
-               dungeon synth   material A   10 statements   10 distinct rhythms
-               ds2             material A   10 statements   10 distinct
-               synthwave       material A@1  7 statements    7 distinct
-               fantasy synth   material A   12 statements   11 distinct
-
-             Not one statement of the hook comes back the way it was heard
-             before. Losing a DIFFERENT note each time is variation when it is
-             one note; measured, it is a different subset every time, which is
-             the same sentence the drum note above condemns -- "a different
-             subset of the same figure every bar" -- applied to the tune.
-
-             So every role thins on the material's own bar. The threshold still
-             moves with the arc, so a part still opens out across the record --
-             it opens out by the SAME notes arriving in the same order, which is
-             a figure growing rather than a figure re-rolled. What was variation
-             by accident becomes variation that can be placed, which is the only
-             way a break in the pattern can mean anything: a rule that is never
-             kept cannot be broken. */
-          const thinBar = n.bar;
+          const thinBar = role === "drums" ? n.bar : bar;
           const keepR = stream(chart.seed, "thin:" + role + ":" + thinBar + ":" + n.step + ":" + lane)();
           if(th > 0 && n.step > 0 && !slideSafe.has(lane + ":" + n.bar + ":" + n.step)){
             /* the metric weight of this step: downbeats survive, then the
@@ -45960,19 +43951,7 @@ function makePerformance(chart, form, materials, sections){
               rise: PRESS.rise[0] + rise * PRESS.rise[1],
             };
           }
-          if(n.pitch != null){
-            ev.pitch = n.pitch;
-            /* the statement's movement -- see THE PHRASE MOVES above. Applied
-               to the whole statement uniformly, so every interval inside the
-               phrase survives and the figure stays itself. */
-            if(SEQ_ROLES.indexOf(role) >= 0){
-              const off = seqOff(sec, bar);
-              if(off !== 0){
-                const K = seqKey(sec);
-                ev.pitch = scaleStep(K.key, K.mode, n.pitch, off);
-              }
-            }
-          }
+          if(n.pitch != null) ev.pitch = n.pitch;
           /* ACCENT AND SLIDE ride along. Stage 3 owns them -- it decided which
              steps are accented and how far each slide travels -- and stage 5
              does here what it does for pitch: carries the decision without
@@ -47137,7 +45116,7 @@ function makePerformance(chart, form, materials, sections){
      mode's finalis held under a whole section is medieval performance
      practice this file cites by name; deleting it because a tune may not
      stutter would be applying one part's rule to another part's job. ══════ */
-  if(!(chart.table && chart.table.theme && chart.table.theme.noRepeat === false)){
+  if(chart.table && chart.table.theme && chart.table.theme.noRepeat === true){
     const LINE = { lead: 1, counter: 1 };
     /* indexed by role AND voice, which is one player's own line. Role alone
        was measured wrong: a DOUBLING puts a second voice's note into the same
@@ -52956,7 +50935,6 @@ else boot();
 
 /* hooks for the render/measure harness — the same functions the UI uses */
 window.MK2 = {
-  MM,
   composeSong, newSong,
   referenceEvents,
   renderWav: (events, seconds, sr, space, kick, drumDrive, gate, motion, motionOffset) =>
