@@ -866,3 +866,110 @@ Mean interval unmoved at 2.67–2.86 semitones; `%N` still 0.0.
 **Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
 all four genres; 159 of 160 records compose, the one failure the pre-existing
 `lofi seed 17` seam throw.
+
+---
+
+## 15. REBUILT FROM THE SHEETS — a cell is a length, not a bar
+
+> [owner:] *"What do you mean by tune A? The letters of the motif are the parts
+> of a motif broken down into its smallest nature."*
+
+§12–14 built cells that were each exactly one bar long. That is wrong, and it is
+wrong in the way that empties the whole idea: **if every cell is a bar, nothing
+can add up to anything, and the arithmetic does no work.**
+
+The sheets are unambiguous. A letter is a small piece with a length:
+
+```
+Smoke On The Water    A = 4+4 (8)    B = 6    C = 2+8 (10)      A+B+A+C = 32
+Nobody Else, bass     A = 1/1/1/1/2 (6)   B = 2/2 (4)           A+A+B  = 16
+Nobody Else, melody   A = 4+3+1+4 (12)    B = 4 (4)             A+B    = 16
+                                                 "(factors into 4/4) BALANCE!"
+```
+
+A is half a bar in one sheet and three bars in another. So a cell is **a run of
+note lengths whose sum is its span**, and the formula lays cells end to end
+until the spans reach whole bars.
+
+### What is built
+
+- **Cells** are drawn as lengths off a pool (`theme.lengths`, default
+  `1,2,3,4,6,8` — every value appears in the sheets), with one movement between
+  each pair of notes. The span is the sum.
+- **A cell is capped at a third of the material.** Half was the first cap and it
+  is not enough: two cells of fifteen fill a two-bar hook exactly and neither
+  can recur. Measured — dungeon synth seed 3 came out `B + A + S3`, a formula
+  with no hook in it. A third makes L2 reachable by arithmetic instead of by
+  rescue, and it is what the sheets do (8, 6 and 10 filling 32).
+- **The formula fills to the target**, weighting a cell already heard over a new
+  one, which is what produces `A+B+A+C` rather than four different letters.
+- **`S` is the piece that makes the equation come out.** Whatever span is left
+  becomes silence — the sheets' own cell, and the sheet's own reason:
+  *"the 'S' motif (which represents silence) keeps the other motifs happening at
+  the same time... acting like a Call & Reponse."*
+- **Lower case keeps its span and stops sounding** — *"The 'B' rotates from
+  being active and inactive to give rest."*
+- **The last sounding occurrence turns** — *"The 'A' motif elevates on the first
+  3, but on the 4th one it falls, giving variation and a sense of closure by
+  ending where the melody starts."* The cell's movements are mirrored on its
+  final audible statement. Marking the final occurrence regardless of case put
+  the turn on a silent slot — a closure nobody can hear — so it is the last
+  slot that SOUNDS.
+- **The rhythm of a cell never changes once drawn.** Its pitches float, because
+  the line reaches each restatement from somewhere else — which is *"change
+  their key and contour to stay interesting"* falling out of the construction
+  rather than being applied to it.
+- **The old rhythm-borrow is gone.** "The answer says it in the same rhythm" is
+  what a formula naming the same cell twice already does, exactly and by
+  construction.
+
+### Measured
+
+```
+  lines checked for balance    954        UNBALANCED: 0
+                                          every line's spans sum to its bars
+
+                 records   planned notes   played   played%   a cell recurs
+  lofi              39          650          621     95.5      39/39
+  synthwave         40          375          356     94.9      38/40
+  dungeonsynth      40          545          465     85.3      39/40
+  ds2               40          545          465     85.3      39/40
+```
+
+**Balance is exact on all 954 lines.** 85–96% of planned notes reach the record;
+the rest are refused because another part owns the seat — visible in the roll as
+a cell that is missing one of its notes, and the largest remaining gap.
+
+### Read against the notation
+
+Three records, printed as the sheets draw them — the boxes are the cells the
+program declared BEFORE it wrote a note, the black bars are what it then wrote:
+
+```
+dungeonsynth seed 3    B + A + a + S3        9+10+10+3 = 32
+  B = 6+2+1   D5 held 6, C5 for 2, G5 for 1        three notes, exact
+  A = 2+8     D5 for 2, D#5 held 8                 two notes, exact
+  a           the same cell, ten sixteenths, silent
+  S3          three sixteenths of the sheets' own silence cell
+
+synthwave seed 12      B + B + B↓ + S5       9+9+9+5 = 32
+  B = 2+2+3+2  stated three times in the same rhythm at three pitch levels,
+               and the third one descends where the first two rise
+
+lofi seed 36820        C + A + A + A + A↓ + S1    15+12+12+12+12+1 = 64
+  A stated four times, the fourth turning home — the Smoke On The Water shape,
+  reached by draw and not by being written down
+```
+
+### Still not built
+
+- `A2`, the split variation — *"the last note split into 2, still taking up the
+  same amount of space."* §13 built it against bar-sized cells; it has to be
+  redone against lengths.
+- The swap (Televators) and the missed note for deliberate imbalance.
+- `theme.lengths`, `theme.silentSlot` — dials that now exist and no genre
+  declares, which is §5's complaint with somewhere to land at last.
+
+**Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
+all four genres; 159 of 160 records compose, the one failure the pre-existing
+`lofi seed 17` seam throw.
