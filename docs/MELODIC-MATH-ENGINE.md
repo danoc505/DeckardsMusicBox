@@ -973,3 +973,145 @@ lofi seed 36820        C + A + A + A + A↓ + S1    15+12+12+12+12+1 = 64
 **Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
 all four genres; 159 of 160 records compose, the one failure the pre-existing
 `lofi seed 17` seam throw.
+
+---
+
+## 16. AN EXAMPLE IS NOT A FACT — the dials become weights
+
+> [owner:] *"I think you might be making assumptions about an EXAMPLE and
+> EXAMPLE is not a fact in of itself it is generally just ONE way to do many
+> things is it not?"*
+>
+> [owner:] *"even the dials shoulnt be strict on or offs that would be a switch
+> right"*
+
+Both right, and §15 was written on the strength of four sheets read as though
+they were a specification. **Two MIDI files the owner supplied settle it, and
+they disagree with each other on the thing §15 called the law.**
+
+### Measured off the MIDI, not off a sheet
+
+Both parsed at PPQ 480, a sixteenth = 120 ticks, phrases split on rests of six
+sixteenths or more.
+
+**System of a Down, "Chop Suey" — Serj's vocal, 367 notes, 32 phrases.**
+
+- A **fixed grid**, strictly. The verse cell starts at sixteenth 528, 560, 592 —
+  every 32 exactly — and is 20 long, so `A(20) + S(12) = 32`. The Europe
+  sheet's silence cell, measured in a song nobody drew.
+- The cell is `2+2+2+2+2+2+2+2+2+2` on ONE PITCH: `G4 ×9, F#4`. Its restatement
+  two bars later is the same rhythm on `F#4 ×8, G#4, G4`. **Rhythm held, key
+  moved.**
+- Lengths of **3** recur (`3+3+2+4+4+2+2`, identical at bars 51 and 85) — not a
+  power-of-two grid.
+- The second verse is a **byte-for-byte copy** of the first: 148 sixteenths,
+  every length and every pitch, 34 bars later.
+
+**The Mars Volta, "Televators" — Cedric's vocal, 324 notes, 19 phrases.**
+
+- **No grid at all.** Phrases span 20 to 144 sixteenths and start at `@2`, `@4`,
+  `@8`, `@12` within the bar. Never twice in the same place.
+- The cell `F#4 E4 D4 D4` comes back as `4+4+4+12`, then `2+4+6+12`, then
+  `2+4+6+12` — **same pitches, same span of 24, the rhythm redistributed
+  inside it. Pitch held, rhythm moved.**
+- And `B3 D4 D4 B3 E4 F#4` comes back `4+2+4+2+4+8` (24) then `2+4+4+2+4+4`
+  (20) — first two lengths swapped, tail shortened. Not even the span held.
+- The Europe split is here too: phrase 9's `…12+12` is phrase 10's `…12+6+6`,
+  the same 12 carrying a new pitch. *"Rhythmic acceleration"*, independently.
+
+| | Nobody Else | Chop Suey | Televators |
+|---|---|---|---|
+| fixed grid | yes, 16 | yes, 32 | **no** |
+| what is kept | rhythm | rhythm | **pitches** |
+| what moves | key | key | **rhythm** |
+| on the bar | yes | yes | **no** |
+| repeated pitch | no | **nine in a row** | no |
+| section repeats verbatim | with variations | **exactly** | no |
+
+**Every row is a disagreement.** `melodic-math.md` §1 — *"a motif is recognised
+by its RHYTHM; its pitches are free"* — is Nobody Else's habit and Chop Suey's,
+and it is the opposite of Televators'. It is stated in this repo as the load-
+bearing claim and it is one example generalised.
+
+### And a dial is not a switch
+
+A switch gives two songs. This project's second principle already says what a
+dial is: *"A soft law is a habit with **weights**, and lives in the genre tables
+where a genre can lean on it or not."*
+
+So `theme.keep` is drawn at three levels, which is this program's usual shape:
+
+```
+  the GENRE declares a range      keep: { rhythm: [0.55,0.95], pitch: [0,0.35] }
+  the SEED draws one per record   rhythm 0.71, pitch 0.19, span 0.10
+  each RESTATEMENT rolls          keep the rhythm / the pitches / only the span
+```
+
+Three draws a slot, always, so the stream does not move with the outcome
+[Law 7]. Measured across 159 records the drawn weight ranges **0.55–0.92**, so
+two records of one genre genuinely lean differently.
+
+- **rhythm** — same lengths, pitches free. What the engine always did.
+- **pitch** — the pitches the cell was FIRST HEARD at, played again, with the
+  lengths redistributed inside the span. Televators' device, built as `reflow`,
+  which moves units between lengths so the span cannot drift.
+- **span** — only the slot's place in the equation is kept; everything inside is
+  redrawn. The loosest restatement L3 allows.
+
+### AND THE PROGRAM WAS ERASING ITS OWN WORK
+
+> [owner:] *"make sure this is hooked up into the program and that the program
+> does not ignore or erase its work"*
+
+It was, and measuring for it found the fault.
+
+**The release draw was keyed on the bar.** `det:…:rhyBar:steps[i]` — but a cell
+does not sit at the same bar and step every time it is played; that is the whole
+point of a formula. So the same note of the same figure drew a **fresh coin at
+every statement** and came back a different length.
+
+**This is the third time this exact fault has appeared in this file.** `thin`
+had it seeded on the record's bar — *"the same note of the same figure drew a
+fresh coin at every statement"* — and was fixed. The sequence table had its own
+version. Here it silently undid the law above it.
+
+Keyed on the CELL and the note's index inside it:
+
+```
+  restatements that kept every note AND came back with the exact rhythm
+      before the fix      19 of 182
+      after the fix       74 of 179          ~4x
+```
+
+Two smaller erasures fixed the same way: a **held pitch takes its own octave**
+before the seat-walk steps it onto a different note, and a **held pitch is
+exempt from the peak rule**, which was nudging restatements off the very pitch
+they exist to repeat.
+
+### Where it stands, measured, 40 seeds a genre
+
+```
+  268 restatements compared against the first statement of their own cell
+
+     kept every note                     179  (67%)
+     lost at least one to a collision     89  (33%)
+
+     of the 179, rhythm restatements that came back exact        74
+     held pitches that survived, per note                    35 / 60  (58%)
+
+  balance                       954 lines checked, 0 unbalanced
+  distinct bar rhythms, lofi    2.51 -> 3.77
+```
+
+**What is honestly not finished:** a third of restatements still lose a note to
+another part owning the seat, and 42% of held pitches are still moved by the
+laws downstream. Both are measured rather than claimed, and both are the same
+question — how much a decided note may be overruled — which the next pass
+should answer once rather than in three places.
+
+`theme.keep` is a dial **no genre declares yet**. The default range is deliberately
+Chop-Suey-ish; a Televators genre would declare `pitch: [0.5, 0.9]`.
+
+**Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
+all four genres; 159 of 160 records compose, the one failure the pre-existing
+`lofi seed 17` seam throw.

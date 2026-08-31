@@ -36709,6 +36709,76 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const keep = 2 + Math.floor(irng() * 2);
       return out.slice(0, keep);
     })();
+    /* ══ WHAT A RESTATEMENT KEEPS — A WEIGHT, NOT A SWITCH ═══════════════
+       [owner:] "even the dials shoulnt be strict on or offs that would be a
+       switch right"
+
+       Right, and the four sheets are only four EXAMPLES. Measured off the
+       MIDI of two songs nobody drew, they disagree with each other on the
+       thing I had been treating as the law:
+
+         Chop Suey    the verse cell is `2x10` and comes back with the SAME
+                      RHYTHM and different pitches -- G4 nine times, then
+                      F#4 nine times. Rhythm held, key moved.
+         Televators   the cell F#4-E4-D4-D4 comes back as 4+4+4+12, then
+                      2+4+6+12, then 2+4+6+12. SAME PITCHES, same span, the
+                      rhythm redistributed inside it. Pitch held, rhythm moved.
+
+       They are opposites. So "the rhythm is the invariant" is one song's
+       habit, not a law, and `melodic-math.md` §1 states it too strongly.
+       What IS law is L3: SOMETHING is preserved, and which one is the
+       genre's business.
+
+       And it cannot be a switch. A switch gives two songs. This program's
+       own second principle says a soft law is "a habit with WEIGHTS, and
+       lives in the genre tables where a genre can lean on it or not."
+
+       So it is drawn at three levels, which is this project's usual shape:
+         the GENRE declares a range        keep.rhythm [0.55, 0.95]
+         the SEED draws one value a record            0.71
+         each RESTATEMENT rolls against it            keep rhythm / pitch / span
+
+       A roll past both weights keeps only the SPAN -- the cell's place in the
+       equation, with everything inside it redrawn. That is still a
+       restatement under L3 and it is the loosest one the law allows. */
+    const KEEP = (() => {
+      const krng = stream(chart.seed, streamName + ":keep");
+      const R = (TH.keep && TH.keep.rhythm) || [0.55, 0.95];
+      const P = (TH.keep && TH.keep.pitch)  || [0.00, 0.35];
+      const kr = R[0] + krng() * (R[1] - R[0]);
+      const kp = P[0] + krng() * (P[1] - P[0]);
+      const sum = kr + kp;
+      return sum > 1 ? { rhythm: kr / sum, pitch: kp / sum }
+                     : { rhythm: kr, pitch: kp };
+    })();
+    /* KEEP THE PITCHES, MOVE THE RHYTHM -- Televators' own device, measured:
+       4+4+4+12 becomes 2+4+6+12, the same four notes over the same 24. Units
+       are moved from one length to another, so the span cannot drift and no
+       check afterwards is needed. */
+    const reflow = (cell, r1, r2) => {
+      const L = cell.lengths.slice();
+      if(L.length < 2) return cell;
+      const a = Math.floor(r1 * L.length) % L.length;
+      let b = Math.floor(r2 * L.length) % L.length;
+      if(b === a) b = (a + 1) % L.length;
+      const k = Math.max(1, Math.floor(L[a] / 2));
+      if(L[a] - k < 1) return cell;
+      L[a] -= k; L[b] += k;
+      return { lengths: L, moves: cell.moves, span: cell.span };
+    };
+    /* KEEP ONLY THE SPAN. The slot holds its place in the equation and
+       everything inside it is drawn again. */
+    const redrawCell = (cell, rrng) => {
+      const LEN = TH.lengths || [[1, 2], [2, 5], [3, 2], [4, 5], [6, 2], [8, 1]];
+      const MV  = TH.moves || [[0, 2], [1, 5], [2, 2], [-1, 2]];
+      const L = []; let left = cell.span;
+      while(left > 0){
+        const pick = Math.min(left, wpick(rrng, LEN));
+        L.push(pick); left -= pick;
+        if(L.length >= 12){ L[L.length - 1] += left; left = 0; }
+      }
+      return { lengths: L, moves: L.slice(1).map(() => wpick(rrng, MV)), span: cell.span };
+    };
     /* ══ THE FORMULA — cells laid end to end until the spans balance ══════
        `A+B+A+C = 32`. Cells are appended until the material is full, and a
        cell already heard is weighted over a new one, which is what produces
@@ -36782,23 +36852,41 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       const sounded = {};
       for(const x of slots) if(x.mi >= 0 && x.on) sounded[x.mi] = (sounded[x.mi] || 0) + 1;
       for(const mi in lastOf) if(sounded[mi] > 1) slots[lastOf[mi]].flip = true;
+      /* ── AND WHAT EACH RESTATEMENT KEEPS ────────────────────────────────
+         Three draws a slot, always, so the stream does not move with the
+         outcome [Law 7]. The first time a cell is heard there is nothing to
+         preserve yet -- it IS the statement -- so it is marked `first` and
+         its realised pitches become what a later `pitch` restatement holds. */
+      const met = {};
+      for(const sl of slots){
+        const roll = frng(); sl.r1 = frng(); sl.r2 = frng();
+        if(sl.mi < 0){ sl.keep = null; continue; }
+        if(!met[sl.mi]){ sl.keep = "first"; met[sl.mi] = true; continue; }
+        sl.keep = roll < KEEP.rhythm ? "rhythm"
+                : roll < KEEP.rhythm + KEEP.pitch ? "pitch" : "span";
+      }
       return slots;
     })();
     /* ══ THE PLAN — the formula walked out onto the sixteenth grid ════════ */
     const PLAN = (() => {
       const out = [];
-      let at = 0;
+      let at = 0, si = 0;
       for(const sl of FORM){
         if(sl.on && sl.mi >= 0){
-          const cell = INV[sl.mi];
+          const base = INV[sl.mi];
+          const cell = sl.keep === "pitch" ? reflow(base, sl.r1, sl.r2)
+                     : sl.keep === "span"  ? redrawCell(base, stream(chart.seed,
+                                              streamName + ":redraw:" + si))
+                     : base;
           let t = at;
           for(let i = 0; i < cell.lengths.length; i++){
-            out.push({ at: t, dur: cell.lengths[i], mi: sl.mi, head: i === 0,
+            out.push({ at: t, dur: cell.lengths[i], mi: sl.mi, head: i === 0, ci: i,
+                       first: sl.keep === "first", hold: sl.keep === "pitch",
                        move: i === 0 ? sl.entry : cell.moves[i - 1] * (sl.flip ? -1 : 1) });
             t += cell.lengths[i];
           }
         }
-        at += sl.span;
+        at += sl.span; si++;
       }
       return out;
     })();
@@ -36809,8 +36897,15 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
       cells: INV.map(c => c.lengths.join("+") + " (" + c.span + ")"),
       formula: FORM.map(sl => sl.mi < 0 ? "S" + sl.span
                         : (sl.on ? "ABC"[sl.mi] : "abc"[sl.mi]) + (sl.flip ? "↓" : "")).join(" + "),
-      balance: FORM.reduce((a, sl) => a + sl.span, 0) + " / " + SPAN_T
+      balance: FORM.reduce((a, sl) => a + sl.span, 0) + " / " + SPAN_T,
+      weights: { rhythm: +KEEP.rhythm.toFixed(3), pitch: +KEEP.pitch.toFixed(3),
+                 span: +(1 - KEEP.rhythm - KEEP.pitch).toFixed(3) },
+      keeps: FORM.map(sl => sl.mi < 0 ? "S" : (sl.keep || "-"))
     });
+    /* the pitches each cell sounded on its FIRST statement. A `pitch`
+       restatement plays these again; the laws below may still refuse one, and
+       that refusal is measured rather than hidden. */
+    const HEARD = {};
     function phrase(startBar, dir, endOnTone, moveBias, rhythmOf){
       const ph0 = notes.length;
       /* what THIS phrase's two bars actually put their onsets on, handed back
@@ -37100,6 +37195,17 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              clash(b, steps[i], intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI)))
             move = move > 0 ? 1 : -1;
           let cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m, move), LO, HI);
+          /* ── A `pitch` RESTATEMENT PLAYS THE PITCHES IT WAS FIRST HEARD AT.
+             This is the half of L3 the engine could not express: Televators
+             holds the notes and moves the rhythm, and holding the notes means
+             the ACTUAL pitches, not a movement sequence that drifts to
+             wherever the line happens to be. The laws below still get their
+             say -- a held pitch that collides or that leaves a dissonance
+             unresolved is refused like any other -- so this proposes and the
+             counterpoint disposes, which is the order everything else here
+             uses. How often it is refused is measured, not assumed. */
+          if(P.hold && HEARD[P.mi] && HEARD[P.mi][P.ci] != null)
+            cand = intoBand(HEARD[P.mi][P.ci], LO, HI);
           /* ══ THE PHRASE HAS ONE HIGHEST NOTE AND ONE LOWEST ══════════════════
              [owner, 2026-08-28: "There never is a memorable part that defines a
               song... they never go to an extreme."]
@@ -37148,7 +37254,16 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
 
              NO DRAW IS SPENT HERE. `rng()` is not called, so no later draw
              moves and the change is confined to the pitch it adjusts [Law 3]. */
-          if(!hang && notes.length > ph0){
+          /* ── AND A HELD PITCH IS EXEMPT FROM THE PEAK RULE ───────────────
+             The rule below moves a candidate off the phrase's running highest
+             or lowest note, so the extreme is heard once. That is right for a
+             note being DRAWN and wrong for one being HELD: a restatement that
+             is nudged off its own pitch is not a restatement, and a hook
+             returning to the note it returned on is the figure coming back,
+             not the tune hitting an extreme twice. The rule keeps every note
+             it was written for; it just stops overwriting a decision that was
+             already made. */
+          if(!hang && !P.hold && notes.length > ph0){
             let phHi = -Infinity, phLo = Infinity;
             for(let q = ph0; q < notes.length; q++){
               if(notes[q].pitch > phHi) phHi = notes[q].pitch;
@@ -37196,6 +37311,20 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              isNCT(b, steps[i], cand))
             cand = intoBand(nearestTone(cand, CH(chordSet, b).tones), LO, HI);
           let tries = 0;
+          /* ── A HELD PITCH LOOKS FOR ITS OWN OCTAVE FIRST ─────────────────
+             The walk below steps the pitch up until it finds a free seat,
+             which is right for a note being drawn and wrong for one being
+             HELD: stepping changes the note, and the whole point of a `pitch`
+             restatement is that the note is the same. An octave keeps the
+             pitch class, which is the part the ear is holding on to, so a
+             held note takes a different octave before it takes a different
+             note. Only then does it fall back to the walk. */
+          if(P.hold && !fits(b, steps[i], cand)){
+            for(const oct of [12, -12, 24, -24]){
+              const t2 = cand + oct;
+              if(t2 >= LO && t2 <= HI && fits(b, steps[i], t2)){ cand = t2; break; }
+            }
+          }
           while(!fits(b, steps[i], cand) && tries < 3){
             cand = intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), cand, 1), LO, HI); tries++;
           }
@@ -37308,9 +37437,25 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
              ITS OWN SUBSTREAM [Law 3/7], so no other draw shifts, and the draw
              runs for every note that COULD be detached whether or not the genre
              asks -- there is no branch above it to skip. */
+          /* ── AND THE RELEASE BELONGS TO THE CELL, NOT TO THE BAR ─────────
+             This drew on `rhyBar` and `steps[i]`. A cell does not sit at the
+             same bar and step every time it is played -- that is the whole
+             point of a formula -- so the same note of the same figure drew a
+             FRESH COIN at every statement and came back a different length.
+             Measured: of 182 restatements that kept every one of their notes,
+             only 19 came back with the rhythm they were promised.
+
+             The file has already fixed this exact fault once, for `thin`,
+             whose draw was seeded on the record's bar: "the same note of the
+             same figure drew a fresh coin at every statement." Same fault, one
+             layer down, and it silently undid the law above it.
+
+             Keyed on the CELL and the note's place inside it, the same note
+             breathes the same way wherever the formula puts it, and a
+             restatement is a restatement in the ear as well as on paper. */
           let dur = plannedDur;
           if(DETACH > 0 && plannedDur > 1 &&
-             stream(chart.seed, "det:" + streamName + ":" + rhyBar + ":" + steps[i])() < DETACH){
+             stream(chart.seed, "det:" + streamName + ":" + P.mi + ":" + P.ci)() < DETACH){
             dur = Math.max(1, plannedDur - Math.max(1, Math.round(plannedDur * 0.27)));
           }
           /* ══ A LINE MAY NOT PLAY THE SAME PITCH TWICE IN A ROW. ═════════════
@@ -37410,6 +37555,11 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
           if(cand !== m) hangDir = cand > m ? 1 : -1;
           hang = isNCT(b, steps[i], cand);
           m = cand;
+          /* what the cell actually sounded on its first statement, recorded as
+             it is written rather than as it was asked for -- a later `pitch`
+             restatement must hold what was HEARD, not what was intended. */
+          if(P.first && HEARD[P.mi] === undefined) HEARD[P.mi] = [];
+          if(P.first) HEARD[P.mi][P.ci] = cand;
           notes.push({ bar: b, step: steps[i], dur, pitch: cand, vel: steps[i] === 0 ? 0.85 : 0.7, role: "lead",
                        ...(dur < plannedDur ? { det: true } : {}) });
           reserved.add(key(b % BARS, steps[i], cand));
