@@ -25180,7 +25180,19 @@ const GENRE = {
        the one place synthwave wants exactly what lofi does not. +/-7 scale
        steps is +/-1 octave in a 7-note mode. [theory] */
     /* the octave double, not a counter-line. [theory: an octave is 12 semitones] */
-    counter: { style: "double", density: 0.90, octaves: [-12, 12], intervals: [-7, 7] },
+    /* ── AND THE SECOND VOICE MAY BE A LINE, NOT ONLY A SHADOW ────────────
+       `style` was the plain string "double", and that string is well sourced:
+       this genre's research says deriveCounter's design "is built to prevent
+       what synthwave wants", which is the octave thickener. That claim is not
+       being overturned -- `double` keeps the weight.
+       What is being fixed is that `cells` had nowhere to be drawn. The engine
+       doc's first sentence says this engine governs "the lead, the bass, the
+       COUNTER, the repeating figure", and a style no table can reach is the
+       defect this file has shipped before: a switch built and left off.
+       THE WEIGHTS ARE [CHOSEN] -- no source ranks a doubled second voice
+       against a written one, and the ear is the only thing that can. */
+    counter: { style: [["double", 7], ["cells", 3]],
+               density: 0.90, octaves: [-12, 12], intervals: [-7, 7] },
     sevenths: false,           // synthwave is TRIADS; the seventh is a lofi habit
     /* the density of a bar of tune, and where its notes may land. These are the
        values that were literals inside buildTheme, written out unchanged. */
@@ -26557,7 +26569,14 @@ const GENRE = {
        the melody DOUBLED an octave down at real density: the theme carried by
        more than one instrument, which is how a score makes a statement heroic
        rather than louder. On the citadel rig that doubling is the horns. */
-    counter: { style: [["answer", 7], ["double", 3]],
+    /* `cells` added as a third seat; the 7:3 between the two derived styles is
+       UNCHANGED, so the balance the earlier work measured is kept and the new
+       style takes its share from the whole rather than from `answer`. This
+       genre is the one whose own critique sheet asks for a real second player
+       -- antiphonal practice is "two halves of the choir ALTERNATE", two
+       voices, not a voice and its shadow -- but the WEIGHT itself is [CHOSEN]
+       and is the ear's to move. */
+    counter: { style: [["answer", 7], ["double", 3], ["cells", 4]],
                density: 0.10, intervals: [-3, -4, -5, -7, -12],
                octaves: [-12, 12], answer: 0.85,
                styles: { double: { density: 0.85, octaves: [-12] } } },
@@ -39809,6 +39828,69 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
     const LO = CB[0], HI = CB[1];
     const src = themeNotes.slice().sort((a, z) => a.bar - z.bar || a.step - z.step);
     const out = [];
+    /* ══ THE COUNTER, BUILT OF CELLS ═══════════════════════════════════════
+       [owner:] "Finish the last two lanes"
+
+       `MELODIC-MATH-ENGINE.md` opens by saying this engine governs "the lead,
+       the BASS, the COUNTER, the repeating figure", and until this branch it
+       governed two of the four. Every other style here DERIVES: the function
+       walks the tune's notes and emits one against each, so the second voice
+       has the tune's rhythm (`double`), or the tune's rhythm moved into the
+       tune's own silence (`answer`). Both are relationships to the tune. What
+       none of them is, is a LINE -- a thing with its own inventory, its own
+       formula, and its own restatements.
+
+       So `cells` is a third member of the same weighted pool the styles
+       already draw from, and it is the one that does not read `themeNotes` at
+       all. The counter gets a cell inventory and a formula of its own, exactly
+       as the bass got one, and the two parts then relate as two players
+       reading two parts rather than as a part and its shadow.
+
+       ITS OWN TABLE, like every line here: `counterTheme` if the genre
+       declares one, `theme` if not [engine doc §5, every dial is per LINE].
+
+       LEGAL BY CONSTRUCTION, not by repair. The head of each cell is placed on
+       a tone of the bar's own chord, and every movement after it is a
+       `scaleStep` -- in the material's key and mode by definition -- so no note
+       here can be the out-of-key non-chord tone the seam check throws on. A
+       seat the tune has already taken is not contested: the note is dropped,
+       because two parts on one pitch at one instant is one part, and this file
+       drops rather than relocates.
+
+       ITS OWN DIRECTION, for the reason the bass needed one: `theme.stated`
+       decides whether a movement carries its own sign or turns with the
+       phrase, and a line with no direction of its own makes both branches
+       identical and the dial dead. A counter's direction is the counter's. */
+    if(style === "cells"){
+      const T = G.counterTheme || G.theme;
+      const L = mmLine("countermm:" + streamName, BARS * 16, T, false);
+      /* published beside the lead's and the bass's -- a line the program
+         cannot show its working for is a line nobody can check */
+      DECLARED["countermm:" + streamName] = L.declared;
+      const cdir = stream(chart.seed, "counterdir:" + streamName)() < 0.5 ? 1 : -1;
+      const mid = Math.round((LO + HI) / 2);
+      let m = null;
+      for(const P of L.plan){
+        const b = Math.floor(P.at / 16), st = P.at % 16;
+        if(b >= BARS) break;
+        const ch = CH(chordSet, b);
+        /* the harmony places the cell, the cell shapes itself from there --
+           the same order the lead and the bass both use */
+        m = (P.head || m == null)
+          ? intoBand(nearestTone(mid, ch.tones), LO, HI)
+          : intoBand(scaleStep(keyOf(chordSet), modeOf(chordSet), m,
+                               P.fixed ? P.move : P.move * cdir), LO, HI);
+        if(reserved.has(key(b, st, m))) continue;      // the tune is on that seat
+        out.push({ bar: b, step: st,
+                   dur: Math.max(1, Math.min(16 - st, P.dur)),
+                   pitch: m, vel: st === 0 ? 0.62 : 0.5, role: "counter" });
+        reserved.add(key(b, st, m));
+      }
+      /* a formula that yielded nothing is not a second voice; fall through to
+         the derived styles rather than ship a silent part -- the same rule the
+         bass's own cells role follows */
+      if(out.length) return NOREPEAT ? noRepeats(out) : out;
+    }
     /* ── WHERE THE LEAD IS NOT ─────────────────────────────────────────────
        MEASURED: 100% of counter notes landed on the same step as a lead note,
        in every genre. Pitches were independent -- 0.0% duplication -- but the
