@@ -39577,7 +39577,21 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
   /* a splice is a JOIN: the head's last note meets the tail's first, and no
      rule inside either half can see that seam. Gated on the genre's own
      declaration, so a genre that says nothing splices exactly as it did. */
-  const JOIN = notes => (G.theme && G.theme.noRepeat) ? noRepeats(notes) : notes;
+  /* ── ONE FLAG, ONE SENSE. `theme.noRepeat` was read through FOUR gates with
+     two different meanings: `!== false` and `!(=== false)` default it ON, while
+     this line and the stage-5 merge tested it TRUTHY -- against a flag no genre
+     sets. So `JOIN` was a no-op at all ten of its call sites and the stage-5
+     merge never ran once, while the material-level rule did. Measured: 0.0-1.1%
+     repeated pitches inside the material and 4.5% in the finished record, 2,246
+     of 49,585 events, 385 in one record. That is the owner's six-times-reported
+     complaint, fixed where it is composed and not where it is heard.
+
+     The file documents this exact failure twice in its own comments -- ":38474"
+     and ":39655" both say a branch behind `=== true` has never executed -- and
+     it happened again in two more places. Read once, from one helper, and every
+     site agrees. */
+  const wantsNoRepeat = () => !(G.theme && G.theme.noRepeat === false);
+  const JOIN = notes => wantsNoRepeat() ? noRepeats(notes) : notes;
   const noRepeats = notes => {
     const seq = notes.slice().sort((a, z) => (a.bar - z.bar) || (a.step - z.step));
     const drop = new Set();
@@ -46388,7 +46402,7 @@ function makePerformance(chart, form, materials, sections){
      mode's finalis held under a whole section is medieval performance
      practice this file cites by name; deleting it because a tune may not
      stutter would be applying one part's rule to another part's job. ══════ */
-  if(chart.table && chart.table.theme && chart.table.theme.noRepeat === true){
+  if(!(chart.table && chart.table.theme && chart.table.theme.noRepeat === false)){
     const LINE = { lead: 1, counter: 1 };
     /* indexed by role AND voice, which is one player's own line. Role alone
        was measured wrong: a DOUBLING puts a second voice's note into the same

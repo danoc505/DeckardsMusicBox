@@ -1211,3 +1211,88 @@ defect, whatever it sounds like.
 **Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
 all four genres; 159 of 160 records compose, the one failure the pre-existing
 `lofi seed 17` seam throw.
+
+---
+
+## 18. THE REST OF THE LIST — what got built, and what did not
+
+Working through everything the notation can say that the engine could not.
+
+### Built
+
+**The three devices, all span-preserving by construction** — `split` (the
+Europe sheet's `A2`, the new note carrying its own movement because that is the
+point of it), `drop` (*"a note is missed to create unbalance"*, the length going
+to the note before, never the first), `swap` (Televators, `4+2+4+2+4` returning
+as `2+4+4+2+4`). Weighted flat by default, doing nothing included. Measured over
+159 records: split 84 slots, drop 71, swap 52; 91 records carry at least one;
+balance still exact on all 954 lines.
+
+**`S` is a cell you place.** It could only ever be the remainder at the end —
+arithmetic, not a job. It now has a declared span (`theme.restLen`) and is drawn
+into the formula like any other cell (`theme.rest`), with the mop-up kept as the
+guarantee the balance closes. Formulae now read `A + A~ + S13 + A + A + S3`.
+
+**A movement may state its direction.** `4(ii)4` is magnitude 2 with *"the
+direction… up to your own personal taste"*; `4(E2)4` is up 2, stated, *"to give
+a strong sense of familiarity"*. Every movement took its sign from the phrase,
+so a motif could carry a size and never a direction — half the notation with no
+way to say it. `theme.stated` is the weight.
+
+**`noRepeat` — four gates, two senses, and the two that mattered were dead.**
+`!== false` and `!(=== false)` default it ON; `JOIN` and the stage-5 merge tested
+it **truthy**, against a flag no genre sets. So the material-level rule ran and
+the record-level ones never did:
+
+```
+  lead + counter transitions, 25 seeds a genre
+     before   1402 repeated pitches of 33,321   4.21%   worst record 55
+     after        0 of 31,905                   0.00%
+```
+
+That is the owner's six-times-reported complaint, and it was fixed where the
+notes are composed and not where they are heard. The file documents this exact
+failure pattern twice in its own comments and it had happened again in two more
+places. Now read once, from one helper, and every site agrees.
+
+### NOT built, and why
+
+**The engine is a LEAD engine, not a LINE engine — the biggest gap left.**
+`buildBass`, `buildOstinato` and `deriveCounter` contain **zero** cell
+machinery: no inventory, no formula, no plan, no weights. Confirmed by grep.
+
+This matters more than anything else on the list, because **two of the owner's
+eight sheets are a bassline**, and this document's own opening says:
+
+> *"This is not a melody engine. It is a LINE engine… the owner's own Nobody
+> Else sheets analyse a bassline in exactly this notation, and the bass turns
+> out to need it more than the melody does."*
+
+It is not built here because `buildBassLine` is ~780 lines of recently-corrected,
+sourced work — bass roles, pockets, approach tones, the pedal fix of phase 4 —
+and bolting cells onto the end of another pass would risk all of it. **It needs
+its own pass**, and the shape of that pass is: lift the inventory/formula/plan
+out of `buildTheme`'s closure into something any line can call, wire one line to
+it first, measure, then the rest.
+
+**`moveUnit` is still parsed and read by nothing.** The generator is
+unconditionally scale steps. Semitone movement can leave the key, and the seam
+check throws on an out-of-key note, so switching it on without a resolution rule
+would break records. It needs the rule first, not the flag.
+
+**The layout is redrawn per record, which is neither of the two things the
+songs do.** Chop Suey holds a strict 32-sixteenth grid across the whole verse;
+Televators has no grid at all. The engine does a third thing. `redraw:
+["record","section"]` is named in §5 and is a stage-5 question, because that is
+where the material loops.
+
+**Balance is compulsory.** `SPAN_T` is always whole bars. Televators' phrases
+are not, so this is a dial that does not exist yet.
+
+**No genre declares a single dial.** Every one runs the widest default the law
+allows. The ranges have to come from what a genre needs, sourced, and inventing
+them would be the same defect this document has now caught four times.
+
+**Verified:** `mk2_syntax` clean; `mk2_mm` 31/31 round-trip; `mk2_roll` composes
+all four genres; balance 954/954; 159 of 160 records compose, the one failure the
+pre-existing `lofi seed 17` seam throw.
