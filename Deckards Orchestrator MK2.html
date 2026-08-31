@@ -36563,42 +36563,86 @@ function makeMaterials(chart, editPlan, arcPlan, nBars){
            TWO OF THE THREE SONGS ITS OWN DOCUMENT MEASURES.
 
            The law says nothing whatever about which lengths exist. The widest
-           it allows is every whole number that fits inside the cap, flat, and
-           that is now the default. `theme.lengths` still takes a weighted pool
-           for a genre that wants one. */
-        const LEN = TH.lengths || (() => {
-          const p = [];
-          for(let v = 1; v <= Math.max(2, Math.floor(cap)); v++) p.push([v, 1]);
+           it allows is every whole number that fits, flat, and that is the
+           default. `theme.lengths` still takes a weighted pool for a genre that
+           wants one, and a declared pool is used exactly as declared.
+
+           WHAT "FITS" MEANS WAS THE SECOND HALF OF THE BUG. This read `1..cap`,
+           whose mean is HALF THE CAP -- a pool that can hold exactly one note.
+           It was not the widest legal default; it was a one-note default, and
+           every genre's `count` dial then argued with it and lost (see the draw
+           below). The pool has to be able to hold the count it is handed, which
+           is arithmetic and nobody's taste: a flat pool `1..2·cap/n - 1` has
+           mean `cap/n`, so n of them average out at the cap. MEASURED over
+           40,000 cells at cap 22.4, count 4 -- notes forced down to a single
+           sixteenth because the room ran out, rather than because the pool drew
+           one: 29% on the old pool, 16% on this one, against the 10% the pool
+           would give on its own. The last six points are the cap doing its job.
+
+           Nothing legal left the pool that could ever have been drawn: a cell
+           of n notes cannot contain a length above `cap - (n-1)` no matter what
+           pool it comes from. A ONE-note cell still reaches the whole cap. */
+        const LENFOR = TH.lengths ? () => TH.lengths : (n) => {
+          const p = [], top = Math.max(2, Math.floor(2 * cap / Math.max(1, n) - 1));
+          for(let v = 1; v <= top; v++) p.push([v, 1]);
           return p;
-        })();
+        };
         const out = [];
         for(let k = 0; k < NC[1]; k++){        // as many as the dial can keep [Law 7]
           const n = Math.max(1, cnt[0] + Math.floor(irng() * cnt[1]));
-          const lengths = [], moves = [], fixed = [];
+          /* ══ THE CELL IS DRAWN TO FIT, RATHER THAN DRAWN AND THEN CUT ═════
+             A CELL MUST LEAVE ROOM FOR ITSELF TO COME BACK, AND FOR SOMETHING
+             ELSE BESIDES -- half the material was the first cap and it is not
+             enough: two cells of fifteen fill a two-bar hook exactly and NEITHER
+             CAN RECUR (measured, dungeon synth seed 3 came out `B + A + S3`,
+             which has no hook in it at all). That bound is right and it stays.
+             HOW it was enforced was the defect.
+
+             The lengths were drawn free of the cap and a `while(sum > cap)
+             pop()` threw notes away until they fitted. That is a correcting
+             pass, which this file's house rules forbid, and the arithmetic made
+             it fire on nearly every cell: the default pool is every whole
+             number from 1 to `cap`, flat, so its MEAN IS HALF THE CAP and two
+             notes already overflow. MEASURED, 40,000 cells:
+
+               spanT 64, cellMax 0.35, count.hooky [4,2] -> asked 4-5, got 1.66
+               spanT 64, cellMax 0.20, count.hooky [4,2] -> asked 4-5, got 1.61
+               spanT 32, cellMax 0.35, count.hooky [4,2] -> asked 4-5, got 1.60
+
+             EVERY GENRE'S DECLARED NOTE COUNT WAS DEAD ON ARRIVAL, dungeon
+             synth's included -- and that one was set by measuring our own
+             output, so a measurement was taken, acted on, and then silently
+             discarded by this loop. Raising `cellMax` did not help: the pool
+             grows with the cap, so the ratio is fixed at ~1.6 notes whatever
+             the genre declares.
+
+             So each length is drawn from the part of the pool that STILL FITS,
+             leaving one sixteenth for each note not yet placed. The cell comes
+             out at exactly the count the dial asked for, never over cap, and no
+             note is discarded. The lengths are then shuffled: the room shrinks
+             as the cell fills, which would otherwise front-load the long notes,
+             and the ORDER is not something the constraint has any opinion about.
+
+             Nothing legal became unreachable. The lengths that dropped out of
+             reach are the arithmetically impossible ones -- a 22-sixteenth note
+             inside a 4-note cell capped at 22.4 leaves 0.4 for three notes.
+             [owner:] "Music is an art defined by mathematical constraints that
+             are creatively broken" -- this is the arithmetic half, and it is
+             the half that is not anyone's taste. */
+          const lengths = [], moves = [], fixed = [], LEN = LENFOR(n);
+          let room = cap;
           for(let i = 0; i < n; i++){
-            lengths.push(wpick(irng, LEN));
+            const most = Math.floor(room - (n - i - 1));   // one each for the rest
+            const fits = most >= 1 ? LEN.filter(x => x[0] <= most) : [];
+            const v = fits.length ? wpick(irng, fits) : 1;
+            lengths.push(v); room -= v;
             const mv = wpick(irng, MOVES), fx = irng() < statedW;   // both drawn always
             if(i){ moves.push(mv); fixed.push(fx); }
           }
-          /* A CELL MUST LEAVE ROOM FOR ITSELF TO COME BACK, AND FOR SOMETHING
-             ELSE BESIDES. Half the material was the first cap and it is not
-             enough: two cells of fifteen fill a two-bar hook exactly and NEITHER
-             CAN RECUR -- measured, dungeon synth seed 3 came out `B + A + S3`,
-             which has no hook in it at all. The sheets keep a cell to about a
-             third: Smoke On The Water is 8, 6 and 10 filling 32, and A gets to
-             happen twice. A third is the number, and it makes L2 reachable by
-             arithmetic instead of by rescue. */
-          while(lengths.reduce((a, z) => a + z, 0) > cap && lengths.length > 1){
-            lengths.pop(); moves.pop();
+          for(let i = lengths.length - 1; i > 0; i--){        // the order is free
+            const j = Math.floor(irng() * (i + 1));
+            const t = lengths[i]; lengths[i] = lengths[j]; lengths[j] = t;
           }
-          /* AND A SINGLE LENGTH ESCAPED THE CAP ENTIRELY. The loop above stops
-             at one note, so a lone length longer than the cap survived it.
-             Harmless while the pool topped out at 8 and the cap was 12.8, and
-             fatal the moment a caller asks for a short span -- one length of 8
-             fills a whole bar. Clamped, because the cap is the law's own bound
-             (a cell that cannot recur is not a hook) and a bound that one case
-             walks through is not a bound. */
-          if(lengths.length === 1 && lengths[0] > cap) lengths[0] = Math.max(1, Math.floor(cap));
           /* ── THE HAND-OVER BELONGS TO THE CELL ──────────────────────────
              `MM.parse` has produced a `tail` since it was written -- the
              movement AFTER the final note, "where the pitch goes as this motif
