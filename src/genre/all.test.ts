@@ -32,6 +32,44 @@ for (const name of GENRE_NAMES) {
     }
   });
 
+  test(`${name}: sixty records hold together — nothing silent, nothing empty, nothing threadbare`, () => {
+    // the broad net. Each of these is a way a record can be wrong that no
+    // single rule owns, so they are checked on the finished thing: a part
+    // the arrangement says is heard but that plays nothing, a bar of the
+    // record with no sound in it at all, a part so sparse it is not there,
+    // a form of one section, a length nowhere near what the genre asks.
+    const g = GENRES[name];
+    for (let seed = 1; seed <= 60; seed++) {
+      const s = compose({ seed, genre: name });
+      const ev = s.performance.events;
+      const where = `${name} seed ${seed}`;
+
+      for (const p of s.arrangement.placed) {
+        for (const r of p.heard) {
+          const here = ev.some((e) => e.role === r && e.bar >= p.section.startBar && e.bar < p.section.endBar);
+          assert.ok(here, `${where}: the ${r} is heard in the ${p.section.fn} and plays nothing`);
+        }
+      }
+
+      const sounding = new Set(ev.map((e) => e.bar));
+      for (let b = 0; b < s.form.bars; b++) assert.ok(sounding.has(b), `${where}: bar ${b} is empty`);
+
+      for (const r of ROLES) {
+        const bars = new Set(ev.filter((e) => e.role === r).map((e) => e.bar));
+        const notes = ev.filter((e) => e.role === r).length;
+        assert.ok(bars.size > 0, `${where}: the ${r} never sounds`);
+        assert.ok(notes / bars.size >= 0.9, `${where}: the ${r} averages ${(notes / bars.size).toFixed(2)} notes a bar`);
+      }
+
+      assert.ok(s.form.sections.length >= 3, `${where}: ${s.form.sections.length} sections`);
+      const [lo, hi] = g.lengthSec;
+      assert.ok(
+        s.performance.seconds > lo * 0.75 && s.performance.seconds < hi * 1.25,
+        `${where}: ${s.performance.seconds.toFixed(0)}s against a genre asking ${lo}–${hi}`,
+      );
+    }
+  });
+
   test(`${name}: every citation names a real field, and every number has a source or says it is chosen`, () => {
     const g = GENRES[name];
     assert.ok(Object.keys(g.sources).length >= 5, `${name} cites ${Object.keys(g.sources).length} fields`);
