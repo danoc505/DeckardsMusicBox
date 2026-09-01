@@ -42,7 +42,7 @@ import { drawDrums, drawFigure } from "./drums.ts";
 import { drawChords } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
 import { drawLead } from "./lead.ts";
-import { assertInside, at, GROOVE, type Chord, type Material, type Note, type Pitched } from "./note.ts";
+import { assertInside, at, GROOVE, Sounding, type Chord, type Material, type Note, type Pitched } from "./note.ts";
 
 export type { Chord, Figure, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
 export { GROOVE } from "./note.ts";
@@ -66,11 +66,11 @@ export class MaterialError extends Error {
  * laws leave the answer only one way to go, a handful of tries is the honest
  * limit and the last is kept.
  */
-function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, taken: ReadonlySet<string>, tune: readonly Note[]): Note[] {
+function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, sounding: Sounding, tune: readonly Note[]): Note[] {
   const same = (a: readonly Note[], b: readonly Note[]): boolean => JSON.stringify(a) === JSON.stringify(b);
   let line: Note[] = [];
   for (let attempt = 1; attempt <= 6; attempt++) {
-    line = drawLead(chart, chords, rng, steps, taken, attempt);
+    line = drawLead(chart, chords, rng, steps, sounding, attempt);
     if (!same(line, tune)) break;
   }
   return line;
@@ -109,13 +109,16 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const rng = chart.rng.at("material", idea, variant);
     // the drum figure first: the bass may take its feet from the kick
     const figure = drawFigure(chart, rng.at("drums"));
-    // each part is told every seat the parts before it hold, so it never
-    // lands on one — a rule at the point of choice, not a repair after
+    // each part is told what the parts before it are SOUNDING — not merely
+    // where they were struck — so it never lands on one and never rubs
+    // against one. A rule at the point of choice, not a repair after.
     const taken = new Set<string>();
     const bass = Object.freeze(drawBass(chart, chords, rng.at("bass"), steps, figure.kick));
     for (const n of bass) taken.add(`${at(n)}:${n.pitch}`);
     const keys = Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps, taken));
-    for (const n of keys) taken.add(`${at(n)}:${n.pitch}`);
+    const sounding = new Sounding();
+    sounding.add(bass);
+    sounding.add(keys);
     const groove = Object.freeze({ bass, keys });
 
     // the tune's plan, applied to every time the lead plays this material
@@ -123,8 +126,8 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const leadRng = rng.at("lead");
     const plan = leadRng.weighted("cycles", chart.genre.lead.cycles);
     const letters = Array.from({ length: times.get("lead") ?? 0 }, (_, n) => plan[n % plan.length]!);
-    const tune = letters.length > 0 ? Object.freeze(drawLead(chart, chords, leadRng, steps, taken)) : null;
-    const developed = letters.includes("B") ? Object.freeze(develop(chart, chords, leadRng, steps, taken, tune!)) : null;
+    const tune = letters.length > 0 ? Object.freeze(drawLead(chart, chords, leadRng, steps, sounding)) : null;
+    const developed = letters.includes("B") ? Object.freeze(develop(chart, chords, leadRng, steps, sounding, tune!)) : null;
     const tacet: readonly Note[] = Object.freeze([]);
     const lead = Object.freeze(letters.map((l) => (l === "A" ? tune! : l === "B" ? developed! : tacet)));
 

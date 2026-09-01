@@ -81,3 +81,43 @@ export function assertInside(m: { bars: number; steps: number }, n: Note, where:
 }
 
 export const at = (n: { bar: number; step: number }): string => `${n.bar}:${n.step}`;
+
+/**
+ * What the parts written so far are SOUNDING, position by position.
+ *
+ * A part that only knows where other parts were STRUCK knows almost nothing:
+ * the keys hold a chord for a whole bar, so a tune landing on the second
+ * beat meets a chord nobody struck at that instant. Three quarters of the
+ * semitone clashes in a record were exactly that — a note arriving under
+ * something already ringing.
+ */
+export class Sounding {
+  private readonly at = new Map<string, number[]>();
+
+  /** Every position each note occupies, for as long as it rings. */
+  add(notes: readonly Note[]): void {
+    for (const n of notes) {
+      for (let st = n.step; st < n.step + n.dur; st++) {
+        const key = `${n.bar}:${st}`;
+        const here = this.at.get(key);
+        if (here === undefined) this.at.set(key, [n.pitch]);
+        else here.push(n.pitch);
+      }
+    }
+  }
+
+  /** The pitches ringing at this position. */
+  pitches(bar: number, step: number): readonly number[] {
+    return this.at.get(`${bar}:${step}`) ?? [];
+  }
+
+  /** Is this exact pitch already sounding here? */
+  holds(bar: number, step: number, pitch: number): boolean {
+    return this.pitches(bar, step).includes(pitch);
+  }
+
+  /** Would this pitch rub a semitone against something ringing here? */
+  rubs(bar: number, step: number, pitch: number): boolean {
+    return this.pitches(bar, step).some((p) => Math.abs(p - pitch) === 1);
+  }
+}

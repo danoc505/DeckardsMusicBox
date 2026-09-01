@@ -135,6 +135,45 @@ test("the answer goes the other way from the question", () => {
   assert.ok(contrary / pairs > 0.6, `the answer ran the same way as the question in ${pairs - contrary} of ${pairs}`);
 });
 
+test("nothing the tune targets rubs against what is ringing", () => {
+  // an avoid note is a note off the chord a semitone from one on it, and it
+  // may pass on a weak beat but never be a target. The parts that matter are
+  // the ones RINGING: the keys hold a chord for a whole bar, so a note
+  // arriving on beat two meets a chord struck on beat one.
+  let targets = 0;
+  each(80, (chart, m) => {
+    const beat = chart.metre.perBeat;
+    const ringing = (bar: number, step: number): number[] =>
+      [...m.groove.keys, ...m.groove.bass]
+        .filter((n) => n.bar === bar && n.step <= step && step < n.step + n.dur)
+        .map((n) => n.pitch);
+    for (const line of m.lead) {
+      for (const n of line) {
+        if (n.step % beat !== 0) continue;   // between the beats it may pass
+        if (inChord(m, n)) continue;         // a chord tone is not an avoid note
+        targets++;
+        for (const p of ringing(n.bar, n.step)) {
+          assert.notEqual(Math.abs(p - n.pitch), 1, `${m.key} bar ${n.bar} step ${n.step}: ${n.pitch} rubs on ${p}`);
+        }
+      }
+    }
+  });
+  assert.ok(targets > 20, `only ${targets} off-chord notes on beats to judge`);
+});
+
+test("the tune never lands on a pitch that is already ringing", () => {
+  each(60, (_, m) => {
+    for (const line of m.lead) {
+      for (const n of line) {
+        const ringing = [...m.groove.keys, ...m.groove.bass]
+          .filter((o) => o.bar === n.bar && o.step <= n.step && n.step < o.step + o.dur)
+          .map((o) => o.pitch);
+        assert.ok(!ringing.includes(n.pitch), `${m.key} bar ${n.bar}: the tune doubles a held ${n.pitch}`);
+      }
+    }
+  });
+});
+
 test("the tune never lands on a seat the keys or bass hold", () => {
   each(60, (_, m) => {
     const held = new Set([...m.groove.keys, ...m.groove.bass].map((n) => `${n.bar}:${n.step}:${n.pitch}`));
@@ -147,7 +186,10 @@ test("every material the lead plays opens with a tune", () => {
   each(60, (_, m) => {
     if (m.lead.length === 0) return;
     played++;
-    assert.ok(tune(m).length >= 6, `${m.key} has ${tune(m).length} lead notes`);
+    // the floor is well above what a phrase needs: it was 2 when the opening
+    // note was narrowed by preference before the laws were applied, so the
+    // whole first phrase could rest
+    assert.ok(tune(m).length >= 8, `${m.key} has ${tune(m).length} lead notes`);
   });
   assert.ok(played > 60);
 });

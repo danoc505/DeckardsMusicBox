@@ -25,6 +25,15 @@
  *   NOTHING LANDS ON ANOTHER PART'S NOTE. A seat the keys or bass already
  *   hold at the same instant is not offered.
  *
+ *   AND NOTHING RUBS ON A BEAT. A note a semitone from something already
+ *   RINGING — not merely struck; the keys hold a chord for a whole bar — is
+ *   an avoid note, and an avoid note is "a half-step away from a note in the
+ *   chord being played" which "should be used on weak beats, as connectors,
+ *   and should never be the target" (thejazzpianosite.com, "Avoid Notes";
+ *   Wikipedia, "Avoid note"). So it is refused where it would be a target,
+ *   and allowed to pass between the beats, where the law above already makes
+ *   it resolve by step.
+ *
  * Direction and leaps are drawn; everything above is arithmetic. So the tune
  * is the genre's and the seed's, and the grammar is the program's.
  *
@@ -37,7 +46,7 @@
 import type { Rng } from "../../core/rng.ts";
 import { degreeMidi, inScale, intoBand, pc, nearestDegree } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
-import type { Chord, Note } from "./note.ts";
+import type { Chord, Note, Sounding } from "./note.ts";
 
 const PHRASE_BARS = 2;
 
@@ -58,7 +67,7 @@ export function drawLead(
   chords: readonly Chord[],
   rng: Rng,
   steps: number,
-  reserved: ReadonlySet<string>,
+  sounding: Sounding,
   /** 0 writes the statement; n ≥ 1 writes the nth attempt at a development. */
   developed = 0,
 ): Note[] {
@@ -67,6 +76,19 @@ export function drawLead(
   const beatSteps = chart.metre.perBeat;
   const pool = scaleTones(chart, lo, hi);
   const centre = (lo + hi) / 2;
+  /**
+   * Every test the other parts impose on a pitch at a position: the seat is
+   * not taken, and — where the note would be heard as a target, on a beat —
+   * nothing already ringing is a semitone from it.
+   */
+  const clear = (b: number, st: number, p: number, chord: Chord): boolean =>
+    !sounding.holds(b, st, p) &&
+    // an avoid note is a note OFF the chord a semitone from one on it, and
+    // it is refused only where it would be heard as a target: on a beat. A
+    // chord tone that happens to sit a semitone from another part — the root
+    // over a seventh — is a rub too, but barring those on a dense chord
+    // leaves a tune nowhere to stand, so that one is a preference below.
+    !(st % beatSteps === 0 && !isTone(chord, p) && sounding.rubs(b, st, p));
 
   const out: Note[] = [];
   let prev: Note | null = null;
@@ -99,7 +121,6 @@ export function drawLead(
       const until = i + 1 < rhythm.length ? rhythm[i + 1]! : PHRASE_BARS * steps;
       const dur = Math.max(1, Math.min(until - abs, steps));
       const strong = step % beatSteps === 0;
-      const seat = (b: number, st: number, p: number): string => `${b}:${st}:${p}`;
 
       // the onset after this one, if the phrase has one — a dissonance here
       // is only allowed if it can resolve THERE
@@ -132,27 +153,19 @@ export function drawLead(
             Math.abs(r - p) <= 2 &&
             r >= lo && r <= hi &&
             Math.max(phraseHi, p, r) - Math.min(phraseLo, p, r) <= L.span &&
-            !reserved.has(seat(next.bar, next.step, r))
+            clear(next.bar, next.step, r, next.chord)
           );
         });
 
       let cands: number[];
       if (prev === null) {
-        // the record's first note: a chord tone near the middle of the
-        // register — near, because a tune that opens at the edge of its range
-        // has nowhere to go. Within a fourth of the centre; a fifth if the
-        // chord offers nothing closer.
-        const tones = pool.filter((p) => isTone(chord, p));
-        cands = tones.filter((p) => Math.abs(p - centre) <= 5);
-        if (cands.length === 0) cands = tones.filter((p) => Math.abs(p - centre) <= 7);
-        if (cands.length === 0) cands = tones;
-        // and, where the closing chord differs from the opening one, a tone
-        // the closing chord does NOT hold — then the loop's last note, which
-        // is a tone of the closing chord, cannot be the first note. The seam
-        // is decided here, at the one choice that can decide it.
-        const closing = chords[chords.length - 1]!;
-        const away = cands.filter((p) => !isTone(closing, p));
-        if (away.length > 0) cands = away;
+        // the record's first note is a chord tone. WHICH chord tone is a
+        // matter of preference and is settled below, after the laws: the two
+        // preferences that used to be applied here — near the middle of the
+        // register, and away from the closing chord — could between them
+        // leave two pitches, both of which the keys were already holding,
+        // and then the whole first phrase rested.
+        cands = pool.filter((p) => isTone(chord, p));
       } else {
         const from = prev.pitch;
         const wasOff = prevChord !== null && !isTone(prevChord, from);
@@ -172,15 +185,36 @@ export function drawLead(
       cands = cands.filter((p) => isTone(chord, p) || canResolve(p));
       //   the phrase stays inside its span
       cands = cands.filter((p) => Math.max(phraseHi, p) - Math.min(phraseLo, p) <= L.span);
-      //   a seat another part holds is never offered
-      cands = cands.filter((p) => !reserved.has(seat(bar, step, p)));
+      //   a seat another part holds is never offered, and on a beat nothing
+      //   may rub a semitone against what is ringing
+      cands = cands.filter((p) => clear(bar, step, p, chord));
       //   and the last note of the loop is not its first
       cands = cands.filter((p) => !barred(p, finalOnset));
       if (cands.length === 0) continue;
 
       // THE PREFERENCES, AMONG WHAT IS LEGAL. Each narrows only if something
       // survives it; none can cause a rest.
-      if (prev !== null) {
+      if (prev === null) {
+        //   near the middle of the register, because a tune that opens at the
+        //   edge of its range has nowhere to go. A fourth, then a fifth.
+        for (const reach of [5, 7]) {
+          const near = cands.filter((p) => Math.abs(p - centre) <= reach);
+          if (near.length > 0) {
+            cands = near;
+            break;
+          }
+        }
+        //   and, where the closing chord differs from the opening one, a tone
+        //   the closing chord does NOT hold — then the loop's last note, which
+        //   is a tone of the closing chord, cannot be the first note. The seam
+        //   is decided here, at the one choice that can decide it.
+        const closing = chords[chords.length - 1]!;
+        const away = cands.filter((p) => !isTone(closing, p));
+        if (away.length > 0) cands = away;
+        //   and nothing rubs against what is ringing if anything else will do
+        const smooth = cands.filter((p) => !sounding.rubs(bar, step, p));
+        if (smooth.length > 0) cands = smooth;
+      } else {
         const from = prev.pitch;
         //   a leap or a step, drawn — FIRST, because chord tones sit thirds
         //   apart and a chord-tone preference applied before the size would
@@ -195,6 +229,10 @@ export function drawLead(
           const tones = cands.filter((p) => isTone(chord, p));
           if (tones.length > 0) cands = tones;
         }
+        //   nothing rubs against what is ringing if anything else will do —
+        //   the chord-tone rubs the law above lets through, softened here
+        const smooth = cands.filter((p) => !sounding.rubs(bar, step, p));
+        if (smooth.length > 0) cands = smooth;
         //   and the phrase leans the way it is going
         const leaning = cands.filter((p) => Math.sign(p - from) === dir);
         if (leaning.length > 0 && at.at("note", i).chance("lean", 0.7)) cands = leaning;
@@ -226,7 +264,7 @@ export function drawLead(
     if (!isTone(chord, lastNote.pitch)) {
       const target = chord.tones
         .map((t) => intoBand(t, lo, hi))
-        .filter((p) => !reserved.has(`${lastNote.bar}:${lastNote.step}:${p}`))
+        .filter((p) => clear(lastNote.bar, lastNote.step, p, chord))
         .sort((a, b) => Math.abs(a - lastNote.pitch) - Math.abs(b - lastNote.pitch))[0];
       if (target !== undefined && Math.abs(target - lastNote.pitch) <= 4) {
         out[out.length - 1] = { ...lastNote, pitch: target };
