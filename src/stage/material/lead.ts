@@ -1,9 +1,12 @@
 /**
  * The lead: the tune.
  *
- * Built as PHRASES, two bars each — a question and an answer over a four-bar
- * idea. The answer moves the other way and lands on a chord tone, which is
- * what makes two phrases read as one sentence rather than two.
+ * Built as PHRASES, two bars each — an antecedent and a consequent over a
+ * four-bar idea, the period of the theory books: the question ends weakly
+ * and the answer ends on a chord tone, which is what makes two phrases read
+ * as one sentence rather than two (Wikipedia, "Period (music)"). That the
+ * answer moves the other way from the question is this program's own rule,
+ * not the books': it keeps the two phrases from being one gesture twice.
  *
  * Every rule here is a CONSTRAINT ON THE CHOICE, applied when a pitch is
  * chosen, never a pass that corrects a line after it is written:

@@ -330,11 +330,12 @@ export function resolveGenre(
     problems.push("bass is missing");
   } else {
     checkRegister("bass.register", bass["register"]);
-    checkPool(problems, "bass.pocket", bass["pocket"], isBeatList, beatsWhat);
+    const follows = bass["pocket"] === "kick";
+    if (!follows) checkPool(problems, "bass.pocket", bass["pocket"], isBeatList, beatsWhat);
     checkPool(problems, "bass.tones", bass["tones"],
       (v) => typeof v === "string" && (BASS_TONES as readonly string[]).includes(v),
       "a bass tone");
-    if (problems.length === 0) bass["pocket"] = toSteps(bass["pocket"]);
+    if (problems.length === 0 && !follows) bass["pocket"] = toSteps(bass["pocket"]);
   }
 
   const keys = isPlainObject(merged["keys"]) ? merged["keys"] : null;

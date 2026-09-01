@@ -7,9 +7,9 @@
  */
 
 import { PITCHED_ROLES, type Idea, type PitchedRole } from "../../genre/spec.ts";
-import type { Hit } from "./drums.ts";
+import type { Figure, Hit } from "./drums.ts";
 
-export type { Hit } from "./drums.ts";
+export type { Figure, Hit } from "./drums.ts";
 
 export interface Note {
   /** Bar within the material, from 0. */
@@ -61,6 +61,8 @@ export interface Material {
    * plays has none.
    */
   readonly lead: readonly (readonly Note[])[];
+  /** The drum figure every phrase below is a treatment of; the bass may stand on its kick. */
+  readonly figure: Figure;
   /** The drums, one phrase per time they play this material through. */
   readonly drums: readonly (readonly Hit[])[];
 }

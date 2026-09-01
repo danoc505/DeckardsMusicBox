@@ -3,7 +3,8 @@
  * strike of the pocket.
  *
  * The pocket — which steps strike — is drawn once for the whole material, so
- * every bar of it has the same feet. What the off-beat strikes PLAY is drawn
+ * every bar of it has the same feet; or it IS the kick's, where the genre
+ * says the bass follows the drums. What the off-beat strikes PLAY is drawn
  * per strike, so the line moves while the rhythm holds. That is the difference
  * between a bass line and a metronome playing pitches.
  */
@@ -13,11 +14,11 @@ import { intoBand, scaleStep } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
 import type { Chord, Note } from "./note.ts";
 
-export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number): Note[] {
+export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, kick: readonly number[]): Note[] {
   const B = chart.genre.bass;
   const [lo, hi] = B.register;
   const band = (p: number): number => intoBand(p, lo, hi);
-  const pocket = rng.weighted("pocket", B.pocket);
+  const pocket = B.pocket === "kick" ? kick : rng.weighted("pocket", B.pocket);
 
   const out: Note[] = [];
   let prev: number | null = null;

@@ -140,8 +140,11 @@ export type Beats = readonly number[];
 
 export interface BassSpec {
   readonly register?: Register;
-  /** Which beats strike, drawn once per material. */
-  readonly pocket?: Weighted<Beats>;
+  /**
+   * Which beats strike, drawn once per material — or `"kick"`: the bass
+   * strikes where the drum figure's kick does, and the two are one foot.
+   */
+  readonly pocket?: Weighted<Beats> | "kick";
   /** What a strike that is not the downbeat plays. */
   readonly tones?: Weighted<BassTone>;
 }
@@ -149,7 +152,7 @@ export interface BassSpec {
 /** What the bass builder reads. `pocket` is in GRID STEPS here, not beats. */
 export interface BassRules {
   readonly register: Register;
-  readonly pocket: Weighted<readonly number[]>;
+  readonly pocket: Weighted<readonly number[]> | "kick";
   readonly tones: Weighted<BassTone>;
 }
 

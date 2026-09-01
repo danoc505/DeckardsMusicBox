@@ -29,6 +29,24 @@ export interface Hit {
 
 const HEAVY: ReadonlySet<DrumLane> = new Set(["kick", "snare"]);
 
+/** The figure: what every bar of the material plays before its letter changes it. In grid steps. */
+export interface Figure {
+  readonly kick: readonly number[];
+  readonly snare: readonly number[];
+  /** The hat strikes every this many steps; 0 for none. */
+  readonly hatEvery: number;
+}
+
+/** Drawn once per material. The bass may take its feet from the kick. */
+export function drawFigure(chart: Chart, rng: Rng): Figure {
+  const D = chart.genre.drums;
+  return Object.freeze({
+    kick: rng.weighted("kick", D.kick),
+    snare: rng.weighted("snare", D.snare),
+    hatEvery: rng.weighted("hat", D.hat),
+  });
+}
+
 /**
  * One cycle of the material. The FIGURE — the pockets and the hat — is drawn
  * once and shared by every cycle; the phrase letters and the changes they
@@ -36,12 +54,10 @@ const HEAVY: ReadonlySet<DrumLane> = new Set(["kick", "snare"]);
  * over hears the same beat treated four different ways rather than the same
  * four bars four times.
  */
-export function drawDrums(chart: Chart, rng: Rng, bars: number, steps: number, cycle: number): Hit[] {
+export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, steps: number, cycle: number): Hit[] {
   const D = chart.genre.drums;
   const beat = chart.metre.perBeat;
-  const kick = rng.weighted("kick", D.kick);
-  const snare = rng.weighted("snare", D.snare);
-  const hatEvery = rng.weighted("hat", D.hat);
+  const { kick, snare, hatEvery } = figure;
   const own = rng.at("cycle", cycle);
   const phrase = own.weighted("phrase", D.phrase);
 

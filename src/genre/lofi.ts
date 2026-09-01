@@ -56,6 +56,18 @@ export const lofi: GenreSpec = {
     },
   },
 
+  // the bass is the roots, on the kick's feet
+  bass: {
+    pocket: "kick",
+    tones: [
+      ["root", 6],
+      ["octave", 2],
+      ["fifth", 2],
+      ["third", 1],
+      ["approach", 1],
+    ],
+  },
+
   // the boom bap figure: kick on one and the ands of two and three, snare
   // on two and four, hats on the eighths, ghosts on the sixteenth before a
   // backbeat
@@ -97,6 +109,12 @@ export const lofi: GenreSpec = {
     "harmony.progressions":
       "I–vi–IV–V, ii–V–I, I–vi–ii–V (blog.flat.io/lofi-chord-progressions); I–vi, iv–i, IV–iii–vi, i–VI–V " +
       "(blog.native-instruments.com/lo-fi-chord-progressions); as scale degrees so the drawn scale sets the qualities; weights [chosen]",
+    "bass.pocket":
+      "\"copy over your kick pattern and realign the notes to the chord progression\" " +
+      "(blog.native-instruments.com/lo-fi-hip-hop-beats)",
+    "bass.tones":
+      "\"use the root notes of each chord\", with variation only outlining the chord's other tones " +
+      "(blog.native-instruments.com/lo-fi-hip-hop-beats; create.routenote.com hip-hop basslines); weights [chosen]",
     "drums.kick":
       "\"kicks on the first, fourth and sixth 8th notes\" (blog.native-instruments.com/what-is-boom-bap); " +
       "beat 1, the and of 2, beat 3 sometimes, the and of 4 (create.routenote.com boom bap drums); weights [chosen]",

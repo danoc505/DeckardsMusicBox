@@ -5,6 +5,7 @@ import { makeChart } from "../chart.ts";
 import { makeForm } from "../form.ts";
 import { makeArrangement } from "../arrange.ts";
 import { GENRES, resolveGenre } from "../../genre/index.ts";
+import { lofi as lofiSpec } from "../../genre/lofi.ts";
 import { inScale, pc } from "../../core/theory.ts";
 import { stepsPerBar } from "../../core/clock.ts";
 
@@ -133,6 +134,29 @@ test("bass notes fill the pocket and never overlap", () => {
         }
         assert.equal(end, steps, `${mat.key} bass bar ${bar} does not reach the bar line`);
       }
+    }
+  }
+});
+
+test("where the genre says so, the bass stands on the kick's feet", () => {
+  assert.equal(lofi.bass.pocket, "kick");
+  for (const m of sweep(40)) {
+    for (const mat of m.all.values()) {
+      for (let bar = 0; bar < mat.bars; bar++) {
+        const feet = mat.groove.bass.filter((n) => n.bar === bar).map((n) => n.step);
+        assert.deepEqual(feet, [...mat.figure.kick], `${mat.key} bar ${bar}: bass on ${feet}, kick on ${mat.figure.kick}`);
+      }
+    }
+  }
+});
+
+test("a genre with its own bass pocket does not follow the kick", () => {
+  const own = resolveGenre("own", { own: { label: "Own", extend: "lofi", bass: { pocket: [[[0, 2], 1]] } }, lofi: lofiSpec });
+  const chart = makeChart({ seed: 4, genre: own, seconds: 200 });
+  const m = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
+  for (const mat of m.all.values()) {
+    for (let bar = 0; bar < mat.bars; bar++) {
+      assert.deepEqual(mat.groove.bass.filter((n) => n.bar === bar).map((n) => n.step), [0, 2 * chart.metre.perBeat]);
     }
   }
 });

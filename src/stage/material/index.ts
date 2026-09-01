@@ -37,13 +37,13 @@ import { DRUM_LANES, type Idea, type Role } from "../../genre/spec.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
 import { drawBass } from "./bass.ts";
-import { drawDrums } from "./drums.ts";
+import { drawDrums, drawFigure } from "./drums.ts";
 import { drawChords } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
 import { drawLead } from "./lead.ts";
 import { assertInside, at, GROOVE, type Chord, type Material, type Note, type Pitched } from "./note.ts";
 
-export type { Chord, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
+export type { Chord, Figure, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
 export { GROOVE } from "./note.ts";
 
 export interface Materials {
@@ -90,7 +90,9 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     }
 
     const rng = chart.rng.at("material", idea, variant);
-    const bass = Object.freeze(drawBass(chart, chords, rng.at("bass"), steps));
+    // the drum figure first: the bass may take its feet from the kick
+    const figure = drawFigure(chart, rng.at("drums"));
+    const bass = Object.freeze(drawBass(chart, chords, rng.at("bass"), steps, figure.kick));
     const keys = Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps));
     // the tune is written last and is told every seat the others hold, so it
     // never lands on one — a rule at the point of choice, not a repair after
@@ -109,10 +111,10 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const lead = Object.freeze(letters.map((l) => (l === "A" ? tune! : l === "B" ? developed! : tacet)));
 
     const drums = Object.freeze(
-      Array.from({ length: times.get("drums") ?? 0 }, (_, n) => Object.freeze(drawDrums(chart, rng.at("drums"), bars, steps, n))),
+      Array.from({ length: times.get("drums") ?? 0 }, (_, n) => Object.freeze(drawDrums(chart, rng.at("drums"), figure, bars, steps, n))),
     );
 
-    const material: Material = Object.freeze({ key, idea, variant, bars, chords, groove, lead, drums });
+    const material: Material = Object.freeze({ key, idea, variant, bars, chords, groove, lead, figure, drums });
     check(chart, material, steps);
     all.set(key, material);
   }
