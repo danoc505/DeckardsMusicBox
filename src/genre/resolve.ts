@@ -12,7 +12,7 @@
 
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, LEAD_CYCLES, ROLES, SECTION_FNS, SWING_GRIDS,
+  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, LEAD_CYCLES, PITCHED_ROLES, ROLES, SECTION_FNS, SWING_GRIDS, VOICES,
   type Genre, type GenreSpec, type Weighted,
 } from "./spec.ts";
 
@@ -441,6 +441,34 @@ export function resolveGenre(
     if (!finite(jm) || jm < 0 || jm > 50) problems.push(`feel.jitterMs must be 0..50, got ${String(jm)}`);
   }
 
+  // ── SOUND ───────────────────────────────────────────────────────────────
+  const sound = isPlainObject(merged["sound"]) ? merged["sound"] : null;
+  if (sound === null) {
+    problems.push("sound is missing");
+  } else {
+    const voices = isPlainObject(sound["voices"]) ? sound["voices"] : null;
+    if (voices === null) problems.push("sound.voices is missing");
+    else {
+      for (const r of PITCHED_ROLES) {
+        const v = voices[r];
+        if (!(VOICES as readonly unknown[]).includes(v)) problems.push(`sound.voices.${r} is ${String(v)}, not one of ${VOICES.join(", ")}`);
+      }
+    }
+    const tape = isPlainObject(sound["tape"]) ? sound["tape"] : null;
+    if (tape === null) problems.push("sound.tape is missing");
+    else {
+      const within = (field: string, lo: number, hi: number): void => {
+        const v = tape[field];
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.tape.${field} must be ${lo}..${hi}, got ${String(v)}`);
+      };
+      within("lowpassHz", 1000, 20000);
+      within("crackle", 0, 1);
+      within("wowHz", 0.05, 10);
+      within("wowCents", 0, 100);
+      within("drive", 1, 10);
+    }
+  }
+
   if (problems.length > 0) throw new GenreError(name, problems);
 
   const resolved = {
@@ -458,6 +486,7 @@ export function resolveGenre(
     drums: deepFreeze(drums) as unknown as Genre["drums"],
     arrangement: deepFreeze(arr) as unknown as Genre["arrangement"],
     feel: deepFreeze(feel) as unknown as Genre["feel"],
+    sound: deepFreeze(sound) as unknown as Genre["sound"],
     sources: Object.freeze({ ...sources }),
   } as Genre;
 

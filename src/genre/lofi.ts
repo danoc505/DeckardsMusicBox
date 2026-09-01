@@ -100,6 +100,13 @@ export const lofi: GenreSpec = {
   // a drum machine swinging its sixteenths, and hands that miss the grid
   feel: { swing: 60, swingGrid: 16, jitterMs: 15 },
 
+  // a Rhodes, a sub, a muted guitar; and the record on tape, under a
+  // low-pass, with the dust on it
+  sound: {
+    voices: { keys: "rhodes", bass: "sub", lead: "pluck" },
+    tape: { lowpassHz: 10000, crackle: 0.08, wowHz: 0.2, wowCents: 4, drive: 1.4 },
+  },
+
   sources: {
     tempo:
       "70–90 bpm with the sweet spot at 75–85 (blog.native-instruments.com/lo-fi-hip-hop-beats); " +
@@ -143,6 +150,17 @@ export const lofi: GenreSpec = {
       "drummers' timing standard deviation is 11–19 ms; a funk pattern at 100 bpm measured 15.7 ms " +
       "(Senn et al. 2017, doi:10.3389/fpsyg.2017.01709). Uniform ±15 ms is 8.7 ms: under the human figure, " +
       "because the swing already carries half the looseness [chosen under the measurement]",
+    "sound.voices":
+      "Rhodes is the standard melodic instrument, a muted fingerstyle guitar sits under the chords, a warm sub " +
+      "carries the bass (blog.native-instruments.com/lo-fi-hip-hop-beats; masteringthemix.com how-to-make-lo-fi-hip-hop)",
+    "sound.tape.lowpassHz":
+      "\"a gentle low-pass at around 8–12 kHz on your mix bus\" (antarestech.com the-complete-guide-to-mixing-lo-fi-music)",
+    "sound.tape.crackle":
+      "\"mix vinyl crackle at −20 to −24 dB from the master, high-passed at 500 Hz\" " +
+      "(audeobox.com how-to-make-lofi-beats-in-fl-studio); 0.08 is −22 dB",
+    "sound.tape.wowHz": "\"rate 0.1–0.3 Hz\" for tape wobble (audeobox.com how-to-make-lofi-beats-in-fl-studio)",
+    "sound.tape.wowCents": "[chosen] — the guides give depth as a plugin's knob, not in cents",
+    "sound.tape.drive": "\"saturation mix 15–25%\" (audeobox.com how-to-make-lofi-beats-in-fl-studio); 1.4 [chosen]",
     "form.lengths":
       "intro 4 bars, verse 16, chorus 8, bridge 4–8 (emastered.com/blog/rap-song-structure; " +
       "rapauthority.com/rap-song-structure); a beat-tape track is an intro, a 16-bar verse, a chorus, a break " +

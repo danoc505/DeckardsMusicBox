@@ -282,6 +282,33 @@ export interface FeelRules {
   readonly jitterMs: number;
 }
 
+/** The instruments a pitched part may be played on. */
+export const VOICES = ["rhodes", "sub", "pluck"] as const;
+export type VoiceName = (typeof VOICES)[number];
+
+export interface TapeSpec {
+  /** Where the record's top end stops, in Hz. */
+  readonly lowpassHz?: number;
+  /** Vinyl crackle as a level, 0 for none; 0.08 is about −22 dB. */
+  readonly crackle?: number;
+  /** How fast the pitch wobbles, in Hz. */
+  readonly wowHz?: number;
+  /** How far it wobbles, in cents, 0 for none. */
+  readonly wowCents?: number;
+  /** Drive into the saturator, 1 for clean. */
+  readonly drive?: number;
+}
+
+export interface SoundSpec {
+  readonly voices?: Readonly<Partial<Record<PitchedRole, VoiceName>>>;
+  readonly tape?: TapeSpec;
+}
+
+export interface SoundRules {
+  readonly voices: Readonly<Record<PitchedRole, VoiceName>>;
+  readonly tape: Readonly<Required<TapeSpec>>;
+}
+
 /** What an author writes. */
 export interface GenreSpec {
   /** How this genre is named on screen. */
@@ -312,6 +339,7 @@ export interface GenreSpec {
   readonly drums?: DrumsSpec;
   readonly arrangement?: ArrangementSpec;
   readonly feel?: FeelSpec;
+  readonly sound?: SoundSpec;
 
   /** Field path -> where its value came from. */
   readonly sources?: Sources;
@@ -333,6 +361,7 @@ export interface Genre {
   readonly drums: DrumsRules;
   readonly arrangement: ArrangementRules;
   readonly feel: FeelRules;
+  readonly sound: SoundRules;
   readonly sources: Sources;
 }
 
@@ -607,5 +636,11 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     swing: 50,
     swingGrid: 16,
     jitterMs: 10,
+  },
+
+  sound: {
+    voices: { keys: "rhodes", bass: "sub", lead: "pluck" },
+    /** clean: no tape, no crackle, the top end open */
+    tape: { lowpassHz: 16000, crackle: 0, wowHz: 0.2, wowCents: 0, drive: 1 },
   },
 };
