@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deckard's Orchestrator MKIII</title>
+<style>
+  :root { color-scheme: light dark; --ink: #1c1b18; --paper: #f4f1ea; --line: #c9c3b6; --accent: #7a4b2a; }
+  @media (prefers-color-scheme: dark) { :root { --ink: #e8e3d8; --paper: #1a1916; --line: #3d3a34; --accent: #d9a06a; } }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.45 Georgia, "Times New Roman", serif; }
+  main { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  h1 { font-weight: normal; font-size: 1.7rem; margin: 0 0 0.25rem; }
+  h1 small { font-size: 0.9rem; opacity: 0.7; margin-left: 0.6rem; }
+  form { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; align-items: end; margin: 1.5rem 0; }
+  label { display: flex; flex-direction: column; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.8; }
+  input, select, button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--line); border-radius: 3px; padding: 0.35rem 0.55rem; }
+  input[type=number] { width: 7rem; }
+  button { cursor: pointer; }
+  button.primary { border-color: var(--accent); color: var(--accent); }
+  button:disabled { opacity: 0.4; cursor: default; }
+  #summary { font-size: 1.05rem; margin: 1rem 0 0.5rem; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 0.25rem 0.5rem; border-bottom: 1px solid var(--line); }
+  th { font-weight: normal; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.7; }
+  td.num { text-align: right; }
+  #status { min-height: 1.4em; opacity: 0.8; font-style: italic; }
+  #measures { white-space: pre; font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace; margin: 1rem 0; overflow-x: auto; }
+  details { margin-top: 1.5rem; }
+  textarea { width: 100%; height: 14rem; font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace; background: transparent; color: inherit; border: 1px solid var(--line); }
+  .bar { display: flex; height: 6px; margin: 0.5rem 0 1rem; border: 1px solid var(--line); }
+  .bar span { display: block; height: 100%; background: var(--accent); opacity: 0.35; }
+  .bar span.peak { opacity: 0.8; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Deckard's Orchestrator <small>MKIII</small></h1>
+  <div>A seeded record maker. The same genre and seed is the same record, every time, anywhere.</div>
+
+  <form id="form">
+    <label>Genre <select id="genre"></select></label>
+    <label>Seed <input id="seed" type="number" min="0" step="1" value="42"></label>
+    <label>Seconds <input id="seconds" type="number" min="30" step="1" placeholder="genre's"></label>
+    <button type="button" id="random">Random seed</button>
+    <button type="submit" class="primary" id="compose">Compose</button>
+    <button type="button" id="play" disabled>Render &amp; play</button>
+    <button type="button" id="stop" disabled>Stop</button>
+    <button type="button" id="save" disabled>Save WAV</button>
+  </form>
+
+  <div id="status"></div>
+  <div id="summary"></div>
+  <div class="bar" id="arc" hidden></div>
+  <table id="sections" hidden>
+    <thead><tr><th>#</th><th>Section</th><th>Idea</th><th class="num">Bars</th><th class="num">Energy</th><th>Notes</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <div id="measures"></div>
+  <details><summary>The record as text</summary><textarea id="dump" readonly spellcheck="false"></textarea></details>
+</main>
+
+<script type="application/json" id="bundle">/*BUNDLE*/</script>
+<script>
+(function () {
+  var bundle = JSON.parse(document.getElementById("bundle").textContent);
+  new Function(bundle)();
+  var M = globalThis.MKIII;
+  var $ = function (id) { return document.getElementById(id); };
+  var genre = $("genre"), seed = $("seed"), seconds = $("seconds"), status = $("status");
+  M.GENRE_NAMES.forEach(function (g) {
+    var o = document.createElement("option"); o.value = g; o.textContent = M.GENRES[g].label; genre.appendChild(o);
+  });
+  var song = null, samples = null, ctx = null, source = null, worker = null;
+
+  function request() {
+    var r = { seed: Number(seed.value), genre: genre.value };
+    if (seconds.value) r.seconds = Number(seconds.value);
+    return r;
+  }
+  function compose() {
+    stop();
+    samples = null; $("play").disabled = false; $("save").disabled = true;
+    song = M.compose(request());
+    $("summary").textContent = M.summary(song);
+    var arc = $("arc"); arc.innerHTML = ""; arc.hidden = false;
+    song.arrangement.placed.forEach(function (p) {
+      var s = document.createElement("span");
+      s.style.flex = String(p.section.bars); s.style.opacity = String(0.15 + 0.7 * p.section.energy);
+      if (p.section.peak) s.className = "peak";
+      arc.appendChild(s);
+    });
+    var body = $("sections").querySelector("tbody"); body.innerHTML = ""; $("sections").hidden = false;
+    song.arrangement.placed.forEach(function (p, i) {
+      var s = p.section, tr = document.createElement("tr");
+      var notes = [];
+      if (s.peak) notes.push("peak"); if (s.vary) notes.push("varied"); if (p.thin) notes.push("thin");
+      var missing = ["drums", "bass", "keys", "lead"].filter(function (r) { return !p.heard.has(r); });
+      if (missing.length) notes.push("without " + missing.join(", "));
+      [i, s.fn, p.material, s.bars, s.energy.toFixed(2), notes.join(" · ") || "—"].forEach(function (v, j) {
+        var td = document.createElement("td"); td.textContent = String(v); if (j === 3 || j === 4) td.className = "num"; tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+    var text = M.dump(song);
+    $("dump").value = text;
+    $("measures").textContent = text.split("\n").filter(function (l) { return /^#(chords|bars_distinct|motion|role)/.test(l); }).join("\n");
+    status.textContent = "";
+  }
+  function play() {
+    if (!song) return;
+    if (samples) { start(); return; }
+    $("play").disabled = true;
+    status.textContent = "rendering…";
+    if (!worker) {
+      var src = bundle + "\nself.onmessage = function (e) { var s = MKIII.compose(e.data); var out = MKIII.render(s); postMessage(out, [out.buffer]); };";
+      worker = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
+      worker.onmessage = function (e) { samples = e.data; status.textContent = ""; $("play").disabled = false; $("save").disabled = false; start(); };
+      worker.onerror = function (e) { status.textContent = "render failed: " + e.message; $("play").disabled = false; };
+    }
+    worker.postMessage(request());
+  }
+  function start() {
+    stop();
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    var buf = ctx.createBuffer(1, samples.length, 44100);
+    buf.copyToChannel(samples, 0);
+    source = ctx.createBufferSource(); source.buffer = buf; source.connect(ctx.destination);
+    source.onended = function () { $("stop").disabled = true; };
+    source.start(); $("stop").disabled = false;
+  }
+  function stop() { if (source) { try { source.stop(); } catch (e) {} source = null; } $("stop").disabled = true; }
+  function save() {
+    if (!samples) return;
+    var bytes = M.wav(samples, 44100);
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([bytes], { type: "audio/wav" }));
+    a.download = genre.value + "-" + seed.value + ".wav"; a.click();
+  }
+  $("form").addEventListener("submit", function (e) { e.preventDefault(); compose(); });
+  $("random").addEventListener("click", function () { seed.value = String(Math.floor(Math.random() * 1e6)); compose(); });
+  $("play").addEventListener("click", play);
+  $("stop").addEventListener("click", stop);
+  $("save").addEventListener("click", save);
+  compose();
+})();
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 {
   "name": "deckards-orchestrator",
   "version": "3.0.0",
-  "description": "Deckard's Orchestrator MKIII — a seeded generative record maker",
+  "description": "Deckard's Orchestrator MKIII \u2014 a seeded generative record maker",
   "private": true,
   "type": "module",
   "engines": {
@@ -10,7 +10,8 @@
   "scripts": {
     "test": "node --test 'src/**/*.test.ts'",
     "compose": "node src/cli.ts",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "build": "node tools/build.ts"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",

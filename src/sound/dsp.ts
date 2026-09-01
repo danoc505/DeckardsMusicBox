@@ -104,3 +104,17 @@ export function envelope(t: number, heldSec: number, sh: Shape): number {
 export const saturate = (x: number, drive: number): number => Math.tanh(x * drive);
 
 export const midiHz = (midi: number): number => 440 * Math.pow(2, (midi - 69) / 12);
+
+/** A sine by table, phase in turns (0..1), linear between entries: the FM voices call it three times a sample. */
+const SINE_N = 4096;
+const SINE = new Float32Array(SINE_N + 1);
+for (let i = 0; i <= SINE_N; i++) SINE[i] = Math.sin((2 * Math.PI * i) / SINE_N);
+export function sinTurns(turns: number): number {
+  const x = (turns - Math.floor(turns)) * SINE_N;
+  const i = x | 0;
+  const f = x - i;
+  return SINE[i]! * (1 - f) + SINE[i + 1]! * f;
+}
+
+/** The per-sample multiplier that decays by e every `tauSec`. */
+export const decayPerSample = (tauSec: number, sampleRate: number): number => Math.exp(-1 / (tauSec * sampleRate));

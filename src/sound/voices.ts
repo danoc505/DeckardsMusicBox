@@ -19,7 +19,7 @@
  *   hat     narrow-band noise, closed short and open long.
  */
 
-import { Biquad, Noise, envelope, midiHz, type Shape } from "./dsp.ts";
+import { Biquad, Noise, decayPerSample, envelope, midiHz, sinTurns, type Shape } from "./dsp.ts";
 
 export interface NoteIn {
   readonly midi: number;
@@ -38,18 +38,32 @@ export function rhodes(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
   const f = midiHz(n.midi);
   const out = buffer(n.heldSec + 0.5, sr);
-  const twoPi = 2 * Math.PI;
-  // harder notes have more tine: the index follows the weight
-  const body = 0.9 * n.gain;
-  const tine = 1.1 * n.gain;
+  const held = Math.round(n.heldSec * sr);
+  // harder notes have more tine: the index follows the weight. Both
+  // indices decay by a multiplier a sample, as does the amplitude; the
+  // phases accumulate in turns, so the sine is a table lookup
+  let iBody = 0.9 * n.gain;
+  let iTine = 1.1 * n.gain;
+  const kBody = decayPerSample(0.7, sr);
+  const kTine = decayPerSample(0.06, sr);
+  const kDecay = decayPerSample(RHODES.decaySec, sr);
+  const kRelease = decayPerSample(RHODES.releaseSec, sr);
+  const attack = Math.max(1, Math.round(RHODES.attackSec * sr));
+  let decay = 1;
+  let release = 1;
+  const dPhase = f / sr;
+  let phase = 0;
   for (let i = 0; i < out.length; i++) {
-    const t = i / sr;
-    const env = envelope(t, n.heldSec, RHODES);
-    if (env < 1e-4 && t > n.heldSec) break;
-    const iBody = body * Math.exp(-t / 0.7);
-    const iTine = tine * Math.exp(-t / 0.06);
-    const mod = iBody * Math.sin(twoPi * f * t) + iTine * Math.sin(twoPi * f * 14 * t);
-    out[i] = Math.sin(twoPi * f * t + mod) * env * 0.5;
+    const a = i < attack ? i / attack : 1;
+    decay *= kDecay;
+    if (i > held) release *= kRelease;
+    const env = a * (RHODES.sustain + (1 - RHODES.sustain) * decay) * release;
+    if (env < 1e-4 && i > held) break;
+    const mod = iBody * sinTurns(phase) + iTine * sinTurns(phase * 14);
+    out[i] = sinTurns(phase + mod / (2 * Math.PI)) * env * 0.5;
+    phase += dPhase;
+    iBody *= kBody;
+    iTine *= kTine;
   }
   return out;
 }
