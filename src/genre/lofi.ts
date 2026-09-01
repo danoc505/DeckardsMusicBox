@@ -56,6 +56,12 @@ export const lofi: GenreSpec = {
     },
   },
 
+  // the Rhodes in its middle, voiced open: root low, colour tones above with air
+  keys: {
+    register: [48, 79],
+    open: 0.9,
+  },
+
   // the bass is the roots, on the kick's feet
   bass: {
     pocket: "kick",
@@ -109,6 +115,12 @@ export const lofi: GenreSpec = {
     "harmony.progressions":
       "I–vi–IV–V, ii–V–I, I–vi–ii–V (blog.flat.io/lofi-chord-progressions); I–vi, iv–i, IV–iii–vi, i–VI–V " +
       "(blog.native-instruments.com/lo-fi-chord-progressions); as scale degrees so the drawn scale sets the qualities; weights [chosen]",
+    "keys.register":
+      "\"keep it in its mid-range and avoid the top octave\" (blog.native-instruments.com/lo-fi-hip-hop-beats); " +
+      "C3–G5 on a Rhodes [chosen]",
+    "keys.open":
+      "\"lo-fi favors spread voicings where the notes span two octaves or more\", root low and the 3rd, 7th and " +
+      "extensions above with space (orphiq.com/resources/lofi-chord-progressions); 0.9 [chosen]",
     "bass.pocket":
       "\"copy over your kick pattern and realign the notes to the chord progression\" " +
       "(blog.native-instruments.com/lo-fi-hip-hop-beats)",

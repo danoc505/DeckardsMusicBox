@@ -34,6 +34,7 @@
 import { stepsPerBar } from "../../core/clock.ts";
 import { inScale, noteName } from "../../core/theory.ts";
 import { DRUM_LANES, type Idea, type Role } from "../../genre/spec.ts";
+import type { Rng } from "../../core/rng.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
 import { drawBass } from "./bass.ts";
@@ -57,6 +58,22 @@ export class MaterialError extends Error {
     super(message);
     this.name = "MaterialError";
   }
+}
+
+/**
+ * A development that comes out note for note the statement is not one. The
+ * answers are drawn again from a fresh address until they differ; where the
+ * laws leave the answer only one way to go, a handful of tries is the honest
+ * limit and the last is kept.
+ */
+function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, taken: ReadonlySet<string>, tune: readonly Note[]): Note[] {
+  const same = (a: readonly Note[], b: readonly Note[]): boolean => JSON.stringify(a) === JSON.stringify(b);
+  let line: Note[] = [];
+  for (let attempt = 1; attempt <= 6; attempt++) {
+    line = drawLead(chart, chords, rng, steps, taken, attempt);
+    if (!same(line, tune)) break;
+  }
+  return line;
 }
 
 /** How many times each part plays each material through, over the whole record. */
@@ -92,12 +109,13 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const rng = chart.rng.at("material", idea, variant);
     // the drum figure first: the bass may take its feet from the kick
     const figure = drawFigure(chart, rng.at("drums"));
-    const bass = Object.freeze(drawBass(chart, chords, rng.at("bass"), steps, figure.kick));
-    const keys = Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps));
-    // the tune is written last and is told every seat the others hold, so it
-    // never lands on one — a rule at the point of choice, not a repair after
+    // each part is told every seat the parts before it hold, so it never
+    // lands on one — a rule at the point of choice, not a repair after
     const taken = new Set<string>();
-    for (const n of [...bass, ...keys]) taken.add(`${at(n)}:${n.pitch}`);
+    const bass = Object.freeze(drawBass(chart, chords, rng.at("bass"), steps, figure.kick));
+    for (const n of bass) taken.add(`${at(n)}:${n.pitch}`);
+    const keys = Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps, taken));
+    for (const n of keys) taken.add(`${at(n)}:${n.pitch}`);
     const groove = Object.freeze({ bass, keys });
 
     // the tune's plan, applied to every time the lead plays this material
@@ -106,7 +124,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const plan = leadRng.weighted("cycles", chart.genre.lead.cycles);
     const letters = Array.from({ length: times.get("lead") ?? 0 }, (_, n) => plan[n % plan.length]!);
     const tune = letters.length > 0 ? Object.freeze(drawLead(chart, chords, leadRng, steps, taken)) : null;
-    const developed = letters.includes("B") ? Object.freeze(drawLead(chart, chords, leadRng, steps, taken, true)) : null;
+    const developed = letters.includes("B") ? Object.freeze(develop(chart, chords, leadRng, steps, taken, tune!)) : null;
     const tacet: readonly Note[] = Object.freeze([]);
     const lead = Object.freeze(letters.map((l) => (l === "A" ? tune! : l === "B" ? developed! : tacet)));
 

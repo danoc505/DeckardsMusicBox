@@ -56,7 +56,8 @@ export function drawLead(
   rng: Rng,
   steps: number,
   reserved: ReadonlySet<string>,
-  developed = false,
+  /** 0 writes the statement; n ≥ 1 writes the nth attempt at a development. */
+  developed = 0,
 ): Note[] {
   const L = chart.genre.lead;
   const [lo, hi] = L.register;
@@ -73,7 +74,7 @@ export function drawLead(
     const isAnswer = ph % 2 === 1;
     // the development answers from its own draws; its questions are the
     // statement's, draw for draw
-    const at = developed && isAnswer ? rng.at("answer", ph) : rng.at("phrase", ph);
+    const at = developed > 0 && isAnswer ? rng.at("answer", developed, ph) : rng.at("phrase", ph);
     const firstBar = ph * PHRASE_BARS;
     const rhythm = at.weighted("rhythm", L.rhythms);
 

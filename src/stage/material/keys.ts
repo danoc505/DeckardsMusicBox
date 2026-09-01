@@ -34,11 +34,16 @@ const COST = {
   openness: 10,
   /** per muddy interval under the floor */
   mud: 18,
-  /** per semitone of spread past two octaves — one instrument, not two */
-  sprawl: 3,
 } as const;
 
-/** Every stacking of these tones inside the register: inversions and drop-2s. */
+/**
+ * Every stacking of these tones inside the register: the close inversions,
+ * and the drop voicings that spread them — drop-2, drop-3 and drop-2-and-4,
+ * each named for the voices from the top that fall an octave. A spread
+ * voicing runs two octaves or more, root low and the colour tones above
+ * with space (orphiq.com/resources/lofi-chord-progressions); how far a
+ * register lets it run is the genre's to say, and the only limit here.
+ */
 function candidates(tones: readonly number[], lo: number, hi: number): number[][] {
   const base = tones.map((t) => intoBand(t, lo, lo + 11)).sort((a, b) => a - b);
   const out: number[][] = [];
@@ -55,14 +60,18 @@ function candidates(tones: readonly number[], lo: number, hi: number): number[][
   for (let oct = 0; oct * 12 + base[base.length - 1]! <= hi; oct++) {
     const shape = base.map((p) => p + oct * 12);
     for (let inv = 0; inv < shape.length; inv++) {
-      const close = shape.map((p, i) => (i < inv ? p + 12 : p));
+      const close = shape.map((p, i) => (i < inv ? p + 12 : p)).sort((a, b) => a - b);
       push(close);
+      const drop = (...fromTop: number[]): void => {
+        const v = close.slice();
+        for (const k of fromTop) if (v.length - k >= 0) v[v.length - k]! -= 12;
+        push(v);
+      };
       if (close.length >= 3) {
-        const sorted = close.slice().sort((a, b) => a - b);
-        const d2 = sorted.slice();
-        d2[d2.length - 2]! -= 12;
-        push(d2);
+        drop(2);
+        drop(3);
       }
+      if (close.length >= 4) drop(2, 4);
     }
   }
   return out;
@@ -78,7 +87,6 @@ function cost(
   const spread = cand[cand.length - 1]! - cand[0]!;
   const isOpen = spread > 12 ? 1 : 0;
   c += COST.openness * Math.abs(wantOpen - isOpen);
-  if (spread > 24) c += COST.sprawl * (spread - 24);
 
   for (let i = 1; i < cand.length; i++) {
     if (cand[i - 1]! < LOW_INTERVAL_FLOOR && cand[i]! - cand[i - 1]! < LOW_INTERVAL_MIN) c += COST.mud;
@@ -113,7 +121,13 @@ function cost(
   return c;
 }
 
-export function drawKeys(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number): Note[] {
+export function drawKeys(
+  chart: Chart,
+  chords: readonly Chord[],
+  rng: Rng,
+  steps: number,
+  reserved: ReadonlySet<string>,
+): Note[] {
   const K = chart.genre.keys;
   const [lo, hi] = K.register;
   const strike = rng.weighted("strike", K.strike);
@@ -126,13 +140,17 @@ export function drawKeys(chart: Chart, chords: readonly Chord[], rng: Rng, steps
   let prev: number[] | null = null;
 
   for (const chord of chords) {
-    const cands = candidates(chord.tones, lo, hi);
+    let cands = candidates(chord.tones, lo, hi);
     if (cands.length === 0) {
       throw new Error(
         `keys: no voicing of ${chord.name} fits ${lo}..${hi} at bar ${chord.bar} — ` +
           `the register is too narrow for a ${chord.tones.length}-note chord`,
       );
     }
+    // a voicing that lands on a pitch the bass holds at any of its strikes
+    // is not offered — where the register leaves it any other choice
+    const clear = cands.filter((v) => !v.some((p) => strike.some((st) => reserved.has(`${chord.bar}:${st}:${p}`))));
+    if (clear.length > 0) cands = clear;
     let best = cands[0]!;
     let bestCost = Infinity;
     for (const cand of cands) {
