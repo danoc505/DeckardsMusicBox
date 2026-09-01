@@ -1,27 +1,29 @@
 /**
- * Stage 3 — THE MATERIALS.
+ * Stage 4 — THE MATERIALS.
  *
  * Every note a record can contain, built once per IDEA and frozen. A section
  * points at a material; it never edits one.
  *
- * ONLY WHAT THE FORM ASKS FOR IS BUILT. The form says which ideas it states
- * and which statements must vary, and this stage builds exactly that set — a
- * plain A, a first variant of A, a plain B. Nothing is composed on the chance
- * it might be played, so a material that is built and never heard cannot
- * exist. That was the commonest way the old program lied to itself, and it is
- * closed off structurally rather than checked for.
+ * ONLY WHAT IS HEARD IS BUILT. The arrangement says which material each
+ * section plays and which parts are heard in it, and this stage builds
+ * exactly that: a plain A, a first variant of A, a plain B, and for each of
+ * them as many lead lines and drum phrases as those parts will play. Nothing
+ * is composed on the chance it might be played, so a material — or a cycle
+ * of one — that is built and never heard cannot exist. That was the
+ * commonest way the old program lied to itself, and it is closed off
+ * structurally rather than checked for.
  *
  * A VARIANT KEEPS THE CHORDS AND REDRAWS THE PARTS. An idea coming back
  * changed still stands on its own changes; what differs is what is played
  * over them. Changing the harmony too would make it a different section, not
  * the same one returning.
  *
- * A MATERIAL IS REALISED PER CYCLE. A section longer than its material plays
- * the material round again, and the second time round is not the first: the
- * drums treat their figure differently and the tune restates, develops or
- * rests by its plan. The groove under them loops, because a groove is the
- * thing that is allowed to. Exactly as many cycles are built as the longest
- * section playing the material will hear.
+ * THE TUNE AND THE DRUMS ARE WRITTEN PER TIME ROUND. Each time the lead plays
+ * a material through — across the whole record, not within one section — it
+ * restates, develops or rests by the material's plan, and each time the
+ * drums do they treat their figure differently. A chorus heard three times
+ * at eight bars is six times round, and the sixth is not the first. The
+ * groove under them loops, because a groove is the thing that is allowed to.
  *
  * THE CHECKS THROW. A note outside its register, a pitch outside the scale,
  * two parts on one pitch at one instant — each is a bug in a builder, and a
@@ -31,25 +33,23 @@
 
 import { stepsPerBar } from "../../core/clock.ts";
 import { inScale, noteName } from "../../core/theory.ts";
-import type { Idea } from "../../genre/spec.ts";
+import { DRUM_LANES, type Idea, type Role } from "../../genre/spec.ts";
+import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
-import type { Form } from "../form.ts";
-import { DRUM_LANES } from "../../genre/spec.ts";
 import { drawBass } from "./bass.ts";
 import { drawDrums } from "./drums.ts";
 import { drawChords } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
 import { drawLead } from "./lead.ts";
-import { assertInside, at, PITCHED, type Chord, type Cycle, type Material, type Note, type Pitched } from "./note.ts";
+import { assertInside, at, GROOVE, type Chord, type Material, type Note, type Pitched } from "./note.ts";
 
-export type { Chord, Cycle, Hit, Material, Note, Pitched } from "./note.ts";
+export type { Chord, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
+export { GROOVE } from "./note.ts";
 
 export interface Materials {
   readonly bars: number;
   /** Every material built, by key. */
   readonly all: ReadonlyMap<string, Material>;
-  /** The key of the material each section plays, by section index. */
-  readonly bySection: readonly string[];
 }
 
 export class MaterialError extends Error {
@@ -59,35 +59,26 @@ export class MaterialError extends Error {
   }
 }
 
-const keyOf = (idea: Idea, variant: number): string => (variant === 0 ? idea : `${idea}/${variant}`);
+/** How many times each part plays each material through, over the whole record. */
+function timesRound(arrangement: Arrangement, bars: number): ReadonlyMap<string, ReadonlyMap<Role, number>> {
+  const out = new Map<string, Map<Role, number>>();
+  for (const p of arrangement.placed) {
+    const per = out.get(p.material) ?? new Map<Role, number>();
+    for (const role of p.heard) per.set(role, (per.get(role) ?? 0) + Math.ceil(p.section.bars / bars));
+    out.set(p.material, per);
+  }
+  return out;
+}
 
-export function makeMaterials(chart: Chart, form: Form): Materials {
+export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials {
   const steps = stepsPerBar(chart.metre);
   const bars = chart.genre.harmony.bars;
-
-  // which (idea, variant) each section needs — the demand, read off the form
-  const variantsSeen = new Map<Idea, number>();
-  const bySection: string[] = [];
-  for (const s of form.sections) {
-    let variant = 0;
-    if (s.vary) {
-      variant = (variantsSeen.get(s.idea) ?? 0) + 1;
-      variantsSeen.set(s.idea, variant);
-    }
-    bySection.push(keyOf(s.idea, variant));
-  }
-
-  // how many times the longest section playing each material cycles it
-  const cyclesOf = new Map<string, number>();
-  form.sections.forEach((s, i) => {
-    const key = bySection[i]!;
-    cyclesOf.set(key, Math.max(cyclesOf.get(key) ?? 1, Math.ceil(s.bars / bars)));
-  });
+  const rounds = timesRound(arrangement, bars);
 
   const chordsOf = new Map<Idea, readonly Chord[]>();
   const all = new Map<string, Material>();
 
-  for (const key of new Set(bySection)) {
+  for (const [key, times] of rounds) {
     const [ideaStr, vStr] = key.split("/");
     const idea = ideaStr as Idea;
     const variant = vStr === undefined ? 0 : Number(vStr);
@@ -105,28 +96,28 @@ export function makeMaterials(chart: Chart, form: Form): Materials {
     // never lands on one — a rule at the point of choice, not a repair after
     const taken = new Set<string>();
     for (const n of [...bass, ...keys]) taken.add(`${at(n)}:${n.pitch}`);
+    const groove = Object.freeze({ bass, keys });
+
+    // the tune's plan, applied to every time the lead plays this material
+    // through; the development is written only where a time will play it
     const leadRng = rng.at("lead");
     const plan = leadRng.weighted("cycles", chart.genre.lead.cycles);
-    const cycles = cyclesOf.get(key)!;
-    const letters = Array.from({ length: cycles }, (_, c) => plan[c % plan.length]!);
-    const tune = Object.freeze(drawLead(chart, chords, leadRng, steps, taken));
-    // the development is written only where a cycle will play it
+    const letters = Array.from({ length: times.get("lead") ?? 0 }, (_, n) => plan[n % plan.length]!);
+    const tune = letters.length > 0 ? Object.freeze(drawLead(chart, chords, leadRng, steps, taken)) : null;
     const developed = letters.includes("B") ? Object.freeze(drawLead(chart, chords, leadRng, steps, taken, true)) : null;
     const tacet: readonly Note[] = Object.freeze([]);
+    const lead = Object.freeze(letters.map((l) => (l === "A" ? tune! : l === "B" ? developed! : tacet)));
 
-    const realised: Cycle[] = letters.map((letter, c) => {
-      const lead = letter === "A" ? tune : letter === "B" ? developed! : tacet;
-      const parts: Readonly<Record<Pitched, readonly Note[]>> = Object.freeze({ bass, keys, lead });
-      const drums = Object.freeze(drawDrums(chart, rng.at("drums"), bars, steps, c));
-      return Object.freeze({ parts, drums });
-    });
+    const drums = Object.freeze(
+      Array.from({ length: times.get("drums") ?? 0 }, (_, n) => Object.freeze(drawDrums(chart, rng.at("drums"), bars, steps, n))),
+    );
 
-    const material: Material = Object.freeze({ key, idea, variant, bars, chords, cycles: Object.freeze(realised) });
+    const material: Material = Object.freeze({ key, idea, variant, bars, chords, groove, lead, drums });
     check(chart, material, steps);
     all.set(key, material);
   }
 
-  return Object.freeze({ bars, all, bySection: Object.freeze(bySection) });
+  return Object.freeze({ bars, all });
 }
 
 /** The invariants every material holds, or the material does not exist. */
@@ -136,50 +127,54 @@ function check(chart: Chart, m: Material, steps: number): void {
     keys: chart.genre.keys.register,
     lead: chart.genre.lead.register,
   };
-  for (const [cycle, c] of m.cycles.entries()) {
-  const struck = new Map<string, Pitched>();
+  const grooveSeats = new Map<string, Pitched>();
 
-  for (const part of PITCHED) {
+  const checkNote = (part: Pitched, n: Note, where: string, seats: Map<string, Pitched>): void => {
     const [lo, hi] = registers[part];
-    for (const n of c.parts[part]) {
-      const where = `${m.key} cycle ${cycle} ${part} bar ${n.bar} step ${n.step}`;
-      assertInside({ bars: m.bars, steps }, n, where);
-
-      if (n.pitch < lo || n.pitch > hi) {
-        throw new MaterialError(`${where}: ${noteName(n.pitch)} is outside ${part}'s register ${lo}..${hi}`);
-      }
-      if (!inScale(chart.tonic, chart.scale, n.pitch)) {
-        throw new MaterialError(`${where}: ${noteName(n.pitch)} is not in ${chart.scaleName}`);
-      }
-      if (n.vel <= 0 || n.vel > 1) throw new MaterialError(`${where}: velocity ${n.vel}`);
-
-      const seat = `${at(n)}:${n.pitch}`;
-      const other = struck.get(seat);
-      if (other !== undefined && other !== part) {
-        throw new MaterialError(
-          `${where}: ${part} lands on ${other}'s ${noteName(n.pitch)} — two parts on one pitch at one instant`,
-        );
-      }
-      struck.set(seat, part);
+    assertInside({ bars: m.bars, steps }, n, where);
+    if (n.pitch < lo || n.pitch > hi) {
+      throw new MaterialError(`${where}: ${noteName(n.pitch)} is outside ${part}'s register ${lo}..${hi}`);
     }
+    if (!inScale(chart.tonic, chart.scale, n.pitch)) {
+      throw new MaterialError(`${where}: ${noteName(n.pitch)} is not in ${chart.scaleName}`);
+    }
+    if (n.vel <= 0 || n.vel > 1) throw new MaterialError(`${where}: velocity ${n.vel}`);
+    const seat = `${at(n)}:${n.pitch}`;
+    const other = seats.get(seat);
+    if (other !== undefined && other !== part) {
+      throw new MaterialError(
+        `${where}: ${part} lands on ${other}'s ${noteName(n.pitch)} — two parts on one pitch at one instant`,
+      );
+    }
+    seats.set(seat, part);
+  };
+
+  for (const part of GROOVE) {
+    for (const n of m.groove[part]) checkNote(part, n, `${m.key} ${part} bar ${n.bar} step ${n.step}`, grooveSeats);
+  }
+  for (const [time, line] of m.lead.entries()) {
+    const seats = new Map(grooveSeats);
+    for (const n of line) checkNote("lead", n, `${m.key} lead time ${time} bar ${n.bar} step ${n.step}`, seats);
   }
 
-  const struckDrums = new Set<string>();
-  for (const h of c.drums) {
-    const where = `${m.key} drums cycle ${cycle} bar ${h.bar} step ${h.step}`;
-    assertInside({ bars: m.bars, steps }, { ...h, dur: 1, pitch: 0 }, where);
-    if (!(DRUM_LANES as readonly string[]).includes(h.lane)) throw new MaterialError(`${where}: no lane "${h.lane}"`);
-    if (h.vel <= 0 || h.vel > 1) throw new MaterialError(`${where}: velocity ${h.vel}`);
-    const seat = `${at(h)}:${h.lane}`;
-    if (struckDrums.has(seat)) throw new MaterialError(`${where}: ${h.lane} struck twice at one instant`);
-    struckDrums.add(seat);
-  }
+  for (const [time, hits] of m.drums.entries()) {
+    const struck = new Set<string>();
+    for (const h of hits) {
+      const where = `${m.key} drums time ${time} bar ${h.bar} step ${h.step}`;
+      assertInside({ bars: m.bars, steps }, { ...h, dur: 1, pitch: 0 }, where);
+      if (!(DRUM_LANES as readonly string[]).includes(h.lane)) throw new MaterialError(`${where}: no lane "${h.lane}"`);
+      if (h.vel <= 0 || h.vel > 1) throw new MaterialError(`${where}: velocity ${h.vel}`);
+      const seat = `${at(h)}:${h.lane}`;
+      if (struck.has(seat)) throw new MaterialError(`${where}: ${h.lane} struck twice at one instant`);
+      struck.add(seat);
+    }
   }
 }
 
 /** "A: Cm7 Ab Fm G | bass 8 · keys 16 · lead 14/14/11/14 · drums 40/38/41/36" — for tests and dumps. */
 export function describeMaterial(m: Material): string {
-  const perCycle = (f: (c: Cycle) => number): string => m.cycles.map(f).join("/");
-  const parts = PITCHED.map((p) => `${p} ${perCycle((c) => c.parts[p].length)}`).join(" · ");
-  return `${m.key}: ${m.chords.map((c) => c.name).join(" ")} | ${parts} · drums ${perCycle((c) => c.drums.length)}`;
+  const groove = GROOVE.map((p) => `${p} ${m.groove[p].length}`).join(" · ");
+  const lead = m.lead.map((l) => l.length).join("/") || "-";
+  const drums = m.drums.map((h) => h.length).join("/") || "-";
+  return `${m.key}: ${m.chords.map((c) => c.name).join(" ")} | ${groove} · lead ${lead} · drums ${drums}`;
 }

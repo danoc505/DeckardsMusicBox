@@ -3,15 +3,13 @@ import assert from "node:assert/strict";
 import { makeArrangement, describeArrangement, type Arrangement } from "./arrange.ts";
 import { makeChart } from "./chart.ts";
 import { makeForm } from "./form.ts";
-import { makeMaterials } from "./material/index.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
 import { ROLES } from "../genre/spec.ts";
 
 const lofi = GENRES.lofi;
 const build = (seed: number, seconds = 240): Arrangement => {
   const chart = makeChart({ seed, genre: lofi, seconds });
-  const form = makeForm(chart);
-  return makeArrangement(chart, form, makeMaterials(chart, form));
+  return makeArrangement(chart, makeForm(chart));
 };
 const sweep = (n: number) => Array.from({ length: n }, (_, i) => build(i + 1));
 
@@ -83,15 +81,23 @@ test("a bridge thins, a quiet section thins, the peak never does", () => {
   }
 });
 
-test("every section points at a material that exists", () => {
-  for (let seed = 1; seed <= 40; seed++) {
-    const chart = makeChart({ seed, genre: lofi, seconds: 240 });
-    const form = makeForm(chart);
-    const mats = makeMaterials(chart, form);
-    const a = makeArrangement(chart, form, mats);
-    assert.equal(a.placed.length, form.sections.length);
-    for (const p of a.placed) assert.ok(mats.all.has(p.material), `${p.material} was never built`);
+test("a varied statement plays the idea's next variant; an unvaried one plays the plain idea", () => {
+  let variants = 0;
+  for (const a of sweep(120)) {
+    const seen = new Map<string, number>();
+    for (const p of a.placed) {
+      const s = p.section;
+      if (s.vary) {
+        const n = (seen.get(s.idea) ?? 0) + 1;
+        seen.set(s.idea, n);
+        variants++;
+        assert.equal(p.material, `${s.idea}/${n}`);
+      } else {
+        assert.equal(p.material, s.idea);
+      }
+    }
   }
+  assert.ok(variants > 10);
 });
 
 test("an entry order that leaves a part out is refused at load, by name", () => {

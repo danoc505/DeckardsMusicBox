@@ -31,22 +31,59 @@ test("events are sorted by time and every one is inside the record", () => {
 test("every heard note of every section is played, and nothing else", () => {
   for (const s of sweep(30)) {
     let expected = 0;
+    const played = new Map<string, number>();
     for (const p of s.arrangement.placed) {
       const m = s.materials.all.get(p.material)!;
       for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
         const mbar = (bar - p.section.startBar) % m.bars;
-        const cycle = m.cycles[Math.floor((bar - p.section.startBar) / m.bars)]!;
+        const round = Math.floor((bar - p.section.startBar) / m.bars);
         for (const role of p.heard) {
+          const nth = (played.get(`${p.material} ${role}`) ?? 0) + round;
           if (role === "drums") {
-            expected += cycle.drums.filter((h) => h.bar === mbar && !(p.thin && (h.lane === "hat" || h.lane === "openhat"))).length;
+            expected += m.drums[nth]!.filter((h) => h.bar === mbar && !(p.thin && (h.lane === "hat" || h.lane === "openhat"))).length;
           } else {
-            expected += cycle.parts[role].filter((n) => n.bar === mbar).length;
+            const notes = role === "lead" ? m.lead[nth]! : m.groove[role];
+            expected += notes.filter((n) => n.bar === mbar).length;
           }
         }
+      }
+      for (const role of p.heard) {
+        played.set(`${p.material} ${role}`, (played.get(`${p.material} ${role}`) ?? 0) + Math.ceil(p.section.bars / m.bars));
       }
     }
     assert.equal(s.performance.events.length, expected);
   }
+});
+
+test("a material heard again does not start its tune over: the count runs across the record", () => {
+  // three eight-bar choruses over a four-bar material are six times round,
+  // and a plan of four letters is read straight through them — so the
+  // lead's lines across those sections are the plan, not its first two
+  // letters three times
+  let checked = 0;
+  for (const s of sweep(80)) {
+    const byKey = new Map<string, string[]>();
+    for (const p of s.arrangement.placed) {
+      if (!p.heard.has("lead")) continue;
+      const m = s.materials.all.get(p.material)!;
+      const list = byKey.get(p.material) ?? [];
+      for (let bar = p.section.startBar; bar < p.section.endBar; bar += m.bars) {
+        list.push(s.performance.events.filter((e) => e.role === "lead" && e.bar >= bar && e.bar < bar + m.bars).map((e) => `${e.bar - bar}:${e.step}:${e.pitch}`).join());
+      }
+      byKey.set(p.material, list);
+    }
+    for (const [key, rounds] of byKey) {
+      const m = s.materials.all.get(key)!;
+      assert.equal(rounds.length, m.lead.length);
+      if (rounds.length < 4) continue;
+      checked++;
+      // whatever the plan, its four letters hold at most three distinct
+      // lines and the material was written with exactly those
+      assert.ok(new Set(rounds).size <= 3);
+      assert.ok(new Set(rounds).size >= 2, `${key} on seed ${s.chart.seed}: ${rounds.length} times round, all the same`);
+    }
+  }
+  assert.ok(checked > 40);
 });
 
 test("a thin section has no hat and keeps its kick", () => {

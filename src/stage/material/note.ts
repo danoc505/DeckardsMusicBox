@@ -40,11 +40,9 @@ export interface Chord {
 export const PITCHED = PITCHED_ROLES;
 export type Pitched = PitchedRole;
 
-/** Everything played during one pass through the material. */
-export interface Cycle {
-  readonly parts: Readonly<Record<Pitched, readonly Note[]>>;
-  readonly drums: readonly Hit[];
-}
+/** The parts that loop unchanged under everything: the groove. */
+export const GROOVE = ["bass", "keys"] as const satisfies readonly Pitched[];
+export type GrooveRole = (typeof GROOVE)[number];
 
 export interface Material {
   /** "A" for the plain statement, "A/1" for its first variant. */
@@ -54,13 +52,17 @@ export interface Material {
   readonly variant: number;
   readonly bars: number;
   readonly chords: readonly Chord[];
+  /** Bass and keys, the same every time round — a groove is the thing that is allowed to loop. */
+  readonly groove: Readonly<Record<GrooveRole, readonly Note[]>>;
   /**
-   * One realisation per cycle a section asks for: a 16-bar section over a
-   * 4-bar material hears cycles 0..3. The groove — bass and keys — is the
-   * same in every one; the tune and the drum phrase develop across them.
-   * A reader takes the cycle it is in and asks no further questions.
+   * The tune, one line per time the lead plays this material through, in
+   * the order it plays them: the statement, a restatement, the development,
+   * a rest. Exactly as many as the record hears — a material the lead never
+   * plays has none.
    */
-  readonly cycles: readonly Cycle[];
+  readonly lead: readonly (readonly Note[])[];
+  /** The drums, one phrase per time they play this material through. */
+  readonly drums: readonly (readonly Hit[])[];
 }
 
 /** A material is exactly `bars` long; a note that is not in it is a bug. */

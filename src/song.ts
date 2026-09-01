@@ -4,8 +4,8 @@
  *
  *   chart        key, scale, tempo, metre, how long
  *   form         which sections, in what order, how big
- *   materials    every note, once per idea
- *   arrangement  which parts are heard where
+ *   arrangement  which material each section plays, and which parts are heard
+ *   materials    every note — only what the arrangement will have heard
  *   performance  seconds, and how hard
  */
 
@@ -20,8 +20,8 @@ import { makePerformance, type Performance } from "./stage/perform.ts";
 export interface Song {
   readonly chart: Chart;
   readonly form: Form;
-  readonly materials: Materials;
   readonly arrangement: Arrangement;
+  readonly materials: Materials;
   readonly performance: Performance;
 }
 
@@ -36,8 +36,8 @@ export function compose(req: Request): Song {
   const genre = typeof req.genre === "string" ? genreOf(req.genre) : req.genre;
   const chart = makeChart(req.seconds === undefined ? { seed: req.seed, genre } : { seed: req.seed, genre, seconds: req.seconds });
   const form = makeForm(chart);
-  const materials = makeMaterials(chart, form);
-  const arrangement = makeArrangement(chart, form, materials);
+  const arrangement = makeArrangement(chart, form);
+  const materials = makeMaterials(chart, arrangement);
   const performance = makePerformance(chart, form, materials, arrangement);
-  return Object.freeze({ chart, form, materials, arrangement, performance });
+  return Object.freeze({ chart, form, arrangement, materials, performance });
 }

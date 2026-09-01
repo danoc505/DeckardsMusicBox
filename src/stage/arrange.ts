@@ -1,8 +1,9 @@
 /**
- * Stage 4 — THE ARRANGEMENT.
+ * Stage 3 — THE ARRANGEMENT.
  *
- * Which of a material's parts are heard in each section. Nothing but
- * selection: no note is written, moved or edited here.
+ * Which material each section plays and which parts are heard in it. Nothing
+ * but selection, decided before a note exists: the materials are built
+ * afterwards, for exactly the hearings decided here.
  *
  * PARTS ARE NEVER LISTED PER SECTION. Every part the material has is heard
  * unless a rule takes it away, and the rules are few and named. A part cannot
@@ -18,11 +19,10 @@
  * that arrived, and a bridge or a quiet section thins the drums.
  */
 
-import type { Role } from "../genre/spec.ts";
+import type { Idea, Role } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
-import type { Materials } from "./material/index.ts";
 
 export interface Placed {
   readonly section: Section;
@@ -38,15 +38,27 @@ export interface Arrangement {
   readonly placed: readonly Placed[];
 }
 
-export function makeArrangement(chart: Chart, form: Form, materials: Materials): Arrangement {
+/** The key of the material an idea's nth variant is: "A", then "A/1", "A/2". */
+export const materialKey = (idea: Idea, variant: number): string => (variant === 0 ? idea : `${idea}/${variant}`);
+
+export function makeArrangement(chart: Chart, form: Form): Arrangement {
   const A = chart.genre.arrangement;
   const everything: ReadonlySet<Role> = new Set(ROLES);
   const lastIn = A.enter[A.enter.length - 1]!;
 
+  // a statement the form marks `vary` plays the idea's next variant, and
+  // every statement after it that is not marked plays the plain one again
+  const variantsSeen = new Map<Idea, number>();
   const heardBefore = new Set<Role>();
   // how many of the entry order have arrived; the intro's parts are in from the top
   let arrived = A.introParts;
-  const placed: Placed[] = form.sections.map((section, i) => {
+  const placed: Placed[] = form.sections.map((section) => {
+    let variant = 0;
+    if (section.vary) {
+      variant = (variantsSeen.get(section.idea) ?? 0) + 1;
+      variantsSeen.set(section.idea, variant);
+    }
+
     let heard: Set<Role>;
     switch (section.fn) {
       case "intro":
@@ -69,7 +81,7 @@ export function makeArrangement(chart: Chart, form: Form, materials: Materials):
     const thin = !section.peak && (section.fn === "bridge" || section.energy < A.thinBelow);
     return Object.freeze({
       section,
-      material: materials.bySection[i]!,
+      material: materialKey(section.idea, variant),
       heard: Object.freeze(heard) as ReadonlySet<Role>,
       thin,
     });

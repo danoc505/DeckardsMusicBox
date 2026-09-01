@@ -62,16 +62,27 @@ export function makePerformance(
   const offEighth = (step: number): boolean => perBeat % 2 === 0 && step % perBeat === perBeat / 2;
 
   const events: Event[] = [];
+  // how many times each part has already played each material through —
+  // the tune's and the drums' lines are written per time round, and the
+  // count runs across the record, not within a section
+  const played = new Map<string, number>();
+  const timesBefore = (material: string, role: Role): number => played.get(`${material} ${role}`) ?? 0;
 
   for (const placed of arrangement.placed) {
     const m = materials.all.get(placed.material);
     if (m === undefined) throw new Error(`section plays "${placed.material}", which was never built`);
     const { section } = placed;
+    /** The nth line a part has written for this material, counted across the record. */
+    const nth = <T>(lines: readonly T[], role: Role, round: number): T => {
+      const n = timesBefore(placed.material, role) + round;
+      const l = lines[n];
+      if (l === undefined) throw new Error(`${section.fn}: the ${role} plays "${placed.material}" a ${n + 1}th time, which was never written`);
+      return l;
+    };
 
     for (let bar = section.startBar; bar < section.endBar; bar++) {
       const mbar = (bar - section.startBar) % m.bars;
-      const cycle = m.cycles[Math.floor((bar - section.startBar) / m.bars)];
-      if (cycle === undefined) throw new Error(`${section.fn} at bar ${bar} plays a cycle of "${placed.material}" that was never built`);
+      const round = Math.floor((bar - section.startBar) / m.bars);
       const arc = form.arc[bar] ?? section.energy;
       const level = 1 - ARC_DEPTH + ARC_DEPTH * arc;
       const stepSec = clock.stepSec(bar);
@@ -95,19 +106,23 @@ export function makePerformance(
 
       for (const role of placed.heard) {
         if (role === "drums") {
-          for (const h of cycle.drums) {
+          for (const h of nth(m.drums, "drums", round)) {
             if (h.bar !== mbar) continue;
             // thinning is the hat coming off: the pulse stays, the shimmer goes
             if (placed.thin && (h.lane === "hat" || h.lane === "openhat")) continue;
             place("drums", h.lane, h.step, 1, null, h.vel);
           }
         } else {
-          for (const n of cycle.parts[role]) {
+          const notes = role === "lead" ? nth(m.lead, "lead", round) : m.groove[role];
+          for (const n of notes) {
             if (n.bar !== mbar) continue;
             place(role, role, n.step, n.dur, n.pitch, n.vel);
           }
         }
       }
+    }
+    for (const role of placed.heard) {
+      played.set(`${placed.material} ${role}`, timesBefore(placed.material, role) + Math.ceil(section.bars / m.bars));
     }
   }
 
