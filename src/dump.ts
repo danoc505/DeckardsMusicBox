@@ -29,9 +29,21 @@ export interface Motion {
   readonly same: number;
 }
 
-/** How a part moves from one note to the next: leap (> 2), step (1–2), same (0). */
+/**
+ * How a part moves from one onset to the next: leap (> 2), step (1–2), same
+ * (0). A part that strikes several pitches at once is read by its top voice,
+ * which is the one an ear follows — the distances inside one chord are not
+ * motion.
+ */
 export function motionOf(events: readonly Event[], role: Role): Motion {
-  const ns = events.filter((e) => e.role === role && e.pitch !== null);
+  const top = new Map<string, Event>();
+  for (const e of events) {
+    if (e.role !== role || e.pitch === null) continue;
+    const key = `${e.bar}:${e.step}`;
+    const held = top.get(key);
+    if (held === undefined || e.pitch > held.pitch!) top.set(key, e);
+  }
+  const ns = [...top.values()].sort((a, b) => a.bar - b.bar || a.step - b.step);
   let leap = 0;
   let step = 0;
   let same = 0;

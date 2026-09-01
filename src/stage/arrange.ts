@@ -5,12 +5,17 @@
  * selection: no note is written, moved or edited here.
  *
  * PARTS ARE NEVER LISTED PER SECTION. Every part the material has is heard
- * unless a rule takes it away, and the rules are few and named: an intro
- * holds the first few parts of the genre's entry order; an outro lets the
- * last-entered part go; a bridge and any section below the genre's energy
- * threshold thin the drums. A part cannot be silent by omission — the way a
- * whole voice went unheard on every seed of the old program was a section
- * table that forgot to name it, and there is no table here to forget.
+ * unless a rule takes it away, and the rules are few and named. A part cannot
+ * be silent by omission — the way a whole voice went unheard on every seed of
+ * the old program was a section table that forgot to name it, and there is
+ * no table here to forget.
+ *
+ * PARTS ARRIVE. A record opens with the first few parts of the genre's entry
+ * order and each section lets the next one in, so the second verse is not the
+ * first verse again: something has been added. A section big enough to want
+ * everyone — the first chorus, usually — brings in all of them at once, and
+ * from then on nothing leaves. Only the outro takes a part away, the last one
+ * that arrived, and a bridge or a quiet section thins the drums.
  */
 
 import type { Role } from "../genre/spec.ts";
@@ -39,6 +44,8 @@ export function makeArrangement(chart: Chart, form: Form, materials: Materials):
   const lastIn = A.enter[A.enter.length - 1]!;
 
   const heardBefore = new Set<Role>();
+  // how many of the entry order have arrived; the intro's parts are in from the top
+  let arrived = A.introParts;
   const placed: Placed[] = form.sections.map((section, i) => {
     let heard: Set<Role>;
     switch (section.fn) {
@@ -52,7 +59,10 @@ export function makeArrangement(chart: Chart, form: Form, materials: Materials):
         if (heardBefore.has(lastIn)) heard.delete(lastIn);
         break;
       default:
-        heard = new Set(everything);
+        // one more part than last time; everyone, once a section is big
+        // enough to want them or the peak is here
+        arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+        heard = new Set(A.enter.slice(0, arrived));
     }
     for (const r of heard) heardBefore.add(r);
 

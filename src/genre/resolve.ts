@@ -417,6 +417,8 @@ export function resolveGenre(
     if (!finite(ip) || !Number.isInteger(ip) || ip < 1 || ip > ROLES.length) {
       problems.push(`arrangement.introParts must be 1..${ROLES.length}, got ${String(ip)}`);
     }
+    const fa = arr["fullAbove"];
+    if (!finite(fa) || fa < 0 || fa > 1) problems.push(`arrangement.fullAbove must be 0..1, got ${String(fa)}`);
     const tb = arr["thinBelow"];
     if (!finite(tb) || tb < 0 || tb > 1) problems.push(`arrangement.thinBelow must be 0..1, got ${String(tb)}`);
   }

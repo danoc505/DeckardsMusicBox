@@ -40,6 +40,29 @@ test("an intro holds the first parts of the entry order", () => {
   assert.ok(intros > 20);
 });
 
+test("parts arrive one section at a time, all at once for a big section, and stay", () => {
+  const A = lofi.arrangement;
+  let built = 0;
+  for (const a of sweep(120)) {
+    let arrived = A.introParts;
+    let full = false;
+    for (const p of a.placed) {
+      const s = p.section;
+      if (s.fn === "intro" || s.fn === "outro") continue;
+      if (full || s.peak || s.energy >= A.fullAbove) {
+        full = true;
+        assert.equal(p.heard.size, ROLES.length, `${s.fn} at ${s.energy} does not hear everyone: ${describeArrangement(a)}`);
+      } else {
+        arrived = Math.min(ROLES.length, arrived + 1);
+        built++;
+        assert.deepEqual(p.heard, new Set(A.enter.slice(0, arrived)), describeArrangement(a));
+        if (arrived === ROLES.length) full = true;
+      }
+    }
+  }
+  assert.ok(built > 30, `only ${built} sections were still building`);
+});
+
 test("the outro lets the last-entered part go", () => {
   const last = lofi.arrangement.enter[lofi.arrangement.enter.length - 1]!;
   for (const a of sweep(120)) {

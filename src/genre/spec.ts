@@ -238,6 +238,12 @@ export interface ArrangementSpec {
   readonly enter?: readonly Role[];
   /** How many of them, from the front of `enter`, an intro holds. */
   readonly introParts?: number;
+  /**
+   * Each section after the intro lets one more part in, until a section at
+   * or above this energy wants all of them at once. From then on every part
+   * is heard until the outro.
+   */
+  readonly fullAbove?: number;
   /** Below this energy a section's drums lose their hat. */
   readonly thinBelow?: number;
 }
@@ -245,6 +251,7 @@ export interface ArrangementSpec {
 export interface ArrangementRules {
   readonly enter: readonly Role[];
   readonly introParts: number;
+  readonly fullAbove: number;
   readonly thinBelow: number;
 }
 
@@ -563,6 +570,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     /** the chord first, then the beat under it, the bass, and the tune last */
     enter: ["keys", "drums", "bass", "lead"],
     introParts: 2,
+    /** a chorus wants everyone; a verse before it is still building */
+    fullAbove: 0.8,
     thinBelow: 0.35,
   },
 

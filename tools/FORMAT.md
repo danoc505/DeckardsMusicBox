@@ -87,7 +87,8 @@ The first version of this measure keyed on the fractional position and reported
 70 of 70 drum bars distinct — it was counting seeded jitter, not music.
 
 **`#motion`** is `leap` (> 2 semitones), `step` (1–2), `same` (0) as fractions of
-that role's note-to-note transitions. A part reading `1.000 0.000 0.000` never
+that role's onset-to-onset transitions, read on the top voice where a part
+strikes several pitches at once. A part reading `1.000 0.000 0.000` never
 moves by step; a part with a high `same` is repeating one note.
 
 ---
