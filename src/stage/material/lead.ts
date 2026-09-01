@@ -93,6 +93,16 @@ export function drawLead(
       const next = nextBar !== null && nextBar < chords.length
         ? { bar: nextBar, step: nextAbs! % steps, chord: chords[nextBar]! }
         : null;
+      // THE LOOP SEAM. The material repeats, so its last note is followed by
+      // its first. The last onset of the last phrase may not take the first
+      // note's pitch, or the tune repeats itself every time it comes round —
+      // and the note before it may only be admitted if a resolution other
+      // than that pitch exists.
+      const isFinalPhrase = (ph + 1) * PHRASE_BARS >= chords.length;
+      const finalOnset = isFinalPhrase && next === null;
+      const nextIsFinal = isFinalPhrase && next !== null && i + 2 >= rhythm.length;
+      const seamPitch = out[0]?.pitch ?? null;
+      const barred = (p: number, atFinal: boolean): boolean => atFinal && seamPitch !== null && p === seamPitch;
       // THE SAME TESTS THE NEXT ONSET WILL APPLY: register, span with this
       // note counted in, and a free seat. A dissonance admitted on a promise
       // the next onset then refuses is a stranded wrong note, so the promise
@@ -103,6 +113,7 @@ export function drawLead(
           const r = intoBand(t, p - 2, p + 2);
           return (
             r !== p &&
+            !barred(r, nextIsFinal) &&
             Math.abs(r - p) <= 2 &&
             r >= lo && r <= hi &&
             Math.max(phraseHi, p, r) - Math.min(phraseLo, p, r) <= L.span &&
@@ -112,37 +123,35 @@ export function drawLead(
 
       let cands: number[];
       if (prev === null) {
-        // the record's first note: a chord tone near the middle of the register
-        cands = pool.filter((p) => isTone(chord, p) && Math.abs(p - centre) <= 7);
-        if (cands.length === 0) cands = pool.filter((p) => isTone(chord, p));
+        // the record's first note: a chord tone near the middle of the
+        // register — near, because a tune that opens at the edge of its range
+        // has nowhere to go. Within a fourth of the centre; a fifth if the
+        // chord offers nothing closer.
+        const tones = pool.filter((p) => isTone(chord, p));
+        cands = tones.filter((p) => Math.abs(p - centre) <= 5);
+        if (cands.length === 0) cands = tones.filter((p) => Math.abs(p - centre) <= 7);
+        if (cands.length === 0) cands = tones;
+        // and, where the closing chord differs from the opening one, a tone
+        // the closing chord does NOT hold — then the loop's last note, which
+        // is a tone of the closing chord, cannot be the first note. The seam
+        // is decided here, at the one choice that can decide it.
+        const closing = chords[chords.length - 1]!;
+        const away = cands.filter((p) => !isTone(closing, p));
+        if (away.length > 0) cands = away;
       } else {
         const from = prev.pitch;
         const wasOff = prevChord !== null && !isTone(prevChord, from);
         // a dissonance resolves by step; anything else may reach a fifth
         cands = pool.filter((p) => p !== from && Math.abs(p - from) <= (wasOff ? 2 : 7));
-
-        if (wasOff) {
-          // and it resolves INTO the chord — that is the law, and the note
-          // before was only admitted because this resolution existed
-          cands = cands.filter((p) => isTone(chord, p));
-        } else {
-          // a leap or a step, drawn. Preferred, because the register's edge
-          // can make one of them impossible.
-          const leap = at.at("note", i).chance("leap", L.leap);
-          const sized = cands.filter((p) => (leap ? Math.abs(p - from) >= 3 : Math.abs(p - from) <= 2));
-          if (sized.length > 0) cands = sized;
-          // on a beat the chord is home: a chord tone when one is in reach at
-          // this size, otherwise a tone that will resolve, which is what an
-          // appoggiatura is
-          if (strong) {
-            const tones = cands.filter((p) => isTone(chord, p));
-            if (tones.length > 0) cands = tones;
-          }
-        }
+        // and it resolves INTO the chord — that is the law, and the note
+        // before was only admitted because this resolution existed
+        if (wasOff) cands = cands.filter((p) => isTone(chord, p));
       }
 
-      // THE LAWS. Each is a filter that may leave nothing, and nothing means
-      // this onset rests: a rest is always legal and a wrong note never is.
+      // THE LAWS, FIRST. Each is a filter that may leave nothing, and nothing
+      // means this onset rests: a rest is always legal and a wrong note never
+      // is. They come before every preference, because a preference that is
+      // allowed to empty the list is a preference deciding legality.
       //   a note off the chord must be able to resolve at the next onset;
       //   with no next onset in the phrase, only the chord will do
       cands = cands.filter((p) => isTone(chord, p) || canResolve(p));
@@ -150,11 +159,28 @@ export function drawLead(
       cands = cands.filter((p) => Math.max(phraseHi, p) - Math.min(phraseLo, p) <= L.span);
       //   a seat another part holds is never offered
       cands = cands.filter((p) => !reserved.has(seat(bar, step, p)));
+      //   and the last note of the loop is not its first
+      cands = cands.filter((p) => !barred(p, finalOnset));
       if (cands.length === 0) continue;
 
-      // and, among what is legal, the phrase leans the way it is going
+      // THE PREFERENCES, AMONG WHAT IS LEGAL. Each narrows only if something
+      // survives it; none can cause a rest.
       if (prev !== null) {
         const from = prev.pitch;
+        //   a leap or a step, drawn — FIRST, because chord tones sit thirds
+        //   apart and a chord-tone preference applied before the size would
+        //   make nearly every beat a leap. A melody moves mostly by step.
+        const leap = at.at("note", i).chance("leap", L.leap);
+        const sized = cands.filter((p) => (leap ? Math.abs(p - from) >= 3 : Math.abs(p - from) <= 2));
+        if (sized.length > 0) cands = sized;
+        //   on a beat the chord is home, among moves of that size; when no
+        //   chord tone is a step away the beat takes an appoggiatura, which
+        //   is legal only because it resolves
+        if (strong) {
+          const tones = cands.filter((p) => isTone(chord, p));
+          if (tones.length > 0) cands = tones;
+        }
+        //   and the phrase leans the way it is going
         const leaning = cands.filter((p) => Math.sign(p - from) === dir);
         if (leaning.length > 0 && at.at("note", i).chance("lean", 0.7)) cands = leaning;
       }
@@ -193,6 +219,22 @@ export function drawLead(
     }
   }
 
+  // THE SEAM, CLOSED. The barring above makes this rare; it cannot make it
+  // impossible, because the final onset may rest and then the note before it
+  // is the last. Both ends of the loop are only known here, so the rule is
+  // applied here — and it only ever REMOVES a note, never moves one, so it
+  // can create neither a wrong note nor a new repeat: two notes left adjacent
+  // by a removal were adjacent already. A note whose resolution is removed
+  // goes with it, which is what the loop condition is.
+  const first = out[0]?.pitch;
+  if (first !== undefined) {
+    while (out.length > 1) {
+      const last = out[out.length - 1]!;
+      const onChord = isTone(chords[last.bar]!, last.pitch);
+      if (onChord && last.pitch !== first) break;
+      out.pop();
+    }
+  }
   return out;
 }
 

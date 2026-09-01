@@ -70,6 +70,10 @@ export function makeMaterials(chart: Chart, form: Form): Materials {
     bySection.push(keyOf(s.idea, variant));
   }
 
+  // how many times the longest section will cycle the material — the drums
+  // are realised per cycle, and only for as many cycles as will be heard
+  const cycles = Math.max(1, ...form.sections.map((s) => Math.ceil(s.bars / bars)));
+
   const chordsOf = new Map<Idea, readonly Chord[]>();
   const all = new Map<string, Material>();
 
@@ -93,7 +97,9 @@ export function makeMaterials(chart: Chart, form: Form): Materials {
     for (const n of [...bass, ...keys]) taken.add(`${at(n)}:${n.pitch}`);
     const lead = Object.freeze(drawLead(chart, chords, rng.at("lead"), steps, taken));
     const parts: Record<Pitched, readonly Note[]> = { bass, keys, lead };
-    const drums = Object.freeze(drawDrums(chart, rng.at("drums"), bars, steps));
+    const drums = Object.freeze(
+      Array.from({ length: cycles }, (_, c) => Object.freeze(drawDrums(chart, rng.at("drums"), bars, steps, c))),
+    );
 
     const material: Material = Object.freeze({ key, idea, variant, bars, chords, parts, drums });
     check(chart, material, steps);
@@ -137,9 +143,10 @@ function check(chart: Chart, m: Material, steps: number): void {
     }
   }
 
+  for (const [cycle, hits] of m.drums.entries()) {
   const struckDrums = new Set<string>();
-  for (const h of m.drums) {
-    const where = `${m.key} drums bar ${h.bar} step ${h.step}`;
+  for (const h of hits) {
+    const where = `${m.key} drums cycle ${cycle} bar ${h.bar} step ${h.step}`;
     assertInside({ bars: m.bars, steps }, { ...h, dur: 1, pitch: 0 }, where);
     if (!(DRUM_LANES as readonly string[]).includes(h.lane)) throw new MaterialError(`${where}: no lane "${h.lane}"`);
     if (h.vel <= 0 || h.vel > 1) throw new MaterialError(`${where}: velocity ${h.vel}`);
@@ -147,10 +154,11 @@ function check(chart: Chart, m: Material, steps: number): void {
     if (struckDrums.has(seat)) throw new MaterialError(`${where}: ${h.lane} struck twice at one instant`);
     struckDrums.add(seat);
   }
+  }
 }
 
 /** "A: Cm7 Ab Fm G | bass 8 · keys 16" — for tests and dumps. */
 export function describeMaterial(m: Material): string {
   const parts = PITCHED.map((p) => `${p} ${m.parts[p].length}`).join(" · ");
-  return `${m.key}: ${m.chords.map((c) => c.name).join(" ")} | ${parts} · drums ${m.drums.length}`;
+  return `${m.key}: ${m.chords.map((c) => c.name).join(" ")} | ${parts} · drums ${m.drums[0]?.length ?? 0}×${m.drums.length}`;
 }

@@ -236,6 +236,22 @@ export interface ArrangementRules {
   readonly thinBelow: number;
 }
 
+export interface FeelSpec {
+  /**
+   * 0..1: how late the off-eighths land. At 1 an off-eighth falls two thirds
+   * of the way through its beat, which is triplet swing; at 0 the grid is
+   * straight.
+   */
+  readonly swing?: number;
+  /** How far a hand misses the grid either way, in milliseconds. */
+  readonly jitterMs?: number;
+}
+
+export interface FeelRules {
+  readonly swing: number;
+  readonly jitterMs: number;
+}
+
 /** What an author writes. */
 export interface GenreSpec {
   /** How this genre is named on screen. */
@@ -265,6 +281,7 @@ export interface GenreSpec {
   readonly lead?: LeadSpec;
   readonly drums?: DrumsSpec;
   readonly arrangement?: ArrangementSpec;
+  readonly feel?: FeelSpec;
 
   /** Field path -> where its value came from. */
   readonly sources?: Sources;
@@ -285,6 +302,7 @@ export interface Genre {
   readonly lead: LeadRules;
   readonly drums: DrumsRules;
   readonly arrangement: ArrangementRules;
+  readonly feel: FeelRules;
   readonly sources: Sources;
 }
 
@@ -503,11 +521,16 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [1, 1],
       [0, 1],
     ],
+    /**
+     * No pure loop in the defaults: four A's is a thing a genre may want and
+     * has to say. Offered here it was drawn one cycle in ten, and two in a
+     * row turned a sixteen-bar chorus into four bars four times.
+     */
     phrase: [
       [["A", "B", "A", "C"], 4],
       [["A", "A", "B", "D"], 3],
       [["A", "B", "A", "D"], 2],
-      [["A", "A", "A", "A"], 1],
+      [["A", "B", "C", "D"], 1],
     ],
   },
 
@@ -516,5 +539,10 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     enter: ["keys", "drums", "bass", "lead"],
     introParts: 2,
     thinBelow: 0.35,
+  },
+
+  feel: {
+    swing: 0.15,
+    jitterMs: 6,
   },
 };

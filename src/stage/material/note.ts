@@ -49,7 +49,11 @@ export interface Material {
   readonly bars: number;
   readonly chords: readonly Chord[];
   readonly parts: Readonly<Record<Pitched, readonly Note[]>>;
-  readonly drums: readonly Hit[];
+  /**
+   * One entry per cycle the form asks for. A 16-bar section over a 4-bar
+   * material plays cycles 0..3; each has the same figure and its own phrase.
+   */
+  readonly drums: readonly (readonly Hit[])[];
 }
 
 /** A material is exactly `bars` long; a note that is not in it is a bug. */

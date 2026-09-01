@@ -137,16 +137,18 @@ test("the drums keep a figure and vary it by the bar's letter", () => {
   let distinct = 0;
   each(60, (_, m) => {
     const byBar: string[] = [];
-    for (let b = 0; b < m.bars; b++) {
-      byBar.push(m.drums.filter((h) => h.bar === b).map((h) => `${h.step}${h.lane}`).sort().join());
+    for (const hits of m.drums) {
+      for (let b = 0; b < m.bars; b++) {
+        byBar.push(hits.filter((h) => h.bar === b).map((h) => `${h.step}${h.lane}`).sort().join());
+      }
+      // the downbeat kick is the bar and is never taken away
+      for (let b = 0; b < m.bars; b++) {
+        assert.ok(hits.some((h) => h.bar === b && h.step === 0 && h.lane === "kick"), `${m.key} bar ${b} has no downbeat`);
+      }
+      for (const h of hits) assert.ok(h.step >= 0 && h.step < steps);
     }
     bars += byBar.length;
     distinct += new Set(byBar).size;
-    // the downbeat kick is the bar and is never taken away
-    for (let b = 0; b < m.bars; b++) {
-      assert.ok(m.drums.some((h) => h.bar === b && h.step === 0 && h.lane === "kick"), `${m.key} bar ${b} has no downbeat`);
-    }
-    for (const h of m.drums) assert.ok(h.step >= 0 && h.step < steps);
   });
   // neither a loop nor noise: bars repeat, and they also differ
   assert.ok(distinct / bars > 0.4, `only ${((100 * distinct) / bars).toFixed(0)}% of drum bars are distinct`);
@@ -158,8 +160,8 @@ test("a fill rises into the next bar", () => {
   each(120, (chart, m) => {
     const beat = chart.metre.perBeat;
     const steps = stepsPerBar(chart.metre);
-    for (let b = 0; b < m.bars; b++) {
-      const lastBeat = m.drums.filter((h) => h.bar === b && h.lane === "snare" && h.step >= steps - beat).sort((x, y) => x.step - y.step);
+    for (const hits of m.drums) for (let b = 0; b < m.bars; b++) {
+      const lastBeat = hits.filter((h) => h.bar === b && h.lane === "snare" && h.step >= steps - beat).sort((x, y) => x.step - y.step);
       if (lastBeat.length < beat) continue;
       fills++;
       for (let i = 1; i < lastBeat.length; i++) assert.ok(lastBeat[i]!.vel >= lastBeat[i - 1]!.vel, `${m.key} bar ${b} fill falls`);

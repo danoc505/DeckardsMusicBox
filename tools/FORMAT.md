@@ -48,9 +48,8 @@ can add lines without breaking one.
 #tempo_varies     no                              yes when the form drew a tempo map
 #events           2734
 #asked_seconds    600                             only when a length was requested
-#chords_A         Fm  Db  Fm  Ab                  the verse changes
-#chords_B         ...                             only when the chorus has its own
-#chords_C         ...                             the bridge changes
+#chords_<key>     Fm  Db  Fm  Ab                  one line per material built:
+                                                  A, B, C, and A/1 for a variant
 ```
 
 ### Form
@@ -60,18 +59,18 @@ can add lines without breaking one.
 #section        0  intro  0  4  A@0  0.20  1  fill,mv:establish,arc:1
 ```
 
-`flags` is a comma list, `.` when empty:
+`flags` is a comma list, `.` when empty. What MKIII writes:
 
 | flag | meaning |
 |---|---|
-| `peak` | the form marked this the record's apex |
-| `fill` | the drums roll into the next section |
-| `empty:bar` \| `:beat` \| `:all` | the last bar empties, at that size |
-| `strip` | the section plays a thinned copy |
-| `mv:<name>` | which movement of the plan this belongs to |
-| `arc:<n>` | which rung of the drum sectional arc |
-| `duel` | two parts trade this section |
-| `chase:<bars>` | turn length in an ongoing chase |
+| `peak` | the form marked this the record's biggest moment |
+| `vary` | the third consecutive statement of an idea: this one differs |
+| `thin` | the drums lose their hat here — a breath, not a stop |
+| `without:<part>+<part>` | parts the arrangement does not hear in this section |
+
+(The MKII dumper writes that program's own flags — `fill`, `empty:*`, `strip`,
+`mv:*`, `arc:*`, `duel`, `chase:*` — and readers should ignore any they do
+not know.)
 
 ### Per-role rollups
 

@@ -415,6 +415,16 @@ export function resolveGenre(
     if (!finite(tb) || tb < 0 || tb > 1) problems.push(`arrangement.thinBelow must be 0..1, got ${String(tb)}`);
   }
 
+  const feel = isPlainObject(merged["feel"]) ? merged["feel"] : null;
+  if (feel === null) {
+    problems.push("feel is missing");
+  } else {
+    const sw = feel["swing"];
+    if (!finite(sw) || sw < 0 || sw > 1) problems.push(`feel.swing must be 0..1, got ${String(sw)}`);
+    const jm = feel["jitterMs"];
+    if (!finite(jm) || jm < 0 || jm > 50) problems.push(`feel.jitterMs must be 0..50, got ${String(jm)}`);
+  }
+
   if (problems.length > 0) throw new GenreError(name, problems);
 
   const resolved = {
@@ -431,6 +441,7 @@ export function resolveGenre(
     lead: deepFreeze(lead) as unknown as Genre["lead"],
     drums: deepFreeze(drums) as unknown as Genre["drums"],
     arrangement: deepFreeze(arr) as unknown as Genre["arrangement"],
+    feel: deepFreeze(feel) as unknown as Genre["feel"],
     sources: Object.freeze({ ...sources }),
   } as Genre;
 

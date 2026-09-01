@@ -29,19 +29,27 @@ export interface Hit {
 
 const HEAVY: ReadonlySet<DrumLane> = new Set(["kick", "snare"]);
 
-export function drawDrums(chart: Chart, rng: Rng, bars: number, steps: number): Hit[] {
+/**
+ * One cycle of the material. The FIGURE — the pockets and the hat — is drawn
+ * once and shared by every cycle; the phrase letters and the changes they
+ * make are drawn per cycle, so a section that plays the material four times
+ * over hears the same beat treated four different ways rather than the same
+ * four bars four times.
+ */
+export function drawDrums(chart: Chart, rng: Rng, bars: number, steps: number, cycle: number): Hit[] {
   const D = chart.genre.drums;
   const beat = chart.metre.perBeat;
   const kick = rng.weighted("kick", D.kick);
   const snare = rng.weighted("snare", D.snare);
   const hatEvery = rng.weighted("hat", D.hat);
-  const phrase = rng.weighted("phrase", D.phrase);
+  const own = rng.at("cycle", cycle);
+  const phrase = own.weighted("phrase", D.phrase);
 
   const out: Hit[] = [];
 
   for (let bar = 0; bar < bars; bar++) {
     const letter: BarLetter = phrase[bar % phrase.length]!;
-    const at = rng.at("bar", bar);
+    const at = own.at("bar", bar);
 
     // the figure
     const hits: Hit[] = [];
@@ -83,46 +91,68 @@ export function drawDrums(chart: Chart, rng: Rng, bars: number, steps: number): 
   return out;
 }
 
+/**
+ * One change to a bar, and it has to BE one: a move that would leave the bar
+ * as it was — adding a hat where one already is, swapping to a lane already
+ * struck there — is not taken, and the next move is tried instead. Which move
+ * goes first is drawn; the order after that is fixed, so a change is made
+ * whenever any is possible.
+ */
 function change(hits: Hit[], rng: Rng, bar: number, steps: number, beat: number): void {
   const has = (step: number, lane: DrumLane): boolean => hits.some((h) => h.step === step && h.lane === lane);
-  const move = rng.weighted("move", [
-    ["add", 4],
-    ["subtract", 3],
-    ["substitute", 2],
-  ] as const);
+  const half = beat / 2;
+  const onEighth = (st: number): boolean => Number.isInteger(half) && st % half === 0 && st % beat !== 0;
 
-  if (move === "add") {
-    // an off-eighth may take a kick; anything weaker takes a hat
-    const offEighths: number[] = [];
-    const weaker: number[] = [];
-    for (let st = 0; st < steps; st++) {
+  const add = (): boolean => {
+    // an off-eighth may take a kick; anything weaker takes only a hat
+    const spots: [number, DrumLane][] = [];
+    for (let st = 1; st < steps; st++) {
       if (st % beat === 0) continue;
-      if (st % (beat / 2) === 0) offEighths.push(st);
-      else weaker.push(st);
+      if (onEighth(st)) {
+        if (!has(st, "kick")) spots.push([st, "kick"]);
+        if (!has(st, "hat")) spots.push([st, "hat"]);
+      } else if (!has(st, "hat")) {
+        spots.push([st, "hat"]);
+      }
     }
-    const onEighth = rng.chance("eighth", 0.4) && offEighths.length > 0;
-    const spots = onEighth ? offEighths : weaker.length > 0 ? weaker : offEighths;
-    if (spots.length === 0) return;
-    const st = rng.pick("spot", spots);
-    const lane: DrumLane = onEighth ? "kick" : "hat";
-    if (!has(st, lane)) hits.push({ bar, step: st, lane, vel: lane === "kick" ? 0.7 : 0.5 });
-    return;
-  }
+    if (spots.length === 0) return false;
+    const [st, lane] = rng.pick("add", spots);
+    hits.push({ bar, step: st, lane, vel: lane === "kick" ? 0.7 : 0.5 });
+    return true;
+  };
 
-  if (move === "subtract") {
+  const subtract = (): boolean => {
     // never the downbeat kick: that is where the bar is
-    const droppable = hits.map((h, i) => [h, i] as const).filter(([h]) => !(h.lane === "kick" && h.step === 0));
-    if (droppable.length === 0) return;
-    const [, i] = rng.pick("drop", droppable);
-    hits.splice(i, 1);
-    return;
-  }
+    const droppable = hits.map((_, i) => i).filter((i) => !(hits[i]!.lane === "kick" && hits[i]!.step === 0));
+    if (droppable.length === 0) return false;
+    hits.splice(rng.pick("drop", droppable), 1);
+    return true;
+  };
 
-  // substitute: one hit becomes another lane at the same step, light for heavy
-  const swappable = hits.map((h, i) => [h, i] as const).filter(([h]) => h.step !== 0);
-  if (swappable.length === 0) return;
-  const [h, i] = rng.pick("swap", swappable);
-  const to: DrumLane = HEAVY.has(h.lane) ? (h.step % beat === 0 ? "openhat" : "hat") : "snare";
-  if (has(h.step, to)) return;
-  hits[i] = { ...h, lane: to, vel: to === "snare" ? 0.8 : 0.6 };
+  const substitute = (): boolean => {
+    // a heavy drum becomes a light one; a light one becomes heavy only on an
+    // eighth, where a heavy drum keeps the pulse, and open otherwise
+    const options: [number, DrumLane][] = [];
+    hits.forEach((h, i) => {
+      if (h.step === 0) return;
+      const to: DrumLane = HEAVY.has(h.lane)
+        ? h.step % beat === 0 ? "openhat" : "hat"
+        : onEighth(h.step) ? "snare" : "openhat";
+      if (!has(h.step, to)) options.push([i, to]);
+    });
+    if (options.length === 0) return false;
+    const [i, to] = rng.pick("swap", options);
+    hits[i] = { ...hits[i]!, lane: to, vel: to === "snare" ? 0.8 : 0.6 };
+    return true;
+  };
+
+  const moves = [add, subtract, substitute];
+  const first = rng.weighted("move", [
+    [0, 4],
+    [1, 3],
+    [2, 2],
+  ] as const);
+  for (let k = 0; k < moves.length; k++) {
+    if (moves[(first + k) % moves.length]!()) return;
+  }
 }
