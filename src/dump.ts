@@ -90,6 +90,10 @@ export function dump(song: Song): string {
   L.push(`#steps_per_bar\t${form.clock.steps}`);
   L.push(`#seconds\t${r2(performance.seconds)}`);
   L.push(`#tempo_varies\t${form.clock.varies ? "yes" : "no"}`);
+  for (const r of ROLES) {
+    if (r === "drums") continue;
+    L.push(`#voice\t${r}\t${chart.genre.sound.voices[r]}`);
+  }
   L.push(`#events\t${ev.length}`);
   if (chart.askedSec !== null) L.push(`#asked_seconds\t${chart.askedSec}`);
 
@@ -133,7 +137,9 @@ export function dump(song: Song): string {
         r2(e.playedStep),
         e.role,
         e.lane,
-        e.lane,
+        // the instrument that actually plays it: the genre's voice for a
+        // pitched part, and the drum itself for a drum
+        e.role === "drums" ? e.lane : chart.genre.sound.voices[e.role],
         e.pitch ?? ".",
         e.pitch === null ? "." : noteName(e.pitch),
         r4(e.durSec),

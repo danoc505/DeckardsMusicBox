@@ -319,6 +319,16 @@ test("the dump follows the format and counts itself correctly", () => {
     assert.equal(Number(roleLine.split("\t")[2]), s.performance.events.filter((e) => e.role === r).length);
   }
   assert.equal(lines.filter((l) => l.startsWith("#section\t")).length, s.form.sections.length);
+  // the voice column names the instrument, not the lane again
+  for (const r of ROLES) {
+    if (r === "drums") continue;
+    const want = s.chart.genre.sound.voices[r];
+    assert.ok(lines.some((l) => l === `#voice\t${r}\t${want}`), `no #voice line for ${r}`);
+    const row = lines.find((l) => l.split("\t")[3] === r);
+    assert.equal(row?.split("\t")[5], want, `${r} is played by ${row?.split("\t")[5]}`);
+  }
+  const drum = lines.find((l) => l.split("\t")[3] === "drums");
+  assert.equal(drum?.split("\t")[5], drum?.split("\t")[4], "a drum is played by itself");
 });
 
 test("the dump's own measures agree with the events", () => {

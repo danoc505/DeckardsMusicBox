@@ -44,7 +44,7 @@
  */
 
 import type { Rng } from "../../core/rng.ts";
-import { degreeMidi, inScale, intoBand, pc, nearestDegree } from "../../core/theory.ts";
+import { inScale, intoBand, pc } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
 import type { Chord, Note, Sounding } from "./note.ts";
 
@@ -290,7 +290,3 @@ export function drawLead(
   }
   return out;
 }
-
-/** The scale degree of a lead note, for reading a line as a contour. */
-export const degreeOf = (chart: Chart, p: number): number =>
-  nearestDegree(chart.tonic, chart.scale, p) + 7 * Math.floor((p - degreeMidi(chart.tonic, chart.scale, 0)) / 12);

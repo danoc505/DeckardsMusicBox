@@ -6,7 +6,7 @@
  * stages that turn a material into a performance.
  */
 
-import { PITCHED_ROLES, type Idea, type PitchedRole } from "../../genre/spec.ts";
+import type { Idea, PitchedRole } from "../../genre/spec.ts";
 import type { Figure, Hit } from "./drums.ts";
 
 export type { Figure, Hit } from "./drums.ts";
@@ -37,7 +37,6 @@ export interface Chord {
 }
 
 /** Every pitched part a material carries: the roles, minus the drums. One owner. */
-export const PITCHED = PITCHED_ROLES;
 export type Pitched = PitchedRole;
 
 /** The parts that loop unchanged under everything: the groove. */

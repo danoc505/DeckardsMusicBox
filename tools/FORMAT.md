@@ -46,11 +46,16 @@ can add lines without breaking one.
 #steps_per_bar    16
 #seconds          761.77
 #tempo_varies     no                              yes when the form drew a tempo map
+#voice            keys    rhodes                  which instrument plays each pitched part
 #events           2734
 #asked_seconds    600                             only when a length was requested
 #chords_<key>     Fm  Db  Fm  Ab                  one line per material built:
                                                   A, B, C, and A/1 for a variant
 ```
+
+MKII's dumper writes two more, `#rig` and `#refused`, which have no meaning
+in MKIII: it draws no rig and declines no doubling. Readers ignore what they
+do not know, which is why they are safe to leave in a file.
 
 ### Form
 
@@ -109,14 +114,16 @@ tSec      bar  step   role  lane  voice  pitch  note  durSec   gain   flags
 | `step` | fractional position in the bar, 2 dp. `8.00` is exactly on the step; `8.13` is late by the lean, the swing and the jitter |
 | `role` | `drums bass keys keys2 lead counter ostinato drone tape scene weather` |
 | `lane` | the drum lane (`kick snare hat ride tom2 …`), or the role for a pitched part |
-| `voice` | the instrument that actually plays it, after picks / ladder / rig |
+| `voice` | the instrument that actually plays it: the genre's voice for a pitched part (`rhodes`, `sub`, `pluck`, `organ`, `pad`, `flute`), the drum itself for a drum |
 | `pitch` | MIDI note number, or `.` for an unpitched hit |
 | `note` | the same pitch as a name, for reading. `.` when unpitched |
 | `durSec` | sounding length in seconds |
 | `gain` | 0–1.25, after the one gain formula |
 | `flags` | comma list, `.` when empty |
 
-Event flags:
+Event flags. **MKIII writes none of these yet** — its events carry `.` — and
+they are listed because the MKII dumper writes them and a reader of both
+should know what they mean:
 
 | flag | meaning |
 |---|---|
