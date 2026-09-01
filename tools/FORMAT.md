@@ -3,11 +3,9 @@
 One file per song. Tab-separated. Header lines start with `#`; everything after
 the column header row is a note event.
 
-**This is a contract between two programs.** MKII is dumped by driving it in a
-browser (`tools/dump.mjs`). MKIII is expected to emit this format itself, out of
-its performance stage, as a first-class output — not as a debug helper bolted on
-later. A diff between the two only means something if neither is being
-translated on the way out.
+MKIII emits this format itself, out of its performance stage, as a first-class
+output — not a debug helper bolted on later. `tools/dump.mjs` produces the same
+thing from an Orchestrator HTML by driving it in a browser.
 
 The format is **text, deterministic, and sorted**, so the same seed dumped twice
 is byte-identical and `diff` shows music rather than ordering.
@@ -16,17 +14,16 @@ is byte-identical and `diff` shows music rather than ordering.
 
 ## Why notes and not audio
 
-Every measurement this project has ever made was made on a note list:
+A record is judged by ear. Nothing else about it is:
 
 - 82% leaps / 13% steps / 5% repeats — how a bass moves
-- 118 of 134 bars printed distinct — whether a record is a loop
-- 1492 of 2812 notes were this one part — whether a texture is balanced
-- 7–10 section seams a song against one peak — how often a gesture recurs
+- 118 of 134 bars distinct — whether a record is a loop
+- 1492 of 2812 notes were one part — whether a texture is balanced
+- a declared part with zero events — whether anything plays it at all
 
-None of those can be read off a `.wav`. A render can only be judged by ear, and
-the ear belongs to the person who owns the program, not to the tool comparing
-two versions of it. Write `.mid` alongside (`--mid`) when a human wants to
-listen; read the `.tsv` when anything needs to be *counted*.
+None of that can be read off a `.wav`, and all of it is arithmetic. Write `.mid`
+alongside (`--mid`) when somebody wants to listen; read the `.tsv` when
+something needs to be *counted*.
 
 ---
 

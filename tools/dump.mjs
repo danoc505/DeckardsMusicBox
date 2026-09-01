@@ -6,28 +6,25 @@
    a sweep of genres and seeds, and writes each one out as a TSV of note events
    plus a header describing the chart and the form.
 
-   WHY TEXT AND NOT AUDIO. Every measurement this project has ever made was
-   made on a note list: leaps against steps, distinct bars, notes per section,
-   how long a figure survives unchanged. A .wav answers none of those and can
-   only be judged by ear. This is the artifact a machine can read, diff, and
-   count — and it is the only form in which "MKIII is better than MKII" is a
-   statement with evidence behind it rather than an opinion.
-
-   ONE FORMAT, TWO PROGRAMS. MKII is dumped by driving it through the browser.
-   MKIII is expected to emit this format itself, out of its performance stage,
-   as part of its contract. That is the whole point: a diff between the two is
-   only meaningful if neither one is being translated. See tools/FORMAT.md.
+   WHY TEXT AND NOT AUDIO. A record can only be judged by ear, and a .wav is
+   opaque to anything that is not one. A note list is not: leaps against steps,
+   distinct bars against total bars, which declared parts never sound, how long
+   a figure survives unchanged — all of it is counting, and all of it is
+   invisible in a rendered file. Write the .mid alongside (--mid) when somebody
+   wants to listen; read the .tsv when something needs to be measured.
 
    NO AUDIO IS TOUCHED. `composeSong` is a pure function of its inputs and the
    AudioContext is created lazily elsewhere, so nothing here needs a sound card,
-   a codec, or a render. It is stages 1-5 and nothing below them.
+   a codec, or a render.
+
+   The format is at tools/FORMAT.md.
 
    usage:
      node tools/dump.mjs                            # all genres, seeds 1-8
      node tools/dump.mjs --seeds 1-64
      node tools/dump.mjs --genres dungeonsynth,ds2 --rig draw
      node tools/dump.mjs --mid                      # also write .mid per song
-     node tools/dump.mjs --file "Some Other.html" --out dumps/mk3
+     node tools/dump.mjs --file "Some Other.html" --out dumps/other
    ═══════════════════════════════════════════════════════════════════════════ */
 
 import { createRequire } from "node:module";
