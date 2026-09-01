@@ -207,15 +207,40 @@ export function commonTones(a: readonly number[], b: readonly number[]): number 
 }
 
 /**
- * Name a chord from its tones: root, then major/minor/sus by the third,
- * then a 7 when there are four or more notes.
- * For display and for reading a dump — nothing decides music from this.
+ * Name a chord from its tones. For display and for reading a dump — nothing
+ * decides music from this — which is exactly why it has to be right: a
+ * readout that calls a diminished chord minor, or a major seventh dominant,
+ * is a picture disagreeing with the sound.
+ *
+ * Reads the third, the fifth and the seventh as intervals above the root, so
+ * the name follows what the notes are rather than how many there happen to be.
  */
 export function chordName(tones: readonly number[]): string {
   if (tones.length === 0) return "—";
   const root = pc(tones[0]!);
-  if (tones.length === 1) return NOTE_NAMES[root]!;
-  const third = pc(tones[1]! - tones[0]!);
-  const quality = third === 3 ? "m" : third === 4 ? "" : third === 7 ? "5" : "sus";
-  return NOTE_NAMES[root]! + quality + (tones.length > 3 ? "7" : "");
+  const name = NOTE_NAMES[root]!;
+  if (tones.length === 1) return name;
+
+  const iv = tones.slice(1).map((t) => pc(t - tones[0]!));
+  const third = iv[0]!;
+  const fifth = iv[1];
+  const seventh = iv[2];
+
+  if (third === 7 && fifth === undefined) return name + "5";
+
+  let q: string;
+  if (third === 3 && fifth === 6) q = "dim";
+  else if (third === 4 && fifth === 8) q = "aug";
+  else if (third === 3) q = "m";
+  else if (third === 4) q = "";
+  else if (third === 2) q = "sus2";
+  else if (third === 5) q = "sus4";
+  else q = "?";
+
+  if (seventh === undefined) return name + q;
+  if (q === "dim") return name + (seventh === 9 ? "dim7" : seventh === 10 ? "m7b5" : "dim");
+  if (seventh === 11) return name + (q === "" ? "maj7" : q + "maj7");
+  if (seventh === 10) return name + q + "7";
+  if (seventh === 9) return name + q + "6";
+  return name + q;
 }

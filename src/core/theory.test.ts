@@ -134,12 +134,24 @@ test("commonTones counts shared pitch classes once", () => {
   assert.equal(commonTones(c, [60, 72, 84]), 1); // one class, three octaves
 });
 
-test("chordName reads the third", () => {
+test("chordName reads the third, the fifth and the seventh", () => {
   assert.equal(chordName(chordTones(C, major, 0)), "C");
   assert.equal(chordName(chordTones(C, minor, 0)), "Cm");
   assert.equal(chordName(chordTones(C, minor, 0, 4)), "Cm7");
   assert.equal(chordName(chordTones(C, minor, 0, 2, "open")), "C5");
   assert.equal(chordName([]), "—");
+  // the chords a readout used to get wrong: a scale's own diminished triad,
+  // and a seventh that is major rather than dominant
+  assert.equal(chordName(chordTones(C, major, 6)), "Bdim");
+  assert.equal(chordName(chordTones(C, major, 6, 4)), "Bm7b5");
+  assert.equal(chordName(chordTones(C, major, 0, 4)), "Cmaj7");
+  assert.equal(chordName(chordTones(C, major, 4, 4)), "G7");
+  assert.equal(chordName(chordTones(C, SCALES.mixolydian, 2)), "Edim");
+  assert.equal(chordName(chordTones(C, SCALES.mixolydian, 3, 4)), "Fmaj7");
+  assert.equal(chordName(chordTones(C, SCALES.mixolydian, 0, 4)), "C7");
+  assert.equal(chordName(chordTones(C, major, 0, 3, "aug")), "Caug");
+  assert.equal(chordName(chordTones(C, major, 0, 4, "dim7")), "Cdim7");
+  assert.equal(chordName(chordTones(C, major, 0, 3, "sus4")), "Csus4");
 });
 
 test("chords built on dorian keep the mode's own colour", () => {
