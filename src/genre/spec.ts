@@ -282,12 +282,24 @@ export interface FeelSpec {
   readonly swingGrid?: SwingGrid;
   /** How far a hand misses the grid either way, in milliseconds. */
   readonly jitterMs?: number;
+  /**
+   * 0..1: how much the metre's own hierarchy shapes a note's weight. At 0
+   * every position weighs the same and the record is a machine; at 1 the
+   * weakest sixteenth is a fifth of the downbeat. An instrument with no
+   * touch — an organ, whose pipes do not care how a key is pressed — says
+   * a low number and means it.
+   */
+  readonly accent?: number;
+  /** 0..1: how much a hand misses the weight it meant, either way. */
+  readonly velocityJitter?: number;
 }
 
 export interface FeelRules {
   readonly swing: number;
   readonly swingGrid: SwingGrid;
   readonly jitterMs: number;
+  readonly accent: number;
+  readonly velocityJitter: number;
 }
 
 /** The instruments a pitched part may be played on. */
@@ -649,6 +661,15 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     swing: 50,
     swingGrid: 16,
     jitterMs: 10,
+    /**
+     * Programming guides put an ordinary passage between 65 and 95 of 127
+     * and save 100 and over for accents — a spread of about a third across
+     * the hierarchy, which is 0.3 here — and call 4% either way of a note's
+     * weight realistic, 10 to 15% plenty (mastering.com program-realistic-
+     * midi-drums; mixelite.com humanizing-midi-drums).
+     */
+    accent: 0.3,
+    velocityJitter: 0.04,
   },
 
   sound: {

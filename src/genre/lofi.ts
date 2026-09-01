@@ -98,7 +98,7 @@ export const lofi: GenreSpec = {
   },
 
   // a drum machine swinging its sixteenths, and hands that miss the grid
-  feel: { swing: 60, swingGrid: 16, jitterMs: 15 },
+  feel: { swing: 60, swingGrid: 16, jitterMs: 15, accent: 0.34, velocityJitter: 0.07 },
 
   // a Rhodes, a sub, a muted guitar; and the record on tape, under a
   // low-pass, with the dust on it
@@ -146,6 +146,12 @@ export const lofi: GenreSpec = {
       "hip hop sits at 54–62 and 62 is 'almost a triplet' (melodiefabriek.com/blog/mpc-swing-reason; " +
       "mpc-forums.com/viewtopic.php?f=5&t=187969). 60 is inside that band [chosen inside the range]",
     "feel.swingGrid": "MPC swing delays the even sixteenths (melodiefabriek.com/blog/mpc-swing-reason)",
+    "feel.accent":
+      "an ordinary passage sits 65–95 of 127 with accents at 100 and over " +
+      "(mastering.com program-realistic-midi-drums): about a third of a spread [chosen inside the range]",
+    "feel.velocityJitter":
+      "\"vary by up to 4% up or down\" is realistic, \"10-15% is plenty\" " +
+      "(mastering.com program-realistic-midi-drums; mixelite.com humanizing-midi-drums); 7% [chosen inside the range]",
     "feel.jitterMs":
       "drummers' timing standard deviation is 11–19 ms; a funk pattern at 100 bpm measured 15.7 ms " +
       "(Senn et al. 2017, doi:10.3389/fpsyg.2017.01709). Uniform ±15 ms is 8.7 ms: under the human figure, " +

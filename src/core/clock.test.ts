@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  clock, stepsPerBar, clockFace, barsForSec, secForBars, FOUR_FOUR, type Metre,
+  clock, stepsPerBar, clockFace, barsForSec, secForBars, metricalStrength, FOUR_FOUR, type Metre,
 } from "./clock.ts";
 
 const near = (a: number, b: number, eps = 1e-9) =>
@@ -135,4 +135,29 @@ test("clockFace prints a time", () => {
   assert.equal(clockFace(61.9), "1:01");
   assert.equal(clockFace(624.32), "10:24");
   assert.equal(clockFace(-5), "0:00");
+});
+
+test("metrical strength is the metre's own hierarchy, in any metre", () => {
+  const four = { beats: 4, perBeat: 4 };
+  // the downbeat is the strongest thing in every bar there is
+  for (const m of [four, { beats: 3, perBeat: 4 }, { beats: 5, perBeat: 4 }, { beats: 7, perBeat: 2 }, { beats: 4, perBeat: 3 }]) {
+    const steps = stepsPerBar(m);
+    const all = Array.from({ length: steps }, (_, i) => metricalStrength(i, m));
+    assert.equal(all[0], 1, `${m.beats}/${m.perBeat}: the downbeat is not the strongest`);
+    for (const v of all) assert.ok(v > 0 && v <= 1);
+    // a beat outweighs anything between it and the next
+    for (let b = 0; b < m.beats; b++) {
+      const onBeat = all[b * m.perBeat]!;
+      for (let k = 1; k < m.perBeat; k++) {
+        assert.ok(onBeat > all[b * m.perBeat + k]!, `${m.beats}/${m.perBeat}: step ${b * m.perBeat + k} is not weaker than its beat`);
+      }
+    }
+  }
+  // four four: the third beat is the half bar, so it outweighs two and four
+  assert.ok(metricalStrength(8, four) > metricalStrength(4, four));
+  assert.equal(metricalStrength(4, four), metricalStrength(12, four));
+  // five four does not halve, so its beats are equals
+  const five = { beats: 5, perBeat: 4 };
+  const beats = [0, 1, 2, 3, 4].map((b) => metricalStrength(b * 4, five));
+  assert.deepEqual(new Set(beats.slice(1)), new Set([beats[1]]), "a beat of five four outweighs another");
 });

@@ -107,7 +107,9 @@ export const dungeonsynth: GenreSpec = {
     thinBelow: 0.3,
   },
 
-  feel: { swing: 50, swingGrid: 8, jitterMs: 12 },
+  // an organ's pipes do not know how hard a key was pressed, and a pad
+  // swells rather than strikes: this music leans on the metre very little
+  feel: { swing: 50, swingGrid: 8, jitterMs: 12, accent: 0.12, velocityJitter: 0.05 },
 
   // strings, a pedal organ, a flute; the record in a small church, on tape
   sound: {
@@ -131,6 +133,9 @@ export const dungeonsynth: GenreSpec = {
       "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; the rest [chosen]",
     "drums.kick": "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com); \"very subtle percussion\" (note.com/soundwitches)",
     "drums.hat": "beatless: no hat (note.com/soundwitches)",
+    "feel.accent":
+      "the voices are an organ and a pad, and a pipe organ has no touch at all: its pipes sound the same however " +
+      "the key is pressed (soundonsound.com Synthesizing Tonewheel Organs). 0.12 [chosen]",
     "sound.voices": "\"strings, flutes, pipe organs, and choirs\" (note.com/soundwitches; Wikipedia, Dungeon synth)",
     "sound.tape.reverb": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches); a \"Small Church\" impulse (erichgrunewald.com)",
     "sound.tape.crackle": "\"intentional crackle, warble, and hiss\" (note.com/soundwitches); 0.05 [chosen]",

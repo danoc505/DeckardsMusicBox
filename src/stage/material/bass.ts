@@ -14,6 +14,9 @@ import { intoBand, scaleStep } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
 import type { Chord, Note } from "./note.ts";
 
+/** What a bass note weighs; the metre decides which of them lands hardest. */
+const BASS_WEIGHT = 0.84;
+
 export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, kick: readonly number[]): Note[] {
   const B = chart.genre.bass;
   const [lo, hi] = B.register;
@@ -64,7 +67,7 @@ export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps
         }
       }
 
-      out.push({ bar: chord.bar, step, dur: until - step, pitch, vel: step === 0 ? 0.9 : 0.72 });
+      out.push({ bar: chord.bar, step, dur: until - step, pitch, vel: BASS_WEIGHT });
       prev = pitch;
     }
   }

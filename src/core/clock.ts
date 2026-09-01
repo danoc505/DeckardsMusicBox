@@ -19,6 +19,48 @@ export const FOUR_FOUR: Metre = { beats: 4, perBeat: 4 };
 
 export const stepsPerBar = (m: Metre): number => m.beats * m.perBeat;
 
+/**
+ * How strong a position in the bar is, 0..1, from the metre alone.
+ *
+ * A metre is beats on several levels at once, and a position is strong to
+ * the degree that levels agree on it: the downbeat carries a beat at every
+ * level, a beat of the bar at all but the finest, a sixteenth at one. The
+ * count of levels that fall on a position IS its accentual strength — the
+ * dots under the staff in Lerdahl and Jackendoff, where "the number of dots
+ * in a given column indicates the accentual strength at that point relative
+ * to other beats in the hierarchy".
+ *
+ * Built from the metre rather than tabulated, so it is right in five four
+ * and in a beat divided in three without anyone writing those out. Levels
+ * divide by two where they can and by three where they cannot, which is the
+ * well-formedness rule: strong beats are spaced two or three apart.
+ */
+export function metricalStrength(step: number, m: Metre): number {
+  const levels = gridLevels(m);
+  let on = 0;
+  for (const every of levels) if (step % every === 0) on++;
+  return on / levels.length;
+}
+
+/** The spacing, in grid steps, of each level of the metre's hierarchy, coarsest first. */
+function gridLevels(m: Metre): number[] {
+  const out: number[] = [];
+  // from the whole bar down to the beat, then from the beat down to the grid
+  for (const [span, into] of [[stepsPerBar(m), m.beats], [m.perBeat, m.perBeat]] as const) {
+    let at = span;
+    out.push(at);
+    let left = into;
+    while (left > 1) {
+      const by = left % 2 === 0 ? 2 : left % 3 === 0 ? 3 : left;
+      at /= by;
+      left /= by;
+      out.push(at);
+    }
+  }
+  // the bar and the beat coincide when a bar is one beat; a level twice is not two levels
+  return [...new Set(out)].sort((a, b) => b - a);
+}
+
 export interface Clock {
   readonly metre: Metre;
   /** Grid steps in a bar. */

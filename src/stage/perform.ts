@@ -10,9 +10,17 @@
  * same every bar and is the feel, and JITTER, which is a hand missing the
  * grid and is different every time. Both are addressed draws or arithmetic
  * on the clock, so a record played twice is the same record.
+ *
+ * Weight is three things, and they are kept apart the same way. What a note
+ * IS, which the material said — a ghost snare is a ghost wherever it falls.
+ * Where it SITS, which is the metre's hierarchy and is the same in every
+ * bar. And the hand, which misses the weight it meant by a little and
+ * differently every time. Position was doing none of this before: each part
+ * wrote one weight for the downbeat and one for everywhere else, so every
+ * bar of a groove weighed exactly the same as every other.
  */
 
-import type { Clock } from "../core/clock.ts";
+import { metricalStrength, type Clock } from "../core/clock.ts";
 import type { Role } from "../genre/spec.ts";
 import type { Arrangement } from "./arrange.ts";
 import type { Chart } from "./chart.ts";
@@ -61,6 +69,9 @@ export function makePerformance(
   const pairSteps = F.swingGrid === 16 ? perBeat / 2 : perBeat;
   const swingSteps = ((F.swing - 50) / 100) * pairSteps;
   const swung = (step: number): boolean => step % pairSteps === pairSteps / 2;
+  // the metre's hierarchy, as far as this genre leans on it. Worked out once
+  // per step of a bar, because it is the same in every bar of the record.
+  const accentAt = Array.from({ length: clock.steps }, (_, st) => 1 - F.accent * (1 - metricalStrength(st, chart.metre)));
 
   const events: Event[] = [];
   // how many times each part has already played each material through —
@@ -89,7 +100,9 @@ export function makePerformance(
       const stepSec = clock.stepSec(bar);
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number): void => {
-        const jitter = chart.rng.at("perform", role, lane, bar, step).range("jitter", -F.jitterMs, F.jitterMs) / 1000;
+        const hand = chart.rng.at("perform", role, lane, bar, step);
+        const jitter = hand.range("jitter", -F.jitterMs, F.jitterMs) / 1000;
+        const missed = 1 + hand.range("weight", -F.velocityJitter, F.velocityJitter);
         const swing = swung(step) ? swingSteps : 0;
         const playedStep = step + swing + jitter / stepSec;
         events.push({
@@ -101,7 +114,7 @@ export function makePerformance(
           lane,
           pitch,
           durSec: dur * stepSec,
-          gain: Math.min(1.25, vel * level),
+          gain: Math.min(1.25, Math.max(0.02, vel * (accentAt[step] ?? 1) * missed * level)),
         });
       };
 

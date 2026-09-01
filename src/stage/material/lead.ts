@@ -41,6 +41,9 @@ import type { Chord, Note } from "./note.ts";
 
 const PHRASE_BARS = 2;
 
+/** What a tune's note weighs. Which of them are strong is the metre's to say. */
+const LEAD_WEIGHT = 0.76;
+
 /** The scale tones inside a register, ascending. */
 function scaleTones(chart: Chart, lo: number, hi: number): number[] {
   const out: number[] = [];
@@ -198,7 +201,7 @@ export function drawLead(
       }
 
       const pitch = at.at("note", i).pick("pitch", cands);
-      const note: Note = { bar, step, dur, pitch, vel: strong ? 0.8 : 0.66 };
+      const note: Note = { bar, step, dur, pitch, vel: LEAD_WEIGHT };
       out.push(note);
       prev = note;
       prevChord = chord;

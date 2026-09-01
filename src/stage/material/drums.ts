@@ -69,13 +69,13 @@ export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, 
 
     // the figure
     const hits: Hit[] = [];
-    for (const st of kick) hits.push({ bar, step: st, lane: "kick", vel: st === 0 ? 1 : 0.9 });
+    for (const st of kick) hits.push({ bar, step: st, lane: "kick", vel: 0.95 });
     // a snare on a beat is the backbeat; one off the beat is a ghost, played
     // at half weight — 50–60% in the boom bap guides
     for (const st of snare) hits.push({ bar, step: st, lane: "snare", vel: st % beat === 0 ? 1 : 0.55 });
     if (hatEvery > 0) {
       for (let st = 0; st < steps; st += hatEvery) {
-        hits.push({ bar, step: st, lane: "hat", vel: st % beat === 0 ? 0.7 : 0.55 });
+        hits.push({ bar, step: st, lane: "hat", vel: 0.66 });
       }
     }
 

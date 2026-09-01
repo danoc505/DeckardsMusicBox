@@ -22,6 +22,13 @@ import type { Chord, Note } from "./note.ts";
  * is C3/Eb3 (Sweetwater InSync, "Low Interval Limit"), and seconds sit
  * higher still. The cost, not the line, is what is chosen here.
  */
+/**
+ * What a struck chord weighs. One number: where in the bar it falls is the
+ * metre's business and the performance applies it, so a part that wrote its
+ * own downbeat rule would be saying the same thing twice.
+ */
+const KEYS_WEIGHT = 0.68;
+
 const LOW_INTERVAL_FLOOR = 48;
 const LOW_INTERVAL_MIN = 4;
 
@@ -166,7 +173,7 @@ export function drawKeys(
       const step = strike[i]!;
       const until = i + 1 < strike.length ? strike[i + 1]! : steps;
       for (const pitch of best) {
-        out.push({ bar: chord.bar, step, dur: until - step, pitch, vel: step === 0 ? 0.72 : 0.6 });
+        out.push({ bar: chord.bar, step, dur: until - step, pitch, vel: KEYS_WEIGHT });
       }
     }
   }

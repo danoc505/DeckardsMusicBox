@@ -155,6 +155,58 @@ test("jitter is bounded by the genre's number", () => {
   }
 });
 
+test("the metre shapes the weight, and a genre says how much", () => {
+  // the defect this is against: every part wrote one weight for the downbeat
+  // and one for everywhere else, so every bar of a groove weighed the same
+  // as every other and the record was a machine.
+  const flat = resolveGenre("flat", { flat: { label: "F", feel: { accent: 0, velocityJitter: 0, jitterMs: 0 } } });
+  const leaning = resolveGenre("lean", { lean: { label: "L", feel: { accent: 0.6, velocityJitter: 0, jitterMs: 0 } } });
+  const per = (g: typeof flat) => {
+    const s = compose({ seed: 5, genre: g, seconds: 120 });
+    const byStep = new Map<string, number>();
+    for (const e of s.performance.events) byStep.set(`${e.role}:${e.lane}:${e.step}`, e.gain);
+    return byStep;
+  };
+  // with no accent, one lane's notes all weigh the same wherever they fall
+  const straight = per(flat);
+  const hats = [...straight].filter(([k]) => k.startsWith("drums:hat:"));
+  assert.ok(hats.length > 3);
+  for (const [, g] of hats) assert.ok(Math.abs(g - hats[0]![1]) < 1e-9, "a flat genre still accents");
+
+  // with accent, a lane's downbeat outweighs its offbeats
+  const lean = per(leaning);
+  const perBeat = leaning.metre.perBeat;
+  const on: number[] = [];
+  const off: number[] = [];
+  for (const [k, g] of lean) {
+    const step = Number(k.split(":")[2]);
+    if (!k.startsWith("drums:hat:")) continue;
+    (step % perBeat === 0 ? on : off).push(g);
+  }
+  assert.ok(on.length > 0 && off.length > 0);
+  const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+  assert.ok(mean(on) > mean(off) * 1.2, `on the beat ${mean(on).toFixed(3)} against off it ${mean(off).toFixed(3)}`);
+});
+
+test("a hand misses the weight it meant, by the genre's amount, and a chord is one stroke", () => {
+  for (const s of sweep(20)) {
+    // every note of one chord is struck together, so they share the miss
+    const chords = new Map<string, Set<number>>();
+    for (const e of s.performance.events) {
+      if (e.role !== "keys") continue;
+      const at = `${e.bar}:${e.step}`;
+      (chords.get(at) ?? chords.set(at, new Set()).get(at)!).add(Math.round(e.gain * 1e6));
+    }
+    for (const [at, gains] of chords) {
+      if (gains.size > 1) assert.fail(`seed ${s.chart.seed} bar ${at}: one chord struck at ${gains.size} weights`);
+    }
+    assert.ok(chords.size > 4);
+    // and the same chord in different bars does not weigh the same every time
+    const spread = new Set([...chords.values()].map((g) => [...g][0]));
+    assert.ok(spread.size > 1, `seed ${s.chart.seed}: every chord of the record weighs the same`);
+  }
+});
+
 test("the arc makes the peak louder than the intro, like for like", () => {
   // like for like: a thin intro has no hats, and hats are the quiet drums, so
   // its MEAN drum gain is higher for having lost them. The arc is read off the
