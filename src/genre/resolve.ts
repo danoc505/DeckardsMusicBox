@@ -359,6 +359,32 @@ export function resolveGenre(
     // a phrase is two bars, need not begin on its downbeat, and must be ascending
     checkPool(problems, "lead.rhythms", lead["rhythms"], beatList(beats * 2, false),
       `an ascending list of beats inside a two-bar phrase of ${beats * 2}, on a grid of ${perBeat} per beat`);
+    /**
+     * AND IT COVERS THE PHRASE. A cell is written in beats, so a cell
+     * written for one metre is silent through the end of a longer bar: the
+     * same list that fills two bars of four leaves a whole bar empty in six,
+     * and the tune comes out a third as long with nothing said. A gap of a
+     * bar or more — between two onsets, or from the last onset to the end —
+     * is that mistake, so it is refused here and the genre states cells for
+     * the metre it actually has. A POCKET may be as sparse as it likes, and
+     * some are one strike a bar: a pocket repeats every bar, so its gap runs
+     * into the next bar's downbeat. A phrase happens once.
+     */
+    if (Array.isArray(lead["rhythms"])) {
+      for (const row of lead["rhythms"] as [unknown, unknown][]) {
+        const cell = Array.isArray(row?.[0]) ? (row[0] as number[]) : null;
+        if (cell === null || cell.length === 0 || !cell.every(finite)) continue;
+        let worst = cell[0]!;
+        for (let i = 1; i < cell.length; i++) worst = Math.max(worst, cell[i]! - cell[i - 1]!);
+        worst = Math.max(worst, beats * 2 - cell[cell.length - 1]!);
+        if (worst >= beats) {
+          problems.push(
+            `lead.rhythms cell ${JSON.stringify(cell)} leaves ${worst} beats silent in a ${beats * 2}-beat phrase — ` +
+              `a whole bar of this metre. Write the cells for a ${beats}-beat bar.`,
+          );
+        }
+      }
+    }
     const lp = lead["leap"];
     if (!finite(lp) || lp < 0 || lp > 1) problems.push(`lead.leap must be 0..1, got ${String(lp)}`);
     const sp = lead["span"];
