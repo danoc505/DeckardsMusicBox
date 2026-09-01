@@ -173,6 +173,56 @@ export interface KeysRules {
   readonly open: number;
 }
 
+export interface LeadSpec {
+  readonly register?: Register;
+  /**
+   * Rhythm cells for a two-bar phrase, in beats from the phrase's start —
+   * so `[0, 1, 2, 4, 5.5]` reaches into the second bar. Drawn per phrase.
+   */
+  readonly rhythms?: Weighted<Beats>;
+  /** 0..1, how often a move is a leap of a third or more rather than a step. */
+  readonly leap?: number;
+  /** The widest a phrase may span, in semitones. */
+  readonly span?: number;
+}
+
+/** What the lead builder reads. `rhythms` is in GRID STEPS over two bars. */
+export interface LeadRules {
+  readonly register: Register;
+  readonly rhythms: Weighted<readonly number[]>;
+  readonly leap: number;
+  readonly span: number;
+}
+
+/** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
+export const DRUM_LANES = ["kick", "snare", "hat", "openhat"] as const;
+export type DrumLane = (typeof DRUM_LANES)[number];
+
+/**
+ * A bar's part in a four-bar phrase. A is the figure; B changes one thing
+ * about it; C changes two; D is a fill or an empty leading into the next
+ * phrase. Four A's is a loop, which a genre may still ask for.
+ */
+export const BAR_LETTERS = ["A", "B", "C", "D"] as const;
+export type BarLetter = (typeof BAR_LETTERS)[number];
+
+export interface DrumsSpec {
+  readonly kick?: Weighted<Beats>;
+  readonly snare?: Weighted<Beats>;
+  /** The hat strikes every this many beats: 1 is quarters, 0.5 eighths, 0 none. */
+  readonly hat?: Weighted<number>;
+  /** One letter per bar, drawn per material. */
+  readonly phrase?: Weighted<readonly BarLetter[]>;
+}
+
+/** What the drum builder reads. Beats resolved to GRID STEPS. */
+export interface DrumsRules {
+  readonly kick: Weighted<readonly number[]>;
+  readonly snare: Weighted<readonly number[]>;
+  readonly hat: Weighted<number>;
+  readonly phrase: Weighted<readonly BarLetter[]>;
+}
+
 /** What an author writes. */
 export interface GenreSpec {
   /** How this genre is named on screen. */
@@ -199,6 +249,8 @@ export interface GenreSpec {
   readonly harmony?: HarmonySpec;
   readonly bass?: BassSpec;
   readonly keys?: KeysSpec;
+  readonly lead?: LeadSpec;
+  readonly drums?: DrumsSpec;
 
   /** Field path -> where its value came from. */
   readonly sources?: Sources;
@@ -216,6 +268,8 @@ export interface Genre {
   readonly harmony: HarmonyRules;
   readonly bass: BassRules;
   readonly keys: KeysRules;
+  readonly lead: LeadRules;
+  readonly drums: DrumsRules;
   readonly sources: Sources;
 }
 
@@ -394,5 +448,51 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [[0, 1, 2, 3], 1],
     ],
     open: 0.5,
+  },
+
+  lead: {
+    register: [64, 84],
+    /**
+     * In beats across a two-bar phrase. Each cell leaves the second bar's end
+     * open so the phrase breathes before the next one. [chosen]
+     */
+    rhythms: [
+      [[0, 1, 2, 3, 4, 5, 6], 3],
+      [[0, 0.5, 1, 2, 3, 4, 4.5, 5], 3],
+      [[0, 1.5, 2, 3.5, 4, 5], 2],
+      [[0.5, 1, 2, 2.5, 4, 4.5, 5, 6], 2],
+      [[0, 2, 3, 4, 6], 1],
+      [[0, 0.5, 1.5, 2, 3, 4.5, 5, 6.5], 1],
+    ],
+    leap: 0.25,
+    span: 12,
+  },
+
+  drums: {
+    /** in beats */
+    kick: [
+      [[0, 2], 4],
+      [[0, 2.5], 2],
+      [[0, 1.5, 2.5], 2],
+      [[0, 0.75, 2], 1],
+      [[0, 1, 2, 3], 1],
+    ],
+    snare: [
+      [[1, 3], 6],
+      [[1, 3, 3.75], 1],
+      [[1.5, 3], 1],
+    ],
+    hat: [
+      [0.5, 5],
+      [0.25, 2],
+      [1, 1],
+      [0, 1],
+    ],
+    phrase: [
+      [["A", "B", "A", "C"], 4],
+      [["A", "A", "B", "D"], 3],
+      [["A", "B", "A", "D"], 2],
+      [["A", "A", "A", "A"], 1],
+    ],
   },
 };

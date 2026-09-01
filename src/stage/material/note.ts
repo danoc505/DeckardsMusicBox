@@ -7,6 +7,9 @@
  */
 
 import type { Idea } from "../../genre/spec.ts";
+import type { Hit } from "./drums.ts";
+
+export type { Hit } from "./drums.ts";
 
 export interface Note {
   /** Bar within the material, from 0. */
@@ -34,7 +37,7 @@ export interface Chord {
 }
 
 /** Every pitched part a material can carry. Grows as builders arrive. */
-export const PITCHED = ["bass", "keys"] as const;
+export const PITCHED = ["bass", "keys", "lead"] as const;
 export type Pitched = (typeof PITCHED)[number];
 
 export interface Material {
@@ -46,6 +49,7 @@ export interface Material {
   readonly bars: number;
   readonly chords: readonly Chord[];
   readonly parts: Readonly<Record<Pitched, readonly Note[]>>;
+  readonly drums: readonly Hit[];
 }
 
 /** A material is exactly `bars` long; a note that is not in it is a bug. */

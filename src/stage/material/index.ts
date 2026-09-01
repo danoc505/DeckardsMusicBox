@@ -27,12 +27,15 @@ import { inScale, noteName } from "../../core/theory.ts";
 import type { Idea } from "../../genre/spec.ts";
 import type { Chart } from "../chart.ts";
 import type { Form } from "../form.ts";
+import { DRUM_LANES } from "../../genre/spec.ts";
 import { drawBass } from "./bass.ts";
+import { drawDrums } from "./drums.ts";
 import { drawChords } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
+import { drawLead } from "./lead.ts";
 import { assertInside, at, PITCHED, type Chord, type Material, type Note, type Pitched } from "./note.ts";
 
-export type { Chord, Material, Note, Pitched } from "./note.ts";
+export type { Chord, Hit, Material, Note, Pitched } from "./note.ts";
 
 export interface Materials {
   readonly bars: number;
@@ -82,12 +85,17 @@ export function makeMaterials(chart: Chart, form: Form): Materials {
     }
 
     const rng = chart.rng.at("material", idea, variant);
-    const parts: Record<Pitched, readonly Note[]> = {
-      bass: Object.freeze(drawBass(chart, chords, rng.at("bass"), steps)),
-      keys: Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps)),
-    };
+    const bass = Object.freeze(drawBass(chart, chords, rng.at("bass"), steps));
+    const keys = Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps));
+    // the tune is written last and is told every seat the others hold, so it
+    // never lands on one — a rule at the point of choice, not a repair after
+    const taken = new Set<string>();
+    for (const n of [...bass, ...keys]) taken.add(`${at(n)}:${n.pitch}`);
+    const lead = Object.freeze(drawLead(chart, chords, rng.at("lead"), steps, taken));
+    const parts: Record<Pitched, readonly Note[]> = { bass, keys, lead };
+    const drums = Object.freeze(drawDrums(chart, rng.at("drums"), bars, steps));
 
-    const material: Material = Object.freeze({ key, idea, variant, bars, chords, parts });
+    const material: Material = Object.freeze({ key, idea, variant, bars, chords, parts, drums });
     check(chart, material, steps);
     all.set(key, material);
   }
@@ -100,6 +108,7 @@ function check(chart: Chart, m: Material, steps: number): void {
   const registers: Record<Pitched, readonly [number, number]> = {
     bass: chart.genre.bass.register,
     keys: chart.genre.keys.register,
+    lead: chart.genre.lead.register,
   };
   const struck = new Map<string, Pitched>();
 
@@ -127,10 +136,21 @@ function check(chart: Chart, m: Material, steps: number): void {
       struck.set(seat, part);
     }
   }
+
+  const struckDrums = new Set<string>();
+  for (const h of m.drums) {
+    const where = `${m.key} drums bar ${h.bar} step ${h.step}`;
+    assertInside({ bars: m.bars, steps }, { ...h, dur: 1, pitch: 0 }, where);
+    if (!(DRUM_LANES as readonly string[]).includes(h.lane)) throw new MaterialError(`${where}: no lane "${h.lane}"`);
+    if (h.vel <= 0 || h.vel > 1) throw new MaterialError(`${where}: velocity ${h.vel}`);
+    const seat = `${at(h)}:${h.lane}`;
+    if (struckDrums.has(seat)) throw new MaterialError(`${where}: ${h.lane} struck twice at one instant`);
+    struckDrums.add(seat);
+  }
 }
 
 /** "A: Cm7 Ab Fm G | bass 8 · keys 16" — for tests and dumps. */
 export function describeMaterial(m: Material): string {
   const parts = PITCHED.map((p) => `${p} ${m.parts[p].length}`).join(" · ");
-  return `${m.key}: ${m.chords.map((c) => c.name).join(" ")} | ${parts}`;
+  return `${m.key}: ${m.chords.map((c) => c.name).join(" ")} | ${parts} · drums ${m.drums.length}`;
 }

@@ -1,0 +1,169 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { makeMaterials, type Material } from "./index.ts";
+import { makeChart, type Chart } from "../chart.ts";
+import { makeForm } from "../form.ts";
+import { GENRES } from "../../genre/index.ts";
+import { pc } from "../../core/theory.ts";
+import { stepsPerBar } from "../../core/clock.ts";
+
+const lofi = GENRES.lofi;
+
+function each(n: number, f: (chart: Chart, m: Material) => void): void {
+  for (let seed = 1; seed <= n; seed++) {
+    const chart = makeChart({ seed, genre: lofi, seconds: 240 });
+    const mats = makeMaterials(chart, makeForm(chart));
+    for (const m of mats.all.values()) f(chart, m);
+  }
+}
+
+const inChord = (m: Material, n: { bar: number; pitch: number }): boolean =>
+  m.chords[n.bar]!.tones.some((t) => pc(t) === pc(n.pitch));
+
+const sorted = (m: Material) => m.parts.lead.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
+
+test("the lead never plays the same pitch twice running", () => {
+  each(80, (_, m) => {
+    const ns = sorted(m);
+    for (let i = 1; i < ns.length; i++) {
+      assert.notEqual(ns[i]!.pitch, ns[i - 1]!.pitch, `${m.key} repeats at bar ${ns[i]!.bar} step ${ns[i]!.step}`);
+    }
+  });
+});
+
+test("a note off the chord resolves by step into the chord that follows", () => {
+  let off = 0;
+  each(80, (_, m) => {
+    const ns = sorted(m);
+    for (let i = 0; i < ns.length - 1; i++) {
+      if (inChord(m, ns[i]!)) continue;
+      off++;
+      const next = ns[i + 1]!;
+      const d = Math.abs(next.pitch - ns[i]!.pitch);
+      assert.ok(d <= 2, `${m.key} bar ${ns[i]!.bar}: a non-chord tone leaps ${d} semitones away`);
+      assert.ok(inChord(m, next), `${m.key} bar ${ns[i]!.bar}: a non-chord tone resolves to another`);
+    }
+  });
+  assert.ok(off > 50, `only ${off} non-chord tones in 80 records — the tune is not using passing notes`);
+});
+
+test("beats take chord tones", () => {
+  let strong = 0;
+  let onChord = 0;
+  each(80, (chart, m) => {
+    for (const n of m.parts.lead) {
+      if (n.step % chart.metre.perBeat !== 0) continue;
+      strong++;
+      if (inChord(m, n)) onChord++;
+    }
+  });
+  // not every beat: a step drawn onto a beat with no chord tone a step away
+  // is an appoggiatura, which resolves like any other dissonance and is how a
+  // line stays a line instead of an arpeggio. Most beats, not all.
+  assert.ok(onChord / strong > 0.65, `only ${((100 * onChord) / strong).toFixed(0)}% of beats are chord tones`);
+});
+
+test("the tune ends on a chord tone", () => {
+  each(80, (_, m) => {
+    const ns = sorted(m);
+    const last = ns[ns.length - 1];
+    if (!last) return;
+    assert.ok(inChord(m, last), `${m.key} ends on ${last.pitch}, off the chord`);
+  });
+});
+
+test("the tune stays in register, in scale, and inside its span per phrase", () => {
+  const [lo, hi] = lofi.lead.register;
+  each(60, (_, m) => {
+    for (let ph = 0; ph * 2 < m.bars; ph++) {
+      const ns = m.parts.lead.filter((n) => Math.floor(n.bar / 2) === ph);
+      if (ns.length === 0) continue;
+      const ps = ns.map((n) => n.pitch);
+      assert.ok(Math.min(...ps) >= lo && Math.max(...ps) <= hi);
+      assert.ok(Math.max(...ps) - Math.min(...ps) <= lofi.lead.span, `${m.key} phrase ${ph} spans ${Math.max(...ps) - Math.min(...ps)}`);
+    }
+  });
+});
+
+test("the tune moves — mostly by step, sometimes by leap", () => {
+  let step = 0;
+  let leap = 0;
+  each(80, (_, m) => {
+    const ns = sorted(m);
+    for (let i = 1; i < ns.length; i++) {
+      const d = Math.abs(ns[i]!.pitch - ns[i - 1]!.pitch);
+      if (d <= 2) step++;
+      else leap++;
+    }
+  });
+  const tot = step + leap;
+  assert.ok(step / tot > 0.55, `steps are only ${((100 * step) / tot).toFixed(0)}% of moves`);
+  assert.ok(leap / tot > 0.1, `leaps are only ${((100 * leap) / tot).toFixed(0)}% of moves`);
+});
+
+test("the answer goes the other way from the question", () => {
+  let contrary = 0;
+  let pairs = 0;
+  each(80, (_, m) => {
+    const q = m.parts.lead.filter((n) => n.bar < 2).sort((a, b) => a.bar - b.bar || a.step - b.step);
+    const a = m.parts.lead.filter((n) => n.bar >= 2).sort((a, b) => a.bar - b.bar || a.step - b.step);
+    if (q.length < 2 || a.length < 2) return;
+    const qd = Math.sign(q[q.length - 1]!.pitch - q[0]!.pitch);
+    const ad = Math.sign(a[a.length - 1]!.pitch - a[0]!.pitch);
+    if (qd === 0 || ad === 0) return;
+    pairs++;
+    if (qd !== ad) contrary++;
+  });
+  assert.ok(pairs > 20);
+  assert.ok(contrary / pairs > 0.6, `the answer ran the same way as the question in ${pairs - contrary} of ${pairs}`);
+});
+
+test("the tune never lands on a seat the keys or bass hold", () => {
+  each(60, (_, m) => {
+    const held = new Set([...m.parts.keys, ...m.parts.bass].map((n) => `${n.bar}:${n.step}:${n.pitch}`));
+    for (const n of m.parts.lead) assert.ok(!held.has(`${n.bar}:${n.step}:${n.pitch}`));
+  });
+});
+
+test("every material has a tune", () => {
+  each(60, (_, m) => {
+    assert.ok(m.parts.lead.length >= 6, `${m.key} has ${m.parts.lead.length} lead notes`);
+  });
+});
+
+test("the drums keep a figure and vary it by the bar's letter", () => {
+  const steps = stepsPerBar(lofi.metre);
+  let bars = 0;
+  let distinct = 0;
+  each(60, (_, m) => {
+    const byBar: string[] = [];
+    for (let b = 0; b < m.bars; b++) {
+      byBar.push(m.drums.filter((h) => h.bar === b).map((h) => `${h.step}${h.lane}`).sort().join());
+    }
+    bars += byBar.length;
+    distinct += new Set(byBar).size;
+    // the downbeat kick is the bar and is never taken away
+    for (let b = 0; b < m.bars; b++) {
+      assert.ok(m.drums.some((h) => h.bar === b && h.step === 0 && h.lane === "kick"), `${m.key} bar ${b} has no downbeat`);
+    }
+    for (const h of m.drums) assert.ok(h.step >= 0 && h.step < steps);
+  });
+  // neither a loop nor noise: bars repeat, and they also differ
+  assert.ok(distinct / bars > 0.4, `only ${((100 * distinct) / bars).toFixed(0)}% of drum bars are distinct`);
+  assert.ok(distinct / bars < 0.95, `${((100 * distinct) / bars).toFixed(0)}% of drum bars are distinct — no figure`);
+});
+
+test("a fill rises into the next bar", () => {
+  let fills = 0;
+  each(120, (chart, m) => {
+    const beat = chart.metre.perBeat;
+    const steps = stepsPerBar(chart.metre);
+    for (let b = 0; b < m.bars; b++) {
+      const lastBeat = m.drums.filter((h) => h.bar === b && h.lane === "snare" && h.step >= steps - beat).sort((x, y) => x.step - y.step);
+      if (lastBeat.length < beat) continue;
+      fills++;
+      for (let i = 1; i < lastBeat.length; i++) assert.ok(lastBeat[i]!.vel >= lastBeat[i - 1]!.vel, `${m.key} bar ${b} fill falls`);
+    }
+  });
+  assert.ok(fills > 10, `only ${fills} fills in 120 records`);
+});

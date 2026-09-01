@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { makeChart, describeChart, TONIC_OCTAVE } from "./chart.ts";
 import { GENRES, GENRE_NAMES, resolveGenre } from "../genre/index.ts";
+import { metreFixture } from "../genre/testing.ts";
 import { SCALES, pc } from "../core/theory.ts";
 import { secForBars, stepsPerBar } from "../core/clock.ts";
 
@@ -90,8 +91,7 @@ test("the bar count matches the length asked for", () => {
 
 test("a metre that is not four beats makes shorter bars and more of them", () => {
   const waltz = resolveGenre("waltz", {
-    waltz: { label: "Waltz", tempo: [120, 120], metre: { beats: 3, perBeat: 4 }, lengthSec: [120, 120],
-             bass: { pocket: [[[0, 2], 1]] }, keys: { strike: [[[0], 1]] } },
+    waltz: { label: "Waltz", tempo: [120, 120], lengthSec: [120, 120], ...metreFixture(3, 4) },
   });
   const four = resolveGenre("four", {
     four: { label: "Four", tempo: [120, 120], lengthSec: [120, 120] },

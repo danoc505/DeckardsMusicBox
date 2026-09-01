@@ -12,7 +12,7 @@
 
 import { SCALES } from "../core/theory.ts";
 import {
-  BASS_TONES, DEFAULTS, IDEAS, SECTION_FNS,
+  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, SECTION_FNS,
   type Genre, type GenreSpec, type Weighted,
 } from "./spec.ts";
 
@@ -301,11 +301,12 @@ export function resolveGenre(
   const beats = isPlainObject(metre) && finite(metre["beats"]) ? (metre["beats"] as number) : 4;
   const perBeat = isPlainObject(metre) && finite(metre["perBeat"]) ? (metre["perBeat"] as number) : 4;
   const onGrid = (b: number): boolean => Number.isInteger(Math.round(b * perBeat * 1e6) / 1e6);
-  /** a list of beats that all land on this metre's grid, inside its bar */
-  const isBeatList = (v: unknown): boolean =>
-    Array.isArray(v) && v.length >= 1 && v[0] === 0 &&
-    v.every((b) => finite(b) && b >= 0 && b < beats && onGrid(b)) &&
-    new Set(v).size === v.length;
+  /** a list of beats that all land on this metre's grid, inside `span` beats */
+  const beatList = (span: number, mustStartAtZero: boolean) => (v: unknown): boolean =>
+    Array.isArray(v) && v.length >= 1 && (!mustStartAtZero || v[0] === 0) &&
+    v.every((b) => finite(b) && b >= 0 && b < span && onGrid(b)) &&
+    v.every((b, i) => i === 0 || b > (v[i - 1] as number));
+  const isBeatList = beatList(beats, true);
   const beatsWhat = `a list of beats starting at 0, inside a ${beats}-beat bar, on a grid of ${perBeat} per beat`;
   /** beats -> grid steps, once, so no builder ever multiplies by perBeat */
   const toSteps = (pool: unknown): Weighted<readonly number[]> =>
@@ -347,6 +348,45 @@ export function resolveGenre(
     if (problems.length === 0) keys["strike"] = toSteps(keys["strike"]);
   }
 
+  const lead = isPlainObject(merged["lead"]) ? merged["lead"] : null;
+  if (lead === null) {
+    problems.push("lead is missing");
+  } else {
+    checkRegister("lead.register", lead["register"]);
+    // a phrase is two bars, need not begin on its downbeat, and must be ascending
+    checkPool(problems, "lead.rhythms", lead["rhythms"], beatList(beats * 2, false),
+      `an ascending list of beats inside a two-bar phrase of ${beats * 2}, on a grid of ${perBeat} per beat`);
+    const lp = lead["leap"];
+    if (!finite(lp) || lp < 0 || lp > 1) problems.push(`lead.leap must be 0..1, got ${String(lp)}`);
+    const sp = lead["span"];
+    if (!finite(sp) || !Number.isInteger(sp) || sp < 5 || sp > 36) {
+      problems.push(`lead.span must be 5..36 semitones, got ${String(sp)}`);
+    }
+    if (problems.length === 0) lead["rhythms"] = toSteps(lead["rhythms"]);
+  }
+
+  const drums = isPlainObject(merged["drums"]) ? merged["drums"] : null;
+  if (drums === null) {
+    problems.push("drums is missing");
+  } else {
+    // a kick pocket starts on the downbeat; a snare's does not have to
+    checkPool(problems, "drums.kick", drums["kick"], isBeatList, beatsWhat);
+    checkPool(problems, "drums.snare", drums["snare"], beatList(beats, false),
+      `an ascending list of beats inside a ${beats}-beat bar, on a grid of ${perBeat} per beat`);
+    checkPool(problems, "drums.hat", drums["hat"],
+      (v) => finite(v) && v >= 0 && v <= beats && onGrid(v),
+      "a division of the beat that lands on the grid, or 0 for none");
+    checkPool(problems, "drums.phrase", drums["phrase"],
+      (v) => Array.isArray(v) && v.length >= 1 &&
+        v.every((l) => typeof l === "string" && (BAR_LETTERS as readonly string[]).includes(l)),
+      "a list of bar letters A, B, C or D");
+    if (problems.length === 0) {
+      drums["kick"] = toSteps(drums["kick"]);
+      drums["snare"] = toSteps(drums["snare"]);
+      drums["hat"] = (drums["hat"] as Weighted<number>).map(([b, w]) => [Math.round(b * perBeat), w] as const);
+    }
+  }
+
   if (problems.length > 0) throw new GenreError(name, problems);
 
   const resolved = {
@@ -360,6 +400,8 @@ export function resolveGenre(
     harmony: deepFreeze(harmony) as unknown as Genre["harmony"],
     bass: deepFreeze(bass) as unknown as Genre["bass"],
     keys: deepFreeze(keys) as unknown as Genre["keys"],
+    lead: deepFreeze(lead) as unknown as Genre["lead"],
+    drums: deepFreeze(drums) as unknown as Genre["drums"],
     sources: Object.freeze({ ...sources }),
   } as Genre;
 
