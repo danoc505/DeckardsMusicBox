@@ -56,10 +56,11 @@ export function makePerformance(
   const clock: Clock = form.clock;
   const perBeat = chart.metre.perBeat;
   const F = chart.genre.feel;
-  // an off-eighth at full swing lands two thirds of the way through its beat:
-  // one sixth of a beat late, in grid steps
-  const swingSteps = (F.swing * perBeat) / 6;
-  const offEighth = (step: number): boolean => perBeat % 2 === 0 && step % perBeat === perBeat / 2;
+  // the second note of each pair lands where the first note's share ends:
+  // at 66.7% two thirds of the way through the pair, one sixth of it late
+  const pairSteps = F.swingGrid === 16 ? perBeat / 2 : perBeat;
+  const swingSteps = ((F.swing - 50) / 100) * pairSteps;
+  const swung = (step: number): boolean => step % pairSteps === pairSteps / 2;
 
   const events: Event[] = [];
   // how many times each part has already played each material through —
@@ -89,7 +90,7 @@ export function makePerformance(
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number): void => {
         const jitter = chart.rng.at("perform", role, lane, bar, step).range("jitter", -F.jitterMs, F.jitterMs) / 1000;
-        const swing = offEighth(step) ? swingSteps : 0;
+        const swing = swung(step) ? swingSteps : 0;
         const playedStep = step + swing + jitter / stepSec;
         events.push({
           tSec: clock.at(bar, playedStep),

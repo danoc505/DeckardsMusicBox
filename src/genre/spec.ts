@@ -255,19 +255,27 @@ export interface ArrangementRules {
   readonly thinBelow: number;
 }
 
+/** Which pairs of notes swing: every two eighths, or every two sixteenths. */
+export const SWING_GRIDS = [8, 16] as const;
+export type SwingGrid = (typeof SWING_GRIDS)[number];
+
 export interface FeelSpec {
   /**
-   * 0..1: how late the off-eighths land. At 1 an off-eighth falls two thirds
-   * of the way through its beat, which is triplet swing; at 0 the grid is
-   * straight.
+   * Swing as a drum machine states it: the share of each pair's time the
+   * first note gets, in percent. 50 is straight, 66.7 is a triplet (the
+   * second note lands two thirds of the way through), 75 is dotted. Hip hop
+   * machines sit at 54–62.
    */
   readonly swing?: number;
+  /** The grid the pairs are on: 16 swings every second sixteenth, 8 every second eighth. */
+  readonly swingGrid?: SwingGrid;
   /** How far a hand misses the grid either way, in milliseconds. */
   readonly jitterMs?: number;
 }
 
 export interface FeelRules {
   readonly swing: number;
+  readonly swingGrid: SwingGrid;
   readonly jitterMs: number;
 }
 
@@ -576,7 +584,18 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   },
 
   feel: {
-    swing: 0.15,
-    jitterMs: 6,
+    /**
+     * Straight. Swing is a genre's identity and a genre says its own: 54 on
+     * sixteenths "loosens a straight beat without it sounding like swing",
+     * hip hop machines sit at 54–62 (melodiefabriek.com/blog/mpc-swing-reason).
+     * Jitter is uniform, so its standard deviation is the number over √3:
+     * 10 ms here is 5.8 ms, a machine's tightness, under the 11–19 ms
+     * measured for drummers (Senn et al. 2017, doi:10.3389/fpsyg.2017.01709,
+     * and the studies it reviews). A genre that is played, not programmed,
+     * says so.
+     */
+    swing: 50,
+    swingGrid: 16,
+    jitterMs: 10,
   },
 };

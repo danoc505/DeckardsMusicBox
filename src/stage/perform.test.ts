@@ -102,27 +102,42 @@ test("a thin section has no hat and keeps its kick", () => {
   assert.ok(thinBars > 20);
 });
 
-test("swing moves the off-eighths late and leaves the beats alone", () => {
+test("swing moves the second note of each pair late and leaves the first alone", () => {
+  const F = GENRES.lofi.feel;
   const perBeat = GENRES.lofi.metre.perBeat;
-  let off = 0;
-  let onBeat = 0;
+  const pair = F.swingGrid === 16 ? perBeat / 2 : perBeat;
+  let second = 0;
+  let first = 0;
   for (const s of sweep(20)) {
     for (const e of s.performance.events) {
       const drift = e.playedStep - e.step;
-      if (e.step % perBeat === perBeat / 2) {
-        off++;
-        assert.ok(drift > 0.1, `an off-eighth at step ${e.step} landed ${drift} early or on time`);
-      } else if (e.step % perBeat === 0) {
-        onBeat++;
-        assert.ok(Math.abs(drift) < 0.5, `a beat drifted ${drift} steps`);
+      if (e.step % pair === pair / 2) {
+        second++;
+        // the swing, less at most the jitter, which is small next to it
+        assert.ok(drift > 0.1, `a swung note at step ${e.step} landed ${drift} early or on time`);
+      } else if (e.step % pair === 0) {
+        first++;
+        assert.ok(Math.abs(drift) < 0.5, `a pair's first note drifted ${drift} steps`);
       }
     }
   }
-  assert.ok(off > 100 && onBeat > 100);
+  assert.ok(second > 100 && first > 100);
+});
+
+test("swing is the drum machine's number: 66.7 is a triplet, 50 is straight", () => {
+  const triplet = resolveGenre("t", { t: { label: "T", feel: { swing: 66.7, swingGrid: 8, jitterMs: 0 } } });
+  const s = compose({ seed: 3, genre: triplet, seconds: 120 });
+  const perBeat = triplet.metre.perBeat;
+  const offEighths = s.performance.events.filter((e) => e.step % perBeat === perBeat / 2);
+  assert.ok(offEighths.length > 20);
+  for (const e of offEighths) {
+    // two thirds of the way through the beat: a sixth of a beat late
+    assert.ok(Math.abs(e.playedStep - e.step - perBeat / 6) < 0.01, `${e.playedStep - e.step}`);
+  }
 });
 
 test("a straight genre does not swing", () => {
-  const straight = resolveGenre("straight", { straight: { label: "S", feel: { swing: 0, jitterMs: 0 } } });
+  const straight = resolveGenre("straight", { straight: { label: "S", feel: { swing: 50, jitterMs: 0 } } });
   const s = compose({ seed: 3, genre: straight, seconds: 120 });
   for (const e of s.performance.events) assert.equal(e.playedStep, e.step);
 });
@@ -131,8 +146,9 @@ test("jitter is bounded by the genre's number", () => {
   for (const s of sweep(20)) {
     const limit = s.chart.genre.feel.jitterMs / 1000;
     const perBeat = s.chart.metre.perBeat;
+    const pair = s.chart.genre.feel.swingGrid === 16 ? perBeat / 2 : perBeat;
     for (const e of s.performance.events) {
-      if (e.step % perBeat === perBeat / 2) continue; // swung as well
+      if (e.step % pair === pair / 2) continue; // swung as well
       const drift = (e.playedStep - e.step) * s.form.clock.stepSec(e.bar);
       assert.ok(Math.abs(drift) <= limit + 1e-9, `drift ${drift}s exceeds ${limit}s`);
     }
@@ -164,16 +180,18 @@ test("the arc makes the peak louder than the intro, like for like", () => {
 });
 
 test("the tune does not repeat itself at the loop seam", () => {
-  // within a section the material loops, and the loop's last note followed
-  // by its first is the seam the rule is about. Across a SECTION boundary a
-  // new material may open on the pitch the last one closed on — that is a
-  // pivot, not a line hammering one note — so those pairs are not judged.
+  // within a section the material comes round, and the round's last note
+  // followed by the next round's first is the seam the rule is about. Across
+  // a SECTION boundary, or after a round of rest, a line may open on the
+  // pitch the last one closed on — that is a pivot, not a line hammering one
+  // note — so those pairs are not judged.
   for (const s of sweep(60)) {
     const boundaries = new Set(s.form.sections.map((x) => x.startBar));
     const lead = s.performance.events.filter((e) => e.role === "lead");
     for (let i = 1; i < lead.length; i++) {
       const crosses = lead[i]!.bar !== lead[i - 1]!.bar && boundaries.has(lead[i]!.bar);
-      if (crosses) continue;
+      const rested = lead[i]!.bar - lead[i - 1]!.bar > 1;
+      if (crosses || rested) continue;
       assert.notEqual(lead[i]!.pitch, lead[i - 1]!.pitch, `seed ${s.chart.seed} bar ${lead[i]!.bar}: the lead repeats a pitch`);
     }
   }

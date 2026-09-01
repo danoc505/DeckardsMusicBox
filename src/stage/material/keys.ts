@@ -18,8 +18,9 @@ import type { Chord, Note } from "./note.ts";
 
 /**
  * Below this pitch, two notes closer than a major third stop reading as two
- * notes and start reading as mud. Every arranging text puts the line near C3;
- * the cost, not the pitch, is what is chosen here.
+ * notes and start reading as mud: the low interval limit for a minor third
+ * is C3/Eb3 (Sweetwater InSync, "Low Interval Limit"), and seconds sit
+ * higher still. The cost, not the line, is what is chosen here.
  */
 const LOW_INTERVAL_FLOOR = 48;
 const LOW_INTERVAL_MIN = 4;

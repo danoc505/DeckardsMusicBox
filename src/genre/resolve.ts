@@ -12,7 +12,7 @@
 
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, LEAD_CYCLES, ROLES, SECTION_FNS,
+  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, LEAD_CYCLES, ROLES, SECTION_FNS, SWING_GRIDS,
   type Genre, type GenreSpec, type Weighted,
 } from "./spec.ts";
 
@@ -428,7 +428,14 @@ export function resolveGenre(
     problems.push("feel is missing");
   } else {
     const sw = feel["swing"];
-    if (!finite(sw) || sw < 0 || sw > 1) problems.push(`feel.swing must be 0..1, got ${String(sw)}`);
+    if (!finite(sw) || sw < 50 || sw > 75) problems.push(`feel.swing must be 50..75 percent (50 straight, 66.7 triplet), got ${String(sw)}`);
+    const sg = feel["swingGrid"];
+    if (!(SWING_GRIDS as readonly unknown[]).includes(sg)) {
+      problems.push(`feel.swingGrid must be 8 or 16, got ${String(sg)}`);
+    } else if (finite(sw) && sw > 50 && perBeat % ((sg as number) / 4) !== 0) {
+      // a straight genre has no pairs to swing, so its grid need not exist
+      problems.push(`feel.swingGrid ${String(sg)} needs a beat divisible by ${(sg as number) / 4}, and this metre has ${perBeat} per beat`);
+    }
     const jm = feel["jitterMs"];
     if (!finite(jm) || jm < 0 || jm > 50) problems.push(`feel.jitterMs must be 0..50, got ${String(jm)}`);
   }
