@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { makeMaterials, type Material } from "./index.ts";
+import { makeMaterials, type Material, type Note } from "./index.ts";
 import { makeChart, type Chart } from "../chart.ts";
 import { makeForm } from "../form.ts";
 import { GENRES } from "../../genre/index.ts";
@@ -20,13 +20,25 @@ function each(n: number, f: (chart: Chart, m: Material) => void): void {
 const inChord = (m: Material, n: { bar: number; pitch: number }): boolean =>
   m.chords[n.bar]!.tones.some((t) => pc(t) === pc(n.pitch));
 
-const sorted = (m: Material) => m.parts.lead.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
+/** The tune as first stated: the first cycle always sounds it. */
+const tune = (m: Material) => m.cycles[0]!.parts.lead;
+const byTime = <T extends { bar: number; step: number }>(ns: readonly T[]): T[] =>
+  ns.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
+const sorted = (m: Material) => byTime(tune(m));
+/** Every distinct lead line the material plays, the statement first. */
+const lines = (m: Material): readonly (readonly Note[])[] => {
+  const seen = new Map<string, readonly Note[]>();
+  for (const c of m.cycles) if (c.parts.lead.length > 0) seen.set(JSON.stringify(c.parts.lead), c.parts.lead);
+  return [...seen.values()];
+};
 
 test("the lead never plays the same pitch twice running", () => {
   each(80, (_, m) => {
-    const ns = sorted(m);
-    for (let i = 1; i < ns.length; i++) {
-      assert.notEqual(ns[i]!.pitch, ns[i - 1]!.pitch, `${m.key} repeats at bar ${ns[i]!.bar} step ${ns[i]!.step}`);
+    for (const line of lines(m)) {
+      const ns = byTime(line);
+      for (let i = 1; i < ns.length; i++) {
+        assert.notEqual(ns[i]!.pitch, ns[i - 1]!.pitch, `${m.key} repeats at bar ${ns[i]!.bar} step ${ns[i]!.step}`);
+      }
     }
   });
 });
@@ -34,7 +46,8 @@ test("the lead never plays the same pitch twice running", () => {
 test("a note off the chord resolves by step into the chord that follows", () => {
   let off = 0;
   each(80, (_, m) => {
-    const ns = sorted(m);
+    for (const line of lines(m)) {
+    const ns = byTime(line);
     for (let i = 0; i < ns.length - 1; i++) {
       if (inChord(m, ns[i]!)) continue;
       off++;
@@ -42,6 +55,7 @@ test("a note off the chord resolves by step into the chord that follows", () => 
       const d = Math.abs(next.pitch - ns[i]!.pitch);
       assert.ok(d <= 2, `${m.key} bar ${ns[i]!.bar}: a non-chord tone leaps ${d} semitones away`);
       assert.ok(inChord(m, next), `${m.key} bar ${ns[i]!.bar}: a non-chord tone resolves to another`);
+    }
     }
   });
   assert.ok(off > 50, `only ${off} non-chord tones in 80 records — the tune is not using passing notes`);
@@ -51,7 +65,7 @@ test("beats take chord tones", () => {
   let strong = 0;
   let onChord = 0;
   each(80, (chart, m) => {
-    for (const n of m.parts.lead) {
+    for (const n of tune(m)) {
       if (n.step % chart.metre.perBeat !== 0) continue;
       strong++;
       if (inChord(m, n)) onChord++;
@@ -63,20 +77,22 @@ test("beats take chord tones", () => {
   assert.ok(onChord / strong > 0.65, `only ${((100 * onChord) / strong).toFixed(0)}% of beats are chord tones`);
 });
 
-test("the tune ends on a chord tone", () => {
+test("the tune ends on a chord tone, in every form", () => {
   each(80, (_, m) => {
-    const ns = sorted(m);
-    const last = ns[ns.length - 1];
-    if (!last) return;
-    assert.ok(inChord(m, last), `${m.key} ends on ${last.pitch}, off the chord`);
+    for (const line of lines(m)) {
+      const ns = byTime(line);
+      const last = ns[ns.length - 1];
+      if (!last) return;
+      assert.ok(inChord(m, last), `${m.key} ends on ${last.pitch}, off the chord`);
+    }
   });
 });
 
 test("the tune stays in register, in scale, and inside its span per phrase", () => {
   const [lo, hi] = lofi.lead.register;
   each(60, (_, m) => {
-    for (let ph = 0; ph * 2 < m.bars; ph++) {
-      const ns = m.parts.lead.filter((n) => Math.floor(n.bar / 2) === ph);
+    for (const line of lines(m)) for (let ph = 0; ph * 2 < m.bars; ph++) {
+      const ns = line.filter((n) => Math.floor(n.bar / 2) === ph);
       if (ns.length === 0) continue;
       const ps = ns.map((n) => n.pitch);
       assert.ok(Math.min(...ps) >= lo && Math.max(...ps) <= hi);
@@ -105,8 +121,8 @@ test("the answer goes the other way from the question", () => {
   let contrary = 0;
   let pairs = 0;
   each(80, (_, m) => {
-    const q = m.parts.lead.filter((n) => n.bar < 2).sort((a, b) => a.bar - b.bar || a.step - b.step);
-    const a = m.parts.lead.filter((n) => n.bar >= 2).sort((a, b) => a.bar - b.bar || a.step - b.step);
+    const q = byTime(tune(m).filter((n) => n.bar < 2));
+    const a = byTime(tune(m).filter((n) => n.bar >= 2));
     if (q.length < 2 || a.length < 2) return;
     const qd = Math.sign(q[q.length - 1]!.pitch - q[0]!.pitch);
     const ad = Math.sign(a[a.length - 1]!.pitch - a[0]!.pitch);
@@ -120,15 +136,51 @@ test("the answer goes the other way from the question", () => {
 
 test("the tune never lands on a seat the keys or bass hold", () => {
   each(60, (_, m) => {
-    const held = new Set([...m.parts.keys, ...m.parts.bass].map((n) => `${n.bar}:${n.step}:${n.pitch}`));
-    for (const n of m.parts.lead) assert.ok(!held.has(`${n.bar}:${n.step}:${n.pitch}`));
+    for (const c of m.cycles) {
+      const held = new Set([...c.parts.keys, ...c.parts.bass].map((n) => `${n.bar}:${n.step}:${n.pitch}`));
+      for (const n of c.parts.lead) assert.ok(!held.has(`${n.bar}:${n.step}:${n.pitch}`));
+    }
   });
 });
 
-test("every material has a tune", () => {
+test("every material opens with a tune", () => {
   each(60, (_, m) => {
-    assert.ok(m.parts.lead.length >= 6, `${m.key} has ${m.parts.lead.length} lead notes`);
+    assert.ok(tune(m).length >= 6, `${m.key} has ${tune(m).length} lead notes`);
   });
+});
+
+test("the groove loops: bass and keys are the same in every cycle", () => {
+  each(60, (_, m) => {
+    for (const c of m.cycles) {
+      assert.deepEqual(c.parts.bass, m.cycles[0]!.parts.bass);
+      assert.deepEqual(c.parts.keys, m.cycles[0]!.parts.keys);
+    }
+  });
+});
+
+test("a developed cycle keeps the question and changes the answer", () => {
+  let developed = 0;
+  let rests = 0;
+  let longMaterials = 0;
+  each(120, (_, m) => {
+    if (m.cycles.length < 3) return;
+    longMaterials++;
+    const first = tune(m);
+    for (const c of m.cycles.slice(1)) {
+      const line = c.parts.lead;
+      if (line.length === 0) { rests++; continue; }
+      if (JSON.stringify(line) === JSON.stringify(first)) continue;
+      developed++;
+      const question = (ns: readonly { bar: number }[]) => JSON.stringify(ns.filter((n) => n.bar < 2));
+      assert.equal(question(line), question(first), `${m.key}: the development changed the question`);
+      assert.notEqual(JSON.stringify(line.filter((n) => n.bar >= 2)), JSON.stringify(first.filter((n) => n.bar >= 2)));
+    }
+  });
+  assert.ok(longMaterials > 30);
+  // most long materials develop; a few rest a cycle; none does either on
+  // the first cycle, which every plan opens with the tune
+  assert.ok(developed > longMaterials * 0.5, `only ${developed} developed cycles in ${longMaterials} long materials`);
+  assert.ok(rests > 0 && rests < developed, `${rests} resting cycles against ${developed} developed`);
 });
 
 test("the drums keep a figure and vary it by the bar's letter", () => {
@@ -137,7 +189,7 @@ test("the drums keep a figure and vary it by the bar's letter", () => {
   let distinct = 0;
   each(60, (_, m) => {
     const byBar: string[] = [];
-    for (const hits of m.drums) {
+    for (const { drums: hits } of m.cycles) {
       for (let b = 0; b < m.bars; b++) {
         byBar.push(hits.filter((h) => h.bar === b).map((h) => `${h.step}${h.lane}`).sort().join());
       }
@@ -160,7 +212,7 @@ test("a fill rises into the next bar", () => {
   each(120, (chart, m) => {
     const beat = chart.metre.perBeat;
     const steps = stepsPerBar(chart.metre);
-    for (const hits of m.drums) for (let b = 0; b < m.bars; b++) {
+    for (const { drums: hits } of m.cycles) for (let b = 0; b < m.bars; b++) {
       const lastBeat = hits.filter((h) => h.bar === b && h.lane === "snare" && h.step >= steps - beat).sort((x, y) => x.step - y.step);
       if (lastBeat.length < beat) continue;
       fills++;

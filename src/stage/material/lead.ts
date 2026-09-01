@@ -24,6 +24,11 @@
  *
  * Direction and leaps are drawn; everything above is arithmetic. So the tune
  * is the genre's and the seed's, and the grammar is the program's.
+ *
+ * A tune has two forms. The STATEMENT is the tune. The DEVELOPMENT keeps every
+ * question phrase and answers each one differently: the hook is what an ear
+ * holds on to, and the reply is where a line has room to go somewhere else.
+ * Which form a cycle of a section plays is the material's plan.
  */
 
 import type { Rng } from "../../core/rng.ts";
@@ -48,6 +53,7 @@ export function drawLead(
   rng: Rng,
   steps: number,
   reserved: ReadonlySet<string>,
+  developed = false,
 ): Note[] {
   const L = chart.genre.lead;
   const [lo, hi] = L.register;
@@ -61,10 +67,12 @@ export function drawLead(
   let questionDir = 0;
 
   for (let ph = 0; ph * PHRASE_BARS < chords.length; ph++) {
-    const at = rng.at("phrase", ph);
+    const isAnswer = ph % 2 === 1;
+    // the development answers from its own draws; its questions are the
+    // statement's, draw for draw
+    const at = developed && isAnswer ? rng.at("answer", ph) : rng.at("phrase", ph);
     const firstBar = ph * PHRASE_BARS;
     const rhythm = at.weighted("rhythm", L.rhythms);
-    const isAnswer = ph % 2 === 1;
 
     // the question's direction is drawn; the answer is contrary to where the
     // question actually went, which is arithmetic on its first and last notes

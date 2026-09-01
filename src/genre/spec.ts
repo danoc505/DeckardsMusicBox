@@ -168,6 +168,15 @@ export interface KeysRules {
   readonly open: number;
 }
 
+/**
+ * What the tune does on each cycle of a section. A states it; B keeps the
+ * question and answers it differently; "." is a rest for the whole cycle.
+ * A tune heard four times unchanged is a loop, and a tune changed every time
+ * was never a tune — so the plan says which cycles restate and which develop.
+ */
+export const LEAD_CYCLES = ["A", "B", "."] as const;
+export type LeadCycle = (typeof LEAD_CYCLES)[number];
+
 export interface LeadSpec {
   readonly register?: Register;
   /**
@@ -179,6 +188,8 @@ export interface LeadSpec {
   readonly leap?: number;
   /** The widest a phrase may span, in semitones. */
   readonly span?: number;
+  /** One letter per cycle of a section, drawn once per material. The first must sound. */
+  readonly cycles?: Weighted<readonly LeadCycle[]>;
 }
 
 /** What the lead builder reads. `rhythms` is in GRID STEPS over two bars. */
@@ -187,6 +198,7 @@ export interface LeadRules {
   readonly rhythms: Weighted<readonly number[]>;
   readonly leap: number;
   readonly span: number;
+  readonly cycles: Weighted<readonly LeadCycle[]>;
 }
 
 /** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
@@ -499,6 +511,19 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     ],
     leap: 0.25,
     span: 12,
+    /**
+     * Statement, restatement, departure, return is the sentence a sixteen-bar
+     * section most often is. A cycle of rest is offered but rare: the tune
+     * stepping out for four bars is a breath, and two breaths is an absence.
+     * [chosen]
+     */
+    cycles: [
+      [["A", "A", "B", "A"], 4],
+      [["A", "B", "A", "B"], 2],
+      [["A", "A", "B", "B"], 1],
+      [["A", ".", "A", "B"], 1],
+      [["A", "B", ".", "A"], 1],
+    ],
   },
 
   drums: {

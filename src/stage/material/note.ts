@@ -40,6 +40,12 @@ export interface Chord {
 export const PITCHED = PITCHED_ROLES;
 export type Pitched = PitchedRole;
 
+/** Everything played during one pass through the material. */
+export interface Cycle {
+  readonly parts: Readonly<Record<Pitched, readonly Note[]>>;
+  readonly drums: readonly Hit[];
+}
+
 export interface Material {
   /** "A" for the plain statement, "A/1" for its first variant. */
   readonly key: string;
@@ -48,12 +54,13 @@ export interface Material {
   readonly variant: number;
   readonly bars: number;
   readonly chords: readonly Chord[];
-  readonly parts: Readonly<Record<Pitched, readonly Note[]>>;
   /**
-   * One entry per cycle the form asks for. A 16-bar section over a 4-bar
-   * material plays cycles 0..3; each has the same figure and its own phrase.
+   * One realisation per cycle a section asks for: a 16-bar section over a
+   * 4-bar material hears cycles 0..3. The groove — bass and keys — is the
+   * same in every one; the tune and the drum phrase develop across them.
+   * A reader takes the cycle it is in and asks no further questions.
    */
-  readonly drums: readonly (readonly Hit[])[];
+  readonly cycles: readonly Cycle[];
 }
 
 /** A material is exactly `bars` long; a note that is not in it is a bug. */

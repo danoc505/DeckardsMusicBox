@@ -12,7 +12,7 @@
 
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, ROLES, SECTION_FNS,
+  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, LEAD_CYCLES, ROLES, SECTION_FNS,
   type Genre, type GenreSpec, type Weighted,
 } from "./spec.ts";
 
@@ -362,6 +362,12 @@ export function resolveGenre(
     if (!finite(sp) || !Number.isInteger(sp) || sp < 5 || sp > 36) {
       problems.push(`lead.span must be 5..36 semitones, got ${String(sp)}`);
     }
+    // a plan opens with the tune: a section whose first cycle is silent has
+    // no tune to develop
+    checkPool(problems, "lead.cycles", lead["cycles"],
+      (v) => Array.isArray(v) && v.length >= 1 && v[0] !== "." &&
+        v.every((l) => typeof l === "string" && (LEAD_CYCLES as readonly string[]).includes(l)),
+      'a list of cycle letters A, B or "." that begins with a sounding cycle');
     if (problems.length === 0) lead["rhythms"] = toSteps(lead["rhythms"]);
   }
 

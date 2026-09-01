@@ -70,8 +70,8 @@ export function makePerformance(
 
     for (let bar = section.startBar; bar < section.endBar; bar++) {
       const mbar = (bar - section.startBar) % m.bars;
-      const cycle = Math.floor((bar - section.startBar) / m.bars);
-      const hits = m.drums[cycle % m.drums.length]!;
+      const cycle = m.cycles[Math.floor((bar - section.startBar) / m.bars)];
+      if (cycle === undefined) throw new Error(`${section.fn} at bar ${bar} plays a cycle of "${placed.material}" that was never built`);
       const arc = form.arc[bar] ?? section.energy;
       const level = 1 - ARC_DEPTH + ARC_DEPTH * arc;
       const stepSec = clock.stepSec(bar);
@@ -95,14 +95,14 @@ export function makePerformance(
 
       for (const role of placed.heard) {
         if (role === "drums") {
-          for (const h of hits) {
+          for (const h of cycle.drums) {
             if (h.bar !== mbar) continue;
             // thinning is the hat coming off: the pulse stays, the shimmer goes
             if (placed.thin && (h.lane === "hat" || h.lane === "openhat")) continue;
             place("drums", h.lane, h.step, 1, null, h.vel);
           }
         } else {
-          for (const n of m.parts[role]) {
+          for (const n of cycle.parts[role]) {
             if (n.bar !== mbar) continue;
             place(role, role, n.step, n.dur, n.pitch, n.vel);
           }

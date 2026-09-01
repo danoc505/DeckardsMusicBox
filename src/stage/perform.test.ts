@@ -35,13 +35,12 @@ test("every heard note of every section is played, and nothing else", () => {
       const m = s.materials.all.get(p.material)!;
       for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
         const mbar = (bar - p.section.startBar) % m.bars;
+        const cycle = m.cycles[Math.floor((bar - p.section.startBar) / m.bars)]!;
         for (const role of p.heard) {
           if (role === "drums") {
-            const cycle = Math.floor((bar - p.section.startBar) / m.bars);
-            const hits = m.drums[cycle % m.drums.length]!;
-            expected += hits.filter((h) => h.bar === mbar && !(p.thin && (h.lane === "hat" || h.lane === "openhat"))).length;
+            expected += cycle.drums.filter((h) => h.bar === mbar && !(p.thin && (h.lane === "hat" || h.lane === "openhat"))).length;
           } else {
-            expected += m.parts[role].filter((n) => n.bar === mbar).length;
+            expected += cycle.parts[role].filter((n) => n.bar === mbar).length;
           }
         }
       }
@@ -165,6 +164,33 @@ test("a long section does not play the same drum bars over and over", () => {
   }
   assert.ok(sections > 20);
   assert.ok(ratio / sections > 0.4, `long sections average ${((100 * ratio) / sections).toFixed(0)}% distinct drum bars`);
+});
+
+test("a long section does not play the tune over and over", () => {
+  // the tune is stated, restated, developed: a sixteen-bar section over a
+  // four-bar material hears more than four distinct lead bars. Per section
+  // as a floor the plan guarantees for one restatement and one development,
+  // and across the sweep as an average.
+  let ratio = 0;
+  let sections = 0;
+  for (const s of sweep(60)) {
+    for (const p of s.arrangement.placed) {
+      const m = s.materials.all.get(p.material)!;
+      if (p.section.bars < m.bars * 4 || !p.heard.has("lead")) continue;
+      const bars = new Set<string>();
+      let played = 0;
+      for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
+        const here = s.performance.events.filter((e) => e.bar === bar && e.role === "lead");
+        if (here.length === 0) continue;
+        played++;
+        bars.add(here.map((e) => `${e.step}:${e.pitch}`).sort().join());
+      }
+      ratio += bars.size / played;
+      sections++;
+    }
+  }
+  assert.ok(sections > 20);
+  assert.ok(ratio / sections > 0.35, `long sections average ${((100 * ratio) / sections).toFixed(0)}% distinct lead bars`);
 });
 
 test("the dump follows the format and counts itself correctly", () => {

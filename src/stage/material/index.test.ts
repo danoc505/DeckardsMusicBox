@@ -20,7 +20,7 @@ test("the same seed builds the same materials", () => {
   assert.deepEqual([...a.all.keys()], [...b.all.keys()]);
   for (const k of a.all.keys()) {
     assert.equal(describeMaterial(a.all.get(k)!), describeMaterial(b.all.get(k)!));
-    assert.deepEqual(a.all.get(k)!.parts, b.all.get(k)!.parts);
+    assert.deepEqual(a.all.get(k)!.cycles, b.all.get(k)!.cycles);
   }
 });
 
@@ -41,7 +41,7 @@ test("a varied statement gets its own material with the same chords", () => {
       const plain = m.all.get(v.idea)!;
       assert.equal(v.variant >= 1, true);
       assert.deepEqual(v.chords.map((c) => c.name), plain.chords.map((c) => c.name), "a variant changed the changes");
-      const same = JSON.stringify(v.parts) === JSON.stringify(plain.parts);
+      const same = JSON.stringify(v.cycles[0]!.parts) === JSON.stringify(plain.cycles[0]!.parts);
       assert.ok(!same, `${k} is note-for-note its plain statement`);
     }
   }
@@ -81,7 +81,7 @@ test("bass plays the root on every downbeat", () => {
   for (const m of sweep(60)) {
     for (const mat of m.all.values()) {
       for (const ch of mat.chords) {
-        const down = mat.parts.bass.find((n) => n.bar === ch.bar && n.step === 0);
+        const down = mat.cycles[0]!.parts.bass.find((n) => n.bar === ch.bar && n.step === 0);
         assert.ok(down, `${mat.key} bar ${ch.bar} has no bass on the downbeat`);
         assert.equal(pc(down.pitch), pc(ch.root), `${mat.key} bar ${ch.bar} downbeat is not the root`);
       }
@@ -97,7 +97,7 @@ test("the bass is a line, not a pedal", () => {
   let same = 0;
   for (const m of sweep(80)) {
     for (const mat of m.all.values()) {
-      const ns = mat.parts.bass.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
+      const ns = mat.cycles[0]!.parts.bass.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
       for (let i = 1; i < ns.length; i++) {
         const d = Math.abs(ns[i]!.pitch - ns[i - 1]!.pitch);
         if (d === 0) same++;
@@ -116,7 +116,7 @@ test("bass notes fill the pocket and never overlap", () => {
   for (const m of sweep(40)) {
     for (const mat of m.all.values()) {
       for (let bar = 0; bar < mat.bars; bar++) {
-        const ns = mat.parts.bass.filter((n) => n.bar === bar).sort((a, b) => a.step - b.step);
+        const ns = mat.cycles[0]!.parts.bass.filter((n) => n.bar === bar).sort((a, b) => a.step - b.step);
         let end = 0;
         for (const n of ns) {
           assert.ok(n.step >= end, `${mat.key} bass overlaps at ${bar}:${n.step}`);
@@ -136,7 +136,7 @@ test("keys voice every tone of the chord, in register, led smoothly", () => {
     for (const mat of m.all.values()) {
       let prevTop: number | null = null;
       for (const ch of mat.chords) {
-        const struck = mat.parts.keys.filter((n) => n.bar === ch.bar && n.step === 0);
+        const struck = mat.cycles[0]!.parts.keys.filter((n) => n.bar === ch.bar && n.step === 0);
         assert.equal(struck.length, ch.tones.length, `${mat.key} bar ${ch.bar} voices ${struck.length} of ${ch.tones.length}`);
         assert.deepEqual(
           new Set(struck.map((n) => pc(n.pitch))),
@@ -167,7 +167,7 @@ test("keys voicings avoid mud below the low-interval floor", () => {
   for (const mat of m.all.values()) {
     for (const ch of mat.chords) {
       chords++;
-      const v = mat.parts.keys.filter((n) => n.bar === ch.bar && n.step === 0).map((n) => n.pitch).sort((a, b) => a - b);
+      const v = mat.cycles[0]!.parts.keys.filter((n) => n.bar === ch.bar && n.step === 0).map((n) => n.pitch).sort((a, b) => a - b);
       for (let i = 1; i < v.length; i++) if (v[i - 1]! < 48 && v[i]! - v[i - 1]! < 4) muddy++;
     }
   }
@@ -179,7 +179,7 @@ test("every note is in the scale and in its register", () => {
     const chart = makeChart({ seed, genre: lofi, seconds: 240 });
     const m = makeMaterials(chart, makeForm(chart));
     for (const mat of m.all.values()) {
-      for (const n of [...mat.parts.bass, ...mat.parts.keys]) {
+      for (const n of [...mat.cycles[0]!.parts.bass, ...mat.cycles[0]!.parts.keys]) {
         assert.ok(inScale(chart.tonic, chart.scale, n.pitch));
       }
     }
@@ -209,7 +209,7 @@ test("materials are frozen", () => {
   const m = build(1);
   for (const mat of m.all.values()) {
     assert.ok(Object.isFrozen(mat));
-    assert.ok(Object.isFrozen(mat.parts.bass));
+    assert.ok(Object.isFrozen(mat.cycles[0]!.parts.bass));
     assert.ok(Object.isFrozen(mat.chords));
   }
 });

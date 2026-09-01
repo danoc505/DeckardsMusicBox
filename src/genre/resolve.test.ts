@@ -178,3 +178,17 @@ test("resolveAll fails on the whole set if any one genre is broken", () => {
     /genre "bad" does not load/,
   );
 });
+
+test("a lead plan whose first cycle is silent is refused, and so is a letter that is not one", () => {
+  const bad: unknown[] = [[[[".", "A"], 1]], [[["A", "X"], 1]], []];
+  for (const cycles of bad) {
+    let err: GenreError | null = null;
+    try {
+      resolveGenre("g", specs({ g: { label: "G", lead: { cycles: cycles as never } } }));
+    } catch (e) {
+      err = e as GenreError;
+    }
+    assert.ok(err instanceof GenreError, `accepted lead.cycles ${JSON.stringify(cycles)}`);
+    assert.ok(err.problems.some((p) => p.startsWith("lead.cycles")), err.problems.join("\n"));
+  }
+});
