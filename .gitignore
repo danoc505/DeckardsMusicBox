@@ -1,0 +1,4 @@
+# dumps are reproducible from the program and the seed — regenerate, do not commit.
+# `node tools/dump.mjs` rebuilds any of them in seconds.
+dumps/
+node_modules/
