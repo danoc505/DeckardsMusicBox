@@ -7,11 +7,11 @@ import { GENRES, resolveGenre } from "../genre/index.ts";
 import { ROLES } from "../genre/spec.ts";
 
 const lofi = GENRES.lofi;
-const build = (seed: number, seconds = 240): Arrangement => {
-  const chart = makeChart({ seed, genre: lofi, seconds });
+const build = (seed: number, seconds: number | null = 240): Arrangement => {
+  const chart = makeChart(seconds === null ? { seed, genre: lofi } : { seed, genre: lofi, seconds });
   return makeArrangement(chart, makeForm(chart));
 };
-const sweep = (n: number) => Array.from({ length: n }, (_, i) => build(i + 1));
+const sweep = (n: number, seconds: number | null = 240) => Array.from({ length: n }, (_, i) => build(i + 1, seconds));
 
 test("every section hears something, and every part is heard somewhere in every record", () => {
   // the structural claim: a part cannot be silent for a whole record by
@@ -61,14 +61,21 @@ test("parts arrive one section at a time, all at once for a big section, and sta
   assert.ok(built > 30, `only ${built} sections were still building`);
 });
 
-test("the outro lets the last-entered part go", () => {
+test("the outro lets the last-entered part go, once it has been a fixture", () => {
   const last = lofi.arrangement.enter[lofi.arrangement.enter.length - 1]!;
-  for (const a of sweep(120)) {
+  let kept = 0;
+  let letGo = 0;
+  // at the genre's own length, so that the short records — an intro, a
+  // verse still building, one chorus — are in the sweep
+  for (const a of sweep(120, null)) {
     const outro = a.placed[a.placed.length - 1]!;
     assert.equal(outro.section.fn, "outro");
-    const before = a.placed.slice(0, -1).some((p) => p.heard.has(last));
-    assert.equal(!outro.heard.has(last), before, describeArrangement(a));
+    const before = a.placed.slice(0, -1).filter((p) => p.heard.has(last)).length;
+    assert.equal(!outro.heard.has(last), before >= 2, describeArrangement(a));
+    if (before >= 2) letGo++;
+    else kept++;
   }
+  assert.ok(kept > 5 && letGo > 20, `${kept} outros kept the ${last}, ${letGo} let it go`);
 });
 
 test("a bridge thins, a quiet section thins, the peak never does", () => {

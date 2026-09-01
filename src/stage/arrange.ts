@@ -15,8 +15,10 @@
  * order and each section lets the next one in, so the second verse is not the
  * first verse again: something has been added. A section big enough to want
  * everyone — the first chorus, usually — brings in all of them at once, and
- * from then on nothing leaves. Only the outro takes a part away, the last one
- * that arrived, and a bridge or a quiet section thins the drums.
+ * from then on nothing leaves. Only the outro takes a part away — the last
+ * one that arrived, and only once it has been a fixture: a part heard in one
+ * section is not yet something the record can miss — and a bridge or a quiet
+ * section thins the drums.
  */
 
 import type { Idea, Role } from "../genre/spec.ts";
@@ -49,7 +51,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
   // a statement the form marks `vary` plays the idea's next variant, and
   // every statement after it that is not marked plays the plain one again
   const variantsSeen = new Map<Idea, number>();
-  const heardBefore = new Set<Role>();
+  const sectionsHeard = new Map<Role, number>();
   // how many of the entry order have arrived; the intro's parts are in from the top
   let arrived = A.introParts;
   const placed: Placed[] = form.sections.map((section) => {
@@ -66,9 +68,9 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         break;
       case "outro":
         heard = new Set(everything);
-        // the last part in lets go first — unless it has never been heard,
-        // in which case the record has not earned taking it away
-        if (heardBefore.has(lastIn)) heard.delete(lastIn);
+        // the last part in lets go first — once it has been heard in more
+        // than one section; before that the record has not earned its absence
+        if ((sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
         break;
       default:
         // one more part than last time; everyone, once a section is big
@@ -76,7 +78,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
         heard = new Set(A.enter.slice(0, arrived));
     }
-    for (const r of heard) heardBefore.add(r);
+    for (const r of heard) sectionsHeard.set(r, (sectionsHeard.get(r) ?? 0) + 1);
 
     const thin = !section.peak && (section.fn === "bridge" || section.energy < A.thinBelow);
     return Object.freeze({
