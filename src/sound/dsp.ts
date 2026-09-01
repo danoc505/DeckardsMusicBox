@@ -81,6 +81,27 @@ export class Noise {
   }
 }
 
+/**
+ * How far below its own peak a voice must fall before its buffer may end.
+ * A buffer that stops while the sound is still there is a step, and a step
+ * is a click — the kick ended 19 dB under its peak and clicked on every
+ * beat of every record. 40 dB down, a four-millisecond fade closes what is
+ * left without ducking anything an ear can follow.
+ */
+export const TAIL_DB = 40;
+const FADE_SEC = 0.004;
+
+/** How long a decay of time constant `tau` takes to fall TAIL_DB. */
+export const tailSec = (tau: number): number => (tau * TAIL_DB) / (20 / Math.LN10);
+
+/** Close a buffer with a raised-cosine fade, so it ends at zero however it was cut. */
+export function fade(buf: Float32Array, sampleRate: number): Float32Array {
+  const n = Math.min(buf.length, Math.max(1, Math.round(FADE_SEC * sampleRate)));
+  const from = buf.length - n;
+  for (let i = 0; i < n; i++) buf[from + i] = buf[from + i]! * 0.5 * (1 + Math.cos((Math.PI * i) / n));
+  return buf;
+}
+
 /** A note's shape: a short attack, an exponential decay toward a floor, a release once it is let go. */
 export interface Shape {
   readonly attackSec: number;

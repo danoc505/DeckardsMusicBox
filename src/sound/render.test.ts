@@ -76,6 +76,50 @@ test("the tape is the genre's: a clean genre keeps its top end, lofi loses it", 
   assert.ok(taped < open, `lofi keeps ${taped.toFixed(3)} of its top end against a clean ${open.toFixed(3)}`);
 });
 
+test("the velocity layers cost less than 40 dB of the record", () => {
+  // the cache renders a note once per layer, so what it approximates is
+  // exactly this: the same record with every note rendered at its own
+  // weight. The difference between the two is what the layers cost, and it
+  // belongs far under anything an ear follows.
+  const s = compose({ seed: 9, genre: "lofi", seconds: 60 });
+  const layered = render(s, { sampleRate: SR });
+  const exact = render(s, { sampleRate: SR, layers: 100000 });
+  assert.equal(layered.length, exact.length);
+  const diff = new Float32Array(exact.length);
+  for (let i = 0; i < diff.length; i++) diff[i] = exact[i]! - layered[i]!;
+  const below = 20 * Math.log10(rms(diff) / rms(exact));
+  assert.ok(below < -40, `the layers cost ${below.toFixed(1)} dB, which is audible`);
+  // and the knob is doing something: fewer layers must cost more
+  const coarse = render(s, { sampleRate: SR, layers: 8 });
+  const cd = new Float32Array(exact.length);
+  for (let i = 0; i < cd.length; i++) cd[i] = exact[i]! - coarse[i]!;
+  assert.ok(20 * Math.log10(rms(cd) / rms(exact)) > below);
+});
+
+test("the level a note is played at is its own, not its layer's", () => {
+  // the layer decides the timbre; the note is then scaled. Two events of
+  // the same pitch, length and layer but different weights must come out at
+  // their own levels — if the scaling were dropped they would be identical.
+  const s = compose({ seed: 9, genre: "lofi", seconds: 60 });
+  const one = s.performance.events.find((e) => e.role === "keys")!;
+  const nudge = (by: number) =>
+    ({ ...s, performance: { ...s.performance, events: [{ ...one, gain: one.gain * by, tSec: 1, bar: 1 }] } }) as typeof s;
+  const loud = rms(render(nudge(1), { sampleRate: SR }));
+  const soft = rms(render(nudge(0.995), { sampleRate: SR }));
+  // a shade quieter, well inside one layer, so the buffer is the same one
+  assert.ok(soft < loud * 0.999, `a small cut came back at ${(soft / loud).toFixed(4)} — the layer answered for the note`);
+});
+
+test("a note that recurs is rendered once and is the same note each time", () => {
+  const s = compose({ seed: 12, genre: "lofi", seconds: 90 });
+  const out = render(s, { sampleRate: SR });
+  const again = render(s, { sampleRate: SR });
+  assert.deepEqual(out, again);
+  // the record does repeat notes: the cache is not a no-op
+  const keys = new Set(s.performance.events.map((e) => `${e.role}${e.lane}${e.pitch}${e.durSec}${Math.round(e.gain * 16)}`));
+  assert.ok(keys.size < s.performance.events.length / 3, `${keys.size} distinct of ${s.performance.events.length}`);
+});
+
 test("a wav file has the right header and length", () => {
   const out = render(song, { sampleRate: SR });
   const bytes = wav(out, SR);

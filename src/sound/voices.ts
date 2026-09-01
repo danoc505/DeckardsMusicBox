@@ -27,7 +27,7 @@
  *           (soundonsound.com, "Practical Flute Synthesis").
  */
 
-import { Biquad, Noise, decayPerSample, envelope, midiHz, sinTurns, type Shape } from "./dsp.ts";
+import { Biquad, Noise, decayPerSample, envelope, fade, midiHz, sinTurns, tailSec, type Shape } from "./dsp.ts";
 
 export interface NoteIn {
   readonly midi: number;
@@ -40,13 +40,20 @@ export interface NoteIn {
 
 const buffer = (sec: number, sr: number): Float32Array => new Float32Array(Math.max(1, Math.ceil(sec * sr)));
 
+/**
+ * A held note's buffer: the note, then long enough for its release to fall
+ * away. Derived from the shape rather than a number picked per voice, so a
+ * voice cannot be given a long release and a short buffer to put it in.
+ */
+const held = (n: NoteIn, sh: Shape): Float32Array => buffer(n.heldSec + tailSec(sh.releaseSec), n.sampleRate);
+
 const RHODES: Shape = { attackSec: 0.003, decaySec: 1.6, sustain: 0.08, releaseSec: 0.09 };
 
 export function rhodes(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
   const f = midiHz(n.midi);
-  const out = buffer(n.heldSec + 0.5, sr);
-  const held = Math.round(n.heldSec * sr);
+  const out = held(n, RHODES);
+  const heldSamples = Math.round(n.heldSec * sr);
   // harder notes have more tine: the index follows the weight. Both
   // indices decay by a multiplier a sample, as does the amplitude; the
   // phases accumulate in turns, so the sine is a table lookup
@@ -64,16 +71,16 @@ export function rhodes(n: NoteIn): Float32Array {
   for (let i = 0; i < out.length; i++) {
     const a = i < attack ? i / attack : 1;
     decay *= kDecay;
-    if (i > held) release *= kRelease;
+    if (i > heldSamples) release *= kRelease;
     const env = a * (RHODES.sustain + (1 - RHODES.sustain) * decay) * release;
-    if (env < 1e-4 && i > held) break;
+    if (env < 1e-4 && i > heldSamples) break;
     const mod = iBody * sinTurns(phase) + iTine * sinTurns(phase * 14);
     out[i] = sinTurns(phase + mod / (2 * Math.PI)) * env * 0.5;
     phase += dPhase;
     iBody *= kBody;
     iTine *= kTine;
   }
-  return out;
+  return fade(out, sr);
 }
 
 const SUB: Shape = { attackSec: 0.006, decaySec: 0.8, sustain: 0.6, releaseSec: 0.05 };
@@ -81,7 +88,7 @@ const SUB: Shape = { attackSec: 0.006, decaySec: 0.8, sustain: 0.6, releaseSec: 
 export function sub(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
   const f = midiHz(n.midi);
-  const out = buffer(n.heldSec + 0.25, sr);
+  const out = held(n, SUB);
   const twoPi = 2 * Math.PI;
   for (let i = 0; i < out.length; i++) {
     const t = i / sr;
@@ -90,14 +97,15 @@ export function sub(n: NoteIn): Float32Array {
     const second = 0.25 * Math.exp(-t / 0.25);
     out[i] = (Math.sin(twoPi * f * t) + second * Math.sin(twoPi * 2 * f * t)) * env * 0.7;
   }
-  return out;
+  return fade(out, sr);
 }
 
 export function pluck(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
   const f = midiHz(n.midi);
   const period = Math.max(2, Math.round(sr / f));
-  const out = buffer(n.heldSec + 0.6, sr);
+  // the loop's own loss decides how long a string rings, not a shape
+  const out = buffer(n.heldSec + tailSec(0.12), sr);
   const noise = new Noise(n.seed);
   const line = new Float32Array(period);
   for (let i = 0; i < period; i++) line[i] = noise.next();
@@ -123,12 +131,15 @@ export function pluck(n: NoteIn): Float32Array {
     prev = y;
     if (t > n.heldSec && Math.abs(y) < 1e-4 && i > period * 4) break;
   }
-  return out;
+  return fade(out, sr);
 }
+
+/** The kick's body decays with this time constant; the buffer follows it. */
+const KICK_TAU = 0.22;
 
 export function kick(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
-  const out = buffer(0.45, sr);
+  const out = buffer(tailSec(KICK_TAU), sr);
   const twoPi = 2 * Math.PI;
   let phase = 0;
   for (let i = 0; i < out.length; i++) {
@@ -136,39 +147,42 @@ export function kick(n: NoteIn): Float32Array {
     // the pitch falls from a clicky start onto the body in about 50 ms
     const hz = 58 + 140 * Math.exp(-t / 0.05);
     phase += (twoPi * hz) / sr;
-    const env = Math.exp(-t / 0.22) * (t < 0.001 ? t / 0.001 : 1);
+    const env = Math.exp(-t / KICK_TAU) * (t < 0.001 ? t / 0.001 : 1);
     out[i] = Math.tanh(Math.sin(phase) * 2.2) * env * 0.95 * n.gain;
   }
-  return out;
+  return fade(out, sr);
 }
+
+/** The rattle outlasts the tone, so it sizes the buffer. */
+const SNARE_TAU = 0.13;
 
 export function snare(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
-  const out = buffer(0.35, sr);
+  const out = buffer(tailSec(SNARE_TAU), sr);
   const twoPi = 2 * Math.PI;
   const noise = new Noise(n.seed);
   const band = new Biquad("bandpass", 1800, 0.7, sr);
   for (let i = 0; i < out.length; i++) {
     const t = i / sr;
     const tone = Math.sin(twoPi * 200 * t) * Math.exp(-t / 0.08);
-    const rattle = band.run(noise.next()) * Math.exp(-t / 0.13);
+    const rattle = band.run(noise.next()) * Math.exp(-t / SNARE_TAU);
     const click = t < 0.004 ? noise.next() * (1 - t / 0.004) : 0;
     out[i] = (0.55 * tone + 1.6 * rattle + 0.5 * click) * n.gain * 0.6;
   }
-  return out;
+  return fade(out, sr);
 }
 
 export function hat(n: NoteIn, open: boolean): Float32Array {
   const sr = n.sampleRate;
-  const out = buffer(open ? 0.4 : 0.09, sr);
+  const tau = open ? 0.12 : 0.025;
+  const out = buffer(tailSec(tau), sr);
   const noise = new Noise(n.seed);
   const hp = new Biquad("highpass", 7000, 0.8, sr);
-  const tau = open ? 0.12 : 0.025;
   for (let i = 0; i < out.length; i++) {
     const t = i / sr;
     out[i] = hp.run(noise.next()) * Math.exp(-t / tau) * 0.6 * n.gain;
   }
-  return out;
+  return fade(out, sr);
 }
 
 const ORGAN: Shape = { attackSec: 0.02, decaySec: 4, sustain: 1, releaseSec: 0.12 };
@@ -178,7 +192,7 @@ const DRAWBARS: readonly (readonly [number, number])[] = [[0.5, 0.5], [1, 1], [2
 export function organ(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
   const f = midiHz(n.midi);
-  const out = buffer(n.heldSec + 0.4, sr);
+  const out = held(n, ORGAN);
   const phases = DRAWBARS.map(() => 0);
   const norm = 0.8 / DRAWBARS.reduce((a, [, l]) => a + l, 0);
   for (let i = 0; i < out.length; i++) {
@@ -193,7 +207,7 @@ export function organ(n: NoteIn): Float32Array {
     }
     out[i] = y * norm * env * (0.6 + 0.4 * n.gain);
   }
-  return out;
+  return fade(out, sr);
 }
 
 const PAD: Shape = { attackSec: 0.35, decaySec: 3, sustain: 0.85, releaseSec: 0.9 };
@@ -201,7 +215,7 @@ const PAD: Shape = { attackSec: 0.35, decaySec: 3, sustain: 0.85, releaseSec: 0.
 export function pad(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
   const f = midiHz(n.midi);
-  const out = buffer(n.heldSec + 3, sr);
+  const out = held(n, PAD);
   // seven cents apart, one each side, a third saw an octave down for weight
   const detune = Math.pow(2, 7 / 1200);
   const d = [f * detune, f / detune, f / 2].map((hz) => hz / sr);
@@ -220,7 +234,7 @@ export function pad(n: NoteIn): Float32Array {
     }
     out[i] = lp.run(y) * 0.34 * env * (0.6 + 0.4 * n.gain);
   }
-  return out;
+  return fade(out, sr);
 }
 
 const FLUTE: Shape = { attackSec: 0.06, decaySec: 2, sustain: 0.9, releaseSec: 0.12 };
@@ -228,7 +242,7 @@ const FLUTE: Shape = { attackSec: 0.06, decaySec: 2, sustain: 0.9, releaseSec: 0
 export function flute(n: NoteIn): Float32Array {
   const sr = n.sampleRate;
   const f = midiHz(n.midi);
-  const out = buffer(n.heldSec + 0.5, sr);
+  const out = held(n, FLUTE);
   const noise = new Noise(n.seed);
   const breath = new Biquad("bandpass", f * 2, 4, sr);
   let phase = 0;
@@ -243,5 +257,5 @@ export function flute(n: NoteIn): Float32Array {
     const air = breath.run(noise.next()) * (0.9 + 0.6 * Math.exp(-t / 0.08));
     out[i] = (tone + 0.35 * air) * 0.55 * env * (0.6 + 0.4 * n.gain);
   }
-  return out;
+  return fade(out, sr);
 }
