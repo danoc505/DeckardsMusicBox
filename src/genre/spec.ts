@@ -524,6 +524,13 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [[0, 2, 3, 4, 6], 1],
       [[0, 0.5, 1.5, 2, 3, 4.5, 5, 6.5], 1],
     ],
+    /**
+     * A quarter of moves leap. Pop verses and folk song run about seventy
+     * percent steps and fifteen percent leaps, and stepwise motion is the
+     * preferred motion in every repertoire measured (cmuse.org
+     * leap-to-step ratio; Daikoku 2018, doi:10.1371/journal.pone.0196493).
+     * With chord tones drawn on the beats the line lands near 75% steps.
+     */
     leap: 0.25,
     span: 12,
     /**
