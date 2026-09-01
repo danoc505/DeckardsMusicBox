@@ -17,14 +17,17 @@ export const lofi: GenreSpec = {
 
   lengthSec: [110, 190],
 
-  // eight-bar blocks: a two-minute beat-tape track has room for a form only
-  // if its sections are short, and the loop is the unit this music thinks in
+  // the hip hop shape: a four-bar intro, sixteen-bar verses, eight-bar
+  // hooks, a short bridge — which at 80 bpm is the two-and-a-half-minute
+  // beat-tape track
   form: {
     lengths: {
-      verse: [[8, 5], [16, 2], [12, 1]],
-      chorus: [[8, 5], [16, 2]],
-      instrumental: [[8, 4], [16, 1]],
+      intro: [[4, 3], [8, 1]],
+      verse: [[16, 5], [8, 2]],
+      chorus: [[8, 5], [16, 1]],
+      instrumental: [[8, 3], [16, 2]],
       bridge: [[8, 3], [4, 2]],
+      outro: [[8, 3], [4, 2]],
     },
   },
 
@@ -110,6 +113,12 @@ export const lofi: GenreSpec = {
       "drummers' timing standard deviation is 11–19 ms; a funk pattern at 100 bpm measured 15.7 ms " +
       "(Senn et al. 2017, doi:10.3389/fpsyg.2017.01709). Uniform ±15 ms is 8.7 ms: under the human figure, " +
       "because the swing already carries half the looseness [chosen under the measurement]",
-    "form.lengths": "[chosen] — eight-bar blocks so a short record still has a form",
+    "form.lengths":
+      "intro 4 bars, verse 16, chorus 8, bridge 4–8 (emastered.com/blog/rap-song-structure; " +
+      "rapauthority.com/rap-song-structure); a beat-tape track is an intro, a 16-bar verse, a chorus, a break " +
+      "and a chorus (beatproduction.net/beat-tape); weights [chosen]",
+    "lead.register":
+      "\"keep it in its mid-range, avoid the top octave\" (masteringthemix.com how-to-make-lo-fi-hip-hop); " +
+      "E4–C6 [chosen]",
   },
 };

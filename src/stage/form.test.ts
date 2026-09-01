@@ -106,7 +106,9 @@ test("a turn ends the run, so the plain idea comes back", () => {
   // the failure this is against: counting the total instead of the run means
   // everything past the third statement is a variant and the tune itself is
   // heard twice at the start and never again
-  const long = sweep(200).filter((f) => f.sections.filter((s) => s.vary).length >= 2);
+  // sixteen-bar verses make a third statement rare at the genre's own
+  // length, so the sweep asks for long records
+  const long = Array.from({ length: 200 }, (_, i) => formOf(i + 1, 420)).filter((f) => f.sections.filter((s) => s.vary).length >= 2);
   assert.ok(long.length > 0, "no record varied twice — the sweep is too short to test this");
   for (const f of long) {
     const varied = f.sections.filter((s) => s.vary);
@@ -130,9 +132,10 @@ test("statement counts every hearing of an idea, however it is labelled", () => 
 test("section lengths are drawn, not fixed", () => {
   // the defect this is against, measured on the old program: every section of
   // every record was 16 bars, 41 of 41 across four songs
+  // the genre's pools offer 4, 8 and 16, and every one of them is drawn
   const lens = new Set<number>();
   for (const f of sweep(120)) for (const s of f.sections) lens.add(s.bars);
-  assert.ok(lens.size >= 4, `only ${lens.size} distinct lengths: ${[...lens].sort().join(",")}`);
+  assert.deepEqual([...lens].sort((a, b) => a - b), [4, 8, 16]);
 
   const shares = new Map<number, number>();
   let total = 0;
