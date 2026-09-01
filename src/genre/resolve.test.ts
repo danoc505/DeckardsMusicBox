@@ -45,7 +45,7 @@ test("extend overrides only what it names", () => {
 
 test("objects merge deep, so overriding one field of metre keeps the other", () => {
   const all = specs({
-    base: { label: "Base", metre: { beats: 3, perBeat: 3 } },
+    base: { label: "Base", metre: { beats: 3, perBeat: 3 }, bass: { pocket: [[[0, 2], 1]] }, keys: { strike: [[[0], 1]] } },
     kid: { label: "Kid", extend: "base", metre: { beats: 3, perBeat: 4 } as never },
   });
   const g = resolveGenre("kid", all);
@@ -68,7 +68,7 @@ test("a chain of three resolves oldest first", () => {
   const all = specs({
     a: { label: "A", tempo: [60, 61], lengthSec: [10, 20] },
     b: { label: "B", extend: "a", tempo: [70, 71] },
-    c: { label: "C", extend: "b", metre: { beats: 3, perBeat: 4 } },
+    c: { label: "C", extend: "b", metre: { beats: 3, perBeat: 4 }, bass: { pocket: [[[0, 2], 1]] }, keys: { strike: [[[0], 1]] } },
   });
   const g = resolveGenre("c", all);
   assert.equal(g.label, "C");
@@ -145,6 +145,30 @@ test("a derived genre may add a citation and correct an inherited one", () => {
   const g = resolveGenre("kid", all);
   assert.equal(g.sources["tempo"], "new");
   assert.equal(g.sources["scales"], "s");
+});
+
+test("a beat that is not on this metre's grid is refused, naming the grid", () => {
+  // the "and" of two is step 6 on sixteenths and does not exist on triplets
+  assert.throws(
+    () => resolveGenre("t", specs({ t: { label: "T", metre: { beats: 4, perBeat: 3 }, bass: { pocket: [[[0, 1.5], 1]] }, keys: { strike: [[[0], 1]] } } })),
+    /bass.pocket offers \[0,1.5\].*3 per beat/,
+  );
+});
+
+test("a beat past the end of the bar is refused, naming the bar", () => {
+  assert.throws(
+    () => resolveGenre("t", specs({ t: { label: "T", metre: { beats: 3, perBeat: 4 }, keys: { strike: [[[0], 1]] } } })),
+    /bass.pocket offers \[0,2,3.5\].*3-beat bar/,
+  );
+});
+
+test("pockets and strikes are resolved from beats to grid steps for the metre", () => {
+  const g = resolveGenre("g", specs({ g: { label: "G", bass: { pocket: [[[0, 1.5, 2], 1]] }, keys: { strike: [[[0, 2], 1]] } } }));
+  assert.deepEqual(g.bass.pocket, [[[0, 6, 8], 1]]);
+  assert.deepEqual(g.keys.strike, [[[0, 8], 1]]);
+  const w = resolveGenre("w", specs({ w: { label: "W", metre: { beats: 3, perBeat: 2 }, bass: { pocket: [[[0, 2], 1]] }, keys: { strike: [[[0, 1.5], 1]] } } }));
+  assert.deepEqual(w.bass.pocket, [[[0, 4], 1]]);
+  assert.deepEqual(w.keys.strike, [[[0, 3], 1]]);
 });
 
 test("resolveAll fails on the whole set if any one genre is broken", () => {

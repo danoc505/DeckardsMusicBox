@@ -90,7 +90,8 @@ test("the bar count matches the length asked for", () => {
 
 test("a metre that is not four beats makes shorter bars and more of them", () => {
   const waltz = resolveGenre("waltz", {
-    waltz: { label: "Waltz", tempo: [120, 120], metre: { beats: 3, perBeat: 4 }, lengthSec: [120, 120] },
+    waltz: { label: "Waltz", tempo: [120, 120], metre: { beats: 3, perBeat: 4 }, lengthSec: [120, 120],
+             bass: { pocket: [[[0, 2], 1]] }, keys: { strike: [[[0], 1]] } },
   });
   const four = resolveGenre("four", {
     four: { label: "Four", tempo: [120, 120], lengthSec: [120, 120] },

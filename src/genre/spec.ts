@@ -103,6 +103,76 @@ export interface FormRules {
   readonly introChance: number;
 }
 
+/** A register: the lowest and highest MIDI pitch a part may play. */
+export type Register = readonly [number, number];
+
+/**
+ * A chord progression as scale degrees, one per bar. Shorter than the
+ * material repeats to fill it: `[0, 5]` over four bars is `0 5 0 5`.
+ */
+export type Progression = readonly number[];
+
+export interface HarmonySpec {
+  /** How many bars one statement of an idea runs. */
+  readonly bars?: number;
+  /** The changes each idea may stand on. */
+  readonly progressions?: Readonly<Partial<Record<Idea, Weighted<Progression>>>>;
+  /** 0..1, how often a chord takes its seventh. */
+  readonly sevenths?: number;
+}
+
+export interface HarmonyRules {
+  readonly bars: number;
+  readonly progressions: Readonly<Record<Idea, Weighted<Progression>>>;
+  readonly sevenths: number;
+}
+
+/** Which chord tone an off-beat bass note takes. */
+export const BASS_TONES = ["root", "fifth", "third", "octave", "approach"] as const;
+export type BassTone = (typeof BASS_TONES)[number];
+
+/**
+ * Where in a bar something strikes, IN BEATS, fractions allowed: `[0, 2]` is
+ * beats one and three, `[0, 1.5, 2]` adds the "and" of two. Beat 0 is always
+ * present.
+ *
+ * Beats and not grid steps, because a step is a property of the metre: a list
+ * written as sixteenths is silently wrong in every bar that is not sixteen of
+ * them. Resolution turns beats into steps for the metre the genre actually
+ * has, and refuses a beat that does not land on its grid.
+ */
+export type Beats = readonly number[];
+
+export interface BassSpec {
+  readonly register?: Register;
+  /** Which beats strike, drawn once per material. */
+  readonly pocket?: Weighted<Beats>;
+  /** What a strike that is not the downbeat plays. */
+  readonly tones?: Weighted<BassTone>;
+}
+
+/** What the bass builder reads. `pocket` is in GRID STEPS here, not beats. */
+export interface BassRules {
+  readonly register: Register;
+  readonly pocket: Weighted<readonly number[]>;
+  readonly tones: Weighted<BassTone>;
+}
+
+export interface KeysSpec {
+  readonly register?: Register;
+  /** Which beats the chord is struck on, drawn once per material. */
+  readonly strike?: Weighted<Beats>;
+  /** 0..1, how much an open voicing is preferred over a close one. */
+  readonly open?: number;
+}
+
+/** What the keys builder reads. `strike` is in GRID STEPS here, not beats. */
+export interface KeysRules {
+  readonly register: Register;
+  readonly strike: Weighted<readonly number[]>;
+  readonly open: number;
+}
+
 /** What an author writes. */
 export interface GenreSpec {
   /** How this genre is named on screen. */
@@ -126,6 +196,10 @@ export interface GenreSpec {
   /** How the sections are laid out. */
   readonly form?: FormSpec;
 
+  readonly harmony?: HarmonySpec;
+  readonly bass?: BassSpec;
+  readonly keys?: KeysSpec;
+
   /** Field path -> where its value came from. */
   readonly sources?: Sources;
 }
@@ -139,6 +213,9 @@ export interface Genre {
   readonly scales: Weighted<ScaleName>;
   readonly lengthSec: readonly [number, number];
   readonly form: FormRules;
+  readonly harmony: HarmonyRules;
+  readonly bass: BassRules;
+  readonly keys: KeysRules;
   readonly sources: Sources;
 }
 
@@ -255,5 +332,67 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     },
 
     introChance: 0.75,
+  },
+
+  harmony: {
+    bars: 4,
+    /**
+     * Degrees from the tonic, one per bar. A stays close to home; B opens
+     * off the tonic so the chorus moves the floor; C leaves further, which
+     * is what a bridge is for. [chosen] — conventional changes, unmeasured.
+     */
+    progressions: {
+      A: [
+        [[0, 5, 3, 4], 3],
+        [[0, 3, 4, 0], 2],
+        [[0, 4, 5, 3], 2],
+        [[0, 0, 5, 5], 1],
+        [[0, 5], 1],
+      ],
+      B: [
+        [[5, 3, 0, 4], 3],
+        [[3, 4, 0, 0], 2],
+        [[5, 5, 0, 4], 2],
+        [[3, 3, 0, 0], 1],
+      ],
+      C: [
+        [[3, 3, 0, 0], 2],
+        [[5, 4, 3, 4], 2],
+        [[1, 4, 0, 0], 1],
+        [[2, 5, 3, 4], 1],
+      ],
+    },
+    sevenths: 0.3,
+  },
+
+  bass: {
+    register: [36, 50],
+    /** in beats: one-and-three is the strong default */
+    pocket: [
+      [[0, 2], 4],
+      [[0, 1.5, 2], 2],
+      [[0, 2, 3.5], 2],
+      [[0], 1],
+      [[0, 1, 2, 3], 1],
+    ],
+    tones: [
+      ["root", 4],
+      ["fifth", 3],
+      ["approach", 2],
+      ["third", 1],
+      ["octave", 1],
+    ],
+  },
+
+  keys: {
+    register: [52, 76],
+    /** in beats */
+    strike: [
+      [[0], 3],
+      [[0, 2], 3],
+      [[0, 1.5, 2], 1],
+      [[0, 1, 2, 3], 1],
+    ],
+    open: 0.5,
   },
 };

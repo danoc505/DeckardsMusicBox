@@ -12,7 +12,7 @@
 
 import { SCALES } from "../core/theory.ts";
 import {
-  DEFAULTS, IDEAS, SECTION_FNS,
+  BASS_TONES, DEFAULTS, IDEAS, SECTION_FNS,
   type Genre, type GenreSpec, type Weighted,
 } from "./spec.ts";
 
@@ -264,6 +264,89 @@ export function resolveGenre(
     form["lengths"] = pools;
   }
 
+  // ── HARMONY ─────────────────────────────────────────────────────────────
+  const harmony = isPlainObject(merged["harmony"]) ? merged["harmony"] : null;
+  let materialBars = 4;
+  if (harmony === null) {
+    problems.push("harmony is missing");
+  } else {
+    const b = harmony["bars"];
+    if (!finite(b) || !Number.isInteger(b) || b < 1 || b > 32) {
+      problems.push(`harmony.bars must be a whole number 1..32, got ${String(b)}`);
+    } else {
+      materialBars = b;
+    }
+    const progs = isPlainObject(harmony["progressions"]) ? harmony["progressions"] : {};
+    for (const idea of IDEAS) {
+      checkPool(problems, `harmony.progressions.${idea}`, progs[idea],
+        (v) => Array.isArray(v) && v.length >= 1 && v.every((d) => finite(d) && Number.isInteger(d)),
+        "a list of whole scale degrees");
+      // a progression shorter than the material repeats to fill it, so it
+      // has to divide the bar count or the last bar would be half a chord
+      if (Array.isArray(progs[idea])) {
+        for (const row of progs[idea] as unknown[]) {
+          const p = Array.isArray(row) ? row[0] : null;
+          if (Array.isArray(p) && p.length > 0 && materialBars % p.length !== 0) {
+            problems.push(`harmony.progressions.${idea} has ${p.length} chords, ` +
+              `which does not divide ${materialBars} bars`);
+          }
+        }
+      }
+    }
+    const sv = harmony["sevenths"];
+    if (!finite(sv) || sv < 0 || sv > 1) problems.push(`harmony.sevenths must be 0..1, got ${String(sv)}`);
+  }
+
+  // ── PARTS ───────────────────────────────────────────────────────────────
+  const beats = isPlainObject(metre) && finite(metre["beats"]) ? (metre["beats"] as number) : 4;
+  const perBeat = isPlainObject(metre) && finite(metre["perBeat"]) ? (metre["perBeat"] as number) : 4;
+  const onGrid = (b: number): boolean => Number.isInteger(Math.round(b * perBeat * 1e6) / 1e6);
+  /** a list of beats that all land on this metre's grid, inside its bar */
+  const isBeatList = (v: unknown): boolean =>
+    Array.isArray(v) && v.length >= 1 && v[0] === 0 &&
+    v.every((b) => finite(b) && b >= 0 && b < beats && onGrid(b)) &&
+    new Set(v).size === v.length;
+  const beatsWhat = `a list of beats starting at 0, inside a ${beats}-beat bar, on a grid of ${perBeat} per beat`;
+  /** beats -> grid steps, once, so no builder ever multiplies by perBeat */
+  const toSteps = (pool: unknown): Weighted<readonly number[]> =>
+    (pool as Weighted<readonly number[]>).map(([list, w]) =>
+      [list.map((b) => Math.round(b * perBeat)), w] as const);
+
+  const checkRegister = (field: string, v: unknown): void => {
+    if (!Array.isArray(v) || v.length !== 2 || !finite(v[0]) || !finite(v[1])) {
+      problems.push(`${field} must be [low, high] MIDI pitches, got ${JSON.stringify(v)}`);
+      return;
+    }
+    const [lo, hi] = v as [number, number];
+    if (lo < 21 || hi > 108) problems.push(`${field} ${lo}..${hi} leaves the keyboard (21..108)`);
+    // an octave is the least a register can hold and still contain every
+    // pitch class, so a part cannot be handed a chord it has no room for
+    if (hi - lo < 12) problems.push(`${field} ${lo}..${hi} is narrower than an octave`);
+  };
+
+  const bass = isPlainObject(merged["bass"]) ? merged["bass"] : null;
+  if (bass === null) {
+    problems.push("bass is missing");
+  } else {
+    checkRegister("bass.register", bass["register"]);
+    checkPool(problems, "bass.pocket", bass["pocket"], isBeatList, beatsWhat);
+    checkPool(problems, "bass.tones", bass["tones"],
+      (v) => typeof v === "string" && (BASS_TONES as readonly string[]).includes(v),
+      "a bass tone");
+    if (problems.length === 0) bass["pocket"] = toSteps(bass["pocket"]);
+  }
+
+  const keys = isPlainObject(merged["keys"]) ? merged["keys"] : null;
+  if (keys === null) {
+    problems.push("keys is missing");
+  } else {
+    checkRegister("keys.register", keys["register"]);
+    checkPool(problems, "keys.strike", keys["strike"], isBeatList, beatsWhat);
+    const op = keys["open"];
+    if (!finite(op) || op < 0 || op > 1) problems.push(`keys.open must be 0..1, got ${String(op)}`);
+    if (problems.length === 0) keys["strike"] = toSteps(keys["strike"]);
+  }
+
   if (problems.length > 0) throw new GenreError(name, problems);
 
   const resolved = {
@@ -274,6 +357,9 @@ export function resolveGenre(
     scales: Object.freeze((scales as [string, number][]).map((r) => Object.freeze([...r]))),
     lengthSec: Object.freeze([...(merged["lengthSec"] as number[])]) as readonly [number, number],
     form: deepFreeze(form) as unknown as Genre["form"],
+    harmony: deepFreeze(harmony) as unknown as Genre["harmony"],
+    bass: deepFreeze(bass) as unknown as Genre["bass"],
+    keys: deepFreeze(keys) as unknown as Genre["keys"],
     sources: Object.freeze({ ...sources }),
   } as Genre;
 
