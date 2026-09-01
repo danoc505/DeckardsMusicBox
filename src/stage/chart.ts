@@ -9,7 +9,7 @@
  * here today — `at("tempo")` is `at("tempo")` whatever else is drawn beside it.
  */
 
-import { clock, barsForSec, type Clock, type Metre } from "../core/clock.ts";
+import { barsForSec, type Metre } from "../core/clock.ts";
 import { rng, type Rng } from "../core/rng.ts";
 import { NOTE_NAMES, SCALES, pc, type Scale, type ScaleName } from "../core/theory.ts";
 import type { Genre } from "../genre/spec.ts";
@@ -38,13 +38,22 @@ export interface Chart {
 
   readonly tempo: number;
   readonly metre: Metre;
-  readonly bars: number;
-  readonly clock: Clock;
+
+  /**
+   * How many bars the record is AIMING at.
+   *
+   * Not how many it has — a form is built out of whole sections and lands
+   * within half of one either side. The stage that knows the real length is
+   * the stage that lays out the sections, and that is also the stage that owns
+   * the clock. Building a clock here would mean building it against a number
+   * that is about to change.
+   */
+  readonly targetBars: number;
 
   /** What was asked for, or null when the genre decided. */
   readonly askedSec: number | null;
-  /** What the bar count actually comes to. */
-  readonly seconds: number;
+  /** The length the target came from, in seconds. */
+  readonly targetSec: number;
 
   /** Rooted at this song. Every later stage draws below it. */
   readonly rng: Rng;
@@ -77,8 +86,6 @@ export function makeChart(req: ChartRequest): Chart {
   const wantSec = askedSec ?? genreSec;
 
   const metre = genre.metre;
-  const bars = barsForSec(wantSec, tempo, metre);
-  const songClock = clock({ tempo, bars, metre });
 
   return Object.freeze({
     seed,
@@ -89,10 +96,9 @@ export function makeChart(req: ChartRequest): Chart {
     scale,
     tempo,
     metre,
-    bars,
-    clock: songClock,
+    targetBars: barsForSec(wantSec, tempo, metre),
     askedSec,
-    seconds: songClock.at(bars),
+    targetSec: wantSec,
     rng: root,
   });
 }
@@ -107,6 +113,7 @@ export function makeChart(req: ChartRequest): Chart {
  */
 export function describeChart(c: Chart): string {
   const key = `${NOTE_NAMES[pc(c.tonicPc)]} ${c.scaleName}`;
-  const grid = c.metre.perBeat === 4 ? "16ths" : c.metre.perBeat === 3 ? "triplets" : `1/${c.metre.perBeat} beats`;
-  return `${key} · ${c.tempo} bpm · ${c.metre.beats} beats on ${grid} · ${c.bars} bars`;
+  const grid =
+    c.metre.perBeat === 4 ? "16ths" : c.metre.perBeat === 3 ? "triplets" : `1/${c.metre.perBeat} beats`;
+  return `${key} · ${c.tempo} bpm · ${c.metre.beats} beats on ${grid} · aiming at ${c.targetBars} bars`;
 }

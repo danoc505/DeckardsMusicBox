@@ -23,6 +23,8 @@ import type { Weighted } from "../core/rng.ts";
 import type { Metre } from "../core/clock.ts";
 import type { ScaleName } from "../core/theory.ts";
 
+export type { Weighted } from "../core/rng.ts";
+
 /**
  * The parts a record can have.
  *
@@ -54,6 +56,53 @@ export const isRole = (s: string): s is Role => (ROLES as readonly string[]).inc
  */
 export type Sources = Readonly<Record<string, string>>;
 
+/** The section kinds a record can be built from. */
+export const SECTION_FNS = [
+  "intro",
+  "verse",
+  "chorus",
+  "bridge",
+  "instrumental",
+  "outro",
+] as const;
+
+export type SectionFn = (typeof SECTION_FNS)[number];
+
+/**
+ * Which musical idea a section states.
+ *
+ * A *function* is what kind of section it is; an *idea* is what it says. Two
+ * verses and an instrumental can all state idea A, and that is the thing an
+ * ear counts — so the laws about repetition are stated over ideas, not over
+ * function names.
+ */
+export const IDEAS = ["A", "B", "C"] as const;
+export type Idea = (typeof IDEAS)[number];
+
+/** A length is one number, or a pool of them by weight. */
+export type Lengths = Readonly<Partial<Record<SectionFn, number | Weighted<number>>>>;
+
+/** What an author writes about form. */
+export interface FormSpec {
+  readonly lengths?: Lengths;
+  readonly idea?: Readonly<Partial<Record<SectionFn, Idea>>>;
+  /** 0..1, how big each kind of section is meant to feel. */
+  readonly energy?: Readonly<Partial<Record<SectionFn, number>>>;
+  /** What may follow what, by weight. */
+  readonly next?: Readonly<Partial<Record<SectionFn, Weighted<SectionFn>>>>;
+  /** How often a record opens with an intro rather than starting cold. */
+  readonly introChance?: number;
+}
+
+/** What the form stage reads. Every function answered, every length a pool. */
+export interface FormRules {
+  readonly lengths: Readonly<Record<SectionFn, Weighted<number>>>;
+  readonly idea: Readonly<Record<SectionFn, Idea>>;
+  readonly energy: Readonly<Record<SectionFn, number>>;
+  readonly next: Readonly<Record<SectionFn, Weighted<SectionFn>>>;
+  readonly introChance: number;
+}
+
 /** What an author writes. */
 export interface GenreSpec {
   /** How this genre is named on screen. */
@@ -74,6 +123,9 @@ export interface GenreSpec {
   /** How long a record runs when nobody asks for a length, in seconds. */
   readonly lengthSec?: readonly [number, number];
 
+  /** How the sections are laid out. */
+  readonly form?: FormSpec;
+
   /** Field path -> where its value came from. */
   readonly sources?: Sources;
 }
@@ -86,6 +138,7 @@ export interface Genre {
   readonly metre: Metre;
   readonly scales: Weighted<ScaleName>;
   readonly lengthSec: readonly [number, number];
+  readonly form: FormRules;
   readonly sources: Sources;
 }
 
@@ -105,7 +158,102 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     ["dorian", 1],
   ],
   lengthSec: [180, 240],
-};
 
-/** The fields a `sources` key may name. Anything else is a stale citation. */
-export const CITABLE = ["tempo", "metre", "scales", "lengthSec"] as const;
+  form: {
+    /**
+     * A length is a POOL, and squareness is a strong default rather than the
+     * only option. One number per function gives a record in which every
+     * section is the same length — which is what "always too safe and
+     * formulaic" sounds like, and no amount of variation inside a block fixes
+     * a record whose blocks are identical.
+     *
+     * 8 and 16 are both ordinary in popular form and 12 is a blues, so the
+     * pool is conventional rather than adventurous. [chosen] — these weights
+     * are convention, not measurement.
+     */
+    lengths: {
+      intro: [
+        [4, 3],
+        [8, 2],
+      ],
+      verse: [
+        [16, 6],
+        [8, 3],
+        [12, 1],
+      ],
+      chorus: [
+        [16, 6],
+        [8, 3],
+      ],
+      bridge: [
+        [8, 4],
+        [16, 2],
+        [4, 1],
+      ],
+      instrumental: [
+        [16, 4],
+        [8, 3],
+      ],
+      outro: [
+        [8, 3],
+        [4, 2],
+        [16, 1],
+      ],
+    },
+
+    /** Which idea each kind of section states. */
+    idea: {
+      intro: "A",
+      verse: "A",
+      chorus: "B",
+      bridge: "C",
+      instrumental: "A",
+      outro: "A",
+    },
+
+    /** How big each kind of section is meant to feel, 0..1. */
+    energy: {
+      intro: 0.25,
+      verse: 0.55,
+      chorus: 0.9,
+      bridge: 0.4,
+      instrumental: 0.7,
+      outro: 0.3,
+    },
+
+    /**
+     * What may follow what. [chosen] — conventional weights for a
+     * verse-chorus form, with `outro` reached by the walk running out of
+     * budget rather than by being drawn.
+     */
+    next: {
+      intro: [
+        ["verse", 6],
+        ["chorus", 1],
+      ],
+      verse: [
+        ["chorus", 6],
+        ["verse", 2],
+        ["instrumental", 1],
+      ],
+      chorus: [
+        ["verse", 5],
+        ["instrumental", 2],
+        ["bridge", 2],
+        ["chorus", 1],
+      ],
+      bridge: [
+        ["chorus", 6],
+        ["verse", 2],
+      ],
+      instrumental: [
+        ["chorus", 4],
+        ["verse", 3],
+        ["bridge", 1],
+      ],
+      outro: [["outro", 1]],
+    },
+
+    introChance: 0.75,
+  },
+};

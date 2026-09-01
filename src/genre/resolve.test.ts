@@ -133,7 +133,7 @@ test("a citation naming a field that does not exist is refused", () => {
   // justified it stays behind, describing a table that is no longer there
   assert.throws(
     () => resolveGenre("a", specs({ a: { label: "A", sources: { swing: "somewhere" } } })),
-    /not a field that can be cited/,
+    /not a field of this genre/,
   );
 });
 

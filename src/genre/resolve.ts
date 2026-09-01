@@ -11,7 +11,10 @@
  */
 
 import { SCALES } from "../core/theory.ts";
-import { CITABLE, DEFAULTS, type Genre, type GenreSpec } from "./spec.ts";
+import {
+  DEFAULTS, IDEAS, SECTION_FNS,
+  type Genre, type GenreSpec, type Weighted,
+} from "./spec.ts";
 
 /** Everything wrong with one genre, so a fix is one pass and not twelve. */
 export class GenreError extends Error {
@@ -47,6 +50,25 @@ function merge<T>(base: T, over: unknown): T {
   return over as T;
 }
 
+/**
+ * A private copy, all the way down.
+ *
+ * `merge` returns the base object BY REFERENCE wherever nothing overrode it,
+ * so a genre that declares no `form` holds the very same object as `DEFAULTS`.
+ * Resolving it then normalises and freezes that shared object and the next
+ * genre cannot be resolved at all. Every resolution gets its own copy, so no
+ * genre can reach another one's table or the defaults behind both.
+ */
+function deepClone<T>(v: T): T {
+  if (Array.isArray(v)) return v.map(deepClone) as unknown as T;
+  if (isPlainObject(v)) {
+    const out: Record<string, unknown> = {};
+    for (const [k, child] of Object.entries(v)) out[k] = deepClone(child);
+    return out as T;
+  }
+  return v;
+}
+
 /** The chain from the deepest base up to this genre, oldest first. */
 function lineage(name: string, all: Readonly<Record<string, GenreSpec>>): GenreSpec[] {
   const chain: GenreSpec[] = [];
@@ -67,7 +89,59 @@ function lineage(name: string, all: Readonly<Record<string, GenreSpec>>): GenreS
   return chain;
 }
 
+/**
+ * Every field of a resolved genre that a citation may name, DERIVED from the
+ * genre itself rather than listed beside it.
+ *
+ * A hand-kept list of citable fields is the same object as the thing it
+ * describes, written twice, and the second copy is always the one that goes
+ * stale. Descent stops at arrays: a range and a weighted pool are single
+ * values, so `tempo` is citable and `tempo.0` is not.
+ */
+export function citablePaths(v: unknown, prefix = ""): string[] {
+  if (!isPlainObject(v)) return [];
+  const out: string[] = [];
+  for (const [k, child] of Object.entries(v)) {
+    const path = prefix === "" ? k : `${prefix}.${k}`;
+    out.push(path);
+    out.push(...citablePaths(child, path));
+  }
+  return out;
+}
+
 const finite = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
+
+/** A pool is a list of `[value, weight]`. One bare value is a pool of one. */
+function asPool<T>(v: unknown): Weighted<T> | null {
+  if (!Array.isArray(v)) return v === undefined ? null : [[v as T, 1]];
+  if (v.every((r) => Array.isArray(r) && r.length === 2)) return v as Weighted<T>;
+  return null;
+}
+
+function checkPool(
+  problems: string[],
+  field: string,
+  pool: unknown,
+  okValue: (v: unknown) => boolean,
+  what: string,
+): void {
+  if (!Array.isArray(pool) || pool.length === 0) {
+    problems.push(`${field} is empty`);
+    return;
+  }
+  let positive = 0;
+  for (const row of pool) {
+    if (!Array.isArray(row) || row.length !== 2) {
+      problems.push(`${field} row is not [value, weight]: ${JSON.stringify(row)}`);
+      continue;
+    }
+    const [v, w] = row as [unknown, unknown];
+    if (!okValue(v)) problems.push(`${field} offers ${JSON.stringify(v)}, which is not ${what}`);
+    if (!finite(w) || w < 0) problems.push(`${field} weight for ${JSON.stringify(v)} is ${String(w)}`);
+    else if (w > 0) positive++;
+  }
+  if (positive === 0) problems.push(`${field} has no weight above zero`);
+}
 
 function checkRange(
   problems: string[],
@@ -101,6 +175,8 @@ export function resolveGenre(
     // a derived genre may add citations and may correct one it inherited
     if (s) sources = { ...sources, ...s };
   }
+  // nothing below this line may reach the defaults or another genre's tables
+  merged = deepClone(merged);
 
   const problems: string[] = [];
 
@@ -143,25 +219,83 @@ export function resolveGenre(
     if (positive === 0) problems.push("no scale has a weight above zero");
   }
 
-  // a citation that names a field this genre does not have is a citation that
-  // outlived its number, which is exactly what goes stale
-  for (const key of Object.keys(sources)) {
-    if (!(CITABLE as readonly string[]).includes(key)) {
-      problems.push(`sources names "${key}", which is not a field that can be cited`);
+  // ── FORM ────────────────────────────────────────────────────────────────
+  // A length may be written as one number or as a pool; readers only ever see
+  // a pool, so nothing downstream branches on which way it was written.
+  const form = isPlainObject(merged["form"]) ? merged["form"] : null;
+  if (form === null) {
+    problems.push("form is missing");
+  } else {
+    const lengths = isPlainObject(form["lengths"]) ? form["lengths"] : {};
+    const pools: Record<string, Weighted<number>> = {};
+    const idea = isPlainObject(form["idea"]) ? form["idea"] : {};
+    const energy = isPlainObject(form["energy"]) ? form["energy"] : {};
+    const next = isPlainObject(form["next"]) ? form["next"] : {};
+
+    for (const fn of SECTION_FNS) {
+      const pool = asPool<number>(lengths[fn]);
+      if (pool === null) {
+        problems.push(`form.lengths.${fn} is missing`);
+      } else {
+        checkPool(problems, `form.lengths.${fn}`, pool,
+          (v) => finite(v) && Number.isInteger(v) && v >= 1, "a whole number of bars");
+        pools[fn] = pool;
+      }
+
+      const id = idea[fn];
+      if (typeof id !== "string" || !(IDEAS as readonly string[]).includes(id)) {
+        problems.push(`form.idea.${fn} is "${String(id)}", which is not an idea`);
+      }
+
+      const e = energy[fn];
+      if (!finite(e) || e < 0 || e > 1) {
+        problems.push(`form.energy.${fn} must be 0..1, got ${String(e)}`);
+      }
+
+      checkPool(problems, `form.next.${fn}`, next[fn],
+        (v) => typeof v === "string" && (SECTION_FNS as readonly string[]).includes(v),
+        "a section kind");
     }
+
+    const ic = form["introChance"];
+    if (!finite(ic) || ic < 0 || ic > 1) {
+      problems.push(`form.introChance must be 0..1, got ${String(ic)}`);
+    }
+    form["lengths"] = pools;
   }
 
   if (problems.length > 0) throw new GenreError(name, problems);
 
-  return Object.freeze({
+  const resolved = {
     name,
     label,
     tempo: Object.freeze([...(merged["tempo"] as number[])]) as readonly [number, number],
     metre: Object.freeze({ ...(metre as { beats: number; perBeat: number }) }),
     scales: Object.freeze((scales as [string, number][]).map((r) => Object.freeze([...r]))),
     lengthSec: Object.freeze([...(merged["lengthSec"] as number[])]) as readonly [number, number],
+    form: deepFreeze(form) as unknown as Genre["form"],
     sources: Object.freeze({ ...sources }),
-  }) as Genre;
+  } as Genre;
+
+  // a citation that names a field this genre does not have is a citation that
+  // outlived its number, which is exactly what goes stale. The set of fields
+  // is read off the genre that was just built, so it cannot disagree with it.
+  const citable = new Set(citablePaths(resolved));
+  const stale = Object.keys(sources).filter((k) => !citable.has(k));
+  if (stale.length > 0) {
+    throw new GenreError(
+      name,
+      stale.map((k) => `sources names "${k}", which is not a field of this genre`),
+    );
+  }
+
+  return Object.freeze(resolved);
+}
+
+function deepFreeze<T>(v: T): T {
+  if (isPlainObject(v)) for (const child of Object.values(v)) deepFreeze(child);
+  else if (Array.isArray(v)) for (const child of v) deepFreeze(child);
+  return Object.isFrozen(v) ? v : Object.freeze(v);
 }
 
 /** Resolve every genre at once, so a broken one is found at load and not at play. */

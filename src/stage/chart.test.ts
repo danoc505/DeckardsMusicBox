@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { makeChart, describeChart, TONIC_OCTAVE } from "./chart.ts";
 import { GENRES, GENRE_NAMES, resolveGenre } from "../genre/index.ts";
 import { SCALES, pc } from "../core/theory.ts";
-import { secForBars } from "../core/clock.ts";
+import { secForBars, stepsPerBar } from "../core/clock.ts";
 
 const lofi = GENRES.lofi;
 
@@ -13,7 +13,7 @@ test("the same seed and genre give the same chart", () => {
   assert.equal(a.tonicPc, b.tonicPc);
   assert.equal(a.scaleName, b.scaleName);
   assert.equal(a.tempo, b.tempo);
-  assert.equal(a.bars, b.bars);
+  assert.equal(a.targetBars, b.targetBars);
 });
 
 test("a different seed gives a different record", () => {
@@ -31,7 +31,7 @@ test("asking for a length cannot move anything else about the record", () => {
     assert.equal(asked.tonicPc, free.tonicPc);
     assert.equal(asked.scaleName, free.scaleName);
     assert.equal(asked.tempo, free.tempo);
-    assert.notEqual(asked.bars, free.bars, "but the length itself does change");
+    assert.notEqual(asked.targetBars, free.targetBars, "but the length itself does change");
   }
 });
 
@@ -82,19 +82,10 @@ test("every scale in the pool is reachable", () => {
 test("the bar count matches the length asked for", () => {
   for (const seconds of [60, 120, 300, 600]) {
     const c = makeChart({ seed: 5, genre: lofi, seconds });
-    const got = secForBars(c.bars, c.tempo, c.metre);
+    const got = secForBars(c.targetBars, c.tempo, c.metre);
     assert.ok(Math.abs(got - seconds) <= secForBars(1, c.tempo, c.metre), `asked ${seconds}, got ${got}`);
     assert.equal(c.askedSec, seconds);
   }
-});
-
-test("the chart carries a clock that agrees with its own bars", () => {
-  const c = makeChart({ seed: 9, genre: lofi });
-  assert.equal(c.clock.bars, c.bars);
-  assert.equal(c.clock.metre, c.metre);
-  assert.equal(c.clock.tempoAt(0), c.tempo);
-  assert.equal(c.seconds, c.clock.at(c.bars));
-  assert.ok(!c.clock.varies);
 });
 
 test("a metre that is not four beats makes shorter bars and more of them", () => {
@@ -106,10 +97,10 @@ test("a metre that is not four beats makes shorter bars and more of them", () =>
   });
   const w = makeChart({ seed: 1, genre: waltz });
   const f = makeChart({ seed: 1, genre: four });
-  assert.equal(w.clock.steps, 12);
-  assert.equal(f.clock.steps, 16);
-  assert.ok(w.bars > f.bars, "a shorter bar takes more of them to fill the same time");
-  assert.ok(Math.abs(w.seconds - f.seconds) < 2);
+  assert.equal(stepsPerBar(w.metre), 12);
+  assert.equal(stepsPerBar(f.metre), 16);
+  assert.ok(w.targetBars > f.targetBars, "a shorter bar takes more of them to fill the same time");
+  assert.equal(w.targetSec, f.targetSec);
 });
 
 test("the chart is frozen", () => {
@@ -124,7 +115,7 @@ test("every declared genre composes a chart", () => {
   for (const name of GENRE_NAMES) {
     const c = makeChart({ seed: 1, genre: GENRES[name] });
     assert.equal(c.genre.name, name);
-    assert.ok(c.bars > 0);
+    assert.ok(c.targetBars > 0);
   }
 });
 
@@ -132,6 +123,6 @@ test("describeChart says what the chart is", () => {
   const c = makeChart({ seed: 7, genre: lofi });
   const s = describeChart(c);
   assert.match(s, /\d+(\.\d)? bpm/);
-  assert.match(s, new RegExp(`${c.bars} bars`));
+  assert.match(s, new RegExp(`${c.targetBars} bars`));
   assert.match(s, new RegExp(c.scaleName));
 });
