@@ -32,20 +32,15 @@ export type { Weighted } from "../core/rng.ts";
  * compile error, not something found by rendering sixteen seeds and noticing
  * the silence.
  */
-export const ROLES = [
-  "drums",
-  "bass",
-  "keys",
-  "keys2",
-  "lead",
-  "counter",
-  "ostinato",
-  "drone",
-] as const;
+export const ROLES = ["drums", "bass", "keys", "lead"] as const;
 
 export type Role = (typeof ROLES)[number];
 
 export const isRole = (s: string): s is Role => (ROLES as readonly string[]).includes(s);
+
+/** The parts that carry a pitch: every role but the drums. Derived, not listed. */
+export const PITCHED_ROLES = ROLES.filter((r): r is Exclude<Role, "drums"> => r !== "drums");
+export type PitchedRole = Exclude<Role, "drums">;
 
 /**
  * Where a number came from, keyed by the field it justifies.
@@ -223,6 +218,24 @@ export interface DrumsRules {
   readonly phrase: Weighted<readonly BarLetter[]>;
 }
 
+export interface ArrangementSpec {
+  /**
+   * The order the parts arrive in across a record. Every part appears exactly
+   * once — a part left out would never enter, and that is refused at load.
+   */
+  readonly enter?: readonly Role[];
+  /** How many of them, from the front of `enter`, an intro holds. */
+  readonly introParts?: number;
+  /** Below this energy a section's drums lose their hat. */
+  readonly thinBelow?: number;
+}
+
+export interface ArrangementRules {
+  readonly enter: readonly Role[];
+  readonly introParts: number;
+  readonly thinBelow: number;
+}
+
 /** What an author writes. */
 export interface GenreSpec {
   /** How this genre is named on screen. */
@@ -251,6 +264,7 @@ export interface GenreSpec {
   readonly keys?: KeysSpec;
   readonly lead?: LeadSpec;
   readonly drums?: DrumsSpec;
+  readonly arrangement?: ArrangementSpec;
 
   /** Field path -> where its value came from. */
   readonly sources?: Sources;
@@ -270,6 +284,7 @@ export interface Genre {
   readonly keys: KeysRules;
   readonly lead: LeadRules;
   readonly drums: DrumsRules;
+  readonly arrangement: ArrangementRules;
   readonly sources: Sources;
 }
 
@@ -494,5 +509,12 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [["A", "B", "A", "D"], 2],
       [["A", "A", "A", "A"], 1],
     ],
+  },
+
+  arrangement: {
+    /** the chord first, then the beat under it, the bass, and the tune last */
+    enter: ["keys", "drums", "bass", "lead"],
+    introParts: 2,
+    thinBelow: 0.35,
   },
 };

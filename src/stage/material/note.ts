@@ -6,7 +6,7 @@
  * stages that turn a material into a performance.
  */
 
-import type { Idea } from "../../genre/spec.ts";
+import { PITCHED_ROLES, type Idea, type PitchedRole } from "../../genre/spec.ts";
 import type { Hit } from "./drums.ts";
 
 export type { Hit } from "./drums.ts";
@@ -36,9 +36,9 @@ export interface Chord {
   readonly name: string;
 }
 
-/** Every pitched part a material can carry. Grows as builders arrive. */
-export const PITCHED = ["bass", "keys", "lead"] as const;
-export type Pitched = (typeof PITCHED)[number];
+/** Every pitched part a material carries: the roles, minus the drums. One owner. */
+export const PITCHED = PITCHED_ROLES;
+export type Pitched = PitchedRole;
 
 export interface Material {
   /** "A" for the plain statement, "A/1" for its first variant. */

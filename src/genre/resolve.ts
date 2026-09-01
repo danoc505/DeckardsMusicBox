@@ -12,7 +12,7 @@
 
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, SECTION_FNS,
+  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, ROLES, SECTION_FNS,
   type Genre, type GenreSpec, type Weighted,
 } from "./spec.ts";
 
@@ -387,6 +387,34 @@ export function resolveGenre(
     }
   }
 
+  // ── ARRANGEMENT ─────────────────────────────────────────────────────────
+  const arr = isPlainObject(merged["arrangement"]) ? merged["arrangement"] : null;
+  if (arr === null) {
+    problems.push("arrangement is missing");
+  } else {
+    const enter = arr["enter"];
+    if (!Array.isArray(enter)) {
+      problems.push("arrangement.enter must be a list of parts");
+    } else {
+      // a permutation of every part there is: nothing missing, nothing twice,
+      // nothing that is not a part
+      for (const r of enter) {
+        if (!(ROLES as readonly string[]).includes(r as string)) problems.push(`arrangement.enter names "${String(r)}", which is not a part`);
+      }
+      for (const r of ROLES) {
+        const n = enter.filter((x) => x === r).length;
+        if (n === 0) problems.push(`arrangement.enter never lets the ${r} in`);
+        if (n > 1) problems.push(`arrangement.enter names the ${r} ${n} times`);
+      }
+    }
+    const ip = arr["introParts"];
+    if (!finite(ip) || !Number.isInteger(ip) || ip < 1 || ip > ROLES.length) {
+      problems.push(`arrangement.introParts must be 1..${ROLES.length}, got ${String(ip)}`);
+    }
+    const tb = arr["thinBelow"];
+    if (!finite(tb) || tb < 0 || tb > 1) problems.push(`arrangement.thinBelow must be 0..1, got ${String(tb)}`);
+  }
+
   if (problems.length > 0) throw new GenreError(name, problems);
 
   const resolved = {
@@ -402,6 +430,7 @@ export function resolveGenre(
     keys: deepFreeze(keys) as unknown as Genre["keys"],
     lead: deepFreeze(lead) as unknown as Genre["lead"],
     drums: deepFreeze(drums) as unknown as Genre["drums"],
+    arrangement: deepFreeze(arr) as unknown as Genre["arrangement"],
     sources: Object.freeze({ ...sources }),
   } as Genre;
 
