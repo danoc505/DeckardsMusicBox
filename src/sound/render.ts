@@ -14,8 +14,8 @@
 import { hash32 } from "../core/rng.ts";
 import type { Role } from "../genre/spec.ts";
 import type { Song } from "../song.ts";
-import { Biquad, Noise, saturate } from "./dsp.ts";
-import { hat, kick, pluck, rhodes, snare, sub, type NoteIn } from "./voices.ts";
+import { Biquad, Noise, Reverb, saturate } from "./dsp.ts";
+import { flute, hat, kick, organ, pad, pluck, rhodes, snare, sub, type NoteIn } from "./voices.ts";
 
 export interface RenderOptions {
   readonly sampleRate?: number;
@@ -39,7 +39,7 @@ export function render(song: Song, opts: RenderOptions = {}): Float32Array {
   const S = chart.genre.sound;
   const mix = new Float32Array(Math.ceil(performance.seconds * sr));
 
-  const voiceOf = { rhodes, sub, pluck } as const;
+  const voiceOf = { rhodes, sub, pluck, organ, pad, flute } as const;
 
   for (const e of performance.events) {
     if (opts.only !== undefined && e.role !== opts.only) continue;
@@ -64,9 +64,10 @@ export function render(song: Song, opts: RenderOptions = {}): Float32Array {
   return tape(mix, sr, chart.seed, S.tape);
 }
 
-/** The record on tape: low-pass, wow, saturation, crackle. */
+/** The record in its room and on tape: reverb, low-pass, wow, saturation, crackle. */
 function tape(mix: Float32Array, sr: number, seed: number, T: Song["chart"]["genre"]["sound"]["tape"]): Float32Array {
   const out = new Float32Array(mix.length);
+  const room = T.reverb > 0 ? new Reverb(T.reverbSec, sr) : null;
   const lp = new Biquad("lowpass", T.lowpassHz, 0.71, sr);
   // wow: a modulated delay. A pitch deviation of d at rate f is a delay
   // swinging by d / (2π f); a few cents at a fifth of a hertz is a few ms
@@ -81,7 +82,8 @@ function tape(mix: Float32Array, sr: number, seed: number, T: Song["chart"]["gen
 
   for (let i = 0; i < mix.length; i++) {
     const t = i / sr;
-    const x = lp.run(mix[i]!);
+    const dry = mix[i]!;
+    const x = lp.run(room === null ? dry : dry * (1 - 0.5 * T.reverb) + room.run(dry) * T.reverb);
     line[w] = x;
     const delaySec = baseSec + swingSec * Math.sin(twoPi * T.wowHz * t);
     const back = delaySec * sr;

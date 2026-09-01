@@ -32,7 +32,7 @@ const wantSummary = args.includes("--summary");
 const wavAt = args.indexOf("--wav");
 const wavFile = wavAt >= 0 ? args[wavAt + 1] : undefined;
 if (wavAt >= 0 && wavFile === undefined) usage();
-const positional = args.filter((a, i) => !a.startsWith("--") && i !== wavAt + 1);
+const positional = args.filter((a, i) => !a.startsWith("--") && !(wavAt >= 0 && i === wavAt + 1));
 const [genreArg, seedArg, secondsArg] = positional;
 if (genreArg === undefined || seedArg === undefined) usage();
 if (!(GENRE_NAMES as readonly string[]).includes(genreArg)) {

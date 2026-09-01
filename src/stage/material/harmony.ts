@@ -7,7 +7,7 @@
  * changes the chords too is a different section, not a restatement.
  */
 
-import { chordName, chordTones, degreeMidi } from "../../core/theory.ts";
+import { chordName, chordTones, degreeMidi, pc } from "../../core/theory.ts";
 import type { Idea } from "../../genre/spec.ts";
 import type { Chart } from "../chart.ts";
 import type { Chord } from "./note.ts";
@@ -15,7 +15,18 @@ import type { Chord } from "./note.ts";
 export function drawChords(chart: Chart, idea: Idea): Chord[] {
   const H = chart.genre.harmony;
   const draw = chart.rng.at("harmony", idea);
-  const prog = draw.weighted("progression", H.progressions[idea]);
+  let pool = H.progressions[idea];
+  if (H.diminished === "avoid") {
+    // the degree whose triad is diminished depends on the scale drawn, so
+    // the pool is read against this record's scale, not the genre's page
+    const diminished = (degree: number): boolean => {
+      const t = chordTones(chart.tonic, chart.scale, degree, 3);
+      return pc(t[2]! - t[0]!) === 6;
+    };
+    const clear = pool.filter(([p]) => !p.some(diminished));
+    if (clear.length > 0) pool = clear;
+  }
+  const prog = draw.weighted("progression", pool);
 
   const out: Chord[] = [];
   for (let bar = 0; bar < H.bars; bar++) {

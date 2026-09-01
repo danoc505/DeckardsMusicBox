@@ -295,6 +295,8 @@ export function resolveGenre(
     }
     const sv = harmony["sevenths"];
     if (!finite(sv) || sv < 0 || sv > 1) problems.push(`harmony.sevenths must be 0..1, got ${String(sv)}`);
+    const dm = harmony["diminished"];
+    if (dm !== "allow" && dm !== "avoid") problems.push(`harmony.diminished must be "allow" or "avoid", got ${String(dm)}`);
   }
 
   // ── PARTS ───────────────────────────────────────────────────────────────
@@ -466,6 +468,8 @@ export function resolveGenre(
       within("wowHz", 0.05, 10);
       within("wowCents", 0, 100);
       within("drive", 1, 10);
+      within("reverb", 0, 1);
+      within("reverbSec", 0.2, 12);
     }
   }
 

@@ -9,10 +9,12 @@
 
 import { resolveAll } from "./resolve.ts";
 import type { Genre, GenreSpec } from "./spec.ts";
+import { dungeonsynth } from "./dungeonsynth.ts";
 import { lofi } from "./lofi.ts";
 
 export const SPECS = {
   lofi,
+  dungeonsynth,
 } as const satisfies Record<string, GenreSpec>;
 
 export type GenreName = keyof typeof SPECS;

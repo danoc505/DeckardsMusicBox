@@ -114,12 +114,20 @@ export interface HarmonySpec {
   readonly progressions?: Readonly<Partial<Record<Idea, Weighted<Progression>>>>;
   /** 0..1, how often a chord takes its seventh. */
   readonly sevenths?: number;
+  /**
+   * Every mode has one degree whose triad is diminished, and it is a
+   * different degree in each. "avoid" draws only progressions that do not
+   * land on it in the record's scale, so a loop written as degrees does not
+   * come out with a diminished triad in one mode and a major one in another.
+   */
+  readonly diminished?: "allow" | "avoid";
 }
 
 export interface HarmonyRules {
   readonly bars: number;
   readonly progressions: Readonly<Record<Idea, Weighted<Progression>>>;
   readonly sevenths: number;
+  readonly diminished: "allow" | "avoid";
 }
 
 /** Which chord tone an off-beat bass note takes. */
@@ -283,7 +291,7 @@ export interface FeelRules {
 }
 
 /** The instruments a pitched part may be played on. */
-export const VOICES = ["rhodes", "sub", "pluck"] as const;
+export const VOICES = ["rhodes", "sub", "pluck", "organ", "pad", "flute"] as const;
 export type VoiceName = (typeof VOICES)[number];
 
 export interface TapeSpec {
@@ -297,6 +305,10 @@ export interface TapeSpec {
   readonly wowCents?: number;
   /** Drive into the saturator, 1 for clean. */
   readonly drive?: number;
+  /** How much of the record is the room, 0..1; 0 for dry. */
+  readonly reverb?: number;
+  /** How long the room rings, in seconds. */
+  readonly reverbSec?: number;
 }
 
 export interface SoundSpec {
@@ -509,6 +521,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ],
     },
     sevenths: 0.3,
+    diminished: "allow",
   },
 
   bass: {
@@ -641,6 +654,6 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   sound: {
     voices: { keys: "rhodes", bass: "sub", lead: "pluck" },
     /** clean: no tape, no crackle, the top end open */
-    tape: { lowpassHz: 16000, crackle: 0, wowHz: 0.2, wowCents: 0, drive: 1 },
+    tape: { lowpassHz: 16000, crackle: 0, wowHz: 0.2, wowCents: 0, drive: 1, reverb: 0, reverbSec: 1.5 },
   },
 };

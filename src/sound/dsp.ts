@@ -118,3 +118,41 @@ export function sinTurns(turns: number): number {
 
 /** The per-sample multiplier that decays by e every `tauSec`. */
 export const decayPerSample = (tauSec: number, sampleRate: number): number => Math.exp(-1 / (tauSec * sampleRate));
+
+/**
+ * A room, the Schroeder way: four combs in parallel, two allpasses in
+ * series, and a lowpass in each comb so the tail darkens as it dies. The
+ * comb lengths are the classic ones and their feedback is set from the
+ * decay time, so `sec` is how long the room rings by 60 dB.
+ */
+export class Reverb {
+  private readonly combs: { buf: Float32Array; i: number; g: number; lp: number }[];
+  private readonly aps: { buf: Float32Array; i: number }[];
+  constructor(sec: number, sampleRate: number) {
+    const combMs = [29.7, 37.1, 41.1, 43.7];
+    this.combs = combMs.map((ms) => {
+      const len = Math.max(1, Math.round((ms / 1000) * sampleRate));
+      return { buf: new Float32Array(len), i: 0, g: Math.pow(10, (-3 * ms) / 1000 / sec), lp: 0 };
+    });
+    this.aps = [5.0, 1.7].map((ms) => ({ buf: new Float32Array(Math.max(1, Math.round((ms / 1000) * sampleRate))), i: 0 }));
+  }
+  run(x: number): number {
+    let y = 0;
+    for (const c of this.combs) {
+      const d = c.buf[c.i]!;
+      c.lp = 0.7 * d + 0.3 * c.lp;
+      c.buf[c.i] = x + c.lp * c.g;
+      c.i = (c.i + 1) % c.buf.length;
+      y += d;
+    }
+    y *= 0.25;
+    for (const a of this.aps) {
+      const d = a.buf[a.i]!;
+      const w = y + d * 0.7;
+      a.buf[a.i] = w;
+      a.i = (a.i + 1) % a.buf.length;
+      y = d - w * 0.7;
+    }
+    return y;
+  }
+}

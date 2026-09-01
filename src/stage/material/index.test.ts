@@ -246,3 +246,17 @@ test("materials are frozen", () => {
     assert.ok(Object.isFrozen(mat.chords));
   }
 });
+
+test("a genre that avoids the diminished degree never lands on it, in any mode", () => {
+  const ds = GENRES.dungeonsynth;
+  const modes = new Set<string>();
+  for (let seed = 1; seed <= 60; seed++) {
+    const chart = makeChart({ seed, genre: ds, seconds: 240 });
+    modes.add(chart.scaleName);
+    const m = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
+    for (const mat of m.all.values()) {
+      for (const ch of mat.chords) assert.ok(!/dim|m7b5/.test(ch.name), `${chart.scaleName} seed ${seed}: ${ch.name}`);
+    }
+  }
+  assert.ok(modes.size >= 2, `only ${[...modes]} drawn`);
+});

@@ -17,6 +17,14 @@
  *   snare   a sine near 200 Hz, filtered noise, and a click of a few ms
  *           (the same).
  *   hat     narrow-band noise, closed short and open long.
+ *   organ   additive, the drawbar way: sines at the sub-octave, the
+ *           fundamental, the octave, the twelfth and the fifteenth
+ *           (soundonsound.com, "Synthesizing Tonewheel Organs").
+ *   pad     two sawtooths a few cents apart under a lowpass, with a slow
+ *           attack and a long release (soundonsound.com, "Synthesizing
+ *           Strings"; attackmagazine.com, "Detuned Pad").
+ *   flute   a sine with a little second harmonic, breath noise, and vibrato
+ *           (soundonsound.com, "Practical Flute Synthesis").
  */
 
 import { Biquad, Noise, decayPerSample, envelope, midiHz, sinTurns, type Shape } from "./dsp.ts";
@@ -159,6 +167,81 @@ export function hat(n: NoteIn, open: boolean): Float32Array {
   for (let i = 0; i < out.length; i++) {
     const t = i / sr;
     out[i] = hp.run(noise.next()) * Math.exp(-t / tau) * 0.6 * n.gain;
+  }
+  return out;
+}
+
+const ORGAN: Shape = { attackSec: 0.02, decaySec: 4, sustain: 1, releaseSec: 0.12 };
+/** Drawbars: [harmonic ratio, level]. 16', 8', 4', 2⅔', 2'. */
+const DRAWBARS: readonly (readonly [number, number])[] = [[0.5, 0.5], [1, 1], [2, 0.6], [3, 0.35], [4, 0.25]];
+
+export function organ(n: NoteIn): Float32Array {
+  const sr = n.sampleRate;
+  const f = midiHz(n.midi);
+  const out = buffer(n.heldSec + 0.4, sr);
+  const phases = DRAWBARS.map(() => 0);
+  const norm = 0.8 / DRAWBARS.reduce((a, [, l]) => a + l, 0);
+  for (let i = 0; i < out.length; i++) {
+    const t = i / sr;
+    const env = envelope(t, n.heldSec, ORGAN);
+    if (env < 1e-4 && t > n.heldSec) break;
+    let y = 0;
+    for (let k = 0; k < DRAWBARS.length; k++) {
+      const [ratio, level] = DRAWBARS[k]!;
+      y += level * sinTurns(phases[k]!);
+      phases[k] = phases[k]! + (f * ratio) / sr;
+    }
+    out[i] = y * norm * env * (0.6 + 0.4 * n.gain);
+  }
+  return out;
+}
+
+const PAD: Shape = { attackSec: 0.35, decaySec: 3, sustain: 0.85, releaseSec: 0.9 };
+
+export function pad(n: NoteIn): Float32Array {
+  const sr = n.sampleRate;
+  const f = midiHz(n.midi);
+  const out = buffer(n.heldSec + 3, sr);
+  // seven cents apart, one each side, a third saw an octave down for weight
+  const detune = Math.pow(2, 7 / 1200);
+  const d = [f * detune, f / detune, f / 2].map((hz) => hz / sr);
+  const ph = [0, 0.37, 0.61];
+  const lp = new Biquad("lowpass", Math.min(2600, f * 6), 0.8, sr);
+  for (let i = 0; i < out.length; i++) {
+    const t = i / sr;
+    const env = envelope(t, n.heldSec, PAD);
+    if (env < 1e-4 && t > n.heldSec) break;
+    let y = 0;
+    for (let k = 0; k < 3; k++) {
+      // a sawtooth as a phase ramp; naive, and the lowpass takes the top off
+      y += (k === 2 ? 0.5 : 1) * (2 * ph[k]! - 1);
+      ph[k] = ph[k]! + d[k]!;
+      if (ph[k]! >= 1) ph[k] = ph[k]! - 1;
+    }
+    out[i] = lp.run(y) * 0.34 * env * (0.6 + 0.4 * n.gain);
+  }
+  return out;
+}
+
+const FLUTE: Shape = { attackSec: 0.06, decaySec: 2, sustain: 0.9, releaseSec: 0.12 };
+
+export function flute(n: NoteIn): Float32Array {
+  const sr = n.sampleRate;
+  const f = midiHz(n.midi);
+  const out = buffer(n.heldSec + 0.5, sr);
+  const noise = new Noise(n.seed);
+  const breath = new Biquad("bandpass", f * 2, 4, sr);
+  let phase = 0;
+  for (let i = 0; i < out.length; i++) {
+    const t = i / sr;
+    const env = envelope(t, n.heldSec, FLUTE);
+    if (env < 1e-4 && t > n.heldSec) break;
+    // vibrato arrives after the note has spoken
+    const vib = 1 + 0.004 * Math.min(1, t / 0.4) * Math.sin(2 * Math.PI * 5.5 * t);
+    phase += (f * vib) / sr;
+    const tone = sinTurns(phase) + 0.18 * sinTurns(phase * 2) + 0.05 * sinTurns(phase * 3);
+    const air = breath.run(noise.next()) * (0.9 + 0.6 * Math.exp(-t / 0.08));
+    out[i] = (tone + 0.35 * air) * 0.55 * env * (0.6 + 0.4 * n.gain);
   }
   return out;
 }
