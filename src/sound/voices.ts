@@ -95,7 +95,9 @@ export function pluck(n: NoteIn): Float32Array {
     // let go: the loop damps harder once the note is released
     const rel = t > n.heldSec ? Math.exp(-(t - n.heldSec) / 0.05) : 1;
     const y = damp.run(avg) * rel;
-    out[i] = (y + prev) * 0.5 * 0.9 * (0.5 + 0.5 * n.gain);
+    // a muted string is quiet by nature; brought up to sit with the others,
+    // and held under full scale, since the burst's peak is the seed's
+    out[i] = Math.tanh((y + prev) * 0.5 * 2.9 * (0.5 + 0.5 * n.gain));
     prev = y;
     if (t > n.heldSec && Math.abs(y) < 1e-4 && i > period * 4) break;
   }
@@ -129,7 +131,7 @@ export function snare(n: NoteIn): Float32Array {
     const tone = Math.sin(twoPi * 200 * t) * Math.exp(-t / 0.08);
     const rattle = band.run(noise.next()) * Math.exp(-t / 0.13);
     const click = t < 0.004 ? noise.next() * (1 - t / 0.004) : 0;
-    out[i] = (0.55 * tone + 1.6 * rattle + 0.5 * click) * n.gain * 0.8;
+    out[i] = (0.55 * tone + 1.6 * rattle + 0.5 * click) * n.gain * 0.6;
   }
   return out;
 }
@@ -142,7 +144,7 @@ export function hat(n: NoteIn, open: boolean): Float32Array {
   const tau = open ? 0.12 : 0.025;
   for (let i = 0; i < out.length; i++) {
     const t = i / sr;
-    out[i] = hp.run(noise.next()) * Math.exp(-t / tau) * 0.45 * n.gain;
+    out[i] = hp.run(noise.next()) * Math.exp(-t / tau) * 0.6 * n.gain;
   }
   return out;
 }

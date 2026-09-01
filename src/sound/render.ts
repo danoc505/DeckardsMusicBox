@@ -19,10 +19,19 @@ import { hat, kick, pluck, rhodes, snare, sub, type NoteIn } from "./voices.ts";
 
 export interface RenderOptions {
   readonly sampleRate?: number;
+  /** Render one part alone, for measuring it. */
+  readonly only?: Role;
 }
 
 /** How much of the mix each part is, before the arc and the note's own weight. */
-const TRIM: Readonly<Record<Role, number>> = { drums: 0.45, bass: 0.4, keys: 0.28, lead: 0.3 };
+const TRIM: Readonly<Record<Role, number>> = { drums: 0.38, bass: 0.34, keys: 0.24, lead: 0.34 };
+
+/**
+ * −1 dBTP: the true-peak ceiling streaming masters keep under
+ * (kansamples.com mastering-loudness-lufs-streaming). The saturator holds
+ * the record under full scale; this holds it under the ceiling.
+ */
+const CEILING = 0.89;
 
 export function render(song: Song, opts: RenderOptions = {}): Float32Array {
   const sr = opts.sampleRate ?? 44100;
@@ -33,6 +42,7 @@ export function render(song: Song, opts: RenderOptions = {}): Float32Array {
   const voiceOf = { rhodes, sub, pluck } as const;
 
   for (const e of performance.events) {
+    if (opts.only !== undefined && e.role !== opts.only) continue;
     const seed = hash32(`${chart.seed}/${e.role}/${e.lane}/${e.bar}/${e.step}/${e.pitch ?? ""}`);
     const n: NoteIn = { midi: e.pitch ?? 0, heldSec: e.durSec, gain: e.gain, seed, sampleRate: sr };
     let buf: Float32Array;
@@ -92,7 +102,7 @@ function tape(mix: Float32Array, sr: number, seed: number, T: Song["chart"]["gen
       const tick = r > 0.9995 ? crackleNoise.next() : 0;
       dust = crackleHp.run(tick) * T.crackle;
     }
-    out[i] = saturate(wowed + dust, T.drive);
+    out[i] = CEILING * saturate(wowed + dust, T.drive);
   }
   return out;
 }
