@@ -229,6 +229,25 @@ export type LeadCycle = (typeof LEAD_CYCLES)[number];
 export const CONTOURS = ["sung", "riff", "chant"] as const;
 export type Contour = (typeof CONTOURS)[number];
 
+/**
+ * HOW THE SECOND TURN OF A LOOP RELATES TO THE FIRST, where a material holds
+ * more than one turn of its harmony.
+ *
+ *   loop      the figure again, exactly. What makes a beat a beat.
+ *   sentence  the figure again, CHANGED a little — Caplin's presentation
+ *             phrase, "a repeated two measure basic idea" where "the idea is
+ *             then repeated, usually with some variation in contour, rhythm,
+ *             voicing, or harmonization" (milnepublishing.geneseo.edu,
+ *             "Sentences and Periods"; symposium.music.org, "A Taxonomy of
+ *             Sentence Structures").
+ *
+ * Both are repetition and only one of them is exact. A record that only ever
+ * tiles says the same two bars until the section ends; one that only ever
+ * varies has no figure to vary. The genre says how often it does each.
+ */
+export const SHAPES = ["loop", "sentence"] as const;
+export type Shape = (typeof SHAPES)[number];
+
 /** What a drone sits on: the key's tonic, or the fifth above it. */
 export const DRONE_TONES = ["tonic", "fifth"] as const;
 export type DroneTone = (typeof DRONE_TONES)[number];
@@ -267,6 +286,8 @@ export interface LeadSpec {
   readonly art?: ArtSpec;
   /** How the line moves: stepwise, arpeggiated, or on a reciting tone. Drawn once per tune. */
   readonly contour?: Weighted<Contour>;
+  /** Whether the loop's second turn is the first again or the first varied. */
+  readonly shape?: Weighted<Shape>;
 }
 
 /** What the lead builder reads. `rhythms` is in GRID STEPS over two bars. */
@@ -278,6 +299,7 @@ export interface LeadRules {
   readonly cycles: Weighted<readonly LeadCycle[]>;
   readonly art: ArtSpec;
   readonly contour: Weighted<Contour>;
+  readonly shape: Weighted<Shape>;
 }
 
 /** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
@@ -903,6 +925,16 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ["sung", 5],
       ["riff", 2],
       ["chant", 1],
+    ],
+    /**
+     * Mostly the figure again, exactly — that is what a loop is for, and the
+     * thing an ear holds. But a third of the time the second turn is the
+     * first CHANGED, which is Caplin's presentation phrase and the smallest
+     * unit of "repetition with a small difference" a record has. [chosen]
+     */
+    shape: [
+      ["loop", 2],
+      ["sentence", 1],
     ],
   },
 

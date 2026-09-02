@@ -42,7 +42,7 @@ import { drawDrone } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
 import { drawChords, harmonicPeriod } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
-import { contourOf, drawLead } from "./lead.ts";
+import { contourOf, drawLead, ladder, lawsFor } from "./lead.ts";
 import { assertInside, at, GROOVE, Sounding, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
 import { CHANGES, otherChange, varyLine, type Change } from "./vary.ts";
 
@@ -248,20 +248,67 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // the statement's tune, so it moves the way the statement moves.
     const contour = plain ? plain.contour : contourOf(chart, leadRng);
     const first = leadRng.at("vary").pick("change", CHANGES as readonly Change[]);
-    const varied = (which: Change) =>
-      statedTurn.length === 0 ? null : varyLine(statedTurn, loop, leadRng.at("vary", which), steps, period, which);
-    const asTune = varied(first);
-    const tune = asTune?.changed === true
-      ? Object.freeze(tile(asTune.line))
-      : letters.length > 0 ? Object.freeze(tile(drawLead(chart, loop, leadRng, steps, inLoop, 0, contour))) : null;
+    /**
+     * The changes tried in turn from the one drawn, and the first that takes.
+     * Three of the five MOVE PITCHES and are refused whenever the laws say so
+     * — an inversion that leaves the register, a sequence that leaves the
+     * scale, a retrograde that strands a dissonance — which is most of the
+     * time. Trying only the drawn one sent half the variants back to writing a
+     * fresh line, which is the thing a variant is not.
+     */
+    const worksFrom = (start: Change, of: readonly Note[]): { line: readonly Note[]; which: Change } | null => {
+      if (of.length === 0) return null;
+      for (let k = 0; k < CHANGES.length; k++) {
+        const which = CHANGES[(CHANGES.indexOf(start) + k) % CHANGES.length]!;
+        const got = varyLine(of, loop, leadRng.at("vary", which), steps, period, which, ladder(chart), chart.tonic, chart.scale, laws);
+        if (got.changed) return { line: got.line, which };
+      }
+      return null;
+    };
+    // the laws the statement was written under, so a moved pitch is judged by
+    // exactly what refused it when the line was first written
+    const laws = lawsFor(chart, loop, inLoop, contour);
+    /**
+     * THE SECOND TURN OF THE LOOP: the figure again, or the figure CHANGED.
+     *
+     * Tiling exactly is what makes a beat a beat, and it is what everything
+     * pitched here does. But a tune is not only a beat: Caplin's presentation
+     * phrase is "a repeated two measure basic idea" where "the idea is then
+     * repeated, usually with some variation in contour, rhythm, voicing, or
+     * harmonization", and that small difference on the repeat is the smallest
+     * unit of what a song is made of. Both are repetition; only one is exact.
+     *
+     * The change is one of the same five motivic operations a returning
+     * section uses, judged by the same laws — so a sentence cannot put a
+     * wrong note in the loop's second turn any more than a variant can.
+     */
+    const shape = leadRng.weighted("shape", chart.genre.lead.shape);
+    const asSentence = (turn: readonly Note[]): Note[] => {
+      if (shape !== "sentence" || period >= bars) return tile(turn);
+      const answer = worksFrom(leadRng.at("sentence").pick("change", CHANGES as readonly Change[]), turn);
+      if (answer === null) return tile(turn);
+      const out: Note[] = [];
+      for (let k = 0; k * period < bars; k++) {
+        // the basic idea on the odd turns and its varied repetition on the
+        // even ones: a a' a a', which is the presentation stated twice rather
+        // than a idea that drifts further from itself every time round
+        for (const n of (k % 2 === 0 ? turn : answer.line)) out.push({ ...n, bar: n.bar + k * period });
+      }
+      return out;
+    };
+
+    const asTune = worksFrom(first, statedTurn);
+    const tune = asTune !== null
+      ? Object.freeze(asSentence(asTune.line))
+      : letters.length > 0 ? Object.freeze(asSentence(drawLead(chart, loop, leadRng, steps, inLoop, 0, contour))) : null;
     // AND THE DEVELOPMENT IS CHECKED AGAINST WHAT WAS ACTUALLY KEPT, not
     // against the intermediate it came from. `tune` above is the change if it
     // changed anything and a freshly written line if it did not, so comparing
     // the two transformations to each other answers the wrong question — and
     // answered it wrongly, shipping variants whose four times round were one
     // line four times.
-    const asDev = varied(otherChange(first));
-    const devLine = asDev?.changed === true ? tile(asDev.line) : null;
+    const asDev = asTune === null ? null : worksFrom(otherChange(asTune.which), statedTurn);
+    const devLine = asDev !== null ? asSentence(asDev.line) : null;
     const developed = letters.includes("B") && tune !== null
       ? Object.freeze(devLine !== null && JSON.stringify(devLine) !== JSON.stringify(tune)
         ? devLine

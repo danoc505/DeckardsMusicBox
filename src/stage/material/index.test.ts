@@ -367,9 +367,21 @@ test("the loop is as long as the changes are, and everything pitched repeats on 
           assert.equal(turn(m.groove[part], k), turn(m.groove[part], 0), `${m.key}: the ${part} does not repeat on the loop`);
         }
       }
+      // THE TUNE MAY BE A SENTENCE. The groove always tiles — that is what
+      // makes the loop a loop — but a tune's second turn is either the figure
+      // again or the figure CHANGED, which is Caplin's presentation phrase:
+      // "the idea is then repeated, usually with some variation in contour,
+      // rhythm, voicing, or harmonization". Either way its FEET are the
+      // statement's: every one of the five motivic operations keeps the
+      // onsets, so a turn that strikes where turn 0 never struck is a fresh
+      // line and not a repetition of any kind.
       for (const [i, line] of m.lead.entries()) {
+        const feet = (k: number) =>
+          line.filter((n) => Math.floor(n.bar / m.period) === k).map((n) => `${n.bar % m.period}:${n.step}`);
         for (let k = 1; k * m.period < m.bars; k++) {
-          assert.equal(turn(line, k), turn(line, 0), `${m.key} lead line ${i}: a fresh tune over the loop's turn ${k}`);
+          for (const f of feet(k)) {
+            assert.ok(feet(0).includes(f), `${m.key} lead line ${i}: turn ${k} strikes at ${f}, where the figure does not`);
+          }
         }
       }
     }
@@ -379,7 +391,7 @@ test("the loop is as long as the changes are, and everything pitched repeats on 
   assert.ok(shorter > 40, `only ${shorter} materials had a loop shorter than the material — the two-bar loop is not the common case`);
 });
 
-test("a returning idea keeps its tune's notes and changes them", () => {
+test("a returning idea plays its statement's own figure, changed", () => {
   // THE RULE OF THREE, at the length of a song. State it, state it again,
   // then change something — and what comes back has to be recognisably the
   // thing that went away, or it is not a return at all. "The rule of 3 usually
@@ -387,36 +399,79 @@ test("a returning idea keeps its tune's notes and changes them", () => {
   // changing to something else" (omnionsound.com, "The Rule Of Three In Music
   // Composition").
   //
-  // What makes this a variation rather than a redraw is that the notes are
-  // INHERITED: every pitch a variant's tune plays, at the position it plays
-  // it, was in the statement. It is the statement with notes taken out and
-  // the survivors held over the gaps — thinning and augmentation, two of the
-  // documented motivic operations (tobyrush.com, "Motivic Development").
+  // WHAT IS INHERITED IS THE FIGURE'S FEET. All five motivic operations keep
+  // the statement's onsets: thinning and augmentation take some away, and
+  // inversion, retrograde and sequence move the pitches standing on them but
+  // never move the feet. So the claim that holds across all of them is that a
+  // variant strikes only where its statement struck — which is what makes it
+  // the same figure however far its pitches travel.
   let descended = 0;
   let redrawn = 0;
+  const byKind = { subtractive: 0, moved: 0 };
   for (let seed = 1; seed <= 120; seed++) {
     const chart = makeChart({ seed, genre: GENRES.lofi, seconds: 240 });
     const mats = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
     for (const v of mats.all.values()) {
       if (v.variant === 0) continue;
       const plain = mats.all.get(v.idea)!;
-      const turn = (m: typeof v, l: readonly Note[]) =>
-        l.filter((n) => n.bar < m.period).map((n) => `${n.bar}:${n.step}:${n.pitch}`);
-      const stated = turn(plain, plain.lead.find((l) => l.length > 0) ?? []);
-      const heard = turn(v, v.lead.find((l) => l.length > 0) ?? []);
-      if (stated.length === 0 || heard.length === 0) continue;
-      if (heard.every((x) => stated.includes(x))) {
-        descended++;
-        // a variation, not a copy: something has to have gone
-        assert.ok(heard.length < stated.length || JSON.stringify(v.lead[0]) !== JSON.stringify(plain.lead[0]),
-          `${v.key}: nothing changed`);
-      } else {
-        redrawn++;
-      }
+      const turn = (m: typeof v, l: readonly Note[], withPitch: boolean) =>
+        l.filter((n) => n.bar < m.period).map((n) => `${n.bar}:${n.step}${withPitch ? `:${n.pitch}` : ""}`);
+      const statedFeet = turn(plain, plain.lead.find((l) => l.length > 0) ?? [], false);
+      const heardFeet = turn(v, v.lead.find((l) => l.length > 0) ?? [], false);
+      if (statedFeet.length === 0 || heardFeet.length === 0) continue;
+      if (!heardFeet.every((x) => statedFeet.includes(x))) { redrawn++; continue; }
+      descended++;
+      const statedNotes = turn(plain, plain.lead.find((l) => l.length > 0) ?? [], true);
+      const heardNotes = turn(v, v.lead.find((l) => l.length > 0) ?? [], true);
+      if (heardNotes.every((x) => statedNotes.includes(x))) byKind.subtractive++;
+      else byKind.moved++;
+      // a variation, not a copy: something has to have gone or moved
+      assert.ok(JSON.stringify(v.lead[0]) !== JSON.stringify(plain.lead[0]), `${v.key}: nothing changed`);
     }
   }
-  assert.ok(descended > 100, `only ${descended} variants played their statement's own notes`);
-  // a fresh line is the fallback for a tune too short or too tightly written
-  // to thin, and it has to stay the exception
-  assert.ok(redrawn < descended / 4, `${redrawn} variants were redrawn against ${descended} varied`);
+  assert.ok(descended > 180, `only ${descended} variants played their statement's own figure`);
+  // a fresh line is the fallback for a tune every operation refused, and it
+  // has to stay the exception
+  assert.ok(redrawn < 15, `${redrawn} variants were redrawn against ${descended} varied`);
+  // and both kinds are really used: the subtractive pair carries most of it,
+  // and the ones that move pitches are legal often enough to be worth having
+  assert.ok(byKind.subtractive > 100, `only ${byKind.subtractive} variants were thinned or augmented`);
+  assert.ok(byKind.moved > 15, `only ${byKind.moved} variants had their pitches moved`);
+});
+
+test("a loop's second turn is the figure again, or the figure changed", () => {
+  // Caplin's presentation phrase: "a repeated two measure basic idea" where
+  // "the idea is then repeated, usually with some variation in contour,
+  // rhythm, voicing, or harmonization" (milnepublishing.geneseo.edu,
+  // "Sentences and Periods"). Both halves of that are repetition and only one
+  // is exact — a record that only tiles says the same two bars until the
+  // section ends, and one that only varies has no figure to vary. So both
+  // have to occur, and neither may dominate completely.
+  let exact = 0;
+  let varied = 0;
+  for (let seed = 1; seed <= 120; seed++) {
+    const chart = makeChart({ seed, genre: GENRES.lofi, seconds: 240 });
+    const mats = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
+    for (const m of mats.all.values()) {
+      if (m.period >= m.bars) continue;
+      const line = m.lead.find((l) => l.length > 0);
+      if (line === undefined) continue;
+      const at = (k: number, withPitch: boolean) =>
+        line.filter((n) => Math.floor(n.bar / m.period) === k)
+          .sort((a, b) => a.bar - b.bar || a.step - b.step)
+          .map((n) => `${n.bar % m.period}:${n.step}${withPitch ? `/${n.pitch}` : ""}`);
+      const a = at(0, true).join(" ");
+      const a2 = at(1, true).join(" ");
+      if (a === a2) { exact++; continue; }
+      varied++;
+      // a' is a CHANGE of a, not another line: it strikes only where a strikes
+      for (const foot of at(1, false)) {
+        assert.ok(at(0, false).includes(foot), `${m.key}: the second turn strikes at ${foot}, where the figure does not`);
+      }
+      // and it is recognisably the same idea: it cannot have lost everything
+      assert.ok(at(1, false).length > at(0, false).length / 2, `${m.key}: the second turn kept too little of the figure`);
+    }
+  }
+  assert.ok(exact > 80, `only ${exact} tunes repeated their figure exactly`);
+  assert.ok(varied > 40, `only ${varied} tunes stated a figure and then a changed one`);
 });

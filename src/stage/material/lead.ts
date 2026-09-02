@@ -77,6 +77,10 @@ const PHRASE_BARS = 2;
 /** What a tune's note weighs. Which of them are strong is the metre's to say. */
 const LEAD_WEIGHT = 0.76;
 
+/** The scale tones inside the lead's register, ascending: the rungs a tonal move steps along. */
+export const ladder = (chart: Chart): number[] =>
+  scaleTones(chart, chart.genre.lead.register[0], chart.genre.lead.register[1]);
+
 /** The scale tones inside a register, ascending. */
 function scaleTones(chart: Chart, lo: number, hi: number): number[] {
   const out: number[] = [];
@@ -93,6 +97,67 @@ const isTone = (chord: Chord, p: number): boolean => chord.tones.some((t) => pc(
  */
 export function contourOf(chart: Chart, rng: Rng): Contour {
   return rng.weighted("contour", chart.genre.lead.contour);
+}
+
+/**
+ * EVERY HARD LAW A TUNE OBEYS, as a test on a finished line.
+ *
+ * The builder applies these as filters on each choice, which is the right
+ * shape when a line is being written: a constraint at the point of choice
+ * cannot produce a wrong note, only a rest. But a MOTIVIC TRANSFORMATION does
+ * not choose note by note — inversion flips a whole line at once, and whether
+ * the result is legal is a fact about the result. So the laws are stated once
+ * here and read twice: the builder filters with them, and a transformation
+ * proposes a line and is refused if it breaks one.
+ *
+ * Only the LAWS, not the preferences. A tune that leaps where it might have
+ * stepped is a tune; one that lands a semitone off a ringing chord on a beat
+ * is a mistake.
+ */
+export function lawsFor(
+  chart: Chart,
+  chords: readonly Chord[],
+  sounding: Sounding,
+  contour: Contour,
+): (line: readonly Note[]) => boolean {
+  const L = chart.genre.lead;
+  const [lo, hi] = L.register;
+  const beatSteps = chart.metre.perBeat;
+  return (line: readonly Note[]): boolean => {
+    if (line.length === 0) return false;
+    const ns = line.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
+    for (const [i, n] of ns.entries()) {
+      const chord = chords[n.bar % chords.length]!;
+      // in the register, and in the scale the record stands in
+      if (n.pitch < lo || n.pitch > hi) return false;
+      if (!inScale(chart.tonic, chart.scale, n.pitch)) return false;
+      // nothing lands on a seat another part holds, and nothing rubs a
+      // semitone against something ringing where it would be heard as a target
+      if (!(!sounding.holds(n.bar, n.step, n.pitch)
+        && !(n.step % beatSteps === 0 && !isTone(chord, n.pitch) && sounding.rubs(n.bar, n.step, n.pitch)))) return false;
+      // a note off the chord is legal only because the next one resolves it
+      // by step into the chord under IT
+      if (!isTone(chord, n.pitch)) {
+        const next = ns[i + 1];
+        if (next === undefined) return false;
+        if (Math.abs(next.pitch - n.pitch) > 2) return false;
+        if (!isTone(chords[next.bar % chords.length]!, next.pitch)) return false;
+      }
+      // only a reciting tone repeats its own pitch
+      if (i > 0 && contour !== "chant" && ns[i - 1]!.pitch === n.pitch) return false;
+    }
+    // the tune ends on a chord tone, and its last note is not its first —
+    // the line loops, and a loop whose end is its beginning repeats itself
+    const last = ns[ns.length - 1]!;
+    if (!isTone(chords[last.bar % chords.length]!, last.pitch)) return false;
+    if (contour !== "chant" && last.pitch === ns[0]!.pitch) return false;
+    // and no phrase of it spans more than the genre allows
+    for (let ph = 0; ph * PHRASE_BARS < chords.length; ph++) {
+      const inPhrase = ns.filter((n) => Math.floor(n.bar / PHRASE_BARS) === ph).map((n) => n.pitch);
+      if (inPhrase.length > 0 && Math.max(...inPhrase) - Math.min(...inPhrase) > L.span) return false;
+    }
+    return true;
+  };
 }
 
 export function drawLead(

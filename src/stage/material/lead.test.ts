@@ -274,8 +274,15 @@ test("every material the lead plays opens with a tune", () => {
     played++;
     // the floor is well above what a phrase needs: it was 2 when the opening
     // note was narrowed by preference before the laws were applied, so the
-    // whole first phrase could rest
-    assert.ok(tune(m).length >= 8, `${m.key} has ${tune(m).length} lead notes`);
+    // whole first phrase could rest.
+    //
+    // A VARIANT IS ITS STATEMENT THINNED, and thinning takes up to a third of
+    // the notes out — twice over, where the loop's second turn is a varied
+    // repetition rather than a copy. Fewer notes is the operation working,
+    // not a tune failing to arrive, so a variant is held to what is left of
+    // that floor rather than to the floor itself.
+    const floor = m.variant > 0 ? 5 : 8;
+    assert.ok(tune(m).length >= floor, `${m.key} has ${tune(m).length} lead notes`);
   });
   assert.ok(played > 60);
 });

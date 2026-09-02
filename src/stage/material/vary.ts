@@ -45,12 +45,23 @@
  */
 
 import type { Rng } from "../../core/rng.ts";
-import { pc } from "../../core/theory.ts";
+import { pc, scaleStep, type Scale } from "../../core/theory.ts";
 import type { Chord, Note } from "./note.ts";
 
-/** How a tune comes back changed. */
-export const CHANGES = ["thin", "augment"] as const;
+/**
+ * How a tune comes back changed.
+ *
+ * The first two SUBTRACT and can never produce a wrong note. The last three
+ * MOVE PITCHES, and every note they produce has to be judged against the same
+ * laws the line was written under — the chord beneath it, the register, the
+ * scale, what the other parts are sounding, and whether a dissonance still
+ * resolves. They propose; `lawsFor` disposes, and a proposal that breaks one
+ * law is refused whole rather than repaired. A transformation that had to be
+ * patched to be legal is not the transformation any more.
+ */
+export const CHANGES = ["thin", "augment", "invert", "retrograde", "sequence"] as const;
 export type Change = (typeof CHANGES)[number];
+
 
 const isTone = (chord: Chord, p: number): boolean => chord.tones.some((t) => pc(t) === pc(p));
 
@@ -139,16 +150,101 @@ export function varyLine(
   steps: number,
   bars: number,
   which: Change,
+  /** The scale tones inside the lead's register, ascending: the rungs a tonal move steps along. */
+  ladder: readonly number[],
+  /** The key the record stands in, for a sequence to move by its steps. */
+  tonic: number,
+  scale: Scale,
+  /** Every hard law a tune obeys. A moved pitch that breaks one is refused. */
+  laws?: (l: readonly Note[]) => boolean,
 ): { readonly line: readonly Note[]; readonly changed: boolean } {
   const sorted = line.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
   if (sorted.length === 0) return { line: sorted, changed: false };
-  // each operation draws from its own address, so the two do not remove the
-  // same notes and then differ only in how long what is left is held
-  const made = which === "thin"
-    ? thin(sorted, chords, rng.at("thin"))
-    : augment(sorted, chords, rng.at("augment"), steps, bars);
+  // each operation draws from its own address, so the two subtractive ones do
+  // not remove the same notes and then differ only in how long what is left
+  // is held
+  let made: Note[];
+  if (which === "thin") made = thin(sorted, chords, rng.at("thin"));
+  else if (which === "augment") made = augment(sorted, chords, rng.at("augment"), steps, bars);
+  else {
+    // A MOVED LINE IS A PROPOSAL. Without a judge there is nothing to check it
+    // against, so it is not offered at all: silently shipping an unchecked
+    // transposition is how a wrong note gets into a record.
+    if (laws === undefined) return { line: sorted, changed: false };
+    const moved = which === "invert" ? invert(sorted, ladder)
+      : which === "retrograde" ? retrograde(sorted)
+      : sequence(sorted, tonic, scale, rng);
+    const ok = moved.filter((cand) => laws(cand));
+    if (ok.length === 0) return { line: sorted, changed: false };
+    made = ok[0]!;
+  }
   return { line: made, changed: JSON.stringify(made) !== JSON.stringify(sorted) };
 }
 
-/** The other one. A statement and its development take a change each. */
-export const otherChange = (c: Change): Change => (c === "thin" ? "augment" : "thin");
+/**
+ * INVERSION: "flipping the intervals of the motive, such as turning an upward
+ * leap into a downward one" (tobyrush.com, "Motivic Development").
+ *
+ * TONAL, not real. "Melodic inversion can be real (where every interval is
+ * exactly the same quality) or tonal (where the intervals abide by the scale
+ * or key)", and tonal inversion "prioritizes staying within the harmonic and
+ * melodic framework of a particular key or scale, which is why it's more
+ * common in tonal music" (musictheory.pugetsound.edu, "Melodic Alteration";
+ * en.wikipedia.org/wiki/Inversion_(music)). So the reflection is of the SCALE
+ * DEGREE and not the semitone: a third up becomes a third down whatever
+ * quality the scale gives it, and the result cannot leave the scale.
+ *
+ * Reflected in semitones it left the scale on most notes and the laws refused
+ * nearly every one — a mathematically exact transformation that no tonal
+ * record would use anyway.
+ *
+ * Which pitch to reflect about is the only choice there is, so every one the
+ * line itself offers is proposed and the laws pick: an axis from the line
+ * keeps it in its own neighbourhood, where an arbitrary one moves it out of
+ * register.
+ */
+function invert(ns: readonly Note[], ladder: readonly number[]): Note[][] {
+  const rung = (p: number): number => ladder.indexOf(p);
+  const axes = [...new Set(ns.map((n) => n.pitch))].filter((p) => rung(p) >= 0);
+  return axes.map((axis) => {
+    const a = rung(axis);
+    return ns.map((n) => {
+      const i = rung(n.pitch);
+      const to = i < 0 ? n.pitch : ladder[2 * a - i];
+      return { ...n, pitch: to ?? n.pitch };
+    });
+  });
+}
+
+/**
+ * RETROGRADE: "reversing the order of the motive". The rhythm stays where it
+ * is and the pitches walk back through it, so the figure keeps its own feet
+ * and changes its shape — a retrograde that reversed the rhythm too would
+ * land its notes somewhere else entirely and stop being this material's line.
+ */
+function retrograde(ns: readonly Note[]): Note[][] {
+  const pitches = ns.map((n) => n.pitch).reverse();
+  return [ns.map((n, i) => ({ ...n, pitch: pitches[i]! }))];
+}
+
+/**
+ * SEQUENCE: "transposing the motive to another pitch level in a stepwise
+ * manner". Every shift of a step or two, near first: a sequence is the same
+ * shape moved a little, and moved far it is a different line.
+ */
+function sequence(ns: readonly Note[], tonic: number, scale: Scale, rng: Rng): Note[][] {
+  // BY SCALE STEPS, not semitones: "transposing the motive to another pitch
+  // level in a STEPWISE manner", and a chromatic shift would leave the scale
+  // on nearly every note and be refused by the laws every time.
+  const by = rng.chance("up", 0.5) ? [1, -1, 2, -2] : [-1, 1, -2, 2];
+  const step = (p: number, d: number): number => {
+    let at = p;
+    for (let k = 0; k < Math.abs(d); k++) at = scaleStep(tonic, scale, at, Math.sign(d));
+    return at;
+  };
+  return by.map((d) => ns.map((n) => ({ ...n, pitch: step(n.pitch, d) })));
+}
+
+/** A different change from this one, for a development to take. */
+export const otherChange = (c: Change): Change =>
+  CHANGES[(CHANGES.indexOf(c) + 1) % CHANGES.length]!;
