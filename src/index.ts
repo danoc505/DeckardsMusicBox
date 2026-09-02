@@ -5,7 +5,7 @@
 
 export { compose, type Request, type Song } from "./song.ts";
 export { dump, summary, motionOf, distinctBars, PROGRAM, type Motion } from "./dump.ts";
-export { render, rms, peak, settle, type Stereo } from "./sound/render.ts";
+export { Engine, render, rms, peak, settle, type Stereo } from "./sound/render.ts";
 export { RACK_ORDER, PEDAL_ORDER, SENDS, ROLES, type RackSpec, type RackRules, type SoundSpec } from "./genre/spec.ts";
 export { wav } from "./sound/wav.ts";
 export { GENRES, GENRE_NAMES, genre, type GenreName } from "./genre/index.ts";

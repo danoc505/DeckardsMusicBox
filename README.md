@@ -30,12 +30,24 @@ own feed, placed in a stereo world by azimuth and distance, sent to five
 returns — echo, spring, room, ensemble, flange — that can be patched into
 each other and themselves, then the inserts on the sum: pole, tape, medium,
 vinyl, master. Every knob is the genre's, and the page lays its own
-positions over them for a rendering without changing the genre.
+positions over them without changing the genre.
+
+The record is made a block at a time. `Engine` (`src/sound/render.ts`) holds
+every filter, delay line and feedback loop of the desk and fills whatever
+length of buffer it is handed; `render` is that engine driven from end to
+end, and the page drives the same engine a fifth of a second at a time. So
+Play sounds at once, Stop is at once, and a knob moved while the record
+plays is heard as soon as the chunks already on the clock run out — the
+engine takes the new desk and keeps its tails. What you hear and what you
+save come off the same code, and the tests hold the record to being the same
+bytes whatever size block it was made in.
 
 The page (`tools/page.html`, built into the single file) is a bridge: a
 piano roll, a radar scope for the world, a matrix mixer, a pin matrix for
 the patch, the pedal board and the rack, each rack unit with a screen of
-its own impulse response.
+its own impulse response. It plays through a worker that stays about half a
+second in front, and saves through a second one, so rendering a file never
+interrupts the record.
 
 `Deckards Orchestrator MK2.html` is the previous program, kept whole and
 runnable. `tools/dump.mjs` reads its notes out in the same text format.

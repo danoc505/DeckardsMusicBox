@@ -290,9 +290,9 @@
     <div class="chrono" id="chrono">0:00.0</div>
     <div class="lamps">
       <span class="lamp" id="l-ready" data-on="1"><i></i>Ready</span>
-      <span class="lamp amber" id="l-busy" data-on="0"><i></i>Rendering</span>
+      <span class="lamp amber" id="l-busy" data-on="0"><i></i>Buffering</span>
       <span class="lamp ice" id="l-play" data-on="0"><i></i>Playing</span>
-      <span class="lamp red" id="l-stale" data-on="0"><i></i>Re-render</span>
+      <span class="lamp red" id="l-save" data-on="0"><i></i>Saving</span>
     </div>
   </header>
 
@@ -311,11 +311,11 @@
       <section class="plate"><span class="screwB"></span><h2>Transport</h2>
         <div class="transport">
           <button type="button" class="go wide" id="compose">Compose</button>
-          <button type="button" id="play">Render · Play</button>
+          <button type="button" id="play">Play</button>
           <button type="button" id="stop" disabled>Stop</button>
-          <button type="button" class="wide" id="save" disabled>Save WAV · stereo</button>
+          <button type="button" class="wide" id="save">Save WAV · stereo</button>
         </div>
-        <div class="hint" id="hint" style="margin-top:10px">Composing is instant. Rendering runs in the back.</div>
+        <div class="hint" id="hint" style="margin-top:10px">Play starts at once — the record is made as it goes. Move any knob while it plays and the record takes it.</div>
       </section>
     </div>
 
@@ -374,7 +374,7 @@
 
   <section class="plate"><span class="screwB"></span><h2>Rack <small>returns fed by the matrix and the patch, then the inserts on the sum</small></h2>
     <div class="rack" id="rack"></div>
-    <div class="hint" style="margin-top:10px">Each screen is that unit's own impulse response, computed from the same DSP the renderer runs, at the knobs' current positions. Every knob on this bridge starts where the genre put it; render and the record goes through your settings while the genre stays as it was.</div>
+    <div class="hint" style="margin-top:10px">Each screen is that unit's own impulse response, computed from the same DSP the renderer runs, at the knobs' current positions. Every knob on this bridge starts where the genre put it and goes to the record as it plays — the genre stays as it was.</div>
   </section>
 
   <details class="log plate"><summary>Telemetry · the record as text</summary><textarea id="dump" readonly spellcheck="false"></textarea></details>
@@ -392,13 +392,31 @@
   var SENDS = ["echo", "spring", "room", "ensemble", "flange"];
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var song = null, samples = null, ctx = null, source = null, worker = null, startedAt = 0;
+  var song = null, ctx = null, worker = null, saver = null;
   var over = {};   // the page's positions laid over the genre's desk: { rack, mix, world, pedals }
+
+  // ── the player ────────────────────────────────────────────────────────
+  // The worker holds the engine and makes the record a CHUNK at a time; the
+  // page puts each chunk on the clock as it arrives. So the first sound is
+  // immediate, Stop is immediate, and a knob moved now is heard as soon as
+  // the chunks already on the clock have run out. Nothing waits for the whole
+  // record to exist, and the whole record never has to.
+  //
+  // Every message carries the token of the record it belongs to. A chunk from
+  // a record you have since left behind arrives with the wrong token and is
+  // dropped, which is how composing over a playing record cannot leave you
+  // listening to the old one.
+  var CHUNK_SEC = 0.2, AHEAD = 3;   // 0.6 s on the clock: enough not to stutter, short enough to answer a knob
+  var token = 0, playing = false, started = false, ending = false;
+  var queued = [], nextAt = 0, startedAt = 0;
+  var saveTok = 0, saving = 0;
 
   // ── helpers ──
   function lamp(id, on) { $(id).setAttribute("data-on", on ? "1" : "0"); }
-  function busy(on) { lamp("l-busy", on); lamp("l-ready", !on); }
-  function stale() { samples = null; $("save").disabled = true; $("play").disabled = false; lamp("l-stale", 1); }
+  function busy(on) { lamp("l-busy", on); lamp("l-ready", !on && !playing); }
+  function copy(o) { return JSON.parse(JSON.stringify(o)); }
+  /** A knob moved. If the record is playing, the desk goes to it now. */
+  function desked() { if (playing && worker) worker.postMessage({ cmd: "desk", tok: token, desk: copy(over) }); }
   function clock(sec) { var m = Math.floor(sec / 60), s = sec % 60; return m + ":" + (s < 10 ? "0" : "") + s.toFixed(1); }
   function get(path, base) { var o = base; for (var i = 0; i < path.length; i++) { if (o == null) return undefined; o = o[path[i]]; } return o; }
   function set(path, v) { var o = over; for (var i = 0; i < path.length - 1; i++) o = (o[path[i]] = o[path[i]] || {}); o[path[path.length - 1]] = v; }
@@ -446,7 +464,7 @@
   // a knob bound to a path in the desk
   function bound(path, cap, min, max, step, unit, small, hot) {
     return knob({ cap: cap, label: path.join(" "), min: min, max: max, step: step, unit: unit, small: small, hot: hot, value: current(path),
-      onChange: function (nv) { set(path, nv); stale(); if (path[0] === "mix" && (path[2] === "az" || path[2] === "dist")) drawScope(); } });
+      onChange: function (nv) { set(path, nv); desked(); if (path[0] === "mix" && (path[2] === "az" || path[2] === "dist")) drawScope(); } });
   }
 
   // ── an arc meter ──
@@ -483,7 +501,7 @@
 
   // ── compose and draw everything ──
   function compose() {
-    stop(); samples = null; $("play").disabled = false; $("save").disabled = true; lamp("l-stale", 0);
+    stop();
     song = M.compose(request());
     var c = song.chart, f = song.form, p = song.performance;
     $("n-key").textContent = M.NOTE_NAMES[M.pc(c.tonicPc)] + " " + c.scaleName;
@@ -606,7 +624,7 @@
     var az = Math.round(Math.atan2(dx, dy) * 180 / Math.PI), d = Math.min(1, Math.hypot(dx, dy) / R);
     set(["mix", dragging, "az"], az); set(["mix", dragging, "dist"], Number(d.toFixed(2)));
     var ka = matrixKnobs[dragging + ".az"], kd = matrixKnobs[dragging + ".dist"]; if (ka) ka.set(az); if (kd) kd.set(Number(d.toFixed(2)));
-    drawScope(); stale();
+    drawScope(); desked();
   });
   scope.addEventListener("pointerup", function () { dragging = null; });
   if (!reduced) (function sweep() { sweepA += 0.02; if (song && !dragging) drawScope(); requestAnimationFrame(sweep); })();
@@ -667,7 +685,7 @@
       foot.addEventListener("click", function () {
         var now = box.getAttribute("data-on") === "1";
         if (now) { set(["pedals", name, "mix"], 0); mix.set(0); } else { var m = current(["pedals", name, "mix"]) || 0; if (!(m > 0)) { set(["pedals", name, "mix"], 0.6); mix.set(0.6); } }
-        box.setAttribute("data-on", now ? "0" : "1"); stale();
+        box.setAttribute("data-on", now ? "0" : "1"); desked();
       });
       row.appendChild(foot); box.appendChild(row);
       b.appendChild(box);
@@ -706,7 +724,7 @@
         hole.appendChild(pin); hole.appendChild(lv);
         var v = current(["patch", from, to]) || 0;
         function show() { hole.setAttribute("data-v", v > 0 ? "1" : "0"); lv.textContent = v > 0 ? fmt(v) : ""; hole.setAttribute("aria-valuenow", v); }
-        function setv(nv) { nv = Math.round(Math.max(0, Math.min(max, nv)) * 100) / 100; if (nv === v) return; v = nv; set(["patch", from, to], v); show(); stale(); }
+        function setv(nv) { nv = Math.round(Math.max(0, Math.min(max, nv)) * 100) / 100; if (nv === v) return; v = nv; set(["patch", from, to], v); show(); desked(); }
         var drag = null, moved = false;
         hole.addEventListener("pointerdown", function (e) { drag = { y: e.clientY, v: v }; moved = false; hole.setPointerCapture(e.pointerId); e.preventDefault(); });
         hole.addEventListener("pointermove", function (e) { if (!drag) return; var dy = drag.y - e.clientY; if (Math.abs(dy) > 3) moved = true; if (moved) setv((drag.v || 0.5) + dy / 120); });
@@ -786,11 +804,11 @@
       if (def.kind) {
         var sel = document.createElement("select"); sel.setAttribute("aria-label", "medium kind"); sel.style.cssText = "font:10px var(--mono);background:#0a0c0f;color:var(--cream);border:1px solid #000;padding:6px 6px;border-radius:3px;align-self:center";
         ["gramophone", "radio"].forEach(function (k) { var o = document.createElement("option"); o.value = k; o.textContent = k; sel.appendChild(o); });
-        sel.value = current(["rack", "medium", "kind"]); sel.addEventListener("change", function () { set(["rack", "medium", "kind"], sel.value); stale(); refreshScreen("medium"); }); kn.appendChild(sel);
+        sel.value = current(["rack", "medium", "kind"]); sel.addEventListener("change", function () { set(["rack", "medium", "kind"], sel.value); desked(); refreshScreen("medium"); }); kn.appendChild(sel);
       }
       def.knobs.forEach(function (k) {
         var kb = knob({ cap: k[1], label: "rack " + name + " " + k[0], min: k[2], max: k[3], step: k[4], unit: k[5] || "", hot: k[0] === def.sw, value: current(["rack", name, k[0]]),
-          onChange: function (nv) { set(["rack", name, k[0]], nv); stale(); refreshScreen(name); } });
+          onChange: function (nv) { set(["rack", name, k[0]], nv); desked(); refreshScreen(name); } });
         kn.appendChild(kb); if (k[0] === def.sw) swKnob = kb;
       });
       var led = document.createElement("span"); led.className = "led"; led.setAttribute("data-on", on ? "1" : "0"); side.appendChild(led);
@@ -800,7 +818,7 @@
         cb.addEventListener("change", function () {
           if (cb.checked) { var v = current(["rack", name, def.sw]); if (!(v > 0)) { var nv = def.sw === "ret" ? 1 : 0.35; set(["rack", name, def.sw], nv); if (swKnob) swKnob.set(nv); } }
           else { set(["rack", name, def.sw], 0); if (swKnob) swKnob.set(0); }
-          u.setAttribute("data-on", cb.checked ? "1" : "0"); led.setAttribute("data-on", cb.checked ? "1" : "0"); stale();
+          u.setAttribute("data-on", cb.checked ? "1" : "0"); led.setAttribute("data-on", cb.checked ? "1" : "0"); desked();
         });
         tg.appendChild(cb); tg.appendChild(document.createElement("i")); side.appendChild(tg);
       }
@@ -809,40 +827,132 @@
     requestAnimationFrame(function () { M.RACK_ORDER.forEach(refreshScreen); });
   }
 
-  // ── render, play, meter ──
+  // ── the worker: the engine, driven a chunk at a time ──
+  // Credit-based, so the worker stays exactly AHEAD chunks in front and no
+  // further: it renders nineteen times faster than the record plays, and
+  // without the brake it would render the whole thing and we would be back
+  // where we started. Staying close behind is also what makes a knob quick —
+  // there is only ever half a second of committed record in front of it.
+  var WORKER_SRC = [
+    "var E = null, base = null, credits = 0, tok = 0;",
+    "function pump() {",
+    "  while (E && credits > 0 && E.at < E.length) {",
+    "    var n = Math.min(E.blockSize, E.length - E.at);",
+    "    var L = new Float32Array(n), R = new Float32Array(n);",
+    "    E.block(L, R, n); credits--;",
+    "    postMessage({ tok: tok, left: L, right: R }, [L.buffer, R.buffer]);",
+    "  }",
+    "  if (E && E.at >= E.length) { postMessage({ tok: tok, end: true }); E = null; }",
+    "}",
+    "onmessage = function (e) {",
+    "  var d = e.data;",
+    "  if (d.cmd === 'start') {",
+    "    tok = d.tok;",
+    "    var s = MKIII.compose(d.req);",
+    "    base = s.chart.genre.sound;",
+    "    E = new MKIII.Engine(s, { sampleRate: d.sampleRate, desk: d.desk, blockSize: Math.round(d.chunkSec * d.sampleRate) });",
+    "    credits = d.credits; pump();",
+    "  } else if (d.cmd === 'more') { if (d.tok === tok) { credits += d.n; pump(); } }",
+    "  else if (d.cmd === 'desk') { if (d.tok === tok && E) E.setDesk(base, d.desk); }",
+    "  else if (d.cmd === 'stop') { E = null; credits = 0; tok = d.tok; }",
+    "  else if (d.cmd === 'save') {",
+    "    var s2 = MKIII.compose(d.req);",
+    "    var out = MKIII.render(s2, { desk: d.desk, sampleRate: 44100 });",
+    "    postMessage({ tok: d.tok, save: true, left: out.left, right: out.right }, [out.left.buffer, out.right.buffer]);",
+    "  }",
+    "};"
+  ].join("\n");
+  function spawn(onMsg) {
+    var w = new Worker(URL.createObjectURL(new Blob([bundle + "\n" + WORKER_SRC], { type: "text/javascript" })));
+    w.onmessage = onMsg;
+    w.onerror = function (e) { busy(false); $("hint").textContent = "Render failed: " + e.message; };
+    return w;
+  }
+
+  // ── play, chunk by chunk ──
   function play() {
     if (!song) return;
-    if (samples) { start(); return; }
-    $("play").disabled = true; busy(true);
-    if (!worker) {
-      var src = bundle + "\nself.onmessage = function (e) { var s = MKIII.compose(e.data.req); var out = MKIII.render(s, { desk: e.data.desk }); postMessage({ left: out.left, right: out.right }, [out.left.buffer, out.right.buffer]); };";
-      worker = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
-      worker.onmessage = function (e) { samples = e.data; busy(false); lamp("l-stale", 0); $("play").disabled = false; $("save").disabled = false; meter(); start(); };
-      worker.onerror = function (e) { busy(false); $("hint").textContent = "Render failed: " + e.message; $("play").disabled = false; };
-    }
-    worker.postMessage({ req: request(), desk: JSON.parse(JSON.stringify(over)) });
+    stop();
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") ctx.resume();
+    worker = worker || spawn(onChunk);
+    token++; playing = true; started = false; ending = false; queued = []; nextAt = 0;
+    busy(true); lamp("l-play", 1);
+    $("stop").disabled = false; $("play").disabled = true; $("play").classList.add("lit");
+    worker.postMessage({ cmd: "start", tok: token, req: request(), desk: copy(over),
+                         sampleRate: ctx.sampleRate, chunkSec: CHUNK_SEC, credits: AHEAD });
+    tick();
   }
+
+  function onChunk(e) {
+    var d = e.data;
+    if (d.save) { saved(d); return; }
+    if (d.tok !== token || !playing) return;   // a chunk of a record we have left behind
+    // the end of the record: the last chunk may already have finished playing,
+    // in which case there is no `onended` still to come and this is the end
+    if (d.end) { ending = true; if (queued.length === 0) stop(); return; }
+    var buf = ctx.createBuffer(2, d.left.length, ctx.sampleRate);
+    buf.copyToChannel(d.left, 0); buf.copyToChannel(d.right, 1);
+    var s = ctx.createBufferSource(); s.buffer = buf; s.connect(ctx.destination);
+    // the first chunk starts a beat from now; if we ever fall behind, pick the
+    // clock up again from here rather than trying to play the past
+    if (nextAt < ctx.currentTime + 0.02) {
+      nextAt = ctx.currentTime + 0.12;
+      if (!started) { startedAt = nextAt; started = true; }
+    }
+    s.start(nextAt);
+    nextAt += buf.duration;
+    queued.push(s);
+    s.onended = function () {
+      var i = queued.indexOf(s); if (i >= 0) queued.splice(i, 1);
+      if (ending && queued.length === 0) stop();
+    };
+    meter(d.left, d.right);
+    busy(false);
+    worker.postMessage({ cmd: "more", tok: token, n: 1 });
+  }
+
+  function tick() {
+    if (!playing) return;
+    $("chrono").textContent = clock(started ? Math.max(0, ctx.currentTime - startedAt) : 0);
+    if (!reduced && started) drawRoll(Math.max(0, ctx.currentTime - startedAt));
+    requestAnimationFrame(tick);
+  }
+
+  function stop() {
+    if (worker && playing) worker.postMessage({ cmd: "stop", tok: ++token });
+    playing = false; started = false; ending = false;
+    for (var i = 0; i < queued.length; i++) { try { queued[i].onended = null; queued[i].stop(); } catch (err) {} }
+    queued = []; nextAt = 0;
+    $("stop").disabled = true; $("play").disabled = false; $("play").classList.remove("lit");
+    lamp("l-play", 0); busy(false);
+    if (song) drawRoll(null);
+  }
+
   function db(x) { return 20 * Math.log10(Math.max(1e-6, x)); }
-  function meter() {
-    if (!samples) return;
-    var stat = function (b) { var pk = 0, sq = 0, n = 0; for (var i = 0; i < b.length; i += 4) { var v = Math.abs(b[i]); if (v > pk) pk = v; sq += v * v; n++; } return { pk: pk, rms: Math.sqrt(sq / n) }; };
-    var l = stat(samples.left), r = stat(samples.right);
+  function meter(L, R) {
+    var stat = function (b) { var pk = 0, sq = 0, n = 0; for (var i = 0; i < b.length; i += 4) { var v = Math.abs(b[i]); if (v > pk) pk = v; sq += v * v; n++; } return { pk: pk, rms: Math.sqrt(sq / Math.max(1, n)) }; };
+    var l = stat(L), r = stat(R);
     var f = function (x) { return (db(x) + 36) / 36; };
     meterSvg($("d-left"), f(l.rms), "L " + db(l.rms).toFixed(1)); meterSvg($("d-right"), f(r.rms), "R " + db(r.rms).toFixed(1));
     var vl = $("vu-l"), vr = $("vu-r"); if (vl) { meterSvg(vl, f(l.pk), "L PK " + db(l.pk).toFixed(1)); meterSvg(vr, f(r.pk), "R PK " + db(r.pk).toFixed(1)); }
   }
-  function start() {
-    stop();
-    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-    var buf = ctx.createBuffer(2, samples.left.length, 44100);
-    buf.copyToChannel(samples.left, 0); buf.copyToChannel(samples.right, 1);
-    source = ctx.createBufferSource(); source.buffer = buf; source.connect(ctx.destination);
-    source.onended = function () { $("stop").disabled = true; lamp("l-play", 0); $("play").classList.remove("lit"); };
-    startedAt = ctx.currentTime; source.start(); $("stop").disabled = false; lamp("l-play", 1); $("play").classList.add("lit");
-    (function tick() { if (!source) return; var t = ctx.currentTime - startedAt; $("chrono").textContent = clock(t); if (!reduced) drawRoll(t); requestAnimationFrame(tick); })();
+
+  // ── save: its own worker, so a render for the file cannot starve the record ──
+  function save() {
+    if (!song || saving) return;
+    saver = saver || spawn(onChunk);
+    saving = ++saveTok;
+    lamp("l-save", 1); $("save").disabled = true; $("save").textContent = "Rendering…";
+    saver.postMessage({ cmd: "save", tok: saving, req: request(), desk: copy(over) });
   }
-  function stop() { if (source) { try { source.stop(); } catch (e) {} source = null; } $("stop").disabled = true; lamp("l-play", 0); $("play").classList.remove("lit"); if (song) drawRoll(null); }
-  function save() { if (!samples) return; var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([M.wav(samples.left, samples.right, 44100)], { type: "audio/wav" })); a.download = genreVal + "-" + seedEl.value + ".wav"; a.click(); }
+  function saved(d) {
+    if (d.tok !== saving) return;
+    saving = 0; lamp("l-save", 0); $("save").disabled = false; $("save").textContent = "Save WAV · stereo";
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([M.wav(d.left, d.right, 44100)], { type: "audio/wav" }));
+    a.download = genreVal + "-" + seedEl.value + ".wav"; a.click();
+  }
   function step(by) { seedEl.value = String(Math.max(0, (Number(seedEl.value) || 0) + by)); compose(); }
 
   $("compose").addEventListener("click", compose);
@@ -854,7 +964,7 @@
   $("random").addEventListener("click", function () { seedEl.value = String(Math.floor(Math.random() * 1e6)); compose(); });
   [seedEl, secEl].forEach(function (el) { el.addEventListener("change", compose); el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); compose(); } }); });
   window.addEventListener("resize", function () { if (song) { drawRoll(null); drawCable(); M.RACK_ORDER.forEach(refreshScreen); } });
-  document.addEventListener("keydown", function (e) { if (e.code === "Space" && e.target === document.body) { e.preventDefault(); source ? stop() : play(); } });
+  document.addEventListener("keydown", function (e) { if (e.code === "Space" && e.target === document.body) { e.preventDefault(); playing ? stop() : play(); } });
   compose();
 })();
 </script>

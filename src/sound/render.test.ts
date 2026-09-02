@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { compose } from "../song.ts";
 import { resolveGenre } from "../genre/index.ts";
-import { mono, peak, render, rms } from "./render.ts";
+import { Engine, mono, peak, render, rms } from "./render.ts";
 import { hat, kick, pluck, rhodes, snare, sub } from "./voices.ts";
 import { Biquad } from "./dsp.ts";
 import { wav } from "./wav.ts";
@@ -121,6 +121,58 @@ test("a note that recurs is rendered once and is the same note each time", () =>
   // the record does repeat notes: the cache is not a no-op
   const keys = new Set(s.performance.events.map((e) => `${e.role}${e.lane}${e.pitch}${e.durSec}${Math.round(e.gain * 16)}`));
   assert.ok(keys.size < s.performance.events.length / 3, `${keys.size} distinct of ${s.performance.events.length}`);
+});
+
+test("the record does not depend on the block it is made in", () => {
+  // The page plays the record in fifth-of-a-second chunks and saves it in one
+  // pass. If the block boundary were anywhere in the arithmetic, what you
+  // heard and what you saved would be different records.
+  const one = render(song, { sampleRate: SR });
+  for (const blockSize of [1, 128, 333, 8192, 1 << 20]) {
+    const many = render(song, { sampleRate: SR, blockSize });
+    assert.deepEqual(many.left, one.left, `left channel differs at block ${blockSize}`);
+    assert.deepEqual(many.right, one.right, `right channel differs at block ${blockSize}`);
+  }
+});
+
+test("the engine hands out the record the renderer writes", () => {
+  // driven by hand, in blocks of no particular size, the way a player would
+  const engine = new Engine(song, { sampleRate: SR, blockSize: 4096 });
+  const left = new Float32Array(engine.length);
+  const right = new Float32Array(engine.length);
+  const sizes = [1, 2, 4095, 4096, 700, 33];
+  let at = 0;
+  for (let i = 0; at < engine.length; i++) {
+    const n = Math.min(sizes[i % sizes.length]!, engine.length - at);
+    assert.equal(engine.at, at, "the engine knows where it is");
+    assert.equal(engine.block(left.subarray(at, at + n), right.subarray(at, at + n), n), n);
+    at += n;
+  }
+  assert.ok(engine.done);
+  const whole = render(song, { sampleRate: SR });
+  assert.deepEqual(left, whole.left);
+  assert.deepEqual(right, whole.right);
+});
+
+test("a knob moved mid-record changes what follows it and nothing before it", () => {
+  const base = song.chart.genre.sound;
+  const half = Math.floor(Math.ceil(song.performance.seconds * SR) / 2);
+  const engine = new Engine(song, { sampleRate: SR, blockSize: half });
+  const L = new Float32Array(half * 2), R = new Float32Array(half * 2);
+  engine.block(L.subarray(0, half), R.subarray(0, half), half);
+  // the room thrown wide open, exactly as the bridge would send it
+  engine.setDesk(base, { rack: { room: { sec: 9, ret: 1.8 } } } as never);
+  engine.block(L.subarray(half, half * 2), R.subarray(half, half * 2), half);
+
+  const plain = render(song, { sampleRate: SR });
+  // before the knob: the same record, to the bit
+  assert.deepEqual(L.subarray(0, half), plain.left.subarray(0, half));
+  // after it: a different one
+  const after = L.subarray(half, half * 2);
+  let same = true;
+  for (let i = 0; i < after.length; i++) if (after[i] !== plain.left[half + i]) { same = false; break; }
+  assert.ok(!same, "the knob did not reach the record");
+  for (const v of after) assert.ok(Number.isFinite(v));
 });
 
 test("a wav file has the right header and length", () => {
