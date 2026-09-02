@@ -195,6 +195,32 @@ export interface KeysRules {
 export const LEAD_CYCLES = ["A", "B", "."] as const;
 export type LeadCycle = (typeof LEAD_CYCLES)[number];
 
+/**
+ * HOW A LINE MOVES. Not how fast or how loud — which pitch it reaches for
+ * next, which is the thing that makes a saxophone line and a riff guitar and
+ * a chanted vocal three different kinds of melody rather than one process
+ * with different pools.
+ *
+ * Measured off the examples, as interval histograms of the top voice:
+ *
+ *   sung    conjunct. Shine On's saxophone is -2 26%, -3 18%, +2 16%, +3 11%
+ *           and leaps 13% of the time; Televators' vocal is -2 25%, +2 17%.
+ *           "In conjunct melodic motion, the melodic phrase moves in a
+ *           stepwise fashion" (en.wikipedia.org/wiki/Melodic_motion).
+ *   riff    disjunct. Shine On's clean electric is -7 16%, -5 9%, +7 6%,
+ *           +14 6% and leaps 79% of the time: it is not a melody that leaps,
+ *           it is a chord played one note at a time.
+ *   chant   a reciting tone. Chop Suey's vocal repeats its own pitch 44% of
+ *           the time. Chant is "the rhythmic speaking or singing of words or
+ *           sounds, often primarily on one or two pitches (reciting tones)"
+ *           (en.wikipedia.org/wiki/Reciting_tone; newworldencyclopedia.org,
+ *           "Chant"), and the technique of holding one has its own name,
+ *           repercussion (en.wikipedia.org/wiki/Repercussion_(singing)).
+ *           This program used to forbid it outright.
+ */
+export const CONTOURS = ["sung", "riff", "chant"] as const;
+export type Contour = (typeof CONTOURS)[number];
+
 /** What a drone sits on: the key's tonic, or the fifth above it. */
 export const DRONE_TONES = ["tonic", "fifth"] as const;
 export type DroneTone = (typeof DRONE_TONES)[number];
@@ -231,6 +257,8 @@ export interface LeadSpec {
   readonly cycles?: Weighted<readonly LeadCycle[]>;
   /** How often each manner is reached for. Only what the instrument can do. */
   readonly art?: ArtSpec;
+  /** How the line moves: stepwise, arpeggiated, or on a reciting tone. Drawn once per tune. */
+  readonly contour?: Weighted<Contour>;
 }
 
 /** What the lead builder reads. `rhythms` is in GRID STEPS over two bars. */
@@ -241,6 +269,7 @@ export interface LeadRules {
   readonly span: number;
   readonly cycles: Weighted<readonly LeadCycle[]>;
   readonly art: ArtSpec;
+  readonly contour: Weighted<Contour>;
 }
 
 /** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
@@ -825,6 +854,16 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ["tenuto", 3],
       ["accent", 2],
       ["staccato", 2],
+    ],
+    /**
+     * Mostly stepwise, because stepwise motion is the preferred motion in
+     * every repertoire measured, but not only: a tune that can only walk is
+     * as narrow as one that can only leap. [chosen] among the three.
+     */
+    contour: [
+      ["sung", 5],
+      ["riff", 2],
+      ["chant", 1],
     ],
   },
 

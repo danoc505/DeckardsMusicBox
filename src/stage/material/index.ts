@@ -42,7 +42,7 @@ import { drawDrone } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
 import { drawChords } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
-import { drawLead } from "./lead.ts";
+import { contourOf, drawLead } from "./lead.ts";
 import { assertInside, at, GROOVE, Sounding, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
 
 export type { Chord, Figure, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
@@ -185,7 +185,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       }),
     );
 
-    const material: Material = Object.freeze({ key, idea, variant, bars, chords, groove, lead, figure, drums });
+    const material: Material = Object.freeze({ key, idea, variant, contour: contourOf(chart, leadRng), bars, chords, groove, lead, figure, drums });
     check(chart, material, steps);
     all.set(key, material);
   }

@@ -250,13 +250,20 @@ test("the tune does not repeat itself at the loop seam", () => {
   // a SECTION boundary, or after a round of rest, a line may open on the
   // pitch the last one closed on — that is a pivot, not a line hammering one
   // note — so those pairs are not judged.
+  // And a reciting tone is exempt, because the repeated pitch is what it is
+  // made of: see the contour rules in the lead builder.
   for (const s of sweep(60)) {
     const boundaries = new Set(s.form.sections.map((x) => x.startBar));
+    const chanting = new Set<number>();
+    for (const p of s.arrangement.placed) {
+      if (s.materials.all.get(p.material)!.contour !== "chant") continue;
+      for (let b = p.section.startBar; b < p.section.endBar; b++) chanting.add(b);
+    }
     const lead = s.performance.events.filter((e) => e.role === "lead");
     for (let i = 1; i < lead.length; i++) {
       const crosses = lead[i]!.bar !== lead[i - 1]!.bar && boundaries.has(lead[i]!.bar);
       const rested = lead[i]!.bar - lead[i - 1]!.bar > 1;
-      if (crosses || rested) continue;
+      if (crosses || rested || chanting.has(lead[i]!.bar)) continue;
       assert.notEqual(lead[i]!.pitch, lead[i - 1]!.pitch, `seed ${s.chart.seed} bar ${lead[i]!.bar}: the lead repeats a pitch`);
     }
   }

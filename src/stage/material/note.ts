@@ -7,7 +7,7 @@
  */
 
 import type { ArtName } from "../../core/articulation.ts";
-import type { Idea, PitchedRole } from "../../genre/spec.ts";
+import type { Contour, Idea, PitchedRole } from "../../genre/spec.ts";
 import type { Figure, Hit } from "./drums.ts";
 
 export type { Figure, Hit } from "./drums.ts";
@@ -52,6 +52,8 @@ export interface Material {
   readonly idea: Idea;
   /** 0 for the plain statement, then 1, 2, … for each varied one. */
   readonly variant: number;
+  /** How the tune moves: stepwise, arpeggiated, or on a reciting tone. */
+  readonly contour: Contour;
   readonly bars: number;
   readonly chords: readonly Chord[];
   /** Bass and keys, the same every time round — a groove is the thing that is allowed to loop. */

@@ -90,6 +90,8 @@ export const dungeonsynth: GenreSpec = {
     ],
     /** breath and fingers: a wind line is slurred far more often than it is tongued */
     art: [["slur", 6], ["plain", 4], ["tenuto", 3], ["slide", 2], ["ghost", 1], ["bend", 1]],
+    /** a flute sings; it does not pick a chord apart, and a chant is the genre's other voice */
+    contour: [["sung", 7], ["chant", 2], ["riff", 1]],
   },
 
   // a timpani on the beat, no hat, a drum on three now and then
@@ -172,6 +174,10 @@ export const dungeonsynth: GenreSpec = {
     "keys.art":
       "tenuto is 95% of the written value and legato 100% with \"no intervening silence\" " +
       "(cmuse.org/staccato-length-calculator; en.wikipedia.org/wiki/Legato); a pad is bowed, not struck. Weights [chosen]",
+    "lead.contour":
+      "a flute is a singing instrument and a wind line is conjunct: Shine On's saxophone leaps 13% of the time " +
+      "against its arpeggiating guitar's 79%. Chant belongs to the genre by name \u2014 the plainsong a stone room " +
+      "implies (en.wikipedia.org/wiki/Reciting_tone). Weights [chosen]",
     "lead.art":
       "\"wind instruments, including the human voice, and guitars are examples of instruments generally capable of " +
       "ghosting notes\" (en.wikipedia.org/wiki/Ghost_note), done by \"greatly reducing the airflow into the " +

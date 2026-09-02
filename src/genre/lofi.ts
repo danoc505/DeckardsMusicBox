@@ -120,6 +120,8 @@ export const lofi: GenreSpec = {
   // the muted guitar is the one part with a hand still on the string
   lead: {
     art: [["plain", 6], ["slur", 5], ["tenuto", 3], ["ghost", 2], ["staccato", 2], ["slide", 2], ["bend", 1]],
+    /** a muted guitar over a beat plays as many arpeggios as it does tunes */
+    contour: [["sung", 4], ["riff", 3], ["chant", 1]],
   },
 
   arrangement: { enter: ["keys", "drums", "bass", "lead", "drone"] },
@@ -192,6 +194,10 @@ export const lofi: GenreSpec = {
       "ghost notes \"add groove and pace to a beat\" and sit \"well below half\" the weight of the notes around " +
       "them (musicradar.com how-to-add-groove-and-pace-to-a-beat-using-ghost-notes; blog.samplefocus.com " +
       "how-to-produce-ghost-notes-for-organic-drums); weights [chosen]",
+    "lead.contour":
+      "the melody line of a lo-fi beat is a sampled instrument picking through the chord as often as it is a " +
+      "tune over it; \"in conjunct melodic motion, the melodic phrase moves in a stepwise fashion\" and disjunct " +
+      "motion leaps (en.wikipedia.org/wiki/Melodic_motion). Weights [chosen]",
     "lead.art":
       "a hammer-on or pull-off \"removes the sound of the pick attack, yielding a softer, more rounded tone\" and " +
       "a passage of them is a legato phrase (en.wikipedia.org/wiki/Hammer-on); a bend \"increases the pitch of a " +

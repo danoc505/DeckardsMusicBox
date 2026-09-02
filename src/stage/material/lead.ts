@@ -8,11 +8,33 @@
  * answer moves the other way from the question is this program's own rule,
  * not the books': it keeps the two phrases from being one gesture twice.
  *
+ * HOW A LINE MOVES IS THE PART'S OWN GRAMMAR, drawn once per tune. A
+ * saxophone line, a riff guitar and a chanted vocal are three different ways
+ * of choosing the next pitch, not one process with different pools, and
+ * measuring the examples says so plainly: Shine On's saxophone leaps 13% of
+ * the time and its clean electric 79%, because the second is not a melody
+ * that leaps but a chord played one note at a time. See CONTOURS in the spec
+ * for the measurements and their sources.
+ *
  * Every rule here is a CONSTRAINT ON THE CHOICE, applied when a pitch is
  * chosen, never a pass that corrects a line after it is written:
  *
- *   A NOTE NEVER REPEATS ITS PREDECESSOR. The previous pitch is simply not a
- *   candidate. A tune that hammers one note is a tune with nothing to say.
+ *   A NOTE REPEATS ITS PREDECESSOR ONLY ON A RECITING TONE. It used to be
+ *   barred outright, on the grounds that a tune that hammers one note is a
+ *   tune with nothing to say — and that was too strong. Chop Suey's vocal
+ *   repeats its own pitch 44% of the time and is not a tune with nothing to
+ *   say; chant is "the rhythmic speaking or singing of words or sounds, often
+ *   primarily on one or two pitches" (en.wikipedia.org/wiki/Reciting_tone),
+ *   and holding one has its own name, repercussion. So the bar stands for the
+ *   two contours it is true of, and the third is allowed the thing it is
+ *   made of.
+ *
+ *   A LEAP IS ANSWERED BY A STEP THE OTHER WAY. "Any large melodic leap will
+ *   be followed by a reversal of pitch direction approximately 70% of the
+ *   time" — post-skip reversal, which Huron argues listeners expect because
+ *   it is cheap to learn and right most of the time (Sweet Anticipation;
+ *   Von Hippel & Huron, "Why Do Skips Precede Reversals?"). Nothing here
+ *   used to answer a leap at all.
  *
  *   A NOTE OFF THE CHORD HAS TO RESOLVE BY STEP. When the previous note was
  *   not in its chord, the next one may only be a step away and must be in the
@@ -45,6 +67,7 @@
 
 import type { Rng } from "../../core/rng.ts";
 import { inScale, intoBand, pc } from "../../core/theory.ts";
+import type { Contour } from "../../genre/spec.ts";
 import type { Chart } from "../chart.ts";
 import { manner } from "./manner.ts";
 import type { Chord, Note, Sounding } from "./note.ts";
@@ -62,6 +85,15 @@ function scaleTones(chart: Chart, lo: number, hi: number): number[] {
 }
 
 const isTone = (chord: Chord, p: number): boolean => chord.tones.some((t) => pc(t) === pc(p));
+
+/**
+ * How a tune will move, drawn from the same address the tune itself draws it
+ * from — so the material can record what its line is without the answer
+ * being computed twice and able to disagree.
+ */
+export function contourOf(chart: Chart, rng: Rng): Contour {
+  return rng.weighted("contour", chart.genre.lead.contour);
+}
 
 export function drawLead(
   chart: Chart,
@@ -91,10 +123,19 @@ export function drawLead(
     // leaves a tune nowhere to stand, so that one is a preference below.
     !(st % beatSteps === 0 && !isTone(chord, p) && sounding.rubs(b, st, p));
 
+  // how this tune moves, decided once: a line that changed its grammar every
+  // phrase would be three lines taking turns
+  const contour = contourOf(chart, rng);
+  // a reciting tone leaps least of all; a riff is an arpeggio, so it leaps
+  // more often than not. The genre's own number is what a sung line uses.
+  const leapChance = contour === "riff" ? Math.max(0.6, L.leap) : contour === "chant" ? L.leap / 2 : L.leap;
+
   const out: Note[] = [];
   let prev: Note | null = null;
   let prevChord: Chord | null = null;
   let questionDir = 0;
+  /** Which way the last move went, and whether it was a leap: what a reversal answers. */
+  let lastMove = 0;
 
   for (let ph = 0; ph * PHRASE_BARS < chords.length; ph++) {
     const isAnswer = ph % 2 === 1;
@@ -170,8 +211,11 @@ export function drawLead(
       } else {
         const from = prev.pitch;
         const wasOff = prevChord !== null && !isTone(prevChord, from);
-        // a dissonance resolves by step; anything else may reach a fifth
-        cands = pool.filter((p) => p !== from && Math.abs(p - from) <= (wasOff ? 2 : 7));
+        // a dissonance resolves by step; anything else may reach a fifth. A
+        // reciting tone may also stay where it is, which is the one thing it
+        // is made of; the other two contours may not.
+        const mayHold = contour === "chant";
+        cands = pool.filter((p) => (mayHold || p !== from) && Math.abs(p - from) <= (wasOff ? 2 : 7));
         // and it resolves INTO the chord — that is the law, and the note
         // before was only admitted because this resolution existed
         if (wasOff) cands = cands.filter((p) => isTone(chord, p));
@@ -217,12 +261,54 @@ export function drawLead(
         if (smooth.length > 0) cands = smooth;
       } else {
         const from = prev.pitch;
-        //   a leap or a step, drawn — FIRST, because chord tones sit thirds
-        //   apart and a chord-tone preference applied before the size would
-        //   make nearly every beat a leap. A melody moves mostly by step.
-        const leap = at.at("note", i).chance("leap", L.leap);
+        //   A RECITING TONE STAYS PUT. It is the whole of what a chant is:
+        //   the line holds its pitch and the rhythm carries the phrase, and
+        //   it leaves only now and then. Applied before the size, because a
+        //   held note is neither a step nor a leap.
+        if (contour === "chant") {
+          const holding = cands.filter((p) => p === from);
+          // Chop Suey's vocal repeats its own pitch 44% of the time. The
+          // draw is lower than the share it produces, because a hold that is
+          // refused here can still be the only legal candidate below.
+          if (holding.length > 0 && at.at("note", i).chance("hold", 0.28)) {
+            cands = holding;
+          }
+        }
+        //   A LEAP IS ANSWERED THE OTHER WAY, seven times in ten: "any large
+        //   melodic leap will be followed by a reversal of pitch direction
+        //   approximately 70% of the time" (Huron, Sweet Anticipation).
+        //   Before the size is drawn, because the answer to a leap is a step
+        //   and this would otherwise be arguing with the draw.
+        //
+        //   NOT FOR AN ARPEGGIO. Post-skip reversal is a fact about melodies,
+        //   and Huron's own account of why is regression to the mean: a large
+        //   leap takes a line near the edge of its range and the pull back is
+        //   what shows up as a reversal (Von Hippel & Huron, "Why Do Skips
+        //   Precede Reversals?"). A chord taken apart is not doing that — it
+        //   is walking deliberately through its own tones — and applying the
+        //   reversal to it turns every leap into a step and leaves a riff
+        //   indistinguishable from a sung line, which is what it did.
+        if (contour !== "riff" && Math.abs(lastMove) >= 3 && cands.length > 1 && at.at("note", i).chance("reverse", 0.7)) {
+          const back = cands.filter((p) => Math.sign(p - from) === -Math.sign(lastMove) && Math.abs(p - from) <= 2);
+          if (back.length > 0) cands = back;
+        }
+        //   a leap or a step, drawn — FIRST among the sizes, because chord
+        //   tones sit thirds apart and a chord-tone preference applied before
+        //   the size would make nearly every beat a leap. How often a line
+        //   leaps at all is its contour's: a sung line walks, a riff is a
+        //   chord played one note at a time.
+        const leap = at.at("note", i).chance("leap", leapChance);
         const sized = cands.filter((p) => (leap ? Math.abs(p - from) >= 3 : Math.abs(p - from) <= 2));
         if (sized.length > 0) cands = sized;
+        //   AN ARPEGGIO IS A CHORD PLAYED ONE NOTE AT A TIME, so a riff
+        //   reaches for a chord tone wherever it is, not only on the beat.
+        //   That is what makes Shine On's clean electric leap four times out
+        //   of five where its saxophone leaps one in eight: the guitar is not
+        //   a melody that leaps, it is a chord taken apart.
+        if (contour === "riff") {
+          const tones = cands.filter((p) => isTone(chord, p));
+          if (tones.length > 0) cands = tones;
+        }
         //   on a beat the chord is home, among moves of that size; when no
         //   chord tone is a step away the beat takes an appoggiatura, which
         //   is legal only because it resolves
@@ -250,6 +336,7 @@ export function drawLead(
       });
       const note: Note = { bar, step, dur, pitch, vel: LEAD_WEIGHT, art };
       out.push(note);
+      lastMove = prev === null ? 0 : pitch - prev.pitch;
       prev = note;
       prevChord = chord;
       phraseLo = Math.min(phraseLo, pitch);

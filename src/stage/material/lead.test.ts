@@ -33,15 +33,96 @@ const lines = (m: Material): readonly (readonly Note[])[] => {
   return [...seen.values()];
 };
 
-test("the lead never plays the same pitch twice running", () => {
+test("a sung or arpeggiated line never plays the same pitch twice running", () => {
+  // The bar used to be absolute, and it was too strong. A reciting tone is
+  // MADE of the repeated pitch — chant is "the rhythmic speaking or singing
+  // of words or sounds, often primarily on one or two pitches"
+  // (en.wikipedia.org/wiki/Reciting_tone) — and Chop Suey's vocal repeats its
+  // own pitch 44% of the time. So the rule is stated for the two contours it
+  // is true of, and the third is tested for the opposite below.
+  let judged = 0;
   each(80, (_, m) => {
+    if (m.contour === "chant") return;
     for (const line of lines(m)) {
       const ns = byTime(line);
       for (let i = 1; i < ns.length; i++) {
-        assert.notEqual(ns[i]!.pitch, ns[i - 1]!.pitch, `${m.key} repeats at bar ${ns[i]!.bar} step ${ns[i]!.step}`);
+        judged++;
+        assert.notEqual(ns[i]!.pitch, ns[i - 1]!.pitch, `${m.key} (${m.contour}) repeats at bar ${ns[i]!.bar} step ${ns[i]!.step}`);
       }
     }
   });
+  assert.ok(judged > 500, `only ${judged} moves were judged`);
+});
+
+test("a reciting tone holds its pitch, and the other contours move", () => {
+  const held = new Map<string, { same: number; moves: number }>();
+  each(160, (_, m) => {
+    const t = held.get(m.contour) ?? { same: 0, moves: 0 };
+    for (const line of lines(m)) {
+      const ns = byTime(line);
+      for (let i = 1; i < ns.length; i++) {
+        t.moves++;
+        if (ns[i]!.pitch === ns[i - 1]!.pitch) t.same++;
+      }
+    }
+    held.set(m.contour, t);
+  });
+  const chant = held.get("chant");
+  assert.ok(chant !== undefined && chant.moves > 100, "no chant was drawn to measure");
+  const share = chant.same / chant.moves;
+  // Chop Suey's vocal sits at 44%; a reciting tone that holds almost never is
+  // not one, and one that never leaves is not a tune
+  assert.ok(share > 0.2, `a reciting tone repeated only ${(100 * share).toFixed(0)}% of its moves`);
+  assert.ok(share < 0.75, `a reciting tone repeated ${(100 * share).toFixed(0)}% of its moves and went nowhere`);
+});
+
+test("a riff leaps and a sung line walks", () => {
+  // Shine On's saxophone leaps 13% of the time and its clean electric 79%:
+  // the second is not a melody that leaps, it is a chord played one note at
+  // a time. The two contours must be measurably different kinds of line.
+  const by = new Map<string, { leaps: number; moves: number }>();
+  each(160, (_, m) => {
+    const t = by.get(m.contour) ?? { leaps: 0, moves: 0 };
+    for (const line of lines(m)) {
+      const ns = byTime(line);
+      for (let i = 1; i < ns.length; i++) {
+        t.moves++;
+        if (Math.abs(ns[i]!.pitch - ns[i - 1]!.pitch) >= 3) t.leaps++;
+      }
+    }
+    by.set(m.contour, t);
+  });
+  const rate = (k: string): number => {
+    const t = by.get(k);
+    assert.ok(t !== undefined && t.moves > 100, `no ${k} was drawn to measure`);
+    return t.leaps / t.moves;
+  };
+  assert.ok(rate("riff") > rate("sung") * 1.5, `a riff leaps ${(100 * rate("riff")).toFixed(0)}% against a sung line's ${(100 * rate("sung")).toFixed(0)}%`);
+});
+
+test("a leap is answered the other way, most of the time", () => {
+  // "Any large melodic leap will be followed by a reversal of pitch direction
+  // approximately 70% of the time" (Huron, Sweet Anticipation). Measured over
+  // the lines this program writes, not asserted on each one: the laws above
+  // can refuse the reversal where nothing legal goes that way.
+  let after = 0;
+  let reversed = 0;
+  each(160, (_, m) => {
+    for (const line of lines(m)) {
+      const ns = byTime(line);
+      for (let i = 2; i < ns.length; i++) {
+        const leap = ns[i - 1]!.pitch - ns[i - 2]!.pitch;
+        if (Math.abs(leap) < 3) continue;
+        const next = ns[i]!.pitch - ns[i - 1]!.pitch;
+        if (next === 0) continue;
+        after++;
+        if (Math.sign(next) === -Math.sign(leap)) reversed++;
+      }
+    }
+  });
+  assert.ok(after > 100, `only ${after} moves followed a leap`);
+  const share = reversed / after;
+  assert.ok(share > 0.55, `only ${(100 * share).toFixed(0)}% of leaps were answered the other way`);
 });
 
 test("a note off the chord resolves by step into the chord that follows", () => {
