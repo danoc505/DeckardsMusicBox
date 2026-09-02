@@ -122,11 +122,21 @@ export const dungeonsynth: GenreSpec = {
   sound: {
     voices: { keys: "pad", bass: "organ", lead: "flute", drone: "organ" },
     rack: {
-      ensemble: { rateHz: 0.4, depth: 0.5, mix: 0.25 },
-      room: { sec: 2.6, mix: 0.4 },
+      ensemble: { rateHz: 0.4, depth: 0.5, ret: 1 },
+      room: { sec: 2.6, ret: 1.2 },
       tape: { lowpassHz: 9000, wowHz: 0.3, wowCents: 6, drive: 1.2 },
       vinyl: { crackle: 0.05 },
     },
+    // everything in the church: the pad through the ensemble, the flute far
+    // and to one side, the drone behind and wide, the drum deep in the room
+    mix: {
+      drums: { sends: { room: 0.45 }, az: 0, dist: 0.6 },
+      bass: { sends: { room: 0.3 }, az: -15, dist: 0.5 },
+      keys: { sends: { ensemble: 0.6, room: 0.4 }, az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15 },
+      lead: { sends: { room: 0.5 }, az: 60, dist: 0.55 },
+      drone: { sends: { room: 0.5 }, az: 180, dist: 0.8 },
+    },
+    world: { width: 0.9, depth: 0.8 },
   },
 
   sources: {
@@ -154,6 +164,8 @@ export const dungeonsynth: GenreSpec = {
     "drone.hold": "\"a very long and continuous tone that may last through the whole piece\" (chromatone.center/theory/melody/drone)",
     "drone.register": "[chosen] — below the pad and around the organ's own low register",
     "sound.voices": "\"strings, flutes, pipe organs, and choirs\" (note.com/soundwitches; Wikipedia, Dungeon synth)",
+    "sound.mix": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches): every part in the room, the far ones further; placement [chosen]",
+    "sound.world": "the genre is a place as much as a sound — a wide, deep world [chosen]",
     "sound.rack.ensemble": "\"lo-fi pad sounds... with deep reverb applied\", and the strings and choirs the genre emulates are ensembles by nature (note.com/soundwitches); 25% [chosen]",
     "sound.rack.room": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches); a \"Small Church\" impulse (erichgrunewald.com)",
     "sound.rack.vinyl.crackle": "\"intentional crackle, warble, and hiss\" (note.com/soundwitches); 0.05 [chosen]",

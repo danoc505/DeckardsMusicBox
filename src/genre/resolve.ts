@@ -12,7 +12,7 @@
 
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, DEFAULTS, DRONE_TONES, IDEAS, LEAD_CYCLES, PITCHED_ROLES, ROLES, SECTION_FNS, SWING_GRIDS, VOICES,
+  BAR_LETTERS, BASS_TONES, DEFAULTS, DRONE_TONES, IDEAS, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
   type Genre, type GenreSpec, type Weighted,
 } from "./spec.ts";
 
@@ -513,16 +513,59 @@ export function resolveGenre(
         if (!finite(v) || v < lo || v > hi) problems.push(`sound.rack.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
       };
       const pole = unit("pole"); within(pole, "pole", "hz", 40, 20000); within(pole, "pole", "resonance", 0, 1); within(pole, "pole", "mix", 0, 1);
-      const flange = unit("flange"); within(flange, "flange", "rateHz", 0.02, 10); within(flange, "flange", "depth", 0, 1); within(flange, "flange", "mix", 0, 1);
-      const ens = unit("ensemble"); within(ens, "ensemble", "rateHz", 0.02, 10); within(ens, "ensemble", "depth", 0, 1); within(ens, "ensemble", "mix", 0, 1);
-      const echo = unit("echo"); within(echo, "echo", "beats", 0.25, 8); within(echo, "echo", "feedback", 0, 0.9); within(echo, "echo", "mix", 0, 1);
-      const spring = unit("spring"); within(spring, "spring", "sec", 0.2, 6); within(spring, "spring", "mix", 0, 1);
-      const room = unit("room"); within(room, "room", "sec", 0.2, 12); within(room, "room", "mix", 0, 1);
+      const flange = unit("flange"); within(flange, "flange", "rateHz", 0.02, 10); within(flange, "flange", "depth", 0, 1); within(flange, "flange", "ret", 0, 2);
+      const ens = unit("ensemble"); within(ens, "ensemble", "rateHz", 0.02, 10); within(ens, "ensemble", "depth", 0, 1); within(ens, "ensemble", "ret", 0, 2);
+      const echo = unit("echo"); within(echo, "echo", "beats", 0.25, 8); within(echo, "echo", "feedback", 0, 0.9); within(echo, "echo", "ret", 0, 2);
+      const spring = unit("spring"); within(spring, "spring", "sec", 0.2, 6); within(spring, "spring", "ret", 0, 2);
+      const room = unit("room"); within(room, "room", "sec", 0.2, 12); within(room, "room", "ret", 0, 2);
       const tape = unit("tape"); within(tape, "tape", "lowpassHz", 1000, 20000); within(tape, "tape", "wowHz", 0.05, 10); within(tape, "tape", "wowCents", 0, 100); within(tape, "tape", "drive", 1, 10);
       const medium = unit("medium"); within(medium, "medium", "mix", 0, 1);
       if (medium !== null && medium["kind"] !== "gramophone" && medium["kind"] !== "radio") problems.push(`sound.rack.medium.kind must be "gramophone" or "radio", got ${String(medium?.["kind"])}`);
       const vinyl = unit("vinyl"); within(vinyl, "vinyl", "crackle", 0, 1);
       const master = unit("master"); within(master, "master", "level", 0, 1);
+    }
+    // the mixer: a channel per part, every knob in range
+    const mix = isPlainObject(sound["mix"]) ? sound["mix"] : null;
+    if (mix === null) problems.push("sound.mix is missing");
+    else {
+      const inRange = (ch: Record<string, unknown>, role: string, field: string, lo: number, hi: number): void => {
+        const v = ch[field];
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.mix.${role}.${field} must be ${lo}..${hi}, got ${String(v)}`);
+      };
+      for (const role of ROLES) {
+        const ch = mix[role];
+        if (!isPlainObject(ch)) { problems.push(`sound.mix.${role} is missing`); continue; }
+        inRange(ch, role, "level", 0, 2); inRange(ch, role, "pan", -1, 1); inRange(ch, role, "sweepHz", 0.01, 8);
+        inRange(ch, role, "sweepDepth", 0, 1); inRange(ch, role, "pedals", 0, 1); inRange(ch, role, "az", -180, 180); inRange(ch, role, "dist", 0, 1);
+        const sends = isPlainObject(ch["sends"]) ? ch["sends"] : null;
+        if (sends === null) problems.push(`sound.mix.${role}.sends is missing`);
+        else for (const sd of SENDS) {
+          const v = sends[sd];
+          if (!finite(v) || v < 0 || v > 1) problems.push(`sound.mix.${role}.sends.${sd} must be 0..1, got ${String(v)}`);
+        }
+      }
+    }
+    const world = isPlainObject(sound["world"]) ? sound["world"] : null;
+    if (world === null) problems.push("sound.world is missing");
+    else for (const f of ["width", "depth"]) {
+      const v = world[f];
+      if (!finite(v) || v < 0 || v > 1) problems.push(`sound.world.${f} must be 0..1, got ${String(v)}`);
+    }
+    const pedals = isPlainObject(sound["pedals"]) ? sound["pedals"] : null;
+    if (pedals === null) problems.push("sound.pedals is missing");
+    else {
+      const pd = (name: string, field: string, lo: number, hi: number): void => {
+        const u = pedals[name];
+        if (!isPlainObject(u)) { problems.push(`sound.pedals.${name} is missing`); return; }
+        const v = u[field];
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.pedals.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
+      };
+      for (const name of PEDAL_ORDER) pd(name, "mix", 0, 1);
+      pd("wah", "rateHz", 0.05, 12); pd("wah", "depth", 0, 1);
+      pd("overdrive", "drive", 1, 20); pd("overdrive", "tone", 0, 1);
+      pd("fuzz", "gain", 1, 40);
+      pd("phaser", "rateHz", 0.02, 10); pd("phaser", "depth", 0, 1);
+      pd("tremolo", "rateHz", 0.1, 20); pd("tremolo", "depth", 0, 1);
     }
   }
 

@@ -114,11 +114,21 @@ export const lofi: GenreSpec = {
   sound: {
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
     rack: {
-      echo: { beats: 1.5, feedback: 0.3, mix: 0.12 },
-      room: { sec: 1.4, mix: 0.18 },
+      echo: { beats: 1.5, feedback: 0.3, ret: 1 },
+      room: { sec: 1.4, ret: 1 },
       tape: { lowpassHz: 10000, wowHz: 0.2, wowCents: 4, drive: 1.4 },
       vinyl: { crackle: 0.08 },
     },
+    // the Rhodes gets the echo and a little room; the pluck a touch of both;
+    // the drums stay dry and centred, the way a sampled break is
+    mix: {
+      keys: { sends: { echo: 0.14, room: 0.2 }, az: -35, dist: 0.4 },
+      lead: { sends: { echo: 0.1, room: 0.15 }, az: 30, dist: 0.35, pedals: 0.35 },
+      drone: { sends: { room: 0.3 }, az: 180, dist: 0.75 },
+    },
+    world: { width: 0.6, depth: 0.5 },
+    // the pluck through a warm overdrive and a slow tremolo: a muted guitar, close-miked
+    pedals: { overdrive: { drive: 2.5, tone: 0.4, mix: 0.6 }, tremolo: { rateHz: 3.8, depth: 0.35, mix: 1 } },
   },
 
   sources: {
@@ -179,6 +189,11 @@ export const lofi: GenreSpec = {
     "sound.voices":
       "Rhodes is the standard melodic instrument, a muted fingerstyle guitar sits under the chords, a warm sub " +
       "carries the bass (blog.native-instruments.com/lo-fi-hip-hop-beats; masteringthemix.com how-to-make-lo-fi-hip-hop)",
+    "sound.mix":
+      "sends: a dotted-eighth delay and a small room on the keys and lead at 10–20% (audeobox.com how-to-make-lofi-beats-in-fl-studio); " +
+      "placement and the pedal feed [chosen]",
+    "sound.world": "[chosen] — a modest width for a genre mixed narrow and warm",
+    "sound.pedals": "\"muted guitar played fingerstyle\" sits under the chords (masteringthemix.com how-to-make-lo-fi-hip-hop); a warm drive and tremolo on it [chosen]",
     "sound.rack.echo":
       "a dotted-eighth or quarter delay at 10–20% is the lo-fi guides' standard send (audeobox.com how-to-make-lofi-beats-in-fl-studio); 1.5 beats, 12% [chosen inside]",
     "sound.rack.room": "\"reverb, delay, chorus... used generously\" (blog.native-instruments.com/lo-fi-hip-hop-beats); a small room at 18% [chosen]",

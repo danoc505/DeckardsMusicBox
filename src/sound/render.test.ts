@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { compose } from "../song.ts";
 import { resolveGenre } from "../genre/index.ts";
-import { peak, render, rms } from "./render.ts";
+import { mono, peak, render, rms } from "./render.ts";
 import { hat, kick, pluck, rhodes, snare, sub } from "./voices.ts";
 import { Biquad } from "./dsp.ts";
 import { wav } from "./wav.ts";
@@ -13,13 +13,16 @@ const song = compose({ seed: 42, genre: "lofi", seconds: 60 });
 test("the same record renders to the same samples", () => {
   const a = render(song, { sampleRate: SR });
   const b = render(song, { sampleRate: SR });
-  assert.deepEqual(a, b);
+  assert.deepEqual(a.left, b.left);
+  assert.deepEqual(a.right, b.right);
 });
 
 test("a render is finite, as long as the record, never clips, and is not quiet", () => {
-  const out = render(song, { sampleRate: SR });
+  const st = render(song, { sampleRate: SR });
+  const out = mono(st);
   assert.equal(out.length, Math.ceil(song.performance.seconds * SR));
   for (const v of out) assert.ok(Number.isFinite(v));
+  for (const v of st.right) assert.ok(Number.isFinite(v));
   assert.ok(peak(out) <= 1, `peak ${peak(out)}`);
   assert.ok(peak(out) > 0.5, `peak ${peak(out)}: the record is quiet`);
   const level = 20 * Math.log10(rms(out));
@@ -27,7 +30,7 @@ test("a render is finite, as long as the record, never clips, and is not quiet",
 });
 
 test("nothing sounds before the first event or after the tail", () => {
-  const out = render(song, { sampleRate: SR });
+  const out = mono(render(song, { sampleRate: SR }));
   const first = song.performance.events[0]!.tSec;
   const before = out.subarray(0, Math.max(0, Math.floor((first - 0.02) * SR)));
   assert.ok(peak(before) < 0.05, `sound before the first event: ${peak(before)}`);
@@ -71,8 +74,8 @@ test("the tape is the genre's: a clean genre keeps its top end, lofi loses it", 
     return rms(top) / rms(out);
   };
   const clean = resolveGenre("clean", { clean: { label: "C" } });
-  const open = topShare(render(compose({ seed: 42, genre: clean, seconds: 60 }), { sampleRate: SR }));
-  const taped = topShare(render(song, { sampleRate: SR }));
+  const open = topShare(mono(render(compose({ seed: 42, genre: clean, seconds: 60 }), { sampleRate: SR })));
+  const taped = topShare(mono(render(song, { sampleRate: SR })));
   assert.ok(taped < open, `lofi keeps ${taped.toFixed(3)} of its top end against a clean ${open.toFixed(3)}`);
 });
 
@@ -82,15 +85,15 @@ test("the velocity layers cost less than 40 dB of the record", () => {
   // weight. The difference between the two is what the layers cost, and it
   // belongs far under anything an ear follows.
   const s = compose({ seed: 9, genre: "lofi", seconds: 60 });
-  const layered = render(s, { sampleRate: SR });
-  const exact = render(s, { sampleRate: SR, layers: 100000 });
+  const layered = mono(render(s, { sampleRate: SR }));
+  const exact = mono(render(s, { sampleRate: SR, layers: 100000 }));
   assert.equal(layered.length, exact.length);
   const diff = new Float32Array(exact.length);
   for (let i = 0; i < diff.length; i++) diff[i] = exact[i]! - layered[i]!;
   const below = 20 * Math.log10(rms(diff) / rms(exact));
   assert.ok(below < -40, `the layers cost ${below.toFixed(1)} dB, which is audible`);
   // and the knob is doing something: fewer layers must cost more
-  const coarse = render(s, { sampleRate: SR, layers: 8 });
+  const coarse = mono(render(s, { sampleRate: SR, layers: 8 }));
   const cd = new Float32Array(exact.length);
   for (let i = 0; i < cd.length; i++) cd[i] = exact[i]! - coarse[i]!;
   assert.ok(20 * Math.log10(rms(cd) / rms(exact)) > below);
@@ -114,7 +117,7 @@ test("a note that recurs is rendered once and is the same note each time", () =>
   const s = compose({ seed: 12, genre: "lofi", seconds: 90 });
   const out = render(s, { sampleRate: SR });
   const again = render(s, { sampleRate: SR });
-  assert.deepEqual(out, again);
+  assert.deepEqual(out.left, again.left);
   // the record does repeat notes: the cache is not a no-op
   const keys = new Set(s.performance.events.map((e) => `${e.role}${e.lane}${e.pitch}${e.durSec}${Math.round(e.gain * 16)}`));
   assert.ok(keys.size < s.performance.events.length / 3, `${keys.size} distinct of ${s.performance.events.length}`);
@@ -122,8 +125,9 @@ test("a note that recurs is rendered once and is the same note each time", () =>
 
 test("a wav file has the right header and length", () => {
   const out = render(song, { sampleRate: SR });
-  const bytes = wav(out, SR);
+  const bytes = wav(out.left, out.right, SR);
   assert.equal(String.fromCharCode(...bytes.subarray(0, 4)), "RIFF");
   assert.equal(String.fromCharCode(...bytes.subarray(8, 12)), "WAVE");
-  assert.equal(bytes.length, 44 + out.length * 2);
+  assert.equal(new DataView(bytes.buffer).getUint16(22, true), 2, "two channels");
+  assert.equal(bytes.length, 44 + out.left.length * 4);
 });

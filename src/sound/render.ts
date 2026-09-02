@@ -2,30 +2,48 @@
  * Stage 6 — THE SOUND.
  *
  * The performance's events become samples. Every event is one note of one
- * instrument, rendered on its own and added to the record at its time; then
- * the whole record goes through the tape: a low-pass where the genre says
- * the top end stops, a slow wobble of pitch, saturation, and the dust.
+ * instrument, rendered on its own and added to its PART's own buffer at its
+ * time. Then the parts go through the desk:
  *
- * Pure arithmetic on typed arrays: no audio graph, no clock but the sample
- * index, so it runs the same in a browser and in a test, and a record
- * rendered twice is the same bytes.
+ *   PEDALS   each part feeds the pedal board by its own amount, and the
+ *            board is a chain of stompboxes in the order a player wires them
+ *   WORLD    each part is placed in space — panned, swept, and set at an
+ *            azimuth and a distance round the listener, which the far ear
+ *            hears later and duller, and which a distant part hears quieter
+ *            and more in the room
+ *   SENDS    each part feeds the rack's wet units — echo, spring, room,
+ *            ensemble, flange — by its own amount, and each comes back at
+ *            its return level
+ *   INSERTS  the sum goes through the pole, the tape, the medium, the dust
+ *            and the master, in that order
+ *
+ * Stereo throughout from the world on. Pure arithmetic on typed arrays: no
+ * audio graph, no clock but the sample index, so it runs the same in a
+ * browser and in a test, and a record rendered twice is the same bytes.
  *
  * A NOTE IS RENDERED ONCE AND USED WHEREVER IT RECURS. A record loops, so
  * the same pitch of the same length comes round again and again — but the
  * arc moves every note's weight a little, and rendering by exact weight
  * made 90% of notes unique for differences no ear could name. So weight is
- * split the way a sampled instrument splits it: VELOCITY LAYERS
- * decide the timbre, and the note is then scaled to the weight it actually
- * has. Only the brightness is in layers, and the whole approximation
- * measures 43 dB below the record.
+ * split the way a sampled instrument splits it: VELOCITY LAYERS decide the
+ * timbre, and the note is then scaled to the weight it actually has. Only
+ * the brightness is in layers, and the approximation measures 43 dB below
+ * the record.
  */
 
 import { hash32 } from "../core/rng.ts";
-import type { Role } from "../genre/spec.ts";
+import { ROLES, SENDS, type ChannelRules, type PedalsRules, type RackRules, type Role, type SoundRules, type SoundSpec, type WorldRules } from "../genre/spec.ts";
 import type { Song } from "../song.ts";
-import { Biquad, Echo, Ensemble, Flanger, Medium, Noise, Pole, Reverb, Spring, saturate } from "./dsp.ts";
-import type { RackRules, RackSpec } from "../genre/spec.ts";
+import {
+  Biquad, Echo, Ensemble, Flanger, Fuzz, Line, Medium, Noise, Overdrive, Phaser, Pole, Reverb, Spring, Tremolo, Wah,
+  panGains, saturate,
+} from "./dsp.ts";
 import { flute, hat, kick, organ, pad, pluck, rhodes, snare, sub, type NoteIn } from "./voices.ts";
+
+export interface Stereo {
+  readonly left: Float32Array;
+  readonly right: Float32Array;
+}
 
 export interface RenderOptions {
   readonly sampleRate?: number;
@@ -37,21 +55,10 @@ export interface RenderOptions {
    * otherwise, and a number past the note count is the same as none.
    */
   readonly layers?: number;
-  /** Move any knob of the rack for this rendering, leaving the genre as it is. */
-  readonly rack?: RackSpec;
+  /** Move any knob of the desk — rack, mixer, world, pedals — for this rendering, leaving the genre as it is. */
+  readonly desk?: SoundSpec;
 }
 
-/** How much of the mix each part is, before the arc and the note's own weight. */
-const TRIM: Readonly<Record<Role, number>> = { drums: 0.38, bass: 0.34, keys: 0.24, lead: 0.34, drone: 0.16 };
-
-/**
- * How many velocity layers a voice's timbre is rendered in.
- *
- * Chosen by measuring against the same record with every note rendered at
- * its own weight: each doubling buys about 6 dB and costs about a sixth of
- * the time. Eight layers is −27 dB, which is audible; 64 is −43 dB and
- * still renders in two thirds the time of no layering at all.
- */
 const LAYERS = 64;
 
 /**
@@ -61,117 +68,262 @@ const LAYERS = 64;
  */
 const CEILING = 0.89;
 
-export function render(song: Song, opts: RenderOptions = {}): Float32Array {
+/** The furthest the far ear hears a sound late: Woodworth's head, about 0.65 ms. */
+const ITD_SEC = 0.00065;
+
+export function render(song: Song, opts: RenderOptions = {}): Stereo {
   const sr = opts.sampleRate ?? 44100;
   const { performance, chart } = song;
-  const S = chart.genre.sound;
-  const mix = new Float32Array(Math.ceil(performance.seconds * sr));
+  const S = settle(chart.genre.sound, opts.desk);
+  const n = Math.ceil(performance.seconds * sr);
 
+  // ── every part to its own buffer ─────────────────────────────────────
+  const parts = new Map<Role, Float32Array>();
   const voiceOf = { rhodes, sub, pluck, organ, pad, flute } as const;
   const rendered = new Map<string, Float32Array>();
+  const layers = opts.layers ?? LAYERS;
 
   for (const e of performance.events) {
     if (opts.only !== undefined && e.role !== opts.only) continue;
-    // the layer decides how the note is played; the note is then scaled to
-    // the weight it actually has, so nothing is lost but a step of timbre
-    const layers = opts.layers ?? LAYERS;
     const layer = Math.max(1, Math.round(e.gain * layers));
     const layerGain = layer / layers;
     const voice = e.role === "drums" ? e.lane : S.voices[e.role];
-    // the note's IDENTITY — what it is, not how hard it is played. The seed
-    // comes from this, so a hat struck softly is the same hat struck loudly
-    // and not a different one; only the layer below tells them apart.
     const what = `${chart.seed}/${voice}/${e.pitch ?? ""}/${e.durSec}`;
     const key = `${what}/${layer}`;
     let buf = rendered.get(key);
     if (buf === undefined) {
-      // and the seed is the note's, not the event's: which of a note's many
-      // hearings asked for it first cannot be part of the answer
-      const n: NoteIn = { midi: e.pitch ?? 0, heldSec: e.durSec, gain: layerGain, seed: hash32(what), sampleRate: sr };
+      const note: NoteIn = { midi: e.pitch ?? 0, heldSec: e.durSec, gain: layerGain, seed: hash32(what), sampleRate: sr };
       buf = e.role === "drums"
-        ? e.lane === "kick" ? kick(n) : e.lane === "snare" ? snare(n) : hat(n, e.lane === "openhat")
-        : voiceOf[S.voices[e.role]](n);
+        ? e.lane === "kick" ? kick(note) : e.lane === "snare" ? snare(note) : hat(note, e.lane === "openhat")
+        : voiceOf[S.voices[e.role]](note);
       rendered.set(key, buf);
     }
+    let part = parts.get(e.role);
+    if (part === undefined) { part = new Float32Array(n); parts.set(e.role, part); }
     const at = Math.round(e.tSec * sr);
-    const level = TRIM[e.role] * (e.gain / layerGain);
+    const level = e.gain / layerGain;
     for (let i = 0; i < buf.length; i++) {
       const j = at + i;
       if (j < 0) continue;
-      if (j >= mix.length) break;
-      mix[j] = mix[j]! + buf[i]! * level;
+      if (j >= n) break;
+      part[j] = part[j]! + buf[i]! * level;
     }
   }
 
-  return rack(mix, sr, chart.seed, chart.tempo, settle(S.rack, opts.rack));
+  return desk(parts, n, sr, chart.seed, chart.tempo, S);
 }
 
-/** The genre's rack with the page's changes laid over it, knob by knob. */
-export function settle(base: RackRules, over: RackSpec | undefined): RackRules {
+/** The genre's desk with the page's changes laid over it, knob by knob, two levels deep. */
+export function settle(base: SoundRules, over: SoundSpec | undefined): SoundRules {
   if (over === undefined) return base;
-  const out: Record<string, Record<string, unknown>> = {};
-  for (const [unit, knobs] of Object.entries(base)) {
-    out[unit] = { ...(knobs as Record<string, unknown>), ...((over as Record<string, Record<string, unknown> | undefined>)[unit] ?? {}) };
-  }
-  return out as unknown as RackRules;
+  const deep = (a: unknown, b: unknown): unknown => {
+    if (b === undefined) return a;
+    if (typeof a === "object" && a !== null && typeof b === "object" && b !== null && !Array.isArray(a)) {
+      const out: Record<string, unknown> = { ...(a as Record<string, unknown>) };
+      for (const [k, v] of Object.entries(b as Record<string, unknown>)) out[k] = deep(out[k], v);
+      return out;
+    }
+    return b;
+  };
+  return deep(base, over) as SoundRules;
 }
 
-/**
- * The record through the rack, unit by unit in the rack's order. A unit
- * whose mix is zero is not built at all: bypass costs nothing.
- */
-function rack(mix: Float32Array, sr: number, seed: number, tempo: number, R: RackRules): Float32Array {
-  const out = new Float32Array(mix.length);
-  const beatSec = 60 / tempo;
-  const pole = R.pole.mix > 0 ? new Pole(R.pole.hz, R.pole.resonance, sr) : null;
-  const flange = R.flange.mix > 0 ? new Flanger(R.flange.rateHz, R.flange.depth, sr) : null;
-  const ens = R.ensemble.mix > 0 ? new Ensemble(R.ensemble.rateHz, R.ensemble.depth, sr) : null;
-  const echo = R.echo.mix > 0 ? new Echo(R.echo.beats * beatSec, R.echo.feedback, sr) : null;
-  const spring = R.spring.mix > 0 ? new Spring(R.spring.sec, sr) : null;
-  const room = R.room.mix > 0 ? new Reverb(R.room.sec, sr) : null;
-  const lp = new Biquad("lowpass", R.tape.lowpassHz, 0.71, sr);
-  const medium = R.medium.mix > 0 ? new Medium(R.medium.kind, hash32(`medium/${seed}`), sr) : null;
-  // wow: a modulated delay. A pitch deviation of d at rate f is a delay
-  // swinging by d / (2π f); a few cents at a fifth of a hertz is a few ms
-  const dev = Math.pow(2, R.tape.wowCents / 1200) - 1;
-  const swingSec = dev / (2 * Math.PI * R.tape.wowHz);
-  const baseSec = swingSec + 0.002;
-  const line = new Float32Array(Math.ceil((baseSec + swingSec) * sr) + 4);
-  let w = 0;
-  const crackleNoise = new Noise(hash32(`crackle/${seed}`));
-  const crackleHp = new Biquad("highpass", 500, 0.7, sr);
-  const twoPi = 2 * Math.PI;
-  const blend = (dry: number, wet: number, amount: number): number => dry * (1 - 0.5 * amount) + wet * amount;
+/** The desk: pedals, world, sends and inserts, from a buffer per part to a stereo record. */
+function desk(parts: ReadonlyMap<Role, Float32Array>, n: number, sr: number, seed: number, tempo: number, S: SoundRules): Stereo {
+  const L = new Float32Array(n);
+  const R = new Float32Array(n);
+  const wet = new Map<(typeof SENDS)[number], { L: Float32Array; R: Float32Array }>();
+  const W = S.world;
 
-  for (let i = 0; i < mix.length; i++) {
-    const t = i / sr;
-    let x = mix[i]!;
-    if (pole) x = blend(x, pole.run(x), R.pole.mix);
-    if (flange) x = blend(x, flange.run(x), R.flange.mix);
-    if (ens) x = blend(x, ens.run(x), R.ensemble.mix);
-    if (echo) x = x + echo.run(x) * R.echo.mix;
-    if (spring) x = blend(x, spring.run(x), R.spring.mix);
-    if (room) x = blend(x, room.run(x), R.room.mix);
-    x = lp.run(x);
-    line[w] = x;
-    const delaySec = baseSec + swingSec * Math.sin(twoPi * R.tape.wowHz * t);
-    const pos = w - delaySec * sr;
-    const p0 = Math.floor(pos);
-    const frac = pos - p0;
-    const i0 = ((p0 % line.length) + line.length) % line.length;
-    const wowed = line[i0]! * (1 - frac) + line[(i0 + 1) % line.length]! * frac;
-    w = (w + 1) % line.length;
-    let y = wowed;
-    if (medium) y = blend(y, medium.run(y), R.medium.mix);
-    let dust = 0;
-    if (R.vinyl.crackle > 0) {
-      const r = crackleNoise.next();
-      dust = crackleHp.run(r > 0.9995 ? crackleNoise.next() : 0) * R.vinyl.crackle;
+  for (const role of ROLES) {
+    const src = parts.get(role);
+    if (src === undefined) continue;
+    const ch = S.mix[role];
+    const dry = board(src, ch, S.pedals, sr);
+    const place = placed(dry, ch, W, sr, role);
+    for (let i = 0; i < n; i++) {
+      L[i] = L[i]! + place.L[i]! * ch.level;
+      R[i] = R[i]! + place.R[i]! * ch.level;
     }
-    out[i] = CEILING * R.master.level * saturate(y + dust, R.tape.drive);
+    // a distant part is more in the room than a near one: the world's depth
+    // adds to its room send
+    const roomExtra = W.depth * ch.dist * 0.5;
+    for (const sd of SENDS) {
+      const amount = ch.sends[sd] + (sd === "room" ? roomExtra : 0);
+      if (amount <= 0) continue;
+      const bus = wet.get(sd) ?? { L: new Float32Array(n), R: new Float32Array(n) };
+      for (let i = 0; i < n; i++) {
+        bus.L[i] = bus.L[i]! + place.L[i]! * amount * ch.level;
+        bus.R[i] = bus.R[i]! + place.R[i]! * amount * ch.level;
+      }
+      wet.set(sd, bus);
+    }
+  }
+
+  // ── returns: each wet unit, stereo, back into the sum ────────────────
+  const beatSec = 60 / tempo;
+  for (const [sd, bus] of wet) {
+    const ret = S.rack[sd].ret;
+    if (ret <= 0) continue;
+    const unitPair = returns(sd, S.rack, beatSec, sr);
+    for (let i = 0; i < n; i++) {
+      L[i] = L[i]! + unitPair[0](bus.L[i]!) * ret;
+      R[i] = R[i]! + unitPair[1](bus.R[i]!) * ret;
+    }
+  }
+
+  // ── inserts: the sum through the pole, the tape, the medium, the dust, the master ──
+  return inserts(L, R, sr, seed, S.rack);
+}
+
+/** A part through the pedal board by its feed amount. Nothing fed, nothing built. */
+function board(src: Float32Array, ch: ChannelRules, P: PedalsRules, sr: number): Float32Array {
+  if (ch.pedals <= 0) return src;
+  const stages: ((x: number) => number)[] = [];
+  const stage = <T extends { run(x: number): number }>(unit: T, mix: number): void => {
+    if (mix > 0) stages.push((x) => x * (1 - mix) + unit.run(x) * mix);
+  };
+  stage(new Wah(P.wah.rateHz, P.wah.depth, sr), P.wah.mix);
+  stage(new Overdrive(P.overdrive.drive, P.overdrive.tone, sr), P.overdrive.mix);
+  stage(new Fuzz(P.fuzz.gain, sr), P.fuzz.mix);
+  stage(new Phaser(P.phaser.rateHz, P.phaser.depth, sr), P.phaser.mix);
+  stage(new Tremolo(P.tremolo.rateHz, P.tremolo.depth, sr), P.tremolo.mix);
+  if (stages.length === 0) return src;
+  const out = new Float32Array(src.length);
+  for (let i = 0; i < src.length; i++) {
+    let y = src[i]!;
+    for (const st of stages) y = st(y);
+    out[i] = src[i]! * (1 - ch.pedals) + y * ch.pedals;
   }
   return out;
 }
 
-export const rms = (b: Float32Array): number => Math.sqrt(b.reduce((a, v) => a + v * v, 0) / Math.max(1, b.length));
-export const peak = (b: Float32Array): number => b.reduce((a, v) => Math.max(a, Math.abs(v)), 0);
+/**
+ * A part in the world. Pan and sweep give it a place between the speakers;
+ * azimuth and distance give it a place round the listener: the far ear
+ * hears it up to 0.65 ms later and through the head's shadow, and a distant
+ * part is quieter and darker. Width scales the whole illusion.
+ */
+function placed(src: Float32Array, ch: ChannelRules, W: WorldRules, sr: number, role: Role): { L: Float32Array; R: Float32Array } {
+  const n = src.length;
+  const L = new Float32Array(n);
+  const R = new Float32Array(n);
+  const width = W.width;
+  const rad = (ch.az * Math.PI) / 180;
+  // the far ear: which side, how late, how shadowed
+  const side = Math.sin(rad); // −1 left … 1 right
+  const lateSec = ITD_SEC * Math.abs(side) * width;
+  // a filter that would pass everything is not built: a lowpass at the top
+  // of hearing is an identity that costs a biquad a sample
+  const lowpass = (hz: number): Biquad | null => (hz < 19000 ? new Biquad("lowpass", hz, 0.7, sr) : null);
+  const farShadow = lowpass(20000 - (20000 - 1800) * Math.abs(side) * width);
+  const line = lateSec > 0 ? new Line(0.002, sr) : null;
+  // distance: quieter, darker, by the world's depth
+  const dGain = 1 / (1 + 1.5 * ch.dist * W.depth);
+  const dark = lowpass(20000 - (20000 - 2500) * ch.dist * W.depth);
+  // a sound behind is a little darker in both ears
+  const back = lowpass(20000 - (20000 - 4000) * Math.max(0, -Math.cos(rad)) * width);
+  const twoPi = 2 * Math.PI;
+  const sweeping = ch.sweepDepth > 0;
+  const basePan = Math.max(-1, Math.min(1, ch.pan + side * 0.8 * width));
+  let [gl, gr] = panGains(basePan);
+  void role;
+  for (let i = 0; i < n; i++) {
+    let x = src[i]! * dGain;
+    if (dark) x = dark.run(x);
+    if (back) x = back.run(x);
+    let late = x;
+    if (line) { line.write(x); late = line.read(lateSec); }
+    const shadowed = farShadow ? farShadow.run(late) : late;
+    if (sweeping && (i & 63) === 0) {
+      // the sweep is slow: the pan law is worked out every 64 samples
+      const pan = Math.max(-1, Math.min(1, basePan + ch.sweepDepth * Math.sin((twoPi * ch.sweepHz * i) / sr)));
+      [gl, gr] = panGains(pan);
+    }
+    if (side >= 0) { L[i] = shadowed * gl; R[i] = x * gr; } else { L[i] = x * gl; R[i] = shadowed * gr; }
+  }
+  return { L, R };
+}
+
+/** A wet unit as a stereo pair: two of it, the right one a little different, so the return has width. */
+function returns(sd: (typeof SENDS)[number], rack: RackRules, beatSec: number, sr: number): [(x: number) => number, (x: number) => number] {
+  switch (sd) {
+    case "echo": {
+      const a = new Echo(rack.echo.beats * beatSec, rack.echo.feedback, sr);
+      const b = new Echo(rack.echo.beats * beatSec * 1.5, rack.echo.feedback, sr);
+      return [(x) => a.run(x), (x) => b.run(x)];
+    }
+    case "spring": {
+      const a = new Spring(rack.spring.sec, sr), b = new Spring(rack.spring.sec * 1.07, sr);
+      return [(x) => a.run(x), (x) => b.run(x)];
+    }
+    case "room": {
+      const a = new Reverb(rack.room.sec, sr), b = new Reverb(rack.room.sec * 1.05, sr);
+      return [(x) => a.run(x), (x) => b.run(x)];
+    }
+    case "ensemble": {
+      const a = new Ensemble(rack.ensemble.rateHz, rack.ensemble.depth, sr), b = new Ensemble(rack.ensemble.rateHz * 1.1, rack.ensemble.depth, sr);
+      return [(x) => a.run(x), (x) => b.run(x)];
+    }
+    case "flange": {
+      const a = new Flanger(rack.flange.rateHz, rack.flange.depth, sr), b = new Flanger(rack.flange.rateHz * 0.9, rack.flange.depth, sr);
+      return [(x) => a.run(x), (x) => b.run(x)];
+    }
+  }
+}
+
+/** The inserts on the master, in the rack's order, on both channels. */
+function inserts(L: Float32Array, R: Float32Array, sr: number, seed: number, K: RackRules): Stereo {
+  const n = L.length;
+  const outL = new Float32Array(n);
+  const outR = new Float32Array(n);
+  const pole = K.pole.mix > 0 ? [new Pole(K.pole.hz, K.pole.resonance, sr), new Pole(K.pole.hz, K.pole.resonance, sr)] : null;
+  const lp = [new Biquad("lowpass", K.tape.lowpassHz, 0.71, sr), new Biquad("lowpass", K.tape.lowpassHz, 0.71, sr)];
+  const medium = K.medium.mix > 0 ? [new Medium(K.medium.kind, hash32(`medium/${seed}/L`), sr), new Medium(K.medium.kind, hash32(`medium/${seed}/R`), sr)] : null;
+  const dev = Math.pow(2, K.tape.wowCents / 1200) - 1;
+  const swingSec = dev / (2 * Math.PI * K.tape.wowHz);
+  const baseSec = swingSec + 0.002;
+  const lines = [new Line(baseSec + swingSec + 0.01, sr), new Line(baseSec + swingSec + 0.01, sr)];
+  const crackle = new Noise(hash32(`crackle/${seed}`));
+  const crackleHp = [new Biquad("highpass", 500, 0.7, sr), new Biquad("highpass", 500, 0.7, sr)];
+  const twoPi = 2 * Math.PI;
+  const blend = (dry: number, wet: number, amount: number): number => dry * (1 - 0.5 * amount) + wet * amount;
+  const wowing = K.tape.wowCents > 0;
+  const dusty = K.vinyl.crackle > 0;
+  const gain = CEILING * K.master.level;
+  const drive = K.tape.drive;
+  const lpL = lp[0]!, lpR = lp[1]!, lineL = lines[0]!, lineR = lines[1]!, hpL = crackleHp[0]!, hpR = crackleHp[1]!;
+
+  for (let i = 0; i < n; i++) {
+    const delaySec = wowing ? baseSec + swingSec * Math.sin((twoPi * K.tape.wowHz * i) / sr) : 0;
+    // dust is one record, so both channels get the same tick
+    const tick = dusty && crackle.next() > 0.9995 ? crackle.next() : 0;
+    let x = L[i]!, y: number;
+    if (pole) x = blend(x, pole[0]!.run(x), K.pole.mix);
+    x = lpL.run(x);
+    if (wowing) { lineL.write(x); y = lineL.read(delaySec); } else y = x;
+    if (medium) y = blend(y, medium[0]!.run(y), K.medium.mix);
+    outL[i] = gain * saturate(y + (dusty ? hpL.run(tick) * K.vinyl.crackle : 0), drive);
+    x = R[i]!;
+    if (pole) x = blend(x, pole[1]!.run(x), K.pole.mix);
+    x = lpR.run(x);
+    if (wowing) { lineR.write(x); y = lineR.read(delaySec); } else y = x;
+    if (medium) y = blend(y, medium[1]!.run(y), K.medium.mix);
+    outR[i] = gain * saturate(y + (dusty ? hpR.run(tick) * K.vinyl.crackle : 0), drive);
+  }
+  return { left: outL, right: outR };
+}
+
+const one = (b: Float32Array | Stereo): Float32Array => (b instanceof Float32Array ? b : b.left);
+/** RMS of a buffer, or of a stereo record's mid (both channels together). */
+export const rms = (b: Float32Array | Stereo): number => {
+  if (b instanceof Float32Array) return Math.sqrt(b.reduce((a, v) => a + v * v, 0) / Math.max(1, b.length));
+  let s = 0;
+  for (let i = 0; i < b.left.length; i++) { s += b.left[i]! * b.left[i]! + b.right[i]! * b.right[i]!; }
+  return Math.sqrt(s / Math.max(1, 2 * b.left.length));
+};
+export const peak = (b: Float32Array | Stereo): number => {
+  if (b instanceof Float32Array) return b.reduce((a, v) => Math.max(a, Math.abs(v)), 0);
+  return Math.max(peak(b.left), peak(b.right));
+};
+export const mono = one;

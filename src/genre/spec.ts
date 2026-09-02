@@ -333,13 +333,14 @@ export type VoiceName = (typeof VOICES)[number];
 export interface RackSpec {
   /** A resonant lowpass at the top of the chain. */
   readonly pole?: { readonly hz?: number; readonly resonance?: number; readonly mix?: number };
-  readonly flange?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
+  /** The wet units are RETURNS: parts feed them by their sends, and `ret` is how loud each comes back. */
+  readonly flange?: { readonly rateHz?: number; readonly depth?: number; readonly ret?: number };
   /** The ensemble of a multi-effect: three detuned copies on slow sweeps. */
-  readonly ensemble?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
+  readonly ensemble?: { readonly rateHz?: number; readonly depth?: number; readonly ret?: number };
   /** A delay in beats, fed back on itself. */
-  readonly echo?: { readonly beats?: number; readonly feedback?: number; readonly mix?: number };
-  readonly spring?: { readonly sec?: number; readonly mix?: number };
-  readonly room?: { readonly sec?: number; readonly mix?: number };
+  readonly echo?: { readonly beats?: number; readonly feedback?: number; readonly ret?: number };
+  readonly spring?: { readonly sec?: number; readonly ret?: number };
+  readonly room?: { readonly sec?: number; readonly ret?: number };
   /** Where the top end stops, the slow wobble, and the drive into the saturator. */
   readonly tape?: { readonly lowpassHz?: number; readonly wowHz?: number; readonly wowCents?: number; readonly drive?: number };
   /** Heard through a gramophone horn or a small radio, by this much. */
@@ -354,14 +355,77 @@ type Total<T> = { readonly [K in keyof T]-?: Required<NonNullable<T[K]>> };
 export type RackRules = Total<RackSpec>;
 export const RACK_ORDER = ["pole", "flange", "ensemble", "echo", "spring", "room", "tape", "medium", "vinyl", "master"] as const satisfies readonly (keyof RackSpec)[];
 
+/** The wet units a part may be sent to, in the rack. */
+export const SENDS = ["echo", "spring", "room", "ensemble", "flange"] as const;
+export type Send = (typeof SENDS)[number];
+
+/**
+ * A channel of the mixer: one per part. Level and pan are where it sits;
+ * the sweep is a slow pan that moves; `pedals` is how much of it goes
+ * through the pedal board; the sends feed the rack's wet units. `az` and
+ * `dist` are its place in the world — degrees round the listener, with 0
+ * ahead and 90 to the right, and a distance from 0 (at the ear) to 1.
+ */
+export interface ChannelSpec {
+  readonly level?: number;
+  readonly pan?: number;
+  readonly sweepHz?: number;
+  readonly sweepDepth?: number;
+  readonly pedals?: number;
+  readonly sends?: Readonly<Partial<Record<Send, number>>>;
+  readonly az?: number;
+  readonly dist?: number;
+}
+export interface ChannelRules {
+  readonly level: number;
+  readonly pan: number;
+  readonly sweepHz: number;
+  readonly sweepDepth: number;
+  readonly pedals: number;
+  readonly sends: Readonly<Record<Send, number>>;
+  readonly az: number;
+  readonly dist: number;
+}
+
+/**
+ * THE WORLD: the record in space rather than on a line between two
+ * speakers. A part placed round the listener arrives at the far ear later
+ * (up to about 0.65 ms, Woodworth's head model) and duller (the head's
+ * shadow), and a distant part is quieter, duller and more in the room.
+ * `width` scales all of it; at 0 the world is a mono record.
+ */
+export interface WorldSpec {
+  readonly width?: number;
+  /** How much a part's distance darkens it and sends it to the room, 0..1. */
+  readonly depth?: number;
+}
+export type WorldRules = Required<WorldSpec>;
+
+/** THE PEDAL BOARD, in the order a signal walks it. Mix 0 is a pedal switched off. */
+export interface PedalsSpec {
+  readonly wah?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
+  readonly overdrive?: { readonly drive?: number; readonly tone?: number; readonly mix?: number };
+  readonly fuzz?: { readonly gain?: number; readonly mix?: number };
+  readonly phaser?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
+  readonly tremolo?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
+}
+export type PedalsRules = Total<PedalsSpec>;
+export const PEDAL_ORDER = ["wah", "overdrive", "fuzz", "phaser", "tremolo"] as const satisfies readonly (keyof PedalsSpec)[];
+
 export interface SoundSpec {
   readonly voices?: Readonly<Partial<Record<PitchedRole, VoiceName>>>;
   readonly rack?: RackSpec;
+  readonly mix?: Readonly<Partial<Record<Role, ChannelSpec>>>;
+  readonly world?: WorldSpec;
+  readonly pedals?: PedalsSpec;
 }
 
 export interface SoundRules {
   readonly voices: Readonly<Record<PitchedRole, VoiceName>>;
   readonly rack: RackRules;
+  readonly mix: Readonly<Record<Role, ChannelRules>>;
+  readonly world: WorldRules;
+  readonly pedals: PedalsRules;
 }
 
 /** What an author writes. */
@@ -729,15 +793,37 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     /** every unit in the rack, every one bypassed: a clean record */
     rack: {
       pole: { hz: 18000, resonance: 0, mix: 0 },
-      flange: { rateHz: 0.3, depth: 0.5, mix: 0 },
-      ensemble: { rateHz: 0.6, depth: 0.5, mix: 0 },
-      echo: { beats: 1.5, feedback: 0.35, mix: 0 },
-      spring: { sec: 1.2, mix: 0 },
-      room: { sec: 1.5, mix: 0 },
+      flange: { rateHz: 0.3, depth: 0.5, ret: 1 },
+      ensemble: { rateHz: 0.6, depth: 0.5, ret: 1 },
+      echo: { beats: 1.5, feedback: 0.35, ret: 1 },
+      spring: { sec: 1.2, ret: 1 },
+      room: { sec: 1.5, ret: 1 },
       tape: { lowpassHz: 16000, wowHz: 0.2, wowCents: 0, drive: 1 },
       medium: { kind: "gramophone", mix: 0 },
       vinyl: { crackle: 0 },
       master: { level: 1 },
+    },
+    /**
+     * Where each part sits, and what it feeds. Nothing is sent anywhere by
+     * default; a genre says. The stage is the conventional one — drums and
+     * bass in the middle, keys a little left, the lead a little right, the
+     * drone wide and back — and the levels are the trims that balanced the
+     * parts when they were measured alone.
+     */
+    mix: {
+      drums: { level: 0.38, pan: 0, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 0, dist: 0.3 },
+      bass:  { level: 0.34, pan: 0, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 0, dist: 0.25 },
+      keys:  { level: 0.24, pan: -0.3, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: -35, dist: 0.4 },
+      lead:  { level: 0.34, pan: 0.25, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 30, dist: 0.35 },
+      drone: { level: 0.16, pan: 0, sweepHz: 0.05, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 180, dist: 0.7 },
+    },
+    world: { width: 0.7, depth: 0.5 },
+    pedals: {
+      wah: { rateHz: 1.2, depth: 0.7, mix: 0 },
+      overdrive: { drive: 3, tone: 0.5, mix: 0 },
+      fuzz: { gain: 6, mix: 0 },
+      phaser: { rateHz: 0.4, depth: 0.7, mix: 0 },
+      tremolo: { rateHz: 4.5, depth: 0.6, mix: 0 },
     },
   },
 };

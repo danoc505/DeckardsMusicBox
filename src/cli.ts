@@ -46,7 +46,8 @@ if (seconds !== undefined && !(seconds > 0)) usage();
 
 const song = compose(seconds === undefined ? { seed, genre: genreArg as GenreName } : { seed, genre: genreArg as GenreName, seconds });
 if (wavFile !== undefined) {
-  writeFileSync(wavFile, wav(render(song), 44100));
+  const out = render(song);
+  writeFileSync(wavFile, wav(out.left, out.right, 44100));
   process.stderr.write(`${summary(song)} → ${wavFile}\n`);
 } else {
   process.stdout.write(wantSummary ? summary(song) + "\n" : dump(song));

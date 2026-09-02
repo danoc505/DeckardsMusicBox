@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Echo, Ensemble, Flanger, Medium, Pole, Spring, Biquad } from "./dsp.ts";
 import { compose } from "../song.ts";
-import { render, rms, settle } from "./render.ts";
+import { mono, render, rms, settle } from "./render.ts";
 import { GENRES } from "../genre/index.ts";
 import { RACK_ORDER } from "../genre/spec.ts";
 
@@ -52,26 +52,75 @@ test("the spring and the medium ring and colour, and settle", () => {
   assert.ok(rms(top) / rms(coloured) < 0.2, "a gramophone has a top end");
 });
 
-test("every unit in the rack, bypassed, renders the same record as none of them", () => {
+test("every unit in the rack, bypassed, renders the same record twice, and a send is heard", () => {
   const g = GENRES.lofi;
   for (const unit of RACK_ORDER) assert.ok(unit in g.sound.rack, `no ${unit} in the rack`);
-  const clean = { rack: { pole: { mix: 0 }, flange: { mix: 0 }, ensemble: { mix: 0 }, echo: { mix: 0 }, spring: { mix: 0 }, room: { mix: 0 }, medium: { mix: 0 }, vinyl: { crackle: 0 }, tape: { lowpassHz: 20000, wowCents: 0, drive: 1 } } };
-  const s = compose({ seed: 4, genre: "lofi", seconds: 45 });
-  const a = render(s, { sampleRate: SR, ...clean });
-  const b = render(s, { sampleRate: SR, ...clean });
+  const dry = { desk: { rack: { pole: { mix: 0 }, medium: { mix: 0 }, vinyl: { crackle: 0 }, tape: { lowpassHz: 20000, wowCents: 0, drive: 1 } },
+    mix: { keys: { sends: { echo: 0, room: 0 } }, lead: { sends: { echo: 0, room: 0 }, pedals: 0 }, drone: { sends: { room: 0 } } } } };
+  const s = compose({ seed: 4, genre: "lofi", seconds: 30 });
+  const a = mono(render(s, { sampleRate: SR, ...dry }));
+  const b = mono(render(s, { sampleRate: SR, ...dry }));
   assert.deepEqual(a, b);
-  // and turning a unit up changes the record
-  const wet = render(s, { sampleRate: SR, rack: { ...clean.rack, echo: { mix: 0.6, beats: 1, feedback: 0.5 } } });
+  const wet = mono(render(s, { sampleRate: SR, desk: { ...dry.desk, mix: { ...dry.desk.mix, keys: { sends: { echo: 0.8, room: 0 } } }, rack: { ...dry.desk.rack, echo: { beats: 1, feedback: 0.5, ret: 1 } } } }));
   let diff = 0; for (let i = 0; i < a.length; i++) diff += Math.abs(a[i]! - wet[i]!);
-  assert.ok(diff / a.length > 1e-3, "the echo knob did nothing");
+  assert.ok(diff / a.length > 1e-3, "the echo send did nothing");
 });
 
-test("a page's knob settles over the genre's, and only that knob", () => {
-  const base = GENRES.dungeonsynth.sound.rack;
-  const r = settle(base, { room: { mix: 0.9 }, tape: { drive: 3 } });
-  assert.equal(r.room.mix, 0.9);
-  assert.equal(r.room.sec, base.room.sec);
-  assert.equal(r.tape.drive, 3);
-  assert.equal(r.tape.lowpassHz, base.tape.lowpassHz);
-  assert.deepEqual(r.echo, base.echo);
+test("a page's knob settles over the genre's, and only that knob, at any depth", () => {
+  const base = GENRES.dungeonsynth.sound;
+  const r = settle(base, { rack: { room: { ret: 0.2 }, tape: { drive: 3 } }, mix: { lead: { az: -90 } } });
+  assert.equal(r.rack.room.ret, 0.2);
+  assert.equal(r.rack.room.sec, base.rack.room.sec);
+  assert.equal(r.rack.tape.drive, 3);
+  assert.equal(r.rack.tape.lowpassHz, base.rack.tape.lowpassHz);
+  assert.deepEqual(r.rack.echo, base.rack.echo);
+  assert.equal(r.mix.lead.az, -90);
+  assert.equal(r.mix.lead.dist, base.mix.lead.dist);
+  assert.deepEqual(r.mix.keys, base.mix.keys);
+});
+
+test("the world is stereo: a part to the right is louder and earlier in the right ear", () => {
+  const s = compose({ seed: 2, genre: "lofi", seconds: 24 });
+  const right = render(s, { sampleRate: SR, only: "lead", desk: { world: { width: 1, depth: 0 }, mix: { lead: { az: 90, pan: 0, sweepDepth: 0, pedals: 0, sends: { echo: 0, room: 0 } } } } });
+  assert.ok(rms(right.right) > rms(right.left) * 1.3, `right ${rms(right.right).toFixed(4)} vs left ${rms(right.left).toFixed(4)}`);
+  const left = render(s, { sampleRate: SR, only: "lead", desk: { world: { width: 1, depth: 0 }, mix: { lead: { az: -90, pan: 0, sweepDepth: 0, pedals: 0, sends: { echo: 0, room: 0 } } } } });
+  assert.ok(rms(left.left) > rms(left.right) * 1.3);
+  // the far ear is late: the peak of the cross-correlation sits at a positive lag
+  const lag = (a: Float32Array, b: Float32Array): number => {
+    let best = 0, bestV = -Infinity;
+    for (let k = -40; k <= 40; k++) {
+      let acc = 0;
+      for (let i = 1000; i < a.length - 1000; i += 3) acc += a[i]! * b[i + k]!;
+      if (acc > bestV) { bestV = acc; best = k; }
+    }
+    return best;
+  };
+  const k = lag(right.right, right.left);
+  // the head's delay, plus a few samples the far ear's shadow filter adds
+  assert.ok(k > 0 && k <= Math.round(0.00065 * SR) + 6, `the far ear is late by ${k} samples`);
+  // and a mono world collapses it
+  const flat = render(s, { sampleRate: SR, only: "lead", desk: { world: { width: 0, depth: 0 }, mix: { lead: { az: 90, pan: 0, sweepDepth: 0, pedals: 0, sends: { echo: 0, room: 0 } } } } });
+  assert.deepEqual(flat.left, flat.right);
+});
+
+test("a distant part is quieter and darker than a near one", () => {
+  const s = compose({ seed: 2, genre: "lofi", seconds: 24 });
+  const at = (dist: number) => mono(render(s, { sampleRate: SR, only: "keys", desk: { world: { width: 0, depth: 1 }, mix: { keys: { dist, sends: { echo: 0, room: 0 } } } } }));
+  const near = at(0), far = at(1);
+  assert.ok(rms(far) < rms(near) * 0.6, `far ${rms(far).toFixed(4)} near ${rms(near).toFixed(4)}`);
+  const top = (b: Float32Array) => { const f = new Biquad("highpass", 4000, 0.7, SR); const o = new Float32Array(b.length); for (let i = 0; i < b.length; i++) o[i] = f.run(b[i]!); return rms(o) / rms(b); };
+  assert.ok(top(far) < top(near), "the far part kept its top end");
+});
+
+test("the pedal board is heard only where a part feeds it, and every pedal does something", () => {
+  const s = compose({ seed: 5, genre: "lofi", seconds: 24 });
+  const off = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 0, sends: { echo: 0, room: 0 } } } } }));
+  const same = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 } } } }));
+  assert.deepEqual(same, off, "a board with every pedal off changed the part");
+  for (const pedal of ["wah", "overdrive", "fuzz", "phaser", "tremolo"] as const) {
+    const on = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 }, [pedal]: { mix: 1 } } } }));
+    let diff = 0; for (let i = 0; i < on.length; i++) diff += Math.abs(on[i]! - off[i]!);
+    assert.ok(diff / on.length > 1e-4, `${pedal} did nothing`);
+    for (const v of on) assert.ok(Number.isFinite(v) && Math.abs(v) <= 1, `${pedal} left full scale`);
+  }
 });

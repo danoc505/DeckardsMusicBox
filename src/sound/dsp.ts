@@ -192,13 +192,14 @@ export class Line {
     this.w = (this.w + 1) % this.buf.length;
   }
   read(sec: number): number {
-    const back = Math.min(this.buf.length - 2, Math.max(1, sec * this.sampleRate));
-    const pos = this.w - 1 - back;
-    const p0 = Math.floor(pos);
-    const f = pos - p0;
     const n = this.buf.length;
-    const i0 = ((p0 % n) + n) % n;
-    return this.buf[i0]! * (1 - f) + this.buf[(i0 + 1) % n]! * f;
+    const back = Math.min(n - 2, Math.max(1, sec * this.sampleRate));
+    let pos = this.w - 1 - back;
+    if (pos < 0) pos += n;
+    const p0 = pos | 0;
+    const f = pos - p0;
+    const i1 = p0 + 1 === n ? 0 : p0 + 1;
+    return this.buf[p0]! * (1 - f) + this.buf[i1]! * f;
   }
 }
 
@@ -321,4 +322,107 @@ export class Medium {
   run(x: number): number {
     return this.band.run(x) * 2.2 + this.hiss.next() * 0.004;
   }
+}
+
+/** A second-order allpass, the stage a phaser is built from. */
+class Allpass2 {
+  private x1 = 0; private x2 = 0; private y1 = 0; private y2 = 0;
+  private a1 = 0; private a2 = 0;
+  private readonly sampleRate: number;
+  constructor(sampleRate: number) { this.sampleRate = sampleRate; }
+  set(hz: number, q: number): void {
+    const w = (2 * Math.PI * Math.min(hz, this.sampleRate * 0.45)) / this.sampleRate;
+    const alpha = Math.sin(w) / (2 * q);
+    const a0 = 1 + alpha;
+    this.a1 = (-2 * Math.cos(w)) / a0;
+    this.a2 = (1 - alpha) / a0;
+  }
+  run(x: number): number {
+    const y = this.a2 * x + this.a1 * this.x1 + this.x2 - this.a1 * this.y1 - this.a2 * this.y2;
+    this.x2 = this.x1; this.x1 = x; this.y2 = this.y1; this.y1 = y;
+    return y;
+  }
+}
+
+/** The pedal board's stages. Each takes a sample and gives one back; mix is applied by the caller. */
+export class Wah {
+  private readonly band: Biquad;
+  private readonly rateHz: number;
+  private readonly depth: number;
+  private readonly sr: number;
+  private t = 0;
+  private n = 0;
+  constructor(rateHz: number, depth: number, sampleRate: number) {
+    this.rateHz = rateHz; this.depth = depth; this.sr = sampleRate;
+    this.band = new Biquad("bandpass", 800, 3, sampleRate);
+  }
+  run(x: number): number {
+    // the sweep is set every 32 samples: a filter retuned per sample is a waste, and an ear cannot tell
+    if ((this.n++ & 31) === 0) {
+      this.t = this.n / this.sr;
+      const hz = 350 * Math.pow(2, 2.6 * this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * this.rateHz * this.t)));
+      this.band.set("bandpass", hz, 3, this.sr);
+    }
+    return this.band.run(x) * 3;
+  }
+}
+export class Overdrive {
+  private readonly tone: Biquad;
+  private readonly drive: number;
+  constructor(drive: number, tone: number, sampleRate: number) {
+    this.drive = drive;
+    this.tone = new Biquad("lowpass", 1200 + 6000 * tone, 0.7, sampleRate);
+  }
+  run(x: number): number { return this.tone.run(Math.tanh(x * this.drive)) / Math.tanh(Math.min(3, this.drive)); }
+}
+export class Fuzz {
+  private readonly gain: number;
+  private readonly lp: Biquad;
+  constructor(gain: number, sampleRate: number) { this.gain = gain; this.lp = new Biquad("lowpass", 4500, 0.7, sampleRate); }
+  run(x: number): number {
+    const y = x * this.gain;
+    // hard clipped, with a gate under the fizz
+    const c = y > 0.6 ? 0.6 : y < -0.6 ? -0.6 : y;
+    return this.lp.run(Math.abs(c) < 0.004 ? 0 : c) / 0.6;
+  }
+}
+export class Phaser {
+  private readonly stages: Allpass2[];
+  private readonly rateHz: number;
+  private readonly depth: number;
+  private readonly sr: number;
+  private n = 0;
+  private fb = 0;
+  constructor(rateHz: number, depth: number, sampleRate: number) {
+    this.rateHz = rateHz; this.depth = depth; this.sr = sampleRate;
+    this.stages = [0, 1, 2, 3].map(() => new Allpass2(sampleRate));
+  }
+  run(x: number): number {
+    if ((this.n++ & 31) === 0) {
+      const t = this.n / this.sr;
+      const hz = 300 * Math.pow(2, 3 * this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * this.rateHz * t)));
+      this.stages.forEach((st, k) => st.set(hz * (1 + 0.5 * k), 0.7));
+    }
+    let y = x + this.fb * 0.4;
+    for (const st of this.stages) y = st.run(y);
+    this.fb = y;
+    return y;
+  }
+}
+export class Tremolo {
+  private readonly rateHz: number;
+  private readonly depth: number;
+  private readonly dt: number;
+  private t = 0;
+  constructor(rateHz: number, depth: number, sampleRate: number) { this.rateHz = rateHz; this.depth = depth; this.dt = 1 / sampleRate; }
+  run(x: number): number {
+    this.t += this.dt;
+    return x * (1 - this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * this.rateHz * this.t)));
+  }
+}
+
+/** Constant-power pan: −1 hard left, 1 hard right. */
+export function panGains(pan: number): readonly [number, number] {
+  const a = ((Math.max(-1, Math.min(1, pan)) + 1) * Math.PI) / 4;
+  return [Math.cos(a), Math.sin(a)];
 }
