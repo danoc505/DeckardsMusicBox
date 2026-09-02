@@ -5,59 +5,380 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deckard's Orchestrator MKIII</title>
 <style>
-  :root { color-scheme: light dark; --ink: #1c1b18; --paper: #f4f1ea; --line: #c9c3b6; --accent: #7a4b2a; }
-  @media (prefers-color-scheme: dark) { :root { --ink: #e8e3d8; --paper: #1a1916; --line: #3d3a34; --accent: #d9a06a; } }
-  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.45 Georgia, "Times New Roman", serif; }
-  main { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
-  h1 { font-weight: normal; font-size: 1.7rem; margin: 0 0 0.25rem; }
-  h1 small { font-size: 0.9rem; opacity: 0.7; margin-left: 0.6rem; }
-  form { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; align-items: end; margin: 1.5rem 0; }
-  label { display: flex; flex-direction: column; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.8; }
-  input, select, button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--line); border-radius: 3px; padding: 0.35rem 0.55rem; }
-  input[type=number] { width: 7rem; }
-  button { cursor: pointer; }
-  button.primary { border-color: var(--accent); color: var(--accent); }
-  button:disabled { opacity: 0.4; cursor: default; }
-  #summary { font-size: 1.05rem; margin: 1rem 0 0.5rem; }
-  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
-  th, td { text-align: left; padding: 0.25rem 0.5rem; border-bottom: 1px solid var(--line); }
-  th { font-weight: normal; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.7; }
-  td.num { text-align: right; }
-  #status { min-height: 1.4em; opacity: 0.8; font-style: italic; }
-  #measures { white-space: pre; font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace; margin: 1rem 0; overflow-x: auto; }
-  details { margin-top: 1.5rem; }
-  textarea { width: 100%; height: 14rem; font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace; background: transparent; color: inherit; border: 1px solid var(--line); }
-  .bar { display: flex; height: 6px; margin: 0.5rem 0 1rem; border: 1px solid var(--line); }
-  .bar span { display: block; height: 100%; background: var(--accent); opacity: 0.35; }
-  .bar span.peak { opacity: 0.8; }
+  /* ── the console ───────────────────────────────────────────────────────
+     A control board, not a page: a fixed rail you act on, an instrument
+     cluster you read, a chart of the record, and telemetry per part. Every
+     surface is a panel with a bezel; every number has a gauge to sit in. */
+  :root {
+    --void:    #07090c;
+    --deep:    #0d1117;
+    --panel:   #141a21;
+    --raised:  #1b232c;
+    --edge:    #2a3542;
+    --edge-lit:#3d4c5e;
+    --ink:     #d8e2ec;
+    --dim:     #7a8798;
+    --faint:   #4a5563;
+    --amber:   #f0a63b;
+    --phos:    #6fe3a4;
+    --ice:     #74c6f2;
+    --warn:    #ff6f5e;
+    --grid:    rgba(116,198,242,0.06);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(120% 90% at 50% 0%, #10161e 0%, var(--void) 70%),
+      var(--void);
+    color: var(--ink);
+    font: 13px/1.4 ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    letter-spacing: 0.02em;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* the glass: scanlines and a vignette over everything, never in the way */
+  body::after {
+    content: "";
+    position: fixed; inset: 0; z-index: 99; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px),
+      radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(0,0,0,0.5) 100%);
+    mix-blend-mode: multiply;
+  }
+
+  .console { max-width: 1180px; margin: 0 auto; padding: 14px 16px 28px; }
+
+  /* ── masthead ── */
+  .masthead {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 10px 16px; margin-bottom: 12px;
+    background: linear-gradient(180deg, var(--raised), var(--panel));
+    border: 1px solid var(--edge); border-radius: 5px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 2px 10px rgba(0,0,0,0.5);
+  }
+  .marque { font-size: 15px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink); }
+  .marque b { color: var(--amber); font-weight: 600; text-shadow: 0 0 12px rgba(240,166,59,0.45); }
+  .mk {
+    margin-left: 10px; padding: 2px 7px; font-size: 10px; letter-spacing: 0.2em;
+    color: var(--void); background: var(--amber); border-radius: 2px;
+  }
+  .status { margin-left: auto; display: flex; gap: 14px; align-items: center; }
+  .lamp { display: flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: 0.18em; color: var(--faint); text-transform: uppercase; }
+  .lamp i {
+    width: 9px; height: 9px; border-radius: 50%; background: #1d242c;
+    border: 1px solid var(--edge); box-shadow: inset 0 1px 1px rgba(0,0,0,0.6);
+  }
+  .lamp[data-on="1"] { color: var(--ink); }
+  .lamp[data-on="1"] i { background: var(--phos); border-color: var(--phos); box-shadow: 0 0 9px var(--phos); }
+  .lamp.busy[data-on="1"] i { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 9px var(--amber); }
+  .lamp.play[data-on="1"] i { background: var(--ice); border-color: var(--ice); box-shadow: 0 0 9px var(--ice); }
+
+  /* ── deck: rail + main ── */
+  .deck { display: grid; grid-template-columns: 250px 1fr; gap: 12px; align-items: start; }
+  @media (max-width: 820px) { .deck { grid-template-columns: 1fr; } }
+
+  .panel {
+    position: relative;
+    background: linear-gradient(180deg, var(--panel), var(--deep));
+    border: 1px solid var(--edge); border-radius: 5px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 2px 8px rgba(0,0,0,0.45);
+    padding: 12px 14px 14px;
+  }
+  /* rivets, because a panel is bolted to something */
+  .panel::before, .panel::after {
+    content: ""; position: absolute; top: 7px; width: 4px; height: 4px; border-radius: 50%;
+    background: #0b0f14; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+  .panel::before { left: 7px; } .panel::after { right: 7px; }
+  .panel > h2 {
+    margin: 0 0 10px; font-size: 10px; font-weight: 500; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--dim);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel > h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--edge), transparent); }
+
+  .rail { display: grid; gap: 14px; }
+  @media (max-width: 820px) { .rail { grid-template-columns: 1fr 1fr; } }
+
+  /* ── inputs ── */
+  .field { display: grid; gap: 5px; }
+  .field > label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+  select, input {
+    width: 100%; font: inherit; color: var(--ink);
+    background: #090d12; border: 1px solid var(--edge); border-radius: 3px;
+    padding: 7px 9px; letter-spacing: 0.06em;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.6);
+  }
+  select:focus-visible, input:focus-visible, button:focus-visible {
+    outline: 2px solid var(--ice); outline-offset: 1px;
+  }
+  input[type=number] { -moz-appearance: textfield; }
+  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .stepper { display: grid; grid-template-columns: 34px 1fr 34px; gap: 5px; }
+  .stepper input { text-align: center; color: var(--phos); font-size: 15px; letter-spacing: 0.1em; }
+
+  button {
+    font: inherit; letter-spacing: 0.16em; text-transform: uppercase; font-size: 11px;
+    color: var(--ink); cursor: pointer;
+    background: linear-gradient(180deg, var(--raised), #131a21);
+    border: 1px solid var(--edge-lit); border-radius: 3px; padding: 8px 10px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 2px 0 #0a0e13;
+    transition: transform 0.06s, box-shadow 0.06s, border-color 0.12s;
+  }
+  button:hover:not(:disabled) { border-color: var(--amber); color: #fff; }
+  button:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 2px 6px rgba(0,0,0,0.6); }
+  button:disabled { opacity: 0.35; cursor: default; }
+  button.major {
+    color: var(--void); font-weight: 600;
+    background: linear-gradient(180deg, #ffc061, var(--amber));
+    border-color: #ffd08a;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 0 #7a5316;
+  }
+  button.major:hover:not(:disabled) { color: var(--void); filter: brightness(1.08); }
+  .transport { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .transport .wide { grid-column: 1 / -1; }
+
+  /* ── instrument cluster ── */
+  .cluster { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; padding: 0; background: var(--edge); overflow: hidden; }
+  @media (max-width: 700px) { .cluster { grid-template-columns: repeat(3, 1fr); } }
+  .cluster::before, .cluster::after { display: none; }
+  .gauge { background: linear-gradient(180deg, var(--panel), var(--deep)); padding: 11px 12px 12px; }
+  .gauge .k { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); }
+  .gauge .v {
+    margin-top: 4px; font-size: 19px; letter-spacing: 0.04em; color: var(--phos);
+    text-shadow: 0 0 14px rgba(111,227,164,0.35); font-variant-numeric: tabular-nums;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .gauge .u { font-size: 10px; color: var(--faint); letter-spacing: 0.14em; }
+
+  /* ── structure chart ── */
+  .timeline { display: flex; gap: 3px; height: 128px; }
+  .block {
+    position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+    min-width: 0; border-radius: 3px 3px 0 0; overflow: hidden;
+    background: linear-gradient(180deg, rgba(116,198,242,0.10), rgba(116,198,242,0.03));
+    border: 1px solid var(--edge); border-bottom: 2px solid var(--edge-lit);
+    cursor: default;
+  }
+  .block .fill {
+    background: linear-gradient(180deg, rgba(111,227,164,0.55), rgba(111,227,164,0.14));
+    border-top: 1px solid var(--phos);
+  }
+  .block.peak .fill {
+    background: linear-gradient(180deg, rgba(240,166,59,0.6), rgba(240,166,59,0.16));
+    border-top-color: var(--amber);
+  }
+  .block .tag {
+    position: absolute; top: 5px; left: 6px; right: 6px;
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .block .sub { position: absolute; top: 18px; left: 6px; font-size: 9px; color: var(--dim); }
+  .block .flags { position: absolute; bottom: 4px; left: 6px; right: 6px; display: flex; gap: 3px; flex-wrap: wrap; }
+  .chip {
+    font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 1px 4px; border-radius: 2px; border: 1px solid currentColor; opacity: 0.85;
+  }
+  .chip.peak { color: var(--amber); } .chip.thin { color: var(--ice); }
+  .chip.vary { color: var(--phos); } .chip.out { color: var(--warn); }
+  .ruler { display: flex; gap: 3px; margin-top: 5px; font-size: 9px; color: var(--faint); }
+  .ruler span { min-width: 0; overflow: hidden; white-space: nowrap; }
+
+  /* ── parts telemetry ── */
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th {
+    text-align: left; font-weight: 400; font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--dim); padding: 0 8px 6px 0;
+  }
+  td { padding: 5px 8px 5px 0; border-top: 1px solid rgba(42,53,66,0.6); }
+  td.name { color: var(--ink); letter-spacing: 0.14em; text-transform: uppercase; font-size: 11px; }
+  td.voice { color: var(--amber); font-size: 11px; letter-spacing: 0.1em; }
+  td.num { text-align: right; color: var(--phos); }
+  td.dim { color: var(--dim); }
+  .meter { display: flex; height: 7px; border-radius: 2px; overflow: hidden; background: #090d12; border: 1px solid var(--edge); min-width: 90px; }
+  .meter i { display: block; height: 100%; }
+  .meter .leap { background: var(--amber); }
+  .meter .step { background: var(--phos); }
+  .meter .same { background: var(--faint); }
+  .legend { display: flex; gap: 12px; margin-top: 9px; font-size: 9px; letter-spacing: 0.14em; color: var(--dim); text-transform: uppercase; }
+  .legend b { display: inline-block; width: 8px; height: 8px; border-radius: 1px; margin-right: 5px; vertical-align: -1px; }
+
+  .stack { display: grid; gap: 12px; }
+
+  /* ── the rack: one unit per effect, bolted in a row ── */
+  .rack { display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 10px; }
+  .unit {
+    position: relative; border-radius: 6px; padding: 10px 11px 12px;
+    background: linear-gradient(180deg, var(--u-hi), var(--u-lo));
+    border: 1px solid rgba(0,0,0,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -2px 0 rgba(0,0,0,0.35), 0 3px 8px rgba(0,0,0,0.5);
+    color: #10151a;
+  }
+  .unit::before, .unit::after { content: ""; position: absolute; top: 6px; width: 5px; height: 5px; border-radius: 50%; background: rgba(0,0,0,0.45); box-shadow: inset 0 1px 0 rgba(255,255,255,0.35); }
+  .unit::before { left: 6px; } .unit::after { right: 6px; }
+  .unit.olive  { --u-hi: #8d9f5b; --u-lo: #6f7f45; }
+  .unit.sand   { --u-hi: #e8d9b2; --u-lo: #cdbb8c; }
+  .unit.sky    { --u-hi: #a9cfe0; --u-lo: #7fb0c8; }
+  .unit.slate  { --u-hi: #8a949c; --u-lo: #66717a; }
+  .unit.rust   { --u-hi: #e6b072; --u-lo: #c8894a; }
+  .unit.moss   { --u-hi: #97a883; --u-lo: #72845f; }
+  .unit.ice    { --u-hi: #c7d6dc; --u-lo: #9fb2ba; }
+  .unit.cream  { --u-hi: #f0e6cc; --u-lo: #d6c8a3; }
+  .unit.steel  { --u-hi: #aab4bd; --u-lo: #7f8b95; }
+  .unit.black  { --u-hi: #3a4148; --u-lo: #262c32; color: #d8e2ec; }
+  .unit .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .unit .name { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+  .unit.black .name { color: #d8e2ec; }
+  /* the power toggle: a real switch, up is on */
+  .toggle { position: relative; width: 20px; height: 34px; border-radius: 4px; background: #1a1f24; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8); cursor: pointer; }
+  .toggle input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .toggle i { position: absolute; left: 3px; right: 3px; height: 13px; top: 17px; border-radius: 2px; background: linear-gradient(180deg, #dfe6ec, #98a3ab); box-shadow: 0 1px 2px rgba(0,0,0,0.6); transition: top 0.08s; }
+  .toggle input:checked + i { top: 4px; background: linear-gradient(180deg, #ffd27a, var(--amber)); }
+  .toggle input:focus-visible + i { outline: 2px solid var(--ice); }
+  .led { width: 8px; height: 8px; border-radius: 50%; background: #3a1c18; box-shadow: inset 0 1px 1px rgba(0,0,0,0.6); }
+  .unit[data-on="1"] .led { background: #ff5a46; box-shadow: 0 0 8px #ff5a46; }
+  /* the screen a unit carries: a scope of the wet signal's shape */
+  .screen { height: 34px; margin-bottom: 8px; border-radius: 3px; background: #0d1a12; border: 1px solid rgba(0,0,0,0.6); box-shadow: inset 0 2px 6px rgba(0,0,0,0.7); overflow: hidden; }
+  .screen svg { width: 100%; height: 100%; display: block; }
+  .screen path { fill: none; stroke: var(--phos); stroke-width: 1.4; opacity: 0.9; }
+  /* faders: a slot with a cap */
+  .knobs { display: grid; gap: 7px; }
+  .fader { display: grid; grid-template-columns: 52px 1fr 40px; align-items: center; gap: 8px; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .fader .cap { opacity: 0.85; }
+  .fader .val { text-align: right; font-variant-numeric: tabular-nums; opacity: 0.9; }
+  .fader input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: #14181c; border-radius: 3px; border: 1px solid rgba(0,0,0,0.5); box-shadow: inset 0 1px 3px rgba(0,0,0,0.8); padding: 0; margin: 0; }
+  .fader input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 18px; border-radius: 2px; background: linear-gradient(180deg, #f2f4f6, #b3bcc4); border: 1px solid #3a4248; box-shadow: 0 1px 2px rgba(0,0,0,0.6); cursor: pointer; }
+  .fader input[type=range]::-moz-range-thumb { width: 12px; height: 18px; border-radius: 2px; background: linear-gradient(180deg, #f2f4f6, #b3bcc4); border: 1px solid #3a4248; cursor: pointer; }
+  .fader select { padding: 3px 6px; font-size: 10px; background: #14181c; color: var(--ink); }
+  .unit[data-on="0"] .knobs { opacity: 0.45; }
+  /* the master's VU */
+  .vu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .needle { position: relative; height: 40px; border-radius: 3px; background: radial-gradient(120% 100% at 50% 100%, #f3ead0, #d9cba3); border: 1px solid rgba(0,0,0,0.5); overflow: hidden; }
+  .needle i { position: absolute; left: 50%; bottom: 2px; width: 1.5px; height: 34px; background: #b8241a; transform-origin: bottom; transform: rotate(-45deg); transition: transform 0.25s; }
+  .needle b { position: absolute; left: 6px; bottom: 3px; font-size: 8px; letter-spacing: 0.12em; color: #5a4f36; }
+  .rack-note { font-size: 10px; letter-spacing: 0.1em; color: var(--faint); margin-top: 10px; }
+
+  /* ── telemetry log ── */
+  details.log { margin-top: 12px; }
+  details.log > summary {
+    cursor: pointer; list-style: none; font-size: 10px; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--dim);
+  }
+  details.log > summary::-webkit-details-marker { display: none; }
+  details.log > summary::before { content: "▸ "; color: var(--amber); }
+  details.log[open] > summary::before { content: "▾ "; }
+  textarea {
+    width: 100%; height: 260px; margin-top: 10px; resize: vertical;
+    background: #060a0e; color: var(--dim); border: 1px solid var(--edge); border-radius: 3px;
+    font: 11px/1.45 ui-monospace, Menlo, Consolas, monospace; padding: 10px;
+  }
+  .hint { margin-top: 10px; font-size: 10px; letter-spacing: 0.1em; color: var(--faint); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
-<main>
-  <h1>Deckard's Orchestrator <small>MKIII</small></h1>
-  <div>A seeded record maker. The same genre and seed is the same record, every time, anywhere.</div>
+<div class="console">
 
-  <form id="form">
-    <label>Genre <select id="genre"></select></label>
-    <label>Seed <input id="seed" type="number" min="0" step="1" value="42"></label>
-    <label>Seconds <input id="seconds" type="number" min="30" step="1" placeholder="genre's"></label>
-    <button type="button" id="random">Random seed</button>
-    <button type="submit" class="primary" id="compose">Compose</button>
-    <button type="button" id="play" disabled>Render &amp; play</button>
-    <button type="button" id="stop" disabled>Stop</button>
-    <button type="button" id="save" disabled>Save WAV</button>
-  </form>
+  <header class="masthead">
+    <div class="marque">Deckard's <b>Orchestrator</b><span class="mk">MK III</span></div>
+    <div class="status">
+      <span class="lamp ready" id="lamp-ready" data-on="1"><i></i>Ready</span>
+      <span class="lamp busy" id="lamp-busy" data-on="0"><i></i><span id="busy-text">Working</span></span>
+      <span class="lamp play" id="lamp-play" data-on="0"><i></i>Playing</span>
+    </div>
+  </header>
 
-  <div id="status"></div>
-  <div id="summary"></div>
-  <div class="bar" id="arc" hidden></div>
-  <table id="sections" hidden>
-    <thead><tr><th>#</th><th>Section</th><th>Idea</th><th class="num">Bars</th><th class="num">Energy</th><th>Notes</th></tr></thead>
-    <tbody></tbody>
-  </table>
-  <div id="measures"></div>
-  <details><summary>The record as text</summary><textarea id="dump" readonly spellcheck="false"></textarea></details>
-</main>
+  <div class="deck">
+    <div class="rail">
+      <section class="panel">
+        <h2>Program</h2>
+        <div class="stack">
+          <div class="field">
+            <label for="genre">Genre</label>
+            <select id="genre"></select>
+          </div>
+          <div class="field">
+            <label for="seed">Seed</label>
+            <div class="stepper">
+              <button type="button" id="seed-down" title="previous seed">−</button>
+              <input id="seed" type="number" min="0" step="1" value="42" inputmode="numeric">
+              <button type="button" id="seed-up" title="next seed">+</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="seconds">Length · seconds</label>
+            <input id="seconds" type="number" min="30" step="15" placeholder="genre decides">
+          </div>
+          <button type="button" id="random">Random seed</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Transport</h2>
+        <div class="transport">
+          <button type="button" class="major wide" id="compose">Compose</button>
+          <button type="button" id="play">Render &amp; play</button>
+          <button type="button" id="stop" disabled>Stop</button>
+          <button type="button" class="wide" id="save" disabled>Save WAV</button>
+        </div>
+        <div class="hint" id="hint">Composing is instant. Rendering takes a moment.</div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="panel cluster" aria-label="instrument cluster">
+        <div class="gauge"><div class="k">Key</div><div class="v" id="g-key">—</div></div>
+        <div class="gauge"><div class="k">Tempo</div><div class="v" id="g-tempo">—</div><div class="u">bpm</div></div>
+        <div class="gauge"><div class="k">Metre</div><div class="v" id="g-metre">—</div><div class="u">beats · grid</div></div>
+        <div class="gauge"><div class="k">Bars</div><div class="v" id="g-bars">—</div></div>
+        <div class="gauge"><div class="k">Length</div><div class="v" id="g-len">—</div></div>
+        <div class="gauge"><div class="k">Events</div><div class="v" id="g-events">—</div></div>
+      </section>
+
+      <section class="panel">
+        <h2>Structure · energy across the record</h2>
+        <div class="timeline" id="timeline"></div>
+        <div class="ruler" id="ruler"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Parts</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Part</th><th>Voice</th><th style="text-align:right">Notes</th>
+              <th style="text-align:right">Bars</th><th style="text-align:right;padding-right:18px">Distinct</th><th>Motion</th>
+            </tr>
+          </thead>
+          <tbody id="parts"></tbody>
+        </table>
+        <div class="legend">
+          <span><b style="background:var(--amber)"></b>Leap</span>
+          <span><b style="background:var(--phos)"></b>Step</span>
+          <span><b style="background:var(--faint)"></b>Held</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Changes</h2>
+        <div id="chords" style="font-size:12px;letter-spacing:0.08em;color:var(--ice);"></div>
+      </section>
+    </div>
+  </div>
+
+  <section class="panel" style="margin-top:12px">
+    <h2>Rack · the record passes through these, in this order</h2>
+    <div class="rack" id="rack"></div>
+    <div class="rack-note" id="rack-note">The genre sets every knob. Move any of them and render again: the record is rendered through your settings, the genre is unchanged. Bypass a unit by switching it down.</div>
+  </section>
+
+  <details class="log panel">
+    <summary>Telemetry · the record as text</summary>
+    <textarea id="dump" readonly spellcheck="false"></textarea>
+  </details>
+</div>
 
 <script type="application/json" id="bundle">/*BUNDLE*/</script>
 <script>
@@ -66,81 +387,307 @@
   new Function(bundle)();
   var M = globalThis.MKIII;
   var $ = function (id) { return document.getElementById(id); };
-  var genre = $("genre"), seed = $("seed"), seconds = $("seconds"), status = $("status");
-  M.GENRE_NAMES.forEach(function (g) {
-    var o = document.createElement("option"); o.value = g; o.textContent = M.GENRES[g].label; genre.appendChild(o);
-  });
-  var song = null, samples = null, ctx = null, source = null, worker = null;
+  var ROLES = ["drums", "bass", "keys", "lead", "drone"];
 
+  var genre = $("genre"), seed = $("seed"), seconds = $("seconds");
+  M.GENRE_NAMES.forEach(function (g) {
+    var o = document.createElement("option");
+    o.value = g; o.textContent = M.GENRES[g].label;
+    genre.appendChild(o);
+  });
+
+  var song = null, samples = null, ctx = null, source = null, worker = null;
+  var over = {};      // the page's knob positions, unit → knob → value; only what was moved
+  var power = {};     // unit → on/off, where off is "mix 0 for this rendering"
+  var UNITS = {
+    pole:     { paint: "olive",  knobs: [["hz", "CUTOFF", 40, 20000, 10, "Hz"], ["resonance", "RES", 0, 1, 0.01], ["mix", "MIX", 0, 1, 0.01]] },
+    flange:   { paint: "sand",   knobs: [["rateHz", "RATE", 0.02, 10, 0.01, "Hz"], ["depth", "DEPTH", 0, 1, 0.01], ["mix", "MIX", 0, 1, 0.01]] },
+    ensemble: { paint: "sky",    knobs: [["rateHz", "RATE", 0.02, 10, 0.01, "Hz"], ["depth", "DEPTH", 0, 1, 0.01], ["mix", "MIX", 0, 1, 0.01]] },
+    echo:     { paint: "slate",  knobs: [["beats", "TIME", 0.25, 8, 0.25, "beats"], ["feedback", "FDBK", 0, 0.9, 0.01], ["mix", "MIX", 0, 1, 0.01]] },
+    spring:   { paint: "rust",   knobs: [["sec", "DECAY", 0.2, 6, 0.1, "s"], ["mix", "MIX", 0, 1, 0.01]] },
+    room:     { paint: "moss",   knobs: [["sec", "DECAY", 0.2, 12, 0.1, "s"], ["mix", "MIX", 0, 1, 0.01]] },
+    tape:     { paint: "ice",    knobs: [["lowpassHz", "TOP", 1000, 20000, 100, "Hz"], ["wowHz", "WOW", 0.05, 10, 0.05, "Hz"], ["wowCents", "DEPTH", 0, 100, 1, "¢"], ["drive", "DRIVE", 1, 10, 0.1]] },
+    medium:   { paint: "cream",  knobs: [["kind", "KIND", ["gramophone", "radio"]], ["mix", "MIX", 0, 1, 0.01]] },
+    vinyl:    { paint: "steel",  knobs: [["crackle", "DUST", 0, 1, 0.01]] },
+    master:   { paint: "black",  knobs: [["level", "LEVEL", 0, 1, 0.01]] }
+  };
+  var ALWAYS_ON = { tape: 1, master: 1 };   // no mix knob: these two are the tape and the last gain, not sends
+
+  function rackOverrides() {
+    var out = {};
+    Object.keys(UNITS).forEach(function (u) {
+      var o = Object.assign({}, over[u] || {});
+      if (!ALWAYS_ON[u] && power[u] === false) { if (u === "vinyl") o.crackle = 0; else o.mix = 0; }
+      if (Object.keys(o).length) out[u] = o;
+    });
+    return out;
+  }
+  function stale() { samples = null; $("save").disabled = true; $("play").disabled = false; }
+  function scopePath(u, r) {
+    // a picture of what the unit does to a pulse, from the same units the renderer uses — for the eye, not the ear
+    var n = 120, pts = [], y = 0;
+    var mk = { pole: function () { var p = new (M._dsp.Pole)(r.hz, r.resonance, 8000); return function (x) { return p.run(x); }; } };
+    void mk; void y;
+    for (var i = 0; i < n; i++) {
+      var t = i / n, v;
+      if (u === "echo") v = (i % Math.max(8, Math.round(n * r.beats / 8)) === 0 ? 1 : 0) * Math.pow(r.feedback, Math.floor(i / Math.max(8, Math.round(n * r.beats / 8))));
+      else if (u === "room" || u === "spring") v = Math.exp(-t * (12 / Math.max(0.3, r.sec))) * Math.sin(i * 1.7) * 0.8;
+      else if (u === "flange" || u === "ensemble") v = Math.sin(2 * Math.PI * (2 + r.depth * 3) * t) * (0.5 + 0.5 * Math.sin(2 * Math.PI * r.rateHz * t * 2));
+      else if (u === "pole") v = Math.sin(2 * Math.PI * 3 * t) * Math.min(1, r.hz / 4000) + r.resonance * 0.5 * Math.sin(2 * Math.PI * 14 * t) * Math.exp(-t * 4);
+      else if (u === "tape") v = Math.sin(2 * Math.PI * 3 * t + 0.04 * r.wowCents * Math.sin(2 * Math.PI * r.wowHz * t * 3)) * Math.min(1, r.lowpassHz / 12000);
+      else if (u === "medium") v = Math.sin(2 * Math.PI * 4 * t) * 0.6;
+      else if (u === "vinyl") v = (Math.random() > 0.97 ? 1 : 0) * r.crackle * 3;
+      else v = Math.sin(2 * Math.PI * 2 * t) * r.level;
+      pts.push((i / (n - 1) * 100).toFixed(1) + "," + (50 - 40 * Math.max(-1, Math.min(1, v))).toFixed(1));
+    }
+    return "M" + pts.join(" L");
+  }
+  function drawRack() {
+    var rackEl = $("rack"); rackEl.innerHTML = "";
+    var base = song.chart.genre.sound.rack;
+    M.RACK_ORDER.forEach(function (u) {
+      var def = UNITS[u], cur = Object.assign({}, base[u], over[u] || {});
+      if (power[u] === undefined) power[u] = ALWAYS_ON[u] ? true : (u === "vinyl" ? base[u].crackle > 0 : base[u].mix > 0);
+      var box = document.createElement("div");
+      box.className = "unit " + def.paint; box.setAttribute("data-on", power[u] ? "1" : "0");
+      var head = document.createElement("div"); head.className = "head";
+      head.innerHTML = '<span class="name">' + (u === "ensemble" ? "DP/4" : u) + '</span>';
+      var right = document.createElement("div"); right.style.display = "flex"; right.style.gap = "8px"; right.style.alignItems = "center";
+      var led = document.createElement("span"); led.className = "led"; right.appendChild(led);
+      if (!ALWAYS_ON[u]) {
+        var tg = document.createElement("label"); tg.className = "toggle"; tg.title = "power";
+        var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = power[u];
+        cb.addEventListener("change", function () {
+          power[u] = cb.checked; box.setAttribute("data-on", cb.checked ? "1" : "0");
+          // switching on a unit the genre left at zero has to be heard: give its mix a real position
+          var mixKey = u === "vinyl" ? "crackle" : "mix";
+          var at = Object.assign({}, base[u], over[u] || {})[mixKey];
+          if (cb.checked && !(at > 0)) {
+            (over[u] = over[u] || {})[mixKey] = 0.25;
+            var r = box.querySelector('input[aria-label="' + u + " " + (u === "vinyl" ? "DUST" : "MIX") + '"]');
+            if (r) { r.value = "0.25"; r.dispatchEvent(new Event("input")); }
+          }
+          stale();
+        });
+        tg.appendChild(cb); tg.appendChild(document.createElement("i")); right.appendChild(tg);
+      }
+      head.appendChild(right); box.appendChild(head);
+      if (u === "master") {
+        var vu = document.createElement("div"); vu.className = "vu";
+        vu.innerHTML = '<div class="needle"><i id="vu-peak"></i><b>PEAK</b></div><div class="needle"><i id="vu-rms"></i><b>RMS</b></div>';
+        box.appendChild(vu);
+      } else {
+        var scr = document.createElement("div"); scr.className = "screen";
+        scr.innerHTML = '<svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="' + scopePath(u, cur) + '"/></svg>';
+        box.appendChild(scr);
+      }
+      var knobs = document.createElement("div"); knobs.className = "knobs";
+      def.knobs.forEach(function (k) {
+        var key = k[0], cap = k[1], row = document.createElement("div"); row.className = "fader";
+        var capEl = document.createElement("span"); capEl.className = "cap"; capEl.textContent = cap; row.appendChild(capEl);
+        var val = document.createElement("span"); val.className = "val";
+        if (Array.isArray(k[2])) {
+          var sel = document.createElement("select");
+          k[2].forEach(function (opt) { var o = document.createElement("option"); o.value = opt; o.textContent = opt; sel.appendChild(o); });
+          sel.value = cur[key];
+          sel.addEventListener("change", function () { (over[u] = over[u] || {})[key] = sel.value; stale(); });
+          row.appendChild(sel); val.textContent = ""; row.appendChild(val);
+        } else {
+          var inp = document.createElement("input"); inp.type = "range"; inp.min = k[2]; inp.max = k[3]; inp.step = k[4]; inp.value = cur[key];
+          var show = function () { val.textContent = (Number(inp.value) >= 100 ? Math.round(inp.value) : Number(inp.value).toFixed(2).replace(/\.?0+$/, "")) + (k[5] ? " " + k[5] : ""); };
+          show();
+          inp.addEventListener("input", function () {
+            (over[u] = over[u] || {})[key] = Number(inp.value); show(); stale();
+            scr = box.querySelector(".screen path"); if (scr) scr.setAttribute("d", scopePath(u, Object.assign({}, base[u], over[u])));
+          });
+          inp.setAttribute("aria-label", u + " " + cap);
+          row.appendChild(inp); row.appendChild(val);
+        }
+        knobs.appendChild(row);
+      });
+      box.appendChild(knobs);
+      rackEl.appendChild(box);
+    });
+  }
+  function meter() {
+    if (!samples) return;
+    var pk = 0, sq = 0;
+    for (var i = 0; i < samples.length; i += 4) { var v = Math.abs(samples[i]); if (v > pk) pk = v; sq += v * v; }
+    var rmsv = Math.sqrt(sq / (samples.length / 4));
+    var ang = function (x) { return -45 + 90 * Math.max(0, Math.min(1, (20 * Math.log10(Math.max(1e-6, x)) + 30) / 30)); };
+    var a = $("vu-peak"), b = $("vu-rms");
+    if (a) a.style.transform = "rotate(" + ang(pk) + "deg)";
+    if (b) b.style.transform = "rotate(" + ang(rmsv) + "deg)";
+  }
+
+  function lamp(id, on) { $(id).setAttribute("data-on", on ? "1" : "0"); }
+  function setBusy(text) {
+    if (text) { $("busy-text").textContent = text; lamp("lamp-busy", 1); lamp("lamp-ready", 0); }
+    else { lamp("lamp-busy", 0); lamp("lamp-ready", 1); }
+  }
   function request() {
-    var r = { seed: Number(seed.value), genre: genre.value };
+    var r = { seed: Number(seed.value) || 0, genre: genre.value };
     if (seconds.value) r.seconds = Number(seconds.value);
     return r;
   }
+  function clock(sec) {
+    var m = Math.floor(sec / 60), s = Math.round(sec % 60);
+    return m + ":" + String(s).padStart(2, "0");
+  }
+
   function compose() {
     stop();
-    samples = null; $("play").disabled = false; $("save").disabled = true;
+    samples = null;
+    $("play").disabled = false; $("save").disabled = true;
     song = M.compose(request());
-    $("summary").textContent = M.summary(song);
-    var arc = $("arc"); arc.innerHTML = ""; arc.hidden = false;
-    song.arrangement.placed.forEach(function (p) {
-      var s = document.createElement("span");
-      s.style.flex = String(p.section.bars); s.style.opacity = String(0.15 + 0.7 * p.section.energy);
-      if (p.section.peak) s.className = "peak";
-      arc.appendChild(s);
+    draw();
+    drawRack();
+  }
+
+  function draw() {
+    var c = song.chart, f = song.form, p = song.performance;
+    $("g-key").textContent = M.NOTE_NAMES[M.pc(c.tonicPc)] + " " + c.scaleName;
+    $("g-tempo").textContent = c.tempo.toFixed(1);
+    $("g-metre").textContent = c.metre.beats + "·" + c.metre.perBeat;
+    $("g-bars").textContent = f.bars;
+    $("g-len").textContent = clock(p.seconds);
+    $("g-events").textContent = p.events.length;
+
+    // the record's shape: one block per section, width by bars, fill by energy
+    var tl = $("timeline"); tl.innerHTML = "";
+    var ruler = $("ruler"); ruler.innerHTML = "";
+    song.arrangement.placed.forEach(function (pl) {
+      var s = pl.section;
+      var b = document.createElement("div");
+      b.className = "block" + (s.peak ? " peak" : "");
+      b.style.flex = String(s.bars);
+      b.title = s.fn + " · " + s.bars + " bars · material " + pl.material + " · energy " + s.energy.toFixed(2);
+      var fill = document.createElement("div");
+      fill.className = "fill";
+      fill.style.height = Math.round(18 + 78 * s.energy) + "%";
+      var tag = document.createElement("div"); tag.className = "tag"; tag.textContent = s.fn;
+      var sub = document.createElement("div"); sub.className = "sub"; sub.textContent = pl.material;
+      var flags = document.createElement("div"); flags.className = "flags";
+      var chip = function (cls, text) {
+        var e = document.createElement("span"); e.className = "chip " + cls; e.textContent = text; flags.appendChild(e);
+      };
+      if (s.peak) chip("peak", "peak");
+      if (s.vary) chip("vary", "vary");
+      if (pl.thin) chip("thin", "thin");
+      var out = ROLES.filter(function (r) { return !pl.heard.has(r); });
+      if (out.length) chip("out", "−" + out.map(function (r) { return r.slice(0, 2); }).join(" "));
+      b.appendChild(fill); b.appendChild(tag); b.appendChild(sub); b.appendChild(flags);
+      tl.appendChild(b);
+      var mark = document.createElement("span");
+      mark.style.flex = String(s.bars);
+      mark.textContent = "▏" + s.startBar;
+      ruler.appendChild(mark);
     });
-    var body = $("sections").querySelector("tbody"); body.innerHTML = ""; $("sections").hidden = false;
-    song.arrangement.placed.forEach(function (p, i) {
-      var s = p.section, tr = document.createElement("tr");
-      var notes = [];
-      if (s.peak) notes.push("peak"); if (s.vary) notes.push("varied"); if (p.thin) notes.push("thin");
-      var missing = ["drums", "bass", "keys", "lead"].filter(function (r) { return !p.heard.has(r); });
-      if (missing.length) notes.push("without " + missing.join(", "));
-      [i, s.fn, p.material, s.bars, s.energy.toFixed(2), notes.join(" · ") || "—"].forEach(function (v, j) {
-        var td = document.createElement("td"); td.textContent = String(v); if (j === 3 || j === 4) td.className = "num"; tr.appendChild(td);
-      });
+
+    // per part: what plays it, how much, and how it moves
+    var body = $("parts"); body.innerHTML = "";
+    ROLES.forEach(function (r) {
+      var ev = p.events.filter(function (e) { return e.role === r; });
+      var d = M.distinctBars(p.events, r);
+      var m = M.motionOf(p.events, r);
+      var tot = m.leap + m.step + m.same;
+      var tr = document.createElement("tr");
+      var cell = function (cls, text) {
+        var td = document.createElement("td"); td.className = cls; td.textContent = text; tr.appendChild(td); return td;
+      };
+      cell("name", r);
+      cell("voice", r === "drums" ? "kit" : song.chart.genre.sound.voices[r]);
+      cell("num", ev.length);
+      cell("num dim", d.bars);
+      cell("num", d.distinct).style.paddingRight = "18px";
+      var td = document.createElement("td");
+      if (tot > 0) {
+        var meter = document.createElement("div"); meter.className = "meter";
+        [["leap", m.leap], ["step", m.step], ["same", m.same]].forEach(function (pair) {
+          var i = document.createElement("i");
+          i.className = pair[0];
+          i.style.width = (100 * pair[1] / tot) + "%";
+          meter.appendChild(i);
+        });
+        meter.title = "leap " + Math.round(100 * m.leap / tot) + "% · step " + Math.round(100 * m.step / tot) +
+          "% · held " + Math.round(100 * m.same / tot) + "%";
+        td.appendChild(meter);
+      } else {
+        td.className = "dim"; td.textContent = "—";
+      }
+      tr.appendChild(td);
       body.appendChild(tr);
     });
+
+    // the changes each idea stands on
     var text = M.dump(song);
+    var chords = text.split("\n").filter(function (l) { return l.indexOf("#chords_") === 0; });
+    $("chords").innerHTML = chords.map(function (l) {
+      var parts = l.split("\t");
+      return '<div><span style="color:var(--dim);letter-spacing:0.2em">' +
+        parts[0].replace("#chords_", "") + "</span>  " + parts[1] + "</div>";
+    }).join("");
     $("dump").value = text;
-    $("measures").textContent = text.split("\n").filter(function (l) { return /^#(chords|bars_distinct|motion|role)/.test(l); }).join("\n");
-    status.textContent = "";
   }
+
   function play() {
     if (!song) return;
     if (samples) { start(); return; }
     $("play").disabled = true;
-    status.textContent = "rendering…";
+    setBusy("Rendering");
     if (!worker) {
-      var src = bundle + "\nself.onmessage = function (e) { var s = MKIII.compose(e.data); var out = MKIII.render(s); postMessage(out, [out.buffer]); };";
+      var src = bundle + "\nself.onmessage = function (e) {" +
+        " var s = MKIII.compose(e.data.req); var out = MKIII.render(s, { rack: e.data.rack }); postMessage(out, [out.buffer]); };";
       worker = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
-      worker.onmessage = function (e) { samples = e.data; status.textContent = ""; $("play").disabled = false; $("save").disabled = false; start(); };
-      worker.onerror = function (e) { status.textContent = "render failed: " + e.message; $("play").disabled = false; };
+      worker.onmessage = function (e) {
+        samples = e.data; setBusy(null);
+        $("play").disabled = false; $("save").disabled = false;
+        meter(); start();
+      };
+      worker.onerror = function (e) {
+        setBusy(null); $("hint").textContent = "Render failed: " + e.message; $("play").disabled = false;
+      };
     }
-    worker.postMessage(request());
+    worker.postMessage({ req: request(), rack: rackOverrides() });
   }
   function start() {
     stop();
     ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
     var buf = ctx.createBuffer(1, samples.length, 44100);
     buf.copyToChannel(samples, 0);
-    source = ctx.createBufferSource(); source.buffer = buf; source.connect(ctx.destination);
-    source.onended = function () { $("stop").disabled = true; };
-    source.start(); $("stop").disabled = false;
+    source = ctx.createBufferSource();
+    source.buffer = buf; source.connect(ctx.destination);
+    source.onended = function () { $("stop").disabled = true; lamp("lamp-play", 0); };
+    source.start();
+    $("stop").disabled = false; lamp("lamp-play", 1);
   }
-  function stop() { if (source) { try { source.stop(); } catch (e) {} source = null; } $("stop").disabled = true; }
+  function stop() {
+    if (source) { try { source.stop(); } catch (e) {} source = null; }
+    $("stop").disabled = true; lamp("lamp-play", 0);
+  }
   function save() {
     if (!samples) return;
-    var bytes = M.wav(samples, 44100);
     var a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([bytes], { type: "audio/wav" }));
-    a.download = genre.value + "-" + seed.value + ".wav"; a.click();
+    a.href = URL.createObjectURL(new Blob([M.wav(samples, 44100)], { type: "audio/wav" }));
+    a.download = genre.value + "-" + seed.value + ".wav";
+    a.click();
   }
-  $("form").addEventListener("submit", function (e) { e.preventDefault(); compose(); });
-  $("random").addEventListener("click", function () { seed.value = String(Math.floor(Math.random() * 1e6)); compose(); });
+  function step(by) { seed.value = String(Math.max(0, (Number(seed.value) || 0) + by)); compose(); }
+
+  $("compose").addEventListener("click", compose);
   $("play").addEventListener("click", play);
   $("stop").addEventListener("click", stop);
   $("save").addEventListener("click", save);
+  $("seed-up").addEventListener("click", function () { step(1); });
+  $("seed-down").addEventListener("click", function () { step(-1); });
+  $("random").addEventListener("click", function () {
+    seed.value = String(Math.floor(Math.random() * 1e6)); compose();
+  });
+  genre.addEventListener("change", function () { over = {}; power = {}; });
+  [genre, seed, seconds].forEach(function (el) {
+    el.addEventListener("change", compose);
+    el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); compose(); } });
+  });
   compose();
 })();
 </script>

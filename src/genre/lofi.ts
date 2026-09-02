@@ -113,7 +113,12 @@ export const lofi: GenreSpec = {
 
   sound: {
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
-    tape: { lowpassHz: 10000, crackle: 0.08, wowHz: 0.2, wowCents: 4, drive: 1.4 },
+    rack: {
+      echo: { beats: 1.5, feedback: 0.3, mix: 0.12 },
+      room: { sec: 1.4, mix: 0.18 },
+      tape: { lowpassHz: 10000, wowHz: 0.2, wowCents: 4, drive: 1.4 },
+      vinyl: { crackle: 0.08 },
+    },
   },
 
   sources: {
@@ -174,14 +179,17 @@ export const lofi: GenreSpec = {
     "sound.voices":
       "Rhodes is the standard melodic instrument, a muted fingerstyle guitar sits under the chords, a warm sub " +
       "carries the bass (blog.native-instruments.com/lo-fi-hip-hop-beats; masteringthemix.com how-to-make-lo-fi-hip-hop)",
-    "sound.tape.lowpassHz":
+    "sound.rack.echo":
+      "a dotted-eighth or quarter delay at 10–20% is the lo-fi guides' standard send (audeobox.com how-to-make-lofi-beats-in-fl-studio); 1.5 beats, 12% [chosen inside]",
+    "sound.rack.room": "\"reverb, delay, chorus... used generously\" (blog.native-instruments.com/lo-fi-hip-hop-beats); a small room at 18% [chosen]",
+    "sound.rack.tape.lowpassHz":
       "\"a gentle low-pass at around 8–12 kHz on your mix bus\" (antarestech.com the-complete-guide-to-mixing-lo-fi-music)",
-    "sound.tape.crackle":
+    "sound.rack.vinyl.crackle":
       "\"mix vinyl crackle at −20 to −24 dB from the master, high-passed at 500 Hz\" " +
       "(audeobox.com how-to-make-lofi-beats-in-fl-studio); 0.08 is −22 dB",
-    "sound.tape.wowHz": "\"rate 0.1–0.3 Hz\" for tape wobble (audeobox.com how-to-make-lofi-beats-in-fl-studio)",
-    "sound.tape.wowCents": "[chosen] — the guides give depth as a plugin's knob, not in cents",
-    "sound.tape.drive": "\"saturation mix 15–25%\" (audeobox.com how-to-make-lofi-beats-in-fl-studio); 1.4 [chosen]",
+    "sound.rack.tape.wowHz": "\"rate 0.1–0.3 Hz\" for tape wobble (audeobox.com how-to-make-lofi-beats-in-fl-studio)",
+    "sound.rack.tape.wowCents": "[chosen] — the guides give depth as a plugin's knob, not in cents",
+    "sound.rack.tape.drive": "\"saturation mix 15–25%\" (audeobox.com how-to-make-lofi-beats-in-fl-studio); 1.4 [chosen]",
     "form.lengths":
       "intro 4 bars, verse 16, chorus 8, bridge 4–8 (emastered.com/blog/rap-song-structure; " +
       "rapauthority.com/rap-song-structure); a beat-tape track is an intro, a 16-bar verse, a chorus, a break " +

@@ -324,31 +324,44 @@ export interface FeelRules {
 export const VOICES = ["rhodes", "sub", "pluck", "organ", "pad", "flute"] as const;
 export type VoiceName = (typeof VOICES)[number];
 
-export interface TapeSpec {
-  /** Where the record's top end stops, in Hz. */
-  readonly lowpassHz?: number;
-  /** Vinyl crackle as a level, 0 for none; 0.08 is about −22 dB. */
-  readonly crackle?: number;
-  /** How fast the pitch wobbles, in Hz. */
-  readonly wowHz?: number;
-  /** How far it wobbles, in cents, 0 for none. */
-  readonly wowCents?: number;
-  /** Drive into the saturator, 1 for clean. */
-  readonly drive?: number;
-  /** How much of the record is the room, 0..1; 0 for dry. */
-  readonly reverb?: number;
-  /** How long the room rings, in seconds. */
-  readonly reverbSec?: number;
+/**
+ * THE RACK. Every unit the record can pass through, in the order it passes
+ * through them, each with the two or three knobs the real box had. A genre
+ * states where every knob sits; the page may move any of them for one
+ * rendering without touching the genre. Mixes are 0..1 and 0 is bypass.
+ */
+export interface RackSpec {
+  /** A resonant lowpass at the top of the chain. */
+  readonly pole?: { readonly hz?: number; readonly resonance?: number; readonly mix?: number };
+  readonly flange?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
+  /** The ensemble of a multi-effect: three detuned copies on slow sweeps. */
+  readonly ensemble?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
+  /** A delay in beats, fed back on itself. */
+  readonly echo?: { readonly beats?: number; readonly feedback?: number; readonly mix?: number };
+  readonly spring?: { readonly sec?: number; readonly mix?: number };
+  readonly room?: { readonly sec?: number; readonly mix?: number };
+  /** Where the top end stops, the slow wobble, and the drive into the saturator. */
+  readonly tape?: { readonly lowpassHz?: number; readonly wowHz?: number; readonly wowCents?: number; readonly drive?: number };
+  /** Heard through a gramophone horn or a small radio, by this much. */
+  readonly medium?: { readonly kind?: "gramophone" | "radio"; readonly mix?: number };
+  /** Dust on the record; 0.08 is about −22 dB. */
+  readonly vinyl?: { readonly crackle?: number };
+  /** The last gain, 0..1 of the −1 dBTP ceiling. */
+  readonly master?: { readonly level?: number };
 }
+
+type Total<T> = { readonly [K in keyof T]-?: Required<NonNullable<T[K]>> };
+export type RackRules = Total<RackSpec>;
+export const RACK_ORDER = ["pole", "flange", "ensemble", "echo", "spring", "room", "tape", "medium", "vinyl", "master"] as const satisfies readonly (keyof RackSpec)[];
 
 export interface SoundSpec {
   readonly voices?: Readonly<Partial<Record<PitchedRole, VoiceName>>>;
-  readonly tape?: TapeSpec;
+  readonly rack?: RackSpec;
 }
 
 export interface SoundRules {
   readonly voices: Readonly<Record<PitchedRole, VoiceName>>;
-  readonly tape: Readonly<Required<TapeSpec>>;
+  readonly rack: RackRules;
 }
 
 /** What an author writes. */
@@ -713,7 +726,18 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
 
   sound: {
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
-    /** clean: no tape, no crackle, the top end open */
-    tape: { lowpassHz: 16000, crackle: 0, wowHz: 0.2, wowCents: 0, drive: 1, reverb: 0, reverbSec: 1.5 },
+    /** every unit in the rack, every one bypassed: a clean record */
+    rack: {
+      pole: { hz: 18000, resonance: 0, mix: 0 },
+      flange: { rateHz: 0.3, depth: 0.5, mix: 0 },
+      ensemble: { rateHz: 0.6, depth: 0.5, mix: 0 },
+      echo: { beats: 1.5, feedback: 0.35, mix: 0 },
+      spring: { sec: 1.2, mix: 0 },
+      room: { sec: 1.5, mix: 0 },
+      tape: { lowpassHz: 16000, wowHz: 0.2, wowCents: 0, drive: 1 },
+      medium: { kind: "gramophone", mix: 0 },
+      vinyl: { crackle: 0 },
+      master: { level: 1 },
+    },
   },
 };

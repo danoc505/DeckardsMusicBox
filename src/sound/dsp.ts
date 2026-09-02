@@ -177,3 +177,148 @@ export class Reverb {
     return y;
   }
 }
+
+/** A fractional delay line: write, then read `sec` back with linear interpolation. */
+export class Line {
+  private readonly buf: Float32Array;
+  private readonly sampleRate: number;
+  private w = 0;
+  constructor(maxSec: number, sampleRate: number) {
+    this.sampleRate = sampleRate;
+    this.buf = new Float32Array(Math.max(4, Math.ceil(maxSec * sampleRate) + 2));
+  }
+  write(x: number): void {
+    this.buf[this.w] = x;
+    this.w = (this.w + 1) % this.buf.length;
+  }
+  read(sec: number): number {
+    const back = Math.min(this.buf.length - 2, Math.max(1, sec * this.sampleRate));
+    const pos = this.w - 1 - back;
+    const p0 = Math.floor(pos);
+    const f = pos - p0;
+    const n = this.buf.length;
+    const i0 = ((p0 % n) + n) % n;
+    return this.buf[i0]! * (1 - f) + this.buf[(i0 + 1) % n]! * f;
+  }
+}
+
+/** An echo: a delay fed back on itself, darkened each pass so the repeats die away. */
+export class Echo {
+  private readonly line: Line;
+  private readonly damp: Biquad;
+  private readonly sec: number;
+  private readonly feedback: number;
+  constructor(sec: number, feedback: number, sampleRate: number) {
+    this.sec = sec;
+    this.feedback = feedback;
+    this.line = new Line(Math.max(sec, 0.01) + 0.05, sampleRate);
+    this.damp = new Biquad("lowpass", 3200, 0.7, sampleRate);
+  }
+  run(x: number): number {
+    const back = this.damp.run(this.line.read(this.sec));
+    this.line.write(x + back * this.feedback);
+    return back;
+  }
+}
+
+/** A flanger: a few milliseconds of delay swept by a slow sine, mixed back onto itself. */
+export class Flanger {
+  private readonly line: Line;
+  private readonly rateHz: number;
+  private readonly depth: number;
+  private readonly dt: number;
+  private t = 0;
+  constructor(rateHz: number, depth: number, sampleRate: number) {
+    this.rateHz = rateHz;
+    this.depth = depth;
+    this.line = new Line(0.02, sampleRate);
+    this.dt = 1 / sampleRate;
+  }
+  run(x: number): number {
+    this.t += this.dt;
+    const sec = 0.001 + 0.006 * this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * this.rateHz * this.t));
+    const wet = this.line.read(sec);
+    this.line.write(x + wet * 0.5);
+    return wet;
+  }
+}
+
+/** An ensemble: three detuned copies, each on its own slow sweep — the chorus in a multi-effect. */
+export class Ensemble {
+  private readonly lines: Line[];
+  private readonly rateHz: number;
+  private readonly depth: number;
+  private readonly dt: number;
+  private t = 0;
+  constructor(rateHz: number, depth: number, sampleRate: number) {
+    this.rateHz = rateHz;
+    this.depth = depth;
+    this.lines = [0, 1, 2].map(() => new Line(0.04, sampleRate));
+    this.dt = 1 / sampleRate;
+  }
+  run(x: number): number {
+    this.t += this.dt;
+    let y = 0;
+    for (let k = 0; k < 3; k++) {
+      const phase = this.t * this.rateHz * (1 + 0.13 * k) + k / 3;
+      const sec = 0.012 + 0.008 * this.depth * Math.sin(2 * Math.PI * phase);
+      y += this.lines[k]!.read(sec);
+      this.lines[k]!.write(x);
+    }
+    return y / 3;
+  }
+}
+
+/**
+ * A state-variable filter, the pole: a resonant lowpass whose cutoff and
+ * resonance are the two knobs a synth filter has (Chamberlin form).
+ */
+export class Pole {
+  private low = 0;
+  private band = 0;
+  private readonly f: number;
+  private readonly q: number;
+  constructor(hz: number, resonance: number, sampleRate: number) {
+    this.f = 2 * Math.sin((Math.PI * Math.min(hz, sampleRate / 6)) / sampleRate);
+    this.q = 1 - 0.95 * Math.min(1, Math.max(0, resonance));
+  }
+  run(x: number): number {
+    const high = x - this.low - this.q * this.band;
+    this.band += this.f * high;
+    this.low += this.f * this.band;
+    return this.low;
+  }
+}
+
+/**
+ * A spring: a bright, short room with a bounce in it — one allpass chain
+ * fed through a short comb and a highpass so the low end never rings.
+ */
+export class Spring {
+  private readonly room: Reverb;
+  private readonly hp: Biquad;
+  private readonly bounce: Line;
+  constructor(sec: number, sampleRate: number) {
+    this.room = new Reverb(Math.max(0.3, sec * 0.6), sampleRate);
+    this.hp = new Biquad("highpass", 400, 0.7, sampleRate);
+    this.bounce = new Line(0.03, sampleRate);
+  }
+  run(x: number): number {
+    const b = this.bounce.read(0.027);
+    this.bounce.write(this.hp.run(x) + b * 0.45);
+    return this.room.run(b);
+  }
+}
+
+/** The medium the record is heard through: a gramophone horn or a small radio. */
+export class Medium {
+  private readonly band: Biquad;
+  private readonly hiss: Noise;
+  constructor(kind: "gramophone" | "radio", seed: number, sampleRate: number) {
+    this.band = kind === "gramophone" ? new Biquad("bandpass", 1400, 0.5, sampleRate) : new Biquad("bandpass", 2600, 0.8, sampleRate);
+    this.hiss = new Noise(seed);
+  }
+  run(x: number): number {
+    return this.band.run(x) * 2.2 + this.hiss.next() * 0.004;
+  }
+}

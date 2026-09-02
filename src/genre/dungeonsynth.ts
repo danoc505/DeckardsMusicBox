@@ -121,7 +121,12 @@ export const dungeonsynth: GenreSpec = {
   // strings, a pedal organ, a flute; the record in a small church, on tape
   sound: {
     voices: { keys: "pad", bass: "organ", lead: "flute", drone: "organ" },
-    tape: { lowpassHz: 9000, crackle: 0.05, wowHz: 0.3, wowCents: 6, drive: 1.2, reverb: 0.4, reverbSec: 2.6 },
+    rack: {
+      ensemble: { rateHz: 0.4, depth: 0.5, mix: 0.25 },
+      room: { sec: 2.6, mix: 0.4 },
+      tape: { lowpassHz: 9000, wowHz: 0.3, wowCents: 6, drive: 1.2 },
+      vinyl: { crackle: 0.05 },
+    },
   },
 
   sources: {
@@ -149,8 +154,9 @@ export const dungeonsynth: GenreSpec = {
     "drone.hold": "\"a very long and continuous tone that may last through the whole piece\" (chromatone.center/theory/melody/drone)",
     "drone.register": "[chosen] — below the pad and around the organ's own low register",
     "sound.voices": "\"strings, flutes, pipe organs, and choirs\" (note.com/soundwitches; Wikipedia, Dungeon synth)",
-    "sound.tape.reverb": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches); a \"Small Church\" impulse (erichgrunewald.com)",
-    "sound.tape.crackle": "\"intentional crackle, warble, and hiss\" (note.com/soundwitches); 0.05 [chosen]",
-    "sound.tape.wowCents": "\"warble\" (note.com/soundwitches); 6 [chosen]",
+    "sound.rack.ensemble": "\"lo-fi pad sounds... with deep reverb applied\", and the strings and choirs the genre emulates are ensembles by nature (note.com/soundwitches); 25% [chosen]",
+    "sound.rack.room": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches); a \"Small Church\" impulse (erichgrunewald.com)",
+    "sound.rack.vinyl.crackle": "\"intentional crackle, warble, and hiss\" (note.com/soundwitches); 0.05 [chosen]",
+    "sound.rack.tape.wowCents": "\"warble\" (note.com/soundwitches); 6 [chosen]",
   },
 };

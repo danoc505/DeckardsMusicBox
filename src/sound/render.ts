@@ -23,7 +23,8 @@
 import { hash32 } from "../core/rng.ts";
 import type { Role } from "../genre/spec.ts";
 import type { Song } from "../song.ts";
-import { Biquad, Noise, Reverb, saturate } from "./dsp.ts";
+import { Biquad, Echo, Ensemble, Flanger, Medium, Noise, Pole, Reverb, Spring, saturate } from "./dsp.ts";
+import type { RackRules, RackSpec } from "../genre/spec.ts";
 import { flute, hat, kick, organ, pad, pluck, rhodes, snare, sub, type NoteIn } from "./voices.ts";
 
 export interface RenderOptions {
@@ -36,6 +37,8 @@ export interface RenderOptions {
    * otherwise, and a number past the note count is the same as none.
    */
   readonly layers?: number;
+  /** Move any knob of the rack for this rendering, leaving the genre as it is. */
+  readonly rack?: RackSpec;
 }
 
 /** How much of the mix each part is, before the arc and the note's own weight. */
@@ -100,50 +103,72 @@ export function render(song: Song, opts: RenderOptions = {}): Float32Array {
     }
   }
 
-  return tape(mix, sr, chart.seed, S.tape);
+  return rack(mix, sr, chart.seed, chart.tempo, settle(S.rack, opts.rack));
 }
 
-/** The record in its room and on tape: reverb, low-pass, wow, saturation, crackle. */
-function tape(mix: Float32Array, sr: number, seed: number, T: Song["chart"]["genre"]["sound"]["tape"]): Float32Array {
+/** The genre's rack with the page's changes laid over it, knob by knob. */
+export function settle(base: RackRules, over: RackSpec | undefined): RackRules {
+  if (over === undefined) return base;
+  const out: Record<string, Record<string, unknown>> = {};
+  for (const [unit, knobs] of Object.entries(base)) {
+    out[unit] = { ...(knobs as Record<string, unknown>), ...((over as Record<string, Record<string, unknown> | undefined>)[unit] ?? {}) };
+  }
+  return out as unknown as RackRules;
+}
+
+/**
+ * The record through the rack, unit by unit in the rack's order. A unit
+ * whose mix is zero is not built at all: bypass costs nothing.
+ */
+function rack(mix: Float32Array, sr: number, seed: number, tempo: number, R: RackRules): Float32Array {
   const out = new Float32Array(mix.length);
-  const room = T.reverb > 0 ? new Reverb(T.reverbSec, sr) : null;
-  const lp = new Biquad("lowpass", T.lowpassHz, 0.71, sr);
+  const beatSec = 60 / tempo;
+  const pole = R.pole.mix > 0 ? new Pole(R.pole.hz, R.pole.resonance, sr) : null;
+  const flange = R.flange.mix > 0 ? new Flanger(R.flange.rateHz, R.flange.depth, sr) : null;
+  const ens = R.ensemble.mix > 0 ? new Ensemble(R.ensemble.rateHz, R.ensemble.depth, sr) : null;
+  const echo = R.echo.mix > 0 ? new Echo(R.echo.beats * beatSec, R.echo.feedback, sr) : null;
+  const spring = R.spring.mix > 0 ? new Spring(R.spring.sec, sr) : null;
+  const room = R.room.mix > 0 ? new Reverb(R.room.sec, sr) : null;
+  const lp = new Biquad("lowpass", R.tape.lowpassHz, 0.71, sr);
+  const medium = R.medium.mix > 0 ? new Medium(R.medium.kind, hash32(`medium/${seed}`), sr) : null;
   // wow: a modulated delay. A pitch deviation of d at rate f is a delay
   // swinging by d / (2π f); a few cents at a fifth of a hertz is a few ms
-  const dev = Math.pow(2, T.wowCents / 1200) - 1;
-  const swingSec = dev / (2 * Math.PI * T.wowHz);
+  const dev = Math.pow(2, R.tape.wowCents / 1200) - 1;
+  const swingSec = dev / (2 * Math.PI * R.tape.wowHz);
   const baseSec = swingSec + 0.002;
   const line = new Float32Array(Math.ceil((baseSec + swingSec) * sr) + 4);
   let w = 0;
   const crackleNoise = new Noise(hash32(`crackle/${seed}`));
   const crackleHp = new Biquad("highpass", 500, 0.7, sr);
   const twoPi = 2 * Math.PI;
+  const blend = (dry: number, wet: number, amount: number): number => dry * (1 - 0.5 * amount) + wet * amount;
 
   for (let i = 0; i < mix.length; i++) {
     const t = i / sr;
-    const dry = mix[i]!;
-    const x = lp.run(room === null ? dry : dry * (1 - 0.5 * T.reverb) + room.run(dry) * T.reverb);
+    let x = mix[i]!;
+    if (pole) x = blend(x, pole.run(x), R.pole.mix);
+    if (flange) x = blend(x, flange.run(x), R.flange.mix);
+    if (ens) x = blend(x, ens.run(x), R.ensemble.mix);
+    if (echo) x = x + echo.run(x) * R.echo.mix;
+    if (spring) x = blend(x, spring.run(x), R.spring.mix);
+    if (room) x = blend(x, room.run(x), R.room.mix);
+    x = lp.run(x);
     line[w] = x;
-    const delaySec = baseSec + swingSec * Math.sin(twoPi * T.wowHz * t);
-    const back = delaySec * sr;
-    const pos = w - back;
+    const delaySec = baseSec + swingSec * Math.sin(twoPi * R.tape.wowHz * t);
+    const pos = w - delaySec * sr;
     const p0 = Math.floor(pos);
     const frac = pos - p0;
     const i0 = ((p0 % line.length) + line.length) % line.length;
-    const i1 = (i0 + 1) % line.length;
-    const wowed = line[i0]! * (1 - frac) + line[i1]! * frac;
+    const wowed = line[i0]! * (1 - frac) + line[(i0 + 1) % line.length]! * frac;
     w = (w + 1) % line.length;
-
+    let y = wowed;
+    if (medium) y = blend(y, medium.run(y), R.medium.mix);
     let dust = 0;
-    if (T.crackle > 0) {
-      // dust: sparse impulses at the genre's level, high-passed so they add
-      // no rumble — and under the saturator with everything else, so the
-      // record still cannot leave full scale
+    if (R.vinyl.crackle > 0) {
       const r = crackleNoise.next();
-      const tick = r > 0.9995 ? crackleNoise.next() : 0;
-      dust = crackleHp.run(tick) * T.crackle;
+      dust = crackleHp.run(r > 0.9995 ? crackleNoise.next() : 0) * R.vinyl.crackle;
     }
-    out[i] = CEILING * saturate(wowed + dust, T.drive);
+    out[i] = CEILING * R.master.level * saturate(y + dust, R.tape.drive);
   }
   return out;
 }

@@ -499,20 +499,30 @@ export function resolveGenre(
         if (!(VOICES as readonly unknown[]).includes(v)) problems.push(`sound.voices.${r} is ${String(v)}, not one of ${VOICES.join(", ")}`);
       }
     }
-    const tape = isPlainObject(sound["tape"]) ? sound["tape"] : null;
-    if (tape === null) problems.push("sound.tape is missing");
+    const rack = isPlainObject(sound["rack"]) ? sound["rack"] : null;
+    if (rack === null) problems.push("sound.rack is missing");
     else {
-      const within = (field: string, lo: number, hi: number): void => {
-        const v = tape[field];
-        if (!finite(v) || v < lo || v > hi) problems.push(`sound.tape.${field} must be ${lo}..${hi}, got ${String(v)}`);
+      const unit = (name: string): Record<string, unknown> | null => {
+        const u = rack[name];
+        if (!isPlainObject(u)) { problems.push(`sound.rack.${name} is missing`); return null; }
+        return u;
       };
-      within("lowpassHz", 1000, 20000);
-      within("crackle", 0, 1);
-      within("wowHz", 0.05, 10);
-      within("wowCents", 0, 100);
-      within("drive", 1, 10);
-      within("reverb", 0, 1);
-      within("reverbSec", 0.2, 12);
+      const within = (u: Record<string, unknown> | null, name: string, field: string, lo: number, hi: number): void => {
+        if (u === null) return;
+        const v = u[field];
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.rack.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
+      };
+      const pole = unit("pole"); within(pole, "pole", "hz", 40, 20000); within(pole, "pole", "resonance", 0, 1); within(pole, "pole", "mix", 0, 1);
+      const flange = unit("flange"); within(flange, "flange", "rateHz", 0.02, 10); within(flange, "flange", "depth", 0, 1); within(flange, "flange", "mix", 0, 1);
+      const ens = unit("ensemble"); within(ens, "ensemble", "rateHz", 0.02, 10); within(ens, "ensemble", "depth", 0, 1); within(ens, "ensemble", "mix", 0, 1);
+      const echo = unit("echo"); within(echo, "echo", "beats", 0.25, 8); within(echo, "echo", "feedback", 0, 0.9); within(echo, "echo", "mix", 0, 1);
+      const spring = unit("spring"); within(spring, "spring", "sec", 0.2, 6); within(spring, "spring", "mix", 0, 1);
+      const room = unit("room"); within(room, "room", "sec", 0.2, 12); within(room, "room", "mix", 0, 1);
+      const tape = unit("tape"); within(tape, "tape", "lowpassHz", 1000, 20000); within(tape, "tape", "wowHz", 0.05, 10); within(tape, "tape", "wowCents", 0, 100); within(tape, "tape", "drive", 1, 10);
+      const medium = unit("medium"); within(medium, "medium", "mix", 0, 1);
+      if (medium !== null && medium["kind"] !== "gramophone" && medium["kind"] !== "radio") problems.push(`sound.rack.medium.kind must be "gramophone" or "radio", got ${String(medium?.["kind"])}`);
+      const vinyl = unit("vinyl"); within(vinyl, "vinyl", "crackle", 0, 1);
+      const master = unit("master"); within(master, "master", "level", 0, 1);
     }
   }
 
