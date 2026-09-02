@@ -8,26 +8,23 @@
  * answer moves the other way from the question is this program's own rule,
  * not the books': it keeps the two phrases from being one gesture twice.
  *
- * HOW A LINE MOVES IS THE PART'S OWN GRAMMAR, drawn once per tune. A
- * saxophone line, a riff guitar and a chanted vocal are three different ways
- * of choosing the next pitch, not one process with different pools, and
- * measuring the examples says so plainly: Shine On's saxophone leaps 13% of
- * the time and its clean electric 79%, because the second is not a melody
- * that leaps but a chord played one note at a time. See CONTOURS in the spec
- * for the measurements and their sources.
+ * HOW A LINE MOVES IS THE PART'S OWN GRAMMAR, drawn once per tune. A wind
+ * line, a riff guitar and a chanted vocal are three different ways of
+ * choosing the next pitch, not one process with different pools: conjunct
+ * motion moves by step, disjunct motion leaps, and a reciting tone holds. See
+ * CONTOURS in the spec for what each is and where it is written down.
  *
  * Every rule here is a CONSTRAINT ON THE CHOICE, applied when a pitch is
  * chosen, never a pass that corrects a line after it is written:
  *
  *   A NOTE REPEATS ITS PREDECESSOR ONLY ON A RECITING TONE. It used to be
  *   barred outright, on the grounds that a tune that hammers one note is a
- *   tune with nothing to say — and that was too strong. Chop Suey's vocal
- *   repeats its own pitch 44% of the time and is not a tune with nothing to
- *   say; chant is "the rhythmic speaking or singing of words or sounds, often
- *   primarily on one or two pitches" (en.wikipedia.org/wiki/Reciting_tone),
- *   and holding one has its own name, repercussion. So the bar stands for the
- *   two contours it is true of, and the third is allowed the thing it is
- *   made of.
+ *   tune with nothing to say — and that was too strong, because a whole
+ *   documented manner of singing is made of exactly that. Chant is "the
+ *   rhythmic speaking or singing of words or sounds, often primarily on one
+ *   or two pitches" (en.wikipedia.org/wiki/Reciting_tone), and holding one
+ *   has its own name, repercussion. So the bar stands for the two contours it
+ *   is true of, and the third is allowed the thing it is made of.
  *
  *   A LEAP IS ANSWERED BY A STEP THE OTHER WAY. "Any large melodic leap will
  *   be followed by a reversal of pitch direction approximately 70% of the
@@ -346,8 +343,7 @@ export function drawLead(
         //   held note is neither a step nor a leap.
         if (contour === "chant") {
           const holding = cands.filter((p) => p === from);
-          // Chop Suey's vocal repeats its own pitch 44% of the time. The
-          // draw is lower than the share it produces, because a hold that is
+          // The draw is lower than the share it produces, because a hold
           // refused here can still be the only legal candidate below.
           if (holding.length > 0 && at.at("note", i).chance("hold", 0.28)) {
             cands = holding;
@@ -381,9 +377,9 @@ export function drawLead(
         if (sized.length > 0) cands = sized;
         //   AN ARPEGGIO IS A CHORD PLAYED ONE NOTE AT A TIME, so a riff
         //   reaches for a chord tone wherever it is, not only on the beat.
-        //   That is what makes Shine On's clean electric leap four times out
-        //   of five where its saxophone leaps one in eight: the guitar is not
-        //   a melody that leaps, it is a chord taken apart.
+        //   That is what makes it a different kind of line from a sung one
+        //   rather than a sung one with the leap dial turned up: it is not a
+        //   melody that leaps, it is a chord taken apart.
         if (contour === "riff") {
           const tones = cands.filter((p) => isTone(chord, p));
           if (tones.length > 0) cands = tones;

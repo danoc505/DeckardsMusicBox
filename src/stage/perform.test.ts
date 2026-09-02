@@ -360,17 +360,16 @@ test("a long section repeats its drum figure, and still moves", () => {
   // Two-sided, and the upper bound is the one that was wrong. This test used
   // to demand that MOST bars of a long section differ from most others, and
   // that demand was the sameness: a beat that never repeats a bar is a beat
-  // with no figure in it, and an ear has nothing to hold.
+  // with no figure in it, and an ear has nothing to hold. Huron and Ollen
+  // (2004), over five continents and five centuries, put the share of musical
+  // passages literally repeated at some later point at about 94% (Margulis,
+  // "On Repeat", reviewed at mtosmt.org/issues/mto.14.20.4).
   //
-  // The band is measured off records rather than chosen. Counting distinct
-  // bars of drums against bars played: Chop Suey 18%, Televators 17%, Shine
-  // On 36%; the guitars that carry those songs' riffs sit at 16-24%. Huron
-  // and Ollen (2004), over five continents and five centuries, put the share
-  // of musical passages literally repeated at some later point at about 94%
-  // (Margulis, "On Repeat", reviewed at mtosmt.org/issues/mto.14.20.4).
-  //
-  // The floor stays and matters: a section that is one bar over and over is
-  // the other failure, and it is the one this test was written for.
+  // Both bounds are [chosen] and both stand on a claim rather than on any
+  // particular record: above the ceiling there is no figure to repeat, below
+  // the floor there is nothing for the fill at the end of a phrase to be a
+  // departure from. The floor is the one this test was written for and it
+  // stays.
   let ratio = 0;
   let sections = 0;
   for (const s of sweep(60)) {
@@ -381,7 +380,13 @@ test("a long section repeats its drum figure, and still moves", () => {
       for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
         bars.add(s.performance.events.filter((e) => e.bar === bar && e.role === "drums").map((e) => `${e.step}${e.lane}`).sort().join());
       }
-      assert.ok(bars.size >= 3, `seed ${s.chart.seed} ${p.section.fn}: ${p.section.bars} bars of drums are only ${bars.size} distinct`);
+      // TWO, not three. The failure this floor was written for is a section
+      // that is ONE bar over and over; three identical bars and a fill is two
+      // distinct bars and is the documented shape — "repeat your pattern for
+      // several bars, and at the end of a four-bar sequence ... change things
+      // for one last bar" (thedrumninja.com). Demanding three made the beat
+      // change oftener than the practice it is meant to follow.
+      assert.ok(bars.size >= 2, `seed ${s.chart.seed} ${p.section.fn}: ${p.section.bars} bars of drums are only ${bars.size} distinct`);
       ratio += bars.size / p.section.bars;
       sections++;
     }
@@ -400,12 +405,11 @@ test("a long section states its tune, and states it again", () => {
   // bar looping melody that serves as a hook" (iconcollective.edu/how-to-
   // make-a-hip-hop-beat).
   //
-  // The band is measured off records, counting distinct bars of the melody
-  // against bars it plays: Televators' vocal 33%, Chop Suey's 48% and its
-  // second voice 36%, Shine On's lead guitar 82% and its saxophone 93%. A
-  // lead is the least repetitive thing in a record and still repeats; what
-  // the ceiling rules out is a tune that never says anything twice, and what
-  // the floor rules out is one bar looped with no development at all.
+  // Both bounds are [chosen], and wide, because a lead is the least
+  // repetitive part a record has and how much it repeats is a genre's own
+  // business. What the ceiling rules out is a tune that never says anything
+  // twice; what the floor rules out is one bar looped with no development at
+  // all. Neither is a target to sit near.
   let ratio = 0;
   let sections = 0;
   for (const s of sweep(60)) {

@@ -11,11 +11,11 @@
  *
  * Until this existed a note in this program was a rectangle: a pitch, a
  * length and a weight. Every note was struck the same way, so a record's only
- * variety was which pitches it chose — and the tabs a guitarist actually
- * reads are almost entirely the other thing. Botch's riff is one gesture, a
- * fretted note pulled off to an open string, repeated thirty-two times; the
- * pitches are two. Pink Floyd's lead line carries seven pitch-bend messages
- * per note. The music is in the attack.
+ * variety was which pitches it chose — and the notation a guitarist actually
+ * reads is almost entirely the other thing. A tab is mostly `p`, `h`, `/`,
+ * `\`, `b` and repeat counts: pull-offs, hammer-ons, slides, bends. A riff
+ * can be one gesture repeated on two pitches and still be the part everyone
+ * knows. The music is in the attack.
  *
  * THE NUMBERS ARE THE PUBLISHED ONES. Duration as a share of the written
  * value: legato 100% and "no intervening silence", tenuto 95%, non-legato
@@ -38,8 +38,8 @@
  * Pitch: a bend "increases the pitch of a note" by displacing the string
  * (en.wikipedia.org/wiki/String_bending), and bend duration "is largely a
  * matter of expressive choice ... with no fixed millisecond standard", so the
- * reach is [chosen] at the short end of what a hand can do. A whole tone is
- * the commonest bend and the one the example tabs write.
+ * reach is [chosen] at the short end of what a hand can do. A whole tone is the
+ * commonest bend a guitarist writes.
  */
 
 export const ARTS = [

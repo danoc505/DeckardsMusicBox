@@ -37,9 +37,8 @@ test("a sung or arpeggiated line never plays the same pitch twice running", () =
   // The bar used to be absolute, and it was too strong. A reciting tone is
   // MADE of the repeated pitch — chant is "the rhythmic speaking or singing
   // of words or sounds, often primarily on one or two pitches"
-  // (en.wikipedia.org/wiki/Reciting_tone) — and Chop Suey's vocal repeats its
-  // own pitch 44% of the time. So the rule is stated for the two contours it
-  // is true of, and the third is tested for the opposite below.
+  // (en.wikipedia.org/wiki/Reciting_tone). So the rule is stated for the two
+  // contours it is true of, and the third is tested for the opposite below.
   let judged = 0;
   each(80, (_, m) => {
     if (m.contour === "chant") return;
@@ -70,16 +69,22 @@ test("a reciting tone holds its pitch, and the other contours move", () => {
   const chant = held.get("chant");
   assert.ok(chant !== undefined && chant.moves > 100, "no chant was drawn to measure");
   const share = chant.same / chant.moves;
-  // Chop Suey's vocal sits at 44%; a reciting tone that holds almost never is
-  // not one, and one that never leaves is not a tune
+  // The band is the DEFINITION, not a target: chant is "primarily on one or
+  // two pitches" (en.wikipedia.org/wiki/Reciting_tone), so a line that holds
+  // almost never is not a reciting tone and one that never leaves is not a
+  // tune. Where exactly between those it sits is this program's own taste and
+  // the bounds are [chosen] wide enough to say so.
   assert.ok(share > 0.2, `a reciting tone repeated only ${(100 * share).toFixed(0)}% of its moves`);
   assert.ok(share < 0.75, `a reciting tone repeated ${(100 * share).toFixed(0)}% of its moves and went nowhere`);
 });
 
 test("a riff leaps and a sung line walks", () => {
-  // Shine On's saxophone leaps 13% of the time and its clean electric 79%:
-  // the second is not a melody that leaps, it is a chord played one note at
-  // a time. The two contours must be measurably different kinds of line.
+  // The claim is that these are two different KINDS of line, not one process
+  // with a dial: "in conjunct melodic motion, the melodic phrase moves in a
+  // stepwise fashion", and disjunct motion leaps
+  // (en.wikipedia.org/wiki/Melodic_motion). So what is asserted is the
+  // difference between them and not a rate for either — half again as many
+  // leaps is [chosen] as the least that reads as a different kind of line.
   const by = new Map<string, { leaps: number; moves: number }>();
   each(160, (_, m) => {
     const t = by.get(m.contour) ?? { leaps: 0, moves: 0 };
@@ -353,11 +358,12 @@ test("the drums keep a figure and vary it by the bar's letter", () => {
     bars += byBar.length;
     distinct += new Set(byBar).size;
   });
-  // Neither a loop nor noise: bars repeat, and they also differ. The band is
-  // measured off records — distinct bars of drums against bars played is 18%
-  // in Chop Suey, 17% in Televators, 36% in Shine On, and the riff guitars
-  // that carry those songs sit at 16-24%. The old floor of 40% was above all
-  // of them, and holding it meant the figure could never come back.
+  // Neither a loop nor noise: bars repeat, and they also differ. Both bounds
+  // are [chosen], and what they stand on is the claim rather than any
+  // particular record — a beat whose every bar is distinct has no figure in
+  // it for an ear to hold, and one whose bars are all identical has nothing
+  // for the fill at the end of a phrase to be a departure from. The old floor
+  // of 40% denied the first of those outright.
   const share = distinct / bars;
   assert.ok(share > 0.12, `only ${(100 * share).toFixed(0)}% of drum bars are distinct — a loop, not a figure`);
   assert.ok(share < 0.6, `${(100 * share).toFixed(0)}% of drum bars are distinct — no figure`);

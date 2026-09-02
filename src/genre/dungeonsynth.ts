@@ -191,9 +191,9 @@ export const dungeonsynth: GenreSpec = {
       "tenuto is 95% of the written value and legato 100% with \"no intervening silence\" " +
       "(cmuse.org/staccato-length-calculator; en.wikipedia.org/wiki/Legato); a pad is bowed, not struck. Weights [chosen]",
     "lead.contour":
-      "a flute is a singing instrument and a wind line is conjunct: Shine On's saxophone leaps 13% of the time " +
-      "against its arpeggiating guitar's 79%. Chant belongs to the genre by name \u2014 the plainsong a stone room " +
-      "implies (en.wikipedia.org/wiki/Reciting_tone). Weights [chosen]",
+      "a flute is a singing instrument and a wind line is conjunct \u2014 \"the melodic phrase moves in a stepwise " +
+      "fashion\" (en.wikipedia.org/wiki/Melodic_motion). Chant belongs to the genre by name: the plainsong a stone " +
+      "room implies (en.wikipedia.org/wiki/Reciting_tone). Weights [chosen]",
     "lead.art":
       "\"wind instruments, including the human voice, and guitars are examples of instruments generally capable of " +
       "ghosting notes\" (en.wikipedia.org/wiki/Ghost_note), done by \"greatly reducing the airflow into the " +

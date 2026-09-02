@@ -33,11 +33,9 @@
  * because that is what a peak is. Nothing here is drawn — a texture that
  * moves at random is not an arrangement either.
  *
- * The examples do this at a scale this program cannot yet reach and the
- * direction is the same: Shine On's drums enter a third of the way in and
- * its saxophone with a sixth of the record left; Televators keeps its solo
- * guitar to thirty bars in the middle and puts three bars of bongos at the
- * very end. A part is worth more where it is missing.
+ * A part is worth more where it is missing, and this program does not yet go
+ * nearly as far as that idea allows: nothing here enters for the first time
+ * halfway through a record, or plays once and is never heard again.
  *
  * A bridge or a quiet section also thins the drums: a breath, not a stop.
  */
