@@ -15,6 +15,7 @@
 import type { Rng } from "../../core/rng.ts";
 import { intoBand } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
+import { manner } from "./manner.ts";
 import type { Note, Sounding } from "./note.ts";
 
 /** What a held tone weighs. Long notes sit under, not on top. */
@@ -46,6 +47,7 @@ export function drawDrone(
   const choices = [...octavesOf(drawn), ...octavesOf(drawn === "fifth" ? "tonic" : "fifth")];
 
   const out: Note[] = [];
+  let prev: number | null = null;
   for (let bar = 0; bar < bars; bar += hold) {
     const free = choices.find((p) => !sounding.holds(bar, 0, p));
     if (free === undefined) {
@@ -54,7 +56,15 @@ export function drawDrone(
           `the drone's register has nowhere of its own to stand`,
       );
     }
-    out.push({ bar, step: 0, dur: hold * steps, pitch: free, vel: DRONE_WEIGHT });
+    // a drone is one long note after another; how it is held, and whether it
+    // is slurred into from the one before, is all the manner it has
+    const art = manner(rng.at("bar", bar), "art", D.art, {
+      strong: true,
+      dur: hold * steps,
+      from: prev === null ? null : free - prev,
+    });
+    out.push({ bar, step: 0, dur: hold * steps, pitch: free, vel: DRONE_WEIGHT, art });
+    prev = free;
   }
   return out;
 }

@@ -20,6 +20,7 @@
  * bar of a groove weighed exactly the same as every other.
  */
 
+import { artOf, type ArtName } from "../core/articulation.ts";
 import { metricalStrength, type Clock } from "../core/clock.ts";
 import type { Role } from "../genre/spec.ts";
 import type { Arrangement } from "./arrange.ts";
@@ -40,9 +41,12 @@ export interface Event {
   /** The drum lane, or the role for a pitched part. */
   readonly lane: string;
   readonly pitch: number | null;
+  /** How long it sounds: its written length, less whatever its manner holds back. */
   readonly durSec: number;
   /** After the arc: what the note weighs in the record. */
   readonly gain: number;
+  /** How it is played. The sound stage renders the note this way. */
+  readonly art: ArtName;
 }
 
 export interface Performance {
@@ -99,12 +103,16 @@ export function makePerformance(
       const level = 1 - ARC_DEPTH + ARC_DEPTH * arc;
       const stepSec = clock.stepSec(bar);
 
-      const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number): void => {
+      const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
         const hand = chart.rng.at("perform", role, lane, bar, step);
         const jitter = hand.range("jitter", -F.jitterMs, F.jitterMs) / 1000;
         const missed = 1 + hand.range("weight", -F.velocityJitter, F.velocityJitter);
         const swing = swung(step) ? swingSteps : 0;
         const playedStep = step + swing + jitter / stepSec;
+        // the manner decides how much of the written length the note keeps
+        // and what it weighs against its neighbours; everything else about
+        // it — the glide, the attack, the strikes — is the sound stage's
+        const a = artOf(art);
         events.push({
           tSec: clock.at(bar, playedStep),
           bar,
@@ -113,8 +121,9 @@ export function makePerformance(
           role,
           lane,
           pitch,
-          durSec: dur * stepSec,
-          gain: Math.min(1.25, Math.max(0.02, vel * (accentAt[step] ?? 1) * missed * level)),
+          durSec: dur * stepSec * a.hold,
+          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accentAt[step] ?? 1) * missed * level)),
+          art,
         });
       };
 
@@ -124,13 +133,13 @@ export function makePerformance(
             if (h.bar !== mbar) continue;
             // thinning is the hat coming off: the pulse stays, the shimmer goes
             if (placed.thin && (h.lane === "hat" || h.lane === "openhat")) continue;
-            place("drums", h.lane, h.step, 1, null, h.vel);
+            place("drums", h.lane, h.step, 1, null, h.vel, h.art);
           }
         } else {
           const notes = role === "lead" ? nth(m.lead, "lead", round) : m.groove[role];
           for (const n of notes) {
             if (n.bar !== mbar) continue;
-            place(role, role, n.step, n.dur, n.pitch, n.vel);
+            place(role, role, n.step, n.dur, n.pitch, n.vel, n.art);
           }
         }
       }

@@ -15,9 +15,11 @@
  * the eighths is a hat.
  */
 
+import type { ArtName } from "../../core/articulation.ts";
 import type { Rng } from "../../core/rng.ts";
 import type { BarLetter, DrumLane } from "../../genre/spec.ts";
 import type { Chart } from "../chart.ts";
+import { manner } from "./manner.ts";
 
 export interface Hit {
   readonly bar: number;
@@ -25,6 +27,8 @@ export interface Hit {
   readonly lane: DrumLane;
   /** 0..1 */
   readonly vel: number;
+  /** How it is struck. A hit that does not say is struck plain. */
+  readonly art?: ArtName;
 }
 
 const HEAVY: ReadonlySet<DrumLane> = new Set(["kick", "snare"]);
@@ -70,9 +74,16 @@ export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, 
     // the figure
     const hits: Hit[] = [];
     for (const st of kick) hits.push({ bar, step: st, lane: "kick", vel: 0.95 });
-    // a snare on a beat is the backbeat; one off the beat is a ghost, played
-    // at half weight — 50–60% in the boom bap guides
-    for (const st of snare) hits.push({ bar, step: st, lane: "snare", vel: st % beat === 0 ? 1 : 0.55 });
+    // A SNARE ON A BEAT IS THE BACKBEAT; ONE OFF THE BEAT IS A GHOST. It is
+    // written as a ghost rather than as a quieter snare, because a ghost note
+    // is not merely a quiet one: it is "played with little or no sound", a
+    // stick dropped on the head rather than struck, and the manner carries
+    // both the weight and the deadness. How much quieter is stated once, in
+    // the articulation table, and not again here.
+    for (const st of snare) {
+      if (st % beat === 0) hits.push({ bar, step: st, lane: "snare", vel: 1 });
+      else hits.push({ bar, step: st, lane: "snare", vel: 1, art: "ghost" });
+    }
     if (hatEvery > 0) {
       for (let st = 0; st < steps; st += hatEvery) {
         hits.push({ bar, step: st, lane: "hat", vel: 0.66 });
@@ -102,6 +113,18 @@ export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, 
         const lastBeat = steps - beat;
         for (let i = hits.length - 1; i >= 0; i--) if (hits[i]!.step >= lastBeat) hits.splice(i, 1);
       }
+    }
+
+    // AND HOW EACH HIT IS STRUCK, once the bar is settled. This is not a pass
+    // that corrects what was written — every hit above chose its lane, its
+    // step and its weight, and none of them chose a manner. A drummer decides
+    // which hits to lean on knowing what the bar is, which is only true after
+    // the changes and the fill have been made; deciding it per hit as the bar
+    // was built would be deciding it without the bar.
+    for (let i = 0; i < hits.length; i++) {
+      const h = hits[i]!;
+      if (h.art !== undefined) continue;
+      hits[i] = { ...h, art: manner(at.at("hit", h.step, h.lane), "art", D.art, { strong: h.step % beat === 0, dur: 1, from: null }) };
     }
 
     out.push(...hits);

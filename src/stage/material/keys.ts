@@ -14,6 +14,7 @@
 import type { Rng } from "../../core/rng.ts";
 import { intoBand } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
+import { manner } from "./manner.ts";
 import type { Chord, Note, Sounding } from "./note.ts";
 
 /**
@@ -150,6 +151,7 @@ export function drawKeys(
 
   const out: Note[] = [];
   let prev: number[] | null = null;
+  let prevTop: number | null = null;
 
   for (const chord of chords) {
     let cands = candidates(chord.tones, lo, hi);
@@ -182,10 +184,19 @@ export function drawKeys(
     for (let i = 0; i < strike.length; i++) {
       const step = strike[i]!;
       const until = i + 1 < strike.length ? strike[i + 1]! : steps;
+      // ONE MANNER FOR THE WHOLE CHORD. A hand does one thing to the notes it
+      // puts down together; a voicing whose notes were each drawn their own
+      // articulation is not a chord, it is four soloists.
+      const art = manner(rng.at("bar", chord.bar), `art:${step}`, K.art, {
+        strong: step % chart.metre.perBeat === 0,
+        dur: until - step,
+        from: prevTop === null ? null : (best[best.length - 1] ?? 0) - prevTop,
+      });
       for (const pitch of best) {
-        out.push({ bar: chord.bar, step, dur: until - step, pitch, vel: KEYS_WEIGHT });
+        out.push({ bar: chord.bar, step, dur: until - step, pitch, vel: KEYS_WEIGHT, art });
       }
     }
+    prevTop = best[best.length - 1] ?? null;
   }
   return out;
 }

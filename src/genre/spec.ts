@@ -19,6 +19,7 @@
  * what rots.
  */
 
+import type { ArtName } from "../core/articulation.ts";
 import type { Weighted } from "../core/rng.ts";
 import type { Metre } from "../core/clock.ts";
 import type { ScaleName } from "../core/theory.ts";
@@ -155,6 +156,8 @@ export interface BassSpec {
   readonly pocket?: Weighted<Beats> | "kick";
   /** What a strike that is not the downbeat plays. */
   readonly tones?: Weighted<BassTone>;
+  /** How often each manner is reached for. Only what the instrument can do. */
+  readonly art?: ArtSpec;
 }
 
 /** What the bass builder reads. `pocket` is in GRID STEPS here, not beats. */
@@ -162,6 +165,7 @@ export interface BassRules {
   readonly register: Register;
   readonly pocket: Weighted<readonly number[]> | "kick";
   readonly tones: Weighted<BassTone>;
+  readonly art: ArtSpec;
 }
 
 export interface KeysSpec {
@@ -170,6 +174,8 @@ export interface KeysSpec {
   readonly strike?: Weighted<Beats>;
   /** 0..1, how much an open voicing is preferred over a close one. */
   readonly open?: number;
+  /** How often each manner is reached for. Only what the instrument can do. */
+  readonly art?: ArtSpec;
 }
 
 /** What the keys builder reads. `strike` is in GRID STEPS here, not beats. */
@@ -177,6 +183,7 @@ export interface KeysRules {
   readonly register: Register;
   readonly strike: Weighted<readonly number[]>;
   readonly open: number;
+  readonly art: ArtSpec;
 }
 
 /**
@@ -198,12 +205,15 @@ export interface DroneSpec {
   readonly tone?: Weighted<DroneTone>;
   /** How many bars one tone is held for, drawn once per material. */
   readonly hold?: Weighted<number>;
+  /** How often each manner is reached for. Only what the instrument can do. */
+  readonly art?: ArtSpec;
 }
 
 export interface DroneRules {
   readonly register: Register;
   readonly tone: Weighted<DroneTone>;
   readonly hold: Weighted<number>;
+  readonly art: ArtSpec;
 }
 
 export interface LeadSpec {
@@ -219,6 +229,8 @@ export interface LeadSpec {
   readonly span?: number;
   /** One letter per cycle of a section, drawn once per material. The first must sound. */
   readonly cycles?: Weighted<readonly LeadCycle[]>;
+  /** How often each manner is reached for. Only what the instrument can do. */
+  readonly art?: ArtSpec;
 }
 
 /** What the lead builder reads. `rhythms` is in GRID STEPS over two bars. */
@@ -228,6 +240,7 @@ export interface LeadRules {
   readonly leap: number;
   readonly span: number;
   readonly cycles: Weighted<readonly LeadCycle[]>;
+  readonly art: ArtSpec;
 }
 
 /** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
@@ -249,6 +262,8 @@ export interface DrumsSpec {
   readonly hat?: Weighted<number>;
   /** One letter per bar, drawn per material. */
   readonly phrase?: Weighted<readonly BarLetter[]>;
+  /** How often each manner is reached for. Only what the instrument can do. */
+  readonly art?: ArtSpec;
 }
 
 /** What the drum builder reads. Beats resolved to GRID STEPS. */
@@ -257,6 +272,7 @@ export interface DrumsRules {
   readonly snare: Weighted<readonly number[]>;
   readonly hat: Weighted<number>;
   readonly phrase: Weighted<readonly BarLetter[]>;
+  readonly art: ArtSpec;
 }
 
 export interface ArrangementSpec {
@@ -323,6 +339,47 @@ export interface FeelRules {
 /** The instruments a pitched part may be played on. */
 export const VOICES = ["rhodes", "sub", "pluck", "organ", "pad", "flute"] as const;
 export type VoiceName = (typeof VOICES)[number];
+
+/**
+ * WHAT EACH INSTRUMENT CAN PHYSICALLY DO. Not taste — mechanics. A struck
+ * piano cannot bend a note it has already struck, and a hammer that has
+ * fallen cannot be un-struck into a slur; a string and a column of air can do
+ * both, because the player is still touching the note while it sounds. A
+ * genre may weight these however it likes and may not add to them.
+ *
+ * Every instrument can be struck plain, held, cut short or leant on, so those
+ * are not listed: they are the floor, and they are only weight and length.
+ */
+export const FLOOR: readonly ArtName[] = Object.freeze(["plain", "tenuto", "staccato", "marcato", "accent"]);
+
+export const CAN: Readonly<Record<VoiceName, readonly ArtName[]>> = Object.freeze({
+  /** Tines, struck. Weight and length only — and a dead-key thud for a ghost. */
+  rhodes: ["ghost"],
+  /** A synthesised sub: the oscillator's pitch is a knob, so it can be slid into. */
+  sub: ["ghost", "slide", "slur"],
+  /** A string, still under the finger: everything a guitarist writes in a tab. */
+  pluck: ["ghost", "slur", "slide", "bend", "tremolo"],
+  /** Pipes and a key. They do not care how the key was pressed. */
+  organ: [],
+  /** A pad is bowed, not struck: it can be slurred, and it can swell. */
+  pad: ["slur"],
+  /**
+   * Breath and fingers: it can be slurred, bent and slid, and tongued into a
+   * tremolo. And it can ghost — "wind instruments, including the human voice,
+   * and guitars are examples of instruments generally capable of ghosting
+   * notes without making them synonymous with rests"
+   * (en.wikipedia.org/wiki/Ghost_note), done by "greatly reducing the airflow
+   * into the instrument while fingering the ghosted note"
+   * (jazzedmagazine.com, "Learning to Play Ghosted Notes").
+   */
+  flute: ["ghost", "slur", "slide", "bend", "tremolo"],
+});
+
+/** What a kit can do to one hit. A drum is struck; how hard, and how dead. */
+export const CAN_DRUM: readonly ArtName[] = Object.freeze(["ghost", "accent", "tremolo"]);
+
+/** How often a part reaches for each manner. What is not named is never played. */
+export type ArtSpec = Weighted<ArtName>;
 
 /**
  * THE RACK. Every unit the record can pass through, in the order it passes
@@ -662,6 +719,19 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ["third", 1],
       ["octave", 1],
     ],
+    /**
+     * THE DEFAULTS REACH ONLY FOR THE FLOOR — the manners every instrument
+     * can make, which are the ones that only change weight and length. A
+     * genre picks its own voices, and a default that assumed a string would
+     * be refused at load the moment a genre put an organ on the part. What a
+     * particular instrument can do beyond this is the genre's to say, with
+     * its own sources, because only the genre knows what it is holding.
+     */
+    art: [
+      ["plain", 10],
+      ["tenuto", 3],
+      ["staccato", 2],
+    ],
   },
 
   keys: {
@@ -674,6 +744,18 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [[0, 1, 2, 3], 1],
     ],
     open: 0.5,
+    /**
+     * Tines, struck, and that is nearly all a Rhodes will do. What is left is
+     * how long the key is held: legato is 100% of the written value with "no
+     * intervening silence", tenuto 95%, an unmarked note 80%, staccato "about
+     * 50% of its notated value" (cmuse.org/staccato-length-calculator;
+     * en.wikipedia.org/wiki/Legato). Weights [chosen].
+     */
+    art: [
+      ["plain", 6],
+      ["tenuto", 5],
+      ["staccato", 2],
+    ],
   },
 
   lead: {
@@ -712,6 +794,22 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [["A", ".", "A", "B"], 1],
       [["A", "B", ".", "A"], 1],
     ],
+    /**
+     * The tune is the part with a player's hand still on it, so it is the
+     * part that carries most of the manner. A hammer-on or pull-off "removes
+     * the sound of the pick attack, yielding a softer, more rounded tone",
+     * and a passage full of them is a legato phrase
+     * (en.wikipedia.org/wiki/Hammer-on); a bend "increases the pitch of a
+     * note" by displacing the string (en.wikipedia.org/wiki/String_bending).
+     * The example tabs are made almost entirely of these four marks — the
+     * pitches under them are few. Weights [chosen].
+     */
+    art: [
+      ["plain", 8],
+      ["tenuto", 3],
+      ["accent", 2],
+      ["staccato", 2],
+    ],
   },
 
   drone: {
@@ -730,6 +828,11 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [4, 4],
       [2, 2],
       [1, 1],
+    ],
+    /** A held tone is held: tenuto is 95% of the written value, and a drone means it. */
+    art: [
+      ["tenuto", 6],
+      ["plain", 1],
     ],
   },
 
@@ -763,6 +866,21 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [["A", "A", "B", "D"], 3],
       [["A", "B", "A", "D"], 2],
       [["A", "B", "C", "D"], 1],
+    ],
+    /**
+     * A kit's manner is how hard, and how dead. Ghost notes sit at 30–50 of a
+     * scale whose ordinary hits are 90–100 — "well below half" — and accents
+     * at 100 and over (blog.samplefocus.com how-to-produce-ghost-notes-for-
+     * organic-drums; mastering.com program-realistic-midi-drums). "A strong
+     * accent sounds stronger when it is surrounded by softer notes", which is
+     * the reason to have both rather than one. Which HIT gets which is not
+     * drawn from here — the metre decides that, in the builder. These are the
+     * weights for the hits the metre leaves open. [chosen]
+     */
+    art: [
+      ["plain", 8],
+      ["ghost", 3],
+      ["accent", 2],
     ],
   },
 

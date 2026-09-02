@@ -46,6 +46,7 @@
 import type { Rng } from "../../core/rng.ts";
 import { inScale, intoBand, pc } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
+import { manner } from "./manner.ts";
 import type { Chord, Note, Sounding } from "./note.ts";
 
 const PHRASE_BARS = 2;
@@ -239,7 +240,15 @@ export function drawLead(
       }
 
       const pitch = at.at("note", i).pick("pitch", cands);
-      const note: Note = { bar, step, dur, pitch, vel: LEAD_WEIGHT };
+      // and HOW it is played, which the position and its neighbour decide as
+      // much as the genre does: a hammer-on needs the note before it to be
+      // within a hand's reach, a ghost needs to be off the beat
+      const art = manner(at.at("note", i), "art", L.art, {
+        strong,
+        dur,
+        from: prev === null ? null : pitch - prev.pitch,
+      });
+      const note: Note = { bar, step, dur, pitch, vel: LEAD_WEIGHT, art };
       out.push(note);
       prev = note;
       prevChord = chord;

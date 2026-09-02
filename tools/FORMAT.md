@@ -121,9 +121,26 @@ tSec      bar  step   role  lane  voice  pitch  note  durSec   gain   flags
 | `gain` | 0–1.25, after the one gain formula |
 | `flags` | comma list, `.` when empty |
 
-Event flags. **MKIII writes none of these yet** — its events carry `.` — and
-they are listed because the MKII dumper writes them and a reader of both
-should know what they mean:
+Event flags. **MKIII writes one: the manner the note is played in.** An
+unmarked note carries `.`, as it does on paper. The manner is chosen by the
+part that wrote the note, from what its instrument can physically produce,
+and it decides how long the note sounds, what it weighs against its
+neighbours, and how it is struck:
+
+| flag | meaning |
+|---|---|
+| `.` | plain — the unmarked note, sounding 80% of its written length |
+| `tenuto` | held: 95% of the written length, and a shade heavier |
+| `staccato` | shortened and separated: 50% |
+| `marcato` | struck hard and short: 33% |
+| `accent` | leant on. Only on a beat |
+| `ghost` | struck with little or no sound, and damped with it. Only off a beat |
+| `slur` | hammered on or pulled off: no fresh attack, and no silence before the next note |
+| `slide` | arrived at from a whole tone below |
+| `bend` | bent a whole tone up during the note, and held there |
+| `tremolo` | re-struck four times across its length |
+
+MKII writes its own flags, which a reader of both should know:
 
 | flag | meaning |
 |---|---|

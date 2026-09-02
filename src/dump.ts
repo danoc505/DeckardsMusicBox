@@ -144,7 +144,9 @@ export function dump(song: Song): string {
         e.pitch === null ? "." : noteName(e.pitch),
         r4(e.durSec),
         r3(e.gain),
-        ".",
+        // the manner, which is the one flag MKIII writes: a note played the
+        // unmarked way carries nothing, as an unmarked note does on paper
+        e.art === "plain" ? "." : e.art,
       ].join("\t"),
     );
   }

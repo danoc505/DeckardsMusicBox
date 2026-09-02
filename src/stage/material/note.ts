@@ -6,6 +6,7 @@
  * stages that turn a material into a performance.
  */
 
+import type { ArtName } from "../../core/articulation.ts";
 import type { Idea, PitchedRole } from "../../genre/spec.ts";
 import type { Figure, Hit } from "./drums.ts";
 
@@ -22,6 +23,8 @@ export interface Note {
   readonly pitch: number;
   /** 0..1, the note's own weight before any accent or arc. */
   readonly vel: number;
+  /** How it is played. A note that does not say is played plain. */
+  readonly art?: ArtName;
 }
 
 export interface Chord {

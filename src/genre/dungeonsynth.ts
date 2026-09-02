@@ -67,6 +67,8 @@ export const dungeonsynth: GenreSpec = {
     register: [48, 74],
     strike: [[[0], 4], [[0, 2], 1]],
     open: 0.6,
+    /** a pad swells rather than strikes: it holds, and it slurs from chord to chord */
+    art: [["tenuto", 6], ["slur", 3], ["plain", 2]],
   },
 
   // a flute above, slow, stepwise, inside an octave
@@ -86,6 +88,8 @@ export const dungeonsynth: GenreSpec = {
       [["A", ".", "A", "B"], 1],
       [["A", "A", ".", "A"], 1],
     ],
+    /** breath and fingers: a wind line is slurred far more often than it is tongued */
+    art: [["slur", 6], ["plain", 4], ["tenuto", 3], ["slide", 2], ["ghost", 1], ["bend", 1]],
   },
 
   // a timpani on the beat, no hat, a drum on three now and then
@@ -98,6 +102,8 @@ export const dungeonsynth: GenreSpec = {
       [["A", "B", "A", "B"], 1],
       [["A", "A", "B", "D"], 1],
     ],
+    /** a struck drum in a stone room: mostly plain, the odd one leant on */
+    art: [["plain", 9], ["accent", 2], ["ghost", 1]],
   },
 
   // the sustained tone the genre is built on: it holds a whole statement
@@ -163,6 +169,17 @@ export const dungeonsynth: GenreSpec = {
       "\"upon the tonic or dominant\", held while the chords change over it (chromatone.center/theory/melody/drone)",
     "drone.hold": "\"a very long and continuous tone that may last through the whole piece\" (chromatone.center/theory/melody/drone)",
     "drone.register": "[chosen] — below the pad and around the organ's own low register",
+    "keys.art":
+      "tenuto is 95% of the written value and legato 100% with \"no intervening silence\" " +
+      "(cmuse.org/staccato-length-calculator; en.wikipedia.org/wiki/Legato); a pad is bowed, not struck. Weights [chosen]",
+    "lead.art":
+      "\"wind instruments, including the human voice, and guitars are examples of instruments generally capable of " +
+      "ghosting notes\" (en.wikipedia.org/wiki/Ghost_note), done by \"greatly reducing the airflow into the " +
+      "instrument while fingering the ghosted note\" (jazzedmagazine.com, \"Learning to Play Ghosted Notes\"); " +
+      "a slurred wind line is the unmarked case. Weights [chosen]",
+    "drums.art":
+      "accents sit at 100 and over of 127 against an ordinary 65\u201395 (mastering.com program-realistic-midi-drums); " +
+      "weights [chosen] \u2014 this music leans on the metre very little",
     "sound.voices": "\"strings, flutes, pipe organs, and choirs\" (note.com/soundwitches; Wikipedia, Dungeon synth)",
     "sound.mix": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches): every part in the room, the far ones further; placement [chosen]",
     "sound.world": "the genre is a place as much as a sound — a wide, deep world [chosen]",

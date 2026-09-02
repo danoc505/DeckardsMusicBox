@@ -68,7 +68,12 @@ export class MaterialError extends Error {
  * limit and the last is kept.
  */
 function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, sounding: Sounding, tune: readonly Note[]): Note[] {
-  const same = (a: readonly Note[], b: readonly Note[]): boolean => JSON.stringify(a) === JSON.stringify(b);
+  // WHAT IS PLAYED, not how. A line that lands on the same pitches at the
+  // same instants and merely hammers one of them where the statement picked
+  // it is the statement played again, and accepting it as a development is
+  // how a section comes back "changed" and sounds identical.
+  const notes = (l: readonly Note[]): string => l.map((n) => `${n.bar}:${n.step}:${n.dur}:${n.pitch}`).join();
+  const same = (a: readonly Note[], b: readonly Note[]): boolean => notes(a) === notes(b);
   let line: Note[] = [];
   for (let attempt = 1; attempt <= 6; attempt++) {
     line = drawLead(chart, chords, rng, steps, sounding, attempt);

@@ -60,6 +60,8 @@ export const lofi: GenreSpec = {
   keys: {
     register: [48, 79],
     open: 0.9,
+    /** a Rhodes is tines and a hammer: how long the key is held, and a dead one */
+    art: [["plain", 5], ["tenuto", 5], ["staccato", 2], ["ghost", 1]],
   },
 
   // the bass is the roots, on the kick's feet
@@ -72,6 +74,8 @@ export const lofi: GenreSpec = {
       ["third", 1],
       ["approach", 1],
     ],
+    /** a fingered sub: mostly plain, dead notes for the pocket, the odd slide into a root */
+    art: [["plain", 9], ["tenuto", 3], ["ghost", 3], ["staccato", 2], ["slide", 1]],
   },
 
   // the boom bap figure: kick on one and the ands of two and three, snare
@@ -95,6 +99,8 @@ export const lofi: GenreSpec = {
       [0.25, 1],
       [1, 1],
     ],
+    /** boom bap is ghosts around the backbeat, and the backbeat leant on */
+    art: [["plain", 7], ["ghost", 4], ["accent", 2]],
   },
 
   // a drum machine swinging its sixteenths, and hands that miss the grid
@@ -107,6 +113,13 @@ export const lofi: GenreSpec = {
     register: [51, 65],
     tone: [["tonic", 6], ["fifth", 1]],
     hold: [[4, 5], [2, 1]],
+    /** a pad is bowed, not struck: it holds, and it slurs into the next tone */
+    art: [["tenuto", 6], ["slur", 2], ["plain", 1]],
+  },
+
+  // the muted guitar is the one part with a hand still on the string
+  lead: {
+    art: [["plain", 6], ["slur", 5], ["tenuto", 3], ["ghost", 2], ["staccato", 2], ["slide", 2], ["bend", 1]],
   },
 
   arrangement: { enter: ["keys", "drums", "bass", "lead", "drone"] },
@@ -171,6 +184,25 @@ export const lofi: GenreSpec = {
       "\"snares on the second and fourth beat\" (blog.native-instruments.com/what-is-boom-bap); ghost snares at 50–60% " +
       "on the sixteenth before 2 and 4 (create.routenote.com boom bap drums); weights [chosen]",
     "drums.hat": "\"closed hi-hats on 8th notes\" (blog.native-instruments.com/what-is-boom-bap); weights [chosen]",
+    "keys.art":
+      "a Rhodes is struck, so its manner is length: legato 100% of the written value with \"no intervening " +
+      "silence\", tenuto 95%, an unmarked note 80%, staccato \"about 50% of its notated value\" " +
+      "(cmuse.org/staccato-length-calculator; en.wikipedia.org/wiki/Legato). Weights [chosen]",
+    "bass.art":
+      "ghost notes \"add groove and pace to a beat\" and sit \"well below half\" the weight of the notes around " +
+      "them (musicradar.com how-to-add-groove-and-pace-to-a-beat-using-ghost-notes; blog.samplefocus.com " +
+      "how-to-produce-ghost-notes-for-organic-drums); weights [chosen]",
+    "lead.art":
+      "a hammer-on or pull-off \"removes the sound of the pick attack, yielding a softer, more rounded tone\" and " +
+      "a passage of them is a legato phrase (en.wikipedia.org/wiki/Hammer-on); a bend \"increases the pitch of a " +
+      "note\" by displacing the string (en.wikipedia.org/wiki/String_bending). Weights [chosen]",
+    "drone.art":
+      "\"the importance of holding out a note\" is what tenuto marks, at 95% of the written value " +
+      "(cmuse.org/staccato-length-calculator); weights [chosen]",
+    "drums.art":
+      "ghost notes sit at 30\u201350 of a scale whose ordinary hits are 90\u2013100 and accents at 100 and over " +
+      "(blog.samplefocus.com how-to-produce-ghost-notes-for-organic-drums; mastering.com program-realistic-midi-" +
+      "drums); \"a strong accent sounds stronger when it is surrounded by softer notes\". Weights [chosen]",
     "feel.swing":
       "MPC swing is a share of each pair in percent, 50 straight and 66.7 a triplet, applied to sixteenths; " +
       "hip hop sits at 54–62 and 62 is 'almost a triplet' (melodiefabriek.com/blog/mpc-swing-reason; " +

@@ -159,8 +159,11 @@ test("the metre shapes the weight, and a genre says how much", () => {
   // the defect this is against: every part wrote one weight for the downbeat
   // and one for everywhere else, so every bar of a groove weighed the same
   // as every other and the record was a machine.
-  const flat = resolveGenre("flat", { flat: { label: "F", feel: { accent: 0, velocityJitter: 0, jitterMs: 0 } } });
-  const leaning = resolveGenre("lean", { lean: { label: "L", feel: { accent: 0.6, velocityJitter: 0, jitterMs: 0 } } });
+  // the manner is held still — a kit that ghosts and accents individual hits
+  // is a second, real source of weight, and this test is about the first one
+  const still = { art: [["plain", 1]] } as const;
+  const flat = resolveGenre("flat", { flat: { label: "F", feel: { accent: 0, velocityJitter: 0, jitterMs: 0 }, drums: still } });
+  const leaning = resolveGenre("lean", { lean: { label: "L", feel: { accent: 0.6, velocityJitter: 0, jitterMs: 0 }, drums: still } });
   const per = (g: typeof flat) => {
     const s = compose({ seed: 5, genre: g, seconds: 120 });
     const byStep = new Map<string, number>();

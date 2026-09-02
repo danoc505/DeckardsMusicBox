@@ -44,8 +44,10 @@
  * the record.
  */
 
+import { artOf, shapesTheNote } from "../core/articulation.ts";
 import { hash32 } from "../core/rng.ts";
 import { ROLES, SENDS, type PedalsRules, type RackRules, type Role, type SoundRules, type SoundSpec } from "../genre/spec.ts";
+import { articulate } from "./articulate.ts";
 import type { Event } from "../stage/perform.ts";
 import type { Song } from "../song.ts";
 import {
@@ -498,13 +500,18 @@ export class Engine {
       const layerGain = layer / layers;
       const voice = e.role === "drums" ? e.lane : S.voices[e.role];
       const what = `${this.seed}/${voice}/${e.pitch ?? ""}/${e.durSec}`;
-      const key = `${what}/${layer}`;
+      // the manner is part of what the note IS, so it is part of the key: a
+      // hammered note and a struck one of the same pitch and length are two
+      // different buffers, and each is still rendered only once
+      const art = artOf(e.art);
+      const key = `${what}/${layer}/${shapesTheNote(art) ? art.name : ""}`;
       let buf = this.cache.get(key);
       if (buf === undefined) {
         const note: NoteIn = { midi: e.pitch ?? 0, heldSec: e.durSec, gain: layerGain, seed: hash32(what), sampleRate: sr };
-        buf = e.role === "drums"
-          ? e.lane === "kick" ? kick(note) : e.lane === "snare" ? snare(note) : hat(note, e.lane === "openhat")
-          : this.voices[S.voices[e.role]]!(note);
+        const plain = e.role === "drums"
+          ? e.lane === "kick" ? kick : e.lane === "snare" ? snare : (n: NoteIn) => hat(n, e.lane === "openhat")
+          : this.voices[S.voices[e.role]]!;
+        buf = shapesTheNote(art) ? articulate(plain, note, art) : plain(note);
         this.cache.set(key, buf);
       }
       // a downbeat may be pushed before the top of the record: the part of the

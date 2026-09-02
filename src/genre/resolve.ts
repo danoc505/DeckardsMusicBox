@@ -10,10 +10,11 @@
  * and finding that by ear weeks later is how the old program worked.
  */
 
+import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, DEFAULTS, DRONE_TONES, IDEAS, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
-  type Genre, type GenreSpec, type Weighted,
+  BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, DEFAULTS, DRONE_TONES, FLOOR, IDEAS, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
+  type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
 /** Everything wrong with one genre, so a fix is one pass and not twelve. */
@@ -497,6 +498,29 @@ export function resolveGenre(
       for (const r of PITCHED_ROLES) {
         const v = voices[r];
         if (!(VOICES as readonly unknown[]).includes(v)) problems.push(`sound.voices.${r} is ${String(v)}, not one of ${VOICES.join(", ")}`);
+      }
+      // A MANNER AN INSTRUMENT CANNOT PRODUCE IS NOT TASTE, IT IS A MISTAKE.
+      // The genre says how often each part reaches for each manner and the
+      // instrument says which ones its body can make; asking a struck piano
+      // to bend is caught here rather than rendered silently as a plain note.
+      // The pairing is only knowable once both are resolved, which is why the
+      // check lives with the voices and not with the parts.
+      for (const r of PITCHED_ROLES) {
+        const v = voices[r];
+        if (!(VOICES as readonly unknown[]).includes(v)) continue;
+        const can = new Set<string>([...FLOOR, ...CAN[v as VoiceName]]);
+        const pool = asPool<ArtName>((merged[r] as Record<string, unknown> | undefined)?.["art"]) ?? [];
+        for (const [name, weight] of pool) {
+          if (weight > 0 && !can.has(name)) {
+            problems.push(`${r}.art asks for "${name}", which a ${String(v)} cannot play (it can: ${[...can].join(", ")})`);
+          }
+        }
+      }
+      const kit = new Set<string>([...FLOOR, ...CAN_DRUM]);
+      for (const [name, weight] of asPool<ArtName>((merged["drums"] as Record<string, unknown> | undefined)?.["art"]) ?? []) {
+        if (weight > 0 && !kit.has(name)) {
+          problems.push(`drums.art asks for "${name}", which a kit cannot play (it can: ${[...kit].join(", ")})`);
+        }
       }
     }
     const rack = isPlainObject(sound["rack"]) ? sound["rack"] : null;
