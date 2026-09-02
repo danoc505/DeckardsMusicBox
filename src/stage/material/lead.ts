@@ -139,9 +139,18 @@ export function drawLead(
 
   for (let ph = 0; ph * PHRASE_BARS < chords.length; ph++) {
     const isAnswer = ph % 2 === 1;
-    // the development answers from its own draws; its questions are the
-    // statement's, draw for draw
-    const at = developed > 0 && isAnswer ? rng.at("answer", developed, ph) : rng.at("phrase", ph);
+    // The development answers from its own draws; its questions are the
+    // statement's, draw for draw — the hook is what an ear holds on to and
+    // the reply is where a line has room to go somewhere else.
+    //
+    // UNLESS THE LOOP IS ONE PHRASE LONG, which it is whenever the changes
+    // come round every two bars — the common case in loop-based music. There
+    // is no answer to vary then, so a development that only redraws answers
+    // redraws nothing and comes back note for note the statement. The phrase
+    // itself is what varies, and the question-and-answer happens across two
+    // turns of the loop instead of inside one.
+    const onlyPhrase = PHRASE_BARS >= chords.length;
+    const at = developed > 0 && (isAnswer || onlyPhrase) ? rng.at("answer", developed, ph) : rng.at("phrase", ph);
     const firstBar = ph * PHRASE_BARS;
     const rhythm = at.weighted("rhythm", L.rhythms);
 

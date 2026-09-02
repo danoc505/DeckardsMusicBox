@@ -31,10 +31,25 @@ export function drawChords(chart: Chart, idea: Idea): Chord[] {
   const out: Chord[] = [];
   for (let bar = 0; bar < H.bars; bar++) {
     const degree = prog[bar % prog.length]!;
-    // drawn per bar so a sevenths setting between 0 and 1 gives a mix of plain
-    // and extended chords across the material rather than all or none
-    const seventh = draw.at("bar", bar).chance("seventh", H.sevenths);
-    const tones = chordTones(chart.tonic, chart.scale, degree, seventh ? 4 : 3);
+    // DRAWN PER POSITION IN THE PROGRESSION, not per bar of the material. A
+    // setting between 0 and 1 still gives a mix of plain and extended chords
+    // across the loop; drawn per bar it gave a mix across the MATERIAL, so a
+    // two-bar progression written over four bars came out Am7 Fmaj7 Am Fmaj7
+    // — four different chords, and a two-bar loop silently turned into a
+    // four-bar one that repeats nothing. The quality belongs to the chord,
+    // and the chord comes round with the progression.
+    const spot = bar % prog.length;
+    const seventh = draw.at("spot", spot).chance("seventh", H.sevenths);
+    let tones = chordTones(chart.tonic, chart.scale, degree, seventh ? 4 : 3);
+    // A BARE FIFTH: the third dropped, so the chord is neither major nor
+    // minor. Dungeon synth "favors modal scales, open fifths, and cadences
+    // reminiscent of early music" and "notably avoids complex jazz-influenced
+    // harmony"; an open fifth "is just the root and the fifth and leaves room
+    // for choir and melody to add color" (en.wikipedia.org/wiki/Dungeon_synth;
+    // dungeonsynth.proboards.com, "Chords for Dungeon Synth"). Drawn after
+    // the seventh so a genre that asks for both gets a fifth, not a seventh
+    // with a hole in it.
+    if (tones.length >= 3 && draw.at("spot", spot).chance("fifth", H.fifths)) tones = [tones[0]!, tones[2]!];
     out.push(
       Object.freeze({
         bar,
@@ -46,4 +61,31 @@ export function drawChords(chart: Chart, idea: Idea): Chord[] {
     );
   }
   return out;
+}
+
+/**
+ * HOW LONG THE LOOP ACTUALLY IS: the fewest bars after which the changes come
+ * round again. A four-bar material whose progression is `[0, 5]` is written
+ * as Dm7 Am Dm7 Am, and that is a TWO-BAR loop stated twice, not a four-bar
+ * one — and everything played over it should agree, or the record says one
+ * thing with its harmony and another with everything else.
+ *
+ * This matters more in loop-based music than anywhere: "the pitched elements
+ * of a hip-hop beat tend to repeat in loops of one, two, or four measures;
+ * exceptions to this are extremely rare", and "two-bar phrases in hip-hop are
+ * so typical that they form a default phrase expectation" (Adams, "Parameters
+ * of Phrase in Hip-Hop", MTO 26.2, 2.5 and 1.13). The period is derived from
+ * the chords rather than stated, so a genre cannot set one and write the
+ * other.
+ */
+export function harmonicPeriod(chords: readonly Chord[]): number {
+  const n = chords.length;
+  const same = (a: Chord, b: Chord): boolean => a.degree === b.degree && a.name === b.name;
+  for (let p = 1; p < n; p++) {
+    if (n % p !== 0) continue;
+    let holds = true;
+    for (let i = p; i < n && holds; i++) if (!same(chords[i]!, chords[i % p]!)) holds = false;
+    if (holds) return p;
+  }
+  return Math.max(1, n);
 }

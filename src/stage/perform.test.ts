@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { compose, type Song } from "../song.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
+import { lofi as lofiSpec } from "../genre/lofi.ts";
 import { dump, distinctBars, motionOf } from "../dump.ts";
 import { ROLES } from "../genre/spec.ts";
 
@@ -266,12 +267,35 @@ test("the arc makes the peak louder than the intro, like for like", () => {
   // like for like: a thin intro has no hats, and hats are the quiet drums, so
   // its MEAN drum gain is higher for having lost them. The arc is read off the
   // downbeat kick, which every bar has, and off the pitched parts whole.
+  //
+  // AND AT THE SAME PLACE IN THE LOOP, WITH THE HAND HELD STILL. Two other
+  // things move a note's weight and neither is the arc: a phrase rises to its
+  // height and falls away, a swing bigger than the arc's, so both sides are
+  // read at the loop's first bar; the hand misses what it meant by up to
+  // seven percent either way, which on an intro of one bar is the whole
+  // measurement; and a MANNER scales it hardest of all, an accented kick
+  // weighing a quarter more than a plain one. The genre here is lofi with the
+  // miss set to nothing and every part played plain, so what is left is the
+  // arc.
+  const plain = { art: [["plain", 1]] } as const;
+  const steady = resolveGenre("steady", {
+    lofi: lofiSpec,
+    steady: {
+      extend: "lofi", label: "S", feel: { velocityJitter: 0 },
+      drums: plain, bass: plain, keys: plain, lead: plain, drone: plain,
+    },
+  });
   let cases = 0;
-  for (const s of sweep(60)) {
+  for (let seed = 1; seed <= 60; seed++) {
+    const s = compose({ seed, genre: steady, seconds: 200 });
     const intro = s.arrangement.placed.find((p) => p.section.fn === "intro");
     const peak = s.arrangement.placed[s.form.peakAt]!;
     if (!intro) continue;
-    const inside = (p: typeof peak) => (e: { bar: number }) => e.bar >= p.section.startBar && e.bar < p.section.endBar;
+    const inside = (p: typeof peak) => {
+      const m = s.materials.all.get(p.material)!;
+      return (e: { bar: number }): boolean =>
+        e.bar >= p.section.startBar && e.bar < p.section.endBar && (e.bar - p.section.startBar) % m.period === 0;
+    };
     const mean = (es: readonly { gain: number }[]) => (es.length ? es.reduce((a, e) => a + e.gain, 0) / es.length : null);
     const kick = (p: typeof peak) => mean(s.performance.events.filter((e) => inside(p)(e) && e.lane === "kick" && e.step === 0));
     const part = (p: typeof peak, role: string) => mean(s.performance.events.filter((e) => inside(p)(e) && e.role === role));
@@ -294,6 +318,13 @@ test("the tune does not repeat itself at the loop seam", () => {
   // note — so those pairs are not judged.
   // And a reciting tone is exempt, because the repeated pitch is what it is
   // made of: see the contour rules in the lead builder.
+  //
+  // A ROUND BOUNDARY is exempt for the same reason a section boundary is. The
+  // tune is written for one turn of the loop and played on every turn, and
+  // each time the material comes round the plan may put a different LINE
+  // there — so the note before a round and the note after it belong to two
+  // different lines, and one opening on the pitch the other closed on is the
+  // same pivot the comment above describes.
   for (const s of sweep(60)) {
     const boundaries = new Set(s.form.sections.map((x) => x.startBar));
     const chanting = new Set<number>();
@@ -301,9 +332,14 @@ test("the tune does not repeat itself at the loop seam", () => {
       if (s.materials.all.get(p.material)!.contour !== "chant") continue;
       for (let b = p.section.startBar; b < p.section.endBar; b++) chanting.add(b);
     }
+    const rounds = new Set<number>();
+    for (const p of s.arrangement.placed) {
+      const m = s.materials.all.get(p.material)!;
+      for (let b = p.section.startBar; b < p.section.endBar; b += m.bars) rounds.add(b);
+    }
     const lead = s.performance.events.filter((e) => e.role === "lead");
     for (let i = 1; i < lead.length; i++) {
-      const crosses = lead[i]!.bar !== lead[i - 1]!.bar && boundaries.has(lead[i]!.bar);
+      const crosses = lead[i]!.bar !== lead[i - 1]!.bar && (boundaries.has(lead[i]!.bar) || rounds.has(lead[i]!.bar));
       const rested = lead[i]!.bar - lead[i - 1]!.bar > 1;
       if (crosses || rested || chanting.has(lead[i]!.bar)) continue;
       assert.notEqual(lead[i]!.pitch, lead[i - 1]!.pitch, `seed ${s.chart.seed} bar ${lead[i]!.bar}: the lead repeats a pitch`);
@@ -347,11 +383,20 @@ test("a long section repeats its drum figure, and still moves", () => {
   assert.ok(pc < 60, `long sections average ${pc.toFixed(0)}% distinct drum bars — no figure to repeat`);
 });
 
-test("a long section does not play the tune over and over", () => {
-  // the tune is stated, restated, developed: a sixteen-bar section over a
-  // four-bar material hears more than four distinct lead bars. Per section
-  // as a floor the plan guarantees for one restatement and one development,
-  // and across the sweep as an average.
+test("a long section states its tune, and states it again", () => {
+  // Two-sided, and the floor was the wrong shape. This demanded that a long
+  // section hear MOSTLY distinct lead bars, which is the opposite of what a
+  // hook is: a tune written for one turn of the loop and played on every turn
+  // is meant to come back, and "many modern hip hop tracks have one or two
+  // bar looping melody that serves as a hook" (iconcollective.edu/how-to-
+  // make-a-hip-hop-beat).
+  //
+  // The band is measured off records, counting distinct bars of the melody
+  // against bars it plays: Televators' vocal 33%, Chop Suey's 48% and its
+  // second voice 36%, Shine On's lead guitar 82% and its saxophone 93%. A
+  // lead is the least repetitive thing in a record and still repeats; what
+  // the ceiling rules out is a tune that never says anything twice, and what
+  // the floor rules out is one bar looped with no development at all.
   let ratio = 0;
   let sections = 0;
   for (const s of sweep(60)) {
@@ -371,7 +416,9 @@ test("a long section does not play the tune over and over", () => {
     }
   }
   assert.ok(sections > 20);
-  assert.ok(ratio / sections > 0.35, `long sections average ${((100 * ratio) / sections).toFixed(0)}% distinct lead bars`);
+  const pc = (100 * ratio) / sections;
+  assert.ok(pc > 15, `long sections average ${pc.toFixed(0)}% distinct lead bars — a loop with no tune in it`);
+  assert.ok(pc < 85, `long sections average ${pc.toFixed(0)}% distinct lead bars — no hook, just melody`);
 });
 
 test("the dump follows the format and counts itself correctly", () => {

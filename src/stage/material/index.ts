@@ -40,7 +40,7 @@ import type { Chart } from "../chart.ts";
 import { drawBass } from "./bass.ts";
 import { drawDrone } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
-import { drawChords } from "./harmony.ts";
+import { drawChords, harmonicPeriod } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
 import { contourOf, drawLead } from "./lead.ts";
 import { assertInside, at, GROOVE, Sounding, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
@@ -67,12 +67,13 @@ export class MaterialError extends Error {
  * laws leave the answer only one way to go, a handful of tries is the honest
  * limit and the last is kept.
  */
-function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, sounding: Sounding, tune: readonly Note[]): Note[] {
+function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, sounding: Sounding, tune: readonly Note[], period: number): Note[] {
   // WHAT IS PLAYED, not how. A line that lands on the same pitches at the
   // same instants and merely hammers one of them where the statement picked
   // it is the statement played again, and accepting it as a development is
   // how a section comes back "changed" and sounds identical.
-  const notes = (l: readonly Note[]): string => l.map((n) => `${n.bar}:${n.step}:${n.dur}:${n.pitch}`).join();
+  const notes = (l: readonly Note[]): string =>
+    l.filter((n) => n.bar < period).map((n) => `${n.bar}:${n.step}:${n.dur}:${n.pitch}`).join();
   const same = (a: readonly Note[], b: readonly Note[]): boolean => notes(a) === notes(b);
   let line: Note[] = [];
   for (let attempt = 1; attempt <= 6; attempt++) {
@@ -138,18 +139,47 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // each part is told what the parts before it are SOUNDING — not merely
     // where they were struck — so it never lands on one and never rubs
     // against one. A rule at the point of choice, not a repair after.
-    const taken = new Set<string>();
-    const bass = Object.freeze(drawBass(chart, chords, rng.at("bass"), steps, figure.kick));
-    for (const n of bass) taken.add(`${at(n)}:${n.pitch}`);
+    // THE LOOP IS AS LONG AS THE CHANGES ARE, and everything played over it
+    // is written once and repeated. A four-bar material whose progression is
+    // Dm7 Am Dm7 Am is a TWO-BAR loop stated twice: writing four bars of bass
+    // and four of tune over it makes the record say one thing with its
+    // harmony and another with everything else, and what an ear then has to
+    // hold is four bars of material that never repeat instead of two that do.
+    // "The pitched elements of a hip-hop beat tend to repeat in loops of one,
+    // two, or four measures; exceptions to this are extremely rare", and a
+    // two-bar phrase is "a default phrase expectation" (Adams, "Parameters of
+    // Phrase in Hip-Hop", MTO 26.2).
+    const period = harmonicPeriod(chords);
+    const loop = chords.slice(0, period);
+    /** One period's worth of notes, laid down for every turn of the loop. */
+    const tile = (notes: readonly Note[]): Note[] => {
+      const out: Note[] = [];
+      for (let k = 0; k * period < bars; k++) for (const n of notes) out.push({ ...n, bar: n.bar + k * period });
+      return out;
+    };
+
     const sounding = new Sounding();
+    // THE SAME PICTURE, FOLDED INTO THE LOOP. A part written for one turn is
+    // played on every turn, so what it must keep clear of is what sounds at
+    // that position on ANY turn — which is exactly what `Sounding` does when
+    // it is told the loop is the period.
+    const inLoop = new Sounding();
+
+    const bass = Object.freeze(tile(drawBass(chart, loop, rng.at("bass"), steps, figure.kick)));
+    const taken = new Set<string>();
+    for (const n of bass) taken.add(`${at(n)}:${n.pitch}`);
     sounding.add(bass, bars, steps);
+    inLoop.add(bass, period, steps);
     // the drone stands on the key, not the chord, so it is written before
-    // anything that follows the changes
+    // anything that follows the changes — and it is NOT tiled: a drone is a
+    // held tone whose whole nature is to be longer than the loop under it
     const drone = Object.freeze(drawDrone(chart, rng.at("drone"), steps, bars, sounding));
     sounding.add(drone, bars, steps);
+    inLoop.add(drone, period, steps);
     for (const n of drone) taken.add(`${at(n)}:${n.pitch}`);
-    const keys = Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps, sounding));
+    const keys = Object.freeze(tile(drawKeys(chart, loop, rng.at("keys"), steps, inLoop)));
     sounding.add(keys, bars, steps);
+    inLoop.add(keys, period, steps);
     const groove = Object.freeze({ bass, keys, drone });
 
     // the tune's plan, applied to every time the lead plays this material
@@ -162,8 +192,11 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       // a section opens with the tune; a rest is a breath taken inside one
       return letter === "." && opensLead.has(n) ? "A" : letter;
     });
-    const tune = letters.length > 0 ? Object.freeze(drawLead(chart, chords, leadRng, steps, sounding)) : null;
-    const developed = letters.includes("B") ? Object.freeze(develop(chart, chords, leadRng, steps, sounding, tune!)) : null;
+    // the tune is written for ONE turn of the loop and played on every turn:
+    // a hook is a hook because it comes back, and a lead that writes a fresh
+    // melody over the loop's second turn is not a lead, it is two of them
+    const tune = letters.length > 0 ? Object.freeze(tile(drawLead(chart, loop, leadRng, steps, inLoop))) : null;
+    const developed = letters.includes("B") ? Object.freeze(tile(develop(chart, loop, leadRng, steps, inLoop, tune!, period))) : null;
     const tacet: readonly Note[] = Object.freeze([]);
     const lead = Object.freeze(letters.map((l) => (l === "A" ? tune! : l === "B" ? developed! : tacet)));
 
@@ -185,7 +218,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       }),
     );
 
-    const material: Material = Object.freeze({ key, idea, variant, contour: contourOf(chart, leadRng), bars, chords, groove, lead, figure, drums });
+    const material: Material = Object.freeze({ key, idea, variant, contour: contourOf(chart, leadRng), bars, period, chords, groove, lead, figure, drums });
     check(chart, material, steps);
     all.set(key, material);
   }

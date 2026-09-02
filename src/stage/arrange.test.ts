@@ -53,15 +53,18 @@ test("parts arrive in order, and how many play is the section's energy", () => {
     const sizes: number[] = [];
     for (const p of a.placed) {
       const s = p.section;
-      // NOBODY APPEARS OUT OF TURN. Whoever is heard is a prefix of the entry
-      // order, always — a part cannot arrive before the one in front of it.
-      const prefix = A.enter.slice(0, p.heard.size);
-      assert.deepEqual(p.heard, new Set(prefix), `out of turn: ${describeArrangement(a)}`);
       if (s.fn === "intro") {
         assert.equal(p.heard.size, A.introParts);
         continue;
       }
       arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      // NOBODY APPEARS OUT OF TURN. Whoever is heard has ARRIVED — a part
+      // cannot appear before the one in front of it in the entry order. It is
+      // no longer a PREFIX of that order, because who LEAVES is the shed
+      // order and that is deliberately not the reverse of who arrives.
+      for (const r of p.heard) {
+        assert.ok(A.enter.indexOf(r) < arrived, `${r} played before it arrived: ${describeArrangement(a)}`);
+      }
       // NOBODY PLAYS BEFORE THEY HAVE ARRIVED, and no section falls below the
       // floor the genre carries.
       assert.ok(p.heard.size <= arrived, `${s.fn} hears more than have arrived: ${describeArrangement(a)}`);
@@ -96,8 +99,9 @@ test("a quiet section carries its foundation and drops its decoration", () => {
       // everything still heard was heard before it: a section that shrinks
       // loses parts, it does not swap them
       for (const r of here.heard) assert.ok(before.heard.has(r), `${r} appeared while the texture shrank: ${describeArrangement(a)}`);
-      // and the first part of the order is never the one to go
-      assert.ok(here.heard.has(A.enter[0]!), `the foundation went first: ${describeArrangement(a)}`);
+      // and what a genre says it can least afford is still there: the last
+      // name in the shed order is the last thing a record gives up
+      assert.ok(here.heard.has(A.shed[A.shed.length - 1]!), `the last thing to go went first: ${describeArrangement(a)}`);
       compared++;
     }
   }

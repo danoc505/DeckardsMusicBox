@@ -200,11 +200,16 @@ test("the tune moves — mostly by step, sometimes by leap", () => {
 });
 
 test("the answer goes the other way from the question", () => {
+  // Only where the loop is long enough to hold both. When the changes come
+  // round every two bars the loop IS one phrase, bars 2-3 are a COPY of bars
+  // 0-1, and asking whether the "answer" runs the other way from the
+  // "question" is asking whether a thing differs from itself.
   let contrary = 0;
   let pairs = 0;
   each(80, (_, m) => {
+    if (m.period <= 2) return;
     const q = byTime(tune(m).filter((n) => n.bar < 2));
-    const a = byTime(tune(m).filter((n) => n.bar >= 2));
+    const a = byTime(tune(m).filter((n) => n.bar >= 2 && n.bar < m.period));
     if (q.length < 2 || a.length < 2) return;
     const qd = Math.sign(q[q.length - 1]!.pitch - q[0]!.pitch);
     const ad = Math.sign(a[a.length - 1]!.pitch - a[0]!.pitch);
@@ -212,7 +217,7 @@ test("the answer goes the other way from the question", () => {
     pairs++;
     if (qd !== ad) contrary++;
   });
-  assert.ok(pairs > 20);
+  assert.ok(pairs > 10, `only ${pairs} materials had a loop long enough to hold a question and an answer`);
   assert.ok(contrary / pairs > 0.6, `the answer ran the same way as the question in ${pairs - contrary} of ${pairs}`);
 });
 
@@ -275,24 +280,43 @@ test("every material the lead plays opens with a tune", () => {
   assert.ok(played > 60);
 });
 
-test("a developed time round keeps the question and changes the answer", () => {
+test("a developed time round differs, and keeps the question where there is one", () => {
+  // The question-and-answer belongs to a loop long enough to hold both. When
+  // the changes come round every two bars — the common case in loop-based
+  // music, and a "default phrase expectation" in hip-hop (Adams, MTO 26.2) —
+  // the loop IS one phrase, there is no answer to vary, and the development
+  // varies the phrase itself. The question-and-answer then happens across two
+  // turns of the loop instead of inside one.
   let developed = 0;
+  let periodic = 0;
   let rests = 0;
   let longMaterials = 0;
   each(120, (_, m) => {
     if (m.lead.length < 3) return;
     longMaterials++;
     const first = tune(m);
+    const inLoop = (ns: readonly Note[]): string => JSON.stringify(ns.filter((n) => n.bar < m.period));
     for (const line of m.lead.slice(1)) {
       if (line.length === 0) { rests++; continue; }
       if (JSON.stringify(line) === JSON.stringify(first)) continue;
       developed++;
-      const question = (ns: readonly { bar: number }[]) => JSON.stringify(ns.filter((n) => n.bar < 2));
-      assert.equal(question(line), question(first), `${m.key}: the development changed the question`);
-      assert.notEqual(JSON.stringify(line.filter((n) => n.bar >= 2)), JSON.stringify(first.filter((n) => n.bar >= 2)));
+      // whatever the loop's length, a development differs inside it — the
+      // tiles after the first are copies, so a difference only there would
+      // be no difference at all
+      assert.notEqual(inLoop(line), inLoop(first), `${m.key}: the development is the statement`);
+      if (m.period > 2) {
+        periodic++;
+        const question = (ns: readonly Note[]) => JSON.stringify(ns.filter((n) => n.bar < 2));
+        assert.equal(question(line), question(first), `${m.key}: the development changed the question`);
+        assert.notEqual(
+          JSON.stringify(line.filter((n) => n.bar >= 2 && n.bar < m.period)),
+          JSON.stringify(first.filter((n) => n.bar >= 2 && n.bar < m.period)),
+        );
+      }
     }
   });
   assert.ok(longMaterials > 30);
+  void periodic;
   // most long materials develop; a few rest a cycle; none does either on
   // the first cycle, which every plan opens with the tune
   assert.ok(developed > longMaterials * 0.5, `only ${developed} developed cycles in ${longMaterials} long materials`);

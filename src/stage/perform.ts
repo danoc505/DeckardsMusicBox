@@ -129,13 +129,17 @@ export function makePerformance(
       const arc = form.arc[bar] ?? section.energy;
       const level = 1 - ARC_DEPTH + ARC_DEPTH * arc;
       const stepSec = clock.stepSec(bar);
-      // THE PHRASE IS THE MATERIAL, and where this bar falls in it is where
-      // the phrase has got to. Taken from the position in the MATERIAL and
-      // not from the bar of the record, so the shape is the same shape every
-      // time the figure comes round — the same reason the hand is addressed
-      // that way, and the thing that keeps this from being another source of
-      // per-bar noise.
-      const through = m.bars <= 1 ? 0.5 : mbar / m.bars;
+      // THE PHRASE IS THE LOOP, and where this bar falls in it is where the
+      // phrase has got to. The LOOP and not the material: a four-bar material
+      // of Dm7 Am Dm7 Am is a two-bar loop stated twice, everything pitched
+      // over it is written once and repeated, and an arch stretched across
+      // both turns would give the two identical turns different weight — the
+      // one thing that stops an ear hearing them as the same loop coming
+      // round. Taken from the position rather than the bar of the record, so
+      // the shape is the same shape every time, which is the same reason the
+      // hand is addressed that way.
+      const loop = Math.max(1, m.period);
+      const through = loop <= 1 ? 0.5 : (mbar % loop) / loop;
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
         // THE HAND IS ADDRESSED BY THE FIGURE, NOT BY THE BAR OF THE RECORD.
@@ -152,7 +156,17 @@ export function makePerformance(
         // every time round, and what differs between rounds is what the
         // MATERIAL says differs — the drums' phrase letter, the tune's
         // cycle, the section's variant — which is composition, not noise.
-        const hand = chart.rng.at("perform", placed.material, role, lane, mbar, step);
+        //
+        // AND BY THE PART'S OWN UNIT OF REPETITION, which is not the same for
+        // everyone. Everything pitched is written for one turn of the LOOP
+        // and repeated, so two turns hold the same notes and must be played
+        // the same way — addressed by the bar of the material instead, the
+        // two identical turns would be missed by different amounts and the
+        // repetition just built would be undone by the hand. The drums do not
+        // tile: their phrase is the whole material, four letters long, and a
+        // bar of it is its own.
+        const unit = role === "drums" ? mbar : mbar % loop;
+        const hand = chart.rng.at("perform", placed.material, role, lane, unit, step);
         const jitter = hand.range("jitter", -F.jitterMs, F.jitterMs) / 1000;
         const missed = 1 + hand.range("weight", -F.velocityJitter, F.velocityJitter);
         const swing = swung(step) ? swingSteps : 0;
@@ -173,7 +187,7 @@ export function makePerformance(
         const a = artOf(art);
         // where the note sits inside the phrase, to the step: a bar is not a
         // flat step of the shape either
-        const shaped = 1 - F.phrase + F.phrase * phraseShape(through + step / (clock.steps * Math.max(1, m.bars)));
+        const shaped = 1 - F.phrase + F.phrase * phraseShape(through + step / (clock.steps * loop));
         events.push({
           tSec: clock.at(bar, playedStep),
           bar,

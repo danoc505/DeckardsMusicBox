@@ -31,7 +31,9 @@ export const dungeonsynth: GenreSpec = {
 
   // triads, close to home, little chromaticism
   harmony: {
-    sevenths: 0.15,
+    // no jazz in it at all, and a third of the chords are bare fifths
+    sevenths: 0,
+    fifths: 0.34,
     diminished: "avoid",
     progressions: {
       A: [
@@ -162,7 +164,16 @@ export const dungeonsynth: GenreSpec = {
     lengthSec: "[chosen] — long, loop-based tracks; no measured average found",
     metre: "[chosen] — 4/4; the sourced track is in 6/4, which the program does not yet hold",
     "form.lengths": "\"simple, loop-based compositions\" (note.com/soundwitches), \"repeated extensively\" (erichgrunewald.com); the lengths [chosen]",
-    "harmony.sevenths": "\"fairly standard chord progressions, little chromaticism\" (note.com/soundwitches); 0.15 [chosen]",
+    "harmony.sevenths":
+      "the genre \"notably avoids complex jazz-influenced harmony, instead favoring simple, modal-based " +
+      "progressions\", and its cadences \"use simple stepwise resolutions rather than dense extended chords\" " +
+      "(en.wikipedia.org/wiki/Dungeon_synth; dungeonsynth.proboards.com, \"Chords for Dungeon Synth\"); " +
+      "\"fairly standard chord progressions, little chromaticism\" (note.com/soundwitches). None, therefore",
+    "harmony.fifths":
+      "dungeon synth \"favors modal scales (Dorian, Aeolian, Phrygian, Mixolydian), open fifths, and cadences " +
+      "reminiscent of early music\", and employs \"parallel fifths and open fifth/octave intervals for medieval " +
+      "color\"; an open fifth \"is just the root and the fifth and leaves room for choir and melody to add color\" " +
+      "(en.wikipedia.org/wiki/Dungeon_synth; dungeonsynth.proboards.com). A third of the chords [chosen]",
     "harmony.diminished": "\"fairly standard chord progressions\" in \"a handful of common modes\" (note.com/soundwitches): the mode's diminished triad is not one",
     "harmony.progressions":
       "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; the rest [chosen]",

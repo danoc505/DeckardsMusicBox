@@ -296,6 +296,8 @@ export function resolveGenre(
     }
     const sv = harmony["sevenths"];
     if (!finite(sv) || sv < 0 || sv > 1) problems.push(`harmony.sevenths must be 0..1, got ${String(sv)}`);
+    const fi = harmony["fifths"];
+    if (!finite(fi) || fi < 0 || fi > 1) problems.push(`harmony.fifths must be 0..1, got ${String(fi)}`);
     const dm = harmony["diminished"];
     if (dm !== "allow" && dm !== "avoid") problems.push(`harmony.diminished must be "allow" or "avoid", got ${String(dm)}`);
   }
@@ -459,6 +461,10 @@ export function resolveGenre(
     const ip = arr["introParts"];
     if (!finite(ip) || !Number.isInteger(ip) || ip < 1 || ip > ROLES.length) {
       problems.push(`arrangement.introParts must be 1..${ROLES.length}, got ${String(ip)}`);
+    }
+    const shed = arr["shed"];
+    if (!Array.isArray(shed) || shed.length !== ROLES.length || new Set(shed).size !== ROLES.length || shed.some((r) => !ROLES.includes(r as never))) {
+      problems.push(`arrangement.shed must name every part exactly once, got ${JSON.stringify(shed)}`);
     }
     const fw = arr["fewest"];
     if (!finite(fw) || !Number.isInteger(fw) || fw < 1 || fw > ROLES.length) {

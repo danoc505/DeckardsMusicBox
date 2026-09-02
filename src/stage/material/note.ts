@@ -55,6 +55,12 @@ export interface Material {
   /** How the tune moves: stepwise, arpeggiated, or on a reciting tone. */
   readonly contour: Contour;
   readonly bars: number;
+  /**
+   * The bars after which the changes come round again, which is how long the
+   * loop really is: a four-bar material of Dm7 Am Dm7 Am is a two-bar loop
+   * stated twice. Everything pitched is written for one turn and repeated.
+   */
+  readonly period: number;
   readonly chords: readonly Chord[];
   /** Bass and keys, the same every time round — a groove is the thing that is allowed to loop. */
   readonly groove: Readonly<Record<GrooveRole, readonly Note[]>>;

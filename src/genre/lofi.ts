@@ -36,22 +36,28 @@ export const lofi: GenreSpec = {
   harmony: {
     sevenths: 0.9,
     progressions: {
+      // TWO BARS FIRST. A two-bar progression written over a four-bar
+      // material is a two-bar LOOP stated twice, and everything played over
+      // it repeats on it — which is what makes a beat a beat.
       A: [
+        [[0, 5], 4],
+        [[3, 0], 2],
         [[0, 5, 3, 4], 3],
-        [[0, 5, 1, 4], 3],
-        [[0, 3, 6, 2], 2],
-        [[0, 5], 1],
+        [[0, 5, 1, 4], 2],
+        [[0, 3, 6, 2], 1],
       ],
       B: [
+        [[1, 4], 4],
+        [[5, 0], 2],
         [[1, 4, 0, 0], 3],
-        [[3, 2, 5, 5], 2],
+        [[3, 2, 5, 5], 1],
         [[5, 6, 0, 0], 1],
-        [[3, 0], 1],
       ],
       C: [
+        [[2, 5], 3],
+        [[3, 4], 2],
         [[2, 5, 1, 4], 2],
         [[3, 4, 2, 5], 1],
-        [[1, 4, 0, 0], 1],
       ],
     },
   },
@@ -164,8 +170,13 @@ export const lofi: GenreSpec = {
       "every progression the guides give carries sevenths: Cmaj7 Am7 Fmaj7 G7, Dm7 G7 Cmaj7 " +
       "(blog.flat.io/lofi-chord-progressions; blog.native-instruments.com/lo-fi-chord-progressions)",
     "harmony.progressions":
-      "I–vi–IV–V, ii–V–I, I–vi–ii–V (blog.flat.io/lofi-chord-progressions); I–vi, iv–i, IV–iii–vi, i–VI–V " +
-      "(blog.native-instruments.com/lo-fi-chord-progressions); as scale degrees so the drawn scale sets the qualities; weights [chosen]",
+      "I\u2013vi\u2013IV\u2013V, ii\u2013V\u2013I, I\u2013vi\u2013ii\u2013V (blog.flat.io/lofi-chord-progressions); I\u2013vi, iv\u2013i, IV\u2013iii\u2013vi, i\u2013VI\u2013V " +
+      "(blog.native-instruments.com/lo-fi-chord-progressions); as scale degrees so the drawn scale sets the qualities. " +
+      "THE TWO-BAR LOOPS CARRY THE WEIGHT: \"the pitched elements of a hip-hop beat tend to repeat in loops of one, " +
+      "two, or four measures; exceptions to this are extremely rare\" and \"two-bar phrases in hip-hop are so typical " +
+      "that they form a default phrase expectation\" (Adams, \"Parameters of Phrase in Hip-Hop\", MTO 26.2, 2.5 and " +
+      "1.13); \"many modern hip hop tracks have one or two bar looping melody that serves as a hook\" " +
+      "(iconcollective.edu/how-to-make-a-hip-hop-beat). Weights [chosen inside that]",
     "drone.tone":
       "a drone is \"a very long and continuous tone\" placed \"upon the tonic or dominant\" " +
       "(chromatone.center/theory/melody/drone); weights [chosen]",

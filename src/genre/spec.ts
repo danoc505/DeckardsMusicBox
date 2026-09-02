@@ -116,6 +116,13 @@ export interface HarmonySpec {
   /** 0..1, how often a chord takes its seventh. */
   readonly sevenths?: number;
   /**
+   * 0..1, how often a chord drops its THIRD and is voiced as a bare fifth.
+   * A fifth is neither major nor minor, which is the whole point of it: it
+   * is the medieval and modal colour, and the room it leaves is where a
+   * melody puts the mode back.
+   */
+  readonly fifths?: number;
+  /**
    * Every mode has one degree whose triad is diminished, and it is a
    * different degree in each. "avoid" draws only progressions that do not
    * land on it in the record's scale, so a loop written as degrees does not
@@ -128,6 +135,7 @@ export interface HarmonyRules {
   readonly bars: number;
   readonly progressions: Readonly<Record<Idea, Weighted<Progression>>>;
   readonly sevenths: number;
+  readonly fifths: number;
   readonly diminished: "allow" | "avoid";
 }
 
@@ -328,6 +336,14 @@ export interface ArrangementSpec {
    */
   readonly fewest?: number;
   /**
+   * THE ORDER PARTS LEAVE IN, first to go first. Not the reverse of `enter`,
+   * which is what it used to be: parts arrive foundation-first, so reversing
+   * that order sheds the TUNE before the pad, and a record that drops its
+   * melody to get quieter has lost the thing an ear was following. Which part
+   * a genre can most afford to lose is the genre's to say.
+   */
+  readonly shed?: readonly Role[];
+  /**
    * Each section after the intro lets one more part in, until a section at
    * or above this energy wants all of them at once. From then on every part
    * is heard until the outro.
@@ -341,6 +357,7 @@ export interface ArrangementRules {
   readonly enter: readonly Role[];
   readonly introParts: number;
   readonly fewest: number;
+  readonly shed: readonly Role[];
   readonly fullAbove: number;
   readonly thinBelow: number;
 }
@@ -764,6 +781,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ],
     },
     sevenths: 0.3,
+    /** none: a bare fifth is a colour a genre reaches for on purpose */
+    fifths: 0,
     diminished: "allow",
   },
 
@@ -984,7 +1003,15 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * where "dropping out an instrument at a time" is allowed to reach — a
      * pair, which is still an arrangement and not a solo.
      */
-    fewest: 2,
+    fewest: 3,
+    /**
+     * The pad goes first, then the chord part, and the TUNE is the last thing
+     * to go before the rhythm section — an ear follows a melody, and a
+     * quieter section that drops it has dropped what it was being followed
+     * for. Reversing `enter` did exactly that, because parts arrive
+     * foundation-first.
+     */
+    shed: ["drone", "keys", "lead", "bass", "drums"],
     /** a chorus wants everyone; a verse before it is still building */
     fullAbove: 0.8,
     thinBelow: 0.35,
@@ -1065,15 +1092,25 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * Where each part sits, and what it feeds. Nothing is sent anywhere by
      * default; a genre says. The stage is the conventional one — drums and
      * bass in the middle, keys a little left, the lead a little right, the
-     * drone wide and back — and the levels are the trims that balanced the
-     * parts when they were measured alone.
+     * drone wide and back.
+     *
+     * THE LEVELS ARE A BALANCE, not a per-part trim, and that is why they
+     * moved. They were set by measuring each part ALONE, which says nothing
+     * about what a part does to a record: a chord part holds four sustained
+     * notes and a kit is a handful of transients, so equal measured level
+     * puts the chords two decibels OVER the drums and leaves the tune four
+     * under. The ear "can really only pay attention to 3 separate elements"
+     * (omnionsound.com, "The Rule Of Three In Music Composition"), so which
+     * three are in front is a decision and not an accident: the tune first,
+     * then the rhythm section, and the chords behind them holding the
+     * harmony rather than standing in front of it.
      */
     mix: {
-      drums: { level: 0.38, pan: 0, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 0, dist: 0.3 },
-      bass:  { level: 0.34, pan: 0, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 0, dist: 0.25 },
-      keys:  { level: 0.24, pan: -0.3, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: -35, dist: 0.4 },
-      lead:  { level: 0.34, pan: 0.25, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 30, dist: 0.35 },
-      drone: { level: 0.16, pan: 0, sweepHz: 0.05, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 180, dist: 0.7 },
+      drums: { level: 0.49, pan: 0, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 0, dist: 0.3 },
+      bass:  { level: 0.39, pan: 0, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 0, dist: 0.25 },
+      keys:  { level: 0.17, pan: -0.3, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: -35, dist: 0.4 },
+      lead:  { level: 0.60, pan: 0.25, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 30, dist: 0.35 },
+      drone: { level: 0.21, pan: 0, sweepHz: 0.05, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 180, dist: 0.7 },
     },
     world: { width: 0.7, depth: 0.5 },
     /** nothing patched into anything: every cell of the pin matrix empty */

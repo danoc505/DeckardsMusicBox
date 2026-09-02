@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { makeMaterials, describeMaterial, MaterialError, type Materials } from "./index.ts";
+import { makeMaterials, describeMaterial, MaterialError, type Materials, type Note } from "./index.ts";
 import { makeChart } from "../chart.ts";
 import { makeForm } from "../form.ts";
 import { makeArrangement } from "../arrange.ts";
@@ -310,4 +310,50 @@ test("the drone holds the key, not the chord", () => {
     }
     assert.ok(held > 40, `${name}: only ${held} drone tones in 40 records`);
   }
+});
+
+test("the loop is as long as the changes are, and everything pitched repeats on it", () => {
+  // A four-bar material whose progression is Dm7 Am Dm7 Am is a TWO-BAR loop
+  // stated twice. Before this the bass, keys and tune were each written
+  // across all four bars, so the record said one thing with its harmony and
+  // another with everything else — and the tune in particular played a fresh
+  // melody over the loop's second turn, which is the one thing a lead must
+  // not do. "The pitched elements of a hip-hop beat tend to repeat in loops
+  // of one, two, or four measures; exceptions to this are extremely rare",
+  // and a two-bar phrase is "a default phrase expectation" (Adams,
+  // "Parameters of Phrase in Hip-Hop", MTO 26.2, 2.5 and 1.13).
+  let shorter = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    const chart = makeChart({ seed, genre: GENRES.lofi, seconds: 240 });
+    const mats = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
+    for (const m of mats.all.values()) {
+      // the period is honest: the chords really do come round on it
+      assert.ok(m.period >= 1 && m.period <= m.bars, `${m.key}: period ${m.period} of ${m.bars} bars`);
+      assert.equal(m.bars % m.period, 0, `${m.key}: a period of ${m.period} does not divide ${m.bars} bars`);
+      for (let b = 0; b < m.bars; b++) {
+        assert.equal(m.chords[b]!.name, m.chords[b % m.period]!.name, `${m.key}: the chords do not repeat on their own period`);
+      }
+      if (m.period < m.bars) shorter++;
+
+      // and everything pitched is one turn of it, laid down again
+      const turn = (ns: readonly Note[], k: number): string =>
+        ns.filter((n) => Math.floor(n.bar / m.period) === k)
+          .map((n) => `${n.bar % m.period}:${n.step}:${n.dur}:${n.pitch}:${n.art ?? "plain"}`)
+          .sort()
+          .join(",");
+      for (const part of ["bass", "keys"] as const) {
+        for (let k = 1; k * m.period < m.bars; k++) {
+          assert.equal(turn(m.groove[part], k), turn(m.groove[part], 0), `${m.key}: the ${part} does not repeat on the loop`);
+        }
+      }
+      for (const [i, line] of m.lead.entries()) {
+        for (let k = 1; k * m.period < m.bars; k++) {
+          assert.equal(turn(line, k), turn(line, 0), `${m.key} lead line ${i}: a fresh tune over the loop's turn ${k}`);
+        }
+      }
+    }
+  }
+  // and the case this is about actually occurs: some materials really are a
+  // shorter loop stated more than once
+  assert.ok(shorter > 40, `only ${shorter} materials had a loop shorter than the material — the two-bar loop is not the common case`);
 });

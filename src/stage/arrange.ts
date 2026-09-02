@@ -94,7 +94,16 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         ? ROLES.length
         : Math.round(A.fewest + (ROLES.length - A.fewest) * section.energy);
       const playing = Math.min(arrived, Math.max(A.fewest, Math.min(ROLES.length, wanted)));
-      heard = new Set(A.enter.slice(0, playing));
+      // WHO GOES is the shed order, which is not the reverse of the entry
+      // order. Parts arrive foundation-first — the chord, then the beat, then
+      // the bass, and the tune last — so reversing that sheds the TUNE first,
+      // and a record that drops its melody to get quieter has dropped what an
+      // ear was following. The genre says which part it can most afford.
+      heard = new Set(A.enter.slice(0, arrived));
+      for (const r of A.shed) {
+        if (heard.size <= playing) break;
+        heard.delete(r);
+      }
       // AND THE LAST PART IN IS STILL THE FIRST OUT OF AN OUTRO, once the
       // record has earned its absence: a part heard in one section is not yet
       // something an ear can miss.
