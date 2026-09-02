@@ -160,15 +160,44 @@ function desk(parts: ReadonlyMap<Role, Float32Array>, n: number, sr: number, see
     }
   }
 
-  // ── returns: each wet unit, stereo, back into the sum ────────────────
+  // ── returns: the wet units as a patched network ───────────────────────
+  // A unit is live if something feeds it — a part's send, or another unit
+  // through the patch — and it is heard if its return is up or it feeds a
+  // unit that is. Each sample, every live unit takes its bus plus what the
+  // others put out LAST sample through the patch: one sample of latency in
+  // the loop is how feedback exists at all. The loop is held under full
+  // scale and kept off DC, so a patch that runs hot rings rather than runs
+  // away.
   const beatSec = 60 / tempo;
-  for (const [sd, bus] of wet) {
-    const ret = S.rack[sd].ret;
-    if (ret <= 0) continue;
-    const unitPair = returns(sd, S.rack, beatSec, sr);
+  const P = S.patch;
+  const live = new Set<(typeof SENDS)[number]>();
+  for (const sd of SENDS) if (wet.has(sd)) live.add(sd);
+  let grew = true;
+  while (grew) {
+    grew = false;
+    for (const from of live) for (const to of SENDS) if (P[from][to] > 0 && !live.has(to)) { live.add(to); grew = true; }
+  }
+  const units = [...live].filter((sd) => S.rack[sd].ret > 0 || SENDS.some((to) => P[sd][to] > 0));
+  if (units.length > 0) {
+    const pairs = units.map((sd) => returns(sd, S.rack, beatSec, sr));
+    const buses = units.map((sd) => wet.get(sd) ?? null);
+    const outL = new Float32Array(units.length), outR = new Float32Array(units.length);
+    const dcL = units.map(() => new Biquad("highpass", 20, 0.7, sr)), dcR = units.map(() => new Biquad("highpass", 20, 0.7, sr));
+    const gain = units.map((from) => units.map((to) => P[from][to]));
+    const patched = gain.some((row) => row.some((g) => g > 0));
     for (let i = 0; i < n; i++) {
-      L[i] = L[i]! + unitPair[0](bus.L[i]!) * ret;
-      R[i] = R[i]! + unitPair[1](bus.R[i]!) * ret;
+      for (let u = 0; u < units.length; u++) {
+        let inL = buses[u] ? buses[u]!.L[i]! : 0, inR = buses[u] ? buses[u]!.R[i]! : 0;
+        if (patched) {
+          let fbL = 0, fbR = 0;
+          for (let v = 0; v < units.length; v++) { const g = gain[v]![u]!; if (g > 0) { fbL += outL[v]! * g; fbR += outR[v]! * g; } }
+          inL += Math.tanh(dcL[u]!.run(fbL)); inR += Math.tanh(dcR[u]!.run(fbR));
+        }
+        const yL = pairs[u]![0](inL), yR = pairs[u]![1](inR);
+        outL[u] = yL; outR[u] = yR;
+        const ret = S.rack[units[u]!].ret;
+        L[i] = L[i]! + yL * ret; R[i] = R[i]! + yR * ret;
+      }
     }
   }
 

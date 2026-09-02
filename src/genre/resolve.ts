@@ -551,6 +551,18 @@ export function resolveGenre(
       const v = world[f];
       if (!finite(v) || v < 0 || v > 1) problems.push(`sound.world.${f} must be 0..1, got ${String(v)}`);
     }
+    const patch = isPlainObject(sound["patch"]) ? sound["patch"] : null;
+    if (patch === null) problems.push("sound.patch is missing");
+    else for (const from of SENDS) {
+      const row = patch[from];
+      if (!isPlainObject(row)) { problems.push(`sound.patch.${from} is missing`); continue; }
+      for (const to of SENDS) {
+        const v = row[to];
+        // a unit into itself is feedback and is capped short of unity, or it never dies
+        const hi = from === to ? 0.9 : 1;
+        if (!finite(v) || v < 0 || v > hi) problems.push(`sound.patch.${from}.${to} must be 0..${hi}, got ${String(v)}`);
+      }
+    }
     const pedals = isPlainObject(sound["pedals"]) ? sound["pedals"] : null;
     if (pedals === null) problems.push("sound.pedals is missing");
     else {

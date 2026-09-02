@@ -10,3 +10,4 @@ export { RACK_ORDER, PEDAL_ORDER, SENDS, ROLES, type RackSpec, type RackRules, t
 export { wav } from "./sound/wav.ts";
 export { GENRES, GENRE_NAMES, genre, type GenreName } from "./genre/index.ts";
 export { NOTE_NAMES, noteName, pc } from "./core/theory.ts";
+export * as dsp from "./sound/dsp.ts";

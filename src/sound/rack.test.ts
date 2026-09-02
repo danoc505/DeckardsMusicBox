@@ -124,3 +124,25 @@ test("the pedal board is heard only where a part feeds it, and every pedal does 
     for (const v of on) assert.ok(Number.isFinite(v) && Math.abs(v) <= 1, `${pedal} left full scale`);
   }
 });
+
+test("the patch: a return into another return is heard, a return into itself rings and settles", () => {
+  const s = compose({ seed: 6, genre: "lofi", seconds: 24 });
+  const base = { rack: { pole: { mix: 0 }, medium: { mix: 0 }, vinyl: { crackle: 0 }, tape: { lowpassHz: 20000, wowCents: 0, drive: 1 }, echo: { beats: 0.5, feedback: 0.2, ret: 1 }, spring: { sec: 1, ret: 1 } },
+    mix: { keys: { sends: { echo: 0.7, room: 0, spring: 0 } }, lead: { sends: { echo: 0, room: 0 }, pedals: 0 }, drone: { sends: { room: 0 } } } };
+  const dry = mono(render(s, { sampleRate: SR, only: "keys", desk: base }));
+  // echo into the spring: the spring is fed by nothing else, so any change is the patch
+  const chained = mono(render(s, { sampleRate: SR, only: "keys", desk: { ...base, patch: { echo: { spring: 0.8 } } } }));
+  let diff = 0; for (let i = 0; i < dry.length; i++) diff += Math.abs(dry[i]! - chained[i]!);
+  assert.ok(diff / dry.length > 1e-3, "the patch echo→spring was not heard");
+  // the echo into itself, hot: it rings, and it never leaves full scale
+  const hot = render(s, { sampleRate: SR, only: "keys", desk: { ...base, patch: { echo: { echo: 0.85 } } } });
+  for (const v of hot.left) assert.ok(Number.isFinite(v) && Math.abs(v) <= 1);
+  // and under unity it settles once the playing stops: the record's tail is quieter than its body
+  const cool = render(s, { sampleRate: SR, only: "keys", desk: { ...base, patch: { echo: { echo: 0.4 } } } });
+  const body = rms(cool.left.subarray(SR * 2, SR * 6)), tail = rms(cool.left.subarray(cool.left.length - Math.round(SR * 0.5)));
+  assert.ok(tail < body * 0.5, `the self-patched echo does not settle: ${body.toFixed(3)} → ${tail.toFixed(3)}`);
+  // and a unit fed only through the patch, with no send of its own, still sounds
+  const viaOnly = mono(render(s, { sampleRate: SR, only: "keys", desk: { ...base, mix: { ...base.mix, keys: { sends: { echo: 0.7, spring: 0 } } }, patch: { echo: { spring: 1 } } } }));
+  let d2 = 0; for (let i = 0; i < dry.length; i++) d2 += Math.abs(dry[i]! - viaOnly[i]!);
+  assert.ok(d2 / dry.length > 1e-3, "a return fed only by the patch was silent");
+});

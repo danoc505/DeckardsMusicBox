@@ -412,12 +412,23 @@ export interface PedalsSpec {
 export type PedalsRules = Total<PedalsSpec>;
 export const PEDAL_ORDER = ["wah", "overdrive", "fuzz", "phaser", "tremolo"] as const satisfies readonly (keyof PedalsSpec)[];
 
+/**
+ * THE PATCH: the returns feeding each other. `patch[from][to]` is how much
+ * of `from`'s output goes into `to`'s input — echo into the spring, the
+ * spring into the room, the room back into the echo, or a unit into
+ * itself. A dub desk. Feedback is real and one sample deep, held under
+ * full scale in the loop and kept off DC, so a patch cannot run away.
+ */
+export type PatchSpec = Readonly<Partial<Record<Send, Readonly<Partial<Record<Send, number>>>>>>;
+export type PatchRules = Readonly<Record<Send, Readonly<Record<Send, number>>>>;
+
 export interface SoundSpec {
   readonly voices?: Readonly<Partial<Record<PitchedRole, VoiceName>>>;
   readonly rack?: RackSpec;
   readonly mix?: Readonly<Partial<Record<Role, ChannelSpec>>>;
   readonly world?: WorldSpec;
   readonly pedals?: PedalsSpec;
+  readonly patch?: PatchSpec;
 }
 
 export interface SoundRules {
@@ -426,6 +437,7 @@ export interface SoundRules {
   readonly mix: Readonly<Record<Role, ChannelRules>>;
   readonly world: WorldRules;
   readonly pedals: PedalsRules;
+  readonly patch: PatchRules;
 }
 
 /** What an author writes. */
@@ -818,6 +830,14 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       drone: { level: 0.16, pan: 0, sweepHz: 0.05, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 180, dist: 0.7 },
     },
     world: { width: 0.7, depth: 0.5 },
+    /** nothing patched into anything: every cell of the pin matrix empty */
+    patch: {
+      echo: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
+      spring: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
+      room: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
+      ensemble: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
+      flange: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
+    },
     pedals: {
       wah: { rateHz: 1.2, depth: 0.7, mix: 0 },
       overdrive: { drive: 3, tone: 0.5, mix: 0 },
