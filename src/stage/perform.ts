@@ -104,7 +104,21 @@ export function makePerformance(
       const stepSec = clock.stepSec(bar);
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
-        const hand = chart.rng.at("perform", role, lane, bar, step);
+        // THE HAND IS ADDRESSED BY THE FIGURE, NOT BY THE BAR OF THE RECORD.
+        // Keyed on the absolute bar, every bar of a loop was missed by a
+        // different amount and no bar of a record was ever the same bar
+        // again — which reads as variety written down and as mush in the ear.
+        // Huron and Ollen (2004), over five continents and five centuries,
+        // put the share of musical passages that are LITERALLY repeated at
+        // some later point at about 94% (Margulis, "On Repeat", reviewed at
+        // mtosmt.org/issues/mto.14.20.4). A figure that never comes back
+        // exactly is not a figure, and nothing an ear can hold on to can be
+        // built out of one. So the address is the material and the position
+        // inside it: the third bar of a four-bar loop is played the same way
+        // every time round, and what differs between rounds is what the
+        // MATERIAL says differs — the drums' phrase letter, the tune's
+        // cycle, the section's variant — which is composition, not noise.
+        const hand = chart.rng.at("perform", placed.material, role, lane, mbar, step);
         const jitter = hand.range("jitter", -F.jitterMs, F.jitterMs) / 1000;
         const missed = 1 + hand.range("weight", -F.velocityJitter, F.velocityJitter);
         const swing = swung(step) ? swingSteps : 0;

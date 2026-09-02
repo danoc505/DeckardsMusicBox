@@ -159,32 +159,42 @@ test("the metre shapes the weight, and a genre says how much", () => {
   // the defect this is against: every part wrote one weight for the downbeat
   // and one for everywhere else, so every bar of a groove weighed the same
   // as every other and the record was a machine.
-  // the manner is held still — a kit that ghosts and accents individual hits
-  // is a second, real source of weight, and this test is about the first one
-  const still = { art: [["plain", 1]] } as const;
+  // The kit is held still in two ways, because two other things move a note's
+  // weight and this test is about neither. A manner — a ghost, an accent —
+  // scales it, so only the plain one is offered. And a hat ADDED as a bar's
+  // change is written lighter than a hat of the figure, deliberately, so the
+  // phrase is four plain bars and every hat in a bar is the figure's own.
+  const still = { art: [["plain", 1]], phrase: [[["A", "A", "A", "A"], 1]] } as const;
   const flat = resolveGenre("flat", { flat: { label: "F", feel: { accent: 0, velocityJitter: 0, jitterMs: 0 }, drums: still } });
   const leaning = resolveGenre("lean", { lean: { label: "L", feel: { accent: 0.6, velocityJitter: 0, jitterMs: 0 }, drums: still } });
-  const per = (g: typeof flat) => {
+  // WITHIN ONE BAR. The arc moves every note's weight as the record rises and
+  // falls, so two bars of the same lane weigh differently for a reason that
+  // has nothing to do with the metre — comparing across bars measures the arc
+  // and the accent together and calls the sum the accent.
+  const hatsByBar = (g: typeof flat): Map<number, [number, number][]> => {
     const s = compose({ seed: 5, genre: g, seconds: 120 });
-    const byStep = new Map<string, number>();
-    for (const e of s.performance.events) byStep.set(`${e.role}:${e.lane}:${e.step}`, e.gain);
-    return byStep;
+    const out = new Map<number, [number, number][]>();
+    for (const e of s.performance.events) {
+      if (e.role !== "drums" || e.lane !== "hat") continue;
+      (out.get(e.bar) ?? out.set(e.bar, []).get(e.bar)!).push([e.step, e.gain]);
+    }
+    return out;
   };
   // with no accent, one lane's notes all weigh the same wherever they fall
-  const straight = per(flat);
-  const hats = [...straight].filter(([k]) => k.startsWith("drums:hat:"));
-  assert.ok(hats.length > 3);
-  for (const [, g] of hats) assert.ok(Math.abs(g - hats[0]![1]) < 1e-9, "a flat genre still accents");
+  let checked = 0;
+  for (const [bar, hats] of hatsByBar(flat)) {
+    if (hats.length < 4) continue;
+    checked++;
+    for (const [, g] of hats) assert.ok(Math.abs(g - hats[0]![1]) < 1e-9, `a flat genre still accents, in bar ${bar}`);
+  }
+  assert.ok(checked > 3, `only ${checked} bars had hats to compare`);
 
   // with accent, a lane's downbeat outweighs its offbeats
-  const lean = per(leaning);
   const perBeat = leaning.metre.perBeat;
   const on: number[] = [];
   const off: number[] = [];
-  for (const [k, g] of lean) {
-    const step = Number(k.split(":")[2]);
-    if (!k.startsWith("drums:hat:")) continue;
-    (step % perBeat === 0 ? on : off).push(g);
+  for (const hats of hatsByBar(leaning).values()) {
+    for (const [step, g] of hats) (step % perBeat === 0 ? on : off).push(g);
   }
   assert.ok(on.length > 0 && off.length > 0);
   const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
@@ -252,11 +262,21 @@ test("the tune does not repeat itself at the loop seam", () => {
   }
 });
 
-test("a long section does not play the same drum bars over and over", () => {
-  // per section, a floor that the construction guarantees: the figure and at
-  // least two treatments of it. Across the sweep, the real claim — most bars
-  // of a long section differ from most others — as an average, because a
-  // taste asserted on every seed is a test that fails on the unlucky one.
+test("a long section repeats its drum figure, and still moves", () => {
+  // Two-sided, and the upper bound is the one that was wrong. This test used
+  // to demand that MOST bars of a long section differ from most others, and
+  // that demand was the sameness: a beat that never repeats a bar is a beat
+  // with no figure in it, and an ear has nothing to hold.
+  //
+  // The band is measured off records rather than chosen. Counting distinct
+  // bars of drums against bars played: Chop Suey 18%, Televators 17%, Shine
+  // On 36%; the guitars that carry those songs' riffs sit at 16-24%. Huron
+  // and Ollen (2004), over five continents and five centuries, put the share
+  // of musical passages literally repeated at some later point at about 94%
+  // (Margulis, "On Repeat", reviewed at mtosmt.org/issues/mto.14.20.4).
+  //
+  // The floor stays and matters: a section that is one bar over and over is
+  // the other failure, and it is the one this test was written for.
   let ratio = 0;
   let sections = 0;
   for (const s of sweep(60)) {
@@ -273,7 +293,9 @@ test("a long section does not play the same drum bars over and over", () => {
     }
   }
   assert.ok(sections > 20);
-  assert.ok(ratio / sections > 0.4, `long sections average ${((100 * ratio) / sections).toFixed(0)}% distinct drum bars`);
+  const pc = (100 * ratio) / sections;
+  assert.ok(pc > 10, `long sections average ${pc.toFixed(0)}% distinct drum bars — a loop, not a figure`);
+  assert.ok(pc < 60, `long sections average ${pc.toFixed(0)}% distinct drum bars — no figure to repeat`);
 });
 
 test("a long section does not play the tune over and over", () => {
@@ -350,4 +372,45 @@ test("no part is silent for a whole record", () => {
       assert.ok(s.performance.events.some((e) => e.role === r), `${r} never sounds on seed ${s.chart.seed}`);
     }
   }
+});
+
+test("a figure played again is played the same way, note for note", () => {
+  // THE POINT OF THE WHOLE ARRANGEMENT. Huron and Ollen (2004) put the share
+  // of musical passages literally repeated at some later point at about 94%,
+  // across five continents and five centuries (Margulis, "On Repeat",
+  // reviewed at mtosmt.org/issues/mto.14.20.4). This program used to repeat
+  // nothing: the hand that misses the grid was addressed by the bar of the
+  // RECORD, so the same bar of the same loop was missed by a different amount
+  // every time round and no figure ever came back exactly. Which reads as
+  // variety written down, and as mush.
+  let compared = 0;
+  for (const s of sweep(40)) {
+    // every bar of the record, as what was played and how
+    const bars = new Map<number, string>();
+    for (const e of s.performance.events) {
+      const line = `${e.role}:${e.lane}:${e.step}:${e.pitch ?? "."}:${e.art}:${e.playedStep.toFixed(6)}`;
+      bars.set(e.bar, (bars.get(e.bar) ?? "") + line + "\n");
+    }
+    for (const p of s.arrangement.placed) {
+      const m = s.materials.all.get(p.material)!;
+      if (p.section.bars < m.bars * 2) continue;
+      // the same position in the loop, two turns running: the parts that the
+      // material says loop — the groove — must be identical, to the note and
+      // to the microsecond. What may differ between rounds is what the
+      // MATERIAL says differs, so the comparison is of the groove alone.
+      const groove = (bar: number): string =>
+        (bars.get(bar) ?? "").split("\n").filter((l) => /^(bass|keys|drone):/.test(l)).sort().join("\n");
+      for (let bar = p.section.startBar; bar + m.bars < p.section.endBar; bar++) {
+        const here = groove(bar);
+        if (here === "") continue;
+        assert.equal(
+          here,
+          groove(bar + m.bars),
+          `seed ${s.chart.seed} ${p.section.fn}: bar ${bar} and bar ${bar + m.bars} are the same bar of the same loop, played differently`,
+        );
+        compared++;
+      }
+    }
+  }
+  assert.ok(compared > 200, `only ${compared} pairs of bars were compared`);
 });

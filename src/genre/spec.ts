@@ -264,6 +264,14 @@ export interface DrumsSpec {
   readonly phrase?: Weighted<readonly BarLetter[]>;
   /** How often each manner is reached for. Only what the instrument can do. */
   readonly art?: ArtSpec;
+  /**
+   * How many distinct TREATMENTS of the figure a record has. Each is a
+   * phrase of letters over the material, and the record cycles through them:
+   * at 2, a four-bar loop is played one way, then another, then the first
+   * again. A treatment drawn afresh every time round is not variation, it is
+   * a beat that never repeats.
+   */
+  readonly treatments?: number;
 }
 
 /** What the drum builder reads. Beats resolved to GRID STEPS. */
@@ -273,6 +281,7 @@ export interface DrumsRules {
   readonly hat: Weighted<number>;
   readonly phrase: Weighted<readonly BarLetter[]>;
   readonly art: ArtSpec;
+  readonly treatments: number;
 }
 
 export interface ArrangementSpec {
@@ -882,6 +891,18 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ["ghost", 3],
       ["accent", 2],
     ],
+    /**
+     * TWO. The documented practice is that the pattern REPEATS and the change
+     * comes at the end of the phrase: "repeat your pattern for several bars,
+     * and at the end of a four-bar sequence ... change things for one last
+     * bar", with bigger changes at 2, 4 and 8 bars (thedrumninja.com
+     * how-to-program-drum-machine-patterns; edmprod.com/drums-guide). The
+     * letters already put that break inside a phrase; this says how many
+     * phrases a record has to cycle through. Drawing a fresh one every time
+     * round gave a sixty-four-bar record sixteen different beats, and a beat
+     * heard once is not a beat.
+     */
+    treatments: 2,
   },
 
   arrangement: {

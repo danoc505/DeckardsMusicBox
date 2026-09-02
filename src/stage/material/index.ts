@@ -43,7 +43,7 @@ import { drawDrums, drawFigure } from "./drums.ts";
 import { drawChords } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
 import { drawLead } from "./lead.ts";
-import { assertInside, at, GROOVE, Sounding, type Chord, type Material, type Note, type Pitched } from "./note.ts";
+import { assertInside, at, GROOVE, Sounding, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
 
 export type { Chord, Figure, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
 export { GROOVE } from "./note.ts";
@@ -167,8 +167,22 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const tacet: readonly Note[] = Object.freeze([]);
     const lead = Object.freeze(letters.map((l) => (l === "A" ? tune! : l === "B" ? developed! : tacet)));
 
+    // THE TREATMENTS CYCLE. A record has as many distinct treatments of a
+    // figure as the genre says, and plays them round and round — the same
+    // beat coming back, which is the only way a beat becomes one. Drawn per
+    // time round, a sixty-four-bar record over a four-bar material had
+    // sixteen different beats in it and repeated none of them.
+    const treatments = Math.max(1, chart.genre.drums.treatments);
+    const cut = new Map<number, readonly Hit[]>();
     const drums = Object.freeze(
-      Array.from({ length: times.get("drums") ?? 0 }, (_, n) => Object.freeze(drawDrums(chart, rng.at("drums"), figure, bars, steps, n))),
+      Array.from({ length: times.get("drums") ?? 0 }, (_, n) => {
+        const which = n % treatments;
+        const already = cut.get(which);
+        if (already !== undefined) return already;
+        const made = Object.freeze(drawDrums(chart, rng.at("drums"), figure, bars, steps, which));
+        cut.set(which, made);
+        return made;
+      }),
     );
 
     const material: Material = Object.freeze({ key, idea, variant, bars, chords, groove, lead, figure, drums });

@@ -237,9 +237,14 @@ test("the drums keep a figure and vary it by the bar's letter", () => {
     bars += byBar.length;
     distinct += new Set(byBar).size;
   });
-  // neither a loop nor noise: bars repeat, and they also differ
-  assert.ok(distinct / bars > 0.4, `only ${((100 * distinct) / bars).toFixed(0)}% of drum bars are distinct`);
-  assert.ok(distinct / bars < 0.95, `${((100 * distinct) / bars).toFixed(0)}% of drum bars are distinct — no figure`);
+  // Neither a loop nor noise: bars repeat, and they also differ. The band is
+  // measured off records — distinct bars of drums against bars played is 18%
+  // in Chop Suey, 17% in Televators, 36% in Shine On, and the riff guitars
+  // that carry those songs sit at 16-24%. The old floor of 40% was above all
+  // of them, and holding it meant the figure could never come back.
+  const share = distinct / bars;
+  assert.ok(share > 0.12, `only ${(100 * share).toFixed(0)}% of drum bars are distinct — a loop, not a figure`);
+  assert.ok(share < 0.6, `${(100 * share).toFixed(0)}% of drum bars are distinct — no figure`);
 });
 
 test("a fill rises into the next bar", () => {
