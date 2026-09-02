@@ -38,27 +38,70 @@ test("an intro holds the first parts of the entry order", () => {
   assert.ok(intros > 20);
 });
 
-test("parts arrive one section at a time, all at once for a big section, and stay", () => {
+test("parts arrive in order, and how many play is the section's energy", () => {
+  // What this replaced asserted that once everyone was in, everyone STAYED —
+  // and that was the defect. "Five elements at one time — counting the drums
+  // as one — is generally the most you'll hear"
+  // (soundonsound.com/techniques/arranging-pop), and this program has exactly
+  // five parts, so a record that reaches five in its first chorus and holds
+  // it to the end has no arrangement in it at all.
   const A = lofi.arrangement;
-  let built = 0;
+  let quieter = 0;
+  let fuller = 0;
   for (const a of sweep(120)) {
     let arrived = A.introParts;
-    let full = false;
+    const sizes: number[] = [];
     for (const p of a.placed) {
       const s = p.section;
-      if (s.fn === "intro" || s.fn === "outro") continue;
-      if (full || s.peak || s.energy >= A.fullAbove) {
-        full = true;
-        assert.equal(p.heard.size, ROLES.length, `${s.fn} at ${s.energy} does not hear everyone: ${describeArrangement(a)}`);
-      } else {
-        arrived = Math.min(ROLES.length, arrived + 1);
-        built++;
-        assert.deepEqual(p.heard, new Set(A.enter.slice(0, arrived)), describeArrangement(a));
-        if (arrived === ROLES.length) full = true;
+      // NOBODY APPEARS OUT OF TURN. Whoever is heard is a prefix of the entry
+      // order, always — a part cannot arrive before the one in front of it.
+      const prefix = A.enter.slice(0, p.heard.size);
+      assert.deepEqual(p.heard, new Set(prefix), `out of turn: ${describeArrangement(a)}`);
+      if (s.fn === "intro") {
+        assert.equal(p.heard.size, A.introParts);
+        continue;
       }
+      arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      // NOBODY PLAYS BEFORE THEY HAVE ARRIVED, and no section falls below the
+      // floor the genre carries.
+      assert.ok(p.heard.size <= arrived, `${s.fn} hears more than have arrived: ${describeArrangement(a)}`);
+      assert.ok(p.heard.size >= Math.min(A.fewest, arrived), `${s.fn} is below the floor: ${describeArrangement(a)}`);
+      // THE PEAK HAS EVERYONE, because that is what a peak is.
+      if (s.peak) assert.equal(p.heard.size, ROLES.length, `the peak does not hear everyone: ${describeArrangement(a)}`);
+      sizes.push(p.heard.size);
+    }
+    // AND THE TEXTURE MOVES. A record whose every section is the same size is
+    // the block this replaced.
+    assert.ok(new Set(sizes).size >= 2, `every section is the same size: ${describeArrangement(a)}`);
+    const top = Math.max(...sizes);
+    quieter += sizes.filter((n) => n < top).length;
+    fuller += sizes.filter((n) => n === top).length;
+  }
+  assert.ok(quieter > 100, `only ${quieter} sections played under their record's fullest`);
+  assert.ok(fuller > 100, `only ${fuller} sections played their record's fullest`);
+});
+
+test("a quiet section carries its foundation and drops its decoration", () => {
+  // which parts go is the entry order backwards: "the chord first, then the
+  // beat under it, the bass, and the tune last", so what a quiet section
+  // keeps is what the record is built on
+  const A = lofi.arrangement;
+  let compared = 0;
+  for (const a of sweep(120)) {
+    const sections = a.placed.filter((p) => p.section.fn !== "intro");
+    for (let i = 1; i < sections.length; i++) {
+      const before = sections[i - 1]!;
+      const here = sections[i]!;
+      if (here.heard.size >= before.heard.size) continue;
+      // everything still heard was heard before it: a section that shrinks
+      // loses parts, it does not swap them
+      for (const r of here.heard) assert.ok(before.heard.has(r), `${r} appeared while the texture shrank: ${describeArrangement(a)}`);
+      // and the first part of the order is never the one to go
+      assert.ok(here.heard.has(A.enter[0]!), `the foundation went first: ${describeArrangement(a)}`);
+      compared++;
     }
   }
-  assert.ok(built > 30, `only ${built} sections were still building`);
+  assert.ok(compared > 40, `only ${compared} sections thinned out`);
 });
 
 test("the outro lets the last-entered part go, once it has been a fixture", () => {
@@ -71,9 +114,13 @@ test("the outro lets the last-entered part go, once it has been a fixture", () =
     const outro = a.placed[a.placed.length - 1]!;
     assert.equal(outro.section.fn, "outro");
     const before = a.placed.slice(0, -1).filter((p) => p.heard.has(last)).length;
-    assert.equal(!outro.heard.has(last), before >= 2, describeArrangement(a));
-    if (before >= 2) letGo++;
-    else kept++;
+    // once the part has been a fixture, the outro is without it — whether
+    // because the outro is quiet enough to have dropped it already, or
+    // because this rule takes it away from an outro that is not
+    if (before >= 2) {
+      assert.ok(!outro.heard.has(last), `the outro kept the ${last}: ${describeArrangement(a)}`);
+      letGo++;
+    } else kept++;
   }
   assert.ok(kept > 5 && letGo > 20, `${kept} outros kept the ${last}, ${letGo} let it go`);
 });

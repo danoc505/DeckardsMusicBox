@@ -11,14 +11,35 @@
  * the old program was a section table that forgot to name it, and there is
  * no table here to forget.
  *
- * PARTS ARRIVE. A record opens with the first few parts of the genre's entry
- * order and each section lets the next one in, so the second verse is not the
- * first verse again: something has been added. A section big enough to want
- * everyone — the first chorus, usually — brings in all of them at once, and
- * from then on nothing leaves. Only the outro takes a part away — the last
- * one that arrived, and only once it has been a fixture: a part heard in one
- * section is not yet something the record can miss — and a bridge or a quiet
- * section thins the drums.
+ * PARTS ARRIVE, AND THEN THEY COME AND GO. A record opens with the first few
+ * parts of the genre's entry order and each section lets the next one in, so
+ * the second verse is not the first verse again: something has been added.
+ *
+ * BUT ARRIVING IS NOT STAYING. It used to be: once a section was big enough
+ * to want everyone, everyone played to the end of the record, and every part
+ * of every record after its first chorus was a solid block. That is not what
+ * an arrangement is. "Five elements at one time — counting the drums as one
+ * — is generally the most you'll hear (sometimes six)", and the way a record
+ * moves is by "dropping out an instrument at a time" and "losing instruments
+ * in stages and then building them up again to a big finish"
+ * (soundonsound.com/techniques/arranging-pop). This program has exactly five
+ * parts, so everyone playing IS the documented maximum, and a maximum heard
+ * for two thirds of a record is not a maximum.
+ *
+ * So HOW MANY parts sound in a section is the section's own energy, which the
+ * form has already worked out, and WHICH ones is the entry order backwards:
+ * the last to arrive is the first to go, so what a quiet section keeps is its
+ * foundation and what it loses is its decoration. The peak has everyone,
+ * because that is what a peak is. Nothing here is drawn — a texture that
+ * moves at random is not an arrangement either.
+ *
+ * The examples do this at a scale this program cannot yet reach and the
+ * direction is the same: Shine On's drums enter a third of the way in and
+ * its saxophone with a sixth of the record left; Televators keeps its solo
+ * guitar to thirty bars in the middle and puts three bars of bongos at the
+ * very end. A part is worth more where it is missing.
+ *
+ * A bridge or a quiet section also thins the drums: a breath, not a stop.
  */
 
 import type { Idea, Role } from "../genre/spec.ts";
@@ -45,7 +66,6 @@ export const materialKey = (idea: Idea, variant: number): string => (variant ===
 
 export function makeArrangement(chart: Chart, form: Form): Arrangement {
   const A = chart.genre.arrangement;
-  const everything: ReadonlySet<Role> = new Set(ROLES);
   const lastIn = A.enter[A.enter.length - 1]!;
 
   // a statement the form marks `vary` plays the idea's next variant, and
@@ -62,21 +82,23 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     }
 
     let heard: Set<Role>;
-    switch (section.fn) {
-      case "intro":
-        heard = new Set(A.enter.slice(0, A.introParts));
-        break;
-      case "outro":
-        heard = new Set(everything);
-        // the last part in lets go first — once it has been heard in more
-        // than one section; before that the record has not earned its absence
-        if ((sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
-        break;
-      default:
-        // one more part than last time; everyone, once a section is big
-        // enough to want them or the peak is here
-        arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
-        heard = new Set(A.enter.slice(0, arrived));
+    if (section.fn === "intro") {
+      heard = new Set(A.enter.slice(0, A.introParts));
+    } else {
+      // WHAT HAS ARRIVED still only grows: a part the record has not yet
+      // introduced cannot appear, and each section lets the next one in.
+      arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      // HOW MANY OF THEM PLAY is this section's energy, between the fewest a
+      // genre will carry and all of them. The peak takes everyone.
+      const wanted = section.peak
+        ? ROLES.length
+        : Math.round(A.fewest + (ROLES.length - A.fewest) * section.energy);
+      const playing = Math.min(arrived, Math.max(A.fewest, Math.min(ROLES.length, wanted)));
+      heard = new Set(A.enter.slice(0, playing));
+      // AND THE LAST PART IN IS STILL THE FIRST OUT OF AN OUTRO, once the
+      // record has earned its absence: a part heard in one section is not yet
+      // something an ear can miss.
+      if (section.fn === "outro" && heard.size > A.fewest && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
     }
     for (const r of heard) sectionsHeard.set(r, (sectionsHeard.get(r) ?? 0) + 1);
 

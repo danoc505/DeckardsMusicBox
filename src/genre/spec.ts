@@ -293,6 +293,12 @@ export interface ArrangementSpec {
   /** How many of them, from the front of `enter`, an intro holds. */
   readonly introParts?: number;
   /**
+   * The fewest parts any section outside the intro carries. A section's
+   * energy decides how many of the parts that have arrived actually play,
+   * between this and all of them; the peak always has all of them.
+   */
+  readonly fewest?: number;
+  /**
    * Each section after the intro lets one more part in, until a section at
    * or above this energy wants all of them at once. From then on every part
    * is heard until the outro.
@@ -305,6 +311,7 @@ export interface ArrangementSpec {
 export interface ArrangementRules {
   readonly enter: readonly Role[];
   readonly introParts: number;
+  readonly fewest: number;
   readonly fullAbove: number;
   readonly thinBelow: number;
 }
@@ -909,6 +916,16 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     /** the chord first, then the beat under it, the bass, and the tune last */
     enter: ["keys", "drums", "bass", "lead", "drone"],
     introParts: 2,
+    /**
+     * TWO. "Five elements at one time — counting the drums as one — is
+     * generally the most you'll hear (sometimes six)"
+     * (soundonsound.com/techniques/arranging-pop), and this program has
+     * exactly five parts: everyone playing is already that maximum, so it
+     * belongs to the peak and not to two thirds of a record. The floor is
+     * where "dropping out an instrument at a time" is allowed to reach — a
+     * pair, which is still an arrangement and not a solo.
+     */
+    fewest: 2,
     /** a chorus wants everyone; a verse before it is still building */
     fullAbove: 0.8,
     thinBelow: 0.35,

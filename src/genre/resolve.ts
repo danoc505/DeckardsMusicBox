@@ -460,6 +460,10 @@ export function resolveGenre(
     if (!finite(ip) || !Number.isInteger(ip) || ip < 1 || ip > ROLES.length) {
       problems.push(`arrangement.introParts must be 1..${ROLES.length}, got ${String(ip)}`);
     }
+    const fw = arr["fewest"];
+    if (!finite(fw) || !Number.isInteger(fw) || fw < 1 || fw > ROLES.length) {
+      problems.push(`arrangement.fewest must be 1..${ROLES.length}, got ${String(fw)}`);
+    }
     const fa = arr["fullAbove"];
     if (!finite(fa) || fa < 0 || fa > 1) problems.push(`arrangement.fullAbove must be 0..1, got ${String(fa)}`);
     const tb = arr["thinBelow"];
