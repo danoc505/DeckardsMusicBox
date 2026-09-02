@@ -14,7 +14,7 @@
 import type { Rng } from "../../core/rng.ts";
 import { intoBand } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
-import type { Chord, Note } from "./note.ts";
+import type { Chord, Note, Sounding } from "./note.ts";
 
 /**
  * Below this pitch, two notes closer than a major third stop reading as two
@@ -41,6 +41,8 @@ const COST = {
   openness: 10,
   /** per muddy interval under the floor */
   mud: 18,
+  /** per semitone rub against a note another part is already sounding */
+  rub: 14,
 } as const;
 
 /**
@@ -89,6 +91,8 @@ function cost(
   prev: readonly number[] | null,
   wantOpen: number,
   centre: number,
+  /** How many notes of a candidate rub against something already ringing. */
+  rubbing: (v: readonly number[]) => number,
 ): number {
   let c = 0;
   const spread = cand[cand.length - 1]! - cand[0]!;
@@ -98,6 +102,7 @@ function cost(
   for (let i = 1; i < cand.length; i++) {
     if (cand[i - 1]! < LOW_INTERVAL_FLOOR && cand[i]! - cand[i - 1]! < LOW_INTERVAL_MIN) c += COST.mud;
   }
+  c += COST.rub * rubbing(cand);
 
   if (prev === null) {
     // the first chord anchors everything after it, so it is placed by its
@@ -133,7 +138,7 @@ export function drawKeys(
   chords: readonly Chord[],
   rng: Rng,
   steps: number,
-  reserved: ReadonlySet<string>,
+  sounding: Sounding,
 ): Note[] {
   const K = chart.genre.keys;
   const [lo, hi] = K.register;
@@ -154,14 +159,19 @@ export function drawKeys(
           `the register is too narrow for a ${chord.tones.length}-note chord`,
       );
     }
-    // a voicing that lands on a pitch the bass holds at any of its strikes
-    // is not offered — where the register leaves it any other choice
-    const clear = cands.filter((v) => !v.some((p) => strike.some((st) => reserved.has(`${chord.bar}:${st}:${p}`))));
+    // a voicing that lands on a pitch another part is already sounding at
+    // any of its strikes is not offered — where the register leaves it any
+    // other choice
+    const clear = cands.filter((v) => !v.some((p) => strike.some((st) => sounding.holds(chord.bar, st, p))));
     if (clear.length > 0) cands = clear;
+    // and a semitone against something ringing is a cost, not a filter: a
+    // filter that can empty is a filter that one day writes no chord at all
+    const rubbing = (v: readonly number[]): number =>
+      v.filter((p) => strike.some((st) => sounding.rubs(chord.bar, st, p))).length;
     let best = cands[0]!;
     let bestCost = Infinity;
     for (const cand of cands) {
-      const c = cost(cand, prev, wantOpen, centre);
+      const c = cost(cand, prev, wantOpen, centre, rubbing);
       if (c < bestCost) {
         bestCost = c;
         best = cand;

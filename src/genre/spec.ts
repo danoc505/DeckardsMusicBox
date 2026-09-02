@@ -32,7 +32,7 @@ export type { Weighted } from "../core/rng.ts";
  * compile error, not something found by rendering sixteen seeds and noticing
  * the silence.
  */
-export const ROLES = ["drums", "bass", "keys", "lead"] as const;
+export const ROLES = ["drums", "bass", "keys", "lead", "drone"] as const;
 
 export type Role = (typeof ROLES)[number];
 
@@ -187,6 +187,24 @@ export interface KeysRules {
  */
 export const LEAD_CYCLES = ["A", "B", "."] as const;
 export type LeadCycle = (typeof LEAD_CYCLES)[number];
+
+/** What a drone sits on: the key's tonic, or the fifth above it. */
+export const DRONE_TONES = ["tonic", "fifth"] as const;
+export type DroneTone = (typeof DRONE_TONES)[number];
+
+export interface DroneSpec {
+  readonly register?: Register;
+  /** Which tone of the KEY it holds — never of the chord; a drone does not follow the changes. */
+  readonly tone?: Weighted<DroneTone>;
+  /** How many bars one tone is held for, drawn once per material. */
+  readonly hold?: Weighted<number>;
+}
+
+export interface DroneRules {
+  readonly register: Register;
+  readonly tone: Weighted<DroneTone>;
+  readonly hold: Weighted<number>;
+}
 
 export interface LeadSpec {
   readonly register?: Register;
@@ -360,6 +378,7 @@ export interface GenreSpec {
   readonly bass?: BassSpec;
   readonly keys?: KeysSpec;
   readonly lead?: LeadSpec;
+  readonly drone?: DroneSpec;
   readonly drums?: DrumsSpec;
   readonly arrangement?: ArrangementSpec;
   readonly feel?: FeelSpec;
@@ -382,6 +401,7 @@ export interface Genre {
   readonly bass: BassRules;
   readonly keys: KeysRules;
   readonly lead: LeadRules;
+  readonly drone: DroneRules;
   readonly drums: DrumsRules;
   readonly arrangement: ArrangementRules;
   readonly feel: FeelRules;
@@ -605,6 +625,25 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     ],
   },
 
+  drone: {
+    /**
+     * Low and out of the way of everything that moves. A drone "may last
+     * through the whole piece" and sits "upon the tonic or dominant"
+     * (chromatone.center, "Drone"), so it holds a whole four-bar statement
+     * more often than not.
+     */
+    register: [51, 65],
+    tone: [
+      ["tonic", 5],
+      ["fifth", 2],
+    ],
+    hold: [
+      [4, 4],
+      [2, 2],
+      [1, 1],
+    ],
+  },
+
   drums: {
     /** in beats */
     kick: [
@@ -640,7 +679,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
 
   arrangement: {
     /** the chord first, then the beat under it, the bass, and the tune last */
-    enter: ["keys", "drums", "bass", "lead"],
+    enter: ["keys", "drums", "bass", "lead", "drone"],
     introParts: 2,
     /** a chorus wants everyone; a verse before it is still building */
     fullAbove: 0.8,
@@ -673,7 +712,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   },
 
   sound: {
-    voices: { keys: "rhodes", bass: "sub", lead: "pluck" },
+    voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
     /** clean: no tape, no crackle, the top end open */
     tape: { lowpassHz: 16000, crackle: 0, wowHz: 0.2, wowCents: 0, drive: 1, reverb: 0, reverbSec: 1.5 },
   },

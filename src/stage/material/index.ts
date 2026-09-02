@@ -38,6 +38,7 @@ import type { Rng } from "../../core/rng.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
 import { drawBass } from "./bass.ts";
+import { drawDrone } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
 import { drawChords } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
@@ -76,14 +77,34 @@ function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number
   return line;
 }
 
-/** How many times each part plays each material through, over the whole record. */
-function timesRound(arrangement: Arrangement, bars: number): ReadonlyMap<string, ReadonlyMap<Role, number>> {
-  const out = new Map<string, Map<Role, number>>();
+interface Rounds {
+  /** How many times each part plays this material through, over the whole record. */
+  readonly times: ReadonlyMap<Role, number>;
+  /**
+   * The rounds at which a SECTION begins, per part. A plan may rest a round
+   * — a breath in the middle of a long stretch — but a section whose first
+   * round is that rest has a part it says is heard and never hears it, which
+   * is the silence-by-omission this program is built to make impossible.
+   */
+  readonly opens: ReadonlyMap<Role, ReadonlySet<number>>;
+}
+
+function timesRound(arrangement: Arrangement, bars: number): ReadonlyMap<string, Rounds> {
+  const times = new Map<string, Map<Role, number>>();
+  const opens = new Map<string, Map<Role, Set<number>>>();
   for (const p of arrangement.placed) {
-    const per = out.get(p.material) ?? new Map<Role, number>();
-    for (const role of p.heard) per.set(role, (per.get(role) ?? 0) + Math.ceil(p.section.bars / bars));
-    out.set(p.material, per);
+    const per = times.get(p.material) ?? new Map<Role, number>();
+    const firsts = opens.get(p.material) ?? new Map<Role, Set<number>>();
+    for (const role of p.heard) {
+      const before = per.get(role) ?? 0;
+      (firsts.get(role) ?? firsts.set(role, new Set()).get(role)!).add(before);
+      per.set(role, before + Math.ceil(p.section.bars / bars));
+    }
+    times.set(p.material, per);
+    opens.set(p.material, firsts);
   }
+  const out = new Map<string, Rounds>();
+  for (const [key, per] of times) out.set(key, { times: per, opens: opens.get(key)! });
   return out;
 }
 
@@ -95,7 +116,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
   const chordsOf = new Map<Idea, readonly Chord[]>();
   const all = new Map<string, Material>();
 
-  for (const [key, times] of rounds) {
+  for (const [key, { times, opens }] of rounds) {
     const [ideaStr, vStr] = key.split("/");
     const idea = ideaStr as Idea;
     const variant = vStr === undefined ? 0 : Number(vStr);
@@ -115,17 +136,27 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const taken = new Set<string>();
     const bass = Object.freeze(drawBass(chart, chords, rng.at("bass"), steps, figure.kick));
     for (const n of bass) taken.add(`${at(n)}:${n.pitch}`);
-    const keys = Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps, taken));
     const sounding = new Sounding();
-    sounding.add(bass);
-    sounding.add(keys);
-    const groove = Object.freeze({ bass, keys });
+    sounding.add(bass, bars, steps);
+    // the drone stands on the key, not the chord, so it is written before
+    // anything that follows the changes
+    const drone = Object.freeze(drawDrone(chart, rng.at("drone"), steps, bars, sounding));
+    sounding.add(drone, bars, steps);
+    for (const n of drone) taken.add(`${at(n)}:${n.pitch}`);
+    const keys = Object.freeze(drawKeys(chart, chords, rng.at("keys"), steps, sounding));
+    sounding.add(keys, bars, steps);
+    const groove = Object.freeze({ bass, keys, drone });
 
     // the tune's plan, applied to every time the lead plays this material
     // through; the development is written only where a time will play it
     const leadRng = rng.at("lead");
     const plan = leadRng.weighted("cycles", chart.genre.lead.cycles);
-    const letters = Array.from({ length: times.get("lead") ?? 0 }, (_, n) => plan[n % plan.length]!);
+    const opensLead = opens.get("lead") ?? new Set<number>();
+    const letters = Array.from({ length: times.get("lead") ?? 0 }, (_, n) => {
+      const letter = plan[n % plan.length]!;
+      // a section opens with the tune; a rest is a breath taken inside one
+      return letter === "." && opensLead.has(n) ? "A" : letter;
+    });
     const tune = letters.length > 0 ? Object.freeze(drawLead(chart, chords, leadRng, steps, sounding)) : null;
     const developed = letters.includes("B") ? Object.freeze(develop(chart, chords, leadRng, steps, sounding, tune!)) : null;
     const tacet: readonly Note[] = Object.freeze([]);
@@ -149,6 +180,7 @@ function check(chart: Chart, m: Material, steps: number): void {
     bass: chart.genre.bass.register,
     keys: chart.genre.keys.register,
     lead: chart.genre.lead.register,
+    drone: chart.genre.drone.register,
   };
   const grooveSeats = new Map<string, Pitched>();
 

@@ -102,8 +102,17 @@ export const lofi: GenreSpec = {
 
   // a Rhodes, a sub, a muted guitar; and the record on tape, under a
   // low-pass, with the dust on it
+  // a warm pad under everything, arriving last and leaving first
+  drone: {
+    register: [51, 65],
+    tone: [["tonic", 6], ["fifth", 1]],
+    hold: [[4, 5], [2, 1]],
+  },
+
+  arrangement: { enter: ["keys", "drums", "bass", "lead", "drone"] },
+
   sound: {
-    voices: { keys: "rhodes", bass: "sub", lead: "pluck" },
+    voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
     tape: { lowpassHz: 10000, crackle: 0.08, wowHz: 0.2, wowCents: 4, drive: 1.4 },
   },
 
@@ -122,6 +131,12 @@ export const lofi: GenreSpec = {
     "harmony.progressions":
       "I–vi–IV–V, ii–V–I, I–vi–ii–V (blog.flat.io/lofi-chord-progressions); I–vi, iv–i, IV–iii–vi, i–VI–V " +
       "(blog.native-instruments.com/lo-fi-chord-progressions); as scale degrees so the drawn scale sets the qualities; weights [chosen]",
+    "drone.tone":
+      "a drone is \"a very long and continuous tone\" placed \"upon the tonic or dominant\" " +
+      "(chromatone.center/theory/melody/drone); weights [chosen]",
+    "drone.register":
+      "[chosen] — above the sub and inside the Rhodes, where a warm pad sits without taking the bass's notes",
+    "drone.hold": "\"may last through the whole piece\" (chromatone.center/theory/melody/drone); a four-bar statement [chosen]",
     "keys.register":
       "\"keep it in its mid-range and avoid the top octave\" (blog.native-instruments.com/lo-fi-hip-hop-beats); " +
       "C3–G5 on a Rhodes [chosen]",

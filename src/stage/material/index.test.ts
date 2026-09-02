@@ -6,7 +6,8 @@ import { makeForm } from "../form.ts";
 import { makeArrangement } from "../arrange.ts";
 import { GENRES, resolveGenre } from "../../genre/index.ts";
 import { lofi as lofiSpec } from "../../genre/lofi.ts";
-import { inScale, pc } from "../../core/theory.ts";
+import { inScale, pc, noteName } from "../../core/theory.ts";
+import { Sounding } from "./note.ts";
 import { stepsPerBar } from "../../core/clock.ts";
 
 const lofi = GENRES.lofi;
@@ -259,4 +260,54 @@ test("a genre that avoids the diminished degree never lands on it, in any mode",
     }
   }
   assert.ok(modes.size >= 2, `only ${[...modes]} drawn`);
+});
+
+test("a note that rings past its bar is sounding in the bars it rings through", () => {
+  // the bug this is against: positions were keyed by the note's own bar and
+  // a running step, so a drone holding four bars was recorded as steps 0 to
+  // 63 of bar 0 and was invisible in bars 1, 2 and 3. Nothing failed; a cost
+  // that depended on it simply never fired, at any value.
+  const s = new Sounding();
+  s.add([{ bar: 0, step: 0, dur: 64, pitch: 60, vel: 0.5 }], 4, 16);
+  for (let bar = 0; bar < 4; bar++) {
+    for (const step of [0, 7, 15]) {
+      assert.ok(s.holds(bar, step, 60), `not sounding at ${bar}:${step}`);
+      assert.ok(s.rubs(bar, step, 61), `no rub at ${bar}:${step}`);
+      assert.ok(!s.rubs(bar, step, 63));
+    }
+  }
+  // and it wraps round the loop rather than running off the end
+  const wrap = new Sounding();
+  wrap.add([{ bar: 3, step: 8, dur: 16, pitch: 48, vel: 0.5 }], 4, 16);
+  assert.ok(wrap.holds(3, 15, 48));
+  assert.ok(wrap.holds(0, 0, 48), "a note running past the last bar does not come round");
+});
+
+test("the drone holds the key, not the chord", () => {
+  for (const name of ["lofi", "dungeonsynth"] as const) {
+    const g = GENRES[name];
+    let held = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      const chart = makeChart({ seed, genre: g, seconds: 200 });
+      const mats = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
+      for (const m of mats.all.values()) {
+        assert.ok(m.groove.drone.length >= 1, `${name} ${m.key}: no drone`);
+        for (const n of m.groove.drone) {
+          // a tonic or a fifth of the KEY, in register, whatever the chord is
+          const degree = pc(n.pitch - chart.tonic);
+          assert.ok(degree === 0 || degree === 7, `${name} ${m.key}: the drone sits on ${noteName(n.pitch)}, ${degree} above the tonic`);
+          const [lo, hi] = g.drone.register;
+          assert.ok(n.pitch >= lo && n.pitch <= hi);
+          assert.equal(n.step, 0, "a drone starts anywhere but the downbeat");
+          assert.ok(n.dur >= stepsPerBar(g.metre), "a drone that does not hold a bar is not a drone");
+          held++;
+        }
+        // one tone per hold, evenly spaced, covering the material
+        const starts = m.groove.drone.map((n) => n.bar);
+        assert.deepEqual(starts, [...starts].sort((a, b) => a - b));
+        assert.equal(starts[0], 0, `${name} ${m.key}: the drone does not start the material`);
+      }
+    }
+    assert.ok(held > 40, `${name}: only ${held} drone tones in 40 records`);
+  }
 });

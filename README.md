@@ -20,5 +20,10 @@ table of defaults and refused at load if anything is wrong; every number a
 genre states carries its source in the genre's `sources` map, and a number
 without one says `[chosen]`.
 
+Two genres, lofi hip hop and dungeon synth. Five parts — drums, bass, keys,
+lead, drone — and six synthesised voices. Every rule is written in beats and
+resolved against the genre's own metre, so a genre in five four needs no new
+code, only its own numbers.
+
 `Deckards Orchestrator MK2.html` is the previous program, kept whole and
 runnable. `tools/dump.mjs` reads its notes out in the same text format.

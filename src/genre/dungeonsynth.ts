@@ -100,8 +100,15 @@ export const dungeonsynth: GenreSpec = {
     ],
   },
 
+  // the sustained tone the genre is built on: it holds a whole statement
+  drone: {
+    register: [46, 60],
+    tone: [["tonic", 5], ["fifth", 3]],
+    hold: [[4, 6], [2, 1]],
+  },
+
   arrangement: {
-    enter: ["keys", "bass", "drums", "lead"],
+    enter: ["drone", "keys", "bass", "drums", "lead"],
     introParts: 1,
     fullAbove: 0.85,
     thinBelow: 0.3,
@@ -113,7 +120,7 @@ export const dungeonsynth: GenreSpec = {
 
   // strings, a pedal organ, a flute; the record in a small church, on tape
   sound: {
-    voices: { keys: "pad", bass: "organ", lead: "flute" },
+    voices: { keys: "pad", bass: "organ", lead: "flute", drone: "organ" },
     tape: { lowpassHz: 9000, crackle: 0.05, wowHz: 0.3, wowCents: 6, drive: 1.2, reverb: 0.4, reverbSec: 2.6 },
   },
 
@@ -136,6 +143,11 @@ export const dungeonsynth: GenreSpec = {
     "feel.accent":
       "the voices are an organ and a pad, and a pipe organ has no touch at all: its pipes sound the same however " +
       "the key is pressed (soundonsound.com Synthesizing Tonewheel Organs). 0.12 [chosen]",
+    "drone.tone":
+      "the genre is \"derived from black metal and dark ambient\" (Wikipedia, Dungeon synth) and a drone sits " +
+      "\"upon the tonic or dominant\", held while the chords change over it (chromatone.center/theory/melody/drone)",
+    "drone.hold": "\"a very long and continuous tone that may last through the whole piece\" (chromatone.center/theory/melody/drone)",
+    "drone.register": "[chosen] — below the pad and around the organ's own low register",
     "sound.voices": "\"strings, flutes, pipe organs, and choirs\" (note.com/soundwitches; Wikipedia, Dungeon synth)",
     "sound.tape.reverb": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches); a \"Small Church\" impulse (erichgrunewald.com)",
     "sound.tape.crackle": "\"intentional crackle, warble, and hiss\" (note.com/soundwitches); 0.05 [chosen]",

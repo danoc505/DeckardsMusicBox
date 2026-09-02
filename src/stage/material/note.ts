@@ -40,7 +40,7 @@ export interface Chord {
 export type Pitched = PitchedRole;
 
 /** The parts that loop unchanged under everything: the groove. */
-export const GROOVE = ["bass", "keys"] as const satisfies readonly Pitched[];
+export const GROOVE = ["bass", "keys", "drone"] as const satisfies readonly Pitched[];
 export type GrooveRole = (typeof GROOVE)[number];
 
 export interface Material {
@@ -93,11 +93,17 @@ export const at = (n: { bar: number; step: number }): string => `${n.bar}:${n.st
 export class Sounding {
   private readonly at = new Map<string, number[]>();
 
-  /** Every position each note occupies, for as long as it rings. */
-  add(notes: readonly Note[]): void {
+  /**
+   * Every position each note occupies, for as long as it rings — across bar
+   * lines, and round the loop. A drone holds four bars; recorded as steps 0
+   * to 63 of bar 0 it would be invisible in bars 1, 2 and 3, which is
+   * exactly what it was until the cost that depended on it never once fired.
+   */
+  add(notes: readonly Note[], bars: number, steps: number): void {
     for (const n of notes) {
-      for (let st = n.step; st < n.step + n.dur; st++) {
-        const key = `${n.bar}:${st}`;
+      for (let i = 0; i < n.dur; i++) {
+        const abs = n.bar * steps + n.step + i;
+        const key = `${Math.floor(abs / steps) % bars}:${abs % steps}`;
         const here = this.at.get(key);
         if (here === undefined) this.at.set(key, [n.pitch]);
         else here.push(n.pitch);

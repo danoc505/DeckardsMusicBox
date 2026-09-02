@@ -39,7 +39,7 @@ export interface RenderOptions {
 }
 
 /** How much of the mix each part is, before the arc and the note's own weight. */
-const TRIM: Readonly<Record<Role, number>> = { drums: 0.38, bass: 0.34, keys: 0.24, lead: 0.34 };
+const TRIM: Readonly<Record<Role, number>> = { drums: 0.38, bass: 0.34, keys: 0.24, lead: 0.34, drone: 0.16 };
 
 /**
  * How many velocity layers a voice's timbre is rendered in.

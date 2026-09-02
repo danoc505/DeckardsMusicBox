@@ -51,8 +51,15 @@ for (const name of GENRE_NAMES) {
         }
       }
 
-      const sounding = new Set(ev.map((e) => e.bar));
-      for (let b = 0; b < s.form.bars; b++) assert.ok(sounding.has(b), `${where}: bar ${b} is empty`);
+      // sounding, not struck: a drone holds a whole statement, so three bars
+      // in four have no onset of it and are not silent for that
+      const onset = new Set(ev.map((e) => e.bar));
+      for (let b = 0; b < s.form.bars; b++) {
+        if (onset.has(b)) continue;
+        const start = s.form.clock.at(b);
+        const ringing = ev.some((e) => e.tSec <= start && e.tSec + e.durSec > start);
+        assert.ok(ringing, `${where}: bar ${b} is silent`);
+      }
 
       for (const r of ROLES) {
         const bars = new Set(ev.filter((e) => e.role === r).map((e) => e.bar));

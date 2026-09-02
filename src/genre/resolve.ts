@@ -12,7 +12,7 @@
 
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, DEFAULTS, IDEAS, LEAD_CYCLES, PITCHED_ROLES, ROLES, SECTION_FNS, SWING_GRIDS, VOICES,
+  BAR_LETTERS, BASS_TONES, DEFAULTS, DRONE_TONES, IDEAS, LEAD_CYCLES, PITCHED_ROLES, ROLES, SECTION_FNS, SWING_GRIDS, VOICES,
   type Genre, type GenreSpec, type Weighted,
 } from "./spec.ts";
 
@@ -400,6 +400,19 @@ export function resolveGenre(
     if (problems.length === 0) lead["rhythms"] = toSteps(lead["rhythms"]);
   }
 
+  const drone = isPlainObject(merged["drone"]) ? merged["drone"] : null;
+  if (drone === null) {
+    problems.push("drone is missing");
+  } else {
+    checkRegister("drone.register", drone["register"]);
+    checkPool(problems, "drone.tone", drone["tone"],
+      (v) => typeof v === "string" && (DRONE_TONES as readonly string[]).includes(v),
+      "a drone tone: the key's tonic or its fifth");
+    checkPool(problems, "drone.hold", drone["hold"],
+      (v) => finite(v) && Number.isInteger(v) && v >= 1 && v <= 16,
+      "a whole number of bars from 1 to 16");
+  }
+
   const drums = isPlainObject(merged["drums"]) ? merged["drums"] : null;
   if (drums === null) {
     problems.push("drums is missing");
@@ -517,6 +530,7 @@ export function resolveGenre(
     bass: deepFreeze(bass) as unknown as Genre["bass"],
     keys: deepFreeze(keys) as unknown as Genre["keys"],
     lead: deepFreeze(lead) as unknown as Genre["lead"],
+    drone: deepFreeze(drone) as unknown as Genre["drone"],
     drums: deepFreeze(drums) as unknown as Genre["drums"],
     arrangement: deepFreeze(arr) as unknown as Genre["arrangement"],
     feel: deepFreeze(feel) as unknown as Genre["feel"],
