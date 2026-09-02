@@ -142,17 +142,56 @@ test("a straight genre does not swing", () => {
   for (const e of s.performance.events) assert.equal(e.playedStep, e.step);
 });
 
-test("jitter is bounded by the genre's number", () => {
+test("jitter is bounded by the genre's number, around where the part leans", () => {
+  // The jitter is a hand MISSING; the lean is where the hand was aiming. So
+  // what is bounded is the distance from the lean, not from the grid — a part
+  // that sits eighteen milliseconds back is not eighteen milliseconds of
+  // jitter, and measuring it as if it were is measuring the feel as error.
   for (const s of sweep(20)) {
-    const limit = s.chart.genre.feel.jitterMs / 1000;
+    const F = s.chart.genre.feel;
+    const limit = F.jitterMs / 1000;
     const perBeat = s.chart.metre.perBeat;
-    const pair = s.chart.genre.feel.swingGrid === 16 ? perBeat / 2 : perBeat;
+    const pair = F.swingGrid === 16 ? perBeat / 2 : perBeat;
     for (const e of s.performance.events) {
       if (e.step % pair === pair / 2) continue; // swung as well
-      const drift = (e.playedStep - e.step) * s.form.clock.stepSec(e.bar);
-      assert.ok(Math.abs(drift) <= limit + 1e-9, `drift ${drift}s exceeds ${limit}s`);
+      const lean = (F.lean[e.lane as keyof typeof F.lean] ?? F.lean[e.role] ?? 0) / 1000;
+      const drift = (e.playedStep - e.step) * s.form.clock.stepSec(e.bar) - lean;
+      assert.ok(Math.abs(drift) <= limit + 1e-9, `${e.role}/${e.lane} missed by ${drift}s, over ${limit}s`);
     }
   }
+});
+
+test("a part sits where its genre leans it, and the parts are not all together", () => {
+  // A feel is a RELATIONSHIP between parts: "one plays ever so slightly ahead
+  // of the other ... and the push and pull between them purportedly produces
+  // the effect of swing" (Keil, "Participatory Discrepancies and the Power of
+  // Music", 1987). Symmetric jitter cannot make one, because it makes every
+  // part equally and randomly late; this measures that the parts now sit in
+  // different places on purpose.
+  const s = compose({ seed: 5, genre: "lofi", seconds: 200 });
+  const F = s.chart.genre.feel;
+  const perBeat = s.chart.metre.perBeat;
+  const pair = F.swingGrid === 16 ? perBeat / 2 : perBeat;
+  const mean = new Map<string, number[]>();
+  for (const e of s.performance.events) {
+    if (e.step % pair === pair / 2) continue;
+    const key = e.role === "drums" ? e.lane : e.role;
+    const ms = (e.playedStep - e.step) * s.form.clock.stepSec(e.bar) * 1000;
+    (mean.get(key) ?? mean.set(key, []).get(key)!).push(ms);
+  }
+  const avg = (xs: number[]): number => xs.reduce((a, b) => a + b, 0) / xs.length;
+  const where = new Map([...mean].map(([k, v]) => [k, avg(v)]));
+
+  // each part lands where the genre put it, the hand's misses averaging out
+  for (const [key, at] of where) {
+    const meant = F.lean[key as keyof typeof F.lean] ?? 0;
+    assert.ok(Math.abs(at - meant) < 4, `${key} sits at ${at.toFixed(1)} ms, meant to be at ${meant}`);
+  }
+  // and the snare drags against a kick that does not, which is the whole of
+  // what a laid-back kit is
+  assert.ok(where.get("snare")! > where.get("kick")! + 10, `the snare sits ${(where.get("snare")! - where.get("kick")!).toFixed(1)} ms behind the kick`);
+  // the parts are genuinely in different places, not one offset applied to all
+  assert.ok(Math.max(...where.values()) - Math.min(...where.values()) > 10, "every part sits in the same place");
 });
 
 test("the metre shapes the weight, and a genre says how much", () => {

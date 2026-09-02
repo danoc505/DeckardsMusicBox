@@ -362,6 +362,18 @@ export interface FeelSpec {
   /** How far a hand misses the grid either way, in milliseconds. */
   readonly jitterMs?: number;
   /**
+   * WHERE EACH PART SITS AGAINST THE BEAT, in milliseconds, consistently.
+   * Positive is behind it — laid back; negative is ahead — pushed. Keyed by
+   * part, or by drum lane, which wins over the part: the whole of what a
+   * laid-back drummer does is put the SNARE late against a kick that is not,
+   * and a lean applied to the kit entire would move the beat rather than
+   * lean on it.
+   *
+   * This is not jitter and does not replace it. Jitter is a hand missing;
+   * this is where the hand was aiming.
+   */
+  readonly lean?: Readonly<Partial<Record<Role | DrumLane, number>>>;
+  /**
    * 0..1: how much the metre's own hierarchy shapes a note's weight. At 0
    * every position weighs the same and the record is a machine; at 1 the
    * weakest sixteenth is a fifth of the downbeat. An instrument with no
@@ -383,6 +395,7 @@ export interface FeelRules {
   readonly swing: number;
   readonly swingGrid: SwingGrid;
   readonly jitterMs: number;
+  readonly lean: Readonly<Partial<Record<Role | DrumLane, number>>>;
   readonly accent: number;
   readonly velocityJitter: number;
   readonly phrase: number;
@@ -991,6 +1004,25 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     swing: 50,
     swingGrid: 16,
     jitterMs: 10,
+    /**
+     * NOTHING, by default: a machine plays on the grid, and where a genre
+     * sits against the beat is its identity, so a genre says its own — the
+     * same reason swing defaults to straight.
+     *
+     * What a genre is stating when it fills this in: "typical reported values
+     * of microtiming onset asynchronies in groove-based performances range
+     * from zero milliseconds to fifty milliseconds or more, depending on
+     * instrument, tempo, and genre", and drummers told to play "laid-back"
+     * delayed the snare by 17.4 ms on average at 96 bpm (Danielsen et al.
+     * 2015; Camara et al. 2020, reviewed in Carter & von Appen, tnp.mtsnys.org
+     * /vol49-50/carter_von_appen, which measures Charlie Watts's own beat 2 at
+     * a mean 28 ms). The point of stating it per part rather than per record
+     * is Keil's: the discrepancy is BETWEEN parts, "one plays ever so slightly
+     * ahead of the other ... and the push and pull between them purportedly
+     * produces the effect of swing" (Keil, "Participatory Discrepancies and
+     * the Power of Music", 1987).
+     */
+    lean: {},
     /**
      * Programming guides put an ordinary passage between 65 and 95 of 127
      * and save 100 and over for accents — a spread of about a third across

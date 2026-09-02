@@ -104,7 +104,12 @@ export const lofi: GenreSpec = {
   },
 
   // a drum machine swinging its sixteenths, and hands that miss the grid
-  feel: { swing: 60, swingGrid: 16, jitterMs: 15, accent: 0.34, velocityJitter: 0.07 },
+  feel: {
+    swing: 60, swingGrid: 16, jitterMs: 15, accent: 0.34, velocityJitter: 0.07,
+    // the snare drags behind a kick that does not, and the keys are lazier
+    // still; the bass sits just off the kick rather than on it
+    lean: { snare: 18, hat: 5, kick: 0, bass: 7, keys: 13, lead: 10, drone: 0 },
+  },
 
   // a Rhodes, a sub, a muted guitar; and the record on tape, under a
   // low-pass, with the dust on it
@@ -209,6 +214,15 @@ export const lofi: GenreSpec = {
       "ghost notes sit at 30\u201350 of a scale whose ordinary hits are 90\u2013100 and accents at 100 and over " +
       "(blog.samplefocus.com how-to-produce-ghost-notes-for-organic-drums; mastering.com program-realistic-midi-" +
       "drums); \"a strong accent sounds stronger when it is surrounded by softer notes\". Weights [chosen]",
+    "feel.lean":
+      "drummers told to play \"laid-back\" delayed the snare by 17.4 ms on average at 96 bpm, with standard " +
+      "deviations of 11\u201319 ms (Danielsen et al. 2015; C\u00e1mara et al. 2020), and Charlie Watts's own beat 2 " +
+      "measures a mean 28 ms across 1967\u201373, 10\u201380 ms on \"Monkey Man\" (Carter & von Appen, " +
+      "tnp.mtsnys.org/vol49-50/carter_von_appen). Reported asynchronies in groove-based performance run " +
+      "\"from zero milliseconds to fifty milliseconds or more, depending on instrument, tempo, and genre\". " +
+      "That it is stated per part is Keil's point: the discrepancy is BETWEEN parts, \"one plays ever so slightly " +
+      "ahead of the other\" (Keil, \"Participatory Discrepancies and the Power of Music\", 1987). " +
+      "18 ms on the snare is inside the measured band; the rest [chosen] under it",
     "feel.swing":
       "MPC swing is a share of each pair in percent, 50 straight and 66.7 a triplet, applied to sixteenths; " +
       "hip hop sits at 54–62 and 62 is 'almost a triplet' (melodiefabriek.com/blog/mpc-swing-reason; " +

@@ -124,7 +124,12 @@ export const dungeonsynth: GenreSpec = {
 
   // an organ's pipes do not know how hard a key was pressed, and a pad
   // swells rather than strikes: this music leans on the metre very little
-  feel: { swing: 50, swingGrid: 8, jitterMs: 12, accent: 0.12, velocityJitter: 0.05 },
+  feel: {
+    swing: 50, swingGrid: 8, jitterMs: 12, accent: 0.12, velocityJitter: 0.05,
+    // barely anything: this is not groove music, and a pipe organ does not
+    // lay back. The flute breathes a little late and the drum is square.
+    lean: { lead: 9, keys: 4 },
+  },
 
   // strings, a pedal organ, a flute; the record in a small church, on tape
   sound: {

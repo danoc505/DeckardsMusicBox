@@ -156,7 +156,17 @@ export function makePerformance(
         const jitter = hand.range("jitter", -F.jitterMs, F.jitterMs) / 1000;
         const missed = 1 + hand.range("weight", -F.velocityJitter, F.velocityJitter);
         const swing = swung(step) ? swingSteps : 0;
-        const playedStep = step + swing + jitter / stepSec;
+        // WHERE THIS PART WAS AIMING, as against where its hand landed. The
+        // jitter above is symmetrical noise and always was; it makes every
+        // part equally and randomly late, which is the one thing that cannot
+        // produce a feel, because a feel is a RELATIONSHIP between parts:
+        // "one plays ever so slightly ahead of the other ... and the push and
+        // pull between them purportedly produces the effect of swing" (Keil,
+        // "Participatory Discrepancies and the Power of Music", 1987). A lane
+        // wins over its part, so a laid-back kit is a late snare against a
+        // kick that is not — which is the whole of what laid-back means.
+        const lean = (F.lean[lane as keyof typeof F.lean] ?? F.lean[role] ?? 0) / 1000;
+        const playedStep = step + swing + (jitter + lean) / stepSec;
         // the manner decides how much of the written length the note keeps
         // and what it weighs against its neighbours; everything else about
         // it — the glide, the attack, the strikes — is the sound stage's

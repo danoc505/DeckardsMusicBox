@@ -13,7 +13,7 @@
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, DEFAULTS, DRONE_TONES, FLOOR, IDEAS, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
+  BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
   type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
@@ -485,6 +485,17 @@ export function resolveGenre(
     }
     const jm = feel["jitterMs"];
     if (!finite(jm) || jm < 0 || jm > 50) problems.push(`feel.jitterMs must be 0..50, got ${String(jm)}`);
+    const lean = feel["lean"];
+    if (!isPlainObject(lean)) {
+      problems.push("feel.lean must be a map of part or drum lane to milliseconds");
+    } else {
+      const named = new Set<string>([...ROLES, ...DRUM_LANES]);
+      for (const [k, v] of Object.entries(lean)) {
+        if (!named.has(k)) problems.push(`feel.lean names "${k}", which is not a part or a drum lane`);
+        // fifty milliseconds is the top of the range the measurements report
+        else if (!finite(v) || v < -50 || v > 50) problems.push(`feel.lean.${k} must be -50..50 ms, got ${String(v)}`);
+      }
+    }
     const ac = feel["accent"];
     if (!finite(ac) || ac < 0 || ac > 1) problems.push(`feel.accent must be 0..1, got ${String(ac)}`);
     const phr = feel["phrase"];
