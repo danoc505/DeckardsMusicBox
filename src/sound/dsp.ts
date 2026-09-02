@@ -88,7 +88,7 @@ export class Noise {
  * beat of every record. 40 dB down, a four-millisecond fade closes what is
  * left without ducking anything an ear can follow.
  */
-export const TAIL_DB = 40;
+const TAIL_DB = 40;
 const FADE_SEC = 0.004;
 
 /** How long a decay of time constant `tau` takes to fall TAIL_DB. */

@@ -13,7 +13,7 @@
  */
 
 import type { Rng } from "../../core/rng.ts";
-import { intoBand, pc } from "../../core/theory.ts";
+import { intoBand } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
 import type { Note, Sounding } from "./note.ts";
 
@@ -59,6 +59,3 @@ export function drawDrone(
   return out;
 }
 
-/** For reading: which degree of the key the drone sits on. */
-export const droneTone = (chart: Chart, pitch: number): string =>
-  pc(pitch - chart.tonic) === 7 ? "fifth" : "tonic";

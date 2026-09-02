@@ -25,5 +25,17 @@ lead, drone — and six synthesised voices. Every rule is written in beats and
 resolved against the genre's own metre, so a genre in five four needs no new
 code, only its own numbers.
 
+The sound is a desk (`src/sound/`): each part through a pedal board by its
+own feed, placed in a stereo world by azimuth and distance, sent to five
+returns — echo, spring, room, ensemble, flange — that can be patched into
+each other and themselves, then the inserts on the sum: pole, tape, medium,
+vinyl, master. Every knob is the genre's, and the page lays its own
+positions over them for a rendering without changing the genre.
+
+The page (`tools/page.html`, built into the single file) is a bridge: a
+piano roll, a radar scope for the world, a matrix mixer, a pin matrix for
+the patch, the pedal board and the rack, each rack unit with a screen of
+its own impulse response.
+
 `Deckards Orchestrator MK2.html` is the previous program, kept whole and
 runnable. `tools/dump.mjs` reads its notes out in the same text format.
