@@ -487,6 +487,8 @@ export function resolveGenre(
     if (!finite(jm) || jm < 0 || jm > 50) problems.push(`feel.jitterMs must be 0..50, got ${String(jm)}`);
     const ac = feel["accent"];
     if (!finite(ac) || ac < 0 || ac > 1) problems.push(`feel.accent must be 0..1, got ${String(ac)}`);
+    const phr = feel["phrase"];
+    if (!finite(phr) || phr < 0 || phr > 1) problems.push(`feel.phrase must be 0..1, got ${String(phr)}`);
     const vj = feel["velocityJitter"];
     if (!finite(vj) || vj < 0 || vj > 0.5) problems.push(`feel.velocityJitter must be 0..0.5, got ${String(vj)}`);
   }

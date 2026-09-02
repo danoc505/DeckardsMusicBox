@@ -59,6 +59,33 @@ export interface Performance {
 const ARC_DEPTH = 0.28;
 const TAIL_SEC = 2.5;
 
+/**
+ * WHERE THE HEIGHT OF A PHRASE IS. Two fifths of the way through, so a phrase
+ * spends longer coming down than going up — the classic arch is not
+ * symmetrical, and a phrase that peaks exactly in the middle sounds measured
+ * rather than shaped.
+ */
+const PHRASE_PEAK = 0.4;
+
+/**
+ * A phrase, shaped: 0 at its ends and 1 at its height.
+ *
+ * "A classic arched contour is shaped as a dynamic rise to a peak pitch and
+ * descent quieter with falling pitches", and a crescendo into the height of a
+ * phrase "builds energy as you approach the climax ... and naturally draws
+ * the listener's attention to the peak" (doublebasshq.com, "Phrasing Part 3:
+ * Using Dynamics to build musical phrases"). Every other thing that moves a
+ * note's weight here works at a different grain — the metre inside a bar, the
+ * arc across the record — and between the two there was nothing at all, so a
+ * phrase was a flat stretch however long it ran.
+ */
+function phraseShape(through: number): number {
+  const t = Math.min(1, Math.max(0, through));
+  return t <= PHRASE_PEAK
+    ? t / PHRASE_PEAK
+    : 1 - (t - PHRASE_PEAK) / (1 - PHRASE_PEAK);
+}
+
 export function makePerformance(
   chart: Chart,
   form: Form,
@@ -102,6 +129,13 @@ export function makePerformance(
       const arc = form.arc[bar] ?? section.energy;
       const level = 1 - ARC_DEPTH + ARC_DEPTH * arc;
       const stepSec = clock.stepSec(bar);
+      // THE PHRASE IS THE MATERIAL, and where this bar falls in it is where
+      // the phrase has got to. Taken from the position in the MATERIAL and
+      // not from the bar of the record, so the shape is the same shape every
+      // time the figure comes round — the same reason the hand is addressed
+      // that way, and the thing that keeps this from being another source of
+      // per-bar noise.
+      const through = m.bars <= 1 ? 0.5 : mbar / m.bars;
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
         // THE HAND IS ADDRESSED BY THE FIGURE, NOT BY THE BAR OF THE RECORD.
@@ -127,6 +161,9 @@ export function makePerformance(
         // and what it weighs against its neighbours; everything else about
         // it — the glide, the attack, the strikes — is the sound stage's
         const a = artOf(art);
+        // where the note sits inside the phrase, to the step: a bar is not a
+        // flat step of the shape either
+        const shaped = 1 - F.phrase + F.phrase * phraseShape(through + step / (clock.steps * Math.max(1, m.bars)));
         events.push({
           tSec: clock.at(bar, playedStep),
           bar,
@@ -136,7 +173,7 @@ export function makePerformance(
           lane,
           pitch,
           durSec: dur * stepSec * a.hold,
-          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accentAt[step] ?? 1) * missed * level)),
+          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accentAt[step] ?? 1) * missed * level * shaped)),
           art,
         });
       };

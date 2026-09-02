@@ -165,8 +165,11 @@ test("the metre shapes the weight, and a genre says how much", () => {
   // change is written lighter than a hat of the figure, deliberately, so the
   // phrase is four plain bars and every hat in a bar is the figure's own.
   const still = { art: [["plain", 1]], phrase: [[["A", "A", "A", "A"], 1]] } as const;
-  const flat = resolveGenre("flat", { flat: { label: "F", feel: { accent: 0, velocityJitter: 0, jitterMs: 0 }, drums: still } });
-  const leaning = resolveGenre("lean", { lean: { label: "L", feel: { accent: 0.6, velocityJitter: 0, jitterMs: 0 }, drums: still } });
+  // and the phrase is held flat, for the same reason: a crescendo across a
+  // phrase moves weight by where a note falls in the MATERIAL, which is a
+  // third source and not this one
+  const flat = resolveGenre("flat", { flat: { label: "F", feel: { accent: 0, velocityJitter: 0, jitterMs: 0, phrase: 0 }, drums: still } });
+  const leaning = resolveGenre("lean", { lean: { label: "L", feel: { accent: 0.6, velocityJitter: 0, jitterMs: 0, phrase: 0 }, drums: still } });
   // WITHIN ONE BAR. The arc moves every note's weight as the record rises and
   // falls, so two bars of the same lane weigh differently for a reason that
   // has nothing to do with the metre — comparing across bars measures the arc
@@ -420,4 +423,65 @@ test("a figure played again is played the same way, note for note", () => {
     }
   }
   assert.ok(compared > 200, `only ${compared} pairs of bars were compared`);
+});
+
+test("a phrase rises to its height and falls away, and the same phrase does it again", () => {
+  // "A classic arched contour is shaped as a dynamic rise to a peak pitch and
+  // descent quieter with falling pitches" (doublebasshq.com, "Phrasing Part
+  // 3"). Every other thing that moves a note's weight here works at another
+  // grain — the metre inside a bar, the arc across the record — and between
+  // them a phrase used to be flat however long it ran.
+  //
+  // Everything else is held still, so what is left is the shape: no metre
+  // accent, no hand, no manner, one drum treatment of four plain bars.
+  // Every kind of section is given the same energy, so the record's ARC —
+  // a real and separate shape at a coarser grain — is as near flat as a form
+  // allows, and what is left is the phrase.
+  const level = 0.5;
+  const g = resolveGenre("shaped", {
+    shaped: {
+      label: "S",
+      feel: { accent: 0, velocityJitter: 0, jitterMs: 0, swing: 50, phrase: 0.4 },
+      drums: { art: [["plain", 1]], phrase: [[["A", "A", "A", "A"], 1]], treatments: 1 },
+      form: { energy: { intro: level, verse: level, chorus: level, bridge: level, instrumental: level, outro: level } },
+    },
+  });
+  const s = compose({ seed: 5, genre: g, seconds: 200 });
+  const m = s.materials.all.values().next().value!;
+  const placed = s.arrangement.placed.find((p) => p.material === m.key && p.heard.has("drums"))!;
+  // the downbeat kick of each bar of the material, which is written once and
+  // struck identically in every bar: whatever differs is the shape
+  const kick = (bar: number): number | undefined =>
+    s.performance.events.find((e) => e.bar === bar && e.role === "drums" && e.lane === "kick" && e.step === 0)?.gain;
+
+  const first = placed.section.startBar;
+  const shape: number[] = [];
+  for (let i = 0; i < m.bars; i++) shape.push(kick(first + i) ?? NaN);
+  assert.ok(shape.every(Number.isFinite), `the material has no downbeat kick in every bar: ${shape}`);
+  assert.ok(m.bars >= 3, "the material is too short to have a shape");
+
+  // it rises off its first bar and it is quieter by the last
+  const peak = Math.max(...shape);
+  assert.ok(peak > shape[0]!, `the phrase does not rise: ${shape.map((x) => x.toFixed(3)).join(" ")}`);
+  assert.ok(shape[shape.length - 1]! < peak, `the phrase does not fall away: ${shape.map((x) => x.toFixed(3)).join(" ")}`);
+
+  // AND IT IS THE SAME SHAPE NEXT TIME ROUND. Taken from the bar of the
+  // RECORD instead of the position in the material, this would be one more
+  // source of per-bar noise, which is the thing it is meant to replace.
+  //
+  // Within a fraction of a percent rather than exactly, and the residue is
+  // named: even with every section at one energy the form lifts each
+  // statement a little, so that the LAST statement of the biggest section is
+  // the peak. That is meant to. What this rules out is the failure it would
+  // otherwise hide — a shape keyed on the bar of the record, which would put
+  // unrelated values here.
+  if (placed.section.bars >= m.bars * 2) {
+    for (let i = 0; i < m.bars; i++) {
+      const again = kick(first + m.bars + i)!;
+      assert.ok(
+        Math.abs(again / shape[i]! - 1) < 0.005,
+        `the phrase was shaped differently the second time round, at bar ${i}: ${shape[i]} then ${again}`,
+      );
+    }
+  }
 });

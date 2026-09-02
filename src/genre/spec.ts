@@ -371,6 +371,12 @@ export interface FeelSpec {
   readonly accent?: number;
   /** 0..1: how much a hand misses the weight it meant, either way. */
   readonly velocityJitter?: number;
+  /**
+   * 0..1: how much a PHRASE is shaped — how far the weight rises toward the
+   * height of a phrase and falls away after it. At 0 a phrase is flat and
+   * only the metre and the record's arc move a note's weight.
+   */
+  readonly phrase?: number;
 }
 
 export interface FeelRules {
@@ -379,6 +385,7 @@ export interface FeelRules {
   readonly jitterMs: number;
   readonly accent: number;
   readonly velocityJitter: number;
+  readonly phrase: number;
 }
 
 /** The instruments a pitched part may be played on. */
@@ -993,6 +1000,18 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      */
     accent: 0.3,
     velocityJitter: 0.04,
+    /**
+     * A phrase is not a flat stretch of notes. "A classic arched contour is
+     * shaped as a dynamic rise to a peak pitch and descent quieter with
+     * falling pitches", and a crescendo into the height of a phrase "builds
+     * energy as you approach the climax ... and naturally draws the
+     * listener's attention to the peak"
+     * (doublebasshq.com/learn_posts/phrasing-part-3-using-dynamics-to-build-
+     * musical-phrases). 0.3 puts a fifth of the way through a phrase about
+     * 4 dB under its height, which is a shape an ear follows without the
+     * record appearing to swell.
+     */
+    phrase: 0.3,
   },
 
   sound: {
