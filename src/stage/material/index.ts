@@ -33,7 +33,7 @@
 
 import { stepsPerBar } from "../../core/clock.ts";
 import { inScale, noteName } from "../../core/theory.ts";
-import { DRUM_LANES, type Idea, type Role } from "../../genre/spec.ts";
+import { DRUM_LANES, type Contour, type Idea, type Role } from "../../genre/spec.ts";
 import type { Rng } from "../../core/rng.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
@@ -44,6 +44,7 @@ import { drawChords, harmonicPeriod } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
 import { contourOf, drawLead } from "./lead.ts";
 import { assertInside, at, GROOVE, Sounding, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
+import { CHANGES, otherChange, varyLine, type Change } from "./vary.ts";
 
 export type { Chord, Figure, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
 export { GROOVE } from "./note.ts";
@@ -67,7 +68,7 @@ export class MaterialError extends Error {
  * laws leave the answer only one way to go, a handful of tries is the honest
  * limit and the last is kept.
  */
-function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, sounding: Sounding, tune: readonly Note[], period: number): Note[] {
+function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, sounding: Sounding, tune: readonly Note[], period: number, contour: Contour): Note[] {
   // WHAT IS PLAYED, not how. A line that lands on the same pitches at the
   // same instants and merely hammers one of them where the statement picked
   // it is the statement played again, and accepting it as a development is
@@ -77,7 +78,7 @@ function develop(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number
   const same = (a: readonly Note[], b: readonly Note[]): boolean => notes(a) === notes(b);
   let line: Note[] = [];
   for (let attempt = 1; attempt <= 6; attempt++) {
-    line = drawLead(chart, chords, rng, steps, sounding, attempt);
+    line = drawLead(chart, chords, rng, steps, sounding, attempt, contour);
     if (!same(line, tune)) break;
   }
   return line;
@@ -122,7 +123,17 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
   const chordsOf = new Map<Idea, readonly Chord[]>();
   const all = new Map<string, Material>();
 
-  for (const [key, { times, opens }] of rounds) {
+  // PLAIN STATEMENTS FIRST, so a variant has the thing it varies. A variant
+  // is a descendant and not a sibling: it inherits its groove note for note
+  // and changes the beat and the tune, which is what makes it the same idea
+  // coming back rather than a different section over the same chords.
+  const order = [...rounds.keys()].sort((a, b) => {
+    const v = (k: string): number => (k.includes("/") ? Number(k.split("/")[1]) : 0);
+    return v(a) - v(b) || a.localeCompare(b);
+  });
+
+  for (const key of order) {
+    const { times, opens } = rounds.get(key)!;
     const [ideaStr, vStr] = key.split("/");
     const idea = ideaStr as Idea;
     const variant = vStr === undefined ? 0 : Number(vStr);
@@ -134,8 +145,14 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     }
 
     const rng = chart.rng.at("material", idea, variant);
+    // A VARIANT INHERITS THE BEAT'S SKELETON as well as the groove: the same
+    // pockets and the same hat division, treated differently. Drawing its own
+    // figure while inheriting the bass would put the bass on a kick that is
+    // no longer there, which is the one thing the two are written together to
+    // avoid.
+    const plainOf = variant > 0 ? all.get(idea) : undefined;
     // the drum figure first: the bass may take its feet from the kick
-    const figure = drawFigure(chart, rng.at("drums"));
+    const figure = plainOf ? plainOf.figure : drawFigure(chart, rng.at("drums"));
     // each part is told what the parts before it are SOUNDING — not merely
     // where they were struck — so it never lands on one and never rubs
     // against one. A rule at the point of choice, not a repair after.
@@ -165,22 +182,42 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // it is told the loop is the period.
     const inLoop = new Sounding();
 
-    const bass = Object.freeze(tile(drawBass(chart, loop, rng.at("bass"), steps, figure.kick)));
+    // A VARIANT INHERITS ITS GROOVE, and inherits it BEFORE anything is drawn
+    // against it. What makes a section recognisable as itself coming back is
+    // the bass and the chords under it; redrawing them gives a new section
+    // wearing the old one's harmony, which is what a "variant" used to be and
+    // why a return never sounded like one.
+    //
+    // The picture the tune is written against has to be the groove that is
+    // actually PLAYED. Drawing a groove, discarding it for the inherited one
+    // and then writing a tune against the discarded one puts the lead on a
+    // pitch the keys are holding — which is a bug the checks catch, and only
+    // because they are there.
+    const plain = plainOf;
     const taken = new Set<string>();
-    for (const n of bass) taken.add(`${at(n)}:${n.pitch}`);
-    sounding.add(bass, bars, steps);
-    inLoop.add(bass, period, steps);
-    // the drone stands on the key, not the chord, so it is written before
-    // anything that follows the changes — and it is NOT tiled: a drone is a
-    // held tone whose whole nature is to be longer than the loop under it
-    const drone = Object.freeze(drawDrone(chart, rng.at("drone"), steps, bars, sounding));
-    sounding.add(drone, bars, steps);
-    inLoop.add(drone, period, steps);
-    for (const n of drone) taken.add(`${at(n)}:${n.pitch}`);
-    const keys = Object.freeze(tile(drawKeys(chart, loop, rng.at("keys"), steps, inLoop)));
-    sounding.add(keys, bars, steps);
-    inLoop.add(keys, period, steps);
-    const groove = Object.freeze({ bass, keys, drone });
+    const groove = plain ? plain.groove : Object.freeze((() => {
+      const drawnBass = Object.freeze(tile(drawBass(chart, loop, rng.at("bass"), steps, figure.kick)));
+      sounding.add(drawnBass, bars, steps);
+      inLoop.add(drawnBass, period, steps);
+      // the drone stands on the key, not the chord, so it is written before
+      // anything that follows the changes — and it is NOT tiled: a drone is a
+      // held tone whose whole nature is to be longer than the loop under it
+      const drawnDrone = Object.freeze(drawDrone(chart, rng.at("drone"), steps, bars, sounding));
+      sounding.add(drawnDrone, bars, steps);
+      inLoop.add(drawnDrone, period, steps);
+      const drawnKeys = Object.freeze(tile(drawKeys(chart, loop, rng.at("keys"), steps, inLoop)));
+      sounding.add(drawnKeys, bars, steps);
+      inLoop.add(drawnKeys, period, steps);
+      return { bass: drawnBass, keys: drawnKeys, drone: drawnDrone };
+    })());
+    if (plain) {
+      for (const part of GROOVE) {
+        sounding.add(groove[part], bars, steps);
+        inLoop.add(groove[part], period, steps);
+      }
+    }
+    for (const n of groove.bass) taken.add(`${at(n)}:${n.pitch}`);
+    for (const n of groove.drone) taken.add(`${at(n)}:${n.pitch}`);
 
     // the tune's plan, applied to every time the lead plays this material
     // through; the development is written only where a time will play it
@@ -195,10 +232,43 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // the tune is written for ONE turn of the loop and played on every turn:
     // a hook is a hook because it comes back, and a lead that writes a fresh
     // melody over the loop's second turn is not a lead, it is two of them
-    const tune = letters.length > 0 ? Object.freeze(tile(drawLead(chart, loop, leadRng, steps, inLoop))) : null;
-    const developed = letters.includes("B") ? Object.freeze(tile(develop(chart, loop, leadRng, steps, inLoop, tune!, period))) : null;
+    // AND ITS TUNE IS THE STATEMENT'S, CHANGED — thinned or held longer, one
+    // of the documented motivic operations, rather than written again. See
+    // vary.ts for why those two and not inversion or sequence.
+    // ONE TURN OF THE LOOP is what is varied, and then it is tiled like any
+    // other tune: a change applied to the tiled line would land in one turn
+    // and not the next, and the loop would stop being one.
+    const statedTurn = (plain?.lead.find((l) => l.length > 0) ?? []).filter((n) => n.bar < period);
+    // The statement takes one change and the development takes the OTHER, so
+    // the two differ from each other as well as from what they came from —
+    // and a change that turned out to be a no-op falls back to writing a line,
+    // because a variant identical to its statement is not one.
+    // ONE CONTOUR, decided here and handed to everything that writes a line,
+    // so the material's label and its notes cannot disagree. A variant plays
+    // the statement's tune, so it moves the way the statement moves.
+    const contour = plain ? plain.contour : contourOf(chart, leadRng);
+    const first = leadRng.at("vary").pick("change", CHANGES as readonly Change[]);
+    const varied = (which: Change) =>
+      statedTurn.length === 0 ? null : varyLine(statedTurn, loop, leadRng.at("vary", which), steps, period, which);
+    const asTune = varied(first);
+    const tune = asTune?.changed === true
+      ? Object.freeze(tile(asTune.line))
+      : letters.length > 0 ? Object.freeze(tile(drawLead(chart, loop, leadRng, steps, inLoop, 0, contour))) : null;
+    // AND THE DEVELOPMENT IS CHECKED AGAINST WHAT WAS ACTUALLY KEPT, not
+    // against the intermediate it came from. `tune` above is the change if it
+    // changed anything and a freshly written line if it did not, so comparing
+    // the two transformations to each other answers the wrong question — and
+    // answered it wrongly, shipping variants whose four times round were one
+    // line four times.
+    const asDev = varied(otherChange(first));
+    const devLine = asDev?.changed === true ? tile(asDev.line) : null;
+    const developed = letters.includes("B") && tune !== null
+      ? Object.freeze(devLine !== null && JSON.stringify(devLine) !== JSON.stringify(tune)
+        ? devLine
+        : tile(develop(chart, loop, leadRng, steps, inLoop, tune, period, contour)))
+      : null;
     const tacet: readonly Note[] = Object.freeze([]);
-    const lead = Object.freeze(letters.map((l) => (l === "A" ? tune! : l === "B" ? developed! : tacet)));
+    const lead = Object.freeze(letters.map((l) => (l === "A" ? tune ?? tacet : l === "B" ? developed ?? tune ?? tacet : tacet)));
 
     // THE TREATMENTS CYCLE. A record has as many distinct treatments of a
     // figure as the genre says, and plays them round and round — the same
@@ -209,7 +279,12 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const cut = new Map<number, readonly Hit[]>();
     const drums = Object.freeze(
       Array.from({ length: times.get("drums") ?? 0 }, (_, n) => {
-        const which = n % treatments;
+        // A VARIANT TAKES THE NEXT BEAT ALONG. "Changing the drum beat works
+        // every time, and you could keep everything exactly the same way and
+        // change just the drum beat and it instantly feels different"
+        // (secretsofsongwriting.com, "The Main Differences Between Verse 1 and
+        // Verse 2") — the cheapest change there is, and the strongest.
+        const which = (n + variant) % treatments;
         const already = cut.get(which);
         if (already !== undefined) return already;
         const made = Object.freeze(drawDrums(chart, rng.at("drums"), figure, bars, steps, which));
@@ -218,10 +293,11 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       }),
     );
 
-    const material: Material = Object.freeze({ key, idea, variant, contour: contourOf(chart, leadRng), bars, period, chords, groove, lead, figure, drums });
+    const material: Material = Object.freeze({ key, idea, variant, contour, bars, period, chords, groove, lead, figure, drums });
     check(chart, material, steps);
     all.set(key, material);
   }
+
 
   return Object.freeze({ bars, all });
 }

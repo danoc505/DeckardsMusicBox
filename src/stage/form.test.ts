@@ -89,33 +89,53 @@ test("a bridge always has something to depart from", () => {
   }
 });
 
-test("the third consecutive statement of an idea is marked to vary", () => {
+test("the third HEARING of an idea is marked to vary, whatever came between", () => {
+  // It used to be the third statement IN A ROW, and in a record that
+  // alternates — verse chorus verse chorus verse — that is almost never: an
+  // idea's run resets every time the other interrupts it, so five hearings of
+  // a verse were five identical verses and only 5% of sections ever varied.
+  // A returning section is still a return whatever came between, and it is
+  // the HEARING that wears out: "when an idea is presented once, it piques
+  // our interest. When it is repeated, the concept is reinforced. However, if
+  // it is repeated a third time, our brains may begin to tune it out"
+  // (omnionsound.com, "The Rule Of Three In Music Composition").
+  let varied = 0;
   for (const f of sweep(200)) {
-    let run = 0;
-    let prev: string | null = null;
+    const since = new Map<string, number>();
     for (const s of f.sections) {
-      run = s.idea === prev ? run + 1 : 1;
-      prev = s.idea;
-      assert.equal(s.vary, run >= 3, `${describeForm(f)} at ${s.index}`);
-      if (s.vary) run = 0;
+      const heard = (since.get(s.idea) ?? 0) + 1;
+      assert.equal(s.vary, heard >= 3, `${describeForm(f)} at ${s.index}`);
+      since.set(s.idea, s.vary ? 0 : heard);
+      if (s.vary) varied++;
     }
   }
+  assert.ok(varied > 100, `only ${varied} sections varied across 200 records`);
 });
 
-test("a turn ends the run, so the plain idea comes back", () => {
-  // the failure this is against: counting the total instead of the run means
-  // everything past the third statement is a variant and the tune itself is
-  // heard twice at the start and never again
-  // sixteen-bar verses make a third statement rare at the genre's own
-  // length, so the sweep asks for long records
-  const long = Array.from({ length: 200 }, (_, i) => formOf(i + 1, 420)).filter((f) => f.sections.filter((s) => s.vary).length >= 2);
-  assert.ok(long.length > 0, "no record varied twice — the sweep is too short to test this");
+test("a turn ends the count, so the plain idea comes back", () => {
+  // the failure this is against: counting hearings and never resetting means
+  // everything past the third is a variant and the tune itself is heard twice
+  // at the start and never again. Coming back to the thing an ear already
+  // knows is half of what a return is for.
+  const long = Array.from({ length: 200 }, (_, i) => formOf(i + 1, 420));
+  let pairs = 0;
   for (const f of long) {
-    const varied = f.sections.filter((s) => s.vary);
-    for (let i = 1; i < varied.length; i++) {
-      assert.ok(varied[i]!.index - varied[i - 1]!.index >= 3, describeForm(f));
+    const byIdea = new Map<string, number[]>();
+    f.sections.forEach((s, i) => {
+      if (!s.vary) return;
+      (byIdea.get(s.idea) ?? byIdea.set(s.idea, []).get(s.idea)!).push(i);
+    });
+    for (const [idea, at] of byIdea) {
+      for (let i = 1; i < at.length; i++) {
+        pairs++;
+        // between two varied hearings of the SAME idea there are at least two
+        // plain ones: the count went back to nothing and had to reach three
+        const between = f.sections.slice(at[i - 1]! + 1, at[i]!).filter((s) => s.idea === idea).length;
+        assert.ok(between >= 2, `${idea} varied twice with ${between} plain hearings between: ${describeForm(f)}`);
+      }
     }
   }
+  assert.ok(pairs > 0, "no idea varied twice — the sweep is too short to test this");
 });
 
 test("statement counts every hearing of an idea, however it is labelled", () => {

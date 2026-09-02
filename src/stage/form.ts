@@ -40,11 +40,24 @@ export interface Section {
   /** How many times running, counting this one. */
   readonly run: number;
   /**
-   * This statement must differ from the one before it.
+   * This statement must differ from the ones before it.
    *
-   * Set on the third consecutive statement of an idea: two hearings establish
-   * it, and the third identical one is where attention goes. What "differ"
-   * means is not decided here — the stage that writes the notes owns that.
+   * THE RULE OF THREE, and it counts HEARINGS, not consecutive ones. "When an
+   * idea is presented once, it piques our interest. When it is repeated, the
+   * concept is reinforced. However, if it is repeated a third time, our
+   * brains may begin to tune it out" (omnionsound.com, "The Rule Of Three In
+   * Music Composition"); the rule "usually applies to repeating a motif,
+   * section or device, three times before changing to something else".
+   *
+   * It used to be set on the third statement IN A ROW, which in a record that
+   * alternates — verse chorus verse chorus verse — is almost never: an idea's
+   * run resets every time the other one interrupts it, so five hearings of a
+   * verse were five identical verses. A returning section is still a return
+   * whatever came between, and it is the HEARING that wears out, not the
+   * adjacency.
+   *
+   * What "differ" means is not decided here — the stage that writes the notes
+   * owns that.
    */
   readonly vary: boolean;
 
@@ -253,6 +266,8 @@ export function makeForm(chart: Chart): Form {
   /** How many statements of the current idea are standing behind this one. */
   let carry = 0;
   let prevIdea: Idea | null = null;
+  /** Hearings of each idea since it last varied: the rule of three counts these. */
+  const since = new Map<Idea, number>();
 
   const built: Section[] = [];
   let startBar = 0;
@@ -266,11 +281,16 @@ export function makeForm(chart: Chart): Form {
     const run = idea === prevIdea ? carry + 1 : 1;
     prevIdea = idea;
 
-    const vary = run >= 3;
-    // the turn ENDS the run, so the record comes back round to the plain
-    // statement. Without this every hearing after the third is a variant and
-    // the tune itself is heard twice in the first minute and never again.
-    carry = vary ? 0 : run;
+    // the third HEARING varies, counted per idea across the whole record and
+    // not merely in a row: state it, state it again, then change something
+    const heard = (since.get(idea) ?? 0) + 1;
+    const vary = heard >= 3;
+    // AND THE COUNT RESETS, so the record comes back round to the plain
+    // statement afterwards. Without this every hearing after the third is a
+    // variant and the tune itself is heard twice and never again — and coming
+    // back to the thing an ear already knows is half of what a return is for.
+    since.set(idea, vary ? 0 : heard);
+    carry = run;
 
     const position = fns.length > 1 ? i / (fns.length - 1) : 1;
     const energy = Math.min(1, rules.energy[fn] * (1 + LATE_LIFT * position));

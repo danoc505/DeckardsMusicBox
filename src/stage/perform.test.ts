@@ -69,7 +69,12 @@ test("a material heard again does not start its tune over: the count runs across
       const m = s.materials.all.get(p.material)!;
       const list = byKey.get(p.material) ?? [];
       for (let bar = p.section.startBar; bar < p.section.endBar; bar += m.bars) {
-        list.push(s.performance.events.filter((e) => e.role === "lead" && e.bar >= bar && e.bar < bar + m.bars).map((e) => `${e.bar - bar}:${e.step}:${e.pitch}`).join());
+        // durSec is part of the signature, not decoration. Augmentation is a
+        // DURATIONAL operation — "increasing the duration of the notes in the
+        // motive" — so a development that holds the same pitches longer is a
+        // different line, and a signature of pitch and step alone cannot see
+        // the difference it exists to make.
+        list.push(s.performance.events.filter((e) => e.role === "lead" && e.bar >= bar && e.bar < bar + m.bars).map((e) => `${e.bar - bar}:${e.step}:${e.pitch}:${e.durSec.toFixed(4)}`).join());
       }
       byKey.set(p.material, list);
     }
@@ -183,8 +188,12 @@ test("a part sits where its genre leans it, and the parts are not all together",
   const avg = (xs: number[]): number => xs.reduce((a, b) => a + b, 0) / xs.length;
   const where = new Map([...mean].map(([k, v]) => [k, avg(v)]));
 
-  // each part lands where the genre put it, the hand's misses averaging out
+  // each part lands where the genre put it, the hand's misses averaging out —
+  // over enough of them to average. An open hat turns up a handful of times
+  // in a record, and a handful of draws from a fifteen-millisecond jitter has
+  // a mean of its own.
   for (const [key, at] of where) {
+    if ((mean.get(key)?.length ?? 0) < 40) continue;
     const meant = F.lean[key as keyof typeof F.lean] ?? 0;
     assert.ok(Math.abs(at - meant) < 4, `${key} sits at ${at.toFixed(1)} ms, meant to be at ${meant}`);
   }

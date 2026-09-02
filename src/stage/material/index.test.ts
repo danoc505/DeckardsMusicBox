@@ -43,19 +43,40 @@ test("only what is heard is built: every section is answered, and each part has 
   }
 });
 
-test("a varied statement gets its own material with the same chords", () => {
+test("a varied statement is its statement changed, not a new one", () => {
+  // This used to demand that a variant's GROOVE differ from its statement's,
+  // and that demand is why a return never sounded like one: a variant that
+  // redraws the bass and the chords under it is a new section wearing the old
+  // one's harmony. What makes a section recognisable as itself coming back IS
+  // the groove. So it is now required to be identical, and the change is
+  // required elsewhere — in the beat, which is "the cheapest change there is"
+  // and where "you could keep everything exactly the same way and change just
+  // the drum beat and it instantly feels different"
+  // (secretsofsongwriting.com, "The Main Differences Between Verse 1 and
+  // Verse 2"), and in the tune, by a documented motivic operation.
   const varied = sweep(120).filter((m) => [...m.all.keys()].some((k) => k.includes("/")));
   assert.ok(varied.length > 10, `only ${varied.length} records had a variant`);
+  let checked = 0;
   for (const m of varied) {
     for (const [k, v] of m.all) {
       if (!k.includes("/")) continue;
       const plain = m.all.get(v.idea)!;
+      checked++;
       assert.equal(v.variant >= 1, true);
       assert.deepEqual(v.chords.map((c) => c.name), plain.chords.map((c) => c.name), "a variant changed the changes");
-      const same = JSON.stringify(v.groove) === JSON.stringify(plain.groove);
-      assert.ok(!same, `${k} is note-for-note its plain statement`);
+      // it IS the same idea: the same changes, the same groove, the same beat
+      // underneath, and the same grammar in its tune
+      assert.equal(JSON.stringify(v.groove), JSON.stringify(plain.groove), `${k} redrew its groove instead of inheriting it`);
+      assert.deepEqual(v.figure, plain.figure, `${k} redrew the beat's skeleton, leaving the bass on a kick that is not there`);
+      assert.equal(v.contour, plain.contour, `${k} plays its statement's tune but calls it something else`);
+      // and it is CHANGED: the beat, the tune, or both
+      const beat = JSON.stringify(v.drums[0]) !== JSON.stringify(plain.drums[0]);
+      const stated = (x: typeof v) => JSON.stringify(x.lead.find((l) => l.length > 0) ?? []);
+      const tune = stated(v) !== stated(plain);
+      assert.ok(beat || tune, `${k} is note-for-note its plain statement`);
     }
   }
+  assert.ok(checked > 10);
 });
 
 test("the ideas stand on different changes", () => {
@@ -356,4 +377,46 @@ test("the loop is as long as the changes are, and everything pitched repeats on 
   // and the case this is about actually occurs: some materials really are a
   // shorter loop stated more than once
   assert.ok(shorter > 40, `only ${shorter} materials had a loop shorter than the material — the two-bar loop is not the common case`);
+});
+
+test("a returning idea keeps its tune's notes and changes them", () => {
+  // THE RULE OF THREE, at the length of a song. State it, state it again,
+  // then change something — and what comes back has to be recognisably the
+  // thing that went away, or it is not a return at all. "The rule of 3 usually
+  // applies to repeating a motif, section or device, three times before
+  // changing to something else" (omnionsound.com, "The Rule Of Three In Music
+  // Composition").
+  //
+  // What makes this a variation rather than a redraw is that the notes are
+  // INHERITED: every pitch a variant's tune plays, at the position it plays
+  // it, was in the statement. It is the statement with notes taken out and
+  // the survivors held over the gaps — thinning and augmentation, two of the
+  // documented motivic operations (tobyrush.com, "Motivic Development").
+  let descended = 0;
+  let redrawn = 0;
+  for (let seed = 1; seed <= 120; seed++) {
+    const chart = makeChart({ seed, genre: GENRES.lofi, seconds: 240 });
+    const mats = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
+    for (const v of mats.all.values()) {
+      if (v.variant === 0) continue;
+      const plain = mats.all.get(v.idea)!;
+      const turn = (m: typeof v, l: readonly Note[]) =>
+        l.filter((n) => n.bar < m.period).map((n) => `${n.bar}:${n.step}:${n.pitch}`);
+      const stated = turn(plain, plain.lead.find((l) => l.length > 0) ?? []);
+      const heard = turn(v, v.lead.find((l) => l.length > 0) ?? []);
+      if (stated.length === 0 || heard.length === 0) continue;
+      if (heard.every((x) => stated.includes(x))) {
+        descended++;
+        // a variation, not a copy: something has to have gone
+        assert.ok(heard.length < stated.length || JSON.stringify(v.lead[0]) !== JSON.stringify(plain.lead[0]),
+          `${v.key}: nothing changed`);
+      } else {
+        redrawn++;
+      }
+    }
+  }
+  assert.ok(descended > 100, `only ${descended} variants played their statement's own notes`);
+  // a fresh line is the fallback for a tune too short or too tightly written
+  // to thin, and it has to stay the exception
+  assert.ok(redrawn < descended / 4, `${redrawn} variants were redrawn against ${descended} varied`);
 });

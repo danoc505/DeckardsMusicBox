@@ -293,6 +293,10 @@ test("a developed time round differs, and keeps the question where there is one"
   let longMaterials = 0;
   each(120, (_, m) => {
     if (m.lead.length < 3) return;
+    // a VARIANT's two lines are two different transformations of the same
+    // statement, so neither keeps the other's question — that is what makes
+    // them a pair of changes rather than a question and an answer
+    if (m.variant > 0) return;
     longMaterials++;
     const first = tune(m);
     const inLoop = (ns: readonly Note[]): string => JSON.stringify(ns.filter((n) => n.bar < m.period));

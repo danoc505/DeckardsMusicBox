@@ -114,7 +114,7 @@ export const lofi: GenreSpec = {
     swing: 60, swingGrid: 16, jitterMs: 15, accent: 0.34, velocityJitter: 0.07,
     // the snare drags behind a kick that does not, and the keys are lazier
     // still; the bass sits just off the kick rather than on it
-    lean: { snare: 18, hat: 5, kick: 0, bass: 7, keys: 13, lead: 10, drone: 0 },
+    lean: { snare: 18, hat: 5, openhat: 5, kick: 0, bass: 7, keys: 13, lead: 10, drone: 0 },
   },
 
   // a Rhodes, a sub, a muted guitar; and the record on tape, under a

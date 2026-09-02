@@ -103,6 +103,14 @@ export function drawLead(
   sounding: Sounding,
   /** 0 writes the statement; n ≥ 1 writes the nth attempt at a development. */
   developed = 0,
+  /**
+   * How the line moves. PASSED IN, not drawn here: the material records its
+   * own contour, and a line that drew its own would be free to disagree with
+   * the label on it — which it did, writing a reciting tone into a material
+   * that called itself sung and putting repeated pitches where that contour
+   * forbids them.
+   */
+  contour: Contour = "sung",
 ): Note[] {
   const L = chart.genre.lead;
   const [lo, hi] = L.register;
@@ -123,9 +131,6 @@ export function drawLead(
     // leaves a tune nowhere to stand, so that one is a preference below.
     !(st % beatSteps === 0 && !isTone(chord, p) && sounding.rubs(b, st, p));
 
-  // how this tune moves, decided once: a line that changed its grammar every
-  // phrase would be three lines taking turns
-  const contour = contourOf(chart, rng);
   // a reciting tone leaps least of all; a riff is an arpeggio, so it leaps
   // more often than not. The genre's own number is what a sung line uses.
   const leapChance = contour === "riff" ? Math.max(0.6, L.leap) : contour === "chant" ? L.leap / 2 : L.leap;
