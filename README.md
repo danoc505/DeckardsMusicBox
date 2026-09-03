@@ -34,26 +34,34 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-Three steps, and **nothing is ever held down**:
+1. **Pick the disc up and move it.** Press on it and drag along your line, then
+   let go. (One is already sitting there when your turn starts, so this is
+   optional. Clicking anywhere else on your line moves it there too.)
+2. **Click the disc.** It lights up with a pulsing ring — the shot is armed.
+3. **Flick.** Just move the trackpad; no button, no drag, nothing held. The
+   direction you move is the direction the disc goes and how fast you move is
+   how hard it is struck. It fires as the flick ends, and the HUD tells you what
+   power it came out at.
 
-1. **Click your own line** to put the disc where you want it. One is already
-   sitting there when your turn starts, so this is optional.
-2. **Click the disc.** It lights up — the shot is armed.
-3. **Flick the trackpad.** Just move; no button, no drag. The direction you move
-   is the direction the disc goes and how fast you move is how hard it is
-   struck, and it fires as the flick ends. Curve the movement to put spin on it.
+Holding is fine in step 1 — you are carrying a disc, not winding up a shot.
+Nothing is held in step 3.
 
-Moving the cursor when the disc is *not* armed never does anything, so you can
-put your hand wherever you like between shots.
+Moving the cursor while the disc is *not* armed does nothing, and a flick too
+feeble to be meant is refused rather than spent, so a stray twitch cannot cost
+you a disc.
+
+**If the flick feels wrong, change Settings → Flick sensitivity.** Trackpads
+differ enormously in how many pixels a given hand movement produces. Medium
+suits most; Low wants a fast committed flick; High lets a gentle one carry real
+power.
 
 On a touchscreen there is no hover, so step 3 is a swipe that fires when you
-lift off — same three steps otherwise.
+lift off.
 
-**Settings → Slingshot** is the precise alternative, and the one to use for a
-delicate 20: click the disc to arm, move away from where you want it to go, and
-click again to release. Power is how far the cursor sits from the disc, so it
-holds perfectly steady with a full trajectory preview while you line the angle
-up. Still two clicks and a movement — nothing held.
+**Settings → Slingshot** is the precise alternative, and the one for a delicate
+20: click the disc to arm, move away from where you want it to go, and click
+again to release. Power is how far the cursor sits from the disc, so it holds
+perfectly steady with a full trajectory preview while you line the angle up.
 
 ## Tests
 

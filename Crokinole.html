@@ -358,6 +358,13 @@ html,body{
         <button data-v="sling" aria-pressed="false">Slingshot</button>
       </div>
     </div>
+    <div class="row"><span class="label">Flick sensitivity</span>
+      <div class="seg" id="set-sens">
+        <button data-v="low" aria-pressed="false">Low</button>
+        <button data-v="med" aria-pressed="true">Medium</button>
+        <button data-v="high" aria-pressed="false">High</button>
+      </div>
+    </div>
     <div class="row"><span class="label">Trajectory preview</span>
       <div class="seg" id="set-preview">
         <button data-v="full" aria-pressed="true">Full</button>
@@ -634,10 +641,12 @@ const SPEC = {
      the NCA lets players wax the DISC from a supply in the ditch, and only
      officials may wax the surface at all -- so it sits well above a
      shuffleboard table and well below bare wood. The value below puts a
-     full-power shot's free-running slide at MAX_SLIDE and a disc that just
-     reaches the 20 hole at about 0.55 m/s, which is the touch the real game
-     has. [CALIBRATED] */
-  MU_SURFACE:  0.12,
+     full-power shot's free-running slide at MAX_SLIDE. Raised from 0.12 to
+     0.15 -- the top of the researched 0.10-0.15 recommendation -- because
+     at 0.12 the discs glided: they ran on so far after every contact that
+     they read as weightless. Friction is what a heavy wooden disc on a
+     board actually feels like. [CALIBRATED] */
+  MU_SURFACE:  0.15,
 
   /* What a full-power flick would slide on an endless board. This is the
      one knob that sets the whole speed of the game, and it is expressed as
@@ -646,7 +655,7 @@ const SPEC = {
      full-power shot that hits nothing leaves the far side with plenty in
      hand -- which is what happens. V_MAX_SHOT is derived from it and from
      MU_SURFACE, so changing either keeps the two consistent. [CALIBRATED] */
-  MAX_SLIDE:   2.4,
+  MAX_SLIDE:   1.6,
 
   /* SPIN. There are no constants here any more. The coupling between
      sliding and spinning is the exact result for a uniformly loaded disc,
@@ -696,13 +705,35 @@ const SPEC = {
 
   /* THE FLICK. V_MAX_SHOT is derived; the rest is feel. */
   V_MIN_SHOT:     0.08,
-  /* Finger speed, in BOARD metres per second, to disc speed. A real flick
-     is a lever -- the disc leaves the fingernail faster than the finger was
-     travelling -- so this is not 1. Set so that a gentle swipe of about one
-     board-width per second gives the 0.83-1.20 m/s that sinks a 20, and a
-     hard one reaches full power without demanding a superhuman wipe across
-     the glass. [CALIBRATED] */
-  FLICK_GAIN:     0.75,
+  /* HOW A FLICK BECOMES A SHOT.
+
+     This was a plain multiplier, and it was calibrated for a finger sliding
+     on glass. A trackpad moves the cursor several times faster than a
+     finger moves across a screen, so every flick a real hand could make
+     saturated: above about 3200 px/s -- an ordinary trackpad flick -- the
+     shot came out at full power no matter how gently it was meant. That is
+     why the discs felt weightless. There was only ever one shot in the
+     game, and it was the hardest one.
+
+     So it is a mapped range now, in BOARD metres per second so it means the
+     same at any screen size:
+
+        below FLICK_V0        no shot at all
+        FLICK_V0 -> FLICK_V1  scales linearly across the whole power range
+        above FLICK_V1        full power
+
+     FLICK_V1 = 10 board widths per second is a deliberately hard flick,
+     which leaves the middle of the range -- where a 20 lives, around 45% --
+     comfortably reachable. Sensitivity in Settings scales both ends
+     together for hands and trackpads that differ. [CALIBRATED] */
+  FLICK_V0:       0.8,
+  FLICK_V1:      10.0,
+  /* a movement slower than this is not a flick, it is somebody moving the
+     cursor, and it must never fire a shot */
+  FLICK_ARM:      2.2,
+  /* ...and a flick this feeble is a twitch, so it is refused rather than
+     spent, which would otherwise foul away a disc on an open board */
+  FLICK_FLOOR:    0.15,
   PULL_MAX_RADII: 14,        /* full power pull-back, in disc radii    [CALIBRATED] */
   SPIN_REACH:     1.0,       /* sideways release -> strike offset      [CALIBRATED] */
 };
@@ -3448,7 +3479,8 @@ CROK.APP = APP;
 
 const el = id => document.getElementById(id);
 
-APP.settings = { input: 'flick', preview: 'full', rotate: 'on',
+APP.SENS = { low: 1.7, med: 1.0, high: 0.6 };
+APP.settings = { input: 'flick', sens: 'med', preview: 'full', rotate: 'on',
                  sound: 'on', labels: 'on' };
 APP.setup = { mode: 'ai', bestOf: 3, difficulty: 'medium' };
 
@@ -3459,7 +3491,8 @@ APP.state = { screen: 'menu', game: null, view: null, ctx: null, canvas: null,
                  watching for a flick. On a trackpad or mouse that flick is
                  bare pointer movement with NOTHING held down; on a
                  touchscreen, which has no hover, it is a swipe. */
-              armed: false, flickPeak: 0, flickDir: null, flickSeen: false,
+              armed: false, carrying: false, moved: false,
+              flickPeak: 0, flickDir: null, flickSeen: false,
               flickLastT: 0,
               /* PEAK-HOLD. In velocity mode the power of a flick is how fast
                  you were moving -- but a player lining up a shot stops
@@ -3481,7 +3514,15 @@ APP.TAP_TIME = 0.6;        /* seconds */
    shot goes off while you are still deciding. Measured in BOARD metres per
    second, so it means the same on any screen size: 0.55 is a little under
    one board-width per second. */
-APP.FLICK_MIN = 0.55;
+APP.flickScale = function(){ return APP.SENS[APP.settings.sens] || 1; };
+/* board m/s below which a movement is not a flick at all */
+APP.flickArm = function(){ return SPEC.FLICK_ARM * APP.flickScale(); };
+/* movement speed -> shot speed, across the mapped range */
+APP.flickPower = function(v){
+  const k = APP.flickScale();
+  const t = clamp((v - SPEC.FLICK_V0 * k) / ((SPEC.FLICK_V1 - SPEC.FLICK_V0) * k), 0, 1);
+  return t;
+};
 APP.FLICK_END = 0.55;      /* fires once the speed falls to this share of its peak */
 APP.FLICK_IDLE = 0.10;     /* ...or after this long with no movement at all */
 
@@ -3632,8 +3673,11 @@ APP.host = {
 
   onShotFired(g, shot, result, verdict){
     SFX.resume();
-    SFX.flick(SFX.ctx ? SFX.ctx.currentTime : 0, clamp(hypot(shot.vx, shot.vy) / SPEC.V_MAX_SHOT, 0, 1));
-    APP.prompt('Watching the shot', 'Waiting for movement to settle…');
+    const pw = clamp(hypot(shot.vx, shot.vy) / SPEC.V_MAX_SHOT, 0, 1);
+    SFX.flick(SFX.ctx ? SFX.ctx.currentTime : 0, pw);
+    /* say how hard that came out. Without it there is no way to learn what
+       a given flick is worth, which is most of learning the controls. */
+    APP.prompt('Watching the shot', `${Math.round(pw * 100)}% power`);
     APP.toast('');
   },
 
@@ -3691,12 +3735,34 @@ APP.host = {
     SFX.resume();
     s.downT = APP.host.now();
     s.flicking = false;
+    /* PICKING THE DISC UP. Pressing on it and moving carries it along the
+       line, which is the obvious thing to try and the thing that was
+       impossible before: the click that armed the shot also swallowed every
+       attempt to nudge the disc, so the ring that appeared was in the way
+       of ever placing it. Holding is fine HERE -- you are carrying a disc,
+       not winding up a shot. */
+    if (g.pending){
+      const b = RENDER.toBoard(s.view, px, py);
+      s.carrying = hypot(b.x - g.pending.x, b.y - g.pending.y) < SPEC.R_DISC * 2.4;
+    } else s.carrying = false;
     return true;
   },
 
   pointerMove(px, py, samples, dx, dy){
     const s = APP.state, g = s.game;
     if (!g || g.state !== 'aim' || !g.pending) return;
+
+    /* carrying the disc along the line */
+    if (s.carrying){
+      if (hypot(px - dx, py - dy) > APP.TAP_SLOP){
+        if (s.armed) APP.setArmed(false);
+        const b = RENDER.toBoard(s.view, px, py);
+        g.place(b.x, b.y);
+        s.moved = true;
+      }
+      return;
+    }
+
     /* a dragged swipe is only the flick on a touchscreen */
     if (!s.armed || INPUT.state.kind === 'mouse') return;
     if (!s.flicking && hypot(px - dx, py - dy) > APP.TAP_SLOP) s.flicking = true;
@@ -3711,7 +3777,15 @@ APP.host = {
     const moved = hypot(px - dx, py - dy);
     const held = APP.host.now() - (s.downT || 0);
     const wasFlicking = s.flicking;
-    s.flicking = false;
+    const wasCarrying = s.carrying && s.moved;
+    s.flicking = false; s.carrying = false; s.moved = false;
+
+    /* the disc was carried somewhere and put down: that is the whole
+       gesture, and it must not also arm or shoot */
+    if (wasCarrying){
+      APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Click the disc to arm it');
+      return;
+    }
 
     /* --- a click ------------------------------------------------------- */
     if (!wasFlicking && moved <= APP.TAP_SLOP && held < APP.TAP_TIME){
@@ -3785,7 +3859,7 @@ APP.host = {
     const bv = APP.velToBoard(v);
     const spd = hypot(bv.x, bv.y);
 
-    if (spd > APP.FLICK_MIN){
+    if (spd > APP.flickArm()){
       if (!s.flickSeen || spd > s.flickPeak){
         s.flickSeen = true; s.flickPeak = spd; s.flickDir = bv;
       }
@@ -3837,16 +3911,27 @@ APP.fireFlick = function(g){
   const peak = s.flickPeak;
   APP.setArmed(false);
   if (!dir) return;
+  const t = APP.flickPower(peak);
+  /* a twitch is refused rather than spent: on an open board a shot that
+     cannot reach the 15 line is a foul, and losing a disc to an accidental
+     nudge of the trackpad is not a game mechanic */
+  if (t < SPEC.FLICK_FLOOR){
+    APP.setArmed(true);
+    APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too soft — flick it harder');
+    return;
+  }
   const shot = INPUT.buildFlick(SPEC, {
     owner: g.shooter, x: g.pending.x, y: g.pending.y,
     dirX: dir.x, dirY: dir.y,
-    speed: clamp(peak * SPEC.FLICK_GAIN, 0, SPEC.V_MAX_SHOT),
+    speed: SPEC.V_MIN_SHOT + (SPEC.V_MAX_SHOT - SPEC.V_MIN_SHOT) * t,
     lateralFrac: s.flickLateral || 0,
   });
   if (!shot){
-    APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too soft — flick it faster');
+    APP.setArmed(true);
+    APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too soft — flick it harder');
     return;
   }
+  APP.lastPower = t;
   g.takeShot(shot);
 };
 
@@ -3886,7 +3971,8 @@ APP.flickFrom = function(g, rel, whole){
   const wholeL = whole ? hypot(whole.x, whole.y) : 0;
   const dir = relL > 1e-4 ? rel : whole;
   if (!dir || hypot(dir.x, dir.y) < 1e-6) return null;
-  const spd = APP.power(relL, APP.host.now()) * SPEC.FLICK_GAIN;
+  const t = APP.flickPower(APP.power(relL, APP.host.now()));
+  const spd = SPEC.V_MIN_SHOT + (SPEC.V_MAX_SHOT - SPEC.V_MIN_SHOT) * t;
   let lateral = 0;
   if (relL > 1e-4 && wholeL > 1e-4){
     lateral = (whole.x * rel.y - whole.y * rel.x) / (wholeL * relL);
@@ -3895,7 +3981,7 @@ APP.flickFrom = function(g, rel, whole){
     owner: g.shooter, x: g.pending.x, y: g.pending.y,
     dirX: dir.x, dirY: dir.y, speed: spd, lateralFrac: lateral,
   });
-  return shot ? { shot, power: clamp(spd / SPEC.V_MAX_SHOT, 0, 1) } : null;
+  return shot ? { shot, power: t } : null;
 };
 
 /* SLINGSHOT, the precise alternative in Settings. Click the disc to arm,
@@ -4082,6 +4168,7 @@ APP.init = function(){
 
   /* settings */
   seg('set-input',   'input',   APP.settings, APP.settingsHint);
+  seg('set-sens',    'sens',    APP.settings, APP.settingsHint);
   seg('set-preview', 'preview', APP.settings, APP.settingsHint);
   seg('set-rotate',  'rotate',  APP.settings, () => { APP.settingsHint(); APP.resize(); });
   seg('set-sound',   'sound',   APP.settings, v => { SFX.on = v === 'on'; APP.settingsHint(); });
@@ -4113,7 +4200,10 @@ APP.settingsHint = function(){
     short: 'Short preview stops at the first contact.',
     off:   'No preview. Just the aim arrow.',
   }[APP.settings.preview];
-  el('set-hint').textContent = t + ' ' + p;
+  const sens = { low: 'Low sensitivity wants a fast, committed flick.',
+                 med: 'Medium suits most trackpads.',
+                 high: 'High lets a gentle flick carry real power.' }[APP.settings.sens];
+  el('set-hint').textContent = t + ' ' + sens + ' ' + p;
 };
 /* ==========================================================================
    12. CREDITS -- and the honest small print

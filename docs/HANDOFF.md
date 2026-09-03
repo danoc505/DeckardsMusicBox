@@ -84,6 +84,19 @@ game (4 rounds) → match (tournament-defined). A best-of-7 *games* match would 
 28 rounds and 448 shots. The NCA 2/1/0 round scoring is kept exactly, and 20s are
 tracked separately the way a real scorecard tracks them.
 
+**The flick response is a mapped range, not a multiplier.** It was a plain
+gain calibrated for a finger on glass. A trackpad moves the cursor several
+times faster, so every flick a hand could actually make saturated: above about
+3200 px/s the shot came out at full power however gently it was meant. That is
+what "the discs have no weight" was — there was only one shot in the game and
+it was the hardest one. Now movement speed maps across the whole power range
+between `FLICK_V0` and `FLICK_V1`, with a sensitivity multiplier in Settings
+because trackpads differ by more than any single calibration can cover.
+
+**Friction went from 0.12 to 0.15** — the top of the researched 0.10-0.15
+recommendation — because at 0.12 discs ran on after every contact and read as
+weightless. `MAX_SLIDE` came down with it, from 2.4 m to 1.6 m.
+
 **The button is clicked, never held.** Click the line to place, click the disc
 to arm, then flick the trackpad with nothing pressed — the bare pointer
 movement *is* the shot, and it fires on the peak of the gesture as the movement
