@@ -9,6 +9,8 @@ time, anywhere: as notes, as a text dump, as a WAV, in the page.
     node src/cli.ts lofi 42                     the record as text (tools/FORMAT.md)
     node src/cli.ts lofi 42 --wav out.wav       the record as sound
     npm run build                               "Deckards Orchestrator MKIII.html", one file, open it
+    node tools/roll.ts lofi 42                  the tune as a piano roll, read back out of its own MIDI
+    node tools/roll.ts --sweep lofi 1 20        the same numbers over twenty seeds
 
 Node 22 runs the TypeScript directly. There is no bundler: the build
 transpiles `src/` into a forty-line module registry inside `tools/page.html`.
@@ -61,9 +63,19 @@ bytes whatever size block it was made in.
 The page (`tools/page.html`, built into the single file) is a bridge: a
 piano roll, a radar scope for the world, a matrix mixer, a pin matrix for
 the patch, the drum machine's panel and its strips, the pedal board and the
-rack, each rack unit with a screen of its own impulse response. It plays through a worker that stays about half a
-second in front, and saves through a second one, so rendering a file never
-interrupts the record.
+rack, each rack unit with a screen of its own impulse response. It plays
+through a worker that stays about half a second in front, and saves through a
+second one, so rendering a file never interrupts the record.
+
+The melody is theory as constraint: a phrase states a figure and restates it,
+walks one of Huron's contour shapes and closes where that shape was going,
+spends at most one interval wider than a fifth, answers a leap the other way,
+and keeps its highest note an event rather than a ceiling. Every one of those
+is a preference applied after the hard laws, so none of them can write a wrong
+note. The sources are in `docs/genre-research/MELODY-AND-THE-HOOK.md`; the
+proof is `tools/roll.ts`, which composes a record, writes the bytes a
+sequencer would open, parses those bytes back, and prints the roll and the
+numbers — nothing in it can see a variable inside the builders.
 
 `Deckards Orchestrator MK2.html` is the previous program, kept whole and
 runnable. `tools/dump.mjs` reads its notes out in the same text format.

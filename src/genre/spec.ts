@@ -249,6 +249,47 @@ export type Contour = (typeof CONTOURS)[number];
 export const SHAPES = ["loop", "sentence"] as const;
 export type Shape = (typeof SHAPES)[number];
 
+/**
+ * THE SHAPE A PHRASE WALKS, reduced the way Huron reduces one: its first
+ * pitch, the mean of the middle, and its last.
+ *
+ *   arch        up to a height and down again. The commonest shape there is:
+ *               "in 40% of approximately 10,000 phrases (5–11 notes in
+ *               length), an ascending–descending (convex) melodic pattern
+ *               was present" (Huron, "The Melodic Arch in Western
+ *               Folksongs", Computing in Musicology 10, 1996).
+ *   descending  down. The second commonest, and "descending arches are more
+ *               common in the last phrase" (ibid.), which is why an
+ *               answering phrase prefers it.
+ *   ascending   up. Commonest in a FIRST phrase (ibid.).
+ *   concave     down and back up. The rarest of the four.
+ *
+ * A conventional shape is also what a tune people cannot forget has:
+ * "tunes with more common global melodic contour shapes … are more likely
+ * to become INMI" (Jakubowski et al., "Dissecting an Earworm", Psychology of
+ * Aesthetics, Creativity, and the Arts 11(2), 2017).
+ */
+export const ARCS = ["arch", "descending", "ascending", "concave"] as const;
+export type Arc = (typeof ARCS)[number];
+
+/**
+ * THE FIGURE A PHRASE IS MADE OF. A hook is "a memorable catch phrase or
+ * melody line which is REPEATED in a song" (Songwriter's Market, quoted in
+ * Burns, "A typology of 'hooks' in popular records", Popular Music 6/1,
+ * 1987), and Burns's own example is a phrase "repeated immediately" inside a
+ * verse — a hook within a verse.
+ *
+ * `notes` is how many onsets the figure is; `restate` is how often a phrase
+ * says it again rather than walking on. A restatement that the laws refuse
+ * note for note is transposed along the scale, which is the same operation
+ * `vary.ts` calls a sequence.
+ */
+export interface MotifSpec {
+  readonly notes?: number;
+  readonly restate?: number;
+}
+export type MotifRules = Required<MotifSpec>;
+
 /** What a drone sits on: the key's tonic, or the fifth above it. */
 export const DRONE_TONES = ["tonic", "fifth"] as const;
 export type DroneTone = (typeof DRONE_TONES)[number];
@@ -289,6 +330,16 @@ export interface LeadSpec {
   readonly contour?: Weighted<Contour>;
   /** Whether the loop's second turn is the first again or the first varied. */
   readonly shape?: Weighted<Shape>;
+  /** The figure a phrase states and restates: the hook, inside the phrase. */
+  readonly motif?: MotifSpec;
+  /** Which shape a phrase walks, drawn per phrase. */
+  readonly arc?: Weighted<Arc>;
+  /**
+   * 0..1, how often a tune plants ONE interval wider than a perfect fifth.
+   * "Any interval larger than a perfect fifth seems distinctive" (Burns
+   * 1987) — one of them is the tune's signature, and two is a habit.
+   */
+  readonly signature?: number;
 }
 
 /** What the lead builder reads. `rhythms` is in GRID STEPS over two bars. */
@@ -301,6 +352,9 @@ export interface LeadRules {
   readonly art: ArtSpec;
   readonly contour: Weighted<Contour>;
   readonly shape: Weighted<Shape>;
+  readonly motif: MotifRules;
+  readonly arc: Weighted<Arc>;
+  readonly signature: number;
 }
 
 /** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
@@ -1075,6 +1129,39 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ["loop", 2],
       ["sentence", 1],
     ],
+    /**
+     * THREE ONSETS, RESTATED TWO TIMES IN THREE. A hook is a figure that
+     * comes back, and Burns's own examples are of a phrase "repeated
+     * immediately" inside a verse ('Groovin''), or repeated "with a
+     * variation" ('How Can I Be Sure') — a hook within a verse, not across
+     * one. Three onsets is the shortest thing an ear can hold as a figure
+     * rather than a pair of notes; the length and the share are [chosen]
+     * inside what the source describes, which names the operation and not a
+     * number.
+     */
+    motif: { notes: 3, restate: 0.66 },
+    /**
+     * Huron's ranking, as weights: the arch is the commonest shape in the
+     * folksong corpora, then the descent, then the rise, with the concave
+     * shape rarest ("The Melodic Arch in Western Folksongs", 1996). The
+     * ratios between them are [chosen]; the order is measured.
+     */
+    arc: [
+      ["arch", 4],
+      ["descending", 3],
+      ["ascending", 2],
+      ["concave", 1],
+    ],
+    /**
+     * HALF THE TUNES PLANT ONE. A wide interval is what makes a line
+     * distinctive — "any interval larger than a perfect fifth seems
+     * distinctive" (Burns 1987) — and the earworm work finds the same thing
+     * from the other end: a conventional contour with an unusual gradient
+     * between its turning points. A tune with none is plain; every tune
+     * having one would make it the convention it is supposed to break.
+     * [chosen] at a half.
+     */
+    signature: 0.5,
   },
 
   drone: {

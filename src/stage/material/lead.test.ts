@@ -383,3 +383,162 @@ test("a fill rises into the next bar", () => {
   });
   assert.ok(fills > 10, `only ${fills} fills in 120 records`);
 });
+
+// ── THE HOOK, THE SHAPE AND THE HIGH POINT ───────────────────────────────────
+// Melody as constraint rather than legality: see docs/genre-research/
+// MELODY-AND-THE-HOOK.md for the sources, and tools/roll.ts for the same
+// numbers measured off the MIDI file rather than off these objects.
+
+/** The rungs of the scale a line stands on, ascending — read off the line itself. */
+const rungsOf = (line: readonly Note[]): number[] => [...new Set(line.map((n) => n.pitch))].sort((a, b) => a - b);
+
+/**
+ * The longest figure a line says more than once, counted in SCALE STEPS and
+ * in grid steps: a figure moved a step up the scale is the same figure.
+ */
+function repeated(line: readonly Note[], ladder: readonly number[], steps: number): number {
+  const ns = byTime(line);
+  const rung = (p: number): number => ladder.indexOf(p);
+  const at = (n: Note): number => n.bar * steps + n.step;
+  for (let k = Math.min(6, ns.length); k >= 3; k--) {
+    const seen = new Set<string>();
+    for (let i = 0; i + k <= ns.length; i++) {
+      const sig: string[] = [];
+      for (let j = 0; j + 1 < k; j++) sig.push(`${rung(ns[i + j + 1]!.pitch) - rung(ns[i + j]!.pitch)}@${at(ns[i + j + 1]!) - at(ns[i + j]!)}`);
+      const s = sig.join(",");
+      if (seen.has(s)) return k;
+      seen.add(s);
+    }
+  }
+  return 0;
+}
+
+test("a tune says a figure of its own twice, and does it more often than it used to", () => {
+  // The hook, inside the phrase rather than across the loop: a loop repeated
+  // is repetition by construction, and Burns's own examples are of a segment
+  // "repeated immediately" INSIDE a verse.
+  let phrases = 0;
+  let restating = 0;
+  each(60, (chart, m) => {
+    const steps = stepsPerBar(chart.metre);
+    for (const line of lines(m)) {
+      // one turn of the loop: what is written once and played every time
+      const turn = line.filter((n) => n.bar < m.period);
+      if (turn.length < 6) continue;
+      phrases++;
+      if (repeated(turn, rungsOf(line), steps) >= 3) restating++;
+    }
+  });
+  assert.ok(phrases > 40, `only ${phrases} turns were long enough to say anything twice`);
+  // MEASURED, the same sixty seeds before this rule existed: 9%. The floor is
+  // set under what it measures now (34%) rather than at it, because the
+  // number is a draw and a test that pins a draw fails on a Tuesday.
+  const share = restating / phrases;
+  assert.ok(share > 0.2, `only ${(100 * share).toFixed(0)}% of turns restate a figure of their own`);
+});
+
+test("a figure comes back as itself: the same shape, on the same feet", () => {
+  // What makes a restatement a restatement rather than a coincidence: the
+  // rhythm between the notes is the figure's as well as the pitches.
+  each(40, (chart, m) => {
+    const steps = stepsPerBar(chart.metre);
+    for (const line of lines(m)) {
+      const ladder = rungsOf(line);
+      const turn = byTime(line.filter((n) => n.bar < m.period));
+      const k = repeated(turn, ladder, steps);
+      if (k === 0) continue;
+      // the figure exists in the scale it claims to: every note of it is on a rung
+      for (const n of turn) assert.ok(ladder.includes(n.pitch), `${m.key}: ${n.pitch} is not on the ladder`);
+    }
+  });
+});
+
+test("the tune has one high point, and the phrase's peak sounds once", () => {
+  // "Many melodies have a single highest note, usually at or near the end of
+  // the record. The highest note usually marks a climax" (Burns 1987). The
+  // measure is per PHRASE, because the loop plays the tune again and again
+  // and counting the top note across a record counts the tiling.
+  let judged = 0;
+  let alone = 0;
+  each(60, (_, m) => {
+    if (m.contour === "chant") return; // a reciting tone is made of one pitch
+    for (const line of lines(m)) {
+      const turn = line.filter((n) => n.bar < m.period);
+      if (turn.length < 4) continue;
+      judged++;
+      const top = Math.max(...turn.map((n) => n.pitch));
+      if (turn.filter((n) => n.pitch === top).length === 1) alone++;
+    }
+  });
+  assert.ok(judged > 40, `only ${judged} turns were judged`);
+  // measured at 74% before this rule and 80% after, over twenty seeds of the
+  // whole record; the floor is under both, because what it must not do is
+  // fall back to a ceiling being hit again and again
+  assert.ok(alone / judged > 0.6, `the peak sounds once in only ${((100 * alone) / judged).toFixed(0)}% of turns`);
+});
+
+test("some tunes plant one interval wider than a fifth, and none plants three", () => {
+  // "Any interval larger than a perfect fifth seems distinctive" (Burns
+  // 1987): one of those is a signature, and a line full of them is an
+  // arpeggio with a wide grip.
+  let withOne = 0;
+  let tunes = 0;
+  each(60, (_, m) => {
+    if (m.contour === "riff") return; // an arpeggio leaps by nature; the rule is about a line
+    for (const line of lines(m)) {
+      const turn = byTime(line.filter((n) => n.bar < m.period));
+      if (turn.length < 4) continue;
+      tunes++;
+      let wide = 0;
+      for (let i = 1; i < turn.length; i++) if (Math.abs(turn[i]!.pitch - turn[i - 1]!.pitch) > 7) wide++;
+      if (wide > 0) withOne++;
+      assert.ok(wide <= 2, `${m.key} leaps wider than a fifth ${wide} times in one turn`);
+      for (let i = 1; i < turn.length; i++) {
+        assert.ok(Math.abs(turn[i]!.pitch - turn[i - 1]!.pitch) <= 12, `${m.key} leaps ${Math.abs(turn[i]!.pitch - turn[i - 1]!.pitch)} semitones`);
+      }
+    }
+  });
+  assert.ok(tunes > 30, `only ${tunes} tunes were judged`);
+  assert.ok(withOne > 0, "no tune in sixty seeds planted a distinctive interval");
+});
+
+test("a wide leap is answered the other way, and some of the gap comes back", () => {
+  // Meyer's gap-fill: "large intervals in a melody imply smaller intervals in
+  // the opposite direction", and Huron measures the reversal itself at about
+  // 70% of large leaps.
+  //
+  // THE REVERSAL IS THE PART THIS PROGRAM CAN GUARANTEE; THE FULL WALK BACK IS
+  // NOT, AND THAT IS MEASURED RATHER THAN ASSUMED. After a wide leap the
+  // candidate list is often ONE pitch: the landing note is frequently off its
+  // chord, and a note off the chord may only move by a step and only into the
+  // chord under the next onset, which with the phrase's span and the seats the
+  // other parts hold can leave a single legal note. Traced over twenty seeds,
+  // the line's whole choice after a nine-semitone leap was `[69]`. So the debt
+  // biases what there is to choose from and cannot invent a candidate; a line
+  // that oscillates a step above its landing note has answered the leap and
+  // not retraced it.
+  //
+  // Lines the builder wrote, in one turn of the loop: a variant's tune is a
+  // motivic transformation of another line, and a transformation moves whole
+  // lines at once — it can create a leap nothing walked back from.
+  let gaps = 0;
+  let reversed = 0;
+  let recovered = 0;
+  each(60, (_, m) => {
+    if (m.contour === "riff" || m.variant > 0) return;
+    const ns = byTime(tune(m).filter((n) => n.bar < m.period));
+    for (let i = 1; i + 1 < ns.length; i++) {
+      const leap = ns[i]!.pitch - ns[i - 1]!.pitch;
+      if (Math.abs(leap) <= 7) continue;
+      gaps++;
+      if (Math.sign(ns[i + 1]!.pitch - ns[i]!.pitch) === -Math.sign(leap)) reversed++;
+      const three = ns[Math.min(i + 3, ns.length - 1)]!.pitch;
+      recovered += Math.max(0, (three - ns[i]!.pitch) * -Math.sign(leap)) / Math.abs(leap);
+    }
+  });
+  if (gaps === 0) return;
+  // measured at 67% here and 86% on dungeon synth, against Huron's 70%
+  assert.ok(reversed / gaps > 0.5, `only ${reversed} of ${gaps} wide leaps were answered the other way`);
+  // and a quarter of the gap is back within three notes, on average
+  assert.ok(recovered / gaps > 0.2, `only ${((100 * recovered) / gaps).toFixed(0)}% of each gap came back`);
+});

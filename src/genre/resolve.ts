@@ -13,7 +13,7 @@
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, KIT_NAMES, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
+  ARCS, BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, KIT_NAMES, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
   type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
@@ -400,6 +400,20 @@ export function resolveGenre(
       (v) => Array.isArray(v) && v.length >= 1 && v[0] !== "." &&
         v.every((l) => typeof l === "string" && (LEAD_CYCLES as readonly string[]).includes(l)),
       'a list of cycle letters A, B or "." that begins with a sounding cycle');
+    // the figure a phrase restates, and the shape it walks
+    checkPool(problems, "lead.arc", lead["arc"], (v) => (ARCS as readonly unknown[]).includes(v), `one of ${ARCS.join(", ")}`);
+    const motif = isPlainObject(lead["motif"]) ? lead["motif"] : null;
+    if (motif === null) problems.push("lead.motif is missing");
+    else {
+      const n = motif["notes"];
+      // two notes are an interval, not a figure; a figure longer than a bar
+      // of eighths is not restated inside a two-bar phrase, it IS the phrase
+      if (!finite(n) || !Number.isInteger(n) || n < 2 || n > 8) problems.push(`lead.motif.notes must be a whole 2..8, got ${String(n)}`);
+      const r = motif["restate"];
+      if (!finite(r) || r < 0 || r > 1) problems.push(`lead.motif.restate must be 0..1, got ${String(r)}`);
+    }
+    const sig = lead["signature"];
+    if (!finite(sig) || sig < 0 || sig > 1) problems.push(`lead.signature must be 0..1, got ${String(sig)}`);
     if (problems.length === 0) lead["rhythms"] = toSteps(lead["rhythms"]);
   }
 

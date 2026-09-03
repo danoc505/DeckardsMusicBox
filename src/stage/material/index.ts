@@ -256,12 +256,17 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
      * time. Trying only the drawn one sent half the variants back to writing a
      * fresh line, which is the thing a variant is not.
      */
-    const worksFrom = (start: Change, of: readonly Note[]): { line: readonly Note[]; which: Change } | null => {
+    const worksFrom = (
+      start: Change,
+      of: readonly Note[],
+      /** A further test the changed line must pass — the seams, where a caller has two lines to join. */
+      also?: (line: readonly Note[]) => boolean,
+    ): { line: readonly Note[]; which: Change } | null => {
       if (of.length === 0) return null;
       for (let k = 0; k < CHANGES.length; k++) {
         const which = CHANGES[(CHANGES.indexOf(start) + k) % CHANGES.length]!;
         const got = varyLine(of, loop, leadRng.at("vary", which), steps, period, which, ladder(chart), chart.tonic, chart.scale, laws);
-        if (got.changed) return { line: got.line, which };
+        if (got.changed && (also === undefined || also(got.line))) return { line: got.line, which };
       }
       return null;
     };
@@ -285,7 +290,29 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const shape = leadRng.weighted("shape", chart.genre.lead.shape);
     const asSentence = (turn: readonly Note[]): Note[] => {
       if (shape !== "sentence" || period >= bars) return tile(turn);
-      const answer = worksFrom(leadRng.at("sentence").pick("change", CHANGES as readonly Change[]), turn);
+      /**
+       * AND THE TWO TURNS HAVE TWO SEAMS, NOT ONE.
+       *
+       * `lawsFor` judges a line on its own and holds its last note away from
+       * its own first, which is the seam a tiled loop has. A sentence has a
+       * second line in it — a a' a a' — so there are two junctions to keep
+       * clean: the statement's last note into the variation's first, and the
+       * variation's last into the statement's first. Neither is a fact about
+       * either line alone, so neither can be a law of one; they are checked
+       * here, where both lines exist. Found by the roll: seed 56 held 83 into
+       * bar 2 and read as a tune stuttering on the bar line.
+       */
+      const ends = (l: readonly Note[]): { first: number; last: number } | null => {
+        const ns = l.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
+        return ns.length === 0 ? null : { first: ns[0]!.pitch, last: ns[ns.length - 1]!.pitch };
+      };
+      const a = ends(turn);
+      const joins = (line: readonly Note[]): boolean => {
+        if (contour === "chant") return true;
+        const b = ends(line);
+        return a !== null && b !== null && b.first !== a.last && a.first !== b.last;
+      };
+      const answer = worksFrom(leadRng.at("sentence").pick("change", CHANGES as readonly Change[]), turn, joins);
       if (answer === null) return tile(turn);
       const out: Note[] = [];
       for (let k = 0; k * period < bars; k++) {
