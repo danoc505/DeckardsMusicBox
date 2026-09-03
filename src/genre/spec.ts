@@ -338,12 +338,40 @@ export type MotifRules = Required<MotifSpec>;
 export const DRONE_TONES = ["tonic", "fifth"] as const;
 export type DroneTone = (typeof DRONE_TONES)[number];
 
+/** A string on the drone instrument: the tonic, the fifth, or the tonic an octave down. */
+export const DRONE_STRINGS = ["tonic", "fifth", "low"] as const;
+export type DroneString = (typeof DRONE_STRINGS)[number];
+
 export interface DroneSpec {
   readonly register?: Register;
   /** Which tone of the KEY it holds — never of the chord; a drone does not follow the changes. */
   readonly tone?: Weighted<DroneTone>;
-  /** How many bars one tone is held for, drawn once per material. */
+  /** How many bars one tone RINGS for once it is struck, drawn once per material. */
   readonly hold?: Weighted<number>;
+  /**
+   * THE STRINGS, in the order they are plucked — because a drone is not one
+   * held note, and the instruments that make drones for a living do not make
+   * them that way.
+   *
+   * A tanpura has four: "normally the fifth (Pa) and the root tonic (Sa)",
+   * with one of the tonic strings tuned "an octave below the others, adding
+   * greater resonance and depth". They are "plucked in a regular, repeating
+   * rhythm", one after another, and what makes the sound is that they
+   * OVERLAP — "when the next strand is plucked, the two notes interact and
+   * build on each other". That interaction is the shimmer, and a single
+   * sustained pitch cannot have it.
+   * [en.wikipedia.org/wiki/Tanpura; riyaazqawwali.com/tanpura;
+   * organology.net/instrument/tanpura]
+   *
+   * "low" is the tone an octave under the one drawn — the tanpura's deep Sa.
+   */
+  readonly strings?: Weighted<readonly DroneString[]>;
+  /**
+   * How the cycle is plucked: how many BARS between strings, and the extra
+   * bars closing each turn — "when the last note of the rhythm is played, the
+   * pattern repeats after a slightly longer pause".
+   */
+  readonly pluck?: { readonly every?: number; readonly rest?: number };
   /** How often each manner is reached for. Only what the instrument can do. */
   readonly art?: ArtSpec;
 }
@@ -352,6 +380,8 @@ export interface DroneRules {
   readonly register: Register;
   readonly tone: Weighted<DroneTone>;
   readonly hold: Weighted<number>;
+  readonly strings: Weighted<readonly DroneString[]>;
+  readonly pluck: { readonly every: number; readonly rest: number };
   readonly art: ArtSpec;
 }
 
@@ -614,10 +644,12 @@ export type VoiceName = (typeof VOICES)[number];
  * both, because the player is still touching the note while it sounds. A
  * genre may weight these however it likes and may not add to them.
  *
- * Every instrument can be struck plain, held, cut short or leant on, so those
- * are not listed: they are the floor, and they are only weight and length.
+ * Every instrument can be struck plain, held, cut short, leant on, or left to
+ * ring, so those are not listed: they are the floor, and they are only weight
+ * and length. Laissez vibrer is on that floor because it asks nothing of the
+ * player at all — it is the absence of the damping every other manner does.
  */
-export const FLOOR: readonly ArtName[] = Object.freeze(["plain", "tenuto", "staccato", "marcato", "accent"]);
+export const FLOOR: readonly ArtName[] = Object.freeze(["plain", "tenuto", "staccato", "marcato", "accent", "ring"]);
 
 export const CAN: Readonly<Record<VoiceName, readonly ArtName[]>> = Object.freeze({
   /** Tines, struck. Weight and length only — and a dead-key thud for a ghost. */
@@ -1303,15 +1335,47 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ["tonic", 5],
       ["fifth", 2],
     ],
+    /**
+     * THE TANPURA'S FOUR, in its own order: the fifth, two tonics, then the
+     * deep one. "Normally the fifth (Pa) and the root tonic (Sa)", with a
+     * tonic string "an octave below the others, adding greater resonance and
+     * depth". Thinner tunings are offered for a genre that does not want four
+     * strings ringing at once.
+     */
+    strings: [
+      [["fifth", "tonic", "tonic", "low"], 5],
+      [["tonic", "fifth"], 2],
+      [["tonic", "low"], 1],
+    ],
+    /**
+     * A string every two bars, and a bar's pause closing the turn — "the
+     * pattern repeats after a slightly longer pause".
+     *
+     * TWO BARS AND NOT ONE, because how many strings ring TOGETHER is
+     * ceil(hold / every), and this program gives a ringing pitch an exclusive
+     * seat. At one bar apart, four strings held four bars each meant the
+     * drone owned four seats without pause, in a register that overlaps the
+     * pad's — and the pad, which is drawn after it, ran out of voicings
+     * that cleared it and landed on the drone's own F4. Two bars apart, two
+     * ring, which is still an overlap and still a drone.
+     * [chosen, from the cited cycle and this program's own seat model]
+     */
+    pluck: { every: 2, rest: 1 },
     hold: [
       [4, 4],
       [2, 2],
       [1, 1],
     ],
-    /** A held tone is held: tenuto is 95% of the written value, and a drone means it. */
+    /**
+     * A plucked string is left to ring. Nothing damps a drone string between
+     * plucks, so it holds every step it is written for and the next pluck
+     * takes over from it — which is why the manner here is laissez vibrer and
+     * not tenuto, whose missing twentieth is a gap in the one part that must
+     * not have one.
+     */
     art: [
-      ["tenuto", 6],
-      ["plain", 1],
+      ["ring", 6],
+      ["tenuto", 1],
     ],
   },
 

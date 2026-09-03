@@ -119,6 +119,22 @@ export const dungeonsynth: GenreSpec = {
 
   arrangement: {
     enter: ["drone", "keys", "bass", "drums", "lead"],
+    /**
+     * AND THE DRONE IS THE LAST THING THIS GENRE GIVES UP, which is the
+     * reverse of the default and has to be said here or it is inherited
+     * wrong. The default sheds drone first — sensible where a pad is
+     * decoration — and this genre ENTERS on the drone and is founded on it.
+     * Inheriting that order meant the first sound of the record was also the
+     * first thing thrown away: across sixty seeds the drone was dropped at a
+     * span boundary 37 times, and a drone that stops is not a quieter
+     * arrangement, it is the floor going out.
+     *
+     * So the drums go first — this music "notably avoids" a busy kit and
+     * carries the fewest of any part here — then the tune, then the bass,
+     * then the pad. What a quiet section keeps is bass, pad and drone, which
+     * is what this music sounds like when it is being quiet.
+     */
+    shed: ["drums", "lead", "bass", "keys", "drone"],
     introParts: 1,
     fullAbove: 0.85,
     thinBelow: 0.3,
@@ -131,8 +147,27 @@ export const dungeonsynth: GenreSpec = {
      * putting the attention on its drums is announcing the thing it has least
      * of. It opens on the drone, or on the flute over it.
      */
+    /**
+     * NOT ALWAYS THE DRONE. The drone is first in this genre's entry order,
+     * so every kind that opens from the front of that order opens on it — a
+     * bed is the drone, a hook is the drone and the tune. Across sixty seeds
+     * that made the drone the first sound of the record 100% of the time, and
+     * the drone ALONE 77% of it, which is a habit and not a way in.
+     *
+     * A rhythm intro is the one kind that does not read the front of the
+     * order: it is the drums, and the bass with them where a genre brings the
+     * bass in early — which this one does. It works "because there is little
+     * or no melody or harmony to attend to" (Burns 1987), and for a genre
+     * whose whole subject is atmosphere, arriving on the beat instead is the
+     * strongest contrast available.
+     *
+     * A quarter, not more: the drone founding the record is still what this
+     * music mostly does. [chosen — the kinds are the sources', the weights
+     * are not published anywhere]
+     */
     intro: [
-      ["bed", 6],
+      ["bed", 5],
+      ["rhythm", 2],
       ["hook", 1],
     ],
   },

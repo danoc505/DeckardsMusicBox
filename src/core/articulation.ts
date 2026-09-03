@@ -43,7 +43,7 @@
  */
 
 export const ARTS = [
-  "plain", "tenuto", "staccato", "marcato", "ghost", "accent", "slur", "slide", "bend", "tremolo",
+  "plain", "tenuto", "staccato", "marcato", "ghost", "accent", "slur", "slide", "bend", "tremolo", "ring",
 ] as const;
 export type ArtName = (typeof ARTS)[number];
 
@@ -97,6 +97,15 @@ export const ART: Readonly<Record<ArtName, Art>> = Object.freeze({
   bend: art("bend", { hold: 0.95, bend: 2, reachSec: 0.12 }),
   /** Re-struck across its length: tremolo picking, or a roll. */
   tremolo: art("tremolo", { hold: 0.95, strikes: 4, weigh: 0.85 }),
+  /**
+   * Laissez vibrer: the string is struck and NOT damped, so it rings its
+   * whole written length and hands straight over to whatever is struck next.
+   * Every other manner takes a slice off the end — a fifth of it for plain,
+   * a twentieth for tenuto — and on a note written to last two bars that
+   * slice is a third of a second of silence in a part whose entire job is
+   * not to stop.
+   */
+  ring: art("ring", { hold: 1 }),
 });
 
 export const PLAIN = ART.plain;

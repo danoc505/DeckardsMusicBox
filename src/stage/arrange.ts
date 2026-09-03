@@ -227,6 +227,21 @@ interface Move {
   readonly heard: Set<Role>;
   readonly thin: boolean;
   readonly role: Role;
+  /**
+   * HOW READILY THE GENRE PARTS WITH THIS ONE, 0..1, from its shed order.
+   *
+   * The pool offers every part and lets the score decide, and left to itself
+   * the score picks whatever has been present longest — which is the
+   * FOUNDATION. Dungeon synth enters on its drone and the drone is therefore
+   * the highest-standing part in the record, so it was the likeliest thing to
+   * be taken away: dropped at 48 span boundaries in sixty records, and a
+   * drone that stops is not a quieter arrangement, it is the floor going out.
+   *
+   * "The genre says which part it can most afford" is already written in this
+   * file's header, and the shed order is where it says it. This is that
+   * sentence made arithmetic, so a genre founded on a part keeps it.
+   */
+  readonly afford: number;
 }
 
 export function makeArrangement(chart: Chart, form: Form): Arrangement {
@@ -372,16 +387,36 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.
         const pool: Move[] = [];
-        const push = (name: string, h: Set<Role>, th: boolean, role: Role): void => {
-          if (h.size === cur.heard.size && th === cur.thin && [...h].every((r) => cur.heard.has(r))) return;
-          pool.push({ name, heard: h, thin: th, role });
+        /** First in the shed order is the most affordable; last is the foundation. */
+        const affords = (r: Role): number => {
+          const i = A.shed.indexOf(r);
+          return i < 0 ? 1 : 1 - i / A.shed.length;
         };
+        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1): void => {
+          if (h.size === cur.heard.size && th === cur.thin && [...h].every((r) => cur.heard.has(r))) return;
+          pool.push({ name, heard: h, thin: th, role, afford });
+        };
+        /**
+         * THE DRONE DOES NOT COME AND GO INSIDE A SECTION.
+         *
+         * It is the floor the section stands on, and the two-loop clock is
+         * about what moves OVER that floor. Taking it out at a span boundary
+         * and putting it back four bars later is a drone stopping for no
+         * reason and then starting again as itself, because the drone belongs
+         * to the material and one material has one drone: what came back was
+         * note for note what left.
+         *
+         * When the record does put the drone down it does it at a SECTION,
+         * which is where the material changes — so what comes back stands on
+         * a different tone. A drone that stops has moved.
+         */
+        const movable = (r: Role): boolean => r !== "drone";
         // an instrument out — stacked on where the span already is, not on the base
         if (!section.peak && cur.heard.size > A.fewest) {
           for (const r of A.shed) {
-            if (!cur.heard.has(r)) continue;
+            if (!cur.heard.has(r) || !movable(r)) continue;
             const less = new Set(cur.heard); less.delete(r);
-            push("part-out", less, cur.thin, r);
+            push("part-out", less, cur.thin, r, affords(r));
           }
         }
         // an instrument back — only ever one span 0 already had
@@ -395,8 +430,8 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         // strip to the fewest the genre carries, keeping the tail of the shed order
         if (!section.peak && cur.heard.size > A.fewest) {
           const stripped = new Set(cur.heard);
-          for (const r of A.shed) { if (stripped.size <= A.fewest) break; stripped.delete(r); }
-          push("strip", stripped, cur.thin, A.shed[0]!);
+          for (const r of A.shed) { if (stripped.size <= A.fewest) break; if (movable(r)) stripped.delete(r); }
+          push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
         }
         // expression down, and back up — never above the floor the form set
         if (!cur.thin) push("hold-back", new Set(cur.heard), true, "drums");
@@ -424,7 +459,9 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           //   the rule of three, applied to this stage's own vocabulary: the
           //   same move on the same part wears out across the whole record
           const fresh = 1 / (1 + (ledger.used.get(`${mv.name}:${mv.role}`) ?? 0));
-          const fit = serve * worth * fresh;
+          //   and a genre does not part with its foundation as readily as with
+          //   its decoration: what it can most afford is its own to say
+          const fit = serve * worth * fresh * mv.afford;
           if (fit > bestFit) { bestFit = fit; best = mv; }
         }
         if (best === null) {

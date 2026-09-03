@@ -149,8 +149,8 @@ export const lofi: GenreSpec = {
     register: [51, 65],
     tone: [["tonic", 6], ["fifth", 1]],
     hold: [[4, 5], [2, 1]],
-    /** a pad is bowed, not struck: it holds, and it slurs into the next tone */
-    art: [["tenuto", 6], ["slur", 2], ["plain", 1]],
+    /** a pad is left to ring, and where it does not it slurs into the next tone: either way it never stops */
+    art: [["ring", 6], ["slur", 2]],
   },
 
   // the muted guitar is the one part with a hand still on the string
