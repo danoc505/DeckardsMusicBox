@@ -34,26 +34,29 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-Three steps, and **nothing is ever held down**:
+There is no flick. Nothing depends on how fast you move.
 
-1. **Click your own line** to put the disc where you want it. One is already
-   sitting there when your turn starts, so this is optional.
-2. **Click the disc.** It lights up — the shot is armed.
-3. **Flick the trackpad.** Just move; no button, no drag. The direction you move
-   is the direction the disc goes and how fast you move is how hard it is
-   struck, and it fires as the flick ends. Curve the movement to put spin on it.
+1. **Click the disc.** (Clicking anywhere else on your own line moves it there
+   first.)
+2. **Move away from it.** A line draws from the disc to where you are, and a
+   dashed ring marks where the disc will stop. **The further from the disc you
+   are, the harder it is struck.**
+3. **Lift your finger off the trackpad** and it shoots.
 
-Moving the cursor when the disc is *not* armed never does anything, so you can
-put your hand wherever you like between shots.
+**The disc stops where you point.** That is the whole rule — put the cursor on
+the 20 and the disc comes to rest on the 20. It falls out of the physics rather
+than being arranged: under dry friction a disc launched at `sqrt(2·mu·g·d)`
+travels exactly `d`, so the control is the friction law read backwards. To
+*hit* something, aim past it, and it arrives with whatever pace it has left.
 
-On a touchscreen there is no hover, so step 3 is a swipe that fires when you
-lift off — same three steps otherwise.
+Because nothing is timed, the trajectory preview holds perfectly still while
+you line the shot up, and the same position always gives the same shot.
 
-**Settings → Slingshot** is the precise alternative, and the one to use for a
-delicate 20: click the disc to arm, move away from where you want it to go, and
-click again to release. Power is how far the cursor sits from the disc, so it
-holds perfectly steady with a full trajectory preview while you line the angle
-up. Still two clicks and a movement — nothing held.
+**With a finger**: press, drag away from the disc, lift off. Same rule.
+
+On a trackpad a finger leaving the pad sends no event — the cursor simply
+stops — so the shot goes when the cursor has been still for a moment, with a
+ring closing around the disc so the wait is visible. Move again to call it off.
 
 ## Tests
 

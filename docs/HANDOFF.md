@@ -100,6 +100,21 @@ hardware is worst at, and it is not what flicking a disc feels like either. Now
 a disc is always waiting on the line, a tap moves it, and a flick anywhere on
 the board shoots in the direction you swiped.
 
+**Aim by position, never by speed.** Five earlier versions took the shot's
+power from how FAST the hand moved and every one was wrong in the same way:
+speed is not something a hand repeats, it means different things on a trackpad
+and on glass, and it can only be read at the instant the gesture ends — so the
+trajectory line appeared and vanished exactly when it was wanted. Distance has
+none of those problems. `APP.aimShot` launches the disc at
+`sqrt(2*MU_SURFACE*G*d)` for a cursor `d` away, so it comes to rest under the
+cursor: the control is the friction law solved backwards, and there is no
+calibration constant in it at all. `harness/crok_physics.js` §1b asserts the
+disc really does stop where it was asked to, within 2%.
+
+The one device difference left: glass fires when the touch ends, a trackpad
+when the cursor has been still for `AIM_SETTLE`, because a finger leaving a
+trackpad sends no event.
+
 **Difficulty is execution, not worse choices.** The AI finds a good shot and then
 misses it. Medium and Hard also re-score their leading candidates through their
 own shake and keep the average — which is what a player choosing a shot they can

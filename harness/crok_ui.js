@@ -79,185 +79,162 @@ const VIEW = { width: 1180, height: 820 };
   ok(state && state.left[0] === 8 && state.left[1] === 8, "with 8 discs each");
   await page.screenshot({ path: path.join(OUT, "03-board.png") });
 
-  /* --- the gesture: click, click the disc, flick the trackpad ----------- */
-  /* Every event here is dispatched inside the page, for two reasons: real
-     delays between samples, so the velocity fit sees what a hand would give
-     it; and buttons:0 pointermoves, which is what a trackpad flick actually
-     is and which Playwright's mouse API cannot express without a drag. */
+  /* --- the gesture: click the disc, move away, stop ---------------------- */
   const box = await page.locator("#board-canvas").boundingBox();
   const cx = box.x + box.width / 2, cy = box.y + box.height / 2;
 
-  const click = (x, y) => page.evaluate(({ x, y, left, top }) => {
+  const click = (x, y, kind) => page.evaluate(({ x, y, left, top, kind }) => {
     const cv = document.getElementById("board-canvas");
-    for (const t of ["pointerdown", "pointerup"]){
+    for (const t of ["pointerdown", "pointerup"])
       cv.dispatchEvent(new PointerEvent(t, {
-        pointerId: 1, pointerType: "mouse", isPrimary: true, bubbles: true,
+        pointerId: 1, pointerType: kind, isPrimary: true, bubbles: true,
         cancelable: true, clientX: x + left, clientY: y + top,
-        buttons: t === "pointerdown" ? 1 : 0,
-      }));
-    }
-  }, { x: x - box.x, y: y - box.y, left: box.x, top: box.y });
+        buttons: t === "pointerdown" ? 1 : 0 }));
+  }, { x: x - box.x, y: y - box.y, left: box.x, top: box.y, kind: kind || "mouse" });
 
-  /* movement with NOTHING held down -- the flick itself */
-  const flick = (x0, y0, x1, y1, ms) => page.evaluate(
-    async ({ x0, y0, x1, y1, ms, left, top }) => {
-      const cv = document.getElementById("board-canvas");
-      const N = 10;
-      for (let i = 1; i <= N; i++){
-        await new Promise(r => setTimeout(r, ms / N));
-        cv.dispatchEvent(new PointerEvent("pointermove", {
-          pointerId: 1, pointerType: "mouse", isPrimary: true, bubbles: true,
-          cancelable: true, buttons: 0,          /* no button. this is the point */
-          clientX: x0 + (x1 - x0) * (i / N) + left,
-          clientY: y0 + (y1 - y0) * (i / N) + top,
-        }));
-      }
-      /* and then the hand comes to rest, which is what ends the flick */
-      for (let i = 0; i < 6; i++){
-        await new Promise(r => setTimeout(r, 30));
-        cv.dispatchEvent(new PointerEvent("pointermove", {
-          pointerId: 1, pointerType: "mouse", isPrimary: true, bubbles: true,
-          cancelable: true, buttons: 0, clientX: x1 + left, clientY: y1 + top,
-        }));
-      }
-    }, { x0: x0 - box.x, y0: y0 - box.y, x1: x1 - box.x, y1: y1 - box.y,
-         ms, left: box.x, top: box.y });
-
-  const peek = () => page.evaluate(() => {
-    const g = window.CROK.APP.state.game, A = window.CROK.APP.state;
-    return { state: g.state, left: g.left[0], armed: A.armed,
-             px: g.pending && g.pending.x, py: g.pending && g.pending.y,
-             preview: !!g.preview, power: g.power,
-             shot: g.play ? { vx: g.play.shot.vx, vy: g.play.shot.vy } : null };
-  });
-
-  const start = await peek();
-  ok(start.px !== undefined && start.px !== null,
-     "a disc is already on the line when the turn starts");
-  ok(!start.armed, "and it is not armed yet");
-
-  /* 1. CLICK THE LINE -- moves the disc, does not shoot ------------------ */
-  const arcY = cy + box.height * 0.352;
-  await click(cx - box.width * 0.15, arcY);
-  await page.waitForTimeout(120);
-  const placed = await peek();
-  ok(placed.left === 8, "clicking the line costs no disc");
-  ok(Math.abs(placed.px - start.px) > 0.01, "but it does move the disc along the line",
-     `${((placed.px - start.px) * 1000).toFixed(0)} mm`);
-  ok(!placed.armed, "and does not arm it");
-
-  /* 2. CLICK THE DISC -- arms it, still does not shoot ------------------- */
-  const discPt = await page.evaluate(() => {
-    const A = window.CROK.APP.state, g = A.game;
-    const p = window.CROK.RENDER.toScreen(A.view, g.pending.x, g.pending.y);
-    return p;
-  });
-  await click(box.x + discPt.x, box.y + discPt.y);
-  await page.waitForTimeout(120);
-  const armed = await peek();
-  ok(armed.armed, "clicking the disc arms the shot");
-  ok(armed.left === 8, "and still costs no disc");
-  ok(armed.state === "aim", "and fires nothing");
-  await page.screenshot({ path: path.join(OUT, "04-armed.png") });
-
-  /* 3. FLICK THE TRACKPAD -- no button held anywhere -------------------- */
-  await flick(cx, cy + box.height * 0.28, cx, cy - box.height * 0.12, 130);
-  await page.waitForTimeout(200);
-  const fired = await peek();
-  ok(fired.left === 7, "a flick with no button held fires the shot",
-     `left ${fired.left}`);
-  ok(!fired.armed, "and disarms afterwards");
-  if (fired.shot){
-    const sp = Math.hypot(fired.shot.vx, fired.shot.vy);
-    ok(sp > 0.3, "with real speed on it", `${sp.toFixed(2)} m/s`);
-    ok(fired.shot.vy < 0, "travelling the way the trackpad moved (up the board)",
-       `vy ${fired.shot.vy.toFixed(2)}`);
-    console.log(`   flick: ${sp.toFixed(2)} m/s at ` +
-                `${(Math.atan2(fired.shot.vy, fired.shot.vx) * 180 / Math.PI).toFixed(0)}deg, ` +
-                `no button held at any point`);
-  } else ok(false, "the shot was recorded");
-
-  /* 4. moving while NOT armed must never fire --------------------------- */
-  await page.waitForTimeout(3000);
-  await page.evaluate(async () => {
-    const g = window.CROK.APP.state.game;
-    for (let i = 0; i < 60 && (g.state !== 'aim' || g.isAI(g.shooter)); i++)
-      await new Promise(r => setTimeout(r, 150));
-  });
-  const before = await peek();
-  await flick(cx - box.width * 0.2, cy, cx + box.width * 0.2, cy, 120);
-  await page.waitForTimeout(150);
-  const after = await peek();
-  ok(after.left === before.left,
-     "moving the cursor when NOT armed never fires a shot",
-     `${before.left} -> ${after.left}`);
-
-  /* 5. the preview is drawn while a flick builds ------------------------ */
-  await page.evaluate(() => {
-    const A = window.CROK.APP.state;
-    const p = window.CROK.RENDER.toScreen(A.view, A.game.pending.x, A.game.pending.y);
-    A.game.host.pointerDown(p.x, p.y, 'mouse');
-    A.game.host.pointerUp(p.x, p.y, { vx: 0, vy: 0, n: 0 }, p.x, p.y);
-  });
-  await page.waitForTimeout(80);
-  await page.evaluate(async ({ left, top, x0, y0, x1, y1 }) => {
-    const cv = document.getElementById("board-canvas");
-    for (let i = 1; i <= 8; i++){
-      await new Promise(r => setTimeout(r, 14));
-      cv.dispatchEvent(new PointerEvent("pointermove", {
-        pointerId: 1, pointerType: "mouse", isPrimary: true, bubbles: true,
-        cancelable: true, buttons: 0,
-        clientX: x0 + (x1 - x0) * (i / 8) + left, clientY: y0 + (y1 - y0) * (i / 8) + top }));
-    }
-  }, { left: box.x, top: box.y, x0: cx - box.x, y0: cy + box.height * 0.28 - box.y,
-       x1: cx - box.x, y1: cy - box.height * 0.05 - box.y });
-  await page.screenshot({ path: path.join(OUT, "05-flicking.png") });
-  const mid = await peek();
-  ok(mid.preview || mid.left < before.left,
-     "the trajectory preview is drawn as the flick builds");
-  console.log(`   preview during flick: ${mid.preview ? 'drawn' : 'shot already away'}` +
-              (mid.preview ? `, power ${(mid.power * 100).toFixed(0)}%` : ''));
-  await page.waitForTimeout(600);
-
-  /* --- Slingshot mode: click, move, click. Still no button held --------- */
-  await page.evaluate(async () => {
-    const A = window.CROK.APP, g = A.state.game;
-    A.settings.input = 'sling';
-    for (let i = 0; i < 80 && (g.state !== 'aim' || g.isAI(g.shooter)); i++)
-      await new Promise(r => setTimeout(r, 150));
-  });
-  await page.waitForTimeout(150);
-  const slingStart = await peek();
-  const dp = await page.evaluate(() => {
-    const A = window.CROK.APP.state;
-    return window.CROK.RENDER.toScreen(A.view, A.game.pending.x, A.game.pending.y);
-  });
-  await click(box.x + dp.x, box.y + dp.y);            /* arm */
-  await page.waitForTimeout(100);
-  /* move away from the disc, downward, so the shot goes UP the board */
-  await page.evaluate(({ left, top, x, y }) => {
+  /* cursor movement with nothing held: this is the aim */
+  const moveTo = (x, y) => page.evaluate(({ x, y, left, top }) => {
     document.getElementById("board-canvas").dispatchEvent(new PointerEvent("pointermove", {
       pointerId: 1, pointerType: "mouse", isPrimary: true, bubbles: true,
       cancelable: true, buttons: 0, clientX: x + left, clientY: y + top }));
-  }, { left: box.x, top: box.y, x: dp.x, y: dp.y + box.height * 0.22 });
-  await page.waitForTimeout(150);
-  const slingAim = await peek();
-  ok(slingAim.armed, "slingshot: the disc is armed and waiting");
-  ok(slingAim.preview, "slingshot: a steady preview follows the cursor",
-     `power ${(slingAim.power * 100).toFixed(0)}%`);
-  await page.screenshot({ path: path.join(OUT, "06-sling.png") });
-  await click(box.x + dp.x, box.y + dp.y + box.height * 0.22);   /* release */
-  await page.waitForTimeout(200);
-  const slung = await peek();
-  ok(slung.left === slingStart.left - 1, "slingshot: the second click fires",
-     `${slingStart.left} -> ${slung.left}`);
-  if (slung.shot){
-    ok(slung.shot.vy < 0, "slingshot: it goes opposite the pull (up the board)",
-       `vy ${slung.shot.vy.toFixed(2)}`);
-    console.log(`   sling: ${Math.hypot(slung.shot.vx, slung.shot.vy).toFixed(2)} m/s, ` +
-                `power set by distance and held steady`);
+  }, { x: x - box.x, y: y - box.y, left: box.x, top: box.y });
+
+  const peek = () => page.evaluate(() => {
+    const g = window.CROK.APP.state.game, A = window.CROK.APP.state;
+    return { state: g.state, left: g.left[0], aiming: A.aiming,
+             px: g.pending && g.pending.x, py: g.pending && g.pending.y,
+             preview: !!g.preview, power: g.power, settle: A.aimSettle,
+             shot: g.play ? { vx: g.play.shot.vx, vy: g.play.shot.vy } : null };
+  });
+  const discAt = () => page.evaluate(() => {
+    const A = window.CROK.APP.state;
+    return window.CROK.RENDER.toScreen(A.view, A.game.pending.x, A.game.pending.y);
+  });
+
+  const start = await peek();
+  ok(start.px !== null && start.px !== undefined, "a disc is on the line at the start of the turn");
+  ok(!start.aiming, "and nothing is being aimed yet");
+
+  /* 1. click the LINE -- moves the disc, does not aim -------------------- */
+  await click(cx - box.width * 0.15, cy + box.height * 0.352);
+  await page.waitForTimeout(120);
+  const placed = await peek();
+  ok(placed.left === 8, "clicking the line costs no disc");
+  ok(Math.abs(placed.px - start.px) > 0.01, "but it moves the disc along the line",
+     `${((placed.px - start.px) * 1000).toFixed(0)} mm`);
+  ok(!placed.aiming, "and does not start aiming");
+
+  /* 2. click the DISC -- starts aiming, fires nothing -------------------- */
+  const dp = await discAt();
+  await click(box.x + dp.x, box.y + dp.y);
+  await page.waitForTimeout(120);
+  const aiming0 = await peek();
+  ok(aiming0.aiming, "clicking the disc starts aiming");
+  ok(aiming0.left === 8, "and fires nothing");
+
+  /* 3. move away -- the preview draws, and further is harder ------------- */
+  await moveTo(box.x + dp.x, box.y + dp.y - box.height * 0.12);
+  await page.waitForTimeout(60);
+  const near = await peek();
+  await moveTo(box.x + dp.x, box.y + dp.y - box.height * 0.34);
+  await page.waitForTimeout(60);
+  const far = await peek();
+  ok(near.preview && far.preview, "the trajectory preview draws while aiming");
+  ok(far.power > near.power, "the further from the disc, the more force",
+     `${(near.power * 100).toFixed(0)}% -> ${(far.power * 100).toFixed(0)}%`);
+  ok(far.left === 8, "and moving alone still fires nothing");
+  console.log(`   aim: ${(near.power * 100).toFixed(0)}% near the disc, ` +
+              `${(far.power * 100).toFixed(0)}% far from it, preview drawn throughout`);
+  await page.screenshot({ path: path.join(OUT, "04-aiming.png") });
+
+  /* the headline promise: the disc stops where the cursor is ------------- */
+  /* Re-established first, because the screenshot above takes long enough
+     that the stop-to-shoot timer can have fired -- which is the control
+     working, not a fault. */
+  const landing = await page.evaluate(() => {
+    const APPx = window.CROK.APP, A = APPx.state, g = A.game;
+    if (!g.pending || g.state !== 'aim') return null;
+    const p = window.CROK.RENDER.toScreen(A.view, g.pending.x, g.pending.y);
+    /* aim straight up the board, a third of the way across it */
+    const px = p.x, py = p.y - A.view.scale * 0.22;
+    const m = APPx.aimShot(g, px, py);
+    if (!m) return null;
+    const r = window.CROK.PHYS.runShot(g.world, m.shot, { frames: false });
+    const d = r.world.discs[r.world.discs.length - 1];
+    return { wanted: Math.hypot(m.aim.x - g.pending.x, m.aim.y - g.pending.y),
+             got: d.live ? Math.hypot(d.x - g.pending.x, d.y - g.pending.y) : null,
+             fate: d.fate };
+  });
+  if (landing && landing.got !== null){
+    ok(Math.abs(landing.got - landing.wanted) < 0.02,
+       "the disc stops where the cursor was pointing",
+       `wanted ${(landing.wanted * 1000).toFixed(0)} mm, got ${(landing.got * 1000).toFixed(0)} mm`);
+    console.log(`   aimed ${(landing.wanted * 1000).toFixed(0)} mm out, ` +
+                `disc stopped ${(landing.got * 1000).toFixed(0)} mm out`);
+  } else {
+    console.log("   (the 1:1 landing check could not be set up on this turn)");
   }
-  await page.evaluate(() => { window.CROK.APP.settings.input = 'flick'; });
+
+  /* 4. stop moving -- the shot goes -------------------------------------- */
+  const beforeSettle = await peek();
+  if (beforeSettle.left === 8){
+    if (!beforeSettle.aiming){
+      const dp2 = await discAt();
+      await click(box.x + dp2.x, box.y + dp2.y);
+      await page.waitForTimeout(80);
+    }
+    const dp3 = await discAt();
+    await moveTo(box.x + dp3.x, box.y + dp3.y - box.height * 0.28);
+    await page.waitForTimeout(900);          /* longer than AIM_SETTLE */
+  }
+  const fired = await peek();
+  ok(fired.left === 7, "stopping the cursor takes the shot", `left ${fired.left}`);
+  ok(!fired.aiming, "and aiming ends");
+  await page.screenshot({ path: path.join(OUT, "05-shot.png") });
+
+  /* 5. moving when NOT aiming never fires -------------------------------- */
+  await page.waitForTimeout(3000);
+  await page.evaluate(async () => {
+    const g = window.CROK.APP.state.game;
+    for (let i = 0; i < 80 && (g.state !== 'aim' || g.isAI(g.shooter)); i++)
+      await new Promise(r => setTimeout(r, 150));
+  });
+  const before = await peek();
+  ok(!before.aiming, "a fresh turn starts not aiming");
+  await moveTo(cx - box.width * 0.2, cy);
+  await moveTo(cx + box.width * 0.2, cy);
+  await page.waitForTimeout(900);
+  const after = await peek();
+  ok(after.left === before.left, "moving the cursor when not aiming never fires",
+     `${before.left} -> ${after.left}`);
+
+  /* 6. WITH A FINGER: press, drag, lift ---------------------------------- */
+  const dpT = await discAt();
+  await page.evaluate(async ({ left, top, x0, y0, x1, y1 }) => {
+    const cv = document.getElementById("board-canvas");
+    const ev = (t, x, y, b) => cv.dispatchEvent(new PointerEvent(t, {
+      pointerId: 5, pointerType: "touch", isPrimary: true, bubbles: true,
+      cancelable: true, clientX: x + left, clientY: y + top, buttons: b }));
+    ev("pointerdown", x0, y0, 1);
+    for (let i = 1; i <= 8; i++){
+      await new Promise(r => setTimeout(r, 20));
+      ev("pointermove", x0 + (x1 - x0) * (i / 8), y0 + (y1 - y0) * (i / 8), 1);
+    }
+    ev("pointerup", x1, y1, 0);
+  }, { left: box.x, top: box.y, x0: dpT.x, y0: dpT.y,
+       x1: dpT.x, y1: dpT.y - box.height * 0.30 });
+  await page.waitForTimeout(250);
+  const touched = await peek();
+  ok(touched.left === before.left - 1,
+     "with a finger: press, drag away, lift off -- and it shoots",
+     `${before.left} -> ${touched.left}`);
+  if (touched.shot){
+    const sp = Math.hypot(touched.shot.vx, touched.shot.vy);
+    ok(touched.shot.vy < 0, "in the direction the finger was dragged",
+       `vy ${touched.shot.vy.toFixed(2)}`);
+    console.log(`   finger: press, drag, lift -> ${sp.toFixed(2)} m/s`);
+  }
+  await page.screenshot({ path: path.join(OUT, "06-touch.png") });
 
   /* --- let the AI reply and the board fill up --------------------------- */
   await page.waitForTimeout(6500);

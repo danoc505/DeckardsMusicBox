@@ -95,6 +95,34 @@ console.log("\n1. Coulomb friction: does a free disc stop where the algebra says
   c.near(spun.w, 0, 1e-9, "sliding and spinning die together");
 }
 
+/* --- the aiming rule, which is the friction law read backwards --------- */
+/* The control promises that the disc stops where the cursor is pointing:
+   asked to travel d, it is launched at sqrt(2*mu*g*d). That is only true if
+   the solver really does obey the closed form, so it is checked here on the
+   REAL board rather than the synthetic one -- with the hole and the pegs
+   avoided by firing along a chord, which is where a genuine aim would be
+   judged anyway. */
+console.log("1b. Aiming: does the disc stop where it was asked to?");
+{
+  let worst = 0;
+  for (const want of [0.05, 0.10, 0.15, 0.22, 0.30]){
+    const w = PHYS.newWorld(geo);
+    /* start out near the shooting line and fire along a chord, so nothing
+       is in the way and the 20 hole is never crossed */
+    const d = PHYS.addDisc(w, 0, 0, P.R_PLACE - 0.02);
+    d.vx = Math.sqrt(2 * P.MU_SURFACE * P.G * want);
+    const r = PHYS.runShot(w, null, { frames: false, inPlace: true });
+    const disc = r.world.discs[0];
+    if (!disc.live) continue;
+    const got = hypot(disc.x - 0, disc.y - (P.R_PLACE - 0.02));
+    const err = Math.abs(got - want);
+    if (err > worst) worst = err;
+    c.near(got, want, want * 0.02 + 5e-4,
+           `asked for ${(want * 1000).toFixed(0)} mm, travelled ${(got * 1000).toFixed(1)} mm`);
+  }
+  console.log(`   worst error across the aiming range: ${(worst * 1000).toFixed(2)} mm`);
+}
+
 /* ---------------------------------------------------------------------- 2 */
 console.log("2. Determinism: is the same shot the same shot?");
 {
