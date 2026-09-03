@@ -38,6 +38,33 @@
  * halfway through a record, or plays once and is never heard again.
  *
  * A bridge or a quiet section also thins the drums: a breath, not a stop.
+ *
+ * AND IT CHANGES EVERY TWO TURNS OF THE LOOP, not once a section.
+ *
+ * THE TWO LOOP RULE: "the arrangement has to change every two loops of the
+ * chords, because our ears naturally expect songs to change every two loops
+ * of the main instruments", and "the only way to change an arrangement is to
+ * add an instrument, or add expression to an existing instrument, or remove
+ * an instrument, or reduce expression of an existing instrument". It is the
+ * same rule the form already keeps between sections under another name —
+ * "when an idea is repeated a third time our brains may begin to tune it
+ * out" — counted in turns of the loop instead of in hearings of a section.
+ * Two the same, then something moves. (musictech.com, "Could the Two Loop
+ * Rule help electronic music producers in a rut"; musicradar.com,
+ * "two-loop-rule-arrangement-cheatcode".)
+ *
+ * One set per section was four to eight identical turns between changes,
+ * where the rule allows two. So a section now carries a set per SPAN of two
+ * turns, and what moves at each boundary is one of the two things the rule
+ * names: an instrument out, or an instrument's expression down. Never both,
+ * and never everyone at once — a change is only heard against something
+ * holding still, and five parts all moving every two turns is a row of
+ * unrelated blocks rather than a record going somewhere.
+ *
+ * A different part each time, so the whole band is in the rotation and no
+ * one part is always the one that goes. And the peak never loses a part —
+ * "the peak has everyone, because that is what a peak is" — so at a peak the
+ * change is expression only: a breath, not a hole.
  */
 
 import type { Idea, Role } from "../genre/spec.ts";
@@ -45,14 +72,32 @@ import { ROLES } from "../genre/spec.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 
+/** Who plays across one span of two turns of the loop, and how hard. */
+export interface Span {
+  readonly heard: ReadonlySet<Role>;
+  /** The drums lose their hat and their fills: a breath, not a stop. */
+  readonly thin: boolean;
+}
+
 export interface Placed {
   readonly section: Section;
   /** The key of the material this section plays. */
   readonly material: string;
-  /** The parts heard here. */
+  /**
+   * Every part heard ANYWHERE in this section — the union of the spans below.
+   * What the materials are built for, and what "a part cannot be silent by
+   * omission" is judged against: a part that plays for one span of a section
+   * is heard in it.
+   */
   readonly heard: ReadonlySet<Role>;
   /** The drums lose their hat and their fills: a breath, not a stop. */
   readonly thin: boolean;
+  /**
+   * Who plays, span by span, each span being two turns of the loop. The
+   * stage that writes the notes knows how long a turn is and indexes this;
+   * the last span runs to the end of the section.
+   */
+  readonly spans: readonly Span[];
 }
 
 export interface Arrangement {
@@ -107,14 +152,95 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       // something an ear can miss.
       if (section.fn === "outro" && heard.size > A.fewest && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
     }
-    for (const r of heard) sectionsHeard.set(r, (sectionsHeard.get(r) ?? 0) + 1);
 
     const thin = !section.peak && (section.fn === "bridge" || section.energy < A.thinBelow);
+
+    // EVERY TWO TURNS, ONE THING MOVES, and it is the first of the rule's
+    // four ways that is actually available here: an instrument out, an
+    // instrument in, or the drums' expression down. Never up — a section the
+    // form made thin is a breath, and handing the hat back halfway through a
+    // bridge is not a change to it, it is the end of it.
+    //
+    // Enough spans for the shortest turn a loop can be, so whatever the turn
+    // length is the performance can index them.
+    const spans: Span[] = [];
+    /**
+     * A SPAN ONLY EVER TAKES AWAY, never adds, and that is forced rather
+     * than chosen. How many spans a section uses depends on how long a turn
+     * of its loop is, which the materials work out and this stage cannot
+     * know — so more are built here than may be read. A part added in a span
+     * that is never reached would sit in the union below, claim to be heard
+     * in the section, and sound nowhere: exactly what "nothing silent"
+     * forbids, and what it caught.
+     *
+     * So the rule's two upward ways are unavailable here, and a section
+     * already down to the fewest a genre carries AND already thin has
+     * nothing left to move. Twenty-five intros in eighty records are in that
+     * position, holding one loop still for four turns. An intro cannot let
+     * the next part in early either — it holds the first parts of the entry
+     * order by a law of its own, tested as such. That law wins, so this is
+     * the gap and not a bug, and the intro is at least the one place where
+     * an ear has not yet heard the idea twice.
+     */
+    let shedAt = 0;
+    /** One part out, the one the genre can most afford, rotating. Null if none may go. */
+    const oneOut = (): Set<Role> | null => {
+      if (heard.size <= A.fewest) return null;
+      for (let k = 0; k < A.shed.length; k++) {
+        const r = A.shed[(shedAt + k) % A.shed.length]!;
+        if (!heard.has(r)) continue;
+        shedAt = (shedAt + k + 1) % A.shed.length;
+        const fewer = new Set(heard);
+        fewer.delete(r);
+        return fewer;
+      }
+      return null;
+    };
+    for (let s = 0; s < Math.max(1, Math.ceil(section.bars / 2)); s++) {
+      if (s % 2 === 0) {
+        // the section as the form asked for it: two turns of it, then a change
+        spans.push({ heard: new Set(heard), thin });
+        continue;
+      }
+      // A PEAK NEVER LOSES A PART — "the peak has everyone, because that is
+      // what a peak is" — so at a peak the change is expression: a breath,
+      // not a hole.
+      if (section.peak) {
+        spans.push({ heard: new Set(heard), thin: true });
+        continue;
+      }
+      // and off the peak, alternate which axis moves, so a section is not
+      // the same trick four times
+      const partFirst = ((s - 1) / 2) % 2 === 0;
+      const part = partFirst ? oneOut() : null;
+      if (part !== null) {
+        spans.push({ heard: part, thin });
+      } else if (!thin) {
+        spans.push({ heard: new Set(heard), thin: true });
+      } else {
+        // already a breath, so the change has to be a part
+        const other = oneOut();
+        spans.push(other !== null ? { heard: other, thin } : { heard: new Set(heard), thin });
+      }
+    }
+
+    // AND WHAT IS HEARD IN THE SECTION IS THE UNION OF ITS SPANS. A part that
+    // plays for one span of a section is heard in it, and its material has to
+    // exist — so this is read off the spans and not the other way round.
+    const union = new Set<Role>();
+    for (const sp of spans) for (const r of sp.heard) union.add(r);
+    for (const r of union) sectionsHeard.set(r, (sectionsHeard.get(r) ?? 0) + 1);
+    const held = Object.freeze(union) as ReadonlySet<Role>;
+    const frozen = Object.freeze(
+      spans.map((sp) => Object.freeze({ heard: Object.freeze(sp.heard) as ReadonlySet<Role>, thin: sp.thin })),
+    ) as readonly Span[];
+
     return Object.freeze({
       section,
       material: materialKey(section.idea, variant),
-      heard: Object.freeze(heard) as ReadonlySet<Role>,
+      heard: held,
       thin,
+      spans: frozen,
     });
   });
 
