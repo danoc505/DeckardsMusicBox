@@ -34,20 +34,26 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-**Tap** anywhere near your own line to slide your disc along it. A disc is
-already sitting there at the start of every turn, so this is optional.
+Three steps, and **nothing is ever held down**:
 
-**Flick** anywhere on the board to shoot. The direction you swipe is the
-direction the disc goes, and how fast you swipe is how hard it is struck. It
-fires the moment you let go. Curve the swipe to put spin on it.
+1. **Click your own line** to put the disc where you want it. One is already
+   sitting there when your turn starts, so this is optional.
+2. **Click the disc.** It lights up — the shot is armed.
+3. **Flick the trackpad.** Just move; no button, no drag. The direction you move
+   is the direction the disc goes and how fast you move is how hard it is
+   struck, and it fires as the flick ends. Curve the movement to put spin on it.
 
-They are two independent gestures — nothing is held down, and you can flick as
-many times as you like to see where the line goes, since only the release
-commits the shot.
+Moving the cursor when the disc is *not* armed never does anything, so you can
+put your hand wherever you like between shots.
 
-If you would rather set the power exactly, Settings has a **Slingshot** mode:
-drag away from where you want the disc to go and let go, catapult style. Slower,
-but far more precise, and the better choice on a trackpad or for a delicate 20.
+On a touchscreen there is no hover, so step 3 is a swipe that fires when you
+lift off — same three steps otherwise.
+
+**Settings → Slingshot** is the precise alternative, and the one to use for a
+delicate 20: click the disc to arm, move away from where you want it to go, and
+click again to release. Power is how far the cursor sits from the disc, so it
+holds perfectly steady with a full trajectory preview while you line the angle
+up. Still two clicks and a movement — nothing held.
 
 ## Tests
 

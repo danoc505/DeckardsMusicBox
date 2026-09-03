@@ -1990,7 +1990,8 @@ INPUT.buildShot = function(P, opts){
 
 INPUT.attach = function(canvas, host){
   const st = { active: false, id: -1, kind: 'touch', samples: [],
-               downX: 0, downY: 0, curX: 0, curY: 0 };
+               downX: 0, downY: 0, curX: 0, curY: 0,
+               hover: [], hoverX: 0, hoverY: 0 };
   INPUT.state = st;
 
   function pt(e){
@@ -2010,8 +2011,27 @@ INPUT.attach = function(canvas, host){
     if (e.cancelable) e.preventDefault();
   }
 
+  /* A pointermove with no button held is a HOVER -- which on a trackpad or
+     mouse is the whole point: the flick is the movement itself, with
+     nothing pressed. Touch and pen have no hover, so they never arrive
+     here with buttons === 0 and fall through to the drag path below. */
+  function hover(e){
+    const list = (typeof e.getCoalescedEvents === 'function' && e.getCoalescedEvents().length)
+      ? e.getCoalescedEvents() : [e];
+    const t = host.now();
+    for (const ev of list){
+      const p = pt(ev);
+      st.hoverX = p.x; st.hoverY = p.y;
+      st.hover.push({ x: p.x, y: p.y, t });
+    }
+    const cut = t - INPUT.VEL_WINDOW * 3;
+    while (st.hover.length > 2 && st.hover[0].t < cut) st.hover.shift();
+    host.pointerHover(st.hoverX, st.hoverY, st.hover, e.pointerType || 'mouse');
+  }
+
   function move(e){
-    if (!st.active || e.pointerId !== st.id) return;
+    if (!st.active){ hover(e); return; }
+    if (e.pointerId !== st.id) return;
     /* getCoalescedEvents hands back every sample the compositor merged into
        this one event. On a 120 Hz iPad that is the difference between a
        clean velocity fit and a jagged one. */
@@ -2656,6 +2676,7 @@ RENDER.placementArc = function(g, v, geo, owner, live){
    ========================================================================== */
 
 RENDER.frame = function(g, v, geo, st){
+  if (st.clock === undefined) st.clock = 0;
   g.setTransform(v.dpr, 0, 0, v.dpr, 0, 0);
   g.clearRect(0, 0, v.w, v.h);
   const board = RENDER.bakeBoard(v, geo);
@@ -2676,6 +2697,18 @@ RENDER.frame = function(g, v, geo, st){
   for (const d of ds) if (d.live && d.owner !== st.shooter) RENDER.disc(g, v, d, { geo });
   for (const d of ds) if (d.live && d.owner === st.shooter) RENDER.disc(g, v, d, { geo });
   if (st.pending) RENDER.disc(g, v, st.pending, { geo });
+
+  /* An armed disc has to read as armed at a glance, because from that
+     moment any movement will shoot it. A ring that breathes, in the
+     shooter's own colour. */
+  if (st.armed && st.pending){
+    const p = RENDER.toScreen(v, st.pending.x, st.pending.y);
+    const r = geo.P.R_DISC * v.scale;
+    const puls = 1 + 0.12 * Math.sin(st.clock * 5.5);
+    RENDER.glowStroke(g, ctx => { ctx.arc(p.x, p.y, r * 1.55 * puls, 0, TAU); },
+                      RENDER.DISC_COLOUR[st.shooter].rim,
+                      Math.max(1.5, r * 0.16), 6, 0.9);
+  }
 
   if (st.aim && st.pending){
     RENDER.aimVector(g, v, geo, st.pending, st.aim, st.power);
@@ -3248,6 +3281,7 @@ GAME.create = function(host){
       g.place(pl.r * Math.cos(pl.c), pl.r * Math.sin(pl.c));
     }
     g.host.onTurn(g);
+    if (typeof APP !== 'undefined' && APP.setArmed) APP.setArmed(false);
 
     if (g.isAI(g.shooter)){
       g.aiThinking = true;
@@ -3376,6 +3410,7 @@ GAME.create = function(host){
       aim: g.aim, power: g.power, preview: g.preview,
       previewMode: g.host.setting('preview'),
       showArcs: g.state === 'aim',
+      armed: !!(APP.state && APP.state.armed),
       geo: g.geo,
     };
     if (g.state === 'playing' && g.play){
@@ -3420,6 +3455,12 @@ APP.setup = { mode: 'ai', bestOf: 3, difficulty: 'medium' };
 APP.state = { screen: 'menu', game: null, view: null, ctx: null, canvas: null,
               raf: 0, last: 0, needAim: false, aimArgs: null,
               flicking: false, downT: 0, toastT: 0,
+              /* ARMED. The disc has been clicked and the game is now
+                 watching for a flick. On a trackpad or mouse that flick is
+                 bare pointer movement with NOTHING held down; on a
+                 touchscreen, which has no hover, it is a swipe. */
+              armed: false, flickPeak: 0, flickDir: null, flickSeen: false,
+              flickLastT: 0,
               /* PEAK-HOLD. In velocity mode the power of a flick is how fast
                  you were moving -- but a player lining up a shot stops
                  moving to aim, and reading the instantaneous speed at that
@@ -3436,6 +3477,13 @@ APP.PEAK_HOLD = 0.40;      /* seconds a peak survives without being beaten */
    your disc is not a race. */
 APP.TAP_SLOP = 14;         /* css px of travel still counts as a tap       */
 APP.TAP_TIME = 0.6;        /* seconds */
+/* A flick has to be clearly faster than moving the cursor around, or the
+   shot goes off while you are still deciding. Measured in BOARD metres per
+   second, so it means the same on any screen size: 0.55 is a little under
+   one board-width per second. */
+APP.FLICK_MIN = 0.55;
+APP.FLICK_END = 0.55;      /* fires once the speed falls to this share of its peak */
+APP.FLICK_IDLE = 0.10;     /* ...or after this long with no movement at all */
 
 /* ---------------------------------------------------------------- screens */
 APP.show = function(name){
@@ -3574,7 +3622,7 @@ APP.host = {
       g.isAI(g.shooter) ? 'thinking…'
         : (oppOut ? 'You must hit an opponent disc'
                   : 'Open board — your shot must reach the 15 line')
-          + ' · tap your line to move the disc, then flick');
+          + (g.isAI(g.shooter) ? '' : ' · click the disc to arm it'));
     APP.resize();
   },
 
@@ -3619,22 +3667,23 @@ APP.host = {
   },
 
   /* ---- input --------------------------------------------------------
-     TWO SEPARATE GESTURES, and neither of them is a press-and-hold:
+     THREE STEPS, AND NOTHING IS EVER HELD DOWN:
 
-       TAP anywhere near your own line to move your disc along it. A disc is
-       already sitting there at the start of every turn, so this is optional.
+       1. CLICK your own line to put the disc where you want it. A disc is
+          already sitting there when your turn starts, so this is optional.
+       2. CLICK THE DISC. It lights up: the shot is armed.
+       3. FLICK THE TRACKPAD. Just move -- no button, no drag, no holding.
+          The direction you move is the direction the disc goes and how fast
+          you move is how hard it is struck, and it fires as the flick ends.
 
-       FLICK anywhere on the board to shoot. The direction you swipe is the
-       direction the disc goes, and how fast you swipe is how hard it is
-       struck. It fires when you let go.
+     Two earlier versions got this wrong in the same way: both made you hold
+     the button down through the whole gesture. That is the one motion a
+     trackpad is worst at, and it is not what flicking is. The button is now
+     only ever clicked, never held.
 
-     The earlier version made you press on your line, drag inwards without
-     releasing, and let go at the far end -- one long held gesture that did
-     placement and aiming and firing at once. It is unusable on a trackpad,
-     where holding a drag across the whole board is exactly the motion the
-     hardware is worst at, and it is not what flicking a disc feels like
-     either. Tap and flick are now independent: you can flick from anywhere,
-     as many times as you like to see the line, and only the release fires.
+     A touchscreen has no hover, so a finger cannot flick without contact.
+     There, step 3 is a swipe and it fires when you lift off. Same three
+     steps, same code below, branching only on pointerType.
   */
   pointerDown(px, py, kind){
     const s = APP.state, g = s.game;
@@ -3642,18 +3691,18 @@ APP.host = {
     SFX.resume();
     s.downT = APP.host.now();
     s.flicking = false;
-    s.peakSpeed = 0; s.peakAt = -1;
     return true;
   },
 
   pointerMove(px, py, samples, dx, dy){
     const s = APP.state, g = s.game;
     if (!g || g.state !== 'aim' || !g.pending) return;
-    /* far enough to be a swipe rather than a tap? */
+    /* a dragged swipe is only the flick on a touchscreen */
+    if (!s.armed || INPUT.state.kind === 'mouse') return;
     if (!s.flicking && hypot(px - dx, py - dy) > APP.TAP_SLOP) s.flicking = true;
     if (!s.flicking) return;
-    s.aimArgs = { samples, px, py, dx, dy };
-    s.needAim = true;        /* recomputed once per frame, not per event  */
+    s.aimArgs = { samples, px, py, dx, dy, hover: false };
+    s.needAim = true;
   },
 
   pointerUp(px, py, vel, dx, dy){
@@ -3661,35 +3710,97 @@ APP.host = {
     if (!g || g.state !== 'aim' || !g.pending) return;
     const moved = hypot(px - dx, py - dy);
     const held = APP.host.now() - (s.downT || 0);
+    const wasFlicking = s.flicking;
+    s.flicking = false;
 
-    /* --- a tap: move the disc along the line ---------------------------- */
-    if (!s.flicking && moved <= APP.TAP_SLOP && held < APP.TAP_TIME){
+    /* --- a click ------------------------------------------------------- */
+    if (!wasFlicking && moved <= APP.TAP_SLOP && held < APP.TAP_TIME){
       const b = RENDER.toBoard(s.view, px, py);
+      const onDisc = hypot(b.x - g.pending.x, b.y - g.pending.y) < SPEC.R_DISC * 2.6;
+
+      if (onDisc){                       /* click the disc: arm or disarm  */
+        APP.setArmed(!s.armed);
+        return;
+      }
+      /* slingshot: armed, and the second click releases it */
+      if (s.armed && APP.settings.input === 'sling'){
+        const m = APP.slingShot(g, px, py);
+        APP.setArmed(false);
+        if (!m){
+          g.cancelAim();
+          APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Move further from the disc');
+          return;
+        }
+        g.takeShot(m.shot);
+        return;
+      }
+      /* click elsewhere on your line: move the disc there */
       const pl = g.geo.placement(g.shooter);
       if (Math.abs(angDiff(pl.c, Math.atan2(b.y, b.x))) <= pl.halfSpan + 0.52){
         g.place(b.x, b.y);
+        APP.setArmed(false);
         SFX.ui(false);
-        APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Now flick to shoot');
+        APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Now click the disc to arm it');
       } else {
+        APP.setArmed(false);
         APP.prompt(`Player ${g.shooter + 1} to shoot`,
-                   'Tap near your own line to move the disc');
+                   'Click your own line to move the disc, then click the disc');
       }
-      s.needAim = false; s.flicking = false;
       return;
     }
 
-    /* --- a flick: shoot -------------------------------------------------- */
-    const m = APP.flickNumbers(g, px, py, dx, dy, vel);
-    s.needAim = false; s.flicking = false;
-    s.peakSpeed = 0; s.peakAt = -1;
-    if (!m){
-      g.cancelAim();
-      APP.prompt(`Player ${g.shooter + 1} to shoot`,
-                 APP.settings.input === 'sling' ? 'Pull further back'
-                                                : 'Too soft — flick it faster');
+    /* --- a swipe, on a touchscreen: this is the flick -------------------- */
+    if (s.armed && INPUT.state.kind !== 'mouse'){
+      const m = APP.flickFrom(g, APP.velToBoard(vel),
+                              APP.ptsToBoard(px - dx, py - dy));
+      APP.setArmed(false);
+      s.needAim = false;
+      if (!m){
+        g.cancelAim();
+        APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too soft — flick it faster');
+        return;
+      }
+      g.takeShot(m.shot);
+    }
+  },
+
+  /* THE TRACKPAD FLICK. Nothing is pressed; this is pure movement. */
+  pointerHover(px, py, samples, kind){
+    const s = APP.state, g = s.game;
+    if (!g || g.state !== 'aim' || !g.pending || g.isAI(g.shooter)) return;
+    if (!s.armed) return;
+
+    /* slingshot aims by where the cursor IS, not how fast it is moving, so
+       it wants the position rather than the velocity -- and it works with a
+       finger too, since a touchscreen reports a moving contact the same way */
+    if (APP.settings.input === 'sling'){
+      s.aimArgs = { px, py, hover: true };
+      s.needAim = true;
       return;
     }
-    g.takeShot(m.shot);
+    if (kind === 'touch') return;
+
+    const now = APP.host.now();
+    const v = INPUT.fitVelocity(samples, now, INPUT.VEL_WINDOW);
+    const bv = APP.velToBoard(v);
+    const spd = hypot(bv.x, bv.y);
+
+    if (spd > APP.FLICK_MIN){
+      if (!s.flickSeen || spd > s.flickPeak){
+        s.flickSeen = true; s.flickPeak = spd; s.flickDir = bv;
+      }
+      s.flickLastT = now;
+      /* draw what this flick would do, live, as it builds */
+      s.aimArgs = { samples, px, py, hover: true };
+      s.needAim = true;
+      return;
+    }
+
+    /* the flick is over once the movement falls away again -- fire on the
+       PEAK of the gesture, not on whatever the last stray sample said */
+    if (s.flickSeen && spd < s.flickPeak * APP.FLICK_END){
+      APP.fireFlick(g);
+    }
   },
 
   pointerCancel(){
@@ -3700,53 +3811,84 @@ APP.host = {
   },
 };
 
-/* Turn a gesture into a shot. Both modes fire on release and neither needs
-   the disc to be under your finger.
-
-   FLICK   the swipe's own direction and speed, which is the default and the
-           one that feels like crokinole.
-   SLING   drag AWAY from where you want to go and let go, catapult style.
-           Power is the pull distance, so it can be set exactly and held
-           while you line the angle up -- slower, but far more precise, and
-           it is the one to use with a trackpad or for a delicate 20. */
-APP.flickNumbers = function(g, px, py, dx, dy, vel){
-  const s = APP.state;
-  if (!g.pending) return null;
-  const c = Math.cos(-s.view.rot), sn = Math.sin(-s.view.rot);
-  /* screen -> board, undoing the view rotation, for a DIRECTION (no origin) */
-  const toBoardVec = (vx, vy) => ({
-    x: (vx * c - vy * sn) / s.view.scale,
-    y: (vx * sn + vy * c) / s.view.scale,
-  });
-
-  if (APP.settings.input === 'sling'){
-    const pull = toBoardVec(px - dx, py - dy);
-    const dist = hypot(pull.x, pull.y);
-    if (dist < SPEC.R_DISC * 0.8) return null;
-    const f = clamp(dist / (SPEC.R_DISC * SPEC.PULL_MAX_RADII), 0, 1);
-    const shot = INPUT.buildFlick(SPEC, {
-      owner: g.shooter, x: g.pending.x, y: g.pending.y,
-      dirX: -pull.x, dirY: -pull.y,          /* opposite the pull          */
-      speed: f * SPEC.V_MAX_SHOT, lateralFrac: 0,
-    });
-    return shot ? { shot, power: f } : null;
+/* --- arming ------------------------------------------------------------- */
+APP.setArmed = function(on){
+  const s = APP.state, g = s.game;
+  s.armed = !!on;
+  s.flickSeen = false; s.flickPeak = 0; s.flickDir = null;
+  s.peakSpeed = 0; s.peakAt = -1;
+  s.needAim = false;
+  if (g && !on) g.cancelAim();
+  if (g){
+    const touch = INPUT.state && INPUT.state.kind === 'touch';
+    const how = APP.settings.input === 'sling'
+      ? 'Armed — move away from the disc, then click to release'
+      : (touch ? 'Armed — swipe to shoot' : 'Armed — flick to shoot, nothing held');
+    APP.prompt(`Player ${g.shooter + 1} to shoot`, on ? how : 'Click the disc to arm it');
   }
+  if (on) SFX.ui(true);
+};
 
-  /* flick: the release direction, and the peak speed of the swipe */
-  const rel = toBoardVec(vel.vx, vel.vy);
+/* Fire the flick that has just finished, using its peak speed and the
+   direction it was travelling at that peak. */
+APP.fireFlick = function(g){
+  const s = APP.state;
+  const dir = s.flickDir;
+  const peak = s.flickPeak;
+  APP.setArmed(false);
+  if (!dir) return;
+  const shot = INPUT.buildFlick(SPEC, {
+    owner: g.shooter, x: g.pending.x, y: g.pending.y,
+    dirX: dir.x, dirY: dir.y,
+    speed: clamp(peak * SPEC.FLICK_GAIN, 0, SPEC.V_MAX_SHOT),
+    lateralFrac: s.flickLateral || 0,
+  });
+  if (!shot){
+    APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too soft — flick it faster');
+    return;
+  }
+  g.takeShot(shot);
+};
+
+/* screen vector -> board vector, undoing the view rotation and the scale */
+APP.velToBoard = function(v){
+  const s = APP.state;
+  const c = Math.cos(-s.view.rot), sn = Math.sin(-s.view.rot);
+  return { x: (v.vx * c - v.vy * sn) / s.view.scale,
+           y: (v.vx * sn + v.vy * c) / s.view.scale };
+};
+APP.ptsToBoard = function(dx, dy){
+  const s = APP.state;
+  const c = Math.cos(-s.view.rot), sn = Math.sin(-s.view.rot);
+  return { x: (dx * c - dy * sn) / s.view.scale,
+           y: (dx * sn + dy * c) / s.view.scale };
+};
+
+/* PEAK-HOLD. A flick's power is the fastest the hand went, not the speed at
+   whatever instant the shot happens to be read: a movement that decelerates
+   into its own end would otherwise read as no power at all, and the
+   preview would blink out exactly as the player settles on a line. The
+   peak survives PEAK_HOLD seconds without being beaten, then decays. */
+APP.power = function(vmag, now){
+  const s = APP.state;
+  if (vmag >= s.peakSpeed || now - s.peakAt > APP.PEAK_HOLD){
+    s.peakSpeed = vmag; s.peakAt = now;
+  }
+  return s.peakSpeed;
+};
+
+/* Build a shot from a movement. `rel` is the direction and speed at the end
+   of the gesture; `whole` is its overall displacement, used only to work
+   out how much the movement CURVED, which is the spin. A straight flick
+   puts no spin on; sweeping across as you finish is an off-centre strike. */
+APP.flickFrom = function(g, rel, whole){
   const relL = hypot(rel.x, rel.y);
-  const whole = toBoardVec(px - dx, py - dy);
-  const wholeL = hypot(whole.x, whole.y);
-  /* a swipe whose last samples went nowhere still has a direction: the
-     overall gesture. Without this a flick that decelerates into the release
-     loses its aim entirely. */
+  const wholeL = whole ? hypot(whole.x, whole.y) : 0;
   const dir = relL > 1e-4 ? rel : whole;
-  if (hypot(dir.x, dir.y) < 1e-6) return null;
-
+  if (!dir || hypot(dir.x, dir.y) < 1e-6) return null;
   const spd = APP.power(relL, APP.host.now()) * SPEC.FLICK_GAIN;
   let lateral = 0;
   if (relL > 1e-4 && wholeL > 1e-4){
-    /* how much the swipe curved between its overall line and its release */
     lateral = (whole.x * rel.y - whole.y * rel.x) / (wholeL * relL);
   }
   const shot = INPUT.buildFlick(SPEC, {
@@ -3756,15 +3898,23 @@ APP.flickNumbers = function(g, px, py, dx, dy, vel){
   return shot ? { shot, power: clamp(spd / SPEC.V_MAX_SHOT, 0, 1) } : null;
 };
 
-/* Fold a fresh speed sample into the peak-hold and return what the shot
-   should be fired at. One place, so the preview and the release cannot
-   disagree about how hard you flicked. */
-APP.power = function(vmag, now){
+/* SLINGSHOT, the precise alternative in Settings. Click the disc to arm,
+   then move away from where you want the disc to go and click again to
+   release it -- catapult style, with power set by how far the cursor is
+   from the disc and held perfectly steady while you line the angle up.
+   Still no button held: two clicks and a movement between them. */
+APP.slingShot = function(g, px, py){
   const s = APP.state;
-  if (vmag >= s.peakSpeed || now - s.peakAt > APP.PEAK_HOLD){
-    s.peakSpeed = vmag; s.peakAt = now;
-  }
-  return s.peakSpeed;
+  const b = RENDER.toBoard(s.view, px, py);
+  const pull = { x: b.x - g.pending.x, y: b.y - g.pending.y };
+  const dist = hypot(pull.x, pull.y);
+  if (dist < SPEC.R_DISC * 1.2) return null;
+  const f = clamp(dist / (SPEC.R_DISC * SPEC.PULL_MAX_RADII), 0, 1);
+  const shot = INPUT.buildFlick(SPEC, {
+    owner: g.shooter, x: g.pending.x, y: g.pending.y,
+    dirX: -pull.x, dirY: -pull.y, speed: f * SPEC.V_MAX_SHOT, lateralFrac: 0,
+  });
+  return shot ? { shot, power: f } : null;
 };
 
 /* ------------------------------------------------------------- the modals */
@@ -3844,9 +3994,23 @@ APP.loop = function(ts){
   if (s.needAim && s.aimArgs){
     s.needAim = false;
     const a = s.aimArgs;
-    const v = INPUT.fitVelocity(a.samples, APP.host.now(), INPUT.VEL_WINDOW);
-    const m = APP.flickNumbers(g, a.px, a.py, a.dx, a.dy, v);
-    g.setAim(m ? m.shot : null, m ? m.power : 0);
+    if (APP.settings.input === 'sling'){
+      const m = APP.slingShot(g, a.px, a.py);
+      g.setAim(m ? m.shot : null, m ? m.power : 0);
+    } else {
+      const v = INPUT.fitVelocity(a.samples, APP.host.now(), INPUT.VEL_WINDOW);
+      const whole = a.hover ? null : APP.ptsToBoard(a.px - a.dx, a.py - a.dy);
+      const m = APP.flickFrom(g, APP.velToBoard(v), whole);
+      if (m && a.hover) s.flickLateral = 0;
+      g.setAim(m ? m.shot : null, m ? m.power : 0);
+    }
+  }
+
+  /* A flick that simply stopped, rather than slowing down, still has to
+     fire -- otherwise lifting your hand off the trackpad at the end of the
+     movement would leave the shot hanging. */
+  if (s.armed && s.flickSeen && APP.host.now() - s.flickLastT > APP.FLICK_IDLE){
+    APP.fireFlick(g);
   }
 
   if (s.toastT > 0){
@@ -3854,7 +4018,9 @@ APP.loop = function(ts){
     if (s.toastT <= 0) APP.toast('');
   }
 
-  RENDER.frame(s.ctx, s.view, g.geo, g.viewState());
+  const vs = g.viewState();
+  vs.clock = now;
+  RENDER.frame(s.ctx, s.view, g.geo, vs);
 };
 
 /* ---------------------------------------------------------------- startup */
@@ -3939,8 +4105,8 @@ APP.init = function(){
 
 APP.settingsHint = function(){
   const t = {
-    flick: 'Flick: swipe anywhere on the board. The way you swipe is the way the disc goes, and how fast you swipe is how hard it is hit. Curve the swipe to put spin on it.',
-    sling: 'Slingshot: drag away from where you want the disc to go and let go, like a catapult. Slower, but you can set the power exactly — the one to use on a trackpad, or for a delicate 20.',
+    flick: 'Flick: click the disc to arm it, then flick the trackpad. Nothing is held down — the movement itself is the shot, and it fires as the flick ends. The way you move is the way the disc goes.',
+    sling: 'Slingshot: click the disc to arm it, move away from where you want it to go, and click again to release. Power is how far the cursor is from the disc, so you can set it exactly and hold it while you line the angle up.',
   }[APP.settings.input];
   const p = {
     full:  'Full preview draws the whole shot and shows where every disc will finish.',

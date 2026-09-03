@@ -84,6 +84,14 @@ game (4 rounds) → match (tournament-defined). A best-of-7 *games* match would 
 28 rounds and 448 shots. The NCA 2/1/0 round scoring is kept exactly, and 20s are
 tracked separately the way a real scorecard tracks them.
 
+**The button is clicked, never held.** Click the line to place, click the disc
+to arm, then flick the trackpad with nothing pressed — the bare pointer
+movement *is* the shot, and it fires on the peak of the gesture as the movement
+falls away. Two earlier versions both made the player hold the button down
+through the whole gesture, which is the one motion a trackpad is worst at.
+A touchscreen has no hover, so there the armed disc is shot with a swipe that
+fires on lift-off; that is the only branch on pointerType.
+
 **Tap and flick are separate gestures.** An earlier version made you press on
 your own line, drag inward without releasing, and let go at the far end — one
 long held gesture doing placement, aiming and firing at once. It is unusable on
