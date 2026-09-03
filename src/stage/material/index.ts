@@ -150,7 +150,20 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // figure while inheriting the bass would put the bass on a kick that is
     // no longer there, which is the one thing the two are written together to
     // avoid.
-    const plainOf = variant > 0 ? all.get(idea) : undefined;
+    /**
+     * WHAT THIS ONE COMES FROM: the material before it in the idea's own
+     * chain, not always the plain statement. A/2 develops A/1, which developed
+     * A — so an idea that comes back a fifth time is four removes from where
+     * it started rather than one, and each return is answering what the record
+     * last did with it rather than what it did in bar one.
+     *
+     * It also settles a bookkeeping problem that reads as a musical one: an
+     * idea whose plain statement is only ever heard without the tune has no
+     * tune for its first variant to vary, and every later variant was going
+     * back to that same empty statement and writing a fresh line. Down the
+     * chain there is always a tune to develop as soon as one has been played.
+     */
+    const plainOf = variant > 0 ? (all.get(`${idea}/${variant - 1}`) ?? all.get(idea)) : undefined;
     // the drum figure first: the bass may take its feet from the kick
     const figure = plainOf ? plainOf.figure : drawFigure(chart, rng.at("drums"));
     // each part is told what the parts before it are SOUNDING — not merely
@@ -195,27 +208,39 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // because they are there.
     const plain = plainOf;
     const taken = new Set<string>();
-    const groove = plain ? plain.groove : Object.freeze((() => {
-      const drawnBass = Object.freeze(tile(drawBass(chart, loop, rng.at("bass"), steps, figure.kick)));
+    const groove = Object.freeze((() => {
+      const drawnBass = plain
+        ? plain.groove.bass
+        : Object.freeze(tile(drawBass(chart, loop, rng.at("bass"), steps, figure.kick)));
       sounding.add(drawnBass, bars, steps);
       inLoop.add(drawnBass, period, steps);
       // the drone stands on the key, not the chord, so it is written before
       // anything that follows the changes — and it is NOT tiled: a drone is a
       // held tone whose whole nature is to be longer than the loop under it
-      const drawnDrone = Object.freeze(drawDrone(chart, rng.at("drone"), steps, bars, sounding));
+      const drawnDrone = plain
+        ? plain.groove.drone
+        : Object.freeze(drawDrone(chart, rng.at("drone"), steps, bars, sounding));
       sounding.add(drawnDrone, bars, steps);
       inLoop.add(drawnDrone, period, steps);
+      // AND THE HANDS PLAY IT AGAIN DIFFERENTLY. A variant inherits the ground
+      // — the same chords, the same bass, the same drone, which is what makes
+      // it the same section coming back — and REDRAWS THE KEYS over it, from
+      // its own address, so it gets its own strike pattern and its own
+      // voicings.
+      //
+      // Inheriting these too was the reason the rule of three fired and
+      // nothing happened. A seventy-two-bar record on one idea put the
+      // identical two bars of bass, keys and drone down thirty-six times: the
+      // form marked the third hearing to vary, the arrangement built the
+      // variant, and the only thing that differed was the tune and the beat
+      // over a picture that had not moved since bar eight. That is a record
+      // repeating the same thing for over half its length, and the law that
+      // was supposed to stop it was being obeyed the whole time.
       const drawnKeys = Object.freeze(tile(drawKeys(chart, loop, rng.at("keys"), steps, inLoop)));
       sounding.add(drawnKeys, bars, steps);
       inLoop.add(drawnKeys, period, steps);
       return { bass: drawnBass, keys: drawnKeys, drone: drawnDrone };
     })());
-    if (plain) {
-      for (const part of GROOVE) {
-        sounding.add(groove[part], bars, steps);
-        inLoop.add(groove[part], period, steps);
-      }
-    }
     for (const n of groove.bass) taken.add(`${at(n)}:${n.pitch}`);
     for (const n of groove.drone) taken.add(`${at(n)}:${n.pitch}`);
 

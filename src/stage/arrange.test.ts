@@ -245,8 +245,14 @@ test("a bridge thins, a quiet section thins, the peak never does", () => {
   }
 });
 
-test("a varied statement plays the idea's next variant; an unvaried one plays the plain idea", () => {
+test("a varied statement plays the idea's next variant; an idea that has developed stays developed", () => {
+  // The second half used to read "an unvaried statement plays the plain idea",
+  // and that is the arc coming undone at the last moment: a record ran intro
+  // A, verse A, verse A/1, outro A, so the rule of three fired, the idea went
+  // somewhere different, and the record then ended on a note-for-note repeat
+  // of how it began as though the development had not happened.
   let variants = 0;
+  let held = 0;
   for (const a of sweep(120)) {
     const seen = new Map<string, number>();
     for (const p of a.placed) {
@@ -257,11 +263,14 @@ test("a varied statement plays the idea's next variant; an unvaried one plays th
         variants++;
         assert.equal(p.material, `${s.idea}/${n}`);
       } else {
-        assert.equal(p.material, s.idea);
+        const n = seen.get(s.idea) ?? 0;
+        assert.equal(p.material, n === 0 ? s.idea : `${s.idea}/${n}`);
+        if (n > 0) held++;
       }
     }
   }
   assert.ok(variants > 10);
+  assert.ok(held > 10, `only ${held} sections followed a variant`);
 });
 
 test("an entry order that leaves a part out is refused at load, by name", () => {

@@ -267,8 +267,17 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     used: new Map(), release: [], stuck: 0,
   };
 
-  // a statement the form marks `vary` plays the idea's next variant, and
-  // every statement after it that is not marked plays the plain one again
+  /**
+   * AN IDEA STAYS WHERE IT HAS GOT TO.
+   *
+   * A statement the form marks `vary` plays the idea's next variant, and
+   * every statement after it plays THAT one — not the plain statement again.
+   * Going back to the plain one was the arc coming undone at the last moment:
+   * a record ran intro A, verse A, verse A/1, outro A, so the rule of three
+   * fired, the idea went somewhere different, and then the record ended on a
+   * note-for-note repeat of how it began, as though the development had not
+   * happened. An idea that has developed has developed.
+   */
   const variantsSeen = new Map<Idea, number>();
   const sectionsHeard = new Map<Role, number>();
   // how many of the entry order have arrived; the intro's parts are in from the top
@@ -276,9 +285,9 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
   /** What the record opened with — the first section's parts, whatever it is. */
   let openers = new Set<Role>();
   const placed: Placed[] = form.sections.map((section) => {
-    let variant = 0;
+    let variant = variantsSeen.get(section.idea) ?? 0;
     if (section.vary) {
-      variant = (variantsSeen.get(section.idea) ?? 0) + 1;
+      variant += 1;
       variantsSeen.set(section.idea, variant);
     }
 

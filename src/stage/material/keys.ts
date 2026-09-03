@@ -250,6 +250,20 @@ export function drawKeys(
     const pos = chord.bar % motif;
     const want = shapeAt.get(pos);
     const moved = prevChord !== null && prevChord.name !== chord.name;
+    // DRAWING AMONG THE VOICINGS THE COST RATES EQUAL WAS TRIED HERE AND COST
+    // MORE THAN IT PAID. The complaint it was against is real — the strict
+    // minimum makes the voicing a function of the chord and nothing else, so F
+    // minor comes out as the same three notes in every material that uses it,
+    // and one record played seven distinct bars of keys across a hundred and
+    // four. Drawing among the candidates within a semitone of the best raised
+    // that to ten. It also took the tune's fallback rate from four percent of
+    // variants to fifteen: the lead is written against what the keys are
+    // sounding, and a voicing chosen for variety rather than for the least
+    // movement leaves the motivic operations nowhere legal to go, so the
+    // variant gives up and writes a fresh line. Three more chord shapes are
+    // not worth four times as many tunes that are not developments of
+    // anything. The variety belongs where it was put instead: a variant
+    // redraws its keys, and an idea that has developed stays developed.
     let bestV = cands[0]!;
     let bestCost = Infinity;
     for (const cand of cands) {
