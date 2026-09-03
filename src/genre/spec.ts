@@ -498,6 +498,27 @@ export interface DrumsRules {
 export const INTRO_KINDS = ["rhythm", "bed", "hook"] as const;
 export type IntroKind = (typeof INTRO_KINDS)[number];
 
+/**
+ * THE TREATMENTS: every change to a section that leaves the notes alone.
+ *
+ * Named here rather than in `stage/treat.ts` for the same reason every other
+ * closed set is named here — a genre states its own weights over them, and a
+ * genre may not import a stage. What each one DOES to a desk is that file's;
+ * this is only the vocabulary.
+ *
+ * They come in pairs that pull opposite ways, because a record that can only
+ * ever get darker is not developing, it is decaying.
+ */
+export const TREATMENTS = [
+  "darken", "brighten",
+  "drench", "dry",
+  "push", "ease",
+  "widen", "close",
+  "far", "sweep",
+  "wear", "echoed",
+] as const;
+export type Treatment = (typeof TREATMENTS)[number];
+
 export interface ArrangementSpec {
   /**
    * The order the parts arrive in across a record. Every part appears exactly
@@ -563,6 +584,28 @@ export interface ArrangementSpec {
    * clock already carries]
    */
   readonly rest?: number;
+  /**
+   * WHICH NOTE-PRESERVING CHANGES THIS GENRE WILL MAKE TO A SECTION, and how
+   * readily.
+   *
+   * The two-loop rule names four ways to change an arrangement — an instrument
+   * in, an instrument out, expression up, expression down — and this program
+   * could only ever do the first three, reading "expression" as the drums'
+   * hat. So a section could be made emptier or fuller and nothing else, and a
+   * record that wanted to develop without losing anything had no move at all.
+   *
+   * These are the rest of the vocabulary: a section darker, wetter, wider,
+   * further off, harder through the board, more worn. Every one leaves the
+   * notes exactly where they were, which is what lets an idea come back a
+   * fourth and fifth time and still arrive different — and what stops the rule
+   * of three having to be paid for in material nobody hears twice.
+   *
+   * A genre states which of them are its own. Dungeon synth's development is
+   * "changes in reverb and filters" (note.com/soundwitches) and it should
+   * lean there; a genre that brightens its way through a record it built dark
+   * has spent its identity to satisfy a counter. Weight 0 removes one.
+   */
+  readonly treat?: Weighted<Treatment>;
 }
 
 export interface ArrangementRules {
@@ -575,6 +618,7 @@ export interface ArrangementRules {
   readonly fullAbove: number;
   readonly thinBelow: number;
   readonly rest: number;
+  readonly treat: Weighted<Treatment>;
 }
 
 /** Which pairs of notes swing: every two eighths, or every two sixteenths. */
@@ -1498,6 +1542,21 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     breakdown: true,
     /** one part gone for one span is half a reason to give it back */
     rest: 0.4,
+    /**
+     * EVERY TREATMENT, EVENLY, and a genre narrows it.
+     *
+     * There is no source that ranks these against each other — the sources
+     * name the moves and do not weigh them — so an even pool is the honest
+     * default and every number here would be invention. [chosen]
+     *
+     * Two things keep an even pool from being a light show. `stage/treat.ts`
+     * refuses any treatment that would not actually move THIS genre's desk,
+     * so a dry genre is never offered `drench` and the pool is already the
+     * genre's own; and the arrangement scores a treatment like every other
+     * move, against the debt and against how recently it was used, so an even
+     * pool is what it draws FROM and not what it does.
+     */
+    treat: TREATMENTS.map((t) => [t, 1] as const),
   },
 
   feel: {

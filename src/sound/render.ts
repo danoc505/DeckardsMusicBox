@@ -48,10 +48,11 @@ import { artOf, shapesTheNote } from "../core/articulation.ts";
 import { hash32 } from "../core/rng.ts";
 import {
   DRUM_LANES, PEDALS_ADD, ROLES, SENDS,
-  type DrumLane, type PedalsRules, type RackRules, type Role, type SoundRules, type SoundSpec,
+  type DrumLane, type PedalsRules, type RackRules, type Role, type SoundRules, type SoundSpec, type Treatment,
 } from "../genre/spec.ts";
 import { articulate } from "./articulate.ts";
-import type { Event } from "../stage/perform.ts";
+import type { DeskChange, Event } from "../stage/perform.ts";
+import { deskOf } from "../stage/treat.ts";
 import type { Song } from "../song.ts";
 import {
   Biquad, Echo, Ensemble, Flanger, Fuzz, Line, Medium, Noise, Overdrive, Phaser, Pole, Reverb, Spring, Tremolo, Wah,
@@ -393,6 +394,14 @@ export class Engine {
   readonly length: number;
 
   private S: SoundRules;
+  /** The genre's own desk, which every treatment is computed from. */
+  private base: SoundRules;
+  /** The page's hand, laid over the record's own desk and winning against it. */
+  private over: SoundSpec | undefined;
+  /** Every moment this record moves its desk, and how far through them we are. */
+  private readonly deskAt: readonly DeskChange[];
+  private deskNext = 0;
+  private treatment: Treatment | null = null;
   private readonly seed: number;
   private readonly beatSec: number;
   private readonly voices: Readonly<Record<string, (n: NoteIn) => Float32Array>>;
@@ -450,7 +459,10 @@ export class Engine {
     this.sampleRate = sr;
     this.blockSize = opts.blockSize ?? BLOCK;
     this.length = Math.ceil(song.performance.seconds * sr);
-    this.S = settle(song.chart.genre.sound, opts.desk);
+    this.base = song.chart.genre.sound;
+    this.over = opts.desk;
+    this.deskAt = song.performance.desk;
+    this.S = settle(this.base, this.over);
     this.seed = song.chart.seed;
     this.beatSec = 60 / song.chart.tempo;
     this.layers = opts.layers ?? LAYERS;
@@ -494,8 +506,12 @@ export class Engine {
    * only that unit, so its tail restarts while nothing else is touched.
    */
   setDesk(base: SoundRules, over: SoundSpec | undefined): void {
-    this.S = settle(base, over);
-    this.tune();
+    // and the record keeps whatever treatment it is currently under: a knob
+    // moved on the bridge changes the desk the record is being played on, not
+    // which section of the record we are in
+    this.base = base;
+    this.over = over;
+    this.retune();
   }
 
   private tune(): void {
@@ -682,6 +698,67 @@ export class Engine {
   block(L: Float32Array, R: Float32Array, n: number): number {
     const want = Math.max(0, Math.min(n, this.blockSize, this.length - this.t));
     if (want === 0) return 0;
+    // ── THE RECORD MOVING ITS OWN DESK ──────────────────────────────────
+    // A treatment lands on the SAMPLE the arrangement put it on, never on
+    // whichever block boundary the caller happened to ask for. So a block that
+    // straddles a change is filled in two passes with the desk moved between
+    // them, and `block(L, R, n)` still fills n — no caller learns that this
+    // happens, and the record is the same bytes whether it was made in blocks
+    // of 8192 or of a fifth of a second, which is what the tests hold it to.
+    let done = 0;
+    while (done < want) {
+      this.reachDesk();
+      let chunk = want - done;
+      if (this.deskNext < this.deskAt.length) {
+        const next = this.deskSample(this.deskNext);
+        if (next > this.t) chunk = Math.min(chunk, next - this.t);
+      }
+      this.segment(L.subarray(done, done + chunk), R.subarray(done, done + chunk), chunk);
+      done += chunk;
+    }
+    return done;
+  }
+
+  /** The sample one of the record's own desk changes lands on. */
+  private deskSample(i: number): number {
+    return Math.round(this.deskAt[i]!.tSec * this.sampleRate);
+  }
+
+  /**
+   * Take every desk change the record has reached, and retune on the last one.
+   *
+   * `tune` is already careful about what it rebuilds — a unit whose own knobs
+   * did not move keeps its tail — so a treatment that only opens the room does
+   * not restart the echo, and one that changes nothing rebuilds nothing.
+   */
+  private reachDesk(): void {
+    let moved = false;
+    while (this.deskNext < this.deskAt.length && this.deskSample(this.deskNext) <= this.t) {
+      this.treatment = this.deskAt[this.deskNext]!.treatment;
+      this.deskNext++;
+      moved = true;
+    }
+    if (moved) this.retune();
+  }
+
+  /**
+   * The desk this moment is heard on: the genre's, the record's treatment over
+   * it, and the page's own hand over both.
+   *
+   * THE PAGE WINS. A treatment is the record's opinion about a section and a
+   * knob on the bridge is somebody's hand on that knob, and the hand is not
+   * overruled by the record four bars later. It costs the automation on
+   * exactly the knobs that were touched, which is what being touched means.
+   */
+  private retune(): void {
+    const spec = this.treatment === null ? null : deskOf(this.treatment, this.base);
+    this.S = settle(settle(this.base, spec ?? undefined), this.over);
+    this.tune();
+  }
+
+  /** One stretch of the record on one desk. */
+  private segment(L: Float32Array, R: Float32Array, n: number): void {
+    const want = n;
     const S = this.S;
     const sumL = this.sumL, sumR = this.sumR;
     sumL.fill(0, 0, want);
@@ -762,7 +839,6 @@ export class Engine {
 
     this.runInserts(sumL, sumR, L, R, want);
     this.t += want;
-    return want;
   }
 
   /** The sum through the pole, the tape, the medium, the dust and the master. */

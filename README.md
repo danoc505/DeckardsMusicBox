@@ -87,6 +87,19 @@ record goes below its floor, carrying what it opened with and nothing else.
 See `docs/genre-research/THE-INTRO.md`, which also records the rule that was
 built for this and measured at exactly nothing.
 
+And the record moves its own desk. The rule of three says a third hearing must
+differ, and until recently the only way this program could answer that was to
+rewrite the notes — so a third of every variant it built was heard once and
+never again, which is not a return at all. Now an idea's last hearing is never
+varied, and the demand travels instead to the arrangement as a TREATMENT: a
+change to the section that leaves every pitch where it is. Twelve of them
+(`src/stage/treat.ts`) — darker, wetter, wider, further off, harder through the
+board, more worn — each a pure function of the genre's own desk, each refused
+where it would change nothing, and each landing on the exact sample the
+arrangement put it on rather than on whatever block the player asked for. The
+catalogue and what is still unbuilt are in
+`docs/genre-research/THE-ALTERATIONS.md`.
+
 The middle of a record is `docs/genre-research/DUNGEON-SYNTH-ARRANGEMENT.md`:
 what one genre's own literature says about which parts play and when, measured
 against what this program actually does over sixty seeds. Nothing in it is

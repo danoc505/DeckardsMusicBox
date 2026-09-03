@@ -187,19 +187,66 @@ section. The desk is one frozen object for the length of the piece.
 So the cheapest large win in this program is not writing new operators. It is
 letting the arrangement stage move the machinery that already exists.
 
-## What that needs
+## What was built
 
-One architectural change, and it is not small: `Span` currently carries
-`{ heard, thin }` — a roster and one boolean about the drums. To carry any of
-the above it has to become a roster **and a treatment**, and `render.ts` has to
-take a desk per span rather than one per record, interpolating at boundaries so
-a filter sweep is a sweep and not a step.
+Twelve of them, from §7–8 and one from §4 — the layers that needed only the
+plumbing, not new material operators. `stage/treat.ts` holds what each does to
+a desk; `TREATMENTS` in `genre/spec.ts` is the vocabulary a genre states
+weights over.
 
-That is the same shape as the change that made the engine chunk-based for the
-page: the renderer already rebuilds its desk when the page moves a knob
-(`setDesk`), a fifth of a second at a time, keeping its tails. A record that
-moves its own desk at a span boundary is that mechanism driven by the
-arrangement instead of by a mouse.
+    darken   brighten     the filter, which is the move this genre's own guide names
+    drench   dry          the returns, and every part's send with them
+    push     ease         how much of the pedal board a part walks
+    widen    close        the world's width, and the band's distance in it
+    far      sweep        further off; the slow drift left and right
+    wear     echoed       the tape and the dust; the echo's return and feedback
+
+Three rules hold for all of them. Each is a **pure function of the genre's own
+desk** and absolute rather than relative, so treatments cannot compound or
+depend on the order they were applied in. Each is **bounded by the knob's own
+range**, because `settle` is a merge and not a validator and nothing downstream
+re-checks a value laid over a genre. And each is **refused where it would do
+nothing** — lofi is never offered `sweep`, because its `sweepDepth` is zero for
+every part and three times zero is zero. A move that changes nothing is worse
+than a knob that does nothing: the two-loop rule spends a boundary on it and
+the ear hears the section repeat at exactly the moment it was promised a change.
+
+**How they reach the record.** `Span` carries a treatment beside its roster.
+`perform.ts` turns the arrangement's spans into a timeline of moments in
+seconds — one entry per *change*, not per span. `render.ts` holds that
+timeline and splits its own block at the sample a change falls on, so
+`block(L, R, n)` still fills `n` and no caller learns that this happens. That
+last part is the whole reason it is done at a sample and not a block boundary:
+the record is the same bytes whether it was made in blocks of 8192 or of 577,
+which is what the tests hold it to and what makes what you hear and what you
+save the same record.
+
+**What it cost, measured.** Sixty seeds a genre:
+
+| | |
+|---|---|
+| spans on a treated desk | 33% dungeon synth, 36% lofi |
+| records using at least one | 60/60 and 54/60 |
+| distinct treatments used | all 12, and 10 |
+| boundaries: desk / part-out / hold-back / let-out / part-back | 64% / 17% / 14% / 4% / 2% |
+| boundaries with no move available (`stuck`) | 0 |
+| parts in bar one, thinnest section, fullest, energy spread | **unchanged** |
+
+The last row is the one to check. Treatments compete only for the span
+boundaries *inside* a section, where the debt is ambivalent and a density move
+is not clearly indicated; every section-level number — who opens, how thin the
+thinnest section gets, how full the fullest — is identical to what it was.
+The arrangement did not stop moving its parts; it stopped being unable to do
+anything else.
+
+**And what the first attempt got wrong**, because it is the trap this whole
+document warns about. A treatment was first scored on its own shape alone,
+reaching 1 where a density move's score can never exceed one part of five. It
+outbid them about five times over, and a record came out with fifteen desk
+moves against two of everything else — a section changing colour every eight
+bars and never losing a player, which is the oscillating texture again in
+better clothes. A treatment is now priced at what this file already prices the
+drums' expression at: half a part.
 
 ## What must not happen
 

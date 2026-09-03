@@ -22,7 +22,7 @@
 
 import { artOf, type ArtName } from "../core/articulation.ts";
 import { metricalStrength, type Clock } from "../core/clock.ts";
-import type { Role } from "../genre/spec.ts";
+import type { Role, Treatment } from "../genre/spec.ts";
 import type { Arrangement } from "./arrange.ts";
 import type { Chart } from "./chart.ts";
 import type { Form } from "./form.ts";
@@ -49,10 +49,35 @@ export interface Event {
   readonly art: ArtName;
 }
 
+/**
+ * THE DESK MOVING, at a moment in the record.
+ *
+ * The arrangement decides that a span is heard on a different desk; this is
+ * that decision turned into a time, because the arrangement counts in spans
+ * and the renderer counts in samples and only this stage knows how long a turn
+ * of the loop actually is.
+ *
+ * One entry per CHANGE and not per span: a treatment that carries across four
+ * spans is one entry, so the renderer rebuilds nothing while nothing moved.
+ */
+export interface DeskChange {
+  readonly tSec: number;
+  readonly treatment: Treatment | null;
+}
+
 export interface Performance {
   readonly events: readonly Event[];
   /** Where the record ends, in seconds: the last bar line plus a tail. */
   readonly seconds: number;
+  /**
+   * Every moment the record's own desk moves, in order, the first at zero.
+   *
+   * The genre's desk used to be one frozen object for the length of a record —
+   * `render.ts` did not contain the word "section" — so the whole of the
+   * board, the rack, the room and the machine was set once and never touched
+   * again. This is the record moving its own knobs.
+   */
+  readonly desk: readonly DeskChange[];
 }
 
 /** How much of a note's weight the arc may take away at its quietest. */
@@ -111,6 +136,11 @@ export function makePerformance(
   const played = new Map<string, number>();
   const timesBefore = (material: string, role: Role): number => played.get(`${material} ${role}`) ?? 0;
 
+  // THE RECORD'S OWN DESK, as a list of the moments it moves. It opens on the
+  // genre's, so the first entry is only written if bar zero is already treated.
+  const desk: DeskChange[] = [];
+  let deskNow: Treatment | null = null;
+
   for (const placed of arrangement.placed) {
     const m = materials.all.get(placed.material);
     if (m === undefined) throw new Error(`section plays "${placed.material}", which was never built`);
@@ -147,7 +177,14 @@ export function makePerformance(
       // becomes a range of bars. The last span runs to the end.
       const span = placed.spans[
         Math.min(placed.spans.length - 1, Math.floor((bar - section.startBar) / (2 * loop)))
-      ] ?? { heard: placed.heard, thin: placed.thin };
+      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null };
+      // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
+      // the treatment changes on and nowhere else, so a treatment held across
+      // several spans rebuilds nothing.
+      if (span.treatment !== deskNow) {
+        deskNow = span.treatment;
+        desk.push({ tSec: clock.at(bar), treatment: deskNow });
+      }
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
         // THE HAND IS ADDRESSED BY THE FIGURE, NOT BY THE BAR OF THE RECORD.
@@ -244,5 +281,6 @@ export function makePerformance(
   return Object.freeze({
     events: Object.freeze(events.map((e) => Object.freeze(e))),
     seconds: clock.at(form.bars) + TAIL_SEC,
+    desk: Object.freeze(desk.map((d) => Object.freeze(d))),
   });
 }

@@ -67,8 +67,9 @@
  * change is expression only: a breath, not a hole.
  */
 
-import type { ArrangementRules, Idea, IntroKind, Role } from "../genre/spec.ts";
+import type { ArrangementRules, Idea, IntroKind, Role, Treatment } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
+import { deskOf } from "./treat.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 // A pure function of the chart, not a read of built materials — see its own
@@ -80,6 +81,23 @@ export interface Span {
   readonly heard: ReadonlySet<Role>;
   /** The drums lose their hat and their fills: a breath, not a stop. */
   readonly thin: boolean;
+  /**
+   * A CHANGE TO THE SECTION THAT LEAVES EVERY NOTE WHERE IT IS.
+   *
+   * The two-loop rule names four ways to change an arrangement — an instrument
+   * in, an instrument out, expression up, expression down — and this stage
+   * could do the first three and read "expression" as the drums' hat alone. So
+   * a section could be made emptier or fuller and nothing else, and a record
+   * that wanted to develop without losing anybody had no move to make.
+   *
+   * This is the fourth way, properly populated: darker, wetter, wider, further
+   * off, harder through the board. What each name does to a desk is
+   * `stage/treat.ts`; that it happens at a SPAN and not once a record is what
+   * makes it an arrangement move rather than a genre setting.
+   *
+   * null is the genre's own desk, which is where every span used to be.
+   */
+  readonly treatment: Treatment | null;
 }
 
 export interface Placed {
@@ -227,6 +245,8 @@ interface Move {
   readonly heard: Set<Role>;
   readonly thin: boolean;
   readonly role: Role;
+  /** The desk this move puts the span on, or null for the genre's own. */
+  readonly treatment: Treatment | null;
   /**
    * HOW READILY THE GENRE PARTS WITH THIS ONE, 0..1, from its shed order.
    *
@@ -252,6 +272,38 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
   // opened with, and the rules below are about that.
   const kind = chart.rng.at("arrange").weighted("intro", A.intro);
   const breaks = A.breakdown ? breakAt(form, A.thinBelow) : -1;
+
+  /**
+   * WHICH TREATMENTS THIS RECORD MAY USE, decided once and never again.
+   *
+   * Two filters, and neither answer can change inside a record. The genre's
+   * own pool says which of them belong to this music at all — a weight of zero
+   * removes one — and `deskOf` refuses any that would come out identical to
+   * this genre's desk, so a dry genre is never offered `drench` and a board
+   * nothing walks is never offered `push`. What is left is this genre's own
+   * vocabulary, and the arrangement scores it like everything else.
+   *
+   * A move that does nothing is worse here than anywhere else in the program:
+   * the two-loop rule spends a boundary on it, and the ear hears the section
+   * repeat unaltered at exactly the moment it was promised a change.
+   */
+  const offered = A.treat
+    .filter(([, w]) => w > 0)
+    .map(([t]) => t)
+    .filter((t) => deskOf(t, chart.genre.sound) !== null);
+  /** How readily the genre reaches for one, 0..1, from its own weights. */
+  const heaviest = Math.max(1e-9, ...A.treat.map(([, w]) => w));
+  const weightOf = (t: Treatment): number =>
+    (A.treat.find(([name]) => name === t)?.[1] ?? 0) / heaviest;
+  /**
+   * WHAT WEARS OUT, for the rule of three over this stage's own vocabulary.
+   * A treatment wears out by NAME across the record — the desk going dark for
+   * the third time is the third time however many parts were playing — where a
+   * density move wears out per part, because taking the lead away and taking
+   * the bass away are two different moves.
+   */
+  const keyOf = (mv: Move): string =>
+    mv.treatment !== null ? `treat:${mv.treatment}` : `${mv.name}:${mv.role}`;
 
   /**
    * HOW FULL A SPAN IS, the one measured quantity: what fraction of the band
@@ -386,7 +438,33 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
      * not be an arrangement.
      */
     const base = heard;
-    let cur: { heard: Set<Role>; thin: boolean } = { heard: new Set(base), thin };
+    /**
+     * A RECAST SECTION OPENS ON A DIFFERENT DESK.
+     *
+     * The form sets `recast` where the rule of three fired on an idea that
+     * never comes back: the third hearing still owes a change, and paying for
+     * it with new notes would write material nobody hears twice. So the demand
+     * arrives here instead, and it is answered where the section STARTS rather
+     * than at some span boundary inside it — the whole statement is what was
+     * heard too often, so the whole statement is what arrives different.
+     *
+     * Which one is not drawn. It is the freshest the genre carries, by the
+     * same rule of three that sent the demand: the desk going dark for the
+     * third time is no more a change than the tune being thinned for the third
+     * time. Ties fall to the genre's own order, so this is a function of the
+     * record so far and not of a die.
+     */
+    let opening: Treatment | null = null;
+    if (section.recast && offered.length > 0) {
+      let bestFit = -1;
+      for (const t of offered) {
+        const fit = weightOf(t) / (1 + (ledger.used.get(`treat:${t}`) ?? 0));
+        if (fit > bestFit) { bestFit = fit; opening = t; }
+      }
+      if (opening !== null) ledger.used.set(`treat:${opening}`, (ledger.used.get(`treat:${opening}`) ?? 0) + 1);
+    }
+    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null } =
+      { heard: new Set(base), thin, treatment: opening };
     const turnsOf = (s: number): number =>
       Math.min(2, Math.max(1, Math.round((Math.min(section.bars, (s + 1) * turn) - s * turn) / (turn / 2))));
 
@@ -401,9 +479,12 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           const i = A.shed.indexOf(r);
           return i < 0 ? 1 : 1 - i / A.shed.length;
         };
-        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1): void => {
-          if (h.size === cur.heard.size && th === cur.thin && [...h].every((r) => cur.heard.has(r))) return;
-          pool.push({ name, heard: h, thin: th, role, afford });
+        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment): void => {
+          // a move that leaves the span exactly where it already is is not a
+          // move, and the desk is part of where it is
+          if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment
+            && [...h].every((r) => cur.heard.has(r))) return;
+          pool.push({ name, heard: h, thin: th, role, afford, treatment: tr });
         };
         /**
          * THE DRONE DOES NOT COME AND GO INSIDE A SECTION.
@@ -445,6 +526,16 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         // expression down, and back up — never above the floor the form set
         if (!cur.thin) push("hold-back", new Set(cur.heard), true, "drums");
         if (cur.thin && !thin) push("let-out", new Set(cur.heard), false, "drums");
+        // ── AND THE SECTION ON A DIFFERENT DESK, WITH EVERY NOTE WHERE IT IS.
+        //    The two-loop rule's fourth way, which this stage never had: not
+        //    who plays, but what the record sounds like while they play it.
+        //    Only treatments this genre carries and that would actually move
+        //    this genre's desk are here — `offered` did both filters once, at
+        //    the top, because neither answer changes inside a record.
+        for (const t of offered) push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
+        //    and back to the record's own sound, which is a change like any
+        //    other and the only way a treated span ever ends
+        if (cur.treatment !== null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null);
 
         // ── THE SCORE. Three terms, multiplied, no coefficients: any one at
         //    zero kills the move, and there is nothing to tune.
@@ -459,18 +550,50 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         for (const mv of pool) {
           const after = fullness(mv.heard, mv.thin);
           const d = after - before;
-          //   the debt talking: deep in debt, giving scores and taking does not
-          const serve = d > 0 ? want * d : (1 - want) * -d;
-          //   a part is worth more where it is missing, as arithmetic
+          const moved = mv.treatment !== cur.treatment;
+          //   THE DEBT TALKING: deep in debt, giving scores and taking does not.
+          //
+          //   A TREATMENT ANSWERS A DIFFERENT OBLIGATION and is scored for it.
+          //   It neither gives a part nor takes one — d is exactly zero, which
+          //   under the line below would score zero and never be chosen — so
+          //   what it serves is the case the density moves cannot serve: the
+          //   record owed neither a rise nor a fall, and the two-loop rule
+          //   owing a change anyway. That is `want` at neither end: 1 at
+          //   want = 0.5, 0 at either extreme.
+          //
+          //   AND IT IS PRICED IN THE SAME CURRENCY AS EVERY OTHER MOVE, which
+          //   is what the first attempt got wrong. A density move's serve is
+          //   its change in fullness, so it can never exceed one part of five;
+          //   a treatment scored on that shape alone reached 1 and outbid every
+          //   one of them about five times over. Measured, a record went to
+          //   fifteen desk moves against two of everything else — the ear got a
+          //   section that changed colour every eight bars and never lost a
+          //   player, which is the same failure as the texture that oscillates,
+          //   wearing better clothes.
+          //
+          //   A treatment is worth what the drums' expression is worth, and
+          //   this file has already priced that: `fullness` counts a thinned
+          //   kit as half a part. So half a part is what a treatment serves at
+          //   its best, and the number is the one already in the file rather
+          //   than a new one to tune.
+          const asPart = 0.5 / ROLES.length;
+          const serve = moved
+            ? (1 - Math.abs(2 * want - 1)) * asPart
+            : d > 0 ? want * d : (1 - want) * -d;
+          //   a part is worth more where it is missing, as arithmetic — and a
+          //   treatment takes no part away, so there is no absence to price
           const st = ledger.standing.get(mv.role) ?? 0;
-          const worth = (d > 0 ? Math.max(0, -st) / (Math.max(0, -st) + 1) : Math.max(0, st) / (Math.max(0, st) + 1))
-            * established(mv.role);
+          const worth = moved ? 1
+            : (d > 0 ? Math.max(0, -st) / (Math.max(0, -st) + 1) : Math.max(0, st) / (Math.max(0, st) + 1))
+              * established(mv.role);
           //   the rule of three, applied to this stage's own vocabulary: the
           //   same move on the same part wears out across the whole record
-          const fresh = 1 / (1 + (ledger.used.get(`${mv.name}:${mv.role}`) ?? 0));
+          const fresh = 1 / (1 + (ledger.used.get(keyOf(mv)) ?? 0));
           //   and a genre does not part with its foundation as readily as with
-          //   its decoration: what it can most afford is its own to say
-          const fit = serve * worth * fresh * mv.afford;
+          //   its decoration: what it can most afford is its own to say — for a
+          //   treatment that is the weight the genre put on it
+          const afford = mv.treatment !== null ? weightOf(mv.treatment) : mv.afford;
+          const fit = serve * worth * fresh * afford;
           if (fit > bestFit) { bestFit = fit; best = mv; }
         }
         if (best === null) {
@@ -480,18 +603,18 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           let alt: Move | null = null;
           let altFresh = -1;
           for (const mv of pool) {
-            const f = 1 / (1 + (ledger.used.get(`${mv.name}:${mv.role}`) ?? 0));
+            const f = 1 / (1 + (ledger.used.get(keyOf(mv)) ?? 0));
             if (f > altFresh) { altFresh = f; alt = mv; }
           }
           if (alt === null) ledger.stuck++;
           best = alt;
         }
         if (best !== null) {
-          cur = { heard: best.heard, thin: best.thin };
-          ledger.used.set(`${best.name}:${best.role}`, (ledger.used.get(`${best.name}:${best.role}`) ?? 0) + 1);
+          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment };
+          ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
         }
       }
-      spans.push({ heard: new Set(cur.heard), thin: cur.thin });
+      spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment });
 
       // ── THE LEDGER, in part-turns. Two entries and nothing else.
       const turns = turnsOf(s);
@@ -523,7 +646,11 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     for (const sp of spans) for (const r of sp.heard) union.add(r);
     const held = Object.freeze(union) as ReadonlySet<Role>;
     const frozen = Object.freeze(
-      spans.map((sp) => Object.freeze({ heard: Object.freeze(sp.heard) as ReadonlySet<Role>, thin: sp.thin })),
+      spans.map((sp) => Object.freeze({
+        heard: Object.freeze(sp.heard) as ReadonlySet<Role>,
+        thin: sp.thin,
+        treatment: sp.treatment,
+      })),
     ) as readonly Span[];
     return Object.freeze({
       section,

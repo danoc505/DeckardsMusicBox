@@ -13,7 +13,7 @@
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  ARCS, BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
+  ARCS, BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
   type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
@@ -495,6 +495,8 @@ export function resolveGenre(
     if (!finite(fa) || fa < 0 || fa > 1) problems.push(`arrangement.fullAbove must be 0..1, got ${String(fa)}`);
     const tb = arr["thinBelow"];
     if (!finite(tb) || tb < 0 || tb > 1) problems.push(`arrangement.thinBelow must be 0..1, got ${String(tb)}`);
+    // and the note-preserving changes it will make to a section
+    checkPool(problems, "arrangement.treat", arr["treat"], (v) => (TREATMENTS as readonly unknown[]).includes(v), `one of ${TREATMENTS.join(", ")}`);
   }
 
   const feel = isPlainObject(merged["feel"]) ? merged["feel"] : null;

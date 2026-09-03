@@ -170,6 +170,49 @@ export const dungeonsynth: GenreSpec = {
       ["rhythm", 2],
       ["hook", 1],
     ],
+    /**
+     * HOW THIS MUSIC DEVELOPS WITHOUT LOSING ANYBODY.
+     *
+     * The genre's own guide gives the development section exactly one
+     * instruction, and it is not about notes: "deepen the shadows of the sound
+     * through changes in reverb and filters" (note.com/soundwitches). So the
+     * two moves it names outright — the filter down and the room opened — are
+     * the heaviest here, and they are the reason this pool exists at all: this
+     * is a genre whose literature describes development as a DESK move, played
+     * by a program that until now set its desk once and never touched it.
+     *
+     * WEAR is the genre's too, and by name: "intentional crackle, warble, and
+     * hiss" (ibid.) is already in this genre's tape and vinyl settings, and a
+     * section where the medium itself gets worse is that idea given somewhere
+     * to go.
+     *
+     * FAR is "echoing through stone corridors" (ibid.) — the band a step
+     * deeper into the building.
+     *
+     * And BRIGHTEN is kept, lightly. A record that can only ever get darker is
+     * not developing, it is decaying, and the shadows only deepen against
+     * something: it is the return from a dark section that makes the dark one
+     * a section rather than the new floor. Light enough that this stays a
+     * genre about darkness — which is why it is a third of `darken` and not
+     * its equal.
+     *
+     * The rest sit under those. Weights [chosen] — the sources name the moves
+     * and rank nothing.
+     */
+    treat: [
+      ["darken", 6],
+      ["drench", 5],
+      ["wear", 4],
+      ["far", 3],
+      ["dry", 3],
+      ["brighten", 2],
+      ["ease", 2],
+      ["push", 2],
+      ["widen", 2],
+      ["close", 1],
+      ["echoed", 1],
+      ["sweep", 1],
+    ],
   },
 
   // an organ's pipes do not know how hard a key was pressed, and a pad
@@ -290,6 +333,12 @@ export const dungeonsynth: GenreSpec = {
       "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; the rest [chosen]",
     "drums.kick": "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com); \"very subtle percussion\" (note.com/soundwitches)",
     "drums.hat": "beatless: no hat (note.com/soundwitches)",
+    "arrangement.treat":
+      "the genre's development section is \"deepen the shadows of the sound through changes in reverb and filters\", " +
+      "with \"intentional crackle, warble, and hiss\" and a record \"echoing through stone corridors\" " +
+      "(note.com/soundwitches): the filter, the room, the wear and the distance are this genre's own moves and are " +
+      "weighted first. Brighten is kept light because shadows only deepen against something. Weights [chosen] — " +
+      "the sources name the moves and rank nothing",
     "arrangement.intro":
       "\"primarily beatless\", \"very subtle percussion\" (note.com/soundwitches): the drum-led opening Burns " +
       "documents (\"solo drums... will attract especially great attention to rhythm\") is the one way in this " +

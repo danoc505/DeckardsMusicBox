@@ -294,3 +294,76 @@ test("the arrangement is frozen", () => {
   assert.ok(Object.isFrozen(a.placed));
   assert.ok(Object.isFrozen(a.placed[0]));
 });
+
+// ── THE TREATMENTS: the fourth way to change an arrangement ────────────────
+// The two-loop rule names four — an instrument in, an instrument out,
+// expression up, expression down — and this stage could do three of them,
+// reading "expression" as the drums' hat alone. These hold the fourth to
+// being a real move, and to being only ever a change of SOUND.
+
+const ds = GENRES.dungeonsynth;
+const dsBuild = (seed: number): Arrangement => {
+  const chart = makeChart({ seed, genre: ds });
+  return makeArrangement(chart, makeForm(chart));
+};
+
+test("a treatment changes the sound and never who is playing", () => {
+  // The invariant the whole design rests on. `heard` is what the material
+  // stage builds for, and a treatment that quietly dropped a part would put a
+  // section on a desk AND take a player away, which is two moves at a boundary
+  // the two-loop rule allows one of.
+  let boundaries = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const p of dsBuild(seed).placed) {
+      for (let i = 1; i < p.spans.length; i++) {
+        const a = p.spans[i - 1]!, b = p.spans[i]!;
+        if (a.treatment === b.treatment) continue;
+        boundaries++;
+        assert.equal(a.heard.size, b.heard.size, "a treatment changed how many play");
+        for (const r of a.heard) assert.ok(b.heard.has(r), `a treatment took the ${r} away`);
+        assert.equal(a.thin, b.thin, "a treatment changed the drums' expression");
+      }
+    }
+  }
+  assert.ok(boundaries > 100, `only ${boundaries} boundaries moved the desk across 60 records`);
+});
+
+test("a record only uses treatments its genre carries", () => {
+  const allowed = new Set(ds.arrangement.treat.filter(([, w]) => w > 0).map(([t]) => t));
+  const seen = new Set<string>();
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const p of dsBuild(seed).placed) {
+      for (const sp of p.spans) {
+        if (sp.treatment === null) continue;
+        assert.ok(allowed.has(sp.treatment), `${sp.treatment} is not in this genre's pool`);
+        seen.add(sp.treatment);
+      }
+    }
+  }
+  // and the pool is really a pool: a genre that only ever reached for one
+  // would have a list where it wanted a number
+  assert.ok(seen.size >= 5, `only ${seen.size} distinct treatments across 60 records`);
+});
+
+test("a rule-of-three demand the notes may not answer is answered by the desk", () => {
+  // `recast` is the form saying: this hearing owes a change and it may not be
+  // bought with new material, because the idea never comes back to show it.
+  // Every one of them has to be met, or the demand travelled nowhere.
+  let recasts = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const p of dsBuild(seed).placed) {
+      if (!p.section.recast) continue;
+      recasts++;
+      assert.notEqual(p.spans[0]!.treatment, null, `a recast ${p.section.fn} opened on the genre's own desk`);
+    }
+  }
+  assert.ok(recasts > 10, `only ${recasts} recast sections across 60 records`);
+});
+
+test("the desk moving does not leave the arrangement with nothing to do", () => {
+  // `stuck` counts boundaries where every move refused. A richer pool must not
+  // make that worse, and in fact it cannot be anything but better.
+  let stuck = 0;
+  for (let seed = 1; seed <= 60; seed++) stuck += dsBuild(seed).stuck;
+  assert.equal(stuck, 0, `${stuck} boundaries had no move available`);
+});

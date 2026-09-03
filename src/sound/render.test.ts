@@ -135,6 +135,54 @@ test("the record does not depend on the block it is made in", () => {
   }
 });
 
+/**
+ * A record that MOVES ITS OWN DESK part way through, which the one above may
+ * not be. The block-size guarantee is the whole reason a treatment lands on a
+ * sample rather than on a block boundary, so it has to be held against a
+ * record that actually has one — and the desk changes are asserted first, so
+ * that this can never quietly become a test of nothing.
+ */
+const treated = compose({ seed: 2, genre: "dungeonsynth", seconds: 90 });
+
+test("a treatment lands on its own sample, not on the caller's block boundary", () => {
+  const changes = treated.performance.desk.filter((d) => d.tSec < treated.performance.seconds);
+  assert.ok(changes.length >= 2, `this record only moves its desk ${changes.length} times`);
+  // and at least one of them falls INSIDE a block of every size below, which
+  // is the case that would break if `block` moved the desk at its own edges
+  // at a coarse rate: this is a test about WHERE a block ends, and rendering
+  // it in hi-fi only makes it slow. 577 is coprime with every bar line in the
+  // record, so a change is guaranteed to fall inside a block rather than on one.
+  const one = render(treated, { sampleRate: 8000 });
+  for (const blockSize of [577, 4096]) {
+    const many = render(treated, { sampleRate: 8000, blockSize });
+    assert.deepEqual(many.left, one.left, `left channel differs at block ${blockSize}`);
+    assert.deepEqual(many.right, one.right, `right channel differs at block ${blockSize}`);
+  }
+});
+
+test("the record's own desk is heard", () => {
+  // The same notes, rendered with the arrangement's treatments and with the
+  // timeline emptied. If these came out identical the whole chain from
+  // `arrange` through `perform` to here would be decorative.
+  assert.ok(treated.performance.desk.length > 0, "this record never moves its desk");
+  const flat = { ...treated, performance: { ...treated.performance, desk: [] } };
+  const withDesk = render(treated, { sampleRate: 8000 });
+  const without = render(flat, { sampleRate: 8000 });
+  let worst = 0;
+  for (let i = 0; i < withDesk.left.length; i++) {
+    worst = Math.max(worst, Math.abs(withDesk.left[i]! - without.left[i]!));
+  }
+  assert.ok(worst > 0.005, `the treatments moved the record by at most ${worst}`);
+  // AND IT IS A CHANGE OF SOUND RATHER THAN OF LOUDNESS. A treatment moves the
+  // record without moving how loud it is: that is what distinguishes it from
+  // the density moves, which is the whole reason it can answer the rule of
+  // three without the arrangement getting quieter every time it does.
+  assert.ok(
+    Math.abs(rms(withDesk) - rms(without)) < 0.02,
+    `treating the record moved its level from ${rms(without)} to ${rms(withDesk)}`,
+  );
+});
+
 test("the engine hands out the record the renderer writes", () => {
   // driven by hand, in blocks of no particular size, the way a player would
   const engine = new Engine(song, { sampleRate: SR, blockSize: 4096 });
