@@ -87,5 +87,11 @@ record goes below its floor, carrying what it opened with and nothing else.
 See `docs/genre-research/THE-INTRO.md`, which also records the rule that was
 built for this and measured at exactly nothing.
 
+The middle of a record is `docs/genre-research/DUNGEON-SYNTH-ARRANGEMENT.md`:
+what one genre's own literature says about which parts play and when, measured
+against what this program actually does over sixty seeds. Nothing in it is
+applied — it is the reading, and it names two places where dungeon synth is
+still running on a default written for pop.
+
 `Deckards Orchestrator MK2.html` is the previous program, kept whole and
 runnable. `tools/dump.mjs` reads its notes out in the same text format.
