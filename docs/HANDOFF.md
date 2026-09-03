@@ -84,6 +84,14 @@ game (4 rounds) → match (tournament-defined). A best-of-7 *games* match would 
 28 rounds and 448 shots. The NCA 2/1/0 round scoring is kept exactly, and 20s are
 tracked separately the way a real scorecard tracks them.
 
+**Tap and flick are separate gestures.** An earlier version made you press on
+your own line, drag inward without releasing, and let go at the far end — one
+long held gesture doing placement, aiming and firing at once. It is unusable on
+a trackpad, where holding a drag across the whole board is the motion the
+hardware is worst at, and it is not what flicking a disc feels like either. Now
+a disc is always waiting on the line, a tap moves it, and a flick anywhere on
+the board shoots in the direction you swiped.
+
 **Difficulty is execution, not worse choices.** The AI finds a good shot and then
 misses it. Medium and Hard also re-score their leading candidates through their
 own shake and keep the average — which is what a player choosing a shot they can

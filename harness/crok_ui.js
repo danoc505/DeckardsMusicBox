@@ -79,75 +79,117 @@ const VIEW = { width: 1180, height: 820 };
   ok(state && state.left[0] === 8 && state.left[1] === 8, "with 8 discs each");
   await page.screenshot({ path: path.join(OUT, "03-board.png") });
 
-  /* --- aim: place a disc and drag, so the preview is drawn -------------- */
+  /* --- the gesture: tap to place, flick to shoot ------------------------ */
   /* Playwright's mouse.move is a round trip per call -- about 80 ms -- so a
-     drag driven that way is roughly five times slower than a real finger and
-     produces almost no power. For anything that depends on FLICK SPEED the
-     gesture is dispatched inside the page instead, with real delays between
-     samples, so the velocity fit sees what a hand would actually give it. */
+     swipe driven that way is far slower than a real finger and produces
+     almost no power. Anything that depends on FLICK SPEED is dispatched
+     inside the page instead, with real delays between samples, so the
+     velocity fit sees what a hand would actually give it. */
   const box = await page.locator("#board-canvas").boundingBox();
   const cx = box.x + box.width / 2, cy = box.y + box.height / 2;
-  const startY = cy + box.height * 0.36;
 
-  const swipe = async (fromY, toY, ms, release) => {
-    return page.evaluate(async ({ x, y0, y1, ms, release, left, top }) => {
+  const gesture = (x0, y0, x1, y1, ms, opts = {}) =>
+    page.evaluate(async ({ x0, y0, x1, y1, ms, left, top, tap }) => {
       const cv = document.getElementById("board-canvas");
-      const ev = (type, cx, cy) => cv.dispatchEvent(new PointerEvent(type, {
+      const ev = (type, x, y) => cv.dispatchEvent(new PointerEvent(type, {
         pointerId: 1, pointerType: "touch", isPrimary: true, bubbles: true,
-        cancelable: true, clientX: cx + left, clientY: cy + top, buttons: 1,
+        cancelable: true, clientX: x + left, clientY: y + top, buttons: 1,
       }));
-      const N = 12, step = ms / N;
-      ev("pointerdown", x, y0);
-      for (let i = 1; i <= N; i++){
-        await new Promise(r => setTimeout(r, step));
-        ev("pointermove", x, y0 + (y1 - y0) * (i / N));
+      ev("pointerdown", x0, y0);
+      if (!tap){
+        const N = 12;
+        for (let i = 1; i <= N; i++){
+          await new Promise(r => setTimeout(r, ms / N));
+          ev("pointermove", x0 + (x1 - x0) * (i / N), y0 + (y1 - y0) * (i / N));
+        }
       }
-      if (release) ev("pointerup", x, y1);
+      ev("pointerup", x1, y1);
       return true;
-    }, { x: cx - box.x, y0: fromY - box.y, y1: toY - box.y, ms, release,
-         left: box.x, top: box.y });
-  };
+    }, { x0: x0 - box.x, y0: y0 - box.y, x1: x1 - box.x, y1: y1 - box.y,
+         ms, left: box.x, top: box.y, tap: !!opts.tap });
 
-  /* a brisk swipe from the shooting line towards the 20, held at the end */
-  await swipe(startY, cy + 12, 140, false);
-  await page.waitForTimeout(40);
+  /* a disc must already be waiting, without anyone placing one */
+  const ready = await page.evaluate(() => {
+    const g = window.CROK.APP.state.game;
+    return { pending: !!g.pending, x: g.pending && g.pending.x, y: g.pending && g.pending.y };
+  });
+  ok(ready.pending, "a disc is already on the line at the start of the turn");
+
+  /* --- TAP moves it along the line, and does not shoot ------------------ */
+  const arcY = cy + box.height * 0.355;
+  await gesture(cx - box.width * 0.16, arcY, cx - box.width * 0.16, arcY, 0, { tap: true });
+  await page.waitForTimeout(120);
+  const tapped = await page.evaluate(() => {
+    const g = window.CROK.APP.state.game;
+    return { state: g.state, left: g.left[0], x: g.pending && g.pending.x };
+  });
+  ok(tapped.state === "aim", "a tap does not fire a shot", tapped.state);
+  ok(tapped.left === 8, "and costs no disc");
+  ok(Math.abs(tapped.x - ready.x) > 0.01, "but it does move the disc along the line",
+     `moved ${((tapped.x - ready.x) * 1000).toFixed(0)} mm`);
+
+  /* --- FLICK draws the preview and shoots ------------------------------- */
+  /* swipe upwards from below the disc: the direction of the SWIPE is the
+     direction of the shot, so this must send the disc up the board */
+  await page.evaluate(() => {
+    const g = window.CROK.APP.state.game;
+    const pl = g.geo.placement(g.shooter);
+    g.place(pl.r * Math.cos(pl.c), pl.r * Math.sin(pl.c));   /* back to centre */
+  });
+  const fromY = cy + box.height * 0.30;
+  await gesture(cx, fromY, cx, cy - box.height * 0.10, 150);
+  await page.waitForTimeout(150);
+
+  const shot = await page.evaluate(() => {
+    const g = window.CROK.APP.state.game;
+    const d = g.play ? g.play.shot : null;
+    return { state: g.state, left: g.left[0],
+             vx: d && d.vx, vy: d && d.vy,
+             speed: d ? Math.hypot(d.vx, d.vy) : 0 };
+  });
+  ok(shot.left === 7, "a flick fires the shot", `left ${shot.left}`);
+  ok(shot.speed > 0.3, "with real speed on it", `${shot.speed.toFixed(2)} m/s`);
+  ok(shot.vy < 0, "and it travels the way the swipe went (up the board)",
+     `vy ${shot.vy && shot.vy.toFixed(2)}`);
+  console.log(`   flick: ${shot.speed.toFixed(2)} m/s, direction ` +
+              `${(Math.atan2(shot.vy, shot.vx) * 180 / Math.PI).toFixed(0)}deg`);
+
+  /* --- the preview, captured mid-gesture -------------------------------- */
+  await page.waitForTimeout(2500);        /* let the AI reply and settle    */
+  await page.evaluate(async () => {
+    const g = window.CROK.APP.state.game;
+    while (g.state !== 'aim' || g.isAI(g.shooter)) await new Promise(r => setTimeout(r, 120));
+  });
+  await page.evaluate(async ({ left, top, x0, y0, x1, y1 }) => {
+    const cv = document.getElementById("board-canvas");
+    const ev = (t, x, y) => cv.dispatchEvent(new PointerEvent(t, {
+      pointerId: 2, pointerType: "touch", isPrimary: true, bubbles: true,
+      cancelable: true, clientX: x + left, clientY: y + top, buttons: 1,
+    }));
+    ev("pointerdown", x0, y0);
+    for (let i = 1; i <= 12; i++){
+      await new Promise(r => setTimeout(r, 12));
+      ev("pointermove", x0 + (x1 - x0) * (i / 12), y0 + (y1 - y0) * (i / 12));
+    }
+  }, { left: box.x, top: box.y, x0: cx - box.x, y0: fromY - box.y,
+       x1: cx - box.x, y1: cy - box.height * 0.10 - box.y });
   await page.screenshot({ path: path.join(OUT, "04-aiming.png") });
   const aiming = await page.evaluate(() => {
     const g = window.CROK.APP.state.game;
-    return { pending: !!g.pending, preview: !!g.preview, power: g.power,
-             pathPts: g.preview ? g.preview.path.length / 2 : 0,
-             events: g.preview ? g.preview.events.length : 0 };
+    return { preview: !!g.preview, power: g.power,
+             pathPts: g.preview ? g.preview.path.length / 2 : 0 };
   });
-  ok(aiming.pending, "a disc was placed on the shooting line");
-  ok(aiming.preview, "the trajectory preview was computed");
-  ok(aiming.pathPts > 4, "the preview has a real path", aiming.pathPts + " points");
-  ok(aiming.power > 0.25, "a brisk swipe gives real power",
-     `${(aiming.power * 100).toFixed(0)}%`);
-  console.log(`   aim: power ${(aiming.power * 100).toFixed(0)}%, ` +
-              `${aiming.pathPts} path points, ${aiming.events} predicted contacts`);
-
-  /* --- and now let go ---------------------------------------------------- */
-  /* A fresh swipe that releases at the end of the movement. The screenshot
-     above took long enough for the peak-hold to lapse, which is the right
-     behaviour -- a player who has stopped moving has no flick in hand -- so
-     the power has to be built again and released immediately, which is
-     exactly what flicking is. */
+  ok(aiming.preview, "the trajectory preview is drawn during the flick");
+  ok(aiming.pathPts > 4, "with a real path", aiming.pathPts + " points");
+  console.log(`   preview: power ${(aiming.power * 100).toFixed(0)}%, ` +
+              `${aiming.pathPts} path points`);
+  /* let that one go so play continues */
   await page.evaluate(({ left, top, x, y }) => {
-    document.getElementById("board-canvas").dispatchEvent(new PointerEvent("pointercancel", {
-      pointerId: 1, pointerType: "touch", isPrimary: true, bubbles: true, cancelable: true,
-      clientX: x + left, clientY: y + top,
-    }));
-  }, { left: box.x, top: box.y, x: cx - box.x, y: cy + 12 - box.y });
-  await page.waitForTimeout(60);
-  await swipe(startY, cy + 12, 140, true);
+    document.getElementById("board-canvas").dispatchEvent(new PointerEvent("pointerup", {
+      pointerId: 2, pointerType: "touch", isPrimary: true, bubbles: true,
+      cancelable: true, clientX: x + left, clientY: y + top }));
+  }, { left: box.x, top: box.y, x: cx - box.x, y: cy - box.height * 0.10 - box.y });
   await page.waitForTimeout(200);
-  const fired = await page.evaluate(() => {
-    const g = window.CROK.APP.state.game;
-    return { state: g.state, left: g.left };
-  });
-  ok(fired.state === "playing" || fired.state === "settle" || fired.state === "aim",
-     "the shot was taken", fired.state);
-  ok(fired.left[0] === 7, "and it cost player 1 a disc", "left " + fired.left[0]);
   await page.screenshot({ path: path.join(OUT, "05-shot.png") });
 
   /* --- let the AI reply and the board fill up --------------------------- */

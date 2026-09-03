@@ -34,12 +34,20 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-Touch down in your own quadrant to place a disc on the shooting line, slide
-along the line to choose your spot, then drag in towards the board to aim and
-flick. Power comes from how fast you flick; sweeping sideways as you release
-puts spin on it. Pull-back aiming is in Settings if you prefer it.
+**Tap** anywhere near your own line to slide your disc along it. A disc is
+already sitting there at the start of every turn, so this is optional.
 
-Works with a finger, a trackpad, a mouse or a pencil — all one code path.
+**Flick** anywhere on the board to shoot. The direction you swipe is the
+direction the disc goes, and how fast you swipe is how hard it is struck. It
+fires the moment you let go. Curve the swipe to put spin on it.
+
+They are two independent gestures — nothing is held down, and you can flick as
+many times as you like to see where the line goes, since only the release
+commits the shot.
+
+If you would rather set the power exactly, Settings has a **Slingshot** mode:
+drag away from where you want the disc to go and let go, catapult style. Slower,
+but far more precise, and the better choice on a trackpad or for a delicate 20.
 
 ## Tests
 
