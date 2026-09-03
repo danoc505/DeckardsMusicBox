@@ -1,5 +1,7 @@
 # Deckard's Orchestrator MKIII
 
+> **First time here?** See [`HANDOFF.md`](HANDOFF.md) for what was just done, why, and what needs to happen next.
+
 A seeded record maker. The same genre and seed is the same record, every
 time, anywhere: as notes, as a text dump, as a WAV, in the page.
 
