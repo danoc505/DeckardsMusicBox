@@ -203,6 +203,25 @@ export function drawLead(
   let questionDir = 0;
   /** Which way the last move went, and whether it was a leap: what a reversal answers. */
   let lastMove = 0;
+  /**
+   * The question's shape, IN SCALE STEPS — how many rungs of the scale each
+   * of its moves climbed or fell, not how many semitones.
+   *
+   * Steps and not semitones because a sequence in tonal music is TONAL and
+   * not real: "melodic inversion can be real (where every interval is
+   * exactly the same quality) or tonal (where the intervals abide by the
+   * scale or key)", and the tonal kind "prioritizes staying within the
+   * harmonic and melodic framework of a particular key or scale, which is
+   * why it's more common in tonal music" (musictheory.pugetsound.edu,
+   * "Melodic Alteration") — the same reason vary.ts inverts by degree. A
+   * third up stays a third up whether this corner of the scale spells it
+   * three semitones or four. Matched in semitones the answer could only
+   * follow its question 47% of the way, and the half it could not follow
+   * was the half where the scale spells the same step differently.
+   */
+  const qShape: number[] = [];
+  /** Which rung of the scale a pitch is, for measuring a shape in steps. */
+  const rung = new Map(pool.map((q, i) => [q, i]));
 
   for (let ph = 0; ph * PHRASE_BARS < chords.length; ph++) {
     const isAnswer = ph % 2 === 1;
@@ -238,6 +257,8 @@ export function drawLead(
     // question actually went, which is arithmetic on its first and last notes
     const dir = isAnswer ? -questionDir || (at.chance("dir", 0.5) ? 1 : -1)
                          : at.chance("dir", 0.5) ? 1 : -1;
+
+    if (!isAnswer) qShape.length = 0;
 
     let phraseLo = Infinity;
     let phraseHi = -Infinity;
@@ -350,6 +371,41 @@ export function drawLead(
         if (smooth.length > 0) cands = smooth;
       } else {
         const from = prev.pitch;
+        //   THE ANSWER SAYS THE QUESTION AGAIN. A period is an antecedent and
+        //   a consequent, and the consequent is not new material: it opens
+        //   with the antecedent and changes only where it lands. That is what
+        //   a parallel period IS, and it is the plainest way a tune gets an
+        //   idea an ear can hold — the idea is heard, then heard again, and
+        //   only the ending tells them apart.
+        //
+        //   So the answer reaches for the interval the question took at this
+        //   point, on whatever chord it has landed on this time: same shape,
+        //   new harmony, which is a tonal sequence. Let go of at the LAST
+        //   onset, because the cadence is the difference between the two
+        //   halves, and the whole reason they are a question and an answer
+        //   rather than one thing said twice.
+        //
+        //   FIRST among the preferences, not last. Last, it chose among
+        //   whatever the chord-tone and leaning preferences had left, and the
+        //   step it wanted was usually already gone: the answer followed its
+        //   question 24% of the way. The shape is what the answer IS, so it
+        //   narrows first and everything below chooses inside it.
+        //
+        //   Still only a preference, and it comes after the laws: an answer
+        //   that would have to play a wrong note to say the question again
+        //   does not say it again. A broken sequence is a shape an ear can
+        //   still follow; a wrong note is not.
+        if (isAnswer && i > 0 && i < rhythm.length - 1) {
+          const want = qShape[i];
+          const here = rung.get(from);
+          if (want !== undefined && here !== undefined) {
+            const same = cands.filter((q) => {
+              const r = rung.get(q);
+              return r !== undefined && r - here === want;
+            });
+            if (same.length > 0) cands = same;
+          }
+        }
         //   A RECITING TONE STAYS PUT. It is the whole of what a chant is:
         //   the line holds its pitch and the rhythm carries the phrase, and
         //   it leaves only now and then. Applied before the size, because a
@@ -424,6 +480,11 @@ export function drawLead(
       });
       const note: Note = { bar, step, dur, pitch, vel: LEAD_WEIGHT, art };
       out.push(note);
+      if (!isAnswer && prev !== null) {
+        const a = rung.get(prev.pitch);
+        const b = rung.get(pitch);
+        if (a !== undefined && b !== undefined) qShape[i] = b - a;
+      }
       lastMove = prev === null ? 0 : pitch - prev.pitch;
       prev = note;
       prevChord = chord;
