@@ -34,15 +34,40 @@ export const lofi: GenreSpec = {
   // the harmony is jazz harmony: sevenths on nearly every chord, the ii–V–I
   // and the turnaround, loops that circle rather than cadence
   harmony: {
-    sevenths: 0.9,
+    /**
+     * EVERY chord takes its seventh. Lo-fi "borrows its harmony from jazz and
+     * soul, using 7th and 9th chords and the ii-V-I cadence"; the plain triad
+     * is the one voicing the idiom does not use, and at 0.9 one chord in ten
+     * came out bare — which also broke the two-bar sequence, because a triad
+     * and a seventh chord do not voice to the same shape.
+     * [blog.flat.io lofi-chord-progressions; emastered.com
+     * lofi-recording-and-chord-progression]
+     */
+    sevenths: 1,
+    /**
+     * And two chords in five go on to the ninth: "extended chords (like 9ths)
+     * give that smooth, jazzy feel beloved by lofi producers", against the
+     * genre's own rule that the colour should not be on every chord or it
+     * stops being colour. [unison.audio lofi-chord-progressions]
+     */
+    ninths: 0.4,
     progressions: {
       // TWO BARS FIRST. A two-bar progression written over a four-bar
       // material is a two-bar LOOP stated twice, and everything played over
       // it repeats on it — which is what makes a beat a beat.
+      //
+      // AND TWO BARS MOSTLY. Lo-fi takes jazz's chords but not its rate: it
+      // "holds those chords still in slow loops instead of moving quickly
+      // through changes like jazz does", and "most lo-fi tracks use three to
+      // five chords in a repeating loop" (blog.flat.io; orphiq.com
+      // lofi-chord-progressions). At an even split half of all records got a
+      // four-chord progression, and a two-bar cell over four changes it was
+      // not written across repeated 0% of the time.
       A: [
-        [[0, 5], 4],
-        [[3, 0], 2],
-        [[0, 5, 3, 4], 3],
+        [[0, 5], 6],
+        [[3, 0], 4],
+        [[1, 4], 3],
+        [[0, 5, 3, 4], 2],
         [[0, 5, 1, 4], 2],
         [[0, 3, 6, 2], 1],
       ],

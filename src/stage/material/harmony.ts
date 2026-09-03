@@ -40,7 +40,10 @@ export function drawChords(chart: Chart, idea: Idea): Chord[] {
     // and the chord comes round with the progression.
     const spot = bar % prog.length;
     const seventh = draw.at("spot", spot).chance("seventh", H.sevenths);
-    let tones = chordTones(chart.tonic, chart.scale, degree, seventh ? 4 : 3);
+    // Drawn whether or not the seventh landed, so a genre that asks for no
+    // ninth is bit-for-bit the record it was before this existed.
+    const ninth = draw.at("spot", spot).chance("ninth", H.ninths) && seventh;
+    let tones = chordTones(chart.tonic, chart.scale, degree, ninth ? 5 : seventh ? 4 : 3);
     // A BARE FIFTH: the third dropped, so the chord is neither major nor
     // minor. Dungeon synth "favors modal scales, open fifths, and cadences
     // reminiscent of early music" and "notably avoids complex jazz-influenced

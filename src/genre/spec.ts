@@ -133,6 +133,18 @@ export interface HarmonySpec {
   /** 0..1, how often a chord takes its seventh. */
   readonly sevenths?: number;
   /**
+   * 0..1, how often a chord that already took its seventh goes on to its
+   * NINTH. Jazz-leaning music is not seventh chords, it is extended ones:
+   * lo-fi "relies on extended chords, especially major 7ths, minor 7ths and
+   * dominant 9ths" and adds "seventh and ninth intervals attached to the
+   * chords for an added bit of flavour" (unison.audio lofi-chord-
+   * progressions; lofiweekly.com 7-jazz-piano-chords-lofi-hip-hop).
+   * Conditional on the seventh, because a ninth over a triad is a chord with
+   * a hole in it; drawn unconditionally, so adding it moved no record that
+   * does not ask for it.
+   */
+  readonly ninths?: number;
+  /**
    * 0..1, how often a chord drops its THIRD and is voiced as a bare fifth.
    * A fifth is neither major nor minor, which is the whole point of it: it
    * is the medieval and modal colour, and the room it leaves is where a
@@ -150,6 +162,7 @@ export interface HarmonySpec {
 
 export interface HarmonyRules {
   readonly bars: number;
+  readonly ninths: number;
   readonly motif: number;
   readonly progressions: Readonly<Record<Idea, Weighted<Progression>>>;
   readonly sevenths: number;
@@ -795,6 +808,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
 
   harmony: {
     bars: 4,
+    /** No genre extends past the seventh unless it says so. [chosen] */
+    ninths: 0,
     /**
      * Two. A motif shorter than the idea is what gives a four-bar loop an
      * inside; equal to it, the idea is one long gesture and nothing within

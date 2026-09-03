@@ -279,8 +279,20 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
      * unit of what a song is made of. Both are repetition; only one is exact.
      *
      * The change is one of the same five motivic operations a returning
-     * section uses, judged by the same laws — so a sentence cannot put a
-     * wrong note in the loop's second turn any more than a variant can.
+     * section uses, and the SENTENCE IT ASSEMBLES is judged by the laws — not
+     * the change on its own.
+     *
+     * Judging the change alone was not enough, and said so wrongly here for
+     * some time. A figure is lawful as a figure and still unlawful where it
+     * is put: a RETROGRADE BEGINS ON THE NOTE ITS STATEMENT ENDED ON, so a
+     * retrograde second turn repeats a pitch across the join every single
+     * time, and no sung line may. The generator never placed such a note and
+     * varyLine never returned one — the fault was only ever at the seam the
+     * two were assembled across, which nothing looked at.
+     *
+     * So the assembled line is what the laws see, and a sentence that cannot
+     * be built lawfully is not built: the loop tiles instead. A constraint on
+     * which sentence may be made, not a repair of one already made.
      */
     const shape = leadRng.weighted("shape", chart.genre.lead.shape);
     const asSentence = (turn: readonly Note[]): Note[] => {
@@ -294,7 +306,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
         // than a idea that drifts further from itself every time round
         for (const n of (k % 2 === 0 ? turn : answer.line)) out.push({ ...n, bar: n.bar + k * period });
       }
-      return out;
+      return laws(out) ? out : tile(turn);
     };
 
     const asTune = worksFrom(first, statedTurn);
