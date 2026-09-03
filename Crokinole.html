@@ -690,12 +690,15 @@ const SPEC = {
 
   /* THE FLICK. V_MAX_SHOT is derived; the rest is feel. */
   V_MIN_SHOT:     0.08,
-  /* AIMING BY DISTANCE. How far the cursor sits from the disc IS the shot:
-     the disc is launched at exactly the speed that brings it to rest there.
-     AIM_MIN is close enough to count as no shot at all, which is also how
-     you back out of one. There is no full-power distance to calibrate --
-     the friction law sets the whole mapping. [derived] */
+  /* AIMING BY DISTANCE. How far the cursor sits from the disc is the whole
+     of the shot's force. AIM_MIN is close enough to count as no shot at all,
+     which is also how you back out of one. AIM_FULL is full power, and it
+     is set by what the hand can comfortably reach on screen rather than by
+     anything physical: 0.40 m is about 60% of a board diameter, so maximum
+     power sits well inside the board and is not something you have to
+     stretch for. [CALIBRATED] */
   AIM_MIN:        0.030,
+  AIM_FULL:       0.40,
   /* Finger speed, in BOARD metres per second, to disc speed. A real flick
      is a lever -- the disc leaves the fingernail faster than the finger was
      travelling -- so this is not 1. Set so that a gentle swipe of about one
@@ -3804,15 +3807,23 @@ APP.aimShot = function(g, px, py){
   const dist = hypot(ax, ay);
   if (dist < SPEC.AIM_MIN) return null;
 
-  /* THE DISC STOPS WHERE THE CURSOR IS. Under Coulomb friction a disc
-     launched at v travels v^2/(2*mu*g), so asking for it to stop at `dist`
-     is just that solved backwards. It gives the control one rule that needs
-     no explaining and cannot be misremembered: put the cursor where you
-     want the disc, and that is where it goes. Wanting to HIT something is
-     the same rule -- aim past it, and it arrives with whatever pace it has
-     left, exactly as it would on a real board. */
-  const speed = clamp(Math.sqrt(2 * SPEC.MU_SURFACE * SPEC.G * dist),
-                      0, SPEC.V_MAX_SHOT);
+  /* HOW FAR THE CURSOR IS FROM THE DISC IS HOW HARD IT IS STRUCK, across
+     the whole range, with full power at AIM_FULL.
+
+     The first version of this made the disc stop exactly under the cursor
+     -- elegant, since it is just the friction law solved backwards, and
+     completely unplayable. A disc that stops where you point always arrives
+     with NOTHING left, so nothing could ever be knocked anywhere: to hit
+     hard you had to aim far past the target, and the screen ran out long
+     before the power did. The disc only ever went slow.
+
+     So the mapping spans the real range instead, and AIM_FULL is set to a
+     distance that is comfortably reachable on screen. Honesty does not
+     depend on the rule being 1:1 -- the dashed ring in the preview marks
+     where the disc will actually stop, which is usually well past the
+     cursor, and that IS the truth about the shot. */
+  const t = clamp((dist - SPEC.AIM_MIN) / (SPEC.AIM_FULL - SPEC.AIM_MIN), 0, 1);
+  const speed = SPEC.V_MIN_SHOT + (SPEC.V_MAX_SHOT - SPEC.V_MIN_SHOT) * t;
   const shot = INPUT.buildFlick(SPEC, {
     owner: g.shooter, x: g.pending.x, y: g.pending.y,
     dirX: ax, dirY: ay, speed, lateralFrac: 0,
@@ -3827,6 +3838,13 @@ APP.aimAt = function(px, py){
   s.aimHeldSince = APP.host.now();        /* the stop-to-shoot clock resets */
   const m = APP.aimShot(g, px, py);
   g.setAim(m ? m.shot : null, m ? m.power : 0, m ? m.aim : null);
+  /* say the power out loud as it climbs -- without it there is no way to
+     tell a half-power shot from a full one until it is already gone */
+  const pc = m ? Math.round(m.power * 100) : 0;
+  APP.prompt(`Player ${g.shooter + 1} to shoot`,
+    pc <= 0 ? 'Move further from the disc'
+            : `${pc}% power — ` + (APP.isTouch() ? 'let go to shoot'
+                                                 : 'stop moving to shoot'));
 };
 
 APP.fireAim = function(g){

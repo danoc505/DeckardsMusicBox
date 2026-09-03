@@ -38,19 +38,14 @@ There is no flick. Nothing depends on how fast you move.
 
 1. **Click the disc.** (Clicking anywhere else on your own line moves it there
    first.)
-2. **Move away from it.** A line draws from the disc to where you are, and a
-   dashed ring marks where the disc will stop. **The further from the disc you
-   are, the harder it is struck.**
+2. **Move away from it.** A line draws to where you are, a dashed ring marks
+   where the disc will actually stop, and the HUD counts the power up as you
+   go. **The further from the disc, the harder it is struck** — full power at
+   about 400 mm, which is well inside the board.
 3. **Lift your finger off the trackpad** and it shoots.
 
-**The disc stops where you point.** That is the whole rule — put the cursor on
-the 20 and the disc comes to rest on the 20. It falls out of the physics rather
-than being arranged: under dry friction a disc launched at `sqrt(2·mu·g·d)`
-travels exactly `d`, so the control is the friction law read backwards. To
-*hit* something, aim past it, and it arrives with whatever pace it has left.
-
-Because nothing is timed, the trajectory preview holds perfectly still while
-you line the shot up, and the same position always gives the same shot.
+Because nothing is timed, the preview holds perfectly still while you line the
+shot up, and the same cursor position always gives the same shot.
 
 **With a finger**: press, drag away from the disc, lift off. Same rule.
 

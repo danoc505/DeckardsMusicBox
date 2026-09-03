@@ -132,6 +132,42 @@ const VIEW = { width: 1180, height: 820 };
   ok(aiming0.aiming, "clicking the disc starts aiming");
   ok(aiming0.left === 8, "and fires nothing");
 
+  /* full power has to be REACHABLE, which is what the first version of this
+     control got wrong: aiming by "the disc stops where you point" meant
+     every shot arrived with nothing left, and nothing could be hit hard. */
+  const reach = await page.evaluate(() => {
+    const APPx = window.CROK.APP, A = APPx.state, g = A.game;
+    if (!g.pending || g.state !== 'aim') return null;
+    const p = window.CROK.RENDER.toScreen(A.view, g.pending.x, g.pending.y);
+    const out = {};
+    for (const [name, metres] of [["gentle", 0.10], ["mid", 0.20], ["full", 0.40]]){
+      const m = APPx.aimShot(g, p.x, p.y - A.view.scale * metres);
+      out[name] = m ? m.power : 0;
+      if (name === "full" && m){
+        const r = window.CROK.PHYS.runShot(g.world, m.shot, { frames: false });
+        out.fullSpeed = Math.hypot(m.shot.vx, m.shot.vy);
+        out.fullFate = r.world.discs[r.world.discs.length - 1].fate;
+      }
+    }
+    out.vmax = window.CROK.SPEC.V_MAX_SHOT;
+    return out;
+  });
+  ok(reach !== null, "the power-by-distance check could be set up");
+  if (reach){
+    ok(reach.full > 0.98, "full power is reachable inside the board",
+       `${(reach.full * 100).toFixed(0)}% at 400 mm from the disc`);
+    ok(reach.gentle < reach.mid && reach.mid < reach.full,
+       "and the range in between is graduated",
+       `${(reach.gentle * 100).toFixed(0)}% / ${(reach.mid * 100).toFixed(0)}% / ${(reach.full * 100).toFixed(0)}%`);
+    ok(reach.fullFate === 'ditch',
+       "a full-power shot really is hard -- it clears the far side of the board",
+       `ended in the ${reach.fullFate}`);
+    console.log(`   power by distance: 100 mm ${(reach.gentle * 100).toFixed(0)}%, ` +
+                `200 mm ${(reach.mid * 100).toFixed(0)}%, ` +
+                `400 mm ${(reach.full * 100).toFixed(0)}% ` +
+                `(${reach.fullSpeed.toFixed(2)} m/s of a possible ${reach.vmax.toFixed(2)})`);
+  }
+
   /* 3. move away -- the preview draws, and further is harder ------------- */
   await moveTo(box.x + dp.x, box.y + dp.y - box.height * 0.12);
   await page.waitForTimeout(60);
@@ -146,34 +182,6 @@ const VIEW = { width: 1180, height: 820 };
   console.log(`   aim: ${(near.power * 100).toFixed(0)}% near the disc, ` +
               `${(far.power * 100).toFixed(0)}% far from it, preview drawn throughout`);
   await page.screenshot({ path: path.join(OUT, "04-aiming.png") });
-
-  /* the headline promise: the disc stops where the cursor is ------------- */
-  /* Re-established first, because the screenshot above takes long enough
-     that the stop-to-shoot timer can have fired -- which is the control
-     working, not a fault. */
-  const landing = await page.evaluate(() => {
-    const APPx = window.CROK.APP, A = APPx.state, g = A.game;
-    if (!g.pending || g.state !== 'aim') return null;
-    const p = window.CROK.RENDER.toScreen(A.view, g.pending.x, g.pending.y);
-    /* aim straight up the board, a third of the way across it */
-    const px = p.x, py = p.y - A.view.scale * 0.22;
-    const m = APPx.aimShot(g, px, py);
-    if (!m) return null;
-    const r = window.CROK.PHYS.runShot(g.world, m.shot, { frames: false });
-    const d = r.world.discs[r.world.discs.length - 1];
-    return { wanted: Math.hypot(m.aim.x - g.pending.x, m.aim.y - g.pending.y),
-             got: d.live ? Math.hypot(d.x - g.pending.x, d.y - g.pending.y) : null,
-             fate: d.fate };
-  });
-  if (landing && landing.got !== null){
-    ok(Math.abs(landing.got - landing.wanted) < 0.02,
-       "the disc stops where the cursor was pointing",
-       `wanted ${(landing.wanted * 1000).toFixed(0)} mm, got ${(landing.got * 1000).toFixed(0)} mm`);
-    console.log(`   aimed ${(landing.wanted * 1000).toFixed(0)} mm out, ` +
-                `disc stopped ${(landing.got * 1000).toFixed(0)} mm out`);
-  } else {
-    console.log("   (the 1:1 landing check could not be set up on this turn)");
-  }
 
   /* 4. stop moving -- the shot goes -------------------------------------- */
   const beforeSettle = await peek();

@@ -95,14 +95,13 @@ console.log("\n1. Coulomb friction: does a free disc stop where the algebra says
   c.near(spun.w, 0, 1e-9, "sliding and spinning die together");
 }
 
-/* --- the aiming rule, which is the friction law read backwards --------- */
-/* The control promises that the disc stops where the cursor is pointing:
-   asked to travel d, it is launched at sqrt(2*mu*g*d). That is only true if
-   the solver really does obey the closed form, so it is checked here on the
-   REAL board rather than the synthetic one -- with the hole and the pegs
-   avoided by firing along a chord, which is where a genuine aim would be
-   judged anyway. */
-console.log("1b. Aiming: does the disc stop where it was asked to?");
+/* --- the closed form, on the real board -------------------------------- */
+/* Section 1 proves the friction law on a synthetic board with nothing on
+   it. This proves the same thing on the REAL one, pegs and hole and all,
+   by firing along a chord that misses them: launched at sqrt(2*mu*g*d) the
+   disc travels d. It is what makes the trajectory preview trustworthy --
+   the solver the preview runs is the solver the shot runs. */
+console.log("1b. The closed form on the real board");
 {
   let worst = 0;
   for (const want of [0.05, 0.10, 0.15, 0.22, 0.30]){

@@ -105,11 +105,17 @@ power from how FAST the hand moved and every one was wrong in the same way:
 speed is not something a hand repeats, it means different things on a trackpad
 and on glass, and it can only be read at the instant the gesture ends — so the
 trajectory line appeared and vanished exactly when it was wanted. Distance has
-none of those problems. `APP.aimShot` launches the disc at
-`sqrt(2*MU_SURFACE*G*d)` for a cursor `d` away, so it comes to rest under the
-cursor: the control is the friction law solved backwards, and there is no
-calibration constant in it at all. `harness/crok_physics.js` §1b asserts the
-disc really does stop where it was asked to, within 2%.
+none of those problems. `APP.aimShot` maps the cursor's distance from the disc across the whole power
+range, full power at `AIM_FULL`.
+
+The first version of that mapping made the disc stop exactly under the cursor,
+which is the friction law solved backwards and has no calibration constant in
+it at all. It was elegant and unplayable: a disc that stops where you point
+always arrives with nothing left, so nothing could be knocked anywhere and the
+screen ran out before the power did. `AIM_FULL` is therefore set by what the
+hand can comfortably reach, not by anything physical. Honesty does not depend
+on the mapping being 1:1 — the dashed ring in the preview marks where the disc
+really stops, usually well past the cursor.
 
 The one device difference left: glass fires when the touch ends, a trackpad
 when the cursor has been still for `AIM_SETTLE`, because a finger leaving a
