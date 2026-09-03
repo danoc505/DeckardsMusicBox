@@ -405,6 +405,23 @@ export interface ArrangementSpec {
   readonly fullAbove?: number;
   /** Below this energy a section's drums lose their hat. */
   readonly thinBelow?: number;
+  /**
+   * HOW MUCH WITHHOLDING IT TAKES BEFORE GIVING IS WORTH MORE THAN TAKING,
+   * in part-turns.
+   *
+   * The arrangement keeps a debt: a span quieter than the fullest the record
+   * has yet been accrues part-turns, and a span fuller than the one before
+   * it pays them off. How willing it is to give is owed/(owed + rest), which
+   * slides from nothing to everything as the debt grows. That ratio is the
+   * only number in the whole selector, and it is not a taste: one part gone
+   * for exactly the span the two-loop rule names is (1/5) x 2 = 0.4
+   * part-turns, so 0.4 states that one part missing for the length the rule
+   * names is precisely half a reason to give it back.
+   * [musictech.com two-loop-rule; musicradar.com
+   * two-loop-rule-arrangement-cheatcode — the same sources the two-loop
+   * clock already carries]
+   */
+  readonly rest?: number;
 }
 
 export interface ArrangementRules {
@@ -414,6 +431,7 @@ export interface ArrangementRules {
   readonly shed: readonly Role[];
   readonly fullAbove: number;
   readonly thinBelow: number;
+  readonly rest: number;
 }
 
 /** Which pairs of notes swing: every two eighths, or every two sixteenths. */
@@ -1099,6 +1117,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     /** a chorus wants everyone; a verse before it is still building */
     fullAbove: 0.8,
     thinBelow: 0.35,
+    /** one part gone for one span is half a reason to give it back */
+    rest: 0.4,
   },
 
   feel: {

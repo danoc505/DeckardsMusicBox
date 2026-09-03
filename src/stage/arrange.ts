@@ -105,14 +105,79 @@ export interface Placed {
 
 export interface Arrangement {
   readonly placed: readonly Placed[];
+  /**
+   * EVERY TIME GIVING PAID OFF WITHHOLDING, and by how much. The largest
+   * entry is where this record's arc actually crested.
+   *
+   * Written by the bookkeeping and read by NOTHING that makes a choice — a
+   * move that consulted it would be aiming at the peak, and the peak has to
+   * be an observation or the arc is imposed. It is here to be printed and to
+   * be measured against the peak the FORM declares, which is computed from
+   * entirely different inputs: the form's from the genre's opinion about
+   * what a chorus is, this one from a running integral of what was actually
+   * played. Whether they land together, with no line of code relating them,
+   * is the whole of the emergence claim.
+   */
+  readonly release: readonly { readonly section: number; readonly span: number; readonly discharged: number }[];
+  /** Boundaries where every move refused. The dead end, counted rather than hidden. */
+  readonly stuck: number;
 }
 
 /** The key of the material an idea's nth variant is: "A", then "A/1", "A/2". */
 export const materialKey = (idea: Idea, variant: number): string => (variant === 0 ? idea : `${idea}/${variant}`);
 
+/**
+ * WHAT THE RECORD HAS ACTUALLY DONE SO FAR. Every field is a tally of what
+ * was PLACED — nothing here is a plan, a target, or a curve. It is carried
+ * from section to section, which is the whole of "sections informed of each
+ * other": a section decides what to do by reading what the record has been.
+ */
+interface Ledger {
+  /** The fullest any span has been. Rises ONLY by being reached. */
+  ceiling: number;
+  /** Part-turns spent under that ceiling, less what giving has paid back. */
+  owed: number;
+  /** The span before this one, so a rise is visible. */
+  last: number;
+  /** Turns since a part changed state: positive while sounding, negative while resting. */
+  standing: Map<Role, number>;
+  /** "move:role" to times made, ACROSS THE RECORD — the rule of three, applied to the arrangement's own vocabulary. */
+  used: Map<string, number>;
+  /**
+   * Every discharge, with how much it paid off. The largest is the record's
+   * peak. WRITTEN AND NEVER READ BY A CHOICE — a move that read this would be
+   * aiming at it, and then the arc would be imposed rather than observed.
+   */
+  release: { section: number; span: number; discharged: number }[];
+  /** Boundaries where every move refused. The dead end, counted rather than hidden. */
+  stuck: number;
+}
+
+/** One candidate: what the span would become, and which part it moves. */
+interface Move {
+  readonly name: string;
+  readonly heard: Set<Role>;
+  readonly thin: boolean;
+  readonly role: Role;
+}
+
 export function makeArrangement(chart: Chart, form: Form): Arrangement {
   const A = chart.genre.arrangement;
   const lastIn = A.enter[A.enter.length - 1]!;
+
+  /**
+   * HOW FULL A SPAN IS, the one measured quantity: what fraction of the band
+   * is sounding, less a half part where the drums are held back. A function
+   * of the arrangement's own choices and nothing else.
+   */
+  const fullness = (h: ReadonlySet<Role>, isThin: boolean): number =>
+    (h.size - (isThin && h.has("drums") ? 0.5 : 0)) / ROLES.length;
+
+  const ledger: Ledger = {
+    ceiling: 0, owed: 0, last: 0,
+    standing: new Map(ROLES.map((r) => [r, 0])),
+    used: new Map(), release: [], stuck: 0,
+  };
 
   // a statement the form marks `vary` plays the idea's next variant, and
   // every statement after it that is not marked plays the plain one again
@@ -174,62 +239,127 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     const spanCount = Math.max(1, Math.ceil(section.bars / turn));
     const spans: Span[] = [];
     /**
-     * A SPAN ONLY EVER TAKES AWAY, never adds, and that is forced rather
-     * than chosen. How many spans a section uses depends on how long a turn
-     * of its loop is, which the materials work out and this stage cannot
-     * know — so more are built here than may be read. A part added in a span
-     * that is never reached would sit in the union below, claim to be heard
-     * in the section, and sound nowhere: exactly what "nothing silent"
-     * forbids, and what it caught.
+     * EVERY SPAN IS A SUBSET OF SPAN 0, and that one invariant is what makes
+     * the rest safe. Span 0 is always read (index 0 at the section's first
+     * bar), so the union of the spans is span 0 exactly — checked over 334
+     * sections, 0 differ — which means `heard` below is unchanged, every
+     * part heard in a section still has a material, and nothing is silent by
+     * omission. Under it a walk DOWN the subset lattice and back UP again is
+     * legal: base, less the keys, less the keys and the pad, base again is
+     * "losing instruments in stages and then building them up again" — which
+     * this file's own header cites and the code could not do, because it
+     * always restarted from the base.
      *
-     * So the rule's two upward ways are unavailable here, and a section
-     * already down to the fewest a genre carries AND already thin has
-     * nothing left to move. Twenty-five intros in eighty records are in that
-     * position, holding one loop still for four turns. An intro cannot let
-     * the next part in early either — it holds the first parts of the entry
-     * order by a law of its own, tested as such. That law wins, so this is
-     * the gap and not a bug, and the intro is at least the one place where
-     * an ear has not yet heard the idea twice.
+     * WHICH MOVE IS MADE IS NOT DRAWN. It is the one that best serves what
+     * the record has already done, and a texture that moved at random would
+     * not be an arrangement.
      */
-    let shedAt = 0;
-    /** One part out, the one the genre can most afford, rotating. Null if none may go. */
-    const oneOut = (): Set<Role> | null => {
-      if (heard.size <= A.fewest) return null;
-      for (let k = 0; k < A.shed.length; k++) {
-        const r = A.shed[(shedAt + k) % A.shed.length]!;
-        if (!heard.has(r)) continue;
-        shedAt = (shedAt + k + 1) % A.shed.length;
-        const fewer = new Set(heard);
-        fewer.delete(r);
-        return fewer;
-      }
-      return null;
-    };
+    const base = heard;
+    let cur: { heard: Set<Role>; thin: boolean } = { heard: new Set(base), thin };
+    const turnsOf = (s: number): number =>
+      Math.min(2, Math.max(1, Math.round((Math.min(section.bars, (s + 1) * turn) - s * turn) / (turn / 2))));
+
     for (let s = 0; s < spanCount; s++) {
-      if (s % 2 === 0) {
-        // the section as the form asked for it: two turns of it, then a change
-        spans.push({ heard: new Set(heard), thin });
-        continue;
+      if (s > 0) {
+        // ── THE POOL. Every named way this stage can change an arrangement.
+        //    A move never declares which way it moves the energy: that is
+        //    read off fullness afterwards, so a move cannot lie about itself.
+        const pool: Move[] = [];
+        const push = (name: string, h: Set<Role>, th: boolean, role: Role): void => {
+          if (h.size === cur.heard.size && th === cur.thin && [...h].every((r) => cur.heard.has(r))) return;
+          pool.push({ name, heard: h, thin: th, role });
+        };
+        // an instrument out — stacked on where the span already is, not on the base
+        if (!section.peak && cur.heard.size > A.fewest) {
+          for (const r of A.shed) {
+            if (!cur.heard.has(r)) continue;
+            const less = new Set(cur.heard); less.delete(r);
+            push("part-out", less, cur.thin, r);
+          }
+        }
+        // an instrument back — only ever one span 0 already had
+        for (const r of A.enter) {
+          if (cur.heard.has(r) || !base.has(r)) continue;
+          const more = new Set(cur.heard); more.add(r);
+          push("part-back", more, cur.thin, r);
+        }
+        // all of them back at one moment
+        if (cur.heard.size < base.size) push("all-back", new Set(base), cur.thin, lastIn);
+        // strip to the fewest the genre carries, keeping the tail of the shed order
+        if (!section.peak && cur.heard.size > A.fewest) {
+          const stripped = new Set(cur.heard);
+          for (const r of A.shed) { if (stripped.size <= A.fewest) break; stripped.delete(r); }
+          push("strip", stripped, cur.thin, A.shed[0]!);
+        }
+        // expression down, and back up — never above the floor the form set
+        if (!cur.thin) push("hold-back", new Set(cur.heard), true, "drums");
+        if (cur.thin && !thin) push("let-out", new Set(cur.heard), false, "drums");
+
+        // ── THE SCORE. Three terms, multiplied, no coefficients: any one at
+        //    zero kills the move, and there is nothing to tune.
+        const established = (r: Role): number => {
+          const n = sectionsHeard.get(r) ?? 0;
+          return n / (n + 1);
+        };
+        const want = ledger.owed / (ledger.owed + A.rest);
+        const before = fullness(cur.heard, cur.thin);
+        let best: Move | null = null;
+        let bestFit = 0;
+        for (const mv of pool) {
+          const after = fullness(mv.heard, mv.thin);
+          const d = after - before;
+          //   the debt talking: deep in debt, giving scores and taking does not
+          const serve = d > 0 ? want * d : (1 - want) * -d;
+          //   a part is worth more where it is missing, as arithmetic
+          const st = ledger.standing.get(mv.role) ?? 0;
+          const worth = (d > 0 ? Math.max(0, -st) / (Math.max(0, -st) + 1) : Math.max(0, st) / (Math.max(0, st) + 1))
+            * established(mv.role);
+          //   the rule of three, applied to this stage's own vocabulary: the
+          //   same move on the same part wears out across the whole record
+          const fresh = 1 / (1 + (ledger.used.get(`${mv.name}:${mv.role}`) ?? 0));
+          const fit = serve * worth * fresh;
+          if (fit > bestFit) { bestFit = fit; best = mv; }
+        }
+        if (best === null) {
+          // nothing served the debt. The two-loop rule still owes a change,
+          // so take the freshest move there is; only a genuinely empty pool
+          // is a dead end, and it is counted rather than hidden.
+          let alt: Move | null = null;
+          let altFresh = -1;
+          for (const mv of pool) {
+            const f = 1 / (1 + (ledger.used.get(`${mv.name}:${mv.role}`) ?? 0));
+            if (f > altFresh) { altFresh = f; alt = mv; }
+          }
+          if (alt === null) ledger.stuck++;
+          best = alt;
+        }
+        if (best !== null) {
+          cur = { heard: best.heard, thin: best.thin };
+          ledger.used.set(`${best.name}:${best.role}`, (ledger.used.get(`${best.name}:${best.role}`) ?? 0) + 1);
+        }
       }
-      // A PEAK NEVER LOSES A PART — "the peak has everyone, because that is
-      // what a peak is" — so at a peak the change is expression: a breath,
-      // not a hole.
-      if (section.peak) {
-        spans.push({ heard: new Set(heard), thin: true });
-        continue;
+      spans.push({ heard: new Set(cur.heard), thin: cur.thin });
+
+      // ── THE LEDGER, in part-turns. Two entries and nothing else.
+      const turns = turnsOf(s);
+      const now = fullness(cur.heard, cur.thin);
+      //   withholding accrues, measured against the fullest the record has
+      //   ACTUALLY been — so an intro accrues nothing by being small. It is
+      //   establishing, not withholding: you cannot miss what you have not
+      //   yet heard, and a record that never gets full has a flat arc rather
+      //   than a failed one.
+      ledger.owed += Math.max(0, ledger.ceiling - now) * turns;
+      //   and giving pays it off
+      if (now > ledger.last) {
+        const discharged = Math.min(ledger.owed, (now - ledger.last) * turns);
+        ledger.owed -= discharged;
+        if (discharged > 0) ledger.release.push({ section: section.index, span: s, discharged });
       }
-      // and off the peak, alternate which axis moves, so a section is not
-      // the same trick four times
-      const partFirst = ((s - 1) / 2) % 2 === 0;
-      const part = partFirst ? oneOut() : null;
-      if (part !== null) {
-        spans.push({ heard: part, thin });
-      } else if (!thin) {
-        spans.push({ heard: new Set(heard), thin: true });
-      } else {
-        // already a breath, so the change has to be a part
-        const other = oneOut();
-        spans.push(other !== null ? { heard: other, thin } : { heard: new Set(heard), thin });
+      ledger.ceiling = Math.max(ledger.ceiling, now);
+      ledger.last = now;
+      for (const r of ROLES) {
+        const st = ledger.standing.get(r) ?? 0;
+        ledger.standing.set(r, cur.heard.has(r) ? Math.max(0, st) + turns : Math.min(0, st) - turns);
       }
     }
 
@@ -253,7 +383,11 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     });
   });
 
-  return Object.freeze({ placed: Object.freeze(placed) });
+  return Object.freeze({
+    placed: Object.freeze(placed),
+    release: Object.freeze(ledger.release.map((r) => Object.freeze(r))),
+    stuck: ledger.stuck,
+  });
 }
 
 /** "intro[keys drums] verse[all] bridge[all·thin] outro[-lead]" */

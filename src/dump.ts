@@ -113,6 +113,29 @@ export function dump(song: Song): string {
     L.push(`#section\t${[i, s.fn, s.startBar, s.endBar, p.material, r2(s.energy), s.statement, flags.join(",") || "."].join("\t")}`);
   });
 
+  // THE SPANS, and who is in each one. A span is two turns of the loop and
+  // the arrangement changes on that clock, so the section line above is the
+  // wrong grain to read the arrangement at.
+  L.push("#span_cols\tsection\tspan\tstartBar\tparts\tthin");
+  song.arrangement.placed.forEach((p, i) => {
+    const turn = p.section.bars / Math.max(1, p.spans.length);
+    p.spans.forEach((sp, k) => {
+      const parts = ROLES.filter((r) => sp.heard.has(r)).join("+") || ".";
+      L.push(`#span\t${i}\t${k}\t${Math.round(p.section.startBar + k * turn)}\t${parts}\t${sp.thin ? "thin" : "."}`);
+    });
+  });
+  // WHERE THE ARC ACTUALLY CRESTED, as against where the form said it would.
+  // The two are computed from disjoint inputs and nothing relates them.
+  const rel = song.arrangement.release;
+  if (rel.length > 0) {
+    const big = rel.reduce((x, y) => (y.discharged > x.discharged ? y : x));
+    const declared = song.form.sections.find((s) => s.peak);
+    L.push(`#crest\tsection ${big.section}\tspan ${big.span}\tdischarged ${r2(big.discharged)}\tdeclared_peak ${declared ? declared.index : "none"}`);
+  } else {
+    L.push("#crest\tnone\tthe record never gave back more than it withheld");
+  }
+  L.push(`#stuck\t${song.arrangement.stuck}\tboundaries where every move refused`);
+
   const byRole = new Map<string, number>();
   for (const e of ev) byRole.set(e.role, (byRole.get(e.role) ?? 0) + 1);
   for (const r of ROLES) L.push(`#role\t${r}\t${byRole.get(r) ?? 0}`);
