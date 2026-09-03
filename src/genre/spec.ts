@@ -111,6 +111,23 @@ export type Progression = readonly number[];
 export interface HarmonySpec {
   /** How many bars one statement of an idea runs. */
   readonly bars?: number;
+  /**
+   * How many bars a MOTIF runs — the sub-period of the idea, and the period
+   * on which a shape comes back.
+   *
+   * A part draws WHAT IT PLAYS per position in the motif, not per bar of the
+   * material, for the same reason the chord quality above is drawn per
+   * position in the progression: drawn per bar, a two-bar shape written over
+   * a four-bar material came out four unrelated shapes, and the loop
+   * repeated nothing. Landing on a new chord the shape keeps its scale
+   * functions and re-fits its pitches, which is a TONAL SEQUENCE — the
+   * device that lets an idea stay recognisable across changes it was not
+   * written over. [thejazzpianosite.com composition-and-melodic-development:
+   * "reconstructing the motive on a different note in the scale while
+   * keeping the same melodic shape"; jazzguitarlessons.net
+   * motivic-development: "the same rhythmic ideas over different chords"]
+   */
+  readonly motif?: number;
   /** The changes each idea may stand on. */
   readonly progressions?: Readonly<Partial<Record<Idea, Weighted<Progression>>>>;
   /** 0..1, how often a chord takes its seventh. */
@@ -133,6 +150,7 @@ export interface HarmonySpec {
 
 export interface HarmonyRules {
   readonly bars: number;
+  readonly motif: number;
   readonly progressions: Readonly<Record<Idea, Weighted<Progression>>>;
   readonly sevenths: number;
   readonly fifths: number;
@@ -777,6 +795,13 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
 
   harmony: {
     bars: 4,
+    /**
+     * Two. A motif shorter than the idea is what gives a four-bar loop an
+     * inside; equal to it, the idea is one long gesture and nothing within
+     * it comes back. Two bars is the cell loop-based music is built from.
+     * [chosen, against the two-bar progressions the genres already weight]
+     */
+    motif: 2,
     /**
      * Degrees from the tonic, one per bar. A stays close to home; B opens
      * off the tonic so the chorus moves the floor; C leaves further, which

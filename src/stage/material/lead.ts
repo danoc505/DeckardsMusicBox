@@ -219,7 +219,20 @@ export function drawLead(
     const onlyPhrase = PHRASE_BARS >= chords.length;
     const at = developed > 0 && (isAnswer || onlyPhrase) ? rng.at("answer", developed, ph) : rng.at("phrase", ph);
     const firstBar = ph * PHRASE_BARS;
-    const rhythm = at.weighted("rhythm", L.rhythms);
+    /**
+     * THE ANSWER KEEPS THE QUESTION'S RHYTHM. A consequent restates its
+     * antecedent and changes where it lands; a consequent on its own rhythm
+     * is not an answer, it is a second question, and two bars of unrelated
+     * material is what a listener hears as no idea at all. So the rhythm is
+     * taken from the QUESTION'S OWN STREAM, while every pitch stays each
+     * phrase's own. The question's stream and not the pair's, so that a
+     * development which redraws only answers still leaves the question it is
+     * answering exactly as it was. Drawn per phrase, as it was, the lead's
+     * two-bar rhythm came back 22% of the time against the bass's 96%.
+     * [thejazzpianosite.com composition-and-melodic-development: rhythmic
+     * sequence is "a better choice when the chord progression changes"]
+     */
+    const rhythm = rng.at("phrase", ph - (isAnswer ? 1 : 0)).weighted("rhythm", L.rhythms);
 
     // the question's direction is drawn; the answer is contrary to where the
     // question actually went, which is arithmetic on its first and last notes
