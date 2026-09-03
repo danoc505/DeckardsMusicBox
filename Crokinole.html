@@ -1,0 +1,3976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#07070c">
+<title>CROKINOLE</title>
+<style>
+/* ==========================================================================
+   CROKINOLE -- wooden board, neon retrofuturism.
+
+   One self-contained file. No build step, no server, no dependencies.
+   ========================================================================== */
+
+:root{
+  /* the dark */
+  --ink:        #07070c;
+  --ink-2:      #0d0d16;
+  --ink-3:      #14141f;
+  --hair:       #23233a;
+
+  /* the neon */
+  --cyan:       #22e0ff;
+  --cyan-dim:   #0d7f96;
+  --magenta:    #ff2b8f;
+  --magenta-dim:#8f1450;
+  --amber:      #ffb020;
+  --violet:     #9d5cff;
+  --lime:       #7cff4d;
+
+  /* the players */
+  --p1:         #ff3355;   /* neon red   */
+  --p1-glow:    #ff6b80;
+  --p2:         #22b8ff;   /* neon blue  */
+  --p2-glow:    #7ad9ff;
+
+  /* the wood */
+  --maple:      #c99a5b;
+  --maple-lo:   #8d6437;
+
+  --text:       #e8e8f4;
+  --text-dim:   #8a8aa6;
+
+  --ui-scale:   1;
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html,body{
+  margin:0; padding:0; width:100%; height:100%;
+  overflow:hidden;
+  background:var(--ink);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+  /* No browser gestures anywhere: no pan, no pinch-zoom, no double-tap zoom,
+     no rubber-band scroll, no text selection, no long-press callout. */
+  touch-action:none;
+  -webkit-user-select:none; user-select:none;
+  -webkit-touch-callout:none;
+  overscroll-behavior:none;
+  position:fixed; inset:0;
+}
+
+#app{ position:fixed; inset:0; }
+
+/* --- the starfield/grid backdrop, shared by every screen ----------------- */
+.backdrop{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 42%, #191932 0%, #0b0b14 55%, #07070c 100%);
+}
+.backdrop::after{
+  content:''; position:absolute; inset:-20%;
+  background-image:
+    linear-gradient(to right, rgba(34,224,255,.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34,224,255,.055) 1px, transparent 1px);
+  background-size:48px 48px;
+  transform:perspective(520px) rotateX(66deg) translateY(18%);
+  mask-image:linear-gradient(to bottom, transparent 6%, #000 48%, transparent 92%);
+  -webkit-mask-image:linear-gradient(to bottom, transparent 6%, #000 48%, transparent 92%);
+}
+.scanlines{
+  position:absolute; inset:0; z-index:60; pointer-events:none; opacity:.16;
+  background:repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.55) 2px 3px);
+  mix-blend-mode:multiply;
+}
+
+/* --- screens ------------------------------------------------------------- */
+.screen{
+  position:absolute; inset:0; z-index:10;
+  display:none;
+  flex-direction:column; align-items:center; justify-content:center;
+  padding:max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+          max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+}
+.screen.on{ display:flex; }
+
+/* --- type ---------------------------------------------------------------- */
+.wordmark{
+  font-size:clamp(38px, 10vmin, 104px);
+  font-weight:800; letter-spacing:.22em; margin:0 0 .1em -.22em;
+  color:#fff;
+  text-shadow:
+    0 0 4px #fff,
+    0 0 14px var(--cyan),
+    0 0 38px var(--cyan),
+    0 0 76px rgba(34,224,255,.55),
+    0 0 120px rgba(255,43,143,.35);
+}
+.tagline{
+  font-size:clamp(10px, 1.9vmin, 15px); letter-spacing:.42em; text-transform:uppercase;
+  color:var(--magenta); margin:0 0 clamp(22px,5vmin,52px) 0;
+  text-shadow:0 0 10px var(--magenta), 0 0 30px rgba(255,43,143,.5);
+}
+.screen-title{
+  font-size:clamp(17px, 3.1vmin, 30px); font-weight:700; letter-spacing:.3em;
+  text-transform:uppercase; color:var(--cyan); margin:0 0 clamp(16px,3.4vmin,34px);
+  text-shadow:0 0 10px var(--cyan), 0 0 34px rgba(34,224,255,.45);
+}
+
+/* --- buttons ------------------------------------------------------------- */
+.btn{
+  -webkit-appearance:none; appearance:none;
+  display:flex; align-items:center; justify-content:center; gap:.6em;
+  min-width:min(78vw, 340px); min-height:56px;
+  margin:7px 0; padding:15px 34px;
+  font:inherit; font-size:clamp(13px,2.1vmin,18px); font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--cyan); background:rgba(34,224,255,.055);
+  border:1.5px solid var(--cyan-dim); border-radius:3px;
+  box-shadow:0 0 0 1px rgba(34,224,255,.09) inset, 0 0 18px rgba(34,224,255,.14);
+  text-shadow:0 0 10px rgba(34,224,255,.75);
+  cursor:pointer; transition:background .12s, box-shadow .12s, color .12s, transform .06s;
+}
+.btn:active{ transform:translateY(1px) scale(.995); }
+.btn.hot{ color:var(--magenta); border-color:var(--magenta-dim);
+  background:rgba(255,43,143,.07); text-shadow:0 0 10px rgba(255,43,143,.8);
+  box-shadow:0 0 0 1px rgba(255,43,143,.1) inset, 0 0 22px rgba(255,43,143,.2); }
+.btn.ghost{ color:var(--text-dim); border-color:var(--hair); background:transparent;
+  box-shadow:none; text-shadow:none; min-height:48px; }
+@media (hover:hover){
+  .btn:hover{ background:rgba(34,224,255,.13); box-shadow:0 0 0 1px rgba(34,224,255,.2) inset, 0 0 30px rgba(34,224,255,.3); }
+  .btn.hot:hover{ background:rgba(255,43,143,.16); box-shadow:0 0 0 1px rgba(255,43,143,.22) inset, 0 0 32px rgba(255,43,143,.34); }
+  .btn.ghost:hover{ color:var(--text); border-color:var(--text-dim); }
+}
+
+/* --- segmented option rows ---------------------------------------------- */
+.row{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  width:min(88vw, 460px); margin:8px 0;
+}
+.row > .label{
+  font-size:clamp(10px,1.7vmin,13px); letter-spacing:.24em; text-transform:uppercase;
+  color:var(--text-dim); white-space:nowrap;
+}
+.seg{ display:flex; gap:6px; }
+.seg button{
+  -webkit-appearance:none; appearance:none;
+  min-width:52px; min-height:44px; padding:9px 15px;
+  font:inherit; font-size:clamp(11px,1.8vmin,15px); font-weight:700; letter-spacing:.12em;
+  color:var(--text-dim); background:transparent;
+  border:1.5px solid var(--hair); border-radius:3px; cursor:pointer;
+  transition:all .12s;
+}
+.seg button[aria-pressed="true"]{
+  color:var(--ink); background:var(--cyan); border-color:var(--cyan);
+  box-shadow:0 0 16px rgba(34,224,255,.5), 0 0 40px rgba(34,224,255,.22);
+}
+.hint{
+  width:min(88vw,460px); margin:4px 0 0; min-height:2.6em;
+  font-size:clamp(10px,1.6vmin,12.5px); line-height:1.55; color:var(--text-dim);
+  letter-spacing:.03em;
+}
+.spacer{ height:clamp(10px,2.4vmin,26px); }
+
+/* --- the game screen ----------------------------------------------------- */
+#screen-game{ display:none; padding:0; }
+#screen-game.on{ display:block; }
+#stage{ position:absolute; inset:0; }
+#board-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+/* --- HUD ----------------------------------------------------------------- */
+#hud{ position:absolute; inset:0; z-index:20; pointer-events:none;
+  padding:max(10px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+          max(10px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+#hud .pane{ position:absolute; }
+
+.score-card{
+  min-width:118px; padding:9px 15px 10px;
+  background:rgba(7,7,12,.62); border:1.5px solid var(--hair); border-radius:4px;
+  backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px);
+  transition:border-color .2s, box-shadow .2s;
+}
+.score-card .who{
+  font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--text-dim);
+  display:flex; align-items:center; gap:7px;
+}
+.score-card .who i{ width:9px; height:9px; border-radius:50%; display:inline-block; flex:none; }
+.score-card .pts{ font-size:34px; font-weight:800; line-height:1.05; letter-spacing:.02em; }
+.score-card .sub{ font-size:10.5px; letter-spacing:.14em; color:var(--text-dim); text-transform:uppercase; }
+.score-card.p1 .pts{ color:var(--p1); text-shadow:0 0 14px rgba(255,51,85,.65); }
+.score-card.p2 .pts{ color:var(--p2); text-shadow:0 0 14px rgba(34,184,255,.65); }
+.score-card.p1 .who i{ background:var(--p1); box-shadow:0 0 9px var(--p1); }
+.score-card.p2 .who i{ background:var(--p2); box-shadow:0 0 9px var(--p2); }
+.score-card.active{ border-color:currentColor; }
+.score-card.p1.active{ border-color:var(--p1); box-shadow:0 0 22px rgba(255,51,85,.32); }
+.score-card.p2.active{ border-color:var(--p2); box-shadow:0 0 22px rgba(34,184,255,.32); }
+
+#pane-round{ left:50%; top:max(10px, env(safe-area-inset-top)); transform:translateX(-50%);
+  text-align:center; }
+#pane-round .rnd{ font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--cyan);
+  text-shadow:0 0 11px rgba(34,224,255,.6); }
+#pane-round .match{ font-size:10.5px; letter-spacing:.19em; text-transform:uppercase; color:var(--text-dim); margin-top:3px; }
+
+#pane-prompt{ left:50%; bottom:max(12px, env(safe-area-inset-bottom)); transform:translateX(-50%);
+  text-align:center; width:min(94vw,760px); }
+#prompt-main{ font-size:clamp(12px,2vmin,16px); font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
+#prompt-sub{ font-size:clamp(10px,1.6vmin,12.5px); letter-spacing:.1em; color:var(--text-dim); margin-top:5px; min-height:1.4em; }
+
+#pane-discs{ left:50%; transform:translateX(-50%); bottom:calc(max(12px, env(safe-area-inset-bottom)) + 56px);
+  display:flex; gap:22px; align-items:center; }
+.disc-track{ display:flex; gap:5px; align-items:center; }
+.disc-pip{ width:11px; height:11px; border-radius:50%; border:1.5px solid; opacity:.32; }
+.disc-pip.left{ opacity:1; }
+.disc-track.p1 .disc-pip{ border-color:var(--p1); }
+.disc-track.p1 .disc-pip.left{ background:var(--p1); box-shadow:0 0 9px var(--p1); }
+.disc-track.p2 .disc-pip{ border-color:var(--p2); }
+.disc-track.p2 .disc-pip.left{ background:var(--p2); box-shadow:0 0 9px var(--p2); }
+
+#btn-pause{
+  pointer-events:auto; position:absolute;
+  right:max(12px, env(safe-area-inset-right)); top:max(10px, env(safe-area-inset-top));
+  width:46px; height:46px; padding:0; min-width:0; min-height:0; margin:0;
+  font-size:15px; letter-spacing:0;
+}
+
+/* toast: the settling / foul / score callouts */
+#toast{
+  position:absolute; left:50%; top:38%; transform:translate(-50%,-50%);
+  z-index:30; pointer-events:none; text-align:center;
+  opacity:0; transition:opacity .22s;
+}
+#toast.on{ opacity:1; }
+#toast .big{
+  font-size:clamp(26px,7vmin,72px); font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+  color:#fff; text-shadow:0 0 6px #fff, 0 0 26px var(--cyan), 0 0 64px var(--cyan);
+}
+#toast .big.foul{ text-shadow:0 0 6px #fff, 0 0 26px var(--magenta), 0 0 64px var(--magenta); }
+#toast .big.twenty{ text-shadow:0 0 6px #fff, 0 0 26px var(--amber), 0 0 64px var(--amber), 0 0 120px rgba(255,176,32,.6); }
+#toast .small{ font-size:clamp(10px,1.8vmin,14px); letter-spacing:.26em; text-transform:uppercase; color:var(--text-dim); margin-top:8px; }
+
+/* --- modal (pause / round end / game end) -------------------------------- */
+#modal{
+  position:absolute; inset:0; z-index:40; display:none;
+  align-items:center; justify-content:center;
+  background:rgba(7,7,12,.82); backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px);
+  padding:max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
+}
+#modal.on{ display:flex; }
+.card{
+  width:min(92vw,520px); max-height:92vh; overflow:auto;
+  padding:clamp(20px,4vmin,38px);
+  background:linear-gradient(180deg, rgba(20,20,31,.96), rgba(10,10,18,.96));
+  border:1.5px solid var(--hair); border-radius:6px;
+  box-shadow:0 0 60px rgba(0,0,0,.7), 0 0 0 1px rgba(34,224,255,.07) inset;
+  display:flex; flex-direction:column; align-items:center;
+}
+.card h2{
+  margin:0 0 6px; font-size:clamp(19px,3.6vmin,34px); font-weight:800;
+  letter-spacing:.16em; text-transform:uppercase; color:#fff; text-align:center;
+  text-shadow:0 0 5px #fff, 0 0 24px var(--cyan), 0 0 58px rgba(34,224,255,.5);
+}
+.card h2.win{ text-shadow:0 0 5px #fff, 0 0 24px var(--amber), 0 0 58px rgba(255,176,32,.55); }
+.card .lede{ margin:0 0 clamp(14px,3vmin,26px); font-size:clamp(11px,1.8vmin,14px);
+  letter-spacing:.2em; text-transform:uppercase; color:var(--text-dim); text-align:center; }
+
+.tally{ width:100%; margin:0 0 clamp(14px,3vmin,26px); border-collapse:collapse; font-variant-numeric:tabular-nums; }
+.tally th{ font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dim);
+  font-weight:600; text-align:right; padding:0 0 8px; border-bottom:1px solid var(--hair); }
+.tally th:first-child{ text-align:left; }
+.tally td{ padding:9px 0; text-align:right; font-size:clamp(13px,2vmin,16px); border-bottom:1px solid rgba(35,35,58,.5); }
+.tally td:first-child{ text-align:left; font-size:clamp(11px,1.7vmin,13px); letter-spacing:.16em;
+  text-transform:uppercase; color:var(--text-dim); }
+.tally tr.p1 td.v{ color:var(--p1); font-weight:700; }
+.tally tr.p2 td.v{ color:var(--p2); font-weight:700; }
+.tally tr.total td{ border-bottom:none; font-weight:800; font-size:clamp(15px,2.4vmin,20px); }
+
+/* --- credits ------------------------------------------------------------- */
+.prose{ width:min(90vw,620px); max-height:66vh; overflow:auto;
+  font-size:clamp(11px,1.75vmin,13.5px); line-height:1.75; color:var(--text-dim); }
+.prose h3{ color:var(--cyan); font-size:clamp(11px,1.8vmin,13px); letter-spacing:.24em;
+  text-transform:uppercase; margin:1.6em 0 .5em; text-shadow:0 0 10px rgba(34,224,255,.4); }
+.prose h3:first-child{ margin-top:0; }
+.prose b{ color:var(--text); font-weight:600; }
+.prose code{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.92em; color:var(--amber); }
+.prose ul{ margin:.4em 0; padding-left:1.3em; }
+
+/* --- landscape: cards to the sides --------------------------------------- */
+@media (orientation:landscape){
+  #pane-p1{ right:max(12px, env(safe-area-inset-right)); bottom:calc(max(10px, env(safe-area-inset-bottom)) + 4px); }
+  #pane-p2{ left:max(12px, env(safe-area-inset-left)); top:calc(max(10px, env(safe-area-inset-top)) + 4px); }
+}
+@media (orientation:portrait){
+  #pane-p1{ right:max(12px, env(safe-area-inset-right)); bottom:calc(max(10px, env(safe-area-inset-bottom)) + 84px); }
+  #pane-p2{ left:max(12px, env(safe-area-inset-left)); top:calc(max(10px, env(safe-area-inset-top)) + 58px); }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="backdrop"></div>
+
+  <!-- ============================ MAIN MENU ============================ -->
+  <section class="screen on" id="screen-menu">
+    <h1 class="wordmark">CROKINOLE</h1>
+    <p class="tagline">a physics simulation</p>
+    <button class="btn hot" id="mm-practice">Practice Mode</button>
+    <button class="btn" id="mm-settings">Settings</button>
+    <button class="btn ghost" id="mm-credits">Credits</button>
+  </section>
+
+  <!-- ============================== SETUP ============================== -->
+  <section class="screen" id="screen-setup">
+    <h2 class="screen-title">Practice Mode</h2>
+    <button class="btn" id="su-mode-local" aria-pressed="false">Local 2-Player</button>
+    <button class="btn" id="su-mode-ai" aria-pressed="false">vs. AI</button>
+    <div class="spacer"></div>
+    <div class="row"><span class="label">Best of</span>
+      <div class="seg" id="su-bestof">
+        <button data-v="1" aria-pressed="false">1</button>
+        <button data-v="3" aria-pressed="true">3</button>
+        <button data-v="5" aria-pressed="false">5</button>
+        <button data-v="7" aria-pressed="false">7</button>
+      </div>
+    </div>
+    <div class="row" id="row-difficulty"><span class="label">Difficulty</span>
+      <div class="seg" id="su-difficulty">
+        <button data-v="easy" aria-pressed="true">Easy</button>
+        <button data-v="medium" aria-pressed="false">Medium</button>
+        <button data-v="hard" aria-pressed="false">Hard</button>
+      </div>
+    </div>
+    <p class="hint" id="su-hint"></p>
+    <div class="spacer"></div>
+    <button class="btn hot" id="su-start">Start Game</button>
+    <button class="btn ghost" id="su-back">Back</button>
+  </section>
+
+  <!-- ============================ SETTINGS ============================= -->
+  <section class="screen" id="screen-settings">
+    <h2 class="screen-title">Settings</h2>
+    <div class="row"><span class="label">Flick input</span>
+      <div class="seg" id="set-input">
+        <button data-v="velocity" aria-pressed="true">Velocity</button>
+        <button data-v="pullback" aria-pressed="false">Pull-back</button>
+      </div>
+    </div>
+    <div class="row"><span class="label">Trajectory preview</span>
+      <div class="seg" id="set-preview">
+        <button data-v="full" aria-pressed="true">Full</button>
+        <button data-v="short" aria-pressed="false">Short</button>
+        <button data-v="off" aria-pressed="false">Off</button>
+      </div>
+    </div>
+    <div class="row"><span class="label">Rotate to shooter</span>
+      <div class="seg" id="set-rotate">
+        <button data-v="on" aria-pressed="true">On</button>
+        <button data-v="off" aria-pressed="false">Off</button>
+      </div>
+    </div>
+    <div class="row"><span class="label">Sound</span>
+      <div class="seg" id="set-sound">
+        <button data-v="on" aria-pressed="true">On</button>
+        <button data-v="off" aria-pressed="false">Off</button>
+      </div>
+    </div>
+    <div class="row"><span class="label">Zone labels</span>
+      <div class="seg" id="set-labels">
+        <button data-v="on" aria-pressed="true">On</button>
+        <button data-v="off" aria-pressed="false">Off</button>
+      </div>
+    </div>
+    <p class="hint" id="set-hint"></p>
+    <div class="spacer"></div>
+    <button class="btn ghost" id="set-back">Back</button>
+  </section>
+
+  <!-- ============================= CREDITS ============================= -->
+  <section class="screen" id="screen-credits">
+    <h2 class="screen-title">Credits</h2>
+    <div class="prose" id="credits-body"></div>
+    <div class="spacer"></div>
+    <button class="btn ghost" id="cr-back">Back</button>
+  </section>
+
+  <!-- ============================== GAME =============================== -->
+  <section class="screen" id="screen-game">
+    <div id="stage"><canvas id="board-canvas"></canvas></div>
+    <div id="hud">
+      <div class="pane score-card p1" id="pane-p1">
+        <div class="who"><i></i><span id="p1-name">Player 1</span></div>
+        <div class="pts" id="p1-pts">0</div>
+        <div class="sub" id="p1-sub">on the board</div>
+      </div>
+      <div class="pane score-card p2" id="pane-p2">
+        <div class="who"><i></i><span id="p2-name">Player 2</span></div>
+        <div class="pts" id="p2-pts">0</div>
+        <div class="sub" id="p2-sub">on the board</div>
+      </div>
+      <div class="pane" id="pane-round">
+        <div class="rnd" id="round-label">Round 1 / 4</div>
+        <div class="match" id="match-label">Best of 3</div>
+      </div>
+      <div class="pane" id="pane-discs">
+        <div class="disc-track p2" id="track-p2"></div>
+        <div class="disc-track p1" id="track-p1"></div>
+      </div>
+      <div class="pane" id="pane-prompt">
+        <div id="prompt-main">Player 1 to shoot</div>
+        <div id="prompt-sub"></div>
+      </div>
+      <button class="btn" id="btn-pause">| |</button>
+    </div>
+    <div id="toast"><div class="big" id="toast-big"></div><div class="small" id="toast-small"></div></div>
+  </section>
+
+  <!-- ============================== MODAL ============================== -->
+  <div id="modal"><div class="card" id="modal-card"></div></div>
+
+  <div class="scanlines"></div>
+</div>
+<script>
+"use strict";
+/* ==========================================================================
+   CROKINOLE -- a physics simulation with a board around it.
+
+   ONE FILE. No build step, no server, no dependencies, no network. Open it
+   and play.
+
+   ---------------------------------------------------------------------------
+   THE FOUR LAWS THIS FILE IS WRITTEN UNDER
+   ---------------------------------------------------------------------------
+   1. PHYSICS FIRST. The simulation is the game. Everything else -- rules,
+      rendering, AI, UI -- reads the simulation and never fakes it. There is
+      no "close enough" path that moves a disc without the solver.
+
+   2. ONE SIMULATION, TWO USES. The trajectory preview and the shot you
+      actually take are THE SAME CALL to THE SAME SOLVER on THE SAME state.
+      A shot is simulated to completion the instant it is released; the
+      animation is a playback of frames the solver already produced. The
+      preview cannot disagree with the outcome because there is nothing for
+      it to disagree with.
+
+   3. PROVENANCE ON EVERY CONSTANT. Each number in SPEC carries a tag:
+        [official]     a published rulebook or manufacturer specification
+        [corroborated] several independent sources agree
+        [single]       one source only
+        [derived]      computed from other tagged numbers
+        [measured]     a published physical measurement
+        [CALIBRATED]   tuned by feel, NOT measured -- say so and mean it
+      A tag that does not match its constant is worse than no tag, because
+      it stops the next person checking. docs/RESEARCH.md carries
+      the sources.
+
+   4. DETERMINISM. Same board state + same shot => the same result, always,
+      to the last bit. There is no Math.random in this file: randomness comes
+      from a seeded generator so any game can be replayed and any bug can be
+      reproduced. This is what makes the preview trustworthy.
+   ========================================================================== */
+
+const CROK = {};
+
+/* ==========================================================================
+   1. SEEDED RANDOMNESS
+   --------------------------------------------------------------------------
+   mulberry32. Small, fast, well-distributed, and -- the point -- repeatable.
+   The AI's aim error is drawn from here, so a game can be replayed exactly.
+   ========================================================================== */
+
+function Rng(seed){
+  let s = (seed >>> 0) || 1;
+  const r = {
+    /* uniform [0,1) */
+    next(){
+      s = (s + 0x6D2B79F5) >>> 0;
+      let t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    },
+    /* uniform [a,b) */
+    range(a, b){ return a + (b - a) * r.next(); },
+    /* standard normal, Box-Muller. Human aim error is roughly Gaussian, so
+       the AI's error should be too -- uniform error reads as robotic. */
+    normal(){
+      let u = 0, v = 0;
+      while (u === 0) u = r.next();
+      while (v === 0) v = r.next();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    },
+    int(n){ return Math.floor(r.next() * n) % n; },
+    pick(arr){ return arr[r.int(arr.length)]; },
+    fork(salt){ return Rng(((s ^ Math.imul(salt|0, 0x9E3779B1)) >>> 0) || 1); },
+  };
+  return r;
+}
+CROK.Rng = Rng;
+
+/* ==========================================================================
+   2. SMALL VECTOR / SCALAR HELPERS
+   ========================================================================== */
+
+const TAU = Math.PI * 2;
+const clamp  = (v, lo, hi) => v < lo ? lo : v > hi ? hi : v;
+const lerp   = (a, b, t) => a + (b - a) * t;
+const hypot  = (x, y) => Math.sqrt(x * x + y * y);
+/* 2D cross product: the z of (a x b). For a disc, r is parallel to the
+   contact normal, so cross2(r, n) === 0 -- which is exactly why the normal
+   impulse for two discs has no angular term. */
+const cross2 = (ax, ay, bx, by) => ax * by - ay * bx;
+/* shortest signed angle from a to b, in (-PI, PI] */
+function angDiff(a, b){
+  let d = (b - a) % TAU;
+  if (d > Math.PI) d -= TAU;
+  if (d <= -Math.PI) d += TAU;
+  return d;
+}
+/* ==========================================================================
+   1b. SPEC -- every number in the game, with where it came from
+   --------------------------------------------------------------------------
+   SI throughout: metres, seconds, kilograms, radians.
+
+   Provenance tags, and they are meant literally:
+     [official]     published in a rulebook or a governing body's standard
+     [corroborated] several independent sources agree
+     [single]       one source only
+     [derived]      computed from other tagged numbers in this table
+     [CALIBRATED]   tuned so the game behaves like the real one. NOT measured.
+
+   Sources are in docs/RESEARCH.md, keyed by the same names.
+
+   READ THIS BEFORE CHANGING A NUMBER. The board geometry is not guesswork:
+   the National Crokinole Association publishes it, and every radius below
+   is theirs. The PHYSICS constants are a different matter. There is no
+   published coefficient of friction for a crokinole board and there cannot
+   be a canonical one -- the NCA regulates who is allowed to apply wax but
+   not how much, boards are waxed at the officials' discretion mid
+   tournament, and vendors sell deliberately bouncier pegs. Playing speed is
+   a property of the afternoon, not of the sport. So the friction and
+   restitution values here are calibrated, they say so, and the reasoning
+   for each is written down where it can be argued with.
+   ========================================================================== */
+
+const SPEC = {
+  /* ======================= THE BOARD ==================================== */
+  /* NCA tournament standard: "a playing surface with a 26-inch diameter
+     that is raised one-half inch above the ditch, onto which the scoring
+     circles are drawn at four-inch intervals from the center with the
+     radius being 4 inches for the 15-point circle, 8 for the 10-point
+     circle, and 12 for the shooting line. This specification shall leave
+     the shooting line one inch from the edge of the board at all points.
+     The ditch shall be two inches across, and the outer rail shall not be
+     thicker than one half inch."
+     Note the numbers are published as RADII, not diameters -- older sources
+     quote the same circles as 8, 16 and 24 inch diameters, which is the
+     commonest way to get this wrong by a factor of two. */
+  R_SURFACE:   0.3302,      /* 13 in   -- edge of the raised surface [official] */
+  R_OUT:       0.3048,      /* 12 in   -- shooting line AND out-of-play [official] */
+  R_10:        0.2032,      /*  8 in   -- 10/5 boundary              [official] */
+  R_15:        0.1016,      /*  4 in   -- 15/10 boundary, the guard  [official] */
+  R_HOLE:      0.0174625,   /* 1-3/8 in diameter                     [official] */
+  HOLE_DEPTH:  0.006,       /* 6 mm +/- 1 mm                         [official] */
+  SURF_RAISE:  0.0127,      /* 1/2 in above the ditch                [official] */
+  DITCH_W:     0.0508,      /* 2 in across                           [official] */
+  RAIL_W:      0.00635,     /* 1/4 in typical, 1/2 in max            [corroborated] */
+  LINE_W:      0.0015875,   /* 1/16 in drawn line width              [single] */
+
+  /* The quadrant lines: four radial lines 90 degrees apart, spanning only
+     the 5-point band (R_10 out to R_OUT) -- they do not continue inward.
+     Phased so each player's quadrant CENTRE faces them squarely. [official
+     for the count and spacing, corroborated for the radial extent] */
+  QUAD_PHASE:  Math.PI / 4,
+
+  /* ======================= THE PEGS ===================================== */
+  /* The NCA specifies NOTHING about pegs -- the word appears once in the
+     entire rulebook, as a scoring landmark ("the next region (outside the
+     pegs) 10"). Everything here is manufacturer and community consensus,
+     and it is genuinely not standardised: one vendor sells pegs chosen for
+     "optimal bounce-back", another sells a harder rubber "with a small
+     amount of bounce". Two real tournament boards can play differently. */
+  N_PEGS:        8,          /* equally spaced                       [corroborated] */
+  R_PEG_CIRCLE:  0.1016,     /* centred ON the 15 line, straddling it [corroborated] */
+  R_PEG:         0.0047625,  /* 3/8 in OD rubber sleeve              [inferred] */
+  PEG_HEIGHT:    0.0127,     /* 1/2 in proud of the surface          [corroborated] */
+
+  /* THE ANGLE THAT DECIDES THE GAME. The pegs are offset 22.5 degrees from
+     the quadrant lines, so a gap sits at every multiple of 45 degrees --
+     which puts a gap on each quadrant LINE and, more importantly, a gap on
+     each player's straight-ahead CENTRELINE. Every player faces a clean
+     lane to the 20. Had the pegs been on the lines instead, the game would
+     be a different game: the straight shot would be blocked and everything
+     would have to be angled. No rulebook states this; it is measured from
+     Crokinole Canada's own board diagram and from published build plans.
+     [single, corroborated by measurement -- see RESEARCH.md] */
+  PEG_PHASE:     Math.PI / 8,
+
+  /* ======================= THE DISCS ==================================== */
+  /* The NCA specifies only that discs be wood, of consistent quality, and
+     contrasting in colour. Dimensions are the international norm, not a
+     rule. Mass is nobody's specification at all: it is computed from the
+     size and the density of hard maple, and cross-checks against the one
+     published set weight (135 g for 24 discs = 5.6 g each). */
+  R_DISC:      0.016,        /* 32 mm diameter +/- 0.5 mm            [corroborated] */
+  DISC_THICK:  0.010,        /* 10 mm                                [corroborated] */
+  M_DISC:      0.0056,       /* hard maple, 700 kg/m3 x 8.04 cm3     [derived] */
+  DISCS_EACH:  8,            /* NCA singles                          [official] */
+
+  /* ======================= THE PHYSICS ================================== */
+  G:           9.80665,      /* standard gravity                     [official] */
+
+  /* SURFACE FRICTION. Dry Coulomb, so speed falls linearly and the disc
+     actually stops. There is no published figure to use, so this is
+     bracketed rather than guessed:
+       unwaxed wood on wood              mu ~ 0.2 - 0.35   (too slow: a
+                                         full-blooded flick would die before
+                                         the 15 ring)
+       waxed shuffleboard table          mu ~ 0.02 - 0.03  (a puck crosses
+                                         6.7 m from "only a slight push" --
+                                         far too fast for a 0.66 m board)
+     Crokinole uses the same granular shuffleboard wax but far less of it --
+     the NCA lets players wax the DISC from a supply in the ditch, and only
+     officials may wax the surface at all -- so it sits well above a
+     shuffleboard table and well below bare wood. The value below puts a
+     full-power shot's free-running slide at MAX_SLIDE and a disc that just
+     reaches the 20 hole at about 0.55 m/s, which is the touch the real game
+     has. [CALIBRATED] */
+  MU_SURFACE:  0.12,
+
+  /* What a full-power flick would slide on an endless board. This is the
+     one knob that sets the whole speed of the game, and it is expressed as
+     a DISTANCE because a distance is something you can picture and argue
+     with: 2.4 m is about three and a half board diameters, so a
+     full-power shot that hits nothing leaves the far side with plenty in
+     hand -- which is what happens. V_MAX_SHOT is derived from it and from
+     MU_SURFACE, so changing either keeps the two consistent. [CALIBRATED] */
+  MAX_SLIDE:   2.4,
+
+  /* SPIN. There are no constants here any more. The coupling between
+     sliding and spinning is the exact result for a uniformly loaded disc,
+     evaluated from complete elliptic integrals in section 4a -- see the
+     comment there. An earlier version of this file used a regularised
+     approximation, which matched the pure-sliding and pure-spinning limits
+     but was 31% wrong on the spin-down torque halfway between them.
+     [primary-source: Weidman & Malhotra / Farkas et al., see RESEARCH.md] */
+
+  /* RESTITUTION. Disc on disc is hard maple edge to hard maple edge: the
+     published range for hardwood impacts is roughly 0.4-0.6 and discs
+     separate crisply with an audible click, so 0.55. Disc on peg is a
+     rubber sleeve over a brass screw, sold explicitly for "bounce-back",
+     and is livelier -- but it is also the least standardised number on the
+     board, since vendors sell both bouncy and hard sleeves. [CALIBRATED,
+     bracketed by published hardwood values] */
+  E_DISC:      0.60,         /* hard maple on hard maple   [measured]    */
+  E_PEG:       0.60,         /* rubber sleeve, unstandard   [CALIBRATED] */
+  MU_DISC:     0.38,         /* wood on wood, tangential   [measured]    */
+  MU_PEG:      0.50,         /* rubber on wood, grippier   [CALIBRATED] */
+
+  /* THE 20 HOLE. The geometry is exact and official: a 34.925 mm hole and a
+     32 mm disc leave 1.46 mm of centre travel in which the disc is
+     "completely in the centre hole" as Rule 6c requires. That tiny number
+     is the real reason a 20 is hard.
+     The escape dynamics are not official and cannot be: a disc struck hard
+     enough tips into the 6 mm recess and rides back out over the far lip,
+     which is the rattle-out. V_20_MAX is where that starts to happen.
+     [R_CAPTURE derived; V_20_MAX and MU_RIM CALIBRATED] */
+  V_20_MAX:    1.15,         /* above this the hole spits it back out  */
+  MU_RIM:      0.12,         /* the drag of an edge dipping in the recess */
+  A_WELL:      0.30,         /* the inward pull of the unsupported weight */
+
+  /* THE SOLVER. See section 4 for why these values and not others. */
+  DT_MAX:       1 / 240,
+  DT_MIN:       1e-6,
+  SAFE_ADVANCE: 0.20,        /* max closing travel per substep, in disc radii */
+  ITERATIONS:   4,           /* contact relaxation passes                     */
+  SLOP:         2e-5,        /* penetration left alone, 0.02 mm               */
+  BAUMGARTE:    0.7,         /* how much overlap is corrected per pass        */
+  REST_CUTOFF:  0.03,        /* below this closing speed, no bounce           */
+  V_SLEEP:      0.004,       /* board is still below this                     */
+  W_SLEEP:      0.25,
+  T_MAX:        14,          /* a shot cannot take longer than this           */
+  MAX_SUBSTEPS: 400000,
+  SAMPLE_HZ:    120,         /* playback sample rate for the animation        */
+
+  /* THE FLICK. V_MAX_SHOT is derived; the rest is feel. */
+  V_MIN_SHOT:     0.08,
+  /* Finger speed, in BOARD metres per second, to disc speed. A real flick
+     is a lever -- the disc leaves the fingernail faster than the finger was
+     travelling -- so this is not 1. Set so that a gentle swipe of about one
+     board-width per second gives the 0.83-1.20 m/s that sinks a 20, and a
+     hard one reaches full power without demanding a superhuman wipe across
+     the glass. [CALIBRATED] */
+  FLICK_GAIN:     0.75,
+  PULL_MAX_RADII: 14,        /* full power pull-back, in disc radii    [CALIBRATED] */
+  SPIN_REACH:     1.0,       /* sideways release -> strike offset      [CALIBRATED] */
+};
+
+/* --- the derived numbers, computed once so nothing can drift ------------ */
+SPEC.I_DISC    = 0.5 * SPEC.M_DISC * SPEC.R_DISC * SPEC.R_DISC;   /* uniform disc */
+SPEC.V_MAX_SHOT = Math.sqrt(2 * SPEC.MU_SURFACE * SPEC.G * SPEC.MAX_SLIDE);
+SPEC.R_CAPTURE = SPEC.R_HOLE - SPEC.R_DISC;
+SPEC.LINE_EPS  = SPEC.LINE_W / 2;
+SPEC.R_PLACE   = SPEC.R_OUT - SPEC.R_DISC;
+
+CROK.SPEC = SPEC;
+/* ==========================================================================
+   3. GEOMETRY -- the board itself
+   --------------------------------------------------------------------------
+   Everything is SI: metres, seconds, kilograms, radians. The board frame has
+   its origin at the centre of the 20 hole, +x right and +y DOWN, matching
+   canvas so that board -> screen is a scale, a rotation and a translation
+   with no axis flip anywhere. Angles therefore increase clockwise on screen.
+   Stated once, here, so nobody has to reverse-engineer it from a minus sign.
+
+   Nothing downstream of this section may contain a board dimension. If a
+   radius turns up in the renderer, the rules or the AI, it came from here or
+   it is a defect.
+
+   THE ONE PIECE OF GEOMETRY THAT SURPRISES EVERYONE: the circle at 12 inches
+   is BOTH the shooting line you must place your disc against AND the
+   out-of-play boundary. A disc at rest that merely TOUCHES it is out. So a
+   freshly placed disc is sitting exactly on the edge of being dead, and a
+   shot too weak to move it off the line loses it. The 1 inch of surface
+   outside that line is real wood a disc can travel over -- it just cannot
+   stay there.
+   ========================================================================== */
+
+const GEO = {};
+CROK.GEO = GEO;
+
+GEO.build = function(P){
+  /* --- the eight pegs -------------------------------------------------- */
+  /* Evenly spaced on the 15-point circle, rotated by PEG_PHASE relative to
+     the quadrant dividing lines. That phase decides whether a disc shot
+     straight up your quadrant's centre-line meets a peg head-on or threads
+     the gap, so it is the single most consequential angle on the board. */
+  const pegs = [];
+  for (let i = 0; i < P.N_PEGS; i++){
+    const a = P.PEG_PHASE + i * (TAU / P.N_PEGS);
+    pegs.push({ x: P.R_PEG_CIRCLE * Math.cos(a), y: P.R_PEG_CIRCLE * Math.sin(a), a });
+  }
+
+  /* Can a disc pass between two adjacent pegs? Chord between peg centres,
+     less both peg radii, less a disc diameter. [derived] -- the harness
+     asserts this is positive, because a board where it is not is a board
+     where no disc can ever reach the 15 ring. */
+  const pegSpacing = 2 * P.R_PEG_CIRCLE * Math.sin(Math.PI / P.N_PEGS);
+  const pegGap     = pegSpacing - 2 * P.R_PEG - 2 * P.R_DISC;
+
+  /* Where the centre of a placed disc sits: tangent to the shooting line
+     from the inside, so the disc is touching the line as Rule 7e requires
+     and no part of it is over the line. [derived] */
+  const rPlace = P.R_OUT - P.R_DISC;
+
+  /* The centre of a disc at rest may not be further out than this, or the
+     disc is touching the shooting line and is out of play. [derived from
+     NCA Rule 8e] */
+  const rDead = P.R_OUT - P.R_DISC;
+
+  const geo = {
+    P, pegs, pegSpacing, pegGap, rPlace, rDead,
+
+    /* --- quadrants ----------------------------------------------------- */
+    /* Two lines through the centre cut the surface into four. In singles the
+       players sit opposite each other, so they own opposite quadrants;
+       player 0's faces the bottom of the screen. */
+    quadCentre(owner){ return owner === 0 ? Math.PI / 2 : -Math.PI / 2; },
+
+    /* THE LEGAL PLACEMENT ARC.
+       NCA Rule 7e: the disc must be "touching some part of the outer
+       boundary line of the player's quadrant, or touching both the outer
+       boundary line and a player's quadrant dividing line."
+
+       Read carefully, that second clause makes the arc WIDER than the
+       quadrant, not narrower: at the corner you may push the disc past the
+       dividing line as long as it still touches that line. So the angular
+       half-span is 45 degrees PLUS the angle the disc's own radius subtends
+       at the placement radius -- the centre may sit up to R_DISC beyond the
+       line, measured perpendicular. Getting this backwards (shrinking the
+       arc) would quietly cost the player the corner placements that make
+       cross-board angles possible. [derived from Rule 7e] */
+    placement(owner){
+      const r = rPlace;
+      const halfSpan = Math.PI / 4 + Math.asin(clamp(P.R_DISC / r, 0, 1));
+      const c = geo.quadCentre(owner);
+      return { r, a0: c - halfSpan, a1: c + halfSpan, c, halfSpan };
+    },
+
+    /* clamp a requested placement onto the legal arc */
+    snapPlacement(owner, x, y){
+      const pl = geo.placement(owner);
+      /* work relative to the quadrant centre so the wrap at +-PI cannot bite */
+      const d = clamp(angDiff(pl.c, Math.atan2(y, x)), -pl.halfSpan, pl.halfSpan);
+      const a = pl.c + d;
+      return { x: pl.r * Math.cos(a), y: pl.r * Math.sin(a), a };
+    },
+
+    /* --- scoring ------------------------------------------------------- */
+    /* NCA Rule 6b: "A disc shall score the lowest value of any region of the
+       board that it is touching", and 6d: touching a line scores the lower
+       of the two regions. So a disc is in a ring only if it is ENTIRELY
+       inside that ring's line, which for a circular footprint is
+       |centre| + R_DISC < line radius.
+
+       Rule 6e adds that the test is on the disc's BOTTOM footprint, not its
+       silhouette from above -- real discs are chamfered and the top rim
+       overhangs. Modelling the disc as a circle of its footprint radius
+       makes 6e a no-op, which is the right way to satisfy it. */
+    /* The drawn line has real width -- about 1/16 inch -- and it is
+       centred on the published radius, so it occupies
+       [R - LINE_W/2, R + LINE_W/2]. A disc is clear of a ring's line only
+       when its footprint stops short of the line's INNER edge. Ignoring
+       the width would hand the player up to 0.8 mm of extra 15 ring, which
+       on a 1.46 mm capture window is not a rounding error. */
+    zoneOf(x, y){
+      const r = hypot(x, y) + P.R_DISC;
+      if (r < P.R_15 - P.LINE_EPS) return 15;
+      if (r < P.R_10 - P.LINE_EPS) return 10;
+      return 5;
+    },
+
+    /* THE NO-HIDING TEST -- deliberately NOT the same predicate as scoring.
+       NCA Rule 3a.ii requires the disc to end up "touching or within the 15
+       line", and touching is enough. A disc touching that line therefore
+       SATISFIES the open-board rule but SCORES 10. That asymmetry is real
+       and it is why this is its own function and shares nothing with
+       zoneOf: one asks "does it reach the line", the other "is it clear of
+       the line". */
+    touchingOrInsideFifteen(x, y){
+      /* reaching the line's OUTER edge is enough -- the generous direction,
+         opposite to the way zoneOf reads the same circle */
+      return hypot(x, y) - P.R_DISC <= P.R_15 + P.LINE_EPS;
+    },
+
+    /* NCA Rule 8e: a disc at rest touching or across the shooting line is
+       out of play. */
+    /* NCA Rule 8e: a disc at rest "touching or across" the shooting line is
+       out of play -- so it dies as soon as its footprint reaches the line's
+       inner edge. */
+    deadAtRest(x, y){ return hypot(x, y) + P.R_DISC >= P.R_OUT - P.LINE_EPS; },
+
+    /* still physically on the raised surface at all (past this it drops into
+       the ditch mid-flight) */
+    onSurface(x, y){ return hypot(x, y) <= P.R_SURFACE; },
+
+    /* Find a legal free spot on the placement arc nearest the one asked
+       for. The player's own discs can be sitting on their own line, and the
+       shooter still has to go somewhere, so walk outwards in both
+       directions until there is room. */
+    freePlacement(owner, x, y, discs){
+      const pl = geo.placement(owner);
+      const want = clamp(angDiff(pl.c, Math.atan2(y, x)), -pl.halfSpan, pl.halfSpan);
+      const stepA = (2 * P.R_DISC * 1.02) / pl.r;
+      const nMax = Math.ceil((2 * pl.halfSpan) / stepA) + 1;
+      for (let k = 0; k <= nMax; k++){
+        const offs = k === 0 ? [0] : [1, -1];
+        for (const sgn of offs){
+          const d = clamp(want + sgn * k * stepA, -pl.halfSpan, pl.halfSpan);
+          const a = pl.c + d;
+          const px = pl.r * Math.cos(a), py = pl.r * Math.sin(a);
+          let clear = true;
+          for (const dd of discs){
+            if (!dd.live) continue;
+            if (hypot(dd.x - px, dd.y - py) < 2 * P.R_DISC * 1.001){ clear = false; break; }
+          }
+          if (clear) return { x: px, y: py, a };
+        }
+      }
+      const a = pl.c + want;
+      return { x: pl.r * Math.cos(a), y: pl.r * Math.sin(a), a };
+    },
+  };
+  return geo;
+};
+/* ==========================================================================
+   4. THE PHYSICS
+   --------------------------------------------------------------------------
+   A purpose-built rigid-disc solver. No library, because the problem is
+   narrow enough to solve exactly and broad enough that a general engine
+   would fight us on the two things that matter most: bit-exact determinism
+   and no tunnelling.
+
+   WHAT IT MODELS
+
+     * Discs as rigid circles with mass m, radius R and moment of inertia
+       I = 1/2 m R^2 (a uniform solid cylinder -- crokinole discs are flat
+       and homogeneous, so this is exact, not an approximation).
+
+     * SURFACE FRICTION as dry Coulomb friction, NOT viscous damping. This
+       is the single most consequential modelling choice in the file, and it
+       is not a matter of taste:
+
+         Coulomb (what a disc sliding on a dry powdered board actually does):
+           friction force has CONSTANT magnitude mu*m*g regardless of speed
+           => speed falls LINEARLY with time,      v(t) = v0 - mu*g*t
+           => the disc STOPS, at a finite time     t_stop = v0/(mu*g)
+           => distance travelled scales as         d = v0^2 / (2*mu*g)
+
+         Viscous (what `v *= 0.98` every frame gives you):
+           force proportional to speed => exponential decay, and the disc
+           NEVER stops. It creeps forever, so you need an arbitrary cutoff,
+           and doubling the shot power does not double the reach. Every
+           casual flick game does this and it is why they feel like air
+           hockey rather than like wood.
+
+       Coulomb friction is why "twice as hard" goes four times as far, which
+       is the feel a crokinole player has in their hand.
+
+     * SLIDING AND SPINNING ARE COUPLED. A disc that both slides and spins
+       cannot decay the two independently: there is one friction budget,
+       mu*m*g, shared between stopping the slide and stopping the spin. The
+       standard regularised form of the coupling is used (see RESEARCH.md);
+       its important consequences are that a spinning disc slides FURTHER
+       than a non-spinning one thrown at the same speed, and that sliding
+       and spinning die at the same instant.
+
+     * A SPINNING DISC DOES NOT CURVE. For a symmetric disc under uniform
+       pressure the net friction force is exactly antiparallel to the centre
+       of mass velocity -- the sideways components cancel by symmetry. Spin
+       matters on IMPACT (it throws the struck disc sideways and it makes
+       the shooter squirt off at an angle) and it matters for how far a disc
+       runs, but it does not bend a free disc's path. Curving a disc here
+       would be a lie that felt good for a minute.
+
+     * COLLISIONS by impulse, with restitution for the bounce and clamped
+       Coulomb friction along the tangent for the spin transfer. Because a
+       disc's contact arm r is parallel to the contact normal, the normal
+       impulse has no angular term at all -- discs cannot be given spin by a
+       head-on hit, only by a glancing one. That falls out of the geometry
+       rather than being asserted.
+
+   HOW IT IS STEPPED
+
+     Adaptive substepping with a hard guarantee. Each substep is short
+     enough that the CLOSING SPEED of the fastest possible pair moves them
+     less than a fraction of a disc radius:
+
+         dt <= SAFE_ADVANCE * R_disc / (2 * v_max)
+
+     so an overlap is always detected while it is still shallow and nothing
+     can pass through anything. Substeps get longer as the board slows down,
+     so a settled board costs almost nothing.
+
+     Contacts are resolved with several relaxation iterations per substep,
+     which is what keeps a cluster of touching discs from buzzing.
+
+   WHY NOT AN EVENT-DRIVEN SOLVER
+     Pool simulators advance analytically from one exact impact to the next,
+     which is elegant and exact. It works there because a ball's motion
+     between impacts has a closed form. Here the sliding/spinning coupling
+     makes the closed form unpleasant and the peg cluster makes near
+     simultaneous contacts common, which is where analytic advancement gets
+     fragile. Fine substeps with a proven advance bound give the same
+     tunnel-free guarantee with far less to get wrong -- and it is testable,
+     which the harness does.
+   ========================================================================== */
+
+const PHYS = {};
+CROK.PHYS = PHYS;
+
+/* --- a disc ------------------------------------------------------------- */
+function makeDisc(id, owner, x, y){
+  return {
+    id, owner,          /* owner: 0 = player one, 1 = player two           */
+    x, y,               /* centre, metres, board frame (origin = 20 hole)  */
+    vx: 0, vy: 0,       /* velocity, m/s                                   */
+    a: 0,               /* orientation, radians (cosmetic, but real)       */
+    w: 0,               /* spin, rad/s, +ve counter-clockwise              */
+    live: true,         /* on the playing surface                          */
+    fate: 'live',       /* 'live' | 'ditch' | 'hole' | 'foul'              */
+    moved: false,       /* was it touched at all this shot                 */
+    shooter: false,     /* is this the disc that was just flicked          */
+  };
+}
+PHYS.makeDisc = makeDisc;
+
+/* --- a world ------------------------------------------------------------ */
+/* The world is plain data on purpose: it is cloned for every candidate shot
+   the AI considers and for every frame of the trajectory preview, so it has
+   to be cheap to copy and free of anything that cannot be. */
+PHYS.newWorld = function(geo){
+  return { geo, discs: [], nextId: 1, t: 0 };
+};
+
+PHYS.cloneWorld = function(w){
+  const discs = new Array(w.discs.length);
+  for (let i = 0; i < w.discs.length; i++){
+    const d = w.discs[i];
+    discs[i] = { id: d.id, owner: d.owner, x: d.x, y: d.y, vx: d.vx, vy: d.vy,
+                 a: d.a, w: d.w, live: d.live, fate: d.fate,
+                 moved: d.moved, shooter: d.shooter, banked: d.banked, voided20: d.voided20 };
+  }
+  return { geo: w.geo, discs, nextId: w.nextId, t: w.t };
+};
+
+PHYS.addDisc = function(w, owner, x, y){
+  const d = makeDisc(w.nextId++, owner, x, y);
+  w.discs.push(d);
+  return d;
+};
+
+/* ==========================================================================
+   4a. SURFACE FRICTION -- the coupled sliding/spinning decay
+   --------------------------------------------------------------------------
+   One friction budget, mu*g, split between killing the slide and killing
+   the spin according to how fast each is going. With
+
+       s = |v|                      the slide speed
+       u = SPIN_ARM * R * |w|       the rim speed due to spin
+       q = sqrt(s^2 + u^2)
+
+   the linear deceleration is  mu*g * s/q  and the angular deceleration is
+   SPIN_TORQUE * mu*g/R * u/q. When u -> 0 this reduces to plain Coulomb
+   sliding (a = mu*g) and when s -> 0 to pure spin-down; in between the two
+   share the budget, which is the physical result: they stop together.
+   ========================================================================== */
+
+/* --- the exact coupling functions F and T ------------------------------- */
+/* These are not an approximation of the coupling, they ARE the coupling.
+   For a uniformly loaded disc sliding at v and spinning at omega, with the
+   slip ratio eps = v/(R*omega),
+
+       dv/dt     = -mu*g*F(eps)
+       domega/dt = -(2*mu*g/R)*T(eps)
+
+   where, with K and E the complete elliptic integrals of the first and
+   second kind of MODULUS k (not parameter m = k^2),
+
+     eps <= 1:  F = (4/3pi) [ (e^2+1)E(e) + (e^2-1)K(e) ] / e
+                T = (4/9pi) [ (4-2e^2)E(e) + (e^2-1)K(e) ]
+     eps >= 1:  F = (4/3pi) [ (e^2+1)E(1/e) - (e^2-1)K(1/e) ]
+                T = (4/9pi) [ (4-2e^2)E(1/e) + (2e^2-5+3/e^2)K(1/e) ] / e
+
+   The landmarks the harness checks against: F(0)=0, F(1)=8/3pi, F(inf)=1;
+   T(0)=2/3, T(1)=8/9pi, T(inf)=0.
+
+   The consequence worth knowing: rotation reduces linear friction and
+   sliding reduces rotational friction, and that negative feedback drives
+   every disc towards a universal slip ratio eps0 = 0.653 at which BOTH die
+   at the same instant -- whatever it started with. That is a genuine
+   prediction of the theory and harness/crok_physics.js measures it.
+
+   Evaluated once into a table at load rather than per substep: the elliptic
+   integrals cost an AGM iteration each, and they are called tens of
+   thousands of times per shot. The table is indexed on t = eps/(1+eps),
+   which folds the whole infinite range of eps into [0,1]. */
+
+/* complete elliptic integrals by the arithmetic-geometric mean */
+function ellipKE(k){
+  /* K diverges at k = 1, and the formulas above hit that exactly at
+     eps = 1 -- where the coefficient multiplying K is exactly zero, so the
+     product's limit is 0 but the arithmetic is 0 * Infinity = NaN. Nudging
+     the modulus off 1 makes K large but finite and the zero coefficient
+     then does its job. The table samples eps = 1 dead on, so this is not a
+     hypothetical. */
+  if (k >= 1) k = 1 - 1e-15;
+  let a = 1, b = Math.sqrt(1 - k * k), c = k;
+  let sum = 0.5 * c * c, pow = 1;
+  for (let i = 0; i < 40 && Math.abs(c) > 1e-16; i++){
+    const an = 0.5 * (a + b);
+    const bn = Math.sqrt(a * b);
+    c = 0.5 * (a - b);
+    a = an; b = bn;
+    pow *= 2;
+    sum += pow * 0.5 * c * c;
+  }
+  const K = Math.PI / (2 * a);
+  return { K, E: K * (1 - sum) };
+}
+PHYS.ellipKE = ellipKE;
+
+function couplingExact(eps){
+  const P4_3 = 4 / (3 * Math.PI), P4_9 = 4 / (9 * Math.PI);
+  if (!isFinite(eps)) return { F: 1, T: 0 };
+  if (eps <= 0) return { F: 0, T: 2 / 3 };
+  if (eps <= 1){
+    const { K, E } = ellipKE(eps);
+    const e2 = eps * eps;
+    return { F: P4_3 * ((e2 + 1) * E + (e2 - 1) * K) / eps,
+             T: P4_9 * ((4 - 2 * e2) * E + (e2 - 1) * K) };
+  }
+  const { K, E } = ellipKE(1 / eps);
+  const e2 = eps * eps;
+  return { F: P4_3 * ((e2 + 1) * E - (e2 - 1) * K),
+           T: P4_9 * ((4 - 2 * e2) * E + (2 * e2 - 5 + 3 / e2) * K) / eps };
+}
+PHYS.couplingExact = couplingExact;
+
+const COUPLE_N = 4096;
+const COUPLE_F = new Float64Array(COUPLE_N + 1);
+const COUPLE_T = new Float64Array(COUPLE_N + 1);
+(function buildCouplingTable(){
+  for (let i = 0; i <= COUPLE_N; i++){
+    const t = i / COUPLE_N;
+    /* t = eps/(1+eps)  =>  eps = t/(1-t) */
+    const eps = t >= 1 ? Infinity : t / (1 - t);
+    const { F, T } = couplingExact(eps);
+    COUPLE_F[i] = isFinite(F) ? F : 1;
+    COUPLE_T[i] = isFinite(T) ? T : 0;
+  }
+  /* the two ends are known exactly, so pin them rather than trusting a
+     limit that is 0/0 in the formula */
+  COUPLE_F[0] = 0;        COUPLE_T[0] = 2 / 3;
+  COUPLE_F[COUPLE_N] = 1; COUPLE_T[COUPLE_N] = 0;
+})();
+
+PHYS.coupling = function(eps){
+  if (!(eps > 0)) return { F: 0, T: 2 / 3 };
+  if (!isFinite(eps)) return { F: 1, T: 0 };
+  const t = eps / (1 + eps);
+  const x = t * COUPLE_N;
+  const i = Math.min(COUPLE_N - 1, Math.floor(x));
+  const u = x - i;
+  return { F: COUPLE_F[i] + (COUPLE_F[i + 1] - COUPLE_F[i]) * u,
+           T: COUPLE_T[i] + (COUPLE_T[i + 1] - COUPLE_T[i]) * u };
+};
+
+PHYS.frictionAccel = function(P, s, absW){
+  const budget = P.MU_SURFACE * P.G;
+  if (s < 1e-12 && absW < 1e-9) return { aLin: 0, aAng: 0 };
+  const eps = absW < 1e-9 ? Infinity : s / (P.R_DISC * absW);
+  const { F, T } = PHYS.coupling(eps);
+  return {
+    aLin: budget * F,                          /* m/s^2                    */
+    aAng: (2 * budget / P.R_DISC) * T,         /* rad/s^2                  */
+  };
+};
+
+/* ==========================================================================
+   4b. THE STEP
+   ========================================================================== */
+
+/* Advance every live disc by dt under the coupled friction, stopping any
+   disc whose slide or spin would reverse inside the substep (a friction
+   force must never push something backwards -- that is the classic
+   explicit-integration bug that makes discs jitter forever). */
+function integrate(w, P, dt){
+  const ds = w.discs;
+  for (let i = 0; i < ds.length; i++){
+    const d = ds[i];
+    if (!d.live) continue;
+    d.px = d.x; d.py = d.y;          /* where it was, for the swept tests */
+    const s = hypot(d.vx, d.vy), absW = Math.abs(d.w);
+    if (s < 1e-12 && absW < 1e-9){ d.vx = 0; d.vy = 0; d.w = 0; continue; }
+
+    const { aLin, aAng } = PHYS.frictionAccel(P, s, absW);
+
+    /* THE RIM AND THE WELL. The 20 hole is a 6 mm recess in the middle of
+       the board, and a disc whose footprint laps over its edge is doing two
+       things at once:
+
+         it DIPS. The unsupported part of the footprint drops into the
+         recess, the disc tips, and its leading edge scrapes and clips the
+         far rim on the way out. That is the clack you hear when a shot
+         crosses the middle, and the speed it costs is real.
+
+         it is PULLED IN. The weight of the unsupported part is no longer
+         held up by anything, so it tips the disc towards the hole, and the
+         horizontal component of that pulls the centre of mass inward. The
+         hole is a shallow gravity well, which is exactly why a disc that
+         dribbles up to it falls in rather than parking on the lip.
+
+       Leaving the well out was a real error, not a simplification: with
+       drag alone a gentle 20 attempt braked to a halt 20 mm short of a hole
+       it should have dropped into. Both effects scale with how much of the
+       footprint is over the hole, and both are [CALIBRATED] -- the
+       geometry is exact and official, but the tipping of a real disc into a
+       real recess is a three-dimensional problem this stands in for. */
+    let rimDrag = 0, wellX = 0, wellY = 0;
+    {
+      const r = hypot(d.x, d.y);
+      const outer = P.R_HOLE + P.R_DISC;
+      if (r < outer && r > 1e-9){
+        const inner = P.R_HOLE - P.R_DISC;      /* fully over the hole      */
+        const overlap = clamp(r <= inner ? 1 : (outer - r) / (outer - inner), 0, 1);
+        rimDrag = P.MU_RIM * P.G * overlap;
+        const pull = P.A_WELL * P.G * overlap;
+        wellX = -(d.x / r) * pull;
+        wellY = -(d.y / r) * pull;
+      }
+    }
+    /* the well acts on the velocity directly: it is a force towards the
+       middle, not a change in how fast the disc is being slowed */
+    if (wellX || wellY){ d.vx += wellX * dt; d.vy += wellY * dt; }
+    const aTot = aLin + rimDrag;
+
+    const s2 = hypot(d.vx, d.vy);
+    if (s2 > 1e-12){
+      const ux = d.vx / s2, uy = d.vy / s2;
+      const tStop = s2 / aTot;                   /* when the slide dies    */
+      if (tStop <= dt){
+        /* stops inside this substep: travel the remaining distance and halt */
+        const dist = s2 * tStop - 0.5 * aTot * tStop * tStop;
+        d.x += ux * dist; d.y += uy * dist;
+        d.a += d.w * tStop;
+        d.vx = 0; d.vy = 0;
+      } else {
+        d.x += d.vx * dt - 0.5 * aTot * ux * dt * dt;
+        d.y += d.vy * dt - 0.5 * aTot * uy * dt * dt;
+        d.a += d.w * dt;
+        const sNew = s2 - aTot * dt;
+        d.vx = ux * sNew; d.vy = uy * sNew;
+      }
+    } else {
+      d.a += d.w * dt;
+    }
+
+    if (absW > 1e-9){
+      const sgn = d.w > 0 ? 1 : -1;
+      const wNew = absW - aAng * dt;
+      d.w = wNew > 0 ? sgn * wNew : 0;
+    }
+  }
+}
+
+/* --- disc/disc contact -------------------------------------------------- */
+/* Impulse with restitution along the normal and clamped Coulomb friction
+   along the tangent. Equal masses, so the algebra stays readable.
+
+   Because r_A = +R*n and r_B = -R*n are PARALLEL to the normal:
+       cross2(r, n) = 0   =>  the normal impulse has no angular term
+       cross2(r, t) = ±R  =>  the tangential impulse is the only source and
+                              sink of spin
+   The tangential effective mass is therefore
+       1/m + 1/m + R^2/I + R^2/I  =  2/m + 4/m  =  6/m
+   using I = 1/2 m R^2, i.e. R^2/I = 2/m. */
+function resolveDiscPair(A, B, P, out){
+  const dx = B.x - A.x, dy = B.y - A.y;
+  const dist2 = dx * dx + dy * dy;
+  const sum = 2 * P.R_DISC;
+  if (dist2 >= sum * sum || dist2 < 1e-18) return false;
+
+  const dist = Math.sqrt(dist2);
+  const nx = dx / dist, ny = dy / dist;      /* normal, A -> B             */
+  const tx = -ny, ty = nx;                   /* tangent, +90 deg           */
+  const R = P.R_DISC;
+
+  /* relative velocity AT THE CONTACT POINT, including the spin terms.
+     For body A the arm is +R*n, for B it is -R*n; in 2D omega x r is
+     w * (-r.y, r.x). */
+  const vAx = A.vx + A.w * (-(R * ny)), vAy = A.vy + A.w * ( (R * nx));
+  const vBx = B.vx - B.w * (-(R * ny)), vBy = B.vy - B.w * ( (R * nx));
+  const rvx = vBx - vAx, rvy = vBy - vAy;
+  const vn = rvx * nx + rvy * ny;
+  const vt = rvx * tx + rvy * ty;
+
+  /* separate the overlap even if they are already moving apart, otherwise
+     shallow penetrations accumulate into drift */
+  const pen = sum - dist;
+  if (pen > 0){
+    const corr = (pen - P.SLOP > 0 ? pen - P.SLOP : 0) * P.BAUMGARTE * 0.5;
+    A.x -= nx * corr; A.y -= ny * corr;
+    B.x += nx * corr; B.y += ny * corr;
+  }
+  if (vn >= 0) return false;                 /* already separating         */
+
+  const invM = 1 / P.M_DISC;
+  /* restitution cutoff: a slow contact must not bounce, or a cluster of
+     touching discs never goes to sleep */
+  const e = (-vn < P.REST_CUTOFF) ? 0 : P.E_DISC;
+  const jn = -(1 + e) * vn / (invM + invM);
+
+  /* tangential: clamped by mu * jn (Coulomb) */
+  const invMt = invM + invM + (R * R) / P.I_DISC + (R * R) / P.I_DISC;
+  let jt = -vt / invMt;
+  const jtMax = P.MU_DISC * jn;
+  if (jt > jtMax) jt = jtMax; else if (jt < -jtMax) jt = -jtMax;
+
+  const px = jn * nx + jt * tx, py = jn * ny + jt * ty;
+  A.vx -= px * invM; A.vy -= py * invM;
+  B.vx += px * invM; B.vy += py * invM;
+  /* only jt torques the discs: cross2(+R*n, t) = +R, cross2(-R*n, t) = -R */
+  A.w -= ( R * jt) / P.I_DISC;
+  B.w -= ( R * jt) / P.I_DISC;
+
+  A.moved = B.moved = true;
+  if (out) out.push({ kind: 'disc', a: A.id, b: B.id, x: A.x + nx * R, y: A.y + ny * R,
+                      impulse: Math.abs(jn), t: 0 });
+  return true;
+}
+
+/* --- disc/peg contact --------------------------------------------------- */
+/* The same equations in the infinite-mass limit: the peg's 1/m and 1/I are
+   zero, so the tangential effective mass is 1/m + R^2/I = 3/m. */
+function resolveDiscPeg(d, px, py, P, out){
+  const dx = d.x - px, dy = d.y - py;
+  const dist2 = dx * dx + dy * dy;
+  const sum = P.R_DISC + P.R_PEG;
+  if (dist2 >= sum * sum) return false;
+
+  let dist = Math.sqrt(dist2), nx, ny;
+  if (dist < 1e-9){ nx = 1; ny = 0; dist = 0; }   /* dead centre: pick one */
+  else { nx = dx / dist; ny = dy / dist; }        /* normal, peg -> disc   */
+  const tx = -ny, ty = nx;
+  const R = P.R_DISC;
+
+  const pen = sum - dist;
+  if (pen > 0){
+    const corr = (pen - P.SLOP > 0 ? pen - P.SLOP : 0) * P.BAUMGARTE;
+    d.x += nx * corr; d.y += ny * corr;
+  }
+
+  /* contact arm on the disc points from its centre TOWARDS the peg: -R*n */
+  const cvx = d.vx + d.w * ( (R * ny)), cvy = d.vy + d.w * (-(R * nx));
+  const vn = cvx * nx + cvy * ny;
+  const vt = cvx * tx + cvy * ty;
+  if (vn >= 0) return false;
+
+  const invM = 1 / P.M_DISC;
+  const e = (-vn < P.REST_CUTOFF) ? 0 : P.E_PEG;
+  const jn = -(1 + e) * vn / invM;
+
+  const invMt = invM + (R * R) / P.I_DISC;
+  let jt = -vt / invMt;
+  const jtMax = P.MU_PEG * jn;
+  if (jt > jtMax) jt = jtMax; else if (jt < -jtMax) jt = -jtMax;
+
+  d.vx += (jn * nx + jt * tx) * invM;
+  d.vy += (jn * ny + jt * ty) * invM;
+  /* cross2(-R*n, t) = -R */
+  d.w += (-R * jt) / P.I_DISC;
+
+  /* deliberately NOT setting d.moved: the foul rule turns on which discs
+     were STRUCK, and a static peg strikes nothing -- a disc that reaches a
+     peg was already moving, so it was already marked by whatever moved it */
+  if (out) out.push({ kind: 'peg', a: d.id, x: px + nx * P.R_PEG, y: py + ny * P.R_PEG,
+                      impulse: Math.abs(jn), t: 0 });
+  return true;
+}
+
+/* --- the fates: the ditch and the 20 hole ------------------------------- */
+
+/* Closest approach of the segment A->B to the origin. Used because the 20
+   hole's capture window is TINY -- 1.59 mm of centre travel on a real board
+   -- and a substep long enough to be efficient is long enough to step clean
+   over it. Testing the swept segment instead of the endpoint means a shot
+   cannot miss a 20 it geometrically went through. */
+function nearestToCentre(x0, y0, x1, y1){
+  const dx = x1 - x0, dy = y1 - y0;
+  const L2 = dx * dx + dy * dy;
+  let t = L2 > 1e-18 ? -(x0 * dx + y0 * dy) / L2 : 0;
+  t = clamp(t, 0, 1);
+  const x = x0 + dx * t, y = y0 + dy * t;
+  return { t, x, y, d: hypot(x, y) };
+}
+PHYS.nearestToCentre = nearestToCentre;
+
+function applyFates(w, P, dt, out){
+  const ds = w.discs;
+  for (let i = 0; i < ds.length; i++){
+    const d = ds[i];
+    if (!d.live) continue;
+
+    /* THE DITCH. Only when the centre leaves the raised playing surface
+       altogether. Note what this does NOT do: it does not kill a disc that
+       has merely crossed the shooting line at 12 inches. There is a full
+       inch of real wood outside that line, and a disc crossing it
+       tangentially can travel over that margin and re-enter -- which is
+       exactly the NCA's Spinning Disc Rule (8g), and it falls out of the
+       geometry here rather than needing a rule of its own. A disc still out
+       there when everything stops is picked up by RULES.endTurn, because
+       nobody clears a disc off the board mid-shot.
+
+       The surface stands half an inch above the ditch, so a disc that has
+       dropped in cannot climb back onto the board. That is why the Damage
+       Stays Rule (8h) -- a disc rebounding off the backboard into play --
+       cannot arise here, and is noted rather than implemented. */
+    if (hypot(d.x, d.y) > P.R_SURFACE){
+      d.live = false; d.fate = 'ditch'; d.vx = d.vy = d.w = 0;
+      if (out) out.push({ kind: 'ditch', a: d.id, x: d.x, y: d.y, impulse: 0, t: 0 });
+      continue;
+    }
+
+    /* THE 20. Rule 6c: "a disc must be completely in the centre hole and
+       lying flat". Completely in, for a 34.9 mm hole and a 31.75 mm disc,
+       means the centre within 1.59 mm of dead centre. That is the whole
+       reason a 20 is hard: the target is 3.2 mm wide, not that you have to
+       be gentle.
+
+       Once a disc is fully unsupported it tips into the recess and its
+       leading edge is caught by the far wall, so a disc that gets there is
+       normally kept. Struck hard enough, though, it has ample energy to
+       ride back over the 6 mm rim and out -- which is the rattle-out every
+       player knows -- so there is a speed ceiling above which the hole
+       spits it back. That ceiling is [CALIBRATED], not measured: the
+       geometry above is exact and sourced, the escape dynamics are a
+       three-dimensional tipping problem standing in for honestly. */
+    /* THERE ARE TWO WAYS IN, and they are different physics.
+
+       IN PASSING. The disc crosses the hole completely inside it -- centre
+       within R_CAPTURE = 1.46 mm of dead centre -- slowly enough not to
+       ride back out over the far lip. Tested against the SWEPT path, not
+       the endpoint, because a substep is longer than the window.
+
+       BY TIPPING. The disc comes to rest with its centre of mass over the
+       hole. It is then sitting on nothing and tips in, and because the hole
+       is WIDER than the disc (34.93 mm against 32 mm) it cannot wedge on
+       the lip -- it settles flat at the bottom, which is Rule 6c's
+       "completely in the centre hole and lying flat". A disc that stops
+       with its centre just OUTSIDE the hole rests on the lip instead and
+       stays out, which is the leaner every player has seen.
+
+       Getting this wrong is what made the 20 window non-monotonic in an
+       earlier version: capture was tested on footprint overlap rather than
+       on where the weight was, so a shot 5 mm off centre stayed out while
+       one 8 mm off dropped in. */
+    const rNow = hypot(d.x, d.y);
+    const atRest = hypot(d.vx, d.vy) <= P.V_SLEEP;
+    let sink = false;
+    if (atRest && rNow < P.R_HOLE) sink = true;
+    else if (P.R_CAPTURE > 0){
+      const near = nearestToCentre(d.px !== undefined ? d.px : d.x,
+                                   d.py !== undefined ? d.py : d.y, d.x, d.y);
+      if (near.d < P.R_CAPTURE && hypot(d.vx, d.vy) <= P.V_20_MAX) sink = true;
+    }
+    if (sink){
+      d.live = false; d.fate = 'hole'; d.vx = d.vy = d.w = 0;
+      d.x = 0; d.y = 0;
+      if (out) out.push({ kind: 'hole', a: d.id, x: 0, y: 0, impulse: 0, t: 0 });
+    }
+  }
+}
+
+/* --- is anything still happening --------------------------------------- */
+function maxSpeed(w){
+  let m = 0;
+  for (let i = 0; i < w.discs.length; i++){
+    const d = w.discs[i];
+    if (!d.live) continue;
+    const s = hypot(d.vx, d.vy);
+    if (s > m) m = s;
+  }
+  return m;
+}
+function anyMotion(w, P){
+  for (let i = 0; i < w.discs.length; i++){
+    const d = w.discs[i];
+    if (!d.live) continue;
+    if (hypot(d.vx, d.vy) > P.V_SLEEP) return true;
+    if (Math.abs(d.w) > P.W_SLEEP) return true;
+  }
+  return false;
+}
+
+/* --- one substep ------------------------------------------------------- */
+function substep(w, P, dt, out){
+  integrate(w, P, dt);
+
+  const ds = w.discs, pegs = w.geo.pegs;
+  /* Relaxation. One pass resolves an isolated hit; a disc wedged between
+     two pegs, or a shot into a packed cluster, needs the passes to talk to
+     each other. Contacts already separating cost almost nothing, so the
+     usual case does not pay for the worst case. */
+  for (let it = 0; it < P.ITERATIONS; it++){
+    let touched = false;
+    for (let i = 0; i < ds.length; i++){
+      const A = ds[i];
+      if (!A.live) continue;
+      for (let j = i + 1; j < ds.length; j++){
+        const B = ds[j];
+        if (!B.live) continue;
+        if (resolveDiscPair(A, B, P, it === 0 ? out : null)) touched = true;
+      }
+      for (let k = 0; k < pegs.length; k++){
+        if (resolveDiscPeg(A, pegs[k].x, pegs[k].y, P, it === 0 ? out : null)) touched = true;
+      }
+    }
+    if (!touched) break;
+  }
+
+  applyFates(w, P, dt, out);
+  w.t += dt;
+}
+
+/* ==========================================================================
+   4c. RUN A SHOT TO REST
+   --------------------------------------------------------------------------
+   Returns everything anyone needs to know about the shot, computed in one
+   go, the instant the flick is released:
+
+     frames   the position of every disc, sampled at a fixed rate, for the
+              animation to play back. Physics does not run on the render
+              clock; the render clock reads what physics already decided.
+     path     the shooter's own centre track, for the preview line
+     events   every contact, in order, with where and how hard
+     world    the settled board
+
+   This is the ONE call. The preview uses it, the shot uses it, and the AI
+   uses it a few hundred times a turn to pick a shot. They cannot disagree.
+   ========================================================================== */
+
+PHYS.runShot = function(world, shot, opts){
+  const P = world.geo.P;
+  const o = opts || {};
+  const wantFrames = o.frames !== false;
+  const w = o.inPlace ? world : PHYS.cloneWorld(world);
+
+  /* the shooter is placed and flicked */
+  let shooterId = -1;
+  if (shot){
+    const d = PHYS.addDisc(w, shot.owner, shot.x, shot.y);
+    d.vx = shot.vx; d.vy = shot.vy; d.w = shot.w || 0;
+    d.shooter = true; d.moved = true;
+    shooterId = d.id;
+    for (let i = 0; i < w.discs.length; i++) if (w.discs[i].id !== shooterId) w.discs[i].moved = false;
+  }
+
+  const events = [];
+  const frames = wantFrames ? [] : null;
+  const path   = [];
+  const sampleDt = 1 / P.SAMPLE_HZ;
+  let sampleAcc = 0, tSim = 0;
+  const shooter = shooterId >= 0 ? w.discs[w.discs.length - 1] : null;
+
+  const snap = () => {
+    if (frames){
+      const f = new Float32Array(w.discs.length * 4);
+      for (let i = 0; i < w.discs.length; i++){
+        const d = w.discs[i];
+        f[i * 4] = d.x; f[i * 4 + 1] = d.y; f[i * 4 + 2] = d.a;
+        f[i * 4 + 3] = d.live ? 1 : (d.fate === 'hole' ? 2 : 3);
+      }
+      frames.push(f);
+    }
+    if (shooter && shooter.live) path.push(shooter.x, shooter.y);
+  };
+  snap();
+
+  let guard = 0;
+  while (anyMotion(w, P) && tSim < P.T_MAX && guard++ < P.MAX_SUBSTEPS){
+    /* THE ADVANCE BOUND. Two discs closing head-on approach at up to twice
+       the fastest speed on the board, so a substep short enough that the
+       PAIR moves less than SAFE_ADVANCE * R together cannot let either pass
+       through the other. This is the whole anti-tunnelling argument, and
+       harness/crok_physics.js fires shots at the pegs until it is satisfied
+       nothing slips past. */
+    const vm = maxSpeed(w);
+    let dt = P.DT_MAX;
+    if (vm > 1e-9) dt = Math.min(dt, (P.SAFE_ADVANCE * P.R_DISC) / (2 * vm));
+    if (dt < P.DT_MIN) dt = P.DT_MIN;
+    /* never overshoot the next animation sample: frames stay evenly spaced */
+    if (sampleAcc + dt > sampleDt) dt = sampleDt - sampleAcc;
+
+    const before = events.length;
+    substep(w, P, dt, events);
+    for (let i = before; i < events.length; i++) events[i].t = tSim;
+
+    tSim += dt; sampleAcc += dt;
+    if (sampleAcc >= sampleDt - 1e-12){ sampleAcc = 0; snap(); }
+  }
+  /* park everything: no residual creep in the settled state */
+  for (let i = 0; i < w.discs.length; i++){ w.discs[i].vx = 0; w.discs[i].vy = 0; w.discs[i].w = 0; }
+  snap();
+
+  return {
+    world: w, frames, path, events,
+    shooterId,
+    duration: tSim,
+    settled: tSim < P.T_MAX,
+  };
+};
+/* ==========================================================================
+   5. THE RULES
+   --------------------------------------------------------------------------
+   The NCA "Official Rules of Crokinole" (ratified 6 May 2026), written as
+   logic. Rule text and sources are in docs/RESEARCH.md. Where
+   leagues differ the choice is marked [INTERPRETATION] with its reason.
+
+   FOUR THINGS THE INTERNET GETS WRONG, ALL OF WHICH ARE IMPLEMENTED THE
+   RULEBOOK'S WAY HERE:
+
+   1. SCORING IS NOT THE MARGIN. The raw disc tally decides only who won the
+      round; the winner then takes 2 points, a tie is 1 each, a loss 0
+      (Rule 2a.iv). The margin is thrown away. The "winner is awarded the
+      difference, first to 100" system that Wikipedia documents is the
+      traditional house game, not tournament crokinole. Both totals are
+      shown on screen -- the tally because it is what you are playing for
+      inside the round, the 2/1/0 because it is what wins the match.
+
+   2. TOUCHING THE 15 LINE IS ENOUGH for the open-board rule (Rule 3a.ii,
+      "touching or within the 15 line"), even though a disc touching that
+      line only SCORES 10 (Rule 6d). Same circle, two different tests. They
+      deliberately do not share a helper.
+
+   3. A FOUL DOES NOT PUT ANYTHING BACK. The shooter and every disc it
+      disturbed are removed, and any 20 sunk on that shot is voided
+      (Rule 3b). Nothing is restored to where it was -- the rulebook's
+      instinct is the opposite, and says so in the Damage Stays Rule (8h).
+      Restoration appears in exactly one source and is labelled optional.
+
+   4. THE 20 HOLE IS A SINK, NOT A ZONE. A disc completely in the hole and
+      lying flat is lifted out after that turn and banked (Rule 2a.ii). It
+      is safe for the rest of the round and cannot be knocked back out. The
+      childhood memory of discs stacking up in the hole is a house rule.
+
+   WHAT IS KNOWINGLY NOT MODELLED: discs cannot ride up on top of each other
+   in two dimensions, so the NCA's stacking and leaning edge cases -- a disc
+   settled flat on another scores what the lower one scores, a leaner scores
+   the lowest region it touches -- cannot arise. That is a real difference
+   from the physical game and it is written down rather than hidden.
+   ========================================================================== */
+
+const RULES = {};
+CROK.RULES = RULES;
+
+RULES.DISCS_PER_ROUND = 8;      /* NCA Rule 4a, singles                    */
+RULES.ROUNDS_PER_GAME = 4;      /* NCA Rule 2b                             */
+RULES.WIN_PTS = 2;              /* NCA Rule 2a.iv                          */
+RULES.TIE_PTS = 1;
+
+/* --- who is on the board ------------------------------------------------ */
+RULES.hasLiveDisc = function(world, owner){
+  for (const d of world.discs) if (d.live && d.owner === owner) return true;
+  return false;
+};
+
+/* --- did one of my discs strike one of theirs? -------------------------- */
+/* NCA Rule 3a.i: "If any opposing discs are in play, at least one of the
+   shooter's discs must strike an opposing disc either directly, or by
+   bumping one of his/her discs already in play into an opposing disc."
+
+   Chain length is unlimited and ordering is unconstrained, so the test
+   collapses to a single sweep of the contact log: did ANY disc of the
+   shooter's colour touch ANY disc of the opponent's colour at any point
+   during the shot? That is equivalent to walking the contact chain, because
+   the energy can only have come from the shooter -- the first opponent disc
+   touched in any chain is necessarily touched by one of the shooter's.
+
+   Pegs do not enter into it. No rulebook mentions peg contact in connection
+   with shot validity, and Rule 3a.i imposes exactly one condition with no
+   first-contact clause, so ricocheting off a peg on the way in is an
+   ordinary shot. [INTERPRETATION -- see the open question in RESEARCH.md] */
+RULES.struckOpponent = function(events, shooterOwner, discsById){
+  for (const ev of events){
+    if (ev.kind !== 'disc') continue;
+    const A = discsById.get(ev.a), B = discsById.get(ev.b);
+    if (!A || !B) continue;
+    if (A.owner !== B.owner) return true;
+  }
+  return false;
+};
+
+/* ==========================================================================
+   5a. IS THE SHOT LEGAL?
+   --------------------------------------------------------------------------
+   The two modes are mutually exclusive and chosen by one question asked at
+   the moment the shot is taken: does the opponent have anything on the
+   surface? Returns why as well as whether, so the HUD can tell the player
+   what they did instead of silently taking their disc.
+   ========================================================================== */
+
+RULES.judgeShot = function(geo, before, result, owner){
+  const byId = new Map();
+  for (const d of result.world.discs) byId.set(d.id, d);
+  const shooter = byId.get(result.shooterId);
+
+  if (RULES.hasLiveDisc(before, 1 - owner)){
+    /* --- mode one: they have discs out there, hit one ------------------ */
+    if (!RULES.struckOpponent(result.events, owner, byId)){
+      return { valid: false, reason: 'no-contact',
+               text: 'Foul — with an opponent disc on the board your shot must hit one' };
+    }
+    return { valid: true, reason: 'contact' };
+  }
+
+  /* --- mode two: the board is theirs-empty, so no hiding ---------------- */
+  /* Rule 3a.ii: "the shooting disc OR at least one disc struck during the
+     shot must end up touching or within the 15 line. (A 20 is considered
+     within the 15 line)". Note BOTH generosities: it need not be the
+     shooter, and touching is enough. */
+  for (const d of result.world.discs){
+    const involved = d.shooter || d.moved;
+    if (!involved) continue;
+    if (d.fate === 'hole') return { valid: true, reason: 'twenty' };
+    if (d.live && geo.touchingOrInsideFifteen(d.x, d.y)) return { valid: true, reason: 'open-ok' };
+  }
+  return { valid: false, reason: 'open-short',
+           text: 'Foul — with the board open your shot must reach the 15 line' };
+};
+
+/* ==========================================================================
+   5b. THE PRICE OF A FOUL
+   --------------------------------------------------------------------------
+   NCA Rule 3b: "the shooting disc and all of the other discs that were
+   struck, including any 20s made, shall be removed, considered out-of-play,
+   and shall not score."
+
+   The NCA wording is colour-agnostic ("all of the other discs"); the WCC and
+   Crokinole Canada say "all the other discs of the same colour". The two can
+   never actually disagree: any shot that struck an opponent disc was legal
+   by definition, so on an illegal shot the only discs that CAN have been
+   struck are the shooter's own. NCA wording is implemented, and the harness
+   asserts the equivalence rather than trusting this paragraph.
+   ========================================================================== */
+
+RULES.applyFoul = function(result){
+  const removed = [];
+  for (const d of result.world.discs){
+    if (d.shooter || d.moved){
+      if (d.fate === 'hole') d.voided20 = true;   /* Rule 3b: it shall not score */
+      d.live = false;
+      d.fate = 'foul';
+      removed.push(d.id);
+    }
+  }
+  return removed;
+};
+
+/* ==========================================================================
+   5c. END OF TURN -- bank the 20s, sweep the dead
+   --------------------------------------------------------------------------
+   Rule 2a.ii: 20s are lifted out after the turn and are safe for the round.
+   Rule 8e/8f: a disc at rest touching or across the shooting line is out of
+   play and goes in the ditch before the next player's turn.
+
+   The ordering matters and is deliberate: a disc that has drifted out past
+   the shooting line is STILL A PHYSICAL OBSTACLE during the shot that put
+   it there -- nobody picks it up mid-flight -- and only becomes dead once
+   everything has stopped. So this runs after the solver, never inside it.
+   ========================================================================== */
+
+RULES.endTurn = function(geo, world, banked, twenties){
+  const out = { sunk: [], ditched: [] };
+  for (const d of world.discs){
+    if (d.fate === 'hole' && !d.banked && !d.voided20){
+      d.banked = true;
+      banked[d.owner] += 20;
+      twenties[d.owner] += 1;
+      out.sunk.push(d.id);
+    }
+    if (d.live && geo.deadAtRest(d.x, d.y)){
+      d.live = false; d.fate = 'ditch';
+      out.ditched.push(d.id);
+    }
+  }
+  return out;
+};
+
+/* ==========================================================================
+   5d. WHAT IS ON THE BOARD RIGHT NOW
+   ========================================================================== */
+
+RULES.tally = function(geo, world, banked){
+  const pts = [banked ? banked[0] : 0, banked ? banked[1] : 0];
+  const zones = [[], []];
+  for (const d of world.discs){
+    if (!d.live) continue;
+    const z = geo.zoneOf(d.x, d.y);
+    pts[d.owner] += z;
+    zones[d.owner].push(z);
+  }
+  return { pts, zones };
+};
+
+/* ==========================================================================
+   5e. THE MATCH
+   --------------------------------------------------------------------------
+   [INTERPRETATION] The NCA hierarchy is round (8 discs each) -> game
+   (exactly 4 rounds, scored out of 8) -> match (length "determined by the
+   tournament rules" -- Rule 2c deliberately leaves it open).
+
+   Practice Mode is a best-of-X ROUNDS match, X = 1/3/5/7, because that is
+   what a practice session wants: a best-of-7 GAMES match at NCA lengths
+   would be 28 rounds and 448 shots. The NCA round scoring is kept exactly
+   -- 2 for a win, 1 each for a tie -- so the numbers on screen are the
+   numbers a real scorecard would carry, and 20s are tracked separately
+   the way a real scorecard tracks them.
+
+   The match ends as soon as it is decided: when one player's lead is bigger
+   than all the points still available. If X rounds finish level, one
+   sudden-death round is played, and repeated if needed, so a match can
+   never end undecided.
+   ========================================================================== */
+
+RULES.newMatch = function(cfg){
+  return {
+    cfg,
+    points:    [0, 0],      /* NCA match points: 2 a win, 1 a tie          */
+    twenties:  [0, 0],      /* tracked separately, as a scorecard does     */
+    tally:     [0, 0],      /* cumulative raw disc points, for interest    */
+    history:   [],          /* per round: {pts, matchPts, winner, twenties}*/
+    round:     0,
+    firstShooter: 0,
+    over:      false,
+    winner:    -1,
+    sudden:    false,
+  };
+};
+
+RULES.finishRound = function(match, pts, twenties){
+  const winner = pts[0] > pts[1] ? 0 : pts[1] > pts[0] ? 1 : -1;
+  const gained = winner < 0 ? [RULES.TIE_PTS, RULES.TIE_PTS]
+                            : (winner === 0 ? [RULES.WIN_PTS, 0] : [0, RULES.WIN_PTS]);
+  match.points[0] += gained[0];
+  match.points[1] += gained[1];
+  match.tally[0]  += pts[0];
+  match.tally[1]  += pts[1];
+  match.twenties[0] += twenties[0];
+  match.twenties[1] += twenties[1];
+  match.history.push({ pts: [pts[0], pts[1]], matchPts: gained, winner,
+                       twenties: [twenties[0], twenties[1]] });
+  match.round++;
+
+  /* decided as soon as the lead cannot be caught */
+  const played = match.round;
+  const left = Math.max(0, match.cfg.bestOf - played);
+  const avail = left * RULES.WIN_PTS;
+  const lead = Math.abs(match.points[0] - match.points[1]);
+  if (lead > avail){
+    match.over = true;
+    match.winner = match.points[0] > match.points[1] ? 0 : 1;
+    match.sudden = false;
+  } else if (played >= match.cfg.bestOf){
+    if (match.points[0] !== match.points[1]){
+      match.over = true;
+      match.winner = match.points[0] > match.points[1] ? 0 : 1;
+      match.sudden = false;
+    } else {
+      match.sudden = true;      /* level after the distance: play another   */
+    }
+  }
+  match.firstShooter = 1 - match.firstShooter;   /* NCA Rule 4b            */
+  return { winner, gained };
+};
+/* ==========================================================================
+   6. INPUT -- the flick
+   --------------------------------------------------------------------------
+   Pointer Events only, one code path for every device. On iPadOS a finger
+   arrives as pointerType 'touch' and the Magic Keyboard trackpad (or any
+   Bluetooth mouse) arrives as pointerType 'mouse' with real hover and real
+   button state -- so a trackpad is not a special case here, it is the same
+   gesture performed by a cursor. Apple Pencil arrives as 'pen'. All three
+   work without a branch.
+
+   THE GESTURE, and why it is built this way
+
+     Touch down in your own quadrant   -> the disc is placed, snapped to the
+                                          nearest legal spot on your line.
+     Drag while still near the disc    -> the disc SLIDES along the legal
+                                          arc. This is placement, not aiming.
+     Drag away from the disc           -> the disc locks and you are aiming.
+     Release                           -> the flick.
+
+     AIM comes from the direction disc -> finger, not from the direction the
+     finger happens to be travelling at the instant you let go. That matters:
+     a fast swipe's instantaneous direction is noisy at the last sample and
+     aiming a crokinole shot is a game of half a degree. Pointing is stable
+     and the preview line shows exactly what you are pointing at.
+
+     POWER comes from how fast you moved (velocity mode, the default) or from
+     how far you pulled back (pull-back mode, in Settings). Velocity is the
+     one the brief asks for and the one that feels like a flick; pull-back is
+     there because it is easier to be precise with and some players will
+     want it.
+
+     SPIN comes from the SIDEWAYS part of your release. Flick straight along
+     your aim and the disc goes straight. Sweep across as you let go and it
+     spins -- which is exactly what putting your fingernail off-centre on a
+     real disc does. The sideways fraction is converted to a strike offset b
+     from the disc's centre, clamped to the rim (you cannot hit a disc
+     further off-centre than its own edge), and then
+
+         omega = b * m * |v| / I
+
+     which is just angular impulse over moment of inertia. Nothing is
+     invented; the gesture is measured and handed to the solver.
+
+   VELOCITY ESTIMATION
+     Release speed is the least reliable number a touchscreen gives you: the
+     final sample is often short, doubled, or delivered late. UIKit and
+     Android both solve this by fitting recent motion rather than trusting
+     the last delta, and so do we -- a least-squares fit of position against
+     time over a short trailing window (VEL_WINDOW), discarding samples
+     older than that, which is robust to one bad sample and to variable
+     event rates (60Hz, 120Hz ProMotion, or a trackpad's bursts).
+   ========================================================================== */
+
+const INPUT = {};
+CROK.INPUT = INPUT;
+
+INPUT.VEL_WINDOW   = 0.085;   /* seconds of trailing motion to fit         */
+INPUT.VEL_MIN_PTS  = 3;
+INPUT.PLACE_GRAB   = 2.6;     /* finger within this many disc radii = placing */
+
+/* Fit vx, vy by least squares over the trailing window. Returns m/s in
+   SCREEN pixels; the caller converts to board metres. */
+function fitVelocity(samples, now, window){
+  let n = 0, sT = 0, sT2 = 0, sX = 0, sY = 0, sTX = 0, sTY = 0;
+  for (let i = samples.length - 1; i >= 0; i--){
+    const s = samples[i];
+    const dt = now - s.t;
+    if (dt > window) break;
+    const t = -dt;                       /* t = 0 at release, negative back */
+    n++; sT += t; sT2 += t * t; sX += s.x; sY += s.y; sTX += t * s.x; sTY += t * s.y;
+  }
+  if (n < INPUT.VEL_MIN_PTS) return { vx: 0, vy: 0, n };
+  const den = n * sT2 - sT * sT;
+  if (Math.abs(den) < 1e-12) return { vx: 0, vy: 0, n };
+  return { vx: (n * sTX - sT * sX) / den, vy: (n * sTY - sT * sY) / den, n };
+}
+INPUT.fitVelocity = fitVelocity;
+
+/* ==========================================================================
+   6a. FLICK -> SHOT
+   --------------------------------------------------------------------------
+   Turn the gesture into the five numbers the solver wants: where the disc
+   is, how fast it is going, in what direction, and how much it is spinning.
+   Kept as a pure function of plain numbers so the harness can check the
+   mapping without a browser, a canvas or a finger.
+   ========================================================================== */
+
+INPUT.buildShot = function(P, opts){
+  const { owner, x, y, aimX, aimY, mode } = opts;
+  /* aim: disc -> finger, normalised */
+  let ax = aimX - x, ay = aimY - y;
+  const aLen = hypot(ax, ay);
+  if (aLen < 1e-9) return null;
+  ax /= aLen; ay /= aLen;
+
+  /* power */
+  let speed;
+  if (mode === 'pullback'){
+    /* pull distance in disc radii -> speed, linear and honest */
+    const pull = clamp(aLen / P.R_DISC, 0, P.PULL_MAX_RADII);
+    speed = (pull / P.PULL_MAX_RADII) * P.V_MAX_SHOT;
+  } else {
+    /* release speed in board metres/second, mapped through a gain. The gain
+       exists because a finger cannot physically move as fast as a flicked
+       disc leaves the fingernail -- a real flick is a lever, and the disc
+       leaves at several times the speed the finger was travelling. */
+    speed = clamp(opts.releaseSpeed * P.FLICK_GAIN, 0, P.V_MAX_SHOT);
+  }
+  if (speed < P.V_MIN_SHOT) speed = 0;
+
+  /* spin from the sideways fraction of the release */
+  let w = 0;
+  if (speed > 0 && opts.lateralFrac){
+    const b = clamp(opts.lateralFrac * P.SPIN_REACH, -1, 1) * P.R_DISC;
+    w = -(b * P.M_DISC * speed) / P.I_DISC;
+  }
+
+  return { owner, x, y, vx: ax * speed, vy: ay * speed, w, speed, aimAngle: Math.atan2(ay, ax) };
+};
+
+/* ==========================================================================
+   6b. THE POINTER PLUMBING
+   --------------------------------------------------------------------------
+   This part only carries pointers and measures speed. It deliberately does
+   NOT decide whether you are placing a disc or aiming it -- that is a
+   question about the board, and the board's owner answers it. Keeping the
+   split here is what lets the whole gesture be tested without a browser.
+   ========================================================================== */
+
+INPUT.attach = function(canvas, host){
+  const st = { active: false, id: -1, kind: 'touch', samples: [],
+               downX: 0, downY: 0, curX: 0, curY: 0 };
+  INPUT.state = st;
+
+  function pt(e){
+    const r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+
+  function down(e){
+    if (st.active) return;
+    const p = pt(e);
+    if (!host.pointerDown(p.x, p.y, e.pointerType || 'touch')) return;
+    st.active = true; st.id = e.pointerId; st.kind = e.pointerType || 'touch';
+    st.downX = st.curX = p.x; st.downY = st.curY = p.y;
+    st.samples.length = 0;
+    st.samples.push({ x: p.x, y: p.y, t: host.now() });
+    try { canvas.setPointerCapture(e.pointerId); } catch (_){}
+    if (e.cancelable) e.preventDefault();
+  }
+
+  function move(e){
+    if (!st.active || e.pointerId !== st.id) return;
+    /* getCoalescedEvents hands back every sample the compositor merged into
+       this one event. On a 120 Hz iPad that is the difference between a
+       clean velocity fit and a jagged one. */
+    const list = (typeof e.getCoalescedEvents === 'function' && e.getCoalescedEvents().length)
+      ? e.getCoalescedEvents() : [e];
+    const t = host.now();
+    for (const ev of list){
+      const p = pt(ev);
+      st.curX = p.x; st.curY = p.y;
+      st.samples.push({ x: p.x, y: p.y, t });
+    }
+    /* an unbounded history is a leak in a long game, and nothing older than
+       a few fit windows can matter */
+    const cut = t - INPUT.VEL_WINDOW * 3;
+    while (st.samples.length > 2 && st.samples[0].t < cut) st.samples.shift();
+    host.pointerMove(st.curX, st.curY, st.samples, st.downX, st.downY);
+    if (e.cancelable) e.preventDefault();
+  }
+
+  function up(e, cancelled){
+    if (!st.active || e.pointerId !== st.id) return;
+    st.active = false;
+    try { canvas.releasePointerCapture(e.pointerId); } catch (_){}
+    if (cancelled) host.pointerCancel();
+    else {
+      const v = fitVelocity(st.samples, host.now(), INPUT.VEL_WINDOW);
+      host.pointerUp(st.curX, st.curY, v, st.downX, st.downY);
+    }
+    st.samples.length = 0;
+    if (e.cancelable) e.preventDefault();
+  }
+
+  canvas.addEventListener('pointerdown',   down, { passive: false });
+  canvas.addEventListener('pointermove',   move, { passive: false });
+  canvas.addEventListener('pointerup',     e => up(e, false), { passive: false });
+  canvas.addEventListener('pointercancel', e => up(e, true),  { passive: false });
+
+  /* Belt and braces. touch-action:none in the stylesheet is the modern
+     answer, but older iPadOS still needs the raw touch stream eaten to stop
+     rubber-band scrolling, pinch zoom, double-tap zoom and the long-press
+     callout, and Safari's gesture events are not covered by touch-action
+     at all. passive:false is required or preventDefault is ignored. */
+  const eat = e => { if (e.cancelable) e.preventDefault(); };
+  for (const ev of ['touchstart', 'touchmove', 'touchend', 'gesturestart',
+                    'gesturechange', 'gestureend', 'contextmenu']){
+    canvas.addEventListener(ev, eat, { passive: false });
+  }
+  document.addEventListener('gesturestart', eat, { passive: false });
+  document.addEventListener('dblclick',     eat, { passive: false });
+
+  return st;
+};
+/* ==========================================================================
+   7. RENDERING -- wood under neon
+   --------------------------------------------------------------------------
+   Canvas 2D, top-down, two baked layers and one live one.
+
+     woodTex     the board's maple, generated pixel by pixel once. Procedural
+                 grain: turbulent growth rings plus fine fibre streaks, in a
+                 fixed 1024x1024 texture that is then drawn scaled. Grain is
+                 low frequency, so a fixed texture upscaled to any iPad is
+                 indistinguishable from one baked at device resolution and
+                 costs a fraction as much.
+
+     boardLayer  woodTex plus everything static drawn as vectors at full
+                 device resolution: the ditch, the scoring rings, the
+                 quadrant lines, the 20 hole, the eight pegs and their glow.
+                 Rebaked only on resize or rotation. This is where the
+                 expensive shadowBlur glow work happens -- once, not 60
+                 times a second.
+
+     live        per frame: blit boardLayer, then the discs, the trajectory
+                 preview and the aiming furniture.
+
+   THE GLOW BUDGET
+     shadowBlur is the obvious way to get neon and it is far too slow to use
+     per frame on an iPad -- it forces a full-surface blur every call. So it
+     is used only in the bake. Live glow is layered strokes: the same shape
+     drawn 3-4 times, widest and faintest first, tightest and brightest
+     last, with globalCompositeOperation 'lighter' so overlapping light
+     adds the way light does. That reads as neon and costs almost nothing.
+   ========================================================================== */
+
+const RENDER = {};
+CROK.RENDER = RENDER;
+
+/* --- deterministic value noise ------------------------------------------ */
+/* No Math.random: the same board grain every time the file is opened. */
+function hash2(x, y, seed){
+  let h = Math.imul(x | 0, 0x27d4eb2d) ^ Math.imul(y | 0, 0x165667b1) ^ Math.imul(seed | 0, 0x9e3779b1);
+  h = Math.imul(h ^ (h >>> 15), 0x85ebca6b);
+  h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+const smooth = t => t * t * (3 - 2 * t);
+function vnoise(x, y, seed){
+  const xi = Math.floor(x), yi = Math.floor(y);
+  const xf = x - xi, yf = y - yi;
+  const u = smooth(xf), v = smooth(yf);
+  const a = hash2(xi,     yi,     seed), b = hash2(xi + 1, yi,     seed);
+  const c = hash2(xi,     yi + 1, seed), d = hash2(xi + 1, yi + 1, seed);
+  return lerp(lerp(a, b, u), lerp(c, d, u), v);
+}
+function fbm(x, y, seed, oct, lac, gain){
+  let s = 0, amp = 1, norm = 0, fx = x, fy = y;
+  for (let i = 0; i < oct; i++){
+    s += amp * vnoise(fx, fy, seed + i * 101);
+    norm += amp; amp *= gain; fx *= lac; fy *= lac;
+  }
+  return s / norm;
+}
+RENDER.fbm = fbm;
+
+/* --- the maple ---------------------------------------------------------- */
+RENDER.bakeWood = function(size){
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const g = c.getContext('2d');
+  const img = g.createImageData(size, size);
+  const px = img.data;
+
+  /* two maple tones and the dark of the late-growth line */
+  const A = [214, 174, 124];    /* pale early wood                        */
+  const B = [178, 132,  80];    /* warmer late wood                       */
+  const C = [126,  86,  46];    /* the grain line itself                  */
+
+  const inv = 1 / size;
+  for (let y = 0; y < size; y++){
+    const fy = y * inv;
+    for (let x = 0; x < size; x++){
+      const fx = x * inv;
+
+      /* growth rings: a stretched distance field, warped by turbulence, run
+         through a sine. Stretching y by 9 makes the rings into long
+         near-parallel bands -- flat-sawn board rather than an end grain
+         cross-section. */
+      const turb = fbm(fx * 3.1, fy * 3.1, 7, 4, 2.03, 0.52) - 0.5;
+      const band = Math.sin((fx * 26 + fy * 2.2 + turb * 5.4) * Math.PI);
+      /* sharpen: real grain lines are thin and dark, not sinusoidal */
+      let ring = Math.pow(Math.abs(band), 0.42);
+
+      /* fine fibre: high frequency, heavily stretched along the grain */
+      const fibre = fbm(fx * 190, fy * 11, 23, 2, 2.1, 0.5);
+
+      /* a few wider figure sweeps so it does not read as wallpaper */
+      const figure = fbm(fx * 1.4, fy * 0.7, 41, 3, 2.0, 0.6);
+
+      let t = clamp(ring * 0.72 + figure * 0.3, 0, 1);
+      const dark = clamp((1 - ring) * 1.25 - 0.34, 0, 1);
+
+      let r = lerp(A[0], B[0], t), gg = lerp(A[1], B[1], t), b = lerp(A[2], B[2], t);
+      r = lerp(r, C[0], dark * 0.85); gg = lerp(gg, C[1], dark * 0.85); b = lerp(b, C[2], dark * 0.85);
+
+      const f = (fibre - 0.5) * 15;
+      const i4 = (y * size + x) * 4;
+      px[i4]     = clamp(r  + f, 0, 255);
+      px[i4 + 1] = clamp(gg + f, 0, 255);
+      px[i4 + 2] = clamp(b  + f * 0.8, 0, 255);
+      px[i4 + 3] = 255;
+    }
+  }
+  g.putImageData(img, 0, 0);
+  return c;
+};
+
+/* --- layered-stroke glow ------------------------------------------------ */
+/* draw(ctx) is called once per pass; the pass gets progressively tighter
+   and brighter. This is the per-frame neon primitive. */
+function glowStroke(g, draw, colour, width, spread, alpha){
+  const prev = g.globalCompositeOperation;
+  g.globalCompositeOperation = 'lighter';
+  const passes = [[spread, alpha * 0.13], [spread * 0.55, alpha * 0.2],
+                  [spread * 0.26, alpha * 0.3], [1, alpha]];
+  for (const [mul, a] of passes){
+    g.strokeStyle = colour;
+    g.globalAlpha = a;
+    g.lineWidth = width * mul;
+    g.beginPath(); draw(g); g.stroke();
+  }
+  g.globalAlpha = 1;
+  g.globalCompositeOperation = prev;
+}
+RENDER.glowStroke = glowStroke;
+
+function glowFill(g, draw, colour, spread, alpha){
+  const prev = g.globalCompositeOperation;
+  g.globalCompositeOperation = 'lighter';
+  for (const [mul, a] of [[spread, alpha * 0.16], [spread * 0.5, alpha * 0.26], [0, alpha]]){
+    g.fillStyle = colour; g.globalAlpha = a;
+    g.beginPath(); draw(g, mul); g.fill();
+  }
+  g.globalAlpha = 1;
+  g.globalCompositeOperation = prev;
+}
+RENDER.glowFill = glowFill;
+/* ==========================================================================
+   7b. THE BOARD LAYER -- baked once
+   ========================================================================== */
+
+RENDER.newView = function(){
+  return { cx: 0, cy: 0, scale: 1, rot: 0, w: 0, h: 0, dpr: 1,
+           board: null, wood: null, builtFor: '' };
+};
+
+/* board metres -> canvas pixels, with the view rotation applied */
+RENDER.toScreen = function(v, x, y){
+  const c = Math.cos(v.rot), s = Math.sin(v.rot);
+  return { x: v.cx + (x * c - y * s) * v.scale,
+           y: v.cy + (x * s + y * c) * v.scale };
+};
+/* and back, for turning a finger into a board position */
+RENDER.toBoard = function(v, sx, sy){
+  const dx = (sx - v.cx) / v.scale, dy = (sy - v.cy) / v.scale;
+  const c = Math.cos(-v.rot), s = Math.sin(-v.rot);
+  return { x: dx * c - dy * s, y: dx * s + dy * c };
+};
+
+RENDER.layout = function(v, geo, wCss, hCss, dpr, rot){
+  const P = geo.P;
+  v.w = wCss; v.h = hCss; v.dpr = dpr; v.rot = rot;
+  /* fit the whole board -- surface plus ditch plus rail -- with a margin
+     for the HUD. Portrait leaves room top and bottom; landscape at the
+     sides. Either way the board stays circular and centred. */
+  const outer = P.R_SURFACE + P.DITCH_W + P.RAIL_W;
+  const pad = Math.min(wCss, hCss) * 0.055 + 8;
+  v.scale = (Math.min(wCss, hCss) / 2 - pad) / outer;
+  v.cx = wCss / 2;
+  v.cy = hCss / 2;
+  return v;
+};
+
+RENDER.bakeBoard = function(v, geo){
+  const P = geo.P;
+  const key = `${Math.round(v.w)}x${Math.round(v.h)}@${v.dpr.toFixed(2)}`;
+  if (v.board && v.builtFor === key) return v.board;
+
+  if (!v.wood) v.wood = RENDER.bakeWood(1024);
+
+  const c = document.createElement('canvas');
+  c.width  = Math.max(1, Math.round(v.w * v.dpr));
+  c.height = Math.max(1, Math.round(v.h * v.dpr));
+  const g = c.getContext('2d');
+  g.scale(v.dpr, v.dpr);
+
+  const S = v.scale;
+  const px = m => m * S;                      /* metres -> css px          */
+  const cx = v.cx, cy = v.cy;
+  const rSurf = px(P.R_SURFACE);
+  const rDitch = px(P.R_SURFACE + P.DITCH_W);
+  const rRail = px(P.R_SURFACE + P.DITCH_W + P.RAIL_W);
+
+  /* --- the rail: a dark ring with a thin neon edge --------------------- */
+  const railGrad = g.createRadialGradient(cx, cy, rDitch, cx, cy, rRail);
+  railGrad.addColorStop(0, '#15151f');
+  railGrad.addColorStop(1, '#05050a');
+  g.fillStyle = railGrad;
+  g.beginPath(); g.arc(cx, cy, rRail, 0, TAU); g.fill();
+
+  g.save();
+  g.shadowColor = 'rgba(34,224,255,0.85)'; g.shadowBlur = px(0.012);
+  g.strokeStyle = 'rgba(34,224,255,0.5)'; g.lineWidth = Math.max(1, px(0.0016));
+  g.beginPath(); g.arc(cx, cy, rRail - g.lineWidth / 2, 0, TAU); g.stroke();
+  g.restore();
+
+  /* --- the ditch: the surface stands half an inch above it, so it reads
+         as a recess. Darkest at the inner wall. ------------------------- */
+  const dg = g.createRadialGradient(cx, cy, rSurf * 0.985, cx, cy, rDitch);
+  dg.addColorStop(0,   '#000000');
+  dg.addColorStop(0.35,'#0d0a08');
+  dg.addColorStop(1,   '#241a12');
+  g.fillStyle = dg;
+  g.beginPath(); g.arc(cx, cy, rDitch, 0, TAU); g.fill();
+
+  /* --- the playing surface: maple ------------------------------------- */
+  g.save();
+  g.beginPath(); g.arc(cx, cy, rSurf, 0, TAU); g.clip();
+  const wsz = rSurf * 2;
+  g.drawImage(v.wood, cx - rSurf, cy - rSurf, wsz, wsz);
+
+  /* polished sheen -- one broad highlight from the upper left, which is
+     what makes a flat fill read as lacquered wood rather than paper */
+  const sheen = g.createLinearGradient(cx - rSurf, cy - rSurf, cx + rSurf * 0.7, cy + rSurf);
+  sheen.addColorStop(0,    'rgba(255,248,225,0.30)');
+  sheen.addColorStop(0.38, 'rgba(255,240,205,0.06)');
+  sheen.addColorStop(0.72, 'rgba(60,35,10,0.13)');
+  sheen.addColorStop(1,    'rgba(30,16,4,0.30)');
+  g.fillStyle = sheen;
+  g.fillRect(cx - rSurf, cy - rSurf, wsz, wsz);
+
+  /* a cool neon spill across the wood, so the board belongs to the same
+     room as the glow. Very low alpha: the wood has to stay wood. */
+  const spill = g.createRadialGradient(cx, cy, 0, cx, cy, rSurf);
+  spill.addColorStop(0,   'rgba(255,43,143,0.13)');
+  spill.addColorStop(0.5, 'rgba(80,40,120,0.05)');
+  spill.addColorStop(1,   'rgba(34,224,255,0.10)');
+  g.fillStyle = spill;
+  g.fillRect(cx - rSurf, cy - rSurf, wsz, wsz);
+
+  /* edge shading: the surface darkens into its own rim */
+  const vig = g.createRadialGradient(cx, cy, rSurf * 0.72, cx, cy, rSurf);
+  vig.addColorStop(0, 'rgba(0,0,0,0)');
+  vig.addColorStop(1, 'rgba(0,0,0,0.42)');
+  g.fillStyle = vig;
+  g.fillRect(cx - rSurf, cy - rSurf, wsz, wsz);
+  g.restore();
+
+  /* --- the scoring lines ---------------------------------------------- */
+  /* Real boards draw these about 1/16 inch wide, and NCA Rule 6e scores by
+     whether the disc's bottom edge is over any part of the line -- so the
+     line's WIDTH is not decoration, it is part of the scoring geometry.
+     Drawn at true width for that reason. */
+  const lw = Math.max(1, px(P.LINE_W));
+  const ring = (r, colour, glowPx, alpha) => {
+    g.save();
+    g.shadowColor = colour; g.shadowBlur = glowPx;
+    g.strokeStyle = colour; g.globalAlpha = alpha; g.lineWidth = lw;
+    g.beginPath(); g.arc(cx, cy, px(r), 0, TAU); g.stroke();
+    /* a second, tighter pass gives the line a hot core */
+    g.shadowBlur = glowPx * 0.35; g.globalAlpha = Math.min(1, alpha * 1.35);
+    g.lineWidth = Math.max(1, lw * 0.5);
+    g.beginPath(); g.arc(cx, cy, px(r), 0, TAU); g.stroke();
+    g.restore();
+  };
+  ring(P.R_OUT, '#ffb020', px(0.020), 0.80);   /* shooting line = out line */
+  ring(P.R_10,  '#22e0ff', px(0.016), 0.72);
+  ring(P.R_15,  '#ff2b8f', px(0.020), 0.88);
+
+  /* --- the quadrant lines --------------------------------------------- */
+  /* They only span the 5-point band, from the 10 circle out to the
+     shooting line. They do not continue in across the 10 and 15 regions --
+     drawing them all the way to the middle is the commonest mistake in
+     pictures of crokinole boards. */
+  g.save();
+  g.strokeStyle = 'rgba(255,176,32,0.55)';
+  g.shadowColor = 'rgba(255,176,32,0.7)'; g.shadowBlur = px(0.010);
+  g.lineWidth = lw;
+  for (let i = 0; i < 4; i++){
+    const a = P.QUAD_PHASE + i * (Math.PI / 2);
+    const ca = Math.cos(a), sa = Math.sin(a);
+    /* rotate the line into view space */
+    const p0 = RENDER.toScreen(v, P.R_10 * ca, P.R_10 * sa);
+    const p1 = RENDER.toScreen(v, P.R_OUT * ca, P.R_OUT * sa);
+    g.beginPath(); g.moveTo(p0.x, p0.y); g.lineTo(p1.x, p1.y); g.stroke();
+  }
+  g.restore();
+
+  /* --- the 20 hole ---------------------------------------------------- */
+  const rh = px(P.R_HOLE);
+  /* the recess: dark, with a lit far wall so it reads as 6 mm deep */
+  const hg = g.createRadialGradient(cx - rh * 0.25, cy - rh * 0.25, rh * 0.05, cx, cy, rh);
+  hg.addColorStop(0,   '#000000');
+  hg.addColorStop(0.72,'#0a0206');
+  hg.addColorStop(1,   '#3a1020');
+  g.fillStyle = hg;
+  g.beginPath(); g.arc(cx, cy, rh, 0, TAU); g.fill();
+  /* the lip, glowing -- this is the thing you are aiming at, so it is the
+     brightest object on the board */
+  g.save();
+  g.shadowColor = '#ff2b8f'; g.shadowBlur = px(0.030);
+  g.strokeStyle = '#ff5fa8'; g.lineWidth = Math.max(1, px(0.0013));
+  g.beginPath(); g.arc(cx, cy, rh, 0, TAU); g.stroke();
+  g.shadowBlur = px(0.012); g.strokeStyle = '#ffd0e6';
+  g.beginPath(); g.arc(cx, cy, rh * 0.99, 0, TAU); g.stroke();
+  g.restore();
+
+  /* --- the eight pegs ------------------------------------------------- */
+  /* Brass screws in black rubber sleeves, 3/8 inch across, standing half an
+     inch proud. Drawn as a lit post with a cast shadow so the height reads
+     from directly above: a flat dot looks painted on. */
+  const rp = px(P.R_PEG);
+  for (const pg of geo.pegs){
+    const s = RENDER.toScreen(v, pg.x, pg.y);
+    /* shadow, thrown away from the light at the upper left */
+    g.save();
+    g.globalAlpha = 0.5; g.fillStyle = '#000';
+    g.beginPath(); g.ellipse(s.x + rp * 0.75, s.y + rp * 0.95, rp * 1.15, rp * 0.8,
+                             0, 0, TAU); g.fill();
+    g.restore();
+    /* the rubber sleeve */
+    const pgr = g.createRadialGradient(s.x - rp * 0.4, s.y - rp * 0.45, rp * 0.1, s.x, s.y, rp);
+    pgr.addColorStop(0, '#4a4a58');
+    pgr.addColorStop(0.55, '#1b1b24');
+    pgr.addColorStop(1, '#0a0a10');
+    g.fillStyle = pgr;
+    g.beginPath(); g.arc(s.x, s.y, rp, 0, TAU); g.fill();
+    /* neon ring so it belongs to the board's palette, plus a brass glint */
+    g.save();
+    g.shadowColor = '#22e0ff'; g.shadowBlur = px(0.012);
+    g.strokeStyle = 'rgba(34,224,255,0.9)'; g.lineWidth = Math.max(1, rp * 0.28);
+    g.beginPath(); g.arc(s.x, s.y, rp * 0.86, 0, TAU); g.stroke();
+    g.restore();
+    g.fillStyle = 'rgba(255,214,140,0.85)';
+    g.beginPath(); g.arc(s.x - rp * 0.28, s.y - rp * 0.3, rp * 0.24, 0, TAU); g.fill();
+  }
+
+  v.board = c; v.builtFor = key;
+  return c;
+};
+/* ==========================================================================
+   7c. THE LIVE LAYER -- per frame
+   ========================================================================== */
+
+RENDER.DISC_COLOUR = [
+  { body: '#c8203c', hi: '#ff7d92', rim: '#ff3355', glow: 'rgba(255,51,85,'  },
+  { body: '#0c6ea8', hi: '#8fdcff', rim: '#22b8ff', glow: 'rgba(34,184,255,' },
+];
+
+/* one disc, drawn from above: a thick wooden puck with a lit rim.
+   The notch is not decoration -- it is how you see the disc spinning, and
+   the spin is real physics that would otherwise be invisible. */
+RENDER.disc = function(g, v, d, opts){
+  const P = opts.geo.P;
+  const s = RENDER.toScreen(v, d.x, d.y);
+  const r = P.R_DISC * v.scale;
+  const col = RENDER.DISC_COLOUR[d.owner];
+  const a = d.a + v.rot;
+  const dim = opts.dim ? 0.42 : 1;
+
+  /* the shadow it casts: the disc stands 10 mm off the surface */
+  g.save();
+  g.globalAlpha = 0.42 * dim; g.fillStyle = '#000';
+  g.beginPath(); g.ellipse(s.x + r * 0.16, s.y + r * 0.2, r * 1.02, r * 0.98, 0, 0, TAU);
+  g.fill();
+  g.restore();
+
+  /* the halo */
+  g.save();
+  g.globalCompositeOperation = 'lighter';
+  const hg = g.createRadialGradient(s.x, s.y, r * 0.8, s.x, s.y, r * 2.3);
+  hg.addColorStop(0, col.glow + (0.34 * dim) + ')');
+  hg.addColorStop(1, col.glow + '0)');
+  g.fillStyle = hg;
+  g.beginPath(); g.arc(s.x, s.y, r * 2.3, 0, TAU); g.fill();
+  g.restore();
+
+  /* the body */
+  g.save();
+  g.globalAlpha = dim;
+  const bg = g.createRadialGradient(s.x - r * 0.38, s.y - r * 0.42, r * 0.08, s.x, s.y, r);
+  bg.addColorStop(0, col.hi);
+  bg.addColorStop(0.42, col.body);
+  bg.addColorStop(1, '#12060a');
+  g.fillStyle = bg;
+  g.beginPath(); g.arc(s.x, s.y, r, 0, TAU); g.fill();
+
+  /* the lit rim */
+  g.strokeStyle = col.rim; g.lineWidth = Math.max(1, r * 0.15);
+  g.globalAlpha = 0.95 * dim;
+  g.beginPath(); g.arc(s.x, s.y, r * 0.92, 0, TAU); g.stroke();
+
+  /* the grain notch, which turns with the disc */
+  g.globalAlpha = 0.55 * dim;
+  g.strokeStyle = 'rgba(255,255,255,0.75)'; g.lineWidth = Math.max(1, r * 0.11);
+  g.beginPath();
+  g.moveTo(s.x + Math.cos(a) * r * 0.24, s.y + Math.sin(a) * r * 0.24);
+  g.lineTo(s.x + Math.cos(a) * r * 0.70, s.y + Math.sin(a) * r * 0.70);
+  g.stroke();
+  /* the dished centre every crokinole disc has */
+  g.globalAlpha = 0.35 * dim;
+  g.fillStyle = 'rgba(0,0,0,0.5)';
+  g.beginPath(); g.arc(s.x, s.y, r * 0.17, 0, TAU); g.fill();
+  g.restore();
+};
+
+/* a hollow outline: where a disc is predicted to finish up */
+RENDER.ghost = function(g, v, x, y, owner, geo, alpha){
+  const s = RENDER.toScreen(v, x, y);
+  const r = geo.P.R_DISC * v.scale;
+  const col = RENDER.DISC_COLOUR[owner];
+  g.save();
+  g.setLineDash([r * 0.5, r * 0.42]);
+  g.strokeStyle = col.rim; g.globalAlpha = alpha; g.lineWidth = Math.max(1, r * 0.13);
+  g.beginPath(); g.arc(s.x, s.y, r * 0.94, 0, TAU); g.stroke();
+  g.restore();
+};
+
+/* ==========================================================================
+   7d. THE AIM -- the trajectory preview
+   --------------------------------------------------------------------------
+   This is not an estimate and it is not a straight line with a bounce
+   guessed on the end. It is the ACTUAL shot, simulated to rest by the same
+   solver that will run when the finger lifts, and drawn. The markers sit on
+   real contact events with real impulses. If the preview says the disc will
+   clip the second peg and settle on the 15 line, that is what will happen,
+   because the same numbers produced both.
+   ========================================================================== */
+
+RENDER.preview = function(g, v, geo, pv, mode){
+  if (!pv || !pv.path || pv.path.length < 4) return;
+  const P = geo.P;
+  const pts = pv.path;
+
+  /* how much of the path to show */
+  let stop = pts.length / 2;
+  if (mode === 'short'){
+    /* up to and a little past the first contact with anything */
+    const first = pv.events.find(e => e.kind === 'disc' || e.kind === 'peg');
+    if (first){
+      /* find the sample nearest that event's position */
+      let best = stop, bd = Infinity;
+      for (let i = 0; i < pts.length / 2; i++){
+        const d = hypot(pts[i * 2] - first.x, pts[i * 2 + 1] - first.y);
+        if (d < bd){ bd = d; best = i; }
+      }
+      stop = Math.min(pts.length / 2, best + 3);
+    }
+  }
+
+  /* the line: bright core over a wide soft halo, additive */
+  const draw = ctx => {
+    let started = false;
+    for (let i = 0; i < stop; i++){
+      const s = RENDER.toScreen(v, pts[i * 2], pts[i * 2 + 1]);
+      if (!started){ ctx.moveTo(s.x, s.y); started = true; }
+      else ctx.lineTo(s.x, s.y);
+    }
+  };
+  g.lineCap = 'round'; g.lineJoin = 'round';
+  RENDER.glowStroke(g, draw, '#7cff4d', Math.max(1.2, P.R_DISC * v.scale * 0.20), 6, 0.8);
+
+  /* The corridor the disc's BODY will sweep. This is the one piece of the
+     preview that is not just decoration on the centre line: it is the disc
+     that has to fit between two pegs, not the line through its middle, and
+     seeing the whole width is how you know whether it will. Drawn as two
+     hairlines at the edges rather than a filled band, which says the same
+     thing without burying the board under a bar of light. */
+  g.save();
+  g.globalAlpha = 0.20; g.strokeStyle = '#7cff4d';
+  g.lineWidth = Math.max(1, v.scale * 0.0009);
+  g.setLineDash([v.scale * 0.012, v.scale * 0.010]);
+  for (const side of [-1, 1]){
+    g.beginPath();
+    let started = false;
+    for (let i = 0; i < stop; i++){
+      const x = pts[i * 2], y = pts[i * 2 + 1];
+      /* offset perpendicular to the local direction of travel */
+      const j = Math.min(stop - 1, i + 1), k = Math.max(0, i - 1);
+      let dx = pts[j * 2] - pts[k * 2], dy = pts[j * 2 + 1] - pts[k * 2 + 1];
+      const L = Math.sqrt(dx * dx + dy * dy) || 1;
+      const s2 = RENDER.toScreen(v, x - (dy / L) * P.R_DISC * side,
+                                    y + (dx / L) * P.R_DISC * side);
+      if (!started){ g.moveTo(s2.x, s2.y); started = true; } else g.lineTo(s2.x, s2.y);
+    }
+    g.stroke();
+  }
+  g.restore();
+
+  /* contact markers, sized by how hard the contact is */
+  for (const e of pv.events){
+    if (e.kind !== 'disc' && e.kind !== 'peg') continue;
+    const s = RENDER.toScreen(v, e.x, e.y);
+    const mag = clamp(e.impulse / (P.M_DISC * P.V_MAX_SHOT), 0, 1);
+    const rr = (P.R_DISC * v.scale) * (0.3 + 0.42 * mag);
+    RENDER.glowFill(g, (ctx, mul) => {
+      ctx.arc(s.x, s.y, rr * (1 + mul * 0.5), 0, TAU);
+    }, e.kind === 'peg' ? '#22e0ff' : '#ffb020', 2.0, 0.7);
+  }
+
+  /* where everything ends up */
+  if (mode === 'full'){
+    for (const d of pv.world.discs){
+      if (d.fate === 'hole'){
+        RENDER.ghost(g, v, 0, 0, d.owner, geo, 0.95);
+      } else if (d.live && !geo.deadAtRest(d.x, d.y)){
+        RENDER.ghost(g, v, d.x, d.y, d.owner, geo, d.shooter ? 0.9 : 0.55);
+      }
+    }
+  }
+};
+
+/* the flick vector and how much power is on it */
+RENDER.aimVector = function(g, v, geo, disc, aim, power){
+  const P = geo.P;
+  const o = RENDER.toScreen(v, disc.x, disc.y);
+  const t = RENDER.toScreen(v, aim.x, aim.y);
+  let dx = t.x - o.x, dy = t.y - o.y;
+  const L = hypot(dx, dy) || 1;
+  dx /= L; dy /= L;
+  const r = P.R_DISC * v.scale;
+
+  /* the shaft, from the disc's edge outwards, length showing power */
+  const len = r * 1.6 + (r * 5.5) * power;
+  const ax = o.x + dx * r * 1.15, ay = o.y + dy * r * 1.15;
+  const bx = o.x + dx * len,      by = o.y + dy * len;
+  const hot = power > 0.86;
+  const col = hot ? '#ff2b8f' : power > 0.55 ? '#ffb020' : '#7cff4d';
+
+  RENDER.glowStroke(g, ctx => { ctx.moveTo(ax, ay); ctx.lineTo(bx, by); },
+                    col, Math.max(2, r * 0.34), 6, 0.95);
+  /* the head */
+  const hl = r * 0.85, hw = r * 0.5;
+  RENDER.glowFill(g, (ctx, mul) => {
+    ctx.moveTo(bx + dx * hl, by + dy * hl);
+    ctx.lineTo(bx - dy * hw - dx * mul, by + dx * hw - dy * mul);
+    ctx.lineTo(bx + dy * hw - dx * mul, by - dx * hw - dy * mul);
+    ctx.closePath();
+  }, col, 1.6, 0.95);
+
+  /* the power arc around the disc: a dial you can read without looking away
+     from where you are aiming */
+  g.save();
+  g.lineCap = 'round';
+  g.strokeStyle = 'rgba(255,255,255,0.13)'; g.lineWidth = Math.max(2, r * 0.26);
+  g.beginPath(); g.arc(o.x, o.y, r * 1.75, -Math.PI * 1.25, Math.PI * 0.25); g.stroke();
+  g.restore();
+  RENDER.glowStroke(g, ctx => {
+    ctx.arc(o.x, o.y, r * 1.75, -Math.PI * 1.25, -Math.PI * 1.25 + Math.PI * 1.5 * power);
+  }, col, Math.max(2, r * 0.26), 4, 0.9);
+};
+
+/* the arc the shooter may place on, so a player never has to guess */
+RENDER.placementArc = function(g, v, geo, owner, live){
+  const pl = geo.placement(owner);
+  const P = geo.P;
+  const col = RENDER.DISC_COLOUR[owner].rim;
+  const steps = 40;
+  const draw = ctx => {
+    for (let i = 0; i <= steps; i++){
+      const a = pl.a0 + (pl.a1 - pl.a0) * (i / steps);
+      const s = RENDER.toScreen(v, pl.r * Math.cos(a), pl.r * Math.sin(a));
+      if (i === 0) ctx.moveTo(s.x, s.y); else ctx.lineTo(s.x, s.y);
+    }
+  };
+  if (live){
+    RENDER.glowStroke(g, draw, col, Math.max(1.5, P.R_DISC * v.scale * 0.22), 5, 0.75);
+  } else {
+    /* the opponent's line is drawn flat, not with the additive glow: four
+       'lighter' passes at low alpha still stack up to near-white, which
+       made the waiting player's arc the brightest thing on the board */
+    g.save();
+    g.strokeStyle = col; g.globalAlpha = 0.30;
+    g.lineWidth = Math.max(1, P.R_DISC * v.scale * 0.14);
+    g.beginPath(); draw(g); g.stroke();
+    g.restore();
+  }
+};
+
+/* ==========================================================================
+   7e. THE FRAME
+   ========================================================================== */
+
+RENDER.frame = function(g, v, geo, st){
+  g.setTransform(v.dpr, 0, 0, v.dpr, 0, 0);
+  g.clearRect(0, 0, v.w, v.h);
+  const board = RENDER.bakeBoard(v, geo);
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.drawImage(board, 0, 0);
+  g.setTransform(v.dpr, 0, 0, v.dpr, 0, 0);
+
+  /* the shooter's own line, lit; the opponent's, dim */
+  if (st.showArcs){
+    RENDER.placementArc(g, v, geo, 1 - st.shooter, false);
+    RENDER.placementArc(g, v, geo, st.shooter, true);
+  }
+
+  if (st.preview) RENDER.preview(g, v, geo, st.preview, st.previewMode);
+
+  /* discs, opponent's first so yours read on top when they overlap */
+  const ds = st.world.discs;
+  for (const d of ds) if (d.live && d.owner !== st.shooter) RENDER.disc(g, v, d, { geo });
+  for (const d of ds) if (d.live && d.owner === st.shooter) RENDER.disc(g, v, d, { geo });
+  if (st.pending) RENDER.disc(g, v, st.pending, { geo });
+
+  if (st.aim && st.pending){
+    RENDER.aimVector(g, v, geo, st.pending, st.aim, st.power);
+  }
+};
+/* ==========================================================================
+   8. THE OPPONENT
+   --------------------------------------------------------------------------
+   The AI plays the same game you do. It cannot nudge a disc, it does not
+   know where yours will stop, and it has no numbers you do not have: it
+   picks a placement, an aim and a power, and hands those three numbers to
+   the same solver your flick goes through.
+
+   HOW IT THINKS
+     1. Propose candidate shots. Mostly AIMED ones -- at each opponent disc,
+        at the 20, at a gap in the pegs, at its own discs for a combination
+        -- because sweeping angles blindly wastes almost every sample on
+        shots no player would consider. A coarse blind sweep is added on top
+        so bank shots off the pegs are still discovered.
+     2. Simulate each one to rest. This is the expensive part and it is why
+        candidates are proposed rather than enumerated.
+     3. Score the board that results, from its own side.
+     4. Pick, then MISS. Difficulty is not a worse choice of shot, it is a
+        worse execution of a good one: the chosen aim and power are
+        perturbed by Gaussian error before the shot is actually taken. That
+        is how human error is shaped, and it is why an easy opponent still
+        looks like it is trying to do something sensible and simply keeps
+        catching the peg.
+
+   WHY NOT LOOK AHEAD
+     A reply search would multiply the cost by the number of opponent
+     candidates and buy less than it looks: what actually matters after your
+     shot is not one specific reply but whether what you left is EXPOSED.
+     That is measured directly instead -- for each of its discs, is there a
+     clear straight line from anywhere on the opponent's shooting arc? A
+     disc tucked behind a peg scores as safe, a disc sitting in the open
+     scores as a liability. It costs a few ray tests instead of a few
+     hundred simulations, and it is the thing a strong player is actually
+     looking at.
+   ========================================================================== */
+
+const AI = {};
+CROK.AI = AI;
+
+/* aimSd/powSd are the HANDS: how far a shot strays from what was intended.
+   Everything else is the HEAD: how many shots are considered, how finely,
+   and -- the part that matters most -- whether the player thinks about
+   whether they can actually execute the shot they have picked.
+
+   robustN is that last one. A shot is re-scored by simulating it a few
+   times WITH the player's own shake applied, and taking the average. It is
+   the difference between "this line scores 20 if struck perfectly" and
+   "this line scores well even the way I hit it", which is what a good
+   player is really choosing between. Easy does not do it at all -- a
+   beginner picks a shot that looks right and finds out afterwards. */
+AI.LEVELS = {
+  /* Easy is calibrated against published human numbers rather than a
+     number somebody liked: it scores an open 20 about 30% of the time,
+     inside the 20-50% band reported for recreational players, and gets a
+     legal shot away about 6 times in 10. */
+  easy:   { aimSd: 0.032, powSd: 0.16,  placements: 3, powers: 4, sweep: 0,  targetJitter: 1,
+            refine: 0, pickTop: 5, robustK: 0, robustN: 0, label: 'Easy' },
+  medium: { aimSd: 0.016, powSd: 0.095, placements: 5, powers: 4, sweep: 24, targetJitter: 3,
+            refine: 1, pickTop: 2, robustK: 5, robustN: 4, label: 'Medium' },
+  hard:   { aimSd: 0.005, powSd: 0.032, placements: 7, powers: 5, sweep: 48, targetJitter: 5,
+            refine: 2, pickTop: 1, robustK: 6, robustN: 6, label: 'Hard' },
+};
+
+/* --- how exposed is a disc? -------------------------------------------- */
+/* Can the opponent see it in a straight line from anywhere they are allowed
+   to shoot from? Sample their placement arc and ray-test against the pegs
+   and every other disc. This is the peg-hiding game, measured. */
+AI.exposure = function(geo, world, target, byOwner){
+  const P = geo.P;
+  const pl = geo.placement(byOwner);
+  const N = 11;
+  let clear = 0;
+  for (let i = 0; i < N; i++){
+    const a = pl.a0 + (pl.a1 - pl.a0) * (i / (N - 1));
+    const sx = pl.r * Math.cos(a), sy = pl.r * Math.sin(a);
+    let dx = target.x - sx, dy = target.y - sy;
+    const L = hypot(dx, dy);
+    if (L < 1e-9) continue;
+    dx /= L; dy /= L;
+    let blocked = false;
+    /* a shooter of radius R passing an obstacle of radius Ro needs the
+       obstacle's centre further than R+Ro from the line */
+    for (const pg of geo.pegs){
+      const t = (pg.x - sx) * dx + (pg.y - sy) * dy;
+      if (t <= 0 || t >= L) continue;
+      const px = sx + dx * t - pg.x, py = sy + dy * t - pg.y;
+      if (hypot(px, py) < P.R_DISC + P.R_PEG){ blocked = true; break; }
+    }
+    if (!blocked){
+      for (const d of world.discs){
+        if (!d.live || d === target) continue;
+        const t = (d.x - sx) * dx + (d.y - sy) * dy;
+        if (t <= 0 || t >= L - P.R_DISC) continue;
+        const qx = sx + dx * t - d.x, qy = sy + dy * t - d.y;
+        if (hypot(qx, qy) < 2 * P.R_DISC){ blocked = true; break; }
+      }
+    }
+    if (!blocked) clear++;
+  }
+  return clear / N;
+};
+
+/* ==========================================================================
+   8a. WHAT A BOARD IS WORTH
+   --------------------------------------------------------------------------
+   From `me`'s point of view, in units of disc points so the weights stay
+   legible. The strategy in here is the strategy strong players describe:
+   a 20 is worth chasing because it is banked and can never be taken away;
+   a 15 behind a peg is the next best thing; a disc parked in the open is
+   points you are lending the opponent; and having ANY disc on the board is
+   worth something on its own, because it forces the opponent to hit one
+   instead of taking a free shot at the 20.
+   ========================================================================== */
+
+AI.W = {
+  twenty:     6,    /* on top of the 20 points -- it is safe forever       */
+  guarded:    3.0,  /* per own disc that the opponent cannot see           */
+  exposed:    2.2,  /* per own scoring disc sitting in the open            */
+  removeOpp:  4.0,  /* per opponent disc sent off the board                */
+  loseOwn:    3.0,  /* per own disc sent off the board                     */
+  onBoard:    2.5,  /* having something out there constrains their shot    */
+  foul:       220,  /* never worth it                                      */
+};
+
+AI.evaluate = function(geo, before, result, me, banked){
+  const W = AI.W;
+  const you = 1 - me;
+  const w = result.world;
+  let s = 0;
+
+  /* raw points, mine minus theirs */
+  let mine = 0, theirs = 0, myLive = 0, twenties = 0;
+  for (const d of w.discs){
+    if (d.fate === 'hole' && !d.voided20){
+      if (d.owner === me){ mine += 20; twenties++; } else theirs += 20;
+      continue;
+    }
+    if (!d.live) continue;
+    /* a disc at rest touching the shooting line is out of play -- score the
+       board the way RULES.endTurn will leave it, not the way it looks now */
+    if (geo.deadAtRest(d.x, d.y)) continue;
+    const z = geo.zoneOf(d.x, d.y);
+    if (d.owner === me){ mine += z; myLive++; } else theirs += z;
+  }
+  s += mine - theirs;
+  s += twenties * W.twenty;
+
+  /* how much did this shot change the disc count on each side? */
+  let oppBefore = 0, myBefore = 0;
+  for (const d of before.discs){
+    if (!d.live) continue;
+    if (d.owner === me) myBefore++; else oppBefore++;
+  }
+  let oppAfter = 0, myAfter = 0;
+  for (const d of w.discs){
+    if (!d.live || geo.deadAtRest(d.x, d.y)) continue;
+    if (d.owner === me) myAfter++; else oppAfter++;
+  }
+  s += Math.max(0, oppBefore - oppAfter) * W.removeOpp;
+  /* the shooter itself is a new disc, so count losses against what should
+     be there rather than against the raw before-count */
+  s -= Math.max(0, (myBefore + 1) - myAfter) * W.loseOwn;
+  if (myAfter > 0) s += W.onBoard;
+
+  /* safety of what I have left */
+  for (const d of w.discs){
+    if (!d.live || d.owner !== me || geo.deadAtRest(d.x, d.y)) continue;
+    const z = geo.zoneOf(d.x, d.y);
+    const ex = AI.exposure(geo, w, d, you);
+    s += (1 - ex) * W.guarded;
+    s -= ex * W.exposed * (z / 10);
+  }
+  return s;
+};
+
+/* ==========================================================================
+   8b. PROPOSING SHOTS
+   ========================================================================== */
+
+AI.candidates = function(geo, world, me, lvl, rng){
+  const P = geo.P;
+  const pl = geo.placement(me);
+  const out = [];
+
+  /* placements: spread across the legal arc */
+  const places = [];
+  for (let i = 0; i < lvl.placements; i++){
+    const f = lvl.placements === 1 ? 0.5 : i / (lvl.placements - 1);
+    const a = pl.a0 + (pl.a1 - pl.a0) * f;
+    places.push(geo.freePlacement(me, pl.r * Math.cos(a), pl.r * Math.sin(a), world.discs));
+  }
+
+  /* things worth aiming at */
+  const targets = [{ x: 0, y: 0, kind: 'twenty' }];
+  for (const d of world.discs){
+    if (!d.live) continue;
+    targets.push({ x: d.x, y: d.y, kind: d.owner === me ? 'own' : 'opp' });
+  }
+  /* a spot inside the 15 ring on each side of the quadrant, for a safe
+     guarded landing when there is nothing to hit */
+  const cq = geo.quadCentre(me);
+  for (const off of [-0.30, 0, 0.30]){
+    const a = cq + off + Math.PI;      /* the far side of the middle        */
+    targets.push({ x: P.R_15 * 0.55 * Math.cos(a), y: P.R_15 * 0.55 * Math.sin(a), kind: 'park' });
+  }
+
+  /* THE POWER GRID IS GEOMETRIC, NOT EVEN, and that is not a refinement --
+     an evenly spaced grid gets the game wrong.
+
+     Under Coulomb friction distance goes as the SQUARE of speed, so the
+     interesting shots are all crowded into the bottom of the speed range:
+     roughly 0.63 m/s just reaches the 15 line, 0.83-1.20 is the band that
+     sinks a 20, and everything above about 1.6 is simply "hard". An evenly
+     spaced grid spends most of its samples in that last, uninteresting
+     region -- and with four powers it steps straight over the 20 band,
+     which is exactly what made Medium unable to score an open 20 while
+     Easy, whose coarser grid happened to land on 0.85, could.
+
+     Spacing geometrically from just under the reach-the-15-line speed up
+     to full power puts the resolution where the touch is. The bottom of
+     the range is derived from the friction constant, so it follows if the
+     board speed is ever retuned. */
+  const vReach = Math.sqrt(2 * P.MU_SURFACE * P.G * (P.R_PLACE - P.R_15 - P.R_DISC));
+  const lo = Math.max(P.V_MIN_SHOT, vReach * 0.88);
+  const hi = P.V_MAX_SHOT;
+  const powers = [];
+  for (let i = 0; i < lvl.powers; i++){
+    const f = lvl.powers === 1 ? 1 : i / (lvl.powers - 1);
+    powers.push(lo * Math.pow(hi / lo, f));
+  }
+
+  for (const pp of places){
+    for (const tg of targets){
+      const base = Math.atan2(tg.y - pp.y, tg.x - pp.x);
+      /* jitter around the true line so cut shots and edge contacts, which
+         are most of real crokinole, are actually in the candidate set */
+      const jit = lvl.targetJitter;
+      for (let j = 0; j < jit; j++){
+        const off = jit === 1 ? 0 : ((j / (jit - 1)) - 0.5) * 0.075;
+        for (const v of powers){
+          out.push({ owner: me, x: pp.x, y: pp.y, angle: base + off, speed: v, w: 0, kind: tg.kind });
+        }
+      }
+    }
+    /* blind sweep, for banks off the pegs nobody aimed at */
+    for (let i = 0; i < lvl.sweep; i++){
+      const a = cq + Math.PI - 0.62 + (1.24 * i) / Math.max(1, lvl.sweep - 1);
+      out.push({ owner: me, x: pp.x, y: pp.y, angle: a,
+                 speed: powers[powers.length - 1], w: 0, kind: 'sweep' });
+    }
+  }
+  return out;
+};
+
+function toShot(c){
+  return { owner: c.owner, x: c.x, y: c.y,
+           vx: Math.cos(c.angle) * c.speed, vy: Math.sin(c.angle) * c.speed, w: c.w || 0 };
+}
+
+/* ==========================================================================
+   8c. CHOOSE
+   ========================================================================== */
+
+AI.think = function(geo, world, me, difficulty, rng, banked){
+  const lvl = AI.LEVELS[difficulty] || AI.LEVELS.medium;
+  let pool = AI.candidates(geo, world, me, lvl, rng);
+  let scored = [];
+
+  const score = (c) => {
+    const r = PHYS.runShot(world, toShot(c), { frames: false });
+    const j = RULES.judgeShot(geo, world, r, me);
+    let s = AI.evaluate(geo, world, r, me, banked);
+    if (!j.valid) s -= AI.W.foul;
+    return { c, s, valid: j.valid };
+  };
+
+  for (const c of pool) scored.push(score(c));
+  scored.sort((a, b) => b.s - a.s);
+
+  /* local refinement around the leaders: nudge aim and power and keep any
+     improvement. This is what lets Hard find the thin cut that clears two
+     discs, which no grid is fine enough to contain. */
+  for (let pass = 0; pass < lvl.refine; pass++){
+    const seeds = scored.slice(0, 4);
+    for (const seed of seeds){
+      const stepA = 0.02 / (pass + 1), stepV = 0.09 / (pass + 1);
+      for (const da of [-stepA, -stepA * 0.4, stepA * 0.4, stepA]){
+        for (const dv of [1 - stepV, 1, 1 + stepV]){
+          const c = { ...seed.c, angle: seed.c.angle + da,
+                      speed: clamp(seed.c.speed * dv, geo.P.V_MIN_SHOT, geo.P.V_MAX_SHOT) };
+          scored.push(score(c));
+        }
+      }
+    }
+    scored.sort((a, b) => b.s - a.s);
+    scored.length = Math.min(scored.length, 90);
+  }
+
+  if (!scored.length) return null;
+
+  /* --- would I actually make it? ---------------------------------------
+     The ranking so far assumes a perfect strike. Re-score the leaders by
+     playing each one several times through this player's own hands, and
+     keep the average. This is what stops the AI choosing a shot that
+     scores 20 struck perfectly and flies off the board struck the way it
+     really strikes -- exactly the failure that made Medium worse than Easy
+     in an earlier version: a full-power sweep tied with a gentle roll on a
+     noiseless simulation, and the tie was broken by luck. */
+  if (lvl.robustK && lvl.robustN){
+    const K = Math.min(lvl.robustK, scored.length);
+    for (let i = 0; i < K; i++){
+      const cand = scored[i];
+      let sum = 0;
+      for (let n = 0; n < lvl.robustN; n++){
+        const shaken = {
+          ...cand.c,
+          angle: cand.c.angle + rng.normal() * lvl.aimSd,
+          speed: clamp(cand.c.speed * (1 + rng.normal() * lvl.powSd),
+                       geo.P.V_MIN_SHOT, geo.P.V_MAX_SHOT),
+        };
+        sum += score(shaken).s;
+      }
+      /* the average outcome, not the best case */
+      cand.s = sum / lvl.robustN;
+    }
+    scored.length = K;
+    scored.sort((a, b) => b.s - a.s);
+  }
+
+  /* Easy and Medium do not always take the best line. Choosing among the
+     top few is what stops an easy opponent from looking like a strong one
+     with shaky hands. */
+  const top = scored.slice(0, Math.max(1, lvl.pickTop));
+  const chosen = top[rng.int(top.length)];
+
+  /* --- and now miss it, humanly ---------------------------------------- */
+  /* Aim error is Gaussian in angle. Power error is proportional to power,
+     because that is how a physical flick errs -- you are off by a
+     percentage of your effort, not by a fixed number of millimetres per
+     second. */
+  const aimErr = rng.normal() * lvl.aimSd;
+  const powErr = 1 + rng.normal() * lvl.powSd;
+  const executed = {
+    ...chosen.c,
+    angle: chosen.c.angle + aimErr,
+    speed: clamp(chosen.c.speed * powErr, geo.P.V_MIN_SHOT, geo.P.V_MAX_SHOT),
+  };
+  /* a hand that is off-line also tends to put a little spin on it */
+  executed.w = -(clamp(aimErr * 9, -1, 1) * geo.P.R_DISC * geo.P.M_DISC * executed.speed) / geo.P.I_DISC;
+
+  return {
+    shot: toShot(executed),
+    intended: toShot(chosen.c),
+    considered: scored.length,
+    best: chosen.s,
+    kind: chosen.c.kind,
+    level: lvl.label,
+  };
+};
+/* ==========================================================================
+   9. SOUND
+   --------------------------------------------------------------------------
+   Synthesised, not sampled -- the file stays self-contained and a click made
+   from the actual impulse of the actual collision carries information a
+   fixed sample cannot. Every impact the solver reports has a magnitude, so
+   a hard takeout cracks and a delicate kiss ticks, from the same code.
+
+   Wood is a short, bright, fast-decaying noise burst through a resonant
+   band; the pitch of the resonance rises a little with impact strength
+   because a harder hit excites higher modes. The peg's rubber sleeve gets a
+   lower, duller, shorter version. The 20 gets the one pitched sound in the
+   game, because dropping one should feel like an event.
+   ========================================================================== */
+
+const SFX = {};
+CROK.SFX = SFX;
+
+SFX.ctx = null;
+SFX.on = true;
+SFX.noise = null;
+
+SFX.init = function(){
+  if (SFX.ctx) return SFX.ctx;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return null;
+  SFX.ctx = new AC();
+  /* one second of deterministic noise, generated once and reused. Seeded,
+     so the same shot sounds identical twice -- the same reason the physics
+     is seeded. */
+  const n = SFX.ctx.sampleRate;
+  const buf = SFX.ctx.createBuffer(1, n, n);
+  const ch = buf.getChannelData(0);
+  const rng = Rng(0x51ced);
+  for (let i = 0; i < n; i++) ch[i] = rng.next() * 2 - 1;
+  SFX.noise = buf;
+  return SFX.ctx;
+};
+
+/* iOS will not start an AudioContext except inside a user gesture */
+SFX.resume = function(){
+  const c = SFX.init();
+  if (c && c.state === 'suspended') c.stop = c.resume();
+};
+
+function burst(t, opts){
+  const c = SFX.ctx;
+  if (!c || !SFX.on) return;
+  const src = c.createBufferSource();
+  src.buffer = SFX.noise;
+  src.loop = true;
+  const bp = c.createBiquadFilter();
+  bp.type = 'bandpass';
+  bp.frequency.value = opts.freq;
+  bp.Q.value = opts.q;
+  const g = c.createGain();
+  const hp = c.createBiquadFilter();
+  hp.type = 'highpass'; hp.frequency.value = 180;
+  g.gain.setValueAtTime(0, t);
+  g.gain.linearRampToValueAtTime(opts.gain, t + 0.0012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + opts.decay);
+  src.connect(bp); bp.connect(hp); hp.connect(g); g.connect(c.destination);
+  src.start(t); src.stop(t + opts.decay + 0.02);
+}
+
+function tone(t, opts){
+  const c = SFX.ctx;
+  if (!c || !SFX.on) return;
+  const o = c.createOscillator();
+  o.type = opts.type || 'triangle';
+  o.frequency.setValueAtTime(opts.f0, t);
+  if (opts.f1) o.frequency.exponentialRampToValueAtTime(opts.f1, t + opts.decay);
+  const g = c.createGain();
+  g.gain.setValueAtTime(0, t);
+  g.gain.linearRampToValueAtTime(opts.gain, t + 0.008);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + opts.decay);
+  o.connect(g); g.connect(c.destination);
+  o.start(t); o.stop(t + opts.decay + 0.02);
+}
+
+/* strength: 0..1, from the collision impulse */
+SFX.hitDisc = function(when, strength){
+  const s = clamp(strength, 0, 1);
+  burst(when, { freq: 1500 + 2600 * s, q: 3.2 + 5 * s,
+                gain: 0.055 + 0.34 * s, decay: 0.045 + 0.075 * s });
+  /* the body of the wood under the click */
+  burst(when, { freq: 420 + 260 * s, q: 5, gain: 0.03 + 0.13 * s, decay: 0.075 });
+};
+SFX.hitPeg = function(when, strength){
+  const s = clamp(strength, 0, 1);
+  burst(when, { freq: 620 + 700 * s, q: 2.0, gain: 0.05 + 0.2 * s, decay: 0.035 + 0.03 * s });
+};
+SFX.flick = function(when, power){
+  burst(when, { freq: 2400, q: 1.1, gain: 0.03 + 0.09 * power, decay: 0.035 });
+};
+SFX.twenty = function(when){
+  burst(when, { freq: 900, q: 2, gain: 0.16, decay: 0.05 });
+  tone(when + 0.02,  { f0: 784,  f1: 780,  gain: 0.10, decay: 0.28, type: 'triangle' });
+  tone(when + 0.075, { f0: 1175, f1: 1170, gain: 0.09, decay: 0.34, type: 'triangle' });
+  tone(when + 0.13,  { f0: 1568, f1: 1560, gain: 0.075, decay: 0.5,  type: 'triangle' });
+};
+SFX.ditch = function(when){
+  burst(when, { freq: 300, q: 1.4, gain: 0.13, decay: 0.16 });
+  tone(when + 0.03, { f0: 150, f1: 70, gain: 0.05, decay: 0.2, type: 'sine' });
+};
+SFX.foul = function(when){
+  tone(when,        { f0: 320, f1: 190, gain: 0.09, decay: 0.2, type: 'sawtooth' });
+  tone(when + 0.12, { f0: 240, f1: 120, gain: 0.08, decay: 0.28, type: 'sawtooth' });
+};
+SFX.ui = function(hot){
+  const c = SFX.init(); if (!c) return;
+  tone(c.currentTime, { f0: hot ? 660 : 440, f1: hot ? 880 : 520,
+                        gain: 0.045, decay: 0.09, type: 'square' });
+};
+SFX.roundEnd = function(win){
+  const c = SFX.init(); if (!c) return;
+  const t = c.currentTime;
+  const notes = win ? [523, 659, 784, 1047] : [523, 466, 415];
+  notes.forEach((f, i) => tone(t + i * 0.11,
+    { f0: f, f1: f * 0.995, gain: 0.075, decay: 0.4, type: 'triangle' }));
+};
+/* ==========================================================================
+   10. THE GAME
+   --------------------------------------------------------------------------
+   The state machine, and the place where the one-simulation rule earns its
+   keep. When a shot is released:
+
+     1. the solver runs the whole shot to rest, right now, in one call
+     2. the rules judge the finished result
+     3. the animation plays back the frames the solver already produced
+     4. when the playback reaches the end, the settled world is adopted and
+        the after-the-shot rules (bank the 20s, ditch what is out) apply
+
+   Physics never runs on the render clock. A dropped frame, a slow device or
+   a 120 Hz iPad changes how smoothly you watch the shot and cannot change
+   where the discs end up. That is also why the preview cannot lie: it is
+   step 1 with the drawing turned on.
+
+   STATES
+     aim        waiting for a flick (or for the AI to decide)
+     playing    animating a shot that has already been decided
+     settle     a short beat after the motion for the callouts to land
+     roundOver  the round modal is up
+     matchOver  the match modal is up
+     paused
+   ========================================================================== */
+
+const GAME = {};
+CROK.GAME = GAME;
+
+GAME.create = function(host){
+  const g = {
+    host,
+    geo: null,
+    world: null,
+    match: null,
+    state: 'idle',
+    shooter: 0,
+    left: [0, 0],            /* discs still to shoot this round            */
+    banked: [0, 0],          /* points from sunk 20s (safe for the round)  */
+    twenties: [0, 0],        /* count of 20s, tracked as a scorecard does  */
+    rng: null,
+    /* the shot in flight */
+    play: null,              /* {frames, events, t, dur, verdict, result}  */
+    pending: null,           /* the disc placed but not yet flicked        */
+    aim: null, power: 0, preview: null,
+    lastVerdict: null,
+    aiThinking: false,
+    settleT: 0,
+  };
+
+  /* ---------------------------------------------------------------- setup */
+  g.startMatch = function(cfg){
+    g.geo = GEO.build(SPEC);
+    g.match = RULES.newMatch(cfg);
+    g.rng = Rng(cfg.seed || 20260903);
+    g.match.firstShooter = 0;
+    g.startRound();
+  };
+
+  g.startRound = function(){
+    g.world = PHYS.newWorld(g.geo);
+    g.left = [SPEC.DISCS_EACH, SPEC.DISCS_EACH];
+    g.banked = [0, 0];
+    g.twenties = [0, 0];
+    g.shooter = g.match.firstShooter;
+    g.lastVerdict = null;
+    g.beginTurn();
+  };
+
+  /* ----------------------------------------------------------- the turn */
+  g.beginTurn = function(){
+    if (g.left[0] === 0 && g.left[1] === 0){ g.endRound(); return; }
+    /* If one player is out of discs the other shoots out their remaining
+       ones. With 8 each and strict alternation that only happens after a
+       foul takes a disc, but it has to be handled or a round can hang. */
+    if (g.left[g.shooter] === 0) g.shooter = 1 - g.shooter;
+
+    g.state = 'aim';
+    g.pending = null; g.aim = null; g.power = 0; g.preview = null;
+    g.host.onTurn(g);
+
+    if (g.isAI(g.shooter)){
+      g.aiThinking = true;
+      /* let the HUD paint "thinking" before the search blocks the thread */
+      g.host.defer(() => g.aiMove(), 380);
+    }
+  };
+
+  g.isAI = function(who){ return g.match.cfg.mode === 'ai' && who === 1; };
+
+  g.aiMove = function(){
+    if (g.state !== 'aim' || !g.aiThinking) return;
+    g.aiThinking = false;
+    const think = AI.think(g.geo, g.world, g.shooter, g.match.cfg.difficulty,
+                           g.rng, g.banked);
+    if (!think){ g.takeShot({ owner: g.shooter, x: g.geo.placement(g.shooter).r,
+                              y: 0, vx: 0, vy: 0, w: 0 }); return; }
+    g.host.onAIChose(think);
+    g.takeShot(think.shot);
+  };
+
+  /* --------------------------------------------------- placement and aim */
+  g.place = function(bx, by){
+    if (g.state !== 'aim' || g.isAI(g.shooter)) return null;
+    const p = g.geo.freePlacement(g.shooter, bx, by, g.world.discs);
+    g.pending = { id: -1, owner: g.shooter, x: p.x, y: p.y, a: 0, w: 0, live: true };
+    g.aim = null; g.power = 0; g.preview = null;
+    return g.pending;
+  };
+
+  /* Build the shot the current gesture describes, and simulate it so the
+     preview line is the real thing. Called at most once per frame. */
+  g.updateAim = function(bx, by, releaseSpeed, lateralFrac){
+    if (g.state !== 'aim' || !g.pending) return;
+    const mode = g.host.setting('input');
+    const shot = INPUT.buildShot(SPEC, {
+      owner: g.shooter, x: g.pending.x, y: g.pending.y,
+      aimX: bx, aimY: by, mode,
+      releaseSpeed: releaseSpeed || 0, lateralFrac: lateralFrac || 0,
+    });
+    g.aim = { x: bx, y: by };
+    if (!shot){ g.power = 0; g.preview = null; return; }
+    g.power = clamp(shot.speed / SPEC.V_MAX_SHOT, 0, 1);
+    g.shotDraft = shot;
+    if (g.host.setting('preview') === 'off' || shot.speed <= 0){ g.preview = null; return; }
+    g.preview = PHYS.runShot(g.world, shot, { frames: false });
+  };
+
+  g.cancelAim = function(){
+    if (g.state !== 'aim') return;
+    g.aim = null; g.power = 0; g.preview = null;
+  };
+
+  /* ------------------------------------------------------------ the shot */
+  g.takeShot = function(shot){
+    if (g.state !== 'aim') return;
+    /* the one call: the whole shot, decided now */
+    const result = PHYS.runShot(g.world, shot, { frames: true });
+    const verdict = RULES.judgeShot(g.geo, g.world, result, shot.owner);
+
+    g.left[shot.owner]--;
+    g.state = 'playing';
+    g.pending = null; g.aim = null; g.preview = null;
+    g.play = { result, verdict, t: 0,
+               dur: (result.frames.length - 1) / SPEC.SAMPLE_HZ,
+               fired: 0, shot };
+    g.host.onShotFired(g, shot, result, verdict);
+  };
+
+  /* ---------------------------------------------- animation and its end */
+  g.advance = function(dt){
+    if (g.state === 'playing'){
+      const p = g.play;
+      p.t += dt;
+      /* fire the sounds for contacts the playback has just passed */
+      while (p.fired < p.result.events.length && p.result.events[p.fired].t <= p.t){
+        g.host.onEvent(p.result.events[p.fired], p.t);
+        p.fired++;
+      }
+      if (p.t >= p.dur){ g.finishShot(); }
+    } else if (g.state === 'settle'){
+      g.settleT -= dt;
+      if (g.settleT <= 0){
+        if (g.left[0] === 0 && g.left[1] === 0) g.endRound();
+        else { g.shooter = 1 - g.shooter; g.beginTurn(); }
+      }
+    }
+  };
+
+  g.finishShot = function(){
+    const p = g.play;
+    /* adopt the settled board the solver produced */
+    g.world = p.result.world;
+    for (const d of g.world.discs) d.shooter = false;
+
+    let removed = [];
+    if (!p.verdict.valid) removed = RULES.applyFoul(p.result);
+    const swept = RULES.endTurn(g.geo, g.world, g.banked, g.twenties);
+
+    g.lastVerdict = p.verdict;
+    g.host.onShotSettled(g, p.verdict, swept, removed);
+    g.state = 'settle';
+    g.settleT = p.verdict.valid ? 0.42 : 1.0;
+    g.play = null;
+  };
+
+  /* ------------------------------------------------------- end of round */
+  g.endRound = function(){
+    const t = RULES.tally(g.geo, g.world, g.banked);
+    const res = RULES.finishRound(g.match, t.pts, g.twenties);
+    g.state = g.match.over ? 'matchOver' : 'roundOver';
+    g.host.onRoundOver(g, t, res);
+  };
+
+  g.nextRound = function(){
+    if (g.match.over) return;
+    g.startRound();
+  };
+
+  /* ---------------------------------------------------- what to draw now */
+  /* During playback the discs are read out of the solver's frames, with
+     linear interpolation between samples so a 120 Hz board looks smooth on
+     any refresh rate. */
+  g.viewState = function(){
+    const st = {
+      world: g.world, shooter: g.shooter, pending: g.pending,
+      aim: g.aim, power: g.power, preview: g.preview,
+      previewMode: g.host.setting('preview'),
+      showArcs: g.state === 'aim',
+      geo: g.geo,
+    };
+    if (g.state === 'playing' && g.play){
+      const p = g.play, fr = p.result.frames;
+      const f = clamp(p.t * SPEC.SAMPLE_HZ, 0, fr.length - 1);
+      const i0 = Math.floor(f), i1 = Math.min(fr.length - 1, i0 + 1);
+      const u = f - i0;
+      const A = fr[i0], B = fr[i1];
+      const ds = p.result.world.discs;
+      const shown = [];
+      for (let i = 0; i < ds.length; i++){
+        const flagA = A[i * 4 + 3];
+        if (flagA !== 1) continue;             /* already gone by this frame */
+        shown.push({
+          id: ds[i].id, owner: ds[i].owner, live: true,
+          x: lerp(A[i * 4],     B[i * 4],     u),
+          y: lerp(A[i * 4 + 1], B[i * 4 + 1], u),
+          a: A[i * 4 + 2] + angDiff(A[i * 4 + 2], B[i * 4 + 2]) * u,
+        });
+      }
+      st.world = { geo: g.geo, discs: shown };
+      st.showArcs = false;
+    }
+    return st;
+  };
+
+  return g;
+};
+/* ==========================================================================
+   11. THE APP -- screens, HUD, the loop
+   ========================================================================== */
+
+const APP = {};
+CROK.APP = APP;
+
+const el = id => document.getElementById(id);
+
+APP.settings = { input: 'velocity', preview: 'full', rotate: 'on',
+                 sound: 'on', labels: 'on' };
+APP.setup = { mode: 'ai', bestOf: 3, difficulty: 'medium' };
+
+APP.state = { screen: 'menu', game: null, view: null, ctx: null, canvas: null,
+              raf: 0, last: 0, needAim: false, aimArgs: null,
+              phase: 'idle', latched: false, toastT: 0,
+              /* PEAK-HOLD. In velocity mode the power of a flick is how fast
+                 you were moving -- but a player lining up a shot stops
+                 moving to aim, and reading the instantaneous speed at that
+                 moment gives zero, so the trajectory line vanishes exactly
+                 when it is most wanted, and a careful shot cannot be taken
+                 at all. So power is the PEAK speed over a short trailing
+                 window rather than the speed at one instant. It holds while
+                 you settle on a line, and it is the same number the shot is
+                 fired with, so the preview still cannot lie. */
+              peakSpeed: 0, peakAt: -1 };
+APP.PEAK_HOLD = 0.40;      /* seconds a peak survives without being beaten */
+
+/* ---------------------------------------------------------------- screens */
+APP.show = function(name){
+  for (const s of ['menu', 'setup', 'settings', 'credits', 'game']){
+    const n = el('screen-' + s);
+    if (n) n.classList.toggle('on', s === name);
+  }
+  APP.state.screen = name;
+  if (name === 'game') APP.resize();
+};
+
+APP.modal = function(html){
+  const m = el('modal');
+  if (!html){ m.classList.remove('on'); el('modal-card').innerHTML = ''; return; }
+  el('modal-card').innerHTML = html;
+  m.classList.add('on');
+};
+
+APP.toast = function(big, small, cls){
+  const t = el('toast');
+  el('toast-big').textContent = big || '';
+  el('toast-big').className = 'big' + (cls ? ' ' + cls : '');
+  el('toast-small').textContent = small || '';
+  t.classList.toggle('on', !!big);
+  APP.state.toastT = big ? 1.5 : 0;
+};
+
+/* --------------------------------------------------------- segmented rows */
+function seg(id, key, store, after){
+  const box = el(id);
+  if (!box) return;
+  box.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    let v = b.dataset.v;
+    if (/^\d+$/.test(v)) v = parseInt(v, 10);
+    store[key] = v;
+    for (const btn of box.querySelectorAll('button')){
+      btn.setAttribute('aria-pressed', String(btn === b));
+    }
+    SFX.ui(false);
+    if (after) after(v);
+  });
+  for (const btn of box.querySelectorAll('button')){
+    let v = btn.dataset.v;
+    if (/^\d+$/.test(v)) v = parseInt(v, 10);
+    btn.setAttribute('aria-pressed', String(v === store[key]));
+  }
+}
+
+/* ------------------------------------------------------------ the canvas */
+APP.resize = function(){
+  const s = APP.state;
+  if (!s.canvas) return;
+  const rect = s.canvas.getBoundingClientRect();
+  const w = Math.max(1, rect.width), h = Math.max(1, rect.height);
+  /* Cap the backing store. A 12.9" iPad at devicePixelRatio 2 is already
+     4.4 megapixels; going higher costs fill rate for nothing a retina eye
+     can see, and the board layer has to be re-baked every time it changes. */
+  const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+  s.canvas.width = Math.round(w * dpr);
+  s.canvas.height = Math.round(h * dpr);
+  if (!s.view) s.view = RENDER.newView();
+  const g = s.game;
+  const rot = APP.boardRotation();
+  RENDER.layout(s.view, g ? g.geo : GEO.build(SPEC), w, h, dpr, rot);
+  s.view.board = null;             /* force a re-bake at the new size      */
+};
+
+/* Turn the board so the player about to shoot is looking up their own
+   quadrant from the bottom of the screen. On one shared iPad this is the
+   difference between aiming and doing geometry in your head. */
+APP.boardRotation = function(){
+  const g = APP.state.game;
+  if (!g || APP.settings.rotate !== 'on') return 0;
+  /* player 0's quadrant already faces the bottom, so only player 2 turns */
+  return g.shooter === 0 ? 0 : Math.PI;
+};
+
+/* ----------------------------------------------------------------- the HUD */
+APP.hud = function(){
+  const g = APP.state.game;
+  if (!g) return;
+  const t = RULES.tally(g.geo, g.world, g.banked);
+  const names = ['Player 1', g.match.cfg.mode === 'ai' ? 'Computer' : 'Player 2'];
+  el('p1-name').textContent = names[0];
+  el('p2-name').textContent = names[1];
+  el('p1-pts').textContent = t.pts[0];
+  el('p2-pts').textContent = t.pts[1];
+  const sub = i => {
+    const b = g.twenties[i];
+    return b ? `${b} × 20 banked` : 'on the board';
+  };
+  el('p1-sub').textContent = sub(0);
+  el('p2-sub').textContent = sub(1);
+  el('pane-p1').classList.toggle('active', g.shooter === 0);
+  el('pane-p2').classList.toggle('active', g.shooter === 1);
+
+  const total = g.match.cfg.bestOf;
+  el('round-label').textContent = g.match.sudden
+    ? 'Sudden-death round'
+    : `Round ${Math.min(g.match.round + 1, total)} / ${total}`;
+  el('match-label').textContent =
+    `Best of ${total} — ${g.match.points[0]} : ${g.match.points[1]}`;
+
+  /* discs still to come */
+  for (const i of [0, 1]){
+    const track = el('track-p' + (i + 1));
+    let html = '';
+    for (let k = 0; k < SPEC.DISCS_EACH; k++){
+      html += `<div class="disc-pip${k < g.left[i] ? ' left' : ''}"></div>`;
+    }
+    track.innerHTML = html;
+  }
+};
+
+APP.prompt = function(main, sub){
+  el('prompt-main').textContent = main;
+  el('prompt-sub').textContent = sub || '';
+};
+
+/* --------------------------------------------------------- the host object */
+/* This is everything the game and the input layer are allowed to know about
+   the browser. Keeping it in one object is what lets the harness drive a
+   whole match with no browser at all. */
+APP.host = {
+  now(){ return (typeof performance !== 'undefined' ? performance.now() : Date.now()) / 1000; },
+  defer(fn, ms){ setTimeout(fn, ms); },
+  setting(k){ return APP.settings[k]; },
+
+  onTurn(g){
+    APP.hud();
+    const who = g.match.cfg.mode === 'ai' && g.shooter === 1 ? 'Computer' : `Player ${g.shooter + 1}`;
+    const oppOut = RULES.hasLiveDisc(g.world, 1 - g.shooter);
+    APP.prompt(`${who} to shoot`,
+      g.isAI(g.shooter) ? 'thinking…'
+        : oppOut ? 'You must hit an opponent disc'
+                 : 'Open board — your shot must reach the 15 line');
+    APP.resize();
+  },
+
+  onAIChose(think){
+    APP.prompt('Computer to shoot', `${think.level} — ${think.considered} shots considered`);
+  },
+
+  onShotFired(g, shot, result, verdict){
+    SFX.resume();
+    SFX.flick(SFX.ctx ? SFX.ctx.currentTime : 0, clamp(hypot(shot.vx, shot.vy) / SPEC.V_MAX_SHOT, 0, 1));
+    APP.prompt('Watching the shot', 'Waiting for movement to settle…');
+    APP.toast('');
+  },
+
+  onEvent(ev, t){
+    if (!SFX.ctx || APP.settings.sound !== 'on') return;
+    const when = SFX.ctx.currentTime;
+    const strength = clamp(ev.impulse / (SPEC.M_DISC * SPEC.V_MAX_SHOT * 1.4), 0, 1);
+    if (ev.kind === 'disc') SFX.hitDisc(when, strength);
+    else if (ev.kind === 'peg') SFX.hitPeg(when, strength);
+    else if (ev.kind === 'hole') SFX.twenty(when);
+    else if (ev.kind === 'ditch') SFX.ditch(when);
+  },
+
+  onShotSettled(g, verdict, swept, removed){
+    APP.hud();
+    if (!verdict.valid){
+      SFX.foul(SFX.ctx ? SFX.ctx.currentTime : 0);
+      APP.toast('FOUL', verdict.text.replace(/^Foul — /, ''), 'foul');
+    } else if (swept.sunk.length){
+      APP.toast('20', swept.sunk.length > 1 ? `${swept.sunk.length} sunk` : 'in the hole', 'twenty');
+    } else if (swept.ditched.length){
+      APP.toast('', '');
+    }
+  },
+
+  onRoundOver(g, t, res){
+    SFX.roundEnd(res.winner === 0 || g.match.cfg.mode !== 'ai');
+    APP.toast('');
+    APP.hud();
+    APP.roundModal(g, t, res);
+  },
+
+  /* ---- input ---- */
+  pointerDown(px, py, kind){
+    const s = APP.state, g = s.game;
+    if (!g || g.state !== 'aim' || g.isAI(g.shooter)) return false;
+    SFX.resume();
+    const b = RENDER.toBoard(s.view, px, py);
+    /* the touch has to start somewhere near your own line, or a stray tap
+       on the far side would silently move your disc */
+    const pl = g.geo.placement(g.shooter);
+    if (Math.abs(angDiff(pl.c, Math.atan2(b.y, b.x))) > pl.halfSpan + 0.44) return false;
+    g.place(b.x, b.y);
+    s.phase = 'placing'; s.latched = false;
+    s.peakSpeed = 0; s.peakAt = -1;
+    APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Slide along your line, then drag in to aim');
+    return true;
+  },
+
+  pointerMove(px, py, samples, dx, dy){
+    const s = APP.state, g = s.game;
+    if (!g || g.state !== 'aim' || !g.pending) return;
+    const b = RENDER.toBoard(s.view, px, py);
+    const r = hypot(b.x, b.y);
+
+    /* PLACING while the finger is still out in the 5-point band near your
+       own line; AIMING from the moment it comes inside the 10 circle, or
+       moves a long way sideways. Latched, so it never flips back mid-drag. */
+    if (!s.latched){
+      const travelled = hypot(px - dx, py - dy) / s.view.scale;
+      if (r < SPEC.R_10 || travelled > SPEC.R_OUT * 0.42){ s.latched = true; s.phase = 'aiming'; }
+    }
+    if (!s.latched){ g.place(b.x, b.y); return; }
+
+    s.aimArgs = { b, samples, px, py };
+    s.needAim = true;         /* recomputed once per frame, not per event  */
+  },
+
+  pointerUp(px, py, vel, dx, dy){
+    const s = APP.state, g = s.game;
+    if (!g || g.state !== 'aim' || !g.pending) return;
+    if (!s.latched){ APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Drag in towards the board to aim'); return; }
+    const b = RENDER.toBoard(s.view, px, py);
+    const m = APP.aimNumbers(g, b, vel);
+    if (!m || m.speed <= 0){
+      APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too soft — flick it');
+      return;
+    }
+    s.needAim = false; s.phase = 'idle'; s.latched = false;
+    s.peakSpeed = 0; s.peakAt = -1;
+    g.takeShot(m.shot);
+  },
+
+  pointerCancel(){
+    const s = APP.state, g = s.game;
+    s.needAim = false; s.phase = 'idle'; s.latched = false;
+    s.peakSpeed = 0; s.peakAt = -1;
+    if (g) g.cancelAim();
+  },
+};
+
+/* Fold a fresh speed sample into the peak-hold and return what the shot
+   should be fired at. One place, so the preview and the release cannot
+   disagree about how hard you flicked. */
+APP.power = function(vmag, now){
+  const s = APP.state;
+  if (vmag >= s.peakSpeed || now - s.peakAt > APP.PEAK_HOLD){
+    s.peakSpeed = vmag; s.peakAt = now;
+  }
+  return s.peakSpeed;
+};
+
+/* Turn a finger into the five numbers a shot is made of. Screen velocity is
+   converted into BOARD metres per second first, so the same flick means the
+   same thing on a phone, an iPad and a desktop -- power must not depend on
+   how many pixels the board happens to be drawn at. */
+APP.aimNumbers = function(g, b, vel){
+  const s = APP.state;
+  if (!g.pending) return null;
+  /* undo the view rotation on the velocity, then the scale */
+  const c = Math.cos(-s.view.rot), sn = Math.sin(-s.view.rot);
+  const vbx = (vel.vx * c - vel.vy * sn) / s.view.scale;
+  const vby = (vel.vx * sn + vel.vy * c) / s.view.scale;
+  const vmag = hypot(vbx, vby);
+
+  /* aim is where you are pointing; the sideways part of the release becomes
+     spin, exactly as an off-centre fingernail would */
+  let ax = b.x - g.pending.x, ay = b.y - g.pending.y;
+  const aL = hypot(ax, ay) || 1;
+  ax /= aL; ay /= aL;
+  const lateral = vmag > 1e-6 ? (vbx * -ay + vby * ax) / vmag : 0;
+
+  const shot = INPUT.buildShot(SPEC, {
+    owner: g.shooter, x: g.pending.x, y: g.pending.y,
+    aimX: b.x, aimY: b.y, mode: APP.settings.input,
+    releaseSpeed: APP.power(vmag, APP.host.now()), lateralFrac: lateral,
+  });
+  return shot ? { shot, speed: shot.speed, lateral } : null;
+};
+
+/* ------------------------------------------------------------- the modals */
+APP.roundModal = function(g, t, res){
+  const m = g.match;
+  const names = ['Player 1', m.cfg.mode === 'ai' ? 'Computer' : 'Player 2'];
+  const rows = m.history.map((h, i) => `
+    <tr><td>Round ${i + 1}</td>
+        <td class="v" style="color:var(--p1)">${h.pts[0]}</td>
+        <td class="v" style="color:var(--p2)">${h.pts[1]}</td>
+        <td>${h.matchPts[0]} : ${h.matchPts[1]}</td></tr>`).join('');
+
+  if (m.over){
+    const w = m.winner;
+    APP.modal(`
+      <h2 class="win">${names[w]} wins</h2>
+      <p class="lede">Best of ${m.cfg.bestOf} — ${m.points[0]} : ${m.points[1]}</p>
+      <table class="tally">
+        <tr><th>&nbsp;</th><th>${names[0]}</th><th>${names[1]}</th><th>Match</th></tr>
+        ${rows}
+        <tr class="total"><td>Discs</td><td>${m.tally[0]}</td><td>${m.tally[1]}</td><td></td></tr>
+        <tr class="total"><td>20s</td><td>${m.twenties[0]}</td><td>${m.twenties[1]}</td><td></td></tr>
+      </table>
+      <button class="btn hot" id="md-again">Play again</button>
+      <button class="btn ghost" id="md-menu">Main menu</button>`);
+    el('md-again').onclick = () => { SFX.ui(true); APP.modal(null); APP.startGame(); };
+    el('md-menu').onclick  = () => { SFX.ui(false); APP.modal(null); APP.show('menu'); };
+    return;
+  }
+
+  const head = res.winner < 0 ? 'Round tied'
+             : `${names[res.winner]} takes the round`;
+  APP.modal(`
+    <h2>${head}</h2>
+    <p class="lede">${t.pts[0]} — ${t.pts[1]} on the board${m.sudden ? ' · sudden death next' : ''}</p>
+    <table class="tally">
+      <tr><th>&nbsp;</th><th>${names[0]}</th><th>${names[1]}</th><th>Match</th></tr>
+      ${rows}
+    </table>
+    <button class="btn hot" id="md-next">${m.sudden ? 'Sudden-death round' : 'Next round'}</button>`);
+  el('md-next').onclick = () => {
+    SFX.ui(true); APP.modal(null); g.nextRound(); APP.hud();
+  };
+};
+
+APP.pauseModal = function(){
+  const g = APP.state.game;
+  APP.modal(`
+    <h2>Paused</h2>
+    <p class="lede">${g ? `Round ${g.match.round + 1} of ${g.match.cfg.bestOf}` : ''}</p>
+    <button class="btn hot" id="pm-resume">Resume</button>
+    <button class="btn" id="pm-restart">Restart match</button>
+    <button class="btn ghost" id="pm-menu">Main menu</button>`);
+  el('pm-resume').onclick  = () => { SFX.ui(true); APP.modal(null); };
+  el('pm-restart').onclick = () => { SFX.ui(false); APP.modal(null); APP.startGame(); };
+  el('pm-menu').onclick    = () => { SFX.ui(false); APP.modal(null); APP.show('menu'); };
+};
+
+/* --------------------------------------------------------------- the loop */
+APP.loop = function(ts){
+  const s = APP.state;
+  APP.state.raf = requestAnimationFrame(APP.loop);
+  const now = ts / 1000;
+  let dt = s.last ? now - s.last : 0;
+  s.last = now;
+  /* a backgrounded tab hands back an enormous dt; clamp it or a shot would
+     jump to its end */
+  if (dt > 0.1) dt = 0.1;
+
+  if (s.screen !== 'game' || !s.game) return;
+  const g = s.game;
+
+  if (!el('modal').classList.contains('on')) g.advance(dt);
+
+  /* the preview is recomputed at most once a frame, however many pointer
+     events arrived -- it is a full physics simulation, not a line */
+  if (s.needAim && s.aimArgs){
+    s.needAim = false;
+    const a = s.aimArgs;
+    const c = Math.cos(-s.view.rot), sn = Math.sin(-s.view.rot);
+    const v = INPUT.fitVelocity(a.samples, APP.host.now(), INPUT.VEL_WINDOW);
+    const vbx = (v.vx * c - v.vy * sn) / s.view.scale;
+    const vby = (v.vx * sn + v.vy * c) / s.view.scale;
+    let ax = a.b.x - g.pending.x, ay = a.b.y - g.pending.y;
+    const aL = hypot(ax, ay) || 1; ax /= aL; ay /= aL;
+    const vmag = hypot(vbx, vby);
+    const lateral = vmag > 1e-6 ? (vbx * -ay + vby * ax) / vmag : 0;
+    g.updateAim(a.b.x, a.b.y, APP.power(vmag, APP.host.now()), lateral);
+  }
+
+  if (s.toastT > 0){
+    s.toastT -= dt;
+    if (s.toastT <= 0) APP.toast('');
+  }
+
+  RENDER.frame(s.ctx, s.view, g.geo, g.viewState());
+};
+
+/* ---------------------------------------------------------------- startup */
+APP.startGame = function(){
+  const s = APP.state;
+  s.game = GAME.create(APP.host);
+  s.game.startMatch({
+    mode: APP.setup.mode, bestOf: APP.setup.bestOf,
+    difficulty: APP.setup.difficulty,
+    /* a fixed seed makes any match reproducible; the harness relies on it
+       and so does anyone reporting a bug */
+    seed: 20260903,
+  });
+  APP.show('game');
+  APP.resize();
+  APP.hud();
+};
+
+APP.setupHint = function(){
+  const h = el('su-hint');
+  const d = APP.setup.difficulty;
+  const need = Math.floor(APP.setup.bestOf / 2) + 1;
+  const modeTxt = APP.setup.mode === 'ai'
+    ? { easy:   'Easy aims sensibly and misses a lot — about two degrees of error and a fifth of its power.',
+        medium: 'Medium searches harder and misses less. It will take your discs off the board when it can.',
+        hard:   'Hard refines its aim, banks off the pegs, and hits what it means to. It is not kind.' }[d]
+    : 'Two players on one iPad. The board turns to face whoever is shooting.';
+  h.textContent = `${modeTxt} ${APP.setup.bestOf === 1 ? 'One round decides it.'
+      : `First to ${need} round${need > 1 ? 's' : ''} wins; a tied round scores one point each.`}`;
+  el('row-difficulty').style.opacity = APP.setup.mode === 'ai' ? '1' : '0.35';
+  el('row-difficulty').style.pointerEvents = APP.setup.mode === 'ai' ? 'auto' : 'none';
+};
+
+APP.modeButtons = function(){
+  el('su-mode-local').setAttribute('aria-pressed', String(APP.setup.mode === 'local'));
+  el('su-mode-ai').setAttribute('aria-pressed', String(APP.setup.mode === 'ai'));
+  el('su-mode-local').classList.toggle('hot', APP.setup.mode === 'local');
+  el('su-mode-ai').classList.toggle('hot', APP.setup.mode === 'ai');
+};
+
+APP.init = function(){
+  const s = APP.state;
+  s.canvas = el('board-canvas');
+  s.ctx = s.canvas.getContext('2d');
+  s.view = RENDER.newView();
+
+  /* menu */
+  el('mm-practice').onclick = () => { SFX.ui(true); APP.show('setup'); APP.setupHint(); APP.modeButtons(); };
+  el('mm-settings').onclick = () => { SFX.ui(false); APP.show('settings'); };
+  el('mm-credits').onclick  = () => { SFX.ui(false); APP.show('credits'); };
+
+  /* setup */
+  el('su-mode-local').onclick = () => { SFX.ui(false); APP.setup.mode = 'local'; APP.modeButtons(); APP.setupHint(); };
+  el('su-mode-ai').onclick    = () => { SFX.ui(false); APP.setup.mode = 'ai';    APP.modeButtons(); APP.setupHint(); };
+  seg('su-bestof',     'bestOf',     APP.setup, APP.setupHint);
+  seg('su-difficulty', 'difficulty', APP.setup, APP.setupHint);
+  el('su-start').onclick = () => { SFX.ui(true); APP.startGame(); };
+  el('su-back').onclick  = () => { SFX.ui(false); APP.show('menu'); };
+
+  /* settings */
+  seg('set-input',   'input',   APP.settings, APP.settingsHint);
+  seg('set-preview', 'preview', APP.settings, APP.settingsHint);
+  seg('set-rotate',  'rotate',  APP.settings, () => { APP.settingsHint(); APP.resize(); });
+  seg('set-sound',   'sound',   APP.settings, v => { SFX.on = v === 'on'; APP.settingsHint(); });
+  seg('set-labels',  'labels',  APP.settings, APP.settingsHint);
+  el('set-back').onclick = () => { SFX.ui(false); APP.show('menu'); };
+  APP.settingsHint();
+
+  /* credits */
+  el('credits-body').innerHTML = APP.creditsHTML();
+  el('cr-back').onclick = () => { SFX.ui(false); APP.show('menu'); };
+
+  /* game */
+  el('btn-pause').onclick = () => { SFX.ui(false); APP.pauseModal(); };
+
+  INPUT.attach(s.canvas, APP.host);
+  window.addEventListener('resize', APP.resize);
+  window.addEventListener('orientationchange', () => setTimeout(APP.resize, 120));
+  APP.resize();
+  APP.state.raf = requestAnimationFrame(APP.loop);
+};
+
+APP.settingsHint = function(){
+  const t = {
+    velocity: 'Velocity: power comes from how fast you flick. Aim by pointing, and sweep sideways as you let go to put spin on it.',
+    pullback: 'Pull-back: power comes from how far you drag back from the disc. Easier to be precise with.',
+  }[APP.settings.input];
+  const p = {
+    full:  'Full preview draws the whole shot and shows where every disc will finish.',
+    short: 'Short preview stops at the first contact.',
+    off:   'No preview. Just the aim arrow.',
+  }[APP.settings.preview];
+  el('set-hint').textContent = t + ' ' + p;
+};
+/* ==========================================================================
+   12. CREDITS -- and the honest small print
+   ========================================================================== */
+
+APP.creditsHTML = function(){
+  const P = SPEC;
+  const mm = m => (m * 1000).toFixed(1);
+  return `
+<h3>The rules</h3>
+<p>Scoring, shot validity and the shape of a round follow the
+<b>National Crokinole Association</b>'s <i>Official Rules of Crokinole</i>
+(ratified 6 May 2026), cross-checked against the <b>World Crokinole
+Championship</b> rules and <b>Crokinole Canada</b>'s rulebook. Where they
+disagree, the NCA wins and the disagreement is written down in the project's
+research notes rather than smoothed over.</p>
+<ul>
+<li>A round is 8 discs each, shot alternately. The winner of a round scores
+<b>2</b> points, a tied round scores <b>1</b> each. The raw disc tally decides
+only who won — it is not the score. (The "winner takes the difference, first
+to 100" system is the traditional house game, not the tournament one.)</li>
+<li>With an opponent disc on the board you must hit one, directly or by
+bumping your own disc into it. With the board clear, your shot must reach
+<b>touching or inside</b> the 15 line — though a disc merely touching that
+line still only <b>scores 10</b>. Both are implemented, separately.</li>
+<li>A foul removes your shooting disc and everything it disturbed, and voids
+a 20 sunk on that shot. Nothing is put back where it was.</li>
+<li>A 20 is lifted out and banked after the turn. It is safe for the rest of
+the round.</li>
+<li>The 12-inch circle is both the line you shoot from and the line that puts
+a resting disc out of play.</li>
+</ul>
+
+<h3>The board</h3>
+<p>Every dimension is the NCA tournament standard, in millimetres:</p>
+<ul>
+<li>Playing surface <code>${mm(P.R_SURFACE * 2)}</code> across, standing
+<code>${mm(P.SURF_RAISE)}</code> above a <code>${mm(P.DITCH_W)}</code> ditch</li>
+<li>Scoring circles at radii <code>${mm(P.R_15)}</code> (15),
+<code>${mm(P.R_10)}</code> (10) and <code>${mm(P.R_OUT)}</code> (the shooting
+line) — published as radii, which is the commonest thing to get wrong by a
+factor of two</li>
+<li>20 hole <code>${mm(P.R_HOLE * 2)}</code> across and
+<code>${mm(P.HOLE_DEPTH)}</code> deep, against a <code>${mm(P.R_DISC * 2)}</code>
+disc — so "completely in the hole" means the centre within
+<code>${mm(P.R_CAPTURE)}</code> of dead centre. That is why a 20 is hard.</li>
+<li>Eight pegs on the 15 circle, offset 22.5° from the quadrant lines, so
+every player faces a clean gap. The clear space between two pegs leaves a
+disc <code>${mm((2 * P.R_PEG_CIRCLE * Math.sin(Math.PI / P.N_PEGS) - 2 * P.R_PEG - 2 * P.R_DISC) / 2)}</code>
+either side of the middle of the lane.</li>
+</ul>
+
+<h3>The physics</h3>
+<p>A purpose-built rigid-disc solver, not a library. Surface friction is
+<b>dry Coulomb friction</b> — constant force, speed falling linearly, and the
+disc actually stops — rather than the <code>v *= 0.98</code> exponential decay
+that flick games usually use and that never stops at all. It is why hitting
+twice as hard goes four times as far, which is the touch the real game has.</p>
+<p>Sliding and spinning share one friction budget and die together. A
+spinning disc travels further and throws what it hits sideways, but it does
+<b>not</b> curve: for a symmetric disc under uniform pressure the friction
+force is exactly opposite the direction of travel, and curving it would be a
+lie that felt good for a minute.</p>
+<p><b>The trajectory preview is not an estimate.</b> It is the actual shot,
+run to rest by the same solver that runs when you let go, drawn. The
+prediction cannot disagree with the outcome because the same numbers made
+both.</p>
+
+<h3>What is honestly not measured</h3>
+<p>The board geometry is published and exact. The friction and bounce values
+are <b>calibrated, not measured</b>, and there is no honest way around that:
+the NCA regulates who may wax a board but not how much, officials may re-wax
+it mid-tournament, and vendors sell deliberately bouncier pegs. Playing speed
+is a property of the afternoon, not of the sport. Every such constant is
+tagged <code>[CALIBRATED]</code> in the source with the reasoning next to it.</p>
+<p>Two real differences from a physical board, written down rather than
+hidden: discs cannot ride up on top of one another, so the NCA's stacking and
+leaning edge cases cannot arise; and a disc that reaches the ditch has
+dropped half an inch below the surface and cannot return, so the Damage Stays
+Rule never fires.</p>
+
+<h3>Built with</h3>
+<p>One HTML file. No build step, no server, no dependencies, no network, and
+no <code>Math.random</code> — randomness comes from a seeded generator, so the
+same match replays exactly and any bug can be reproduced.</p>`;
+};
+
+/* ==========================================================================
+   13. BOOT
+   --------------------------------------------------------------------------
+   window.CROK is the whole program's seam. The harness in harness/ reads
+   this file, evaluates this script with browser stubs, and asks the shipped
+   program questions through this object -- so the thing tested is the thing
+   shipped, not a copy of it.
+   ========================================================================== */
+
+CROK.build = '2026-09-03a';
+window.CROK = CROK;
+
+if (typeof document !== 'undefined' && document.getElementById &&
+    document.getElementById('board-canvas')){
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', () => APP.init());
+  } else {
+    APP.init();
+  }
+}
+</script>
+</body>
+</html>

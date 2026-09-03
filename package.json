@@ -1,0 +1,12 @@
+{
+  "name": "crokinole",
+  "private": true,
+  "description": "A physics-accurate crokinole game in one self-contained HTML file.",
+  "scripts": {
+    "test": "node harness/crok_physics.js && node harness/crok_rules.js && node harness/crok_game.js",
+    "test:ui": "node harness/crok_ui.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.0"
+  }
+}
