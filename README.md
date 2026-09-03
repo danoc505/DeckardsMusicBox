@@ -12,6 +12,7 @@ time, anywhere: as notes, as a text dump, as a WAV, in the page.
     node tools/roll.ts lofi 42                  the tune as a piano roll, read back out of its own MIDI
     node tools/roll.ts --sweep lofi 1 20        the same numbers over twenty seeds
     node tools/roll.ts lofi 42 --map            who plays which bar, and how the record opens
+    node tools/roll.ts lofi 42 --json           the parsed notes and the numbers, for a drawing
 
 Node 22 runs the TypeScript directly. There is no bundler: the build
 transpiles `src/` into a forty-line module registry inside `tools/page.html`.

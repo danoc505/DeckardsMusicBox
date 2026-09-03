@@ -14,6 +14,7 @@
  *   node tools/roll.ts lofi 42 --report           the report alone
  *   node tools/roll.ts --file out.mid             any .mid file, ours or not
  *   node tools/roll.ts lofi 42 --map              who plays which bar, and how the record opens
+ *   node tools/roll.ts lofi 42 --json            the parsed notes and the numbers, unformatted
  *   node tools/roll.ts --sweep lofi 1 20          the report's numbers over twenty seeds
  *   node tools/roll.ts --sweep lofi 1 20 --map    the opening numbers over twenty seeds
  *
@@ -287,12 +288,45 @@ function hookOf(notes: readonly MidiNote[], stepTicks: number, ladder?: readonly
   return best;
 }
 
-function report(file: MidiFile, notes: readonly MidiNote[], part: string): string {
-  const L: string[] = [];
+/**
+ * WHAT THE FILE SAYS ABOUT THE TUNE, as numbers.
+ *
+ * Every field here is computed from the parsed note list — `{tick, ticks, key,
+ * vel}` read out of the bytes — and nothing here can see the ASCII roll, which
+ * is a printout of the same array and not an input to anything. `report()`
+ * below formats these; `--json` hands them out unformatted so a drawing can be
+ * made of the same numbers rather than of a picture of them.
+ */
+interface Measured {
+  readonly notes: number;
+  readonly lo: number;
+  readonly hi: number;
+  readonly median: number;
+  readonly step: number;
+  readonly leap: number;
+  readonly held: number;
+  readonly wide: number;
+  readonly widest: number;
+  readonly moves: number;
+  readonly skips: number;
+  readonly reversed: number;
+  readonly filled: number;
+  readonly phrases: number;
+  readonly shapes: Readonly<Record<string, number>>;
+  readonly top: number;
+  readonly topTimes: number;
+  readonly topAt: readonly number[];
+  readonly peakAlone: number;
+  readonly peakAt: number;
+  readonly hook: { readonly len: number; readonly times: number; readonly cover: number };
+  readonly restating: number;
+  readonly offGrid: number;
+}
+
+function measure(file: MidiFile, notes: readonly MidiNote[]): Measured {
   const stepTicks = file.ppq / PER_BEAT;
   const perBar = file.beats * PER_BEAT;
   const secPerTick = 60 / file.bpm / file.ppq;
-  if (notes.length === 0) return `  ${part}: no notes`;
   const keys = notes.map((n) => n.key);
   const lo = Math.min(...keys);
   const hi = Math.max(...keys);
@@ -369,17 +403,36 @@ function report(file: MidiFile, notes: readonly MidiNote[], part: string): strin
   const off = notes.map((n) => Math.abs(n.tick - Math.round(n.tick / stepTicks) * stepTicks) * secPerTick * 1000);
   const meanOff = off.reduce((a, v) => a + v, 0) / off.length;
 
+  return {
+    notes: notes.length,
+    lo, hi, median,
+    step: steps, leap: leaps, held, wide, widest, moves: iv.length,
+    skips, reversed, filled: filled / Math.max(1, reversed),
+    phrases: phrases.length,
+    shapes: Object.fromEntries(shapes),
+    top, topTimes: tops.length, topAt: where,
+    peakAlone: alone, peakAt: peakAt / Math.max(1, phrases.length),
+    hook,
+    restating: withRepeat,
+    offGrid: meanOff,
+  };
+}
+
+function report(file: MidiFile, notes: readonly MidiNote[], part: string): string {
+  if (notes.length === 0) return `  ${part}: no notes`;
+  const m = measure(file, notes);
+  const L: string[] = [];
   const pct = (a: number, b: number): string => (b === 0 ? "  — " : `${((100 * a) / b).toFixed(0).padStart(3)}%`);
-  L.push(`  notes ${String(notes.length).padStart(4)}   range ${noteName(lo)}–${noteName(hi)} (${hi - lo} semitones)   median ${noteName(median)}`);
-  L.push(`  motion        step ${pct(steps, iv.length)}   leap ${pct(leaps, iv.length)}   held ${pct(held, iv.length)}   widest ${widest} semitones`);
-  L.push(`  after a leap  reversal ${pct(reversed, skips)} of ${skips}   gap filled ${skips === 0 ? "  — " : `${((100 * filled) / Math.max(1, reversed)).toFixed(0)}%`}`);
-  L.push(`  phrases ${String(phrases.length).padStart(3)}   ${[...shapes].sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join("   ")}`);
-  L.push(`  climax        ${noteName(top)} sounds ${tops.length}× across the record, at ${where.map((w) => `${(w * 100).toFixed(0)}%`).join(" ")}`);
-  L.push(`  phrase peak   sounds once in ${alone} of ${phrases.length} phrases, on average ${((100 * peakAt) / Math.max(1, phrases.length)).toFixed(0)}% through the phrase`);
-  L.push(`  hook          ${hook.len === 0 ? "none: no figure is stated twice" : `${hook.len} notes, stated ${hook.times}×, covering ${(hook.cover * 100).toFixed(0)}% of the line`}`);
-  L.push(`  inside a phrase ${withRepeat} of ${phrases.length} phrases restate a figure of their own`);
-  L.push(`  signature     ${wide} intervals wider than a fifth (${pct(wide, iv.length)} of moves)`);
-  L.push(`  off the grid  ${meanOff.toFixed(1)} ms mean`);
+  L.push(`  notes ${String(m.notes).padStart(4)}   range ${noteName(m.lo)}–${noteName(m.hi)} (${m.hi - m.lo} semitones)   median ${noteName(m.median)}`);
+  L.push(`  motion        step ${pct(m.step, m.moves)}   leap ${pct(m.leap, m.moves)}   held ${pct(m.held, m.moves)}   widest ${m.widest} semitones`);
+  L.push(`  after a leap  reversal ${pct(m.reversed, m.skips)} of ${m.skips}   gap filled ${m.skips === 0 ? "  — " : `${(100 * m.filled).toFixed(0)}%`}`);
+  L.push(`  phrases ${String(m.phrases).padStart(3)}   ${Object.entries(m.shapes).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join("   ")}`);
+  L.push(`  climax        ${noteName(m.top)} sounds ${m.topTimes}× across the record, at ${m.topAt.map((w) => `${(w * 100).toFixed(0)}%`).join(" ")}`);
+  L.push(`  phrase peak   sounds once in ${m.peakAlone} of ${m.phrases} phrases, on average ${(100 * m.peakAt).toFixed(0)}% through the phrase`);
+  L.push(`  hook          ${m.hook.len === 0 ? "none: no figure is stated twice" : `${m.hook.len} notes, stated ${m.hook.times}×, covering ${(m.hook.cover * 100).toFixed(0)}% of the line`}`);
+  L.push(`  inside a phrase ${m.restating} of ${m.phrases} phrases restate a figure of their own`);
+  L.push(`  signature     ${m.wide} intervals wider than a fifth (${pct(m.wide, m.moves)} of moves)`);
+  L.push(`  off the grid  ${m.offGrid.toFixed(1)} ms mean`);
   return L.join("\n");
 }
 
@@ -622,6 +675,47 @@ if (args.includes("--sweep")) {
   for (const r of rows) process.stdout.write(`${r.map((v, i) => (i < 3 || i === 4 ? String(v) : v.toFixed(0)).padStart(7)).join("")}\n`);
   const mean = (i: number): string => (rows.reduce((a, r) => a + r[i]!, 0) / Math.max(1, rows.length)).toFixed(1);
   process.stdout.write(`${"mean".padStart(7)}${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => mean(i).padStart(7)).join("")}\n`);
+} else if (args.includes("--json")) {
+  // THE SAME NOTES, UNFORMATTED. The ASCII roll is a printout and a poor one;
+  // a drawing wants the array the printout is made from. Nothing new is
+  // computed here — this is `readMidi` and `measure` handed out as they are,
+  // so a picture built on it is a picture of the file and not of the picture.
+  const [genre, seedArg, secondsArg] = positional;
+  if (genre === undefined || seedArg === undefined || !(GENRE_NAMES as readonly string[]).includes(genre)) {
+    process.stderr.write("usage: node tools/roll.ts <genre> <seed> [seconds] --json\n");
+    process.exit(2);
+  }
+  const song = compose({ seed: Number(seedArg), genre: genre as GenreName, seconds: secondsArg === undefined ? 90 : Number(secondsArg) });
+  const file = readMidi(midi(song));
+  const o = openingOf(file);
+  process.stdout.write(`${JSON.stringify({
+    genre, seed: Number(seedArg),
+    title: file.title, bpm: file.bpm, beats: file.beats, ppq: file.ppq,
+    key: `${song.chart.scaleName} on ${noteName(song.chart.tonic)}`,
+    bars: o.bars,
+    sections: song.arrangement.placed.map((p) => ({
+      fn: p.section.fn,
+      idea: p.section.idea,
+      bar: p.section.startBar,
+      bars: p.section.bars,
+      energy: p.section.energy,
+      peak: p.section.peak,
+      thin: p.thin,
+      broken: p.broken,
+      heard: [...p.heard],
+    })),
+    parts: partsOf(file).map((name) => {
+      const ns = file.notes.filter((n) => n.track.startsWith(name));
+      return {
+        name,
+        entry: o.entry.get(name) ?? -1,
+        playing: o.grid.get(name) ?? [],
+        notes: ns.map((n) => [n.tick, n.ticks, n.key, n.vel]),
+        measured: ns.length > 0 ? measure(file, ns) : null,
+      };
+    }),
+    opening: { openers: o.openers, alone: o.alone, tutti: o.tutti },
+  })}\n`);
 } else if (args.includes("--file")) {
   const path = named("file", "");
   const file = readMidi(new Uint8Array(readFileSync(path)));
