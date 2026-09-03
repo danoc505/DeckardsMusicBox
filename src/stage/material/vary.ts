@@ -164,9 +164,23 @@ export function varyLine(
   // not remove the same notes and then differ only in how long what is left
   // is held
   let made: Note[];
-  if (which === "thin") made = thin(sorted, chords, rng.at("thin"));
-  else if (which === "augment") made = augment(sorted, chords, rng.at("augment"), steps, bars);
-  else {
+  if (which === "thin" || which === "augment") {
+    made = which === "thin"
+      ? thin(sorted, chords, rng.at("thin"))
+      : augment(sorted, chords, rng.at("augment"), steps, bars);
+    // A REMOVAL IS A PROPOSAL TOO. These two were the only changes that never
+    // met the laws: they carry their own guard — nothing that strands a
+    // dissonance, nothing that leaves two of the same pitch adjacent — and
+    // that guard is not the whole of what a line must be.
+    //
+    // What it misses is what removing a note OPENS. Take the middle out of
+    // 81 82 79 67 and the line leaps 81 to 67, fourteen semitones, an
+    // interval neither the generator nor any transformation was ever allowed
+    // to place. lofi seed 7's B/1 did exactly that once the chords grew to
+    // five tones. So a thinned line is judged like any other proposal, and a
+    // thinning that cannot be made lawfully is not made.
+    if (laws !== undefined && made.length > 0 && !laws(made)) return { line: sorted, changed: false };
+  } else {
     // A MOVED LINE IS A PROPOSAL. Without a judge there is nothing to check it
     // against, so it is not offered at all: silently shipping an unchecked
     // transposition is how a wrong note gets into a record.

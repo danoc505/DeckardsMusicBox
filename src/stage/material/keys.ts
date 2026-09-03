@@ -44,6 +44,53 @@ const COST = {
   mud: 18,
   /** per semitone rub against a note another part is already sounding */
   rub: 14,
+  /**
+   * For voicing this bar differently from the way THIS POSITION IN THE MOTIF
+   * was voiced the first time it came round.
+   *
+   * The shape a hand makes — which inversion, how far it is spread — is a
+   * thing apart from the chord it makes it on, and it was being thrown away:
+   * candidates() built every voicing structurally, by octave and inversion
+   * and drop, then flattened them to bare pitch sets. With the structure gone
+   * there was nothing for a motif to hold, so the same position in the loop
+   * had no way to voice the same way twice, and whether the keys repeated at
+   * all was decided by whether the greedy chain below happened to cycle: 0%
+   * on a four-chord progression, 94% on a two-chord one, and nothing in
+   * between that anyone chose.
+   *
+   * Weighted above move and top together, because a sequence is worth more
+   * than the semitones it costs to reach — that is what makes it a sequence
+   * rather than whatever was nearest. A COST and not a filter, so a shape the
+   * register cannot fit this chord in is simply not taken.
+   */
+  shape: 24,
+  /**
+   * For a top voice that does not move ACROSS A CHANGE OF CHORD.
+   *
+   * "The top voice is the line an ear follows" — this file's own words — and
+   * a line that never moves is not a line. Nothing here resisted that: with
+   * move and top charging for motion and nothing charging for stillness,
+   * greedy argmin keeps a common tone forever, because a tone shared between
+   * two chords costs 0 to hold and at least 1 to leave. In dungeonsynth 101
+   * that arithmetic put pitch 69 under 100 of the record's 300 keys events,
+   * bars 16 to 95 of 96 — a third of five and a half minutes of comping on
+   * one note. Charged only where the chord actually changed: holding a tone
+   * through a chord that has not moved is not stasis, it is the chord.
+   *
+   * SIZED BY SWEEP, over fifty records of both genres. Moving the top voice
+   * costs top x semitones, so a term that does not clear that is never paid:
+   * at 6 the soprano moved across 66% of chord changes, at 20 87%, at 30
+   * 93%, at 45 97%. Thirty, because a held soprano should be possible and
+   * uncommon, and 97% is a rule pretending to be a cost.
+   *
+   * It does NOT thin the share of keys events sitting on one pitch — 39% to
+   * 36% across the same sweep — and that is the honest result, not a
+   * shortfall. In a three-note voicing a common tone HELD is a third of the
+   * events by arithmetic; Am and D5 share an A, and holding it is the right
+   * reading of those two chords, not a fault. What was wrong was the
+   * soprano holding with it.
+   */
+  stasis: 30,
 } as const;
 
 /**
@@ -54,48 +101,68 @@ const COST = {
  * with space (orphiq.com/resources/lofi-chord-progressions); how far a
  * register lets it run is the genre's to say, and the only limit here.
  */
-function candidates(tones: readonly number[], lo: number, hi: number): number[][] {
+/**
+ * A voicing, and the SHAPE that made it: which inversion, and which drop.
+ * The pitches say what is played on this chord; the shape says what the hand
+ * did, which is the part that can be done again on a different one.
+ */
+interface Voicing {
+  readonly v: readonly number[];
+  readonly inv: number;
+  /** 0 close, 2 drop-2, 3 drop-3, 24 drop-2-and-4. */
+  readonly drop: number;
+}
+
+function candidates(tones: readonly number[], lo: number, hi: number): Voicing[] {
   const base = tones.map((t) => intoBand(t, lo, lo + 11)).sort((a, b) => a - b);
-  const out: number[][] = [];
+  const out: Voicing[] = [];
   const seen = new Set<string>();
-  const push = (v: number[]): void => {
+  const push = (v: number[], inv: number, drop: number): void => {
     const s = v.slice().sort((a, b) => a - b);
     if (s.some((p) => p < lo || p > hi)) return;
     if (s.some((p, i) => i > 0 && p === s[i - 1])) return;
     const k = s.join(",");
     if (seen.has(k)) return;
     seen.add(k);
-    out.push(s);
+    out.push({ v: s, inv, drop });
   };
   for (let oct = 0; oct * 12 + base[base.length - 1]! <= hi; oct++) {
-    const shape = base.map((p) => p + oct * 12);
-    for (let inv = 0; inv < shape.length; inv++) {
-      const close = shape.map((p, i) => (i < inv ? p + 12 : p)).sort((a, b) => a - b);
-      push(close);
-      const drop = (...fromTop: number[]): void => {
+    const stack = base.map((p) => p + oct * 12);
+    for (let inv = 0; inv < stack.length; inv++) {
+      const close = stack.map((p, i) => (i < inv ? p + 12 : p)).sort((a, b) => a - b);
+      push(close, inv, 0);
+      const drop = (name: number, ...fromTop: number[]): void => {
         const v = close.slice();
         for (const k of fromTop) if (v.length - k >= 0) v[v.length - k]! -= 12;
-        push(v);
+        push(v, inv, name);
       };
       if (close.length >= 3) {
-        drop(2);
-        drop(3);
+        drop(2, 2);
+        drop(3, 3);
       }
-      if (close.length >= 4) drop(2, 4);
+      if (close.length >= 4) drop(24, 2, 4);
     }
   }
   return out;
 }
 
 function cost(
-  cand: readonly number[],
+  voicing: Voicing,
   prev: readonly number[] | null,
   wantOpen: number,
   centre: number,
   /** How many notes of a candidate rub against something already ringing. */
   rubbing: (v: readonly number[]) => number,
+  /** How this position in the motif was voiced the first time it came round. */
+  want: { readonly inv: number; readonly drop: number } | undefined,
+  /** Whether the chord under this bar differs from the one before it. */
+  moved: boolean,
 ): number {
+  const cand = voicing.v;
   let c = 0;
+  // the same position in the motif voices the same way, on whatever chord it
+  // has landed on this time round: same inversion, same spread, new harmony
+  if (want !== undefined && (want.inv !== voicing.inv || want.drop !== voicing.drop)) c += COST.shape;
   const spread = cand[cand.length - 1]! - cand[0]!;
   const isOpen = spread > 12 ? 1 : 0;
   c += COST.openness * Math.abs(wantOpen - isOpen);
@@ -131,6 +198,7 @@ function cost(
     c += (COST.move * sum) / n * Math.max(cand.length, prev.length);
   }
   c += COST.top * Math.abs(cand[cand.length - 1]! - prev[prev.length - 1]!);
+  if (moved && cand[cand.length - 1]! === prev[prev.length - 1]!) c += COST.stasis;
   return c;
 }
 
@@ -150,8 +218,17 @@ export function drawKeys(
   const centre = (lo + hi) / 2;
 
   const out: Note[] = [];
-  let prev: number[] | null = null;
+  let prev: readonly number[] | null = null;
   let prevTop: number | null = null;
+  let prevChord: Chord | null = null;
+  /**
+   * What each position in the motif voiced the FIRST time it came round. The
+   * hand does again what it did, and the chord underneath is what has
+   * changed — which is a voicing sequence, and the reason the same position
+   * in the loop now sounds like the same place in the loop.
+   */
+  const shapeAt = new Map<number, { inv: number; drop: number }>();
+  const motif = Math.max(1, chart.genre.harmony.motif);
 
   for (const chord of chords) {
     let cands = candidates(chord.tones, lo, hi);
@@ -164,22 +241,29 @@ export function drawKeys(
     // a voicing that lands on a pitch another part is already sounding at
     // any of its strikes is not offered — where the register leaves it any
     // other choice
-    const clear = cands.filter((v) => !v.some((p) => strike.some((st) => sounding.holds(chord.bar, st, p))));
+    const clear = cands.filter((c) => !c.v.some((p) => strike.some((st) => sounding.holds(chord.bar, st, p))));
     if (clear.length > 0) cands = clear;
     // and a semitone against something ringing is a cost, not a filter: a
     // filter that can empty is a filter that one day writes no chord at all
     const rubbing = (v: readonly number[]): number =>
       v.filter((p) => strike.some((st) => sounding.rubs(chord.bar, st, p))).length;
-    let best = cands[0]!;
+    const pos = chord.bar % motif;
+    const want = shapeAt.get(pos);
+    const moved = prevChord !== null && prevChord.name !== chord.name;
+    let bestV = cands[0]!;
     let bestCost = Infinity;
     for (const cand of cands) {
-      const c = cost(cand, prev, wantOpen, centre, rubbing);
+      const c = cost(cand, prev, wantOpen, centre, rubbing, want, moved);
       if (c < bestCost) {
         bestCost = c;
-        best = cand;
+        bestV = cand;
       }
     }
+    const best = bestV.v;
+    // the first turn of a position is what the later ones answer to
+    if (want === undefined) shapeAt.set(pos, { inv: bestV.inv, drop: bestV.drop });
     prev = best;
+    prevChord = chord;
 
     for (let i = 0; i < strike.length; i++) {
       const step = strike[i]!;

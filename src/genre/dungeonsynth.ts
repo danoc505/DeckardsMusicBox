@@ -149,20 +149,49 @@ export const dungeonsynth: GenreSpec = {
   // strings, a pedal organ, a flute; the record in a small church, on tape
   sound: {
     voices: { keys: "pad", bass: "organ", lead: "flute", drone: "organ" },
+    /**
+     * THE CHURCH, THROUGH A SLUDGE RIG. The writing is dungeon synth and
+     * stays so; what is put on it is the signal chain doom and sludge use.
+     *
+     * Sludge is "saturated, sustaining distortion (fuzz/overdrive stacks),
+     * ample feedback, and loud, sustaining amps", and its bands "use fuzz to
+     * create a wall of sound"; the amp wants "a lot of bass and mids, with
+     * the treble dialed back", measured across the style at a median gain of
+     * 7 with bass 6, mid 6 and treble 6.5 of ten; and the production "chases
+     * vintage warmth: tube amps, saturated fuzz, roomy drums, and organic
+     * reverb to let slow riffs breathe and brood".
+     * [riffhard.com how-to-play-sludge-metal and how-to-get-a-fuzz-sound-on-
+     * the-guitar; boostguitarpedals.co.uk how-to-get-a-crushing-doom-metal-
+     * tone; tonemirror.so genres/sludge-metal]
+     */
+    pedals: {
+      // the stack, not either alone: overdrive into fuzz is what a wall is
+      overdrive: { drive: 4.5, tone: 0.28, mix: 0.55 },
+      fuzz: { gain: 9, mix: 0.4 },
+    },
     rack: {
+      // TREBLE DIALED BACK. The one number the style is most consistent about,
+      // and the reason a wall of fuzz reads as weight rather than as noise.
+      pole: { hz: 3600, resonance: 0.18, mix: 0.6 },
       ensemble: { rateHz: 0.4, depth: 0.5, ret: 1 },
-      room: { sec: 2.6, ret: 1.2 },
-      tape: { lowpassHz: 9000, wowHz: 0.3, wowCents: 6, drive: 1.2 },
+      // organic reverb, longer, to let a slow riff breathe and brood
+      spring: { sec: 2.4, ret: 0.5 },
+      room: { sec: 4.2, ret: 1.45 },
+      // the tubes working hard
+      tape: { lowpassHz: 6500, wowHz: 0.3, wowCents: 6, drive: 2.4 },
       vinyl: { crackle: 0.05 },
     },
     // everything in the church: the pad through the ensemble, the flute far
-    // and to one side, the drone behind and wide, the drum deep in the room
+    // and to one side, the drone behind and wide, the drum deep in the room.
+    // The board is walked hardest by the parts a sludge rig actually carries
+    // — the low end and the chords — and least by the flute, which is the one
+    // voice in the room that is not coming out of an amp.
     mix: {
-      drums: { sends: { room: 0.45 }, az: 0, dist: 0.6 },
-      bass: { sends: { room: 0.3 }, az: -15, dist: 0.5 },
-      keys: { sends: { ensemble: 0.6, room: 0.4 }, az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15 },
-      lead: { sends: { room: 0.5 }, az: 60, dist: 0.55 },
-      drone: { sends: { room: 0.5 }, az: 180, dist: 0.8 },
+      drums: { sends: { room: 0.45 }, az: 0, dist: 0.6, pedals: 0.25 },
+      bass: { sends: { room: 0.3 }, az: -15, dist: 0.5, pedals: 0.85 },
+      keys: { sends: { ensemble: 0.6, room: 0.4 }, az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.7 },
+      lead: { sends: { room: 0.5, spring: 0.3 }, az: 60, dist: 0.55, pedals: 0.15 },
+      drone: { sends: { room: 0.5, spring: 0.35 }, az: 180, dist: 0.8, pedals: 0.55 },
     },
     world: { width: 0.9, depth: 0.8 },
   },

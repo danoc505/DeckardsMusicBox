@@ -140,6 +140,14 @@ export function makePerformance(
       // hand is addressed that way.
       const loop = Math.max(1, m.period);
       const through = loop <= 1 ? 0.5 : (mbar % loop) / loop;
+      // WHO IS PLAYING RIGHT NOW, which changes every TWO TURNS of the loop
+      // and not once a section — the two loop rule, and the arrangement has
+      // already decided what moves at each boundary. Here is the only place
+      // that knows how long a turn actually is, so here is where a span
+      // becomes a range of bars. The last span runs to the end.
+      const span = placed.spans[
+        Math.min(placed.spans.length - 1, Math.floor((bar - section.startBar) / (2 * loop)))
+      ] ?? { heard: placed.heard, thin: placed.thin };
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
         // THE HAND IS ADDRESSED BY THE FIGURE, NOT BY THE BAR OF THE RECORD.
@@ -202,12 +210,12 @@ export function makePerformance(
         });
       };
 
-      for (const role of placed.heard) {
+      for (const role of span.heard) {
         if (role === "drums") {
           for (const h of nth(m.drums, "drums", round)) {
             if (h.bar !== mbar) continue;
             // thinning is the hat coming off: the pulse stays, the shimmer goes
-            if (placed.thin && (h.lane === "hat" || h.lane === "openhat")) continue;
+            if (span.thin && (h.lane === "hat" || h.lane === "openhat")) continue;
             place("drums", h.lane, h.step, 1, null, h.vel, h.art);
           }
         } else {

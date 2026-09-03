@@ -232,6 +232,20 @@ export function lawsFor(
       }
       // only a reciting tone repeats its own pitch
       if (i > 0 && contour !== "chant" && ns[i - 1]!.pitch === n.pitch) return false;
+      // AND NOTHING REACHES FURTHER THAN AN OCTAVE. The generator already
+      // refuses it — a move may reach a fifth, or SIGNATURE_MAX where the
+      // tune is spending its one wide leap — but a TRANSFORMATION never went
+      // through that filter. vary.ts moves pitches and offers the result to
+      // these laws, and this law was not among them, so an inversion or a
+      // sequence could open a gap the line was never allowed to play.
+      //
+      // It only became reachable when the chords grew: with ninths a chord
+      // spans five tones instead of four, and lofi seed 7's B/1 — a VARIANT,
+      // over Fmaj7 and Em7b5 — leapt fourteen semitones between two notes the
+      // generator had each placed legally. Stated here, the transformation
+      // that would open the gap is refused instead, which is the same shape
+      // as every other law in this file: constrain the choice, never repair it.
+      if (i > 0 && Math.abs(n.pitch - ns[i - 1]!.pitch) > SIGNATURE_MAX) return false;
     }
     // the tune ends on a chord tone, and its last note is not its first —
     // the line loops, and a loop whose end is its beginning repeats itself

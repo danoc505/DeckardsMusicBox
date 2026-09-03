@@ -35,13 +35,20 @@ test("every heard note of every section is played, and nothing else", () => {
     const played = new Map<string, number>();
     for (const p of s.arrangement.placed) {
       const m = s.materials.all.get(p.material)!;
+      // WHO PLAYS CHANGES EVERY TWO TURNS of the loop, so the count is
+      // counted span by span exactly as the performance indexes them. The
+      // law is unchanged — nothing sounds that the arrangement did not ask
+      // for, and everything it asked for sounds — only the unit it is asked
+      // in got shorter than a section.
+      const loop = Math.max(1, m.period);
       for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
         const mbar = (bar - p.section.startBar) % m.bars;
         const round = Math.floor((bar - p.section.startBar) / m.bars);
-        for (const role of p.heard) {
+        const span = p.spans[Math.min(p.spans.length - 1, Math.floor((bar - p.section.startBar) / (2 * loop)))]!;
+        for (const role of span.heard) {
           const nth = (played.get(`${p.material} ${role}`) ?? 0) + round;
           if (role === "drums") {
-            expected += m.drums[nth]!.filter((h) => h.bar === mbar && !(p.thin && (h.lane === "hat" || h.lane === "openhat"))).length;
+            expected += m.drums[nth]!.filter((h) => h.bar === mbar && !(span.thin && (h.lane === "hat" || h.lane === "openhat"))).length;
           } else {
             const notes = role === "lead" ? m.lead[nth]! : m.groove[role];
             expected += notes.filter((n) => n.bar === mbar).length;
@@ -507,14 +514,25 @@ test("a figure played again is played the same way, note for note", () => {
       // material says loop — the groove — must be identical, to the note and
       // to the microsecond. What may differ between rounds is what the
       // MATERIAL says differs, so the comparison is of the groove alone.
-      const groove = (bar: number): string =>
-        (bars.get(bar) ?? "").split("\n").filter((l) => /^(bass|keys|drone):/.test(l)).sort().join("\n");
+      // ONLY THE PARTS THAT PLAY IN BOTH. The two loop rule takes an
+      // instrument out every second turn, so one of a pair of bars can be
+      // missing a part the other has. That is the ARRANGEMENT's business and
+      // this law is the HAND's: a figure played again is played the same way.
+      // Whether it is played at all is decided a stage earlier.
+      const rolesIn = (bar: number): Set<string> =>
+        new Set((bars.get(bar) ?? "").split("\n").filter((l) => l).map((l) => l.split(":")[0]!));
+      const groove = (bar: number, only: ReadonlySet<string>): string =>
+        (bars.get(bar) ?? "").split("\n")
+          .filter((l) => /^(bass|keys|drone):/.test(l) && only.has(l.split(":")[0]!))
+          .sort().join("\n");
       for (let bar = p.section.startBar; bar + m.bars < p.section.endBar; bar++) {
-        const here = groove(bar);
+        const both = rolesIn(bar);
+        for (const r of [...both]) if (!rolesIn(bar + m.bars).has(r)) both.delete(r);
+        const here = groove(bar, both);
         if (here === "") continue;
         assert.equal(
           here,
-          groove(bar + m.bars),
+          groove(bar + m.bars, both),
           `seed ${s.chart.seed} ${p.section.fn}: bar ${bar} and bar ${bar + m.bars} are the same bar of the same loop, played differently`,
         );
         compared++;

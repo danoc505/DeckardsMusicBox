@@ -5,8 +5,12 @@
  * The pocket — which steps strike — is drawn once for the whole material, so
  * every bar of it has the same feet; or it IS the kick's, where the genre
  * says the bass follows the drums. What the off-beat strikes PLAY is drawn
- * per strike, so the line moves while the rhythm holds. That is the difference
- * between a bass line and a metronome playing pitches.
+ * per POSITION IN THE MOTIF, so the line moves while the rhythm holds and
+ * the shape still comes back: bar two of a four-bar idea plays the scale
+ * functions bar nought played, over whatever chord bar two stands on. Same
+ * shape, different pitches — a tonal sequence. Drawn per bar of the material
+ * instead, as it was, a four-chord progression got four unrelated shapes and
+ * the two-bar cell repeated 0% of the time while its rhythm repeated 96%.
  */
 
 import type { Rng } from "../../core/rng.ts";
@@ -27,8 +31,11 @@ export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps
   const out: Note[] = [];
   let prev: number | null = null;
 
+  const motif = Math.max(1, chart.genre.harmony.motif);
   for (const chord of chords) {
     const next = chords[(chord.bar + 1) % chords.length]!;
+    /** Where this bar sits in the motif: the shape is drawn on this, not the bar. */
+    const cell = rng.at("cell", chord.bar % motif);
     const root = band(chord.root);
     const third = band(chord.tones[1] ?? chord.root + 4);
     const fifth = band(chord.tones[2] ?? chord.root + 7);
@@ -41,7 +48,7 @@ export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps
       if (step === 0) {
         pitch = root;
       } else {
-        const tone = rng.at("bar", chord.bar).weighted(`tone:${step}`, B.tones);
+        const tone = cell.weighted(`tone:${step}`, B.tones);
         switch (tone) {
           case "root":
             pitch = root;
@@ -68,7 +75,7 @@ export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps
         }
       }
 
-      const art = manner(rng.at("bar", chord.bar), `art:${step}`, B.art, {
+      const art = manner(cell, `art:${step}`, B.art, {
         strong: step % chart.metre.perBeat === 0,
         dur: until - step,
         from: prev === null ? null : pitch - prev,

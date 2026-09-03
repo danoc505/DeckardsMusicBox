@@ -124,10 +124,39 @@ export type Progression = readonly number[];
 export interface HarmonySpec {
   /** How many bars one statement of an idea runs. */
   readonly bars?: number;
+  /**
+   * How many bars a MOTIF runs — the sub-period of the idea, and the period
+   * on which a shape comes back.
+   *
+   * A part draws WHAT IT PLAYS per position in the motif, not per bar of the
+   * material, for the same reason the chord quality above is drawn per
+   * position in the progression: drawn per bar, a two-bar shape written over
+   * a four-bar material came out four unrelated shapes, and the loop
+   * repeated nothing. Landing on a new chord the shape keeps its scale
+   * functions and re-fits its pitches, which is a TONAL SEQUENCE — the
+   * device that lets an idea stay recognisable across changes it was not
+   * written over. [thejazzpianosite.com composition-and-melodic-development:
+   * "reconstructing the motive on a different note in the scale while
+   * keeping the same melodic shape"; jazzguitarlessons.net
+   * motivic-development: "the same rhythmic ideas over different chords"]
+   */
+  readonly motif?: number;
   /** The changes each idea may stand on. */
   readonly progressions?: Readonly<Partial<Record<Idea, Weighted<Progression>>>>;
   /** 0..1, how often a chord takes its seventh. */
   readonly sevenths?: number;
+  /**
+   * 0..1, how often a chord that already took its seventh goes on to its
+   * NINTH. Jazz-leaning music is not seventh chords, it is extended ones:
+   * lo-fi "relies on extended chords, especially major 7ths, minor 7ths and
+   * dominant 9ths" and adds "seventh and ninth intervals attached to the
+   * chords for an added bit of flavour" (unison.audio lofi-chord-
+   * progressions; lofiweekly.com 7-jazz-piano-chords-lofi-hip-hop).
+   * Conditional on the seventh, because a ninth over a triad is a chord with
+   * a hole in it; drawn unconditionally, so adding it moved no record that
+   * does not ask for it.
+   */
+  readonly ninths?: number;
   /**
    * 0..1, how often a chord drops its THIRD and is voiced as a bare fifth.
    * A fifth is neither major nor minor, which is the whole point of it: it
@@ -146,6 +175,8 @@ export interface HarmonySpec {
 
 export interface HarmonyRules {
   readonly bars: number;
+  readonly ninths: number;
+  readonly motif: number;
   readonly progressions: Readonly<Record<Idea, Weighted<Progression>>>;
   readonly sevenths: number;
   readonly fifths: number;
@@ -485,6 +516,23 @@ export interface ArrangementSpec {
   readonly fullAbove?: number;
   /** Below this energy a section's drums lose their hat. */
   readonly thinBelow?: number;
+  /**
+   * HOW MUCH WITHHOLDING IT TAKES BEFORE GIVING IS WORTH MORE THAN TAKING,
+   * in part-turns.
+   *
+   * The arrangement keeps a debt: a span quieter than the fullest the record
+   * has yet been accrues part-turns, and a span fuller than the one before
+   * it pays them off. How willing it is to give is owed/(owed + rest), which
+   * slides from nothing to everything as the debt grows. That ratio is the
+   * only number in the whole selector, and it is not a taste: one part gone
+   * for exactly the span the two-loop rule names is (1/5) x 2 = 0.4
+   * part-turns, so 0.4 states that one part missing for the length the rule
+   * names is precisely half a reason to give it back.
+   * [musictech.com two-loop-rule; musicradar.com
+   * two-loop-rule-arrangement-cheatcode — the same sources the two-loop
+   * clock already carries]
+   */
+  readonly rest?: number;
 }
 
 export interface ArrangementRules {
@@ -496,6 +544,7 @@ export interface ArrangementRules {
   readonly shed: readonly Role[];
   readonly fullAbove: number;
   readonly thinBelow: number;
+  readonly rest: number;
 }
 
 /** Which pairs of notes swing: every two eighths, or every two sixteenths. */
@@ -1038,6 +1087,15 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
 
   harmony: {
     bars: 4,
+    /** No genre extends past the seventh unless it says so. [chosen] */
+    ninths: 0,
+    /**
+     * Two. A motif shorter than the idea is what gives a four-bar loop an
+     * inside; equal to it, the idea is one long gesture and nothing within
+     * it comes back. Two bars is the cell loop-based music is built from.
+     * [chosen, against the two-bar progressions the genres already weight]
+     */
+    motif: 2,
     /**
      * Degrees from the tonic, one per bar. A stays close to home; B opens
      * off the tonic so the chorus moves the floor; C leaves further, which
@@ -1374,6 +1432,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * what makes it an opening rather than a way in.
      */
     breakdown: true,
+    /** one part gone for one span is half a reason to give it back */
+    rest: 0.4,
   },
 
   feel: {
