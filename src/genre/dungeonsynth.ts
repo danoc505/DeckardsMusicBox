@@ -165,9 +165,43 @@ export const dungeonsynth: GenreSpec = {
      * tone; tonemirror.so genres/sludge-metal]
      */
     pedals: {
-      // the stack, not either alone: overdrive into fuzz is what a wall is
-      overdrive: { drive: 4.5, tone: 0.28, mix: 0.55 },
-      fuzz: { gain: 9, mix: 0.4 },
+      // THE BOARD IN CABLE ORDER. Every pedal below is one MK2's board was
+      // built out of for exactly this music, and the first pass here reached
+      // past all of them for the two generic units that happened to be older.
+      //
+      // A Dyna Comp first, lightly. Doom is "loud, sustaining amps", and the
+      // Dyna Comp's own detector "amplifies weak signals" — which is sustain,
+      // and is what a riff this slow needs between strikes.
+      comp: { sustain: 0.55, level: 0.8, mix: 0.35 },
+      // THE OCTAVE DOWN, which is the one thing the doom-tone sources name as
+      // a pedal rather than a setting: "pedals pitched one or two octaves
+      // down for maximum heaviness" (boostguitarpedals.co.uk). Kept at one
+      // octave and gated high, because a divider "tracks single notes and not
+      // chords" — so it is the bass and the drone that get it, and the pad
+      // must not clock it.
+      sub: { two: 0.15, gate: 0.03, tone: 700, mix: 0.3 },
+      // A BIG MUFF, not the generic fuzz. It is the doom fuzz, and it is the
+      // one with the two knobs a sludge Muff adds: MIDS to fill the Ram's
+      // Head notch back in — the scoop is ~13 dB at 1 kHz and a scooped
+      // guitar disappears under a pad — and MASS for the low end a bass fuzz
+      // is built around. Cab corner low, because "the treble dialed back" is
+      // the number the style is most consistent about.
+      muff: { sustain: 0.62, tone: 0.3, level: 0.85, cabHz: 3200, mids: 0.55, mass: 0.45, mix: 0.5 },
+      // and an overdrive IN FRONT of it, which is the stack the sources
+      // describe — "fuzz/overdrive stacks" — not a second fuzz beside it.
+      overdrive: { drive: 4, tone: 0.3, mix: 0.4 },
+      // THE POWER SUPPLY GIVING WAY. Sag is not a knob on the signal: "under
+      // heavy demand the rail momentarily drops, creating a subtle
+      // compression players describe as feel or touch response" (aikenamps).
+      // A slow recovery is a tired valve rectifier, which is the amp this
+      // whole chain is pretending to be.
+      // MAKEUP SWEPT, not guessed. A cab corner at 3200 Hz throws away a lot,
+      // and at the units' resting levels the whole board came out 3 dB QUIETER
+      // than bypass — a sludge rig that loses volume is not one. Swept over
+      // dungeonsynth 42: makeup 0.5/0.5 gave -3.5 dBFS and a low/high tilt of
+      // 1.25, 0.65/0.7 gave -3.2 and 1.36, 0.8/0.85 gave -2.9 and 1.45. Louder
+      // AND heavier together, so the top of the sweep, with headroom left.
+      sag: { depth: 0.45, idle: 1, recovSec: 0.28, draw: 0.35, mix: 0.5 },
     },
     rack: {
       // TREBLE DIALED BACK. The one number the style is most consistent about,
