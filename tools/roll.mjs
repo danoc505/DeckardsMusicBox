@@ -66,25 +66,48 @@ const nBars = bar1 - bar0;
 const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], drone: [163,255,107] };
 const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
-const SH = 7, GUT = 34, HEAD = 16, DRUM = 4*9 + 6;
+const SH = 7, GUT = 34, HEAD = 16, DRUM = 4*9 + 6, SPAN = 13;
 let lo = Infinity, hi = -Infinity;
 for (const e of song.performance.events) if (e.pitch !== null) { if (e.pitch < lo) lo = e.pitch; if (e.pitch > hi) hi = e.pitch; }
 lo = 12*Math.floor(lo/12) ; hi = 12*Math.ceil(hi/12);
 const PITCH = (hi - lo) * SH;
-const W = GUT + nBars*PXB + 8, H = HEAD + PITCH + DRUM + 12;
+const W = GUT + nBars*PXB + 8, H = HEAD + SPAN + PITCH + DRUM + 12;
 const cv = canvas(W, H, [8, 12, 16]);
 
 const spb = song.chart.metre.beats;                 // beats in a bar
 const stepsPerBar = song.form.clock.stepsPerBar ?? 16;
 const X = (bar, step) => GUT + (bar - bar0 + (step||0)/stepsPerBar) * PXB;
-const Y = (p) => HEAD + PITCH - (p - lo) * SH;
+const TOP = HEAD + SPAN;
+const Y = (p) => TOP + PITCH - (p - lo) * SH;
 
 // octave rules
 for (let p = lo; p <= hi; p += 12) { cv.hline(Y(p), GUT, W-8, [40, 70, 58], 0.9); num(cv, (p/12-1), 2, Y(p)-2, [60,110,90]); }
+// THE ARRANGEMENT'S OWN CLOCK, along the top: a tick at every two-loop
+// boundary and a block per part that is IN across that span. A change in who
+// is playing then shows as a change in the picture, not only in the notes —
+// which is the whole point of reading a record this way.
+const ROLE_I = { drums: 0, bass: 1, keys: 2, lead: 3, drone: 4 };
+for (const pl of song.arrangement.placed) {
+  const mm = song.materials.all.get(pl.material);
+  const turn = 2 * Math.max(1, mm ? mm.period : 1);
+  for (let k = 0; k * turn < pl.section.bars; k++) {
+    const b0 = pl.section.startBar + k * turn;
+    if (b0 >= bar1 || b0 + turn <= bar0) continue;
+    const sp = pl.spans ? pl.spans[Math.min(pl.spans.length - 1, k)] : null;
+    const x0 = X(Math.max(bar0, b0)), x1 = X(Math.min(bar1, b0 + turn));
+    cv.vline(x0, HEAD, TOP + PITCH + DRUM, [90, 105, 120], 0.45);
+    if (!sp) continue;
+    for (const r of ["drums", "bass", "keys", "lead", "drone"]) {
+      if (!sp.heard.has(r)) continue;
+      cv.rect(x0 + 2 + ROLE_I[r] * 5, HEAD + 1, 4, 7, COL[r], 0.95);
+    }
+    if (sp.thin) cv.rect(x0 + 2, HEAD + 9, Math.max(4, x1 - x0 - 4), 2, [255, 179, 71], 0.85);
+  }
+}
 // bar rules + numbers
 for (let b = bar0; b <= bar1; b++) {
   const x = X(b), strong = (b % 4 === 0);
-  cv.vline(x, HEAD, HEAD+PITCH+DRUM, strong ? [60,80,96] : [30,42,52], strong ? 0.95 : 0.7);
+  cv.vline(x, TOP, TOP+PITCH+DRUM, strong ? [60,80,96] : [30,42,52], strong ? 0.95 : 0.7);
   if (b % 4 === 0 && b < bar1) num(cv, b, x+2, 4, [120,150,170]);
 }
 // sections
@@ -99,7 +122,7 @@ for (const e of song.performance.events) {
   if (e.bar < bar0 || e.bar >= bar1) continue;
   const c = COL[e.role], a = 0.35 + 0.65*Math.min(1, e.gain);
   if (e.role === "drums") {
-    const y = HEAD + PITCH + 4 + (LANE[e.lane] ?? 0)*9;
+    const y = TOP + PITCH + 4 + (LANE[e.lane] ?? 0)*9;
     cv.rect(X(e.bar, e.step), y, Math.max(2, PXB/16), 7, c, a);
   } else {
     const w = Math.max(2, (e.durSec / (60/song.chart.tempo)) * (PXB/spb));
