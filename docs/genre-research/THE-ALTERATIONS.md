@@ -1,0 +1,228 @@
+# The alterations: every way to restate something without rewriting it
+
+The rule of three says the third hearing must differ. It does **not** say the
+third hearing must be different music. "The change may be delivered at a
+different level than the repetition that demanded it. A third chorus does not
+need new chorus *notes* — it can be answered by an arrangement change"
+(`docs/FORM-RESEARCH.md`, Part 2, on `origin/main`).
+
+This program has only ever answered it one way. `src/stage/material/vary.ts`
+offers five operations — thin, augment, invert, retrograde, sequence — and
+every one of them removes notes or moves pitches. So satisfying the rule always
+costs new material, and the measurement says what that costs: over sixty seeds,
+**31% of materials are heard exactly once**, 33% of variants are heard once, and
+in **60% of records the peak is built on material the listener never hears
+again**. An idea has to be stated twice before anyone can hold on to it; this
+program keeps spending them on the second.
+
+The fix is not a better variation operator. It is a pool of changes that leave
+the notes alone, so an idea can come back a fourth and fifth time and still
+arrive different. `FORM-RESEARCH.md` Part 3 names six — strip, double,
+half-time, fill-into, empty-before, re-orchestrate — and six is what one
+paragraph happened to list, not the size of the space.
+
+Below is the space. Sixty-five moves in eleven layers, every one of which keeps
+the pitches exactly as written.
+
+**Legend.** ● the machinery exists in MKIII and is honoured by the renderer —
+it simply cannot vary across a record. ◐ partly there. ○ needs building.
+
+---
+
+## 1. Who plays it — orchestration
+
+The notes do not change; the thing making them does.
+
+| | move | |
+|---|---|---|
+| 1 | **Re-orchestrate** — the line moves to another voice (the flute's phrase given to the organ) | ● `sound.voices` maps role → voice, one map per record |
+| 2 | **Octave double** — a second voice on the same line, ±12 | ○ |
+| 3 | **Unison double** — two voices, the same pitches, thicker | ○ |
+| 4 | **Hand-off** — voice A takes the first half of the phrase, voice B the second | ○ |
+| 5 | **Carrier swap** — the tune's usual part drops out and another part plays those notes | ○ |
+| 6 | **Expose** — everything else out underneath it for its length | ◐ `strip` reaches the floor, never below |
+| 7 | **Voice substitution** — the same role on a different synthesised voice | ● six voices exist |
+
+## 2. How many play — density
+
+The pool `arrange.ts` already has, plus the two the research named and nobody built.
+
+| | move | |
+|---|---|---|
+| 8 | **part-out** | ● |
+| 9 | **part-back** | ● |
+| 10 | **all-back** — everyone at one moment | ● |
+| 11 | **strip** — down to the genre's floor | ● |
+| 12 | **empty-before** — everything out for the bar before the change, so the next downbeat arrives from nothing | ○ exists as a one-beat drum device (`drums.ts:110`), never at the seam |
+| 13 | **fill-into** — the drums lead into the return | ○ same: a bar-level letter, not an arrangement move |
+
+## 3. The clock — every note kept, in order
+
+| | move | |
+|---|---|---|
+| 14 | **Half-time** — the same material over twice the bars | ○ |
+| 15 | **Double-time** | ○ |
+| 16 | **Half-time feel** — the drums halve, everything else holds | ○ |
+| 17 | **Metric displacement** — the figure enters a beat later, or earlier | ○ |
+| 18 | **Truncation** — the last bar of the repeat is chopped and the next thing begins there | ○ note 002's odd phrasing, the transition ingredient |
+| 19 | **Extension** — a bar added, the closing note held across it | ○ |
+| 20 | **Anacrusis** — the phrase arrives early, before the downbeat | ○ |
+
+## 4. The hand — manner and weight
+
+Nothing here touches a pitch. All of it is `articulation.ts` and `feel`, which
+already exist per genre and are drawn per material.
+
+| | move | |
+|---|---|---|
+| 21 | **Articulation swap** — a slurred wind line played tongued, or tenuto | ◐ per material, not per return |
+| 22 | **Ghosting** — the line at greatly reduced weight | ● `ghost` |
+| 23 | **Accent shift** — which notes are leaned on | ● |
+| 24 | **Dynamic terrace** — the part a step quieter, or louder, for this hearing | ◐ one global arc level |
+| 25 | **Crescendo** across the section rather than a flat level | ○ |
+| 26 | **Lean** — the part plays further behind or ahead of the beat | ● `feel.lean` |
+| 27 | **Phrase shape** — more or less arch across the loop | ● `F.phrase` |
+
+## 5. Register — pitch classes kept
+
+| | move | |
+|---|---|---|
+| 28 | **Octave transposition** of the whole part | ○ registers are per genre |
+| 29 | **Voicing spread** — the same chord tones opened out | ○ |
+| 30 | **Voicing inversion** — same notes, a different one in the bass | ○ |
+
+## 6. What is underneath — the tune untouched
+
+| | move | |
+|---|---|---|
+| 31 | **Reharmonise** — the same melody, new chords under it | ○ |
+| 32 | **Bare fifths** instead of triads | ● `harmony.fifths` |
+| 33 | **Pedal point** — the bass holds one note under a progression that used to move | ○ |
+| 34 | **Drone tone** — tonic ↔ fifth | ● `drone.tone`, drawn per material |
+| 35 | **Bass tone** — root ↔ fifth ↔ octave | ● `bass.tones` |
+
+## 7. The room — MKIII's world
+
+Every one of these exists, is drawn on the radar scope, and never moves.
+
+| | move | |
+|---|---|---|
+| 36 | **Azimuth** — the flute crosses the room | ● |
+| 37 | **Distance** — a part steps closer, or further off | ● |
+| 38 | **Width** | ● |
+| 39 | **Depth** | ● |
+| 40 | **Sweep depth** — the slow drift left and right | ● |
+
+## 8. The desk — the sound stage
+
+This is the largest untapped layer by far, and it is the one dungeon synth's own
+literature asks for by name: the *development* section is where you "deepen the
+shadows of the sound through changes in reverb and filters" (note.com/soundwitches).
+A desk move, not a note move — and the one move this program cannot make.
+
+| | move | |
+|---|---|---|
+| 41 | **Sends** — five returns, per part | ● 25 knobs, all static |
+| 42 | **Filter** — the pole's cutoff down for a darker hearing | ● |
+| 43 | **Pedal feed** — a part walks more or less of the board | ● `mix[role].pedals` |
+| 44 | **Pedal swap** — a different stompbox lit for this section | ● twelve pedals |
+| 45 | **Patch** — a return fed into another return | ● the pin matrix |
+| 46 | **Echo** — time in beats, feedback | ● |
+| 47 | **Reverb decay** — a longer room for the peak | ● spring and room |
+| 48 | **Tape** — drive, wow depth | ● |
+| 49 | **Medium** — gramophone or radio across a section | ● |
+| 50 | **Vinyl** — dust | ● |
+| 51 | **Modulation** — tremolo, phaser, ensemble depth | ● |
+
+## 9. The machine — drums, notes unchanged
+
+| | move | |
+|---|---|---|
+| 52 | **Kit swap** — acoustic ↔ analog | ● |
+| 53 | **Circuit swap** — 808 ↔ 909 | ● |
+| 54 | **Lane tune / decay** offsets | ● |
+| 55 | **Lane level**, or a lane out | ● |
+| 56 | **Per-lane send** — one drum into a return the rest of the kit does not feed | ● |
+
+## 10. What answers it — new sound, no new pitches
+
+These four come from the transcripts and use material the record already has.
+
+| | move | |
+|---|---|---|
+| 57 | **Inner voice echo** — the accompaniment answers in the melody's gaps, using the melody's own fragments (note 003) | ○ |
+| 58 | **Support withdraws at the climax** — the counter-line stops so the tune is unobscured (note 003) | ○ |
+| 59 | **Foreshadow** — the hook's pitches, reduced, on another voice in an earlier section (note 009) | ○ |
+| 60 | **Coprime ornament loop** — a 5- or 6-bar figure against the 8-bar grid, drifting and realigning (note 008) | ○ |
+
+## 11. The seam — how the repeat is entered and left
+
+Note 005: every transition has two sides, an exit and an entry, and both want treatment.
+
+| | move | |
+|---|---|---|
+| 61 | **Partial variation** — the first half identical, the second half diverges. `FORM-RESEARCH.md` calls this "the most useful one for a generator" | ○ `vary.ts` transforms whole lines only |
+| 62 | **Riser** into the return | ○ |
+| 63 | **Reverse reverb** into it | ○ |
+| 64 | **Silence** on the exit side | ○ |
+| 65 | **Elision** — one section's cadence *is* the next one's downbeat, so energy never drops | ○ |
+
+---
+
+## What the tally says
+
+| | moves | already built |
+|---|---|---|
+| the desk, the room, the machine (§7–9) | 21 | **21** |
+| the hand and what is underneath (§4, §6) | 12 | 9 |
+| density (§2) | 6 | 4 |
+| orchestration (§1) | 7 | 2 |
+| the clock, register, answers, seams (§3, §5, §10, §11) | 19 | 0 |
+| **total** | **65** | **36** |
+
+Thirty-six of sixty-five are already implemented, tested, and rendered — and not
+one of them can vary across a record, because `src/sound/render.ts` never sees a
+section. The desk is one frozen object for the length of the piece.
+
+So the cheapest large win in this program is not writing new operators. It is
+letting the arrangement stage move the machinery that already exists.
+
+## What that needs
+
+One architectural change, and it is not small: `Span` currently carries
+`{ heard, thin }` — a roster and one boolean about the drums. To carry any of
+the above it has to become a roster **and a treatment**, and `render.ts` has to
+take a desk per span rather than one per record, interpolating at boundaries so
+a filter sweep is a sweep and not a step.
+
+That is the same shape as the change that made the engine chunk-based for the
+page: the renderer already rebuilds its desk when the page moves a knob
+(`setDesk`), a fifth of a second at a time, keeping its tails. A record that
+moves its own desk at a span boundary is that mechanism driven by the
+arrangement instead of by a mouse.
+
+## What must not happen
+
+**The pool must not simply be drawn from.** Sixty-five moves fired at random is
+not an arrangement, it is a light show — the same failure as the texture that
+oscillates every two loops, at greater volume. Each move needs what the current
+six have: a cost the genre states (`afford`), a freshness term so a move wears
+out, and a score against what the record has already done. A genre says which
+layers it will move at all — dungeon synth's development is reverb and filters,
+and it should probably never swap a drum circuit mid-record.
+
+**And the rule of three now applies to the moves themselves**, not only to their
+names. The current `fresh` term keys on `move:role`, so a record can play the
+same *kind* of move seven times running as long as it rotates which part it
+happens to — which is exactly what dungeonsynth 829055 does across its
+thirty-two-bar verse: `-lead +lead -bass +bass -keys +keys -lead`. Every
+boundary changed something. Nothing accumulated.
+
+## Sources
+
+- `docs/FORM-RESEARCH.md` (on `origin/main`) — Part 2's ladder of what counts as "the change", and Part 3's six treatments
+- `docs/LOOP_TO_SONG.md` (on `origin/main`) — the research pass over the ten transcripts; §6 the rule of three, and the ranked list where "add the empty" is 5th
+- Transcripts `001`–`009` (on `origin/main`): `002` transitions and odd phrasing, `003` motivic development and the inner voice, `004` fills and the empty, `005` the two-loop rule and the two sides of a transition, `006` the rule of three, `007 (8bar)` the moment, `008` coprime loops, `009` supporting and getting out of the way of the lead
+- note.com/soundwitches, "What is Dungeon Synth?" — the development section as reverb and filter movement. https://note.com/soundwitches/n/n4c2493bab15e?hl=en
+- omnionsound.com, "The Rule Of Three In Music Composition" — already cited in `form.ts` and `spec.ts`
+- tobyrush.com, "Motivic Development" — already cited in `vary.ts` for the note-changing operations this document is the complement of
