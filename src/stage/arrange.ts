@@ -71,6 +71,9 @@ import type { Idea, Role } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
+// A pure function of the chart, not a read of built materials — see its own
+// docstring. The arrangement cannot count its spans without the turn length.
+import { periodOf } from "./material/harmony.ts";
 
 /** Who plays across one span of two turns of the loop, and how hard. */
 export interface Span {
@@ -161,8 +164,14 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     // form made thin is a breath, and handing the hat back halfway through a
     // bridge is not a change to it, it is the end of it.
     //
-    // Enough spans for the shortest turn a loop can be, so whatever the turn
-    // length is the performance can index them.
+    // EXACTLY THE SPANS THAT WILL BE READ. A span is two turns of the loop,
+    // and the loop length comes from the chart, so the count is known here
+    // and is not a guess. Guessing "enough for the shortest turn a loop can
+    // be" built 2216 spans across 60 records of which 783 were ever reached:
+    // every section decided changes in spans the performance never indexed,
+    // and the record heard none of them.
+    const turn = 2 * Math.max(1, periodOf(chart, section.idea));
+    const spanCount = Math.max(1, Math.ceil(section.bars / turn));
     const spans: Span[] = [];
     /**
      * A SPAN ONLY EVER TAKES AWAY, never adds, and that is forced rather
@@ -196,7 +205,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       }
       return null;
     };
-    for (let s = 0; s < Math.max(1, Math.ceil(section.bars / 2)); s++) {
+    for (let s = 0; s < spanCount; s++) {
       if (s % 2 === 0) {
         // the section as the form asked for it: two turns of it, then a change
         spans.push({ heard: new Set(heard), thin });
