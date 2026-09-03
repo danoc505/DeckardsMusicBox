@@ -99,17 +99,36 @@ test("the third HEARING of an idea is marked to vary, whatever came between", ()
   // our interest. When it is repeated, the concept is reinforced. However, if
   // it is repeated a third time, our brains may begin to tune it out"
   // (omnionsound.com, "The Rule Of Three In Music Composition").
+  // AND THE DEMAND IS MET ONE OF TWO WAYS. The third hearing always owes a
+  // change; whether it may be paid for with new NOTES depends on the idea
+  // coming back to be heard again. A variant on an idea's last hearing is
+  // material stated once — the record developing something at the moment it
+  // has no time left to show anyone the development — so there the demand
+  // travels to the arrangement instead, as `recast`.
   let varied = 0;
+  let recast = 0;
   for (const f of sweep(200)) {
     const since = new Map<string, number>();
+    const ideas = f.sections.map((s) => s.idea);
     for (const s of f.sections) {
       const heard = (since.get(s.idea) ?? 0) + 1;
-      assert.equal(s.vary, heard >= 3, `${describeForm(f)} at ${s.index}`);
-      since.set(s.idea, s.vary ? 0 : heard);
+      const owed = heard >= 3;
+      // the rule of three itself: unchanged, and still counting hearings
+      assert.equal(s.vary || s.recast, owed, `${describeForm(f)} at ${s.index}`);
+      // never both — one says change the notes, the other says change
+      // everything except the notes
+      assert.ok(!(s.vary && s.recast), `${describeForm(f)} at ${s.index}: both`);
+      const returns = ideas.indexOf(s.idea, s.index + 1) >= 0;
+      if (s.vary) assert.ok(returns, `${describeForm(f)} at ${s.index}: varied on a last hearing`);
+      if (s.recast) assert.ok(!returns, `${describeForm(f)} at ${s.index}: recast though the idea returns`);
+      since.set(s.idea, owed ? 0 : heard);
       if (s.vary) varied++;
+      if (s.recast) recast++;
     }
   }
+  // both routes carry real traffic: measured at 135 varied and 79 recast
   assert.ok(varied > 100, `only ${varied} sections varied across 200 records`);
+  assert.ok(recast > 40, `only ${recast} sections were recast across 200 records`);
 });
 
 test("a turn ends the count, so the plain idea comes back", () => {

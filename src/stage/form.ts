@@ -58,8 +58,37 @@ export interface Section {
    *
    * What "differ" means is not decided here — the stage that writes the notes
    * owns that.
+   *
+   * AND IT IS NEVER SET ON AN IDEA'S LAST HEARING. A variant made where the
+   * idea never comes back is material heard once: the record develops a thing
+   * at the exact moment it has no time left to show anyone the development.
+   * Measured over sixty dungeon synth seeds before this rule, a THIRD of every
+   * variant built was heard once and never again, and 60% of records put their
+   * peak on material the listener never hears a second time — while an idea
+   * has to be stated twice before anyone can hold on to it at all ("when an
+   * idea is presented once, it piques our interest; when it is repeated, the
+   * concept is reinforced"). A rule against tuning out was manufacturing
+   * things there was nothing to tune out OF.
+   *
+   * The order is known here — the whole section list is built before any of
+   * this runs — so whether an idea returns is a fact and not a guess.
    */
   readonly vary: boolean;
+  /**
+   * THE RULE OF THREE FIRED HERE AND THE ANSWER MAY NOT BE NEW NOTES.
+   *
+   * The third hearing of an idea that never returns still owes a change; what
+   * it may not do is spend the idea to pay for it. "The change may be
+   * delivered at a different level than the repetition that demanded it. A
+   * third chorus does not need new chorus NOTES — it can be answered by an
+   * arrangement change" (`docs/FORM-RESEARCH.md`, Part 2).
+   *
+   * So this is the demand travelling to the stage that can meet it without
+   * rewriting anything: the arrangement, which owns the treatments. A section
+   * is never both `vary` and `recast` — the first says change the notes, the
+   * second says change everything except the notes.
+   */
+  readonly recast: boolean;
 
   readonly startBar: number;
   readonly endBar: number;
@@ -311,19 +340,29 @@ export function makeForm(chart: Chart): Form {
     // the third HEARING varies, counted per idea across the whole record and
     // not merely in a row: state it, state it again, then change something
     const heard = (since.get(idea) ?? 0) + 1;
-    const vary = heard >= 3;
+    const owed = heard >= 3;
+    // BUT A VARIANT NEEDS SOMEWHERE TO BE HEARD AGAIN. The rest of the record
+    // is already decided, so this is a lookup and not a forecast: if the idea
+    // never comes back, new notes here would be new notes nobody hears twice.
+    const returns = ideas.indexOf(idea, i + 1) >= 0;
+    const vary = owed && returns;
+    const recast = owed && !returns;
     // AND THE COUNT RESETS, so the record comes back round to the plain
     // statement afterwards. Without this every hearing after the third is a
     // variant and the tune itself is heard twice and never again — and coming
     // back to the thing an ear already knows is half of what a return is for.
-    since.set(idea, vary ? 0 : heard);
+    //
+    // A recast resets it too: the demand was met, by the arrangement rather
+    // than by the notes, and leaving the counter armed would make every
+    // remaining hearing of a trailing idea demand a change again.
+    since.set(idea, owed ? 0 : heard);
     carry = run;
 
     const position = fns.length > 1 ? i / (fns.length - 1) : 1;
     const energy = Math.min(1, rules.energy[fn] * (1 + LATE_LIFT * position));
 
     built.push({
-      index: i, fn, idea, statement, run, vary,
+      index: i, fn, idea, statement, run, vary, recast,
       startBar, endBar: startBar + len, bars: len,
       energy, peak: false,
     });

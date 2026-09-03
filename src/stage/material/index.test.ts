@@ -442,18 +442,26 @@ test("a returning idea plays its statement's own figure, changed", () => {
       assert.ok(JSON.stringify(v.lead[0]) !== JSON.stringify(plain.lead[0]), `${v.key}: nothing changed`);
     }
   }
-  // Measured at 179 of 234 variants, with 51 more skipped because the material
+  // Measured at 101 of 153 variants, the rest skipped because the material
   // they came from is never heard WITH THE TUNE — an idea can be stated by the
   // keys and the bass and first carry a melody on its return, and then there
   // is no earlier tune to develop and the variant writes the first one.
-  assert.ok(descended > 150, `only ${descended} variants played their statement's own figure`);
+  //
+  // IT WAS 179 OF 234 UNTIL THE FORM STOPPED VARYING AN IDEA'S LAST HEARING.
+  // A third of every variant this program built used to be heard once and
+  // never again — the record developing an idea at the moment it had no time
+  // left to show anyone the development — and those are now `recast` instead,
+  // a demand the arrangement answers without touching a note. The eighty-one
+  // variants that went are exactly the orphans; the proportions of the ones
+  // that remain are what they were.
+  assert.ok(descended > 90, `only ${descended} variants played their statement's own figure`);
   // a fresh line is the fallback for a tune every operation refused, and it
   // has to stay the exception
   assert.ok(redrawn < 15, `${redrawn} variants were redrawn against ${descended} varied`);
   // and both kinds are really used: the subtractive pair carries most of it,
   // and the ones that move pitches are legal often enough to be worth having
-  assert.ok(byKind.subtractive > 100, `only ${byKind.subtractive} variants were thinned or augmented`);
-  assert.ok(byKind.moved > 15, `only ${byKind.moved} variants had their pitches moved`);
+  assert.ok(byKind.subtractive > 75, `only ${byKind.subtractive} variants were thinned or augmented`);
+  assert.ok(byKind.moved > 10, `only ${byKind.moved} variants had their pitches moved`);
 });
 
 test("a loop's second turn is the figure again, or the figure changed", () => {
