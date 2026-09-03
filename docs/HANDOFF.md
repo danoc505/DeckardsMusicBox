@@ -84,64 +84,6 @@ game (4 rounds) → match (tournament-defined). A best-of-7 *games* match would 
 28 rounds and 448 shots. The NCA 2/1/0 round scoring is kept exactly, and 20s are
 tracked separately the way a real scorecard tracks them.
 
-**The flick is a plain gain on movement speed.** It always was; an attempt to
-map it through a range with a dead zone at the bottom made gentle swipes come
-out at nothing, and was undone. `TOUCH_GAIN` is the original 0.75 brought down
-to 0.70 which, with the heavier board, puts every shot at about 70% of the
-distance the original travelled for the same swipe while saturating at the same
-swipe speed — it responds as it always did and simply goes less far.
-
-**Carrying is a long press, not a slow drag.** Telling carry from flick by
-SPEED was wrong: gentle swipes are most swipes, and they were being swallowed.
-A press held for `CARRY_HOLD` lifts the disc, with a visible halo; move sooner
-and it is a flick. The gesture used every turn is never eaten by the one used
-occasionally.
-
-**A finger and a cursor are separate calibrations, and separate gestures.**
-A finger crossing the board in a fifth of a second moves about 3 board-widths
-per second; a trackpad flick of the same effort throws the cursor at 5 to 12,
-because the pointer is accelerated. One mapping cannot serve both — tuning the
-range for the trackpad put a finger swipe at 15% power or under the threshold
-entirely. Worse, touch was made to go through the trackpad's arming step, so an
-un-armed swipe was discarded without a trace: "half the time it doesn't even
-register my finger swipe". Glass now has no arming at all (a swipe is the only
-thing a swipe could mean), and `FLICK_V*_TOUCH` is calibrated separately from
-`FLICK_V*_MOUSE`.
-
-**On glass, carry and flick are told apart by speed.** A finger on the disc may
-be sliding it or striking it. Below `CARRY_MAX` it carries; above, it flicks,
-and the disc is returned to where the gesture began so the shot is never taken
-from an unintended spot.
-
-**The flick response is a mapped range, not a multiplier.** It was a plain
-gain calibrated for a finger on glass. A trackpad moves the cursor several
-times faster, so every flick a hand could actually make saturated: above about
-3200 px/s the shot came out at full power however gently it was meant. That is
-what "the discs have no weight" was — there was only one shot in the game and
-it was the hardest one. Now movement speed maps across the whole power range
-between `FLICK_V0` and `FLICK_V1`, with a sensitivity multiplier in Settings
-because trackpads differ by more than any single calibration can cover.
-
-**Friction went from 0.12 to 0.15** — the top of the researched 0.10-0.15
-recommendation — because at 0.12 discs ran on after every contact and read as
-weightless. `MAX_SLIDE` came down with it, from 2.4 m to 1.6 m.
-
-**The button is clicked, never held.** Click the line to place, click the disc
-to arm, then flick the trackpad with nothing pressed — the bare pointer
-movement *is* the shot, and it fires on the peak of the gesture as the movement
-falls away. Two earlier versions both made the player hold the button down
-through the whole gesture, which is the one motion a trackpad is worst at.
-A touchscreen has no hover, so there the armed disc is shot with a swipe that
-fires on lift-off; that is the only branch on pointerType.
-
-**Tap and flick are separate gestures.** An earlier version made you press on
-your own line, drag inward without releasing, and let go at the far end — one
-long held gesture doing placement, aiming and firing at once. It is unusable on
-a trackpad, where holding a drag across the whole board is the motion the
-hardware is worst at, and it is not what flicking a disc feels like either. Now
-a disc is always waiting on the line, a tap moves it, and a flick anywhere on
-the board shoots in the direction you swiped.
-
 **Difficulty is execution, not worse choices.** The AI finds a good shot and then
 misses it. Medium and Hard also re-score their leading candidates through their
 own shake and keep the average — which is what a player choosing a shot they can

@@ -34,32 +34,12 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-**With a finger** — one gesture, nothing to arm:
+Touch down in your own quadrant to place a disc on the shooting line, slide
+along the line to choose your spot, then drag in towards the board to aim and
+flick. Power comes from how fast you flick; sweeping sideways as you release
+puts spin on it. Pull-back aiming is in Settings if you prefer it.
 
-- **Swipe** to shoot. The direction you swipe is the direction the disc goes;
-  how fast you swipe is how hard it is struck. It fires when you lift off.
-  Swiping straight off the disc works — that is what flicking one feels like.
-- **Press and hold on the disc** for a moment until it lifts, then drag to
-  slide it along your line. Tapping anywhere on the line puts it there too.
-
-The hold is what separates carrying from shooting. Deciding by speed instead
-meant gentle swipes — most of them — got eaten and no shot came out.
-
-**With a trackpad or mouse**, holding the button through a drag is the one
-motion the hardware is worst at, so the flick is bare cursor movement:
-
-- **Click the disc** — it lights up. Armed.
-- **Flick, nothing held down.** It fires as the flick ends.
-- **Drag the disc** to carry it; **click the line** to place it there.
-- Moving the cursor while nothing is armed never does anything.
-
-The HUD reports what power each shot came out at, and
-**Settings → Flick sensitivity** shifts the whole curve if your hand and this
-calibration disagree.
-
-**Settings → Slingshot** is the precise alternative for a delicate 20: arm the
-disc, move away from where you want it to go, click to release. Power is the
-distance from the disc, so it holds steady with a full trajectory preview.
+Works with a finger, a trackpad, a mouse or a pencil — all one code path.
 
 ## Tests
 
