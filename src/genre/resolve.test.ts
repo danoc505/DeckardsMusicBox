@@ -192,3 +192,47 @@ test("a lead plan whose first cycle is silent is refused, and so is a letter tha
     assert.ok(err.problems.some((p) => p.startsWith("lead.cycles")), err.problems.join("\n"));
   }
 });
+
+test("a machine loaded with a kit that does not exist, or a strip out of range, is refused", () => {
+  const bad: GenreSpec = {
+    label: "Bad",
+    sound: {
+      machine: {
+        kit: "sega" as never,
+        circuit: "606" as never,
+        tune: 300,
+        chdecay: 4,
+        channels: { snare: { tune: 40, cut: 12, sends: { echo: 3 } } },
+      },
+    },
+  };
+  let err: GenreError | null = null;
+  try {
+    resolveGenre("bad", specs({ bad }));
+  } catch (e) {
+    err = e as GenreError;
+  }
+  assert.ok(err instanceof GenreError, "a machine nobody makes was accepted");
+  const joined = err.problems.join("\n");
+  assert.match(joined, /machine\.kit is sega/);
+  assert.match(joined, /machine\.circuit is 606/);
+  assert.match(joined, /machine\.tune must be 35\.\.70/);
+  assert.match(joined, /machine\.chdecay/);
+  assert.match(joined, /channels\.snare\.tune must be -12\.\.12/);
+  assert.match(joined, /channels\.snare\.cut must be 120\.\.20000/);
+  assert.match(joined, /channels\.snare\.sends\.echo must be 0\.\.1/);
+});
+
+test("a pedal knob out of its own range is refused, by name", () => {
+  let err: GenreError | null = null;
+  try {
+    resolveGenre("bad", specs({ bad: { label: "Bad", sound: { pedals: { muff: { cabHz: 200 }, sag: { idle: 0 }, saw: { tameHz: 50 } } } } }));
+  } catch (e) {
+    err = e as GenreError;
+  }
+  assert.ok(err instanceof GenreError, "a pedal outside its own travel was accepted");
+  const joined = err.problems.join("\n");
+  assert.match(joined, /pedals\.muff\.cabHz must be 1500\.\.16000/);
+  assert.match(joined, /pedals\.sag\.idle must be 0\.18\.\.1/);
+  assert.match(joined, /pedals\.saw\.tameHz must be 1200\.\.12000/);
+});

@@ -32,6 +32,22 @@ each other and themselves, then the inserts on the sum: pole, tape, medium,
 vinyl, master. Every knob is the genre's, and the page lays its own
 positions over them without changing the genre.
 
+The board is twelve pedals in the order a cable runs them
+(`src/sound/pedals.ts`, `src/sound/dsp.ts`): a Dyna Comp, a wah, an octave
+divider, a Super-Fuzz octave up, a Fuzz Face, a Big Muff, an overdrive, a
+fuzz, a Boss HM-2, the power supply's own sag, a phaser and a tremolo. Each
+is a circuit archetype built from published teardowns, and each is OFF the
+board at mix 0 rather than bypassed on it — a genre that uses one pedal pays
+for one.
+
+The drums are a machine (`src/sound/tr1000.ts`): one box with a kit loaded
+into it, a channel strip on every lane — tune, decay, level, filter, and its
+own send to each return — and one drive and one filter across the whole kit.
+Two kits, `acoustic` (this program's own drums, played by the strip as a
+sampler channel plays a recording) and `analog` (the 808 and 909 circuits,
+switched between as two instruments and not two ends of a dial). At its
+defaults the machine is a wire and the record is the one it always was.
+
 The record is made a block at a time. `Engine` (`src/sound/render.ts`) holds
 every filter, delay line and feedback loop of the desk and fills whatever
 length of buffer it is handed; `render` is that engine driven from end to
@@ -44,8 +60,8 @@ bytes whatever size block it was made in.
 
 The page (`tools/page.html`, built into the single file) is a bridge: a
 piano roll, a radar scope for the world, a matrix mixer, a pin matrix for
-the patch, the pedal board and the rack, each rack unit with a screen of
-its own impulse response. It plays through a worker that stays about half a
+the patch, the drum machine's panel and its strips, the pedal board and the
+rack, each rack unit with a screen of its own impulse response. It plays through a worker that stays about half a
 second in front, and saves through a second one, so rendering a file never
 interrupts the record.
 

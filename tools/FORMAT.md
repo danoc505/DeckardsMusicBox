@@ -47,6 +47,8 @@ can add lines without breaking one.
 #seconds          761.77
 #tempo_varies     no                              yes when the form drew a tempo map
 #voice            keys    rhodes                  which instrument plays each pitched part
+#kit              analog  909                     which kit the drum machine is loaded
+                                                  with, and which analogue circuit
 #events           2734
 #asked_seconds    600                             only when a length was requested
 #chords_<key>     Fm  Db  Fm  Ab                  one line per material built:
@@ -114,7 +116,7 @@ tSec      bar  step   role  lane  voice  pitch  note  durSec   gain   flags
 | `step` | fractional position in the bar, 2 dp. `8.00` is exactly on the step; `8.13` is late by the lean, the swing and the jitter |
 | `role` | `drums bass keys keys2 lead counter ostinato drone tape scene weather` |
 | `lane` | the drum lane (`kick snare hat ride tom2 …`), or the role for a pitched part |
-| `voice` | the instrument that actually plays it: the genre's voice for a pitched part (`rhodes`, `sub`, `pluck`, `organ`, `pad`, `flute`), the drum itself for a drum |
+| `voice` | the instrument that actually plays it: the genre's voice for a pitched part (`rhodes`, `sub`, `pluck`, `organ`, `pad`, `flute`), and for a drum whatever the machine's kit has on that lane — `kick snare hat openhat` on the acoustic kit, `k808 s808 h808 oh808` on the analog one |
 | `pitch` | MIDI note number, or `.` for an unpitched hit |
 | `note` | the same pitch as a name, for reading. `.` when unpitched |
 | `durSec` | sounding length in seconds |

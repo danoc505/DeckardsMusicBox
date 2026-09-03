@@ -4,9 +4,17 @@
  * a function of its inputs and the same record is the same samples twice.
  */
 
-export type Kind = "lowpass" | "highpass" | "bandpass";
+export type Kind = "lowpass" | "highpass" | "bandpass" | "peaking";
 
-/** A second-order filter, coefficients from the RBJ cookbook. */
+/**
+ * A second-order filter, coefficients from the RBJ cookbook.
+ *
+ * `peaking` takes the fifth argument, a gain in decibels: it is the band a
+ * gyrator makes — "a transistorised simulation of an inductor, to provide
+ * super-powerful, console-style EQ circuits that boost or cut the frequency
+ * at which they are centered" (catalinbread, on the Boss HM-2). Every other
+ * kind ignores it, which is why it has a default.
+ */
 export class Biquad {
   private b0 = 1;
   private b1 = 0;
@@ -18,11 +26,11 @@ export class Biquad {
   private y1 = 0;
   private y2 = 0;
 
-  constructor(kind: Kind, hz: number, q: number, sampleRate: number) {
-    this.set(kind, hz, q, sampleRate);
+  constructor(kind: Kind, hz: number, q: number, sampleRate: number, gainDb = 0) {
+    this.set(kind, hz, q, sampleRate, gainDb);
   }
 
-  set(kind: Kind, hz: number, q: number, sampleRate: number): void {
+  set(kind: Kind, hz: number, q: number, sampleRate: number, gainDb = 0): void {
     const w = (2 * Math.PI * Math.min(hz, sampleRate * 0.49)) / sampleRate;
     const cos = Math.cos(w);
     const sin = Math.sin(w);
@@ -30,6 +38,9 @@ export class Biquad {
     let b0: number;
     let b1: number;
     let b2: number;
+    let a0 = 1 + alpha;
+    let a1 = -2 * cos;
+    let a2 = 1 - alpha;
     switch (kind) {
       case "lowpass":
         b0 = (1 - cos) / 2;
@@ -46,13 +57,22 @@ export class Biquad {
         b1 = 0;
         b2 = -alpha;
         break;
+      case "peaking": {
+        const A = Math.pow(10, gainDb / 40);
+        b0 = 1 + alpha * A;
+        b1 = -2 * cos;
+        b2 = 1 - alpha * A;
+        a0 = 1 + alpha / A;
+        a1 = -2 * cos;
+        a2 = 1 - alpha / A;
+        break;
+      }
     }
-    const a0 = 1 + alpha;
     this.b0 = b0 / a0;
     this.b1 = b1 / a0;
     this.b2 = b2 / a0;
-    this.a1 = (-2 * cos) / a0;
-    this.a2 = (1 - alpha) / a0;
+    this.a1 = a1 / a0;
+    this.a2 = a2 / a0;
   }
 
   run(x: number): number {

@@ -46,7 +46,10 @@
 
 import { artOf, shapesTheNote } from "../core/articulation.ts";
 import { hash32 } from "../core/rng.ts";
-import { ROLES, SENDS, type PedalsRules, type RackRules, type Role, type SoundRules, type SoundSpec } from "../genre/spec.ts";
+import {
+  DRUM_LANES, PEDALS_ADD, ROLES, SENDS,
+  type DrumLane, type PedalsRules, type RackRules, type Role, type SoundRules, type SoundSpec,
+} from "../genre/spec.ts";
 import { articulate } from "./articulate.ts";
 import type { Event } from "../stage/perform.ts";
 import type { Song } from "../song.ts";
@@ -54,7 +57,9 @@ import {
   Biquad, Echo, Ensemble, Flanger, Fuzz, Line, Medium, Noise, Overdrive, Phaser, Pole, Reverb, Spring, Tremolo, Wah,
   panGains, saturate,
 } from "./dsp.ts";
-import { flute, hat, kick, organ, pad, pluck, rhodes, snare, sub, type NoteIn } from "./voices.ts";
+import { Comp, Meat, Muff, Octave, Sag, Saw, Sub } from "./pedals.ts";
+import { KitBus, Strip, drum, inert, voiceOf } from "./tr1000.ts";
+import { flute, organ, pad, pluck, rhodes, sub, type NoteIn } from "./voices.ts";
 
 export interface Stereo {
   readonly left: Float32Array;
@@ -127,6 +132,15 @@ class Channel {
   private readonly boarded: Float32Array;
   readonly L: Float32Array;
   readonly R: Float32Array;
+  private readonly block: number;
+
+  // the drum machine: a strip per lane, the kit's own drive and filter, and
+  // the direct out each lane feeds a return by
+  private readonly strips = new Map<DrumLane, Strip>();
+  private readonly feeds = new Map<Send, Float32Array>();
+  private readonly kit = new KitBus();
+  /** Whether the machine is doing anything a wire does not. */
+  private loaded = false;
 
   // the pedal board
   private pedals: ((x: number) => number)[] = [];
@@ -146,18 +160,59 @@ class Channel {
 
   readonly role: Role;
 
-  constructor(role: Role, block: number) {
+  constructor(role: Role, block: number, lanes: readonly DrumLane[] = []) {
     this.role = role;
+    this.block = block;
     this.dry = new Float32Array(block);
     this.boarded = new Float32Array(block);
     this.L = new Float32Array(block);
     this.R = new Float32Array(block);
+    // a strip exists for a lane the record actually strikes — the same test
+    // that decides whether a part has a channel at all
+    for (const lane of lanes) this.strips.set(lane, new Strip(block));
+  }
+
+  /** Where a hit of this lane lands: its own strip, or the kit's sum when the machine is a wire. */
+  laneBuf(lane: DrumLane): Float32Array | null {
+    if (!this.loaded) return null;
+    return this.strips.get(lane)?.buf ?? null;
+  }
+
+  /** This lane-fed direct out, for a return that something on the machine feeds. */
+  feedOf(sd: Send): Float32Array | null {
+    return this.feeds.get(sd) ?? null;
+  }
+
+  get gainL(): number { return this.gl; }
+  get gainR(): number { return this.gr; }
+
+  /** Zero everything a block writes into: the kit's sum, its strips, its direct outs. */
+  clear(n: number): void {
+    this.dry.fill(0, 0, n);
+    for (const st of this.strips.values()) st.buf.fill(0, 0, n);
+    for (const f of this.feeds.values()) f.fill(0, 0, n);
   }
 
   /** Build or retune from the rules. Called once offline, and on every knob move live. */
   tune(S: SoundRules, sr: number): void {
     const ch = S.mix[this.role];
     const W = S.world;
+
+    // ── the machine ──
+    if (this.strips.size > 0) {
+      const M = S.machine;
+      this.loaded = !inert(M, this.strips.keys());
+      if (this.loaded) {
+        for (const [lane, st] of this.strips) st.tune(M.channels[lane], sr);
+        this.kit.tune(M, sr);
+      }
+      // a direct out exists for a return some lane actually feeds
+      for (const sd of SENDS) {
+        const wanted = this.loaded && [...this.strips.keys()].some((lane) => M.channels[lane].sends[sd] > 0);
+        if (wanted) { if (!this.feeds.has(sd)) this.feeds.set(sd, new Float32Array(this.block)); }
+        else this.feeds.delete(sd);
+      }
+    }
 
     // ── the board ──
     const ps = sig([ch.pedals > 0, S.pedals]);
@@ -195,6 +250,32 @@ class Channel {
   run(n: number, t: number, S: SoundRules, sr: number): void {
     const ch = S.mix[this.role];
     const src = this.dry;
+
+    // ── the machine: every strip through its own filter and fader into the
+    // kit, and out of each one the direct feed its sends ask for. The feed is
+    // taken HERE, at the strip, which is what an individual output is: it
+    // carries the lane's own filter and level and nothing the world does. ──
+    if (this.loaded) {
+      const M = S.machine;
+      // in DRUM_LANES order, always, so the kit's sum is the same sum
+      for (const lane of DRUM_LANES) {
+        const st = this.strips.get(lane);
+        if (st === undefined) continue;
+        const strip = M.channels[lane];
+        const buf = st.buf;
+        const level = strip.level;
+        // the lane's own outs, worked out once rather than per sample
+        const outs: [Float32Array, number][] = [];
+        for (const [sd, feed] of this.feeds) if (strip.sends[sd] > 0) outs.push([feed, strip.sends[sd]]);
+        for (let i = 0; i < n; i++) {
+          const y = st.run(buf[i]!) * level;
+          src[i] = src[i]! + y;
+          for (const [feed, amount] of outs) feed[i] = feed[i]! + y * amount;
+        }
+      }
+      const drive = M.drive;
+      for (let i = 0; i < n; i++) src[i] = this.kit.run(src[i]!, drive);
+    }
 
     // ── the board: nothing fed, nothing built ──
     let input = src;
@@ -234,17 +315,39 @@ class Channel {
   }
 }
 
-/** The pedal board as a chain of stages, in the order a player wires them. */
+/**
+ * The pedal board as a chain of stages, in the order a player wires them —
+ * `PEDAL_ORDER`, which is where that order is argued.
+ *
+ * A pedal at mix 0 is not built. That is not an optimisation, it is what a
+ * pedal being off the board IS: the chain closes over the gap and a genre
+ * that uses one pedal pays for one.
+ *
+ * TWO OF THEM ADD RATHER THAN BLEND (`PEDALS_ADD`): an octave up and an
+ * octave down are second voices beside the note, and crossfading one takes
+ * away the note it was made from.
+ */
 function board(P: PedalsRules, sr: number): ((x: number) => number)[] {
   const stages: ((x: number) => number)[] = [];
-  const stage = <T extends { run(x: number): number }>(unit: T, mix: number): void => {
-    if (mix > 0) stages.push((x) => x * (1 - mix) + unit.run(x) * mix);
+  const add = new Set<string>(PEDALS_ADD);
+  const stage = <T extends { run(x: number): number }>(name: keyof PedalsRules, unit: () => T, mix: number): void => {
+    if (mix <= 0) return;
+    const u = unit();
+    if (add.has(name)) stages.push((x) => x + u.run(x) * mix);
+    else stages.push((x) => x * (1 - mix) + u.run(x) * mix);
   };
-  stage(new Wah(P.wah.rateHz, P.wah.depth, sr), P.wah.mix);
-  stage(new Overdrive(P.overdrive.drive, P.overdrive.tone, sr), P.overdrive.mix);
-  stage(new Fuzz(P.fuzz.gain, sr), P.fuzz.mix);
-  stage(new Phaser(P.phaser.rateHz, P.phaser.depth, sr), P.phaser.mix);
-  stage(new Tremolo(P.tremolo.rateHz, P.tremolo.depth, sr), P.tremolo.mix);
+  stage("comp", () => new Comp(P.comp.sustain, P.comp.level, sr), P.comp.mix);
+  stage("wah", () => new Wah(P.wah.rateHz, P.wah.depth, sr), P.wah.mix);
+  stage("sub", () => new Sub(P.sub.two, P.sub.gate, P.sub.tone, sr), P.sub.mix);
+  stage("octave", () => new Octave(sr), P.octave.mix);
+  stage("meat", () => new Meat(P.meat.dirt, P.meat.bias, P.meat.dark, P.meat.level, sr), P.meat.mix);
+  stage("muff", () => new Muff(P.muff.sustain, P.muff.tone, P.muff.level, P.muff.cabHz, P.muff.mids, P.muff.mass, sr), P.muff.mix);
+  stage("overdrive", () => new Overdrive(P.overdrive.drive, P.overdrive.tone, sr), P.overdrive.mix);
+  stage("fuzz", () => new Fuzz(P.fuzz.gain, sr), P.fuzz.mix);
+  stage("saw", () => new Saw(P.saw.dist, P.saw.low, P.saw.high, P.saw.gate, P.saw.tameHz, P.saw.level, sr), P.saw.mix);
+  stage("sag", () => new Sag(P.sag.depth, P.sag.idle, P.sag.recovSec, P.sag.draw, sr), P.sag.mix);
+  stage("phaser", () => new Phaser(P.phaser.rateHz, P.phaser.depth, sr), P.phaser.mix);
+  stage("tremolo", () => new Tremolo(P.tremolo.rateHz, P.tremolo.depth, sr), P.tremolo.mix);
   return stages;
 }
 
@@ -299,6 +402,15 @@ export class Engine {
 
   /** Notes rendered once, used wherever they recur. */
   private readonly cache = new Map<string, Float32Array>();
+  /**
+   * The kit's own cache, kept apart because it is thrown away for a different
+   * reason: a hit is what the machine's voicing knobs make it, so turning TUNE
+   * while the record plays makes every drum in here a drum of the old machine.
+   * The pitched notes are untouched by that, and rendering them again would
+   * be the expensive half.
+   */
+  private readonly kitCache = new Map<string, Float32Array>();
+  private kitSig = "";
   private cursor = 0;
   private flight: Flight[] = [];
   private t = 0;
@@ -353,7 +465,12 @@ export class Engine {
     // shape made by whether a buffer had ever been allocated for it
     for (const role of ROLES) {
       if (this.only !== undefined && role !== this.only) continue;
-      if (this.events.some((e) => e.role === role)) this.channels.set(role, new Channel(role, b));
+      if (!this.events.some((e) => e.role === role)) continue;
+      // and a lane of the machine has a strip if the record strikes it
+      const lanes = role === "drums"
+        ? DRUM_LANES.filter((lane) => this.events.some((e) => e.role === "drums" && e.lane === lane))
+        : [];
+      this.channels.set(role, new Channel(role, b, lanes));
     }
 
     this.lp = [new Biquad("lowpass", this.S.rack.tape.lowpassHz, 0.71, sr), new Biquad("lowpass", this.S.rack.tape.lowpassHz, 0.71, sr)];
@@ -383,6 +500,14 @@ export class Engine {
 
   private tune(): void {
     const sr = this.sampleRate;
+    // WHAT THE MACHINE IS, as against what it is doing: the kit, the circuit
+    // and every voicing knob, plus the strips' tune and decay — which are part
+    // of the hit and not nodes it passes through. A move here is a new drum,
+    // so the drums already rendered are of an instrument that no longer exists.
+    const M = this.S.machine;
+    const ks = sig([M.kit, M.circuit, M.tune, M.decay, M.tone, M.punch, M.snappy, M.sdtone, M.chdecay, M.ohdecay,
+      DRUM_LANES.map((lane) => [M.channels[lane].tune, M.channels[lane].decay])]);
+    if (ks !== this.kitSig) { this.kitSig = ks; this.kitCache.clear(); }
     for (const ch of this.channels.values()) ch.tune(this.S, sr);
     this.wire();
     this.inserts();
@@ -393,13 +518,15 @@ export class Engine {
     const S = this.S;
     const P = S.patch;
 
-    // a send has a bus if some part actually feeds it
+    // a send has a bus if some part actually feeds it — or, on the drums, if
+    // one of the machine's own channels does out of its individual output
     const fed = new Set<Send>();
     for (const role of this.channels.keys()) {
       const ch = S.mix[role];
       const roomExtra = S.world.depth * ch.dist * 0.5;
       for (const sd of SENDS) {
         if (ch.sends[sd] + (sd === "room" ? roomExtra : 0) > 0) fed.add(sd);
+        if (role === "drums" && this.channels.get(role)?.feedOf(sd) !== null) fed.add(sd);
       }
     }
     // a unit is live if something feeds it — a part's send, or another unit
@@ -498,29 +625,39 @@ export class Engine {
       if (dst === undefined) continue;
       const layer = Math.max(1, Math.round(e.gain * layers));
       const layerGain = layer / layers;
-      const voice = e.role === "drums" ? e.lane : S.voices[e.role];
+      const drums = e.role === "drums";
+      const lane = e.lane as DrumLane;
+      // WHAT IS PLAYING IT. On the drums that is the machine's business: which
+      // kit is loaded decides whether this lane is a recording or a circuit,
+      // and the name of the thing playing is what seeds its noise.
+      const voice = drums ? voiceOf(lane, S.machine) : S.voices[e.role];
       const what = `${this.seed}/${voice}/${e.pitch ?? ""}/${e.durSec}`;
       // the manner is part of what the note IS, so it is part of the key: a
       // hammered note and a struck one of the same pitch and length are two
       // different buffers, and each is still rendered only once
       const art = artOf(e.art);
       const key = `${what}/${layer}/${shapesTheNote(art) ? art.name : ""}`;
-      let buf = this.cache.get(key);
+      const from = drums ? this.kitCache : this.cache;
+      let buf = from.get(key);
       if (buf === undefined) {
         const note: NoteIn = { midi: e.pitch ?? 0, heldSec: e.durSec, gain: layerGain, seed: hash32(what), sampleRate: sr };
-        const plain = e.role === "drums"
-          ? e.lane === "kick" ? kick : e.lane === "snare" ? snare : (n: NoteIn) => hat(n, e.lane === "openhat")
+        const plain = drums
+          ? (nn: NoteIn): Float32Array => drum(lane, nn, S.machine)
           : this.voices[S.voices[e.role]]!;
         buf = shapesTheNote(art) ? articulate(plain, note, art) : plain(note);
-        this.cache.set(key, buf);
+        from.set(key, buf);
       }
       // a downbeat may be pushed before the top of the record: the part of the
       // note that fell before zero is not heard, exactly as before
       const skip = at < 0 ? -at : 0;
-      this.flight.push({ buf, pos: skip, abs: at + skip, dst: dst.dry, level: e.gain / layerGain });
+      // and a drum lands on its own strip when the machine has one loaded, or
+      // on the kit's sum when the machine is a wire — which is what a strip at
+      // its defaults is. A hit already in flight keeps the way it came in.
+      const target = (drums ? dst.laneBuf(lane) : null) ?? dst.dry;
+      this.flight.push({ buf, pos: skip, abs: at + skip, dst: target, level: e.gain / layerGain });
     }
 
-    for (const ch of this.channels.values()) ch.dry.fill(0, 0, n);
+    for (const ch of this.channels.values()) ch.clear(n);
     if (this.flight.length === 0) return;
     // in event order, which is the order the old shape added them in, so a
     // sample two notes land on is the same sum of the same two floats
@@ -572,13 +709,28 @@ export class Engine {
       const roomExtra = S.world.depth * ch.dist * 0.5;
       for (let u = 0; u < this.units.length; u++) {
         const sd = this.units[u]!;
-        const amount = ch.sends[sd] + (sd === "room" ? roomExtra : 0);
-        if (amount <= 0) continue;
         const bl = this.busL[u], br = this.busR[u];
         if (!bl || !br) continue;
+        const amount = ch.sends[sd] + (sd === "room" ? roomExtra : 0);
+        if (amount > 0) {
+          for (let i = 0; i < want; i++) {
+            bl[i] = bl[i]! + cl[i]! * amount * level;
+            br[i] = br[i]! + cr[i]! * amount * level;
+          }
+        }
+        // ── AND THE MACHINE'S INDIVIDUAL OUTPUTS ────────────────────────────
+        // One lane's own feed to this return, taken at its strip: the point of
+        // the machine is that the snare can be in a long delay while the hat
+        // is dry, which a send on the whole kit cannot say at any price. It
+        // arrives placed where the kit is — the channel's pan — and carries
+        // nothing else the world does to the kit, because a direct out is a
+        // socket on the back of the box and not a microphone in the room.
+        const feed = c.feedOf(sd);
+        if (feed === null) continue;
+        const gl = c.gainL * level, gr = c.gainR * level;
         for (let i = 0; i < want; i++) {
-          bl[i] = bl[i]! + cl[i]! * amount * level;
-          br[i] = br[i]! + cr[i]! * amount * level;
+          bl[i] = bl[i]! + feed[i]! * gl;
+          br[i] = br[i]! + feed[i]! * gr;
         }
       }
     }

@@ -13,7 +13,7 @@
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
+  BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, KIT_NAMES, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
   type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
@@ -620,11 +620,54 @@ export function resolveGenre(
         if (!finite(v) || v < lo || v > hi) problems.push(`sound.pedals.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
       };
       for (const name of PEDAL_ORDER) pd(name, "mix", 0, 1);
+      pd("comp", "sustain", 0, 1); pd("comp", "level", 0, 1);
       pd("wah", "rateHz", 0.05, 12); pd("wah", "depth", 0, 1);
+      pd("sub", "two", 0, 1); pd("sub", "gate", 0.0002, 0.3); pd("sub", "tone", 120, 4000);
+      pd("meat", "dirt", 0, 1); pd("meat", "bias", 0, 1); pd("meat", "dark", 0, 1); pd("meat", "level", 0, 1);
+      pd("muff", "sustain", 0, 1); pd("muff", "tone", 0, 1); pd("muff", "level", 0, 1);
+      pd("muff", "cabHz", 1500, 16000); pd("muff", "mids", 0, 1); pd("muff", "mass", 0, 1);
       pd("overdrive", "drive", 1, 20); pd("overdrive", "tone", 0, 1);
       pd("fuzz", "gain", 1, 40);
+      pd("saw", "dist", 0, 1); pd("saw", "low", 0, 1); pd("saw", "high", 0, 1);
+      pd("saw", "gate", 0, 0.3); pd("saw", "tameHz", 1200, 12000); pd("saw", "level", 0, 1);
+      pd("sag", "depth", 0, 1); pd("sag", "idle", 0.18, 1); pd("sag", "recovSec", 0.01, 0.6); pd("sag", "draw", 0, 1);
       pd("phaser", "rateHz", 0.02, 10); pd("phaser", "depth", 0, 1);
       pd("tremolo", "rateHz", 0.1, 20); pd("tremolo", "depth", 0, 1);
+    }
+    // the drum machine: which kit, which circuit, and the strip on every lane
+    const machine = isPlainObject(sound["machine"]) ? sound["machine"] : null;
+    if (machine === null) problems.push("sound.machine is missing");
+    else {
+      const mn = (field: string, lo: number, hi: number): void => {
+        const v = machine[field];
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.machine.${field} must be ${lo}..${hi}, got ${String(v)}`);
+      };
+      if (!(KIT_NAMES as readonly unknown[]).includes(machine["kit"])) {
+        problems.push(`sound.machine.kit is ${String(machine["kit"])}, not one of ${KIT_NAMES.join(", ")}`);
+      }
+      if (!(CIRCUITS as readonly unknown[]).includes(machine["circuit"])) {
+        problems.push(`sound.machine.circuit is ${String(machine["circuit"])}, not one of ${CIRCUITS.join(", ")}`);
+      }
+      mn("tune", 35, 70); mn("decay", 0.15, 1.6); mn("tone", 0, 1); mn("punch", 0, 1);
+      mn("snappy", 0, 1); mn("sdtone", 0, 1); mn("chdecay", 0.01, 0.14); mn("ohdecay", 0.1, 0.9);
+      mn("drive", 0.6, 2); mn("filterHz", 200, 20000);
+      const channels = isPlainObject(machine["channels"]) ? machine["channels"] : null;
+      if (channels === null) problems.push("sound.machine.channels is missing");
+      else for (const lane of DRUM_LANES) {
+        const strip = channels[lane];
+        if (!isPlainObject(strip)) { problems.push(`sound.machine.channels.${lane} is missing`); continue; }
+        const st = (field: string, lo: number, hi: number): void => {
+          const v = strip[field];
+          if (!finite(v) || v < lo || v > hi) problems.push(`sound.machine.channels.${lane}.${field} must be ${lo}..${hi}, got ${String(v)}`);
+        };
+        st("tune", -12, 12); st("decay", 0.2, 3); st("level", 0, 1.6); st("cut", 120, 20000);
+        const sends = isPlainObject(strip["sends"]) ? strip["sends"] : null;
+        if (sends === null) { problems.push(`sound.machine.channels.${lane}.sends is missing`); continue; }
+        for (const sd of SENDS) {
+          const v = sends[sd];
+          if (!finite(v) || v < 0 || v > 1) problems.push(`sound.machine.channels.${lane}.sends.${sd} must be 0..1, got ${String(v)}`);
+        }
+      }
     }
   }
 

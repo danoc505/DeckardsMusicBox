@@ -368,6 +368,11 @@
     <div style="overflow-x:auto"><table class="matrix" id="matrix"></table></div>
   </section>
 
+  <section class="plate"><span class="screwB"></span><h2>Drum machine <small>one box, a kit loaded into it, a strip on every lane</small></h2>
+    <div id="machine"></div>
+    <div class="hint" style="margin-top:10px">A kit is which voices the lanes are loaded with; the circuit is which analogue engine the analog kit is — two instruments, not two ends of a dial. TUNE and DECAY on a strip are offsets on what the circuit already decided, and on a recording they are a playback rate and where to stop. The sends are the machine's individual outputs: one lane into a return the rest of the kit does not feed.</div>
+  </section>
+
   <section class="plate"><span class="screwB"></span><h2>Pedal board <small>a part walks it by its feed in the matrix · in the order the cable runs</small></h2>
     <div class="boardwrap"><svg class="cable" id="cable"></svg><div class="board" id="board"></div></div>
   </section>
@@ -513,7 +518,7 @@
     meterSvg($("d-energy"), peakE, "PEAK " + peakE.toFixed(2));
     meterSvg($("d-left"), 0, "L dB"); meterSvg($("d-right"), 0, "R dB");
     $("roll-sub").textContent = M.summary(song);
-    drawTape(); drawRoll(null); drawScope(); drawMatrix(); drawBoard(); drawPatch(); drawRack();
+    drawTape(); drawRoll(null); drawScope(); drawMatrix(); drawMachine(); drawBoard(); drawPatch(); drawRack();
     $("dump").value = M.dump(song);
     $("chrono").textContent = "0:00.0";
   }
@@ -662,9 +667,16 @@
 
   // ── the pedal board ──
   var PEDALS = {
+    comp: { p: "#8a6d1f", series: "DYNA · MK III", knobs: [["sustain", "Sustain", 0, 1, 0.01], ["level", "Level", 0, 1, 0.01]] },
     wah: { p: "#7d3f86", series: "CRY · MK III", knobs: [["rateHz", "Rate", 0.05, 12, 0.05, "Hz"], ["depth", "Depth", 0, 1, 0.01]] },
+    sub: { p: "#2b4c6f", series: "DIVIDER · MK III", knobs: [["two", "−1/−2", 0, 1, 0.01], ["gate", "Gate", 0.0002, 0.3, 0.0005], ["tone", "Tame", 120, 4000, 20, "Hz"]] },
+    octave: { p: "#6f2b4c", series: "SUPER · MK III", knobs: [] },
+    meat: { p: "#7a2f1c", series: "MEATHEAD · MK III", knobs: [["dirt", "Dirt", 0, 1, 0.01], ["bias", "Bias", 0, 1, 0.01], ["dark", "Dark", 0, 1, 0.01], ["level", "Loud", 0, 1, 0.01]] },
+    muff: { p: "#4a4a2b", series: "PI · MK III", knobs: [["sustain", "Sustain", 0, 1, 0.01], ["tone", "Tone", 0, 1, 0.01], ["level", "Level", 0, 1, 0.01], ["cabHz", "Cab", 1500, 16000, 100, "Hz"], ["mids", "Mids", 0, 1, 0.01], ["mass", "Mass", 0, 1, 0.01]] },
     overdrive: { p: "#b57a1e", series: "TUBE · MK III", knobs: [["drive", "Drive", 1, 20, 0.1], ["tone", "Tone", 0, 1, 0.01]] },
     fuzz: { p: "#a32f24", series: "FACE · MK III", knobs: [["gain", "Gain", 1, 40, 0.5]] },
+    saw: { p: "#3f6b2f", series: "HM-2 · MK III", knobs: [["dist", "Dist", 0, 1, 0.01], ["low", "Low", 0, 1, 0.01], ["high", "High", 0, 1, 0.01], ["gate", "Gate", 0, 0.3, 0.005], ["tameHz", "Tame", 1200, 12000, 100, "Hz"], ["level", "Level", 0, 1, 0.01]] },
+    sag: { p: "#5a3f2b", series: "SUPPLY · MK III", knobs: [["depth", "Sag", 0, 1, 0.01], ["idle", "Batt", 0.18, 1, 0.01], ["recovSec", "Recov", 0.01, 0.6, 0.005, "s"], ["draw", "Draw", 0, 1, 0.01]] },
     phaser: { p: "#25729f", series: "90 · MK III", knobs: [["rateHz", "Rate", 0.02, 10, 0.01, "Hz"], ["depth", "Depth", 0, 1, 0.01]] },
     tremolo: { p: "#2f7d49", series: "OPTO · MK III", knobs: [["rateHz", "Rate", 0.1, 20, 0.1, "Hz"], ["depth", "Depth", 0, 1, 0.01]] }
   };
@@ -735,6 +747,64 @@
       });
       t.appendChild(tr);
     });
+  }
+
+  // ── the drum machine: the panel, and a strip per lane ──
+  // The knobs are the machine's own, so the panel is the machine's own: the
+  // box across the top, and under it the ten-channel strip the TR-1000 puts
+  // its faders on — here the four lanes this program writes notes on.
+  var VOICING = [
+    ["tune", "BD Tune", 35, 70, 1, "Hz"], ["decay", "BD Decay", 0.15, 1.6, 0.01, "s"],
+    ["tone", "BD Tone", 0, 1, 0.01], ["punch", "BD Punch", 0, 1, 0.01],
+    ["snappy", "SD Snappy", 0, 1, 0.01], ["sdtone", "SD Tone", 0, 1, 0.01],
+    ["chdecay", "CH", 0.01, 0.14, 0.005, "s"], ["ohdecay", "OH", 0.1, 0.9, 0.01, "s"],
+    ["drive", "Drive", 0.6, 2, 0.01], ["filterHz", "Filter", 200, 20000, 50, "Hz"]
+  ];
+  function drawMachine() {
+    var host = $("machine"); host.innerHTML = "";
+    var pick = function (key, options) {
+      var wrap = document.createElement("label");
+      wrap.style.cssText = "display:flex;gap:6px;align-items:center;font:10px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.08em";
+      wrap.appendChild(document.createTextNode(key));
+      var sel = document.createElement("select"); sel.setAttribute("aria-label", "machine " + key);
+      sel.style.cssText = "font:10px var(--mono);background:#0a0c0f;color:var(--cream);border:1px solid #000;padding:5px 6px;border-radius:3px";
+      options.forEach(function (o) { var el = document.createElement("option"); el.value = o; el.textContent = o; sel.appendChild(el); });
+      sel.value = current(["machine", key]);
+      // the kit decides what is written down the side of the strips, so
+      // loading one redraws the panel: a label naming a voice the machine is
+      // no longer loaded with is the same lie as a knob that does nothing
+      sel.addEventListener("change", function () { set(["machine", key], sel.value); desked(); if (key === "kit") drawMachine(); });
+      wrap.appendChild(sel); return wrap;
+    };
+    var top = document.createElement("div");
+    top.style.cssText = "display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:12px";
+    top.appendChild(pick("kit", M.KIT_NAMES.slice()));
+    top.appendChild(pick("circuit", M.CIRCUITS.slice()));
+    var kn = document.createElement("div"); kn.className = "knobs";
+    VOICING.forEach(function (k) { kn.appendChild(bound(["machine", k[0]], k[1], k[2], k[3], k[4], k[5] || "", false)); });
+    top.appendChild(kn);
+    host.appendChild(top);
+
+    var wrap = document.createElement("div"); wrap.style.overflowX = "auto";
+    var t = document.createElement("table"); t.className = "matrix";
+    var head = document.createElement("tr");
+    head.innerHTML = '<th class="part">Lane</th><th title="semitones, an offset">Tune</th><th>Decay</th><th>Mix</th><th>Filter</th>' +
+      M.SENDS.map(function (s) { return '<th>' + (s === "ensemble" ? "DP/4" : s) + '</th>'; }).join("");
+    t.appendChild(head);
+    M.DRUM_LANES.forEach(function (lane) {
+      var tr = document.createElement("tr");
+      var td = document.createElement("td"); td.className = "part";
+      td.innerHTML = '<span class="who">' + lane + '</span><span class="voice">' + M.KITS[current(["machine", "kit"])][lane] + '</span>';
+      tr.appendChild(td);
+      var cell = function (k) { var c = document.createElement("td"); c.appendChild(k); tr.appendChild(c); };
+      cell(bound(["machine", "channels", lane, "tune"], "", -12, 12, 0.5, "st", true));
+      cell(bound(["machine", "channels", lane, "decay"], "", 0.2, 3, 0.01, "", true));
+      cell(bound(["machine", "channels", lane, "level"], "", 0, 1.6, 0.01, "", true));
+      cell(bound(["machine", "channels", lane, "cut"], "", 120, 20000, 20, "Hz", true));
+      M.SENDS.forEach(function (s) { cell(bound(["machine", "channels", lane, "sends", s], "", 0, 1, 0.01, "", true)); });
+      t.appendChild(tr);
+    });
+    wrap.appendChild(t); host.appendChild(wrap);
   }
 
   // ── the rack, each unit with its own screen ──

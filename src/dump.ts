@@ -12,7 +12,8 @@
 
 import { clockFace } from "./core/clock.ts";
 import { NOTE_NAMES, noteName, pc } from "./core/theory.ts";
-import { ROLES, type Role } from "./genre/spec.ts";
+import { ROLES, type DrumLane, type Role } from "./genre/spec.ts";
+import { voiceOf } from "./sound/tr1000.ts";
 import type { Song } from "./song.ts";
 import type { Event } from "./stage/perform.ts";
 
@@ -94,6 +95,9 @@ export function dump(song: Song): string {
     if (r === "drums") continue;
     L.push(`#voice\t${r}\t${chart.genre.sound.voices[r]}`);
   }
+  // and the drums are a machine with a kit in it, which is the same question
+  // asked of the one part that has no `voices` entry
+  L.push(`#kit\t${chart.genre.sound.machine.kit}\t${chart.genre.sound.machine.circuit}`);
   L.push(`#events\t${ev.length}`);
   if (chart.askedSec !== null) L.push(`#asked_seconds\t${chart.askedSec}`);
 
@@ -138,8 +142,9 @@ export function dump(song: Song): string {
         e.role,
         e.lane,
         // the instrument that actually plays it: the genre's voice for a
-        // pitched part, and the drum itself for a drum
-        e.role === "drums" ? e.lane : chart.genre.sound.voices[e.role],
+        // pitched part, and for a drum whatever the machine's kit has loaded
+        // on that lane — which is the circuit or the recording, not the lane
+        e.role === "drums" ? voiceOf(e.lane as DrumLane, chart.genre.sound.machine) : chart.genre.sound.voices[e.role],
         e.pitch ?? ".",
         e.pitch === null ? "." : noteName(e.pitch),
         r4(e.durSec),

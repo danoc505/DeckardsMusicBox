@@ -563,16 +563,71 @@ export interface WorldSpec {
 }
 export type WorldRules = Required<WorldSpec>;
 
-/** THE PEDAL BOARD, in the order a signal walks it. Mix 0 is a pedal switched off. */
+/**
+ * THE PEDAL BOARD, in the order a signal walks it. Mix 0 is a pedal switched
+ * off — and off a board, not bypassed on it: a pedal at 0 is never built.
+ *
+ * THE ORDER IS A REAL BOARD'S, and every step of it is somebody's reason.
+ * COMP first, because an OTA compressor is levelling the instrument and not
+ * the effects. The WAH ahead of the dirt, where a filter belongs. The SUB
+ * before it too, because a divider clocks off zero crossings and a fuzzed
+ * signal has crossings everywhere — pitch tracking goes in front of
+ * distortion on any board. Then the OCTAVE, so its rectified harmonics are
+ * what gets clipped, which is what a Super-Fuzz does internally. Then the
+ * dirt, the FUZZ FACE before the MUFF because stacking a Face into a Muff is
+ * the ordinary sludge move and not the reverse — the Face is the raw one and
+ * the Muff is the compressor and the tone stack after it. The CHAINSAW late,
+ * because on an HM-2 the EQ section IS the sound: it is the last voicing
+ * anything sees rather than a drive feeding another drive. The SAG last of
+ * the dirt, because a supply squishes what the circuit in front of it draws.
+ * Modulation at the end, where a phaser and a tremolo sit on every board that
+ * has them.
+ */
 export interface PedalsSpec {
+  /** An MXR Dyna Comp: how hard it squashes, and the makeup that lifts what is left. */
+  readonly comp?: { readonly sustain?: number; readonly level?: number; readonly mix?: number };
   readonly wah?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
+  /**
+   * An octave DIVIDER. `two` slides the flip-flops from one octave down to
+   * two, `gate` is how loud the input must be before it clocks at all, and
+   * `tone` tames the square it makes. Its mix ADDS under the dry: the pedal
+   * supplies the octave and the note keeps its own pitch.
+   */
+  readonly sub?: { readonly two?: number; readonly gate?: number; readonly tone?: number; readonly mix?: number };
+  /** A Super-Fuzz's upper octave: a full-wave rectifier, added under the dry. */
+  readonly octave?: { readonly mix?: number };
+  /** A Fuzz Face. `bias` starves it, and a starved Fuzz Face gates. */
+  readonly meat?: { readonly dirt?: number; readonly bias?: number; readonly dark?: number; readonly level?: number; readonly mix?: number };
+  /** A Big Muff Pi, with the two knobs every sludge Muff on the market adds: MIDS and MASS. */
+  readonly muff?: {
+    readonly sustain?: number; readonly tone?: number; readonly level?: number;
+    readonly cabHz?: number; readonly mids?: number; readonly mass?: number; readonly mix?: number;
+  };
   readonly overdrive?: { readonly drive?: number; readonly tone?: number; readonly mix?: number };
   readonly fuzz?: { readonly gain?: number; readonly mix?: number };
+  /** A Boss HM-2. `low` and `high` are the gyrators, and dimed is the setting. */
+  readonly saw?: {
+    readonly dist?: number; readonly low?: number; readonly high?: number;
+    readonly gate?: number; readonly tameHz?: number; readonly level?: number; readonly mix?: number;
+  };
+  /** The power supply: a static starve (`idle`) and a dynamic droop (`depth`, `recovSec`). */
+  readonly sag?: { readonly depth?: number; readonly idle?: number; readonly recovSec?: number; readonly draw?: number; readonly mix?: number };
   readonly phaser?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
   readonly tremolo?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number };
 }
 export type PedalsRules = Total<PedalsSpec>;
-export const PEDAL_ORDER = ["wah", "overdrive", "fuzz", "phaser", "tremolo"] as const satisfies readonly (keyof PedalsSpec)[];
+export const PEDAL_ORDER = [
+  "comp", "wah", "sub", "octave", "meat", "muff", "overdrive", "fuzz", "saw", "sag", "phaser", "tremolo",
+] as const satisfies readonly (keyof PedalsSpec)[];
+
+/**
+ * THE PEDALS THAT ADD RATHER THAN REPLACE. A fuzz is a crossfade — the wet is
+ * what the dry BECAME — but an octave is a second voice beside the note, and
+ * crossfading it takes away the note it was made from. So the board sums
+ * these two under the dry and blends the rest, which is how the two pedals
+ * are wired on a floor.
+ */
+export const PEDALS_ADD: readonly (keyof PedalsSpec)[] = Object.freeze(["sub", "octave"]);
 
 /**
  * THE PATCH: the returns feeding each other. `patch[from][to]` is how much
@@ -584,6 +639,87 @@ export const PEDAL_ORDER = ["wah", "overdrive", "fuzz", "phaser", "tremolo"] as 
 export type PatchSpec = Readonly<Partial<Record<Send, Readonly<Partial<Record<Send, number>>>>>>;
 export type PatchRules = Readonly<Record<Send, Readonly<Record<Send, number>>>>;
 
+/** The kits the drum machine can be loaded with. A kit is a lane-to-voice map. */
+export const KIT_NAMES = ["acoustic", "analog"] as const;
+export type KitName = (typeof KIT_NAMES)[number];
+
+/** Which analogue engine the machine's voices are: two circuits, two instruments. */
+export const CIRCUITS = ["808", "909"] as const;
+export type Circuit = (typeof CIRCUITS)[number];
+
+/**
+ * ONE CHANNEL OF THE MACHINE, one per lane — the six knobs the TR-1000 puts on
+ * a strip. TUNE and DECAY are OFFSETS on top of whatever the circuit already
+ * decided, both neutral at their defaults, so a genre that says nothing plays
+ * what it played before. The CTRLs on the real box are assignable; here they
+ * are wired to the strip's filter and its sends, and the cap says so rather
+ * than copying the ink.
+ */
+export interface StripSpec {
+  /** Semitones, an offset. On a recording this is a playback rate: speed IS pitch. */
+  readonly tune?: number;
+  /** A multiplier on how long the drum rings. */
+  readonly decay?: number;
+  /** The fader. */
+  readonly level?: number;
+  /** The strip's own lowpass, in hertz. 20000 is open. */
+  readonly cut?: number;
+  /** The machine's individual outputs: this lane's own feed to each return. */
+  readonly sends?: Readonly<Partial<Record<Send, number>>>;
+}
+export interface StripRules {
+  readonly tune: number;
+  readonly decay: number;
+  readonly level: number;
+  readonly cut: number;
+  readonly sends: Readonly<Record<Send, number>>;
+}
+
+/**
+ * THE DRUM MACHINE. One box, two kits, one panel: which voices are loaded is a
+ * setting and not a different machine, and the strips, the drive and the
+ * filter belong to the box whatever is loaded into it.
+ *
+ * The voicing knobs are the analogue engine's own — they are what a TR-1000's
+ * front panel is — and the acoustic kit reads TUNE and DECAY through its
+ * strips, as a sampler channel does. Nothing here is drawn per song: a genre
+ * states where the knobs sit and the page moves them for one rendering.
+ */
+export interface MachineSpec {
+  readonly kit?: KitName;
+  readonly circuit?: Circuit;
+  /** The bass drum: where it is tuned, how long it rings, its click, its weight. */
+  readonly tune?: number;
+  readonly decay?: number;
+  readonly tone?: number;
+  readonly punch?: number;
+  /** The snare: how much wire, and where the band sits. */
+  readonly snappy?: number;
+  readonly sdtone?: number;
+  /** The hats, closed and open, in seconds. */
+  readonly chdecay?: number;
+  readonly ohdecay?: number;
+  /** ANALOG FX: one drive and one filter across the whole kit. */
+  readonly drive?: number;
+  readonly filterHz?: number;
+  readonly channels?: Readonly<Partial<Record<DrumLane, StripSpec>>>;
+}
+export interface MachineRules {
+  readonly kit: KitName;
+  readonly circuit: Circuit;
+  readonly tune: number;
+  readonly decay: number;
+  readonly tone: number;
+  readonly punch: number;
+  readonly snappy: number;
+  readonly sdtone: number;
+  readonly chdecay: number;
+  readonly ohdecay: number;
+  readonly drive: number;
+  readonly filterHz: number;
+  readonly channels: Readonly<Record<DrumLane, StripRules>>;
+}
+
 export interface SoundSpec {
   readonly voices?: Readonly<Partial<Record<PitchedRole, VoiceName>>>;
   readonly rack?: RackSpec;
@@ -591,6 +727,7 @@ export interface SoundSpec {
   readonly world?: WorldSpec;
   readonly pedals?: PedalsSpec;
   readonly patch?: PatchSpec;
+  readonly machine?: MachineSpec;
 }
 
 export interface SoundRules {
@@ -600,6 +737,7 @@ export interface SoundRules {
   readonly world: WorldRules;
   readonly pedals: PedalsRules;
   readonly patch: PatchRules;
+  readonly machine: MachineRules;
 }
 
 /** What an author writes. */
@@ -1165,12 +1303,60 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       ensemble: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
       flange: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
     },
+    /**
+     * Every pedal on the board and every one of them off it — mix 0, so
+     * nothing is built. The knob positions are each pedal's own: a Dyna Comp
+     * halfway up, an HM-2 dimed because "every knob turned all the way up,
+     * that's all" is the only setting anybody uses it at, a fresh battery in
+     * the sag, and a Fuzz Face barely starved.
+     */
     pedals: {
+      comp: { sustain: 0.5, level: 0.5, mix: 0 },
       wah: { rateHz: 1.2, depth: 0.7, mix: 0 },
+      sub: { two: 0, gate: 0.012, tone: 900, mix: 0 },
+      octave: { mix: 0 },
+      meat: { dirt: 0.6, bias: 0.15, dark: 0.5, level: 0.5, mix: 0 },
+      muff: { sustain: 0.45, tone: 0.35, level: 0.5, cabHz: 4500, mids: 0, mass: 0, mix: 0 },
       overdrive: { drive: 3, tone: 0.5, mix: 0 },
       fuzz: { gain: 6, mix: 0 },
+      saw: { dist: 0.7, low: 1, high: 1, gate: 0.06, tameHz: 6000, level: 0.5, mix: 0 },
+      sag: { depth: 0.5, idle: 1, recovSec: 0.12, draw: 0.25, mix: 0 },
       phaser: { rateHz: 0.4, depth: 0.7, mix: 0 },
       tremolo: { rateHz: 4.5, depth: 0.6, mix: 0 },
+    },
+
+    /**
+     * THE MACHINE, loaded with this program's own drums and every strip at
+     * rest: a kit that sounds exactly as it did before the machine existed,
+     * which is what a channel strip at its defaults is for.
+     *
+     * The voicing numbers are the analogue engine's own defaults, off MK2's
+     * panel: 47 Hz and 0.85 s on the bass drum, its click at 0.45, the punch
+     * layer at 0.55, the snare a little over half wire, and hats at 45 and
+     * 420 ms. They mean nothing until a genre loads the analog kit, and they
+     * are stated here rather than inside the voice for the same reason every
+     * other default is: so "what does this genre do about X" is answerable
+     * from the resolved table alone.
+     */
+    machine: {
+      kit: "acoustic",
+      circuit: "808",
+      tune: 47,
+      decay: 0.85,
+      tone: 0.45,
+      punch: 0.55,
+      snappy: 0.55,
+      sdtone: 0.5,
+      chdecay: 0.045,
+      ohdecay: 0.42,
+      drive: 1,
+      filterHz: 20000,
+      channels: {
+        kick: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        snare: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        hat: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        openhat: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+      },
     },
   },
 };
