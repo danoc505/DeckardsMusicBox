@@ -323,6 +323,81 @@ const VIEW = { width: 1180, height: 820 };
   }
   await page.evaluate(() => { window.CROK.APP.settings.input = 'flick'; });
 
+  /* --- WITH A FINGER: a swipe shoots, with nothing armed --------------- */
+  /* This is the path the game is actually played on, and the one that was
+     broken: an un-armed touch swipe was discarded without a trace. */
+  const touchSwipe = (x0, y0, x1, y1, ms) => page.evaluate(
+    async ({ x0, y0, x1, y1, ms, left, top }) => {
+      const cv = document.getElementById("board-canvas");
+      const ev = (t, x, y, b) => cv.dispatchEvent(new PointerEvent(t, {
+        pointerId: 7, pointerType: "touch", isPrimary: true, bubbles: true,
+        cancelable: true, clientX: x + left, clientY: y + top, buttons: b }));
+      ev("pointerdown", x0, y0, 1);
+      const N = 6;
+      for (let i = 1; i <= N; i++){
+        await new Promise(r => setTimeout(r, ms / N));
+        ev("pointermove", x0 + (x1 - x0) * (i / N), y0 + (y1 - y0) * (i / N), 1);
+      }
+      ev("pointerup", x1, y1, 0);
+    }, { x0: x0 - box.x, y0: y0 - box.y, x1: x1 - box.x, y1: y1 - box.y,
+         ms, left: box.x, top: box.y });
+
+  await page.evaluate(async () => {
+    const g = window.CROK.APP.state.game;
+    window.CROK.APP.setArmed(false);
+    for (let i = 0; i < 80 && (g.state !== 'aim' || g.isAI(g.shooter)); i++)
+      await new Promise(r => setTimeout(r, 150));
+  });
+  await page.waitForTimeout(150);
+  const preTouch = await peek();
+  ok(!preTouch.armed, "nothing is armed before the finger swipe");
+  /* swipe starting ON the disc, which is the natural way to flick one */
+  const dpT = await page.evaluate(() => {
+    const A = window.CROK.APP.state;
+    return window.CROK.RENDER.toScreen(A.view, A.game.pending.x, A.game.pending.y);
+  });
+  await touchSwipe(box.x + dpT.x, box.y + dpT.y,
+                   box.x + dpT.x, box.y + dpT.y - box.height * 0.34, 130);
+  await page.waitForTimeout(200);
+  const swiped = await peek();
+  ok(swiped.left === preTouch.left - 1,
+     "an UN-ARMED finger swipe fires the shot",
+     `${preTouch.left} -> ${swiped.left}`);
+  if (swiped.shot){
+    const sp = Math.hypot(swiped.shot.vx, swiped.shot.vy);
+    const maxV = await page.evaluate(() => window.CROK.SPEC.V_MAX_SHOT);
+    ok(swiped.shot.vy < 0, "and travels the way the finger went",
+       `vy ${swiped.shot.vy.toFixed(2)}`);
+    ok(sp > 0.35 && sp < maxV * 0.985,
+       "at a usable, graduated power -- not maxed, not ignored",
+       `${(100 * sp / maxV).toFixed(0)}%`);
+    console.log(`   finger swipe: ${sp.toFixed(2)} m/s = ` +
+                `${(100 * sp / maxV).toFixed(0)}% power, nothing armed`);
+  } else ok(false, "the finger swipe produced a shot");
+
+  /* a SLOW finger drag on the disc carries it instead of shooting */
+  await page.evaluate(async () => {
+    const g = window.CROK.APP.state.game;
+    for (let i = 0; i < 80 && (g.state !== 'aim' || g.isAI(g.shooter)); i++)
+      await new Promise(r => setTimeout(r, 150));
+  });
+  await page.waitForTimeout(150);
+  const preCarry = await peek();
+  const dpC = await page.evaluate(() => {
+    const A = window.CROK.APP.state;
+    return window.CROK.RENDER.toScreen(A.view, A.game.pending.x, A.game.pending.y);
+  });
+  await touchSwipe(box.x + dpC.x, box.y + dpC.y,
+                   box.x + dpC.x + box.width * 0.10, box.y + dpC.y, 900);  /* slow */
+  await page.waitForTimeout(200);
+  const carriedT = await peek();
+  ok(carriedT.left === preCarry.left,
+     "a SLOW finger drag carries the disc instead of shooting it",
+     `${preCarry.left} -> ${carriedT.left}`);
+  ok(Math.abs(carriedT.px - preCarry.px) > 0.02,
+     "and it really did move", `${((carriedT.px - preCarry.px) * 1000).toFixed(0)} mm`);
+  await page.screenshot({ path: path.join(OUT, "07-touch.png") });
+
   /* --- let the AI reply and the board fill up --------------------------- */
   await page.waitForTimeout(6500);
   const later = await page.evaluate(() => {

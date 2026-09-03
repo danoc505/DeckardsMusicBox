@@ -34,34 +34,39 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-1. **Pick the disc up and move it.** Press on it and drag along your line, then
-   let go. (One is already sitting there when your turn starts, so this is
-   optional. Clicking anywhere else on your line moves it there too.)
-2. **Click the disc.** It lights up with a pulsing ring — the shot is armed.
-3. **Flick.** Just move the trackpad; no button, no drag, nothing held. The
-   direction you move is the direction the disc goes and how fast you move is
-   how hard it is struck. It fires as the flick ends, and the HUD tells you what
-   power it came out at.
+A finger and a trackpad are different instruments, so the game treats them
+differently rather than pretending one gesture suits both.
 
-Holding is fine in step 1 — you are carrying a disc, not winding up a shot.
-Nothing is held in step 3.
+**With a finger** there is nothing to arm and no mode to be in:
 
-Moving the cursor while the disc is *not* armed does nothing, and a flick too
-feeble to be meant is refused rather than spent, so a stray twitch cannot cost
-you a disc.
+- **Swipe anywhere** to shoot. The direction you swipe is the direction the
+  disc goes; how fast you swipe is how hard it is struck. It fires when you
+  lift off. Swiping straight off the disc itself works — that is what flicking
+  one feels like.
+- **Drag the disc slowly** to slide it along your line, or **tap** anywhere on
+  the line to put it there. Slow means carrying, fast means shooting; if a drag
+  turns into a flick the disc goes back to where you started it, so a shot is
+  never taken from somewhere you did not choose.
 
-**If the flick feels wrong, change Settings → Flick sensitivity.** Trackpads
-differ enormously in how many pixels a given hand movement produces. Medium
-suits most; Low wants a fast committed flick; High lets a gentle one carry real
-power.
+**With a trackpad or mouse**, holding the button through a drag is the one
+motion the hardware is worst at, so the flick is bare cursor movement:
 
-On a touchscreen there is no hover, so step 3 is a swipe that fires when you
-lift off.
+- **Click the disc** — it lights up. Armed.
+- **Flick, with nothing held down.** It fires as the flick ends.
+- **Drag the disc** to carry it, or **click the line** to place it there.
+- Moving the cursor while nothing is armed never does anything.
 
-**Settings → Slingshot** is the precise alternative, and the one for a delicate
-20: click the disc to arm, move away from where you want it to go, and click
-again to release. Power is how far the cursor sits from the disc, so it holds
-perfectly steady with a full trajectory preview while you line the angle up.
+Either way, a flick too feeble to be meant is refused rather than spent, so a
+stray twitch cannot cost you a disc, and the HUD reports what power each shot
+came out at.
+
+**If the flick feels wrong, use Settings → Flick sensitivity.** Hands and
+trackpads differ by more than any single calibration can cover.
+
+**Settings → Slingshot** is the precise alternative for a delicate 20: arm the
+disc, move away from where you want it to go, and click to release. Power is
+the distance from the disc, so it holds steady with a full trajectory preview
+while you line the angle up.
 
 ## Tests
 

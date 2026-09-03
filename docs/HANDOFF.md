@@ -84,6 +84,22 @@ game (4 rounds) → match (tournament-defined). A best-of-7 *games* match would 
 28 rounds and 448 shots. The NCA 2/1/0 round scoring is kept exactly, and 20s are
 tracked separately the way a real scorecard tracks them.
 
+**A finger and a cursor are separate calibrations, and separate gestures.**
+A finger crossing the board in a fifth of a second moves about 3 board-widths
+per second; a trackpad flick of the same effort throws the cursor at 5 to 12,
+because the pointer is accelerated. One mapping cannot serve both — tuning the
+range for the trackpad put a finger swipe at 15% power or under the threshold
+entirely. Worse, touch was made to go through the trackpad's arming step, so an
+un-armed swipe was discarded without a trace: "half the time it doesn't even
+register my finger swipe". Glass now has no arming at all (a swipe is the only
+thing a swipe could mean), and `FLICK_V*_TOUCH` is calibrated separately from
+`FLICK_V*_MOUSE`.
+
+**On glass, carry and flick are told apart by speed.** A finger on the disc may
+be sliding it or striking it. Below `CARRY_MAX` it carries; above, it flicks,
+and the disc is returned to where the gesture began so the shot is never taken
+from an unintended spot.
+
 **The flick response is a mapped range, not a multiplier.** It was a plain
 gain calibrated for a finger on glass. A trackpad moves the cursor several
 times faster, so every flick a hand could actually make saturated: above about
