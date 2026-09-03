@@ -279,13 +279,27 @@ boundary. Every builder here is handed one section's chart and writes it; the
 next section's first chord is not an input. Named so it is not mistaken for an
 oversight.
 
-**Reverb and filter as an arrangement move.** "Deepen the shadows of the sound
-through changes in reverb and filters" is the source's *development* section,
-and it is a change to the desk rather than to the notes. The two-loop rule's
-four moves are add a part, remove a part, add expression, reduce expression;
-this program implements the first three and reads "expression" as the drums'
-hat and fills only. A section that gets darker without losing anything is the
-move this genre's sources describe most often and this program cannot make.
+**Reverb and filter as an arrangement move — BUILT, and this paragraph used to
+say it could not be.** "Deepen the shadows of the sound through changes in
+reverb and filters" is the source's *development* section, and it is a change
+to the desk rather than to the notes. The two-loop rule's four moves are add a
+part, remove a part, add expression, reduce expression; this program did the
+first three and read "expression" as the drums' hat.
+
+It now does the fourth. Twelve treatments (`src/stage/treat.ts`) change a
+section's desk and leave every pitch and onset where the material stage put
+them, and this genre weights them the way its own guide does: `darken` and
+`drench` heaviest, `wear` and `far` behind them, `brighten` kept light because
+shadows only deepen against something. Measured over sixty seeds, 33% of spans
+play on a treated desk, every record uses at least one, and every
+section-level number in §1 is unchanged — treatments compete for the
+boundaries inside a section, not for the shape of the record.
+
+What made it possible was not new DSP. It was that `src/sound/render.ts` did
+not contain the word "section": the whole desk was one frozen object for the
+length of a record, and the genre's own literature had been asking it to move
+the entire time. See `docs/genre-research/THE-ALTERATIONS.md` for the
+catalogue and `docs/TALLY.md` for what is still open.
 
 **Track length.** The genre says 240–420 s and marks it `[chosen]` — "no
 measured average found", still true. What was found instead is a spread with no

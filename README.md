@@ -87,6 +87,11 @@ record goes below its floor, carrying what it opened with and nothing else.
 See `docs/genre-research/THE-INTRO.md`, which also records the rule that was
 built for this and measured at exactly nothing.
 
+`docs/TALLY.md` is where the work stands: what has been done with the number
+behind each, what is open and what would close it, and what was deliberately
+left alone. Its first entry is the one that outranks the rest — none of the
+recent work has been listened to by a person.
+
 And the record moves its own desk. The rule of three says a third hearing must
 differ, and until recently the only way this program could answer that was to
 rewrite the notes — so a third of every variant it built was heard once and
