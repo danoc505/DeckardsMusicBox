@@ -387,15 +387,52 @@ const VIEW = { width: 1180, height: 820 };
     const A = window.CROK.APP.state;
     return window.CROK.RENDER.toScreen(A.view, A.game.pending.x, A.game.pending.y);
   });
-  await touchSwipe(box.x + dpC.x, box.y + dpC.y,
-                   box.x + dpC.x + box.width * 0.10, box.y + dpC.y, 900);  /* slow */
+  /* press and HOLD, then move: that is what picks a disc up now. Deciding
+     by speed instead ate gentle swipes, which are most of them. */
+  await page.evaluate(async ({ left, top, x, y, dx }) => {
+    const cv = document.getElementById("board-canvas");
+    const ev = (t, ex, ey, b) => cv.dispatchEvent(new PointerEvent(t, {
+      pointerId: 9, pointerType: "touch", isPrimary: true, bubbles: true,
+      cancelable: true, clientX: ex + left, clientY: ey + top, buttons: b }));
+    ev("pointerdown", x, y, 1);
+    await new Promise(r => setTimeout(r, 380));      /* the hold */
+    for (let i = 1; i <= 6; i++){
+      await new Promise(r => setTimeout(r, 40));
+      ev("pointermove", x + dx * (i / 6), y, 1);
+    }
+    ev("pointerup", x + dx, y, 0);
+  }, { left: box.x, top: box.y, x: dpC.x, y: dpC.y, dx: box.width * 0.10 });
   await page.waitForTimeout(200);
   const carriedT = await peek();
   ok(carriedT.left === preCarry.left,
-     "a SLOW finger drag carries the disc instead of shooting it",
+     "press-and-hold then drag carries the disc instead of shooting it",
      `${preCarry.left} -> ${carriedT.left}`);
   ok(Math.abs(carriedT.px - preCarry.px) > 0.02,
      "and it really did move", `${((carriedT.px - preCarry.px) * 1000).toFixed(0)} mm`);
+  /* a GENTLE swipe -- the case that was being eaten -- must still shoot */
+  await page.evaluate(async () => {
+    const g = window.CROK.APP.state.game;
+    for (let i = 0; i < 80 && (g.state !== 'aim' || g.isAI(g.shooter)); i++)
+      await new Promise(r => setTimeout(r, 150));
+  });
+  await page.waitForTimeout(150);
+  const preGentle = await peek();
+  const dpG = await page.evaluate(() => {
+    const A = window.CROK.APP.state;
+    return window.CROK.RENDER.toScreen(A.view, A.game.pending.x, A.game.pending.y);
+  });
+  await touchSwipe(box.x + dpG.x, box.y + dpG.y,
+                   box.x + dpG.x, box.y + dpG.y - box.height * 0.20, 240);
+  await page.waitForTimeout(200);
+  const gentle = await peek();
+  ok(gentle.left === preGentle.left - 1,
+     "a GENTLE finger swipe off the disc still fires -- it is not eaten as a carry",
+     `${preGentle.left} -> ${gentle.left}`);
+  if (gentle.shot){
+    const sp = Math.hypot(gentle.shot.vx, gentle.shot.vy);
+    const maxV = await page.evaluate(() => window.CROK.SPEC.V_MAX_SHOT);
+    console.log(`   gentle swipe: ${sp.toFixed(2)} m/s = ${(100 * sp / maxV).toFixed(0)}% power`);
+  }
   await page.screenshot({ path: path.join(OUT, "07-touch.png") });
 
   /* --- let the AI reply and the board fill up --------------------------- */

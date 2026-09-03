@@ -84,6 +84,19 @@ game (4 rounds) → match (tournament-defined). A best-of-7 *games* match would 
 28 rounds and 448 shots. The NCA 2/1/0 round scoring is kept exactly, and 20s are
 tracked separately the way a real scorecard tracks them.
 
+**The flick is a plain gain on movement speed.** It always was; an attempt to
+map it through a range with a dead zone at the bottom made gentle swipes come
+out at nothing, and was undone. `TOUCH_GAIN` is the original 0.75 brought down
+to 0.70 which, with the heavier board, puts every shot at about 70% of the
+distance the original travelled for the same swipe while saturating at the same
+swipe speed — it responds as it always did and simply goes less far.
+
+**Carrying is a long press, not a slow drag.** Telling carry from flick by
+SPEED was wrong: gentle swipes are most swipes, and they were being swallowed.
+A press held for `CARRY_HOLD` lifts the disc, with a visible halo; move sooner
+and it is a flick. The gesture used every turn is never eaten by the one used
+occasionally.
+
 **A finger and a cursor are separate calibrations, and separate gestures.**
 A finger crossing the board in a fifth of a second moves about 3 board-widths
 per second; a trackpad flick of the same effort throws the cursor at 5 to 12,

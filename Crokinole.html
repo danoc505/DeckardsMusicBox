@@ -726,17 +726,24 @@ const SPEC = {
      which leaves the middle of the range -- where a 20 lives, around 45% --
      comfortably reachable. Sensitivity in Settings scales both ends
      together for hands and trackpads that differ. [CALIBRATED] */
-  /* A FINGER AND A CURSOR ARE NOT THE SAME DEVICE, and one calibration
-     cannot serve both. A finger crossing the board in a fifth of a second
-     is moving about 3 board-widths per second. A trackpad flick of the same
-     effort throws the cursor at 5 to 12, because the pointer is
-     accelerated. Tuning the range for the trackpad made a finger swipe come
-     out at 15% power or fail the threshold altogether -- which is exactly
-     what "half the time it does not register my finger swipe" was. */
-  FLICK_V0_TOUCH: 0.25,
-  FLICK_V1_TOUCH: 4.0,
-  FLICK_V0_MOUSE: 0.8,
-  FLICK_V1_MOUSE: 10.0,
+  /* HOW A SWIPE BECOMES A SHOT: a plain gain on the speed of the movement,
+     which is what it always was and what feels right. An attempt to map it
+     through a range with a dead zone at the bottom made gentle swipes come
+     out at nothing and had to be undone.
+
+     A FINGER AND A CURSOR ARE STILL NOT THE SAME DEVICE, and that part is
+     real: a finger crossing the board in a fifth of a second moves about
+     3 board-widths per second, while a trackpad flick of the same effort
+     throws the cursor at 5 to 12, because the pointer is accelerated. One
+     gain each.
+
+     TOUCH_GAIN is the original 0.75 brought down to 0.70. Together with the
+     heavier board -- friction up from 0.12, top speed down -- that puts
+     every shot at about 70% of the distance the original travelled for the
+     same swipe, while saturating at the same swipe speed it always did, so
+     it responds exactly as before and simply goes less far. [CALIBRATED] */
+  TOUCH_GAIN:     0.70,
+  MOUSE_GAIN:     0.22,
   /* a movement slower than this is not a flick, it is somebody moving the
      cursor, and it must never fire a shot */
   FLICK_ARM:      2.2,
@@ -2738,6 +2745,15 @@ RENDER.frame = function(g, v, geo, st){
   for (const d of ds) if (d.live && d.owner === st.shooter) RENDER.disc(g, v, d, { geo });
   if (st.pending) RENDER.disc(g, v, st.pending, { geo });
 
+  /* A disc that has been picked up reads as picked up: a bright halo, so
+     the long press has visible confirmation the moment it takes. */
+  if (st.carrying && st.pending){
+    const p = RENDER.toScreen(v, st.pending.x, st.pending.y);
+    const r = geo.P.R_DISC * v.scale;
+    RENDER.glowStroke(g, ctx => { ctx.arc(p.x, p.y, r * 1.35, 0, TAU); },
+                      '#ffffff', Math.max(1.5, r * 0.2), 7, 0.85);
+  }
+
   /* An armed disc has to read as armed at a glance, because from that
      moment any movement will shoot it. A ring that breathes, in the
      shooter's own colour. */
@@ -3451,6 +3467,7 @@ GAME.create = function(host){
       previewMode: g.host.setting('preview'),
       showArcs: g.state === 'aim',
       armed: !!(APP.state && APP.state.armed),
+      carrying: !!(APP.state && APP.state.lifted && APP.state.carrying),
       geo: g.geo,
     };
     if (g.state === 'playing' && g.play){
@@ -3488,7 +3505,7 @@ CROK.APP = APP;
 
 const el = id => document.getElementById(id);
 
-APP.SENS = { low: 1.7, med: 1.0, high: 0.6 };
+APP.SENS = { low: 0.75, med: 1.0, high: 1.35 };
 APP.settings = { input: 'flick', sens: 'med', preview: 'full', rotate: 'on',
                  sound: 'on', labels: 'on' };
 APP.setup = { mode: 'ai', bestOf: 3, difficulty: 'medium' };
@@ -3500,7 +3517,8 @@ APP.state = { screen: 'menu', game: null, view: null, ctx: null, canvas: null,
                  watching for a flick. On a trackpad or mouse that flick is
                  bare pointer movement with NOTHING held down; on a
                  touchscreen, which has no hover, it is a swipe. */
-              armed: false, carrying: false, moved: false, lastKind: '',
+              armed: false, carrying: false, moved: false, lifted: false,
+              lastKind: '',
               flickPeak: 0, flickDir: null, flickSeen: false,
               flickLastT: 0,
               /* PEAK-HOLD. In velocity mode the power of a flick is how fast
@@ -3534,17 +3552,18 @@ APP.isTouch = function(){
   if (k) return k === 'touch' || k === 'pen';
   return typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0;
 };
+/* movement speed (board m/s) -> shot speed (m/s), and the fraction of full
+   power that is, for the readout and the power arc */
+APP.flickSpeed = function(v, touch){
+  const gain = (touch ? SPEC.TOUCH_GAIN : SPEC.MOUSE_GAIN) * APP.flickScale();
+  return clamp(v * gain, 0, SPEC.V_MAX_SHOT);
+};
 APP.flickPower = function(v, touch){
-  const k = APP.flickScale();
-  const t0 = touch ? SPEC.FLICK_V0_TOUCH : SPEC.FLICK_V0_MOUSE;
-  const t1 = touch ? SPEC.FLICK_V1_TOUCH : SPEC.FLICK_V1_MOUSE;
-  return clamp((v - t0 * k) / ((t1 - t0) * k), 0, 1);
+  return APP.flickSpeed(v, touch) / SPEC.V_MAX_SHOT;
 };
 APP.FLICK_END = 0.55;      /* fires once the speed falls to this share of its peak */
-/* board m/s -- above this, a finger dragging the disc is flicking it, not
-   carrying it. About one and a half board-widths per second: faster than
-   anyone slides a disc into position, slower than any real flick. */
-APP.CARRY_MAX = 1.5;
+/* seconds to hold a finger still on the disc before it lifts for carrying */
+APP.CARRY_HOLD = 0.28;
 APP.FLICK_IDLE = 0.10;     /* ...or after this long with no movement at all */
 
 /* ---------------------------------------------------------------- screens */
@@ -3783,6 +3802,9 @@ APP.host = {
       /* remember where it started, because on glass this same press might
          turn out to be a flick rather than a carry -- see below */
       s.carryFromX = g.pending.x; s.carryFromY = g.pending.y;
+      /* with a cursor there is no ambiguity to resolve -- the flick is bare
+         movement, so a held drag can only mean carrying */
+      s.lifted = !APP.isTouch();
     } else s.carrying = false;
     return true;
   },
@@ -3792,25 +3814,24 @@ APP.host = {
     if (!g || g.state !== 'aim' || !g.pending) return;
 
     /* CARRYING, OR FLICKING?
-       On glass this is genuinely ambiguous: a finger pressed on the disc
-       and moved might be sliding it along the line, or it might be the
-       flick itself, which is the natural way to strike a disc. Speed tells
-       them apart, and needs no extra gesture to learn: a carry is slow and
-       deliberate, a flick is fast. If a carry turns out to be a flick the
-       disc goes back to where the gesture started, so a shot is never taken
-       from somewhere the player did not choose. */
-    if (s.carrying){
-      const moved = hypot(px - dx, py - dy);
-      if (APP.isTouch() && moved > APP.TAP_SLOP){
-        const v = INPUT.fitVelocity(samples, APP.host.now(), INPUT.VEL_WINDOW);
-        const bv = APP.velToBoard(v);
-        if (hypot(bv.x, bv.y) > APP.CARRY_MAX){
-          g.place(s.carryFromX, s.carryFromY);   /* put it back */
-          s.carrying = false; s.moved = false; s.flicking = true;
-        }
+       On glass this is genuinely ambiguous -- a finger pressed on the disc
+       might be sliding it along the line or striking it, and both are
+       natural. Telling them apart by SPEED was wrong: it meant a gentle
+       swipe, which is most of them, got eaten as a carry and no shot came
+       out. So carrying has to be asked for instead. Press and HOLD for a
+       moment and the disc lifts; move any sooner and it is a flick. The
+       flick, which is the thing done on every single turn, is never
+       swallowed by the gesture that is used occasionally. */
+    if (s.carrying && APP.isTouch() && !s.lifted){
+      if (APP.host.now() - (s.downT || 0) >= APP.CARRY_HOLD){
+        s.lifted = true;                       /* held long enough: lift it */
+        SFX.ui(false);
+        APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Sliding the disc — let go to drop it');
+      } else if (hypot(px - dx, py - dy) > APP.TAP_SLOP){
+        s.carrying = false;                    /* moved too soon: a flick   */
       }
     }
-    if (s.carrying){
+    if (s.carrying && s.lifted){
       if (hypot(px - dx, py - dy) > APP.TAP_SLOP){
         if (s.armed) APP.setArmed(false);
         const b = RENDER.toBoard(s.view, px, py);
@@ -3837,7 +3858,7 @@ APP.host = {
     const held = APP.host.now() - (s.downT || 0);
     const wasFlicking = s.flicking;
     const wasCarrying = s.carrying && s.moved;
-    s.flicking = false; s.carrying = false; s.moved = false;
+    s.flicking = false; s.carrying = false; s.moved = false; s.lifted = false;
 
     /* the disc was carried somewhere and put down: that is the whole
        gesture, and it must not also arm or shoot */
@@ -3980,19 +4001,19 @@ APP.fireFlick = function(g){
   const peak = s.flickPeak;
   APP.setArmed(false);
   if (!dir) return;
-  const t = APP.flickPower(peak, false);
-  /* a twitch is refused rather than spent: on an open board a shot that
-     cannot reach the 15 line is a foul, and losing a disc to an accidental
-     nudge of the trackpad is not a game mechanic */
-  if (t < SPEC.FLICK_FLOOR){
+  const spd = APP.flickSpeed(peak, false);
+  /* On a trackpad the cursor is always moving somewhere, so a twitch is
+     refused rather than spent -- losing a disc to a stray nudge is not a
+     game mechanic. On glass nothing is refused: a finger is only on the
+     screen because it was put there. */
+  if (spd < SPEC.V_MAX_SHOT * SPEC.FLICK_FLOOR){
     APP.setArmed(true);
     APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too soft — flick it harder');
     return;
   }
   const shot = INPUT.buildFlick(SPEC, {
     owner: g.shooter, x: g.pending.x, y: g.pending.y,
-    dirX: dir.x, dirY: dir.y,
-    speed: SPEC.V_MIN_SHOT + (SPEC.V_MAX_SHOT - SPEC.V_MIN_SHOT) * t,
+    dirX: dir.x, dirY: dir.y, speed: spd,
     lateralFrac: s.flickLateral || 0,
   });
   if (!shot){
@@ -4000,7 +4021,7 @@ APP.fireFlick = function(g){
     APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too soft — flick it harder');
     return;
   }
-  APP.lastPower = t;
+  APP.lastPower = spd / SPEC.V_MAX_SHOT;
   g.takeShot(shot);
 };
 
@@ -4040,8 +4061,8 @@ APP.flickFrom = function(g, rel, whole){
   const wholeL = whole ? hypot(whole.x, whole.y) : 0;
   const dir = relL > 1e-4 ? rel : whole;
   if (!dir || hypot(dir.x, dir.y) < 1e-6) return null;
-  const t = APP.flickPower(APP.power(relL, APP.host.now()), APP.isTouch());
-  const spd = SPEC.V_MIN_SHOT + (SPEC.V_MAX_SHOT - SPEC.V_MIN_SHOT) * t;
+  const touch = APP.isTouch();
+  const spd = APP.flickSpeed(APP.power(relL, APP.host.now()), touch);
   let lateral = 0;
   if (relL > 1e-4 && wholeL > 1e-4){
     lateral = (whole.x * rel.y - whole.y * rel.x) / (wholeL * relL);
@@ -4050,7 +4071,7 @@ APP.flickFrom = function(g, rel, whole){
     owner: g.shooter, x: g.pending.x, y: g.pending.y,
     dirX: dir.x, dirY: dir.y, speed: spd, lateralFrac: lateral,
   });
-  return shot ? { shot, power: t } : null;
+  return shot ? { shot, power: spd / SPEC.V_MAX_SHOT } : null;
 };
 
 /* SLINGSHOT, the precise alternative in Settings. Click the disc to arm,

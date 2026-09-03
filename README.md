@@ -34,39 +34,32 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-A finger and a trackpad are different instruments, so the game treats them
-differently rather than pretending one gesture suits both.
+**With a finger** — one gesture, nothing to arm:
 
-**With a finger** there is nothing to arm and no mode to be in:
+- **Swipe** to shoot. The direction you swipe is the direction the disc goes;
+  how fast you swipe is how hard it is struck. It fires when you lift off.
+  Swiping straight off the disc works — that is what flicking one feels like.
+- **Press and hold on the disc** for a moment until it lifts, then drag to
+  slide it along your line. Tapping anywhere on the line puts it there too.
 
-- **Swipe anywhere** to shoot. The direction you swipe is the direction the
-  disc goes; how fast you swipe is how hard it is struck. It fires when you
-  lift off. Swiping straight off the disc itself works — that is what flicking
-  one feels like.
-- **Drag the disc slowly** to slide it along your line, or **tap** anywhere on
-  the line to put it there. Slow means carrying, fast means shooting; if a drag
-  turns into a flick the disc goes back to where you started it, so a shot is
-  never taken from somewhere you did not choose.
+The hold is what separates carrying from shooting. Deciding by speed instead
+meant gentle swipes — most of them — got eaten and no shot came out.
 
 **With a trackpad or mouse**, holding the button through a drag is the one
 motion the hardware is worst at, so the flick is bare cursor movement:
 
 - **Click the disc** — it lights up. Armed.
-- **Flick, with nothing held down.** It fires as the flick ends.
-- **Drag the disc** to carry it, or **click the line** to place it there.
+- **Flick, nothing held down.** It fires as the flick ends.
+- **Drag the disc** to carry it; **click the line** to place it there.
 - Moving the cursor while nothing is armed never does anything.
 
-Either way, a flick too feeble to be meant is refused rather than spent, so a
-stray twitch cannot cost you a disc, and the HUD reports what power each shot
-came out at.
-
-**If the flick feels wrong, use Settings → Flick sensitivity.** Hands and
-trackpads differ by more than any single calibration can cover.
+The HUD reports what power each shot came out at, and
+**Settings → Flick sensitivity** shifts the whole curve if your hand and this
+calibration disagree.
 
 **Settings → Slingshot** is the precise alternative for a delicate 20: arm the
-disc, move away from where you want it to go, and click to release. Power is
-the distance from the disc, so it holds steady with a full trajectory preview
-while you line the angle up.
+disc, move away from where you want it to go, click to release. Power is the
+distance from the disc, so it holds steady with a full trajectory preview.
 
 ## Tests
 
