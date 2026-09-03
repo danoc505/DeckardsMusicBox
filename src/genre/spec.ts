@@ -88,6 +88,18 @@ export interface FormSpec {
   readonly next?: Readonly<Partial<Record<SectionFn, Weighted<SectionFn>>>>;
   /** How often a record opens with an intro rather than starting cold. */
   readonly introChance?: number;
+  /**
+   * The longest an intro may run, IN SECONDS. Not in bars: eight bars is four
+   * seconds at 240 bpm and twenty-three at 82, and what a listener leaves is
+   * measured on a clock. "Intros that averaged more than 20 seconds in the
+   * mid-80s are now only about 5 seconds long" — a 78% drop over 303 top-ten
+   * singles (Léveillé Gauvin, "Drawing listener attention in popular music",
+   * Musicae Scientiae 22(3), 2018); "I can't remember hearing an intro that
+   * was too short, but I've heard many that were too long" (Ewer,
+   * secretsofsongwriting.com). The length is drawn from the lengths that fit
+   * under this, so the ceiling narrows the draw rather than truncating it.
+   */
+  readonly introSec?: number;
 }
 
 /** What the form stage reads. Every function answered, every length a pool. */
@@ -97,6 +109,7 @@ export interface FormRules {
   readonly energy: Readonly<Record<SectionFn, number>>;
   readonly next: Readonly<Record<SectionFn, Weighted<SectionFn>>>;
   readonly introChance: number;
+  readonly introSec: number;
 }
 
 /** A register: the lowest and highest MIDI pitch a part may play. */
@@ -398,6 +411,32 @@ export interface DrumsRules {
   readonly treatments: number;
 }
 
+/**
+ * WHAT AN INTRO IS MADE OF. An intro is the record's own material with
+ * something withheld, and which thing is withheld is the kind of intro it is.
+ *
+ *   rhythm  the drums, or the drums and the bass, and NOTHING else. "Use of
+ *           solo drums, solo bass, or drums and bass in duet at the start of
+ *           a record will attract especially great attention to rhythm
+ *           because there is little or no melody or harmony to attend to, and
+ *           no lyrics" (Burns, "A typology of 'hooks' in popular records",
+ *           Popular Music 6/1, 1987). It only works because there is nothing
+ *           else to attend to, which is why it is exclusive and why it is the
+ *           one intro that is not thinned.
+ *   bed     the foundation without the tune: the chord progression, or the
+ *           chords and the beat, "one or more times through and then starting
+ *           the vocals" (planetarygroup.com, "Five Different Types of
+ *           Introductions"). What it withholds is the tune, and the tune's
+ *           arrival is what the intro was for.
+ *   hook    the tune from bar one — "don't bore us, get to the chorus", the
+ *           modern short intro (ibid.), and the one the attention-economy
+ *           numbers point at: intros fell from over twenty seconds to about
+ *           five between 1986 and 2015 (Léveillé Gauvin, Musicae Scientiae
+ *           22(3), 2018).
+ */
+export const INTRO_KINDS = ["rhythm", "bed", "hook"] as const;
+export type IntroKind = (typeof INTRO_KINDS)[number];
+
 export interface ArrangementSpec {
   /**
    * The order the parts arrive in across a record. Every part appears exactly
@@ -406,6 +445,24 @@ export interface ArrangementSpec {
   readonly enter?: readonly Role[];
   /** How many of them, from the front of `enter`, an intro holds. */
   readonly introParts?: number;
+  /** Which kind of intro the record opens with, drawn per record. */
+  readonly intro?: Weighted<IntroKind>;
+  /**
+   * THE BREAK: one section, below the floor, carrying what the record opened
+   * with and nothing else.
+   *
+   * A breakdown is "a section of a song in which various instruments have solo
+   * parts (breaks)", made by "stripping away of other instruments and vocals"
+   * to create contrast; it sits where a bridge would, "after the second
+   * chorus", and breakdowns "usually precede or follow heightened musical
+   * climaxes" (en.wikipedia.org/wiki/Breakdown_(music)). Tom Moulton's disco
+   * break is the rhythm-only case of it.
+   *
+   * It is the one place a section may fall below `fewest`, and it is why:
+   * without it nothing in a record is ever heard with room round it, because
+   * the floor holds every section at three parts or more.
+   */
+  readonly breakdown?: boolean;
   /**
    * The fewest parts any section outside the intro carries. A section's
    * energy decides how many of the parts that have arrived actually play,
@@ -433,6 +490,8 @@ export interface ArrangementSpec {
 export interface ArrangementRules {
   readonly enter: readonly Role[];
   readonly introParts: number;
+  readonly intro: Weighted<IntroKind>;
+  readonly breakdown: boolean;
   readonly fewest: number;
   readonly shed: readonly Role[];
   readonly fullAbove: number;
@@ -965,6 +1024,16 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     },
 
     introChance: 0.75,
+    /**
+     * TWELVE SECONDS. The measured trend runs from over twenty in the
+     * mid-eighties to about five now (Léveillé Gauvin 2018), and Ewer's
+     * ceiling for a plain chord intro is "no more than 10 seconds, tops" —
+     * so a default that lets a record take a breath without spending a
+     * quarter of a minute on it sits just above his line. [chosen] inside
+     * the range the two sources bound. A genre whose whole texture is an
+     * intro says its own.
+     */
+    introSec: 12,
   },
 
   harmony: {
@@ -1284,6 +1353,27 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     /** a chorus wants everyone; a verse before it is still building */
     fullAbove: 0.8,
     thinBelow: 0.35,
+    /**
+     * MOSTLY A BED, which is what this program already did: the foundation
+     * without the tune, so the tune's entrance is what the intro was for. A
+     * quarter of records open on the beat, because that is a documented and
+     * distinct way in — Billie Jean, Honky Tonk Women, 9 to 5 — and one in
+     * eight opens on the tune itself, which is what the attention-economy
+     * numbers say the modern record does. The kinds are the sources'; the
+     * weights are [chosen], because nothing published ranks them.
+     */
+    intro: [
+      ["bed", 5],
+      ["rhythm", 2],
+      ["hook", 1],
+    ],
+    /**
+     * YES, and it is the only thing in this program that goes below the floor.
+     * A record whose every section carries at least three parts has no room in
+     * it anywhere; the break is where the opening is heard alone, which is
+     * what makes it an opening rather than a way in.
+     */
+    breakdown: true,
   },
 
   feel: {

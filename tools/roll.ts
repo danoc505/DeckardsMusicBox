@@ -13,7 +13,9 @@
  *   node tools/roll.ts lofi 42 --from 16 --bars 16
  *   node tools/roll.ts lofi 42 --report           the report alone
  *   node tools/roll.ts --file out.mid             any .mid file, ours or not
+ *   node tools/roll.ts lofi 42 --map              who plays which bar, and how the record opens
  *   node tools/roll.ts --sweep lofi 1 20          the report's numbers over twenty seeds
+ *   node tools/roll.ts --sweep lofi 1 20 --map    the opening numbers over twenty seeds
  *
  * WHAT THE REPORT MEASURES, and why each number is here rather than another:
  *
@@ -381,6 +383,100 @@ function report(file: MidiFile, notes: readonly MidiNote[], part: string): strin
   return L.join("\n");
 }
 
+// ── the map: who is playing, bar by bar ──────────────────────────────────────
+
+/** Every part with notes in the file, in the order the roll writes tracks. */
+const partsOf = (file: MidiFile): string[] => [...new Set(file.notes.map((n) => n.track.split(" ")[0]!))];
+
+interface Opening {
+  readonly bars: number;
+  /** Which parts sound in each bar. */
+  readonly grid: ReadonlyMap<string, boolean[]>;
+  /** The bar each part first sounds in. */
+  readonly entry: ReadonlyMap<string, number>;
+  /** The parts that sound in the record's first bar. */
+  readonly openers: readonly string[];
+  /** The first bar in which every part that ever plays is playing. */
+  readonly tutti: number;
+  /** How many bars the record runs before a part beyond the openers arrives. */
+  readonly alone: number;
+}
+
+function openingOf(file: MidiFile): Opening {
+  const perBar = file.beats * PER_BEAT * (file.ppq / PER_BEAT);
+  const bars = Math.max(1, Math.ceil((Math.max(...file.notes.map((n) => n.tick + n.ticks)) + 1) / perBar));
+  const parts = partsOf(file);
+  const grid = new Map<string, boolean[]>();
+  const entry = new Map<string, number>();
+  for (const part of parts) {
+    const row = new Array<boolean>(bars).fill(false);
+    for (const n of file.notes) {
+      if (!n.track.startsWith(part)) continue;
+      // a note SOUNDS through the bars it is held over, which is how a drone
+      // that is struck once is present for four bars rather than one
+      const from = Math.floor(n.tick / perBar);
+      const to = Math.min(bars - 1, Math.floor((n.tick + n.ticks - 1) / perBar));
+      for (let b = Math.max(0, from); b <= to; b++) row[b] = true;
+      if (!entry.has(part) || from < entry.get(part)!) entry.set(part, Math.max(0, from));
+    }
+    grid.set(part, row);
+  }
+  const openers = parts.filter((p) => grid.get(p)![0] === true);
+  let tutti = -1;
+  for (let b = 0; b < bars && tutti < 0; b++) if (parts.every((p) => grid.get(p)![b])) tutti = b;
+  let alone = 0;
+  for (let b = 0; b < bars; b++) {
+    const here = parts.filter((p) => grid.get(p)![b]);
+    if (here.length === openers.length && here.every((p) => openers.includes(p))) alone = b + 1;
+    else break;
+  }
+  return { bars, grid, entry, openers, tutti, alone };
+}
+
+/**
+ * WHAT THE OPENING IS, read off the file.
+ *
+ * An intro "establishes the tempo and basic rhythmic structure, establishes
+ * the key, establishes the mood" (secretsofsongwriting.com, "Song Intros:
+ * Making them Relevant and Enticing"), and the record's own numbers for that
+ * are: who is playing in bar one, how long they hold the record alone, when
+ * everybody is finally in — "the moment of the rhythmic hook in these records
+ * comes when the introduction finally ends and the main rhythm kicks in"
+ * (Burns 1987) — and whether what opened the record is ever exposed again.
+ */
+function mapOf(file: MidiFile): string {
+  const o = openingOf(file);
+  const parts = partsOf(file);
+  const L: string[] = [];
+  const ruler = Array.from({ length: o.bars }, (_, b) => (b % 8 === 0 ? "|" : b % 4 === 0 ? "'" : " ")).join("");
+  const numbers = Array.from({ length: Math.ceil(o.bars / 8) }, (_, k) => String(k * 8).padEnd(8)).join("");
+  L.push(`  bar    ${ruler}`);
+  for (const part of parts) {
+    const row = o.grid.get(part)!.map((on) => (on ? "#" : "·")).join("");
+    L.push(`  ${part.padEnd(6)} ${row}`);
+  }
+  L.push(`         ${numbers}`);
+  L.push("");
+  const secPerBar = (60 / file.bpm) * file.beats;
+  L.push(`  opens with    ${o.openers.join(" + ")}${o.openers.length === 1 ? " alone" : ""}, for ${o.alone} bar${o.alone === 1 ? "" : "s"} (${(o.alone * secPerBar).toFixed(1)}s)`);
+  L.push(`  entries       ${parts.map((p) => `${p} ${o.entry.get(p) ?? "-"}`).join(" · ")}`);
+  L.push(`  everyone in   ${o.tutti < 0 ? "never" : `bar ${o.tutti} (${((100 * o.tutti) / o.bars).toFixed(0)}% in, ${(o.tutti * secPerBar).toFixed(1)}s)`}`);
+  // and does what opened the record ever stand out again? EXPOSED means a bar
+  // where at most two parts sound: what the ear was given first, given again
+  // with room round it.
+  const exposed: string[] = [];
+  for (const opener of o.openers) {
+    let at = -1;
+    for (let b = o.alone; b < o.bars && at < 0; b++) {
+      const here = parts.filter((p) => o.grid.get(p)![b]);
+      if (here.includes(opener) && here.length <= 2) at = b;
+    }
+    exposed.push(`${opener} ${at < 0 ? "never again" : `again at bar ${at}`}`);
+  }
+  L.push(`  the opener    ${exposed.join(" · ")}`);
+  return L.join("\n");
+}
+
 // ── the command ──────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2);
@@ -404,6 +500,7 @@ const bars = flag("bars", 8);
 /** −1 means "wherever this part starts": a window of empty bars proves nothing. */
 const fromBar = flag("from", -1);
 const reportOnly = args.includes("--report");
+const wantsMap = args.includes("--map");
 
 function lines(file: MidiFile, part: string, fromBar: number, bars: number, head: string): string {
   const notes = file.notes.filter((n) => n.track.startsWith(part));
@@ -434,6 +531,45 @@ if (args.includes("--sweep")) {
   }
   const first = Number(fromArg ?? 1);
   const last = Number(toArg ?? 10);
+  if (wantsMap) {
+    // THE OPENING, over a run of seeds. Every number is read off the file: who
+    // is in bar one, how long they hold it, when everyone is finally in, and
+    // whether what opened the record is ever heard with room round it again.
+    const rows: (number | string)[][] = [];
+    for (let seed = first; seed <= last; seed++) {
+      // AT THE GENRE'S OWN LENGTH. A record cut to a fixed number of seconds
+      // has a form the genre did not ask for, and the opening is a fact about
+      // the record the program actually makes.
+      const song = compose({ seed, genre: genre as GenreName });
+      const file = readMidi(midi(song));
+      const o = openingOf(file);
+      const parts = partsOf(file);
+      let back = 0;
+      for (const opener of o.openers) {
+        for (let b = o.alone; b < o.bars; b++) {
+          const here = parts.filter((p) => o.grid.get(p)![b]);
+          if (here.includes(opener) && here.length <= 2) { back++; break; }
+        }
+      }
+      rows.push([
+        seed,
+        o.openers.length,
+        o.alone,
+        o.tutti < 0 ? -1 : o.tutti,
+        o.tutti < 0 ? 0 : (100 * o.tutti) / o.bars,
+        (100 * back) / Math.max(1, o.openers.length),
+        o.openers.join("+"),
+      ]);
+    }
+    const head = ["seed", "opens", "alone", "tutti", "at%", "back%"];
+    process.stdout.write(`${head.map((h) => h.padStart(7)).join("")}   who\n`);
+    for (const r of rows) {
+      process.stdout.write(`${r.slice(0, 6).map((v) => (typeof v === "number" ? (Number.isInteger(v) ? String(v) : v.toFixed(0)) : v).padStart(7)).join("")}   ${r[6]}\n`);
+    }
+    const mean = (i: number): string => (rows.reduce((a, r) => a + (r[i] as number), 0) / Math.max(1, rows.length)).toFixed(1);
+    process.stdout.write(`${"mean".padStart(7)}${[1, 2, 3, 4, 5].map((i) => mean(i).padStart(7)).join("")}\n`);
+    process.exit(0);
+  }
   const rows: number[][] = [];
   for (let seed = first; seed <= last; seed++) {
     const song = compose({ seed, genre: genre as GenreName, seconds: 90 });
@@ -505,5 +641,6 @@ if (args.includes("--sweep")) {
   const song = compose({ seed: Number(seedArg), genre: genre as GenreName, seconds });
   const file = readMidi(midi(song));
   const head = `${file.title}  ${file.bpm.toFixed(1)} bpm  ${song.chart.scaleName} on ${noteName(song.chart.tonic)}  ${song.form.bars} bars`;
-  process.stdout.write(`${lines(file, part, fromBar, bars, head)}\n`);
+  if (wantsMap) process.stdout.write(`${head}\n\n${mapOf(file)}\n`);
+  else process.stdout.write(`${lines(file, part, fromBar, bars, head)}\n`);
 }

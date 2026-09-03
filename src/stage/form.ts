@@ -216,7 +216,34 @@ export function makeForm(chart: Chart): Form {
   const first: SectionFn = opensCold
     ? draw.weighted("cold-open", rules.next.intro)
     : "intro";
-  take(first, draw.at("step", 0).weighted("len", rules.lengths[first]));
+  /**
+   * AND AN INTRO IS MEASURED ON A CLOCK, NOT IN BARS.
+   *
+   * Eight bars is four seconds at 240 bpm and twenty-three at 82, and what a
+   * listener leaves is measured in seconds: intros went from over twenty of
+   * them in the mid-eighties to about five (Léveillé Gauvin, "Drawing listener
+   * attention in popular music", Musicae Scientiae 22(3), 2018), and the
+   * songwriting advice is the same from the other end — "I can't remember
+   * hearing an intro that was too short, but I've heard many that were too
+   * long" (Ewer, secretsofsongwriting.com).
+   *
+   * So the genre's ceiling NARROWS THE POOL BEFORE THE DRAW rather than
+   * truncating a length after it: a constraint on the choice, which is what
+   * every other rule in this program is. If nothing fits — a genre in five
+   * four at sixty bpm whose shortest intro is four bars — the shortest is
+   * taken and the record says what it is rather than pretending to fit.
+   */
+  const barSec = (60 / chart.tempo) * chart.metre.beats;
+  let pool = rules.lengths[first];
+  if (first === "intro") {
+    const fits = pool.filter(([len, w]) => w > 0 && len * barSec <= rules.introSec);
+    if (fits.length > 0) pool = fits;
+    else {
+      const shortest = Math.min(...pool.filter(([, w]) => w > 0).map(([len]) => len));
+      pool = pool.filter(([len]) => len === shortest);
+    }
+  }
+  take(first, draw.at("step", 0).weighted("len", pool));
 
   for (let i = 1; ; i++) {
     const room = target - used - outroBars;

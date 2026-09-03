@@ -26,16 +26,112 @@ test("every section hears something, and every part is heard somewhere in every 
   }
 });
 
-test("an intro holds the first parts of the entry order", () => {
-  const want = new Set(lofi.arrangement.enter.slice(0, lofi.arrangement.introParts));
+test("an intro is one of the three ways in, and each one is what its source says it is", () => {
+  // See docs/genre-research/THE-INTRO.md. A rhythm intro is the drums, or the
+  // drums and the bass, and NOTHING else — it works "because there is little
+  // or no melody or harmony to attend to" (Burns 1987), so a keys part in it
+  // is not a bigger rhythm intro, it is not one. A bed withholds the tune,
+  // because the tune's arrival is what the intro was for. A hook has it from
+  // bar one.
+  const kinds = new Map<string, number>();
   let intros = 0;
   for (const a of sweep(120)) {
     const intro = a.placed.find((p) => p.section.fn === "intro");
     if (!intro) continue;
     intros++;
-    assert.deepEqual(intro.heard, want, describeArrangement(a));
+    const heard = intro.heard;
+    const kind = heard.has("lead") ? "hook"
+      : [...heard].every((r) => r === "drums" || r === "bass") && heard.has("drums") ? "rhythm"
+      : "bed";
+    kinds.set(kind, (kinds.get(kind) ?? 0) + 1);
+    assert.ok(heard.size >= 1, describeArrangement(a));
+    if (kind === "rhythm") {
+      for (const r of heard) assert.ok(r === "drums" || r === "bass", `a rhythm intro carries the ${r}: ${describeArrangement(a)}`);
+      // and it is NOT thinned: the drums are the subject
+      assert.equal(intro.thin, false, `a rhythm intro with the drums taken apart: ${describeArrangement(a)}`);
+    }
+    if (kind === "bed") assert.ok(!heard.has("lead") || heard.size === 1, `a bed intro carrying the tune: ${describeArrangement(a)}`);
   }
-  assert.ok(intros > 20);
+  assert.ok(intros > 20, `only ${intros} records opened with an intro`);
+  // every way in the genre offers is used by some record
+  for (const kind of ["bed", "rhythm", "hook"]) {
+    assert.ok((kinds.get(kind) ?? 0) > 0, `no record in 120 opened with a ${kind} intro: ${[...kinds]}`);
+  }
+});
+
+test("an intro fits under the genre's ceiling in seconds", () => {
+  // "Intros that averaged more than 20 seconds in the mid-80s are now only
+  // about 5 seconds long" (Léveillé Gauvin 2018); eight bars is four seconds
+  // at 240 bpm and twenty-three at 82, so the ceiling is on the clock.
+  let judged = 0;
+  for (let seed = 1; seed <= 120; seed++) {
+    const chart = makeChart({ seed, genre: lofi, seconds: 240 });
+    const form = makeForm(chart);
+    const intro = form.sections.find((x) => x.fn === "intro");
+    if (intro === undefined) continue;
+    judged++;
+    const sec = intro.bars * (60 / chart.tempo) * chart.metre.beats;
+    // AND THE ONE WAY PAST THE CEILING IS THE DOCUMENTED ONE: where no length
+    // the genre offers fits under it — a slow tempo and a four-bar floor — the
+    // shortest is taken and the record says what it is rather than pretending.
+    const shortest = Math.min(...lofi.form.lengths.intro.filter(([, w]) => w > 0).map(([len]) => len));
+    assert.ok(
+      sec <= lofi.form.introSec + 0.001 || intro.bars === shortest,
+      `a ${sec.toFixed(1)}s intro of ${intro.bars} bars against a ${lofi.form.introSec}s ceiling`,
+    );
+  }
+  assert.ok(judged > 20, `only ${judged} records opened with an intro`);
+});
+
+test("the record ends carrying what it opened with", () => {
+  // Not a rule of its own — a fact about the entry and shed orders that is
+  // worth holding: parts arrive foundation-first and are shed decoration
+  // first, so whatever opened the record is still there at the end. A shed
+  // order that PROTECTED the opening was tried and measured at nothing; see
+  // the note in arrange.ts.
+  let records = 0;
+  let inOutro = 0;
+  for (const a of sweep(120)) {
+    records++;
+    const openers = [...a.placed[0]!.heard];
+    if (openers.every((r) => a.placed[a.placed.length - 1]!.heard.has(r))) inOutro++;
+  }
+  assert.ok(inOutro / records > 0.9, `the opening is in the outro of only ${((100 * inOutro) / records).toFixed(0)}% of records`);
+});
+
+test("the break is the one section below the floor, and it carries the opening", () => {
+  // A breakdown is "a section of a song in which various instruments have solo
+  // parts (breaks)", made by "stripping away of other instruments and vocals";
+  // breakdowns "usually precede or follow heightened musical climaxes"
+  // (en.wikipedia.org/wiki/Breakdown_(music)). It is the only place this
+  // program goes below `fewest`, and it is why the opening is ever heard with
+  // room round it at all.
+  const A = lofi.arrangement;
+  let records = 0;
+  let broke = 0;
+  for (const a of sweep(120, null)) {
+    records++;
+    const openers = [...a.placed[0]!.heard];
+    const breaks = a.placed.filter((p) => p.broken);
+    assert.ok(breaks.length <= 1, `${breaks.length} breaks in one record: ${describeArrangement(a)}`);
+    for (const p of breaks) {
+      broke++;
+      assert.ok(p.heard.size <= 2, `a break of ${p.heard.size} parts: ${describeArrangement(a)}`);
+      for (const r of p.heard) assert.ok(openers.includes(r), `the break carries the ${r}, which did not open the record: ${describeArrangement(a)}`);
+      assert.equal(p.thin, false, "a break is thinned as well as broken");
+      assert.notEqual(p.section.fn, "outro", `the record breaks down in its outro: ${describeArrangement(a)}`);
+      assert.ok(p.section.index > 0, "the record breaks down before it has played anything");
+    }
+    // every other section still holds the floor
+    for (const p of a.placed) {
+      if (p.broken || p.section.fn === "intro") continue;
+      assert.ok(p.heard.size >= Math.min(A.fewest, ROLES.length), `${p.section.fn} is under the floor and is not a break: ${describeArrangement(a)}`);
+    }
+  }
+  // measured at 52% of records at 200 seconds, and it needs a quiet section to
+  // land in: the break sits where a bridge would, so a record without one has
+  // nowhere to put it
+  assert.ok(broke / records > 0.15, `only ${((100 * broke) / records).toFixed(0)}% of records have a break`);
 });
 
 test("parts arrive in order, and how many play is the section's energy", () => {
@@ -54,7 +150,10 @@ test("parts arrive in order, and how many play is the section's energy", () => {
     for (const p of a.placed) {
       const s = p.section;
       if (s.fn === "intro") {
-        assert.equal(p.heard.size, A.introParts);
+        // A PART THE INTRO CARRIES HAS ARRIVED, wherever it sits in the entry
+        // order: a record that opens on its drums has introduced them, and the
+        // parts in front of them in the order arrive when the intro ends.
+        arrived = Math.max(arrived, ...[...p.heard].map((r) => A.enter.indexOf(r) + 1));
         continue;
       }
       arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
@@ -68,7 +167,9 @@ test("parts arrive in order, and how many play is the section's energy", () => {
       // NOBODY PLAYS BEFORE THEY HAVE ARRIVED, and no section falls below the
       // floor the genre carries.
       assert.ok(p.heard.size <= arrived, `${s.fn} hears more than have arrived: ${describeArrangement(a)}`);
-      assert.ok(p.heard.size >= Math.min(A.fewest, arrived), `${s.fn} is below the floor: ${describeArrangement(a)}`);
+      // the break is the one section allowed under the floor, and it is the
+      // only one — see the break's own test
+      if (!p.broken) assert.ok(p.heard.size >= Math.min(A.fewest, arrived), `${s.fn} is below the floor: ${describeArrangement(a)}`);
       // THE PEAK HAS EVERYONE, because that is what a peak is.
       if (s.peak) assert.equal(p.heard.size, ROLES.length, `the peak does not hear everyone: ${describeArrangement(a)}`);
       sizes.push(p.heard.size);
@@ -132,7 +233,12 @@ test("the outro lets the last-entered part go, once it has been a fixture", () =
 test("a bridge thins, a quiet section thins, the peak never does", () => {
   for (const a of sweep(120)) {
     for (const p of a.placed) {
-      if (p.section.peak) assert.equal(p.thin, false, `the peak is thin: ${describeArrangement(a)}`);
+      const rhythmIntro = p.section.fn === "intro" && p.heard.has("drums")
+        && [...p.heard].every((r) => r === "drums" || r === "bass");
+      if (p.broken) assert.equal(p.thin, false, `a break is thinned: ${describeArrangement(a)}`);
+      else if (p.section.peak) assert.equal(p.thin, false, `the peak is thin: ${describeArrangement(a)}`);
+      // an intro whose subject is the drums is not thinned: see the intro test above
+      else if (rhythmIntro) assert.equal(p.thin, false, `a rhythm intro is thinned: ${describeArrangement(a)}`);
       else if (p.section.fn === "bridge") assert.equal(p.thin, true);
       else assert.equal(p.thin, p.section.energy < lofi.arrangement.thinBelow);
     }

@@ -122,6 +122,19 @@ export const dungeonsynth: GenreSpec = {
     introParts: 1,
     fullAbove: 0.85,
     thinBelow: 0.3,
+    /**
+     * NO RHYTHM INTRO. A drum-led opening is a documented way in — "solo
+     * drums, solo bass, or drums and bass in duet… will attract especially
+     * great attention to rhythm" (Burns 1987) — and it is the one way in this
+     * genre cannot use: dungeon synth is "primarily beatless" with "very
+     * subtle percussion" (note.com/soundwitches), so a record that opens by
+     * putting the attention on its drums is announcing the thing it has least
+     * of. It opens on the drone, or on the flute over it.
+     */
+    intro: [
+      ["bed", 6],
+      ["hook", 1],
+    ],
   },
 
   // an organ's pipes do not know how hard a key was pressed, and a pad
@@ -179,6 +192,10 @@ export const dungeonsynth: GenreSpec = {
       "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; the rest [chosen]",
     "drums.kick": "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com); \"very subtle percussion\" (note.com/soundwitches)",
     "drums.hat": "beatless: no hat (note.com/soundwitches)",
+    "arrangement.intro":
+      "\"primarily beatless\", \"very subtle percussion\" (note.com/soundwitches): the drum-led opening Burns " +
+      "documents (\"solo drums... will attract especially great attention to rhythm\") is the one way in this " +
+      "genre cannot use, so the pool is the drone alone or the flute over it. Weights [chosen]",
     "feel.accent":
       "the voices are an organ and a pad, and a pipe organ has no touch at all: its pipes sound the same however " +
       "the key is pressed (soundonsound.com Synthesizing Tonewheel Organs). 0.12 [chosen]",

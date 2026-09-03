@@ -13,7 +13,7 @@
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  ARCS, BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, KIT_NAMES, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
+  ARCS, BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, VOICES,
   type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
@@ -258,6 +258,8 @@ export function resolveGenre(
         "a section kind");
     }
 
+    const isec = form["introSec"];
+    if (!finite(isec) || isec < 1 || isec > 120) problems.push(`form.introSec must be 1..120 seconds, got ${String(isec)}`);
     const ic = form["introChance"];
     if (!finite(ic) || ic < 0 || ic > 1) {
       problems.push(`form.introChance must be 0..1, got ${String(ic)}`);
@@ -471,6 +473,11 @@ export function resolveGenre(
         if (n === 0) problems.push(`arrangement.enter never lets the ${r} in`);
         if (n > 1) problems.push(`arrangement.enter names the ${r} ${n} times`);
       }
+    }
+    // the way in, and whether what opened the record comes back
+    checkPool(problems, "arrangement.intro", arr["intro"], (v) => (INTRO_KINDS as readonly unknown[]).includes(v), `one of ${INTRO_KINDS.join(", ")}`);
+    if (typeof arr["breakdown"] !== "boolean") {
+      problems.push(`arrangement.breakdown must be true or false, got ${String(arr["breakdown"])}`);
     }
     const ip = arr["introParts"];
     if (!finite(ip) || !Number.isInteger(ip) || ip < 1 || ip > ROLES.length) {

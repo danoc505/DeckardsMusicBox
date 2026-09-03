@@ -11,6 +11,7 @@ time, anywhere: as notes, as a text dump, as a WAV, in the page.
     npm run build                               "Deckards Orchestrator MKIII.html", one file, open it
     node tools/roll.ts lofi 42                  the tune as a piano roll, read back out of its own MIDI
     node tools/roll.ts --sweep lofi 1 20        the same numbers over twenty seeds
+    node tools/roll.ts lofi 42 --map            who plays which bar, and how the record opens
 
 Node 22 runs the TypeScript directly. There is no bundler: the build
 transpiles `src/` into a forty-line module registry inside `tools/page.html`.
@@ -76,6 +77,14 @@ note. The sources are in `docs/genre-research/MELODY-AND-THE-HOOK.md`; the
 proof is `tools/roll.ts`, which composes a record, writes the bytes a
 sequencer would open, parses those bytes back, and prints the roll and the
 numbers — nothing in it can see a variable inside the builders.
+
+How a record opens is a rule too, and the same tool reads it back: an intro is
+measured on a clock rather than in bars, it is one of three documented ways in
+— the beat alone, the foundation without the tune, or the tune from bar one —
+and one section later, where a bridge sits, is a BREAK: the only place a
+record goes below its floor, carrying what it opened with and nothing else.
+See `docs/genre-research/THE-INTRO.md`, which also records the rule that was
+built for this and measured at exactly nothing.
 
 `Deckards Orchestrator MK2.html` is the previous program, kept whole and
 runnable. `tools/dump.mjs` reads its notes out in the same text format.
