@@ -108,7 +108,7 @@ Every one of these exists, is drawn on the radar scope, and never moves.
 | | move | |
 |---|---|---|
 | 36 | **Azimuth** — the flute crosses the room | ● |
-| 37 | **Distance** — a part steps closer, or further off | ● |
+| 37 | **Distance** — a part steps closer, or further off | ● **and per part**, as written here: `far` is offered aimed at one part as well as at the band |
 | 38 | **Width** | ● |
 | 39 | **Depth** | ● |
 | 40 | **Sweep depth** — the slow drift left and right | ● |
@@ -122,9 +122,9 @@ A desk move, not a note move — and the one move this program cannot make.
 
 | | move | |
 |---|---|---|
-| 41 | **Sends** — five returns, per part | ● 25 knobs, all static |
+| 41 | **Sends** — five returns, per part | ● **and per part**: `drench`/`dry` are offered aimed at one part as well as at the band |
 | 42 | **Filter** — the pole's cutoff down for a darker hearing | ● |
-| 43 | **Pedal feed** — a part walks more or less of the board | ● `mix[role].pedals` |
+| 43 | **Pedal feed** — a part walks more or less of the board | ● **and per part**: `push`/`ease` likewise |
 | 44 | **Pedal swap** — a different stompbox lit for this section | ● twelve pedals |
 | 45 | **Patch** — a return fed into another return | ● the pin matrix |
 | 46 | **Echo** — time in beats, feedback | ● |
@@ -247,6 +247,24 @@ moves against two of everything else — a section changing colour every eight
 bars and never losing a player, which is the oscillating texture again in
 better clothes. A treatment is now priced at what this file already prices the
 drums' expression at: half a part.
+
+## What "per part" turned out to be worth
+
+Moves 37, 41 and 43 say *a part* — and this program applied all of them to the
+whole band, which is a move this catalogue does not list. Making them what they
+say fixed something else entirely, and that is the useful part of the story.
+
+A treatment's `Move` carried a hardcoded role of `"drums"`, because the type
+wanted a role and a whole-band move has none. `worth` reads `standing` and
+`established` OF ITS ROLE, so with a fictional role every treatment scored the
+constant 1; `serve` is also constant across treatments; and the only thing left
+to order them by was `fresh × afford`, which knows nothing about the record in
+front of it. Measured over 300 seeds, **every record in a genre played its
+treatments in the same order**, differing only in how far down the list it got.
+
+Giving the per-part moves a real part fixed that without adding a term:
+distinct treatment sequences went **17 → 52** in lofi and **29 → 137** in
+dungeon synth, and every section-level number is unchanged.
 
 ## The plan for the rest of them
 

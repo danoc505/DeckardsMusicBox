@@ -397,6 +397,35 @@ test("a rule-of-three demand the notes may not answer is answered by the desk", 
   assert.ok(recasts > 10, `only ${recasts} recast sections across 60 records`);
 });
 
+test("a per-part treatment says which part, and survives being frozen", () => {
+  // `Span` is REBUILT field by field on the way out of makeArrangement, and
+  // the rebuild is cast to Span — so a field left out of it is not a type
+  // error, it is a field that silently stops existing downstream. That is
+  // exactly how `at` was lost on its first outing with `npm run check` green,
+  // and nothing else in this suite would have noticed. This is the assertion
+  // that would have.
+  let perPart = 0;
+  let wholeDesk = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const p of dsBuild(seed).placed) {
+      for (const sp of p.spans) {
+        assert.ok("at" in sp, "a span came out of the arrangement without `at`");
+        if (sp.treatment === null) {
+          assert.equal(sp.at, null, "an untreated span names a part");
+          continue;
+        }
+        if (sp.at === null) { wholeDesk++; continue; }
+        perPart++;
+        // the part it is aimed at is one that is actually sounding, or the
+        // desk moves a part nobody can hear
+        assert.ok(sp.heard.has(sp.at), `${sp.treatment} is aimed at the ${sp.at}, which is not playing`);
+      }
+    }
+  }
+  assert.ok(perPart > 0, "no record aimed a treatment at one part");
+  assert.ok(wholeDesk > 0, "the whole-desk treatments stopped being offered");
+});
+
 test("the desk moving does not leave the arrangement with nothing to do", () => {
   // `stuck` counts boundaries where every move refused. A richer pool must not
   // make that worse, and in fact it cannot be anything but better.

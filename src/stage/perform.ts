@@ -63,6 +63,8 @@ export interface Event {
 export interface DeskChange {
   readonly tSec: number;
   readonly treatment: Treatment | null;
+  /** The part a per-part treatment is aimed at; null for a whole-desk one. */
+  readonly at: Role | null;
 }
 
 export interface Performance {
@@ -140,6 +142,7 @@ export function makePerformance(
   // genre's, so the first entry is only written if bar zero is already treated.
   const desk: DeskChange[] = [];
   let deskNow: Treatment | null = null;
+  let atNow: Role | null = null;
 
   for (const placed of arrangement.placed) {
     const m = materials.all.get(placed.material);
@@ -177,13 +180,14 @@ export function makePerformance(
       // becomes a range of bars. The last span runs to the end.
       const span = placed.spans[
         Math.min(placed.spans.length - 1, Math.floor((bar - section.startBar) / (2 * loop)))
-      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null };
+      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
       // the treatment changes on and nowhere else, so a treatment held across
       // several spans rebuilds nothing.
-      if (span.treatment !== deskNow) {
+      if (span.treatment !== deskNow || span.at !== atNow) {
         deskNow = span.treatment;
-        desk.push({ tSec: clock.at(bar), treatment: deskNow });
+        atNow = span.at;
+        desk.push({ tSec: clock.at(bar), treatment: deskNow, at: atNow });
       }
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {

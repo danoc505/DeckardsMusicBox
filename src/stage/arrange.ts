@@ -69,7 +69,7 @@
 
 import type { ArrangementRules, Idea, IntroKind, Role, Treatment } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
-import { deskOf } from "./treat.ts";
+import { deskOf, isPerPart } from "./treat.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 // A pure function of the chart, not a read of built materials — see its own
@@ -98,6 +98,16 @@ export interface Span {
    * null is the genre's own desk, which is where every span used to be.
    */
   readonly treatment: Treatment | null;
+  /**
+   * WHICH PART THE TREATMENT IS AIMED AT, or null for a whole-desk move.
+   *
+   * The catalogue lists distance, sends and the pedal feed as one part's
+   * moves — "a part steps closer, or further off" — and this stage applied
+   * them to the whole band. A band stepping back together is a different
+   * move from the flute stepping back, and only the second is in the
+   * catalogue. `treat.ts` says which treatments are per-part.
+   */
+  readonly at: Role | null;
 }
 
 export interface Placed {
@@ -247,6 +257,8 @@ interface Move {
   readonly role: Role;
   /** The desk this move puts the span on, or null for the genre's own. */
   readonly treatment: Treatment | null;
+  /** Which part a per-part treatment is aimed at; null for a whole-desk one. */
+  readonly at: Role | null;
   /**
    * HOW READILY THE GENRE PARTS WITH THIS ONE, 0..1, from its shed order.
    *
@@ -303,7 +315,9 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * the bass away are two different moves.
    */
   const keyOf = (mv: Move): string =>
-    mv.treatment !== null ? `treat:${mv.treatment}` : `${mv.name}:${mv.role}`;
+    mv.treatment !== null
+      ? (mv.at === null ? `treat:${mv.treatment}` : `treat:${mv.treatment}:${mv.at}`)
+      : `${mv.name}:${mv.role}`;
 
   /**
    * HOW FULL A SPAN IS, the one measured quantity: what fraction of the band
@@ -584,8 +598,8 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       }
       if (opening !== null) ledger.used.set(`treat:${opening}`, (ledger.used.get(`treat:${opening}`) ?? 0) + 1);
     }
-    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null } =
-      { heard: new Set(base), thin, treatment: opening };
+    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null } =
+      { heard: new Set(base), thin, treatment: opening, at: null };
     const turnsOf = (s: number): number =>
       Math.min(2, Math.max(1, Math.round((Math.min(section.bars, (s + 1) * turn) - s * turn) / (turn / 2))));
 
@@ -595,10 +609,10 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.
         const pool: Move[] = [];
-        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment): void => {
+        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null): void => {
           // a move that leaves the span exactly where it already is is not a
           // move, and the desk is part of where it is
-          if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment
+          if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment && at === cur.at
             && [...h].every((r) => cur.heard.has(r))) return;
           // THE CLOSE KEEPS THE OPENING. Holding the opener into the last
           // SECTION is not enough: a record ends on its last SPAN, and the
@@ -609,7 +623,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           // treatment-only move keeps every part, so the desk still moves
           // freely at the close: what is refused is losing the opener.
           if (closing && openers.has(role) && !h.has(role)) return;
-          pool.push({ name, heard: h, thin: th, role, afford, treatment: tr });
+          pool.push({ name, heard: h, thin: th, role, afford, treatment: tr, at });
         };
         /**
          * THE DRONE DOES NOT COME AND GO INSIDE A SECTION.
@@ -657,10 +671,38 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         //    Only treatments this genre carries and that would actually move
         //    this genre's desk are here — `offered` did both filters once, at
         //    the top, because neither answer changes inside a record.
-        for (const t of offered) push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
+        //    A PER-PART TREATMENT IS OFFERED PER PART. The catalogue lists
+        //    these as one part's move — "a part steps closer, or further off"
+        //    — and this stage used to apply them to the whole band and hand
+        //    the Move a hardcoded "drums" because the type wanted a role.
+        //    That placeholder was the whole reason a treatment could not be
+        //    scored: `worth` reads `standing` and `established` OF ITS ROLE,
+        //    so a move with a fictional role got the constant 1, and with
+        //    `serve` also constant across treatments the only thing left to
+        //    order them by was `fresh × afford` — which knows nothing about
+        //    this record. Measured over 300 seeds, every record in a genre
+        //    played its treatments in the SAME ORDER, differing only in how
+        //    far down the list it got.
+        //
+        //    So the role is real now, and nothing had to be added to the
+        //    score: the terms that already read the record start reading it
+        //    for treatments too, because there is finally a part to read.
+        //    BOTH, for the six that can be either. The whole band stepping
+        //    back is a real move and this stage already had it; what the
+        //    catalogue adds is the flute stepping back on its own. Offering
+        //    only the per-part version would delete a move to add one, so
+        //    both are in the pool and the score decides between them.
+        for (const t of offered) {
+          push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
+          if (!isPerPart(t)) continue;
+          for (const r of cur.heard) {
+            if (deskOf(t, chart.genre.sound, r) === null) continue;
+            push(`treat-${t}`, new Set(cur.heard), cur.thin, r, 1, t, r);
+          }
+        }
         //    and back to the record's own sound, which is a change like any
         //    other and the only way a treated span ever ends
-        if (cur.treatment !== null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null);
+        if (cur.treatment !== null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null, null);
 
         // ── THE SCORE. Three terms, multiplied, no coefficients: any one at
         //    zero kills the move, and there is nothing to tune.
@@ -708,7 +750,27 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           //   a part is worth more where it is missing, as arithmetic — and a
           //   treatment takes no part away, so there is no absence to price
           const st = ledger.standing.get(mv.role) ?? 0;
-          const worth = moved ? 1
+          //   A TREATMENT AIMED AT A PART IS WORTH WHAT THAT PART IS WORTH.
+          //   This read `moved ? 1` — a constant — and with `serve` also
+          //   constant across treatments there was nothing left to order them
+          //   by but `fresh × afford`, which knows nothing about this record.
+          //   Now that a per-part treatment carries the part it is aimed at,
+          //   the term that already prices a part can price it: treating a
+          //   part the record has barely established is a change nobody can
+          //   register, exactly as it is for a density move. A whole-desk
+          //   treatment has no part, so it keeps the 1 it had.
+          //   and a WHOLE-DESK treatment is aimed at everyone, so it is worth
+          //   what everyone is worth: the same term over the parts sounding.
+          //   Left at a flat 1 it was a free pass that outbid every per-part
+          //   move on principle rather than on merit, which is the bias that
+          //   put the whole band back on one fixed playlist.
+          const worthAll = (): number => {
+            let sum = 0;
+            for (const r of cur.heard) sum += established(r);
+            return cur.heard.size === 0 ? 1 : sum / cur.heard.size;
+          };
+          const worth = moved
+            ? (mv.at === null ? worthAll() : established(mv.at))
             : (d > 0 ? Math.max(0, -st) / (Math.max(0, -st) + 1) : Math.max(0, st) / (Math.max(0, st) + 1))
               * established(mv.role);
           //   the rule of three, applied to this stage's own vocabulary: the
@@ -735,11 +797,11 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           best = alt;
         }
         if (best !== null) {
-          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment };
+          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at };
           ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
         }
       }
-      spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment });
+      spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at });
 
       // ── THE LEDGER, in part-turns. Two entries and nothing else.
       const turns = turnsOf(s);
@@ -770,11 +832,17 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     const union = new Set<Role>();
     for (const sp of spans) for (const r of sp.heard) union.add(r);
     const held = Object.freeze(union) as ReadonlySet<Role>;
+    // REBUILT FIELD BY FIELD, so every field of `Span` has to be named here
+    // too. The cast at the end means a field left out is not a type error —
+    // it is a field that silently stops existing downstream, which is how
+    // `at` was dropped on its first outing while `npm run check` stayed
+    // green. If you add to `Span`, add to this.
     const frozen = Object.freeze(
       spans.map((sp) => Object.freeze({
         heard: Object.freeze(sp.heard) as ReadonlySet<Role>,
         thin: sp.thin,
         treatment: sp.treatment,
+        at: sp.at,
       })),
     ) as readonly Span[];
     return Object.freeze({

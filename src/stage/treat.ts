@@ -47,7 +47,7 @@
  *   unaltered.
  */
 
-import { ROLES, SENDS, TREATMENTS, type SoundRules, type SoundSpec, type Treatment } from "../genre/spec.ts";
+import { ROLES, SENDS, TREATMENTS, type Role, type SoundRules, type SoundSpec, type Treatment } from "../genre/spec.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
 
@@ -55,9 +55,9 @@ const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > 
  * Every part's send to every return, scaled — the parts that already feed a
  * return feed it more, and a part that feeds nothing still feeds nothing.
  */
-function sends(S: SoundRules, by: number): NonNullable<SoundSpec["mix"]> {
+function sends(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["mix"]> {
   const mix: Record<string, { sends: Record<string, number> }> = {};
-  for (const role of ROLES) {
+  for (const role of only === undefined ? ROLES : [only]) {
     const ch = S.mix[role];
     const out: Record<string, number> = {};
     for (const sd of SENDS) out[sd] = clamp(ch.sends[sd] * by, 0, 1);
@@ -67,11 +67,29 @@ function sends(S: SoundRules, by: number): NonNullable<SoundSpec["mix"]> {
 }
 
 /** One number per part, scaled and clamped: level, pedals, dist and the rest. */
-function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: number, lo: number, hi: number): NonNullable<SoundSpec["mix"]> {
+function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: number, lo: number, hi: number, only?: Role): NonNullable<SoundSpec["mix"]> {
   const mix: Record<string, Record<string, number>> = {};
-  for (const role of ROLES) mix[role] = { [key]: clamp(S.mix[role][key] * by, lo, hi) };
+  for (const role of only === undefined ? ROLES : [only]) mix[role] = { [key]: clamp(S.mix[role][key] * by, lo, hi) };
   return mix as NonNullable<SoundSpec["mix"]>;
 }
+
+/**
+ * THE TREATMENTS THAT ARE ABOUT ONE PART, and are written here as such.
+ *
+ * The catalogue says these are per-part and always did — "**Distance**: a part
+ * steps closer, or further off" (§7, move 37), "**Sends** — five returns, per
+ * part" (§8, 41), "**Pedal feed** — a part walks more or less of the board"
+ * (§8, 43). This file applied all of them to the whole band, which is a move
+ * the catalogue does not list: the band stepping back together is not the
+ * flute stepping back.
+ *
+ * Only a treatment whose whole spec is per-part is in here. `close` moves the
+ * world's width as well as every part's distance, and `darken`, `wear`,
+ * `echoed`, `brighten` and `widen` are the rack and the room — a rack is not
+ * something one part has, so those stay what they are.
+ */
+export const PER_PART: readonly Treatment[] = ["drench", "dry", "push", "ease", "far", "sweep"];
+export const isPerPart = (t: Treatment): boolean => PER_PART.includes(t);
 
 /**
  * What one treatment does to this genre's desk, or null if it would do
@@ -81,7 +99,7 @@ function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: numbe
  * function and not a mutation, and calling it twice on the same desk gives the
  * same desk both times.
  */
-export function deskOf(name: Treatment, S: SoundRules): SoundSpec | null {
+export function deskOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec | null {
   let spec: SoundSpec;
   switch (name) {
     // ── the filter, which is the move this genre's own sources name ──
@@ -115,7 +133,7 @@ export function deskOf(name: Treatment, S: SoundRules): SoundSpec | null {
           room: { ret: clamp(S.rack.room.ret * 1.5, 0, 2) },
           spring: { ret: clamp(S.rack.spring.ret * 1.5, 0, 2) },
         },
-        mix: sends(S, 1.4),
+        mix: sends(S, 1.4, only),
       };
       break;
     case "dry":
@@ -124,7 +142,7 @@ export function deskOf(name: Treatment, S: SoundRules): SoundSpec | null {
           room: { ret: clamp(S.rack.room.ret * 0.45, 0, 2) },
           spring: { ret: clamp(S.rack.spring.ret * 0.45, 0, 2) },
         },
-        mix: sends(S, 0.5),
+        mix: sends(S, 0.5, only),
       };
       break;
     case "echoed":
@@ -148,10 +166,10 @@ export function deskOf(name: Treatment, S: SoundRules): SoundSpec | null {
       // the same parts through more of the rig they already walk. A part at
       // pedals 0 stays at 0: the genre said that part is not coming out of an
       // amp, and a treatment does not overrule a genre.
-      spec = { mix: perPart(S, "pedals", 1.5, 0, 1) };
+      spec = { mix: perPart(S, "pedals", 1.5, 0, 1, only) };
       break;
     case "ease":
-      spec = { mix: perPart(S, "pedals", 0.45, 0, 1) };
+      spec = { mix: perPart(S, "pedals", 0.45, 0, 1, only) };
       break;
 
     // ── the world ──
@@ -166,10 +184,10 @@ export function deskOf(name: Treatment, S: SoundRules): SoundSpec | null {
       };
       break;
     case "far":
-      spec = { mix: perPart(S, "dist", 1.45, 0, 1) };
+      spec = { mix: perPart(S, "dist", 1.45, 0, 1, only) };
       break;
     case "sweep":
-      spec = { mix: perPart(S, "sweepDepth", 3, 0, 1) };
+      spec = { mix: perPart(S, "sweepDepth", 3, 0, 1, only) };
       break;
 
     // ── the record itself ──

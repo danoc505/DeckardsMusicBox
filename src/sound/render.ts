@@ -402,6 +402,8 @@ export class Engine {
   private readonly deskAt: readonly DeskChange[];
   private deskNext = 0;
   private treatment: Treatment | null = null;
+  /** The part a per-part treatment is aimed at; null for a whole-desk one. */
+  private treatAt: Role | null = null;
   private readonly seed: number;
   private readonly beatSec: number;
   private readonly voices: Readonly<Record<string, (n: NoteIn) => Float32Array>>;
@@ -735,6 +737,7 @@ export class Engine {
     let moved = false;
     while (this.deskNext < this.deskAt.length && this.deskSample(this.deskNext) <= this.t) {
       this.treatment = this.deskAt[this.deskNext]!.treatment;
+      this.treatAt = this.deskAt[this.deskNext]!.at;
       this.deskNext++;
       moved = true;
     }
@@ -751,7 +754,7 @@ export class Engine {
    * exactly the knobs that were touched, which is what being touched means.
    */
   private retune(): void {
-    const spec = this.treatment === null ? null : deskOf(this.treatment, this.base);
+    const spec = this.treatment === null ? null : deskOf(this.treatment, this.base, this.treatAt ?? undefined);
     this.S = settle(settle(this.base, spec ?? undefined), this.over);
     this.tune();
   }
