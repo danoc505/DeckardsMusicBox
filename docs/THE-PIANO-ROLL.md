@@ -1,18 +1,18 @@
-# The piano roll: the only test that proves a change
+# The piano roll: the instrument you work with
 
 This program makes records. A record is judged by ear, and nothing an
 automated test asserts is a record — the suite can be entirely green on a
-program that writes confetti. So there is one thing every change to this
-program is proved with, and it is a picture of the record.
+program that writes confetti. The roll is how you SEE what the program is
+doing, so it is what you work with while you are changing it, and what you
+show when you say a change did something.
 
     npm run roll lofi 42                 the record as a piano roll PNG
-    npm run roll lofi 42 out.png --bars 0-32
-    npm run shot lofi --random 3         the page's own roll, three random seeds
+    npm run roll lofi 42 out.png --bars 0-32     one passage, close up
+    npm run shot lofi 42                 the page's own roll, through the built file
 
-**Paste the rolls. Every time.** A change to how this program composes is not
-finished, not reviewable and not believed until three randomly drawn seeds
-have been rolled and looked at. Not a seed you picked — a seed the machine
-picked, because a seed you picked is a seed that worked.
+Run it the way you would keep a scope on a bench: before you touch anything,
+to see what it does now; after, to see what changed. Not a report you file at
+the end — the thing you are looking at while you work.
 
 ---
 
@@ -99,11 +99,19 @@ screen together.
 5. **Do returns differ?** Two sections on the same material, side by side in
    the picture, should rhyme without matching.
 
-## 5. The rule
+## 5. Using it honestly
 
-> A change to this program is proved by three randomly drawn seeds on the
-> piano roll, looked at, and pasted. A green suite is a precondition, not a
-> proof. `npm test` says no law was broken; the roll says whether it is music.
+The roll shows one seed. One seed is an anecdote, so when you are judging
+whether a CHANGE worked rather than looking at a particular record, roll the
+same seeds before and after and compare — and let something else pick the
+seeds. A seed you chose is a seed that worked.
 
-Nothing else counts. Not a passing test, not a diff that reads well, not a
-description of what the change should do. The picture, or it did not happen.
+How many depends on what you are asking. One is enough to see a shape you
+just built. A handful is what you want before believing a rule holds in
+general. `tools/roll.ts --sweep` counts across twenty when the question is
+statistical rather than visual — that is what the melody and intro research
+was measured with.
+
+A green suite is a precondition, not a proof: `npm test` says no stated law
+was broken, and the roll says whether it is music. When you claim a change did
+something, show the picture that shows it.

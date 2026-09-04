@@ -1,22 +1,27 @@
 # Working on this program
 
 Read `README.md` first for what the program is. This file is how work on it
-is proved.
+is done.
 
-## The piano roll is the only proof
+## The piano roll is how you see what the program is doing
 
 A record is judged by ear. Nothing this repository asserts is a record — the
-suite can be entirely green on a program that writes confetti — so no change
-to how this program composes is finished until it has been looked at as a
-picture.
+suite can be entirely green on a program that writes confetti — so the roll is
+the instrument you work with, not a report you file at the end.
 
-    npm run roll <genre> <seed>          the everyday test, about a second
-    npm run shot <genre> --random 3      the page's own canvas, before you believe it
+    npm run roll <genre> <seed>     the record as a picture, about a second
+    npm run shot <genre> <seed>     the same record through the built page
 
-**Three randomly drawn seeds, rolled, looked at, and pasted into your reply.**
-Draw them with a random number generator, not from your head: a seed you chose
-is a seed that worked. Look at the PNGs you produced — actually open them —
-before you claim anything about them. Then paste them.
+Keep it open while you work. Roll the thing you are about to change, so you
+know what it does now; roll it again after, so you can see what moved. Use it
+to answer questions — is this section a return, does that part ever rest, did
+the tune go anywhere — because those are visible in the picture and in nothing
+else here.
+
+Look at the PNG you produced before you say anything about it. When you claim
+a change did something, show the picture that shows it — and when you are
+judging a change rather than admiring a record, compare the same seeds before
+and after, picked by something other than you.
 
 `npm test` and `npm run check` are preconditions, not proof. Green means no
 stated law was broken. It does not mean the result is music, and music is the
