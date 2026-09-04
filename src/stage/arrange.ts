@@ -67,7 +67,7 @@
  * change is expression only: a breath, not a hole.
  */
 
-import type { ArrangementRules, Idea, IntroKind, Role, Treatment } from "../genre/spec.ts";
+import type { ArrangementRules, Idea, IntroKind, Manner, Role, Treatment } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
 import { deskOf, isPerPart, needsDrums } from "./treat.ts";
 import type { Chart } from "./chart.ts";
@@ -169,6 +169,22 @@ export interface Placed {
    * loops without any figure being played differently — see `Span.hush`.
    */
   readonly swell: boolean;
+  /**
+   * HOW THIS RESTATEMENT IS PLAYED, or null for the hand the material wrote.
+   *
+   * The rule of three demands a third hearing differ, and this stage had two
+   * answers: new notes (`vary`, which spends material) and a new desk
+   * (`recast`). A plain restatement — an idea stated again with neither — came
+   * back identical in everything but who was playing. This is the third
+   * answer, and the one §4 of THE-ALTERATIONS.md is about: the same notes, the
+   * same desk, a different hand.
+   *
+   * A SECTION'S, never a span's, and that is not a preference. `art` is one of
+   * the six fields the repetition law compares, and 76% of lofi's repetition
+   * pairs straddle a span boundary; a section boundary is the coarsest grain
+   * those pairs never cross.
+   */
+  readonly manner: Manner | null;
   /**
    * Who plays, span by span, each span being two turns of the loop. The
    * stage that writes the notes knows how long a turn is and indexes this;
@@ -601,6 +617,25 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     // one climax to run up to. Never the break, which is the record going
     // below its floor: a breakdown that swells is not a breakdown.
     const swell = section.index === form.peakAt - 1 && form.peakAt > 0 && !broken;
+    // A PLAIN RESTATEMENT IS PLAYED DIFFERENTLY, ON THE THIRD HEARING. The
+    // rule of three's own threshold — "when it is repeated a third time, our
+    // brains may begin to tune it out" — and not the second, which was tried
+    // and handed 42% of all sections a manner. A record whose every
+    // restatement is played differently has no passage literally repeated in
+    // it at all, and literal repetition is the thing this program is built to
+    // protect: Huron and Ollen put it at 94% of passages. The second hearing
+    // is the one that makes an idea memorable, so it is left exactly alone.
+    //
+    // Only where the other two
+    // answers are not already being given — a section given new notes or a new
+    // desk has had its change, and stacking a third on top is not development,
+    // it is three changes at once with nothing held still to hear them
+    // against. Drawn from the genre's own pool, addressed by the section, so
+    // it is a fact about this record rather than a die.
+    const manner: Manner | null =
+      section.statement > 2 && !section.vary && !section.recast && A.manner.some(([, w]) => w > 0)
+        ? chart.rng.at("arrange", "manner", section.index).weighted("how", A.manner)
+        : null;
     // and a break is not "thinned": there is nothing left in it to thin, and
     // the drums it may consist of are the thing being heard
     const thin = !broken && !section.peak && (section.fn === "bridge" || section.energy < A.thinBelow)
@@ -962,6 +997,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       thin,
       broken,
       swell,
+      manner,
       spans: frozen,
     });
   });

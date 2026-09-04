@@ -75,7 +75,7 @@ already exist per genre and are drawn per material.
 
 | | move | |
 |---|---|---|
-| 21 | **Articulation swap** — a slurred wind line played tongued, or tenuto | ◐ per material, not per return |
+| 21 | **Articulation swap** — a slurred wind line played tongued, or tenuto | ● **and it moves**: `Placed.manner`, per HEARING. One rung along the length ladder — ring, tenuto, plain, staccato — and only into a manner the part's own genre pool carries. A ghost, an accent, a bend and a slide carry something besides length and are left as written |
 | 22 | **Ghosting** — the line at greatly reduced weight | ● `ghost` |
 | 23 | **Accent shift** — which notes are leaned on | ● |
 | 24 | **Dynamic terrace** — the part a step quieter, or louder, for this hearing | ● **and it moves**: `Span.hush` holds one part back by `ARC_DEPTH`, what the arc itself takes off at its quietest. It is a GAIN and nothing else, which is what makes it legal per span — see below |

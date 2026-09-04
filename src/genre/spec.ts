@@ -526,6 +526,23 @@ export const TREATMENTS = [
 ] as const;
 export type Treatment = (typeof TREATMENTS)[number];
 
+/**
+ * HOW A SECTION IS PLAYED, as against what is played in it.
+ *
+ * §4 of THE-ALTERATIONS.md, move 21: "a slurred wind line played tongued, or
+ * tenuto". A restatement that is neither given new notes nor a new desk still
+ * owes the ear something on its second and third hearing, and this is the
+ * third answer — the same notes, the same desk, a different hand.
+ *
+ * It is a SECTION's, never a span's. `art` is one of the six things
+ * `perform.test.ts` compares when it holds a figure to being played the same
+ * way twice — Huron and Ollen's 94% — and 76% of lofi's repetition pairs
+ * straddle a span boundary. A section boundary is the coarsest grain the pairs
+ * never cross, so a manner that changes there changes nothing inside a loop.
+ */
+export const MANNERS = ["tongued", "sung"] as const;
+export type Manner = (typeof MANNERS)[number];
+
 export interface ArrangementSpec {
   /**
    * The order the parts arrive in across a record. Every part appears exactly
@@ -620,6 +637,12 @@ export interface ArrangementSpec {
    * has spent its identity to satisfy a counter. Weight 0 removes one.
    */
   readonly treat?: Weighted<Treatment>;
+  /**
+   * HOW A PLAIN RESTATEMENT IS PLAYED. Drawn per section, so a genre with both
+   * at equal weight really is even — this is a draw and not a ladder walked
+   * from the top, which is where an even pool stops being even.
+   */
+  readonly manner?: Weighted<Manner>;
 }
 
 export interface ArrangementRules {
@@ -633,6 +656,8 @@ export interface ArrangementRules {
   readonly thinBelow: number;
   readonly rest: number;
   readonly treat: Weighted<Treatment>;
+  /** How a plain restatement is played, when it is played differently at all. */
+  readonly manner: Weighted<Manner>;
 }
 
 /** Which pairs of notes swing: every two eighths, or every two sixteenths. */
@@ -1589,6 +1614,11 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * pool is what it draws FROM and not what it does.
      */
     treat: TREATMENTS.map((t) => [t, 1] as const),
+    /**
+     * EVEN, and honestly so: two ways to play the same notes, neither of them
+     * the default for music in general. A genre with an opinion says it.
+     */
+    manner: [["tongued", 1], ["sung", 1]],
   },
 
   feel: {

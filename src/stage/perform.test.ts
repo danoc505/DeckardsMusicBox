@@ -338,6 +338,55 @@ test("the arc makes the peak louder than the intro, like for like", () => {
   assert.ok(cases > 20);
 });
 
+test("a third hearing is played differently, one rung and no further", () => {
+  // §4 move 21: "a slurred wind line played tongued". The rule of three's
+  // third answer — the same notes, the same desk, a different hand — and the
+  // whole of what it may do is move a note along the LENGTH ladder: ring,
+  // tenuto, plain, staccato. A ghost, an accent, a bend and a slide each carry
+  // something besides length, and a manner that flattened them would be
+  // rewriting the material rather than playing it.
+  const LADDER = ["ring", "tenuto", "plain", "staccato"];
+  let moved = 0;
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    for (let seed = 1; seed <= 60; seed++) {
+      const s = compose({ seed, genre: g });
+      for (const p of s.arrangement.placed) {
+        // it is only ever given to a THIRD hearing that is not already being
+        // changed some other way: the second hearing is what makes an idea
+        // memorable and is left exactly alone
+        if (p.manner !== null) {
+          assert.ok(p.section.statement > 2, `a manner on statement ${p.section.statement}`);
+          assert.equal(p.section.vary, false, "a section given new notes was handed as well");
+          assert.equal(p.section.recast, false, "a recast section was handed as well");
+        }
+        const m = s.materials.all.get(p.material)!;
+        const wrote = new Map<string, string>();
+        for (const r of ["bass", "keys", "drone"] as const) {
+          for (const n of m.groove[r] ?? []) wrote.set(`${r}:${n.bar}:${n.step}`, n.art);
+        }
+        for (const e of s.performance.events) {
+          if (e.bar < p.section.startBar || e.bar >= p.section.endBar) continue;
+          const was = wrote.get(`${e.role}:${(e.bar - p.section.startBar) % m.bars}:${e.step}`);
+          if (was === undefined || was === e.art) continue;
+          // the tune and the drums are written per round and are never handed
+          assert.ok(e.role !== "lead" && e.role !== "drums", `the ${e.role} was handed, and it is written per round`);
+          assert.notEqual(p.manner, null, `${e.role} changed manner in a section with none`);
+          const from = LADDER.indexOf(was), to = LADDER.indexOf(e.art);
+          assert.ok(from >= 0 && to >= 0, `${was} to ${e.art} is off the length ladder`);
+          assert.equal(to - from, p.manner === "tongued" ? 1 : -1, `${was} to ${e.art} is more than one rung`);
+          // and never into a manner this genre does not grant this part
+          const pool = (s.chart.genre as unknown as Record<string, { art?: readonly (readonly [string, number])[] }>)[e.role]?.art;
+          if (pool !== undefined) {
+            assert.ok(pool.some(([a, w]) => a === e.art && w > 0), `the ${e.role} was handed ${e.art}, which its genre does not carry`);
+          }
+          moved++;
+        }
+      }
+    }
+  }
+  assert.ok(moved > 500, `only ${moved} notes were played in a different manner`);
+});
+
 test("the section before the climax builds into it", () => {
   // The arc is "exposition, rising action, climax, falling action, dénouement"
   // (Ableton, "Dramatic Arc"). This program had the climax — the form declares

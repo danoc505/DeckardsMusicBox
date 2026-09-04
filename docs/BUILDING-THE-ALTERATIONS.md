@@ -352,6 +352,8 @@ Built, both gain-only:
 | 24 · dynamic terrace | `Span.hush` — any part held back, not just the drums' hat. The peak, which may never lose a player, went from one available move to two |
 | 25 · crescendo | `Placed.swell` — the section before the climax builds into it. This is the arc's **rising action**, the one stage of the dramatic arc this program never had |
 
+| 21 · articulation swap | `Placed.manner` — the rule of three's third answer: same notes, same desk, a different hand. One rung along the length ladder, per hearing |
+
 Not built, and each for a stated reason rather than for want of time:
 
 - **26 · lean** would contradict "a part sits where its genre leans it", which
@@ -361,8 +363,6 @@ Not built, and each for a stated reason rather than for want of time:
 - **28 · octave transposition** at performance time bypasses the material
   stage's register check, which throws by design. It belongs where the register
   is known — which makes it channel D, not B.
-- **21 · articulation swap** needs a mapping that stays inside the arts a part's
-  own genre pool carries, or it hands a struck piano a manner it cannot play.
 
 ### Phase 4 — channel C (orchestration)
 

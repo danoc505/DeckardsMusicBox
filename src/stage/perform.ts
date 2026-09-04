@@ -95,6 +95,25 @@ const TAIL_SEC = 2.5;
 const PHRASE_PEAK = 0.4;
 
 /**
+ * THE LENGTH LADDER, and the whole of what a manner may do.
+ *
+ * Ordered by how much of its written length a note sounds for: ring and slur
+ * hold all of it, tenuto 0.95, plain 0.8, staccato 0.5. `tongued` moves a note
+ * one rung toward the short end and `sung` one rung toward the long, and
+ * NOTHING ELSE MOVES. A ghost, an accent, a bend, a slide and a marcato each
+ * carry something besides length — a weight, a pitch, a hand — and a manner
+ * that flattened them would be rewriting what the material said rather than
+ * playing it differently.
+ *
+ * AND ONLY TO A MANNER THE PART'S OWN GENRE CARRIES. Every part has a pool its
+ * instrument can physically produce — "a struck piano does not bend, and the
+ * tables that say so live with the parts" — so a step whose destination is not
+ * in that pool is not taken. That is what keeps this from handing an
+ * instrument a manner nobody wrote for it.
+ */
+const LADDER: readonly ArtName[] = ["ring", "tenuto", "plain", "staccato"];
+
+/**
  * A phrase, shaped: 0 at its ends and 1 at its height.
  *
  * "A classic arched contour is shaped as a dynamic rise to a peak pitch and
@@ -154,6 +173,32 @@ export function makePerformance(
       const l = lines[n];
       if (l === undefined) throw new Error(`${section.fn}: the ${role} plays "${placed.material}" a ${n + 1}th time, which was never written`);
       return l;
+    };
+
+    // the manners this genre grants each part, so a step is only ever taken
+    // into something the part already had
+    const canPlay = (role: Role, art: ArtName): boolean => {
+      const pool = (chart.genre as unknown as Record<string, { art?: readonly (readonly [ArtName, number])[] }>)[role]?.art;
+      return pool === undefined || pool.some(([a, w]) => a === art && w > 0);
+    };
+    /**
+     * AND ONLY THE PARTS THAT REPEAT. The tune and the drums are written per
+     * time ROUND — the lead reads a plan of four letters straight through a
+     * record and the drums treat their figure differently each time — so they
+     * already arrive changed without this. Handing them differently on top is
+     * a second change to a part that is already changing, which is the same
+     * reason a section given new notes or a new desk is left alone here:
+     * nothing is held still to hear the change against.
+     *
+     * The groove is what comes back literally, and it is what a third hearing
+     * has to answer for.
+     */
+    const handed = (role: Role, art: ArtName): ArtName => {
+      if (placed.manner === null || role === "lead" || role === "drums") return art;
+      const at = LADDER.indexOf(art);
+      if (at < 0) return art;
+      const to = LADDER[at + (placed.manner === "tongued" ? 1 : -1)];
+      return to !== undefined && canPlay(role, to) ? to : art;
     };
 
     for (let bar = section.startBar; bar < section.endBar; bar++) {
@@ -242,6 +287,9 @@ export function makePerformance(
         // the manner decides how much of the written length the note keeps
         // and what it weighs against its neighbours; everything else about
         // it — the glide, the attack, the strikes — is the sound stage's
+        // and the manner this restatement is played in, which may only move a
+        // note along the length ladder and only into what the part carries
+        art = handed(role, art);
         const a = artOf(art);
         // where the note sits inside the phrase, to the step: a bar is not a
         // flat step of the shape either
