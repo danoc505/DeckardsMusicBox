@@ -338,6 +338,32 @@ decision rather than something discovered later.
 that is exactly the kind of thing the picture is for. Roll before and after on
 seeds something else picked.
 
+**PHASE 3 SO FAR: the two moves the repetition law lets through, and the rule
+for the rest.** §4's rows split by what the law compares — `role`, `lane`,
+`step`, `pitch`, `art`, `playedStep`. A move that changes a note's WEIGHT or its
+LENGTH is outside that comparison and may sit on a span; a move that changes its
+articulation, its timing, its pitch or its step is inside it and must wait for a
+section boundary.
+
+Built, both gain-only:
+
+| move | what it is |
+|---|---|
+| 24 · dynamic terrace | `Span.hush` — any part held back, not just the drums' hat. The peak, which may never lose a player, went from one available move to two |
+| 25 · crescendo | `Placed.swell` — the section before the climax builds into it. This is the arc's **rising action**, the one stage of the dramatic arc this program never had |
+
+Not built, and each for a stated reason rather than for want of time:
+
+- **26 · lean** would contradict "a part sits where its genre leans it", which
+  is asserted to within 4 ms and sourced to Keil's participatory discrepancies.
+  A section-wide feel shift may well be right, but it needs a source before a
+  law goes.
+- **28 · octave transposition** at performance time bypasses the material
+  stage's register check, which throws by design. It belongs where the register
+  is known — which makes it channel D, not B.
+- **21 · articulation swap** needs a mapping that stays inside the arts a part's
+  own genre pool carries, or it hands a struck piano a manner it cannot play.
+
 ### Phase 4 — channel C (orchestration)
 
 *Cost: a week. Value: 5 moves, and the first genuinely new colour.*

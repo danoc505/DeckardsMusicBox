@@ -79,7 +79,7 @@ already exist per genre and are drawn per material.
 | 22 | **Ghosting** — the line at greatly reduced weight | ● `ghost` |
 | 23 | **Accent shift** — which notes are leaned on | ● |
 | 24 | **Dynamic terrace** — the part a step quieter, or louder, for this hearing | ● **and it moves**: `Span.hush` holds one part back by `ARC_DEPTH`, what the arc itself takes off at its quietest. It is a GAIN and nothing else, which is what makes it legal per span — see below |
-| 25 | **Crescendo** across the section rather than a flat level | ○ |
+| 25 | **Crescendo** across the section rather than a flat level | ● **and it moves**: `Placed.swell`, the section before the climax. It is the arc's RISING ACTION, the one stage of the dramatic arc this program never had — see `THE-ARRANGEMENT-AS-STORY.md` §3 |
 | 26 | **Lean** — the part plays further behind or ahead of the beat | ● `feel.lean` |
 | 27 | **Phrase shape** — more or less arch across the loop | ● `F.phrase` |
 

@@ -160,7 +160,16 @@ export function makePerformance(
       const mbar = (bar - section.startBar) % m.bars;
       const round = Math.floor((bar - section.startBar) / m.bars);
       const arc = form.arc[bar] ?? section.energy;
-      const level = 1 - ARC_DEPTH + ARC_DEPTH * arc;
+      // AND A SECTION THAT BUILDS ARRIVES RATHER THAN SITS. `placed.swell` is
+      // the arc's rising action — the run-up to the climax, which the form
+      // declares and the arc could only ever step towards. Across the section
+      // the weight climbs from the arc's own quietest to nothing held back at
+      // all, so the section reaches its end at full and the peak lands on top
+      // of it. The depth is `ARC_DEPTH` again: what a step down means here is
+      // already written, and a crescendo is that step, taken back.
+      const intoIt = section.bars <= 1 ? 1 : (bar - section.startBar) / (section.bars - 1);
+      const build = placed.swell ? 1 - ARC_DEPTH * (1 - intoIt) : 1;
+      const level = (1 - ARC_DEPTH + ARC_DEPTH * arc) * build;
       const stepSec = clock.stepSec(bar);
       // THE PHRASE IS THE LOOP, and where this bar falls in it is where the
       // phrase has got to. The LOOP and not the material: a four-bar material

@@ -338,6 +338,40 @@ test("the arc makes the peak louder than the intro, like for like", () => {
   assert.ok(cases > 20);
 });
 
+test("the section before the climax builds into it", () => {
+  // The arc is "exposition, rising action, climax, falling action, dénouement"
+  // (Ableton, "Dramatic Arc"). This program had the climax — the form declares
+  // a peak and the peak is the one section with everybody — and it has the
+  // dénouement, since the ending gives back what the record opened with.
+  // RISING ACTION was the stage nothing represented: `form.arc` interpolates
+  // between section centres, so the section before the peak was a flat step on
+  // the way up rather than a section that goes anywhere.
+  let built = 0;
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    for (let seed = 1; seed <= 40; seed++) {
+      const s = compose({ seed, genre: g });
+      const sw = s.arrangement.placed.find((p) => p.swell);
+      if (sw === undefined) continue;
+      // it is the run-up and nothing else: one per record, never the break,
+      // and always immediately before the section the form called the peak
+      assert.equal(s.arrangement.placed.filter((p) => p.swell).length, 1, "more than one section builds");
+      assert.equal(sw.section.index, s.form.peakAt - 1, "the section that builds is not the one before the peak");
+      assert.equal(sw.broken, false, "the break builds, and a breakdown that swells is not a breakdown");
+      const q = Math.max(1, Math.floor(sw.section.bars / 4));
+      const mean = (a: number, b: number) => {
+        const es = s.performance.events.filter((e) => e.bar >= a && e.bar < b);
+        return es.length ? es.reduce((x, e) => x + e.gain, 0) / es.length : null;
+      };
+      const first = mean(sw.section.startBar, sw.section.startBar + q);
+      const last = mean(sw.section.endBar - q, sw.section.endBar);
+      if (first === null || last === null) continue;
+      assert.ok(last > first, `${g} seed ${seed}: the run-up ends at ${last.toFixed(3)}, no louder than the ${first.toFixed(3)} it started at`);
+      built++;
+    }
+  }
+  assert.ok(built > 30, `only ${built} records had a section that builds`);
+});
+
 test("a part held back is quieter, and is still there", () => {
   // `span.hush` is the two-loop rule's fourth way — "reduce expression of an
   // existing instrument" — on a part rather than on the drums' hat, which is
@@ -351,6 +385,12 @@ test("a part held back is quieter, and is still there", () => {
     for (let seed = 1; seed <= 60; seed++) {
       const s = compose({ seed, genre: g });
       for (const p of s.arrangement.placed) {
+        // NOT A SECTION THAT BUILDS. `placed.swell` climbs a note's weight
+        // across the section, so two notes at the same place in the loop but
+        // different rounds already differ for a reason that is not the hush.
+        // Same rule as everywhere else here: a law about one thing is measured
+        // where nothing else is moving.
+        if (p.swell) continue;
         const m = s.materials.all.get(p.material)!;
         const turn = 2 * Math.max(1, m.period);
         const spanAt = (bar: number) =>

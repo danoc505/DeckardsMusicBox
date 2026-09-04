@@ -151,6 +151,25 @@ export interface Placed {
   /** The break: below the floor, carrying what the record opened with. */
   readonly broken: boolean;
   /**
+   * THIS SECTION BUILDS INTO WHAT FOLLOWS — the arc's rising action.
+   *
+   * "Exposition, rising action, climax, falling action, dénouement" (Ableton,
+   * "Dramatic Arc"), and THE-ARRANGEMENT-AS-STORY §3 works through which of
+   * them this program has. It had the climax: the form declares a peak and the
+   * peak is the one section with everybody. It has the dénouement now, since
+   * the ending gives back what the record opened with. RISING ACTION was the
+   * stage nothing represented — the arc interpolates between section centres,
+   * so a section approaching the peak was a flat step on the way up rather
+   * than a section that goes anywhere.
+   *
+   * §4 of THE-ALTERATIONS.md names the same thing from the other end, as move
+   * 25: a crescendo "across the section rather than a flat level".
+   *
+   * It is a GAIN and nothing else, which is why it may sit on a section that
+   * loops without any figure being played differently — see `Span.hush`.
+   */
+  readonly swell: boolean;
+  /**
    * Who plays, span by span, each span being two turns of the loop. The
    * stage that writes the notes knows how long a turn is and indexes this;
    * the last span runs to the end of the section.
@@ -577,6 +596,11 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     // "because there is little or no melody or harmony to attend to"
     // (Burns 1987), and what is left has to be worth attending to.
     const broken = section.index === breaks && openers.size > 0;
+    // THE LAST BREATH BEFORE THE CLIMAX BUILDS INTO IT. One section, the one
+    // immediately before the peak — rising action is a run-up and a record has
+    // one climax to run up to. Never the break, which is the record going
+    // below its floor: a breakdown that swells is not a breakdown.
+    const swell = section.index === form.peakAt - 1 && form.peakAt > 0 && !broken;
     // and a break is not "thinned": there is nothing left in it to thin, and
     // the drums it may consist of are the thing being heard
     const thin = !broken && !section.peak && (section.fn === "bridge" || section.energy < A.thinBelow)
@@ -937,6 +961,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       heard: held,
       thin,
       broken,
+      swell,
       spans: frozen,
     });
   });
