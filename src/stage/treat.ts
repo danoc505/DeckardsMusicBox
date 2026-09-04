@@ -45,9 +45,26 @@
  *   does nothing is the same sin with a longer name: the arrangement would
  *   spend its two-loop change on it and the ear would hear the section repeat
  *   unaltered.
+ *
+ * AND THAT LAST RULE WAS ASKING THE WRONG QUESTION, WHICH IS WHY THIS FILE
+ * NOW HAS TWO TESTS AND NOT ONE. `changes` compares the treatment's numbers
+ * against the genre's numbers, so it can only ever say whether the DESK moved.
+ * Whether the RECORD moved is a different question, and the renderer answers
+ * it: it builds only the units something feeds, and a knob wired to nothing is
+ * a number in a struct. Dungeon synth sends no part to the echo, so `echoed`
+ * moved two numbers, passed `changes`, was offered, was weighted by the genre,
+ * was chosen by the arrangement — and rendered BIT-IDENTICAL, measured at
+ * −225 dB against the untreated record. Every span it won was a span the ear
+ * was promised a change and heard the section repeat unaltered.
+ *
+ * So a move must now clear both: its numbers must move, AND the path it moves
+ * them on must be one this genre can hear. `sound/reach.ts` holds the second
+ * question, because only the renderer knew the answer and it knew it in a
+ * private method.
  */
 
 import { ROLES, SENDS, TREATMENTS, type SoundRules, type SoundSpec, type Treatment } from "../genre/spec.ts";
+import { boardWalked, depthHeard, liveSends, poleHeard } from "../sound/reach.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
 
@@ -74,14 +91,32 @@ function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: numbe
 }
 
 /**
- * What one treatment does to this genre's desk, or null if it would do
- * nothing to it.
+ * What one treatment does to this genre's desk, or null if this genre would
+ * not hear it.
  *
  * Every branch reads the base and writes absolute numbers, so this is a
  * function and not a mutation, and calling it twice on the same desk gives the
  * same desk both times.
  */
 export function deskOf(name: Treatment, S: SoundRules): SoundSpec | null {
+  const spec = specOf(name, S);
+  return changes(spec, S) && reaches(name, S) ? spec : null;
+}
+
+/**
+ * The same, UNFILTERED: what the move would put on the desk whether or not
+ * anything here can hear it.
+ *
+ * Nothing in the program renders this — the arrangement and the renderer both
+ * go through `deskOf`. It exists so that a refusal can be MEASURED rather than
+ * asserted: rendered through `deskOf`, a refused treatment comes back
+ * bit-identical because it was refused, which proves nothing at all. Rendered
+ * as a desk laid over the record (`render(song, { desk: specOf(t, S) })`) it
+ * says what the genre would actually have got, and that is what says whether
+ * the refusal was right. `tools/treatments.ts` and `treat.test.ts` use it and
+ * nothing else should.
+ */
+export function specOf(name: Treatment, S: SoundRules): SoundSpec {
   let spec: SoundSpec;
   switch (name) {
     // ── the filter, which is the move this genre's own sources name ──
@@ -188,7 +223,64 @@ export function deskOf(name: Treatment, S: SoundRules): SoundSpec | null {
       };
       break;
   }
-  return changes(spec, S) ? spec : null;
+  return spec;
+}
+
+/**
+ * Can this genre HEAR the path this move works on?
+ *
+ * One line per treatment, and each says which unit of the renderer the move
+ * arrives through. A move whose path this genre never patches in is refused
+ * however far its numbers travel.
+ */
+function reaches(name: Treatment, S: SoundRules): boolean {
+  const live = liveSends(S);
+  switch (name) {
+    // the tape's lowpass is on the sum and always in circuit, so the filter
+    // can always be closed — and `darken` switches the pole in itself where
+    // the genre left it out, which is the move and not a side effect of it
+    case "darken":
+      return true;
+    // BUT IT CANNOT BE OPENED THE SAME WAY. A genre at `pole.mix` 0 has said
+    // its sum has no filter on it, and switching one in to turn it up is not
+    // that genre getting brighter, it is a different desk. What is left of the
+    // move on such a genre is the tape's lowpass going up, and that is not a
+    // brighter section either: measured on lofi, whose voices have nothing
+    // above the 10 kHz it already passes, 10000 → 13500 Hz moved the record by
+    // −37.7 dB and its centre of gravity by 1.6% — 25 dB below the `darken`
+    // beside it, and it held 18% of every treated span the genre had. Whether
+    // that much is audible nobody has said; that it is the faintest thing lofi
+    // could do with a boundary is measured.
+    case "brighten":
+      return poleHeard(S);
+    // the returns: a genre that sends nothing to a room has no room to open
+    case "drench":
+    case "dry":
+      return live.has("room") || live.has("spring");
+    // and the echo is the one that was wrong. Dungeon synth patches none:
+    // every part's send is 0 and no return feeds it through the matrix.
+    case "echoed":
+      return live.has("echo");
+    // the board: a part has to be walking one, and there has to be a pedal lit
+    // on it — `board()` builds a stage only for a pedal that is up
+    case "push":
+    case "ease":
+      return boardWalked(S);
+    // distance reaches the record only through the world's depth: in a world
+    // with none, every part is equally near however far the desk puts it
+    case "far":
+      return depthHeard(S);
+    // `close` is two moves and needs either: the band narrows, or it steps in
+    case "close":
+      return S.world.width > 0 || depthHeard(S);
+    // width is read by the shadow, the pan and the back of the room, and the
+    // sweep and the tape are read every sample: nothing to switch in, so
+    // `changes` alone decides these
+    case "widen":
+    case "sweep":
+    case "wear":
+      return true;
+  }
 }
 
 /**

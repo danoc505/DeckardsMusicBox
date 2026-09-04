@@ -211,6 +211,25 @@ every part and three times zero is zero. A move that changes nothing is worse
 than a knob that does nothing: the two-loop rule spends a boundary on it and
 the ear hears the section repeat at exactly the moment it was promised a change.
 
+**That third rule was asking the wrong question, and for a while it was a
+lie.** It compared the treatment's numbers against the genre's numbers, which
+says whether the DESK moved and not whether the RECORD did. The renderer builds
+only what something feeds: a return no part sends to is never patched in, a
+pole at `mix` 0 is never built, a board no part walks is never assembled. So a
+move could turn a knob wired to nothing, pass the test, be weighted by a genre
+and chosen by the arrangement, and change not one sample —
+
+| | what it moved | what the genre had |
+|---|---|---|
+| `echoed` on dungeon synth | the echo's return and feedback | no part sends to the echo, and no return feeds it through the patch. **Bit-identical: −225 dB** |
+| `brighten` on lofi | the pole's cutoff, and the tape's | the pole is at `mix` 0, out of the sum. What was left was a tape lowpass raised over voices with nothing up there: **−37.7 dB**, against −12.5 for the `darken` beside it |
+
+`sound/reach.ts` now states the renderer's own rule about what is live, and
+`deskOf` asks it: a move is offered only if its numbers move AND the path they
+move on is one this genre patches in. `stage/treat.test.ts` holds every genre's
+every treatment to it by rendering the record and measuring, which is the test
+that should have existed the day the treatments were built.
+
 **How they reach the record.** `Span` carries a treatment beside its roster.
 `perform.ts` turns the arrangement's spans into a timeline of moments in
 seconds — one entry per *change*, not per span. `render.ts` holds that
@@ -238,6 +257,48 @@ is not clearly indicated; every section-level number — who opens, how thin the
 thinnest section gets, how full the fullest — is identical to what it was.
 The arrangement did not stop moving its parts; it stopped being unable to do
 anything else.
+
+**What each one is actually worth.** `node tools/treatments.ts` renders a
+record with its desk timeline emptied and again held under one treatment for
+its whole length, and reports the difference. Seed 2, 60 s, 22050 Hz. `moved`
+is the difference signal against the record's own level: **−220 dB is not a
+small change, it is no change at all**.
+
+| | dungeon synth | | lofi | |
+|---|---|---|---|---|
+| | level | moved | level | moved |
+| `wear` | +2.45 dB | **+3.3 dB** | +3.25 dB | **+2.1 dB** |
+| `dry` | −1.90 | −5.7 | −0.46 | −14.6 |
+| `drench` | +2.06 | −7.0 | +0.84 | −12.8 |
+| `close` | +0.99 | −9.9 | +0.57 | −19.4 |
+| `darken` | +0.13 | −13.0 | +1.81 | −12.5 |
+| `ease` | +0.24 | −14.9 | −0.12 | −29.1 |
+| `far` | −0.63 | −18.9 | −0.50 | −23.4 |
+| `push` | −0.13 | −19.1 | +0.11 | −30.0 |
+| `widen` | −0.32 | −22.0 | −0.23 | −24.2 |
+| `brighten` | −0.00 | −23.7 | 0.00 | *−37.7, refused* |
+| `sweep` | −0.00 | −30.9 | 0.00 | *−222, refused* |
+| `echoed` | 0.00 | *−225, refused* | +0.02 | −27.4 |
+
+Three things this says, and not one of them is settled by it:
+
+**`wear` is not a treatment, it is a different record.** Its difference signal
+is LOUDER than the record it is a difference from, on both genres, and it takes
+the level up 2.5–3.3 dB with it. Crackle doubling with a floor of 0.05 and tape
+drive at 1.5× is not the medium ageing across a section; it is the section
+arriving on another pressing. It is 18% of dungeon synth's treated time.
+
+**A treatment is supposed to move the sound and not the level**, which is what
+lets it answer the rule of three without the arrangement getting quieter every
+time it does. `dry` at −1.9 dB and `drench` at +2.1 are density moves wearing a
+desk's clothes.
+
+**And half of lofi's vocabulary barely moves at all** — `push`, `ease`,
+`widen`, `far` and `echoed` all sit between −23 and −30 dB, against −12.5 for
+`darken`. lofi's desk is thin: one part on the board, a shallow world, no pole
+in the sum. Nothing here says any of that is inaudible — `TALLY.md` §0 stands
+and no one has played these records — but it says which end of the list to
+start listening at.
 
 **And what the first attempt got wrong**, because it is the trap this whole
 document warns about. A treatment was first scored on its own shape alone,

@@ -141,20 +141,32 @@ test("the record does not depend on the block it is made in", () => {
  * sample rather than on a block boundary, so it has to be held against a
  * record that actually has one — and the desk changes are asserted first, so
  * that this can never quietly become a test of nothing.
+ *
+ * BOTH TESTS BELOW USED TO RUN AT 8 kHz, ON THE GROUND THAT A TEST ABOUT WHERE
+ * A BLOCK ENDS DOES NOT NEED HI-FI. That was true of the arithmetic and false
+ * of the record. `Pole` clamps its cutoff at `sampleRate / 6` to keep the
+ * state-variable filter stable and `Biquad` clamps at `sampleRate * 0.49`, so
+ * at 8 kHz this genre's pole is pinned at 1333 Hz and its tape at 3920 Hz —
+ * and this record's first move is `darken`, which is a change to both. Pinned,
+ * it changed neither: the treatment at 14.4 s was EXACTLY a no-op, and what
+ * these two tests were actually holding was the one `drench` at 101 s. The
+ * record is now the 60-second one, whose desk moves twice inside it, rendered
+ * where its filters can move.
  */
-const treated = compose({ seed: 2, genre: "dungeonsynth", seconds: 90 });
+const treated = compose({ seed: 2, genre: "dungeonsynth", seconds: 60 });
+/** Above `sr/6` for this genre's pole, which the record's own first move turns. */
+const DESK_SR = 22050;
 
 test("a treatment lands on its own sample, not on the caller's block boundary", () => {
   const changes = treated.performance.desk.filter((d) => d.tSec < treated.performance.seconds);
   assert.ok(changes.length >= 2, `this record only moves its desk ${changes.length} times`);
   // and at least one of them falls INSIDE a block of every size below, which
   // is the case that would break if `block` moved the desk at its own edges
-  // at a coarse rate: this is a test about WHERE a block ends, and rendering
-  // it in hi-fi only makes it slow. 577 is coprime with every bar line in the
-  // record, so a change is guaranteed to fall inside a block rather than on one.
-  const one = render(treated, { sampleRate: 8000 });
+  // at a coarse rate. 577 is coprime with every bar line in the record, so a
+  // change is guaranteed to fall inside a block rather than on one.
+  const one = render(treated, { sampleRate: DESK_SR });
   for (const blockSize of [577, 4096]) {
-    const many = render(treated, { sampleRate: 8000, blockSize });
+    const many = render(treated, { sampleRate: DESK_SR, blockSize });
     assert.deepEqual(many.left, one.left, `left channel differs at block ${blockSize}`);
     assert.deepEqual(many.right, one.right, `right channel differs at block ${blockSize}`);
   }
@@ -164,10 +176,16 @@ test("the record's own desk is heard", () => {
   // The same notes, rendered with the arrangement's treatments and with the
   // timeline emptied. If these came out identical the whole chain from
   // `arrange` through `perform` to here would be decorative.
+  //
+  // THIS IS NOT A TEST THAT THE TREATMENTS WORK, and it was read as one for
+  // longer than it should have been: it passes while eleven of the twelve do
+  // nothing, because one of them moved. Every treatment of every genre is held
+  // to this one at a time in `stage/treat.test.ts`, which is the test that
+  // caught `echoed` doing nothing at all on this genre.
   assert.ok(treated.performance.desk.length > 0, "this record never moves its desk");
   const flat = { ...treated, performance: { ...treated.performance, desk: [] } };
-  const withDesk = render(treated, { sampleRate: 8000 });
-  const without = render(flat, { sampleRate: 8000 });
+  const withDesk = render(treated, { sampleRate: DESK_SR });
+  const without = render(flat, { sampleRate: DESK_SR });
   let worst = 0;
   for (let i = 0; i < withDesk.left.length; i++) {
     worst = Math.max(worst, Math.abs(withDesk.left[i]! - without.left[i]!));

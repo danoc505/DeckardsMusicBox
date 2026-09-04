@@ -34,6 +34,16 @@ cannot see the desk and will tell you nothing changed when something did.
 same over twenty seeds. That is how the research below was measured and no
 picture can do it. The character grid it draws is not a piano roll.
 
+**A treatment — `tools/treatments.ts`.** The one thing neither the roll nor
+`measure.ts` can see: a treatment moves the desk and not one note, so the MIDI
+is the same MIDI and the picture is the same picture. This renders the record
+with its desk emptied and again held under each treatment, and reports how far
+the record moved, in dB. It is how a dead knob is caught, and it does not tell
+you whether anything sounds good.
+
+    node tools/treatments.ts                     every genre, seed 2
+    node tools/treatments.ts lofi 2,7 --sr 44100
+
 `npm test` and `npm run check` are preconditions, not proof: green means no
 stated law was broken, not that the result is music.
 
@@ -55,7 +65,29 @@ measured. Write the next one that way.
 
 ## What was just done, and why
 
-Two lines of work, both now on this branch.
+**The foundation under the treatments, because two of them were doing
+nothing.** Twelve treatments were built, weighted by two genres, scored by the
+arrangement and rendered, and the only thing holding any of it to its purpose
+was one assertion that the record with its whole desk timeline differs from the
+record with none — which passes while eleven of the twelve are dead. Asked one
+at a time, two were. `render.ts` builds only what something feeds, and it knew
+that in a private method; `treat.ts` compared the treatment's numbers against
+the genre's numbers and called that "does it do anything". So dungeon synth was
+offered `echoed`, a genre no part of which sends a drop to the echo: the move
+turned two numbers and the record came back **bit-identical, −225 dB**. lofi
+was offered `brighten` with its pole at `mix` 0, out of the sum: −37.7 dB, and
+it held 6.3% of every lofi record — in six of the first eight seeds it was the
+record's second treated span. `sound/reach.ts` now states the renderer's
+liveness rule once, `deskOf` asks it, and `stage/treat.test.ts` renders every
+treatment of every genre and measures it. Not a note moved: over 40 seeds a
+genre, every event and every roster is identical.
+
+And the desk tests were running at 8 kHz, where `Pole`'s `sampleRate / 6`
+stability clamp pins dungeon synth's filter — so `darken`, this genre's own
+headline move and 39% of its treated time, was **exactly a no-op in the test
+that was supposed to prove the desk is heard**. Both moved to 22050 Hz.
+
+Then two older lines of work, also on this branch.
 
 **Treatments — the desk moves instead of the notes.** When an idea came round a
 third time the old code varied its notes, which made a third of every record
@@ -87,6 +119,16 @@ changes land as musical events or as faults? Play seeds 1–10, 42 and 829055,
 and write what you hear into `TALLY.md` §0. Nothing else on this list matters
 as much.
 
+There is now a ranked list to listen against — `node tools/treatments.ts`, and
+the table in `THE-ALTERATIONS.md` — and it asks three questions in particular.
+`wear`'s difference signal is LOUDER than the record it differs from (+3.3 dB
+on dungeon synth, 18% of its treated time): is that a section ageing or a
+different pressing? `dry` and `drench` move the LEVEL by ~2 dB, which is the
+one thing a treatment was not supposed to do. And half of lofi's vocabulary
+sits 17 dB below its own `darken` — if those are inaudible the fix is in
+lofi's desk, which gives one part a pedal board and no pole at all, not in the
+treatments.
+
 **2. `THE-ARRANGEMENT-AS-STORY.md` §8 cites numbers this repository cannot
 reproduce.** They were measured with a script that is not here — the only
 unverifiable claim in these docs, and it undermines the rest of them. Give
@@ -113,7 +155,18 @@ off; if it does nothing, delete it and keep the note.
 
 **6. Ten alterations are still static** — azimuth, pedal swap, patch, medium,
 modulation, kit and circuit swap, lane controls. Each is a `SoundSpec` leaf and
-the plumbing is already built.
+the plumbing is already built. **Each one now has to earn its place**: add it
+to `TREATMENTS`, give `reaches` in `treat.ts` the line that says which unit it
+arrives through, and `treat.test.ts` will render it and tell you whether it
+moved the record on each genre. A new leaf that does not clear the floor is a
+leaf that gets deleted, not one that gets shipped and measured later.
+
+**6a. lofi rotates rather than chooses.** Its treatment pool is evenly
+weighted, so the freshness term alone decides and every record walks the
+declared order: `darken`, `drench`, `dry`, `push`, `ease`, `widen`, `close`,
+the same sequence in six of the first eight seeds. That is the failure the shed
+order had before the arrangement got a memory — a list has no memory, so
+nothing that happens in a record can affect it. `TALLY.md` §2.
 
 **7. Partial variation**, which `THE-ALTERATIONS.md` calls the most useful kind
 for a generator: first half identical, second half diverges. Only whole-line
@@ -124,6 +177,14 @@ variation exists. That belongs in the material stage, not the arrangement.
 - **A knob that does nothing is this program's cardinal sin.** If a rule is
   built, measure it on and off. If it changes nothing, delete the field and
   keep the note saying it was tried — `THE-INTRO.md` §7 is the worked example.
+- **And measure whether the RECORD changed, not whether the settings did.**
+  That distinction cost two treatments. The renderer builds only what something
+  feeds, so a knob can move its number and be wired to nothing; comparing a
+  spec against a genre will call that a change every time. Anything that moves
+  the desk asks `sound/reach.ts` first, and anything that claims to move the
+  record renders it and measures — at 22050 Hz or above, because below about
+  16 kHz the filters are pinned by their own stability clamps and a filter move
+  measures as a no-op when it is nothing of the kind.
 - **Every number a genre states carries its source** in that genre's `sources`
   map. A number with no published source says `[chosen]`. Do not invent a
   citation, and do not cite a page you have not read.
@@ -156,5 +217,6 @@ variation exists. That belongs in the material stage, not the arrangement.
 | the record as text | `node src/cli.ts <genre> <seed>` |
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
+| what each treatment is worth | `node tools/treatments.ts [genre] [seed]` |
 | every test, then types | `npm test` · `npm run check` |
 | the single file | `npm run build` |

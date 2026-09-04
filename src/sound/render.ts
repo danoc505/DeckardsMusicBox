@@ -492,6 +492,16 @@ export class Engine {
     this.tune();
   }
 
+  /**
+   * Which returns this record actually patches in.
+   *
+   * The renderer's own answer to the question `sound/reach.ts` states in the
+   * general case, exposed so the two can be held to each other: a stage that
+   * moves a knob on a return decides whether the move is worth offering, and
+   * it must never call live a return this never builds, nor dead one it does.
+   */
+  get liveReturns(): readonly Send[] { return this.units; }
+
   /** Where the engine is, in samples and in seconds. */
   get at(): number { return this.t; }
   get atSec(): number { return this.t / this.sampleRate; }
