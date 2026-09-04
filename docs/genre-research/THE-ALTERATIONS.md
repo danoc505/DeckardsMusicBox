@@ -128,7 +128,7 @@ A desk move, not a note move — and the one move this program cannot make.
 | 44 | **Pedal swap** — a different stompbox lit for this section | ● **and it moves**: `stomp`. Lit from COLD is the one thing it cannot mean — a pedal at mix 0 is off the board, and `treat.ts` already refuses to overrule a genre that way — so the swap happens inside the board the genre carries: first box in cable order down, last one up |
 | 45 | **Patch** — a return fed into another return | ● **and it moves**: `repatch` feeds the busiest return this record actually uses into the next busiest |
 | 46 | **Echo** — time in beats, feedback | ● |
-| 47 | **Reverb decay** — a longer room for the peak | ● spring and room |
+| 47 | **Reverb decay** — a longer room for the peak | ● **and it moves**: `linger`. `drench` sends MORE to the room; this makes the room BIGGER. The reverbs' `sec` was the one leaf of the rack nothing pointed at while `ret` had two moves aimed at it, and it was missed because the row was already marked ● |
 | 48 | **Tape** — drive, wow depth | ● |
 | 49 | **Medium** — gramophone or radio across a section | ● **and it moves**: `medium`. Both genres carried this at mix 0 — built, wired, never once turned up |
 | 50 | **Vinyl** — dust | ● |
@@ -173,7 +173,7 @@ Note 005: every transition has two sides, an exit and an entry, and both want tr
 
 | | moves | already built |
 |---|---|---|
-| the desk, the room, the machine (§7–9) | 21 | **21** |
+| the desk, the room, the machine (§7–9) | 21 | **21, and all 21 now MOVE** |
 | the hand and what is underneath (§4, §6) | 12 | 9 |
 | density (§2) | 6 | 4 |
 | orchestration (§1) | 7 | 2 |

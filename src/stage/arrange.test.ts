@@ -1,11 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { makeArrangement, describeArrangement, type Arrangement } from "./arrange.ts";
-import { NEEDS_DRUMS } from "./treat.ts";
+import { NEEDS_DRUMS, deskOf } from "./treat.ts";
+import { settle } from "../sound/render.ts";
 import { makeChart } from "./chart.ts";
 import { makeForm } from "./form.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
-import { ROLES } from "../genre/spec.ts";
+import { ROLES, TREATMENTS } from "../genre/spec.ts";
 
 const lofi = GENRES.lofi;
 const build = (seed: number, seconds: number | null = 240): Arrangement => {
@@ -425,6 +426,48 @@ test("a per-part treatment says which part, and survives being frozen", () => {
   }
   assert.ok(perPart > 0, "no record aimed a treatment at one part");
   assert.ok(wholeDesk > 0, "the whole-desk treatments stopped being offered");
+});
+
+test("no treatment puts a knob outside the range the genre resolver enforces", () => {
+  // `settle` is a MERGE and not a validator: nothing downstream re-checks a
+  // value laid over a genre, so a treatment that scaled a spring's decay to
+  // eight seconds against its six-second ceiling would be a fault no test
+  // upstream could catch. treat.ts states that as its second rule; this is
+  // the assertion behind it, and it caught a real one — `linger` clamped the
+  // spring to the ROOM's ceiling, the two reverbs having different ones.
+  const RANGES: readonly (readonly [string, number, number])[] = [
+    ["rack.room.sec", 0.2, 12], ["rack.spring.sec", 0.2, 6],
+    ["rack.pole.hz", 40, 20000], ["rack.tape.lowpassHz", 1000, 20000],
+    ["rack.echo.feedback", 0, 0.9], ["rack.medium.mix", 0, 1],
+    ["rack.vinyl.crackle", 0, 1], ["rack.room.ret", 0, 2],
+    ["rack.spring.ret", 0, 2], ["rack.echo.ret", 0, 2],
+  ];
+  const at = (o: unknown, path: string): unknown =>
+    path.split(".").reduce<unknown>((v, k) => (v as Record<string, unknown> | undefined)?.[k], o);
+  let checked = 0;
+  for (const G of [lofi, GENRES.dungeonsynth]) {
+    for (const t of TREATMENTS) {
+      for (const only of [undefined, ...ROLES]) {
+        const spec = deskOf(t, G.sound, only);
+        if (spec === null) continue;
+        checked++;
+        const S = settle(G.sound, spec);
+        for (const [path, lo, hi] of RANGES) {
+          const v = at(S, path);
+          if (typeof v !== "number") continue;
+          assert.ok(v >= lo && v <= hi, `${G.name} ${t}${only ? "@" + only : ""} put ${path} at ${v}, outside ${lo}..${hi}`);
+        }
+        for (const r of ROLES) {
+          const ch = S.mix[r];
+          assert.ok(ch.pedals >= 0 && ch.pedals <= 1, `${t} put ${r} pedals at ${ch.pedals}`);
+          assert.ok(ch.dist >= 0 && ch.dist <= 1, `${t} put ${r} dist at ${ch.dist}`);
+          assert.ok(ch.sweepDepth >= 0 && ch.sweepDepth <= 1, `${t} put ${r} sweepDepth at ${ch.sweepDepth}`);
+          assert.ok(ch.az >= -180 && ch.az <= 180, `${t} put ${r} az at ${ch.az}`);
+        }
+      }
+    }
+  }
+  assert.ok(checked > 30, `only ${checked} treatment/part combinations were live`);
 });
 
 test("a drum machine move is never made where the drums are silent", () => {

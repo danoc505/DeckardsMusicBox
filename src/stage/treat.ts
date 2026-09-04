@@ -184,6 +184,22 @@ export function deskOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
         mix: sends(S, 0.5, only),
       };
       break;
+    case "linger":
+      // §8, move 47: "a longer room for the peak". `drench` sends MORE to the
+      // room; this makes the room BIGGER, which is a different move and the
+      // only one in §7-§9 that nothing reached — the reverbs' `sec` was the
+      // one leaf of the rack no treatment touched while `ret` had two.
+      spec = {
+        rack: {
+          // the two reverbs have DIFFERENT ceilings — the room reaches 12
+          // seconds and the spring 6 — and `settle` is a merge, not a
+          // validator, so a clamp to the wrong one is a fault nothing
+          // downstream catches. Each is clamped to its own.
+          room: { sec: clamp(S.rack.room.sec * 1.9, 0.2, 12) },
+          spring: { sec: clamp(S.rack.spring.sec * 1.6, 0.2, 6) },
+        },
+      };
+      break;
     case "echoed":
       // MORE echo than the genre runs, not merely SOME. Written as a floor it
       // did nothing to any genre whose echo already cleared the floor — dungeon

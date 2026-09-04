@@ -249,6 +249,52 @@ across sixty seeds in the genre that states a weight for it; `stuck` still 0;
 byte-identical output at block sizes 577 and 4096 on a record that uses them
 (the test that already exists, extended).
 
+**PHASE 2 IS DONE. All 21 of §7–9 move.** Ten leaf moves built — `orbit`,
+`stomp`, `repatch`, `medium`, `waver`, `rekit`, `recircuit`, `slacken`,
+`spotlight`, `soak` — plus `linger`, an eleventh nobody had noticed was
+missing: move 47 was marked ● because the reverbs exist, but every treatment
+aimed at them moved `ret` and none moved `sec`.
+
+Both genres now use **every treatment they weight**, none never-fired.
+
+**The thing that made it work was not the ten moves.** They fired 0, 0, 3, 0
+and 0 times in 300 records when first added. `arrangement.treat` is a
+`Weighted<Treatment>` — the same type as `arrangement.intro`, which is DRAWN
+nine lines away in the same file — and it was being read as a ranking, so a
+record walked the ladder from the top and stopped after rank four. Drawing
+which colour a genre reaches for, from the genre's own pool with freshness
+folded in, made the whole vocabulary reachable:
+
+| | before | after |
+|---|---|---|
+| treatments used, lofi | 6 of 16 | **21 of 21** |
+| treatments used, dungeon synth | 14 of 17 | **21 of 21** |
+| distinct treatment sequences, lofi | 28 | **165** |
+| distinct treatment sequences, dungeon synth | 89 | **227** |
+
+**And it removed a pool-size artefact that would have broken the rest of this
+plan.** Offering every treatment at once gave the desk seventeen candidates
+against density's eleven, and a score that takes the max favours whichever kind
+has more tickets. The desk's 52–64% share of within-section boundaries was
+partly that rather than its price — and it would have grown with every move
+added, so by §11 the arrangement would have been nothing but desk moves. It now
+sits near 32% with `asPart` untouched. Whether 32% is right is the listening
+question `TALLY.md` §2 already has open.
+
+**Phase 1's item 2, the layer price, is closed as unnecessary.** A genre states
+a weight per TREATMENT, which is finer than per layer, and the draw makes those
+weights control frequency directly. Dungeon synth declining `rekit` and
+`recircuit` — not stated at all, on this catalogue's own warning that a genre
+"should probably never swap a drum circuit mid-record" — is the layer price
+already working. A separate layer term would restate what the weights say.
+
+**One gap found by auditing rather than by a symptom.** `settle` is a merge and
+not a validator, so a treatment that scaled a knob past its ceiling would be a
+fault nothing downstream catches. `linger` clamped the spring to the ROOM's
+ceiling — the two reverbs have different ones, 6 seconds and 12. There is now a
+test that puts every treatment on every genre through `settle` and checks every
+range the resolver enforces.
+
 ### Phase 3 — build channel B (the hand, the clock, register)
 
 *Cost: a week or two. Value: 17 moves, the largest single jump.*

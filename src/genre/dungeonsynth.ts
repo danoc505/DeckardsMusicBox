@@ -246,6 +246,11 @@ export const dungeonsynth: GenreSpec = {
       // is the one where an old medium is idiomatic rather than a gimmick —
       // it is "derived from black metal and dark ambient" and its own
       // recordings are lo-fi by intent. Rare, so that it lands as an event.
+      // A LONGER ROOM, and this genre's guide asks for it by name: the
+      // development is where you "deepen the shadows of the sound through
+      // changes in reverb and filters", and a bigger room is the reverb half
+      // of that sentence as surely as `drench` is. Weighted with `wear`.
+      ["linger", 4],
       ["medium", 2],
       ["orbit", 2],
       ["repatch", 2],

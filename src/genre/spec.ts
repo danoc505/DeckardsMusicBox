@@ -521,6 +521,8 @@ export const TREATMENTS = [
   "orbit", "medium", "waver", "stomp", "repatch",
   // §9: the drum machine, which no treatment could reach at all.
   "rekit", "recircuit", "slacken", "spotlight", "soak",
+  // and the one leaf of the rack that still had nothing pointed at it
+  "linger",
 ] as const;
 export type Treatment = (typeof TREATMENTS)[number];
 

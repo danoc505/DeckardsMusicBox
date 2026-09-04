@@ -261,6 +261,9 @@ export const lofi: GenreSpec = {
       // posture about fidelity, and it is kept rare so it stays an event
       // rather than a costume.
       ["waver", 3],
+      // "heavy use of reverb and delay" covers the size of the room as well
+      // as how much is sent to it, so this sits with `drench` and `echoed`.
+      ["linger", 3],
       ["medium", 2],
       ["orbit", 2],
       ["repatch", 1],
