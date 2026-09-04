@@ -263,8 +263,17 @@ front of it. Measured over 300 seeds, **every record in a genre played its
 treatments in the same order**, differing only in how far down the list it got.
 
 Giving the per-part moves a real part fixed that without adding a term:
-distinct treatment sequences went **17 → 52** in lofi and **29 → 137** in
+distinct treatment sequences went **17 → 28** in lofi and **29 → 89** in
 dungeon synth, and every section-level number is unchanged.
+
+The first attempt claimed 52 and 137, and those numbers were bought by
+breaking a law rather than by working: keying a per-part treatment's freshness
+as `treat:drench:drone` gave each of its six candidates a key of its own, so a
+name could be chosen six times before any of them staled. That is the opposite
+of what this file's own rule says — the desk getting wetter is the desk getting
+wetter whichever part it happened to. It took dungeon synth from twelve
+distinct treatments to five and gave `drench` 896 uses of 1557. The key is the
+NAME; the part is only what the score chooses between.
 
 ## The plan for the rest of them
 

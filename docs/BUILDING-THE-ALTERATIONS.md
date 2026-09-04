@@ -211,18 +211,25 @@ were closed by measuring them, which is the point of measuring them.
 
 | item | what happened |
 |---|---|
-| **0 · the selector cannot read the record** | **Fixed, with no new term.** A treatment's `Move` carried a hardcoded role of `"drums"`; `worth` reads `standing` and `established` of its role, so a fictional role scored the constant 1. Moves 37, 41 and 43 in the catalogue say *a part* and this program applied them to the whole band — making them what they say gave the role something real to be, and the terms that already read the record started reading it. Distinct treatment sequences **17 → 52** (lofi) and **29 → 137** (dungeon synth) |
+| **0 · the selector cannot read the record** | **Fixed, with no new term.** A treatment's `Move` carried a hardcoded role of `"drums"`; `worth` reads `standing` and `established` of its role, so a fictional role scored the constant 1. Moves 37, 41 and 43 in the catalogue say *a part* and this program applied them to the whole band — making them what they say gave the role something real to be, and the terms that already read the record started reading it. Distinct treatment sequences **17 → 28** (lofi) and **29 → 89** (dungeon synth), with all 12 of dungeon synth's vocabulary still reached |
 | **1 · freshness keys on the wrong thing** | **Deleted — measured at nothing.** The documented example, dungeonsynth 829055's verse, now reads `part-out darken untreat part-back drench wear darken`: 7 boundaries, 6 kinds. Across 200 records, sections with 4+ boundaries average **6.57 distinct kinds in 7.0 boundaries**, top kind 19%, and there is not one run of three. The treatments closed the hole, as `TALLY.md` §2 suspected. A kind term was built, changed no fault, and pushed the desk share the wrong way — so it went, and this is the note |
 | **2 · nothing prices a LAYER** | **Moved into Phase 2.** There are two layers in play. A term pricing eleven, built before ten exist, cannot be measured on and off — it would be the knob that does nothing. It belongs where each new layer makes it measurable |
 | **3 · the pool is scanned linearly** | **Answered: no fix.** The arrangement is **0.5 ms/record**, 8–13% of a 3.7–6.4 ms pipeline. ~23 candidates now, ~77 at all 65 moves — 3.5×, so ~1.75 ms, against a roll that takes about a second. Optimising it would itself be a knob that does nothing |
 
-**Still open, and honestly still a knob that does nothing:** both genres use
-only **5 distinct treatment NAMES** out of 12. With 3–4 treated spans a record
-and `fresh = 1/(1+used)` walking a weight ladder from the top, nothing below
-rank five is ever reached. Per-part moves fixed *which part* varies with the
-record; they did not make the tail reachable. That is a question about the
-ladder, not about the selector, and it is the first thing to measure in
-Phase 2.
+**And the tail was measured rather than left open.** Dungeon synth reaches all
+twelve of its treatments; lofi reaches five. That is not a dead knob, it is a
+short genre meeting its own preference order — the ladder walks as far as a
+record has room for:
+
+| lofi at | distinct | treated spans/record |
+|---|---|---|
+| its own length, 110–190 s | 5 | 3.1 |
+| 300 s | 7 | 6.3 |
+| 600 s | 9 | 12.4 |
+
+`brighten` going unreached is what lofi's own source asks for — this genre's
+move is taking the top off — and `sweep` is refused outright, its `sweepDepth`
+being zero. Nothing here needs fixing; it needed measuring.
 
 ### Phase 2 — finish channel A (the desk, the room, the machine)
 

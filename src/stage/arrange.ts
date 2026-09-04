@@ -313,11 +313,18 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * the third time is the third time however many parts were playing — where a
    * density move wears out per part, because taking the lead away and taking
    * the bass away are two different moves.
+   *
+   * AND THE NAME IS THE KEY EVEN NOW A TREATMENT NAMES A PART. Keying it
+   * `treat:drench:drone` was tried and it broke this law from underneath:
+   * with six candidates per per-part treatment and a key each, `drench` could
+   * be chosen six times before any of its keys staled, while a whole-desk
+   * move like `brighten` staled after one. Measured over 300 seeds, that took
+   * dungeon synth from twelve distinct treatments to FIVE and gave `drench`
+   * 896 of 1557 uses. The desk getting wetter is the desk getting wetter
+   * whichever part it happened to, which is what this comment already said.
    */
   const keyOf = (mv: Move): string =>
-    mv.treatment !== null
-      ? (mv.at === null ? `treat:${mv.treatment}` : `treat:${mv.treatment}:${mv.at}`)
-      : `${mv.name}:${mv.role}`;
+    mv.treatment !== null ? `treat:${mv.treatment}` : `${mv.name}:${mv.role}`;
 
   /**
    * HOW FULL A SPAN IS, the one measured quantity: what fraction of the band
