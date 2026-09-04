@@ -205,6 +205,16 @@ test("a quiet section carries its foundation and drops its decoration", () => {
       // THE-ARRANGEMENT-AS-STORY.md measured; now that a record can miss its
       // opener, the break can restore it.
       if (here.broken) continue;
+      // AND SO IS THE CLOSE, for the same reason and from the same cause.
+      // "The ending restates what the record opened with" (Ableton,
+      // dénouement — THE-ARRANGEMENT-AS-STORY.md §7 rule 4) is the same law
+      // as the break's, in the other place the code states it: `restate` in
+      // arrange.ts refuses to drop an opener from the last section, so the
+      // close too can bring one back while shrinking. It went unexempted here
+      // for exactly the reason the break's did — it cannot fire until a
+      // record is able to miss its opener in the section before, which lofi
+      // was not while its drums sat last in an inherited shed order.
+      if (here.section.index === a.placed.length - 1) continue;
       // everything still heard was heard before it: a section that shrinks
       // loses parts, it does not swap them
       for (const r of here.heard) assert.ok(before.heard.has(r), `${r} appeared while the texture shrank: ${describeArrangement(a)}`);

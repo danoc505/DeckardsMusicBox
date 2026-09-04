@@ -94,12 +94,28 @@ unverifiable claim in these docs, and it undermines the rest of them. Give
 share, its longest absence, whether it plays at the end, whether the
 most-present part changes between halves.
 
-**3. lofi's hierarchy does not move.** The new arrangement rule took dungeon
-synth's top-part-change from 30% to 45%; lofi's fell, 20% to 15%. Its drums sit
-at the bottom of its own shed order and play nearly every bar, so its
-most-present part is near-fixed whatever the rule does. Either the measure asks
-lofi the wrong question, or the rule needs a term that knows about RANK rather
-than presence. This is the interesting one.
+**3. ~~lofi's hierarchy does not move.~~ DONE — and the diagnosis in this
+entry was wrong.** It read "its drums sit at the bottom of its OWN shed order".
+They did not: lofi stated no shed order at all, and inherited the pop default
+`drone, keys, lead, bass, drums` — so the genre that ENTERS on its keys shed
+its foundation second and its beat never. `affords()` is the only voice a genre
+has in who leaves, and it gave lofi's drums 0.2, the minimum, in both the
+section walk and the span score; at span level `hold-back` (the drums thinned)
+is priced at 1 against `part-out` (the drums gone) at 0.2, so the stage could
+only ever take the hat. Measured over forty seeds: the drums were heard in 100%
+of bars, in 40 records out of 40, and were never once absent for a single bar.
+
+lofi now states `shed: ["drone", "lead", "drums", "bass", "keys"]` with its
+sources. Drums 100% → 78% of bars, longest absence 0 → 10 bars, never-absent
+40/40 → 4/40; the most-present part changes between the halves of a record in
+21 seeds of 40 where it changed in none. The same fault dungeon synth found in
+the same default, with the parts swapped — so no new term was needed, only the
+genre saying the sentence `spec.ts` already says is its to say.
+
+The lesson worth keeping: this entry sent a reader into `arrange.ts` looking to
+build "a term that knows about RANK rather than presence", when the genre-voice
+term was already there and had simply never been given a value. A doc that
+mis-states where a number comes from costs more than a missing doc.
 
 **4. Two genre proposals, both one line, both sourced.** `introSec: 64` and
 `fewest: 1` at the outro — see `DUNGEON-SYNTH-ARRANGEMENT.md` §8 and

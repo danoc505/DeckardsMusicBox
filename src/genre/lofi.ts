@@ -160,7 +160,41 @@ export const lofi: GenreSpec = {
     contour: [["sung", 4], ["riff", 3], ["chant", 1]],
   },
 
-  arrangement: { enter: ["keys", "drums", "bass", "lead", "drone"] },
+  arrangement: {
+    enter: ["keys", "drums", "bass", "lead", "drone"],
+    /**
+     * AND THE KEYS ARE THE LAST THING THIS GENRE GIVES UP, which the default
+     * gets exactly backwards and which has to be said here or it is inherited
+     * wrong.
+     *
+     * The default order is `drone, keys, lead, bass, drums`, written for pop:
+     * the pad goes, then the chord part, and the kit is the one thing a record
+     * is never without. This genre ENTERS on its keys — they are the first
+     * sound of every record it makes — and inheriting that order therefore
+     * shed its foundation second and its beat never. Measured over forty
+     * seeds, the drums were heard in 100% of bars of 40 records out of 40 and
+     * were never once absent for a single bar, which is the failure this
+     * file's own arrangement header was written to prevent: "a solid block of
+     * one colour from the first chorus to the end". It is the same fault
+     * dungeon synth found in the same default and for the same reason — a
+     * genre founded on a part, shedding it first — with the parts swapped.
+     *
+     * So the pad goes first, which this file already says of it ("arriving
+     * last and leaving first"), then the muted guitar, then the beat, then the
+     * bass. What a quiet section keeps is the bass and the Rhodes, which is
+     * what this music sounds like when it is being quiet, and what it drops is
+     * the beat: the genre is written in "1.5-3 minute tracks with brief
+     * intros/outros, occasional dropout sections, and minimal variation"
+     * (melodigging.com/genre/lo-fi-hip-hop), and a dropout section in a beat
+     * is the beat dropping out.
+     *
+     * Measured on and off over forty seeds: drums 100% of bars and never once
+     * absent, to 78% with a longest absence of ten bars; and the most-present
+     * part of the record changes between its halves in 21 seeds of 40, where
+     * under the inherited order it changed in none of them.
+     */
+    shed: ["drone", "lead", "drums", "bass", "keys"],
+  },
 
   sound: {
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
@@ -183,6 +217,15 @@ export const lofi: GenreSpec = {
   },
 
   sources: {
+    "arrangement.shed":
+      "the sources describe this genre taking elements away and rank nothing while doing it: " +
+      "\"bring in one element at a time for four or eight bar phrases, remove things when they feel too " +
+      "repetitive, and bring them back in when it feels appropriate\" " +
+      "(blog.native-instruments.com/lo-fi-hip-hop-beats), and \"occasional dropout sections\" " +
+      "(melodigging.com/genre/lo-fi-hip-hop). So the ORDER is [chosen], and it is argued from what this " +
+      "genre already states rather than from a page: it enters on its keys, so the keys are its " +
+      "foundation and go last, and its own drone note says the pad arrives last and leaves first, so the " +
+      "pad goes first. The two placements between them are [chosen]",
     tempo:
       "70–90 bpm with the sweet spot at 75–85 (blog.native-instruments.com/lo-fi-hip-hop-beats); " +
       "70–80 (blog.flat.io/lofi-chord-progressions); 72–88 keeps both ends inside the genre [chosen inside the range]",
