@@ -170,6 +170,22 @@ now last where the genre's own move is taking the top off. Doing it is what
 exposed items 0 and 1 of Phase 1 above.
 The two proposals are the owner's call and are flagged as such.
 
+**PHASE 0 IS DONE.** All four, and two of them turned out to be constraints
+rather than the values that were proposed:
+
+| | what it came to |
+|---|---|
+| lofi states its `treat` weights | `wear` 1 use in 60 seeds → the top move at 360 in 300. Exposed Phase 1's items 0 and 1 |
+| the absence ceiling, tested on and off | There is no ceiling. Identical distribution three ways; the claim was false and is corrected in three places. Kept, because it does move abandonment |
+| the ending | Not `fewest: 1`. A floor is about a section that carries on, so the last one is not floored by that number at all. Dungeon synth's drone-alone ending 0% → 10%, and "ends carrying what it opened with" unchanged |
+| the intro ceiling | Not `introSec: 64` alone. The ceiling was a preference that gave up: 49% and 100% of records broke it while every length but the shortest was dead. Now refused at load, with each genre stating its own. Both genres' dead entries are alive; the ceiling is broken 0% |
+
+The pattern in all four is the same and is worth carrying into every later
+phase: **the fault was never in a stage.** It was a genre — or the defaults —
+silently running on a number written for other music, and `arrange.ts` and
+`form.ts` needed no new rule for any of it. Check what a genre INHERITS before
+reaching for a new term.
+
 ### Phase 1 — fix the score before growing the pool
 
 *Cost: days. Value: nothing after this is trustworthy without it.*
