@@ -332,6 +332,19 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    */
   const variantsSeen = new Map<Idea, number>();
   const sectionsHeard = new Map<Role, number>();
+  /** The last section index each part was heard in; absent means never. */
+  const lastHeardAt = new Map<Role, number>();
+
+  /**
+   * HOW READILY THE GENRE PARTS WITH A ROLE, 0..1. First in the shed order is
+   * the most affordable; last is the foundation. Shared by both decisions
+   * below, because it is the same sentence in both: the genre's own voice,
+   * carried as a WEIGHT and never as an order.
+   */
+  const affords = (r: Role): number => {
+    const i = A.shed.indexOf(r);
+    return i < 0 ? 1 : 1 - i / A.shed.length;
+  };
   // how many of the entry order have arrived; the intro's parts are in from the top
   let arrived = A.introParts;
   /** What the record opened with — the first section's parts, whatever it is. */
@@ -342,6 +355,9 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       variant += 1;
       variantsSeen.set(section.idea, variant);
     }
+
+    /** The record's last section: where the dénouement has to happen. */
+    const closing = section.index === form.sections.length - 1;
 
     let heard: Set<Role>;
     if (section.index === breaks && openers.size > 0) {
@@ -365,28 +381,71 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         ? ROLES.length
         : Math.round(A.fewest + (ROLES.length - A.fewest) * section.energy);
       const playing = Math.min(arrived, Math.max(A.fewest, Math.min(ROLES.length, wanted)));
-      // WHO GOES is the shed order, which is not the reverse of the entry
-      // order. Parts arrive foundation-first — the chord, then the beat, then
-      // the bass, and the tune last — so reversing that sheds the TUNE first,
-      // and a record that drops its melody to get quieter has dropped what an
-      // ear was following. The genre says which part it can most afford.
+      // WHO GOES IS WHAT THE RECORD CAN SPARE, and that is a fact about this
+      // record rather than a list written before it existed.
+      //
+      // This used to walk the genre's shed order and delete until the count
+      // fit. A list has no memory, so nothing that happened in a record could
+      // affect it: the same names went, in the same order, in every section of
+      // every seed. Measured, that produced two opposite failures of the one
+      // missing idea — lofi's opening part played 91% of the record and was
+      // never gone longer than three bars, so nothing ever happened to it,
+      // while dungeon synth's was gone for over a third of the record in one
+      // seed in four and absent from the end of nearly half of them. And in
+      // seven or eight records in ten, in both genres, whatever led the first
+      // half still led the second.
+      //
+      // That last number is the one that matters. A narrative is the listener
+      // tracking "the transvaluation of changing hierarchical relationships"
+      // (Almén 2008, 41) — a change of RANK. A rank that cannot change as a
+      // consequence of anything is not a story, and a lookup table cannot be a
+      // consequence of anything.
+      //
+      // So the part that goes is the one this record can most spare, by two
+      // terms multiplied, in the same shape as the span score below — no
+      // coefficients, nothing to tune:
+      //
+      //   afford   what the GENRE can most do without. Unchanged, and still
+      //            its own to say; it is now a weight rather than an order.
+      //   spare    what the RECORD can most do without: a part that has been
+      //            playing all along is furniture and can be missed, and a
+      //            part that has been away is owed its return and is not
+      //            taken again. Absence therefore has a ceiling that no
+      //            number states — it falls out of the arithmetic.
+      //
+      // The opening needs no rule of its own. A part that opened the record
+      // has been present since bar one and absent from nothing, so it holds
+      // the most standing while a record is young and pays for itself later,
+      // once being missed is something an ear can do. See
+      // docs/genre-research/THE-ARRANGEMENT-AS-STORY.md.
+      //
+      // AND THE ENDING GIVES BACK WHAT THE RECORD OPENED WITH. A dénouement
+      // is "a restatement of established musical materials" (Making Music,
+      // Ableton, "Dramatic Arc"), and the two rules above do not produce one:
+      // built without this, they made absence possible and then left the
+      // opening part out of the last bar of HALF the records, down from three
+      // quarters. Letting a part be missed is not the same as bringing it
+      // back, so the close says so itself. Nothing else in the record is
+      // touched by this: it is one section, and it is the last one.
       heard = new Set(A.enter.slice(0, arrived));
-      // A SHED ORDER THAT PROTECTS THE OPENING WAS TRIED HERE AND MEASURED AT
-      // NOTHING. The idea was Ewer's — an intro's material "can then be used
-      // to help take the end of a chorus to the beginning of the next verse,
-      // or serve as an outro" — implemented as: move whatever opened the
-      // record to the end of the shed order, so it is the last thing to go.
-      // Measured over sixty seeds, with the rule on and off: the opening was
-      // in the outro of 100% of records either way, present in 97% of sections
-      // either way, and in the record's thinnest section 82% either way. It
-      // changes nothing because a section here sheds ONE part at a time, and
-      // the first name in the shed order is never an opener in either genre.
-      // A knob that does nothing is this program's cardinal sin, so it is not
-      // a knob. What the opening actually needed was somewhere to be heard
-      // alone, and that is the break above.
-      for (const r of A.shed) {
-        if (heard.size <= playing) break;
-        heard.delete(r);
+      while (heard.size > playing) {
+        let go: Role | null = null;
+        let most = -1;
+        for (const r of heard) {
+          // how much of the record so far this part has been in: all of it is
+          // furniture, little of it is still being established
+          const share = (sectionsHeard.get(r) ?? 0) / Math.max(1, section.index);
+          // and how long it has been away: just played is sparable, long gone
+          // is owed
+          const out = section.index - (lastHeardAt.get(r) ?? -1) - 1;
+          const spare = share / (1 + Math.max(0, out));
+          // zero kills it, in the same way the span score's terms do
+          const restate = closing && openers.has(r) ? 0 : 1;
+          const fit = affords(r) * spare * restate;
+          if (fit > most) { most = fit; go = r; }
+        }
+        if (go === null) break;
+        heard.delete(go);
       }
       // AND THE LAST PART IN IS STILL THE FIRST OUT OF AN OUTRO, once the
       // record has earned its absence: a part heard in one section is not yet
@@ -394,7 +453,10 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       if (section.fn === "outro" && heard.size > A.fewest && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
     }
     if (section.index === 0) openers = new Set(heard);
-    for (const r of heard) sectionsHeard.set(r, (sectionsHeard.get(r) ?? 0) + 1);
+    for (const r of heard) {
+      sectionsHeard.set(r, (sectionsHeard.get(r) ?? 0) + 1);
+      lastHeardAt.set(r, section.index);
+    }
 
     // A RHYTHM INTRO IS NOT THINNED. Every other quiet section loses its hat
     // and its fills — a breath, not a stop — but an intro whose whole subject
@@ -474,16 +536,20 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.
         const pool: Move[] = [];
-        /** First in the shed order is the most affordable; last is the foundation. */
-        const affords = (r: Role): number => {
-          const i = A.shed.indexOf(r);
-          return i < 0 ? 1 : 1 - i / A.shed.length;
-        };
         const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment): void => {
           // a move that leaves the span exactly where it already is is not a
           // move, and the desk is part of where it is
           if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment
             && [...h].every((r) => cur.heard.has(r))) return;
+          // THE CLOSE KEEPS THE OPENING. Holding the opener into the last
+          // SECTION is not enough: a record ends on its last SPAN, and the
+          // score below was free to take the part out again four bars from
+          // the end. Measured, that is the whole difference between a
+          // dénouement and nearly one — so in the closing section a move
+          // that removes what the record opened with is never offered. A
+          // treatment-only move keeps every part, so the desk still moves
+          // freely at the close: what is refused is losing the opener.
+          if (closing && openers.has(role) && !h.has(role)) return;
           pool.push({ name, heard: h, thin: th, role, afford, treatment: tr });
         };
         /**

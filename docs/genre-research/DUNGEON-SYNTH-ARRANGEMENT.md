@@ -11,7 +11,7 @@ instrument at a time", the two-loop rule — and they are pop-arrangement
 sources applied to every genre. **This document asks what dungeon synth's own
 literature says instead**, and every number here is dungeon synth's.
 
-Measurements are `node tools/roll.ts --sweep dungeonsynth 1 60 --map` and a
+Measurements are `node tools/measure.ts --sweep dungeonsynth 1 60 --map` and a
 sixty-seed sweep of the composed form, at the genre's own length.
 
 ---

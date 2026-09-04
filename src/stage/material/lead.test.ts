@@ -386,7 +386,7 @@ test("a fill rises into the next bar", () => {
 
 // ── THE HOOK, THE SHAPE AND THE HIGH POINT ───────────────────────────────────
 // Melody as constraint rather than legality: see docs/genre-research/
-// MELODY-AND-THE-HOOK.md for the sources, and tools/roll.ts for the same
+// MELODY-AND-THE-HOOK.md for the sources, and tools/measure.ts for the same
 // numbers measured off the MIDI file rather than off these objects.
 
 /** The rungs of the scale a line stands on, ascending — read off the line itself. */

@@ -1,22 +1,29 @@
 /**
- * THE ROLL — the record read back out of its own MIDI file.
+ * THE MEASUREMENTS — the record read back out of its own MIDI file.
  *
- * This is the test that matters, and it is deliberately not written against
- * the program's own objects. It composes a record, writes the bytes a
- * sequencer would open, PARSES THOSE BYTES BACK, and prints what is in them:
- * a piano roll, and a report on the tune measured off the notes it found.
- * Nothing here can see a variable inside the builders. If a claim about the
- * melody is not true of the file, it does not show up here as true.
+ * Deliberately not written against the program's own objects. It composes a
+ * record, writes the bytes a sequencer would open, PARSES THOSE BYTES BACK,
+ * and reports what is in them: one part drawn as a grid of characters, and a
+ * report on the tune measured off the notes it found. Nothing here can see a
+ * variable inside the builders. If a claim about the melody is not true of
+ * the file, it does not show up here as true — which is why the melody and
+ * intro research was measured with this.
  *
- *   node tools/roll.ts lofi 42                    the lead, eight bars, and the report
- *   node tools/roll.ts lofi 42 --part bass        another part
- *   node tools/roll.ts lofi 42 --from 16 --bars 16
- *   node tools/roll.ts lofi 42 --report           the report alone
- *   node tools/roll.ts --file out.mid             any .mid file, ours or not
- *   node tools/roll.ts lofi 42 --map              who plays which bar, and how the record opens
- *   node tools/roll.ts lofi 42 --json            the parsed notes and the numbers, unformatted
- *   node tools/roll.ts --sweep lofi 1 20          the report's numbers over twenty seeds
- *   node tools/roll.ts --sweep lofi 1 20 --map    the opening numbers over twenty seeds
+ * THIS IS NOT THE PIANO ROLL, and the grid it draws is not one. It shows ONE
+ * part, in a window of bars, with no sections, no arrangement and no drums.
+ * The piano roll is `npm run roll` (tools/roll.mjs), it is the main test, and
+ * docs/THE-PIANO-ROLL.md says how to read it. What THIS is for is counting,
+ * which no picture can do.
+ *
+ *   node tools/measure.ts lofi 42                    the lead, eight bars, and the report
+ *   node tools/measure.ts lofi 42 --part bass        another part
+ *   node tools/measure.ts lofi 42 --from 16 --bars 16
+ *   node tools/measure.ts lofi 42 --report           the report alone
+ *   node tools/measure.ts --file out.mid             any .mid file, ours or not
+ *   node tools/measure.ts lofi 42 --map              who plays which bar, and how the record opens
+ *   node tools/measure.ts lofi 42 --json            the parsed notes and the numbers, unformatted
+ *   node tools/measure.ts --sweep lofi 1 20          the report's numbers over twenty seeds
+ *   node tools/measure.ts --sweep lofi 1 20 --map    the opening numbers over twenty seeds
  *
  * WHAT THE REPORT MEASURES, and why each number is here rather than another:
  *
@@ -176,7 +183,7 @@ function readMidi(data: Uint8Array): MidiFile {
   return { ppq, bpm, beats, title, notes, tracks };
 }
 
-// ── the roll ─────────────────────────────────────────────────────────────────
+// ── the character grid ──────────────────────────────────────────────────────
 
 const NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"] as const;
 const noteName = (k: number): string => `${NAMES[k % 12]}${Math.floor(k / 12) - 1}`;
@@ -184,7 +191,7 @@ const noteName = (k: number): string => `${NAMES[k % 12]}${Math.floor(k / 12) - 
 /** Sixteen steps to the bar, which is what this program writes in. */
 const PER_BEAT = 4;
 
-function roll(file: MidiFile, notes: readonly MidiNote[], fromBar: number, bars: number): string {
+function grid(file: MidiFile, notes: readonly MidiNote[], fromBar: number, bars: number): string {
   const perBar = file.beats * PER_BEAT;
   const stepTicks = file.ppq / PER_BEAT;
   const step = (tick: number): number => Math.round(tick / stepTicks);
@@ -292,7 +299,7 @@ function hookOf(notes: readonly MidiNote[], stepTicks: number, ladder?: readonly
  * WHAT THE FILE SAYS ABOUT THE TUNE, as numbers.
  *
  * Every field here is computed from the parsed note list — `{tick, ticks, key,
- * vel}` read out of the bytes — and nothing here can see the ASCII roll, which
+ * vel}` read out of the bytes — and nothing here can see the character grid,
  * is a printout of the same array and not an input to anything. `report()`
  * below formats these; `--json` hands them out unformatted so a drawing can be
  * made of the same numbers rather than of a picture of them.
@@ -438,7 +445,7 @@ function report(file: MidiFile, notes: readonly MidiNote[], part: string): strin
 
 // ── the map: who is playing, bar by bar ──────────────────────────────────────
 
-/** Every part with notes in the file, in the order the roll writes tracks. */
+/** Every part with notes in the file, in the order the grid writes tracks. */
 const partsOf = (file: MidiFile): string[] => [...new Set(file.notes.map((n) => n.track.split(" ")[0]!))];
 
 interface Opening {
@@ -567,7 +574,7 @@ function lines(file: MidiFile, part: string, fromBar: number, bars: number, head
     const perBar = file.beats * PER_BEAT * (file.ppq / PER_BEAT);
     const opens = fromBar >= 0 ? fromBar : Math.floor(notes[0]!.tick / perBar);
     out.push("");
-    out.push(roll(file, notes, opens, bars));
+    out.push(grid(file, notes, opens, bars));
   }
   out.push("");
   out.push(report(file, notes, part));
@@ -579,7 +586,7 @@ if (args.includes("--sweep")) {
   // not about one lucky record
   const [genre, fromArg, toArg] = positional;
   if (genre === undefined || !(GENRE_NAMES as readonly string[]).includes(genre)) {
-    process.stderr.write(`usage: node tools/roll.ts --sweep <genre> <first seed> <last seed>\n`);
+    process.stderr.write(`usage: node tools/measure.ts --sweep <genre> <first seed> <last seed>\n`);
     process.exit(2);
   }
   const first = Number(fromArg ?? 1);
@@ -676,13 +683,14 @@ if (args.includes("--sweep")) {
   const mean = (i: number): string => (rows.reduce((a, r) => a + r[i]!, 0) / Math.max(1, rows.length)).toFixed(1);
   process.stdout.write(`${"mean".padStart(7)}${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => mean(i).padStart(7)).join("")}\n`);
 } else if (args.includes("--json")) {
-  // THE SAME NOTES, UNFORMATTED. The ASCII roll is a printout and a poor one;
+  // THE SAME NOTES, UNFORMATTED. The character grid is a printout and a poor
+  // one — and not an ASCII one either: its empty cell is U+00B7 MIDDLE DOT;
   // a drawing wants the array the printout is made from. Nothing new is
   // computed here — this is `readMidi` and `measure` handed out as they are,
   // so a picture built on it is a picture of the file and not of the picture.
   const [genre, seedArg, secondsArg] = positional;
   if (genre === undefined || seedArg === undefined || !(GENRE_NAMES as readonly string[]).includes(genre)) {
-    process.stderr.write("usage: node tools/roll.ts <genre> <seed> [seconds] --json\n");
+    process.stderr.write("usage: node tools/measure.ts <genre> <seed> [seconds] --json\n");
     process.exit(2);
   }
   const song = compose({ seed: Number(seedArg), genre: genre as GenreName, seconds: secondsArg === undefined ? 90 : Number(secondsArg) });
@@ -724,9 +732,9 @@ if (args.includes("--sweep")) {
   const [genre, seedArg, secondsArg] = positional;
   if (genre === undefined || seedArg === undefined || !(GENRE_NAMES as readonly string[]).includes(genre)) {
     process.stderr.write(
-      "usage: node tools/roll.ts <genre> <seed> [seconds] [--part lead] [--from bar] [--bars n] [--report]\n" +
-        "       node tools/roll.ts --file <out.mid> [--part lead]\n" +
-        "       node tools/roll.ts --sweep <genre> <first seed> <last seed>\n" +
+      "usage: node tools/measure.ts <genre> <seed> [seconds] [--part lead] [--from bar] [--bars n] [--report]\n" +
+        "       node tools/measure.ts --file <out.mid> [--part lead]\n" +
+        "       node tools/measure.ts --sweep <genre> <first seed> <last seed>\n" +
         `genres: ${GENRE_NAMES.join(", ")}\n`,
     );
     process.exit(2);

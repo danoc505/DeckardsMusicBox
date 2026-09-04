@@ -5,16 +5,26 @@
 A seeded record maker. The same genre and seed is the same record, every
 time, anywhere: as notes, as a text dump, as a WAV, in the page.
 
-    npm test                                    every test
+    npm run roll lofi 42                        the record as a picture — what you work with
+    npm run shot lofi 42                        the same record through the built page
+    npm test                                    every law that can be stated as a law
     npm run check                               types
     node src/cli.ts lofi 42 --summary           one line
     node src/cli.ts lofi 42                     the record as text (tools/FORMAT.md)
     node src/cli.ts lofi 42 --wav out.wav       the record as sound
     npm run build                               "Deckards Orchestrator MKIII.html", one file, open it
-    node tools/roll.ts lofi 42                  the tune as a piano roll, read back out of its own MIDI
-    node tools/roll.ts --sweep lofi 1 20        the same numbers over twenty seeds
-    node tools/roll.ts lofi 42 --map            who plays which bar, and how the record opens
-    node tools/roll.ts lofi 42 --json           the parsed notes and the numbers, for a drawing
+    node tools/measure.ts lofi 42               ONE part as characters + its numbers, off its own MIDI
+    node tools/measure.ts --sweep lofi 1 20     the same numbers over twenty seeds
+    node tools/measure.ts lofi 42 --map         who plays which bar, and how the record opens
+    node tools/measure.ts lofi 42 --json        the parsed notes and the numbers, for a drawing
+
+**The piano roll is the main test.** A record is judged by ear, and no
+assertion is a record: this suite can be entirely green on a program that
+writes confetti. So the roll is what tells you whether a change worked — roll
+it before, roll it after, and look at what moved. `npm run roll` draws it
+straight out of the pipeline in about a second; `npm run shot` drives the
+built page and shoots its own canvas, and the two disagreeing is itself a bug.
+How to read a roll and what to look for are in `docs/THE-PIANO-ROLL.md`.
 
 Node 22 runs the TypeScript directly. There is no bundler: the build
 transpiles `src/` into a forty-line module registry inside `tools/page.html`.
@@ -77,9 +87,9 @@ spends at most one interval wider than a fifth, answers a leap the other way,
 and keeps its highest note an event rather than a ceiling. Every one of those
 is a preference applied after the hard laws, so none of them can write a wrong
 note. The sources are in `docs/genre-research/MELODY-AND-THE-HOOK.md`; the
-proof is `tools/roll.ts`, which composes a record, writes the bytes a
-sequencer would open, parses those bytes back, and prints the roll and the
-numbers — nothing in it can see a variable inside the builders.
+proof is `tools/measure.ts`, which composes a record, writes the bytes a
+sequencer would open, parses those bytes back, and prints one part as
+characters with the numbers beside it — nothing in it can see a variable inside the builders.
 
 How a record opens is a rule too, and the same tool reads it back: an intro is
 measured on a clock rather than in bars, it is one of three documented ways in

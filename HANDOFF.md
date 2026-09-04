@@ -1,161 +1,160 @@
-# Handoff: Treatments Implementation Complete
+# Handoff
 
-## What This Program Does
+`README.md` says what the program is. This says how it is worked on and where
+it has got to.
 
-**Deckard's Orchestrator MKIII** generates seeded music records. Same genre + seed = same record, every time, as MIDI, WAV, or interactive page.
+## What we are doing
 
-- **Two genres**: lofi hip hop, dungeon synth
-- **Five parts**: drums, bass, keys, lead, drone (six synthesized voices)
-- **Reproducible**: seeded randomness, five pure stages (chart, form, arrangement, materials, performance), then render to sound
-- **Measurable**: every number has a source; the melody is constraint-based (Huron theory)
+The program makes records, and the whole difficulty is that a record can only
+be judged by ear. Nothing here asserts one — the suite can be entirely green on
+a program that writes confetti. So the work is always the same shape: find
+something the program does badly, find a published account of how music
+actually does it, build the smallest rule that follows, and measure whether it
+changed anything.
 
-## What Was Just Completed (This Branch)
+## How you test, and which test for what
 
-**Treatments: twelve desk-moving changes that preserve all pitches.**
+**Anything that changes notes, or who plays when — the piano roll.**
 
-When a record's melody repeats an idea for a third time, the old code *varied* the notes (added density moves). This made one-third of every record sound unique but unmemorable (heard once, never again).
+    npm run roll <genre> <seed>     the record as a picture, about a second
+    npm run shot <genre> <seed>     the same record through the built page
 
-New approach: **The rule-of-three demand travels to arrangement instead.** If an idea won't return, mark it `recast`. The arrangement then moves the *desk* (effects: darken, brighten, drench, dry, push, ease, widen, close, far, sweep, wear, echoed) instead of the notes.
+Roll the thing you are about to change, then roll it again after. It is the
+only way to see whether a section is a return, whether a part ever rests,
+whether the tune went anywhere. Look at the PNG before you say anything about
+it. `docs/THE-PIANO-ROLL.md` is how to read one.
 
-### Measurement
+**Anything that changes the desk — the WAV, played.** Treatments move effects,
+not notes, so a record with and without them draws the SAME roll. The roll
+cannot see the desk and will tell you nothing changed when something did.
 
-- **Variants heard once**: 33% → 0% (fixed)
-- **Materials heard once**: 31% → 21% (improved as side effect)
-- **Record time on never-restated material**: 17% → 11%
-- **All 12 treatments used** across 60 dungeon synth seeds
-- **33% of arrangement spans get one treatment**
-- **Desk changes land at exact sample boundaries**, making output byte-identical whether rendered in 577-sample or 4096-sample blocks
-- **Treatments actually sound**: max amplitude difference 0.043 samples when rendering same record with/without desk moves
+    node src/cli.ts <genre> <seed> --wav out.wav
 
-### Key Files Changed
+**Counting — `tools/measure.ts`.** How a line moves, who plays which bar, the
+same over twenty seeds. That is how the research below was measured and no
+picture can do it. The character grid it draws is not a piano roll.
 
-| File | What | Why |
-|------|------|-----|
-| `src/stage/form.ts` | Added `recast` flag | Detects ideas that won't return; marks them for arrangement instead of varying |
-| `src/stage/treat.ts` | NEW: twelve pure functions | Each treatment (darken, etc.) returns absolute desk state or null if it'd do nothing |
-| `src/stage/arrange.ts` | Wired treatments into boundary pool | Scores them alongside density moves; marks recast sections for treatment opening |
-| `src/genre/spec.ts` | Added TREATMENTS vocabulary | Type-safe treatment names and weighted pool per genre |
-| `src/genre/dungeonsynth.ts` | Weighted treatment pool | darken 6, drench 5, wear 4, far 3, etc. — from the genre's own sources |
-| `src/sound/perform.ts` | DeskChange timeline | Tracks exactly when each treatment starts |
-| `src/sound/render.ts` | Block splitting at desk changes | Applies changes at exact sample, not block boundary; reachDesk() applies one, retune() merges genre+treatment+page override |
-| `docs/TALLY.md` | NEW: full accounting | What's done (with numbers), what's open (with closure conditions), deliberately skipped work |
-| `README.md` | Added pointer | Links to TALLY.md |
+`npm test` and `npm run check` are preconditions, not proof: green means no
+stated law was broken, not that the result is music.
 
-## How to Verify It Works
+## The research
 
-### Quick Test
-```bash
-npm test
-```
-275 tests pass. Key tests:
-- `a treatment lands on its own sample, not on the caller's block boundary` (block-size independence)
-- `the record's own desk is heard` (treatments actually sound different)
+Every rule in this program comes from a document, and each has the same shape:
+the research, then what went into the program, then what it came to when
+measured. Write the next one that way.
 
-### See the Arrangement
-```bash
-node tools/roll.ts dungeonsynth 42 --map
-```
-Shows which parts play when, and the opening structure. **Note**: piano roll shows only notes (unchanged by treatments).
+| `docs/` | what it settles |
+|---|---|
+| `THE-PIANO-ROLL.md` | how to read a roll, and what to look for in what order |
+| `TALLY.md` | what is done, what is open, and what closes each open item |
+| `genre-research/MELODY-AND-THE-HOOK.md` | the tune: a figure that comes back, the contour it walks, the one wide leap |
+| `genre-research/THE-INTRO.md` | how a record opens — three ways in — and the break. §7 is the worked example of a rule deleted for doing nothing |
+| `genre-research/THE-ARRANGEMENT-AS-STORY.md` | who plays when, and why that is a narrative rather than a texture |
+| `genre-research/THE-ALTERATIONS.md` | every way to restate something without rewriting it |
+| `genre-research/DUNGEON-SYNTH-ARRANGEMENT.md` | what the genre says about its own middle |
 
-### Generate the WAV
-```bash
-node src/cli.ts dungeonsynth 42 --wav out.wav
-```
-The WAV **contains the treatments**. This is the ground truth test—play it and hear the desk moves.
+## What was just done, and why
 
-### JSON with Numbers
-```bash
-node tools/roll.ts dungeonsynth 42 --json
-```
-Returns parsed notes and arrangement structure (no desk info yet; see "What Needs to Be Done").
+Two lines of work, both now on this branch.
 
-## What Needs to Be Done (Recommended Order)
+**Treatments — the desk moves instead of the notes.** When an idea came round a
+third time the old code varied its notes, which made a third of every record
+unique and unmemorable: heard once, never again. The rule-of-three demand now
+travels to the arrangement instead. An idea that will not return is marked
+`recast`, and the arrangement moves the desk — darken, drench, wear, far and
+eight others — leaving every pitch alone. Variants heard once fell 33% → 0%.
+Desk changes land on their exact sample, so a record is byte-identical whether
+rendered in 577-sample or 4096-sample blocks.
 
-From `docs/TALLY.md` §6:
+**The arrangement got a memory.** It chose who played in a section by walking a
+list the genre wrote before the record existed — same names, same order, every
+section of every seed. A list has no memory, so nothing that happened in a
+record could affect it, and a rank that cannot change as a consequence is not a
+story (Almén). Measured, that gave two opposite failures of the one missing
+idea: lofi's opening part played 91% of the record and was never gone more than
+three bars, so nothing ever happened to it, while dungeon synth abandoned its
+opener outright in a quarter of records. It now picks the part the record can
+most spare, out of what has actually happened; the genre's `shed` order
+survives as a weight rather than an order. Parts stopped being abandoned — gone
+for good fell from 15% and 25% to 5% in both genres.
 
-### 1. **Play the records** (CRITICAL)
-Nothing has been heard by a human yet. All claims below are measurements, not listening. Three unfalsifiable questions:
-- Does a filter cutoff moving 3600 → 1620 Hz in one sample *click*?
-- Is 33% of spans on a treated desk right, or too much?
-- Do treatment changes land as musical events or as faults?
+## What needs doing
 
-**Action**: Listen to several seeded records (e.g., seeds 1–10, 42, 829055). Update `TALLY.md` §0 with findings.
+**1. Nobody has listened yet.** Every claim about the treatments is a
+measurement, not a hearing. Does a cutoff moving 3600 → 1620 Hz in one sample
+*click*? Is a third of spans on a treated desk right, or too much? Do the
+changes land as musical events or as faults? Play seeds 1–10, 42 and 829055,
+and write what you hear into `TALLY.md` §0. Nothing else on this list matters
+as much.
 
-### 2. **Fix stale claims** (`docs/TALLY.md` §4)
-One was already fixed by this work; one remains:
-- `DUNGEON-SYNTH-ARRANGEMENT.md` §9 now says the program CAN make darker sections (fixed)
-- But verify the sixty-seed table in §1 still holds (already re-measured: all numbers identical)
+**2. `THE-ARRANGEMENT-AS-STORY.md` §8 cites numbers this repository cannot
+reproduce.** They were measured with a script that is not here — the only
+unverifiable claim in these docs, and it undermines the rest of them. Give
+`measure.ts` a mode that reports what becomes of a part across a sweep: its
+share, its longest absence, whether it plays at the end, whether the
+most-present part changes between halves.
 
-### 3. **Apply genre proposals** (if owner wants)
-Two one-line changes, both with sources, both change how every dungeon synth record opens/closes:
-- `introSec: 64` (from dungeon synth's own table; currently stuck on shortest because pop's `12` doesn't fit)
-- `fewest: 1` at outro (from note.com: "reduce elements until only drone remains")
+**3. lofi's hierarchy does not move.** The new arrangement rule took dungeon
+synth's top-part-change from 30% to 45%; lofi's fell, 20% to 15%. Its drums sit
+at the bottom of its own shed order and play nearly every bar, so its
+most-present part is near-fixed whatever the rule does. Either the measure asks
+lofi the wrong question, or the rule needs a term that knows about RANK rather
+than presence. This is the interesting one.
 
-See `DUNGEON-SYNTH-ARRANGEMENT.md` §8 and `TALLY.md` §2.
+**4. Two genre proposals, both one line, both sourced.** `introSec: 64` and
+`fewest: 1` at the outro — see `DUNGEON-SYNTH-ARRANGEMENT.md` §8 and
+`TALLY.md` §2. Both change how every dungeon synth record opens and closes, so
+they are the owner's call.
 
-### 4. **Remaining desk/machine treatments** (cheap; machinery exists)
-10 alterations still static: azimuth, pedal swap, patch, medium, modulation, kit swap, circuit swap, lane controls. Each is a `SoundSpec` leaf—the plumbing is done.
+**5. The absence ceiling has no number and may not need one.** The `1/(1+out)`
+term in the section decision is a soft ceiling and it did the work alone.
+Whether a stated number adds anything has never been tested. Test it on and
+off; if it does nothing, delete it and keep the note.
 
-### 5. **Partial variation** (highest-value, needs new work)
-`FORM-RESEARCH.md` calls it "most useful for a generator": first half identical, second half diverges. Currently only whole-line variation exists. This belongs in the material stage, not here.
+**6. Ten alterations are still static** — azimuth, pedal swap, patch, medium,
+modulation, kit and circuit swap, lane controls. Each is a `SoundSpec` leaf and
+the plumbing is already built.
 
-## Critical Notes for Next Coder
+**7. Partial variation**, which `THE-ALTERATIONS.md` calls the most useful kind
+for a generator: first half identical, second half diverges. Only whole-line
+variation exists. That belongs in the material stage, not the arrangement.
 
-### Tests Pass But Listening Matters Most
-- The test suite only proves the code exists and is consistent
-- `npm test` is **not** the test. The **WAV is the test**.
-- Play seeds 1–20 to calibrate your ear. If it sounds wrong, it *is* wrong, regardless of test results.
+## House rules that are easy to break
 
-### The MIDI Piano Roll is a Lie
-- Treatments don't change notes, only desk (effects knobs)
-- The MIDI piano roll will look identical for the same record with or without treatments
-- **Never trust MIDI for checking if treatments work.** Generate the WAV, play it, listen.
+- **A knob that does nothing is this program's cardinal sin.** If a rule is
+  built, measure it on and off. If it changes nothing, delete the field and
+  keep the note saying it was tried — `THE-INTRO.md` §7 is the worked example.
+- **Every number a genre states carries its source** in that genre's `sources`
+  map. A number with no published source says `[chosen]`. Do not invent a
+  citation, and do not cite a page you have not read.
+- **The comment is the specification.** Where a doc comment and the code
+  disagree, that is a defect to report, not prose to skim past.
+- **Rules are written in beats** and resolved against the genre's own metre, so
+  a genre in five four needs no new code.
+- **Recast is the pivot.** `form.ts` marks an idea that will not return; the
+  arrangement opens that span with a treatment rather than a density move. If
+  you change the rule of three or the form grammar, retest that path.
+- The pipeline is five pure stages, each frozen on the way out. Selection
+  happens in the arrangement, before a note exists; the material stage builds
+  only what the arrangement will have heard.
 
-### Block-Size Independence is Real
-- A record rendered in 577-sample blocks = byte-identical to 4096-sample blocks (same desk change landing)
-- This only works because desk changes land at exact samples, not block boundaries
-- If you add new treatments, verify this still holds: test with `render(record, {blockSize: 577})` vs `blockSize: 4096`
+## Do not
 
-### Recast is the Pivot
-- When an idea won't return, `form.ts` marks it `recast: true`
-- `arrange.ts` uses this to open the span with a treatment instead of falling back to density moves
-- If you change the rule-of-three or form grammar, retest this flow
+- Do not commit generated rolls, shots, dumps or WAVs — they are reproducible
+  from the program and the seed, and `.gitignore` already covers them.
+- Do not change behaviour to make a test pass. The tests encode research; if
+  one is wrong, the doc it came from is what has to change first.
+- Do not judge a treatment by the piano roll. It cannot see the desk.
 
-### Measurements Over Opinions
-- Every decision in this branch has a number: parts heard once, desk move count, max amplitude
-- Before proposing a change, measure the current state. After changing, measure again.
-- See `TALLY.md` §1 for the pattern.
+## Commands
 
-## How to Run Everything
-
-| Task | Command |
-|------|---------|
-| Run all tests | `npm test` |
-| Type check | `npm run check` |
-| One seed as text | `node src/cli.ts dungeonsynth 42` |
-| One seed as WAV | `node src/cli.ts dungeonsynth 42 --wav out.wav` |
-| Arrangement + opening | `node tools/roll.ts dungeonsynth 42 --map` |
-| Sweep 20 seeds | `node tools/roll.ts --sweep dungeonsynth 1 20 --map` |
-| Build web page | `npm run build` → `Deckards Orchestrator MKIII.html` |
-| Play records | Open the built HTML in a browser |
-
-## Files to Read First
-
-1. `README.md` — 5 min overview
-2. `docs/TALLY.md` — what's done, what's open, why each matters
-3. `docs/genre-research/DUNGEON-SYNTH-ARRANGEMENT.md` — the genre's own literature applied
-4. `src/stage/treat.ts` — how the twelve treatments are built
-5. `src/sound/render.ts` — how desk changes land at exact samples
-
-## Questions to Ask Yourself
-
-- Have you played a record yet? (If no: do this before any code change)
-- What would close the open item you're working on? (Should be in `TALLY.md`)
-- Does your measurement prove it worked, or did tests just pass?
-- Would a person hear this change, or only a spreadsheet?
-
----
-
-**Branch**: `claude/dungeon-synth-seeds-research-y3om6g`  
-**Status**: Complete and pushed. Ready for listening and follow-up decisions.  
-**Owner's Call**: Genre proposals (§2, §3) and whether the desk moves audibly click (§0).
+| | |
+|---|---|
+| the record as a picture | `npm run roll <genre> <seed>` |
+| the same, through the built page | `npm run shot <genre> <seed>` |
+| the record as sound | `node src/cli.ts <genre> <seed> --wav out.wav` |
+| the record as text | `node src/cli.ts <genre> <seed>` |
+| who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
+| the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
+| every test, then types | `npm test` · `npm run check` |
+| the single file | `npm run build` |
