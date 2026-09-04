@@ -69,7 +69,7 @@
 
 import type { ArrangementRules, Idea, IntroKind, Role, Treatment } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
-import { deskOf, isPerPart } from "./treat.ts";
+import { deskOf, isPerPart, needsDrums } from "./treat.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 // A pure function of the chart, not a read of built materials — see its own
@@ -720,7 +720,15 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         //    which is what a genre's weighted pool is for, and the freshness
         //    of each name is folded into the draw so a record still does not
         //    repeat itself.
+        //    AND A DRUM MACHINE MOVE IS NOT OFFERED WHERE THE DRUMS ARE NOT
+        //    SOUNDING. `deskOf` asks whether a move changes the DESK, which is
+        //    the right question for the rack and the wrong one for the machine:
+        //    swapping a kit changes the machine whether or not anybody is
+        //    playing it. A boundary spent on a move nobody can hear is worse
+        //    than a knob that does nothing, because the two-loop rule paid for
+        //    it and the ear gets the section repeated instead.
         const live = offered
+          .filter((t) => !needsDrums(t) || cur.heard.has("drums"))
           .map((t) => [t, weightOf(t) / (1 + (ledger.used.get(`treat:${t}`) ?? 0))] as const)
           .filter(([, w]) => w > 0);
         if (live.length > 0) {

@@ -251,6 +251,21 @@ export const dungeonsynth: GenreSpec = {
       ["repatch", 2],
       ["waver", 1],
       ["stomp", 1],
+      // AND THE MACHINE, barely. This music "notably avoids" a busy kit and
+      // carries the fewest drums of any part here, so a move that is ONLY
+      // about the drums is worth least in this genre of the two. `soak` puts
+      // the snare in the room this music already lives in; `slacken` tunes it
+      // down, which is the one direction its guide ever asks for.
+      //
+      // NO `rekit` AND NO `recircuit`. The catalogue's own warning is that a
+      // genre "should probably never swap a drum circuit mid-record", and
+      // this is the genre it names: a record whose drums are a war march
+      // arriving as a different machine half way through is not development,
+      // it is a fault. Not stated rather than stated at zero, so nothing here
+      // pretends to a choice it does not make.
+      ["soak", 2],
+      ["slacken", 1],
+      ["spotlight", 1],
     ],
   },
 
@@ -380,7 +395,11 @@ export const dungeonsynth: GenreSpec = {
       "the sources name the moves and rank nothing. AND THE FIVE OFF THE RACK are not in that guide at all, so " +
       "they rank under the four it does name; `medium` is highest of them because this genre is \"derived from " +
       "black metal and dark ambient\" (Wikipedia, Dungeon synth), traditions recorded lo-fi by intent, so an old " +
-      "medium is idiomatic here rather than an effect — kept at 2 so it lands as an event. Numbers [chosen]",
+      "medium is idiomatic here rather than an effect — kept at 2 so it lands as an event. AND THE MACHINE is " +
+      "weighted lowest of all: this music \"notably avoids\" a busy kit (note.com/soundwitches), so a move that " +
+      "is only about the drums is worth least here. `rekit` and `recircuit` are not stated at all — " +
+      "THE-ALTERATIONS.md warns that a genre \"should probably never swap a drum circuit mid-record\" and names " +
+      "this genre while doing it. Numbers [chosen]",
     "form.introSec":
       "\"the intro is usually 8-16 bars\" for this genre (note.com/soundwitches, as read in " +
       "DUNGEON-SYNTH-ARRANGEMENT.md §8); 16 bars at this genre's slowest tempo of 60 bpm is 64 s, so 64 is the " +

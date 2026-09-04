@@ -47,7 +47,7 @@
  *   unaltered.
  */
 
-import { PEDAL_ORDER, ROLES, SENDS, TREATMENTS, type PatchSpec, type PedalsRules, type PedalsSpec, type Role, type Send, type SoundRules, type SoundSpec, type Treatment } from "../genre/spec.ts";
+import { DRUM_LANES, PEDAL_ORDER, ROLES, SENDS, TREATMENTS, type PatchSpec, type PedalsRules, type PedalsSpec, type Role, type Send, type SoundRules, type SoundSpec, type Treatment } from "../genre/spec.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
 
@@ -89,6 +89,21 @@ function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: numbe
  * something one part has, so those stay what they are.
  */
 export const PER_PART: readonly Treatment[] = ["drench", "dry", "push", "ease", "far", "sweep", "orbit"];
+
+/**
+ * THE MOVES THAT ARE THE DRUM MACHINE, and are worth nothing where the drums
+ * are not sounding.
+ *
+ * `deskOf` refuses a treatment that would not change the DESK, which is the
+ * right question for the rack and the wrong one here: swapping a kit changes
+ * the machine whether or not anybody is playing it, so it passes that test and
+ * is still inaudible. A boundary spent on a move nobody can hear is the exact
+ * failure this file's own header names — the ear hears the section repeat at
+ * the moment it was promised a change — so the arrangement asks this before
+ * offering one.
+ */
+export const NEEDS_DRUMS: readonly Treatment[] = ["rekit", "recircuit", "slacken", "spotlight", "soak"];
+export const needsDrums = (t: Treatment): boolean => NEEDS_DRUMS.includes(t);
 export const isPerPart = (t: Treatment): boolean => PER_PART.includes(t);
 
 /** Every part reflected across the centre line, or just the one named. */
@@ -285,6 +300,63 @@ export function deskOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       const live = fed(S);
       if (live.length < 2) return null;
       spec = { patch: { [live[0]!]: { [live[1]!]: 0.35 } } as PatchSpec };
+      break;
+    }
+
+    // ── the machine: a different drum, or the same drum handled differently ──
+    case "rekit":
+      // §9, move 52. Two kits: this program's own drums played by the strip as
+      // a sampler plays a recording, and the 808/909 circuits. Not two ends of
+      // a dial — two instruments, so this is the most drastic thing the kit
+      // can do and it is the genre's business whether it does it at all.
+      spec = { machine: { kit: S.machine.kit === "acoustic" ? "analog" : "acoustic" } };
+      break;
+    case "recircuit":
+      // §9, move 53. Within the analogue kit, the other box. On the acoustic
+      // kit the circuit is not what is sounding, so `changes` still sees a
+      // difference and this would be a move nobody hears — which is why the
+      // acoustic kit refuses it here rather than relying on that.
+      if (S.machine.kit !== "analog") return null;
+      spec = { machine: { circuit: S.machine.circuit === "808" ? "909" : "808" } };
+      break;
+    case "slacken":
+      // §9, move 54: the strips' tune and decay, which are OFFSETS on top of
+      // whatever the circuit decided. Down a little and longer — a kit tuned
+      // down and left to ring, which is the same gesture as `darken` made on
+      // the drums instead of on the sum.
+      spec = {
+        machine: {
+          channels: Object.fromEntries(DRUM_LANES.map((lane) => [lane, {
+            tune: clamp(S.machine.channels[lane].tune - 2, -12, 12),
+            decay: clamp(S.machine.channels[lane].decay * 1.35, 0.2, 4),
+          }])) as NonNullable<NonNullable<SoundSpec["machine"]>["channels"]>,
+        },
+      };
+      break;
+    case "spotlight":
+      // §9, move 55: one lane up and the rest down, so the kit leans on its
+      // backbeat. The snare, because that is the lane an ear counts a bar by.
+      spec = {
+        machine: {
+          channels: Object.fromEntries(DRUM_LANES.map((lane) => [lane, {
+            level: clamp(S.machine.channels[lane].level * (lane === "snare" ? 1.5 : 0.7), 0, 2),
+          }])) as NonNullable<NonNullable<SoundSpec["machine"]>["channels"]>,
+        },
+      };
+      break;
+    case "soak": {
+      // §9, move 56: one drum into a return the rest of the kit does not feed
+      // — the snare in the room while the kick stays dry, which is a studio
+      // trick old enough to be a convention. The return is the busiest one
+      // this record actually uses, so a genre with no returns is refused.
+      const live = fed(S);
+      if (live.length === 0) return null;
+      const sd = live[0]!;
+      spec = {
+        machine: {
+          channels: { snare: { sends: { [sd]: clamp(Math.max(S.machine.channels.snare.sends[sd] * 2, 0.5), 0, 1) } } },
+        } as NonNullable<SoundSpec["machine"]>,
+      };
       break;
     }
 

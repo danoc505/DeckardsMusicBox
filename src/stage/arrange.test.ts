@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { makeArrangement, describeArrangement, type Arrangement } from "./arrange.ts";
+import { NEEDS_DRUMS } from "./treat.ts";
 import { makeChart } from "./chart.ts";
 import { makeForm } from "./form.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
@@ -424,6 +425,28 @@ test("a per-part treatment says which part, and survives being frozen", () => {
   }
   assert.ok(perPart > 0, "no record aimed a treatment at one part");
   assert.ok(wholeDesk > 0, "the whole-desk treatments stopped being offered");
+});
+
+test("a drum machine move is never made where the drums are silent", () => {
+  // `deskOf` asks whether a move changes the DESK, which is the right question
+  // for the rack and the wrong one for the machine: swapping a kit changes the
+  // machine whether or not anybody is playing it, so it passes that test and
+  // is still inaudible. A boundary spent on a move nobody can hear is worse
+  // than a knob that does nothing — the two-loop rule paid for it and the ear
+  // gets the section repeated instead.
+  let machine = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const a of [build(seed), dsBuild(seed)]) {
+      for (const p of a.placed) {
+        for (const sp of p.spans) {
+          if (sp.treatment === null || !NEEDS_DRUMS.includes(sp.treatment)) continue;
+          machine++;
+          assert.ok(sp.heard.has("drums"), `${sp.treatment} with the drums silent: ${describeArrangement(a)}`);
+        }
+      }
+    }
+  }
+  assert.ok(machine > 0, "no record moved the drum machine, so this asserts nothing");
 });
 
 test("the desk moving does not leave the arrangement with nothing to do", () => {

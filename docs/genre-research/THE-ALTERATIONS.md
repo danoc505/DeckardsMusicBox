@@ -138,11 +138,11 @@ A desk move, not a note move — and the one move this program cannot make.
 
 | | move | |
 |---|---|---|
-| 52 | **Kit swap** — acoustic ↔ analog | ● |
-| 53 | **Circuit swap** — 808 ↔ 909 | ● |
-| 54 | **Lane tune / decay** offsets | ● |
-| 55 | **Lane level**, or a lane out | ● |
-| 56 | **Per-lane send** — one drum into a return the rest of the kit does not feed | ● |
+| 52 | **Kit swap** — acoustic ↔ analog | ● **and it moves**: `rekit`. lofi weights it lowest of its machine moves; dungeon synth does not state it at all, per this file's own warning below |
+| 53 | **Circuit swap** — 808 ↔ 909 | ● **built and correctly unreachable**: `recircuit` refuses unless the analogue kit is loaded, and both genres play the acoustic one. Treatments are absolute, so `rekit` cannot chain into it either. It comes alive for a genre that loads the analogue kit |
+| 54 | **Lane tune / decay** offsets | ● **and it moves**: `slacken`, the kit tuned down and left to ring |
+| 55 | **Lane level**, or a lane out | ● **and it moves**: `spotlight`, the snare up and the rest down, so the kit leans on its backbeat |
+| 56 | **Per-lane send** — one drum into a return the rest of the kit does not feed | ● **and it moves**: `soak`, the snare into the busiest return this record actually uses |
 
 ## 10. What answers it — new sound, no new pitches
 
@@ -247,6 +247,17 @@ moves against two of everything else — a section changing colour every eight
 bars and never losing a player, which is the oscillating texture again in
 better clothes. A treatment is now priced at what this file already prices the
 drums' expression at: half a part.
+
+## And what the machine needed that the rack did not
+
+`deskOf` refuses a treatment that would not change the DESK. That is the right
+question for §7 and §8 and the wrong one for §9: swapping a kit changes the
+machine whether or not anybody is playing it, so a machine move passes that
+test and is still inaudible where the drums are silent. A boundary spent on a
+move nobody can hear is worse than a knob that does nothing — the two-loop rule
+paid for it and the ear gets the section repeated instead. The arrangement
+therefore asks whether the drums are sounding before offering one, and a test
+holds it to that.
 
 ## What "per part" turned out to be worth
 

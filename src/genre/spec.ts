@@ -519,6 +519,8 @@ export const TREATMENTS = [
   // §7-§9 of THE-ALTERATIONS.md: knobs this desk has always had and could
   // never move across a record.
   "orbit", "medium", "waver", "stomp", "repatch",
+  // §9: the drum machine, which no treatment could reach at all.
+  "rekit", "recircuit", "slacken", "spotlight", "soak",
 ] as const;
 export type Treatment = (typeof TREATMENTS)[number];
 

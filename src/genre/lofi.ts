@@ -265,6 +265,19 @@ export const lofi: GenreSpec = {
       ["orbit", 2],
       ["repatch", 1],
       ["stomp", 1],
+      // AND THE MACHINE. `soak` is the snare into the room while the kick
+      // stays dry, which is how a break was recorded before it was sampled,
+      // and `slacken` is a kit tuned down and left to ring — both of them the
+      // genre's own posture applied to the drums instead of to the sum. They
+      // rank above `rekit`, which trades this genre's whole boom-bap kit for
+      // the analogue box mid-record: a real hip hop move and a drastic one.
+      // No `recircuit`: it needs the analogue kit loaded and this genre plays
+      // the acoustic one, so `deskOf` refuses it and the weight would never
+      // be read.
+      ["soak", 3],
+      ["slacken", 2],
+      ["spotlight", 2],
+      ["rekit", 1],
     ],
   },
 
@@ -306,7 +319,10 @@ export const lofi: GenreSpec = {
       "AND THE FIVE OFF THE RACK: wow and flutter are named as the sound itself, \"wow (slow pitch drift) and " +
       "flutter (fast pitch wobble)\" (northernvalleyaudio.com), so `waver` — that idea on the board rather than " +
       "on the tape — ranks highest of them; `medium` is what \"low fidelity\" means and is kept rare so it stays " +
-      "an event. All five rank under wear and the filter because the sources lead with those. Numbers [chosen]",
+      "an event. All five rank under wear and the filter because the sources lead with those. AND THE MACHINE: " +
+      "the genre is built on a sampled break, so the snare in the room against a dry kick (`soak`) and a kit " +
+      "tuned down and left to ring (`slacken`) are how its own drums were recorded before they were sampled; " +
+      "`rekit` trades the whole kit for the analogue box and is kept lowest of them. Numbers [chosen]",
     "arrangement.shed":
       "the sources describe this genre taking elements away and rank nothing while doing it: " +
       "\"bring in one element at a time for four or eight bar phrases, remove things when they feel too " +
