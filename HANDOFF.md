@@ -127,6 +127,14 @@ term in the section decision is a soft ceiling and it did the work alone.
 Whether a stated number adds anything has never been tested. Test it on and
 off; if it does nothing, delete it and keep the note.
 
+**THE ALTERATIONS ARE NOW A PLAN, NOT A LIST.** The owner has asked for all 65
+built and all 65 available. `docs/BUILDING-THE-ALTERATIONS.md` is the plan —
+six phases, what each delivers, what number says it worked, and what could make
+it wrong. Items 6 and 7 below are Phase 2 and Phase 5.1 of it. **Read that doc
+before starting either**: the pool cannot safely grow until the span score
+prices a move's KIND and a genre's LAYER (Phase 1), and that is a hard blocker,
+not a caveat.
+
 **6. Ten alterations are still static** — azimuth, pedal swap, patch, medium,
 modulation, kit and circuit swap, lane controls. Each is a `SoundSpec` leaf and
 the plumbing is already built.

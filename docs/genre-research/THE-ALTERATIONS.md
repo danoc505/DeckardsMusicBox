@@ -248,6 +248,12 @@ bars and never losing a player, which is the oscillating texture again in
 better clothes. A treatment is now priced at what this file already prices the
 drums' expression at: half a part.
 
+## The plan for the rest of them
+
+`docs/BUILDING-THE-ALTERATIONS.md` — six phases, ordered, each with the number
+that says it worked. The section below is its hardest constraint, and Phase 1
+of that plan exists to satisfy it before the pool is allowed to grow.
+
 ## What must not happen
 
 **The pool must not simply be drawn from.** Sixty-five moves fired at random is
