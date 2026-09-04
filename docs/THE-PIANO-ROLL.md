@@ -1,10 +1,10 @@
-# The piano roll: the instrument you work with
+# The piano roll: the main test
 
 This program makes records. A record is judged by ear, and nothing an
 automated test asserts is a record — the suite can be entirely green on a
-program that writes confetti. The roll is how you SEE what the program is
-doing, so it is what you work with while you are changing it, and what you
-show when you say a change did something.
+program that writes confetti. So the roll is the test: it is how you see what
+the program is doing, how you tell whether a change worked, and what you show
+when you say it did. Everything else in this repository is a supporting check.
 
     npm run roll lofi 42                 the record as a piano roll PNG
     npm run roll lofi 42 out.png --bars 0-32     one passage, close up

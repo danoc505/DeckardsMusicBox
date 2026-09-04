@@ -3,11 +3,12 @@
 Read `README.md` first for what the program is. This file is how work on it
 is done.
 
-## The piano roll is how you see what the program is doing
+## The piano roll is your main test
 
-A record is judged by ear. Nothing this repository asserts is a record — the
-suite can be entirely green on a program that writes confetti — so the roll is
-the instrument you work with, not a report you file at the end.
+It is the first thing you reach for and the last thing you check. A record is
+judged by ear, and nothing this repository asserts is a record — the suite can
+be entirely green on a program that writes confetti — so the roll is what
+tells you whether a change worked. Everything else here is a supporting check.
 
     npm run roll <genre> <seed>     the record as a picture, about a second
     npm run shot <genre> <seed>     the same record through the built page

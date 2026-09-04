@@ -16,10 +16,10 @@ time, anywhere: as notes, as a text dump, as a WAV, in the page.
     node tools/roll.ts lofi 42 --map            who plays which bar, and how the record opens
     node tools/roll.ts lofi 42 --json           the parsed notes and the numbers, for a drawing
 
-**The piano roll is how you see the record.** A record is judged by ear, and
-no assertion is a record: this suite can be entirely green on a program that
-writes confetti. So the roll is what you work with while you change anything —
-roll it before, roll it after, and look at what moved. `npm run roll` draws it
+**The piano roll is the main test.** A record is judged by ear, and no
+assertion is a record: this suite can be entirely green on a program that
+writes confetti. So the roll is what tells you whether a change worked — roll
+it before, roll it after, and look at what moved. `npm run roll` draws it
 straight out of the pipeline in about a second; `npm run shot` drives the
 built page and shoots its own canvas, and the two disagreeing is itself a bug.
 How to read a roll and what to look for are in `docs/THE-PIANO-ROLL.md`.
