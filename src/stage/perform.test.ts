@@ -48,7 +48,15 @@ test("every heard note of every section is played, and nothing else", () => {
         for (const role of span.heard) {
           const nth = (played.get(`${p.material} ${role}`) ?? 0) + round;
           if (role === "drums") {
-            expected += m.drums[nth]!.filter((h) => h.bar === mbar && !(span.thin && (h.lane === "hat" || h.lane === "openhat"))).length;
+            // the two things that take a drum hit away, mirrored from
+            // perform.ts exactly: a thinned kit loses its hat, and a halved
+            // one loses whatever would fall past the bar once its step is
+            // doubled. Written out here rather than shared, because a law that
+            // imports the code it checks is checking nothing.
+            expected += m.drums[nth]!.filter((h) =>
+              h.bar === mbar
+              && !(span.thin && (h.lane === "hat" || h.lane === "openhat"))
+              && !(span.halved && h.step * 2 >= s.form.clock.steps)).length;
           } else {
             const notes = role === "lead" ? m.lead[nth]! : m.groove[role];
             expected += notes.filter((n) => n.bar === mbar).length;
@@ -312,11 +320,30 @@ test("the arc makes the peak louder than the intro, like for like", () => {
       return (e: { bar: number }): boolean =>
         e.bar >= p.section.startBar && e.bar < p.section.endBar && (e.bar - p.section.startBar) % m.period === 0;
     };
+    // AND WITH THE PART NOT HELD BACK ON EITHER SIDE. `span.hush` is the
+    // two-loop rule's expression move on a part rather than on the drums'
+    // hat, and it takes off exactly what the arc takes off at its quietest —
+    // so a peak that holds its keys back reads quieter than an intro that
+    // does not, for a reason that is not the arc. Same as the hats above:
+    // this is a law about the ARC, so the comparison is made where nothing
+    // else is moving the weight.
+    const everHushed = (p: typeof peak, role: string): boolean => p.spans.some((sp) => sp.hush === role);
+    // AND NOT A SECTION PLAYED WITH MORE OR LESS SHAPE IN IT. `arched` and
+    // `level` scale how deep the arch across a loop and the lean on the
+    // metre's strong steps go, which are weights and are not the arc. The
+    // length manners are inert here — this genre carries `plain` alone, so
+    // there is no rung to move to — but these two are not.
+    const shaped = (p: typeof peak): boolean => p.manner === "arched" || p.manner === "level";
+    if (shaped(intro) || shaped(peak)) continue;
     const mean = (es: readonly { gain: number }[]) => (es.length ? es.reduce((a, e) => a + e.gain, 0) / es.length : null);
     const kick = (p: typeof peak) => mean(s.performance.events.filter((e) => inside(p)(e) && e.lane === "kick" && e.step === 0));
     const part = (p: typeof peak, role: string) => mean(s.performance.events.filter((e) => inside(p)(e) && e.role === role));
-    const pairs: [number | null, number | null, string][] = [[kick(intro), kick(peak), "kick"]];
-    for (const role of ROLES) if (role !== "drums") pairs.push([part(intro, role), part(peak, role), role]);
+    const pairs: [number | null, number | null, string][] = [];
+    if (!everHushed(intro, "drums") && !everHushed(peak, "drums")) pairs.push([kick(intro), kick(peak), "kick"]);
+    for (const role of ROLES) {
+      if (role === "drums" || everHushed(intro, role) || everHushed(peak, role)) continue;
+      pairs.push([part(intro, role), part(peak, role), role]);
+    }
     for (const [gi, gp, what] of pairs) {
       if (gi === null || gp === null) continue;
       cases++;
@@ -324,6 +351,180 @@ test("the arc makes the peak louder than the intro, like for like", () => {
     }
   }
   assert.ok(cases > 20);
+});
+
+test("half time is the kit taking twice as long, and only the kit", () => {
+  // §3 move 16: "the drums halve, everything else holds". A hit at step s is
+  // played at 2s and one that would fall past the bar is not played at all, so
+  // the backbeat walks from the second beat to the third. It is legal on a
+  // SPAN, where the rest of §3 is not, because the drums are excluded by name
+  // from the law that holds a figure to being played the same way twice.
+  let halved = 0;
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    for (let seed = 1; seed <= 120; seed++) {
+      const s = compose({ seed, genre: g });
+      const steps = s.form.clock.steps;
+      for (const p of s.arrangement.placed) {
+        const m = s.materials.all.get(p.material)!;
+        const turn = 2 * Math.max(1, m.period);
+        for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
+          const span = p.spans[Math.min(p.spans.length - 1, Math.floor((bar - p.section.startBar) / turn))]!;
+          if (!span.halved) continue;
+          // it is never offered where the drums are not sounding: a kit nobody
+          // hears cannot be heard to halve
+          assert.ok(span.heard.has("drums"), "the kit halved with the drums silent");
+          for (const e of s.performance.events.filter((e) => e.role === "drums" && e.bar === bar)) {
+            // every hit sits on an EVEN step, which is what doubling means,
+            // and in the half of the bar the doubling can reach
+            assert.equal(e.step % 2, 0, `a halved kit played on step ${e.step}`);
+            assert.ok(e.step < steps, `a halved hit at step ${e.step} of ${steps}`);
+            halved++;
+          }
+        }
+      }
+    }
+  }
+  assert.ok(halved > 100, `only ${halved} hits were played in half time`);
+});
+
+test("a third hearing is played differently, one rung and no further", () => {
+  // §4 move 21: "a slurred wind line played tongued". The rule of three's
+  // third answer — the same notes, the same desk, a different hand — and the
+  // whole of what it may do is move a note along the LENGTH ladder: ring,
+  // tenuto, plain, staccato. A ghost, an accent, a bend and a slide each carry
+  // something besides length, and a manner that flattened them would be
+  // rewriting the material rather than playing it.
+  const LADDER = ["ring", "tenuto", "plain", "staccato"];
+  let moved = 0;
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    for (let seed = 1; seed <= 60; seed++) {
+      const s = compose({ seed, genre: g });
+      for (const p of s.arrangement.placed) {
+        // it is only ever given to a THIRD hearing that is not already being
+        // changed some other way: the second hearing is what makes an idea
+        // memorable and is left exactly alone
+        if (p.manner !== null) {
+          assert.ok(p.section.statement > 2, `a manner on statement ${p.section.statement}`);
+          assert.equal(p.section.vary, false, "a section given new notes was handed as well");
+          assert.equal(p.section.recast, false, "a recast section was handed as well");
+        }
+        const m = s.materials.all.get(p.material)!;
+        const wrote = new Map<string, string>();
+        for (const r of ["bass", "keys", "drone"] as const) {
+          // "a note that does not say is played plain" — and written as
+          // `n.art` this skipped every unmarked note, which is most of them
+          for (const n of m.groove[r] ?? []) wrote.set(`${r}:${n.bar}:${n.step}`, n.art ?? "plain");
+        }
+        for (const e of s.performance.events) {
+          if (e.bar < p.section.startBar || e.bar >= p.section.endBar) continue;
+          const was = wrote.get(`${e.role}:${(e.bar - p.section.startBar) % m.bars}:${e.step}`);
+          if (was === undefined || was === e.art) continue;
+          // the tune and the drums are written per round and are never handed
+          assert.ok(e.role !== "lead" && e.role !== "drums", `the ${e.role} was handed, and it is written per round`);
+          assert.notEqual(p.manner, null, `${e.role} changed manner in a section with none`);
+          const from = LADDER.indexOf(was), to = LADDER.indexOf(e.art);
+          assert.ok(from >= 0 && to >= 0, `${was} to ${e.art} is off the length ladder`);
+          // and only the two manners that are ABOUT length move a note at all
+          assert.ok(p.manner === "tongued" || p.manner === "sung", `${p.manner} moved an articulation, and it is about shape`);
+          assert.equal(to - from, p.manner === "tongued" ? 1 : -1, `${was} to ${e.art} is more than one rung`);
+          // and never into a manner this genre does not grant this part
+          const pool = (s.chart.genre as unknown as Record<string, { art?: readonly (readonly [string, number])[] }>)[e.role]?.art;
+          if (pool !== undefined) {
+            assert.ok(pool.some(([a, w]) => a === e.art && w > 0), `the ${e.role} was handed ${e.art}, which its genre does not carry`);
+          }
+          moved++;
+        }
+      }
+    }
+  }
+  assert.ok(moved > 500, `only ${moved} notes were played in a different manner`);
+});
+
+test("the section before the climax builds into it", () => {
+  // The arc is "exposition, rising action, climax, falling action, dénouement"
+  // (Ableton, "Dramatic Arc"). This program had the climax — the form declares
+  // a peak and the peak is the one section with everybody — and it has the
+  // dénouement, since the ending gives back what the record opened with.
+  // RISING ACTION was the stage nothing represented: `form.arc` interpolates
+  // between section centres, so the section before the peak was a flat step on
+  // the way up rather than a section that goes anywhere.
+  let built = 0;
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    for (let seed = 1; seed <= 40; seed++) {
+      const s = compose({ seed, genre: g });
+      const sw = s.arrangement.placed.find((p) => p.swell);
+      if (sw === undefined) continue;
+      // it is the run-up and nothing else: one per record, never the break,
+      // and always immediately before the section the form called the peak
+      assert.equal(s.arrangement.placed.filter((p) => p.swell).length, 1, "more than one section builds");
+      assert.equal(sw.section.index, s.form.peakAt - 1, "the section that builds is not the one before the peak");
+      assert.equal(sw.broken, false, "the break builds, and a breakdown that swells is not a breakdown");
+      const q = Math.max(1, Math.floor(sw.section.bars / 4));
+      const mean = (a: number, b: number) => {
+        const es = s.performance.events.filter((e) => e.bar >= a && e.bar < b);
+        return es.length ? es.reduce((x, e) => x + e.gain, 0) / es.length : null;
+      };
+      const first = mean(sw.section.startBar, sw.section.startBar + q);
+      const last = mean(sw.section.endBar - q, sw.section.endBar);
+      if (first === null || last === null) continue;
+      assert.ok(last > first, `${g} seed ${seed}: the run-up ends at ${last.toFixed(3)}, no louder than the ${first.toFixed(3)} it started at`);
+      built++;
+    }
+  }
+  assert.ok(built > 30, `only ${built} records had a section that builds`);
+});
+
+test("a part held back is quieter, and is still there", () => {
+  // `span.hush` is the two-loop rule's fourth way — "reduce expression of an
+  // existing instrument" — on a part rather than on the drums' hat, which is
+  // all this stage could do before. Two things have to hold. It is a GAIN and
+  // nothing else, so the part is still playing every note it would have
+  // played: a hush that dropped notes would be a density move wearing an
+  // expression move's name, and the material stage builds for what the
+  // arrangement said is heard. And it is quieter, by the arc's own quietest.
+  let compared = 0;
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    for (let seed = 1; seed <= 60; seed++) {
+      const s = compose({ seed, genre: g });
+      for (const p of s.arrangement.placed) {
+        // NOT A SECTION THAT BUILDS. `placed.swell` climbs a note's weight
+        // across the section, so two notes at the same place in the loop but
+        // different rounds already differ for a reason that is not the hush.
+        // Same rule as everywhere else here: a law about one thing is measured
+        // where nothing else is moving.
+        if (p.swell) continue;
+        const m = s.materials.all.get(p.material)!;
+        const turn = 2 * Math.max(1, m.period);
+        const spanAt = (bar: number) =>
+          p.spans[Math.min(p.spans.length - 1, Math.floor((bar - p.section.startBar) / turn))]!;
+        // THE GROOVE ONLY, for the reason the repetition law gives: the drums
+        // and the tune are written per time ROUND — `nth(m.drums, …, round)`
+        // — so the same bar and step in two rounds is a different hit with a
+        // weight of its own, and comparing them would measure the material
+        // rather than the hush. The parts that loop are the ones that can be
+        // held to playing the same thing twice.
+        for (const role of ["bass", "keys", "drone"] as const) {
+          const byMbar = new Map<number, { hushed: number[]; open: number[] }>();
+          for (const e of s.performance.events) {
+            if (e.role !== role || e.bar < p.section.startBar || e.bar >= p.section.endBar) continue;
+            const sp = spanAt(e.bar);
+            if (!sp.heard.has(role)) continue;
+            const key = ((e.bar - p.section.startBar) % m.bars) * 1000 + e.step;
+            const slot = byMbar.get(key) ?? { hushed: [], open: [] };
+            (sp.hush === role ? slot.hushed : slot.open).push(e.gain);
+            byMbar.set(key, slot);
+          }
+          for (const { hushed, open } of byMbar.values()) {
+            if (hushed.length === 0 || open.length === 0) continue;
+            const mean = (a: number[]) => a.reduce((x, y) => x + y, 0) / a.length;
+            assert.ok(mean(hushed) < mean(open), `${g} seed ${seed}: the ${role} held back is not quieter`);
+            compared++;
+          }
+        }
+      }
+    }
+  }
+  assert.ok(compared > 50, `only ${compared} held-back notes were compared`);
 });
 
 test("the tune does not repeat itself at the loop seam", () => {

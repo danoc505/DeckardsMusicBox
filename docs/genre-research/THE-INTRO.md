@@ -143,7 +143,15 @@ and attends to nothing in particular.
 
 ---
 
-## 5. The break: the one place a record goes below its floor
+## 5. The break: a place a record goes below its floor
+
+*This section used to say "the ONE place", and that was never a claim any
+source here makes — it is this program's own framing, written before anything
+had researched how a record ENDS. The one source that describes an ending in
+either genre asks for exactly what a floor forbids: "gradually reduce the
+elements until only the initial drone remains, ending quietly"
+(note.com/soundwitches). So there are two places, and the other one is the
+last section. See `arrange.ts`, `floor`.*
 
 > A breakdown is "a section of a song in which various instruments have solo
 > parts (breaks)"… the **stripping away of other instruments and vocals**
@@ -170,7 +178,7 @@ ever alone after bar one.
 
 | | rule | source |
 |---|---|---|
-| 1 | An intro's length is drawn from the lengths that fit under a ceiling **in seconds**, which the genre states | Léveillé Gauvin 2018; Ewer |
+| 1 | An intro's length is drawn from the lengths that fit under a ceiling **in seconds**, which the genre states — and a genre whose table cannot satisfy its own ceiling is **refused at load**, with the arithmetic. There is no fallback: one used to take the shortest length whenever nothing fitted, which meant 49% of lofi records and 100% of dungeon synth's broke the ceiling while every length but the shortest was dead | Léveillé Gauvin 2018; Ewer |
 | 2 | An intro is one of three KINDS, drawn: **rhythm** (drums, or drums and bass, and nothing else), **bed** (the foundation without the tune), **hook** (the tune from bar one) | Burns 1987; planetarygroup's typology |
 | 3 | A **rhythm** intro is not thinned — the drums are the subject | Burns 1987 |
 | 4 | Every other intro IS thinned, and withholds the tune, so that the tune's arrival is what the intro was for | Burns 1987 ("kicks in"); Ewer |

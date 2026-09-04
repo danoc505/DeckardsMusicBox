@@ -516,8 +516,42 @@ export const TREATMENTS = [
   "widen", "close",
   "far", "sweep",
   "wear", "echoed",
+  // §7-§9 of THE-ALTERATIONS.md: knobs this desk has always had and could
+  // never move across a record.
+  "orbit", "medium", "waver", "stomp", "repatch",
+  // §9: the drum machine, which no treatment could reach at all.
+  "rekit", "recircuit", "slacken", "spotlight", "soak",
+  // and the one leaf of the rack that still had nothing pointed at it
+  "linger",
 ] as const;
 export type Treatment = (typeof TREATMENTS)[number];
+
+/**
+ * HOW A SECTION IS PLAYED, as against what is played in it.
+ *
+ * §4 of THE-ALTERATIONS.md, move 21: "a slurred wind line played tongued, or
+ * tenuto". A restatement that is neither given new notes nor a new desk still
+ * owes the ear something on its second and third hearing, and this is the
+ * third answer — the same notes, the same desk, a different hand.
+ *
+ * FOUR OF THEM, AND THEY ARE TWO PAIRS. `tongued` and `sung` move a note
+ * along the length ladder — move 21. `arched` and `level` move how much SHAPE
+ * the hand puts in: the arch across a loop (move 27, "more or less arch") and
+ * how hard the metre's own hierarchy is leant on (move 23, in part — the depth
+ * of the lean, not which step it falls on, which the metre alone still says).
+ * Both of those are gains and could have sat on a span; they are here because
+ * they are the same question as the other two — how is this hearing played —
+ * and a section that is both handed and shaped is two changes where the ear
+ * needs one.
+ *
+ * It is a SECTION's, never a span's. `art` is one of the six things
+ * `perform.test.ts` compares when it holds a figure to being played the same
+ * way twice — Huron and Ollen's 94% — and 76% of lofi's repetition pairs
+ * straddle a span boundary. A section boundary is the coarsest grain the pairs
+ * never cross, so a manner that changes there changes nothing inside a loop.
+ */
+export const MANNERS = ["tongued", "sung", "arched", "level"] as const;
+export type Manner = (typeof MANNERS)[number];
 
 export interface ArrangementSpec {
   /**
@@ -540,9 +574,16 @@ export interface ArrangementSpec {
    * climaxes" (en.wikipedia.org/wiki/Breakdown_(music)). Tom Moulton's disco
    * break is the rhythm-only case of it.
    *
-   * It is the one place a section may fall below `fewest`, and it is why:
-   * without it nothing in a record is ever heard with room round it, because
-   * the floor holds every section at three parts or more.
+   * It is A place a section may fall below `fewest` — not the only one, and
+   * this comment claimed otherwise until an ending was researched. The other
+   * is the LAST section, which is not floored by this number at all: a floor
+   * is about a section that carries on, and what stops an ending emptying out
+   * is the dénouement rather than a stated minimum. See `floor` in
+   * `arrange.ts`.
+   *
+   * Why the break is still needed: without it nothing in the MIDDLE of a
+   * record is ever heard with room round it, because the floor holds every
+   * section that carries on at three parts or more.
    */
   readonly breakdown?: boolean;
   /**
@@ -606,6 +647,12 @@ export interface ArrangementSpec {
    * has spent its identity to satisfy a counter. Weight 0 removes one.
    */
   readonly treat?: Weighted<Treatment>;
+  /**
+   * HOW A PLAIN RESTATEMENT IS PLAYED. Drawn per section, so a genre with both
+   * at equal weight really is even — this is a draw and not a ladder walked
+   * from the top, which is where an even pool stops being even.
+   */
+  readonly manner?: Weighted<Manner>;
 }
 
 export interface ArrangementRules {
@@ -619,6 +666,8 @@ export interface ArrangementRules {
   readonly thinBelow: number;
   readonly rest: number;
   readonly treat: Weighted<Treatment>;
+  /** How a plain restatement is played, when it is played differently at all. */
+  readonly manner: Weighted<Manner>;
 }
 
 /** Which pairs of notes swing: every two eighths, or every two sixteenths. */
@@ -1158,7 +1207,25 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * the range the two sources bound. A genre whose whole texture is an
      * intro says its own.
      */
-    introSec: 12,
+    /**
+     * TWENTY SECONDS, and the default table has to be able to satisfy it.
+     * This was 12, and the pool below offers 8 bars — 16.0 s at 120 bpm and
+     * 21.3 s at 90 — so the 8 could never be drawn at any tempo this default
+     * admits. The incoherence sat here, in the DEFAULTS, and both genres
+     * inherited it: measured before the load check, lofi drew 4 bars in 100%
+     * of records and dungeon synth 8, their second entries never once, while
+     * 49% and 100% of records broke the ceiling through a silent fallback.
+     *
+     * 20 is Léveillé Gauvin's own mid-eighties figure — intros "averaged more
+     * than 20 seconds in the mid-80s" — rather than the 5 s the same paper
+     * reports for 2015. The 5 is a chart single competing with a skip button,
+     * and this program makes records; the older number is the same source's
+     * account of an intro that is still short but is allowed to be a section.
+     * At 90–120 bpm it admits 4 bars always and 8 bars from 96 bpm up, which
+     * is what a ceiling in SECONDS is for: a fast record can afford more bars
+     * of intro than a slow one.
+     */
+    introSec: 20,
   },
 
   harmony: {
@@ -1557,6 +1624,11 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * pool is what it draws FROM and not what it does.
      */
     treat: TREATMENTS.map((t) => [t, 1] as const),
+    /**
+     * EVEN, and honestly so: two ways to play the same notes, neither of them
+     * the default for music in general. A genre with an opinion says it.
+     */
+    manner: [["tongued", 1], ["sung", 1], ["arched", 1], ["level", 1]],
   },
 
   feel: {

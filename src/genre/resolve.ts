@@ -13,7 +13,7 @@
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  ARCS, BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
+  ARCS, BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
   type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
@@ -260,6 +260,41 @@ export function resolveGenre(
 
     const isec = form["introSec"];
     if (!finite(isec) || isec < 1 || isec > 120) problems.push(`form.introSec must be 1..120 seconds, got ${String(isec)}`);
+    /**
+     * AND THE CEILING HAS TO BE ONE. A genre states its intro lengths in bars
+     * and its ceiling in seconds, and nothing made the two agree: `form.ts`
+     * filtered the pool to what fits and, where NOTHING fits, silently took
+     * the shortest instead. So the ceiling was a preference that gives up.
+     * Measured before this check existed: 49% of lofi records and 100% of
+     * dungeon synth's broke their own stated ceiling, and BOTH genres carried
+     * a second intro length — lofi's 8 bars, dungeon synth's 16 — that could
+     * never be drawn at any tempo. Two dead entries and a ceiling honoured in
+     * neither genre, from one number nobody made add up.
+     *
+     * A length is drawable if it fits at the genre's FASTEST tempo, where its
+     * bar is shortest. One that does not fit even there is dead in every
+     * record the genre can make, and a declared option that can never be
+     * chosen is this program's cardinal sin with a table around it. Refused
+     * at load, with the arithmetic, so the author fixes the ceiling or drops
+     * the entry rather than finding out by counting rolls.
+     */
+    const tempoPair = merged["tempo"];
+    const metreObj = isPlainObject(merged["metre"]) ? merged["metre"] : {};
+    const beats = metreObj["beats"];
+    const introPool = asPool<number>(lengths["intro"]);
+    if (finite(isec) && Array.isArray(tempoPair) && finite(tempoPair[1]) && finite(beats) && introPool !== null) {
+      const shortestBarSec = (60 / (tempoPair[1] as number)) * (beats as number);
+      for (const [len, w] of introPool) {
+        if (w <= 0) continue;
+        const atFastest = len * shortestBarSec;
+        if (atFastest > isec) {
+          problems.push(
+            `form.lengths.intro offers ${len} bars, which is ${atFastest.toFixed(1)}s at this genre's fastest tempo ` +
+              `(${tempoPair[1]} bpm) and can never fit under form.introSec ${isec}. Raise the ceiling or drop the length`,
+          );
+        }
+      }
+    }
     const ic = form["introChance"];
     if (!finite(ic) || ic < 0 || ic > 1) {
       problems.push(`form.introChance must be 0..1, got ${String(ic)}`);
@@ -497,6 +532,7 @@ export function resolveGenre(
     if (!finite(tb) || tb < 0 || tb > 1) problems.push(`arrangement.thinBelow must be 0..1, got ${String(tb)}`);
     // and the note-preserving changes it will make to a section
     checkPool(problems, "arrangement.treat", arr["treat"], (v) => (TREATMENTS as readonly unknown[]).includes(v), `one of ${TREATMENTS.join(", ")}`);
+    checkPool(problems, "arrangement.manner", arr["manner"], (v) => (MANNERS as readonly unknown[]).includes(v), `one of ${MANNERS.join(", ")}`);
   }
 
   const feel = isPlainObject(merged["feel"]) ? merged["feel"] : null;

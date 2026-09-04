@@ -58,11 +58,18 @@ The pool `arrange.ts` already has, plus the two the research named and nobody bu
 
 ## 3. The clock — every note kept, in order
 
+*Except move 16's, and this heading knew it: "the drums halve" is not keeping
+every note. The heading describes the other six rows. What the layer really
+shares is that a note's INSTANT moves rather than its pitch — and that splits
+it in two, because `step` is one of the six fields the repetition law compares
+while the drums are excluded from that comparison by name. So 16 may sit on a
+span and the other six must wait for a section.*
+
 | | move | |
 |---|---|---|
 | 14 | **Half-time** — the same material over twice the bars | ○ |
 | 15 | **Double-time** | ○ |
-| 16 | **Half-time feel** — the drums halve, everything else holds | ○ |
+| 16 | **Half-time feel** — the drums halve, everything else holds | ● **and it moves**: `Span.halved`. A hit at step s is played at 2s and one that would fall past the bar is not played, so the backbeat walks to the third beat. The one §3 move legal on a SPAN — the drums are excluded by name from the law that holds a figure to being played the same way twice |
 | 17 | **Metric displacement** — the figure enters a beat later, or earlier | ○ |
 | 18 | **Truncation** — the last bar of the repeat is chopped and the next thing begins there | ○ note 002's odd phrasing, the transition ingredient |
 | 19 | **Extension** — a bar added, the closing note held across it | ○ |
@@ -75,13 +82,13 @@ already exist per genre and are drawn per material.
 
 | | move | |
 |---|---|---|
-| 21 | **Articulation swap** — a slurred wind line played tongued, or tenuto | ◐ per material, not per return |
+| 21 | **Articulation swap** — a slurred wind line played tongued, or tenuto | ● **and it moves**: `Placed.manner`, per HEARING. One rung along the length ladder — ring, tenuto, plain, staccato — and only into a manner the part's own genre pool carries. A ghost, an accent, a bend and a slide carry something besides length and are left as written |
 | 22 | **Ghosting** — the line at greatly reduced weight | ● `ghost` |
-| 23 | **Accent shift** — which notes are leaned on | ● |
-| 24 | **Dynamic terrace** — the part a step quieter, or louder, for this hearing | ◐ one global arc level |
-| 25 | **Crescendo** across the section rather than a flat level | ○ |
+| 23 | **Accent shift** — which notes are leaned on | ◐ **the depth moves**: `arched` and `level` scale how hard the metre's own hierarchy is leant on, per hearing. WHICH step is strong still comes from the metre alone, so half of this row is done and the half that would move an accent off its metrical place is not |
+| 24 | **Dynamic terrace** — the part a step quieter, or louder, for this hearing | ● **and it moves**: `Span.hush` holds one part back by `ARC_DEPTH`, what the arc itself takes off at its quietest. It is a GAIN and nothing else, which is what makes it legal per span — see below |
+| 25 | **Crescendo** across the section rather than a flat level | ● **and it moves**: `Placed.swell`, the section before the climax. It is the arc's RISING ACTION, the one stage of the dramatic arc this program never had — see `THE-ARRANGEMENT-AS-STORY.md` §3 |
 | 26 | **Lean** — the part plays further behind or ahead of the beat | ● `feel.lean` |
-| 27 | **Phrase shape** — more or less arch across the loop | ● `F.phrase` |
+| 27 | **Phrase shape** — more or less arch across the loop | ● **and it moves**: `arched` and `level`, per hearing. Measured across a section, the spread of weight goes 0.30 → 0.37 arched and → 0.24 level in lofi |
 
 ## 5. Register — pitch classes kept
 
@@ -107,8 +114,8 @@ Every one of these exists, is drawn on the radar scope, and never moves.
 
 | | move | |
 |---|---|---|
-| 36 | **Azimuth** — the flute crosses the room | ● |
-| 37 | **Distance** — a part steps closer, or further off | ● |
+| 36 | **Azimuth** — the flute crosses the room | ● **and it moves**: `orbit`, which reflects a part across the centre line, so a part dead centre is refused for having nowhere to cross to |
+| 37 | **Distance** — a part steps closer, or further off | ● **and per part**, as written here: `far` is offered aimed at one part as well as at the band |
 | 38 | **Width** | ● |
 | 39 | **Depth** | ● |
 | 40 | **Sweep depth** — the slow drift left and right | ● |
@@ -122,27 +129,27 @@ A desk move, not a note move — and the one move this program cannot make.
 
 | | move | |
 |---|---|---|
-| 41 | **Sends** — five returns, per part | ● 25 knobs, all static |
+| 41 | **Sends** — five returns, per part | ● **and per part**: `drench`/`dry` are offered aimed at one part as well as at the band |
 | 42 | **Filter** — the pole's cutoff down for a darker hearing | ● |
-| 43 | **Pedal feed** — a part walks more or less of the board | ● `mix[role].pedals` |
-| 44 | **Pedal swap** — a different stompbox lit for this section | ● twelve pedals |
-| 45 | **Patch** — a return fed into another return | ● the pin matrix |
+| 43 | **Pedal feed** — a part walks more or less of the board | ● **and per part**: `push`/`ease` likewise |
+| 44 | **Pedal swap** — a different stompbox lit for this section | ● **and it moves**: `stomp`. Lit from COLD is the one thing it cannot mean — a pedal at mix 0 is off the board, and `treat.ts` already refuses to overrule a genre that way — so the swap happens inside the board the genre carries: first box in cable order down, last one up |
+| 45 | **Patch** — a return fed into another return | ● **and it moves**: `repatch` feeds the busiest return this record actually uses into the next busiest |
 | 46 | **Echo** — time in beats, feedback | ● |
-| 47 | **Reverb decay** — a longer room for the peak | ● spring and room |
+| 47 | **Reverb decay** — a longer room for the peak | ● **and it moves**: `linger`. `drench` sends MORE to the room; this makes the room BIGGER. The reverbs' `sec` was the one leaf of the rack nothing pointed at while `ret` had two moves aimed at it, and it was missed because the row was already marked ● |
 | 48 | **Tape** — drive, wow depth | ● |
-| 49 | **Medium** — gramophone or radio across a section | ● |
+| 49 | **Medium** — gramophone or radio across a section | ● **and it moves**: `medium`. Both genres carried this at mix 0 — built, wired, never once turned up |
 | 50 | **Vinyl** — dust | ● |
-| 51 | **Modulation** — tremolo, phaser, ensemble depth | ● |
+| 51 | **Modulation** — tremolo, phaser, ensemble depth | ● **and it moves**: `waver`, all three together, scaled from what the genre set so a genre running none of them is refused |
 
 ## 9. The machine — drums, notes unchanged
 
 | | move | |
 |---|---|---|
-| 52 | **Kit swap** — acoustic ↔ analog | ● |
-| 53 | **Circuit swap** — 808 ↔ 909 | ● |
-| 54 | **Lane tune / decay** offsets | ● |
-| 55 | **Lane level**, or a lane out | ● |
-| 56 | **Per-lane send** — one drum into a return the rest of the kit does not feed | ● |
+| 52 | **Kit swap** — acoustic ↔ analog | ● **and it moves**: `rekit`. lofi weights it lowest of its machine moves; dungeon synth does not state it at all, per this file's own warning below |
+| 53 | **Circuit swap** — 808 ↔ 909 | ● **built and correctly unreachable**: `recircuit` refuses unless the analogue kit is loaded, and both genres play the acoustic one. Treatments are absolute, so `rekit` cannot chain into it either. It comes alive for a genre that loads the analogue kit |
+| 54 | **Lane tune / decay** offsets | ● **and it moves**: `slacken`, the kit tuned down and left to ring |
+| 55 | **Lane level**, or a lane out | ● **and it moves**: `spotlight`, the snare up and the rest down, so the kit leans on its backbeat |
+| 56 | **Per-lane send** — one drum into a return the rest of the kit does not feed | ● **and it moves**: `soak`, the snare into the busiest return this record actually uses |
 
 ## 10. What answers it — new sound, no new pitches
 
@@ -173,7 +180,7 @@ Note 005: every transition has two sides, an exit and an entry, and both want tr
 
 | | moves | already built |
 |---|---|---|
-| the desk, the room, the machine (§7–9) | 21 | **21** |
+| the desk, the room, the machine (§7–9) | 21 | **21, and all 21 now MOVE** |
 | the hand and what is underneath (§4, §6) | 12 | 9 |
 | density (§2) | 6 | 4 |
 | orchestration (§1) | 7 | 2 |
@@ -308,6 +315,76 @@ moves against two of everything else — a section changing colour every eight
 bars and never losing a player, which is the oscillating texture again in
 better clothes. A treatment is now priced at what this file already prices the
 drums' expression at: half a part.
+
+## What the repetition law allows, and what it does not
+
+§3, §4 and §5 are performance moves, and there is one law they have to get
+past. `perform.ts` addresses the hand by the material and the position inside
+it so that a figure played again is played the same way — Huron and Ollen put
+literal repetition at about 94% of passages across five continents and five
+centuries — and `perform.test.ts` holds the groove to it. Measured, **76% of
+lofi's repetition pairs and 44% of dungeon synth's straddle a span boundary**,
+so a per-span change to how the groove is played breaks that law on most of
+what it checks.
+
+But look at what the law actually compares: `role`, `lane`, `step`, `pitch`,
+`art`, `playedStep`. **Gain is not in it**, and never was — the arc already
+moves a note's weight bar by bar under the same law. So:
+
+| a move that changes | grain it may work at |
+|---|---|
+| the weight of a note | any — per span is fine |
+| the articulation, the timing, the pitch, the step | the SECTION, or the two turns of a pair differ |
+
+That is why `hush` is a span move and an articulation swap cannot be, and it is
+why §4's own rows say "for this **hearing**" and "across the **section**". A
+hearing is a section. `thin` was never the general case — it is safe only
+because it drops HATS, and the law's comparison covers `bass`, `keys` and
+`drone` by name.
+
+## And what the machine needed that the rack did not
+
+`deskOf` refuses a treatment that would not change the DESK. That is the right
+question for §7 and §8 and the wrong one for §9: swapping a kit changes the
+machine whether or not anybody is playing it, so a machine move passes that
+test and is still inaudible where the drums are silent. A boundary spent on a
+move nobody can hear is worse than a knob that does nothing — the two-loop rule
+paid for it and the ear gets the section repeated instead. The arrangement
+therefore asks whether the drums are sounding before offering one, and a test
+holds it to that.
+
+## What "per part" turned out to be worth
+
+Moves 37, 41 and 43 say *a part* — and this program applied all of them to the
+whole band, which is a move this catalogue does not list. Making them what they
+say fixed something else entirely, and that is the useful part of the story.
+
+A treatment's `Move` carried a hardcoded role of `"drums"`, because the type
+wanted a role and a whole-band move has none. `worth` reads `standing` and
+`established` OF ITS ROLE, so with a fictional role every treatment scored the
+constant 1; `serve` is also constant across treatments; and the only thing left
+to order them by was `fresh × afford`, which knows nothing about the record in
+front of it. Measured over 300 seeds, **every record in a genre played its
+treatments in the same order**, differing only in how far down the list it got.
+
+Giving the per-part moves a real part fixed that without adding a term:
+distinct treatment sequences went **17 → 28** in lofi and **29 → 89** in
+dungeon synth, and every section-level number is unchanged.
+
+The first attempt claimed 52 and 137, and those numbers were bought by
+breaking a law rather than by working: keying a per-part treatment's freshness
+as `treat:drench:drone` gave each of its six candidates a key of its own, so a
+name could be chosen six times before any of them staled. That is the opposite
+of what this file's own rule says — the desk getting wetter is the desk getting
+wetter whichever part it happened to. It took dungeon synth from twelve
+distinct treatments to five and gave `drench` 896 uses of 1557. The key is the
+NAME; the part is only what the score chooses between.
+
+## The plan for the rest of them
+
+`docs/BUILDING-THE-ALTERATIONS.md` — six phases, ordered, each with the number
+that says it worked. The section below is its hardest constraint, and Phase 1
+of that plan exists to satisfy it before the pool is allowed to grow.
 
 ## What must not happen
 

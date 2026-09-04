@@ -18,6 +18,21 @@ export const dungeonsynth: GenreSpec = {
 
   // loops, repeated at length: the sections are long and few
   form: {
+    /**
+     * THE CEILING IS THIS GENRE'S OWN, and until now it was a pop single's.
+     * The default 12 s comes from 303 top-10 singles (Léveillé Gauvin 2018).
+     * At 60-80 bpm a bar here is 3.00-4.00 s, so NOTHING this genre offers
+     * fits under 12 s: measured over 357 records, 100% of them broke the
+     * stated ceiling and the `[[16, 2]]` below was drawn exactly never.
+     * A ceiling that every record violates is not a ceiling, and a declared
+     * length that can never be drawn is a knob that does nothing.
+     *
+     * 64 s is what this genre's own source names — 8 to 16 bars — at the
+     * slowest tempo it plays. Proposed in DUNGEON-SYNTH-ARRANGEMENT.md §8 and
+     * applied now that the ceiling is a constraint the genre must satisfy
+     * rather than a preference the form stage quietly gave up on.
+     */
+    introSec: 64,
     lengths: {
       intro: [[8, 2], [16, 2]],
       verse: [[16, 4], [32, 2]],
@@ -221,6 +236,41 @@ export const dungeonsynth: GenreSpec = {
       ["close", 1],
       ["echoed", 1],
       ["sweep", 1],
+      // THE FIVE THE DESK HAD AND COULD NEVER MOVE. Ranked under the four the
+      // genre's own guide names, because none of them is in that guide: what
+      // it asks for is reverb, filters, wear and distance, and these are the
+      // rest of the rack finally reaching the record.
+      //
+      // `medium` is highest of them and still low. A section arriving down a
+      // gramophone horn is the most drastic move on this list, and this genre
+      // is the one where an old medium is idiomatic rather than a gimmick —
+      // it is "derived from black metal and dark ambient" and its own
+      // recordings are lo-fi by intent. Rare, so that it lands as an event.
+      // A LONGER ROOM, and this genre's guide asks for it by name: the
+      // development is where you "deepen the shadows of the sound through
+      // changes in reverb and filters", and a bigger room is the reverb half
+      // of that sentence as surely as `drench` is. Weighted with `wear`.
+      ["linger", 4],
+      ["medium", 2],
+      ["orbit", 2],
+      ["repatch", 2],
+      ["waver", 1],
+      ["stomp", 1],
+      // AND THE MACHINE, barely. This music "notably avoids" a busy kit and
+      // carries the fewest drums of any part here, so a move that is ONLY
+      // about the drums is worth least in this genre of the two. `soak` puts
+      // the snare in the room this music already lives in; `slacken` tunes it
+      // down, which is the one direction its guide ever asks for.
+      //
+      // NO `rekit` AND NO `recircuit`. The catalogue's own warning is that a
+      // genre "should probably never swap a drum circuit mid-record", and
+      // this is the genre it names: a record whose drums are a war march
+      // arriving as a different machine half way through is not development,
+      // it is a fault. Not stated rather than stated at zero, so nothing here
+      // pretends to a choice it does not make.
+      ["soak", 2],
+      ["slacken", 1],
+      ["spotlight", 1],
     ],
   },
 
@@ -347,7 +397,19 @@ export const dungeonsynth: GenreSpec = {
       "with \"intentional crackle, warble, and hiss\" and a record \"echoing through stone corridors\" " +
       "(note.com/soundwitches): the filter, the room, the wear and the distance are this genre's own moves and are " +
       "weighted first. Brighten is kept light because shadows only deepen against something. Weights [chosen] — " +
-      "the sources name the moves and rank nothing",
+      "the sources name the moves and rank nothing. AND THE FIVE OFF THE RACK are not in that guide at all, so " +
+      "they rank under the four it does name; `medium` is highest of them because this genre is \"derived from " +
+      "black metal and dark ambient\" (Wikipedia, Dungeon synth), traditions recorded lo-fi by intent, so an old " +
+      "medium is idiomatic here rather than an effect — kept at 2 so it lands as an event. AND THE MACHINE is " +
+      "weighted lowest of all: this music \"notably avoids\" a busy kit (note.com/soundwitches), so a move that " +
+      "is only about the drums is worth least here. `rekit` and `recircuit` are not stated at all — " +
+      "THE-ALTERATIONS.md warns that a genre \"should probably never swap a drum circuit mid-record\" and names " +
+      "this genre while doing it. Numbers [chosen]",
+    "form.introSec":
+      "\"the intro is usually 8-16 bars\" for this genre (note.com/soundwitches, as read in " +
+      "DUNGEON-SYNTH-ARRANGEMENT.md §8); 16 bars at this genre's slowest tempo of 60 bpm is 64 s, so 64 is the " +
+      "smallest ceiling that admits what the source names. The inherited default of 12 s is Léveillé Gauvin's " +
+      "figure for 303 top-10 pop singles and nothing this genre offers fits under it",
     "arrangement.intro":
       "\"primarily beatless\", \"very subtle percussion\" (note.com/soundwitches): the drum-led opening Burns " +
       "documents (\"solo drums... will attract especially great attention to rhythm\") is the one way in this " +

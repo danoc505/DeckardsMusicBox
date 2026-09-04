@@ -67,9 +67,9 @@
  * change is expression only: a breath, not a hole.
  */
 
-import type { ArrangementRules, Idea, IntroKind, Role, Treatment } from "../genre/spec.ts";
+import type { ArrangementRules, Idea, IntroKind, Manner, Role, Treatment } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
-import { deskOf } from "./treat.ts";
+import { deskOf, isPerPart, needsDrums } from "./treat.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 // A pure function of the chart, not a read of built materials — see its own
@@ -81,6 +81,54 @@ export interface Span {
   readonly heard: ReadonlySet<Role>;
   /** The drums lose their hat and their fills: a breath, not a stop. */
   readonly thin: boolean;
+  /**
+   * THE KIT AT HALF SPEED — the half-time feel, §3 move 16.
+   *
+   * "The drums halve, everything else holds." A hit at step s is played at
+   * step 2s and one that would fall past the bar is not played at all, so the
+   * kit keeps its shape and takes twice as long to say it: the backbeat walks
+   * from the second beat to the third, which is the whole of what half time
+   * sounds like.
+   *
+   * IT IS THE DRUMS AND ONLY THE DRUMS, which is what makes it legal on a
+   * span. `perform.test.ts` holds a figure played again to being played the
+   * same way — Huron and Ollen's 94% — on `step` among other things, and 76%
+   * of lofi's repetition pairs straddle a span boundary. The drums are
+   * excluded from that comparison by name, because their phrase is written per
+   * time round and does not tile. Everything else in §3 moves a step the law
+   * does compare, and has to wait for a section.
+   *
+   * AND IT DROPS HITS, which §3's own header does not admit: the layer is
+   * introduced as "every note kept, in order", and move 16 says the drums
+   * halve. Halving is not keeping. The header is describing the rest of the
+   * layer.
+   */
+  readonly halved: boolean;
+  /**
+   * ONE PART HELD BACK — EXPRESSION, ON ANY PART RATHER THAN ON THE DRUMS.
+   *
+   * The two-loop rule names four ways to change an arrangement and this file's
+   * header quotes all four: "add an instrument, or add expression to an
+   * existing instrument, or remove an instrument, or reduce expression of an
+   * existing instrument". This stage could do three of them, and read
+   * "expression" as the drums' hat — `thin` — so the keys could be taken away
+   * but never played more quietly.
+   *
+   * §4 of THE-ALTERATIONS.md calls it a dynamic terrace, "the part a step
+   * quieter, or louder, for this hearing", and the step is a number this file
+   * already carries: `ARC_DEPTH`, what the arc takes off at its quietest.
+   *
+   * IT IS A GAIN AND NOTHING ELSE, which is what makes it legal per SPAN. The
+   * hand is addressed by the material and the position in it so that a figure
+   * played again is played the same way — Huron and Ollen's 94% — and
+   * `perform.test.ts` holds the groove to that on `step`, `pitch`, `art` and
+   * `playedStep` to the microsecond. Gain is not in that comparison and never
+   * was: the arc already moves it bar by bar under the same law. So a part may
+   * be held back for two turns without any figure being played differently.
+   * A move that changed a part's ARTICULATION or its timing could not be here;
+   * it would have to wait for a section boundary.
+   */
+  readonly hush: Role | null;
   /**
    * A CHANGE TO THE SECTION THAT LEAVES EVERY NOTE WHERE IT IS.
    *
@@ -98,6 +146,16 @@ export interface Span {
    * null is the genre's own desk, which is where every span used to be.
    */
   readonly treatment: Treatment | null;
+  /**
+   * WHICH PART THE TREATMENT IS AIMED AT, or null for a whole-desk move.
+   *
+   * The catalogue lists distance, sends and the pedal feed as one part's
+   * moves — "a part steps closer, or further off" — and this stage applied
+   * them to the whole band. A band stepping back together is a different
+   * move from the flute stepping back, and only the second is in the
+   * catalogue. `treat.ts` says which treatments are per-part.
+   */
+  readonly at: Role | null;
 }
 
 export interface Placed {
@@ -115,6 +173,41 @@ export interface Placed {
   readonly thin: boolean;
   /** The break: below the floor, carrying what the record opened with. */
   readonly broken: boolean;
+  /**
+   * THIS SECTION BUILDS INTO WHAT FOLLOWS — the arc's rising action.
+   *
+   * "Exposition, rising action, climax, falling action, dénouement" (Ableton,
+   * "Dramatic Arc"), and THE-ARRANGEMENT-AS-STORY §3 works through which of
+   * them this program has. It had the climax: the form declares a peak and the
+   * peak is the one section with everybody. It has the dénouement now, since
+   * the ending gives back what the record opened with. RISING ACTION was the
+   * stage nothing represented — the arc interpolates between section centres,
+   * so a section approaching the peak was a flat step on the way up rather
+   * than a section that goes anywhere.
+   *
+   * §4 of THE-ALTERATIONS.md names the same thing from the other end, as move
+   * 25: a crescendo "across the section rather than a flat level".
+   *
+   * It is a GAIN and nothing else, which is why it may sit on a section that
+   * loops without any figure being played differently — see `Span.hush`.
+   */
+  readonly swell: boolean;
+  /**
+   * HOW THIS RESTATEMENT IS PLAYED, or null for the hand the material wrote.
+   *
+   * The rule of three demands a third hearing differ, and this stage had two
+   * answers: new notes (`vary`, which spends material) and a new desk
+   * (`recast`). A plain restatement — an idea stated again with neither — came
+   * back identical in everything but who was playing. This is the third
+   * answer, and the one §4 of THE-ALTERATIONS.md is about: the same notes, the
+   * same desk, a different hand.
+   *
+   * A SECTION'S, never a span's, and that is not a preference. `art` is one of
+   * the six fields the repetition law compares, and 76% of lofi's repetition
+   * pairs straddle a span boundary; a section boundary is the coarsest grain
+   * those pairs never cross.
+   */
+  readonly manner: Manner | null;
   /**
    * Who plays, span by span, each span being two turns of the loop. The
    * stage that writes the notes knows how long a turn is and indexes this;
@@ -247,6 +340,12 @@ interface Move {
   readonly role: Role;
   /** The desk this move puts the span on, or null for the genre's own. */
   readonly treatment: Treatment | null;
+  /** Which part a per-part treatment is aimed at; null for a whole-desk one. */
+  readonly at: Role | null;
+  /** The part this move leaves held back, if any. */
+  readonly hush: Role | null;
+  /** Whether this move leaves the kit at half speed. */
+  readonly halved: boolean;
   /**
    * HOW READILY THE GENRE PARTS WITH THIS ONE, 0..1, from its shed order.
    *
@@ -278,10 +377,13 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    *
    * Two filters, and neither answer can change inside a record. The genre's
    * own pool says which of them belong to this music at all — a weight of zero
-   * removes one — and `deskOf` refuses any that would come out identical to
-   * this genre's desk, so a dry genre is never offered `drench` and a board
-   * nothing walks is never offered `push`. What is left is this genre's own
-   * vocabulary, and the arrangement scores it like everything else.
+   * removes one — and `deskOf` refuses the rest on two counts: a move whose
+   * numbers come out identical to this genre's desk, so a dry genre is never
+   * offered `drench` and a board nothing walks is never offered `push`, and a
+   * move whose numbers travel a path this genre never patches in, so dungeon
+   * synth is never offered `echoed` however far its returns move. What is left
+   * is this genre's own vocabulary, and the arrangement scores it like
+   * everything else.
    *
    * A move that does nothing is worse here than anywhere else in the program:
    * the two-loop rule spends a boundary on it, and the ear hears the section
@@ -301,6 +403,15 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * the third time is the third time however many parts were playing — where a
    * density move wears out per part, because taking the lead away and taking
    * the bass away are two different moves.
+   *
+   * AND THE NAME IS THE KEY EVEN NOW A TREATMENT NAMES A PART. Keying it
+   * `treat:drench:drone` was tried and it broke this law from underneath:
+   * with six candidates per per-part treatment and a key each, `drench` could
+   * be chosen six times before any of its keys staled, while a whole-desk
+   * move like `brighten` staled after one. Measured over 300 seeds, that took
+   * dungeon synth from twelve distinct treatments to FIVE and gave `drench`
+   * 896 of 1557 uses. The desk getting wetter is the desk getting wetter
+   * whichever part it happened to, which is what this comment already said.
    */
   const keyOf = (mv: Move): string =>
     mv.treatment !== null ? `treat:${mv.treatment}` : `${mv.name}:${mv.role}`;
@@ -310,8 +421,17 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * is sounding, less a half part where the drums are held back. A function
    * of the arrangement's own choices and nothing else.
    */
-  const fullness = (h: ReadonlySet<Role>, isThin: boolean): number =>
-    (h.size - (isThin && h.has("drums") ? 0.5 : 0)) / ROLES.length;
+  const fullness = (h: ReadonlySet<Role>, isThin: boolean, hushed: Role | null = null, isHalved = false): number => {
+    let held = 0;
+    // the drums' expression, held back once however many ways it is held: a kit
+    // with no hat AND at half speed is still a kit playing quietly, and
+    // charging twice would price it below a kit that is not there at all
+    if ((isThin || isHalved) && h.has("drums")) held += 0.5;
+    // a hushed part is half a part, the same price the drums' hat already
+    // pays; the drums thinned AND hushed are not charged for twice
+    if (hushed !== null && h.has(hushed) && !(hushed === "drums" && isThin)) held += 0.5;
+    return (h.size - held) / ROLES.length;
+  };
 
   const ledger: Ledger = {
     ceiling: 0, owed: 0, last: 0,
@@ -359,6 +479,24 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     /** The record's last section: where the dénouement has to happen. */
     const closing = section.index === form.sections.length - 1;
 
+    /**
+     * THE FLOOR, WHICH AN ENDING DOES NOT HAVE. See the note at `wanted`
+     * below: `fewest` is about a section that carries on, and the last one is
+     * not. What stops an ending emptying out is the dénouement — `restate`
+     * refuses to drop an opener at the close — so the end comes to rest on
+     * what the record began with, and that is a fact about the record rather
+     * than a number a genre states.
+     *
+     * AND IT ONLY EVER GOES DOWN. A floor raises a section to itself, so an
+     * opening of five parts would floor the ENDING at five and make it the
+     * fullest thing in the record — a floor used as a ceiling, which is a
+     * different rule wearing this one's clothes. It happens in 2–3% of
+     * records, which open cold on everybody. So the close is floored by its
+     * openers OR by `fewest`, whichever is LOWER: an ending may come to rest
+     * on less than a middle section, never on more.
+     */
+    const floor = closing ? Math.min(A.fewest, Math.max(1, openers.size)) : A.fewest;
+
     let heard: Set<Role>;
     if (section.index === breaks && openers.size > 0) {
       // THE BREAK. The one section that goes below the floor, and it carries
@@ -377,10 +515,28 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
       // HOW MANY OF THEM PLAY is this section's energy, between the fewest a
       // genre will carry and all of them. The peak takes everyone.
+      //
+      // AND THE FLOOR DOES NOT APPLY TO AN ENDING, because a floor is about a
+      // section that CARRIES ON. `fewest` exists so that a middle section is
+      // still an arrangement and not a solo; the last section is not going
+      // anywhere, and the one source that describes how one genre here ends
+      // asks for exactly what the floor forbids — "gradually reduce the
+      // elements until only the initial drone remains, ending quietly"
+      // (note.com/soundwitches). Held at three, that happened in 0% of
+      // records.
+      //
+      // THE END IS FLOORED BY WHAT THE RECORD OPENED WITH, WHICH IS NOT A
+      // NUMBER. `restate` below already refuses to drop an opener from the
+      // close, so an ending cannot empty out however low this goes — it comes
+      // to rest on the parts the record began with. That is the dénouement,
+      // "a restatement of established musical materials" (Ableton), acting as
+      // the floor instead of a stated one. A genre that opens on one part can
+      // end on that one part; a genre that opens on three ends on three. No
+      // genre states a number for this and none should have to.
       const wanted = section.peak
         ? ROLES.length
-        : Math.round(A.fewest + (ROLES.length - A.fewest) * section.energy);
-      const playing = Math.min(arrived, Math.max(A.fewest, Math.min(ROLES.length, wanted)));
+        : Math.round(floor + (ROLES.length - floor) * section.energy);
+      const playing = Math.min(arrived, Math.max(floor, Math.min(ROLES.length, wanted)));
       // WHO GOES IS WHAT THE RECORD CAN SPARE, and that is a fact about this
       // record rather than a list written before it existed.
       //
@@ -410,8 +566,31 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       //   spare    what the RECORD can most do without: a part that has been
       //            playing all along is furniture and can be missed, and a
       //            part that has been away is owed its return and is not
-      //            taken again. Absence therefore has a ceiling that no
-      //            number states — it falls out of the arithmetic.
+      //            taken again.
+      //
+      //            THIS IS NOT AN ABSENCE CEILING, whatever it used to say
+      //            here. Measured on and off over 500 seeds a genre, 2500
+      //            parts each: the absence distribution does not move AT
+      //            ALL — lofi median 8, p90 20, p99 32, max 36; dungeon
+      //            synth 16, 40, 56, 88 — identical with the `1/(1+out)`
+      //            term, without it, and with `share` dropped instead.
+      //            Whatever bounds how long a part stays away, it is not
+      //            this, and the claim that a ceiling "falls out of the
+      //            arithmetic" was never true.
+      //
+      //            What the two terms DO move is abandonment, and they pull
+      //            against each other, oppositely by genre:
+      //
+      //              gone for good      both    share only   ceiling only
+      //              lofi               2.56%     2.76%         2.92%
+      //              dungeon synth      2.64%     3.20%         1.96%
+      //
+      //            So `share` carries lofi and the ceiling term carries
+      //            dungeon synth, and the product is worse than the better
+      //            single term in both. Kept as the product because it is
+      //            the only one that is not worst in some genre, and
+      //            because which is RIGHT is a question about how the
+      //            records sound, not about which column is lower.
       //
       // The opening needs no rule of its own. A part that opened the record
       // has been present since bar one and absent from nothing, so it holds
@@ -450,7 +629,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       // AND THE LAST PART IN IS STILL THE FIRST OUT OF AN OUTRO, once the
       // record has earned its absence: a part heard in one section is not yet
       // something an ear can miss.
-      if (section.fn === "outro" && heard.size > A.fewest && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
+      if (section.fn === "outro" && heard.size > floor && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
     }
     if (section.index === 0) openers = new Set(heard);
     for (const r of heard) {
@@ -464,6 +643,30 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     // "because there is little or no melody or harmony to attend to"
     // (Burns 1987), and what is left has to be worth attending to.
     const broken = section.index === breaks && openers.size > 0;
+    // THE LAST BREATH BEFORE THE CLIMAX BUILDS INTO IT. One section, the one
+    // immediately before the peak — rising action is a run-up and a record has
+    // one climax to run up to. Never the break, which is the record going
+    // below its floor: a breakdown that swells is not a breakdown.
+    const swell = section.index === form.peakAt - 1 && form.peakAt > 0 && !broken;
+    // A PLAIN RESTATEMENT IS PLAYED DIFFERENTLY, ON THE THIRD HEARING. The
+    // rule of three's own threshold — "when it is repeated a third time, our
+    // brains may begin to tune it out" — and not the second, which was tried
+    // and handed 42% of all sections a manner. A record whose every
+    // restatement is played differently has no passage literally repeated in
+    // it at all, and literal repetition is the thing this program is built to
+    // protect: Huron and Ollen put it at 94% of passages. The second hearing
+    // is the one that makes an idea memorable, so it is left exactly alone.
+    //
+    // Only where the other two
+    // answers are not already being given — a section given new notes or a new
+    // desk has had its change, and stacking a third on top is not development,
+    // it is three changes at once with nothing held still to hear them
+    // against. Drawn from the genre's own pool, addressed by the section, so
+    // it is a fact about this record rather than a die.
+    const manner: Manner | null =
+      section.statement > 2 && !section.vary && !section.recast && A.manner.some(([, w]) => w > 0)
+        ? chart.rng.at("arrange", "manner", section.index).weighted("how", A.manner)
+        : null;
     // and a break is not "thinned": there is nothing left in it to thin, and
     // the drums it may consist of are the thing being heard
     const thin = !broken && !section.peak && (section.fn === "bridge" || section.energy < A.thinBelow)
@@ -525,22 +728,81 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       }
       if (opening !== null) ledger.used.set(`treat:${opening}`, (ledger.used.get(`treat:${opening}`) ?? 0) + 1);
     }
-    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null } =
-      { heard: new Set(base), thin, treatment: opening };
+    /**
+     * AND THE NEWEST PART WALKS IN PART WAY THROUGH, not at the door.
+     *
+     * This file's own header has said since it was written that "nothing here
+     * enters for the first time halfway through a record", and it was true:
+     * `arrived` grows once a SECTION, so a part's first entrance always landed
+     * on a section boundary — where the material changes, the energy changes
+     * and the desk may change too. An entrance there is not heard as an
+     * entrance. It is masked by everything else arriving with it.
+     *
+     * Worse, it left long sections with nothing to do. Measured over 300
+     * records, 68% of dungeon synth's sections and 74% of lofi's went by
+     * without anybody arriving or leaving at all — 63% and 67% of a record —
+     * because a section that starts with fewer parts than the floor can never
+     * offer `part-out` (it is already under the floor) and has nobody missing
+     * to offer `part-back`. All it can do is play the same people more
+     * quietly, which is what a listener reported hearing as nothing happening.
+     *
+     * So a section that has just gained a part opens WITHOUT it and lets the
+     * pool bring it in at a two-loop boundary, where it is the only thing
+     * changing. `heard` is the union of the spans, so the part is still built
+     * and the section still ends the size its energy asked for; what moves is
+     * the moment it is first heard.
+     *
+     * Not the intro, whose subject is what opens the record. Not the peak,
+     * which has everyone by definition. Not the break, which is a stripping
+     * away. And only where there is a later span for it to arrive at.
+     *
+     * THE ARRIVAL IS A RULE, NOT A CANDIDATE, and it has to be. Left to the
+     * score, the part often never came: `part-back` competed with every other
+     * move and lost, the union of the spans came out smaller than the section
+     * asked for, and the material stage then built nothing for a part the
+     * section was supposed to have — one 32-bar verse came out as a drone on
+     * its own. So the part is absent from span 0 and present from span 1, and
+     * the score keeps every boundary after that.
+     */
+    // AND ONLY A PART THAT LOOPS. The tune and the drums are written per time
+    // ROUND, and the tune's plan includes RESTS — so a lead that enters at the
+    // second span can land on rounds where its line is a rest and play nothing
+    // at all, while the section still says it is heard. That is a part built
+    // and never sounded, which `all.test.ts` catches by name and which is the
+    // one thing this stage promises never to do. The groove is written once
+    // and repeated, so it always has notes to walk in with.
+    const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
+    const gained = A.enter[arrived - 1];
+    const entering: Role | null =
+      gained !== undefined && loops(gained) && spanCount > 1 && !section.peak && !broken
+        && section.fn !== "intro" && heard.has(gained) && heard.size > 1
+        ? gained
+        : null;
+    const opensWithout = new Set(base);
+    if (entering !== null) opensWithout.delete(entering);
+
+    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean } =
+      { heard: opensWithout, thin, treatment: opening, at: null, hush: null, halved: false };
     const turnsOf = (s: number): number =>
       Math.min(2, Math.max(1, Math.round((Math.min(section.bars, (s + 1) * turn) - s * turn) / (turn / 2))));
 
     for (let s = 0; s < spanCount; s++) {
-      if (s > 0) {
+      // the newest part walks in at the first boundary, and that IS this
+      // boundary's change — the two-loop rule asks for one thing to move and
+      // an instrument arriving is the first of the four ways it names
+      if (s === 1 && entering !== null) {
+        cur = { ...cur, heard: new Set([...cur.heard, entering]) };
+        ledger.used.set(`part-in:${entering}`, (ledger.used.get(`part-in:${entering}`) ?? 0) + 1);
+      } else if (s > 0) {
         // ── THE POOL. Every named way this stage can change an arrangement.
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.
         const pool: Move[] = [];
-        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment): void => {
+        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: Role | null = cur.hush, halved: boolean = cur.halved): void => {
           // a move that leaves the span exactly where it already is is not a
           // move, and the desk is part of where it is
-          if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment
-            && [...h].every((r) => cur.heard.has(r))) return;
+          if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment && at === cur.at
+            && hush === cur.hush && halved === cur.halved && [...h].every((r) => cur.heard.has(r))) return;
           // THE CLOSE KEEPS THE OPENING. Holding the opener into the last
           // SECTION is not enough: a record ends on its last SPAN, and the
           // score below was free to take the part out again four bars from
@@ -550,7 +812,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           // treatment-only move keeps every part, so the desk still moves
           // freely at the close: what is refused is losing the opener.
           if (closing && openers.has(role) && !h.has(role)) return;
-          pool.push({ name, heard: h, thin: th, role, afford, treatment: tr });
+          pool.push({ name, heard: h, thin: th, role, afford, treatment: tr, at, hush, halved });
         };
         /**
          * THE DRONE DOES NOT COME AND GO INSIDE A SECTION.
@@ -568,7 +830,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
          */
         const movable = (r: Role): boolean => r !== "drone";
         // an instrument out — stacked on where the span already is, not on the base
-        if (!section.peak && cur.heard.size > A.fewest) {
+        if (!section.peak && cur.heard.size > floor) {
           for (const r of A.shed) {
             if (!cur.heard.has(r) || !movable(r)) continue;
             const less = new Set(cur.heard); less.delete(r);
@@ -584,24 +846,106 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         // all of them back at one moment
         if (cur.heard.size < base.size) push("all-back", new Set(base), cur.thin, lastIn);
         // strip to the fewest the genre carries, keeping the tail of the shed order
-        if (!section.peak && cur.heard.size > A.fewest) {
+        if (!section.peak && cur.heard.size > floor) {
           const stripped = new Set(cur.heard);
-          for (const r of A.shed) { if (stripped.size <= A.fewest) break; if (movable(r)) stripped.delete(r); }
+          for (const r of A.shed) { if (stripped.size <= floor) break; if (movable(r)) stripped.delete(r); }
           push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
         }
         // expression down, and back up — never above the floor the form set
         if (!cur.thin) push("hold-back", new Set(cur.heard), true, "drums");
         if (cur.thin && !thin) push("let-out", new Set(cur.heard), false, "drums");
+        // AND EXPRESSION ON ANY PART, which is the two-loop rule's fourth way
+        // and the one this stage read as the drums' hat. A part held back is
+        // half a part, priced the same as a thinned kit; it is a gain and
+        // nothing else, so no figure is played differently and the peak — which
+        // may never lose a player — can finally do something other than take
+        // the hat off. See `Span.hush`.
+        for (const r of cur.heard) {
+          if (r === cur.hush) continue;
+          push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, r);
+        }
+        if (cur.hush !== null) push("speak-up", new Set(cur.heard), cur.thin, cur.hush, 1, cur.treatment, cur.at, null);
+        // AND THE KIT AT HALF SPEED, which is the other thing "expression" can
+        // mean on a drum machine and the one §3 move that does not have to
+        // wait for a section: the drums are excluded from the repetition law
+        // by name. Offered only where they are sounding, for the same reason
+        // a drum machine treatment is.
+        if (cur.heard.has("drums")) {
+          if (!cur.halved) push("half-time", new Set(cur.heard), cur.thin, "drums", 1, cur.treatment, cur.at, cur.hush, true);
+          else push("full-time", new Set(cur.heard), cur.thin, "drums", 1, cur.treatment, cur.at, cur.hush, false);
+        }
         // ── AND THE SECTION ON A DIFFERENT DESK, WITH EVERY NOTE WHERE IT IS.
         //    The two-loop rule's fourth way, which this stage never had: not
         //    who plays, but what the record sounds like while they play it.
         //    Only treatments this genre carries and that would actually move
         //    this genre's desk are here — `offered` did both filters once, at
         //    the top, because neither answer changes inside a record.
-        for (const t of offered) push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
+        //    A PER-PART TREATMENT IS OFFERED PER PART. The catalogue lists
+        //    these as one part's move — "a part steps closer, or further off"
+        //    — and this stage used to apply them to the whole band and hand
+        //    the Move a hardcoded "drums" because the type wanted a role.
+        //    That placeholder was the whole reason a treatment could not be
+        //    scored: `worth` reads `standing` and `established` OF ITS ROLE,
+        //    so a move with a fictional role got the constant 1, and with
+        //    `serve` also constant across treatments the only thing left to
+        //    order them by was `fresh × afford` — which knows nothing about
+        //    this record. Measured over 300 seeds, every record in a genre
+        //    played its treatments in the SAME ORDER, differing only in how
+        //    far down the list it got.
+        //
+        //    So the role is real now, and nothing had to be added to the
+        //    score: the terms that already read the record start reading it
+        //    for treatments too, because there is finally a part to read.
+        //    WHICH DESK MOVE THIS GENRE REACHES FOR IS DRAWN FROM ITS OWN
+        //    POOL, and offering all of them at once was the mistake.
+        //
+        //    `arrangement.treat` is a `Weighted<Treatment>` — the same type as
+        //    `arrangement.intro` and every `form.lengths` pool, both of which
+        //    are DRAWN, one of them nine lines above this. It was being read
+        //    as a ranking instead: every treatment offered at once, ordered by
+        //    weight times freshness, so a record walked the ladder from the
+        //    top and stopped wherever it ran out of boundaries. A record has
+        //    three or four desk moves in it, so it reached rank four and no
+        //    further — identically, every record, in every seed. Measured, a
+        //    genre used the same handful of its vocabulary for ever, and the
+        //    five moves added to the rack fired 0, 0, 3, 0 and 0 times in 300
+        //    lofi records. Moving one up its tie group only starved another:
+        //    15 distinct became 13. The ladder, not the tie-break, was what
+        //    made the tail unreachable, and no amount of new vocabulary can
+        //    be heard through it.
+        //
+        //    THE SCORE STILL DECIDES WHETHER A DESK MOVE HAPPENS. That is the
+        //    part that has to serve what the record has done, and it is
+        //    untouched: `serve`, `worth`, `fresh` and `afford` weigh this
+        //    candidate against every density move exactly as before. What is
+        //    drawn is only WHICH COLOUR, out of the pool the genre wrote —
+        //    which is what a genre's weighted pool is for, and the freshness
+        //    of each name is folded into the draw so a record still does not
+        //    repeat itself.
+        //    AND A DRUM MACHINE MOVE IS NOT OFFERED WHERE THE DRUMS ARE NOT
+        //    SOUNDING. `deskOf` asks whether a move changes the DESK, which is
+        //    the right question for the rack and the wrong one for the machine:
+        //    swapping a kit changes the machine whether or not anybody is
+        //    playing it. A boundary spent on a move nobody can hear is worse
+        //    than a knob that does nothing, because the two-loop rule paid for
+        //    it and the ear gets the section repeated instead.
+        const live = offered
+          .filter((t) => !needsDrums(t) || cur.heard.has("drums"))
+          .map((t) => [t, weightOf(t) / (1 + (ledger.used.get(`treat:${t}`) ?? 0))] as const)
+          .filter(([, w]) => w > 0);
+        if (live.length > 0) {
+          const t = chart.rng.at("arrange", "treat", section.index, s).weighted("which", live);
+          push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
+          if (isPerPart(t)) {
+            for (const r of cur.heard) {
+              if (deskOf(t, chart.genre.sound, r) === null) continue;
+              push(`treat-${t}`, new Set(cur.heard), cur.thin, r, 1, t, r);
+            }
+          }
+        }
         //    and back to the record's own sound, which is a change like any
         //    other and the only way a treated span ever ends
-        if (cur.treatment !== null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null);
+        if (cur.treatment !== null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null, null);
 
         // ── THE SCORE. Three terms, multiplied, no coefficients: any one at
         //    zero kills the move, and there is nothing to tune.
@@ -610,11 +954,11 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           return n / (n + 1);
         };
         const want = ledger.owed / (ledger.owed + A.rest);
-        const before = fullness(cur.heard, cur.thin);
+        const before = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
         let best: Move | null = null;
         let bestFit = 0;
         for (const mv of pool) {
-          const after = fullness(mv.heard, mv.thin);
+          const after = fullness(mv.heard, mv.thin, mv.hush, mv.halved);
           const d = after - before;
           const moved = mv.treatment !== cur.treatment;
           //   THE DEBT TALKING: deep in debt, giving scores and taking does not.
@@ -649,7 +993,27 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           //   a part is worth more where it is missing, as arithmetic — and a
           //   treatment takes no part away, so there is no absence to price
           const st = ledger.standing.get(mv.role) ?? 0;
-          const worth = moved ? 1
+          //   A TREATMENT AIMED AT A PART IS WORTH WHAT THAT PART IS WORTH.
+          //   This read `moved ? 1` — a constant — and with `serve` also
+          //   constant across treatments there was nothing left to order them
+          //   by but `fresh × afford`, which knows nothing about this record.
+          //   Now that a per-part treatment carries the part it is aimed at,
+          //   the term that already prices a part can price it: treating a
+          //   part the record has barely established is a change nobody can
+          //   register, exactly as it is for a density move. A whole-desk
+          //   treatment has no part, so it keeps the 1 it had.
+          //   and a WHOLE-DESK treatment is aimed at everyone, so it is worth
+          //   what everyone is worth: the same term over the parts sounding.
+          //   Left at a flat 1 it was a free pass that outbid every per-part
+          //   move on principle rather than on merit, which is the bias that
+          //   put the whole band back on one fixed playlist.
+          const worthAll = (): number => {
+            let sum = 0;
+            for (const r of cur.heard) sum += established(r);
+            return cur.heard.size === 0 ? 1 : sum / cur.heard.size;
+          };
+          const worth = moved
+            ? (mv.at === null ? worthAll() : established(mv.at))
             : (d > 0 ? Math.max(0, -st) / (Math.max(0, -st) + 1) : Math.max(0, st) / (Math.max(0, st) + 1))
               * established(mv.role);
           //   the rule of three, applied to this stage's own vocabulary: the
@@ -676,15 +1040,15 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           best = alt;
         }
         if (best !== null) {
-          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment };
+          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
           ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
         }
       }
-      spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment });
+      spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved });
 
       // ── THE LEDGER, in part-turns. Two entries and nothing else.
       const turns = turnsOf(s);
-      const now = fullness(cur.heard, cur.thin);
+      const now = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
       //   withholding accrues, measured against the fullest the record has
       //   ACTUALLY been — so an intro accrues nothing by being small. It is
       //   establishing, not withholding: you cannot miss what you have not
@@ -711,11 +1075,19 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     const union = new Set<Role>();
     for (const sp of spans) for (const r of sp.heard) union.add(r);
     const held = Object.freeze(union) as ReadonlySet<Role>;
+    // REBUILT FIELD BY FIELD, so every field of `Span` has to be named here
+    // too. The cast at the end means a field left out is not a type error —
+    // it is a field that silently stops existing downstream, which is how
+    // `at` was dropped on its first outing while `npm run check` stayed
+    // green. If you add to `Span`, add to this.
     const frozen = Object.freeze(
       spans.map((sp) => Object.freeze({
         heard: Object.freeze(sp.heard) as ReadonlySet<Role>,
         thin: sp.thin,
         treatment: sp.treatment,
+        at: sp.at,
+        hush: sp.hush,
+        halved: sp.halved,
       })),
     ) as readonly Span[];
     return Object.freeze({
@@ -724,6 +1096,8 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       heard: held,
       thin,
       broken,
+      swell,
+      manner,
       spans: frozen,
     });
   });

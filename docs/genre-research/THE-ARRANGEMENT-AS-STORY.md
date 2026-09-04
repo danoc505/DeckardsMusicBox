@@ -39,8 +39,22 @@ in theater, film, and other narrative or dramatic media". The climax is often
 established musical materials" (Ableton, "Dramatic Arc").
 
 This program already has the climax: the form declares a peak and the peak is
-the one section with everybody. It has no dénouement — nothing knows that an
-ending should give back what the record opened with.
+the one section with everybody. ~~It has no dénouement — nothing knows that an
+ending should give back what the record opened with.~~
+
+**It has three of the five now.** The dénouement was built as rule 4 below —
+the ending gives back what the record opened with, and holds it to the last
+SPAN rather than the last section. And RISING ACTION, which nothing here even
+named until it was noticed missing from this list: `form.arc` interpolates
+between section centres, so the section before the peak was a flat step on the
+way up rather than a section that goes anywhere. `Placed.swell` makes it a
+run-up — the weight climbs across it from the arc's own quietest to nothing
+held back at all, so the section arrives at full and the climax lands on top of
+it. Measured, 170 of 200 lofi records and 175 of 200 dungeon synth ones have
+one, and the gain rises 43% and 23% across it.
+
+Exposition and falling action are still nobody's: the first statement of an
+idea is not marked as one, and nothing after the peak knows it is coming down.
 
 ## 4. Absence is for the return
 
@@ -98,7 +112,7 @@ program has the right idea and applies it only to the smaller decision.
 |---|---|---|
 | 1 | Who plays in a section is **derived from what the record has done**, not read off a fixed list | Almén 2008 |
 | 2 | A part the record introduced has **standing**, which is what makes it expensive to drop — no special case for the opener, it simply has the most standing when a record is young | falls out of rule 1 |
-| 3 | An absence has a **ceiling**: past it, a part is not absent, it is gone | Johnson & Poyser; MusicRadar |
+| 3 | ~~An absence has a **ceiling**: past it, a part is not absent, it is gone~~ **MEASURED AND FALSE — see §8** | Johnson & Poyser; MusicRadar |
 | 4 | The ending restates what the record opened with | Ableton, dénouement |
 | 5 | The genre's `shed` order stays, as a **weight** and never as an order | this program's own span score |
 
@@ -106,7 +120,8 @@ No rule names a part, a genre, or a number.
 
 ## 8. What it came to, measured
 
-Rules 1, 2 and 4 are built. Same two sweeps, before and after:
+Rules 1, 2 and 4 are built, and rule 5 now has a value in both genres. Same
+two sweeps, before and after:
 
 | | lofi | dungeon synth |
 |---|---|---|
@@ -119,8 +134,37 @@ Rules 1, 2 and 4 are built. Same two sweeps, before and after:
 
 **The one that carries this is the first row.** Parts stopped being abandoned:
 a record that drops a part now brings it back, in both genres, five times out
-of a hundred instead of fifteen and twenty-five. That is the ceiling in rule 3
-working without a number, out of the arithmetic alone.
+of a hundred instead of fifteen and twenty-five. ~~That is the ceiling in rule 3
+working without a number, out of the arithmetic alone.~~
+
+**That attribution is wrong, and rule 3 does not exist.** Tested on and off at
+last — `HANDOFF.md` item 5 asked for exactly this — over 500 seeds a genre,
+2500 parts each. The absence distribution does not move at all:
+
+| | median | p90 | p99 | max |
+|---|---|---|---|---|
+| lofi, all three ways | 8 | 20 | 32 | 36 bars |
+| dungeon synth, all three ways | 16 | 40 | 56 | 88 bars |
+
+Identical with `share / (1 + out)`, with `share` alone, and with `1/(1 + out)`
+alone. **Nothing here bounds how long a part stays away.** Whatever produced the
+15% → 5% and 25% → 5% above, it was not a ceiling, because there is no ceiling
+to be had from this term — and a rule credited with a result it did not produce
+is worse than a rule that was never built.
+
+What the two terms do move is abandonment, and they pull against each other,
+oppositely by genre:
+
+| gone for good | both | `share` only | ceiling only |
+|---|---|---|---|
+| lofi | **2.56%** | 2.76% | 2.92% |
+| dungeon synth | 2.64% | 3.20% | **1.96%** |
+
+`share` carries lofi; the `1/(1+out)` term carries dungeon synth; the product is
+worse than the better single term in both. It is kept as the product only
+because it is the one combination that is not worst in some genre. **Which is
+right is a listening question**, and it goes on the pile with everything else
+`TALLY.md` §0 is waiting on.
 
 **Rule 4 had to be built separately, and had to reach the last SPAN.** With
 rules 1 and 2 alone the ending got worse, not better — 75% → 50% in lofi —
@@ -129,16 +173,45 @@ it into the closing SECTION only got that to 55%: the span score was still
 free to take it out four bars from the end. Holding it to the close itself is
 what recovered 75% and lifted dungeon synth to 70%.
 
-**And one number went the wrong way.** lofi's top part changes between halves
-fell, 20% → 15%, where dungeon synth's rose 30% → 45%. lofi is beat music: its
-drums sit at the bottom of its own shed order and play nearly every bar, so
-the most-present part is close to fixed no matter what this rule does. Either
-the metric is asking lofi the wrong question, or rule 1 needs a term that
-knows about rank rather than presence. It is recorded here as not solved.
+**And one number went the wrong way — SOLVED, and the reason given here was
+wrong.** lofi's top part changes between halves fell, 20% → 15%, where dungeon
+synth's rose 30% → 45%. This paragraph blamed the metric or rule 1, and said
+lofi's "drums sit at the bottom of its OWN shed order". They did not. lofi
+stated no shed order at all and inherited the pop default
+`drone, keys, lead, bass, drums`, so the genre that ENTERS on its keys shed its
+foundation second and its beat never: `affords()` gave its drums 0.2, the
+minimum, everywhere a part can leave. Measured over forty seeds, the drums were
+heard in 100% of bars of 40 records out of 40 and were never absent for a
+single bar — the most-present part could not change because one part never
+stopped playing.
 
-**Still `[chosen]` and still unmeasured:** rule 3 has no explicit ceiling —
-the `1/(1+out)` term is a soft one, and whether a hard number does anything
-the soft one does not has not been tested.
+lofi now states `shed: ["drone", "lead", "drums", "bass", "keys"]`. Rule 1
+needed no rank term; rule 5 — "the genre's `shed` order stays, as a weight" —
+was already carrying it, and lofi had never given it a value.
+
+Measured over forty seeds, before and after, and note this is NOT the metric
+the table above uses — that one was measured with the script §2 of `TALLY.md`
+records as missing, so these are a fresh definition (most-present part counted
+by bars, each half of the record) and only the two columns compare:
+
+| | before | after |
+|---|---|---|
+| drums heard | 100% of bars | **78%** |
+| the drums' longest absence | 0 bars | **10 bars** |
+| records where the drums are never once absent | 40/40 | **4/40** |
+| the top part changes, first half to second | 0/40 | **21/40** |
+
+The lesson is worth more than the fix: the fault was never in the rule. It was
+a genre inheriting a number written for other music, which is the third time
+this program has been caught doing that.
+
+**Measured, and the answer was that the soft one does nothing either.** The
+question used to read: rule 3 has no explicit ceiling, the `1/(1+out)` term is a
+soft one, and whether a hard number does anything the soft one does not has not
+been tested. It has now, and the soft term is not a ceiling of any strength —
+so a hard number is not a refinement of it, it would be the first ceiling this
+program has ever had. Whether it needs one is open, and unlike before, it is now
+open with a number behind the question.
 
 ## Sources
 

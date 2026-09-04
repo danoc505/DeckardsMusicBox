@@ -136,37 +136,79 @@ unverifiable claim in these docs, and it undermines the rest of them. Give
 share, its longest absence, whether it plays at the end, whether the
 most-present part changes between halves.
 
-**3. lofi's hierarchy does not move.** The new arrangement rule took dungeon
-synth's top-part-change from 30% to 45%; lofi's fell, 20% to 15%. Its drums sit
-at the bottom of its own shed order and play nearly every bar, so its
-most-present part is near-fixed whatever the rule does. Either the measure asks
-lofi the wrong question, or the rule needs a term that knows about RANK rather
-than presence. This is the interesting one.
+**3. ~~lofi's hierarchy does not move.~~ DONE — and the diagnosis in this
+entry was wrong.** It read "its drums sit at the bottom of its OWN shed order".
+They did not: lofi stated no shed order at all, and inherited the pop default
+`drone, keys, lead, bass, drums` — so the genre that ENTERS on its keys shed
+its foundation second and its beat never. `affords()` is the only voice a genre
+has in who leaves, and it gave lofi's drums 0.2, the minimum, in both the
+section walk and the span score; at span level `hold-back` (the drums thinned)
+is priced at 1 against `part-out` (the drums gone) at 0.2, so the stage could
+only ever take the hat. Measured over forty seeds: the drums were heard in 100%
+of bars, in 40 records out of 40, and were never once absent for a single bar.
 
-**4. Two genre proposals, both one line, both sourced.** `introSec: 64` and
-`fewest: 1` at the outro — see `DUNGEON-SYNTH-ARRANGEMENT.md` §8 and
-`TALLY.md` §2. Both change how every dungeon synth record opens and closes, so
-they are the owner's call.
+lofi now states `shed: ["drone", "lead", "drums", "bass", "keys"]` with its
+sources. Drums 100% → 78% of bars, longest absence 0 → 10 bars, never-absent
+40/40 → 4/40; the most-present part changes between the halves of a record in
+21 seeds of 40 where it changed in none. The same fault dungeon synth found in
+the same default, with the parts swapped — so no new term was needed, only the
+genre saying the sentence `spec.ts` already says is its to say.
 
-**5. The absence ceiling has no number and may not need one.** The `1/(1+out)`
-term in the section decision is a soft ceiling and it did the work alone.
-Whether a stated number adds anything has never been tested. Test it on and
-off; if it does nothing, delete it and keep the note.
+The lesson worth keeping: this entry sent a reader into `arrange.ts` looking to
+build "a term that knows about RANK rather than presence", when the genre-voice
+term was already there and had simply never been given a value. A doc that
+mis-states where a number comes from costs more than a missing doc.
 
-**6. Ten alterations are still static** — azimuth, pedal swap, patch, medium,
-modulation, kit and circuit swap, lane controls. Each is a `SoundSpec` leaf and
-the plumbing is already built. **Each one now has to earn its place**: add it
-to `TREATMENTS`, give `reaches` in `treat.ts` the line that says which unit it
-arrives through, and `treat.test.ts` will render it and tell you whether it
-moved the record on each genre. A new leaf that does not clear the floor is a
-leaf that gets deleted, not one that gets shipped and measured later.
+**4. ~~Two genre proposals, both one line, both sourced.~~ BOTH APPLIED, and
+neither ended up being the one line it looked like.** `introSec: 64` is now a
+constraint rather than a number: `resolve.ts` refuses at load an intro length
+that cannot fit under the genre's own ceiling at its own fastest tempo, and the
+silent fallback in `form.ts` that used to take the shortest length whenever
+nothing fitted is gone. `fewest: 1` at the outro is not a second value for
+`fewest` at all — a floor is about a section that carries on, and the last one
+does not, so the ending is floored by what the record OPENED with instead.
+Numbers in `TALLY.md` §2.
 
-**6a. lofi rotates rather than chooses.** Its treatment pool is evenly
-weighted, so the freshness term alone decides and every record walks the
-declared order: `darken`, `drench`, `dry`, `push`, `ease`, `widen`, `close`,
-the same sequence in six of the first eight seeds. That is the failure the shed
-order had before the arrangement got a memory — a list has no memory, so
-nothing that happens in a record can affect it. `TALLY.md` §2.
+**5. ~~The absence ceiling has no number and may not need one.~~ TESTED — and
+there was never a ceiling.** Over 500 seeds a genre the absence distribution is
+identical with the `1/(1+out)` term, without it, and with `share` dropped
+instead: lofi median 8 / p90 20 / p99 32 / max 36 bars, dungeon synth 16 / 40 /
+56 / 88. The term is not a soft ceiling; it is not a ceiling. It does move
+abandonment — and `share` and it pull opposite ways, `share` carrying lofi and
+the ceiling term carrying dungeon synth, with the product worse than the better
+single term in both. Not deleted, because it does something; the claim it
+carried is corrected in `arrange.ts` and in `THE-ARRANGEMENT-AS-STORY.md` §8.
+What is still open is which combination is right, and that is a listening
+question.
+
+**THE ALTERATIONS ARE NOW A PLAN, NOT A LIST.** The owner has asked for all 65
+built and all 65 available. `docs/BUILDING-THE-ALTERATIONS.md` is the plan —
+six phases, what each delivers, what number says it worked, and what could make
+it wrong. Items 6 and 7 below are Phase 2 and Phase 5.1 of it. **Read that doc
+before starting either**: the pool cannot safely grow until the span score
+prices a move's KIND and a genre's LAYER (Phase 1), and that is a hard blocker,
+not a caveat.
+
+**6. ~~Ten alterations are still static~~ BUILT — azimuth, pedal swap, patch,
+medium, modulation, kit and circuit swap, lane controls.** `TREATMENTS` is 23,
+and every one of the eleven added carries the line in `reaches` that says which
+unit it arrives through. Measured by `treat.test.ts`, which renders each of
+them on each genre: nothing was deleted, because everything offered clears the
+floor. lofi is offered 20 of the 23 and dungeon synth 21. `recircuit` is
+refused by both — neither genre runs the analogue kit, so there is no other
+circuit for it to be — `brighten` by lofi, which has no pole in its sum, and
+`echoed` by dungeon synth, which feeds no echo.
+
+The rule that got them there still stands for the rest of the catalogue: add it
+to `TREATMENTS`, give `reaches` the line that says which unit it arrives
+through, and let `treat.test.ts` say whether it moved the record. A new leaf
+that does not clear the floor is a leaf that gets deleted, not one that gets
+shipped and measured later.
+
+**6a. ~~lofi rotates rather than chooses.~~ DONE.** lofi now states its own
+treatment weights from its own sources, and the even default it was running on
+was never even: pool order alone decided a hard 54-to-1 ranking, taken from the
+order of a `const` in `spec.ts` that no author chose. `TALLY.md` §2.
 
 **7. Partial variation**, which `THE-ALTERATIONS.md` calls the most useful kind
 for a generator: first half identical, second half diverges. Only whole-line

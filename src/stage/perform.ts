@@ -63,6 +63,8 @@ export interface Event {
 export interface DeskChange {
   readonly tSec: number;
   readonly treatment: Treatment | null;
+  /** The part a per-part treatment is aimed at; null for a whole-desk one. */
+  readonly at: Role | null;
 }
 
 export interface Performance {
@@ -91,6 +93,25 @@ const TAIL_SEC = 2.5;
  * rather than shaped.
  */
 const PHRASE_PEAK = 0.4;
+
+/**
+ * THE LENGTH LADDER, and the whole of what a manner may do.
+ *
+ * Ordered by how much of its written length a note sounds for: ring and slur
+ * hold all of it, tenuto 0.95, plain 0.8, staccato 0.5. `tongued` moves a note
+ * one rung toward the short end and `sung` one rung toward the long, and
+ * NOTHING ELSE MOVES. A ghost, an accent, a bend, a slide and a marcato each
+ * carry something besides length — a weight, a pitch, a hand — and a manner
+ * that flattened them would be rewriting what the material said rather than
+ * playing it differently.
+ *
+ * AND ONLY TO A MANNER THE PART'S OWN GENRE CARRIES. Every part has a pool its
+ * instrument can physically produce — "a struck piano does not bend, and the
+ * tables that say so live with the parts" — so a step whose destination is not
+ * in that pool is not taken. That is what keeps this from handing an
+ * instrument a manner nobody wrote for it.
+ */
+const LADDER: readonly ArtName[] = ["ring", "tenuto", "plain", "staccato"];
 
 /**
  * A phrase, shaped: 0 at its ends and 1 at its height.
@@ -140,6 +161,7 @@ export function makePerformance(
   // genre's, so the first entry is only written if bar zero is already treated.
   const desk: DeskChange[] = [];
   let deskNow: Treatment | null = null;
+  let atNow: Role | null = null;
 
   for (const placed of arrangement.placed) {
     const m = materials.all.get(placed.material);
@@ -153,11 +175,64 @@ export function makePerformance(
       return l;
     };
 
+    // the manners this genre grants each part, so a step is only ever taken
+    // into something the part already had
+    const canPlay = (role: Role, art: ArtName): boolean => {
+      const pool = (chart.genre as unknown as Record<string, { art?: readonly (readonly [ArtName, number])[] }>)[role]?.art;
+      return pool === undefined || pool.some(([a, w]) => a === art && w > 0);
+    };
+    /**
+     * AND ONLY THE PARTS THAT REPEAT. The tune and the drums are written per
+     * time ROUND — the lead reads a plan of four letters straight through a
+     * record and the drums treat their figure differently each time — so they
+     * already arrive changed without this. Handing them differently on top is
+     * a second change to a part that is already changing, which is the same
+     * reason a section given new notes or a new desk is left alone here:
+     * nothing is held still to hear the change against.
+     *
+     * The groove is what comes back literally, and it is what a third hearing
+     * has to answer for.
+     */
+    /**
+     * HOW MUCH SHAPE THE HAND PUTS IN, for the two manners that are about that
+     * rather than about length. `arched` deepens both the arch across a loop
+     * (move 27) and the lean on the metre's own strong steps (move 23, its
+     * depth); `level` flattens both, which is a section played straighter.
+     *
+     * Scaled from what the genre set, never replaced, so a genre that leans on
+     * nothing is not handed a lean it never asked for — and clamped, because
+     * both are shares of a weight and neither may exceed one.
+     */
+    const depth = placed.manner === "arched" ? 1.8 : placed.manner === "level" ? 0.3 : 1;
+    const phrase = Math.min(1, F.phrase * depth);
+    const accent = Math.min(1, F.accent * depth);
+    const accents = depth === 1
+      ? accentAt
+      : Array.from({ length: clock.steps }, (_, st) => 1 - accent * (1 - metricalStrength(st, chart.metre)));
+
+    const handed = (role: Role, art: ArtName): ArtName => {
+      if (placed.manner === null || role === "lead" || role === "drums") return art;
+      if (placed.manner !== "tongued" && placed.manner !== "sung") return art;
+      const at = LADDER.indexOf(art);
+      if (at < 0) return art;
+      const to = LADDER[at + (placed.manner === "tongued" ? 1 : -1)];
+      return to !== undefined && canPlay(role, to) ? to : art;
+    };
+
     for (let bar = section.startBar; bar < section.endBar; bar++) {
       const mbar = (bar - section.startBar) % m.bars;
       const round = Math.floor((bar - section.startBar) / m.bars);
       const arc = form.arc[bar] ?? section.energy;
-      const level = 1 - ARC_DEPTH + ARC_DEPTH * arc;
+      // AND A SECTION THAT BUILDS ARRIVES RATHER THAN SITS. `placed.swell` is
+      // the arc's rising action — the run-up to the climax, which the form
+      // declares and the arc could only ever step towards. Across the section
+      // the weight climbs from the arc's own quietest to nothing held back at
+      // all, so the section reaches its end at full and the peak lands on top
+      // of it. The depth is `ARC_DEPTH` again: what a step down means here is
+      // already written, and a crescendo is that step, taken back.
+      const intoIt = section.bars <= 1 ? 1 : (bar - section.startBar) / (section.bars - 1);
+      const build = placed.swell ? 1 - ARC_DEPTH * (1 - intoIt) : 1;
+      const level = (1 - ARC_DEPTH + ARC_DEPTH * arc) * build;
       const stepSec = clock.stepSec(bar);
       // THE PHRASE IS THE LOOP, and where this bar falls in it is where the
       // phrase has got to. The LOOP and not the material: a four-bar material
@@ -177,13 +252,14 @@ export function makePerformance(
       // becomes a range of bars. The last span runs to the end.
       const span = placed.spans[
         Math.min(placed.spans.length - 1, Math.floor((bar - section.startBar) / (2 * loop)))
-      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null };
+      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
       // the treatment changes on and nowhere else, so a treatment held across
       // several spans rebuilds nothing.
-      if (span.treatment !== deskNow) {
+      if (span.treatment !== deskNow || span.at !== atNow) {
         deskNow = span.treatment;
-        desk.push({ tSec: clock.at(bar), treatment: deskNow });
+        atNow = span.at;
+        desk.push({ tSec: clock.at(bar), treatment: deskNow, at: atNow });
       }
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
@@ -229,10 +305,13 @@ export function makePerformance(
         // the manner decides how much of the written length the note keeps
         // and what it weighs against its neighbours; everything else about
         // it — the glide, the attack, the strikes — is the sound stage's
+        // and the manner this restatement is played in, which may only move a
+        // note along the length ladder and only into what the part carries
+        art = handed(role, art);
         const a = artOf(art);
         // where the note sits inside the phrase, to the step: a bar is not a
         // flat step of the shape either
-        const shaped = 1 - F.phrase + F.phrase * phraseShape(through + step / (clock.steps * loop));
+        const shaped = 1 - phrase + phrase * phraseShape(through + step / (clock.steps * loop));
         events.push({
           tSec: clock.at(bar, playedStep),
           bar,
@@ -242,7 +321,19 @@ export function makePerformance(
           lane,
           pitch,
           durSec: dur * stepSec * a.hold,
-          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accentAt[step] ?? 1) * missed * level * shaped)),
+          // AND A PART HELD BACK PLAYS AT THE ARC'S OWN QUIETEST. `span.hush`
+          // is the two-loop rule's "reduce expression of an existing
+          // instrument" on a part rather than on the drums' hat, and what a
+          // step down means is already written here: `ARC_DEPTH` is what the
+          // arc takes off at its quietest, so a hushed part is held back by
+          // exactly that and no new number is invented for it.
+          //
+          // Gain, and nothing but gain. The law above addresses the hand by
+          // the material so a figure played again is played the same way, and
+          // it compares step, pitch, articulation and the played instant. A
+          // weight is none of those and the arc already moves it bar by bar.
+          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accents[step] ?? 1) * missed * level * shaped
+            * (span.hush === role ? 1 - ARC_DEPTH : 1))),
           art,
         });
       };
@@ -253,7 +344,15 @@ export function makePerformance(
             if (h.bar !== mbar) continue;
             // thinning is the hat coming off: the pulse stays, the shimmer goes
             if (span.thin && (h.lane === "hat" || h.lane === "openhat")) continue;
-            place("drums", h.lane, h.step, 1, null, h.vel, h.art);
+            // AND HALF TIME IS THE KIT TAKING TWICE AS LONG TO SAY THE SAME
+            // THING. A hit at step s is played at 2s, and one that would fall
+            // past the bar is not played: the figure keeps its shape, the
+            // backbeat walks from the second beat to the third, and the kit
+            // halves. Only the drums, because only the drums are outside the
+            // law that holds a figure to being played the same way twice.
+            const at = span.halved ? h.step * 2 : h.step;
+            if (at >= clock.steps) continue;
+            place("drums", h.lane, at, 1, null, h.vel, h.art);
           }
         } else {
           const notes = role === "lead" ? nth(m.lead, "lead", round) : m.groove[role];

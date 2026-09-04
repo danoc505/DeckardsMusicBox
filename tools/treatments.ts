@@ -149,8 +149,11 @@ for (const g of genres) {
       // through `deskOf`, which hands the renderer nothing for a move it
       // refused — so every refused treatment would print as no change because
       // it was refused, and the table could never say whether a refusal was
-      // right. `specOf` is the move unfiltered.
-      const out = render(flat, { sampleRate: SR, desk: specOf(t as Treatment, genreOf(g).sound) });
+      // right. `specOf` is the move unfiltered — and null from it is not a
+      // refusal either but a move with nothing to write on this desk, which
+      // renders the record unchanged and prints as the 0 dB it is.
+      const spec = specOf(t as Treatment, genreOf(g).sound);
+      const out = render(flat, { sampleRate: SR, ...(spec === null ? {} : { desk: spec }) });
       const c = centre(out.left, SR);
       process.stdout.write(
         `  ${t.padEnd(12)}` +

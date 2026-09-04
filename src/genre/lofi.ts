@@ -21,6 +21,15 @@ export const lofi: GenreSpec = {
   // hooks, a short bridge — which at 80 bpm is the two-and-a-half-minute
   // beat-tape track
   form: {
+    /**
+     * THE CEILING IS THIS GENRE'S, NOT A POP SINGLE'S. The default is 12
+     * seconds and it is cited to Léveillé Gauvin's 303 top-10 singles — an
+     * attention-economy figure about the skip button on a chart record. This
+     * genre is a beat tape, not a single, and inheriting that number meant
+     * 49% of its records broke their own stated ceiling while its 8-bar intro
+     * could never be drawn at all: 4 bars, 100% of the time, over 400 records.
+     */
+    introSec: 30,
     lengths: {
       intro: [[4, 3], [8, 1]],
       verse: [[16, 5], [8, 2]],
@@ -160,7 +169,120 @@ export const lofi: GenreSpec = {
     contour: [["sung", 4], ["riff", 3], ["chant", 1]],
   },
 
-  arrangement: { enter: ["keys", "drums", "bass", "lead", "drone"] },
+  arrangement: {
+    enter: ["keys", "drums", "bass", "lead", "drone"],
+    /**
+     * AND THE KEYS ARE THE LAST THING THIS GENRE GIVES UP, which the default
+     * gets exactly backwards and which has to be said here or it is inherited
+     * wrong.
+     *
+     * The default order is `drone, keys, lead, bass, drums`, written for pop:
+     * the pad goes, then the chord part, and the kit is the one thing a record
+     * is never without. This genre ENTERS on its keys — they are the first
+     * sound of every record it makes — and inheriting that order therefore
+     * shed its foundation second and its beat never. Measured over forty
+     * seeds, the drums were heard in 100% of bars of 40 records out of 40 and
+     * were never once absent for a single bar, which is the failure this
+     * file's own arrangement header was written to prevent: "a solid block of
+     * one colour from the first chorus to the end". It is the same fault
+     * dungeon synth found in the same default and for the same reason — a
+     * genre founded on a part, shedding it first — with the parts swapped.
+     *
+     * So the pad goes first, which this file already says of it ("arriving
+     * last and leaving first"), then the muted guitar, then the beat, then the
+     * bass. What a quiet section keeps is the bass and the Rhodes, which is
+     * what this music sounds like when it is being quiet, and what it drops is
+     * the beat: the genre is written in "1.5-3 minute tracks with brief
+     * intros/outros, occasional dropout sections, and minimal variation"
+     * (melodigging.com/genre/lo-fi-hip-hop), and a dropout section in a beat
+     * is the beat dropping out.
+     *
+     * Measured on and off over forty seeds: drums 100% of bars and never once
+     * absent, to 78% with a longest absence of ten bars; and the most-present
+     * part of the record changes between its halves in 21 seeds of 40, where
+     * under the inherited order it changed in none of them.
+     */
+    shed: ["drone", "lead", "drums", "bass", "keys"],
+    /**
+     * THE GENRE IS NAMED AFTER ITS OWN DESK, so it had better state what that
+     * desk does. It did not: it inherited the even default and, measured over
+     * sixty seeds, fired `wear` ONCE while dungeon synth fired it 48 times.
+     * The one move that is literally this genre's name almost never happened.
+     *
+     * `wear` is first because the sources put it first — tape saturation is
+     * "pretty much the backbone" and what the listener is there for is
+     * "vinyl crackles, tape hiss, and background noise"
+     * (blog.soundtrap.com/lofi-music-production); tape's own character is
+     * "compression, harmonic distortion, high-frequency rolloff" with "wow
+     * (slow pitch drift) and flutter (fast pitch wobble)"
+     * (northernvalleyaudio.com/blog/lofi-tape-saturation-production-guide).
+     * `darken` is second on the same authority: "low-pass filtering for
+     * warmth" and "muffled frequencies" are named as the sound, and the
+     * rolloff above is the same move arriving from the tape. Then the pair
+     * the sources name together — "heavy use of reverb and delay".
+     *
+     * AND `brighten` IS KEPT LAST, for the reason dungeon synth keeps it
+     * light: this genre's entire move is taking the top off. A record that
+     * brightens as often as it darkens has no direction, and that is exactly
+     * what the even default produced — brighten 48 against darken 54.
+     *
+     * ORDERED BY WEIGHT ON PURPOSE. Where two treatments tie, the winner is
+     * whichever the genre listed FIRST — `fit > bestFit` is strict, so ties
+     * fall to pool order, which is this array's order. Measured: the same
+     * weights in a reversed array reverse the distribution exactly. So the
+     * order inside a tie is a real choice and is made here rather than left
+     * to whatever order the array happened to be typed in. See TALLY §2.
+     */
+    treat: [
+      ["wear", 6],
+      ["darken", 5],
+      ["drench", 4],
+      ["echoed", 4],
+      ["push", 3],
+      ["far", 2],
+      ["dry", 2],
+      ["close", 2],
+      ["ease", 2],
+      ["widen", 1],
+      // NO `sweep`. It was weighted here and `deskOf` refused it every time:
+      // this genre leaves `sweepDepth` at zero on every part, and three times
+      // zero is zero. A weight nothing can read is invisible config, so it
+      // says nothing rather than saying it uselessly — and a genre that gives
+      // a part a sweep can state one then.
+      ["brighten", 1],
+      // THE FIVE THE DESK HAD AND COULD NEVER MOVE, and two of them are this
+      // genre's own subject rather than additions to it.
+      //
+      // `waver` is wow and flutter as a MOVE: the sources put "wow (slow pitch
+      // drift) and flutter (fast pitch wobble)" at the centre of the sound,
+      // and `wear` already reaches the tape's own wobble — this reaches the
+      // tremolo and the phaser, which is the same idea on the board. `medium`
+      // is a beat dropping into a small radio, which is the genre's whole
+      // posture about fidelity, and it is kept rare so it stays an event
+      // rather than a costume.
+      ["waver", 3],
+      // "heavy use of reverb and delay" covers the size of the room as well
+      // as how much is sent to it, so this sits with `drench` and `echoed`.
+      ["linger", 3],
+      ["medium", 2],
+      ["orbit", 2],
+      ["repatch", 1],
+      ["stomp", 1],
+      // AND THE MACHINE. `soak` is the snare into the room while the kick
+      // stays dry, which is how a break was recorded before it was sampled,
+      // and `slacken` is a kit tuned down and left to ring — both of them the
+      // genre's own posture applied to the drums instead of to the sum. They
+      // rank above `rekit`, which trades this genre's whole boom-bap kit for
+      // the analogue box mid-record: a real hip hop move and a drastic one.
+      // No `recircuit`: it needs the analogue kit loaded and this genre plays
+      // the acoustic one, so `deskOf` refuses it and the weight would never
+      // be read.
+      ["soak", 3],
+      ["slacken", 2],
+      ["spotlight", 2],
+      ["rekit", 1],
+    ],
+  },
 
   sound: {
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
@@ -183,6 +305,36 @@ export const lofi: GenreSpec = {
   },
 
   sources: {
+    "form.introSec":
+      "the default 12 s is Léveillé Gauvin's attention-economy figure from 303 top-10 SINGLES, which this genre " +
+      "is not: a lo-fi track is a beat tape cut, and its guides describe sections on the order of \"20-30 seconds " +
+      "long\" with \"about 4-6 sections to make a complete track\" (richardpryn.com/lofi-music-structure). " +
+      "30 s admits this genre's own 8-bar intro — 21.8-26.7 s across its tempo range — which the inherited " +
+      "ceiling made undrawable. [chosen] at the top of the range that source names",
+    "arrangement.treat":
+      "tape saturation is \"pretty much the backbone\" and the genre is \"vinyl crackles, tape hiss, and " +
+      "background noise\" with \"low-pass filtering for warmth\" and \"heavy use of reverb and delay\" " +
+      "(blog.soundtrap.com/lofi-music-production); tape's own character is \"compression, harmonic distortion, " +
+      "high-frequency rolloff\" with \"wow (slow pitch drift) and flutter (fast pitch wobble)\" " +
+      "(northernvalleyaudio.com/blog/lofi-tape-saturation-production-guide). So wear, then the filter, then the " +
+      "reverb and the delay the sources name in one breath. Brighten is last because this genre's move is taking " +
+      "the top off. The numbers are [chosen] — the sources name the moves and rank only by which they lead with. " +
+      "AND THE FIVE OFF THE RACK: wow and flutter are named as the sound itself, \"wow (slow pitch drift) and " +
+      "flutter (fast pitch wobble)\" (northernvalleyaudio.com), so `waver` — that idea on the board rather than " +
+      "on the tape — ranks highest of them; `medium` is what \"low fidelity\" means and is kept rare so it stays " +
+      "an event. All five rank under wear and the filter because the sources lead with those. AND THE MACHINE: " +
+      "the genre is built on a sampled break, so the snare in the room against a dry kick (`soak`) and a kit " +
+      "tuned down and left to ring (`slacken`) are how its own drums were recorded before they were sampled; " +
+      "`rekit` trades the whole kit for the analogue box and is kept lowest of them. Numbers [chosen]",
+    "arrangement.shed":
+      "the sources describe this genre taking elements away and rank nothing while doing it: " +
+      "\"bring in one element at a time for four or eight bar phrases, remove things when they feel too " +
+      "repetitive, and bring them back in when it feels appropriate\" " +
+      "(blog.native-instruments.com/lo-fi-hip-hop-beats), and \"occasional dropout sections\" " +
+      "(melodigging.com/genre/lo-fi-hip-hop). So the ORDER is [chosen], and it is argued from what this " +
+      "genre already states rather than from a page: it enters on its keys, so the keys are its " +
+      "foundation and go last, and its own drone note says the pad arrives last and leaves first, so the " +
+      "pad goes first. The two placements between them are [chosen]",
     tempo:
       "70–90 bpm with the sweet spot at 75–85 (blog.native-instruments.com/lo-fi-hip-hop-beats); " +
       "70–80 (blog.flat.io/lofi-chord-progressions); 72–88 keeps both ends inside the genre [chosen inside the range]",

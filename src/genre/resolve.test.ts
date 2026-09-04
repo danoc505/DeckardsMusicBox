@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { resolveGenre, resolveAll, GenreError } from "./resolve.ts";
 import { DEFAULTS, type GenreSpec } from "./spec.ts";
-import { metreFixture } from "./testing.ts";
+import { anyTempoIntro, metreFixture } from "./testing.ts";
 
 const specs = (o: Record<string, GenreSpec>) => o;
 
@@ -67,7 +67,7 @@ test("arrays replace and never merge", () => {
 
 test("a chain of three resolves oldest first", () => {
   const all = specs({
-    a: { label: "A", tempo: [60, 61], lengthSec: [10, 20] },
+    a: { label: "A", tempo: [60, 61], lengthSec: [10, 20], ...anyTempoIntro },
     b: { label: "B", extend: "a", tempo: [70, 71] },
     c: { label: "C", extend: "b", ...metreFixture(3, 4) },
   });
@@ -140,7 +140,7 @@ test("a citation naming a field that does not exist is refused", () => {
 
 test("a derived genre may add a citation and correct an inherited one", () => {
   const all = specs({
-    base: { label: "B", tempo: [60, 70], sources: { tempo: "old" } },
+    base: { label: "B", tempo: [60, 70], sources: { tempo: "old" }, ...anyTempoIntro },
     kid: { label: "K", extend: "base", tempo: [90, 95], sources: { tempo: "new", scales: "s" } },
   });
   const g = resolveGenre("kid", all);

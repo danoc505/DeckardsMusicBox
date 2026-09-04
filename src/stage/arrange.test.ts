@@ -1,10 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { makeArrangement, describeArrangement, type Arrangement } from "./arrange.ts";
+import { NEEDS_DRUMS, deskOf } from "./treat.ts";
+import { settle } from "../sound/render.ts";
 import { makeChart } from "./chart.ts";
 import { makeForm } from "./form.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
-import { ROLES } from "../genre/spec.ts";
+import { ROLES, TREATMENTS } from "../genre/spec.ts";
 
 const lofi = GENRES.lofi;
 const build = (seed: number, seconds: number | null = 240): Arrangement => {
@@ -99,7 +101,7 @@ test("the record ends carrying what it opened with", () => {
   assert.ok(inOutro / records > 0.9, `the opening is in the outro of only ${((100 * inOutro) / records).toFixed(0)}% of records`);
 });
 
-test("the break is the one section below the floor, and it carries the opening", () => {
+test("the break goes below the floor mid-record, and it carries the opening", () => {
   // A breakdown is "a section of a song in which various instruments have solo
   // parts (breaks)", made by "stripping away of other instruments and vocals";
   // breakdowns "usually precede or follow heightened musical climaxes"
@@ -122,11 +124,27 @@ test("the break is the one section below the floor, and it carries the opening",
       assert.notEqual(p.section.fn, "outro", `the record breaks down in its outro: ${describeArrangement(a)}`);
       assert.ok(p.section.index > 0, "the record breaks down before it has played anything");
     }
-    // every other section still holds the floor
+    // every other section that CARRIES ON still holds the floor. The last one
+    // is not floored by `fewest` — see `floor` in arrange.ts and §5 of
+    // THE-INTRO.md, which used to call the break the one place below the
+    // floor and was corrected when an ending was researched. What holds the
+    // ending up is the dénouement, asserted by its own test above, not a
+    // number: measured, "ends carrying what it opened with" is unchanged at
+    // 97% and 87% by this rule, while dungeon synth's drone-alone ending went
+    // 0% → 10%.
+    const lastIndex = a.placed.length - 1;
     for (const p of a.placed) {
-      if (p.broken || p.section.fn === "intro") continue;
+      if (p.broken || p.section.fn === "intro" || p.section.index === lastIndex) continue;
       assert.ok(p.heard.size >= Math.min(A.fewest, ROLES.length), `${p.section.fn} is under the floor and is not a break: ${describeArrangement(a)}`);
     }
+    // and the ending never goes below what the record opened with, capped at
+    // the floor: an ending may rest on less than a middle section, never more
+    const closing = a.placed[lastIndex]!;
+    const opened = a.placed[0]!.heard.size;
+    assert.ok(
+      closing.heard.size >= Math.min(A.fewest, opened),
+      `the ending fell below its own opening: ${describeArrangement(a)}`,
+    );
   }
   // measured at 52% of records at 200 seconds, and it needs a quiet section to
   // land in: the break sits where a bridge would, so a record without one has
@@ -167,9 +185,12 @@ test("parts arrive in order, and how many play is the section's energy", () => {
       // NOBODY PLAYS BEFORE THEY HAVE ARRIVED, and no section falls below the
       // floor the genre carries.
       assert.ok(p.heard.size <= arrived, `${s.fn} hears more than have arrived: ${describeArrangement(a)}`);
-      // the break is the one section allowed under the floor, and it is the
-      // only one — see the break's own test
-      if (!p.broken) assert.ok(p.heard.size >= Math.min(A.fewest, arrived), `${s.fn} is below the floor: ${describeArrangement(a)}`);
+      // the break and the ENDING are the two sections allowed under the floor
+      // — see the break's own test, and `floor` in arrange.ts for why an
+      // ending is not floored by a number at all
+      if (!p.broken && s.index !== a.placed.length - 1) {
+        assert.ok(p.heard.size >= Math.min(A.fewest, arrived), `${s.fn} is below the floor: ${describeArrangement(a)}`);
+      }
       // THE PEAK HAS EVERYONE, because that is what a peak is.
       if (s.peak) assert.equal(p.heard.size, ROLES.length, `the peak does not hear everyone: ${describeArrangement(a)}`);
       sizes.push(p.heard.size);
@@ -205,6 +226,16 @@ test("a quiet section carries its foundation and drops its decoration", () => {
       // THE-ARRANGEMENT-AS-STORY.md measured; now that a record can miss its
       // opener, the break can restore it.
       if (here.broken) continue;
+      // AND SO IS THE CLOSE, for the same reason and from the same cause.
+      // "The ending restates what the record opened with" (Ableton,
+      // dénouement — THE-ARRANGEMENT-AS-STORY.md §7 rule 4) is the same law
+      // as the break's, in the other place the code states it: `restate` in
+      // arrange.ts refuses to drop an opener from the last section, so the
+      // close too can bring one back while shrinking. It went unexempted here
+      // for exactly the reason the break's did — it cannot fire until a
+      // record is able to miss its opener in the section before, which lofi
+      // was not while its drums sat last in an inherited shed order.
+      if (here.section.index === a.placed.length - 1) continue;
       // everything still heard was heard before it: a section that shrinks
       // loses parts, it does not swap them
       for (const r of here.heard) assert.ok(before.heard.has(r), `${r} appeared while the texture shrank: ${describeArrangement(a)}`);
@@ -366,6 +397,137 @@ test("a rule-of-three demand the notes may not answer is answered by the desk", 
     }
   }
   assert.ok(recasts > 10, `only ${recasts} recast sections across 60 records`);
+});
+
+test("a per-part treatment says which part, and survives being frozen", () => {
+  // `Span` is REBUILT field by field on the way out of makeArrangement, and
+  // the rebuild is cast to Span — so a field left out of it is not a type
+  // error, it is a field that silently stops existing downstream. That is
+  // exactly how `at` was lost on its first outing with `npm run check` green,
+  // and nothing else in this suite would have noticed. This is the assertion
+  // that would have.
+  let perPart = 0;
+  let wholeDesk = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const p of dsBuild(seed).placed) {
+      for (const sp of p.spans) {
+        assert.ok("at" in sp, "a span came out of the arrangement without `at`");
+        if (sp.treatment === null) {
+          assert.equal(sp.at, null, "an untreated span names a part");
+          continue;
+        }
+        if (sp.at === null) { wholeDesk++; continue; }
+        perPart++;
+        // the part it is aimed at is one that is actually sounding, or the
+        // desk moves a part nobody can hear
+        assert.ok(sp.heard.has(sp.at), `${sp.treatment} is aimed at the ${sp.at}, which is not playing`);
+      }
+    }
+  }
+  assert.ok(perPart > 0, "no record aimed a treatment at one part");
+  assert.ok(wholeDesk > 0, "the whole-desk treatments stopped being offered");
+});
+
+test("no treatment puts a knob outside the range the genre resolver enforces", () => {
+  // `settle` is a MERGE and not a validator: nothing downstream re-checks a
+  // value laid over a genre, so a treatment that scaled a spring's decay to
+  // eight seconds against its six-second ceiling would be a fault no test
+  // upstream could catch. treat.ts states that as its second rule; this is
+  // the assertion behind it, and it caught a real one — `linger` clamped the
+  // spring to the ROOM's ceiling, the two reverbs having different ones.
+  const RANGES: readonly (readonly [string, number, number])[] = [
+    ["rack.room.sec", 0.2, 12], ["rack.spring.sec", 0.2, 6],
+    ["rack.pole.hz", 40, 20000], ["rack.tape.lowpassHz", 1000, 20000],
+    ["rack.echo.feedback", 0, 0.9], ["rack.medium.mix", 0, 1],
+    ["rack.vinyl.crackle", 0, 1], ["rack.room.ret", 0, 2],
+    ["rack.spring.ret", 0, 2], ["rack.echo.ret", 0, 2],
+  ];
+  const at = (o: unknown, path: string): unknown =>
+    path.split(".").reduce<unknown>((v, k) => (v as Record<string, unknown> | undefined)?.[k], o);
+  let checked = 0;
+  for (const G of [lofi, GENRES.dungeonsynth]) {
+    for (const t of TREATMENTS) {
+      for (const only of [undefined, ...ROLES]) {
+        const spec = deskOf(t, G.sound, only);
+        if (spec === null) continue;
+        checked++;
+        const S = settle(G.sound, spec);
+        for (const [path, lo, hi] of RANGES) {
+          const v = at(S, path);
+          if (typeof v !== "number") continue;
+          assert.ok(v >= lo && v <= hi, `${G.name} ${t}${only ? "@" + only : ""} put ${path} at ${v}, outside ${lo}..${hi}`);
+        }
+        for (const r of ROLES) {
+          const ch = S.mix[r];
+          assert.ok(ch.pedals >= 0 && ch.pedals <= 1, `${t} put ${r} pedals at ${ch.pedals}`);
+          assert.ok(ch.dist >= 0 && ch.dist <= 1, `${t} put ${r} dist at ${ch.dist}`);
+          assert.ok(ch.sweepDepth >= 0 && ch.sweepDepth <= 1, `${t} put ${r} sweepDepth at ${ch.sweepDepth}`);
+          assert.ok(ch.az >= -180 && ch.az <= 180, `${t} put ${r} az at ${ch.az}`);
+        }
+      }
+    }
+  }
+  assert.ok(checked > 30, `only ${checked} treatment/part combinations were live`);
+});
+
+test("a part can walk in part way through a section, and always does walk in", () => {
+  // This file's header said for a long time that "nothing here enters for the
+  // first time halfway through a record", and it was true: `arrived` grew once
+  // a SECTION, so every first entrance landed on a section boundary — where
+  // the material, the energy and the desk may all change too, and an entrance
+  // is not heard as an entrance. It also left long sections with nothing to
+  // do: a section that opens under the floor can never offer `part-out`, and
+  // with nobody missing it can never offer `part-back` either.
+  //
+  // THE PART MUST ACTUALLY ARRIVE. Left to the score this was a candidate like
+  // any other, and it lost often enough that the union of the spans came out
+  // smaller than the section asked for — one 32-bar verse came out as a drone
+  // on its own, with the keys built and never played. So it is a rule at the
+  // first boundary, and this is the assertion behind that.
+  let opened = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const a of [build(seed), dsBuild(seed)]) {
+      for (const p of a.placed) {
+        const first = p.spans[0]!.heard;
+        const late = [...p.heard].filter((r) => !first.has(r));
+        if (late.length === 0) continue;
+        opened++;
+        assert.equal(late.length, 1, `${late.length} parts walked in at once: ${describeArrangement(a)}`);
+        const who = late[0]!;
+        // only a part that LOOPS, because the tune and the drums are written
+        // per round and the tune's plan includes rests — one entering late can
+        // land entirely on them and play nothing
+        assert.ok(who === "bass" || who === "keys" || who === "drone", `the ${who} walked in, and it is written per round`);
+        // it is in from the second span and never merely promised
+        assert.ok(p.spans[1]?.heard.has(who), `the ${who} was held back and did not walk in: ${describeArrangement(a)}`);
+        assert.ok(!p.section.peak, "the peak opened short, and a peak has everyone");
+        assert.equal(p.broken, false, "the break opened short, and it is a stripping away already");
+      }
+    }
+  }
+  assert.ok(opened > 40, `only ${opened} sections let a part in part way through`);
+});
+
+test("a drum machine move is never made where the drums are silent", () => {
+  // `deskOf` asks whether a move changes the DESK, which is the right question
+  // for the rack and the wrong one for the machine: swapping a kit changes the
+  // machine whether or not anybody is playing it, so it passes that test and
+  // is still inaudible. A boundary spent on a move nobody can hear is worse
+  // than a knob that does nothing — the two-loop rule paid for it and the ear
+  // gets the section repeated instead.
+  let machine = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const a of [build(seed), dsBuild(seed)]) {
+      for (const p of a.placed) {
+        for (const sp of p.spans) {
+          if (sp.treatment === null || !NEEDS_DRUMS.includes(sp.treatment)) continue;
+          machine++;
+          assert.ok(sp.heard.has("drums"), `${sp.treatment} with the drums silent: ${describeArrangement(a)}`);
+        }
+      }
+    }
+  }
+  assert.ok(machine > 0, "no record moved the drum machine, so this asserts nothing");
 });
 
 test("the desk moving does not leave the arrangement with nothing to do", () => {

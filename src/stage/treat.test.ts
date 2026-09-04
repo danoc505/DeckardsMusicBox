@@ -81,10 +81,17 @@ function baseline(g: Name): NonNullable<ReturnType<typeof untreated.get>> {
  * refused treatment would measure as no change BECAUSE IT WAS REFUSED — a
  * test that agrees with itself and checks nothing. `specOf` is the move
  * unfiltered, and `render`'s own desk override holds it over the whole record.
+ *
+ * `specOf` itself returns null for the handful of moves that have nothing to
+ * WRITE on a given desk — a board with one box has no box to swap to, a record
+ * feeding one return has no second return to patch into — and that is not a
+ * refusal, it is the move being undefined here. No desk goes on, the record
+ * comes back as it was, and 0 dB is the truthful number.
  */
 function movedBy(g: Name, t: Treatment): number {
   const { flat, base, level } = baseline(g);
-  const out = render(flat, { sampleRate: SR, desk: specOf(t, genre(g).sound) });
+  const spec = specOf(t, genre(g).sound);
+  const out = render(flat, { sampleRate: SR, ...(spec === null ? {} : { desk: spec }) });
   let d = 0;
   for (let i = 0; i < out.left.length; i++) {
     const a = out.left[i]! - base.left[i]!;
