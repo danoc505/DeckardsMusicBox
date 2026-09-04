@@ -47,7 +47,7 @@
  *   unaltered.
  */
 
-import { ROLES, SENDS, TREATMENTS, type Role, type SoundRules, type SoundSpec, type Treatment } from "../genre/spec.ts";
+import { PEDAL_ORDER, ROLES, SENDS, TREATMENTS, type PatchSpec, type PedalsRules, type PedalsSpec, type Role, type Send, type SoundRules, type SoundSpec, type Treatment } from "../genre/spec.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
 
@@ -88,8 +88,32 @@ function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: numbe
  * `echoed`, `brighten` and `widen` are the rack and the room — a rack is not
  * something one part has, so those stay what they are.
  */
-export const PER_PART: readonly Treatment[] = ["drench", "dry", "push", "ease", "far", "sweep"];
+export const PER_PART: readonly Treatment[] = ["drench", "dry", "push", "ease", "far", "sweep", "orbit"];
 export const isPerPart = (t: Treatment): boolean => PER_PART.includes(t);
+
+/** Every part reflected across the centre line, or just the one named. */
+function azOf(S: SoundRules, only?: Role): NonNullable<SoundSpec["mix"]> {
+  const mix: Record<string, { az: number }> = {};
+  for (const role of only === undefined ? ROLES : [only]) mix[role] = { az: clamp(-S.mix[role].az, -180, 180) };
+  return mix as NonNullable<SoundSpec["mix"]>;
+}
+
+/** The pedals this genre actually carries, in cable order. A pedal at mix 0 is
+ * OFF the board rather than bypassed on it, so this is the board that exists. */
+const carried = (S: SoundRules): readonly (keyof PedalsRules)[] =>
+  PEDAL_ORDER.filter((n) => (S.pedals[n as keyof PedalsRules] as { mix: number }).mix > 0) as readonly (keyof PedalsRules)[];
+
+/** The returns some part actually feeds, busiest first. A return nothing feeds
+ * is not a return this record has. */
+function fed(S: SoundRules): readonly Send[] {
+  const total = new Map<Send, number>();
+  for (const sd of SENDS) {
+    let sum = 0;
+    for (const role of ROLES) sum += S.mix[role].sends[sd];
+    if (sum > 0) total.set(sd, sum);
+  }
+  return [...total].sort((a, b) => b[1] - a[1] || SENDS.indexOf(a[0]) - SENDS.indexOf(b[0])).map(([sd]) => sd);
+}
 
 /**
  * What one treatment does to this genre's desk, or null if it would do
@@ -191,6 +215,79 @@ export function deskOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       break;
 
     // ── the record itself ──
+    // ── the room, one part at a time ──
+    case "orbit":
+      // "the flute CROSSES the room" (§7, move 36). Reflected rather than
+      // nudged: a part at 30° to the right is heard at 30° to the left, which
+      // is the same distance and the same height and unmistakably a move. A
+      // part dead centre has nowhere to cross to and `changes` refuses it,
+      // which is why this is offered per part rather than at the band.
+      // Aimed at one part it crosses that part; aimed at the band it swaps
+      // the stage over, which is the same move at the other scale. There is
+      // no fallback part: a whole-desk orbit that quietly crossed the keys
+      // and called itself the band would be a lie about what was heard.
+      spec = { mix: azOf(S, only) };
+      break;
+
+    // ── the record heard through something older ──
+    case "medium":
+      // The gramophone horn or the small radio, which every genre here carries
+      // at mix 0 — built, wired, and never once turned up. A section arriving
+      // down a horn is the most drastic thing on this list and the source for
+      // it is the machine's own presence in the rack.
+      spec = { rack: { medium: { mix: clamp(Math.max(S.rack.medium.mix * 1.8, 0.45), 0, 1) } } };
+      break;
+
+    // ── the modulation deepens ──
+    case "waver":
+      // Tremolo, phaser and the ensemble together: the three things on this
+      // desk that move a pitch or a level slowly. Each is scaled from what the
+      // genre set, so a genre that runs none of them is refused rather than
+      // handed a wobble it never asked for.
+      spec = {
+        pedals: {
+          tremolo: { depth: clamp(S.pedals.tremolo.depth * 1.7, 0, 1) },
+          phaser: { depth: clamp(S.pedals.phaser.depth * 1.7, 0, 1) },
+        },
+        rack: { ensemble: { depth: clamp(S.rack.ensemble.depth * 1.6, 0, 1) } },
+      };
+      break;
+
+    // ── a different box on the board ──
+    case "stomp": {
+      // §8, move 44 is "a different stompbox lit for this section". Lit from
+      // COLD is the one thing it cannot mean here: a pedal at mix 0 is off the
+      // board and not bypassed on it, and `push` above already refuses to put
+      // a part through an amp its genre kept it out of — "a treatment does not
+      // overrule a genre". So the swap happens inside the board the genre
+      // actually carries: the first box in cable order backs off and the last
+      // comes up. A genre with fewer than two boxes has no swap to make.
+      const board = carried(S);
+      if (board.length < 2) return null;
+      const first = board[0]!, last = board[board.length - 1]!;
+      const mixOf = (n: keyof PedalsRules): number => (S.pedals[n] as { mix: number }).mix;
+      spec = {
+        pedals: {
+          [first]: { mix: clamp(mixOf(first) * 0.35, 0, 1) },
+          [last]: { mix: clamp(Math.min(1, mixOf(last) * 1.8), 0, 1) },
+        } as PedalsSpec,
+      };
+      break;
+    }
+
+    // ── a return into another return ──
+    case "repatch": {
+      // §8, move 45: the pin matrix, twenty-five crossings and every one of
+      // them static. The busiest return this record actually feeds goes into
+      // the next busiest — the echo into the spring, the spring into the room
+      // — which is a tail growing a tail. Absolute, so it cannot compound:
+      // which two they are is a fact about the genre's own sends.
+      const live = fed(S);
+      if (live.length < 2) return null;
+      spec = { patch: { [live[0]!]: { [live[1]!]: 0.35 } } as PatchSpec };
+      break;
+    }
+
     case "wear":
       // the tape working harder and the dust rising: the medium ageing across
       // a section, which is a change to how the record was MADE rather than to

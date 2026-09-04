@@ -107,7 +107,7 @@ Every one of these exists, is drawn on the radar scope, and never moves.
 
 | | move | |
 |---|---|---|
-| 36 | **Azimuth** — the flute crosses the room | ● |
+| 36 | **Azimuth** — the flute crosses the room | ● **and it moves**: `orbit`, which reflects a part across the centre line, so a part dead centre is refused for having nowhere to cross to |
 | 37 | **Distance** — a part steps closer, or further off | ● **and per part**, as written here: `far` is offered aimed at one part as well as at the band |
 | 38 | **Width** | ● |
 | 39 | **Depth** | ● |
@@ -125,14 +125,14 @@ A desk move, not a note move — and the one move this program cannot make.
 | 41 | **Sends** — five returns, per part | ● **and per part**: `drench`/`dry` are offered aimed at one part as well as at the band |
 | 42 | **Filter** — the pole's cutoff down for a darker hearing | ● |
 | 43 | **Pedal feed** — a part walks more or less of the board | ● **and per part**: `push`/`ease` likewise |
-| 44 | **Pedal swap** — a different stompbox lit for this section | ● twelve pedals |
-| 45 | **Patch** — a return fed into another return | ● the pin matrix |
+| 44 | **Pedal swap** — a different stompbox lit for this section | ● **and it moves**: `stomp`. Lit from COLD is the one thing it cannot mean — a pedal at mix 0 is off the board, and `treat.ts` already refuses to overrule a genre that way — so the swap happens inside the board the genre carries: first box in cable order down, last one up |
+| 45 | **Patch** — a return fed into another return | ● **and it moves**: `repatch` feeds the busiest return this record actually uses into the next busiest |
 | 46 | **Echo** — time in beats, feedback | ● |
 | 47 | **Reverb decay** — a longer room for the peak | ● spring and room |
 | 48 | **Tape** — drive, wow depth | ● |
-| 49 | **Medium** — gramophone or radio across a section | ● |
+| 49 | **Medium** — gramophone or radio across a section | ● **and it moves**: `medium`. Both genres carried this at mix 0 — built, wired, never once turned up |
 | 50 | **Vinyl** — dust | ● |
-| 51 | **Modulation** — tremolo, phaser, ensemble depth | ● |
+| 51 | **Modulation** — tremolo, phaser, ensemble depth | ● **and it moves**: `waver`, all three together, scaled from what the genre set so a genre running none of them is refused |
 
 ## 9. The machine — drums, notes unchanged
 

@@ -236,6 +236,21 @@ export const dungeonsynth: GenreSpec = {
       ["close", 1],
       ["echoed", 1],
       ["sweep", 1],
+      // THE FIVE THE DESK HAD AND COULD NEVER MOVE. Ranked under the four the
+      // genre's own guide names, because none of them is in that guide: what
+      // it asks for is reverb, filters, wear and distance, and these are the
+      // rest of the rack finally reaching the record.
+      //
+      // `medium` is highest of them and still low. A section arriving down a
+      // gramophone horn is the most drastic move on this list, and this genre
+      // is the one where an old medium is idiomatic rather than a gimmick —
+      // it is "derived from black metal and dark ambient" and its own
+      // recordings are lo-fi by intent. Rare, so that it lands as an event.
+      ["medium", 2],
+      ["orbit", 2],
+      ["repatch", 2],
+      ["waver", 1],
+      ["stomp", 1],
     ],
   },
 
@@ -362,7 +377,10 @@ export const dungeonsynth: GenreSpec = {
       "with \"intentional crackle, warble, and hiss\" and a record \"echoing through stone corridors\" " +
       "(note.com/soundwitches): the filter, the room, the wear and the distance are this genre's own moves and are " +
       "weighted first. Brighten is kept light because shadows only deepen against something. Weights [chosen] — " +
-      "the sources name the moves and rank nothing",
+      "the sources name the moves and rank nothing. AND THE FIVE OFF THE RACK are not in that guide at all, so " +
+      "they rank under the four it does name; `medium` is highest of them because this genre is \"derived from " +
+      "black metal and dark ambient\" (Wikipedia, Dungeon synth), traditions recorded lo-fi by intent, so an old " +
+      "medium is idiomatic here rather than an effect — kept at 2 so it lands as an event. Numbers [chosen]",
     "form.introSec":
       "\"the intro is usually 8-16 bars\" for this genre (note.com/soundwitches, as read in " +
       "DUNGEON-SYNTH-ARRANGEMENT.md §8); 16 bars at this genre's slowest tempo of 60 bpm is 64 s, so 64 is the " +

@@ -516,6 +516,9 @@ export const TREATMENTS = [
   "widen", "close",
   "far", "sweep",
   "wear", "echoed",
+  // §7-§9 of THE-ALTERATIONS.md: knobs this desk has always had and could
+  // never move across a record.
+  "orbit", "medium", "waver", "stomp", "repatch",
 ] as const;
 export type Treatment = (typeof TREATMENTS)[number];
 

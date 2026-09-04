@@ -694,17 +694,43 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         //    So the role is real now, and nothing had to be added to the
         //    score: the terms that already read the record start reading it
         //    for treatments too, because there is finally a part to read.
-        //    BOTH, for the six that can be either. The whole band stepping
-        //    back is a real move and this stage already had it; what the
-        //    catalogue adds is the flute stepping back on its own. Offering
-        //    only the per-part version would delete a move to add one, so
-        //    both are in the pool and the score decides between them.
-        for (const t of offered) {
+        //    WHICH DESK MOVE THIS GENRE REACHES FOR IS DRAWN FROM ITS OWN
+        //    POOL, and offering all of them at once was the mistake.
+        //
+        //    `arrangement.treat` is a `Weighted<Treatment>` — the same type as
+        //    `arrangement.intro` and every `form.lengths` pool, both of which
+        //    are DRAWN, one of them nine lines above this. It was being read
+        //    as a ranking instead: every treatment offered at once, ordered by
+        //    weight times freshness, so a record walked the ladder from the
+        //    top and stopped wherever it ran out of boundaries. A record has
+        //    three or four desk moves in it, so it reached rank four and no
+        //    further — identically, every record, in every seed. Measured, a
+        //    genre used the same handful of its vocabulary for ever, and the
+        //    five moves added to the rack fired 0, 0, 3, 0 and 0 times in 300
+        //    lofi records. Moving one up its tie group only starved another:
+        //    15 distinct became 13. The ladder, not the tie-break, was what
+        //    made the tail unreachable, and no amount of new vocabulary can
+        //    be heard through it.
+        //
+        //    THE SCORE STILL DECIDES WHETHER A DESK MOVE HAPPENS. That is the
+        //    part that has to serve what the record has done, and it is
+        //    untouched: `serve`, `worth`, `fresh` and `afford` weigh this
+        //    candidate against every density move exactly as before. What is
+        //    drawn is only WHICH COLOUR, out of the pool the genre wrote —
+        //    which is what a genre's weighted pool is for, and the freshness
+        //    of each name is folded into the draw so a record still does not
+        //    repeat itself.
+        const live = offered
+          .map((t) => [t, weightOf(t) / (1 + (ledger.used.get(`treat:${t}`) ?? 0))] as const)
+          .filter(([, w]) => w > 0);
+        if (live.length > 0) {
+          const t = chart.rng.at("arrange", "treat", section.index, s).weighted("which", live);
           push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
-          if (!isPerPart(t)) continue;
-          for (const r of cur.heard) {
-            if (deskOf(t, chart.genre.sound, r) === null) continue;
-            push(`treat-${t}`, new Set(cur.heard), cur.thin, r, 1, t, r);
+          if (isPerPart(t)) {
+            for (const r of cur.heard) {
+              if (deskOf(t, chart.genre.sound, r) === null) continue;
+              push(`treat-${t}`, new Set(cur.heard), cur.thin, r, 1, t, r);
+            }
           }
         }
         //    and back to the record's own sound, which is a change like any

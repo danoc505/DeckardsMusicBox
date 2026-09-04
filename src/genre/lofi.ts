@@ -244,8 +244,27 @@ export const lofi: GenreSpec = {
       ["close", 2],
       ["ease", 2],
       ["widen", 1],
-      ["sweep", 1],
+      // NO `sweep`. It was weighted here and `deskOf` refused it every time:
+      // this genre leaves `sweepDepth` at zero on every part, and three times
+      // zero is zero. A weight nothing can read is invisible config, so it
+      // says nothing rather than saying it uselessly — and a genre that gives
+      // a part a sweep can state one then.
       ["brighten", 1],
+      // THE FIVE THE DESK HAD AND COULD NEVER MOVE, and two of them are this
+      // genre's own subject rather than additions to it.
+      //
+      // `waver` is wow and flutter as a MOVE: the sources put "wow (slow pitch
+      // drift) and flutter (fast pitch wobble)" at the centre of the sound,
+      // and `wear` already reaches the tape's own wobble — this reaches the
+      // tremolo and the phaser, which is the same idea on the board. `medium`
+      // is a beat dropping into a small radio, which is the genre's whole
+      // posture about fidelity, and it is kept rare so it stays an event
+      // rather than a costume.
+      ["waver", 3],
+      ["medium", 2],
+      ["orbit", 2],
+      ["repatch", 1],
+      ["stomp", 1],
     ],
   },
 
@@ -283,7 +302,11 @@ export const lofi: GenreSpec = {
       "high-frequency rolloff\" with \"wow (slow pitch drift) and flutter (fast pitch wobble)\" " +
       "(northernvalleyaudio.com/blog/lofi-tape-saturation-production-guide). So wear, then the filter, then the " +
       "reverb and the delay the sources name in one breath. Brighten is last because this genre's move is taking " +
-      "the top off. The numbers are [chosen] — the sources name the moves and rank only by which they lead with",
+      "the top off. The numbers are [chosen] — the sources name the moves and rank only by which they lead with. " +
+      "AND THE FIVE OFF THE RACK: wow and flutter are named as the sound itself, \"wow (slow pitch drift) and " +
+      "flutter (fast pitch wobble)\" (northernvalleyaudio.com), so `waver` — that idea on the board rather than " +
+      "on the tape — ranks highest of them; `medium` is what \"low fidelity\" means and is kept rare so it stays " +
+      "an event. All five rank under wear and the filter because the sources lead with those. Numbers [chosen]",
     "arrangement.shed":
       "the sources describe this genre taking elements away and rank nothing while doing it: " +
       "\"bring in one element at a time for four or eight bar phrases, remove things when they feel too " +
