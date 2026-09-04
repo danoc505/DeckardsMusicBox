@@ -197,6 +197,14 @@ test("a quiet section carries its foundation and drops its decoration", () => {
       const before = sections[i - 1]!;
       const here = sections[i]!;
       if (here.heard.size >= before.heard.size) continue;
+      // THE BREAK IS THE DOCUMENTED EXCEPTION and always was: it goes below
+      // the floor carrying "what the record opened with, and nothing else"
+      // (THE-INTRO.md §5), which is a swap by definition — it can bring an
+      // opener back while shrinking. This never fired while the opening part
+      // was never dropped in the first place, which was the defect
+      // THE-ARRANGEMENT-AS-STORY.md measured; now that a record can miss its
+      // opener, the break can restore it.
+      if (here.broken) continue;
       // everything still heard was heard before it: a section that shrinks
       // loses parts, it does not swap them
       for (const r of here.heard) assert.ok(before.heard.has(r), `${r} appeared while the texture shrank: ${describeArrangement(a)}`);

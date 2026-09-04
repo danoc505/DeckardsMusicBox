@@ -104,17 +104,41 @@ program has the right idea and applies it only to the smaller decision.
 
 No rule names a part, a genre, or a number.
 
-## 8. What has to move, or this gets deleted
+## 8. What it came to, measured
 
-A knob that does nothing is this program's cardinal sin. The numbers in §5 are
-the before. These must move:
+Rules 1, 2 and 4 are built. Same two sweeps, before and after:
 
-- the top part changes, first half to second: **20% / 30% — must rise**
-- the opener is playing in the last bar: **75% / 55% — must rise**
-- lofi's longest absence: **3 bars — must be able to exceed it**
+| | lofi | dungeon synth |
+|---|---|---|
+| a part spent — gone for good before the last quarter | 15% → **5%** | 25% → **5%** |
+| the opener is playing in the last bar | 75% → **75%** | 55% → **70%** |
+| the opener's longest absence | 3 → **8 bars** | 10 → 8 bars |
+| the top part changes, first half to second | 20% → **15%** | 30% → **45%** |
+| distinct combinations of parts | 8.3 → **9.4** | 7.5 → 7.7 |
+| the opener's share of the record | 91% → **83%** | 80% → 85% |
 
-The ceiling in rule 3 has no published number, so it is `[chosen]` and has to
-be measured on and off before it is allowed to exist.
+**The one that carries this is the first row.** Parts stopped being abandoned:
+a record that drops a part now brings it back, in both genres, five times out
+of a hundred instead of fifteen and twenty-five. That is the ceiling in rule 3
+working without a number, out of the arithmetic alone.
+
+**Rule 4 had to be built separately, and had to reach the last SPAN.** With
+rules 1 and 2 alone the ending got worse, not better — 75% → 50% in lofi —
+because absence became possible and nothing brought the opener home. Holding
+it into the closing SECTION only got that to 55%: the span score was still
+free to take it out four bars from the end. Holding it to the close itself is
+what recovered 75% and lifted dungeon synth to 70%.
+
+**And one number went the wrong way.** lofi's top part changes between halves
+fell, 20% → 15%, where dungeon synth's rose 30% → 45%. lofi is beat music: its
+drums sit at the bottom of its own shed order and play nearly every bar, so
+the most-present part is close to fixed no matter what this rule does. Either
+the metric is asking lofi the wrong question, or rule 1 needs a term that
+knows about rank rather than presence. It is recorded here as not solved.
+
+**Still `[chosen]` and still unmeasured:** rule 3 has no explicit ceiling —
+the `1/(1+out)` term is a soft one, and whether a hard number does anything
+the soft one does not has not been tested.
 
 ## Sources
 
