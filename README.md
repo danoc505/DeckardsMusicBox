@@ -34,24 +34,30 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-Aim, then time the bar — the way a golf game does it.
+**To move the disc:** press on it and drag. It slides along your line; let go
+to drop it. It glows white when the pointer is over it, so you can see it is
+something you can pick up.
+
+**To shoot**, aim first and then time the bar, the way a golf game does it:
 
 1. **Move to where you want the disc to go.** A line points that way. No power
    is committed yet.
-2. **Press and hold.** A bar starts sweeping up and down beside the disc, and
-   the trajectory line grows and shrinks with it — so you can see exactly where
-   each level of power puts the disc before you commit to one.
+2. **Press and hold, anywhere away from the disc.** A bar sweeps up and down
+   beside it, and the trajectory line grows and shrinks with the bar — so you
+   can see where each level of power puts the disc before choosing one.
 3. **Let go.** It shoots at whatever the bar reads.
 
-A quick tap with no hold is still just a tap: it moves the disc along your line.
+Where you press decides what the press means, and nothing depends on how long
+you hold it: on the disc is moving, away from it is shooting. A press too short
+to start the bar costs nothing.
 
 Everything before this took the force from how the hand *moved* — how fast it
-swiped, or how far from the disc it sat. All of it had the same defect
-underneath: the number was a side effect of moving, so it could not be watched
-while it was being chosen, and it could not be repeated. A bar can be.
+swiped, or how far from the disc it sat. All of it had the same defect: the
+number was a side effect of moving, so it could not be watched while it was
+being chosen, and it could not be repeated. A bar can be.
 
-**With a finger**: press the board and hold, drag to adjust the aim if you
-like, lift off to shoot. Same three steps.
+**With a finger**: press the board away from the disc and hold, drag to adjust
+the aim, lift off to shoot. Press on the disc instead to slide it.
 
 ## Tests
 

@@ -100,6 +100,13 @@ hardware is worst at, and it is not what flicking a disc feels like either. Now
 a disc is always waiting on the line, a tap moves it, and a flick anywhere on
 the board shoots in the direction you swiped.
 
+**Where you press decides what the press means.** On the disc is a carry; away
+from it is a shot. This used to be decided by TIMING -- a press shorter than
+`METER_ARM` was a tap that placed the disc, anything longer started the bar --
+and since `METER_ARM` is 0.12 s and a real tap is often slower, the bar started,
+the release fired it, and there was no way to move the puck at all. Position is
+unambiguous where duration is not.
+
 **Aim and power are separate, and power is a meter.** Where the cursor sits
 sets only the DIRECTION; the force comes from a bar that sweeps 0 -> 1 -> 0 and
 is read at the moment the press is released.

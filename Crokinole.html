@@ -2711,6 +2711,16 @@ RENDER.frame = function(g, v, geo, st){
   for (const d of ds) if (d.live && d.owner === st.shooter) RENDER.disc(g, v, d, { geo });
   if (st.pending) RENDER.disc(g, v, st.pending, { geo });
 
+  /* The disc offers itself as a handle: a white halo when the pointer is
+     over it, brighter while it is actually being carried. Without it there
+     is nothing to say the disc can be picked up at all. */
+  if (st.grab && st.pending){
+    const p = RENDER.toScreen(v, st.pending.x, st.pending.y);
+    const r = geo.P.R_DISC * v.scale;
+    RENDER.glowStroke(g, ctx => { ctx.arc(p.x, p.y, r * 1.34, 0, TAU); },
+                      '#ffffff', Math.max(1.5, r * 0.17), 6, 0.8);
+  }
+
   /* THE POWER BAR. Drawn beside the disc rather than at the edge of the
      screen, because the disc is what you are looking at and a meter you
      have to look away to read is a meter you will mistime. It sits on
@@ -3477,6 +3487,7 @@ GAME.create = function(host){
       showArcs: g.state === 'aim',
       aiming: !!(APP.state && APP.state.aiming),
       charging: !!(APP.state && APP.state.charging),
+      grab: !!(APP.state && (APP.state.carrying || APP.state.overDisc)),
       meter: (APP.state && APP.state.meter) || 0,
       geo: g.geo,
     };
@@ -3537,6 +3548,7 @@ APP.state = { screen: 'menu', game: null, view: null, ctx: null, canvas: null,
                  force from how far away it is. */
               aiming: false, aimPx: 0, aimPy: 0, aimVec: null,
               pressing: false, charging: false, chargeFrom: 0, meter: 0,
+              carrying: false, overDisc: false,
               dragged: false, downX: 0, downY: 0, lastKind: '',
               /* PEAK-HOLD. In velocity mode the power of a flick is how fast
                  you were moving -- but a player lining up a shot stops
@@ -3772,6 +3784,25 @@ APP.host = {
     s.downT = APP.host.now();
     s.downX = px; s.downY = py;
     s.dragged = false;
+
+    /* WHERE YOU PRESS DECIDES WHAT THE PRESS MEANS, and nothing depends on
+       how long you hold it. Press ON the disc and you are moving it; press
+       anywhere else and you are taking a shot.
+
+       This used to be decided by timing -- a press shorter than METER_ARM
+       was a tap that moved the disc, anything longer started the power bar.
+       METER_ARM is 0.12 s and a real tap is often slower than that, so the
+       bar started, the release fired it, and there was no way to move the
+       puck at all. The disc is now its own handle. */
+    const b = RENDER.toBoard(s.view, px, py);
+    if (g.pending && hypot(b.x - g.pending.x, b.y - g.pending.y) < SPEC.R_DISC * 2.4){
+      s.carrying = true; s.pressing = false;
+      APP.setAiming(false);
+      APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Sliding the disc — let go to drop it');
+      return true;
+    }
+
+    s.carrying = false;
     s.pressing = true;
     /* aim at wherever the press landed, so a touch sets direction too */
     if (!s.aiming) APP.setAiming(true, px, py); else APP.aimAt(px, py);
@@ -3782,31 +3813,36 @@ APP.host = {
     const s = APP.state, g = s.game;
     if (!g || g.state !== 'aim' || !g.pending) return;
     if (hypot(px - dx, py - dy) > APP.TAP_SLOP) s.dragged = true;
+    if (s.carrying){
+      const b = RENDER.toBoard(s.view, px, py);
+      g.place(b.x, b.y);          /* snapped onto the legal arc by GEO */
+      return;
+    }
     /* moving while held re-aims; the bar keeps sweeping either way */
     if (s.pressing) APP.aimAt(px, py);
   },
 
   pointerUp(px, py, vel, dx, dy){
     const s = APP.state, g = s.game;
-    s.pressing = false;
+    const wasCarrying = s.carrying;
+    const wasCharging = s.charging;
+    s.pressing = false; s.carrying = false;
     if (!g || g.state !== 'aim' || !g.pending) return;
-    const held = APP.host.now() - (s.downT || 0);
-    const moved = hypot(px - dx, py - dy);
 
-    /* --- the bar was running: this is the shot -------------------------- */
-    if (s.charging){ APP.fireAim(g); return; }
-
-    /* --- a quick tap: move the disc along your line --------------------- */
-    if (held < APP.TAP_TIME && moved <= APP.TAP_SLOP){
-      const b = RENDER.toBoard(s.view, px, py);
-      const pl = g.geo.placement(g.shooter);
-      if (Math.abs(angDiff(pl.c, Math.atan2(b.y, b.x))) <= pl.halfSpan + 0.52){
-        g.place(b.x, b.y);
-        SFX.ui(false);
-        APP.setAiming(false);
-        APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Aim, then press and hold to set the power');
-      }
+    /* the disc was being moved: put it down, and take no shot */
+    if (wasCarrying){
+      SFX.ui(false);
+      APP.prompt(`Player ${g.shooter + 1} to shoot`,
+                 'Aim away from the disc, then press and hold for power');
+      return;
     }
+
+    /* the bar was running: this is the shot */
+    if (wasCharging){ APP.fireAim(g); return; }
+
+    /* a press too short to start the bar just leaves the aim where it is --
+       it must never cost a disc */
+    APP.aimAt(px, py);
   },
 
   /* A trackpad reports movement with nothing held: that is the aim. */
@@ -3814,6 +3850,15 @@ APP.host = {
     const s = APP.state, g = s.game;
     if (!g || g.state !== 'aim' || !g.pending || g.isAI(g.shooter)) return;
     s.lastKind = kind || s.lastKind;
+    if (s.carrying) return;
+    const b = RENDER.toBoard(s.view, px, py);
+    /* hovering over the disc offers to move it rather than aiming at it */
+    s.overDisc = hypot(b.x - g.pending.x, b.y - g.pending.y) < SPEC.R_DISC * 2.4;
+    if (s.overDisc){
+      APP.setAiming(false);
+      APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Drag the disc to move it along your line');
+      return;
+    }
     if (!s.aiming) APP.setAiming(true, px, py); else APP.aimAt(px, py);
   },
 
@@ -4002,7 +4047,7 @@ APP.loop = function(ts){
   /* THE METER. A press held past METER_ARM starts the bar; from then on it
      sweeps until the finger comes off, and the trajectory line is redrawn
      with it every frame so the two always agree. */
-  if (s.pressing && !s.charging && APP.host.now() - s.downT >= SPEC.METER_ARM){
+  if (s.pressing && !s.carrying && !s.charging && APP.host.now() - s.downT >= SPEC.METER_ARM){
     APP.startCharge();
   }
   if (s.charging) APP.redrawAim();

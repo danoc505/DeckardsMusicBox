@@ -183,17 +183,55 @@ const VIEW = { width: 1180, height: 820 };
     ok(full.fate === 'ditch', "and a full-power shot clears the far side of the board");
   }
 
-  /* 5. a quick tap still just moves the disc ----------------------------- */
-  const beforeTap = await peek();
-  const tx = cx - box.width * 0.15, ty = cy + box.height * 0.352;
-  await ev("pointerdown", tx, ty, "mouse", 1);
-  await ev("pointerup", tx, ty, "mouse", 0);
+  /* 5. THE DISC CAN BE MOVED, which is what was impossible ------------- */
+  const beforeMove = await peek();
+  const dm = await discAt();
+  /* press ON the disc and drag it along the line */
+  await page.evaluate(async ({ left, top, x, y, dx }) => {
+    const cv = document.getElementById("board-canvas");
+    const ev = (t, ex, ey, b) => cv.dispatchEvent(new PointerEvent(t, {
+      pointerId: 3, pointerType: "mouse", isPrimary: true, bubbles: true,
+      cancelable: true, clientX: ex + left, clientY: ey + top, buttons: b }));
+    ev("pointerdown", x, y, 1);
+    for (let i = 1; i <= 8; i++){
+      await new Promise(r => setTimeout(r, 30));
+      ev("pointermove", x + dx * (i / 8), y, 1);
+    }
+    ev("pointerup", x + dx, y, 0);
+  }, { left: box.x, top: box.y, x: dm.x, y: dm.y, dx: box.width * 0.12 });
   await page.waitForTimeout(150);
-  const tapped = await peek();
-  ok(tapped.left === beforeTap.left, "a quick tap fires nothing");
-  ok(Math.abs(tapped.px - beforeTap.px) > 0.01,
-     "it moves the disc along the line instead",
-     `${((tapped.px - beforeTap.px) * 1000).toFixed(0)} mm`);
+  const moved2 = await peek();
+  ok(Math.abs(moved2.px - beforeMove.px) > 0.02,
+     "pressing on the disc and dragging moves it along the line",
+     `${((moved2.px - beforeMove.px) * 1000).toFixed(0)} mm`);
+  ok(moved2.left === beforeMove.left,
+     "and moving it costs no disc -- no shot is taken",
+     `${beforeMove.left} -> ${moved2.left}`);
+  ok(!moved2.charging, "and the power bar never starts while carrying");
+  console.log(`   disc carried ${((moved2.px - beforeMove.px) * 1000).toFixed(0)} mm along its line, no shot`);
+
+  /* a long press ON the disc must still not fire ------------------------ */
+  const dm2 = await discAt();
+  await ev("pointerdown", box.x + dm2.x, box.y + dm2.y, "mouse", 1);
+  await page.waitForTimeout(700);           /* far longer than METER_ARM  */
+  const heldOnDisc = await peek();
+  ok(!heldOnDisc.charging, "holding ON the disc never starts the bar");
+  await ev("pointerup", box.x + dm2.x, box.y + dm2.y, "mouse", 0);
+  await page.waitForTimeout(150);
+  const afterHold = await peek();
+  ok(afterHold.left === beforeMove.left,
+     "and letting go of it takes no shot", `left ${afterHold.left}`);
+
+  /* a short press AWAY from the disc must not fire either --------------- */
+  const dm3 = await discAt();
+  await ev("pointerdown", box.x + dm3.x, box.y + dm3.y - box.height * 0.2, "mouse", 1);
+  await page.waitForTimeout(60);            /* shorter than METER_ARM     */
+  await ev("pointerup", box.x + dm3.x, box.y + dm3.y - box.height * 0.2, "mouse", 0);
+  await page.waitForTimeout(150);
+  const shortPress = await peek();
+  ok(shortPress.left === beforeMove.left,
+     "a press too short to start the bar costs no disc",
+     `left ${shortPress.left}`);
 
   /* 6. with a finger: press, hold, lift ---------------------------------- */
   const dpT = await discAt();
@@ -204,8 +242,8 @@ const VIEW = { width: 1180, height: 820 };
   await ev("pointerup", box.x + dpT.x, box.y + dpT.y - box.height * 0.25, "touch", 0);
   await page.waitForTimeout(200);
   const touchFired = await peek();
-  ok(touchFired.left === beforeTap.left - 1, "and lifting off takes the shot",
-     `${beforeTap.left} -> ${touchFired.left}`);
+  ok(touchFired.left === beforeMove.left - 1, "and lifting off takes the shot",
+     `${beforeMove.left} -> ${touchFired.left}`);
   await page.screenshot({ path: path.join(OUT, "05-shot.png") });
 
   /* --- let the AI reply and the board fill up --------------------------- */
