@@ -2,3 +2,8 @@
 # `node tools/dump.mjs` rebuilds any of them in seconds.
 dumps/
 node_modules/
+
+# rolls are reproducible from the program and the seed — regenerate, do not commit.
+# `npm run roll <genre> <seed>` and `npm run shot <genre> <seed>` remake any of them.
+shots/
+roll-*.png

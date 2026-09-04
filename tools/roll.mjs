@@ -47,11 +47,37 @@ function canvas(W, H, bg) {
     vline: (x, y0, y1, c, a = 1) => { for (let y = y0; y < y1; y++) px(x, y, c, a); },
     hline: (y, x0, x1, c, a = 1) => { for (let x = x0; x < x1; x++) px(x, y, c, a); } };
 }
-// 3x5 digits, enough to number the bars
+// ── 3x5 glyphs ────────────────────────────────────────────────────────────
+// Enough to NAME things, not only to count them. A roll that numbers its bars
+// but cannot spell "CHORUS" makes the reader hold the section list in their
+// head while they look at the picture, which is the one job the picture had.
 const DIG = ["111101101101111","010010010010010","111001111100111","111001111001111","101101111001001",
              "111100111001111","111100111101111","111001001001001","111101111101111","111101111001111"];
-function digit(cv, d, x, y, c) { const g = DIG[d]; for (let r = 0; r < 5; r++) for (let k = 0; k < 3; k++) if (g[r*3+k] === "1") cv.px(x+k, y+r, c); }
-function num(cv, n, x, y, c) { const s = String(n); for (let i = 0; i < s.length; i++) digit(cv, +s[i], x + i*4, y, c); }
+const LET = {
+  A:"010101111101101", B:"110101110101110", C:"011100100100011", D:"110101101101110",
+  E:"111100110100111", F:"111100110100100", G:"011100101101011", H:"101101111101101",
+  I:"111010010010111", J:"001001001101010", K:"101101110101101", L:"100100100100111",
+  M:"101111111101101", N:"101111101101101", O:"010101101101010", P:"110101110100100",
+  Q:"010101101111011", R:"110101110101101", S:"011100010001110", T:"111010010010010",
+  U:"101101101101111", V:"101101101101010", W:"101101111111101", X:"101101010101101",
+  Y:"101101010010010", Z:"111001010100111",
+  "#":"101111101111101", "/":"001001010100100", "-":"000000111000000",
+  ".":"000000000000010", ":":"000010000010000", " ":"000000000000000",
+};
+const glyphOf = (ch) => (ch >= "0" && ch <= "9" ? DIG[+ch] : LET[ch]) ?? null;
+function glyph(cv, ch, x, y, c, a = 1) {
+  const g = glyphOf(ch); if (!g) return;
+  for (let r = 0; r < 5; r++) for (let k = 0; k < 3; k++) if (g[r*3+k] === "1") cv.px(x+k, y+r, c, a);
+}
+/** Draws left to right on a 4px pitch; returns the x it ended at. */
+function text(cv, str, x, y, c, a = 1) {
+  const t = String(str).toUpperCase();
+  for (let i = 0; i < t.length; i++) glyph(cv, t[i], x + i*4, y, c, a);
+  return x + t.length*4;
+}
+const num = (cv, n, x, y, c) => text(cv, n, x, y, c);
+const NOTE = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const noteName = (p) => NOTE[((p % 12) + 12) % 12] + (Math.floor(p/12) - 1);
 
 // ── draw ──────────────────────────────────────────────────────────────────
 const [genre, seedArg, outArg] = process.argv.slice(2).filter(a => !a.startsWith("--"));
@@ -66,7 +92,7 @@ const nBars = bar1 - bar0;
 const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], drone: [163,255,107] };
 const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
-const SH = 7, GUT = 34, HEAD = 16, DRUM = 4*9 + 6, SPAN = 13;
+const SH = 7, GUT = 34, HEAD = 22, DRUM = 4*9 + 6, SPAN = 13;
 let lo = Infinity, hi = -Infinity;
 for (const e of song.performance.events) if (e.pitch !== null) { if (e.pitch < lo) lo = e.pitch; if (e.pitch > hi) hi = e.pitch; }
 lo = 12*Math.floor(lo/12) ; hi = 12*Math.ceil(hi/12);
@@ -81,7 +107,7 @@ const TOP = HEAD + SPAN;
 const Y = (p) => TOP + PITCH - (p - lo) * SH;
 
 // octave rules
-for (let p = lo; p <= hi; p += 12) { cv.hline(Y(p), GUT, W-8, [40, 70, 58], 0.9); num(cv, (p/12-1), 2, Y(p)-2, [60,110,90]); }
+for (let p = lo; p <= hi; p += 12) { cv.hline(Y(p), GUT, W-8, [40, 70, 58], 0.9); text(cv, noteName(p), 2, Y(p)-2, [60,110,90]); }
 // THE ARRANGEMENT'S OWN CLOCK, along the top: a tick at every two-loop
 // boundary and a block per part that is IN across that span. A change in who
 // is playing then shows as a change in the picture, not only in the notes —
@@ -110,12 +136,24 @@ for (let b = bar0; b <= bar1; b++) {
   cv.vline(x, TOP, TOP+PITCH+DRUM, strong ? [60,80,96] : [30,42,52], strong ? 0.95 : 0.7);
   if (b % 4 === 0 && b < bar1) num(cv, b, x+2, 4, [120,150,170]);
 }
-// sections
+// SECTIONS, NAMED. The boundary is a line, the span is a ribbon whose weight
+// is whether this is the peak, and the label says what the section IS — its
+// function and the material it states, so a return reads as a return.
 for (const pl of song.arrangement.placed) {
   const s = pl.section; if (s.endBar <= bar0 || s.startBar >= bar1) continue;
-  const x = X(Math.max(bar0, s.startBar));
+  const x = X(Math.max(bar0, s.startBar)), xe = X(Math.min(bar1, s.endBar));
   cv.vline(x, 0, H, [255,179,71], 0.9); cv.vline(x+1, 0, H, [255,179,71], 0.35);
-  cv.rect(x, 0, Math.min(X(Math.min(bar1,s.endBar))-x, W), 2, [255,179,71], s.peak ? 1 : 0.45);
+  cv.rect(x, 0, Math.min(xe - x, W), 2, [255,179,71], s.peak ? 1 : 0.45);
+  // clipped to the section it belongs to: a label that runs into the next
+  // section is a label on the wrong section
+  const room = Math.max(0, Math.floor((xe - x - 4) / 4));
+  const label = `${s.fn} ${pl.material}`.slice(0, room);
+  text(cv, label, x + 2, 12, [255,179,71], s.peak ? 1 : 0.75);
+}
+// which drum is which lane
+const LANE_NAME = { kick: "KCK", snare: "SNR", hat: "HAT", openhat: "OHH" };
+for (const [lane, i] of Object.entries(LANE)) {
+  text(cv, LANE_NAME[lane] ?? lane.slice(0, 3), 2, TOP + PITCH + 4 + i*9, [110, 78, 62]);
 }
 // notes
 for (const e of song.performance.events) {
