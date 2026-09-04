@@ -101,6 +101,22 @@ and it was balanced against a pool of about twenty candidates. Three things
 break when the pool reaches sixty-five, and all three are already visible in
 the twelve:
 
+**0 · THE SELECTOR CANNOT READ THE RECORD — measured, and this outranks the
+three below.** Among treatments, `serve` and `worth` are constant, so `fit`
+varies only by `fresh × afford`, and neither term knows anything about *this*
+record. Over 300 seeds every record in a genre plays its treatments in the same
+order — lofi is always `wear darken drench echoed wear push`, dungeon synth
+always `darken drench wear darken far dry` — and records differ only in how far
+down the list they get. A genre therefore only ever hears its top four or five
+moves, whatever it weights: lofi never fires seven of its twelve in 300 seeds.
+
+This is the treatment-level form of the fault the arrangement stage was rebuilt
+to fix, and the same sentence applies — *a rank that cannot change as a
+consequence is not a story*. **It is a blocker on Phases 2 to 5**, because
+adding fifty-three moves to a selector that plays a fixed playlist produces
+sixty-five items on a fixed playlist. The fix is a term that reads what the
+record has done, in the same shape as the section walk's `spare`.
+
 **1 · Freshness keys on the wrong thing.** `keyOf` returns `move:role` for
 density moves, so a record can play the same *kind* of move seven times
 running by rotating which part it happens to — `-lead +lead -bass +bass -keys`.
@@ -148,6 +164,10 @@ recent three sessions each found one; this is the family, cleared at once.
 
 **What says it worked:** lofi's treatment distribution has a direction — a
 top move at least four times its opposite — and `wear` is in its top three.
+**Done.** `wear` went from 1 use in 60 seeds to the top move at 360 in 300, and
+`brighten`, which the even default had firing 48 times against darken's 54, is
+now last where the genre's own move is taking the top off. Doing it is what
+exposed items 0 and 1 of Phase 1 above.
 The two proposals are the owner's call and are flagged as such.
 
 ### Phase 1 — fix the score before growing the pool

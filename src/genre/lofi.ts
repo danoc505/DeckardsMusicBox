@@ -194,6 +194,50 @@ export const lofi: GenreSpec = {
      * under the inherited order it changed in none of them.
      */
     shed: ["drone", "lead", "drums", "bass", "keys"],
+    /**
+     * THE GENRE IS NAMED AFTER ITS OWN DESK, so it had better state what that
+     * desk does. It did not: it inherited the even default and, measured over
+     * sixty seeds, fired `wear` ONCE while dungeon synth fired it 48 times.
+     * The one move that is literally this genre's name almost never happened.
+     *
+     * `wear` is first because the sources put it first — tape saturation is
+     * "pretty much the backbone" and what the listener is there for is
+     * "vinyl crackles, tape hiss, and background noise"
+     * (blog.soundtrap.com/lofi-music-production); tape's own character is
+     * "compression, harmonic distortion, high-frequency rolloff" with "wow
+     * (slow pitch drift) and flutter (fast pitch wobble)"
+     * (northernvalleyaudio.com/blog/lofi-tape-saturation-production-guide).
+     * `darken` is second on the same authority: "low-pass filtering for
+     * warmth" and "muffled frequencies" are named as the sound, and the
+     * rolloff above is the same move arriving from the tape. Then the pair
+     * the sources name together — "heavy use of reverb and delay".
+     *
+     * AND `brighten` IS KEPT LAST, for the reason dungeon synth keeps it
+     * light: this genre's entire move is taking the top off. A record that
+     * brightens as often as it darkens has no direction, and that is exactly
+     * what the even default produced — brighten 48 against darken 54.
+     *
+     * ORDERED BY WEIGHT ON PURPOSE. Where two treatments tie, the winner is
+     * whichever the genre listed FIRST — `fit > bestFit` is strict, so ties
+     * fall to pool order, which is this array's order. Measured: the same
+     * weights in a reversed array reverse the distribution exactly. So the
+     * order inside a tie is a real choice and is made here rather than left
+     * to whatever order the array happened to be typed in. See TALLY §2.
+     */
+    treat: [
+      ["wear", 6],
+      ["darken", 5],
+      ["drench", 4],
+      ["echoed", 4],
+      ["push", 3],
+      ["far", 2],
+      ["dry", 2],
+      ["close", 2],
+      ["ease", 2],
+      ["widen", 1],
+      ["sweep", 1],
+      ["brighten", 1],
+    ],
   },
 
   sound: {
@@ -217,6 +261,14 @@ export const lofi: GenreSpec = {
   },
 
   sources: {
+    "arrangement.treat":
+      "tape saturation is \"pretty much the backbone\" and the genre is \"vinyl crackles, tape hiss, and " +
+      "background noise\" with \"low-pass filtering for warmth\" and \"heavy use of reverb and delay\" " +
+      "(blog.soundtrap.com/lofi-music-production); tape's own character is \"compression, harmonic distortion, " +
+      "high-frequency rolloff\" with \"wow (slow pitch drift) and flutter (fast pitch wobble)\" " +
+      "(northernvalleyaudio.com/blog/lofi-tape-saturation-production-guide). So wear, then the filter, then the " +
+      "reverb and the delay the sources name in one breath. Brighten is last because this genre's move is taking " +
+      "the top off. The numbers are [chosen] — the sources name the moves and rank only by which they lead with",
     "arrangement.shed":
       "the sources describe this genre taking elements away and rank nothing while doing it: " +
       "\"bring in one element at a time for four or eight bar phrases, remove things when they feel too " +

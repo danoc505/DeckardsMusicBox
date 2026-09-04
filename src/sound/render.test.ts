@@ -34,8 +34,25 @@ test("nothing sounds before the first event or after the tail", () => {
   const first = song.performance.events[0]!.tSec;
   const before = out.subarray(0, Math.max(0, Math.floor((first - 0.02) * SR)));
   assert.ok(peak(before) < 0.05, `sound before the first event: ${peak(before)}`);
+  // AND "AFTER THE TAIL" MEANS THE MUSIC, NOT THE MEDIUM. This asserted a
+  // peak under 0.2 in the last fifth of a second, which a ringing tail and a
+  // NOISE FLOOR both trip — and lofi's noise floor is a genre statement with a
+  // source, not a fault: `vinyl.crackle` is continuous by design and crackle
+  // is impulsive, so its peak is high where its energy is nothing. It passed
+  // only while `wear` fired once in sixty records and no record ended on one.
+  // Measured on the record below: tail peak 0.234, tail RMS 0.0041 against the
+  // record's 0.1482 — 31 dB down. Forcing crackle to zero takes the peak to
+  // 0.004, so the tail is the dust and nothing else.
+  //
+  // So the law is stated as what it always meant: a tail is sound that CARRIES
+  // ON, and carrying on is energy, not spikes. RMS is the better detector for
+  // the thing this test exists to catch — a ring, a runaway, a feedback loop
+  // that never closes all show as sustained energy near the record's own —
+  // and the absolute ceiling stays to catch a blow-up.
   const last = out.subarray(out.length - Math.floor(0.2 * SR));
-  assert.ok(peak(last) < 0.2, `the tail is still loud: ${peak(last)}`);
+  const down = 20 * Math.log10(rms(last) / rms(out));
+  assert.ok(down < -20, `the tail carries on: ${down.toFixed(1)} dB below the record`);
+  assert.ok(peak(last) < 0.5, `the tail blew up: ${peak(last)}`);
 });
 
 test("each instrument sounds where it should in the spectrum", () => {
