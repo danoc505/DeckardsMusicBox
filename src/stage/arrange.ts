@@ -82,6 +82,29 @@ export interface Span {
   /** The drums lose their hat and their fills: a breath, not a stop. */
   readonly thin: boolean;
   /**
+   * THE KIT AT HALF SPEED — the half-time feel, §3 move 16.
+   *
+   * "The drums halve, everything else holds." A hit at step s is played at
+   * step 2s and one that would fall past the bar is not played at all, so the
+   * kit keeps its shape and takes twice as long to say it: the backbeat walks
+   * from the second beat to the third, which is the whole of what half time
+   * sounds like.
+   *
+   * IT IS THE DRUMS AND ONLY THE DRUMS, which is what makes it legal on a
+   * span. `perform.test.ts` holds a figure played again to being played the
+   * same way — Huron and Ollen's 94% — on `step` among other things, and 76%
+   * of lofi's repetition pairs straddle a span boundary. The drums are
+   * excluded from that comparison by name, because their phrase is written per
+   * time round and does not tile. Everything else in §3 moves a step the law
+   * does compare, and has to wait for a section.
+   *
+   * AND IT DROPS HITS, which §3's own header does not admit: the layer is
+   * introduced as "every note kept, in order", and move 16 says the drums
+   * halve. Halving is not keeping. The header is describing the rest of the
+   * layer.
+   */
+  readonly halved: boolean;
+  /**
    * ONE PART HELD BACK — EXPRESSION, ON ANY PART RATHER THAN ON THE DRUMS.
    *
    * The two-loop rule names four ways to change an arrangement and this file's
@@ -321,6 +344,8 @@ interface Move {
   readonly at: Role | null;
   /** The part this move leaves held back, if any. */
   readonly hush: Role | null;
+  /** Whether this move leaves the kit at half speed. */
+  readonly halved: boolean;
   /**
    * HOW READILY THE GENRE PARTS WITH THIS ONE, 0..1, from its shed order.
    *
@@ -393,9 +418,12 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * is sounding, less a half part where the drums are held back. A function
    * of the arrangement's own choices and nothing else.
    */
-  const fullness = (h: ReadonlySet<Role>, isThin: boolean, hushed: Role | null = null): number => {
+  const fullness = (h: ReadonlySet<Role>, isThin: boolean, hushed: Role | null = null, isHalved = false): number => {
     let held = 0;
-    if (isThin && h.has("drums")) held += 0.5;
+    // the drums' expression, held back once however many ways it is held: a kit
+    // with no hat AND at half speed is still a kit playing quietly, and
+    // charging twice would price it below a kit that is not there at all
+    if ((isThin || isHalved) && h.has("drums")) held += 0.5;
     // a hushed part is half a part, the same price the drums' hat already
     // pays; the drums thinned AND hushed are not charged for twice
     if (hushed !== null && h.has(hushed) && !(hushed === "drums" && isThin)) held += 0.5;
@@ -697,8 +725,8 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       }
       if (opening !== null) ledger.used.set(`treat:${opening}`, (ledger.used.get(`treat:${opening}`) ?? 0) + 1);
     }
-    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null } =
-      { heard: new Set(base), thin, treatment: opening, at: null, hush: null };
+    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean } =
+      { heard: new Set(base), thin, treatment: opening, at: null, hush: null, halved: false };
     const turnsOf = (s: number): number =>
       Math.min(2, Math.max(1, Math.round((Math.min(section.bars, (s + 1) * turn) - s * turn) / (turn / 2))));
 
@@ -708,11 +736,11 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.
         const pool: Move[] = [];
-        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: Role | null = cur.hush): void => {
+        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: Role | null = cur.hush, halved: boolean = cur.halved): void => {
           // a move that leaves the span exactly where it already is is not a
           // move, and the desk is part of where it is
           if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment && at === cur.at
-            && hush === cur.hush && [...h].every((r) => cur.heard.has(r))) return;
+            && hush === cur.hush && halved === cur.halved && [...h].every((r) => cur.heard.has(r))) return;
           // THE CLOSE KEEPS THE OPENING. Holding the opener into the last
           // SECTION is not enough: a record ends on its last SPAN, and the
           // score below was free to take the part out again four bars from
@@ -722,7 +750,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           // treatment-only move keeps every part, so the desk still moves
           // freely at the close: what is refused is losing the opener.
           if (closing && openers.has(role) && !h.has(role)) return;
-          pool.push({ name, heard: h, thin: th, role, afford, treatment: tr, at, hush });
+          pool.push({ name, heard: h, thin: th, role, afford, treatment: tr, at, hush, halved });
         };
         /**
          * THE DRONE DOES NOT COME AND GO INSIDE A SECTION.
@@ -775,6 +803,15 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, r);
         }
         if (cur.hush !== null) push("speak-up", new Set(cur.heard), cur.thin, cur.hush, 1, cur.treatment, cur.at, null);
+        // AND THE KIT AT HALF SPEED, which is the other thing "expression" can
+        // mean on a drum machine and the one §3 move that does not have to
+        // wait for a section: the drums are excluded from the repetition law
+        // by name. Offered only where they are sounding, for the same reason
+        // a drum machine treatment is.
+        if (cur.heard.has("drums")) {
+          if (!cur.halved) push("half-time", new Set(cur.heard), cur.thin, "drums", 1, cur.treatment, cur.at, cur.hush, true);
+          else push("full-time", new Set(cur.heard), cur.thin, "drums", 1, cur.treatment, cur.at, cur.hush, false);
+        }
         // ── AND THE SECTION ON A DIFFERENT DESK, WITH EVERY NOTE WHERE IT IS.
         //    The two-loop rule's fourth way, which this stage never had: not
         //    who plays, but what the record sounds like while they play it.
@@ -855,11 +892,11 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           return n / (n + 1);
         };
         const want = ledger.owed / (ledger.owed + A.rest);
-        const before = fullness(cur.heard, cur.thin, cur.hush);
+        const before = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
         let best: Move | null = null;
         let bestFit = 0;
         for (const mv of pool) {
-          const after = fullness(mv.heard, mv.thin, mv.hush);
+          const after = fullness(mv.heard, mv.thin, mv.hush, mv.halved);
           const d = after - before;
           const moved = mv.treatment !== cur.treatment;
           //   THE DEBT TALKING: deep in debt, giving scores and taking does not.
@@ -941,15 +978,15 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           best = alt;
         }
         if (best !== null) {
-          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush };
+          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
           ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
         }
       }
-      spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush });
+      spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved });
 
       // ── THE LEDGER, in part-turns. Two entries and nothing else.
       const turns = turnsOf(s);
-      const now = fullness(cur.heard, cur.thin, cur.hush);
+      const now = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
       //   withholding accrues, measured against the fullest the record has
       //   ACTUALLY been — so an intro accrues nothing by being small. It is
       //   establishing, not withholding: you cannot miss what you have not
@@ -988,6 +1025,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         treatment: sp.treatment,
         at: sp.at,
         hush: sp.hush,
+        halved: sp.halved,
       })),
     ) as readonly Span[];
     return Object.freeze({

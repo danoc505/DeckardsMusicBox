@@ -48,7 +48,15 @@ test("every heard note of every section is played, and nothing else", () => {
         for (const role of span.heard) {
           const nth = (played.get(`${p.material} ${role}`) ?? 0) + round;
           if (role === "drums") {
-            expected += m.drums[nth]!.filter((h) => h.bar === mbar && !(span.thin && (h.lane === "hat" || h.lane === "openhat"))).length;
+            // the two things that take a drum hit away, mirrored from
+            // perform.ts exactly: a thinned kit loses its hat, and a halved
+            // one loses whatever would fall past the bar once its step is
+            // doubled. Written out here rather than shared, because a law that
+            // imports the code it checks is checking nothing.
+            expected += m.drums[nth]!.filter((h) =>
+              h.bar === mbar
+              && !(span.thin && (h.lane === "hat" || h.lane === "openhat"))
+              && !(span.halved && h.step * 2 >= s.form.clock.steps)).length;
           } else {
             const notes = role === "lead" ? m.lead[nth]! : m.groove[role];
             expected += notes.filter((n) => n.bar === mbar).length;
@@ -343,6 +351,40 @@ test("the arc makes the peak louder than the intro, like for like", () => {
     }
   }
   assert.ok(cases > 20);
+});
+
+test("half time is the kit taking twice as long, and only the kit", () => {
+  // §3 move 16: "the drums halve, everything else holds". A hit at step s is
+  // played at 2s and one that would fall past the bar is not played at all, so
+  // the backbeat walks from the second beat to the third. It is legal on a
+  // SPAN, where the rest of §3 is not, because the drums are excluded by name
+  // from the law that holds a figure to being played the same way twice.
+  let halved = 0;
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    for (let seed = 1; seed <= 120; seed++) {
+      const s = compose({ seed, genre: g });
+      const steps = s.form.clock.steps;
+      for (const p of s.arrangement.placed) {
+        const m = s.materials.all.get(p.material)!;
+        const turn = 2 * Math.max(1, m.period);
+        for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
+          const span = p.spans[Math.min(p.spans.length - 1, Math.floor((bar - p.section.startBar) / turn))]!;
+          if (!span.halved) continue;
+          // it is never offered where the drums are not sounding: a kit nobody
+          // hears cannot be heard to halve
+          assert.ok(span.heard.has("drums"), "the kit halved with the drums silent");
+          for (const e of s.performance.events.filter((e) => e.role === "drums" && e.bar === bar)) {
+            // every hit sits on an EVEN step, which is what doubling means,
+            // and in the half of the bar the doubling can reach
+            assert.equal(e.step % 2, 0, `a halved kit played on step ${e.step}`);
+            assert.ok(e.step < steps, `a halved hit at step ${e.step} of ${steps}`);
+            halved++;
+          }
+        }
+      }
+    }
+  }
+  assert.ok(halved > 100, `only ${halved} hits were played in half time`);
 });
 
 test("a third hearing is played differently, one rung and no further", () => {

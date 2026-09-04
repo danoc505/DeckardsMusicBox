@@ -252,7 +252,7 @@ export function makePerformance(
       // becomes a range of bars. The last span runs to the end.
       const span = placed.spans[
         Math.min(placed.spans.length - 1, Math.floor((bar - section.startBar) / (2 * loop)))
-      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null };
+      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
       // the treatment changes on and nowhere else, so a treatment held across
       // several spans rebuilds nothing.
@@ -344,7 +344,15 @@ export function makePerformance(
             if (h.bar !== mbar) continue;
             // thinning is the hat coming off: the pulse stays, the shimmer goes
             if (span.thin && (h.lane === "hat" || h.lane === "openhat")) continue;
-            place("drums", h.lane, h.step, 1, null, h.vel, h.art);
+            // AND HALF TIME IS THE KIT TAKING TWICE AS LONG TO SAY THE SAME
+            // THING. A hit at step s is played at 2s, and one that would fall
+            // past the bar is not played: the figure keeps its shape, the
+            // backbeat walks from the second beat to the third, and the kit
+            // halves. Only the drums, because only the drums are outside the
+            // law that holds a figure to being played the same way twice.
+            const at = span.halved ? h.step * 2 : h.step;
+            if (at >= clock.steps) continue;
+            place("drums", h.lane, at, 1, null, h.vel, h.art);
           }
         } else {
           const notes = role === "lead" ? nth(m.lead, "lead", round) : m.groove[role];

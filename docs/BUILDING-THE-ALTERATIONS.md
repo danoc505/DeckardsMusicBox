@@ -25,26 +25,27 @@ The catalogue's own tally table says "36 built". That counts `◐` as built in
 | **total** | **65** |
 
 And the number that matters is neither of those: how many can change *during* a
-record. **It was fourteen. It is twenty-eight.**
+record. **It was fourteen. It is twenty-nine.**
 
 | catalogue rows that move | at the start | now |
 |---|---|---|
 | §2 density — part-out, part-back, all-back, strip | 4 | 4 |
-| §4 the hand | 0 | **3** |
-| §7–9 the desk, the room, the machine | 10 | **21** |
-| **of 65** | **14** | **28** |
+| §3 the clock — half-time feel | 0 | **1** |
+| §4 the hand — 21, 24, 25, 27 | 0 | **4** |
+| §7–9 the desk, the room, the machine | 10 | **20** |
+| **of 65, and firing** | **14** | **29** |
 
 Do not confuse that with the size of the treatment vocabulary, which is a
 different count: `TREATMENTS` went 12 → 23, and one treatment can answer more
 than one catalogue row (`wear` is the tape and the vinyl; `widen` is the width
 and the depth) while some rows need none of them at all.
 
-Two rows in that 28 carry an asterisk, and both are recorded rather than
-quietly counted. **Row 53, circuit swap**, is built and refused for both
-genres — it needs the analogue kit loaded and each plays the acoustic one, and
-treatments are absolute so `rekit` cannot chain into it. **Row 23, accent
-shift**, moves in depth but not in position: how hard the metre is leant on
-varies per hearing, which step is strong does not.
+**Two more are built and deliberately NOT in that 29**, because counting them
+would flatter it. **Row 53, circuit swap**, fires nowhere: it needs the
+analogue kit loaded and both genres play the acoustic one, and treatments are
+absolute so `rekit` cannot chain into it. **Row 23, accent shift**, moves in
+depth but not in position — how hard the metre is leant on varies per hearing,
+which step is strong does not.
 
 ---
 

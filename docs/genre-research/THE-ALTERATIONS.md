@@ -58,11 +58,18 @@ The pool `arrange.ts` already has, plus the two the research named and nobody bu
 
 ## 3. The clock — every note kept, in order
 
+*Except move 16's, and this heading knew it: "the drums halve" is not keeping
+every note. The heading describes the other six rows. What the layer really
+shares is that a note's INSTANT moves rather than its pitch — and that splits
+it in two, because `step` is one of the six fields the repetition law compares
+while the drums are excluded from that comparison by name. So 16 may sit on a
+span and the other six must wait for a section.*
+
 | | move | |
 |---|---|---|
 | 14 | **Half-time** — the same material over twice the bars | ○ |
 | 15 | **Double-time** | ○ |
-| 16 | **Half-time feel** — the drums halve, everything else holds | ○ |
+| 16 | **Half-time feel** — the drums halve, everything else holds | ● **and it moves**: `Span.halved`. A hit at step s is played at 2s and one that would fall past the bar is not played, so the backbeat walks to the third beat. The one §3 move legal on a SPAN — the drums are excluded by name from the law that holds a figure to being played the same way twice |
 | 17 | **Metric displacement** — the figure enters a beat later, or earlier | ○ |
 | 18 | **Truncation** — the last bar of the repeat is chopped and the next thing begins there | ○ note 002's odd phrasing, the transition ingredient |
 | 19 | **Extension** — a bar added, the closing note held across it | ○ |
