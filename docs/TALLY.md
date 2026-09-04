@@ -67,6 +67,20 @@ a part. Recorded here because the failure is more instructive than the fix.
 
 ## 2. DEFECTS AND GAPS FOUND BY MEASUREMENT
 
+**AND ONE FOUND BY EAR, WHICH IS WHAT §0 HAS BEEN ASKING FOR.** The owner
+played dungeon synth records and reported two things: long stretches where
+nothing happens, and a sound that turns up once at the very end. Both were
+real, both were measurable once someone knew to look, and one of them was
+already written in `arrange.ts`'s own header as a known gap nobody had
+connected to anything audible.
+
+| what was heard | what it measured at | where it stands |
+|---|---|---|
+| Long stretches where nothing happens | 68% of dungeon synth sections and 74% of lofi's went by with nobody arriving or leaving — 63% and 67% of a record | **Fixed to 56% and 59%.** A part now walks in part way through a section instead of at the door |
+| A sound that happens once, at the end | 76% of dungeon synth records end on a combination of parts the record has never played before | **Open.** The ending keeps whatever opened the record but never checks that the COMBINATION has been heard |
+| The peak plays an idea heard once | 45% of dungeon synth records, 50% of lofi's | **Open**, and already recorded below at 47%. The ear found it independently |
+
+
 | what | why it is open | what closes it |
 |---|---|---|
 | **A treatment changes the desk in ONE SAMPLE** | `reachDesk` applies a change and retunes at the exact sample the arrangement put it on. That is what makes the record block-size independent, and it also means a cutoff moving 3600 → 1620 Hz is a step. `tune()` keeps each unit's tail so this is not a reset, but a filter's coefficients change instantly. **Not heard yet, so it is not known whether this clicks.** | Listening first. If it clicks: a short ramp across the boundary, which must be derived from the sample index rather than from wall time or the block-size guarantee dies with it |

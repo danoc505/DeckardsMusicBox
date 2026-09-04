@@ -725,13 +725,72 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       }
       if (opening !== null) ledger.used.set(`treat:${opening}`, (ledger.used.get(`treat:${opening}`) ?? 0) + 1);
     }
+    /**
+     * AND THE NEWEST PART WALKS IN PART WAY THROUGH, not at the door.
+     *
+     * This file's own header has said since it was written that "nothing here
+     * enters for the first time halfway through a record", and it was true:
+     * `arrived` grows once a SECTION, so a part's first entrance always landed
+     * on a section boundary — where the material changes, the energy changes
+     * and the desk may change too. An entrance there is not heard as an
+     * entrance. It is masked by everything else arriving with it.
+     *
+     * Worse, it left long sections with nothing to do. Measured over 300
+     * records, 68% of dungeon synth's sections and 74% of lofi's went by
+     * without anybody arriving or leaving at all — 63% and 67% of a record —
+     * because a section that starts with fewer parts than the floor can never
+     * offer `part-out` (it is already under the floor) and has nobody missing
+     * to offer `part-back`. All it can do is play the same people more
+     * quietly, which is what a listener reported hearing as nothing happening.
+     *
+     * So a section that has just gained a part opens WITHOUT it and lets the
+     * pool bring it in at a two-loop boundary, where it is the only thing
+     * changing. `heard` is the union of the spans, so the part is still built
+     * and the section still ends the size its energy asked for; what moves is
+     * the moment it is first heard.
+     *
+     * Not the intro, whose subject is what opens the record. Not the peak,
+     * which has everyone by definition. Not the break, which is a stripping
+     * away. And only where there is a later span for it to arrive at.
+     *
+     * THE ARRIVAL IS A RULE, NOT A CANDIDATE, and it has to be. Left to the
+     * score, the part often never came: `part-back` competed with every other
+     * move and lost, the union of the spans came out smaller than the section
+     * asked for, and the material stage then built nothing for a part the
+     * section was supposed to have — one 32-bar verse came out as a drone on
+     * its own. So the part is absent from span 0 and present from span 1, and
+     * the score keeps every boundary after that.
+     */
+    // AND ONLY A PART THAT LOOPS. The tune and the drums are written per time
+    // ROUND, and the tune's plan includes RESTS — so a lead that enters at the
+    // second span can land on rounds where its line is a rest and play nothing
+    // at all, while the section still says it is heard. That is a part built
+    // and never sounded, which `all.test.ts` catches by name and which is the
+    // one thing this stage promises never to do. The groove is written once
+    // and repeated, so it always has notes to walk in with.
+    const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
+    const gained = A.enter[arrived - 1];
+    const entering: Role | null =
+      gained !== undefined && loops(gained) && spanCount > 1 && !section.peak && !broken
+        && section.fn !== "intro" && heard.has(gained) && heard.size > 1
+        ? gained
+        : null;
+    const opensWithout = new Set(base);
+    if (entering !== null) opensWithout.delete(entering);
+
     let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean } =
-      { heard: new Set(base), thin, treatment: opening, at: null, hush: null, halved: false };
+      { heard: opensWithout, thin, treatment: opening, at: null, hush: null, halved: false };
     const turnsOf = (s: number): number =>
       Math.min(2, Math.max(1, Math.round((Math.min(section.bars, (s + 1) * turn) - s * turn) / (turn / 2))));
 
     for (let s = 0; s < spanCount; s++) {
-      if (s > 0) {
+      // the newest part walks in at the first boundary, and that IS this
+      // boundary's change — the two-loop rule asks for one thing to move and
+      // an instrument arriving is the first of the four ways it names
+      if (s === 1 && entering !== null) {
+        cur = { ...cur, heard: new Set([...cur.heard, entering]) };
+        ledger.used.set(`part-in:${entering}`, (ledger.used.get(`part-in:${entering}`) ?? 0) + 1);
+      } else if (s > 0) {
         // ── THE POOL. Every named way this stage can change an arrangement.
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.

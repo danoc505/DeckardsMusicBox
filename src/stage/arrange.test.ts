@@ -470,6 +470,44 @@ test("no treatment puts a knob outside the range the genre resolver enforces", (
   assert.ok(checked > 30, `only ${checked} treatment/part combinations were live`);
 });
 
+test("a part can walk in part way through a section, and always does walk in", () => {
+  // This file's header said for a long time that "nothing here enters for the
+  // first time halfway through a record", and it was true: `arrived` grew once
+  // a SECTION, so every first entrance landed on a section boundary — where
+  // the material, the energy and the desk may all change too, and an entrance
+  // is not heard as an entrance. It also left long sections with nothing to
+  // do: a section that opens under the floor can never offer `part-out`, and
+  // with nobody missing it can never offer `part-back` either.
+  //
+  // THE PART MUST ACTUALLY ARRIVE. Left to the score this was a candidate like
+  // any other, and it lost often enough that the union of the spans came out
+  // smaller than the section asked for — one 32-bar verse came out as a drone
+  // on its own, with the keys built and never played. So it is a rule at the
+  // first boundary, and this is the assertion behind that.
+  let opened = 0;
+  for (let seed = 1; seed <= 60; seed++) {
+    for (const a of [build(seed), dsBuild(seed)]) {
+      for (const p of a.placed) {
+        const first = p.spans[0]!.heard;
+        const late = [...p.heard].filter((r) => !first.has(r));
+        if (late.length === 0) continue;
+        opened++;
+        assert.equal(late.length, 1, `${late.length} parts walked in at once: ${describeArrangement(a)}`);
+        const who = late[0]!;
+        // only a part that LOOPS, because the tune and the drums are written
+        // per round and the tune's plan includes rests — one entering late can
+        // land entirely on them and play nothing
+        assert.ok(who === "bass" || who === "keys" || who === "drone", `the ${who} walked in, and it is written per round`);
+        // it is in from the second span and never merely promised
+        assert.ok(p.spans[1]?.heard.has(who), `the ${who} was held back and did not walk in: ${describeArrangement(a)}`);
+        assert.ok(!p.section.peak, "the peak opened short, and a peak has everyone");
+        assert.equal(p.broken, false, "the break opened short, and it is a stripping away already");
+      }
+    }
+  }
+  assert.ok(opened > 40, `only ${opened} sections let a part in part way through`);
+});
+
 test("a drum machine move is never made where the drums are silent", () => {
   // `deskOf` asks whether a move changes the DESK, which is the right question
   // for the rack and the wrong one for the machine: swapping a kit changes the
