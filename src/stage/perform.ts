@@ -180,7 +180,7 @@ export function makePerformance(
       // becomes a range of bars. The last span runs to the end.
       const span = placed.spans[
         Math.min(placed.spans.length - 1, Math.floor((bar - section.startBar) / (2 * loop)))
-      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null };
+      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
       // the treatment changes on and nowhere else, so a treatment held across
       // several spans rebuilds nothing.
@@ -246,7 +246,19 @@ export function makePerformance(
           lane,
           pitch,
           durSec: dur * stepSec * a.hold,
-          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accentAt[step] ?? 1) * missed * level * shaped)),
+          // AND A PART HELD BACK PLAYS AT THE ARC'S OWN QUIETEST. `span.hush`
+          // is the two-loop rule's "reduce expression of an existing
+          // instrument" on a part rather than on the drums' hat, and what a
+          // step down means is already written here: `ARC_DEPTH` is what the
+          // arc takes off at its quietest, so a hushed part is held back by
+          // exactly that and no new number is invented for it.
+          //
+          // Gain, and nothing but gain. The law above addresses the hand by
+          // the material so a figure played again is played the same way, and
+          // it compares step, pitch, articulation and the played instant. A
+          // weight is none of those and the arc already moves it bar by bar.
+          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accentAt[step] ?? 1) * missed * level * shaped
+            * (span.hush === role ? 1 - ARC_DEPTH : 1))),
           art,
         });
       };

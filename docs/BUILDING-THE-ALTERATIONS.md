@@ -56,8 +56,27 @@ that is the only reason they were cheap.
 
 Channel B already has a working precedent nobody has generalised: **`span.thin`**.
 It is a span-carried flag that `perform.ts` reads at `perform.ts:255` and uses
-to drop hat notes. It touches no material, rebuilds nothing, and costs one
-line. Every move in §3, §4 and §5 is that same shape.
+to drop hat notes. It touches no material and rebuilds nothing.
+
+**But it is a per-SECTION channel, not a per-span one, and this plan said
+otherwise.** `perform.ts` addresses the hand by the material and the position
+inside it, deliberately, so that a figure played again is played the same way —
+Huron and Ollen put literal repetition at about 94% of passages across five
+continents and five centuries, and `perform.test.ts` holds the groove to it to
+the microsecond. Measured: **76% of lofi's repetition pairs and 44% of dungeon
+synth's straddle a span boundary**, so a per-span change to how the groove is
+played would break that law on most of what it checks. It is the best-sourced
+law in the file and the stated point of the whole arrangement; it is not a test
+to be edited.
+
+`thin` is safe only because it drops HATS — the law's comparison covers
+`bass`, `keys` and `drone`, and the drums are excluded by name.
+
+The catalogue agrees, in its own wording: §4's moves are "for this **hearing**"
+(24), "across the **section**" (25), "per material, not per **return**" (21),
+and §5's octave transposition is "of the whole part". A hearing is a section.
+So channel B hangs its flag on `Placed`, beside `thin` and `broken`, and a
+figure inside a section still repeats exactly.
 
 Channel D is the one to be afraid of. The whole reason this catalogue exists is
 that `vary.ts` was the *only* answer to the rule of three, and spending
@@ -70,8 +89,8 @@ half the catalogue with channel D has reinvented the disease.**
 |---|---|---|---|
 | §1 orchestration | 7 | **C** (2,3,4,5,7) · D (1) | doubling is a second voice on the same written notes — no new pitches |
 | §2 density | 6 | already in the pool · **B** (12,13) | `empty-before` and `fill-into` are seam moves in disguise |
-| §3 the clock | 7 | **B** | every note kept, in order — only its instant moves |
-| §4 the hand | 7 | **B** | `articulation.ts` and `feel`, per span instead of per material |
+| §3 the clock | 7 | **B**, per section | every note kept, in order — only its instant moves. A half-time SECTION, not a half-time span |
+| §4 the hand | 7 | **B**, per section | `articulation.ts` and `feel` per HEARING — which is what the catalogue's own rows say, and the only grain the repetition law allows |
 | §5 register | 3 | **B** (28) · **D** (29,30) | octave transposition is arithmetic; voicing is built in `harmony.ts` |
 | §6 underneath | 5 | **D** | reharmonise and pedal point change what the parts are built from |
 | §7 the room | 5 | **A** | four of five already move; azimuth does not |

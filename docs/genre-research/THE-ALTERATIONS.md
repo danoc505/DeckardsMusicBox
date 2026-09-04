@@ -78,7 +78,7 @@ already exist per genre and are drawn per material.
 | 21 | **Articulation swap** — a slurred wind line played tongued, or tenuto | ◐ per material, not per return |
 | 22 | **Ghosting** — the line at greatly reduced weight | ● `ghost` |
 | 23 | **Accent shift** — which notes are leaned on | ● |
-| 24 | **Dynamic terrace** — the part a step quieter, or louder, for this hearing | ◐ one global arc level |
+| 24 | **Dynamic terrace** — the part a step quieter, or louder, for this hearing | ● **and it moves**: `Span.hush` holds one part back by `ARC_DEPTH`, what the arc itself takes off at its quietest. It is a GAIN and nothing else, which is what makes it legal per span — see below |
 | 25 | **Crescendo** across the section rather than a flat level | ○ |
 | 26 | **Lean** — the part plays further behind or ahead of the beat | ● `feel.lean` |
 | 27 | **Phrase shape** — more or less arch across the loop | ● `F.phrase` |
@@ -247,6 +247,32 @@ moves against two of everything else — a section changing colour every eight
 bars and never losing a player, which is the oscillating texture again in
 better clothes. A treatment is now priced at what this file already prices the
 drums' expression at: half a part.
+
+## What the repetition law allows, and what it does not
+
+§3, §4 and §5 are performance moves, and there is one law they have to get
+past. `perform.ts` addresses the hand by the material and the position inside
+it so that a figure played again is played the same way — Huron and Ollen put
+literal repetition at about 94% of passages across five continents and five
+centuries — and `perform.test.ts` holds the groove to it. Measured, **76% of
+lofi's repetition pairs and 44% of dungeon synth's straddle a span boundary**,
+so a per-span change to how the groove is played breaks that law on most of
+what it checks.
+
+But look at what the law actually compares: `role`, `lane`, `step`, `pitch`,
+`art`, `playedStep`. **Gain is not in it**, and never was — the arc already
+moves a note's weight bar by bar under the same law. So:
+
+| a move that changes | grain it may work at |
+|---|---|
+| the weight of a note | any — per span is fine |
+| the articulation, the timing, the pitch, the step | the SECTION, or the two turns of a pair differ |
+
+That is why `hush` is a span move and an articulation swap cannot be, and it is
+why §4's own rows say "for this **hearing**" and "across the **section**". A
+hearing is a section. `thin` was never the general case — it is safe only
+because it drops HATS, and the law's comparison covers `bass`, `keys` and
+`drone` by name.
 
 ## And what the machine needed that the rack did not
 

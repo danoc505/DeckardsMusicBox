@@ -312,11 +312,23 @@ test("the arc makes the peak louder than the intro, like for like", () => {
       return (e: { bar: number }): boolean =>
         e.bar >= p.section.startBar && e.bar < p.section.endBar && (e.bar - p.section.startBar) % m.period === 0;
     };
+    // AND WITH THE PART NOT HELD BACK ON EITHER SIDE. `span.hush` is the
+    // two-loop rule's expression move on a part rather than on the drums'
+    // hat, and it takes off exactly what the arc takes off at its quietest —
+    // so a peak that holds its keys back reads quieter than an intro that
+    // does not, for a reason that is not the arc. Same as the hats above:
+    // this is a law about the ARC, so the comparison is made where nothing
+    // else is moving the weight.
+    const everHushed = (p: typeof peak, role: string): boolean => p.spans.some((sp) => sp.hush === role);
     const mean = (es: readonly { gain: number }[]) => (es.length ? es.reduce((a, e) => a + e.gain, 0) / es.length : null);
     const kick = (p: typeof peak) => mean(s.performance.events.filter((e) => inside(p)(e) && e.lane === "kick" && e.step === 0));
     const part = (p: typeof peak, role: string) => mean(s.performance.events.filter((e) => inside(p)(e) && e.role === role));
-    const pairs: [number | null, number | null, string][] = [[kick(intro), kick(peak), "kick"]];
-    for (const role of ROLES) if (role !== "drums") pairs.push([part(intro, role), part(peak, role), role]);
+    const pairs: [number | null, number | null, string][] = [];
+    if (!everHushed(intro, "drums") && !everHushed(peak, "drums")) pairs.push([kick(intro), kick(peak), "kick"]);
+    for (const role of ROLES) {
+      if (role === "drums" || everHushed(intro, role) || everHushed(peak, role)) continue;
+      pairs.push([part(intro, role), part(peak, role), role]);
+    }
     for (const [gi, gp, what] of pairs) {
       if (gi === null || gp === null) continue;
       cases++;
@@ -324,6 +336,53 @@ test("the arc makes the peak louder than the intro, like for like", () => {
     }
   }
   assert.ok(cases > 20);
+});
+
+test("a part held back is quieter, and is still there", () => {
+  // `span.hush` is the two-loop rule's fourth way — "reduce expression of an
+  // existing instrument" — on a part rather than on the drums' hat, which is
+  // all this stage could do before. Two things have to hold. It is a GAIN and
+  // nothing else, so the part is still playing every note it would have
+  // played: a hush that dropped notes would be a density move wearing an
+  // expression move's name, and the material stage builds for what the
+  // arrangement said is heard. And it is quieter, by the arc's own quietest.
+  let compared = 0;
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    for (let seed = 1; seed <= 60; seed++) {
+      const s = compose({ seed, genre: g });
+      for (const p of s.arrangement.placed) {
+        const m = s.materials.all.get(p.material)!;
+        const turn = 2 * Math.max(1, m.period);
+        const spanAt = (bar: number) =>
+          p.spans[Math.min(p.spans.length - 1, Math.floor((bar - p.section.startBar) / turn))]!;
+        // THE GROOVE ONLY, for the reason the repetition law gives: the drums
+        // and the tune are written per time ROUND — `nth(m.drums, …, round)`
+        // — so the same bar and step in two rounds is a different hit with a
+        // weight of its own, and comparing them would measure the material
+        // rather than the hush. The parts that loop are the ones that can be
+        // held to playing the same thing twice.
+        for (const role of ["bass", "keys", "drone"] as const) {
+          const byMbar = new Map<number, { hushed: number[]; open: number[] }>();
+          for (const e of s.performance.events) {
+            if (e.role !== role || e.bar < p.section.startBar || e.bar >= p.section.endBar) continue;
+            const sp = spanAt(e.bar);
+            if (!sp.heard.has(role)) continue;
+            const key = ((e.bar - p.section.startBar) % m.bars) * 1000 + e.step;
+            const slot = byMbar.get(key) ?? { hushed: [], open: [] };
+            (sp.hush === role ? slot.hushed : slot.open).push(e.gain);
+            byMbar.set(key, slot);
+          }
+          for (const { hushed, open } of byMbar.values()) {
+            if (hushed.length === 0 || open.length === 0) continue;
+            const mean = (a: number[]) => a.reduce((x, y) => x + y, 0) / a.length;
+            assert.ok(mean(hushed) < mean(open), `${g} seed ${seed}: the ${role} held back is not quieter`);
+            compared++;
+          }
+        }
+      }
+    }
+  }
+  assert.ok(compared > 50, `only ${compared} held-back notes were compared`);
 });
 
 test("the tune does not repeat itself at the loop seam", () => {
