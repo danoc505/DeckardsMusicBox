@@ -39,6 +39,52 @@ twenty seeds — which is how the melody and intro research was measured, and
 which no picture can do. It draws one part as a grid of characters along the
 way; that grid is not a piano roll and is not what proves a change.
 
+## The research, and where it lives
+
+Every rule in this program comes from a document, and each one follows the same
+shape: the research first, then a table of what went into the program, then
+what it came to when measured. Write the next one that way.
+
+- `docs/THE-PIANO-ROLL.md` — how to read a roll and what to look for, in order.
+- `docs/genre-research/MELODY-AND-THE-HOOK.md` — the tune: a figure that comes
+  back, the contour it walks, the one wide leap.
+- `docs/genre-research/THE-INTRO.md` — how a record opens, the three ways in,
+  and the break. §7 is the worked example of a rule deleted for doing nothing.
+- `docs/genre-research/THE-ARRANGEMENT-AS-STORY.md` — who plays when, and why
+  that is a narrative and not a texture. The newest, and the least finished.
+
+## Where the work is
+
+Three things are open, all of them in `THE-ARRANGEMENT-AS-STORY.md` §8, in the
+order I would pick them up.
+
+**1. §8's numbers cannot be reproduced from this repository.** They were
+measured with a throwaway script over `tools/measure.ts --json`, and that
+script is not here. Nothing else in these docs has that problem, and it should
+not be the first thing you discover. Give `measure.ts` a mode that reports
+what becomes of a part across a sweep — its share, its longest absence, whether
+it is playing at the end, whether the most-present part changes between halves
+— and §8 becomes checkable instead of asserted.
+
+**2. lofi's hierarchy does not move.** The section decision in `arrange.ts` now
+derives who plays from what the record has done, which took dungeon synth's
+top-part-change from 30% to 45%. lofi's went the other way, 20% to 15%. Its
+drums sit at the bottom of its own shed order and play nearly every bar, so its
+most-present part is close to fixed whatever this rule does. Either the measure
+asks lofi the wrong question, or the rule needs a term that knows about RANK
+rather than presence. Unsolved, and it is the interesting one.
+
+**3. The absence ceiling has no number, and may not need one.** `1/(1+out)` in
+the section decision is a soft ceiling, and it did the work on its own: parts
+abandoned before the last quarter fell from 15% and 25% to 5% in both genres.
+Whether a stated number does anything that soft term does not has never been
+tested. Test it on and off — and if it does nothing, delete it and keep the
+note, which is the house rule.
+
+Also true and not yet a problem anybody has felt: no part arrives late in lofi.
+0% of its records hear something for the first time after halfway, against 30%
+in dungeon synth, because parts arrive in a fixed order.
+
 ## House rules that are easy to break
 
 - **A knob that does nothing is this program's cardinal sin.** If a rule is
