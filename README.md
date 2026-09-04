@@ -34,24 +34,24 @@ circle offset 22.5° from the quadrant lines so every player faces a clean lane.
 
 ## Playing
 
-There is no flick. Nothing depends on how fast you move.
+Aim, then time the bar — the way a golf game does it.
 
-1. **Click the disc.** (Clicking anywhere else on your own line moves it there
-   first.)
-2. **Move away from it.** A line draws to where you are, a dashed ring marks
-   where the disc will actually stop, and the HUD counts the power up as you
-   go. **The further from the disc, the harder it is struck** — full power at
-   about 400 mm, which is well inside the board.
-3. **Lift your finger off the trackpad** and it shoots.
+1. **Move to where you want the disc to go.** A line points that way. No power
+   is committed yet.
+2. **Press and hold.** A bar starts sweeping up and down beside the disc, and
+   the trajectory line grows and shrinks with it — so you can see exactly where
+   each level of power puts the disc before you commit to one.
+3. **Let go.** It shoots at whatever the bar reads.
 
-Because nothing is timed, the preview holds perfectly still while you line the
-shot up, and the same cursor position always gives the same shot.
+A quick tap with no hold is still just a tap: it moves the disc along your line.
 
-**With a finger**: press, drag away from the disc, lift off. Same rule.
+Everything before this took the force from how the hand *moved* — how fast it
+swiped, or how far from the disc it sat. All of it had the same defect
+underneath: the number was a side effect of moving, so it could not be watched
+while it was being chosen, and it could not be repeated. A bar can be.
 
-On a trackpad a finger leaving the pad sends no event — the cursor simply
-stops — so the shot goes when the cursor has been still for a moment, with a
-ring closing around the disc so the wait is visible. Move again to call it off.
+**With a finger**: press the board and hold, drag to adjust the aim if you
+like, lift off to shoot. Same three steps.
 
 ## Tests
 

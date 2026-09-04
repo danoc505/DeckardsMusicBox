@@ -100,26 +100,23 @@ hardware is worst at, and it is not what flicking a disc feels like either. Now
 a disc is always waiting on the line, a tap moves it, and a flick anywhere on
 the board shoots in the direction you swiped.
 
-**Aim by position, never by speed.** Five earlier versions took the shot's
-power from how FAST the hand moved and every one was wrong in the same way:
-speed is not something a hand repeats, it means different things on a trackpad
-and on glass, and it can only be read at the instant the gesture ends — so the
-trajectory line appeared and vanished exactly when it was wanted. Distance has
-none of those problems. `APP.aimShot` maps the cursor's distance from the disc across the whole power
-range, full power at `AIM_FULL`.
+**Aim and power are separate, and power is a meter.** Where the cursor sits
+sets only the DIRECTION; the force comes from a bar that sweeps 0 -> 1 -> 0 and
+is read at the moment the press is released.
 
-The first version of that mapping made the disc stop exactly under the cursor,
-which is the friction law solved backwards and has no calibration constant in
-it at all. It was elegant and unplayable: a disc that stops where you point
-always arrives with nothing left, so nothing could be knocked anywhere and the
-screen ran out before the power did. `AIM_FULL` is therefore set by what the
-hand can comfortably reach, not by anything physical. Honesty does not depend
-on the mapping being 1:1 — the dashed ring in the preview marks where the disc
-really stops, usually well past the cursor.
+Six earlier versions tied force to the hand's movement — swipe speed, then
+per-device swipe speed, then distance from the disc — and each failed the same
+way underneath. A number derived from moving cannot be watched while it is
+being chosen (the preview only exists during the gesture), cannot be repeated
+(a hand does not reproduce a speed), and means different things on a trackpad
+and on glass. A meter has none of those properties: it is visible, it is the
+same everywhere, and timing it is a skill that improves. It is why golf games
+use one.
 
-The one device difference left: glass fires when the touch ends, a trackpad
-when the cursor has been still for `AIM_SETTLE`, because a finger leaving a
-trackpad sends no event.
+`APP.meterPower` is a triangle wave on `METER_PERIOD`; `APP.redrawAim` re-runs
+the real solver every frame at the bar's current reading, so the line on screen
+and the shot that leaves are the same number. A press shorter than `METER_ARM`
+never starts the bar, which is what keeps "tap to move the disc" working.
 
 **Difficulty is execution, not worse choices.** The AI finds a good shot and then
 misses it. Medium and Hard also re-score their leading candidates through their

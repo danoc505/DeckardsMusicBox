@@ -690,15 +690,25 @@ const SPEC = {
 
   /* THE FLICK. V_MAX_SHOT is derived; the rest is feel. */
   V_MIN_SHOT:     0.08,
-  /* AIMING BY DISTANCE. How far the cursor sits from the disc is the whole
-     of the shot's force. AIM_MIN is close enough to count as no shot at all,
-     which is also how you back out of one. AIM_FULL is full power, and it
-     is set by what the hand can comfortably reach on screen rather than by
-     anything physical: 0.40 m is about 60% of a board diameter, so maximum
-     power sits well inside the board and is not something you have to
-     stretch for. [CALIBRATED] */
+  /* AIM AND POWER ARE SEPARATE NOW, the way a golf game does it. Where the
+     cursor is sets only the DIRECTION; the force comes from a bar that
+     sweeps up and down, and the shot goes at whatever it reads when the
+     finger comes off.
+
+     Every earlier version tied force to the hand's movement -- how fast it
+     swiped, or how far from the disc it sat -- and all of them had the same
+     defect: the number was a side effect of moving, so it could not be
+     watched, aimed for, or repeated. A meter can be. It is the same reason
+     golf games use one.
+
+     AIM_MIN is just how far from the disc the cursor has to be before there
+     is a direction at all. [CALIBRATED] */
   AIM_MIN:        0.030,
-  AIM_FULL:       0.40,
+  /* seconds for the bar to travel up and back down once. Slow enough to
+     stop where you meant, quick enough not to be a wait. */
+  METER_PERIOD:   1.5,
+  /* a press shorter than this was a tap, not a shot */
+  METER_ARM:      0.12,
   /* Finger speed, in BOARD metres per second, to disc speed. A real flick
      is a lever -- the disc leaves the fingernail faster than the finger was
      travelling -- so this is not 1. Set so that a gentle swipe of about one
@@ -2701,21 +2711,68 @@ RENDER.frame = function(g, v, geo, st){
   for (const d of ds) if (d.live && d.owner === st.shooter) RENDER.disc(g, v, d, { geo });
   if (st.pending) RENDER.disc(g, v, st.pending, { geo });
 
-  /* The disc being aimed reads as live, and on a trackpad a second ring
-     closes around it as the stop-to-shoot moment passes -- so the wait is
-     something you can watch rather than be surprised by, and moving again
-     visibly calls it off. */
+  /* THE POWER BAR. Drawn beside the disc rather than at the edge of the
+     screen, because the disc is what you are looking at and a meter you
+     have to look away to read is a meter you will mistime. It sits on
+     whichever side has room and is clamped to stay on screen. */
   if (st.aiming && st.pending){
     const p = RENDER.toScreen(v, st.pending.x, st.pending.y);
     const r = geo.P.R_DISC * v.scale;
+    const col = RENDER.DISC_COLOUR[st.shooter].rim;
+
+    /* the disc is live */
     RENDER.glowStroke(g, ctx => { ctx.arc(p.x, p.y, r * 1.5, 0, TAU); },
-                      RENDER.DISC_COLOUR[st.shooter].rim,
-                      Math.max(1.5, r * 0.14), 5, 0.7);
-    if (st.settle > 0){
+                      col, Math.max(1.5, r * 0.13), 5, st.charging ? 0.85 : 0.55);
+
+    if (st.charging){
+      const h = Math.min(r * 13, v.h * 0.46);      /* bar height          */
+      const w = Math.max(12, r * 0.8);             /* bar width           */
+      const side = p.x < v.w / 2 ? 1 : -1;         /* the roomier side    */
+      const bx = clamp(p.x + side * r * 3.4, w * 1.6, v.w - w * 1.6);
+      /* keep clear of the HUD along the bottom -- the prompt and the disc
+         counters live there, and a meter overlapping them is unreadable
+         exactly when it is being read */
+      const by = clamp(p.y - h * 0.62, 56, v.h - h - 104);
+
+      /* the track */
+      g.save();
+      g.fillStyle = 'rgba(7,7,12,0.72)';
+      g.strokeStyle = 'rgba(255,255,255,0.16)';
+      g.lineWidth = 1;
+      g.beginPath();
+      if (g.roundRect) g.roundRect(bx - w / 2, by, w, h, w * 0.45);
+      else g.rect(bx - w / 2, by, w, h);
+      g.fill(); g.stroke();
+
+      /* the fill, green through amber to red at the top, so a full-power
+         shot looks like one before it is taken */
+      const lv = clamp(st.meter, 0, 1);
+      const grd = g.createLinearGradient(0, by + h, 0, by);
+      grd.addColorStop(0,    '#7cff4d');
+      grd.addColorStop(0.55, '#ffb020');
+      grd.addColorStop(1,    '#ff2b8f');
+      g.fillStyle = grd;
+      g.beginPath();
+      const fh = h * lv;
+      if (g.roundRect) g.roundRect(bx - w / 2 + 2, by + h - fh, w - 4, Math.max(0, fh - 2), (w - 4) * 0.45);
+      else g.rect(bx - w / 2 + 2, by + h - fh, w - 4, Math.max(0, fh - 2));
+      g.fill();
+      g.restore();
+
+      /* the marker, which is what the eye actually tracks */
+      const my = by + h - fh;
       RENDER.glowStroke(g, ctx => {
-        ctx.arc(p.x, p.y, r * (2.3 - 0.8 * st.settle), -Math.PI / 2,
-                -Math.PI / 2 + TAU * st.settle);
-      }, '#7cff4d', Math.max(2, r * 0.2), 6, 0.95);
+        ctx.moveTo(bx - w * 0.95, my); ctx.lineTo(bx + w * 0.95, my);
+      }, '#ffffff', Math.max(2, w * 0.22), 5, 0.95);
+
+      /* and the number */
+      g.save();
+      g.font = `700 ${Math.max(12, r * 0.95)}px -apple-system, system-ui, sans-serif`;
+      g.textAlign = 'center'; g.textBaseline = 'bottom';
+      g.fillStyle = '#fff';
+      g.shadowColor = 'rgba(0,0,0,0.9)'; g.shadowBlur = 6;
+      g.fillText(`${Math.round(lv * 100)}%`, bx, by - 4);
+      g.restore();
     }
   }
 
@@ -3419,7 +3476,8 @@ GAME.create = function(host){
       previewMode: g.host.setting('preview'),
       showArcs: g.state === 'aim',
       aiming: !!(APP.state && APP.state.aiming),
-      settle: (APP.state && APP.state.aimSettle) || 0,
+      charging: !!(APP.state && APP.state.charging),
+      meter: (APP.state && APP.state.meter) || 0,
       geo: g.geo,
     };
     if (g.state === 'playing' && g.play){
@@ -3477,8 +3535,9 @@ APP.state = { screen: 'menu', game: null, view: null, ctx: null, canvas: null,
               /* AIMING. The disc has been clicked and where the cursor
                  sits is now the shot: direction from the disc towards it,
                  force from how far away it is. */
-              aiming: false, aimPx: 0, aimPy: 0, aimHeldSince: 0,
-              aimSettle: 0, dragged: false, downX: 0, downY: 0, lastKind: '',
+              aiming: false, aimPx: 0, aimPy: 0, aimVec: null,
+              pressing: false, charging: false, chargeFrom: 0, meter: 0,
+              dragged: false, downX: 0, downY: 0, lastKind: '',
               /* PEAK-HOLD. In velocity mode the power of a flick is how fast
                  you were moving -- but a player lining up a shot stops
                  moving to aim, and reading the instantaneous speed at that
@@ -3687,29 +3746,23 @@ APP.host = {
   },
 
   /* ---- input --------------------------------------------------------
-     AIM BY POSITION, NOT BY SPEED. There is no flick left in the game.
+     AIM, THEN TIME THE BAR -- the way a golf game does it.
 
-       1. CLICK THE DISC to start aiming. (Clicking anywhere else on your
-          own line moves the disc there instead.)
-       2. MOVE AWAY FROM IT. A line is drawn from the disc through where you
-          are, showing exactly where the shot goes -- and the further from
-          the disc you are, the harder it is struck.
-       3. LIFT YOUR FINGER OFF THE TRACKPAD and it shoots.
+       MOVE to where you want the disc to go. A line points that way.
+       PRESS AND HOLD. A bar starts sweeping up and down beside the disc,
+            and the line grows and shrinks with it, so you can see exactly
+            where each level of power puts the disc.
+       LET GO. It shoots at whatever the bar reads.
 
-     Every version before this took its power from how FAST the hand moved,
-     and every one of them was wrong in the same way: speed is not something
-     a hand can repeat, it means something different on a trackpad than on
-     glass, and it can only be measured at the instant the gesture ends --
-     so the trajectory line flashed up and vanished at exactly the moment
-     it mattered. Distance has none of those problems. It holds still, it
-     reads the same on any device, and the preview can sit there being
-     correct for as long as you like while you line the shot up.
+     Every version before this took the force from the hand's movement --
+     how fast it swiped, or how far from the disc it sat. All of them had
+     the same defect underneath: the number was a side effect of moving, so
+     it could not be watched while it was being chosen, and it could not be
+     repeated. A bar can be. Holding is the whole mechanic here rather than
+     an accident of it, and the release is the moment that matters.
 
-     "Lift your finger off" is a real event on glass -- the touch ends. On a
-     trackpad it is not: a finger leaving the pad sends nothing, the cursor
-     simply stops. So there the shot fires when the cursor HAS STOPPED for a
-     moment, with a ring closing around the disc as the moment passes, so it
-     is visible and can be called off by moving again.
+     A quick press with no hold is still just a tap: it moves the disc along
+     your line. The bar does not start until METER_ARM has passed.
   */
   pointerDown(px, py, kind){
     const s = APP.state, g = s.game;
@@ -3719,8 +3772,9 @@ APP.host = {
     s.downT = APP.host.now();
     s.downX = px; s.downY = py;
     s.dragged = false;
-    /* on glass the press itself starts the aim; the lift will shoot */
-    if (APP.isTouch()) APP.setAiming(true, px, py);
+    s.pressing = true;
+    /* aim at wherever the press landed, so a touch sets direction too */
+    if (!s.aiming) APP.setAiming(true, px, py); else APP.aimAt(px, py);
     return true;
   },
 
@@ -3728,51 +3782,45 @@ APP.host = {
     const s = APP.state, g = s.game;
     if (!g || g.state !== 'aim' || !g.pending) return;
     if (hypot(px - dx, py - dy) > APP.TAP_SLOP) s.dragged = true;
-    if (!APP.isTouch() || !s.aiming) return;
-    APP.aimAt(px, py);
+    /* moving while held re-aims; the bar keeps sweeping either way */
+    if (s.pressing) APP.aimAt(px, py);
   },
 
   pointerUp(px, py, vel, dx, dy){
     const s = APP.state, g = s.game;
+    s.pressing = false;
     if (!g || g.state !== 'aim' || !g.pending) return;
+    const held = APP.host.now() - (s.downT || 0);
     const moved = hypot(px - dx, py - dy);
 
-    /* --- a tap or click, on either device ------------------------------- */
-    if (!s.dragged && moved <= APP.TAP_SLOP && APP.host.now() - s.downT < APP.TAP_TIME){
+    /* --- the bar was running: this is the shot -------------------------- */
+    if (s.charging){ APP.fireAim(g); return; }
+
+    /* --- a quick tap: move the disc along your line --------------------- */
+    if (held < APP.TAP_TIME && moved <= APP.TAP_SLOP){
       const b = RENDER.toBoard(s.view, px, py);
-      const onDisc = hypot(b.x - g.pending.x, b.y - g.pending.y) < SPEC.R_DISC * 2.6;
-      if (onDisc){
-        /* start aiming, or stop if already */
-        APP.setAiming(!s.aiming, px, py);
-        return;
-      }
-      if (s.aiming){ APP.setAiming(false); return; }   /* a click cancels   */
       const pl = g.geo.placement(g.shooter);
       if (Math.abs(angDiff(pl.c, Math.atan2(b.y, b.x))) <= pl.halfSpan + 0.52){
         g.place(b.x, b.y);
         SFX.ui(false);
-        APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Click the disc, then move away from it to aim');
+        APP.setAiming(false);
+        APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Aim, then press and hold to set the power');
       }
-      return;
     }
-
-    /* --- glass: lifting off is the shot -------------------------------- */
-    if (APP.isTouch() && s.aiming) APP.fireAim(g);
   },
 
-  /* A trackpad reports movement with nothing held. That IS the aim. */
+  /* A trackpad reports movement with nothing held: that is the aim. */
   pointerHover(px, py, samples, kind){
     const s = APP.state, g = s.game;
     if (!g || g.state !== 'aim' || !g.pending || g.isAI(g.shooter)) return;
     s.lastKind = kind || s.lastKind;
-    if (!s.aiming || APP.isTouch()) return;
-    APP.aimAt(px, py);
+    if (!s.aiming) APP.setAiming(true, px, py); else APP.aimAt(px, py);
   },
 
   pointerCancel(){
     const s = APP.state;
-    if (s.aiming) APP.setAiming(false);
-    s.dragged = false;
+    s.pressing = false; s.charging = false; s.dragged = false;
+    if (s.game) APP.redrawAim();
   },
 };
 
@@ -3781,78 +3829,99 @@ APP.host = {
 APP.setAiming = function(on, px, py){
   const s = APP.state, g = s.game;
   s.aiming = !!on;
-  s.aimHeldSince = 0;
   if (!on){
+    s.charging = false; s.aimVec = null; s.meter = 0;
     if (g) g.cancelAim();
     if (g) APP.prompt(`Player ${g.shooter + 1} to shoot`,
-                      APP.isTouch() ? 'Touch and drag away from the disc, then let go'
-                                    : 'Click the disc, then move away from it to aim');
+                      'Aim, then press and hold to set the power');
     return;
   }
-  SFX.ui(true);
   if (px !== undefined) APP.aimAt(px, py);
-  if (g) APP.prompt(`Player ${g.shooter + 1} to shoot`,
-                    APP.isTouch() ? 'Further from the disc is harder — let go to shoot'
-                                  : 'Further from the disc is harder — stop moving to shoot');
 };
 
-/* The shot a given cursor position describes. Direction is from the disc
-   towards the cursor; force is how far away the cursor is. Nothing here
-   depends on time, so the preview is steady and the same position always
-   gives the same shot. */
-APP.aimShot = function(g, px, py){
+/* Where the cursor is, as a direction from the disc. Power is not in here
+   at all any more -- that is the meter's job. */
+APP.aimDir = function(g, px, py){
   if (!g.pending) return null;
   const b = RENDER.toBoard(APP.state.view, px, py);
-  let ax = b.x - g.pending.x, ay = b.y - g.pending.y;
-  const dist = hypot(ax, ay);
-  if (dist < SPEC.AIM_MIN) return null;
+  const ax = b.x - g.pending.x, ay = b.y - g.pending.y;
+  const d = hypot(ax, ay);
+  if (d < SPEC.AIM_MIN) return null;
+  return { x: ax / d, y: ay / d, aim: b };
+};
 
-  /* HOW FAR THE CURSOR IS FROM THE DISC IS HOW HARD IT IS STRUCK, across
-     the whole range, with full power at AIM_FULL.
+/* Where the bar is right now: a triangle sweeping 0 -> 1 -> 0, forever,
+   from the moment the press was held long enough to count. */
+APP.meterPower = function(now){
+  const s = APP.state;
+  if (!s.charging) return 0;
+  const t = (now - s.chargeFrom) / SPEC.METER_PERIOD;
+  const phase = t - Math.floor(t);                  /* 0..1 of a full cycle */
+  return phase < 0.5 ? phase * 2 : (1 - phase) * 2;
+};
 
-     The first version of this made the disc stop exactly under the cursor
-     -- elegant, since it is just the friction law solved backwards, and
-     completely unplayable. A disc that stops where you point always arrives
-     with NOTHING left, so nothing could ever be knocked anywhere: to hit
-     hard you had to aim far past the target, and the screen ran out long
-     before the power did. The disc only ever went slow.
-
-     So the mapping spans the real range instead, and AIM_FULL is set to a
-     distance that is comfortably reachable on screen. Honesty does not
-     depend on the rule being 1:1 -- the dashed ring in the preview marks
-     where the disc will actually stop, which is usually well past the
-     cursor, and that IS the truth about the shot. */
-  const t = clamp((dist - SPEC.AIM_MIN) / (SPEC.AIM_FULL - SPEC.AIM_MIN), 0, 1);
-  const speed = SPEC.V_MIN_SHOT + (SPEC.V_MAX_SHOT - SPEC.V_MIN_SHOT) * t;
+APP.shotAt = function(g, dir, power){
+  if (!dir || power <= 0.01) return null;
   const shot = INPUT.buildFlick(SPEC, {
     owner: g.shooter, x: g.pending.x, y: g.pending.y,
-    dirX: ax, dirY: ay, speed, lateralFrac: 0,
+    dirX: dir.x, dirY: dir.y,
+    speed: SPEC.V_MIN_SHOT + (SPEC.V_MAX_SHOT - SPEC.V_MIN_SHOT) * power,
+    lateralFrac: 0,
   });
-  return shot ? { shot, power: speed / SPEC.V_MAX_SHOT, aim: b } : null;
+  return shot ? { shot, power } : null;
 };
 
 APP.aimAt = function(px, py){
   const s = APP.state, g = s.game;
   if (!g || !s.aiming) return;
   s.aimPx = px; s.aimPy = py;
-  s.aimHeldSince = APP.host.now();        /* the stop-to-shoot clock resets */
-  const m = APP.aimShot(g, px, py);
-  g.setAim(m ? m.shot : null, m ? m.power : 0, m ? m.aim : null);
-  /* say the power out loud as it climbs -- without it there is no way to
-     tell a half-power shot from a full one until it is already gone */
-  const pc = m ? Math.round(m.power * 100) : 0;
-  APP.prompt(`Player ${g.shooter + 1} to shoot`,
-    pc <= 0 ? 'Move further from the disc'
-            : `${pc}% power — ` + (APP.isTouch() ? 'let go to shoot'
-                                                 : 'stop moving to shoot'));
+  const d = APP.aimDir(g, px, py);
+  if (d) s.aimVec = d;
+  APP.redrawAim();
+};
+
+/* Redraw the predicted shot for the current direction and the current
+   reading of the bar. Called once a frame while charging, so the line
+   grows and shrinks with the meter and you can see exactly where each
+   level of power puts the disc. */
+APP.redrawAim = function(){
+  const s = APP.state, g = s.game;
+  if (!g || !g.pending) return;
+  const power = s.charging ? APP.meterPower(APP.host.now()) : 0;
+  s.meter = power;
+  if (!s.aimVec){ g.setAim(null, 0); return; }
+  if (!s.charging){
+    /* not charging yet: show the line the aim points along, at a nominal
+       level, so the direction can be judged before committing */
+    const m = APP.shotAt(g, s.aimVec, 0.35);
+    g.setAim(m ? m.shot : null, m ? 0 : 0,
+             { x: g.pending.x + s.aimVec.x * 0.12, y: g.pending.y + s.aimVec.y * 0.12 });
+    if (g.aim) g.power = 0;
+    return;
+  }
+  const m = APP.shotAt(g, s.aimVec, power);
+  g.setAim(m ? m.shot : null, power,
+           { x: g.pending.x + s.aimVec.x * 0.12, y: g.pending.y + s.aimVec.y * 0.12 });
+};
+
+APP.startCharge = function(){
+  const s = APP.state, g = s.game;
+  if (!g || !s.aimVec) return;
+  s.charging = true;
+  s.chargeFrom = APP.host.now();
+  SFX.ui(false);
+  APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Let go when the bar is where you want it');
 };
 
 APP.fireAim = function(g){
   const s = APP.state;
-  const m = APP.aimShot(g, s.aimPx, s.aimPy);
+  const power = APP.meterPower(APP.host.now());
+  const dir = s.aimVec;
+  s.charging = false;
   APP.setAiming(false);
+  const m = APP.shotAt(g, dir, power);
   if (!m){
-    APP.prompt(`Player ${g.shooter + 1} to shoot`, 'Too close to the disc — move further away');
+    APP.prompt(`Player ${g.shooter + 1} to shoot`, 'No power on that one — hold longer');
     return;
   }
   g.takeShot(m.shot);
@@ -3930,15 +3999,13 @@ APP.loop = function(ts){
 
   if (!el('modal').classList.contains('on')) g.advance(dt);
 
-  /* STOP MOVING TO SHOOT, on a trackpad. A finger leaving the pad sends no
-     event -- the cursor just stops -- so a pause of AIM_SETTLE is what
-     "took the finger off" looks like from in here. The ring closing around
-     the disc makes the wait visible, and moving again calls it off. */
-  if (s.aiming && !APP.isTouch() && s.aimHeldSince){
-    const held = APP.host.now() - s.aimHeldSince;
-    s.aimSettle = clamp(held / APP.AIM_SETTLE, 0, 1);
-    if (held >= APP.AIM_SETTLE && g.power > 0) APP.fireAim(g);
-  } else s.aimSettle = 0;
+  /* THE METER. A press held past METER_ARM starts the bar; from then on it
+     sweeps until the finger comes off, and the trajectory line is redrawn
+     with it every frame so the two always agree. */
+  if (s.pressing && !s.charging && APP.host.now() - s.downT >= SPEC.METER_ARM){
+    APP.startCharge();
+  }
+  if (s.charging) APP.redrawAim();
 
   if (s.toastT > 0){
     s.toastT -= dt;
