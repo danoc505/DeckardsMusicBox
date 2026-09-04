@@ -1165,7 +1165,25 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * the range the two sources bound. A genre whose whole texture is an
      * intro says its own.
      */
-    introSec: 12,
+    /**
+     * TWENTY SECONDS, and the default table has to be able to satisfy it.
+     * This was 12, and the pool below offers 8 bars — 16.0 s at 120 bpm and
+     * 21.3 s at 90 — so the 8 could never be drawn at any tempo this default
+     * admits. The incoherence sat here, in the DEFAULTS, and both genres
+     * inherited it: measured before the load check, lofi drew 4 bars in 100%
+     * of records and dungeon synth 8, their second entries never once, while
+     * 49% and 100% of records broke the ceiling through a silent fallback.
+     *
+     * 20 is Léveillé Gauvin's own mid-eighties figure — intros "averaged more
+     * than 20 seconds in the mid-80s" — rather than the 5 s the same paper
+     * reports for 2015. The 5 is a chart single competing with a skip button,
+     * and this program makes records; the older number is the same source's
+     * account of an intro that is still short but is allowed to be a section.
+     * At 90–120 bpm it admits 4 bars always and 8 bars from 96 bpm up, which
+     * is what a ceiling in SECONDS is for: a fast record can afford more bars
+     * of intro than a slow one.
+     */
+    introSec: 20,
   },
 
   harmony: {

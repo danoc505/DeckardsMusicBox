@@ -18,6 +18,21 @@ export const dungeonsynth: GenreSpec = {
 
   // loops, repeated at length: the sections are long and few
   form: {
+    /**
+     * THE CEILING IS THIS GENRE'S OWN, and until now it was a pop single's.
+     * The default 12 s comes from 303 top-10 singles (Léveillé Gauvin 2018).
+     * At 60-80 bpm a bar here is 3.00-4.00 s, so NOTHING this genre offers
+     * fits under 12 s: measured over 357 records, 100% of them broke the
+     * stated ceiling and the `[[16, 2]]` below was drawn exactly never.
+     * A ceiling that every record violates is not a ceiling, and a declared
+     * length that can never be drawn is a knob that does nothing.
+     *
+     * 64 s is what this genre's own source names — 8 to 16 bars — at the
+     * slowest tempo it plays. Proposed in DUNGEON-SYNTH-ARRANGEMENT.md §8 and
+     * applied now that the ceiling is a constraint the genre must satisfy
+     * rather than a preference the form stage quietly gave up on.
+     */
+    introSec: 64,
     lengths: {
       intro: [[8, 2], [16, 2]],
       verse: [[16, 4], [32, 2]],
@@ -348,6 +363,11 @@ export const dungeonsynth: GenreSpec = {
       "(note.com/soundwitches): the filter, the room, the wear and the distance are this genre's own moves and are " +
       "weighted first. Brighten is kept light because shadows only deepen against something. Weights [chosen] — " +
       "the sources name the moves and rank nothing",
+    "form.introSec":
+      "\"the intro is usually 8-16 bars\" for this genre (note.com/soundwitches, as read in " +
+      "DUNGEON-SYNTH-ARRANGEMENT.md §8); 16 bars at this genre's slowest tempo of 60 bpm is 64 s, so 64 is the " +
+      "smallest ceiling that admits what the source names. The inherited default of 12 s is Léveillé Gauvin's " +
+      "figure for 303 top-10 pop singles and nothing this genre offers fits under it",
     "arrangement.intro":
       "\"primarily beatless\", \"very subtle percussion\" (note.com/soundwitches): the drum-led opening Burns " +
       "documents (\"solo drums... will attract especially great attention to rhythm\") is the one way in this " +

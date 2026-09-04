@@ -258,18 +258,29 @@ export function makeForm(chart: Chart): Form {
    *
    * So the genre's ceiling NARROWS THE POOL BEFORE THE DRAW rather than
    * truncating a length after it: a constraint on the choice, which is what
-   * every other rule in this program is. If nothing fits — a genre in five
-   * four at sixty bpm whose shortest intro is four bars — the shortest is
-   * taken and the record says what it is rather than pretending to fit.
+   * every other rule in this program is.
+   *
+   * IT USED TO GIVE UP WHEN NOTHING FIT, taking the shortest instead so that
+   * "the record says what it is rather than pretending to fit". That sounds
+   * careful and it was the hole: a ceiling with a silent fallback is not a
+   * ceiling, it is a preference. Measured, 49% of lofi records and 100% of
+   * dungeon synth's broke their own stated ceiling through this branch, and
+   * because the fallback always chose the SHORTEST, every other length a
+   * genre declared was dead — lofi drew 4 bars in 100% of records and dungeon
+   * synth 8, their second entries never once.
+   *
+   * A genre whose intro pool cannot satisfy its own ceiling is now refused at
+   * LOAD, with the arithmetic (`resolve.ts`), so the case this branch existed
+   * for cannot reach here. If it somehow does, that is a bug in the check and
+   * it throws with its name rather than quietly making a record — the same
+   * rule the laws above follow.
    */
   const barSec = (60 / chart.tempo) * chart.metre.beats;
   let pool = rules.lengths[first];
   if (first === "intro") {
-    const fits = pool.filter(([len, w]) => w > 0 && len * barSec <= rules.introSec);
-    if (fits.length > 0) pool = fits;
-    else {
-      const shortest = Math.min(...pool.filter(([, w]) => w > 0).map(([len]) => len));
-      pool = pool.filter(([len]) => len === shortest);
+    pool = pool.filter(([len, w]) => w > 0 && len * barSec <= rules.introSec);
+    if (pool.length === 0) {
+      throw new FormError([first], `no intro length fits under ${rules.introSec}s at ${chart.tempo} bpm`);
     }
   }
   take(first, draw.at("step", 0).weighted("len", pool));

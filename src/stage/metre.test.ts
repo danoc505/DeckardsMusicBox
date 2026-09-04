@@ -73,7 +73,15 @@ test("a genre keeping four-four's rhythm cells in a longer bar is refused, by na
 
 test("a cell that covers its phrase is accepted in the same metre", () => {
   const g = resolveGenre("six", {
-    six: { ...dungeonsynth, metre: { beats: 6, perBeat: 4 }, lead: { rhythms: [[[0, 2, 4, 6, 8, 10], 1]] } },
+    six: {
+      ...dungeonsynth,
+      metre: { beats: 6, perBeat: 4 },
+      lead: { rhythms: [[[0, 2, 4, 6, 8, 10], 1]] },
+      // a six-four bar is half again as long, so this genre's 16-bar intro no
+      // longer fits under the ceiling it states for four-four — refused at
+      // load, which is the check doing its job rather than a wrinkle here
+      form: { ...dungeonsynth.form, introSec: 120 },
+    },
   });
   assert.equal(g.metre.beats, 6);
   const s = compose({ seed: 1, genre: g, seconds: 150 });

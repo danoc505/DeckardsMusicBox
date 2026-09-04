@@ -21,6 +21,15 @@ export const lofi: GenreSpec = {
   // hooks, a short bridge — which at 80 bpm is the two-and-a-half-minute
   // beat-tape track
   form: {
+    /**
+     * THE CEILING IS THIS GENRE'S, NOT A POP SINGLE'S. The default is 12
+     * seconds and it is cited to Léveillé Gauvin's 303 top-10 singles — an
+     * attention-economy figure about the skip button on a chart record. This
+     * genre is a beat tape, not a single, and inheriting that number meant
+     * 49% of its records broke their own stated ceiling while its 8-bar intro
+     * could never be drawn at all: 4 bars, 100% of the time, over 400 records.
+     */
+    introSec: 30,
     lengths: {
       intro: [[4, 3], [8, 1]],
       verse: [[16, 5], [8, 2]],
@@ -261,6 +270,12 @@ export const lofi: GenreSpec = {
   },
 
   sources: {
+    "form.introSec":
+      "the default 12 s is Léveillé Gauvin's attention-economy figure from 303 top-10 SINGLES, which this genre " +
+      "is not: a lo-fi track is a beat tape cut, and its guides describe sections on the order of \"20-30 seconds " +
+      "long\" with \"about 4-6 sections to make a complete track\" (richardpryn.com/lofi-music-structure). " +
+      "30 s admits this genre's own 8-bar intro — 21.8-26.7 s across its tempo range — which the inherited " +
+      "ceiling made undrawable. [chosen] at the top of the range that source names",
     "arrangement.treat":
       "tape saturation is \"pretty much the backbone\" and the genre is \"vinyl crackles, tape hiss, and " +
       "background noise\" with \"low-pass filtering for warmth\" and \"heavy use of reverb and delay\" " +
