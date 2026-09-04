@@ -99,7 +99,7 @@ test("the record ends carrying what it opened with", () => {
   assert.ok(inOutro / records > 0.9, `the opening is in the outro of only ${((100 * inOutro) / records).toFixed(0)}% of records`);
 });
 
-test("the break is the one section below the floor, and it carries the opening", () => {
+test("the break goes below the floor mid-record, and it carries the opening", () => {
   // A breakdown is "a section of a song in which various instruments have solo
   // parts (breaks)", made by "stripping away of other instruments and vocals";
   // breakdowns "usually precede or follow heightened musical climaxes"
@@ -122,11 +122,27 @@ test("the break is the one section below the floor, and it carries the opening",
       assert.notEqual(p.section.fn, "outro", `the record breaks down in its outro: ${describeArrangement(a)}`);
       assert.ok(p.section.index > 0, "the record breaks down before it has played anything");
     }
-    // every other section still holds the floor
+    // every other section that CARRIES ON still holds the floor. The last one
+    // is not floored by `fewest` — see `floor` in arrange.ts and §5 of
+    // THE-INTRO.md, which used to call the break the one place below the
+    // floor and was corrected when an ending was researched. What holds the
+    // ending up is the dénouement, asserted by its own test above, not a
+    // number: measured, "ends carrying what it opened with" is unchanged at
+    // 97% and 87% by this rule, while dungeon synth's drone-alone ending went
+    // 0% → 10%.
+    const lastIndex = a.placed.length - 1;
     for (const p of a.placed) {
-      if (p.broken || p.section.fn === "intro") continue;
+      if (p.broken || p.section.fn === "intro" || p.section.index === lastIndex) continue;
       assert.ok(p.heard.size >= Math.min(A.fewest, ROLES.length), `${p.section.fn} is under the floor and is not a break: ${describeArrangement(a)}`);
     }
+    // and the ending never goes below what the record opened with, capped at
+    // the floor: an ending may rest on less than a middle section, never more
+    const closing = a.placed[lastIndex]!;
+    const opened = a.placed[0]!.heard.size;
+    assert.ok(
+      closing.heard.size >= Math.min(A.fewest, opened),
+      `the ending fell below its own opening: ${describeArrangement(a)}`,
+    );
   }
   // measured at 52% of records at 200 seconds, and it needs a quiet section to
   // land in: the break sits where a bridge would, so a record without one has
@@ -167,9 +183,12 @@ test("parts arrive in order, and how many play is the section's energy", () => {
       // NOBODY PLAYS BEFORE THEY HAVE ARRIVED, and no section falls below the
       // floor the genre carries.
       assert.ok(p.heard.size <= arrived, `${s.fn} hears more than have arrived: ${describeArrangement(a)}`);
-      // the break is the one section allowed under the floor, and it is the
-      // only one — see the break's own test
-      if (!p.broken) assert.ok(p.heard.size >= Math.min(A.fewest, arrived), `${s.fn} is below the floor: ${describeArrangement(a)}`);
+      // the break and the ENDING are the two sections allowed under the floor
+      // — see the break's own test, and `floor` in arrange.ts for why an
+      // ending is not floored by a number at all
+      if (!p.broken && s.index !== a.placed.length - 1) {
+        assert.ok(p.heard.size >= Math.min(A.fewest, arrived), `${s.fn} is below the floor: ${describeArrangement(a)}`);
+      }
       // THE PEAK HAS EVERYONE, because that is what a peak is.
       if (s.peak) assert.equal(p.heard.size, ROLES.length, `the peak does not hear everyone: ${describeArrangement(a)}`);
       sizes.push(p.heard.size);

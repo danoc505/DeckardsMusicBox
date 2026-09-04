@@ -143,7 +143,15 @@ and attends to nothing in particular.
 
 ---
 
-## 5. The break: the one place a record goes below its floor
+## 5. The break: a place a record goes below its floor
+
+*This section used to say "the ONE place", and that was never a claim any
+source here makes — it is this program's own framing, written before anything
+had researched how a record ENDS. The one source that describes an ending in
+either genre asks for exactly what a floor forbids: "gradually reduce the
+elements until only the initial drone remains, ending quietly"
+(note.com/soundwitches). So there are two places, and the other one is the
+last section. See `arrange.ts`, `floor`.*
 
 > A breakdown is "a section of a song in which various instruments have solo
 > parts (breaks)"… the **stripping away of other instruments and vocals**

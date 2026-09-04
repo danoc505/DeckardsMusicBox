@@ -359,6 +359,24 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     /** The record's last section: where the dénouement has to happen. */
     const closing = section.index === form.sections.length - 1;
 
+    /**
+     * THE FLOOR, WHICH AN ENDING DOES NOT HAVE. See the note at `wanted`
+     * below: `fewest` is about a section that carries on, and the last one is
+     * not. What stops an ending emptying out is the dénouement — `restate`
+     * refuses to drop an opener at the close — so the end comes to rest on
+     * what the record began with, and that is a fact about the record rather
+     * than a number a genre states.
+     *
+     * AND IT ONLY EVER GOES DOWN. A floor raises a section to itself, so an
+     * opening of five parts would floor the ENDING at five and make it the
+     * fullest thing in the record — a floor used as a ceiling, which is a
+     * different rule wearing this one's clothes. It happens in 2–3% of
+     * records, which open cold on everybody. So the close is floored by its
+     * openers OR by `fewest`, whichever is LOWER: an ending may come to rest
+     * on less than a middle section, never on more.
+     */
+    const floor = closing ? Math.min(A.fewest, Math.max(1, openers.size)) : A.fewest;
+
     let heard: Set<Role>;
     if (section.index === breaks && openers.size > 0) {
       // THE BREAK. The one section that goes below the floor, and it carries
@@ -377,10 +395,28 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
       // HOW MANY OF THEM PLAY is this section's energy, between the fewest a
       // genre will carry and all of them. The peak takes everyone.
+      //
+      // AND THE FLOOR DOES NOT APPLY TO AN ENDING, because a floor is about a
+      // section that CARRIES ON. `fewest` exists so that a middle section is
+      // still an arrangement and not a solo; the last section is not going
+      // anywhere, and the one source that describes how one genre here ends
+      // asks for exactly what the floor forbids — "gradually reduce the
+      // elements until only the initial drone remains, ending quietly"
+      // (note.com/soundwitches). Held at three, that happened in 0% of
+      // records.
+      //
+      // THE END IS FLOORED BY WHAT THE RECORD OPENED WITH, WHICH IS NOT A
+      // NUMBER. `restate` below already refuses to drop an opener from the
+      // close, so an ending cannot empty out however low this goes — it comes
+      // to rest on the parts the record began with. That is the dénouement,
+      // "a restatement of established musical materials" (Ableton), acting as
+      // the floor instead of a stated one. A genre that opens on one part can
+      // end on that one part; a genre that opens on three ends on three. No
+      // genre states a number for this and none should have to.
       const wanted = section.peak
         ? ROLES.length
-        : Math.round(A.fewest + (ROLES.length - A.fewest) * section.energy);
-      const playing = Math.min(arrived, Math.max(A.fewest, Math.min(ROLES.length, wanted)));
+        : Math.round(floor + (ROLES.length - floor) * section.energy);
+      const playing = Math.min(arrived, Math.max(floor, Math.min(ROLES.length, wanted)));
       // WHO GOES IS WHAT THE RECORD CAN SPARE, and that is a fact about this
       // record rather than a list written before it existed.
       //
@@ -473,7 +509,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       // AND THE LAST PART IN IS STILL THE FIRST OUT OF AN OUTRO, once the
       // record has earned its absence: a part heard in one section is not yet
       // something an ear can miss.
-      if (section.fn === "outro" && heard.size > A.fewest && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
+      if (section.fn === "outro" && heard.size > floor && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
     }
     if (section.index === 0) openers = new Set(heard);
     for (const r of heard) {
@@ -591,7 +627,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
          */
         const movable = (r: Role): boolean => r !== "drone";
         // an instrument out — stacked on where the span already is, not on the base
-        if (!section.peak && cur.heard.size > A.fewest) {
+        if (!section.peak && cur.heard.size > floor) {
           for (const r of A.shed) {
             if (!cur.heard.has(r) || !movable(r)) continue;
             const less = new Set(cur.heard); less.delete(r);
@@ -607,9 +643,9 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         // all of them back at one moment
         if (cur.heard.size < base.size) push("all-back", new Set(base), cur.thin, lastIn);
         // strip to the fewest the genre carries, keeping the tail of the shed order
-        if (!section.peak && cur.heard.size > A.fewest) {
+        if (!section.peak && cur.heard.size > floor) {
           const stripped = new Set(cur.heard);
-          for (const r of A.shed) { if (stripped.size <= A.fewest) break; if (movable(r)) stripped.delete(r); }
+          for (const r of A.shed) { if (stripped.size <= floor) break; if (movable(r)) stripped.delete(r); }
           push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
         }
         // expression down, and back up — never above the floor the form set

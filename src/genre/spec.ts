@@ -540,9 +540,16 @@ export interface ArrangementSpec {
    * climaxes" (en.wikipedia.org/wiki/Breakdown_(music)). Tom Moulton's disco
    * break is the rhythm-only case of it.
    *
-   * It is the one place a section may fall below `fewest`, and it is why:
-   * without it nothing in a record is ever heard with room round it, because
-   * the floor holds every section at three parts or more.
+   * It is A place a section may fall below `fewest` — not the only one, and
+   * this comment claimed otherwise until an ending was researched. The other
+   * is the LAST section, which is not floored by this number at all: a floor
+   * is about a section that carries on, and what stops an ending emptying out
+   * is the dénouement rather than a stated minimum. See `floor` in
+   * `arrange.ts`.
+   *
+   * Why the break is still needed: without it nothing in the MIDDLE of a
+   * record is ever heard with room round it, because the floor holds every
+   * section that carries on at three parts or more.
    */
   readonly breakdown?: boolean;
   /**
