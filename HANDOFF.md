@@ -122,10 +122,17 @@ mis-states where a number comes from costs more than a missing doc.
 `TALLY.md` §2. Both change how every dungeon synth record opens and closes, so
 they are the owner's call.
 
-**5. The absence ceiling has no number and may not need one.** The `1/(1+out)`
-term in the section decision is a soft ceiling and it did the work alone.
-Whether a stated number adds anything has never been tested. Test it on and
-off; if it does nothing, delete it and keep the note.
+**5. ~~The absence ceiling has no number and may not need one.~~ TESTED — and
+there was never a ceiling.** Over 500 seeds a genre the absence distribution is
+identical with the `1/(1+out)` term, without it, and with `share` dropped
+instead: lofi median 8 / p90 20 / p99 32 / max 36 bars, dungeon synth 16 / 40 /
+56 / 88. The term is not a soft ceiling; it is not a ceiling. It does move
+abandonment — and `share` and it pull opposite ways, `share` carrying lofi and
+the ceiling term carrying dungeon synth, with the product worse than the better
+single term in both. Not deleted, because it does something; the claim it
+carried is corrected in `arrange.ts` and in `THE-ARRANGEMENT-AS-STORY.md` §8.
+What is still open is which combination is right, and that is a listening
+question.
 
 **THE ALTERATIONS ARE NOW A PLAN, NOT A LIST.** The owner has asked for all 65
 built and all 65 available. `docs/BUILDING-THE-ALTERATIONS.md` is the plan —

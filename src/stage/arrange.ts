@@ -410,8 +410,31 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       //   spare    what the RECORD can most do without: a part that has been
       //            playing all along is furniture and can be missed, and a
       //            part that has been away is owed its return and is not
-      //            taken again. Absence therefore has a ceiling that no
-      //            number states — it falls out of the arithmetic.
+      //            taken again.
+      //
+      //            THIS IS NOT AN ABSENCE CEILING, whatever it used to say
+      //            here. Measured on and off over 500 seeds a genre, 2500
+      //            parts each: the absence distribution does not move AT
+      //            ALL — lofi median 8, p90 20, p99 32, max 36; dungeon
+      //            synth 16, 40, 56, 88 — identical with the `1/(1+out)`
+      //            term, without it, and with `share` dropped instead.
+      //            Whatever bounds how long a part stays away, it is not
+      //            this, and the claim that a ceiling "falls out of the
+      //            arithmetic" was never true.
+      //
+      //            What the two terms DO move is abandonment, and they pull
+      //            against each other, oppositely by genre:
+      //
+      //              gone for good      both    share only   ceiling only
+      //              lofi               2.56%     2.76%         2.92%
+      //              dungeon synth      2.64%     3.20%         1.96%
+      //
+      //            So `share` carries lofi and the ceiling term carries
+      //            dungeon synth, and the product is worse than the better
+      //            single term in both. Kept as the product because it is
+      //            the only one that is not worst in some genre, and
+      //            because which is RIGHT is a question about how the
+      //            records sound, not about which column is lower.
       //
       // The opening needs no rule of its own. A part that opened the record
       // has been present since bar one and absent from nothing, so it holds

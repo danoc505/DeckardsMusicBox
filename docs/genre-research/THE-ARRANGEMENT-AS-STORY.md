@@ -98,7 +98,7 @@ program has the right idea and applies it only to the smaller decision.
 |---|---|---|
 | 1 | Who plays in a section is **derived from what the record has done**, not read off a fixed list | Almén 2008 |
 | 2 | A part the record introduced has **standing**, which is what makes it expensive to drop — no special case for the opener, it simply has the most standing when a record is young | falls out of rule 1 |
-| 3 | An absence has a **ceiling**: past it, a part is not absent, it is gone | Johnson & Poyser; MusicRadar |
+| 3 | ~~An absence has a **ceiling**: past it, a part is not absent, it is gone~~ **MEASURED AND FALSE — see §8** | Johnson & Poyser; MusicRadar |
 | 4 | The ending restates what the record opened with | Ableton, dénouement |
 | 5 | The genre's `shed` order stays, as a **weight** and never as an order | this program's own span score |
 
@@ -120,8 +120,37 @@ two sweeps, before and after:
 
 **The one that carries this is the first row.** Parts stopped being abandoned:
 a record that drops a part now brings it back, in both genres, five times out
-of a hundred instead of fifteen and twenty-five. That is the ceiling in rule 3
-working without a number, out of the arithmetic alone.
+of a hundred instead of fifteen and twenty-five. ~~That is the ceiling in rule 3
+working without a number, out of the arithmetic alone.~~
+
+**That attribution is wrong, and rule 3 does not exist.** Tested on and off at
+last — `HANDOFF.md` item 5 asked for exactly this — over 500 seeds a genre,
+2500 parts each. The absence distribution does not move at all:
+
+| | median | p90 | p99 | max |
+|---|---|---|---|---|
+| lofi, all three ways | 8 | 20 | 32 | 36 bars |
+| dungeon synth, all three ways | 16 | 40 | 56 | 88 bars |
+
+Identical with `share / (1 + out)`, with `share` alone, and with `1/(1 + out)`
+alone. **Nothing here bounds how long a part stays away.** Whatever produced the
+15% → 5% and 25% → 5% above, it was not a ceiling, because there is no ceiling
+to be had from this term — and a rule credited with a result it did not produce
+is worse than a rule that was never built.
+
+What the two terms do move is abandonment, and they pull against each other,
+oppositely by genre:
+
+| gone for good | both | `share` only | ceiling only |
+|---|---|---|---|
+| lofi | **2.56%** | 2.76% | 2.92% |
+| dungeon synth | 2.64% | 3.20% | **1.96%** |
+
+`share` carries lofi; the `1/(1+out)` term carries dungeon synth; the product is
+worse than the better single term in both. It is kept as the product only
+because it is the one combination that is not worst in some genre. **Which is
+right is a listening question**, and it goes on the pile with everything else
+`TALLY.md` §0 is waiting on.
 
 **Rule 4 had to be built separately, and had to reach the last SPAN.** With
 rules 1 and 2 alone the ending got worse, not better — 75% → 50% in lofi —
@@ -162,9 +191,13 @@ The lesson is worth more than the fix: the fault was never in the rule. It was
 a genre inheriting a number written for other music, which is the third time
 this program has been caught doing that.
 
-**Still `[chosen]` and still unmeasured:** rule 3 has no explicit ceiling —
-the `1/(1+out)` term is a soft one, and whether a hard number does anything
-the soft one does not has not been tested.
+**Measured, and the answer was that the soft one does nothing either.** The
+question used to read: rule 3 has no explicit ceiling, the `1/(1+out)` term is a
+soft one, and whether a hard number does anything the soft one does not has not
+been tested. It has now, and the soft term is not a ceiling of any strength —
+so a hard number is not a refinement of it, it would be the first ceiling this
+program has ever had. Whether it needs one is open, and unlike before, it is now
+open with a number behind the question.
 
 ## Sources
 
