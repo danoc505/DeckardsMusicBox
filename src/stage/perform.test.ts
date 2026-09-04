@@ -320,6 +320,13 @@ test("the arc makes the peak louder than the intro, like for like", () => {
     // this is a law about the ARC, so the comparison is made where nothing
     // else is moving the weight.
     const everHushed = (p: typeof peak, role: string): boolean => p.spans.some((sp) => sp.hush === role);
+    // AND NOT A SECTION PLAYED WITH MORE OR LESS SHAPE IN IT. `arched` and
+    // `level` scale how deep the arch across a loop and the lean on the
+    // metre's strong steps go, which are weights and are not the arc. The
+    // length manners are inert here — this genre carries `plain` alone, so
+    // there is no rung to move to — but these two are not.
+    const shaped = (p: typeof peak): boolean => p.manner === "arched" || p.manner === "level";
+    if (shaped(intro) || shaped(peak)) continue;
     const mean = (es: readonly { gain: number }[]) => (es.length ? es.reduce((a, e) => a + e.gain, 0) / es.length : null);
     const kick = (p: typeof peak) => mean(s.performance.events.filter((e) => inside(p)(e) && e.lane === "kick" && e.step === 0));
     const part = (p: typeof peak, role: string) => mean(s.performance.events.filter((e) => inside(p)(e) && e.role === role));
@@ -362,7 +369,9 @@ test("a third hearing is played differently, one rung and no further", () => {
         const m = s.materials.all.get(p.material)!;
         const wrote = new Map<string, string>();
         for (const r of ["bass", "keys", "drone"] as const) {
-          for (const n of m.groove[r] ?? []) wrote.set(`${r}:${n.bar}:${n.step}`, n.art);
+          // "a note that does not say is played plain" — and written as
+          // `n.art` this skipped every unmarked note, which is most of them
+          for (const n of m.groove[r] ?? []) wrote.set(`${r}:${n.bar}:${n.step}`, n.art ?? "plain");
         }
         for (const e of s.performance.events) {
           if (e.bar < p.section.startBar || e.bar >= p.section.endBar) continue;
@@ -373,6 +382,8 @@ test("a third hearing is played differently, one rung and no further", () => {
           assert.notEqual(p.manner, null, `${e.role} changed manner in a section with none`);
           const from = LADDER.indexOf(was), to = LADDER.indexOf(e.art);
           assert.ok(from >= 0 && to >= 0, `${was} to ${e.art} is off the length ladder`);
+          // and only the two manners that are ABOUT length move a note at all
+          assert.ok(p.manner === "tongued" || p.manner === "sung", `${p.manner} moved an articulation, and it is about shape`);
           assert.equal(to - from, p.manner === "tongued" ? 1 : -1, `${was} to ${e.art} is more than one rung`);
           // and never into a manner this genre does not grant this part
           const pool = (s.chart.genre as unknown as Record<string, { art?: readonly (readonly [string, number])[] }>)[e.role]?.art;

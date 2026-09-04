@@ -24,20 +24,27 @@ The catalogue's own tally table says "36 built". That counts `◐` as built in
 | ○ nothing exists | **28** |
 | **total** | **65** |
 
-And the number that matters is neither of those. **Twelve** moves can change
-*during* a record — the treatments in `stage/treat.ts`. Everything else is
-either a frozen knob or unwritten.
+And the number that matters is neither of those: how many can change *during* a
+record. **It was fourteen. It is twenty-eight.**
 
-Measured now, sixty seeds a genre:
+| catalogue rows that move | at the start | now |
+|---|---|---|
+| §2 density — part-out, part-back, all-back, strip | 4 | 4 |
+| §4 the hand | 0 | **3** |
+| §7–9 the desk, the room, the machine | 10 | **21** |
+| **of 65** | **14** | **28** |
 
-```
-lofi          10 of 12 used · 37% of spans treated · 54/60 records · sweep refused as a no-op
-dungeonsynth  12 of 12 used · 32% of spans treated · 60/60 records
-```
+Do not confuse that with the size of the treatment vocabulary, which is a
+different count: `TREATMENTS` went 12 → 23, and one treatment can answer more
+than one catalogue row (`wear` is the tape and the vinyl; `widen` is the width
+and the depth) while some rows need none of them at all.
 
-`echoed` is offered to lofi and wins zero times in sixty records. A move that
-is offered and never chosen is a first cousin of a knob that does nothing, and
-Phase 2 is where that gets settled.
+Two rows in that 28 carry an asterisk, and both are recorded rather than
+quietly counted. **Row 53, circuit swap**, is built and refused for both
+genres — it needs the analogue kit loaded and each plays the acoustic one, and
+treatments are absolute so `rekit` cannot chain into it. **Row 23, accent
+shift**, moves in depth but not in position: how hard the metre is leant on
+varies per hearing, which step is strong does not.
 
 ---
 

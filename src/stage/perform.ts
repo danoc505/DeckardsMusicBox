@@ -193,8 +193,26 @@ export function makePerformance(
      * The groove is what comes back literally, and it is what a third hearing
      * has to answer for.
      */
+    /**
+     * HOW MUCH SHAPE THE HAND PUTS IN, for the two manners that are about that
+     * rather than about length. `arched` deepens both the arch across a loop
+     * (move 27) and the lean on the metre's own strong steps (move 23, its
+     * depth); `level` flattens both, which is a section played straighter.
+     *
+     * Scaled from what the genre set, never replaced, so a genre that leans on
+     * nothing is not handed a lean it never asked for — and clamped, because
+     * both are shares of a weight and neither may exceed one.
+     */
+    const depth = placed.manner === "arched" ? 1.8 : placed.manner === "level" ? 0.3 : 1;
+    const phrase = Math.min(1, F.phrase * depth);
+    const accent = Math.min(1, F.accent * depth);
+    const accents = depth === 1
+      ? accentAt
+      : Array.from({ length: clock.steps }, (_, st) => 1 - accent * (1 - metricalStrength(st, chart.metre)));
+
     const handed = (role: Role, art: ArtName): ArtName => {
       if (placed.manner === null || role === "lead" || role === "drums") return art;
+      if (placed.manner !== "tongued" && placed.manner !== "sung") return art;
       const at = LADDER.indexOf(art);
       if (at < 0) return art;
       const to = LADDER[at + (placed.manner === "tongued" ? 1 : -1)];
@@ -293,7 +311,7 @@ export function makePerformance(
         const a = artOf(art);
         // where the note sits inside the phrase, to the step: a bar is not a
         // flat step of the shape either
-        const shaped = 1 - F.phrase + F.phrase * phraseShape(through + step / (clock.steps * loop));
+        const shaped = 1 - phrase + phrase * phraseShape(through + step / (clock.steps * loop));
         events.push({
           tSec: clock.at(bar, playedStep),
           bar,
@@ -314,7 +332,7 @@ export function makePerformance(
           // the material so a figure played again is played the same way, and
           // it compares step, pitch, articulation and the played instant. A
           // weight is none of those and the arc already moves it bar by bar.
-          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accentAt[step] ?? 1) * missed * level * shaped
+          gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accents[step] ?? 1) * missed * level * shaped
             * (span.hush === role ? 1 - ARC_DEPTH : 1))),
           art,
         });

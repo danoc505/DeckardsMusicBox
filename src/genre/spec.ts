@@ -534,13 +534,23 @@ export type Treatment = (typeof TREATMENTS)[number];
  * owes the ear something on its second and third hearing, and this is the
  * third answer — the same notes, the same desk, a different hand.
  *
+ * FOUR OF THEM, AND THEY ARE TWO PAIRS. `tongued` and `sung` move a note
+ * along the length ladder — move 21. `arched` and `level` move how much SHAPE
+ * the hand puts in: the arch across a loop (move 27, "more or less arch") and
+ * how hard the metre's own hierarchy is leant on (move 23, in part — the depth
+ * of the lean, not which step it falls on, which the metre alone still says).
+ * Both of those are gains and could have sat on a span; they are here because
+ * they are the same question as the other two — how is this hearing played —
+ * and a section that is both handed and shaped is two changes where the ear
+ * needs one.
+ *
  * It is a SECTION's, never a span's. `art` is one of the six things
  * `perform.test.ts` compares when it holds a figure to being played the same
  * way twice — Huron and Ollen's 94% — and 76% of lofi's repetition pairs
  * straddle a span boundary. A section boundary is the coarsest grain the pairs
  * never cross, so a manner that changes there changes nothing inside a loop.
  */
-export const MANNERS = ["tongued", "sung"] as const;
+export const MANNERS = ["tongued", "sung", "arched", "level"] as const;
 export type Manner = (typeof MANNERS)[number];
 
 export interface ArrangementSpec {
@@ -1618,7 +1628,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * EVEN, and honestly so: two ways to play the same notes, neither of them
      * the default for music in general. A genre with an opinion says it.
      */
-    manner: [["tongued", 1], ["sung", 1]],
+    manner: [["tongued", 1], ["sung", 1], ["arched", 1], ["level", 1]],
   },
 
   feel: {

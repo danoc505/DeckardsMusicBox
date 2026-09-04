@@ -77,11 +77,11 @@ already exist per genre and are drawn per material.
 |---|---|---|
 | 21 | **Articulation swap** — a slurred wind line played tongued, or tenuto | ● **and it moves**: `Placed.manner`, per HEARING. One rung along the length ladder — ring, tenuto, plain, staccato — and only into a manner the part's own genre pool carries. A ghost, an accent, a bend and a slide carry something besides length and are left as written |
 | 22 | **Ghosting** — the line at greatly reduced weight | ● `ghost` |
-| 23 | **Accent shift** — which notes are leaned on | ● |
+| 23 | **Accent shift** — which notes are leaned on | ◐ **the depth moves**: `arched` and `level` scale how hard the metre's own hierarchy is leant on, per hearing. WHICH step is strong still comes from the metre alone, so half of this row is done and the half that would move an accent off its metrical place is not |
 | 24 | **Dynamic terrace** — the part a step quieter, or louder, for this hearing | ● **and it moves**: `Span.hush` holds one part back by `ARC_DEPTH`, what the arc itself takes off at its quietest. It is a GAIN and nothing else, which is what makes it legal per span — see below |
 | 25 | **Crescendo** across the section rather than a flat level | ● **and it moves**: `Placed.swell`, the section before the climax. It is the arc's RISING ACTION, the one stage of the dramatic arc this program never had — see `THE-ARRANGEMENT-AS-STORY.md` §3 |
 | 26 | **Lean** — the part plays further behind or ahead of the beat | ● `feel.lean` |
-| 27 | **Phrase shape** — more or less arch across the loop | ● `F.phrase` |
+| 27 | **Phrase shape** — more or less arch across the loop | ● **and it moves**: `arched` and `level`, per hearing. Measured across a section, the spread of weight goes 0.30 → 0.37 arched and → 0.24 level in lofi |
 
 ## 5. Register — pitch classes kept
 
