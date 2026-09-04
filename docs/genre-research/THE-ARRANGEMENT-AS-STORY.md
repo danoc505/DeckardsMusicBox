@@ -106,7 +106,8 @@ No rule names a part, a genre, or a number.
 
 ## 8. What it came to, measured
 
-Rules 1, 2 and 4 are built. Same two sweeps, before and after:
+Rules 1, 2 and 4 are built, and rule 5 now has a value in both genres. Same
+two sweeps, before and after:
 
 | | lofi | dungeon synth |
 |---|---|---|
@@ -129,12 +130,37 @@ it into the closing SECTION only got that to 55%: the span score was still
 free to take it out four bars from the end. Holding it to the close itself is
 what recovered 75% and lifted dungeon synth to 70%.
 
-**And one number went the wrong way.** lofi's top part changes between halves
-fell, 20% → 15%, where dungeon synth's rose 30% → 45%. lofi is beat music: its
-drums sit at the bottom of its own shed order and play nearly every bar, so
-the most-present part is close to fixed no matter what this rule does. Either
-the metric is asking lofi the wrong question, or rule 1 needs a term that
-knows about rank rather than presence. It is recorded here as not solved.
+**And one number went the wrong way — SOLVED, and the reason given here was
+wrong.** lofi's top part changes between halves fell, 20% → 15%, where dungeon
+synth's rose 30% → 45%. This paragraph blamed the metric or rule 1, and said
+lofi's "drums sit at the bottom of its OWN shed order". They did not. lofi
+stated no shed order at all and inherited the pop default
+`drone, keys, lead, bass, drums`, so the genre that ENTERS on its keys shed its
+foundation second and its beat never: `affords()` gave its drums 0.2, the
+minimum, everywhere a part can leave. Measured over forty seeds, the drums were
+heard in 100% of bars of 40 records out of 40 and were never absent for a
+single bar — the most-present part could not change because one part never
+stopped playing.
+
+lofi now states `shed: ["drone", "lead", "drums", "bass", "keys"]`. Rule 1
+needed no rank term; rule 5 — "the genre's `shed` order stays, as a weight" —
+was already carrying it, and lofi had never given it a value.
+
+Measured over forty seeds, before and after, and note this is NOT the metric
+the table above uses — that one was measured with the script §2 of `TALLY.md`
+records as missing, so these are a fresh definition (most-present part counted
+by bars, each half of the record) and only the two columns compare:
+
+| | before | after |
+|---|---|---|
+| drums heard | 100% of bars | **78%** |
+| the drums' longest absence | 0 bars | **10 bars** |
+| records where the drums are never once absent | 40/40 | **4/40** |
+| the top part changes, first half to second | 0/40 | **21/40** |
+
+The lesson is worth more than the fix: the fault was never in the rule. It was
+a genre inheriting a number written for other music, which is the third time
+this program has been caught doing that.
 
 **Still `[chosen]` and still unmeasured:** rule 3 has no explicit ceiling —
 the `1/(1+out)` term is a soft one, and whether a hard number does anything
