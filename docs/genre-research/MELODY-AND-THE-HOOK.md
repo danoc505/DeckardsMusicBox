@@ -14,7 +14,7 @@ them makes it a *tune*, and the roll says so.
 
 ## 1. What the program did before this, measured
 
-`node tools/roll.ts --sweep lofi 1 20` and the same for dungeon synth, read
+`node tools/measure.ts --sweep lofi 1 20` and the same for dungeon synth, read
 back out of the MIDI file the program writes (means over twenty seeds each):
 
 | | lofi | dungeon synth |
@@ -220,7 +220,7 @@ that claims a source it does not have is worse than one that admits it.
 
 ## 9. How the claim is checked, and what it came to
 
-`tools/roll.ts` reads the record back out of its own `.mid` file and prints
+`tools/measure.ts` reads the record back out of its own `.mid` file and prints
 the roll and the numbers in §1. Every claim above is one of those numbers, so
 "this made the melody better" is a diff of two tables and a piano roll anyone
 can read, not an assertion.

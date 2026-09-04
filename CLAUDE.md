@@ -31,18 +31,13 @@ only thing this program is for.
 `docs/THE-PIANO-ROLL.md` has how to read a roll, what to look for in what
 order, and why there are two of them. Read it before your first change.
 
-## What NOT to call a piano roll
+## The other tool, and what it is for
 
-`tools/roll.ts` prints ONE part as a grid of characters, with measurements of
-the tune beside it. It is useful — it reads a real MIDI file back and can see
-nothing inside the builders — and its numbers are how the melody and intro
-research was measured. **It is not the piano roll and it does not prove a
-change.** It shows one part, in a window of bars, with no sections, no
-arrangement and no drums.
-
-The two comments in that file calling its output "the ASCII roll" are wrong
-twice over: it is not the roll, and it is not ASCII (the empty cell is U+00B7
-MIDDLE DOT).
+`tools/measure.ts` COUNTS. It reads a record back out of its own MIDI file and
+reports the numbers — how a line moves, who plays which bar, the same over
+twenty seeds — which is how the melody and intro research was measured, and
+which no picture can do. It draws one part as a grid of characters along the
+way; that grid is not a piano roll and is not what proves a change.
 
 ## House rules that are easy to break
 

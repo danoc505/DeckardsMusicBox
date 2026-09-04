@@ -11,10 +11,10 @@ time, anywhere: as notes, as a text dump, as a WAV, in the page.
     node src/cli.ts lofi 42                     the record as text (tools/FORMAT.md)
     node src/cli.ts lofi 42 --wav out.wav       the record as sound
     npm run build                               "Deckards Orchestrator MKIII.html", one file, open it
-    node tools/roll.ts lofi 42                  ONE part as characters + its numbers, read back out of its own MIDI
-    node tools/roll.ts --sweep lofi 1 20        the same numbers over twenty seeds
-    node tools/roll.ts lofi 42 --map            who plays which bar, and how the record opens
-    node tools/roll.ts lofi 42 --json           the parsed notes and the numbers, for a drawing
+    node tools/measure.ts lofi 42               ONE part as characters + its numbers, off its own MIDI
+    node tools/measure.ts --sweep lofi 1 20     the same numbers over twenty seeds
+    node tools/measure.ts lofi 42 --map         who plays which bar, and how the record opens
+    node tools/measure.ts lofi 42 --json        the parsed notes and the numbers, for a drawing
 
 **The piano roll is the main test.** A record is judged by ear, and no
 assertion is a record: this suite can be entirely green on a program that
@@ -85,7 +85,7 @@ spends at most one interval wider than a fifth, answers a leap the other way,
 and keeps its highest note an event rather than a ceiling. Every one of those
 is a preference applied after the hard laws, so none of them can write a wrong
 note. The sources are in `docs/genre-research/MELODY-AND-THE-HOOK.md`; the
-proof is `tools/roll.ts`, which composes a record, writes the bytes a
+proof is `tools/measure.ts`, which composes a record, writes the bytes a
 sequencer would open, parses those bytes back, and prints one part as
 characters with the numbers beside it — nothing in it can see a variable inside the builders.
 

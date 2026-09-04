@@ -108,7 +108,7 @@ seeds. A seed you chose is a seed that worked.
 
 How many depends on what you are asking. One is enough to see a shape you
 just built. A handful is what you want before believing a rule holds in
-general. `tools/roll.ts --sweep` counts across twenty when the question is
+general. `tools/measure.ts --sweep` counts across twenty when the question is
 statistical rather than visual — that is what the melody and intro research
 was measured with.
 

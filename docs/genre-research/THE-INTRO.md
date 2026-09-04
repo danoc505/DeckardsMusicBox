@@ -16,7 +16,7 @@ Three of those four have sourced answers and one of them has a partial one.
 
 ## 1. What this program did before this, measured
 
-`node tools/roll.ts --sweep lofi 1 20 --map` reads the record back out of its
+`node tools/measure.ts --sweep lofi 1 20 --map` reads the record back out of its
 own MIDI file and reports who is playing in each bar (twenty seeds a genre, at
 the genre's own length):
 
@@ -215,7 +215,7 @@ step: the material stage would have to know that a part is exposed there.
 ## 9. What it came to, measured
 
 Same tool, twenty seeds each, at the genre's own length
-(`node tools/roll.ts --sweep <genre> 1 20 --map`):
+(`node tools/measure.ts --sweep <genre> 1 20 --map`):
 
 | | lofi before → after | dungeon synth before → after |
 |---|---|---|

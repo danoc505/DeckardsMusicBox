@@ -58,7 +58,7 @@
  * preference applied after the laws, so none can put a wrong note in a record
  * — only a plainer one. The sources are in docs/genre-research/
  * MELODY-AND-THE-HOOK.md and the numbers are read back out of the MIDI file
- * by tools/roll.ts.
+ * by tools/measure.ts.
  *
  *   A PHRASE SAYS A FIGURE AND SAYS IT AGAIN. A hook is "a memorable catch
  *   phrase or melody line which is REPEATED in a song" (Songwriter's Market,
