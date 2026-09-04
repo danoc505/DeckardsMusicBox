@@ -175,7 +175,18 @@ ever alone after bar one.
 | 3 | A **rhythm** intro is not thinned — the drums are the subject | Burns 1987 |
 | 4 | Every other intro IS thinned, and withholds the tune, so that the tune's arrival is what the intro was for | Burns 1987 ("kicks in"); Ewer |
 | 5 | One section — where a bridge sits, before the peak or just after it — is a **break**: below the floor, carrying what the record opened with and nothing else | Wikipedia, "Breakdown (music)"; Moulton's disco break |
-| 6 | A genre whose drums are not its subject says so and takes the rhythm intro out of its own pool | dungeon synth's own research: "primarily beatless" |
+| 6 | A genre whose drums are not its subject LEANS ITS POOL AWAY from the rhythm intro. It does not remove it: a beatless genre that opens on its drums is a war march, and it is rare that makes it one | Burns 1987; dungeon synth's own research: "primarily beatless"; the weight is `[chosen]` |
+
+**Rule 6 used to say the opposite, and no code ever agreed with it.** It read
+"takes the rhythm intro out of its own pool", and dungeon synth carried a
+comment refusing a drum-led opening on the grounds that it is "primarily
+beatless" — while its own table gave `rhythm` a weight of 2 the whole time, and
+§9 below counts that intro as the second way in this work bought it. Rare is
+not forbidden. What the drums are rare AT in this genre is keeping time under
+a tune; out in front, alone, they are a march, and a record that opens on a
+march is a war song. The pool is where a genre says how often, and a weight of
+2 in 8 says a quarter. A genre is a set of constraints, not a list of
+permissions — the ban was the mistake, and it was only ever prose.
 
 Weights are `[chosen]` inside what the sources describe: they name the kinds
 and rank nothing, so the default leans on the bed — this program's own

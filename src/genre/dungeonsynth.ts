@@ -139,27 +139,36 @@ export const dungeonsynth: GenreSpec = {
     fullAbove: 0.85,
     thinBelow: 0.3,
     /**
-     * NO RHYTHM INTRO. A drum-led opening is a documented way in — "solo
-     * drums, solo bass, or drums and bass in duet… will attract especially
-     * great attention to rhythm" (Burns 1987) — and it is the one way in this
-     * genre cannot use: dungeon synth is "primarily beatless" with "very
-     * subtle percussion" (note.com/soundwitches), so a record that opens by
-     * putting the attention on its drums is announcing the thing it has least
-     * of. It opens on the drone, or on the flute over it.
-     */
-    /**
-     * NOT ALWAYS THE DRONE. The drone is first in this genre's entry order,
-     * so every kind that opens from the front of that order opens on it — a
-     * bed is the drone, a hook is the drone and the tune. Across sixty seeds
-     * that made the drone the first sound of the record 100% of the time, and
-     * the drone ALONE 77% of it, which is a habit and not a way in.
+     * NOT ALWAYS THE DRONE, AND WHERE IT IS NOT, IT IS A MARCH.
+     *
+     * The drone is first in this genre's entry order, so every kind that
+     * opens from the front of that order opens on it — a bed is the drone, a
+     * hook is the drone and the tune. Across sixty seeds that made the drone
+     * the first sound of the record 100% of the time, and the drone ALONE 77%
+     * of it, which is a habit and not a way in.
      *
      * A rhythm intro is the one kind that does not read the front of the
-     * order: it is the drums, and the bass with them where a genre brings the
-     * bass in early — which this one does. It works "because there is little
-     * or no melody or harmony to attend to" (Burns 1987), and for a genre
-     * whose whole subject is atmosphere, arriving on the beat instead is the
-     * strongest contrast available.
+     * order. The note that stood here refused it: this music is "primarily
+     * beatless" with "very subtle percussion" (note.com/soundwitches), so a
+     * record that opens on its drums was said to be announcing the thing it
+     * has least of. That is the wrong reading of its own source. Rare is not
+     * forbidden, and what the drums are rare AT here is keeping time under a
+     * tune. Out in front, alone, with nothing else to attend to — "solo
+     * drums, solo bass, or drums and bass in duet at the start of a record
+     * will attract especially great attention to rhythm because there is
+     * little or no melody or harmony to attend to" (Burns 1987) — they are
+     * not a beat this music lacks. They are a march, and a march is the
+     * oldest thing in the castle: the record that opens on them is a war
+     * song, and everything arriving over it is the field it marches onto.
+     * A genre is a set of constraints, not a list of permissions, and the
+     * constraint here is that this happens a quarter of the time.
+     *
+     * WITH `introParts` AT 1 THIS IS THE DRUMS ALONE. `opensWith` adds the
+     * bass to a rhythm intro only where a genre opens on two parts or more,
+     * and this one opens on one — so Burns's "solo drums" is the case this
+     * genre actually gets, not the duet. Measured off its own MIDI, that is
+     * a drum march of seven bars, twenty-three seconds, before a second part
+     * is heard (`node tools/measure.ts dungeonsynth 7 --map`).
      *
      * A quarter, not more: the drone founding the record is still what this
      * music mostly does. [chosen — the kinds are the sources', the weights
