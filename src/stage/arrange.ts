@@ -1075,7 +1075,13 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           //   worst sixteen turns. A move is worth one more for every turn the
           //   part it touches has gone unchanged, so the longest-stale part's
           //   moves rank first and nobody's move ranks less than it did.
-          const due = 1 + Math.max(0, ...touches(mv).map((r) => stale.get(r) ?? 0));
+          //   THE SUM over the parts it touches, not the largest: a move is
+          //   worth the staleness it clears, and a whole-desk treatment
+          //   clears everyone's — which is what makes the desk the natural
+          //   answer when the whole band is owed, "automation and modulation
+          //   rather than constant arrangement changes". Scored by the
+          //   largest alone, measured, the desk was worth one hush.
+          const due = 1 + touches(mv).reduce((sum, r) => sum + (stale.get(r) ?? 0), 0);
           const fit = serve * worth * fresh * afford * due;
           fits.set(mv, fit);
           if (fit > bestFit) { bestFit = fit; best = mv; }
@@ -1094,6 +1100,9 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           best = alt;
         }
         let deskMoved = best !== null && (best.treatment !== cur.treatment || best.at !== cur.at);
+        // and the rule runs both ways: a boundary that moved who plays, or
+        // the kit's expression, takes no desk move on top of it either
+        let bodyMoved = best !== null && (!same(best.heard, cur.heard) || best.thin !== cur.thin || best.halved !== cur.halved);
         if (best !== null) {
           for (const r of touches(best)) paid.add(r);
           cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
@@ -1145,7 +1154,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
               // and a treatment aimed at the part, where the span's desk is
               // still the record's own: one desk per span, so once — and then
               // the desk has moved and the rule above takes over
-              || (!deskMoved && cur.treatment === null && mv.treatment !== null && mv.at === r);
+              || (!deskMoved && !bodyMoved && cur.treatment === null && mv.treatment !== null && mv.at === r);
             if (!ok) continue;
             // a move the score gave nothing is still a payment: a part let
             // back up scores zero while the ledger is taking, and it is the
@@ -1157,9 +1166,9 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           if (extra.treatment !== null && extra.at === r && cur.treatment === null) { cur = { ...cur, treatment: extra.treatment, at: r }; deskMoved = true; }
           else if (extra.name === "hush") { cur = { ...cur, hush: new Set([...cur.hush, r]) }; hushed++; }
           else if (extra.name === "speak-up") cur = { ...cur, hush: new Set([...cur.hush].filter((x) => x !== r)) };
-          else if (extra.name === "part-out") { const less = new Set(cur.heard); less.delete(r); cur = { ...cur, heard: less }; }
-          else if (extra.name === "hold-back") cur = { ...cur, thin: true };
-          else cur = { ...cur, halved: true };
+          else if (extra.name === "part-out") { const less = new Set(cur.heard); less.delete(r); cur = { ...cur, heard: less }; bodyMoved = true; }
+          else if (extra.name === "hold-back") { cur = { ...cur, thin: true }; bodyMoved = true; }
+          else { cur = { ...cur, halved: true }; bodyMoved = true; }
           paid.add(r);
           ledger.used.set(keyOf(extra), (ledger.used.get(keyOf(extra)) ?? 0) + 1);
         }

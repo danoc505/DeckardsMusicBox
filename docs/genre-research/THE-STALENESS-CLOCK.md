@@ -324,12 +324,16 @@ the render time.
 **DONE, in two pieces, and the second was found by the roll.**
 
 A per-part counter of turns unchanged, per section. It enters the score as a
-fourth factor, `due = 1 + turns`: a move is worth one more for every turn the
-part it touches has gone unchanged, so the longest-stale part's moves rank
-first and nobody's move ranks less than it did. A whole-desk treatment touches
-every part under it, a per-part one its part, a density move the part it
-moves; **drift pays**, because a walking desk is a change to everyone it walks
-under. Then, after the score has chosen, **every heard part that went the
+fourth factor, `due = 1 + the turns unchanged of every part the move touches,
+summed`: a move is worth the staleness it clears, so the longest-stale part's
+moves rank first and nobody's move ranks less than it did. A whole-desk
+treatment touches every part under it, a per-part one its part, a density
+move the part it moves; **drift pays**, because a walking desk is a change to
+everyone it walks under. The SUM and not the largest, measured: scored by the
+largest alone the desk was worth one hush, and dungeon synth's bass sat at
+41%; summed, a whole-desk walk is the natural answer when the whole band is
+owed — "automation and modulation rather than constant arrangement changes" —
+and it went to 28%. Then, after the score has chosen, **every heard part that went the
 whole of the last span unchanged is paid on top** — hush or speak-up, a part
 out where the floor and the peak allow, the kit's expression, a treatment
 aimed at it where the span's desk is still the record's own. The one-thing
@@ -346,9 +350,12 @@ synth bass 40%, keys 41%).
 most ONE part held back per boundary: without that, the first boundary of a
 peak held four of five parts back at once — everyone quieter, which is the
 arc's job, and then nothing to hold still against. Where the desk moved, only
-a gain: a section that changes colour and loses a player in the same bar has
-nothing held still, and `arrange.test.ts` holds a treatment to never taking a
-part away. And a section that builds into the climax is not paid in expression
+a gain — and the rule runs both ways: a boundary that moved who plays takes no
+desk move on top of it. A section that changes colour and loses a player in
+the same bar has nothing held still, and `arrange.test.ts` holds a treatment
+to never taking a part away; the full suite caught the one-way version of this
+rule letting a per-part treatment land on a part-out. And a section that
+builds into the climax is not paid in expression
 down, which is the run-up cancelled by its own arrangement (`perform.test.ts`
 caught that one). A payment the score gave zero is still taken — a part let
 back up scores nothing while the ledger is taking, and it is the only way a
@@ -362,20 +369,21 @@ two went unpaid every time.
 
 | of that part's runs, 3+ turns unchanged | before | after |
 |---|---|---|
-| dungeon synth bass | 42%, longest **16** | **25%**, longest 6 |
-| dungeon synth keys | 36%, longest 16 | **26%**, longest 6 |
-| dungeon synth drone | 20% | **7%** |
-| lofi bass | 42% | **32%** |
-| lofi keys | 43% | **25%** |
-| the desk moves once every | 22–23 bars | **15 bars** |
-| lofi records that never move the desk | 43 of 200 | **27** |
-| boundaries moving more than one thing | 0% | 27–34% |
+| dungeon synth bass | 42%, longest **16** | **28%**, longest 6 |
+| dungeon synth keys | 36%, longest 16 | **29%**, longest 6 |
+| dungeon synth drone | 20% | **6%** |
+| lofi bass | 42%, longest 8 | **32%**, longest 6 |
+| lofi keys | 43%, longest 8 | **24%**, longest 6 |
+| the desk moves once every | 22–23 bars | **14–15 bars** |
+| records that never move the desk, lofi / dungeon synth | 43 / 7 of 200 | **29 / 2** |
+| boundaries moving more than one thing | 0% | 15–18% |
 
 And the section-level story held: who opens, how long alone, when everyone is
 in — identical over forty seeds in both genres (`measure.ts --sweep --map`).
-One derived number moved, and it is recorded: the opener heard exposed again,
-lofi 52.1% → 53.3%, because a paid part-out occasionally leaves it with room
-round it. `stuck` stays 0. 292 tests, one of which — "a treatment changes the
+One derived number moved, and it is recorded: the opener heard exposed again
+with room round it, lofi 52.1% → 47.1%, because a paid part-out sometimes takes
+a neighbour of the opener where before nothing did; dungeon synth 96.3%,
+unchanged. `stuck` stays 0. 292 tests, one of which — "a treatment changes the
 sound and never who is playing" — had its rationale rewritten because the
 rationale was the one-thing rule; its assertion stands.
 
@@ -388,9 +396,9 @@ repetition law, kept — and the strip now says what moved over them.
 
 **MEASURED, AND NOT BUILT — the condition is met and the mechanism cannot
 reach it.** `arrangement.unpaid` counts every time a part the rule of three
-said was owed had nothing composable left to pay it with: **567 times in
-lofi's 1,097 boundaries and 1,100 in dungeon synth's 1,671.** The cheap moves
-do run out, about one boundary in two.
+said was owed had nothing composable left to pay it with: **432 times across
+lofi's 1,097 boundaries and 779 across dungeon synth's 1,671.** The cheap moves
+do run out, at something like two boundaries in five.
 
 But the debt is a SPAN-level debt, and notes cannot pay inside a section:
 `perform.ts` addresses the hand by the figure so a figure played again is

@@ -221,10 +221,10 @@ keys and bass runs are three or more identical turns**, the worst sixteen turns 
 the arrangement changed eight times around it. In the same ten records the desk
 timeline holds **0 to 7 entries**, one lofi record moving its desk not once in
 52 bars. Both pieces are built and measured in `THE-STALENESS-CLOCK.md` §4:
-dungeon synth's bass went 42% → 25% of runs past three and its longest run 16
-→ 6 turns; the desk moves every 15 bars where it moved every 23; and a genre
+dungeon synth's bass went 42% → 28% of runs past three and its longest run 16
+→ 6 turns; the desk moves every 14–15 bars where it moved every 23; and a genre
 now states `drift`, so a treatment walks to where it is going instead of
-switching. What is left — `arrangement.unpaid`, about one boundary in two with
+switching. What is left — `arrangement.unpaid`, two boundaries in five with
 nothing composable left — is the price of the repetition law, and the case
 for Phase 4 (a voice swap per span pays a debt without touching a note).
 
