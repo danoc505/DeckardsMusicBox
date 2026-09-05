@@ -315,8 +315,9 @@ moves in a single two-loop window. The restriction is this program's."*
 
 "One move per boundary" was a single-winner loop, nothing more. A boundary now
 spends up to `MAX_PICKS` (2), and spends the second **only** on a part the rule
-of three already owes. Measured on and off, `RULE3_PICKS=1` against the
-default:
+of three already owes. Measured on and off — set `MAX_PICKS = 1` in
+`arrange.ts` and re-run `node tools/stale.ts`, which is how this project
+measures everything else — against the value it ships with:
 
 | seeds 1–60, answered | ds bass | ds keys | ds drone | ds lead | lofi bass | lofi lead |
 |---|---|---|---|---|---|---|
@@ -355,12 +356,22 @@ what is actually true: at a desk boundary, at most **one further kind** of
 thing moved. Counting parts would have been wrong, because `all-back` restores
 the whole section in one legal move.
 
-**What is still open:** `MAX_PICKS` is a module constant read from
-`RULE3_PICKS`, not a genre field, because neither genre has a reason to differ
-and a knob no author varies is the cardinal sin. If a genre ever states it, it
-goes to `spec.ts` with a default, a `resolve.ts` check and a source. At 3 the
-numbers barely move (ds bass 78% → 84%) and lofi's keys get worse, so 2 is
-where the evidence sits.
+**What is still open:** `MAX_PICKS` is a plain module constant, not a genre
+field, because neither genre has a reason to differ and a knob no author
+varies is the cardinal sin. If a genre ever states it, it goes to `spec.ts`
+with a default, a `resolve.ts` check and a source. At 3 the numbers barely
+move (ds bass 76% → 84%) and lofi's keys get worse, so 2 is where the evidence
+sits.
+
+**AND A WARNING THAT COST THIS SESSION A DEAD PAGE.** These two knobs were
+first written as `process.env` reads so they could be measured without editing
+a file. All 294 tests passed. The SHIPPED PAGE WAS DEAD — `process` does not
+exist in a browser, the bundle threw at module load, and `npm run shot` timed
+out waiting for a compose that could never happen. The stages are pure
+functions of chart and seed, nothing in the suite is placed to notice one that
+is not, and **`npm test` cannot see the built page at all**. Run `npm run
+build && npm run shot <genre> <seed>` before publishing anything, and never
+let a stage read the environment.
 
 **AND `revoice` DOES NOT HELP THESE NUMBERS — IT COSTS THEM A LITTLE.** It was
 built (commit `1e9002e`) as the first move that reaches a part the others could

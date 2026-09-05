@@ -442,11 +442,21 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
  * was the shape of a single-winner loop, nothing more; the two-loop rule says
  * the arrangement changes every two turns and says nothing about by how many
  * things, and `THE-ARRANGEMENT-AS-STORY`'s worked example moves four. So they
- * are numbers here, they are measured on and off, and the defaults are what
- * the measurement said — not what the loop happened to do.
+ * are numbers here, they are measured on and off, and the values are what the
+ * measurement said — not what the loop happened to do.
+ *
+ * THEY ARE PLAIN CONSTANTS AND NOT READ FROM THE ENVIRONMENT. The first
+ * version of this read `process.env`, every one of 294 tests passed, and the
+ * SHIPPED PAGE WAS DEAD — `process` does not exist in a browser, so the
+ * bundle threw at module load and `npm run shot` timed out waiting for a
+ * compose that could never happen. The stages are pure functions of chart and
+ * seed; a stage that reads the environment is not one, and no test in this
+ * repository is placed to notice. To measure one of these on and off, edit
+ * the number, which is how this project measures everything else — the
+ * genre treatment weights are measured exactly that way.
  */
-const MAX_PICKS = Number(process.env.RULE3_PICKS ?? 2);
-const DUE_AT = Number(process.env.RULE3_DUE_AT ?? 2);
+const MAX_PICKS = 2;
+const DUE_AT = 2;
 
 const kindOf = (mv: Move): string =>
     mv.treatment !== null ? "desk"
