@@ -274,6 +274,13 @@ test("a bridge thins, a quiet section thins, the peak never does", () => {
     for (const p of a.placed) {
       const rhythmIntro = p.section.fn === "intro" && p.heard.has("drums")
         && [...p.heard].every((r) => r === "drums" || r === "bass");
+      // AND ONLY WHERE THERE IS A KIT TO THIN. This file's header says a
+      // bridge "thins the drums: a breath, not a stop", and a section with no
+      // drums in it has no hat to take off. This test asserted `thin` on a
+      // bridge whatever was playing, so the stage set it on 338 sections of
+      // 600 records where it moved no note and put the word in the record's
+      // own text for a kit that was not there.
+      if (!p.heard.has("drums")) { assert.equal(p.thin, false, `thinned with no drums: ${describeArrangement(a)}`); continue; }
       if (p.broken) assert.equal(p.thin, false, `a break is thinned: ${describeArrangement(a)}`);
       else if (p.section.peak) assert.equal(p.thin, false, `the peak is thin: ${describeArrangement(a)}`);
       // an intro whose subject is the drums is not thinned: see the intro test above
@@ -536,4 +543,63 @@ test("the desk moving does not leave the arrangement with nothing to do", () => 
   let stuck = 0;
   for (let seed = 1; seed <= 60; seed++) stuck += dsBuild(seed).stuck;
   assert.equal(stuck, 0, `${stuck} boundaries had no move available`);
+});
+
+test("every rule this file states about a span, it keeps", () => {
+  // THE FOUNDATION, HELD TO ITSELF.
+  //
+  // This stage states its rules in prose at the top of `arrange.ts` and in the
+  // comments beside each `push`, and until now nothing checked that the spans
+  // it makes obey them. They were kept by accident of the walk: one move per
+  // boundary, each built from a `push` that had already applied its own guard.
+  // That is not the same as the rules holding, and three of them were not:
+  // the kit was thinned with the kit not sounding in 338 sections of 600
+  // records, the break was thinned in 8 where the section had just refused to
+  // thin it, and the header claimed every span is a subset of span 0 when a
+  // part walks in at the first boundary 746 times.
+  //
+  // A rule kept only by the shape of the walk is a rule the next change to the
+  // walk breaks, silently. So it is checked here, over both genres, and
+  // anything added to this stage has to keep them too.
+  for (const [name, g] of [["lofi", lofi], ["dungeonsynth", ds]] as const) {
+    for (let seed = 1; seed <= 60; seed++) {
+      const chart = makeChart({ seed, genre: g });
+      const arr = makeArrangement(chart, makeForm(chart));
+      for (const p of arr.placed) {
+        const where = `${name} seed ${seed} section ${p.section.index} (${p.section.fn})`;
+        const base = p.spans[0]!;
+        p.spans.forEach((sp, k) => {
+          const at = `${where} span ${k}`;
+          // THE KIT'S EXPRESSION IS THE KIT'S. `thin` takes the hat and the
+          // fills off and `halved` plays the figure at half speed; both are
+          // knobs on a kit, and a kit that is not sounding has no hat to lose.
+          if (!sp.heard.has("drums")) {
+            assert.equal(sp.thin, false, `${at}: thinned with the drums not sounding`);
+            assert.equal(sp.halved, false, `${at}: halved with the drums not sounding`);
+          }
+          // A PART HELD BACK IS A PART SOUNDING. `hush` is a gain on a part,
+          // and a gain on silence is nothing at all.
+          if (sp.hush !== null) assert.ok(sp.heard.has(sp.hush), `${at}: the ${sp.hush} is held back and is not sounding`);
+          // AND A TREATMENT AIMED AT A PART IS AIMED AT ONE THAT PLAYS.
+          if (sp.at !== null) assert.ok(sp.heard.has(sp.at), `${at}: a treatment aimed at the ${sp.at}, which is not sounding`);
+          // EVERY SPAN IS A SUBSET OF `Placed.heard`, which is their union, so
+          // every part heard anywhere in the section has a material built for
+          // it and nothing is silent by omission. NOT of span 0 — a part walks
+          // in at the first boundary, and `part-back` restores from the base.
+          for (const r of sp.heard) assert.ok(p.heard.has(r), `${at}: the ${r} plays and is not in the section's parts`);
+          // THE DRONE DOES NOT COME AND GO INSIDE A SECTION: it is the floor
+          // the section stands on, and one material has one drone, so what
+          // came back would be note for note what left.
+          if (base.heard.has("drone")) assert.ok(sp.heard.has("drone"), `${at}: the drone left inside a section`);
+          // THE PEAK NEVER LOSES A PART — "that is what a peak is" — so at a
+          // peak the change is expression, not a hole.
+          if (p.section.peak) assert.equal(sp.heard.size >= base.heard.size, true, `${at}: the peak lost a part`);
+        });
+        // A BREAK IS NOT THINNED: there is nothing left in it to thin, and the
+        // drums it may consist of are the thing being heard. The section
+        // refuses it; so must every span of it.
+        if (p.broken) for (const sp of p.spans) assert.equal(sp.thin, false, `${where}: the break was thinned`);
+      }
+    }
+  }
 });

@@ -681,7 +681,15 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         : null;
     // and a break is not "thinned": there is nothing left in it to thin, and
     // the drums it may consist of are the thing being heard
-    const thin = !broken && !section.peak && (section.fn === "bridge" || section.energy < A.thinBelow)
+    // AND ONLY WHERE THE KIT IS SOUNDING. `thin` is the kit's expression —
+    // its hat and its fills come off — so a section that has no drums in it
+    // cannot be thinned: there is nothing to take off. Set anyway, measured,
+    // in 338 sections across 600 records, where it did nothing to a note and
+    // put the word "thin" in the record's own text and picture for a kit that
+    // was not there. A knob turned on nothing is this program's cardinal sin
+    // and the dump saying something false about the record is worse.
+    const thin = !broken && !section.peak && heard.has("drums")
+      && (section.fn === "bridge" || section.energy < A.thinBelow)
       && !(section.fn === "intro" && kind === "rhythm");
     // EVERY TWO TURNS, ONE THING MOVES, and it is the first of the rule's
     // four ways that is actually available here: an instrument out, an
@@ -712,12 +720,20 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     const stale = new Map<Role, number>();
     let lastSpan: Span | null = null;
     /**
-     * EVERY SPAN IS A SUBSET OF SPAN 0, and that one invariant is what makes
-     * the rest safe. Span 0 is always read (index 0 at the section's first
-     * bar), so the union of the spans is span 0 exactly — checked over 334
-     * sections, 0 differ — which means `heard` below is unchanged, every
-     * part heard in a section still has a material, and nothing is silent by
-     * omission. Under it a walk DOWN the subset lattice and back UP again is
+     * EVERY SPAN IS A SUBSET OF `base`, WHICH IS NOT SPAN 0. This comment
+     * used to say the union of the spans is span 0 exactly, "checked over 334
+     * sections, 0 differ". That is false and was false when it was written:
+     * span 0 is `base` LESS the part that walks in at the first boundary, so
+     * span 1 has a part span 0 has not — 746 times across 600 records — and
+     * `part-back` and `all-back` restore from `base` too, adding a part at
+     * span 2 and later 690 times more.
+     *
+     * What is true, and what the rest actually rests on, is that every span
+     * is a subset of `base`: `push` only ever offers a set built from `base`
+     * or from `cur`, and `Placed.heard` below is the UNION of the spans. So
+     * every part heard anywhere in the section is in `heard`, every one of
+     * them has a material built for it, and nothing is silent by omission.
+     * Under it a walk DOWN the subset lattice and back UP again is
      * legal: base, less the keys, less the keys and the pad, base again is
      * "losing instruments in stages and then building them up again" — which
      * this file's own header cites and the code could not do, because it
@@ -877,8 +893,14 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
         }
         // expression down, and back up — never above the floor the form set
-        if (!cur.thin) push("hold-back", new Set(cur.heard), true, "drums");
-        if (cur.thin && !thin) push("let-out", new Set(cur.heard), false, "drums");
+        // AND NEITHER IS OFFERED WHERE THERE IS NO KIT TO HOLD BACK, nor in
+        // the break. `thin` above refuses both at the section; the pool
+        // refused neither, so a span move could thin a break the section had
+        // just declined to thin — measured, 8 records across 600 — and could
+        // set the kit's expression with the kit not sounding. The rule is one
+        // rule and it belongs in both places that can make the state.
+        if (!cur.thin && !broken && cur.heard.has("drums")) push("hold-back", new Set(cur.heard), true, "drums");
+        if (cur.thin && !thin && cur.heard.has("drums")) push("let-out", new Set(cur.heard), false, "drums");
         // AND EXPRESSION ON ANY PART, which is the two-loop rule's fourth way
         // and the one this stage read as the drums' hat. A part held back is
         // half a part, priced the same as a thinned kit; it is a gain and
