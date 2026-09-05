@@ -111,6 +111,13 @@ export function dump(song: Song): string {
     const flags: string[] = [];
     if (s.peak) flags.push("peak");
     if (s.vary) flags.push("vary");
+    // the three other answers to the rule of three, which the arrangement
+    // decides per hearing and which the notes alone cannot show: a section
+    // whose change is on the desk, one that builds into the climax, and one
+    // played in a different manner
+    if (s.recast) flags.push("recast");
+    if (p.swell) flags.push("swell");
+    if (p.manner !== null) flags.push("manner:" + p.manner);
     if (p.thin) flags.push("thin");
     const missing = ROLES.filter((r) => !p.heard.has(r));
     if (missing.length > 0) flags.push("without:" + missing.join("+"));
@@ -120,12 +127,27 @@ export function dump(song: Song): string {
   // THE SPANS, and who is in each one. A span is two turns of the loop and
   // the arrangement changes on that clock, so the section line above is the
   // wrong grain to read the arrangement at.
-  L.push("#span_cols\tsection\tspan\tstartBar\tparts\tthin");
+  //
+  // AND EVERYTHING ELSE THE SPAN DECIDES. Who is in is one of the two-loop
+  // rule's four ways, and the others — a part held back, the kit in half
+  // time, the desk moved, a treatment aimed at one part — used to be decided
+  // here and written nowhere, so this file said a section repeated at exactly
+  // the moments the arrangement had changed it. A reader that cannot see the
+  // change cannot judge whether it was the right one.
+  L.push("#span_cols\tsection\tspan\tstartBar\tparts\tflags");
   song.arrangement.placed.forEach((p, i) => {
     const turn = p.section.bars / Math.max(1, p.spans.length);
     p.spans.forEach((sp, k) => {
       const parts = ROLES.filter((r) => sp.heard.has(r)).join("+") || ".";
-      L.push(`#span\t${i}\t${k}\t${Math.round(p.section.startBar + k * turn)}\t${parts}\t${sp.thin ? "thin" : "."}`);
+      const flags: string[] = [];
+      if (sp.thin) flags.push("thin");
+      if (sp.halved) flags.push("half");
+      if (sp.hush !== null) flags.push("hush:" + sp.hush);
+      // the desk, and the one part it is aimed at where the treatment is a
+      // per-part one — "a part steps closer" is a different move from the
+      // whole band stepping closer
+      if (sp.treatment !== null) flags.push("desk:" + sp.treatment + (sp.at !== null ? "@" + sp.at : ""));
+      L.push(`#span\t${i}\t${k}\t${Math.round(p.section.startBar + k * turn)}\t${parts}\t${flags.join(",") || "."}`);
     });
   });
   // WHERE THE ARC ACTUALLY CRESTED, as against where the form said it would.

@@ -381,8 +381,8 @@ states the rule.*
 
 Phases 1 to 3 built the vocabulary and never said when it has to be spoken.
 Measured on ten random records, the consequence is that the record keeps the
-rule of three and every part breaks it: **25–32% of keys and bass runs are three
-or more identical turns**, the worst being sixteen turns — thirty-two bars of
+rule of three and every part breaks it: **42–43% of keys and bass runs are three
+or more identical turns** (`node tools/stale.ts`), the worst being sixteen turns — thirty-two bars of
 one two-note figure while the arrangement changed eight times around it. Across
 those ten records, **56 boundaries moved exactly one thing and not one moved
 two**, which is narrower than the two-loop source, whose own worked example
@@ -390,9 +390,12 @@ moves four at once.
 
 Three steps, each measured alone:
 
-0. **The measurement first.** `tools/measure.ts` gains a per-part sweep mode —
-   longest run of identical turns, share at 3+, desk-timeline density. Also
-   closes `HANDOFF.md` item 2.
+0. **The measurement first. DONE.** `tools/stale.ts` — runs of identical
+   turns per part in its own unit, share at 3+, desk-timeline density, what
+   moved at each boundary. `tools/measure.ts --parts` closes `HANDOFF.md`
+   item 2. And `dump.ts`, `FORMAT.md` and the roll now carry `hush`, `half`,
+   the desk, `swell`, `manner` and `recast`, so the record's own text and
+   picture can show a change the notes cannot.
 1. **Drift** — a treatment that ramps across its span instead of switching at
    one sample. The primitives exist and are all free-running LFOs; the gesture
    does not. This is what lets a long section stay alive without many events.

@@ -24,6 +24,12 @@
  *   node tools/measure.ts lofi 42 --json            the parsed notes and the numbers, unformatted
  *   node tools/measure.ts --sweep lofi 1 20          the report's numbers over twenty seeds
  *   node tools/measure.ts --sweep lofi 1 20 --map    the opening numbers over twenty seeds
+ *   node tools/measure.ts --sweep lofi 1 20 --parts  what becomes of each part: share, longest absence, at the end
+ *
+ * What this cannot see, and what sees it instead: a part's STALENESS — how
+ * many turns it plays identically before anything about it changes — is made
+ * of the desk, a part held back and the kit in half time, none of which the
+ * file carries. `tools/stale.ts` reads the composed record for that.
  *
  * WHAT THE REPORT MEASURES, and why each number is here rather than another:
  *
@@ -561,6 +567,7 @@ const bars = flag("bars", 8);
 const fromBar = flag("from", -1);
 const reportOnly = args.includes("--report");
 const wantsMap = args.includes("--map");
+const wantsParts = args.includes("--parts");
 
 function lines(file: MidiFile, part: string, fromBar: number, bars: number, head: string): string {
   const notes = file.notes.filter((n) => n.track.startsWith(part));
@@ -591,6 +598,57 @@ if (args.includes("--sweep")) {
   }
   const first = Number(fromArg ?? 1);
   const last = Number(toArg ?? 10);
+  if (wantsParts) {
+    // WHAT BECOMES OF A PART, over a run of seeds. Read off the file, like
+    // the map: a part's share of the record's bars, the longest it is ever
+    // gone once it has been heard, whether it is playing when the record
+    // ends, and whether the part that is present most changes between the
+    // record's two halves. The last is the one that says whether the
+    // hierarchy MOVES — a record whose most-present part is the same part in
+    // both halves has a texture, not a story (Almén, via
+    // THE-ARRANGEMENT-AS-STORY.md §8, whose numbers this reproduces).
+    const parts = new Map<string, { share: number[]; absent: number[]; atEnd: number; heard: number }>();
+    let hierarchyMoved = 0;
+    for (let seed = first; seed <= last; seed++) {
+      const song = compose({ seed, genre: genre as GenreName });
+      const file = readMidi(midi(song));
+      const o = openingOf(file);
+      const half = Math.floor(o.bars / 2);
+      const present = (part: string, from: number, to: number): number => {
+        const row = o.grid.get(part)!;
+        let n = 0;
+        for (let b = from; b < to; b++) if (row[b]) n++;
+        return n;
+      };
+      const most = (from: number, to: number): string =>
+        [...o.grid.keys()].reduce((best, p) => (present(p, from, to) > present(best, from, to) ? p : best));
+      if (most(0, half) !== most(half, o.bars)) hierarchyMoved++;
+      for (const part of partsOf(file)) {
+        const row = o.grid.get(part)!;
+        const slot = parts.get(part) ?? { share: [], absent: [], atEnd: 0, heard: 0 };
+        slot.heard++;
+        slot.share.push((100 * present(part, 0, o.bars)) / o.bars);
+        // the longest absence, counted only after the part has entered: a
+        // part that has not arrived yet is not missing
+        let longest = 0, run = 0;
+        for (let b = o.entry.get(part) ?? 0; b < o.bars; b++) {
+          if (row[b]) { longest = Math.max(longest, run); run = 0; } else run++;
+        }
+        slot.absent.push(Math.max(longest, run));
+        if (row[o.bars - 1]) slot.atEnd++;
+        parts.set(part, slot);
+      }
+    }
+    const mean = (xs: number[]): number => xs.reduce((a, b) => a + b, 0) / Math.max(1, xs.length);
+    const max = (xs: number[]): number => xs.reduce((a, b) => Math.max(a, b), 0);
+    const n = last - first + 1;
+    process.stdout.write(`${"part".padEnd(7)}${"share%".padStart(8)}${"absent".padStart(8)}${"longest".padStart(9)}${"at end%".padStart(9)}   over ${n} seeds\n`);
+    for (const [part, s] of parts) {
+      process.stdout.write(`${part.padEnd(7)}${mean(s.share).toFixed(0).padStart(8)}${mean(s.absent).toFixed(1).padStart(8)}${String(max(s.absent)).padStart(9)}${((100 * s.atEnd) / s.heard).toFixed(0).padStart(9)}\n`);
+    }
+    process.stdout.write(`\nthe most-present part changes between halves in ${hierarchyMoved} of ${n} records (${((100 * hierarchyMoved) / n).toFixed(0)}%)\n`);
+    process.exit(0);
+  }
   if (wantsMap) {
     // THE OPENING, over a run of seeds. Every number is read off the file: who
     // is in bar one, how long they hold it, when everyone is finally in, and

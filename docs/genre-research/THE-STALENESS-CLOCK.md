@@ -73,13 +73,23 @@ you chose is a seed that worked.
 ### The record keeps the rule. Every part breaks it.
 
 Longest run of identical turns per part — same notes, same manner, same desk,
-not held back:
+not held back — counted in each part's own unit of repetition. Two hundred
+seeds a genre, and the tool is in the repository:
 
-| | lofi | dungeon synth |
+    node tools/stale.ts lofi,dungeonsynth 1 200
+
+| of that part's runs, three or more turns unchanged | lofi | dungeon synth |
 |---|---|---|
-| keys, of runs, 3+ turns | **32%** | **27%** |
-| bass, of runs, 3+ turns | **25%** | **30%** |
+| keys | **43%** | **36%** |
+| bass | **42%** | **42%** |
+| drone | 1% | **20%** |
+| lead | 8% | 2% |
+| drums (unit: the bar) | 0% | 6% |
 | longest observed | 8 turns | **16 turns** |
+
+The first draft of this document said 25–32%. That number came from a script
+that counted every part in the loop's unit, drums included, and is not in the
+repository; the one above is. The fault is worse than first stated.
 
 The worst case, verified by hand: **dungeon synth seed 83, section 3, bars
 48–80.** The loop is 2 bars, the section is 32 bars — sixteen turns. The bass
@@ -98,6 +108,9 @@ Across the ten random records, **56 span boundaries**:
 | boundaries where more than one moved | **0** |
 | boundaries where nothing moved | **0** |
 
+And across two hundred seeds a genre: **2,768 of 2,768.** Not a tendency; a
+rule the code enforces.
+
 ### The desk is nearly idle
 
 Entries in the record's own desk timeline — every moment it moves a treatment:
@@ -108,8 +121,10 @@ Entries in the record's own desk timeline — every moment it moves a treatment:
 | dungeon synth | 1 | 7 | 4 | 2 | 3 |
 
 **A 52-bar lofi record whose desk never moves once.** A 112-bar dungeon synth
-record with two entries. The one mechanism that could keep a static loop alive
-is doing almost nothing, in the genres built around it.
+record with two entries. Over two hundred seeds: lofi moves its desk once every
+**23 bars** and **43 records of 200 never move it**; dungeon synth once every 22
+bars, 7 of 200 never. The one mechanism that could keep a static loop alive is
+doing almost nothing, in the genres built around it.
 
 ### And when it moves, it is a step
 
@@ -240,13 +255,34 @@ repository until step 0 lands.
 
 ### Step 0 — the measurement, before any behaviour changes
 
-`tools/measure.ts` gains a mode reporting, per part across a sweep: longest run
-of identical turns, share of runs at 3+, and the density of the record's desk
-timeline. This also closes `HANDOFF.md` item 2, which has asked for a part-level
-sweep mode since before this work started.
+**DONE.** Two tools, split the way the repository already splits them:
 
-**What says it worked:** it reproduces §2 on seeds 14348, 46691, 15876, 11479,
-21174 without a script that is not in the repository.
+- **`tools/stale.ts`** reads the composed record, as `tools/treatments.ts`
+  does, because staleness is made of the desk, a part held back and the kit
+  in half time — none of which the MIDI file carries. Per part: runs of
+  identical turns in the part's own unit, median, p90, max and where it
+  happened, share at 3+. Per record: desk-timeline density, and at how many
+  boundaries one thing moved, more than one, or none.
+- **`tools/measure.ts --sweep <genre> a b --parts`** reads the file, as the
+  rest of that tool does: a part's share, its longest absence, whether it
+  plays at the end, and whether the most-present part changes between halves.
+  That is `HANDOFF.md` item 2, word for word, closed.
+
+And the record's own text and picture now say what the arrangement did.
+`src/dump.ts` writes `recast`, `swell` and `manner:<name>` on `#section`, and
+`#span` carries `half`, `hush:<part>` and `desk:<treatment>[@part]` where it
+carried only `thin`; `tools/FORMAT.md` documents both. `tools/roll.mjs` draws
+a held-back part at half weight, half time as a dash, a per-part treatment as
+a box, the desk's name under the strip, and a swelling section as a ribbon
+that rises. Before this, the dump printed four identical `.` spans for a peak
+in which the kit dropped to half time, the lead was hushed and the desk moved
+— the file said the section repeated at exactly the moments it changed.
+
+**What said it worked:** `node tools/stale.ts lofi,dungeonsynth --seeds
+14348,46691,15876,11479,21174` reproduces every number in §2 — 10 and 17 desk
+entries, 56 boundaries all moving one thing, bass 8 turns on lofi 46691 — and
+`1 200` gives the table above. `npm run check` clean; `perform.test.ts`, which
+counts `#section` lines, passes.
 
 ### Step 1 — drift, because it is the payment the clock will need
 

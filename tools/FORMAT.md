@@ -72,12 +72,40 @@ do not know, which is why they are safe to leave in a file.
 |---|---|
 | `peak` | the form marked this the record's biggest moment |
 | `vary` | the third consecutive statement of an idea: this one differs |
+| `recast` | the third statement of an idea that will not return: the change is on the desk, not in the notes |
+| `swell` | the section before the climax, and it builds into it — its weight rises across the section |
+| `manner:<name>` | a plain restatement played in a different manner — `tongued`, `sung`, `arched` or `level` |
 | `thin` | the drums lose their hat here — a breath, not a stop |
 | `without:<part>+<part>` | parts the arrangement does not hear in this section |
 
 (The MKII dumper writes that program's own flags — `fill`, `empty:*`, `strip`,
 `mv:*`, `arc:*`, `duel`, `chase:*` — and readers should ignore any they do
 not know.)
+
+### Spans
+
+```
+#span_cols      section  span  startBar  parts                  flags
+#span           1        2     16        drums+bass+keys        hush:keys,desk:darken
+```
+
+A span is two turns of the loop, and the arrangement changes on that clock —
+the two-loop rule — so the section line is the wrong grain to read the
+arrangement at. `parts` is who sounds, `+`-joined, `.` for nobody. `flags`
+is everything else the span decides, because a reader that cannot see a
+change cannot judge whether it was the right one:
+
+| flag | meaning |
+|---|---|
+| `thin` | the kit without its hat |
+| `half` | the kit in half time: every hit at twice its step, the backbeat on three |
+| `hush:<part>` | that part held back to the arc's own quietest — a gain, not a note dropped |
+| `desk:<treatment>` | the desk this span is heard on — see `genre-research/THE-ALTERATIONS.md` |
+| `desk:<treatment>@<part>` | the same, aimed at one part rather than the whole band |
+
+A span with no flags is `.`. A treatment held across several spans is
+written on each of them, because each span IS on that desk; the renderer
+rebuilds nothing where nothing changed.
 
 ### Per-role rollups
 

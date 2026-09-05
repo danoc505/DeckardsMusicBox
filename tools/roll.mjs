@@ -92,7 +92,7 @@ const nBars = bar1 - bar0;
 const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], drone: [163,255,107] };
 const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
-const SH = 7, GUT = 34, HEAD = 22, DRUM = 4*9 + 6, SPAN = 13;
+const SH = 7, GUT = 34, HEAD = 22, DRUM = 4*9 + 6, SPAN = 20;
 let lo = Infinity, hi = -Infinity;
 for (const e of song.performance.events) if (e.pitch !== null) { if (e.pitch < lo) lo = e.pitch; if (e.pitch > hi) hi = e.pitch; }
 lo = 12*Math.floor(lo/12) ; hi = 12*Math.ceil(hi/12);
@@ -113,6 +113,16 @@ for (let p = lo; p <= hi; p += 12) { cv.hline(Y(p), GUT, W-8, [40, 70, 58], 0.9)
 // is playing then shows as a change in the picture, not only in the notes —
 // which is the whole point of reading a record this way.
 const ROLE_I = { drums: 0, bass: 1, keys: 2, lead: 3, drone: 4 };
+// AND EVERYTHING ELSE A SPAN DECIDES, or the strip lies. The two-loop rule's
+// four ways are who is in, who is out, and expression up or down — and the
+// strip drew only the first two, so a part held back, the kit in half time,
+// or the whole section moved to a different desk showed as nothing having
+// changed at exactly the boundary the arrangement changed it. The roll cannot
+// hear the desk, but it can say the desk moved and which way.
+//   a block at half weight     that part is held back (hush)
+//   an orange dash under it    the kit is in half time
+//   a box round a block        a per-part treatment is aimed at that part
+//   a name under the strip     the treatment the span's desk is on
 for (const pl of song.arrangement.placed) {
   const mm = song.materials.all.get(pl.material);
   const turn = 2 * Math.max(1, mm ? mm.period : 1);
@@ -125,9 +135,19 @@ for (const pl of song.arrangement.placed) {
     if (!sp) continue;
     for (const r of ["drums", "bass", "keys", "lead", "drone"]) {
       if (!sp.heard.has(r)) continue;
-      cv.rect(x0 + 2 + ROLE_I[r] * 5, HEAD + 1, 4, 7, COL[r], 0.95);
+      const bx = x0 + 2 + ROLE_I[r] * 5;
+      if (sp.at === r) cv.rect(bx - 1, HEAD, 6, 9, [235, 235, 235], 0.6);
+      cv.rect(bx, HEAD + 1, 4, 7, COL[r], sp.hush === r ? 0.4 : 0.95);
     }
     if (sp.thin) cv.rect(x0 + 2, HEAD + 9, Math.max(4, x1 - x0 - 4), 2, [255, 179, 71], 0.85);
+    if (sp.halved) cv.rect(x0 + 2, HEAD + 11, 4, 2, COL.drums, 0.95);
+    // the treatment, named — only where it changes, so a desk held across
+    // several spans is one word and not the same word four times
+    const prev = k > 0 && pl.spans ? pl.spans[Math.min(pl.spans.length - 1, k - 1)] : null;
+    if (sp.treatment && (!prev || prev.treatment !== sp.treatment || prev.at !== sp.at)) {
+      const room = Math.max(0, Math.floor((x1 - x0 - 2) / 4));
+      text(cv, sp.treatment.slice(0, room), x0 + 2, HEAD + 14, [160, 175, 190], 0.9);
+    }
   }
 }
 // bar rules + numbers
@@ -143,11 +163,20 @@ for (const pl of song.arrangement.placed) {
   const s = pl.section; if (s.endBar <= bar0 || s.startBar >= bar1) continue;
   const x = X(Math.max(bar0, s.startBar)), xe = X(Math.min(bar1, s.endBar));
   cv.vline(x, 0, H, [255,179,71], 0.9); cv.vline(x+1, 0, H, [255,179,71], 0.35);
-  cv.rect(x, 0, Math.min(xe - x, W), 2, [255,179,71], s.peak ? 1 : 0.45);
+  // A SECTION THAT BUILDS IS DRAWN BUILDING: its ribbon rises from the
+  // ordinary weight to the peak's across the section, which is what the
+  // arrangement does to its gain. A flat ribbon is a section that sits.
+  if (pl.swell) {
+    const w = Math.min(xe - x, W);
+    for (let i = 0; i < w; i++) cv.rect(x + i, 0, 1, 2, [255,179,71], 0.45 + 0.55 * (i / Math.max(1, w - 1)));
+  } else {
+    cv.rect(x, 0, Math.min(xe - x, W), 2, [255,179,71], s.peak ? 1 : 0.45);
+  }
   // clipped to the section it belongs to: a label that runs into the next
-  // section is a label on the wrong section
+  // section is a label on the wrong section. The manner a hearing is played
+  // in and a recast are part of what the section IS, so they are in the name.
   const room = Math.max(0, Math.floor((xe - x - 4) / 4));
-  const label = `${s.fn} ${pl.material}`.slice(0, room);
+  const label = `${s.fn} ${pl.material}${s.recast ? " recast" : ""}${pl.manner ? " " + pl.manner : ""}`.slice(0, room);
   text(cv, label, x + 2, 12, [255,179,71], s.peak ? 1 : 0.75);
 }
 // which drum is which lane
@@ -173,7 +202,20 @@ writeFileSync(out, png(W, H, cv.buf));
 console.log(`${out}  ${W}x${H}  bars ${bar0}-${bar1}`);
 console.log(`${song.chart.genre.label} · seed ${seedArg} · ${song.chart.tempo} bpm · ${song.form.bars} bars`);
 console.log("colours: drums=orange bass=yellow keys=cyan lead=pink drone=green · amber verticals are section starts");
+console.log("the strip: a block per part in · half weight = held back · boxed = a treatment aimed at it · orange dash = half time · a name = the desk");
 for (const pl of song.arrangement.placed) {
   const s = pl.section;
-  console.log(`  bar ${String(s.startBar).padStart(3)}-${String(s.endBar).padEnd(3)} ${s.fn.padEnd(13)} material ${String(pl.material).padEnd(4)} energy ${s.energy.toFixed(2)}${s.peak?" PEAK":""}${s.vary?" VARY":""}${pl.thin?" THIN":""}`);
+  console.log(`  bar ${String(s.startBar).padStart(3)}-${String(s.endBar).padEnd(3)} ${s.fn.padEnd(13)} material ${String(pl.material).padEnd(4)} energy ${s.energy.toFixed(2)}${s.peak?" PEAK":""}${s.vary?" VARY":""}${s.recast?" RECAST":""}${pl.swell?" SWELL":""}${pl.manner?" "+pl.manner.toUpperCase():""}${pl.thin?" THIN":""}`);
+  // and what each span of it does, so the picture and the words agree
+  const mm = song.materials.all.get(pl.material);
+  const turn = 2 * Math.max(1, mm ? mm.period : 1);
+  const spans = (pl.spans ?? []).map((sp, k) => {
+    const f = [];
+    if (sp.thin) f.push("thin");
+    if (sp.halved) f.push("half");
+    if (sp.hush) f.push(`hush:${sp.hush}`);
+    if (sp.treatment) f.push(`desk:${sp.treatment}${sp.at ? "@" + sp.at : ""}`);
+    return `${s.startBar + k * turn}:${[...sp.heard].map((r) => r[0]).join("")}${f.length ? "+" + f.join("+") : ""}`;
+  });
+  if (spans.length > 1 || spans.some((x) => x.includes("+"))) console.log(`      spans  ${spans.join("  ")}`);
 }

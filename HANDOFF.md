@@ -130,12 +130,13 @@ sits 17 dB below its own `darken` — if those are inaudible the fix is in
 lofi's desk, which gives one part a pedal board and no pole at all, not in the
 treatments.
 
-**2. `THE-ARRANGEMENT-AS-STORY.md` §8 cites numbers this repository cannot
-reproduce.** They were measured with a script that is not here — the only
-unverifiable claim in these docs, and it undermines the rest of them. Give
-`measure.ts` a mode that reports what becomes of a part across a sweep: its
-share, its longest absence, whether it plays at the end, whether the
-most-present part changes between halves.
+**2. ~~`THE-ARRANGEMENT-AS-STORY.md` §8 cites numbers this repository cannot
+reproduce.~~ DONE.** `node tools/measure.ts --sweep <genre> 1 20 --parts`
+reports, per part, its share, its longest absence, whether it plays at the end,
+and whether the most-present part changes between halves — read off the file
+like the rest of that tool. And `tools/stale.ts` reads the composed record for
+the thing the file cannot carry: how many turns a part plays identically before
+anything about it changes. Both landed with `THE-STALENESS-CLOCK.md` Step 0.
 
 **3. ~~lofi's hierarchy does not move.~~ DONE — and the diagnosis in this
 entry was wrong.** It read "its drums sit at the bottom of its OWN shed order".
@@ -211,12 +212,12 @@ treatment weights from its own sources, and the even default it was running on
 was never even: pool order alone decided a hard 54-to-1 ranking, taken from the
 order of a `const` in `spec.ts` that no author chose. `TALLY.md` §2.
 
-**6b. THE POOL HAS NO CLOCK — measured, and it is the next thing.**
+**6b. THE POOL HAS NO CLOCK — measured, reproducible, and it is the next thing.**
 `genre-research/THE-STALENESS-CLOCK.md` is the spec; Phase 3.5 of the plan is
 the build. Twenty-three alterations exist and nothing says when one has to
 fire, so the record keeps the rule of three and every part breaks it: on ten
-random records, **25–32% of keys and bass runs are three or more identical
-turns**, the worst sixteen turns — thirty-two bars of one two-note figure while
+random records — and over two hundred, `node tools/stale.ts` — **42–43% of
+keys and bass runs are three or more identical turns**, the worst sixteen turns — thirty-two bars of one two-note figure while
 the arrangement changed eight times around it. In the same ten records the desk
 timeline holds **0 to 7 entries**, one lofi record moving its desk not once in
 52 bars. The two pieces are a per-part staleness counter and **drift** — a
@@ -272,6 +273,8 @@ variation exists. That belongs in the material stage, not the arrangement.
 | the record as text | `node src/cli.ts <genre> <seed>` |
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
+| what becomes of each part | `node tools/measure.ts --sweep <genre> 1 20 --parts` |
+| how long a part goes unchanged | `node tools/stale.ts [genre] [first] [last]` |
 | what each treatment is worth | `node tools/treatments.ts [genre] [seed]` |
 | every test, then types | `npm test` · `npm run check` |
 | the single file | `npm run build` |
