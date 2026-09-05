@@ -28,21 +28,33 @@ How to read a roll and what to look for are in `docs/THE-PIANO-ROLL.md`.
 
 ## How a change is made here
 
-**Find where the rule already lives, and put your change there.** This program
-is a small number of mechanisms, each of which already knows the laws it must
-keep. The arrangement is one of them: `push()` builds every candidate move
-applying the laws — the floor, the peak, the close, the drone, the walk-in —
-the score ranks what `push()` offered, and the best is taken. `resolve.ts`
-refuses a bad genre at load. `deskOf` refuses a treatment that would do
-nothing. `settle` merges a desk. `manner()` picks how a note is played.
+**Find what already owns this, and change that.** This program is a small
+number of mechanisms, each of which already knows the laws it keeps. The
+arrangement is one: `push()` builds every candidate move applying the laws —
+the floor, the peak, the close, the drone, the walk-in — the score ranks what
+`push()` offered, and the best is taken. `resolve.ts` refuses a bad genre at
+load. `deskOf` refuses a treatment that would do nothing. `settle` merges a
+desk. `manner()` picks how a note is played.
 
-So before writing anything, read the mechanism you are about to change and
-answer one question in the terms it already uses: **where does this rule
-belong, and how does the existing mechanism express it?** A new rule about
-which moves are legal belongs in `push()`. A new rule about which move is
-best belongs in the score. A new number a genre may state belongs in
-`spec.ts`, with a default, a check in `resolve.ts` and a source. There is
-almost always a place. Use it.
+So before writing anything, read what you are about to change and answer one
+question in the terms it already uses: **what owns this, and how does it
+already say things of this kind?** Whatever the work is, it has an owner:
+
+| the work | where it goes |
+|---|---|
+| a rule about which moves are legal | `push()`, with the other refusals |
+| a rule about which move is best | the score, as one more term in the product |
+| a number a genre may state | `spec.ts` + a default + a `resolve.ts` check + a source |
+| a bug | the code that has the defect — never a guard wrapped around it |
+| a thing the program should be able to say | the writer that already says things of that kind (`dump.ts`, the roll, `measure.ts`) |
+| a measurement | the tool that already measures that kind of thing, or a new tool beside them if it reads a different input |
+| a behaviour nobody wants any more | delete the field and keep the note saying it was tried |
+| something the reader must know | the doc that already covers that ground, not a new one beside it |
+
+Two of those are the ones people get wrong. **A bug is fixed where the defect
+is.** A check added around broken code leaves the break in place for the next
+caller. **And a thing to delete is deleted**, not disabled behind a flag: a
+flag that turns a rule off is two behaviours to reason about for ever.
 
 **A second mechanism beside the first is the failure mode this program is
 most prone to**, because it always works at first and the bill comes later. It
@@ -70,11 +82,34 @@ finding about the mechanism and worth saying out loud — the mechanism gets
 extended, or the plan changes. It is not a licence to run a second one beside
 it.
 
-**Then measure it against the code that was there**, not against the change:
-roll the same seeds before and after, run the same sweep before and after, and
-if a number improves, ask what it was bought with. A staleness figure paid for
-with the record's climax is not an improvement, and the only way to see that
-is to measure the thing the change was not aiming at.
+## Prove it, or it did not happen
+
+A change is not finished when it runs. It is finished when the program can be
+shown to do something it did not do before, on records nobody picked to
+flatter it. That means, every time:
+
+- **Measure the code that was there, not just the code you wrote.** Check out
+  the commit before yours (`git worktree add /tmp/before <sha>`), run the same
+  tool with the same seeds, and put the two columns side by side. A number
+  with nothing beside it is not evidence.
+- **Let something else pick the seeds.** A seed you chose is a seed that
+  worked. Draw them at random, print the seeds you drew, and report every one
+  of them — including the ones that did not improve.
+- **Measure what the change was NOT aiming at.** This is the one that catches
+  real damage. A staleness figure bought with the record's climax is not an
+  improvement, and nothing you were watching would have told you. So check the
+  section-level numbers — who opens, thinnest, fullest, the peak — every time,
+  whatever you were changing.
+- **Look at the roll.** For anything that touches notes or who plays when,
+  roll it before and after and LOOK at the picture. `docs/THE-PIANO-ROLL.md`
+  says what to look for.
+- **Say the size of the win plainly, per genre.** If it works for one genre
+  and not the other, that is the result — report it that way rather than
+  averaging the two into one better-looking number.
+
+If a change cannot be shown to have done anything, it is a knob that does
+nothing, and this program's rule for those is to delete the field and keep the
+note saying it was tried (`THE-INTRO.md` §7 is the worked example).
 
 Node 22 runs the TypeScript directly. There is no bundler: the build
 transpiles `src/` into a forty-line module registry inside `tools/page.html`.

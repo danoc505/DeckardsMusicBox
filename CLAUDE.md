@@ -11,11 +11,16 @@ that was bolted onto it. Ignoring it has cost this program its climax once.
 
 The four things that will cost you most if you miss them:
 
-- **Find where the rule already lives and put your change there.** A rule
-  about which moves are legal goes in `push()`; about which is best, in the
-  score; a number a genre may state, in `spec.ts` with a default, a
-  `resolve.ts` check and a source. A second mechanism beside the first always
-  works at first and the bill comes later.
+- **Find what already owns this and change that.** A rule about which moves
+  are legal goes in `push()`; about which is best, in the score; a number a
+  genre may state, in `spec.ts` with a default, a `resolve.ts` check and a
+  source; a bug, in the code that has the defect and never in a guard around
+  it. The README table covers the rest. A second mechanism beside the first
+  always works at first and the bill comes later.
+
+- **Prove it on seeds you did not choose, against the commit before yours,
+  and measure what you were NOT aiming at.** README § "Prove it, or it did
+  not happen". A number with nothing beside it is not evidence.
 
 - **The piano roll is the main test** for anything that changes notes or who
   plays when: `npm run roll <genre> <seed>`, before your change and after it.
