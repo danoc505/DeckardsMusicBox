@@ -26,6 +26,56 @@ straight out of the pipeline in about a second; `npm run shot` drives the
 built page and shoots its own canvas, and the two disagreeing is itself a bug.
 How to read a roll and what to look for are in `docs/THE-PIANO-ROLL.md`.
 
+## How a change is made here
+
+**Find where the rule already lives, and put your change there.** This program
+is a small number of mechanisms, each of which already knows the laws it must
+keep. The arrangement is one of them: `push()` builds every candidate move
+applying the laws — the floor, the peak, the close, the drone, the walk-in —
+the score ranks what `push()` offered, and the best is taken. `resolve.ts`
+refuses a bad genre at load. `deskOf` refuses a treatment that would do
+nothing. `settle` merges a desk. `manner()` picks how a note is played.
+
+So before writing anything, read the mechanism you are about to change and
+answer one question in the terms it already uses: **where does this rule
+belong, and how does the existing mechanism express it?** A new rule about
+which moves are legal belongs in `push()`. A new rule about which move is
+best belongs in the score. A new number a genre may state belongs in
+`spec.ts`, with a default, a check in `resolve.ts` and a source. There is
+almost always a place. Use it.
+
+**A second mechanism beside the first is the failure mode this program is
+most prone to**, because it always works at first and the bill comes later. It
+looks like: a loop after the one that already chose, re-scanning the same
+pool; a guard restated because the code that had it is elsewhere; state
+rebuilt by hand that a constructor already built; a new flag invented to
+referee between the old path and the new one. Every one of those is a law
+kept in a reader, and **a law kept in a reader is a law the next reader
+breaks**. It has cost this program its climax once already: a second
+selection loop after the arrangement's score did not know that "at a peak the
+change is expression only", and half of all records came out with their
+biggest moment as their thinnest — while every test stayed green, because the
+law was in a comment and not in the code.
+
+The tell that a change is bolted on rather than built in:
+
+- it restates a condition that already exists somewhere else
+- it mutates state that some constructor or `push` already assembles
+- deleting it would leave the surrounding code coherent, unchanged
+- it needed a new flag whose only job is to coordinate two code paths
+- the file's own header no longer describes what the file does
+
+If a change cannot be expressed inside the mechanism that owns it, that is a
+finding about the mechanism and worth saying out loud — the mechanism gets
+extended, or the plan changes. It is not a licence to run a second one beside
+it.
+
+**Then measure it against the code that was there**, not against the change:
+roll the same seeds before and after, run the same sweep before and after, and
+if a number improves, ask what it was bought with. A staleness figure paid for
+with the record's climax is not an improvement, and the only way to see that
+is to measure the thing the change was not aiming at.
+
 Node 22 runs the TypeScript directly. There is no bundler: the build
 transpiles `src/` into a forty-line module registry inside `tools/page.html`.
 

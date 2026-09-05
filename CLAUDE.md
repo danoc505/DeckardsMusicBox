@@ -5,7 +5,17 @@ doing, what has just been done, what needs doing next, and why. This file
 exists only because Claude Code loads it automatically; everything of substance
 is in the handoff, and it is not repeated here so the two cannot drift apart.
 
-The three things that will cost you most if you miss them:
+**Then read `README.md` § "How a change is made here".** It says where a rule
+belongs and how to tell a change that was built into this program from one
+that was bolted onto it. Ignoring it has cost this program its climax once.
+
+The four things that will cost you most if you miss them:
+
+- **Find where the rule already lives and put your change there.** A rule
+  about which moves are legal goes in `push()`; about which is best, in the
+  score; a number a genre may state, in `spec.ts` with a default, a
+  `resolve.ts` check and a source. A second mechanism beside the first always
+  works at first and the bill comes later.
 
 - **The piano roll is the main test** for anything that changes notes or who
   plays when: `npm run roll <genre> <seed>`, before your change and after it.
