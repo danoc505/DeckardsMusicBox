@@ -361,6 +361,38 @@ caught that one). A payment the score gave zero is still taken — a part let
 back up scores nothing while the ledger is taking, and it is the only way a
 held-back part is ever anything else.
 
+### The second mechanism, and why it had to go
+
+The first version of this clock answered "several parts are owed" with a
+SECOND selection loop, sitting after the score: it re-scanned the pool,
+restated the guards `push()` had already applied, and rebuilt the span state
+by hand. Two mechanisms deciding one thing, and the second did not know the
+laws the first keeps. Measured, that cost the record its climax — **44% of
+lofi peaks and 54% of dungeon synth peaks held two or more parts back, 38%
+and 49% thinned the kit there, and 17% and 19% of peaks came out QUIETER than
+the section before them.** The file's header states the law twice — "the peak
+has everyone, because that is what a peak is", "at a peak the change is
+expression only: a breath, not a hole" — and the pool had always kept the
+first half (`part-out` and `strip` refuse at a peak) while nothing kept the
+second. One move a boundary hid it; a second loop made it three.
+
+So there is no second loop. **The pool is built again from where the last
+move left the span, and scored again, and the next move taken** — the same
+mechanism, run again, in a bounded round loop. Every guard applies because
+`push()` applies it; `fullness` prices what the span has become; the economy
+limits itself, because each part taken away makes the next taking score worse
+against a debt that wants a rise. A round after the first is taken only if it
+pays a part stale for a whole span, only while something is left holding
+still, and never at a peak. That deleted `stillLast`, `fits` and the whole
+duplicated guard list, and took the peak numbers to **0% and 1%** with two or
+more held back, and 2% and 9% quieter than their neighbour.
+
+**And the staleness numbers below are worse than the ones first reported,
+because the first ones were bought by breaking the peak.** lofi's keys read
+24% while the arrangement was hushing parts at moments it had no business
+hushing them; honestly obtained it is 33%, against a 45% baseline.
+
+
 **Hush is a set now, not a slot.** `Span.hush: ReadonlySet<Role>` — "one or
 many at once" — because with three foundation parts owed at once and one slot,
 two went unpaid every time.
@@ -383,11 +415,11 @@ sides.
 
 | of that part's runs, 3+ turns unchanged | before | after |
 |---|---|---|
-| dungeon synth bass | 46%, longest **16** | **30%**, longest 6 |
-| dungeon synth keys | 40%, longest 16 | **30%**, longest 6 |
-| dungeon synth drone | 20% | **6%** |
-| lofi bass | 46%, longest 8 | **36%**, longest 8 |
-| lofi keys | 45%, longest 8 | **25%**, longest 8 |
+| dungeon synth bass | 46%, longest **16** | **12%**, longest 6 |
+| dungeon synth keys | 40%, longest 16 | **13%**, longest 6 |
+| dungeon synth drone | 20% | **13%** |
+| lofi bass | 46%, longest 8 | **30%**, longest 8 |
+| lofi keys | 45%, longest 8 | **33%**, longest 8 |
 | the desk moves once every | 22–23 bars | **14–15 bars** |
 | records that never move the desk, lofi / dungeon synth | 43 / 7 of 200 | **29 / 2** |
 

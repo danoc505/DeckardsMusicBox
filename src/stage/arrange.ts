@@ -710,11 +710,6 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     // rule of three's own count, kept per part rather than per record: it is
     // the part that is stated three times, not the band.
     const stale = new Map<Role, number>();
-    // and who was left standing still at the last boundary, so it is first in
-    // line at this one — "a different part each time, so the whole band is in
-    // the rotation"; sorted by staleness alone the ties fell the same way
-    // every time and the bass was the one that held still at every boundary
-    let stillLast: Role | null = null;
     /**
      * EVERY SPAN IS A SUBSET OF SPAN 0, and that one invariant is what makes
      * the rest safe. Span 0 is always read (index 0 at the section's first
@@ -828,6 +823,27 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         // ── THE POOL. Every named way this stage can change an arrangement.
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.
+        // ── A BOUNDARY MAY PAY MORE THAN ONE PART, AND IT PAYS THEM WITH
+        //    THIS SAME MECHANISM, RUN AGAIN. The two-loop source never said
+        //    one thing moves — its own worked example adds hats, a clap, a
+        //    bass and a counter-melody at one boundary — and the rule of
+        //    three is owed per part, so several can fall due at once.
+        //
+        //    The first version of this answered that with a second selection
+        //    loop of its own, sitting after the score: it re-scanned the
+        //    pool, restated the guards `push()` had already applied, and
+        //    rebuilt the span state by hand. Two mechanisms deciding one
+        //    thing, and the second one did not know the laws the first one
+        //    keeps — so it hushed three parts at a peak that "has everyone,
+        //    because that is what a peak is", and never let one back up.
+        //
+        //    So the pool is BUILT AGAIN from where the last move left the
+        //    span, and scored again, and the next move taken. Every guard
+        //    applies because `push()` applies them; `fullness` prices what
+        //    the span has actually become; and the economy stops the rot by
+        //    itself — each part taken away makes the next taking score worse
+        //    against a debt that wants a rise. Nothing is restated here.
+        for (let round = 0; round < ROLES.length; round++) {
         const pool: Move[] = [];
         const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: ReadonlySet<Role> = cur.hush, halved: boolean = cur.halved): void => {
           // a move that leaves the span exactly where it already is is not a
@@ -988,7 +1004,6 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         const before = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
         let best: Move | null = null;
         let bestFit = 0;
-        const fits = new Map<Move, number>();
         //   WHICH PARTS A MOVE TOUCHES — the ones whose staleness it pays.
         //   A whole-desk treatment is under everyone sounding; a per-part one
         //   under its part; a density move touches the part it moves; the
@@ -1096,7 +1111,6 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           //   largest alone, measured, the desk was worth one hush.
           const due = 1 + touches(mv).reduce((sum, r) => sum + (stale.get(r) ?? 0), 0);
           const fit = serve * worth * fresh * afford * due;
-          fits.set(mv, fit);
           if (fit > bestFit) { bestFit = fit; best = mv; }
         }
         if (best === null) {
@@ -1112,103 +1126,39 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           if (alt === null) ledger.stuck++;
           best = alt;
         }
-        let deskMoved = best !== null && (best.treatment !== cur.treatment || best.at !== cur.at);
-        // and the rule runs both ways: a boundary that moved who plays, or
-        // the kit's expression, takes no desk move on top of it either
-        let bodyMoved = best !== null && (!same(best.heard, cur.heard) || best.thin !== cur.thin || best.halved !== cur.halved);
-        if (best !== null) {
-          for (const r of touches(best)) paid.add(r);
-          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
-          ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
+        if (best === null) break;
+        //   A ROUND AFTER THE FIRST HAS TO EARN ITSELF. The first round is
+        //   the two-loop rule's one change and is taken whatever it is; a
+        //   later one is taken only if it pays a part the rule of three says
+        //   is owed — stale for a whole span — and only while something is
+        //   left holding still, because a change is heard against what did
+        //   not change. `stale` is set from `paid` at the end of the span.
+        if (round > 0) {
+          //   AND A PEAK GETS ONE CHANGE, WHATEVER IS OWED. This file's
+          //   header states it twice — "the peak has everyone, because that
+          //   is what a peak is" and "at a peak the change is expression
+          //   only: a breath, not a hole" — and the pool has always kept the
+          //   first half (`part-out` and `strip` refuse at a peak) while
+          //   nothing kept the second. One expression move is a breath;
+          //   three parts held back and the kit thinned is a hole, and it
+          //   made the biggest moment of the record its thinnest.
+          if (section.peak) break;
+          const pays = touches(best).some((r) => !paid.has(r) && (stale.get(r) ?? 0) >= 2);
+          const stillAfter = [...cur.heard].filter((r) => !paid.has(r) && !touches(best).includes(r)).length;
+          if (!pays || stillAfter < 1) break;
         }
-        // ── OWED AT TWO, PAID AT THREE. A part that went the whole of the last
-        //    span unchanged has stated its figure twice; one more span and it
-        //    is the third hearing the ear tunes out. So a boundary pays every
-        //    such part, not only the one the score chose — the two-loop source
-        //    never said one thing moves, and its own worked example adds hats,
-        //    a clap, a bass and a counter-melody at one boundary. What can be
-        //    paid ON TOP of the chosen move is what composes with it: a part
-        //    held back, or let back up; a part out, if the floor and the peak
-        //    allow; the kit's expression down; and a treatment aimed at the
-        //    part, once, where the span's desk is still the record's own — a
-        //    span is heard on one desk, and a walking desk has already paid
-        //    everyone under it. The best-scoring of those for the part, so
-        //    the ledger's freshness still turns which move it is.
-        //
-        //    THE GUARDS BELOW REPEAT ONES `push()` ALREADY APPLIED, on purpose:
-        //    the pool was built from `cur` as it stood BEFORE the chosen move,
-        //    and `cur` has moved since. A part-out the pool offered against
-        //    four parts sounding may be one against the floor now that the
-        //    chosen move took one away; a hush it offered may be on a part the
-        //    chosen move just hushed. So each payment is checked against the
-        //    desk and the band as they stand at the moment it is paid.
-        // AT TWO, because the clock counts in spans of two turns: a part that
-        // has gone one span unchanged has stated its figure twice, and the
-        // next span would be the third hearing. "Using it more than two times
-        // is overusing it." Paid at the next even count instead — four —
-        // measured: every part went a third and a fourth turn, and the number
-        // this was built to move went back to where it started.
-        const owed = [...cur.heard].filter((r) => !paid.has(r) && (stale.get(r) ?? 0) >= 2)
-          .sort((a, b) => ((stale.get(b) ?? 0) - (stale.get(a) ?? 0)) || (a === stillLast ? -1 : b === stillLast ? 1 : 0));
-        // AND SOMETHING IS LEFT HOLDING STILL. A change is only heard against
-        // something that did not change, so however many parts are owed, at
-        // least one part sounding is left exactly as it was. Measured without
-        // this, the first boundary of a peak held four of five parts back at
-        // once — everyone quieter, which is the arc's job. Measured with a
-        // cap of one held back per boundary instead, three foundation parts
-        // owed at the floor got one payment between them and the other two
-        // went unpaid every time — `.d.d.d.d...d...` on the roll.
-        for (const r of owed) {
-          // this part would be the last one standing still: leave it, and
-          // remember it, so it goes first next time
-          if ([...cur.heard].filter((x) => !paid.has(x)).length <= 1) { stillLast = r; break; }
-          let extra: Move | null = null;
-          let extraFit = 0;
-          for (const mv of pool) {
-            if (mv.role !== r) continue;
-            // A CHANGE IS HEARD AGAINST SOMETHING HOLDING STILL, so two rules
-            // on what may be paid on top: where the desk moved, only a gain —
-            // a section that changes colour and loses a player in the same
-            // bar has nothing held still, and `arrange.test.ts` holds a
-            // treatment to never taking a part away. And a section that
-            // builds into the climax is not paid in expression DOWN, which
-            // is the run-up cancelled by its own arrangement.
-            const ok =
-              (mv.name === "hush" && !swell && !cur.hush.has(r) && cur.heard.has(r))
-              || (mv.name === "speak-up" && cur.hush.has(r))
-              || (!deskMoved && mv.name === "part-out" && !section.peak && cur.heard.size > floor && cur.heard.has(r) && !(closing && openers.has(r)))
-              || (!deskMoved && !swell && r === "drums" && mv.name === "hold-back" && !cur.thin)
-              || (!deskMoved && r === "drums" && mv.name === "half-time" && !cur.halved)
-              // and a treatment aimed at the part, where the span's desk is
-              // still the record's own: one desk per span, so once — and then
-              // the desk has moved and the rule above takes over
-              || (!deskMoved && !bodyMoved && cur.treatment === null && mv.treatment !== null && mv.at === r);
-            if (!ok) continue;
-            // a move the score gave nothing is still a payment: a part let
-            // back up scores zero while the ledger is taking, and it is the
-            // only way a held-back part is ever anything else
-            const f = fits.get(mv) ?? 0;
-            if (extra === null || f > extraFit) { extraFit = f; extra = mv; }
-          }
-          if (extra === null) { ledger.unpaid++; continue; }
-          if (extra.treatment !== null && extra.at === r && cur.treatment === null) { cur = { ...cur, treatment: extra.treatment, at: r }; deskMoved = true; }
-          else if (extra.name === "hush") cur = { ...cur, hush: new Set([...cur.hush, r]) };
-          else if (extra.name === "speak-up") cur = { ...cur, hush: new Set([...cur.hush].filter((x) => x !== r)) };
-          else if (extra.name === "part-out") { const less = new Set(cur.heard); less.delete(r); cur = { ...cur, heard: less }; bodyMoved = true; }
-          else if (extra.name === "hold-back") { cur = { ...cur, thin: true }; bodyMoved = true; }
-          else { cur = { ...cur, halved: true }; bodyMoved = true; }
-          paid.add(r);
-          ledger.used.set(keyOf(extra), (ledger.used.get(keyOf(extra)) ?? 0) + 1);
+        for (const r of touches(best)) paid.add(r);
+        cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
+        ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
+        //   and stop as soon as nobody is owed
+        if (![...cur.heard].some((r) => !paid.has(r) && (stale.get(r) ?? 0) >= 2)) break;
         }
-        // and the count: a part that was touched starts again, a part that
-        // was not has stated its figure two more turns, and a part that is
-        // not sounding is not stale — its absence is the change
+        //   what the boundary could not pay: a part stale for a whole span
+        //   that no move in the pool reached without breaking one of this
+        //   file's own laws. The number that says whether the cheap moves
+        //   have run out.
+        for (const r of cur.heard) if (!paid.has(r) && (stale.get(r) ?? 0) >= 2) ledger.unpaid++;
       }
-      // A PART PAID AT THE START OF THIS SPAN HAS PLAYED IT — two turns in the
-      // new state — so by the end of the span it stands at two, not nought.
-      // Reset to nought, measured, every part got a third and a fourth turn
-      // before it was owed again: `.d.d.d.d.....` on the roll, the rule kept
-      // while the desk walked and broken the span after each payment.
       for (const r of ROLES) stale.set(r, cur.heard.has(r) ? (paid.has(r) ? 2 : (stale.get(r) ?? 0) + 2) : 0);
       spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved });
 
