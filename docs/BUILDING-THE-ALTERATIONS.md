@@ -396,23 +396,32 @@ Three steps, each measured alone:
    item 2. And `dump.ts`, `FORMAT.md` and the roll now carry `hush`, `half`,
    the desk, `swell`, `manner` and `recast`, so the record's own text and
    picture can show a change the notes cannot.
-1. **Drift** — a treatment that ramps across its span instead of switching at
-   one sample. The primitives exist and are all free-running LFOs; the gesture
-   does not. This is what lets a long section stay alive without many events.
-2. **The clock** — a per-part counter in that part's own unit of repetition
-   (the bar for the drums, the turn of the loop for everything pitched, which
-   `perform.ts` already distinguishes). Owed at two statements, paid at three;
-   several parts payable at once.
+1. **Drift. DONE.** `arrangement.drift` per genre, sourced; `DeskChange.overSec`;
+   `render.ts` walks the continuous knobs in 1024-sample steps at absolute
+   positions, byte-identical at any block; `Pole.set()` keeps the filter's
+   state. Cost 1.04–1.06×.
+2. **The clock. DONE.** A per-part counter, `due` as a fourth factor in the
+   span score, and every part that went a span unchanged paid on top of the
+   chosen move — at most one held back per boundary, only a gain where the
+   desk moved, no expression down in a swell. `Span.hush` is a set. Dungeon
+   synth bass 42% → 25% and its longest run 16 → 6; the desk moves every 15
+   bars instead of 23. Section-level numbers unchanged.
+3. **Partial variation. MEASURED, NOT BUILT.** `arrangement.unpaid` says the
+   cheap moves run out at about one boundary in two — and notes cannot pay a
+   span-level debt without breaking the repetition law. It stays Phase 5.1 on
+   its own merits. The measurement is Phase 4's case instead: a voice swap
+   per span is the one payment left that touches no note.
 
 **What says it worked:** runs of 3+ identical turns fall from 25–32%; the
 sixteen-turn case is gone; every section-level number is unchanged — who opens,
 thinnest, fullest, energy spread — and `stuck` stays 0.
 
-**The trap this phase sets for itself:** `treat.test.ts` measures a treatment by
+**The trap this phase was thought to set for itself, and does not:** `treat.test.ts` measures a treatment by
 rendering it held against an empty desk. A ramp only reaches full value at the
 end of its span, so a sound ramped move measures quieter than a step and could
-be deleted as dead by the floor that was built to catch dead knobs. Teach the
-floor the difference before judging any ramp by it.
+be deleted as dead by the floor that was built to catch dead knobs. Read the
+test: it holds the treatment's DESTINATION statically and never reads the
+timeline, so a ramp never reaches it. Withdrawn.
 
 ### Phase 4 — channel C (orchestration)
 

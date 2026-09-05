@@ -266,3 +266,44 @@ test("a wav file has the right header and length", () => {
   assert.equal(new DataView(bytes.buffer).getUint16(22, true), 2, "two channels");
   assert.equal(bytes.length, 44 + out.left.length * 4);
 });
+
+test("a desk that drifts walks the filter down across the span, and lands where a step would have", () => {
+  // THE SAME DESTINATION, A DIFFERENT ROAD. One darken, placed by hand at bar
+  // 8 and given eight bars to arrive, against the same darken as a step. Bar
+  // by bar, off the rendered audio: the walk's brightness falls monotonically
+  // through the span and the step's falls in one bar; and past the span's end
+  // both are on the same desk, so the last bars agree. This is what drift IS
+  // — "a filter that opens slightly … the repetition creates the groove while
+  // the variation sustains interest" — and the roll cannot see it.
+  const song = compose({ genre: "dungeonsynth", seed: 46691, seconds: 90 });
+  const barSec = (60 / song.chart.tempo) * song.chart.metre.beats;
+  const at = 8 * barSec, over = 8 * barSec;
+  const on = { ...song, performance: { ...song.performance, desk: [{ tSec: at, treatment: "darken" as const, at: null, overSec: over }] } };
+  const off = { ...song, performance: { ...song.performance, desk: [{ tSec: at, treatment: "darken" as const, at: null, overSec: 0 }] } };
+  const bright = (o: { left: Float32Array; right: Float32Array }, bar: number): number => {
+    const i0 = Math.floor(bar * barSec * DESK_SR), i1 = Math.floor((bar + 1) * barSec * DESK_SR);
+    let e = 0, d = 0, prev = 0;
+    for (let i = i0; i < i1; i++) { const v = (o.left[i]! + o.right[i]!) / 2; e += v * v; const dv = v - prev; d += dv * dv; prev = v; }
+    return e > 0 ? (DESK_SR / (2 * Math.PI)) * Math.sqrt(d / e) : 0;
+  };
+  const walk = render(on, { sampleRate: DESK_SR });
+  const step = render(off, { sampleRate: DESK_SR });
+  const w = Array.from({ length: 12 }, (_, k) => bright(walk, 7 + k));
+  const s = Array.from({ length: 12 }, (_, k) => bright(step, 7 + k));
+  // the step is down by bar 8 and stays down; the walk is still most of the
+  // way up at bar 8 and only as far down as the step by the span's end
+  assert.ok(s[1]! < s[0]! * 0.8, `the step did not darken: ${s.map(Math.round).join(" ")}`);
+  assert.ok(w[1]! > s[1]! * 1.15, `the walk fell as fast as the step: walk ${w.map(Math.round).join(" ")} · step ${s.map(Math.round).join(" ")}`);
+  // and it falls, bar on bar, through the span — allowing the bar-to-bar
+  // wobble the notes themselves put in, which is why this is a trend and not
+  // a strict inequality: the first half of the span is brighter than the second
+  const firstHalf = (w[1]! + w[2]! + w[3]! + w[4]!) / 4, secondHalf = (w[5]! + w[6]! + w[7]! + w[8]!) / 4;
+  assert.ok(firstHalf > secondHalf * 1.1, `the walk is not walking: ${w.map(Math.round).join(" ")}`);
+  // and past the span both are on the same desk
+  for (let k = 9; k < 12; k++) assert.ok(Math.abs(w[k]! - s[k]!) < s[k]! * 0.05, `bar ${7 + k}: walk ${w[k]!.toFixed(0)} vs step ${s[k]!.toFixed(0)} after arrival`);
+  // and the walk is the same walk whatever the block: the determinism test
+  // above renders the record's own timeline, which may or may not drift; this
+  // one is known to
+  const cut = render(on, { sampleRate: DESK_SR, blockSize: 577 });
+  assert.deepEqual(cut.left, walk.left, "the walk differs at block 577");
+});

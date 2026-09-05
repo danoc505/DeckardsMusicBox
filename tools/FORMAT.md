@@ -49,6 +49,7 @@ can add lines without breaking one.
 #voice            keys    rhodes                  which instrument plays each pitched part
 #kit              analog  909                     which kit the drum machine is loaded
                                                   with, and which analogue circuit
+#drift            0.5                             how much of its span the desk takes to arrive: 0 a switch, 1 a walk that lands at the next boundary
 #events           2734
 #asked_seconds    600                             only when a length was requested
 #chords_<key>     Fm  Db  Fm  Ab                  one line per material built:

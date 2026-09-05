@@ -171,6 +171,8 @@ export const lofi: GenreSpec = {
 
   arrangement: {
     enter: ["keys", "drums", "bass", "lead", "drone"],
+    /** the desk walks to a treatment rather than switching to it: see the source */
+    drift: 0.5,
     /**
      * AND THE KEYS ARE THE LAST THING THIS GENRE GIVES UP, which the default
      * gets exactly backwards and which has to be said here or it is inherited
@@ -311,6 +313,10 @@ export const lofi: GenreSpec = {
       "long\" with \"about 4-6 sections to make a complete track\" (richardpryn.com/lofi-music-structure). " +
       "30 s admits this genre's own 8-bar intro — 21.8-26.7 s across its tempo range — which the inherited " +
       "ceiling made undrawable. [chosen] at the top of the range that source names",
+    "arrangement.drift":
+      "\"the foundational pattern repeats, but small changes are introduced over time — a hi-hat removed every other bar, " +
+      "a filter that opens slightly … the repetition creates the groove while the variation sustains interest\" " +
+      "(izotope, on lo-fi); half the span [chosen inside that], so the arrival is heard before the next boundary asks for the next thing",
     "arrangement.treat":
       "tape saturation is \"pretty much the backbone\" and the genre is \"vinyl crackles, tape hiss, and " +
       "background noise\" with \"low-pass filtering for warmth\" and \"heavy use of reverb and delay\" " +

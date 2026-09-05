@@ -137,7 +137,7 @@ for (const pl of song.arrangement.placed) {
       if (!sp.heard.has(r)) continue;
       const bx = x0 + 2 + ROLE_I[r] * 5;
       if (sp.at === r) cv.rect(bx - 1, HEAD, 6, 9, [235, 235, 235], 0.6);
-      cv.rect(bx, HEAD + 1, 4, 7, COL[r], sp.hush === r ? 0.4 : 0.95);
+      cv.rect(bx, HEAD + 1, 4, 7, COL[r], sp.hush.has(r) ? 0.4 : 0.95);
     }
     if (sp.thin) cv.rect(x0 + 2, HEAD + 9, Math.max(4, x1 - x0 - 4), 2, [255, 179, 71], 0.85);
     if (sp.halved) cv.rect(x0 + 2, HEAD + 11, 4, 2, COL.drums, 0.95);
@@ -213,7 +213,7 @@ for (const pl of song.arrangement.placed) {
     const f = [];
     if (sp.thin) f.push("thin");
     if (sp.halved) f.push("half");
-    if (sp.hush) f.push(`hush:${sp.hush}`);
+    for (const r of sp.hush) f.push(`hush:${r}`);
     if (sp.treatment) f.push(`desk:${sp.treatment}${sp.at ? "@" + sp.at : ""}`);
     return `${s.startBar + k * turn}:${[...sp.heard].map((r) => r[0]).join("")}${f.length ? "+" + f.join("+") : ""}`;
   });

@@ -65,6 +65,15 @@ export interface DeskChange {
   readonly treatment: Treatment | null;
   /** The part a per-part treatment is aimed at; null for a whole-desk one. */
   readonly at: Role | null;
+  /**
+   * How long the desk takes to get there, in seconds. 0 is a step on the
+   * sample; anything more is drift — the knobs walk from where they were to
+   * where this treatment puts them, and the renderer keys every step of the
+   * walk on the absolute sample so the record is the same bytes whatever
+   * block it was made in. The genre's `arrangement.drift` says what share of
+   * the span that is.
+   */
+  readonly overSec: number;
 }
 
 export interface Performance {
@@ -160,6 +169,7 @@ export function makePerformance(
   // THE RECORD'S OWN DESK, as a list of the moments it moves. It opens on the
   // genre's, so the first entry is only written if bar zero is already treated.
   const desk: DeskChange[] = [];
+  const A = chart.genre.arrangement;
   let deskNow: Treatment | null = null;
   let atNow: Role | null = null;
 
@@ -252,14 +262,19 @@ export function makePerformance(
       // becomes a range of bars. The last span runs to the end.
       const span = placed.spans[
         Math.min(placed.spans.length - 1, Math.floor((bar - section.startBar) / (2 * loop)))
-      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
+      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: new Set<Role>(), halved: false };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
       // the treatment changes on and nowhere else, so a treatment held across
       // several spans rebuilds nothing.
       if (span.treatment !== deskNow || span.at !== atNow) {
         deskNow = span.treatment;
         atNow = span.at;
-        desk.push({ tSec: clock.at(bar), treatment: deskNow, at: atNow });
+        // AND HOW LONG IT TAKES TO GET THERE: the genre's share of this span,
+        // which runs two turns of the loop or to the section's end, whichever
+        // is sooner. A span that ends before the walk does still arrives — the
+        // next change starts from wherever the desk has got to.
+        const spanEnd = Math.min(section.endBar, bar + 2 * loop);
+        desk.push({ tSec: clock.at(bar), treatment: deskNow, at: atNow, overSec: A.drift * (clock.at(spanEnd) - clock.at(bar)) });
       }
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
@@ -333,7 +348,7 @@ export function makePerformance(
           // it compares step, pitch, articulation and the played instant. A
           // weight is none of those and the arc already moves it bar by bar.
           gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accents[step] ?? 1) * missed * level * shaped
-            * (span.hush === role ? 1 - ARC_DEPTH : 1))),
+            * (span.hush.has(role) ? 1 - ARC_DEPTH : 1))),
           art,
         });
       };

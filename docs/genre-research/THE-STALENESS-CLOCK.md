@@ -286,47 +286,125 @@ counts `#section` lines, passes.
 
 ### Step 1 — drift, because it is the payment the clock will need
 
-One field on a treatment saying it ramps, and an interpolation in `render.ts`
-between two desk entries. Each genre states its own rate with its own source; a
-genre that states none does not drift.
+**DONE.** `arrangement.drift`, 0..1: how much of its span a treatment takes to
+arrive. 0 is the program as it was — a switch on the bar line. lofi states 0.5
+(izotope: "a filter that opens slightly … the repetition creates the groove
+while the variation sustains interest"; half the span [chosen inside that]);
+dungeon synth states 1 (musicradar: "open a low-pass filter by a few percent
+each time the loop repeats"; note.com/soundwitches: "deepen the shadows of the
+sound through changes in reverb and filters"). Each `DeskChange` carries
+`overSec`, and `render.ts` walks the desk from wherever it stands to where the
+treatment puts it, in steps of 1024 samples at absolute positions — so a record
+made in blocks of 577 takes exactly the steps one made in blocks of 4096 does,
+and the existing byte-identity test holds with both genres drifting.
 
-- It must stay a **pure function of absolute time**, or it breaks the existing
-  test that a record is byte-identical rendered in 577-sample and 4096-sample
-  blocks.
-- **`treat.test.ts` will under-report a ramped move.** It measures a treatment
-  by rendering it held against an empty desk; a ramp only reaches full value at
-  the end of its span, so its measured dB falls and a sound move could drop
-  under the floor and be deleted as dead. The floor has to know a ramp from a
-  step before any ramped treatment is judged by it.
+**Only the continuous knobs walk** — levels, pans, sends, returns, the pole,
+the tape's top, the medium's mix, the world's width and depth; a frequency
+walks in octaves. A knob that changes what a unit IS — a room's seconds, an
+echo's beats, the kit, the medium's kind, the tape's wow — steps at the walk's
+start, because the renderer rebuilds that unit when it changes and a rebuild
+is a click. And `Pole` gained `set()`: a cutoff moved keeps the filter's state,
+where a new `Pole` started from silence — hundreds of clicks on a walk.
 
-**What says it worked:** on a record with a ramped treatment, the per-bar
-brightness inside its span moves monotonically instead of in one jump — the same
-measurement as §2, run inside a span rather than at its edge. And the block-size
-test still passes.
+**The worry about `treat.test.ts` was wrong, and is withdrawn.** That test
+measures a treatment's DESTINATION held statically against an empty desk; it
+never reads the timeline, so a ramp does not reach it. A walk to a desk that
+does nothing is still nothing, and the floor judges exactly that.
+
+**What said it worked:** `render.test.ts`, "a desk that drifts walks the
+filter down across the span, and lands where a step would have" — one `darken`
+placed by hand at bar 8 with eight bars to arrive, against the same as a step:
+the walk's brightness is still most of the way up at bar 8, the first half of
+the span is brighter than the second, and past the span both are on the same
+desk; and the walk is byte-identical at block 577. Cost, measured: 1.04–1.06×
+the render time.
 
 ### Step 2 — the clock
 
-A per-part counter in the part's own unit. At two statements the part is owed;
-at three the boundary must pay it, from the pool, and drift counts as payment
-for as long as it is moving. More than one part may be paid at once — remove the
-`arrange.ts` restriction the source does not support, and fix the stale comment.
+**DONE, in two pieces, and the second was found by the roll.**
 
-**What says it worked:** runs of 3+ identical turns fall from 25–32%; the
-16-turn case in dungeon synth seed 83 is gone; **and every section-level number
-is unchanged** — who opens, thinnest, fullest, energy spread — which is the bar
-every previous change on this branch had to clear. `stuck` stays 0.
+A per-part counter of turns unchanged, per section. It enters the score as a
+fourth factor, `due = 1 + turns`: a move is worth one more for every turn the
+part it touches has gone unchanged, so the longest-stale part's moves rank
+first and nobody's move ranks less than it did. A whole-desk treatment touches
+every part under it, a per-part one its part, a density move the part it
+moves; **drift pays**, because a walking desk is a change to everyone it walks
+under. Then, after the score has chosen, **every heard part that went the
+whole of the last span unchanged is paid on top** — hush or speak-up, a part
+out where the floor and the peak allow, the kit's expression, a treatment
+aimed at it where the span's desk is still the record's own. The one-thing
+restriction is gone and `arrange.ts`'s header no longer states it.
+
+**Paid at TWO, in span arithmetic.** The clock counts in spans of two turns,
+so the counts are 0, 2, 4: a part at two has stated its figure twice, and the
+next span is the third hearing. Paying "at three" — at the next even count,
+four — was tried and measured: every part went a third and a fourth turn, and
+the number this was built to move went back to where it started (dungeon
+synth bass 40%, keys 41%).
+
+**And three rules on what may be paid on top, each from a measurement.** At
+most ONE part held back per boundary: without that, the first boundary of a
+peak held four of five parts back at once — everyone quieter, which is the
+arc's job, and then nothing to hold still against. Where the desk moved, only
+a gain: a section that changes colour and loses a player in the same bar has
+nothing held still, and `arrange.test.ts` holds a treatment to never taking a
+part away. And a section that builds into the climax is not paid in expression
+down, which is the run-up cancelled by its own arrangement (`perform.test.ts`
+caught that one). A payment the score gave zero is still taken — a part let
+back up scores nothing while the ledger is taking, and it is the only way a
+held-back part is ever anything else.
+
+**Hush is a set now, not a slot.** `Span.hush: ReadonlySet<Role>` — "one or
+many at once" — because with three foundation parts owed at once and one slot,
+two went unpaid every time.
+
+**What said it worked** (`node tools/stale.ts lofi,dungeonsynth 1 200`):
+
+| of that part's runs, 3+ turns unchanged | before | after |
+|---|---|---|
+| dungeon synth bass | 42%, longest **16** | **25%**, longest 6 |
+| dungeon synth keys | 36%, longest 16 | **26%**, longest 6 |
+| dungeon synth drone | 20% | **7%** |
+| lofi bass | 42% | **32%** |
+| lofi keys | 43% | **25%** |
+| the desk moves once every | 22–23 bars | **15 bars** |
+| lofi records that never move the desk | 43 of 200 | **27** |
+| boundaries moving more than one thing | 0% | 27–34% |
+
+And the section-level story held: who opens, how long alone, when everyone is
+in — identical over forty seeds in both genres (`measure.ts --sweep --map`).
+One derived number moved, and it is recorded: the opener heard exposed again,
+lofi 52.1% → 53.3%, because a paid part-out occasionally leaves it with room
+round it. `stuck` stays 0. 292 tests, one of which — "a treatment changes the
+sound and never who is playing" — had its rationale rewritten because the
+rationale was the one-thing rule; its assertion stands.
+
+Dungeon synth 46691's thirty-two bar instrumental, which was the same picture
+eight times: `88: hush keys + drench aimed at the drone · 96: darken · 104:
+back to the record's own desk`. The notes are the same notes — that is the
+repetition law, kept — and the strip now says what moved over them.
 
 ### Step 3 — partial variation, only if the cheap moves run out
 
-When a part has been hushed, treated, re-mannered and drifted and is still on
-its fourth identical statement, the only answer left is the notes. That is the
-rule-of-three source's own second option:
+**MEASURED, AND NOT BUILT — the condition is met and the mechanism cannot
+reach it.** `arrangement.unpaid` counts every time a part the rule of three
+said was owed had nothing composable left to pay it with: **567 times in
+lofi's 1,097 boundaries and 1,100 in dungeon synth's 1,671.** The cheap moves
+do run out, about one boundary in two.
 
-> "Start the concept the same the third time, but instead go somewhere different
-> — maybe halfway through that idea."
+But the debt is a SPAN-level debt, and notes cannot pay inside a section:
+`perform.ts` addresses the hand by the figure so a figure played again is
+played the same way — Huron and Ollen's 94% — and 76% of lofi's repetition
+pairs straddle a span boundary. Partial variation is a section-level move by
+construction: it makes the NEXT hearing of an idea start the same and diverge
+halfway (the source's second option), and it is still `HANDOFF.md` item 7 and
+Phase 5.1 on its own merits. It is not this clock's payment. What is left
+unpaid here is the price of the repetition law, and that price is now a number
+rather than a feeling.
 
-Which is `HANDOFF.md` item 7 and Phase 5.1, already queued. **Stop if materials
-heard exactly once rises above the 21% it stands at.**
+What COULD pay a span without touching a note, and is not built: channel C — a
+different voice on the same written line, per span. That is Phase 4, and this
+measurement is its case.
 
 ---
 

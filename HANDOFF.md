@@ -212,7 +212,7 @@ treatment weights from its own sources, and the even default it was running on
 was never even: pool order alone decided a hard 54-to-1 ranking, taken from the
 order of a `const` in `spec.ts` that no author chose. `TALLY.md` §2.
 
-**6b. THE POOL HAS NO CLOCK — measured, reproducible, and it is the next thing.**
+**6b. ~~THE POOL HAS NO CLOCK~~ BUILT — drift, and the rule of three counted per part.**
 `genre-research/THE-STALENESS-CLOCK.md` is the spec; Phase 3.5 of the plan is
 the build. Twenty-three alterations exist and nothing says when one has to
 fire, so the record keeps the rule of three and every part breaks it: on ten
@@ -220,9 +220,13 @@ random records — and over two hundred, `node tools/stale.ts` — **42–43% of
 keys and bass runs are three or more identical turns**, the worst sixteen turns — thirty-two bars of one two-note figure while
 the arrangement changed eight times around it. In the same ten records the desk
 timeline holds **0 to 7 entries**, one lofi record moving its desk not once in
-52 bars. The two pieces are a per-part staleness counter and **drift** — a
-treatment that ramps across its span instead of switching at one sample, which
-no treatment does and which is how this music actually holds a loop alive.
+52 bars. Both pieces are built and measured in `THE-STALENESS-CLOCK.md` §4:
+dungeon synth's bass went 42% → 25% of runs past three and its longest run 16
+→ 6 turns; the desk moves every 15 bars where it moved every 23; and a genre
+now states `drift`, so a treatment walks to where it is going instead of
+switching. What is left — `arrangement.unpaid`, about one boundary in two with
+nothing composable left — is the price of the repetition law, and the case
+for Phase 4 (a voice swap per span pays a debt without touching a note).
 
 **7. Partial variation**, which `THE-ALTERATIONS.md` calls the most useful kind
 for a generator: first half identical, second half diverges. Only whole-line

@@ -327,7 +327,7 @@ test("the arc makes the peak louder than the intro, like for like", () => {
     // does not, for a reason that is not the arc. Same as the hats above:
     // this is a law about the ARC, so the comparison is made where nothing
     // else is moving the weight.
-    const everHushed = (p: typeof peak, role: string): boolean => p.spans.some((sp) => sp.hush === role);
+    const everHushed = (p: typeof peak, role: string): boolean => p.spans.some((sp) => sp.hush.has(role as never));
     // AND NOT A SECTION PLAYED WITH MORE OR LESS SHAPE IN IT. `arched` and
     // `level` scale how deep the arch across a loop and the lean on the
     // metre's strong steps go, which are weights and are not the arc. The
@@ -511,7 +511,7 @@ test("a part held back is quieter, and is still there", () => {
             if (!sp.heard.has(role)) continue;
             const key = ((e.bar - p.section.startBar) % m.bars) * 1000 + e.step;
             const slot = byMbar.get(key) ?? { hushed: [], open: [] };
-            (sp.hush === role ? slot.hushed : slot.open).push(e.gain);
+            (sp.hush.has(role) ? slot.hushed : slot.open).push(e.gain);
             byMbar.set(key, slot);
           }
           for (const { hushed, open } of byMbar.values()) {

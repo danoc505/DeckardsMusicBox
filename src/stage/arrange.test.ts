@@ -349,8 +349,12 @@ const dsBuild = (seed: number): Arrangement => {
 test("a treatment changes the sound and never who is playing", () => {
   // The invariant the whole design rests on. `heard` is what the material
   // stage builds for, and a treatment that quietly dropped a part would put a
-  // section on a desk AND take a player away, which is two moves at a boundary
-  // the two-loop rule allows one of.
+  // section on a desk AND take a player away. This used to say "two moves at
+  // a boundary the two-loop rule allows one of"; the rule allows several,
+  // and the arrangement now pays every part the rule of three says is owed at
+  // one boundary. What still holds is narrower and musical: a change is heard
+  // against something holding still, so where the desk moves the only thing
+  // paid on top of it is a gain — never a player gone, never the kit thinned.
   let boundaries = 0;
   for (let seed = 1; seed <= 60; seed++) {
     for (const p of dsBuild(seed).placed) {

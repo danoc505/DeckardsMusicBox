@@ -609,6 +609,19 @@ export interface ArrangementSpec {
   /** Below this energy a section's drums lose their hat. */
   readonly thinBelow?: number;
   /**
+   * HOW MUCH OF ITS SPAN A TREATMENT TAKES TO ARRIVE, 0..1. At 0 the desk
+   * switches on the bar line, in one sample — the record as it was. At 1 the
+   * knobs walk from where the desk is to where the treatment puts them across
+   * the whole span, and arrive as the next boundary comes. This is the
+   * difference between an event and drift: "a filter that opens slightly …
+   * the repetition creates the groove while the variation sustains interest".
+   * Only the continuous knobs walk — levels, sends, returns, the pole, the
+   * tape's top, the medium's mix, the world; a knob that changes what a unit
+   * IS steps at the span's start, because a room cannot be half a second
+   * longer on its way to being a second longer.
+   */
+  readonly drift?: number;
+  /**
    * HOW MUCH WITHHOLDING IT TAKES BEFORE GIVING IS WORTH MORE THAN TAKING,
    * in part-turns.
    *
@@ -664,6 +677,7 @@ export interface ArrangementRules {
   readonly shed: readonly Role[];
   readonly fullAbove: number;
   readonly thinBelow: number;
+  readonly drift: number;
   readonly rest: number;
   readonly treat: Weighted<Treatment>;
   /** How a plain restatement is played, when it is played differently at all. */
@@ -1586,6 +1600,13 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     /** a chorus wants everyone; a verse before it is still building */
     fullAbove: 0.8,
     thinBelow: 0.35,
+    /**
+     * A STEP, which is what every record was until a genre said otherwise.
+     * The program moved its desk in one sample and nothing else; the default
+     * keeps that so a genre that has not read the sources for drift does
+     * not drift. [chosen]
+     */
+    drift: 0,
     /**
      * MOSTLY A BED, which is what this program already did: the foundation
      * without the tune, so the tune's entrance is what the intro was for. A
