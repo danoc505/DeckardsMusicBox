@@ -76,7 +76,7 @@
 
 import type { ArrangementRules, Idea, IntroKind, Manner, Role, Treatment } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
-import { deskOf, isPerPart, needsDrums } from "./treat.ts";
+import { deskOf, isPerPart, needsDrums, reachesPart } from "./treat.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 // A pure function of the chart, not a read of built materials — see its own
@@ -991,7 +991,15 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         const touches = (mv: Move): Role[] => {
           const out = new Set<Role>();
           if (mv.treatment !== cur.treatment || mv.at !== cur.at) {
-            if (mv.at === null) for (const r of cur.heard) out.add(r); else out.add(mv.at);
+            // the parts the desk move actually reaches — the machine's reverb
+            // is under the drums and nobody else, a return under the parts
+            // that feed it. Booked as "everyone", measured, a bass whose only
+            // change in sixteen bars was `soak` on the kit counted as changed.
+            // Leaving a desk reaches whoever the desk it leaves reached.
+            for (const t of [mv.treatment, cur.treatment]) {
+              if (t === null) continue;
+              for (const r of reachesPart(t, chart.genre.sound, (t === mv.treatment ? mv.at : cur.at) ?? undefined)) if (cur.heard.has(r)) out.add(r);
+            }
           }
           for (const r of cur.heard) if (!mv.heard.has(r)) out.add(r);
           for (const r of mv.heard) if (!cur.heard.has(r)) out.add(r);

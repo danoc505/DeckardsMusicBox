@@ -365,18 +365,57 @@ held-back part is ever anything else.
 many at once" — because with three foundation parts owed at once and one slot,
 two went unpaid every time.
 
+**A DESK MOVE COUNTS FOR A PART ONLY WHERE IT REACHES THAT PART.** The
+first version of this clock — and of the tool that measured it — booked a
+whole-desk treatment as a change to every part sounding. That is false for
+most of the catalogue: `soak` is the kit's reverb and the bass never goes
+through it; the board is under the parts that walk it; a return is under the
+parts that feed it. Read turn by turn, a bass whose only "change" in sixteen
+bars was `soak` on the drums had been counted as paid. `reachesPart()` in
+`treat.ts` now says, from what a treatment writes, which parts it moves — the
+sum, the tape, the medium, the master and the world reach everyone; a return
+reaches what feeds it, through the patch; the machine the drums; the board its
+walkers; a part's own channel that part — and both the clock and
+`tools/stale.ts` use it. Every number below is measured that way, on both
+sides.
+
 **What said it worked** (`node tools/stale.ts lofi,dungeonsynth 1 200`):
 
 | of that part's runs, 3+ turns unchanged | before | after |
 |---|---|---|
-| dungeon synth bass | 42%, longest **16** | **28%**, longest 6 |
-| dungeon synth keys | 36%, longest 16 | **29%**, longest 6 |
+| dungeon synth bass | 46%, longest **16** | **30%**, longest 6 |
+| dungeon synth keys | 40%, longest 16 | **30%**, longest 6 |
 | dungeon synth drone | 20% | **6%** |
-| lofi bass | 42%, longest 8 | **32%**, longest 6 |
-| lofi keys | 43%, longest 8 | **24%**, longest 6 |
+| lofi bass | 46%, longest 8 | **36%**, longest 8 |
+| lofi keys | 45%, longest 8 | **25%**, longest 8 |
 | the desk moves once every | 22–23 bars | **14–15 bars** |
 | records that never move the desk, lofi / dungeon synth | 43 / 7 of 200 | **29 / 2** |
-| boundaries moving more than one thing | 0% | 15–18% |
+
+Real, and not the rule kept. **`node tools/stale.ts <genre> --seeds <n> --turns`
+prints it so it can be seen rather than summed** — one line per part per
+section, one character per turn: `.` unchanged, `d` a desk move that reaches
+this part, `h` held back or let up, `n` its notes changed, `-` not sounding.
+Three dots in a row is the rule broken. Five seeds drawn at random, dungeon
+synth's bass:
+
+```
+26523  s2 verse         n.d.d.d.d.....d.     kept for eight turns, then five unchanged
+ 2217  s1 verse         n...d.d.d...d.d.     broken at the start, kept, broken again
+93890  s3 verse         n.d.d.d.             kept
+ 1010  s3 instrumental  n.d.d.d.             kept
+ 1010  s4 verse         n.d.d...             kept, then broken at the end
+```
+
+The pattern is the same in every record: **the rule holds exactly as long as
+the pool has a move that reaches the part, and breaks the moment it runs
+out.** `.d.d.d.` is a desk walk under the bass every span — with this genre's
+`drift: 1`, continuous movement — and it is what the sources describe. The
+dots after it are a bass at the floor that cannot leave, on a desk already
+moved this span, with the one hush of the boundary spent on somebody else.
+That residue is `arrangement.unpaid` — 523 of lofi's boundaries, 817 of
+dungeon synth's — and it is not this clock's to fix: it needs a payment that
+reaches every part and touches no note, which is a voice swap per span,
+Phase 4.
 
 And the section-level story held: who opens, how long alone, when everyone is
 in — identical over forty seeds in both genres (`measure.ts --sweep --map`).
@@ -396,9 +435,10 @@ repetition law, kept — and the strip now says what moved over them.
 
 **MEASURED, AND NOT BUILT — the condition is met and the mechanism cannot
 reach it.** `arrangement.unpaid` counts every time a part the rule of three
-said was owed had nothing composable left to pay it with: **432 times across
-lofi's 1,097 boundaries and 779 across dungeon synth's 1,671.** The cheap moves
-do run out, at something like two boundaries in five.
+said was owed had nothing composable left to pay it with: **523 times across
+lofi's 1,097 boundaries and 817 across dungeon synth's 1,671**, counted with a
+desk move reaching a part only where it does. The cheap moves do run out, at
+about one boundary in two.
 
 But the debt is a SPAN-level debt, and notes cannot pay inside a section:
 `perform.ts` addresses the hand by the figure so a figure played again is

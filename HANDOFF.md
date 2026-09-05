@@ -221,12 +221,16 @@ keys and bass runs are three or more identical turns**, the worst sixteen turns 
 the arrangement changed eight times around it. In the same ten records the desk
 timeline holds **0 to 7 entries**, one lofi record moving its desk not once in
 52 bars. Both pieces are built and measured in `THE-STALENESS-CLOCK.md` §4:
-dungeon synth's bass went 42% → 28% of runs past three and its longest run 16
+dungeon synth's bass went 46% → 30% of runs past three and its longest run 16
 → 6 turns; the desk moves every 14–15 bars where it moved every 23; and a genre
 now states `drift`, so a treatment walks to where it is going instead of
-switching. What is left — `arrangement.unpaid`, two boundaries in five with
-nothing composable left — is the price of the repetition law, and the case
-for Phase 4 (a voice swap per span pays a debt without touching a note).
+switching. `node tools/stale.ts <genre> --seeds <n> --turns` prints the rule
+of three turn by turn, and it shows the pattern plainly: **the rule holds
+exactly as long as the pool has a move that reaches the part, and breaks when
+it runs out** — a bass at the floor, on a desk already moved this span, with
+the boundary's one hush spent elsewhere. That residue is `arrangement.unpaid`,
+about one boundary in two, and it is the case for Phase 4: a voice swap per
+span is the one payment that reaches every part and touches no note.
 
 **7. Partial variation**, which `THE-ALTERATIONS.md` calls the most useful kind
 for a generator: first half identical, second half diverges. Only whole-line
@@ -279,6 +283,7 @@ variation exists. That belongs in the material stage, not the arrangement.
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
 | what becomes of each part | `node tools/measure.ts --sweep <genre> 1 20 --parts` |
 | how long a part goes unchanged | `node tools/stale.ts [genre] [first] [last]` |
+| the rule of three, turn by turn, per part | `node tools/stale.ts <genre> --seeds <n> --turns` |
 | what each treatment is worth | `node tools/treatments.ts [genre] [seed]` |
 | every test, then types | `npm test` · `npm run check` |
 | the single file | `npm run build` |

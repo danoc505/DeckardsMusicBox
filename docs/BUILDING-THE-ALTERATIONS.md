@@ -404,11 +404,14 @@ Three steps, each measured alone:
    span score, and every part that went a span unchanged paid on top of the
    chosen move — at most one held back per boundary, only a gain where the
    desk moved and the reverse, no expression down in a swell; `due` is the
-   staleness a move clears, summed. `Span.hush` is a set. Dungeon synth bass
-   42% → 28% and its longest run 16 → 6; the desk moves every 14–15 bars
-   instead of 23. Who opens, how long alone, when everyone is in: unchanged.
+   staleness a move clears, summed; a desk move pays only the parts it
+   reaches (`reachesPart`). `Span.hush` is a set. Dungeon synth bass 46% →
+   30% and its longest run 16 → 6; the desk moves every 14–15 bars instead
+   of 23. Who opens, how long alone, when everyone is in: unchanged. The rule
+   holds exactly as long as the pool has a move that reaches the part —
+   `stale.ts --turns` shows it — and breaks when it runs out.
 3. **Partial variation. MEASURED, NOT BUILT.** `arrangement.unpaid` says the
-   cheap moves run out at two boundaries in five — and notes cannot pay a
+   cheap moves run out at about one boundary in two — and notes cannot pay a
    span-level debt without breaking the repetition law. It stays Phase 5.1 on
    its own merits. The measurement is Phase 4's case instead: a voice swap
    per span is the one payment left that touches no note.
