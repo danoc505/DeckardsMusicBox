@@ -49,6 +49,7 @@ import { GENRE_NAMES, type GenreName } from "../src/genre/index.ts";
 import { ROLES, type Role } from "../src/genre/spec.ts";
 import { periodOf } from "../src/stage/material/harmony.ts";
 import type { Span } from "../src/stage/arrange.ts";
+import { reachesPart } from "../src/stage/treat.ts";
 
 const args = process.argv.slice(2);
 const named = (flag: string): string | undefined => {
@@ -143,7 +144,10 @@ for (const g of genres) {
             .filter((e) => e.role === role && e.bar >= from && e.bar < to)
             .map((e) => `${e.bar - from}:${e.step}:${e.pitch}:${e.art}`)
             .join(",");
-          const desk = `${sp.treatment ?? "."}${sp.at === role ? "*" : ""}`;
+          // the desk counts for this part only where the treatment reaches it:
+          // the machine's reverb is not a change to the bass
+          const under = sp.treatment !== null && reachesPart(sp.treatment, chart.genre.sound, sp.at ?? undefined).has(role);
+          const desk = under ? `${sp.treatment}${sp.at === role ? "*" : ""}` : ".";
           const held = `${sp.hush === role ? "h" : ""}${role === "drums" && sp.thin ? "t" : ""}${role === "drums" && sp.halved ? "H" : ""}`;
           sigs.push(`${notes}|${desk}|${held}`);
         }

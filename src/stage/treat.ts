@@ -155,6 +155,41 @@ function fed(S: SoundRules): readonly Send[] {
  * function and not a mutation, and calling it twice on the same desk gives the
  * same desk both times.
  */
+/**
+ * WHICH PARTS A TREATMENT REACHES — `reaches` below asks whether a move is
+ * heard on this desk at all, and this asks the same question one grain finer.
+ *
+ * "A whole-desk treatment is under everyone" is the obvious answer and it is
+ * false for most of the catalogue: `soak` is the drum machine's reverb and the
+ * bass never goes through it, the board is under the parts that walk it, and a
+ * return is under the parts that feed it. Read off what the move WRITES, the
+ * way `changes` reads it: a knob on a part's own channel is that part's; the
+ * sum, the tape, the medium, the master and the world are everyone's; a
+ * return's is whoever feeds it, and whoever feeds what feeds it through the
+ * patch; the machine's is the drums; the board's is whoever walks it.
+ */
+export function reachesPart(name: Treatment, S: SoundRules, only?: Role): ReadonlySet<Role> {
+  const spec = deskOf(name, S, only);
+  const out = new Set<Role>();
+  if (spec === null) return out;
+  const all = (): void => { for (const r of ROLES) out.add(r); };
+  if (spec.world !== undefined) all();
+  if (spec.machine !== undefined) out.add("drums");
+  if (spec.pedals !== undefined) for (const r of ROLES) if (S.mix[r].pedals > 0) out.add(r);
+  if (spec.mix !== undefined) for (const r of Object.keys(spec.mix) as Role[]) out.add(r);
+  if (spec.rack !== undefined) {
+    for (const unit of Object.keys(spec.rack)) {
+      if ((SENDS as readonly string[]).includes(unit)) {
+        for (const r of ROLES) if (liveSends(S, [r]).has(unit as Send)) out.add(r);
+      } else all();
+    }
+  }
+  if (spec.patch !== undefined) {
+    for (const from of Object.keys(spec.patch) as Send[]) for (const r of ROLES) if (liveSends(S, [r]).has(from)) out.add(r);
+  }
+  return out;
+}
+
 export function deskOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec | null {
   const spec = specOf(name, S, only);
   return spec !== null && changes(spec, S) && reaches(name, S) ? spec : null;

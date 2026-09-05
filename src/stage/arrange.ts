@@ -69,7 +69,7 @@
 
 import type { ArrangementRules, Idea, IntroKind, Manner, Role, Treatment } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
-import { deskOf, isPerPart, needsDrums } from "./treat.ts";
+import { deskOf, isPerPart, needsDrums, reachesPart } from "./treat.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 // A pure function of the chart, not a read of built materials — see its own
@@ -686,6 +686,18 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     const turn = 2 * Math.max(1, periodOf(chart, section.idea));
     const spanCount = Math.max(1, Math.ceil(section.bars / turn));
     const spans: Span[] = [];
+    // HOW MANY TURNS EACH PART HAS PLAYED UNCHANGED, in this section.
+    //
+    // The rule of three is about an idea being stated: "if I say it a third
+    // time ... this is where our brain will actually begin to tune it out".
+    // This stage keeps that rule for the RECORD — every two turns, one thing
+    // moves — and nothing counted the part that was not the thing that moved.
+    // It goes on stating its figure while the next boundary moves somebody
+    // else, so the record is never still and one part is stale for thirty-two
+    // bars. Counted here so the score can read it; the score is where "which
+    // move is best" is decided, and this is a fact about which move is best.
+    const stale = new Map<Role, number>();
+    let lastSpan: Span | null = null;
     /**
      * EVERY SPAN IS A SUBSET OF SPAN 0, and that one invariant is what makes
      * the rest safe. Span 0 is always read (index 0 at the section's first
@@ -953,6 +965,26 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           const n = sectionsHeard.get(r) ?? 0;
           return n / (n + 1);
         };
+        //   WHICH PARTS A MOVE CHANGES, which is what its staleness clears.
+        //   A desk move changes the parts the treatment reaches — `reachesPart`
+        //   answers that from what the treatment writes, because the machine's
+        //   reverb is under the drums and nobody else — and leaving a desk
+        //   changes whoever the desk it leaves reached.
+        const touches = (mv: Move): Role[] => {
+          const out = new Set<Role>();
+          if (mv.treatment !== cur.treatment || mv.at !== cur.at) {
+            for (const t of [mv.treatment, cur.treatment]) {
+              if (t === null) continue;
+              const only = (t === mv.treatment ? mv.at : cur.at) ?? undefined;
+              for (const r of reachesPart(t, chart.genre.sound, only)) if (cur.heard.has(r)) out.add(r);
+            }
+          }
+          for (const r of cur.heard) if (!mv.heard.has(r)) out.add(r);
+          for (const r of mv.heard) if (!cur.heard.has(r)) out.add(r);
+          if (mv.hush !== cur.hush) { if (mv.hush !== null) out.add(mv.hush); if (cur.hush !== null) out.add(cur.hush); }
+          if (mv.thin !== cur.thin || mv.halved !== cur.halved) out.add("drums");
+          return [...out];
+        };
         const want = ledger.owed / (ledger.owed + A.rest);
         const before = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
         let best: Move | null = null;
@@ -1023,7 +1055,14 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           //   its decoration: what it can most afford is its own to say — for a
           //   treatment that is the weight the genre put on it
           const afford = mv.treatment !== null ? weightOf(mv.treatment) : mv.afford;
-          const fit = serve * worth * fresh * afford;
+          //   AND THE RULE OF THREE, COUNTED PER PART. A move is worth the
+          //   staleness it clears, summed over the parts it changes — so the
+          //   move that answers the part which has been saying the same thing
+          //   longest ranks first, and no move ranks lower than it did. One
+          //   more term in the same product, with no coefficient, which is
+          //   what every other term here is.
+          const due = 1 + touches(mv).reduce((sum, r) => sum + (stale.get(r) ?? 0), 0);
+          const fit = serve * worth * fresh * afford * due;
           if (fit > bestFit) { bestFit = fit; best = mv; }
         }
         if (best === null) {
@@ -1044,6 +1083,28 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
         }
       }
+      // and what this span did to each part's count: a part the boundary
+      // changed starts again — at two, because it has just played a span of
+      // two turns in its new state — one it did not has stated its figure two
+      // turns more, and a part not sounding is not stale: its absence is the
+      // change.
+      const moved = new Set<Role>(s === 0 ? cur.heard : []);
+      if (s > 0 && lastSpan !== null) {
+        for (const r of ROLES) {
+          const wasIn = lastSpan.heard.has(r), isIn = cur.heard.has(r);
+          if (wasIn !== isIn) { moved.add(r); continue; }
+          if (!isIn) continue;
+          if (lastSpan.hush === r || cur.hush === r) { if (lastSpan.hush !== cur.hush) moved.add(r); }
+          if (r === "drums" && (lastSpan.thin !== cur.thin || lastSpan.halved !== cur.halved)) moved.add(r);
+          if (lastSpan.treatment !== cur.treatment || lastSpan.at !== cur.at) {
+            for (const t of [cur.treatment, lastSpan.treatment]) {
+              if (t !== null && reachesPart(t, chart.genre.sound, (t === cur.treatment ? cur.at : lastSpan.at) ?? undefined).has(r)) moved.add(r);
+            }
+          }
+        }
+      }
+      for (const r of ROLES) stale.set(r, cur.heard.has(r) ? (moved.has(r) ? 2 : (stale.get(r) ?? 0) + 2) : 0);
+      lastSpan = { heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved };
       spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved });
 
       // ── THE LEDGER, in part-turns. Two entries and nothing else.
