@@ -353,25 +353,82 @@ const dsBuild = (seed: number): Arrangement => {
   return makeArrangement(chart, makeForm(chart));
 };
 
-test("a treatment changes the sound and never who is playing", () => {
-  // The invariant the whole design rests on. `heard` is what the material
-  // stage builds for, and a treatment that quietly dropped a part would put a
-  // section on a desk AND take a player away, which is two moves at a boundary
-  // the two-loop rule allows one of.
-  let boundaries = 0;
+test("a treatment changes the sound, and never who is playing, by itself", () => {
+  // The invariant the whole design rests on: `heard` is what the material
+  // stage builds for, so a treatment that quietly dropped a part would be a
+  // density move wearing a colour move's name.
+  //
+  // THIS TEST USED TO ASSERT THAT `heard` NEVER MOVES AT A BOUNDARY THAT
+  // MOVED THE DESK, and gave as its reason "which is two moves at a boundary
+  // the two-loop rule allows one of". That reason was false, and this
+  // repository already said so before the test was written:
+  // `THE-STALENESS-CLOCK.md` §"Two things the sources say that the program
+  // does not do" — "The two-loop source never says ONE thing changes. In its
+  // own worked example the producer adds the drums at the first boundary, and
+  // at the second adds hi-hats AND a bigger clap AND a bass AND a
+  // counter-melody — four moves in a single two-loop window. The restriction
+  // is this program's." A boundary now spends up to two changes, so the old
+  // assertion measured the loop's shape and not the treatment's behaviour.
+  //
+  // What is still true, and is what the design actually rests on, is that no
+  // SINGLE move both treats and re-players. So: at a boundary that moved the
+  // desk, at most one further thing moved, and it moved by one part at most.
+  let boundaries = 0, alsoMoved = 0;
   for (let seed = 1; seed <= 60; seed++) {
     for (const p of dsBuild(seed).placed) {
       for (let i = 1; i < p.spans.length; i++) {
         const a = p.spans[i - 1]!, b = p.spans[i]!;
-        if (a.treatment === b.treatment) continue;
+        if (a.treatment === b.treatment && a.at === b.at) continue;
         boundaries++;
-        assert.equal(a.heard.size, b.heard.size, "a treatment changed how many play");
-        for (const r of a.heard) assert.ok(b.heard.has(r), `a treatment took the ${r} away`);
-        assert.equal(a.thin, b.thin, "a treatment changed the drums' expression");
+        const gone = [...a.heard].filter((r) => !b.heard.has(r));
+        const came = [...b.heard].filter((r) => !a.heard.has(r));
+        const players = gone.length + came.length;
+        const kit = (a.thin !== b.thin ? 1 : 0) + (a.halved !== b.halved ? 1 : 0);
+        const held = a.hush !== b.hush ? 1 : 0;
+        // ONE FURTHER MOVE, WHICH IS NOT ONE FURTHER PART: `all-back` puts
+        // the whole section back in one move, so counting players would call
+        // a single legal move an illegal pair. What is bounded is the number
+        // of KINDS of thing that moved beside the desk, and that is one.
+        assert.ok(Math.min(1, players) + Math.min(1, kit) + held <= 1,
+          `a desk boundary spent more than one further move (seed ${seed}): ${players} players, ${kit} kit, ${held} held`);
+        if (players + kit + held > 0) alsoMoved++;
       }
     }
   }
   assert.ok(boundaries > 100, `only ${boundaries} boundaries moved the desk across 60 records`);
+  // and the second change is really being spent, or this test guards nothing
+  assert.ok(alsoMoved > 0, "no desk boundary ever spent its second change");
+});
+
+test("the climax is not where things are taken away", () => {
+  // THE REGRESSION THIS PROGRAM HAS NOW MADE TWICE, and that the suite was
+  // green through both times. The peak is the one section the form declares
+  // has everybody in it, so a span there that holds back TWO things is the
+  // climax arriving with two pieces missing. `HANDOFF.md` records the first
+  // occurrence — an obligation term weighted by breadth — and the second was
+  // letting a boundary spend more than one change: peak spans holding back
+  // two things went 2% to 32% on lofi and 3% to 31% on dungeon synth, with
+  // every one of 293 tests still passing.
+  //
+  // ONE thing held back at the peak is not the fault and is not asserted
+  // against: it sits around a third of peak spans and it is the peak
+  // breathing. It is the SECOND subtraction that empties it.
+  for (const g of ["lofi", "dungeonsynth"] as const) {
+    let spans = 0, twoBack = 0;
+    for (let seed = 1; seed <= 60; seed++) {
+      const chart = makeChart({ seed, genre: GENRES[g] });
+      const form = makeForm(chart);
+      const p = makeArrangement(chart, form).placed.find((x) => x.section.index === form.peakAt);
+      if (p === undefined) continue;
+      for (const sp of p.spans) {
+        spans++;
+        if ((sp.hush !== null ? 1 : 0) + (sp.thin ? 1 : 0) + (sp.halved ? 1 : 0) >= 2) twoBack++;
+      }
+    }
+    assert.ok(spans > 50, `${g}: only ${spans} peak spans to judge`);
+    const share = twoBack / spans;
+    assert.ok(share <= 0.1, `${g}: ${(100 * share).toFixed(0)}% of peak spans hold back two things or more`);
+  }
 });
 
 test("a record only uses treatments its genre carries", () => {

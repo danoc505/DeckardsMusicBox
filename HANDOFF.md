@@ -121,14 +121,15 @@ reverted in one session, and they all failed the same way.
 | an obligation term weighted by how many parts a move reaches | hit the target (60%/82%) and pushed the desk to a third of all spans while `hush` fell 13% → 1% and part-outs fell two thirds. `perform.test.ts` caught it twice |
 | the same, made binary | did nothing at all — back to baseline |
 | several moves per boundary | broke four invariants the single-move design was holding for free: the peak, the run-up into it, a treatment never moving who plays, the kit staying halved after the drums left |
-| the same, with those four guarded | +2 to +5 points, and the peak got worse |
+| the same, with those four guarded | +2 to +5 points, and the peak got worse — **superseded: see §6b, this was tried again properly and works.** The four are guarded in `push()` where legality lives, the peak and the run-up spend one change by section rather than by energy, and the gain is +14 not +5 |
 | pricing `hush` as expression rather than by `affords` | +1 point, and parts held back at the peak went 5% → 27% and 11% → 52% |
 
-**The reason is arithmetic, not tuning.** A span is two statements, so at a
-boundary about **2.4 parts** are going into a third statement. One move alters
-one part (a hush) or up to five (a whole desk). So one move per boundary alters
-1.2 of the 2.4, and ~50%/72% is the ceiling. Every route past it either makes
-the desk do everything or costs the climax.
+**~~The reason is arithmetic, not tuning.~~ THIS WAS WRONG.** It said: a span is
+two statements, so about 2.4 parts per boundary are going into a third; one
+move alters 1.2 of them; ~50%/72% is the ceiling. The premise "one move per
+boundary" was never a rule — it was a `let best` — and §6b below has the
+measurement. Left here because it is the exact shape of the mistake this
+program keeps making: a limit of the code read back as a fact about music.
 
 **And `affords` is a real category error, still unfixed.** It is built from the
 genre's `shed` order — what a genre can afford to LOSE — and it prices `hush`,
@@ -302,12 +303,64 @@ just stated the same turn twice — the rule says its next turn must differ.
 | lofi | 42% | 41% | 79% | 0% (5 due) |
 | dungeon synth | 62% | 63% | 99% | 56% |
 
-The rest is not a bug, it is arithmetic, and the next coder should know it
-before spending a week on it. **A boundary spends exactly one move** — 337 of
-337 lofi boundaries, 490 of 492 dungeon synth ones — and **more than one part
-is usually due at it**. Until a boundary can pay more than one part, or a
-single move can reach more than one part, the ceiling is roughly where these
-numbers already are.
+**THE OLD CEILING WAS NOT ARITHMETIC. IT WAS A `let best`.** This section
+used to say the rest was arithmetic — a boundary spends one move, more than
+one part is usually due, so the numbers are near their limit. That was wrong,
+and this repository already said so before it was written:
+`THE-STALENESS-CLOCK.md` §"Two things the sources say that the program does
+not do" — *"The two-loop source never says ONE thing changes. In its own
+worked example the producer adds the drums at the first boundary, and at the
+second adds hi-hats AND a bigger clap AND a bass AND a counter-melody — four
+moves in a single two-loop window. The restriction is this program's."*
+
+"One move per boundary" was a single-winner loop, nothing more. A boundary now
+spends up to `MAX_PICKS` (2), and spends the second **only** on a part the rule
+of three already owes. Measured on and off, `RULE3_PICKS=1` against the
+default:
+
+| seeds 1–60, answered | ds bass | ds keys | ds drone | ds lead | lofi bass | lofi lead |
+|---|---|---|---|---|---|---|
+| one move | 62% | 63% | 56% | 99% | 42% | 79% |
+| two moves | **76%** | **70%** | **60%** | 99% | **47%** | **82%** |
+
+Runs of three or more identical turns fell with it: dungeon synth bass 28% →
+16%, keys 27% → 20%, drone 15% → 14%, lofi bass 36% → 33%. Boundaries that
+spend a second change: 15% on dungeon synth, 11% on lofi — the rest still
+spend one, because the rest have nobody waiting. **lofi's keys did not move
+(41%), and lofi's drone is still 0% of 5** — lofi's gain is small because the
+second change needs a pool to draw from and lofi's desk is idle in 8 of 60
+records. That is item 8, and it is now the biggest single lever left.
+
+**Three real defects came with it, and all three are fixed in `push()` where
+legality lives** — the ceiling was not free, and the next person widening this
+should expect the same kind of bill:
+
+- Two moves could **undo each other**, leaving a boundary that moved nothing —
+  20 lofi and 26 dungeon synth boundaries did. A boundary may now never end
+  where it began.
+- Two moves could leave the kit **halved with the drums silent**. Same defect
+  `1febbc5` fixed for `hold-back`, reached by a different road, fixed in the
+  same place.
+- A second move in the **run-up to the climax** made it end quieter than it
+  began (dungeon synth seed 4, 0.462 against 0.473) — the dramatic arc's
+  rising action running backwards. Energy direction is the wrong axis to fix
+  that on: the moves that reach a waiting part are mostly the ones that take
+  something away, so refusing those refuses the whole gain (83% back to 62%).
+  The section is the right axis, so the run-up spends one change.
+
+`arrange.test.ts`'s "a treatment changes the sound and never who is playing"
+was re-aimed rather than deleted. Its old reason — *"two moves at a boundary
+the two-loop rule allows one of"* — was the same false belief. It now bounds
+what is actually true: at a desk boundary, at most **one further kind** of
+thing moved. Counting parts would have been wrong, because `all-back` restores
+the whole section in one legal move.
+
+**What is still open:** `MAX_PICKS` is a module constant read from
+`RULE3_PICKS`, not a genre field, because neither genre has a reason to differ
+and a knob no author varies is the cardinal sin. If a genre ever states it, it
+goes to `spec.ts` with a default, a `resolve.ts` check and a source. At 3 the
+numbers barely move (ds bass 78% → 84%) and lofi's keys get worse, so 2 is
+where the evidence sits.
 
 **AND `revoice` DOES NOT HELP THESE NUMBERS — IT COSTS THEM A LITTLE.** It was
 built (commit `1e9002e`) as the first move that reaches a part the others could

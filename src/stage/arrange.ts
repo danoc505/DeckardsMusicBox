@@ -55,11 +55,24 @@
  *
  * One set per section was four to eight identical turns between changes,
  * where the rule allows two. So a section now carries a set per SPAN of two
- * turns, and what moves at each boundary is one of the two things the rule
- * names: an instrument out, or an instrument's expression down. Never both,
- * and never everyone at once — a change is only heard against something
- * holding still, and five parts all moving every two turns is a row of
- * unrelated blocks rather than a record going somewhere.
+ * turns, and at each boundary something moves.
+ *
+ * HOW MANY THINGS MOVE IS A NUMBER, NOT A ONE. This comment used to say "one
+ * of the two things the rule names ... never both", and both halves were
+ * wrong. The pool offers four ways, not two — `part-back`, `all-back`,
+ * `let-out`, `speak-up`, `full-time` and every treatment are adds. And the
+ * source never said one thing: in its own worked example the producer adds
+ * hi-hats AND a bigger clap AND a bass AND a counter-melody in a single
+ * two-loop window (`THE-STALENESS-CLOCK.md`, which flagged this comment as
+ * stale and asked for exactly this fix). "One" was the shape of a
+ * single-winner loop that nobody chose.
+ *
+ * A boundary now spends up to `MAX_PICKS`, and spends the second only on a
+ * part that is owed one by the rule of three. What holds instead of "one" is
+ * that a change is only heard against something holding still: the second
+ * change may be of one kind only, the run-up into the climax still spends a
+ * single change because its whole job is one direction, and a boundary may
+ * never end where it began.
  *
  * A different part each time, so the whole band is in the rotation and no
  * one part is always the one that goes. And the peak never loses a part —
@@ -422,7 +435,20 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * the same KIND all the way through by rotating which part it happens to;
    * `BUILDING-THE-ALTERATIONS.md` Phase 1 records that as known and unfixed.
    */
-  const kindOf = (mv: Move): string =>
+  /**
+ * HOW MANY THINGS ONE BOUNDARY MAY CHANGE, and when a part is owed one.
+ *
+ * Both were hard-coded and neither was ever a rule. "One move per boundary"
+ * was the shape of a single-winner loop, nothing more; the two-loop rule says
+ * the arrangement changes every two turns and says nothing about by how many
+ * things, and `THE-ARRANGEMENT-AS-STORY`'s worked example moves four. So they
+ * are numbers here, they are measured on and off, and the defaults are what
+ * the measurement said — not what the loop happened to do.
+ */
+const MAX_PICKS = Number(process.env.RULE3_PICKS ?? 2);
+const DUE_AT = Number(process.env.RULE3_DUE_AT ?? 2);
+
+const kindOf = (mv: Move): string =>
     mv.treatment !== null ? "desk"
       : mv.name === "hush" || mv.name === "speak-up" ? "held"
       : mv.name === "hold-back" || mv.name === "let-out" || mv.name === "half-time" || mv.name === "full-time" ? "kit"
@@ -838,285 +864,340 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         // ── THE POOL. Every named way this stage can change an arrangement.
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.
-        const pool: Move[] = [];
-        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: Role | null = cur.hush, halved: boolean = cur.halved): void => {
-          // a move that leaves the span exactly where it already is is not a
-          // move, and the desk is part of where it is
-          if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment && at === cur.at
-            && hush === cur.hush && halved === cur.halved && [...h].every((r) => cur.heard.has(r))) return;
-          // THE CLOSE KEEPS THE OPENING. Holding the opener into the last
-          // SECTION is not enough: a record ends on its last SPAN, and the
-          // score below was free to take the part out again four bars from
-          // the end. Measured, that is the whole difference between a
-          // dénouement and nearly one — so in the closing section a move
-          // that removes what the record opened with is never offered. A
-          // treatment-only move keeps every part, so the desk still moves
-          // freely at the close: what is refused is losing the opener.
-          if (closing && openers.has(role) && !h.has(role)) return;
-          pool.push({ name, heard: h, thin: th, role, afford, treatment: tr, at, hush, halved });
-        };
-        /**
-         * THE DRONE DOES NOT COME AND GO INSIDE A SECTION.
-         *
-         * It is the floor the section stands on, and the two-loop clock is
-         * about what moves OVER that floor. Taking it out at a span boundary
-         * and putting it back four bars later is a drone stopping for no
-         * reason and then starting again as itself, because the drone belongs
-         * to the material and one material has one drone: what came back was
-         * note for note what left.
-         *
-         * When the record does put the drone down it does it at a SECTION,
-         * which is where the material changes — so what comes back stands on
-         * a different tone. A drone that stops has moved.
-         */
-        const movable = (r: Role): boolean => r !== "drone";
-        // an instrument out — stacked on where the span already is, not on the base
-        if (!section.peak && cur.heard.size > floor) {
-          for (const r of A.shed) {
-            if (!cur.heard.has(r) || !movable(r)) continue;
-            const less = new Set(cur.heard); less.delete(r);
-            push("part-out", less, cur.thin, r, affords(r));
-          }
-        }
-        // an instrument back — only ever one span 0 already had
-        for (const r of A.enter) {
-          if (cur.heard.has(r) || !base.has(r)) continue;
-          const more = new Set(cur.heard); more.add(r);
-          push("part-back", more, cur.thin, r);
-        }
-        // all of them back at one moment
-        if (cur.heard.size < base.size) push("all-back", new Set(base), cur.thin, lastIn);
-        // strip to the fewest the genre carries, keeping the tail of the shed order
-        if (!section.peak && cur.heard.size > floor) {
-          const stripped = new Set(cur.heard);
-          for (const r of A.shed) { if (stripped.size <= floor) break; if (movable(r)) stripped.delete(r); }
-          push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
-        }
-        // expression down, and back up — never above the floor the form set
-        // AND NEITHER IS OFFERED WHERE THERE IS NO KIT TO HOLD BACK, nor in
-        // the break. `thin` above refuses both at the section; the pool
-        // refused neither, so a span move could thin a break the section had
-        // just declined to thin — measured, 8 records across 600 — and could
-        // set the kit's expression with the kit not sounding. The rule is one
-        // rule and it belongs in both places that can make the state.
-        if (!cur.thin && !broken && cur.heard.has("drums")) push("hold-back", new Set(cur.heard), true, "drums");
-        if (cur.thin && !thin && cur.heard.has("drums")) push("let-out", new Set(cur.heard), false, "drums");
-        // AND EXPRESSION ON ANY PART, which is the two-loop rule's fourth way
-        // and the one this stage read as the drums' hat. A part held back is
-        // half a part, priced the same as a thinned kit; it is a gain and
-        // nothing else, so no figure is played differently and the peak — which
-        // may never lose a player — can finally do something other than take
-        // the hat off. See `Span.hush`.
-        for (const r of cur.heard) {
-          if (r === cur.hush) continue;
-          push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, r);
-        }
-        if (cur.hush !== null) push("speak-up", new Set(cur.heard), cur.thin, cur.hush, 1, cur.treatment, cur.at, null);
-        // AND THE KIT AT HALF SPEED, which is the other thing "expression" can
-        // mean on a drum machine and the one §3 move that does not have to
-        // wait for a section: the drums are excluded from the repetition law
-        // by name. Offered only where they are sounding, for the same reason
-        // a drum machine treatment is.
-        if (cur.heard.has("drums")) {
-          if (!cur.halved) push("half-time", new Set(cur.heard), cur.thin, "drums", 1, cur.treatment, cur.at, cur.hush, true);
-          else push("full-time", new Set(cur.heard), cur.thin, "drums", 1, cur.treatment, cur.at, cur.hush, false);
-        }
-        // ── AND THE SECTION ON A DIFFERENT DESK, WITH EVERY NOTE WHERE IT IS.
-        //    The two-loop rule's fourth way, which this stage never had: not
-        //    who plays, but what the record sounds like while they play it.
-        //    Only treatments this genre carries and that would actually move
-        //    this genre's desk are here — `offered` did both filters once, at
-        //    the top, because neither answer changes inside a record.
-        //    A PER-PART TREATMENT IS OFFERED PER PART. The catalogue lists
-        //    these as one part's move — "a part steps closer, or further off"
-        //    — and this stage used to apply them to the whole band and hand
-        //    the Move a hardcoded "drums" because the type wanted a role.
-        //    That placeholder was the whole reason a treatment could not be
-        //    scored: `worth` reads `standing` and `established` OF ITS ROLE,
-        //    so a move with a fictional role got the constant 1, and with
-        //    `serve` also constant across treatments the only thing left to
-        //    order them by was `fresh × afford` — which knows nothing about
-        //    this record. Measured over 300 seeds, every record in a genre
-        //    played its treatments in the SAME ORDER, differing only in how
-        //    far down the list it got.
-        //
-        //    So the role is real now, and nothing had to be added to the
-        //    score: the terms that already read the record start reading it
-        //    for treatments too, because there is finally a part to read.
-        //    WHICH DESK MOVE THIS GENRE REACHES FOR IS DRAWN FROM ITS OWN
-        //    POOL, and offering all of them at once was the mistake.
-        //
-        //    `arrangement.treat` is a `Weighted<Treatment>` — the same type as
-        //    `arrangement.intro` and every `form.lengths` pool, both of which
-        //    are DRAWN, one of them nine lines above this. It was being read
-        //    as a ranking instead: every treatment offered at once, ordered by
-        //    weight times freshness, so a record walked the ladder from the
-        //    top and stopped wherever it ran out of boundaries. A record has
-        //    three or four desk moves in it, so it reached rank four and no
-        //    further — identically, every record, in every seed. Measured, a
-        //    genre used the same handful of its vocabulary for ever, and the
-        //    five moves added to the rack fired 0, 0, 3, 0 and 0 times in 300
-        //    lofi records. Moving one up its tie group only starved another:
-        //    15 distinct became 13. The ladder, not the tie-break, was what
-        //    made the tail unreachable, and no amount of new vocabulary can
-        //    be heard through it.
-        //
-        //    THE SCORE STILL DECIDES WHETHER A DESK MOVE HAPPENS. That is the
-        //    part that has to serve what the record has done, and it is
-        //    untouched: `serve`, `worth`, `fresh` and `afford` weigh this
-        //    candidate against every density move exactly as before. What is
-        //    drawn is only WHICH COLOUR, out of the pool the genre wrote —
-        //    which is what a genre's weighted pool is for, and the freshness
-        //    of each name is folded into the draw so a record still does not
-        //    repeat itself.
-        //    AND A DRUM MACHINE MOVE IS NOT OFFERED WHERE THE DRUMS ARE NOT
-        //    SOUNDING. `deskOf` asks whether a move changes the DESK, which is
-        //    the right question for the rack and the wrong one for the machine:
-        //    swapping a kit changes the machine whether or not anybody is
-        //    playing it. A boundary spent on a move nobody can hear is worse
-        //    than a knob that does nothing, because the two-loop rule paid for
-        //    it and the ear gets the section repeated instead.
-        const live = offered
-          .filter((t) => !needsDrums(t) || cur.heard.has("drums"))
-          .map((t) => [t, weightOf(t) / (1 + (ledger.used.get(`treat:${t}`) ?? 0))] as const)
-          .filter(([, w]) => w > 0);
-        if (live.length > 0) {
-          const t = chart.rng.at("arrange", "treat", section.index, s).weighted("which", live);
-          push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
-          if (isPerPart(t)) {
-            for (const r of cur.heard) {
-              if (deskOf(t, chart.genre.sound, r) === null) continue;
-              push(`treat-${t}`, new Set(cur.heard), cur.thin, r, 1, t, r);
-            }
-          }
-        }
-        //    and back to the record's own sound, which is a change like any
-        //    other and the only way a treated span ever ends
-        if (cur.treatment !== null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null, null);
-
-        // ── THE SCORE. Three terms, multiplied, no coefficients: any one at
-        //    zero kills the move, and there is nothing to tune.
-        const established = (r: Role): number => {
-          const n = sectionsHeard.get(r) ?? 0;
-          return n / (n + 1);
-        };
-        //   WHICH PARTS A MOVE CHANGES, which is what its staleness clears.
-        //   A desk move changes the parts the treatment reaches — `reachesPart`
-        //   answers that from what the treatment writes, because the machine's
-        //   reverb is under the drums and nobody else — and leaving a desk
-        //   changes whoever the desk it leaves reached.
-        const touches = (mv: Move): Role[] => {
-          const out = new Set<Role>();
-          if (mv.treatment !== cur.treatment || mv.at !== cur.at) {
-            for (const t of [mv.treatment, cur.treatment]) {
-              if (t === null) continue;
-              const only = (t === mv.treatment ? mv.at : cur.at) ?? undefined;
-              for (const r of reachesPart(t, chart.genre.sound, only)) if (cur.heard.has(r)) out.add(r);
-            }
-          }
-          for (const r of cur.heard) if (!mv.heard.has(r)) out.add(r);
-          for (const r of mv.heard) if (!cur.heard.has(r)) out.add(r);
-          if (mv.hush !== cur.hush) { if (mv.hush !== null) out.add(mv.hush); if (cur.hush !== null) out.add(cur.hush); }
-          if (mv.thin !== cur.thin || mv.halved !== cur.halved) out.add("drums");
-          return [...out];
-        };
-        const want = ledger.owed / (ledger.owed + A.rest);
-        const before = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
-        let best: Move | null = null;
-        let bestFit = 0;
-        for (const mv of pool) {
-          const after = fullness(mv.heard, mv.thin, mv.hush, mv.halved);
-          const d = after - before;
-          const moved = mv.treatment !== cur.treatment;
-          //   THE DEBT TALKING: deep in debt, giving scores and taking does not.
-          //
-          //   A TREATMENT ANSWERS A DIFFERENT OBLIGATION and is scored for it.
-          //   It neither gives a part nor takes one — d is exactly zero, which
-          //   under the line below would score zero and never be chosen — so
-          //   what it serves is the case the density moves cannot serve: the
-          //   record owed neither a rise nor a fall, and the two-loop rule
-          //   owing a change anyway. That is `want` at neither end: 1 at
-          //   want = 0.5, 0 at either extreme.
-          //
-          //   AND IT IS PRICED IN THE SAME CURRENCY AS EVERY OTHER MOVE, which
-          //   is what the first attempt got wrong. A density move's serve is
-          //   its change in fullness, so it can never exceed one part of five;
-          //   a treatment scored on that shape alone reached 1 and outbid every
-          //   one of them about five times over. Measured, a record went to
-          //   fifteen desk moves against two of everything else — the ear got a
-          //   section that changed colour every eight bars and never lost a
-          //   player, which is the same failure as the texture that oscillates,
-          //   wearing better clothes.
-          //
-          //   A treatment is worth what the drums' expression is worth, and
-          //   this file has already priced that: `fullness` counts a thinned
-          //   kit as half a part. So half a part is what a treatment serves at
-          //   its best, and the number is the one already in the file rather
-          //   than a new one to tune.
-          const asPart = 0.5 / ROLES.length;
-          const serve = moved
-            ? (1 - Math.abs(2 * want - 1)) * asPart
-            : d > 0 ? want * d : (1 - want) * -d;
-          //   a part is worth more where it is missing, as arithmetic — and a
-          //   treatment takes no part away, so there is no absence to price
-          const st = ledger.standing.get(mv.role) ?? 0;
-          //   A TREATMENT AIMED AT A PART IS WORTH WHAT THAT PART IS WORTH.
-          //   This read `moved ? 1` — a constant — and with `serve` also
-          //   constant across treatments there was nothing left to order them
-          //   by but `fresh × afford`, which knows nothing about this record.
-          //   Now that a per-part treatment carries the part it is aimed at,
-          //   the term that already prices a part can price it: treating a
-          //   part the record has barely established is a change nobody can
-          //   register, exactly as it is for a density move. A whole-desk
-          //   treatment has no part, so it keeps the 1 it had.
-          //   and a WHOLE-DESK treatment is aimed at everyone, so it is worth
-          //   what everyone is worth: the same term over the parts sounding.
-          //   Left at a flat 1 it was a free pass that outbid every per-part
-          //   move on principle rather than on merit, which is the bias that
-          //   put the whole band back on one fixed playlist.
-          const worthAll = (): number => {
-            let sum = 0;
-            for (const r of cur.heard) sum += established(r);
-            return cur.heard.size === 0 ? 1 : sum / cur.heard.size;
+        // ── HOW MANY THINGS THIS BOUNDARY MAY CHANGE. The two-loop rule
+        //    says the arrangement changes every two turns. It does NOT say by
+        //    exactly one thing — `THE-ARRANGEMENT-AS-STORY`'s own worked
+        //    example moves four — and "one" was never a rule here, only the
+        //    shape of a single-winner loop. So it is a number, it is measured,
+        //    and the default is what the measurement says.
+        const atStart = { heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved };
+        const dueHere = new Set<Role>([...cur.heard].filter((r) => (stale.get(r) ?? 0) >= DUE_AT));
+        const servedHere = new Set<Role>();
+        // EXCEPT IN THE RUN-UP, WHICH SPENDS ONE. The section before the
+        // climax is the dramatic arc's rising action, and its whole job is to
+        // end louder than it began. Everywhere else the energy is free to
+        // wander and a second change is just another colour; here a second
+        // change is a second opinion about the one thing the section is for,
+        // and measured it wins the argument — the run-up came out QUIETER at
+        // its end than at its start (dungeon synth seed 4, 0.462 against
+        // 0.473), which `perform.test.ts` catches and which is the rising
+        // action running backwards. Energy direction is the wrong axis to fix
+        // it on: the moves that reach a waiting part are mostly the ones that
+        // take something away, so refusing those refuses the whole gain (83%
+        // back down to 62%). The section is the right axis.
+        // AND THE CLIMAX SPENDS ONE TOO, for the same reason and a louder
+        // one. The peak is the section with everybody in it; a second change
+        // there is a second thing taken away from the one section that is
+        // supposed to have nothing missing. NO TEST CATCHES THIS — the suite
+        // was green with peak spans holding back two things 32% of the time
+        // against 2% before, which is the regression `HANDOFF.md` recorded
+        // from the previous attempt at several moves per boundary and the
+        // reason it was abandoned. Measured, not assumed: `1+ held back` is
+        // unchanged at ~33%, so the peak still breathes; it is the SECOND
+        // subtraction that is refused.
+        const peak = section.index === form.peakAt;
+        const picksHere = swell || peak ? 1 : MAX_PICKS;
+        for (let pick = 0; pick < picksHere; pick++) {
+          if (pick > 0 && ![...dueHere].some((r) => !servedHere.has(r))) break;
+          const pool: Move[] = [];
+          const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: Role | null = cur.hush, halved: boolean = cur.halved): void => {
+            // a move that leaves the span exactly where it already is is not a
+            // move, and the desk is part of where it is
+            if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment && at === cur.at
+              && hush === cur.hush && halved === cur.halved && [...h].every((r) => cur.heard.has(r))) return;
+            // AND A BOUNDARY MUST NOT END WHERE IT BEGAN. The guard above asks
+            // "does this move anything from HERE", which is enough while a
+            // boundary spends one move. Spending a second, it is not: the
+            // first move takes a part out, the second puts it back, and the
+            // boundary as a whole moved nothing — 20 lofi and 26 dungeon synth
+            // boundaries did exactly that the first time this ran, and a
+            // boundary that moves nothing is the two-loop rule broken, which
+            // is the one law this stage exists to keep.
+            // AND THE KIT'S EXPRESSION IS THE KIT'S. `thin` and `halved` say
+            // what the drums are doing, so they cannot survive the drums
+            // leaving: one pick halved the kit and another took the drums out,
+            // and the span said the kit was in half time with no kit — which
+            // `perform.test.ts` catches as "the kit halved with the drums
+            // silent". The same defect as the one `1febbc5` fixed for
+            // `hold-back` and `let-out`, reached by a different road, so it is
+            // fixed in the same place: the guard that says which states exist.
+            if (!h.has("drums") && (th || halved)) return;
+            if (h.size === atStart.heard.size && th === atStart.thin && tr === atStart.treatment && at === atStart.at
+              && hush === atStart.hush && halved === atStart.halved && [...h].every((r) => atStart.heard.has(r))) return;
+            // THE CLOSE KEEPS THE OPENING. Holding the opener into the last
+            // SECTION is not enough: a record ends on its last SPAN, and the
+            // score below was free to take the part out again four bars from
+            // the end. Measured, that is the whole difference between a
+            // dénouement and nearly one — so in the closing section a move
+            // that removes what the record opened with is never offered. A
+            // treatment-only move keeps every part, so the desk still moves
+            // freely at the close: what is refused is losing the opener.
+            if (closing && openers.has(role) && !h.has(role)) return;
+            pool.push({ name, heard: h, thin: th, role, afford, treatment: tr, at, hush, halved });
           };
-          const worth = moved
-            ? (mv.at === null ? worthAll() : established(mv.at))
-            : (d > 0 ? Math.max(0, -st) / (Math.max(0, -st) + 1) : Math.max(0, st) / (Math.max(0, st) + 1))
-              * established(mv.role);
-          //   the rule of three, applied to this stage's own vocabulary: the
-          //   same move on the same part wears out across the whole record
-          //   and a KIND wears out inside a section as a name wears out
-          //   across the record, so a boundary cannot answer the same way
-          //   every time while three of the rule's four ways go unused
-          const fresh = 1 / (1 + (ledger.used.get(keyOf(mv)) ?? 0)) / (1 + (kindUsed.get(kindOf(mv)) ?? 0));
-          //   and a genre does not part with its foundation as readily as with
-          //   its decoration: what it can most afford is its own to say — for a
-          //   treatment that is the weight the genre put on it
-          const afford = mv.treatment !== null ? weightOf(mv.treatment) : mv.afford;
-          //   AND THE RULE OF THREE, COUNTED PER PART. A move is worth the
-          //   staleness it clears, summed over the parts it changes — so the
-          //   move that answers the part which has been saying the same thing
-          //   longest ranks first, and no move ranks lower than it did. One
-          //   more term in the same product, with no coefficient, which is
-          //   what every other term here is.
-          const due = 1 + touches(mv).reduce((sum, r) => sum + (stale.get(r) ?? 0), 0);
-          const fit = serve * worth * fresh * afford * due;
-          if (fit > bestFit) { bestFit = fit; best = mv; }
-        }
-        if (best === null) {
-          // nothing served the debt. The two-loop rule still owes a change,
-          // so take the freshest move there is; only a genuinely empty pool
-          // is a dead end, and it is counted rather than hidden.
-          let alt: Move | null = null;
-          let altFresh = -1;
-          for (const mv of pool) {
-            const f = 1 / (1 + (ledger.used.get(keyOf(mv)) ?? 0));
-            if (f > altFresh) { altFresh = f; alt = mv; }
+          /**
+           * THE DRONE DOES NOT COME AND GO INSIDE A SECTION.
+           *
+           * It is the floor the section stands on, and the two-loop clock is
+           * about what moves OVER that floor. Taking it out at a span boundary
+           * and putting it back four bars later is a drone stopping for no
+           * reason and then starting again as itself, because the drone belongs
+           * to the material and one material has one drone: what came back was
+           * note for note what left.
+           *
+           * When the record does put the drone down it does it at a SECTION,
+           * which is where the material changes — so what comes back stands on
+           * a different tone. A drone that stops has moved.
+           */
+          const movable = (r: Role): boolean => r !== "drone";
+          // an instrument out — stacked on where the span already is, not on the base
+          if (!section.peak && cur.heard.size > floor) {
+            for (const r of A.shed) {
+              if (!cur.heard.has(r) || !movable(r)) continue;
+              const less = new Set(cur.heard); less.delete(r);
+              push("part-out", less, cur.thin, r, affords(r));
+            }
           }
-          if (alt === null) ledger.stuck++;
-          best = alt;
-        }
-        if (best !== null) {
+          // an instrument back — only ever one span 0 already had
+          for (const r of A.enter) {
+            if (cur.heard.has(r) || !base.has(r)) continue;
+            const more = new Set(cur.heard); more.add(r);
+            push("part-back", more, cur.thin, r);
+          }
+          // all of them back at one moment
+          if (cur.heard.size < base.size) push("all-back", new Set(base), cur.thin, lastIn);
+          // strip to the fewest the genre carries, keeping the tail of the shed order
+          if (!section.peak && cur.heard.size > floor) {
+            const stripped = new Set(cur.heard);
+            for (const r of A.shed) { if (stripped.size <= floor) break; if (movable(r)) stripped.delete(r); }
+            push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
+          }
+          // expression down, and back up — never above the floor the form set
+          // AND NEITHER IS OFFERED WHERE THERE IS NO KIT TO HOLD BACK, nor in
+          // the break. `thin` above refuses both at the section; the pool
+          // refused neither, so a span move could thin a break the section had
+          // just declined to thin — measured, 8 records across 600 — and could
+          // set the kit's expression with the kit not sounding. The rule is one
+          // rule and it belongs in both places that can make the state.
+          if (!cur.thin && !broken && cur.heard.has("drums")) push("hold-back", new Set(cur.heard), true, "drums");
+          if (cur.thin && !thin && cur.heard.has("drums")) push("let-out", new Set(cur.heard), false, "drums");
+          // AND EXPRESSION ON ANY PART, which is the two-loop rule's fourth way
+          // and the one this stage read as the drums' hat. A part held back is
+          // half a part, priced the same as a thinned kit; it is a gain and
+          // nothing else, so no figure is played differently and the peak — which
+          // may never lose a player — can finally do something other than take
+          // the hat off. See `Span.hush`.
+          for (const r of cur.heard) {
+            if (r === cur.hush) continue;
+            push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, r);
+          }
+          if (cur.hush !== null) push("speak-up", new Set(cur.heard), cur.thin, cur.hush, 1, cur.treatment, cur.at, null);
+          // AND THE KIT AT HALF SPEED, which is the other thing "expression" can
+          // mean on a drum machine and the one §3 move that does not have to
+          // wait for a section: the drums are excluded from the repetition law
+          // by name. Offered only where they are sounding, for the same reason
+          // a drum machine treatment is.
+          if (cur.heard.has("drums")) {
+            if (!cur.halved) push("half-time", new Set(cur.heard), cur.thin, "drums", 1, cur.treatment, cur.at, cur.hush, true);
+            else push("full-time", new Set(cur.heard), cur.thin, "drums", 1, cur.treatment, cur.at, cur.hush, false);
+          }
+          // ── AND THE SECTION ON A DIFFERENT DESK, WITH EVERY NOTE WHERE IT IS.
+          //    The two-loop rule's fourth way, which this stage never had: not
+          //    who plays, but what the record sounds like while they play it.
+          //    Only treatments this genre carries and that would actually move
+          //    this genre's desk are here — `offered` did both filters once, at
+          //    the top, because neither answer changes inside a record.
+          //    A PER-PART TREATMENT IS OFFERED PER PART. The catalogue lists
+          //    these as one part's move — "a part steps closer, or further off"
+          //    — and this stage used to apply them to the whole band and hand
+          //    the Move a hardcoded "drums" because the type wanted a role.
+          //    That placeholder was the whole reason a treatment could not be
+          //    scored: `worth` reads `standing` and `established` OF ITS ROLE,
+          //    so a move with a fictional role got the constant 1, and with
+          //    `serve` also constant across treatments the only thing left to
+          //    order them by was `fresh × afford` — which knows nothing about
+          //    this record. Measured over 300 seeds, every record in a genre
+          //    played its treatments in the SAME ORDER, differing only in how
+          //    far down the list it got.
+          //
+          //    So the role is real now, and nothing had to be added to the
+          //    score: the terms that already read the record start reading it
+          //    for treatments too, because there is finally a part to read.
+          //    WHICH DESK MOVE THIS GENRE REACHES FOR IS DRAWN FROM ITS OWN
+          //    POOL, and offering all of them at once was the mistake.
+          //
+          //    `arrangement.treat` is a `Weighted<Treatment>` — the same type as
+          //    `arrangement.intro` and every `form.lengths` pool, both of which
+          //    are DRAWN, one of them nine lines above this. It was being read
+          //    as a ranking instead: every treatment offered at once, ordered by
+          //    weight times freshness, so a record walked the ladder from the
+          //    top and stopped wherever it ran out of boundaries. A record has
+          //    three or four desk moves in it, so it reached rank four and no
+          //    further — identically, every record, in every seed. Measured, a
+          //    genre used the same handful of its vocabulary for ever, and the
+          //    five moves added to the rack fired 0, 0, 3, 0 and 0 times in 300
+          //    lofi records. Moving one up its tie group only starved another:
+          //    15 distinct became 13. The ladder, not the tie-break, was what
+          //    made the tail unreachable, and no amount of new vocabulary can
+          //    be heard through it.
+          //
+          //    THE SCORE STILL DECIDES WHETHER A DESK MOVE HAPPENS. That is the
+          //    part that has to serve what the record has done, and it is
+          //    untouched: `serve`, `worth`, `fresh` and `afford` weigh this
+          //    candidate against every density move exactly as before. What is
+          //    drawn is only WHICH COLOUR, out of the pool the genre wrote —
+          //    which is what a genre's weighted pool is for, and the freshness
+          //    of each name is folded into the draw so a record still does not
+          //    repeat itself.
+          //    AND A DRUM MACHINE MOVE IS NOT OFFERED WHERE THE DRUMS ARE NOT
+          //    SOUNDING. `deskOf` asks whether a move changes the DESK, which is
+          //    the right question for the rack and the wrong one for the machine:
+          //    swapping a kit changes the machine whether or not anybody is
+          //    playing it. A boundary spent on a move nobody can hear is worse
+          //    than a knob that does nothing, because the two-loop rule paid for
+          //    it and the ear gets the section repeated instead.
+          const live = offered
+            .filter((t) => !needsDrums(t) || cur.heard.has("drums"))
+            .map((t) => [t, weightOf(t) / (1 + (ledger.used.get(`treat:${t}`) ?? 0))] as const)
+            .filter(([, w]) => w > 0);
+          if (live.length > 0) {
+            const t = chart.rng.at("arrange", "treat", section.index, s).weighted("which", live);
+            push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
+            if (isPerPart(t)) {
+              for (const r of cur.heard) {
+                if (deskOf(t, chart.genre.sound, r) === null) continue;
+                push(`treat-${t}`, new Set(cur.heard), cur.thin, r, 1, t, r);
+              }
+            }
+          }
+          //    and back to the record's own sound, which is a change like any
+          //    other and the only way a treated span ever ends
+          if (cur.treatment !== null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null, null);
+
+          // ── THE SCORE. Three terms, multiplied, no coefficients: any one at
+          //    zero kills the move, and there is nothing to tune.
+          const established = (r: Role): number => {
+            const n = sectionsHeard.get(r) ?? 0;
+            return n / (n + 1);
+          };
+          //   WHICH PARTS A MOVE CHANGES, which is what its staleness clears.
+          //   A desk move changes the parts the treatment reaches — `reachesPart`
+          //   answers that from what the treatment writes, because the machine's
+          //   reverb is under the drums and nobody else — and leaving a desk
+          //   changes whoever the desk it leaves reached.
+          const touches = (mv: Move): Role[] => {
+            const out = new Set<Role>();
+            if (mv.treatment !== cur.treatment || mv.at !== cur.at) {
+              for (const t of [mv.treatment, cur.treatment]) {
+                if (t === null) continue;
+                const only = (t === mv.treatment ? mv.at : cur.at) ?? undefined;
+                for (const r of reachesPart(t, chart.genre.sound, only)) if (cur.heard.has(r)) out.add(r);
+              }
+            }
+            for (const r of cur.heard) if (!mv.heard.has(r)) out.add(r);
+            for (const r of mv.heard) if (!cur.heard.has(r)) out.add(r);
+            if (mv.hush !== cur.hush) { if (mv.hush !== null) out.add(mv.hush); if (cur.hush !== null) out.add(cur.hush); }
+            if (mv.thin !== cur.thin || mv.halved !== cur.halved) out.add("drums");
+            return [...out];
+          };
+          const want = ledger.owed / (ledger.owed + A.rest);
+          const before = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
+          let best: Move | null = null;
+          let bestFit = 0;
+          for (const mv of pool) {
+            const after = fullness(mv.heard, mv.thin, mv.hush, mv.halved);
+            const d = after - before;
+            const moved = mv.treatment !== cur.treatment;
+            //   THE DEBT TALKING: deep in debt, giving scores and taking does not.
+            //
+            //   A TREATMENT ANSWERS A DIFFERENT OBLIGATION and is scored for it.
+            //   It neither gives a part nor takes one — d is exactly zero, which
+            //   under the line below would score zero and never be chosen — so
+            //   what it serves is the case the density moves cannot serve: the
+            //   record owed neither a rise nor a fall, and the two-loop rule
+            //   owing a change anyway. That is `want` at neither end: 1 at
+            //   want = 0.5, 0 at either extreme.
+            //
+            //   AND IT IS PRICED IN THE SAME CURRENCY AS EVERY OTHER MOVE, which
+            //   is what the first attempt got wrong. A density move's serve is
+            //   its change in fullness, so it can never exceed one part of five;
+            //   a treatment scored on that shape alone reached 1 and outbid every
+            //   one of them about five times over. Measured, a record went to
+            //   fifteen desk moves against two of everything else — the ear got a
+            //   section that changed colour every eight bars and never lost a
+            //   player, which is the same failure as the texture that oscillates,
+            //   wearing better clothes.
+            //
+            //   A treatment is worth what the drums' expression is worth, and
+            //   this file has already priced that: `fullness` counts a thinned
+            //   kit as half a part. So half a part is what a treatment serves at
+            //   its best, and the number is the one already in the file rather
+            //   than a new one to tune.
+            const asPart = 0.5 / ROLES.length;
+            const serve = moved
+              ? (1 - Math.abs(2 * want - 1)) * asPart
+              : d > 0 ? want * d : (1 - want) * -d;
+            //   a part is worth more where it is missing, as arithmetic — and a
+            //   treatment takes no part away, so there is no absence to price
+            const st = ledger.standing.get(mv.role) ?? 0;
+            //   A TREATMENT AIMED AT A PART IS WORTH WHAT THAT PART IS WORTH.
+            //   This read `moved ? 1` — a constant — and with `serve` also
+            //   constant across treatments there was nothing left to order them
+            //   by but `fresh × afford`, which knows nothing about this record.
+            //   Now that a per-part treatment carries the part it is aimed at,
+            //   the term that already prices a part can price it: treating a
+            //   part the record has barely established is a change nobody can
+            //   register, exactly as it is for a density move. A whole-desk
+            //   treatment has no part, so it keeps the 1 it had.
+            //   and a WHOLE-DESK treatment is aimed at everyone, so it is worth
+            //   what everyone is worth: the same term over the parts sounding.
+            //   Left at a flat 1 it was a free pass that outbid every per-part
+            //   move on principle rather than on merit, which is the bias that
+            //   put the whole band back on one fixed playlist.
+            const worthAll = (): number => {
+              let sum = 0;
+              for (const r of cur.heard) sum += established(r);
+              return cur.heard.size === 0 ? 1 : sum / cur.heard.size;
+            };
+            const worth = moved
+              ? (mv.at === null ? worthAll() : established(mv.at))
+              : (d > 0 ? Math.max(0, -st) / (Math.max(0, -st) + 1) : Math.max(0, st) / (Math.max(0, st) + 1))
+                * established(mv.role);
+            //   the rule of three, applied to this stage's own vocabulary: the
+            //   same move on the same part wears out across the whole record
+            //   and a KIND wears out inside a section as a name wears out
+            //   across the record, so a boundary cannot answer the same way
+            //   every time while three of the rule's four ways go unused
+            const fresh = 1 / (1 + (ledger.used.get(keyOf(mv)) ?? 0)) / (1 + (kindUsed.get(kindOf(mv)) ?? 0));
+            //   and a genre does not part with its foundation as readily as with
+            //   its decoration: what it can most afford is its own to say — for a
+            //   treatment that is the weight the genre put on it
+            const afford = mv.treatment !== null ? weightOf(mv.treatment) : mv.afford;
+            //   AND THE RULE OF THREE, COUNTED PER PART. A move is worth the
+            //   staleness it clears, summed over the parts it changes — so the
+            //   move that answers the part which has been saying the same thing
+            //   longest ranks first, and no move ranks lower than it did. One
+            //   more term in the same product, with no coefficient, which is
+            //   what every other term here is.
+            const due = 1 + touches(mv).reduce((sum, r) => sum + (stale.get(r) ?? 0), 0);
+            const fit = serve * worth * fresh * afford * due;
+            if (fit > bestFit) { bestFit = fit; best = mv; }
+          }
+          if (best === null) {
+            // nothing served the debt. The two-loop rule still owes a change,
+            // so take the freshest move there is; only a genuinely empty pool
+            // is a dead end, and it is counted rather than hidden.
+            let alt: Move | null = null;
+            let altFresh = -1;
+            for (const mv of pool) {
+              const f = 1 / (1 + (ledger.used.get(keyOf(mv)) ?? 0));
+              if (f > altFresh) { altFresh = f; alt = mv; }
+            }
+            if (alt === null) ledger.stuck++;
+            best = alt;
+          }
+          if (best === null) break;
+          for (const r of touches(best)) servedHere.add(r);
           cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
           ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
           kindUsed.set(kindOf(best), (kindUsed.get(kindOf(best)) ?? 0) + 1);
