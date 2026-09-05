@@ -62,9 +62,83 @@ measured. Write the next one that way.
 | `genre-research/THE-ARRANGEMENT-AS-STORY.md` | who plays when, and why that is a narrative rather than a texture |
 | `genre-research/THE-ALTERATIONS.md` | every way to restate something without rewriting it |
 | `genre-research/DUNGEON-SYNTH-ARRANGEMENT.md` | what the genre says about its own middle |
-| `genre-research/THE-STALENESS-CLOCK.md` | when a move must fire: the rule of three counted per part, and the drift that pays it |
+| `genre-research/THE-STALENESS-CLOCK.md` | when a move must fire, counted per part. **STALE — it describes two designs that were built, measured and taken back out. Read it for the research and the failed attempts, not for what the code does.** |
 
 ## What was just done, and why
+
+**THE STAGE IS NOW HELD TO THE RULES IT STATES, AND THREE OF THEM WERE NOT
+BEING KEPT.** This is the one to read first, because it is why the two before
+it kept breaking. `arrange.ts` states its rules in prose and in the comment
+beside each `push`, and nothing checked that the spans it makes obey them.
+They were kept BY ACCIDENT OF THE WALK — one move per boundary, each built by
+a `push` that had already applied its own guard — and a rule kept by the shape
+of the walk is a rule the next change to the walk breaks, silently. Every
+attempt to change how a boundary moves broke something else, one test failure
+at a time, until this landed.
+
+Three were live faults. `thin` is the KIT's expression, and the stage set it on
+**338 sections of 600 records that had no drums in them** — moving no note, and
+printing "thin" in the record's own text and picture for a kit that was not
+there. A break is not thinned, and the section refused it while the pool did
+not, so a span move thinned a break in **8 records**. And the header claimed
+every span is a subset of span 0, "checked over 334 sections, 0 differ" — false,
+and false when written: a part walks in at the first boundary 746 times and
+`part-back` restores from the base 690 times more. What is true is that every
+span is a subset of `Placed.heard`, which is their union.
+
+`arrange.test.ts` now asserts all seven span rules over both genres and 120
+records. **Anything added to this stage has to keep them.**
+
+**A boundary cannot answer the same way twice.** `fresh` wears out a move's
+KIND as well as its name, within a section — the two-loop rule's own four ways
+and the desk beside them. `BUILDING-THE-ALTERATIONS.md` Phase 1 had already
+recorded this gap and left it: "`keyOf` returns `move:role`, so a record can
+play the same KIND of move seven times running by rotating which part it
+happens to." It turns out to be most of the fix for the rule of three per part.
+A part's third statement is altered **32% → 49%** (lofi) and **47% → 71%**
+(dungeon synth); the longest a sounding part goes unaltered falls 28 → 16 bars;
+the peak IMPROVES — a part held back there 14% → 5% and 22% → 11%. Cost: parts
+taken out roughly halve and desk moves rise 13% → 19% and 18% → 28%. Fewer
+players leaving, more colouring, and nobody has heard it.
+
+**The line can move to another voice.** `revoice`, §1 moves 1 and 7. `voices`
+is the FIRST field of `SoundSpec` and `render.ts` reads it per note, so the
+machinery was always there and no treatment wrote it. A part borrows the
+instrument of another part OF THIS RECORD — the palette stays the genre's — and
+only a voice that HOLDS what its line holds, because the Rhodes settles at 0.08
+of its peak and lending it to a drone deletes a four-bar note. −0.7 to −17.0 dB
+against a −40 dB floor: the strongest class of move this desk has.
+
+---
+
+### And five ways NOT to do the rule of three per part
+
+Read this before trying again. Every one of these was built, measured and
+reverted in one session, and they all failed the same way.
+
+| attempt | what happened |
+|---|---|
+| an obligation term weighted by how many parts a move reaches | hit the target (60%/82%) and pushed the desk to a third of all spans while `hush` fell 13% → 1% and part-outs fell two thirds. `perform.test.ts` caught it twice |
+| the same, made binary | did nothing at all — back to baseline |
+| several moves per boundary | broke four invariants the single-move design was holding for free: the peak, the run-up into it, a treatment never moving who plays, the kit staying halved after the drums left |
+| the same, with those four guarded | +2 to +5 points, and the peak got worse |
+| pricing `hush` as expression rather than by `affords` | +1 point, and parts held back at the peak went 5% → 27% and 11% → 52% |
+
+**The reason is arithmetic, not tuning.** A span is two statements, so at a
+boundary about **2.4 parts** are going into a third statement. One move alters
+one part (a hush) or up to five (a whole desk). So one move per boundary alters
+1.2 of the 2.4, and ~50%/72% is the ceiling. Every route past it either makes
+the desk do everything or costs the climax.
+
+**And `affords` is a real category error, still unfixed.** It is built from the
+genre's `shed` order — what a genre can afford to LOSE — and it prices `hush`,
+which does not lose a part. lofi sheds its keys last, so its keys score 0.2 and
+its bass 0.4 for being quietened, and those are exactly the two parts that go
+unaltered most. Flattening it is not the fix: it makes hushing cheap at the peak
+too, where density moves are refused and expression is the only lever. It needs
+a price that is high mid-section and low at a climax, which is a design question.
+
+---
 
 **The foundation under the treatments, because two of them were doing
 nothing.** Twelve treatments were built, weighted by two genres, scored by the
@@ -212,25 +286,78 @@ treatment weights from its own sources, and the even default it was running on
 was never even: pool order alone decided a hard 54-to-1 ranking, taken from the
 order of a `const` in `spec.ts` that no author chose. `TALLY.md` §2.
 
-**6b. ~~THE POOL HAS NO CLOCK~~ BUILT — drift, and the rule of three counted per part.**
-`genre-research/THE-STALENESS-CLOCK.md` is the spec; Phase 3.5 of the plan is
-the build. Twenty-three alterations exist and nothing says when one has to
-fire, so the record keeps the rule of three and every part breaks it: on ten
-random records — and over two hundred, `node tools/stale.ts` — **42–43% of
-keys and bass runs are three or more identical turns**, the worst sixteen turns — thirty-two bars of one two-note figure while
-the arrangement changed eight times around it. In the same ten records the desk
-timeline holds **0 to 7 entries**, one lofi record moving its desk not once in
-52 bars. Both pieces are built and measured in `THE-STALENESS-CLOCK.md` §4:
-dungeon synth's bass went 46% → 30% of runs past three and its longest run 16
-→ 6 turns; the desk moves every 14–15 bars where it moved every 23; and a genre
-now states `drift`, so a treatment walks to where it is going instead of
-switching. `node tools/stale.ts <genre> --seeds <n> --turns` prints the rule
-of three turn by turn, and it shows the pattern plainly: **the rule holds
-exactly as long as the pool has a move that reaches the part, and breaks when
-it runs out** — a bass at the floor, on a desk already moved this span, with
-the boundary's one hush spent elsewhere. That residue is `arrangement.unpaid`,
-about one boundary in two, and it is the case for Phase 4: a voice swap per
-span is the one payment that reaches every part and touches no note.
+**6b. THE RULE OF THREE, PER PART — HALF DONE, AND THE REST IS ARITHMETIC.**
+The record has always kept the rule: one thing moves every two turns of the
+loop. What nothing counted was the part that was not the thing that moved. It
+goes on stating its figure, the next boundary moves somebody else, and the one
+after that somebody else again.
+
+`node tools/stale.ts` now counts this directly, per part, and prints two
+columns for it. **due** is how many span boundaries a part arrived at having
+just stated the same turn twice — the rule says its next turn must differ.
+**answered** is the share the pool actually altered. On seeds 1–60:
+
+| | bass | keys | lead | drone |
+|---|---|---|---|---|
+| lofi | 42% | 41% | 79% | 0% (5 due) |
+| dungeon synth | 62% | 63% | 99% | 56% |
+
+The rest is not a bug, it is arithmetic, and the next coder should know it
+before spending a week on it. **A boundary spends exactly one move** — 337 of
+337 lofi boundaries, 490 of 492 dungeon synth ones — and **more than one part
+is usually due at it**. Until a boundary can pay more than one part, or a
+single move can reach more than one part, the ceiling is roughly where these
+numbers already are.
+
+**AND `revoice` DOES NOT HELP THESE NUMBERS — IT COSTS THEM A LITTLE.** It was
+built (commit `1e9002e`) as the first move that reaches a part the others could
+not, and measured on and off it turns out not to answer a part's due turn as
+often as whatever it displaced. Set `["revoice", 0]` in both genre files and
+re-run `node tools/stale.ts`:
+
+| seeds 1–60 | bass | keys | lead | drone |
+|---|---|---|---|---|
+| lofi, on | 42% | 41% | 79% | 0% |
+| lofi, off | 42% | 41% | 80% | 0% |
+| dungeon synth, on | 62% | 63% | 99% | 56% |
+| dungeon synth, off | **65%** | **66%** | 99% | **59%** |
+
+This is NOT a reason to delete it. `revoice` is the loudest thing either desk
+can do (−0.7 to −17.0 dB) and it plainly changes the record, so it fails the
+cardinal-sin test in neither direction — it is a move to be judged by ear, in
+§1 above, not by this table. What it is not is a fix for the per-part rule of
+three, and the next coder should not inherit that belief. Its `[chosen]`
+weight of 2 is still an owner's decision nobody has made: at 2 it fires about
+once in 2200 lofi spans, which is rare enough that lofi's row above is a wash
+rather than a result.
+
+Two more rows in the frozen catalogue — `mix.level` and `mix.pan`, rows 36 and
+44 — are the obvious next ones to connect, and this table is how to tell
+whether they earned it.
+
+Two things are settled and should not be re-litigated from scratch:
+
+- **`affords` is a category error.** It prices REMOVAL, and `hush` is priced
+  through it, so the one move that reaches a part directly is the one the
+  score is most reluctant to play. Flattening it wrecks the peak — the peak
+  law lives in the same term — so it needs a real separation of "what does
+  this cost the peak" from "what does this cost the part", not a coefficient.
+- **Five ways of counting the rule per part have been tried and taken back
+  out.** They are in the table under "What was just done", with why each one
+  failed. Read it before designing a sixth.
+
+**6c. DRIFT IS OUT, AND SHOULD GO BACK IN ON ITS OWN.** A treatment that walks
+to where it is going instead of switching to it. It was built, it worked, and
+it came out with the bolted-on selection loop it was tangled in rather than on
+its own merits. The `overSec` field, `Pole.set()` and the ramp are preserved at
+tag `wip/staleness-clock-bolted-on`. Put it back as its own change, against
+the commit before it, and measure it on and off — it is a knob, and this
+program's cardinal sin applies.
+
+**6d. `THE-STALENESS-CLOCK.md` NO LONGER DESCRIBES THE CODE.** It is the
+research and the spec for two designs that were built and reverted. Either
+rewrite it against what `arrange.ts` now does, or mark each dead section as
+dead. It is currently the most misleading file in `docs/`.
 
 **7. Partial variation**, which `THE-ALTERATIONS.md` calls the most useful kind
 for a generator: first half identical, second half diverges. Only whole-line
@@ -282,8 +409,8 @@ variation exists. That belongs in the material stage, not the arrangement.
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
 | what becomes of each part | `node tools/measure.ts --sweep <genre> 1 20 --parts` |
-| how long a part goes unchanged | `node tools/stale.ts [genre] [first] [last]` |
-| the rule of three, turn by turn, per part | `node tools/stale.ts <genre> --seeds <n> --turns` |
+| how long a part goes unchanged | `node tools/stale.ts --records` |
+| the rule of three per part: due, and answered | `node tools/stale.ts [genre] [first] [last]` |
 | what each treatment is worth | `node tools/treatments.ts [genre] [seed]` |
 | every test, then types | `npm test` · `npm run check` |
 | the single file | `npm run build` |

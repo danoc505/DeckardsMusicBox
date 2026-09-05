@@ -38,6 +38,12 @@
  *   max      the longest, and the record and bars it happened in
  *   3+       the share of runs of three turns or more — the rule of three,
  *            broken, as a percentage
+ *   due      how many span boundaries this part arrived at having just stated
+ *            the same turn twice, so the rule of three says its next turn
+ *            must differ
+ *   answered the share of those the pool actually altered. This is the number
+ *            the pool is judged by, and the gap is `arrangement.unpaid`: a
+ *            boundary spends ONE move, and more than one part is usually due.
  *
  * And for the record as a whole: how many desk entries it has and how many
  * bars each one covers, and at how many span boundaries exactly one thing
@@ -100,6 +106,8 @@ for (const g of genres) {
   for (const r of ROLES) runs.set(r, []);
   let deskEntries = 0, bars = 0, recordsWithNoDesk = 0;
   let one = 0, many = 0, none = 0;
+  const due = new Map<Role, number>(), answered = new Map<Role, number>();
+  for (const r of ROLES) { due.set(r, 0); answered.set(r, 0); }
   const lines: string[] = [];
 
   for (const seed of seeds) {
@@ -151,6 +159,20 @@ for (const g of genres) {
           const held = `${sp.hush === role ? "h" : ""}${role === "drums" && sp.thin ? "t" : ""}${role === "drums" && sp.halved ? "H" : ""}`;
           sigs.push(`${notes}|${desk}|${held}`);
         }
+        // THE RULE OF THREE, COUNTED FOR THIS PART. A part is DUE at a span
+        // boundary when it has just stated the same turn twice: the next turn
+        // is its third, and the rule says the third is not the same again. It
+        // is ANSWERED when that third turn differs. The share answered is the
+        // number the pool is judged by; the gap is what `arrangement.unpaid`
+        // is made of.
+        const perSpan = role === "drums" ? 2 * period : 2;
+        for (let t = perSpan; t < sigs.length; t += perSpan) {
+          const a = sigs[t - 2], b = sigs[t - 1], c = sigs[t];
+          if (a === null || b === null || c === null || a !== b) continue;
+          due.set(role, due.get(role)! + 1);
+          if (c !== b) answered.set(role, answered.get(role)! + 1);
+        }
+
         let n = 1;
         for (let i = 1; i <= sigs.length; i++) {
           if (i < sigs.length && sigs[i] !== null && sigs[i] === sigs[i - 1]) { n++; continue; }
@@ -173,14 +195,14 @@ for (const g of genres) {
   }
 
   process.stdout.write(`\n${g} · ${seeds.length} records · ${bars} bars\n`);
-  process.stdout.write(`  ${"part".padEnd(6)} ${"runs".padStart(5)} ${"median".padStart(6)} ${"p90".padStart(4)} ${"max".padStart(4)}   ${"3+".padStart(4)}   where the longest was\n`);
+  process.stdout.write(`  ${"part".padEnd(6)} ${"runs".padStart(5)} ${"median".padStart(6)} ${"p90".padStart(4)} ${"max".padStart(4)}   ${"3+".padStart(4)}  ${"due".padStart(5)} ${"answered".padStart(8)}   where the longest was\n`);
   for (const role of ROLES) {
     const rs = runs.get(role)!;
     const lens = rs.map((r) => r.turns);
     const worst = rs.reduce<Run | null>((w, r) => (w === null || r.turns > w.turns ? r : w), null);
     const where = worst === null ? "-"
       : `seed ${worst.seed} · section ${worst.section} (${worst.fn}) · bars ${worst.fromBar}–${worst.toBar} · unit ${worst.period} bar${worst.period === 1 ? "" : "s"}`;
-    process.stdout.write(`  ${role.padEnd(6)} ${String(rs.length).padStart(5)} ${String(q(lens, 0.5)).padStart(6)} ${String(q(lens, 0.9)).padStart(4)} ${String(worst?.turns ?? 0).padStart(4)}   ${pct(lens.filter((n) => n >= 3).length, lens.length)}   ${where}\n`);
+    process.stdout.write(`  ${role.padEnd(6)} ${String(rs.length).padStart(5)} ${String(q(lens, 0.5)).padStart(6)} ${String(q(lens, 0.9)).padStart(4)} ${String(worst?.turns ?? 0).padStart(4)}   ${pct(lens.filter((n) => n >= 3).length, lens.length)}  ${String(due.get(role)!).padStart(5)} ${(due.get(role)! === 0 ? "    -" : pct(answered.get(role)!, due.get(role)!)).padStart(8)}   ${where}\n`);
   }
   const boundaries = one + many + none;
   process.stdout.write(`  desk       ${deskEntries} entries over ${bars} bars — one every ${(bars / Math.max(1, deskEntries)).toFixed(1)} bars; ${recordsWithNoDesk} of ${seeds.length} records never move it\n`);
