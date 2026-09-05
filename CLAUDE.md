@@ -11,6 +11,17 @@ that was bolted onto it. Ignoring it has cost this program its climax once.
 
 The four things that will cost you most if you miss them:
 
+- **Nothing here is set in stone, and you start from the code that is there.**
+  Read the existing mechanism before writing a line. Then, before accepting
+  that something cannot be done, find the LINE that stops it and say which
+  kind of limit it is: a law, because a document in `docs/` says music works
+  that way and cites a source — or an accident of how a loop got written,
+  which is yours to remove. They look identical from the inside. "One change
+  per boundary" read like a law, was written into the handoff as an
+  arithmetic ceiling, and was a `let best`; the research had said so in this
+  repository the whole time. Removing an accidental limit is not free — that
+  one broke four things, and only three were caught by tests.
+
 - **Find what already owns this and change that.** A rule about which moves
   are legal goes in `push()`; about which is best, in the score; a number a
   genre may state, in `spec.ts` with a default, a `resolve.ts` check and a

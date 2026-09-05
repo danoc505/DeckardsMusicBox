@@ -28,6 +28,75 @@ How to read a roll and what to look for are in `docs/THE-PIANO-ROLL.md`.
 
 ## How a change is made here
 
+**Nothing here is set in stone. This program is being built, not maintained.**
+
+Every line of it was written by somebody who was guessing, and most of the
+guesses have not been checked since. So the first move on any piece of work is
+not to add — it is to **read the code that is already there and find out which
+of its limits are real**. A limit in this program is one of two things:
+
+- **A law**, because a document in `docs/` says music works that way and cites
+  where that came from. The dramatic arc, the repetition law, the rule of
+  three, the peak having everybody in it. These are not yours to move. If you
+  think one is wrong, the document is what changes first, and it changes by
+  citing something — not by losing an argument to a test.
+- **An accident**, because of how somebody happened to write a loop. These
+  look exactly like laws from the inside, and they are yours to remove.
+
+**Telling the two apart is the job, and getting it wrong is this program's
+most expensive mistake.** Not a bolted-on second mechanism — that one at least
+announces itself. This one is silent: you read a limit in the code, you assume
+somebody meant it, you build around it, and you ship a smaller program than
+you were asked for while explaining that the rest is impossible.
+
+The worked example is `MAX_PICKS`. For most of this program's life the
+arrangement changed exactly one thing at each boundary. It read like a law. It
+was written up as a law — the handoff called the resulting numbers "arithmetic,
+not a bug" and put a ceiling on how well the rule of three could ever be kept.
+It was this:
+
+```ts
+let best: Move | null = null;
+for (const mv of pool) { /* score */ }   // keep the single winner
+```
+
+A single-winner loop. Nobody chose it; it was just how the first version got
+written. And the research had said so all along — `THE-STALENESS-CLOCK.md`
+records that the two-loop source's own worked example moves **four** things in
+one window, and that "the restriction is this program's". The document was
+right there, in the repository, saying the limit was invented. It still took
+being told twice.
+
+So, before you accept that something cannot be done:
+
+- **Find the line that stops it.** Not the feeling that it is stopped — the
+  line. If you cannot point at it, you have not looked.
+- **Ask which kind of limit it is.** Grep `docs/` for it. A law has a document
+  and a citation; an accident has neither, and usually has a comment asserting
+  it that no test checks.
+- **Say which one you found, out loud.** "This is a law, here is the source"
+  or "this is an accident, here is the line." Both are useful answers. "That
+  is not possible" is not an answer.
+
+**And when it turns out to be an accident, expect a bill.** A limit that has
+been there a long time is load-bearing whether or not it was meant to be:
+other code has quietly been relying on it. Removing `MAX_PICKS`'s one-move
+limit broke four things that had been free until then — two moves could cancel
+out and leave a boundary that moved nothing, the kit could be left halved with
+the drums gone, the run-up to the climax could end quieter than it started,
+and the climax itself came out with two pieces missing 32% of the time. **Three
+of those the tests caught. The fourth they did not**, and it was found only
+because a note in the handoff said to go and look. Removing an accidental
+limit is not free, and it is not finished when the suite goes green — see
+"Prove it, or it did not happen" below, and measure what you were not aiming
+at.
+
+**Start from the code that is already there — every time, including this
+time.** Read the mechanism before you write a line. Whatever you are adding
+almost certainly belongs inside something that already exists, and the table
+below says which. Beginning with new code and fitting it to the program
+afterwards is how the second mechanism gets built.
+
 **Find what already owns this, and change that.** This program is a small
 number of mechanisms, each of which already knows the laws it keeps. The
 arrangement is one: `push()` builds every candidate move applying the laws —
