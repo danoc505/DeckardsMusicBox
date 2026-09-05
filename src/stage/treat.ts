@@ -63,8 +63,9 @@
  * private method.
  */
 
-import { DRUM_LANES, PEDAL_ORDER, ROLES, SENDS, TREATMENTS, type PatchSpec, type PedalsRules, type PedalsSpec, type Role, type Send, type SoundRules, type SoundSpec, type Treatment } from "../genre/spec.ts";
+import { DRUM_LANES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SENDS, TREATMENTS, type PatchSpec, type PedalsRules, type PedalsSpec, type PitchedRole, type Role, type Send, type SoundRules, type SoundSpec, type Treatment, type VoiceName } from "../genre/spec.ts";
 import { boardWalked, depthHeard, liveSends, poleHeard } from "../sound/reach.ts";
+import { HOLDS } from "../sound/voices.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
 
@@ -105,7 +106,7 @@ function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: numbe
  * `echoed`, `brighten` and `widen` are the rack and the room — a rack is not
  * something one part has, so those stay what they are.
  */
-export const PER_PART: readonly Treatment[] = ["drench", "dry", "push", "ease", "far", "sweep", "orbit"];
+export const PER_PART: readonly Treatment[] = ["drench", "dry", "push", "ease", "far", "sweep", "orbit", "revoice"];
 
 /**
  * THE MOVES THAT ARE THE DRUM MACHINE, and are worth nothing where the drums
@@ -315,6 +316,29 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       spec = { mix: perPart(S, "sweepDepth", 3, 0, 1, only) };
       break;
 
+    // ── §1, moves 1 and 7: the line moves to another voice ──
+    case "revoice": {
+      // "the flute's phrase given to the organ" — the catalogue's own example,
+      // and the reason the borrowed voice comes from THIS RECORD'S BAND rather
+      // than from the six the program can synthesise. A genre states four
+      // instruments and they are the four it means; handing the keys a voice
+      // this music never uses is a different genre, not a different section.
+      // So a part is lent the instrument of another part of the same record,
+      // and the palette is unchanged.
+      //
+      // IT IS THE ONE ALTERATION THAT REACHES THE FOUNDATION. The repetition
+      // law holds bass, keys and drone to the same notes, the same
+      // articulation and the same instant within a section, and the shed order
+      // never takes them out — so their only lever was a gain. This changes
+      // WHO PLAYS THE LINE and not one note of it: `render.ts` reads
+      // `S.voices[e.role]` per note, and the desk timeline already swaps that
+      // map on the sample the arrangement chose.
+      const lend = borrowed(S, only);
+      if (lend === null) return null;
+      spec = { voices: { [lend[0]]: lend[1] } };
+      break;
+    }
+
     // ── the record itself ──
     // ── the room, one part at a time ──
     case "orbit":
@@ -518,6 +542,11 @@ function reaches(name: Treatment, S: SoundRules): boolean {
     case "sweep":
     case "wear":
       return true;
+    // a band whose parts all play the same instrument has nothing to lend, and
+    // `changes` catches the case where the borrowed voice is the one already
+    // playing; both come out of `borrowed` as null or as no change
+    case "revoice":
+      return true;
 
     // ── the eleven that arrived with the rest of the catalogue ──
     // the reverbs' LENGTH, which is the same wiring question as their return:
@@ -580,6 +609,33 @@ function changes(spec: unknown, base: unknown): boolean {
     if (changes(v, (base as Record<string, unknown>)[k])) return true;
   }
   return false;
+}
+
+/**
+ * WHOSE INSTRUMENT A PART BORROWS, and from whom.
+ *
+ * A pure function of the genre's own `voices` map: the part is lent the voice
+ * of the next pitched part, in `PITCHED_ROLES` order, that plays a different
+ * instrument. Deterministic, so the same record is the same record; and null
+ * where the genre gives every part the same voice, or where the move is aimed
+ * at the drums, which have no `voices` entry at all — they are the machine.
+ */
+function borrowed(S: SoundRules, only?: Role): [PitchedRole, VoiceName] | null {
+  const on = only === undefined ? PITCHED_ROLES[0]! : only;
+  if (on === "drums") return null;
+  const mine = S.voices[on];
+  // AND ONLY A VOICE THAT CAN HOLD WHAT THIS PART HOLDS. `HOLDS` in
+  // `voices.ts` says which voices settle and which are struck and gone: the
+  // Rhodes sits at 0.08 of its peak and the pluck is a string decaying in a
+  // delay line. A drone holds a whole statement, so lending it one of those
+  // does not move the line to another voice, it deletes the line.
+  const others = PITCHED_ROLES.filter((r) =>
+    S.voices[r] !== mine && (!HOLDS[mine] || HOLDS[S.voices[r]] === true));
+  if (others.length === 0) return null;
+  // the next one round the band, so a five-part record does not always borrow
+  // from the same neighbour
+  const from = others[(PITCHED_ROLES.indexOf(on) + 1) % others.length]!;
+  return [on, S.voices[from]];
 }
 
 /** Which treatments would do something to this desk, in a stable order. */

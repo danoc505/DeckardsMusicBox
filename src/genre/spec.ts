@@ -523,6 +523,11 @@ export const TREATMENTS = [
   "rekit", "recircuit", "slacken", "spotlight", "soak",
   // and the one leaf of the rack that still had nothing pointed at it
   "linger",
+  // §1, moves 1 and 7: THE LINE MOVES TO ANOTHER VOICE. `sound.voices` is the
+  // first field of `SoundSpec` and the renderer reads it per note, so the
+  // machinery for this has been here from the start — and no treatment wrote
+  // it, so a genre's four instruments were fixed for the length of a record.
+  "revoice",
 ] as const;
 export type Treatment = (typeof TREATMENTS)[number];
 

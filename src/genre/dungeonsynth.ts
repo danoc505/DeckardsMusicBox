@@ -224,6 +224,11 @@ export const dungeonsynth: GenreSpec = {
      * and rank nothing.
      */
     treat: [
+      // §1 moves 1 and 7 — a part is lent another part's instrument for a span.
+      // The only alteration that reaches bass, keys and drone, which the
+      // repetition law holds to the same notes and the shed order never takes
+      // out. [chosen], and low: see sources.
+      ["revoice", 2],
       ["darken", 6],
       ["drench", 5],
       ["wear", 4],
@@ -404,7 +409,7 @@ export const dungeonsynth: GenreSpec = {
       "weighted lowest of all: this music \"notably avoids\" a busy kit (note.com/soundwitches), so a move that " +
       "is only about the drums is worth least here. `rekit` and `recircuit` are not stated at all — " +
       "THE-ALTERATIONS.md warns that a genre \"should probably never swap a drum circuit mid-record\" and names " +
-      "this genre while doing it. Numbers [chosen]",
+      "this genre while doing it. Numbers [chosen] AND `revoice` IS [chosen], DELIBERATELY LOW: this genre's own guide is \"pad sounds layer in\" and \"adding or removing layers\" (dungeon-synth.neocities.org/music-making-guide), which is layering and not re-orchestration. No source names a voice swap, and at -3.7 to -17.0 dB it is the loudest thing this desk can do, against a genre that sustains a single mood.",
     "form.introSec":
       "\"the intro is usually 8-16 bars\" for this genre (note.com/soundwitches, as read in " +
       "DUNGEON-SYNTH-ARRANGEMENT.md §8); 16 bars at this genre's slowest tempo of 60 bpm is 64 s, so 64 is the " +

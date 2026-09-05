@@ -234,6 +234,11 @@ export const lofi: GenreSpec = {
      * to whatever order the array happened to be typed in. See TALLY §2.
      */
     treat: [
+      // §1 moves 1 and 7 — a part is lent another part's instrument for a span.
+      // The only alteration that reaches bass, keys and drone, which the
+      // repetition law holds to the same notes and the shed order never takes
+      // out. [chosen], and low: see sources.
+      ["revoice", 2],
       ["wear", 6],
       ["darken", 5],
       ["drench", 4],
@@ -325,7 +330,7 @@ export const lofi: GenreSpec = {
       "an event. All five rank under wear and the filter because the sources lead with those. AND THE MACHINE: " +
       "the genre is built on a sampled break, so the snare in the room against a dry kick (`soak`) and a kit " +
       "tuned down and left to ring (`slacken`) are how its own drums were recorded before they were sampled; " +
-      "`rekit` trades the whole kit for the analogue box and is kept lowest of them. Numbers [chosen]",
+      "`rekit` trades the whole kit for the analogue box and is kept lowest of them. Numbers [chosen] AND `revoice` IS [chosen], DELIBERATELY LOW: nothing in this genre's literature names re-orchestration as a device, and one part borrowing another's instrument is the strongest move on this desk at -0.7 to -8.7 dB. A colour used often is not a colour.",
     "arrangement.shed":
       "the sources describe this genre taking elements away and rank nothing while doing it: " +
       "\"bring in one element at a time for four or eight bar phrases, remove things when they feel too " +

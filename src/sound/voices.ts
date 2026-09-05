@@ -29,6 +29,25 @@
 
 import { Biquad, Noise, decayPerSample, envelope, fade, midiHz, sinTurns, tailSec, type Shape } from "./dsp.ts";
 
+/**
+ * DOES THIS VOICE HOLD A NOTE, or is it struck and gone?
+ *
+ * The shapes below say it and nothing outside this file could know it: the
+ * Rhodes settles at 0.08 of its peak and the pluck is a string decaying in a
+ * delay line, so a note written to last four bars is inaudible long before the
+ * bar line. The organ holds at 1, the flute at 0.9, the pad at 0.85 and the
+ * sub at 0.6 — all of them still there when the note ends.
+ *
+ * It is here because it is a fact about the VOICE. `treat.ts` asks it before
+ * lending one part's instrument to another: a drone holds a whole statement,
+ * and handing it a struck voice does not re-orchestrate the line, it deletes
+ * it.
+ */
+export const HOLDS: Readonly<Record<string, boolean>> = Object.freeze({
+  rhodes: false, pluck: false,
+  sub: true, organ: true, pad: true, flute: true,
+});
+
 export interface NoteIn {
   readonly midi: number;
   readonly heldSec: number;
