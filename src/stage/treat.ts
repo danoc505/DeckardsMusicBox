@@ -155,45 +155,6 @@ function fed(S: SoundRules): readonly Send[] {
  * function and not a mutation, and calling it twice on the same desk gives the
  * same desk both times.
  */
-/**
- * WHICH PARTS A TREATMENT ACTUALLY REACHES, read off what it writes.
- *
- * "A whole-desk treatment is under everyone" was the assumption the clock and
- * `tools/stale.ts` both made, and it is false for most of the catalogue: the
- * machine's reverb is under the drums and nobody else, the board is under
- * the parts that walk it, a return is under the parts that send to it. So a
- * bass whose only "change" in sixteen bars was `soak` on the kit was booked
- * as changed, and was not. The rule that fixes it is the house rule — measure
- * what the RECORD changed — asked per part: a knob on a part's own channel
- * reaches that part; a knob on the sum, the tape, the medium, the master or
- * the world reaches everyone; a knob on a return reaches the parts that feed
- * it, and through the patch the parts feeding what feeds it; a knob on the
- * machine reaches the drums; a knob on the board reaches whoever walks it.
- */
-export function reachesPart(name: Treatment, S: SoundRules, only?: Role): ReadonlySet<Role> {
-  const spec = deskOf(name, S, only);
-  const out = new Set<Role>();
-  if (spec === null) return out;
-  const all = (): void => { for (const r of ROLES) out.add(r); };
-  if (spec.world !== undefined) all();
-  if (spec.machine !== undefined) out.add("drums");
-  if (spec.pedals !== undefined) for (const r of ROLES) if (S.mix[r].pedals > 0) out.add(r);
-  if (spec.mix !== undefined) for (const r of Object.keys(spec.mix) as Role[]) out.add(r);
-  if (spec.rack !== undefined) {
-    for (const unit of Object.keys(spec.rack) as (keyof typeof spec.rack)[]) {
-      if ((SENDS as readonly string[]).includes(unit)) {
-        // the parts that feed this return, directly or through the patch
-        for (const r of ROLES) if (liveSends(S, [r]).has(unit as Send)) out.add(r);
-      } else all();
-    }
-  }
-  if (spec.patch !== undefined) {
-    // a return into another return: heard by whoever feeds the one patched from
-    for (const from of Object.keys(spec.patch) as Send[]) for (const r of ROLES) if (liveSends(S, [r]).has(from)) out.add(r);
-  }
-  return out;
-}
-
 export function deskOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec | null {
   const spec = specOf(name, S, only);
   return spec !== null && changes(spec, S) && reaches(name, S) ? spec : null;

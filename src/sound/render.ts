@@ -120,51 +120,6 @@ interface Flight {
 const sig = (o: unknown): string => JSON.stringify(o);
 
 /**
- * HOW OFTEN A DESK ON A WALK TAKES A STEP, in samples. 1024 is 46 ms at
- * 22050 Hz and 23 ms at 44100: a level walking 6 dB across a twelve-second
- * span moves 0.02 dB a step, and a cutoff walking 3600 → 1620 Hz moves eight
- * hertz a step — neither a step an ear can hear as one. Small enough that
- * the walk is a walk; large enough that retuning the desk at each is a
- * rounding error against rendering the samples between.
- */
-const RAMP_STEP = 1024;
-
-/**
- * THE KNOBS THAT CAN BE PART WAY. A level, a send, a return, a pan, an angle,
- * a distance, a cutoff, a mix: each is read as a number by the code that
- * applies it, and any number between two settings is a setting. Everything
- * else — a reverb's seconds, an echo's beats, which kit is loaded, which
- * medium, the tape's wow, the patch — is a thing a unit is built AS, and the
- * renderer rebuilds the unit when it changes. Those step at the walk's start.
- */
-const CONTINUOUS: ReadonlySet<string> = new Set([
-  ...ROLES.flatMap((r) => ["level", "pan", "az", "dist", "pedals"].map((k) => `mix.${r}.${k}`)),
-  ...ROLES.flatMap((r) => SENDS.map((s) => `mix.${r}.sends.${s}`)),
-  "rack.pole.hz", "rack.pole.resonance", "rack.pole.mix",
-  "rack.tape.lowpassHz", "rack.tape.drive",
-  "rack.medium.mix", "rack.vinyl.crackle", "rack.master.level",
-  ...SENDS.map((s) => `rack.${s}.ret`),
-  "world.width", "world.depth",
-]);
-/** A frequency walks in octaves, not in hertz: half way from 200 to 3200 is 800. */
-const GEOMETRIC: ReadonlySet<string> = new Set(["rack.pole.hz", "rack.tape.lowpassHz"]);
-
-/** The desk `u` of the way from one to the other — see `CONTINUOUS`. */
-function walk(from: unknown, to: unknown, u: number, path = ""): unknown {
-  if (typeof to === "number" && typeof from === "number") {
-    if (!CONTINUOUS.has(path)) return to;
-    if (GEOMETRIC.has(path) && from > 0 && to > 0) return from * Math.pow(to / from, u);
-    return from + (to - from) * u;
-  }
-  if (typeof to !== "object" || to === null || typeof from !== "object" || from === null || Array.isArray(to)) return to;
-  const out: Record<string, unknown> = {};
-  for (const k of Object.keys(to)) {
-    out[k] = walk((from as Record<string, unknown>)[k], (to as Record<string, unknown>)[k], u, path === "" ? k : `${path}.${k}`);
-  }
-  return out;
-}
-
-/**
  * A part on its way to the sum: through its pedal board, then into the world.
  *
  * The units are held rather than rebuilt, so a knob that only moves a level
@@ -449,19 +404,6 @@ export class Engine {
   private treatment: Treatment | null = null;
   /** The part a per-part treatment is aimed at; null for a whole-desk one. */
   private treatAt: Role | null = null;
-  /**
-   * THE DESK ON ITS WAY SOMEWHERE. A desk change with `overSec` is not a
-   * switch but a walk: from the desk as it was at that sample to the desk the
-   * treatment wants, across that many seconds. The walk is taken in steps of
-   * `RAMP_STEP` samples at absolute positions — multiples of the step from
-   * the top of the record — so a record made in blocks of 577 takes exactly
-   * the steps a record made in blocks of 4096 does. `rampFrom` is null when
-   * the desk is standing still.
-   */
-  private rampFrom: SoundRules | null = null;
-  private rampTo: SoundRules | null = null;
-  private rampStart = 0;
-  private rampEnd = 0;
   private readonly seed: number;
   private readonly beatSec: number;
   private readonly voices: Readonly<Record<string, (n: NoteIn) => Float32Array>>;
@@ -675,15 +617,7 @@ export class Engine {
     const ps = sig([K.pole.mix > 0, K.pole.hz, K.pole.resonance]);
     if (ps !== this.poleSig) {
       this.poleSig = ps;
-      // a pole already in circuit is MOVED, not replaced: its state carries
-      // on and the cutoff goes from where it was, which is what lets a desk
-      // walk the filter down across a section without a click at every step
-      if (K.pole.mix > 0 && this.pole !== null) {
-        this.pole[0].set(K.pole.hz, K.pole.resonance);
-        this.pole[1].set(K.pole.hz, K.pole.resonance);
-      } else {
-        this.pole = K.pole.mix > 0 ? [new Pole(K.pole.hz, K.pole.resonance, sr), new Pole(K.pole.hz, K.pole.resonance, sr)] : null;
-      }
+      this.pole = K.pole.mix > 0 ? [new Pole(K.pole.hz, K.pole.resonance, sr), new Pole(K.pole.hz, K.pole.resonance, sr)] : null;
     }
     this.lp[0].set("lowpass", K.tape.lowpassHz, 0.71, sr);
     this.lp[1].set("lowpass", K.tape.lowpassHz, 0.71, sr);
@@ -791,12 +725,6 @@ export class Engine {
         const next = this.deskSample(this.deskNext);
         if (next > this.t) chunk = Math.min(chunk, next - this.t);
       }
-      // and a desk on its way somewhere takes its next step on the sample it
-      // falls on, however the caller cut the blocks
-      if (this.rampFrom !== null) {
-        const tick = Math.min(this.rampEnd, (Math.floor(this.t / RAMP_STEP) + 1) * RAMP_STEP);
-        if (tick > this.t) chunk = Math.min(chunk, tick - this.t);
-      }
       this.segment(L.subarray(done, done + chunk), R.subarray(done, done + chunk), chunk);
       done += chunk;
     }
@@ -814,34 +742,16 @@ export class Engine {
    * `tune` is already careful about what it rebuilds — a unit whose own knobs
    * did not move keeps its tail — so a treatment that only opens the room does
    * not restart the echo, and one that changes nothing rebuilds nothing.
-   *
-   * A CHANGE WITH `overSec` STARTS A WALK rather than taking a step: the
-   * desk as it stands at this sample is where the walk begins — which may be
-   * partway along an earlier walk that had not arrived — and the treatment's
-   * desk is where it ends. And a walk already under way takes its next step
-   * here whenever the block loop has brought us to one.
    */
   private reachDesk(): void {
-    let moved: DeskChange | null = null;
+    let moved = false;
     while (this.deskNext < this.deskAt.length && this.deskSample(this.deskNext) <= this.t) {
-      moved = this.deskAt[this.deskNext]!;
-      this.treatment = moved.treatment;
-      this.treatAt = moved.at;
+      this.treatment = this.deskAt[this.deskNext]!.treatment;
+      this.treatAt = this.deskAt[this.deskNext]!.at;
       this.deskNext++;
+      moved = true;
     }
-    if (moved !== null) {
-      const over = Math.round(moved.overSec * this.sampleRate);
-      if (over > 0) {
-        this.rampFrom = this.S;
-        this.rampStart = this.t;
-        this.rampEnd = this.t + over;
-      } else {
-        this.rampFrom = null;
-      }
-      this.retune();
-    } else if (this.rampFrom !== null && this.t % RAMP_STEP === 0 || (this.rampFrom !== null && this.t >= this.rampEnd)) {
-      this.retune();
-    }
+    if (moved) this.retune();
   }
 
   /**
@@ -852,25 +762,10 @@ export class Engine {
    * knob on the bridge is somebody's hand on that knob, and the hand is not
    * overruled by the record four bars later. It costs the automation on
    * exactly the knobs that were touched, which is what being touched means.
-   *
-   * AND ON A WALK, the desk is wherever the walk has got to: the continuous
-   * knobs part way between where it started and where the treatment puts
-   * them, and every other knob already there — a room cannot be half a
-   * second longer on its way to being a second longer, so a knob that changes
-   * what a unit IS steps at the walk's start. The walk is a share of the way
-   * from its first sample to its last; when it arrives the desk stands still.
    */
   private retune(): void {
     const spec = this.treatment === null ? null : deskOf(this.treatment, this.base, this.treatAt ?? undefined);
-    const target = settle(settle(this.base, spec ?? undefined), this.over);
-    if (this.rampFrom === null) {
-      this.S = target;
-    } else {
-      this.rampTo = target;
-      const u = this.rampEnd <= this.rampStart ? 1 : Math.min(1, (this.t - this.rampStart) / (this.rampEnd - this.rampStart));
-      this.S = walk(this.rampFrom, this.rampTo, u) as SoundRules;
-      if (u >= 1) { this.rampFrom = null; this.rampTo = null; }
-    }
+    this.S = settle(settle(this.base, spec ?? undefined), this.over);
     this.tune();
   }
 

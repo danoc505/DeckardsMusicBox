@@ -49,7 +49,6 @@ import { GENRE_NAMES, type GenreName } from "../src/genre/index.ts";
 import { ROLES, type Role } from "../src/genre/spec.ts";
 import { periodOf } from "../src/stage/material/harmony.ts";
 import type { Span } from "../src/stage/arrange.ts";
-import { reachesPart } from "../src/stage/treat.ts";
 
 const args = process.argv.slice(2);
 const named = (flag: string): string | undefined => {
@@ -64,19 +63,6 @@ const seeds: number[] = seedList !== undefined
   ? seedList.split(",").map(Number)
   : Array.from({ length: Number(positional[2] ?? 60) - Number(positional[1] ?? 1) + 1 }, (_, i) => Number(positional[1] ?? 1) + i);
 const perRecord = args.includes("--records");
-const perTurn = args.includes("--turns");
-/**
- * THE RULE OF THREE, TURN BY TURN, so it can be SEEN rather than summed. One
- * line per part per section, one character per turn of that part's unit:
- *   .  the same as the turn before — nothing about this part changed
- *   n  its notes changed (the material's own variation)
- *   d  the desk moved, and the move reaches this part
- *   h  held back, or let back up
- *   k  the kit thinned, halved, or restored
- *   -  not sounding
- * A run of three or more dots is the rule of three broken for that part.
- */
-const turnLines: string[] = [];
 
 for (const g of genres) {
   if (!(GENRE_NAMES as readonly string[]).includes(g)) {
@@ -113,7 +99,6 @@ for (const g of genres) {
   for (const r of ROLES) runs.set(r, []);
   let deskEntries = 0, bars = 0, recordsWithNoDesk = 0;
   let one = 0, many = 0, none = 0;
-  let unpaid = 0;
   const lines: string[] = [];
 
   for (const seed of seeds) {
@@ -121,7 +106,6 @@ for (const g of genres) {
     const { chart, arrangement, performance } = song;
     bars += song.form.bars;
     deskEntries += performance.desk.length;
-    unpaid += arrangement.unpaid;
     if (performance.desk.length === 0) recordsWithNoDesk++;
 
     let rOne = 0, rMany = 0, rNone = 0;
@@ -137,7 +121,7 @@ for (const g of genres) {
         let moved = 0;
         if (a.heard.size !== b.heard.size || [...a.heard].some((r) => !b.heard.has(r))) moved++;
         if (a.thin !== b.thin) moved++;
-        if (a.hush.size !== b.hush.size || [...a.hush].some((r) => !b.hush.has(r))) moved++;
+        if (a.hush !== b.hush) moved++;
         if (a.halved !== b.halved) moved++;
         if (a.treatment !== b.treatment || a.at !== b.at) moved++;
         if (moved === 0) rNone++; else if (moved === 1) rOne++; else rMany++;
@@ -159,24 +143,9 @@ for (const g of genres) {
             .filter((e) => e.role === role && e.bar >= from && e.bar < to)
             .map((e) => `${e.bar - from}:${e.step}:${e.pitch}:${e.art}`)
             .join(",");
-          // the desk counts for this part only where the treatment reaches it:
-          // `soak` on the kit is not a change to the bass
-          const under = sp.treatment !== null && reachesPart(sp.treatment, chart.genre.sound, sp.at ?? undefined).has(role);
-          const desk = under ? `${sp.treatment}${sp.at === role ? "*" : ""}` : ".";
-          const held = `${sp.hush.has(role) ? "h" : ""}${role === "drums" && sp.thin ? "t" : ""}${role === "drums" && sp.halved ? "H" : ""}`;
+          const desk = `${sp.treatment ?? "."}${sp.at === role ? "*" : ""}`;
+          const held = `${sp.hush === role ? "h" : ""}${role === "drums" && sp.thin ? "t" : ""}${role === "drums" && sp.halved ? "H" : ""}`;
           sigs.push(`${notes}|${desk}|${held}`);
-        }
-        if (perTurn) {
-          let line = "";
-          for (let i = 0; i < sigs.length; i++) {
-            const cur = sigs[i] ?? null, prev = i > 0 ? (sigs[i - 1] ?? null) : null;
-            if (cur === null) { line += "-"; continue; }
-            if (prev === null) { line += i === 0 ? "n" : "n"; continue; }
-            if (cur === prev) { line += "."; continue; }
-            const [cn, cd, ch] = cur.split("|"), [pn, pd, ph] = prev.split("|");
-            line += cn !== pn ? "n" : cd !== pd ? "d" : ch !== ph ? (role === "drums" && (ch!.includes("t") !== ph!.includes("t") || ch!.includes("H") !== ph!.includes("H")) ? "k" : "h") : "?";
-          }
-          turnLines.push(`    ${String(seed).padStart(6)} s${p.section.index} ${p.section.fn.padEnd(12)} ${role.padEnd(5)} ${line}`);
         }
         let n = 1;
         for (let i = 1; i <= sigs.length; i++) {
@@ -211,9 +180,6 @@ for (const g of genres) {
   }
   const boundaries = one + many + none;
   process.stdout.write(`  desk       ${deskEntries} entries over ${bars} bars — one every ${(bars / Math.max(1, deskEntries)).toFixed(1)} bars; ${recordsWithNoDesk} of ${seeds.length} records never move it\n`);
-  process.stdout.write(`  unpaid     ${unpaid} times a part the rule of three said was owed had nothing left to pay it with\n`);
   process.stdout.write(`  boundaries ${boundaries}: exactly one thing moved at ${one} (${pct(one, boundaries).trim()}), more than one at ${many} (${pct(many, boundaries).trim()}), nothing at ${none}\n`);
   for (const l of lines) process.stdout.write(l + "\n");
-  for (const l of turnLines) process.stdout.write(l + "\n");
-  turnLines.length = 0;
 }

@@ -98,9 +98,6 @@ export function dump(song: Song): string {
   // and the drums are a machine with a kit in it, which is the same question
   // asked of the one part that has no `voices` entry
   L.push(`#kit\t${chart.genre.sound.machine.kit}\t${chart.genre.sound.machine.circuit}`);
-  // how much of its span the desk takes to arrive: 0 is a switch on the bar
-  // line, 1 a walk that lands as the next boundary comes
-  L.push(`#drift\t${chart.genre.arrangement.drift}`);
   L.push(`#events\t${ev.length}`);
   if (chart.askedSec !== null) L.push(`#asked_seconds\t${chart.askedSec}`);
 
@@ -145,7 +142,7 @@ export function dump(song: Song): string {
       const flags: string[] = [];
       if (sp.thin) flags.push("thin");
       if (sp.halved) flags.push("half");
-      for (const r of sp.hush) flags.push("hush:" + r);
+      if (sp.hush !== null) flags.push("hush:" + sp.hush);
       // the desk, and the one part it is aimed at where the treatment is a
       // per-part one — "a part steps closer" is a different move from the
       // whole band stepping closer

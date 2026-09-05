@@ -297,23 +297,10 @@ export class Ensemble {
 export class Pole {
   private low = 0;
   private band = 0;
-  private f = 0;
-  private q = 1;
-  private readonly sampleRate: number;
+  private readonly f: number;
+  private readonly q: number;
   constructor(hz: number, resonance: number, sampleRate: number) {
-    this.sampleRate = sampleRate;
-    this.set(hz, resonance);
-  }
-  /**
-   * Move the cutoff while the filter runs. The state — where the low and band
-   * outputs have got to — is kept, so the filter goes on from where it was
-   * rather than from silence: a new `Pole` at the new cutoff starts with both
-   * at zero, which is a click, and a cutoff walking down across a section is
-   * hundreds of clicks. A state-variable filter's coefficients can be moved
-   * per sample without upsetting it, which is the reason it is one.
-   */
-  set(hz: number, resonance: number): void {
-    this.f = 2 * Math.sin((Math.PI * Math.min(hz, this.sampleRate / 6)) / this.sampleRate);
+    this.f = 2 * Math.sin((Math.PI * Math.min(hz, sampleRate / 6)) / sampleRate);
     this.q = 1 - 0.95 * Math.min(1, Math.max(0, resonance));
   }
   run(x: number): number {

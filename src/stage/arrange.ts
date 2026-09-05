@@ -55,18 +55,11 @@
  *
  * One set per section was four to eight identical turns between changes,
  * where the rule allows two. So a section now carries a set per SPAN of two
- * turns, and at each boundary the pool offers all four of the rule's ways —
- * a part in, a part out, expression up, expression down — and the desk moved
- * besides, and the score picks one. This comment used to say "one of the two
- * things the rule names ... never both, and never everyone at once"; the pool
- * had long since offered all four, and the second half was a rule the source
- * does not state. What the source's own example does is add hats, a clap, a
- * bass and a counter-melody at ONE boundary, and what measuring the old rule
- * found was a bass stating one figure for thirty-two bars while the record
- * changed eight times around it. So one move is chosen, and then every part
- * the rule of three says is owed is paid on top of it — see the span loop.
- * A change is still heard against something holding still: a part is paid
- * only when it has itself gone two turns unchanged, which is the rule.
+ * turns, and what moves at each boundary is one of the two things the rule
+ * names: an instrument out, or an instrument's expression down. Never both,
+ * and never everyone at once — a change is only heard against something
+ * holding still, and five parts all moving every two turns is a row of
+ * unrelated blocks rather than a record going somewhere.
  *
  * A different part each time, so the whole band is in the rotation and no
  * one part is always the one that goes. And the peak never loses a part —
@@ -76,17 +69,12 @@
 
 import type { ArrangementRules, Idea, IntroKind, Manner, Role, Treatment } from "../genre/spec.ts";
 import { ROLES } from "../genre/spec.ts";
-import { deskOf, isPerPart, needsDrums, reachesPart } from "./treat.ts";
+import { deskOf, isPerPart, needsDrums } from "./treat.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 // A pure function of the chart, not a read of built materials — see its own
 // docstring. The arrangement cannot count its spans without the turn length.
 import { periodOf } from "./material/harmony.ts";
-
-/** Nobody held back — the empty set, shared, because it is compared by content. */
-const NONE: ReadonlySet<Role> = new Set();
-/** Two sets of parts, the same parts. */
-const same = (a: ReadonlySet<Role>, b: ReadonlySet<Role>): boolean => a.size === b.size && [...a].every((r) => b.has(r));
 
 /** Who plays across one span of two turns of the loop, and how hard. */
 export interface Span {
@@ -140,7 +128,7 @@ export interface Span {
    * A move that changed a part's ARTICULATION or its timing could not be here;
    * it would have to wait for a section boundary.
    */
-  readonly hush: ReadonlySet<Role>;
+  readonly hush: Role | null;
   /**
    * A CHANGE TO THE SECTION THAT LEAVES EVERY NOTE WHERE IT IS.
    *
@@ -246,13 +234,6 @@ export interface Arrangement {
   readonly release: readonly { readonly section: number; readonly span: number; readonly discharged: number }[];
   /** Boundaries where every move refused. The dead end, counted rather than hidden. */
   readonly stuck: number;
-  /**
-   * Boundaries at which a part the rule of three said was owed could not be
-   * paid: nothing in the pool composed with the move already chosen. The
-   * number that says whether the cheap moves have run out, which is the
-   * condition `THE-STALENESS-CLOCK.md` sets on building partial variation.
-   */
-  readonly unpaid: number;
 }
 
 /** The key of the material an idea's nth variant is: "A", then "A/1", "A/2". */
@@ -349,7 +330,6 @@ interface Ledger {
   release: { section: number; span: number; discharged: number }[];
   /** Boundaries where every move refused. The dead end, counted rather than hidden. */
   stuck: number;
-  unpaid: number;
 }
 
 /** One candidate: what the span would become, and which part it moves. */
@@ -363,7 +343,7 @@ interface Move {
   /** Which part a per-part treatment is aimed at; null for a whole-desk one. */
   readonly at: Role | null;
   /** The part this move leaves held back, if any. */
-  readonly hush: ReadonlySet<Role>;
+  readonly hush: Role | null;
   /** Whether this move leaves the kit at half speed. */
   readonly halved: boolean;
   /**
@@ -441,7 +421,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * is sounding, less a half part where the drums are held back. A function
    * of the arrangement's own choices and nothing else.
    */
-  const fullness = (h: ReadonlySet<Role>, isThin: boolean, hushed: ReadonlySet<Role> = NONE, isHalved = false): number => {
+  const fullness = (h: ReadonlySet<Role>, isThin: boolean, hushed: Role | null = null, isHalved = false): number => {
     let held = 0;
     // the drums' expression, held back once however many ways it is held: a kit
     // with no hat AND at half speed is still a kit playing quietly, and
@@ -449,14 +429,14 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     if ((isThin || isHalved) && h.has("drums")) held += 0.5;
     // a hushed part is half a part, the same price the drums' hat already
     // pays; the drums thinned AND hushed are not charged for twice
-    for (const r of hushed) if (h.has(r) && !(r === "drums" && isThin)) held += 0.5;
+    if (hushed !== null && h.has(hushed) && !(hushed === "drums" && isThin)) held += 0.5;
     return (h.size - held) / ROLES.length;
   };
 
   const ledger: Ledger = {
     ceiling: 0, owed: 0, last: 0,
     standing: new Map(ROLES.map((r) => [r, 0])),
-    used: new Map(), release: [], stuck: 0, unpaid: 0,
+    used: new Map(), release: [], stuck: 0,
   };
 
   /**
@@ -706,10 +686,6 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     const turn = 2 * Math.max(1, periodOf(chart, section.idea));
     const spanCount = Math.max(1, Math.ceil(section.bars / turn));
     const spans: Span[] = [];
-    // HOW MANY TURNS EACH PART HAS PLAYED UNCHANGED, in this section. The
-    // rule of three's own count, kept per part rather than per record: it is
-    // the part that is stated three times, not the band.
-    const stale = new Map<Role, number>();
     /**
      * EVERY SPAN IS A SUBSET OF SPAN 0, and that one invariant is what makes
      * the rest safe. Span 0 is always read (index 0 at the section's first
@@ -805,8 +781,8 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     const opensWithout = new Set(base);
     if (entering !== null) opensWithout.delete(entering);
 
-    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: ReadonlySet<Role>; halved: boolean } =
-      { heard: opensWithout, thin, treatment: opening, at: null, hush: NONE, halved: false };
+    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean } =
+      { heard: opensWithout, thin, treatment: opening, at: null, hush: null, halved: false };
     const turnsOf = (s: number): number =>
       Math.min(2, Math.max(1, Math.round((Math.min(section.bars, (s + 1) * turn) - s * turn) / (turn / 2))));
 
@@ -814,42 +790,19 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
       // the newest part walks in at the first boundary, and that IS this
       // boundary's change — the two-loop rule asks for one thing to move and
       // an instrument arriving is the first of the four ways it names
-      const paid = new Set<Role>();
       if (s === 1 && entering !== null) {
-        paid.add(entering);
         cur = { ...cur, heard: new Set([...cur.heard, entering]) };
         ledger.used.set(`part-in:${entering}`, (ledger.used.get(`part-in:${entering}`) ?? 0) + 1);
       } else if (s > 0) {
         // ── THE POOL. Every named way this stage can change an arrangement.
         //    A move never declares which way it moves the energy: that is
         //    read off fullness afterwards, so a move cannot lie about itself.
-        // ── A BOUNDARY MAY PAY MORE THAN ONE PART, AND IT PAYS THEM WITH
-        //    THIS SAME MECHANISM, RUN AGAIN. The two-loop source never said
-        //    one thing moves — its own worked example adds hats, a clap, a
-        //    bass and a counter-melody at one boundary — and the rule of
-        //    three is owed per part, so several can fall due at once.
-        //
-        //    The first version of this answered that with a second selection
-        //    loop of its own, sitting after the score: it re-scanned the
-        //    pool, restated the guards `push()` had already applied, and
-        //    rebuilt the span state by hand. Two mechanisms deciding one
-        //    thing, and the second one did not know the laws the first one
-        //    keeps — so it hushed three parts at a peak that "has everyone,
-        //    because that is what a peak is", and never let one back up.
-        //
-        //    So the pool is BUILT AGAIN from where the last move left the
-        //    span, and scored again, and the next move taken. Every guard
-        //    applies because `push()` applies them; `fullness` prices what
-        //    the span has actually become; and the economy stops the rot by
-        //    itself — each part taken away makes the next taking score worse
-        //    against a debt that wants a rise. Nothing is restated here.
-        for (let round = 0; round < ROLES.length; round++) {
         const pool: Move[] = [];
-        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: ReadonlySet<Role> = cur.hush, halved: boolean = cur.halved): void => {
+        const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: Role | null = cur.hush, halved: boolean = cur.halved): void => {
           // a move that leaves the span exactly where it already is is not a
           // move, and the desk is part of where it is
           if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment && at === cur.at
-            && same(hush, cur.hush) && halved === cur.halved && [...h].every((r) => cur.heard.has(r))) return;
+            && hush === cur.hush && halved === cur.halved && [...h].every((r) => cur.heard.has(r))) return;
           // THE CLOSE KEEPS THE OPENING. Holding the opener into the last
           // SECTION is not enough: a record ends on its last SPAN, and the
           // score below was free to take the part out again four bars from
@@ -898,14 +851,8 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           for (const r of A.shed) { if (stripped.size <= floor) break; if (movable(r)) stripped.delete(r); }
           push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
         }
-        // expression down, and back up — never above the floor the form set,
-        // and NEVER DOWN IN A SECTION THAT IS BUILDING. `swell` is the run-up
-        // to the climax and its whole job is to arrive louder than it began;
-        // expression taken away mid-build is the run-up cancelled by its own
-        // arrangement, which `perform.test.ts` holds the record to. The pool
-        // is where this file keeps its refusals, so it is kept here and not
-        // restated by whoever reads the pool.
-        if (!cur.thin && !swell) push("hold-back", new Set(cur.heard), true, "drums");
+        // expression down, and back up — never above the floor the form set
+        if (!cur.thin) push("hold-back", new Set(cur.heard), true, "drums");
         if (cur.thin && !thin) push("let-out", new Set(cur.heard), false, "drums");
         // AND EXPRESSION ON ANY PART, which is the two-loop rule's fourth way
         // and the one this stage read as the drums' hat. A part held back is
@@ -914,10 +861,10 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         // may never lose a player — can finally do something other than take
         // the hat off. See `Span.hush`.
         for (const r of cur.heard) {
-          if (swell || cur.hush.has(r)) continue;
-          push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, new Set([...cur.hush, r]));
+          if (r === cur.hush) continue;
+          push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, r);
         }
-        for (const r of cur.hush) push("speak-up", new Set(cur.heard), cur.thin, r, 1, cur.treatment, cur.at, new Set([...cur.hush].filter((x) => x !== r)));
+        if (cur.hush !== null) push("speak-up", new Set(cur.heard), cur.thin, cur.hush, 1, cur.treatment, cur.at, null);
         // AND THE KIT AT HALF SPEED, which is the other thing "expression" can
         // mean on a drum machine and the one §3 move that does not have to
         // wait for a section: the drums are excluded from the repetition law
@@ -1010,30 +957,6 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         const before = fullness(cur.heard, cur.thin, cur.hush, cur.halved);
         let best: Move | null = null;
         let bestFit = 0;
-        //   WHICH PARTS A MOVE TOUCHES — the ones whose staleness it pays.
-        //   A whole-desk treatment is under everyone sounding; a per-part one
-        //   under its part; a density move touches the part it moves; the
-        //   kit's expression touches the kit.
-        const touches = (mv: Move): Role[] => {
-          const out = new Set<Role>();
-          if (mv.treatment !== cur.treatment || mv.at !== cur.at) {
-            // the parts the desk move actually reaches — the machine's reverb
-            // is under the drums and nobody else, a return under the parts
-            // that feed it. Booked as "everyone", measured, a bass whose only
-            // change in sixteen bars was `soak` on the kit counted as changed.
-            // Leaving a desk reaches whoever the desk it leaves reached.
-            for (const t of [mv.treatment, cur.treatment]) {
-              if (t === null) continue;
-              for (const r of reachesPart(t, chart.genre.sound, (t === mv.treatment ? mv.at : cur.at) ?? undefined)) if (cur.heard.has(r)) out.add(r);
-            }
-          }
-          for (const r of cur.heard) if (!mv.heard.has(r)) out.add(r);
-          for (const r of mv.heard) if (!cur.heard.has(r)) out.add(r);
-          for (const r of mv.hush) if (!cur.hush.has(r)) out.add(r);
-          for (const r of cur.hush) if (!mv.hush.has(r)) out.add(r);
-          if (mv.thin !== cur.thin || mv.halved !== cur.halved) out.add("drums");
-          return [...out];
-        };
         for (const mv of pool) {
           const after = fullness(mv.heard, mv.thin, mv.hush, mv.halved);
           const d = after - before;
@@ -1100,23 +1023,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           //   its decoration: what it can most afford is its own to say — for a
           //   treatment that is the weight the genre put on it
           const afford = mv.treatment !== null ? weightOf(mv.treatment) : mv.afford;
-          //   AND THE RULE OF THREE, COUNTED PER PART. "If I say it a third
-          //   time ... this is where our brain will actually begin to tune it
-          //   out" — and this score kept that for the record while every part
-          //   broke it, because one thing moved at each boundary and the parts
-          //   it did not move went on stating their figure uncounted: bass and
-          //   keys three turns or more unchanged in 42% of their runs, the
-          //   worst sixteen turns. A move is worth one more for every turn the
-          //   part it touches has gone unchanged, so the longest-stale part's
-          //   moves rank first and nobody's move ranks less than it did.
-          //   THE SUM over the parts it touches, not the largest: a move is
-          //   worth the staleness it clears, and a whole-desk treatment
-          //   clears everyone's — which is what makes the desk the natural
-          //   answer when the whole band is owed, "automation and modulation
-          //   rather than constant arrangement changes". Scored by the
-          //   largest alone, measured, the desk was worth one hush.
-          const due = 1 + touches(mv).reduce((sum, r) => sum + (stale.get(r) ?? 0), 0);
-          const fit = serve * worth * fresh * afford * due;
+          const fit = serve * worth * fresh * afford;
           if (fit > bestFit) { bestFit = fit; best = mv; }
         }
         if (best === null) {
@@ -1132,40 +1039,11 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           if (alt === null) ledger.stuck++;
           best = alt;
         }
-        if (best === null) break;
-        //   A ROUND AFTER THE FIRST HAS TO EARN ITSELF. The first round is
-        //   the two-loop rule's one change and is taken whatever it is; a
-        //   later one is taken only if it pays a part the rule of three says
-        //   is owed — stale for a whole span — and only while something is
-        //   left holding still, because a change is heard against what did
-        //   not change. `stale` is set from `paid` at the end of the span.
-        if (round > 0) {
-          //   AND A PEAK GETS ONE CHANGE, WHATEVER IS OWED. This file's
-          //   header states it twice — "the peak has everyone, because that
-          //   is what a peak is" and "at a peak the change is expression
-          //   only: a breath, not a hole" — and the pool has always kept the
-          //   first half (`part-out` and `strip` refuse at a peak) while
-          //   nothing kept the second. One expression move is a breath;
-          //   three parts held back and the kit thinned is a hole, and it
-          //   made the biggest moment of the record its thinnest.
-          if (section.peak) break;
-          const pays = touches(best).some((r) => !paid.has(r) && (stale.get(r) ?? 0) >= 2);
-          const stillAfter = [...cur.heard].filter((r) => !paid.has(r) && !touches(best).includes(r)).length;
-          if (!pays || stillAfter < 1) break;
+        if (best !== null) {
+          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
+          ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
         }
-        for (const r of touches(best)) paid.add(r);
-        cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
-        ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
-        //   and stop as soon as nobody is owed
-        if (![...cur.heard].some((r) => !paid.has(r) && (stale.get(r) ?? 0) >= 2)) break;
-        }
-        //   what the boundary could not pay: a part stale for a whole span
-        //   that no move in the pool reached without breaking one of this
-        //   file's own laws. The number that says whether the cheap moves
-        //   have run out.
-        for (const r of cur.heard) if (!paid.has(r) && (stale.get(r) ?? 0) >= 2) ledger.unpaid++;
       }
-      for (const r of ROLES) stale.set(r, cur.heard.has(r) ? (paid.has(r) ? 2 : (stale.get(r) ?? 0) + 2) : 0);
       spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved });
 
       // ── THE LEDGER, in part-turns. Two entries and nothing else.
@@ -1228,7 +1106,6 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     placed: Object.freeze(placed),
     release: Object.freeze(ledger.release.map((r) => Object.freeze(r))),
     stuck: ledger.stuck,
-    unpaid: ledger.unpaid,
   });
 }
 

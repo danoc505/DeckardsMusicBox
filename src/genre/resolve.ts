@@ -530,8 +530,6 @@ export function resolveGenre(
     if (!finite(fa) || fa < 0 || fa > 1) problems.push(`arrangement.fullAbove must be 0..1, got ${String(fa)}`);
     const tb = arr["thinBelow"];
     if (!finite(tb) || tb < 0 || tb > 1) problems.push(`arrangement.thinBelow must be 0..1, got ${String(tb)}`);
-    const dr = arr["drift"];
-    if (!finite(dr) || dr < 0 || dr > 1) problems.push(`arrangement.drift must be 0..1, got ${String(dr)}`);
     // and the note-preserving changes it will make to a section
     checkPool(problems, "arrangement.treat", arr["treat"], (v) => (TREATMENTS as readonly unknown[]).includes(v), `one of ${TREATMENTS.join(", ")}`);
     checkPool(problems, "arrangement.manner", arr["manner"], (v) => (MANNERS as readonly unknown[]).includes(v), `one of ${MANNERS.join(", ")}`);
