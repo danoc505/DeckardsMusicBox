@@ -372,6 +372,45 @@ Not built, and each for a stated reason rather than for want of time:
   stage's register check, which throws by design. It belongs where the register
   is known — which makes it channel D, not B.
 
+### Phase 3.5 — the clock that says WHEN a move must fire
+
+*Cost: days. Value: it is the reason the pool exists, and nothing above it
+states the rule.*
+
+**`genre-research/THE-STALENESS-CLOCK.md` is the spec. Read it before starting.**
+
+Phases 1 to 3 built the vocabulary and never said when it has to be spoken.
+Measured on ten random records, the consequence is that the record keeps the
+rule of three and every part breaks it: **25–32% of keys and bass runs are three
+or more identical turns**, the worst being sixteen turns — thirty-two bars of
+one two-note figure while the arrangement changed eight times around it. Across
+those ten records, **56 boundaries moved exactly one thing and not one moved
+two**, which is narrower than the two-loop source, whose own worked example
+moves four at once.
+
+Three steps, each measured alone:
+
+0. **The measurement first.** `tools/measure.ts` gains a per-part sweep mode —
+   longest run of identical turns, share at 3+, desk-timeline density. Also
+   closes `HANDOFF.md` item 2.
+1. **Drift** — a treatment that ramps across its span instead of switching at
+   one sample. The primitives exist and are all free-running LFOs; the gesture
+   does not. This is what lets a long section stay alive without many events.
+2. **The clock** — a per-part counter in that part's own unit of repetition
+   (the bar for the drums, the turn of the loop for everything pitched, which
+   `perform.ts` already distinguishes). Owed at two statements, paid at three;
+   several parts payable at once.
+
+**What says it worked:** runs of 3+ identical turns fall from 25–32%; the
+sixteen-turn case is gone; every section-level number is unchanged — who opens,
+thinnest, fullest, energy spread — and `stuck` stays 0.
+
+**The trap this phase sets for itself:** `treat.test.ts` measures a treatment by
+rendering it held against an empty desk. A ramp only reaches full value at the
+end of its span, so a sound ramped move measures quieter than a step and could
+be deleted as dead by the floor that was built to catch dead knobs. Teach the
+floor the difference before judging any ramp by it.
+
 ### Phase 4 — channel C (orchestration)
 
 *Cost: a week. Value: 5 moves, and the first genuinely new colour.*

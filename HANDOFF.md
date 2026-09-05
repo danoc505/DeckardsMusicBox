@@ -62,6 +62,7 @@ measured. Write the next one that way.
 | `genre-research/THE-ARRANGEMENT-AS-STORY.md` | who plays when, and why that is a narrative rather than a texture |
 | `genre-research/THE-ALTERATIONS.md` | every way to restate something without rewriting it |
 | `genre-research/DUNGEON-SYNTH-ARRANGEMENT.md` | what the genre says about its own middle |
+| `genre-research/THE-STALENESS-CLOCK.md` | when a move must fire: the rule of three counted per part, and the drift that pays it |
 
 ## What was just done, and why
 
@@ -209,6 +210,18 @@ shipped and measured later.
 treatment weights from its own sources, and the even default it was running on
 was never even: pool order alone decided a hard 54-to-1 ranking, taken from the
 order of a `const` in `spec.ts` that no author chose. `TALLY.md` §2.
+
+**6b. THE POOL HAS NO CLOCK — measured, and it is the next thing.**
+`genre-research/THE-STALENESS-CLOCK.md` is the spec; Phase 3.5 of the plan is
+the build. Twenty-three alterations exist and nothing says when one has to
+fire, so the record keeps the rule of three and every part breaks it: on ten
+random records, **25–32% of keys and bass runs are three or more identical
+turns**, the worst sixteen turns — thirty-two bars of one two-note figure while
+the arrangement changed eight times around it. In the same ten records the desk
+timeline holds **0 to 7 entries**, one lofi record moving its desk not once in
+52 bars. The two pieces are a per-part staleness counter and **drift** — a
+treatment that ramps across its span instead of switching at one sample, which
+no treatment does and which is how this music actually holds a loop alive.
 
 **7. Partial variation**, which `THE-ALTERATIONS.md` calls the most useful kind
 for a generator: first half identical, second half diverges. Only whole-line
