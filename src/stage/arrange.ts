@@ -417,6 +417,18 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     mv.treatment !== null ? `treat:${mv.treatment}` : `${mv.name}:${mv.role}`;
 
   /**
+   * WHAT KIND OF CHANGE A MOVE IS — the two-loop rule's own four ways, and the
+   * desk beside them. `keyOf` wears out a move's NAME, so a record can play
+   * the same KIND all the way through by rotating which part it happens to;
+   * `BUILDING-THE-ALTERATIONS.md` Phase 1 records that as known and unfixed.
+   */
+  const kindOf = (mv: Move): string =>
+    mv.treatment !== null ? "desk"
+      : mv.name === "hush" || mv.name === "speak-up" ? "held"
+      : mv.name === "hold-back" || mv.name === "let-out" || mv.name === "half-time" || mv.name === "full-time" ? "kit"
+      : "who";
+
+  /**
    * HOW FULL A SPAN IS, the one measured quantity: what fraction of the band
    * is sounding, less a half part where the drums are held back. A function
    * of the arrangement's own choices and nothing else.
@@ -696,6 +708,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
     // else, so the record is never still and one part is stale for thirty-two
     // bars. Counted here so the score can read it; the score is where "which
     // move is best" is decided, and this is a fact about which move is best.
+    const kindUsed = new Map<string, number>();
     const stale = new Map<Role, number>();
     let lastSpan: Span | null = null;
     /**
@@ -1050,7 +1063,10 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
               * established(mv.role);
           //   the rule of three, applied to this stage's own vocabulary: the
           //   same move on the same part wears out across the whole record
-          const fresh = 1 / (1 + (ledger.used.get(keyOf(mv)) ?? 0));
+          //   and a KIND wears out inside a section as a name wears out
+          //   across the record, so a boundary cannot answer the same way
+          //   every time while three of the rule's four ways go unused
+          const fresh = 1 / (1 + (ledger.used.get(keyOf(mv)) ?? 0)) / (1 + (kindUsed.get(kindOf(mv)) ?? 0));
           //   and a genre does not part with its foundation as readily as with
           //   its decoration: what it can most afford is its own to say — for a
           //   treatment that is the weight the genre put on it
@@ -1081,6 +1097,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         if (best !== null) {
           cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
           ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
+          kindUsed.set(kindOf(best), (kindUsed.get(kindOf(best)) ?? 0) + 1);
         }
       }
       // and what this span did to each part's count: a part the boundary
