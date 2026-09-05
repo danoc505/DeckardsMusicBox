@@ -1128,11 +1128,20 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         //    never said one thing moves, and its own worked example adds hats,
         //    a clap, a bass and a counter-melody at one boundary. What can be
         //    paid ON TOP of the chosen move is what composes with it: a part
-        //    held back, if nobody is; a part out, if the floor and the peak
-        //    allow; the kit's expression down. A treatment cannot — a span is
-        //    heard on one desk — and a walking desk has already paid everyone
-        //    under it. The best-scoring of those for the part, so the ledger's
-        //    freshness still turns which move it is.
+        //    held back, or let back up; a part out, if the floor and the peak
+        //    allow; the kit's expression down; and a treatment aimed at the
+        //    part, once, where the span's desk is still the record's own — a
+        //    span is heard on one desk, and a walking desk has already paid
+        //    everyone under it. The best-scoring of those for the part, so
+        //    the ledger's freshness still turns which move it is.
+        //
+        //    THE GUARDS BELOW REPEAT ONES `push()` ALREADY APPLIED, on purpose:
+        //    the pool was built from `cur` as it stood BEFORE the chosen move,
+        //    and `cur` has moved since. A part-out the pool offered against
+        //    four parts sounding may be one against the floor now that the
+        //    chosen move took one away; a hush it offered may be on a part the
+        //    chosen move just hushed. So each payment is checked against the
+        //    desk and the band as they stand at the moment it is paid.
         // AT TWO, because the clock counts in spans of two turns: a part that
         // has gone one span unchanged has stated its figure twice, and the
         // next span would be the third hearing. "Using it more than two times
