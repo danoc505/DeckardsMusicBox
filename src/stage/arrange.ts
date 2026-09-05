@@ -898,8 +898,14 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
           for (const r of A.shed) { if (stripped.size <= floor) break; if (movable(r)) stripped.delete(r); }
           push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
         }
-        // expression down, and back up — never above the floor the form set
-        if (!cur.thin) push("hold-back", new Set(cur.heard), true, "drums");
+        // expression down, and back up — never above the floor the form set,
+        // and NEVER DOWN IN A SECTION THAT IS BUILDING. `swell` is the run-up
+        // to the climax and its whole job is to arrive louder than it began;
+        // expression taken away mid-build is the run-up cancelled by its own
+        // arrangement, which `perform.test.ts` holds the record to. The pool
+        // is where this file keeps its refusals, so it is kept here and not
+        // restated by whoever reads the pool.
+        if (!cur.thin && !swell) push("hold-back", new Set(cur.heard), true, "drums");
         if (cur.thin && !thin) push("let-out", new Set(cur.heard), false, "drums");
         // AND EXPRESSION ON ANY PART, which is the two-loop rule's fourth way
         // and the one this stage read as the drums' hat. A part held back is
@@ -908,7 +914,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
         // may never lose a player — can finally do something other than take
         // the hat off. See `Span.hush`.
         for (const r of cur.heard) {
-          if (cur.hush.has(r)) continue;
+          if (swell || cur.hush.has(r)) continue;
           push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, new Set([...cur.hush, r]));
         }
         for (const r of cur.hush) push("speak-up", new Set(cur.heard), cur.thin, r, 1, cur.treatment, cur.at, new Set([...cur.hush].filter((x) => x !== r)));

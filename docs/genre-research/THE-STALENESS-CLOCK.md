@@ -387,6 +387,14 @@ still, and never at a peak. That deleted `stillLast`, `fits` and the whole
 duplicated guard list, and took the peak numbers to **0% and 1%** with two or
 more held back, and 2% and 9% quieter than their neighbour.
 
+The same move exposed a second law the pool had not been keeping. The old
+second loop refused to hold a part back in a SWELL — the run-up to the
+climax, whose whole job is to arrive louder than it began — and when that
+loop went, so did the refusal, and `perform.test.ts` caught the run-up being
+cancelled by its own arrangement. `hush` and `hold-back` are now refused in a
+swelling section in `push()`, where this file keeps its refusals, so nobody
+reading the pool has to restate it.
+
 **And the staleness numbers below are worse than the ones first reported,
 because the first ones were bought by breaking the peak.** lofi's keys read
 24% while the arrangement was hushing parts at moments it had no business
@@ -415,11 +423,11 @@ sides.
 
 | of that part's runs, 3+ turns unchanged | before | after |
 |---|---|---|
-| dungeon synth bass | 46%, longest **16** | **12%**, longest 6 |
-| dungeon synth keys | 40%, longest 16 | **13%**, longest 6 |
+| dungeon synth bass | 46%, longest **16** | **14%**, longest 6 |
+| dungeon synth keys | 40%, longest 16 | **16%**, longest 6 |
 | dungeon synth drone | 20% | **13%** |
-| lofi bass | 46%, longest 8 | **30%**, longest 8 |
-| lofi keys | 45%, longest 8 | **33%**, longest 8 |
+| lofi bass | 46%, longest 8 | **33%**, longest 8 |
+| lofi keys | 45%, longest 8 | **35%**, longest 8 |
 | the desk moves once every | 22–23 bars | **14–15 bars** |
 | records that never move the desk, lofi / dungeon synth | 43 / 7 of 200 | **29 / 2** |
 
