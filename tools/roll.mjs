@@ -93,11 +93,41 @@ const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lea
 const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
 const SH = 7, GUT = 34, HEAD = 22, DRUM = 4*9 + 6, SPAN = 20;
+/* ── THE FX ROLL, ITS OWN BAND UNDER THE DRUMS ────────────────────────────
+   A treatment moves the mixer and not one note, so it is invisible on the
+   piano roll BY CONSTRUCTION — the same record with and without its whole
+   desk timeline draws the identical picture. That is written in three places
+   in this repository as a warning ("do not judge a treatment by the roll") and
+   for a long time the only thing the roll did about it was print the
+   treatment's name in small grey type above the strip. A name is not a
+   picture: it says a change happened, not what was changed, for how long, or
+   what else was moving at the time.
+
+   So the desk gets a roll of its own. One row per treatment the record
+   actually uses, drawn where it is in force; and under those, one row per
+   MOVING knob — the genre's `sound.motion` cycles, which are continuous and
+   are drawn as the curves they are. Steps and curves in the same picture, so
+   the difference between a treatment (a cliff) and motion (a slope) is the
+   thing you see first.
+   ────────────────────────────────────────────────────────────────────────── */
+const FX_ROW = 9;
+/* A moving knob needs HEIGHT to be a shape rather than a line: a treatment row
+   only has to say on or off, but a cycle's whole point is where it is between
+   its ends, and three pixels of travel cannot show that. */
+const MOVE_ROW = 16;
 let lo = Infinity, hi = -Infinity;
 for (const e of song.performance.events) if (e.pitch !== null) { if (e.pitch < lo) lo = e.pitch; if (e.pitch > hi) hi = e.pitch; }
 lo = 12*Math.floor(lo/12) ; hi = 12*Math.ceil(hi/12);
 const PITCH = (hi - lo) * SH;
-const W = GUT + nBars*PXB + 8, H = HEAD + SPAN + PITCH + DRUM + 12;
+/* which treatments this record actually reaches for, in the order it first
+   reaches for them — a legend built from the record rather than from the
+   catalogue, so a row is never drawn for a treatment nobody played */
+const deskAt = song.performance.desk ?? [];
+const fxNames = [];
+for (const d of deskAt) if (d.treatment && !fxNames.includes(d.treatment)) fxNames.push(d.treatment);
+const moves = song.chart.genre.sound.motion ?? [];
+const FX = fxNames.length * FX_ROW + moves.length * MOVE_ROW + (fxNames.length || moves.length ? 10 : 0);
+const W = GUT + nBars*PXB + 8, H = HEAD + SPAN + PITCH + DRUM + FX + 12;
 const cv = canvas(W, H, [8, 12, 16]);
 
 const spb = song.chart.metre.beats;                 // beats in a bar
@@ -206,6 +236,74 @@ for (const e of song.performance.events) {
     cv.rect(X(e.bar, e.step), Y(e.pitch)-3, w, 5, c, a);
   }
 }
+/* ── the FX roll ──────────────────────────────────────────────────────────
+   Each treatment gets a colour off its own name, so the same move is the same
+   colour in every record and two rolls can be read against each other. */
+const FX_TOP = TOP + PITCH + DRUM + 6;
+function hue(name) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360;
+  const c = 0.62, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = 0.32;
+  const t = h < 60 ? [c,x,0] : h < 120 ? [x,c,0] : h < 180 ? [0,c,x]
+          : h < 240 ? [0,x,c] : h < 300 ? [x,0,c] : [c,0,x];
+  return t.map((v) => Math.round((v + m) * 255));
+}
+const secPerBar = (60 / song.chart.tempo) * spb;
+const barOf = (tSec) => tSec / secPerBar;
+for (let i = 0; i < fxNames.length; i++) {
+  const name = fxNames[i], y = FX_TOP + i * FX_ROW, c = hue(name);
+  cv.hline(y + 7, GUT, W - 8, [26, 34, 42], 1);
+  text(cv, name.slice(0, 8), 2, y + 1, c, 0.95);
+  // every stretch this treatment is in force: from its change to the next one
+  for (let k = 0; k < deskAt.length; k++) {
+    if (deskAt[k].treatment !== name) continue;
+    const b0 = barOf(deskAt[k].tSec);
+    const b1 = k + 1 < deskAt.length ? barOf(deskAt[k + 1].tSec) : song.form.bars;
+    if (b1 <= bar0 || b0 >= bar1) continue;
+    const x0 = X(Math.max(bar0, b0)), x1 = X(Math.min(bar1, b1));
+    cv.rect(x0, y, Math.max(2, x1 - x0), 6, c, 0.85);
+    // the walk: `overSec` is how long it takes to ARRIVE, drawn as a ramp
+    // into the bar rather than a cliff, because that is what drift does
+    const over = (deskAt[k].overSec ?? 0) / secPerBar;
+    if (over > 0.05) {
+      const xr = X(Math.max(bar0, Math.min(bar1, b0 + over)));
+      for (let x = x0; x < xr; x++) {
+        const u = (x - x0) / Math.max(1, xr - x0);
+        cv.rect(x, y + 6 - Math.round(6 * u), 1, Math.max(1, Math.round(6 * u)), c, 0.35);
+      }
+    }
+    // and where it is AIMED, when it is aimed at one part
+    if (deskAt[k].at) text(cv, deskAt[k].at.slice(0, 3), x0 + 2, y + 1, COL[deskAt[k].at] ?? c, 0.9);
+  }
+}
+/* and the knobs that never stop moving, drawn as the curves they are */
+for (let i = 0; i < moves.length; i++) {
+  const mv = moves[i], y = FX_TOP + fxNames.length * FX_ROW + i * MOVE_ROW, c = hue(mv.path);
+  const mid = y + MOVE_ROW / 2;
+  cv.hline(y + MOVE_ROW - 1, GUT, W - 8, [26, 34, 42], 1);
+  // the centre it swings about, so a curve reads against something
+  cv.hline(Math.round(mid), GUT, W - 8, [30, 40, 50], 1);
+  // the last TWO parts of the path: "hz" alone could be any filter in the rack
+  text(cv, mv.path.split(".").slice(-2).join("."), 2, y + 2, c, 0.95);
+  const WAVE = {
+    sin: (u) => Math.sin(u * 2 * Math.PI), tri: (u) => 1 - 4 * Math.abs(u - 0.5),
+    ramp: (u) => 2 * u - 1, fall: (u) => 1 - 2 * u,
+  };
+  // the reset trigger: a cycle counted from the section it is in, not the top
+  const starts = song.form.sections.map((sec) => sec.startBar);
+  for (let x = GUT; x < W - 8; x++) {
+    const bar = bar0 + ((x - GUT) / PXB);
+    let from = 0;
+    if (mv.reset === "section") { for (const st of starts) if (st <= bar) from = st; }
+    else if (typeof mv.reset === "number") from = Math.floor(bar / mv.reset) * mv.reset;
+    const ph = (bar - from) / Math.max(1e-9, mv.bars);
+    const v = (mv.off ?? 0) + mv.depth * WAVE[mv.wave](ph - Math.floor(ph));
+    // −1..1 of the swing across the row, so the shape is the shape
+    const span = Math.abs(mv.depth) + Math.abs(mv.off ?? 0);
+    const h = (MOVE_ROW - 4) / 2;
+    cv.rect(x, Math.round(mid - h * (v / Math.max(1e-9, span))), 1, 2, c, 0.9);
+  }
+}
 writeFileSync(out, png(W, H, cv.buf));
 
 // ── and the structure in words ────────────────────────────────────────────
@@ -213,6 +311,12 @@ console.log(`${out}  ${W}x${H}  bars ${bar0}-${bar1}`);
 console.log(`${song.chart.genre.label} · seed ${seedArg} · ${song.chart.tempo} bpm · ${song.form.bars} bars`);
 console.log("colours: drums=orange bass=yellow keys=cyan lead=pink drone=green · amber verticals are section starts");
 console.log("the strip: a block per part in · half weight = held back · boxed = a treatment aimed at it · orange dash = half time · a name = the desk");
+if (fxNames.length || moves.length) {
+  console.log(`the FX roll, under the drums: ${fxNames.length} treatment${fxNames.length === 1 ? "" : "s"} this record reaches for` +
+    `${moves.length ? `, then ${moves.length} knob${moves.length === 1 ? "" : "s"} that never stop moving, drawn as the curve each one is` : ""}`);
+  if (fxNames.length) console.log(`  treatments: ${fxNames.join(", ")}`);
+  if (moves.length) console.log(`  moving: ${moves.map((m) => `${m.path} every ${m.bars} bars, ${m.wave}${m.reset ? ` from the ${m.reset}` : ""}`).join(" · ")}`);
+}
 for (const pl of song.arrangement.placed) {
   const s = pl.section;
   console.log(`  bar ${String(s.startBar).padStart(3)}-${String(s.endBar).padEnd(3)} ${s.fn.padEnd(13)} material ${String(pl.material).padEnd(4)} energy ${s.energy.toFixed(2)}${s.peak?" PEAK":""}${s.vary?" VARY":""}${s.recast?" RECAST":""}${pl.swell?" SWELL":""}${pl.manner?" "+pl.manner.toUpperCase():""}${pl.thin?" THIN":""}`);

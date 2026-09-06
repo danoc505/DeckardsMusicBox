@@ -73,6 +73,33 @@ every two-turn boundary, and one block per part that is in across that span —
 so who comes and goes shows as a change in the picture, not only in the notes.
 An amber underline on a span is the drums thinned: a breath, not a stop.
 
+**AND UNDER THE DRUMS, THE FX ROLL.** A treatment moves the mixer and not one
+note, so it is invisible on the piano roll BY CONSTRUCTION — the same record
+with and without its whole desk timeline draws the identical picture. This
+document used to say only "do not judge a treatment by the roll", and the roll
+answered by printing a treatment's name in small grey type. A name says a
+change happened; it does not say what changed, for how long, or what else was
+moving at the time.
+
+So the desk has a roll of its own, below the drums:
+
+- **one row per treatment this record actually reaches for**, in the order it
+  first reaches for it, drawn as a bar across the stretch it is in force. The
+  colour is the treatment's own, taken from its name, so the same move is the
+  same colour in every record and two rolls can be read against each other.
+  Where a treatment is aimed at ONE part, that part's name is written on the
+  bar in that part's colour.
+- **a faint ramp at the start of a bar** is `drift`: how long that treatment
+  takes to arrive rather than switching in one sample.
+- **then one row per MOVING KNOB** — the genre's `sound.motion` cycles — drawn
+  as the curve each one actually is, about its own centre line. These are the
+  only continuous things in the picture, and telling a cliff from a slope at a
+  glance is the whole reason they are drawn differently.
+
+A record whose FX roll is nearly empty is a record whose desk is idle, and
+that is worth seeing: lofi seed 17279 reaches for TWO treatments where dungeon
+synth on the same seed reaches for twelve.
+
 **The gutter names the octaves** (`C4`) and the drum lanes (`KCK` `SNR` `HAT`
 `OHH`). Drums are the bottom band, on their own lanes; everything else is at
 its pitch.
