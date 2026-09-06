@@ -932,11 +932,63 @@
     "  }",
     "};"
   ].join("\n");
+  /**
+   * A WORKER THAT WILL NOT BE BORN IS NOT A PAGE THAT CANNOT PLAY.
+   *
+   * The player is a worker so that rendering never interrupts the record, and
+   * it is built from a Blob because this program ships as one file. Some
+   * sandboxes refuse a blob worker outright — a published artifact is one of
+   * them — and there `new Worker` THROWS, before `onerror` exists to report
+   * it, so the page had no Play at all and said nothing about why.
+   *
+   * So the same protocol is served from the main thread when the worker is
+   * refused: the same engine, the same blocks, pumped one at a time through a
+   * timeout so the page keeps painting between them. What is lost is that
+   * rendering now shares a thread with the interface — a slower Play, not a
+   * missing one — and the hint line says so rather than leaving it a mystery.
+   */
+  function onThread(onMsg) {
+    var E = null, base = null, credits = 0, tok = 0, pumping = false;
+    var post = function (m) { setTimeout(function () { onMsg({ data: m }); }, 0); };
+    function pump() {
+      if (!E || credits <= 0) { pumping = false; return; }
+      if (E.at >= E.length) { post({ tok: tok, end: true }); E = null; pumping = false; return; }
+      var n = Math.min(E.blockSize, E.length - E.at);
+      var L = new Float32Array(n), R = new Float32Array(n);
+      E.block(L, R, n); credits--;
+      post({ tok: tok, left: L, right: R });
+      setTimeout(pump, 0);
+    }
+    function kick() { if (!pumping) { pumping = true; setTimeout(pump, 0); } }
+    return { postMessage: function (d) {
+      if (d.cmd === "start") {
+        tok = d.tok;
+        var s = M.compose(d.req);
+        base = s.chart.genre.sound;
+        E = new M.Engine(s, { sampleRate: d.sampleRate, desk: d.desk,
+                              blockSize: Math.round(d.chunkSec * d.sampleRate) });
+        credits = d.credits; kick();
+      } else if (d.cmd === "more") { if (d.tok === tok) { credits += d.n; kick(); } }
+      else if (d.cmd === "desk") { if (d.tok === tok && E) E.setDesk(base, d.desk); }
+      else if (d.cmd === "stop") { E = null; credits = 0; tok = d.tok; }
+      else if (d.cmd === "save") {
+        var s2 = M.compose(d.req);
+        var out = M.render(s2, { desk: d.desk, sampleRate: 44100 });
+        post({ tok: d.tok, save: true, left: out.left, right: out.right });
+      }
+    } };
+  }
+
   function spawn(onMsg) {
-    var w = new Worker(URL.createObjectURL(new Blob([bundle + "\n" + WORKER_SRC], { type: "text/javascript" })));
-    w.onmessage = onMsg;
-    w.onerror = function (e) { busy(false); $("hint").textContent = "Render failed: " + e.message; };
-    return w;
+    try {
+      var w = new Worker(URL.createObjectURL(new Blob([bundle + "\n" + WORKER_SRC], { type: "text/javascript" })));
+      w.onmessage = onMsg;
+      w.onerror = function (e) { busy(false); $("hint").textContent = "Render failed: " + e.message; };
+      return w;
+    } catch (err) {
+      $("hint").textContent = "No worker here — playing on the main thread, which is slower.";
+      return onThread(onMsg);
+    }
   }
 
   // ── play, chunk by chunk ──
