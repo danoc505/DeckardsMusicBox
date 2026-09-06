@@ -87,16 +87,36 @@ floor is about a section that carries on.
 **`arrangement.alterEvery` (3 bars) is the fast clock.** The two-loop rule sets
 the slow one — four bars in lofi, eight in dungeon synth — and between those
 boundaries every part of the record used to be held perfectly still. Now no
-stretch longer than three bars goes by unaltered. Measured, seeds 1–40:
+stretch longer than three bars goes by unaltered.
 
-| runs of 3+ identical turns | lofi keys | lofi bass | ds keys | ds bass | ds drone |
-|---|---|---|---|---|---|
-| before | 34% | 31% | 19% | 15% | 11% |
-| after | **9%** | **10%** | **5%** | **4%** | **3%** |
+Measured over seeds 1–40, `git worktree add` at `6037a42` against HEAD, the same tool and the
+same seeds on both sides:
 
-lofi's longest run halved, 8 turns → 4. Desk moves went from one every 13.3
-bars to one every 3.7 (lofi) and 12.9 → 3.4 (dungeon synth); records that never
-move the desk at all went 4/40 → 0/40 and 1/40 → 0/40.
+| runs of 3+ identical turns | lofi keys | lofi bass | lofi drone | ds keys | ds bass | ds drone |
+|---|---|---|---|---|---|---|
+| before | 34% | 31% | 1% | 19% | 15% | 11% |
+| after | **17%** | **20%** | 5% | **12%** | **12%** | **6%** |
+
+Desk moves went from one every 13.3 bars to one every **5.5** (lofi) and 12.9
+→ **4.9** (dungeon synth); records that never move the desk at all went 4/40 →
+0/40 and 1/40 → 0/40. Boundaries 235 → 537 and 351 → 938.
+
+**AND `lofi drone` GOT WORSE, 1% → 5%.** It is the one part in either genre
+that this made staler, and it is in the table rather than left out. `answered`
+also falls everywhere — lofi keys 45% → 39%, ds drone 61% → 52% — though the
+absolute count of unanswered parts drops, because far fewer parts reach "due"
+at all (lofi keys due 231 → 156). Whether a lower share of a much smaller
+number is a win is a real question and not a settled one.
+
+**THE FIRST VERSION OF THIS TABLE WAS WRONG AND IS WORTH KEEPING AS A LESSON.**
+It said 34% → 9%, 31% → 10%, 19% → 5%, 15% → 4%, 11% → 3%, and desk moves one
+every 3.7 and 3.4 bars. Those numbers were real, but they were measured on an
+intermediate state — before the peak-and-run-up exemption below, which removes
+alteration points and takes back about half the gain. They were then published
+in this file and in the commit message and never re-measured against the code
+that actually ships. **Measure the thing you are shipping, at the end, after
+the fixes.** A number measured mid-change is not a result, and this file said
+so before it did it.
 
 **AT A BAR POINT THE ROSTER IS FROZEN.** Only the slow clock may change who is
 playing — that is what the two-loop rule is about — so a bar point may spend
@@ -174,10 +194,11 @@ So the desk changes were mostly not clicking, and **drift is a musical move —
 a filter that opens gradually — not a click fix.** It earns its place on the
 −21 to −45 dB and on its sources, not on the argument that put it back.
 
-**NOBODY HAS HEARD ANY OF IT.** The desk now moves three to four times more
-often than it did, and on dungeon synth it is now never still — drift 1 means
-a treatment arrives exactly as the next boundary asks for the next one. Whether that is a record developing or a record being
-fiddled with is exactly the question `TALLY.md` §0 says a measurement cannot
+**NOBODY HAS HEARD ANY OF IT.** The desk now moves about two and a half times
+more often than it did (1 per 13 bars to 1 per 5), and on dungeon synth it is
+now never still — drift 1 means a treatment arrives exactly as the next
+boundary asks for the next one. Whether that is a record developing or a
+record being fiddled with is exactly the question `TALLY.md` §0 says a measurement cannot
 answer, and it is now more urgent than it was.
 
 **THE STAGE IS NOW HELD TO THE RULES IT STATES, AND THREE OF THEM WERE NOT
@@ -550,6 +571,14 @@ variation exists. That belongs in the material stage, not the arrangement.
 - **A knob that does nothing is this program's cardinal sin.** If a rule is
   built, measure it on and off. If it changes nothing, delete the field and
   keep the note saying it was tried — `THE-INTRO.md` §7 is the worked example.
+- **MEASURE LAST, AGAINST WHAT YOU ARE SHIPPING.** A number taken in the
+  middle of a change is not a result, however carefully it was taken. The bar
+  clock was measured before its peak exemption existed, published at twice its
+  real size in this file AND in its commit message, and only caught because
+  the owner asked for the seeds to be printed and proved. Every fix you apply
+  after measuring invalidates the measurement. Take the numbers again at the
+  end, from a `git worktree` of the commit before yours, with the same tool
+  and the same seeds on both sides — and put the losers in the table too.
 - **And measure whether the RECORD changed, not whether the settings did.**
   That distinction cost two treatments. The renderer builds only what something
   feeds, so a knob can move its number and be wired to nothing; comparing a
