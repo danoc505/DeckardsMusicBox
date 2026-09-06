@@ -228,6 +228,8 @@ export function drawKeys(
    * in the loop now sounds like the same place in the loop.
    */
   const shapeAt = new Map<number, { inv: number; drop: number }>();
+  /** Which note in `out` is still sounding at each pitch, so a held tone grows rather than repeats. */
+  const ringing = new Map<number, { at: number }>();
   const motif = Math.max(1, chart.genre.harmony.motif);
 
   for (const chord of chords) {
@@ -291,8 +293,35 @@ export function drawKeys(
         from: prevTop === null ? null : (best[best.length - 1] ?? 0) - prevTop,
       });
       for (const pitch of best) {
+        /**
+         * A TONE THE LAST CHORD ALSO HELD MAY BE LEFT RINGING.
+         *
+         * The cost above works to keep a voice still — `COST.move` is a
+         * penalty per semitone travelled, so common tones are the point of
+         * it — and then this loop struck every one of them again, because it
+         * wrote a note per pitch per strike and could not see that the pitch
+         * was already sounding. The chooser and the writer disagreed about
+         * the same idea.
+         *
+         * Held only at a chord's FIRST strike, and only from the note that is
+         * still ringing: a strike pattern that puts the chord down twice in a
+         * bar means the hand played it twice, and that is the pattern's word,
+         * not this rule's to overrule.
+         */
+        const ring = ringing.get(pitch);
+        const held = i === 0 && ring !== undefined && K.hold > 0
+          && rng.at("bar", chord.bar).at("hold", pitch).chance("ring", K.hold);
+        if (held) {
+          // the ringing note grows to cover this strike instead of a new one
+          out[ring.at] = { ...out[ring.at]!, dur: out[ring.at]!.dur + (until - step) };
+          ringing.set(pitch, { at: ring.at });
+          continue;
+        }
         out.push({ bar: chord.bar, step, dur: until - step, pitch, vel: KEYS_WEIGHT, art });
+        ringing.set(pitch, { at: out.length - 1 });
       }
+      // a pitch this chord does not contain has stopped ringing
+      for (const p of [...ringing.keys()]) if (!best.includes(p)) ringing.delete(p);
     }
     prevTop = best[best.length - 1] ?? null;
   }

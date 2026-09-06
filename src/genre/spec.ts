@@ -256,6 +256,27 @@ export interface KeysSpec {
   readonly strike?: Weighted<Beats>;
   /** 0..1, how much an open voicing is preferred over a close one. */
   readonly open?: number;
+  /**
+   * HOW READILY A VOICE THE NEXT CHORD ALSO HOLDS IS LEFT RINGING, 0..1.
+   *
+   * The voicing cost already prefers a chord that keeps the tones of the one
+   * before it — `COST.move` is a penalty per semitone each voice travels, so
+   * common tones are what it is FOR. Then the emitter re-struck every one of
+   * them anyway, because it wrote one note per pitch per strike and had no
+   * idea a pitch was already sounding. The two halves of the same idea
+   * disagreed: the chooser worked to keep a voice still and the writer hit it
+   * again regardless.
+   *
+   * This makes them agree. A tone the next chord also contains may be held
+   * through it rather than struck a second time, which is what a hand does —
+   * and what a pedal tone IS. Measured before it existed, only 32% of dungeon
+   * synth's chord changes carried any tone at all from the chord before, and
+   * NONE of them were held: every note in both genres was exactly one bar
+   * long and every bar began with everything re-struck.
+   *
+   * At 0 nothing is held and the record is the one this program already made.
+   */
+  readonly hold?: number;
   /** How often each manner is reached for. Only what the instrument can do. */
   readonly art?: ArtSpec;
 }
@@ -265,6 +286,7 @@ export interface KeysRules {
   readonly register: Register;
   readonly strike: Weighted<readonly number[]>;
   readonly open: number;
+  readonly hold: number;
   readonly art: ArtSpec;
 }
 
@@ -1442,6 +1464,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [[0, 1, 2, 3], 1],
     ],
     open: 0.5,
+    /** NOTHING IS HELD until a genre says so: the record this program made before. [chosen] */
+    hold: 0,
     /**
      * Tines, struck, and that is nearly all a Rhodes will do. What is left is
      * how long the key is held: legato is 100% of the written value with "no

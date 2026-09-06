@@ -470,6 +470,17 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
  * the number, which is how this project measures everything else — the
  * genre treatment weights are measured exactly that way.
  */
+/**
+ * A PART THAT LOOPS, and so can walk in part way through a section.
+ *
+ * The tune and the drums are written per time ROUND, and the tune's plan
+ * includes RESTS — so a lead that enters at the second span can land on rounds
+ * where its line is a rest and play nothing at all, while the section still
+ * says it is heard. That is a part built and never sounded. The groove is
+ * written once and repeated, so it always has notes to walk in with.
+ */
+const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
+
 const MAX_PICKS = 2;
 const DUE_AT = 2;
 
@@ -572,6 +583,43 @@ const kindOf = (mv: Move): string =>
       // a part the intro carries has arrived, whatever its place in the entry
       // order: a record that opens on its drums has introduced them
       arrived = Math.max(arrived, ...[...heard].map((r) => A.enter.indexOf(r) + 1));
+      /**
+       * AND A LONG INTRO LETS THE NEXT PART IN, LIKE EVERY OTHER SECTION.
+       *
+       * `introParts` is how many parts a record OPENS on. It was being read as
+       * how many the intro ENDS on, and the two are only the same thing when
+       * the intro is short. Dungeon synth states `introParts: 1` and an intro
+       * of 8 or 16 bars — both sourced, "the intro is usually 8-16 bars"
+       * (note.com/soundwitches) — and 16 bars at its slowest tempo is
+       * sixty-four seconds. Measured: **29 of 40 records opened on ONE part,
+       * median 30 s, worst 63.6 s.** Sixty seconds of one instrument is not an
+       * introduction, it is a record that has not started.
+       *
+       * Nothing in the source says the intro is one instrument throughout.
+       * That came from the walk-in rule excluding `intro` by name, which was
+       * written when the argument was "an entrance at a section boundary is
+       * masked by everything else arriving with it" — a good argument for
+       * keeping the OPENING pure, and no argument at all for holding a minute
+       * that way. The two-loop rule does not exempt intros.
+       *
+       * So the opener still has span 0 to itself, exactly as before, and the
+       * second part arrives at the first two-turn boundary — where it is the
+       * only thing changing, which is the whole point of the walk-in. An
+       * intro too short to have a second span is untouched: `entering` needs
+       * a later slow point and there is not one, so a four-bar intro opens
+       * and stays as it always did.
+       */
+      const introTurn = 2 * Math.max(1, periodOf(chart, section.idea));
+      const next = A.enter[heard.size];
+      // ONLY WHERE THERE IS A SECOND SPAN FOR IT TO ARRIVE AT. `heard` is the
+      // union of the section's spans and the material stage builds for it, so
+      // a part named here that never sounds is a part built and silent —
+      // which `all.test.ts` catches by name and is the one thing this stage
+      // promises never to do. A four-bar intro has one span and is left alone.
+      if (next !== undefined && section.bars > introTurn && loops(next)) {
+        heard = new Set([...heard, next]);
+        arrived = Math.max(arrived, A.enter.indexOf(next) + 1);
+      }
     } else {
       // WHAT HAS ARRIVED still only grows: a part the record has not yet
       // introduced cannot appear, and each section lets the next one in.
@@ -910,6 +958,25 @@ const kindOf = (mv: Move): string =>
      * which has everyone by definition. Not the break, which is a stripping
      * away. And only where there is a later span for it to arrive at.
      *
+     * AND IT NEVER STRIPS A SECTION TO ONE VOICE. This asked for `heard.size
+     * > 1`, which lets a two-part section open with ONE — and that is how a
+     * record came to spend its first minute alone. Measured: dungeon synth
+     * went a MEDIAN of 25 seconds before a second part was heard at all, p90
+     * 52 s, worst 58.8 s. An eight-bar intro on one part, then the verse
+     * holding its second part back for another eight, is sixteen bars of one
+     * instrument, and neither section thought it was doing anything wrong.
+     *
+     * A walk-in is a part arriving over something. With nothing under it, it
+     * is not an entrance — it is the record finally starting. So the section
+     * must keep at least two voices without it.
+     *
+     * EXCEPT AN INTRO, WHICH IS ALLOWED TO OPEN ON ONE, because that is what
+     * `introParts` says and a record opening on its drone alone is this
+     * genre's own way in. The intro keeps exactly what the genre asked to
+     * open on and gains the next part at its first two-turn boundary; every
+     * other section keeps two. Written as the genre's number rather than as a
+     * special case for the value 1, so a genre that opens on three says so.
+     *
      * THE ARRIVAL IS A RULE, NOT A CANDIDATE, and it has to be. Left to the
      * score, the part often never came: `part-back` competed with every other
      * move and lost, the union of the spans came out smaller than the section
@@ -925,7 +992,6 @@ const kindOf = (mv: Move): string =>
     // and never sounded, which `all.test.ts` catches by name and which is the
     // one thing this stage promises never to do. The groove is written once
     // and repeated, so it always has notes to walk in with.
-    const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
     const gained = A.enter[arrived - 1];
     // AND IT ARRIVES ON A TWO-TURN BOUNDARY, which is no longer the same as
     // "the second span". A part walking in is a change to who is playing, and
@@ -934,7 +1000,7 @@ const kindOf = (mv: Move): string =>
     const firstSlow = points.findIndex((b, i) => i > 0 && b % turn === 0);
     const entering: Role | null =
       gained !== undefined && loops(gained) && firstSlow > 0 && !section.peak && !broken
-        && section.fn !== "intro" && heard.has(gained) && heard.size > 1
+        && heard.has(gained) && heard.size - 1 >= (section.fn === "intro" ? Math.max(1, A.introParts) : 2)
         ? gained
         : null;
     const opensWithout = new Set(base);

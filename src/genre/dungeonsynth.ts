@@ -81,6 +81,22 @@ export const dungeonsynth: GenreSpec = {
   },
 
   keys: {
+    /**
+     * AND ITS TONES ARE HELD, WHICH IS WHAT A PEDAL IS.
+     *
+     * This genre is "not based on the typical pop song progression ... but
+     * rather on carefully sustaining a single mood", and its own how-to says
+     * "just sustaining minor chords or power chords (root + 5th) for a long
+     * time is enough to create a dungeon synth atmosphere"
+     * (note.com/soundwitches; dungeonsynth.neocities.org/howto). A chord
+     * re-struck on every bar line is the opposite of sustained.
+     *
+     * Measured before this: every keys note in this genre was exactly one bar
+     * long, and only 32% of chord changes carried any tone at all from the
+     * chord before — none of them held. High here because sustaining is what
+     * the sources describe; the moving voices still move.
+     */
+    hold: 0.85,
     register: [48, 74],
     strike: [[[0], 4], [[0, 2], 1]],
     open: 0.6,

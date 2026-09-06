@@ -115,6 +115,26 @@ export const lofi: GenreSpec = {
 
   // the Rhodes in its middle, voiced open: root low, colour tones above with air
   keys: {
+    /**
+     * AND THE TONES A CHORD KEEPS ARE LEFT RINGING.
+     *
+     * The owner's reference for this genre is a voicing spread over three
+     * octaves where the outer voices are HELD and the inner ones move — long
+     * bars low down and high up, movement in the middle. This program wrote
+     * the opposite: four notes inside an octave and a half, every one of them
+     * exactly one bar, every bar struck from scratch.
+     *
+     * Measured, 43% of this genre's chord changes already carry a tone from
+     * the chord before — the voicing cost is what puts them there — and every
+     * one was re-struck. Holding them is the difference between four notes
+     * and a hand.
+     *
+     * Lower than dungeon synth's, because this is a struck Rhodes over a beat
+     * and not a sustained pad: the source has it "holding those chords still
+     * in slow loops" (blog.flat.io), which is about the harmony's rate and
+     * not about never lifting a finger. The number is [chosen] inside that.
+     */
+    hold: 0.55,
     register: [48, 79],
     open: 0.9,
     /** a Rhodes is tines and a hammer: how long the key is held, and a dead one */
@@ -520,6 +540,10 @@ export const lofi: GenreSpec = {
       "\"the foundational pattern repeats, but small changes are introduced over time — a hi-hat removed every other bar, " +
       "a filter that opens slightly … the repetition creates the groove while the variation sustains interest\" " +
       "(izotope, on lo-fi); half the span [chosen inside that], so the arrival is heard before the next boundary asks for the next thing",
+    "keys.hold":
+      "the voicing cost already prefers a chord that keeps the tones of the one before it, and the emitter " +
+      "re-struck them anyway; jazz voice leading holds common tones, and this genre \"holds those chords still " +
+      "in slow loops\" (blog.flat.io/lofi-chord-progressions). 0.55 [chosen]",
     "form.lengths":
       "intro 4 bars, verse 16, chorus 8, bridge 4–8 (emastered.com/blog/rap-song-structure; " +
       "rapauthority.com/rap-song-structure); a beat-tape track is an intro, a 16-bar verse, a chorus, a break " +

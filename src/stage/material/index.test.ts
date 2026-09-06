@@ -195,13 +195,34 @@ test("a genre with its own bass pocket does not follow the kick", () => {
 
 test("keys voice every tone of the chord, in register, led smoothly", () => {
   const [lo, hi] = lofi.keys.register;
+  /** Grid steps in a bar: 4/4 at a sixteenth grid, which is what these genres are. */
+  const STEPS = 16;
   let moves = 0;
   let total = 0;
   for (const m of sweep(60)) {
     for (const mat of m.all.values()) {
       let prevTop: number | null = null;
       for (const ch of mat.chords) {
-        const struck = mat.groove.keys.filter((n) => n.bar === ch.bar && n.step === 0);
+        /**
+         * SOUNDING AT THIS BAR, not struck in it.
+         *
+         * This counted the notes written at bar/step 0, which measured
+         * "voiced" exactly while every keys note was one bar long and every
+         * bar was struck from scratch. `keys.hold` broke that assumption on
+         * purpose: a tone the chord before it also held is left RINGING
+         * rather than hit again, which is what a pedal tone is and what a
+         * hand does.
+         *
+         * The law is unchanged and is the one this test is named for — every
+         * tone of the chord is voiced, none missing. What changed is that a
+         * voice can be sounding from a note that began earlier. Checked
+         * directly over both genres and 540 chords: not one tone is ever
+         * neither struck nor still ringing.
+         */
+        const at = ch.bar * STEPS;
+        const struck = mat.groove.keys.filter(
+          (n) => n.bar * STEPS + n.step <= at && n.bar * STEPS + n.step + n.dur > at,
+        );
         assert.equal(struck.length, ch.tones.length, `${mat.key} bar ${ch.bar} voices ${struck.length} of ${ch.tones.length}`);
         assert.deepEqual(
           new Set(struck.map((n) => pc(n.pitch))),
