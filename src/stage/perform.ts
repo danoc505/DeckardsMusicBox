@@ -93,6 +93,28 @@ export interface Performance {
 
 /** How much of a note's weight the arc may take away at its quietest. */
 const ARC_DEPTH = 0.28;
+
+/**
+ * HOW FAR A PART HELD BACK ACTUALLY DROPS — and it is not the arc's number.
+ *
+ * `hush` is the two-loop rule's fourth way, "reduce expression of an existing
+ * instrument", and it took its depth from `ARC_DEPTH` because that number was
+ * already in the file: `arrange.ts` says so in as many words — "the step is a
+ * number this file already carries". A number reused because it was to hand
+ * is not a number anybody chose, and this one was doing a different job. The
+ * arc is a slow swell across a whole record; a part stepping back is an event
+ * at a boundary, and they have no reason to be the same size.
+ *
+ * At 0.28 a hush was −2.85 dB on one part of five, under an arc already
+ * moving gain bar by bar. The owner listened and reported not hearing the
+ * alterations at all, and a boundary in seven was spending itself on this.
+ *
+ * A HALVING, which is the step a mix is built in: −6 dB is one fader step
+ * back and the conventional unit for pushing a part behind another. Deep
+ * enough to be an event, and still only a gain — no figure is played
+ * differently, so everything that made this legal per span still holds.
+ */
+const HUSH_DEPTH = 0.5;
 const TAIL_SEC = 2.5;
 
 /**
@@ -365,7 +387,7 @@ export function makePerformance(
           // it compares step, pitch, articulation and the played instant. A
           // weight is none of those and the arc already moves it bar by bar.
           gain: Math.min(1.25, Math.max(0.02, vel * a.weigh * (accents[step] ?? 1) * missed * level * shaped
-            * (span.hush === role ? 1 - ARC_DEPTH : 1))),
+            * (span.hush === role ? 1 - HUSH_DEPTH : 1))),
           art,
         });
       };

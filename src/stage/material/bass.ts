@@ -24,7 +24,7 @@ const BASS_WEIGHT = 0.84;
 
 export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, kick: readonly number[]): Note[] {
   const B = chart.genre.bass;
-  const [lo, hi] = B.register;
+  const [lo, hi] = chart.register.bass;
   const band = (p: number): number => intoBand(p, lo, hi);
   const pocket = B.pocket === "kick" ? kick : rng.weighted("pocket", B.pocket);
 

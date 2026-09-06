@@ -4,6 +4,19 @@ export const lofi: GenreSpec = {
   label: "lofi hip hop",
 
   tempo: [72, 88],
+
+  /**
+   * AND IT MOVES, but less far than dungeon synth and both ways.
+   *
+   * Same defect, same fix — every record of this genre sat on the same
+   * pitches, seven distinct tonics inside four semitones of range. This genre
+   * is not built on weight the way dungeon synth is, so its lane wanders
+   * rather than descends: a beat tape is a sequence of tracks and two in a
+   * row on identical pitches is what made them blur. Narrow, because the
+   * Rhodes has a range it sounds like itself in and the sources put this
+   * genre in its middle. Weights [chosen].
+   */
+  shift: [[0, 5], [-2, 3], [2, 2], [-5, 2], [-3, 1]],
   metre: { beats: 4, perBeat: 4 },
 
   // minor-leaning and modal rather than functional: the genre's harmony is
@@ -135,7 +148,45 @@ export const lofi: GenreSpec = {
      * not about never lifting a finger. The number is [chosen] inside that.
      */
     hold: 0.55,
-    register: [48, 79],
+    /**
+     * EIGHT NOTES, WHICH IS A HAND AND NOT A CHORD SYMBOL.
+     *
+     * The owner's reference for this genre is a voicing of eight to twelve
+     * notes spread over about three octaves — a root low, the chord above it,
+     * the top voice held. This program wrote FOUR, inside an octave and a
+     * half, because the builder stacked the chord's tones and stopped. Four
+     * notes is a correct Fm9 and it is not what anybody plays.
+     *
+     * Eight is the bottom of what the reference shows, and deliberately the
+     * bottom: the register is 48–79, and a hand asking for more than the
+     * register can hold without mud is a hand that gets refused voicing by
+     * voicing rather than once, at load. The extra voices are DOUBLINGS —
+     * the same tones an octave out — so the harmony is exactly the harmony
+     * `harmony.progressions` wrote. [chosen, from the owner's reference]
+     */
+    voices: 8,
+    /**
+     * AND THE REGISTER HAD TO OPEN FOR IT. 48–79 is two and a half octaves,
+     * and a four-note chord spanning a tenth cannot be doubled twice inside
+     * it — 8 voices was asked for and 6 was all that fitted, measured. The
+     * register was the binding constraint and the doubling was not.
+     *
+     * OPENED DOWNWARD, and the first attempt opened it upward and was wrong.
+     * 48–88 gave the hand its three octaves and put the top of the chord at
+     * E6, ABOVE the lead's own ceiling of 84 — so the tune ended up inside
+     * the accompaniment. Measured: the lead was the highest thing sounding in
+     * **2% of bars**. A chord that swallows the hook is worse than a thin one,
+     * and nothing was watching for it because it is not what the change was
+     * aiming at.
+     *
+     * So the ceiling stays under the tune and the room comes from below. 43
+     * is G2: beneath the bass's top of 50, which is where a Rhodes left hand
+     * sits, and the low-interval floor at 48 already refuses anything close
+     * down there — a doubled root at 43 is legal only with an open space
+     * above it, which is exactly how the reference is voiced. 43–79 is three
+     * octaves.
+     */
+    register: [43, 79],
     open: 0.9,
     /** a Rhodes is tines and a hammer: how long the key is held, and a dead one */
     art: [["plain", 5], ["tenuto", 5], ["staccato", 2], ["ghost", 1]],
@@ -540,6 +591,10 @@ export const lofi: GenreSpec = {
       "\"the foundational pattern repeats, but small changes are introduced over time — a hi-hat removed every other bar, " +
       "a filter that opens slightly … the repetition creates the groove while the variation sustains interest\" " +
       "(izotope, on lo-fi); half the span [chosen inside that], so the arrival is heard before the next boundary asks for the next thing",
+    "keys.voices":
+      "[chosen, from the owner's reference] — a lofi voicing of eight to twelve notes over about three " +
+      "octaves, against the four inside an octave and a half this program wrote. The added voices are " +
+      "doublings of the chord's own tones, never new ones",
     "keys.hold":
       "the voicing cost already prefers a chord that keeps the tones of the one before it, and the emitter " +
       "re-struck them anyway; jazz voice leading holds common tones, and this genre \"holds those chords still " +

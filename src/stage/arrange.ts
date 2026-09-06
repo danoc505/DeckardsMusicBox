@@ -143,8 +143,11 @@ export interface Span {
    * but never played more quietly.
    *
    * §4 of THE-ALTERATIONS.md calls it a dynamic terrace, "the part a step
-   * quieter, or louder, for this hearing", and the step is a number this file
-   * already carries: `ARC_DEPTH`, what the arc takes off at its quietest.
+   * quieter, or louder, for this hearing". HOW FAR A STEP IS lives in
+   * `perform.ts` as `HUSH_DEPTH` and is its own number now: this comment used
+   * to say "the step is a number this file already carries: `ARC_DEPTH`", and
+   * a number reused because it was to hand is not a number anybody chose. At
+   * the arc's depth a hush was −2.85 dB and the owner could not hear it.
    *
    * IT IS A GAIN AND NOTHING ELSE, which is what makes it legal per SPAN. The
    * hand is addressed by the material and the position in it so that a figure
@@ -1182,8 +1185,25 @@ const kindOf = (mv: Move): string =>
           // nothing else, so no figure is played differently and the peak — which
           // may never lose a player — can finally do something other than take
           // the hat off. See `Span.hush`.
+          /**
+           * AND NOTHING IS HELD BACK IN THE RUN-UP TO THE CLIMAX.
+           *
+           * The section before the peak is the dramatic arc's rising action
+           * and its whole job is to end louder than it began. A hush is the
+           * one move whose entire nature is "this part gets quieter", and at
+           * its own depth it is deep enough to reverse the section on its own
+           * — dungeon synth seed 6 ended a run-up at 0.278 against the 0.327
+           * it started at, which `perform.test.ts` catches by name.
+           *
+           * It was survivable while a hush was −2.85 dB, borrowed from the
+           * arc; at a real −6 it is not, and the right answer is not a
+           * shallower hush but not hushing HERE. Same axis the run-up already
+           * uses to spend one change instead of two: the section, not the
+           * energy. `speak-up` stays offered — giving a part back is what a
+           * run-up is for.
+           */
           for (const r of cur.heard) {
-            if (r === cur.hush) continue;
+            if (r === cur.hush || swell) continue;
             push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, r);
           }
           if (cur.hush !== null) push("speak-up", new Set(cur.heard), cur.thin, cur.hush, 1, cur.treatment, cur.at, null);

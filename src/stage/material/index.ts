@@ -416,10 +416,10 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
 /** The invariants every material holds, or the material does not exist. */
 function check(chart: Chart, m: Material, steps: number): void {
   const registers: Record<Pitched, readonly [number, number]> = {
-    bass: chart.genre.bass.register,
-    keys: chart.genre.keys.register,
-    lead: chart.genre.lead.register,
-    drone: chart.genre.drone.register,
+    bass: chart.register.bass,
+    keys: chart.register.keys,
+    lead: chart.register.lead,
+    drone: chart.register.drone,
   };
   const grooveSeats = new Map<string, Pitched>();
 

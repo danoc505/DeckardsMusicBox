@@ -277,6 +277,17 @@ export interface KeysSpec {
    * At 0 nothing is held and the record is the one this program already made.
    */
   readonly hold?: number;
+  /**
+   * HOW MANY NOTES THIS GENRE WANTS SOUNDING IN A CHORD. 0 is the chord's own
+   * tones and nothing more, which is what this program wrote before.
+   *
+   * A voicing had exactly as many notes as the chord had tones — four for a
+   * seventh — because the builder stacked the tones and stopped. That is a
+   * correct chord and it is not a hand. Above the tone count the builder
+   * DOUBLES: the same tone in another octave, never a tone the harmony did
+   * not ask for. See `doubled` in `material/keys.ts`.
+   */
+  readonly voices?: number;
   /** How often each manner is reached for. Only what the instrument can do. */
   readonly art?: ArtSpec;
 }
@@ -287,6 +298,7 @@ export interface KeysRules {
   readonly strike: Weighted<readonly number[]>;
   readonly open: number;
   readonly hold: number;
+  readonly voices: number;
   readonly art: ArtSpec;
 }
 
@@ -1183,6 +1195,15 @@ export interface GenreSpec {
   readonly metre?: Metre;
 
   /** The scales a song may stand in, by weight. */
+  /**
+   * THE OFFSETS THIS GENRE'S RECORDS MAY SIT AT, in semitones, drawn per
+   * record. `[[0, 1]]` is one lane and is what this program had.
+   *
+   * The key was drawn per record and the octave never was, so every record
+   * of a genre landed on the same pitches — see `Chart.shift`. This is the
+   * genre saying how far its records may move from its own octave.
+   */
+  readonly shift?: Weighted<number>;
   readonly scales?: Weighted<ScaleName>;
 
   /** How long a record runs when nobody asks for a length, in seconds. */
@@ -1211,6 +1232,7 @@ export interface Genre {
   readonly label: string;
   readonly tempo: readonly [number, number];
   readonly metre: Metre;
+  readonly shift: Weighted<number>;
   readonly scales: Weighted<ScaleName>;
   readonly lengthSec: readonly [number, number];
   readonly form: FormRules;
@@ -1236,6 +1258,8 @@ export interface Genre {
 export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   tempo: [90, 120],
   metre: { beats: 4, perBeat: 4 },
+  /** ONE LANE, which is the record this program made before a genre could say otherwise. [chosen] */
+  shift: [[0, 1]],
   scales: [
     ["minor", 3],
     ["major", 2],
@@ -1466,6 +1490,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     open: 0.5,
     /** NOTHING IS HELD until a genre says so: the record this program made before. [chosen] */
     hold: 0,
+    /** AND THE CHORD IS ITS OWN TONES until a genre asks for a bigger hand. [chosen] */
+    voices: 0,
     /**
      * Tines, struck, and that is nearly all a Rhodes will do. What is left is
      * how long the key is held: legato is 100% of the written value with "no

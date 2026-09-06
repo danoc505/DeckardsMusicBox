@@ -396,6 +396,17 @@ export function resolveGenre(
         }
       }
     }
+    /**
+     * AND THE LANES A RECORD MAY SIT IN. Whole semitones, and bounded: a
+     * genre that shifts two octaves down takes its bass under hearing and one
+     * that shifts up takes its lead off the end of the keyboard, and neither
+     * is a record. ±24 is two octaves either way, which is more than any
+     * genre here should want and still inside what a MIDI pitch can hold once
+     * `chart.ts` clamps the moved registers.
+     */
+    checkPool(problems, "shift", merged["shift"],
+      (v) => finite(v) && Number.isInteger(v) && (v as number) >= -24 && (v as number) <= 24,
+      "a whole number of semitones between -24 and 24");
     const ic = form["introChance"];
     if (!finite(ic) || ic < 0 || ic > 1) {
       problems.push(`form.introChance must be 0..1, got ${String(ic)}`);
@@ -844,6 +855,7 @@ export function resolveGenre(
     label,
     tempo: Object.freeze([...(merged["tempo"] as number[])]) as readonly [number, number],
     metre: Object.freeze({ ...(metre as { beats: number; perBeat: number }) }),
+    shift: Object.freeze((merged["shift"] as [number, number][]).map((r) => Object.freeze([...r]))),
     scales: Object.freeze((scales as [string, number][]).map((r) => Object.freeze([...r]))),
     lengthSec: Object.freeze([...(merged["lengthSec"] as number[])]) as readonly [number, number],
     form: deepFreeze(form) as unknown as Genre["form"],

@@ -4,6 +4,36 @@ export const dungeonsynth: GenreSpec = {
   label: "dungeon synth",
 
   tempo: [60, 80],
+
+  /**
+   * AND THIS GENRE SITS LOW, AND NOT ALWAYS IN THE SAME PLACE.
+   *
+   * Every record this program made sat on the same pitches: the key was drawn
+   * and the octave was a module constant. Measured over twelve seeds, eight
+   * distinct tonics and a lowest note that moved six semitones — different
+   * keys, one lane.
+   *
+   * The owner asked why some records are not tuned lower, by analogy with
+   * drop D. THE ANALOGY DOES NOT SURVIVE THE SOURCES and is worth writing
+   * down: drop D is a guitar tuning, this genre is keyboard music "derived
+   * from black metal and dark ambient" (wikipedia/Dungeon_synth), and none of
+   * its guides names a tuning at all. There is nothing here to drop.
+   *
+   * What the sources DO support is the register itself as an expressive
+   * choice — the same melody "in a high register can feel bright or tense"
+   * and "in a low register can feel heavy or subdued" (organology.net,
+   * octaves-and-registers) — and this genre living low: it is built on
+   * "grounded drones in the bass" and open fifths "stacked across octaves"
+   * (dungeon-synth.neocities.org/music-making-guide). A genre whose whole
+   * character is weight has no business always sitting where the pop default
+   * put it.
+   *
+   * So: mostly at or below its own octave, never above it. −2 is the interval
+   * drop D actually moves, kept for that reason and weighted like the rest;
+   * −12 is the whole octave down, rare because a record entirely down there
+   * loses the lead. Weights [chosen].
+   */
+  shift: [[0, 2], [-2, 3], [-3, 3], [-5, 3], [-7, 2], [-12, 1]],
   metre: { beats: 4, perBeat: 4 },
 
   // the church modes: in the altered minors the sixth and seventh degrees
@@ -458,6 +488,12 @@ export const dungeonsynth: GenreSpec = {
       "is only about the drums is worth least here. `rekit` and `recircuit` are not stated at all — " +
       "THE-ALTERATIONS.md warns that a genre \"should probably never swap a drum circuit mid-record\" and names " +
       "this genre while doing it. Numbers [chosen] AND `revoice` IS [chosen], DELIBERATELY LOW: this genre's own guide is \"pad sounds layer in\" and \"adding or removing layers\" (dungeon-synth.neocities.org/music-making-guide), which is layering and not re-orchestration. No source names a voice swap, and at -3.7 to -17.0 dB it is the loudest thing this desk can do, against a genre that sustains a single mood.",
+    "shift":
+      "the register as an expressive choice — the same melody \"in a high register can feel bright or tense\" " +
+      "and \"in a low register can feel heavy or subdued\" (organology.net/music-theory/octaves-and-registers) — " +
+      "and this genre is built on \"grounded drones in the bass\" " +
+      "(dungeon-synth.neocities.org/music-making-guide). No source names a TUNING for it: it is keyboard music " +
+      "and drop D is a guitar tuning. Offsets and weights [chosen]",
     "form.introSec":
       "\"the intro is usually 8-16 bars\" for this genre (note.com/soundwitches, as read in " +
       "DUNGEON-SYNTH-ARRANGEMENT.md §8); 16 bars at this genre's slowest tempo of 60 bpm is 64 s, so 64 is the " +

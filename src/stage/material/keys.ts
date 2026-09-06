@@ -38,6 +38,21 @@ const COST = {
   move: 1,
   /** per semitone the TOP voice moves — the line an ear follows */
   top: 2,
+  /**
+   * Per voice short of the genre's `voices`.
+   *
+   * Without it the thinnest voicing always wins: a doubled note moves no
+   * further than the note it doubles, so `move` and `top` rate a four-note
+   * voicing and its eight-note doubling the same, and every other term
+   * either ignores the extra voices or charges for them. The genre asking
+   * for a bigger hand has to be worth something or it is a knob that does
+   * nothing.
+   *
+   * 6 puts one missing voice above one semitone of top-voice movement and
+   * below a muddy interval or a rub, which is the order these should be in:
+   * fill the hand, but never by writing mud.
+   */
+  thin: 6,
   /** for wanting open and getting close, or the reverse */
   openness: 10,
   /** per muddy interval under the floor */
@@ -113,6 +128,32 @@ interface Voicing {
   readonly drop: number;
 }
 
+/**
+ * DOUBLING: THE SAME TONE IN MORE THAN ONE OCTAVE.
+ *
+ * A voicing here had exactly as many notes as the chord had tones — four for a
+ * seventh, five for a ninth — because `candidates` stacked the tones and
+ * nothing else. That is a correct chord and it is not a piano part. A hand
+ * playing this genre puts the root low and the chord above it, and the root
+ * sounds twice; the owner's reference for lofi is eight to twelve notes across
+ * three octaves where this program wrote four inside an octave and a half.
+ *
+ * So a voicing may also carry a copy of its lowest tone an octave down, its
+ * highest an octave up, or both. That is the whole of it: no new tones, no
+ * chord the harmony did not ask for — the same chord, in a bigger hand. The
+ * register still bounds it and the mud cost still refuses a doubled root that
+ * lands under the low-interval floor, so nothing here can write a voicing the
+ * existing rules would have refused.
+ */
+function doubled(v: readonly number[], lo: number, hi: number): number[][] {
+  const out: number[][] = [];
+  const low = v[0]! - 12, high = v[v.length - 1]! + 12;
+  if (low >= lo) out.push([low, ...v]);
+  if (high <= hi) out.push([...v, high]);
+  if (low >= lo && high <= hi) out.push([low, ...v, high]);
+  return out;
+}
+
 function candidates(tones: readonly number[], lo: number, hi: number): Voicing[] {
   const base = tones.map((t) => intoBand(t, lo, lo + 11)).sort((a, b) => a - b);
   const out: Voicing[] = [];
@@ -143,6 +184,24 @@ function candidates(tones: readonly number[], lo: number, hi: number): Voicing[]
       if (close.length >= 4) drop(24, 2, 4);
     }
   }
+  // and each of them again with the hand opened out — see `doubled`. Built
+  // from what is already here rather than beside it, so every doubling is a
+  // doubling of a voicing this function had already decided was legal, and it
+  // carries that voicing's own inversion and drop so the motif still holds a
+  // shape across a section.
+  //
+  // TWICE, because once is not a hand either. One pass takes a four-note
+  // seventh to six — a root below and a top above — and the reference this
+  // was built for is eight. A second pass doubles what the first pass made,
+  // so the root can sound in three octaves and the top in two, which is what
+  // a spread voicing across three octaves actually is. Twice and no more:
+  // a third pass reaches past any register these genres declare, so it would
+  // build candidates that `push` refuses and cost time saying so.
+  for (let pass = 0; pass < 2; pass++) {
+    for (const base of out.slice()) {
+      for (const wide of doubled(base.v, lo, hi)) push(wide, base.inv, base.drop);
+    }
+  }
   return out;
 }
 
@@ -157,9 +216,12 @@ function cost(
   want: { readonly inv: number; readonly drop: number } | undefined,
   /** Whether the chord under this bar differs from the one before it. */
   moved: boolean,
+  /** How many notes this genre wants sounding. 0 leaves the chord's own tones. */
+  voices: number,
 ): number {
   const cand = voicing.v;
   let c = 0;
+  if (voices > 0 && cand.length < voices) c += COST.thin * (voices - cand.length);
   // the same position in the motif voices the same way, on whatever chord it
   // has landed on this time round: same inversion, same spread, new harmony
   if (want !== undefined && (want.inv !== voicing.inv || want.drop !== voicing.drop)) c += COST.shape;
@@ -210,7 +272,7 @@ export function drawKeys(
   sounding: Sounding,
 ): Note[] {
   const K = chart.genre.keys;
-  const [lo, hi] = K.register;
+  const [lo, hi] = chart.register.keys;
   const strike = rng.weighted("strike", K.strike);
   // whether this material voices open or close is a property of the part,
   // decided once, not a coin per bar
@@ -269,7 +331,7 @@ export function drawKeys(
     let bestV = cands[0]!;
     let bestCost = Infinity;
     for (const cand of cands) {
-      const c = cost(cand, prev, wantOpen, centre, rubbing, want, moved);
+      const c = cost(cand, prev, wantOpen, centre, rubbing, want, moved, K.voices);
       if (c < bestCost) {
         bestCost = c;
         bestV = cand;

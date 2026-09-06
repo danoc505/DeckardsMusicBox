@@ -16,6 +16,19 @@ const build = (seed: number, seconds?: number): Materials => {
   return makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
 };
 const sweep = (n: number): Materials[] => Array.from({ length: n }, (_, i) => build(i + 1, 240));
+/**
+ * The same sweep, keeping the CHART.
+ *
+ * A part's register is no longer the genre's: a record draws a `shift` and
+ * every band moves with it, so `lofi.keys.register` is where the genre would
+ * put a chord and `chart.register.keys` is where THIS record actually put one.
+ * Any test asserting "in register" has to ask the record.
+ */
+const charted = (n: number): { chart: ReturnType<typeof makeChart>; mats: Materials }[] =>
+  Array.from({ length: n }, (_, i) => {
+    const chart = makeChart({ seed: i + 1, genre: lofi, seconds: 240 });
+    return { chart, mats: makeMaterials(chart, makeArrangement(chart, makeForm(chart))) };
+  });
 
 test("the same seed builds the same materials", () => {
   const a = build(7);
@@ -194,12 +207,12 @@ test("a genre with its own bass pocket does not follow the kick", () => {
 });
 
 test("keys voice every tone of the chord, in register, led smoothly", () => {
-  const [lo, hi] = lofi.keys.register;
   /** Grid steps in a bar: 4/4 at a sixteenth grid, which is what these genres are. */
   const STEPS = 16;
   let moves = 0;
   let total = 0;
-  for (const m of sweep(60)) {
+  for (const { chart, mats: m } of charted(60)) {
+    const [lo, hi] = chart.register.keys;
     for (const mat of m.all.values()) {
       let prevTop: number | null = null;
       for (const ch of mat.chords) {
@@ -223,7 +236,11 @@ test("keys voice every tone of the chord, in register, led smoothly", () => {
         const struck = mat.groove.keys.filter(
           (n) => n.bar * STEPS + n.step <= at && n.bar * STEPS + n.step + n.dur > at,
         );
-        assert.equal(struck.length, ch.tones.length, `${mat.key} bar ${ch.bar} voices ${struck.length} of ${ch.tones.length}`);
+        // AT LEAST every tone, because a voicing may DOUBLE — the same tone in
+        // another octave, which is what `keys.voices` asks for and what a hand
+        // does. Never a tone the chord did not name: the set assertion below
+        // is the law this test is called after, and it is unchanged.
+        assert.ok(struck.length >= ch.tones.length, `${mat.key} bar ${ch.bar} voices ${struck.length} of ${ch.tones.length}`);
         assert.deepEqual(
           new Set(struck.map((n) => pc(n.pitch))),
           new Set(ch.tones.map(pc)),
@@ -348,7 +365,7 @@ test("the drone holds the key, not the chord", () => {
           // a tonic or a fifth of the KEY, in register, whatever the chord is
           const degree = pc(n.pitch - chart.tonic);
           assert.ok(degree === 0 || degree === 7, `${name} ${m.key}: the drone sits on ${noteName(n.pitch)}, ${degree} above the tonic`);
-          const [lo, hi] = g.drone.register;
+          const [lo, hi] = chart.register.drone;
           assert.ok(n.pitch >= lo && n.pitch <= hi);
           assert.equal(n.step, 0, "a drone starts anywhere but the downbeat");
           assert.ok(n.dur >= stepsPerBar(g.metre), "a drone that does not hold a bar is not a drone");

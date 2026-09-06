@@ -47,7 +47,7 @@ export function drawDrone(
   sounding: Sounding,
 ): Note[] {
   const D = chart.genre.drone;
-  const [lo, hi] = D.register;
+  const [lo, hi] = chart.register.drone;
   const drawn = rng.weighted("tone", D.tone);
   const hold = Math.min(bars, rng.weighted("hold", D.hold));
 

@@ -40,8 +40,22 @@ test("the tonic is placed where degrees can be counted from it", () => {
   for (let seed = 1; seed <= 30; seed++) {
     const c = makeChart({ seed, genre: lofi });
     assert.ok(c.tonicPc >= 0 && c.tonicPc <= 11);
-    assert.equal(c.tonic, TONIC_OCTAVE + c.tonicPc);
+    // THE LAW IS THAT THE TONIC IS AN ABSOLUTE PITCH WHOSE CLASS IS THE KEY,
+    // which is what "degrees can be counted from it" means. It used to also
+    // be `TONIC_OCTAVE + tonicPc` exactly, and that was the implementation
+    // rather than the law: a record now draws a `shift`, so it sits at its
+    // genre's octave PLUS that, and a shift that is not a whole octave moves
+    // the key too. `pc(tonic) === tonicPc` is the part that has to hold, and
+    // it is what every later stage relies on.
     assert.equal(pc(c.tonic), c.tonicPc);
+    // and it sits at the genre's own octave, moved by this record's shift and
+    // by nothing else — which is what makes the shift the ONLY thing that
+    // decides where a record sits
+    assert.ok(
+      c.tonic >= TONIC_OCTAVE - 24 && c.tonic < TONIC_OCTAVE + 36,
+      `the tonic landed at ${c.tonic}, nowhere near the genre's octave`,
+    );
+    assert.ok(lofi.shift.some(([v]) => v === c.shift), `shift ${c.shift} is not in the genre's pool`);
   }
 });
 

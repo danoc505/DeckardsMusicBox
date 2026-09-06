@@ -166,7 +166,7 @@ const LEAD_WEIGHT = 0.76;
 
 /** The scale tones inside the lead's register, ascending: the rungs a tonal move steps along. */
 export const ladder = (chart: Chart): number[] =>
-  scaleTones(chart, chart.genre.lead.register[0], chart.genre.lead.register[1]);
+  scaleTones(chart, chart.register.lead[0], chart.register.lead[1]);
 
 /** The scale tones inside a register, ascending. */
 function scaleTones(chart: Chart, lo: number, hi: number): number[] {
@@ -208,7 +208,7 @@ export function lawsFor(
   contour: Contour,
 ): (line: readonly Note[]) => boolean {
   const L = chart.genre.lead;
-  const [lo, hi] = L.register;
+  const [lo, hi] = chart.register.lead;
   const beatSteps = chart.metre.perBeat;
   return (line: readonly Note[]): boolean => {
     if (line.length === 0) return false;
@@ -279,7 +279,7 @@ export function drawLead(
   contour: Contour = "sung",
 ): Note[] {
   const L = chart.genre.lead;
-  const [lo, hi] = L.register;
+  const [lo, hi] = chart.register.lead;
   const beatSteps = chart.metre.perBeat;
   const pool = scaleTones(chart, lo, hi);
   const centre = (lo + hi) / 2;

@@ -12,7 +12,7 @@
 import { barsForSec, type Metre } from "../core/clock.ts";
 import { rng, type Rng } from "../core/rng.ts";
 import { NOTE_NAMES, SCALES, pc, type Scale, type ScaleName } from "../core/theory.ts";
-import type { Genre } from "../genre/spec.ts";
+import type { Genre, Register, Role } from "../genre/spec.ts";
 
 /**
  * The octave the tonic is placed in.
@@ -33,6 +33,33 @@ export interface Chart {
   readonly tonicPc: number;
   /** The tonic as an absolute pitch, which is what `theory` counts from. */
   readonly tonic: number;
+  /**
+   * HOW FAR THIS RECORD SITS FROM THE GENRE'S OWN OCTAVE, in semitones.
+   *
+   * The key was drawn per record and the OCTAVE never was. `TONIC_OCTAVE` is
+   * one module constant for every genre and every seed, and every part's
+   * register is an absolute band that folds the tones back into it — so a
+   * record in G# and a record in D sat on exactly the same pitches. Measured
+   * over twelve seeds a genre: seven and eight distinct tonics, and a lowest
+   * note that moved four semitones in lofi and six in dungeon synth. Every
+   * record in the same lane.
+   *
+   * Nothing chose that. In music the octave is usually fixed by an instrument
+   * or a voice — "if working with real instruments or vocalists, their range
+   * often dictates what key a song will be in" — and a program with neither
+   * inherits a constraint it does not have. What it loses by inheriting it is
+   * an expressive axis the sources are explicit about: the same melody "in a
+   * high register can feel bright or tense" and "in a low register can feel
+   * heavy or subdued" (organology.net, octaves-and-registers).
+   *
+   * So a genre states the offsets it may sit at and the record draws one. It
+   * moves the tonic AND every part's register together, which is the only way
+   * it can move anything: shifting the tonic alone leaves `intoBand` folding
+   * the tones straight back into the same absolute band.
+   */
+  readonly shift: number;
+  /** The genre's registers, moved to where this record sits. Parts read these, never the genre's. */
+  readonly register: Readonly<Record<Role, Register>>;
   readonly scaleName: ScaleName;
   readonly scale: Scale;
 
@@ -86,12 +113,31 @@ export function makeChart(req: ChartRequest): Chart {
   const wantSec = askedSec ?? genreSec;
 
   const metre = genre.metre;
+  const shift = draw.weighted("shift", genre.shift);
+  /** A band moved with the record, and never past what a MIDI pitch can be. */
+  const moved = (r: Register): Register =>
+    [Math.max(0, r[0] + shift), Math.min(127, r[1] + shift)] as const;
 
   return Object.freeze({
     seed,
     genre,
-    tonicPc,
-    tonic: TONIC_OCTAVE + tonicPc,
+    // THE SHIFT MOVES THE KEY AS WELL AS THE REGISTER, and the pitch class has
+    // to follow it or the chart reports a key the record is not in. A record
+    // shifted down two semitones from A IS in G, and `pc(tonic)` is the only
+    // honest answer to "what key is this". `theory` counts every degree from
+    // `tonic`, so nothing downstream needs to know a shift happened.
+    tonicPc: pc(TONIC_OCTAVE + tonicPc + shift),
+    tonic: TONIC_OCTAVE + tonicPc + shift,
+    shift,
+    register: Object.freeze({
+      // the kit has no pitch, so nothing reads this; it is here because the
+      // type is one entry per part and a missing one would be a silent hole
+      drums: moved(genre.bass.register),
+      bass: moved(genre.bass.register),
+      keys: moved(genre.keys.register),
+      lead: moved(genre.lead.register),
+      drone: moved(genre.drone.register),
+    }),
     scaleName,
     scale,
     tempo,
