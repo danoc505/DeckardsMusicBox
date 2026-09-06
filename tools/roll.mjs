@@ -123,15 +123,25 @@ const ROLE_I = { drums: 0, bass: 1, keys: 2, lead: 3, drone: 4 };
 //   an orange dash under it    the kit is in half time
 //   a box round a block        a per-part treatment is aimed at that part
 //   a name under the strip     the treatment the span's desk is on
+// AND A SPAN IS DRAWN WHERE IT SAYS IT STARTS. The strip used to step by
+// `turn` bars and index the spans by that step, because every span was two
+// turns. The arrangement now also alters on a bar clock, so the spans are
+// unevenly spaced and carry their own `startBar` — stepping would draw the
+// wrong span over the wrong bars, which is a picture that lies.
+// A two-turn boundary keeps the full tick; a bar point gets a fainter one, so
+// the two clocks are told apart at a glance.
 for (const pl of song.arrangement.placed) {
   const mm = song.materials.all.get(pl.material);
   const turn = 2 * Math.max(1, mm ? mm.period : 1);
-  for (let k = 0; k * turn < pl.section.bars; k++) {
-    const b0 = pl.section.startBar + k * turn;
-    if (b0 >= bar1 || b0 + turn <= bar0) continue;
-    const sp = pl.spans ? pl.spans[Math.min(pl.spans.length - 1, k)] : null;
-    const x0 = X(Math.max(bar0, b0)), x1 = X(Math.min(bar1, b0 + turn));
-    cv.vline(x0, HEAD, TOP + PITCH + DRUM, [90, 105, 120], 0.45);
+  const list = pl.spans ?? [];
+  for (let k = 0; k < list.length; k++) {
+    const sp = list[k];
+    const b0 = pl.section.startBar + sp.startBar;
+    const bEnd = pl.section.startBar + (k + 1 < list.length ? list[k + 1].startBar : pl.section.bars);
+    if (b0 >= bar1 || bEnd <= bar0) continue;
+    const x0 = X(Math.max(bar0, b0)), x1 = X(Math.min(bar1, bEnd));
+    const slow = sp.startBar % turn === 0;
+    cv.vline(x0, HEAD, TOP + PITCH + DRUM, [90, 105, 120], slow ? 0.45 : 0.18);
     if (!sp) continue;
     for (const r of ["drums", "bass", "keys", "lead", "drone"]) {
       if (!sp.heard.has(r)) continue;
@@ -143,7 +153,7 @@ for (const pl of song.arrangement.placed) {
     if (sp.halved) cv.rect(x0 + 2, HEAD + 11, 4, 2, COL.drums, 0.95);
     // the treatment, named — only where it changes, so a desk held across
     // several spans is one word and not the same word four times
-    const prev = k > 0 && pl.spans ? pl.spans[Math.min(pl.spans.length - 1, k - 1)] : null;
+    const prev = k > 0 ? list[k - 1] : null;
     if (sp.treatment && (!prev || prev.treatment !== sp.treatment || prev.at !== sp.at)) {
       const room = Math.max(0, Math.floor((x1 - x0 - 2) / 4));
       text(cv, sp.treatment.slice(0, room), x0 + 2, HEAD + 14, [160, 175, 190], 0.9);
@@ -207,15 +217,17 @@ for (const pl of song.arrangement.placed) {
   const s = pl.section;
   console.log(`  bar ${String(s.startBar).padStart(3)}-${String(s.endBar).padEnd(3)} ${s.fn.padEnd(13)} material ${String(pl.material).padEnd(4)} energy ${s.energy.toFixed(2)}${s.peak?" PEAK":""}${s.vary?" VARY":""}${s.recast?" RECAST":""}${pl.swell?" SWELL":""}${pl.manner?" "+pl.manner.toUpperCase():""}${pl.thin?" THIN":""}`);
   // and what each span of it does, so the picture and the words agree
-  const mm = song.materials.all.get(pl.material);
-  const turn = 2 * Math.max(1, mm ? mm.period : 1);
-  const spans = (pl.spans ?? []).map((sp, k) => {
+  // ADDRESSED BY THE SPAN'S OWN BAR. This read `startBar + k * turn`, which
+  // was right while every span was two turns and now runs off the end of the
+  // section: the arrangement alters on a bar clock too, so there are more
+  // spans than turns and each carries where it starts.
+  const spans = (pl.spans ?? []).map((sp) => {
     const f = [];
     if (sp.thin) f.push("thin");
     if (sp.halved) f.push("half");
     if (sp.hush) f.push(`hush:${sp.hush}`);
     if (sp.treatment) f.push(`desk:${sp.treatment}${sp.at ? "@" + sp.at : ""}`);
-    return `${s.startBar + k * turn}:${[...sp.heard].map((r) => r[0]).join("")}${f.length ? "+" + f.join("+") : ""}`;
+    return `${s.startBar + sp.startBar}:${[...sp.heard].map((r) => r[0]).join("")}${f.length ? "+" + f.join("+") : ""}`;
   });
   if (spans.length > 1 || spans.some((x) => x.includes("+"))) console.log(`      spans  ${spans.join("  ")}`);
 }

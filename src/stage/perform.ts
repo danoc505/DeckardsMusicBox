@@ -23,7 +23,7 @@
 import { artOf, type ArtName } from "../core/articulation.ts";
 import { metricalStrength, type Clock } from "../core/clock.ts";
 import type { Role, Treatment } from "../genre/spec.ts";
-import type { Arrangement } from "./arrange.ts";
+import type { Arrangement, Span } from "./arrange.ts";
 import type { Chart } from "./chart.ts";
 import type { Form } from "./form.ts";
 import type { Materials } from "./material/index.ts";
@@ -250,9 +250,16 @@ export function makePerformance(
       // already decided what moves at each boundary. Here is the only place
       // that knows how long a turn actually is, so here is where a span
       // becomes a range of bars. The last span runs to the end.
-      const span = placed.spans[
-        Math.min(placed.spans.length - 1, Math.floor((bar - section.startBar) / (2 * loop)))
-      ] ?? { heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
+      // FOUND BY ITS BAR, NOT BY DIVIDING. Spans used to be evenly spaced —
+      // every one exactly two turns — so the one covering a bar was an
+      // arithmetic. They are not any more: the arrangement also alters on a
+      // bar clock between two-turn boundaries, so a section's spans start
+      // where `Span.startBar` says and this takes the last one that has begun.
+      const inSection = bar - section.startBar;
+      let found: Span | undefined;
+      for (const sp of placed.spans) { if (sp.startBar <= inSection) found = sp; else break; }
+      const span = found
+        ?? { startBar: 0, heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
       // the treatment changes on and nowhere else, so a treatment held across
       // several spans rebuilds nothing.

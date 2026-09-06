@@ -40,11 +40,17 @@ test("every heard note of every section is played, and nothing else", () => {
       // law is unchanged — nothing sounds that the arrangement did not ask
       // for, and everything it asked for sounds — only the unit it is asked
       // in got shorter than a section.
-      const loop = Math.max(1, m.period);
+      // AND A SPAN IS FOUND BY ITS BAR. This mirrored `perform.ts`'s old
+      // arithmetic — every span exactly two turns, so the one covering a bar
+      // was a division. The arrangement also alters on a bar clock now, so
+      // spans are unevenly spaced and carry `startBar`. Written out here
+      // rather than imported, for the reason below: a law that imports the
+      // code it checks is checking nothing.
       for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
         const mbar = (bar - p.section.startBar) % m.bars;
         const round = Math.floor((bar - p.section.startBar) / m.bars);
-        const span = p.spans[Math.min(p.spans.length - 1, Math.floor((bar - p.section.startBar) / (2 * loop)))]!;
+        let span = p.spans[0]!;
+        for (const sp of p.spans) { if (sp.startBar <= bar - p.section.startBar) span = sp; else break; }
         for (const role of span.heard) {
           const nth = (played.get(`${p.material} ${role}`) ?? 0) + round;
           if (role === "drums") {
@@ -365,10 +371,10 @@ test("half time is the kit taking twice as long, and only the kit", () => {
       const s = compose({ seed, genre: g });
       const steps = s.form.clock.steps;
       for (const p of s.arrangement.placed) {
-        const m = s.materials.all.get(p.material)!;
-        const turn = 2 * Math.max(1, m.period);
         for (let bar = p.section.startBar; bar < p.section.endBar; bar++) {
-          const span = p.spans[Math.min(p.spans.length - 1, Math.floor((bar - p.section.startBar) / turn))]!;
+          // by the span's own bar: see "every heard note of every section is played"
+          let span = p.spans[0]!;
+          for (const sp of p.spans) { if (sp.startBar <= bar - p.section.startBar) span = sp; else break; }
           if (!span.halved) continue;
           // it is never offered where the drums are not sounding: a kit nobody
           // hears cannot be heard to halve
@@ -494,9 +500,15 @@ test("a part held back is quieter, and is still there", () => {
         // where nothing else is moving.
         if (p.swell) continue;
         const m = s.materials.all.get(p.material)!;
-        const turn = 2 * Math.max(1, m.period);
-        const spanAt = (bar: number) =>
-          p.spans[Math.min(p.spans.length - 1, Math.floor((bar - p.section.startBar) / turn))]!;
+        // by the span's own bar, not by dividing: see the note in "every heard
+        // note of every section is played". Dividing here did not merely
+        // mis-count, it labelled the wrong notes hushed and made this test
+        // assert that some other span's open notes were quieter than itself.
+        const spanAt = (bar: number) => {
+          let found = p.spans[0]!;
+          for (const sp of p.spans) { if (sp.startBar <= bar - p.section.startBar) found = sp; else break; }
+          return found;
+        };
         // THE GROOVE ONLY, for the reason the repetition law gives: the drums
         // and the tune are written per time ROUND — `nth(m.drums, …, round)`
         // — so the same bar and step in two rounds is a different hit with a

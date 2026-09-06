@@ -89,9 +89,17 @@ interface Run {
   readonly period: number;
 }
 
-/** Which span a bar of a section falls in — the same arithmetic `perform.ts` uses. */
-function spanAt(spans: readonly Span[], barInSection: number, period: number): Span {
-  return spans[Math.min(spans.length - 1, Math.floor(barInSection / (2 * period)))]!;
+/**
+ * Which span a bar of a section falls in — the same lookup `perform.ts` uses.
+ *
+ * It used to be an arithmetic, because every span was two turns of the loop.
+ * The arrangement now also alters on a bar clock, so spans start where
+ * `Span.startBar` says and the last one that has begun is the one in force.
+ */
+function spanAt(spans: readonly Span[], barInSection: number): Span {
+  let found = spans[0]!;
+  for (const sp of spans) { if (sp.startBar <= barInSection) found = sp; else break; }
+  return found;
 }
 
 const q = (xs: readonly number[], f: number): number => {
@@ -145,7 +153,7 @@ for (const g of genres) {
         const sigs: (string | null)[] = [];
         for (let t = 0; t < turns; t++) {
           const b0 = t * unit;
-          const sp = spanAt(p.spans, b0, period);
+          const sp = spanAt(p.spans, b0);
           if (!sp.heard.has(role)) { sigs.push(null); continue; }
           const from = p.section.startBar + b0, to = from + unit;
           const notes = performance.events

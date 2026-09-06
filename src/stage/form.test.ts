@@ -171,10 +171,15 @@ test("statement counts every hearing of an idea, however it is labelled", () => 
 test("section lengths are drawn, not fixed", () => {
   // the defect this is against, measured on the old program: every section of
   // every record was 16 bars, 41 of 41 across four songs
-  // the genre's pools offer 4, 8 and 16, and every one of them is drawn
+  // the genre's pools offer 4, 8, 12 and 16, and every one of them is drawn.
+  // The 12 is lofi's bridge at a four-bar loop: `form.leastTurns` needs three
+  // statements and neither 4 nor 8 gives them, so the genre states a length
+  // that does. A pool entry that is never drawn is this program's cardinal
+  // sin, which is what this list is here to catch — so it is the genre's pool
+  // written out, and it changes when the pool does.
   const lens = new Set<number>();
   for (const f of sweep(120)) for (const s of f.sections) lens.add(s.bars);
-  assert.deepEqual([...lens].sort((a, b) => a - b), [4, 8, 16]);
+  assert.deepEqual([...lens].sort((a, b) => a - b), [4, 8, 12, 16]);
 
   const shares = new Map<number, number>();
   let total = 0;

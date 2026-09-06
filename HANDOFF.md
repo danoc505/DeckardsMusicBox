@@ -66,6 +66,81 @@ measured. Write the next one that way.
 
 ## What was just done, and why
 
+**THE RULE OF THREE NOW HAS BOTH OF ITS HALVES, AND THERE ARE TWO CLOCKS.**
+This program kept the rule as a CEILING — state a thing twice and the third
+must differ — which is the habituation half of the law and only one limb of
+the curve. The research says liking has to be BUILT first: repetition produces
+processing fluency, fluency reads as pleasure, and the two together make the
+inverted U (Huron/Margulis, "A Psychological Approach to Musical Form: The
+Habituation–Fluency Theory of Repetition", *Current Musicology* 2013; Huron and
+Ollen 2004 put literal repetition at 94% of passages across five continents and
+five centuries).
+
+**`form.leastTurns` (3) is the floor.** A section's length pool is narrowed,
+before the draw, to the lengths that give its phrase at least three turns of
+its own loop — the same shape as `introSec`, and a genre that cannot satisfy it
+is refused at load. Measured over 40 seeds: body sections below three turns
+went **78 → 0** (lofi) and **28 → 0** (dungeon synth). The intro is exempt
+because it is under the opposite pressure and says so; the outro because a
+floor is about a section that carries on.
+
+**`arrangement.alterEvery` (3 bars) is the fast clock.** The two-loop rule sets
+the slow one — four bars in lofi, eight in dungeon synth — and between those
+boundaries every part of the record used to be held perfectly still. Now no
+stretch longer than three bars goes by unaltered. Measured, seeds 1–40:
+
+| runs of 3+ identical turns | lofi keys | lofi bass | ds keys | ds bass | ds drone |
+|---|---|---|---|---|---|
+| before | 34% | 31% | 19% | 15% | 11% |
+| after | **9%** | **10%** | **5%** | **4%** | **3%** |
+
+lofi's longest run halved, 8 turns → 4. Desk moves went from one every 13.3
+bars to one every 3.7 (lofi) and 12.9 → 3.4 (dungeon synth); records that never
+move the desk at all went 4/40 → 0/40 and 1/40 → 0/40.
+
+**AT A BAR POINT THE ROSTER IS FROZEN.** Only the slow clock may change who is
+playing — that is what the two-loop rule is about — so a bar point may spend
+only the half of the rule's four ways that leaves the roster alone: expression
+and the desk. It has to be that half: `perform.test.ts` holds a figure played
+again to being played the same way, and gain and the desk are the two things
+outside that comparison. This is one guard in `push()`, where legality lives.
+
+**It is ONE walk, not a second pass.** The fast clock is more POINTS for the
+existing loop — same pool, same score, same ledger, same freshness counters. A
+loop beside the loop that already chose is what cost this program its climax
+once.
+
+**And the bill, exactly as `README.md` warns.** Removing the limit broke seven
+tests. Two were real defects, fixed in `push()` where legality lives: a part
+could be marked held back while not sounding (the same defect `1febbc5` fixed
+for the kit, reached by a different road), and the peak accumulated
+subtractions across its extra points — 24% of lofi's peak spans held back two
+things or more, which is the exact regression this file already records from
+the previous attempt at more moves per boundary. **The fast clock therefore
+does not run at the peak or in the run-up**, for the reason already written
+beside `picksHere`. Four were stale copies of the old span arithmetic —
+`Span.startBar` exists now and spans are no longer evenly spaced, so
+`perform.ts`, `stale.ts`, the roll and three tests that mirror the lookup by
+hand all had to follow.
+
+**ONE IS STILL FAILING AND IS NOT FIXED:** `arrange.test.ts` "the break goes
+below the floor mid-record" — 14% of records have a break against a threshold
+of 15%. The cause is the phrase floor, not the bar clock: lofi's bridge pool
+was 4 and 8 bars, and at a four-bar loop neither states its phrase three times,
+so the bridge stopped being affordable and the break sits where a bridge would.
+A 12-bar bridge was added (`[chosen]`, lowest weight) and took it 11% → 14%.
+**Weight is not the lever** — at weight 3 it is still 14% — because a 12-bar
+bridge plus its 4-bar keep-back needs 16 bars of room and a 44-bar lofi record
+rarely has it. This is a real trade: a three-turn floor costs a short-record
+genre its bridge. The threshold encodes research, so it has NOT been lowered.
+It needs an owner's decision, and the options are a longer lofi record, a
+`leastTurns` lofi states for itself, or the break not needing a bridge.
+
+**NOBODY HAS HEARD ANY OF IT.** The desk now moves three to four times more
+often than it did. Whether that is a record developing or a record being
+fiddled with is exactly the question `TALLY.md` §0 says a measurement cannot
+answer, and it is now more urgent than it was.
+
 **THE STAGE IS NOW HELD TO THE RULES IT STATES, AND THREE OF THEM WERE NOT
 BEING KEPT.** This is the one to read first, because it is why the two before
 it kept breaking. `arrange.ts` states its rules in prose and in the comment

@@ -562,8 +562,20 @@ test("a part can walk in part way through a section, and always does walk in", (
         // per round and the tune's plan includes rests — one entering late can
         // land entirely on them and play nothing
         assert.ok(who === "bass" || who === "keys" || who === "drone", `the ${who} walked in, and it is written per round`);
-        // it is in from the second span and never merely promised
-        assert.ok(p.spans[1]?.heard.has(who), `the ${who} was held back and did not walk in: ${describeArrangement(a)}`);
+        // IT IS IN AT THE FIRST BOUNDARY THAT COULD LET IT IN, and never
+        // merely promised. This read `p.spans[1]`, which was the first
+        // boundary while every span was two turns of the loop. It is not any
+        // more: the arrangement also alters on a bar clock, and at a bar point
+        // the roster is frozen — so the entrance waits for the first two-turn
+        // boundary and there may be bar points before it. Stated as what the
+        // law actually says instead of by index: the FIRST change to who is
+        // playing in this section is this part arriving. Any span whose roster
+        // differs from span 0's is by construction a two-turn boundary, so
+        // this needs no period to check.
+        const firstMove = p.spans.findIndex((sp, i) =>
+          i > 0 && (sp.heard.size !== first.size || [...sp.heard].some((r) => !first.has(r))));
+        assert.ok(firstMove > 0 && p.spans[firstMove]!.heard.has(who),
+          `the ${who} was held back and did not walk in: ${describeArrangement(a)}`);
         assert.ok(!p.section.peak, "the peak opened short, and a peak has everyone");
         assert.equal(p.broken, false, "the break opened short, and it is a stripping away already");
       }

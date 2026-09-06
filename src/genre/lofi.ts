@@ -35,7 +35,24 @@ export const lofi: GenreSpec = {
       verse: [[16, 5], [8, 2]],
       chorus: [[8, 5], [16, 1]],
       instrumental: [[8, 3], [16, 2]],
-      bridge: [[8, 3], [4, 2]],
+      /**
+       * AND ONE LENGTH THAT CAN STATE ITS PHRASE WHERE THE LOOP IS LONG.
+       *
+       * The cited range is 4–8 bars and it governs the common case: this
+       * genre's ideas draw a two-bar loop in about four sections of five, and
+       * eight bars is four turns there. Where an idea draws a FOUR-bar loop,
+       * neither 4 nor 8 gives `form.leastTurns` three statements, so the
+       * bridge became unaffordable and `form.ts` picked another section
+       * instead — measured, records with a break fell from over half to 11%,
+       * and the break sits where a bridge would. A section kind that quietly
+       * stops existing in a fifth of records is not a form rule, it is a
+       * table that does not add up.
+       *
+       * 12 is `[chosen]` and deliberately the lowest weight here: it is the
+       * length the floor needs at a four-bar loop and nothing more. The
+       * sources' 4–8 still decides every record where the loop is two.
+       */
+      bridge: [[8, 3], [4, 2], [12, 1]],
       outro: [[8, 3], [4, 2]],
     },
   },
@@ -453,7 +470,9 @@ export const lofi: GenreSpec = {
     "form.lengths":
       "intro 4 bars, verse 16, chorus 8, bridge 4–8 (emastered.com/blog/rap-song-structure; " +
       "rapauthority.com/rap-song-structure); a beat-tape track is an intro, a 16-bar verse, a chorus, a break " +
-      "and a chorus (beatproduction.net/beat-tape); weights [chosen]",
+      "and a chorus (beatproduction.net/beat-tape); weights [chosen]. The 12-bar bridge is [chosen] — the " +
+      "shortest that states its phrase form.leastTurns times where an idea draws a four-bar loop, which the " +
+      "cited 4-8 range does not reach",
     "lead.register":
       "\"keep it in its mid-range, avoid the top octave\" (masteringthemix.com how-to-make-lo-fi-hip-hop); " +
       "E4–C6 [chosen]",

@@ -295,6 +295,64 @@ export function resolveGenre(
         }
       }
     }
+    /**
+     * AND THE PHRASE FLOOR HAS TO BE SATISFIABLE, for exactly the reason the
+     * intro ceiling above has to be. `form.ts` narrows each section's length
+     * pool to what gives the phrase `leastTurns` turns of its loop, and a
+     * genre whose pool has nothing that long cannot make a record at all —
+     * which is a bug in the table, and the table is where it is refused.
+     *
+     * Checked at the LONGEST loop the genre can draw, which is `harmony.bars`:
+     * `drawChords` writes that many chords and `harmonicPeriod` takes the
+     * smallest period that tiles them, so no idea can ever have a longer loop.
+     * A pool that clears the floor there clears it in every record.
+     *
+     * The intro and the outro are exempt in `form.ts` and exempt here, on the
+     * grounds stated there: the intro is under the opposite pressure and the
+     * outro is not a section that carries on.
+     */
+    const lt = form["leastTurns"];
+    if (!finite(lt) || lt < 1 || lt > 8 || !Number.isInteger(lt)) {
+      problems.push(`form.leastTurns must be a whole number 1..8, got ${String(lt)}`);
+    }
+    const harmonyObj = isPlainObject(merged["harmony"]) ? merged["harmony"] : {};
+    const hBars = harmonyObj["bars"];
+    if (finite(lt) && finite(hBars)) {
+      const need = (lt as number) * (hBars as number);
+      /**
+       * WHAT IS REFUSED IS A GENRE THAT CANNOT BUILD A RECORD, and not one
+       * whose bridge is sometimes out of reach. The two are different and the
+       * intro check above is the other kind: a length over `introSec` at the
+       * genre's FASTEST tempo is dead in every record it can make, which is a
+       * declared option that can never be chosen.
+       *
+       * A body length under the floor is not dead. The floor is
+       * `leastTurns * periodOf(idea)` and the period is drawn per record, so
+       * an 8-bar bridge is legal wherever that idea's loop comes out at two
+       * bars and only unavailable where it comes out at four. `form.ts`
+       * already has the right answer for a section kind it cannot afford
+       * here: `affordable` drops it and the walk picks another. That is the
+       * existing mechanism for exactly this, and it is not a silent fallback
+       * on length — nothing gets shortened, a different section is chosen.
+       *
+       * So what has to hold is that SOMETHING can always carry the record:
+       * at the longest loop the genre can draw, at least one section kind
+       * that may follow another clears the floor. A genre failing this can
+       * make no record at all at that period, which is a bug in the table.
+       */
+      const carriers = SECTION_FNS.filter((fn) => fn !== "intro" && fn !== "outro");
+      const canCarry = carriers.some((fn) => {
+        const pool = asPool<number>(lengths[fn]);
+        return pool !== null && pool.some(([len, w]) => w > 0 && len >= need);
+      });
+      if (!canCarry) {
+        problems.push(
+          `no section kind offers a length of ${need} bars, which is form.leastTurns ${String(lt)} turns of ` +
+            `this genre's longest loop (harmony.bars ${String(hBars)}) — so a record whose ideas draw that loop ` +
+            `has no section that can state its phrase. Offer a longer length, or lower form.leastTurns`,
+        );
+      }
+    }
     const ic = form["introChance"];
     if (!finite(ic) || ic < 0 || ic > 1) {
       problems.push(`form.introChance must be 0..1, got ${String(ic)}`);

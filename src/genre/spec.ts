@@ -100,6 +100,35 @@ export interface FormSpec {
    * under this, so the ceiling narrows the draw rather than truncating it.
    */
   readonly introSec?: number;
+  /**
+   * THE FEWEST TURNS OF ITS LOOP A SECTION GIVES ITS PHRASE — the rule of
+   * three read as a FLOOR rather than as a ceiling.
+   *
+   * This program has always kept the falling half of the law: state a thing
+   * twice and the third had better differ, "because our brain will actually
+   * begin to tune it out". That is habituation, and it is only one limb of
+   * the curve. The other is that liking has to be BUILT first — repetition
+   * produces processing fluency, fluency reads as pleasure, and the two
+   * together make the inverted U (the Wundt curve) that the habituation-
+   * fluency theory of repetition describes: liking rises with exposure,
+   * peaks, and only then declines (Huron/Margulis, "A Psychological Approach
+   * to Musical Form: The Habituation-Fluency Theory of Repetition", Current
+   * Musicology 2013; reviewed with Margulis, "On Repeat", at
+   * mtosmt.org/issues/mto.14.20.4). A phrase moved on from after one hearing
+   * never gets on the curve at all.
+   *
+   * Measured before this existed, over 40 seeds a genre: lofi gave a section's
+   * phrase exactly ONE turn in 8 sections and exactly two in 70 — 35% of every
+   * section it wrote was below three — and dungeon synth two turns in 28, 12%.
+   * The record states an idea and moves off it before an ear has it.
+   *
+   * Counted in TURNS OF THE LOOP and not in bars, like every other rule here,
+   * so a genre whose loop is four bars needs twelve and one whose loop is two
+   * needs six. The pool is narrowed before the draw — a constraint on the
+   * choice, which is what `introSec` above is and what every rule in this
+   * program is — and a genre whose pool cannot satisfy it is refused at load.
+   */
+  readonly leastTurns?: number;
 }
 
 /** What the form stage reads. Every function answered, every length a pool. */
@@ -110,6 +139,7 @@ export interface FormRules {
   readonly next: Readonly<Record<SectionFn, Weighted<SectionFn>>>;
   readonly introChance: number;
   readonly introSec: number;
+  readonly leastTurns: number;
 }
 
 /** A register: the lowest and highest MIDI pitch a part may play. */
@@ -614,6 +644,41 @@ export interface ArrangementSpec {
   /** Below this energy a section's drums lose their hat. */
   readonly thinBelow?: number;
   /**
+   * HOW OFTEN SOMETHING MUST BE ALTERED, IN BARS — the fast clock.
+   *
+   * The two-loop rule sets the slow one: every two turns of the loop, who is
+   * playing may change. That is four bars in a genre whose loop is two and
+   * eight in one whose loop is four, and between those boundaries this
+   * program used to hold every part of the record perfectly still. Measured
+   * over 40 seeds before this existed, the longest a sounding part went
+   * without anything about it changing was 24 bars — six turns, about ninety
+   * seconds — and 34% of lofi's keys runs and 19% of dungeon synth's keys
+   * runs were three turns or more unchanged.
+   *
+   * A loop that holds still is what habituation acts on. The fluency half of
+   * the curve is bought by the phrase repeating (`form.leastTurns`); the
+   * habituation half has to be paid by something moving over it, and there
+   * was nothing between "every four bars" and "every note is identical".
+   *
+   * SO THIS CLOCK ALTERS AND NEVER RE-CASTS. At a bar point the roster is
+   * frozen: nobody arrives, nobody leaves, and what may move is expression
+   * and the desk — which is precisely the half of the two-loop rule's own
+   * four ways ("add expression to an existing instrument, or reduce
+   * expression of an existing instrument") that does not touch who is
+   * playing. It has to be that half, because the repetition law holds a
+   * figure played again to being played the same way — Huron and Ollen put
+   * literal repetition at 94% of passages — and gain and the desk are the two
+   * things outside that comparison. The arc already moves gain bar by bar
+   * under the same law, so the bar is a unit this program already trusts.
+   *
+   * Three, because "if I say it a third time ... this is where our brain will
+   * actually begin to tune it out" is the rule this program already keeps for
+   * an idea, and a bar is the unit an ear counts a loop in. Two would alter
+   * on every other bar, which is a tremolo rather than an arrangement; four
+   * is the two-loop boundary again in the genres here and adds nothing.
+   */
+  readonly alterEvery?: number;
+  /**
    * HOW MUCH WITHHOLDING IT TAKES BEFORE GIVING IS WORTH MORE THAN TAKING,
    * in part-turns.
    *
@@ -669,6 +734,7 @@ export interface ArrangementRules {
   readonly shed: readonly Role[];
   readonly fullAbove: number;
   readonly thinBelow: number;
+  readonly alterEvery: number;
   readonly rest: number;
   readonly treat: Weighted<Treatment>;
   /** How a plain restatement is played, when it is played differently at all. */
@@ -1231,6 +1297,16 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * of intro than a slow one.
      */
     introSec: 20,
+    /**
+     * THREE, because that is the number the rule of three already names, read
+     * from the other end: "if I say something to you once then it's an idea
+     * that you've heard one time. If I say it a second time it's reinforcing
+     * that idea." A phrase that gets one turn is heard; one that gets two is
+     * reinforced; the third is where this program's ceiling then takes over
+     * and demands the change. So the floor and the ceiling meet at the same
+     * hearing, which is why there is one number and not two.
+     */
+    leastTurns: 3,
   },
 
   harmony: {
@@ -1591,6 +1667,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     /** a chorus wants everyone; a verse before it is still building */
     fullAbove: 0.8,
     thinBelow: 0.35,
+    /** the rule of three, in the unit an ear counts a loop in. See the field. */
+    alterEvery: 3,
     /**
      * MOSTLY A BED, which is what this program already did: the foundation
      * without the tune, so the tune's entrance is what the intro was for. A

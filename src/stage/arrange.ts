@@ -89,8 +89,23 @@ import type { Form, Section } from "./form.ts";
 // docstring. The arrangement cannot count its spans without the turn length.
 import { periodOf } from "./material/harmony.ts";
 
-/** Who plays across one span of two turns of the loop, and how hard. */
+/**
+ * Who plays from one alteration point to the next, and how hard.
+ *
+ * A span used to be exactly two turns of the loop, and every span of a
+ * section was the same length, so `perform.ts` could find the one covering a
+ * bar by dividing. That is no longer true and the address is carried here.
+ *
+ * THERE ARE TWO CLOCKS AND THIS IS BOTH OF THEM. The slow one is the two-loop
+ * rule — every two turns, who is playing may change. The fast one is
+ * `alterEvery` bars, where the arrangement must alter something but may NOT
+ * change who is playing: see `AT A BAR POINT THE ROSTER IS FROZEN` in the
+ * walk. A span therefore starts at a two-turn boundary or at a bar point, and
+ * runs until the next one.
+ */
 export interface Span {
+  /** Where this state begins, in bars from the start of its section. */
+  readonly startBar: number;
   readonly heard: ReadonlySet<Role>;
   /** The drums lose their hat and their fills: a breath, not a stop. */
   readonly thin: boolean;
@@ -739,8 +754,70 @@ const kindOf = (mv: Move): string =>
     // be" built 2216 spans across 60 records of which 783 were ever reached:
     // every section decided changes in spans the performance never indexed,
     // and the record heard none of them.
-    const turn = 2 * Math.max(1, periodOf(chart, section.idea));
-    const spanCount = Math.max(1, Math.ceil(section.bars / turn));
+    const period = Math.max(1, periodOf(chart, section.idea));
+    const turn = 2 * period;
+    /**
+     * WHERE THIS SECTION MAY CHANGE — the two clocks, merged into one list.
+     *
+     * The SLOW clock is the two-loop rule: every `turn` bars, and those are
+     * the boundaries where who is playing may change. The FAST clock is
+     * `alterEvery` bars, where something must be altered but the roster is
+     * frozen. A bar that is both is a two-turn boundary; the slow clock wins,
+     * because it can do everything the fast one can and more.
+     *
+     * ONE LIST AND ONE WALK, not a second pass over the same section. A loop
+     * beside the loop that already chose is this program's most expensive
+     * mistake — it cost the climax once, when a second selection loop did not
+     * know that at a peak the change is expression only — so the fast clock
+     * is more POINTS for the existing walk rather than a mechanism of its
+     * own. Every point is scored by the same score, spends the same ledger,
+     * and wears out the same freshness counters.
+     *
+     * AND IT IS A LONGEST GAP, NOT A MULTIPLE. "Something every third bar"
+     * read as "every bar divisible by three" puts a point at bar 3 and
+     * another at bar 4 wherever the slow clock lands on four — a change, then
+     * a change one bar later, which is not a clock at all. What the rule says
+     * is that no stretch longer than `alterEvery` bars goes by unaltered, so
+     * each two-turn interval is divided into the fewest equal pieces that are
+     * each no longer than that. A four-bar interval takes one extra point at
+     * its midpoint; an eight-bar interval takes two, at thirds.
+     */
+    /**
+     * AND THE FAST CLOCK DOES NOT RUN AT THE CLIMAX, NOR IN THE RUN-UP TO IT.
+     *
+     * This file already spends one change instead of `MAX_PICKS` at both, and
+     * the reason given there is the reason here: "the peak is the section with
+     * everybody in it; a second change there is a second thing taken away from
+     * the one section that is supposed to have nothing missing." Extra POINTS
+     * are extra changes by another road, and they arrive at the same place —
+     * measured with the fast clock running everywhere, 24% of lofi's peak
+     * spans held back two things or more, against 2% before, which is the
+     * exact regression `HANDOFF.md` records from the previous attempt at more
+     * moves per boundary and `arrange.test.ts` catches by name.
+     *
+     * The rising action is refused for its own stated reason: its job is to
+     * end louder than it began, and a change every three bars is a second
+     * opinion about the one thing the section is for.
+     *
+     * This is not the fast clock being switched off where it is inconvenient.
+     * A climax is the one place in a record where nothing is supposed to be
+     * happening except everything, and habituation is not the risk in a
+     * section the whole record has been building towards.
+     */
+    const fast = section.peak || swell ? turn : A.alterEvery;
+    const points: number[] = [];
+    for (let b = 0; b < section.bars; b += turn) {
+      const len = Math.min(turn, section.bars - b);
+      const pieces = Math.max(1, Math.ceil(len / fast));
+      for (let k = 0; k < pieces; k++) {
+        const at = b + Math.round((k * len) / pieces);
+        if (points[points.length - 1] !== at) points.push(at);
+      }
+    }
+    if (points.length === 0) points.push(0);
+    /** Whether the point at this index is a two-turn boundary: only there may the roster move. */
+    const slowAt = (i: number): boolean => points[i]! % turn === 0;
+    const spanCount = points.length;
     const spans: Span[] = [];
     // HOW MANY TURNS EACH PART HAS PLAYED UNCHANGED, in this section.
     //
@@ -850,8 +927,13 @@ const kindOf = (mv: Move): string =>
     // and repeated, so it always has notes to walk in with.
     const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
     const gained = A.enter[arrived - 1];
+    // AND IT ARRIVES ON A TWO-TURN BOUNDARY, which is no longer the same as
+    // "the second span". A part walking in is a change to who is playing, and
+    // the roster only moves on the slow clock — so the entrance waits for the
+    // first slow point rather than taking whichever point happens to be next.
+    const firstSlow = points.findIndex((b, i) => i > 0 && b % turn === 0);
     const entering: Role | null =
-      gained !== undefined && loops(gained) && spanCount > 1 && !section.peak && !broken
+      gained !== undefined && loops(gained) && firstSlow > 0 && !section.peak && !broken
         && section.fn !== "intro" && heard.has(gained) && heard.size > 1
         ? gained
         : null;
@@ -860,14 +942,21 @@ const kindOf = (mv: Move): string =>
 
     let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean } =
       { heard: opensWithout, thin, treatment: opening, at: null, hush: null, halved: false };
-    const turnsOf = (s: number): number =>
-      Math.min(2, Math.max(1, Math.round((Math.min(section.bars, (s + 1) * turn) - s * turn) / (turn / 2))));
+    // HOW LONG A POINT LASTS, IN TURNS OF THE LOOP. Read off the points
+    // rather than assumed: they are no longer evenly spaced, so this used to
+    // be `2` everywhere and would now be wrong at every bar point. The ledger
+    // is kept in part-turns and a point that lasts a bar and a half must
+    // accrue a bar and a half. Where `alterEvery` is at or above the two-turn
+    // length there are no bar points, every point lasts exactly two turns,
+    // and this returns exactly what it always did.
+    const endOf = (s: number): number => (s + 1 < points.length ? points[s + 1]! : section.bars);
+    const turnsOf = (s: number): number => Math.max(0, endOf(s) - points[s]!) / period;
 
     for (let s = 0; s < spanCount; s++) {
-      // the newest part walks in at the first boundary, and that IS this
-      // boundary's change — the two-loop rule asks for one thing to move and
-      // an instrument arriving is the first of the four ways it names
-      if (s === 1 && entering !== null) {
+      // the newest part walks in at the first TWO-TURN boundary, and that IS
+      // that boundary's change — the two-loop rule asks for one thing to move
+      // and an instrument arriving is the first of the four ways it names
+      if (s === firstSlow && entering !== null) {
         cur = { ...cur, heard: new Set([...cur.heard, entering]) };
         ledger.used.set(`part-in:${entering}`, (ledger.used.get(`part-in:${entering}`) ?? 0) + 1);
       } else if (s > 0) {
@@ -932,6 +1021,36 @@ const kindOf = (mv: Move): string =>
             // `hold-back` and `let-out`, reached by a different road, so it is
             // fixed in the same place: the guard that says which states exist.
             if (!h.has("drums") && (th || halved)) return;
+            // AND NEITHER IS A PART'S OWN EXPRESSION. `hush` says a part is
+            // playing quietly, which a part that is not playing cannot do, and
+            // the default carries `cur.hush` through every move — so a move
+            // that took a part out left the span saying it was held back and
+            // silent. `perform.test.ts` catches it as "held back and is not
+            // sounding". The same defect as the kit's above, for the same
+            // reason and fixed in the same place: this is which states exist.
+            if (hush !== null && !h.has(hush)) return;
+            // AT A BAR POINT THE ROSTER IS FROZEN. The fast clock exists to
+            // stop a loop holding still between two-turn boundaries, and the
+            // two-loop rule is what says who may come and go — every two
+            // turns, not every three bars. So a bar point may spend only the
+            // half of the rule's four ways that leaves the roster alone:
+            // "add expression to an existing instrument, or reduce expression
+            // of an existing instrument", plus the desk, which moves no note
+            // at all.
+            //
+            // It has to be that half for a second reason. `perform.test.ts`
+            // holds a figure played again to being played the same way —
+            // Huron and Ollen put literal repetition at 94% of passages — and
+            // gain and the desk are the two things outside that comparison,
+            // which is why `hush` is legal per span and a change of
+            // articulation is not. A part arriving or leaving mid-turn would
+            // also cut the material stage's own unit in half: it builds a
+            // part for the hearings the arrangement decided, and half a
+            // hearing is not one.
+            //
+            // Here rather than at the call sites because this is which moves
+            // are LEGAL, and that is what this function is.
+            if (!slowAt(s) && (h.size !== cur.heard.size || ![...h].every((r) => cur.heard.has(r)))) return;
             if (h.size === atStart.heard.size && th === atStart.thin && tr === atStart.treatment && at === atStart.at
               && hush === atStart.hush && halved === atStart.halved && [...h].every((r) => atStart.heard.has(r))) return;
             // THE CLOSE KEEPS THE OPENING. Holding the opener into the last
@@ -1233,9 +1352,14 @@ const kindOf = (mv: Move): string =>
           }
         }
       }
-      for (const r of ROLES) stale.set(r, cur.heard.has(r) ? (moved.has(r) ? 2 : (stale.get(r) ?? 0) + 2) : 0);
-      lastSpan = { heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved };
-      spans.push({ heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved });
+      // AND IT ACCRUES WHAT THIS POINT ACTUALLY LASTS. This was `+ 2` and a
+      // reset to 2, because every span was two turns; a bar point is shorter
+      // than that and a part that sat through one has not gone two turns
+      // unaltered. Read off `turnsOf`, which reads off the points.
+      const lasted = turnsOf(s);
+      for (const r of ROLES) stale.set(r, cur.heard.has(r) ? (moved.has(r) ? lasted : (stale.get(r) ?? 0) + lasted) : 0);
+      lastSpan = { startBar: points[s]!, heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved };
+      spans.push({ startBar: points[s]!, heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved });
 
       // ── THE LEDGER, in part-turns. Two entries and nothing else.
       const turns = turnsOf(s);
@@ -1273,6 +1397,7 @@ const kindOf = (mv: Move): string =>
     // green. If you add to `Span`, add to this.
     const frozen = Object.freeze(
       spans.map((sp) => Object.freeze({
+        startBar: sp.startBar,
         heard: Object.freeze(sp.heard) as ReadonlySet<Role>,
         thin: sp.thin,
         treatment: sp.treatment,

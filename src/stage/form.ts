@@ -29,6 +29,7 @@ import { clock, type Clock } from "../core/clock.ts";
 import type { Rng } from "../core/rng.ts";
 import type { FormRules, Idea, SectionFn } from "../genre/spec.ts";
 import type { Chart } from "./chart.ts";
+import { periodOf } from "./material/harmony.ts";
 
 export interface Section {
   readonly index: number;
@@ -275,13 +276,46 @@ export function makeForm(chart: Chart): Form {
    * it throws with its name rather than quietly making a record — the same
    * rule the laws above follow.
    */
+  /**
+   * AND A PHRASE IS GIVEN LONG ENOUGH TO BE LEARNED.
+   *
+   * The rule of three has always been read here as a ceiling — state a thing
+   * twice and the third must differ. That is the habituation half of the law.
+   * The other half is that liking has to be BUILT: repetition produces
+   * processing fluency, and the two together make the inverted U the
+   * habituation-fluency theory describes. A section that states its phrase
+   * once and moves on never gets onto the rising limb at all, and measured
+   * before this rule existed, 35% of lofi's sections and 12% of dungeon
+   * synth's did exactly that.
+   *
+   * So the pool is narrowed to the lengths that give the phrase at least
+   * `leastTurns` turns of its own loop — before the draw, like `introSec`
+   * above, because a constraint on the choice is what every rule here is.
+   *
+   * NOT THE INTRO, which is under the opposite pressure and says so: it is
+   * measured on a clock because listeners leave, and "I can't remember
+   * hearing an intro that was too short". A way in is not a phrase being
+   * established for later.
+   *
+   * NOT THE OUTRO, on this file's own existing precedent — a floor is about a
+   * section that carries on, and the last one does not. The same sentence
+   * settled `fewest` at the close.
+   */
+  const settles = (fn: SectionFn): number =>
+    fn === "intro" || fn === "outro"
+      ? 1
+      : rules.leastTurns * Math.max(1, periodOf(chart, rules.idea[fn]));
+
   const barSec = (60 / chart.tempo) * chart.metre.beats;
-  let pool = rules.lengths[first];
+  let pool = rules.lengths[first].filter(([len]) => len >= settles(first));
   if (first === "intro") {
     pool = pool.filter(([len, w]) => w > 0 && len * barSec <= rules.introSec);
     if (pool.length === 0) {
       throw new FormError([first], `no intro length fits under ${rules.introSec}s at ${chart.tempo} bpm`);
     }
+  }
+  if (pool.length === 0) {
+    throw new FormError([first], `no ${first} length gives its phrase ${rules.leastTurns} turns of a ${periodOf(chart, rules.idea[first])}-bar loop`);
   }
   take(first, draw.at("step", 0).weighted("len", pool));
 
@@ -311,8 +345,12 @@ export function makeForm(chart: Chart): Form {
         // one — measuring it against `2 * room` lets a bridge in and then
         // leaves nothing for it to return to
         const keepBack = fn === "bridge" ? Math.ceil(shortestReturn / 2) : 0;
+        // and the phrase floor narrows this pool too, for the same reason and
+        // in the same place: a section too short to state its phrase three
+        // times is not affordable here whatever the budget says
+        const least = settles(fn);
         const pool = rules.lengths[fn].filter(([len]) =>
-          keepBack === 0 ? len <= 2 * room : len <= room - keepBack,
+          len >= least && (keepBack === 0 ? len <= 2 * room : len <= room - keepBack),
         );
         return [fn, w, pool] as const;
       })
