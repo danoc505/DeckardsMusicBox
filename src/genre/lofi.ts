@@ -158,7 +158,7 @@ export const lofi: GenreSpec = {
      * notes is a correct Fm9 and it is not what anybody plays.
      *
      * Eight is the bottom of what the reference shows, and deliberately the
-     * bottom: the register is 48–79, and a hand asking for more than the
+     * bottom: the register is 43–76, and a hand asking for more than the
      * register can hold without mud is a hand that gets refused voicing by
      * voicing rather than once, at load. The extra voices are DOUBLINGS —
      * the same tones an octave out — so the harmony is exactly the harmony
@@ -183,10 +183,29 @@ export const lofi: GenreSpec = {
      * is G2: beneath the bass's top of 50, which is where a Rhodes left hand
      * sits, and the low-interval floor at 48 already refuses anything close
      * down there — a doubled root at 43 is legal only with an open space
-     * above it, which is exactly how the reference is voiced. 43–79 is three
-     * octaves.
+     * above it, which is exactly how the reference is voiced.
+     *
+     * AND THE CEILING CAME DOWN TOO, which the first attempt at this missed.
+     * Opening the floor to 43 while leaving the top at 79 was measured only
+     * on the keys, and the part it damaged was the LEAD: a lower floor moves
+     * the whole octave grid the voicings are built on, the upper voices land
+     * on different seats, and the tune — whose band is 64–84 — was left
+     * fighting for the fifteen semitones it shares with them. Over sixty
+     * seeds it lost: two statements arrived with four notes and two, a sung
+     * line repeated its own pitch, and three turns planted four leaps wider
+     * than a fifth. Those are the lead's own laws, and no rule in `lead.ts`
+     * can mend a lane that is physically full.
+     *
+     * 76 is E5. The source says "keep it in its mid-range and avoid the top
+     * octave" and a Rhodes tops out at E6, so E5 is where that sentence
+     * actually points — 79 was already a semitone into the octave it names.
+     * Measured over two hundred seeds against 48–79, the register this
+     * replaces: the same law failures (one thin statement, no repeats, no
+     * wide turns), 9.50 voices a chord against 9.34, 22.8 semitones of
+     * spread against 21.3, and the tune the highest thing sounding in 81% of
+     * bars against 66%. The width was kept and the hook came out on top.
      */
-    register: [43, 79],
+    register: [43, 76],
     open: 0.9,
     /** a Rhodes is tines and a hammer: how long the key is held, and a dead one */
     art: [["plain", 5], ["tenuto", 5], ["staccato", 2], ["ghost", 1]],
@@ -243,7 +262,20 @@ export const lofi: GenreSpec = {
   // low-pass, with the dust on it
   // a warm pad under everything, arriving last and leaving first
   drone: {
-    register: [51, 65],
+    /**
+     * UNDER THE CHORD PART, not through it. 51–65 was chosen as "inside the
+     * Rhodes", and being inside the Rhodes was the fault: the pad held seats
+     * in the middle of the keys' own band, so when the keys' ceiling came
+     * down and their voicings settled lower, two seeds in sixty put a keys
+     * voice on the exact pitch the drone was already holding and the record
+     * refused to build.
+     *
+     * A drone is a pedal tone — "a very long and continuous tone" the
+     * harmony moves over — and a pedal tone sits BELOW the harmony it holds
+     * still. 46–60 is A#2–C4: clear of the keys' working middle, and still
+     * above the sub, which was the one thing the old choice got right.
+     */
+    register: [46, 60],
     tone: [["tonic", 6], ["fifth", 1]],
     hold: [[4, 5], [2, 1]],
     /** a pad is left to ring, and where it does not it slurs into the next tone: either way it never stops */
@@ -311,10 +343,12 @@ export const lofi: GenreSpec = {
      * rolloff above is the same move arriving from the tape. Then the pair
      * the sources name together — "heavy use of reverb and delay".
      *
-     * AND `brighten` IS KEPT LAST, for the reason dungeon synth keeps it
-     * light: this genre's entire move is taking the top off. A record that
-     * brightens as often as it darkens has no direction, and that is exactly
-     * what the even default produced — brighten 48 against darken 54.
+     * `brighten` IS NOT STATED AT ALL, and the reason moved: it used to be
+     * kept last because this genre's entire move is taking the top off, and a
+     * record that brightens as often as it darkens has no direction — which
+     * is what the even default produced, brighten 48 against darken 54. But
+     * last is not the same as absent, and `treat.ts` refuses this genre the
+     * move outright. See the array.
      *
      * ORDERED BY WEIGHT ON PURPOSE. Where two treatments tie, the winner is
      * whichever the genre listed FIRST — `fit > bestFit` is strict, so ties
@@ -344,7 +378,13 @@ export const lofi: GenreSpec = {
       // zero is zero. A weight nothing can read is invisible config, so it
       // says nothing rather than saying it uselessly — and a genre that gives
       // a part a sweep can state one then.
-      ["brighten", 1],
+      //
+      // AND NO `brighten`, FOR THE SAME REASON, which this file knew and said
+      // in two other places while still weighting it here. `pole.mix` is 0 on
+      // this genre — the sum has no filter switched into it — so `poleHeard`
+      // is false and `treat.ts` refuses the move on every boundary it is ever
+      // offered at. Measured: 200 records, 2521 treated spans, `brighten`
+      // drawn ZERO times. A weight nothing can read is invisible config.
       // THE FIVE THE DESK HAD AND COULD NEVER MOVE, and two of them are this
       // genre's own subject rather than additions to it.
       //
@@ -500,11 +540,13 @@ export const lofi: GenreSpec = {
       "a drone is \"a very long and continuous tone\" placed \"upon the tonic or dominant\" " +
       "(chromatone.center/theory/melody/drone); weights [chosen]",
     "drone.register":
-      "[chosen] — above the sub and inside the Rhodes, where a warm pad sits without taking the bass's notes",
+      "a drone is \"a very long and continuous tone\" (chromatone.center/theory/melody/drone) and a pedal tone " +
+      "sits under the harmony that moves over it; A#2–C4 [chosen] — above the sub, below the Rhodes's middle",
     "drone.hold": "\"may last through the whole piece\" (chromatone.center/theory/melody/drone); a four-bar statement [chosen]",
     "keys.register":
       "\"keep it in its mid-range and avoid the top octave\" (blog.native-instruments.com/lo-fi-hip-hop-beats); " +
-      "C3–G5 on a Rhodes [chosen]",
+      "a Rhodes tops out at E6, so the octave to avoid starts at E5 — G2–E5 [chosen], opened downward for the " +
+      "spread voicing and stopped under the lead's band",
     "keys.open":
       "\"lo-fi favors spread voicings where the notes span two octaves or more\", root low and the 3rd, 7th and " +
       "extensions above with space (orphiq.com/resources/lofi-chord-progressions); 0.9 [chosen]",

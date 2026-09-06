@@ -61,6 +61,15 @@ see inside the other, which is what makes the agreement worth anything.
 **Colour is the part.** drums orange · bass yellow · keys cyan · lead pink ·
 drone green. Brightness is how hard the note was played.
 
+**The line across the very top is the desk**, and it is the first thing to
+read: `DESK:` and then every alteration this record uses, in the order it
+first reaches for them, each with a swatch of the colour its row is drawn in
+at the bottom. It answers the question you ask of a record before any other —
+what did it DO — without hunting for names scattered down the page. The same
+colour appears three times: here, on the strip where that treatment starts,
+and on its own row in the FX roll. If more names exist than fit, the count of
+what is missing is printed rather than the list quietly ending.
+
 **The amber verticals are section starts**, and each is labelled with what the
 section is and which material it states — `CHORUS B`, `OUTRO A/1`. The ribbon
 along the top of a section is at full weight when the form declared it the

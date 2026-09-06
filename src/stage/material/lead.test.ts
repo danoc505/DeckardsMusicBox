@@ -176,8 +176,10 @@ test("the tune ends on a chord tone, in every form", () => {
 });
 
 test("the tune stays in register, in scale, and inside its span per phrase", () => {
-  const [lo, hi] = lofi.lead.register;
-  each(60, (_, m) => {
+  each(60, (chart, m) => {
+    // the record's band, not the genre's: a record may sit a few semitones
+    // below the genre's written register, and the parts read chart.register.
+    const [lo, hi] = chart.register.lead;
     for (const line of lines(m)) for (let ph = 0; ph * 2 < m.bars; ph++) {
       const ns = line.filter((n) => Math.floor(n.bar / 2) === ph);
       if (ns.length === 0) continue;

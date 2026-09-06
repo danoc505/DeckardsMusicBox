@@ -92,7 +92,7 @@ const nBars = bar1 - bar0;
 const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], drone: [163,255,107] };
 const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
-const SH = 7, GUT = 34, HEAD = 22, DRUM = 4*9 + 6, SPAN = 20;
+const SH = 7, GUT = 34, HEAD0 = 22, DRUM = 4*9 + 6, SPAN = 20;
 /* ── THE FX ROLL, ITS OWN BAND UNDER THE DRUMS ────────────────────────────
    A treatment moves the mixer and not one note, so it is invisible on the
    piano roll BY CONSTRUCTION — the same record with and without its whole
@@ -127,6 +127,18 @@ const fxNames = [];
 for (const d of deskAt) if (d.treatment && !fxNames.includes(d.treatment)) fxNames.push(d.treatment);
 const moves = song.chart.genre.sound.motion ?? [];
 const FX = fxNames.length * FX_ROW + moves.length * MOVE_ROW + (fxNames.length || moves.length ? 10 : 0);
+/* ── THE LEGEND, ACROSS THE VERY TOP ──────────────────────────────────────
+   WHICH ALTERATIONS THIS RECORD USED, said once, before anything else.
+   The strip already names a treatment where it changes and the FX roll draws
+   where each is in force, and neither answers the first question anybody asks
+   of a record: what did it DO. The names on the strip are scattered down the
+   page and a short span truncates them to three letters; the FX roll's own
+   labels are eight characters in the gutter, which is a key to the picture
+   and not a summary of it. So the whole set goes at the top, in the colour
+   each one is drawn in below — the legend and the row are the same colour, so
+   a name up here and a bar down there are the same thing seen twice. */
+const LEG = fxNames.length ? 9 : 0;
+const HEAD = HEAD0 + LEG;
 const W = GUT + nBars*PXB + 8, H = HEAD + SPAN + PITCH + DRUM + FX + 12;
 const cv = canvas(W, H, [8, 12, 16]);
 
@@ -186,7 +198,9 @@ for (const pl of song.arrangement.placed) {
     const prev = k > 0 ? list[k - 1] : null;
     if (sp.treatment && (!prev || prev.treatment !== sp.treatment || prev.at !== sp.at)) {
       const room = Math.max(0, Math.floor((x1 - x0 - 2) / 4));
-      text(cv, sp.treatment.slice(0, room), x0 + 2, HEAD + 14, [160, 175, 190], 0.9);
+      // in the treatment's OWN colour, the one its legend entry and its FX
+      // row are drawn in, so a name here is findable in both without reading it
+      text(cv, sp.treatment.slice(0, room), x0 + 2, HEAD + 14, hue(sp.treatment), 0.95);
     }
   }
 }
@@ -194,7 +208,7 @@ for (const pl of song.arrangement.placed) {
 for (let b = bar0; b <= bar1; b++) {
   const x = X(b), strong = (b % 4 === 0);
   cv.vline(x, TOP, TOP+PITCH+DRUM, strong ? [60,80,96] : [30,42,52], strong ? 0.95 : 0.7);
-  if (b % 4 === 0 && b < bar1) num(cv, b, x+2, 4, [120,150,170]);
+  if (b % 4 === 0 && b < bar1) num(cv, b, x+2, LEG + 4, [120,150,170]);
 }
 // SECTIONS, NAMED. The boundary is a line, the span is a ribbon whose weight
 // is whether this is the peak, and the label says what the section IS — its
@@ -202,22 +216,22 @@ for (let b = bar0; b <= bar1; b++) {
 for (const pl of song.arrangement.placed) {
   const s = pl.section; if (s.endBar <= bar0 || s.startBar >= bar1) continue;
   const x = X(Math.max(bar0, s.startBar)), xe = X(Math.min(bar1, s.endBar));
-  cv.vline(x, 0, H, [255,179,71], 0.9); cv.vline(x+1, 0, H, [255,179,71], 0.35);
+  cv.vline(x, LEG, H, [255,179,71], 0.9); cv.vline(x+1, LEG, H, [255,179,71], 0.35);
   // A SECTION THAT BUILDS IS DRAWN BUILDING: its ribbon rises from the
   // ordinary weight to the peak's across the section, which is what the
   // arrangement does to its gain. A flat ribbon is a section that sits.
   if (pl.swell) {
     const w = Math.min(xe - x, W);
-    for (let i = 0; i < w; i++) cv.rect(x + i, 0, 1, 2, [255,179,71], 0.45 + 0.55 * (i / Math.max(1, w - 1)));
+    for (let i = 0; i < w; i++) cv.rect(x + i, LEG, 1, 2, [255,179,71], 0.45 + 0.55 * (i / Math.max(1, w - 1)));
   } else {
-    cv.rect(x, 0, Math.min(xe - x, W), 2, [255,179,71], s.peak ? 1 : 0.45);
+    cv.rect(x, LEG, Math.min(xe - x, W), 2, [255,179,71], s.peak ? 1 : 0.45);
   }
   // clipped to the section it belongs to: a label that runs into the next
   // section is a label on the wrong section. The manner a hearing is played
   // in and a recast are part of what the section IS, so they are in the name.
   const room = Math.max(0, Math.floor((xe - x - 4) / 4));
   const label = `${s.fn} ${pl.material}${s.recast ? " recast" : ""}${pl.manner ? " " + pl.manner : ""}`.slice(0, room);
-  text(cv, label, x + 2, 12, [255,179,71], s.peak ? 1 : 0.75);
+  text(cv, label, x + 2, LEG + 12, [255,179,71], s.peak ? 1 : 0.75);
 }
 // which drum is which lane
 const LANE_NAME = { kick: "KCK", snare: "SNR", hat: "HAT", openhat: "OHH" };
@@ -304,6 +318,29 @@ for (let i = 0; i < moves.length; i++) {
     cv.rect(x, Math.round(mid - h * (v / Math.max(1e-9, span))), 1, 2, c, 0.9);
   }
 }
+/* ── the legend ───────────────────────────────────────────────────────────
+   LAST, so it sits over the section rules rather than under them, and on its
+   own band with a rule beneath it so it reads as a caption and not as bar 0.
+   Names in the order the record first reaches for them, each with a swatch of
+   the colour its FX row is drawn in — the order is the record's chronology, so
+   reading left to right along this line is reading the record's desk in
+   order. Anything that will not fit is counted rather than silently dropped:
+   a legend that quietly ends is a legend that lies about how many there were. */
+if (LEG) {
+  cv.rect(0, 0, W, LEG, [8, 12, 16], 1);
+  cv.hline(LEG - 1, 0, W, [40, 52, 64], 1);
+  let x = 2;
+  x = text(cv, "DESK:", x, 2, [120, 150, 170], 0.9) + 4;
+  let shown = 0;
+  for (const name of fxNames) {
+    const w = 5 + name.length * 4 + 5;
+    if (x + w > W - 24) break;
+    cv.rect(x, 2, 3, 5, hue(name), 1);
+    x = text(cv, name, x + 5, 2, hue(name), 0.95) + 5;
+    shown++;
+  }
+  if (shown < fxNames.length) text(cv, `+${fxNames.length - shown}`, x, 2, [120, 150, 170], 0.9);
+}
 writeFileSync(out, png(W, H, cv.buf));
 
 // ── and the structure in words ────────────────────────────────────────────
@@ -311,6 +348,7 @@ console.log(`${out}  ${W}x${H}  bars ${bar0}-${bar1}`);
 console.log(`${song.chart.genre.label} · seed ${seedArg} · ${song.chart.tempo} bpm · ${song.form.bars} bars`);
 console.log("colours: drums=orange bass=yellow keys=cyan lead=pink drone=green · amber verticals are section starts");
 console.log("the strip: a block per part in · half weight = held back · boxed = a treatment aimed at it · orange dash = half time · a name = the desk");
+if (fxNames.length) console.log(`the line at the very top: every alteration this record used — ${fxNames.join(", ")}`);
 if (fxNames.length || moves.length) {
   console.log(`the FX roll, under the drums: ${fxNames.length} treatment${fxNames.length === 1 ? "" : "s"} this record reaches for` +
     `${moves.length ? `, then ${moves.length} knob${moves.length === 1 ? "" : "s"} that never stop moving, drawn as the curve each one is` : ""}`);

@@ -287,7 +287,13 @@ export const dungeonsynth: GenreSpec = {
       ["push", 2],
       ["widen", 2],
       ["close", 1],
-      ["echoed", 1],
+      // NO `echoed`. This genre patches no echo — every part's send is 0 and
+      // no return feeds it — so `liveSends` has no "echo" in it and `treat.ts`
+      // refuses the move on every boundary. The file that holds the refusal
+      // already names this genre as the case it was written for, and the
+      // weight sat here anyway. Measured: 200 records, 1500 treated spans,
+      // `echoed` drawn ZERO times. Not stated, rather than stated at 1 and
+      // silently discarded — a genre that patches an echo can state one then.
       ["sweep", 1],
       // THE FIVE THE DESK HAD AND COULD NEVER MOVE. Ranked under the four the
       // genre's own guide names, because none of them is in that guide: what

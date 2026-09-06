@@ -171,6 +171,36 @@ for (const g of GENRE_NAMES) {
     }
   });
 
+  /**
+   * AND A GENRE MAY NOT WEIGHT A MOVE ITS OWN DESK REFUSES.
+   *
+   * The two tests above ask whether every move OFFERED is heard, and whether
+   * every REFUSAL is grounded. Neither of them looks at what a genre asks
+   * for, and a weight on a refused treatment slips between them: the
+   * arrangement draws from the weighted pool, `push()` calls `deskOf`,
+   * `deskOf` returns null, the move is discarded and the number in the genre
+   * file was never read by anything. It is config that does nothing, and this
+   * program's cardinal sin is a knob that does nothing.
+   *
+   * It had happened twice and stayed for as long as nothing asked. Measured
+   * over 200 records a genre, lofi's `brighten` and dungeon synth's `echoed`
+   * were each drawn ZERO times — both refused on every boundary, both for
+   * reasons already written down in the very files that weighted them. lofi's
+   * `sweep` was the same thing, found by hand and removed by hand.
+   *
+   * This is free: it reads two lists and renders nothing.
+   */
+  test(`${g} weights no treatment its desk refuses`, () => {
+    const offered = new Set<Treatment>(offeredBy(genre(g).sound));
+    for (const [t, w] of genre(g).arrangement.treat) {
+      assert.ok(
+        offered.has(t),
+        `${g} states ${t} at weight ${w} and its own desk refuses it — the weight is never read. ` +
+        `Say nothing rather than saying it uselessly, and put the reason where the weight was.`,
+      );
+    }
+  });
+
   /** The specific hole, stated as a law rather than as a fixture. */
   test(`${g} is never offered a return nothing feeds`, () => {
     const S = genre(g).sound;

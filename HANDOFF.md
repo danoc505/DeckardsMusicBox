@@ -66,6 +66,58 @@ measured. Write the next one that way.
 
 ## What was just done, and why
 
+**THE PARTS WERE ALL IN ONE LANE, AND THE TUNE WAS UNDERNEATH THE CHORDS.**
+lofi put its keys at 43–79, its drone at 51–65 and its lead at 64–84. The
+drone sat in the middle of the keys' band and the keys' top reached fifteen
+semitones into the lead's, so the three of them were competing for the same
+pitches — and the melody, which is the hook, lost. Measured over 200 records
+it was the highest thing sounding in **66%** of the bars it played in.
+
+Worse, a change made for the keys had broken the tune without anyone looking.
+Opening the keys' floor from 48 to 43 (for the wide voicing the owner's
+reference shows) was measured on the keys and nowhere else. A lower floor
+moves the whole octave grid the voicings are built on, the upper voices land
+on different pitches, and the lead — which may not take a pitch another part
+is already holding — ran out of room. Over sixty seeds: two statements
+arrived with four notes and two, a sung line repeated its own pitch, and three
+turns planted four leaps wider than a fifth. Those are the lead's own laws,
+and no rule in `lead.ts` can mend a lane that is physically full.
+
+The fix is in the three registers, which is where the fault was:
+
+| lofi | before | after |
+|---|---|---|
+| keys | 43–79 | **43–76** |
+| drone | 51–65 | **46–60** |
+
+Measured over 200 records against **48–79 / 51–65**, the shape this replaces:
+the same law failures (one thin statement, no repeats, no wide turns), 9.50
+voices a chord against 9.34, 22.8 semitones of spread against 21.3, and the
+tune the highest thing sounding in **81% of bars against 66%**. The width the
+owner asked for was kept and the hook came out on top.
+
+**THIS WAS CAUGHT BY THE FULL SUITE, NOT BY THE CHANGE'S OWN TESTS.** The
+register change was validated against the keys' tests and the roll, both of
+which passed. `lead.test.ts` — a file the change never touched and nobody ran
+— went from 22/22 to 4 failures and was pushed that way. Run `npm test`, not a
+subset, before pushing anything that moves a number a genre states.
+
+**TWO WEIGHTS WERE INVISIBLE CONFIG.** Over 200 records per genre, 21 of the
+22 alterations each genre states are actually used. The two that are not:
+lofi's `brighten` and dungeon synth's `echoed`, each stated at weight 1 and
+each drawn **zero** times, because `treat.ts` refuses them on those genres —
+lofi has no filter switched into its sum, dungeon synth patches no echo. Both
+refusals were already written down in the files; the weights sat there anyway.
+Removed, with the reason where the weight was. The same thing had already been
+done for lofi's `sweep`.
+
+**AND THE ROLL SAYS WHICH ALTERATIONS A RECORD USED.** A line across the very
+top: every treatment the record reaches for, in the order it first reaches for
+them, each in the colour its FX row is drawn in below — and the treatment
+names on the strip are now in that colour too, instead of all grey. So a name
+at the top, a name on the strip and a bar in the FX roll are visibly the same
+thing.
+
 **THE RULE OF THREE NOW HAS BOTH OF ITS HALVES, AND THERE ARE TWO CLOCKS.**
 This program kept the rule as a CEILING — state a thing twice and the third
 must differ — which is the habituation half of the law and only one limb of
