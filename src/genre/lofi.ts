@@ -309,6 +309,53 @@ export const lofi: GenreSpec = {
   },
 
   sound: {
+    /**
+     * THE KNOBS THAT KEEP MOVING — see `src/sound/motion.ts`.
+     *
+     * The genre's own source asks for exactly this and calls it the point of
+     * the genre: "the foundational pattern repeats, but small changes are
+     * introduced over time — a hi-hat removed every other bar, A FILTER THAT
+     * OPENS SLIGHTLY … the repetition creates the groove while the variation
+     * sustains interest" (izotope). A filter that opens slightly is a cycle,
+     * not a boundary.
+     *
+     * IT IS THE TAPE'S DRIVE, and getting there took three tries that are
+     * worth writing down because each was refused by a measurement.
+     *
+     * Not the POLE: this genre leaves it out of its sum entirely — `mix` 0 —
+     * and a move on a unit the genre does not run is a knob that does nothing.
+     * `resolve.ts` now refuses that at load.
+     *
+     * Not the tape's LOWPASS either, which is the obvious reading of "a filter
+     * that opens slightly" and which this file tried first. It measures −42 dB,
+     * and a swing of a full octave and a quarter still only reaches −34: this
+     * genre's voices have nothing above the 10 kHz the tape already passes,
+     * which is the same thing `treat.test.ts` records when it refuses
+     * `brighten` here. A filter is not a destination on a record with no top.
+     *
+     * The drive is, at −26.8 dB, and it is the one the genre is named for:
+     * tape saturation is "pretty much the backbone" and what the listener is
+     * there for is "vinyl crackles, tape hiss, and background noise"
+     * (blog.soundtrap.com/lofi-music-production). A record breathing in and
+     * out of its own saturation is what this genre does.
+     *
+     * 12 and 7 bars: coprime, so they agree once every 84 bars and a record
+     * is 44. Slower than dungeon synth's because this genre's records are
+     * half as long and a cycle nobody completes is a fade, not a cycle.
+     *
+     * AND THE FILTER DUCKS RATHER THAN SWINGING, which is `off` and which is
+     * the lesson MKII wrote down: a knob the genre has already opened all the
+     * way spends half a symmetric cycle doing nothing. This program measured
+     * the same thing from the other end — `brighten` is REFUSED on this genre
+     * and `treat.test.ts` says why: the tape's lowpass sits at 10 kHz over
+     * voices with nothing above it, so raising it moved the record −37.7 dB,
+     * which is nothing. Centred half an octave DOWN, the same cycle swings
+     * 5–9 kHz, which is where `darken` works and where this genre lives.
+     */
+    motion: [
+      { path: "rack.tape.drive", bars: 12, depth: 0.45, wave: "sin" },
+      { path: "mix.keys.level", bars: 7, depth: 0.3, wave: "tri" },
+    ],
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
     rack: {
       echo: { beats: 1.5, feedback: 0.3, ret: 1 },

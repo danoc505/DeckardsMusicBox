@@ -53,6 +53,7 @@ import {
 import { articulate } from "./articulate.ts";
 import type { DeskChange, Event } from "../stage/perform.ts";
 import { deskOf } from "../stage/treat.ts";
+import { motionAt, type Move } from "./motion.ts";
 import type { Song } from "../song.ts";
 import {
   Biquad, Echo, Ensemble, Flanger, Fuzz, Line, Medium, Noise, Overdrive, Phaser, Pole, Reverb, Spring, Tremolo, Wah,
@@ -451,6 +452,9 @@ export class Engine {
   private treatAt: Role | null = null;
   private readonly seed: number;
   private readonly beatSec: number;
+  private readonly barSec: number = 0;
+  /** The bar each section starts on, so a cycle can be reset by the arrangement. */
+  private readonly sectionBars: readonly number[] = [];
   private readonly voices: Readonly<Record<string, (n: NoteIn) => Float32Array>>;
   private readonly events: readonly Event[];
   private readonly layers: number;
@@ -525,6 +529,10 @@ export class Engine {
     this.S = settle(this.base, this.over);
     this.seed = song.chart.seed;
     this.beatSec = 60 / song.chart.tempo;
+    // MOTION COUNTS IN BARS, so the engine needs a bar and where each section
+    // began — the only two facts about the arrangement the sound stage reads.
+    this.barSec = this.beatSec * song.chart.metre.beats;
+    this.sectionBars = song.form.sections.map((sec) => sec.startBar);
     this.layers = opts.layers ?? LAYERS;
     this.only = opts.only;
     this.events = song.performance.events;
@@ -795,8 +803,14 @@ export class Engine {
       // falls on, however the caller cut the blocks — the step positions are
       // absolute multiples of RAMP_STEP, so 577-sample blocks and
       // 4096-sample blocks take the walk in exactly the same places
-      if (this.rampFrom !== null) {
-        const tick = Math.min(this.rampEnd, (Math.floor(this.t / RAMP_STEP) + 1) * RAMP_STEP);
+      // A DESK ON THE MOVE TAKES ITS NEXT STEP ON THE SAMPLE IT FALLS ON,
+      // however the caller cut the blocks. Two things move it: a walk, which
+      // ends when it arrives, and motion, which never does. Both step on
+      // absolute multiples of RAMP_STEP, so 577-sample blocks and
+      // 4096-sample blocks land in exactly the same places.
+      if (this.moving()) {
+        const end = this.rampFrom !== null ? this.rampEnd : Infinity;
+        const tick = Math.min(end, (Math.floor(this.t / RAMP_STEP) + 1) * RAMP_STEP);
         if (tick > this.t) chunk = Math.min(chunk, tick - this.t);
       }
       this.segment(L.subarray(done, done + chunk), R.subarray(done, done + chunk), chunk);
@@ -840,7 +854,7 @@ export class Engine {
         this.rampFrom = null;
       }
       this.retune();
-    } else if (this.rampFrom !== null && (this.t % RAMP_STEP === 0 || this.t >= this.rampEnd)) {
+    } else if (this.moving() && (this.t % RAMP_STEP === 0 || (this.rampFrom !== null && this.t >= this.rampEnd))) {
       this.retune();
     }
   }
@@ -854,6 +868,18 @@ export class Engine {
    * overruled by the record four bars later. It costs the automation on
    * exactly the knobs that were touched, which is what being touched means.
    */
+  /** Whether the desk is on its way somewhere: a walk that will arrive, or motion that will not. */
+  private moving(): boolean {
+    return this.rampFrom !== null || this.S.motion.length > 0;
+  }
+
+  /** The bar the section covering this one began on — the "section" reset trigger. */
+  private sectionBarAt(bar: number): number {
+    let from = 0;
+    for (const start of this.sectionBars) { if (start <= bar) from = start; else break; }
+    return from;
+  }
+
   private retune(): void {
     const spec = this.treatment === null ? null : deskOf(this.treatment, this.base, this.treatAt ?? undefined);
     // AND ON A WALK, the desk is wherever the walk has got to: the continuous
@@ -871,6 +897,25 @@ export class Engine {
       const u = this.rampEnd <= this.rampStart ? 1 : Math.min(1, (this.t - this.rampStart) / (this.rampEnd - this.rampStart));
       this.S = walk(this.rampFrom, this.rampTo, u) as SoundRules;
       if (u >= 1) { this.rampFrom = null; this.rampTo = null; }
+    }
+    /**
+     * AND THEN THE KNOBS THAT ARE MOVING ON THEIR OWN.
+     *
+     * Motion settles LAST, over the genre's numbers, the treatment and the
+     * walk alike — so a cycle riding a send goes on riding it while the
+     * arrangement changes the section underneath, which is the whole
+     * difference between a knob that moves and a knob that is moved. It
+     * reaches the record here and nowhere else, which is the same single path
+     * a treatment takes: nothing here can see a pitch, a time or a gain.
+     *
+     * Read at the CURRENT SAMPLE, turned into a fractional bar, so it is a
+     * pure function of where we are and carries no state between blocks.
+     */
+    const moves = this.S.motion;
+    if (moves.length > 0) {
+      const bar = this.t / this.sampleRate / this.barSec;
+      const m = motionAt(moves as Move[], this.S, bar, this.sectionBarAt(bar));
+      if (m !== null) this.S = settle(this.S, m);
     }
     this.tune();
   }

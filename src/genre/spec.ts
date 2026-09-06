@@ -1099,6 +1099,7 @@ export interface MachineRules {
 }
 
 export interface SoundSpec {
+  readonly motion?: readonly MotionMove[];
   readonly voices?: Readonly<Partial<Record<PitchedRole, VoiceName>>>;
   readonly rack?: RackSpec;
   readonly mix?: Readonly<Partial<Record<Role, ChannelSpec>>>;
@@ -1108,7 +1109,34 @@ export interface SoundSpec {
   readonly machine?: MachineSpec;
 }
 
+/**
+ * ONE KNOB, MOVING ON A CLOCK OF ITS OWN — see `src/sound/motion.ts`.
+ *
+ * A treatment changes the mixer at a boundary the arrangement chose. This is
+ * the other thing MKII had and this program lost: a cycle with a rate, a
+ * depth, a shape and a destination you choose, running whether or not the
+ * arrangement decided anything. MKII's own word for something that reaches
+ * one fixed destination is "a drift, not an LFO", and by that measure this
+ * program's `drift` is a drift.
+ *
+ * `path` is the knob's dotted path in the mixer, so every one of them is
+ * reachable and no table has to be kept in step. `bars` is the cycle length —
+ * in bars, so two moves can be made coprime. `depth` is a share of the knob's
+ * own value, so one line means the same thing on two different mixers.
+ */
+export interface MotionMove {
+  readonly path: string;
+  readonly bars: number;
+  readonly depth: number;
+  readonly wave: "sin" | "tri" | "ramp" | "fall";
+  readonly reset?: "record" | "section" | number;
+  readonly off?: number;
+  readonly at?: Role;
+}
+
 export interface SoundRules {
+  /** The knobs this genre keeps moving. Empty is the record this program made before motion existed. */
+  readonly motion: readonly MotionMove[];
   readonly voices: Readonly<Record<PitchedRole, VoiceName>>;
   readonly rack: RackRules;
   readonly mix: Readonly<Record<Role, ChannelRules>>;
@@ -1798,6 +1826,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   },
 
   sound: {
+    /** NOTHING MOVES until a genre says so, which is the record this program made before motion existed. */
+    motion: [],
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
     /** every unit in the rack, every one bypassed: a clean record */
     rack: {

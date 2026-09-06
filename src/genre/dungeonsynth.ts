@@ -292,6 +292,31 @@ export const dungeonsynth: GenreSpec = {
 
   // strings, a pedal organ, a flute; the record in a small church, on tape
   sound: {
+    /**
+     * THE KNOBS THAT KEEP MOVING — see `src/sound/motion.ts`.
+     *
+     * This genre's sources describe a slow cycle and not a switch. The filter
+     * one is stated almost as a specification: "open a low-pass filter by a
+     * few percent each time the loop repeats, so over 32 bars the sound
+     * brightens gradually" (musicradar) — a ramp, thirty-two bars long, a few
+     * percent deep. It is written here as exactly that.
+     *
+     * The rates are 32 and 23, which share no factor, so the two never come
+     * back round together inside a record: 23 bars at 63 bpm is about ninety
+     * seconds and the pair repeat every 736 bars, which no record reaches.
+     * That is MKII's trick for making four independent periods out of two
+     * cycles, and the reason its defaults were 11 and 19.
+     *
+     * The filter is centred four tenths of an octave BELOW where the genre
+     * leaves it — `off` — so the ramp runs about 1.9–3.9 kHz rather than
+     * either side of 3.6. That is the territory `darken` works in, and this
+     * genre's own literature asks for the shadows to deepen rather than for
+     * the filter to sit still and wobble.
+     */
+    motion: [
+      { path: "rack.pole.hz", bars: 32, depth: 0.5, off: -0.4, wave: "ramp", reset: "section" },
+      { path: "rack.room.ret", bars: 23, depth: 0.35, wave: "sin" },
+    ],
     voices: { keys: "pad", bass: "organ", lead: "flute", drone: "organ" },
     /**
      * THE CHURCH, THROUGH A SLUDGE RIG. The writing is dungeon synth and

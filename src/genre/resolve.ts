@@ -353,6 +353,49 @@ export function resolveGenre(
         );
       }
     }
+    /**
+     * AND EVERY MOVING KNOB HAS TO BE A KNOB, AND HAVE SOMETHING TO SWING.
+     *
+     * `motion` names its destination by a dotted path so that all 202 of the
+     * mixer's numbers are reachable without a table. The cost of that is that
+     * a typo is a path, and a path that resolves to nothing would be a knob
+     * that does nothing — this program's cardinal sin, shipped silently.
+     *
+     * A path that is not a number on this genre's own mixer is refused. So is
+     * a knob sitting at ZERO, because depth is a share of the knob's value and
+     * a share of nothing is nothing: a genre that has switched a unit off has
+     * not got that knob to move, which is the same rule `reach.ts` states for
+     * treatments. Refused at load, with the path, rather than found by
+     * rendering sixty seeds and noticing the silence.
+     */
+    const soundObj = isPlainObject(merged["sound"]) ? merged["sound"] : {};
+    const moves = soundObj["motion"];
+    if (moves !== undefined && !Array.isArray(moves)) {
+      problems.push(`sound.motion must be a list of moves, got ${String(moves)}`);
+    } else if (Array.isArray(moves)) {
+      for (const mv of moves as Record<string, unknown>[]) {
+        const path = mv?.["path"];
+        if (typeof path !== "string") { problems.push(`sound.motion: every move needs a path`); continue; }
+        let node: unknown = soundObj;
+        for (const key of path.split(".")) {
+          node = (node !== null && typeof node === "object") ? (node as Record<string, unknown>)[key] : undefined;
+        }
+        if (typeof node !== "number") {
+          problems.push(`sound.motion "${path}" is not a knob on this genre's mixer`);
+        } else if (node === 0) {
+          problems.push(
+            `sound.motion "${path}" is 0 on this genre's mixer, and depth is a share of the knob's own ` +
+              `value — so this move can never do anything. Open the knob, or move a different one`,
+          );
+        }
+        const bars = mv?.["bars"];
+        if (!finite(bars) || (bars as number) <= 0) problems.push(`sound.motion "${path}" needs bars > 0, got ${String(bars)}`);
+        const wave = mv?.["wave"];
+        if (!["sin", "tri", "ramp", "fall"].includes(String(wave))) {
+          problems.push(`sound.motion "${path}" wave must be sin, tri, ramp or fall, got ${String(wave)}`);
+        }
+      }
+    }
     const ic = form["introChance"];
     if (!finite(ic) || ic < 0 || ic > 1) {
       problems.push(`form.introChance must be 0..1, got ${String(ic)}`);

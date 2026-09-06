@@ -164,6 +164,67 @@ Dungeon synth moves more than lofi, which is what drift 1 against drift 0.5
 predicts. Byte-identical at block sizes 577 and 4096. Render cost 0.95x and
 1.07x.
 
+**THE KNOBS MOVE ON THEIR OWN NOW — `src/sound/motion.ts`, COPIED FROM MKII.**
+The owner asked how MKII did this. It has a whole MOTION stage with four
+timescales — a value per STEP, per SECTION, per BAR and per EVENT — and its
+own note draws the distinction this program had lost:
+
+> "CLOCK A and CLOCK B are free-running cycles and they only ever reached ONE
+> destination — the detune — which makes them a **drift, not an LFO**. These
+> two are LFOs in the sense the question means: a rate, a depth, a shape, and
+> A SOCKET YOU CHOOSE."
+
+By that measure MKIII's `drift` is a drift. This is the other thing.
+
+**What is copied:** the four shapes returning −1..1 so depth reads the same on
+all four; rates IN BARS so two cycles can be made coprime; the RESET TRIGGER,
+which is the half most programs leave out (MKII cites Doepfer's A-145 and
+Batumi — "reset returns the LFO to the beginning of its cycle so that it is in
+sync with the rest of your patch"); and `off`, which moves the centre so a
+knob already at the top of its travel ducks rather than spending half a cycle
+clamped.
+
+**What is better here.** MKII's LFO chooses from a numbered list of six
+destinations, each needing a hand-kept entry in a `SPAN` array saying how far
+that knob may travel. Six is a ceiling and the table is a thing to keep in
+step. A move here names its knob BY PATH — `rack.tape.drive`,
+`mix.keys.level` — so all 202 of the mixer's numbers are reachable and nothing
+is declared to make a new one reachable. There is no SPAN table because depth
+is a SHARE OF THE KNOB'S OWN VALUE, so one line means the same thing on two
+different mixers. Frequencies swing in octaves, the way `render.ts` already
+walks them.
+
+Measured, motion on against off, seeds 17279/204149/327517: **lofi −28.1,
+−26.3, −26.4 dB; dungeon synth −27.2, −32.1, −28.4 dB.** Byte-identical at
+block sizes 577 and 4096. `motion.test.ts` holds it to the −40 dB floor
+`treat.test.ts` uses, to being a pure function of the bar, to the cycle coming
+round, to a section reset actually resetting, and to a genre that states no
+motion rendering bit-for-bit what it always did.
+
+**AND THE FLOOR CAUGHT TWO DEAD DESTINATIONS BEFORE THEY SHIPPED**, which is
+the whole reason it is there. lofi's first two moves were the obvious readings
+of its own source ("a filter that opens slightly") and both were nothing: the
+pole is at `mix` 0 on this genre, and the tape's LOWPASS measures −42 dB
+because this genre's voices have nothing above the 10 kHz it already passes —
+the same fact `treat.test.ts` records when it refuses `brighten` here. A full
+octave and a quarter of swing still only reached −34. The drive reaches −26.8,
+and it is the knob the genre is named for.
+
+`resolve.ts` now refuses at load a move whose path is not a knob, or whose
+knob sits at zero — depth is a share of the knob's value, so a share of
+nothing can never be anything.
+
+**AND MOTION EXPOSED A DEFECT IN THE RENDERER, WHICH IS NOT FIXED.**
+`world.width` produces **non-finite samples** when it MOVES. A static width is
+clean at every value tried (0.6, 0.8, 0.9, 1.0); a width swinging ±50% of 0.6
+gives its first NaN at 57.7s of lofi seed 17279, and ±30% and ±10% are clean.
+So it is the transition, not the value. `Channel.tune` recomputes `lateSec`
+and keeps a `Line` created once with `??=`, and `Line.read` interpolates at a
+fractional position — that is where to look. **This is reachable from the page
+today**, because `setDesk` lets a hand move width while the record plays, so
+it is not only a motion bug. No genre ships a width move; nobody should add
+one until this is understood.
+
 **THE NOTE THE TAG WAS SUPPOSED TO HOLD THIS IS GONE.** Item 6c says the work
 is preserved at tag `wip/staleness-clock-bolted-on`. That tag does not exist —
 not locally, not on the remote. The code was recovered from commit `d99d896`
