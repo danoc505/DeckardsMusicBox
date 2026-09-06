@@ -93,8 +93,22 @@ The fix is in the three registers, which is where the fault was:
 Measured over 200 records against **48–79 / 51–65**, the shape this replaces:
 the same law failures (one thin statement, no repeats, no wide turns), 9.50
 voices a chord against 9.34, 22.8 semitones of spread against 21.3, and the
-tune the highest thing sounding in **81% of bars against 66%**. The width the
-owner asked for was kept and the hook came out on top.
+tune the highest thing sounding in **81% of bars against 66%**.
+
+**AND THE CEILING IS NOT SETTLED — 78 IS THE LIVE ALTERNATIVE.** Over the same
+200 records it is equally clean (one thin, no repeats, no wide turns) with
+**9.87 voices and 24.4 semitones** of spread, and the tune on top in **74%** of
+bars. Wider chords, more exposed melody: the same trade the whole entry is
+about, and nobody has heard either. This was picked at 76 without that
+comparison being run or offered. 79 is genuinely out — at 200 seeds it puts
+back two thin statements and five wide turns, and it had looked clean at 60.
+
+**AND THE CITATION FOR 76 WAS WRONG WHEN IT WAS PUSHED.** It read "a Rhodes
+tops out at E6, so E5 is where 'avoid the top octave' points". A 73-key Rhodes
+runs E1–E7, 41 Hz to 2.6 kHz — so that sentence, read correctly, would allow
+88 and sanction the very ceiling that broke the tune. The number is measured,
+not cited, and now says so. **A number that has a measurement and no source is
+allowed here; a number wearing a source it does not have is not.**
 
 **THIS WAS CAUGHT BY THE FULL SUITE, NOT BY THE CHANGE'S OWN TESTS.** The
 register change was validated against the keys' tests and the roll, both of

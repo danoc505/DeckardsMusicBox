@@ -196,14 +196,30 @@ export const lofi: GenreSpec = {
      * than a fifth. Those are the lead's own laws, and no rule in `lead.ts`
      * can mend a lane that is physically full.
      *
-     * 76 is E5. The source says "keep it in its mid-range and avoid the top
-     * octave" and a Rhodes tops out at E6, so E5 is where that sentence
-     * actually points — 79 was already a semitone into the octave it names.
+     * 76 is E5, AND IT IS A MEASURED NUMBER AND NOT A CITED ONE. It was first
+     * written here with a citation that was simply false — "a Rhodes tops out
+     * at E6, so E5 is where 'avoid the top octave' points". A 73-key Rhodes
+     * runs E1–E7, 41 Hz to 2.6 kHz (soundgirls.org/the-fender-rhodes), so its
+     * top octave begins at E6 and that sentence, read correctly, would allow
+     * 88 and sanction the very ceiling that broke the tune. The source says
+     * stay in the mid-range and it rules out the top; it does not pick 76.
+     * What picks 76 is the lead's floor at 64: the keys stop a fifth into the
+     * tune's band instead of reaching two thirds of the way up it.
+     *
      * Measured over two hundred seeds against 48–79, the register this
      * replaces: the same law failures (one thin statement, no repeats, no
      * wide turns), 9.50 voices a chord against 9.34, 22.8 semitones of
      * spread against 21.3, and the tune the highest thing sounding in 81% of
-     * bars against 66%. The width was kept and the hook came out on top.
+     * bars against 66%.
+     *
+     * AND 78 IS THE OPEN QUESTION, not a settled one. Over the same two
+     * hundred seeds it is equally clean — one thin statement, no repeats, no
+     * wide turns — with 9.87 voices and 24.4 semitones of spread, and the
+     * tune on top in 74% of bars. It is a wider chord and a less exposed
+     * melody, which is the same trade this whole entry is about, and nobody
+     * has heard either. 79 is not on the table: at two hundred seeds it puts
+     * back two thin statements and five wide turns, and it looked clean at
+     * sixty.
      */
     register: [43, 76],
     open: 0.9,
@@ -274,6 +290,13 @@ export const lofi: GenreSpec = {
      * harmony moves over — and a pedal tone sits BELOW the harmony it holds
      * still. 46–60 is A#2–C4: clear of the keys' working middle, and still
      * above the sub, which was the one thing the old choice got right.
+     *
+     * HOW 46 WAS PICKED, said plainly: by sweeping 44 to 51 and reading the
+     * lead's law failures off each. That is tuning to a measurement, not
+     * deriving from a source, and the reasoning above would have sanctioned
+     * 44 or 48 as readily. What it has going for it besides the sweep is that
+     * dungeon synth's drone is already 46–60 — arrived at separately, and the
+     * two genres agreeing is worth more than either alone.
      */
     register: [46, 60],
     tone: [["tonic", 6], ["fifth", 1]],
@@ -545,8 +568,9 @@ export const lofi: GenreSpec = {
     "drone.hold": "\"may last through the whole piece\" (chromatone.center/theory/melody/drone); a four-bar statement [chosen]",
     "keys.register":
       "\"keep it in its mid-range and avoid the top octave\" (blog.native-instruments.com/lo-fi-hip-hop-beats); " +
-      "a Rhodes tops out at E6, so the octave to avoid starts at E5 — G2–E5 [chosen], opened downward for the " +
-      "spread voicing and stopped under the lead's band",
+      "a 73-key Rhodes runs E1–E7, 41 Hz to 2.6 kHz (soundgirls.org/the-fender-rhodes), so that rules out the " +
+      "top but does not pick a number — G2–E5 [chosen and MEASURED, see the register's own note], opened " +
+      "downward for the spread voicing and stopped a fifth into the lead's band rather than two thirds up it",
     "keys.open":
       "\"lo-fi favors spread voicings where the notes span two octaves or more\", root low and the 3rd, 7th and " +
       "extensions above with space (orphiq.com/resources/lofi-chord-progressions); 0.9 [chosen]",
