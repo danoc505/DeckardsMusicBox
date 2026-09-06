@@ -66,6 +66,46 @@ measured. Write the next one that way.
 
 ## What was just done, and why
 
+**DUNGEON SYNTH'S D6 IS GONE, AND ITS PROBLEM WAS NOT LOFI'S PROBLEM.**
+The obvious guess was that this genre had the same pile-up. It did not: over
+200 records its tune was already the highest thing sounding in **99%** of the
+bars it played in. What was wrong was only the height — the lead ran to 86
+and **2.3%** of every lead note it wrote sat at C6 or above.
+
+**And the ceiling could not come down on its own.** Dropping the lead to
+67–82 against the old keys left **five statements too thin to be tunes**;
+67–79 left **32 thin and 18 repeated pitches**. The keys at 48–74 had their
+top, D5, seven semitones inside the tune's band and were holding the seats it
+needed. Same mechanism as lofi, different symptom.
+
+**And the keys could not simply narrow.** Holding their floor at 48 and
+pulling the ceiling down starved the voicer outright — 13 records in 200
+could not be built at a ceiling of 70, 41 at 69, **109 at 67**. This genre
+voices open fifths and octaves and 26 semitones is what that needs. So the
+band MOVES and keeps its width, and the drone follows it down or it is the
+one sitting in the middle.
+
+| dungeon synth | before | after |
+|---|---|---|
+| lead | 67–86 (G4–**D6**) | **67–82** (G4–A#5) |
+| keys | 48–74 (C3–D5) | **45–71** (A2–B4) |
+| drone | 46–60 (A#2–C4) | **43–57** (G2–A3) |
+
+Measured over 200 records: notes at or above C6 **2.3% → 0%**, tune on top
+**99% → 100%**, and no thin statement, repeated pitch or wide turn in either
+state. The keys keep their voice count and spread (2.83 voices, 10.2
+semitones) — this moved them, it did not thin them.
+
+**The lower alternative is measured and named, not rejected.** lead 64–79
+with keys 43–69 and drone 41–55 is equally clean on every count with a
+ceiling of **G5**, a fifth below where this started. It is not taken because
+its bottom nine semitones sit in the flute's weakest register and E4 is a
+semitone below an alto recorder altogether. If the record should go lower,
+those are the three numbers.
+
+**And these registers now have sources, which they never had.** `lead.register`,
+`keys.register` and `bass.register` had no citation in this genre at all.
+
 **THE PARTS WERE ALL IN ONE LANE, AND THE TUNE WAS UNDERNEATH THE CHORDS.**
 lofi put its keys at 43–79, its drone at 51–65 and its lead at 64–84. The
 drone sat in the middle of the keys' band and the keys' top reached fifteen

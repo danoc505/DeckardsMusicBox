@@ -127,7 +127,22 @@ export const dungeonsynth: GenreSpec = {
      * the sources describe; the moving voices still move.
      */
     hold: 0.85,
-    register: [48, 74],
+    /**
+     * THE BAND MOVED DOWN, IT DID NOT NARROW. 48–74 was three semitones
+     * higher and the top of it, D5, sat seven semitones inside the tune's
+     * band — so the tune's ceiling could not come down without the keys
+     * taking the seats it needed. Measured over 200 records: dropping the
+     * lead to 67–82 against the OLD keys left five statements too thin to be
+     * tunes; against these keys it leaves none.
+     *
+     * AND NARROWING IT IS NOT AN OPTION, which the first attempt at this got
+     * wrong. Holding the floor at 48 and pulling the ceiling to 70 starved
+     * the voicer outright — 13 records in 200 could not be built at all, 41
+     * at a ceiling of 69, 109 at 67. This genre voices open fifths and
+     * octaves inside `open: 0.6`, and 26 semitones is what that needs. So the
+     * whole band moves and keeps its width.
+     */
+    register: [45, 71],
     strike: [[[0], 4], [[0, 2], 1]],
     open: 0.6,
     /** a pad swells rather than strikes: it holds, and it slurs from chord to chord */
@@ -136,7 +151,36 @@ export const dungeonsynth: GenreSpec = {
 
   // a flute above, slow, stepwise, inside an octave
   lead: {
-    register: [67, 86],
+    /**
+     * D6 WAS TOO HIGH, AND THE CEILING IS WHAT CAME DOWN.
+     *
+     * 67–86 topped out at D6 and 2.3% of every lead note this genre wrote sat
+     * at C6 or above. The part is described here as a flute, and that is the
+     * thing to hold it to: a concert flute runs C4–C7 and an alto recorder
+     * F4–G6 (dynamicmusicroom.com/range-of-flute; en.wikipedia.org/wiki/
+     * Alto_recorder). 86 is inside both — the objection is not that the notes
+     * are unplayable, it is that this music is meant to be muffled and close,
+     * "avoiding bright top-end" (dungeon-synth.neocities.org/music-making-
+     * guide), and a line reaching D6 is the brightest thing on the record.
+     *
+     * 67–82 is G4–A#5. Notes at or above C6: 2.3% → 0%. Every pitch is inside
+     * both the flute's range and the recorder's, and the band is 15 semitones
+     * where it was 19 — the per-phrase span is already held to 10 by `span`,
+     * which is where this genre's own "no more than about 12 notes apart"
+     * belongs; it is a rule about a motif and it is not stretched onto the
+     * register here.
+     *
+     * THE FLOOR DID NOT MOVE, and 64–79 is the measured alternative rather
+     * than a rejected one. Over the same 200 records it is equally clean —
+     * no thin statements, no repeats, no wide turns, the tune on top in 100%
+     * of bars — with a ceiling of G5, a fifth below where this started. It is
+     * not taken because its bottom nine semitones sit in the flute's weakest
+     * register (the low register, B3/C4 up to C#5, is "the weakest as far as
+     * volume is concerned") and E4 is a semitone under the alto recorder
+     * altogether. If the record wants to go lower still, that is the number,
+     * and it needs the keys at 43–69 and the drone at 41–55 with it.
+     */
+    register: [67, 82],
     rhythms: [
       [[0, 2, 4, 6], 3],
       [[0, 1, 2, 4, 5, 6], 2],
@@ -173,7 +217,21 @@ export const dungeonsynth: GenreSpec = {
 
   // the sustained tone the genre is built on: it holds a whole statement
   drone: {
-    register: [46, 60],
+    /**
+     * IT FOLLOWS THE KEYS DOWN, because it has to. 46–60 sat inside 48–74
+     * and was tolerable there; against the keys' new floor of 45 it is the
+     * same pile-up lofi had, and it shows up as records that cannot be built
+     * at all — 4 in 200 put a keys voice on the exact pitch the drone was
+     * already holding. At 43–57 that is 0 in 200.
+     *
+     * 43 is G2, which dips three semitones into the top of the bass's band.
+     * That is not new ground: the keys already overlap the bass at 45, and
+     * nothing lands on a seat another part holds — the materials stage
+     * refuses that outright. What the drone keeps is what its source asked
+     * for, "below the pad and around the organ's own low register": it is
+     * still below the keys, and now genuinely below rather than through them.
+     */
+    register: [43, 57],
     tone: [["tonic", 5], ["fifth", 3]],
     hold: [[4, 6], [2, 1]],
   },
@@ -516,7 +574,19 @@ export const dungeonsynth: GenreSpec = {
       "the genre is \"derived from black metal and dark ambient\" (Wikipedia, Dungeon synth) and a drone sits " +
       "\"upon the tonic or dominant\", held while the chords change over it (chromatone.center/theory/melody/drone)",
     "drone.hold": "\"a very long and continuous tone that may last through the whole piece\" (chromatone.center/theory/melody/drone)",
-    "drone.register": "[chosen] — below the pad and around the organ's own low register",
+    "drone.register":
+      "[chosen] — below the pad and around the organ's own low register; G2–A3, moved down with the keys so " +
+      "it sits below them rather than through them [measured, see the register's own note]",
+    "lead.register":
+      "the part is a flute: a concert flute runs C4–C7 and its low register, B3/C4 to C#5, is \"the weakest as " +
+      "far as volume is concerned\" (dynamicmusicroom.com/range-of-flute), an alto recorder F4–G6 " +
+      "(en.wikipedia.org/wiki/Alto_recorder); and this music \"avoids bright top-end\" " +
+      "(dungeon-synth.neocities.org/music-making-guide). G4–A#5 [chosen inside those], the ceiling brought down " +
+      "off D6 — 64–79 is the equally clean lower alternative and is named in the register's own note",
+    "keys.register":
+      "\"just sustaining minor chords or power chords (root + 5th) for a long time\" (dungeonsynth.neocities.org/" +
+      "howto) needs room for open fifths and octaves: 26 semitones is what `open` 0.6 can voice, measured — " +
+      "narrowing it starves the voicer. A2–B4 [chosen], the same width moved down under the tune",
     "keys.art":
       "tenuto is 95% of the written value and legato 100% with \"no intervening silence\" " +
       "(cmuse.org/staccato-length-calculator; en.wikipedia.org/wiki/Legato); a pad is bowed, not struck. Weights [chosen]",
