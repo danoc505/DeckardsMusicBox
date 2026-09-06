@@ -108,16 +108,6 @@ absolute count of unanswered parts drops, because far fewer parts reach "due"
 at all (lofi keys due 231 → 156). Whether a lower share of a much smaller
 number is a win is a real question and not a settled one.
 
-**THE FIRST VERSION OF THIS TABLE WAS WRONG AND IS WORTH KEEPING AS A LESSON.**
-It said 34% → 9%, 31% → 10%, 19% → 5%, 15% → 4%, 11% → 3%, and desk moves one
-every 3.7 and 3.4 bars. Those numbers were real, but they were measured on an
-intermediate state — before the peak-and-run-up exemption below, which removes
-alteration points and takes back about half the gain. They were then published
-in this file and in the commit message and never re-measured against the code
-that actually ships. **Measure the thing you are shipping, at the end, after
-the fixes.** A number measured mid-change is not a result, and this file said
-so before it did it.
-
 **AT A BAR POINT THE ROSTER IS FROZEN.** Only the slow clock may change who is
 playing — that is what the two-loop rule is about — so a bar point may spend
 only the half of the rule's four ways that leaves the roster alone: expression
@@ -180,19 +170,17 @@ not locally, not on the remote. The code was recovered from commit `d99d896`
 ("The desk walks, and the rule of three is counted per part"), which is where
 it was added, and `ecc4ab9` is where it was removed. Fix the note or drop it.
 
-**AND THE REASON GIVEN FOR RESTORING IT WAS WRONG, WHICH IS WORTH RECORDING.**
-The argument was that `alterEvery` tripled the desk moves and therefore
-tripled the clicks. Measured, that is not what was happening. Taking the
-biggest sample-to-sample jump within 20 ms of a desk change against the biggest
-anywhere else in the record: with a STEP the desk change is **quieter than the
-record's own loudest transient** in three of four cases (0.47x, 0.65x, 0.96x)
-and above it in one (dungeon synth 327517, 1.19x). The walk does not
-systematically improve it — lofi 17279 goes 0.47x to 0.64x, worse. Only
-dungeon synth 327517 behaves as the hypothesis predicted, 1.19x → 0.55x.
-
-So the desk changes were mostly not clicking, and **drift is a musical move —
-a filter that opens gradually — not a click fix.** It earns its place on the
-−21 to −45 dB and on its sources, not on the argument that put it back.
+**AND A STEPPED DESK CHANGE DOES NOT CLICK, WHICH IS A FACT ABOUT THE PROGRAM
+AND NOT A REASON FOR DRIFT.** Measured: the biggest sample-to-sample jump
+within 20 ms of a desk change, against the biggest anywhere else in the record.
+With a STEP the desk change is **quieter than the record's own loudest
+transient** in three of four cases (0.47x, 0.65x, 0.96x) and above it in one
+(dungeon synth 327517, 1.19x). The walk does not systematically improve that —
+lofi 17279 goes 0.47x to 0.64x — and only dungeon synth 327517 moves the way a
+click would, 1.19x to 0.55x. So drift is a musical move, a filter that opens
+gradually, and it earns its place on the dB and its sources. Anyone reaching
+for it to stop a click should measure first: on this evidence there is no
+click to stop.
 
 **NOBODY HAS HEARD ANY OF IT.** The desk now moves about two and a half times
 more often than it did (1 per 13 bars to 1 per 5), and on dungeon synth it is
@@ -571,14 +559,8 @@ variation exists. That belongs in the material stage, not the arrangement.
 - **A knob that does nothing is this program's cardinal sin.** If a rule is
   built, measure it on and off. If it changes nothing, delete the field and
   keep the note saying it was tried — `THE-INTRO.md` §7 is the worked example.
-- **MEASURE LAST, AGAINST WHAT YOU ARE SHIPPING.** A number taken in the
-  middle of a change is not a result, however carefully it was taken. The bar
-  clock was measured before its peak exemption existed, published at twice its
-  real size in this file AND in its commit message, and only caught because
-  the owner asked for the seeds to be printed and proved. Every fix you apply
-  after measuring invalidates the measurement. Take the numbers again at the
-  end, from a `git worktree` of the commit before yours, with the same tool
-  and the same seeds on both sides — and put the losers in the table too.
+- **Take the numbers LAST.** Every fix applied after you measured invalidates
+  the measurement — see `README.md` § "Prove it, or it did not happen" for how.
 - **And measure whether the RECORD changed, not whether the settings did.**
   That distinction cost two treatments. The renderer builds only what something
   feeds, so a knob can move its number and be wired to nothing; comparing a
