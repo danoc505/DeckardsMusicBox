@@ -134,6 +134,8 @@ export const dungeonsynth: GenreSpec = {
 
   arrangement: {
     enter: ["drone", "keys", "bass", "drums", "lead"],
+    /** the desk walks to a treatment rather than switching to it: see the source */
+    drift: 1,
     /**
      * AND THE DRONE IS THE LAST THING THIS GENRE GIVES UP, which is the
      * reverse of the default and has to be said here or it is inherited
@@ -397,6 +399,11 @@ export const dungeonsynth: GenreSpec = {
       "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; the rest [chosen]",
     "drums.kick": "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com); \"very subtle percussion\" (note.com/soundwitches)",
     "drums.hat": "beatless: no hat (note.com/soundwitches)",
+    "arrangement.drift":
+      "\"open a low-pass filter by a few percent each time the loop repeats, so over 32 bars the sound brightens " +
+      "gradually\" (musicradar) — keyed to the repetition, not the clock; and this genre's own middle is \"deepen the shadows " +
+      "of the sound through changes in reverb and filters\" (note.com/soundwitches), which is a walk and not a switch. " +
+      "The whole span, so the desk is never still: a treatment arrives as the next boundary comes",
     "arrangement.treat":
       "the genre's development section is \"deepen the shadows of the sound through changes in reverb and filters\", " +
       "with \"intentional crackle, warble, and hiss\" and a record \"echoing through stone corridors\" " +

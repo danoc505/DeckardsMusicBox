@@ -136,8 +136,47 @@ genre its bridge. The threshold encodes research, so it has NOT been lowered.
 It needs an owner's decision, and the options are a longer lofi record, a
 `leastTurns` lofi states for itself, or the break not needing a bridge.
 
+**AND DRIFT IS BACK IN, ON ITS OWN.** Item 6c, restored as its own change and
+measured on its own. `arrangement.drift` 0..1 — how much of its span a
+treatment takes to arrive. lofi 0.5, dungeon synth 1, both with the sources
+they had. `DeskChange` carries `overSec`; `render.ts` walks the continuous
+knobs — levels, sends, returns, the pole, the tape's top, the medium's mix,
+the world — from wherever the desk stands to where the treatment puts them, in
+1024-sample steps at ABSOLUTE positions. A knob that changes what a unit IS
+still steps at the walk's start, because a room cannot be half a second longer
+on its way to being a second longer. `Pole` gained `set()`: a cutoff that moves
+keeps the filter's state, where a new `Pole` started from silence.
+
+Measured, walk against step on the same record (same notes, same roster, same
+desk order — only `overSec` differs): **−45.0, −40.5, −37.7 dB on lofi** and
+**−30.4, −39.5, −21.7 dB on dungeon synth**, seeds 17279 / 204149 / 327517.
+Dungeon synth moves more than lofi, which is what drift 1 against drift 0.5
+predicts. Byte-identical at block sizes 577 and 4096. Render cost 0.95x and
+1.07x.
+
+**THE NOTE THE TAG WAS SUPPOSED TO HOLD THIS IS GONE.** Item 6c says the work
+is preserved at tag `wip/staleness-clock-bolted-on`. That tag does not exist —
+not locally, not on the remote. The code was recovered from commit `d99d896`
+("The desk walks, and the rule of three is counted per part"), which is where
+it was added, and `ecc4ab9` is where it was removed. Fix the note or drop it.
+
+**AND THE REASON GIVEN FOR RESTORING IT WAS WRONG, WHICH IS WORTH RECORDING.**
+The argument was that `alterEvery` tripled the desk moves and therefore
+tripled the clicks. Measured, that is not what was happening. Taking the
+biggest sample-to-sample jump within 20 ms of a desk change against the biggest
+anywhere else in the record: with a STEP the desk change is **quieter than the
+record's own loudest transient** in three of four cases (0.47x, 0.65x, 0.96x)
+and above it in one (dungeon synth 327517, 1.19x). The walk does not
+systematically improve it — lofi 17279 goes 0.47x to 0.64x, worse. Only
+dungeon synth 327517 behaves as the hypothesis predicted, 1.19x → 0.55x.
+
+So the desk changes were mostly not clicking, and **drift is a musical move —
+a filter that opens gradually — not a click fix.** It earns its place on the
+−21 to −45 dB and on its sources, not on the argument that put it back.
+
 **NOBODY HAS HEARD ANY OF IT.** The desk now moves three to four times more
-often than it did. Whether that is a record developing or a record being
+often than it did, and on dungeon synth it is now never still — drift 1 means
+a treatment arrives exactly as the next boundary asks for the next one. Whether that is a record developing or a record being
 fiddled with is exactly the question `TALLY.md` §0 says a measurement cannot
 answer, and it is now more urgent than it was.
 
@@ -485,7 +524,11 @@ Two things are settled and should not be re-litigated from scratch:
   out.** They are in the table under "What was just done", with why each one
   failed. Read it before designing a sixth.
 
-**6c. DRIFT IS OUT, AND SHOULD GO BACK IN ON ITS OWN.** A treatment that walks
+**6c. ~~DRIFT IS OUT~~ DONE — it is back in, on its own, and the tag this
+entry names does not exist.** See "What was just done". The original text
+follows because the warning in it still stands for the next restoration.
+
+**6c (as written).** DRIFT IS OUT, AND SHOULD GO BACK IN ON ITS OWN. A treatment that walks
 to where it is going instead of switching to it. It was built, it worked, and
 it came out with the bolted-on selection loop it was tangled in rather than on
 its own merits. The `overSec` field, `Pole.set()` and the ramp are preserved at

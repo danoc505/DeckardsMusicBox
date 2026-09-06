@@ -188,6 +188,8 @@ export const lofi: GenreSpec = {
 
   arrangement: {
     enter: ["keys", "drums", "bass", "lead", "drone"],
+    /** the desk walks to a treatment rather than switching to it: see the source */
+    drift: 0.5,
     /**
      * AND THE KEYS ARE THE LAST THING THIS GENRE GIVES UP, which the default
      * gets exactly backwards and which has to be said here or it is inherited
@@ -467,6 +469,10 @@ export const lofi: GenreSpec = {
     "sound.rack.tape.wowHz": "\"rate 0.1–0.3 Hz\" for tape wobble (audeobox.com how-to-make-lofi-beats-in-fl-studio)",
     "sound.rack.tape.wowCents": "[chosen] — the guides give depth as a plugin's knob, not in cents",
     "sound.rack.tape.drive": "\"saturation mix 15–25%\" (audeobox.com how-to-make-lofi-beats-in-fl-studio); 1.4 [chosen]",
+    "arrangement.drift":
+      "\"the foundational pattern repeats, but small changes are introduced over time — a hi-hat removed every other bar, " +
+      "a filter that opens slightly … the repetition creates the groove while the variation sustains interest\" " +
+      "(izotope, on lo-fi); half the span [chosen inside that], so the arrival is heard before the next boundary asks for the next thing",
     "form.lengths":
       "intro 4 bars, verse 16, chorus 8, bridge 4–8 (emastered.com/blog/rap-song-structure; " +
       "rapauthority.com/rap-song-structure); a beat-tape track is an intro, a 16-bar verse, a chorus, a break " +

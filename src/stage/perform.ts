@@ -65,6 +65,15 @@ export interface DeskChange {
   readonly treatment: Treatment | null;
   /** The part a per-part treatment is aimed at; null for a whole-desk one. */
   readonly at: Role | null;
+  /**
+   * How long the desk takes to get there, in seconds. 0 is a step on the
+   * sample; anything more is drift — the knobs walk from where they were to
+   * where this treatment puts them, and the renderer keys every step of the
+   * walk on the absolute sample so the record is the same bytes whatever
+   * block it was made in. The genre's `arrangement.drift` says what share of
+   * the span that is.
+   */
+  readonly overSec: number;
 }
 
 export interface Performance {
@@ -141,6 +150,7 @@ export function makePerformance(
   const clock: Clock = form.clock;
   const perBeat = chart.metre.perBeat;
   const F = chart.genre.feel;
+  const A = chart.genre.arrangement;
   // the second note of each pair lands where the first note's share ends:
   // at 66.7% two thirds of the way through the pair, one sixth of it late
   const pairSteps = F.swingGrid === 16 ? perBeat / 2 : perBeat;
@@ -257,7 +267,11 @@ export function makePerformance(
       // where `Span.startBar` says and this takes the last one that has begun.
       const inSection = bar - section.startBar;
       let found: Span | undefined;
-      for (const sp of placed.spans) { if (sp.startBar <= inSection) found = sp; else break; }
+      let endsAt = section.bars;
+      for (const sp of placed.spans) {
+        if (sp.startBar <= inSection) found = sp;
+        else { endsAt = sp.startBar; break; }
+      }
       const span = found
         ?? { startBar: 0, heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
@@ -266,7 +280,18 @@ export function makePerformance(
       if (span.treatment !== deskNow || span.at !== atNow) {
         deskNow = span.treatment;
         atNow = span.at;
-        desk.push({ tSec: clock.at(bar), treatment: deskNow, at: atNow });
+        // AND HOW LONG IT TAKES TO GET THERE: the genre's share of THIS span,
+        // read off where the next one starts rather than assumed to be two
+        // turns. The bar clock makes spans uneven, so a desk move at a bar
+        // point has a shorter walk than one at a two-turn boundary — which is
+        // right, because it has less room before the next change. A span that
+        // ends before the walk does still arrives: the next change starts
+        // from wherever the desk has got to.
+        const spanEnd = section.startBar + endsAt;
+        desk.push({
+          tSec: clock.at(bar), treatment: deskNow, at: atNow,
+          overSec: A.drift * (clock.at(spanEnd) - clock.at(bar)),
+        });
       }
 
       const place = (role: Role, lane: string, step: number, dur: number, pitch: number | null, vel: number, art: ArtName = "plain"): void => {
