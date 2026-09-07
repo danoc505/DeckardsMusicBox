@@ -191,9 +191,12 @@ genre states carries its source in the genre's `sources` map, and a number
 without one says `[chosen]`.
 
 Two genres, lofi hip hop and dungeon synth. Six parts — drums, bass, keys,
-lead, counter and drone — and seven synthesised voices. Five may sound at
-once and only a peak has everyone: the roster and the ceiling are different
-numbers. Every rule is written in beats and
+lead, counter and drone — and eight synthesised voices, one of which (the
+horns) no genre yet names; `HANDOFF.md` item 2 says what to do about it. A
+part is a seat, and
+what it plays is drawn per material from the five arrangement elements; the
+ceiling is on how many distinct elements sound at once, not on parts, so how
+many play is a consequence rather than a setting. Every rule is written in beats and
 resolved against the genre's own metre, so a genre in five four needs no new
 code, only its own numbers.
 

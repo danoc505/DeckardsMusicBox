@@ -583,7 +583,33 @@
     for (var m = lo; m <= hi; m += 12) { g.beginPath(); g.moveTo(10, y(m)); g.lineTo(W - 10, y(m)); g.stroke(); g.fillStyle = "rgba(87,242,165,0.35)"; g.font = "9px ui-monospace,Menlo,monospace"; g.fillText("C" + (m / 12 - 1), 12, y(m) - 2); }
     var clk = song.form.clock;
     g.setLineDash([3, 4]); g.strokeStyle = "rgba(255,179,71,0.35)";
-    song.form.sections.forEach(function (s) { var sx = x(clk.at(s.startBar)); g.beginPath(); g.moveTo(sx, top); g.lineTo(sx, H - 6); g.stroke(); g.fillStyle = "rgba(255,179,71,0.8)"; g.font = "700 9px Helvetica Neue,Arial"; g.fillText(s.fn.toUpperCase(), sx + 4, top + 10); });
+    song.form.sections.forEach(function (s) {
+      var sx = x(clk.at(s.startBar)); g.beginPath(); g.moveTo(sx, top); g.lineTo(sx, H - 6); g.stroke();
+      g.fillStyle = "rgba(255,179,71,0.8)"; g.font = "700 9px Helvetica Neue,Arial"; g.fillText(s.fn.toUpperCase(), sx + 4, top + 10);
+      /* WHAT EACH SEAT IS DOING in this section, under its name: the part's
+         initial in its own colour, then job·texture. A part and its job are
+         two different things now, and a picture that showed only the notes
+         would leave the reader to guess which seat was arpeggiating. */
+      var pl = song.arrangement.placed.find(function (q) { return q.section.index === s.index; });
+      var served = pl && song.materials.all.get(pl.material) && song.materials.all.get(pl.material).served;
+      if (served) {
+        // clipped to its own section, as the tool clips it: a label that runs
+        // into the next section is a label on the wrong section
+        var next = song.form.sections[s.index + 1];
+        var ex = next ? x(clk.at(next.startBar)) : W - 10;
+        var ax = sx + 4; g.font = "8px ui-monospace,Menlo,monospace";
+        for (var ri = 0; ri < ROLES.length; ri++) {
+          var r = ROLES[ri];
+          if (r === "drums" || r === "lead") continue;
+          var el = served[r].element, tx = served[r].texture;
+          var tag = r[0].toUpperCase() + " " + el + (tx !== "line" && tx !== "sustain" ? "\u00b7" + tx : "");
+          var tw = g.measureText(tag).width;
+          if (ax + tw > ex - 4) break;
+          g.fillStyle = COLOR[r]; g.globalAlpha = 0.85; g.fillText(tag, ax, top + 20); g.globalAlpha = 1;
+          ax += tw + 8;
+        }
+      }
+    });
     g.setLineDash([]);
     g.strokeStyle = "rgba(87,242,165,0.2)"; g.beginPath(); g.moveTo(10, H - fxH - drumH - 4); g.lineTo(W - 10, H - fxH - drumH - 4); g.stroke();
     // notes

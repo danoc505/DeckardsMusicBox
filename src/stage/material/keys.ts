@@ -12,6 +12,7 @@
  */
 
 import type { Rng } from "../../core/rng.ts";
+import type { Register } from "../../genre/spec.ts";
 import { intoBand } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
 import { manner } from "./manner.ts";
@@ -270,9 +271,11 @@ export function drawKeys(
   rng: Rng,
   steps: number,
   sounding: Sounding,
+  register: Register = chart.register.keys,
 ): Note[] {
   const K = chart.genre.keys;
-  const [lo, hi] = chart.register.keys;
+  // the band is a parameter: another seat may serve the pad in its own
+  const [lo, hi] = register;
   const strike = rng.weighted("strike", K.strike);
   // whether this material voices open or close is a property of the part,
   // decided once, not a coin per bar

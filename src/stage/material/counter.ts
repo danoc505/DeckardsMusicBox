@@ -44,6 +44,7 @@
  */
 
 import type { Rng } from "../../core/rng.ts";
+import type { Register } from "../../genre/spec.ts";
 import { inScale, intoBand } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
 import type { Chord, Note, Sounding } from "./note.ts";
@@ -63,9 +64,11 @@ export function drawCounter(
   steps: number,
   bars: number,
   sounding: Sounding,
+  register: Register = chart.register.counter,
 ): Note[] {
   const C = chart.genre.counter;
-  const [lo, hi] = chart.register.counter;
+  // the band is a parameter: another seat may answer the tune in its own
+  const [lo, hi] = register;
 
   // WHERE THE TUNE IS TALKING, as a set of occupied instants. A note occupies
   // every step it is held for and not only the one it starts on — a counter

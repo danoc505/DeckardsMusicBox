@@ -23,7 +23,10 @@
    Fusion cue: shared onsets — Owsinski's "playing the same rhythmic figure",
    which is the one cue a source names explicitly and the one the material
    makes computable. */
-const { compose } = await import("/home/user/DeckardsMusicBox/src/song.ts");
+// imported RELATIVE TO THIS FILE, so a copy in a worktree measures that
+// worktree's program and not whichever checkout happens to be at the fixed
+// path — the first comparison run measured the same code twice
+const { compose } = await import(new URL("../src/song.ts", import.meta.url).href);
 const SHARE = Number(process.argv[3] ?? 0.6);
 for (const g of [process.argv[2]]) {
   const parts = [], streams = [];

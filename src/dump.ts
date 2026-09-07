@@ -106,6 +106,7 @@ export function dump(song: Song): string {
   }
 
   L.push("#section_cols\ti\tfn\tstartBar\tendBar\tmaterial\tenergy\tocc\tflags");
+  L.push("#element_cols\ti\t" + ROLES.map((r) => `${r}=job/texture`).join("\t"));
   song.arrangement.placed.forEach((p, i) => {
     const s = p.section;
     const flags: string[] = [];
@@ -122,6 +123,12 @@ export function dump(song: Song): string {
     const missing = ROLES.filter((r) => !p.heard.has(r));
     if (missing.length > 0) flags.push("without:" + missing.join("+"));
     L.push(`#section\t${[i, s.fn, s.startBar, s.endBar, p.material, r2(s.energy), s.statement, flags.join(",") || "."].join("\t")}`);
+    // WHAT EACH SEAT IS DOING in this material, and how: the record's own
+    // account of its mix-and-match, one seat per column, job/texture
+    // off the MATERIAL, which records what was actually played: a job the
+    // arrangement drew that had nowhere to stand gives way to the seat's own
+    const sv = song.materials.all.get(p.material)?.served;
+    L.push(`#element\t${i}\t${ROLES.map((r) => `${r}=${r === "drums" ? "foundation/line" : sv ? `${sv[r as Exclude<Role, "drums">].element}/${sv[r as Exclude<Role, "drums">].texture}` : `${p.elements[r]}/${p.textures[r]}`}`).join("\t")}`);
   });
 
   // THE SPANS, and who is in each one. A span is two turns of the loop and

@@ -61,7 +61,7 @@ import {
 } from "./dsp.ts";
 import { Comp, Meat, Muff, Octave, Sag, Saw, Sub } from "./pedals.ts";
 import { KitBus, Strip, drum, inert, voiceOf } from "./tr1000.ts";
-import { flute, organ, pad, pluck, rhodes, sub, wurly, type NoteIn } from "./voices.ts";
+import { flute, horns, organ, pad, pluck, rhodes, sub, wurly, type NoteIn } from "./voices.ts";
 
 export interface Stereo {
   readonly left: Float32Array;
@@ -538,7 +538,7 @@ export class Engine {
     this.layers = opts.layers ?? LAYERS;
     this.only = opts.only;
     this.events = song.performance.events;
-    this.voices = { rhodes, wurly, sub, pluck, organ, pad, flute };
+    this.voices = { rhodes, wurly, sub, pluck, organ, pad, flute, horns };
 
     const b = this.blockSize;
     this.sumL = new Float32Array(b);

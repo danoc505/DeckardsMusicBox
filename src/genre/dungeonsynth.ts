@@ -143,6 +143,20 @@ export const dungeonsynth: GenreSpec = {
      * whole band moves and keeps its width.
      */
     register: [45, 71],
+    /**
+     * THE KEYS ARE HELD, AND THAT IS A LAW OF THIS GENRE. Its structure is
+     * "not based on the typical pop song progression... but rather on
+     * carefully sustaining a single mood" (note.com/soundwitches, as read in
+     * `DUNGEON-SYNTH-ARRANGEMENT.md`), and the owner states it outright: this
+     * genre is defined by long held chords. So the keys serve the pad and
+     * nothing else, and the pad is sustained and nothing else. An earlier
+     * version offered these keys an arpeggio at weight 3 on the strength of a
+     * sentence about "the medieval-harp figure over the drone" that no source
+     * says — the genre's own guide (dungeon-synth.neocities.org) does not
+     * mention arpeggios at all. `arrange.test.ts` holds this.
+     */
+    element: [["pad", 1]],
+    texture: [["sustain", 1]],
     strike: [[[0], 4], [[0, 2], 1]],
     open: 0.6,
     /** a pad swells rather than strikes: it holds, and it slurs from chord to chord */
@@ -253,6 +267,18 @@ export const dungeonsynth: GenreSpec = {
    */
   counter: {
     register: [48, 64],
+    /**
+     * THE COUNTER ANSWERS, AND SPARSELY. The guide's own list of what goes on
+     * over a finished song is "underlying drones, background flourishes,
+     * little sound effects at impactful parts" (dungeon-synth.neocities.org/
+     * music-making-guide) — flourishes, in the background. That is fills with
+     * a sparse texture, and it is the one thing the guide names. No arpeggio:
+     * the guide does not mention one, and the held chords this genre is
+     * defined by are not to be spilled from the seat beside them either.
+     * Weights [chosen] inside that.
+     */
+    element: [["fills", 1]],
+    texture: [["line", 3], ["sparse", 2]],
     density: 0.45,
     apart: 12,
   },

@@ -7,7 +7,7 @@
  */
 
 import type { ArtName } from "../../core/articulation.ts";
-import type { Contour, Idea, PitchedRole } from "../../genre/spec.ts";
+import type { Contour, Element, Idea, PitchedRole, Texture } from "../../genre/spec.ts";
 import type { Figure, Hit } from "./drums.ts";
 
 export type { Figure, Hit } from "./drums.ts";
@@ -77,6 +77,14 @@ export interface Material {
    * the chords, so it is addressed the same way the tune is.
    */
   readonly counter: readonly (readonly Note[])[];
+  /**
+   * WHAT EACH SEAT ACTUALLY PLAYED, which is not always what it was assigned.
+   * The arrangement draws a job per seat before any note exists; whether the
+   * job can be written in this seat's band beside what the other seats hold
+   * is only knowable here. A job that writes nothing gives way to the seat's
+   * own, and this says so — the dump and the roll read this, not the draw.
+   */
+  readonly served: Readonly<Record<PitchedRole, { readonly element: Element; readonly texture: Texture }>>;
   /** The drum figure every phrase below is a treatment of; the bass may stand on its kick. */
   readonly figure: Figure;
   /** The drums, one phrase per time they play this material through. */

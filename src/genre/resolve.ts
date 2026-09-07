@@ -13,7 +13,7 @@
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  ARCS, BAR_LETTERS, BASS_TONES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
+  ARCS, ARP_PATTERNS, BAR_LETTERS, BASS_TONES, ELEMENTS, FIGURES, TEXTURES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
   type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
@@ -484,6 +484,13 @@ export function resolveGenre(
     problems.push("bass is missing");
   } else {
     checkRegister("bass.register", bass["register"]);
+    // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
+    checkPool(problems, "bass.element", bass["element"],
+      (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
+      "an arrangement element: foundation, pad, rhythm, lead or fills");
+    checkPool(problems, "bass.texture", bass["texture"],
+      (v) => typeof v === "string" && (TEXTURES as readonly string[]).includes(v),
+      "a texture: line, arp, sustain or sparse");
     const follows = bass["pocket"] === "kick";
     if (!follows) checkPool(problems, "bass.pocket", bass["pocket"], isBeatList, beatsWhat);
     checkPool(problems, "bass.tones", bass["tones"],
@@ -497,6 +504,13 @@ export function resolveGenre(
     problems.push("keys is missing");
   } else {
     checkRegister("keys.register", keys["register"]);
+    // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
+    checkPool(problems, "keys.element", keys["element"],
+      (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
+      "an arrangement element: foundation, pad, rhythm, lead or fills");
+    checkPool(problems, "keys.texture", keys["texture"],
+      (v) => typeof v === "string" && (TEXTURES as readonly string[]).includes(v),
+      "a texture: line, arp, sustain or sparse");
     checkPool(problems, "keys.strike", keys["strike"], isBeatList, beatsWhat);
     const op = keys["open"];
     if (!finite(op) || op < 0 || op > 1) problems.push(`keys.open must be 0..1, got ${String(op)}`);
@@ -508,6 +522,23 @@ export function resolveGenre(
     problems.push("lead is missing");
   } else {
     checkRegister("lead.register", lead["register"]);
+    // A RECORD HAS A TUNE. "A lead vocal, lead instrument or solo" is one
+    // element, singular, and the seat named for it is where it lives: the
+    // arrangement gives lead to this seat and strikes it from every other, so
+    // a lead pool with no weight on lead is a record with no tune.
+    {
+      const pool = lead["element"];
+      if (Array.isArray(pool) && !pool.some((r) => Array.isArray(r) && r[0] === "lead" && finite(r[1]) && (r[1] as number) > 0)) {
+        problems.push("lead.element gives the lead no weight on lead, and a record has a tune");
+      }
+    }
+    // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
+    checkPool(problems, "lead.element", lead["element"],
+      (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
+      "an arrangement element: foundation, pad, rhythm, lead or fills");
+    checkPool(problems, "lead.texture", lead["texture"],
+      (v) => typeof v === "string" && (TEXTURES as readonly string[]).includes(v),
+      "a texture: line, arp, sustain or sparse");
     // a phrase is two bars, need not begin on its downbeat, and must be ascending
     checkPool(problems, "lead.rhythms", lead["rhythms"], beatList(beats * 2, false),
       `an ascending list of beats inside a two-bar phrase of ${beats * 2}, on a grid of ${perBeat} per beat`);
@@ -572,6 +603,13 @@ export function resolveGenre(
     problems.push("counter is missing");
   } else {
     checkRegister("counter.register", counter["register"]);
+    // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
+    checkPool(problems, "counter.element", counter["element"],
+      (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
+      "an arrangement element: foundation, pad, rhythm, lead or fills");
+    checkPool(problems, "counter.texture", counter["texture"],
+      (v) => typeof v === "string" && (TEXTURES as readonly string[]).includes(v),
+      "a texture: line, arp, sustain or sparse");
     const d = counter["density"];
     if (!finite(d) || (d as number) <= 0 || (d as number) > 1) {
       problems.push(`counter.density must be a share of the lead's own count, 0 to 1, got ${String(d)}`);
@@ -593,6 +631,25 @@ export function resolveGenre(
      * two twenty-semitone bands would need forty-four semitones of room for
      * two parts, which no genre here has and no instrument would want.
      */
+    /**
+     * AND A SEAT MAY ONLY BE A SECOND PAD WHERE IT HAS ROOM OF ITS OWN. A pad
+     * is a voiced chord; two seats voicing chords inside one band land on each
+     * other's pitches, and the keys' builder writes its chord even when no
+     * voicing is clear — by design, since "a filter that can empty is a filter
+     * that one day writes no chord at all". Measured with the counter offered
+     * pad in a band overlapping the keys': 11 of 120 seeds refused to build.
+     * So a seat that may serve pad must not share the keys' band. A constraint
+     * rather than a number, and it is on the genre rather than the record.
+     */
+    const kr = keys === null ? null : keys["register"];
+    const offersPad = Array.isArray(counter["element"]) && (counter["element"] as unknown[]).some((r) => Array.isArray(r) && r[0] === "pad" && finite(r[1]) && (r[1] as number) > 0);
+    if (offersPad && Array.isArray(kr) && Array.isArray(counter["register"])) {
+      const [clo, chi] = counter["register"] as [number, number];
+      const [klo, khi] = kr as [number, number];
+      if (clo <= khi && klo <= chi) {
+        problems.push(`counter.element offers pad, but counter.register ${clo}..${chi} overlaps keys.register ${klo}..${khi}: two pads in one band land on each other`);
+      }
+    }
     const lr = lead === null ? null : lead["register"];
     const cr = counter["register"];
     if (Array.isArray(lr) && Array.isArray(cr) && Number.isInteger(apart)) {
@@ -607,10 +664,29 @@ export function resolveGenre(
     }
   }
 
+  const arp = isPlainObject(merged["arp"]) ? merged["arp"] : null;
+  if (arp === null) {
+    problems.push("arp is missing");
+  } else {
+    checkPool(problems, "arp.pattern", arp["pattern"],
+      (v) => typeof v === "string" && (ARP_PATTERNS as readonly string[]).includes(v),
+      "an arpeggiator pattern: up, down, updown or random");
+    checkPool(problems, "arp.every", arp["every"],
+      (v) => finite(v) && (v as number) > 0 && (v as number) <= 4,
+      "a rate in beats between notes, above 0 and at most a bar of four");
+  }
+
   if (drone === null) {
     problems.push("drone is missing");
   } else {
     checkRegister("drone.register", drone["register"]);
+    // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
+    checkPool(problems, "drone.element", drone["element"],
+      (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
+      "an arrangement element: foundation, pad, rhythm, lead or fills");
+    checkPool(problems, "drone.texture", drone["texture"],
+      (v) => typeof v === "string" && (TEXTURES as readonly string[]).includes(v),
+      "a texture: line, arp, sustain or sparse");
     checkPool(problems, "drone.tone", drone["tone"],
       (v) => typeof v === "string" && (DRONE_TONES as readonly string[]).includes(v),
       "a drone tone: the key's tonic or its fifth");
@@ -624,6 +700,9 @@ export function resolveGenre(
     problems.push("drums is missing");
   } else {
     // a kick pocket starts on the downbeat; a snare's does not have to
+    checkPool(problems, "drums.figure", drums["figure"],
+      (v) => v === "own" || (typeof v === "string" && v in FIGURES),
+      `"own" or a named figure: ${Object.keys(FIGURES).join(", ")}`);
     checkPool(problems, "drums.kick", drums["kick"], isBeatList, beatsWhat);
     checkPool(problems, "drums.snare", drums["snare"], beatList(beats, false),
       `an ascending list of beats inside a ${beats}-beat bar, on a grid of ${perBeat} per beat`);
@@ -904,6 +983,7 @@ export function resolveGenre(
     keys: deepFreeze(keys) as unknown as Genre["keys"],
     lead: deepFreeze(lead) as unknown as Genre["lead"],
     counter: deepFreeze(counter) as unknown as Genre["counter"],
+    arp: deepFreeze(arp) as unknown as Genre["arp"],
     drone: deepFreeze(drone) as unknown as Genre["drone"],
     drums: deepFreeze(drums) as unknown as Genre["drums"],
     arrangement: deepFreeze(arr) as unknown as Genre["arrangement"],

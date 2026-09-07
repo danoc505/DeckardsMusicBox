@@ -222,6 +222,22 @@ export const lofi: GenreSpec = {
      * sixty.
      */
     register: [43, 76],
+    /**
+     * WHAT THE KEYS MAY DO. The Rhodes is a pad by the source's own account —
+     * "a Hammond Organ provided the best pad and was joined later by the
+     * Fender Rhodes electric piano" (bobbyowsinskiblog.com) — so pad leads.
+     * And it may play counter to the foundation instead: the source names
+     * "a rhythm guitar strumming on the backbeat" and the Rhodes comping is
+     * this genre's version of that. Weights [chosen].
+     */
+    element: [["pad", 5], ["rhythm", 2]],
+    /**
+     * And when it plays counter to the foundation it is spilled: the arp is
+     * legal only on the rhythm job — a pad that is arpeggiated is not a pad
+     * (`LEGAL_TEXTURES`) — so this weight only ever applies where the keys
+     * drew rhythm, and a pad draw takes `line`. [chosen]
+     */
+    texture: [["line", 5], ["arp", 2]],
     open: 0.9,
     /** a Rhodes is tines and a hammer: how long the key is held, and a dead one */
     art: [["plain", 5], ["tenuto", 5], ["staccato", 2], ["ghost", 1]],
@@ -245,6 +261,14 @@ export const lofi: GenreSpec = {
   // on two and four, hats on the eighths, ghosts on the sixteenth before a
   // backbeat
   drums: {
+    /**
+     * THE AMEN, AT THIS TEMPO, AS AN OPTION. "The first two bars are a standard
+     * funk groove that makes a great hip-hop beat if you slowed it down"
+     * (ethanhein.com, "Building the Amen break") — and slowed down is what
+     * this genre is. One material in four, so a record built on the break is a
+     * record and not the default. [chosen]
+     */
+    figure: [["own", 3], ["amen", 1]],
     kick: [
       [[0, 1.5, 2.5], 4],
       [[0, 1.5], 3],
@@ -329,6 +353,18 @@ export const lofi: GenreSpec = {
    */
   counter: {
     register: [50, 66],
+    /**
+     * WHAT THE COUNTER MAY DO. Fills, by definition — "an answer to the Lead"
+     * — and, since a Wurlitzer answering can just as well be a Wurlitzer
+     * comping, the rhythm element: "any instrument that plays counter to the
+     * Foundation". NOT a second pad: this band overlaps the keys', and a pad
+     * voiced inside another pad's band lands on its pitches — measured, 11 of
+     * 120 seeds refused to build. `resolve.ts` says so at load. Weights
+     * [chosen].
+     */
+    element: [["fills", 5], ["rhythm", 3]],
+    /** Arpeggiated as often as not when it is the rhythm — that is what an arp part IS. [chosen] */
+    texture: [["line", 4], ["arp", 3], ["sparse", 1]],
     density: 0.5,
     apart: 12,
   },

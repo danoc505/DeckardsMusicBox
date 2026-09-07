@@ -6,7 +6,7 @@ import { settle } from "../sound/render.ts";
 import { makeChart } from "./chart.ts";
 import { makeForm } from "./form.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
-import { ROLES, TREATMENTS } from "../genre/spec.ts";
+import { LEGAL_TEXTURES, ROLES, TREATMENTS } from "../genre/spec.ts";
 
 const lofi = GENRES.lofi;
 const build = (seed: number, seconds: number | null = 240): Arrangement => {
@@ -668,6 +668,58 @@ test("every rule this file states about a span, it keeps", () => {
         // drums it may consist of are the thing being heard. The section
         // refuses it; so must every span of it.
         if (p.broken) for (const sp of p.spans) assert.equal(sp.thin, false, `${where}: the break was thinned`);
+      }
+    }
+  }
+});
+
+test("no more than four elements sound at once, five at a peak, and a material's assignment is one thing", () => {
+  // THE CEILING IS IN ELEMENTS, NOT PARTS. "Usually there should not be more
+  // than four arrangement elements playing at the same time... Very rarely
+  // will five simultaneous elements work together" (bobbyowsinskiblog.com,
+  // song-arrangement-elements), and this program's older citation says the
+  // same in the same unit — "five elements at one time, counting the drums as
+  // one". Several parts on one job are one thing to an ear; the number of
+  // parts is not capped here and this test does not count them.
+  for (const [g, genre] of Object.entries(GENRES)) {
+    for (let seed = 1; seed <= 60; seed++) {
+      const chart = makeChart({ seed, genre });
+      const a = makeArrangement(chart, makeForm(chart));
+      const assignments = new Map<string, string>();
+      for (const p of a.placed) {
+        const cap = p.section.peak ? 5 : 4;
+        for (const sp of p.spans) {
+          const seen = new Set<string>();
+          for (const r of sp.heard) seen.add(p.elements[r]);
+          assert.ok(seen.size <= cap, `${g} seed ${seed} ${p.section.fn}: ${seen.size} elements sound at once (${[...seen].join(" ")}), over ${cap}`);
+        }
+        // the same material is the same assignment wherever it is heard: the
+        // keys that arpeggiate the chorus arpeggiate every chorus
+        const sig = ROLES.map((r) => `${r}:${p.elements[r]}/${p.textures[r]}`).join(" ");
+        const before = assignments.get(p.material);
+        if (before !== undefined) assert.equal(sig, before, `${g} seed ${seed} ${p.material} is assigned two ways`);
+        assignments.set(p.material, sig);
+        // NOT EVERY TEXTURE IS LEGAL ON EVERY JOB: a pad is "a long sustaining
+        // note or chord" and cannot be arpeggiated, in any genre
+        for (const r of ROLES) {
+          assert.ok(LEGAL_TEXTURES[p.elements[r]].includes(p.textures[r]),
+            `${g} seed ${seed} ${p.material}: ${r} is ${p.elements[r]} with texture ${p.textures[r]}, which that job does not allow`);
+        }
+        // AND DUNGEON SYNTH'S CHORDS ARE HELD. The owner states it as the
+        // genre's defining rule and its literature is about "carefully
+        // sustaining a single mood"; the genre's guide does not mention an
+        // arpeggio at all. So its keys serve the pad, sustained, in every
+        // record — and no seat of that genre is arpeggiated.
+        if (g === "dungeonsynth") {
+          assert.equal(p.elements.keys, "pad", `${g} seed ${seed}: the keys are not the pad`);
+          assert.equal(p.textures.keys, "sustain", `${g} seed ${seed}: the keys are not held`);
+          for (const r of ROLES) assert.notEqual(p.textures[r], "arp", `${g} seed ${seed}: ${r} is arpeggiated`);
+        }
+        // the drums are the foundation, the lead seat is the lead, and there is
+        // ONE lead: "a lead vocal, lead instrument or solo", singular
+        assert.equal(p.elements.drums, "foundation", `${g} seed ${seed}: the drums are not the foundation`);
+        assert.equal(p.elements.lead, "lead", `${g} seed ${seed}: the lead seat is not the lead`);
+        assert.equal(ROLES.filter((r) => p.elements[r] === "lead").length, 1, `${g} seed ${seed}: more than one lead`);
       }
     }
   }

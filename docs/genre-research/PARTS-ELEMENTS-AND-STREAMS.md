@@ -110,6 +110,37 @@ play, the constraint refuses combinations that exceed what an ear can follow,
 and the density that comes out is a CONSEQUENCE — different per seed, and
 different for reasons that are audible rather than arithmetic.
 
+## 3a. What shipped, and what it measured
+
+Built after §1–3 and before the stream constraint in §5:
+
+- `ELEMENTS` and `TEXTURES` in `spec.ts`; every pitched seat draws one of each
+  per material from its genre's weights, with the drums always foundation and
+  the lead seat always lead ("a lead vocal, lead instrument or solo", singular).
+- `MOST_ELEMENTS = 4`, `MOST_ELEMENTS_AT_PEAK = 5` replace the part cap. Both
+  are the sources' own figures in the sources' own unit. Parts are uncapped.
+- `material/index.ts` dispatches by element and texture, handing each builder
+  the seat's own register; `arp.ts` is the arpeggiated texture; a job that
+  writes nothing gives way to the seat's own and `Material.served` says so.
+- The dump's `#element` lines and the roll's line under each section name show
+  what each seat served.
+
+Measured over 60 seeds a genre, against the commit before:
+
+| | before | after |
+|---|---|---|
+| who opens, thinnest section, fullest, peak | — | **identical** |
+| parts per section, lofi / dungeon synth | 3.89 / 3.70 | 4.04 / 4.04 |
+| keys arpeggiating, share of materials | 0% | 33% / 36% |
+| counter serving the rhythm | 0% | 36% / 48% |
+| a drawn job that gave way | — | 0 / 1 in 325 materials |
+| seeds that failed to build | 0 | 0 |
+
+The rise in parts with the section-level shape unchanged is the thesis in one
+row: the element cap admits more parts exactly where they are doing the same
+job, and nothing else moved. What the extra parts sound like together is not
+a claim this table can make.
+
 ## 4. What the elements do to the behaviours already written
 
 `material/behaviour.ts` was started with an ad-hoc list — `arp`, `flourish` —

@@ -17,7 +17,7 @@
 
 import type { ArtName } from "../../core/articulation.ts";
 import type { Rng } from "../../core/rng.ts";
-import type { BarLetter, DrumLane } from "../../genre/spec.ts";
+import { FIGURES, type BarLetter, type DrumLane } from "../../genre/spec.ts";
 import type { Chart } from "../chart.ts";
 import { manner } from "./manner.ts";
 
@@ -39,11 +39,27 @@ export interface Figure {
   readonly snare: readonly number[];
   /** The hat strikes every this many steps; 0 for none. */
   readonly hatEvery: number;
+  /**
+   * A NAMED FIGURE IS MORE THAN ONE BAR. Where this is set, each bar plays
+   * the entry at its position in the cycle instead of `kick`/`snare` above,
+   * which then carry the first bar's so the bass can still stand on the kick.
+   * In grid steps.
+   */
+  readonly cycle?: readonly { readonly kick: readonly number[]; readonly snare: readonly number[]; readonly crash: readonly number[] }[];
 }
 
 /** Drawn once per material. The bass may take its feet from the kick. */
 export function drawFigure(chart: Chart, rng: Rng): Figure {
   const D = chart.genre.drums;
+  const which = rng.weighted("figure", D.figure);
+  const named = which === "own" ? undefined : FIGURES[which];
+  if (named !== undefined) {
+    // beats to grid steps, against this record's own metre
+    const per = chart.metre.perBeat;
+    const steps = (b: readonly number[]): number[] => b.map((x) => Math.round(x * per));
+    const cycle = named.bars.map((bar) => Object.freeze({ kick: steps(bar.kick), snare: steps(bar.snare), crash: steps(bar.crash ?? []) }));
+    return Object.freeze({ kick: cycle[0]!.kick, snare: cycle[0]!.snare, hatEvery: Math.round(named.hat * per), cycle });
+  }
   return Object.freeze({
     kick: rng.weighted("kick", D.kick),
     snare: rng.weighted("snare", D.snare),
@@ -71,16 +87,21 @@ export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, 
     const letter: BarLetter = phrase[bar % phrase.length]!;
     const at = own.at("bar", bar);
 
-    // the figure
+    // the figure — this bar's own where the figure is a cycle, else the one
+    const here = figure.cycle ? figure.cycle[bar % figure.cycle.length]! : null;
+    const kickHere = here ? here.kick : kick;
+    const snareHere = here ? here.snare : snare;
     const hits: Hit[] = [];
-    for (const st of kick) hits.push({ bar, step: st, lane: "kick", vel: 0.95 });
+    for (const st of kickHere) hits.push({ bar, step: st, lane: "kick", vel: 0.95 });
+    // the crash is the open hat: the one ringing cymbal this kit has
+    if (here) for (const st of here.crash) hits.push({ bar, step: st, lane: "openhat", vel: 0.9, art: "accent" });
     // A SNARE ON A BEAT IS THE BACKBEAT; ONE OFF THE BEAT IS A GHOST. It is
     // written as a ghost rather than as a quieter snare, because a ghost note
     // is not merely a quiet one: it is "played with little or no sound", a
     // stick dropped on the head rather than struck, and the manner carries
     // both the weight and the deadness. How much quieter is stated once, in
     // the articulation table, and not again here.
-    for (const st of snare) {
+    for (const st of snareHere) {
       if (st % beat === 0) hits.push({ bar, step: st, lane: "snare", vel: 1 });
       else hits.push({ bar, step: st, lane: "snare", vel: 1, art: "ghost" });
     }

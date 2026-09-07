@@ -246,7 +246,94 @@ export type BassTone = (typeof BASS_TONES)[number];
  */
 export type Beats = readonly number[];
 
-export interface BassSpec {
+/**
+ * THE ELEMENTS — what a part is DOING, as against which part it is.
+ *
+ * Arranging literature does not describe a band. It describes five jobs and
+ * says which instruments may serve them, and it says so as definitions rather
+ * than advice (bobbyowsinskiblog.com/song-arrangement-elements):
+ *
+ *   foundation  "The Rhythm Section... usually the bass and drums, but can also
+ *               include a rhythm guitar and/or keys if they're playing the same
+ *               rhythmic figure as the rhythm section."
+ *   pad         "A long sustaining note or chord... Synthesizers now provide
+ *               the majority of pads but a real string section or a guitar
+ *               power chord can also suffice."
+ *   rhythm      "ANY INSTRUMENT that plays counter to the Foundation element."
+ *   lead        "A lead vocal, lead instrument or solo."
+ *   fills       "Fills generally occur in the spaces between Lead lines...
+ *               an answer to the Lead."
+ *
+ * Not one of those names an instrument as a requirement. For the whole of this
+ * program's life the job was welded to the part's name — `drawBass` WAS the
+ * bass — and nothing chose that; it is how the first version got written. A
+ * part is a SEAT (a register, a voice, a place in the mix) and this is the job
+ * it draws, per material, from the weights its genre gives it. The bass may
+ * play the rhythm; the keys may play the fills. `PARTS-ELEMENTS-AND-STREAMS.md`
+ * is the research.
+ *
+ * AND THE CEILING ON DENSITY IS COUNTED IN THESE. "Usually there should not be
+ * more than four arrangement elements playing at the same time. Sometimes
+ * three elements can work very well. Very rarely will five simultaneous
+ * elements work together." Both arranging sources this program cites count
+ * elements — "counting the drums as one" — and the perception literature
+ * agrees: numerosity errors go from about 10% at three concurrent voices to
+ * about 50% at four (Huron, in Siedenburg et al.). Several parts serving one
+ * element are ONE thing to an ear, so the number of parts is free and what is
+ * limited is how many distinguishable jobs they add up to.
+ */
+export const ELEMENTS = ["foundation", "pad", "rhythm", "lead", "fills"] as const;
+export type Element = (typeof ELEMENTS)[number];
+
+/**
+ * THE TEXTURES — how a job is laid out in notes. Orthogonal to the element: an
+ * arpeggio is not a job, it is "a type of chord in which the notes that
+ * compose a chord are individually sounded in a progressive rising or
+ * descending order" (en.wikipedia.org/wiki/Arpeggio), and an arpeggiated part
+ * can be serving the pad, the rhythm or the lead. A seat serving the rhythm
+ * element with an arpeggiated texture IS an arp part, and that sentence is the
+ * mix-and-match this program lacked.
+ *
+ *   line     the element's own way of writing notes — the default
+ *   arp      the chord tones spilled in order, at a rate
+ *   sustain  held tones: the element's notes, longer and fewer
+ *   sparse   the element's notes with most of them left out
+ */
+export const TEXTURES = ["line", "arp", "sustain", "sparse"] as const;
+export type Texture = (typeof TEXTURES)[number];
+
+/**
+ * NOT EVERY TEXTURE IS LEGAL ON EVERY JOB, and the table is the definitions.
+ *
+ * A pad is "a long sustaining note or chord". Spill it and it is not
+ * sustaining any more — an arpeggiated pad is a contradiction in the source's
+ * own terms, and what it actually is is the Rhythm element ("any instrument
+ * that plays counter to the Foundation"). So arp is not a texture a pad may
+ * take, in any genre; a seat that arpeggiates is serving the rhythm. The
+ * lead is a line, because the tune's builder is the tune's builder. And the
+ * rhythm has no "line" here yet: this program's one way of playing counter
+ * to the foundation is the arpeggio, so a rhythm seat is spilled or spilled
+ * and thinned, and saying so is better than a texture that silently means
+ * something else. A genre's texture pool is filtered by this before a draw,
+ * so a genre cannot state a combination that does not exist.
+ */
+export const LEGAL_TEXTURES: Readonly<Record<Element, readonly Texture[]>> = Object.freeze({
+  foundation: ["line", "sparse"],
+  pad: ["line", "sustain"],
+  rhythm: ["arp", "sparse"],
+  lead: ["line"],
+  fills: ["line", "arp", "sparse"],
+});
+
+/** What every pitched seat may say about its job and its texture. */
+export interface SeatSpec {
+  /** Which jobs this seat may take, by weight. A seat that says nothing keeps its default. */
+  readonly element?: Weighted<Element>;
+  /** How it lays those jobs out, by weight. */
+  readonly texture?: Weighted<Texture>;
+}
+
+export interface BassSpec extends SeatSpec {
   readonly register?: Register;
   /**
    * Which beats strike, drawn once per material — or `"kick"`: the bass
@@ -261,13 +348,15 @@ export interface BassSpec {
 
 /** What the bass builder reads. `pocket` is in GRID STEPS here, not beats. */
 export interface BassRules {
+  readonly element: Weighted<Element>;
+  readonly texture: Weighted<Texture>;
   readonly register: Register;
   readonly pocket: Weighted<readonly number[]> | "kick";
   readonly tones: Weighted<BassTone>;
   readonly art: ArtSpec;
 }
 
-export interface KeysSpec {
+export interface KeysSpec extends SeatSpec {
   readonly register?: Register;
   /** Which beats the chord is struck on, drawn once per material. */
   readonly strike?: Weighted<Beats>;
@@ -311,6 +400,8 @@ export interface KeysSpec {
 
 /** What the keys builder reads. `strike` is in GRID STEPS here, not beats. */
 export interface KeysRules {
+  readonly element: Weighted<Element>;
+  readonly texture: Weighted<Texture>;
   readonly register: Register;
   readonly strike: Weighted<readonly number[]>;
   readonly open: number;
@@ -423,7 +514,7 @@ export type DroneTone = (typeof DRONE_TONES)[number];
 export const DRONE_STRINGS = ["tonic", "fifth", "low"] as const;
 export type DroneString = (typeof DRONE_STRINGS)[number];
 
-export interface DroneSpec {
+export interface DroneSpec extends SeatSpec {
   readonly register?: Register;
   /** Which tone of the KEY it holds — never of the chord; a drone does not follow the changes. */
   readonly tone?: Weighted<DroneTone>;
@@ -458,6 +549,8 @@ export interface DroneSpec {
 }
 
 export interface DroneRules {
+  readonly element: Weighted<Element>;
+  readonly texture: Weighted<Texture>;
   readonly register: Register;
   readonly tone: Weighted<DroneTone>;
   readonly hold: Weighted<number>;
@@ -466,7 +559,7 @@ export interface DroneRules {
   readonly art: ArtSpec;
 }
 
-export interface LeadSpec {
+export interface LeadSpec extends SeatSpec {
   readonly register?: Register;
   /**
    * Rhythm cells for a two-bar phrase, in beats from the phrase's start —
@@ -499,6 +592,8 @@ export interface LeadSpec {
 
 /** What the lead builder reads. `rhythms` is in GRID STEPS over two bars. */
 export interface LeadRules {
+  readonly element: Weighted<Element>;
+  readonly texture: Weighted<Texture>;
   readonly register: Register;
   readonly rhythms: Weighted<readonly number[]>;
   readonly leap: number;
@@ -539,7 +634,7 @@ export interface LeadRules {
  *   same). `density` is a SHARE OF THE LEAD rather than a count of its own,
  *   so a busy tune gets a busier answer and a sparse one is left alone.
  */
-export interface CounterSpec {
+export interface CounterSpec extends SeatSpec {
   readonly register?: Register;
   /** How it is played. Only what its instrument can do. */
   readonly art?: ArtSpec;
@@ -553,6 +648,8 @@ export interface CounterSpec {
 }
 
 export interface CounterRules {
+  readonly element: Weighted<Element>;
+  readonly texture: Weighted<Texture>;
   readonly register: Register;
   readonly art: ArtSpec;
   readonly density: number;
@@ -571,7 +668,64 @@ export type DrumLane = (typeof DRUM_LANES)[number];
 export const BAR_LETTERS = ["A", "B", "C", "D"] as const;
 export type BarLetter = (typeof BAR_LETTERS)[number];
 
+/**
+ * A NAMED FIGURE: a drum pattern that is more than one bar, stated bar by bar
+ * in BEATS so a genre in another metre needs no new code. The only one here is
+ * the break every sampler has chopped.
+ *
+ * THE AMEN. Four bars of Gregory Coleman on "Amen, Brother" (The Winstons,
+ * 1969), transcribed here from drumstheword.com's lesson, bar by bar, with
+ * beats numbered from 0 and the subdivisions e, +, a at .25, .5, .75:
+ *
+ *   bars 1-2  "ride cymbal throughout" in eighths; "snare drum backbeat played
+ *             on beats 2 and 4"; "two extra snare drum notes... on the 'a' and
+ *             'e' of beat 2 and 3"; "two sixteenth bass drum notes" from "the
+ *             '+' of beat 3"; "a quiet ghost note on the snare drum... on the
+ *             'a' of beat 4"
+ *   bar 3     "only one bass drum is played on the '+' of beat 3", and the
+ *             snare "displaced back one eighth note to the '+' of beat 4"
+ *   bar 4     "extra snare on the 'e' of beat 1", two bass drums as bar 3,
+ *             "crash is played on the '+' of beat 3", and the displaced
+ *             backbeat at "the '+' of beat 4"
+ *
+ * The downbeat kick is the funk groove's own and is not named in the lesson
+ * because it is assumed; it is written. The crash is the open hat, the only
+ * cymbal this kit has that rings. AT A LOFI TEMPO this is a source's own
+ * suggestion: "the first two bars are a standard funk groove that makes a
+ * great hip-hop beat if you slowed it down" (ethanhein.com, "Building the
+ * Amen break"). And the same page says what no pattern carries: "hardly any
+ * of them are exactly where they are 'supposed' to be" — Coleman's
+ * microtiming is the break's whole character and this program's `feel` is
+ * the only thing standing in for it.
+ */
+export interface NamedFigure {
+  readonly name: string;
+  /** One entry per bar, in beats; the figure repeats at its own length. */
+  readonly bars: readonly { readonly kick: Beats; readonly snare: Beats; readonly crash?: Beats }[];
+  /** The ride/hat, every this many beats. */
+  readonly hat: number;
+}
+export const FIGURES: Readonly<Record<string, NamedFigure>> = Object.freeze({
+  amen: {
+    name: "amen",
+    hat: 0.5,
+    bars: [
+      { kick: [0, 2.5, 2.75], snare: [1, 1.75, 2.25, 3, 3.75] },
+      { kick: [0, 2.5, 2.75], snare: [1, 1.75, 2.25, 3, 3.75] },
+      { kick: [0, 2.5],       snare: [1, 1.75, 2.25, 3.5] },
+      { kick: [0, 2.5, 2.75], snare: [0.25, 1, 1.75, 2.25, 3.5], crash: [2.5] },
+    ],
+  },
+});
+
 export interface DrumsSpec {
+  /**
+   * Whether this material's figure is drawn from the pockets below or is one
+   * of the NAMED figures — "own" or a key of `FIGURES`, by weight. A genre
+   * that says nothing plays its own pockets; the amen is an option a genre
+   * puts in its box, never a default.
+   */
+  readonly figure?: Weighted<string>;
   readonly kick?: Weighted<Beats>;
   readonly snare?: Weighted<Beats>;
   /** The hat strikes every this many beats: 1 is quarters, 0.5 eighths, 0 none. */
@@ -592,6 +746,7 @@ export interface DrumsSpec {
 
 /** What the drum builder reads. Beats resolved to GRID STEPS. */
 export interface DrumsRules {
+  readonly figure: Weighted<string>;
   readonly kick: Weighted<readonly number[]>;
   readonly snare: Weighted<readonly number[]>;
   readonly hat: Weighted<number>;
@@ -685,6 +840,27 @@ export type Treatment = (typeof TREATMENTS)[number];
  */
 export const MANNERS = ["tongued", "sung", "arched", "level"] as const;
 export type Manner = (typeof MANNERS)[number];
+
+/**
+ * HOW AN ARPEGGIO IS SPILLED — an arpeggiator's own three controls, which are
+ * the three every one of them has: "'up,' 'down,' and 'up and down' modes,
+ * with a random mode usually thrown in for good measure", and an octave range
+ * (soundbridge.io/arpeggiator). The octaves are NOT stated: how many a seat
+ * can afford is a fact about its register, and a band fourteen semitones
+ * wide gets one and cannot be argued into two.
+ */
+export const ARP_PATTERNS = ["up", "down", "updown", "random"] as const;
+export type ArpPattern = (typeof ARP_PATTERNS)[number];
+
+export interface ArpSpec {
+  readonly pattern?: Weighted<ArpPattern>;
+  /** The rate, in beats between notes. 0.5 is eighths in four four; 0.25 sixteenths. */
+  readonly every?: Weighted<number>;
+}
+export interface ArpRules {
+  readonly pattern: Weighted<ArpPattern>;
+  readonly every: Weighted<number>;
+}
 
 export interface ArrangementSpec {
   /**
@@ -916,7 +1092,7 @@ export interface FeelRules {
 }
 
 /** The instruments a pitched part may be played on. */
-export const VOICES = ["rhodes", "wurly", "sub", "pluck", "organ", "pad", "flute"] as const;
+export const VOICES = ["rhodes", "wurly", "sub", "pluck", "organ", "pad", "flute", "horns"] as const;
 export type VoiceName = (typeof VOICES)[number];
 
 /**
@@ -944,6 +1120,8 @@ export const CAN: Readonly<Record<VoiceName, readonly ArtName[]>> = Object.freez
   pluck: ["ghost", "slur", "slide", "bend", "tremolo"],
   /** Pipes and a key. They do not care how the key was pressed. */
   organ: [],
+  /** A lip on a mouthpiece: it can be leant into, and it can slur. */
+  horns: ["slur", "accent"],
   /** A pad is bowed, not struck: it can be slurred, and it can swell. */
   pad: ["slur"],
   /**
@@ -1279,6 +1457,8 @@ export interface GenreSpec {
   readonly form?: FormSpec;
 
   readonly harmony?: HarmonySpec;
+  /** How an arpeggiated texture is spilled, wherever a seat draws one. */
+  readonly arp?: ArpSpec;
   readonly bass?: BassSpec;
   readonly keys?: KeysSpec;
   readonly lead?: LeadSpec;
@@ -1305,6 +1485,7 @@ export interface Genre {
   readonly lengthSec: readonly [number, number];
   readonly form: FormRules;
   readonly harmony: HarmonyRules;
+  readonly arp: ArpRules;
   readonly bass: BassRules;
   readonly keys: KeysRules;
   readonly lead: LeadRules;
@@ -1472,6 +1653,18 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     leastTurns: 3,
   },
 
+  /**
+   * HOW AN ARPEGGIO IS SPILLED. Up first, because that is what the word means
+   * — arpeggios are "typically read as to be played from the lowest to highest
+   * note" (en.wikipedia.org/wiki/Arpeggio) — and the others by weight [chosen].
+   * Eighths by default: one note per half beat is the rate a pad spills at
+   * without becoming the lead. [chosen]
+   */
+  arp: {
+    pattern: [["up", 4], ["updown", 3], ["down", 2], ["random", 1]],
+    every: [[0.5, 4], [0.25, 2], [1, 1]],
+  },
+
   harmony: {
     bars: 4,
     /** No genre extends past the seventh unless it says so. [chosen] */
@@ -1516,6 +1709,10 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   },
 
   bass: {
+    // THE SEAT'S OWN JOB, at weight one: a default that reproduces the
+    // program as it was. A genre opens the box by weighting others.
+    element: [["foundation", 1]],
+    texture: [["line", 1]],
     register: [36, 50],
     /** in beats: one-and-three is the strong default */
     pocket: [
@@ -1548,6 +1745,10 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   },
 
   keys: {
+    // THE SEAT'S OWN JOB, at weight one: a default that reproduces the
+    // program as it was. A genre opens the box by weighting others.
+    element: [["pad", 1]],
+    texture: [["line", 1]],
     register: [52, 76],
     /** in beats */
     strike: [
@@ -1576,6 +1777,10 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   },
 
   lead: {
+    // THE SEAT'S OWN JOB, at weight one: a default that reproduces the
+    // program as it was. A genre opens the box by weighting others.
+    element: [["lead", 1]],
+    texture: [["line", 1]],
     register: [64, 84],
     /**
      * In beats across a two-bar phrase. Each cell leaves the second bar's end
@@ -1698,12 +1903,20 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
    * and `resolve.ts` can refuse less.
    */
   counter: {
+    // THE SEAT'S OWN JOB, at weight one: a default that reproduces the
+    // program as it was. A genre opens the box by weighting others.
+    element: [["fills", 1]],
+    texture: [["line", 1]],
     register: [40, 62],
     art: [["plain", 5], ["tenuto", 2], ["staccato", 1]],
     density: 0.5,
     apart: 12,
   },
   drone: {
+    // THE SEAT'S OWN JOB, at weight one: a default that reproduces the
+    // program as it was. A genre opens the box by weighting others.
+    element: [["pad", 1]],
+    texture: [["sustain", 1]],
     /**
      * Low and out of the way of everything that moves. A drone "may last
      * through the whole piece" and sits "upon the tonic or dominant"
@@ -1760,7 +1973,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   },
 
   drums: {
-    /** in beats */
+    figure: [["own", 1]],    /** in beats */
     kick: [
       [[0, 2], 4],
       [[0, 2.5], 2],

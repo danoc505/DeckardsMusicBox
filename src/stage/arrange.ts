@@ -80,8 +80,8 @@
  * change is expression only: a breath, not a hole.
  */
 
-import type { ArrangementRules, Idea, IntroKind, Manner, Role, Treatment } from "../genre/spec.ts";
-import { ROLES } from "../genre/spec.ts";
+import type { ArrangementRules, Element, Idea, IntroKind, Manner, Role, Texture, Treatment } from "../genre/spec.ts";
+import { LEGAL_TEXTURES, PITCHED_ROLES, ROLES } from "../genre/spec.ts";
 import { deskOf, isPerPart, needsDrums, reachesPart } from "./treat.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
@@ -224,6 +224,14 @@ export interface Placed {
    * is heard in it.
    */
   readonly heard: ReadonlySet<Role>;
+  /**
+   * WHAT JOB EACH PART IS DOING IN THIS MATERIAL, and how it lays it out.
+   * Drawn once per material from each seat's own weights, so the same
+   * material heard again is the same assignment — the keys that arpeggiate
+   * the chorus arpeggiate every chorus. See `ELEMENTS` in the spec.
+   */
+  readonly elements: Readonly<Record<Role, Element>>;
+  readonly textures: Readonly<Record<Role, Texture>>;
   /** The drums lose their hat and their fills: a breath, not a stop. */
   readonly thin: boolean;
   /** The break: below the floor, carrying what the record opened with. */
@@ -509,29 +517,30 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
 const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
 
 /**
- * HOW MANY MAY SOUND AT ONCE — the number the source actually gives.
+ * HOW MANY ELEMENTS MAY SOUND AT ONCE — and it is elements, not parts.
  *
- * "Five elements at one time — counting the drums as one — is generally the
- * most you'll hear (sometimes six)" (soundonsound.com/techniques/arranging-pop),
- * quoted in this file's own header. That is a ceiling on SIMULTANEITY, and
- * for most of this program's life it was implemented as the SIZE OF THE BAND
- * instead, because `ROLES` had exactly five entries and `ROLES.length` was
- * used wherever the ceiling was meant. While the two were equal nothing could
- * tell them apart.
+ * This was `MOST_AT_ONCE = 5`, a count of PARTS, and before that it was
+ * `ROLES.length`. Both were the wrong unit. The source this file has always
+ * cited says "five elements at one time — COUNTING THE DRUMS AS ONE" — a kit
+ * of five sounding things counted once — and the other arranging source this
+ * program now reads says the same: "usually there should not be more than
+ * four arrangement elements playing at the same time. Sometimes three
+ * elements can work very well. Very rarely will five simultaneous elements
+ * work together" (bobbyowsinskiblog.com/song-arrangement-elements). Neither
+ * counts instruments. They count things a listener hears as separate, and the
+ * perception literature puts a figure on where that fails: numerosity errors
+ * rise "from around ten percent for three-voice mixtures to around 50 percent
+ * for four-voice mixtures" (Huron, in Siedenburg et al.).
  *
- * They are not equal any more: `ROLES` has six and the counter-line is the
- * sixth. So the distinction has to be made, and this is it. A section fills up
- * to FIVE; only the peak reaches everyone, which is the source's own
- * parenthesis — "sometimes six" — spent on the one place this program already
- * says everybody plays.
- *
- * Read `ROLES.length` here and every section would gain a part: `wanted` is
- * an interpolation up to the maximum, so widening the band would have made
- * every record denser, which is the opposite of what the source says and the
- * opposite of what a bigger cast is FOR. A cast is larger than its densest
- * moment; that is what makes an entrance worth anything.
+ * So the constraint is on DISTINCT ELEMENTS among the parts sounding, and the
+ * number of parts is not capped at all: several parts serving one element are
+ * one thing to an ear. Four is the ceiling and the peak may reach the fifth,
+ * which is the source's "very rarely" spent on the one place this program
+ * already says everything is at its maximum. How many parts that comes to is
+ * not decided anywhere — it emerges from what the parts happen to be doing.
  */
-const MOST_AT_ONCE = 5;
+const MOST_ELEMENTS = 4;
+const MOST_ELEMENTS_AT_PEAK = 5;
 
 /**
  * THE SHALLOWEST A TREATMENT IS EVER APPLIED.
@@ -573,7 +582,7 @@ const kindOf = (mv: Move): string =>
     // a hushed part is half a part, the same price the drums' hat already
     // pays; the drums thinned AND hushed are not charged for twice
     if (hushed !== null && h.has(hushed) && !(hushed === "drums" && isThin)) held += 0.5;
-    return (h.size - held) / MOST_AT_ONCE;
+    return (h.size - held) / ROLES.length;
   };
 
   const ledger: Ledger = {
@@ -594,6 +603,52 @@ const kindOf = (mv: Move): string =>
    * happened. An idea that has developed has developed.
    */
   const variantsSeen = new Map<Idea, number>();
+
+  /**
+   * WHAT EACH SEAT DOES IN A MATERIAL, drawn once per material and kept.
+   *
+   * Two constraints, both the sources' own. THE DRUMS ARE THE FOUNDATION —
+   * "the foundation is usually the bass and drums" — and this program's kit
+   * has no register to serve anything else in. AND THERE IS ONE LEAD: the
+   * element is "a lead vocal, lead instrument or solo", singular, and a record
+   * with two tunes has no tune. So the seat named `lead` serves lead, every
+   * other seat draws from its own weights with lead struck out, and what is
+   * left is the genre's box of crayons, opened one material at a time.
+   */
+  const elementsOf = new Map<string, Record<Role, Element>>();
+  const texturesOf = new Map<string, Record<Role, Texture>>();
+  const assign = (key: string): void => {
+    if (elementsOf.has(key)) return;
+    const el = {} as Record<Role, Element>;
+    const tx = {} as Record<Role, Texture>;
+    const draw = chart.rng.at("element", key);
+    for (const r of ROLES) {
+      if (r === "drums") { el[r] = "foundation"; tx[r] = "line"; continue; }
+      const seat = chart.genre[r as (typeof PITCHED_ROLES)[number]];
+      if (r === "lead") {
+        el[r] = "lead";
+      } else {
+        const pool = seat.element.filter(([e]) => e !== "lead");
+        el[r] = pool.length > 0 ? draw.weighted(`${r}:element`, pool) : "pad";
+      }
+      // THE TEXTURE IS DRAWN FROM WHAT THE JOB ALLOWS. A pad may not be
+      // arpeggiated — see `LEGAL_TEXTURES` — so the seat's pool is filtered
+      // by the job it drew, and a pool that leaves nothing legal takes the
+      // job's first legal texture rather than an illegal one.
+      const legal = LEGAL_TEXTURES[el[r]];
+      const pool = seat.texture.filter(([t]) => legal.includes(t));
+      tx[r] = pool.length > 0 ? draw.weighted(`${r}:texture`, pool) : legal[0]!;
+    }
+    elementsOf.set(key, el);
+    texturesOf.set(key, tx);
+  };
+  /** How many distinct jobs a roster is doing — the unit the ceiling is in. */
+  const distinct = (h: ReadonlySet<Role>, key: string): number => {
+    const el = elementsOf.get(key)!;
+    const seen = new Set<Element>();
+    for (const r of h) seen.add(el[r]);
+    return seen.size;
+  };
   const sectionsHeard = new Map<Role, number>();
   /** The last section index each part was heard in; absent means never. */
   const lastHeardAt = new Map<Role, number>();
@@ -620,6 +675,11 @@ const kindOf = (mv: Move): string =>
       variant += 1;
       variantsSeen.set(section.idea, variant);
     }
+    /** This section's material, and the jobs its seats draw for it. */
+    const key = materialKey(section.idea, variant);
+    assign(key);
+    /** The ceiling this section is held to, in elements. */
+    const cap = section.peak ? MOST_ELEMENTS_AT_PEAK : MOST_ELEMENTS;
 
     /** The record's last section: where the dénouement has to happen. */
     const closing = section.index === form.sections.length - 1;
@@ -717,7 +777,7 @@ const kindOf = (mv: Move): string =>
       // genre states a number for this and none should have to.
       const wanted = section.peak
         ? ROLES.length
-        : Math.round(floor + (MOST_AT_ONCE - floor) * section.energy);
+        : Math.round(floor + (ROLES.length - floor) * section.energy);
       const playing = Math.min(arrived, Math.max(floor, Math.min(ROLES.length, wanted)));
       // WHO GOES IS WHAT THE RECORD CAN SPARE, and that is a fact about this
       // record rather than a list written before it existed.
@@ -816,11 +876,36 @@ const kindOf = (mv: Move): string =>
        * break carries what the record opened with and nothing else.
        */
       const before = last;
+      /**
+       * AND THE ELEMENT CAP IS A WAY OF SHRINKING TOO. This keyed on `playing`
+       * alone, and the cap below can shed a section past the one before it
+       * after `playing` said it would not: lofi drew its keys the rhythm, the
+       * roster reached five distinct jobs, the cap shed it to four — smaller
+       * than the five-part section before — and it had gained the drone on
+       * the way. `arrange.test.ts` named it: "drone appeared while the
+       * texture shrank". A first fix restricted the candidates up front
+       * whenever the cap MIGHT shed, and starved a chorus to two parts under
+       * the floor: whether the cap will take a section below the last one is
+       * only known once it has shed. So the shedding runs, and if it came out
+       * smaller than the last section and not a subset of it, it runs AGAIN
+       * from what the last section had — the same loop with narrower
+       * candidates, which is the one mechanism run twice rather than a second
+       * one beside it.
+       */
+      const candidates = new Set(heard);
       if (before !== null && playing < before.size && !closing) {
         const kept = new Set([...heard].filter((r) => before.has(r)));
         if (kept.size >= playing) heard = kept;
       }
-      while (heard.size > playing) {
+      // AND THE CEILING IS IN ELEMENTS, in the same loop that keeps the count:
+      // a roster over `cap` distinct jobs sheds exactly as one over `playing`
+      // parts does, by the same score, because it is the same decision. Two
+      // parts on one job cost nothing here, which is the point — the number
+      // of parts a section can carry is whatever its jobs add up to.
+      /** Shed from a candidate set to the count and the cap, by the score. */
+      const shedTo = (from: Set<Role>): Set<Role> => {
+      const heard = new Set(from);
+      while (heard.size > playing || distinct(heard, key) > cap) {
         let go: Role | null = null;
         let most = -1;
         /**
@@ -864,6 +949,13 @@ const kindOf = (mv: Move): string =>
         }
         if (go === null) break;
         heard.delete(go);
+      }
+      return heard;
+      };
+      heard = shedTo(heard);
+      if (before !== null && !closing && heard.size < before.size && ![...heard].every((r) => before.has(r))) {
+        const kept = new Set([...candidates].filter((r) => before.has(r)));
+        if (kept.size >= Math.min(playing, heard.size)) heard = shedTo(kept);
       }
       // AND THE LAST PART IN IS STILL THE FIRST OUT OF AN OUTRO, once the
       // record has earned its absence: a part heard in one section is not yet
@@ -1203,7 +1295,7 @@ const kindOf = (mv: Move): string =>
              * A CEILING GUARD WAS TRIED HERE AND DELETED FOR DOING NOTHING.
              *
              * With the sixth part added it looked as though the walk could
-             * climb past `MOST_AT_ONCE` a boundary at a time — `part-back` and
+             * climb past the part ceiling a boundary at a time — `part-back` and
              * `all-back` put parts back like any other move — so this refused
              * any candidate above the ceiling outside a peak. Measured on and
              * off it changed not one number: six sound for 25.0% of lofi's
@@ -1211,7 +1303,7 @@ const kindOf = (mv: Move): string =>
              * and six outside a peak is 0.0% either way.
              *
              * It changes nothing because the ceiling is already kept where the
-             * roster is decided: `playing` interpolates to `MOST_AT_ONCE` and
+             * roster is decided: `playing` interpolated to that ceiling and
              * only a peak asks for `ROLES.length`, and the walk can only put
              * back a part the section had. The 25% is not six being common —
              * it is lofi's peak section being a quarter of the record's bars,
@@ -1220,6 +1312,12 @@ const kindOf = (mv: Move): string =>
              */
             // a move that leaves the span exactly where it already is is not a
             // move, and the desk is part of where it is
+            // MORE DISTINCT JOBS THAN AN EAR CAN FOLLOW is refused here with the
+            // other illegal moves, not priced in the score: it is not a worse
+            // move, it is not one. `part-back` and `all-back` put parts back,
+            // and a part coming back onto a job nobody else is doing is a new
+            // stream, which is what the ceiling counts.
+            if (distinct(h, key) > cap) return;
             if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment && at === cur.at
               && hush === cur.hush && halved === cur.halved && [...h].every((r) => cur.heard.has(r))) return;
             // AND A BOUNDARY MUST NOT END WHERE IT BEGAN. The guard above asks
@@ -1497,7 +1595,7 @@ const kindOf = (mv: Move): string =>
             //   kit as half a part. So half a part is what a treatment serves at
             //   its best, and the number is the one already in the file rather
             //   than a new one to tune.
-            const asPart = 0.5 / MOST_AT_ONCE;
+            const asPart = 0.5 / ROLES.length;
             const serve = moved
               ? (1 - Math.abs(2 * want - 1)) * asPart
               : d > 0 ? want * d : (1 - want) * -d;
@@ -1718,7 +1816,9 @@ const kindOf = (mv: Move): string =>
     ) as readonly Span[];
     return Object.freeze({
       section,
-      material: materialKey(section.idea, variant),
+      material: key,
+      elements: Object.freeze({ ...elementsOf.get(key)! }),
+      textures: Object.freeze({ ...texturesOf.get(key)! }),
       heard: held,
       thin,
       broken,

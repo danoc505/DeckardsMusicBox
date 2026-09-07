@@ -33,13 +33,14 @@
 
 import { stepsPerBar } from "../../core/clock.ts";
 import { inScale, noteName } from "../../core/theory.ts";
-import { DRUM_LANES, type Contour, type Idea, type Role } from "../../genre/spec.ts";
+import { DRUM_LANES, PITCHED_ROLES, type Contour, type Element, type Idea, type Register, type Role, type Texture } from "../../genre/spec.ts";
 import type { Rng } from "../../core/rng.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
 import { drawBass } from "./bass.ts";
 import { drawDrone } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
+import { drawArp } from "./arp.ts";
 import { drawCounter } from "./counter.ts";
 import { drawChords, harmonicPeriod } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
@@ -209,10 +210,98 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // because they are there.
     const plain = plainOf;
     const taken = new Set<string>();
+
+    /**
+     * WHAT EACH SEAT IS DOING IN THIS MATERIAL — the arrangement drew it, and
+     * this is where the drawing becomes notes.
+     *
+     * For the whole of this program's life the builder was the seat: this
+     * block called `drawBass` for the bass and `drawKeys` for the keys, and
+     * "the bass" meant a register and a voice and a way of writing notes with
+     * no seam between them. The seam is here now. A seat's ELEMENT picks the
+     * builder, its TEXTURE says how the notes lie, and its own register is
+     * handed in — so the keys can play the rhythm, the counter can hold a pad,
+     * and the notes come out in the right band because the band was never the
+     * builder's to know. `PARTS-ELEMENTS-AND-STREAMS.md` is the research.
+     *
+     * WHAT A SEAT CANNOT DO YET, said plainly: serve the lead. The tune's
+     * builder carries the melodic laws and is written per time round against
+     * the plan; the arrangement gives lead to the seat named for it and to no
+     * other. And fills is written against the tune, so only a seat built after
+     * the tune — the counter — may serve it; the genres do not offer it to the
+     * groove seats and `resolve.ts` should say so.
+     */
+    const assigned = arrangement.placed.find((p) => p.material === key);
+    const own = (r: Role): Element => (r === "keys" || r === "drone" ? "pad" : r === "counter" ? "fills" : r === "lead" ? "lead" : "foundation");
+    const elementOf = (r: Role): Element => assigned?.elements[r] ?? own(r);
+    const textureOf = (r: Role): Texture => assigned?.textures[r] ?? "line";
+    /**
+     * What each seat ended up playing. EVERY pitched seat has an entry from
+     * the start — what it was assigned — and a seat that writes overwrites its
+     * own. A variant inherits its bass and drone from the plain material
+     * note for note, so it inherits what those seats served as well; a
+     * material the counter never plays keeps the assignment, since nothing
+     * was written and nothing gave way.
+     */
+    const served: Record<string, { element: Element; texture: Texture }> = {};
+    // ONLY WHAT IS INHERITED NOTE FOR NOTE INHERITS ITS JOB. A variant keeps
+    // the plain material's bass and drone and redraws everything else, so the
+    // keys, the counter and the lead start from this material's own draw.
+    for (const r of PITCHED_ROLES) {
+      served[r] = (r === "bass" || r === "drone") && plainOf ? plainOf.served[r] : { element: elementOf(r), texture: textureOf(r) };
+    }
+    /**
+     * A JOB THAT CANNOT BE WRITTEN HERE GIVES WAY TO THE SEAT'S OWN.
+     *
+     * The arrangement draws a seat's job before a note exists, and whether the
+     * job has anywhere to stand is only knowable once the other seats have
+     * written theirs: dungeon synth seed 32 gave the counter the rhythm, its
+     * band sits inside the keys', and that genre's pad holds every chord tone
+     * for the whole bar — so every rung of the arp's ladder was occupied at
+     * every instant and the seat wrote nothing in four rounds. A part that is
+     * heard and silent is the one fault the arrangement's header was written
+     * against, so a job that yields nothing is not this seat's job in this
+     * material, and the seat plays its own instead. `served` says which
+     * happened, and the dump and the roll read it rather than the draw.
+     */
+    const serve = (r: "bass" | "keys" | "drone", register: Register, heard: Sounding): readonly Note[] => {
+      const seatRng = rng.at(r);
+      const write = (el: Element, tx: Texture): Note[] => {
+        let line: Note[];
+        if (el === "rhythm") {
+          // the rhythm is spilled: this program's one way of "playing counter
+          // to the Foundation" is the arpeggio, and `LEGAL_TEXTURES` says so —
+          // a pad never reaches here with an arp texture, because a pad that is
+          // spilled is not a pad
+          line = tile(drawArp(chart, loop, register, seatRng, steps, period, heard));
+        } else if (el === "foundation") {
+          line = tile(drawBass(chart, loop, seatRng, steps, figure.kick, register));
+        } else if (r === "drone") {
+          // the pedal is the drone's own: a tonic or a fifth, held. A second pad
+          // on another seat voices the chord below instead of fighting it for
+          // those two pitches — a pad is "a long sustaining note OR CHORD"
+          line = drawDrone(chart, seatRng, steps, bars, heard, register);
+        } else {
+          line = tile(drawKeys(chart, loop, seatRng, steps, heard, register));
+        }
+        // SPARSE keeps every other note: the same line with half of it left out
+        if (tx === "sparse") line = line.filter((_, i) => i % 2 === 0);
+        return line;
+      };
+      let el = elementOf(r), tx = textureOf(r);
+      let line = write(el, tx);
+      if (line.length === 0 && (el !== own(r) || tx !== "line")) {
+        el = own(r); tx = r === "drone" ? "sustain" : "line";
+        line = write(el, tx);
+      }
+      served[r] = { element: el, texture: tx };
+      return Object.freeze(line);
+    };
+
     const groove = Object.freeze((() => {
       const drawnBass = plain
         ? plain.groove.bass
-        : Object.freeze(tile(drawBass(chart, loop, rng.at("bass"), steps, figure.kick)));
+        : serve("bass", chart.register.bass, sounding);
       sounding.add(drawnBass, bars, steps);
       inLoop.add(drawnBass, period, steps);
       // the drone stands on the key, not the chord, so it is written before
@@ -220,7 +309,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       // held tone whose whole nature is to be longer than the loop under it
       const drawnDrone = plain
         ? plain.groove.drone
-        : Object.freeze(drawDrone(chart, rng.at("drone"), steps, bars, sounding));
+        : serve("drone", chart.register.drone, sounding);
       sounding.add(drawnDrone, bars, steps);
       inLoop.add(drawnDrone, period, steps);
       // AND THE HANDS PLAY IT AGAIN DIFFERENTLY. A variant inherits the ground
@@ -237,7 +326,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       // over a picture that had not moved since bar eight. That is a record
       // repeating the same thing for over half its length, and the law that
       // was supposed to stop it was being obeyed the whole time.
-      const drawnKeys = Object.freeze(tile(drawKeys(chart, loop, rng.at("keys"), steps, inLoop)));
+      const drawnKeys = serve("keys", chart.register.keys, inLoop);
       sounding.add(drawnKeys, bars, steps);
       inLoop.add(drawnKeys, period, steps);
       return { bass: drawnBass, keys: drawnKeys, drone: drawnDrone };
@@ -390,7 +479,50 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const counterRng = rng.at("counter");
     const counter = Object.freeze(
       Array.from({ length: times.get("counter") ?? 0 }, (_, n) =>
-        Object.freeze(drawCounter(chart, loop, lead[n] ?? [], counterRng.at("round", n), steps, period, inLoop))),
+        Object.freeze((() => {
+          // the counter's job, per material: fills answers the tune it was
+          // built to answer; rhythm and pad are the same seat doing something
+          // else in its own band, and an arpeggiated texture spills either
+          const el = elementOf("counter"), tx = textureOf("counter"), r = counterRng.at("round", n);
+          // THE COUNTER SEES THE TUNE, WHATEVER JOB IT IS DOING. `drawCounter`
+          // is handed the lead's line and writes around it; the arp and the
+          // pad builders take a sounding-set instead, and the groove's set
+          // does not contain the lead, which is written per round after it.
+          // Measured: a counter serving the rhythm landed on the lead's pitch
+          // in 8 of 60 lofi seeds, and the material check refused every one.
+          // So the picture this seat is written against is the groove AND
+          // this round's tune — the same law, given the whole picture.
+          const withTune = new Sounding();
+          withTune.add([...groove.bass, ...groove.keys, ...groove.drone], period, steps);
+          withTune.add(lead[n] ?? [], period, steps);
+          // A SECOND PAD VOICES THE CHORD, IT DOES NOT FIGHT THE PEDAL. A pad
+          // is "a long sustaining note OR CHORD"; the drone's builder holds
+          // only a tonic or a fifth and refuses when neither is free, and the
+          // record's own drone already holds them in a band this one overlaps
+          // — 6 of 60 dungeon synth seeds refused to build. The keys' builder
+          // is the chord, and it is what a second pad is.
+          const write = (e: Element, t: Texture): Note[] => {
+            let line: Note[] = e === "rhythm" || (e === "fills" && t === "arp")
+              ? tile(drawArp(chart, loop, chart.register.counter, r, steps, period, withTune))
+              : e === "pad"
+                ? tile(drawKeys(chart, loop, r, steps, withTune, chart.register.counter))
+                : drawCounter(chart, loop, lead[n] ?? [], r, steps, period, inLoop);
+            if (t === "sparse") line = line.filter((_, i) => i % 2 === 0);
+            return line;
+          };
+          let line = write(el, tx);
+          // the same law as `serve`: a job with nowhere to stand gives way to
+          // the seat's own, and the record says so
+          let servedEl = el, servedTx = tx;
+          if (line.length === 0 && (el !== "fills" || tx !== "line")) {
+            servedEl = "fills"; servedTx = "line";
+            line = write(servedEl, servedTx);
+          }
+          // the counter is written per round; the job it served is the same
+          // whichever round gave way, and the last word here is the honest one
+          served["counter"] = { element: servedEl, texture: servedTx };
+          return line;
+        })())),
     );
 
     // THE TREATMENTS CYCLE. A record has as many distinct treatments of a
@@ -416,7 +548,11 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       }),
     );
 
-    const material: Material = Object.freeze({ key, idea, variant, contour, bars, period, chords, groove, lead, counter, figure, drums });
+    served["lead"] = { element: "lead", texture: "line" };
+    const material: Material = Object.freeze({
+      key, idea, variant, contour, bars, period, chords, groove, lead, counter, figure, drums,
+      served: Object.freeze(served) as Material["served"],
+    });
     check(chart, material, steps);
     all.set(key, material);
   }

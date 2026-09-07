@@ -31,6 +31,7 @@
  */
 
 import type { Rng } from "../../core/rng.ts";
+import type { Register } from "../../genre/spec.ts";
 import { intoBand } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
 import { manner } from "./manner.ts";
@@ -45,9 +46,11 @@ export function drawDrone(
   steps: number,
   bars: number,
   sounding: Sounding,
+  register: Register = chart.register.drone,
 ): Note[] {
   const D = chart.genre.drone;
-  const [lo, hi] = chart.register.drone;
+  // the band is a parameter: another seat may hold the pedal in its own
+  const [lo, hi] = register;
   const drawn = rng.weighted("tone", D.tone);
   const hold = Math.min(bars, rng.weighted("hold", D.hold));
 

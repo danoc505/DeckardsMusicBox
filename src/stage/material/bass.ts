@@ -14,6 +14,7 @@
  */
 
 import type { Rng } from "../../core/rng.ts";
+import type { Register } from "../../genre/spec.ts";
 import { intoBand, scaleStep } from "../../core/theory.ts";
 import type { Chart } from "../chart.ts";
 import { manner } from "./manner.ts";
@@ -22,9 +23,11 @@ import type { Chord, Note } from "./note.ts";
 /** What a bass note weighs; the metre decides which of them lands hardest. */
 const BASS_WEIGHT = 0.84;
 
-export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, kick: readonly number[]): Note[] {
+export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps: number, kick: readonly number[], register: Register = chart.register.bass): Note[] {
   const B = chart.genre.bass;
-  const [lo, hi] = chart.register.bass;
+  // THE BAND IS A PARAMETER, so another seat can play this job in its own
+  // register: the element and the part are two different things
+  const [lo, hi] = register;
   const band = (p: number): number => intoBand(p, lo, hi);
   const pocket = B.pocket === "kick" ? kick : rng.weighted("pocket", B.pocket);
 

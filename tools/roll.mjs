@@ -8,6 +8,7 @@
  * be an obvious visual rhyme, and a section that restates another should look
  * like it. If the picture is confetti, the music is confetti.
  */
+import { ROLES } from "../src/genre/spec.ts";
 import { writeFileSync } from "node:fs";
 import zlib from "node:zlib";
 import { compose } from "../src/song.ts";
@@ -92,7 +93,8 @@ const nBars = bar1 - bar0;
 const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], counter: [186,148,255], drone: [163,255,107] };
 const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
-const SH = 7, GUT = 34, HEAD0 = 22, DRUM = 4*9 + 6, SPAN = 20;
+// HEAD0 was 22 with one label line; the assignment line under it needs nine more
+const SH = 7, GUT = 34, HEAD0 = 31, DRUM = 4*9 + 6, SPAN = 20;
 /* ── THE FX ROLL, ITS OWN BAND UNDER THE DRUMS ────────────────────────────
    A treatment moves the mixer and not one note, so it is invisible on the
    piano roll BY CONSTRUCTION — the same record with and without its whole
@@ -238,6 +240,23 @@ for (const pl of song.arrangement.placed) {
   const room = Math.max(0, Math.floor((xe - x - 4) / 4));
   const label = `${s.fn} ${pl.material}${s.recast ? " recast" : ""}${pl.manner ? " " + pl.manner : ""}`.slice(0, room);
   text(cv, label, x + 2, LEG + 12, [255,179,71], s.peak ? 1 : 0.75);
+  /* WHAT EACH SEAT IS DOING in this section, under its name: the seat's initial
+     in its own colour, then its job, and its texture where that is not the
+     job's own way. A part and its job are two different things now, and a
+     picture of the notes alone would leave the reader to guess which seat was
+     arpeggiating. Clipped to the section like the name above it. */
+  const served = song.materials.all.get(pl.material)?.served;
+  if (served) {
+    let ax = x + 2;
+    for (const r of ROLES) {
+      if (r === "drums" || r === "lead") continue;
+      const el = served[r].element, tx = served[r].texture;
+      const tag = `${r[0]} ${el}${tx !== "line" && tx !== "sustain" ? "·" + tx : ""}`;
+      if (ax + tag.length * 4 > xe - 2) break;
+      text(cv, tag, ax, LEG + 21, COL[r], 0.85);
+      ax += tag.length * 4 + 6;
+    }
+  }
 }
 // which drum is which lane
 const LANE_NAME = { kick: "KCK", snare: "SNR", hat: "HAT", openhat: "OHH" };

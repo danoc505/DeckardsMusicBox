@@ -35,6 +35,11 @@
  *           Strings"; attackmagazine.com, "Detuned Pad").
  *   flute   a sine with a little second harmonic, breath noise, and vibrato
  *           (soundonsound.com, "Practical Flute Synthesis").
+ *   horns   a rank of sawtooths under a lowpass whose cutoff has its own
+ *           contour, slower than the amplitude's: "higher harmonics take
+ *           longer to 'speak' than lower ones", and "louder notes have more
+ *           harmonics than quieter ones" (soundonsound.com, "Synthesizing
+ *           Brass Instruments"). Ported from MKII's `V.horns`.
  */
 
 import { Biquad, Noise, decayPerSample, envelope, fade, midiHz, saturate, sinTurns, tailSec, type Shape } from "./dsp.ts";
@@ -55,7 +60,7 @@ import { Biquad, Noise, decayPerSample, envelope, fade, midiHz, saturate, sinTur
  */
 export const HOLDS: Readonly<Record<string, boolean>> = Object.freeze({
   rhodes: false, pluck: false, wurly: false,
-  sub: true, organ: true, pad: true, flute: true,
+  sub: true, organ: true, pad: true, flute: true, horns: true,
 });
 
 export interface NoteIn {
@@ -189,6 +194,83 @@ export function wurly(n: NoteIn): Float32Array {
     phase += dPhase;
     iBody *= kBody;
     iReed *= kReed;
+  }
+  return fade(out, sr);
+}
+
+/**
+ * THE HORNS, ported from MKII.
+ *
+ * Brass by subtraction, which is how every synthesist has done it since the
+ * Minimoog: a sawtooth for the harmonics and a lowpass to take them away,
+ * and the whole instrument is in how the lowpass MOVES. "Higher harmonics
+ * take longer to 'speak' than lower ones" — so the cutoff rises from dark
+ * over the front of the note, overshoots, and settles — and "louder notes
+ * have more harmonics than quieter ones", so the weight opens the filter as
+ * well as the level (soundonsound.com, "Synthesizing Brass Instruments").
+ *
+ * THE SECTION IS THE DETUNE, NOT THE INSTRUMENT. MKII's own note: a solo brass
+ * voice is one saw, and the rank is flankers a few cents either side that
+ * fade in as they spread, so the knob runs from one player to a row of them
+ * rather than from quiet to loud. And a low-brass doubling an octave down
+ * gives the rank its weight. The numbers are MKII's, marked as ported.
+ *
+ * Tongued into from a shade under the pitch: the front of a brass note is a
+ * lip finding its note, and 1.5% flat over 50 ms is what MKII measured that
+ * at.
+ */
+const HORNS: Shape = { attackSec: 0.1, decaySec: 0.3, sustain: 0.85, releaseSec: 0.22 };
+
+export function horns(n: NoteIn): Float32Array {
+  const sr = n.sampleRate;
+  const f = midiHz(n.midi);
+  const out = held(n, HORNS);
+  const heldSamples = Math.round(n.heldSec * sr);
+  const blaze = 0.55 * (0.8 + 0.4 * Math.min(1, n.gain));
+  const section = 0.6;
+  const weight = 0.4;
+  // the cutoff at rest: louder is brighter, tracked to the key at just under 1:1
+  const rest = Math.min(8500, (900 + 2600 * blaze * Math.min(1.15, n.gain)) * Math.pow(f / 262, 0.93));
+  // the filter's own contour, slower than the amp: rise over up to half a
+  // second scaled to the note, overshoot to 1.35, settle to 0.8
+  const fRise = Math.min(0.55, Math.max(0.12, n.heldSec * 0.35));
+  const lp = new Biquad("lowpass", rest * 0.18, 1.4, sr);
+  // the rank: a centre saw and two flankers, cents apart, and the same rank
+  // an octave down at `weight` for the low brass
+  const rows: { mult: number; cents: number; amp: number; phase: number }[] = [];
+  const rowAmp = [section, 1, section];
+  for (const [mult, amp] of [[1, 1.0], [0.5, 0.85 * weight]] as const) {
+    if (amp < 0.02) continue;
+    [-7 * section, 0, 8 * section].forEach((cents, i) => {
+      if (rowAmp[i]! < 0.03) return;
+      rows.push({ mult, cents, amp: (amp * rowAmp[i]!) / (1 + 2 * section), phase: 0.13 * i });
+    });
+  }
+  const norm = 0.42 / rows.reduce((a, r) => a + r.amp, 0);
+  const kRelease = decayPerSample(HORNS.releaseSec, sr);
+  let release = 1;
+  const RETUNE = 64;
+  for (let i = 0; i < out.length; i++) {
+    const t = i / sr;
+    if (i > heldSamples) release *= kRelease;
+    const env = envelope(t, n.heldSec, HORNS) * release;
+    if (env < 1e-4 && t > n.heldSec) break;
+    // the front: tongued in from 1.5% flat over 50 ms
+    const tongue = t < 0.05 ? 0.985 + 0.015 * (t / 0.05) : 1;
+    if (i % RETUNE === 0) {
+      const u = Math.min(1, t / fRise);
+      const cut = t < fRise ? rest * (0.18 + (1.35 - 0.18) * u) : rest * (0.8 + 0.55 * Math.exp(-(t - fRise) / 0.35));
+      lp.set("lowpass", Math.min(cut, sr * 0.45), 1.4, sr);
+    }
+    let y = 0;
+    for (const r of rows) {
+      const hz = f * r.mult * tongue * Math.pow(2, r.cents / 1200);
+      r.phase += hz / sr;
+      if (r.phase >= 1) r.phase -= 1;
+      // a sawtooth as a phase ramp; the lowpass takes the top off
+      y += r.amp * (2 * r.phase - 1);
+    }
+    out[i] = lp.run(y) * norm * env * (0.7 + 0.5 * n.gain);
   }
   return fade(out, sr);
 }
