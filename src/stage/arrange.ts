@@ -571,6 +571,8 @@ const kindOf = (mv: Move): string =>
   let arrived = A.introParts;
   /** What the record opened with — the first section's parts, whatever it is. */
   let openers = new Set<Role>();
+  /** The previous section's roster, or null in the first. Read by the shrink law. */
+  let last: Set<Role> | null = null;
   const placed: Placed[] = form.sections.map((section) => {
     let variant = variantsSeen.get(section.idea) ?? 0;
     if (section.vary) {
@@ -746,6 +748,37 @@ const kindOf = (mv: Move): string =>
       // back, so the close says so itself. Nothing else in the record is
       // touched by this: it is one section, and it is the last one.
       heard = new Set(A.enter.slice(0, arrived));
+      /**
+       * A SECTION THAT SHRINKS LOSES PARTS; IT DOES NOT SWAP THEM.
+       *
+       * The candidate set is everything that has arrived, and the loop below
+       * deletes what the record can most spare — where `spare` deliberately
+       * PROTECTS a part that has been away, because a part long gone is owed
+       * its return. Those two together can hand a smaller section a part the
+       * bigger one before it did not have, which is a swap wearing a
+       * diminuendo's clothes: `arrange.test.ts` names it, "a quiet section
+       * carries its foundation and drops its decoration".
+       *
+       * It never fired while the band was five and the last part in was one
+       * the genre sheds late. With a sixth part that sheds FIRST, the counter
+       * is absent often, is therefore owed often, and displaced the drums in a
+       * verse that was smaller than the chorus before it.
+       *
+       * So where this section is smaller than the one before, the candidates
+       * are what that one had. The law then holds by construction rather than
+       * by the score happening to agree with it — and the score still chooses
+       * freely inside that set, so nothing about which part goes is lost.
+       *
+       * The break and the close are exempt for the reason the test exempts
+       * them: both are documented restatements of the opening and are swaps by
+       * definition. `restate` already keeps an opener at the close, and the
+       * break carries what the record opened with and nothing else.
+       */
+      const before = last;
+      if (before !== null && playing < before.size && !closing) {
+        const kept = new Set([...heard].filter((r) => before.has(r)));
+        if (kept.size >= playing) heard = kept;
+      }
       while (heard.size > playing) {
         let go: Role | null = null;
         let most = -1;
@@ -771,6 +804,8 @@ const kindOf = (mv: Move): string =>
       if (section.fn === "outro" && heard.size > floor && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
     }
     if (section.index === 0) openers = new Set(heard);
+    // what the section before this one carried, for the shrink law above
+    last = new Set(heard);
     for (const r of heard) {
       sectionsHeard.set(r, (sectionsHeard.get(r) ?? 0) + 1);
       lastHeardAt.set(r, section.index);
