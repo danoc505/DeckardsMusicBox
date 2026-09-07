@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { compose } from "../song.ts";
 import { resolveGenre } from "../genre/index.ts";
-import { Engine, mono, peak, render, rms } from "./render.ts";
+import { Engine, mono, peak, render, rms, settle } from "./render.ts";
 import { hat, kick, pluck, rhodes, snare, sub } from "./voices.ts";
 import { Biquad } from "./dsp.ts";
 import { wav } from "./wav.ts";
@@ -235,6 +235,48 @@ test("the engine hands out the record the renderer writes", () => {
   const whole = render(song, { sampleRate: SR });
   assert.deepEqual(left, whole.left);
   assert.deepEqual(right, whole.right);
+});
+
+test("the engine says which desk it is playing the record on", () => {
+  // `Engine.desk` is what the bridge draws its two hundred knobs from, so a
+  // page can show the record moving its own desk instead of the genre's
+  // resting one. The law is that it is the desk being RENDERED THROUGH and not
+  // a second calculation of it — a readout that drifts from the samples is
+  // worse than no readout, because it looks authoritative.
+  //
+  // Nothing here reads a sample, so the rate is only how finely the clock
+  // ticks, and a low one keeps the test cheap.
+  const SR8 = 8000;
+  const base = treated.chart.genre.sound;
+  const first = treated.performance.desk.find((d) => d.treatment !== null);
+  assert.ok(first, "this record never reaches for a treatment");
+  const engine = new Engine(treated, { sampleRate: SR8, blockSize: 4096 });
+
+  // before a sample is asked for: the genre's own desk and nothing over it
+  assert.deepEqual(engine.desk, settle(base, undefined));
+
+  // THE HAND WINS, and the readout says so: a knob sent from the bridge is
+  // where the engine reports that knob.
+  //
+  // ON A DESK STANDING STILL, which is the only place this holds and is worth
+  // knowing. A treatment with `drift` arrives over a WALK, and `retune`
+  // interpolates the whole desk from where it was to where it is going — the
+  // hand's own knob included, because the hand is settled into the walk's
+  // target rather than applied after it. So a knob moved while a treatment is
+  // still drifting in slides toward its new value across the rest of the
+  // drift instead of landing: 0.31 sent mid-drift reads 0.95 at once and 0.33
+  // thirteen seconds later. That is this program's behaviour and not this
+  // test's business, but it is the reason this assertion is made here rather
+  // than after the render below.
+  engine.setDesk(base, { rack: { master: { level: 0.31 } } } as never);
+  assert.equal(engine.desk.rack.master.level, 0.31);
+
+  // and past the moment the arrangement moves it: no longer the genre's
+  const flat = settle(base, undefined);
+  const to = Math.min(engine.length, Math.round((first.tSec + 1) * SR8));
+  const L = new Float32Array(4096), R = new Float32Array(4096);
+  while (engine.at < to) engine.block(L, R, Math.min(4096, to - engine.at));
+  assert.notDeepEqual(engine.desk, flat, `${first.treatment} left the desk where it found it`);
 });
 
 test("a knob moved mid-record changes what follows it and nothing before it", () => {

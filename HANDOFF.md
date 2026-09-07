@@ -34,26 +34,32 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite has NOT been run on this tree, and the suite itself is the first
-thing to fix.** The last complete run (`npm test`, 305 tests, 303 pass) was on
-the elements-and-counter state, before the amen figure, `LEGAL_TEXTURES`, the
-dungeon synth hard rule and the horns voice landed; `npm run check` is clean on
-the final tree and nothing else is. It took **eight minutes**, which the owner
-has called broken, and it is: `render.test.ts` renders sixty-second records at
-22050 Hz a dozen times over, `all.test.ts` (32 s), `pedals.test.ts` (24 s) and
-`rack.test.ts` (14 s) each render whole records to check one number, and every
-later run in this session was killed before it finished. The two failures in
-that last run are long-standing and deliberate — they encode research and have
-not been tuned away:
+**The suite HAS now been run on this tree: `npm test`, 307 tests, 304 pass,
+3 fail, 6 min 25 s.** `npm run check` is clean. The time is still the problem
+item 1 describes — `render.test.ts` renders sixty-second records at 22050 Hz a
+dozen times over, `all.test.ts`, `pedals.test.ts` and `rack.test.ts` each
+render whole records to check one number. Two of the three failures are
+long-standing and deliberate — they encode research and have not been tuned
+away:
 
 - `arrange.test.ts` "the break goes below the floor mid-record" — 14% of
   records have a break against a threshold of 15%. See item 6.
 - `material/index.test.ts` "a returning idea plays its statement's own figure"
   — 82 variants against a threshold of 90.
 
-**Anything else red is yours — once you can see it.** Item 1 below is making
-the suite runnable. Until then, `node --test src/<one>.test.ts` per file is the
-only way to run it, and `src/stage/` is where the coupled laws live.
+**The third is new and nobody owns it yet:** `material/index.test.ts` "keys
+voice every tone of the chord, in register, led smoothly" fails with `A bar 0
+voices 1 of 4` — the keys' first bar of material A plays one voice of a
+four-note chord. It fails identically on `ae86410`, the commit before the
+bridge work, so it came in with the amen figure, `LEGAL_TEXTURES` or the
+dungeon synth pad rule, all of which landed after the last complete run. It is
+a pipeline failure and the bridge cannot have caused it — nothing in this
+branch's later commits touches a note — but it has not been diagnosed. Roll a
+lofi record and look at the keys in bar 0 before believing anything about
+what the keys play.
+
+`node --test src/<one>.test.ts` per file is still the fast way to run one law,
+and `src/stage/` is where the coupled laws live.
 
 The registers each genre works in, since three of the last four changes were
 here and they are easy to get wrong:
@@ -133,6 +139,57 @@ measured. Write the next one that way.
 
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
+
+**The drive: the record as a road, in glyphs, on the page.** The owner asked
+for the page to be an experience rather than a settings screen — "a visualizer
+using ascii to render a 3d world that is reactive to the music" — and the
+thing this program can do that no live visualiser can is show the FUTURE: a
+record is entirely composed before Play, so `tools/page.html`'s new `frame()`
+draws a first-person road where the notes stand at the bar they fall on and
+approach, the land is `form.arc` squared (so the peak is a mountain visible
+from bar one and a pass you drive through when you reach it), each section is
+a named gate, and the record's end is the land subsiding. It is a height-field
+scan (one ray per glyph column, near to far, a y-buffer for occlusion) plus
+projected sprites with a depth buffer, on a glyph atlas, at 30 Hz; **61 fps
+idle and playing in headless Chromium at 184 × 38 cells**, no page errors,
+both genres. Everything it draws it reads: the notes and sections from the
+song, the band's lanes from `shown(["mix", r, "az"|"dist"])`, the weather from
+the desk (fog is `pole.hz`, the horizon's wobble is `tape.wowHz/wowCents`, rain
+or mist is `vinyl.crackle`) and the ground's shake from an `AnalyserNode` put
+between the chunks and the speakers — the one change to the audio graph, and
+it changes nothing that reaches them. The road is measured in BARS, not
+seconds, so the bar lines fall where the clock puts them and a quick genre
+drives quickly; the first draft measured it in seconds and had the peak three
+times too far away, which is why the mountains were flat. `tools/shot.mjs
+--drive <sec>` plays the built page for real and shoots the road, so the next
+person can look at it without a browser of their own. Not built yet, and
+worth doing next: click the road to wind the record to that bar (item 6 of
+the first brainstorm), a rear-view for the parts behind you, and the section
+gates carrying `THIN`/`SWELL`/the treatment name the way the roll does.
+
+**The console plays itself.** The record has moved its own desk since
+`perform.ts` learned to write a `DeskChange` list, and the page could not show
+it: the bridge set its knobs once from the genre's RESTING desk and never
+touched them again, so a filter could close through a whole section while the
+Cutoff knob sat where it started. `Engine.desk` now exposes `this.S` — the desk
+the engine is rendering through, which `retune` has always computed — and the
+worker carries it back with the chunk it belongs to, so the page turns each
+knob to where the record has actually put it, on the same clock as the sound.
+**183 of the bridge's knobs move**, with the pedal jewels, the rack lamps, the
+patch pins, the world scope, the impulse-response screens and the labels that
+name a loaded kit or a lent voice; a readout by the clock names the treatment
+in force and its depth, in the same colour the roll draws it. Who owns a knob
+is not a new rule: `render.ts` already says "THE PAGE WINS... it costs the
+automation on exactly the knobs that were touched", so a knob moves on its own
+until your hand takes it and then it is yours — measured on the built page, a
+touched knob loses the driven mark and stops moving in the same second.
+**It is a readout and not an automation**, and the proof is that all eight
+reference records — both genres, seeds 1, 2, 42, 829055 — render to
+byte-identical SHA-256 sums before and after. `page.html` gained one rule worth
+knowing: `current()` is the desk the record is being ASKED to play, which is
+what goes to the engine, and `shown()` is where the pointer should be pointing,
+which is that plus whatever the record has since done to it. Everything that
+draws or acts on the console reads the second.
 
 **The drums may play the amen, chopped.** `FIGURES.amen` in `spec.ts` is a
 two-bar transcription of the break (kick, snare, crash, in beats); a genre
@@ -354,6 +411,24 @@ the audibility floor `treat.test.ts` uses. A pricing script must NOT edit
 `arrange.ts` by line number — the last attempt corrupted the file mid-edit
 and was restored from git.
 
+**13. A knob moved while a treatment is drifting in does not land — it
+joins the drift.** Found by writing the test for `Engine.desk` and having it
+fail against the program rather than the other way round. `retune` builds the
+walk's target as `settle(settle(base, spec), over)` — the hand settled INTO the
+target rather than applied after it — and then interpolates the whole desk from
+where it was to that target. So the hand is interpolated too. Measured on
+dungeon synth seed 2, whose first treatment drifts over 14.4 s: `master.level`
+sent to 0.31 mid-drift reads **0.95 at once and 0.33 thirteen seconds later**,
+against 0.31 immediately on a desk standing still. lofi's drift is 0.5 and
+dungeon synth's is 1, so the wait is up to a whole span. Nobody chose this and
+no document asks for it; it is what `settle` nesting happens to do. It is now
+**visible for the first time** — the bridge draws the knob sliding — which is
+how it was found. Whether the hand should cut through a walk or ride it is a
+taste question, and the fix is one line in `retune` (settle `over` after the
+walk rather than into its target), but it MOVES BYTES on any record where a
+hand touches a knob mid-drift, so it is a behaviour change and wants an owner's
+decision rather than a tidy-up.
+
 ## House rules that are easy to break
 
 - **A knob that does nothing is this program's cardinal sin.** If a rule is
@@ -407,6 +482,7 @@ and was restored from git.
 |---|---|
 | the record as a picture | `npm run roll <genre> <seed>` |
 | the same, through the built page | `npm run shot <genre> <seed>` |
+| the drive, parked or `<sec>` into the record | `npm run shot <genre> <seed> -- --drive <sec>` |
 | the record as sound | `node src/cli.ts <genre> <seed> --wav out.wav` |
 | the record as text | `node src/cli.ts <genre> <seed>` |
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |

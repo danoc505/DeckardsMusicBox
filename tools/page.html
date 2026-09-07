@@ -74,6 +74,12 @@
   .lamp.red[data-on="1"] i { background: var(--red); box-shadow: 0 0 10px var(--red), 0 0 0 2px #0e1114, 0 0 0 3px #3a424b; }
   .lamp.ice[data-on="1"] i { background: var(--ice); box-shadow: 0 0 10px var(--ice), 0 0 0 2px #0e1114, 0 0 0 3px #3a424b; }
   .chrono { font: 700 22px/1 var(--mono); letter-spacing: 0.12em; color: var(--amber); text-shadow: 0 0 12px rgba(255,179,71,0.5); background: var(--screen-amber); padding: 6px 12px; border-radius: 3px; box-shadow: inset 0 2px 8px #000, 0 0 0 1px #000; min-width: 120px; text-align: center; }
+  /* the name of whatever is moving the console, beside the clock that says when */
+  .nowdesk { min-width: 210px; padding: 6px 10px; border-radius: 3px; background: var(--screen); box-shadow: inset 0 2px 8px #000, 0 0 0 1px #000; }
+  .nowdesk .k { font: 600 8px/1 var(--label); letter-spacing: 0.24em; text-transform: uppercase; color: var(--cream-dim); }
+  .nowdesk .v { margin-top: 4px; font: 700 12px/1 var(--mono); letter-spacing: 0.14em; color: var(--phos-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nowdesk .v b { font-weight: 700; }
+  .nowdesk .v i { font-style: normal; color: var(--cream-dim); }
 
   /* ── the bridge grid ── */
   .row1 { display: grid; grid-template-columns: 260px 1fr 250px; gap: 12px; align-items: stretch; }
@@ -104,6 +110,17 @@
   .knob.small .dial { width: 32px; height: 32px; }
   .knob.small .dial::after { height: 11px; top: 3px; transform-origin: 50% 13px; }
   .knob.hot .dial::after { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  /* ── A KNOB THE RECORD IS TURNING ────────────────────────────────────────
+     The desk arrives a chunk at a time, so a driven pointer would step five
+     times a second. Transitioning it over exactly one chunk means the knob is
+     still travelling to the last value as the next one lands, and the hand on
+     the console reads as continuous rather than as a clock. The transition is
+     on the DRIVEN class and nowhere else: a knob you are dragging must answer
+     the mouse in the same frame, and once your hand owns a knob it is never
+     driven again. */
+  .knob.drv .dial::after { transition: transform 0.2s linear; }
+  .knob.drv .dial { box-shadow: 0 3px 6px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.15), 0 0 0 1px rgba(143,211,255,0.28); }
+  .knob.drv .val { color: var(--ice); }
   .knob .cap { font: 600 8px/1 var(--label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); text-shadow: 0 1px 0 var(--engrave); }
   .knob .val { font: 10px/1 var(--mono); color: var(--phos); min-height: 10px; }
   .knob:focus-within .dial, .knob .dial:focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; }
@@ -159,6 +176,11 @@
   }
   .crt::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.05), transparent 45%), radial-gradient(100% 100% at 50% 50%, transparent 60%, rgba(0,0,0,0.55) 100%); }
   .crt canvas { display: block; width: 100%; }
+  /* ── THE DRIVE: a screen you can fill the room with ── */
+  .crt.drive canvas { height: 500px; cursor: crosshair; }
+  .crt.drive .readout { top: auto; bottom: 10px; left: 12px; right: auto; text-align: left; font-size: 11px; letter-spacing: 0.08em; }
+  .crt.drive:fullscreen { border-radius: 0; box-shadow: none; background: #071510; display: grid; place-items: center; }
+  .crt.drive:fullscreen canvas { height: 100vh; width: 100vw; }
   .crt .readout { position: absolute; top: 8px; right: 10px; font: 10px/1.4 var(--mono); color: var(--phos); text-align: right; opacity: 0.9; pointer-events: none; text-shadow: 0 0 6px rgba(87,242,165,0.6); }
   .crt .readout b { color: var(--amber); font-weight: 400; }
 
@@ -220,6 +242,7 @@
   .stomp .kn { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .stomp .kn .knob .cap { color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,0.6); }
   .stomp .kn .knob .val { color: #fff; opacity: 0.85; }
+  .stomp .kn .knob.drv .val { color: var(--ice); opacity: 1; }   /* a pedal the record is working */
   .stomp .jewel { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #5a1d18, #2a0e0b); box-shadow: inset 0 1px 2px #000, 0 0 0 2px #0b0d10, 0 0 0 3px #7a848d; }
   .stomp[data-on="1"] .jewel { background: radial-gradient(circle at 40% 35%, #ff9a8c, var(--red) 60%); box-shadow: 0 0 14px var(--red), 0 0 0 2px #0b0d10, 0 0 0 3px #7a848d; }
   .stomp .foot { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #000; cursor: pointer; padding: 0;
@@ -245,6 +268,7 @@
   .hole .lv { position: absolute; left: 0; right: 0; bottom: -13px; text-align: center; font: 8px/1 var(--mono); color: var(--amber); }
   .hole.self .lv { color: var(--red); }
   .hole:focus-visible { outline: 2px solid var(--ice); }
+  .hole.drv { box-shadow: inset 0 2px 4px #000, 0 0 0 1px rgba(143,211,255,0.35); }
   .patchnote { font: 10px/1.5 var(--mono); color: var(--cream-dim); max-width: 34ch; }
   .patchnote b { color: var(--amber); font-weight: 400; }
 
@@ -288,6 +312,7 @@
   <header class="plate mast"><span class="screwB"></span>
     <div class="name">Deckard's <b>Orchestrator</b></div><span class="badge">MK III</span>
     <div class="chrono" id="chrono">0:00.0</div>
+    <div class="nowdesk"><div class="k">The desk</div><div class="v" id="nowdesk">at the genre's own settings</div></div>
     <div class="lamps">
       <span class="lamp" id="l-ready" data-on="1"><i></i>Ready</span>
       <span class="lamp amber" id="l-busy" data-on="0"><i></i>Buffering</span>
@@ -295,6 +320,11 @@
       <span class="lamp red" id="l-save" data-on="0"><i></i>Saving</span>
     </div>
   </header>
+
+  <section class="plate"><span class="screwB"></span>
+    <h2>The drive <small>the record as a road · its notes stand beside it, its energy is the land, the peak is the mountain ahead · double-click for the whole screen</small></h2>
+    <div class="crt drive" id="drive-crt"><canvas id="drive"></canvas><div class="readout" id="drive-read"></div></div>
+  </section>
 
   <div class="row1">
     <div class="stack">
@@ -400,6 +430,46 @@
   var song = null, ctx = null, worker = null, saver = null;
   var over = {};   // the page's positions laid over the genre's desk: { rack, mix, world, pedals }
 
+  /* ── THE CONSOLE FOLLOWS THE RECORD ──────────────────────────────────────
+     `live` is the desk the moment you are HEARING is being played on — the
+     engine's own `S`, posted back with the chunk it rendered, so it is not a
+     second calculation of the desk but the same object that made those
+     samples. null when nothing is playing.
+
+     The record has moved its own desk since `perform.ts` learned to write a
+     DeskChange list, and this page has never shown it: the knobs were set once
+     from the genre's RESTING desk and never touched again, so a filter could
+     close through a whole section while the Cutoff knob sat where it started.
+
+     WHO OWNS A KNOB is not a new rule. `render.ts` decides it for the audio —
+     "THE PAGE WINS... it costs the automation on exactly the knobs that were
+     touched, which is what being touched means" — and the display obeys the
+     same line: a knob moves on its own until your hand takes it, and then it
+     is yours and the record stops turning it. Nothing here writes to `over`,
+     so following the record can never be mistaken for a hand on the desk. */
+  var live = null;
+  /** Every knob on the bridge, by the path it is bound to. Redrawing a panel
+      replaces its entries rather than adding to them, so nothing goes stale. */
+  var driven = {};
+  /** Panels that light rather than turn: the stomps, the rack units, the labels. */
+  var lit = { stomp: {}, unit: {}, led: {}, voice: {}, lane: {}, pick: {}, hole: [] };
+
+  function register(path, el) { driven[path.join(".")] = { path: path, el: el }; return el; }
+  /**
+   * WHERE A KNOB ACTUALLY IS — which is not the same question as `current`.
+   *
+   * `current` is the desk the record is being ASKED to play: the hand over the
+   * genre, and it is what goes to the engine. This is where the pointer should
+   * be POINTING, which is that plus whatever the record has since done to it.
+   * Everything that draws the console or acts on it reads this one; `desked`
+   * still sends `current`'s half, because a treatment is not a hand.
+   */
+  function shown(path) {
+    var h = get(path, over); if (h !== undefined) return h;
+    if (live) { var v = get(path, live); if (v !== undefined) return v; }
+    return get(path, song.chart.genre.sound);
+  }
+
   // ── the player ────────────────────────────────────────────────────────
   // The worker holds the engine and makes the record a CHUNK at a time; the
   // page puts each chunk on the clock as it arrives. So the first sound is
@@ -414,6 +484,8 @@
   var CHUNK_SEC = 0.2, AHEAD = 3;   // 0.6 s on the clock: enough not to stutter, short enough to answer a knob
   var token = 0, playing = false, started = false, ending = false;
   var queued = [], nextAt = 0, startedAt = 0;
+  /** The desk each queued chunk was rendered on, on the same clock as the sound. */
+  var deskLine = [];
   var saveTok = 0, saving = 0;
 
   // ── helpers ──
@@ -464,12 +536,15 @@
     });
     el.appendChild(dial); el.appendChild(cap); el.appendChild(val); show();
     el.set = function (nv) { setv(nv, false); };
+    /** Under the record's hand, or under yours. Display only — `set` is what moves it. */
+    el.auto = function (on) { if (el.classList.contains("drv") !== !!on) el.classList.toggle("drv", !!on); };
     return el;
   }
-  // a knob bound to a path in the desk
+  // a knob bound to a path in the desk, and known by that path so the record
+  // can turn it
   function bound(path, cap, min, max, step, unit, small, hot) {
-    return knob({ cap: cap, label: path.join(" "), min: min, max: max, step: step, unit: unit, small: small, hot: hot, value: current(path),
-      onChange: function (nv) { set(path, nv); desked(); if (path[0] === "mix" && (path[2] === "az" || path[2] === "dist")) drawScope(); } });
+    return register(path, knob({ cap: cap, label: path.join(" "), min: min, max: max, step: step, unit: unit, small: small, hot: hot, value: current(path),
+      onChange: function (nv) { set(path, nv); desked(); if (path[0] === "mix" && (path[2] === "az" || path[2] === "dist")) drawScope(); } }));
   }
 
   // ── an arc meter ──
@@ -508,6 +583,9 @@
   function compose() {
     stop();
     song = M.compose(request());
+    // a new record is a new console: every panel below rebuilds its own knobs
+    // and registers them again, and nothing may be left pointing at the last one
+    live = null; deskLine = []; driven = {}; lit = { stomp: {}, unit: {}, led: {}, voice: {}, lane: {}, pick: {}, hole: [] };
     var c = song.chart, f = song.form, p = song.performance;
     $("n-key").textContent = M.NOTE_NAMES[M.pc(c.tonicPc)] + " " + c.scaleName;
     $("n-metre").textContent = c.metre.beats + "·" + c.metre.perBeat;
@@ -520,7 +598,8 @@
     $("roll-sub").textContent = M.summary(song);
     drawTape(); drawRoll(null); drawScope(); drawMatrix(); drawMachine(); drawBoard(); drawPatch(); drawRack();
     $("dump").value = M.dump(song);
-    $("chrono").textContent = "0:00.0";
+    $("chrono").textContent = "0:00.0"; nowDesk(null);
+    resetDrive(); if (reduced) frame();
   }
 
   function drawTape() {
@@ -720,9 +799,9 @@
     g.fillStyle = "#e7dcc3"; g.beginPath(); g.arc(c, c, 5, 0, Math.PI * 2); g.fill();
     g.strokeStyle = "#e7dcc3"; g.beginPath(); g.moveTo(c, c - 5); g.lineTo(c, c - 12); g.stroke();
     // the parts
-    var width = current(["world", "width"]);
+    var width = shown(["world", "width"]);
     ROLES.forEach(function (r) {
-      var az = current(["mix", r, "az"]) * Math.PI / 180, d = current(["mix", r, "dist"]);
+      var az = shown(["mix", r, "az"]) * Math.PI / 180, d = shown(["mix", r, "dist"]);
       var px = c + Math.sin(az) * d * R, py = c - Math.cos(az) * d * R;
       g.shadowColor = COLOR[r]; g.shadowBlur = 14; g.fillStyle = COLOR[r];
       g.beginPath(); g.arc(px, py, 7, 0, Math.PI * 2); g.fill(); g.shadowBlur = 0;
@@ -736,7 +815,7 @@
   scope.addEventListener("pointerdown", function (e) {
     var p = scopePos(e), c = 180, R = c - 14, best = null, bd = 18;
     ROLES.forEach(function (r) {
-      var az = current(["mix", r, "az"]) * Math.PI / 180, d = current(["mix", r, "dist"]);
+      var az = shown(["mix", r, "az"]) * Math.PI / 180, d = shown(["mix", r, "dist"]);
       var px = c + Math.sin(az) * d * R, py = c - Math.cos(az) * d * R, dd = Math.hypot(px - p.x, py - p.y);
       if (dd < bd) { bd = dd; best = r; }
     });
@@ -770,7 +849,10 @@
     ROLES.forEach(function (r) {
       var tr = document.createElement("tr");
       var td = document.createElement("td"); td.className = "part";
-      td.innerHTML = '<span class="swatch" style="background:' + COLOR[r] + ';box-shadow:0 0 6px ' + COLOR[r] + '"></span><span class="who">' + r + '</span><span class="voice">' + (r === "drums" ? "kit" : song.chart.genre.sound.voices[r]) + '</span>';
+      td.innerHTML = '<span class="swatch" style="background:' + COLOR[r] + ';box-shadow:0 0 6px ' + COLOR[r] + '"></span><span class="who">' + r + '</span><span class="voice">' + (r === "drums" ? "kit" : shown(["voices", r])) + '</span>';
+      // `revoice` lends a part another part's voice for a section, so this
+      // label is one of the things the record changes as it plays
+      lit.voice[r] = td.querySelector(".voice");
       tr.appendChild(td);
       var cell = function (k, key) { var c = document.createElement("td"); c.appendChild(k); tr.appendChild(c); if (key) matrixKnobs[key] = k; };
       cell(bound(["mix", r, "level"], "", 0, 2, 0.01, "", true));
@@ -802,8 +884,9 @@
   function drawBoard() {
     var b = $("board"); b.innerHTML = "";
     M.PEDAL_ORDER.forEach(function (name) {
-      var def = PEDALS[name], on = current(["pedals", name, "mix"]) > 0;
+      var def = PEDALS[name], on = shown(["pedals", name, "mix"]) > 0;
       var box = document.createElement("div"); box.className = "stomp"; box.style.setProperty("--p", def.p); box.setAttribute("data-on", on ? "1" : "0");
+      lit.stomp[name] = box;   // `crush` and `board` step on these mid-record
       var head = document.createElement("div"); head.style.textAlign = "center";
       head.innerHTML = '<div class="model">' + name + '</div><div class="series">' + def.series + '</div>'; box.appendChild(head);
       var jewel = document.createElement("span"); jewel.className = "jewel"; box.appendChild(jewel);
@@ -815,7 +898,7 @@
       var foot = document.createElement("button"); foot.type = "button"; foot.className = "foot"; foot.setAttribute("aria-label", name + " on/off");
       foot.addEventListener("click", function () {
         var now = box.getAttribute("data-on") === "1";
-        if (now) { set(["pedals", name, "mix"], 0); mix.set(0); } else { var m = current(["pedals", name, "mix"]) || 0; if (!(m > 0)) { set(["pedals", name, "mix"], 0.6); mix.set(0.6); } }
+        if (now) { set(["pedals", name, "mix"], 0); mix.set(0); } else { var m = shown(["pedals", name, "mix"]) || 0; if (!(m > 0)) { set(["pedals", name, "mix"], 0.6); mix.set(0.6); } }
         box.setAttribute("data-on", now ? "0" : "1"); desked();
       });
       row.appendChild(foot); box.appendChild(row);
@@ -853,7 +936,7 @@
         hole.className = "hole" + (self ? " self" : ""); hole.tabIndex = 0; hole.setAttribute("role", "slider"); hole.setAttribute("aria-label", "patch " + from + " into " + to);
         var pin = document.createElement("span"); pin.className = "pin"; var lv = document.createElement("span"); lv.className = "lv";
         hole.appendChild(pin); hole.appendChild(lv);
-        var v = current(["patch", from, to]) || 0;
+        var v = shown(["patch", from, to]) || 0;
         function show() { hole.setAttribute("data-v", v > 0 ? "1" : "0"); lv.textContent = v > 0 ? fmt(v) : ""; hole.setAttribute("aria-valuenow", v); }
         function setv(nv) { nv = Math.round(Math.max(0, Math.min(max, nv)) * 100) / 100; if (nv === v) return; v = nv; set(["patch", from, to], v); show(); desked(); }
         var drag = null, moved = false;
@@ -862,6 +945,12 @@
         hole.addEventListener("pointerup", function () { if (drag && !moved) setv(v > 0 ? v : 0.5); drag = null; });
         hole.addEventListener("dblclick", function () { setv(0); });
         hole.addEventListener("keydown", function (e) { if (e.key === "ArrowUp") { setv(v + 0.05); e.preventDefault(); } if (e.key === "ArrowDown") { setv(v - 0.05); e.preventDefault(); } if (e.key === "Enter" || e.key === " ") { setv(v > 0 ? 0 : 0.5); e.preventDefault(); } });
+        // `patch` puts a return into another return for a section, so a pin can
+        // be pushed by the record as well as by a finger — the same two methods
+        // a knob has, so the console drives them all through one loop
+        hole.set = function (nv) { nv = Math.round(Math.max(0, Math.min(max, nv)) * 100) / 100; if (nv !== v) { v = nv; show(); } };
+        hole.auto = function (on) { if (hole.classList.contains("drv") !== !!on) hole.classList.toggle("drv", !!on); };
+        register(["patch", from, to], hole);
         show(); td.appendChild(hole); tr.appendChild(td);
       });
       t.appendChild(tr);
@@ -888,11 +977,12 @@
       var sel = document.createElement("select"); sel.setAttribute("aria-label", "machine " + key);
       sel.style.cssText = "font:10px var(--mono);background:#0a0c0f;color:var(--cream);border:1px solid #000;padding:5px 6px;border-radius:3px";
       options.forEach(function (o) { var el = document.createElement("option"); el.value = o; el.textContent = o; sel.appendChild(el); });
-      sel.value = current(["machine", key]);
+      sel.value = shown(["machine", key]);
       // the kit decides what is written down the side of the strips, so
       // loading one redraws the panel: a label naming a voice the machine is
       // no longer loaded with is the same lie as a knob that does nothing
       sel.addEventListener("change", function () { set(["machine", key], sel.value); desked(); if (key === "kit") drawMachine(); });
+      lit.pick[key] = sel;   // `rekit` and `recircuit` load a different machine mid-record
       wrap.appendChild(sel); return wrap;
     };
     var top = document.createElement("div");
@@ -913,7 +1003,8 @@
     M.DRUM_LANES.forEach(function (lane) {
       var tr = document.createElement("tr");
       var td = document.createElement("td"); td.className = "part";
-      td.innerHTML = '<span class="who">' + lane + '</span><span class="voice">' + M.KITS[current(["machine", "kit"])][lane] + '</span>';
+      td.innerHTML = '<span class="who">' + lane + '</span><span class="voice">' + M.KITS[shown(["machine", "kit"])][lane] + '</span>';
+      lit.lane[lane] = td.querySelector(".voice");
       tr.appendChild(td);
       var cell = function (k) { var c = document.createElement("td"); c.appendChild(k); tr.appendChild(c); };
       cell(bound(["machine", "channels", lane, "tune"], "", -12, 12, 0.5, "st", true));
@@ -942,7 +1033,7 @@
   var SR8 = 8000;
   // the unit's own impulse response, from the renderer's own classes, at the knobs' positions
   function response(name) {
-    var D = M.dsp, K = function (k) { return current(["rack", name, k]); }, tempo = song.chart.tempo;
+    var D = M.dsp, K = function (k) { return shown(["rack", name, k]); }, tempo = song.chart.tempo;
     var run, n, kind = "impulse";
     if (name === "echo") { var e = new D.Echo(K("beats") * 60 / tempo, K("feedback"), SR8); run = function (x) { return e.run(x); }; n = SR8 * Math.min(4, K("beats") * 60 / tempo * 4 + 0.5); }
     else if (name === "spring") { var sp = new D.Spring(K("sec"), SR8); run = function (x) { return sp.run(x); }; n = SR8 * Math.min(3, K("sec") * 0.8 + 0.3); }
@@ -950,7 +1041,7 @@
     else if (name === "pole") { var pl = new D.Pole(K("hz"), K("resonance"), SR8); run = function (x) { return pl.run(x); }; n = 480; }
     else if (name === "flange") { var fl = new D.Flanger(K("rateHz"), K("depth"), SR8); kind = "sine"; run = function (x) { return fl.run(x); }; n = SR8 * Math.min(4, 1.5 / K("rateHz")); }
     else if (name === "ensemble") { var en = new D.Ensemble(K("rateHz"), K("depth"), SR8); kind = "sine"; run = function (x) { return en.run(x); }; n = SR8 * Math.min(4, 1.5 / K("rateHz")); }
-    else if (name === "medium") { var md = new D.Medium(current(["rack", "medium", "kind"]), 7, SR8); run = function (x) { return md.run(x); }; n = 400; }
+    else if (name === "medium") { var md = new D.Medium(shown(["rack", "medium", "kind"]), 7, SR8); run = function (x) { return md.run(x); }; n = 400; }
     else if (name === "tape") { kind = "wow"; n = SR8 * Math.min(6, 2 / K("wowHz")); }
     else if (name === "vinyl") { kind = "dust"; n = 800; }
     else return null;
@@ -979,12 +1070,29 @@
     }
     g.stroke(); g.shadowBlur = 0;
   }
-  var screens = {};
-  function refreshScreen(name) { var cv = screens[name]; if (cv) paintScreen(cv, response(name)); }
+  var screens = {}, screenSig = {};
+  /* An impulse response is real DSP, and the record now moves these knobs five
+     times a second, so a screen repaints only when one of its OWN knobs has
+     moved. The signature is built off the unit's own knob list rather than a
+     table of which knobs matter — a table like that is a law kept in a reader,
+     and it would go stale the first time a unit grew a knob. */
+  function screenSigOf(name) {
+    var def = UNITS[name], s = "";
+    if (!def) return s;
+    for (var i = 0; i < def.knobs.length; i++) s += "|" + shown(["rack", name, def.knobs[i][0]]);
+    if (def.kind) s += "|" + shown(["rack", name, "kind"]);
+    if (name === "echo") s += "|" + song.chart.tempo;   // its time is in beats
+    return s;
+  }
+  function refreshScreen(name) {
+    var cv = screens[name]; if (!cv) return;
+    var sig = screenSigOf(name); if (screenSig[name] === sig) return;
+    screenSig[name] = sig; paintScreen(cv, response(name));
+  }
   function drawRack() {
-    var rk = $("rack"); rk.innerHTML = ""; screens = {};
+    var rk = $("rack"); rk.innerHTML = ""; screens = {}; screenSig = {};
     M.RACK_ORDER.forEach(function (name) {
-      var def = UNITS[name], on = def.sw ? current(["rack", name, def.sw]) > 0 : true;
+      var def = UNITS[name], on = def.sw ? shown(["rack", name, def.sw]) > 0 : true;
       var u = document.createElement("div"); u.className = "unit"; u.style.setProperty("--u", def.u); u.setAttribute("data-on", on ? "1" : "0");
       u.innerHTML = '<div class="ear"></div><div class="facep"><div class="brand"><div class="n">' + (name === "ensemble" ? "DP/4" : name) + '</div><div class="d">' + def.d + '</div><span class="no">' + def.no + '</span></div><div class="scrslot"></div><div class="kn"></div><div class="side"></div></div><div class="ear"></div>';
       var kn = u.querySelector(".kn"), side = u.querySelector(".side"), slot = u.querySelector(".scrslot"), swKnob = null;
@@ -993,19 +1101,21 @@
       if (def.kind) {
         var sel = document.createElement("select"); sel.setAttribute("aria-label", "medium kind"); sel.style.cssText = "font:10px var(--mono);background:#0a0c0f;color:var(--cream);border:1px solid #000;padding:6px 6px;border-radius:3px;align-self:center";
         ["gramophone", "radio"].forEach(function (k) { var o = document.createElement("option"); o.value = k; o.textContent = k; sel.appendChild(o); });
-        sel.value = current(["rack", "medium", "kind"]); sel.addEventListener("change", function () { set(["rack", "medium", "kind"], sel.value); desked(); refreshScreen("medium"); }); kn.appendChild(sel);
+        sel.value = shown(["rack", "medium", "kind"]); sel.addEventListener("change", function () { set(["rack", "medium", "kind"], sel.value); desked(); refreshScreen("medium"); }); kn.appendChild(sel);
+        lit.pick.kind = sel;
       }
       def.knobs.forEach(function (k) {
-        var kb = knob({ cap: k[1], label: "rack " + name + " " + k[0], min: k[2], max: k[3], step: k[4], unit: k[5] || "", hot: k[0] === def.sw, value: current(["rack", name, k[0]]),
-          onChange: function (nv) { set(["rack", name, k[0]], nv); desked(); refreshScreen(name); } });
+        var kb = register(["rack", name, k[0]], knob({ cap: k[1], label: "rack " + name + " " + k[0], min: k[2], max: k[3], step: k[4], unit: k[5] || "", hot: k[0] === def.sw, value: shown(["rack", name, k[0]]),
+          onChange: function (nv) { set(["rack", name, k[0]], nv); desked(); refreshScreen(name); } }));
         kn.appendChild(kb); if (k[0] === def.sw) swKnob = kb;
       });
       var led = document.createElement("span"); led.className = "led"; led.setAttribute("data-on", on ? "1" : "0"); side.appendChild(led);
+      lit.unit[name] = u; lit.led[name] = led;
       if (def.sw) {
         var tg = document.createElement("label"); tg.className = "toggle"; tg.title = "power";
         var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = on;
         cb.addEventListener("change", function () {
-          if (cb.checked) { var v = current(["rack", name, def.sw]); if (!(v > 0)) { var nv = def.sw === "ret" ? 1 : 0.35; set(["rack", name, def.sw], nv); if (swKnob) swKnob.set(nv); } }
+          if (cb.checked) { var v = shown(["rack", name, def.sw]); if (!(v > 0)) { var nv = def.sw === "ret" ? 1 : 0.35; set(["rack", name, def.sw], nv); if (swKnob) swKnob.set(nv); } }
           else { set(["rack", name, def.sw], 0); if (swKnob) swKnob.set(0); }
           u.setAttribute("data-on", cb.checked ? "1" : "0"); led.setAttribute("data-on", cb.checked ? "1" : "0"); desked();
         });
@@ -1015,6 +1125,336 @@
     });
     requestAnimationFrame(function () { M.RACK_ORDER.forEach(refreshScreen); });
   }
+
+  /* ── THE CONSOLE PLAYS ITSELF ═══════════════════════════════════════════
+     Every knob, pin, jewel, lamp and label on the bridge moved to where the
+     record has actually put it.
+
+     This is a READOUT and not an automation. Nothing here decides anything:
+     the desk it is handed is `Engine.desk` — the same object the engine was
+     rendering through when it made the samples now in your ears — carried back
+     with the chunk it belongs to. Delete this function and the record is the
+     same record, byte for byte. What changes is only whether you can see it.
+
+     `desk` null means nothing is playing, and every knob goes back to the desk
+     the record is being ASKED to play: the hand's, over the genre's. */
+  function follow(desk) {
+    live = desk;
+    for (var key in driven) {
+      var e = driven[key];
+      // THE HAND WINS, and the display says so. `render.ts`: "it costs the
+      // automation on exactly the knobs that were touched, which is what being
+      // touched means" — so a knob you have moved stops moving on its own, and
+      // stops being drawn as though it might.
+      var mine = get(e.path, over) !== undefined;
+      var v = mine || !desk ? current(e.path) : get(e.path, desk);
+      e.el.auto(!!desk && !mine);
+      if (typeof v === "number") e.el.set(v);
+    }
+    // the things that light rather than turn
+    M.PEDAL_ORDER.forEach(function (n) {
+      var box = lit.stomp[n]; if (box) box.setAttribute("data-on", shown(["pedals", n, "mix"]) > 0 ? "1" : "0");
+    });
+    M.RACK_ORDER.forEach(function (n) {
+      var u = lit.unit[n], sw = UNITS[n] && UNITS[n].sw; if (!u || !sw) return;
+      var on = shown(["rack", n, sw]) > 0 ? "1" : "0";
+      u.setAttribute("data-on", on); if (lit.led[n]) lit.led[n].setAttribute("data-on", on);
+    });
+    // and the labels that name what is loaded. A label naming a voice the
+    // machine is no longer loaded with is the same lie as a knob that does
+    // nothing, and `revoice`, `rekit` and `recircuit` all change one mid-record
+    var text = function (el, s) { if (el && el.textContent !== s) el.textContent = s; };
+    var pick = function (el, s) { if (el && el.value !== s) el.value = s; };
+    ROLES.forEach(function (r) { if (r !== "drums") text(lit.voice[r], shown(["voices", r])); });
+    var kit = shown(["machine", "kit"]);
+    pick(lit.pick.kit, kit); pick(lit.pick.circuit, shown(["machine", "circuit"])); pick(lit.pick.kind, shown(["rack", "medium", "kind"]));
+    if (M.KITS[kit]) M.DRUM_LANES.forEach(function (l) { text(lit.lane[l], M.KITS[kit][l]); });
+    M.RACK_ORDER.forEach(refreshScreen);
+    drawScope();
+  }
+
+  /** What is moving the desk right now, named and coloured as the roll names it. */
+  function nowDesk(sec) {
+    var el = $("nowdesk");
+    if (sec === null || !song) { el.innerHTML = '<i>the genre’s own desk</i>'; return; }
+    var list = song.performance.desk || [], cur = null;
+    for (var i = 0; i < list.length; i++) { if (list[i].tSec > sec) break; cur = list[i]; }
+    if (!cur || !cur.treatment) { el.innerHTML = '<i>the genre’s own desk</i>'; return; }
+    var pct = Math.round((cur.depth === undefined ? 1 : cur.depth) * 100);
+    el.innerHTML = '<b style="color:' + fxHue(cur.treatment) + '">' + cur.treatment.toUpperCase() + '</b>'
+      + ' <i>' + pct + '%</i>'
+      + (cur.at ? ' <span style="color:' + (COLOR[cur.at] || "#fff") + '">' + cur.at + '</span>' : '');
+  }
+
+  /* ═══ THE DRIVE ═══════════════════════════════════════════════════════════
+     The record as a road you are driving down, drawn in glyphs on the CRT.
+
+     Every music visualiser ever built knows only the past, because the sound
+     arrives live and the picture chases it. This record is a pure function of
+     genre and seed and is entirely composed before Play, so the world can show
+     WHAT IS COMING: the notes stand beside the road at the bar they fall on and
+     approach as you drive; the land either side is the arrangement's own arc
+     (`form.arc`, energy per bar), so the peak is a mountain you can see from
+     bar one and reach three minutes later; each section is a gate you pass
+     under with its name on the lintel. The band is placed where the DESK puts
+     it — a part's lane across the road is its azimuth and distance, read live,
+     so `far` really recedes and `orbit` really walks round you — and the
+     weather is the desk too: the pole's cutoff is fog, the tape's wow wobbles
+     the horizon, the vinyl's dust is rain. The genre is the world: lofi is a
+     wet city at night, dungeon synth a stone road under stars.
+
+     Nothing here can change a note or a sample. It reads the song, `shown()`
+     and an AnalyserNode on the way out of the speakers, and draws. */
+  var drive = $("drive"), dctx = drive.getContext("2d"), driveCrt = $("drive-crt");
+  var sink = null, spectrum = null;               // the sound on its way out, for the ground to shake to
+  var CELL_W = 7, CELL_H = 13, GFONT = "700 12px ui-monospace,Menlo,Consolas,monospace";
+  var ROAD = 2.4, BAR_UNITS = 6, EYE = 1.7, GATE_H = 3.6, ZNEAR = 0.55, FOV = 104 * Math.PI / 180;
+  var PAL = ["#57f2a5", "#ffb347", "#8fd3ff", "#e7dcc3", COLOR.drums, COLOR.bass, COLOR.keys, COLOR.lead, COLOR.counter, COLOR.drone];
+  var PIDX = { drums: 4, bass: 5, keys: 6, lead: 7, counter: 8, drone: 9 };
+  var GLYPH = { bass: 35, keys: 61, lead: 64, counter: 42, drone: 126 };   // # = @ * ~
+  var RAMP = " .:-=+*#%@";
+  var driveSec = 0, driveFrame = 0, barStart = [], secToBarLast = 0, dseed = 0;
+  var COLS = 0, ROWS = 0, gCh, gPal, gLvl, gZ, ybuf, atlas = {};
+
+  /** A new record: the road is rebuilt from its clock and the world re-seeded. */
+  function resetDrive() {
+    driveSec = 0;
+    var clk = song.form.clock; barStart = [];
+    for (var b = 0; b <= song.form.bars; b++) barStart.push(clk.at(b));
+    secToBarLast = barStart[barStart.length - 1] - barStart[barStart.length - 2];
+    dseed = (Number(seedEl.value) || 0) * 2654435761 % 4294967296;
+    atlas = {};
+  }
+  /** Which fractional bar a moment is, on the record's own clock, extrapolated past its end. */
+  function barOf(sec) {
+    var n = barStart.length - 1;
+    if (sec <= 0) return sec / (barStart[1] || 1);
+    if (sec >= barStart[n]) return n + (sec - barStart[n]) / secToBarLast;
+    var lo = 0, hi = n;
+    while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (barStart[mid] <= sec) lo = mid; else hi = mid; }
+    return lo + (sec - barStart[lo]) / (barStart[hi] - barStart[lo]);
+  }
+  /** The arc's energy at a fractional bar, and the land subsiding after the record ends. */
+  function arcAt(bar) {
+    var arc = song.form.arc, n = arc.length;
+    if (bar < 0) return arc[0];
+    if (bar >= n - 1) return arc[n - 1] * Math.max(0, 1 - (bar - (n - 1)) / 10) + 0.12 * Math.min(1, (bar - (n - 1)) / 10);
+    var i = Math.floor(bar), f = bar - i; return arc[i] + (arc[i + 1] - arc[i]) * f;
+  }
+  function ihash(a, b) { var h = (Math.imul(a | 0, 374761393) + Math.imul(b | 0, 668265263) + dseed) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; }
+  function noise2(x, y) {
+    var xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi;
+    fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+    var a = ihash(xi, yi), b = ihash(xi + 1, yi), c = ihash(xi, yi + 1), d = ihash(xi + 1, yi + 1);
+    return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+  }
+  /** Height of the land at a point: the arc's energy, squared so the peak towers, shaped by the genre. */
+  function terrainAt(x, zw, city) {
+    var d = Math.abs(x) - ROAD;
+    if (d <= 0) return 0;
+    // SQUARED, and tall: perspective shrinks a far thing by its distance, and
+    // the peak has to read as a mountain from a hundred and fifty units off —
+    // so at full energy the land stands thirty-odd units over a road you sit
+    // two units above, and near the peak you drive through a pass
+    var e = arcAt(zw / BAR_UNITS), base = e * e * 36, t = Math.min(1, d / 14);
+    if (city) {
+      if (d < 0.9) return 0;                                    // the pavement
+      var bx = Math.floor(x / 1.9), bz = Math.floor(zw / 3.1), h = ihash(bx, bz);
+      return base * (0.2 + 1.1 * h * h) * (0.35 + 0.65 * t);
+    }
+    var s = t * t * (3 - 2 * t);
+    return base * (0.06 + 0.94 * s) * (0.6 + 0.8 * noise2(x * 0.16, zw * 0.07)) + 1.2 * noise2(x * 0.7, zw * 0.35) * (0.2 + s);
+  }
+  /** A part's lane across the road: azimuth unwrapped so front is centre and behind is the far verge, distance pushing it out. */
+  function laneX(role) {
+    var az = shown(["mix", role, "az"]) * Math.PI / 360, dist = shown(["mix", role, "dist"]);
+    return Math.sin(az) * (0.35 + dist) * 4.2;
+  }
+  var pitchY = function (p) { return 0.25 + Math.max(0, Math.min(1, (p - 30) / 56)) * 3.6; };
+
+  function put(c, r, code, pal, lvl, z) {
+    if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return;
+    // a thing standing ON the land is at the land's own depth, give or take the
+    // slice that drew it, so the test has a little give in it
+    var i = r * COLS + c; if (z > gZ[i] * 1.06 + 0.25) return;
+    gCh[i] = code; gPal[i] = pal; gLvl[i] = lvl; gZ[i] = z;
+  }
+  function sprite(code, pal, q) {
+    var key = code * 128 + pal * 8 + q, cv = atlas[key];
+    if (cv) return cv;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv = document.createElement("canvas"); cv.width = Math.ceil(CELL_W * dpr); cv.height = Math.ceil(CELL_H * dpr);
+    var g = cv.getContext("2d"); g.scale(dpr, dpr); g.font = GFONT; g.textBaseline = "middle"; g.textAlign = "center";
+    var a = 0.18 + 0.82 * (q / 7);
+    g.globalAlpha = a; g.fillStyle = PAL[pal];
+    if (q >= 5) { g.shadowColor = PAL[pal]; g.shadowBlur = 4 + (q - 5) * 2; }
+    g.fillText(String.fromCharCode(code), CELL_W / 2, CELL_H / 2 + 0.5);
+    atlas[key] = cv; return cv;
+  }
+
+  function frame() {
+    if (!song) return;
+    var full = document.fullscreenElement === driveCrt;
+    var W = full ? window.innerWidth : (drive.clientWidth || 900), H = full ? window.innerHeight : 500;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var cols = Math.floor(W / CELL_W), rows = Math.floor(H / CELL_H);
+    if (cols !== COLS || rows !== ROWS) {
+      COLS = cols; ROWS = rows; var N = COLS * ROWS;
+      gCh = new Uint16Array(N); gPal = new Uint8Array(N); gLvl = new Float32Array(N); gZ = new Float32Array(N); ybuf = new Int16Array(COLS);
+    }
+    if (drive.width !== Math.round(W * dpr) || drive.height !== Math.round(H * dpr)) { drive.width = Math.round(W * dpr); drive.height = Math.round(H * dpr); drive.style.height = H + "px"; }
+    gCh.fill(0); gZ.fill(Infinity);
+
+    var t = performance.now() / 1000, sec = driveSec, clk = song.form.clock;
+    var city = song.chart.genre.label.toLowerCase().indexOf("lofi") >= 0 || song.chart.genre.label.toLowerCase().indexOf("hip") >= 0;
+    // THE ROAD IS MEASURED IN BARS, the record's own unit: `BAR_UNITS` of road
+    // per bar whatever the tempo, so a quick genre drives quickly and the bar
+    // lines fall exactly where the clock puts them. Everything with a time is
+    // placed by `zOf`, and the land under it is the arc at that bar.
+    var barNow = barOf(sec), camZ = barNow * BAR_UNITS;
+    var zOf = function (s) { return (barOf(s) - barNow) * BAR_UNITS; };
+    var barSecNow = clk.barSec(Math.max(0, Math.min(song.form.bars - 1, Math.floor(barNow))));
+
+    // ── the weather is the desk ──
+    var poleOn = shown(["rack", "pole", "mix"]) > 0, hz = poleOn ? shown(["rack", "pole", "hz"]) : 20000;
+    var fogZ = 10 + 155 * Math.max(0, Math.min(1, Math.log(hz / 150) / Math.log(20000 / 150)));
+    var wob = Math.sin(2 * Math.PI * shown(["rack", "tape", "wowHz"]) * t) * (shown(["rack", "tape", "wowCents"]) / 100) * 1.4;
+    var dust = shown(["rack", "vinyl", "crackle"]) || 0;
+    var low = 0, all = 0;
+    if (sink && playing) {
+      sink.getByteFrequencyData(spectrum);
+      for (var q = 0; q < 6; q++) low += spectrum[q]; low /= 6 * 255;
+      for (var q2 = 0; q2 < spectrum.length; q2++) all += spectrum[q2]; all /= spectrum.length * 255;
+    }
+    var eye = EYE + (low - 0.45) * 0.22 * (playing ? 1 : 0);
+    var cx = COLS / 2, f = cx / Math.tan(FOV / 2), fy = f * CELL_W / CELL_H;
+    var horizon = ROWS * 0.46 + wob;
+    var sx = function (x, z) { return cx + x / z * f; };
+    var sy = function (y, z) { return horizon - (y - eye) / z * fy; };
+    var fog = function (z) { var v = 1 - z / fogZ; return v <= 0 ? 0 : Math.pow(v, 0.75); };
+    var zFar = fogZ * 1.02;
+    // the notes are small things and fade before the land does, or every note
+    // of the next minute piles into one bright knot at the vanishing point
+    var noteFar = Math.min(zFar, 72), nfog = function (z) { var v = 1 - z / noteFar; return v <= 0 ? 0 : Math.pow(v, 0.7); };
+
+    // ── the land, column by column, near to far — the classic height-field scan ──
+    for (var c = 0; c < COLS; c++) {
+      ybuf[c] = ROWS; var dirX = (c - cx) / f;
+      for (var z = ZNEAR; z < zFar; z += 0.1 + z * 0.05) {
+        var x = dirX * z, zw = camZ + z, h = terrainAt(x, zw, city);
+        var row = Math.floor(sy(h, z));
+        if (row >= ybuf[c]) continue;
+        var br = fog(z), code, pal = 0, lvl;
+        if (Math.abs(x) < ROAD + 0.15) {
+          // the road: bar lines coming at you, the beats between, the verges
+          var bar = zw / BAR_UNITS, fb = bar - Math.floor(bar), beats = clk.metre.beats, fbeat = fb * beats - Math.floor(fb * beats);
+          var edge = Math.abs(x) > ROAD - 0.14;
+          if (edge) { code = 124; lvl = br * 0.55; }
+          else if (fb < 0.035 || fb > 0.985) { code = 61; lvl = br * (0.75 + 0.25 * low); }
+          else if (fbeat < 0.06) { code = 45; lvl = br * 0.28; }
+          else if (Math.abs(x) < 0.07) { code = 58; lvl = br * 0.3; }
+          else { code = 0; lvl = 0; }
+        } else {
+          var lit2 = br * (0.3 + 0.7 * Math.min(1, h / 14));
+          if (city) { pal = h > 9 && ihash(Math.floor(x / 1.9), 77) > 0.55 ? 6 : 0; lvl = lit2 * (0.65 + 0.35 * ihash(Math.floor(zw * 1.5), Math.floor(h * 2))); code = RAMP.charCodeAt(Math.max(1, Math.round(lvl * 9))); }
+          else { lvl = lit2; code = RAMP.charCodeAt(Math.max(1, Math.round(lvl * 9))); }
+        }
+        var top = Math.max(0, row);
+        for (var r = top; r < ybuf[c]; r++) { var i = r * COLS + c; if (code) { gCh[i] = code; gPal[i] = pal; gLvl[i] = lvl; } gZ[i] = z; }
+        ybuf[c] = row;
+      }
+    }
+
+    // ── the gates: each section, named, the peak in full amber ──
+    var secs = song.form.sections;
+    for (var si = secs.length; si >= 0; si--) {
+      var isEnd = si === secs.length;
+      var zg = ((isEnd ? song.form.bars : secs[si].startBar) - barNow) * BAR_UNITS; if (zg < ZNEAR || zg > zFar) continue;
+      var gb = fog(zg) * (isEnd ? 0.55 : secs[si].peak ? 1 : 0.7), gp = isEnd ? 3 : 1;
+      var x0 = Math.round(sx(-ROAD - 0.6, zg)), x1 = Math.round(sx(ROAD + 0.6, zg)), r0 = Math.round(sy(0, zg)), r1 = Math.round(sy(GATE_H, zg));
+      for (var rr = r1; rr <= r0; rr++) { put(x0, rr, 124, gp, gb, zg); put(x1, rr, 124, gp, gb, zg); }
+      for (var cc = x0; cc <= x1; cc++) put(cc, r1, 61, gp, gb, zg);
+      var name = isEnd ? "END" : secs[si].fn.toUpperCase() + (secs[si].peak ? " PEAK" : "");
+      if (x1 - x0 - 2 >= name.length) { var nx = Math.round((x0 + x1) / 2 - name.length / 2); for (var k = 0; k < name.length; k++) put(nx + k, r1 - 1, name.charCodeAt(k), gp, Math.min(1, gb * 1.2), zg); }
+      else if (x1 - x0 >= 3) put(Math.round((x0 + x1) / 2), r1 - 1, name.charCodeAt(0), gp, gb, zg);
+    }
+
+    // ── the notes, standing at their bar; the ones you are passing flare ──
+    var ev = song.performance.events, ahead = noteFar / BAR_UNITS * barSecNow * 1.25, lanes = {};
+    ROLES.forEach(function (r) { lanes[r] = laneX(r); });
+    var lo2 = 0, hi2 = ev.length;   // the window of events that can be seen: binary search its start
+    { var a = 0, b = ev.length; while (a < b) { var m = (a + b) >> 1; if (ev[m].tSec + 8 < sec) a = m + 1; else b = m; } lo2 = a; }
+    for (var ei = hi2 - 1; ei >= lo2; ei--) {
+      var e = ev[ei]; if (e.tSec > sec + ahead) continue;
+      var z0 = zOf(e.tSec), z1 = zOf(e.tSec + Math.max(0.05, e.durSec));
+      var sounding = e.tSec <= sec && sec < e.tSec + Math.max(0.12, e.durSec);
+      if (z1 < ZNEAR && !sounding) continue;
+      var lx = lanes[e.role], pal2 = PIDX[e.role], g0 = 0.45 + 0.55 * Math.min(1, e.gain);
+      if (e.role === "drums") {
+        if (z0 < ZNEAR) continue;
+        var rz = Math.round(sy(0, z0)), bz = nfog(z0) * g0;
+        if (e.lane === "kick") { var kx0 = Math.round(sx(-ROAD + 0.2, z0)), kx1 = Math.round(sx(ROAD - 0.2, z0)); for (var kc = kx0; kc <= kx1; kc++) put(kc, rz, 61, pal2, bz, z0); }
+        else if (e.lane === "snare") { put(Math.round(sx(-ROAD * 0.5, z0)), rz, 120, pal2, bz, z0); put(Math.round(sx(ROAD * 0.5, z0)), rz, 120, pal2, bz, z0); }
+        else { var hx = e.lane === "openhat" ? 111 : 46; put(Math.round(sx(-ROAD, z0)) - 1, rz, hx, pal2, bz * 0.8, z0); put(Math.round(sx(ROAD, z0)) + 1, rz, hx, pal2, bz * 0.8, z0); }
+        continue;
+      }
+      var y = pitchY(e.pitch), za = Math.max(ZNEAR, z0), zb = Math.min(noteFar, z1);
+      if (zb <= za) { if (sounding) { var fx = Math.round(sx(lx, ZNEAR)); for (var fr = ROWS - 1; fr >= ROWS - 3; fr--) put(fx, fr, GLYPH[e.role], pal2, 1, 0); } continue; }
+      var ca = sx(lx, za), cb = sx(lx, zb), ra = sy(y, za), rb = sy(y, zb);
+      var n = Math.max(1, Math.abs(Math.round(cb) - Math.round(ca)));
+      for (var s2 = 0; s2 <= n; s2++) {
+        var u = n === 0 ? 0 : s2 / n, zz = 1 / ((1 - u) / za + u / zb), b2 = nfog(zz) * g0 * (sounding ? 1.25 : 1);
+        var code2 = zz < 14 || sounding ? GLYPH[e.role] : RAMP.charCodeAt(Math.max(1, Math.round(Math.min(1, b2) * 9)));
+        put(Math.round(ca + (cb - ca) * u), Math.round(ra + (rb - ra) * u), code2, pal2, Math.min(1, b2), zz);
+      }
+      if (sounding) { var fx2 = Math.round(sx(lx, ZNEAR)); for (var fr2 = ROWS - 1; fr2 >= ROWS - 3; fr2--) put(fx2, fr2, GLYPH[e.role], pal2, 1, 0); }
+    }
+
+    // ── the sky: the horizon, stars or a moon, and the rain the dust makes ──
+    var hr = Math.round(horizon);
+    for (var hc = 0; hc < COLS; hc++) put(hc, hr, 45, city ? 6 : 0, 0.22 + 0.25 * all, 1e8);
+    if (!city) {
+      for (var sr = 0; sr < hr; sr++) for (var sc = 0; sc < COLS; sc++) { var st = ihash(sc, sr + 9000); if (st < 0.012) put(sc, sr, st < 0.003 ? 43 : 46, 3, 0.25 + 0.5 * ihash(sr, sc) * (0.6 + 0.4 * Math.sin(t * 2 + sc)), 1e8); }
+      var mc = Math.round(COLS * 0.72), mr = Math.round(ROWS * 0.12);
+      for (var my = -2; my <= 2; my++) for (var mx = -4; mx <= 4; mx++) if ((mx * mx) / 16 + (my * my) / 3.2 <= 1) put(mc + mx, mr + my, 64, 3, 0.5, 1e8);
+    }
+    // the dust on the record is the weather: in the city it rains, on the
+    // stone road a mist lies along the horizon and drifts
+    var rain = city ? Math.min(0.55, dust * 3.5) : Math.min(0.6, dust * 4);
+    if (city) {
+      for (var rc = 0; rc < COLS; rc++) {
+        if (ihash(rc, 4242) > rain) continue;
+        var speed = 14 + 10 * ihash(rc, 17), period = 6 + Math.floor(ihash(rc, 99) * 7), off = Math.floor(t * speed + ihash(rc, 3) * 100);
+        for (var rr2 = 0; rr2 < ROWS; rr2++) if ((rr2 + off) % period === 0) put(rc, rr2, 124, 2, 0.2, 1e8);
+      }
+    } else {
+      var drift = Math.floor(t * 2.2);
+      for (var mr2 = hr - 3; mr2 <= hr + 5; mr2++) for (var mc2 = 0; mc2 < COLS; mc2++) {
+        if (ihash(mc2 + drift + mr2 * 7, 515) < rain * (1 - Math.abs(mr2 - hr - 1) / 6)) put(mc2, mr2, 126, 0, 0.14, 1e8);
+      }
+    }
+
+    // ── paint ──
+    var g2 = dctx; g2.setTransform(1, 0, 0, 1, 0, 0);
+    g2.fillStyle = "#071510"; g2.fillRect(0, 0, drive.width, drive.height);
+    var cw = CELL_W * dpr, ch = CELL_H * dpr;
+    for (var pr = 0; pr < ROWS; pr++) for (var pc = 0; pc < COLS; pc++) {
+      var pi = pr * COLS + pc, code3 = gCh[pi]; if (!code3) continue;
+      g2.drawImage(sprite(code3, gPal[pi], Math.max(0, Math.min(7, Math.round(gLvl[pi] * 7)))), pc * cw, pr * ch);
+    }
+
+    // ── the readout: where you are, and what the desk is doing to it ──
+    if ((driveFrame & 7) === 1) {   // frame() runs on the even count, so it sees the odd one
+      var bnow = Math.max(0, Math.min(song.form.bars - 1, Math.floor(barOf(sec)))), pl = song.arrangement.placed.find(function (p) { return bnow >= p.section.startBar && bnow < p.section.endBar; });
+      var where = playing ? (pl ? pl.section.fn.toUpperCase() + " <b>" + pl.material + "</b> · bar " + bnow : "bar " + bnow) : (sec > 0 ? "parked at " + clock(sec) : "parked at the start · press play");
+      $("drive-read").innerHTML = where + (fogZ < 30 ? " · fog" : "") + (rain > 0.3 ? (city ? " · rain" : " · mist") : "");
+    }
+  }
+  drive.addEventListener("dblclick", function () { if (document.fullscreenElement) document.exitFullscreen(); else if (driveCrt.requestFullscreen) driveCrt.requestFullscreen(); });
+  document.addEventListener("fullscreenchange", function () { COLS = 0; });   // resize on the next frame
+  // thirty frames a second is plenty for glyphs and half the cost; with motion
+  // reduced, the world is drawn once per change instead
+  (function roll2() { if (song && !reduced && (driveFrame++ & 1) === 0) frame(); requestAnimationFrame(roll2); })();
 
   // ── the worker: the engine, driven a chunk at a time ──
   // Credit-based, so the worker stays exactly AHEAD chunks in front and no
@@ -1029,7 +1469,9 @@
     "    var n = Math.min(E.blockSize, E.length - E.at);",
     "    var L = new Float32Array(n), R = new Float32Array(n);",
     "    E.block(L, R, n); credits--;",
-    "    postMessage({ tok: tok, left: L, right: R }, [L.buffer, R.buffer]);",
+    // the desk THIS chunk was rendered through, back with the chunk itself, so
+    // the console is never showing a desk the samples were not made on
+    "    postMessage({ tok: tok, left: L, right: R, desk: E.desk }, [L.buffer, R.buffer]);",
     "  }",
     "  if (E && E.at >= E.length) { postMessage({ tok: tok, end: true }); E = null; }",
     "}",
@@ -1075,7 +1517,7 @@
       var n = Math.min(E.blockSize, E.length - E.at);
       var L = new Float32Array(n), R = new Float32Array(n);
       E.block(L, R, n); credits--;
-      post({ tok: tok, left: L, right: R });
+      post({ tok: tok, left: L, right: R, desk: E.desk });
       setTimeout(pump, 0);
     }
     function kick() { if (!pumping) { pumping = true; setTimeout(pump, 0); } }
@@ -1116,8 +1558,11 @@
     stop();
     ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === "suspended") ctx.resume();
+    // the drive listens on the way out: an analyser between the chunks and the
+    // speakers, which changes nothing about what reaches them
+    if (!sink) { sink = ctx.createAnalyser(); sink.fftSize = 256; sink.smoothingTimeConstant = 0.55; sink.connect(ctx.destination); spectrum = new Uint8Array(sink.frequencyBinCount); }
     worker = worker || spawn(onChunk);
-    token++; playing = true; started = false; ending = false; queued = []; nextAt = 0;
+    token++; playing = true; started = false; ending = false; queued = []; nextAt = 0; deskLine = [];
     busy(true); lamp("l-play", 1);
     $("stop").disabled = false; $("play").disabled = true; $("play").classList.add("lit");
     worker.postMessage({ cmd: "start", tok: token, req: request(), desk: copy(over),
@@ -1134,7 +1579,7 @@
     if (d.end) { ending = true; if (queued.length === 0) stop(); return; }
     var buf = ctx.createBuffer(2, d.left.length, ctx.sampleRate);
     buf.copyToChannel(d.left, 0); buf.copyToChannel(d.right, 1);
-    var s = ctx.createBufferSource(); s.buffer = buf; s.connect(ctx.destination);
+    var s = ctx.createBufferSource(); s.buffer = buf; s.connect(sink || ctx.destination);
     // the first chunk starts a beat from now; if we ever fall behind, pick the
     // clock up again from here rather than trying to play the past
     if (nextAt < ctx.currentTime + 0.02) {
@@ -1142,6 +1587,12 @@
       if (!started) { startedAt = nextAt; started = true; }
     }
     s.start(nextAt);
+    // THE DESK THIS CHUNK IS PLAYED ON, put on the same clock as the sound.
+    // It is the desk as the engine left it at the chunk's END, so a change
+    // landing inside a chunk reaches the console up to CHUNK_SEC early — a
+    // fifth of a second, on a readout, against the alternative of a knob that
+    // never moves at all.
+    if (d.desk) deskLine.push({ at: nextAt, desk: d.desk });
     nextAt += buf.duration;
     queued.push(s);
     s.onended = function () {
@@ -1155,8 +1606,16 @@
 
   function tick() {
     if (!playing) return;
-    $("chrono").textContent = clock(started ? Math.max(0, ctx.currentTime - startedAt) : 0);
-    if (!reduced && started) drawRoll(Math.max(0, ctx.currentTime - startedAt));
+    var sec = started ? Math.max(0, ctx.currentTime - startedAt) : 0;
+    $("chrono").textContent = clock(sec);
+    if (started) driveSec = sec;
+    // the desk of the chunk that is sounding NOW — drop the ones already past,
+    // and move the console only when the desk itself has changed, which is once
+    // a chunk rather than once a frame
+    while (deskLine.length > 1 && deskLine[1].at <= ctx.currentTime) deskLine.shift();
+    if (deskLine.length && deskLine[0].at <= ctx.currentTime && deskLine[0].desk !== live) follow(deskLine[0].desk);
+    if (started) nowDesk(sec);
+    if (!reduced && started) drawRoll(sec);
     requestAnimationFrame(tick);
   }
 
@@ -1164,10 +1623,12 @@
     if (worker && playing) worker.postMessage({ cmd: "stop", tok: ++token });
     playing = false; started = false; ending = false;
     for (var i = 0; i < queued.length; i++) { try { queued[i].onended = null; queued[i].stop(); } catch (err) {} }
-    queued = []; nextAt = 0;
+    queued = []; nextAt = 0; deskLine = [];
     $("stop").disabled = true; $("play").disabled = false; $("play").classList.remove("lit");
     lamp("l-play", 0); busy(false);
-    if (song) drawRoll(null);
+    // the console goes back to the desk the record is being asked to play —
+    // the genre's, with your hand still on whatever you touched
+    if (song) { follow(null); nowDesk(null); drawRoll(null); if (reduced) frame(); }
   }
 
   function db(x) { return 20 * Math.log10(Math.max(1e-6, x)); }
@@ -1204,7 +1665,9 @@
   $("seed-down").addEventListener("click", function () { step(-1); });
   $("random").addEventListener("click", function () { seedEl.value = String(Math.floor(Math.random() * 1e6)); compose(); });
   [seedEl, secEl].forEach(function (el) { el.addEventListener("change", compose); el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); compose(); } }); });
-  window.addEventListener("resize", function () { if (song) { drawRoll(null); drawCable(); M.RACK_ORDER.forEach(refreshScreen); } });
+  // a resized canvas is a cleared canvas, so the screens repaint whatever they
+  // last painted rather than being skipped as unchanged
+  window.addEventListener("resize", function () { if (song) { drawRoll(null); drawCable(); screenSig = {}; M.RACK_ORDER.forEach(refreshScreen); } });
   document.addEventListener("keydown", function (e) { if (e.code === "Space" && e.target === document.body) { e.preventDefault(); playing ? stop() : play(); } });
   compose();
 })();

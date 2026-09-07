@@ -240,6 +240,30 @@ rack, each rack unit with a screen of its own impulse response. It plays
 through a worker that stays about half a second in front, and saves through a
 second one, so rendering a file never interrupts the record.
 
+**The drive.** The record as a road you are driving down, drawn in glyphs on
+the CRT at the top of the bridge. Every other music visualiser knows only the
+past, because the sound arrives live; this record is entirely composed the
+instant you press Play, so the world shows **what is coming** — the notes
+stand beside the road at the bar they fall on and approach as you drive, the
+land either side is `form.arc` so the peak is a mountain you can see from bar
+one, and every section is a gate you pass under with its name on the lintel.
+The band stands where the desk puts it (a part's lane is its azimuth and
+distance, read live, so `far` recedes and `orbit` walks round you), and the
+weather is the desk too: the pole's cutoff is fog, the tape's wow wobbles the
+horizon, the vinyl's dust is rain. Lofi is a wet city at night; dungeon synth
+is a stone road under stars. Double-click it for the whole screen. `npm run
+shot lofi 42 --drive 70` shoots it seventy seconds in.
+
+**And the console plays itself.** The engine says which desk it is rendering
+through (`Engine.desk`), the worker carries that back with the chunk it made,
+and the bridge turns every knob, pin, lamp and label to where the record has
+actually put it — so a filter closing through a section is a pointer you watch
+move rather than a number that never changes. It is a readout: delete it and
+every record renders to the same bytes. A knob moves on its own only until your
+hand takes it, because `render.ts` decides that for the audio already — the
+page has no second opinion about who owns a knob, it just draws the one the
+renderer keeps.
+
 The melody is theory as constraint: a phrase states a figure and restates it,
 walks one of Huron's contour shapes and closes where that shape was going,
 spends at most one interval wider than a fifth, answers a leap the other way,

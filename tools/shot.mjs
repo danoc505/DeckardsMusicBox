@@ -67,13 +67,19 @@ if (!genre || seeds.length === 0) {
   process.stderr.write(
     "usage: node tools/shot.mjs <genre> <seed> [seed...]\n" +
     "       node tools/shot.mjs <genre> --random 3\n" +
-    "       [--out <dir>] [--seconds <n>] [--file <page.html>]\n");
+    "       [--out <dir>] [--seconds <n>] [--file <page.html>]\n" +
+    "       [--drive <sec>]   also press Play, and shoot THE DRIVE <sec> into the record\n");
   process.exit(2);
 }
 
 const file = resolve(named("file", join(ROOT, DEFAULT_PAGE)));
 const out = resolve(named("out", join(ROOT, "shots")));
 const seconds = named("seconds", "");
+/* THE DRIVE is the other picture the page draws, and unlike the roll it has a
+   playhead: `--drive 70` plays the record for real, in headless Chromium's
+   silent audio graph, and shoots the road seventy seconds in. `--drive 0`
+   shoots it parked at the start. Real time, so seventy seconds takes seventy. */
+const driveSec = named("drive", null) === null ? null : Number(named("drive", 0));
 
 if (!existsSync(file)) {
   throw new Error("no such file: " + file + "\n  build it first: npm run build");
@@ -81,7 +87,13 @@ if (!existsSync(file)) {
 
 /* ── DRIVE THE PAGE ──────────────────────────────────────────────────────── */
 const { chromium } = loadPlaywright();
-const browser = await chromium.launch();
+/* a Playwright that does not match the Chromium on the machine refuses to
+   launch; `PLAYWRIGHT_CHROMIUM=/path/to/chrome` says which binary to use, and
+   is otherwise ignored */
+const browser = await chromium.launch({
+  ...(process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {}),
+  ...(driveSec === null ? {} : { args: ["--autoplay-policy=no-user-gesture-required"] }),
+});
 const page = await browser.newPage({ viewport: { width: 1400, height: 1200 }, deviceScaleFactor: 2 });
 
 /* a page error is a defect in the program, not in this tool — it is collected
@@ -128,6 +140,23 @@ for (const seed of seeds) {
   const sub = (await page.textContent("#roll-sub")) || "";
   shot.push({ seed, path, sub });
   process.stdout.write(`${path}\n  ${sub}\n`);
+
+  if (driveSec !== null) {
+    if (driveSec > 0) {
+      await page.click("#play");
+      /* the page's own clock, not a timer: the record is made as it plays and a
+         slow machine falls behind wall time rather than skipping ahead */
+      await page.waitForFunction((s) => {
+        const t = document.getElementById("chrono").textContent.split(":");
+        return Number(t[0]) * 60 + Number(t[1]) >= s;
+      }, driveSec, { timeout: Math.max(120000, driveSec * 3000) });
+    }
+    const dpath = join(out, `drive-${genre}-${seed}-${driveSec}s.png`);
+    await page.locator("#drive-crt").screenshot({ path: dpath });
+    const where = (await page.textContent("#drive-read")) || "";
+    if (driveSec > 0) await page.click("#stop");
+    process.stdout.write(`${dpath}\n  ${where}\n`);
+  }
 }
 
 await browser.close();

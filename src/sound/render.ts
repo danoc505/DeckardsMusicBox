@@ -578,6 +578,27 @@ export class Engine {
   get done(): boolean { return this.t >= this.length; }
 
   /**
+   * THE DESK THIS MOMENT IS BEING HEARD ON — the same object `segment` renders
+   * through, said out loud.
+   *
+   * `retune` has always computed it: the genre's numbers, the record's own
+   * treatment at its depth over them, a walk part way if the change is still
+   * arriving, the hand over that, and motion over everything. It was private,
+   * so the only thing that could ever know where a knob had got to was the
+   * code turning it into samples — and the bridge, which draws two hundred of
+   * those knobs, showed the genre's RESTING desk for the length of the record.
+   * A page that cannot see the desk move is the same fault as a roll that
+   * cannot: the program could not show the one thing the desk does.
+   *
+   * A READOUT AND NOT A HANDLE. It is the live object rather than a copy —
+   * cheap, since this is read once a block by something that only looks at it
+   * — and nothing may write through it: `setDesk` is how a hand moves a knob,
+   * and it is the only way, because a knob moved here would be a desk the
+   * record was never rendered on.
+   */
+  get desk(): SoundRules { return this.S; }
+
+  /**
    * Move any knob of the desk while the record is playing.
    *
    * Levels, sends, returns and the master are read afresh every block, so
