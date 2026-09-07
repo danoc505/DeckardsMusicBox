@@ -191,9 +191,16 @@ export function reachesPart(name: Treatment, S: SoundRules, only?: Role): Readon
   return out;
 }
 
-export function deskOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec | null {
+export function deskOf(name: Treatment, S: SoundRules, only?: Role, depth = 1): SoundSpec | null {
   const spec = specOf(name, S, only);
-  return spec !== null && changes(spec, S) && reaches(name, S) ? spec : null;
+  if (spec === null || !changes(spec, S) || !reaches(name, S)) return null;
+  // WHETHER THIS GENRE CAN HEAR THE MOVE IS ASKED AT FULL TRAVEL, and the
+  // depth is applied after. The two questions are different: `changes` and
+  // `reaches` ask whether the move is worth anything to this genre AT ALL,
+  // which is a fact about the desk and not about this span, and asking them of
+  // a shallow copy would refuse a perfectly good move for being quiet.
+  if (depth >= 1 || !allNumeric(spec, S)) return spec;
+  return atDepth(spec, S, depth) as SoundSpec;
 }
 
 /**
@@ -601,6 +608,62 @@ function reaches(name: Treatment, S: SoundRules): boolean {
  * already at its stop has not moved — all three come out of here as false and
  * the move is never offered.
  */
+/**
+ * A MOVE APPLIED BY DEGREES — the thing every effect here was missing.
+ *
+ * Until this existed a treatment had exactly one intensity: `darken` was
+ * `pole.hz * 0.45` in every record, in every section, forever, because the
+ * multiplier was written into `specOf`'s own switch. So the desk could be
+ * switched between fixed states and nothing else. There was no way to be a
+ * little dark in the verse and very dark in the last chorus, which is the
+ * plainest thing a mix engineer does: "the chances are that the whispered
+ * vocal in the quiet intro won't need exactly the same amount of reverb as
+ * the screaming in the last chorus" (soundonsound.com, "Creative Mix
+ * Automation In Your DAW").
+ *
+ * ONE FUNCTION, NOT TWENTY-FOUR EDITS. A treatment already returns a partial
+ * desk and `changes` already walks it against the genre's own; this walks the
+ * same tree the same way and moves each number a share of the distance from
+ * where the genre put it to where the move wants it. Depth 1 returns the spec
+ * untouched, so every record is bit-identical to before this existed — which
+ * is the migration and the test.
+ *
+ * AND IT ONLY WORKS ON NUMBERS. `revoice` swaps an instrument, `rekit` swaps a
+ * kit: a voice name is not a matter of degree and there is no half of it. A
+ * leaf that is not a number is carried whole, and `graded` below reports a
+ * move that contains one so the caller can refuse to ask for a fraction of it
+ * rather than silently getting all of it.
+ */
+function atDepth(spec: unknown, base: unknown, depth: number): unknown {
+  if (typeof spec !== "object" || spec === null) {
+    return typeof spec === "number" && typeof base === "number" ? base + depth * (spec - base) : spec;
+  }
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(spec as Record<string, unknown>)) {
+    out[k] = atDepth(v, typeof base === "object" && base !== null ? (base as Record<string, unknown>)[k] : undefined, depth);
+  }
+  return out;
+}
+
+/** Is every leaf this move changes a number, so that a fraction of it means anything? */
+export function graded(name: Treatment, S: SoundRules, only?: Role): boolean {
+  const spec = specOf(name, S, only);
+  return spec === null ? false : allNumeric(spec, S);
+}
+
+function allNumeric(spec: unknown, base: unknown): boolean {
+  if (spec === undefined) return true;
+  if (typeof spec !== "object" || spec === null) {
+    // a leaf that does not differ costs nothing either way; one that differs
+    // and is not a number is a step, and a step has no fraction
+    return spec === base || typeof spec === "number";
+  }
+  for (const [k, v] of Object.entries(spec as Record<string, unknown>)) {
+    if (!allNumeric(v, typeof base === "object" && base !== null ? (base as Record<string, unknown>)[k] : undefined)) return false;
+  }
+  return true;
+}
+
 function changes(spec: unknown, base: unknown): boolean {
   if (spec === undefined) return false;
   if (typeof spec !== "object" || spec === null) return spec !== base;

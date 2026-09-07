@@ -450,6 +450,8 @@ export class Engine {
   private treatment: Treatment | null = null;
   /** The part a per-part treatment is aimed at; null for a whole-desk one. */
   private treatAt: Role | null = null;
+  /** How far in the current treatment is applied, 0..1. 1 is its full travel. */
+  private treatDepth = 1;
   private readonly seed: number;
   private readonly beatSec: number;
   private readonly barSec: number = 0;
@@ -837,6 +839,7 @@ export class Engine {
       moved = this.deskAt[this.deskNext]!;
       this.treatment = moved.treatment;
       this.treatAt = moved.at;
+      this.treatDepth = moved.depth;
       this.deskNext++;
     }
     // A CHANGE WITH `overSec` STARTS A WALK rather than taking a step: the
@@ -881,7 +884,7 @@ export class Engine {
   }
 
   private retune(): void {
-    const spec = this.treatment === null ? null : deskOf(this.treatment, this.base, this.treatAt ?? undefined);
+    const spec = this.treatment === null ? null : deskOf(this.treatment, this.base, this.treatAt ?? undefined, this.treatDepth);
     // AND ON A WALK, the desk is wherever the walk has got to: the continuous
     // knobs part way between where it started and where the treatment puts
     // them, and every other knob already there — a room cannot be half a

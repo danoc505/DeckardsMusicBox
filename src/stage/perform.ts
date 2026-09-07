@@ -66,6 +66,13 @@ export interface DeskChange {
   /** The part a per-part treatment is aimed at; null for a whole-desk one. */
   readonly at: Role | null;
   /**
+   * HOW FAR IN, 0..1 — the span's own depth, carried through so the renderer
+   * builds the desk this section actually asked for rather than the move's
+   * full travel. 1 where there is no treatment, and 1 restores exactly the
+   * behaviour that existed before a move had a depth at all.
+   */
+  readonly depth: number;
+  /**
    * How long the desk takes to get there, in seconds. 0 is a step on the
    * sample; anything more is drift — the knobs walk from where they were to
    * where this treatment puts them, and the renderer keys every step of the
@@ -194,6 +201,7 @@ export function makePerformance(
   const desk: DeskChange[] = [];
   let deskNow: Treatment | null = null;
   let atNow: Role | null = null;
+  let depthNow = 1;
 
   for (const placed of arrangement.placed) {
     const m = materials.all.get(placed.material);
@@ -295,13 +303,17 @@ export function makePerformance(
         else { endsAt = sp.startBar; break; }
       }
       const span = found
-        ?? { startBar: 0, heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
+        ?? { startBar: 0, depth: 1, heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
       // the treatment changes on and nowhere else, so a treatment held across
       // several spans rebuilds nothing.
-      if (span.treatment !== deskNow || span.at !== atNow) {
+      // A CHANGE OF DEPTH IS A CHANGE OF DESK. Comparing only the move's name
+      // would collapse a whole build into one entry — the run carries the same
+      // treatment throughout, and it is the depth that is climbing.
+      if (span.treatment !== deskNow || span.at !== atNow || span.depth !== depthNow) {
         deskNow = span.treatment;
         atNow = span.at;
+        depthNow = span.depth;
         // AND HOW LONG IT TAKES TO GET THERE: the genre's share of THIS span,
         // read off where the next one starts rather than assumed to be two
         // turns. The bar clock makes spans uneven, so a desk move at a bar
@@ -311,7 +323,7 @@ export function makePerformance(
         // from wherever the desk has got to.
         const spanEnd = section.startBar + endsAt;
         desk.push({
-          tSec: clock.at(bar), treatment: deskNow, at: atNow,
+          tSec: clock.at(bar), treatment: deskNow, at: atNow, depth: depthNow,
           overSec: A.drift * (clock.at(spanEnd) - clock.at(bar)),
         });
       }

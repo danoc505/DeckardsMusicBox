@@ -47,7 +47,7 @@ import { GENRE_NAMES, genre } from "../genre/index.ts";
 import { TREATMENTS, type Treatment } from "../genre/spec.ts";
 import { Engine, render, rms } from "../sound/render.ts";
 import { boardWalked, depthHeard, liveSends, poleHeard } from "../sound/reach.ts";
-import { deskOf, offeredBy, specOf } from "./treat.ts";
+import { graded, deskOf, offeredBy, specOf } from "./treat.ts";
 
 /** Above the pole's `sr/6` and the biquad's `sr*0.49` for every genre's filters. */
 const SR = 22050;
@@ -221,6 +221,53 @@ test("a treatment is a pure function of the desk it is handed", () => {
     const S = genre(g).sound;
     for (const t of TREATMENTS) {
       assert.deepEqual(deskOf(t, S), deskOf(t, S), `${g}/${t} is not the same twice`);
+    }
+  }
+});
+
+
+test("depth 1 is the move as it always was, and depth 0 is no move at all", () => {
+  // THE MIGRATION, HELD AS A LAW. A treatment gained a depth so the same move
+  // could be slight in a verse and full at a peak; the whole of that change is
+  // safe only if full travel is exactly what the program did before it. This
+  // holds both ends of the range: at 1 the spec is untouched, and at 0 every
+  // number is back where the genre put it, so a depth can never invent a value
+  // the move itself would not have reached.
+  for (const g of GENRE_NAMES) {
+    const S = genre(g).sound;
+    for (const t of TREATMENTS) {
+      const full = deskOf(t, S);
+      if (full === null) continue;
+      assert.deepEqual(deskOf(t, S, undefined, 1), full, `${g}/${t} at depth 1 is not its full travel`);
+      if (!graded(t, S)) continue;
+      // at depth 0 every leaf this move touches equals the genre's own value
+      const none = deskOf(t, S, undefined, 0);
+      const same = (spec: unknown, base: unknown, where: string): void => {
+        if (typeof spec !== "object" || spec === null) {
+          if (typeof spec === "number") {
+            assert.ok(Math.abs(spec - (base as number)) < 1e-9, `${g}/${t} at depth 0 moved ${where}: ${String(base)} -> ${String(spec)}`);
+          }
+          return;
+        }
+        for (const [k, v] of Object.entries(spec as Record<string, unknown>)) {
+          same(v, (base as Record<string, unknown>)[k], `${where}.${k}`);
+        }
+      };
+      same(none, S, t);
+    }
+  }
+});
+
+test("a graded move is one whose every changed leaf is a number", () => {
+  // `revoice` swaps an instrument and `rekit` swaps a kit: there is no half of
+  // a voice name, so those are steps and `deskOf` must hand back their full
+  // travel whatever depth it is asked for. A fraction of them silently
+  // becoming all of them is the failure this guards.
+  for (const g of GENRE_NAMES) {
+    const S = genre(g).sound;
+    for (const t of TREATMENTS) {
+      if (deskOf(t, S) === null || graded(t, S)) continue;
+      assert.deepEqual(deskOf(t, S, undefined, 0.4), deskOf(t, S), `${g}/${t} is not graded, so a depth must not change it`);
     }
   }
 });

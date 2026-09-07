@@ -106,6 +106,30 @@ import { periodOf } from "./material/harmony.ts";
 export interface Span {
   /** Where this state begins, in bars from the start of its section. */
   readonly startBar: number;
+  /**
+   * HOW FAR THE SPAN'S TREATMENT IS APPLIED, 0..1. Meaningless and 1 where
+   * there is no treatment.
+   *
+   * A move used to have exactly one intensity — `darken` was the same darkness
+   * in every section of every record, because the multiplier was a constant in
+   * `treat.ts`'s switch. The desk could be switched between fixed states and
+   * that was the whole of its vocabulary in time.
+   *
+   * Two documented things need this and neither could be built without it.
+   * "The chances are that the whispered vocal in the quiet intro won't need
+   * exactly the same amount of reverb as the screaming in the last chorus"
+   * (soundonsound.com, "Creative Mix Automation In Your DAW") — the same move
+   * at different amounts. And the build: a filter "automate the cutoff
+   * frequency rising from its lowest point over four or eight bars approaching
+   * the drop", a reverb send "gradually increase it as you approach the
+   * chorus". A build needs somewhere to build TO.
+   *
+   * IT IS NOT A CHOICE AND THE SCORE NEVER SEES IT. Which move to make is the
+   * arrangement's decision; how far in it is a fact about where the span sits,
+   * derived once the walk has finished. So it cannot compete with the moves
+   * and cannot be gamed by them.
+   */
+  readonly depth: number;
   readonly heard: ReadonlySet<Role>;
   /** The drums lose their hat and their fills: a breath, not a stop. */
   readonly thin: boolean;
@@ -508,6 +532,23 @@ const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone
  * moment; that is what makes an entrance worth anything.
  */
 const MOST_AT_ONCE = 5;
+
+/**
+ * THE SHALLOWEST A TREATMENT IS EVER APPLIED.
+ *
+ * A depth of nearly zero is a boundary spent on nothing, which is the same sin
+ * as a move the desk refuses — the two-loop rule promised a change and the ear
+ * got the section repeating. So a move that fires at all fires audibly, and
+ * the range this program uses is this floor to full travel.
+ *
+ * [chosen] and NOT YET MEASURED IN dB. `tools/treatments.ts` renders a move on
+ * and off and reports the distance; the honest version of this number is the
+ * depth below which that distance stops being worth a boundary, per genre,
+ * and half of lofi's vocabulary already sits 17 dB under its own `darken`
+ * (`TALLY.md` §2). Until that is measured this is a guess with a floor under
+ * it rather than a number with a reason.
+ */
+const LEAST_DEPTH = 0.35;
 
 const MAX_PICKS = 2;
 const DUE_AT = 2;
@@ -955,7 +996,10 @@ const kindOf = (mv: Move): string =>
     /** Whether the point at this index is a two-turn boundary: only there may the roster move. */
     const slowAt = (i: number): boolean => points[i]! % turn === 0;
     const spanCount = points.length;
-    const spans: Span[] = [];
+    // DEPTH IS NOT KNOWN YET AND THE TYPE SAYS SO. It is derived from the
+    // finished run at the freeze below, so the walk builds spans without it
+    // rather than carrying a placeholder that could be shipped by accident.
+    const spans: Omit<Span, "depth">[] = [];
     // HOW MANY TURNS EACH PART HAS PLAYED UNCHANGED, in this section.
     //
     // The rule of three is about an idea being stated: "if I say it a third
@@ -968,7 +1012,7 @@ const kindOf = (mv: Move): string =>
     // move is best" is decided, and this is a fact about which move is best.
     const kindUsed = new Map<string, number>();
     const stale = new Map<Role, number>();
-    let lastSpan: Span | null = null;
+    let lastSpan: Omit<Span, "depth"> | null = null;
     /**
      * EVERY SPAN IS A SUBSET OF `base`, WHICH IS NOT SPAN 0. This comment
      * used to say the union of the spans is span 0 exactly, "checked over 334
@@ -1586,9 +1630,58 @@ const kindOf = (mv: Move): string =>
     // it is a field that silently stops existing downstream, which is how
     // `at` was dropped on its first outing while `npm run check` stayed
     // green. If you add to `Span`, add to this.
+    /**
+     * HOW FAR IN EACH TREATMENT IS APPLIED — derived, not chosen.
+     *
+     * Two terms, and each is one of the two devices the sources describe.
+     *
+     * `arrive` is THE BUILD. A run is the consecutive spans carrying the same
+     * move at the same target; the first of a run is shallow and the last is
+     * at full travel, so a move held across four spans walks in rather than
+     * arriving whole. `drift` already ramps the desk BETWEEN two states, so a
+     * rising depth across a run comes out as one continuous climb rather than
+     * a staircase — the mechanism for the smoothing was already here and only
+     * ever had one destination to aim at.
+     *
+     * `loud` is THE SECTION'S OWN AMOUNT: the quiet intro does not get the
+     * last chorus's reverb. It is the section's energy, which the form already
+     * decided, so no new number is invented for it.
+     *
+     * THIS IS A DERIVATION AND NOT A SECOND WALK. It chooses nothing and
+     * reads no pool; it reads the finished spans and computes a property of
+     * each from its address in them, the way the union of `heard` below is
+     * read off the spans rather than decided beside them. The run length is
+     * only knowable once the run has ended, which is why it is here and not
+     * in the loop.
+     */
+    const runOf = (i: number): { at: number; of: number } => {
+      const key = (k: number): string => `${spans[k]!.treatment}/${spans[k]!.at}`;
+      let a = i;
+      while (a > 0 && key(a - 1) === key(i)) a--;
+      let b = i;
+      while (b + 1 < spans.length && key(b + 1) === key(i)) b++;
+      return { at: i - a + 1, of: b - a + 1 };
+    };
+    const depthAt = (i: number): number => {
+      if (spans[i]!.treatment === null) return 1;
+      const run = runOf(i);
+      const arrive = run.at / run.of;
+      // AND THE PEAK IS AT FULL TRAVEL, always. Left as the raw energy, nothing
+      // in a record ever reached a move's full depth — measured, 0% of treated
+      // spans in either genre — because that needs the last span of a run AND
+      // an energy of exactly 1, and the form draws energy just under it. So
+      // every effect in the program got quietly shallower than it used to be,
+      // which is the opposite of the complaint this was built to answer.
+      // The peak is the one place this program already says everything is at
+      // its maximum, so it is where a move is given all of itself.
+      const loud = section.peak ? 1 : Math.max(0, Math.min(1, section.energy));
+      return LEAST_DEPTH + (1 - LEAST_DEPTH) * arrive * loud;
+    };
+
     const frozen = Object.freeze(
-      spans.map((sp) => Object.freeze({
+      spans.map((sp, i) => Object.freeze({
         startBar: sp.startBar,
+        depth: depthAt(i),
         heard: Object.freeze(sp.heard) as ReadonlySet<Role>,
         thin: sp.thin,
         treatment: sp.treatment,
