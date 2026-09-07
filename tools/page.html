@@ -537,14 +537,45 @@
 
   // ── the piano roll ──
   var roll = $("roll"), rctx = roll.getContext("2d");
+  /* THE TREATMENT'S OWN COLOUR, off its own name — the SAME arithmetic as
+     `tools/roll.mjs`, so a move is the same colour in this page and in the
+     tool, and the two pictures can be read against each other. That agreement
+     is the whole point of there being two of them. */
+  function fxHue(name) {
+    var h = 0;
+    for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360;
+    var c = 0.62, xx = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = 0.32;
+    var t = h < 60 ? [c, xx, 0] : h < 120 ? [xx, c, 0] : h < 180 ? [0, c, xx]
+          : h < 240 ? [0, xx, c] : h < 300 ? [xx, 0, c] : [c, 0, xx];
+    return "rgb(" + t.map(function (v) { return Math.round((v + m) * 255); }).join(",") + ")";
+  }
+
   function drawRoll(playSec) {
-    var W = roll.clientWidth || 700, H = 420, dpr = Math.min(2, window.devicePixelRatio || 1);
-    if (roll.width !== W * dpr) { roll.width = W * dpr; roll.height = H * dpr; }
+    /* ── THE DESK GETS ITS ROLL HERE TOO ─────────────────────────────────
+       This canvas drew notes and nothing else, while `tools/roll.mjs` drew
+       the alterations strip, a row per treatment and the moving knobs. The
+       README says the two rolls "should agree" and that "the day they do
+       not, the disagreement is the bug" — and they had not agreed since the
+       FX roll was written, because that commit touched the tool and never
+       this file. A treatment moves the desk and not one note, so on a roll
+       that draws only notes it is INVISIBLE BY CONSTRUCTION: the shipped
+       program could not show the one thing the desk does. */
+    var desk = (song.performance.desk || []);
+    var fxNames = [];
+    for (var q = 0; q < desk.length; q++) {
+      if (desk[q].treatment && fxNames.indexOf(desk[q].treatment) < 0) fxNames.push(desk[q].treatment);
+    }
+    var DEPTH_H = 14, FX_ROW = 11, FX_BAR = 8;
+    var fxH = fxNames.length ? DEPTH_H + 4 + fxNames.length * FX_ROW + 6 : 0;
+    var STRIP = fxNames.length ? 12 : 0;
+
+    var W = roll.clientWidth || 700, H = 420 + fxH + STRIP, dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (roll.width !== W * dpr || roll.height !== H * dpr) { roll.width = W * dpr; roll.height = H * dpr; }
     roll.style.height = H + "px";
     var g = rctx; g.setTransform(dpr, 0, 0, dpr, 0, 0);
     g.fillStyle = "#071510"; g.fillRect(0, 0, W, H);
     var ev = song.performance.events, total = song.performance.seconds;
-    var lo = 24, hi = 96, drumH = 46, top = 8, pitchH = H - drumH - top - 8;
+    var lo = 24, hi = 96, drumH = 46, top = 8 + STRIP, pitchH = H - drumH - top - 8 - fxH;
     var x = function (sec) { return 10 + (W - 20) * sec / total; };
     var y = function (midi) { return top + pitchH * (1 - (midi - lo) / (hi - lo)); };
     // the grid: octaves, and bars where a section starts
@@ -554,13 +585,13 @@
     g.setLineDash([3, 4]); g.strokeStyle = "rgba(255,179,71,0.35)";
     song.form.sections.forEach(function (s) { var sx = x(clk.at(s.startBar)); g.beginPath(); g.moveTo(sx, top); g.lineTo(sx, H - 6); g.stroke(); g.fillStyle = "rgba(255,179,71,0.8)"; g.font = "700 9px Helvetica Neue,Arial"; g.fillText(s.fn.toUpperCase(), sx + 4, top + 10); });
     g.setLineDash([]);
-    g.strokeStyle = "rgba(87,242,165,0.2)"; g.beginPath(); g.moveTo(10, H - drumH - 4); g.lineTo(W - 10, H - drumH - 4); g.stroke();
+    g.strokeStyle = "rgba(87,242,165,0.2)"; g.beginPath(); g.moveTo(10, H - fxH - drumH - 4); g.lineTo(W - 10, H - fxH - drumH - 4); g.stroke();
     // notes
     var lanes = { kick: 0, snare: 1, hat: 2, openhat: 3 };
     for (var i = 0; i < ev.length; i++) {
       var e = ev[i], col = COLOR[e.role];
       if (e.role === "drums") {
-        var ly = H - drumH + 6 + (lanes[e.lane] || 0) * 10;
+        var ly = H - fxH - drumH + 6 + (lanes[e.lane] || 0) * 10;
         g.fillStyle = col; g.globalAlpha = 0.35 + 0.65 * Math.min(1, e.gain);
         g.fillRect(x(e.tSec), ly, Math.max(1.5, (W - 20) * 0.08 / total), 7);
       } else {
@@ -571,7 +602,69 @@
       }
     }
     g.globalAlpha = 1;
-    if (playSec !== null) { var px = x(playSec); g.strokeStyle = "#fff"; g.lineWidth = 1.5; g.shadowColor = "#fff"; g.shadowBlur = 8; g.beginPath(); g.moveTo(px, 2); g.lineTo(px, H - 2); g.stroke(); g.shadowBlur = 0; }
+    if (playSec !== null) { var px = x(playSec); g.strokeStyle = "#fff"; g.lineWidth = 1.5; g.shadowColor = "#fff"; g.shadowBlur = 8; g.beginPath(); g.moveTo(px, 2); g.lineTo(px, H - fxH - 2); g.stroke(); g.shadowBlur = 0; }
+    /* ── THE ALTERATIONS, NAMED ACROSS THE TOP ──────────────────────────
+       What did this record DO, answered before any other question and
+       without hunting for names down the page. Each in the colour of its own
+       row below. */
+    if (fxNames.length) {
+      g.font = "700 8px ui-monospace,Menlo,monospace";
+      g.fillStyle = "rgba(87,242,165,0.55)"; g.fillText("DESK:", 10, 9);
+      var dx = 42;
+      for (var n = 0; n < fxNames.length; n++) {
+        var nm = fxNames[n].toUpperCase();
+        var wq = g.measureText(nm).width + 10;
+        if (dx + wq > W - 10) { g.fillStyle = "rgba(87,242,165,0.45)"; g.fillText("+" + (fxNames.length - n), dx, 9); break; }
+        g.fillStyle = fxHue(fxNames[n]); g.fillRect(dx, 3, 5, 5);
+        g.fillText(nm, dx + 7, 9); dx += wq + 5;
+      }
+    }
+
+    /* ── THE DESK'S DEPTH, and a row per move ────────────────────────────
+       A move no longer has one intensity: it is applied at a depth that
+       follows the section and climbs through it, so HEIGHT is how far in.
+       The continuous strip is that depth bar by bar — a rising staircase is
+       a build, and where it empties at a peak the record has dropped its
+       effects to land the climax. */
+    if (fxNames.length) {
+      var fxTop = H - fxH + 2;
+      var secOf = function (t) { return x(t); };
+      g.font = "8px ui-monospace,Menlo,monospace";
+      g.fillStyle = "rgba(87,242,165,0.5)"; g.fillText("DEPTH", 10, fxTop + 8);
+      // the depth envelope, sampled across the record
+      var steps = Math.max(40, Math.floor(W - 60));
+      for (var t2 = 0; t2 < steps; t2++) {
+        var sec = total * t2 / steps, d = 0;
+        for (var k2 = 0; k2 < desk.length; k2++) {
+          if (desk[k2].tSec > sec) break;
+          d = desk[k2].treatment === null ? 0 : (desk[k2].depth === undefined ? 1 : desk[k2].depth);
+        }
+        if (d <= 0) continue;
+        var hh = Math.max(1, Math.round(DEPTH_H * d));
+        g.fillStyle = "rgba(120,190,230,0.5)";
+        g.fillRect(secOf(sec), fxTop + DEPTH_H - hh, Math.max(1, (W - 20) / steps + 1), hh);
+      }
+      // one row per treatment: every stretch it is in force, at its own depth
+      for (var r2 = 0; r2 < fxNames.length; r2++) {
+        var ry = fxTop + DEPTH_H + 4 + r2 * FX_ROW, cc = fxHue(fxNames[r2]);
+        g.fillStyle = cc; g.globalAlpha = 0.85;
+        g.fillText(fxNames[r2].slice(0, 8).toUpperCase(), 10, ry + FX_BAR);
+        g.globalAlpha = 1;
+        for (var k3 = 0; k3 < desk.length; k3++) {
+          if (desk[k3].treatment !== fxNames[r2]) continue;
+          var t0 = desk[k3].tSec, t1 = k3 + 1 < desk.length ? desk[k3 + 1].tSec : total;
+          var bx = secOf(t0), bw = Math.max(2, secOf(t1) - bx);
+          var dep = desk[k3].depth === undefined ? 1 : desk[k3].depth;
+          var bh = Math.max(1, Math.round(FX_BAR * dep));
+          g.globalAlpha = 0.16; g.fillStyle = cc; g.fillRect(bx, ry, bw, FX_BAR);
+          g.globalAlpha = 0.9; g.fillRect(bx, ry + FX_BAR - bh, bw, bh);
+          g.globalAlpha = 1;
+          // and where it is AIMED, when it is aimed at one part
+          if (desk[k3].at) { g.fillStyle = COLOR[desk[k3].at] || cc; g.fillText(desk[k3].at.slice(0, 3), bx + 2, ry + FX_BAR - 1); }
+        }
+      }
+    }
+
     // the legend
     var chips = $("chips"); if (!chips.children.length) ROLES.forEach(function (r) { var c = document.createElement("span"); c.className = "chip"; c.innerHTML = '<b style="background:' + COLOR[r] + ';color:' + COLOR[r] + '"></b>' + r; chips.appendChild(c); });
   }
