@@ -782,7 +782,33 @@ const kindOf = (mv: Move): string =>
       while (heard.size > playing) {
         let go: Role | null = null;
         let most = -1;
+        /**
+         * THE FOUNDATION IS THE LAST THING A RECORD GIVES UP, and that is a
+         * refusal rather than a preference.
+         *
+         * "What a quiet section keeps is its foundation and what it loses is
+         * its decoration" — the last name in the genre's shed order is the
+         * part it can least afford, and `arrange.test.ts` asserts it is still
+         * there in every section that shrinks.
+         *
+         * `afford` alone nearly delivers that and does not guarantee it,
+         * because the score multiplies it by `spare`, which PROTECTS A PART
+         * THAT HAS BEEN AWAY. That protection assumes every part is heard
+         * often enough for `share` to mean something. The counter is not: it
+         * sheds first and arrives last, so its share is small, so its whole
+         * score is small, so it was protected — and lofi dropped its KEYS, the
+         * one part that genre is built on, to keep a decoration it had barely
+         * established. `chorus[-keys]`, in a record whose shed order ends in
+         * the keys.
+         *
+         * The score is left exactly as it is, because what it does between the
+         * other parts was measured over 500 seeds a genre and is not this
+         * bug's fault. What changes is that the foundation is not a candidate
+         * at all while anything else is still there.
+         */
+        const foundation = A.shed[A.shed.length - 1];
         for (const r of heard) {
+          if (r === foundation && heard.size > 1) continue;
           // how much of the record so far this part has been in: all of it is
           // furniture, little of it is still being established
           const share = (sectionsHeard.get(r) ?? 0) / Math.max(1, section.index);
