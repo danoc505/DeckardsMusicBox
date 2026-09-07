@@ -19,6 +19,13 @@ stages — chart → form → arrangement → materials → performance — plus
 each frozen on the way out. A record is a pure function of genre and seed, and
 renders byte-identical at any block size.
 
+**The band is SIX and the ceiling is five.** `ROLES` gained a counter-line;
+`MOST_AT_ONCE` in `arrange.ts` is the number the sources actually give — a
+section fills to five and only a peak reaches everyone. Those two are different
+quantities and were the same one for most of this program's life. Do not
+replace `MOST_AT_ONCE` with `ROLES.length`: it would make every section denser,
+which is the opposite of what the source says.
+
 `npm test`: **301 of 303 pass.** The two failures are long-standing and
 deliberate — they encode research and have not been tuned away:
 
@@ -33,10 +40,14 @@ change.
 The registers each genre works in, since three of the last four changes were
 here and they are easy to get wrong:
 
-| | bass | keys | lead | drone |
-|---|---|---|---|---|
-| lofi | 36–50 | 43–76 | 64–84 *(default)* | 46–60 |
-| dungeon synth | 31–45 | 45–71 | 67–82 | 43–57 |
+| | bass | keys | lead | counter | drone |
+|---|---|---|---|---|---|
+| lofi | 36–50 | 43–76 | 64–84 *(default)* | 50–66 | 46–60 |
+| dungeon synth | 31–45 | 45–71 | 67–82 | 48–64 | 43–57 |
+
+The counter's band is not free: `resolve.ts` refuses a genre whose counter and
+lead sit closer than `counter.apart` at their centres, so moving the lead moves
+this too.
 
 They are a system, not four independent numbers. A part may not take a pitch
 another part is already holding, so a band that reaches into another band takes

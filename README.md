@@ -190,8 +190,10 @@ table of defaults and refused at load if anything is wrong; every number a
 genre states carries its source in the genre's `sources` map, and a number
 without one says `[chosen]`.
 
-Two genres, lofi hip hop and dungeon synth. Five parts — drums, bass, keys,
-lead, drone — and six synthesised voices. Every rule is written in beats and
+Two genres, lofi hip hop and dungeon synth. Six parts — drums, bass, keys,
+lead, counter and drone — and seven synthesised voices. Five may sound at
+once and only a peak has everyone: the roster and the ceiling are different
+numbers. Every rule is written in beats and
 resolved against the genre's own metre, so a genre in five four needs no new
 code, only its own numbers.
 
