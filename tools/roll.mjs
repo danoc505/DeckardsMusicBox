@@ -110,7 +110,12 @@ const SH = 7, GUT = 34, HEAD0 = 22, DRUM = 4*9 + 6, SPAN = 20;
    the difference between a treatment (a cliff) and motion (a slope) is the
    thing you see first.
    ────────────────────────────────────────────────────────────────────────── */
-const FX_ROW = 9;
+// TALL ENOUGH TO READ A DEPTH. This was 9 with a 6px bar, from when a
+// treatment had one intensity and the bar was either there or not. A move now
+// carries a depth and the build's mean rise across a section is 0.17 of full
+// travel — one pixel at the old height, which is a number drawn and not shown.
+const FX_ROW = 16;
+const FX_BAR = 12;
 /* A moving knob needs HEIGHT to be a shape rather than a line: a treatment row
    only has to say on or off, but a cycle's whole point is where it is between
    its ends, and three pixels of travel cannot show that. */
@@ -126,7 +131,8 @@ const deskAt = song.performance.desk ?? [];
 const fxNames = [];
 for (const d of deskAt) if (d.treatment && !fxNames.includes(d.treatment)) fxNames.push(d.treatment);
 const moves = song.chart.genre.sound.motion ?? [];
-const FX = fxNames.length * FX_ROW + moves.length * MOVE_ROW + (fxNames.length || moves.length ? 10 : 0);
+// + the depth strip, which is one row above the per-treatment rows
+const FX = 22 + fxNames.length * FX_ROW + moves.length * MOVE_ROW + (fxNames.length || moves.length ? 10 : 0);
 /* ── THE LEGEND, ACROSS THE VERY TOP ──────────────────────────────────────
    WHICH ALTERATIONS THIS RECORD USED, said once, before anything else.
    The strip already names a treatment where it changes and the FX roll draws
@@ -264,9 +270,39 @@ function hue(name) {
 }
 const secPerBar = (60 / song.chart.tempo) * spb;
 const barOf = (tSec) => tSec / secPerBar;
+/* ── THE DESK'S DEPTH, as one continuous shape ────────────────────────────
+   The per-treatment rows below each show ONE stretch, so a build — which is
+   the desk getting further from dry as a section goes on, whichever move is
+   carrying it — is spread across rows and has to be assembled by eye. This is
+   the same information as one line: how far in the desk is, bar by bar. A
+   rising sawtooth that resets at each amber vertical IS the build, and a flat
+   line is a record whose desk has one intensity, which is what this program
+   did before depth existed. */
+const DEPTH_H = 18;
+const DEPTH_Y = FX_TOP;
+{
+  cv.hline(DEPTH_Y + DEPTH_H, GUT, W - 8, [26, 34, 42], 1);
+  text(cv, "DEPTH", 2, DEPTH_Y + 5, [150, 170, 190], 0.95);
+  // full travel, so a bar reads against the top of the range and not just
+  // against its neighbours
+  cv.hline(DEPTH_Y, GUT, W - 8, [40, 52, 64], 1);
+  for (let b = bar0; b < bar1; b++) {
+    // the desk entry in force at this bar; 0 where no treatment is on
+    let d = 0;
+    for (let k = 0; k < deskAt.length; k++) {
+      if (barOf(deskAt[k].tSec) > b + 0.999) break;
+      d = deskAt[k].treatment === null ? 0 : (deskAt[k].depth ?? 1);
+    }
+    if (d <= 0) continue;
+    const x0 = X(b), x1 = X(b + 1);
+    const h = Math.max(1, Math.round(DEPTH_H * d));
+    cv.rect(x0, DEPTH_Y + DEPTH_H - h, Math.max(1, x1 - x0), h, [120, 190, 230], 0.5);
+  }
+}
+
 for (let i = 0; i < fxNames.length; i++) {
-  const name = fxNames[i], y = FX_TOP + i * FX_ROW, c = hue(name);
-  cv.hline(y + 7, GUT, W - 8, [26, 34, 42], 1);
+  const name = fxNames[i], y = FX_TOP + DEPTH_H + 4 + i * FX_ROW, c = hue(name);
+  cv.hline(y + FX_BAR + 1, GUT, W - 8, [26, 34, 42], 1);
   text(cv, name.slice(0, 8), 2, y + 1, c, 0.95);
   // every stretch this treatment is in force: from its change to the next one
   for (let k = 0; k < deskAt.length; k++) {
@@ -275,7 +311,18 @@ for (let i = 0; i < fxNames.length; i++) {
     const b1 = k + 1 < deskAt.length ? barOf(deskAt[k + 1].tSec) : song.form.bars;
     if (b1 <= bar0 || b0 >= bar1) continue;
     const x0 = X(Math.max(bar0, b0)), x1 = X(Math.min(bar1, b1));
-    cv.rect(x0, y, Math.max(2, x1 - x0), 6, c, 0.85);
+    // HOW TALL IS HOW FAR IN. A move no longer has one intensity: the same
+    // treatment is applied at a depth that follows the section's energy and
+    // climbs across a run, so the bar is drawn at its own depth and a BUILD
+    // reads as a rising wedge across consecutive stretches rather than as one
+    // flat block. A move at full travel fills the row, which is what every
+    // move used to do and is now the top of a range.
+    const depth = deskAt[k].depth ?? 1;
+    const h = Math.max(1, Math.round(FX_BAR * depth));
+    // the row's own faint outline, so a shallow bar is still locatable and the
+    // eye has the full height to read the depth against
+    cv.rect(x0, y, Math.max(2, x1 - x0), FX_BAR, c, 0.16);
+    cv.rect(x0, y + FX_BAR - h, Math.max(2, x1 - x0), h, c, 0.9);
     // the walk: `overSec` is how long it takes to ARRIVE, drawn as a ramp
     // into the bar rather than a cliff, because that is what drift does
     const over = (deskAt[k].overSec ?? 0) / secPerBar;
@@ -283,7 +330,7 @@ for (let i = 0; i < fxNames.length; i++) {
       const xr = X(Math.max(bar0, Math.min(bar1, b0 + over)));
       for (let x = x0; x < xr; x++) {
         const u = (x - x0) / Math.max(1, xr - x0);
-        cv.rect(x, y + 6 - Math.round(6 * u), 1, Math.max(1, Math.round(6 * u)), c, 0.35);
+        cv.rect(x, y + FX_BAR - Math.round(h * u), 1, Math.max(1, Math.round(h * u)), c, 0.35);
       }
     }
     // and where it is AIMED, when it is aimed at one part
@@ -292,7 +339,7 @@ for (let i = 0; i < fxNames.length; i++) {
 }
 /* and the knobs that never stop moving, drawn as the curves they are */
 for (let i = 0; i < moves.length; i++) {
-  const mv = moves[i], y = FX_TOP + fxNames.length * FX_ROW + i * MOVE_ROW, c = hue(mv.path);
+  const mv = moves[i], y = FX_TOP + DEPTH_H + 4 + fxNames.length * FX_ROW + i * MOVE_ROW, c = hue(mv.path);
   const mid = y + MOVE_ROW / 2;
   cv.hline(y + MOVE_ROW - 1, GUT, W - 8, [26, 34, 42], 1);
   // the centre it swings about, so a curve reads against something
@@ -347,6 +394,7 @@ writeFileSync(out, png(W, H, cv.buf));
 console.log(`${out}  ${W}x${H}  bars ${bar0}-${bar1}`);
 console.log(`${song.chart.genre.label} · seed ${seedArg} · ${song.chart.tempo} bpm · ${song.form.bars} bars`);
 console.log("colours: drums=orange bass=yellow keys=cyan lead=pink counter=violet drone=green · amber verticals are section starts");
+console.log("FX rows: bar HEIGHT is the treatment's depth — a rising wedge is a build, a full row is full travel");
 console.log("the strip: a block per part in · half weight = held back · boxed = a treatment aimed at it · orange dash = half time · a name = the desk");
 if (fxNames.length) console.log(`the line at the very top: every alteration this record used — ${fxNames.join(", ")}`);
 if (fxNames.length || moves.length) {

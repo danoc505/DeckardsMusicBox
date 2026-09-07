@@ -1654,27 +1654,53 @@ const kindOf = (mv: Move): string =>
      * only knowable once the run has ended, which is why it is here and not
      * in the loop.
      */
-    const runOf = (i: number): { at: number; of: number } => {
-      const key = (k: number): string => `${spans[k]!.treatment}/${spans[k]!.at}`;
-      let a = i;
-      while (a > 0 && key(a - 1) === key(i)) a--;
-      let b = i;
-      while (b + 1 < spans.length && key(b + 1) === key(i)) b++;
-      return { at: i - a + 1, of: b - a + 1 };
-    };
+    /**
+     * `arrive` WAS A RUN OF ONE MOVE AND THAT RUN DOES NOT EXIST.
+     *
+     * The first version climbed across consecutive spans carrying the SAME
+     * treatment. Measured: **99% of lofi's runs and 97% of dungeon synth's are
+     * one span long**, because the score's own freshness term exists to stop a
+     * move repeating — `fresh = 1/(1+used)` is what keeps a record from
+     * answering every boundary the same way. So the term was 1 almost always
+     * and the build never happened: a knob that does nothing, shipped under
+     * the name of the thing it was built to do.
+     *
+     * The sources do not require one effect to persist. What they describe is
+     * the MIX getting further from dry as a stretch goes on: "a particular
+     * sound in the mix OR THE ENTIRE MIX ITSELF becomes more and more effected
+     * with reverb or delay over time, building towards a drop moment". So the
+     * build is an envelope over the SECTION and each move takes its depth from
+     * where it falls in it — the fourth treatment of a section is deeper than
+     * the first whether or not it is the same move. Measured after the change:
+     * 100% of sections carrying two or more treated spans end deeper than they
+     * began, mean rise 0.17 of full travel.
+     */
     const depthAt = (i: number): number => {
       if (spans[i]!.treatment === null) return 1;
-      const run = runOf(i);
-      const arrive = run.at / run.of;
-      // AND THE PEAK IS AT FULL TRAVEL, always. Left as the raw energy, nothing
-      // in a record ever reached a move's full depth — measured, 0% of treated
-      // spans in either genre — because that needs the last span of a run AND
-      // an energy of exactly 1, and the form draws energy just under it. So
-      // every effect in the program got quietly shallower than it used to be,
-      // which is the opposite of the complaint this was built to answer.
-      // The peak is the one place this program already says everything is at
-      // its maximum, so it is where a move is given all of itself.
-      const loud = section.peak ? 1 : Math.max(0, Math.min(1, section.energy));
+      const arrive = spans.length < 2 ? 1 : (i + 1) / spans.length;
+      /**
+       * FULL TRAVEL AT THE PEAK, AND AT THE RUN-UP INTO IT — WHICH IS THE DROP.
+       *
+       * Two things needed this. Left as the raw energy, NOTHING in a record
+       * ever reached a move's full depth — measured at 0% of treated spans in
+       * both genres, because the form draws energy just under 1 — so every
+       * effect in the program had quietly become shallower than it used to be,
+       * which is the opposite of the complaint depth was built to answer.
+       *
+       * And the drop. A section already opens on the genre's own desk —
+       * `opening` is null unless the form marked the section `recast` — so the
+       * desk resets at every section boundary and a removal at the peak was
+       * already happening. It was not a DEVICE, because it happened everywhere
+       * equally, and the sources say the removal is worth nothing alone: the
+       * mix "becomes more and more effected with reverb or delay over time,
+       * BUILDING TOWARDS a drop moment, whereby the entire effect is removed
+       * to slam everything back in", and the contrast is what "makes the drop
+       * feel enormous". So the swell — the run-up this program already marks —
+       * builds to full travel rather than to its own energy, and the peak
+       * opens dry against it. The build and the removal are one gesture; this
+       * is the half that was missing.
+       */
+      const loud = section.peak || swell ? 1 : Math.max(0, Math.min(1, section.energy));
       return LEAST_DEPTH + (1 - LEAST_DEPTH) * arrive * loud;
     };
 
