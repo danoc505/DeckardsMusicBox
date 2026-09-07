@@ -312,8 +312,29 @@ export const lofi: GenreSpec = {
     contour: [["sung", 4], ["riff", 3], ["chant", 1]],
   },
 
+  /**
+   * THE COUNTER-LINE, ON THE WURLITZER.
+   *
+   * The tune here is a muted guitar high up; the answer to it is the OTHER
+   * electric piano, an octave and a half below. Both instruments are this
+   * music's own — the Wurlitzer is the reed piano of the soul jazz and
+   * jazz-funk records this genre is built out of — and using the second one
+   * rather than a third Rhodes keeps the palette the genre already states.
+   *
+   * 50-66 is under the lead's 64-84 and sits inside a real Wurlitzer's
+   * compass, which runs A1 to C7 (en.wikipedia.org/wiki/
+   * Wurlitzer_electronic_piano). Its centre is 58 against the lead's 74:
+   * sixteen semitones of separation, past the octave the sources ask for.
+   * The numbers inside that are [chosen].
+   */
+  counter: {
+    register: [50, 66],
+    density: 0.5,
+    apart: 12,
+  },
+
   arrangement: {
-    enter: ["keys", "drums", "bass", "lead", "drone"],
+    enter: ["keys", "drums", "bass", "lead", "drone", "counter"],
     /** the desk walks to a treatment rather than switching to it: see the source */
     drift: 0.5,
     /**
@@ -347,7 +368,7 @@ export const lofi: GenreSpec = {
      * part of the record changes between its halves in 21 seeds of 40, where
      * under the inherited order it changed in none of them.
      */
-    shed: ["drone", "lead", "drums", "bass", "keys"],
+    shed: ["counter", "drone", "lead", "drums", "bass", "keys"],
     /**
      * THE GENRE IS NAMED AFTER ITS OWN DESK, so it had better state what that
      * desk does. It did not: it inherited the even default and, measured over
@@ -490,7 +511,7 @@ export const lofi: GenreSpec = {
       { path: "rack.tape.drive", bars: 12, depth: 0.45, wave: "sin" },
       { path: "mix.keys.level", bars: 7, depth: 0.3, wave: "tri" },
     ],
-    voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
+    voices: { keys: "rhodes", bass: "sub", lead: "pluck", counter: "wurly", drone: "pad" },
     rack: {
       echo: { beats: 1.5, feedback: 0.3, ret: 1 },
       room: { sec: 1.4, ret: 1 },

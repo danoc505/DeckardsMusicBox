@@ -89,7 +89,7 @@ let bar0 = 0, bar1 = song.form.bars;
 if (barsAt >= 0) { const [a, b] = process.argv[barsAt+1].split("-").map(Number); bar0 = a; bar1 = b; }
 const nBars = bar1 - bar0;
 
-const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], drone: [163,255,107] };
+const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], counter: [186,148,255], drone: [163,255,107] };
 const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
 const SH = 7, GUT = 34, HEAD0 = 22, DRUM = 4*9 + 6, SPAN = 20;
@@ -346,7 +346,7 @@ writeFileSync(out, png(W, H, cv.buf));
 // ── and the structure in words ────────────────────────────────────────────
 console.log(`${out}  ${W}x${H}  bars ${bar0}-${bar1}`);
 console.log(`${song.chart.genre.label} · seed ${seedArg} · ${song.chart.tempo} bpm · ${song.form.bars} bars`);
-console.log("colours: drums=orange bass=yellow keys=cyan lead=pink drone=green · amber verticals are section starts");
+console.log("colours: drums=orange bass=yellow keys=cyan lead=pink counter=violet drone=green · amber verticals are section starts");
 console.log("the strip: a block per part in · half weight = held back · boxed = a treatment aimed at it · orange dash = half time · a name = the desk");
 if (fxNames.length) console.log(`the line at the very top: every alteration this record used — ${fxNames.join(", ")}`);
 if (fxNames.length || moves.length) {

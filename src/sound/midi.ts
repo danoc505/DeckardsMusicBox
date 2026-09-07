@@ -57,6 +57,7 @@ const TRACKS: Readonly<Record<Role, { readonly ch: number; readonly prog: number
   bass: { ch: 0, prog: 38 },   // synth bass 1
   keys: { ch: 1, prog: 4 },    // electric piano 1
   lead: { ch: 2, prog: 81 },   // lead 2 (sawtooth)
+  counter: { ch: 4, prog: 5 }, // electric piano 2
   drone: { ch: 3, prog: 89 },  // pad 2 (warm)
 });
 

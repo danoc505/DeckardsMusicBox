@@ -567,6 +567,46 @@ export function resolveGenre(
   }
 
   const drone = isPlainObject(merged["drone"]) ? merged["drone"] : null;
+  const counter = isPlainObject(merged["counter"]) ? merged["counter"] : null;
+  if (counter === null) {
+    problems.push("counter is missing");
+  } else {
+    checkRegister("counter.register", counter["register"]);
+    const d = counter["density"];
+    if (!finite(d) || (d as number) <= 0 || (d as number) > 1) {
+      problems.push(`counter.density must be a share of the lead's own count, 0 to 1, got ${String(d)}`);
+    }
+    const apart = counter["apart"];
+    if (!finite(apart) || !Number.isInteger(apart) || (apart as number) < 0) {
+      problems.push(`counter.apart must be a whole number of semitones, got ${String(apart)}`);
+    }
+    /**
+     * AND THE TWO TUNES MUST STAND CLEAR OF EACH OTHER, refused here rather
+     * than discovered by ear. "The line must occupy a different register band
+     * than the lead — at least an octave away or clearly panned/cut"
+     * (versetuned.com, "How to Write a Counter Melody"), and two melodies in
+     * one octave "fight for attention".
+     *
+     * MEASURED BETWEEN THE BANDS' CENTRES, which is [chosen]: the source says
+     * "an octave away" and does not say between which points. Centre to centre
+     * is the reading that stays satisfiable — a twelve-semitone GAP between
+     * two twenty-semitone bands would need forty-four semitones of room for
+     * two parts, which no genre here has and no instrument would want.
+     */
+    const lr = lead === null ? null : lead["register"];
+    const cr = counter["register"];
+    if (Array.isArray(lr) && Array.isArray(cr) && Number.isInteger(apart)) {
+      const mid = (r: unknown[]): number => ((r[0] as number) + (r[1] as number)) / 2;
+      const gap = Math.abs(mid(cr as unknown[]) - mid(lr as unknown[]));
+      if (gap < (apart as number)) {
+        problems.push(
+          `counter.register and lead.register are ${gap.toFixed(1)} semitones apart at their centres, ` +
+          `and counter.apart asks for ${String(apart)}: two tunes in one band fight for attention`,
+        );
+      }
+    }
+  }
+
   if (drone === null) {
     problems.push("drone is missing");
   } else {
@@ -863,6 +903,7 @@ export function resolveGenre(
     bass: deepFreeze(bass) as unknown as Genre["bass"],
     keys: deepFreeze(keys) as unknown as Genre["keys"],
     lead: deepFreeze(lead) as unknown as Genre["lead"],
+    counter: deepFreeze(counter) as unknown as Genre["counter"],
     drone: deepFreeze(drone) as unknown as Genre["drone"],
     drums: deepFreeze(drums) as unknown as Genre["drums"],
     arrangement: deepFreeze(arr) as unknown as Genre["arrangement"],

@@ -16,7 +16,7 @@
     --cream: #e7dcc3; --cream-dim: #9c9481; --engrave: rgba(0,0,0,0.75);
     --phos: #57f2a5; --phos-dim: #2d8f61; --amber: #ffb347; --amber-dim: #9c6a25; --red: #ff4d3d; --ice: #8fd3ff;
     --screen: #071510; --screen-amber: #160f04;
-    --drums: #ff8a5c; --bass: #ffd166; --keys: #64dcff; --lead: #ff6bd6; --drone: #a3ff6b;
+    --drums: #ff8a5c; --bass: #ffd166; --keys: #64dcff; --lead: #ff6bd6; --counter: #ba94ff; --drone: #a3ff6b;
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
     --label: "Helvetica Neue", Arial, sans-serif;
     color-scheme: dark;
@@ -392,8 +392,8 @@
   new Function(bundle)();
   var M = globalThis.MKIII;
   var $ = function (id) { return document.getElementById(id); };
-  var ROLES = ["drums", "bass", "keys", "lead", "drone"];
-  var COLOR = { drums: "#ff8a5c", bass: "#ffd166", keys: "#64dcff", lead: "#ff6bd6", drone: "#a3ff6b" };
+  var ROLES = ["drums", "bass", "keys", "lead", "counter", "drone"];
+  var COLOR = { drums: "#ff8a5c", bass: "#ffd166", keys: "#64dcff", lead: "#ff6bd6", counter: "#ba94ff", drone: "#a3ff6b" };
   var SENDS = ["echo", "spring", "room", "ensemble", "flange"];
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

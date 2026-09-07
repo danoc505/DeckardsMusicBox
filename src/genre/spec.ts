@@ -33,7 +33,24 @@ export type { Weighted } from "../core/rng.ts";
  * compile error, not something found by rendering sixteen seeds and noticing
  * the silence.
  */
-export const ROLES = ["drums", "bass", "keys", "lead", "drone"] as const;
+/**
+ * THE BAND. Six, and the sixth is the counter-line.
+ *
+ * IT WAS FIVE, AND FIVE WAS A MISREADING. `arrange.ts` cites Sound on Sound —
+ * "five elements at one time — counting the drums as one — is generally the
+ * most you'll hear (sometimes six)" — and this list was built to that number.
+ * But the source governs HOW MANY PLAY AT ONCE and this list is HOW MANY
+ * EXIST, and those are different quantities. Every record has a cast larger
+ * than its densest moment; that is what makes an entrance mean anything. With
+ * roster and ceiling forced equal, "everybody plays" WAS the documented
+ * maximum, so the only way this program could vary its texture was to take
+ * parts away — which the arrangement's own header noticed and called "a
+ * maximum heard for two thirds of a record is not a maximum".
+ *
+ * So the roster grows and the ceiling does not: see `MOST_AT_ONCE` in
+ * `arrange.ts`, which is the number the source actually gives.
+ */
+export const ROLES = ["drums", "bass", "keys", "lead", "counter", "drone"] as const;
 
 export type Role = (typeof ROLES)[number];
 
@@ -495,6 +512,53 @@ export interface LeadRules {
   readonly signature: number;
 }
 
+/**
+ * THE COUNTER-LINE — the second tune, and the one this program did not have.
+ *
+ * "A sequence of notes, perceived as a melody, written to be played
+ * simultaneously with a more prominent lead melody"; it "performs a
+ * subordinate role", and — this is what separates it from the keys — "whereas
+ * the harmony part typically lacks its own independent musical line, a
+ * countermelody is a distinct melodic line" (en.wikipedia.org/wiki/
+ * Counter-melody). So it is not a thicker chord and it is not a second lead
+ * playing along: it is its own line, and it is deliberately the lesser one.
+ *
+ * Three numbers make it that rather than a rival, and all three are the
+ * literature's:
+ *
+ *   WHERE IT SITS. "The line must occupy a different register band than the
+ *   lead — at least an octave away or clearly panned/cut" (versetuned.com,
+ *   "How to Write a Counter Melody"). `apart` is that octave, and it is
+ *   checked at load against the lead's own band rather than trusted.
+ *
+ *   WHEN IT PLAYS. "On paper, mark where the lead rests. Those are your
+ *   counter entries" — it moves where the tune does not, which is the whole
+ *   of why two lines can be heard at once instead of fighting.
+ *
+ *   HOW MUCH. "Limit the counter to 40–60% of the lead's note density" (the
+ *   same). `density` is a SHARE OF THE LEAD rather than a count of its own,
+ *   so a busy tune gets a busier answer and a sparse one is left alone.
+ */
+export interface CounterSpec {
+  readonly register?: Register;
+  /** How it is played. Only what its instrument can do. */
+  readonly art?: ArtSpec;
+  /** 0..1 — its note count as a share of the lead's, in the same material. */
+  readonly density?: number;
+  /**
+   * The fewest semitones its band must stand clear of the lead's. The source
+   * says an octave; a genre may ask for more and `resolve.ts` refuses less.
+   */
+  readonly apart?: number;
+}
+
+export interface CounterRules {
+  readonly register: Register;
+  readonly art: ArtSpec;
+  readonly density: number;
+  readonly apart: number;
+}
+
 /** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
 export const DRUM_LANES = ["kick", "snare", "hat", "openhat"] as const;
 export type DrumLane = (typeof DRUM_LANES)[number];
@@ -852,7 +916,7 @@ export interface FeelRules {
 }
 
 /** The instruments a pitched part may be played on. */
-export const VOICES = ["rhodes", "sub", "pluck", "organ", "pad", "flute"] as const;
+export const VOICES = ["rhodes", "wurly", "sub", "pluck", "organ", "pad", "flute"] as const;
 export type VoiceName = (typeof VOICES)[number];
 
 /**
@@ -872,6 +936,8 @@ export const FLOOR: readonly ArtName[] = Object.freeze(["plain", "tenuto", "stac
 export const CAN: Readonly<Record<VoiceName, readonly ArtName[]>> = Object.freeze({
   /** Tines, struck. Weight and length only — and a dead-key thud for a ghost. */
   rhodes: ["ghost"],
+  // a reed is struck like a tine: the same hand, so the same list
+  wurly: ["ghost"],
   /** A synthesised sub: the oscillator's pitch is a knob, so it can be slid into. */
   sub: ["ghost", "slide", "slur"],
   /** A string, still under the finger: everything a guitarist writes in a tab. */
@@ -1216,6 +1282,8 @@ export interface GenreSpec {
   readonly bass?: BassSpec;
   readonly keys?: KeysSpec;
   readonly lead?: LeadSpec;
+  /** The counter-line: the second, lesser tune. */
+  readonly counter?: CounterSpec;
   readonly drone?: DroneSpec;
   readonly drums?: DrumsSpec;
   readonly arrangement?: ArrangementSpec;
@@ -1240,6 +1308,7 @@ export interface Genre {
   readonly bass: BassRules;
   readonly keys: KeysRules;
   readonly lead: LeadRules;
+  readonly counter: CounterRules;
   readonly drone: DroneRules;
   readonly drums: DrumsRules;
   readonly arrangement: ArrangementRules;
@@ -1613,6 +1682,27 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     signature: 0.5,
   },
 
+  /**
+   * THE COUNTER-LINE'S DEFAULTS.
+   *
+   * The register is the one number here that is not free: it must stand an
+   * octave clear of the lead's band, and the DEFAULT lead is 64-84. Below is
+   * the side with room — 40-62 puts it under the tune with twelve semitones
+   * of air, where above would need a band starting at 96 and leave the
+   * instrument. Under is also where the sources put the example they work
+   * through: "the string quartet plays a sustained, arpeggiated line a tenth
+   * BELOW" the vocal (versetuned.com).
+   *
+   * 0.5 density is the middle of the cited 40-60%. `apart` is the octave the
+   * same source names, stated as a number so a genre that wants more can ask
+   * and `resolve.ts` can refuse less.
+   */
+  counter: {
+    register: [40, 62],
+    art: [["plain", 5], ["tenuto", 2], ["staccato", 1]],
+    density: 0.5,
+    apart: 12,
+  },
   drone: {
     /**
      * Low and out of the way of everything that moves. A drone "may last
@@ -1742,7 +1832,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
 
   arrangement: {
     /** the chord first, then the beat under it, the bass, and the tune last */
-    enter: ["keys", "drums", "bass", "lead", "drone"],
+    // the counter arrives last: an answer needs something to answer
+    enter: ["keys", "drums", "bass", "lead", "drone", "counter"],
     introParts: 2,
     /**
      * TWO. "Five elements at one time — counting the drums as one — is
@@ -1761,7 +1852,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * for. Reversing `enter` did exactly that, because parts arrive
      * foundation-first.
      */
-    shed: ["drone", "keys", "lead", "bass", "drums"],
+    // and goes first, being the one part that decorates rather than carries
+    shed: ["counter", "drone", "keys", "lead", "bass", "drums"],
     /** a chorus wants everyone; a verse before it is still building */
     fullAbove: 0.8,
     thinBelow: 0.35,
@@ -1878,7 +1970,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   sound: {
     /** NOTHING MOVES until a genre says so, which is the record this program made before motion existed. */
     motion: [],
-    voices: { keys: "rhodes", bass: "sub", lead: "pluck", drone: "pad" },
+    voices: { keys: "rhodes", bass: "sub", lead: "pluck", counter: "wurly", drone: "pad" },
     /** every unit in the rack, every one bypassed: a clean record */
     rack: {
       pole: { hz: 18000, resonance: 0, mix: 0 },
@@ -1914,6 +2006,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       bass:  { level: 0.39, pan: 0, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 0, dist: 0.25 },
       keys:  { level: 0.17, pan: -0.3, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: -35, dist: 0.4 },
       lead:  { level: 0.60, pan: 0.25, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 30, dist: 0.35 },
+      // subordinate by construction: under the tune, opposite it, further off
+      counter: { level: 0.34, pan: -0.2, sweepHz: 0.1, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: -20, dist: 0.5 },
       drone: { level: 0.21, pan: 0, sweepHz: 0.05, sweepDepth: 0, pedals: 0, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 }, az: 180, dist: 0.7 },
     },
     world: { width: 0.7, depth: 0.5 },

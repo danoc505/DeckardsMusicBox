@@ -236,8 +236,29 @@ export const dungeonsynth: GenreSpec = {
     hold: [[4, 6], [2, 1]],
   },
 
+  /**
+   * THE COUNTER-LINE, PLUCKED, AND LOW.
+   *
+   * Not the Wurlitzer the default offers: an electric piano is a twentieth
+   * century instrument and this genre is not one. A plucked string against a
+   * held flute is the texture its own guide describes — the genre is built on
+   * "grounded drones in the bass" with a melody over them, and a plucked
+   * answer moves where the flute holds.
+   *
+   * 48-64 against the lead's 67-82: centres 56 and 74.5, eighteen and a half
+   * semitones apart. It sits under the keys as well as under the tune, which
+   * is where this genre has room — everything here lives low, so the counter
+   * goes lower still rather than reaching over the top of a genre whose whole
+   * character is weight. Numbers [chosen] inside that.
+   */
+  counter: {
+    register: [48, 64],
+    density: 0.45,
+    apart: 12,
+  },
+
   arrangement: {
-    enter: ["drone", "keys", "bass", "drums", "lead"],
+    enter: ["drone", "keys", "bass", "drums", "lead", "counter"],
     /** the desk walks to a treatment rather than switching to it: see the source */
     drift: 1,
     /**
@@ -255,7 +276,7 @@ export const dungeonsynth: GenreSpec = {
      * then the pad. What a quiet section keeps is bass, pad and drone, which
      * is what this music sounds like when it is being quiet.
      */
-    shed: ["drums", "lead", "bass", "keys", "drone"],
+    shed: ["counter", "drums", "lead", "bass", "keys", "drone"],
     introParts: 1,
     fullAbove: 0.85,
     thinBelow: 0.3,
@@ -427,7 +448,7 @@ export const dungeonsynth: GenreSpec = {
       { path: "rack.pole.hz", bars: 32, depth: 0.5, off: -0.4, wave: "ramp", reset: "section" },
       { path: "rack.room.ret", bars: 23, depth: 0.35, wave: "sin" },
     ],
-    voices: { keys: "pad", bass: "organ", lead: "flute", drone: "organ" },
+    voices: { keys: "pad", bass: "organ", lead: "flute", counter: "pluck", drone: "organ" },
     /**
      * THE CHURCH, THROUGH A SLUDGE RIG. The writing is dungeon synth and
      * stays so; what is put on it is the signal chain doom and sludge use.

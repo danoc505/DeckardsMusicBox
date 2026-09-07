@@ -64,7 +64,9 @@ test("every heard note of every section is played, and nothing else", () => {
               && !(span.thin && (h.lane === "hat" || h.lane === "openhat"))
               && !(span.halved && h.step * 2 >= s.form.clock.steps)).length;
           } else {
-            const notes = role === "lead" ? m.lead[nth]! : m.groove[role];
+            const notes = role === "lead" ? m.lead[nth]!
+              : role === "counter" ? m.counter[nth] ?? []
+              : m.groove[role];
             expected += notes.filter((n) => n.bar === mbar).length;
           }
         }

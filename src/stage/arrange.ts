@@ -484,6 +484,31 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
  */
 const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
 
+/**
+ * HOW MANY MAY SOUND AT ONCE — the number the source actually gives.
+ *
+ * "Five elements at one time — counting the drums as one — is generally the
+ * most you'll hear (sometimes six)" (soundonsound.com/techniques/arranging-pop),
+ * quoted in this file's own header. That is a ceiling on SIMULTANEITY, and
+ * for most of this program's life it was implemented as the SIZE OF THE BAND
+ * instead, because `ROLES` had exactly five entries and `ROLES.length` was
+ * used wherever the ceiling was meant. While the two were equal nothing could
+ * tell them apart.
+ *
+ * They are not equal any more: `ROLES` has six and the counter-line is the
+ * sixth. So the distinction has to be made, and this is it. A section fills up
+ * to FIVE; only the peak reaches everyone, which is the source's own
+ * parenthesis — "sometimes six" — spent on the one place this program already
+ * says everybody plays.
+ *
+ * Read `ROLES.length` here and every section would gain a part: `wanted` is
+ * an interpolation up to the maximum, so widening the band would have made
+ * every record denser, which is the opposite of what the source says and the
+ * opposite of what a bigger cast is FOR. A cast is larger than its densest
+ * moment; that is what makes an entrance worth anything.
+ */
+const MOST_AT_ONCE = 5;
+
 const MAX_PICKS = 2;
 const DUE_AT = 2;
 
@@ -507,7 +532,7 @@ const kindOf = (mv: Move): string =>
     // a hushed part is half a part, the same price the drums' hat already
     // pays; the drums thinned AND hushed are not charged for twice
     if (hushed !== null && h.has(hushed) && !(hushed === "drums" && isThin)) held += 0.5;
-    return (h.size - held) / ROLES.length;
+    return (h.size - held) / MOST_AT_ONCE;
   };
 
   const ledger: Ledger = {
@@ -649,7 +674,7 @@ const kindOf = (mv: Move): string =>
       // genre states a number for this and none should have to.
       const wanted = section.peak
         ? ROLES.length
-        : Math.round(floor + (ROLES.length - floor) * section.energy);
+        : Math.round(floor + (MOST_AT_ONCE - floor) * section.energy);
       const playing = Math.min(arrived, Math.max(floor, Math.min(ROLES.length, wanted)));
       // WHO GOES IS WHAT THE RECORD CAN SPARE, and that is a fact about this
       // record rather than a list written before it existed.
@@ -1069,6 +1094,25 @@ const kindOf = (mv: Move): string =>
           if (pick > 0 && ![...dueHere].some((r) => !servedHere.has(r))) break;
           const pool: Move[] = [];
           const push = (name: string, h: Set<Role>, th: boolean, role: Role, afford = 1, tr: Treatment | null = cur.treatment, at: Role | null = null, hush: Role | null = cur.hush, halved: boolean = cur.halved): void => {
+            /**
+             * A CEILING GUARD WAS TRIED HERE AND DELETED FOR DOING NOTHING.
+             *
+             * With the sixth part added it looked as though the walk could
+             * climb past `MOST_AT_ONCE` a boundary at a time — `part-back` and
+             * `all-back` put parts back like any other move — so this refused
+             * any candidate above the ceiling outside a peak. Measured on and
+             * off it changed not one number: six sound for 25.0% of lofi's
+             * bars and 19.1% of dungeon synth's WITH the guard and without it,
+             * and six outside a peak is 0.0% either way.
+             *
+             * It changes nothing because the ceiling is already kept where the
+             * roster is decided: `playing` interpolates to `MOST_AT_ONCE` and
+             * only a peak asks for `ROLES.length`, and the walk can only put
+             * back a part the section had. The 25% is not six being common —
+             * it is lofi's peak section being a quarter of the record's bars,
+             * which is one section. A guard that never fires is a law kept in
+             * two places, and this program has paid for that before.
+             */
             // a move that leaves the span exactly where it already is is not a
             // move, and the desk is part of where it is
             if (h.size === cur.heard.size && th === cur.thin && tr === cur.treatment && at === cur.at
@@ -1348,7 +1392,7 @@ const kindOf = (mv: Move): string =>
             //   kit as half a part. So half a part is what a treatment serves at
             //   its best, and the number is the one already in the file rather
             //   than a new one to tune.
-            const asPart = 0.5 / ROLES.length;
+            const asPart = 0.5 / MOST_AT_ONCE;
             const serve = moved
               ? (1 - Math.abs(2 * want - 1)) * asPart
               : d > 0 ? want * d : (1 - want) * -d;

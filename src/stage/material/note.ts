@@ -71,6 +71,12 @@ export interface Material {
    * plays has none.
    */
   readonly lead: readonly (readonly Note[])[];
+  /**
+   * The counter-line, one per time the COUNTER plays this material through.
+   * Written against the lead's line for the same round rather than against
+   * the chords, so it is addressed the same way the tune is.
+   */
+  readonly counter: readonly (readonly Note[])[];
   /** The drum figure every phrase below is a treatment of; the bass may stand on its kick. */
   readonly figure: Figure;
   /** The drums, one phrase per time they play this material through. */

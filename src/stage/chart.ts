@@ -136,6 +136,7 @@ export function makeChart(req: ChartRequest): Chart {
       bass: moved(genre.bass.register),
       keys: moved(genre.keys.register),
       lead: moved(genre.lead.register),
+      counter: moved(genre.counter.register),
       drone: moved(genre.drone.register),
     }),
     scaleName,

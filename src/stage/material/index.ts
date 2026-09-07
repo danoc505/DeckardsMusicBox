@@ -40,6 +40,7 @@ import type { Chart } from "../chart.ts";
 import { drawBass } from "./bass.ts";
 import { drawDrone } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
+import { drawCounter } from "./counter.ts";
 import { drawChords, harmonicPeriod } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
 import { contourOf, drawLead, ladder, lawsFor } from "./lead.ts";
@@ -381,6 +382,17 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const tacet: readonly Note[] = Object.freeze([]);
     const lead = Object.freeze(letters.map((l) => (l === "A" ? tune ?? tacet : l === "B" ? developed ?? tune ?? tacet : tacet)));
 
+    // AND THE COUNTER-LINE IS WRITTEN AGAINST THE TUNE, one line per time the
+    // counter plays this material through. It reads the lead's line for the
+    // SAME round — the tune's rests are what it is made of — so a round where
+    // the lead is tacet leaves it nothing to answer and it says nothing,
+    // which is the correct behaviour rather than a gap to fill.
+    const counterRng = rng.at("counter");
+    const counter = Object.freeze(
+      Array.from({ length: times.get("counter") ?? 0 }, (_, n) =>
+        Object.freeze(drawCounter(chart, loop, lead[n] ?? [], counterRng.at("round", n), steps, period, inLoop))),
+    );
+
     // THE TREATMENTS CYCLE. A record has as many distinct treatments of a
     // figure as the genre says, and plays them round and round — the same
     // beat coming back, which is the only way a beat becomes one. Drawn per
@@ -404,7 +416,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       }),
     );
 
-    const material: Material = Object.freeze({ key, idea, variant, contour, bars, period, chords, groove, lead, figure, drums });
+    const material: Material = Object.freeze({ key, idea, variant, contour, bars, period, chords, groove, lead, counter, figure, drums });
     check(chart, material, steps);
     all.set(key, material);
   }
@@ -419,6 +431,7 @@ function check(chart: Chart, m: Material, steps: number): void {
     bass: chart.register.bass,
     keys: chart.register.keys,
     lead: chart.register.lead,
+    counter: chart.register.counter,
     drone: chart.register.drone,
   };
   const grooveSeats = new Map<string, Pitched>();
@@ -449,6 +462,12 @@ function check(chart: Chart, m: Material, steps: number): void {
   for (const [time, line] of m.lead.entries()) {
     const seats = new Map(grooveSeats);
     for (const n of line) checkNote("lead", n, `${m.key} lead time ${time} bar ${n.bar} step ${n.step}`, seats);
+    // the counter is checked AGAINST THE TUNE OF ITS OWN ROUND, in the same
+    // seat map: the two written lines can only collide with each other, and
+    // only within a round, so this is where that would show
+    for (const n of m.counter[time] ?? []) {
+      checkNote("counter", n, `${m.key} counter time ${time} bar ${n.bar} step ${n.step}`, seats);
+    }
   }
 
   for (const [time, hits] of m.drums.entries()) {

@@ -23,18 +23,31 @@
  *   sequence, modulation, augmentation, diminution, retrograde, inversion,
  *   and fragmentation", with ornamentation adding notes and THINNING removing
  *   them (tobyrush.com, "Motivic Development"; study.com, "Motivic
- *   Transformation"). The two used here are the two that cannot invent a
- *   wrong note, because they add no pitch that was not already there:
+ *   Transformation"). Six are used, and they divide in two:
  *
  *     THIN     notes removed. A tune with holes in it is the same tune.
  *     AUGMENT  notes held longer. The same notes, in less of a hurry.
  *
- *   Inversion, retrograde and sequence all produce pitches the statement
- *   never had, and every one of them would have to be re-checked against the
- *   chord under it, the register, the scale, and what the other parts are
- *   sounding — which is the job the lead builder already does with far more
- *   context than a transformation has. Better a small honest change than a
- *   large one that has to be repaired.
+ *   Those two SUBTRACT and can never invent a wrong note, because they add no
+ *   pitch that was not already there. The other four MOVE pitches:
+ *
+ *     INVERT      the intervals flipped, by scale degree.
+ *     RETROGRADE  the pitches walked back through the same rhythm.
+ *     SEQUENCE    the same shape at another pitch level, a step or two away.
+ *     OCTAVE      the same tune, twelve semitones away.
+ *
+ *   THIS PARAGRAPH USED TO SAY THE OPPOSITE and it is worth recording why,
+ *   because the argument was good and the conclusion was wrong. It said only
+ *   the first two were used, on the grounds that a moved pitch "would have to
+ *   be re-checked against the chord under it, the register, the scale, and
+ *   what the other parts are sounding — which is the job the lead builder
+ *   already does with far more context than a transformation has." Every word
+ *   of that is true. What it got wrong is that re-checking is CHEAP: the
+ *   builder's own judge can be handed a finished line as easily as a
+ *   half-written one. So a moved line is a PROPOSAL and `lawsFor` disposes,
+ *   which is the shape the rest of this program already uses. A transformation
+ *   that had to be patched to be legal is not the transformation any more —
+ *   but one that is refused whole costs nothing.
  *
  * THE LAWS THE STATEMENT WAS WRITTEN UNDER STILL HOLD AFTERWARDS. A note off
  * its chord is only legal because the note after it resolves by step; remove
@@ -59,7 +72,7 @@ import type { Chord, Note } from "./note.ts";
  * law is refused whole rather than repaired. A transformation that had to be
  * patched to be legal is not the transformation any more.
  */
-export const CHANGES = ["thin", "augment", "invert", "retrograde", "sequence"] as const;
+export const CHANGES = ["thin", "augment", "invert", "retrograde", "sequence", "octave"] as const;
 export type Change = (typeof CHANGES)[number];
 
 
@@ -187,6 +200,7 @@ export function varyLine(
     if (laws === undefined) return { line: sorted, changed: false };
     const moved = which === "invert" ? invert(sorted, ladder)
       : which === "retrograde" ? retrograde(sorted)
+      : which === "octave" ? octave(sorted)
       : sequence(sorted, tonic, scale, rng);
     const ok = moved.filter((cand) => laws(cand));
     if (ok.length === 0) return { line: sorted, changed: false };
@@ -257,6 +271,82 @@ function sequence(ns: readonly Note[], tonic: number, scale: Scale, rng: Rng): N
     return at;
   };
   return by.map((d) => ns.map((n) => ({ ...n, pitch: step(n.pitch, d) })));
+}
+
+/**
+ * OCTAVE DISPLACEMENT: the same tune, an octave away.
+ *
+ * The one thing this program could not do to a pitch. Every part had an
+ * absolute register from its genre, the record's own octave was drawn once in
+ * `chart.ts` and added to all of them, and nothing moved after that — measured
+ * over eighty records, a part's mean pitch moved about two semitones between
+ * sections and ONE record in eighty moved any part a full octave. A record
+ * that varies horizontally and never vertically is using half the page.
+ *
+ * The device is a documented one and it is documented for exactly this job:
+ * "moving a chorus melody an octave higher can help differentiate it from a
+ * similar-sounding verse melody", which works because it is "generating
+ * considerable vocal energy, but it also disguises the fact that both verse
+ * and chorus are composed of essentially the same tone set"
+ * (secretsofsongwriting.com, "Using Octave Displacement to Avoid Verse-Chorus
+ * Sameness"). That is what a variant is FOR — the same tone set, heard again,
+ * needing to differ — so this belongs beside the other five and not in a
+ * mechanism of its own.
+ *
+ * UP IS TRIED FIRST, because the source is explicit about the direction: "the
+ * upward octave displacement should be in the chorus. Rarely would it ever
+ * work to have a verse in the upper octave with the chorus in the lower."
+ * Down is offered second rather than not at all — a return that can only go up
+ * is a return that stops happening once the tune is near its ceiling, and this
+ * program's leads sit high already.
+ *
+ * IT IS THE ONE TRANSFORMATION THAT CANNOT LEAVE THE SCALE. Twelve semitones
+ * is the same pitch class, so unlike inversion and sequence it can never
+ * propose a wrong note. It can only fail two ways — off the end of the part's
+ * register, or onto a pitch another part is already holding — and `lawsFor`
+ * already refuses both. The source names the first of those itself: "the key
+ * you choose will need to be one where the singer can handle the melody in two
+ * different octaves." A register that cannot hold the tune twice does not get
+ * to move it, and here that is a check rather than a warning.
+ */
+function octave(ns: readonly Note[]): Note[][] {
+  const whole = (by: number): Note[] => ns.map((n) => ({ ...n, pitch: n.pitch + by }));
+  // AND HALF A LINE, WHICH IS WHAT MAKES IT FIRE AT ALL. Measured before this
+  // existed: a whole-line octave move fits the register in 26% of lofi's lead
+  // lines and ONE of dungeon synth's 687 — that genre's lead band is fifteen
+  // semitones and its median line spans nine, so twelve more has nowhere to
+  // go. A move refused 99.9% of the time is a knob that does nothing.
+  //
+  // The source that names the device names this too, in the same breath: you
+  // "don't have to displace an entire melody — you can move just part of it
+  // instead" (secretsofsongwriting.com). Only the moved half has to fit, so a
+  // band too narrow for the whole tune twice is wide enough for its ending.
+  //
+  // It is also the one thing `docs/TALLY.md` §3 calls the highest-value item
+  // on its list and nothing had built: PARTIAL VARIATION, "first half
+  // identical, second half diverges". This is that, delivered by the
+  // mechanism that already owns how a tune comes back changed rather than by
+  // a new one beside it.
+  const from = (at: number, by: number): Note[] =>
+    ns.map((n, i) => (i < at ? { ...n } : { ...n, pitch: n.pitch + by }));
+  // AND WHERE THE LINE BREAKS IS PROPOSED, NOT PICKED. Splitting at the exact
+  // middle was measured at one success in twenty-one, and the reason is a law
+  // this file has to answer to rather than a fault in the device: the seam
+  // becomes a leap, and `lawsFor` refuses any interval wider than
+  // SIGNATURE_MAX — an octave. Displace from a note that sits ABOVE the one
+  // before it and the seam is thirteen semitones or more, refused every time.
+  //
+  // So every split is offered and the laws choose, which is exactly what
+  // `invert` below already does with its axis: a transformation proposes, and
+  // the judge that knows the chord, the register and the other parts disposes.
+  // Nearest the middle first — half a line displaced is the device, and a
+  // split one note from the end is a grace note wearing its name.
+  const mid = ns.length / 2;
+  const splits = ns.map((_, i) => i).filter((i) => i > 0 && i < ns.length)
+    .sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid));
+  // up before down, whole before part: the source is explicit about the
+  // direction, and a whole-line move is the stronger reading of the device
+  return [whole(12), whole(-12), ...splits.flatMap((i) => [from(i, 12), from(i, -12)])];
 }
 
 /** A different change from this one, for a development to take. */

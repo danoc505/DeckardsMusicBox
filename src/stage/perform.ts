@@ -409,7 +409,11 @@ export function makePerformance(
             place("drums", h.lane, at, 1, null, h.vel, h.art);
           }
         } else {
-          const notes = role === "lead" ? nth(m.lead, "lead", round) : m.groove[role];
+          // the two written lines are addressed by TIME ROUND; the groove is
+          // written once and looped, which is the thing a groove is allowed to be
+          const notes = role === "lead" ? nth(m.lead, "lead", round)
+            : role === "counter" ? nth(m.counter, "counter", round)
+            : m.groove[role];
           for (const n of notes) {
             if (n.bar !== mbar) continue;
             place(role, role, n.step, n.dur, n.pitch, n.vel, n.art);
