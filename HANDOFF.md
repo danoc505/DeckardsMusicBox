@@ -61,6 +61,12 @@ found by an end-to-end run, not by the change that prompted it:
 - `material/index.test.ts` "a returning idea plays its statement's own figure"
   — **60** variants against a threshold of 90, from 69 before this work.
   Deliberate, and worse for a stated reason: see "what was just done".
+- `sound/tr1000.test.ts` is **KILLED, not failed** — `SIGKILL` after about
+  110 seconds, on this tree and byte-identically on the commit before this
+  work, run alone or beside the others. It is the container's memory rather
+  than the program, and nobody has diagnosed it; it means the drum machine is
+  currently unasserted. Whoever picks up item 1 should start here, because a
+  test that cannot run is worse than a slow one.
 - `material/index.test.ts` "keys voice every tone of the chord, in register,
   led smoothly" — **not deliberate, undiagnosed, and older than this
   session.** It is not in any earlier tally, so it landed with the elements
