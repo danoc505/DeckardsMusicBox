@@ -258,6 +258,29 @@ intro is an empty avenue and the peak is gridlock; the counter-line's
 notes are still the spinners crossing overhead, modelled now. The owner
 does NOT want a seek; do not build one.
 
+**Then the owner said it needed to be zoomed out — much smaller glyphs,
+much more resolution, like the donut — and that the cars winked in and
+out.** The drive now draws at FOUR BY SEVEN pixels a cell (about 315 × 71)
+by default, and `F` goes to the coarse 7 × 13. That is only possible
+because the paint is WEBGL now (`glInit`, `glSheet`, `paint`): a sheet of
+the 96 glyphs in white with a blurred row for the glow, and one instanced
+draw a frame of (cell, glyph, colour, level, glow) — the same alphas and
+halo rule as the 2D atlas, which stays as the fallback and opens coarse,
+because at 22k cells one `drawImage` a cell is 55 ms. Measured with WebGL
+disabled so the JavaScript stands alone: the whole city at fine
+resolution, vehicles included, is about 5 ms a frame; the WebGL paint is
+under 2. (Headless Chromium here has no GPU, so its WebGL numbers are
+SwiftShader stalling the main thread and mean nothing; `__driveMs` on
+`globalThis` is [frame ms, paint ms] for anyone measuring on a real
+machine.) Found on the way: `drive.clientWidth` read once a frame forced a
+layout of the whole bridge every frame — `measureDrive` reads sizes once
+per resize now, and the roll's width likewise. The cars winked because the
+traffic count followed the parts sounding, which changes on every note;
+it follows the arc now, a car joins or leaves only beyond thirty cells or
+behind the car (`carAlive`), and the street is full from the first frame.
+Cars have paint — silver, red, blue, rust — and the swoop is walked once
+and replayed until its lean or a drag-look moves it.
+
 **The console plays itself.** The record has moved its own desk since
 `perform.ts` learned to write a `DeskChange` list, and the page could not show
 it: the bridge set its knobs once from the genre's RESTING desk and never

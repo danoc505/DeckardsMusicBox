@@ -275,7 +275,7 @@ police spinners, all of them modelled donut.c's way, a surface walked and
 its normals lit, and the counter-line's notes crossing overhead. You drive
 one bar behind the music so the window that is sounding is in view when it flares; the camera
 tilts up toward the towers as the arc rises, and you can drag on it to look
-round. `F` halves the cells for a finer picture. `npm run shot lofi 42 --
+round. It is drawn at four pixels by seven a glyph, so the glyph is texture and the shading reads; `F` goes to the coarse cells where the letters do. `npm run shot lofi 42 --
 --drive 70` shoots it seventy seconds in.
 
 **And the console plays itself.** The engine says which desk it is rendering
