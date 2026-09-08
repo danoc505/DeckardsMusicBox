@@ -83,6 +83,7 @@
 import type { ArrangementRules, Element, Idea, IntroKind, Manner, Role, Texture, Treatment } from "../genre/spec.ts";
 import { LEGAL_TEXTURES, PITCHED_ROLES, ROLES } from "../genre/spec.ts";
 import { deskOf, isPerPart, needsDrums, reachesPart } from "./treat.ts";
+import type { Rng } from "../core/rng.ts";
 import type { Chart } from "./chart.ts";
 import type { Form, Section } from "./form.ts";
 // A pure function of the chart, not a read of built materials — see its own
@@ -781,27 +782,51 @@ const kindOf = (mv: Move): string =>
    */
   const elementsOf = new Map<string, Record<Role, Element>>();
   const texturesOf = new Map<string, Record<Role, Texture>>();
+  /** One seat's job and its layout, drawn from that seat's own weights. */
+  const jobOf = (r: Role, draw: Rng): { element: Element; texture: Texture } => {
+    if (r === "drums") return { element: "foundation", texture: "line" };
+    const seat = chart.genre[r as (typeof PITCHED_ROLES)[number]];
+    let element: Element;
+    if (r === "lead") {
+      element = "lead";
+    } else {
+      const pool = seat.element.filter(([e]) => e !== "lead");
+      element = pool.length > 0 ? draw.weighted(`${r}:element`, pool) : "pad";
+    }
+    // THE TEXTURE IS DRAWN FROM WHAT THE JOB ALLOWS. A pad may not be
+    // arpeggiated — see `LEGAL_TEXTURES` — so the seat's pool is filtered
+    // by the job it drew, and a pool that leaves nothing legal takes the
+    // job's first legal texture rather than an illegal one.
+    const legal = LEGAL_TEXTURES[element];
+    const pool = seat.texture.filter(([t]) => legal.includes(t));
+    const texture = pool.length > 0 ? draw.weighted(`${r}:texture`, pool) : legal[0]!;
+    return { element, texture };
+  };
+  /**
+   * THE CHARACTER IS THE SAME CHARACTER IN EVERY SCENE.
+   *
+   * Every other seat draws its job per MATERIAL — "the keys that arpeggiate
+   * the chorus arpeggiate every chorus", and may comp the verse. The
+   * protagonist may not: an ostinato "persistently repeats in the same
+   * musical voice" (Wikipedia, "Ostinato"), Blue Monday's sequence runs
+   * through every section, and a counter that arpeggiates idea A and plays a
+   * line in idea B is two characters wearing one name. Measured before this,
+   * lofi's character changed what it was doing between materials in 30% of
+   * records; dungeon synth's never did, because its characters are the drone
+   * and the keys and that genre pins its keys to one job. Drawn once, at its
+   * own address, so the other seats' draws do not move.
+   * `THE-ARRANGEMENT-AS-STORY.md` §13 rule 2.
+   */
+  const starJob = jobOf(star, chart.rng.at("element", "character"));
   const assign = (key: string): void => {
     if (elementsOf.has(key)) return;
     const el = {} as Record<Role, Element>;
     const tx = {} as Record<Role, Texture>;
     const draw = chart.rng.at("element", key);
     for (const r of ROLES) {
-      if (r === "drums") { el[r] = "foundation"; tx[r] = "line"; continue; }
-      const seat = chart.genre[r as (typeof PITCHED_ROLES)[number]];
-      if (r === "lead") {
-        el[r] = "lead";
-      } else {
-        const pool = seat.element.filter(([e]) => e !== "lead");
-        el[r] = pool.length > 0 ? draw.weighted(`${r}:element`, pool) : "pad";
-      }
-      // THE TEXTURE IS DRAWN FROM WHAT THE JOB ALLOWS. A pad may not be
-      // arpeggiated — see `LEGAL_TEXTURES` — so the seat's pool is filtered
-      // by the job it drew, and a pool that leaves nothing legal takes the
-      // job's first legal texture rather than an illegal one.
-      const legal = LEGAL_TEXTURES[el[r]];
-      const pool = seat.texture.filter(([t]) => legal.includes(t));
-      tx[r] = pool.length > 0 ? draw.weighted(`${r}:texture`, pool) : legal[0]!;
+      const job = r === star ? starJob : jobOf(r, draw);
+      el[r] = job.element;
+      tx[r] = job.texture;
     }
     elementsOf.set(key, el);
     texturesOf.set(key, tx);
@@ -1545,6 +1570,15 @@ const kindOf = (mv: Move): string =>
             // the roster; that is which states exist, so it is refused here
             // with the others rather than guarded at one call site.
             if (at !== null && !h.has(at)) return;
+            // AND A DRUM MACHINE MOVE IS A MOVE ON A KIT THAT IS SOUNDING. The
+            // pool already refuses to OFFER one where the drums are silent;
+            // it did not refuse a part-out that took the drums away from under
+            // a machine move already standing, because every density move
+            // carries `cur.treatment` forward. Latent since the machine moves
+            // were added, and reached the day the hush pool changed shape —
+            // `arrange.test.ts` "a drum machine move is never made where the
+            // drums are silent" caught it. Which states exist, so it is here.
+            if (tr !== null && needsDrums(tr) && !h.has("drums")) return;
             // AT A BAR POINT IN THE RUN-UP OR AT THE CLIMAX, EXPRESSION ONLY
             // GOES UP. The fast clock used to be stopped in both sections
             // because its extra points became extra subtractions — 24% of
@@ -1717,8 +1751,18 @@ const kindOf = (mv: Move): string =>
            * energy. `speak-up` stays offered — giving a part back is what a
            * run-up is for.
            */
+          /**
+           * AND NEVER THE CHARACTER. The yield around a protagonist is
+           * one-directional — "a sound that has played a prominent role
+           * early in the song could be slightly turned down to bring a newly
+           * introduced element into sharper focus" (Johnston) is the OTHERS
+           * stepping back, and the character is the thing they step back
+           * for. Measured before this, 39% of lofi's hushes and 41% of
+           * dungeon synth's were aimed at the record's own main character.
+           * `THE-ARRANGEMENT-AS-STORY.md` §10.
+           */
           for (const r of cur.heard) {
-            if (r === cur.hush || swell) continue;
+            if (r === cur.hush || swell || r === star) continue;
             push("hush", new Set(cur.heard), cur.thin, r, affords(r), cur.treatment, cur.at, r);
           }
           if (cur.hush !== null) push("speak-up", new Set(cur.heard), cur.thin, cur.hush, 1, cur.treatment, cur.at, null);
