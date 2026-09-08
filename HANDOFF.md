@@ -168,35 +168,39 @@ the first brainstorm), a rear-view for the parts behind you, and the section
 gates carrying `THIN`/`SWELL`/the treatment name the way the roll does.
 
 **The drive, and the city.** The owner asked for an experience rather than a
-settings screen, then for an ASCII 3D world, then for a Blade Runner city.
-`tools/page.html` § THE DRIVE is a first-person road measured in bars, drawn
-with a height-field column scan (a y-buffer per column, near to far — the
-Comanche algorithm), projected sprites against a depth buffer, and a glyph
-atlas blitted with `drawImage`, at 30 Hz; 61 fps in headless Chromium either
-way. What no live visualiser can do is show the future, and this record is
-composed before Play, so the road does: notes stand at their bar, the land is
-`form.arc` squared, the sections are gates. **The city is phase 1 of three**
-(research in the session: CyberCity, ludthor's NEON//GRID and tweakyourpc's
-ascii-city are the state of the art, and all three are the same column scan
-with facades). `cityAt` lays lots half a bar deep in rows away from the road;
-the front row always stands and its road-facing walls are floors of panes; a
-pitched note lights the pane its part owns (`paneRole`, ranked by lane per
-side) on the floor of its pitch (`floorOf`) in the building of its half-bar
-(`glow`, built once per record) — dim ahead, full when sounding, dim again
-behind. Palette is CyberCity's idea: SOURCES (windows, the parts' colours)
-carry through fog by `srcFog`; SURFACES (walls, road) go first, and past
-`br < 0.14` a wall is gone and only its lights are left. Three facade kinds
-by hash. The camera drives ONE BAR BEHIND the music (`LOOKBACK`) because the
-bar sounding is otherwise beside you and off the edge of a 104° view. The
-city has its own fog line at 46 units — a street at night is hazy whether
-or not the desk has a pole — and the pole thickens it. Not done, and
-planned: phase 2 is the life (neon signs that are the treatments, in the
-roll's colours, at the bar they land; puddles that mirror them; spinners
-for the counter, searchlights for the returns, steam for the hats, a blimp
-for the drone); phase 3 the finish (Y-shear to look up at the peak,
-shape-aware glyph edges, a braille or half-block density mode, the sub-3 Hz
-flicker gate and `prefers-reduced-motion` proper). Dungeon synth keeps the
-stone road and the mountains.
+settings screen, then for an ASCII 3D world, then for a Blade Runner city —
+and then said, rightly, that the first city was the old road with a city
+grafted on. `tools/page.html` § THE DRIVE is now two engines, and the second
+is the one that matters. **The city is a raycaster**: a grid of cells, a
+route through it one cell per beat that TURNS at section boundaries (left,
+right or straight by hash, the car steering into each corner over a bar),
+and one ray per column walked through the cells by DDA. A wall is drawn from
+its top down to the column's watermark, so a taller building shows over a
+nearer one and the skyline is right in one pass; below the nearest wall the
+floor is cast row by row; lamps and gates are sprites tested against the wall
+in their column. That is what CyberCity, NEON//GRID and tweakyourpc's
+ascii-city all are, and the research that said so is in the session. The
+record is still the city: the front row is a building per half-bar whose
+road-facing windows are the notes — a part owns a pane on its side
+(`paneRole`, ranked by lane), a pitch is a floor (`floorOf`), the pane the
+ray struck is read off the hit position along the face (`fr.start`), and
+`glow`/`lightOf` say whether the window is dark, was lit, is coming, or is
+sounding; the blocks behind take their height from the arc at the bar they
+stand beside (`curSeg`); a cross street opens at every section; buildings are
+concrete, glass or brick by hash. Sources (windows, the parts' colours, lamps)
+glow and carry through fog by `srcFog`; surfaces go first and past `br <
+0.13` only the lights remain. The car drives one bar behind the music
+(`LOOK`) so the window that flares is in view, and there is a run-up of
+`route.pre` cells so it starts on a street. The city has its own fog line at
+46 units, thickened by the pole. **Dungeon synth keeps the height-field
+scan** (the stone road, the mountains that are the arc) — two renderers for
+two worlds is a cost, and the honest next step is the mountains as cells in
+the raycaster too. 60 fps idle and 49 playing in headless Chromium; the roll
+still redraws whole at 60 Hz while playing, which is where the rest went.
+Phases 2 (signs that are the treatments in the roll's colours at the bar
+they land, puddles that mirror them, spinners, searchlights, steam, the
+blimp) and 3 (look-up, shape-aware glyph edges, a braille density mode, the
+sub-3 Hz flicker gate) are still to do.
 
 **The console plays itself.** The record has moved its own desk since
 `perform.ts` learned to write a `DeskChange` list, and the page could not show
