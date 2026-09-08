@@ -34,16 +34,25 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite has been run on this tree, file by file: 310 tests, 307 pass,
-three fail, and all three fail identically on the commit before this work
-began.** It was 307 tests before; the three added are laws this session could
-state for the first time — a board is one part's own, no board is wired to
-nothing, and a pedal keeps its own clock while the knob beside it moves. It is
-still too slow to run in one go — see item 1 — so it was run as
-`node --test src/<one>.test.ts` per file and the three failures were then
-re-run in a worktree of the earlier commit to prove they were not this
-session's. THERE ARE THREE STANDING FAILURES AND THIS FILE USED TO LIST TWO;
-the third was found by that check, not by the change that prompted it:
+**The suite has been run END TO END on this tree: 311 tests, 308 pass, three
+fail, and all three fail identically on the commit before this work began.**
+`npm test` in one go takes **12 minutes 40 seconds** — the "eight minutes" this
+file used to claim was out of date, and `treat.test.ts` alone is most of it.
+It was 307 tests before this session; the four added are laws it could state
+for the first time — a board is one part's own, no board is wired to nothing,
+a pedal keeps its own clock while the knob beside it moves, and an fx in line
+is heard at the end of the board it is clipped to.
+
+TWO MORE WENT RED DURING THE SESSION AND NEITHER WAS A BUG IN THE PROGRAM.
+Both were laws written when an effect could only be a return, asked of a
+program where it can also stand in a part's line; both were verified against
+the behaviour BEFORE being touched, and what moved was the question, never the
+code. `motion.test.ts`'s section-reset law was reading a per-part path
+literally and comparing NaN with NaN, which is how it used to pass. See the
+`pathOf` commit — the substitution now lives in one place instead of three.
+
+THERE ARE THREE STANDING FAILURES AND THIS FILE ONCE LISTED TWO; the third was
+found by an end-to-end run, not by the change that prompted it:
 
 - `arrange.test.ts` "the break goes below the floor mid-record" — 14% of
   records have a break against a threshold of 15%. Deliberate; see item 6.
@@ -138,6 +147,36 @@ measured. Write the next one that way.
 
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
+
+**THE PAGE HAD A HALF OF ITSELF THAT WAS NEVER COMMITTED, AND IT WAS ALMOST
+LOST.** The drive — the record as a city you look down while it plays — and
+with it the "now desk" readout, the analyser tap and the fine-detail toggle,
+were written straight into the published artifact in a session that never put
+them in `tools/page.html`. `git log --all -S "drive-crt"` finds nothing, and
+nor do the same searches for `nowdesk`, `analyser` or `setFine`. So the build
+could not produce any of it, and republishing the build replaced the lot; it
+survives only because the published page was read back first. It is merged in
+now, three ways against the last page both sides shared, and the rescued copy
+is kept in `docs/recovered/` until somebody is satisfied nothing else is
+missing from it. **Read the artifact before you publish over it**, and if you
+find yourself doing page work, it belongs in `tools/page.html` or it does not
+exist. This is the README's "a second mechanism beside the first" with the
+bill attached.
+
+**THREE TREATMENTS WERE OFFERED AND SILENT, from one half-finished change of
+mine.** When both genres came off their returns, `reach.ts` was taught that an
+effect IN LINE counts as that effect being heard — and only three of the moves
+were taught to write it. `waver` priced at −223 dB on dungeon synth and
+`echoed` at −222 on lofi: not small changes, silence, and neither was refused,
+so both genres kept drawing them. `brighten` was the same defect not quite
+fatal: gated on a pole it never touched, doing only what the tape's lowpass
+could. Fixed at the gesture with `fxWavier`, `fxEchoed` and `fxPole` beside the
+`fxWet` and `fxLonger` that already did it right. **Reach and gesture have to
+be taught in the same edit** — teaching one alone is worse than teaching
+neither, because a refused move is honest and a dead one is a lie about what
+the record did. `waver` −223.1 → −16.3 dB, `echoed` −222.2 → −20.7,
+`darken` −10.4 → −6.4 with its centre shift more than doubled, and none of
+them bought it with level.
 
 **The rack's effects can be pedals on one part's line, at either end of its
 board.** A rack unit is the record's, not a player's: the wet five are RETURNS
