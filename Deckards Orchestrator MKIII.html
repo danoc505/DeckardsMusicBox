@@ -1308,14 +1308,14 @@
     gCh[i] = code; gPal[i] = pal; gLvl[i] = lvl; gZ[i] = z;
   }
   function sprite(code, pal, q) {
-    var key = code * 128 + pal * 8 + q, cv = atlas[key];
+    var key = (code * 64 + pal) * 8 + q, cv = atlas[key];   // room for sixty-four colours before a key collides with the next glyph
     if (cv) return cv;
     var dpr = Math.min(2, window.devicePixelRatio || 1);
     cv = document.createElement("canvas"); cv.width = Math.ceil(CELL_W * dpr); cv.height = Math.ceil(CELL_H * dpr);
     var g = cv.getContext("2d"); g.scale(dpr, dpr); g.font = GFONT; g.textBaseline = "middle"; g.textAlign = "center";
     // a source glows and a surface does not: the halo is what makes a lit
     // window a light rather than a brighter piece of wall
-    var a = 0.22 + 0.78 * (q / 7), src = pal < 3 || (pal >= 4 && pal <= 9) || pal >= 11;
+    var a = 0.22 + 0.78 * (q / 7), src = isSrc(pal);
     g.globalAlpha = a; g.fillStyle = PAL[pal];
     if (src && q >= 4) { g.shadowColor = PAL[pal]; g.shadowBlur = 3 + (q - 4) * 2; }
     g.fillText(String.fromCharCode(code), CELL_W / 2, CELL_H / 2 + 0.5);
@@ -1343,7 +1343,9 @@
      one a bar; the gates are the sections. */
   var CPB = 4, OFF = 4096, LOOK = CPB, STREET = 2, FRONT_DEPTH = 2, BLOCK = 6, LAMP_EVERY = CPB, LAMP_H = 2.4, CITY_FOV = 92 * Math.PI / 180;
   var DIRS = [[0, 1], [1, 0], [0, -1], [-1, 0]], ANG = [Math.PI / 2, 0, -Math.PI / 2, Math.PI];
-  var route = null, curSeg = { s0: 0, a0: 0, axis: 1, sign: 1 }, hitFront = null, zcol = null;
+  var route = null, curSeg = { s0: 0, a0: 0, axis: 1, sign: 1 }, hitFront = null, zcol = null, wet = null;
+  /** Whether a palette entry emits light — glows in the atlas, shows in a puddle. */
+  var isSrc = function (pal) { return pal < 3 || (pal >= 4 && pal <= 9) || pal >= 11; };
   var ckey = function (mx, my) { return (mx + OFF) * 16384 + (my + OFF); };
 
   /** The record's route through the grid, and everything that stands along it. */
@@ -1369,8 +1371,23 @@
     });
     R.gates.push({ s: s, name: "END", peak: false, end: true });
     for (var j = 0; j < 12; j++) { lay(R, x, y, d, s, false); x += DIRS[d][0]; y += DIRS[d][1]; s++; }   // the road runs on while the tail rings
-    song.performance.events.forEach(function (e) { if (e.role === "drums") R.drums.push([barOf(e.tSec) * CPB, e.lane, e.gain]); });
+    song.performance.events.forEach(function (e) { if (e.role === "drums") R.drums.push([barOf(e.tSec) * CPB, e.lane, e.gain, e.tSec]); });
     R.drums.sort(function (a, b) { return a[0] - b[0]; });
+    // THE SIGNS ARE THE TREATMENTS. One hung on the street where each lands,
+    // in the colour the roll draws that move in, so the sign you are driving
+    // toward is the next thing the desk will do — and a per-part move names
+    // its part. The colour joins the palette the first time it is seen.
+    R.signs = [];
+    (song.performance.desk || []).forEach(function (dch, di) {
+      if (!dch.treatment) return;
+      var sp = barOf(dch.tSec) * CPB, cc = R.cells[Math.max(0, Math.min(R.cells.length - 1, Math.floor(sp) + R.pre))];
+      var px = DIRS[(cc.d + 1) & 3][0], py = DIRS[(cc.d + 1) & 3][1], sd = ihash(Math.floor(sp), 555) < 0.5 ? -1 : 1;
+      var col = fxHue(dch.treatment), pal = PAL.indexOf(col); if (pal < 0) { pal = PAL.length; PAL.push(col); }
+      var next = song.performance.desk[di + 1];
+      R.signs.push({ x: cc.x + 0.5 + px * sd * (STREET + 0.45), y: cc.y + 0.5 + py * sd * (STREET + 0.45), s: sp, side: sd,
+                     name: dch.treatment.toUpperCase() + (dch.at ? " " + dch.at.toUpperCase() : ""), pal: pal,
+                     h: 3.1 + 1.7 * ihash(Math.floor(sp), 77), t0: dch.tSec, t1: next ? next.tSec : 1e9, depth: dch.depth === undefined ? 1 : dch.depth });
+    });
     route = R;
   }
   /** One cell of route: the street either side of it, a lamp now and then, and the front row's buildings beyond the pavement. */
@@ -1417,6 +1434,7 @@
     var dirX = Math.cos(cam.a), dirY = Math.sin(cam.a), PL = Math.tan(CITY_FOV / 2), fc = cx / PL, fyc = fc * CELL_W / CELL_H;
     var planeX = -dirY * PL, planeY = dirX * PL;
     if (!zcol || zcol.length !== COLS) zcol = new Float32Array(COLS);
+    if (!wet || wet.length !== COLS * ROWS) wet = new Uint8Array(COLS * ROWS); else wet.fill(0);
     var drums = route.drums, dn = drums.length;
 
     for (var c = 0; c < COLS; c++) {
@@ -1473,7 +1491,7 @@
       for (var fr2 = from; fr2 < ROWS; fr2++) {
         var rowDist = eye * fyc / (fr2 - horizon); if (rowDist > fogZ) continue;
         var wx = posX + rdX * rowDist, wy = posY + rdY * rowDist, cxw = Math.floor(wx), cyw = Math.floor(wy);
-        var st2 = route.street.get(ckey(cxw, cyw)), fb = fog(rowDist), code2 = 0, pal2 = 0, lvl2 = 0;
+        var st2 = route.street.get(ckey(cxw, cyw)), fb = fog(rowDist), code2 = 0, pal2 = 0, lvl2 = 0, isWet = false;
         if (st2) {
           var dd = st2.d, ox = wx - cxw - 0.5, oy = wy - cyw - 0.5;
           var lateral = st2.w + ox * DIRS[(dd + 1) & 3][0] + oy * DIRS[(dd + 1) & 3][1], alongF = ox * DIRS[dd][0] + oy * DIRS[dd][1] + 0.5, sPos = st2.s + alongF;
@@ -1485,7 +1503,7 @@
             if (fbar < 0.04 || fbar > 0.96) { code2 = 61; pal2 = 0; lvl2 = fb * (0.7 + 0.3 * low); }
             else if (alongF < 0.07) { code2 = 45; pal2 = 0; lvl2 = fb * 0.25; }
             else if (al < 0.06) { code2 = 58; pal2 = 0; lvl2 = fb * 0.3; }
-            else if (ihash(Math.floor(sPos * 2.5), Math.floor(lateral * 3) + 40) < 0.1 + 0.25 * dust) { code2 = 126; pal2 = ihash(Math.floor(sPos * 2.5) + 9, Math.floor(lateral * 3)) < 0.6 ? WCOOL : NEONM; lvl2 = fb * (0.16 + 0.1 * Math.sin(t * 1.3 + sPos)); }
+            else if (ihash(Math.floor(sPos * 1.2), Math.floor(lateral * 1.6) + 40) < 0.2 + 0.3 * dust) { isWet = true; code2 = 126; pal2 = ihash(Math.floor(sPos * 1.2) + 9, Math.floor(lateral * 1.6)) < 0.6 ? WCOOL : NEONM; lvl2 = fb * (0.14 + 0.08 * Math.sin(t * 1.3 + sPos)); }   // a puddle, in patches
             // the drums, where they fall on the road
             var lo2 = 0, hi2 = dn;
             while (lo2 < hi2) { var m2 = (lo2 + hi2) >> 1; if (drums[m2][0] < sPos - 0.14) lo2 = m2 + 1; else hi2 = m2; }
@@ -1497,7 +1515,7 @@
             }
           }
         } else if (route.xstreet.has(ckey(cxw, cyw))) { code2 = 46; pal2 = PAVEC; lvl2 = fb * 0.22; }
-        var jj = fr2 * COLS + c; if (code2) { gCh[jj] = code2; gPal[jj] = pal2; gLvl[jj] = lvl2; } gZ[jj] = rowDist;
+        var jj = fr2 * COLS + c; if (code2) { gCh[jj] = code2; gPal[jj] = pal2; gLvl[jj] = lvl2; } gZ[jj] = rowDist; if (isWet) wet[jj] = 1;
       }
     }
 
@@ -1527,6 +1545,32 @@
       for (var gcc = ga; gcc <= gb2; gcc++) put(gcc, gtop, 61, gp, gl, gty);
       if (gb2 - ga - 2 >= gt.name.length) { var nx = Math.round((ga + gb2) / 2 - gt.name.length / 2); for (var k2 = 0; k2 < gt.name.length; k2++) put(nx + k2, gtop - 1, gt.name.charCodeAt(k2), gp, Math.min(1, gl * 1.2), gty); }
       else if (gb2 - ga >= 3) put(Math.round((ga + gb2) / 2), gtop - 1, gt.name.charCodeAt(0), gp, gl, gty);
+    }
+    // ── the signs: a treatment's name in neon on a blade off the wall, facing you, flickering ──
+    for (var si2 = 0; si2 < route.signs.length; si2++) {
+      var sg2 = route.signs[si2]; if (sg2.s - sCam < 0.8 || sg2.s - sCam > fogZ * 1.6) continue;
+      var ps = project(sg2.x, sg2.y); if (ps.ty < 0.4) continue;
+      var charCols = Math.max(0.5, 0.55 * fc / ps.ty), n2 = sg2.name.length, col0 = sg2.side < 0 ? ps.col : ps.col - Math.round(n2 * charCols);
+      if (col0 > COLS || col0 + n2 * charCols < 0) continue;
+      var inForce = sec >= sg2.t0 && sec < sg2.t1, srow = Math.round(horizon - (sg2.h - eye) * fyc / ps.ty), tall = Math.round(0.45 * fyc / ps.ty);
+      // value-noise flicker, gated under three hertz, and the odd letter out
+      var flick = inForce ? 1 : 0.7 + 0.3 * noise2(t * 2.4 + si2 * 7.1, si2), sl = srcFog(ps.ty) * (0.55 + 0.45 * sg2.depth) * flick;
+      for (var cc2 = Math.max(0, col0); cc2 < Math.min(COLS, col0 + n2 * charCols); cc2++) {
+        if (ps.ty > zcol[cc2]) continue;
+        var chI = Math.min(n2 - 1, Math.floor((cc2 - col0) / charCols)), dead = ihash(chI + si2 * 31, Math.floor(t * 0.7)) < 0.05;
+        put(cc2, srow, sg2.name.charCodeAt(chI), sg2.pal, dead ? sl * 0.15 : sl, ps.ty);
+        if (tall >= 3) { put(cc2, srow - 1, 45, sg2.pal, sl * 0.4, ps.ty); put(cc2, srow + 1, 45, sg2.pal, sl * 0.4, ps.ty); }
+      }
+    }
+    // ── the puddles give the lights back: a wet cell shows what stands above it, mirrored about the horizon and dimmed ──
+    for (var wr = Math.floor(horizon) + 1; wr < ROWS; wr++) {
+      var mr = Math.round(2 * horizon - wr); if (mr < 0) continue;
+      for (var wc = 0; wc < COLS; wc++) {
+        var wi = wr * COLS + wc; if (!wet[wi]) continue;
+        var mi = mr * COLS + wc, mc = gCh[mi]; if (!mc) continue;
+        var srcUp = isSrc(gPal[mi]); if (!srcUp && gLvl[mi] < 0.35) continue;
+        gCh[wi] = mc; gPal[wi] = gPal[mi]; gLvl[wi] = gLvl[mi] * (srcUp ? 0.5 : 0.22);   // a light comes back; a wall only just
+      }
     }
   }
 
@@ -1879,7 +1923,9 @@
     while (deskLine.length > 1 && deskLine[1].at <= ctx.currentTime) deskLine.shift();
     if (deskLine.length && deskLine[0].at <= ctx.currentTime && deskLine[0].desk !== live) follow(deskLine[0].desk);
     if (started) nowDesk(sec);
-    if (!reduced && started) drawRoll(sec);
+    // the roll redraws whole — every note, every row — so fifteen times a
+    // second is plenty for a playhead, and the frames go to the drive instead
+    if (!reduced && started && (driveFrame & 3) === 0) drawRoll(sec);
     requestAnimationFrame(tick);
   }
 
