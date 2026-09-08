@@ -114,6 +114,88 @@ function fxLonger(S: SoundRules, only?: Role): NonNullable<SoundSpec["fx"]> | un
   return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
 }
 
+/**
+ * THE FILTERS STANDING IN A PART'S OWN LINE, opened or closed — `darken`'s and
+ * `brighten`'s half of the split.
+ *
+ * `brighten` is the one this was found by, and it is the clearest case of the
+ * whole class. `reaches` asks `poleHeard`, which counts a pole WHEREVER it
+ * stands, so dungeon synth — which took the pole off its sum and put one on
+ * every part — is offered the move. The move then wrote `rack.pole.hz` on a
+ * unit at mix 0. What was left of it was the tape's lowpass and nothing else:
+ * not silence, which is why the pricing did not flag it, and not the move
+ * either.
+ *
+ * A pole at mix 0 is NOT opened here, the way `darken` switches the sum's in.
+ * On the sum that is one filter and a genre may simply not have thought about
+ * it; on the parts it is six, and switching in six filters a genre never asked
+ * for is a different desk rather than a brighter section.
+ */
+function fxPole(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, { pole: { hz: number } }> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const p = S.fx[role].pole;
+    if (p.mix > 0) out[role] = { pole: { hz: clamp(p.hz * by, 40, 20000) } };
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
+/**
+ * AND THE ECHOES STANDING IN A PART'S OWN LINE — `echoed`'s half of the split.
+ *
+ * MEASURED like `fxWavier` below and found the same way: `echoed` priced at
+ * −222 dB on lofi, offered rather than refused, because lofi's echo moved onto
+ * its keys and its lead and the move still only turned up the rack's return.
+ *
+ * MORE echo is two knobs and always was: how loud it comes back and how many
+ * times it repeats. In line the first of those is the unit's own mix, which is
+ * what a return's `ret` was, so the scaling carries across as it stands.
+ */
+function fxEchoed(S: SoundRules, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, { echo: { mix: number; feedback: number } }> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const e = S.fx[role].echo;
+    if (e.mix <= 0) continue;
+    out[role] = {
+      echo: {
+        mix: clamp(Math.max(e.mix * 1.6, 0.25), 0, 1),
+        feedback: clamp(Math.max(e.feedback * 1.5, 0.35), 0, 0.9),
+      },
+    };
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
+/**
+ * AND THE SWEEPS STANDING IN A PART'S OWN LINE — `waver`'s half of the same
+ * split, and the one that was missed.
+ *
+ * MEASURED, AND IT IS WHY THIS EXISTS. `tools/treatments.ts` priced dungeon
+ * synth after both genres moved off their returns and `waver` came out at
+ * −223 dB: not a small move, silence. It was OFFERED rather than refused,
+ * because `reaches` had already been taught that an ensemble in line counts as
+ * an ensemble heard — but the move itself still only deepened the rack's, and
+ * that return is 0 on a genre that carries its own. Reach and gesture have to
+ * be taught the same lesson at the same time; teaching one is worse than
+ * teaching neither, because a refused move is honest and a dead one is not.
+ *
+ * The ensemble AND the flange, because a flanger is a delay on a slow sweep
+ * and the depth knob is that sweep. The reverbs are not here: a room does not
+ * waver, it lingers, and `linger` owns it.
+ */
+function fxWavier(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, Record<string, { depth: number }>> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const one: Record<string, { depth: number }> = {};
+    for (const name of ["ensemble", "flange"] as const) {
+      const u = S.fx[role][name];
+      if (u.mix > 0) one[name] = { depth: clamp(u.depth * by, 0, 1) };
+    }
+    if (Object.keys(one).length > 0) out[role] = one;
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
 function sends(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["mix"]> {
   const mix: Record<string, { sends: Record<string, number> }> = {};
   for (const role of only === undefined ? ROLES : [only]) {
@@ -338,26 +420,33 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
   let spec: SoundSpec;
   switch (name) {
     // ── the filter, which is the move this genre's own sources name ──
-    case "darken":
+    case "darken": {
       // "deepen the shadows of the sound through changes in reverb and
       // filters" (note.com/soundwitches). The pole comes down and, where the
       // genre left it off the sum entirely, it is switched in far enough to
       // be heard — a filter at mix 0 is not a darker section, it is no section.
+      // And every pole a part carries in its own line comes down with it.
+      const poles = fxPole(S, 0.45, only);
       spec = {
         rack: {
           pole: { hz: clamp(S.rack.pole.hz * 0.45, 40, 20000), mix: clamp(Math.max(S.rack.pole.mix, 0.5), 0, 1) },
           tape: { lowpassHz: clamp(S.rack.tape.lowpassHz * 0.7, 1000, 20000) },
         },
+        ...(poles === undefined ? {} : { fx: poles }),
       };
       break;
-    case "brighten":
+    }
+    case "brighten": {
+      const poles = fxPole(S, 1.8, only);
       spec = {
         rack: {
           pole: { hz: clamp(S.rack.pole.hz * 1.8, 40, 20000) },
           tape: { lowpassHz: clamp(S.rack.tape.lowpassHz * 1.35, 1000, 20000) },
         },
+        ...(poles === undefined ? {} : { fx: poles }),
       };
       break;
+    }
 
     // ── the room ──
     // BOTH PLUMBINGS, because a genre may carry its reverb either way and this
@@ -406,12 +495,18 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
         ...(fxLonger(S, only) === undefined ? {} : { fx: fxLonger(S, only)! }),
       };
       break;
-    case "echoed":
+    case "echoed": {
       // MORE echo than the genre runs, not merely SOME. Written as a floor it
       // did nothing to any genre whose echo already cleared the floor — dungeon
       // synth sits at ret 1 and feedback 0.35 and came out unchanged, so the
       // move was refused as a no-op and the name was a lie about what it did.
       // Scaled, with the floor kept only for a genre that patches no echo at all.
+      //
+      // AND THE ECHO WHEREVER IT STANDS, return or line, for the same reason
+      // `waver` writes both: `reaches` counts an in-line echo as an echo heard,
+      // so a move that only knew about the return was offered to lofi and did
+      // nothing to it. Measured at −222 dB, which is silence.
+      const echoes = fxEchoed(S, only);
       spec = {
         rack: {
           echo: {
@@ -419,8 +514,10 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
             feedback: clamp(Math.max(S.rack.echo.feedback * 1.5, 0.35), 0, 0.9),
           },
         },
+        ...(echoes === undefined ? {} : { fx: echoes }),
       };
       break;
+    }
 
     // ── the board ──
     case "push":
@@ -505,8 +602,10 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       // genre set, so a genre that runs none of them is refused rather than
       // handed a wobble it never asked for.
       //
-      // The two pedals are on boards now, so the wobble deepens on each part
-      // that has one — the ensemble is a return and stays everybody's.
+      // All three are per part now, and all three have to be written or the
+      // move is silent on a genre that carries them: the two pedals on each
+      // board that has one, the ensemble WHEREVER IT STANDS — a return for a
+      // genre that kept one, and in line for a genre that did not.
       const boards: Record<string, PedalsSpec> = {};
       for (const r of onBoards(S, only)) {
         boards[r] = {
@@ -514,9 +613,11 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
           phaser: { depth: clamp(S.pedals[r].phaser.depth * 1.7, 0, 1) },
         };
       }
+      const wavier = fxWavier(S, 1.6, only);
       spec = {
         pedals: boards as NonNullable<SoundSpec["pedals"]>,
         rack: { ensemble: { depth: clamp(S.rack.ensemble.depth * 1.6, 0, 1) } },
+        ...(wavier === undefined ? {} : { fx: wavier }),
       };
       break;
     }
