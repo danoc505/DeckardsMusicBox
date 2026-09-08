@@ -74,6 +74,12 @@
   .lamp.red[data-on="1"] i { background: var(--red); box-shadow: 0 0 10px var(--red), 0 0 0 2px #0e1114, 0 0 0 3px #3a424b; }
   .lamp.ice[data-on="1"] i { background: var(--ice); box-shadow: 0 0 10px var(--ice), 0 0 0 2px #0e1114, 0 0 0 3px #3a424b; }
   .chrono { font: 700 22px/1 var(--mono); letter-spacing: 0.12em; color: var(--amber); text-shadow: 0 0 12px rgba(255,179,71,0.5); background: var(--screen-amber); padding: 6px 12px; border-radius: 3px; box-shadow: inset 0 2px 8px #000, 0 0 0 1px #000; min-width: 120px; text-align: center; }
+  /* the name of whatever is moving the console, beside the clock that says when */
+  .nowdesk { min-width: 210px; padding: 6px 10px; border-radius: 3px; background: var(--screen); box-shadow: inset 0 2px 8px #000, 0 0 0 1px #000; }
+  .nowdesk .k { font: 600 8px/1 var(--label); letter-spacing: 0.24em; text-transform: uppercase; color: var(--cream-dim); }
+  .nowdesk .v { margin-top: 4px; font: 700 12px/1 var(--mono); letter-spacing: 0.14em; color: var(--phos-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nowdesk .v b { font-weight: 700; }
+  .nowdesk .v i { font-style: normal; color: var(--cream-dim); }
 
   /* ── the bridge grid ── */
   .row1 { display: grid; grid-template-columns: 260px 1fr 250px; gap: 12px; align-items: stretch; }
@@ -104,6 +110,17 @@
   .knob.small .dial { width: 32px; height: 32px; }
   .knob.small .dial::after { height: 11px; top: 3px; transform-origin: 50% 13px; }
   .knob.hot .dial::after { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  /* ── A KNOB THE RECORD IS TURNING ────────────────────────────────────────
+     The desk arrives a chunk at a time, so a driven pointer would step five
+     times a second. Transitioning it over exactly one chunk means the knob is
+     still travelling to the last value as the next one lands, and the hand on
+     the console reads as continuous rather than as a clock. The transition is
+     on the DRIVEN class and nowhere else: a knob you are dragging must answer
+     the mouse in the same frame, and once your hand owns a knob it is never
+     driven again. */
+  .knob.drv .dial::after { transition: transform 0.2s linear; }
+  .knob.drv .dial { box-shadow: 0 3px 6px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.15), 0 0 0 1px rgba(143,211,255,0.28); }
+  .knob.drv .val { color: var(--ice); }
   .knob .cap { font: 600 8px/1 var(--label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); text-shadow: 0 1px 0 var(--engrave); }
   .knob .val { font: 10px/1 var(--mono); color: var(--phos); min-height: 10px; }
   .knob:focus-within .dial, .knob .dial:focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; }
@@ -159,6 +176,11 @@
   }
   .crt::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.05), transparent 45%), radial-gradient(100% 100% at 50% 50%, transparent 60%, rgba(0,0,0,0.55) 100%); }
   .crt canvas { display: block; width: 100%; }
+  /* ── THE DRIVE: a screen you can fill the room with ── */
+  .crt.drive canvas { height: 500px; cursor: crosshair; }
+  .crt.drive .readout { top: auto; bottom: 10px; left: 12px; right: auto; text-align: left; font-size: 11px; letter-spacing: 0.08em; }
+  .crt.drive:fullscreen { border-radius: 0; box-shadow: none; background: #071510; display: grid; place-items: center; }
+  .crt.drive:fullscreen canvas { height: 100vh; width: 100vw; }
   .crt .readout { position: absolute; top: 8px; right: 10px; font: 10px/1.4 var(--mono); color: var(--phos); text-align: right; opacity: 0.9; pointer-events: none; text-shadow: 0 0 6px rgba(87,242,165,0.6); }
   .crt .readout b { color: var(--amber); font-weight: 400; }
 
@@ -220,6 +242,7 @@
   .stomp .kn { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .stomp .kn .knob .cap { color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,0.6); }
   .stomp .kn .knob .val { color: #fff; opacity: 0.85; }
+  .stomp .kn .knob.drv .val { color: var(--ice); opacity: 1; }   /* a pedal the record is working */
   .stomp .jewel { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #5a1d18, #2a0e0b); box-shadow: inset 0 1px 2px #000, 0 0 0 2px #0b0d10, 0 0 0 3px #7a848d; }
   .stomp[data-on="1"] .jewel { background: radial-gradient(circle at 40% 35%, #ff9a8c, var(--red) 60%); box-shadow: 0 0 14px var(--red), 0 0 0 2px #0b0d10, 0 0 0 3px #7a848d; }
   .stomp .foot { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #000; cursor: pointer; padding: 0;
@@ -262,6 +285,7 @@
   .hole .lv { position: absolute; left: 0; right: 0; bottom: -13px; text-align: center; font: 8px/1 var(--mono); color: var(--amber); }
   .hole.self .lv { color: var(--red); }
   .hole:focus-visible { outline: 2px solid var(--ice); }
+  .hole.drv { box-shadow: inset 0 2px 4px #000, 0 0 0 1px rgba(143,211,255,0.35); }
   .patchnote { font: 10px/1.5 var(--mono); color: var(--cream-dim); max-width: 34ch; }
   .patchnote b { color: var(--amber); font-weight: 400; }
 
@@ -298,13 +322,12 @@
   .chip b { width: 10px; height: 10px; border-radius: 2px; box-shadow: 0 0 6px currentColor; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
-</head>
-<body>
 <div class="bridge">
 
   <header class="plate mast"><span class="screwB"></span>
     <div class="name">Deckard's <b>Orchestrator</b></div><span class="badge">MK III</span>
     <div class="chrono" id="chrono">0:00.0</div>
+    <div class="nowdesk"><div class="k">The desk</div><div class="v" id="nowdesk">at the genre's own settings</div></div>
     <div class="lamps">
       <span class="lamp" id="l-ready" data-on="1"><i></i>Ready</span>
       <span class="lamp amber" id="l-busy" data-on="0"><i></i>Buffering</span>
@@ -312,6 +335,11 @@
       <span class="lamp red" id="l-save" data-on="0"><i></i>Saving</span>
     </div>
   </header>
+
+  <section class="plate"><span class="screwB"></span>
+    <h2>The drive <small>the record as a city · its notes are the windows, its moves are the signs, the peak is the towers ahead · drag to look round · F for a finer picture · double-click for the whole screen</small></h2>
+    <div class="crt drive" id="drive-crt"><canvas id="drive"></canvas><div class="readout" id="drive-read"></div></div>
+  </section>
 
   <div class="row1">
     <div class="stack">
@@ -423,6 +451,46 @@
   var song = null, ctx = null, worker = null, saver = null;
   var over = {};   // the page's positions laid over the genre's desk: { rack, mix, world, pedals }
 
+  /* ── THE CONSOLE FOLLOWS THE RECORD ──────────────────────────────────────
+     `live` is the desk the moment you are HEARING is being played on — the
+     engine's own `S`, posted back with the chunk it rendered, so it is not a
+     second calculation of the desk but the same object that made those
+     samples. null when nothing is playing.
+
+     The record has moved its own desk since `perform.ts` learned to write a
+     DeskChange list, and this page has never shown it: the knobs were set once
+     from the genre's RESTING desk and never touched again, so a filter could
+     close through a whole section while the Cutoff knob sat where it started.
+
+     WHO OWNS A KNOB is not a new rule. `render.ts` decides it for the audio —
+     "THE PAGE WINS... it costs the automation on exactly the knobs that were
+     touched, which is what being touched means" — and the display obeys the
+     same line: a knob moves on its own until your hand takes it, and then it
+     is yours and the record stops turning it. Nothing here writes to `over`,
+     so following the record can never be mistaken for a hand on the desk. */
+  var live = null;
+  /** Every knob on the bridge, by the path it is bound to. Redrawing a panel
+      replaces its entries rather than adding to them, so nothing goes stale. */
+  var driven = {};
+  /** Panels that light rather than turn: the stomps, the rack units, the labels. */
+  var lit = { stomp: {}, unit: {}, led: {}, voice: {}, lane: {}, pick: {}, hole: [] };
+
+  function register(path, el) { driven[path.join(".")] = { path: path, el: el }; return el; }
+  /**
+   * WHERE A KNOB ACTUALLY IS — which is not the same question as `current`.
+   *
+   * `current` is the desk the record is being ASKED to play: the hand over the
+   * genre, and it is what goes to the engine. This is where the pointer should
+   * be POINTING, which is that plus whatever the record has since done to it.
+   * Everything that draws the console or acts on it reads this one; `desked`
+   * still sends `current`'s half, because a treatment is not a hand.
+   */
+  function shown(path) {
+    var h = get(path, over); if (h !== undefined) return h;
+    if (live) { var v = get(path, live); if (v !== undefined) return v; }
+    return get(path, song.chart.genre.sound);
+  }
+
   // ── the player ────────────────────────────────────────────────────────
   // The worker holds the engine and makes the record a CHUNK at a time; the
   // page puts each chunk on the clock as it arrives. So the first sound is
@@ -437,6 +505,8 @@
   var CHUNK_SEC = 0.2, AHEAD = 3;   // 0.6 s on the clock: enough not to stutter, short enough to answer a knob
   var token = 0, playing = false, started = false, ending = false;
   var queued = [], nextAt = 0, startedAt = 0;
+  /** The desk each queued chunk was rendered on, on the same clock as the sound. */
+  var deskLine = [];
   var saveTok = 0, saving = 0;
 
   // ── helpers ──
@@ -487,13 +557,20 @@
     });
     el.appendChild(dial); el.appendChild(cap); el.appendChild(val); show();
     el.set = function (nv) { setv(nv, false); };
+    /** Under the record's hand, or under yours. Display only — `set` is what moves it. */
+    el.auto = function (on) { if (el.classList.contains("drv") !== !!on) el.classList.toggle("drv", !!on); };
     return el;
   }
-  // a knob bound to a path in the desk. `after` is for a face that has to
-  // redraw itself when its own knob moves — the pedal lamp is the only one.
+  // A knob bound to a path in the desk, and KNOWN BY THAT PATH so the record
+  // can turn it: `register` is what lets a treatment move the hand on the
+  // console rather than only the number underneath it.
+  //
+  // `after` is for a face that has to redraw itself when its own knob moves —
+  // the pedal lamp is the only one, because whether a pedal is lit is a fact
+  // about its mix and the face has to agree with the board.
   function bound(path, cap, min, max, step, unit, small, hot, after) {
-    return knob({ cap: cap, label: path.join(" "), min: min, max: max, step: step, unit: unit, small: small, hot: hot, value: current(path),
-      onChange: function (nv) { set(path, nv); desked(); if (after) after(nv); if (path[0] === "mix" && (path[2] === "az" || path[2] === "dist")) drawScope(); } });
+    return register(path, knob({ cap: cap, label: path.join(" "), min: min, max: max, step: step, unit: unit, small: small, hot: hot, value: current(path),
+      onChange: function (nv) { set(path, nv); desked(); if (after) after(nv); if (path[0] === "mix" && (path[2] === "az" || path[2] === "dist")) drawScope(); } }));
   }
 
   // ── an arc meter ──
@@ -535,6 +612,9 @@
   function compose() {
     stop();
     song = M.compose(request());
+    // a new record is a new console: every panel below rebuilds its own knobs
+    // and registers them again, and nothing may be left pointing at the last one
+    live = null; deskLine = []; driven = {}; lit = { stomp: {}, unit: {}, led: {}, voice: {}, lane: {}, pick: {}, hole: [] };
     var c = song.chart, f = song.form, p = song.performance;
     $("n-key").textContent = M.NOTE_NAMES[M.pc(c.tonicPc)] + " " + c.scaleName;
     $("n-metre").textContent = c.metre.beats + "·" + c.metre.perBeat;
@@ -547,7 +627,8 @@
     $("roll-sub").textContent = M.summary(song);
     drawTape(); drawRoll(null); drawScope(); drawMatrix(); drawMachine(); drawBoard(); drawFx(); drawPatch(); drawRack();
     $("dump").value = M.dump(song);
-    $("chrono").textContent = "0:00.0";
+    $("chrono").textContent = "0:00.0"; nowDesk(null);
+    resetDrive(); if (reduced) frame();
   }
 
   function drawTape() {
@@ -747,9 +828,9 @@
     g.fillStyle = "#e7dcc3"; g.beginPath(); g.arc(c, c, 5, 0, Math.PI * 2); g.fill();
     g.strokeStyle = "#e7dcc3"; g.beginPath(); g.moveTo(c, c - 5); g.lineTo(c, c - 12); g.stroke();
     // the parts
-    var width = current(["world", "width"]);
+    var width = shown(["world", "width"]);
     ROLES.forEach(function (r) {
-      var az = current(["mix", r, "az"]) * Math.PI / 180, d = current(["mix", r, "dist"]);
+      var az = shown(["mix", r, "az"]) * Math.PI / 180, d = shown(["mix", r, "dist"]);
       var px = c + Math.sin(az) * d * R, py = c - Math.cos(az) * d * R;
       g.shadowColor = COLOR[r]; g.shadowBlur = 14; g.fillStyle = COLOR[r];
       g.beginPath(); g.arc(px, py, 7, 0, Math.PI * 2); g.fill(); g.shadowBlur = 0;
@@ -763,7 +844,7 @@
   scope.addEventListener("pointerdown", function (e) {
     var p = scopePos(e), c = 180, R = c - 14, best = null, bd = 18;
     ROLES.forEach(function (r) {
-      var az = current(["mix", r, "az"]) * Math.PI / 180, d = current(["mix", r, "dist"]);
+      var az = shown(["mix", r, "az"]) * Math.PI / 180, d = shown(["mix", r, "dist"]);
       var px = c + Math.sin(az) * d * R, py = c - Math.cos(az) * d * R, dd = Math.hypot(px - p.x, py - p.y);
       if (dd < bd) { bd = dd; best = r; }
     });
@@ -797,7 +878,10 @@
     ROLES.forEach(function (r) {
       var tr = document.createElement("tr");
       var td = document.createElement("td"); td.className = "part";
-      td.innerHTML = '<span class="swatch" style="background:' + COLOR[r] + ';box-shadow:0 0 6px ' + COLOR[r] + '"></span><span class="who">' + r + '</span><span class="voice">' + (r === "drums" ? "kit" : song.chart.genre.sound.voices[r]) + '</span>';
+      td.innerHTML = '<span class="swatch" style="background:' + COLOR[r] + ';box-shadow:0 0 6px ' + COLOR[r] + '"></span><span class="who">' + r + '</span><span class="voice">' + (r === "drums" ? "kit" : shown(["voices", r])) + '</span>';
+      // `revoice` lends a part another part's voice for a section, so this
+      // label is one of the things the record changes as it plays
+      lit.voice[r] = td.querySelector(".voice");
       tr.appendChild(td);
       var cell = function (k, key) { var c = document.createElement("td"); c.appendChild(k); tr.appendChild(c); if (key) matrixKnobs[key] = k; };
       cell(bound(["mix", r, "level"], "", 0, 2, 0.01, "", true));
@@ -880,6 +964,11 @@
     M.PEDAL_ORDER.forEach(function (name) {
       var def = PEDALS[name];
       var box = document.createElement("div"); box.className = "stomp"; box.style.setProperty("--p", def.p);
+      // `stomp` and the dirt moves step on these mid-record. The lamp is not
+      // set here: a board belongs to ONE part now, so whether this box is lit
+      // is a fact about the part whose switch is thrown, and `face` below is
+      // the only thing that knows which that is.
+      lit.stomp[name] = box;
       var head = document.createElement("div"); head.style.textAlign = "center";
       head.innerHTML = '<div class="model">' + name + '</div><div class="series">' + def.series + '</div>'; box.appendChild(head);
       var who = document.createElement("div"); who.className = "who"; who.setAttribute("role", "group");
@@ -1051,7 +1140,7 @@
         hole.className = "hole" + (self ? " self" : ""); hole.tabIndex = 0; hole.setAttribute("role", "slider"); hole.setAttribute("aria-label", "patch " + from + " into " + to);
         var pin = document.createElement("span"); pin.className = "pin"; var lv = document.createElement("span"); lv.className = "lv";
         hole.appendChild(pin); hole.appendChild(lv);
-        var v = current(["patch", from, to]) || 0;
+        var v = shown(["patch", from, to]) || 0;
         function show() { hole.setAttribute("data-v", v > 0 ? "1" : "0"); lv.textContent = v > 0 ? fmt(v) : ""; hole.setAttribute("aria-valuenow", v); }
         function setv(nv) { nv = Math.round(Math.max(0, Math.min(max, nv)) * 100) / 100; if (nv === v) return; v = nv; set(["patch", from, to], v); show(); desked(); }
         var drag = null, moved = false;
@@ -1060,6 +1149,12 @@
         hole.addEventListener("pointerup", function () { if (drag && !moved) setv(v > 0 ? v : 0.5); drag = null; });
         hole.addEventListener("dblclick", function () { setv(0); });
         hole.addEventListener("keydown", function (e) { if (e.key === "ArrowUp") { setv(v + 0.05); e.preventDefault(); } if (e.key === "ArrowDown") { setv(v - 0.05); e.preventDefault(); } if (e.key === "Enter" || e.key === " ") { setv(v > 0 ? 0 : 0.5); e.preventDefault(); } });
+        // `patch` puts a return into another return for a section, so a pin can
+        // be pushed by the record as well as by a finger — the same two methods
+        // a knob has, so the console drives them all through one loop
+        hole.set = function (nv) { nv = Math.round(Math.max(0, Math.min(max, nv)) * 100) / 100; if (nv !== v) { v = nv; show(); } };
+        hole.auto = function (on) { if (hole.classList.contains("drv") !== !!on) hole.classList.toggle("drv", !!on); };
+        register(["patch", from, to], hole);
         show(); td.appendChild(hole); tr.appendChild(td);
       });
       t.appendChild(tr);
@@ -1086,11 +1181,12 @@
       var sel = document.createElement("select"); sel.setAttribute("aria-label", "machine " + key);
       sel.style.cssText = "font:10px var(--mono);background:#0a0c0f;color:var(--cream);border:1px solid #000;padding:5px 6px;border-radius:3px";
       options.forEach(function (o) { var el = document.createElement("option"); el.value = o; el.textContent = o; sel.appendChild(el); });
-      sel.value = current(["machine", key]);
+      sel.value = shown(["machine", key]);
       // the kit decides what is written down the side of the strips, so
       // loading one redraws the panel: a label naming a voice the machine is
       // no longer loaded with is the same lie as a knob that does nothing
       sel.addEventListener("change", function () { set(["machine", key], sel.value); desked(); if (key === "kit") drawMachine(); });
+      lit.pick[key] = sel;   // `rekit` and `recircuit` load a different machine mid-record
       wrap.appendChild(sel); return wrap;
     };
     var top = document.createElement("div");
@@ -1111,7 +1207,8 @@
     M.DRUM_LANES.forEach(function (lane) {
       var tr = document.createElement("tr");
       var td = document.createElement("td"); td.className = "part";
-      td.innerHTML = '<span class="who">' + lane + '</span><span class="voice">' + M.KITS[current(["machine", "kit"])][lane] + '</span>';
+      td.innerHTML = '<span class="who">' + lane + '</span><span class="voice">' + M.KITS[shown(["machine", "kit"])][lane] + '</span>';
+      lit.lane[lane] = td.querySelector(".voice");
       tr.appendChild(td);
       var cell = function (k) { var c = document.createElement("td"); c.appendChild(k); tr.appendChild(c); };
       cell(bound(["machine", "channels", lane, "tune"], "", -12, 12, 0.5, "st", true));
@@ -1140,7 +1237,7 @@
   var SR8 = 8000;
   // the unit's own impulse response, from the renderer's own classes, at the knobs' positions
   function response(name) {
-    var D = M.dsp, K = function (k) { return current(["rack", name, k]); }, tempo = song.chart.tempo;
+    var D = M.dsp, K = function (k) { return shown(["rack", name, k]); }, tempo = song.chart.tempo;
     var run, n, kind = "impulse";
     if (name === "echo") { var e = new D.Echo(K("beats") * 60 / tempo, K("feedback"), SR8); run = function (x) { return e.run(x); }; n = SR8 * Math.min(4, K("beats") * 60 / tempo * 4 + 0.5); }
     else if (name === "spring") { var sp = new D.Spring(K("sec"), SR8); run = function (x) { return sp.run(x); }; n = SR8 * Math.min(3, K("sec") * 0.8 + 0.3); }
@@ -1148,7 +1245,7 @@
     else if (name === "pole") { var pl = new D.Pole(K("hz"), K("resonance"), SR8); run = function (x) { return pl.run(x); }; n = 480; }
     else if (name === "flange") { var fl = new D.Flanger(K("rateHz"), K("depth"), SR8); kind = "sine"; run = function (x) { return fl.run(x); }; n = SR8 * Math.min(4, 1.5 / K("rateHz")); }
     else if (name === "ensemble") { var en = new D.Ensemble(K("rateHz"), K("depth"), SR8); kind = "sine"; run = function (x) { return en.run(x); }; n = SR8 * Math.min(4, 1.5 / K("rateHz")); }
-    else if (name === "medium") { var md = new D.Medium(current(["rack", "medium", "kind"]), 7, SR8); run = function (x) { return md.run(x); }; n = 400; }
+    else if (name === "medium") { var md = new D.Medium(shown(["rack", "medium", "kind"]), 7, SR8); run = function (x) { return md.run(x); }; n = 400; }
     else if (name === "tape") { kind = "wow"; n = SR8 * Math.min(6, 2 / K("wowHz")); }
     else if (name === "vinyl") { kind = "dust"; n = 800; }
     else return null;
@@ -1177,12 +1274,29 @@
     }
     g.stroke(); g.shadowBlur = 0;
   }
-  var screens = {};
-  function refreshScreen(name) { var cv = screens[name]; if (cv) paintScreen(cv, response(name)); }
+  var screens = {}, screenSig = {};
+  /* An impulse response is real DSP, and the record now moves these knobs five
+     times a second, so a screen repaints only when one of its OWN knobs has
+     moved. The signature is built off the unit's own knob list rather than a
+     table of which knobs matter — a table like that is a law kept in a reader,
+     and it would go stale the first time a unit grew a knob. */
+  function screenSigOf(name) {
+    var def = UNITS[name], s = "";
+    if (!def) return s;
+    for (var i = 0; i < def.knobs.length; i++) s += "|" + shown(["rack", name, def.knobs[i][0]]);
+    if (def.kind) s += "|" + shown(["rack", name, "kind"]);
+    if (name === "echo") s += "|" + song.chart.tempo;   // its time is in beats
+    return s;
+  }
+  function refreshScreen(name) {
+    var cv = screens[name]; if (!cv) return;
+    var sig = screenSigOf(name); if (screenSig[name] === sig) return;
+    screenSig[name] = sig; paintScreen(cv, response(name));
+  }
   function drawRack() {
-    var rk = $("rack"); rk.innerHTML = ""; screens = {};
+    var rk = $("rack"); rk.innerHTML = ""; screens = {}; screenSig = {};
     M.RACK_ORDER.forEach(function (name) {
-      var def = UNITS[name], on = def.sw ? current(["rack", name, def.sw]) > 0 : true;
+      var def = UNITS[name], on = def.sw ? shown(["rack", name, def.sw]) > 0 : true;
       var u = document.createElement("div"); u.className = "unit"; u.style.setProperty("--u", def.u); u.setAttribute("data-on", on ? "1" : "0");
       u.innerHTML = '<div class="ear"></div><div class="facep"><div class="brand"><div class="n">' + (name === "ensemble" ? "DP/4" : name) + '</div><div class="d">' + def.d + '</div><span class="no">' + def.no + '</span></div><div class="scrslot"></div><div class="kn"></div><div class="side"></div></div><div class="ear"></div>';
       var kn = u.querySelector(".kn"), side = u.querySelector(".side"), slot = u.querySelector(".scrslot"), swKnob = null;
@@ -1191,19 +1305,21 @@
       if (def.kind) {
         var sel = document.createElement("select"); sel.setAttribute("aria-label", "medium kind"); sel.style.cssText = "font:10px var(--mono);background:#0a0c0f;color:var(--cream);border:1px solid #000;padding:6px 6px;border-radius:3px;align-self:center";
         ["gramophone", "radio"].forEach(function (k) { var o = document.createElement("option"); o.value = k; o.textContent = k; sel.appendChild(o); });
-        sel.value = current(["rack", "medium", "kind"]); sel.addEventListener("change", function () { set(["rack", "medium", "kind"], sel.value); desked(); refreshScreen("medium"); }); kn.appendChild(sel);
+        sel.value = shown(["rack", "medium", "kind"]); sel.addEventListener("change", function () { set(["rack", "medium", "kind"], sel.value); desked(); refreshScreen("medium"); }); kn.appendChild(sel);
+        lit.pick.kind = sel;
       }
       def.knobs.forEach(function (k) {
-        var kb = knob({ cap: k[1], label: "rack " + name + " " + k[0], min: k[2], max: k[3], step: k[4], unit: k[5] || "", hot: k[0] === def.sw, value: current(["rack", name, k[0]]),
-          onChange: function (nv) { set(["rack", name, k[0]], nv); desked(); refreshScreen(name); } });
+        var kb = register(["rack", name, k[0]], knob({ cap: k[1], label: "rack " + name + " " + k[0], min: k[2], max: k[3], step: k[4], unit: k[5] || "", hot: k[0] === def.sw, value: shown(["rack", name, k[0]]),
+          onChange: function (nv) { set(["rack", name, k[0]], nv); desked(); refreshScreen(name); } }));
         kn.appendChild(kb); if (k[0] === def.sw) swKnob = kb;
       });
       var led = document.createElement("span"); led.className = "led"; led.setAttribute("data-on", on ? "1" : "0"); side.appendChild(led);
+      lit.unit[name] = u; lit.led[name] = led;
       if (def.sw) {
         var tg = document.createElement("label"); tg.className = "toggle"; tg.title = "power";
         var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = on;
         cb.addEventListener("change", function () {
-          if (cb.checked) { var v = current(["rack", name, def.sw]); if (!(v > 0)) { var nv = def.sw === "ret" ? 1 : 0.35; set(["rack", name, def.sw], nv); if (swKnob) swKnob.set(nv); } }
+          if (cb.checked) { var v = shown(["rack", name, def.sw]); if (!(v > 0)) { var nv = def.sw === "ret" ? 1 : 0.35; set(["rack", name, def.sw], nv); if (swKnob) swKnob.set(nv); } }
           else { set(["rack", name, def.sw], 0); if (swKnob) swKnob.set(0); }
           u.setAttribute("data-on", cb.checked ? "1" : "0"); led.setAttribute("data-on", cb.checked ? "1" : "0"); desked();
         });
@@ -1213,6 +1329,886 @@
     });
     requestAnimationFrame(function () { M.RACK_ORDER.forEach(refreshScreen); });
   }
+
+  /* ── THE CONSOLE PLAYS ITSELF ═══════════════════════════════════════════
+     Every knob, pin, jewel, lamp and label on the bridge moved to where the
+     record has actually put it.
+
+     This is a READOUT and not an automation. Nothing here decides anything:
+     the desk it is handed is `Engine.desk` — the same object the engine was
+     rendering through when it made the samples now in your ears — carried back
+     with the chunk it belongs to. Delete this function and the record is the
+     same record, byte for byte. What changes is only whether you can see it.
+
+     `desk` null means nothing is playing, and every knob goes back to the desk
+     the record is being ASKED to play: the hand's, over the genre's. */
+  function follow(desk) {
+    live = desk;
+    for (var key in driven) {
+      var e = driven[key];
+      // THE HAND WINS, and the display says so. `render.ts`: "it costs the
+      // automation on exactly the knobs that were touched, which is what being
+      // touched means" — so a knob you have moved stops moving on its own, and
+      // stops being drawn as though it might.
+      var mine = get(e.path, over) !== undefined;
+      var v = mine || !desk ? current(e.path) : get(e.path, desk);
+      e.el.auto(!!desk && !mine);
+      if (typeof v === "number") e.el.set(v);
+    }
+    // the things that light rather than turn
+    // A LAMP IS ABOUT ONE PART'S BOARD. The box shows whichever part's switch
+    // is thrown on it, so the mix the record is being asked about is that
+    // part's — asking `pedals.<pedal>.mix`, as this did when one board served
+    // everybody, reads a path that no longer exists and lights nothing.
+    M.PEDAL_ORDER.forEach(function (n) {
+      var box = lit.stomp[n], role = picked[n];
+      if (box && role) box.setAttribute("data-on", shown(["pedals", role, n, "mix"]) > 0 ? "1" : "0");
+    });
+    M.RACK_ORDER.forEach(function (n) {
+      var u = lit.unit[n], sw = UNITS[n] && UNITS[n].sw; if (!u || !sw) return;
+      var on = shown(["rack", n, sw]) > 0 ? "1" : "0";
+      u.setAttribute("data-on", on); if (lit.led[n]) lit.led[n].setAttribute("data-on", on);
+    });
+    // and the labels that name what is loaded. A label naming a voice the
+    // machine is no longer loaded with is the same lie as a knob that does
+    // nothing, and `revoice`, `rekit` and `recircuit` all change one mid-record
+    var text = function (el, s) { if (el && el.textContent !== s) el.textContent = s; };
+    var pick = function (el, s) { if (el && el.value !== s) el.value = s; };
+    ROLES.forEach(function (r) { if (r !== "drums") text(lit.voice[r], shown(["voices", r])); });
+    var kit = shown(["machine", "kit"]);
+    pick(lit.pick.kit, kit); pick(lit.pick.circuit, shown(["machine", "circuit"])); pick(lit.pick.kind, shown(["rack", "medium", "kind"]));
+    if (M.KITS[kit]) M.DRUM_LANES.forEach(function (l) { text(lit.lane[l], M.KITS[kit][l]); });
+    M.RACK_ORDER.forEach(refreshScreen);
+    drawScope();
+  }
+
+  /** What is moving the desk right now, named and coloured as the roll names it. */
+  function nowDesk(sec) {
+    var el = $("nowdesk");
+    if (sec === null || !song) { el.innerHTML = '<i>the genre’s own desk</i>'; return; }
+    var list = song.performance.desk || [], cur = null;
+    for (var i = 0; i < list.length; i++) { if (list[i].tSec > sec) break; cur = list[i]; }
+    if (!cur || !cur.treatment) { el.innerHTML = '<i>the genre’s own desk</i>'; return; }
+    var pct = Math.round((cur.depth === undefined ? 1 : cur.depth) * 100);
+    el.innerHTML = '<b style="color:' + fxHue(cur.treatment) + '">' + cur.treatment.toUpperCase() + '</b>'
+      + ' <i>' + pct + '%</i>'
+      + (cur.at ? ' <span style="color:' + (COLOR[cur.at] || "#fff") + '">' + cur.at + '</span>' : '');
+  }
+
+  /* ═══ THE DRIVE ═══════════════════════════════════════════════════════════
+     The record as a road you are driving down, drawn in glyphs on the CRT.
+
+     Every music visualiser ever built knows only the past, because the sound
+     arrives live and the picture chases it. This record is a pure function of
+     genre and seed and is entirely composed before Play, so the world can show
+     WHAT IS COMING: the notes stand beside the road at the bar they fall on and
+     approach as you drive; the land either side is the arrangement's own arc
+     (`form.arc`, energy per bar), so the peak is a mountain you can see from
+     bar one and reach three minutes later; each section is a gate you pass
+     under with its name on the lintel. The band is placed where the DESK puts
+     it — a part's lane across the road is its azimuth and distance, read live,
+     so `far` really recedes and `orbit` really walks round you — and the
+     weather is the desk too: the pole's cutoff is fog, the tape's wow wobbles
+     the horizon, the vinyl's dust is rain. The genre is the world: lofi is a
+     wet city at night, dungeon synth a stone road under stars.
+
+     Nothing here can change a note or a sample. It reads the song, `shown()`
+     and an AnalyserNode on the way out of the speakers, and draws. */
+  var drive = $("drive"), dctx = drive.getContext("2d"), driveCrt = $("drive-crt");
+  var sink = null, spectrum = null;               // the sound on its way out, for the ground to shake to
+  var CELL_W = 7, CELL_H = 13, GFONT = "700 12px ui-monospace,Menlo,Consolas,monospace";
+  /* FINE MODE: half-size cells, twice the picture, press F. This is the density
+     mode instead of braille, on purpose: braille is eight dots a cell for
+     eight times the cells, and one colour a cell — and one colour a cell
+     throws away sources against surfaces, which is the whole of what makes
+     this read as night. Smaller glyphs keep every colour and cost about two. */
+  var fine = false;
+  function setFine(on) {
+    fine = !!on; CELL_W = fine ? 5 : 7; CELL_H = fine ? 9 : 13;
+    GFONT = fine ? "700 8.5px ui-monospace,Menlo,Consolas,monospace" : "700 12px ui-monospace,Menlo,Consolas,monospace";
+    atlas = {}; COLS = 0;   // the grid and every sprite are the wrong size now
+  }
+  var EYE = 1.7;
+  /* SOURCES AND SURFACES. A night city is lit by its lights and not by the sky,
+     so the palette is two ladders: the things that EMIT — windows, neon, the
+     parts' own colours — sit bright and carry through the fog, and the things
+     that only reflect — walls, pavement, road — sit dim and go first. That
+     split is what makes a text-mode street read as night rather than as grey. */
+  var PAL = ["#57f2a5", "#ffb347", "#8fd3ff", "#e7dcc3", COLOR.drums, COLOR.bass, COLOR.keys, COLOR.lead, COLOR.counter, COLOR.drone,
+             "#3f4f66", "#ffd27a", "#9cc8ff", "#22334d", "#5c6672", "#ff4fd8", "#45f0ff", "#ff9a3c",
+             "#a9b4c0", "#8a5a3a", "#ffd400", "#fff2c8", "#ff2a2a", "#3b6dff"];
+  var PIDX = { drums: 4, bass: 5, keys: 6, lead: 7, counter: 8, drone: 9 };
+  var WALL = 10, WWARM = 11, WCOOL = 12, DEEP = 13, PAVEC = 14, NEONM = 15, NEONC = 16, SODIUM = 17;
+  var CHROME = 18, RUST = 19, TAXI = 20, HEAD = 21, TAIL = 22, BLUE = 23;   // the vehicles' own: two surfaces, four lights
+  /* A WALL'S MEASURE: floors half a unit tall from a sill, panes half a unit
+     wide, eight floors of pitch. The front row of the city is always at least
+     four floors, because its windows are where the notes go. */
+  var FLOOR_H = 0.5, SILL = 0.3, PANE_W = 0.5, FLOORS = 8;
+  var driveSec = 0, driveFrame = 0, barStart = [], secToBarLast = 0, dseed = 0;
+  var COLS = 0, ROWS = 0, gCh, gPal, gLvl, gZ, atlas = {};
+  /** Every window a note lights: (part, lot, floor) → the seconds it is on. */
+  var glow = new Map();
+  var floorOf = function (pitch) { return Math.max(0, Math.min(FLOORS - 1, Math.round((pitch - 34) / 6.6))); };
+  var glowKey = function (role, iz, f) { return (PIDX[role] * 512 + iz) * 8 + f; };
+
+  /** A new record: the road is rebuilt from its clock, the world re-seeded, and the windows wired to the notes. */
+  function resetDrive() {
+    driveSec = 0;
+    var clk = song.form.clock; barStart = [];
+    for (var b = 0; b <= song.form.bars; b++) barStart.push(clk.at(b));
+    secToBarLast = barStart[barStart.length - 1] - barStart[barStart.length - 2];
+    dseed = (Number(seedEl.value) || 0) * 2654435761 % 4294967296;
+    atlas = {};
+    // THE WINDOWS ARE THE NOTES. A pitched note lights the window on the floor
+    // of its pitch, in the building of its half-bar, in the pane its part owns,
+    // for as long as it sounds — so the street ahead is the roll, standing up.
+    glow = new Map();
+    song.performance.events.forEach(function (e) {
+      if (e.pitch === null) return;
+      var k = glowKey(e.role, Math.floor(barOf(e.tSec) * 2), floorOf(e.pitch)), a = glow.get(k);
+      if (!a) glow.set(k, a = []);
+      a.push(e.tSec, e.tSec + Math.max(0.15, e.durSec));
+    });
+    buildRoute();
+  }
+  /** 0 dark · 1 a note was here · 2 a note is coming · 3 sounding now. */
+  function lightOf(role, iz, f) {
+    var a = glow.get(glowKey(role, iz, f)); if (!a) return 0;
+    var st = 1;
+    for (var i = 0; i < a.length; i += 2) { if (a[i] <= driveSec && driveSec < a[i + 1]) return 3; if (a[i] > driveSec) st = 2; }
+    return st;
+  }
+  /** Which fractional bar a moment is, on the record's own clock, extrapolated past its end. */
+  function barOf(sec) {
+    var n = barStart.length - 1;
+    if (sec <= 0) return sec / (barStart[1] || 1);
+    if (sec >= barStart[n]) return n + (sec - barStart[n]) / secToBarLast;
+    var lo = 0, hi = n;
+    while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (barStart[mid] <= sec) lo = mid; else hi = mid; }
+    return lo + (sec - barStart[lo]) / (barStart[hi] - barStart[lo]);
+  }
+  /** The arc's energy at a fractional bar, and the land subsiding after the record ends. */
+  function arcAt(bar) {
+    var arc = song.form.arc, n = arc.length;
+    if (bar < 0) return arc[0];
+    if (bar >= n - 1) return arc[n - 1] * Math.max(0, 1 - (bar - (n - 1)) / 10) + 0.12 * Math.min(1, (bar - (n - 1)) / 10);
+    var i = Math.floor(bar), f = bar - i; return arc[i] + (arc[i + 1] - arc[i]) * f;
+  }
+  function ihash(a, b) { var h = (Math.imul(a | 0, 374761393) + Math.imul(b | 0, 668265263) + dseed) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; }
+  function noise2(x, y) {
+    var xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi;
+    fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+    var a = ihash(xi, yi), b = ihash(xi + 1, yi), c = ihash(xi, yi + 1), d = ihash(xi + 1, yi + 1);
+    return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+  }
+  /** A part's lane across the road: azimuth unwrapped so front is centre and behind is the far verge, distance pushing it out. */
+  function laneX(role) {
+    var az = shown(["mix", role, "az"]) * Math.PI / 360, dist = shown(["mix", role, "dist"]);
+    return Math.sin(az) * (0.35 + dist) * 4.2;
+  }
+
+  function put(c, r, code, pal, lvl, z) {
+    if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return;
+    // a thing standing ON the land is at the land's own depth, give or take the
+    // slice that drew it, so the test has a little give in it
+    var i = r * COLS + c; if (z > gZ[i] * 1.06 + 0.25) return;
+    gCh[i] = code; gPal[i] = pal; gLvl[i] = lvl; gZ[i] = z;
+  }
+  function sprite(code, pal, q) {
+    var key = (code * 64 + pal) * 8 + q, cv = atlas[key];   // room for sixty-four colours before a key collides with the next glyph
+    if (cv) return cv;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv = document.createElement("canvas"); cv.width = Math.ceil(CELL_W * dpr); cv.height = Math.ceil(CELL_H * dpr);
+    var g = cv.getContext("2d"); g.scale(dpr, dpr); g.font = GFONT; g.textBaseline = "middle"; g.textAlign = "center";
+    // a source glows and a surface does not: the halo is what makes a lit
+    // window a light rather than a brighter piece of wall
+    var a = 0.22 + 0.78 * (q / 7), src = isSrc(pal);
+    g.globalAlpha = a; g.fillStyle = PAL[pal];
+    if (src && q >= 4) { g.shadowColor = PAL[pal]; g.shadowBlur = 3 + (q - 4) * 2; }
+    g.fillText(String.fromCharCode(code), CELL_W / 2, CELL_H / 2 + 0.5);
+    atlas[key] = cv; return cv;
+  }
+
+  /* ═══ THE CITY ENGINE ═══════════════════════════════════════════════════
+     One ray per column through a grid, the way Wolfenstein did it and the way
+     every ASCII city that looks like a city still does (CyberCity, NEON//GRID
+     and tweakyourpc's ascii-city are all this): the street is cells, a
+     building is a cell with a height, and each ray walks the grid (DDA) until
+     it has seen everything up to the fog. A wall is drawn from its top down to
+     the highest thing already drawn in that column — the WATERMARK — so a
+     taller building shows over a nearer one and the skyline comes out right
+     in one pass. Below the nearest wall the floor is cast row by row.
+
+     The route the record takes through the grid TURNS at section boundaries.
+     That is the whole difference between a corridor and a city: walls are met
+     at angles, corners open, a street ends in the face of the next street.
+
+     And the record is still the city. The route is one cell per beat; the
+     front row is a building per half-bar with the notes in its windows, the
+     pane a part owns found by where the ray struck the wall; the blocks behind
+     take their height from the arc at the bar they stand beside; the lamps are
+     one a bar; the gates are the sections. */
+  var CPB = 4, OFF = 4096, LOOK = CPB, FRONT_DEPTH = 2, LAMP_EVERY = CPB, LAMP_H = 2.4, CITY_FOV = 92 * Math.PI / 180;
+  var DIRS = [[0, 1], [1, 0], [0, -1], [-1, 0]], ANG = [Math.PI / 2, 0, -Math.PI / 2, Math.PI];
+  var route = null, curSeg = { s0: 0, a0: 0, axis: 1, sign: 1 }, hitFront = null, zcol = null, wet = null, topMark = null;
+  /** Where the camera is looking: the record's own tilt, and a hand's, easing back. */
+  var autoPitch = 0, lookPitch = 0, lookYaw = 0, lookDrag = null;
+  /** The rider's machine: its lean, and the heading and moment it was last drawn at. */
+  var bikeLean = 0, bikeHead = null, bikeT = 0, bikeCache = null, bikeCacheKey = "";
+  /** Whether a palette entry emits light — glows in the atlas, shows in a puddle. */
+  var isSrc = function (pal) { return pal < 3 || (pal >= 4 && pal <= 9) || (pal >= 11 && pal !== CHROME && pal !== RUST); };
+  var ckey = function (mx, my) { return (mx + OFF) * 16384 + (my + OFF); };
+
+  /* ═══ MIDTOWN ═══════════════════════════════════════════════════════════
+     The grid is Manhattan's, to its real proportions and with its real
+     names: avenues north–south, 12th to 1st, long blocks between them;
+     streets east–west every eighty metres, 34th to 59th; Broadway cut
+     through on the diagonal so the wedge buildings fall out of the blocks
+     by themselves; the landmarks where they stand, and Times Square's neon
+     where it is. A cell is four metres. The map is not data — Manhattan is
+     a grid and a grid is arithmetic — so the page stays one file.
+
+     The drive starts on 7th Avenue at 34th, heading uptown. At each section
+     boundary it decides to turn — onto a cross street from an avenue, onto
+     an avenue from a street, uptown more often than not — and takes the next
+     intersection. The route stays inside the map. */
+  var AVE_PITCH = 76, AVE_W = 8, ST_PITCH = 24, ST_W = 4, ST_FIRST = 34, ST_LAST = 59;
+  var AVE_NAMES = ["12 AV", "11 AV", "10 AV", "9 AV", "8 AV", "7 AV", "6 AV", "5 AV", "MADISON AV", "PARK AV", "LEXINGTON AV", "3 AV", "2 AV", "1 AV"];
+  var aveX = function (a) { return a * AVE_PITCH + AVE_W / 2; }, stY = function (i) { return i * ST_PITCH + ST_W / 2; };
+  var stName = function (i, x) { return (x < aveX(7) ? "W " : "E ") + (ST_FIRST + i) + " ST"; };
+  var mod = function (v, m) { return ((v % m) + m) % m; };
+  /** Broadway's centre line at a given northing: Herald Square at 6th and 34th, Times Square at 7th and 45th. */
+  var bwayX = function (y) { return aveX(6) - 0.288 * (y - stY(0)); };
+  var LANDMARKS = [
+    { name: "EMPIRE STATE", x: aveX(7) - 12, y: stY(0) - 10, h: 78, r: 9 },
+    { name: "BANK OF AMERICA", x: aveX(6) + 10, y: stY(8) + 6, h: 60, r: 6 },
+    { name: "ONE VANDERBILT", x: aveX(9) + 14, y: stY(8) + 6, h: 70, r: 6 },
+    { name: "CHRYSLER", x: aveX(10) + 10, y: stY(8) + 6, h: 64, r: 6 },
+    { name: "METLIFE", x: aveX(9) + 12, y: stY(11) + 10, h: 46, r: 8 },
+    { name: "30 ROCK", x: aveX(6) + 38, y: stY(15) + 12, h: 58, r: 7 },
+  ];
+  /** Times Square: 7th Avenue from 42nd to 47th, where the neon is. */
+  var neonZone = function (mx, my) { return Math.abs(mx - aveX(5)) < 16 && my >= stY(8) - 2 && my <= stY(13) + 6; };
+  var laneW = function (d) { return d === 0 || d === 2 ? 3 : 2; };   // an avenue is wider than a street
+
+  /** The record's route through midtown, and everything that stands along it. */
+  function buildRoute() {
+    var secs = song.form.sections, R = { cells: [], street: new Map(), front: new Map(), turns: [], gates: [], lamps: [], names: [], drums: [], pre: 8 };
+    var x = aveX(5), y = stY(0) - R.pre, d = 0, s = -R.pre, pending = null;
+    var atCorner = function () { return d === 0 || d === 2 ? mod(y - ST_W / 2, ST_PITCH) === 0 : mod(x - AVE_W / 2, AVE_PITCH) === 0; };
+    var inside = function (nx, ny) { return nx >= aveX(0) && nx <= aveX(13) && ny >= stY(0) - ST_PITCH && ny <= stY(25); };
+    var step = function (built) {
+      // a turn that is due is taken at the next corner, not mid-block
+      if (pending !== null && atCorner() && s >= 0) { R.turns.push({ s: s, from: d, to: pending }); d = pending; pending = null; }
+      // a name at every corner: the street you are crossing
+      if (atCorner() && s >= 0) {
+        var px0 = DIRS[(d + 1) & 3][0], py0 = DIRS[(d + 1) & 3][1], w0 = laneW(d);
+        var nm = d === 0 || d === 2 ? stName(Math.round((y - ST_W / 2) / ST_PITCH), x) : AVE_NAMES[Math.max(0, Math.min(13, Math.round((x - AVE_W / 2) / AVE_PITCH)))];
+        R.names.push({ x: x + 0.5 + px0 * (w0 + 0.6), y: y + 0.5 + py0 * (w0 + 0.6), s: s, name: nm });
+      }
+      lay(R, x, y, d, s, built);
+      var nx = x + DIRS[d][0], ny = y + DIRS[d][1];
+      if (!inside(nx, ny) && pending === null) pending = d === 0 || d === 2 ? (x < aveX(7) ? 1 : 3) : (y < stY(12) ? 0 : 2);   // the edge of the map: turn back in
+      x = nx; y = ny; s++;
+    };
+    for (var p0 = 0; p0 < R.pre; p0++) step(true);
+    secs.forEach(function (sec, si) {
+      if (si > 0) {
+        var ht = ihash(si * 7, 31);
+        if (d === 0 || d === 2) pending = ht < 0.5 ? 1 : 3;                 // off the avenue onto a street, east or west
+        else pending = ht < 0.8 ? 0 : 2;                                     // off the street onto an avenue, uptown mostly
+        if (pending === 1 && x >= aveX(12)) pending = 3; if (pending === 3 && x <= aveX(1)) pending = 1;
+        if (pending === 0 && y >= stY(23)) pending = 2; if (pending === 2 && y <= stY(2)) pending = 0;
+      }
+      R.gates.push({ s: s, name: sec.fn.toUpperCase() + (sec.peak ? " PEAK" : ""), peak: sec.peak, end: false });
+      for (var i = 0; i < sec.bars * CPB; i++) step(true);
+    });
+    R.gates.push({ s: s, name: "END", peak: false, end: true });
+    for (var j = 0; j < 12; j++) step(false);   // the road runs on while the tail rings
+    song.performance.events.forEach(function (e) { if (e.role === "drums") R.drums.push([barOf(e.tSec) * CPB, e.lane, e.gain, e.tSec]); });
+    R.drums.sort(function (a, b) { return a[0] - b[0]; });
+    // the counter-line's notes are the cars that cross between the towers,
+    // each with a place on the route, a way to cross and a height of its own;
+    // the drone is the blimp, and its screen is alight while the drone sounds
+    R.counter = []; R.drone = [];
+    song.performance.events.forEach(function (e) {
+      if (e.pitch === null) return;
+      var k2 = Math.round(e.tSec * 10);
+      if (e.role === "counter") R.counter.push([e.tSec, e.tSec + Math.max(0.3, e.durSec), barOf(e.tSec) * CPB + 5, ihash(k2, 8) < 0.5 ? -1 : 1, 4.4 + 2.2 * ihash(k2, 9)]);   // above the lamps, under the top of the frame
+      if (e.role === "drone") R.drone.push([e.tSec, e.tSec + Math.max(0.2, e.durSec)]);
+    });
+    // THE SIGNS ARE THE TREATMENTS. One hung on the street where each lands,
+    // in the colour the roll draws that move in, so the sign you are driving
+    // toward is the next thing the desk will do — and a per-part move names
+    // its part. The colour joins the palette the first time it is seen.
+    R.signs = [];
+    (song.performance.desk || []).forEach(function (dch, di) {
+      if (!dch.treatment) return;
+      var sp = barOf(dch.tSec) * CPB, cc = R.cells[Math.max(0, Math.min(R.cells.length - 1, Math.floor(sp) + R.pre))];
+      var px = DIRS[(cc.d + 1) & 3][0], py = DIRS[(cc.d + 1) & 3][1], sd = ihash(Math.floor(sp), 555) < 0.5 ? -1 : 1;
+      var col = fxHue(dch.treatment), pal = PAL.indexOf(col); if (pal < 0) { pal = PAL.length; PAL.push(col); }
+      var next = song.performance.desk[di + 1];
+      R.signs.push({ x: cc.x + 0.5 + px * sd * (cc.w + 0.45), y: cc.y + 0.5 + py * sd * (cc.w + 0.45), s: sp, side: sd,
+                     name: dch.treatment.toUpperCase() + (dch.at ? " " + dch.at.toUpperCase() : ""), pal: pal,
+                     h: 3.1 + 1.7 * ihash(Math.floor(sp), 77), t0: dch.tSec, t1: next ? next.tSec : 1e9, depth: dch.depth === undefined ? 1 : dch.depth });
+    });
+    route = R;
+  }
+  /** One cell of route: the street either side of it, a lamp now and then, and the front row's buildings beyond the pavement. */
+  function lay(R, x, y, d, s, built) {
+    var px = DIRS[(d + 1) & 3][0], py = DIRS[(d + 1) & 3][1], w = laneW(d);
+    R.cells.push({ x: x, y: y, d: d, w: w });
+    for (var k = -w; k <= w; k++) R.street.set(ckey(x + px * k, y + py * k), { s: s, w: k, d: d, half: w });
+    if (mod(s, LAMP_EVERY) === 2) for (var sd = -1; sd <= 1; sd += 2) R.lamps.push({ x: x + 0.5 + px * sd * w, y: y + 0.5 + py * sd * w, s: s });
+    if (!built) return;
+    var along = d === 0 || d === 2 ? y : x, forward = d === 0 || d === 1;
+    for (var side = 0; side < 2; side++) {
+      var sg = side === 0 ? -1 : 1, hb = s >> 1, e = arcAt(hb / 2), hs = ihash(hb, side + 3);
+      var b = { hb: hb, side: side, h: 4.5 + e * e * 28 * hs * hs, axis: d === 0 || d === 2 ? 1 : 0,
+                start: forward ? along - (s & 1) : along - 1 + (s & 1), kind: ihash(hb * 3 + 1, side * 7 + 2) };
+      for (var dep = w + 1; dep <= w + FRONT_DEPTH; dep++) R.front.set(ckey(x + px * sg * dep, y + py * sg * dep), b);
+    }
+  }
+  /** How tall the city is at a cell — 0 is street — and, in `hitFront`, which front building if any. */
+  var hCache = new Map(), hCacheD = -1;
+  function heightAt(mx, my) {
+    var k = ckey(mx, my); hitFront = null;
+    // the map is static within a segment — the arc term rides on the route
+    // position, which moves with the car — so a height is computed once per
+    // cell per heading and remembered
+    var hc = hCache.get(k); if (hc !== undefined) { hitFront = hc.f; return hc.h; }
+    var hv = heightRaw(mx, my, k); hCache.set(k, { h: hv, f: hitFront }); return hv;
+  }
+  function heightRaw(mx, my, k) {
+    if (route.street.has(k)) return 0;
+    var xm = mod(mx, AVE_PITCH), ym = mod(my, ST_PITCH);
+    if (xm < AVE_W || ym < ST_W) return 0;                       // an avenue, a street
+    if (Math.abs(mx + 0.5 - bwayX(my)) < 3) return 0;             // Broadway
+    var fr = route.front.get(k); if (fr) { hitFront = fr; return fr.h; }
+    // a block: buildings two or three cells wide, taller inside the block
+    // than on its face, and the record's arc still in the skyline
+    var faceD = Math.min(xm - AVE_W, AVE_PITCH - 1 - xm, ym - ST_W, ST_PITCH - 1 - ym);
+    var bh = ihash(Math.floor(mx / 3) + 77, Math.floor(my / 3) + 13);
+    var along = curSeg.axis === 1 ? my : mx, sp = curSeg.s0 + (along - curSeg.a0) * curSeg.sign, e = arcAt(sp / CPB);
+    var h = (4 + 26 * bh * bh) * (0.55 + 0.45 * e * e) * (faceD < 2 ? 0.7 : faceD < 5 ? 1 : 1.5);
+    for (var li = 0; li < LANDMARKS.length; li++) {
+      var L = LANDMARKS[li], dd = Math.max(Math.abs(mx - L.x), Math.abs(my - L.y));
+      if (dd < L.r) h = Math.max(h, L.h * Math.pow(1 - dd / L.r, 0.5));
+    }
+    return h;
+  }
+  /** Where the car is on the route and which way it faces, steering into each turn over a bar. */
+  function camAt(sPos) {
+    var cells = route.cells, n = cells.length, si = Math.floor(sPos), i = Math.max(0, Math.min(n - 1, si + route.pre)), fr = sPos - si, c = cells[i], d = c.d;
+    var x = c.x + 0.5 + DIRS[d][0] * fr, y = c.y + 0.5 + DIRS[d][1] * fr;
+    var a = ANG[d];
+    for (var t = 0; t < route.turns.length; t++) {
+      var tr = route.turns[t], u = (sPos - (tr.s - 2.5)) / 3.5;
+      if (u > 0 && u < 1) { u = u * u * (3 - 2 * u); var a0 = ANG[tr.from], da = ANG[tr.to] - a0; if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI; a = a0 + da * u; }
+    }
+    return { x: x, y: y, a: a, i: i, s: si, d: d };
+  }
+
+  /* ═══ THE VEHICLES, DONUT-STYLE ═════════════════════════════════════════
+     donut.c's idea, which is the right one for a solid thing in a text-mode
+     world: walk the SURFACE of a shape, take the normal at every sample,
+     light it with a dot product, pick the glyph by how lit it is, and keep a
+     z-buffer. Nothing here is a billboard: a cowling reads as curved because
+     the glyphs change across it as its normal turns from the light. And it
+     composes with the raycaster for free, because the samples are depth-
+     tested against the same cells the walls were drawn into — a car goes
+     behind a tower and comes out in front of the next one with no new rule.
+
+     Three surfaces — ellipsoid, cylinder, plate — in a local frame of
+     forward, right and up with a roll, are enough to build the schematic's
+     swoop and the traffic from. Two lights: a key from above and behind the
+     rider, and the rider's own lamp, which is whatever faces the camera.
+     Emissive samples are lights: headlights, tail-lights, the thrusters. */
+  var SHADE = ".,-~:;=!*#$@";
+  var V = { fc: 1, fyc: 1 };   // the camera frame this frame, set by castCity
+  /** When set, `shade` records its samples here (column, row off the horizon, glyph, palette, level, depth) instead of drawing them. */
+  var capture = null;
+  function shade(wx, wy, wz, nx, ny, nz, pal, glow) {
+    var rx = wx - V.px, ry = wy - V.py, ty = rx * V.dx + ry * V.dy; if (ty < 0.12) return;
+    var tx = rx * V.rx + ry * V.ry, col = Math.round(V.cx + tx / ty * V.fc), rowOff = -(wz - V.eye) / ty * V.fyc, row = Math.round(V.hz + rowOff);
+    if (col < 0 || col >= COLS || (!capture && (row < 0 || row >= ROWS))) return;
+    var i = row * COLS + col; if (!capture && ty >= gZ[i]) return;   // strictly: a surface behind a wall is behind it
+    // the view vector, normalised near enough: a sum of magnitudes stands in
+    // for the root, which is a few percent out and a great deal cheaper
+    var dz = wz - V.eye, vl = 1 / (Math.abs(rx) + Math.abs(ry) + Math.abs(dz) || 1);
+    var facing = -(nx * rx + ny * ry + nz * dz) * vl; if (facing <= 0) return;   // the back of a thing is not seen
+    // a material is how much of the light it gives back: chrome is dark with
+    // a hard highlight, paint is even
+    var key = Math.max(0, nx * V.kx + ny * V.ky + nz * V.kz), chrome = pal === CHROME, k2 = key * key, k6 = k2 * k2 * k2;
+    var L = glow ? 1 : Math.min(1, chrome ? 0.06 + 0.35 * key + 0.15 * facing + 0.6 * k6 : 0.1 + 0.7 * key + 0.3 * facing);
+    var f = glow ? 1 : V.fog(ty), code = glow ? 64 : SHADE.charCodeAt(Math.min(11, Math.floor(L * 11.99))), lvl = (glow ? 1 : 0.15 + 0.85 * L) * f;
+    if (capture) { capture.push(col, rowOff, code, pal, lvl, ty); return; }
+    gCh[i] = code; gPal[i] = pal; gLvl[i] = lvl; gZ[i] = ty;
+  }
+  /** A local frame: origin, forward (unit, in the plan), roll about forward. Returns an emitter of (a forward, b right, c up) with a normal. */
+  function frameAt(ox, oy, oz, fx, fy, roll) {
+    var rx = fy, ry = -fx, cr = Math.cos(roll), sr = Math.sin(roll);
+    return function (a, b, c, na, nb, nc, pal, glow) {
+      var b2 = b * cr - c * sr, c2 = b * sr + c * cr, nb2 = nb * cr - nc * sr, nc2 = nb * sr + nc * cr;
+      shade(ox + fx * a + rx * b2, oy + fy * a + ry * b2, oz + c2, fx * na + rx * nb2, fy * na + ry * nb2, nc2, pal, glow);
+    };
+  }
+  /** How finely to walk a thing of this size at this distance: enough samples that the cells it covers are all hit. */
+  var sampleCap = 56;   // the finest anything is walked; the traffic is walked coarser than the rider's own machine
+  var stepsFor = function (size, ty, lo, hi) { return Math.max(lo, Math.min(hi, sampleCap, Math.round(size * V.fc / Math.max(0.3, ty) * 1.6))); };
+  function ellipsoid(em, ty, a0, b0, c0, ra, rb, rc, pal, glow) {
+    var n = stepsFor(Math.max(ra, rb, rc) * 2, ty, 5, 56), m = n * 2;
+    for (var i = 0; i < n; i++) {
+      var th = -Math.PI / 2 + Math.PI * (i + 0.5) / n, ct = Math.cos(th), st = Math.sin(th);
+      for (var j = 0; j < m; j++) {
+        var ph = 2 * Math.PI * j / m, cp = Math.cos(ph), sp = Math.sin(ph);
+        var na = ct * cp / ra, nb = ct * sp / rb, nc = st / rc, nl = Math.sqrt(na * na + nb * nb + nc * nc);
+        em(a0 + ra * ct * cp, b0 + rb * ct * sp, c0 + rc * st, na / nl, nb / nl, nc / nl, pal, glow);
+      }
+    }
+  }
+  /** A cylinder along forward from a0 to a1, with a lit disc on the far end when `cap` is a palette index. */
+  function cylinder(em, ty, a0, a1, b0, c0, rad, pal, cap, capGlow) {
+    var n = stepsFor(Math.abs(a1 - a0), ty, 2, 40), m = stepsFor(rad * 2, ty, 5, 36), dir = a1 > a0 ? 1 : -1;
+    for (var i = 0; i <= n; i++) {
+      var a = a0 + (a1 - a0) * i / n;
+      for (var j = 0; j < m; j++) { var ph = 2 * Math.PI * j / m, cp = Math.cos(ph), sp = Math.sin(ph); em(a, b0 + rad * cp, c0 + rad * sp, 0, cp, sp, pal, false); }
+    }
+    if (cap !== undefined) for (var k = 0; k < m; k++) for (var q = 0; q <= 2; q++) { var ph2 = 2 * Math.PI * k / m, rr = rad * q / 2; em(a1, b0 + rr * Math.cos(ph2), c0 + rr * Math.sin(ph2), dir, 0, 0, cap, capGlow); }
+  }
+  /** A plate: a thin box, sampled on its six faces. */
+  function plate(em, ty, a0, b0, c0, ha, hb, hc, pal) {
+    var faces = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]], n = stepsFor(Math.max(ha, hb, hc) * 2, ty, 2, 16);
+    for (var f = 0; f < 6; f++) {
+      var nn = faces[f];
+      for (var i = 0; i <= n; i++) for (var j = 0; j <= n; j++) {
+        var u = -1 + 2 * i / n, v = -1 + 2 * j / n;
+        var a = nn[0] ? nn[0] * ha : u * ha, b = nn[1] ? nn[1] * hb : (nn[0] ? u * hb : v * hb), c = nn[2] ? nn[2] * hc : v * hc;
+        if (nn[1]) c = v * hc;
+        em(a0 + a, b0 + b, c0 + c, nn[0], nn[1], nn[2], pal, false);
+      }
+    }
+  }
+
+  /** A hovercar, a taxi or a police spinner, at a place, facing a way, hovering at a height. */
+  function drawCar(ox, oy, oz, fx, fy, kind, ty, t, lit) {
+    var em = frameAt(ox, oy, oz, fx, fy, 0), body = kind === 1 ? TAXI : kind === 2 ? CHROME : (lit & 1) ? RUST : WALL, near = ty < 18;
+    sampleCap = 24;
+    ellipsoid(em, ty, 0, 0, 0.45, 1.0, 0.42, 0.2, body, false);
+    if (near) {   // the detail is for a car you can see the detail of
+      ellipsoid(em, ty, -0.15, 0, 0.72, 0.45, 0.32, 0.18, kind === 2 ? DEEP : CHROME, false);
+      cylinder(em, ty, -0.9, -1.25, 0.25, 0.42, 0.11, CHROME, TAIL, true); cylinder(em, ty, -0.9, -1.25, -0.25, 0.42, 0.11, CHROME, TAIL, true);
+    } else { em(-1.0, 0.25, 0.45, -1, 0, 0, TAIL, true); em(-1.0, -0.25, 0.45, -1, 0, 0, TAIL, true); }
+    em(1.0, 0.28, 0.45, 1, 0, 0, HEAD, true); em(1.0, -0.28, 0.45, 1, 0, 0, HEAD, true);
+    if (kind === 1) plate(em, ty, 0, 0, 0.98, 0.22, 0.1, 0.05, TAXI);
+    if (kind === 2) { var on = Math.floor(t * 2.5) % 2 === 0; em(-0.1, 0.18, 0.95, 0, 0, 1, on ? BLUE : TAIL, true); em(-0.1, -0.18, 0.95, 0, 0, 1, on ? TAIL : BLUE, true); }
+    sampleCap = 56;
+  }
+
+  function castCity(eye, cx, horizon, fog, srcFog, fogZ, sec, barNow, low, dust, t, paneRole, all) {
+    var cam = camAt(barNow * CPB - LOOK), posX = cam.x, posY = cam.y;
+    cam.a += lookYaw;   // a hand on the drive, looking round
+    if (cam.d !== hCacheD || hCache.size > 60000) { hCache.clear(); hCacheD = cam.d; }
+    curSeg.axis = cam.d === 0 || cam.d === 2 ? 1 : 0; curSeg.sign = cam.d === 0 || cam.d === 1 ? 1 : -1;
+    curSeg.s0 = cam.s; curSeg.a0 = curSeg.axis === 1 ? route.cells[cam.i].y : route.cells[cam.i].x;
+    var dirX = Math.cos(cam.a), dirY = Math.sin(cam.a), PL = Math.tan(CITY_FOV / 2), fc = cx / PL, fyc = fc * CELL_W / CELL_H;
+    var planeX = -dirY * PL, planeY = dirX * PL;
+    if (!zcol || zcol.length !== COLS) zcol = new Float32Array(COLS);
+    if (!wet || wet.length !== COLS * ROWS) { wet = new Uint8Array(COLS * ROWS); topMark = new Uint8Array(COLS * ROWS); } else { wet.fill(0); topMark.fill(0); }
+    var drums = route.drums, dn = drums.length;
+
+    for (var c = 0; c < COLS; c++) {
+      var camX = 2 * c / COLS - 1, rdX = dirX + planeX * camX, rdY = dirY + planeY * camX;
+      var mapX = Math.floor(posX), mapY = Math.floor(posY);
+      var ddX = rdX === 0 ? 1e30 : Math.abs(1 / rdX), ddY = rdY === 0 ? 1e30 : Math.abs(1 / rdY);
+      var stepX = rdX < 0 ? -1 : 1, stepY = rdY < 0 ? -1 : 1;
+      var sdX = rdX < 0 ? (posX - mapX) * ddX : (mapX + 1 - posX) * ddX, sdY = rdY < 0 ? (posY - mapY) * ddY : (mapY + 1 - posY) * ddY;
+      var mark = ROWS, first = true, dist = 0, side = 0, floorFrom = -1;
+      zcol[c] = fogZ;
+      for (var step = 0; step < 160; step++) {
+        if (sdX < sdY) { sdX += ddX; mapX += stepX; side = 0; dist = sdX - ddX; } else { sdY += ddY; mapY += stepY; side = 1; dist = sdY - ddY; }
+        if (dist > fogZ) break;
+        var h = heightAt(mapX, mapY); if (h <= 0) continue;
+        var dz = Math.max(0.08, dist), top = Math.floor(horizon - (h - eye) * fyc / dz);
+        if (first) { floorFrom = Math.floor(horizon + eye * fyc / dz); zcol[c] = dz; }
+        var lim = first ? Math.min(ROWS, floorFrom) : mark;
+        first = false;
+        if (top >= lim) { mark = Math.min(mark, lim); continue; }
+        // ── the wall, from its top to whatever was already drawn ──
+        var u = side === 0 ? posY + dz * rdY : posX + dz * rdX;      // where along the face the ray struck
+        var fr = hitFront, br = fog(dz) * (side === 1 ? 0.78 : 1), bs = srcFog(dz), murk = br < 0.13;
+        var noted = fr && fr.axis === (side === 0 ? 1 : 0), kind = fr ? fr.kind : ihash(mapX * 3 + 1, mapY * 7 + 2);
+        var glass = kind > 0.62, brick = kind < 0.24, warm = brick || ihash(mapX, mapY + 5) < 0.4, litRate = (glass ? 0.3 : brick ? 0.08 : 0.14) * (neonZone(mapX, mapY) ? 2.6 : 1);
+        var wLo = glass ? 0.15 : 0.28, wHi = glass ? 0.88 : 0.78, pLo = glass ? 0.1 : 0.22, pHi = glass ? 0.92 : 0.8;
+        var uu = noted ? u - fr.start : u, pane = Math.floor(uu / PANE_W), pr = uu / PANE_W - pane, role = noted && pane >= 0 && pane < 4 ? paneRole[fr.side][pane] : undefined;
+        var faceLvl = br * 0.7, edgeU = u - Math.floor(u), atEdge = edgeU < 0.06 || edgeU > 0.94;
+        for (var r = Math.max(0, top); r < lim; r++) {
+          var v = eye + (horizon - r) * dz / fyc, fl = (v - SILL) / FLOOR_H, fi = Math.floor(fl), ff = fl - fi, climb = 1 - 0.4 * Math.min(1, Math.max(0, v) / 16);
+          var code = 0, pal = WALL, lvl = 0;
+          if (fi >= 0 && ff > wLo && ff < wHi && pr > pLo && pr < pHi) {
+            var st = role ? lightOf(role, fr.hb, fi) : 0;
+            if (st === 3) { code = 35; pal = PIDX[role]; lvl = 1; }
+            else if (st === 2) { code = 61; pal = PIDX[role]; lvl = bs * 0.62; }
+            else if (st === 1) { code = 61; pal = PIDX[role]; lvl = bs * 0.36; }
+            else if (ihash(mapX * 977 + mapY, fi * 31 + pane) < litRate) { code = 61; pal = warm ? WWARM : WCOOL; lvl = bs * (glass ? 0.45 : 0.6); }
+            else if (!murk) { code = glass ? 61 : 35; pal = glass ? WCOOL : DEEP; lvl = br * (glass ? 0.24 : 0.42) * climb; }
+          }
+          else if (murk) { }
+          else if (r === top) { code = 45; lvl = br * 0.7 * climb; topMark[r * COLS + c] = 1; }
+          else if (atEdge && !noted) { code = 124; lvl = br * 0.6 * climb; }
+          else if (fi >= 0 && ff < 0.12) { code = 45; pal = brick ? SODIUM : WALL; lvl = faceLvl * (brick ? 0.55 : 1) * climb; }
+          else if (fi >= 0 && (pr < pLo || pr > pHi) && ff > wLo && ff < wHi) { code = glass ? 124 : 58; lvl = faceLvl * 0.75 * climb; }
+          else if (brick) { code = ihash(r * 5 + c, mapX * 11 + 3) < 0.5 ? 35 : 58; pal = SODIUM; lvl = faceLvl * 0.45 * climb; }
+          else if (glass) { code = 58; lvl = faceLvl * 0.65 * climb; }
+          else { code = ihash(r * 7 + c, mapX * 13 + mapY) < 0.35 ? 58 : 46; lvl = faceLvl * 0.8 * climb; }
+          var ii = r * COLS + c; gCh[ii] = code; gPal[ii] = pal; gLvl[ii] = lvl; gZ[ii] = dz;
+        }
+        mark = Math.min(mark, Math.max(0, top));
+        if (mark <= 0) break;
+      }
+      // ── the floor, from under the nearest wall to the bottom of the screen ──
+      var from = floorFrom < 0 ? Math.floor(horizon) + 1 : Math.max(Math.floor(horizon) + 1, floorFrom);
+      for (var fr2 = from; fr2 < ROWS; fr2++) {
+        var rowDist = eye * fyc / (fr2 - horizon); if (rowDist > fogZ) continue;
+        var wx = posX + rdX * rowDist, wy = posY + rdY * rowDist, cxw = Math.floor(wx), cyw = Math.floor(wy);
+        var st2 = route.street.get(ckey(cxw, cyw)), fb = fog(rowDist), code2 = 0, pal2 = 0, lvl2 = 0, isWet = false;
+        if (st2) {
+          var dd = st2.d, ox = wx - cxw - 0.5, oy = wy - cyw - 0.5;
+          var lateral = st2.w + ox * DIRS[(dd + 1) & 3][0] + oy * DIRS[(dd + 1) & 3][1], alongF = ox * DIRS[dd][0] + oy * DIRS[dd][1] + 0.5, sPos = st2.s + alongF;
+          var al = Math.abs(lateral), rw = st2.half - 0.5, road = al < rw;
+          if (!road) { code2 = 46; pal2 = PAVEC; lvl2 = fb * 0.3; }
+          else if (al > rw - 0.12) { code2 = 124; pal2 = PAVEC; lvl2 = fb * 0.5; }                 // the kerb
+          else {
+            var bar = sPos / CPB, fbar = bar - Math.floor(bar);
+            if (fbar < 0.04 || fbar > 0.96) { code2 = 61; pal2 = 0; lvl2 = fb * (0.7 + 0.3 * low); }
+            else if (alongF < 0.07) { code2 = 45; pal2 = 0; lvl2 = fb * 0.25; }
+            else if (al < 0.06) { code2 = 58; pal2 = 0; lvl2 = fb * 0.3; }
+            else if (ihash(Math.floor(sPos * 1.2), Math.floor(lateral * 1.6) + 40) < 0.2 + 0.3 * dust) { isWet = true; code2 = 126; pal2 = ihash(Math.floor(sPos * 1.2) + 9, Math.floor(lateral * 1.6)) < 0.6 ? WCOOL : NEONM; lvl2 = fb * (0.14 + 0.08 * Math.sin(t * 1.3 + sPos)); }   // a puddle, in patches
+            // the drums, where they fall on the road
+            var lo2 = 0, hi2 = dn;
+            while (lo2 < hi2) { var m2 = (lo2 + hi2) >> 1; if (drums[m2][0] < sPos - 0.14) lo2 = m2 + 1; else hi2 = m2; }
+            for (var di = lo2; di < dn && drums[di][0] <= sPos + 0.14; di++) {
+              var lane = drums[di][1], g = 0.5 + 0.5 * Math.min(1, drums[di][2]);
+              if (lane === "kick") { code2 = 61; pal2 = PIDX.drums; lvl2 = fb * g; }
+              else if (lane === "snare" && al > 0.4 && al < 0.8) { code2 = 120; pal2 = PIDX.drums; lvl2 = fb * g; }
+              else if ((lane === "hat" || lane === "openhat") && al > rw - 0.4) { code2 = lane === "openhat" ? 111 : 46; pal2 = PIDX.drums; lvl2 = fb * g * 0.8; }
+            }
+          }
+        } else if (heightAt(cxw, cyw) <= 0) { code2 = 46; pal2 = PAVEC; lvl2 = fb * 0.22; }   // a cross street, an avenue, Broadway
+        var jj = fr2 * COLS + c; if (code2) { gCh[jj] = code2; gPal[jj] = pal2; gLvl[jj] = lvl2; } gZ[jj] = rowDist; if (isWet) wet[jj] = 1;
+      }
+    }
+
+    // ── the rooflines, shape-aware: a top edge stepping down to the right is a
+    // backslash and one stepping up is a slash, so a roof in perspective is a
+    // line rather than a staircase of dashes — Acerola's point, one line long ──
+    for (var rr4 = 1; rr4 < ROWS - 1; rr4++) for (var rc4 = 1; rc4 < COLS; rc4++) {
+      var ti = rr4 * COLS + rc4; if (!topMark[ti] || gCh[ti] !== 45) continue;
+      if (topMark[ti - COLS - 1]) gCh[ti] = 92; else if (topMark[ti + COLS - 1]) gCh[ti] = 47;
+    }
+    // ── the things that stand in the street: lamps and gates, each tested against the wall in its column ──
+    var invDet = 1 / (planeX * dirY - dirX * planeY), sCam = barNow * CPB - LOOK;
+    // the camera frame the vehicles are shaded in: a key light from above and
+    // behind the rider's right shoulder, the fog, the projection
+    V.px = posX; V.py = posY; V.dx = dirX; V.dy = dirY; V.rx = dirY; V.ry = -dirX; V.eye = eye; V.hz = horizon; V.cx = cx; V.fc = fc; V.fyc = fyc; V.fog = fog;
+    var kl = Math.sqrt(0.3 * 0.3 + 0.3 * 0.3 + 0.85 * 0.85); V.kx = (-dirX * 0.3 + dirY * 0.3) / kl; V.ky = (-dirY * 0.3 - dirX * 0.3) / kl; V.kz = 0.85 / kl;
+    var project = function (wx2, wy2) {
+      var relX = wx2 - posX, relY = wy2 - posY;
+      var tx = invDet * (dirY * relX - dirX * relY), ty = invDet * (-planeY * relX + planeX * relY);
+      return { col: Math.round(cx * (1 + tx / ty)), ty: ty };
+    };
+    for (var li = 0; li < route.lamps.length; li++) {
+      var lp = route.lamps[li]; if (Math.abs(lp.s - sCam) > fogZ) continue;
+      var pj = project(lp.x, lp.y); if (pj.ty < 0.25 || pj.col < -1 || pj.col > COLS) continue;
+      if (pj.ty > zcol[Math.max(0, Math.min(COLS - 1, pj.col))]) continue;
+      var lt = Math.round(horizon - (LAMP_H - eye) * fyc / pj.ty), lb = Math.round(horizon + eye * fyc / pj.ty), lf = srcFog(pj.ty);
+      for (var lr = lt + 1; lr <= lb; lr++) put(pj.col, lr, 124, PAVEC, fog(pj.ty) * 0.5, pj.ty);
+      put(pj.col, lt, 42, SODIUM, lf, pj.ty); put(pj.col - 1, lt, 46, SODIUM, lf * 0.5, pj.ty); put(pj.col + 1, lt, 46, SODIUM, lf * 0.5, pj.ty);
+    }
+    for (var gi = 0; gi < route.gates.length; gi++) {
+      var gt = route.gates[gi]; if (gt.s - sCam < 1.2 || gt.s - sCam > fogZ) continue;   // a gate you are under is a post beside you, not a picture
+      var gc = route.cells[Math.min(route.cells.length - 1, gt.s + route.pre)], gd = gc.d, gpx = DIRS[(gd + 1) & 3][0], gpy = DIRS[(gd + 1) & 3][1];
+      var gw = gc.w + 0.5, pa = project(gc.x + 0.5 - gpx * gw, gc.y + 0.5 - gpy * gw), pb = project(gc.x + 0.5 + gpx * gw, gc.y + 0.5 + gpy * gw);
+      if (pa.ty < 0.25 || pb.ty < 0.25) continue;
+      var ga = Math.min(pa.col, pb.col), gb2 = Math.max(pa.col, pb.col), gty = Math.min(pa.ty, pb.ty), gl = fog(gty) * (gt.end ? 0.55 : gt.peak ? 1 : 0.75), gp = gt.end ? 3 : 1;
+      var gtop = Math.round(horizon - (3.0 - eye) * fyc / gty), gbot = Math.round(horizon + eye * fyc / gty);
+      for (var gr2 = gtop; gr2 <= gbot; gr2++) { put(ga, gr2, 124, gp, gl, gty); put(gb2, gr2, 124, gp, gl, gty); }
+      for (var gcc = ga; gcc <= gb2; gcc++) put(gcc, gtop, 61, gp, gl, gty);
+      if (gb2 - ga - 2 >= gt.name.length) { var nx = Math.round((ga + gb2) / 2 - gt.name.length / 2); for (var k2 = 0; k2 < gt.name.length; k2++) put(nx + k2, gtop - 1, gt.name.charCodeAt(k2), gp, Math.min(1, gl * 1.2), gty); }
+      else if (gb2 - ga >= 3) put(Math.round((ga + gb2) / 2), gtop - 1, gt.name.charCodeAt(0), gp, gl, gty);
+    }
+    // ── the signs: a treatment's name in neon on a blade off the wall, facing you, flickering ──
+    for (var si2 = 0; si2 < route.signs.length; si2++) {
+      var sg2 = route.signs[si2]; if (sg2.s - sCam < 0.8 || sg2.s - sCam > fogZ * 1.6) continue;
+      var ps = project(sg2.x, sg2.y); if (ps.ty < 0.4) continue;
+      var charCols = Math.max(0.5, 0.55 * fc / ps.ty), n2 = sg2.name.length, col0 = sg2.side < 0 ? ps.col : ps.col - Math.round(n2 * charCols);
+      if (col0 > COLS || col0 + n2 * charCols < 0) continue;
+      var inForce = sec >= sg2.t0 && sec < sg2.t1, srow = Math.round(horizon - (sg2.h - eye) * fyc / ps.ty), tall = Math.round(0.45 * fyc / ps.ty);
+      // value-noise flicker, gated under three hertz, and the odd letter out
+      var flick = inForce ? 1 : 0.7 + 0.3 * noise2(t * 2.4 + si2 * 7.1, si2), sl = srcFog(ps.ty) * (0.55 + 0.45 * sg2.depth) * flick;
+      // each letter once, at its own column: a letter spread over two columns
+      // reads as a misspelling, a letter with a gap after it reads as neon
+      for (var li2 = 0; li2 < n2; li2++) {
+        var cc2 = col0 + Math.round(li2 * charCols); if (cc2 < 0 || cc2 >= COLS || ps.ty > zcol[cc2]) continue;
+        var dead = ihash(li2 + si2 * 31, Math.floor(t * 0.7)) < 0.05;
+        put(cc2, srow, sg2.name.charCodeAt(li2), sg2.pal, dead ? sl * 0.15 : sl, ps.ty);
+      }
+      if (tall >= 3) for (var cc4 = Math.max(0, col0); cc4 <= Math.min(COLS - 1, col0 + Math.round((n2 - 1) * charCols)); cc4++) {
+        if (ps.ty > zcol[cc4]) continue;
+        put(cc4, srow - 1, 45, sg2.pal, sl * 0.4, ps.ty); put(cc4, srow + 1, 45, sg2.pal, sl * 0.4, ps.ty);
+      }
+    }
+    // ── the street signs: the name of every corner you cross, green on the post ──
+    for (var ni = 0; ni < route.names.length; ni++) {
+      var nmS = route.names[ni]; if (nmS.s - sCam < 0.8 || nmS.s - sCam > fogZ) continue;
+      var pn = project(nmS.x, nmS.y); if (pn.ty < 0.4) continue;
+      var ncw = Math.max(0.5, Math.min(2.5, 0.36 * fc / pn.ty)), nrow = Math.round(horizon - (2.5 - eye) * fyc / pn.ty), nl = fog(pn.ty) * 0.85;
+      var ncol0 = pn.col - Math.round(nmS.name.length * ncw / 2);
+      for (var nk = 0; nk < nmS.name.length; nk++) { var ncc = ncol0 + Math.round(nk * ncw); if (ncc < 0 || ncc >= COLS || pn.ty > zcol[ncc]) continue; put(ncc, nrow, nmS.name.charCodeAt(nk), 0, nl, pn.ty); }
+      for (var nr2 = nrow + 1; nr2 <= Math.round(horizon + eye * fyc / pn.ty); nr2++) put(pn.col, nr2, 124, PAVEC, fog(pn.ty) * 0.4, pn.ty);
+    }
+    // ── the spinners: the counter-line's notes as cars crossing between the towers, modelled ──
+    for (var ci2 = 0; ci2 < route.counter.length; ci2++) {
+      var cn = route.counter[ci2], age = sec - cn[0], span = cn[1] - cn[0]; if (age < -0.6 || age > span + 1.6) continue;
+      var lat = cn[3] * (-8 + 16 * (age + 0.6) / (span + 2.2));
+      var cc3 = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(cn[2]) + route.pre))], cpx = DIRS[(cc3.d + 1) & 3][0], cpy = DIRS[(cc3.d + 1) & 3][1];
+      var pj2 = project(cc3.x + 0.5 + cpx * lat, cc3.y + 0.5 + cpy * lat); if (pj2.ty < 0.5 || pj2.ty > fogZ) continue;
+      drawCar(cc3.x + 0.5 + cpx * lat, cc3.y + 0.5 + cpy * lat, cn[4] - 0.45, cpx * cn[3], cpy * cn[3], 0, pj2.ty, t, 1);
+    }
+    // ── the traffic: a street as busy as the record is — one car per part sounding, and a couple whatever happens ──
+    var partsOn = 0;
+    { var flags = {}, ev2 = song.performance.events, la = 0, lb = ev2.length;
+      while (la < lb) { var lm = (la + lb) >> 1; if (ev2[lm].tSec < sec - 6) la = lm + 1; else lb = lm; }
+      for (var ei2 = la; ei2 < ev2.length && ev2[ei2].tSec <= sec; ei2++) { var e2 = ev2[ei2]; if (sec < e2.tSec + Math.max(0.1, e2.durSec)) flags[e2.role] = 1; }
+      for (var rk in flags) partsOn++; }
+    var nCars = Math.min(9, 2 + partsOn * 2);
+    for (var vk = 0; vk < nCars; vk++) {
+      // each car is a pure function of the record's time: a lane, a relative
+      // speed and an offset by hash, wrapped round a window ahead of the car
+      var lane = ihash(vk, 301) < 0.55 ? 0 : 1, kind = ihash(vk, 302) < 0.28 ? 1 : ihash(vk, 302) > 0.9 ? 2 : 0;
+      var dv = lane === 0 ? 0.35 + 1.2 * ihash(vk, 303) : -(2.2 + 1.6 * ihash(vk, 303)), rel = ((ihash(vk, 304) * 52 + dv * sec - 6) % 52 + 52) % 52 - 6;
+      var cs = sCam + rel, vc = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(cs) + route.pre))], vpx = DIRS[(vc.d + 1) & 3][0], vpy = DIRS[(vc.d + 1) & 3][1];
+      var vfr = cs - Math.floor(cs), vlat = (lane === 0 ? 1 : -1) * (vc.w * 0.5), vx2 = vc.x + 0.5 + DIRS[vc.d][0] * vfr + vpx * vlat, vy2 = vc.y + 0.5 + DIRS[vc.d][1] * vfr + vpy * vlat;
+      var pv = project(vx2, vy2); if (pv.ty < 0.4 || pv.ty > fogZ) continue;
+      var sgn = lane === 0 ? 1 : -1;
+      drawCar(vx2, vy2, 0.05 + 0.08 * Math.sin(t * 1.7 + vk), DIRS[vc.d][0] * sgn, DIRS[vc.d][1] * sgn, kind, pv.ty, t, vk);
+    }
+    // ── the searchlights: one per return the desk has open, sweeping the cloud, drawn only where there is sky ──
+    var beams = [["room", 9, 0.35], ["echo", -9, -0.3], ["spring", 14, 0.1]];
+    for (var bi = 0; bi < beams.length; bi++) {
+      var ret = shown(["rack", beams[bi][0], "ret"]) || 0; if (!(ret > 0)) continue;
+      var bcell = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(sCam) + 26 + bi * 9 + route.pre))], bpx = DIRS[(bcell.d + 1) & 3][0], bpy = DIRS[(bcell.d + 1) & 3][1];
+      var bl = beams[bi][1] + 3 * Math.sin(t * 0.13 + bi), pb2 = project(bcell.x + 0.5 + bpx * bl, bcell.y + 0.5 + bpy * bl); if (pb2.ty < 1) continue;
+      var brow = Math.round(horizon + eye * fyc / pb2.ty), slope = Math.sin(t * 0.21 + bi * 2.1 + beams[bi][2]) * 0.9, bl2 = 0.12 + 0.18 * Math.min(1, ret);
+      for (var br2 = Math.min(ROWS - 1, brow); br2 >= 0; br2--) {
+        var bc2 = Math.round(pb2.col + (brow - br2) * slope), bi2 = br2 * COLS + bc2;
+        if (bc2 < 0 || bc2 >= COLS || gCh[bi2]) continue;
+        gCh[bi2] = br2 % 2 ? 58 : 46; gPal[bi2] = 3; gLvl[bi2] = bl2 * (1 - br2 / ROWS * 0.5); gZ[bi2] = 1e7;
+      }
+    }
+    // ── the steam: every hat, a breath from the grating at the kerb, rising and gone ──
+    { var sNow = sCam + LOOK, lo3 = 0, hi3 = dn;
+      while (lo3 < hi3) { var m3 = (lo3 + hi3) >> 1; if (drums[m3][0] < sNow - 3) lo3 = m3 + 1; else hi3 = m3; }
+      for (var hi4 = lo3; hi4 < dn && drums[hi4][0] < sNow + 2; hi4++) {
+        var dh = drums[hi4]; if (dh[1] !== "hat" && dh[1] !== "openhat") continue;
+        var age2 = sec - dh[3]; if (age2 < 0 || age2 > 0.8) continue;
+        var hc2 = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(dh[0]) + route.pre))], hpx = DIRS[(hc2.d + 1) & 3][0], hpy = DIRS[(hc2.d + 1) & 3][1], hsd = ihash(Math.floor(dh[0]), 91) < 0.5 ? -1 : 1;
+        var ph = project(hc2.x + 0.5 + hpx * hsd * 1.45, hc2.y + 0.5 + hpy * hsd * 1.45); if (ph.ty < 0.4) continue;
+        var hrow = Math.round(horizon - (0.15 + age2 * 2.4 - eye) * fyc / ph.ty), hl = (1 - age2 / 0.8) * fog(ph.ty);
+        put(ph.col, hrow, age2 < 0.25 ? 111 : 126, 3, hl * 0.45, ph.ty);
+        if (age2 > 0.3) put(ph.col + (ihash(hi4, 3) < 0.5 ? -1 : 1), hrow + 1, 126, 3, hl * 0.25, ph.ty);
+      } }
+    // ── the blimp: the drone, overhead and slow, its screen alight while the drone sounds ──
+    { var bs = sCam + 22 + 6 * Math.sin(t * 0.04), bcl = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(bs) + route.pre))], zpx = DIRS[(bcl.d + 1) & 3][0], zpy = DIRS[(bcl.d + 1) & 3][1];
+      var blat = 3 * Math.sin(t * 0.07), pL = project(bcl.x + 0.5 + zpx * (blat - 2.2), bcl.y + 0.5 + zpy * (blat - 2.2)), pR = project(bcl.x + 0.5 + zpx * (blat + 2.2), bcl.y + 0.5 + zpy * (blat + 2.2));
+      if (pL.ty > 1 && pR.ty > 1) {
+        var bty = (pL.ty + pR.ty) / 2, c0 = Math.min(pL.col, pR.col), c1 = Math.max(pL.col, pR.col), brw = Math.round(horizon - (8.5 - eye) * fyc / bty), bfog = srcFog(bty);
+        var droneOn = false; for (var dr = 0; dr < route.drone.length; dr++) if (route.drone[dr][0] <= sec && sec < route.drone[dr][1]) { droneOn = true; break; }
+        for (var bc3 = c0; bc3 <= c1; bc3++) {
+          var end2 = bc3 === c0 || bc3 === c1;
+          put(bc3, brw - 1, end2 ? 46 : 45, WALL, bfog * 0.5, bty); put(bc3, brw + 1, end2 ? 46 : 45, WALL, bfog * 0.5, bty);
+          put(bc3, brw, end2 ? (bc3 === c0 ? 40 : 41) : 61, WALL, bfog * 0.55, bty);
+        }
+        var mid = Math.round((c0 + c1) / 2), sw = Math.max(1, Math.floor((c1 - c0) / 4));
+        for (var bc4 = mid - sw; bc4 <= mid + sw; bc4++) put(bc4, brw, droneOn ? 35 : 61, PIDX.drone, droneOn ? bfog * (0.75 + 0.25 * Math.sin(t * 5)) : bfog * 0.3, bty);
+      } }
+    // ── THE RIDER'S OWN MACHINE, the schematic's swoop, from the seat ──
+    // Fixed to the vehicle, not to the eyes: look round and it stays put and
+    // drifts across the view. Leans into the corners from the yaw rate, shakes
+    // on the low end, and its thrusters flare on the kick. Drawn last and
+    // nearest, and lit like everything else, so a sign you pass under lands
+    // on the cowling.
+    { var head = cam.a - lookYaw, now = performance.now() / 1000, dtm = Math.min(0.2, Math.max(0.01, now - (bikeT || now)));
+      var dA = head - (bikeHead === null ? head : bikeHead); if (dA > Math.PI) dA -= 2 * Math.PI; if (dA < -Math.PI) dA += 2 * Math.PI;
+      bikeHead = head; bikeT = now;
+      var leanTarget = Math.max(-0.4, Math.min(0.4, -(dA / dtm) * 0.5)) + (low - 0.45) * 0.08;
+      bikeLean += (leanTarget - bikeLean) * 0.12;
+      // THE MACHINE IS WALKED ONCE AND REPLAYED. It is fixed to the camera, so
+      // its samples only move when the lean or a drag-look does; between those
+      // the cached cells are written back with the depth test alone, which is
+      // the cost of a few thousand array writes rather than of the shading.
+      var bkey = Math.round(bikeLean / 0.02) + "|" + Math.round(lookYaw / 0.02) + "|" + COLS + "|" + ROWS + "|" + fine;
+      if (bikeCacheKey !== bkey) { capture = []; drawBike(posX, posY, eye, head); bikeCache = capture; capture = null; bikeCacheKey = bkey; }
+      for (var bc5 = 0; bc5 < bikeCache.length; bc5 += 6) {
+        var brow = Math.round(horizon + bikeCache[bc5 + 1]); if (brow < 0 || brow >= ROWS) continue;
+        var bidx = brow * COLS + bikeCache[bc5], bty = bikeCache[bc5 + 5]; if (bty >= gZ[bidx]) continue;
+        gCh[bidx] = bikeCache[bc5 + 2]; gPal[bidx] = bikeCache[bc5 + 3]; gLvl[bidx] = bikeCache[bc5 + 4]; gZ[bidx] = bty;
+      }
+    }
+    function drawBike(posX, posY, eye, head) {
+      var em = frameAt(posX, posY, eye, Math.cos(head), Math.sin(head), bikeLean);
+      // a bent bar is a few straight ones: from (a,b,c) to (a2,b2,c2) in k pieces
+      var bar = function (a, b, c, a2, b2, c2, k, rad, pal, ty) {
+        for (var q = 0; q < k; q++) { var u0 = q / k, u1 = (q + 1) / k; var emS = frameAt(posX, posY, eye, Math.cos(head), Math.sin(head), bikeLean);
+          // each piece is a short cylinder along the piece's own direction: build a frame turned to it
+          var da = a2 - a, db = b2 - b, dc = c2 - c, len = Math.sqrt(da * da + db * db + dc * dc), pa = a + da * u0, pb = b + db * u0, pc = c + dc * u0;
+          var m = stepsFor(rad * 2, ty, 5, 30), n = stepsFor(len / k, ty, 2, 10);
+          // an orthonormal pair across the piece
+          var ux = da / len, uy = db / len, uz = dc / len, px = -uy, py = ux, pz = 0, pl = Math.sqrt(px * px + py * py) || 1; px /= pl; py /= pl;
+          var qx = uy * pz - uz * py, qy = uz * px - ux * pz, qz = ux * py - uy * px;
+          for (var i = 0; i <= n; i++) { var s0 = (u0 + (u1 - u0) * i / n) * len; for (var j = 0; j < m; j++) { var ph = 2 * Math.PI * j / m, cp = Math.cos(ph), sp = Math.sin(ph);
+            emS(a + ux * s0 + (px * cp + qx * sp) * rad, b + uy * s0 + (py * cp + qy * sp) * rad, c + uz * s0 + (pz * cp + qz * sp) * rad, px * cp + qx * sp, py * cp + qy * sp, pz * cp + qz * sp, pal, false); } } }
+      };
+      sampleCap = 44;
+      ellipsoid(em, 1.0, 1.15, 0, -0.52, 0.85, 0.5, 0.27, RUST, false);                       // the cowling, filling the view below the road
+      plate(em, 0.7, 0.62, 0, -0.4, 0.2, 0.17, 0.06, CHROME);                                 // the sensor/scanner/comm console
+      em(0.58, -0.06, -0.33, 0, 0, 1, 0, true); em(0.58, 0, -0.33, 0, 0, 1, 0, true); em(0.58, 0.06, -0.33, 0, 0, 1, 0, true);   // its screen
+      for (var hb2 = -1; hb2 <= 1; hb2 += 2) {
+        bar(0.72, hb2 * 0.14, -0.33, 0.55, hb2 * 0.42, -0.26, 3, 0.035, CHROME, 0.6);           // the handlebar controllers...
+        bar(0.55, hb2 * 0.42, -0.26, 0.42, hb2 * 0.48, -0.25, 1, 0.05, RUST, 0.5);              // ...their grips...
+        bar(0.15, hb2 * 0.3, -0.64, 0.45, hb2 * 0.46, -0.3, 3, 0.055, RUST, 0.4);               // ...and the arms on them
+      }
+      cylinder(em, 2.6, 2.0, 3.6, 0, -0.6, 0.06, CHROME);                                      // the control shaft, forward to the nose
+      for (var th2 = -1; th2 <= 1; th2 += 2) cylinder(em, 3.4, 3.1, 3.8, th2 * 0.28, -0.54, 0.14, CHROME, HEAD, true);   // the turbothrusters, lit
+      for (var vn = -1; vn <= 1; vn += 2) plate(em, 3.9, 3.9, vn * 0.4, -0.38, 0.03, 0.12, 0.26, RUST);               // the control vanes
+      ellipsoid(em, 4.1, 4.1, 0, -0.58, 0.2, 0.18, 0.18, CHROME, false);                       // the central repulsor pod
+    }
+    // ── the puddles give the lights back: a wet cell shows what stands above it, mirrored about the horizon and dimmed ──
+    for (var wr = Math.floor(horizon) + 1; wr < ROWS; wr++) {
+      var mr = Math.round(2 * horizon - wr); if (mr < 0) continue;
+      for (var wc = 0; wc < COLS; wc++) {
+        var wi = wr * COLS + wc; if (!wet[wi]) continue;
+        var mi = mr * COLS + wc, mc = gCh[mi]; if (!mc) continue;
+        var srcUp = isSrc(gPal[mi]); if (!srcUp && gLvl[mi] < 0.35) continue;
+        gCh[wi] = mc; gPal[wi] = gPal[mi]; gLvl[wi] = gLvl[mi] * (srcUp ? 0.5 : 0.22);   // a light comes back; a wall only just
+      }
+    }
+  }
+
+  function frame() {
+    if (!song) return;
+    var full = document.fullscreenElement === driveCrt;
+    var W = full ? window.innerWidth : (drive.clientWidth || 900), H = full ? window.innerHeight : 500;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var cols = Math.floor(W / CELL_W), rows = Math.floor(H / CELL_H);
+    if (cols !== COLS || rows !== ROWS) {
+      COLS = cols; ROWS = rows; var N = COLS * ROWS;
+      gCh = new Uint16Array(N); gPal = new Uint8Array(N); gLvl = new Float32Array(N); gZ = new Float32Array(N);
+    }
+    if (drive.width !== Math.round(W * dpr) || drive.height !== Math.round(H * dpr)) { drive.width = Math.round(W * dpr); drive.height = Math.round(H * dpr); drive.style.height = H + "px"; }
+    gCh.fill(0); gZ.fill(Infinity);
+
+    // with motion reduced the clock that drives every ambient thing — rain,
+    // flicker, the searchlights, the blimp — stands still, and only the record
+    // moves the world, which is the one motion that is the content
+    var t = reduced ? 0 : performance.now() / 1000, sec = driveSec, clk = song.form.clock;
+    var barNow = barOf(sec);
+
+    // ── the weather is the desk ──
+    var poleOn = shown(["rack", "pole", "mix"]) > 0, hz = poleOn ? shown(["rack", "pole", "hz"]) : 20000;
+    var fogZ = 10 + 155 * Math.max(0, Math.min(1, Math.log(hz / 150) / Math.log(20000 / 150)));
+    // THE CITY HAS WEATHER OF ITS OWN. A street at night is hazy whether or not
+    // the desk has a filter in the sum: forty-odd units of visibility is what
+    // puts the far end of the street into the murk and makes a near wall a
+    // near wall. The pole's cutoff still thickens it.
+    fogZ = Math.min(fogZ, 46);
+    var wob = Math.sin(2 * Math.PI * shown(["rack", "tape", "wowHz"]) * t) * (shown(["rack", "tape", "wowCents"]) / 100) * 1.4;
+    var dust = shown(["rack", "vinyl", "crackle"]) || 0;
+    var low = 0, all = 0;
+    if (sink && playing) {
+      sink.getByteFrequencyData(spectrum);
+      for (var q = 0; q < 6; q++) low += spectrum[q]; low /= 6 * 255;
+      for (var q2 = 0; q2 < spectrum.length; q2++) all += spectrum[q2]; all /= spectrum.length * 255;
+    }
+    var eye = EYE + (low - 0.45) * 0.22 * (playing ? 1 : 0);
+    var cx = COLS / 2;
+    /* ── LOOK-UP, by Y-shear ─────────────────────────────────────────────
+       A raycaster cannot tilt its rays, but sliding the horizon down the
+       screen is indistinguishable from tilting the head for anything that is
+       a vertical line, which is everything here; it is the trick NEON//GRID
+       uses to look up at its towers. The record does the looking: the camera
+       tilts toward what the arc is about to do, so the chorus has you looking
+       up at the towers and the verse levels out. A hand on the drive can look
+       anywhere, and the look eases back to the road when it lets go. */
+    var eAhead = arcAt(barNow + 4), pitchTarget = 0.06 + 0.42 * eAhead * eAhead + lookPitch;
+    autoPitch += (pitchTarget - autoPitch) * (reduced ? 1 : 0.04);
+    if (!lookDrag) { lookPitch *= 0.96; lookYaw *= 0.96; }
+    var horizon = Math.max(ROWS * 0.22, Math.min(ROWS * 0.82, ROWS * 0.46 + wob + autoPitch * ROWS * 0.42));
+    var fog = function (z) { var v = 1 - z / fogZ; return v <= 0 ? 0 : Math.pow(v, 0.75); };
+    // ── which pane of the street each part owns ──
+    // A part's lane is its azimuth and distance; on the city's front row that
+    // becomes a side of the street and a pane along every building on it,
+    // ranked outward so two parts on one side never share a window.
+    var lanes = {}, paneRole = [[], []], sides = [[], []];
+    ROLES.forEach(function (r) { lanes[r] = laneX(r); if (r !== "drums") sides[lanes[r] < 0 ? 0 : 1].push([Math.abs(lanes[r]), r]); });
+    sides.forEach(function (s, i) { s.sort(function (a, b) { return a[0] - b[0]; }); s.forEach(function (p, k) { paneRole[i][k * 2] = p[1]; }); });
+    // a light carries further through fog than a wall does: the same falloff
+    // over a longer reach, so the far end of the street is lit windows in murk
+    var srcFog = function (z) { var v = 1 - z / (fogZ * 1.7); return v <= 0 ? 0 : Math.pow(v, 0.6); };
+
+    castCity(eye, cx, horizon, fog, srcFog, fogZ, sec, barNow, low, dust, t, paneRole, all);
+
+    // ── the sky: the horizon, stars or a moon, and the rain the dust makes ──
+    var hr = Math.round(horizon);
+    for (var hc = 0; hc < COLS; hc++) put(hc, hr, 45, 6, 0.22 + 0.25 * all, 1e8);
+    // the city's own light on its own cloud: a sodium haze that thins upward
+    for (var gr = Math.max(0, hr - 9); gr <= Math.min(ROWS - 1, hr + 2); gr++) {
+      var gd = 0.16 * (1 - Math.abs(gr - hr - 1) / 10) * (0.7 + 0.3 * all);
+      for (var gc = 0; gc < COLS; gc++) if (ihash(gc, gr + 777) < gd) put(gc, gr, 46, ihash(gc + 3, gr) < 0.7 ? SODIUM : NEONM, 0.16, 1e8);
+    }
+    // the dust on the record is the weather: it rains
+    var rain = Math.min(0.55, dust * 3.5);
+    {
+      for (var rc = 0; rc < COLS; rc++) {
+        if (ihash(rc, 4242) > rain) continue;
+        var speed = 14 + 10 * ihash(rc, 17), period = 6 + Math.floor(ihash(rc, 99) * 7), off = Math.floor(t * speed + ihash(rc, 3) * 100);
+        for (var rr2 = 0; rr2 < ROWS; rr2++) if ((rr2 + off) % period === 0) put(rc, rr2, 124, 2, 0.2, 1e8);
+      }
+    }
+
+    // ── paint ──
+    var g2 = dctx; g2.setTransform(1, 0, 0, 1, 0, 0);
+    g2.fillStyle = "#071510"; g2.fillRect(0, 0, drive.width, drive.height);
+    var cw = CELL_W * dpr, ch = CELL_H * dpr;
+    for (var pr = 0; pr < ROWS; pr++) for (var pc = 0; pc < COLS; pc++) {
+      var pi = pr * COLS + pc, code3 = gCh[pi]; if (!code3) continue;
+      g2.drawImage(sprite(code3, gPal[pi], Math.max(0, Math.min(7, Math.round(gLvl[pi] * 7)))), pc * cw, pr * ch);
+    }
+
+    // ── the readout: where you are, and what the desk is doing to it ──
+    if (driveFrame % 8 === 0) {
+      var bnow = Math.max(0, Math.min(song.form.bars - 1, Math.floor(barOf(sec)))), pl = song.arrangement.placed.find(function (p) { return bnow >= p.section.startBar && bnow < p.section.endBar; });
+      var where = playing ? (pl ? pl.section.fn.toUpperCase() + " <b>" + pl.material + "</b> · bar " + bnow : "bar " + bnow) : (sec > 0 ? "parked at " + clock(sec) : "parked at the start · press play");
+      $("drive-read").innerHTML = where + (fogZ < 30 ? " · fog" : "") + (rain > 0.3 ? " · rain" : "");
+    }
+  }
+  drive.addEventListener("dblclick", function () { if (document.fullscreenElement) document.exitFullscreen(); else if (driveCrt.requestFullscreen) driveCrt.requestFullscreen(); });
+  // drag to look round: across for yaw, up and down for pitch; let go and it eases back to the road
+  drive.addEventListener("pointerdown", function (e) { lookDrag = { x: e.clientX, y: e.clientY, yaw: lookYaw, pitch: lookPitch }; drive.setPointerCapture(e.pointerId); });
+  drive.addEventListener("pointermove", function (e) {
+    if (!lookDrag) return;
+    lookYaw = lookDrag.yaw + (e.clientX - lookDrag.x) / drive.clientWidth * 1.8;
+    lookPitch = lookDrag.pitch - (e.clientY - lookDrag.y) / drive.clientHeight * 1.6;
+  });
+  drive.addEventListener("pointerup", function () { lookDrag = null; });
+  drive.addEventListener("pointercancel", function () { lookDrag = null; });
+  document.addEventListener("keydown", function (e) { if ((e.key === "f" || e.key === "F") && e.target === document.body) setFine(!fine); });
+  document.addEventListener("fullscreenchange", function () { COLS = 0; });   // resize on the next frame
+  // thirty frames a second is plenty for glyphs and half the cost; with motion
+  // reduced, the world is drawn once per change instead
+  // thirty frames a second, or with motion reduced seven and a half: the world
+  // still moves with the record, which is the content, and nothing else moves
+  (function roll2() { driveFrame++; if (song && driveFrame % (reduced ? 8 : 2) === 0) frame(); requestAnimationFrame(roll2); })();
 
   // ── the worker: the engine, driven a chunk at a time ──
   // Credit-based, so the worker stays exactly AHEAD chunks in front and no
@@ -1227,7 +2223,9 @@
     "    var n = Math.min(E.blockSize, E.length - E.at);",
     "    var L = new Float32Array(n), R = new Float32Array(n);",
     "    E.block(L, R, n); credits--;",
-    "    postMessage({ tok: tok, left: L, right: R }, [L.buffer, R.buffer]);",
+    // the desk THIS chunk was rendered through, back with the chunk itself, so
+    // the console is never showing a desk the samples were not made on
+    "    postMessage({ tok: tok, left: L, right: R, desk: E.desk }, [L.buffer, R.buffer]);",
     "  }",
     "  if (E && E.at >= E.length) { postMessage({ tok: tok, end: true }); E = null; }",
     "}",
@@ -1273,7 +2271,7 @@
       var n = Math.min(E.blockSize, E.length - E.at);
       var L = new Float32Array(n), R = new Float32Array(n);
       E.block(L, R, n); credits--;
-      post({ tok: tok, left: L, right: R });
+      post({ tok: tok, left: L, right: R, desk: E.desk });
       setTimeout(pump, 0);
     }
     function kick() { if (!pumping) { pumping = true; setTimeout(pump, 0); } }
@@ -1314,8 +2312,11 @@
     stop();
     ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === "suspended") ctx.resume();
+    // the drive listens on the way out: an analyser between the chunks and the
+    // speakers, which changes nothing about what reaches them
+    if (!sink) { sink = ctx.createAnalyser(); sink.fftSize = 256; sink.smoothingTimeConstant = 0.55; sink.connect(ctx.destination); spectrum = new Uint8Array(sink.frequencyBinCount); }
     worker = worker || spawn(onChunk);
-    token++; playing = true; started = false; ending = false; queued = []; nextAt = 0;
+    token++; playing = true; started = false; ending = false; queued = []; nextAt = 0; deskLine = [];
     busy(true); lamp("l-play", 1);
     $("stop").disabled = false; $("play").disabled = true; $("play").classList.add("lit");
     worker.postMessage({ cmd: "start", tok: token, req: request(), desk: copy(over),
@@ -1332,7 +2333,7 @@
     if (d.end) { ending = true; if (queued.length === 0) stop(); return; }
     var buf = ctx.createBuffer(2, d.left.length, ctx.sampleRate);
     buf.copyToChannel(d.left, 0); buf.copyToChannel(d.right, 1);
-    var s = ctx.createBufferSource(); s.buffer = buf; s.connect(ctx.destination);
+    var s = ctx.createBufferSource(); s.buffer = buf; s.connect(sink || ctx.destination);
     // the first chunk starts a beat from now; if we ever fall behind, pick the
     // clock up again from here rather than trying to play the past
     if (nextAt < ctx.currentTime + 0.02) {
@@ -1340,6 +2341,12 @@
       if (!started) { startedAt = nextAt; started = true; }
     }
     s.start(nextAt);
+    // THE DESK THIS CHUNK IS PLAYED ON, put on the same clock as the sound.
+    // It is the desk as the engine left it at the chunk's END, so a change
+    // landing inside a chunk reaches the console up to CHUNK_SEC early — a
+    // fifth of a second, on a readout, against the alternative of a knob that
+    // never moves at all.
+    if (d.desk) deskLine.push({ at: nextAt, desk: d.desk });
     nextAt += buf.duration;
     queued.push(s);
     s.onended = function () {
@@ -1353,8 +2360,18 @@
 
   function tick() {
     if (!playing) return;
-    $("chrono").textContent = clock(started ? Math.max(0, ctx.currentTime - startedAt) : 0);
-    if (!reduced && started) drawRoll(Math.max(0, ctx.currentTime - startedAt));
+    var sec = started ? Math.max(0, ctx.currentTime - startedAt) : 0;
+    $("chrono").textContent = clock(sec);
+    if (started) driveSec = sec;
+    // the desk of the chunk that is sounding NOW — drop the ones already past,
+    // and move the console only when the desk itself has changed, which is once
+    // a chunk rather than once a frame
+    while (deskLine.length > 1 && deskLine[1].at <= ctx.currentTime) deskLine.shift();
+    if (deskLine.length && deskLine[0].at <= ctx.currentTime && deskLine[0].desk !== live) follow(deskLine[0].desk);
+    if (started) nowDesk(sec);
+    // the roll redraws whole — every note, every row — so fifteen times a
+    // second is plenty for a playhead, and the frames go to the drive instead
+    if (!reduced && started && (driveFrame & 3) === 0) drawRoll(sec);
     requestAnimationFrame(tick);
   }
 
@@ -1362,10 +2379,12 @@
     if (worker && playing) worker.postMessage({ cmd: "stop", tok: ++token });
     playing = false; started = false; ending = false;
     for (var i = 0; i < queued.length; i++) { try { queued[i].onended = null; queued[i].stop(); } catch (err) {} }
-    queued = []; nextAt = 0;
+    queued = []; nextAt = 0; deskLine = [];
     $("stop").disabled = true; $("play").disabled = false; $("play").classList.remove("lit");
     lamp("l-play", 0); busy(false);
-    if (song) drawRoll(null);
+    // the console goes back to the desk the record is being asked to play —
+    // the genre's, with your hand still on whatever you touched
+    if (song) { follow(null); nowDesk(null); drawRoll(null); if (reduced) frame(); }
   }
 
   function db(x) { return 20 * Math.log10(Math.max(1e-6, x)); }
@@ -1402,10 +2421,13 @@
   $("seed-down").addEventListener("click", function () { step(-1); });
   $("random").addEventListener("click", function () { seedEl.value = String(Math.floor(Math.random() * 1e6)); compose(); });
   [seedEl, secEl].forEach(function (el) { el.addEventListener("change", compose); el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); compose(); } }); });
-  window.addEventListener("resize", function () { if (song) { drawRoll(null); drawCable(); M.RACK_ORDER.forEach(refreshScreen); } });
+  // a resized canvas is a cleared canvas, so the screens repaint whatever they
+  // last painted rather than being skipped as unchanged
+  window.addEventListener("resize", function () { if (song) { drawRoll(null); drawCable(); screenSig = {}; M.RACK_ORDER.forEach(refreshScreen); } });
   document.addEventListener("keydown", function (e) { if (e.code === "Space" && e.target === document.body) { e.preventDefault(); playing ? stop() : play(); } });
   compose();
 })();
 </script>
+
 </body>
 </html>
