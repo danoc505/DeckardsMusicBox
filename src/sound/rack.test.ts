@@ -149,6 +149,44 @@ test("a board is one part's own: the same pedal on two boards is two different r
   assert.ok(!differs(desk({ drone: MUFF }), bare), "a board the mixer feeds nothing changed the record");
 });
 
+test("an fx in line is heard, and which END of the board it clips onto changes the record", () => {
+  // THE WHOLE POINT OF `at`. A rack unit is always after everything, so
+  // "before the fuzz" was not a thing this program could say. If `first` and
+  // `last` came out the same the switch would be a knob that does nothing.
+  //
+  // The board has to be carrying dirt for the order to matter: a filter into
+  // a fuzz and a fuzz into a filter differ because the fuzz is NOT linear.
+  // Through a clean board the two orders are the same chain and should agree,
+  // which is the second half of this test and the reason the first half is
+  // not just measuring noise.
+  const s = compose({ seed: 5, genre: "lofi", seconds: 24 });
+  const lead = (fx: NonNullable<SoundSpec["fx"]>, pedals = 1): Float32Array =>
+    mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals, sends: { echo: 0, room: 0 } } }, fx } }));
+  const differs = (a: Float32Array, b: Float32Array): boolean => {
+    if (a.length !== b.length) return true;
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return true;
+    return false;
+  };
+  const OFF = { lead: {} } as NonNullable<SoundSpec["fx"]>;
+  const at = (where: "first" | "last"): NonNullable<SoundSpec["fx"]> =>
+    ({ lead: { pole: { hz: 700, resonance: 0.3, mix: 1, at: where } } }) as NonNullable<SoundSpec["fx"]>;
+
+  const bare = lead(OFF);
+  const first = lead(at("first")), last = lead(at("last"));
+  assert.ok(differs(first, bare), "an fx in line at the head of the board did nothing");
+  assert.ok(differs(last, bare), "an fx in line at the tail of the board did nothing");
+  // lofi's lead board carries an overdrive, which clips — so the filter before
+  // it and the filter after it are two different sounds
+  assert.ok(differs(first, last), "which end of the board the fx clips onto made no difference");
+
+  // and with the board out of circuit there is nothing between the two ends,
+  // so they must agree — if they do not, the difference above was not order
+  const noBoard = { mix: { lead: { pedals: 0, sends: { echo: 0, room: 0 } } } };
+  const bothEnds = (["first", "last"] as const).map((w) =>
+    mono(render(s, { sampleRate: SR, only: "lead", desk: { ...noBoard, fx: at(w) } })));
+  assert.deepEqual(bothEnds[0], bothEnds[1], "with no board between them, the two ends are the same place and did not agree");
+});
+
 test("a pedal keeps its own clock while the knob beside it is automated", () => {
   // THE LAW THAT MAKES A PEDAL AUTOMATABLE. `retune()` runs every RAMP_STEP
   // samples while anything on the desk is moving, so a board REBUILT on every

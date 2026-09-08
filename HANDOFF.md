@@ -139,6 +139,36 @@ measured. Write the next one that way.
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
 
+**The rack's effects can be pedals on one part's line, at either end of its
+board.** A rack unit is the record's, not a player's: the wet five are RETURNS
+everybody sends to, and the inserts sit on the SUM after the mix. So there was
+no way to put a spring on the bass and not on the flute, and no way at all to
+ask whether the filter comes BEFORE the fuzz — the answer was always "after
+everything". `sound.fx` is the same nine circuits wired the other way: one set
+per part, each with its own knobs, its own mix, and an `at` of `first` or
+`last` saying which end of that part's board it clips onto. Mono, because a
+part's line is mono until the world places it; `master` is not among them and
+cannot be, because it is the output ceiling and a per-part one is just the
+part's level.
+
+`at` IS THE POINT OF THEM, and it is tested as such. `rack.test.ts` renders
+lofi's lead with a filter at each end: through the board — which carries an
+overdrive, so it clips — the two differ, and with the board out of circuit
+they are byte-identical, which proves the difference is ORDER and not noise.
+LAST is the default on all nine, because the end of the line is where a rack
+has always effectively been.
+
+**Nothing here changes a record yet.** Every fx is at mix 0 in `DEFAULTS`,
+neither genre states one, and lofi 42 renders byte-identical to the commit
+before. The page draws all nine as pedals with the same instrument bank and a
+FIRST/LAST pair, so they can be turned up by hand and heard. The sum rack is
+still what both genres actually use and is still on the page, folded away
+below. **Retiring it is the next step and it is not small**: moving a genre's
+reverb from a shared return to six in-line copies gives every part its own
+room instead of one room they are all in, and it makes `patch` — the dub desk,
+returns into returns — meaningless. That is a real change to what these
+records are, and it wants measuring rather than a flag day.
+
 **Turning a pedal's knob is an ALTERATION, and now it is one.** The catalogue
 had a row for how much of a board a part walks (`push`/`ease`) and a row for
 which box on it is lit (`stomp`), and no row at all for the knobs on the box.

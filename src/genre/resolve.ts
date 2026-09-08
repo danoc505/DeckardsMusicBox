@@ -13,7 +13,7 @@
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import {
-  ARCS, ARP_PATTERNS, BAR_LETTERS, BASS_TONES, ELEMENTS, FIGURES, TEXTURES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
+  ARCS, ARP_PATTERNS, BAR_LETTERS, BASS_TONES, ELEMENTS, FIGURES, FX_ORDER, FX_WHERE, TEXTURES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
   type Genre, type GenreSpec, type VoiceName, type Weighted,
 } from "./spec.ts";
 
@@ -934,6 +934,42 @@ export function resolveGenre(
       pd("sag", "depth", 0, 1); pd("sag", "idle", 0.18, 1); pd("sag", "recovSec", 0.01, 0.6); pd("sag", "draw", 0, 1);
       pd("phaser", "rateHz", 0.02, 10); pd("phaser", "depth", 0, 1);
       pd("tremolo", "rateHz", 0.1, 20); pd("tremolo", "depth", 0, 1);
+    }
+    // the in-line effects: one set per part, every knob in range, and each
+    // one at an end of the board that exists
+    const rigs = isPlainObject(sound["fx"]) ? sound["fx"] : null;
+    if (rigs === null) problems.push("sound.fx is missing");
+    else for (const role of ROLES) {
+      const fx = isPlainObject(rigs[role]) ? rigs[role] : null;
+      if (fx === null) { problems.push(`sound.fx.${role} is missing`); continue; }
+      const at = (name: string, field: string, lo: number, hi: number): void => {
+        const u = fx[name];
+        if (!isPlainObject(u)) { problems.push(`sound.fx.${role}.${name} is missing`); return; }
+        const v = u[field];
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.fx.${role}.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
+      };
+      for (const name of FX_ORDER) {
+        at(name, "mix", 0, 1);
+        const u = fx[name];
+        // WHICH END OF THE BOARD, and there are only two of them. A typo here
+        // would otherwise be a silent no-op: the effect would match neither
+        // rig and never be built at all.
+        if (isPlainObject(u) && !(FX_WHERE as readonly unknown[]).includes(u["at"])) {
+          problems.push(`sound.fx.${role}.${name}.at must be ${FX_WHERE.join(" or ")}, got ${String(u["at"])}`);
+        }
+      }
+      at("pole", "hz", 40, 20000); at("pole", "resonance", 0, 1);
+      at("flange", "rateHz", 0.02, 10); at("flange", "depth", 0, 1);
+      at("ensemble", "rateHz", 0.02, 10); at("ensemble", "depth", 0, 1);
+      at("echo", "beats", 0.25, 8); at("echo", "feedback", 0, 0.9);
+      at("spring", "sec", 0.2, 6);
+      at("room", "sec", 0.2, 12);
+      at("tape", "lowpassHz", 1000, 20000); at("tape", "drive", 1, 10);
+      at("vinyl", "crackle", 0, 1);
+      const med = fx["medium"];
+      if (isPlainObject(med) && med["kind"] !== "gramophone" && med["kind"] !== "radio") {
+        problems.push(`sound.fx.${role}.medium.kind must be "gramophone" or "radio", got ${String(med["kind"])}`);
+      }
     }
     // the drum machine: which kit, which circuit, and the strip on every lane
     const machine = isPlainObject(sound["machine"]) ? sound["machine"] : null;

@@ -215,6 +215,14 @@ is a circuit archetype built from published teardowns, and each is OFF the
 board at mix 0 rather than bypassed on it — a part that uses one pedal pays
 for one.
 
+**And the rack's effects can be pedals too.** `sound.fx` is those nine
+circuits in line on one part's own board — its own filter, its own spring —
+each with an `at` of `first` or `last` saying which end it clips onto. That
+switch is the thing a rack cannot do: a rack is always after everything, so
+"the filter before the fuzz" was not sayable. Every one is off by default and
+neither genre states one yet; the shared returns and the sum's inserts are
+still what both genres use.
+
 **And there is one board PER PART**, because a board belongs to a player
 rather than to a band: the bassist's Muff is not the keyboard player's, and
 `sound.pedals` is six boards keyed by part. A board is REBUILT only when a
