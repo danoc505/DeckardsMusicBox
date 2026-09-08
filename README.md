@@ -255,20 +255,22 @@ is a stone road under stars. Double-click it for the whole screen. `npm run
 shot lofi 42 --drive 70` shoots it seventy seconds in.
 
 **The drive** is the CRT at the top of the bridge: the record as a city you
-are driving through, in glyphs. Every other music visualiser knows only the
-past, because the sound arrives live; this record is composed whole before
-Play, so the street shows what is COMING. In lofi it is a raycast city — a
-grid, a route through it that turns at every section, one ray per column —
-where the front row is a building per half-bar with the notes in its
-windows (a part owns a pane on its side of the street, a pitch is a floor, a
-chord lights a floor across and the tune is a lit window climbing), the
-blocks behind rise with the arc, lamps stand one a bar, the gates are the
+are driving through, in glyphs — midtown Manhattan, to its real grid and
+names, from 7th Avenue at 34th heading uptown, turning at the next corner
+whenever a section ends. Every other music visualiser knows only the past,
+because the sound arrives live; this record is composed whole before Play,
+so the street shows what is COMING. It is a raycaster — one ray per column
+through the grid — where the front row is a building per half-bar with the
+notes in its windows (a part owns a pane on its side of the street, a pitch
+is a floor, a chord lights a floor across and the tune is a lit window
+climbing), the blocks behind rise with the arc, the landmarks stand where
+they stand, the neon signs are the desk's own moves in the roll's colours,
+the puddles give the lights back, lamps stand one a bar, the gates are the
 sections, the kick comes at you across the wet road, and the weather is the
 desk: the pole's cutoff thickens the fog, the tape's wow sways the horizon,
-the vinyl's dust is rain. In dungeon synth it is a stone road through
-mountains that are the arc, under stars. You drive one bar behind the music
-so the window that is sounding is in view when it flares; the camera tilts
-up toward the towers as the arc rises, and you can drag on it to look
+the vinyl's dust is rain. Both genres drive it. You drive one bar behind the
+music so the window that is sounding is in view when it flares; the camera
+tilts up toward the towers as the arc rises, and you can drag on it to look
 round. `F` halves the cells for a finer picture. `npm run shot lofi 42 --
 --drive 70` shoots it seventy seconds in.
 

@@ -1219,7 +1219,7 @@
     GFONT = fine ? "700 8.5px ui-monospace,Menlo,Consolas,monospace" : "700 12px ui-monospace,Menlo,Consolas,monospace";
     atlas = {}; COLS = 0;   // the grid and every sprite are the wrong size now
   }
-  var ROAD = 2.4, BAR_UNITS = 6, EYE = 1.7, GATE_H = 3.6, ZNEAR = 0.55, FOV = 104 * Math.PI / 180;
+  var EYE = 1.7;
   /* SOURCES AND SURFACES. A night city is lit by its lights and not by the sky,
      so the palette is two ladders: the things that EMIT — windows, neon, the
      parts' own colours — sit bright and carry through the fog, and the things
@@ -1233,10 +1233,8 @@
      wide, eight floors of pitch. The front row of the city is always at least
      four floors, because its windows are where the notes go. */
   var FLOOR_H = 0.5, SILL = 0.3, PANE_W = 0.5, FLOORS = 8;
-  var GLYPH = { bass: 35, keys: 61, lead: 64, counter: 42, drone: 126 };   // # = @ * ~
-  var RAMP = " .:-=+*#%@";
   var driveSec = 0, driveFrame = 0, barStart = [], secToBarLast = 0, dseed = 0;
-  var COLS = 0, ROWS = 0, gCh, gPal, gLvl, gZ, ybuf, atlas = {};
+  var COLS = 0, ROWS = 0, gCh, gPal, gLvl, gZ, atlas = {};
   /** Every window a note lights: (part, lot, floor) → the seconds it is on. */
   var glow = new Map();
   var floorOf = function (pitch) { return Math.max(0, Math.min(FLOORS - 1, Math.round((pitch - 34) / 6.6))); };
@@ -1292,24 +1290,11 @@
     var a = ihash(xi, yi), b = ihash(xi + 1, yi), c = ihash(xi, yi + 1), d = ihash(xi + 1, yi + 1);
     return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
   }
-  /** Height of the land at a point on the stone road: the arc's energy, squared so the peak towers. */
-  function terrainAt(x, zw) {
-    var d = Math.abs(x) - ROAD;
-    if (d <= 0) return 0;
-    // SQUARED, and tall: perspective shrinks a far thing by its distance, and
-    // the peak has to read as a mountain from a hundred and fifty units off —
-    // so at full energy the land stands thirty-odd units over a road you sit
-    // two units above, and near the peak you drive through a pass
-    var e = arcAt(zw / BAR_UNITS), base = e * e * 36, t = Math.min(1, d / 14);
-    var s = t * t * (3 - 2 * t);
-    return base * (0.06 + 0.94 * s) * (0.6 + 0.8 * noise2(x * 0.16, zw * 0.07)) + 1.2 * noise2(x * 0.7, zw * 0.35) * (0.2 + s);
-  }
   /** A part's lane across the road: azimuth unwrapped so front is centre and behind is the far verge, distance pushing it out. */
   function laneX(role) {
     var az = shown(["mix", role, "az"]) * Math.PI / 360, dist = shown(["mix", role, "dist"]);
     return Math.sin(az) * (0.35 + dist) * 4.2;
   }
-  var pitchY = function (p) { return 0.25 + Math.max(0, Math.min(1, (p - 30) / 56)) * 3.6; };
 
   function put(c, r, code, pal, lvl, z) {
     if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return;
@@ -1352,7 +1337,7 @@
      pane a part owns found by where the ray struck the wall; the blocks behind
      take their height from the arc at the bar they stand beside; the lamps are
      one a bar; the gates are the sections. */
-  var CPB = 4, OFF = 4096, LOOK = CPB, STREET = 2, FRONT_DEPTH = 2, BLOCK = 6, LAMP_EVERY = CPB, LAMP_H = 2.4, CITY_FOV = 92 * Math.PI / 180;
+  var CPB = 4, OFF = 4096, LOOK = CPB, FRONT_DEPTH = 2, LAMP_EVERY = CPB, LAMP_H = 2.4, CITY_FOV = 92 * Math.PI / 180;
   var DIRS = [[0, 1], [1, 0], [0, -1], [-1, 0]], ANG = [Math.PI / 2, 0, -Math.PI / 2, Math.PI];
   var route = null, curSeg = { s0: 0, a0: 0, axis: 1, sign: 1 }, hitFront = null, zcol = null, wet = null, topMark = null;
   /** Where the camera is looking: the record's own tilt, and a hand's, easing back. */
@@ -1361,29 +1346,72 @@
   var isSrc = function (pal) { return pal < 3 || (pal >= 4 && pal <= 9) || pal >= 11; };
   var ckey = function (mx, my) { return (mx + OFF) * 16384 + (my + OFF); };
 
-  /** The record's route through the grid, and everything that stands along it. */
+  /* ═══ MIDTOWN ═══════════════════════════════════════════════════════════
+     The grid is Manhattan's, to its real proportions and with its real
+     names: avenues north–south, 12th to 1st, long blocks between them;
+     streets east–west every eighty metres, 34th to 59th; Broadway cut
+     through on the diagonal so the wedge buildings fall out of the blocks
+     by themselves; the landmarks where they stand, and Times Square's neon
+     where it is. A cell is four metres. The map is not data — Manhattan is
+     a grid and a grid is arithmetic — so the page stays one file.
+
+     The drive starts on 7th Avenue at 34th, heading uptown. At each section
+     boundary it decides to turn — onto a cross street from an avenue, onto
+     an avenue from a street, uptown more often than not — and takes the next
+     intersection. The route stays inside the map. */
+  var AVE_PITCH = 76, AVE_W = 8, ST_PITCH = 24, ST_W = 4, ST_FIRST = 34, ST_LAST = 59;
+  var AVE_NAMES = ["12 AV", "11 AV", "10 AV", "9 AV", "8 AV", "7 AV", "6 AV", "5 AV", "MADISON AV", "PARK AV", "LEXINGTON AV", "3 AV", "2 AV", "1 AV"];
+  var aveX = function (a) { return a * AVE_PITCH + AVE_W / 2; }, stY = function (i) { return i * ST_PITCH + ST_W / 2; };
+  var stName = function (i, x) { return (x < aveX(7) ? "W " : "E ") + (ST_FIRST + i) + " ST"; };
+  var mod = function (v, m) { return ((v % m) + m) % m; };
+  /** Broadway's centre line at a given northing: Herald Square at 6th and 34th, Times Square at 7th and 45th. */
+  var bwayX = function (y) { return aveX(6) - 0.288 * (y - stY(0)); };
+  var LANDMARKS = [
+    { name: "EMPIRE STATE", x: aveX(7) - 12, y: stY(0) - 10, h: 78, r: 9 },
+    { name: "BANK OF AMERICA", x: aveX(6) + 10, y: stY(8) + 6, h: 60, r: 6 },
+    { name: "ONE VANDERBILT", x: aveX(9) + 14, y: stY(8) + 6, h: 70, r: 6 },
+    { name: "CHRYSLER", x: aveX(10) + 10, y: stY(8) + 6, h: 64, r: 6 },
+    { name: "METLIFE", x: aveX(9) + 12, y: stY(11) + 10, h: 46, r: 8 },
+    { name: "30 ROCK", x: aveX(6) + 38, y: stY(15) + 12, h: 58, r: 7 },
+  ];
+  /** Times Square: 7th Avenue from 42nd to 47th, where the neon is. */
+  var neonZone = function (mx, my) { return Math.abs(mx - aveX(5)) < 16 && my >= stY(8) - 2 && my <= stY(13) + 6; };
+  var laneW = function (d) { return d === 0 || d === 2 ? 3 : 2; };   // an avenue is wider than a street
+
+  /** The record's route through midtown, and everything that stands along it. */
   function buildRoute() {
-    var secs = song.form.sections, R = { cells: [], street: new Map(), front: new Map(), xstreet: new Set(), turns: [], gates: [], lamps: [], drums: [], pre: 8 };
-    // a run-up before the record: the car starts a bar short of the intro, and
-    // it had better be on a street when it does
-    var x = 0, y = -R.pre, d = 0, s = -R.pre;
-    for (var p0 = 0; p0 < R.pre; p0++) { lay(R, x, y, d, s, true); y++; s++; }
-    var cross = function (cx0, cy0, d0) {   // a cross street: five wide, long, across the heading
-      var px = DIRS[(d0 + 1) & 3][0], py = DIRS[(d0 + 1) & 3][1];
-      for (var k = -60; k <= 60; k++) for (var w = -STREET; w <= STREET; w++) R.xstreet.add(ckey(cx0 + px * k + DIRS[d0][0] * w, cy0 + py * k + DIRS[d0][1] * w));
+    var secs = song.form.sections, R = { cells: [], street: new Map(), front: new Map(), turns: [], gates: [], lamps: [], names: [], drums: [], pre: 8 };
+    var x = aveX(5), y = stY(0) - R.pre, d = 0, s = -R.pre, pending = null;
+    var atCorner = function () { return d === 0 || d === 2 ? mod(y - ST_W / 2, ST_PITCH) === 0 : mod(x - AVE_W / 2, AVE_PITCH) === 0; };
+    var inside = function (nx, ny) { return nx >= aveX(0) && nx <= aveX(13) && ny >= stY(0) - ST_PITCH && ny <= stY(25); };
+    var step = function (built) {
+      // a turn that is due is taken at the next corner, not mid-block
+      if (pending !== null && atCorner() && s >= 0) { R.turns.push({ s: s, from: d, to: pending }); d = pending; pending = null; }
+      // a name at every corner: the street you are crossing
+      if (atCorner() && s >= 0) {
+        var px0 = DIRS[(d + 1) & 3][0], py0 = DIRS[(d + 1) & 3][1], w0 = laneW(d);
+        var nm = d === 0 || d === 2 ? stName(Math.round((y - ST_W / 2) / ST_PITCH), x) : AVE_NAMES[Math.max(0, Math.min(13, Math.round((x - AVE_W / 2) / AVE_PITCH)))];
+        R.names.push({ x: x + 0.5 + px0 * (w0 + 0.6), y: y + 0.5 + py0 * (w0 + 0.6), s: s, name: nm });
+      }
+      lay(R, x, y, d, s, built);
+      var nx = x + DIRS[d][0], ny = y + DIRS[d][1];
+      if (!inside(nx, ny) && pending === null) pending = d === 0 || d === 2 ? (x < aveX(7) ? 1 : 3) : (y < stY(12) ? 0 : 2);   // the edge of the map: turn back in
+      x = nx; y = ny; s++;
     };
+    for (var p0 = 0; p0 < R.pre; p0++) step(true);
     secs.forEach(function (sec, si) {
       if (si > 0) {
-        cross(x, y, d);
-        var ht = ihash(si * 7, 31), nd = ht < 0.36 ? (d + 3) & 3 : ht < 0.72 ? (d + 1) & 3 : d;
-        if (nd !== d) R.turns.push({ s: s, from: d, to: nd });
-        d = nd;
+        var ht = ihash(si * 7, 31);
+        if (d === 0 || d === 2) pending = ht < 0.5 ? 1 : 3;                 // off the avenue onto a street, east or west
+        else pending = ht < 0.8 ? 0 : 2;                                     // off the street onto an avenue, uptown mostly
+        if (pending === 1 && x >= aveX(12)) pending = 3; if (pending === 3 && x <= aveX(1)) pending = 1;
+        if (pending === 0 && y >= stY(23)) pending = 2; if (pending === 2 && y <= stY(2)) pending = 0;
       }
       R.gates.push({ s: s, name: sec.fn.toUpperCase() + (sec.peak ? " PEAK" : ""), peak: sec.peak, end: false });
-      for (var i = 0; i < sec.bars * CPB; i++) { lay(R, x, y, d, s, true); x += DIRS[d][0]; y += DIRS[d][1]; s++; }
+      for (var i = 0; i < sec.bars * CPB; i++) step(true);
     });
     R.gates.push({ s: s, name: "END", peak: false, end: true });
-    for (var j = 0; j < 12; j++) { lay(R, x, y, d, s, false); x += DIRS[d][0]; y += DIRS[d][1]; s++; }   // the road runs on while the tail rings
+    for (var j = 0; j < 12; j++) step(false);   // the road runs on while the tail rings
     song.performance.events.forEach(function (e) { if (e.role === "drums") R.drums.push([barOf(e.tSec) * CPB, e.lane, e.gain, e.tSec]); });
     R.drums.sort(function (a, b) { return a[0] - b[0]; });
     // the counter-line's notes are the cars that cross between the towers,
@@ -1407,7 +1435,7 @@
       var px = DIRS[(cc.d + 1) & 3][0], py = DIRS[(cc.d + 1) & 3][1], sd = ihash(Math.floor(sp), 555) < 0.5 ? -1 : 1;
       var col = fxHue(dch.treatment), pal = PAL.indexOf(col); if (pal < 0) { pal = PAL.length; PAL.push(col); }
       var next = song.performance.desk[di + 1];
-      R.signs.push({ x: cc.x + 0.5 + px * sd * (STREET + 0.45), y: cc.y + 0.5 + py * sd * (STREET + 0.45), s: sp, side: sd,
+      R.signs.push({ x: cc.x + 0.5 + px * sd * (cc.w + 0.45), y: cc.y + 0.5 + py * sd * (cc.w + 0.45), s: sp, side: sd,
                      name: dch.treatment.toUpperCase() + (dch.at ? " " + dch.at.toUpperCase() : ""), pal: pal,
                      h: 3.1 + 1.7 * ihash(Math.floor(sp), 77), t0: dch.tSec, t1: next ? next.tSec : 1e9, depth: dch.depth === undefined ? 1 : dch.depth });
     });
@@ -1415,28 +1443,46 @@
   }
   /** One cell of route: the street either side of it, a lamp now and then, and the front row's buildings beyond the pavement. */
   function lay(R, x, y, d, s, built) {
-    var px = DIRS[(d + 1) & 3][0], py = DIRS[(d + 1) & 3][1];
-    R.cells.push({ x: x, y: y, d: d });
-    for (var w = -STREET; w <= STREET; w++) R.street.set(ckey(x + px * w, y + py * w), { s: s, w: w, d: d });
-    if (s % LAMP_EVERY === 2) for (var sd = -1; sd <= 1; sd += 2) R.lamps.push({ x: x + 0.5 + px * sd * STREET, y: y + 0.5 + py * sd * STREET, s: s });
+    var px = DIRS[(d + 1) & 3][0], py = DIRS[(d + 1) & 3][1], w = laneW(d);
+    R.cells.push({ x: x, y: y, d: d, w: w });
+    for (var k = -w; k <= w; k++) R.street.set(ckey(x + px * k, y + py * k), { s: s, w: k, d: d, half: w });
+    if (mod(s, LAMP_EVERY) === 2) for (var sd = -1; sd <= 1; sd += 2) R.lamps.push({ x: x + 0.5 + px * sd * w, y: y + 0.5 + py * sd * w, s: s });
     if (!built) return;
     var along = d === 0 || d === 2 ? y : x, forward = d === 0 || d === 1;
     for (var side = 0; side < 2; side++) {
       var sg = side === 0 ? -1 : 1, hb = s >> 1, e = arcAt(hb / 2), hs = ihash(hb, side + 3);
       var b = { hb: hb, side: side, h: 4.5 + e * e * 28 * hs * hs, axis: d === 0 || d === 2 ? 1 : 0,
                 start: forward ? along - (s & 1) : along - 1 + (s & 1), kind: ihash(hb * 3 + 1, side * 7 + 2) };
-      for (var dep = STREET + 1; dep <= STREET + FRONT_DEPTH; dep++) R.front.set(ckey(x + px * sg * dep, y + py * sg * dep), b);
+      for (var dep = w + 1; dep <= w + FRONT_DEPTH; dep++) R.front.set(ckey(x + px * sg * dep, y + py * sg * dep), b);
     }
   }
   /** How tall the city is at a cell — 0 is street — and, in `hitFront`, which front building if any. */
+  var hCache = new Map(), hCacheD = -1;
   function heightAt(mx, my) {
     var k = ckey(mx, my); hitFront = null;
-    if (route.street.has(k) || route.xstreet.has(k)) return 0;
+    // the map is static within a segment — the arc term rides on the route
+    // position, which moves with the car — so a height is computed once per
+    // cell per heading and remembered
+    var hc = hCache.get(k); if (hc !== undefined) { hitFront = hc.f; return hc.h; }
+    var hv = heightRaw(mx, my, k); hCache.set(k, { h: hv, f: hitFront }); return hv;
+  }
+  function heightRaw(mx, my, k) {
+    if (route.street.has(k)) return 0;
+    var xm = mod(mx, AVE_PITCH), ym = mod(my, ST_PITCH);
+    if (xm < AVE_W || ym < ST_W) return 0;                       // an avenue, a street
+    if (Math.abs(mx + 0.5 - bwayX(my)) < 3) return 0;             // Broadway
     var fr = route.front.get(k); if (fr) { hitFront = fr; return fr.h; }
-    var bh = ihash(Math.floor(mx / BLOCK) + 77, Math.floor(my / BLOCK) + 13);
-    if (bh < 0.18) return 0;   // a yard, a lot never built
+    // a block: buildings two or three cells wide, taller inside the block
+    // than on its face, and the record's arc still in the skyline
+    var faceD = Math.min(xm - AVE_W, AVE_PITCH - 1 - xm, ym - ST_W, ST_PITCH - 1 - ym);
+    var bh = ihash(Math.floor(mx / 3) + 77, Math.floor(my / 3) + 13);
     var along = curSeg.axis === 1 ? my : mx, sp = curSeg.s0 + (along - curSeg.a0) * curSeg.sign, e = arcAt(sp / CPB);
-    return e * e * 42 * (0.25 + 0.9 * bh * bh) * (0.7 + 0.6 * ihash(mx, my));
+    var h = (4 + 26 * bh * bh) * (0.55 + 0.45 * e * e) * (faceD < 2 ? 0.7 : faceD < 5 ? 1 : 1.5);
+    for (var li = 0; li < LANDMARKS.length; li++) {
+      var L = LANDMARKS[li], dd = Math.max(Math.abs(mx - L.x), Math.abs(my - L.y));
+      if (dd < L.r) h = Math.max(h, L.h * Math.pow(1 - dd / L.r, 0.5));
+    }
+    return h;
   }
   /** Where the car is on the route and which way it faces, steering into each turn over a bar. */
   function camAt(sPos) {
@@ -1450,9 +1496,10 @@
     return { x: x, y: y, a: a, i: i, s: si, d: d };
   }
 
-  function castCity(eye, cx, f, fy, horizon, fog, srcFog, fogZ, sec, barNow, low, dust, t, paneRole, all) {
+  function castCity(eye, cx, horizon, fog, srcFog, fogZ, sec, barNow, low, dust, t, paneRole, all) {
     var cam = camAt(barNow * CPB - LOOK), posX = cam.x, posY = cam.y;
     cam.a += lookYaw;   // a hand on the drive, looking round
+    if (cam.d !== hCacheD || hCache.size > 60000) { hCache.clear(); hCacheD = cam.d; }
     curSeg.axis = cam.d === 0 || cam.d === 2 ? 1 : 0; curSeg.sign = cam.d === 0 || cam.d === 1 ? 1 : -1;
     curSeg.s0 = cam.s; curSeg.a0 = curSeg.axis === 1 ? route.cells[cam.i].y : route.cells[cam.i].x;
     var dirX = Math.cos(cam.a), dirY = Math.sin(cam.a), PL = Math.tan(CITY_FOV / 2), fc = cx / PL, fyc = fc * CELL_W / CELL_H;
@@ -1482,7 +1529,7 @@
         var u = side === 0 ? posY + dz * rdY : posX + dz * rdX;      // where along the face the ray struck
         var fr = hitFront, br = fog(dz) * (side === 1 ? 0.78 : 1), bs = srcFog(dz), murk = br < 0.13;
         var noted = fr && fr.axis === (side === 0 ? 1 : 0), kind = fr ? fr.kind : ihash(mapX * 3 + 1, mapY * 7 + 2);
-        var glass = kind > 0.62, brick = kind < 0.24, warm = brick || ihash(mapX, mapY + 5) < 0.4, litRate = glass ? 0.3 : brick ? 0.08 : 0.14;
+        var glass = kind > 0.62, brick = kind < 0.24, warm = brick || ihash(mapX, mapY + 5) < 0.4, litRate = (glass ? 0.3 : brick ? 0.08 : 0.14) * (neonZone(mapX, mapY) ? 2.6 : 1);
         var wLo = glass ? 0.15 : 0.28, wHi = glass ? 0.88 : 0.78, pLo = glass ? 0.1 : 0.22, pHi = glass ? 0.92 : 0.8;
         var uu = noted ? u - fr.start : u, pane = Math.floor(uu / PANE_W), pr = uu / PANE_W - pane, role = noted && pane >= 0 && pane < 4 ? paneRole[fr.side][pane] : undefined;
         var faceLvl = br * 0.7, edgeU = u - Math.floor(u), atEdge = edgeU < 0.06 || edgeU > 0.94;
@@ -1519,9 +1566,9 @@
         if (st2) {
           var dd = st2.d, ox = wx - cxw - 0.5, oy = wy - cyw - 0.5;
           var lateral = st2.w + ox * DIRS[(dd + 1) & 3][0] + oy * DIRS[(dd + 1) & 3][1], alongF = ox * DIRS[dd][0] + oy * DIRS[dd][1] + 0.5, sPos = st2.s + alongF;
-          var al = Math.abs(lateral), road = al < 1.5;
+          var al = Math.abs(lateral), rw = st2.half - 0.5, road = al < rw;
           if (!road) { code2 = 46; pal2 = PAVEC; lvl2 = fb * 0.3; }
-          else if (al > 1.38) { code2 = 124; pal2 = PAVEC; lvl2 = fb * 0.5; }                       // the kerb
+          else if (al > rw - 0.12) { code2 = 124; pal2 = PAVEC; lvl2 = fb * 0.5; }                 // the kerb
           else {
             var bar = sPos / CPB, fbar = bar - Math.floor(bar);
             if (fbar < 0.04 || fbar > 0.96) { code2 = 61; pal2 = 0; lvl2 = fb * (0.7 + 0.3 * low); }
@@ -1535,10 +1582,10 @@
               var lane = drums[di][1], g = 0.5 + 0.5 * Math.min(1, drums[di][2]);
               if (lane === "kick") { code2 = 61; pal2 = PIDX.drums; lvl2 = fb * g; }
               else if (lane === "snare" && al > 0.4 && al < 0.8) { code2 = 120; pal2 = PIDX.drums; lvl2 = fb * g; }
-              else if ((lane === "hat" || lane === "openhat") && al > 1.1) { code2 = lane === "openhat" ? 111 : 46; pal2 = PIDX.drums; lvl2 = fb * g * 0.8; }
+              else if ((lane === "hat" || lane === "openhat") && al > rw - 0.4) { code2 = lane === "openhat" ? 111 : 46; pal2 = PIDX.drums; lvl2 = fb * g * 0.8; }
             }
           }
-        } else if (route.xstreet.has(ckey(cxw, cyw))) { code2 = 46; pal2 = PAVEC; lvl2 = fb * 0.22; }
+        } else if (heightAt(cxw, cyw) <= 0) { code2 = 46; pal2 = PAVEC; lvl2 = fb * 0.22; }   // a cross street, an avenue, Broadway
         var jj = fr2 * COLS + c; if (code2) { gCh[jj] = code2; gPal[jj] = pal2; gLvl[jj] = lvl2; } gZ[jj] = rowDist; if (isWet) wet[jj] = 1;
       }
     }
@@ -1568,7 +1615,7 @@
     for (var gi = 0; gi < route.gates.length; gi++) {
       var gt = route.gates[gi]; if (gt.s - sCam < 1.2 || gt.s - sCam > fogZ) continue;   // a gate you are under is a post beside you, not a picture
       var gc = route.cells[Math.min(route.cells.length - 1, gt.s + route.pre)], gd = gc.d, gpx = DIRS[(gd + 1) & 3][0], gpy = DIRS[(gd + 1) & 3][1];
-      var pa = project(gc.x + 0.5 - gpx * (STREET + 0.5), gc.y + 0.5 - gpy * (STREET + 0.5)), pb = project(gc.x + 0.5 + gpx * (STREET + 0.5), gc.y + 0.5 + gpy * (STREET + 0.5));
+      var gw = gc.w + 0.5, pa = project(gc.x + 0.5 - gpx * gw, gc.y + 0.5 - gpy * gw), pb = project(gc.x + 0.5 + gpx * gw, gc.y + 0.5 + gpy * gw);
       if (pa.ty < 0.25 || pb.ty < 0.25) continue;
       var ga = Math.min(pa.col, pb.col), gb2 = Math.max(pa.col, pb.col), gty = Math.min(pa.ty, pb.ty), gl = fog(gty) * (gt.end ? 0.55 : gt.peak ? 1 : 0.75), gp = gt.end ? 3 : 1;
       var gtop = Math.round(horizon - (3.0 - eye) * fyc / gty), gbot = Math.round(horizon + eye * fyc / gty);
@@ -1597,6 +1644,15 @@
         if (ps.ty > zcol[cc4]) continue;
         put(cc4, srow - 1, 45, sg2.pal, sl * 0.4, ps.ty); put(cc4, srow + 1, 45, sg2.pal, sl * 0.4, ps.ty);
       }
+    }
+    // ── the street signs: the name of every corner you cross, green on the post ──
+    for (var ni = 0; ni < route.names.length; ni++) {
+      var nmS = route.names[ni]; if (nmS.s - sCam < 0.8 || nmS.s - sCam > fogZ) continue;
+      var pn = project(nmS.x, nmS.y); if (pn.ty < 0.4) continue;
+      var ncw = Math.max(0.5, Math.min(2.5, 0.36 * fc / pn.ty)), nrow = Math.round(horizon - (2.5 - eye) * fyc / pn.ty), nl = fog(pn.ty) * 0.85;
+      var ncol0 = pn.col - Math.round(nmS.name.length * ncw / 2);
+      for (var nk = 0; nk < nmS.name.length; nk++) { var ncc = ncol0 + Math.round(nk * ncw); if (ncc < 0 || ncc >= COLS || pn.ty > zcol[ncc]) continue; put(ncc, nrow, nmS.name.charCodeAt(nk), 0, nl, pn.ty); }
+      for (var nr2 = nrow + 1; nr2 <= Math.round(horizon + eye * fyc / pn.ty); nr2++) put(pn.col, nr2, 124, PAVEC, fog(pn.ty) * 0.4, pn.ty);
     }
     // ── the spinners: the counter-line's notes as cars crossing between the towers ──
     for (var ci2 = 0; ci2 < route.counter.length; ci2++) {
@@ -1668,7 +1724,7 @@
     var cols = Math.floor(W / CELL_W), rows = Math.floor(H / CELL_H);
     if (cols !== COLS || rows !== ROWS) {
       COLS = cols; ROWS = rows; var N = COLS * ROWS;
-      gCh = new Uint16Array(N); gPal = new Uint8Array(N); gLvl = new Float32Array(N); gZ = new Float32Array(N); ybuf = new Int16Array(COLS);
+      gCh = new Uint16Array(N); gPal = new Uint8Array(N); gLvl = new Float32Array(N); gZ = new Float32Array(N);
     }
     if (drive.width !== Math.round(W * dpr) || drive.height !== Math.round(H * dpr)) { drive.width = Math.round(W * dpr); drive.height = Math.round(H * dpr); drive.style.height = H + "px"; }
     gCh.fill(0); gZ.fill(Infinity);
@@ -1677,19 +1733,7 @@
     // flicker, the searchlights, the blimp — stands still, and only the record
     // moves the world, which is the one motion that is the content
     var t = reduced ? 0 : performance.now() / 1000, sec = driveSec, clk = song.form.clock;
-    var city = song.chart.genre.label.toLowerCase().indexOf("lofi") >= 0 || song.chart.genre.label.toLowerCase().indexOf("hip") >= 0;
-    // THE ROAD IS MEASURED IN BARS, the record's own unit: `BAR_UNITS` of road
-    // per bar whatever the tempo, so a quick genre drives quickly and the bar
-    // lines fall exactly where the clock puts them. Everything with a time is
-    // placed by `zOf`, and the land under it is the arc at that bar.
-    // AND YOU DRIVE ONE BAR BEHIND THE MUSIC. The bar that is sounding stands
-    // a bar ahead of the car rather than beside it: beside is off the edge of
-    // the view, and the whole point of a window that flares when its note
-    // plays is that you can see it flare.
-    var LOOKBACK = BAR_UNITS;
-    var barNow = barOf(sec), camZ = barNow * BAR_UNITS - LOOKBACK;
-    var zOf = function (s) { return (barOf(s) - barNow) * BAR_UNITS + LOOKBACK; };
-    var barSecNow = clk.barSec(Math.max(0, Math.min(song.form.bars - 1, Math.floor(barNow))));
+    var barNow = barOf(sec);
 
     // ── the weather is the desk ──
     var poleOn = shown(["rack", "pole", "mix"]) > 0, hz = poleOn ? shown(["rack", "pole", "hz"]) : 20000;
@@ -1698,8 +1742,7 @@
     // the desk has a filter in the sum: forty-odd units of visibility is what
     // puts the far end of the street into the murk and makes a near wall a
     // near wall. The pole's cutoff still thickens it.
-    var cityFog = song.chart.genre.label.toLowerCase().indexOf("lofi") >= 0 || song.chart.genre.label.toLowerCase().indexOf("hip") >= 0;
-    if (cityFog) fogZ = Math.min(fogZ, 46);
+    fogZ = Math.min(fogZ, 46);
     var wob = Math.sin(2 * Math.PI * shown(["rack", "tape", "wowHz"]) * t) * (shown(["rack", "tape", "wowCents"]) / 100) * 1.4;
     var dust = shown(["rack", "vinyl", "crackle"]) || 0;
     var low = 0, all = 0;
@@ -1709,7 +1752,7 @@
       for (var q2 = 0; q2 < spectrum.length; q2++) all += spectrum[q2]; all /= spectrum.length * 255;
     }
     var eye = EYE + (low - 0.45) * 0.22 * (playing ? 1 : 0);
-    var cx = COLS / 2, f = cx / Math.tan(FOV / 2), fy = f * CELL_W / CELL_H;
+    var cx = COLS / 2;
     /* ── LOOK-UP, by Y-shear ─────────────────────────────────────────────
        A raycaster cannot tilt its rays, but sliding the horizon down the
        screen is indistinguishable from tilting the head for anything that is
@@ -1718,18 +1761,11 @@
        tilts toward what the arc is about to do, so the chorus has you looking
        up at the towers and the verse levels out. A hand on the drive can look
        anywhere, and the look eases back to the road when it lets go. */
-    var eAhead = arcAt(barNow + 4), pitchTarget = (city ? 0.06 + 0.42 * eAhead * eAhead : 0.04 + 0.22 * eAhead * eAhead) + lookPitch;
+    var eAhead = arcAt(barNow + 4), pitchTarget = 0.06 + 0.42 * eAhead * eAhead + lookPitch;
     autoPitch += (pitchTarget - autoPitch) * (reduced ? 1 : 0.04);
     if (!lookDrag) { lookPitch *= 0.96; lookYaw *= 0.96; }
     var horizon = Math.max(ROWS * 0.22, Math.min(ROWS * 0.82, ROWS * 0.46 + wob + autoPitch * ROWS * 0.42));
-    var sx = function (x, z) { return cx + x / z * f; };
-    var sy = function (y, z) { return horizon - (y - eye) / z * fy; };
     var fog = function (z) { var v = 1 - z / fogZ; return v <= 0 ? 0 : Math.pow(v, 0.75); };
-    var zFar = fogZ * 1.02;
-    // the notes are small things and fade before the land does, or every note
-    // of the next minute piles into one bright knot at the vanishing point
-    var noteFar = Math.min(zFar, 72), nfog = function (z) { var v = 1 - z / noteFar; return v <= 0 ? 0 : Math.pow(v, 0.7); };
-
     // ── which pane of the street each part owns ──
     // A part's lane is its azimuth and distance; on the city's front row that
     // becomes a side of the street and a pane along every building on it,
@@ -1741,104 +1777,23 @@
     // over a longer reach, so the far end of the street is lit windows in murk
     var srcFog = function (z) { var v = 1 - z / (fogZ * 1.7); return v <= 0 ? 0 : Math.pow(v, 0.6); };
 
-    if (city) castCity(eye, cx, f, fy, horizon, fog, srcFog, fogZ, sec, barNow, low, dust, t, paneRole, all);
-    else {
-    // ── the land, column by column, near to far — the classic height-field scan ──
-    for (var c = 0; c < COLS; c++) {
-      ybuf[c] = ROWS; var dirX = (c - cx) / f;
-      for (var z = ZNEAR; z < zFar; z += 0.1 + z * 0.05) {
-        var x = dirX * z, zw = camZ + z, h = terrainAt(x, zw);
-        var row = Math.floor(sy(h, z));
-        if (row >= ybuf[c]) continue;
-        var br = fog(z), code = 0, pal = 0, lvl = 0, top = Math.max(0, row), i, r;
-        if (Math.abs(x) < ROAD + 0.15) {
-          // the road: bar lines coming at you, the beats between, the verges
-          var bar = zw / BAR_UNITS, fb = bar - Math.floor(bar), beats = clk.metre.beats, fbeat = fb * beats - Math.floor(fb * beats);
-          var edge = Math.abs(x) > ROAD - 0.14;
-          if (edge) { code = 124; lvl = br * 0.55; }
-          else if (fb < 0.035 || fb > 0.985) { code = 61; lvl = br * (0.75 + 0.25 * low); }
-          else if (fbeat < 0.06) { code = 45; lvl = br * 0.28; }
-          else if (Math.abs(x) < 0.07) { code = 58; lvl = br * 0.3; }
-        } else { lvl = br * (0.3 + 0.7 * Math.min(1, h / 14)); code = RAMP.charCodeAt(Math.max(1, Math.round(lvl * 9))); }
-        for (r = top; r < ybuf[c]; r++) { i = r * COLS + c; if (code) { gCh[i] = code; gPal[i] = pal; gLvl[i] = lvl; } gZ[i] = z; }
-        ybuf[c] = row;
-      }
-    }
-
-    // ── the gates: each section, named, the peak in full amber ──
-    var secs = song.form.sections;
-    for (var si = secs.length; si >= 0; si--) {
-      var isEnd = si === secs.length;
-      var zg = ((isEnd ? song.form.bars : secs[si].startBar) - barNow) * BAR_UNITS + LOOKBACK; if (zg < ZNEAR || zg > zFar) continue;
-      var gb = fog(zg) * (isEnd ? 0.55 : secs[si].peak ? 1 : 0.7), gp = isEnd ? 3 : 1;
-      var x0 = Math.round(sx(-ROAD - 0.6, zg)), x1 = Math.round(sx(ROAD + 0.6, zg)), r0 = Math.round(sy(0, zg)), r1 = Math.round(sy(GATE_H, zg));
-      for (var rr = r1; rr <= r0; rr++) { put(x0, rr, 124, gp, gb, zg); put(x1, rr, 124, gp, gb, zg); }
-      for (var cc = x0; cc <= x1; cc++) put(cc, r1, 61, gp, gb, zg);
-      var name = isEnd ? "END" : secs[si].fn.toUpperCase() + (secs[si].peak ? " PEAK" : "");
-      if (x1 - x0 - 2 >= name.length) { var nx = Math.round((x0 + x1) / 2 - name.length / 2); for (var k = 0; k < name.length; k++) put(nx + k, r1 - 1, name.charCodeAt(k), gp, Math.min(1, gb * 1.2), zg); }
-      else if (x1 - x0 >= 3) put(Math.round((x0 + x1) / 2), r1 - 1, name.charCodeAt(0), gp, gb, zg);
-    }
-
-    // ── the notes, standing at their bar; the ones you are passing flare ──
-    var ev = song.performance.events, ahead = noteFar / BAR_UNITS * barSecNow * 1.25;
-    var lo2 = 0, hi2 = ev.length;   // the window of events that can be seen: binary search its start
-    { var a = 0, b = ev.length; while (a < b) { var m = (a + b) >> 1; if (ev[m].tSec + 8 < sec) a = m + 1; else b = m; } lo2 = a; }
-    for (var ei = hi2 - 1; ei >= lo2; ei--) {
-      var e = ev[ei]; if (e.tSec > sec + ahead) continue;
-      var z0 = zOf(e.tSec), z1 = zOf(e.tSec + Math.max(0.05, e.durSec));
-      var sounding = e.tSec <= sec && sec < e.tSec + Math.max(0.12, e.durSec);
-      if (z1 < ZNEAR && !sounding) continue;
-      var lx = lanes[e.role], pal2 = PIDX[e.role], g0 = 0.45 + 0.55 * Math.min(1, e.gain);
-      if (e.role === "drums") {
-        if (z0 < ZNEAR) continue;
-        var rz = Math.round(sy(0, z0)), bz = nfog(z0) * g0;
-        if (e.lane === "kick") { var kx0 = Math.round(sx(-ROAD + 0.2, z0)), kx1 = Math.round(sx(ROAD - 0.2, z0)); for (var kc = kx0; kc <= kx1; kc++) put(kc, rz, 61, pal2, bz, z0); }
-        else if (e.lane === "snare") { put(Math.round(sx(-ROAD * 0.5, z0)), rz, 120, pal2, bz, z0); put(Math.round(sx(ROAD * 0.5, z0)), rz, 120, pal2, bz, z0); }
-        else { var hx = e.lane === "openhat" ? 111 : 46; put(Math.round(sx(-ROAD, z0)) - 1, rz, hx, pal2, bz * 0.8, z0); put(Math.round(sx(ROAD, z0)) + 1, rz, hx, pal2, bz * 0.8, z0); }
-        continue;
-      }
-      var y = pitchY(e.pitch), za = Math.max(ZNEAR, z0), zb = Math.min(noteFar, z1);
-      if (zb <= za) { if (sounding) { var fx = Math.round(sx(lx, ZNEAR)); for (var fr = ROWS - 1; fr >= ROWS - 3; fr--) put(fx, fr, GLYPH[e.role], pal2, 1, 0); } continue; }
-      var ca = sx(lx, za), cb = sx(lx, zb), ra = sy(y, za), rb = sy(y, zb);
-      var n = Math.max(1, Math.abs(Math.round(cb) - Math.round(ca)));
-      for (var s2 = 0; s2 <= n; s2++) {
-        var u = n === 0 ? 0 : s2 / n, zz = 1 / ((1 - u) / za + u / zb), b2 = nfog(zz) * g0 * (sounding ? 1.25 : 1);
-        var code2 = zz < 14 || sounding ? GLYPH[e.role] : RAMP.charCodeAt(Math.max(1, Math.round(Math.min(1, b2) * 9)));
-        put(Math.round(ca + (cb - ca) * u), Math.round(ra + (rb - ra) * u), code2, pal2, Math.min(1, b2), zz);
-      }
-      if (sounding) { var fx2 = Math.round(sx(lx, ZNEAR)); for (var fr2 = ROWS - 1; fr2 >= ROWS - 3; fr2--) put(fx2, fr2, GLYPH[e.role], pal2, 1, 0); }
-    }
-
-    }
+    castCity(eye, cx, horizon, fog, srcFog, fogZ, sec, barNow, low, dust, t, paneRole, all);
 
     // ── the sky: the horizon, stars or a moon, and the rain the dust makes ──
     var hr = Math.round(horizon);
-    for (var hc = 0; hc < COLS; hc++) put(hc, hr, 45, city ? 6 : 0, 0.22 + 0.25 * all, 1e8);
-    if (city) {
-      // the city's own light on its own cloud: a sodium haze that thins upward
-      for (var gr = Math.max(0, hr - 9); gr <= Math.min(ROWS - 1, hr + 2); gr++) {
-        var gd = 0.16 * (1 - Math.abs(gr - hr - 1) / 10) * (0.7 + 0.3 * all);
-        for (var gc = 0; gc < COLS; gc++) if (ihash(gc, gr + 777) < gd) put(gc, gr, 46, ihash(gc + 3, gr) < 0.7 ? SODIUM : NEONM, 0.16, 1e8);
-      }
+    for (var hc = 0; hc < COLS; hc++) put(hc, hr, 45, 6, 0.22 + 0.25 * all, 1e8);
+    // the city's own light on its own cloud: a sodium haze that thins upward
+    for (var gr = Math.max(0, hr - 9); gr <= Math.min(ROWS - 1, hr + 2); gr++) {
+      var gd = 0.16 * (1 - Math.abs(gr - hr - 1) / 10) * (0.7 + 0.3 * all);
+      for (var gc = 0; gc < COLS; gc++) if (ihash(gc, gr + 777) < gd) put(gc, gr, 46, ihash(gc + 3, gr) < 0.7 ? SODIUM : NEONM, 0.16, 1e8);
     }
-    if (!city) {
-      for (var sr = 0; sr < hr; sr++) for (var sc = 0; sc < COLS; sc++) { var st = ihash(sc, sr + 9000); if (st < 0.012) put(sc, sr, st < 0.003 ? 43 : 46, 3, 0.25 + 0.5 * ihash(sr, sc) * (0.6 + 0.4 * Math.sin(t * 2 + sc)), 1e8); }
-      var mc = Math.round(COLS * 0.72), mr = Math.round(ROWS * 0.12);
-      for (var my = -2; my <= 2; my++) for (var mx = -4; mx <= 4; mx++) if ((mx * mx) / 16 + (my * my) / 3.2 <= 1) put(mc + mx, mr + my, 64, 3, 0.5, 1e8);
-    }
-    // the dust on the record is the weather: in the city it rains, on the
-    // stone road a mist lies along the horizon and drifts
-    var rain = city ? Math.min(0.55, dust * 3.5) : Math.min(0.6, dust * 4);
-    if (city) {
+    // the dust on the record is the weather: it rains
+    var rain = Math.min(0.55, dust * 3.5);
+    {
       for (var rc = 0; rc < COLS; rc++) {
         if (ihash(rc, 4242) > rain) continue;
         var speed = 14 + 10 * ihash(rc, 17), period = 6 + Math.floor(ihash(rc, 99) * 7), off = Math.floor(t * speed + ihash(rc, 3) * 100);
         for (var rr2 = 0; rr2 < ROWS; rr2++) if ((rr2 + off) % period === 0) put(rc, rr2, 124, 2, 0.2, 1e8);
-      }
-    } else {
-      var drift = Math.floor(t * 2.2);
-      for (var mr2 = hr - 3; mr2 <= hr + 5; mr2++) for (var mc2 = 0; mc2 < COLS; mc2++) {
-        if (ihash(mc2 + drift + mr2 * 7, 515) < rain * (1 - Math.abs(mr2 - hr - 1) / 6)) put(mc2, mr2, 126, 0, 0.14, 1e8);
       }
     }
 
@@ -1855,7 +1810,7 @@
     if (driveFrame % 8 === 0) {
       var bnow = Math.max(0, Math.min(song.form.bars - 1, Math.floor(barOf(sec)))), pl = song.arrangement.placed.find(function (p) { return bnow >= p.section.startBar && bnow < p.section.endBar; });
       var where = playing ? (pl ? pl.section.fn.toUpperCase() + " <b>" + pl.material + "</b> · bar " + bnow : "bar " + bnow) : (sec > 0 ? "parked at " + clock(sec) : "parked at the start · press play");
-      $("drive-read").innerHTML = where + (fogZ < 30 ? " · fog" : "") + (rain > 0.3 ? (city ? " · rain" : " · mist") : "");
+      $("drive-read").innerHTML = where + (fogZ < 30 ? " · fog" : "") + (rain > 0.3 ? " · rain" : "");
     }
   }
   drive.addEventListener("dblclick", function () { if (document.fullscreenElement) document.exitFullscreen(); else if (driveCrt.requestFullscreen) driveCrt.requestFullscreen(); });

@@ -224,10 +224,28 @@ purpose: braille is eight times the cells and one colour a cell, and one
 colour a cell throws away sources against surfaces. The flicker gate: no
 full-screen thing modulates over 3 Hz (signs on value noise at ~2.4 Hz
 with a 0.7 Hz dead-letter clock, the blimp's screen at 0.8 Hz, rain cells
-at ~2 Hz); a window flaring on a fast note is one window. What is still
-open on the drive: dungeon synth's mountains as cells in the raycaster so
-there is one renderer, and a seek — click the road to wind the record
-there — which is the single thing a listener will reach for first.
+at ~2 Hz); a window flaring on a fast note is one window. **Then the owner said both genres drive the same city, and the city is
+midtown Manhattan.** One renderer now: the height-field scan, the stone
+road and the mountains are deleted, and dungeon synth drives the city too.
+The map is Manhattan's grid to its real proportions and names (`AVE_PITCH`,
+`ST_PITCH`, `AVE_NAMES`, `stName`): avenues 12th to 1st, streets 34th to
+59th, Broadway cut through on the diagonal (`bwayX`) so wedge buildings fall
+out of the blocks, `LANDMARKS` where they stand (Empire State, Chrysler, One
+Vanderbilt, MetLife, 30 Rock, Bank of America Tower) and Times Square's neon
+(`neonZone`). A cell is four metres; the map is arithmetic, not data, so the
+page stays one file. The drive starts on 7th at 34th heading uptown; at each
+section boundary it decides a turn — onto a street from an avenue, onto an
+avenue from a street, uptown mostly — and takes the NEXT CORNER (`pending`
+in `buildRoute`), staying inside the map; a green street sign names every
+corner crossed (`route.names`). Avenues are wider than streets (`laneW`),
+and the road, kerb, gates and signs take the width from the cell. Heights
+are cached per cell per heading (`hCache`) because the landmark and Broadway
+tests per DDA step cost ten frames. What is still open on the drive: the
+seek — click the road to wind the record there — which is the single thing a
+listener will reach for first; and the vehicles: the rider's own machine
+and the traffic, modelled donut-style from primitives with normals and a
+light, which the owner has asked for and which composes with the raycaster
+through the shared depth buffer.
 
 **The console plays itself.** The record has moved its own desk since
 `perform.ts` learned to write a `DeskChange` list, and the page could not show
