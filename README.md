@@ -267,8 +267,10 @@ sections, the kick comes at you across the wet road, and the weather is the
 desk: the pole's cutoff thickens the fog, the tape's wow sways the horizon,
 the vinyl's dust is rain. In dungeon synth it is a stone road through
 mountains that are the arc, under stars. You drive one bar behind the music
-so the window that is sounding is in view when it flares. `npm run shot lofi
-42 -- --drive 70` shoots it seventy seconds in.
+so the window that is sounding is in view when it flares; the camera tilts
+up toward the towers as the arc rises, and you can drag on it to look
+round. `F` halves the cells for a finer picture. `npm run shot lofi 42 --
+--drive 70` shoots it seventy seconds in.
 
 **And the console plays itself.** The engine says which desk it is rendering
 through (`Engine.desk`), the worker carries that back with the chunk it made,

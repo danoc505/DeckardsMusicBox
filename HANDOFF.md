@@ -209,8 +209,25 @@ only into sky; steam from the kerb on every hat; and the blimp for the
 drone, its screen alight while the drone sounds (`route.drone`). Everything
 sits under about seven units high because there is no look-up yet. The
 atlas key is `(code * 64 + pal) * 8 + q` now — the old one collided at
-sixteen colours. Phase 3 (look-up, shape-aware glyph edges, a braille
-density mode, `prefers-reduced-motion` proper) is still to do.
+sixteen colours. **Phase 3 is in.** Look-up by Y-shear — the horizon slides down the
+screen, NEON//GRID's trick — driven by the record (`autoPitch` eases toward
+the arc four bars ahead, so the chorus has you looking up at the towers and
+the blimp is in frame) and by a hand (drag on the drive: across for yaw,
+up and down for pitch, easing back when let go). Rooflines are shape-aware
+in one pass over `topMark`: a top edge stepping down to the right is `\`,
+up is `/`. `prefers-reduced-motion` now freezes the clock every ambient
+thing runs on (`t = 0`: rain, flicker, searchlights, blimp, puddle shimmer)
+and draws at a quarter rate, while the record still moves the world, which
+is the content. The density mode is FINE MODE (`F`, `setFine`): half-size
+cells for twice the picture at about twice the cost — and NOT braille, on
+purpose: braille is eight times the cells and one colour a cell, and one
+colour a cell throws away sources against surfaces. The flicker gate: no
+full-screen thing modulates over 3 Hz (signs on value noise at ~2.4 Hz
+with a 0.7 Hz dead-letter clock, the blimp's screen at 0.8 Hz, rain cells
+at ~2 Hz); a window flaring on a fast note is one window. What is still
+open on the drive: dungeon synth's mountains as cells in the raycaster so
+there is one renderer, and a seek — click the road to wind the record
+there — which is the single thing a listener will reach for first.
 
 **The console plays itself.** The record has moved its own desk since
 `perform.ts` learned to write a `DeskChange` list, and the page could not show

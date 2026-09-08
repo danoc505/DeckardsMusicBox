@@ -322,7 +322,7 @@
   </header>
 
   <section class="plate"><span class="screwB"></span>
-    <h2>The drive <small>the record as a road · its notes stand beside it, its energy is the land, the peak is the mountain ahead · double-click for the whole screen</small></h2>
+    <h2>The drive <small>the record as a city · its notes are the windows, its moves are the signs, the peak is the towers ahead · drag to look round · F for a finer picture · double-click for the whole screen</small></h2>
     <div class="crt drive" id="drive-crt"><canvas id="drive"></canvas><div class="readout" id="drive-read"></div></div>
   </section>
 
@@ -1208,6 +1208,17 @@
   var drive = $("drive"), dctx = drive.getContext("2d"), driveCrt = $("drive-crt");
   var sink = null, spectrum = null;               // the sound on its way out, for the ground to shake to
   var CELL_W = 7, CELL_H = 13, GFONT = "700 12px ui-monospace,Menlo,Consolas,monospace";
+  /* FINE MODE: half-size cells, twice the picture, press F. This is the density
+     mode instead of braille, on purpose: braille is eight dots a cell for
+     eight times the cells, and one colour a cell — and one colour a cell
+     throws away sources against surfaces, which is the whole of what makes
+     this read as night. Smaller glyphs keep every colour and cost about two. */
+  var fine = false;
+  function setFine(on) {
+    fine = !!on; CELL_W = fine ? 5 : 7; CELL_H = fine ? 9 : 13;
+    GFONT = fine ? "700 8.5px ui-monospace,Menlo,Consolas,monospace" : "700 12px ui-monospace,Menlo,Consolas,monospace";
+    atlas = {}; COLS = 0;   // the grid and every sprite are the wrong size now
+  }
   var ROAD = 2.4, BAR_UNITS = 6, EYE = 1.7, GATE_H = 3.6, ZNEAR = 0.55, FOV = 104 * Math.PI / 180;
   /* SOURCES AND SURFACES. A night city is lit by its lights and not by the sky,
      so the palette is two ladders: the things that EMIT — windows, neon, the
@@ -1343,7 +1354,9 @@
      one a bar; the gates are the sections. */
   var CPB = 4, OFF = 4096, LOOK = CPB, STREET = 2, FRONT_DEPTH = 2, BLOCK = 6, LAMP_EVERY = CPB, LAMP_H = 2.4, CITY_FOV = 92 * Math.PI / 180;
   var DIRS = [[0, 1], [1, 0], [0, -1], [-1, 0]], ANG = [Math.PI / 2, 0, -Math.PI / 2, Math.PI];
-  var route = null, curSeg = { s0: 0, a0: 0, axis: 1, sign: 1 }, hitFront = null, zcol = null, wet = null;
+  var route = null, curSeg = { s0: 0, a0: 0, axis: 1, sign: 1 }, hitFront = null, zcol = null, wet = null, topMark = null;
+  /** Where the camera is looking: the record's own tilt, and a hand's, easing back. */
+  var autoPitch = 0, lookPitch = 0, lookYaw = 0, lookDrag = null;
   /** Whether a palette entry emits light — glows in the atlas, shows in a puddle. */
   var isSrc = function (pal) { return pal < 3 || (pal >= 4 && pal <= 9) || pal >= 11; };
   var ckey = function (mx, my) { return (mx + OFF) * 16384 + (my + OFF); };
@@ -1439,12 +1452,13 @@
 
   function castCity(eye, cx, f, fy, horizon, fog, srcFog, fogZ, sec, barNow, low, dust, t, paneRole, all) {
     var cam = camAt(barNow * CPB - LOOK), posX = cam.x, posY = cam.y;
+    cam.a += lookYaw;   // a hand on the drive, looking round
     curSeg.axis = cam.d === 0 || cam.d === 2 ? 1 : 0; curSeg.sign = cam.d === 0 || cam.d === 1 ? 1 : -1;
     curSeg.s0 = cam.s; curSeg.a0 = curSeg.axis === 1 ? route.cells[cam.i].y : route.cells[cam.i].x;
     var dirX = Math.cos(cam.a), dirY = Math.sin(cam.a), PL = Math.tan(CITY_FOV / 2), fc = cx / PL, fyc = fc * CELL_W / CELL_H;
     var planeX = -dirY * PL, planeY = dirX * PL;
     if (!zcol || zcol.length !== COLS) zcol = new Float32Array(COLS);
-    if (!wet || wet.length !== COLS * ROWS) wet = new Uint8Array(COLS * ROWS); else wet.fill(0);
+    if (!wet || wet.length !== COLS * ROWS) { wet = new Uint8Array(COLS * ROWS); topMark = new Uint8Array(COLS * ROWS); } else { wet.fill(0); topMark.fill(0); }
     var drums = route.drums, dn = drums.length;
 
     for (var c = 0; c < COLS; c++) {
@@ -1484,7 +1498,7 @@
             else if (!murk) { code = glass ? 61 : 35; pal = glass ? WCOOL : DEEP; lvl = br * (glass ? 0.24 : 0.42) * climb; }
           }
           else if (murk) { }
-          else if (r === top) { code = 45; lvl = br * 0.7 * climb; }
+          else if (r === top) { code = 45; lvl = br * 0.7 * climb; topMark[r * COLS + c] = 1; }
           else if (atEdge && !noted) { code = 124; lvl = br * 0.6 * climb; }
           else if (fi >= 0 && ff < 0.12) { code = 45; pal = brick ? SODIUM : WALL; lvl = faceLvl * (brick ? 0.55 : 1) * climb; }
           else if (fi >= 0 && (pr < pLo || pr > pHi) && ff > wLo && ff < wHi) { code = glass ? 124 : 58; lvl = faceLvl * 0.75 * climb; }
@@ -1529,6 +1543,13 @@
       }
     }
 
+    // ── the rooflines, shape-aware: a top edge stepping down to the right is a
+    // backslash and one stepping up is a slash, so a roof in perspective is a
+    // line rather than a staircase of dashes — Acerola's point, one line long ──
+    for (var rr4 = 1; rr4 < ROWS - 1; rr4++) for (var rc4 = 1; rc4 < COLS; rc4++) {
+      var ti = rr4 * COLS + rc4; if (!topMark[ti] || gCh[ti] !== 45) continue;
+      if (topMark[ti - COLS - 1]) gCh[ti] = 92; else if (topMark[ti + COLS - 1]) gCh[ti] = 47;
+    }
     // ── the things that stand in the street: lamps and gates, each tested against the wall in its column ──
     var invDet = 1 / (planeX * dirY - dirX * planeY), sCam = barNow * CPB - LOOK;
     var project = function (wx2, wy2) {
@@ -1652,7 +1673,10 @@
     if (drive.width !== Math.round(W * dpr) || drive.height !== Math.round(H * dpr)) { drive.width = Math.round(W * dpr); drive.height = Math.round(H * dpr); drive.style.height = H + "px"; }
     gCh.fill(0); gZ.fill(Infinity);
 
-    var t = performance.now() / 1000, sec = driveSec, clk = song.form.clock;
+    // with motion reduced the clock that drives every ambient thing — rain,
+    // flicker, the searchlights, the blimp — stands still, and only the record
+    // moves the world, which is the one motion that is the content
+    var t = reduced ? 0 : performance.now() / 1000, sec = driveSec, clk = song.form.clock;
     var city = song.chart.genre.label.toLowerCase().indexOf("lofi") >= 0 || song.chart.genre.label.toLowerCase().indexOf("hip") >= 0;
     // THE ROAD IS MEASURED IN BARS, the record's own unit: `BAR_UNITS` of road
     // per bar whatever the tempo, so a quick genre drives quickly and the bar
@@ -1686,7 +1710,18 @@
     }
     var eye = EYE + (low - 0.45) * 0.22 * (playing ? 1 : 0);
     var cx = COLS / 2, f = cx / Math.tan(FOV / 2), fy = f * CELL_W / CELL_H;
-    var horizon = ROWS * 0.46 + wob;
+    /* ── LOOK-UP, by Y-shear ─────────────────────────────────────────────
+       A raycaster cannot tilt its rays, but sliding the horizon down the
+       screen is indistinguishable from tilting the head for anything that is
+       a vertical line, which is everything here; it is the trick NEON//GRID
+       uses to look up at its towers. The record does the looking: the camera
+       tilts toward what the arc is about to do, so the chorus has you looking
+       up at the towers and the verse levels out. A hand on the drive can look
+       anywhere, and the look eases back to the road when it lets go. */
+    var eAhead = arcAt(barNow + 4), pitchTarget = (city ? 0.06 + 0.42 * eAhead * eAhead : 0.04 + 0.22 * eAhead * eAhead) + lookPitch;
+    autoPitch += (pitchTarget - autoPitch) * (reduced ? 1 : 0.04);
+    if (!lookDrag) { lookPitch *= 0.96; lookYaw *= 0.96; }
+    var horizon = Math.max(ROWS * 0.22, Math.min(ROWS * 0.82, ROWS * 0.46 + wob + autoPitch * ROWS * 0.42));
     var sx = function (x, z) { return cx + x / z * f; };
     var sy = function (y, z) { return horizon - (y - eye) / z * fy; };
     var fog = function (z) { var v = 1 - z / fogZ; return v <= 0 ? 0 : Math.pow(v, 0.75); };
@@ -1817,17 +1852,29 @@
     }
 
     // ── the readout: where you are, and what the desk is doing to it ──
-    if ((driveFrame & 7) === 1) {   // frame() runs on the even count, so it sees the odd one
+    if (driveFrame % 8 === 0) {
       var bnow = Math.max(0, Math.min(song.form.bars - 1, Math.floor(barOf(sec)))), pl = song.arrangement.placed.find(function (p) { return bnow >= p.section.startBar && bnow < p.section.endBar; });
       var where = playing ? (pl ? pl.section.fn.toUpperCase() + " <b>" + pl.material + "</b> · bar " + bnow : "bar " + bnow) : (sec > 0 ? "parked at " + clock(sec) : "parked at the start · press play");
       $("drive-read").innerHTML = where + (fogZ < 30 ? " · fog" : "") + (rain > 0.3 ? (city ? " · rain" : " · mist") : "");
     }
   }
   drive.addEventListener("dblclick", function () { if (document.fullscreenElement) document.exitFullscreen(); else if (driveCrt.requestFullscreen) driveCrt.requestFullscreen(); });
+  // drag to look round: across for yaw, up and down for pitch; let go and it eases back to the road
+  drive.addEventListener("pointerdown", function (e) { lookDrag = { x: e.clientX, y: e.clientY, yaw: lookYaw, pitch: lookPitch }; drive.setPointerCapture(e.pointerId); });
+  drive.addEventListener("pointermove", function (e) {
+    if (!lookDrag) return;
+    lookYaw = lookDrag.yaw + (e.clientX - lookDrag.x) / drive.clientWidth * 1.8;
+    lookPitch = lookDrag.pitch - (e.clientY - lookDrag.y) / drive.clientHeight * 1.6;
+  });
+  drive.addEventListener("pointerup", function () { lookDrag = null; });
+  drive.addEventListener("pointercancel", function () { lookDrag = null; });
+  document.addEventListener("keydown", function (e) { if ((e.key === "f" || e.key === "F") && e.target === document.body) setFine(!fine); });
   document.addEventListener("fullscreenchange", function () { COLS = 0; });   // resize on the next frame
   // thirty frames a second is plenty for glyphs and half the cost; with motion
   // reduced, the world is drawn once per change instead
-  (function roll2() { if (song && !reduced && (driveFrame++ & 1) === 0) frame(); requestAnimationFrame(roll2); })();
+  // thirty frames a second, or with motion reduced seven and a half: the world
+  // still moves with the record, which is the content, and nothing else moves
+  (function roll2() { driveFrame++; if (song && driveFrame % (reduced ? 8 : 2) === 0) frame(); requestAnimationFrame(roll2); })();
 
   // ── the worker: the engine, driven a chunk at a time ──
   // Credit-based, so the worker stays exactly AHEAD chunks in front and no
