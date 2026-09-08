@@ -254,6 +254,22 @@ horizon, the vinyl's dust is rain. Lofi is a wet city at night; dungeon synth
 is a stone road under stars. Double-click it for the whole screen. `npm run
 shot lofi 42 --drive 70` shoots it seventy seconds in.
 
+**The drive** is the CRT at the top of the bridge: the record as a road you
+are driving down, in glyphs. Every other music visualiser knows only the
+past, because the sound arrives live; this record is composed whole before
+Play, so the road shows what is COMING. In lofi it is a city — a lot for
+every half-bar, the front row's windows lit by the notes (a part owns a pane
+on its side of the street, a pitch is a floor, a chord lights a floor across
+and the tune is a lit window climbing), the rows behind rising with the arc,
+a cross street at every section, buildings of concrete, glass or brick by
+hash, rain and sodium haze and puddles on the asphalt. In dungeon synth it is
+a stone road through mountains that are the arc, under stars. The gates are
+the sections, the kick comes at you across the road, and the weather is the
+desk: the pole's cutoff is fog, the tape's wow sways the horizon, the
+vinyl's dust is rain. You drive one bar behind the music so the window that
+is sounding is in view when it flares. `npm run shot lofi 42 -- --drive 70`
+shoots it seventy seconds in.
+
 **And the console plays itself.** The engine says which desk it is rendering
 through (`Engine.desk`), the worker carries that back with the chunk it made,
 and the bridge turns every knob, pin, lamp and label to where the record has

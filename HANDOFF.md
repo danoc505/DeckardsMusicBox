@@ -167,6 +167,37 @@ worth doing next: click the road to wind the record to that bar (item 6 of
 the first brainstorm), a rear-view for the parts behind you, and the section
 gates carrying `THIN`/`SWELL`/the treatment name the way the roll does.
 
+**The drive, and the city.** The owner asked for an experience rather than a
+settings screen, then for an ASCII 3D world, then for a Blade Runner city.
+`tools/page.html` § THE DRIVE is a first-person road measured in bars, drawn
+with a height-field column scan (a y-buffer per column, near to far — the
+Comanche algorithm), projected sprites against a depth buffer, and a glyph
+atlas blitted with `drawImage`, at 30 Hz; 61 fps in headless Chromium either
+way. What no live visualiser can do is show the future, and this record is
+composed before Play, so the road does: notes stand at their bar, the land is
+`form.arc` squared, the sections are gates. **The city is phase 1 of three**
+(research in the session: CyberCity, ludthor's NEON//GRID and tweakyourpc's
+ascii-city are the state of the art, and all three are the same column scan
+with facades). `cityAt` lays lots half a bar deep in rows away from the road;
+the front row always stands and its road-facing walls are floors of panes; a
+pitched note lights the pane its part owns (`paneRole`, ranked by lane per
+side) on the floor of its pitch (`floorOf`) in the building of its half-bar
+(`glow`, built once per record) — dim ahead, full when sounding, dim again
+behind. Palette is CyberCity's idea: SOURCES (windows, the parts' colours)
+carry through fog by `srcFog`; SURFACES (walls, road) go first, and past
+`br < 0.14` a wall is gone and only its lights are left. Three facade kinds
+by hash. The camera drives ONE BAR BEHIND the music (`LOOKBACK`) because the
+bar sounding is otherwise beside you and off the edge of a 104° view. The
+city has its own fog line at 46 units — a street at night is hazy whether
+or not the desk has a pole — and the pole thickens it. Not done, and
+planned: phase 2 is the life (neon signs that are the treatments, in the
+roll's colours, at the bar they land; puddles that mirror them; spinners
+for the counter, searchlights for the returns, steam for the hats, a blimp
+for the drone); phase 3 the finish (Y-shear to look up at the peak,
+shape-aware glyph edges, a braille or half-block density mode, the sub-3 Hz
+flicker gate and `prefers-reduced-motion` proper). Dungeon synth keeps the
+stone road and the mountains.
+
 **The console plays itself.** The record has moved its own desk since
 `perform.ts` learned to write a `DeskChange` list, and the page could not show
 it: the bridge set its knobs once from the genre's RESTING desk and never
