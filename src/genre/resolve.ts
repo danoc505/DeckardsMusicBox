@@ -521,6 +521,8 @@ export function resolveGenre(
     checkPool(problems, "bass.tones", bass["tones"],
       (v) => typeof v === "string" && (BASS_TONES as readonly string[]).includes(v),
       "a bass tone");
+    const ta = bass["turnaround"];
+    if (!finite(ta) || ta < 0 || ta > 1) problems.push(`bass.turnaround must be 0..1, got ${String(ta)}`);
     if (problems.length === 0 && !follows) bass["pocket"] = toSteps(bass["pocket"]);
   }
 

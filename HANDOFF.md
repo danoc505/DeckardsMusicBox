@@ -154,6 +154,54 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**THE CHARACTER SHEETS ARE BUILT, AS FAR AS THE SOURCES REACH.** Five
+commits after the protagonist field landed, each measured on and off over 200
+records a genre:
+
+- **The character is the same character in every scene.** Its job and
+  texture are drawn once per record at their own address; every other seat
+  still draws per material. lofi's character changed what it was doing
+  between materials in **30%** of records; now **0%**.
+- **The character is never held back.** `hush` is never aimed at it: **39%**
+  of lofi's hushes and **41%** of dungeon synth's were. The yield around a
+  protagonist runs one way.
+- **Newcomers walk in one per two-turn boundary**, however many there are —
+  the single walk-in generalised to a queue, with the overflow at the last
+  boundary. Seed 42 went from two parts to six at bar 8; it builds now. What
+  is left of "two or more arriving at once" (**25%** of lofi openings, 23% of
+  dungeon synth's) is the PEAK, which has everyone by definition, and the
+  tune, counter and kit, which are written per round and cannot walk in. Only
+  34 lofi openings in 200 records involve two looping parts, all at a peak.
+- **The keys pay to double inside another part's band** — `COST.mask` in
+  `keys.ts`, on the foundation's band and the character's. Doublings only:
+  priced on every voice the hand slid up into the tune's band (50% → 56% of
+  keys notes above the lead's floor). lofi's keys in the bass band **16% →
+  12%**, the tune on top **80% → 82%**, the hand 2.34 → 2.25 voices a strike.
+  Dungeon synth unmoved. Chosen by sweep (0, 4, 6, 8, 12; whole voices and
+  doublings) against the lead's floor.
+- **A boxed-in tune re-enters.** The sweep found it: at every mask value one
+  plain tune in 513 came out under the lead's floor, a different seed each
+  time. lofi seed 94's line was pulled to the bottom of its register under a
+  keys block holding every chord tone within a fifth, rested for want of a
+  note, and `prev` stood where it stopped — five notes in bar 0, nothing for
+  three bars, eleven semitones of free register above. A phrase that has
+  stopped has ended; its next note is a new entry, a chord tone anywhere in
+  the register, not the pitch it stopped on. **0 of 513, 0 of 356.** This was
+  a builder that could be boxed in, and the mask only moved the box.
+- **The bass loop adds one on its second turn.** `bass.turnaround`, a genre
+  number, default 0: the tiled line gains an approach into the next turn's
+  downbeat on the last off-beat of every even turn, drawn by the `approach`
+  rule, shortening the strike before it, never where the pocket already
+  strikes. lofi states 1. Second turn differs from the first **0% → 95%** of
+  375 lofi bass materials (the 5% is the pocket already striking there);
+  distinct bass bars per material **2.00 → 2.95**; one note more per
+  material. Dungeon synth, which states nothing, is byte-identical.
+
+**What the sheets still do not have** is in item 16: activity yield (the
+others sustaining while the character speaks, which `counter.ts` does for the
+lead alone), the foundation's section marker (the displaced snare), and the
+archetype, which is the owner's to weight.
+
 **A RECORD HAS A MAIN CHARACTER NOW, AND IT NEED NOT BE THE TUNE.**
 `arrangement.protagonist` is a weighted pool over the six seats, drawn once
 per record and held. The research is `THE-ARRANGEMENT-AS-STORY.md` §9-§13,
@@ -762,49 +810,32 @@ giving the keys or the bass a rig; `LOFI-LINEAGE.md` is the place to look for
 whether its ancestry asks for one, and it has four unapplied findings already.
 Do not add a board to make `push` look better — that is tuning a measurement.
 
-**15. THREE OF THE SEVEN ARRANGEMENT-DIAGNOSIS FAULTS ARE STILL OPEN**, and
-each has an owner named by the research rather than a guess.
+**15. THE SEVEN ARRANGEMENT-DIAGNOSIS FAULTS, WHERE THEY STAND.** Six are
+fixed and measured; one was found to be rare and left. The intro's
+escalation is the bass turnaround (`bass.turnaround`, one level of "double
+and add one"); the next level, an event every four turns, is a section's
+business and would live in `drums.ts`'s phrase letters. The keys are priced
+off the bass's band (16% → 12%, doublings only; whole voices pushed the hand
+into the tune's band). The verse fuller than the chorus is 4 of 82 lofi
+pairs since the form law, and what the diagnosis was really naming is the
+cognitive-load ceiling this program keeps in ELEMENTS (`MOST_ELEMENTS`) —
+read `PARTS-ELEMENTS-AND-STREAMS.md` before reaching for a new rule there.
 
-- **The intro repeats and never escalates.** Four passes of a two-bar figure
-  where pass four is identical to pass one. The technique is nested variation,
-  "double and add one" — a one-bar pattern doubled with an event added every
-  two bars, doubled again with one every four. It belongs in the bass builder
-  and in `drums.ts`'s phrase letters, NOT in the arrangement: the arrangement
-  cannot add a note. Note that the second half of a lofi loop is already the
-  `sentence` shape in `material/index.ts`, so read that before writing
-  anything — this may be the same mechanism asked for at a different grain.
-- **The keys block sits on the bass.** lofi's keys reach eight semitones into
-  the bass's band and 16% of their notes are at or below the bass's top,
-  against 1% in dungeon synth. "The recommended first move is to look at the
-  arrangement and rewrite parts so the clash doesn't happen — including
-  re-voicing a part up an octave rather than reaching for EQ." The owner is
-  `keys.ts`'s `COST` table: one more term, per voice inside another part's
-  band, priced between `move` and `mud`. **And the protagonist changes the
-  question**: it is the CHARACTER's band the others should clear, which is now
-  a fact the material stage can read off `Arrangement.protagonist`.
-- **The verse is fuller than the chorus.** Measured, this is rare now — 4 of
-  82 lofi chorus/verse pairs — because the form law reordered them. What the
-  diagnosis was really naming is the cognitive-load ceiling, and this program
-  keeps it in ELEMENTS (`MOST_ELEMENTS`) rather than in parts, which is the
-  better unit and already sourced. Read `PARTS-ELEMENTS-AND-STREAMS.md` before
-  reaching for a new rule here.
+**16. THE CHARACTER SHEETS, WHAT IS LEFT OF THEM.** `THE-ARRANGEMENT-AS-
+STORY.md` §11 sets out what a record does when its protagonist is a
+foundation, a rhythm, a pad or a lead. Rules 1, 2, 4, 5 and 7 of §13 are
+built and measured (see "what was just done"). Three are not:
 
-**16. THE CHARACTER SHEETS ARE WRITTEN AND NOT BUILT.**
-`THE-ARRANGEMENT-AS-STORY.md` §11 sets out what a record does when its
-protagonist is a foundation, a rhythm, a pad or a lead — the ostinato that
-does not develop, the sequence that never stops, the tone whose timbre
-changes, the tune that is answered in its rests. **Only the pad sheet is
-honoured today**, and by accident: dungeon synth's treatment weights came from
-its own guide. Three things follow, in order of what they would buy:
-
-- **The character's job and texture are drawn PER MATERIAL and must be per
-  RECORD.** `assign()` in `arrange.ts` draws a seat's element and texture for
-  each material, so the counter that arpeggiates idea A may play a line in idea
-  B. A character that changes what it is doing between scenes is not a
-  character, and §10's first law cannot hold until this is one draw.
-- **Nothing yields to the character.** Rules 5 and 6 in §13: register, and
-  activity while it speaks. `material/counter.ts` already does the second for
-  the lead alone.
+- **Activity yield** (§13 rule 6): the others sustain while the character
+  speaks and answer in its rests. `material/counter.ts` does this for the
+  lead alone, because it is written against the lead's line. For any other
+  character it would mean the keys' strike pattern and the tune's density
+  reading the character's onsets, which is a materials-stage change with no
+  measurement yet of what the keys currently do under a busy bass.
+- **The foundation's section marker**: Be My Baby's snare moving from beat
+  four to beat two at the chorus. The drum figure is fixed per material and
+  the phrase letters vary bars; nothing displaces one hit at a section
+  boundary. `drums.ts` owns it.
 - **The archetype is unstateable.** Every record restores its opener at the
   close, so every record this program makes is Almén's romance. Whether a
   genre may tell a different one is the owner's call and nothing published

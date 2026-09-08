@@ -37,7 +37,7 @@ import { DRUM_LANES, PITCHED_ROLES, type Contour, type Element, type Idea, type 
 import type { Rng } from "../../core/rng.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
-import { drawBass } from "./bass.ts";
+import { drawBass, withTurnaround } from "./bass.ts";
 import { drawDrone } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
 import { drawArp } from "./arp.ts";
@@ -289,7 +289,8 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
           // spilled is not a pad
           line = tile(drawArp(chart, loop, register, seatRng, steps, period, heard));
         } else if (el === "foundation") {
-          line = tile(drawBass(chart, loop, seatRng, steps, figure.kick, register));
+          // the loop, tiled, and the second turn adding one — see `withTurnaround`
+          line = withTurnaround(chart, tile(drawBass(chart, loop, seatRng, steps, figure.kick, register)), loop, period, bars, steps, seatRng, register);
         } else if (r === "drone") {
           // the pedal is the drone's own: a tonic or a fifth, held. A second pad
           // on another seat voices the chord below instead of fighting it for

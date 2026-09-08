@@ -246,6 +246,18 @@ export const lofi: GenreSpec = {
   // the bass is the roots, on the kick's feet
   bass: {
     pocket: "kick",
+    /**
+     * THE SECOND TURN ADDS ONE. This genre's loop is two bars and its
+     * materials are four, so every material is the figure twice — and the
+     * second was the first, note for note, in 100% of 375 bass materials over
+     * 200 records. "Repetition without escalation doesn't establish a
+     * thought, it idles on one" (the arrangement diagnosis of seed 42, citing
+     * Future Music's "double and add one"). Always, because the figure is
+     * the pocket the kick lays down and an approach into the turnaround is
+     * what a bass player does with one; [chosen] at 1 rather than drawn,
+     * since a turnaround that sometimes does not come is not a turnaround.
+     */
+    turnaround: 1,
     tones: [
       ["root", 6],
       ["octave", 2],

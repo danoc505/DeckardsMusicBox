@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { makeMaterials, describeMaterial, MaterialError, type Materials, type Note } from "./index.ts";
+import { makeMaterials, describeMaterial, MaterialError, type Material, type Materials, type Note } from "./index.ts";
+import type { Chart } from "../chart.ts";
 import { makeChart } from "../chart.ts";
 import { makeForm } from "../form.ts";
 import { makeArrangement } from "../arrange.ts";
@@ -183,12 +184,45 @@ test("bass notes fill the pocket and never overlap", () => {
   }
 });
 
+/**
+ * THE BASS LINE, LESS THE TURNAROUND. Where a genre states `bass.turnaround`
+ * the second turn of the loop carries one more strike than the first — an
+ * approach into the next turn's downbeat on the last off-beat of the turn's
+ * last bar, shortening the strike before it (`withTurnaround` in bass.ts; the
+ * field's own note in spec.ts is the research). It is the one strike the
+ * pocket does not own, and it is only ever added where the pocket strikes
+ * nothing at or after that step — so if the pocket itself lands there, the
+ * strike is the pocket's and nothing is set aside. The pocket is the same in
+ * every bar, so bar 0 says where it strikes.
+ *
+ * Undone exactly: the added note goes, and the note before it gets back the
+ * length it had when it ran to the bar line. What is left is the tiled loop,
+ * which is what the two laws below are about.
+ */
+const withoutTurnaround = (chart: Chart, mat: Material): Note[] => {
+  const bass = mat.groove.bass;
+  if (chart.genre.bass.turnaround <= 0) return [...bass];
+  const steps = stepsPerBar(chart.metre);
+  const seam = steps - Math.max(1, Math.floor(chart.metre.perBeat / 2));
+  if (bass.some((n) => n.bar === 0 && n.step >= seam)) return [...bass];
+  const out: Note[] = [];
+  for (const n of bass) {
+    const evenTurnEnds = (n.bar + 1) % (2 * mat.period) === 0;
+    if (evenTurnEnds && n.step === seam) continue;
+    const isLastBefore = evenTurnEnds && !bass.some((o) => o.bar === n.bar && o.step > n.step && o.step !== seam);
+    out.push(isLastBefore && bass.some((o) => o.bar === n.bar && o.step === seam) ? { ...n, dur: steps - n.step } : n);
+  }
+  return out;
+};
+const feetOf = (chart: Chart, mat: Material, bar: number): number[] =>
+  withoutTurnaround(chart, mat).filter((n) => n.bar === bar).map((n) => n.step);
+
 test("where the genre says so, the bass stands on the kick's feet", () => {
   assert.equal(lofi.bass.pocket, "kick");
-  for (const m of sweep(40)) {
+  for (const { chart, mats: m } of charted(40)) {
     for (const mat of m.all.values()) {
       for (let bar = 0; bar < mat.bars; bar++) {
-        const feet = mat.groove.bass.filter((n) => n.bar === bar).map((n) => n.step);
+        const feet = feetOf(chart, mat, bar);
         assert.deepEqual(feet, [...mat.figure.kick], `${mat.key} bar ${bar}: bass on ${feet}, kick on ${mat.figure.kick}`);
       }
     }
@@ -201,7 +235,7 @@ test("a genre with its own bass pocket does not follow the kick", () => {
   const m = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
   for (const mat of m.all.values()) {
     for (let bar = 0; bar < mat.bars; bar++) {
-      assert.deepEqual(mat.groove.bass.filter((n) => n.bar === bar).map((n) => n.step), [0, 2 * chart.metre.perBeat]);
+      assert.deepEqual(feetOf(chart, mat, bar), [0, 2 * chart.metre.perBeat]);
     }
   }
 });
@@ -410,9 +444,14 @@ test("the loop is as long as the changes are, and everything pitched repeats on 
           .map((n) => `${n.bar % m.period}:${n.step}:${n.dur}:${n.pitch}:${n.art ?? "plain"}`)
           .sort()
           .join(",");
+      // THE BASS LESS ITS TURNAROUND, which is the one note the loop adds on
+      // its second turn and is documented as exactly that (`bass.turnaround`);
+      // Adams's loops are "one, two, or four measures", and a two-bar cell
+      // with a pickup at the seam of every second turn is his four
       for (const part of ["bass", "keys"] as const) {
+        const line = part === "bass" ? withoutTurnaround(chart, m) : m.groove[part];
         for (let k = 1; k * m.period < m.bars; k++) {
-          assert.equal(turn(m.groove[part], k), turn(m.groove[part], 0), `${m.key}: the ${part} does not repeat on the loop`);
+          assert.equal(turn(line, k), turn(line, 0), `${m.key}: the ${part} does not repeat on the loop`);
         }
       }
       // THE TUNE MAY BE A SENTENCE. The groove always tiles — that is what

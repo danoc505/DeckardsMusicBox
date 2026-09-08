@@ -420,3 +420,38 @@ reading one drawn field.
 - A. Higginson, "New Order – Blue Monday: a case study". https://abhigginson.wordpress.com/2017/08/21/new-order-blue-monday-a-case-study/
 - Melodigging, "Drone ambient". https://www.melodigging.com/genre/drone-ambient
 - Ableton, *Making Music*, "Dramatic Arc" — already cited above for the arc.
+
+## 14. What was built, and what it measured
+
+Five of the eight rules in §13, each on and off over 200 records a genre.
+
+| rule | where | lofi | dungeon synth |
+|---|---|---|---|
+| 1 · a protagonist, drawn once; first in `enter`, last in `shed` | `arrange.ts` | intro carries it **100%**, break **100%**, ending **100%**; heard with room round it mid-record 53% → **65%** | 100 / 100 / 100; 53% → **98%** |
+| 2 · its job and texture held for the record | `assign()` | job changes between materials 30% → **0%** | 0% → 0% |
+| 4 · the break carries it (both scales) | `arrange.ts` | opening heard alone again 13% → **70%** | 15% → **89%** |
+| 5 · others yield its register, as a cost, on doublings | `COST.mask`, `keys.ts` | keys in the bass band 16% → **12%**; tune on top 80% → **82%**; hand 2.34 → 2.25 | unmoved |
+| 7 · newcomers one per two-turn boundary | the walk-in queue | openings with 2+ arriving 28% → **25%** — the rest is the peak and the per-round parts | 23% → 23% |
+| — · the character is never hushed | the pool | hushes on it 39% → **0%** | 41% → **0%** |
+| — · the foundation's loop adds one on its second turn | `bass.turnaround` | second turn differs from the first 0% → **95%** | states nothing; byte-identical |
+
+Two things the building found that the research did not say:
+
+- **The tune could be boxed into silence.** Pricing the keys off the bass
+  moved their block up a semitone, and at every price one plain tune in 513
+  lost a note — a different seed each time. The line had been pulled to the
+  bottom of its register under a keys block holding every chord tone within a
+  fifth, rested for want of a note, and stayed held to the pitch it had
+  abandoned. A phrase that has stopped has ended; `lead.ts` now re-enters it
+  as a new entry. This was the builder, not the voicing: rule 5 only moved
+  the box.
+- **The yield has a floor of its own.** Priced on every voice, the keys did
+  not leave the bass's band so much as slide up into the tune's (50% → 56%
+  of notes above the lead's floor). What the diagnosis saw on the bass was
+  the root DOUBLED low, and a doubling is the one voice a chord can give up
+  without losing the chord, so that is what pays.
+
+Rule 3 is built with rule 1: the way in is drawn from the kinds that can
+carry the character, and `resolve.ts` refuses a genre whose pool cannot.
+Rules 6 (activity yield) and 8 (the archetype) are not built; `HANDOFF.md`
+item 16 says why and where.

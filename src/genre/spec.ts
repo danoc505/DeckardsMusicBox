@@ -342,6 +342,31 @@ export interface BassSpec extends SeatSpec {
   readonly pocket?: Weighted<Beats> | "kick";
   /** What a strike that is not the downbeat plays. */
   readonly tones?: Weighted<BassTone>;
+  /**
+   * DOUBLE AND ADD ONE: how often, 0..1, the SECOND turn of the loop carries
+   * one more strike than the first — an approach into the next turn's
+   * downbeat, on the last off-beat of the turn's last bar.
+   *
+   * The loop is written once and tiled, so pass four of a two-bar figure was
+   * pass one, note for note. The arrangement diagnosis of lofi seed 42 named
+   * that: "repetition without escalation doesn't establish a thought, it
+   * idles on one", and the technique it cites is nested variation — "write a
+   * one-bar pattern, double it and add an event that only occurs every two
+   * bars, double again and add something that happens once every four"
+   * (Future Music, quoted there). A turnaround is "a passage at the end of a
+   * section which leads to the next section", most often "the repetition of
+   * the previous section" (Wikipedia, "Turnaround (music)"), and a bass
+   * approach note is the smallest one there is.
+   *
+   * ONE LEVEL, because a material is two turns long in these genres and the
+   * next level up — an event every four turns — is a section's business, not
+   * a loop's. The note is drawn by the same rules as any `approach` here: a
+   * scale step toward the next root, in the band, shortening the strike
+   * before it. It cannot land where the pocket already strikes.
+   *
+   * 0 by default, which is the loop exactly tiled: the program as it was.
+   */
+  readonly turnaround?: number;
   /** How often each manner is reached for. Only what the instrument can do. */
   readonly art?: ArtSpec;
 }
@@ -353,6 +378,7 @@ export interface BassRules {
   readonly register: Register;
   readonly pocket: Weighted<readonly number[]> | "kick";
   readonly tones: Weighted<BassTone>;
+  readonly turnaround: number;
   readonly art: ArtSpec;
 }
 
@@ -1892,6 +1918,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [[0], 1],
       [[0, 1, 2, 3], 1],
     ],
+    /** the loop exactly tiled, which is the program as it was; a genre that wants the second turn to add one says so */
+    turnaround: 0,
     tones: [
       ["root", 4],
       ["fifth", 3],
