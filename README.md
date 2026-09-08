@@ -278,8 +278,9 @@ built for this and measured at exactly nothing.
 
 `docs/TALLY.md` is where the work stands: what has been done with the number
 behind each, what is open and what would close it, and what was deliberately
-left alone. Its first entry is the one that outranks the rest — none of the
-recent work has been listened to by a person.
+left alone. Its first entry is the one that outranks the rest — a measurement
+proves a mechanism exists and never that a record is any good, so the ear is
+the judge and the numbers are only evidence that there is something to judge.
 
 And the record moves its own desk. The rule of three says a third hearing must
 differ, and until recently the only way this program could answer that was to

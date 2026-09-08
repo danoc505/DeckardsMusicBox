@@ -332,9 +332,9 @@ desk's clothes.
 **And half of lofi's vocabulary barely moves at all** — `push`, `ease`,
 `widen`, `far` and `echoed` all sit between −23 and −30 dB, against −12.5 for
 `darken`. lofi's desk is thin: one part on the board, a shallow world, no pole
-in the sum. Nothing here says any of that is inaudible — `TALLY.md` §0 stands
-and no one has played these records — but it says which end of the list to
-start listening at.
+in the sum. Nothing here says any of that is inaudible — a dB figure is a
+distance and not a threshold of hearing, which is `TALLY.md` §0's whole point
+— but it says which end of the list is worth an ear first.
 
 "One part on the board" used to be a shape the program had: there was one
 board under the whole band and a part either walked it or did not. Boards are

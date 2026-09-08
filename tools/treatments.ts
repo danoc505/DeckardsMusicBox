@@ -22,8 +22,8 @@
  *            change but no change at all.
  *
  * WHAT IT CANNOT TELL YOU IS WHETHER ANY OF IT SOUNDS GOOD. `docs/TALLY.md` §0
- * stands: measurements prove a thing exists and never that it is music. What
- * this ranks is which treatments are worth listening to first.
+ * stands: a measurement proves a thing exists and never that it is music. What
+ * this ranks is which treatments are worth an ear first.
  *
  *   node tools/treatments.ts                        every genre, seed 2
  *   node tools/treatments.ts dungeonsynth 2,7,42    one genre, three seeds

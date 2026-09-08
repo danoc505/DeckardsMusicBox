@@ -511,8 +511,10 @@ them in the middle of.
    spread. The alterations compete for boundaries *inside* a section; they must
    not quietly take over the arrangement.
 6. Materials heard exactly once has not risen.
-7. **Somebody has played the records.** `TALLY.md` §0 outranks every row above,
-   and it still does.
+7. **The records have been played and what was heard is written down.** A row
+   above can be green on a measurement and wrong to an ear; `TALLY.md` §0 says
+   why the ear outranks the number, and §2 records the faults that have only
+   ever been found that way.
 
 ---
 

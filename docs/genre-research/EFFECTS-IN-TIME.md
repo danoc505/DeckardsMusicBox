@@ -159,8 +159,9 @@ Nothing here is measured, and none of it is built. In particular:
   parameter. **Depth must be measured in dB per genre before it is used as a
   musical device**, with `tools/treatments.ts`, which already renders a
   treatment on and off and reports the distance.
-- **Whether a build reads as a build** cannot be measured at all. It is the
-  §0 problem again: nobody has listened.
+- **Whether a build reads as a build** cannot be measured at all. It is a
+  question for the ear, and `TALLY.md` §0 says why no number here can stand in
+  for one.
 
 ## Sources
 

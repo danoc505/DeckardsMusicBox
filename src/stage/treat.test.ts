@@ -26,9 +26,9 @@
  * WHAT THE FLOOR IS AND IS NOT. `FLOOR_DB` is a no-op detector, not a
  * threshold of hearing. Below it a treatment is arithmetic that cancelled;
  * above it the change exists and how much of it a listener notices is a
- * question no measurement here can settle — `docs/TALLY.md` §0 still stands
- * and the ranking these numbers give is in `docs/genre-research/
- * THE-ALTERATIONS.md`, for whoever plays the records.
+ * question no measurement here can settle — `docs/TALLY.md` §0 says why — and
+ * the ranking these numbers give is in `docs/genre-research/
+ * THE-ALTERATIONS.md`, which says where to point an ear first.
  *
  * AND IT IS MEASURED AT A SAMPLE RATE THE DESK CAN MOVE AT, which is not a
  * detail. `Pole` holds its state-variable filter stable by clamping the

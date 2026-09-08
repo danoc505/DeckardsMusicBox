@@ -196,9 +196,10 @@ that sentence is the mix-and-match the owner described.
   number derived from a published shape rather than picked. `tools/streams.ts`
   is the instrument for that and it is why it takes its rule on the command
   line rather than carrying one.
-- **Nothing here has been heard.** All of it is a rearrangement of what the
-  program already generates, and whether a fused stream sounds fused is exactly
-  the sort of claim `TALLY.md` §0 exists to distrust.
+- **Whether a fused stream sounds fused is not in these numbers.** All of this
+  is a rearrangement of what the program already generates, and streaming is a
+  perceptual claim: it is exactly the sort of thing `TALLY.md` §0 says a
+  measurement cannot settle.
 
 ## Sources
 

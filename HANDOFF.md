@@ -696,14 +696,22 @@ horns 1. Either build that or delete the voice. And sweep lofi seeds for
 `drums.figure === "amen"`, roll one, and confirm the bass stands on the amen
 kick and not on the pockets it replaced.
 
-**3. Nobody has listened. This matters more than everything below it.**
-Every claim in this file is a measurement. The desk now moves about two and a
-half times more often than it did (one move per 13 bars to one per 5), and on
-dungeon synth it is never still. Whether that is a record developing or a
-record being fiddled with is exactly the question a measurement cannot answer.
-Play seeds 1–10, 42 and 829055 and write what you hear into `TALLY.md` §0.
+**3. What an ear should be pointed at next, and this outranks the rest.**
+This item used to read "nobody has listened", and that was an assistant's
+error rather than a fact: the owner listens to every published build, and the
+faults that have moved this program furthest were found that way (`TALLY.md`
+§2, and the hush in `perform.ts`'s own header). What is true is narrower and
+still important — every claim in THIS FILE is a measurement, and a measurement
+cannot answer a question of taste.
 
-Three specific questions to listen for. `wear`'s difference signal is LOUDER
+The desk now moves about two and a half times more often than it did (one move
+per 13 bars to one per 5), and on dungeon synth it is never still. Whether that
+is a record developing or a record being fiddled with is exactly what a number
+cannot say. Seeds 1–10, 42 and 829055 are the ones the measurements above were
+taken on, so they are the cheapest to compare against; what is heard is worth
+writing into `TALLY.md` §0 beside them.
+
+Three specific questions to point an ear at. `wear`'s difference signal is LOUDER
 than the record it differs from (+3.3 dB on dungeon synth): a section ageing,
 or a different pressing? `dry` and `drench` move the LEVEL by ~2 dB, which is
 the one thing a treatment was not supposed to do. And half of lofi's vocabulary

@@ -14,17 +14,28 @@ behind it is an opinion.
 
 ---
 
-## 0. THE ONE THAT OUTRANKS EVERYTHING
+## 0. THE EAR IS THE JUDGE, AND IT IS THE OWNER'S
 
-**NONE OF THIS HAS BEEN HEARD.** Every claim below is a measurement or a test.
-Twenty-three treatments now move the desk across a record and not one of them
-has been listened to by a person — the rolls were read, the numbers were checked,
-the bytes were compared, and nobody played the record.
+**THIS SECTION USED TO SAY "NONE OF THIS HAS BEEN HEARD" AND THAT WAS FALSE.**
+It was written by an assistant who had not heard the records and mistook its
+own deafness for the project's. The owner listens to every published build,
+and that is how this program has moved: §2 below records two faults found that
+way and nothing else could have found them — long stretches where nothing
+happens, and a sound that turns up once at the very end — and `perform.ts`
+carries a third in its own header, where a hush at −2.85 dB was reported
+inaudible and became −6. The correction is kept rather than quietly deleted,
+because a document that invents a fact about the person reading it is worse
+than one that is merely out of date, and the next assistant should see how
+this one got it wrong.
 
-This project's own precedent is explicit about what that is worth: the sax had
-every metric green and the ear refused it. Measurements prove a thing EXISTS
-and never that it sounds good. In particular, three things below are
-unfalsifiable from a spreadsheet:
+**What is true, and is all that was ever true:** a measurement proves a thing
+EXISTS and never that it sounds good. This project's own precedent is the sax,
+which had every metric green and the ear refused it. So the numbers below are
+evidence that a mechanism works, and the record being any good is a separate
+question that this file cannot answer and should not pretend to.
+
+Three things here are unfalsifiable from a spreadsheet, and are worth an ear
+being pointed AT them rather than a claim that no ear exists:
 
 - whether `darken` at a section boundary reads as an arrangement move or as a
   fault in the file,
@@ -33,17 +44,16 @@ unfalsifiable from a spreadsheet:
 - whether 33% of spans on a treated desk is right, half as much as it should
   be, or twice.
 
-**Nothing should be built on top of this until it has been played.**
-
-**And that warning has now been cashed once, by measurement rather than by
-ear.** Two of the twelve were doing nothing — one of them bit-for-bit — and
-nothing in the program could have said so, because the only thing holding the
+**And a measurement caught something an ear should not have to.** Two of the
+twelve treatments were doing nothing — one of them bit-for-bit — and nothing
+in the program could have said so, because the only thing holding the
 treatments to their purpose was a single assertion that the record with its
-whole desk timeline differs from the record with none. That passes while eleven
-of the twelve are dead. See §1 and §2. The ranked table in
+whole desk timeline differs from the record with none. That passes while
+eleven of the twelve are dead. See §1 and §2. That is what measurement is for
+here: catching the dead knob before it wastes a listen. The ranked table in
 `genre-research/THE-ALTERATIONS.md` — what each treatment is worth, in dB —
-says which end of the list to start listening at, and `node tools/treatments.ts`
-prints it fresh.
+says which end of the list is worth the ear's attention first, and
+`node tools/treatments.ts` prints it fresh.
 
 ---
 
@@ -135,7 +145,7 @@ and 16.
 
 ## 2. DEFECTS AND GAPS FOUND BY MEASUREMENT
 
-**AND ONE FOUND BY EAR, WHICH IS WHAT §0 HAS BEEN ASKING FOR.** The owner
+**AND ONE FOUND BY EAR, WHICH IS HOW THIS PROGRAM MOVES.** The owner
 played dungeon synth records and reported two things: long stretches where
 nothing happens, and a sound that turns up once at the very end. Both were
 real, both were measurable once someone knew to look, and one of them was
@@ -151,12 +161,12 @@ connected to anything audible.
 
 | what | why it is open | what closes it |
 |---|---|---|
-| **A treatment changes the desk in ONE SAMPLE** | `reachDesk` applies a change and retunes at the exact sample the arrangement put it on. That is what makes the record block-size independent, and it also means a cutoff moving 3600 → 1620 Hz is a step. `tune()` keeps each unit's tail so this is not a reset, but a filter's coefficients change instantly. **Not heard yet, so it is not known whether this clicks.** | Listening first. If it clicks: a short ramp across the boundary, which must be derived from the sample index rather than from wall time or the block-size guarantee dies with it |
+| **A treatment changes the desk in ONE SAMPLE** | `reachDesk` applies a change and retunes at the exact sample the arrangement put it on. That is what makes the record block-size independent, and it also means a cutoff moving 3600 → 1620 Hz is a step. `tune()` keeps each unit's tail so this is not a reset, but a filter's coefficients change instantly. **Whether it clicks has not been reported either way.** | A listen aimed at it — the question is narrow and one build answers it. If it clicks: a short ramp across the boundary, which must be derived from the sample index rather than from wall time or the block-size guarantee dies with it |
 | **The peak is still built on material heard once in 47% of records** | Fixed for variants (33% → 0%), untouched for PLAIN statements. Seed 829055's peak plays idea `B`, which the form's grammar gave exactly one section. No rule about variants can reach it — it is a form-level fault | The form knowing that the section it marks `peak` should carry an idea it states more than once. Not attempted; it changes the grammar, not the arrangement |
 | **The rule of three still applies to move NAMES, not move KINDS** | `keyOf` returns `${name}:${role}` for density moves, so a record may play the same *shape* repeatedly by rotating which part it happens to. This was 829055's original fault. It is *masked* now — treatments compete for those boundaries — but the hole is still there | A second freshness term on the move's kind. Deliberately not added yet: it would have suppressed density moves at exactly the moment treatments were already winning too much (§1), and two balance changes at once cannot be told apart |
 | **`desk` is 64% of all span boundaries** | Higher than expected. Every section-level number is unchanged — who opens, thinnest, fullest, energy spread — so density was not crowded out at the section grain. But 64% of the *within-section* boundaries being desk moves is a taste question a measurement cannot settle | Listening. If it is too much, the lever is the `asPart` price, and it should move for a stated reason rather than to taste |
 | **`wear` is not a treatment, it is a different pressing** | Its difference signal is LOUDER than the record it differs from — **+3.3 dB** on dungeon synth, +2.1 on lofi — and it takes the level up 2.5–3.3 dB with it. Crackle doubled with a floor of 0.05 and tape drive at 1.5× is not the medium ageing across a section. It is 18% of dungeon synth's treated time, so a fifth of that genre's treated spans are this | Listening, then smaller numbers with a reason stated. It is a taste change to how every dungeon synth record sounds, so it is the owner's call, not a refactor |
-| **Two treatments move the LEVEL, which is the one thing they were not supposed to do** | `dry` −1.9 dB and `drench` +2.1 dB on dungeon synth. Moving the sound and not the level is exactly what lets a treatment answer the rule of three without the arrangement getting quieter each time it does; these are density moves in a desk's clothes | Either a level-compensating term on the returns, or the admission that these two are density moves and should be priced as such. Not attempted: one balance change at a time, and nothing has been heard |
+| **Two treatments move the LEVEL, which is the one thing they were not supposed to do** | `dry` −1.9 dB and `drench` +2.1 dB on dungeon synth. Moving the sound and not the level is exactly what lets a treatment answer the rule of three without the arrangement getting quieter each time it does; these are density moves in a desk's clothes | Either a level-compensating term on the returns, or the admission that these two are density moves and should be priced as such. Not attempted: one balance change at a time |
 | **Half of lofi's vocabulary barely moves the record** | `push` −30.0, `ease` −29.1, `echoed` −27.4, `widen` −24.2, `far` −23.4 dB, against `darken` at −12.5. lofi's desk is thin: one part on the board, a shallow world, no pole in the sum. Nothing here says any of it is inaudible — that is §0's question — but a treatment 17 dB below the genre's own headline move is not obviously spending a boundary well | Listening to the bottom of the table first. If they are inaudible the honest fix is in lofi's DESK, not in the treatments: a genre that gives one part a pedal board cannot be pushed. **That is now a decision lofi makes rather than a shape the program has**: boards are per part, so lofi could put a rig on its keys or its bass and `push` would have something to push. It still gives one part a board, and the numbers above stand until it does otherwise | 
 | **The inherited default is this program's recurring fault, and two more are still standing** | Three found so far, all the same shape — a genre silently inheriting a number written for other music: dungeon synth's `shed` (fixed), lofi's `shed` (fixed, §1), and `fewest: 3` and `introSec: 12` below. A field a genre does not state is invisible in that genre's file, so nothing about reading `lofi.ts` or `dungeonsynth.ts` shows you what it is running on | Not a rule — a habit. When a genre reads wrong, check what it INHERITS before reaching for a new term in the stage. `arrange.ts` needed no change for any of the three |
 | **~~`arrangement.treat` defaults to an even pool~~ — DONE, and "an even default is honest" was FALSE** | lofi now states its own weights from its own sources. And the even default was never even: measured, the same weights in a REVERSED array reverse the distribution exactly (54·48·44·38·30·20·8·3·2·1, the identical sequence). `fit > bestFit` is strict, so ties fall to pool order, and pool order is the genre's `treat` array order. An even pool therefore shipped a hard 54-to-1 ranking taken from the order of a `const` in `spec.ts` that no author chose and no source supports | Done for lofi: `wear` 1 → 360 uses in 300 seeds and now the top move, which is the one the genre is named after. The tie-break itself is Phase 1 of `BUILDING-THE-ALTERATIONS.md` |
@@ -249,8 +259,9 @@ Named so none of it is mistaken for an oversight.
 
 ## 6. THE ORDER I WOULD TAKE THEM IN
 
-1. **Play the records.** §0. Everything below is worthless if the desk moves
-   audibly click, and that is one listen away from being known.
+1. **Point an ear at the click.** §0. If a desk move lands as a click rather
+   than as an event, everything below it is decoration; the question is narrow
+   and one published build answers it.
 2. **Fix the stale claims** (§4), so the next measurement has a true baseline.
 3. **The two genre proposals** (§2), if the owner wants them — they are the
    best-sourced open items on the list and the cheapest to apply.

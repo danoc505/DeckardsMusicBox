@@ -808,8 +808,8 @@ function reaches(name: Treatment, S: SoundRules): boolean {
     // above the 10 kHz it already passes, 10000 → 13500 Hz moved the record by
     // −37.7 dB and its centre of gravity by 1.6% — 25 dB below the `darken`
     // beside it, and it held 18% of every treated span the genre had. Whether
-    // that much is audible nobody has said; that it is the faintest thing lofi
-    // could do with a boundary is measured.
+    // that much is audible is not something a dB figure answers; that it is
+    // the faintest thing lofi could do with a boundary is measured.
     case "brighten":
       return poleHeard(S);
     // the returns: a genre that sends nothing to a room has no room to open

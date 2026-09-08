@@ -519,8 +519,9 @@ already-cited source (Adams, MTO 26.2: hip-hop loops are *"one, two, or four
 measures; exceptions to this are extremely rare"*). Counting in each part's own
 unit of repetition gets the same guarantee without cutting across the music.
 
-**Drift may not be audible at the rates a genre would state.** Nothing here has
-been heard. `TALLY.md` §0 still outranks every line of this document.
+**Drift may not be audible at the rates a genre would state.** No number in
+this document can settle that; `TALLY.md` §0 says why, and it is a question for
+the ear rather than for another sweep.
 
 **The repetition law is the thing most at risk.** Huron and Ollen put literal
 repetition at about 94% of passages; `perform.test.ts` holds the groove to it to
