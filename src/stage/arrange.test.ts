@@ -617,12 +617,30 @@ test("a part can walk in part way through a section, and always does walk in", (
         const late = [...p.heard].filter((r) => !first.has(r));
         if (late.length === 0) continue;
         opened++;
-        assert.equal(late.length, 1, `${late.length} parts walked in at once: ${describeArrangement(a)}`);
-        const who = late[0]!;
+        // ONE AT A TIME. This asserted exactly one late part per section, which
+        // was the shape of a single walk-in; the law is that newcomers arrive
+        // one per two-turn boundary, however many there are (THE-ARRANGEMENT-
+        // AS-STORY.md §13 rule 7), with the overflow allowed only at the last
+        // boundary that could let anyone in.
+        let grew = 0, batched = 0, lastGrowth = -1, seen = new Set(first);
+        p.spans.forEach((sp, i) => {
+          const came = [...sp.heard].filter((r) => !seen.has(r) && late.includes(r));
+          if (came.length === 0) return;
+          grew++;
+          if (came.length > 1) batched++;
+          lastGrowth = i;
+          for (const r of came) seen.add(r);
+        });
+        assert.ok(batched <= 1, `${batched} boundaries let several parts in at once: ${describeArrangement(a)}`);
+        if (batched === 1) {
+          const at = p.spans.findIndex((sp, i) => i > 0 && [...sp.heard].filter((r) => !p.spans[i - 1]!.heard.has(r) && late.includes(r)).length > 1);
+          assert.equal(at, lastGrowth, `several parts arrived at once before the last boundary: ${describeArrangement(a)}`);
+        }
         // only a part that LOOPS, because the tune and the drums are written
         // per round and the tune's plan includes rests — one entering late can
         // land entirely on them and play nothing
-        assert.ok(who === "bass" || who === "keys" || who === "drone", `the ${who} walked in, and it is written per round`);
+        for (const who of late) assert.ok(who === "bass" || who === "keys" || who === "drone", `the ${who} walked in, and it is written per round`);
+        const who = late[0]!;
         // IT IS IN AT THE FIRST BOUNDARY THAT COULD LET IT IN, and never
         // merely promised. This read `p.spans[1]`, which was the first
         // boundary while every span was two turns of the loop. It is not any

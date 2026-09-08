@@ -1159,7 +1159,9 @@ const kindOf = (mv: Move): string =>
       if (section.fn === "outro" && heard.size > floor && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
     }
     if (section.index === 0) openers = new Set(heard);
-    // what the section before this one carried, for the shrink law above
+    // what the section before this one carried, for the shrink law above and
+    // for the walk-in below, which needs to know who is NEW here
+    const arrivedFrom = last;
     last = new Set(heard);
     for (const r of heard) {
       sectionsHeard.set(r, (sectionsHeard.get(r) ?? 0) + 1);
@@ -1437,14 +1439,49 @@ const kindOf = (mv: Move): string =>
     // "the second span". A part walking in is a change to who is playing, and
     // the roster only moves on the slow clock — so the entrance waits for the
     // first slow point rather than taking whichever point happens to be next.
-    const firstSlow = points.findIndex((b, i) => i > 0 && b % turn === 0);
-    const entering: Role | null =
-      gained !== undefined && loops(gained) && firstSlow > 0 && !section.peak && !broken
-        && heard.has(gained) && heard.size - 1 >= (section.fn === "intro" ? Math.max(1, A.introParts) : 2)
-        ? gained
-        : null;
+    /** The two-turn boundaries after the opening, as span indices: where the roster may move. */
+    const slowPoints = points.map((_, i) => i).filter((i) => i > 0 && points[i]! % turn === 0);
+    /**
+     * AND ONE AT A TIME, HOWEVER MANY ARE NEW.
+     *
+     * This walked in ONE part — the newest by the entry counter — and let
+     * every other newcomer in at the door, so a chorus after a two-part intro
+     * opened on six: lofi seed 42 went from two parts to six at bar 8, and
+     * measured over 200 records, 28% of lofi's section openings and 23% of
+     * dungeon synth's had two or more parts arriving at once. The sources
+     * are unanimous that this is the fault: "there should never be too many
+     * new elements introduced at the same time" (Max Martin), "characters
+     * usually aren't all introduced at once, they're gradually introduced,
+     * allowing each to breathe and establish themselves before the next
+     * enters the scene" (Johnston), and EDMProd's name for it, "drop-off",
+     * where "all elements enter simultaneously, leaving nothing for later
+     * introduction". `THE-ARRANGEMENT-AS-STORY.md` §10, §13 rule 7.
+     *
+     * So the newcomers — the parts this section has that the one before did
+     * not, in the record's own entry order — form a queue, and each two-turn
+     * boundary lets the next one in as that boundary's change. A section with
+     * fewer boundaries than newcomers lets the rest in at its last boundary,
+     * because the section's roster is what the material stage builds for and
+     * a part named and never sounded is the one thing this stage promises
+     * never to do. Everything the single walk-in already refused still holds:
+     * only a part that loops, never at the peak or in a break, and never
+     * below two voices at the door (the intro keeps its own number).
+     */
+    const fresh: Role[] = section.fn === "intro"
+      ? (gained !== undefined && heard.has(gained) ? [gained] : [])
+      : enter.filter((r) => heard.has(r) && arrivedFrom !== null && !arrivedFrom.has(r));
+    let queue = fresh.filter(loops);
+    if (section.peak || broken || slowPoints.length === 0) queue = [];
+    const keep = section.fn === "intro" ? Math.max(1, A.introParts) : 2;
+    while (queue.length > 0 && heard.size - queue.length < keep) queue.shift();
+    /** Which span each newcomer walks in at: one per boundary, the overflow at the last. */
+    const arrivals = new Map<number, Role[]>();
+    queue.forEach((r, j) => {
+      const at = slowPoints[Math.min(j, slowPoints.length - 1)]!;
+      (arrivals.get(at) ?? arrivals.set(at, []).get(at)!).push(r);
+    });
     const opensWithout = new Set(base);
-    if (entering !== null) opensWithout.delete(entering);
+    for (const r of queue) opensWithout.delete(r);
 
     let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean; broken: boolean } =
       { heard: opensWithout, thin, treatment: opening, at: null, hush: null, halved: false, broken: false };
@@ -1462,9 +1499,10 @@ const kindOf = (mv: Move): string =>
       // the newest part walks in at the first TWO-TURN boundary, and that IS
       // that boundary's change — the two-loop rule asks for one thing to move
       // and an instrument arriving is the first of the four ways it names
-      if (s === firstSlow && entering !== null) {
-        cur = { ...cur, heard: new Set([...cur.heard, entering]) };
-        ledger.used.set(`part-in:${entering}`, (ledger.used.get(`part-in:${entering}`) ?? 0) + 1);
+      const due = arrivals.get(s);
+      if (due !== undefined) {
+        cur = { ...cur, heard: new Set([...cur.heard, ...due]) };
+        for (const r of due) ledger.used.set(`part-in:${r}`, (ledger.used.get(`part-in:${r}`) ?? 0) + 1);
       } else if (s > 0) {
         // ── THE POOL. Every named way this stage can change an arrangement.
         //    A move never declares which way it moves the energy: that is
