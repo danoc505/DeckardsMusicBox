@@ -136,6 +136,33 @@ measured. Write the next one that way.
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
 
+**And dungeon synth's two false comments are true now.** The mechanism below
+was landed byte-identical on purpose, so this is the commit where the record
+changes, and it changes for a reason already written in the genre file. The
+divider comes off the PAD — "it tracks single notes and not chords, so it is
+the bass and the drone that get it, and the pad must not clock it" — and the
+FLUTE loses its board entirely, because the mix's own comment calls it "the
+one voice in the room that is not coming out of an amp" and it was going
+through a Big Muff at 0.15 of the feed. Its feed goes to 0 with it: a feed
+into an empty board is a knob wired to nothing, and `reachesPart` would have
+credited `push` with reaching a part that cannot hear it. Nothing else moves —
+the drums, the bass and the drone keep the whole rig, because no comment and
+no source says otherwise. Measured: **not one note moved.**
+`measure.ts --sweep dungeonsynth 1 20` is byte-identical on `--map` and
+`--parts`, so who plays which bar, who opens, thinnest, fullest and the peak
+are all exactly as they were; the roll of seed 2 is byte-identical as a PNG,
+spans and treatment strip included; and the offered vocabulary is 21 before
+and after — the only difference is that `waver` and `stomp` no longer claim
+to reach the lead. The RECORD moved **−20.7, −19.4 and −19.4 dB** against itself
+on seeds 2, 42 and 7, and 0.2–0.3 dB louder; on this genre's own scale in
+`THE-ALTERATIONS.md` that sits between `push` (−19.1) and `widen` (−22.0),
+above `darken` at −13.0. Priced per part on the part alone: the flute moves
+**−20.7 to −23.1 dB** and comes back 0.6 dB LOUDER without the Muff eating it,
+and the pad moves **−11.3 to −12.7 dB**. `all.test.ts` gained the law that
+would have caught the feed: no genre may light a board it feeds nothing, nor
+walk a part into a board with nothing on it. Neither half could be asked
+before a board belonged to a part.
+
 **A pedal board belongs to a player, and there are six of them.** `SoundSpec`
 had one `pedals: PedalsSpec` under the whole band and `render.ts` built every
 part's chain out of it, so a genre could not say "the Muff is the bass's". It
@@ -393,6 +420,24 @@ under each treatment and reports the move in dB; run it at depth 0.35 and at
 the audibility floor `treat.test.ts` uses. A pricing script must NOT edit
 `arrange.ts` by line number — the last attempt corrupted the file mid-edit
 and was restored from git.
+
+**13. `stomp` and `waver` are per-part moves now and are not offered as
+such.** Both write to boards, a board belongs to one part, and both already
+take `only` and honour it — but neither is in `PER_PART`, so the arrangement
+never aims them at anybody and they change every board at once. Adding them is
+one line each; whether it IMPROVES anything is not known, and it is a balance
+change to how often the desk is aimed rather than spread, so it wants the same
+treatment as everything else in that table: measure the section-level numbers
+and the per-part rule of three on and off. The catalogue is on the fence and
+says so — §8 marks moves 41 and 43 "and per part" and does not mark 44.
+
+**14. lofi's board is still one part's, and now that is a choice.** Its
+overdrive and tremolo are the lead's, every other board is empty, and half its
+treatment vocabulary sits 17 dB below its own `darken` partly for that reason
+(`TALLY.md`, and item 3 above). The mechanism no longer stands in the way of
+giving the keys or the bass a rig; `LOFI-LINEAGE.md` is the place to look for
+whether its ancestry asks for one, and it has four unapplied findings already.
+Do not add a board to make `push` look better — that is tuning a measurement.
 
 ## House rules that are easy to break
 

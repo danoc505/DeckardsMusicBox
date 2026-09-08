@@ -1,15 +1,28 @@
 import type { GenreSpec, PedalsSpec } from "./spec.ts";
 
 /**
- * THE SLUDGE RIG, as one board, so that the five parts standing on one below
- * are visibly standing on the SAME one.
+ * THE CHURCH, THROUGH A SLUDGE RIG. The writing is dungeon synth and stays
+ * so; what is put on it is the signal chain doom and sludge use.
  *
- * This is exactly what the genre had when there was a single board under the
- * whole band, written out once and handed to each part that was fed into it.
- * It is a transitional shape and it is meant to be read as one: two of the
- * comments inside it name a part — the divider is "the bass and the drone",
- * and "the pad must not clock it" — and neither can be true while every part
- * carries this same board.
+ * Sludge is "saturated, sustaining distortion (fuzz/overdrive stacks), ample
+ * feedback, and loud, sustaining amps", and its bands "use fuzz to create a
+ * wall of sound"; the amp wants "a lot of bass and mids, with the treble
+ * dialed back", measured across the style at a median gain of 7 with bass 6,
+ * mid 6 and treble 6.5 of ten; and the production "chases vintage warmth:
+ * tube amps, saturated fuzz, roomy drums, and organic reverb to let slow
+ * riffs breathe and brood".
+ * [riffhard.com how-to-play-sludge-metal and how-to-get-a-fuzz-sound-on-the-
+ * guitar; boostguitarpedals.co.uk how-to-get-a-crushing-doom-metal-tone;
+ * tonemirror.so genres/sludge-metal]
+ *
+ * IT IS WRITTEN ONCE BECAUSE THE PARTS THAT CARRY IT CARRY THE SAME ONE: the
+ * drums, the bass and the drone stand on this rig entire, and the pad stands
+ * on it with the divider switched off. One rig and not four, because nothing
+ * above distinguishes them — what the style is consistent about is the CHAIN,
+ * a compressor, an octave down, a Muff with an overdrive in front of it and a
+ * supply giving way behind. WHO is plugged into it is a separate question,
+ * and `sound.pedals` below is where this genre answers it. Two of the
+ * comments in here name a part, which is why the question exists at all.
  */
 const SLUDGE_RIG: PedalsSpec = {
   // THE BOARD IN CABLE ORDER. Every pedal below is one MK2's board was
@@ -527,26 +540,38 @@ export const dungeonsynth: GenreSpec = {
     ],
     voices: { keys: "pad", bass: "organ", lead: "flute", counter: "pluck", drone: "organ" },
     /**
-     * THE CHURCH, THROUGH A SLUDGE RIG. The writing is dungeon synth and
-     * stays so; what is put on it is the signal chain doom and sludge use.
+     * WHO IS STANDING ON WHAT — the rig itself is `SLUDGE_RIG` at the top of
+     * this file, where its sources are.
      *
-     * Sludge is "saturated, sustaining distortion (fuzz/overdrive stacks),
-     * ample feedback, and loud, sustaining amps", and its bands "use fuzz to
-     * create a wall of sound"; the amp wants "a lot of bass and mids, with
-     * the treble dialed back", measured across the style at a median gain of
-     * 7 with bass 6, mid 6 and treble 6.5 of ten; and the production "chases
-     * vintage warmth: tube amps, saturated fuzz, roomy drums, and organic
-     * reverb to let slow riffs breathe and brood".
-     * [riffhard.com how-to-play-sludge-metal and how-to-get-a-fuzz-sound-on-
-     * the-guitar; boostguitarpedals.co.uk how-to-get-a-crushing-doom-metal-
-     * tone; tonemirror.so genres/sludge-metal]
+     * Two of these were written down long before
+     * they could be true: while there was one board under the band, the
+     * divider's own comment and the mix's own comment below were both false
+     * about this genre, and there was nowhere to put the correction.
+     *
+     * Nothing else moves. The drums, the bass and the drone keep the whole
+     * rig, because no comment and no source says otherwise and a board is not
+     * a place to guess.
      */
-    // ONE RIG, HANDED TO EVERY PART, which is what the single board was. The
-    // counter carries it too and is fed nothing, exactly as before: a board
-    // its part does not walk is never built.
     pedals: {
-      drums: SLUDGE_RIG, bass: SLUDGE_RIG, keys: SLUDGE_RIG,
-      lead: SLUDGE_RIG, counter: SLUDGE_RIG, drone: SLUDGE_RIG,
+      drums: SLUDGE_RIG,
+      bass: SLUDGE_RIG,
+      drone: SLUDGE_RIG,
+      // THE PAD DOES NOT CLOCK THE DIVIDER. The divider's own comment says
+      // so — "it tracks single notes and not chords, so it is the bass and
+      // the drone that get it, and the pad must not clock it" — and the pad
+      // was clocking it at 0.7 of the feed. Everything else on the rig is
+      // still under the chords: they are the other half of what a sludge rig
+      // carries, and the Muff's MIDS knob is there for exactly this part.
+      keys: { ...SLUDGE_RIG, sub: { mix: 0 } },
+      // AND THE FLUTE HAS NO BOARD. "The one voice in the room that is not
+      // coming out of an amp" is the mix's own words for it, and it was going
+      // through a Big Muff at 0.15. Its board is left at rest and its feed
+      // goes with it — a feed into a board with nothing on it is a knob wired
+      // to nothing, and `reachesPart` would credit `push` with reaching a
+      // part that cannot hear it.
+      //
+      // The counter is not named here either. It never was fed, and a board
+      // its part does not walk is never built.
     },
     rack: {
       // TREBLE DIALED BACK. The one number the style is most consistent about,
@@ -562,14 +587,15 @@ export const dungeonsynth: GenreSpec = {
     },
     // everything in the church: the pad through the ensemble, the flute far
     // and to one side, the drone behind and wide, the drum deep in the room.
-    // The board is walked hardest by the parts a sludge rig actually carries
-    // — the low end and the chords — and least by the flute, which is the one
-    // voice in the room that is not coming out of an amp.
+    // A board is walked hardest by the parts a sludge rig actually carries —
+    // the low end and the chords — and not at all by the flute, which is the
+    // one voice in the room that is not coming out of an amp.
     mix: {
       drums: { sends: { room: 0.45 }, az: 0, dist: 0.6, pedals: 0.25 },
       bass: { sends: { room: 0.3 }, az: -15, dist: 0.5, pedals: 0.85 },
       keys: { sends: { ensemble: 0.6, room: 0.4 }, az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.7 },
-      lead: { sends: { room: 0.5, spring: 0.3 }, az: 60, dist: 0.55, pedals: 0.15 },
+      // the flute walks no board, because it has none — see `pedals` above
+      lead: { sends: { room: 0.5, spring: 0.3 }, az: 60, dist: 0.55, pedals: 0 },
       drone: { sends: { room: 0.5, spring: 0.35 }, az: 180, dist: 0.8, pedals: 0.55 },
     },
     world: { width: 0.9, depth: 0.8 },
@@ -670,6 +696,10 @@ export const dungeonsynth: GenreSpec = {
       "weights [chosen] \u2014 this music leans on the metre very little",
     "sound.voices": "\"strings, flutes, pipe organs, and choirs\" (note.com/soundwitches; Wikipedia, Dungeon synth)",
     "sound.mix": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches): every part in the room, the far ones further; placement [chosen]",
+    "sound.pedals": "the sludge rig above, and WHO STANDS ON IT [chosen] — from this file's own two claims rather than from a new source. " +
+      "The divider is off the pad because a divider \"tracks single notes and not chords\" (electronicmusic.fandom, octave divider) and a pad is chords; " +
+      "the flute has no board because it is the one voice here that is not an amplified instrument. The drums, the bass and the drone keep the whole rig, " +
+      "which is what the genre had, because nothing read says otherwise",
     "sound.world": "the genre is a place as much as a sound — a wide, deep world [chosen]",
     "sound.rack.ensemble": "\"lo-fi pad sounds... with deep reverb applied\", and the strings and choirs the genre emulates are ensembles by nature (note.com/soundwitches); 25% [chosen]",
     "sound.rack.room": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches); a \"Small Church\" impulse (erichgrunewald.com)",

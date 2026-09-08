@@ -516,7 +516,10 @@
   M.GENRE_NAMES.forEach(function (g, i) {
     var l = document.createElement("label"); l.className = "pos";
     l.innerHTML = '<input type="radio" name="genre" value="' + g + '"' + (i === 0 ? " checked" : "") + '><i></i><span>' + M.GENRES[g].label + '</span>';
-    l.querySelector("input").addEventListener("change", function () { genreVal = g; over = {}; compose(); });
+    // a new genre is a new desk: the overlay goes, and so does which part each
+    // pedal was showing — `opensOn` picks that from who walks a board, and the
+    // last genre's answer is worse than no answer
+    l.querySelector("input").addEventListener("change", function () { genreVal = g; over = {}; picked = {}; compose(); });
     genreEl.appendChild(l);
   });
   function request() { var r = { seed: Number(seedEl.value) || 0, genre: genreVal }; if (secEl.value) r.seconds = Number(secEl.value); return r; }

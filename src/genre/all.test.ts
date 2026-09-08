@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { GENRE_NAMES, GENRES } from "./index.ts";
 import { compose } from "../song.ts";
 import { peak, render, rms } from "../sound/render.ts";
-import { ROLES } from "./spec.ts";
+import { PEDAL_ORDER, ROLES } from "./spec.ts";
 
 // every genre goes through the whole program: the rules are the program's
 // and the numbers are the genre's, so what holds for one must hold for all
@@ -74,6 +74,30 @@ for (const name of GENRE_NAMES) {
         s.performance.seconds > lo * 0.75 && s.performance.seconds < hi * 1.25,
         `${where}: ${s.performance.seconds.toFixed(0)}s against a genre asking ${lo}–${hi}`,
       );
+    }
+  });
+
+  test(`${name}: no board is wired to nothing, and no part is walked into an empty one`, () => {
+    // THE CARDINAL SIN, on the one part of the desk that takes two numbers to
+    // be heard. A board sounds only where its own part is fed into it, so a
+    // genre can get this wrong in two directions: pedals switched on for a
+    // part that is sent none of its board, and a part sent through a board
+    // with nothing on it. Both read as a working rig in the genre file and
+    // both are silent.
+    //
+    // The second is the worse of the two, because it is not merely inert:
+    // `reachesPart` reads a part's feed and would credit `push` and `ease`
+    // with reaching a part that cannot hear them, so the arrangement spends
+    // a boundary promising a change to somebody who gets none.
+    //
+    // Neither could be asked before a board belonged to a part — with one
+    // board under the band the two halves were facts about different parts.
+    const S = GENRES[name].sound;
+    for (const r of ROLES) {
+      const lit = PEDAL_ORDER.filter((p) => S.pedals[r][p].mix > 0);
+      const feed = S.mix[r].pedals;
+      assert.ok(lit.length === 0 || feed > 0, `${name}: the ${r} carries ${lit.join(", ")} and is fed none of its board`);
+      assert.ok(feed === 0 || lit.length > 0, `${name}: the ${r} walks ${feed} of a board with nothing switched on`);
     }
   });
 
