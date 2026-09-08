@@ -7,7 +7,7 @@ export { compose, type Request, type Song } from "./song.ts";
 export { dump, summary, motionOf, distinctBars, PROGRAM, type Motion } from "./dump.ts";
 export { Engine, render, rms, peak, settle, type Stereo } from "./sound/render.ts";
 export {
-  RACK_ORDER, PEDAL_ORDER, PEDALS_ADD, SENDS, ROLES, DRUM_LANES, KIT_NAMES, CIRCUITS,
+  RACK_ORDER, PEDAL_ORDER, PEDALS_ADD, FX_ORDER, FX_WHERE, SENDS, ROLES, DRUM_LANES, KIT_NAMES, CIRCUITS,
   type RackSpec, type RackRules, type SoundSpec,
 } from "./genre/spec.ts";
 export { wav } from "./sound/wav.ts";

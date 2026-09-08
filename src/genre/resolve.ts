@@ -12,9 +12,10 @@
 
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
+import { pathOf } from "../sound/motion.ts";
 import {
-  ARCS, ARP_PATTERNS, BAR_LETTERS, BASS_TONES, ELEMENTS, FIGURES, TEXTURES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
-  type Genre, type GenreSpec, type VoiceName, type Weighted,
+  ARCS, ARP_PATTERNS, BAR_LETTERS, BASS_TONES, ELEMENTS, FIGURES, FX_ORDER, FX_WHERE, TEXTURES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
+  type Genre, type GenreSpec, type Role, type VoiceName, type Weighted,
 } from "./spec.ts";
 
 /** Everything wrong with one genre, so a fix is one pass and not twelve. */
@@ -374,8 +375,32 @@ export function resolveGenre(
       problems.push(`sound.motion must be a list of moves, got ${String(moves)}`);
     } else if (Array.isArray(moves)) {
       for (const mv of moves as Record<string, unknown>[]) {
-        const path = mv?.["path"];
-        if (typeof path !== "string") { problems.push(`sound.motion: every move needs a path`); continue; }
+        const written = mv?.["path"];
+        if (typeof written !== "string") { problems.push(`sound.motion: every move needs a path`); continue; }
+        /**
+         * A PER-PART MOVE NAMES ITS PART, and this is where that was refused.
+         *
+         * `motion.ts` has carried `at` since it was written — "a per-part move
+         * names its part; a whole-mixer one does not" — and `motionAt`
+         * substitutes it for the `*` in the path at read time. This check
+         * never did, so it walked `fx.*.pole.hz` literally, found no key `*`
+         * and refused the genre. **No genre could state a per-part cycle at
+         * all**: the feature was written, documented and unreachable, and it
+         * went unnoticed because neither genre had tried to use one until the
+         * rack's units moved onto the parts.
+         *
+         * Substituted by `pathOf`, which is now the ONE place that rule lives:
+         * the loader, the renderer and the test that states the law about a
+         * section reset all ask it, so they cannot drift apart again. They
+         * already had — this file and `motion.test.ts` each got it wrong on
+         * their own, which is what three copies of a rule buys you.
+         */
+        const at = mv?.["at"];
+        if (written.includes("*") && !(ROLES as readonly unknown[]).includes(at)) {
+          problems.push(`sound.motion "${written}" is a per-part move, so it needs an "at" naming one of ${ROLES.join(", ")}`);
+          continue;
+        }
+        const path = typeof at === "string" ? pathOf({ path: written, at: at as Role }) : written;
         let node: unknown = soundObj;
         for (const key of path.split(".")) {
           node = (node !== null && typeof node === "object") ? (node as Record<string, unknown>)[key] : undefined;
@@ -906,14 +931,19 @@ export function resolveGenre(
         if (!finite(v) || v < 0 || v > hi) problems.push(`sound.patch.${from}.${to} must be 0..${hi}, got ${String(v)}`);
       }
     }
-    const pedals = isPlainObject(sound["pedals"]) ? sound["pedals"] : null;
-    if (pedals === null) problems.push("sound.pedals is missing");
-    else {
+    // the boards: one per part, every knob on every one of them in range. The
+    // ranges are the pedal's, not the part's — a Muff is a Muff whoever is
+    // standing on it — so the same table is walked six times.
+    const boards = isPlainObject(sound["pedals"]) ? sound["pedals"] : null;
+    if (boards === null) problems.push("sound.pedals is missing");
+    else for (const role of ROLES) {
+      const pedals = isPlainObject(boards[role]) ? boards[role] : null;
+      if (pedals === null) { problems.push(`sound.pedals.${role} is missing`); continue; }
       const pd = (name: string, field: string, lo: number, hi: number): void => {
         const u = pedals[name];
-        if (!isPlainObject(u)) { problems.push(`sound.pedals.${name} is missing`); return; }
+        if (!isPlainObject(u)) { problems.push(`sound.pedals.${role}.${name} is missing`); return; }
         const v = u[field];
-        if (!finite(v) || v < lo || v > hi) problems.push(`sound.pedals.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.pedals.${role}.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
       };
       for (const name of PEDAL_ORDER) pd(name, "mix", 0, 1);
       pd("comp", "sustain", 0, 1); pd("comp", "level", 0, 1);
@@ -929,6 +959,42 @@ export function resolveGenre(
       pd("sag", "depth", 0, 1); pd("sag", "idle", 0.18, 1); pd("sag", "recovSec", 0.01, 0.6); pd("sag", "draw", 0, 1);
       pd("phaser", "rateHz", 0.02, 10); pd("phaser", "depth", 0, 1);
       pd("tremolo", "rateHz", 0.1, 20); pd("tremolo", "depth", 0, 1);
+    }
+    // the in-line effects: one set per part, every knob in range, and each
+    // one at an end of the board that exists
+    const rigs = isPlainObject(sound["fx"]) ? sound["fx"] : null;
+    if (rigs === null) problems.push("sound.fx is missing");
+    else for (const role of ROLES) {
+      const fx = isPlainObject(rigs[role]) ? rigs[role] : null;
+      if (fx === null) { problems.push(`sound.fx.${role} is missing`); continue; }
+      const at = (name: string, field: string, lo: number, hi: number): void => {
+        const u = fx[name];
+        if (!isPlainObject(u)) { problems.push(`sound.fx.${role}.${name} is missing`); return; }
+        const v = u[field];
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.fx.${role}.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
+      };
+      for (const name of FX_ORDER) {
+        at(name, "mix", 0, 1);
+        const u = fx[name];
+        // WHICH END OF THE BOARD, and there are only two of them. A typo here
+        // would otherwise be a silent no-op: the effect would match neither
+        // rig and never be built at all.
+        if (isPlainObject(u) && !(FX_WHERE as readonly unknown[]).includes(u["at"])) {
+          problems.push(`sound.fx.${role}.${name}.at must be ${FX_WHERE.join(" or ")}, got ${String(u["at"])}`);
+        }
+      }
+      at("pole", "hz", 40, 20000); at("pole", "resonance", 0, 1);
+      at("flange", "rateHz", 0.02, 10); at("flange", "depth", 0, 1);
+      at("ensemble", "rateHz", 0.02, 10); at("ensemble", "depth", 0, 1);
+      at("echo", "beats", 0.25, 8); at("echo", "feedback", 0, 0.9);
+      at("spring", "sec", 0.2, 6);
+      at("room", "sec", 0.2, 12);
+      at("tape", "lowpassHz", 1000, 20000); at("tape", "drive", 1, 10);
+      at("vinyl", "crackle", 0, 1);
+      const med = fx["medium"];
+      if (isPlainObject(med) && med["kind"] !== "gramophone" && med["kind"] !== "radio") {
+        problems.push(`sound.fx.${role}.medium.kind must be "gramophone" or "radio", got ${String(med["kind"])}`);
+      }
     }
     // the drum machine: which kit, which circuit, and the strip on every lane
     const machine = isPlainObject(sound["machine"]) ? sound["machine"] : null;

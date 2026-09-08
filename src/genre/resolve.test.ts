@@ -223,16 +223,24 @@ test("a machine loaded with a kit that does not exist, or a strip out of range, 
   assert.match(joined, /channels\.snare\.sends\.echo must be 0\.\.1/);
 });
 
-test("a pedal knob out of its own range is refused, by name", () => {
+test("a pedal knob out of its own range is refused, by part and by name", () => {
   let err: GenreError | null = null;
   try {
-    resolveGenre("bad", specs({ bad: { label: "Bad", sound: { pedals: { muff: { cabHz: 200 }, sag: { idle: 0 }, saw: { tameHz: 50 } } } } }));
+    // three bad knobs on three different players' boards: the message has to
+    // say WHOSE board to be worth anything now that there are six of them
+    resolveGenre("bad", specs({ bad: { label: "Bad", sound: { pedals: {
+      bass: { muff: { cabHz: 200 } },
+      keys: { sag: { idle: 0 } },
+      lead: { saw: { tameHz: 50 } },
+    } } } }));
   } catch (e) {
     err = e as GenreError;
   }
   assert.ok(err instanceof GenreError, "a pedal outside its own travel was accepted");
   const joined = err.problems.join("\n");
-  assert.match(joined, /pedals\.muff\.cabHz must be 1500\.\.16000/);
-  assert.match(joined, /pedals\.sag\.idle must be 0\.18\.\.1/);
-  assert.match(joined, /pedals\.saw\.tameHz must be 1200\.\.12000/);
+  assert.match(joined, /pedals\.bass\.muff\.cabHz must be 1500\.\.16000/);
+  assert.match(joined, /pedals\.keys\.sag\.idle must be 0\.18\.\.1/);
+  assert.match(joined, /pedals\.lead\.saw\.tameHz must be 1200\.\.12000/);
+  // and the same knob on another player's board is nobody's problem
+  assert.ok(!/pedals\.drone\./.test(joined), `a board nobody touched was faulted:\n${joined}`);
 });

@@ -5,7 +5,7 @@
  * instrument, rendered on its own and added to its PART's own buffer at its
  * time. Then the parts go through the desk:
  *
- *   PEDALS   each part feeds the pedal board by its own amount, and the
+ *   PEDALS   each part feeds ITS OWN pedal board by its own amount, and a
  *            board is a chain of stompboxes in the order a player wires them
  *   WORLD    each part is placed in space — panned, swept, and set at an
  *            azimuth and a distance round the listener, which the far ear
@@ -47,8 +47,9 @@
 import { artOf, shapesTheNote } from "../core/articulation.ts";
 import { hash32 } from "../core/rng.ts";
 import {
-  DRUM_LANES, PEDALS_ADD, ROLES, SENDS,
-  type DrumLane, type PedalsRules, type RackRules, type Role, type SoundRules, type SoundSpec, type Treatment,
+  DEFAULTS, DRUM_LANES, FX_ORDER, PEDALS_ADD, PEDAL_ORDER, ROLES, SENDS,
+  type DrumLane, type FxName, type FxRules, type FxWhere, type PedalsRules, type RackRules, type Role,
+  type SoundRules, type SoundSpec, type Treatment,
 } from "../genre/spec.ts";
 import { articulate } from "./articulate.ts";
 import type { DeskChange, Event } from "../stage/perform.ts";
@@ -144,9 +145,11 @@ class Channel {
   /** Whether the machine is doing anything a wire does not. */
   private loaded = false;
 
-  // the pedal board
-  private pedals: ((x: number) => number)[] = [];
-  private pedalSig = "";
+  // this part's own pedal board, held across knob moves, and the rack's own
+  // effects clipped onto either end of it
+  private pedals: Board | null = null;
+  private first: Rig | null = null;
+  private last: Rig | null = null;
 
   // the world
   private shadow: Biquad | null = null;
@@ -196,7 +199,7 @@ class Channel {
   }
 
   /** Build or retune from the rules. Called once offline, and on every knob move live. */
-  tune(S: SoundRules, sr: number): void {
+  tune(S: SoundRules, sr: number, beatSec = 0.5, seed = 0): void {
     const ch = S.mix[this.role];
     const W = S.world;
 
@@ -216,12 +219,27 @@ class Channel {
       }
     }
 
-    // ── the board ──
-    const ps = sig([ch.pedals > 0, S.pedals]);
-    if (ps !== this.pedalSig) {
-      this.pedalSig = ps;
-      this.pedals = ch.pedals > 0 ? board(S.pedals, sr) : [];
-    }
+    // ── the board: this part's own, not the band's ──
+    // BUILT when the boxes on it change, TUNED when only their knobs do — so
+    // an automated knob does not restart the pedal beside it. A part fed
+    // nothing has no board at all, which is what `pedals` 0 means.
+    const mine = S.pedals[this.role];
+    if (ch.pedals <= 0) this.pedals = null;
+    else if (this.pedals === null || !this.pedals.is(mine)) this.pedals = new Board(mine, sr);
+    else this.pedals.tune(mine);
+
+    // ── and the effects clipped onto each end of it ──
+    // These do NOT depend on `ch.pedals`: the feed is how much of the part
+    // walks the BOARD, and an effect at the end of the line is on the line
+    // whether or not the part goes anywhere near a stompbox.
+    const fx = S.fx[this.role];
+    const rig = (held: Rig | null, where: FxWhere): Rig | null => {
+      if (held !== null && held.is(fx, where)) { held.tune(fx); return held.empty ? null : held; }
+      const built = new Rig(fx, where, beatSec, sr, seed, this.role);
+      return built.empty ? null : built;
+    };
+    this.first = rig(this.first, "first");
+    this.last = rig(this.last, "last");
 
     // ── the world ──
     const width = W.width;
@@ -279,15 +297,19 @@ class Channel {
       for (let i = 0; i < n; i++) src[i] = this.kit.run(src[i]!, drive);
     }
 
-    // ── the board: nothing fed, nothing built ──
+    // ── the line: what is clipped on the front, the board, then the back ──
+    // The board is fed by `ch.pedals` and crossfaded by it; the effects at
+    // either end are in line and their own mix is how much of each is heard.
     let input = src;
-    if (ch.pedals > 0 && this.pedals.length > 0) {
+    const board = this.pedals, head = this.first, tail = this.last;
+    if (head !== null || tail !== null || (ch.pedals > 0 && board !== null && !board.empty)) {
       const out = this.boarded;
-      const stages = this.pedals;
       for (let i = 0; i < n; i++) {
         let y = src[i]!;
-        for (const st of stages) y = st(y);
-        out[i] = src[i]! * (1 - ch.pedals) + y * ch.pedals;
+        if (head !== null) y = head.run(y);
+        if (ch.pedals > 0 && board !== null && !board.empty) y = y * (1 - ch.pedals) + board.run(y) * ch.pedals;
+        if (tail !== null) y = tail.run(y);
+        out[i] = y;
       }
       input = out;
     }
@@ -318,40 +340,248 @@ class Channel {
 }
 
 /**
- * The pedal board as a chain of stages, in the order a player wires them —
- * `PEDAL_ORDER`, which is where that order is argued.
+ * ONE PART'S pedal board: the units in the order a player wires them —
+ * `PEDAL_ORDER`, which is where that order is argued — held, and RETUNED
+ * rather than rebuilt when the record moves one of their knobs.
  *
  * A pedal at mix 0 is not built. That is not an optimisation, it is what a
- * pedal being off the board IS: the chain closes over the gap and a genre
- * that uses one pedal pays for one.
+ * pedal being off the board IS: the chain closes over the gap and a part that
+ * uses one pedal pays for one. So WHICH pedals are lit is what a board is, and
+ * a pedal switching on or off makes a different board; every other number is a
+ * knob on a board that already exists.
+ *
+ * THAT DISTINCTION IS WHAT LETS A PEDAL BE AUTOMATED. `retune()` runs every
+ * `RAMP_STEP` samples while the desk is moving, so a board rebuilt on every
+ * knob move is a board rebuilt 21 times a second — and a rebuilt pedal has
+ * lost everything it knew: the tremolo's own clock, the wah's and the
+ * phaser's sweep, the compressor's 1.5-second release, the divider's
+ * flip-flops, the sag's rail part way through collapsing. Measured on lofi's
+ * lead before this existed: automating ONE knob on the board cost the tremolo
+ * beside it 82% of its wobble, 0.0894 down to 0.0161. The units now keep
+ * their state and take new numbers, which is what `Channel`'s own header has
+ * always claimed for the rest of the channel.
  *
  * TWO OF THEM ADD RATHER THAN BLEND (`PEDALS_ADD`): an octave up and an
  * octave down are second voices beside the note, and crossfading one takes
  * away the note it was made from.
  */
-function board(P: PedalsRules, sr: number): ((x: number) => number)[] {
-  const stages: ((x: number) => number)[] = [];
-  const add = new Set<string>(PEDALS_ADD);
-  const stage = <T extends { run(x: number): number }>(name: keyof PedalsRules, unit: () => T, mix: number): void => {
-    if (mix <= 0) return;
-    const u = unit();
-    if (add.has(name)) stages.push((x) => x + u.run(x) * mix);
-    else stages.push((x) => x * (1 - mix) + u.run(x) * mix);
-  };
-  stage("comp", () => new Comp(P.comp.sustain, P.comp.level, sr), P.comp.mix);
-  stage("wah", () => new Wah(P.wah.rateHz, P.wah.depth, sr), P.wah.mix);
-  stage("sub", () => new Sub(P.sub.two, P.sub.gate, P.sub.tone, sr), P.sub.mix);
-  stage("octave", () => new Octave(sr), P.octave.mix);
-  stage("meat", () => new Meat(P.meat.dirt, P.meat.bias, P.meat.dark, P.meat.level, sr), P.meat.mix);
-  stage("muff", () => new Muff(P.muff.sustain, P.muff.tone, P.muff.level, P.muff.cabHz, P.muff.mids, P.muff.mass, sr), P.muff.mix);
-  stage("overdrive", () => new Overdrive(P.overdrive.drive, P.overdrive.tone, sr), P.overdrive.mix);
-  stage("fuzz", () => new Fuzz(P.fuzz.gain, sr), P.fuzz.mix);
-  stage("saw", () => new Saw(P.saw.dist, P.saw.low, P.saw.high, P.saw.gate, P.saw.tameHz, P.saw.level, sr), P.saw.mix);
-  stage("sag", () => new Sag(P.sag.depth, P.sag.idle, P.sag.recovSec, P.sag.draw, sr), P.sag.mix);
-  stage("phaser", () => new Phaser(P.phaser.rateHz, P.phaser.depth, sr), P.phaser.mix);
-  stage("tremolo", () => new Tremolo(P.tremolo.rateHz, P.tremolo.depth, sr), P.tremolo.mix);
-  return stages;
+class Board {
+  /** Which pedals are lit, in cable order — what this board IS. */
+  private readonly lit: (keyof PedalsRules)[] = [];
+  private readonly units: { run(x: number): number }[] = [];
+  private readonly adds: boolean[] = [];
+  private readonly mix: number[] = [];
+
+  constructor(P: PedalsRules, sr: number) {
+    const add = new Set<string>(PEDALS_ADD);
+    const make: Record<string, () => { run(x: number): number }> = {
+      comp: () => new Comp(P.comp.sustain, P.comp.level, sr),
+      wah: () => new Wah(P.wah.rateHz, P.wah.depth, sr),
+      sub: () => new Sub(P.sub.two, P.sub.gate, P.sub.tone, sr),
+      octave: () => new Octave(sr),
+      meat: () => new Meat(P.meat.dirt, P.meat.bias, P.meat.dark, P.meat.level, sr),
+      muff: () => new Muff(P.muff.sustain, P.muff.tone, P.muff.level, P.muff.cabHz, P.muff.mids, P.muff.mass, sr),
+      overdrive: () => new Overdrive(P.overdrive.drive, P.overdrive.tone, sr),
+      fuzz: () => new Fuzz(P.fuzz.gain, sr),
+      saw: () => new Saw(P.saw.dist, P.saw.low, P.saw.high, P.saw.gate, P.saw.tameHz, P.saw.level, sr),
+      sag: () => new Sag(P.sag.depth, P.sag.idle, P.sag.recovSec, P.sag.draw, sr),
+      phaser: () => new Phaser(P.phaser.rateHz, P.phaser.depth, sr),
+      tremolo: () => new Tremolo(P.tremolo.rateHz, P.tremolo.depth, sr),
+    };
+    for (const name of PEDAL_ORDER) {
+      const mix = (P[name] as { mix: number }).mix;
+      if (mix <= 0) continue;
+      this.lit.push(name);
+      this.units.push(make[name]!());
+      this.adds.push(add.has(name));
+      this.mix.push(mix);
+    }
+  }
+
+  get empty(): boolean { return this.units.length === 0; }
+
+  /** Is this still the same board — the same boxes, in the same order? */
+  is(P: PedalsRules): boolean {
+    let i = 0;
+    for (const name of PEDAL_ORDER) {
+      if ((P[name] as { mix: number }).mix <= 0) continue;
+      if (this.lit[i] !== name) return false;
+      i++;
+    }
+    return i === this.lit.length;
+  }
+
+  /** New numbers for the boxes that are already here. Nothing loses its place. */
+  tune(P: PedalsRules): void {
+    for (let i = 0; i < this.lit.length; i++) {
+      const name = this.lit[i]!;
+      const u = this.units[i]!;
+      this.mix[i] = (P[name] as { mix: number }).mix;
+      switch (name) {
+        case "comp": (u as Comp).set(P.comp.sustain, P.comp.level); break;
+        case "wah": (u as Wah).set(P.wah.rateHz, P.wah.depth); break;
+        case "sub": (u as Sub).set(P.sub.two, P.sub.gate, P.sub.tone); break;
+        // the octave up is a rectifier and a coupling cap: it has no knob
+        case "octave": break;
+        case "meat": (u as Meat).set(P.meat.dirt, P.meat.bias, P.meat.dark, P.meat.level); break;
+        case "muff": (u as Muff).set(P.muff.sustain, P.muff.tone, P.muff.level, P.muff.cabHz, P.muff.mids, P.muff.mass); break;
+        case "overdrive": (u as Overdrive).set(P.overdrive.drive, P.overdrive.tone); break;
+        case "fuzz": (u as Fuzz).set(P.fuzz.gain); break;
+        case "saw": (u as Saw).set(P.saw.dist, P.saw.low, P.saw.high, P.saw.gate, P.saw.tameHz, P.saw.level); break;
+        case "sag": (u as Sag).set(P.sag.depth, P.sag.idle, P.sag.recovSec, P.sag.draw); break;
+        case "phaser": (u as Phaser).set(P.phaser.rateHz, P.phaser.depth); break;
+        case "tremolo": (u as Tremolo).set(P.tremolo.rateHz, P.tremolo.depth); break;
+      }
+    }
+  }
+
+  run(x: number): number {
+    let y = x;
+    for (let i = 0; i < this.units.length; i++) {
+      const wet = this.units[i]!.run(y);
+      const m = this.mix[i]!;
+      y = this.adds[i]! ? y + wet * m : y * (1 - m) + wet * m;
+    }
+    return y;
+  }
 }
+
+/**
+ * ONE PART'S IN-LINE EFFECTS — the rack's nine circuits, on this part's own
+ * line, at whichever end of the board the part asked for.
+ *
+ * A rack unit is the record's: the wet five are returns everybody sends to,
+ * and the inserts sit on the sum after the mix. These are the same circuits
+ * wired the other way, so that a spring can be on the bass and not on the
+ * flute, and so that a filter can sit BEFORE the fuzz — which is the thing a
+ * rack cannot do at all, because a rack is always after everything.
+ *
+ * MONO, because a part's line is mono until the world places it. The rack
+ * builds each of these as a stereo pair with the right side detuned a little;
+ * in line there is one of it, and the width a part gets is the width the world
+ * gives it.
+ *
+ * AND IT STANDS WHERE THE PART STANDS. This runs BEFORE the world, so a part's
+ * distance quietens and darkens its own reverb along with its dry — where a
+ * return came back at the master, at full, however far off the part that fed
+ * it was. That is not a loss to correct for; it is the difference between a
+ * chamber down the corridor and a room the player is standing in. It is worth
+ * knowing because it is not free: dungeon synth, whose parts stand at 0.5 to
+ * 0.8 in a world 0.8 deep, is 1.2 to 2.2 dB quieter for it even with every
+ * send carried across exactly. A genre that wants the old level back raises
+ * its levels and says why; it does not divide the mixes by `dGain`.
+ *
+ * Built and tuned by the same rule as `Board`: WHICH effects are lit and where
+ * they clip on is what this chain IS, and everything else is a knob on a chain
+ * that already exists. So a mix swept from a treatment does not restart the
+ * reverb it is sweeping.
+ */
+class Rig {
+  private readonly lit: FxName[] = [];
+  private readonly units: { run(x: number): number }[] = [];
+  private readonly adds: boolean[] = [];
+  private readonly mix: number[] = [];
+
+  constructor(F: FxRules, where: FxWhere, beatSec: number, sr: number, seed: number, role: Role) {
+    const make: Record<FxName, () => { run(x: number): number }> = {
+      pole: () => new Pole(F.pole.hz, F.pole.resonance, sr),
+      flange: () => new Flanger(F.flange.rateHz, F.flange.depth, sr),
+      ensemble: () => new Ensemble(F.ensemble.rateHz, F.ensemble.depth, sr),
+      echo: () => new Echo(F.echo.beats * beatSec, F.echo.feedback, sr),
+      spring: () => new Spring(F.spring.sec, sr),
+      room: () => new Reverb(F.room.sec, sr),
+      tape: () => {
+        const lp = new Biquad("lowpass", F.tape.lowpassHz, 0.71, sr);
+        const drive = F.tape.drive;
+        return { run: (x: number): number => saturate(lp.run(x), drive) };
+      },
+      // the horn or the radio, seeded off the part so two parts through one
+      // gramophone are not the same gramophone
+      medium: () => new Medium(F.medium.kind, hash32(`fx/${seed}/${role}/medium`), sr),
+      vinyl: () => {
+        const noise = new Noise(hash32(`fx/${seed}/${role}/vinyl`));
+        const hp = new Biquad("highpass", 2000, 0.7, sr);
+        const crackle = F.vinyl.crackle;
+        // The dust ALONE, not the record with dust on it. Every unit here hands
+        // back its wet and `FX_ADD` below decides whether that wet lands beside
+        // the signal or in place of it; dust is in that list, so returning
+        // `x + dust` here would put the part's own signal through twice.
+        return { run: (_x: number): number => hp.run(noise.next()) * crackle };
+      },
+    };
+    for (const name of FX_ORDER) {
+      const one = F[name] as { mix: number; at: FxWhere };
+      if (one.mix <= 0 || one.at !== where) continue;
+      this.lit.push(name);
+      this.units.push(make[name]());
+      this.adds.push(FX_ADD.includes(name));
+      this.mix.push(one.mix);
+    }
+  }
+
+  get empty(): boolean { return this.units.length === 0; }
+
+  /** Same effects, same order, same end of the board? */
+  is(F: FxRules, where: FxWhere): boolean {
+    let i = 0;
+    for (const name of FX_ORDER) {
+      const one = F[name] as { mix: number; at: FxWhere };
+      if (one.mix <= 0 || one.at !== where) continue;
+      if (this.lit[i] !== name) return false;
+      i++;
+    }
+    return i === this.lit.length;
+  }
+
+  /**
+   * New numbers for the effects already standing here.
+   *
+   * A reverb's SECONDS and an echo's BEATS are not knobs, they are what the
+   * unit was built AS — the comb lengths and the delay line come from them —
+   * so those are held by `is` through the signature the caller keeps, and this
+   * moves only what a unit can be told. Same division the rack makes.
+   */
+  tune(F: FxRules): void {
+    for (let i = 0; i < this.lit.length; i++) {
+      const name = this.lit[i]!;
+      this.mix[i] = (F[name] as { mix: number }).mix;
+      const u = this.units[i]!;
+      if (name === "pole") (u as Pole).set(F.pole.hz, F.pole.resonance);
+    }
+  }
+
+  run(x: number): number {
+    let y = x;
+    for (let i = 0; i < this.units.length; i++) {
+      const wet = this.units[i]!.run(y);
+      const m = this.mix[i]!;
+      y = this.adds[i]! ? y + wet * m : y * (1 - m) + wet * m;
+    }
+    return y;
+  }
+}
+
+/**
+ * THE EFFECTS THAT ADD RATHER THAN REPLACE — the same law `PEDALS_ADD` states
+ * for the octave pedals, and for the same reason: "a second voice beside the
+ * note, and crossfading it takes away the note it was made from".
+ *
+ * A reverb is that kind of thing. It is also what a SEND/RETURN is: the dry
+ * goes to the sum at full and the wet arrives beside it, which is why a genre
+ * can send 0.7 to a room without the part getting quieter. Crossfade it
+ * instead and every part loses `1 - mix` of its own direct sound.
+ *
+ * MEASURED, AND IT IS WHY THIS EXISTS. Both genres were moved off their
+ * returns with these blending, and dungeon synth — six parts each with a room
+ * around 0.5 — came out 7.5 dB QUIETER, −13.5 to −21.0 dBFS. Not a slightly
+ * different balance: most of the band's direct signal thrown away, for a
+ * reverb that used to cost it nothing.
+ *
+ * The three that are NOT here replace by nature. A filter, a tape and a
+ * gramophone horn are the signal transformed rather than something beside it,
+ * and a dry/wet on those is what the knob means.
+ */
+const FX_ADD: readonly FxName[] = Object.freeze(["echo", "spring", "room", "ensemble", "flange", "vinyl"]);
 
 /** A wet unit as a stereo pair: two of it, the right one a little different, so the return has width. */
 function returns(sd: Send, rack: RackRules, beatSec: number, sr: number): [(x: number) => number, (x: number) => number] {
@@ -406,9 +636,33 @@ const CONTINUOUS: ReadonlySet<string> = new Set([
   "rack.medium.mix", "rack.vinyl.crackle", "rack.master.level",
   ...SENDS.map((sd) => `rack.${sd}.ret`),
   "world.width", "world.depth",
+  /**
+   * AND EVERY KNOB ON EVERY BOARD. A pedal used to be a thing the renderer
+   * BUILT, so none of its numbers could be part way — `stomp` stepped a mix
+   * from one setting to another and a swept drive was not sayable. Now a
+   * board is tuned, so every one of these is read as a number by a unit that
+   * is already standing there, which is exactly what this list means.
+   *
+   * Read off the resting board rather than hand-listed: a pedal that grows a
+   * knob gets it walked without anybody remembering to come back here.
+   */
+  ...ROLES.flatMap((r) =>
+    PEDAL_ORDER.flatMap((p) =>
+      Object.keys(DEFAULTS.sound.pedals[r][p]).map((k) => `pedals.${r}.${p}.${k}`))),
 ]);
+
+/** The pedal knobs that are a FREQUENCY, and so walk in octaves like the rack's. */
+const PEDAL_HZ: readonly string[] = ["tone", "cabHz", "tameHz", "rateHz"];
 /** A frequency walks in octaves, not in hertz: half way from 200 to 3200 is 800. */
-const GEOMETRIC: ReadonlySet<string> = new Set(["rack.pole.hz", "rack.tape.lowpassHz"]);
+const GEOMETRIC: ReadonlySet<string> = new Set([
+  "rack.pole.hz", "rack.tape.lowpassHz",
+  // half way from 200 Hz to 3200 is 800, on a board as much as in the rack
+  ...ROLES.flatMap((r) =>
+    PEDAL_ORDER.flatMap((p) =>
+      Object.keys(DEFAULTS.sound.pedals[r][p])
+        .filter((k) => PEDAL_HZ.includes(k))
+        .map((k) => `pedals.${r}.${p}.${k}`))),
+]);
 
 /** The desk `u` of the way from one to the other — see `CONTINUOUS`. */
 function walk(from: unknown, to: unknown, u: number, path = ""): unknown {
@@ -625,7 +879,7 @@ export class Engine {
     const ks = sig([M.kit, M.circuit, M.tune, M.decay, M.tone, M.punch, M.snappy, M.sdtone, M.chdecay, M.ohdecay,
       DRUM_LANES.map((lane) => [M.channels[lane].tune, M.channels[lane].decay])]);
     if (ks !== this.kitSig) { this.kitSig = ks; this.kitCache.clear(); }
-    for (const ch of this.channels.values()) ch.tune(this.S, sr);
+    for (const ch of this.channels.values()) ch.tune(this.S, sr, this.beatSec, this.seed);
     this.wire();
     this.inserts();
   }

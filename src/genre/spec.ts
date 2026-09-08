@@ -802,6 +802,26 @@ export const TREATMENTS = [
   // §7-§9 of THE-ALTERATIONS.md: knobs this desk has always had and could
   // never move across a record.
   "orbit", "medium", "waver", "stomp", "repatch",
+  /**
+   * §8 AGAIN, AND THE HOLE IN IT: THE PEDALS' OWN KNOBS.
+   *
+   * The catalogue had a row for how much of a board a part walks (43, which is
+   * `push`/`ease`) and a row for which box on it is lit (44, `stomp`), and no
+   * row at all for turning the knobs on the box. Twelve pedals carry about
+   * forty of them and one treatment reached two: `waver`, on the tremolo's and
+   * the phaser's depth. Turning a pedal up IS an alteration — it is what a
+   * player does to a rig between one section and the next — and it was the
+   * largest thing on this desk that could not move.
+   *
+   * Two pairs, because these are two gestures and not one:
+   *   grind / clean    the DIRT — the gain knobs of every clipping pedal on
+   *                    the board, which is the rig working harder
+   *   starve / revive  the SUPPLY — the rail collapsing and the bias going
+   *                    with it, which is the rig failing rather than working.
+   *                    "The feedback loop is broken... we have GATING. That
+   *                    ripping velcro tone is saturation setting in" (geofex)
+   */
+  "grind", "clean", "starve", "revive",
   // §9: the drum machine, which no treatment could reach at all.
   "rekit", "recircuit", "slacken", "spotlight", "soak",
   // and the one leaf of the rack that still had nothing pointed at it
@@ -1173,6 +1193,32 @@ type Total<T> = { readonly [K in keyof T]-?: Required<NonNullable<T[K]>> };
 export type RackRules = Total<RackSpec>;
 export const RACK_ORDER = ["pole", "flange", "ensemble", "echo", "spring", "room", "tape", "medium", "vinyl", "master"] as const satisfies readonly (keyof RackSpec)[];
 
+/**
+ * THE RACK'S EFFECTS, AS PEDALS ON ONE PART'S OWN LINE.
+ *
+ * A rack unit is a thing the whole record shares: the five wet ones are
+ * RETURNS that parts send to, and the inserts sit on the SUM after everything
+ * is mixed together. Neither is something one player has. So there was no way
+ * to put a spring on the bass and not on the flute, and no way to ask whether
+ * the filter comes before the fuzz or after it — the answer was always "after
+ * everything".
+ *
+ * These are the same nine effects wired the other way: in line, on one part,
+ * at a place on that part's chain that the part chooses. `master` is not here
+ * and cannot be — it is the output ceiling, the last gain before the file, and
+ * a per-part one is just that part's level, which the mixer already has.
+ *
+ * WHERE, and it is the whole point of them. A pedal board is an ORDER, and an
+ * effect that is always last can never be the thing the dirt is fed through.
+ * `at` says which end of that part's board it clips onto: LAST by default,
+ * because the end of the line is where a rack has always effectively been.
+ */
+export const FX_ORDER = ["pole", "flange", "ensemble", "echo", "spring", "room", "tape", "medium", "vinyl"] as const;
+export type FxName = (typeof FX_ORDER)[number];
+/** Which end of a part's board an effect clips onto. */
+export const FX_WHERE = ["first", "last"] as const;
+export type FxWhere = (typeof FX_WHERE)[number];
+
 /** The wet units a part may be sent to, in the rack. */
 export const SENDS = ["echo", "spring", "room", "ensemble", "flange"] as const;
 export type Send = (typeof SENDS)[number];
@@ -1238,6 +1284,23 @@ export type WorldRules = Required<WorldSpec>;
  * the dirt, because a supply squishes what the circuit in front of it draws.
  * Modulation at the end, where a phaser and a tremolo sit on every board that
  * has them.
+ *
+ * ONE BOARD PER PART — this is `PedalsSpec`, and `SoundSpec.pedals` holds one
+ * of them PER ROLE. A board belongs to a player, not to a band: a bassist's
+ * board and a keyboard player's board are two boards, and the only thing they
+ * share is being on the same stage.
+ *
+ * The program had one board under all six parts for its whole life, and
+ * nothing ever said so — no document in `docs/` states it, the README says
+ * "each part through a pedal board by its own feed", and the limit was a
+ * single `pedals: PedalsRules` field read by `board(S.pedals, sr)`. It was an
+ * accident of the first version, and it made two of this program's own
+ * comments false. Dungeon synth's octave divider says "it tracks single notes
+ * and not chords — so it is the bass and the drone that get it, AND THE PAD
+ * MUST NOT CLOCK IT", and the pad was clocking it at 0.7 of the feed; the
+ * same genre calls its flute "the one voice in the room that is not coming
+ * out of an amp" and then ran it through the Muff. A comment is the
+ * specification here, and neither could be kept while there was one board.
  */
 export interface PedalsSpec {
   /** An MXR Dyna Comp: how hard it squashes, and the makeup that lifts what is left. */
@@ -1284,6 +1347,72 @@ export const PEDAL_ORDER = [
  * are wired on a floor.
  */
 export const PEDALS_ADD: readonly (keyof PedalsSpec)[] = Object.freeze(["sub", "octave"]);
+
+/**
+ * A BOARD WITH NOTHING SWITCHED ON. Every pedal is present and every one is at
+ * mix 0, so `board()` builds none of them and the part comes out as it went in.
+ *
+ * The knob positions are each pedal's own: a Dyna Comp halfway up, an HM-2
+ * dimed because "every knob turned all the way up, that's all" is the only
+ * setting anybody uses it at, a fresh battery in the sag, and a Fuzz Face
+ * barely starved. They mean nothing until a genre lifts a mix, and they are
+ * stated so that "where does this genre's bass have its Muff" is answerable
+ * from the resolved table alone.
+ */
+const BOARD_AT_REST: PedalsRules = {
+  comp: { sustain: 0.5, level: 0.5, mix: 0 },
+  wah: { rateHz: 1.2, depth: 0.7, mix: 0 },
+  sub: { two: 0, gate: 0.012, tone: 900, mix: 0 },
+  octave: { mix: 0 },
+  meat: { dirt: 0.6, bias: 0.15, dark: 0.5, level: 0.5, mix: 0 },
+  muff: { sustain: 0.45, tone: 0.35, level: 0.5, cabHz: 4500, mids: 0, mass: 0, mix: 0 },
+  overdrive: { drive: 3, tone: 0.5, mix: 0 },
+  fuzz: { gain: 6, mix: 0 },
+  saw: { dist: 0.7, low: 1, high: 1, gate: 0.06, tameHz: 6000, level: 0.5, mix: 0 },
+  sag: { depth: 0.5, idle: 1, recovSec: 0.12, draw: 0.25, mix: 0 },
+  phaser: { rateHz: 0.4, depth: 0.7, mix: 0 },
+  tremolo: { rateHz: 4.5, depth: 0.6, mix: 0 },
+};
+
+/**
+ * ONE PART'S FX, each with its own settings, its own wet amount and its own
+ * end of the board. Every unit is OFF at mix 0 and is not built, exactly as a
+ * pedal is — so a part that runs one effect pays for one, and a genre that
+ * runs none is the record this program made before these existed.
+ *
+ * The knobs are the rack's own, because they are the same circuits: what is
+ * new is that each part has a set rather than the record having one.
+ */
+export interface FxSpec {
+  readonly pole?: { readonly hz?: number; readonly resonance?: number; readonly mix?: number; readonly at?: FxWhere };
+  readonly flange?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number; readonly at?: FxWhere };
+  readonly ensemble?: { readonly rateHz?: number; readonly depth?: number; readonly mix?: number; readonly at?: FxWhere };
+  readonly echo?: { readonly beats?: number; readonly feedback?: number; readonly mix?: number; readonly at?: FxWhere };
+  readonly spring?: { readonly sec?: number; readonly mix?: number; readonly at?: FxWhere };
+  readonly room?: { readonly sec?: number; readonly mix?: number; readonly at?: FxWhere };
+  readonly tape?: { readonly lowpassHz?: number; readonly drive?: number; readonly mix?: number; readonly at?: FxWhere };
+  readonly medium?: { readonly kind?: "gramophone" | "radio"; readonly mix?: number; readonly at?: FxWhere };
+  readonly vinyl?: { readonly crackle?: number; readonly mix?: number; readonly at?: FxWhere };
+}
+export type FxRules = Total<FxSpec>;
+
+/**
+ * A PART'S FX AT REST: all nine present, all nine off, all nine at the end of
+ * the line. Shared by reference across the six parts for the same reason
+ * `BOARD_AT_REST` is — `merge` never writes into what it is handed and
+ * `resolveGenre` deep-clones before anything normalises.
+ */
+const FX_AT_REST: FxRules = {
+  pole: { hz: 3600, resonance: 0.2, mix: 0, at: "last" },
+  flange: { rateHz: 0.4, depth: 0.6, mix: 0, at: "last" },
+  ensemble: { rateHz: 0.5, depth: 0.5, mix: 0, at: "last" },
+  echo: { beats: 1.5, feedback: 0.3, mix: 0, at: "last" },
+  spring: { sec: 1.6, mix: 0, at: "last" },
+  room: { sec: 2.2, mix: 0, at: "last" },
+  tape: { lowpassHz: 10000, drive: 1.4, mix: 0, at: "last" },
+  medium: { kind: "gramophone", mix: 0, at: "last" },
+  vinyl: { crackle: 0.06, mix: 0, at: "last" },
+};
 
 /**
  * THE PATCH: the returns feeding each other. `patch[from][to]` is how much
@@ -1382,7 +1511,10 @@ export interface SoundSpec {
   readonly rack?: RackSpec;
   readonly mix?: Readonly<Partial<Record<Role, ChannelSpec>>>;
   readonly world?: WorldSpec;
-  readonly pedals?: PedalsSpec;
+  /** A pedal board per part. A genre states the boards it wants; the rest are at rest. */
+  readonly pedals?: Readonly<Partial<Record<Role, PedalsSpec>>>;
+  /** The rack's effects in line on a part's own board, at whichever end it says. */
+  readonly fx?: Readonly<Partial<Record<Role, FxSpec>>>;
   readonly patch?: PatchSpec;
   readonly machine?: MachineSpec;
 }
@@ -1419,7 +1551,10 @@ export interface SoundRules {
   readonly rack: RackRules;
   readonly mix: Readonly<Record<Role, ChannelRules>>;
   readonly world: WorldRules;
-  readonly pedals: PedalsRules;
+  /** Every part's own board, every knob on it settled. */
+  readonly pedals: Readonly<Record<Role, PedalsRules>>;
+  /** And every part's own in-line effects, settled the same way. */
+  readonly fx: Readonly<Record<Role, FxRules>>;
   readonly patch: PatchRules;
   readonly machine: MachineRules;
 }
@@ -2233,25 +2368,33 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       flange: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
     },
     /**
-     * Every pedal on the board and every one of them off it — mix 0, so
-     * nothing is built. The knob positions are each pedal's own: a Dyna Comp
-     * halfway up, an HM-2 dimed because "every knob turned all the way up,
-     * that's all" is the only setting anybody uses it at, a fresh battery in
-     * the sag, and a Fuzz Face barely starved.
+     * A BOARD PER PART, and every one of them the same board at rest: every
+     * pedal on it and every one of them off — mix 0, so nothing is built.
+     *
+     * They are six references to `BOARD_AT_REST` rather than six copies of
+     * the same twelve lines, which is safe for the reason the mixer's rows
+     * are not: `merge` never writes into what it is handed and `resolveGenre`
+     * deep-clones the result before anything normalises it, so no genre can
+     * reach this object, let alone another genre's copy of it.
      */
     pedals: {
-      comp: { sustain: 0.5, level: 0.5, mix: 0 },
-      wah: { rateHz: 1.2, depth: 0.7, mix: 0 },
-      sub: { two: 0, gate: 0.012, tone: 900, mix: 0 },
-      octave: { mix: 0 },
-      meat: { dirt: 0.6, bias: 0.15, dark: 0.5, level: 0.5, mix: 0 },
-      muff: { sustain: 0.45, tone: 0.35, level: 0.5, cabHz: 4500, mids: 0, mass: 0, mix: 0 },
-      overdrive: { drive: 3, tone: 0.5, mix: 0 },
-      fuzz: { gain: 6, mix: 0 },
-      saw: { dist: 0.7, low: 1, high: 1, gate: 0.06, tameHz: 6000, level: 0.5, mix: 0 },
-      sag: { depth: 0.5, idle: 1, recovSec: 0.12, draw: 0.25, mix: 0 },
-      phaser: { rateHz: 0.4, depth: 0.7, mix: 0 },
-      tremolo: { rateHz: 4.5, depth: 0.6, mix: 0 },
+      drums: BOARD_AT_REST, bass: BOARD_AT_REST, keys: BOARD_AT_REST,
+      lead: BOARD_AT_REST, counter: BOARD_AT_REST, drone: BOARD_AT_REST,
+    },
+
+    /**
+     * AND EVERY PART'S IN-LINE EFFECTS, all of them off. The settings are the
+     * rack's own defaults, because they are the same circuits; what each part
+     * says is HOW MUCH of it sits in its line and WHICH END it clips onto.
+     *
+     * `at` is LAST on all nine, which is where a rack has always effectively
+     * been: after the board, after everything. A part that wants its filter
+     * ahead of its fuzz says `first` and gets it — and that, rather than the
+     * mix, is what these can do that a rack never could.
+     */
+    fx: {
+      drums: FX_AT_REST, bass: FX_AT_REST, keys: FX_AT_REST,
+      lead: FX_AT_REST, counter: FX_AT_REST, drone: FX_AT_REST,
     },
 
     /**

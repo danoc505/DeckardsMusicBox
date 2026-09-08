@@ -34,18 +34,34 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite HAS now been run on this tree: `npm test`, 307 tests, 304 pass,
-3 fail, 6 min 25 s.** `npm run check` is clean. The time is still the problem
-item 1 describes — `render.test.ts` renders sixty-second records at 22050 Hz a
-dozen times over, `all.test.ts`, `pedals.test.ts` and `rack.test.ts` each
-render whole records to check one number. Two of the three failures are
-long-standing and deliberate — they encode research and have not been tuned
-away:
+**The suite has NOT been run end to end on this merged tree.** It was
+started and stopped by the owner at 91 passing and none failing, because
+it takes six minutes and three of its tests always fail; item 1 below is
+that problem and it is the most useful thing anyone can do next. What was
+checked instead: `npm run check` is clean, `npm run build` builds, and the
+built page plays both genres in headless Chromium with no page error. On the
+MKIII side before the merge the tally was **310 tests, 307 pass, three
+fail, and all three fail identically on the commit before that work
+began**; the drive side adds one more test in `render.test.ts`. It was 307 tests before; the three added are laws this session could
+state for the first time — a board is one part's own, no board is wired to
+nothing, and a pedal keeps its own clock while the knob beside it moves. It is
+still too slow to run in one go — see item 1 — so it was run as
+`node --test src/<one>.test.ts` per file and the three failures were then
+re-run in a worktree of the earlier commit to prove they were not this
+session's. THERE ARE THREE STANDING FAILURES AND THIS FILE USED TO LIST TWO;
+the third was found by that check, not by the change that prompted it:
 
 - `arrange.test.ts` "the break goes below the floor mid-record" — 14% of
-  records have a break against a threshold of 15%. See item 6.
+  records have a break against a threshold of 15%. Deliberate; see item 6.
 - `material/index.test.ts` "a returning idea plays its statement's own figure"
-  — 82 variants against a threshold of 90.
+  — 82 variants against a threshold of 90. Deliberate.
+- `material/index.test.ts` "keys voice every tone of the chord, in register,
+  led smoothly" — **not deliberate, undiagnosed, and older than this
+  session.** It is not in any earlier tally, so it landed with the elements
+  work, the counter, `LEGAL_TEXTURES` or the amen figure and nobody saw it,
+  because the suite has not run end to end since before those. Somebody has
+  to read it: it is the keys against a voicing law, which is the kind of
+  thing the registers table above breaks from a distance.
 
 **The third is new and nobody owns it yet:** `material/index.test.ts` "keys
 voice every tone of the chord, in register, led smoothly" fails with `A bar 0
@@ -58,8 +74,9 @@ branch's later commits touches a note — but it has not been diagnosed. Roll a
 lofi record and look at the keys in bar 0 before believing anything about
 what the keys play.
 
-`node --test src/<one>.test.ts` per file is still the fast way to run one law,
-and `src/stage/` is where the coupled laws live.
+`node --test src/<one>.test.ts` per file is still the fast way to run one law.
+**Anything else red is yours.** Item 1 below is making the suite runnable.
+`src/stage/` is where the coupled laws live.
 
 The registers each genre works in, since three of the last four changes were
 here and they are easy to get wrong:
@@ -139,6 +156,23 @@ measured. Write the next one that way.
 
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
+
+**Two sessions built on one page, and this is the merge.** The drive was
+built on the branch `claude/mkiii-ui-10x-j3cpqp` while the boards below were
+built on `MKIII`, and the two met badly: the MKIII session found the drive on
+the published artifact and not in its own tree, rescued the page into
+`docs/recovered/` on the belief that the drive "was never in this repository",
+and ported it into `tools/page.html` from that copy — the drive exactly as it
+stood at `2ce379a`, byte for byte. It had been in the repository the whole
+time, on the other branch; `git fetch --all` before deciding a thing was never
+here. `tools/page.html` is now MKIII's page (the per-part switches, the FX
+pedals, the rack folded away) carrying the drive as it stands at `be5781d`
+(WebGL paint, four-by-seven cells, traffic that does not wink), resolved as a
+three-way merge with `2ce379a` as the base, which is why the two sets of
+changes went together without a conflict. `docs/recovered/` is deleted, as its
+own README said to do once the drive was in the page, and the published
+artifact carries both again. Nothing in `src/` conflicted: `Engine.desk` and
+the six boards are independent changes to `render.ts`.
 
 **The drive: the record as a road, in glyphs, on the page.** The owner asked
 for the page to be an experience rather than a settings screen — "a visualizer
@@ -304,6 +338,244 @@ knowing: `current()` is the desk the record is being ASKED to play, which is
 what goes to the engine, and `shown()` is where the pointer should be pointing,
 which is that plus whatever the record has since done to it. Everything that
 draws or acts on the console reads the second.
+**The rack's effects can be pedals on one part's line, at either end of its
+board.** A rack unit is the record's, not a player's: the wet five are RETURNS
+everybody sends to, and the inserts sit on the SUM after the mix. So there was
+no way to put a spring on the bass and not on the flute, and no way at all to
+ask whether the filter comes BEFORE the fuzz — the answer was always "after
+everything". `sound.fx` is the same nine circuits wired the other way: one set
+per part, each with its own knobs, its own mix, and an `at` of `first` or
+`last` saying which end of that part's board it clips onto. Mono, because a
+part's line is mono until the world places it; `master` is not among them and
+cannot be, because it is the output ceiling and a per-part one is just the
+part's level.
+
+`at` IS THE POINT OF THEM, and it is tested as such. `rack.test.ts` renders
+lofi's lead with a filter at each end: through the board — which carries an
+overdrive, so it clips — the two differ, and with the board out of circuit
+they are byte-identical, which proves the difference is ORDER and not noise.
+LAST is the default on all nine, because the end of the line is where a rack
+has always effectively been.
+
+**AND BOTH GENRES ARE NOW ON IT.** The returns are retired: lofi's echo and
+room and dungeon synth's pole, ensemble, spring and room all come back at 0,
+and each part carries its own. What stays on the sum is the mastering chain —
+the tape and the dust — because those are what the record was played back ON
+rather than something one player has: six tape saturations is not one tube amp
+working hard, and six independent crackles is six pressings rather than one
+worn one.
+
+Three things had to be carried across by hand and are worth knowing about.
+
+**A WET EFFECT IN LINE ADDS, IT DOES NOT CROSSFADE**, which is `FX_ADD` in
+`render.ts` and the same law `PEDALS_ADD` states for the octave pedals: the wet
+is a second thing beside the note, and crossfading it takes away the note it
+was made from. Six of the nine add — echo, spring, room, ensemble, flange and
+the vinyl dust. The three that do not — the pole, the tape and the gramophone —
+replace what they are given by nature, and a dry/wet on those is what the knob
+means. THIS WAS GOT WRONG ONCE AND MEASURED: with all nine crossfading, the
+sends were converted by `w / (1 + w)`, the wet's share of a crossfade, and
+dungeon synth — six parts each with a room around 0.5 — came out **7.5 dB
+quieter**, −13.5 to −21.0 dBFS. With the adders adding, a send carries across
+as ITSELF: the mix is the send times the return, and nothing else.
+
+**DISTANCE WAS NEVER IN THE SENDS** — a part's room feed was
+`sends.room + world.depth * dist * 0.5`, so the far parts were in the room for
+free, which is what made distance read as distance. Take the return away and
+that cue goes with it unless it is carried. It is why lofi's drums and bass now
+have a room at all: they never stated one and were always in it.
+
+**AND AN IN-LINE ROOM STANDS WHERE ITS PART STANDS.** `Rig` runs before the
+world, so a part's distance quietens and darkens its own reverb along with its
+dry; a return came back at the master, at full, however far off the part that
+fed it was. Which is arguably the more honest room — but it is not free. Lofi
+is level either way (−17.51 → −17.51 and −16.86 → −16.78 dBFS, seeds 2 and 42),
+because its world is 0.5 deep and its parts are close. Dungeon synth, 0.8 deep
+with its parts at 0.5 to 0.8, is **1.2 to 2.2 dB quieter** (−13.47 → −14.69 and
+−12.81 → −14.98) even with every send carried across exactly — partly that, and
+partly because its room return was 1.45 and a mix only reaches 1, so its drums,
+lead and drone wanted 1.00, 1.04 and 1.19 and are clipped at 1. **The levels
+have NOT been raised to cover it.** Dividing a mix by `dGain` would be a fudge
+factor bolted beside the world rather than a genre saying what it wants; the
+darker, further church is the thing to listen to and judge first.
+
+**THE BILL WAS THE TREATMENTS, NOT THE SOUND.** Retiring the returns killed
+six of dungeon synth's moves and three of lofi's in one edit — `drench` and
+`dry` scale the parts' SENDS and the sends are zero, `brighten` asked whether
+the sum's pole was in circuit, `waver` asked for the ensemble RETURN. Those are
+that genre's second and sixth most-used moves. The fix was in the question
+rather than the moves: `reach.ts` gained `wetHeard`, which asks which wet units
+are heard WHEREVER THEY STAND, and `treat.ts`'s `drench`, `dry` and `linger`
+now write the parts' fx as well as the sends. Both genres are back to every
+weight readable — 22 of 22 and 21 of 21, nothing refused.
+
+**Two moves stayed dead and both genres dropped them.** `repatch` is returns
+feeding returns and there are no returns; `soak` puts one drum LANE in the room
+while the kit stays dry, which needs the machine's per-lane sends and a bus for
+them to arrive on, and an in-line effect sits on the whole part and cannot tell
+a snare from a kick. Both are the move losing its reason rather than its
+plumbing. **The patch matrix is now unreachable from either genre** and is
+still in the program; if no genre ever patches again it is a mechanism nothing
+uses, and that is a question for whoever reads this.
+
+**And `resolve.ts` had never let a genre state a per-part cycle.** It validated
+a motion path literally and never substituted `at` for the `*`, the way
+`motionAt` does at read time — so `fx.*.pole.hz` was refused as "not a knob".
+The feature is documented in `motion.ts` and was unreachable from the day it
+was written; nobody noticed because no genre had wanted a per-part cycle until
+the filter moved onto the parts. Fixed where the defect is.
+
+**Turning a pedal's knob is an ALTERATION, and now it is one.** The catalogue
+had a row for how much of a board a part walks (`push`/`ease`) and a row for
+which box on it is lit (`stomp`), and no row at all for the knobs on the box.
+Twelve pedals carry about forty of them and one treatment reached two, the
+tremolo's and the phaser's depth. Four moves fill it, in two pairs because
+these are two gestures: **`grind`/`clean`** turn the gain knob of every
+clipping pedal a part carries, and **`starve`/`revive`** turn the supply's
+droop, the battery and the Fuzz Face's bias — the rig failing rather than
+working. Scaled from the genre's own numbers like everything else here, so a
+pedal a genre left clean stays comparatively clean; a pedal not on the board is
+skipped; and `reaches` refuses the pair a genre has no box for.
+
+Measured with `tools/treatments.ts`, which is what it is for. `grind` is
+**−16.0 dB** on dungeon synth and **−25.9 dB** on lofi, `clean` −16.2 and
+−27.4. **On lofi they are the loudest moves that board has**, ahead of `stomp`
+(−26.5), `ease` (−30.4), `waver` (−31.0) and `push` (−31.3) — every other
+board move works on the feed or on which box is lit, and turning the box's own
+knob turns out to be the louder lever. `starve` is −29.5 on dungeon synth,
+which is the faintest thing that genre would carry, so it is weighted like
+`sweep` at −28.1: stated, and rare. lofi refuses both supply moves at −222 dB
+because its board has no sag and no Fuzz Face, which is the refusal working.
+
+**And `revive` was measured and not stated**, which is the fourth move and the
+one to read if you are adding a fifth. At −38.9 dB it is the faintest offered
+move in either genre's table, and the reason belongs to the genre: dungeon
+synth ships `sag.idle` at 1, a fresh battery, so the only half of the move left
+is lowering the droop. **Nothing forced it out** — `treat.test.ts` passes with
+it weighted and its floor sits below −38.9 — so this is a judgement that a
+boundary is worth more than the quietest thing the desk can do, recorded here
+so somebody who disagrees can reverse it in one line. It stays in `TREATMENTS`
+unstated, the way `recircuit` does.
+
+ON THE POOL BLOCKER, because the next person will hit it. `BUILDING-THE-
+ALTERATIONS.md` §2 says do not grow the pool until three things are fixed.
+Blocker 0 is already fixed and `TALLY.md` records it; blocker 2 is about going
+from two layers to eleven. These four are more moves in a layer already
+represented — §8, the desk — exactly like `stomp`, `waver`, `linger` and
+`medium`, which all went in the same way. That is why they were added and why
+the blocker still stands for Phases 2 to 5.
+
+**A board is TUNED now, not rebuilt, which is what makes a pedal
+automatable.** `pedals.ts` had no `set` on anything: every pedal took its
+numbers in the constructor and kept them `readonly`, so the only way to change
+one was to build a new one — and `Channel.tune` did exactly that whenever any
+number on the board differed, while `retune()` runs every `RAMP_STEP` samples
+for as long as anything on the desk is moving. So automating one knob rebuilt
+twelve units 21 times a second, and a rebuilt pedal has lost everything it
+knew: the tremolo's clock, the wah's and the phaser's sweep, the compressor's
+1.5-second release, the divider's flip-flops, the sag's rail part way through
+collapsing. **Measured on lofi's lead: automating a knob BESIDE the tremolo
+cost the tremolo 82% of its wobble, 0.0894 down to 0.0161.** It was an
+accident and not a law — nothing in `docs/` forbids retuning a pedal, and
+`Channel`'s own header claims the opposite ("the units are held rather than
+rebuilt … `Biquad.set` keeps its history"), which was true of the world and
+false of the board the same class owns. Twelve `set` methods later, a `Board`
+is REBUILT only when a pedal goes on or off it — which is what a board IS,
+since mix 0 means off it — and TUNED for every other number. The three sweeps
+carry a phase offset so a moved RATE does not jump, arranged so that a rate
+which never moves leaves the offset at zero and `rate * t + 0` is bit-for-bit
+`rate * t`. Every pedal knob is now in `CONTINUOUS` too, so `stomp`'s mix
+change drifts instead of stepping. Records come out byte-identical EXCEPT
+where a board treatment actually lands: lofi 42 and both dungeon synth seeds
+are identical, and lofi 2 differs by −42.9 dB because it fires `waver`, the
+one treatment that touches a board. `rack.test.ts` holds the law and bites —
+reverted to the old rebuild it fails with 0.0161 against 0.0894. `treat.test.ts`
+is the one that matters most here and passes 13/13: it renders every treatment
+of every genre, `waver` and `stomp` among them, which are the two that touch a
+board and the two this change alters.
+
+**And no genre states a pedal cycle, because both were measured and neither
+earned it.** This is the knob that was built, measured and deleted, and the
+note is kept so nobody spends the day again. lofi: `EFFECTS-IN-TIME.md` §1B
+quotes soundonsound almost as an instruction — "draw in a tremolo that gets
+steadily deeper and faster as each chord decays" — and lofi's lead has exactly
+that tremolo, so a one-bar ramp on `pedals.lead.tremolo.depth` and `.rateHz`
+was written, a bar being a chord in this genre's two-bar loops. It moves the
+LEAD by −21 to −24 dB and **the record by −34.6 to −39.9 dB**, and this
+program REFUSES `brighten` on lofi at −37.7 dB as doing nothing. Depth is not
+the lever: 0.5 → 1.0 buys 2.4 dB. The cause is structural and already written
+down — lofi puts one part on the board and feeds it 0.35 (`TALLY.md` §2) — and
+widening lofi's board to rescue the number is tuning a measurement, which item
+14 below says not to do. Dungeon synth's board IS walked hard (bass 0.85, keys
+0.7, drone 0.55) and the same move on the Muff's cab corner measures −27.9 to
+−29.5 dB, inside that genre's shipped range. It is still not built, for a
+different reason: the only source for it is musicradar's "open a low-pass
+filter by a few percent each time the loop repeats", and this genre ALREADY
+spends that sentence on `rack.pole.hz`. A second gradual brightening beside
+the first is a knob that does what the knob beside it does. If a source turns
+up for a moving pedal in either genre, the mechanism is waiting and the
+numbers above say what to expect.
+
+**And dungeon synth's two false comments are true now.** The mechanism below
+was landed byte-identical on purpose, so this is the commit where the record
+changes, and it changes for a reason already written in the genre file. The
+divider comes off the PAD — "it tracks single notes and not chords, so it is
+the bass and the drone that get it, and the pad must not clock it" — and the
+FLUTE loses its board entirely, because the mix's own comment calls it "the
+one voice in the room that is not coming out of an amp" and it was going
+through a Big Muff at 0.15 of the feed. Its feed goes to 0 with it: a feed
+into an empty board is a knob wired to nothing, and `reachesPart` would have
+credited `push` with reaching a part that cannot hear it. Nothing else moves —
+the drums, the bass and the drone keep the whole rig, because no comment and
+no source says otherwise. Measured: **not one note moved.**
+`measure.ts --sweep dungeonsynth 1 20` is byte-identical on `--map` and
+`--parts`, so who plays which bar, who opens, thinnest, fullest and the peak
+are all exactly as they were; the roll of seed 2 is byte-identical as a PNG,
+spans and treatment strip included; and the offered vocabulary is 21 before
+and after — the only difference is that `waver` and `stomp` no longer claim
+to reach the lead. The RECORD moved **−20.7, −19.4 and −19.4 dB** against itself
+on seeds 2, 42 and 7, and 0.2–0.3 dB louder; on this genre's own scale in
+`THE-ALTERATIONS.md` that sits between `push` (−19.1) and `widen` (−22.0),
+above `darken` at −13.0. Priced per part on the part alone: the flute moves
+**−20.7 to −23.1 dB** and comes back 0.6 dB LOUDER without the Muff eating it,
+and the pad moves **−11.3 to −12.7 dB**. `all.test.ts` gained the law that
+would have caught the feed: no genre may light a board it feeds nothing, nor
+walk a part into a board with nothing on it. Neither half could be asked
+before a board belonged to a part.
+
+**A pedal board belongs to a player, and there are six of them.** `SoundSpec`
+had one `pedals: PedalsSpec` under the whole band and `render.ts` built every
+part's chain out of it, so a genre could not say "the Muff is the bass's". It
+was an ACCIDENT and not a law — no document in `docs/` states it, the README
+said the opposite, and the line was `board(S.pedals, sr)` — and it had already
+made two of this program's own comments false: dungeon synth's divider says
+"it is the bass and the drone that get it, and the pad must not clock it" and
+the pad was clocking it at 0.7 of the feed, and the same genre calls its flute
+"the one voice in the room that is not coming out of an amp" and then ran it
+through the Muff. `sound.pedals` is now six boards keyed by part; `mix[role].
+pedals` still says how much of a part walks its own board. `boardWalked` asks
+both halves of the same part (it could not before — it asked "is anyone fed"
+and "is any pedal up" of different parts), `stomp` swaps the first and last
+box on each player's own board, `waver` deepens the wobble on each board that
+has one, and `reachesPart` reads the parts a board move names instead of
+crediting everyone who happens to be plugged in. Motion reaches a board by
+path as before, now `pedals.bass.muff.mix`, and `pedals.*.tremolo.depth` with
+`at` makes a per-part move sayable. Both genres were migrated to the boards
+they already had — lofi's overdrive and tremolo are the lead's, which is what
+its comment always said, and dungeon synth hands the one rig to every part —
+and **six records over both genres came out byte-identical**, which is the
+migration and the test. The next commit is what to do with it.
+
+**And every pedal wears a bank of switches, one per part.** `tools/page.html`
+had one board and one set of knobs; there are six boards now and still one set
+of knobs, so each pedal carries a DIP bank of the record's parts and only ever
+one is thrown. The face under it — the knobs, the lamp, the footswitch — is
+whoever is thrown, and the others are held in the overlay untouched, so each
+part keeps its own settings for the same pedal. Each pedal chooses on its own:
+the bass's Muff can be on screen beside the keys' phaser. A part the matrix
+sends nothing to is greyed rather than hidden, because its board is real and
+only its feed is zero, and moving that feed in the matrix re-marks the
+switches.
 
 **The drums may play the amen, chopped.** `FIGURES.amen` in `spec.ts` is a
 two-bar transcription of the break (kick, snare, crash, in beats); a genre
@@ -411,7 +683,11 @@ genre field, because neither genre has a reason to differ.
 not a precondition anyone meets, and every run this session was killed. The
 time is in rendering: `render.test.ts` renders sixty seconds a dozen times,
 and `all.test.ts`, `pedals.test.ts` and `rack.test.ts` each render whole
-records to read one number. The fix is in the tests, not the program: render
+records to read one number. **And the eight-minute figure is now out of date
+and too kind. `treat.test.ts` alone timed at 10m42s** on its own (13 tests,
+every treatment of every genre rendered), `all.test.ts` at 35 s, `pedals` and
+`rack` at 24 s each. Start with `treat.test.ts`: it is more than half the
+suite by itself and it renders full-length records to compare two dB figures. The fix is in the tests, not the program: render
 ten seconds where sixty proves nothing more, share one render across the
 assertions that read it, and drop the sample rate only where the filters'
 stability clamps allow (see the house rule on 16 kHz). Do NOT skip or
@@ -542,6 +818,24 @@ taste question, and the fix is one line in `retune` (settle `over` after the
 walk rather than into its target), but it MOVES BYTES on any record where a
 hand touches a knob mid-drift, so it is a behaviour change and wants an owner's
 decision rather than a tidy-up.
+
+**14. `stomp` and `waver` are per-part moves now and are not offered as
+such.** Both write to boards, a board belongs to one part, and both already
+take `only` and honour it — but neither is in `PER_PART`, so the arrangement
+never aims them at anybody and they change every board at once. Adding them is
+one line each; whether it IMPROVES anything is not known, and it is a balance
+change to how often the desk is aimed rather than spread, so it wants the same
+treatment as everything else in that table: measure the section-level numbers
+and the per-part rule of three on and off. The catalogue is on the fence and
+says so — §8 marks moves 41 and 43 "and per part" and does not mark 44.
+
+**15. lofi's board is still one part's, and now that is a choice.** Its
+overdrive and tremolo are the lead's, every other board is empty, and half its
+treatment vocabulary sits 17 dB below its own `darken` partly for that reason
+(`TALLY.md`, and item 3 above). The mechanism no longer stands in the way of
+giving the keys or the bass a rig; `LOFI-LINEAGE.md` is the place to look for
+whether its ancestry asks for one, and it has four unapplied findings already.
+Do not add a board to make `push` look better — that is tuning a measurement.
 
 ## House rules that are easy to break
 

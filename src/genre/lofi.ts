@@ -481,18 +481,42 @@ export const lofi: GenreSpec = {
       ["linger", 3],
       ["medium", 2],
       ["orbit", 2],
-      ["repatch", 1],
       ["stomp", 1],
-      // AND THE MACHINE. `soak` is the snare into the room while the kick
-      // stays dry, which is how a break was recorded before it was sampled,
-      // and `slacken` is a kit tuned down and left to ring — both of them the
-      // genre's own posture applied to the drums instead of to the sum. They
-      // rank above `rekit`, which trades this genre's whole boom-bap kit for
+      // THE KNOBS ON THE ONE BOX THIS GENRE'S GUITAR RUNS THROUGH. `grind` and
+      // `clean` turn the overdrive's own drive, which is the only clipping
+      // pedal on the lead's board — the muted guitar leaning in for a section
+      // and backing off again.
+      //
+      // AND THEY ARE THE BEST THIS GENRE'S BOARD CAN DO, which was not the
+      // expectation. Measured on seed 2: `grind` −25.9 dB and `clean` −27.4
+      // against `stomp` −26.5, `ease` −30.4, `waver` −31.0 and `push` −31.3.
+      // Every other board move here works on how much of the board the guitar
+      // walks or which box is lit; these turn the box's own knob, and on a
+      // genre that feeds one part 0.35 of one board that turns out to be the
+      // louder lever.
+      //
+      // AND NO `starve` OR `revive`: this board carries no sag and no Fuzz
+      // Face, so there is no supply to collapse. `treat.ts` refuses both —
+      // measured at −222 dB, which is not a small change but no change — and
+      // a weight nothing can read is invisible config, the same rule that took
+      // `sweep` and `brighten` off this list.
+      ["grind", 2],
+      ["clean", 1],
+      // AND THE MACHINE. `slacken` is a kit tuned down and left to ring — the
+      // genre's own posture applied to the drums instead of to the sum. It
+      // ranks above `rekit`, which trades this genre's whole boom-bap kit for
       // the analogue box mid-record: a real hip hop move and a drastic one.
       // No `recircuit`: it needs the analogue kit loaded and this genre plays
       // the acoustic one, so `deskOf` refuses it and the weight would never
       // be read.
-      ["soak", 3],
+      //
+      // AND NO `soak` OR `repatch` ANY MORE, which the echo and the room going
+      // in line took with them. `soak` is one drum LANE wet while the rest of
+      // the kit stays dry — that needs the machine's per-lane sends and a bus
+      // for them to arrive on, and an in-line effect sits on the whole part
+      // and cannot tell a snare from a kick. `repatch` is returns feeding
+      // returns, and there are no returns. Both are the move losing its reason
+      // rather than its plumbing, so neither is stated.
       ["slacken", 2],
       ["spotlight", 2],
       ["rekit", 1],
@@ -548,22 +572,89 @@ export const lofi: GenreSpec = {
       { path: "mix.keys.level", bars: 7, depth: 0.3, wave: "tri" },
     ],
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", counter: "wurly", drone: "pad" },
+    /**
+     * WHAT IS LEFT ON THE SUM: the mastering chain, and only that.
+     *
+     * The echo and the room have gone in line on the parts (`fx` below), so
+     * their returns come back at 0 — nothing feeds them and nothing is heard
+     * from them. The tape and the dust STAY, and that is a decision rather
+     * than an oversight: they are what the finished record was played back
+     * ON, not an effect one player has. Six tape saturations is not this
+     * record through a tape machine, and six independent crackles is six
+     * times the dust rather than one worn pressing.
+     */
     rack: {
-      echo: { beats: 1.5, feedback: 0.3, ret: 1 },
-      room: { sec: 1.4, ret: 1 },
+      echo: { beats: 1.5, feedback: 0.3, ret: 0 },
+      room: { sec: 1.4, ret: 0 },
       tape: { lowpassHz: 10000, wowHz: 0.2, wowCents: 4, drive: 1.4 },
       vinyl: { crackle: 0.08 },
     },
     // the Rhodes gets the echo and a little room; the pluck a touch of both;
-    // the drums stay dry and centred, the way a sampled break is
+    // the drums stay dry and centred, the way a sampled break is.
+    //
+    // THE SENDS ARE GONE AND THE WET IS IN LINE — see `fx` below. What is left
+    // here is where each part stands, which is what a mixer channel is for.
     mix: {
-      keys: { sends: { echo: 0.14, room: 0.2 }, az: -35, dist: 0.4 },
-      lead: { sends: { echo: 0.1, room: 0.15 }, az: 30, dist: 0.35, pedals: 0.35 },
-      drone: { sends: { room: 0.3 }, az: 180, dist: 0.75 },
+      keys: { az: -35, dist: 0.4 },
+      lead: { az: 30, dist: 0.35, pedals: 0.35 },
+      drone: { az: 180, dist: 0.75 },
+    },
+
+    /**
+     * THE WET UNITS, IN LINE ON EACH PART, at the end of its own board.
+     *
+     * They were RETURNS: every part sent to one echo and one room and the two
+     * came back over the whole record. Now each part carries its own, which is
+     * what `sound.fx` is for — and the arithmetic of the move is written here
+     * because it is not the obvious one.
+     *
+     * A SEND IS ADDITIVE, AND SO IS AN ECHO OR A ROOM IN LINE. The dry goes on
+     * at full and the wet arrives beside it, which is `FX_ADD` in the renderer
+     * and the same law `PEDALS_ADD` states for the octave pedals. So the send
+     * DOES carry across as itself: the number in each line below is the send
+     * times the return, and nothing else.
+     *
+     * (It was briefly written as `w / (1 + w)`, the wet's share of a CROSSFADE.
+     * That is the right conversion for a filter or a tape, which replace what
+     * they are given, and the wrong one for a room. Measured: dungeon synth,
+     * six parts each with a room around 0.5, came out 7.5 dB quieter.)
+     *
+     * AND DISTANCE IS FOLDED IN, because it was never in the sends. A part's
+     * room feed was `sends.room + world.depth * dist * 0.5` — the far parts
+     * were in the room for free, which is what made distance read as distance.
+     * Take the return away and that cue goes with it unless it is carried, so
+     * the send here is the stated one PLUS that term. It is why the drums and
+     * the bass have a room at all: they never stated one and were always in it.
+     *
+     * MEASURED, against the record before the move: −17.51 → −17.51 dBFS on
+     * seed 2 and −16.86 → −16.78 on seed 42. This genre's world is only 0.5
+     * deep and its parts are close, so the distance an in-line room now takes
+     * with it costs almost nothing here; dungeon synth is where it shows.
+     */
+    fx: {
+      // 0.075 of room from distance alone, and nothing sent: the break is dry
+      // and close, and this is only the air it was always in
+      drums: { room: { sec: 1.4, mix: 0.075, at: "last" } },
+      bass: { room: { sec: 1.4, mix: 0.0625, at: "last" } },
+      // the Rhodes, furthest into the echo and the room of anything here
+      keys: { echo: { beats: 1.5, feedback: 0.3, mix: 0.14, at: "last" }, room: { sec: 1.4, mix: 0.3, at: "last" } },
+      lead: { echo: { beats: 1.5, feedback: 0.3, mix: 0.1, at: "last" }, room: { sec: 1.4, mix: 0.2375, at: "last" } },
+      counter: { room: { sec: 1.4, mix: 0.125, at: "last" } },
+      drone: { room: { sec: 1.4, mix: 0.4875, at: "last" } },
     },
     world: { width: 0.6, depth: 0.5 },
-    // the pluck through a warm overdrive and a slow tremolo: a muted guitar, close-miked
-    pedals: { overdrive: { drive: 2.5, tone: 0.4, mix: 0.6 }, tremolo: { rateHz: 3.8, depth: 0.35, mix: 1 } },
+    // THE LEAD'S BOARD, and nobody else's. "A muted guitar played fingerstyle"
+    // is one player with one rig: a warm overdrive and a slow tremolo, close-
+    // miked. Every other part is a keyboard, a kit or a sampled break and owns
+    // a board with nothing switched on.
+    //
+    // This is where the record stood before boards were per part, and it stood
+    // there by luck: the lead was the only part fed to the one shared board, so
+    // the same two pedals were sitting on the drums', the bass's and the
+    // drone's signal path too, silent only because their feed was zero.
+    pedals: {
+      lead: { overdrive: { drive: 2.5, tone: 0.4, mix: 0.6 }, tremolo: { rateHz: 3.8, depth: 0.35, mix: 1 } },
+    },
   },
 
   sources: {
@@ -698,7 +789,7 @@ export const lofi: GenreSpec = {
       "sends: a dotted-eighth delay and a small room on the keys and lead at 10–20% (audeobox.com how-to-make-lofi-beats-in-fl-studio); " +
       "placement and the pedal feed [chosen]",
     "sound.world": "[chosen] — a modest width for a genre mixed narrow and warm",
-    "sound.pedals": "\"muted guitar played fingerstyle\" sits under the chords (masteringthemix.com how-to-make-lo-fi-hip-hop); a warm drive and tremolo on it [chosen]",
+    "sound.pedals.lead": "\"muted guitar played fingerstyle\" sits under the chords (masteringthemix.com how-to-make-lo-fi-hip-hop); a warm drive and tremolo on it [chosen]. It is the LEAD's board and nobody else's: the source names one player with one rig",
     "sound.rack.echo":
       "a dotted-eighth or quarter delay at 10–20% is the lo-fi guides' standard send (audeobox.com how-to-make-lofi-beats-in-fl-studio); 1.5 beats, 12% [chosen inside]",
     "sound.rack.room": "\"reverb, delay, chorus... used generously\" (blog.native-instruments.com/lo-fi-hip-hop-beats); a small room at 18% [chosen]",

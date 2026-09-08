@@ -64,7 +64,7 @@
  */
 
 import { DRUM_LANES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SENDS, TREATMENTS, type PatchSpec, type PedalsRules, type PedalsSpec, type PitchedRole, type Role, type Send, type SoundRules, type SoundSpec, type Treatment, type VoiceName } from "../genre/spec.ts";
-import { boardWalked, depthHeard, liveSends, poleHeard } from "../sound/reach.ts";
+import { boardOf, boardWalked, depthHeard, liveSends, poleHeard, wetHeard } from "../sound/reach.ts";
 import { HOLDS } from "../sound/voices.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
@@ -73,6 +73,129 @@ const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > 
  * Every part's send to every return, scaled — the parts that already feed a
  * return feed it more, and a part that feeds nothing still feeds nothing.
  */
+/**
+ * THE SAME GESTURE ON THE OTHER PLUMBING — every part's WET FX, scaled.
+ *
+ * "More reverb on this section" used to mean one thing: turn the sends up.
+ * Now a genre may carry its reverb as a return that parts send to, or in line
+ * on each part, or both — so a move that only knew about sends stopped being
+ * heard the moment a genre moved its room onto the parts. `drench` and `dry`
+ * are the same gesture either way, and this is what they say to a board.
+ *
+ * The DRY units are not here. Scaling a filter's or a tape's mix is not
+ * getting wetter, it is a different move — `darken` and `wear` own those.
+ */
+const WET_FX = ["echo", "spring", "room", "ensemble", "flange"] as const;
+
+function fxWet(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, Record<string, { mix: number }>> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const one: Record<string, { mix: number }> = {};
+    for (const name of WET_FX) {
+      const u = S.fx[role][name] as { mix: number };
+      if (u.mix > 0) one[name] = { mix: clamp(u.mix * by, 0, 1) };
+    }
+    if (Object.keys(one).length > 0) out[role] = one;
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
+/** The reverbs standing in a part's own line, made bigger — `linger`'s half of the same split. */
+function fxLonger(S: SoundRules, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, Record<string, { sec: number }>> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const one: Record<string, { sec: number }> = {};
+    // each reverb clamped to ITS OWN ceiling — the room reaches 12 seconds and
+    // the spring 6, and `settle` is a merge and not a validator
+    if (S.fx[role].room.mix > 0) one["room"] = { sec: clamp(S.fx[role].room.sec * 1.9, 0.2, 12) };
+    if (S.fx[role].spring.mix > 0) one["spring"] = { sec: clamp(S.fx[role].spring.sec * 1.6, 0.2, 6) };
+    if (Object.keys(one).length > 0) out[role] = one;
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
+/**
+ * THE FILTERS STANDING IN A PART'S OWN LINE, opened or closed — `darken`'s and
+ * `brighten`'s half of the split.
+ *
+ * `brighten` is the one this was found by, and it is the clearest case of the
+ * whole class. `reaches` asks `poleHeard`, which counts a pole WHEREVER it
+ * stands, so dungeon synth — which took the pole off its sum and put one on
+ * every part — is offered the move. The move then wrote `rack.pole.hz` on a
+ * unit at mix 0. What was left of it was the tape's lowpass and nothing else:
+ * not silence, which is why the pricing did not flag it, and not the move
+ * either.
+ *
+ * A pole at mix 0 is NOT opened here, the way `darken` switches the sum's in.
+ * On the sum that is one filter and a genre may simply not have thought about
+ * it; on the parts it is six, and switching in six filters a genre never asked
+ * for is a different desk rather than a brighter section.
+ */
+function fxPole(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, { pole: { hz: number } }> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const p = S.fx[role].pole;
+    if (p.mix > 0) out[role] = { pole: { hz: clamp(p.hz * by, 40, 20000) } };
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
+/**
+ * AND THE ECHOES STANDING IN A PART'S OWN LINE — `echoed`'s half of the split.
+ *
+ * MEASURED like `fxWavier` below and found the same way: `echoed` priced at
+ * −222 dB on lofi, offered rather than refused, because lofi's echo moved onto
+ * its keys and its lead and the move still only turned up the rack's return.
+ *
+ * MORE echo is two knobs and always was: how loud it comes back and how many
+ * times it repeats. In line the first of those is the unit's own mix, which is
+ * what a return's `ret` was, so the scaling carries across as it stands.
+ */
+function fxEchoed(S: SoundRules, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, { echo: { mix: number; feedback: number } }> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const e = S.fx[role].echo;
+    if (e.mix <= 0) continue;
+    out[role] = {
+      echo: {
+        mix: clamp(Math.max(e.mix * 1.6, 0.25), 0, 1),
+        feedback: clamp(Math.max(e.feedback * 1.5, 0.35), 0, 0.9),
+      },
+    };
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
+/**
+ * AND THE SWEEPS STANDING IN A PART'S OWN LINE — `waver`'s half of the same
+ * split, and the one that was missed.
+ *
+ * MEASURED, AND IT IS WHY THIS EXISTS. `tools/treatments.ts` priced dungeon
+ * synth after both genres moved off their returns and `waver` came out at
+ * −223 dB: not a small move, silence. It was OFFERED rather than refused,
+ * because `reaches` had already been taught that an ensemble in line counts as
+ * an ensemble heard — but the move itself still only deepened the rack's, and
+ * that return is 0 on a genre that carries its own. Reach and gesture have to
+ * be taught the same lesson at the same time; teaching one is worse than
+ * teaching neither, because a refused move is honest and a dead one is not.
+ *
+ * The ensemble AND the flange, because a flanger is a delay on a slow sweep
+ * and the depth knob is that sweep. The reverbs are not here: a room does not
+ * waver, it lingers, and `linger` owns it.
+ */
+function fxWavier(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, Record<string, { depth: number }>> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const one: Record<string, { depth: number }> = {};
+    for (const name of ["ensemble", "flange"] as const) {
+      const u = S.fx[role][name];
+      if (u.mix > 0) one[name] = { depth: clamp(u.depth * by, 0, 1) };
+    }
+    if (Object.keys(one).length > 0) out[role] = one;
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
 function sends(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["mix"]> {
   const mix: Record<string, { sends: Record<string, number> }> = {};
   for (const role of only === undefined ? ROLES : [only]) {
@@ -131,10 +254,85 @@ function azOf(S: SoundRules, only?: Role): NonNullable<SoundSpec["mix"]> {
   return mix as NonNullable<SoundSpec["mix"]>;
 }
 
-/** The pedals this genre actually carries, in cable order. A pedal at mix 0 is
- * OFF the board rather than bypassed on it, so this is the board that exists. */
-const carried = (S: SoundRules): readonly (keyof PedalsRules)[] =>
-  PEDAL_ORDER.filter((n) => (S.pedals[n as keyof PedalsRules] as { mix: number }).mix > 0) as readonly (keyof PedalsRules)[];
+/** The pedals ONE PART actually carries, in cable order. A pedal at mix 0 is
+ * OFF that part's board rather than bypassed on it, so this is the board that
+ * exists for them. */
+const carried = (S: SoundRules, role: Role): readonly (keyof PedalsRules)[] =>
+  PEDAL_ORDER.filter((n) => (S.pedals[role][n as keyof PedalsRules] as { mix: number }).mix > 0) as readonly (keyof PedalsRules)[];
+
+/** The parts whose own board is walked and has something on it. */
+const onBoards = (S: SoundRules, only?: Role): readonly Role[] =>
+  (only === undefined ? ROLES : [only]).filter((r) => boardOf(S, r));
+
+/**
+ * THE GAIN KNOB OF EVERY PEDAL THAT CLIPS, with the range it turns through.
+ *
+ * One table rather than a branch per pedal, because "the dirt goes up" is one
+ * move and the pedals only differ in what their own knob is called and how far
+ * it goes. A pedal not on the board is not in here, and a knob the genre left
+ * at the bottom of its travel stays there: scaling is how this file refuses to
+ * overrule a genre, and it refuses here the same way.
+ */
+const DIRT = [
+  ["meat", "dirt", 0, 1],
+  ["muff", "sustain", 0, 1],
+  ["overdrive", "drive", 1, 20],
+  ["fuzz", "gain", 1, 40],
+  ["saw", "dist", 0, 1],
+] as const satisfies readonly (readonly [keyof PedalsRules, string, number, number])[];
+
+/**
+ * AND THE KNOBS THAT STARVE ONE. The supply's droop and how flat the battery
+ * already is, and the Fuzz Face's bias, which is the same failure in a
+ * different circuit — starve it and it gates.
+ *
+ * `idle` runs the other way from the other two: a LOWER battery is a more
+ * starved pedal, so it is scaled by the reciprocal and clamped at its own
+ * floor of 0.18.
+ */
+const STARVE = [
+  ["sag", "depth", 0, 1, 1],
+  ["sag", "idle", 0.18, 1, -1],
+  ["meat", "bias", 0, 1, 1],
+] as const satisfies readonly (readonly [keyof PedalsRules, string, number, number, 1 | -1])[];
+
+/** One board's knobs, scaled — `null` where this part's board has none of them. */
+function knobs(
+  S: SoundRules,
+  role: Role,
+  rows: readonly (readonly [keyof PedalsRules, string, number, number, ...number[]])[],
+  by: number,
+): PedalsSpec | null {
+  const out: Record<string, Record<string, number>> = {};
+  for (const [pedal, knob, lo, hi, sense] of rows) {
+    const box = S.pedals[role][pedal] as unknown as Record<string, number>;
+    if (box["mix"]! <= 0) continue;
+    const scale = sense === -1 ? 1 / by : by;
+    out[pedal] = { ...(out[pedal] ?? {}), [knob]: clamp(box[knob]! * scale, lo, hi) };
+  }
+  return Object.keys(out).length === 0 ? null : (out as PedalsSpec);
+}
+
+/** Every walked board's knobs, scaled — `null` where no part has one to turn. */
+function boards(
+  S: SoundRules,
+  rows: readonly (readonly [keyof PedalsRules, string, number, number, ...number[]])[],
+  by: number,
+  only?: Role,
+): NonNullable<SoundSpec["pedals"]> | null {
+  const out: Record<string, PedalsSpec> = {};
+  for (const r of onBoards(S, only)) {
+    const one = knobs(S, r, rows, by);
+    if (one !== null) out[r] = one;
+  }
+  return Object.keys(out).length === 0 ? null : (out as NonNullable<SoundSpec["pedals"]>);
+}
+
+/** Does anybody carry a pedal with one of these knobs on a board they walk? */
+const anyKnob = (
+  S: SoundRules,
+  rows: readonly (readonly [keyof PedalsRules, string, number, number, ...number[]])[],
+): boolean => onBoards(S).some((r) => knobs(S, r, rows, 1) !== null);
 
 /** The returns some part actually feeds, busiest first. A return nothing feeds
  * is not a return this record has. */
@@ -176,7 +374,9 @@ export function reachesPart(name: Treatment, S: SoundRules, only?: Role): Readon
   const all = (): void => { for (const r of ROLES) out.add(r); };
   if (spec.world !== undefined) all();
   if (spec.machine !== undefined) out.add("drums");
-  if (spec.pedals !== undefined) for (const r of ROLES) if (S.mix[r].pedals > 0) out.add(r);
+  // a board is one part's, so a board move names the parts it reaches rather
+  // than being under everyone who happens to be plugged in
+  if (spec.pedals !== undefined) for (const r of Object.keys(spec.pedals) as Role[]) if (S.mix[r].pedals > 0) out.add(r);
   if (spec.mix !== undefined) for (const r of Object.keys(spec.mix) as Role[]) out.add(r);
   if (spec.rack !== undefined) {
     for (const unit of Object.keys(spec.rack)) {
@@ -220,48 +420,63 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
   let spec: SoundSpec;
   switch (name) {
     // ── the filter, which is the move this genre's own sources name ──
-    case "darken":
+    case "darken": {
       // "deepen the shadows of the sound through changes in reverb and
       // filters" (note.com/soundwitches). The pole comes down and, where the
       // genre left it off the sum entirely, it is switched in far enough to
       // be heard — a filter at mix 0 is not a darker section, it is no section.
+      // And every pole a part carries in its own line comes down with it.
+      const poles = fxPole(S, 0.45, only);
       spec = {
         rack: {
           pole: { hz: clamp(S.rack.pole.hz * 0.45, 40, 20000), mix: clamp(Math.max(S.rack.pole.mix, 0.5), 0, 1) },
           tape: { lowpassHz: clamp(S.rack.tape.lowpassHz * 0.7, 1000, 20000) },
         },
+        ...(poles === undefined ? {} : { fx: poles }),
       };
       break;
-    case "brighten":
+    }
+    case "brighten": {
+      const poles = fxPole(S, 1.8, only);
       spec = {
         rack: {
           pole: { hz: clamp(S.rack.pole.hz * 1.8, 40, 20000) },
           tape: { lowpassHz: clamp(S.rack.tape.lowpassHz * 1.35, 1000, 20000) },
         },
+        ...(poles === undefined ? {} : { fx: poles }),
       };
       break;
+    }
 
     // ── the room ──
-    case "drench":
-      // the returns up and every part's send with them: a section further
-      // inside the building, not a louder reverb on the same distance
+    // BOTH PLUMBINGS, because a genre may carry its reverb either way and this
+    // is the same gesture on each: the returns and the sends that feed them,
+    // AND the wet fx standing in each part's own line. A genre that uses one
+    // finds the other side of this is zeros over zeros, which changes nothing.
+    case "drench": {
+      const wet = fxWet(S, 1.4, only);
       spec = {
         rack: {
           room: { ret: clamp(S.rack.room.ret * 1.5, 0, 2) },
           spring: { ret: clamp(S.rack.spring.ret * 1.5, 0, 2) },
         },
         mix: sends(S, 1.4, only),
+        ...(wet === undefined ? {} : { fx: wet }),
       };
       break;
-    case "dry":
+    }
+    case "dry": {
+      const wet = fxWet(S, 0.5, only);
       spec = {
         rack: {
           room: { ret: clamp(S.rack.room.ret * 0.45, 0, 2) },
           spring: { ret: clamp(S.rack.spring.ret * 0.45, 0, 2) },
         },
         mix: sends(S, 0.5, only),
+        ...(wet === undefined ? {} : { fx: wet }),
       };
       break;
+    }
     case "linger":
       // §8, move 47: "a longer room for the peak". `drench` sends MORE to the
       // room; this makes the room BIGGER, which is a different move and the
@@ -276,14 +491,22 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
           room: { sec: clamp(S.rack.room.sec * 1.9, 0.2, 12) },
           spring: { sec: clamp(S.rack.spring.sec * 1.6, 0.2, 6) },
         },
+        // and the same on every reverb standing in a part's own line
+        ...(fxLonger(S, only) === undefined ? {} : { fx: fxLonger(S, only)! }),
       };
       break;
-    case "echoed":
+    case "echoed": {
       // MORE echo than the genre runs, not merely SOME. Written as a floor it
       // did nothing to any genre whose echo already cleared the floor — dungeon
       // synth sits at ret 1 and feedback 0.35 and came out unchanged, so the
       // move was refused as a no-op and the name was a lie about what it did.
       // Scaled, with the floor kept only for a genre that patches no echo at all.
+      //
+      // AND THE ECHO WHEREVER IT STANDS, return or line, for the same reason
+      // `waver` writes both: `reaches` counts an in-line echo as an echo heard,
+      // so a move that only knew about the return was offered to lofi and did
+      // nothing to it. Measured at −222 dB, which is silence.
+      const echoes = fxEchoed(S, only);
       spec = {
         rack: {
           echo: {
@@ -291,8 +514,10 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
             feedback: clamp(Math.max(S.rack.echo.feedback * 1.5, 0.35), 0, 0.9),
           },
         },
+        ...(echoes === undefined ? {} : { fx: echoes }),
       };
       break;
+    }
 
     // ── the board ──
     case "push":
@@ -371,19 +596,65 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       break;
 
     // ── the modulation deepens ──
-    case "waver":
+    case "waver": {
       // Tremolo, phaser and the ensemble together: the three things on this
       // desk that move a pitch or a level slowly. Each is scaled from what the
       // genre set, so a genre that runs none of them is refused rather than
       // handed a wobble it never asked for.
+      //
+      // All three are per part now, and all three have to be written or the
+      // move is silent on a genre that carries them: the two pedals on each
+      // board that has one, the ensemble WHEREVER IT STANDS — a return for a
+      // genre that kept one, and in line for a genre that did not.
+      const boards: Record<string, PedalsSpec> = {};
+      for (const r of onBoards(S, only)) {
+        boards[r] = {
+          tremolo: { depth: clamp(S.pedals[r].tremolo.depth * 1.7, 0, 1) },
+          phaser: { depth: clamp(S.pedals[r].phaser.depth * 1.7, 0, 1) },
+        };
+      }
+      const wavier = fxWavier(S, 1.6, only);
       spec = {
-        pedals: {
-          tremolo: { depth: clamp(S.pedals.tremolo.depth * 1.7, 0, 1) },
-          phaser: { depth: clamp(S.pedals.phaser.depth * 1.7, 0, 1) },
-        },
+        pedals: boards as NonNullable<SoundSpec["pedals"]>,
         rack: { ensemble: { depth: clamp(S.rack.ensemble.depth * 1.6, 0, 1) } },
+        ...(wavier === undefined ? {} : { fx: wavier }),
       };
       break;
+    }
+
+    // ── the knobs on the boxes ──
+    // THE RIG WORKS HARDER, or backs off: every gain knob of every clipping
+    // pedal each part actually carries. Absolute and scaled from the genre's
+    // own, like everything else here, so a pedal the genre set clean stays
+    // comparatively clean and one it dimed cannot go past its own stop.
+    case "grind": {
+      const b = boards(S, DIRT, 1.6, only);
+      if (b === null) return null;
+      spec = { pedals: b };
+      break;
+    }
+    case "clean": {
+      const b = boards(S, DIRT, 0.55, only);
+      if (b === null) return null;
+      spec = { pedals: b };
+      break;
+    }
+    // AND THE RIG GIVING WAY. Not the same move as `grind` louder: a starved
+    // supply clips EARLIER AND QUIETER and blooms back, and a starved Fuzz
+    // Face gates — "that ripping velcro tone" — which is a section falling
+    // apart rather than one leaning in.
+    case "starve": {
+      const b = boards(S, STARVE, 1.7, only);
+      if (b === null) return null;
+      spec = { pedals: b };
+      break;
+    }
+    case "revive": {
+      const b = boards(S, STARVE, 0.45, only);
+      if (b === null) return null;
+      spec = { pedals: b };
+      break;
+    }
 
     // ── a different box on the board ──
     case "stomp": {
@@ -393,17 +664,24 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       // a part through an amp its genre kept it out of — "a treatment does not
       // overrule a genre". So the swap happens inside the board the genre
       // actually carries: the first box in cable order backs off and the last
-      // comes up. A genre with fewer than two boxes has no swap to make.
-      const board = carried(S);
-      if (board.length < 2) return null;
-      const first = board[0]!, last = board[board.length - 1]!;
-      const mixOf = (n: keyof PedalsRules): number => (S.pedals[n] as { mix: number }).mix;
-      spec = {
-        pedals: {
+      // comes up. A board with fewer than two boxes has no swap to make.
+      //
+      // AND THE SWAP IS EACH PLAYER'S OWN. A board belongs to a part now, so
+      // the bassist's first and last boxes are not the keyboard player's, and
+      // whoever carries one box stands still while the others change.
+      const boards: Record<string, PedalsSpec> = {};
+      for (const r of onBoards(S, only)) {
+        const board = carried(S, r);
+        if (board.length < 2) continue;
+        const first = board[0]!, last = board[board.length - 1]!;
+        const mixOf = (n: keyof PedalsRules): number => (S.pedals[r][n] as { mix: number }).mix;
+        boards[r] = {
           [first]: { mix: clamp(mixOf(first) * 0.35, 0, 1) },
           [last]: { mix: clamp(Math.min(1, mixOf(last) * 1.8), 0, 1) },
-        } as PedalsSpec,
-      };
+        } as PedalsSpec;
+      }
+      if (Object.keys(boards).length === 0) return null;
+      spec = { pedals: boards as NonNullable<SoundSpec["pedals"]> };
       break;
     }
 
@@ -503,7 +781,19 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
  * however far its numbers travel.
  */
 function reaches(name: Treatment, S: SoundRules): boolean {
-  const live = liveSends(S);
+  // WHEREVER THE WET UNITS STAND. A genre may carry its reverb as a return or
+  // in line on each part; a move that asks only about returns goes dead the
+  // moment a genre moves them, and that is not the move losing its reason.
+  //
+  // TWO MOVES ARE NOT LIKE THAT AND ARE LEFT ALONE. `repatch` is returns
+  // feeding returns — with no returns there is nothing to patch, and that is
+  // the move losing its reason rather than losing its plumbing. `soak` is one
+  // drum LANE wet while the rest of the kit stays dry, which needs the
+  // machine's own per-lane sends and a bus for them to arrive on; an in-line
+  // effect sits on the whole part and cannot tell a snare from a kick. Both
+  // ask `fed`, which still reads sends, and both are correctly refused on a
+  // genre that has retired its returns.
+  const live = wetHeard(S);
   switch (name) {
     // the tape's lowpass is on the sum and always in circuit, so the filter
     // can always be closed — and `darken` switches the pole in itself where
@@ -571,16 +861,28 @@ function reaches(name: Treatment, S: SoundRules): boolean {
     case "medium":
       return true;
     // two paths, either of which is enough: the pedals' own wobble, which
-    // needs a lit box and a part walking the board, or the ensemble return
+    // needs ONE part whose OWN board is walked and has a wobble on it — the
+    // two halves were asked of different parts while there was one board —
+    // or the ensemble return
     case "waver":
       return (
-        ((S.pedals.tremolo.mix > 0 || S.pedals.phaser.mix > 0) && ROLES.some((r) => S.mix[r].pedals > 0)) ||
+        ROLES.some((r) => S.mix[r].pedals > 0 && (S.pedals[r].tremolo.mix > 0 || S.pedals[r].phaser.mix > 0)) ||
         live.has("ensemble")
       );
     // swapping which box is lit is still a board move, and an unwalked board
     // is not heard however the boxes on it are set
     case "stomp":
       return boardWalked(S);
+    // and turning a knob on a box needs the box: a genre whose parts carry no
+    // clipping pedal has no dirt to turn up, and one with no sag and no Fuzz
+    // Face has no supply to starve. `anyKnob` asks it of the boards that are
+    // actually walked, which is the same question `boardOf` asks.
+    case "grind":
+    case "clean":
+      return anyKnob(S, DIRT);
+    case "starve":
+    case "revive":
+      return anyKnob(S, STARVE);
     // a return into another return: `specOf` already refuses a record with
     // fewer than two returns fed, and the one it patches FROM is by
     // construction one this record feeds, so the tail it grows is heard

@@ -88,18 +88,53 @@ export function liveSends(
  * switches the filter in as part of the move; anything that only TURNS the
  * cutoff has to ask first.
  */
-export const poleHeard = (S: SoundRules): boolean => S.rack.pole.mix > 0;
+export const poleHeard = (S: SoundRules, roles: readonly Role[] = ROLES): boolean =>
+  S.rack.pole.mix > 0 || roles.some((r) => S.fx[r].pole.mix > 0);
 
 /**
- * Does any part walk a board, and is there a pedal on it?
+ * Which wet effects this record can be heard through, WHEREVER THEY STAND.
  *
- * Two ways for `mix[role].pedals` to be wired to nothing: no part is sent
- * through the board, or the board is empty because every pedal is at mix 0 —
- * `board()` builds a stage only for a pedal that is up.
+ * A reverb used to be one thing: a return, fed by sends. It can now also be in
+ * line on a part's own board, and a genre may move every one of them across —
+ * at which point `liveSends` answers "nothing" and every move that asks it is
+ * refused. Measured when dungeon synth moved its church onto the parts: six of
+ * its twenty-one treatments went dead in one commit, `drench` and `dry` among
+ * them, which are the second and sixth moves that genre reaches for.
+ *
+ * So the question is not "which returns are live" but "which wet units are
+ * heard at all", and this is it. `liveSends` is still the right question for
+ * the patch matrix, which is about returns feeding returns and nothing else.
  */
+export function wetHeard(
+  S: SoundRules,
+  roles: readonly Role[] = ROLES,
+  lanes: readonly DrumLane[] = DRUM_LANES,
+): Set<Send> {
+  const out = liveSends(S, roles, lanes);
+  for (const r of roles) for (const sd of SENDS) if ((S.fx[r][sd] as { mix: number }).mix > 0) out.add(sd);
+  return out;
+}
+
+/**
+ * Does THIS PART walk its own board, and is there a pedal on it?
+ *
+ * Two ways for `mix[role].pedals` to be wired to nothing: the part is not sent
+ * through its board, or that board is empty because every pedal on it is at
+ * mix 0 — `board()` builds a stage only for a pedal that is up.
+ *
+ * BOTH ARE ASKED OF THE SAME PART, which is the whole of what changed. They
+ * used to be asked separately, because there was one board under everybody and
+ * there was no other way to ask: a genre could feed the drums through the rig
+ * and light a pedal, and the answer was yes even where the lit pedal was one
+ * no fed part would ever have reached. A board belongs to a part now, so the
+ * two halves are one question.
+ */
+export const boardOf = (S: SoundRules, role: Role): boolean =>
+  S.mix[role].pedals > 0 && PEDAL_ORDER.some((name) => S.pedals[role][name].mix > 0);
+
+/** And is there ANY part in this set who does? */
 export function boardWalked(S: SoundRules, roles: readonly Role[] = ROLES): boolean {
-  if (!roles.some((role) => S.mix[role].pedals > 0)) return false;
-  return PEDAL_ORDER.some((name) => S.pedals[name].mix > 0);
+  return roles.some((role) => boardOf(S, role));
 }
 
 /**

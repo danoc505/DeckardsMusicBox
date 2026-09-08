@@ -4,7 +4,7 @@ import { Echo, Ensemble, Flanger, Medium, Pole, Spring, Biquad } from "./dsp.ts"
 import { compose } from "../song.ts";
 import { mono, render, rms, settle } from "./render.ts";
 import { GENRES } from "../genre/index.ts";
-import { RACK_ORDER } from "../genre/spec.ts";
+import { RACK_ORDER, type SoundSpec } from "../genre/spec.ts";
 
 const SR = 22050;
 const impulse = (n: number): Float32Array => { const b = new Float32Array(n); b[0] = 1; return b; };
@@ -115,14 +115,119 @@ test("a distant part is quieter and darker than a near one", () => {
 test("the pedal board is heard only where a part feeds it, and every pedal does something", () => {
   const s = compose({ seed: 5, genre: "lofi", seconds: 24 });
   const off = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 0, sends: { echo: 0, room: 0 } } } } }));
-  const same = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 } } } }));
+  const bare = { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 } };
+  const same = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { lead: bare } } }));
   assert.deepEqual(same, off, "a board with every pedal off changed the part");
   for (const pedal of ["wah", "overdrive", "fuzz", "phaser", "tremolo"] as const) {
-    const on = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 }, [pedal]: { mix: 1 } } } }));
+    const on = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { lead: { ...bare, [pedal]: { mix: 1 } } } } }));
     let diff = 0; for (let i = 0; i < on.length; i++) diff += Math.abs(on[i]! - off[i]!);
     assert.ok(diff / on.length > 1e-4, `${pedal} did nothing`);
     for (const v of on) assert.ok(Number.isFinite(v) && Math.abs(v) <= 1, `${pedal} left full scale`);
   }
+});
+
+test("a board is one part's own: the same pedal on two boards is two different records", () => {
+  // THE WHOLE BAND, not one part alone: `only` builds a single channel, and a
+  // board that is nobody else's is trivially true when nobody else is there.
+  const s = compose({ seed: 5, genre: "lofi", seconds: 24 });
+  const walked = { bass: { pedals: 1 }, keys: { pedals: 1 } };
+  const desk = (pedals: NonNullable<SoundSpec["pedals"]>): Float32Array =>
+    mono(render(s, { sampleRate: SR, desk: { mix: walked, pedals } }));
+  const differs = (a: Float32Array, b: Float32Array): boolean => {
+    if (a.length !== b.length) return true;
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return true;
+    return false;
+  };
+  // a Muff is the loudest thing on the board and the least deniable
+  const MUFF = { muff: { sustain: 0.9, mix: 1 } };
+  const bare = desk({});
+  assert.ok(differs(desk({ bass: MUFF }), bare), "a Muff on the bass's board did nothing");
+  assert.ok(differs(desk({ keys: MUFF }), bare), "a Muff on the keys' board did nothing");
+  assert.ok(differs(desk({ bass: MUFF }), desk({ keys: MUFF })), "the same pedal on two different boards made the same record");
+  // and a board belongs to its part all the way: the drone is fed none of its
+  // own, so a pedal switched on there is a pedal nothing walks
+  assert.ok(!differs(desk({ drone: MUFF }), bare), "a board the mixer feeds nothing changed the record");
+});
+
+test("an fx in line is heard, and which END of the board it clips onto changes the record", () => {
+  // THE WHOLE POINT OF `at`. A rack unit is always after everything, so
+  // "before the fuzz" was not a thing this program could say. If `first` and
+  // `last` came out the same the switch would be a knob that does nothing.
+  //
+  // The board has to be carrying dirt for the order to matter: a filter into
+  // a fuzz and a fuzz into a filter differ because the fuzz is NOT linear.
+  // Through a clean board the two orders are the same chain and should agree,
+  // which is the second half of this test and the reason the first half is
+  // not just measuring noise.
+  const s = compose({ seed: 5, genre: "lofi", seconds: 24 });
+  const lead = (fx: NonNullable<SoundSpec["fx"]>, pedals = 1): Float32Array =>
+    mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals, sends: { echo: 0, room: 0 } } }, fx } }));
+  const differs = (a: Float32Array, b: Float32Array): boolean => {
+    if (a.length !== b.length) return true;
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return true;
+    return false;
+  };
+  const OFF = { lead: {} } as NonNullable<SoundSpec["fx"]>;
+  const at = (where: "first" | "last"): NonNullable<SoundSpec["fx"]> =>
+    ({ lead: { pole: { hz: 700, resonance: 0.3, mix: 1, at: where } } }) as NonNullable<SoundSpec["fx"]>;
+
+  const bare = lead(OFF);
+  const first = lead(at("first")), last = lead(at("last"));
+  assert.ok(differs(first, bare), "an fx in line at the head of the board did nothing");
+  assert.ok(differs(last, bare), "an fx in line at the tail of the board did nothing");
+  // lofi's lead board carries an overdrive, which clips — so the filter before
+  // it and the filter after it are two different sounds
+  assert.ok(differs(first, last), "which end of the board the fx clips onto made no difference");
+
+  // and with the board out of circuit there is nothing between the two ends,
+  // so they must agree — if they do not, the difference above was not order
+  const noBoard = { mix: { lead: { pedals: 0, sends: { echo: 0, room: 0 } } } };
+  const bothEnds = (["first", "last"] as const).map((w) =>
+    mono(render(s, { sampleRate: SR, only: "lead", desk: { ...noBoard, fx: at(w) } })));
+  assert.deepEqual(bothEnds[0], bothEnds[1], "with no board between them, the two ends are the same place and did not agree");
+});
+
+test("a pedal keeps its own clock while the knob beside it is automated", () => {
+  // THE LAW THAT MAKES A PEDAL AUTOMATABLE. `retune()` runs every RAMP_STEP
+  // samples while anything on the desk is moving, so a board REBUILT on every
+  // knob move is a board rebuilt 21 times a second — and a rebuilt tremolo,
+  // wah or phaser has lost the sweep it was part way through, a rebuilt
+  // compressor has lost its 1.5 s release, a rebuilt divider has lost which
+  // way its flip-flops were pointing.
+  //
+  // Measured as the depth of the amplitude wobble at the tremolo's own rate.
+  // Before boards were tuned rather than rebuilt this read 0.0161 against
+  // 0.0894 standing still: the tremolo kept a fifth of itself.
+  const s = compose({ seed: 2, genre: "lofi", seconds: 20 });
+  const RATE = 3.8;
+  const lead = (motion: NonNullable<SoundSpec["motion"]>): Float32Array =>
+    mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1 } }, motion } }));
+  /** How deeply the amplitude swings at `hz`, as a share of its own mean. */
+  const wobble = (b: Float32Array): number => {
+    const k = Math.exp(-1 / (0.004 * SR));
+    const env = new Float32Array(b.length);
+    let v = 0;
+    for (let i = 0; i < b.length; i++) { const a = Math.abs(b[i]!); v = a > v ? a : k * v + (1 - k) * a; env[i] = v; }
+    let mean = 0;
+    for (const e of env) mean += e;
+    mean /= env.length;
+    let re = 0, im = 0;
+    for (let i = 0; i < env.length; i++) {
+      const w = (2 * Math.PI * RATE * i) / SR;
+      re += (env[i]! - mean) * Math.cos(w);
+      im += (env[i]! - mean) * Math.sin(w);
+    }
+    return (2 * Math.hypot(re, im)) / env.length / Math.max(1e-9, mean);
+  };
+  const still = wobble(lead([]));
+  // a cycle on a DIFFERENT knob of the same board — the tremolo's own numbers
+  // are not touched, so anything that happens to its wobble is the rebuild
+  const beside = wobble(lead([{ path: "pedals.lead.overdrive.drive", bars: 4, depth: 0.5, wave: "sin" }]));
+  assert.ok(still > 0.05, `the tremolo is not wobbling to begin with: ${still.toFixed(4)}`);
+  assert.ok(
+    beside > still * 0.8,
+    `automating a knob beside the tremolo cost it its sweep: ${beside.toFixed(4)} against ${still.toFixed(4)} standing still`,
+  );
 });
 
 test("the patch: a return into another return is heard, a return into itself rings and settles", () => {

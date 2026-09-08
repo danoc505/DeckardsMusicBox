@@ -1,4 +1,68 @@
-import type { GenreSpec } from "./spec.ts";
+import type { GenreSpec, PedalsSpec } from "./spec.ts";
+
+/**
+ * THE CHURCH, THROUGH A SLUDGE RIG. The writing is dungeon synth and stays
+ * so; what is put on it is the signal chain doom and sludge use.
+ *
+ * Sludge is "saturated, sustaining distortion (fuzz/overdrive stacks), ample
+ * feedback, and loud, sustaining amps", and its bands "use fuzz to create a
+ * wall of sound"; the amp wants "a lot of bass and mids, with the treble
+ * dialed back", measured across the style at a median gain of 7 with bass 6,
+ * mid 6 and treble 6.5 of ten; and the production "chases vintage warmth:
+ * tube amps, saturated fuzz, roomy drums, and organic reverb to let slow
+ * riffs breathe and brood".
+ * [riffhard.com how-to-play-sludge-metal and how-to-get-a-fuzz-sound-on-the-
+ * guitar; boostguitarpedals.co.uk how-to-get-a-crushing-doom-metal-tone;
+ * tonemirror.so genres/sludge-metal]
+ *
+ * IT IS WRITTEN ONCE BECAUSE THE PARTS THAT CARRY IT CARRY THE SAME ONE: the
+ * drums, the bass and the drone stand on this rig entire, and the pad stands
+ * on it with the divider switched off. One rig and not four, because nothing
+ * above distinguishes them — what the style is consistent about is the CHAIN,
+ * a compressor, an octave down, a Muff with an overdrive in front of it and a
+ * supply giving way behind. WHO is plugged into it is a separate question,
+ * and `sound.pedals` below is where this genre answers it. Two of the
+ * comments in here name a part, which is why the question exists at all.
+ */
+const SLUDGE_RIG: PedalsSpec = {
+  // THE BOARD IN CABLE ORDER. Every pedal below is one MK2's board was
+  // built out of for exactly this music, and the first pass here reached
+  // past all of them for the two generic units that happened to be older.
+  //
+  // A Dyna Comp first, lightly. Doom is "loud, sustaining amps", and the
+  // Dyna Comp's own detector "amplifies weak signals" — which is sustain,
+  // and is what a riff this slow needs between strikes.
+  comp: { sustain: 0.55, level: 0.8, mix: 0.35 },
+  // THE OCTAVE DOWN, which is the one thing the doom-tone sources name as
+  // a pedal rather than a setting: "pedals pitched one or two octaves
+  // down for maximum heaviness" (boostguitarpedals.co.uk). Kept at one
+  // octave and gated high, because a divider "tracks single notes and not
+  // chords" — so it is the bass and the drone that get it, and the pad
+  // must not clock it.
+  sub: { two: 0.15, gate: 0.03, tone: 700, mix: 0.3 },
+  // A BIG MUFF, not the generic fuzz. It is the doom fuzz, and it is the
+  // one with the two knobs a sludge Muff adds: MIDS to fill the Ram's
+  // Head notch back in — the scoop is ~13 dB at 1 kHz and a scooped
+  // guitar disappears under a pad — and MASS for the low end a bass fuzz
+  // is built around. Cab corner low, because "the treble dialed back" is
+  // the number the style is most consistent about.
+  muff: { sustain: 0.62, tone: 0.3, level: 0.85, cabHz: 3200, mids: 0.55, mass: 0.45, mix: 0.5 },
+  // and an overdrive IN FRONT of it, which is the stack the sources
+  // describe — "fuzz/overdrive stacks" — not a second fuzz beside it.
+  overdrive: { drive: 4, tone: 0.3, mix: 0.4 },
+  // THE POWER SUPPLY GIVING WAY. Sag is not a knob on the signal: "under
+  // heavy demand the rail momentarily drops, creating a subtle
+  // compression players describe as feel or touch response" (aikenamps).
+  // A slow recovery is a tired valve rectifier, which is the amp this
+  // whole chain is pretending to be.
+  // MAKEUP SWEPT, not guessed. A cab corner at 3200 Hz throws away a lot,
+  // and at the units' resting levels the whole board came out 3 dB QUIETER
+  // than bypass — a sludge rig that loses volume is not one. Swept over
+  // dungeonsynth 42: makeup 0.5/0.5 gave -3.5 dBFS and a low/high tilt of
+  // 1.25, 0.65/0.7 gave -3.2 and 1.36, 0.8/0.85 gave -2.9 and 1.45. Louder
+  // AND heavier together, so the top of the sweep, with headroom left.
+  sag: { depth: 0.45, idle: 1, recovSec: 0.28, draw: 0.35, mix: 0.5 },
+};
 
 export const dungeonsynth: GenreSpec = {
   label: "dungeon synth",
@@ -417,9 +481,43 @@ export const dungeonsynth: GenreSpec = {
       ["linger", 4],
       ["medium", 2],
       ["orbit", 2],
-      ["repatch", 2],
       ["waver", 1],
       ["stomp", 1],
+      // THE RIG'S OWN KNOBS, and this genre is the one that has a rig: three
+      // parts walk a board at 0.55 to 0.85 and it carries a Muff, an overdrive
+      // in front of it and a supply behind. Weighted ABOVE the five above,
+      // because a wall of fuzz getting heavier is this music's own vocabulary
+      // in a way that a gramophone horn is not — sludge is "saturated,
+      // sustaining distortion" and "fuzz to create a wall of sound", and
+      // `grind` is that wall leaning in for a section.
+      //
+      // `clean` is kept low against it, not because it is faint — measured,
+      // the two are within 0.2 dB of each other — but because this music goes
+      // toward heavier and a section that tidies up is going where the genre
+      // came from rather than where it is headed.
+      ["grind", 3],
+      ["clean", 1],
+      // `starve` pulls the other way and is RANKED BY WHAT IT MEASURED, not by
+      // how much this file likes it. "Under heavy demand the rail momentarily
+      // drops" (aikenamps) and a starved bias gates, which is the rig failing
+      // rather than working — a good gesture for this genre's middle. But it
+      // moves the record −29.5 dB against `grind`'s −16.0, which makes it the
+      // faintest thing this genre would carry, beside `sweep` at −28.1. So it
+      // is weighted like `sweep`: stated, and rare.
+      ["starve", 1],
+      // AND NO `revive`, WHICH IS THIS GENRE'S OWN FAULT AND NOT THE MOVE'S.
+      // At −38.9 dB it is the faintest offered move in either genre's table,
+      // quieter than anything either of them states — and the reason is in the
+      // genre rather than in the treatment: this file ships `sag.idle` at 1, a
+      // fresh battery, so the only half of the move left is lowering the droop
+      // and the other half has nowhere to go.
+      //
+      // NOTHING FORCED THIS. `treat.test.ts` passes with it weighted; its
+      // audibility floor sits below −38.9. It is left unstated as a judgement
+      // that a boundary is worth more than the quietest thing this desk can
+      // do, and it is recorded here so the judgement can be reversed by
+      // somebody who disagrees. The pair stays in the vocabulary — as
+      // `recircuit` does — for a genre whose battery is not already full.
       // AND THE MACHINE, barely. This music "notably avoids" a busy kit and
       // carries the fewest drums of any part here, so a move that is ONLY
       // about the drums is worth least in this genre of the two. `soak` puts
@@ -432,7 +530,7 @@ export const dungeonsynth: GenreSpec = {
       // arriving as a different machine half way through is not development,
       // it is a fault. Not stated rather than stated at zero, so nothing here
       // pretends to a choice it does not make.
-      ["soak", 2],
+
       ["slacken", 1],
       ["spotlight", 1],
     ],
@@ -470,88 +568,149 @@ export const dungeonsynth: GenreSpec = {
      * genre's own literature asks for the shadows to deepen rather than for
      * the filter to sit still and wobble.
      */
+    /**
+     * AND THE TWO CYCLES FOLLOWED THE UNITS ONTO THE PARTS.
+     *
+     * Both used to name a rack knob, and both would now be knobs wired to
+     * nothing: the sum's filter is out of circuit and the room's return comes
+     * back at 0, because each part carries its own. `resolve.ts` caught the
+     * second one at load — "this move can never do anything" — which is that
+     * check earning its place.
+     *
+     * The gestures are unchanged and so are their numbers. The filter that
+     * "opens by a few percent each time the loop repeats" is now the PAD's
+     * filter, which is the voice this genre is built on and the one the source
+     * is describing; the room that breathes is the DRONE's, which is the part
+     * furthest back and deepest in it. 32 and 23 bars still share no factor.
+     */
     motion: [
-      { path: "rack.pole.hz", bars: 32, depth: 0.5, off: -0.4, wave: "ramp", reset: "section" },
-      { path: "rack.room.ret", bars: 23, depth: 0.35, wave: "sin" },
+      { path: "fx.*.pole.hz", at: "keys", bars: 32, depth: 0.5, off: -0.4, wave: "ramp", reset: "section" },
+      { path: "fx.*.room.mix", at: "drone", bars: 23, depth: 0.35, wave: "sin" },
     ],
     voices: { keys: "pad", bass: "organ", lead: "flute", counter: "pluck", drone: "organ" },
     /**
-     * THE CHURCH, THROUGH A SLUDGE RIG. The writing is dungeon synth and
-     * stays so; what is put on it is the signal chain doom and sludge use.
+     * WHO IS STANDING ON WHAT — the rig itself is `SLUDGE_RIG` at the top of
+     * this file, where its sources are.
      *
-     * Sludge is "saturated, sustaining distortion (fuzz/overdrive stacks),
-     * ample feedback, and loud, sustaining amps", and its bands "use fuzz to
-     * create a wall of sound"; the amp wants "a lot of bass and mids, with
-     * the treble dialed back", measured across the style at a median gain of
-     * 7 with bass 6, mid 6 and treble 6.5 of ten; and the production "chases
-     * vintage warmth: tube amps, saturated fuzz, roomy drums, and organic
-     * reverb to let slow riffs breathe and brood".
-     * [riffhard.com how-to-play-sludge-metal and how-to-get-a-fuzz-sound-on-
-     * the-guitar; boostguitarpedals.co.uk how-to-get-a-crushing-doom-metal-
-     * tone; tonemirror.so genres/sludge-metal]
+     * Two of these were written down long before
+     * they could be true: while there was one board under the band, the
+     * divider's own comment and the mix's own comment below were both false
+     * about this genre, and there was nowhere to put the correction.
+     *
+     * Nothing else moves. The drums, the bass and the drone keep the whole
+     * rig, because no comment and no source says otherwise and a board is not
+     * a place to guess.
      */
     pedals: {
-      // THE BOARD IN CABLE ORDER. Every pedal below is one MK2's board was
-      // built out of for exactly this music, and the first pass here reached
-      // past all of them for the two generic units that happened to be older.
+      drums: SLUDGE_RIG,
+      bass: SLUDGE_RIG,
+      drone: SLUDGE_RIG,
+      // THE PAD DOES NOT CLOCK THE DIVIDER. The divider's own comment says
+      // so — "it tracks single notes and not chords, so it is the bass and
+      // the drone that get it, and the pad must not clock it" — and the pad
+      // was clocking it at 0.7 of the feed. Everything else on the rig is
+      // still under the chords: they are the other half of what a sludge rig
+      // carries, and the Muff's MIDS knob is there for exactly this part.
+      keys: { ...SLUDGE_RIG, sub: { mix: 0 } },
+      // AND THE FLUTE HAS NO BOARD. "The one voice in the room that is not
+      // coming out of an amp" is the mix's own words for it, and it was going
+      // through a Big Muff at 0.15. Its board is left at rest and its feed
+      // goes with it — a feed into a board with nothing on it is a knob wired
+      // to nothing, and `reachesPart` would credit `push` with reaching a
+      // part that cannot hear it.
       //
-      // A Dyna Comp first, lightly. Doom is "loud, sustaining amps", and the
-      // Dyna Comp's own detector "amplifies weak signals" — which is sustain,
-      // and is what a riff this slow needs between strikes.
-      comp: { sustain: 0.55, level: 0.8, mix: 0.35 },
-      // THE OCTAVE DOWN, which is the one thing the doom-tone sources name as
-      // a pedal rather than a setting: "pedals pitched one or two octaves
-      // down for maximum heaviness" (boostguitarpedals.co.uk). Kept at one
-      // octave and gated high, because a divider "tracks single notes and not
-      // chords" — so it is the bass and the drone that get it, and the pad
-      // must not clock it.
-      sub: { two: 0.15, gate: 0.03, tone: 700, mix: 0.3 },
-      // A BIG MUFF, not the generic fuzz. It is the doom fuzz, and it is the
-      // one with the two knobs a sludge Muff adds: MIDS to fill the Ram's
-      // Head notch back in — the scoop is ~13 dB at 1 kHz and a scooped
-      // guitar disappears under a pad — and MASS for the low end a bass fuzz
-      // is built around. Cab corner low, because "the treble dialed back" is
-      // the number the style is most consistent about.
-      muff: { sustain: 0.62, tone: 0.3, level: 0.85, cabHz: 3200, mids: 0.55, mass: 0.45, mix: 0.5 },
-      // and an overdrive IN FRONT of it, which is the stack the sources
-      // describe — "fuzz/overdrive stacks" — not a second fuzz beside it.
-      overdrive: { drive: 4, tone: 0.3, mix: 0.4 },
-      // THE POWER SUPPLY GIVING WAY. Sag is not a knob on the signal: "under
-      // heavy demand the rail momentarily drops, creating a subtle
-      // compression players describe as feel or touch response" (aikenamps).
-      // A slow recovery is a tired valve rectifier, which is the amp this
-      // whole chain is pretending to be.
-      // MAKEUP SWEPT, not guessed. A cab corner at 3200 Hz throws away a lot,
-      // and at the units' resting levels the whole board came out 3 dB QUIETER
-      // than bypass — a sludge rig that loses volume is not one. Swept over
-      // dungeonsynth 42: makeup 0.5/0.5 gave -3.5 dBFS and a low/high tilt of
-      // 1.25, 0.65/0.7 gave -3.2 and 1.36, 0.8/0.85 gave -2.9 and 1.45. Louder
-      // AND heavier together, so the top of the sweep, with headroom left.
-      sag: { depth: 0.45, idle: 1, recovSec: 0.28, draw: 0.35, mix: 0.5 },
+      // The counter is not named here either. It never was fed, and a board
+      // its part does not walk is never built.
     },
+    /**
+     * WHAT IS LEFT ON THE SUM: the mastering chain, and only that.
+     *
+     * The pole, the ensemble, the spring and the room have all gone in line on
+     * the parts (`fx` below), so their returns come back at 0 and the sum's
+     * filter is out of circuit. The TAPE and the DUST stay, because they are
+     * what the record was played back on rather than something one player has:
+     * six tape saturations is not one tube amp working hard, and six crackles
+     * is six pressings rather than one worn one.
+     */
     rack: {
       // TREBLE DIALED BACK. The one number the style is most consistent about,
-      // and the reason a wall of fuzz reads as weight rather than as noise.
-      pole: { hz: 3600, resonance: 0.18, mix: 0.6 },
-      ensemble: { rateHz: 0.4, depth: 0.5, ret: 1 },
+      // and the reason a wall of fuzz reads as weight rather than as noise —
+      // now on every part's own line rather than across the sum.
+      pole: { hz: 3600, resonance: 0.18, mix: 0 },
+      ensemble: { rateHz: 0.4, depth: 0.5, ret: 0 },
       // organic reverb, longer, to let a slow riff breathe and brood
-      spring: { sec: 2.4, ret: 0.5 },
-      room: { sec: 4.2, ret: 1.45 },
+      spring: { sec: 2.4, ret: 0 },
+      room: { sec: 4.2, ret: 0 },
       // the tubes working hard
       tape: { lowpassHz: 6500, wowHz: 0.3, wowCents: 6, drive: 2.4 },
       vinyl: { crackle: 0.05 },
     },
     // everything in the church: the pad through the ensemble, the flute far
     // and to one side, the drone behind and wide, the drum deep in the room.
-    // The board is walked hardest by the parts a sludge rig actually carries
-    // — the low end and the chords — and least by the flute, which is the one
-    // voice in the room that is not coming out of an amp.
+    // A board is walked hardest by the parts a sludge rig actually carries —
+    // the low end and the chords — and not at all by the flute, which is the
+    // one voice in the room that is not coming out of an amp.
+    // THE SENDS ARE GONE AND THE CHURCH IS IN LINE — see `fx` below. What is
+    // left here is where each part stands and how much board it walks.
     mix: {
-      drums: { sends: { room: 0.45 }, az: 0, dist: 0.6, pedals: 0.25 },
-      bass: { sends: { room: 0.3 }, az: -15, dist: 0.5, pedals: 0.85 },
-      keys: { sends: { ensemble: 0.6, room: 0.4 }, az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.7 },
-      lead: { sends: { room: 0.5, spring: 0.3 }, az: 60, dist: 0.55, pedals: 0.15 },
-      drone: { sends: { room: 0.5, spring: 0.35 }, az: 180, dist: 0.8, pedals: 0.55 },
+      drums: { az: 0, dist: 0.6, pedals: 0.25 },
+      bass: { az: -15, dist: 0.5, pedals: 0.85 },
+      keys: { az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.7 },
+      // the flute walks no board, because it has none — see `pedals` above
+      lead: { az: 60, dist: 0.55, pedals: 0 },
+      drone: { az: 180, dist: 0.8, pedals: 0.55 },
+    },
+
+    /**
+     * THE CHURCH, PART BY PART. Every part carries its own room now, and the
+     * spring and the ensemble sit on the parts that had them.
+     *
+     * Same arithmetic as lofi's. A room in line ADDS, exactly as a return did,
+     * so each mix below is simply the send times the return — and the send
+     * includes `world.depth * dist * 0.5`, the room a part got for being far
+     * away, which was never in the sends and would otherwise vanish with the
+     * return. This genre is where that matters most: its world is 0.8 deep and
+     * its parts stand at 0.5 to 0.8, so more than a third of the room the
+     * counter and the drums were in came from distance alone.
+     *
+     * The room's return was 1.45, LOUDER than what was sent to it, and a mix
+     * only reaches 1, so four of these six are CLIPPED at 1 — drums, lead and
+     * drone wanted 1.00, 1.04 and 1.19. The relative order survives; the very
+     * top of the range does not, and that is the one thing this move costs.
+     *
+     * ONE ROOM BECAME SIX, and that is the real change here rather than any
+     * number. Six parts sending to one chamber are in one place together; six
+     * parts each carrying their own are six rooms that happen to be the same
+     * size. Nothing measured says which is right for this music — it is the
+     * first thing to listen for.
+     *
+     * MEASURED, against the record before the move: −13.47 → −14.69 dBFS on
+     * seed 2 and −12.81 → −14.98 on seed 42. Part of that is the three mixes
+     * clipped at 1 above; the rest is that an in-line room stands where its
+     * part stands and takes the part's distance with it, which a return did
+     * not (see `Rig` in `sound/render.ts`). The levels have NOT been raised to
+     * cover it — the darker, further church is the thing to judge first.
+     */
+    fx: {
+      drums: { room: { sec: 4.2, mix: 1, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      bass: { room: { sec: 4.2, mix: 0.725, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      keys: {
+        room: { sec: 4.2, mix: 0.87, at: "last" },
+        ensemble: { rateHz: 0.4, depth: 0.5, mix: 0.6, at: "last" },
+        pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
+      },
+      lead: {
+        room: { sec: 4.2, mix: 1, at: "last" },
+        spring: { sec: 2.4, mix: 0.15, at: "last" },
+        pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
+      },
+      // it never stated a send and was always in the room regardless
+      counter: { room: { sec: 4.2, mix: 0.29, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      drone: {
+        room: { sec: 4.2, mix: 1, at: "last" },
+        spring: { sec: 2.4, mix: 0.175, at: "last" },
+        pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
+      },
     },
     world: { width: 0.9, depth: 0.8 },
   },
@@ -651,6 +810,10 @@ export const dungeonsynth: GenreSpec = {
       "weights [chosen] \u2014 this music leans on the metre very little",
     "sound.voices": "\"strings, flutes, pipe organs, and choirs\" (note.com/soundwitches; Wikipedia, Dungeon synth)",
     "sound.mix": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches): every part in the room, the far ones further; placement [chosen]",
+    "sound.pedals": "the sludge rig above, and WHO STANDS ON IT [chosen] — from this file's own two claims rather than from a new source. " +
+      "The divider is off the pad because a divider \"tracks single notes and not chords\" (electronicmusic.fandom, octave divider) and a pad is chords; " +
+      "the flute has no board because it is the one voice here that is not an amplified instrument. The drums, the bass and the drone keep the whole rig, " +
+      "which is what the genre had, because nothing read says otherwise",
     "sound.world": "the genre is a place as much as a sound — a wide, deep world [chosen]",
     "sound.rack.ensemble": "\"lo-fi pad sounds... with deep reverb applied\", and the strings and choirs the genre emulates are ensembles by nature (note.com/soundwitches); 25% [chosen]",
     "sound.rack.room": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches); a \"Small Church\" impulse (erichgrunewald.com)",

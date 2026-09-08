@@ -167,6 +167,22 @@ function resetBar(reset: Reset | undefined, bar: number, sectionStart: number): 
 }
 
 /**
+ * THE KNOB A MOVE ACTUALLY NAMES. A per-part cycle is written once with a `*`
+ * and an `at` saying whose — `fx.*.pole.hz` at `keys` is `fx.keys.pole.hz` —
+ * and this is the one place that substitution happens.
+ *
+ * IT LIVES HERE BECAUSE IT HAS BEEN GOT WRONG TWICE, in both of the other
+ * places that read a move's path. `resolve.ts` walked the path literally and
+ * refused `fx.*.pole.hz` as "not a knob", which made per-part motion unusable
+ * by any genre from the day it was written until this session. `motion.test.ts`
+ * did the same and read `undefined`, so the law about a section reset was
+ * measuring nothing. Both were the identical mistake, made separately, because
+ * the rule was written out three times instead of once.
+ */
+export const pathOf = (mv: Pick<Move, "path" | "at">): string =>
+  mv.at === undefined ? mv.path : mv.path.replace("*", mv.at);
+
+/**
  * THE MIXER, MOVED — a partial spec for this moment, to be settled over the
  * genre's own numbers and whatever treatment is in force.
  *
@@ -184,7 +200,7 @@ export function motionAt(
   let spec: Record<string, unknown> | null = null;
   for (const mv of moves) {
     if (mv.depth === 0 && (mv.off ?? 0) === 0) continue;
-    const path = mv.at === undefined ? mv.path : mv.path.replace("*", mv.at);
+    const path = pathOf(mv);
     const base = readAt(rules, path);
     // a knob at zero has nothing to swing, and a path that is not a number is
     // not a knob — both are the genre's mistake to fix, not this stage's to

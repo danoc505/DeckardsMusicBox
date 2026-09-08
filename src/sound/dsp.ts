@@ -378,22 +378,56 @@ class Allpass2 {
 }
 
 /** The pedal board's stages. Each takes a sample and gives one back; mix is applied by the caller. */
+/**
+ * A SWEEP THAT KEEPS ITS PLACE WHEN ITS RATE MOVES.
+ *
+ * These three read their phase as `rate × t` rather than by accumulating it,
+ * which is exact and cheap and has one consequence: change the rate and the
+ * phase JUMPS, because the whole elapsed time is suddenly being multiplied by
+ * a different number. A rate that is automated would tick every 1024 samples.
+ *
+ * So the phase carries an offset that absorbs the jump: at the moment the rate
+ * goes from `was` to `now`, `off` takes up the difference and the sweep
+ * carries on from exactly where it had got to. A rate that never moves leaves
+ * `off` at zero, and `rate * t + 0` is bit-for-bit `rate * t` — so every
+ * record made before this existed is the same record.
+ */
+const phaseKept = (off: number, was: number, now: number, t: number): number =>
+  was === now ? off : off + (was - now) * t;
+
+/**
+ * THE MODULATED PEDALS KEEP THEIR OWN CLOCKS ACROSS A KNOB MOVE — `n` and `t`
+ * below, and the same in `Phaser` and `Tremolo`.
+ *
+ * That is the whole reason these have a `set`. A board used to be REBUILT
+ * whenever any number on it moved, and `retune()` runs every 1024 samples
+ * while the desk is moving — so automating one knob on a board restarted
+ * every sweep on it 21 times a second. Measured on lofi's lead: the tremolo
+ * kept 0.0161 of its wobble against 0.0894 standing still, which is a
+ * tremolo that has stopped being one.
+ */
 export class Wah {
   private readonly band: Biquad;
-  private readonly rateHz: number;
-  private readonly depth: number;
+  private rateHz: number;
+  private depth: number;
   private readonly sr: number;
   private t = 0;
   private n = 0;
+  private off = 0;
   constructor(rateHz: number, depth: number, sampleRate: number) {
     this.rateHz = rateHz; this.depth = depth; this.sr = sampleRate;
     this.band = new Biquad("bandpass", 800, 3, sampleRate);
+  }
+  set(rateHz: number, depth: number): void {
+    this.off = phaseKept(this.off, this.rateHz, rateHz, this.n / this.sr);
+    this.rateHz = rateHz;
+    this.depth = depth;
   }
   run(x: number): number {
     // the sweep is set every 32 samples: a filter retuned per sample is a waste, and an ear cannot tell
     if ((this.n++ & 31) === 0) {
       this.t = this.n / this.sr;
-      const hz = 350 * Math.pow(2, 2.6 * this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * this.rateHz * this.t)));
+      const hz = 350 * Math.pow(2, 2.6 * this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * (this.rateHz * this.t + this.off))));
       this.band.set("bandpass", hz, 3, this.sr);
     }
     return this.band.run(x) * 3;
@@ -401,17 +435,26 @@ export class Wah {
 }
 export class Overdrive {
   private readonly tone: Biquad;
-  private readonly drive: number;
+  private readonly sr: number;
+  private drive: number;
   constructor(drive: number, tone: number, sampleRate: number) {
+    this.sr = sampleRate;
     this.drive = drive;
     this.tone = new Biquad("lowpass", 1200 + 6000 * tone, 0.7, sampleRate);
+  }
+  set(drive: number, tone: number): void {
+    this.drive = drive;
+    // `Biquad.set` keeps its history, so the corner moves without the filter
+    // being emptied — which is what lets a drive be swept rather than switched
+    this.tone.set("lowpass", 1200 + 6000 * tone, 0.7, this.sr);
   }
   run(x: number): number { return this.tone.run(Math.tanh(x * this.drive)) / Math.tanh(Math.min(3, this.drive)); }
 }
 export class Fuzz {
-  private readonly gain: number;
+  private gain: number;
   private readonly lp: Biquad;
   constructor(gain: number, sampleRate: number) { this.gain = gain; this.lp = new Biquad("lowpass", 4500, 0.7, sampleRate); }
+  set(gain: number): void { this.gain = gain; }
   run(x: number): number {
     const y = x * this.gain;
     // hard clipped, with a gate under the fizz
@@ -421,19 +464,25 @@ export class Fuzz {
 }
 export class Phaser {
   private readonly stages: Allpass2[];
-  private readonly rateHz: number;
-  private readonly depth: number;
+  private rateHz: number;
+  private depth: number;
   private readonly sr: number;
   private n = 0;
   private fb = 0;
+  private off = 0;
   constructor(rateHz: number, depth: number, sampleRate: number) {
     this.rateHz = rateHz; this.depth = depth; this.sr = sampleRate;
     this.stages = [0, 1, 2, 3].map(() => new Allpass2(sampleRate));
   }
+  set(rateHz: number, depth: number): void {
+    this.off = phaseKept(this.off, this.rateHz, rateHz, this.n / this.sr);
+    this.rateHz = rateHz;
+    this.depth = depth;
+  }
   run(x: number): number {
     if ((this.n++ & 31) === 0) {
       const t = this.n / this.sr;
-      const hz = 300 * Math.pow(2, 3 * this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * this.rateHz * t)));
+      const hz = 300 * Math.pow(2, 3 * this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * (this.rateHz * t + this.off))));
       this.stages.forEach((st, k) => st.set(hz * (1 + 0.5 * k), 0.7));
     }
     let y = x + this.fb * 0.4;
@@ -443,14 +492,20 @@ export class Phaser {
   }
 }
 export class Tremolo {
-  private readonly rateHz: number;
-  private readonly depth: number;
+  private rateHz: number;
+  private depth: number;
   private readonly dt: number;
   private t = 0;
+  private off = 0;
   constructor(rateHz: number, depth: number, sampleRate: number) { this.rateHz = rateHz; this.depth = depth; this.dt = 1 / sampleRate; }
+  set(rateHz: number, depth: number): void {
+    this.off = phaseKept(this.off, this.rateHz, rateHz, this.t);
+    this.rateHz = rateHz;
+    this.depth = depth;
+  }
   run(x: number): number {
     this.t += this.dt;
-    return x * (1 - this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * this.rateHz * this.t)));
+    return x * (1 - this.depth * (0.5 + 0.5 * Math.sin(2 * Math.PI * (this.rateHz * this.t + this.off))));
   }
 }
 

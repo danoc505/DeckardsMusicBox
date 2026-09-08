@@ -46,7 +46,7 @@ import { compose } from "../song.ts";
 import { GENRE_NAMES, genre } from "../genre/index.ts";
 import { TREATMENTS, type Treatment } from "../genre/spec.ts";
 import { Engine, render, rms } from "../sound/render.ts";
-import { boardWalked, depthHeard, liveSends, poleHeard } from "../sound/reach.ts";
+import { boardWalked, depthHeard, liveSends, poleHeard, wetHeard } from "../sound/reach.ts";
 import { graded, deskOf, offeredBy, specOf } from "./treat.ts";
 
 /** Above the pole's `sr/6` and the biquad's `sr*0.49` for every genre's filters. */
@@ -201,15 +201,27 @@ for (const g of GENRE_NAMES) {
     }
   });
 
-  /** The specific hole, stated as a law rather than as a fixture. */
-  test(`${g} is never offered a return nothing feeds`, () => {
+  /**
+   * The specific hole, stated as a law rather than as a fixture.
+   *
+   * `wetHeard`, NOT `liveSends`. The law is that a genre is never offered a
+   * move for a unit it does not have — and a unit it does have may now stand
+   * in a part's own line instead of on a return. Asked about the returns
+   * alone, this said lofi has no echo and failed the genre for being offered
+   * `echoed`, at the moment lofi's echo moved onto its keys and its lead and
+   * `echoed` began, measurably, to work on it (−222 dB to −20.7 dB).
+   *
+   * The test above this one still asks `liveSends`, and should: it checks
+   * reach against `engine.liveReturns`, which is a fact about returns.
+   */
+  test(`${g} is never offered a unit nothing feeds`, () => {
     const S = genre(g).sound;
-    const live = liveSends(S);
+    const live = wetHeard(S);
     const offered = offeredBy(S);
-    if (!live.has("echo")) assert.ok(!offered.includes("echoed"), `${g} feeds no echo and is offered echoed`);
+    if (!live.has("echo")) assert.ok(!offered.includes("echoed"), `${g} has no echo anywhere and is offered echoed`);
     if (!live.has("room") && !live.has("spring")) {
-      assert.ok(!offered.includes("drench"), `${g} feeds no reverb and is offered drench`);
-      assert.ok(!offered.includes("dry"), `${g} feeds no reverb and is offered dry`);
+      assert.ok(!offered.includes("drench"), `${g} has no reverb anywhere and is offered drench`);
+      assert.ok(!offered.includes("dry"), `${g} has no reverb anywhere and is offered dry`);
     }
   });
 }

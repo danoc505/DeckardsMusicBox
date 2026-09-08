@@ -132,7 +132,9 @@ A desk move, not a note move — and the one move this program cannot make.
 | 41 | **Sends** — five returns, per part | ● **and per part**: `drench`/`dry` are offered aimed at one part as well as at the band |
 | 42 | **Filter** — the pole's cutoff down for a darker hearing | ● |
 | 43 | **Pedal feed** — a part walks more or less of the board | ● **and per part**: `push`/`ease` likewise |
-| 44 | **Pedal swap** — a different stompbox lit for this section | ● **and it moves**: `stomp`. Lit from COLD is the one thing it cannot mean — a pedal at mix 0 is off the board, and `treat.ts` already refuses to overrule a genre that way — so the swap happens inside the board the genre carries: first box in cable order down, last one up |
+| 44 | **Pedal swap** — a different stompbox lit for this section | ● **and it moves**: `stomp`. Lit from COLD is the one thing it cannot mean — a pedal at mix 0 is off the board, and `treat.ts` already refuses to overrule a genre that way — so the swap happens inside the board the genre carries: first box in cable order down, last one up. **And a board is one part's**, so the swap is each player's own: the bassist's first and last boxes are not the keyboard player's, and a part carrying one box stands still while the others change |
+| 43a | **Pedal knobs** — the settings on the boxes, not the feed into them or which is lit | ● **and they move**: `grind`/`clean` on the gain knob of every clipping pedal a part carries, `starve`/`revive` on the supply's droop, the battery and the Fuzz Face's bias. **THIS ROW WAS MISSING FROM THIS TABLE**, which is why it is numbered into it rather than appended: 43 covered how much of a board a part walks and 44 covered which box is lit, and between them they left twelve pedals and about forty knobs that no treatment could turn. `waver` reached two of them. Turning a pedal up is what a player does to a rig between one section and the next, and it was the largest thing on this desk that could not move |
+| 43b | **Where in the line an effect sits** — before the dirt or after it | ○ **the plumbing exists, no treatment aims at it**. `sound.fx` puts any of the rack's nine circuits in line on one part's board, at `first` or `last`. The catalogue never had a row for ORDER because this program had no order to change: a rack is after everything by construction. A treatment that moves an effect from one end to the other is now sayable and is not built — and it would be the only alteration here that changes a chain's shape rather than a number in it |
 | 45 | **Patch** — a return fed into another return | ● **and it moves**: `repatch` feeds the busiest return this record actually uses into the next busiest |
 | 46 | **Echo** — time in beats, feedback | ● |
 | 47 | **Reverb decay** — a longer room for the peak | ● **and it moves**: `linger`. `drench` sends MORE to the room; this makes the room BIGGER. The reverbs' `sec` was the one leaf of the rack nothing pointed at while `ret` had two moves aimed at it, and it was missed because the row was already marked ● |
@@ -287,6 +289,33 @@ small change, it is no change at all**.
 | `sweep` | −0.00 | −30.9 | 0.00 | *−222, refused* |
 | `echoed` | 0.00 | *−225, refused* | +0.02 | −27.4 |
 
+**And the four that turn the pedals' own knobs** (row 43a), measured the same
+way on the same seed, after the board could be tuned rather than rebuilt:
+
+| | dungeon synth | lofi |
+|---|---|---|
+| `grind` | **−16.0 dB** | **−25.9 dB** |
+| `clean` | −16.2 | −27.4 |
+| `starve` | −29.5 | *−222, refused: no sag, no Fuzz Face* |
+| `revive` | *−38.9, not stated* | *−222, refused* |
+
+Two things in that table are worth more than the numbers. **On lofi these are
+the loudest moves its board has** — ahead of `stomp` (−26.5), `ease` (−30.4),
+`waver` (−31.0) and `push` (−31.3). Every other board move on that genre works
+on how much of the board the guitar walks, or on which box is lit; turning the
+box's own knob is the louder lever, on a genre that feeds one part 0.35 of one
+board.
+
+And **`revive` is the faintest offered move in either table** — quieter than
+anything either genre states — for a reason that belongs to the genre and not
+to the treatment: dungeon synth ships `sag.idle` at 1, a fresh battery, so the
+only half of the move left is lowering the droop and the other half has nowhere
+to go. Nothing forced it out; `treat.test.ts` passes with it weighted, and its
+audibility floor sits below −38.9 dB. It is left unstated as a judgement that a
+boundary is worth more than the quietest thing this desk can do, and it stays
+in the vocabulary — as `recircuit` does — for a genre whose battery is not
+already full.
+
 Three things this says, and not one of them is settled by it:
 
 **`wear` is not a treatment, it is a different record.** Its difference signal
@@ -306,6 +335,12 @@ desk's clothes.
 in the sum. Nothing here says any of that is inaudible — `TALLY.md` §0 stands
 and no one has played these records — but it says which end of the list to
 start listening at.
+
+"One part on the board" used to be a shape the program had: there was one
+board under the whole band and a part either walked it or did not. Boards are
+per part now, so it is lofi's own decision — the genre could give its keys or
+its bass a rig of their own and `push` would have something to push. It has
+not, and these numbers stand until it does.
 
 **And what the first attempt got wrong**, because it is the trap this whole
 document warns about. A treatment was first scored on its own shape alone,
