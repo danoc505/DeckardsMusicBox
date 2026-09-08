@@ -149,6 +149,7 @@ export function dump(song: Song): string {
       const flags: string[] = [];
       if (sp.thin) flags.push("thin");
       if (sp.halved) flags.push("half");
+      if (sp.broken) flags.push("break");
       if (sp.hush !== null) flags.push("hush:" + sp.hush);
       // the desk, and the one part it is aimed at where the treatment is a
       // per-part one — "a part steps closer" is a different move from the

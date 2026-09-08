@@ -303,7 +303,7 @@ export function makePerformance(
         else { endsAt = sp.startBar; break; }
       }
       const span = found
-        ?? { startBar: 0, depth: 1, heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false };
+        ?? { startBar: 0, depth: 1, heard: placed.heard, thin: placed.thin, treatment: null, at: null, hush: null, halved: false, broken: false };
       // AND WHERE THAT SPAN'S DESK BEGINS, in seconds. Written at the bar line
       // the treatment changes on and nowhere else, so a treatment held across
       // several spans rebuilds nothing.

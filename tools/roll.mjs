@@ -434,6 +434,7 @@ for (const pl of song.arrangement.placed) {
     const f = [];
     if (sp.thin) f.push("thin");
     if (sp.halved) f.push("half");
+    if (sp.broken) f.push("break");
     if (sp.hush) f.push(`hush:${sp.hush}`);
     if (sp.treatment) f.push(`desk:${sp.treatment}${sp.at ? "@" + sp.at : ""}`);
     return `${s.startBar + sp.startBar}:${[...sp.heard].map((r) => r[0]).join("")}${f.length ? "+" + f.join("+") : ""}`;

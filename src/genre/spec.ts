@@ -1720,6 +1720,16 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * budget rather than by being drawn.
      */
     next: {
+      /**
+       * THE CHORUS HERE IS THE COLD OPEN'S, NOT THE INTRO'S. `form.ts`'s
+       * `chorus-is-earned` law refuses a chorus before any verse has been
+       * heard — the intro leads into the verse, and the verse sets the chorus
+       * up — so after an intro this weight is always zeroed. It is kept
+       * because the cold open draws its first section from this same list
+       * unfiltered: a record may start on its hook (one of planetarygroup's
+       * five ways in, and the record's first section is exempt from the law),
+       * it may not follow its intro with one.
+       */
       intro: [
         ["verse", 6],
         ["chorus", 1],

@@ -159,6 +159,37 @@ export const LAWS: readonly Law[] = [
     },
   },
   {
+    name: "chorus-is-earned",
+    why: "the chorus is the payoff and a verse is what sets it up; the hook stated twice before any verse is the recognition pass spent and never cashed",
+    /**
+     * Each kind of section has a job, and the jobs come in an order: "the
+     * intro is the first part of the song you hear, its purpose being to set
+     * up the song and lead into the verse section", and "the verse is where
+     * the main back story of the lyric generally happens, filling in
+     * background information to set up the chorus" (musicradar.com, "Anatomy
+     * of an arrangement"). So a chorus follows a verse having been heard.
+     *
+     * NOT AS THE FIRST SECTION. Opening on the hook is a documented way in —
+     * "launch directly into your chorus" is one of planetarygroup's five
+     * intros, and the cold open here starts on whatever would have followed
+     * the intro — so the record's first section is exempt. What is refused
+     * is the hook a second time before any verse: intro, chorus, chorus,
+     * verse, outro was a record whose biggest section arrived a third of the
+     * way in and then spent its whole second half coming down through a
+     * verse that had never had anything to set up (seed 42, the arrangement
+     * diagnosis of 2026-09). The instrumental states the same idea a verse
+     * does and does the same job, so it counts.
+     *
+     * Measured over 200 lofi and 200 dungeon synth records before this law:
+     * a chorus before any verse in 16% of each, and the chorus twice running
+     * before any verse in 2%.
+     */
+    ok(cand, { sofar }) {
+      if (cand !== "chorus" || sofar.length === 0) return true;
+      return sofar.some((fn) => fn === "verse" || fn === "instrumental");
+    },
+  },
+  {
     name: "bridge-needs-a-departure",
     why: "a bridge leaves home, so there has to be a home to leave",
     ok(cand, { sofar, ideas }) {

@@ -157,6 +157,37 @@ export interface Span {
    */
   readonly halved: boolean;
   /**
+   * THE DROP — this span is a break: below the floor, carrying what the
+   * record opened with and nothing else, for two turns of the loop.
+   *
+   * The break used to be a SECTION and only a section: `Placed.broken`, put
+   * where a bridge sits. A record without a bridge therefore had no break —
+   * 13% of lofi records had one, measured over 200 — and in the other 87%
+   * what the record opened with was never heard alone again. The intro made
+   * a promise the body never kept: a rhythm intro said "this record is about
+   * the drums and the bass", and from the first chorus the bass sat under a
+   * keys block to the end (the arrangement diagnosis of lofi seed 42).
+   *
+   * The sources describe the same gesture at both scales. A breakdown is
+   * made by "stripping away of other instruments" and breakdowns "usually
+   * precede or follow heightened musical climaxes" (en.wikipedia.org/wiki/
+   * Breakdown_(music)); the middle eight works because "main elements of the
+   * track drop out ... to give the listener a break before the chorus comes
+   * back in again" (musicradar.com, "Anatomy of an arrangement"); and "lose
+   * instruments in stages and then build them up again to a big finish"
+   * (soundonsound.com, "Arranging Pop") is a span-scale instruction. So a
+   * span may be a break where a section may: it is the same move — the
+   * openers alone, at most two parts — placed by the same rule, in the
+   * run-up to the climax or after it, and a record has ONE of them, at
+   * whichever scale the form gave it room for. `THE-INTRO.md` §5.
+   *
+   * It is the one span move that may take the drone. "The drone does not
+   * come and go inside a section" is about the floor going out from under a
+   * texture that carries on; here the whole texture goes, and what comes
+   * back is the return the break exists for.
+   */
+  readonly broken: boolean;
+  /**
    * ONE PART HELD BACK — EXPRESSION, ON ANY PART RATHER THAN ON THE DRUMS.
    *
    * The two-loop rule names four ways to change an arrangement and this file's
@@ -409,6 +440,8 @@ interface Move {
   readonly hush: Role | null;
   /** Whether this move leaves the kit at half speed. */
   readonly halved: boolean;
+  /** Whether this move leaves the span a break: the openers alone, below the floor. */
+  readonly broken: boolean;
   /**
    * HOW READILY THE GENRE PARTS WITH THIS ONE, 0..1, from its shed order.
    *
@@ -477,7 +510,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * whichever part it happened to, which is what this comment already said.
    */
   const keyOf = (mv: Move): string =>
-    mv.treatment !== null ? `treat:${mv.treatment}` : `${mv.name}:${mv.role}`;
+    mv.treatment !== null ? `treat:${mv.treatment}` : mv.name === "drop" ? "drop" : `${mv.name}:${mv.role}`;
 
   /**
    * WHAT KIND OF CHANGE A MOVE IS — the two-loop rule's own four ways, and the
@@ -1074,7 +1107,26 @@ const kindOf = (mv: Move): string =>
      * happening except everything, and habituation is not the risk in a
      * section the whole record has been building towards.
      */
-    const fast = section.peak || swell ? turn : A.alterEvery;
+    /**
+     * THAT WAS THE DEAD MIDDLE, AND IT IS TAKEN BACK. The clock ran at the
+     * two-turn rate in the run-up and at the climax, so a chorus whose loop
+     * is four bars had one boundary in sixteen — measured over 200 lofi
+     * records, the run-up carried 4.2 treated spans per hundred bars and the
+     * peak 2.9, against 16.4 everywhere else and 25.9 in the outro. Seed 42
+     * was the picture of it: two desk moves in the intro, thirty bars of
+     * chorus with none, then seven stacked through the verse and outro.
+     *
+     * The reason the clock was stopped was the RIGHT reason aimed at the
+     * wrong thing: extra points were extra subtractions, and 24% of peak
+     * spans came to hold back two things. The subtraction is what is refused
+     * now, in `push` below, where every other rule about which states exist
+     * already lives — at a bar point in the run-up or the climax, expression
+     * may only go UP and the desk may move. That is the build the sources
+     * describe ("gradually increase it as you approach the chorus",
+     * EFFECTS-IN-TIME.md §1), which `Span.depth` was made for and which a
+     * run-up with one boundary could never carry.
+     */
+    const fast = A.alterEvery;
     const points: number[] = [];
     for (let b = 0; b < section.bars; b += turn) {
       const len = Math.min(turn, section.bars - b);
@@ -1231,8 +1283,8 @@ const kindOf = (mv: Move): string =>
     const opensWithout = new Set(base);
     if (entering !== null) opensWithout.delete(entering);
 
-    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean } =
-      { heard: opensWithout, thin, treatment: opening, at: null, hush: null, halved: false };
+    let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean; broken: boolean } =
+      { heard: opensWithout, thin, treatment: opening, at: null, hush: null, halved: false, broken: false };
     // HOW LONG A POINT LASTS, IN TURNS OF THE LOOP. Read off the points
     // rather than assumed: they are no longer evenly spaced, so this used to
     // be `2` everywhere and would now be wrong at every bar point. The ledger
@@ -1260,7 +1312,7 @@ const kindOf = (mv: Move): string =>
         //    example moves four — and "one" was never a rule here, only the
         //    shape of a single-winner loop. So it is a number, it is measured,
         //    and the default is what the measurement says.
-        const atStart = { heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved };
+        const atStart = { heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved, broken: cur.broken };
         const dueHere = new Set<Role>([...cur.heard].filter((r) => (stale.get(r) ?? 0) >= DUE_AT));
         const servedHere = new Set<Role>();
         // EXCEPT IN THE RUN-UP, WHICH SPENDS ONE. The section before the
@@ -1345,6 +1397,17 @@ const kindOf = (mv: Move): string =>
             // sounding". The same defect as the kit's above, for the same
             // reason and fixed in the same place: this is which states exist.
             if (hush !== null && !h.has(hush)) return;
+            // AT A BAR POINT IN THE RUN-UP OR AT THE CLIMAX, EXPRESSION ONLY
+            // GOES UP. The fast clock used to be stopped in both sections
+            // because its extra points became extra subtractions — 24% of
+            // peak spans holding back two things, the regression
+            // `arrange.test.ts` names. The clock runs now, and what is
+            // refused is the thing that was actually wrong: a part held back,
+            // the hat taken off or the kit halved at a point the two-loop
+            // rule did not open. The desk, and expression coming BACK, are
+            // what a bar point here may spend — which is the build.
+            if (!slowAt(s) && (section.peak || swell)
+              && ((th && !cur.thin) || (halved && !cur.halved) || (hush !== null && hush !== cur.hush))) return;
             // AT A BAR POINT THE ROSTER IS FROZEN. The fast clock exists to
             // stop a loop holding still between two-turn boundaries, and the
             // two-loop rule is what says who may come and go — every two
@@ -1378,7 +1441,13 @@ const kindOf = (mv: Move): string =>
             // treatment-only move keeps every part, so the desk still moves
             // freely at the close: what is refused is losing the opener.
             if (closing && openers.has(role) && !h.has(role)) return;
-            pool.push({ name, heard: h, thin: th, role, afford, treatment: tr, at, hush, halved });
+            // A BREAK ENDS WHEN THE ROSTER MOVES. The drop makes one; any
+            // move that changes who plays is the return, and a span that
+            // keeps the same two parts under a different desk is still the
+            // break.
+            const sameRoster = h.size === cur.heard.size && [...h].every((r) => cur.heard.has(r));
+            const broken = name === "drop" ? true : sameRoster ? cur.broken : false;
+            pool.push({ name, heard: h, thin: th, role, afford, treatment: tr, at, hush, halved, broken });
           };
           /**
            * THE DRONE DOES NOT COME AND GO INSIDE A SECTION.
@@ -1394,6 +1463,9 @@ const kindOf = (mv: Move): string =>
            * which is where the material changes — so what comes back stands on
            * a different tone. A drone that stops has moved.
            */
+          // THE DROP IS THE ONE EXCEPTION, and says so at `Span.broken`: it
+          // is not the floor going out under a texture that carries on, it is
+          // the texture going and coming back.
           const movable = (r: Role): boolean => r !== "drone";
           // an instrument out — stacked on where the span already is, not on the base
           if (!section.peak && cur.heard.size > floor) {
@@ -1411,6 +1483,31 @@ const kindOf = (mv: Move): string =>
           }
           // all of them back at one moment
           if (cur.heard.size < base.size) push("all-back", new Set(base), cur.thin, lastIn);
+          /**
+           * THE DROP — everything but what the record opened with cuts.
+           *
+           * The break at span scale: see `Span.broken`. It is placed by the
+           * rule that places the section-scale break — "breakdowns usually
+           * precede or follow heightened musical climaxes" — so it is offered
+           * from the run-up onward and never at the climax itself, and a
+           * record has one break at one scale: where the form gave the break
+           * a section, no span drops. Only at a two-turn boundary, because
+           * it moves the roster; never in the intro, which is the opening
+           * and not a return to it; never at the close, which the dénouement
+           * owns. At most two parts, the break's own ceiling, and fewer than
+           * are playing, or it is not a drop. `ledger.used` counts it by name
+           * so the walk cannot spend it twice; the freshness term alone would
+           * only make a second one less likely.
+           */
+          if (slowAt(s) && !section.peak && !broken && breaks < 0 && section.index >= form.peakAt - 1
+            && section.fn !== "intro" && !closing && (ledger.used.get("drop") ?? 0) === 0) {
+            const kept = new Set(A.enter.filter((r) => openers.has(r) && cur.heard.has(r)).slice(0, 2));
+            if (kept.size >= 1 && kept.size < cur.heard.size && kept.size < floor) {
+              const gone = A.shed.find((r) => cur.heard.has(r) && !kept.has(r))!;
+              // a break is not thinned, and a part held back that has left is not held
+              push("drop", kept, false, gone, affords(gone), cur.treatment, cur.at, cur.hush !== null && kept.has(cur.hush) ? cur.hush : null, false);
+            }
+          }
           // strip to the fewest the genre carries, keeping the tail of the shed order
           if (!section.peak && cur.heard.size > floor) {
             const stripped = new Set(cur.heard);
@@ -1424,7 +1521,13 @@ const kindOf = (mv: Move): string =>
           // just declined to thin — measured, 8 records across 600 — and could
           // set the kit's expression with the kit not sounding. The rule is one
           // rule and it belongs in both places that can make the state.
-          if (!cur.thin && !broken && cur.heard.has("drums")) push("hold-back", new Set(cur.heard), true, "drums");
+          // AND NOT IN A RHYTHM INTRO, whose subject is the drums: the section
+          // refuses `thin` for it ("an intro whose whole subject is the drums
+          // cannot introduce them with the drums taken apart", Burns 1987) and
+          // the pool did not, so 29 of 31 rhythm intros over 200 lofi records
+          // had the hat taken off at bar two of eight, or of four. The same
+          // rule in both places that can make the state, as for the break.
+          if (!cur.thin && !broken && !cur.broken && cur.heard.has("drums") && !(section.fn === "intro" && kind === "rhythm")) push("hold-back", new Set(cur.heard), true, "drums");
           if (cur.thin && !thin && cur.heard.has("drums")) push("let-out", new Set(cur.heard), false, "drums");
           // AND EXPRESSION ON ANY PART, which is the two-loop rule's fourth way
           // and the one this stage read as the drums' hat. A part held back is
@@ -1660,7 +1763,7 @@ const kindOf = (mv: Move): string =>
           }
           if (best === null) break;
           for (const r of touches(best)) servedHere.add(r);
-          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved };
+          cur = { heard: best.heard, thin: best.thin, treatment: best.treatment, at: best.at, hush: best.hush, halved: best.halved, broken: best.broken };
           ledger.used.set(keyOf(best), (ledger.used.get(keyOf(best)) ?? 0) + 1);
           kindUsed.set(kindOf(best), (kindUsed.get(kindOf(best)) ?? 0) + 1);
         }
@@ -1691,8 +1794,8 @@ const kindOf = (mv: Move): string =>
       // unaltered. Read off `turnsOf`, which reads off the points.
       const lasted = turnsOf(s);
       for (const r of ROLES) stale.set(r, cur.heard.has(r) ? (moved.has(r) ? lasted : (stale.get(r) ?? 0) + lasted) : 0);
-      lastSpan = { startBar: points[s]!, heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved };
-      spans.push({ startBar: points[s]!, heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved });
+      lastSpan = { startBar: points[s]!, heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved, broken: cur.broken };
+      spans.push({ startBar: points[s]!, heard: new Set(cur.heard), thin: cur.thin, treatment: cur.treatment, at: cur.at, hush: cur.hush, halved: cur.halved, broken: cur.broken });
 
       // ── THE LEDGER, in part-turns. Two entries and nothing else.
       const turns = turnsOf(s);
@@ -1812,6 +1915,7 @@ const kindOf = (mv: Move): string =>
         at: sp.at,
         hush: sp.hush,
         halved: sp.halved,
+        broken: sp.broken,
       })),
     ) as readonly Span[];
     return Object.freeze({
