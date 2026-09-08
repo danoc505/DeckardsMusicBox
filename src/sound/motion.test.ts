@@ -15,7 +15,7 @@ import assert from "node:assert/strict";
 import { compose } from "../song.ts";
 import { GENRE_NAMES, GENRES } from "../genre/index.ts";
 import { render } from "./render.ts";
-import { motionAt, readAt, WAVES } from "./motion.ts";
+import { motionAt, pathOf, readAt, WAVES } from "./motion.ts";
 
 const SR = 22050;
 
@@ -73,8 +73,16 @@ test("a reset trigger starts the cycle at the section, not at the record", () =>
   const rules = GENRES.dungeonsynth.sound;
   const mv = rules.motion.find((m) => m.reset === "section");
   assert.ok(mv !== undefined, "dungeon synth states no section-reset move");
+  // `pathOf`, NOT `mv.path`. A per-part move is written `fx.*.pole.hz` with an
+  // `at` saying whose, and reading the star literally finds no key and answers
+  // undefined — at which point every assertion below compares NaN to NaN and
+  // this law measures nothing. It did exactly that the moment dungeon synth
+  // moved its filter onto the parts, and `resolve.ts` had the same bug for as
+  // long as per-part motion had existed. One substitution, one place.
   const at = (bar: number, from: number): number =>
-    readAt(motionAt([mv], rules, bar, from) as never, mv.path)!;
+    readAt(motionAt([mv], rules, bar, from) as never, pathOf(mv))!;
+  // and the reader has to have found a knob at all, or the rest is vacuous
+  assert.equal(typeof at(0, 0), "number", `nothing at ${pathOf(mv)} — the path is not being read`);
   // the first bar of a section reads the same whatever bar the section starts
   // on — which is the whole point of a reset: a sweep lands ON the chorus
   assert.ok(Math.abs(at(0, 0) - at(64, 64)) < 1e-9, "a section reset did not reset");

@@ -12,9 +12,10 @@
 
 import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
+import { pathOf } from "../sound/motion.ts";
 import {
   ARCS, ARP_PATTERNS, BAR_LETTERS, BASS_TONES, ELEMENTS, FIGURES, FX_ORDER, FX_WHERE, TEXTURES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
-  type Genre, type GenreSpec, type VoiceName, type Weighted,
+  type Genre, type GenreSpec, type Role, type VoiceName, type Weighted,
 } from "./spec.ts";
 
 /** Everything wrong with one genre, so a fix is one pass and not twelve. */
@@ -388,15 +389,18 @@ export function resolveGenre(
          * went unnoticed because neither genre had tried to use one until the
          * rack's units moved onto the parts.
          *
-         * Substituted here the same way `motionAt` does it, so the loader and
-         * the renderer are asking about the same knob.
+         * Substituted by `pathOf`, which is now the ONE place that rule lives:
+         * the loader, the renderer and the test that states the law about a
+         * section reset all ask it, so they cannot drift apart again. They
+         * already had — this file and `motion.test.ts` each got it wrong on
+         * their own, which is what three copies of a rule buys you.
          */
         const at = mv?.["at"];
         if (written.includes("*") && !(ROLES as readonly unknown[]).includes(at)) {
           problems.push(`sound.motion "${written}" is a per-part move, so it needs an "at" naming one of ${ROLES.join(", ")}`);
           continue;
         }
-        const path = typeof at === "string" ? written.replace("*", at) : written;
+        const path = typeof at === "string" ? pathOf({ path: written, at: at as Role }) : written;
         let node: unknown = soundObj;
         for (const key of path.split(".")) {
           node = (node !== null && typeof node === "object") ? (node as Record<string, unknown>)[key] : undefined;
