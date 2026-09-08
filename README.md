@@ -217,7 +217,10 @@ for one.
 
 **And there is one board PER PART**, because a board belongs to a player
 rather than to a band: the bassist's Muff is not the keyboard player's, and
-`sound.pedals` is six boards keyed by part. On the page each pedal wears a
+`sound.pedals` is six boards keyed by part. A board is REBUILT only when a
+pedal goes on or off it, and TUNED for every other number — so a knob can be
+automated, by a treatment or by a cycle, without restarting the pedal beside
+it. Every knob on it is continuous, so a board move drifts rather than steps. On the page each pedal wears a
 bank of switches, one per part, thrown one at a time — the knobs, the lamp
 and the footswitch under them are whoever is thrown, and every other part's
 settings for that pedal are held where they were.

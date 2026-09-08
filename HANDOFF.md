@@ -136,6 +136,54 @@ measured. Write the next one that way.
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
 
+**A board is TUNED now, not rebuilt, which is what makes a pedal
+automatable.** `pedals.ts` had no `set` on anything: every pedal took its
+numbers in the constructor and kept them `readonly`, so the only way to change
+one was to build a new one — and `Channel.tune` did exactly that whenever any
+number on the board differed, while `retune()` runs every `RAMP_STEP` samples
+for as long as anything on the desk is moving. So automating one knob rebuilt
+twelve units 21 times a second, and a rebuilt pedal has lost everything it
+knew: the tremolo's clock, the wah's and the phaser's sweep, the compressor's
+1.5-second release, the divider's flip-flops, the sag's rail part way through
+collapsing. **Measured on lofi's lead: automating a knob BESIDE the tremolo
+cost the tremolo 82% of its wobble, 0.0894 down to 0.0161.** It was an
+accident and not a law — nothing in `docs/` forbids retuning a pedal, and
+`Channel`'s own header claims the opposite ("the units are held rather than
+rebuilt … `Biquad.set` keeps its history"), which was true of the world and
+false of the board the same class owns. Twelve `set` methods later, a `Board`
+is REBUILT only when a pedal goes on or off it — which is what a board IS,
+since mix 0 means off it — and TUNED for every other number. The three sweeps
+carry a phase offset so a moved RATE does not jump, arranged so that a rate
+which never moves leaves the offset at zero and `rate * t + 0` is bit-for-bit
+`rate * t`. Every pedal knob is now in `CONTINUOUS` too, so `stomp`'s mix
+change drifts instead of stepping. Records come out byte-identical EXCEPT
+where a board treatment actually lands: lofi 42 and both dungeon synth seeds
+are identical, and lofi 2 differs by −42.9 dB because it fires `waver`, the
+one treatment that touches a board. `rack.test.ts` holds the law and bites —
+reverted to the old rebuild it fails with 0.0161 against 0.0894.
+
+**And no genre states a pedal cycle, because both were measured and neither
+earned it.** This is the knob that was built, measured and deleted, and the
+note is kept so nobody spends the day again. lofi: `EFFECTS-IN-TIME.md` §1B
+quotes soundonsound almost as an instruction — "draw in a tremolo that gets
+steadily deeper and faster as each chord decays" — and lofi's lead has exactly
+that tremolo, so a one-bar ramp on `pedals.lead.tremolo.depth` and `.rateHz`
+was written, a bar being a chord in this genre's two-bar loops. It moves the
+LEAD by −21 to −24 dB and **the record by −34.6 to −39.9 dB**, and this
+program REFUSES `brighten` on lofi at −37.7 dB as doing nothing. Depth is not
+the lever: 0.5 → 1.0 buys 2.4 dB. The cause is structural and already written
+down — lofi puts one part on the board and feeds it 0.35 (`TALLY.md` §2) — and
+widening lofi's board to rescue the number is tuning a measurement, which item
+14 below says not to do. Dungeon synth's board IS walked hard (bass 0.85, keys
+0.7, drone 0.55) and the same move on the Muff's cab corner measures −27.9 to
+−29.5 dB, inside that genre's shipped range. It is still not built, for a
+different reason: the only source for it is musicradar's "open a low-pass
+filter by a few percent each time the loop repeats", and this genre ALREADY
+spends that sentence on `rack.pole.hz`. A second gradual brightening beside
+the first is a knob that does what the knob beside it does. If a source turns
+up for a moving pedal in either genre, the mechanism is waiting and the
+numbers above say what to expect.
+
 **And dungeon synth's two false comments are true now.** The mechanism below
 was landed byte-identical on purpose, so this is the commit where the record
 changes, and it changes for a reason already written in the genre file. The

@@ -94,14 +94,20 @@ class Follower {
  */
 export class Comp {
   private readonly env: Follower;
-  private readonly thr: number;
-  private readonly makeup: number;
+  private thr = 0;
+  private makeup = 1;
   /** 8:1 over a 6 dB knee — a Dyna Comp squashes rather than levels. */
   private static readonly RATIO = 8;
   private static readonly KNEE = 6;
   constructor(sustain: number, level: number, sampleRate: number) {
-    // 3 ms attack and the 1.5 s release RC, verbatim from the teardown
+    // 3 ms attack and the 1.5 s release RC, verbatim from the teardown. The
+    // follower is built ONCE and never rebuilt: a 1.5 s release is a memory of
+    // the last second and a half, and a pedal that is handed new knobs has not
+    // stopped hearing what it already heard.
     this.env = new Follower(0.003, 1.5, sampleRate);
+    this.set(sustain, level);
+  }
+  set(sustain: number, level: number): void {
     const s = Math.min(1, Math.max(0, sustain));
     this.thr = -6 - 30 * s;
     // the makeup gives back what the compression took at the threshold, by
@@ -138,28 +144,37 @@ export class Sub {
   private readonly floor: Biquad;
   private readonly tone: Biquad;
   private readonly env: Follower;
-  private readonly gate: number;
-  private readonly g1: number;
-  private readonly g2: number;
+  private readonly sr: number;
+  private gate = 0.012;
+  private g1 = 0.55;
+  private g2 = 0;
   private readonly sm: number;
   private q1 = 1;
   private q2 = 1;
   private prev = 0;
   private open = 0;
   constructor(two: number, gate: number, toneHz: number, sampleRate: number) {
+    this.sr = sampleRate;
     // clock off the FUNDAMENTAL, not off a harmonic: a divider that hears the
     // second harmonic mistracks, which is the whole failing of the pedal
     this.track = new Biquad("lowpass", 260, 0.707, sampleRate);
     // an octave below a bass register is 16–43 Hz, which no speaker moves and
     // which only eats headroom
     this.floor = new Biquad("highpass", 38, 0.707, sampleRate);
-    this.tone = new Biquad("lowpass", Math.min(4000, Math.max(120, toneHz)), 0.707, sampleRate);
+    this.tone = new Biquad("lowpass", 900, 0.707, sampleRate);
     this.env = new Follower(0.001, 0.020, sampleRate);
+    this.sm = Math.exp(-1 / (0.002 * sampleRate));
+    this.set(two, gate, toneHz);
+  }
+  /** THE FLIP-FLOPS KEEP COUNTING. `q1`, `q2` and `prev` are where the divider
+   * is in its own division, and a knob moved mid-note does not restart it —
+   * reset them and the octave jumps a half cycle, which is a click. */
+  set(two: number, gate: number, toneHz: number): void {
+    this.tone.set("lowpass", Math.min(4000, Math.max(120, toneHz)), 0.707, this.sr);
     this.gate = Math.min(0.3, Math.max(0.0002, gate));
     const t = Math.min(1, Math.max(0, two));
     this.g1 = 0.55 * (1 - 0.5 * t);
     this.g2 = 0.55 * t;
-    this.sm = Math.exp(-1 / (0.002 * sampleRate));
   }
   run(x: number): number {
     const clock = this.track.run(x);
@@ -239,23 +254,35 @@ export class Meat {
   private readonly cap: Biquad;
   private readonly dc: Biquad;
   private readonly dark: Biquad;
-  private readonly pre: number;
-  private readonly out: number;
-  private readonly shape: (x: number) => number;
+  private readonly sr: number;
+  private pre = 3;
+  private out = 0;
+  private shape: (x: number) => number = (x) => x;
+  /** The bias the table was last cut for. A table is a coefficient, not state,
+   * but cutting 4097 points is not free and the knob usually has not moved. */
+  private cutFor = NaN;
   constructor(dirt: number, bias: number, dark: number, level: number, sampleRate: number) {
+    this.sr = sampleRate;
     this.cap = new Biquad("highpass", 32, 0.707, sampleRate);
     this.dc = new Biquad("highpass", 48, 0.707, sampleRate);
+    this.dark = new Biquad("lowpass", 4480, 0.707, sampleRate);
+    this.set(dirt, bias, dark, level);
+  }
+  set(dirt: number, bias: number, dark: number, level: number): void {
     const d = Math.min(1, Math.max(0, dark));
     // 4480 Hz open, 320 Hz at the Fuzz O)))'s "dark variety with low pass filter"
-    this.dark = new Biquad("lowpass", 320 * Math.pow(14, 1 - d), 0.707, sampleRate);
+    this.dark.set("lowpass", 320 * Math.pow(14, 1 - d), 0.707, this.sr);
     // the same exponential law every drive knob here earned: a linear taper
     // spends its range in a quarter turn
     this.pre = 3 * Math.pow(260, Math.min(1, Math.max(0, dirt)));
     this.out = level * 1.6;
     const b = Math.min(1, Math.max(0, bias));
-    const off = 0.10 + 0.35 * b;
-    const base = Math.tanh(2.4 * off);
-    this.shape = curve((x) => Math.tanh(2.4 * (x + off)) - base, 0.55 * b, 4097);
+    if (b !== this.cutFor) {
+      this.cutFor = b;
+      const off = 0.10 + 0.35 * b;
+      const base = Math.tanh(2.4 * off);
+      this.shape = curve((x) => Math.tanh(2.4 * (x + off)) - base, 0.55 * b, 4097);
+    }
   }
   run(x: number): number {
     return this.dark.run(this.dc.run(this.shape(this.cap.run(x) * this.pre))) * this.out;
@@ -284,7 +311,6 @@ export class Meat {
  * the middle is what these two paths are, not a fault in one of them.
  */
 export class Muff {
-  private readonly pre: number;
   private readonly m1: Biquad;
   private readonly m2: Biquad;
   private readonly lo: Biquad;
@@ -293,23 +319,31 @@ export class Muff {
   private readonly cab: Biquad;
   private readonly bLo: Biquad;
   private readonly bLo2: Biquad;
-  private readonly tone: number;
-  private readonly mass: number;
-  private readonly out: number;
+  private readonly sr: number;
+  private pre = 3;
+  private tone = 0;
+  private mass = 0;
+  private out = 0;
   constructor(sustain: number, tone: number, level: number, cabHz: number, mids: number, mass: number, sampleRate: number) {
-    this.pre = 3 * Math.pow(320, Math.min(1, Math.max(0, sustain)));
+    this.sr = sampleRate;
     // the Miller caps: one pole inside each clipping stage
     this.m1 = new Biquad("lowpass", 5200, 0.707, sampleRate);
     this.m2 = new Biquad("lowpass", 5200, 0.707, sampleRate);
     // the tone stack: 33k with 0.01 µF and 33k with 0.004 µF, the Ram's Head values
     this.lo = new Biquad("lowpass", 482, 0.707, sampleRate);
-    // MIDS is the AMZ mod: the treble leg walks from 1206 Hz down toward 240,
-    // which takes the notch out of the midrange and fills it in
-    this.hi = new Biquad("highpass", 1206 * Math.pow(0.2, Math.min(1, Math.max(0, mids))), 0.707, sampleRate);
+    this.hi = new Biquad("highpass", 1206, 0.707, sampleRate);
     this.air = new Biquad("highpass", 90, 0.707, sampleRate);
-    this.cab = new Biquad("lowpass", Math.min(16000, Math.max(1500, cabHz)), 0.707, sampleRate);
+    this.cab = new Biquad("lowpass", 4500, 0.707, sampleRate);
     this.bLo = new Biquad("lowpass", 160, 0.707, sampleRate);
     this.bLo2 = new Biquad("lowpass", 160, 0.707, sampleRate);
+    this.set(sustain, tone, level, cabHz, mids, mass);
+  }
+  set(sustain: number, tone: number, level: number, cabHz: number, mids: number, mass: number): void {
+    this.pre = 3 * Math.pow(320, Math.min(1, Math.max(0, sustain)));
+    // MIDS is the AMZ mod: the treble leg walks from 1206 Hz down toward 240,
+    // which takes the notch out of the midrange and fills it in
+    this.hi.set("highpass", 1206 * Math.pow(0.2, Math.min(1, Math.max(0, mids))), 0.707, this.sr);
+    this.cab.set("lowpass", Math.min(16000, Math.max(1500, cabHz)), 0.707, this.sr);
     this.tone = Math.min(1, Math.max(0, tone));
     this.mass = Math.min(1, Math.max(0, mass));
     this.out = level * 0.8;
@@ -333,34 +367,49 @@ export class Muff {
  * into a spike, which is a honk.
  */
 export class Saw {
-  private readonly pre: number;
   private readonly dc: Biquad;
   private readonly gL: Biquad;
   private readonly gH1: Biquad;
   private readonly gH2: Biquad;
   private readonly tame: Biquad;
-  private readonly shape: (x: number) => number;
-  private readonly out: number;
+  private readonly sr: number;
+  private pre = 3;
+  private out = 0;
+  private shape: (x: number) => number = (x) => x;
+  /** The gate the dead zone was cut for — see `Meat.cutFor`. */
+  private cutFor = NaN;
   constructor(dist: number, low: number, high: number, gate: number, tameHz: number, level: number, sampleRate: number) {
-    this.pre = 3 * Math.pow(280, Math.min(1, Math.max(0, dist)));
+    this.sr = sampleRate;
     // the series germanium pair makes DC the same way any asymmetry does
     this.dc = new Biquad("highpass", 45, 0.707, sampleRate);
+    this.gL = new Biquad("peaking", 86.79, 0.9, sampleRate, 0);
+    this.gH1 = new Biquad("peaking", 958.47, 0.75, sampleRate, 0);
+    this.gH2 = new Biquad("peaking", 1278.6, 0.75, sampleRate, 0);
+    this.tame = new Biquad("lowpass", 6000, 0.707, sampleRate);
+    this.set(dist, low, high, gate, tameHz, level);
+  }
+  set(dist: number, low: number, high: number, gate: number, tameHz: number, level: number): void {
+    this.pre = 3 * Math.pow(280, Math.min(1, Math.max(0, dist)));
     const lo = 10 * Math.min(1, Math.max(0, low));
     const hi = 10 * Math.min(1, Math.max(0, high));
-    this.gL = new Biquad("peaking", 86.79, 0.9, sampleRate, lo);
-    this.gH1 = new Biquad("peaking", 958.47, 0.75, sampleRate, hi);
-    this.gH2 = new Biquad("peaking", 1278.6, 0.75, sampleRate, hi);
-    this.tame = new Biquad("lowpass", Math.min(12000, Math.max(1200, tameHz)), 0.707, sampleRate);
-    // soft asymmetric bend, hard ceiling, germanium dead zone — in that order,
-    // which is the order the three diode sets sit in
-    const off = 0.08;
-    const base = Math.tanh(1.9 * off);
-    const ceil = 0.72;
-    this.shape = curve((x) => {
-      const y = Math.tanh(1.9 * (x + off)) - base;
-      return y > ceil ? ceil : y < -ceil ? -ceil : y;
-    }, Math.min(0.3, Math.max(0, gate)), 4097);
+    this.gL.set("peaking", 86.79, 0.9, this.sr, lo);
+    this.gH1.set("peaking", 958.47, 0.75, this.sr, hi);
+    this.gH2.set("peaking", 1278.6, 0.75, this.sr, hi);
+    this.tame.set("lowpass", Math.min(12000, Math.max(1200, tameHz)), 0.707, this.sr);
     this.out = level * 1.5;
+    const g = Math.min(0.3, Math.max(0, gate));
+    if (g !== this.cutFor) {
+      this.cutFor = g;
+      // soft asymmetric bend, hard ceiling, germanium dead zone — in that order,
+      // which is the order the three diode sets sit in
+      const off = 0.08;
+      const base = Math.tanh(1.9 * off);
+      const ceil = 0.72;
+      this.shape = curve((x) => {
+        const y = Math.tanh(1.9 * (x + off)) - base;
+        return y > ceil ? ceil : y < -ceil ? -ceil : y;
+      }, g, 4097);
+    }
   }
   run(x: number): number {
     const y = this.dc.run(this.shape(x * this.pre));
@@ -385,23 +434,31 @@ export class Saw {
 export class Sag {
   private readonly env: Follower;
   private readonly dc: Biquad;
-  private readonly amt: number;
-  private readonly idle: number;
-  private readonly drive: number;
+  private readonly sr: number;
+  private amt = 0;
+  private idle = 1;
+  private drive = 3;
   private readonly fall: number;
-  private readonly rise: number;
+  private rise = 0;
+  /** WHERE THE RAIL IS. This is the pedal: a supply part way through collapsing
+   * and blooming back. It is carried across a knob move, because a rail does
+   * not jump back to a fresh battery because somebody turned RECOVERY. */
   private v: number;
   constructor(depth: number, idle: number, recovSec: number, draw: number, sampleRate: number) {
+    this.sr = sampleRate;
     // the follower: 1 ms to see the transient, 40 ms to forget it
     this.env = new Follower(0.001, 0.040, sampleRate);
     this.dc = new Biquad("highpass", 42, 0.707, sampleRate);
+    // 11 ms down, which is AmpBooks' measured 2.88 V/ms; the recovery knob up
+    this.fall = 1 - Math.exp(-1 / (0.011 * sampleRate));
+    this.set(depth, idle, recovSec, draw);
+    this.v = this.idle;
+  }
+  set(depth: number, idle: number, recovSec: number, draw: number): void {
     this.amt = Math.min(1, Math.max(0, depth));
     this.idle = Math.min(1, Math.max(0.18, idle));
     this.drive = 3 * Math.pow(120, Math.min(1, Math.max(0, draw)));
-    // 11 ms down, which is AmpBooks' measured 2.88 V/ms; the recovery knob up
-    this.fall = 1 - Math.exp(-1 / (0.011 * sampleRate));
-    this.rise = 1 - Math.exp(-1 / (Math.max(0.005, recovSec) * sampleRate));
-    this.v = this.idle;
+    this.rise = 1 - Math.exp(-1 / (Math.max(0.005, recovSec) * this.sr));
   }
   run(x: number): number {
     const env = this.env.run(x);

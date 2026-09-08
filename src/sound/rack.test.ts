@@ -149,6 +149,49 @@ test("a board is one part's own: the same pedal on two boards is two different r
   assert.ok(!differs(desk({ drone: MUFF }), bare), "a board the mixer feeds nothing changed the record");
 });
 
+test("a pedal keeps its own clock while the knob beside it is automated", () => {
+  // THE LAW THAT MAKES A PEDAL AUTOMATABLE. `retune()` runs every RAMP_STEP
+  // samples while anything on the desk is moving, so a board REBUILT on every
+  // knob move is a board rebuilt 21 times a second — and a rebuilt tremolo,
+  // wah or phaser has lost the sweep it was part way through, a rebuilt
+  // compressor has lost its 1.5 s release, a rebuilt divider has lost which
+  // way its flip-flops were pointing.
+  //
+  // Measured as the depth of the amplitude wobble at the tremolo's own rate.
+  // Before boards were tuned rather than rebuilt this read 0.0161 against
+  // 0.0894 standing still: the tremolo kept a fifth of itself.
+  const s = compose({ seed: 2, genre: "lofi", seconds: 20 });
+  const RATE = 3.8;
+  const lead = (motion: NonNullable<SoundSpec["motion"]>): Float32Array =>
+    mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1 } }, motion } }));
+  /** How deeply the amplitude swings at `hz`, as a share of its own mean. */
+  const wobble = (b: Float32Array): number => {
+    const k = Math.exp(-1 / (0.004 * SR));
+    const env = new Float32Array(b.length);
+    let v = 0;
+    for (let i = 0; i < b.length; i++) { const a = Math.abs(b[i]!); v = a > v ? a : k * v + (1 - k) * a; env[i] = v; }
+    let mean = 0;
+    for (const e of env) mean += e;
+    mean /= env.length;
+    let re = 0, im = 0;
+    for (let i = 0; i < env.length; i++) {
+      const w = (2 * Math.PI * RATE * i) / SR;
+      re += (env[i]! - mean) * Math.cos(w);
+      im += (env[i]! - mean) * Math.sin(w);
+    }
+    return (2 * Math.hypot(re, im)) / env.length / Math.max(1e-9, mean);
+  };
+  const still = wobble(lead([]));
+  // a cycle on a DIFFERENT knob of the same board — the tremolo's own numbers
+  // are not touched, so anything that happens to its wobble is the rebuild
+  const beside = wobble(lead([{ path: "pedals.lead.overdrive.drive", bars: 4, depth: 0.5, wave: "sin" }]));
+  assert.ok(still > 0.05, `the tremolo is not wobbling to begin with: ${still.toFixed(4)}`);
+  assert.ok(
+    beside > still * 0.8,
+    `automating a knob beside the tremolo cost it its sweep: ${beside.toFixed(4)} against ${still.toFixed(4)} standing still`,
+  );
+});
+
 test("the patch: a return into another return is heard, a return into itself rings and settles", () => {
   const s = compose({ seed: 6, genre: "lofi", seconds: 24 });
   const base = { rack: { pole: { mix: 0 }, medium: { mix: 0 }, vinyl: { crackle: 0 }, tape: { lowpassHz: 20000, wowCents: 0, drive: 1 }, echo: { beats: 0.5, feedback: 0.2, ret: 1 }, spring: { sec: 1, ret: 1 } },
