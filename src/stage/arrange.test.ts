@@ -146,10 +146,18 @@ test("the break goes below the floor mid-record, and it carries the opening", ()
       `the ending fell below its own opening: ${describeArrangement(a)}`,
     );
   }
-  // measured at 52% of records at 200 seconds, and it needs a quiet section to
-  // land in: the break sits where a bridge would, so a record without one has
-  // nowhere to put it
-  assert.ok(broke / records > 0.15, `only ${((100 * broke) / records).toFixed(0)}% of records have a break`);
+  // AND A BREAK IS EITHER SCALE. It used to need a quiet SECTION to land in —
+  // the break sits where a bridge would, and lofi draws a bridge in about one
+  // record in eight, so 13% of records had one and this assertion had been
+  // failing at 10-14% for as long as it had existed. The sources describe the
+  // gesture at both scales and never distinguish them (THE-INTRO.md §5), so
+  // `arrange.ts` offers it at span scale where the form left no section for
+  // it, and a record has ONE break at whichever scale it could afford.
+  //
+  // What the threshold is really about is whether the opening is ever heard
+  // with room round it again, so that is what is counted.
+  const spanBroke = sweep(120, null).filter((a) => a.placed.some((p) => p.broken || p.spans.some((sp) => sp.broken))).length;
+  assert.ok(spanBroke / records > 0.5, `only ${((100 * spanBroke) / records).toFixed(0)}% of records break at either scale`);
 });
 
 test("parts arrive in order, and how many play is the section's energy", () => {
@@ -163,6 +171,13 @@ test("parts arrive in order, and how many play is the section's energy", () => {
   let quieter = 0;
   let fuller = 0;
   for (const a of sweep(120)) {
+    // AGAINST THE RECORD'S OWN ENTRY ORDER, not the genre's. A record draws a
+    // main character and that character is introduced first, so `enter` is the
+    // genre's order with one name moved to the front
+    // (THE-ARRANGEMENT-AS-STORY.md §13 rule 1). The law is unchanged — nobody
+    // appears out of turn — and the order it is judged against is now a fact
+    // about this record rather than about its genre.
+    const enter = a.enter;
     let arrived = A.introParts;
     const sizes: number[] = [];
     for (const p of a.placed) {
@@ -171,7 +186,7 @@ test("parts arrive in order, and how many play is the section's energy", () => {
         // A PART THE INTRO CARRIES HAS ARRIVED, wherever it sits in the entry
         // order: a record that opens on its drums has introduced them, and the
         // parts in front of them in the order arrive when the intro ends.
-        arrived = Math.max(arrived, ...[...p.heard].map((r) => A.enter.indexOf(r) + 1));
+        arrived = Math.max(arrived, ...[...p.heard].map((r) => enter.indexOf(r) + 1));
         continue;
       }
       arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
@@ -180,7 +195,7 @@ test("parts arrive in order, and how many play is the section's energy", () => {
       // no longer a PREFIX of that order, because who LEAVES is the shed
       // order and that is deliberately not the reverse of who arrives.
       for (const r of p.heard) {
-        assert.ok(A.enter.indexOf(r) < arrived, `${r} played before it arrived: ${describeArrangement(a)}`);
+        assert.ok(enter.indexOf(r) < arrived, `${r} played before it arrived: ${describeArrangement(a)}`);
       }
       // NOBODY PLAYS BEFORE THEY HAVE ARRIVED, and no section falls below the
       // floor the genre carries.
@@ -210,7 +225,6 @@ test("a quiet section carries its foundation and drops its decoration", () => {
   // which parts go is the entry order backwards: "the chord first, then the
   // beat under it, the bass, and the tune last", so what a quiet section
   // keeps is what the record is built on
-  const A = lofi.arrangement;
   let compared = 0;
   for (const a of sweep(120)) {
     const sections = a.placed.filter((p) => p.section.fn !== "intro");
@@ -239,9 +253,14 @@ test("a quiet section carries its foundation and drops its decoration", () => {
       // everything still heard was heard before it: a section that shrinks
       // loses parts, it does not swap them
       for (const r of here.heard) assert.ok(before.heard.has(r), `${r} appeared while the texture shrank: ${describeArrangement(a)}`);
-      // and what a genre says it can least afford is still there: the last
-      // name in the shed order is the last thing a record gives up
-      assert.ok(here.heard.has(A.shed[A.shed.length - 1]!), `the last thing to go went first: ${describeArrangement(a)}`);
+      // and what the RECORD can least afford is still there: the last name in
+      // its shed order is the last thing it gives up, and that name is now its
+      // main character — "the character is the fixed point", an ostinato that
+      // "persistently repeats in the same musical voice" while "the upper
+      // parts proceed normally with variation" (THE-ARRANGEMENT-AS-STORY.md
+      // §10, §13 rule 1). The genre still says what IT can afford; the record
+      // moves one name to the end of that order and the law reads the result.
+      assert.ok(here.heard.has(a.shed[a.shed.length - 1]!), `the last thing to go went first: ${describeArrangement(a)}`);
       compared++;
     }
   }
@@ -249,12 +268,15 @@ test("a quiet section carries its foundation and drops its decoration", () => {
 });
 
 test("the outro lets the last-entered part go, once it has been a fixture", () => {
-  const last = lofi.arrangement.enter[lofi.arrangement.enter.length - 1]!;
+  // THE RECORD'S OWN ORDER AGAIN: the last part in is the last of `a.enter`,
+  // which is the genre's order with the main character moved to the front, so
+  // which part this is depends on who the record is about.
   let kept = 0;
   let letGo = 0;
   // at the genre's own length, so that the short records — an intro, a
   // verse still building, one chorus — are in the sweep
   for (const a of sweep(120, null)) {
+    const last = a.enter[a.enter.length - 1]!;
     const outro = a.placed[a.placed.length - 1]!;
     assert.equal(outro.section.fn, "outro");
     const before = a.placed.slice(0, -1).filter((p) => p.heard.has(last)).length;
@@ -266,7 +288,7 @@ test("the outro lets the last-entered part go, once it has been a fixture", () =
       letGo++;
     } else kept++;
   }
-  assert.ok(kept > 5 && letGo > 20, `${kept} outros kept the ${last}, ${letGo} let it go`);
+  assert.ok(kept > 5 && letGo > 20, `${kept} outros kept their last part in, ${letGo} let it go`);
 });
 
 test("a bridge thins, a quiet section thins, the peak never does", () => {
@@ -659,7 +681,13 @@ test("every rule this file states about a span, it keeps", () => {
           // THE DRONE DOES NOT COME AND GO INSIDE A SECTION: it is the floor
           // the section stands on, and one material has one drone, so what
           // came back would be note for note what left.
-          if (base.heard.has("drone")) assert.ok(sp.heard.has("drone"), `${at}: the drone left inside a section`);
+          // EXCEPT IN A BREAK, which is the whole texture going and coming
+          // back rather than the floor going out from under one that carries
+          // on: "all the elements of a song except for percussion disappear",
+          // and "the song takes a breather, drops down, and then comes storming
+          // back again" (Wikipedia, "Break (music)"; THE-ARRANGEMENT-AS-STORY
+          // §11). A break at span scale is still a break.
+          if (base.heard.has("drone") && !sp.broken) assert.ok(sp.heard.has("drone"), `${at}: the drone left inside a section`);
           // THE PEAK NEVER LOSES A PART — "that is what a peak is" — so at a
           // peak the change is expression, not a hole.
           if (p.section.peak) assert.equal(sp.heard.size >= base.heard.size, true, `${at}: the peak lost a part`);

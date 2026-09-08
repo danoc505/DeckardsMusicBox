@@ -767,6 +767,31 @@ export function resolveGenre(
     }
     // the way in, and whether what opened the record comes back
     checkPool(problems, "arrangement.intro", arr["intro"], (v) => (INTRO_KINDS as readonly unknown[]).includes(v), `one of ${INTRO_KINDS.join(", ")}`);
+    checkPool(problems, "arrangement.protagonist", arr["protagonist"], (v) => (ROLES as readonly unknown[]).includes(v), `one of ${ROLES.join(", ")}`);
+    /**
+     * AND EVERY CHARACTER THE GENRE MAY DRAW HAS A WAY IN.
+     *
+     * The intro introduces the protagonist, and the three kinds do not all
+     * carry every part: a rhythm intro is the drums or the drums and bass and
+     * NOTHING else (Burns 1987), a hook intro is the tune from bar one, and a
+     * bed is the foundation with the tune withheld. So a genre that weights
+     * its drone as a protagonist and offers only a rhythm intro has named a
+     * character its own opening cannot introduce — and the arrangement would
+     * have to fall back, which is the silent fallback `form.ts` had to have
+     * removed from it. Refused here instead, with the arithmetic.
+     */
+    const kinds = Array.isArray(arr["intro"]) ? arr["intro"] as (readonly [string, number])[] : [];
+    const star = Array.isArray(arr["protagonist"]) ? arr["protagonist"] as (readonly [string, number])[] : [];
+    for (const [role, w] of star) {
+      if (!(w > 0) || !(ROLES as readonly string[]).includes(role)) continue;
+      const ok = kinds.some(([k, kw]) => kw > 0 && (k === "bed" ? role !== "lead" : k === "hook" ? role === "lead" : role === "drums" || role === "bass"));
+      if (!ok) {
+        problems.push(
+          `arrangement.protagonist weights the ${role}, and no intro kind this genre offers can introduce it ` +
+            `(${kinds.filter(([, kw]) => kw > 0).map(([k]) => k).join(", ") || "none"})`,
+        );
+      }
+    }
     if (typeof arr["breakdown"] !== "boolean") {
       problems.push(`arrangement.breakdown must be true or false, got ${String(arr["breakdown"])}`);
     }

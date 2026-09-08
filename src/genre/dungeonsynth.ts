@@ -367,6 +367,35 @@ export const dungeonsynth: GenreSpec = {
      * is what this music sounds like when it is being quiet.
      */
     shed: ["counter", "drums", "lead", "bass", "keys", "drone"],
+    /**
+     * WHO A DUNGEON SYNTH RECORD IS ABOUT, and it is the drone or the pad.
+     *
+     * This genre's structure is "not based on the typical pop song
+     * progression... but rather on carefully sustaining a single mood"
+     * (note.com/soundwitches, quoted in DUNGEON-SYNTH-ARRANGEMENT.md), and
+     * the one instruction its guide gives for development is a desk move:
+     * "deepen the shadows of the sound through changes in reverb and
+     * filters". That is the pad character sheet almost word for word — the
+     * tone holds and the timbre changes (THE-ARRANGEMENT-AS-STORY.md §11) —
+     * and it is why this genre's treatment weights already read as they do.
+     *
+     * The drone leads because the genre enters on it and sheds it last, and
+     * the keys are beside it because the same music is as often a held chord
+     * as a held tone. The flute is third: a lead-led record here is the one
+     * with a tune over the mood rather than a mood alone. The drums are
+     * fourth and rare rather than absent, for the reason this file already
+     * gives about the rhythm intro — the drums out in front are a march, and
+     * "a record that opens on them is a war song". The bass is not named:
+     * this genre's bass is a doubling of the drone's own tone an octave down,
+     * and a character has to be distinguishable from the thing beside it.
+     * Weights [chosen], from the sources this file already carries.
+     */
+    protagonist: [
+      ["drone", 6],
+      ["keys", 4],
+      ["lead", 2],
+      ["drums", 1],
+    ],
     introParts: 1,
     fullAbove: 0.85,
     thinBelow: 0.3,

@@ -161,10 +161,31 @@ last section. See `arrange.ts`, `floor`.*
 > — en.wikipedia.org/wiki/Breakdown_(music) (which also records Tom Moulton's
 > disco break, "a rhythm-only section of the recording")
 
+**AND IT HAPPENS AT TWO SCALES, which this section used to state at one.**
+A break is a section where a bridge sits, and it is also a SPAN: the same
+gesture, over two turns of the loop, wherever the rule places it. The sources
+describe both without distinguishing them — "all the elements of a song
+except for percussion disappear", and "the song takes a 'breather', drops down
+to some exciting percussion, and then comes storming back again" (Wikipedia,
+"Break (music)", which puts it "two-thirds to three-quarters through a song");
+"main elements of the track drop out... to give the listener a break before
+the chorus comes back in again" (MusicRadar); "lose instruments in stages and
+then build them up again to a big finish" (Johnson & Poyser), which is a span
+instruction in a paragraph about sections.
+
+**Why it had to be both.** A break needs a quiet section to land in, and lofi
+draws a bridge in about one record in eight — measured, 13% of records had a
+break at all, so in the other 87% what the record opened with was never heard
+alone again. The intro made a promise the body could not keep. With the break
+available at span scale the figure is 91%: a record has ONE break, at
+whichever scale its form gave it room for, placed by this same rule.
+
 **What this constrains.** One section of a record — the last quiet one before
-the peak, or the first after it, which is where a bridge sits — drops below
-the arrangement's floor and carries **what the record opened with, and
-nothing else**. That is the answer to the owner's third question: the opening
+the peak, or the first after it, which is where a bridge sits — or, where the
+form left no such section, one SPAN in the run-up to the climax or just after
+it, drops below the arrangement's floor and carries **what the record opened
+with, and nothing else**. Which, since the intro introduces the record's main
+character, is that character (`THE-ARRANGEMENT-AS-STORY.md` §9-§13). That is the answer to the owner's third question: the opening
 part does get its moment, and the moment is a documented section type rather
 than an invention. It is the only place this program is allowed under
 `fewest`, and the reason it is allowed there is that without it no part is

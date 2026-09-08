@@ -54,10 +54,13 @@ literally and comparing NaN with NaN, which is how it used to pass. See the
 THERE ARE THREE STANDING FAILURES AND THIS FILE ONCE LISTED TWO; the third was
 found by an end-to-end run, not by the change that prompted it:
 
-- `arrange.test.ts` "the break goes below the floor mid-record" — 14% of
-  records have a break against a threshold of 15%. Deliberate; see item 6.
+- ~~`arrange.test.ts` "the break goes below the floor mid-record"~~ **FIXED.**
+  It failed because a break needed a bridge to land in; the break is available
+  at span scale now and the test counts either scale. See item 6, which this
+  closes.
 - `material/index.test.ts` "a returning idea plays its statement's own figure"
-  — 82 variants against a threshold of 90. Deliberate.
+  — **60** variants against a threshold of 90, from 69 before this work.
+  Deliberate, and worse for a stated reason: see "what was just done".
 - `material/index.test.ts` "keys voice every tone of the chord, in register,
   led smoothly" — **not deliberate, undiagnosed, and older than this
   session.** It is not in any earlier tally, so it landed with the elements
@@ -144,6 +147,97 @@ measured. Write the next one that way.
 | `genre-research/THE-STALENESS-CLOCK.md` | when a move must fire, counted per part. **STALE — it describes two designs that were built, measured and taken back out. Read it for the research and the failed attempts, not for what the code does.** |
 
 ## What was just done
+
+**A RECORD HAS A MAIN CHARACTER NOW, AND IT NEED NOT BE THE TUNE.**
+`arrangement.protagonist` is a weighted pool over the six seats, drawn once
+per record and held. The research is `THE-ARRANGEMENT-AS-STORY.md` §9-§13,
+written from the sources this session: the hook is defined with no instrument
+in it and "often incorporates the main motif" (Wikipedia, "Hook"), Burns's
+typology has a whole class of RHYTHM hooks, a riff "often begins the song, and
+is repeated throughout it, giving the song its distinctive voice" (BBC Radio 2),
+and the records bear it out — Billie Jean and Seven Nation Army are bass
+records, Be My Baby is a drum record, Blue Monday's vocal arrives after two
+minutes.
+
+**TWO ORDERS ARE DERIVED FROM IT AND NOTHING ELSE HAD TO CHANGE SHAPE.** The
+record's `enter` is the genre's with the character moved to the FRONT — it is
+introduced first, "allowing each to breathe and establish themselves before the
+next enters the scene" (Johnston) — and its `shed` is the genre's with the
+character moved to the END, because the character is the fixed point: an
+ostinato "persistently repeats in the same musical voice" while "the upper
+parts proceed normally with variation" (Wikipedia, "Ostinato"). The foundation
+guard already refuses to drop the last name in `shed` while anything else is
+standing, so the record's foundation IS its main character and no new rule was
+needed for it. A genre whose character is already first comes out
+byte-identical. `Arrangement.protagonist`, `.enter` and `.shed` are on the
+frozen object; the dump says `#about`, `#enter`, `#shed` and the roll says it
+in words.
+
+Measured over 200 records a genre: the intro carries the character **100%**,
+the break carries it **100%**, the ending carries it **100%**, and it is heard
+with room round it mid-record in **65%** of lofi records and **98%** of dungeon
+synth's, against 53% and 53% for "the opening heard alone again" before. lofi
+draws keys 41%, drums 25%, bass 15%, lead 13%, counter 7%; dungeon synth draws
+drone 42%, keys 38%, lead 14%, drums 7%. **Both genres state their own pool**
+from what their own files already said about themselves — lofi's entry order
+opens on the keys and its shed order ends on them; dungeon synth's guide
+describes the pad character sheet almost word for word.
+
+**THE INTRO AND THE BREAK BOTH HAD TO LEARN WHAT "SOUNDS" MEANS.** `loops()`
+answers "may a part walk in mid-section" and the break needed a different
+question: does this part sound on EVERY round? The tune's plan rests rounds and
+the counter answers the tune, so a break carrying only one of those is a bar of
+silence — `all.test.ts` caught it twice, dungeon synth seed 1 bar 72 and then
+seed 34 bar 5, where a genre that opens on one part drew its tune as the
+character and spent eight bars on nothing. `sounds()` is the predicate, the
+break carries only parts that pass it, and an intro is guaranteed one — which
+is what "the tune from bar one OVER whatever foundation the intro carries"
+already said.
+
+**AND THE FOUR THINGS THE ARRANGEMENT DIAGNOSIS ASKED FOR, before that.**
+`docs/arrangement-diagnosis` was a reading of lofi seed 42 that named seven
+faults. Four are fixed and measured over 200 records a genre:
+
+- **The chorus is earned.** `chorus-is-earned` in `form.ts` refuses a chorus
+  before a verse or an instrumental has been heard; the record's first section
+  is exempt, because a cold open on the hook is documented. A chorus before any
+  verse: **16% → 0%** (the 2-3% left is the cold open, which is the exemption
+  working). Seed 42 was intro chorus chorus verse outro and is now intro verse
+  instrumental chorus chorus outro.
+- **The dead middle is gone.** The fast clock was switched off in the run-up
+  and at the climax, so a chorus on a four-bar loop had one boundary in
+  sixteen and every desk move landed in the verse and the outro. It runs
+  everywhere now, and what is refused instead is the thing that was actually
+  wrong — at a bar point in the run-up or the peak, expression may only go UP.
+  Treated spans per 100 bars, lofi: run-up **4.2 → 28.7**, peak **2.9 → 25.0**,
+  everywhere else unchanged. Peak spans holding back two things: **3% → 4%**,
+  against a 10% law.
+- **The break may be a SPAN.** It needed a bridge to land in, so 13% of lofi
+  records had one and in the rest the opening was never heard alone again. The
+  sources describe the same gesture at both scales and never distinguish them
+  (`THE-INTRO.md` §5 now says so). A record has one break at whichever scale
+  its form gave it room for, placed by the break's own rule — never in the
+  run-up, which was measured: offered there it took the last boundaries of the
+  build and 11 of 183 dungeon synth run-ups ended quieter than they began.
+  The opening heard alone again: **53% → 70%** (lofi), **53% → 89%** (dungeon
+  synth).
+- **A rhythm intro keeps its hat.** The section refused `thin` for it — "an
+  intro whose whole subject is the drums cannot introduce them with the drums
+  taken apart" — and the span pool did not, so **29 of 31** rhythm intros lost
+  the hat at bar two. Now **0**.
+
+Three of the seven are not done and are item 15 below: the intro that builds
+by nested variation, the keys voiced off the bass's band, and the verse thinned
+to three attention-holders.
+
+**AND ONE NUMBER WENT THE WRONG WAY.** `material/index.test.ts`'s "a returning
+idea plays its statement's own figure" was 69 variants against a threshold of
+90 on the commit before this work and is **60** now: the form law changed which
+sections repeat an idea, so fewer variants exist to be counted. It was a
+standing failure before and it is a standing failure now, deeper. The other
+standing failure, "keys voice every tone of the chord", fails byte-identically
+("A bar 0 voices 1 of 4") on both trees.
+
 
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
@@ -583,14 +677,17 @@ until this is understood.
 - And **lofi's lead still tops at C6** on the program-wide default of 64–84.
   The owner objected to C6. Nothing has been done about it.
 
-**6. The break-rarity failure needs an owner's decision.** A three-turn phrase
-floor costs a short-record genre its bridge: lofi's bridge pool was 4 and 8
-bars, and at a four-bar loop neither states its phrase three times. A 12-bar
-bridge took it 11% → 14% against a threshold of 15%. Weight is not the lever —
-at weight 3 it is still 14%, because a 12-bar bridge plus its keep-back needs
-16 bars and a 44-bar lofi record rarely has them. The threshold encodes
-research and has not been lowered. The options are a longer lofi record, a
-`leastTurns` lofi states for itself, or the break not needing a bridge.
+**6. ~~The break-rarity failure~~ CLOSED, by the third option it named.** The
+options recorded here were "a longer lofi record, a `leastTurns` lofi states
+for itself, or THE BREAK NOT NEEDING A BRIDGE", and the third is what the
+sources actually describe: a break is a gesture, not a section length, and
+nothing published distinguishes the two scales. It is a span move now, placed
+by the same rule, and the opening is heard alone again in 70% of lofi records
+against 13%. The threshold was not lowered; the test counts either scale.
+What is still true and unfixed is the cause the item found — a three-turn
+phrase floor costs a short-record genre its bridge, so lofi still draws one in
+about a record in eight, and a genre that wants a real bridge needs a longer
+record or its own `leastTurns`.
 
 **7. `affords` is a category error, and this is settled — do not re-derive it.**
 It is built from the genre's `shed` order — what a genre can afford to LOSE —
@@ -658,6 +755,54 @@ treatment vocabulary sits 17 dB below its own `darken` partly for that reason
 giving the keys or the bass a rig; `LOFI-LINEAGE.md` is the place to look for
 whether its ancestry asks for one, and it has four unapplied findings already.
 Do not add a board to make `push` look better — that is tuning a measurement.
+
+**15. THREE OF THE SEVEN ARRANGEMENT-DIAGNOSIS FAULTS ARE STILL OPEN**, and
+each has an owner named by the research rather than a guess.
+
+- **The intro repeats and never escalates.** Four passes of a two-bar figure
+  where pass four is identical to pass one. The technique is nested variation,
+  "double and add one" — a one-bar pattern doubled with an event added every
+  two bars, doubled again with one every four. It belongs in the bass builder
+  and in `drums.ts`'s phrase letters, NOT in the arrangement: the arrangement
+  cannot add a note. Note that the second half of a lofi loop is already the
+  `sentence` shape in `material/index.ts`, so read that before writing
+  anything — this may be the same mechanism asked for at a different grain.
+- **The keys block sits on the bass.** lofi's keys reach eight semitones into
+  the bass's band and 16% of their notes are at or below the bass's top,
+  against 1% in dungeon synth. "The recommended first move is to look at the
+  arrangement and rewrite parts so the clash doesn't happen — including
+  re-voicing a part up an octave rather than reaching for EQ." The owner is
+  `keys.ts`'s `COST` table: one more term, per voice inside another part's
+  band, priced between `move` and `mud`. **And the protagonist changes the
+  question**: it is the CHARACTER's band the others should clear, which is now
+  a fact the material stage can read off `Arrangement.protagonist`.
+- **The verse is fuller than the chorus.** Measured, this is rare now — 4 of
+  82 lofi chorus/verse pairs — because the form law reordered them. What the
+  diagnosis was really naming is the cognitive-load ceiling, and this program
+  keeps it in ELEMENTS (`MOST_ELEMENTS`) rather than in parts, which is the
+  better unit and already sourced. Read `PARTS-ELEMENTS-AND-STREAMS.md` before
+  reaching for a new rule here.
+
+**16. THE CHARACTER SHEETS ARE WRITTEN AND NOT BUILT.**
+`THE-ARRANGEMENT-AS-STORY.md` §11 sets out what a record does when its
+protagonist is a foundation, a rhythm, a pad or a lead — the ostinato that
+does not develop, the sequence that never stops, the tone whose timbre
+changes, the tune that is answered in its rests. **Only the pad sheet is
+honoured today**, and by accident: dungeon synth's treatment weights came from
+its own guide. Three things follow, in order of what they would buy:
+
+- **The character's job and texture are drawn PER MATERIAL and must be per
+  RECORD.** `assign()` in `arrange.ts` draws a seat's element and texture for
+  each material, so the counter that arpeggiates idea A may play a line in idea
+  B. A character that changes what it is doing between scenes is not a
+  character, and §10's first law cannot hold until this is one draw.
+- **Nothing yields to the character.** Rules 5 and 6 in §13: register, and
+  activity while it speaks. `material/counter.ts` already does the second for
+  the lead alone.
+- **The archetype is unstateable.** Every record restores its opener at the
+  close, so every record this program makes is Almén's romance. Whether a
+  genre may tell a different one is the owner's call and nothing published
+  ranks it.
 
 ## House rules that are easy to break
 

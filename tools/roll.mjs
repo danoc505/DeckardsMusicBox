@@ -422,6 +422,7 @@ if (fxNames.length || moves.length) {
   if (fxNames.length) console.log(`  treatments: ${fxNames.join(", ")}`);
   if (moves.length) console.log(`  moving: ${moves.map((m) => `${m.path} every ${m.bars} bars, ${m.wave}${m.reset ? ` from the ${m.reset}` : ""}`).join(" · ")}`);
 }
+console.log(`the record is about the ${song.arrangement.protagonist} — it enters first, it is the last thing dropped, and the break carries it`);
 for (const pl of song.arrangement.placed) {
   const s = pl.section;
   console.log(`  bar ${String(s.startBar).padStart(3)}-${String(s.endBar).padEnd(3)} ${s.fn.padEnd(13)} material ${String(pl.material).padEnd(4)} energy ${s.energy.toFixed(2)}${s.peak?" PEAK":""}${s.vary?" VARY":""}${s.recast?" RECAST":""}${pl.swell?" SWELL":""}${pl.manner?" "+pl.manner.toUpperCase():""}${pl.thin?" THIN":""}`);

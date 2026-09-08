@@ -99,6 +99,33 @@ a part. Recorded here because the failure is more instructive than the fix.
 
 ---
 
+## 1b. THE ARRANGEMENT DIAGNOSIS, AND THE MAIN CHARACTER
+
+*The owner's reading of lofi seed 42 named seven faults in one record that
+were true of the program. Four are fixed; the reading also produced the
+question "why can't the song be bass heavy, or drums, or an arp?", and the
+answer to that is the largest thing in this section.*
+
+| what | why it was done | what says it worked |
+|---|---|---|
+| **A record draws a PROTAGONIST** (`arrangement.protagonist`, both genres, `arrange.ts`) | Nothing in the program knew who a record was about. The opening was the front of the genre's entry order in every seed, so 10% of lofi intros carried the tune, 78% carried the keys, and the body kept no promise the intro made. The hook is defined with no instrument in it; Burns has a class of rhythm hooks; Billie Jean and Be My Baby and Blue Monday are bass, drum and sequencer records (`THE-ARRANGEMENT-AS-STORY.md` §9) | Over 200 records a genre the intro carries the character **100%**, the break **100%**, the ending **100%**. Heard with room round it mid-record **65%** (lofi) and **98%** (dungeon synth). lofi draws keys 41 · drums 25 · bass 15 · lead 13 · counter 7; dungeon synth drone 42 · keys 38 · lead 14 · drums 7 |
+| **Two orders derived from it**, not a second mechanism | The character is introduced first (Johnston) and is the fixed point that does not stop (Wikipedia, "Ostinato"). Both are one line: the record's `enter` is the genre's with the character at the front, its `shed` the genre's with it at the end | The existing foundation guard then protects it for free — the record's foundation IS its character. A genre whose character is already first is byte-identical |
+| **`sounds()`: the break carries only what plays every round** | A break carries the openers AND NOTHING ELSE, and the tune's plan rests rounds. Two silent bars in dungeon synth, seeds 1 and 34 | `all.test.ts` green, 10/10. The predicate is beside `loops()`, which answers a different question and always did |
+| **The chorus is earned** (`chorus-is-earned` in `form.ts`) | The default table let a record state its hook twice before any verse. "The intro... leads into the verse section", and "the verse... sets up the chorus" (MusicRadar) | A chorus before any verse **16% → 0%** in both genres, the 2-3% left being the cold open, which is exempt and documented |
+| **The fast clock runs through the middle** | It was off in the run-up and at the climax, so every desk move landed in the verse and the outro — the "dead middle" the diagnosis named. What was actually wrong was that extra points became extra subtractions, so that is what is refused instead | Treated spans per 100 bars, lofi: run-up **4.2 → 28.7**, peak **2.9 → 25.0**, elsewhere unchanged. Peak spans holding back two things **3% → 4%** against a 10% law; all 185 run-ups still rise |
+| **The break may be a SPAN** | It needed a bridge to land in, and lofi draws one in a record in eight, so in 87% of records the opening was never heard alone again. The sources describe the gesture at both scales and distinguish neither (`THE-INTRO.md` §5) | The opening heard alone again **53% → 70%** (lofi), **53% → 89%** (dungeon synth). Never in the run-up: offered there, 11 of 183 dungeon synth run-ups ended quieter than they began |
+| **A rhythm intro keeps its hat** | The section refused `thin` for it and the span pool did not | **29 of 31 → 0** rhythm intros thinned |
+
+**What it cost.** `material/index.test.ts`'s returning-figure count went 69 → 60
+against a threshold of 90 — a standing failure made deeper, because the form
+law changed which sections repeat an idea. Recorded rather than chased.
+
+**What is not built** is `THE-ARRANGEMENT-AS-STORY.md` §11: the four character
+sheets. Only the pad sheet is honoured, and by accident. `HANDOFF.md` items 15
+and 16.
+
+---
+
 ## 2. DEFECTS AND GAPS FOUND BY MEASUREMENT
 
 **AND ONE FOUND BY EAR, WHICH IS WHAT §0 HAS BEEN ASKING FOR.** The owner

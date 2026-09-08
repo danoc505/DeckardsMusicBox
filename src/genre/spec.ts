@@ -888,6 +888,30 @@ export interface ArrangementSpec {
    * once — a part left out would never enter, and that is refused at load.
    */
   readonly enter?: readonly Role[];
+  /**
+   * WHO THE RECORD IS ABOUT — the main character, drawn once per record from
+   * this pool and held for the whole of it.
+   *
+   * A record has a protagonist and it need not be the tune. The hook is "a
+   * musical or lyrical phrase that stands out and is easily remembered" and
+   * "often incorporates the main motif" (Wikipedia, "Hook (music)"), with no
+   * instrument in the definition; Burns's typology has a whole class of
+   * RHYTHM hooks; and a riff is "the main hook of a song" that "often begins
+   * the song, and is repeated throughout it, giving the song its distinctive
+   * voice" (BBC Radio 2, quoted at Wikipedia, "Riff"). Billie Jean and Seven
+   * Nation Army are bass records, Be My Baby is a drum record, Blue Monday is
+   * a sequencer record whose vocal arrives after two minutes.
+   *
+   * So this is a WEIGHTED POOL over the seats, like every other choice a
+   * genre makes, and any seat may be drawn. What the choice then does is
+   * `THE-ARRANGEMENT-AS-STORY.md` §9-§13: the record's entry order puts the
+   * character first, its shed order puts it last, the intro introduces it and
+   * the break carries it.
+   *
+   * A genre that states nothing here inherits the default pool, and the
+   * default leans on the tune — see DEFAULTS.
+   */
+  readonly protagonist?: Weighted<Role>;
   /** How many of them, from the front of `enter`, an intro holds. */
   readonly introParts?: number;
   /** Which kind of intro the record opens with, drawn per record. */
@@ -1040,6 +1064,7 @@ export interface ArrangementSpec {
 
 export interface ArrangementRules {
   readonly enter: readonly Role[];
+  readonly protagonist: Weighted<Role>;
   readonly introParts: number;
   readonly intro: Weighted<IntroKind>;
   readonly breakdown: boolean;
@@ -2192,6 +2217,25 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     /** the chord first, then the beat under it, the bass, and the tune last */
     // the counter arrives last: an answer needs something to answer
     enter: ["keys", "drums", "bass", "lead", "drone", "counter"],
+    /**
+     * MOSTLY THE TUNE, BECAUSE THAT IS WHAT A DEFAULT GENRE IS.
+     *
+     * Nothing published ranks these — the sources name the kinds of hook and
+     * count none of them — so the weights are [chosen] and the shape of the
+     * choice is what carries the argument: the lead is the commonest
+     * protagonist in the pop the rest of these defaults come from, and the
+     * rhythm hook is the large second class (Burns's own list of records that
+     * open on a rhythm runs to a dozen). The drone is last because a default
+     * genre is not an ambient one; a genre founded on its drone says so.
+     */
+    protagonist: [
+      ["lead", 5],
+      ["keys", 3],
+      ["bass", 3],
+      ["drums", 2],
+      ["counter", 1],
+      ["drone", 1],
+    ],
     introParts: 2,
     /**
      * TWO. "Five elements at one time — counting the drums as one — is

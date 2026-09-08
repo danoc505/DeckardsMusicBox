@@ -98,6 +98,11 @@ export function dump(song: Song): string {
   // and the drums are a machine with a kit in it, which is the same question
   // asked of the one part that has no `voices` entry
   L.push(`#kit\t${chart.genre.sound.machine.kit}\t${chart.genre.sound.machine.circuit}`);
+  // WHO THE RECORD IS ABOUT — one word, and the two orders derived from it. A
+  // record that cannot say who its main character is has not got one.
+  L.push(`#about\t${song.arrangement.protagonist}`);
+  L.push(`#enter\t${song.arrangement.enter.join(" ")}`);
+  L.push(`#shed\t${song.arrangement.shed.join(" ")}`);
   L.push(`#events\t${ev.length}`);
   if (chart.askedSec !== null) L.push(`#asked_seconds\t${chart.askedSec}`);
 

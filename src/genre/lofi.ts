@@ -406,6 +406,38 @@ export const lofi: GenreSpec = {
      */
     shed: ["counter", "drone", "lead", "drums", "bass", "keys"],
     /**
+     * WHO A LOFI RECORD IS ABOUT, and it is mostly the Rhodes.
+     *
+     * The genre's own file already says this twice without a field to say it
+     * in: the entry order opens on the keys, and the shed order ends on them
+     * ("what a quiet section keeps is the bass and the Rhodes, which is what
+     * this music sounds like when it is being quiet"). The sources agree —
+     * "a Hammond Organ provided the best pad and was joined later by the
+     * Fender Rhodes electric piano" (bobbyowsinskiblog.com), and this genre
+     * is a chord loop with a beat under it.
+     *
+     * The beat is second and the bass third because the ancestry says so:
+     * this music descends from boom bap and jazz rap, where the break IS the
+     * record (`LOFI-LINEAGE.md`), and a beat tape built on a bass figure is
+     * the same music from the other end. The muted guitar is fourth: it is
+     * the tune, and this genre's tune is decoration over a loop rather than
+     * the thing being sold — which is exactly the case the program's default
+     * pool gets the other way round, and the reason a genre states its own.
+     *
+     * The counter is last of the parts named and the drone is not named at
+     * all: a Wurlitzer answering a line it is written against cannot be the
+     * thing the record is about, and a pad this genre calls "arriving last
+     * and leaving first" is not a protagonist either. Weights [chosen],
+     * ordered by what this file already says about itself.
+     */
+    protagonist: [
+      ["keys", 6],
+      ["drums", 3],
+      ["bass", 3],
+      ["lead", 2],
+      ["counter", 1],
+    ],
+    /**
      * THE GENRE IS NAMED AFTER ITS OWN DESK, so it had better state what that
      * desk does. It did not: it inherited the even default and, measured over
      * sixty seeds, fired `wear` ONCE while dungeon synth fired it 48 times.

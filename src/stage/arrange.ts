@@ -313,6 +313,15 @@ export interface Placed {
 export interface Arrangement {
   readonly placed: readonly Placed[];
   /**
+   * WHO THIS RECORD IS ABOUT. Drawn once from the genre's own pool; the two
+   * orders below are derived from it. See `THE-ARRANGEMENT-AS-STORY.md` §9.
+   */
+  readonly protagonist: Role;
+  /** The order parts arrive in, IN THIS RECORD: the genre's, character first. */
+  readonly enter: readonly Role[];
+  /** The order parts leave in, IN THIS RECORD: the genre's, character last. */
+  readonly shed: readonly Role[];
+  /**
    * EVERY TIME GIVING PAID OFF WITHHOLDING, and by how much. The largest
    * entry is where this record's arc actually crested.
    *
@@ -344,31 +353,123 @@ export const materialKey = (idea: Idea, variant: number): string => (variant ===
  * to" (Burns 1987). Adding the keys to it does not make a bigger rhythm
  * intro, it makes it not one.
  */
-function opensWith(kind: IntroKind, A: ArrangementRules): Set<Role> {
-  const first = A.enter.slice(0, Math.max(1, A.introParts));
+/**
+ * A PART THAT LOOPS, and so can walk in part way through a section.
+ *
+ * The tune and the drums are written per time ROUND, and the tune's plan
+ * includes RESTS — so a lead that enters at the second span can land on rounds
+ * where its line is a rest and play nothing at all, while the section still
+ * says it is heard. That is a part built and never sounded. The groove is
+ * written once and repeated, so it always has notes to walk in with.
+ */
+const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
+
+/**
+ * A PART THAT SOUNDS ON EVERY ROUND, which is not the same question as
+ * `loops` above and is the one a break has to ask.
+ *
+ * The tune's plan may rest a round and the counter answers the tune, so a
+ * round where the lead is tacet leaves the counter nothing to answer and it
+ * says nothing. That is correct behaviour for both, and it is fatal to a
+ * break: a break carries what the record opened with AND NOTHING ELSE, so if
+ * the thing it carries happens to rest, the record has a silent bar in it —
+ * `all.test.ts` caught exactly that on dungeon synth seed 1 bar 72 the day
+ * the break started carrying the record's main character instead of the front
+ * of the genre's entry order.
+ *
+ * The drums are here and are not in `loops`, because the two ask different
+ * things: their phrase is written per round and does not tile, which is why a
+ * walk-in may not use them, and every round of it has hits in it, which is
+ * why a break may.
+ */
+const sounds = (r: Role): boolean => loops(r) || r === "drums";
+
+/**
+ * AND IT OPENS ON THE RECORD'S MAIN CHARACTER, whichever part that is.
+ *
+ * The intro's job is to introduce the protagonist — "many songs open with the
+ * main hook or motif played solo" (Native Instruments, "Song structure 101"),
+ * and a riff "often begins the song, and is repeated throughout it, giving
+ * the song its distinctive voice" (BBC Radio 2, at Wikipedia "Riff"). This
+ * used to take the front of the genre's entry order and nothing else, so the
+ * opening was the same parts in every record of a genre and the record made
+ * no promise it could keep: measured over 200 lofi records, 10% of intros
+ * carried the tune and 78% carried the keys, whatever the record went on to
+ * be about (`THE-ARRANGEMENT-AS-STORY.md` §12).
+ *
+ * `enter` is now the RECORD's order with its character at the front, so the
+ * front of it IS the protagonist and `introParts` still says how many parts
+ * open — the character replaces a slot rather than adding one, and a genre
+ * that says it opens on one part still opens on one.
+ */
+function opensWith(kind: IntroKind, A: ArrangementRules, enter: readonly Role[], star: Role): Set<Role> {
+  const first = enter.slice(0, Math.max(1, A.introParts));
+  /**
+   * AND SOMETHING IN IT SOUNDS ON EVERY ROUND — see `sounds`.
+   *
+   * A hook intro is the tune "over whatever foundation the intro carries",
+   * and with the character at the front of the entry order a genre that opens
+   * on ONE part and draws its tune as the character opened on the tune alone:
+   * the plan rests a round, and dungeon synth seed 34 came out with eight
+   * bars of nothing at the top of the record. `all.test.ts` caught it as a
+   * silent bar, which is what it is.
+   *
+   * So the foundation the sources already put under a hook is guaranteed
+   * rather than assumed, and the same guarantee covers a bed opening on a
+   * counter. It can take the opening one part past `introParts`, and that is
+   * the honest reading of that number: a part that is resting is not one of
+   * the parts a record opens on.
+   */
+  const audible = (out: Set<Role>): Set<Role> => {
+    if (![...out].some(sounds)) {
+      const under = enter.find(sounds);
+      if (under !== undefined) out.add(under);
+    }
+    return out;
+  };
   switch (kind) {
     case "rhythm": {
-      // the drums, and the bass with them if the genre brings the bass in
-      // early — "solo drums, solo bass, or drums and bass in duet"
+      // the drums, and the bass with them if the record brings the bass in
+      // early — "solo drums, solo bass, or drums and bass in duet". The kind
+      // is only ever drawn where the character is one of those two, so this
+      // carries it by construction.
       const out = new Set<Role>(["drums"]);
-      if (A.introParts >= 2 && A.enter.indexOf("bass") <= 2) out.add("bass");
-      return out;
+      if (A.introParts >= 2 && enter.indexOf("bass") <= 2) out.add("bass");
+      out.add(star);
+      return audible(out);
     }
     case "hook": {
       // the tune from bar one, over whatever foundation the intro carries
       const out = new Set<Role>(first);
       out.add("lead");
-      return out;
+      return audible(out);
     }
     case "bed": {
       // the foundation without the tune: what the intro withholds is what
       // arrives when it ends
       const out = new Set<Role>(first);
       if (out.size > 1) out.delete("lead");
-      return out;
+      out.add(star);
+      return audible(out);
     }
   }
 }
+
+/**
+ * WHICH WAYS IN CAN INTRODUCE THIS CHARACTER.
+ *
+ * A rhythm intro is the drums, or the drums and bass, and NOTHING else,
+ * because it works "because there is little or no melody or harmony to attend
+ * to" (Burns 1987); a hook intro is the tune from bar one; a bed is the
+ * foundation with the tune withheld. So the kinds are not interchangeable
+ * once the record knows who it is about, and the genre's own pool is narrowed
+ * to those that can carry the character before the draw — a constraint on the
+ * choice, which is what every rule in this program is. `resolve.ts` refuses at
+ * load a genre whose pool cannot carry a character it weights, so this can
+ * never come out empty.
+ */
+const canIntroduce = (kind: IntroKind, star: Role): boolean =>
+  kind === "bed" ? star !== "lead" : kind === "hook" ? star === "lead" : star === "drums" || star === "bass";
 
 /**
  * WHERE THE BREAK GOES, decided with the whole form in view.
@@ -461,11 +562,51 @@ interface Move {
 
 export function makeArrangement(chart: Chart, form: Form): Arrangement {
   const A = chart.genre.arrangement;
-  const lastIn = A.enter[A.enter.length - 1]!;
-  // WHICH WAY IN, drawn once for the record. A cold open has no intro section
-  // and still has an opening: whatever plays in bar one is what the record
-  // opened with, and the rules below are about that.
-  const kind = chart.rng.at("arrange").weighted("intro", A.intro);
+  /**
+   * WHO THIS RECORD IS ABOUT, drawn once and held for the whole of it.
+   *
+   * The research is `THE-ARRANGEMENT-AS-STORY.md` §9-§13: a record has a main
+   * character, it need not be the tune, and any part may be it. What the draw
+   * does is below — two orders derived from it, and the intro that introduces
+   * it. Drawn before the way in, because the way in depends on it.
+   */
+  const star = chart.rng.at("arrange").weighted("protagonist", A.protagonist);
+  /**
+   * THE CHARACTER IS INTRODUCED FIRST, so it is first in the record's own
+   * entry order. "Characters usually aren't all introduced at once, they're
+   * gradually introduced, allowing each to breathe and establish themselves
+   * before the next enters the scene" (Johnston, "Horizontal arrangement"),
+   * and the one you meet first is the one the story is about.
+   *
+   * A DERIVATION AND NOT A SECOND LIST. The genre still states one order; this
+   * is that order with one name moved, so a genre whose character is already
+   * first — which is what every genre's `enter` was written assuming — comes
+   * out byte-identical.
+   */
+  const enter: readonly Role[] = [star, ...A.enter.filter((r) => r !== star)];
+  /**
+   * AND IT IS THE LAST THING THE RECORD GIVES UP, so it is last in the
+   * record's own shed order.
+   *
+   * The character is the fixed point: an ostinato "persistently repeats in
+   * the same musical voice", a ground bass is "repeated as the basis of a
+   * piece underneath variations" while "the upper parts proceed normally
+   * with variation" (Wikipedia, "Ostinato"). Billie Jean's bass, Be My Baby's
+   * kit and Blue Monday's sequence do not stop; what stops is everything
+   * else, and the break is where that happens.
+   *
+   * Last in `shed` is this file's own way of saying "least affordable", and
+   * the foundation guard in the shedding loop already refuses to drop that
+   * name while anything else is standing. So this needs no rule of its own:
+   * the record's foundation IS its main character.
+   */
+  const shed: readonly Role[] = [...A.shed.filter((r) => r !== star), star];
+  const lastIn = enter[enter.length - 1]!;
+  // WHICH WAY IN, drawn once for the record, from the kinds that can carry
+  // its character. A cold open has no intro section and still has an opening:
+  // whatever plays in bar one is what the record opened with, and the rules
+  // below are about that.
+  const kind = chart.rng.at("arrange").weighted("intro", A.intro.filter(([k, w]) => w > 0 && canIntroduce(k, star)));
   const breaks = A.breakdown ? breakAt(form, A.thinBelow) : -1;
 
   /**
@@ -538,16 +679,6 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
  * the number, which is how this project measures everything else — the
  * genre treatment weights are measured exactly that way.
  */
-/**
- * A PART THAT LOOPS, and so can walk in part way through a section.
- *
- * The tune and the drums are written per time ROUND, and the tune's plan
- * includes RESTS — so a lead that enters at the second span can land on rounds
- * where its line is a rest and play nothing at all, while the section still
- * says it is heard. That is a part built and never sounded. The groove is
- * written once and repeated, so it always has notes to walk in with.
- */
-const loops = (r: Role): boolean => r === "bass" || r === "keys" || r === "drone";
 
 /**
  * HOW MANY ELEMENTS MAY SOUND AT ONCE — and it is elements, not parts.
@@ -693,8 +824,8 @@ const kindOf = (mv: Move): string =>
    * carried as a WEIGHT and never as an order.
    */
   const affords = (r: Role): number => {
-    const i = A.shed.indexOf(r);
-    return i < 0 ? 1 : 1 - i / A.shed.length;
+    const i = shed.indexOf(r);
+    return i < 0 ? 1 : 1 - i / shed.length;
   };
   // how many of the entry order have arrived; the intro's parts are in from the top
   let arrived = A.introParts;
@@ -736,17 +867,24 @@ const kindOf = (mv: Move): string =>
     const floor = closing ? Math.min(A.fewest, Math.max(1, openers.size)) : A.fewest;
 
     let heard: Set<Role>;
-    if (section.index === breaks && openers.size > 0) {
+    /**
+     * WHAT A BREAK CAN CARRY: the openers, and only those of them that sound
+     * on every round — see `sounds`. Where that leaves nothing, there is no
+     * break, because a break of a part that happens to be resting is a bar of
+     * silence rather than a stripped texture.
+     */
+    const carries = new Set(enter.filter((r) => openers.has(r) && sounds(r)).slice(0, 2));
+    if (section.index === breaks && carries.size > 0) {
       // THE BREAK. The one section that goes below the floor, and it carries
       // what the record opened with — at most two parts, because a break with
       // three in it is a quiet verse. [chosen] at two; the source says
       // "stripping away", and does not count.
-      heard = new Set(A.enter.filter((r) => openers.has(r)).slice(0, 2));
+      heard = new Set(carries);
     } else if (section.fn === "intro") {
-      heard = opensWith(kind, A);
+      heard = opensWith(kind, A, enter, star);
       // a part the intro carries has arrived, whatever its place in the entry
       // order: a record that opens on its drums has introduced them
-      arrived = Math.max(arrived, ...[...heard].map((r) => A.enter.indexOf(r) + 1));
+      arrived = Math.max(arrived, ...[...heard].map((r) => enter.indexOf(r) + 1));
       /**
        * AND A LONG INTRO LETS THE NEXT PART IN, LIKE EVERY OTHER SECTION.
        *
@@ -774,7 +912,7 @@ const kindOf = (mv: Move): string =>
        * and stays as it always did.
        */
       const introTurn = 2 * Math.max(1, periodOf(chart, section.idea));
-      const next = A.enter[heard.size];
+      const next = enter[heard.size];
       // ONLY WHERE THERE IS A SECOND SPAN FOR IT TO ARRIVE AT. `heard` is the
       // union of the section's spans and the material stage builds for it, so
       // a part named here that never sounds is a part built and silent —
@@ -782,7 +920,7 @@ const kindOf = (mv: Move): string =>
       // promises never to do. A four-bar intro has one span and is left alone.
       if (next !== undefined && section.bars > introTurn && loops(next)) {
         heard = new Set([...heard, next]);
-        arrived = Math.max(arrived, A.enter.indexOf(next) + 1);
+        arrived = Math.max(arrived, enter.indexOf(next) + 1);
       }
     } else {
       // WHAT HAS ARRIVED still only grows: a part the record has not yet
@@ -881,7 +1019,7 @@ const kindOf = (mv: Move): string =>
       // quarters. Letting a part be missed is not the same as bringing it
       // back, so the close says so itself. Nothing else in the record is
       // touched by this: it is one section, and it is the last one.
-      heard = new Set(A.enter.slice(0, arrived));
+      heard = new Set(enter.slice(0, arrived));
       /**
        * A SECTION THAT SHRINKS LOSES PARTS; IT DOES NOT SWAP THEM.
        *
@@ -965,7 +1103,7 @@ const kindOf = (mv: Move): string =>
          * bug's fault. What changes is that the foundation is not a candidate
          * at all while anything else is still there.
          */
-        const foundation = A.shed[A.shed.length - 1];
+        const foundation = shed[shed.length - 1];
         for (const r of heard) {
           if (r === foundation && heard.size > 1) continue;
           // how much of the record so far this part has been in: all of it is
@@ -1008,7 +1146,7 @@ const kindOf = (mv: Move): string =>
     // is the drums cannot introduce them with the drums taken apart: it works
     // "because there is little or no melody or harmony to attend to"
     // (Burns 1987), and what is left has to be worth attending to.
-    const broken = section.index === breaks && openers.size > 0;
+    const broken = section.index === breaks && carries.size > 0;
     // THE LAST BREATH BEFORE THE CLIMAX BUILDS INTO IT. One section, the one
     // immediately before the peak — rising action is a run-up and a record has
     // one climax to run up to. Never the break, which is the record going
@@ -1269,7 +1407,7 @@ const kindOf = (mv: Move): string =>
     // and never sounded, which `all.test.ts` catches by name and which is the
     // one thing this stage promises never to do. The groove is written once
     // and repeated, so it always has notes to walk in with.
-    const gained = A.enter[arrived - 1];
+    const gained = enter[arrived - 1];
     // AND IT ARRIVES ON A TWO-TURN BOUNDARY, which is no longer the same as
     // "the second span". A part walking in is a change to who is playing, and
     // the roster only moves on the slow clock — so the entrance waits for the
@@ -1397,6 +1535,16 @@ const kindOf = (mv: Move): string =>
             // sounding". The same defect as the kit's above, for the same
             // reason and fixed in the same place: this is which states exist.
             if (hush !== null && !h.has(hush)) return;
+            // AND A TREATMENT AIMED AT A PART IS AIMED AT ONE THAT PLAYS. The
+            // same law as the two above, found by the same test
+            // (`arrange.test.ts`, "a per-part treatment says which part"): a
+            // move that takes a part out carried `cur.at` forward and left the
+            // span aiming a per-part desk move at somebody silent. Every
+            // density move passed `at: null` by default, so nothing could
+            // reach this until a move needed to keep its desk while changing
+            // the roster; that is which states exist, so it is refused here
+            // with the others rather than guarded at one call site.
+            if (at !== null && !h.has(at)) return;
             // AT A BAR POINT IN THE RUN-UP OR AT THE CLIMAX, EXPRESSION ONLY
             // GOES UP. The fast clock used to be stopped in both sections
             // because its extra points became extra subtractions — 24% of
@@ -1469,14 +1617,14 @@ const kindOf = (mv: Move): string =>
           const movable = (r: Role): boolean => r !== "drone";
           // an instrument out — stacked on where the span already is, not on the base
           if (!section.peak && cur.heard.size > floor) {
-            for (const r of A.shed) {
+            for (const r of shed) {
               if (!cur.heard.has(r) || !movable(r)) continue;
               const less = new Set(cur.heard); less.delete(r);
               push("part-out", less, cur.thin, r, affords(r));
             }
           }
           // an instrument back — only ever one span 0 already had
-          for (const r of A.enter) {
+          for (const r of enter) {
             if (cur.heard.has(r) || !base.has(r)) continue;
             const more = new Set(cur.heard); more.add(r);
             push("part-back", more, cur.thin, r);
@@ -1489,9 +1637,21 @@ const kindOf = (mv: Move): string =>
            * The break at span scale: see `Span.broken`. It is placed by the
            * rule that places the section-scale break — "breakdowns usually
            * precede or follow heightened musical climaxes" — so it is offered
-           * from the run-up onward and never at the climax itself, and a
+           * anywhere but the run-up, the climax, the opening and the close,
+           * and the score says where it lands, as it does for every other
+           * move. Narrowed to the one section before the run-up it fired in
+           * 45% of lofi records against 89% offered widely, which is half the
+           * exposure the character was built to get. A
            * record has one break at one scale: where the form gave the break
-           * a section, no span drops. Only at a two-turn boundary, because
+           * a section, no span drops.
+           *
+           * NEVER IN THE RUN-UP, and that was measured rather than assumed.
+           * Offered there, it took the last boundaries of the build and 11 of
+           * 183 dungeon synth run-ups ended quieter than they began — which
+           * `perform.test.ts` catches by name, and which is the rising action
+           * running backwards. A breakdown that builds is not a breakdown and
+           * a build that breaks down is not a build; the section before it is
+           * where "precede the climax" actually points. Only at a two-turn boundary, because
            * it moves the roster; never in the intro, which is the opening
            * and not a return to it; never at the close, which the dénouement
            * owns. At most two parts, the break's own ceiling, and fewer than
@@ -1499,20 +1659,25 @@ const kindOf = (mv: Move): string =>
            * so the walk cannot spend it twice; the freshness term alone would
            * only make a second one less likely.
            */
-          if (slowAt(s) && !section.peak && !broken && breaks < 0 && section.index >= form.peakAt - 1
+          if (slowAt(s) && !section.peak && !swell && !broken && breaks < 0
+            && (section.index < form.peakAt - 1 || section.index > form.peakAt)
             && section.fn !== "intro" && !closing && (ledger.used.get("drop") ?? 0) === 0) {
-            const kept = new Set(A.enter.filter((r) => openers.has(r) && cur.heard.has(r)).slice(0, 2));
+            const kept = new Set(enter.filter((r) => openers.has(r) && cur.heard.has(r) && sounds(r)).slice(0, 2));
             if (kept.size >= 1 && kept.size < cur.heard.size && kept.size < floor) {
-              const gone = A.shed.find((r) => cur.heard.has(r) && !kept.has(r))!;
+              const gone = shed.find((r) => cur.heard.has(r) && !kept.has(r))!;
               // a break is not thinned, and a part held back that has left is not held
-              push("drop", kept, false, gone, affords(gone), cur.treatment, cur.at, cur.hush !== null && kept.has(cur.hush) ? cur.hush : null, false);
+              // the hush and the aim are carried as every other move carries
+              // them, and the guards in `push` refuse the drop outright where
+              // the part held back or aimed at is one it would remove: a move
+              // that has to clear two other things to be legal is two moves
+              push("drop", kept, false, gone, affords(gone), cur.treatment, cur.at, cur.hush, false);
             }
           }
           // strip to the fewest the genre carries, keeping the tail of the shed order
           if (!section.peak && cur.heard.size > floor) {
             const stripped = new Set(cur.heard);
-            for (const r of A.shed) { if (stripped.size <= floor) break; if (movable(r)) stripped.delete(r); }
-            push("strip", stripped, cur.thin, A.shed.find(movable) ?? A.shed[0]!, affords(A.shed.find(movable) ?? A.shed[0]!));
+            for (const r of shed) { if (stripped.size <= floor) break; if (movable(r)) stripped.delete(r); }
+            push("strip", stripped, cur.thin, shed.find(movable) ?? shed[0]!, affords(shed.find(movable) ?? shed[0]!));
           }
           // expression down, and back up — never above the floor the form set
           // AND NEITHER IS OFFERED WHERE THERE IS NO KIT TO HOLD BACK, nor in
@@ -1934,6 +2099,9 @@ const kindOf = (mv: Move): string =>
 
   return Object.freeze({
     placed: Object.freeze(placed),
+    protagonist: star,
+    enter: Object.freeze([...enter]),
+    shed: Object.freeze([...shed]),
     release: Object.freeze(ledger.release.map((r) => Object.freeze(r))),
     stuck: ledger.stuck,
   });

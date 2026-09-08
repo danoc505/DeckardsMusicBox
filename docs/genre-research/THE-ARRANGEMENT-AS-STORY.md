@@ -220,3 +220,203 @@ open with a number behind the question.
 - *Making Music: Creative Strategies for Electronic Music Producers* (Ableton), "Dramatic Arc". https://makingmusic.ableton.com/dramatic-arc
 - Derek Johnson & Debbie Poyser, "Arranging Pop", *Sound On Sound*, April 2000. https://www.soundonsound.com/techniques/arranging-pop
 - "Anatomy of an arrangement: your guide to song sections", *MusicRadar*, 16 March 2022. https://www.musicradar.com/how-to/song-sections-explained-intro-verse-chorus-middle8-outro-tag-bridge
+
+---
+
+# The protagonist
+
+*Added after the arrangement diagnosis of lofi seed 42 (September 2026). §1–§8
+above establish that a part is a character and that a story is a change of
+rank. They do not say what the story is ABOUT. This does.*
+
+## 9. A record has a main character, and it need not be the tune
+
+The owner's question was "why can't the song be bass heavy, or drums, or an
+arp?" The sources' answer is that it can, that this is what most records
+actually do, and that the choice is the first thing an arrangement decides.
+
+The hook — the thing a record is identified by — is defined without reference
+to any instrument. It is "a musical or lyrical phrase that stands out and is
+easily remembered", and it "often incorporates the main motif for a piece of
+music" (Wikipedia, "Hook (music)"). Burns's typology of hooks in popular
+records has a whole class of RHYTHM hooks, and his purest cases carry no
+melody at all. A riff is "the main hook of a song" that "often begins the
+song, and is repeated throughout it, GIVING THE SONG ITS DISTINCTIVE VOICE"
+(BBC Radio 2, quoted at Wikipedia, "Riff"), and Rooksby's riff is "often
+pitched low on the guitar".
+
+The records bear it out. Billie Jean and Seven Nation Army are bass records.
+Be My Baby and When the Levee Breaks are drum records. Blue Monday and Sweet
+Dreams are sequencer records where the vocal arrives after two minutes. The
+lead vocal is one option among several, not the definition of a lead.
+
+**So the protagonist is a JOB a record gives to one part, and any part may
+have it.** That is already the unit this program thinks in: `PARTS-ELEMENTS-
+AND-STREAMS.md` separates a seat from the element it serves, and the
+behaviours below follow the ELEMENT rather than the instrument. A bass and a
+drum kit behave the same way as protagonists because both serve the
+foundation; an arp behaves as a rhythm element whichever seat plays it.
+
+## 10. Two laws that hold whichever part it is
+
+**THE PROTAGONIST IS THE FIXED POINT AND EVERYTHING ELSE IS WHAT VARIES.**
+An ostinato is "a motif or phrase that persistently repeats in the same
+musical voice, frequently in the same pitch", and a ground bass is "repeated
+as the basis of a piece underneath variations", where "the upper parts proceed
+normally with variation" (Wikipedia, "Ostinato"). Billie Jean's line is "a
+steady eighth-note pattern" whose "rolling pattern helps the riff repeat
+seamlessly" (American Songwriter). The character is what an ear holds on to;
+the story happens around it.
+
+**THE OTHERS YIELD, AND THE YIELD IS ONE-DIRECTIONAL.** Owsinski's second
+arrangement rule is that "the arrangement will fit together better if every
+instrument sits in its own frequency range", and where two clash the fix is to
+"change octaves, or have them play at different times"
+(bobbyowsinskiblog.com/2019/05/01/arrangement-rules). Around a lead the same
+rule points one way: "none of them should be in the same space as the lead",
+instruments "should play less busy parts when the vocal is singing", and
+active passages are reserved "for moments when the singer isn't performing"
+(izotope.com, "How to write better song arrangements around vocals"). Call and
+response is the same law in time — "a single musical figure followed by a
+complementary answering one which takes over from it, rather than the two
+happening at once" (mastering.com, "Arrangement is mixing").
+
+Two corollaries the sources state directly:
+
+- **Characters arrive one at a time.** "There should never be too many new
+  elements introduced at the same time" (Max Martin, quoted at Abbey Road
+  Institute), and the film analogy that goes with it — you cannot present ten
+  characters in the first scene. "Characters usually aren't all introduced at
+  once, they're gradually introduced, allowing each to breathe and establish
+  themselves before the next enters the scene" (Johnston, "Horizontal
+  arrangement"). EDMProd names the failure: "drop-off", where "all elements
+  enter simultaneously, leaving nothing for later introduction".
+- **A familiar part steps back for a new one.** Once listeners know an
+  element, "a sound that has played a prominent role early in the song could
+  be slightly turned down to bring a newly introduced element into sharper
+  focus" (Johnston).
+
+## 11. The character sheets
+
+What differs per protagonist is not whether these laws apply but HOW the
+character itself behaves and where it is exposed. Four sheets, by element.
+
+### Foundation — the bass or the kit
+
+The figure is one ostinato and it does not develop; what changes is written
+INTO it as a single small move. Be My Baby's snare strikes "on the fourth beat
+of each bar until the chorus", then becomes "a pronounced backbeat" on the
+second (Wikipedia, "Be My Baby") — the section change IS that one displaced
+snare. Around it the arrangement is economical: Billie Jean is bass, a 2/4
+backbeat and one keyboard, with instruments "introduced at the beginning of
+new sections"; Seven Nation Army is "distorted vocals, a minimal drumbeat, and
+a bass line", and its chorus adds weight over the riff rather than replacing
+it (American Songwriter; Wikipedia, "Seven Nation Army").
+
+Its exposure is the documented one this program already has a name for: the
+break, "where all the elements of a song except for percussion disappear",
+placed "two-thirds to three-quarters through a song", when "the song takes a
+breather, drops down to some exciting percussion, and then comes storming back
+again" (Wikipedia, "Break (music)").
+
+### Rhythm — an arp or a sequence
+
+It runs and does not stop. Blue Monday's sequencer carries "two main riffs" —
+a "galloping melody line in the intro, breakdown and outro" against a "disco
+octave" in the verses — and swapping between them is how the sequence marks a
+section. Everything else is layers over it, entering one at a time across
+minutes, and the vocal arrives last and is answered by the bass "replying with
+a complementary melody after each vocal line" at a lower level; the end brings
+"each melody introduced throughout" together (abhigginson.wordpress.com, "New
+Order – Blue Monday: a case study").
+
+Its exposure is the breakdown stripped to the sequence.
+
+### Pad — a chord loop or a drone
+
+The loop or the tone holds and development is TIMBRE. Drone practice is
+explicit: a stable fundamental anchors the piece and change comes through
+"filter sweeps, slow LFO on amplitude or timbre", with layers added slowly and
+"thin textures before introducing new partials", transitions "measured in
+minutes" (melodigging.com, "Drone ambient"). Dungeon synth's own guide already
+says the same thing in one sentence — "deepen the shadows of the sound through
+changes in reverb and filters" — which is why that genre's treatment weights
+are the one place this program already honours a character sheet.
+
+Its exposure is the opening and the ending: it alone, which is exactly what
+note.com asks of a dungeon synth ending.
+
+### Lead — the tune
+
+The one protagonist that DEVELOPS rather than holds: stated, varied, returned.
+Around it the others sustain while it plays and speak in its rests, which is
+what `material/counter.ts` already builds, and fills are "an answer to the
+Lead" (Owsinski). Its exposure is the break that drops everything else — "all
+characters except the lead vocal leave the stage" (Johnston).
+
+## 12. What this program does against the sheets, measured
+
+Over 200 records a genre, before any of this was built:
+
+| | lofi | dungeon synth |
+|---|---|---|
+| intros carrying the tune | 10% | 14% |
+| intros carrying the keys | 78% | 50% |
+| the tune first heard at, median | 22% of the record | 25% |
+| keys notes at or below the bass's top | 16% | 1% |
+| the opening heard alone again anywhere | 53% | 53% |
+
+And read against the sheets:
+
+- **No part is named.** The intro kind is drawn per record and the opening is
+  the front of `enter`, so seed 42 opened on bass and drums because the entry
+  order put them there, not because the record was about them. Nothing after
+  bar 8 knew it had made a promise.
+- **The character changes between scenes.** A seat's element and texture are
+  drawn PER MATERIAL, so the counter that arpeggiates idea A may play a line
+  in idea B. An ostinato that is only an ostinato inside one section is not
+  one. §10's first law cannot hold until the draw is per record.
+- **Nothing yields.** The only register rule is that two parts may not hold
+  the same pitch at the same instant, so lofi's keys sit across the whole bass
+  band 16% of the time. Owsinski's second rule is unrepresented.
+- **Exposure reads the entry order, not the character.** The break carries
+  "the first two parts of `enter`", which is the same set in every record.
+- **Foundation development is half there.** The drum figure is fixed per
+  material and the phrase letters vary bars, but no section-scale displaced
+  snare exists.
+
+## 13. What goes into the program
+
+| | rule | source |
+|---|---|---|
+| 1 | A record draws a PROTAGONIST once, from weights the genre states over its seats, and holds it for the whole record | Burns; BBC/Rooksby on the riff; Wikipedia, "Hook" |
+| 2 | The protagonist's element and texture are drawn once per RECORD, not per material: the character is the same character in every scene | Wikipedia, "Ostinato" |
+| 3 | The intro introduces the protagonist, and the intro kind follows from which element it serves rather than being drawn beside it | Ewer's intro hook; Burns |
+| 4 | The break and the drop carry the protagonist, not the front of the entry order | Wikipedia, "Break (music)"; Johnston |
+| 5 | Other parts yield the protagonist's register, as a COST and never a filter — the voicing chooser already prices mud and rubs this way | Owsinski, rule 2; izotope |
+| 6 | Other parts yield activity while the protagonist speaks, and answer in its rests | izotope; mastering.com; Owsinski's fills |
+| 7 | A section that gains parts gains them one per two-turn boundary, never all at the door | Max Martin; Johnston; EDMProd's "drop-off" |
+| 8 | The ending decides the archetype: the protagonist restored is romance, the protagonist displaced is comedy. A genre may say which it tells | Almén 2008 |
+
+Rules 1 and 2 are the field itself. Rules 3, 4 and 7 are conditions on rules
+this stage already has. Rule 5 is one more term in `keys.ts`'s cost table.
+Rule 6 is `counter.ts` generalised. Rule 8 is the one nothing published ranks,
+and it is the owner's to weight.
+
+**None of it is a new mechanism.** Six places stop reading `enter` and start
+reading one drawn field.
+
+## Sources added for this section
+
+- Wikipedia, "Hook (music)"; "Riff"; "Ostinato"; "Break (music)"; "Be My Baby"; "Seven Nation Army".
+- Gary Burns, "A typology of 'hooks' in popular records", *Popular Music* 6/1 (1987) — already cited above for the rhythm intro.
+- Bobby Owsinski, "The 2 arrangement rules that every producer and mixer should know". https://bobbyowsinskiblog.com/2019/05/01/arrangement-rules/
+- iZotope, "How to write better song arrangements around vocals". https://www.izotope.com/en/learn/how-to-write-better-song-arrangements-around-vocals
+- Mastering.com, "Arrangement is mixing: build space into your songs". https://mastering.com/arrangement-is-mixing-build-space-into-your-songs/
+- Dave Johnston, "Horizontal arrangement: introducing the characters in your music". https://musicfactory.davejohnston.nz/p/horizontal-arrangement-introducing
+- Max Martin's arrangement rule, quoted at Abbey Road Institute, "Max Martin — the personification of a hit machine". https://abbeyroadinstitute.nl/blog/max-martin-personification-hit-machine/
+- EDMProd, "The advanced guide to tension and energy in electronic music". https://www.edmprod.com/tension/
+- American Songwriter, "Under the hood — Billie Jean". https://americansongwriter.com/songwriter-u-under-the-hood-billie-jean/
+- A. Higginson, "New Order – Blue Monday: a case study". https://abhigginson.wordpress.com/2017/08/21/new-order-blue-monday-a-case-study/
+- Melodigging, "Drone ambient". https://www.melodigging.com/genre/drone-ambient
+- Ableton, *Making Music*, "Dramatic Arc" — already cited above for the arc.
