@@ -34,11 +34,14 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite has been run on this tree, file by file: 307 tests, 304 pass,
-three fail, and all three fail identically on the commit before.** It is still
-too slow to run in one go — see item 1 — so it was run as
+**The suite has been run on this tree, file by file: 310 tests, 307 pass,
+three fail, and all three fail identically on the commit before this work
+began.** It was 307 tests before; the three added are laws this session could
+state for the first time — a board is one part's own, no board is wired to
+nothing, and a pedal keeps its own clock while the knob beside it moves. It is
+still too slow to run in one go — see item 1 — so it was run as
 `node --test src/<one>.test.ts` per file and the three failures were then
-re-run in a worktree of the previous commit to prove they were not this
+re-run in a worktree of the earlier commit to prove they were not this
 session's. THERE ARE THREE STANDING FAILURES AND THIS FILE USED TO LIST TWO;
 the third was found by that check, not by the change that prompted it:
 
@@ -160,7 +163,10 @@ change drifts instead of stepping. Records come out byte-identical EXCEPT
 where a board treatment actually lands: lofi 42 and both dungeon synth seeds
 are identical, and lofi 2 differs by −42.9 dB because it fires `waver`, the
 one treatment that touches a board. `rack.test.ts` holds the law and bites —
-reverted to the old rebuild it fails with 0.0161 against 0.0894.
+reverted to the old rebuild it fails with 0.0161 against 0.0894. `treat.test.ts`
+is the one that matters most here and passes 13/13: it renders every treatment
+of every genre, `waver` and `stomp` among them, which are the two that touch a
+board and the two this change alters.
 
 **And no genre states a pedal cycle, because both were measured and neither
 earned it.** This is the knob that was built, measured and deleted, and the
