@@ -29,10 +29,16 @@ than one that is merely out of date, and the next assistant should see how
 this one got it wrong.
 
 **What is true, and is all that was ever true:** a measurement proves a thing
-EXISTS and never that it sounds good. This project's own precedent is the sax,
-which had every metric green and the ear refused it. So the numbers below are
-evidence that a mechanism works, and the record being any good is a separate
-question that this file cannot answer and should not pretend to.
+EXISTS and never that it sounds good. So the numbers below are evidence that a
+mechanism works, and the record being any good is a separate question that this
+file cannot answer and should not pretend to.
+
+*(This paragraph used to cite "the sax, which had every metric green and the
+ear refused it" as the project's own precedent. There is no sax in this
+program — MK2 had one — and nobody has confirmed that episode happened. It was
+an unsourced story repeated as established fact, by the same assistant and in
+the same breath as the correction above. A precedent that cannot be checked is
+not one; the sentence stands on its own without it.)*
 
 Three things here are unfalsifiable from a spreadsheet, and are worth an ear
 being pointed AT them rather than a claim that no ear exists:
