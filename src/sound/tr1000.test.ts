@@ -13,6 +13,37 @@ const drums = (desk: MachineSpec): Float32Array =>
   mono(render(song, { sampleRate: SR, only: "drums", desk: { machine: desk } }));
 
 const machine = (over: MachineSpec) => settle(GENRES.lofi.sound, { machine: over }).machine;
+
+/**
+ * TWO BUFFERS COMPARED AS SAMPLES, NOT AS A MILLION-ELEMENT ARRAY. This file
+ * used to spread each render into a plain array and hand two of them to
+ * `assert.deepEqual`. On a difference the assertion builds a diff of the whole
+ * array, and on a 1.1M-sample buffer that is what ate the container's memory
+ * and had this file killed with SIGKILL on every run — the one test that was
+ * actually failing could not even report what it found. The first differing
+ * sample is the whole report.
+ */
+const firstDiff = (a: Float32Array, b: Float32Array): string | null => {
+  if (a.length !== b.length) return `lengths ${a.length} and ${b.length}`;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return `sample ${i}: ${a[i]} against ${b[i]}`;
+  return null;
+};
+const same = (a: Float32Array, b: Float32Array, why: string): void => assert.equal(firstDiff(a, b), null, why);
+const differ = (a: Float32Array, b: Float32Array, why: string): void => assert.notEqual(firstDiff(a, b), null, why);
+
+/**
+ * THE RECORD WITH ITS OWN DESK MOVES TAKEN OUT. A render-time desk override is
+ * HELD over the whole record — that is what lets `treat.test.ts` measure a
+ * refused treatment at all — so a strip stated explicitly at its defaults is
+ * not the same record as one stated not at all: the record's own `slacken` at
+ * bar 38 moves the kick's tune, and a held override on that strip stops it.
+ * The law this file's first test states is about the MACHINE — a knob at rest
+ * is not a knob — and it has to be asked with the timeline emptied, or it is
+ * asking whether an override holds, which it does.
+ */
+const flat = { ...song, performance: { ...song.performance, desk: [] } };
+const flatDrums = (desk: MachineSpec): Float32Array =>
+  mono(render(flat, { sampleRate: SR, only: "drums", desk: { machine: desk } }));
 const note = (gain = 1) => ({ midi: 0, heldSec: 0.1, gain, seed: 12345, sampleRate: 44100 });
 
 /** How much of a buffer's energy sits in one band. */
@@ -36,9 +67,9 @@ test("a machine at its defaults is a wire, and the record is the one this progra
   assert.ok(inert(M, DRUM_LANES), "a strip at its defaults is doing something");
   // the same record twice, and the strips declared explicitly at their own
   // defaults are the same record again: a knob at rest is not a knob
-  const plain = drums({});
-  const stated = drums({ channels: { kick: { tune: 0, decay: 1, level: 1, cut: 20000 } } });
-  assert.deepEqual([...stated], [...plain]);
+  const plain = flatDrums({});
+  const stated = flatDrums({ channels: { kick: { tune: 0, decay: 1, level: 1, cut: 20000 } } });
+  same(stated, plain, "a strip declared at its own defaults changed the record");
 });
 
 test("the kits are lane-to-voice maps, and every lane of every kit names a voice", () => {
@@ -56,7 +87,7 @@ test("the kits are lane-to-voice maps, and every lane of every kit names a voice
 test("the analog kit is a different kit, and it is a kit and not a fault", () => {
   const acoustic = drums({});
   const analog = drums({ kit: "analog" });
-  assert.notDeepEqual([...analog], [...acoustic]);
+  differ(analog, acoustic, "the analog kit rendered the acoustic record");
   for (const v of analog) assert.ok(Number.isFinite(v));
   assert.ok(peak(analog) < 1, `the analog kit peaks at ${peak(analog).toFixed(3)}`);
   // and it is within a few decibels of the kit it replaced: a kit switch
@@ -128,7 +159,7 @@ test("a strip's filter and fader reach that lane and no other", () => {
   const noKick = drums({ channels: { kick: { level: 0 } } });
   assert.ok(rms(noKick) < rms(all) * 0.8, "muting the kick's fader changed nothing");
   const dark = drums({ channels: { snare: { cut: 700 } } });
-  assert.notDeepEqual([...dark], [...all]);
+  differ(dark, all, "the kit's own filter reached nothing");
   assert.ok(band(dark, 4000, 1, SR) < band(all, 4000, 1, SR), "the snare's own filter did not darken it");
 });
 
@@ -157,7 +188,7 @@ test("a hit is what the machine's knobs make it, and moving one does not leave t
   // new machine's, which is what clearing the kit's cache is for
   const before = drums({ kit: "analog" });
   const after = drums({ kit: "analog", tune: 65 });
-  assert.notDeepEqual([...before], [...after]);
+  differ(before, after, "retuning the machine changed nothing");
   const again = drums({ kit: "analog" });
-  assert.deepEqual([...again], [...before], "the same machine rendered two different records");
+  same(again, before, "the same machine rendered two different records");
 });

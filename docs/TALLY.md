@@ -139,6 +139,9 @@ answer to that is the largest thing in this section.*
 | **A boxed-in tune re-enters** (`lead.ts`) | Found by the sweep: one plain tune in 513 under the floor at every mask value, a different seed each time. Seed 94: five notes, then three bars of nothing under a keys block, with free register above | **0/513, 0/356**. A phrase that has stopped has ended; its next note is a new entry |
 | **`bass.turnaround`: the second turn adds one** (`bass.ts`, lofi states 1) | "Double and add one" (Future Music, via the diagnosis); a turnaround "leads to the next section" (Wikipedia). Pass four of the loop was pass one, note for note | lofi's second turn differs from the first **0% → 95%** of 375 materials; distinct bass bars 2.00 → 2.95. Dungeon synth byte-identical at its default 0 |
 
+| **`tr1000.test.ts` runs** (the test, not the machine) | Spread 1.1M samples into a plain array for `deepEqual`, whose failure diff ate the container; underneath, a held render-time override on the kick strip was stopping the record's own `slacken` at bar 38, so "defaults are a wire" was being asked of the override rather than of the machine | Killed at 110 s on both trees → **11/11 in 8 s**, asked with the timeline emptied |
+| ~~The second statement in a row opens with one part withheld~~ — BUILT, MEASURED, DELETED | "Subtract, don't add" from the diagnosis | Openings identical to the section before: 11% → 9% (lofi), 33% → 38% (dungeon synth). Noise. Fully identical consecutive sections were already 0/75 and 2/76 |
+
 **What it cost.** `material/index.test.ts`'s returning-figure count went 69 → 60
 against a threshold of 90 — a standing failure made deeper, because the form
 law changed which sections repeat an idea. Recorded rather than chased.

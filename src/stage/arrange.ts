@@ -1471,6 +1471,23 @@ const kindOf = (mv: Move): string =>
       ? (gained !== undefined && heard.has(gained) ? [gained] : [])
       : enter.filter((r) => heard.has(r) && arrivedFrom !== null && !arrivedFrom.has(r));
     let queue = fresh.filter(loops);
+    /**
+     * A SUBTRACTIVE SECOND STATEMENT WAS TRIED HERE AND DELETED FOR DOING
+     * NOTHING. The arrangement diagnosis of lofi seed 42 found two choruses
+     * running with "the same element stack and the same note content" and
+     * asked that the second "subtract, don't add"; so the second statement of
+     * a function in a row was made to open without its most affordable looping
+     * part and have the queue give it back. Measured over 200 records a genre
+     * it moved the share of consecutive same-function sections opening
+     * identically from 11% to 9% in lofi and 33% to 38% in dungeon synth —
+     * noise, both ways — because the second chorus is nearly always the PEAK,
+     * which has everyone, and the queue already opens most other sections
+     * short. What the diagnosis actually saw is measured as gone without it:
+     * consecutive same-function sections identical in EVERY span are 0 of 75
+     * in lofi and 2 of 76 in dungeon synth, because the fast clock now runs
+     * through both choruses and the break can be a span. The note stays so
+     * nobody spends the afternoon again.
+     */
     if (section.peak || broken || slowPoints.length === 0) queue = [];
     const keep = section.fn === "intro" ? Math.max(1, A.introParts) : 2;
     while (queue.length > 0 && heard.size - queue.length < keep) queue.shift();

@@ -61,12 +61,15 @@ found by an end-to-end run, not by the change that prompted it:
 - `material/index.test.ts` "a returning idea plays its statement's own figure"
   — **60** variants against a threshold of 90, from 69 before this work.
   Deliberate, and worse for a stated reason: see "what was just done".
-- `sound/tr1000.test.ts` is **KILLED, not failed** — `SIGKILL` after about
-  110 seconds, on this tree and byte-identically on the commit before this
-  work, run alone or beside the others. It is the container's memory rather
-  than the program, and nobody has diagnosed it; it means the drum machine is
-  currently unasserted. Whoever picks up item 1 should start here, because a
-  test that cannot run is worse than a slow one.
+- ~~`sound/tr1000.test.ts` is KILLED~~ **FIXED, and it was the test.** It
+  spread a 1.1M-sample buffer into a plain array and handed two of them to
+  `assert.deepEqual`, which on a difference builds a diff of the whole array —
+  that was the SIGKILL, on both trees. Underneath, one assertion really was
+  failing: a strip declared at its own defaults was NOT the same record as one
+  not declared, because a render-time desk override is HELD over the whole
+  record and a held kick strip stops the record's own `slacken` at bar 38.
+  The law is about the machine, so it is now asked with the timeline emptied,
+  the way `treat.test.ts` already does. 11/11 in eight seconds.
 - `material/index.test.ts` "keys voice every tone of the chord, in register,
   led smoothly" — **not deliberate, undiagnosed, and older than this
   session.** It is not in any earlier tally, so it landed with the elements
@@ -818,8 +821,19 @@ giving the keys or the bass a rig; `LOFI-LINEAGE.md` is the place to look for
 whether its ancestry asks for one, and it has four unapplied findings already.
 Do not add a board to make `push` look better — that is tuning a measurement.
 
-**15. THE SEVEN ARRANGEMENT-DIAGNOSIS FAULTS, WHERE THEY STAND.** Six are
-fixed and measured; one was found to be rare and left. The intro's
+**15. THE SEVEN ARRANGEMENT-DIAGNOSIS FAULTS, WHERE THEY STAND.** Five are
+fixed and measured; one is half done; one was found to be rare and left.
+**Two identical choruses** is measured as gone — consecutive same-function
+sections identical in every span are 0 of 75 in lofi and 2 of 76 in dungeon
+synth — by the fast clock and the span break, not by a rule of its own: the
+"subtract, don't add" opening the diagnosis asked for was built, measured at
+noise (11% → 9% and 33% → 38% of openings identical), and deleted with its
+note in `arrange.ts` beside the arrival queue. **The loop that never
+escalates** is half done: the bass turnaround is one level of "double and add
+one", and the second level the diagnosis describes — the kit opening up by the
+intro's bar five — is not built, because a rhythm intro's kit is not thinned
+(Burns) and so has nothing to open up from; if it is wanted, it is a change to
+that rule first. The intro's
 escalation is the bass turnaround (`bass.turnaround`, one level of "double
 and add one"); the next level, an event every four turns, is a section's
 business and would live in `drums.ts`'s phrase letters. The keys are priced
