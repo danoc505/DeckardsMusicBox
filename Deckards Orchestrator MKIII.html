@@ -1226,9 +1226,11 @@
      that only reflect — walls, pavement, road — sit dim and go first. That
      split is what makes a text-mode street read as night rather than as grey. */
   var PAL = ["#57f2a5", "#ffb347", "#8fd3ff", "#e7dcc3", COLOR.drums, COLOR.bass, COLOR.keys, COLOR.lead, COLOR.counter, COLOR.drone,
-             "#3f4f66", "#ffd27a", "#9cc8ff", "#22334d", "#5c6672", "#ff4fd8", "#45f0ff", "#ff9a3c"];
+             "#3f4f66", "#ffd27a", "#9cc8ff", "#22334d", "#5c6672", "#ff4fd8", "#45f0ff", "#ff9a3c",
+             "#a9b4c0", "#8a5a3a", "#ffd400", "#fff2c8", "#ff2a2a", "#3b6dff"];
   var PIDX = { drums: 4, bass: 5, keys: 6, lead: 7, counter: 8, drone: 9 };
   var WALL = 10, WWARM = 11, WCOOL = 12, DEEP = 13, PAVEC = 14, NEONM = 15, NEONC = 16, SODIUM = 17;
+  var CHROME = 18, RUST = 19, TAXI = 20, HEAD = 21, TAIL = 22, BLUE = 23;   // the vehicles' own: two surfaces, four lights
   /* A WALL'S MEASURE: floors half a unit tall from a sill, panes half a unit
      wide, eight floors of pitch. The front row of the city is always at least
      four floors, because its windows are where the notes go. */
@@ -1342,8 +1344,10 @@
   var route = null, curSeg = { s0: 0, a0: 0, axis: 1, sign: 1 }, hitFront = null, zcol = null, wet = null, topMark = null;
   /** Where the camera is looking: the record's own tilt, and a hand's, easing back. */
   var autoPitch = 0, lookPitch = 0, lookYaw = 0, lookDrag = null;
+  /** The rider's machine: its lean, and the heading and moment it was last drawn at. */
+  var bikeLean = 0, bikeHead = null, bikeT = 0, bikeCache = null, bikeCacheKey = "";
   /** Whether a palette entry emits light — glows in the atlas, shows in a puddle. */
-  var isSrc = function (pal) { return pal < 3 || (pal >= 4 && pal <= 9) || pal >= 11; };
+  var isSrc = function (pal) { return pal < 3 || (pal >= 4 && pal <= 9) || (pal >= 11 && pal !== CHROME && pal !== RUST); };
   var ckey = function (mx, my) { return (mx + OFF) * 16384 + (my + OFF); };
 
   /* ═══ MIDTOWN ═══════════════════════════════════════════════════════════
@@ -1496,6 +1500,102 @@
     return { x: x, y: y, a: a, i: i, s: si, d: d };
   }
 
+  /* ═══ THE VEHICLES, DONUT-STYLE ═════════════════════════════════════════
+     donut.c's idea, which is the right one for a solid thing in a text-mode
+     world: walk the SURFACE of a shape, take the normal at every sample,
+     light it with a dot product, pick the glyph by how lit it is, and keep a
+     z-buffer. Nothing here is a billboard: a cowling reads as curved because
+     the glyphs change across it as its normal turns from the light. And it
+     composes with the raycaster for free, because the samples are depth-
+     tested against the same cells the walls were drawn into — a car goes
+     behind a tower and comes out in front of the next one with no new rule.
+
+     Three surfaces — ellipsoid, cylinder, plate — in a local frame of
+     forward, right and up with a roll, are enough to build the schematic's
+     swoop and the traffic from. Two lights: a key from above and behind the
+     rider, and the rider's own lamp, which is whatever faces the camera.
+     Emissive samples are lights: headlights, tail-lights, the thrusters. */
+  var SHADE = ".,-~:;=!*#$@";
+  var V = { fc: 1, fyc: 1 };   // the camera frame this frame, set by castCity
+  /** When set, `shade` records its samples here (column, row off the horizon, glyph, palette, level, depth) instead of drawing them. */
+  var capture = null;
+  function shade(wx, wy, wz, nx, ny, nz, pal, glow) {
+    var rx = wx - V.px, ry = wy - V.py, ty = rx * V.dx + ry * V.dy; if (ty < 0.12) return;
+    var tx = rx * V.rx + ry * V.ry, col = Math.round(V.cx + tx / ty * V.fc), rowOff = -(wz - V.eye) / ty * V.fyc, row = Math.round(V.hz + rowOff);
+    if (col < 0 || col >= COLS || (!capture && (row < 0 || row >= ROWS))) return;
+    var i = row * COLS + col; if (!capture && ty >= gZ[i]) return;   // strictly: a surface behind a wall is behind it
+    // the view vector, normalised near enough: a sum of magnitudes stands in
+    // for the root, which is a few percent out and a great deal cheaper
+    var dz = wz - V.eye, vl = 1 / (Math.abs(rx) + Math.abs(ry) + Math.abs(dz) || 1);
+    var facing = -(nx * rx + ny * ry + nz * dz) * vl; if (facing <= 0) return;   // the back of a thing is not seen
+    // a material is how much of the light it gives back: chrome is dark with
+    // a hard highlight, paint is even
+    var key = Math.max(0, nx * V.kx + ny * V.ky + nz * V.kz), chrome = pal === CHROME, k2 = key * key, k6 = k2 * k2 * k2;
+    var L = glow ? 1 : Math.min(1, chrome ? 0.06 + 0.35 * key + 0.15 * facing + 0.6 * k6 : 0.1 + 0.7 * key + 0.3 * facing);
+    var f = glow ? 1 : V.fog(ty), code = glow ? 64 : SHADE.charCodeAt(Math.min(11, Math.floor(L * 11.99))), lvl = (glow ? 1 : 0.15 + 0.85 * L) * f;
+    if (capture) { capture.push(col, rowOff, code, pal, lvl, ty); return; }
+    gCh[i] = code; gPal[i] = pal; gLvl[i] = lvl; gZ[i] = ty;
+  }
+  /** A local frame: origin, forward (unit, in the plan), roll about forward. Returns an emitter of (a forward, b right, c up) with a normal. */
+  function frameAt(ox, oy, oz, fx, fy, roll) {
+    var rx = fy, ry = -fx, cr = Math.cos(roll), sr = Math.sin(roll);
+    return function (a, b, c, na, nb, nc, pal, glow) {
+      var b2 = b * cr - c * sr, c2 = b * sr + c * cr, nb2 = nb * cr - nc * sr, nc2 = nb * sr + nc * cr;
+      shade(ox + fx * a + rx * b2, oy + fy * a + ry * b2, oz + c2, fx * na + rx * nb2, fy * na + ry * nb2, nc2, pal, glow);
+    };
+  }
+  /** How finely to walk a thing of this size at this distance: enough samples that the cells it covers are all hit. */
+  var sampleCap = 56;   // the finest anything is walked; the traffic is walked coarser than the rider's own machine
+  var stepsFor = function (size, ty, lo, hi) { return Math.max(lo, Math.min(hi, sampleCap, Math.round(size * V.fc / Math.max(0.3, ty) * 1.6))); };
+  function ellipsoid(em, ty, a0, b0, c0, ra, rb, rc, pal, glow) {
+    var n = stepsFor(Math.max(ra, rb, rc) * 2, ty, 5, 56), m = n * 2;
+    for (var i = 0; i < n; i++) {
+      var th = -Math.PI / 2 + Math.PI * (i + 0.5) / n, ct = Math.cos(th), st = Math.sin(th);
+      for (var j = 0; j < m; j++) {
+        var ph = 2 * Math.PI * j / m, cp = Math.cos(ph), sp = Math.sin(ph);
+        var na = ct * cp / ra, nb = ct * sp / rb, nc = st / rc, nl = Math.sqrt(na * na + nb * nb + nc * nc);
+        em(a0 + ra * ct * cp, b0 + rb * ct * sp, c0 + rc * st, na / nl, nb / nl, nc / nl, pal, glow);
+      }
+    }
+  }
+  /** A cylinder along forward from a0 to a1, with a lit disc on the far end when `cap` is a palette index. */
+  function cylinder(em, ty, a0, a1, b0, c0, rad, pal, cap, capGlow) {
+    var n = stepsFor(Math.abs(a1 - a0), ty, 2, 40), m = stepsFor(rad * 2, ty, 5, 36), dir = a1 > a0 ? 1 : -1;
+    for (var i = 0; i <= n; i++) {
+      var a = a0 + (a1 - a0) * i / n;
+      for (var j = 0; j < m; j++) { var ph = 2 * Math.PI * j / m, cp = Math.cos(ph), sp = Math.sin(ph); em(a, b0 + rad * cp, c0 + rad * sp, 0, cp, sp, pal, false); }
+    }
+    if (cap !== undefined) for (var k = 0; k < m; k++) for (var q = 0; q <= 2; q++) { var ph2 = 2 * Math.PI * k / m, rr = rad * q / 2; em(a1, b0 + rr * Math.cos(ph2), c0 + rr * Math.sin(ph2), dir, 0, 0, cap, capGlow); }
+  }
+  /** A plate: a thin box, sampled on its six faces. */
+  function plate(em, ty, a0, b0, c0, ha, hb, hc, pal) {
+    var faces = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]], n = stepsFor(Math.max(ha, hb, hc) * 2, ty, 2, 16);
+    for (var f = 0; f < 6; f++) {
+      var nn = faces[f];
+      for (var i = 0; i <= n; i++) for (var j = 0; j <= n; j++) {
+        var u = -1 + 2 * i / n, v = -1 + 2 * j / n;
+        var a = nn[0] ? nn[0] * ha : u * ha, b = nn[1] ? nn[1] * hb : (nn[0] ? u * hb : v * hb), c = nn[2] ? nn[2] * hc : v * hc;
+        if (nn[1]) c = v * hc;
+        em(a0 + a, b0 + b, c0 + c, nn[0], nn[1], nn[2], pal, false);
+      }
+    }
+  }
+
+  /** A hovercar, a taxi or a police spinner, at a place, facing a way, hovering at a height. */
+  function drawCar(ox, oy, oz, fx, fy, kind, ty, t, lit) {
+    var em = frameAt(ox, oy, oz, fx, fy, 0), body = kind === 1 ? TAXI : kind === 2 ? CHROME : (lit & 1) ? RUST : WALL, near = ty < 18;
+    sampleCap = 24;
+    ellipsoid(em, ty, 0, 0, 0.45, 1.0, 0.42, 0.2, body, false);
+    if (near) {   // the detail is for a car you can see the detail of
+      ellipsoid(em, ty, -0.15, 0, 0.72, 0.45, 0.32, 0.18, kind === 2 ? DEEP : CHROME, false);
+      cylinder(em, ty, -0.9, -1.25, 0.25, 0.42, 0.11, CHROME, TAIL, true); cylinder(em, ty, -0.9, -1.25, -0.25, 0.42, 0.11, CHROME, TAIL, true);
+    } else { em(-1.0, 0.25, 0.45, -1, 0, 0, TAIL, true); em(-1.0, -0.25, 0.45, -1, 0, 0, TAIL, true); }
+    em(1.0, 0.28, 0.45, 1, 0, 0, HEAD, true); em(1.0, -0.28, 0.45, 1, 0, 0, HEAD, true);
+    if (kind === 1) plate(em, ty, 0, 0, 0.98, 0.22, 0.1, 0.05, TAXI);
+    if (kind === 2) { var on = Math.floor(t * 2.5) % 2 === 0; em(-0.1, 0.18, 0.95, 0, 0, 1, on ? BLUE : TAIL, true); em(-0.1, -0.18, 0.95, 0, 0, 1, on ? TAIL : BLUE, true); }
+    sampleCap = 56;
+  }
+
   function castCity(eye, cx, horizon, fog, srcFog, fogZ, sec, barNow, low, dust, t, paneRole, all) {
     var cam = camAt(barNow * CPB - LOOK), posX = cam.x, posY = cam.y;
     cam.a += lookYaw;   // a hand on the drive, looking round
@@ -1599,6 +1699,10 @@
     }
     // ── the things that stand in the street: lamps and gates, each tested against the wall in its column ──
     var invDet = 1 / (planeX * dirY - dirX * planeY), sCam = barNow * CPB - LOOK;
+    // the camera frame the vehicles are shaded in: a key light from above and
+    // behind the rider's right shoulder, the fog, the projection
+    V.px = posX; V.py = posY; V.dx = dirX; V.dy = dirY; V.rx = dirY; V.ry = -dirX; V.eye = eye; V.hz = horizon; V.cx = cx; V.fc = fc; V.fyc = fyc; V.fog = fog;
+    var kl = Math.sqrt(0.3 * 0.3 + 0.3 * 0.3 + 0.85 * 0.85); V.kx = (-dirX * 0.3 + dirY * 0.3) / kl; V.ky = (-dirY * 0.3 - dirX * 0.3) / kl; V.kz = 0.85 / kl;
     var project = function (wx2, wy2) {
       var relX = wx2 - posX, relY = wy2 - posY;
       var tx = invDet * (dirY * relX - dirX * relY), ty = invDet * (-planeY * relX + planeX * relY);
@@ -1654,16 +1758,31 @@
       for (var nk = 0; nk < nmS.name.length; nk++) { var ncc = ncol0 + Math.round(nk * ncw); if (ncc < 0 || ncc >= COLS || pn.ty > zcol[ncc]) continue; put(ncc, nrow, nmS.name.charCodeAt(nk), 0, nl, pn.ty); }
       for (var nr2 = nrow + 1; nr2 <= Math.round(horizon + eye * fyc / pn.ty); nr2++) put(pn.col, nr2, 124, PAVEC, fog(pn.ty) * 0.4, pn.ty);
     }
-    // ── the spinners: the counter-line's notes as cars crossing between the towers ──
+    // ── the spinners: the counter-line's notes as cars crossing between the towers, modelled ──
     for (var ci2 = 0; ci2 < route.counter.length; ci2++) {
       var cn = route.counter[ci2], age = sec - cn[0], span = cn[1] - cn[0]; if (age < -0.6 || age > span + 1.6) continue;
       var lat = cn[3] * (-8 + 16 * (age + 0.6) / (span + 2.2));
       var cc3 = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(cn[2]) + route.pre))], cpx = DIRS[(cc3.d + 1) & 3][0], cpy = DIRS[(cc3.d + 1) & 3][1];
-      var pj2 = project(cc3.x + 0.5 + cpx * lat, cc3.y + 0.5 + cpy * lat); if (pj2.ty < 0.5 || pj2.ty > fogZ * 1.5) continue;
-      var rr3 = Math.round(horizon - (cn[4] - eye) * fyc / pj2.ty), lv = srcFog(pj2.ty) * (age >= 0 && sec < cn[1] ? 1 : 0.5);
-      put(pj2.col - 1, rr3, 60, PIDX.counter, lv * 0.7, pj2.ty); put(pj2.col, rr3, 61, PIDX.counter, lv, pj2.ty); put(pj2.col + 1, rr3, 62, PIDX.counter, lv * 0.7, pj2.ty);
-      var tr2 = project(cc3.x + 0.5 + cpx * (lat - cn[3] * 1.1), cc3.y + 0.5 + cpy * (lat - cn[3] * 1.1));   // the trail, behind it in the world
-      if (tr2.ty > 0.5) put(tr2.col, Math.round(horizon - (cn[4] - eye) * fyc / tr2.ty), 46, PIDX.counter, lv * 0.35, tr2.ty);
+      var pj2 = project(cc3.x + 0.5 + cpx * lat, cc3.y + 0.5 + cpy * lat); if (pj2.ty < 0.5 || pj2.ty > fogZ) continue;
+      drawCar(cc3.x + 0.5 + cpx * lat, cc3.y + 0.5 + cpy * lat, cn[4] - 0.45, cpx * cn[3], cpy * cn[3], 0, pj2.ty, t, 1);
+    }
+    // ── the traffic: a street as busy as the record is — one car per part sounding, and a couple whatever happens ──
+    var partsOn = 0;
+    { var flags = {}, ev2 = song.performance.events, la = 0, lb = ev2.length;
+      while (la < lb) { var lm = (la + lb) >> 1; if (ev2[lm].tSec < sec - 6) la = lm + 1; else lb = lm; }
+      for (var ei2 = la; ei2 < ev2.length && ev2[ei2].tSec <= sec; ei2++) { var e2 = ev2[ei2]; if (sec < e2.tSec + Math.max(0.1, e2.durSec)) flags[e2.role] = 1; }
+      for (var rk in flags) partsOn++; }
+    var nCars = Math.min(9, 2 + partsOn * 2);
+    for (var vk = 0; vk < nCars; vk++) {
+      // each car is a pure function of the record's time: a lane, a relative
+      // speed and an offset by hash, wrapped round a window ahead of the car
+      var lane = ihash(vk, 301) < 0.55 ? 0 : 1, kind = ihash(vk, 302) < 0.28 ? 1 : ihash(vk, 302) > 0.9 ? 2 : 0;
+      var dv = lane === 0 ? 0.35 + 1.2 * ihash(vk, 303) : -(2.2 + 1.6 * ihash(vk, 303)), rel = ((ihash(vk, 304) * 52 + dv * sec - 6) % 52 + 52) % 52 - 6;
+      var cs = sCam + rel, vc = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(cs) + route.pre))], vpx = DIRS[(vc.d + 1) & 3][0], vpy = DIRS[(vc.d + 1) & 3][1];
+      var vfr = cs - Math.floor(cs), vlat = (lane === 0 ? 1 : -1) * (vc.w * 0.5), vx2 = vc.x + 0.5 + DIRS[vc.d][0] * vfr + vpx * vlat, vy2 = vc.y + 0.5 + DIRS[vc.d][1] * vfr + vpy * vlat;
+      var pv = project(vx2, vy2); if (pv.ty < 0.4 || pv.ty > fogZ) continue;
+      var sgn = lane === 0 ? 1 : -1;
+      drawCar(vx2, vy2, 0.05 + 0.08 * Math.sin(t * 1.7 + vk), DIRS[vc.d][0] * sgn, DIRS[vc.d][1] * sgn, kind, pv.ty, t, vk);
     }
     // ── the searchlights: one per return the desk has open, sweeping the cloud, drawn only where there is sky ──
     var beams = [["room", 9, 0.35], ["echo", -9, -0.3], ["spring", 14, 0.1]];
@@ -1704,6 +1823,57 @@
         var mid = Math.round((c0 + c1) / 2), sw = Math.max(1, Math.floor((c1 - c0) / 4));
         for (var bc4 = mid - sw; bc4 <= mid + sw; bc4++) put(bc4, brw, droneOn ? 35 : 61, PIDX.drone, droneOn ? bfog * (0.75 + 0.25 * Math.sin(t * 5)) : bfog * 0.3, bty);
       } }
+    // ── THE RIDER'S OWN MACHINE, the schematic's swoop, from the seat ──
+    // Fixed to the vehicle, not to the eyes: look round and it stays put and
+    // drifts across the view. Leans into the corners from the yaw rate, shakes
+    // on the low end, and its thrusters flare on the kick. Drawn last and
+    // nearest, and lit like everything else, so a sign you pass under lands
+    // on the cowling.
+    { var head = cam.a - lookYaw, now = performance.now() / 1000, dtm = Math.min(0.2, Math.max(0.01, now - (bikeT || now)));
+      var dA = head - (bikeHead === null ? head : bikeHead); if (dA > Math.PI) dA -= 2 * Math.PI; if (dA < -Math.PI) dA += 2 * Math.PI;
+      bikeHead = head; bikeT = now;
+      var leanTarget = Math.max(-0.4, Math.min(0.4, -(dA / dtm) * 0.5)) + (low - 0.45) * 0.08;
+      bikeLean += (leanTarget - bikeLean) * 0.12;
+      // THE MACHINE IS WALKED ONCE AND REPLAYED. It is fixed to the camera, so
+      // its samples only move when the lean or a drag-look does; between those
+      // the cached cells are written back with the depth test alone, which is
+      // the cost of a few thousand array writes rather than of the shading.
+      var bkey = Math.round(bikeLean / 0.02) + "|" + Math.round(lookYaw / 0.02) + "|" + COLS + "|" + ROWS + "|" + fine;
+      if (bikeCacheKey !== bkey) { capture = []; drawBike(posX, posY, eye, head); bikeCache = capture; capture = null; bikeCacheKey = bkey; }
+      for (var bc5 = 0; bc5 < bikeCache.length; bc5 += 6) {
+        var brow = Math.round(horizon + bikeCache[bc5 + 1]); if (brow < 0 || brow >= ROWS) continue;
+        var bidx = brow * COLS + bikeCache[bc5], bty = bikeCache[bc5 + 5]; if (bty >= gZ[bidx]) continue;
+        gCh[bidx] = bikeCache[bc5 + 2]; gPal[bidx] = bikeCache[bc5 + 3]; gLvl[bidx] = bikeCache[bc5 + 4]; gZ[bidx] = bty;
+      }
+    }
+    function drawBike(posX, posY, eye, head) {
+      var em = frameAt(posX, posY, eye, Math.cos(head), Math.sin(head), bikeLean);
+      // a bent bar is a few straight ones: from (a,b,c) to (a2,b2,c2) in k pieces
+      var bar = function (a, b, c, a2, b2, c2, k, rad, pal, ty) {
+        for (var q = 0; q < k; q++) { var u0 = q / k, u1 = (q + 1) / k; var emS = frameAt(posX, posY, eye, Math.cos(head), Math.sin(head), bikeLean);
+          // each piece is a short cylinder along the piece's own direction: build a frame turned to it
+          var da = a2 - a, db = b2 - b, dc = c2 - c, len = Math.sqrt(da * da + db * db + dc * dc), pa = a + da * u0, pb = b + db * u0, pc = c + dc * u0;
+          var m = stepsFor(rad * 2, ty, 5, 30), n = stepsFor(len / k, ty, 2, 10);
+          // an orthonormal pair across the piece
+          var ux = da / len, uy = db / len, uz = dc / len, px = -uy, py = ux, pz = 0, pl = Math.sqrt(px * px + py * py) || 1; px /= pl; py /= pl;
+          var qx = uy * pz - uz * py, qy = uz * px - ux * pz, qz = ux * py - uy * px;
+          for (var i = 0; i <= n; i++) { var s0 = (u0 + (u1 - u0) * i / n) * len; for (var j = 0; j < m; j++) { var ph = 2 * Math.PI * j / m, cp = Math.cos(ph), sp = Math.sin(ph);
+            emS(a + ux * s0 + (px * cp + qx * sp) * rad, b + uy * s0 + (py * cp + qy * sp) * rad, c + uz * s0 + (pz * cp + qz * sp) * rad, px * cp + qx * sp, py * cp + qy * sp, pz * cp + qz * sp, pal, false); } } }
+      };
+      sampleCap = 44;
+      ellipsoid(em, 1.0, 1.15, 0, -0.52, 0.85, 0.5, 0.27, RUST, false);                       // the cowling, filling the view below the road
+      plate(em, 0.7, 0.62, 0, -0.4, 0.2, 0.17, 0.06, CHROME);                                 // the sensor/scanner/comm console
+      em(0.58, -0.06, -0.33, 0, 0, 1, 0, true); em(0.58, 0, -0.33, 0, 0, 1, 0, true); em(0.58, 0.06, -0.33, 0, 0, 1, 0, true);   // its screen
+      for (var hb2 = -1; hb2 <= 1; hb2 += 2) {
+        bar(0.72, hb2 * 0.14, -0.33, 0.55, hb2 * 0.42, -0.26, 3, 0.035, CHROME, 0.6);           // the handlebar controllers...
+        bar(0.55, hb2 * 0.42, -0.26, 0.42, hb2 * 0.48, -0.25, 1, 0.05, RUST, 0.5);              // ...their grips...
+        bar(0.15, hb2 * 0.3, -0.64, 0.45, hb2 * 0.46, -0.3, 3, 0.055, RUST, 0.4);               // ...and the arms on them
+      }
+      cylinder(em, 2.6, 2.0, 3.6, 0, -0.6, 0.06, CHROME);                                      // the control shaft, forward to the nose
+      for (var th2 = -1; th2 <= 1; th2 += 2) cylinder(em, 3.4, 3.1, 3.8, th2 * 0.28, -0.54, 0.14, CHROME, HEAD, true);   // the turbothrusters, lit
+      for (var vn = -1; vn <= 1; vn += 2) plate(em, 3.9, 3.9, vn * 0.4, -0.38, 0.03, 0.12, 0.26, RUST);               // the control vanes
+      ellipsoid(em, 4.1, 4.1, 0, -0.58, 0.2, 0.18, 0.18, CHROME, false);                       // the central repulsor pod
+    }
     // ── the puddles give the lights back: a wet cell shows what stands above it, mirrored about the horizon and dimmed ──
     for (var wr = Math.floor(horizon) + 1; wr < ROWS; wr++) {
       var mr = Math.round(2 * horizon - wr); if (mr < 0) continue;

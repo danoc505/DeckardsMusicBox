@@ -240,12 +240,23 @@ in `buildRoute`), staying inside the map; a green street sign names every
 corner crossed (`route.names`). Avenues are wider than streets (`laneW`),
 and the road, kerb, gates and signs take the width from the cell. Heights
 are cached per cell per heading (`hCache`) because the landmark and Broadway
-tests per DDA step cost ten frames. What is still open on the drive: the
-seek — click the road to wind the record there — which is the single thing a
-listener will reach for first; and the vehicles: the rider's own machine
-and the traffic, modelled donut-style from primitives with normals and a
-light, which the owner has asked for and which composes with the raycaster
-through the shared depth buffer.
+tests per DDA step cost ten frames. **The vehicles are donut.c's idea** (`shade`, `frameAt`, `ellipsoid`,
+`cylinder`, `plate`): walk a surface, light its normal, glyph by luminance
+(`SHADE`), z-buffer — and the z-buffer is the raycaster's own cell depth,
+so a car goes behind a tower and out again with no new rule. Back faces
+are culled; a key light from over the rider's right shoulder plus the
+rider's own lamp (whatever faces the camera); emissive samples are the
+lights and show in the puddles. The rider's machine is the owner's
+schematic — cowling, sensor console with its screen, handlebar
+controllers with the arms on them, control shaft, turbothrusters lit on
+the kick, control vanes, repulsor pod — fixed to the vehicle rather than
+the eyes, leaning into corners from the yaw rate (`bikeLean`). Traffic
+(`drawCar`: hovercars, taxis with a roof sign, police with a lightbar
+under 3 Hz) is a pure function of the record's time — a lane, a speed and
+an offset by hash — and as dense as the parts sounding (`partsOn`), so the
+intro is an empty avenue and the peak is gridlock; the counter-line's
+notes are still the spinners crossing overhead, modelled now. The owner
+does NOT want a seek; do not build one.
 
 **The console plays itself.** The record has moved its own desk since
 `perform.ts` learned to write a `DeskChange` list, and the page could not show

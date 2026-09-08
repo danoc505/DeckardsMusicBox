@@ -268,8 +268,12 @@ they stand, the neon signs are the desk's own moves in the roll's colours,
 the puddles give the lights back, lamps stand one a bar, the gates are the
 sections, the kick comes at you across the wet road, and the weather is the
 desk: the pole's cutoff thickens the fog, the tape's wow sways the horizon,
-the vinyl's dust is rain. Both genres drive it. You drive one bar behind the
-music so the window that is sounding is in view when it flares; the camera
+the vinyl's dust is rain. Both genres drive it, from the seat of a swoop — its
+cowling, controls and thrusters in the foreground, leaning into the
+corners — through traffic as thick as the record is: hovercars, taxis and
+police spinners, all of them modelled donut.c's way, a surface walked and
+its normals lit, and the counter-line's notes crossing overhead. You drive
+one bar behind the music so the window that is sounding is in view when it flares; the camera
 tilts up toward the towers as the arc rises, and you can drag on it to look
 round. `F` halves the cells for a finer picture. `npm run shot lofi 42 --
 --drive 70` shoots it seventy seconds in.
