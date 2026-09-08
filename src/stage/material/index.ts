@@ -264,6 +264,20 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
      * material, and the seat plays its own instead. `served` says which
      * happened, and the dump and the roll read it rather than the draw.
      */
+    /**
+     * WHOSE BANDS A CHORD PART STAYS OUT OF — see `COST.mask` in `keys.ts`.
+     * The foundation's, always: the bass is the register a chord voiced low
+     * sits on, and the arrangement diagnosis found lofi's keys doing exactly
+     * that. And the main character's, where it is a pitched part other than
+     * this seat: the yield around a protagonist runs one way.
+     */
+    const avoidFor = (r: Role): Register[] => {
+      const bands: Register[] = [];
+      if (r !== "bass") bands.push(chart.register.bass);
+      const star = arrangement.protagonist;
+      if (star !== r && star !== "drums" && star !== "bass") bands.push(chart.register[star]);
+      return bands;
+    };
     const serve = (r: "bass" | "keys" | "drone", register: Register, heard: Sounding): readonly Note[] => {
       const seatRng = rng.at(r);
       const write = (el: Element, tx: Texture): Note[] => {
@@ -282,7 +296,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
           // those two pitches — a pad is "a long sustaining note OR CHORD"
           line = drawDrone(chart, seatRng, steps, bars, heard, register);
         } else {
-          line = tile(drawKeys(chart, loop, seatRng, steps, heard, register));
+          line = tile(drawKeys(chart, loop, seatRng, steps, heard, register, avoidFor(r)));
         }
         // SPARSE keeps every other note: the same line with half of it left out
         if (tx === "sparse") line = line.filter((_, i) => i % 2 === 0);
@@ -505,7 +519,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
             let line: Note[] = e === "rhythm" || (e === "fills" && t === "arp")
               ? tile(drawArp(chart, loop, chart.register.counter, r, steps, period, withTune))
               : e === "pad"
-                ? tile(drawKeys(chart, loop, r, steps, withTune, chart.register.counter))
+                ? tile(drawKeys(chart, loop, r, steps, withTune, chart.register.counter, avoidFor("counter")))
                 : drawCounter(chart, loop, lead[n] ?? [], r, steps, period, inLoop);
             if (t === "sparse") line = line.filter((_, i) => i % 2 === 0);
             return line;

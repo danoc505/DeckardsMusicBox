@@ -304,6 +304,27 @@ export function drawLead(
   const out: Note[] = [];
   let prev: Note | null = null;
   let prevChord: Chord | null = null;
+  /**
+   * THE LINE FELL SILENT FOR WANT OF A NOTE, and re-enters as a line entering.
+   *
+   * An onset rests when the laws leave nothing — that is right, a rest is
+   * always legal and a wrong note never is. What was wrong is what happened
+   * next: `prev` stood where the line stopped, so every later onset was still
+   * held to within a fifth of a pitch the line had abandoned. Under a keys
+   * block holding every chord tone in that reach the line could never climb
+   * out, and it did not: lofi seed 94's B played five notes in bar 0 and
+   * nothing for three bars, while eleven semitones of free register sat above
+   * the block. Measured with the keys voiced a little higher — the mask cost
+   * in `keys.ts` — one plain tune in 513 came out under the lead's floor
+   * every time, a different seed at every value, which is a builder that can
+   * be boxed in rather than a voicing that boxes it.
+   *
+   * A phrase that has stopped has ended. Its next note is a new entry and is
+   * judged as the record's first note is: a chord tone, anywhere in the
+   * register, preferring the middle. The seam, the span and the seats still
+   * hold; only the obligation to the abandoned pitch is released.
+   */
+  let boxed = false;
   let questionDir = 0;
   /** Which way the last move went, and whether it was a leap: what a reversal answers. */
   let lastMove = 0;
@@ -491,7 +512,7 @@ export function drawLead(
         });
 
       let cands: number[];
-      if (prev === null) {
+      if (prev === null || boxed) {
         // the record's first note is a chord tone. WHICH chord tone is a
         // matter of preference and is settled below, after the laws: the two
         // preferences that used to be applied here — near the middle of the
@@ -499,6 +520,13 @@ export function drawLead(
         // leave two pitches, both of which the keys were already holding,
         // and then the whole first phrase rested.
         cands = pool.filter((p) => isTone(chord, p));
+        // A RE-ENTRY IS STILL THE NOTE AFTER THE LAST ONE. The rest between
+        // them does not make the same pitch twice running into two different
+        // pitches — "a sung or arpeggiated line never plays the same pitch
+        // twice running" — so a line coming back after a forced rest may not
+        // come back on the pitch it stopped on, unless it is a reciting tone,
+        // which is the one contour made of doing exactly that.
+        if (prev !== null && contour !== "chant") cands = cands.filter((p) => p !== prev!.pitch);
       } else {
         const from = prev.pitch;
         const wasOff = prevChord !== null && !isTone(prevChord, from);
@@ -534,11 +562,11 @@ export function drawLead(
       cands = cands.filter((p) => clear(bar, step, p, chord));
       //   and the last note of the loop is not its first
       cands = cands.filter((p) => !barred(p, finalOnset));
-      if (cands.length === 0) continue;
+      if (cands.length === 0) { boxed = true; continue; }
 
       // THE PREFERENCES, AMONG WHAT IS LEGAL. Each narrows only if something
       // survives it; none can cause a rest.
-      if (prev === null) {
+      if (prev === null || boxed) {
         //   near the middle of the register, because a tune that opens at the
         //   edge of its range has nowhere to go. A fourth, then a fifth.
         for (const reach of [5, 7]) {
@@ -736,6 +764,7 @@ export function drawLead(
       });
       const note: Note = { bar, step, dur, pitch, vel: LEAD_WEIGHT, art };
       out.push(note);
+      boxed = false;
       const move = prev === null ? 0 : pitch - prev.pitch;
       lastMove = move;
       if (Math.abs(move) > FIFTH) signatureSpent = true;

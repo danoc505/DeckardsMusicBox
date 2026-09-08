@@ -107,6 +107,33 @@ const COST = {
    * soprano holding with it.
    */
   stasis: 30,
+  /**
+   * Per voice inside a band that belongs to somebody else.
+   *
+   * "The arrangement will fit together better if every instrument sits in its
+   * own frequency range", and where two clash the fix is to "change octaves"
+   * (bobbyowsinskiblog.com/2019/05/01/arrangement-rules). The arrangement
+   * diagnosis of lofi seed 42 found the keys block sitting on the bass — "this
+   * is an arrangement problem before it is a mix problem... re-voicing a part
+   * up an octave rather than reaching for EQ" — and measured, 16% of lofi's
+   * keys notes sat at or below the bass's top against 1% of dungeon synth's,
+   * because lofi opened its keys' floor to G2 for the sake of an eight-voice
+   * hand. Nothing in this table knew whose band a voice was in: `rub` prices
+   * a voice against a PITCH another part is sounding, and a voice a fourth
+   * above the bass rubs against nothing while sitting squarely in its range.
+   *
+   * Which bands: the foundation's, always, and the record's main character's
+   * where that is a pitched part other than this seat — the yield around a
+   * protagonist is one-directional (`THE-ARRANGEMENT-AS-STORY.md` §10).
+   *
+   * 8: above `thin`, so a voice inside the bass's band is worse than a voice
+   * missing from the hand — otherwise the hand fills itself by dipping into
+   * the band, which is exactly what it was doing — and under `openness`, `rub`
+   * and `mud`, so a genre's own voicing preferences and the two things that
+   * actually sound wrong still outrank it. A COST and not a filter: where the
+   * register leaves the hand nowhere else to go, it goes there and pays.
+   */
+  mask: 8,
 } as const;
 
 /**
@@ -219,10 +246,24 @@ function cost(
   moved: boolean,
   /** How many notes this genre wants sounding. 0 leaves the chord's own tones. */
   voices: number,
+  /** Bands that belong to other parts, which a voice pays to sit inside. */
+  avoid: readonly Register[],
 ): number {
   const cand = voicing.v;
   let c = 0;
   if (voices > 0 && cand.length < voices) c += COST.thin * (voices - cand.length);
+  // A DOUBLING inside another part's band pays; a chord tone that has nowhere
+  // else to be does not. Priced on every voice, the whole hand slid a semitone
+  // up and into the tune's band instead — 50% to 56% of lofi's keys notes above
+  // the lead's floor — and one plain tune in 513 lost a note to a seat the keys
+  // now held. The voices the diagnosis actually saw on the bass were the low
+  // copies of the root, and a copy is the one thing a voicing can give up
+  // without losing the chord: so a voice pays only where its octave partner is
+  // also sounding in the same voicing.
+  for (const p of cand) {
+    if (!avoid.some(([a, b]) => p >= a && p <= b)) continue;
+    if (cand.includes(p + 12) || cand.includes(p - 12)) c += COST.mask;
+  }
   // the same position in the motif voices the same way, on whatever chord it
   // has landed on this time round: same inversion, same spread, new harmony
   if (want !== undefined && (want.inv !== voicing.inv || want.drop !== voicing.drop)) c += COST.shape;
@@ -272,6 +313,8 @@ export function drawKeys(
   steps: number,
   sounding: Sounding,
   register: Register = chart.register.keys,
+  /** Other parts' bands this seat should stay out of — see `COST.mask`. */
+  avoid: readonly Register[] = [],
 ): Note[] {
   const K = chart.genre.keys;
   // the band is a parameter: another seat may serve the pad in its own
@@ -334,7 +377,7 @@ export function drawKeys(
     let bestV = cands[0]!;
     let bestCost = Infinity;
     for (const cand of cands) {
-      const c = cost(cand, prev, wantOpen, centre, rubbing, want, moved, K.voices);
+      const c = cost(cand, prev, wantOpen, centre, rubbing, want, moved, K.voices, avoid);
       if (c < bestCost) {
         bestCost = c;
         bestV = cand;
