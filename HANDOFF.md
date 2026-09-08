@@ -166,14 +166,39 @@ rather than something one player has: six tape saturations is not one tube amp
 working hard, and six independent crackles is six pressings rather than one
 worn one.
 
-Two things had to be carried across by hand and are worth knowing about.
-**A SEND IS ADDITIVE AND A MIX IS A CROSSFADE**, so a send does not become a
-mix as itself: the wet's share is `w / (1 + w)` where `w` is the send times the
-return. And **DISTANCE WAS NEVER IN THE SENDS** — a part's room feed was
+Three things had to be carried across by hand and are worth knowing about.
+
+**A WET EFFECT IN LINE ADDS, IT DOES NOT CROSSFADE**, which is `FX_ADD` in
+`render.ts` and the same law `PEDALS_ADD` states for the octave pedals: the wet
+is a second thing beside the note, and crossfading it takes away the note it
+was made from. Six of the nine add — echo, spring, room, ensemble, flange and
+the vinyl dust. The three that do not — the pole, the tape and the gramophone —
+replace what they are given by nature, and a dry/wet on those is what the knob
+means. THIS WAS GOT WRONG ONCE AND MEASURED: with all nine crossfading, the
+sends were converted by `w / (1 + w)`, the wet's share of a crossfade, and
+dungeon synth — six parts each with a room around 0.5 — came out **7.5 dB
+quieter**, −13.5 to −21.0 dBFS. With the adders adding, a send carries across
+as ITSELF: the mix is the send times the return, and nothing else.
+
+**DISTANCE WAS NEVER IN THE SENDS** — a part's room feed was
 `sends.room + world.depth * dist * 0.5`, so the far parts were in the room for
 free, which is what made distance read as distance. Take the return away and
 that cue goes with it unless it is carried. It is why lofi's drums and bass now
 have a room at all: they never stated one and were always in it.
+
+**AND AN IN-LINE ROOM STANDS WHERE ITS PART STANDS.** `Rig` runs before the
+world, so a part's distance quietens and darkens its own reverb along with its
+dry; a return came back at the master, at full, however far off the part that
+fed it was. Which is arguably the more honest room — but it is not free. Lofi
+is level either way (−17.51 → −17.51 and −16.86 → −16.78 dBFS, seeds 2 and 42),
+because its world is 0.5 deep and its parts are close. Dungeon synth, 0.8 deep
+with its parts at 0.5 to 0.8, is **1.2 to 2.2 dB quieter** (−13.47 → −14.69 and
+−12.81 → −14.98) even with every send carried across exactly — partly that, and
+partly because its room return was 1.45 and a mix only reaches 1, so its drums,
+lead and drone wanted 1.00, 1.04 and 1.19 and are clipped at 1. **The levels
+have NOT been raised to cover it.** Dividing a mix by `dGain` would be a fudge
+factor bolted beside the world rather than a genre saying what it wants; the
+darker, further church is the thing to listen to and judge first.
 
 **THE BILL WAS THE TREATMENTS, NOT THE SOUND.** Retiring the returns killed
 six of dungeon synth's moves and three of lofi's in one edit — `drench` and

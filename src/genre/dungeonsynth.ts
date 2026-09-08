@@ -665,42 +665,50 @@ export const dungeonsynth: GenreSpec = {
      * THE CHURCH, PART BY PART. Every part carries its own room now, and the
      * spring and the ensemble sit on the parts that had them.
      *
-     * Same arithmetic as lofi's: a send is additive and a mix is a crossfade,
-     * so the wet's share is `w / (1 + w)` with `w` the send times the return —
-     * and `w` includes `world.depth * dist * 0.5`, the room a part got for
-     * being far away, which was never in the sends and would otherwise vanish
-     * with the return. This genre is where that matters most: its world is
-     * 0.8 deep and its parts stand at 0.5 to 0.8, so more than a third of the
-     * room the counter and the drums were in came from distance alone.
+     * Same arithmetic as lofi's. A room in line ADDS, exactly as a return did,
+     * so each mix below is simply the send times the return — and the send
+     * includes `world.depth * dist * 0.5`, the room a part got for being far
+     * away, which was never in the sends and would otherwise vanish with the
+     * return. This genre is where that matters most: its world is 0.8 deep and
+     * its parts stand at 0.5 to 0.8, so more than a third of the room the
+     * counter and the drums were in came from distance alone.
      *
-     * The room's return was 1.45, LOUDER than what was sent to it, which is
-     * why these mixes are around a half: a genre that boosted its room on the
-     * way back was asking for about as much wet as dry, and now says so.
+     * The room's return was 1.45, LOUDER than what was sent to it, and a mix
+     * only reaches 1, so four of these six are CLIPPED at 1 — drums, lead and
+     * drone wanted 1.00, 1.04 and 1.19. The relative order survives; the very
+     * top of the range does not, and that is the one thing this move costs.
      *
      * ONE ROOM BECAME SIX, and that is the real change here rather than any
      * number. Six parts sending to one chamber are in one place together; six
      * parts each carrying their own are six rooms that happen to be the same
      * size. Nothing measured says which is right for this music — it is the
      * first thing to listen for.
+     *
+     * MEASURED, against the record before the move: −13.47 → −14.69 dBFS on
+     * seed 2 and −12.81 → −14.98 on seed 42. Part of that is the three mixes
+     * clipped at 1 above; the rest is that an in-line room stands where its
+     * part stands and takes the part's distance with it, which a return did
+     * not (see `Rig` in `sound/render.ts`). The levels have NOT been raised to
+     * cover it — the darker, further church is the thing to judge first.
      */
     fx: {
-      drums: { room: { sec: 4.2, mix: 0.5, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
-      bass: { room: { sec: 4.2, mix: 0.42, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      drums: { room: { sec: 4.2, mix: 1, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      bass: { room: { sec: 4.2, mix: 0.725, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
       keys: {
-        room: { sec: 4.2, mix: 0.47, at: "last" },
-        ensemble: { rateHz: 0.4, depth: 0.5, mix: 0.38, at: "last" },
+        room: { sec: 4.2, mix: 0.87, at: "last" },
+        ensemble: { rateHz: 0.4, depth: 0.5, mix: 0.6, at: "last" },
         pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
       },
       lead: {
-        room: { sec: 4.2, mix: 0.51, at: "last" },
-        spring: { sec: 2.4, mix: 0.13, at: "last" },
+        room: { sec: 4.2, mix: 1, at: "last" },
+        spring: { sec: 2.4, mix: 0.15, at: "last" },
         pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
       },
       // it never stated a send and was always in the room regardless
-      counter: { room: { sec: 4.2, mix: 0.23, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      counter: { room: { sec: 4.2, mix: 0.29, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
       drone: {
-        room: { sec: 4.2, mix: 0.54, at: "last" },
-        spring: { sec: 2.4, mix: 0.15, at: "last" },
+        room: { sec: 4.2, mix: 1, at: "last" },
+        spring: { sec: 2.4, mix: 0.175, at: "last" },
         pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
       },
     },

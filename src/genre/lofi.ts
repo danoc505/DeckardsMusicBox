@@ -608,29 +608,39 @@ export const lofi: GenreSpec = {
      * what `sound.fx` is for — and the arithmetic of the move is written here
      * because it is not the obvious one.
      *
-     * A SEND IS ADDITIVE AND A MIX IS A CROSSFADE. A send of 0.2 at a return
-     * of 1 leaves the dry at full and adds 0.2 of wet beside it; a mix of 0.2
-     * keeps 0.8 of the dry. So the send does not carry across as itself: the
-     * wet's SHARE of what comes out is `w / (1 + w)` where `w` is the send
-     * times the return, and that is the number in each line below.
+     * A SEND IS ADDITIVE, AND SO IS AN ECHO OR A ROOM IN LINE. The dry goes on
+     * at full and the wet arrives beside it, which is `FX_ADD` in the renderer
+     * and the same law `PEDALS_ADD` states for the octave pedals. So the send
+     * DOES carry across as itself: the number in each line below is the send
+     * times the return, and nothing else.
+     *
+     * (It was briefly written as `w / (1 + w)`, the wet's share of a CROSSFADE.
+     * That is the right conversion for a filter or a tape, which replace what
+     * they are given, and the wrong one for a room. Measured: dungeon synth,
+     * six parts each with a room around 0.5, came out 7.5 dB quieter.)
      *
      * AND DISTANCE IS FOLDED IN, because it was never in the sends. A part's
      * room feed was `sends.room + world.depth * dist * 0.5` — the far parts
      * were in the room for free, which is what made distance read as distance.
      * Take the return away and that cue goes with it unless it is carried, so
-     * `w` here is the send PLUS that term. It is why the drums and the bass
-     * have a room at all: they never stated one and they were always in it.
+     * the send here is the stated one PLUS that term. It is why the drums and
+     * the bass have a room at all: they never stated one and were always in it.
+     *
+     * MEASURED, against the record before the move: −17.51 → −17.51 dBFS on
+     * seed 2 and −16.86 → −16.78 on seed 42. This genre's world is only 0.5
+     * deep and its parts are close, so the distance an in-line room now takes
+     * with it costs almost nothing here; dungeon synth is where it shows.
      */
     fx: {
       // 0.075 of room from distance alone, and nothing sent: the break is dry
       // and close, and this is only the air it was always in
-      drums: { room: { sec: 1.4, mix: 0.07, at: "last" } },
-      bass: { room: { sec: 1.4, mix: 0.06, at: "last" } },
+      drums: { room: { sec: 1.4, mix: 0.075, at: "last" } },
+      bass: { room: { sec: 1.4, mix: 0.0625, at: "last" } },
       // the Rhodes, furthest into the echo and the room of anything here
-      keys: { echo: { beats: 1.5, feedback: 0.3, mix: 0.12, at: "last" }, room: { sec: 1.4, mix: 0.23, at: "last" } },
-      lead: { echo: { beats: 1.5, feedback: 0.3, mix: 0.09, at: "last" }, room: { sec: 1.4, mix: 0.19, at: "last" } },
-      counter: { room: { sec: 1.4, mix: 0.11, at: "last" } },
-      drone: { room: { sec: 1.4, mix: 0.33, at: "last" } },
+      keys: { echo: { beats: 1.5, feedback: 0.3, mix: 0.14, at: "last" }, room: { sec: 1.4, mix: 0.3, at: "last" } },
+      lead: { echo: { beats: 1.5, feedback: 0.3, mix: 0.1, at: "last" }, room: { sec: 1.4, mix: 0.2375, at: "last" } },
+      counter: { room: { sec: 1.4, mix: 0.125, at: "last" } },
+      drone: { room: { sec: 1.4, mix: 0.4875, at: "last" } },
     },
     world: { width: 0.6, depth: 0.5 },
     // THE LEAD'S BOARD, and nobody else's. "A muted guitar played fingerstyle"

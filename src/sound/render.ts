@@ -461,6 +461,16 @@ class Board {
  * in line there is one of it, and the width a part gets is the width the world
  * gives it.
  *
+ * AND IT STANDS WHERE THE PART STANDS. This runs BEFORE the world, so a part's
+ * distance quietens and darkens its own reverb along with its dry — where a
+ * return came back at the master, at full, however far off the part that fed
+ * it was. That is not a loss to correct for; it is the difference between a
+ * chamber down the corridor and a room the player is standing in. It is worth
+ * knowing because it is not free: dungeon synth, whose parts stand at 0.5 to
+ * 0.8 in a world 0.8 deep, is 1.2 to 2.2 dB quieter for it even with every
+ * send carried across exactly. A genre that wants the old level back raises
+ * its levels and says why; it does not divide the mixes by `dGain`.
+ *
  * Built and tuned by the same rule as `Board`: WHICH effects are lit and where
  * they clip on is what this chain IS, and everything else is a knob on a chain
  * that already exists. So a mix swept from a treatment does not restart the
@@ -469,6 +479,7 @@ class Board {
 class Rig {
   private readonly lit: FxName[] = [];
   private readonly units: { run(x: number): number }[] = [];
+  private readonly adds: boolean[] = [];
   private readonly mix: number[] = [];
 
   constructor(F: FxRules, where: FxWhere, beatSec: number, sr: number, seed: number, role: Role) {
@@ -491,10 +502,11 @@ class Rig {
         const noise = new Noise(hash32(`fx/${seed}/${role}/vinyl`));
         const hp = new Biquad("highpass", 2000, 0.7, sr);
         const crackle = F.vinyl.crackle;
-        // dust is ADDED, never crossfaded: a record with dust on it is the
-        // record plus the dust, and fading the music out to fade it in is not
-        // what a worn pressing does
-        return { run: (x: number): number => x + hp.run(noise.next()) * crackle };
+        // The dust ALONE, not the record with dust on it. Every unit here hands
+        // back its wet and `FX_ADD` below decides whether that wet lands beside
+        // the signal or in place of it; dust is in that list, so returning
+        // `x + dust` here would put the part's own signal through twice.
+        return { run: (_x: number): number => hp.run(noise.next()) * crackle };
       },
     };
     for (const name of FX_ORDER) {
@@ -502,6 +514,7 @@ class Rig {
       if (one.mix <= 0 || one.at !== where) continue;
       this.lit.push(name);
       this.units.push(make[name]());
+      this.adds.push(FX_ADD.includes(name));
       this.mix.push(one.mix);
     }
   }
@@ -542,12 +555,33 @@ class Rig {
     for (let i = 0; i < this.units.length; i++) {
       const wet = this.units[i]!.run(y);
       const m = this.mix[i]!;
-      // dust adds and everything else blends, the same split the board makes
-      y = this.lit[i] === "vinyl" ? y + (wet - y) * m : y * (1 - m) + wet * m;
+      y = this.adds[i]! ? y + wet * m : y * (1 - m) + wet * m;
     }
     return y;
   }
 }
+
+/**
+ * THE EFFECTS THAT ADD RATHER THAN REPLACE — the same law `PEDALS_ADD` states
+ * for the octave pedals, and for the same reason: "a second voice beside the
+ * note, and crossfading it takes away the note it was made from".
+ *
+ * A reverb is that kind of thing. It is also what a SEND/RETURN is: the dry
+ * goes to the sum at full and the wet arrives beside it, which is why a genre
+ * can send 0.7 to a room without the part getting quieter. Crossfade it
+ * instead and every part loses `1 - mix` of its own direct sound.
+ *
+ * MEASURED, AND IT IS WHY THIS EXISTS. Both genres were moved off their
+ * returns with these blending, and dungeon synth — six parts each with a room
+ * around 0.5 — came out 7.5 dB QUIETER, −13.5 to −21.0 dBFS. Not a slightly
+ * different balance: most of the band's direct signal thrown away, for a
+ * reverb that used to cost it nothing.
+ *
+ * The three that are NOT here replace by nature. A filter, a tape and a
+ * gramophone horn are the signal transformed rather than something beside it,
+ * and a dry/wet on those is what the knob means.
+ */
+const FX_ADD: readonly FxName[] = Object.freeze(["echo", "spring", "room", "ensemble", "flange", "vinyl"]);
 
 /** A wet unit as a stereo pair: two of it, the right one a little different, so the return has width. */
 function returns(sd: Send, rack: RackRules, beatSec: number, sr: number): [(x: number) => number, (x: number) => number] {
