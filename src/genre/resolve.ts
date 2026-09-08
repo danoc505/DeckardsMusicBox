@@ -374,8 +374,29 @@ export function resolveGenre(
       problems.push(`sound.motion must be a list of moves, got ${String(moves)}`);
     } else if (Array.isArray(moves)) {
       for (const mv of moves as Record<string, unknown>[]) {
-        const path = mv?.["path"];
-        if (typeof path !== "string") { problems.push(`sound.motion: every move needs a path`); continue; }
+        const written = mv?.["path"];
+        if (typeof written !== "string") { problems.push(`sound.motion: every move needs a path`); continue; }
+        /**
+         * A PER-PART MOVE NAMES ITS PART, and this is where that was refused.
+         *
+         * `motion.ts` has carried `at` since it was written — "a per-part move
+         * names its part; a whole-mixer one does not" — and `motionAt`
+         * substitutes it for the `*` in the path at read time. This check
+         * never did, so it walked `fx.*.pole.hz` literally, found no key `*`
+         * and refused the genre. **No genre could state a per-part cycle at
+         * all**: the feature was written, documented and unreachable, and it
+         * went unnoticed because neither genre had tried to use one until the
+         * rack's units moved onto the parts.
+         *
+         * Substituted here the same way `motionAt` does it, so the loader and
+         * the renderer are asking about the same knob.
+         */
+        const at = mv?.["at"];
+        if (written.includes("*") && !(ROLES as readonly unknown[]).includes(at)) {
+          problems.push(`sound.motion "${written}" is a per-part move, so it needs an "at" naming one of ${ROLES.join(", ")}`);
+          continue;
+        }
+        const path = typeof at === "string" ? written.replace("*", at) : written;
         let node: unknown = soundObj;
         for (const key of path.split(".")) {
           node = (node !== null && typeof node === "object") ? (node as Record<string, unknown>)[key] : undefined;

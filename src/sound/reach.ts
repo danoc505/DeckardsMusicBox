@@ -88,7 +88,32 @@ export function liveSends(
  * switches the filter in as part of the move; anything that only TURNS the
  * cutoff has to ask first.
  */
-export const poleHeard = (S: SoundRules): boolean => S.rack.pole.mix > 0;
+export const poleHeard = (S: SoundRules, roles: readonly Role[] = ROLES): boolean =>
+  S.rack.pole.mix > 0 || roles.some((r) => S.fx[r].pole.mix > 0);
+
+/**
+ * Which wet effects this record can be heard through, WHEREVER THEY STAND.
+ *
+ * A reverb used to be one thing: a return, fed by sends. It can now also be in
+ * line on a part's own board, and a genre may move every one of them across —
+ * at which point `liveSends` answers "nothing" and every move that asks it is
+ * refused. Measured when dungeon synth moved its church onto the parts: six of
+ * its twenty-one treatments went dead in one commit, `drench` and `dry` among
+ * them, which are the second and sixth moves that genre reaches for.
+ *
+ * So the question is not "which returns are live" but "which wet units are
+ * heard at all", and this is it. `liveSends` is still the right question for
+ * the patch matrix, which is about returns feeding returns and nothing else.
+ */
+export function wetHeard(
+  S: SoundRules,
+  roles: readonly Role[] = ROLES,
+  lanes: readonly DrumLane[] = DRUM_LANES,
+): Set<Send> {
+  const out = liveSends(S, roles, lanes);
+  for (const r of roles) for (const sd of SENDS) if ((S.fx[r][sd] as { mix: number }).mix > 0) out.add(sd);
+  return out;
+}
 
 /**
  * Does THIS PART walk its own board, and is there a pedal on it?

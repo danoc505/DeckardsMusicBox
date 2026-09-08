@@ -158,16 +158,48 @@ they are byte-identical, which proves the difference is ORDER and not noise.
 LAST is the default on all nine, because the end of the line is where a rack
 has always effectively been.
 
-**Nothing here changes a record yet.** Every fx is at mix 0 in `DEFAULTS`,
-neither genre states one, and lofi 42 renders byte-identical to the commit
-before. The page draws all nine as pedals with the same instrument bank and a
-FIRST/LAST pair, so they can be turned up by hand and heard. The sum rack is
-still what both genres actually use and is still on the page, folded away
-below. **Retiring it is the next step and it is not small**: moving a genre's
-reverb from a shared return to six in-line copies gives every part its own
-room instead of one room they are all in, and it makes `patch` — the dub desk,
-returns into returns — meaningless. That is a real change to what these
-records are, and it wants measuring rather than a flag day.
+**AND BOTH GENRES ARE NOW ON IT.** The returns are retired: lofi's echo and
+room and dungeon synth's pole, ensemble, spring and room all come back at 0,
+and each part carries its own. What stays on the sum is the mastering chain —
+the tape and the dust — because those are what the record was played back ON
+rather than something one player has: six tape saturations is not one tube amp
+working hard, and six independent crackles is six pressings rather than one
+worn one.
+
+Two things had to be carried across by hand and are worth knowing about.
+**A SEND IS ADDITIVE AND A MIX IS A CROSSFADE**, so a send does not become a
+mix as itself: the wet's share is `w / (1 + w)` where `w` is the send times the
+return. And **DISTANCE WAS NEVER IN THE SENDS** — a part's room feed was
+`sends.room + world.depth * dist * 0.5`, so the far parts were in the room for
+free, which is what made distance read as distance. Take the return away and
+that cue goes with it unless it is carried. It is why lofi's drums and bass now
+have a room at all: they never stated one and were always in it.
+
+**THE BILL WAS THE TREATMENTS, NOT THE SOUND.** Retiring the returns killed
+six of dungeon synth's moves and three of lofi's in one edit — `drench` and
+`dry` scale the parts' SENDS and the sends are zero, `brighten` asked whether
+the sum's pole was in circuit, `waver` asked for the ensemble RETURN. Those are
+that genre's second and sixth most-used moves. The fix was in the question
+rather than the moves: `reach.ts` gained `wetHeard`, which asks which wet units
+are heard WHEREVER THEY STAND, and `treat.ts`'s `drench`, `dry` and `linger`
+now write the parts' fx as well as the sends. Both genres are back to every
+weight readable — 22 of 22 and 21 of 21, nothing refused.
+
+**Two moves stayed dead and both genres dropped them.** `repatch` is returns
+feeding returns and there are no returns; `soak` puts one drum LANE in the room
+while the kit stays dry, which needs the machine's per-lane sends and a bus for
+them to arrive on, and an in-line effect sits on the whole part and cannot tell
+a snare from a kick. Both are the move losing its reason rather than its
+plumbing. **The patch matrix is now unreachable from either genre** and is
+still in the program; if no genre ever patches again it is a mechanism nothing
+uses, and that is a question for whoever reads this.
+
+**And `resolve.ts` had never let a genre state a per-part cycle.** It validated
+a motion path literally and never substituted `at` for the `*`, the way
+`motionAt` does at read time — so `fx.*.pole.hz` was refused as "not a knob".
+The feature is documented in `motion.ts` and was unreachable from the day it
+was written; nobody noticed because no genre had wanted a per-part cycle until
+the filter moved onto the parts. Fixed where the defect is.
 
 **Turning a pedal's knob is an ALTERATION, and now it is one.** The catalogue
 had a row for how much of a board a part walks (`push`/`ease`) and a row for

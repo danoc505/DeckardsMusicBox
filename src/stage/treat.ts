@@ -64,7 +64,7 @@
  */
 
 import { DRUM_LANES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SENDS, TREATMENTS, type PatchSpec, type PedalsRules, type PedalsSpec, type PitchedRole, type Role, type Send, type SoundRules, type SoundSpec, type Treatment, type VoiceName } from "../genre/spec.ts";
-import { boardOf, boardWalked, depthHeard, liveSends, poleHeard } from "../sound/reach.ts";
+import { boardOf, boardWalked, depthHeard, liveSends, poleHeard, wetHeard } from "../sound/reach.ts";
 import { HOLDS } from "../sound/voices.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
@@ -73,6 +73,47 @@ const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > 
  * Every part's send to every return, scaled — the parts that already feed a
  * return feed it more, and a part that feeds nothing still feeds nothing.
  */
+/**
+ * THE SAME GESTURE ON THE OTHER PLUMBING — every part's WET FX, scaled.
+ *
+ * "More reverb on this section" used to mean one thing: turn the sends up.
+ * Now a genre may carry its reverb as a return that parts send to, or in line
+ * on each part, or both — so a move that only knew about sends stopped being
+ * heard the moment a genre moved its room onto the parts. `drench` and `dry`
+ * are the same gesture either way, and this is what they say to a board.
+ *
+ * The DRY units are not here. Scaling a filter's or a tape's mix is not
+ * getting wetter, it is a different move — `darken` and `wear` own those.
+ */
+const WET_FX = ["echo", "spring", "room", "ensemble", "flange"] as const;
+
+function fxWet(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, Record<string, { mix: number }>> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const one: Record<string, { mix: number }> = {};
+    for (const name of WET_FX) {
+      const u = S.fx[role][name] as { mix: number };
+      if (u.mix > 0) one[name] = { mix: clamp(u.mix * by, 0, 1) };
+    }
+    if (Object.keys(one).length > 0) out[role] = one;
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
+/** The reverbs standing in a part's own line, made bigger — `linger`'s half of the same split. */
+function fxLonger(S: SoundRules, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
+  const out: Record<string, Record<string, { sec: number }>> = {};
+  for (const role of only === undefined ? ROLES : [only]) {
+    const one: Record<string, { sec: number }> = {};
+    // each reverb clamped to ITS OWN ceiling — the room reaches 12 seconds and
+    // the spring 6, and `settle` is a merge and not a validator
+    if (S.fx[role].room.mix > 0) one["room"] = { sec: clamp(S.fx[role].room.sec * 1.9, 0.2, 12) };
+    if (S.fx[role].spring.mix > 0) one["spring"] = { sec: clamp(S.fx[role].spring.sec * 1.6, 0.2, 6) };
+    if (Object.keys(one).length > 0) out[role] = one;
+  }
+  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
+}
+
 function sends(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["mix"]> {
   const mix: Record<string, { sends: Record<string, number> }> = {};
   for (const role of only === undefined ? ROLES : [only]) {
@@ -319,26 +360,34 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       break;
 
     // ── the room ──
-    case "drench":
-      // the returns up and every part's send with them: a section further
-      // inside the building, not a louder reverb on the same distance
+    // BOTH PLUMBINGS, because a genre may carry its reverb either way and this
+    // is the same gesture on each: the returns and the sends that feed them,
+    // AND the wet fx standing in each part's own line. A genre that uses one
+    // finds the other side of this is zeros over zeros, which changes nothing.
+    case "drench": {
+      const wet = fxWet(S, 1.4, only);
       spec = {
         rack: {
           room: { ret: clamp(S.rack.room.ret * 1.5, 0, 2) },
           spring: { ret: clamp(S.rack.spring.ret * 1.5, 0, 2) },
         },
         mix: sends(S, 1.4, only),
+        ...(wet === undefined ? {} : { fx: wet }),
       };
       break;
-    case "dry":
+    }
+    case "dry": {
+      const wet = fxWet(S, 0.5, only);
       spec = {
         rack: {
           room: { ret: clamp(S.rack.room.ret * 0.45, 0, 2) },
           spring: { ret: clamp(S.rack.spring.ret * 0.45, 0, 2) },
         },
         mix: sends(S, 0.5, only),
+        ...(wet === undefined ? {} : { fx: wet }),
       };
       break;
+    }
     case "linger":
       // §8, move 47: "a longer room for the peak". `drench` sends MORE to the
       // room; this makes the room BIGGER, which is a different move and the
@@ -353,6 +402,8 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
           room: { sec: clamp(S.rack.room.sec * 1.9, 0.2, 12) },
           spring: { sec: clamp(S.rack.spring.sec * 1.6, 0.2, 6) },
         },
+        // and the same on every reverb standing in a part's own line
+        ...(fxLonger(S, only) === undefined ? {} : { fx: fxLonger(S, only)! }),
       };
       break;
     case "echoed":
@@ -629,7 +680,19 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
  * however far its numbers travel.
  */
 function reaches(name: Treatment, S: SoundRules): boolean {
-  const live = liveSends(S);
+  // WHEREVER THE WET UNITS STAND. A genre may carry its reverb as a return or
+  // in line on each part; a move that asks only about returns goes dead the
+  // moment a genre moves them, and that is not the move losing its reason.
+  //
+  // TWO MOVES ARE NOT LIKE THAT AND ARE LEFT ALONE. `repatch` is returns
+  // feeding returns — with no returns there is nothing to patch, and that is
+  // the move losing its reason rather than losing its plumbing. `soak` is one
+  // drum LANE wet while the rest of the kit stays dry, which needs the
+  // machine's own per-lane sends and a bus for them to arrive on; an in-line
+  // effect sits on the whole part and cannot tell a snare from a kick. Both
+  // ask `fed`, which still reads sends, and both are correctly refused on a
+  // genre that has retired its returns.
+  const live = wetHeard(S);
   switch (name) {
     // the tape's lowpass is on the sum and always in circuit, so the filter
     // can always be closed — and `darken` switches the pole in itself where

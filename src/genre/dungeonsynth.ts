@@ -481,7 +481,6 @@ export const dungeonsynth: GenreSpec = {
       ["linger", 4],
       ["medium", 2],
       ["orbit", 2],
-      ["repatch", 2],
       ["waver", 1],
       ["stomp", 1],
       // THE RIG'S OWN KNOBS, and this genre is the one that has a rig: three
@@ -531,7 +530,7 @@ export const dungeonsynth: GenreSpec = {
       // arriving as a different machine half way through is not development,
       // it is a fault. Not stated rather than stated at zero, so nothing here
       // pretends to a choice it does not make.
-      ["soak", 2],
+
       ["slacken", 1],
       ["spotlight", 1],
     ],
@@ -569,9 +568,24 @@ export const dungeonsynth: GenreSpec = {
      * genre's own literature asks for the shadows to deepen rather than for
      * the filter to sit still and wobble.
      */
+    /**
+     * AND THE TWO CYCLES FOLLOWED THE UNITS ONTO THE PARTS.
+     *
+     * Both used to name a rack knob, and both would now be knobs wired to
+     * nothing: the sum's filter is out of circuit and the room's return comes
+     * back at 0, because each part carries its own. `resolve.ts` caught the
+     * second one at load — "this move can never do anything" — which is that
+     * check earning its place.
+     *
+     * The gestures are unchanged and so are their numbers. The filter that
+     * "opens by a few percent each time the loop repeats" is now the PAD's
+     * filter, which is the voice this genre is built on and the one the source
+     * is describing; the room that breathes is the DRONE's, which is the part
+     * furthest back and deepest in it. 32 and 23 bars still share no factor.
+     */
     motion: [
-      { path: "rack.pole.hz", bars: 32, depth: 0.5, off: -0.4, wave: "ramp", reset: "section" },
-      { path: "rack.room.ret", bars: 23, depth: 0.35, wave: "sin" },
+      { path: "fx.*.pole.hz", at: "keys", bars: 32, depth: 0.5, off: -0.4, wave: "ramp", reset: "section" },
+      { path: "fx.*.room.mix", at: "drone", bars: 23, depth: 0.35, wave: "sin" },
     ],
     voices: { keys: "pad", bass: "organ", lead: "flute", counter: "pluck", drone: "organ" },
     /**
@@ -608,14 +622,25 @@ export const dungeonsynth: GenreSpec = {
       // The counter is not named here either. It never was fed, and a board
       // its part does not walk is never built.
     },
+    /**
+     * WHAT IS LEFT ON THE SUM: the mastering chain, and only that.
+     *
+     * The pole, the ensemble, the spring and the room have all gone in line on
+     * the parts (`fx` below), so their returns come back at 0 and the sum's
+     * filter is out of circuit. The TAPE and the DUST stay, because they are
+     * what the record was played back on rather than something one player has:
+     * six tape saturations is not one tube amp working hard, and six crackles
+     * is six pressings rather than one worn one.
+     */
     rack: {
       // TREBLE DIALED BACK. The one number the style is most consistent about,
-      // and the reason a wall of fuzz reads as weight rather than as noise.
-      pole: { hz: 3600, resonance: 0.18, mix: 0.6 },
-      ensemble: { rateHz: 0.4, depth: 0.5, ret: 1 },
+      // and the reason a wall of fuzz reads as weight rather than as noise —
+      // now on every part's own line rather than across the sum.
+      pole: { hz: 3600, resonance: 0.18, mix: 0 },
+      ensemble: { rateHz: 0.4, depth: 0.5, ret: 0 },
       // organic reverb, longer, to let a slow riff breathe and brood
-      spring: { sec: 2.4, ret: 0.5 },
-      room: { sec: 4.2, ret: 1.45 },
+      spring: { sec: 2.4, ret: 0 },
+      room: { sec: 4.2, ret: 0 },
       // the tubes working hard
       tape: { lowpassHz: 6500, wowHz: 0.3, wowCents: 6, drive: 2.4 },
       vinyl: { crackle: 0.05 },
@@ -625,13 +650,59 @@ export const dungeonsynth: GenreSpec = {
     // A board is walked hardest by the parts a sludge rig actually carries —
     // the low end and the chords — and not at all by the flute, which is the
     // one voice in the room that is not coming out of an amp.
+    // THE SENDS ARE GONE AND THE CHURCH IS IN LINE — see `fx` below. What is
+    // left here is where each part stands and how much board it walks.
     mix: {
-      drums: { sends: { room: 0.45 }, az: 0, dist: 0.6, pedals: 0.25 },
-      bass: { sends: { room: 0.3 }, az: -15, dist: 0.5, pedals: 0.85 },
-      keys: { sends: { ensemble: 0.6, room: 0.4 }, az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.7 },
+      drums: { az: 0, dist: 0.6, pedals: 0.25 },
+      bass: { az: -15, dist: 0.5, pedals: 0.85 },
+      keys: { az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.7 },
       // the flute walks no board, because it has none — see `pedals` above
-      lead: { sends: { room: 0.5, spring: 0.3 }, az: 60, dist: 0.55, pedals: 0 },
-      drone: { sends: { room: 0.5, spring: 0.35 }, az: 180, dist: 0.8, pedals: 0.55 },
+      lead: { az: 60, dist: 0.55, pedals: 0 },
+      drone: { az: 180, dist: 0.8, pedals: 0.55 },
+    },
+
+    /**
+     * THE CHURCH, PART BY PART. Every part carries its own room now, and the
+     * spring and the ensemble sit on the parts that had them.
+     *
+     * Same arithmetic as lofi's: a send is additive and a mix is a crossfade,
+     * so the wet's share is `w / (1 + w)` with `w` the send times the return —
+     * and `w` includes `world.depth * dist * 0.5`, the room a part got for
+     * being far away, which was never in the sends and would otherwise vanish
+     * with the return. This genre is where that matters most: its world is
+     * 0.8 deep and its parts stand at 0.5 to 0.8, so more than a third of the
+     * room the counter and the drums were in came from distance alone.
+     *
+     * The room's return was 1.45, LOUDER than what was sent to it, which is
+     * why these mixes are around a half: a genre that boosted its room on the
+     * way back was asking for about as much wet as dry, and now says so.
+     *
+     * ONE ROOM BECAME SIX, and that is the real change here rather than any
+     * number. Six parts sending to one chamber are in one place together; six
+     * parts each carrying their own are six rooms that happen to be the same
+     * size. Nothing measured says which is right for this music — it is the
+     * first thing to listen for.
+     */
+    fx: {
+      drums: { room: { sec: 4.2, mix: 0.5, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      bass: { room: { sec: 4.2, mix: 0.42, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      keys: {
+        room: { sec: 4.2, mix: 0.47, at: "last" },
+        ensemble: { rateHz: 0.4, depth: 0.5, mix: 0.38, at: "last" },
+        pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
+      },
+      lead: {
+        room: { sec: 4.2, mix: 0.51, at: "last" },
+        spring: { sec: 2.4, mix: 0.13, at: "last" },
+        pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
+      },
+      // it never stated a send and was always in the room regardless
+      counter: { room: { sec: 4.2, mix: 0.23, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      drone: {
+        room: { sec: 4.2, mix: 0.54, at: "last" },
+        spring: { sec: 2.4, mix: 0.15, at: "last" },
+        pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" },
+      },
     },
     world: { width: 0.9, depth: 0.8 },
   },

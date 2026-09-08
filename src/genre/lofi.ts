@@ -481,7 +481,6 @@ export const lofi: GenreSpec = {
       ["linger", 3],
       ["medium", 2],
       ["orbit", 2],
-      ["repatch", 1],
       ["stomp", 1],
       // THE KNOBS ON THE ONE BOX THIS GENRE'S GUITAR RUNS THROUGH. `grind` and
       // `clean` turn the overdrive's own drive, which is the only clipping
@@ -503,16 +502,21 @@ export const lofi: GenreSpec = {
       // `sweep` and `brighten` off this list.
       ["grind", 2],
       ["clean", 1],
-      // AND THE MACHINE. `soak` is the snare into the room while the kick
-      // stays dry, which is how a break was recorded before it was sampled,
-      // and `slacken` is a kit tuned down and left to ring — both of them the
-      // genre's own posture applied to the drums instead of to the sum. They
-      // rank above `rekit`, which trades this genre's whole boom-bap kit for
+      // AND THE MACHINE. `slacken` is a kit tuned down and left to ring — the
+      // genre's own posture applied to the drums instead of to the sum. It
+      // ranks above `rekit`, which trades this genre's whole boom-bap kit for
       // the analogue box mid-record: a real hip hop move and a drastic one.
       // No `recircuit`: it needs the analogue kit loaded and this genre plays
       // the acoustic one, so `deskOf` refuses it and the weight would never
       // be read.
-      ["soak", 3],
+      //
+      // AND NO `soak` OR `repatch` ANY MORE, which the echo and the room going
+      // in line took with them. `soak` is one drum LANE wet while the rest of
+      // the kit stays dry — that needs the machine's per-lane sends and a bus
+      // for them to arrive on, and an in-line effect sits on the whole part
+      // and cannot tell a snare from a kick. `repatch` is returns feeding
+      // returns, and there are no returns. Both are the move losing its reason
+      // rather than its plumbing, so neither is stated.
       ["slacken", 2],
       ["spotlight", 2],
       ["rekit", 1],
@@ -568,18 +572,65 @@ export const lofi: GenreSpec = {
       { path: "mix.keys.level", bars: 7, depth: 0.3, wave: "tri" },
     ],
     voices: { keys: "rhodes", bass: "sub", lead: "pluck", counter: "wurly", drone: "pad" },
+    /**
+     * WHAT IS LEFT ON THE SUM: the mastering chain, and only that.
+     *
+     * The echo and the room have gone in line on the parts (`fx` below), so
+     * their returns come back at 0 — nothing feeds them and nothing is heard
+     * from them. The tape and the dust STAY, and that is a decision rather
+     * than an oversight: they are what the finished record was played back
+     * ON, not an effect one player has. Six tape saturations is not this
+     * record through a tape machine, and six independent crackles is six
+     * times the dust rather than one worn pressing.
+     */
     rack: {
-      echo: { beats: 1.5, feedback: 0.3, ret: 1 },
-      room: { sec: 1.4, ret: 1 },
+      echo: { beats: 1.5, feedback: 0.3, ret: 0 },
+      room: { sec: 1.4, ret: 0 },
       tape: { lowpassHz: 10000, wowHz: 0.2, wowCents: 4, drive: 1.4 },
       vinyl: { crackle: 0.08 },
     },
     // the Rhodes gets the echo and a little room; the pluck a touch of both;
-    // the drums stay dry and centred, the way a sampled break is
+    // the drums stay dry and centred, the way a sampled break is.
+    //
+    // THE SENDS ARE GONE AND THE WET IS IN LINE — see `fx` below. What is left
+    // here is where each part stands, which is what a mixer channel is for.
     mix: {
-      keys: { sends: { echo: 0.14, room: 0.2 }, az: -35, dist: 0.4 },
-      lead: { sends: { echo: 0.1, room: 0.15 }, az: 30, dist: 0.35, pedals: 0.35 },
-      drone: { sends: { room: 0.3 }, az: 180, dist: 0.75 },
+      keys: { az: -35, dist: 0.4 },
+      lead: { az: 30, dist: 0.35, pedals: 0.35 },
+      drone: { az: 180, dist: 0.75 },
+    },
+
+    /**
+     * THE WET UNITS, IN LINE ON EACH PART, at the end of its own board.
+     *
+     * They were RETURNS: every part sent to one echo and one room and the two
+     * came back over the whole record. Now each part carries its own, which is
+     * what `sound.fx` is for — and the arithmetic of the move is written here
+     * because it is not the obvious one.
+     *
+     * A SEND IS ADDITIVE AND A MIX IS A CROSSFADE. A send of 0.2 at a return
+     * of 1 leaves the dry at full and adds 0.2 of wet beside it; a mix of 0.2
+     * keeps 0.8 of the dry. So the send does not carry across as itself: the
+     * wet's SHARE of what comes out is `w / (1 + w)` where `w` is the send
+     * times the return, and that is the number in each line below.
+     *
+     * AND DISTANCE IS FOLDED IN, because it was never in the sends. A part's
+     * room feed was `sends.room + world.depth * dist * 0.5` — the far parts
+     * were in the room for free, which is what made distance read as distance.
+     * Take the return away and that cue goes with it unless it is carried, so
+     * `w` here is the send PLUS that term. It is why the drums and the bass
+     * have a room at all: they never stated one and they were always in it.
+     */
+    fx: {
+      // 0.075 of room from distance alone, and nothing sent: the break is dry
+      // and close, and this is only the air it was always in
+      drums: { room: { sec: 1.4, mix: 0.07, at: "last" } },
+      bass: { room: { sec: 1.4, mix: 0.06, at: "last" } },
+      // the Rhodes, furthest into the echo and the room of anything here
+      keys: { echo: { beats: 1.5, feedback: 0.3, mix: 0.12, at: "last" }, room: { sec: 1.4, mix: 0.23, at: "last" } },
+      lead: { echo: { beats: 1.5, feedback: 0.3, mix: 0.09, at: "last" }, room: { sec: 1.4, mix: 0.19, at: "last" } },
+      counter: { room: { sec: 1.4, mix: 0.11, at: "last" } },
+      drone: { room: { sec: 1.4, mix: 0.33, at: "last" } },
     },
     world: { width: 0.6, depth: 0.5 },
     // THE LEAD'S BOARD, and nobody else's. "A muted guitar played fingerstyle"
