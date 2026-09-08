@@ -8,7 +8,15 @@ import { Biquad } from "./dsp.ts";
 import { wav } from "./wav.ts";
 
 const SR = 22050;
-const song = compose({ seed: 42, genre: "lofi", seconds: 60 });
+/**
+ * TWENTY SECONDS ASKED FOR, WHICH IS FORTY-NINE DELIVERED. A record is whole
+ * sections and the form has a shortest one, so lofi cannot come shorter than
+ * about fifty seconds whatever is asked; asking for sixty bought seventy-two,
+ * and every law in this file is a law about the arithmetic — determinism,
+ * block-size identity, the engine's parity with the renderer, the header of a
+ * file — that fifty seconds prove exactly as well. `HANDOFF.md` item 1.
+ */
+const song = compose({ seed: 42, genre: "lofi", seconds: 20 });
 
 test("the same record renders to the same samples", () => {
   const a = render(song, { sampleRate: SR });
@@ -91,7 +99,7 @@ test("the tape is the genre's: a clean genre keeps its top end, lofi loses it", 
     return rms(top) / rms(out);
   };
   const clean = resolveGenre("clean", { clean: { label: "C" } });
-  const open = topShare(mono(render(compose({ seed: 42, genre: clean, seconds: 60 }), { sampleRate: SR })));
+  const open = topShare(mono(render(compose({ seed: 42, genre: clean, seconds: 20 }), { sampleRate: SR })));
   const taped = topShare(mono(render(song, { sampleRate: SR })));
   assert.ok(taped < open, `lofi keeps ${taped.toFixed(3)} of its top end against a clean ${open.toFixed(3)}`);
 });
@@ -101,7 +109,7 @@ test("the velocity layers cost less than 40 dB of the record", () => {
   // exactly this: the same record with every note rendered at its own
   // weight. The difference between the two is what the layers cost, and it
   // belongs far under anything an ear follows.
-  const s = compose({ seed: 9, genre: "lofi", seconds: 60 });
+  const s = compose({ seed: 9, genre: "lofi", seconds: 20 });
   const layered = mono(render(s, { sampleRate: SR }));
   const exact = mono(render(s, { sampleRate: SR, layers: 100000 }));
   assert.equal(layered.length, exact.length);
@@ -120,7 +128,7 @@ test("the level a note is played at is its own, not its layer's", () => {
   // the layer decides the timbre; the note is then scaled. Two events of
   // the same pitch, length and layer but different weights must come out at
   // their own levels — if the scaling were dropped they would be identical.
-  const s = compose({ seed: 9, genre: "lofi", seconds: 60 });
+  const s = compose({ seed: 9, genre: "lofi", seconds: 20 });
   const one = s.performance.events.find((e) => e.role === "keys")!;
   const nudge = (by: number) =>
     ({ ...s, performance: { ...s.performance, events: [{ ...one, gain: one.gain * by, tSec: 1, bar: 1 }] } }) as typeof s;
@@ -131,7 +139,9 @@ test("the level a note is played at is its own, not its layer's", () => {
 });
 
 test("a note that recurs is rendered once and is the same note each time", () => {
-  const s = compose({ seed: 12, genre: "lofi", seconds: 90 });
+  // thirty seconds asked for is a fifty-second record with 82 distinct notes
+  // of 280, which is the repetition the law below needs
+  const s = compose({ seed: 12, genre: "lofi", seconds: 30 });
   const out = render(s, { sampleRate: SR });
   const again = render(s, { sampleRate: SR });
   assert.deepEqual(out.left, again.left);

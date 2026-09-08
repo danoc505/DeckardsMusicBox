@@ -51,7 +51,17 @@ import { graded, deskOf, offeredBy, specOf } from "./treat.ts";
 
 /** Above the pole's `sr/6` and the biquad's `sr*0.49` for every genre's filters. */
 const SR = 22050;
-const SECONDS = 15;
+/**
+ * TEN SECONDS, WHICH IS WHAT A DIFFERENCE IN dB NEEDS. This was 15, and this
+ * file took ten minutes and forty seconds on its own — more than half the
+ * suite — because `movedBy` renders the record once per treatment per genre,
+ * and dungeon synth renders at about half of real time even at this rate. A
+ * treatment's distance from the untreated record is a level over the whole
+ * buffer; ten seconds of it is the same measurement as fifteen with a fifth
+ * less arithmetic, and the refusals still sit two hundred dB under the floor.
+ * Shorter than this and a slow genre's first bar is most of the record.
+ */
+const SECONDS = 10;
 const SEED = 2;
 
 type Name = (typeof GENRE_NAMES)[number];
@@ -88,7 +98,23 @@ function baseline(g: Name): NonNullable<ReturnType<typeof untreated.get>> {
  * refusal, it is the move being undefined here. No desk goes on, the record
  * comes back as it was, and 0 dB is the truthful number.
  */
+/**
+ * MEASURED ONCE PER TREATMENT PER GENRE. The "refuses" test below asks for the
+ * quietest OFFERED move, which re-rendered every offered treatment a second
+ * time — twenty-one more full renders a genre for a number the previous test
+ * had already computed. A render is a pure function of the record and the
+ * desk, so the answer is kept.
+ */
+const measured = new Map<string, number>();
 function movedBy(g: Name, t: Treatment): number {
+  const key = `${g}:${t}`;
+  const held = measured.get(key);
+  if (held !== undefined) return held;
+  const got = measure(g, t);
+  measured.set(key, got);
+  return got;
+}
+function measure(g: Name, t: Treatment): number {
   const { flat, base, level } = baseline(g);
   const spec = specOf(t, genre(g).sound);
   const out = render(flat, { sampleRate: SR, ...(spec === null ? {} : { desk: spec }) });
