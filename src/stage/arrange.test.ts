@@ -356,6 +356,45 @@ test("an entry order that leaves a part out is refused at load, by name", () => 
   );
 });
 
+test("a character with no way in is refused at load, and every genre's own pool has one", () => {
+  // The intro introduces the protagonist and the three kinds do not all carry
+  // every part: a rhythm intro is the drums, or the drums and bass, and
+  // NOTHING else (Burns 1987); a hook intro is the tune from bar one; a bed is
+  // the foundation with the tune withheld. So a genre that names a character
+  // its own opening cannot introduce has written something the arrangement
+  // would have to fall back from — and a silent fallback is what `form.ts` had
+  // to have removed from it.
+  assert.throws(
+    () => resolveGenre("g", {
+      g: { label: "G", arrangement: { protagonist: [["drone", 1]], intro: [["rhythm", 1]] } as never },
+    }),
+    /weights the drone, and no intro kind this genre offers can introduce it/,
+  );
+  assert.throws(
+    () => resolveGenre("g", {
+      g: { label: "G", arrangement: { protagonist: [["lead", 1]], intro: [["bed", 1]] } as never },
+    }),
+    /weights the lead, and no intro kind/,
+  );
+  assert.throws(
+    () => resolveGenre("g", { g: { label: "G", arrangement: { protagonist: [["sax", 1]] } as never } }),
+    /arrangement.protagonist/,
+  );
+  // and both shipped genres draw every character they weight, over a sweep —
+  // a weight nothing can reach is invisible config, which is this program's
+  // cardinal sin wearing a genre file's clothes
+  for (const [name, g] of [["lofi", lofi], ["dungeonsynth", ds]] as const) {
+    const drawn = new Set<string>();
+    for (let seed = 1; seed <= 200; seed++) {
+      const chart = makeChart({ seed, genre: g });
+      drawn.add(makeArrangement(chart, makeForm(chart)).protagonist);
+    }
+    for (const [r, w] of g.arrangement.protagonist) {
+      if (w > 0) assert.ok(drawn.has(r), `${name} weights the ${r} as its character and never drew it in 200 records`);
+    }
+  }
+});
+
 test("the arrangement is frozen", () => {
   const a = build(1);
   assert.ok(Object.isFrozen(a));
