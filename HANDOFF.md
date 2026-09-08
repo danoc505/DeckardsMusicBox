@@ -34,26 +34,28 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite has NOT been run on this tree, and the suite itself is the first
-thing to fix.** The last complete run (`npm test`, 305 tests, 303 pass) was on
-the elements-and-counter state, before the amen figure, `LEGAL_TEXTURES`, the
-dungeon synth hard rule and the horns voice landed; `npm run check` is clean on
-the final tree and nothing else is. It took **eight minutes**, which the owner
-has called broken, and it is: `render.test.ts` renders sixty-second records at
-22050 Hz a dozen times over, `all.test.ts` (32 s), `pedals.test.ts` (24 s) and
-`rack.test.ts` (14 s) each render whole records to check one number, and every
-later run in this session was killed before it finished. The two failures in
-that last run are long-standing and deliberate — they encode research and have
-not been tuned away:
+**The suite has been run on this tree, file by file: 307 tests, 304 pass,
+three fail, and all three fail identically on the commit before.** It is still
+too slow to run in one go — see item 1 — so it was run as
+`node --test src/<one>.test.ts` per file and the three failures were then
+re-run in a worktree of the previous commit to prove they were not this
+session's. THERE ARE THREE STANDING FAILURES AND THIS FILE USED TO LIST TWO;
+the third was found by that check, not by the change that prompted it:
 
 - `arrange.test.ts` "the break goes below the floor mid-record" — 14% of
-  records have a break against a threshold of 15%. See item 6.
+  records have a break against a threshold of 15%. Deliberate; see item 6.
 - `material/index.test.ts` "a returning idea plays its statement's own figure"
-  — 82 variants against a threshold of 90.
+  — 82 variants against a threshold of 90. Deliberate.
+- `material/index.test.ts` "keys voice every tone of the chord, in register,
+  led smoothly" — **not deliberate, undiagnosed, and older than this
+  session.** It is not in any earlier tally, so it landed with the elements
+  work, the counter, `LEGAL_TEXTURES` or the amen figure and nobody saw it,
+  because the suite has not run end to end since before those. Somebody has
+  to read it: it is the keys against a voicing law, which is the kind of
+  thing the registers table above breaks from a distance.
 
-**Anything else red is yours — once you can see it.** Item 1 below is making
-the suite runnable. Until then, `node --test src/<one>.test.ts` per file is the
-only way to run it, and `src/stage/` is where the coupled laws live.
+**Anything else red is yours.** Item 1 below is making the suite runnable.
+`src/stage/` is where the coupled laws live.
 
 The registers each genre works in, since three of the last four changes were
 here and they are easy to get wrong:
@@ -133,6 +135,40 @@ measured. Write the next one that way.
 
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
+
+**A pedal board belongs to a player, and there are six of them.** `SoundSpec`
+had one `pedals: PedalsSpec` under the whole band and `render.ts` built every
+part's chain out of it, so a genre could not say "the Muff is the bass's". It
+was an ACCIDENT and not a law — no document in `docs/` states it, the README
+said the opposite, and the line was `board(S.pedals, sr)` — and it had already
+made two of this program's own comments false: dungeon synth's divider says
+"it is the bass and the drone that get it, and the pad must not clock it" and
+the pad was clocking it at 0.7 of the feed, and the same genre calls its flute
+"the one voice in the room that is not coming out of an amp" and then ran it
+through the Muff. `sound.pedals` is now six boards keyed by part; `mix[role].
+pedals` still says how much of a part walks its own board. `boardWalked` asks
+both halves of the same part (it could not before — it asked "is anyone fed"
+and "is any pedal up" of different parts), `stomp` swaps the first and last
+box on each player's own board, `waver` deepens the wobble on each board that
+has one, and `reachesPart` reads the parts a board move names instead of
+crediting everyone who happens to be plugged in. Motion reaches a board by
+path as before, now `pedals.bass.muff.mix`, and `pedals.*.tremolo.depth` with
+`at` makes a per-part move sayable. Both genres were migrated to the boards
+they already had — lofi's overdrive and tremolo are the lead's, which is what
+its comment always said, and dungeon synth hands the one rig to every part —
+and **six records over both genres came out byte-identical**, which is the
+migration and the test. The next commit is what to do with it.
+
+**And every pedal wears a bank of switches, one per part.** `tools/page.html`
+had one board and one set of knobs; there are six boards now and still one set
+of knobs, so each pedal carries a DIP bank of the record's parts and only ever
+one is thrown. The face under it — the knobs, the lamp, the footswitch — is
+whoever is thrown, and the others are held in the overlay untouched, so each
+part keeps its own settings for the same pedal. Each pedal chooses on its own:
+the bass's Muff can be on screen beside the keys' phaser. A part the matrix
+sends nothing to is greyed rather than hidden, because its board is real and
+only its feed is zero, and moving that feed in the matrix re-marks the
+switches.
 
 **The drums may play the amen, chopped.** `FIGURES.amen` in `spec.ts` is a
 two-bar transcription of the break (kick, snare, crash, in beats); a genre
@@ -240,7 +276,11 @@ genre field, because neither genre has a reason to differ.
 not a precondition anyone meets, and every run this session was killed. The
 time is in rendering: `render.test.ts` renders sixty seconds a dozen times,
 and `all.test.ts`, `pedals.test.ts` and `rack.test.ts` each render whole
-records to read one number. The fix is in the tests, not the program: render
+records to read one number. **And the eight-minute figure is now out of date
+and too kind. `treat.test.ts` alone timed at 10m42s** on its own (13 tests,
+every treatment of every genre rendered), `all.test.ts` at 35 s, `pedals` and
+`rack` at 24 s each. Start with `treat.test.ts`: it is more than half the
+suite by itself and it renders full-length records to compare two dB figures. The fix is in the tests, not the program: render
 ten seconds where sixty proves nothing more, share one render across the
 assertions that read it, and drop the sample rate only where the filters'
 stability clamps allow (see the house rule on 16 kHz). Do NOT skip or

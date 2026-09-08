@@ -1238,6 +1238,23 @@ export type WorldRules = Required<WorldSpec>;
  * the dirt, because a supply squishes what the circuit in front of it draws.
  * Modulation at the end, where a phaser and a tremolo sit on every board that
  * has them.
+ *
+ * ONE BOARD PER PART — this is `PedalsSpec`, and `SoundSpec.pedals` holds one
+ * of them PER ROLE. A board belongs to a player, not to a band: a bassist's
+ * board and a keyboard player's board are two boards, and the only thing they
+ * share is being on the same stage.
+ *
+ * The program had one board under all six parts for its whole life, and
+ * nothing ever said so — no document in `docs/` states it, the README says
+ * "each part through a pedal board by its own feed", and the limit was a
+ * single `pedals: PedalsRules` field read by `board(S.pedals, sr)`. It was an
+ * accident of the first version, and it made two of this program's own
+ * comments false. Dungeon synth's octave divider says "it tracks single notes
+ * and not chords — so it is the bass and the drone that get it, AND THE PAD
+ * MUST NOT CLOCK IT", and the pad was clocking it at 0.7 of the feed; the
+ * same genre calls its flute "the one voice in the room that is not coming
+ * out of an amp" and then ran it through the Muff. A comment is the
+ * specification here, and neither could be kept while there was one board.
  */
 export interface PedalsSpec {
   /** An MXR Dyna Comp: how hard it squashes, and the makeup that lifts what is left. */
@@ -1284,6 +1301,32 @@ export const PEDAL_ORDER = [
  * are wired on a floor.
  */
 export const PEDALS_ADD: readonly (keyof PedalsSpec)[] = Object.freeze(["sub", "octave"]);
+
+/**
+ * A BOARD WITH NOTHING SWITCHED ON. Every pedal is present and every one is at
+ * mix 0, so `board()` builds none of them and the part comes out as it went in.
+ *
+ * The knob positions are each pedal's own: a Dyna Comp halfway up, an HM-2
+ * dimed because "every knob turned all the way up, that's all" is the only
+ * setting anybody uses it at, a fresh battery in the sag, and a Fuzz Face
+ * barely starved. They mean nothing until a genre lifts a mix, and they are
+ * stated so that "where does this genre's bass have its Muff" is answerable
+ * from the resolved table alone.
+ */
+const BOARD_AT_REST: PedalsRules = {
+  comp: { sustain: 0.5, level: 0.5, mix: 0 },
+  wah: { rateHz: 1.2, depth: 0.7, mix: 0 },
+  sub: { two: 0, gate: 0.012, tone: 900, mix: 0 },
+  octave: { mix: 0 },
+  meat: { dirt: 0.6, bias: 0.15, dark: 0.5, level: 0.5, mix: 0 },
+  muff: { sustain: 0.45, tone: 0.35, level: 0.5, cabHz: 4500, mids: 0, mass: 0, mix: 0 },
+  overdrive: { drive: 3, tone: 0.5, mix: 0 },
+  fuzz: { gain: 6, mix: 0 },
+  saw: { dist: 0.7, low: 1, high: 1, gate: 0.06, tameHz: 6000, level: 0.5, mix: 0 },
+  sag: { depth: 0.5, idle: 1, recovSec: 0.12, draw: 0.25, mix: 0 },
+  phaser: { rateHz: 0.4, depth: 0.7, mix: 0 },
+  tremolo: { rateHz: 4.5, depth: 0.6, mix: 0 },
+};
 
 /**
  * THE PATCH: the returns feeding each other. `patch[from][to]` is how much
@@ -1382,7 +1425,8 @@ export interface SoundSpec {
   readonly rack?: RackSpec;
   readonly mix?: Readonly<Partial<Record<Role, ChannelSpec>>>;
   readonly world?: WorldSpec;
-  readonly pedals?: PedalsSpec;
+  /** A pedal board per part. A genre states the boards it wants; the rest are at rest. */
+  readonly pedals?: Readonly<Partial<Record<Role, PedalsSpec>>>;
   readonly patch?: PatchSpec;
   readonly machine?: MachineSpec;
 }
@@ -1419,7 +1463,8 @@ export interface SoundRules {
   readonly rack: RackRules;
   readonly mix: Readonly<Record<Role, ChannelRules>>;
   readonly world: WorldRules;
-  readonly pedals: PedalsRules;
+  /** Every part's own board, every knob on it settled. */
+  readonly pedals: Readonly<Record<Role, PedalsRules>>;
   readonly patch: PatchRules;
   readonly machine: MachineRules;
 }
@@ -2233,25 +2278,18 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       flange: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 },
     },
     /**
-     * Every pedal on the board and every one of them off it — mix 0, so
-     * nothing is built. The knob positions are each pedal's own: a Dyna Comp
-     * halfway up, an HM-2 dimed because "every knob turned all the way up,
-     * that's all" is the only setting anybody uses it at, a fresh battery in
-     * the sag, and a Fuzz Face barely starved.
+     * A BOARD PER PART, and every one of them the same board at rest: every
+     * pedal on it and every one of them off — mix 0, so nothing is built.
+     *
+     * They are six references to `BOARD_AT_REST` rather than six copies of
+     * the same twelve lines, which is safe for the reason the mixer's rows
+     * are not: `merge` never writes into what it is handed and `resolveGenre`
+     * deep-clones the result before anything normalises it, so no genre can
+     * reach this object, let alone another genre's copy of it.
      */
     pedals: {
-      comp: { sustain: 0.5, level: 0.5, mix: 0 },
-      wah: { rateHz: 1.2, depth: 0.7, mix: 0 },
-      sub: { two: 0, gate: 0.012, tone: 900, mix: 0 },
-      octave: { mix: 0 },
-      meat: { dirt: 0.6, bias: 0.15, dark: 0.5, level: 0.5, mix: 0 },
-      muff: { sustain: 0.45, tone: 0.35, level: 0.5, cabHz: 4500, mids: 0, mass: 0, mix: 0 },
-      overdrive: { drive: 3, tone: 0.5, mix: 0 },
-      fuzz: { gain: 6, mix: 0 },
-      saw: { dist: 0.7, low: 1, high: 1, gate: 0.06, tameHz: 6000, level: 0.5, mix: 0 },
-      sag: { depth: 0.5, idle: 1, recovSec: 0.12, draw: 0.25, mix: 0 },
-      phaser: { rateHz: 0.4, depth: 0.7, mix: 0 },
-      tremolo: { rateHz: 4.5, depth: 0.6, mix: 0 },
+      drums: BOARD_AT_REST, bass: BOARD_AT_REST, keys: BOARD_AT_REST,
+      lead: BOARD_AT_REST, counter: BOARD_AT_REST, drone: BOARD_AT_REST,
     },
 
     /**

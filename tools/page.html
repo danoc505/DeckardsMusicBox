@@ -209,7 +209,7 @@
   .board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; position: relative; z-index: 1; }
   @media (max-width: 900px) { .board { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); } }
   .cable { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-  .stomp { --p: #5a6b7a; position: relative; display: grid; grid-template-rows: auto auto 1fr auto; gap: 10px; justify-items: center; padding: 14px 10px 14px;
+  .stomp { --p: #5a6b7a; position: relative; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: 10px; justify-items: center; padding: 14px 10px 14px;
     border-radius: 7px 7px 5px 5px; border: 1px solid #06080a;
     background: linear-gradient(180deg, color-mix(in srgb, var(--p) 70%, #fff 30%) 0%, var(--p) 22%, color-mix(in srgb, var(--p) 78%, #000 22%) 100%);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -2px 0 rgba(0,0,0,0.35), 0 6px 0 #0b0d10, 0 10px 18px rgba(0,0,0,0.55); }
@@ -227,6 +227,21 @@
   .stomp .foot:active, .stomp[data-on="1"] .foot { box-shadow: 0 1px 0 #0b0d10, inset 0 3px 5px rgba(0,0,0,0.55), 0 0 0 4px #1a1e23, 0 0 0 5px #4a535d; transform: translateY(3px); }
   .stomp .footrow { display: flex; align-items: center; gap: 14px; }
   .stomp[data-on="0"] .kn { opacity: 0.55; }
+
+  /* the instrument switches on a pedal's face: a bank of DIP slides, one per
+     part, and only ever one of them thrown */
+  .stomp .who { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; width: 100%; padding: 4px 5px 5px;
+    border-radius: 3px; background: linear-gradient(180deg, #0d1013, #171b20); box-shadow: inset 0 1px 3px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.14); }
+  .stomp .who .sw { position: relative; padding: 3px 2px 4px; border: 1px solid #05070a; border-radius: 2px; cursor: pointer;
+    font: 700 7px/1 var(--label); letter-spacing: 0.14em; text-transform: uppercase; color: #8f99a3;
+    background: linear-gradient(180deg, #3c444d, #23282e); box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 1px 2px rgba(0,0,0,0.6); }
+  .stomp .who .sw::before { content: ""; display: block; height: 3px; margin: 0 auto 3px; width: 14px; border-radius: 1px; background: #0b0d10; box-shadow: inset 0 1px 2px #000; }
+  .stomp .who .sw[aria-pressed="true"] { color: #0b0d10; background: linear-gradient(180deg, color-mix(in srgb, var(--c) 88%, #fff 12%), var(--c));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 0 9px color-mix(in srgb, var(--c) 60%, transparent); }
+  .stomp .who .sw[aria-pressed="true"]::before { background: #f2f5f8; box-shadow: 0 0 5px #fff; }
+  /* a part the matrix sends nothing to: its board is real, it is just not fed */
+  .stomp .who .sw[data-fed="0"] { opacity: 0.42; }
+  .stomp .who .sw:focus-visible { outline: 2px solid var(--ice); outline-offset: 1px; }
 
   /* ── the patch: a pin matrix ── */
   .patchwrap { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
@@ -373,8 +388,9 @@
     <div class="hint" style="margin-top:10px">A kit is which voices the lanes are loaded with; the circuit is which analogue engine the analog kit is — two instruments, not two ends of a dial. TUNE and DECAY on a strip are offsets on what the circuit already decided, and on a recording they are a playback rate and where to stop. The sends are the machine's individual outputs: one lane into a return the rest of the kit does not feed.</div>
   </section>
 
-  <section class="plate"><span class="screwB"></span><h2>Pedal board <small>a part walks it by its feed in the matrix · in the order the cable runs</small></h2>
+  <section class="plate"><span class="screwB"></span><h2>Pedal boards <small>one per part · the switches on each pedal choose whose board you are setting</small></h2>
     <div class="boardwrap"><svg class="cable" id="cable"></svg><div class="board" id="board"></div></div>
+    <div class="hint" style="margin-top:10px">A board belongs to a player, not to the band. The switches across each pedal's face are this record's parts: throw one and that pedal's knobs, its lamp and its footswitch are that part's, and every other part's settings for the same pedal are held exactly where they were. A part greyed out is one the matrix feeds no signal to — set its board here and raise its <b>Pedals</b> in the matrix to hear it.</div>
   </section>
 
   <section class="plate"><span class="screwB"></span><h2>Rack <small>returns fed by the matrix and the patch, then the inserts on the sum</small></h2>
@@ -466,10 +482,11 @@
     el.set = function (nv) { setv(nv, false); };
     return el;
   }
-  // a knob bound to a path in the desk
-  function bound(path, cap, min, max, step, unit, small, hot) {
+  // a knob bound to a path in the desk. `after` is for a face that has to
+  // redraw itself when its own knob moves — the pedal lamp is the only one.
+  function bound(path, cap, min, max, step, unit, small, hot, after) {
     return knob({ cap: cap, label: path.join(" "), min: min, max: max, step: step, unit: unit, small: small, hot: hot, value: current(path),
-      onChange: function (nv) { set(path, nv); desked(); if (path[0] === "mix" && (path[2] === "az" || path[2] === "dist")) drawScope(); } });
+      onChange: function (nv) { set(path, nv); desked(); if (after) after(nv); if (path[0] === "mix" && (path[2] === "az" || path[2] === "dist")) drawScope(); } });
   }
 
   // ── an arc meter ──
@@ -778,7 +795,9 @@
       cell(bound(["mix", r, "sweepDepth"], "", 0, 1, 0.01, "", true));
       cell(bound(["mix", r, "az"], "", -180, 180, 1, "°", true), r + ".az");
       cell(bound(["mix", r, "dist"], "", 0, 1, 0.01, "", true), r + ".dist");
-      cell(bound(["mix", r, "pedals"], "", 0, 1, 0.01, "", true, true));
+      // the feed and the board are two halves of one answer, so moving the
+      // feed here re-marks the switches over on the boards
+      cell(bound(["mix", r, "pedals"], "", 0, 1, 0.01, "", true, true, markFed));
       SENDS.forEach(function (s) { cell(bound(["mix", r, "sends", s], "", 0, 1, 0.01, "", true)); });
       t.appendChild(tr);
     });
@@ -799,26 +818,83 @@
     phaser: { p: "#25729f", series: "90 · MK III", knobs: [["rateHz", "Rate", 0.02, 10, 0.01, "Hz"], ["depth", "Depth", 0, 1, 0.01]] },
     tremolo: { p: "#2f7d49", series: "OPTO · MK III", knobs: [["rateHz", "Rate", 0.1, 20, 0.1, "Hz"], ["depth", "Depth", 0, 1, 0.01]] }
   };
+  // A BOARD BELONGS TO A PLAYER, so there are six of them and one row of
+  // pedals to show them in. The switches across a pedal's face are the
+  // record's parts, thrown one at a time the way a bank of DIP slides is,
+  // and the pedal's knobs, its lamp and its footswitch are whoever is thrown.
+  //
+  // Nothing is held in a switch. The face is rebuilt bound to
+  // `["pedals", role, name, ...]`, so every other part's settings for the same
+  // pedal sit where they were in `over` and are there again when its switch
+  // comes back — which is what makes each part's board its own.
+  //
+  // Each pedal chooses independently: the bass can be showing its Muff while
+  // the keys' phaser is on screen beside it.
+  var picked = {};
+  var walks = function (role) { return current(["mix", role, "pedals"]) > 0; };
+  var switchTitle = function (r) { return walks(r) ? r + "'s board" : r + "'s board — the matrix feeds this part none of it"; };
+  /** Which parts the matrix actually sends to a board, marked on every switch. */
+  function markFed() {
+    [].forEach.call(document.querySelectorAll("#board .who .sw"), function (sw) {
+      var r = sw.getAttribute("data-role");
+      sw.setAttribute("data-fed", walks(r) ? "1" : "0");
+      sw.title = switchTitle(r);
+    });
+  }
+  /** Whose board a pedal opens on: someone who has it up, else someone who is fed. */
+  function opensOn(name) {
+    if (picked[name] !== undefined) return picked[name];
+    var lit = ROLES.filter(function (r) { return walks(r) && current(["pedals", r, name, "mix"]) > 0; });
+    if (lit.length) return lit[0];
+    var on = ROLES.filter(walks);
+    return on.length ? on[0] : ROLES[0];
+  }
   function drawBoard() {
     var b = $("board"); b.innerHTML = "";
     M.PEDAL_ORDER.forEach(function (name) {
-      var def = PEDALS[name], on = current(["pedals", name, "mix"]) > 0;
-      var box = document.createElement("div"); box.className = "stomp"; box.style.setProperty("--p", def.p); box.setAttribute("data-on", on ? "1" : "0");
+      var def = PEDALS[name];
+      var box = document.createElement("div"); box.className = "stomp"; box.style.setProperty("--p", def.p);
       var head = document.createElement("div"); head.style.textAlign = "center";
       head.innerHTML = '<div class="model">' + name + '</div><div class="series">' + def.series + '</div>'; box.appendChild(head);
+      var who = document.createElement("div"); who.className = "who"; who.setAttribute("role", "group");
+      who.setAttribute("aria-label", name + ": whose board"); box.appendChild(who);
       var jewel = document.createElement("span"); jewel.className = "jewel"; box.appendChild(jewel);
-      var kn = document.createElement("div"); kn.className = "kn";
-      def.knobs.forEach(function (k) { kn.appendChild(bound(["pedals", name, k[0]], k[1], k[2], k[3], k[4], k[5] || "", false)); });
-      var mix = bound(["pedals", name, "mix"], "Mix", 0, 1, 0.01, "", false, true); kn.appendChild(mix);
-      box.appendChild(kn);
+      var kn = document.createElement("div"); kn.className = "kn"; box.appendChild(kn);
       var row = document.createElement("div"); row.className = "footrow";
-      var foot = document.createElement("button"); foot.type = "button"; foot.className = "foot"; foot.setAttribute("aria-label", name + " on/off");
-      foot.addEventListener("click", function () {
-        var now = box.getAttribute("data-on") === "1";
-        if (now) { set(["pedals", name, "mix"], 0); mix.set(0); } else { var m = current(["pedals", name, "mix"]) || 0; if (!(m > 0)) { set(["pedals", name, "mix"], 0.6); mix.set(0.6); } }
-        box.setAttribute("data-on", now ? "0" : "1"); desked();
-      });
+      var foot = document.createElement("button"); foot.type = "button"; foot.className = "foot";
       row.appendChild(foot); box.appendChild(row);
+      var mix = null;
+
+      /** Wire this pedal's face to one part. Throwing a switch is this, again. */
+      function face(role) {
+        picked[name] = role;
+        var lamp = function (v) { box.setAttribute("data-on", v > 0 ? "1" : "0"); };
+        lamp(current(["pedals", role, name, "mix"]));
+        foot.setAttribute("aria-label", name + " on the " + role + "'s board");
+        [].forEach.call(who.children, function (sw) { sw.setAttribute("aria-pressed", sw.getAttribute("data-role") === role ? "true" : "false"); });
+        kn.innerHTML = "";
+        def.knobs.forEach(function (k) { kn.appendChild(bound(["pedals", role, name, k[0]], k[1], k[2], k[3], k[4], k[5] || "", false)); });
+        mix = bound(["pedals", role, name, "mix"], "Mix", 0, 1, 0.01, "", false, true, lamp);
+        kn.appendChild(mix);
+      }
+
+      ROLES.forEach(function (r) {
+        var sw = document.createElement("button"); sw.type = "button"; sw.className = "sw";
+        sw.setAttribute("data-role", r); sw.style.setProperty("--c", COLOR[r]);
+        sw.textContent = r === "counter" ? "cntr" : r;
+        sw.setAttribute("aria-pressed", "false");
+        sw.setAttribute("data-fed", walks(r) ? "1" : "0");
+        sw.title = switchTitle(r);
+        sw.addEventListener("click", function () { face(r); });
+        who.appendChild(sw);
+      });
+      foot.addEventListener("click", function () {
+        var role = picked[name], on = box.getAttribute("data-on") === "1";
+        if (on) { set(["pedals", role, name, "mix"], 0); mix.set(0); }
+        else { var m = current(["pedals", role, name, "mix"]) || 0; if (!(m > 0)) { set(["pedals", role, name, "mix"], 0.6); mix.set(0.6); } }
+        box.setAttribute("data-on", on ? "0" : "1"); desked();
+      });
+      face(opensOn(name));
       b.appendChild(box);
     });
     drawCable();

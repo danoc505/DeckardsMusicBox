@@ -28,8 +28,9 @@ function at(buf: Float32Array, hz: number, sampleRate = SR): number {
 }
 
 const song = compose({ seed: 2, genre: "lofi", seconds: 12 });
+/** The lead through the lead's OWN board, wide open. Nobody else's board is touched. */
 const lead = (pedals: PedalsSpec): Float32Array =>
-  mono(render(song, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1 } }, pedals } }));
+  mono(render(song, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1 } }, pedals: { lead: pedals } } }));
 
 test("a pedal at mix 0 is off the board, however its own knobs are set", () => {
   const off = lead({ overdrive: { mix: 0 }, tremolo: { mix: 0 } });

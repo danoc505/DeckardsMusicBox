@@ -132,7 +132,7 @@ A desk move, not a note move — and the one move this program cannot make.
 | 41 | **Sends** — five returns, per part | ● **and per part**: `drench`/`dry` are offered aimed at one part as well as at the band |
 | 42 | **Filter** — the pole's cutoff down for a darker hearing | ● |
 | 43 | **Pedal feed** — a part walks more or less of the board | ● **and per part**: `push`/`ease` likewise |
-| 44 | **Pedal swap** — a different stompbox lit for this section | ● **and it moves**: `stomp`. Lit from COLD is the one thing it cannot mean — a pedal at mix 0 is off the board, and `treat.ts` already refuses to overrule a genre that way — so the swap happens inside the board the genre carries: first box in cable order down, last one up |
+| 44 | **Pedal swap** — a different stompbox lit for this section | ● **and it moves**: `stomp`. Lit from COLD is the one thing it cannot mean — a pedal at mix 0 is off the board, and `treat.ts` already refuses to overrule a genre that way — so the swap happens inside the board the genre carries: first box in cable order down, last one up. **And a board is one part's**, so the swap is each player's own: the bassist's first and last boxes are not the keyboard player's, and a part carrying one box stands still while the others change |
 | 45 | **Patch** — a return fed into another return | ● **and it moves**: `repatch` feeds the busiest return this record actually uses into the next busiest |
 | 46 | **Echo** — time in beats, feedback | ● |
 | 47 | **Reverb decay** — a longer room for the peak | ● **and it moves**: `linger`. `drench` sends MORE to the room; this makes the room BIGGER. The reverbs' `sec` was the one leaf of the rack nothing pointed at while `ret` had two moves aimed at it, and it was missed because the row was already marked ● |
@@ -306,6 +306,12 @@ desk's clothes.
 in the sum. Nothing here says any of that is inaudible — `TALLY.md` §0 stands
 and no one has played these records — but it says which end of the list to
 start listening at.
+
+"One part on the board" used to be a shape the program had: there was one
+board under the whole band and a part either walked it or did not. Boards are
+per part now, so it is lofi's own decision — the genre could give its keys or
+its bass a rig of their own and `push` would have something to push. It has
+not, and these numbers stand until it does.
 
 **And what the first attempt got wrong**, because it is the trap this whole
 document warns about. A treatment was first scored on its own shape alone,

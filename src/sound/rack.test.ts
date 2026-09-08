@@ -4,7 +4,7 @@ import { Echo, Ensemble, Flanger, Medium, Pole, Spring, Biquad } from "./dsp.ts"
 import { compose } from "../song.ts";
 import { mono, render, rms, settle } from "./render.ts";
 import { GENRES } from "../genre/index.ts";
-import { RACK_ORDER } from "../genre/spec.ts";
+import { RACK_ORDER, type SoundSpec } from "../genre/spec.ts";
 
 const SR = 22050;
 const impulse = (n: number): Float32Array => { const b = new Float32Array(n); b[0] = 1; return b; };
@@ -115,14 +115,38 @@ test("a distant part is quieter and darker than a near one", () => {
 test("the pedal board is heard only where a part feeds it, and every pedal does something", () => {
   const s = compose({ seed: 5, genre: "lofi", seconds: 24 });
   const off = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 0, sends: { echo: 0, room: 0 } } } } }));
-  const same = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 } } } }));
+  const bare = { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 } };
+  const same = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { lead: bare } } }));
   assert.deepEqual(same, off, "a board with every pedal off changed the part");
   for (const pedal of ["wah", "overdrive", "fuzz", "phaser", "tremolo"] as const) {
-    const on = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 }, [pedal]: { mix: 1 } } } }));
+    const on = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { lead: { ...bare, [pedal]: { mix: 1 } } } } }));
     let diff = 0; for (let i = 0; i < on.length; i++) diff += Math.abs(on[i]! - off[i]!);
     assert.ok(diff / on.length > 1e-4, `${pedal} did nothing`);
     for (const v of on) assert.ok(Number.isFinite(v) && Math.abs(v) <= 1, `${pedal} left full scale`);
   }
+});
+
+test("a board is one part's own: the same pedal on two boards is two different records", () => {
+  // THE WHOLE BAND, not one part alone: `only` builds a single channel, and a
+  // board that is nobody else's is trivially true when nobody else is there.
+  const s = compose({ seed: 5, genre: "lofi", seconds: 24 });
+  const walked = { bass: { pedals: 1 }, keys: { pedals: 1 } };
+  const desk = (pedals: NonNullable<SoundSpec["pedals"]>): Float32Array =>
+    mono(render(s, { sampleRate: SR, desk: { mix: walked, pedals } }));
+  const differs = (a: Float32Array, b: Float32Array): boolean => {
+    if (a.length !== b.length) return true;
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return true;
+    return false;
+  };
+  // a Muff is the loudest thing on the board and the least deniable
+  const MUFF = { muff: { sustain: 0.9, mix: 1 } };
+  const bare = desk({});
+  assert.ok(differs(desk({ bass: MUFF }), bare), "a Muff on the bass's board did nothing");
+  assert.ok(differs(desk({ keys: MUFF }), bare), "a Muff on the keys' board did nothing");
+  assert.ok(differs(desk({ bass: MUFF }), desk({ keys: MUFF })), "the same pedal on two different boards made the same record");
+  // and a board belongs to its part all the way: the drone is fed none of its
+  // own, so a pedal switched on there is a pedal nothing walks
+  assert.ok(!differs(desk({ drone: MUFF }), bare), "a board the mixer feeds nothing changed the record");
 });
 
 test("the patch: a return into another return is heard, a return into itself rings and settles", () => {

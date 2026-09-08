@@ -5,7 +5,7 @@
  * instrument, rendered on its own and added to its PART's own buffer at its
  * time. Then the parts go through the desk:
  *
- *   PEDALS   each part feeds the pedal board by its own amount, and the
+ *   PEDALS   each part feeds ITS OWN pedal board by its own amount, and a
  *            board is a chain of stompboxes in the order a player wires them
  *   WORLD    each part is placed in space — panned, swept, and set at an
  *            azimuth and a distance round the listener, which the far ear
@@ -216,11 +216,12 @@ class Channel {
       }
     }
 
-    // ── the board ──
-    const ps = sig([ch.pedals > 0, S.pedals]);
+    // ── the board: this part's own, not the band's ──
+    const mine = S.pedals[this.role];
+    const ps = sig([ch.pedals > 0, mine]);
     if (ps !== this.pedalSig) {
       this.pedalSig = ps;
-      this.pedals = ch.pedals > 0 ? board(S.pedals, sr) : [];
+      this.pedals = ch.pedals > 0 ? board(mine, sr) : [];
     }
 
     // ── the world ──
@@ -318,8 +319,8 @@ class Channel {
 }
 
 /**
- * The pedal board as a chain of stages, in the order a player wires them —
- * `PEDAL_ORDER`, which is where that order is argued.
+ * ONE PART'S pedal board as a chain of stages, in the order a player wires
+ * them — `PEDAL_ORDER`, which is where that order is argued.
  *
  * A pedal at mix 0 is not built. That is not an optimisation, it is what a
  * pedal being off the board IS: the chain closes over the gap and a genre

@@ -207,13 +207,20 @@ each other and themselves, then the inserts on the sum: pole, tape, medium,
 vinyl, master. Every knob is the genre's, and the page lays its own
 positions over them without changing the genre.
 
-The board is twelve pedals in the order a cable runs them
+A board is twelve pedals in the order a cable runs them
 (`src/sound/pedals.ts`, `src/sound/dsp.ts`): a Dyna Comp, a wah, an octave
 divider, a Super-Fuzz octave up, a Fuzz Face, a Big Muff, an overdrive, a
 fuzz, a Boss HM-2, the power supply's own sag, a phaser and a tremolo. Each
 is a circuit archetype built from published teardowns, and each is OFF the
-board at mix 0 rather than bypassed on it — a genre that uses one pedal pays
+board at mix 0 rather than bypassed on it — a part that uses one pedal pays
 for one.
+
+**And there is one board PER PART**, because a board belongs to a player
+rather than to a band: the bassist's Muff is not the keyboard player's, and
+`sound.pedals` is six boards keyed by part. On the page each pedal wears a
+bank of switches, one per part, thrown one at a time — the knobs, the lamp
+and the footswitch under them are whoever is thrown, and every other part's
+settings for that pedal are held where they were.
 
 The drums are a machine (`src/sound/tr1000.ts`): one box with a kit loaded
 into it, a channel strip on every lane — tune, decay, level, filter, and its
@@ -235,7 +242,7 @@ bytes whatever size block it was made in.
 
 The page (`tools/page.html`, built into the single file) is a bridge: a
 piano roll, a radar scope for the world, a matrix mixer, a pin matrix for
-the patch, the drum machine's panel and its strips, the pedal board and the
+the patch, the drum machine's panel and its strips, the pedal boards and the
 rack, each rack unit with a screen of its own impulse response. It plays
 through a worker that stays about half a second in front, and saves through a
 second one, so rendering a file never interrupts the record.

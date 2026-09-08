@@ -91,15 +91,25 @@ export function liveSends(
 export const poleHeard = (S: SoundRules): boolean => S.rack.pole.mix > 0;
 
 /**
- * Does any part walk a board, and is there a pedal on it?
+ * Does THIS PART walk its own board, and is there a pedal on it?
  *
- * Two ways for `mix[role].pedals` to be wired to nothing: no part is sent
- * through the board, or the board is empty because every pedal is at mix 0 —
- * `board()` builds a stage only for a pedal that is up.
+ * Two ways for `mix[role].pedals` to be wired to nothing: the part is not sent
+ * through its board, or that board is empty because every pedal on it is at
+ * mix 0 — `board()` builds a stage only for a pedal that is up.
+ *
+ * BOTH ARE ASKED OF THE SAME PART, which is the whole of what changed. They
+ * used to be asked separately, because there was one board under everybody and
+ * there was no other way to ask: a genre could feed the drums through the rig
+ * and light a pedal, and the answer was yes even where the lit pedal was one
+ * no fed part would ever have reached. A board belongs to a part now, so the
+ * two halves are one question.
  */
+export const boardOf = (S: SoundRules, role: Role): boolean =>
+  S.mix[role].pedals > 0 && PEDAL_ORDER.some((name) => S.pedals[role][name].mix > 0);
+
+/** And is there ANY part in this set who does? */
 export function boardWalked(S: SoundRules, roles: readonly Role[] = ROLES): boolean {
-  if (!roles.some((role) => S.mix[role].pedals > 0)) return false;
-  return PEDAL_ORDER.some((name) => S.pedals[name].mix > 0);
+  return roles.some((role) => boardOf(S, role));
 }
 
 /**

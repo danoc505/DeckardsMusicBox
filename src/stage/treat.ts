@@ -64,7 +64,7 @@
  */
 
 import { DRUM_LANES, PEDAL_ORDER, PITCHED_ROLES, ROLES, SENDS, TREATMENTS, type PatchSpec, type PedalsRules, type PedalsSpec, type PitchedRole, type Role, type Send, type SoundRules, type SoundSpec, type Treatment, type VoiceName } from "../genre/spec.ts";
-import { boardWalked, depthHeard, liveSends, poleHeard } from "../sound/reach.ts";
+import { boardOf, boardWalked, depthHeard, liveSends, poleHeard } from "../sound/reach.ts";
 import { HOLDS } from "../sound/voices.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
@@ -131,10 +131,15 @@ function azOf(S: SoundRules, only?: Role): NonNullable<SoundSpec["mix"]> {
   return mix as NonNullable<SoundSpec["mix"]>;
 }
 
-/** The pedals this genre actually carries, in cable order. A pedal at mix 0 is
- * OFF the board rather than bypassed on it, so this is the board that exists. */
-const carried = (S: SoundRules): readonly (keyof PedalsRules)[] =>
-  PEDAL_ORDER.filter((n) => (S.pedals[n as keyof PedalsRules] as { mix: number }).mix > 0) as readonly (keyof PedalsRules)[];
+/** The pedals ONE PART actually carries, in cable order. A pedal at mix 0 is
+ * OFF that part's board rather than bypassed on it, so this is the board that
+ * exists for them. */
+const carried = (S: SoundRules, role: Role): readonly (keyof PedalsRules)[] =>
+  PEDAL_ORDER.filter((n) => (S.pedals[role][n as keyof PedalsRules] as { mix: number }).mix > 0) as readonly (keyof PedalsRules)[];
+
+/** The parts whose own board is walked and has something on it. */
+const onBoards = (S: SoundRules, only?: Role): readonly Role[] =>
+  (only === undefined ? ROLES : [only]).filter((r) => boardOf(S, r));
 
 /** The returns some part actually feeds, busiest first. A return nothing feeds
  * is not a return this record has. */
@@ -176,7 +181,9 @@ export function reachesPart(name: Treatment, S: SoundRules, only?: Role): Readon
   const all = (): void => { for (const r of ROLES) out.add(r); };
   if (spec.world !== undefined) all();
   if (spec.machine !== undefined) out.add("drums");
-  if (spec.pedals !== undefined) for (const r of ROLES) if (S.mix[r].pedals > 0) out.add(r);
+  // a board is one part's, so a board move names the parts it reaches rather
+  // than being under everyone who happens to be plugged in
+  if (spec.pedals !== undefined) for (const r of Object.keys(spec.pedals) as Role[]) if (S.mix[r].pedals > 0) out.add(r);
   if (spec.mix !== undefined) for (const r of Object.keys(spec.mix) as Role[]) out.add(r);
   if (spec.rack !== undefined) {
     for (const unit of Object.keys(spec.rack)) {
@@ -371,19 +378,27 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       break;
 
     // ── the modulation deepens ──
-    case "waver":
+    case "waver": {
       // Tremolo, phaser and the ensemble together: the three things on this
       // desk that move a pitch or a level slowly. Each is scaled from what the
       // genre set, so a genre that runs none of them is refused rather than
       // handed a wobble it never asked for.
+      //
+      // The two pedals are on boards now, so the wobble deepens on each part
+      // that has one — the ensemble is a return and stays everybody's.
+      const boards: Record<string, PedalsSpec> = {};
+      for (const r of onBoards(S, only)) {
+        boards[r] = {
+          tremolo: { depth: clamp(S.pedals[r].tremolo.depth * 1.7, 0, 1) },
+          phaser: { depth: clamp(S.pedals[r].phaser.depth * 1.7, 0, 1) },
+        };
+      }
       spec = {
-        pedals: {
-          tremolo: { depth: clamp(S.pedals.tremolo.depth * 1.7, 0, 1) },
-          phaser: { depth: clamp(S.pedals.phaser.depth * 1.7, 0, 1) },
-        },
+        pedals: boards as NonNullable<SoundSpec["pedals"]>,
         rack: { ensemble: { depth: clamp(S.rack.ensemble.depth * 1.6, 0, 1) } },
       };
       break;
+    }
 
     // ── a different box on the board ──
     case "stomp": {
@@ -393,17 +408,24 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       // a part through an amp its genre kept it out of — "a treatment does not
       // overrule a genre". So the swap happens inside the board the genre
       // actually carries: the first box in cable order backs off and the last
-      // comes up. A genre with fewer than two boxes has no swap to make.
-      const board = carried(S);
-      if (board.length < 2) return null;
-      const first = board[0]!, last = board[board.length - 1]!;
-      const mixOf = (n: keyof PedalsRules): number => (S.pedals[n] as { mix: number }).mix;
-      spec = {
-        pedals: {
+      // comes up. A board with fewer than two boxes has no swap to make.
+      //
+      // AND THE SWAP IS EACH PLAYER'S OWN. A board belongs to a part now, so
+      // the bassist's first and last boxes are not the keyboard player's, and
+      // whoever carries one box stands still while the others change.
+      const boards: Record<string, PedalsSpec> = {};
+      for (const r of onBoards(S, only)) {
+        const board = carried(S, r);
+        if (board.length < 2) continue;
+        const first = board[0]!, last = board[board.length - 1]!;
+        const mixOf = (n: keyof PedalsRules): number => (S.pedals[r][n] as { mix: number }).mix;
+        boards[r] = {
           [first]: { mix: clamp(mixOf(first) * 0.35, 0, 1) },
           [last]: { mix: clamp(Math.min(1, mixOf(last) * 1.8), 0, 1) },
-        } as PedalsSpec,
-      };
+        } as PedalsSpec;
+      }
+      if (Object.keys(boards).length === 0) return null;
+      spec = { pedals: boards as NonNullable<SoundSpec["pedals"]> };
       break;
     }
 
@@ -571,10 +593,12 @@ function reaches(name: Treatment, S: SoundRules): boolean {
     case "medium":
       return true;
     // two paths, either of which is enough: the pedals' own wobble, which
-    // needs a lit box and a part walking the board, or the ensemble return
+    // needs ONE part whose OWN board is walked and has a wobble on it — the
+    // two halves were asked of different parts while there was one board —
+    // or the ensemble return
     case "waver":
       return (
-        ((S.pedals.tremolo.mix > 0 || S.pedals.phaser.mix > 0) && ROLES.some((r) => S.mix[r].pedals > 0)) ||
+        ROLES.some((r) => S.mix[r].pedals > 0 && (S.pedals[r].tremolo.mix > 0 || S.pedals[r].phaser.mix > 0)) ||
         live.has("ensemble")
       );
     // swapping which box is lit is still a board move, and an unwalked board

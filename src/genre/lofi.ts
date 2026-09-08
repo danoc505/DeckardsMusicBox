@@ -562,8 +562,18 @@ export const lofi: GenreSpec = {
       drone: { sends: { room: 0.3 }, az: 180, dist: 0.75 },
     },
     world: { width: 0.6, depth: 0.5 },
-    // the pluck through a warm overdrive and a slow tremolo: a muted guitar, close-miked
-    pedals: { overdrive: { drive: 2.5, tone: 0.4, mix: 0.6 }, tremolo: { rateHz: 3.8, depth: 0.35, mix: 1 } },
+    // THE LEAD'S BOARD, and nobody else's. "A muted guitar played fingerstyle"
+    // is one player with one rig: a warm overdrive and a slow tremolo, close-
+    // miked. Every other part is a keyboard, a kit or a sampled break and owns
+    // a board with nothing switched on.
+    //
+    // This is where the record stood before boards were per part, and it stood
+    // there by luck: the lead was the only part fed to the one shared board, so
+    // the same two pedals were sitting on the drums', the bass's and the
+    // drone's signal path too, silent only because their feed was zero.
+    pedals: {
+      lead: { overdrive: { drive: 2.5, tone: 0.4, mix: 0.6 }, tremolo: { rateHz: 3.8, depth: 0.35, mix: 1 } },
+    },
   },
 
   sources: {
@@ -698,7 +708,7 @@ export const lofi: GenreSpec = {
       "sends: a dotted-eighth delay and a small room on the keys and lead at 10–20% (audeobox.com how-to-make-lofi-beats-in-fl-studio); " +
       "placement and the pedal feed [chosen]",
     "sound.world": "[chosen] — a modest width for a genre mixed narrow and warm",
-    "sound.pedals": "\"muted guitar played fingerstyle\" sits under the chords (masteringthemix.com how-to-make-lo-fi-hip-hop); a warm drive and tremolo on it [chosen]",
+    "sound.pedals.lead": "\"muted guitar played fingerstyle\" sits under the chords (masteringthemix.com how-to-make-lo-fi-hip-hop); a warm drive and tremolo on it [chosen]. It is the LEAD's board and nobody else's: the source names one player with one rig",
     "sound.rack.echo":
       "a dotted-eighth or quarter delay at 10–20% is the lo-fi guides' standard send (audeobox.com how-to-make-lofi-beats-in-fl-studio); 1.5 beats, 12% [chosen inside]",
     "sound.rack.room": "\"reverb, delay, chorus... used generously\" (blog.native-instruments.com/lo-fi-hip-hop-beats); a small room at 18% [chosen]",

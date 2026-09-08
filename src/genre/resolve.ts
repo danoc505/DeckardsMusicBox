@@ -906,14 +906,19 @@ export function resolveGenre(
         if (!finite(v) || v < 0 || v > hi) problems.push(`sound.patch.${from}.${to} must be 0..${hi}, got ${String(v)}`);
       }
     }
-    const pedals = isPlainObject(sound["pedals"]) ? sound["pedals"] : null;
-    if (pedals === null) problems.push("sound.pedals is missing");
-    else {
+    // the boards: one per part, every knob on every one of them in range. The
+    // ranges are the pedal's, not the part's — a Muff is a Muff whoever is
+    // standing on it — so the same table is walked six times.
+    const boards = isPlainObject(sound["pedals"]) ? sound["pedals"] : null;
+    if (boards === null) problems.push("sound.pedals is missing");
+    else for (const role of ROLES) {
+      const pedals = isPlainObject(boards[role]) ? boards[role] : null;
+      if (pedals === null) { problems.push(`sound.pedals.${role} is missing`); continue; }
       const pd = (name: string, field: string, lo: number, hi: number): void => {
         const u = pedals[name];
-        if (!isPlainObject(u)) { problems.push(`sound.pedals.${name} is missing`); return; }
+        if (!isPlainObject(u)) { problems.push(`sound.pedals.${role}.${name} is missing`); return; }
         const v = u[field];
-        if (!finite(v) || v < lo || v > hi) problems.push(`sound.pedals.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
+        if (!finite(v) || v < lo || v > hi) problems.push(`sound.pedals.${role}.${name}.${field} must be ${lo}..${hi}, got ${String(v)}`);
       };
       for (const name of PEDAL_ORDER) pd(name, "mix", 0, 1);
       pd("comp", "sustain", 0, 1); pd("comp", "level", 0, 1);
