@@ -1373,6 +1373,16 @@
     for (var j = 0; j < 12; j++) { lay(R, x, y, d, s, false); x += DIRS[d][0]; y += DIRS[d][1]; s++; }   // the road runs on while the tail rings
     song.performance.events.forEach(function (e) { if (e.role === "drums") R.drums.push([barOf(e.tSec) * CPB, e.lane, e.gain, e.tSec]); });
     R.drums.sort(function (a, b) { return a[0] - b[0]; });
+    // the counter-line's notes are the cars that cross between the towers,
+    // each with a place on the route, a way to cross and a height of its own;
+    // the drone is the blimp, and its screen is alight while the drone sounds
+    R.counter = []; R.drone = [];
+    song.performance.events.forEach(function (e) {
+      if (e.pitch === null) return;
+      var k2 = Math.round(e.tSec * 10);
+      if (e.role === "counter") R.counter.push([e.tSec, e.tSec + Math.max(0.3, e.durSec), barOf(e.tSec) * CPB + 5, ihash(k2, 8) < 0.5 ? -1 : 1, 4.4 + 2.2 * ihash(k2, 9)]);   // above the lamps, under the top of the frame
+      if (e.role === "drone") R.drone.push([e.tSec, e.tSec + Math.max(0.2, e.durSec)]);
+    });
     // THE SIGNS ARE THE TREATMENTS. One hung on the street where each lands,
     // in the colour the roll draws that move in, so the sign you are driving
     // toward is the next thing the desk will do — and a per-part move names
@@ -1555,13 +1565,68 @@
       var inForce = sec >= sg2.t0 && sec < sg2.t1, srow = Math.round(horizon - (sg2.h - eye) * fyc / ps.ty), tall = Math.round(0.45 * fyc / ps.ty);
       // value-noise flicker, gated under three hertz, and the odd letter out
       var flick = inForce ? 1 : 0.7 + 0.3 * noise2(t * 2.4 + si2 * 7.1, si2), sl = srcFog(ps.ty) * (0.55 + 0.45 * sg2.depth) * flick;
-      for (var cc2 = Math.max(0, col0); cc2 < Math.min(COLS, col0 + n2 * charCols); cc2++) {
-        if (ps.ty > zcol[cc2]) continue;
-        var chI = Math.min(n2 - 1, Math.floor((cc2 - col0) / charCols)), dead = ihash(chI + si2 * 31, Math.floor(t * 0.7)) < 0.05;
-        put(cc2, srow, sg2.name.charCodeAt(chI), sg2.pal, dead ? sl * 0.15 : sl, ps.ty);
-        if (tall >= 3) { put(cc2, srow - 1, 45, sg2.pal, sl * 0.4, ps.ty); put(cc2, srow + 1, 45, sg2.pal, sl * 0.4, ps.ty); }
+      // each letter once, at its own column: a letter spread over two columns
+      // reads as a misspelling, a letter with a gap after it reads as neon
+      for (var li2 = 0; li2 < n2; li2++) {
+        var cc2 = col0 + Math.round(li2 * charCols); if (cc2 < 0 || cc2 >= COLS || ps.ty > zcol[cc2]) continue;
+        var dead = ihash(li2 + si2 * 31, Math.floor(t * 0.7)) < 0.05;
+        put(cc2, srow, sg2.name.charCodeAt(li2), sg2.pal, dead ? sl * 0.15 : sl, ps.ty);
+      }
+      if (tall >= 3) for (var cc4 = Math.max(0, col0); cc4 <= Math.min(COLS - 1, col0 + Math.round((n2 - 1) * charCols)); cc4++) {
+        if (ps.ty > zcol[cc4]) continue;
+        put(cc4, srow - 1, 45, sg2.pal, sl * 0.4, ps.ty); put(cc4, srow + 1, 45, sg2.pal, sl * 0.4, ps.ty);
       }
     }
+    // ── the spinners: the counter-line's notes as cars crossing between the towers ──
+    for (var ci2 = 0; ci2 < route.counter.length; ci2++) {
+      var cn = route.counter[ci2], age = sec - cn[0], span = cn[1] - cn[0]; if (age < -0.6 || age > span + 1.6) continue;
+      var lat = cn[3] * (-8 + 16 * (age + 0.6) / (span + 2.2));
+      var cc3 = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(cn[2]) + route.pre))], cpx = DIRS[(cc3.d + 1) & 3][0], cpy = DIRS[(cc3.d + 1) & 3][1];
+      var pj2 = project(cc3.x + 0.5 + cpx * lat, cc3.y + 0.5 + cpy * lat); if (pj2.ty < 0.5 || pj2.ty > fogZ * 1.5) continue;
+      var rr3 = Math.round(horizon - (cn[4] - eye) * fyc / pj2.ty), lv = srcFog(pj2.ty) * (age >= 0 && sec < cn[1] ? 1 : 0.5);
+      put(pj2.col - 1, rr3, 60, PIDX.counter, lv * 0.7, pj2.ty); put(pj2.col, rr3, 61, PIDX.counter, lv, pj2.ty); put(pj2.col + 1, rr3, 62, PIDX.counter, lv * 0.7, pj2.ty);
+      var tr2 = project(cc3.x + 0.5 + cpx * (lat - cn[3] * 1.1), cc3.y + 0.5 + cpy * (lat - cn[3] * 1.1));   // the trail, behind it in the world
+      if (tr2.ty > 0.5) put(tr2.col, Math.round(horizon - (cn[4] - eye) * fyc / tr2.ty), 46, PIDX.counter, lv * 0.35, tr2.ty);
+    }
+    // ── the searchlights: one per return the desk has open, sweeping the cloud, drawn only where there is sky ──
+    var beams = [["room", 9, 0.35], ["echo", -9, -0.3], ["spring", 14, 0.1]];
+    for (var bi = 0; bi < beams.length; bi++) {
+      var ret = shown(["rack", beams[bi][0], "ret"]) || 0; if (!(ret > 0)) continue;
+      var bcell = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(sCam) + 26 + bi * 9 + route.pre))], bpx = DIRS[(bcell.d + 1) & 3][0], bpy = DIRS[(bcell.d + 1) & 3][1];
+      var bl = beams[bi][1] + 3 * Math.sin(t * 0.13 + bi), pb2 = project(bcell.x + 0.5 + bpx * bl, bcell.y + 0.5 + bpy * bl); if (pb2.ty < 1) continue;
+      var brow = Math.round(horizon + eye * fyc / pb2.ty), slope = Math.sin(t * 0.21 + bi * 2.1 + beams[bi][2]) * 0.9, bl2 = 0.12 + 0.18 * Math.min(1, ret);
+      for (var br2 = Math.min(ROWS - 1, brow); br2 >= 0; br2--) {
+        var bc2 = Math.round(pb2.col + (brow - br2) * slope), bi2 = br2 * COLS + bc2;
+        if (bc2 < 0 || bc2 >= COLS || gCh[bi2]) continue;
+        gCh[bi2] = br2 % 2 ? 58 : 46; gPal[bi2] = 3; gLvl[bi2] = bl2 * (1 - br2 / ROWS * 0.5); gZ[bi2] = 1e7;
+      }
+    }
+    // ── the steam: every hat, a breath from the grating at the kerb, rising and gone ──
+    { var sNow = sCam + LOOK, lo3 = 0, hi3 = dn;
+      while (lo3 < hi3) { var m3 = (lo3 + hi3) >> 1; if (drums[m3][0] < sNow - 3) lo3 = m3 + 1; else hi3 = m3; }
+      for (var hi4 = lo3; hi4 < dn && drums[hi4][0] < sNow + 2; hi4++) {
+        var dh = drums[hi4]; if (dh[1] !== "hat" && dh[1] !== "openhat") continue;
+        var age2 = sec - dh[3]; if (age2 < 0 || age2 > 0.8) continue;
+        var hc2 = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(dh[0]) + route.pre))], hpx = DIRS[(hc2.d + 1) & 3][0], hpy = DIRS[(hc2.d + 1) & 3][1], hsd = ihash(Math.floor(dh[0]), 91) < 0.5 ? -1 : 1;
+        var ph = project(hc2.x + 0.5 + hpx * hsd * 1.45, hc2.y + 0.5 + hpy * hsd * 1.45); if (ph.ty < 0.4) continue;
+        var hrow = Math.round(horizon - (0.15 + age2 * 2.4 - eye) * fyc / ph.ty), hl = (1 - age2 / 0.8) * fog(ph.ty);
+        put(ph.col, hrow, age2 < 0.25 ? 111 : 126, 3, hl * 0.45, ph.ty);
+        if (age2 > 0.3) put(ph.col + (ihash(hi4, 3) < 0.5 ? -1 : 1), hrow + 1, 126, 3, hl * 0.25, ph.ty);
+      } }
+    // ── the blimp: the drone, overhead and slow, its screen alight while the drone sounds ──
+    { var bs = sCam + 22 + 6 * Math.sin(t * 0.04), bcl = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(bs) + route.pre))], zpx = DIRS[(bcl.d + 1) & 3][0], zpy = DIRS[(bcl.d + 1) & 3][1];
+      var blat = 3 * Math.sin(t * 0.07), pL = project(bcl.x + 0.5 + zpx * (blat - 2.2), bcl.y + 0.5 + zpy * (blat - 2.2)), pR = project(bcl.x + 0.5 + zpx * (blat + 2.2), bcl.y + 0.5 + zpy * (blat + 2.2));
+      if (pL.ty > 1 && pR.ty > 1) {
+        var bty = (pL.ty + pR.ty) / 2, c0 = Math.min(pL.col, pR.col), c1 = Math.max(pL.col, pR.col), brw = Math.round(horizon - (8.5 - eye) * fyc / bty), bfog = srcFog(bty);
+        var droneOn = false; for (var dr = 0; dr < route.drone.length; dr++) if (route.drone[dr][0] <= sec && sec < route.drone[dr][1]) { droneOn = true; break; }
+        for (var bc3 = c0; bc3 <= c1; bc3++) {
+          var end2 = bc3 === c0 || bc3 === c1;
+          put(bc3, brw - 1, end2 ? 46 : 45, WALL, bfog * 0.5, bty); put(bc3, brw + 1, end2 ? 46 : 45, WALL, bfog * 0.5, bty);
+          put(bc3, brw, end2 ? (bc3 === c0 ? 40 : 41) : 61, WALL, bfog * 0.55, bty);
+        }
+        var mid = Math.round((c0 + c1) / 2), sw = Math.max(1, Math.floor((c1 - c0) / 4));
+        for (var bc4 = mid - sw; bc4 <= mid + sw; bc4++) put(bc4, brw, droneOn ? 35 : 61, PIDX.drone, droneOn ? bfog * (0.75 + 0.25 * Math.sin(t * 5)) : bfog * 0.3, bty);
+      } }
     // ── the puddles give the lights back: a wet cell shows what stands above it, mirrored about the horizon and dimmed ──
     for (var wr = Math.floor(horizon) + 1; wr < ROWS; wr++) {
       var mr = Math.round(2 * horizon - wr); if (mr < 0) continue;

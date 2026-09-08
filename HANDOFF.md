@@ -197,10 +197,20 @@ scan** (the stone road, the mountains that are the arc) — two renderers for
 two worlds is a cost, and the honest next step is the mountains as cells in
 the raycaster too. 60 fps idle and 49 playing in headless Chromium; the roll
 still redraws whole at 60 Hz while playing, which is where the rest went.
-Phases 2 (signs that are the treatments in the roll's colours at the bar
-they land, puddles that mirror them, spinners, searchlights, steam, the
-blimp) and 3 (look-up, shape-aware glyph edges, a braille density mode, the
-sub-3 Hz flicker gate) are still to do.
+**Phase 2, the life, is in:** a neon sign for every treated moment of
+`performance.desk`, the move's name in the colour the roll draws it, hung on
+a blade off the wall at the bar it lands, flickering on value noise under
+three hertz and burning steady while in force (`route.signs`); puddles in
+patches that mirror what stands above them about the horizon (`wet`, a
+pass after the sprites — a light comes back at half, a wall only just);
+spinners for the counter-line's notes crossing between the towers
+(`route.counter`); a searchlight per open return sweeping the cloud, drawn
+only into sky; steam from the kerb on every hat; and the blimp for the
+drone, its screen alight while the drone sounds (`route.drone`). Everything
+sits under about seven units high because there is no look-up yet. The
+atlas key is `(code * 64 + pal) * 8 + q` now — the old one collided at
+sixteen colours. Phase 3 (look-up, shape-aware glyph edges, a braille
+density mode, `prefers-reduced-motion` proper) is still to do.
 
 **The console plays itself.** The record has moved its own desk since
 `perform.ts` learned to write a `DeskChange` list, and the page could not show
