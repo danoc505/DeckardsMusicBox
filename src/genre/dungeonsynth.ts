@@ -484,6 +484,41 @@ export const dungeonsynth: GenreSpec = {
       ["repatch", 2],
       ["waver", 1],
       ["stomp", 1],
+      // THE RIG'S OWN KNOBS, and this genre is the one that has a rig: three
+      // parts walk a board at 0.55 to 0.85 and it carries a Muff, an overdrive
+      // in front of it and a supply behind. Weighted ABOVE the five above,
+      // because a wall of fuzz getting heavier is this music's own vocabulary
+      // in a way that a gramophone horn is not — sludge is "saturated,
+      // sustaining distortion" and "fuzz to create a wall of sound", and
+      // `grind` is that wall leaning in for a section.
+      //
+      // `clean` is kept low against it, not because it is faint — measured,
+      // the two are within 0.2 dB of each other — but because this music goes
+      // toward heavier and a section that tidies up is going where the genre
+      // came from rather than where it is headed.
+      ["grind", 3],
+      ["clean", 1],
+      // `starve` pulls the other way and is RANKED BY WHAT IT MEASURED, not by
+      // how much this file likes it. "Under heavy demand the rail momentarily
+      // drops" (aikenamps) and a starved bias gates, which is the rig failing
+      // rather than working — a good gesture for this genre's middle. But it
+      // moves the record −29.5 dB against `grind`'s −16.0, which makes it the
+      // faintest thing this genre would carry, beside `sweep` at −28.1. So it
+      // is weighted like `sweep`: stated, and rare.
+      ["starve", 1],
+      // AND NO `revive`, WHICH IS THIS GENRE'S OWN FAULT AND NOT THE MOVE'S.
+      // At −38.9 dB it is the faintest offered move in either genre's table,
+      // quieter than anything either of them states — and the reason is in the
+      // genre rather than in the treatment: this file ships `sag.idle` at 1, a
+      // fresh battery, so the only half of the move left is lowering the droop
+      // and the other half has nowhere to go.
+      //
+      // NOTHING FORCED THIS. `treat.test.ts` passes with it weighted; its
+      // audibility floor sits below −38.9. It is left unstated as a judgement
+      // that a boundary is worth more than the quietest thing this desk can
+      // do, and it is recorded here so the judgement can be reversed by
+      // somebody who disagrees. The pair stays in the vocabulary — as
+      // `recircuit` does — for a genre whose battery is not already full.
       // AND THE MACHINE, barely. This music "notably avoids" a busy kit and
       // carries the fewest drums of any part here, so a move that is ONLY
       // about the drums is worth least in this genre of the two. `soak` puts

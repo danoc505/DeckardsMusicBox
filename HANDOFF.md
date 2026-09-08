@@ -139,6 +139,46 @@ measured. Write the next one that way.
 Recent work, newest first. One paragraph each; the reasoning is in the code
 comments beside each number, and the measurements are in the commits.
 
+**Turning a pedal's knob is an ALTERATION, and now it is one.** The catalogue
+had a row for how much of a board a part walks (`push`/`ease`) and a row for
+which box on it is lit (`stomp`), and no row at all for the knobs on the box.
+Twelve pedals carry about forty of them and one treatment reached two, the
+tremolo's and the phaser's depth. Four moves fill it, in two pairs because
+these are two gestures: **`grind`/`clean`** turn the gain knob of every
+clipping pedal a part carries, and **`starve`/`revive`** turn the supply's
+droop, the battery and the Fuzz Face's bias — the rig failing rather than
+working. Scaled from the genre's own numbers like everything else here, so a
+pedal a genre left clean stays comparatively clean; a pedal not on the board is
+skipped; and `reaches` refuses the pair a genre has no box for.
+
+Measured with `tools/treatments.ts`, which is what it is for. `grind` is
+**−16.0 dB** on dungeon synth and **−25.9 dB** on lofi, `clean` −16.2 and
+−27.4. **On lofi they are the loudest moves that board has**, ahead of `stomp`
+(−26.5), `ease` (−30.4), `waver` (−31.0) and `push` (−31.3) — every other
+board move works on the feed or on which box is lit, and turning the box's own
+knob turns out to be the louder lever. `starve` is −29.5 on dungeon synth,
+which is the faintest thing that genre would carry, so it is weighted like
+`sweep` at −28.1: stated, and rare. lofi refuses both supply moves at −222 dB
+because its board has no sag and no Fuzz Face, which is the refusal working.
+
+**And `revive` was measured and not stated**, which is the fourth move and the
+one to read if you are adding a fifth. At −38.9 dB it is the faintest offered
+move in either genre's table, and the reason belongs to the genre: dungeon
+synth ships `sag.idle` at 1, a fresh battery, so the only half of the move left
+is lowering the droop. **Nothing forced it out** — `treat.test.ts` passes with
+it weighted and its floor sits below −38.9 — so this is a judgement that a
+boundary is worth more than the quietest thing the desk can do, recorded here
+so somebody who disagrees can reverse it in one line. It stays in `TREATMENTS`
+unstated, the way `recircuit` does.
+
+ON THE POOL BLOCKER, because the next person will hit it. `BUILDING-THE-
+ALTERATIONS.md` §2 says do not grow the pool until three things are fixed.
+Blocker 0 is already fixed and `TALLY.md` records it; blocker 2 is about going
+from two layers to eleven. These four are more moves in a layer already
+represented — §8, the desk — exactly like `stomp`, `waver`, `linger` and
+`medium`, which all went in the same way. That is why they were added and why
+the blocker still stands for Phases 2 to 5.
+
 **A board is TUNED now, not rebuilt, which is what makes a pedal
 automatable.** `pedals.ts` had no `set` on anything: every pedal took its
 numbers in the constructor and kept them `readonly`, so the only way to change

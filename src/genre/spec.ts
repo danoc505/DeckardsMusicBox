@@ -802,6 +802,26 @@ export const TREATMENTS = [
   // §7-§9 of THE-ALTERATIONS.md: knobs this desk has always had and could
   // never move across a record.
   "orbit", "medium", "waver", "stomp", "repatch",
+  /**
+   * §8 AGAIN, AND THE HOLE IN IT: THE PEDALS' OWN KNOBS.
+   *
+   * The catalogue had a row for how much of a board a part walks (43, which is
+   * `push`/`ease`) and a row for which box on it is lit (44, `stomp`), and no
+   * row at all for turning the knobs on the box. Twelve pedals carry about
+   * forty of them and one treatment reached two: `waver`, on the tremolo's and
+   * the phaser's depth. Turning a pedal up IS an alteration — it is what a
+   * player does to a rig between one section and the next — and it was the
+   * largest thing on this desk that could not move.
+   *
+   * Two pairs, because these are two gestures and not one:
+   *   grind / clean    the DIRT — the gain knobs of every clipping pedal on
+   *                    the board, which is the rig working harder
+   *   starve / revive  the SUPPLY — the rail collapsing and the bias going
+   *                    with it, which is the rig failing rather than working.
+   *                    "The feedback loop is broken... we have GATING. That
+   *                    ripping velcro tone is saturation setting in" (geofex)
+   */
+  "grind", "clean", "starve", "revive",
   // §9: the drum machine, which no treatment could reach at all.
   "rekit", "recircuit", "slacken", "spotlight", "soak",
   // and the one leaf of the rack that still had nothing pointed at it

@@ -141,6 +141,76 @@ const carried = (S: SoundRules, role: Role): readonly (keyof PedalsRules)[] =>
 const onBoards = (S: SoundRules, only?: Role): readonly Role[] =>
   (only === undefined ? ROLES : [only]).filter((r) => boardOf(S, r));
 
+/**
+ * THE GAIN KNOB OF EVERY PEDAL THAT CLIPS, with the range it turns through.
+ *
+ * One table rather than a branch per pedal, because "the dirt goes up" is one
+ * move and the pedals only differ in what their own knob is called and how far
+ * it goes. A pedal not on the board is not in here, and a knob the genre left
+ * at the bottom of its travel stays there: scaling is how this file refuses to
+ * overrule a genre, and it refuses here the same way.
+ */
+const DIRT = [
+  ["meat", "dirt", 0, 1],
+  ["muff", "sustain", 0, 1],
+  ["overdrive", "drive", 1, 20],
+  ["fuzz", "gain", 1, 40],
+  ["saw", "dist", 0, 1],
+] as const satisfies readonly (readonly [keyof PedalsRules, string, number, number])[];
+
+/**
+ * AND THE KNOBS THAT STARVE ONE. The supply's droop and how flat the battery
+ * already is, and the Fuzz Face's bias, which is the same failure in a
+ * different circuit — starve it and it gates.
+ *
+ * `idle` runs the other way from the other two: a LOWER battery is a more
+ * starved pedal, so it is scaled by the reciprocal and clamped at its own
+ * floor of 0.18.
+ */
+const STARVE = [
+  ["sag", "depth", 0, 1, 1],
+  ["sag", "idle", 0.18, 1, -1],
+  ["meat", "bias", 0, 1, 1],
+] as const satisfies readonly (readonly [keyof PedalsRules, string, number, number, 1 | -1])[];
+
+/** One board's knobs, scaled — `null` where this part's board has none of them. */
+function knobs(
+  S: SoundRules,
+  role: Role,
+  rows: readonly (readonly [keyof PedalsRules, string, number, number, ...number[]])[],
+  by: number,
+): PedalsSpec | null {
+  const out: Record<string, Record<string, number>> = {};
+  for (const [pedal, knob, lo, hi, sense] of rows) {
+    const box = S.pedals[role][pedal] as unknown as Record<string, number>;
+    if (box["mix"]! <= 0) continue;
+    const scale = sense === -1 ? 1 / by : by;
+    out[pedal] = { ...(out[pedal] ?? {}), [knob]: clamp(box[knob]! * scale, lo, hi) };
+  }
+  return Object.keys(out).length === 0 ? null : (out as PedalsSpec);
+}
+
+/** Every walked board's knobs, scaled — `null` where no part has one to turn. */
+function boards(
+  S: SoundRules,
+  rows: readonly (readonly [keyof PedalsRules, string, number, number, ...number[]])[],
+  by: number,
+  only?: Role,
+): NonNullable<SoundSpec["pedals"]> | null {
+  const out: Record<string, PedalsSpec> = {};
+  for (const r of onBoards(S, only)) {
+    const one = knobs(S, r, rows, by);
+    if (one !== null) out[r] = one;
+  }
+  return Object.keys(out).length === 0 ? null : (out as NonNullable<SoundSpec["pedals"]>);
+}
+
+/** Does anybody carry a pedal with one of these knobs on a board they walk? */
+const anyKnob = (
+  S: SoundRules,
+  rows: readonly (readonly [keyof PedalsRules, string, number, number, ...number[]])[],
+): boolean => onBoards(S).some((r) => knobs(S, r, rows, 1) !== null);
+
 /** The returns some part actually feeds, busiest first. A return nothing feeds
  * is not a return this record has. */
 function fed(S: SoundRules): readonly Send[] {
@@ -400,6 +470,40 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
       break;
     }
 
+    // ── the knobs on the boxes ──
+    // THE RIG WORKS HARDER, or backs off: every gain knob of every clipping
+    // pedal each part actually carries. Absolute and scaled from the genre's
+    // own, like everything else here, so a pedal the genre set clean stays
+    // comparatively clean and one it dimed cannot go past its own stop.
+    case "grind": {
+      const b = boards(S, DIRT, 1.6, only);
+      if (b === null) return null;
+      spec = { pedals: b };
+      break;
+    }
+    case "clean": {
+      const b = boards(S, DIRT, 0.55, only);
+      if (b === null) return null;
+      spec = { pedals: b };
+      break;
+    }
+    // AND THE RIG GIVING WAY. Not the same move as `grind` louder: a starved
+    // supply clips EARLIER AND QUIETER and blooms back, and a starved Fuzz
+    // Face gates — "that ripping velcro tone" — which is a section falling
+    // apart rather than one leaning in.
+    case "starve": {
+      const b = boards(S, STARVE, 1.7, only);
+      if (b === null) return null;
+      spec = { pedals: b };
+      break;
+    }
+    case "revive": {
+      const b = boards(S, STARVE, 0.45, only);
+      if (b === null) return null;
+      spec = { pedals: b };
+      break;
+    }
+
     // ── a different box on the board ──
     case "stomp": {
       // §8, move 44 is "a different stompbox lit for this section". Lit from
@@ -605,6 +709,16 @@ function reaches(name: Treatment, S: SoundRules): boolean {
     // is not heard however the boxes on it are set
     case "stomp":
       return boardWalked(S);
+    // and turning a knob on a box needs the box: a genre whose parts carry no
+    // clipping pedal has no dirt to turn up, and one with no sag and no Fuzz
+    // Face has no supply to starve. `anyKnob` asks it of the boards that are
+    // actually walked, which is the same question `boardOf` asks.
+    case "grind":
+    case "clean":
+      return anyKnob(S, DIRT);
+    case "starve":
+    case "revive":
+      return anyKnob(S, STARVE);
     // a return into another return: `specOf` already refuses a record with
     // fewer than two returns fed, and the one it patches FROM is by
     // construction one this record feeds, so the tail it grows is heard

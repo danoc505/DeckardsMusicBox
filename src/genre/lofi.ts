@@ -483,6 +483,26 @@ export const lofi: GenreSpec = {
       ["orbit", 2],
       ["repatch", 1],
       ["stomp", 1],
+      // THE KNOBS ON THE ONE BOX THIS GENRE'S GUITAR RUNS THROUGH. `grind` and
+      // `clean` turn the overdrive's own drive, which is the only clipping
+      // pedal on the lead's board — the muted guitar leaning in for a section
+      // and backing off again.
+      //
+      // AND THEY ARE THE BEST THIS GENRE'S BOARD CAN DO, which was not the
+      // expectation. Measured on seed 2: `grind` −25.9 dB and `clean` −27.4
+      // against `stomp` −26.5, `ease` −30.4, `waver` −31.0 and `push` −31.3.
+      // Every other board move here works on how much of the board the guitar
+      // walks or which box is lit; these turn the box's own knob, and on a
+      // genre that feeds one part 0.35 of one board that turns out to be the
+      // louder lever.
+      //
+      // AND NO `starve` OR `revive`: this board carries no sag and no Fuzz
+      // Face, so there is no supply to collapse. `treat.ts` refuses both —
+      // measured at −222 dB, which is not a small change but no change — and
+      // a weight nothing can read is invisible config, the same rule that took
+      // `sweep` and `brighten` off this list.
+      ["grind", 2],
+      ["clean", 1],
       // AND THE MACHINE. `soak` is the snare into the room while the kick
       // stays dry, which is how a break was recorded before it was sampled,
       // and `slacken` is a kit tuned down and left to ring — both of them the
