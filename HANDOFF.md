@@ -15,6 +15,54 @@ changed anything.
 ## Where it stands
 
 
+## The tune is second in, read off twelve scores
+
+The owner heard "a drone and chord is the majority of all the songs" and
+asked for scores. Twelve MIDI files of Autumn Altair's *Echoes on Stone
+Walls* (a dungeon synth album whose canonical release IS the MIDI) and a
+transcription of Burzum's "Dunkelheit" were measured with one parser and put
+in a table beside the program: **the tune enters by bar 9 in eleven of twelve,
+median bar 2, and sounds in a median 82% of the bars; the program's lead
+entered a median 45% in and sounded in 36%.** `docs/genre-research/
+DUNGEON-SYNTH-SCORES.md` has the table, the trace and the bill.
+
+Three lines made it, none of them the lead's: `enter` had the lead fifth
+(the genre's own guide in §3 of the arrangement doc said second, the whole
+time); `arrange.ts` let one part in per SECTION, so a thirty-two-bar verse
+held two parts and the peak brought four at once; and **the held chords of
+the previous commit had doubled the two-loop clock unmeasured** — period 4 →
+8 in every section, so the roster could move only every sixteen bars and the
+sixteen-bar intro stopped admitting its second part (24 of 24 → 3 of 24).
+That commit measured what it aimed at and not what it was not aiming at.
+
+Changed: `enter` (tune second, march third), `harmony.bars` back to 4 with
+`chordBars [[2,3],[4,2]]`, the arrival count is the number of two-turn
+boundaries inside the section, and the intro's newcomer is the part it
+admitted rather than the one `audible` put under a resting tune (a latent
+silent-bar bug, seed 48, that the shorter clock exposed). Sixty seeds: lead
+enters 45% → 17% (median), sounds 36% → 48%; the eight proof seeds every one
+earlier, seven of eight fuller, 9423 reported as the one that went the other
+way. **lofi moved** (lead 29% → 21% in, largest simultaneous arrival 3.02 →
+2.92) because the count is not a genre's; its suite is green and nobody has
+listened. Still short of the scores (2%, 82%): `introParts: 1` is the
+guide's own table and nine of thirteen scores open with the tune anyway —
+the next number to argue, sourced both ways — and the peak still brings
+three or four at once, which is the form's law.
+
+**ONE TEST IS RED ON THIS COMMIT AND IT IS THE DESK'S, NOT THE
+ARRANGEMENT'S.** `render.test.ts` "the record's own desk is heard" holds
+that a treatment does not move loudness (< 0.02 RMS) on dungeon synth seed
+2 at 60 s. That record's desk now carries `darken` at 47 s and `darken`
+alone raises its level 0.201 → 0.232. On the BASE commit, before this
+session, the same measurement gives `wear` +0.035 to +0.046, `orbit` +0.038,
+`darken` +0.017 to +0.026 and `dry` −0.033 on seeds 2, 5 and 9, rig on or
+off: the law never held on this genre and the test was holding one lucky
+seed. The fix is level-matching at the treatment (`darken` is a resonant
+pole closed to 0.45× and switched in to mix 0.5), not a change to the
+test's seed, and it was not done here because it is a desk change that
+every treatment of both genres has to be measured through. Numbers and the
+script's shape are in `DUNGEON-SYNTH-SCORES.md` §6.
+
 ## The kit got its kettles back, and a chord got long enough to hold
 
 Two changes, both of them a genre inheriting something written for other music.

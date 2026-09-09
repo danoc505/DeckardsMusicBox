@@ -7,3 +7,4 @@ node_modules/
 # `npm run roll <genre> <seed>` and `npm run shot <genre> <seed>` remake any of them.
 shots/
 roll-*.png
+docs/genre-research/scores/

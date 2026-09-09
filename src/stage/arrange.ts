@@ -892,6 +892,8 @@ const kindOf = (mv: Move): string =>
     const floor = closing ? Math.min(A.fewest, Math.max(1, openers.size)) : A.fewest;
 
     let heard: Set<Role>;
+    /** The one part a long intro admits past its opening — the only newcomer an intro has. */
+    let admitted: Role | null = null;
     /**
      * WHAT A BREAK CAN CARRY: the openers, and only those of them that sound
      * on every round — see `sounds`. Where that leaves nothing, there is no
@@ -946,11 +948,42 @@ const kindOf = (mv: Move): string =>
       if (next !== undefined && section.bars > introTurn && loops(next)) {
         heard = new Set([...heard, next]);
         arrived = Math.max(arrived, enter.indexOf(next) + 1);
+        admitted = next;
       }
     } else {
       // WHAT HAS ARRIVED still only grows: a part the record has not yet
-      // introduced cannot appear, and each section lets the next one in.
-      arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      // introduced cannot appear, and each section lets the next ones in —
+      // ONE PER TWO-TURN BOUNDARY IT HAS, not one per section.
+      //
+      // This was `arrived + 1`, one part a section, whatever the section's
+      // length. That is the right count for a nine-bar lofi section and the
+      // wrong one for a thirty-two-bar dungeon synth verse, and the failure
+      // it produced is the one the sources name: with six parts, an intro
+      // and four sections, a record went drone → drone and one more for a
+      // whole verse → the peak, which "has everyone by definition", so FOUR
+      // parts arrived at once there. EDMProd's "drop-off", "all elements
+      // enter simultaneously, leaving nothing for later introduction"; and
+      // the owner's, "it's like a drone and chord is the majority of all the
+      // songs". Measured over sixty dungeon synth records: the lead arrived a
+      // median 45% in and sounded in 36% of the bars.
+      //
+      // The queue below already walks newcomers in one per two-turn boundary
+      // and puts the overflow at the last one — so the count that keeps that
+      // promise is the number of two-turn boundaries INSIDE the section, and
+      // at least one, at the door, where there are none. Twelve scores of the
+      // genre (`DUNGEON-SYNTH-SCORES.md`) add a part every eight bars, which
+      // is one every two turns of their four-bar loops: this is that cadence,
+      // and a section of any length now walks in as many as it has room to.
+      //
+      // AND ONLY WHERE THE QUEUE RUNS. A record that opens cold has no
+      // section before its first, so the queue has nothing to walk a
+      // newcomer in over and every part named for that section takes the
+      // door — three boundaries counted there put five parts in bar one of
+      // lofi seed 3, and the ending, floored by what the record opened with,
+      // could not hold them. A first section admits one, at the door, as it
+      // always did; the count by boundaries starts where the walk-in does.
+      const slowInside = last === null ? 1 : Math.floor((section.bars - 1) / (2 * Math.max(1, periodOf(chart, section.idea))));
+      arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + Math.max(1, slowInside));
       // HOW MANY OF THEM PLAY is this section's energy, between the fewest a
       // genre will carry and all of them. The peak takes everyone.
       //
@@ -1434,7 +1467,6 @@ const kindOf = (mv: Move): string =>
     // and never sounded, which `all.test.ts` catches by name and which is the
     // one thing this stage promises never to do. The groove is written once
     // and repeated, so it always has notes to walk in with.
-    const gained = enter[arrived - 1];
     // AND IT ARRIVES ON A TWO-TURN BOUNDARY, which is no longer the same as
     // "the second span". A part walking in is a change to who is playing, and
     // the roster only moves on the slow clock — so the entrance waits for the
@@ -1467,8 +1499,21 @@ const kindOf = (mv: Move): string =>
      * only a part that loops, never at the peak or in a break, and never
      * below two voices at the door (the intro keeps its own number).
      */
+    /**
+     * AN INTRO'S ONLY NEWCOMER IS THE PART IT ADMITTED, not the last part in
+     * by the entry counter. This read `enter[arrived - 1]`, and `opensWith`
+     * can put a part in the OPENING past `introParts` — the foundation
+     * `audible` adds under a tune that rests a round, so the record does not
+     * open on silence. Read off the counter, that foundation was the intro's
+     * newest part, so the queue withheld it to the first two-turn boundary,
+     * and the silence `audible` exists to prevent came back: dungeon synth
+     * seed 48, the tune alone for eight bars and bar 5 empty, the moment the
+     * two-turn clock was short enough for a sixteen-bar intro to have a
+     * boundary inside it. What walks in is what the long-intro rule let in,
+     * and nothing that was there to make the opening sound.
+     */
     const fresh: Role[] = section.fn === "intro"
-      ? (gained !== undefined && heard.has(gained) ? [gained] : [])
+      ? (admitted !== null && heard.has(admitted) ? [admitted] : [])
       : enter.filter((r) => heard.has(r) && arrivedFrom !== null && !arrivedFrom.has(r));
     let queue = fresh.filter(loops);
     /**

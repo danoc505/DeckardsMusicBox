@@ -502,3 +502,13 @@ one, not another compromise inside this one. Nothing here needs to be averaged.
 
 The same warning applies to the rest of this document: where a rule below cites
 one guide for the whole genre, it is describing the strand that guide is about.
+
+---
+
+## 12. Read off scores
+
+Twelve MIDI scores of the genre and one of its parent were found and measured
+after §11 — `DUNGEON-SYNTH-SCORES.md`. They say what §3's table said: the tune
+is the second thing in. This file's own `enter` order had it fifth, the
+arrival count was one part a section, and the held chords of §10 had doubled
+the two-loop clock. All three are changed there, with the bill.

@@ -224,18 +224,37 @@ export const dungeonsynth: GenreSpec = {
      * [chosen]; the sources name the gesture and rank nothing.
      */
     /**
-     * AND NO ONE-BAR CHORD, AND THE IDEA IS EIGHT BARS SO A CHORD HAS ROOM.
-     * The first pass at this kept a one-bar draw at a third of the weight
-     * and capped everything at `harmony.bars` 4. Measured on nine seeds it
-     * made the harmonic rhythm a lottery — the chord changed at 11% of bar
-     * lines on one seed and 67% on another, and seed 42 restruck every bar.
-     * The owner heard it: "the chords are not HELD." Doom's own words are
-     * "chords are held for a long time" (easure.net). So: four bars the
-     * unmarked case, two the quick one, eight the whole idea on one chord.
-     * At 60-80 bpm that is 12-16 s a chord, and up to 32.
+     * AND NO ONE-BAR CHORD. The first pass at this kept a one-bar draw at a
+     * third of the weight. Measured on nine seeds it made the harmonic rhythm
+     * a lottery — the chord changed at 11% of bar lines on one seed and 67% on
+     * another, and seed 42 restruck every bar. The owner heard it: "the
+     * chords are not HELD." Doom's own words are "chords are held for a long
+     * time" (easure.net). So: two bars the unmarked case — six to eight
+     * seconds at 60-80 bpm, the long end of what the scores do — and four,
+     * which is the whole idea on one chord and a section that never moves,
+     * just under half the time. Measured over sixty seeds, 41% of sections
+     * sit on one chord throughout against 56% with the weights the other way
+     * round; two of the twelve scores are that still, and the owner asked
+     * for long chords, not for a static record.
+     *
+     * AND THE IDEA STAYS FOUR BARS, BECAUSE THE IDEA IS THE ARRANGEMENT'S
+     * CLOCK. The second pass made it eight, "so a chord has room", with an
+     * eight-bar chord as the stillest draw. It was not measured for what it
+     * was not aiming at, and the bill was the whole arrangement: the two-loop
+     * clock runs on the harmonic period (`periodOf`), every section's period
+     * went from 4 bars to 8 — 290 of 346 sections at 4, then 251 of 251 at 8
+     * — so who-is-playing could only move every SIXTEEN bars, fifty-five
+     * seconds at this tempo. A sixteen-bar intro that had let its second part
+     * in at bar eight on 24 records in 24 let it in on 3, and the lead, fifth
+     * in the entry order, arrived a median 45% into the record. Read off
+     * twelve scores of the genre (`DUNGEON-SYNTH-SCORES.md`), the roster
+     * moves every eight bars — the second part at bar 8 in five of them and
+     * by bar 3 in four more — and no chord in any of them is held longer than
+     * about five bars. Four-bar chords over a four-bar idea are both of those
+     * facts at once; the eight was one of them at the cost of the other.
      */
-    bars: 8,
-    chordBars: [[4, 3], [2, 2], [8, 1]],
+    bars: 4,
+    chordBars: [[2, 3], [4, 2]],
     // no jazz in it at all, and a third of the chords are bare fifths
     sevenths: 0,
     fifths: 0.34,
@@ -562,11 +581,30 @@ export const dungeonsynth: GenreSpec = {
   },
 
   arrangement: {
-    // THE DRUMS ARE SECOND IN AND FOURTH OUT. Fourth in and second out they
-    // played in 32-80 of a record's bars — absent from the first half of
-    // most records and gone again before the end. The march walks in at the
-    // first turn after the drone.
-    enter: ["drone", "drums", "keys", "bass", "lead", "counter"],
+    /**
+     * THE TUNE IS SECOND IN, THE DRUMS THIRD, AND BOTH ARE READ OFF SCORES.
+     *
+     * The lead was fifth here, and this genre's own guide had said otherwise
+     * in this repository the whole time: "Presentation of the Theme (16-24
+     * bars): pad sounds layer in, and the central theme melody appears"
+     * (note.com/soundwitches, quoted in DUNGEON-SYNTH-ARRANGEMENT.md §3) —
+     * the theme is the SECOND thing, in the section after the intro. Twelve
+     * scores of the genre and one of its black metal parent agree and are
+     * more exact (DUNGEON-SYNTH-SCORES.md): the tune enters by bar 9 in
+     * eleven of thirteen, median bar 2, and sounds in a median 82% of the
+     * bars. Fifth in, it arrived here a median 45% into the record and
+     * sounded in 36% of it; the owner heard "a drone and chord is the
+     * majority of all the songs", and it was.
+     *
+     * The drums are third, not later: they enter by bar 8 in nine of the
+     * eleven scores that have them and sound in a median 84% of the bars —
+     * the march the owner asked for, and fourth in they played 32-80 of a
+     * record's bars. The pad is fourth because it is this genre's likeliest
+     * character (see `protagonist`), and a character is first whatever this
+     * list says; where it is not the character it is the "pad sounds layer
+     * in" of the guide's second section, behind the theme they layer under.
+     */
+    enter: ["drone", "lead", "drums", "keys", "bass", "counter"],
     /** the desk walks to a treatment rather than switching to it: see the source */
     drift: 1,
     /**
@@ -1012,6 +1050,10 @@ export const dungeonsynth: GenreSpec = {
     lengthSec: "[chosen] — long, loop-based tracks; no measured average found",
     metre: "[chosen] — 4/4; the sourced track is in 6/4, which the program does not yet hold",
     "form.lengths": "\"simple, loop-based compositions\" (note.com/soundwitches), \"repeated extensively\" (erichgrunewald.com); the lengths [chosen]",
+    "harmony.chordBars":
+      "\"just sustaining minor chords or power chords (root + 5th) for a LONG TIME is enough\" " +
+      "(dungeonsynth.neocities.org/howto); \"chords are held for a long time\" (easure.net, doom-metal); " +
+      "no chord in twelve scores of the genre is held past about five bars (DUNGEON-SYNTH-SCORES.md); the weights [chosen]",
     "harmony.sevenths":
       "the genre \"notably avoids complex jazz-influenced harmony, instead favoring simple, modal-based " +
       "progressions\", and its cadences \"use simple stepwise resolutions rather than dense extended chords\" " +

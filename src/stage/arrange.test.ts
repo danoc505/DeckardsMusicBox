@@ -3,15 +3,18 @@ import assert from "node:assert/strict";
 import { makeArrangement, describeArrangement, type Arrangement } from "./arrange.ts";
 import { NEEDS_DRUMS, deskOf } from "./treat.ts";
 import { settle } from "../sound/render.ts";
-import { makeChart } from "./chart.ts";
+import { makeChart, type Chart } from "./chart.ts";
+import { periodOf } from "./material/harmony.ts";
 import { makeForm } from "./form.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
 import { LEGAL_TEXTURES, ROLES, TREATMENTS } from "../genre/spec.ts";
 
 const lofi = GENRES.lofi;
-const build = (seed: number, seconds: number | null = 240): Arrangement => {
+const build = (seed: number, seconds: number | null = 240): Arrangement => buildWith(seed, seconds).arrangement;
+/** The arrangement and the chart it was made from, for a test that needs the loop length. */
+const buildWith = (seed: number, seconds: number | null = 240): { chart: Chart; arrangement: Arrangement } => {
   const chart = makeChart(seconds === null ? { seed, genre: lofi } : { seed, genre: lofi, seconds });
-  return makeArrangement(chart, makeForm(chart));
+  return { chart, arrangement: makeArrangement(chart, makeForm(chart)) };
 };
 const sweep = (n: number, seconds: number | null = 240) => Array.from({ length: n }, (_, i) => build(i + 1, seconds));
 
@@ -170,7 +173,8 @@ test("parts arrive in order, and how many play is the section's energy", () => {
   const A = lofi.arrangement;
   let quieter = 0;
   let fuller = 0;
-  for (const a of sweep(120)) {
+  for (let seed = 1; seed <= 120; seed++) {
+    const { chart, arrangement: a } = buildWith(seed);
     // AGAINST THE RECORD'S OWN ENTRY ORDER, not the genre's. A record draws a
     // main character and that character is introduced first, so `enter` is the
     // genre's order with one name moved to the front
@@ -189,7 +193,13 @@ test("parts arrive in order, and how many play is the section's energy", () => {
         arrived = Math.max(arrived, ...[...p.heard].map((r) => enter.indexOf(r) + 1));
         continue;
       }
-      arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      // ONE PER TWO-TURN BOUNDARY INSIDE THE SECTION, at least one — and one
+      // only where the record opens cold, because a first section has nobody
+      // to walk a newcomer in over. `DUNGEON-SYNTH-SCORES.md` §3-§4: twelve
+      // scores add a part every eight bars whatever the section length, and
+      // one part a section left a thirty-two-bar verse on two parts.
+      const inside = s.index === 0 ? 1 : Math.floor((s.bars - 1) / (2 * Math.max(1, periodOf(chart, s.idea))));
+      arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + Math.max(1, inside));
       // NOBODY APPEARS OUT OF TURN. Whoever is heard has ARRIVED — a part
       // cannot appear before the one in front of it in the entry order. It is
       // no longer a PREFIX of that order, because who LEAVES is the shed

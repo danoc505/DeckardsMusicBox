@@ -1095,9 +1095,12 @@ export interface ArrangementSpec {
    */
   readonly shed?: readonly Role[];
   /**
-   * Each section after the intro lets one more part in, until a section at
-   * or above this energy wants all of them at once. From then on every part
-   * is heard until the outro.
+   * Each section after the intro lets more parts in — one per two-turn
+   * boundary inside it, at least one — until a section at or above this
+   * energy wants all of them at once. From then on every part is heard
+   * until the outro. (This said "one more part" a section; the count is by
+   * boundary since `DUNGEON-SYNTH-SCORES.md`, where twelve scores add a part
+   * every eight bars whatever the section length.)
    */
   readonly fullAbove?: number;
   /** Below this energy a section's drums lose their hat. */
