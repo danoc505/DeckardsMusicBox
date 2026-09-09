@@ -468,3 +468,37 @@ genre whether it had one. The law is now kept where the move is made.
 
   Two other failures in the suite (`index.test.ts` 217 and 226) were **confirmed
   failing on the pre-change commit** and are not this change's.
+
+
+---
+
+## 11. "Primarily beatless" is one strand, not the genre
+
+Everything above — this whole document — reads note.com/soundwitches as if it
+described dungeon synth. It describes **a** dungeon synth. The genre is a
+family, and at least one of its subgenres is drum-heavy.
+
+**Dino synth** is the worked example: prehistoric-themed, with Diplodocus's
+*Slow and Heavy* (2019) taken as its first record and Synthosaurus and
+Electrosaurus Rex beside them; Bandcamp carries `dino synth` as its own tag. Its
+percussion is **tom-driven and near-continuous** rather than sparse. [owner —
+the subgenre, its origin record and its tags are documented; no published
+account of its percussion was found, and two searches were spent looking]
+
+**What that invalidates here.** §1's framing, and every argument in this
+repository that reached for "primarily beatless" or "very subtle percussion" to
+argue a drum number DOWN. `dungeonsynth.ts` quoted that sentence in five places
+as though it settled the question. It settles it for one strand. When the
+kettles came back and doubled this genre's drum density, that was read as a
+fault against the source and was very nearly turned down to a third of its
+weight on the strength of it — **the sources do not support that**, and
+`toms.run` stays at 0.9.
+
+**The mechanism for the real fix already exists and has never been used.**
+`GenreSpec.extend` deep-merges a genre onto a parent, refuses a cycle, and is
+covered by `resolve.test.ts` — and no shipped genre extends anything. A strand
+that wants its own percussion, tempo or kit is a genre file that extends this
+one, not another compromise inside this one. Nothing here needs to be averaged.
+
+The same warning applies to the rest of this document: where a rule below cites
+one guide for the whole genre, it is describing the strand that guide is about.

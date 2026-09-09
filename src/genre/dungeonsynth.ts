@@ -325,6 +325,23 @@ export const dungeonsynth: GenreSpec = {
    * are the fast answer between them." The owner's, in MK2's margin: "low
    * bellowing boom boom badabdabda boom boom" — two instruments in one bar,
    * and the second one is what was missing.
+   *
+   * AND "PRIMARILY BEATLESS" IS NOT A LAW OF THIS GENRE. It is one sentence
+   * from one guide (note.com/soundwitches) describing the strand that guide is
+   * about, and this file quotes it in five places as though it settled the
+   * question. It does not. DUNGEON SYNTH IS A FAMILY: dino synth is a
+   * documented subgenre of it — Diplodocus's *Slow and Heavy* (2019) is taken
+   * as its first record — and it is drum-heavy, tom-driven and near-continuous
+   * rather than sparse. [owner; the subgenre and its origin record are
+   * en.wikipedia/Dungeon_synth-adjacent scene documentation and Bandcamp's own
+   * tags, no published account of its percussion found]
+   *
+   * SO A DRUM NUMBER HERE IS THIS FILE'S TASTE AND NOT AN INHERITED LAW, and
+   * nothing in the sources argues the kettles down. `toms.run` at 0.9 is the
+   * whole point of having them; it is not a compromise between strands and it
+   * should not be read as one. The day a strand wants its own percussion it
+   * gets its own genre — `extend` is built, deep-merging and cycle-checked,
+   * and no shipped genre has ever used it.
    */
   drums: {
     // THE WALK. Slow strikes and no backbeat: what a march has on beat one is
@@ -889,9 +906,13 @@ export const dungeonsynth: GenreSpec = {
       "smallest ceiling that admits what the source names. The inherited default of 12 s is Léveillé Gauvin's " +
       "figure for 303 top-10 pop singles and nothing this genre offers fits under it",
     "arrangement.intro":
-      "\"primarily beatless\", \"very subtle percussion\" (note.com/soundwitches): the drum-led opening Burns " +
-      "documents (\"solo drums... will attract especially great attention to rhythm\") is the one way in this " +
-      "genre cannot use, so the pool is the drone alone or the flute over it. Weights [chosen]",
+      "the drum-led opening Burns documents (\"solo drums, solo bass, or drums and bass in duet at the start of " +
+      "a record will attract especially great attention to rhythm\") IS one this genre uses: `intro` weights " +
+      "`rhythm` at 2 and the note beside it argues why. THIS STRING SAID THE OPPOSITE until now — it read " +
+      "\"the one way in this genre cannot use\", which was true of an earlier version of the pool and was left " +
+      "behind when the pool changed, so the genre cited a law its own table broke. The reasoning it rested on " +
+      "is also wrong: \"primarily beatless\" (note.com/soundwitches) describes one strand of a family that " +
+      "includes drum-heavy ones. Weights [chosen]",
     "feel.accent":
       "the voices are an organ and a pad, and a pipe organ has no touch at all: its pipes sound the same however " +
       "the key is pressed (soundonsound.com Synthesizing Tonewheel Organs). 0.12 [chosen]",

@@ -52,6 +52,17 @@ asked the genre.
 `clap`, `crash` and `ride` were written and deleted, note kept in `DRUM_LANES`.
 The kit ships eight lanes and every one is struck by some genre.
 
+**AND "PRIMARILY BEATLESS" IS NOT A LAW OF THE GENRE.** It is one sentence
+from one guide about one strand, and `dungeonsynth.ts` quoted it in five places
+as though it settled every drum number. Dungeon synth is a family and at least
+one subgenre — dino synth, Diplodocus's *Slow and Heavy* as its first record —
+is drum-heavy and tom-driven. The kettles doubling this genre's drum density was
+briefly read as a fault against that source and nearly turned down to a third of
+its weight; the sources do not support that and `toms.run` stays at **0.9**.
+A strand that wants its own percussion is a genre file that extends this one:
+`extend` is built, deep-merging, cycle-checked, covered by tests, and **no
+shipped genre has ever used it**. See `DUNGEON-SYNTH-ARRANGEMENT.md` §11.
+
 **One law is left failing and it is not this change's to settle.**
 `treat.test.ts` holds that every treatment a genre's desk offers must move the
 record by more than −40 dB. Dungeon synth offers `revive` and its own file
