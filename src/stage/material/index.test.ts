@@ -7,6 +7,7 @@ import { makeForm } from "../form.ts";
 import { makeArrangement } from "../arrange.ts";
 import { GENRES, resolveGenre } from "../../genre/index.ts";
 import { lofi as lofiSpec } from "../../genre/lofi.ts";
+import { dungeonsynth } from "../../genre/dungeonsynth.ts";
 import { inScale, pc, noteName } from "../../core/theory.ts";
 import { Sounding } from "./note.ts";
 import { stepsPerBar } from "../../core/clock.ts";
@@ -352,7 +353,14 @@ test("materials are frozen", () => {
 });
 
 test("a genre that avoids the diminished degree never lands on it, in any mode", () => {
-  const ds = GENRES.dungeonsynth;
+  // THE FIXTURE IS A GENRE THAT STATES `avoid`, NOT DUNGEON SYNTH BY NAME.
+  // This used to read `GENRES.dungeonsynth`, which avoided the diminished
+  // degree when the test was written and no longer does — doom was brought
+  // back into it and the tritone with it (`DOOM-AND-SLUDGE.md` §4), so the
+  // genre's own table now says `allow`. The MECHANISM is what this test is
+  // for, and it is tested on a genre that asks for it: dungeon synth's own
+  // tables with the one word put back, resolved here and nowhere else.
+  const ds = resolveGenre("avoids", { avoids: { ...dungeonsynth, harmony: { ...dungeonsynth.harmony, diminished: "avoid" } } });
   const modes = new Set<string>();
   for (let seed = 1; seed <= 60; seed++) {
     const chart = makeChart({ seed, genre: ds, seconds: 240 });

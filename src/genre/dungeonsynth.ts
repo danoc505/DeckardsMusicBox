@@ -25,43 +25,49 @@ import type { GenreSpec, PedalsSpec } from "./spec.ts";
  * comments in here name a part, which is why the question exists at all.
  */
 const SLUDGE_RIG: PedalsSpec = {
-  // THE BOARD IN CABLE ORDER. Every pedal below is one MK2's board was
-  // built out of for exactly this music, and the first pass here reached
-  // past all of them for the two generic units that happened to be older.
+  // THE BOARD IN CABLE ORDER, AND NOW ACTUALLY IN LINE.
   //
-  // A Dyna Comp first, lightly. Doom is "loud, sustaining amps", and the
-  // Dyna Comp's own detector "amplifies weak signals" — which is sustain,
-  // and is what a riff this slow needs between strikes.
-  comp: { sustain: 0.55, level: 0.8, mix: 0.35 },
-  // THE OCTAVE DOWN, which is the one thing the doom-tone sources name as
-  // a pedal rather than a setting: "pedals pitched one or two octaves
-  // down for maximum heaviness" (boostguitarpedals.co.uk). Kept at one
-  // octave and gated high, because a divider "tracks single notes and not
-  // chords" — so it is the bass and the drone that get it, and the pad
-  // must not clock it.
-  sub: { two: 0.15, gate: 0.03, tone: 700, mix: 0.3 },
-  // A BIG MUFF, not the generic fuzz. It is the doom fuzz, and it is the
-  // one with the two knobs a sludge Muff adds: MIDS to fill the Ram's
-  // Head notch back in — the scoop is ~13 dB at 1 kHz and a scooped
-  // guitar disappears under a pad — and MASS for the low end a bass fuzz
-  // is built around. Cab corner low, because "the treble dialed back" is
-  // the number the style is most consistent about.
-  muff: { sustain: 0.62, tone: 0.3, level: 0.85, cabHz: 3200, mids: 0.55, mass: 0.45, mix: 0.5 },
-  // and an overdrive IN FRONT of it, which is the stack the sources
-  // describe — "fuzz/overdrive stacks" — not a second fuzz beside it.
-  overdrive: { drive: 4, tone: 0.3, mix: 0.4 },
-  // THE POWER SUPPLY GIVING WAY. Sag is not a knob on the signal: "under
-  // heavy demand the rail momentarily drops, creating a subtle
-  // compression players describe as feel or touch response" (aikenamps).
-  // A slow recovery is a tired valve rectifier, which is the amp this
-  // whole chain is pretending to be.
-  // MAKEUP SWEPT, not guessed. A cab corner at 3200 Hz throws away a lot,
-  // and at the units' resting levels the whole board came out 3 dB QUIETER
-  // than bypass — a sludge rig that loses volume is not one. Swept over
-  // dungeonsynth 42: makeup 0.5/0.5 gave -3.5 dBFS and a low/high tilt of
-  // 1.25, 0.65/0.7 gave -3.2 and 1.36, 0.8/0.85 gave -2.9 and 1.45. Louder
-  // AND heavier together, so the top of the sweep, with headroom left.
-  sag: { depth: 0.45, idle: 1, recovSec: 0.28, draw: 0.35, mix: 0.5 },
+  // MEASURED BEFORE THIS, on dungeonsynth 42: the whole rig, on against off,
+  // moved the record -8.8 dB and its level +0.7 dB; every pedal was a 30-50%
+  // blend and the board was fed at 0.25-0.85 per part, so roughly a quarter of
+  // the signal ever met the Muff. Turning the Muff's SUSTAIN — the gain, the
+  // whole point of a fuzz — from the shipped 0.62 to 1.0 moved the record
+  // -36.8 dB, below `starve` and a hair above this program's own "did not
+  // happen" floor: at 0.62 the pre-gain is 107x and the clipper is already
+  // square, so the top half of the knob was dead and `grind` (x1.6 on it)
+  // could not make anything heavier. Every pedal fully wet AND every feed at
+  // full moved the record -3.9 dB — the largest desk move available anywhere
+  // in this program, and unused. The sources say where that headroom belongs:
+  // "The key to a great Doom sound is a high powered amp set pretty clean. The
+  // guitar pedals do almost all of the heavy lifting in this genre"
+  // (boostguitarpedals.co.uk). So the pedals are in line, not beside it.
+  //
+  // A Dyna Comp first, and HARD. Doom is "loud, sustaining amps"; sludge is
+  // "saturated, sustaining distortion". The compressor is what sustains, and
+  // it was a third in. Measured crest factor 5.9 with the rig on against 5.5
+  // off — no squash at all. Fully in, sustain up.
+  comp: { sustain: 0.8, level: 0.8, mix: 1 },
+  // THE OCTAVE DOWN, and more of the second octave: "pedals pitched one or
+  // even 2 octaves down for the heaviest, filthiest sound"
+  // (boostguitarpedals.co.uk). Gate kept high — a divider tracks single
+  // notes, so this is still the bass and the drone and never the pad.
+  sub: { two: 0.35, gate: 0.03, tone: 700, mix: 0.6 },
+  // THE MUFF, FULLY IN, AND ITS GAIN BROUGHT DOWN INTO THE RANGE WHERE THE
+  // KNOB IS ALIVE. 0.45 is 40x — deep in the fuzz but short of square, so
+  // `grind` at x1.6 lands on 0.72 (190x) and is heard, and the gesture the
+  // sources describe as the genre's own — the wall leaning in — exists. Gain
+  // "around 60-70%" is what the guides say for sustain without mud, and on
+  // THIS circuit's curve (3 x 320^s) that is exactly this, not 0.62.
+  // MIDS toward the scoop: sludge "keep[s] it scooped and you can even push
+  // the bass to its limits" (singularsound); the earlier 0.55 filled the
+  // Ram's Head notch back in so the pad stayed audible. Halfway — the pad has
+  // its own board now and does not need the Muff to carry it.
+  muff: { sustain: 0.45, tone: 0.3, level: 0.85, cabHz: 3200, mids: 0.35, mass: 0.6, mix: 1 },
+  // and the overdrive in FRONT of it, fully in — "fuzz/overdrive stacks" is
+  // a stack only if both are in the chain.
+  overdrive: { drive: 4, tone: 0.3, mix: 0.85 },
+  // THE POWER SUPPLY GIVING WAY. Unchanged in character; more of it.
+  sag: { depth: 0.45, idle: 1, recovSec: 0.28, draw: 0.35, mix: 0.8 },
 };
 
 export const dungeonsynth: GenreSpec = {
@@ -102,10 +108,16 @@ export const dungeonsynth: GenreSpec = {
 
   // the church modes: in the altered minors the sixth and seventh degrees
   // are diminished, and a loop of diminished triads is not this music
+  // PHRYGIAN UP. Doom names two modes: "the natural minor scale (also known as
+  // the Aeolian mode) is a staple", and Phrygian for its "distinctive, exotic
+  // sound that can add a mysterious or unsettling quality" (riffhard, how-to-
+  // write-doom-metal-riffs). It was weighted one in eight and drawn in 17% of
+  // records; beside the minor now, and the dorian — which no doom source names
+  // — steps back.
   scales: [
     ["minor", 4],
-    ["dorian", 3],
-    ["phrygian", 1],
+    ["phrygian", 3],
+    ["dorian", 2],
   ],
 
   lengthSec: [240, 420],
@@ -173,7 +185,21 @@ export const dungeonsynth: GenreSpec = {
     // no jazz in it at all, and a third of the chords are bare fifths
     sevenths: 0,
     fifths: 0.34,
-    diminished: "avoid",
+    /**
+     * THE TRITONE, LET IN. "The tritone, also known as 'the devil's interval,'
+     * has a long history in music as a tool for creating tension" (riffhard);
+     * doom's harmony "relies heavily on minor keys and dissonant chords,
+     * including the use of the tritone interval to generate an atmosphere of
+     * dread" (easure.net, doom-metal). Measured before this: ZERO tritones in
+     * 1440 chords, because the diminished degree was filtered out of every
+     * progression. The comment that used to sit here — "a loop of diminished
+     * triads is not this music" — was dungeon synth's own guide, and it is
+     * still true of the pad; but a third of these chords are bare fifths, and
+     * a bare fifth on the diminished degree is a POWER CHORD WITH A FLAT FIVE,
+     * which is doom's chord and nobody else's. Allowed; the progressions that
+     * reach the diminished degree are the ones that carry it.
+     */
+    diminished: "allow",
     progressions: {
       A: [
         [[0, 2, 0, 3], 3],
@@ -501,6 +527,14 @@ export const dungeonsynth: GenreSpec = {
       ["drone", 6],
       ["keys", 4],
       ["lead", 2],
+      // THE BASS, NAMED. The note above said it was not, because it doubles
+      // the drone an octave down and "a character has to be distinguishable
+      // from the thing beside it". Doom disagrees, and by name: "the bass
+      // plays a central role and reinforces the heaviness of the sound"
+      // (easure.net). Through a sludge rig at full feed with the divider on it
+      // the bass is not the drone's shadow any more. Low, so it is a kind of
+      // record and not the usual one. [chosen]
+      ["bass", 2],
       ["drums", 1],
     ],
     introParts: 1,
@@ -720,7 +754,20 @@ export const dungeonsynth: GenreSpec = {
      * furthest back and deepest in it. 32 and 23 bars still share no factor.
      */
     motion: [
-      { path: "fx.*.pole.hz", at: "keys", bars: 32, depth: 0.5, off: -0.4, wave: "ramp", reset: "section" },
+      /**
+       * THE SWEEP MOVED DOWN UNDER THE CAB. With the Muff fully in, the keys'
+       * board ends in a cab corner at 3200 Hz, and a filter ramping 1.9–3.9
+       * kHz over a signal already cut at 3.2 kHz has almost nothing left to
+       * move: measured, the pole's own move went −30.8 dB and the genre's
+       * stated motion fell out of `motion.test.ts`. At −0.9 the ramp runs
+       * about 1.2–2.4 kHz, under the cab, where the pad still has body to
+       * take away — the pole's move comes back to −24.5 dB and the whole
+       * motion to −20.8, which is where it was before the rig went in line.
+       * The gesture is unchanged: "open a low-pass filter by a few percent
+       * each time the loop repeats" (musicradar), only lower, because the
+       * shadows this genre asks to deepen now start lower.
+       */
+      { path: "fx.*.pole.hz", at: "keys", bars: 32, depth: 0.5, off: -0.9, wave: "ramp", reset: "section" },
       { path: "fx.*.room.mix", at: "drone", bars: 23, depth: 0.35, wave: "sin" },
     ],
     voices: { keys: "pad", bass: "organ", lead: "flute", counter: "pluck", drone: "organ" },
@@ -788,13 +835,18 @@ export const dungeonsynth: GenreSpec = {
     // one voice in the room that is not coming out of an amp.
     // THE SENDS ARE GONE AND THE CHURCH IS IN LINE — see `fx` below. What is
     // left here is where each part stands and how much board it walks.
+    // THE FEEDS, UP. "Your pedals, amp and cabinet will have more of an
+    // influence than your guitar on your Doom tone" (boostguitarpedals.co.uk):
+    // a board fed at half is half a board. The low end and the chords stand on
+    // it entire; the drums at 0.6, because the kettles through a Muff are the
+    // war drum this genre keeps describing and they were barely on it.
     mix: {
-      drums: { az: 0, dist: 0.6, pedals: 0.25 },
-      bass: { az: -15, dist: 0.5, pedals: 0.85 },
-      keys: { az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.7 },
+      drums: { az: 0, dist: 0.6, pedals: 0.6 },
+      bass: { az: -15, dist: 0.5, pedals: 1 },
+      keys: { az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.9 },
       // the flute walks no board, because it has none — see `pedals` above
       lead: { az: 60, dist: 0.55, pedals: 0 },
-      drone: { az: 180, dist: 0.8, pedals: 0.55 },
+      drone: { az: 180, dist: 0.8, pedals: 0.85 },
     },
 
     /**
@@ -856,6 +908,8 @@ export const dungeonsynth: GenreSpec = {
       "\"primarily beatless\"; \"around 60–80 as a guideline for working in a DAW\" (note.com/soundwitches dungeon synth guide); " +
       "a released track at 115 (erichgrunewald.com making-dungeon-synth-without-perfectionism) shows the range is wide",
     scales:
+      "\"the natural minor scale (also known as the Aeolian mode) is a staple\" and Phrygian for \"a mysterious or " +
+      "unsettling quality\" (riffhard.com/how-to-write-doom-metal-riffs); " +
       "\"church modes (such as Dorian or Aeolian)\", \"a handful of common modes, little chromaticism\" (note.com/soundwitches); " +
       "a practitioner also names melodic minor (erichgrunewald.com), left out because its VI and VII are diminished; weights [chosen]",
     lengthSec: "[chosen] — long, loop-based tracks; no measured average found",
@@ -871,7 +925,20 @@ export const dungeonsynth: GenreSpec = {
       "reminiscent of early music\", and employs \"parallel fifths and open fifth/octave intervals for medieval " +
       "color\"; an open fifth \"is just the root and the fifth and leaves room for choir and melody to add color\" " +
       "(en.wikipedia.org/wiki/Dungeon_synth; dungeonsynth.proboards.com). A third of the chords [chosen]",
-    "harmony.diminished": "\"fairly standard chord progressions\" in \"a handful of common modes\" (note.com/soundwitches): the mode's diminished triad is not one",
+    "harmony.diminished":
+      "doom \"relies heavily on minor keys and dissonant chords, including the use of the tritone interval to " +
+      "generate an atmosphere of dread\" (easure.net/en/pages/doom-metal); \"the tritone, also known as 'the " +
+      "devil's interval'\" (riffhard.com/how-to-write-doom-metal-riffs). Against note.com/soundwitches' \"fairly " +
+      "standard chord progressions\", which this genre followed until the metal was brought back into it",
+    "sound.mix":
+      "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches): every part in the room, the far ones further; placement [chosen]. " +
+      "THE FEEDS: \"The key to a great Doom sound is a high powered amp set pretty clean. The guitar pedals do almost all of " +
+      "the heavy lifting in this genre\" and \"your pedals, amp and cabinet will have more of an influence than " +
+      "your guitar\" (boostguitarpedals.co.uk); gain \"around 60-70%\" for sustain without mud (singularsound, " +
+      "studentofguitar); sludge \"keep[s] it scooped and you can even push the bass to its limits\" (singularsound). " +
+      "Measured: the rig moved the record -8.8 dB on and off, and its gain knob -36.8 dB across its top half",
+    "arrangement.protagonist":
+      "\"the bass plays a central role and reinforces the heaviness of the sound\" (easure.net/en/pages/doom-metal). Weight [chosen]",
     "harmony.progressions":
       "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; the rest [chosen]",
     "drums.kick": "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com); \"very subtle percussion\" (note.com/soundwitches)",
@@ -949,7 +1016,6 @@ export const dungeonsynth: GenreSpec = {
       "accents sit at 100 and over of 127 against an ordinary 65\u201395 (mastering.com program-realistic-midi-drums); " +
       "weights [chosen] \u2014 this music leans on the metre very little",
     "sound.voices": "\"strings, flutes, pipe organs, and choirs\" (note.com/soundwitches; Wikipedia, Dungeon synth)",
-    "sound.mix": "\"deep reverb\", \"echoing through stone corridors\" (note.com/soundwitches): every part in the room, the far ones further; placement [chosen]",
     "sound.pedals": "the sludge rig above, and WHO STANDS ON IT [chosen] — from this file's own two claims rather than from a new source. " +
       "The divider is off the pad because a divider \"tracks single notes and not chords\" (electronicmusic.fandom, octave divider) and a pad is chords; " +
       "the flute has no board because it is the one voice here that is not an amplified instrument. The drums, the bass and the drone keep the whole rig, " +

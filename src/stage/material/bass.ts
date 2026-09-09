@@ -104,7 +104,13 @@ export function drawBass(chart: Chart, chords: readonly Chord[], rng: Rng, steps
     const cell = rng.at("cell", chord.bar % motif);
     const root = band(chord.root);
     const third = band(chord.tones[1] ?? chord.root + 4);
-    const fifth = band(chord.tones[2] ?? chord.root + 7);
+    // A BARE FIFTH HAS ITS FIFTH IN SECOND PLACE. This read `tones[2]` and fell
+    // back to root + 7 — the PERFECT fifth — which is right for a triad and
+    // wrong for a two-tone chord whose fifth is diminished: on a bare (root,
+    // root+6) it wrote root+7, a note outside the scale, and the materials
+    // check refused the record. Found the moment `diminished: "allow"` let a
+    // diminished degree through as a power chord, which is doom's own chord.
+    const fifth = band(chord.tones.length === 2 ? chord.tones[1]! : (chord.tones[2] ?? chord.root + 7));
 
     for (let i = 0; i < pocket.length; i++) {
       const step = pocket[i]!;

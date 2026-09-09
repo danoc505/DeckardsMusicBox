@@ -63,15 +63,29 @@ A strand that wants its own percussion is a genre file that extends this one:
 `extend` is built, deep-merging, cycle-checked, covered by tests, and **no
 shipped genre has ever used it**. See `DUNGEON-SYNTH-ARRANGEMENT.md` §11.
 
-**One law is left failing and it is not this change's to settle.**
-`treat.test.ts` holds that every treatment a genre's desk offers must move the
-record by more than −40 dB. Dungeon synth offers `revive` and its own file
-already explains why it barely moves — `sag.idle` ships at 1, a full battery,
-so the move has nowhere to go. It sat at −38.9 dB, one decibel inside the
-floor; the notes this change rewrote took it to −41.9 and it fell out. Fixing
-it means either giving `sag.idle` headroom (a taste change to every record) or
-teaching `deskOf` to refuse a knob already at its limit. `index.test.ts` 217 and
-226 also fail and were **confirmed failing on the pre-change commit**.
+**THE DOOM CAME BACK IN, AND THE RIG WAS NEARLY INERT BEFORE IT.** The Muff's
+gain knob at the shipped 0.62 was 107× pre-gain and already square; turning it
+to 1.0 moved the record −36.8 dB, so `grind` could make nothing heavier. Every
+pedal was a 30–50% blend and every board fed at 0.25–0.85. Now in line, the
+gain down into its live range, feeds up: the rig moves the record **−2.5 dB**
+on/off where it moved −8.6, and grind's move on the fuzz is −26.3 where it was
+−36.9. The tritone is allowed (0 → 9.8% of chords), Phrygian is beside the
+minor, the bass is a protagonist — and letting the diminished degree through
+found a bass bug (`tones[2] ?? root+7` on a two-tone chord) that refused 2 of
+60 records; fixed where it was. Two honest costs: 0.8 dB quieter and brighter
+(low/high 46 → 37). **Found and not done:** the Dyna Comp RAISES crest on a
+pulsed bass — its 3 ms attack and 1.5 s release make it a sustainer, not the
+limiter a sludge wall is; that pedal does not exist here. And pauses are held
+on the owner's word: tails render but cut at −40 dB (`TAIL_DB`), inaudible in
+a record, audible in a silence. `DOOM-AND-SLUDGE.md` has all of it.
+
+**`revive` fell out of `treat.test.ts` on the chord change and came back on the
+rig change.** It sat at −38.9 dB, one decibel inside the −40 floor; the held
+chords took it to −41.9; the rig in line lifted it back over. Not fixed, moved
+— the underlying fact stands: `sag.idle` ships at 1, a full battery, so the
+move has nowhere to go, and the next change to this genre's notes can drop it
+out again. `index.test.ts` 217 and 226 still fail and were **confirmed failing
+on the pre-change commit**.
 
 Full reading and every number: `DUNGEON-SYNTH-ARRANGEMENT.md` §10.
 
