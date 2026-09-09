@@ -677,7 +677,8 @@
     var fxH = fxNames.length ? DEPTH_H + 4 + fxNames.length * FX_ROW + 6 : 0;
     var STRIP = fxNames.length ? 12 : 0;
 
-    var W = roll.clientWidth || 700, H = 420 + fxH + STRIP, dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (!rollW) rollW = roll.clientWidth || 700;   // measured once per resize, not per frame: see `measureDrive`
+    var W = rollW, H = 420 + fxH + STRIP, dpr = Math.min(2, window.devicePixelRatio || 1);
     if (roll.width !== W * dpr || roll.height !== H * dpr) { roll.width = W * dpr; roll.height = H * dpr; }
     roll.style.height = H + "px";
     var g = rctx; g.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1414,18 +1415,27 @@
 
      Nothing here can change a note or a sample. It reads the song, `shown()`
      and an AnalyserNode on the way out of the speakers, and draws. */
-  var drive = $("drive"), dctx = drive.getContext("2d"), driveCrt = $("drive-crt");
+  var drive = $("drive"), driveCrt = $("drive-crt");
+  // the paint is WebGL where there is WebGL — one glyph sheet, one instanced
+  // draw a frame — and the 2D canvas where there is not; a canvas has one
+  // context for life, so the choice is made here, once
+  var GL = glInit(), dctx = GL ? null : drive.getContext("2d");
+  if (!GL) setFine(false);
   var sink = null, spectrum = null;               // the sound on its way out, for the ground to shake to
-  var CELL_W = 7, CELL_H = 13, GFONT = "700 12px ui-monospace,Menlo,Consolas,monospace";
-  /* FINE MODE: half-size cells, twice the picture, press F. This is the density
-     mode instead of braille, on purpose: braille is eight dots a cell for
-     eight times the cells, and one colour a cell — and one colour a cell
-     throws away sources against surfaces, which is the whole of what makes
-     this read as night. Smaller glyphs keep every colour and cost about two. */
-  var fine = false;
+  /* THE CELL IS SMALL. donut.c reads as smooth because the shape is large
+     against its cells, so the drive is drawn at four by seven pixels a glyph —
+     some three hundred columns by seventy rows — and the glyph is texture
+     rather than letter. F goes to the coarse seven by thirteen where the
+     letters read. This is the density mode instead of braille, on purpose:
+     braille is one colour a cell, and one colour a cell throws away sources
+     against surfaces, which is the whole of what makes this read as night. */
+  var CELL_W = 4, CELL_H = 7, GFONT = "700 6.5px ui-monospace,Menlo,Consolas,monospace";
+  // fine by default where the paint is WebGL; the 2D fallback cannot afford
+  // twenty thousand cells a frame, so without WebGL the page opens coarse
+  var fine = true;
   function setFine(on) {
-    fine = !!on; CELL_W = fine ? 5 : 7; CELL_H = fine ? 9 : 13;
-    GFONT = fine ? "700 8.5px ui-monospace,Menlo,Consolas,monospace" : "700 12px ui-monospace,Menlo,Consolas,monospace";
+    fine = !!on; CELL_W = fine ? 4 : 7; CELL_H = fine ? 7 : 13;
+    GFONT = fine ? "700 6.5px ui-monospace,Menlo,Consolas,monospace" : "700 12px ui-monospace,Menlo,Consolas,monospace";
     atlas = {}; COLS = 0;   // the grid and every sprite are the wrong size now
   }
   var EYE = 1.7;
@@ -1436,10 +1446,11 @@
      split is what makes a text-mode street read as night rather than as grey. */
   var PAL = ["#57f2a5", "#ffb347", "#8fd3ff", "#e7dcc3", COLOR.drums, COLOR.bass, COLOR.keys, COLOR.lead, COLOR.counter, COLOR.drone,
              "#3f4f66", "#ffd27a", "#9cc8ff", "#22334d", "#5c6672", "#ff4fd8", "#45f0ff", "#ff9a3c",
-             "#a9b4c0", "#8a5a3a", "#ffd400", "#fff2c8", "#ff2a2a", "#3b6dff"];
+             "#a9b4c0", "#8a5a3a", "#ffd400", "#fff2c8", "#ff2a2a", "#3b6dff", "#c8d0d8", "#b0342f", "#3a6db0"];
   var PIDX = { drums: 4, bass: 5, keys: 6, lead: 7, counter: 8, drone: 9 };
   var WALL = 10, WWARM = 11, WCOOL = 12, DEEP = 13, PAVEC = 14, NEONM = 15, NEONC = 16, SODIUM = 17;
-  var CHROME = 18, RUST = 19, TAXI = 20, HEAD = 21, TAIL = 22, BLUE = 23;   // the vehicles' own: two surfaces, four lights
+  var CHROME = 18, RUST = 19, TAXI = 20, HEAD = 21, TAIL = 22, BLUE = 23, SILVER = 24, REDCAR = 25, BLUECAR = 26;   // the vehicles' own: paints, and four lights
+  var MATTE = { 18: 1, 19: 1, 24: 1, 25: 1, 26: 1 };   // the palette entries that only reflect
   /* A WALL'S MEASURE: floors half a unit tall from a sill, panes half a unit
      wide, eight floors of pitch. The front row of the city is always at least
      four floors, because its windows are where the notes go. */
@@ -1514,6 +1525,91 @@
     var i = r * COLS + c; if (z > gZ[i] * 1.06 + 0.25) return;
     gCh[i] = code; gPal[i] = pal; gLvl[i] = lvl; gZ[i] = z;
   }
+  /* ═══ THE PAINT ═══════════════════════════════════════════════════════════
+     Twenty-odd thousand cells a frame is past what one drawImage a cell can
+     do, so the picture goes up as ONE instanced draw: a sheet of the ninety-
+     six glyphs in white, a second row of them blurred for the glow, and a
+     buffer of (cell, glyph, colour, level, glow) per lit cell. The shader
+     tints the glyph and adds the glow for a source. The look is the 2D
+     atlas's look — same alphas, same halo rule — which stays as the fallback
+     for a browser with no WebGL. */
+  function glInit() {
+    var g = null;
+    try { g = drive.getContext("webgl", { alpha: false, antialias: false, depth: false, premultipliedAlpha: true }); } catch (e) { g = null; }
+    if (!g) return null;
+    var ext = g.getExtension("ANGLE_instanced_arrays"); if (!ext) return null;
+    var mk = function (type, src) { var sh = g.createShader(type); g.shaderSource(sh, src); g.compileShader(sh); if (!g.getShaderParameter(sh, g.COMPILE_STATUS)) throw new Error(g.getShaderInfoLog(sh)); return sh; };
+    var prog = g.createProgram();
+    g.attachShader(prog, mk(g.VERTEX_SHADER,
+      "attribute vec2 corner; attribute vec2 cell; attribute float glyph; attribute vec4 col; attribute float glow;" +
+      "uniform vec2 grid; uniform float nGlyph; varying vec2 vUv; varying vec4 vCol; varying float vGlow;" +
+      "void main(){ vec2 p = (cell + corner) / grid; gl_Position = vec4(p.x * 2.0 - 1.0, 1.0 - p.y * 2.0, 0.0, 1.0);" +
+      " vUv = vec2((glyph + corner.x) / nGlyph, corner.y * 0.5); vCol = col; vGlow = glow; }"));
+    g.attachShader(prog, mk(g.FRAGMENT_SHADER,
+      "precision mediump float; varying vec2 vUv; varying vec4 vCol; varying float vGlow; uniform sampler2D sheet;" +
+      "void main(){ float a = texture2D(sheet, vUv).a * vCol.a; float h = texture2D(sheet, vUv + vec2(0.0, 0.5)).a * vGlow;" +
+      " float A = min(1.0, a + h * 0.75); gl_FragColor = vec4(vCol.rgb * A, A); }"));
+    g.linkProgram(prog); if (!g.getProgramParameter(prog, g.LINK_STATUS)) throw new Error(g.getProgramInfoLog(prog));
+    g.useProgram(prog);
+    var quad = g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER, quad); g.bufferData(g.ARRAY_BUFFER, new Float32Array([0, 0, 1, 0, 0, 1, 1, 1]), g.STATIC_DRAW);
+    var aCorner = g.getAttribLocation(prog, "corner"); g.enableVertexAttribArray(aCorner); g.vertexAttribPointer(aCorner, 2, g.FLOAT, false, 0, 0);
+    var inst = g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER, inst);
+    [["cell", 2, 0], ["glyph", 1, 8], ["col", 4, 12], ["glow", 1, 28]].forEach(function (a) {
+      var loc = g.getAttribLocation(prog, a[0]); g.enableVertexAttribArray(loc); g.vertexAttribPointer(loc, a[1], g.FLOAT, false, 32, a[2]); ext.vertexAttribDivisorANGLE(loc, 1);
+    });
+    var tex = g.createTexture(); g.bindTexture(g.TEXTURE_2D, tex);
+    g.texParameteri(g.TEXTURE_2D, g.TEXTURE_MIN_FILTER, g.LINEAR); g.texParameteri(g.TEXTURE_2D, g.TEXTURE_MAG_FILTER, g.LINEAR);
+    g.texParameteri(g.TEXTURE_2D, g.TEXTURE_WRAP_S, g.CLAMP_TO_EDGE); g.texParameteri(g.TEXTURE_2D, g.TEXTURE_WRAP_T, g.CLAMP_TO_EDGE);
+    g.enable(g.BLEND); g.blendFunc(g.ONE, g.ONE_MINUS_SRC_ALPHA);
+    return { g: g, ext: ext, inst: inst, tex: tex, uGrid: g.getUniformLocation(prog, "grid"), uN: g.getUniformLocation(prog, "nGlyph"), sheetKey: "", data: null, rgb: [], w: 0, h: 0 };
+  }
+  /** "#rrggbb" or "rgb(r,g,b)" to unit floats. */
+  function rgbOf(s) {
+    var m = /^#([0-9a-f]{6})$/i.exec(s); if (m) { var v = parseInt(m[1], 16); return [(v >> 16) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255]; }
+    m = /rgb\((\d+),(\d+),(\d+)\)/.exec(s.replace(/\s/g, "")); return m ? [m[1] / 255, m[2] / 255, m[3] / 255] : [1, 1, 1];
+  }
+  /** The glyph sheet for the current cell size: plain on the top row, glowing on the bottom, each glyph clipped to its own slot. */
+  function glSheet(dpr) {
+    var key = CELL_W + "x" + CELL_H + "@" + dpr; if (GL.sheetKey === key) return;
+    var cw = Math.ceil(CELL_W * dpr), ch = Math.ceil(CELL_H * dpr), cv = document.createElement("canvas"); cv.width = cw * 96; cv.height = ch * 2;
+    var c = cv.getContext("2d"); c.font = GFONT.replace(/(\d+(\.\d+)?)px/, function (m, n) { return (Number(n) * dpr) + "px"; }); c.textAlign = "center"; c.textBaseline = "middle"; c.fillStyle = "#fff";
+    for (var row = 0; row < 2; row++) for (var i = 0; i < 96; i++) {
+      c.save(); c.beginPath(); c.rect(i * cw, row * ch, cw, ch); c.clip();
+      if (row) { c.shadowColor = "#fff"; c.shadowBlur = Math.max(2, cw * 0.9); }
+      c.fillText(String.fromCharCode(32 + i), i * cw + cw / 2, row * ch + ch / 2 + 0.5 * dpr); c.restore();
+    }
+    var g = GL.g; g.bindTexture(g.TEXTURE_2D, GL.tex || null);
+    g.texImage2D(g.TEXTURE_2D, 0, g.RGBA, g.RGBA, g.UNSIGNED_BYTE, cv); GL.sheetKey = key;
+  }
+  function paint(dpr) {
+    if (!GL) {
+      var g2 = dctx; g2.setTransform(1, 0, 0, 1, 0, 0);
+      g2.fillStyle = "#071510"; g2.fillRect(0, 0, drive.width, drive.height);
+      var cw = CELL_W * dpr, ch = CELL_H * dpr;
+      for (var pr = 0; pr < ROWS; pr++) for (var pc = 0; pc < COLS; pc++) {
+        var pi = pr * COLS + pc, code3 = gCh[pi]; if (!code3) continue;
+        g2.drawImage(sprite(code3, gPal[pi], Math.max(0, Math.min(7, Math.round(gLvl[pi] * 7)))), pc * cw, pr * ch);
+      }
+      return;
+    }
+    var g = GL.g; glSheet(dpr);
+    var vw = Math.round(COLS * CELL_W * dpr), vh = Math.round(ROWS * CELL_H * dpr);
+    if (GL.w !== drive.width || GL.h !== drive.height) { GL.w = drive.width; GL.h = drive.height; }
+    g.viewport(0, drive.height - vh, vw, vh);
+    var N = COLS * ROWS; if (!GL.data || GL.data.length < N * 8) GL.data = new Float32Array(N * 8);
+    var d = GL.data, n = 0, rgb = GL.rgb;
+    while (rgb.length < PAL.length) rgb.push(rgbOf(PAL[rgb.length]));
+    for (var r = 0; r < ROWS; r++) for (var c = 0; c < COLS; c++) {
+      var i = r * COLS + c, code = gCh[i]; if (!code) continue;
+      var pal = gPal[i], lvl = Math.min(1, gLvl[i]), k = n * 8, col = rgb[pal] || rgb[0];
+      d[k] = c; d[k + 1] = r; d[k + 2] = code - 32; d[k + 3] = col[0]; d[k + 4] = col[1]; d[k + 5] = col[2];
+      d[k + 6] = 0.22 + 0.78 * lvl; d[k + 7] = lvl > 0.5 && isSrc(pal) ? (lvl - 0.5) * 2 : 0; n++;
+    }
+    g.clearColor(7 / 255, 21 / 255, 16 / 255, 1); g.clear(g.COLOR_BUFFER_BIT);
+    g.uniform2f(GL.uGrid, COLS, ROWS); g.uniform1f(GL.uN, 96);
+    g.bindBuffer(g.ARRAY_BUFFER, GL.inst); g.bufferData(g.ARRAY_BUFFER, d.subarray(0, n * 8), g.DYNAMIC_DRAW);
+    GL.ext.drawArraysInstancedANGLE(g.TRIANGLE_STRIP, 0, 4, n);
+  }
   function sprite(code, pal, q) {
     var key = (code * 64 + pal) * 8 + q, cv = atlas[key];   // room for sixty-four colours before a key collides with the next glyph
     if (cv) return cv;
@@ -1555,8 +1651,10 @@
   var autoPitch = 0, lookPitch = 0, lookYaw = 0, lookDrag = null;
   /** The rider's machine: its lean, and the heading and moment it was last drawn at. */
   var bikeLean = 0, bikeHead = null, bikeT = 0, bikeCache = null, bikeCacheKey = "";
+  /** Which of the traffic's nine cars are on the street; a car joins or leaves only out of sight. */
+  var carAlive = [];
   /** Whether a palette entry emits light — glows in the atlas, shows in a puddle. */
-  var isSrc = function (pal) { return pal < 3 || (pal >= 4 && pal <= 9) || (pal >= 11 && pal !== CHROME && pal !== RUST); };
+  var isSrc = function (pal) { return pal < 3 || (pal >= 4 && pal <= 9) || (pal >= 11 && !MATTE[pal]); };
   var ckey = function (mx, my) { return (mx + OFF) * 16384 + (my + OFF); };
 
   /* ═══ MIDTOWN ═══════════════════════════════════════════════════════════
@@ -1625,6 +1723,8 @@
     });
     R.gates.push({ s: s, name: "END", peak: false, end: true });
     for (var j = 0; j < 12; j++) step(false);   // the road runs on while the tail rings
+    carAlive = [];   // the traffic is on the street from the first frame, and joins or leaves out of sight after
+    for (var ck = 0; ck < 9; ck++) carAlive[ck] = ck < 2 + Math.round(7 * arcAt(0) * arcAt(0));
     song.performance.events.forEach(function (e) { if (e.role === "drums") R.drums.push([barOf(e.tSec) * CPB, e.lane, e.gain, e.tSec]); });
     R.drums.sort(function (a, b) { return a[0] - b[0]; });
     // the counter-line's notes are the cars that cross between the towers,
@@ -1755,7 +1855,8 @@
   }
   /** How finely to walk a thing of this size at this distance: enough samples that the cells it covers are all hit. */
   var sampleCap = 56;   // the finest anything is walked; the traffic is walked coarser than the rider's own machine
-  var stepsFor = function (size, ty, lo, hi) { return Math.max(lo, Math.min(hi, sampleCap, Math.round(size * V.fc / Math.max(0.3, ty) * 1.6))); };
+  // the caps scale with the grid: a finer picture needs more samples to fill its cells
+  var stepsFor = function (size, ty, lo, hi) { var res = COLS / 180; return Math.max(lo, Math.min(hi * res, sampleCap * res, Math.round(size * V.fc / Math.max(0.3, ty) * 1.6))); };
   function ellipsoid(em, ty, a0, b0, c0, ra, rb, rc, pal, glow) {
     var n = stepsFor(Math.max(ra, rb, rc) * 2, ty, 5, 56), m = n * 2;
     for (var i = 0; i < n; i++) {
@@ -1792,7 +1893,8 @@
 
   /** A hovercar, a taxi or a police spinner, at a place, facing a way, hovering at a height. */
   function drawCar(ox, oy, oz, fx, fy, kind, ty, t, lit) {
-    var em = frameAt(ox, oy, oz, fx, fy, 0), body = kind === 1 ? TAXI : kind === 2 ? CHROME : (lit & 1) ? RUST : WALL, near = ty < 18;
+    var paint = [SILVER, REDCAR, BLUECAR, RUST][lit & 3];
+    var em = frameAt(ox, oy, oz, fx, fy, 0), body = kind === 1 ? TAXI : kind === 2 ? CHROME : paint, near = ty < 18;
     sampleCap = 24;
     ellipsoid(em, ty, 0, 0, 0.45, 1.0, 0.42, 0.2, body, false);
     if (near) {   // the detail is for a car you can see the detail of
@@ -1975,18 +2077,18 @@
       var pj2 = project(cc3.x + 0.5 + cpx * lat, cc3.y + 0.5 + cpy * lat); if (pj2.ty < 0.5 || pj2.ty > fogZ) continue;
       drawCar(cc3.x + 0.5 + cpx * lat, cc3.y + 0.5 + cpy * lat, cn[4] - 0.45, cpx * cn[3], cpy * cn[3], 0, pj2.ty, t, 1);
     }
-    // ── the traffic: a street as busy as the record is — one car per part sounding, and a couple whatever happens ──
-    var partsOn = 0;
-    { var flags = {}, ev2 = song.performance.events, la = 0, lb = ev2.length;
-      while (la < lb) { var lm = (la + lb) >> 1; if (ev2[lm].tSec < sec - 6) la = lm + 1; else lb = lm; }
-      for (var ei2 = la; ei2 < ev2.length && ev2[ei2].tSec <= sec; ei2++) { var e2 = ev2[ei2]; if (sec < e2.tSec + Math.max(0.1, e2.durSec)) flags[e2.role] = 1; }
-      for (var rk in flags) partsOn++; }
-    var nCars = Math.min(9, 2 + partsOn * 2);
-    for (var vk = 0; vk < nCars; vk++) {
+    // ── the traffic: a street as busy as the record is. The count follows the
+    // ARC, which moves once a bar, not the parts sounding, which move on every
+    // note — that made cars wink in and out mid-street. And a car that the
+    // count no longer wants leaves in the fog or behind you, never in front. ──
+    var eNow = arcAt(barNow), nCars = Math.min(9, 2 + Math.round(7 * eNow * eNow));
+    for (var vk = 0; vk < 9; vk++) {
       // each car is a pure function of the record's time: a lane, a relative
       // speed and an offset by hash, wrapped round a window ahead of the car
       var lane = ihash(vk, 301) < 0.55 ? 0 : 1, kind = ihash(vk, 302) < 0.28 ? 1 : ihash(vk, 302) > 0.9 ? 2 : 0;
       var dv = lane === 0 ? 0.35 + 1.2 * ihash(vk, 303) : -(2.2 + 1.6 * ihash(vk, 303)), rel = ((ihash(vk, 304) * 52 + dv * sec - 6) % 52 + 52) % 52 - 6;
+      var want = vk < nCars; if (want !== !!carAlive[vk] && (rel > 30 || rel < -3)) carAlive[vk] = want;
+      if (!carAlive[vk]) continue;
       var cs = sCam + rel, vc = route.cells[Math.max(0, Math.min(route.cells.length - 1, Math.floor(cs) + route.pre))], vpx = DIRS[(vc.d + 1) & 3][0], vpy = DIRS[(vc.d + 1) & 3][1];
       var vfr = cs - Math.floor(cs), vlat = (lane === 0 ? 1 : -1) * (vc.w * 0.5), vx2 = vc.x + 0.5 + DIRS[vc.d][0] * vfr + vpx * vlat, vy2 = vc.y + 0.5 + DIRS[vc.d][1] * vfr + vpy * vlat;
       var pv = project(vx2, vy2); if (pv.ty < 0.4 || pv.ty > fogZ) continue;
@@ -2095,10 +2197,24 @@
     }
   }
 
+  var driveMs = globalThis.__driveMs = [0, 0];   // [the whole frame, the paint], milliseconds, smoothed
+  var driveW = 0, driveH = 0, rollW = 0;
+  /** The drive's and the roll's sizes, read from layout once per change rather than once per frame. */
+  function measureDrive() {
+    var full = document.fullscreenElement === driveCrt;
+    driveW = full ? window.innerWidth : (drive.clientWidth || 900); driveH = full ? window.innerHeight : 500;
+    rollW = roll.clientWidth || 700; COLS = 0;
+  }
   function frame() {
     if (!song) return;
-    var full = document.fullscreenElement === driveCrt;
-    var W = full ? window.innerWidth : (drive.clientWidth || 900), H = full ? window.innerHeight : 500;
+    var tFrame = performance.now();
+    // THE SIZE IS MEASURED ON RESIZE, NEVER HERE. Reading `clientWidth` in a
+    // frame forces the browser to lay the whole bridge out again — hundreds
+    // of knobs — every time anything on the page has moved, which while the
+    // record plays is always. That cost thirty milliseconds a frame, more
+    // than the city and the vehicles together.
+    if (!driveW) measureDrive();
+    var W = driveW, H = driveH;
     var dpr = Math.min(2, window.devicePixelRatio || 1);
     var cols = Math.floor(W / CELL_W), rows = Math.floor(H / CELL_H);
     if (cols !== COLS || rows !== ROWS) {
@@ -2177,13 +2293,11 @@
     }
 
     // ── paint ──
-    var g2 = dctx; g2.setTransform(1, 0, 0, 1, 0, 0);
-    g2.fillStyle = "#071510"; g2.fillRect(0, 0, drive.width, drive.height);
-    var cw = CELL_W * dpr, ch = CELL_H * dpr;
-    for (var pr = 0; pr < ROWS; pr++) for (var pc = 0; pc < COLS; pc++) {
-      var pi = pr * COLS + pc, code3 = gCh[pi]; if (!code3) continue;
-      g2.drawImage(sprite(code3, gPal[pi], Math.max(0, Math.min(7, Math.round(gLvl[pi] * 7)))), pc * cw, pr * ch);
-    }
+    var tPaint = performance.now();
+    paint(dpr);
+    // how long the frame took, and how much of it was the paint — read by the
+    // shot tool, and by anyone with a console, as a running average
+    var tEnd = performance.now(); driveMs[0] += (tEnd - tFrame - driveMs[0]) * 0.1; driveMs[1] += (tEnd - tPaint - driveMs[1]) * 0.1;
 
     // ── the readout: where you are, and what the desk is doing to it ──
     if (driveFrame % 8 === 0) {
@@ -2203,7 +2317,7 @@
   drive.addEventListener("pointerup", function () { lookDrag = null; });
   drive.addEventListener("pointercancel", function () { lookDrag = null; });
   document.addEventListener("keydown", function (e) { if ((e.key === "f" || e.key === "F") && e.target === document.body) setFine(!fine); });
-  document.addEventListener("fullscreenchange", function () { COLS = 0; });   // resize on the next frame
+  document.addEventListener("fullscreenchange", function () { driveW = 0; });   // measured again on the next frame
   // thirty frames a second is plenty for glyphs and half the cost; with motion
   // reduced, the world is drawn once per change instead
   // thirty frames a second, or with motion reduced seven and a half: the world
@@ -2423,11 +2537,12 @@
   [seedEl, secEl].forEach(function (el) { el.addEventListener("change", compose); el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); compose(); } }); });
   // a resized canvas is a cleared canvas, so the screens repaint whatever they
   // last painted rather than being skipped as unchanged
-  window.addEventListener("resize", function () { if (song) { drawRoll(null); drawCable(); screenSig = {}; M.RACK_ORDER.forEach(refreshScreen); } });
+  window.addEventListener("resize", function () { driveW = 0; rollW = 0; if (song) { drawRoll(null); drawCable(); screenSig = {}; M.RACK_ORDER.forEach(refreshScreen); } });
   document.addEventListener("keydown", function (e) { if (e.code === "Space" && e.target === document.body) { e.preventDefault(); playing ? stop() : play(); } });
   compose();
 })();
 </script>
+
 
 </body>
 </html>
