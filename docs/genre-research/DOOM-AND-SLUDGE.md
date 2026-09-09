@@ -232,8 +232,11 @@ seed    RMS dBFS          crest        low/high
 Three of four louder and squashier, all four darker. 5665 — the bass-led one —
 is the odd one out, a decibel quieter. **And a flag:** 218 and 9423 now sit
 near −10.5 dBFS at crest 3, which puts their peaks at the master's −1 dBTP
-ceiling. The record is loud now. Whether that is the wall or too much of it is
-the first thing to listen for.
+ceiling. The record is loud now. **It does not clip:** a census over all eight
+proof seeds at genre length finds peaks between −1.0 and −1.4 dBFS and zero
+samples at full scale — the tape saturator ahead of the 0.89 ceiling is
+already a soft limiter. Whether loud is the wall or too much of it is the
+first thing to listen for.
 
 **The harmony**, 200 seeds: tritone chords **0% → 9.8%**, in **46%** of
 records. Scales minor 48 · phrygian **25** · dorian 28 (was 49 · 17 · 34).

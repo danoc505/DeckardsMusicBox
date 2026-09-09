@@ -92,7 +92,13 @@ chords took it to −41.9; the rig in line lifted it back over. Not fixed, moved
 — the underlying fact stands: `sag.idle` ships at 1, a full battery, so the
 move has nowhere to go, and the next change to this genre's notes can drop it
 out again. `index.test.ts` 217 and 226 still fail and were **confirmed failing
-on the pre-change commit**.
+on the pre-change commit**. Both are LOFI, and both are diagnosed so nobody
+starts from zero: 217 first fails at lofi seed 1, material A, a Gmaj7 with
+one keys note sounding at the bar's first step against four tones — the test
+assumes a block chord struck at step 0 and lofi's keys do not always give it
+one. 226 counts lead variants that keep their statement's onsets and finds 64
+against a threshold of more than 90 — a lofi lead-variation question,
+untouched by anything on this branch.
 
 Full reading and every number: `DUNGEON-SYNTH-ARRANGEMENT.md` §10.
 
