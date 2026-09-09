@@ -218,19 +218,31 @@ margin, nothing lost in level or squash. Seed 42 on the final rig: RMS
 **73** (darker than before the branch), rig on/off **−1.6 dB**, grind −11.1,
 darken −8.5, motion **−31.7 dBFS** on the test's own metric.
 
-Four proof seeds, the desk only (the notes are §5's table), before the branch
-→ final:
+The desk only (the notes are §5's table). Four seeds before the branch →
+final, then all eight at the final state:
 
 ```
-seed    RMS dBFS          crest        low/high
-8660   -16.0 -> -13.3    4.7 -> 3.8    42 ->  88
-5665   -13.5 -> -14.5    4.2 -> 4.7    81 -> 197
+seed    RMS dBFS          crest        low/high      (before -> final)
+8660   -16.0 -> -13.3    4.7 -> 3.7    42 ->  89
+5665   -13.5 -> -14.4    4.2 -> 4.7    81 -> 180
 9423   -12.9 -> -10.8    3.6 -> 3.0    52 -> 103
-218    -12.2 -> -10.5    3.5 -> 2.9    88 -> 150
+218    -12.2 -> -10.4    3.5 -> 2.9    88 -> 150
+
+seed    RMS dBFS   crest   low/high    (final, all eight)
+8660     -13.3      3.7       89
+178      -12.6      3.6      222
+2741     -11.2      3.1      108
+5665     -14.4      4.7      180
+9423     -10.8      3.0      103
+9647     -12.8      3.8       68
+2514     -10.8      3.1      105
+218      -10.4      2.9      150
 ```
 
 Three of four louder and squashier, all four darker. 5665 — the bass-led one —
-is the odd one out, a decibel quieter. **And a flag:** 218 and 9423 now sit
+is the odd one out, a decibel quieter. Across all eight the crest sits between
+2.9 and 4.7 and the tilt between 68 and 222 to one: dark and squashed, every
+seed. **And a flag:** 218 and 9423 now sit
 near −10.5 dBFS at crest 3, which puts their peaks at the master's −1 dBTP
 ceiling. The record is loud now. **It does not clip:** a census over all eight
 proof seeds at genre length finds peaks between −1.0 and −1.4 dBFS and zero
