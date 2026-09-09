@@ -40,6 +40,9 @@ asked the genre.
 - `tools/roll.mjs` held a literal of the four lanes and drew every unknown lane
   on the KICK row. **This program's main test was blind to the change it was
   being used to judge.** It derives from `DRUM_LANES` now.
+  **And so did `tools/page.html`** — the deliverable itself, the same literal,
+  the same fallback, found only when the page was finally rebuilt and its shot
+  put beside the pipeline's roll. Both derive from `DRUM_LANES` now.
 - `midi.ts` drops a lane with no General MIDI key **in silence**, and
   `midi.test.ts` caught it — the new lanes were vanishing from every exported
   file. The test was right and the code was wrong; keys added.

@@ -684,7 +684,8 @@
     var g = rctx; g.setTransform(dpr, 0, 0, dpr, 0, 0);
     g.fillStyle = "#071510"; g.fillRect(0, 0, W, H);
     var ev = song.performance.events, total = song.performance.seconds;
-    var lo = 24, hi = 96, drumH = 46, top = 8 + STRIP, pitchH = H - drumH - top - 8 - fxH;
+    // the drum band is a row per lane the kit has, 10 px each, and a margin
+    var lo = 24, hi = 96, drumH = M.DRUM_LANES.length * 10 + 6, top = 8 + STRIP, pitchH = H - drumH - top - 8 - fxH;
     var x = function (sec) { return 10 + (W - 20) * sec / total; };
     var y = function (midi) { return top + pitchH * (1 - (midi - lo) / (hi - lo)); };
     // the grid: octaves, and bars where a section starts
@@ -722,7 +723,13 @@
     g.setLineDash([]);
     g.strokeStyle = "rgba(87,242,165,0.2)"; g.beginPath(); g.moveTo(10, H - fxH - drumH - 4); g.lineTo(W - 10, H - fxH - drumH - 4); g.stroke();
     // notes
-    var lanes = { kick: 0, snare: 1, hat: 2, openhat: 3 };
+    // THE LANES THE KIT HAS, from the one place that says so. This was a
+    // literal of the four lanes the program used to have, and `lanes[e.lane]
+    // || 0` drew every lane it did not know about ON THE KICK ROW — so when
+    // the kettles came back, the page's roll, which is the deliverable, showed
+    // a kick part that was not being played. `roll.mjs` had the same line and
+    // the same fix. The machine panel below already reads `M.DRUM_LANES`.
+    var lanes = {}; M.DRUM_LANES.forEach(function (l, i) { lanes[l] = i; });
     for (var i = 0; i < ev.length; i++) {
       var e = ev[i], col = COLOR[e.role];
       if (e.role === "drums") {
