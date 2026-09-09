@@ -66,6 +66,20 @@ A strand that wants its own percussion is a genre file that extends this one:
 `extend` is built, deep-merging, cycle-checked, covered by tests, and **no
 shipped genre has ever used it**. See `DUNGEON-SYNTH-ARRANGEMENT.md` §11.
 
+**THE OWNER PLAYED IT AND THREE THINGS WERE STILL WRONG, all three declared
+fixed on proxies.** Chords not held: the pool still drew one-bar chords, the
+idea was capped at four bars, the pad struck twice a bar and swelled on every
+restrike — now `harmony.bars` 8, no one-bar draw, one strike, `slur` first;
+a chord is 9–18 s, up to 30. A piercing high note: 60% of lead notes at or
+above C5, the lead the loudest part of the mix — now every record dropped
+(`shift` floor −3, weight on −5/−7), lead at 64–79 with keys and drone down
+with it; 10% at or above C5, ceiling E5. Drums hardly there: fourth in and
+second out, a boom with no stick, far off in a full room at the shared level —
+now a march pocket, kettles every bar, second in and fourth out, closer, half
+dry, level 0.8, and a 6 ms stick on the tom; drums up 4–5 dB on every seed.
+`DOOM-AND-SLUDGE.md` §8. **The lesson is the README's:** a mean and a count
+are not the record.
+
 **THE DOOM CAME BACK IN, AND THE RIG WAS NEARLY INERT BEFORE IT.** The Muff's
 gain knob at the shipped 0.62 was 107× pre-gain and already square; turning it
 to 1.0 moved the record −36.8 dB, so `grind` could make nothing heavier. Every

@@ -135,7 +135,17 @@ export const dungeonsynth: GenreSpec = {
    * −12 is the whole octave down, rare because a record entirely down there
    * loses the lead. Weights [chosen].
    */
-  shift: [[0, 2], [-2, 3], [-3, 3], [-5, 3], [-7, 2], [-12, 1]],
+  /**
+   * DROPPED, AND ALWAYS DROPPED. The pool above kept a no-drop row at 2 of
+   * 14 and two near-no-drop rows at 6 more, so half of all records sat at
+   * or within three semitones of the pop octave — seed 42 drew 0. Doom's
+   * tuning is named: C standard "perhaps the most common tuning for Doom
+   * today" (-4), B standard "about as low as you'll commonly find" (-5)
+   * (boostguitarpedals.co.uk). Sludge and doom do not use the high register;
+   * the instruments are dropped [owner]. So the floor of the pool is -3 and
+   * its weight is on -5 and -7. Weights [chosen] around the sourced pair.
+   */
+  shift: [[-3, 2], [-5, 4], [-7, 3], [-12, 2]],
   metre: { beats: 4, perBeat: 4 },
 
   // the church modes: in the altered minors the sixth and seventh degrees
@@ -213,7 +223,19 @@ export const dungeonsynth: GenreSpec = {
      * material on one chord, which is this music at its most still. Weights
      * [chosen]; the sources name the gesture and rank nothing.
      */
-    chordBars: [[2, 3], [1, 2], [4, 1]],
+    /**
+     * AND NO ONE-BAR CHORD, AND THE IDEA IS EIGHT BARS SO A CHORD HAS ROOM.
+     * The first pass at this kept a one-bar draw at a third of the weight
+     * and capped everything at `harmony.bars` 4. Measured on nine seeds it
+     * made the harmonic rhythm a lottery — the chord changed at 11% of bar
+     * lines on one seed and 67% on another, and seed 42 restruck every bar.
+     * The owner heard it: "the chords are not HELD." Doom's own words are
+     * "chords are held for a long time" (easure.net). So: four bars the
+     * unmarked case, two the quick one, eight the whole idea on one chord.
+     * At 60-80 bpm that is 12-16 s a chord, and up to 32.
+     */
+    bars: 8,
+    chordBars: [[4, 3], [2, 2], [8, 1]],
     // no jazz in it at all, and a third of the chords are bare fifths
     sevenths: 0,
     fifths: 0.34,
@@ -294,7 +316,9 @@ export const dungeonsynth: GenreSpec = {
      * octaves inside `open: 0.6`, and 26 semitones is what that needs. So the
      * whole band moves and keeps its width.
      */
-    register: [45, 71],
+    // 43-69: two down, with the lead — the band the lead's own note says it
+    // needs to keep the tune on top at 64-79
+    register: [43, 69],
     /**
      * THE KEYS ARE HELD, AND THAT IS A LAW OF THIS GENRE. Its structure is
      * "not based on the typical pop song progression... but rather on
@@ -309,10 +333,17 @@ export const dungeonsynth: GenreSpec = {
      */
     element: [["pad", 1]],
     texture: [["sustain", 1]],
-    strike: [[[0], 4], [[0, 2], 1]],
+    // ONE STRIKE A CHORD. The [0, 2] pocket put the pad down twice a bar, and
+    // a pad put down twice is not held.
+    strike: [[[0], 1]],
     open: 0.6,
-    /** a pad swells rather than strikes: it holds, and it slurs from chord to chord */
-    art: [["tenuto", 6], ["slur", 3], ["plain", 2]],
+    /**
+     * A PAD SLURS FROM CHORD TO CHORD, AND NOW MOSTLY DOES. `slur` lets 16% of
+     * the attack through (`articulation.ts`); `tenuto` lets all of it. At 6:3
+     * eight restrikes in eleven got the full 0.35 s swell, and a swell at
+     * every chord is the sound of a chord that was not held.
+     */
+    art: [["slur", 7], ["tenuto", 3], ["plain", 1]],
   },
 
   // a flute above, slow, stepwise, inside an octave
@@ -346,7 +377,19 @@ export const dungeonsynth: GenreSpec = {
      * altogether. If the record wants to go lower still, that is the number,
      * and it needs the keys at 43–69 and the drone at 41–55 with it.
      */
-    register: [67, 82],
+    /**
+     * AND A FIFTH LOWER STILL: 64-79, THE BAND THIS FILE ALREADY MEASURED.
+     * The note above names it — "equally clean… a ceiling of G5… If the
+     * record wants to go lower still, that is the number, and it needs the
+     * keys at 43-69 and the drone at 41-55 with it." Measured on nine seeds
+     * before this: 60% of every lead note at or above C5, the highest A#5,
+     * and the lead the LOUDEST part on two seeds of three — a flute on top
+     * of a rig that had just been made darker under it. The owner heard it:
+     * "a high note… goes up into piercing range that is sonically horrible."
+     * With the shift table above always dropping, the ceiling lands at E5 at
+     * most and C5 or under in the common case.
+     */
+    register: [64, 79],
     rhythms: [
       [[0, 2, 4, 6], 3],
       [[0, 1, 2, 4, 5, 6], 2],
@@ -407,7 +450,10 @@ export const dungeonsynth: GenreSpec = {
     // [0, 2] stays as the commonest, and the third pocket that put a hit on
     // the "and" of four goes — that is a kit keeping time, which this music
     // "notably avoids".
-    kick: [[[0], 4], [[0, 2], 3], [[0, 1.5, 2.5], 1]],
+    // THE WALK WALKS. One strike a bar was a thump, not a march: measured,
+    // the war drum landed on 21-56% of the beats it was playing in. A march
+    // is the drum on every beat or every other, so those are the pockets.
+    kick: [[[0, 2], 4], [[0, 1, 2, 3], 3], [[0, 2, 2.5], 2]],
     // A SNARE ON THREE, RARELY, AND NEVER AS A BACKBEAT. A practitioner's own
     // lane list is "one track for bass drum (and/or toms), one for snare"
     // (dungeonsynth.proboards.com, "Percussion in Dungeon Synth"), so the
@@ -436,7 +482,9 @@ export const dungeonsynth: GenreSpec = {
      */
     toms: {
       run: 0.9,
-      bars: [1, 3],
+      // EVERY BAR MAY ANSWER. In two of four the kettles landed on 9-18% of
+      // beats and read as an occasional event; the owner wants them THERE.
+      bars: [0, 1, 2, 3],
       shapes: [
         [[[2.5, "tom1"], [2.75, "tom2"], [3, "tom3"], [3.25, "tom1"], [3.5, "tom2"], [3.75, "tom3"]], 4],
         [[[3, "tom1"], [3.25, "tom2"], [3.5, "tom3"], [3.75, "tom3"]], 3],
@@ -474,7 +522,8 @@ export const dungeonsynth: GenreSpec = {
      * for, "below the pad and around the organ's own low register": it is
      * still below the keys, and now genuinely below rather than through them.
      */
-    register: [43, 57],
+    // 41-55: two down with the keys, as the lead's own note asks
+    register: [41, 55],
     tone: [["tonic", 5], ["fifth", 3]],
     hold: [[4, 6], [2, 1]],
   },
@@ -513,7 +562,11 @@ export const dungeonsynth: GenreSpec = {
   },
 
   arrangement: {
-    enter: ["drone", "keys", "bass", "drums", "lead", "counter"],
+    // THE DRUMS ARE SECOND IN AND FOURTH OUT. Fourth in and second out they
+    // played in 32-80 of a record's bars — absent from the first half of
+    // most records and gone again before the end. The march walks in at the
+    // first turn after the drone.
+    enter: ["drone", "drums", "keys", "bass", "lead", "counter"],
     /** the desk walks to a treatment rather than switching to it: see the source */
     drift: 1,
     /**
@@ -531,7 +584,7 @@ export const dungeonsynth: GenreSpec = {
      * then the pad. What a quiet section keeps is bass, pad and drone, which
      * is what this music sounds like when it is being quiet.
      */
-    shed: ["counter", "drums", "lead", "bass", "keys", "drone"],
+    shed: ["counter", "lead", "bass", "drums", "keys", "drone"],
     /**
      * WHO A DUNGEON SYNTH RECORD IS ABOUT, and it is the drone or the pad.
      *
@@ -879,7 +932,10 @@ export const dungeonsynth: GenreSpec = {
     // it entire; the drums at 0.6, because the kettles through a Muff are the
     // war drum this genre keeps describing and they were barely on it.
     mix: {
-      drums: { az: 0, dist: 0.6, pedals: 0.6 },
+      // CLOSER, AND WITH A LEVEL OF ITS OWN. 0.6 deep in a 0.8 world put the
+      // drums furthest off of anything but the drone, and `level` was the
+      // shared 0.49. A war drum is in the room with you.
+      drums: { az: 0, dist: 0.35, level: 0.8, pedals: 0.6 },
       bass: { az: -15, dist: 0.5, pedals: 1 },
       keys: { az: -50, dist: 0.5, sweepHz: 0.03, sweepDepth: 0.15, pedals: 0.9 },
       // the flute walks no board, because it has none — see `pedals` above
@@ -918,7 +974,10 @@ export const dungeonsynth: GenreSpec = {
      * cover it — the darker, further church is the thing to judge first.
      */
     fx: {
-      drums: { room: { sec: 4.2, mix: 1, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
+      // HALF DRY. At mix 1 the drums were the wettest part in the genre and a
+      // kettle with no stick in a four-second room is a hum; half the room
+      // keeps the church and lets the strike through.
+      drums: { room: { sec: 4.2, mix: 0.5, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
       bass: { room: { sec: 4.2, mix: 0.725, at: "last" }, pole: { hz: 3600, resonance: 0.18, mix: 0.6, at: "last" } },
       keys: {
         room: { sec: 4.2, mix: 0.87, at: "last" },

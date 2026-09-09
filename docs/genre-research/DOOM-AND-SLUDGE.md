@@ -373,3 +373,107 @@ release.
 - easure.net, "Doom Metal Explained" — tempo 50–90; the tritone and dissonance; chords held long; the bass central; drums sparing
 - en.wikipedia.org, "Sludge metal"; tungstenofficial.com, "Sludge Metal: Origins" — doom and hardcore; cyclical riffs; groove over resolution
 - `src/sound/pedals.ts` — the Muff's `3 × 320^sustain` and the Dyna Comp's 3 ms / 1.5 s, both the program's own
+
+---
+
+## 8. What the owner heard, and what the numbers had hidden
+
+The owner played the page and said three things: the drums are hardly there;
+the chords are not held; a high note goes up into a piercing range, and doom
+does not use the high register — the instruments are dropped. All three were
+true, and every one had been declared fixed on a **proxy**: a hit count, a
+mean note length, a treatment's decibels. The measurements below are of the
+things themselves.
+
+### The chords
+
+Harmonic rhythm on nine seeds, before: the chord changed at **11–67%** of bar
+lines, the keys restruck **0.31–1.00** times a bar, the mean note ran
+2.6–7.7 s. The pool `[[2,3],[1,2],[4,1]]` still drew a one-bar chord a third
+of the time, `harmony.bars: 4` capped every chord at four, the `[0, 2]`
+strike put the pad down twice a bar, and `tenuto` outweighed `slur` 6:3 so
+eight restrikes in eleven got the pad's full 0.35 s swell. A swell at every
+chord is what "not held" sounds like.
+
+Now `bars: 8`, `chordBars: [[4,3],[2,2],[8,1]]`, one strike, `slur` 7:3:
+
+```
+seed    chord changes   keys onsets/bar    mean / longest note
+8660      10%   (was 22)    0.27  (0.55)     9.9 / 22.9 s  (1.21 bars)
+178        5%   (11)        0.30  (0.43)     9.6 / 14.3
+2741      19%   (44)        0.20  (0.62)     9.1 / 20.4
+5665      14%   (33)        0.27  (0.31)    18.1 / 30.1
+9423      24%   (56)        0.26  (0.64)    12.1 / 27.8
+9647      10%   (22)        0.26  (0.43)     9.5 / 24.4
+2514      19%   (44)        0.37  (0.45)     9.5 / 18.1
+218       10%   (22)        0.27  (0.40)     9.5 / 19.9
+42        29%   (67)        0.55  (1.00)     7.5 / 18.4
+```
+
+A chord is 9–18 seconds now, and up to 30. Seed 42 is still the busiest of
+the nine and is still twice as held as it was.
+
+### The register
+
+Lead over nine seeds, before: **60%** of notes at or above C5, the highest
+A♯5, and the lead the **loudest part of the mix** on two seeds in three —
+a flute at G4–A♯5 over a rig that had just been made darker under it. The
+`shift` pool carried a no-drop row at 2 of 14 and two near-no-drop rows at 6
+more; seed 42 drew 0.
+
+Now `shift: [[-3,2],[-5,4],[-7,3],[-12,2]]` — every record dropped, weight
+on C and B standard — and the lead at **64–79**, the band this file's own note
+had already measured as equally clean, with the keys at 43–69 and the drone at
+41–55 as that note said they must follow. Lead at or above C5: **60% → 10%**;
+highest A♯5 → **E5**; on five of nine seeds the ceiling is B4 or under. Zero
+refusals over 200 seeds.
+
+### The drums
+
+Three faults, none of them the hit count. **Time:** the drums entered fourth
+and were shed second, so they played in 32–80 of a record's bars; within those
+the war drum landed on 21–56% of beats and the kettles on 9–18%. **Tone:** the
+kettle peaked at 3 ms and sat flat at −4 dB — a sine through `tanh` with no
+stick, where the kick has a 1 ms click. **Desk:** `dist 0.6` in a 0.8 world,
+`room mix 1` (the wettest part in the genre), `level` the shared 0.49.
+
+Now: the war drum's pockets are a march (`[0,2]`, `[0,1,2,3]`, `[0,2,2.5]`),
+the kettles may answer in every bar, the drums enter second and leave fourth,
+they stand at 0.35 with a level of 0.8 and half a room, and the tom has a
+6 ms noise burst on the head.
+
+```
+seed    drums play        beats with a hit   war drum    kettles
+8660     96/120 (80)         74% (57)         64% (39)    28% (12)
+178      64/120 (64)         72% (69)         53% (56)    28% (15)
+2741     80/120 (80)         93% (58)         93% (35)    33% (18)
+5665     32/56  (32)         75% (53)         53% (38)    42% (9)
+9423     72/72  (48)         84% (47)         73% (22)    31% (15)
+9647     96/112 (64)         78% (64)         53% (43)    33% (10)
+2514    112/112 (112)        73% (53)         49% (28)    37% (15)
+218      48/88  (48)         71% (52)         51% (21)    30% (16)
+42       40/88  (—)          96%              91%         33%
+```
+
+And in the mix — each part alone through the full desk, dBFS:
+
+```
+        drone          keys           bass           lead           drums
+42     -27.7 → -25.8  -21.1 → -19.2  -21.6 → -19.3  -18.7 → -18.0  -22.5 → -17.3
+218    -21.9 → -22.9  -18.8 → -21.2  -15.0 → -15.0  -14.5 → -17.7  -18.2 → -14.3
+5665   -25.7 → -29.2  -25.3 → -26.7  -18.3 → -18.2  -20.2 → -20.2  -21.6 → -18.1
+```
+
+The drums came up **4–5 dB on every seed** and are the loudest or second
+loudest part on all three; the lead is off the top of 218.
+
+One thing the picture shows that stands: the entry order puts the record's
+character first, so "drums second" holds when the drone leads and not when the
+keys do — seed 42 is keys-led and its drums still wait for the chorus.
+
+### What "worked with the existing code" turned out to mean
+
+Every one of these was a genre number or a voice already in the program, and
+the first pass had changed the right ones. What it had not done was measure
+the thing the owner would hear — it measured a mean and a count and called
+the goal met. The fix for that is in `README.md` and has been all along.

@@ -382,6 +382,8 @@ export function tom(n: NoteIn, hz: number): Float32Array {
   const sr = n.sampleRate;
   const out = buffer(tailSec(TOM_TAU), sr);
   const twoPi = 2 * Math.PI;
+  const noise = new Noise(n.seed);
+  const stick = new Biquad("bandpass", 1400, 1.5, sr);
   let phase = 0;
   for (let i = 0; i < out.length; i++) {
     const t = i / sr;
@@ -390,7 +392,12 @@ export function tom(n: NoteIn, hz: number): Float32Array {
     const f = hz * (1 + 0.2 * Math.exp(-t / 0.2));
     phase += (twoPi * f) / sr;
     const env = Math.exp(-t / TOM_TAU) * (t < 0.002 ? t / 0.002 : 1);
-    out[i] = Math.tanh(Math.sin(phase) * 1.4) * env * 0.9 * n.gain;
+    // THE STICK. Measured without it: the kettle peaked at 3 ms and sat flat
+    // at -4 dB — a boom with no attack, and under a fuzzed bass at the same
+    // frequencies it vanished. A mallet on a head is a burst of noise a few
+    // milliseconds long before the tone; the snare has one and this did not.
+    const hit = t < 0.006 ? stick.run(noise.next()) * (1 - t / 0.006) : 0;
+    out[i] = (Math.tanh(Math.sin(phase) * 1.4) * env * 0.9 + 0.7 * hit) * n.gain;
   }
   return fade(out, sr);
 }
