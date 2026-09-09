@@ -140,6 +140,36 @@ export const dungeonsynth: GenreSpec = {
 
   // triads, close to home, little chromaticism
   harmony: {
+    /**
+     * AND A CHORD IS HELD, WHICH IS WHAT THIS GENRE IS FOR.
+     *
+     * "Just sustaining minor chords or power chords (root + 5th) for a LONG
+     * TIME is enough to create a dungeon synth atmosphere"
+     * (dungeonsynth.neocities.org/howto), and the structure is "not based on
+     * the typical pop song progression... but rather on carefully sustaining a
+     * single mood" (note.com/soundwitches). This file already called that a
+     * law at `keys.hold` — and `keys.hold` was doing its job. It had nothing
+     * to hold. A tone may only ring on into the next bar if the next bar's
+     * chord still contains it, and `drawChords` changed chord every bar, so
+     * the longest a pad could sustain was however far a common tone happened
+     * to carry. Measured before this: 90-97% of every keys note in this genre
+     * lasted one bar or less, 2.1 to 3.8 seconds, in the genre whose own guide
+     * asks for a long time.
+     *
+     * THE OLD WORKAROUND IS VISIBLE ABOVE. Four of the nine progressions in
+     * this file — [0,0,5,6], [5,6,0,0], [3,3,0,0], [5,3,0,0] — carry a doubled
+     * adjacent degree, which is "hold this chord for two bars" written the only
+     * way the program allowed. Those doublings are left exactly as they are:
+     * they are still legal, they now compound with this, and rewriting them
+     * would be changing the genre's changes while changing its clock.
+     *
+     * TWO BARS IS THE UNMARKED CASE at this genre's 60-80 bpm — six to eight
+     * seconds a chord, against three to four before. One is kept so the
+     * progression can still move at its old rate, and four is the whole
+     * material on one chord, which is this music at its most still. Weights
+     * [chosen]; the sources name the gesture and rank nothing.
+     */
+    chordBars: [[2, 3], [1, 2], [4, 1]],
     // no jazz in it at all, and a third of the chords are bare fifths
     sevenths: 0,
     fifths: 0.34,
@@ -279,11 +309,71 @@ export const dungeonsynth: GenreSpec = {
     contour: [["sung", 7], ["chant", 2], ["riff", 1]],
   },
 
-  // a timpani on the beat, no hat, a drum on three now and then
+  /**
+   * THE WAR DRUM WALKS AND THE KETTLES ANSWER.
+   *
+   * This comment used to say "a timpani on the beat" and the machine had no
+   * timpani to put there — four lanes, all of them a pop kit's, so the genre
+   * that cites "a timpani beats a drum pattern throughout" (erichgrunewald.com)
+   * and "very subtle percussion" (note.com/soundwitches) played a kick and a
+   * backbeat. Measured over five records before the toms came back: 63% kick,
+   * 34% snare, 2% hats, and not one tuned drum in the program.
+   *
+   * MK2 had all of it and MKIII did not port it. Its own words, kept because
+   * they are the design: "THE KETTLES ARE THE RUN, AND THE WAR DRUM IS THE
+   * WALK... `pocket` puts the war drum on the slow strikes and these shapes
+   * are the fast answer between them." The owner's, in MK2's margin: "low
+   * bellowing boom boom badabdabda boom boom" — two instruments in one bar,
+   * and the second one is what was missing.
+   */
   drums: {
-    kick: [[[0], 3], [[0, 2], 2], [[0, 2, 3.5], 1]],
-    snare: [[[2], 2], [[3], 1]],
+    // THE WALK. Slow strikes and no backbeat: what a march has on beat one is
+    // a drum, not a snare answering it on two and four. The old pocket's
+    // [0, 2] stays as the commonest, and the third pocket that put a hit on
+    // the "and" of four goes — that is a kit keeping time, which this music
+    // "notably avoids".
+    kick: [[[0], 4], [[0, 2], 3], [[0, 1.5, 2.5], 1]],
+    // A SNARE ON THREE, RARELY, AND NEVER AS A BACKBEAT. A practitioner's own
+    // lane list is "one track for bass drum (and/or toms), one for snare"
+    // (dungeonsynth.proboards.com, "Percussion in Dungeon Synth"), so the
+    // snare stays — but off the beat the war drum owns, and thin.
+    snare: [[[3], 2], [[2], 1]],
     hat: [[0, 1]],
+    /**
+     * THE KETTLES, AND THIS IS THE PART THE PROGRAM COULD NOT SAY.
+     *
+     * Six sixteenths falling through the three tuned drums at the end of the
+     * bar, which is MK2's own measured shape and its reason: "a run is five or
+     * six sixteenths falling through the kettles, which is what a timpanist's
+     * phrase-ending actually is and what 'badabdabda' is a transcription of.
+     * At 66 bpm a sixteenth is 227 ms and the kettle rings for over a second,
+     * so a descent through three drums overlaps itself into one falling boom
+     * rather than five separate taps."
+     *
+     * In the second and fourth bars, so the phrase is walk / run / walk / run.
+     * `run` at 0.9 is MK2's number after it measured its own first attempt too
+     * sparse — "measured over 60 songs they fired 253 times against the war
+     * drum's 4312... the coin is 0.9". The source for the gesture is the
+     * genre's own: "timpani rolls rather than driving drum kits"
+     * (melodigging.com/genre/dungeon-synth). The three-note descents are kept
+     * beside the six-note run so a record has both a full run and a short
+     * answer; weights [chosen].
+     */
+    toms: {
+      run: 0.9,
+      bars: [1, 3],
+      shapes: [
+        [[[2.5, "tom1"], [2.75, "tom2"], [3, "tom3"], [3.25, "tom1"], [3.5, "tom2"], [3.75, "tom3"]], 4],
+        [[[3, "tom1"], [3.25, "tom2"], [3.5, "tom3"], [3.75, "tom3"]], 3],
+        // THE HIGH NOTE THE OWNER ASKED MK2 FOR BY NAME: "two that are rim
+        // shots or the takio stick clash so we can get a high note in there".
+        // A kit of three kettles and a war drum is all low, and a stick on the
+        // hoop is the only thing in it that cuts — one, at the top of the
+        // answer, so the run has somewhere to fall FROM.
+        [[[2.5, "rim"], [2.75, "tom2"], [3.25, "tom3"], [3.75, "tom3"]], 2],
+        [[[3.5, "tom2"], [3.75, "tom3"]], 1],
+      ],
+    },
     phrase: [
       [["A", "A", "A", "B"], 3],
       [["A", "B", "A", "B"], 1],

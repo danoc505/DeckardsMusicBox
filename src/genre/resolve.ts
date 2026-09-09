@@ -468,6 +468,25 @@ export function resolveGenre(
         }
       }
     }
+    // A CHORD HOLDS A WHOLE NUMBER OF BARS, AT LEAST ONE. A length of zero is
+    // a chord that never sounds and the walk in `drawChords` would not
+    // advance; a fractional one is half a bar of harmony, which nothing
+    // downstream can read — every builder addresses the chords by bar.
+    checkPool(problems, "harmony.chordBars", harmony["chordBars"],
+      (v) => finite(v) && Number.isInteger(v) && (v as number) >= 1 && (v as number) <= 32,
+      "a whole number of bars, 1..32");
+    // AND A CHORD MAY NOT OUTLAST THE IDEA IT STANDS IN. `drawChords` cuts a
+    // step at the end of the material, so a genre whose shortest chord is
+    // longer than `harmony.bars` would state a length it can never hear.
+    if (Array.isArray(harmony["chordBars"])) {
+      for (const row of harmony["chordBars"] as unknown[]) {
+        const k = Array.isArray(row) ? row[0] : null;
+        if (finite(k) && (k as number) > materialBars) {
+          problems.push(`harmony.chordBars states ${String(k)} bars, longer than harmony.bars ${materialBars} — ` +
+            `a chord that long is cut at the end of every statement and its length is never heard`);
+        }
+      }
+    }
     const sv = harmony["sevenths"];
     if (!finite(sv) || sv < 0 || sv > 1) problems.push(`harmony.sevenths must be 0..1, got ${String(sv)}`);
     const fi = harmony["fifths"];
@@ -736,6 +755,40 @@ export function resolveGenre(
     checkPool(problems, "drums.hat", drums["hat"],
       (v) => finite(v) && v >= 0 && v <= beats && onGrid(v),
       "a division of the beat that lands on the grid, or 0 for none");
+    // THE KETTLES. A run may only name lanes the kit actually has, or it is a
+    // note written on a drum that does not exist — the defect `tr1000.ts`
+    // names. And a run in a bar the phrase never reaches is a knob that does
+    // nothing, so the bars are checked against the four a phrase has.
+    const tomsObj = isPlainObject(drums["toms"]) ? drums["toms"] : {};
+    const rn = tomsObj["run"];
+    if (!finite(rn) || (rn as number) < 0 || (rn as number) > 1) {
+      problems.push(`drums.toms.run must be 0..1, got ${String(rn)}`);
+    }
+    if (!Array.isArray(tomsObj["bars"]) || (tomsObj["bars"] as unknown[]).some((b) => !finite(b) || (b as number) < 0 || (b as number) > 3)) {
+      problems.push(`drums.toms.bars must be bar numbers 0..3, got ${JSON.stringify(tomsObj["bars"])}`);
+    }
+    // THE SHAPES ARE ONLY CHECKED AGAINST THE BAR WHERE THEY CAN SOUND. The
+    // shared default states a run and weights it at zero, so that a genre that
+    // wants the kettles has something to copy — and a beat inside a four-beat
+    // bar is outside a three-beat one, which would make the DEFAULT refuse a
+    // genre in 3/4 at load. A default may never do that. Structure and lane
+    // are checked always; the beat is checked where the run can actually land.
+    if (finite(rn) && (rn as number) > 0) checkPool(problems, "drums.toms.shapes", tomsObj["shapes"],
+      (v) => Array.isArray(v) && v.length > 0 && v.every((h) =>
+        Array.isArray(h) && h.length === 2 && finite(h[0]) && (h[0] as number) >= 0 && (h[0] as number) < beats
+        && (DRUM_LANES as readonly string[]).includes(h[1] as string)),
+      `[beat, lane] pairs inside the bar, on a lane the kit has (${DRUM_LANES.join(", ")})`);
+    else checkPool(problems, "drums.toms.shapes", tomsObj["shapes"],
+      (v) => Array.isArray(v) && v.length > 0 && v.every((h) =>
+        Array.isArray(h) && h.length === 2 && finite(h[0]) && (h[0] as number) >= 0
+        && (DRUM_LANES as readonly string[]).includes(h[1] as string)),
+      `[beat, lane] pairs on a lane the kit has (${DRUM_LANES.join(", ")})`);
+    // AND A GENRE THAT RUNS THE KETTLES MUST ACTUALLY REACH THEM. A run
+    // weighted at zero with shapes stated is a knob that does nothing, which
+    // this program deletes rather than ships.
+    if (finite(rn) && (rn as number) > 0 && Array.isArray(tomsObj["bars"]) && (tomsObj["bars"] as unknown[]).length === 0) {
+      problems.push("drums.toms.run is above zero but drums.toms.bars is empty — the run can never land");
+    }
     checkPool(problems, "drums.phrase", drums["phrase"],
       (v) => Array.isArray(v) && v.length >= 1 &&
         v.every((l) => typeof l === "string" && (BAR_LETTERS as readonly string[]).includes(l)),
@@ -744,6 +797,12 @@ export function resolveGenre(
       drums["kick"] = toSteps(drums["kick"]);
       drums["snare"] = toSteps(drums["snare"]);
       drums["hat"] = (drums["hat"] as Weighted<number>).map(([b, w]) => [Math.round(b * perBeat), w] as const);
+      // THE KETTLE RUN, in beats like every other pattern here, resolved to
+      // this record's own grid so a genre in another metre needs no new code.
+      const toms = isPlainObject(drums["toms"]) ? drums["toms"] : {};
+      toms["shapes"] = (toms["shapes"] as Weighted<readonly (readonly [number, string])[]>)
+        .map(([shape, w]) => [shape.map(([b, lane]) => [Math.round(b * perBeat), lane] as const), w] as const);
+      drums["toms"] = toms;
     }
   }
 

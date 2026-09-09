@@ -46,7 +46,7 @@
  */
 
 import { Biquad, Noise, fade } from "./dsp.ts";
-import { hat, kick, snare, type NoteIn } from "./voices.ts";
+import { hat, kick, rim, snare, tom, type NoteIn } from "./voices.ts";
 import type { DrumLane, MachineRules, StripRules } from "../genre/spec.ts";
 
 /** The 808's hi-hat ratios: six squares, deliberately inharmonic. [theory] */
@@ -292,9 +292,28 @@ function replay(buf: Float32Array, rate: number, decay: number, sampleRate: numb
 
 /** Which circuit or recording each lane calls, per kit. A kit is this table and nothing else. */
 export const KITS = {
-  acoustic: { kick: "kick", snare: "snare", hat: "hat", openhat: "openhat" },
-  analog: { kick: "k808", snare: "s808", hat: "h808", openhat: "oh808" },
+  acoustic: {
+    kick: "kick", snare: "snare", hat: "hat", openhat: "openhat",
+    tom3: "tom3", tom2: "tom2", tom1: "tom1",
+    rim: "rim",
+  },
+  analog: {
+    kick: "k808", snare: "s808", hat: "h808", openhat: "oh808",
+    tom3: "t808lo", tom2: "t808mid", tom1: "t808hi",
+    rim: "rs808",
+  },
 } as const satisfies Readonly<Record<string, Readonly<Record<DrumLane, string>>>>;
+
+/**
+ * THE KETTLES' OWN PITCHES, low to high, in Hz.
+ *
+ * One circuit at three tunings rather than three circuits — see `tom` in
+ * `voices.ts`. A timpanist's kettles are a fourth or a fifth apart and sit
+ * where a bass line sits: these are roughly G1, C2 and F2, so a descent
+ * through them lands under the drone rather than over it, and the strip's own
+ * TUNE moves all three together as one instrument.
+ */
+const TOM_HZ: Readonly<Record<string, number>> = Object.freeze({ tom3: 49, tom2: 65, tom1: 87 });
 
 /** What is playing a lane, by name — for the dump, the page, and the note cache's key. */
 export const voiceOf = (lane: DrumLane, M: MachineRules): string => KITS[M.kit][lane];
@@ -315,9 +334,21 @@ export function drum(lane: DrumLane, n: NoteIn, M: MachineRules): Float32Array {
       case "snare": return s808(n, M, strip);
       case "hat": return h808(n, M.chdecay, 7200, strip);
       case "openhat": return h808(n, M.ohdecay, 6200, strip);
+      // THE MACHINE'S OWN KETTLES, RIM AND CLAP. The 808's toms are a sine
+      // with a pitch envelope, which is what `tom` is; its rim and clap are
+      // their own circuits and are the same ones the acoustic kit uses,
+      // retuned by the strip. The cymbals are the metal stack at length.
+      case "tom3": case "tom2": case "tom1":
+        return replay(tom(n, TOM_HZ[lane]! * M.tune / 47), tuneOf(strip), strip.decay, n.sampleRate);
+      case "rim": return replay(rim(n), tuneOf(strip), strip.decay, n.sampleRate);
     }
   }
-  const plain = lane === "kick" ? kick(n) : lane === "snare" ? snare(n) : hat(n, lane === "openhat");
+  const plain =
+    lane === "kick" ? kick(n)
+    : lane === "snare" ? snare(n)
+    : lane === "tom3" || lane === "tom2" || lane === "tom1" ? tom(n, TOM_HZ[lane]!)
+    : lane === "rim" ? rim(n)
+    : hat(n, lane === "openhat");
   const rate = tuneOf(strip);
   if (rate === 1 && strip.decay >= 1) return plain;
   return replay(plain, rate, strip.decay, n.sampleRate);

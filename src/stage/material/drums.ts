@@ -111,9 +111,28 @@ export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, 
       }
     }
 
+    /**
+     * THE KETTLES ANSWER BETWEEN THE WAR DRUM'S STRIKES.
+     *
+     * The pocket above put the heavy drum on the slow beats; this is the fast
+     * reply falling through the tuned drums, and it lands in the bars the
+     * genre names so a four-bar phrase reads walk / run / walk / run rather
+     * than three bars of walking and one event. See `TomsSpec`.
+     *
+     * Written BEFORE the letter's changes, so a run is part of the figure the
+     * changes act on rather than something added after them — a kettle the
+     * phrase never touches is a fixed ornament, not a drum part.
+     */
+    if (D.toms.run > 0 && D.toms.bars.includes(bar % 4)
+        && at.chance("run", D.toms.run)) {
+      for (const [step, lane] of at.weighted("kettles", D.toms.shapes)) {
+        if (step < steps && !hits.some((h) => h.step === step && h.lane === lane)) hits.push({ bar, step, lane, vel: 0.85 });
+      }
+    }
+
     // and what this bar does to it
     const changes = letter === "B" ? 1 : letter === "C" ? 2 : 0;
-    for (let c = 0; c < changes; c++) change(hits, at.at("change", c), bar, steps, beat);
+    for (let c = 0; c < changes; c++) change(hits, at.at("change", c), bar, steps, beat, hatEvery);
 
     if (letter === "D") {
       if (at.chance("fill", 0.6)) {
@@ -160,7 +179,7 @@ export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, 
  * goes first is drawn; the order after that is fixed, so a change is made
  * whenever any is possible.
  */
-function change(hits: Hit[], rng: Rng, bar: number, steps: number, beat: number): void {
+function change(hits: Hit[], rng: Rng, bar: number, steps: number, beat: number, hatEvery: number): void {
   const has = (step: number, lane: DrumLane): boolean => hits.some((h) => h.step === step && h.lane === lane);
   const half = beat / 2;
   const onEighth = (st: number): boolean => Number.isInteger(half) && st % half === 0 && st % beat !== 0;
@@ -170,11 +189,15 @@ function change(hits: Hit[], rng: Rng, bar: number, steps: number, beat: number)
     const spots: [number, DrumLane][] = [];
     for (let st = 1; st < steps; st++) {
       if (st % beat === 0) continue;
+      // AND THE SAME REFUSAL HERE. A genre with no hat gets its additions on
+      // the drums it actually has: on an eighth that is the kick, and off it
+      // there is nothing light enough to add, so nothing is added.
+      const light: DrumLane | null = hatEvery === 0 ? null : "hat";
       if (onEighth(st)) {
         if (!has(st, "kick")) spots.push([st, "kick"]);
-        if (!has(st, "hat")) spots.push([st, "hat"]);
-      } else if (!has(st, "hat")) {
-        spots.push([st, "hat"]);
+        if (light !== null && !has(st, light)) spots.push([st, light]);
+      } else if (light !== null && !has(st, light)) {
+        spots.push([st, light]);
       }
     }
     if (spots.length === 0) return false;
@@ -200,6 +223,13 @@ function change(hits: Hit[], rng: Rng, bar: number, steps: number, beat: number)
       const to: DrumLane = HEAVY.has(h.lane)
         ? h.step % beat === 0 ? "openhat" : "hat"
         : onEighth(h.step) ? "snare" : "openhat";
+      // A GENRE WITH NO HAT DOES NOT GROW ONE HERE. Dungeon synth states
+      // `hat: [[0, 1]]` and sources it — "beatless: no hat"
+      // (note.com/soundwitches) — and this move turned its kicks and snares
+      // into hats anyway, because it asked `HEAVY` what a light drum is and
+      // never asked the genre whether it had one. Measured before this: 14
+      // hats across five records of a genre whose own table says none.
+      if (hatEvery === 0 && (to === "hat" || to === "openhat")) return;
       if (!has(h.step, to)) options.push([i, to]);
     });
     if (options.length === 0) return false;

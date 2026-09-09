@@ -8,7 +8,7 @@
  * be an obvious visual rhyme, and a section that restates another should look
  * like it. If the picture is confetti, the music is confetti.
  */
-import { ROLES } from "../src/genre/spec.ts";
+import { DRUM_LANES, ROLES } from "../src/genre/spec.ts";
 import { writeFileSync } from "node:fs";
 import zlib from "node:zlib";
 import { compose } from "../src/song.ts";
@@ -91,10 +91,16 @@ if (barsAt >= 0) { const [a, b] = process.argv[barsAt+1].split("-").map(Number);
 const nBars = bar1 - bar0;
 
 const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], counter: [186,148,255], drone: [163,255,107] };
-const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
+// THE LANES THE KIT HAS, from the one place that says so. This was a literal
+// of the four lanes the program used to have, and `LANE[e.lane] ?? 0` drew
+// every lane it did not know about ON THE KICK ROW — so when the toms came
+// back the roll, which is this program's main test, showed a kick part that
+// was not being played. A picture that cannot see the change it is being used
+// to judge is worse than no picture.
+const LANE = Object.fromEntries(DRUM_LANES.map((l, i) => [l, i]));
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
 // HEAD0 was 22 with one label line; the assignment line under it needs nine more
-const SH = 7, GUT = 34, HEAD0 = 31, DRUM = 4*9 + 6, SPAN = 20;
+const SH = 7, GUT = 34, HEAD0 = 31, DRUM = DRUM_LANES.length*9 + 6, SPAN = 20;
 /* ── THE FX ROLL, ITS OWN BAND UNDER THE DRUMS ────────────────────────────
    A treatment moves the mixer and not one note, so it is invisible on the
    piano roll BY CONSTRUCTION — the same record with and without its whole
@@ -259,7 +265,7 @@ for (const pl of song.arrangement.placed) {
   }
 }
 // which drum is which lane
-const LANE_NAME = { kick: "KCK", snare: "SNR", hat: "HAT", openhat: "OHH" };
+const LANE_NAME = { kick: "KCK", snare: "SNR", hat: "HAT", openhat: "OHH", tom3: "LOT", tom2: "MDT", tom1: "HIT", rim: "RIM", clap: "CLP", crash: "CRS", ride: "RID" };
 for (const [lane, i] of Object.entries(LANE)) {
   text(cv, LANE_NAME[lane] ?? lane.slice(0, 3), 2, TOP + PITCH + 4 + i*9, [110, 78, 62]);
 }

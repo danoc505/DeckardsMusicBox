@@ -1,5 +1,6 @@
 /**
- * The changes an idea stands on: one chord per bar of the material.
+ * The changes an idea stands on: a chord per bar of the material, and a chord
+ * may hold for more than one of them — see `chordBars`.
  *
  * Drawn per IDEA, not per material, so every statement of A — plain or varied
  * — stands on the same chords. What varies when an idea comes back changed is
@@ -28,9 +29,28 @@ export function drawChords(chart: Chart, idea: Idea): Chord[] {
   }
   const prog = draw.weighted("progression", pool);
 
+  /**
+   * HOW LONG EACH STEP OF THE PROGRESSION HOLDS, drawn ONCE PER POSITION.
+   *
+   * Per position and not per bar, for the reason the seventh below already
+   * gives: a length drawn per bar would give a four-bar progression a
+   * different shape every time it came round, and a loop that repeats nothing
+   * is not a loop. Drawn here, one statement of an idea and every later
+   * statement of it stand on the same changes for the same lengths.
+   */
+  const spotBars = prog.map((_, spot) =>
+    Math.max(1, Math.round(draw.at("spot", spot).weighted("chordBars", H.chordBars))));
+
   const out: Chord[] = [];
-  for (let bar = 0; bar < H.bars; bar++) {
-    const degree = prog[bar % prog.length]!;
+  // WALKED BY THE PROGRESSION, NOT BY THE BAR. A step holds for its own
+  // length and the next step follows it; the walk comes round and repeats
+  // until the material is full. A step whose length would run past the end of
+  // the material is cut there — the material repeats, and the next statement
+  // starts the walk again, so the seam is the one a loop already has.
+  for (let bar = 0, step = 0; bar < H.bars; step++) {
+    const spot = step % prog.length;
+    const degree = prog[spot]!;
+    const holdBars = spotBars[spot]!;
     // DRAWN PER POSITION IN THE PROGRESSION, not per bar of the material. A
     // setting between 0 and 1 still gives a mix of plain and extended chords
     // across the loop; drawn per bar it gave a mix across the MATERIAL, so a
@@ -38,7 +58,6 @@ export function drawChords(chart: Chart, idea: Idea): Chord[] {
     // — four different chords, and a two-bar loop silently turned into a
     // four-bar one that repeats nothing. The quality belongs to the chord,
     // and the chord comes round with the progression.
-    const spot = bar % prog.length;
     const seventh = draw.at("spot", spot).chance("seventh", H.sevenths);
     // Drawn whether or not the seventh landed, so a genre that asks for no
     // ninth is bit-for-bit the record it was before this existed.
@@ -53,15 +72,17 @@ export function drawChords(chart: Chart, idea: Idea): Chord[] {
     // the seventh so a genre that asks for both gets a fifth, not a seventh
     // with a hole in it.
     if (tones.length >= 3 && draw.at("spot", spot).chance("fifth", H.fifths)) tones = [tones[0]!, tones[2]!];
-    out.push(
-      Object.freeze({
-        bar,
-        degree,
-        root: degreeMidi(chart.tonic, chart.scale, degree),
-        tones: Object.freeze(tones),
-        name: chordName(tones),
-      }),
-    );
+    // ONE CHORD OBJECT PER BAR IT HOLDS, and every builder downstream still
+    // reads `chords[bar % chords.length]`. A chord that holds four bars is the
+    // same chord standing at four bars, which is what lets `keys.hold` leave a
+    // tone ringing through it: the tone is still sounding and still in the
+    // chord, so there is nothing to restrike.
+    const root = degreeMidi(chart.tonic, chart.scale, degree);
+    const frozen = Object.freeze(tones);
+    const name = chordName(tones);
+    for (let k = 0; k < holdBars && bar < H.bars; k++, bar++) {
+      out.push(Object.freeze({ bar, degree, root, tones: frozen, name }));
+    }
   }
   return out;
 }
@@ -109,7 +130,24 @@ export function harmonicPeriod(chords: readonly Chord[]): number {
     if (n % p !== 0) continue;
     let holds = true;
     for (let i = p; i < n && holds; i++) if (!same(chords[i]!, chords[i % p]!)) holds = false;
-    if (holds) return p;
+    /**
+     * AND A PERIOD MAY NOT CUT A CHORD THAT IS STILL SOUNDING.
+     *
+     * The test above asks whether the chords REPEAT every p bars, and a chord
+     * held across a bar line repeats trivially: four bars of Dm satisfy it at
+     * p = 1. That was harmless while a chord lasted exactly one bar and became
+     * a fault the moment `chordBars` let one last longer — the caller slices
+     * `chords.slice(0, period)` and tiles it, so a four-bar Dm was written as
+     * a ONE-bar Dm played four times. The pad restruck every bar, `keys.hold`
+     * had no ringing tone to grow, and holding a chord LONGER made its notes
+     * SHORTER. Measured: dungeon synth seed 218's longest keys note fell from
+     * 2.85 bars to 0.95 when the chord went to four bars.
+     *
+     * A tile boundary is a fresh first bar. So p is only the period if the
+     * chord actually CHANGES across it — otherwise the tiling is cutting one
+     * chord into pieces and calling the pieces a loop.
+     */
+    if (holds && !same(chords[p - 1]!, chords[p]!)) return p;
   }
   return Math.max(1, n);
 }

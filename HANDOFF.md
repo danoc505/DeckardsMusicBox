@@ -14,6 +14,56 @@ changed anything.
 
 ## Where it stands
 
+
+## The kit got its kettles back, and a chord got long enough to hold
+
+Two changes, both of them a genre inheriting something written for other music.
+
+**A chord may last more than a bar** (`harmony.chordBars`). `drawChords` walked
+`for (let bar...)` and no document ever said a chord was a bar long — the tell
+was that four of dungeon synth's nine progressions already doubled a degree to
+fake it. It did nothing until `harmonicPeriod` was fixed too: a held chord read
+as a one-bar loop, so the caller tiled one bar and **holding a chord longer made
+its notes shorter**. With both, over eight random seeds: keys notes 1740 → 1022,
+mean length 1.02 → 1.60 bars, one-bar-or-less 84% → 57%. lofi byte-identical.
+
+**The kit is eleven lanes, not four** (`DRUM_LANES`, `drums.toms`). MK2 had a
+`dungeon` kit of "war drums and kettles", three tom lanes, and the owner's own
+spec for it; MKIII ported four pop lanes and `tr1000.ts` recorded the loss
+without recording that MK2 had the answer. Toms 0% → 36% of dungeon synth's drum
+hits; hats 5% → 0%, which was a bug — `substitute()` grew hats in a genre whose
+source says it has none, because it asked `HEAVY` what a light drum is and never
+asked the genre.
+
+**Three things this cost, all worth reading before the next change:**
+
+- `tools/roll.mjs` held a literal of the four lanes and drew every unknown lane
+  on the KICK row. **This program's main test was blind to the change it was
+  being used to judge.** It derives from `DRUM_LANES` now.
+- `midi.ts` drops a lane with no General MIDI key **in silence**, and
+  `midi.test.ts` caught it — the new lanes were vanishing from every exported
+  file. The test was right and the code was wrong; keys added.
+- **lofi nearly changed and was put back.** Giving `ride` and `crash` a home
+  (the amen's own lesson names both) moved that figure off the hat lanes: **11
+  of 17 lofi records differed** and two of lofi's desk laws failed on the
+  shifted spectrum. Reverted; lofi is byte-identical on 12 records and the two
+  cymbal lanes came out with the clap.
+
+`clap`, `crash` and `ride` were written and deleted, note kept in `DRUM_LANES`.
+The kit ships eight lanes and every one is struck by some genre.
+
+**One law is left failing and it is not this change's to settle.**
+`treat.test.ts` holds that every treatment a genre's desk offers must move the
+record by more than −40 dB. Dungeon synth offers `revive` and its own file
+already explains why it barely moves — `sag.idle` ships at 1, a full battery,
+so the move has nowhere to go. It sat at −38.9 dB, one decibel inside the
+floor; the notes this change rewrote took it to −41.9 and it fell out. Fixing
+it means either giving `sag.idle` headroom (a taste change to every record) or
+teaching `deskOf` to refuse a knob already at its limit. `index.test.ts` 217 and
+226 also fail and were **confirmed failing on the pre-change commit**.
+
+Full reading and every number: `DUNGEON-SYNTH-ARRANGEMENT.md` §10.
+
 Two genres, `lofi` and `dungeonsynth`, both playable end to end. Five pure
 stages — chart → form → arrangement → materials → performance — plus `sound/`,
 each frozen on the way out. A record is a pure function of genre and seed, and

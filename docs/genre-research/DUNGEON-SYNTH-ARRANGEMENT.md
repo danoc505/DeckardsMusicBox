@@ -253,7 +253,9 @@ program's 3.9–7.6.
 
 ## 8. What this proposes
 
-**None of this is applied.** The genre's numbers are unchanged; this section is
+**Rules 1 and 2 have since been applied; 3 and 4 have not.** What follows is
+the reading as it stood. `§10` records what happened when it was acted on, and
+what the acting on it turned up that this section did not know. The genre's numbers are unchanged; this section is
 what the research says should change, so the decision is a separate one from
 the reading.
 
@@ -325,3 +327,144 @@ evidence written down.
 - "Født til å herske", en.wikipedia.org. https://en.wikipedia.org/wiki/F%C3%B8dt_til_%C3%A5_herske — Mortiis 1994, "one long song, split into two tracks", 27:37 and 25:23
 - Sound On Sound, "Arranging Pop". https://www.soundonsound.com/techniques/arranging-pop — already cited in `arrange.ts`; the general rules this document is measured against
 - Hubert Léveillé Gauvin, *Musicae Scientiae* 22(3) (2018), 291–304 — the intro ceiling's source, and why it is a pop number. Cited in full in `THE-INTRO.md`
+
+
+---
+
+## 10. What happened when this was acted on
+
+Written after the fact, on the branch that did it. Every number here is off
+seeds drawn at random and reported whole.
+
+### The ending: rule 2 was applied and is still not enough
+
+`arrangement.fewest` was lowered at the close exactly as §4 asked
+(`arrange.ts`, the `floor` at a closing section). Measured over 200 seeds it
+moved the ending from four parts to **2.77**, and records ending on the drone
+ALONE went 0% → **2%**. The source asks for one part.
+
+The line that still stops it is not `fewest`. It is
+
+```ts
+const wanted = section.peak ? ROLES.length
+  : Math.round(floor + (ROLES.length - floor) * section.energy);
+```
+
+— the count is driven by `section.energy`, and the outro's energy is
+`spec.ts`'s shared default **`outro: 0.3`**, which carries no citation and
+which neither genre states. Swept on this genre with everything else held:
+
+| `form.energy.outro` | ends on the drone alone | ends with NO drone | parts in the last span |
+|---|---|---|---|
+| **0.30 (as it ships)** | 2% | 10% | 2.77 |
+| 0.20 | 5% | 16% | 2.52 |
+| 0.10 | 5% | 16% | 2.01 |
+| 0.05 | **17%** | **20%** | 1.75 |
+
+The lever is real and unstated. But note the third column: **thinning the
+ending makes it MORE likely to end with no drone at all**, because the
+protagonist rule re-sorts the shed order and takes the drone before the
+character. The two faults are coupled and neither is fixed alone. This is the
+fourth instance of the inherited-default fault `TALLY.md` names.
+
+### The protagonist silently outranks this genre's stated shed order
+
+`dungeonsynth.ts` states a shed order with a long argument — "AND THE DRONE IS
+THE LAST THING THIS GENRE GIVES UP" — and `Arrangement.shed` is documented as
+"the genre's, character last". Over 200 seeds the record's shed order differs
+from the one the genre states in **58%** of records; the drone is not shed last
+in **58%**; the drone is absent for a whole section in **41%**; and **10%** of
+records end with no drone in them at all. Two laws, and the general one wins in
+silence. Not fixed here — naming it is this section's job.
+
+### One chord per bar was an accident, and it was the reason the pad never held
+
+`keys.hold` was doing its job and had nothing to hold. `harmony.ts` walked
+`for (let bar...)` and read `prog[bar % prog.length]`, so a chord lasted exactly
+one bar; a pad tone may only ring on if the next bar's chord still contains it.
+Measured before: **90–97%** of every keys note in this genre lasted one bar or
+less, 2.1 to 3.8 seconds, against a guide asking for "a long time".
+
+Nothing in `docs/` ever said a chord was a bar long. The one citation in that
+file (Adams, MTO 26.2) is about how many MEASURES a loop runs. **The tell was in
+the genre table**: four of nine progressions carried a doubled adjacent degree —
+`[0,0,5,6]`, `[5,6,0,0]`, `[3,3,0,0]`, `[5,3,0,0]` — which is "hold this chord
+for two bars" written the only way the program allowed.
+
+`harmony.chordBars` now states it, drawn per position in the progression. **And
+it did nothing until a second bug was found**, which is the part worth
+recording: `harmonicPeriod` treated a held chord as a repeat, so four bars of Dm
+had a period of 1, the caller sliced one bar and tiled it, and **holding a chord
+longer made its notes shorter** — seed 218's longest keys note fell from 2.85
+bars to 0.95. A period may not cut a chord that is still sounding.
+
+With both: over eight seeds drawn at random, keys notes **1740 → 1022**, mean
+length **1.02 → 1.60 bars**, one-bar-or-less **84% → 57%**. Every other part
+within noise; the drone byte-identical; lofi byte-identical on 14 records.
+
+### The kit was a pop kit, and MK2 already had the right one
+
+`DRUM_LANES` was `kick, snare, hat, openhat`. `LOFI-LINEAGE.md` sources those
+three to boom bap **for lofi**; no document sources them for this genre, whose
+own file has said "a timpani on the beat" since it was written. Measured: 63%
+kick, 34% snare, 2% hats, and no tuned drum in the program.
+
+`tr1000.ts` had recorded the loss and its own condition for undoing it — "the
+day a drum builder writes a note on a tom" — without recording that **MK2 had
+one**. `Deckards Orchestrator MK2.html` carries a `dungeon` kit labelled "war
+drums and kettles", three tom lanes, and the design in its own words:
+
+> THE KETTLES ARE THE RUN, AND THE WAR DRUM IS THE WALK… a run is five or six
+> sixteenths falling through the kettles, which is what a timpanist's
+> phrase-ending actually is and what "badabdabda" is a transcription of.
+
+with the owner's spec beside it ("The percussion is mostly toms which is what we
+want… two that are rim shots or the takio stick clash so we can get a high note
+in there") and a source, `[corpus:melodigging]`, "timpani rolls rather than
+driving drum kits". MKIII had regressed.
+
+Ported: eight lanes (see `DRUM_LANES`), the tom and rim circuits, and
+`drums.toms` — the kettles' answer, in the
+second and fourth bars of the phrase. Over the same eight seeds, **toms 0% →
+36%** of drum hits, **hats 5% → 0%**.
+
+**And the hats were a bug, not a taste.** This genre states `hat: [[0, 1]]` and
+sources it ("beatless: no hat"), and `substitute()` turned its kicks and snares
+into hats anyway — it asked `HEAVY` what a light drum is and never asked the
+genre whether it had one. The law is now kept where the move is made.
+
+### What this cost
+
+- **The roll was blind to it.** `tools/roll.mjs` held a literal of the four
+  lanes and drew every unknown lane on the KICK row, so this program's main
+  test showed a kick part that was not being played. It derives from
+  `DRUM_LANES` now.
+- **The clap, the crash and the ride were written and then deleted**, with the
+  note kept in `DRUM_LANES`. The clap has no source. The cymbals nearly earned
+  their place — the amen's own lesson says "ride cymbal throughout" and "crash
+  is played on the '+' of beat 3", and `NamedFigure` calls its field "the
+  ride/hat" — but the only way to strike them was to move lofi's amen off the
+  hat and the open hat. That changed **11 of 17 lofi records** and broke two of
+  that genre's desk laws on the shifted spectrum (`render.test.ts`'s tape test,
+  `treat.test.ts`'s refusal test). A taste change to a genre nobody asked to
+  touch is not worth two laws, so it was reverted and lofi is byte-identical on
+  12 records. The kit ships eight lanes, every one of them struck.
+- **One law is left failing, and it is this genre's rig rather than this
+  change.** `treat.test.ts` asserts every treatment a genre's desk OFFERS moves
+  the record by more than −40 dB. Dungeon synth's desk offers `revive`, and this
+  file already recorded why it barely does anything: `sag.idle` ships at **1**,
+  a full battery, and `STARVE`'s idle knob runs 0.18–1, so revive has nowhere to
+  go and only `sag.depth` is left to move. It measured **−38.9 dB** — inside the
+  floor by a decibel. The notes this change rewrote moved it to **−41.9 dB** and
+  it fell out.
+
+  Nothing about the desk changed; the record did. The two honest fixes are both
+  the owner's call and neither is a refactor: give `sag.idle` headroom (a taste
+  change to how every dungeon synth record sounds), or have `deskOf` refuse a
+  move whose knob is already at its limit — which is the refusal `reach.ts`
+  already owns, and which would make the genre's own written judgement ("the
+  pair stays in the vocabulary for a genre whose battery is not already full")
+  true in code instead of in a comment.
+
+  Two other failures in the suite (`index.test.ts` 217 and 226) were **confirmed
+  failing on the pre-change commit** and are not this change's.

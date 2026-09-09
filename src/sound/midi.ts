@@ -44,6 +44,14 @@ const GM_DRUM: Readonly<Record<string, number>> = Object.freeze({
   snare: 38,    // acoustic snare
   hat: 42,      // closed hi-hat
   openhat: 46,  // open hi-hat
+  // THE KETTLES, low to high. GM has six toms and this kit has three, so they
+  // take the low floor, the low and the hi-mid — spread across the range
+  // rather than bunched, because these are a timpanist's kettles and the
+  // interval between them is the point of having three.
+  tom3: 41,     // low floor tom
+  tom2: 45,     // low tom
+  tom1: 48,     // hi-mid tom
+  rim: 37,      // side stick
 });
 
 /**

@@ -190,6 +190,34 @@ export interface HarmonySpec {
   readonly motif?: number;
   /** The changes each idea may stand on. */
   readonly progressions?: Readonly<Partial<Record<Idea, Weighted<Progression>>>>;
+  /**
+   * HOW MANY BARS EACH STEP OF THE PROGRESSION HOLDS, drawn per position.
+   *
+   * Until this existed a chord lasted exactly one bar — `drawChords` walked
+   * `for (let bar...)` and read `prog[bar % prog.length]`, and nothing in
+   * `docs/` ever said a chord was a bar long. The one citation in that file
+   * (Adams, MTO 26.2) is about how many MEASURES a loop runs, not how long a
+   * chord holds. It was an accident of how the loop got written, and it put a
+   * ceiling on every genre that wants a slow harmonic rhythm: at dungeon
+   * synth's 60–80 bpm a bar is three to four seconds, so "just sustaining
+   * minor chords or power chords (root + 5th) for a long time is enough to
+   * create a dungeon synth atmosphere" (dungeonsynth.neocities.org/howto) got
+   * three and a half seconds.
+   *
+   * THE TELL THAT IT WAS AN ACCIDENT is in the genre tables themselves: four
+   * of dungeon synth's nine progressions already contained a doubled adjacent
+   * degree — `[0,0,5,6]`, `[5,6,0,0]`, `[3,3,0,0]`, `[5,3,0,0]` — which is
+   * "hold i for two bars" written the only way the program allowed. The
+   * workaround was in the data because the field was missing.
+   *
+   * DRAWN PER POSITION IN THE PROGRESSION, exactly as the seventh, the ninth
+   * and the fifth are, and for the same reason: a length drawn per bar would
+   * give a four-bar progression a different shape every time it came round,
+   * and a loop that repeats nothing is not a loop. The idea's own `bars` is
+   * still the ceiling — a progression whose lengths overrun it is cut, and one
+   * that falls short comes round again, which is what a loop does.
+   */
+  readonly chordBars?: Weighted<number>;
   /** 0..1, how often a chord takes its seventh. */
   readonly sevenths?: number;
   /**
@@ -222,6 +250,7 @@ export interface HarmonySpec {
 
 export interface HarmonyRules {
   readonly bars: number;
+  readonly chordBars: Weighted<number>;
   readonly ninths: number;
   readonly motif: number;
   readonly progressions: Readonly<Record<Idea, Weighted<Progression>>>;
@@ -682,8 +711,50 @@ export interface CounterRules {
   readonly apart: number;
 }
 
-/** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
-export const DRUM_LANES = ["kick", "snare", "hat", "openhat"] as const;
+/**
+ * The drums a kit can strike. A union: a lane that does not exist is a compile
+ * error.
+ *
+ * FOUR OF THESE ELEVEN ARE WHAT MKIII SHIPPED, AND THE OTHER SEVEN ARE MK2's
+ * COMING BACK. `tr1000.ts` recorded the loss and its own condition for undoing
+ * it: MK2's machine "has ten channels — BD SD LT HT RS HC CH OH CC RC — and its
+ * rim, clap, toms, crash and ride circuits with them. This program writes notes
+ * on four lanes, so those five circuits would be declared and never struck,
+ * which this repo calls a defect and not a feature. The kit table below is the
+ * place they go THE DAY A DRUM BUILDER WRITES A NOTE ON A TOM."
+ *
+ * That day is this one, and the four lanes were never a law. `LOFI-LINEAGE.md`
+ * sources kick, snare and hat to boom bap for LOFI; no document anywhere
+ * sources them for dungeon synth, whose own file has said "a timpani on the
+ * beat" since it was written and whose citation is "a timpani beats a drum
+ * pattern throughout" (erichgrunewald.com). A genre that cites a timpani twice
+ * and gets a kick and a backbeat is the inherited default again.
+ *
+ * THE THREE TOMS ARE THE KETTLES. MK2 said it plainly — "the three tom lanes
+ * ARE the timpani in this machine" — and used them as one instrument at three
+ * pitches rather than three drums, which is what a timpanist's two or three
+ * kettles are. They are ordered low to high so a descent through them is a
+ * descent in the list.
+ *
+ * NO CLAP, NO CRASH AND NO RIDE, AND THE NOTE STAYS SO NOBODY ADDS THEM BACK
+ * BY HABIT. All three circuits were written for this port and taken out again,
+ * for the reason this list exists: a lane nothing strikes is the "declared and
+ * never struck" defect. The clap has no source in either genre. The cymbals
+ * very nearly earned their place — the amen's own lesson says "ride cymbal
+ * throughout" and "crash is played on the '+' of beat 3", and `NamedFigure`
+ * calls its own field "the ride/hat" — but the only way to strike them was to
+ * move lofi's amen off the hat and the open hat, which changed 11 of 17 lofi
+ * records and broke two of that genre's desk laws on the shifted spectrum
+ * (`render.test.ts`'s tape test, `treat.test.ts`'s refusal test). That is a
+ * taste change to a genre nobody asked to touch, so it is not made here. The
+ * day somebody listens to lofi's amen on a ride and prefers it, this is three
+ * entries and three circuits.
+ */
+export const DRUM_LANES = [
+  "kick", "snare", "hat", "openhat",
+  "tom3", "tom2", "tom1",
+  "rim",
+] as const;
 export type DrumLane = (typeof DRUM_LANES)[number];
 
 /**
@@ -744,6 +815,47 @@ export const FIGURES: Readonly<Record<string, NamedFigure>> = Object.freeze({
   },
 });
 
+/**
+ * THE KETTLES ANSWER, AND THE WAR DRUM WALKS.
+ *
+ * Ported from MK2, which built this for dungeon synth and wrote down why:
+ * "THE KETTLES ARE THE RUN, AND THE WAR DRUM IS THE WALK... `pocket` puts the
+ * war drum on the slow strikes and these shapes are the fast answer between
+ * them." The war drum is the KICK pocket a genre already states; this is the
+ * answer, and it is the thing MKIII had no lane for.
+ *
+ * MK2 also recorded what the run has to be to sound like one: "The shapes
+ * topped out at THREE notes, which is not a run; a run is five or six
+ * sixteenths falling through the kettles, which is what a timpanist's
+ * phrase-ending actually is... At 66 bpm a sixteenth is 227 ms and the kettle
+ * rings for over a second, so a descent through three drums overlaps itself
+ * into one falling boom rather than five separate taps."
+ *
+ * The source is the genre's own: "timpani rolls rather than driving drum kits"
+ * (melodigging.com/genre/dungeon-synth), and a practitioner's own lane list is
+ * "one track for bass drum (and/or toms), one for snare"
+ * (dungeonsynth.proboards.com, "Percussion in Dungeon Synth").
+ */
+export interface TomsSpec {
+  /** 0..1, how often a bar that may carry a run actually does. */
+  readonly run?: number;
+  /**
+   * Which bars of the phrase the run may land in. MK2 put it in the second
+   * and fourth "so the four-bar cycle is walk / run / walk / run rather than
+   * three bars of walking and one event".
+   */
+  readonly bars?: readonly number[];
+  /** The runs themselves: [beat from the bar's start, which kettle]. */
+  readonly shapes?: Weighted<readonly (readonly [number, DrumLane])[]>;
+}
+
+/** What the drum builder reads: the beats above resolved to GRID STEPS. */
+export interface TomsRules {
+  readonly run: number;
+  readonly bars: readonly number[];
+  readonly shapes: Weighted<readonly (readonly [number, DrumLane])[]>;
+}
+
 export interface DrumsSpec {
   /**
    * Whether this material's figure is drawn from the pockets below or is one
@@ -767,6 +879,8 @@ export interface DrumsSpec {
    * again. A treatment drawn afresh every time round is not variation, it is
    * a beat that never repeats.
    */
+  /** The kettles' answer between the war drum's strikes. See `TomsSpec`. */
+  readonly toms?: TomsSpec;
   readonly treatments?: number;
 }
 
@@ -778,6 +892,7 @@ export interface DrumsRules {
   readonly hat: Weighted<number>;
   readonly phrase: Weighted<readonly BarLetter[]>;
   readonly art: ArtSpec;
+  readonly toms: TomsRules;
   readonly treatments: number;
 }
 
@@ -1863,6 +1978,13 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
 
   harmony: {
     bars: 4,
+    /**
+     * ONE BAR A CHORD, which is what every genre played before `chordBars`
+     * existed and is what a genre that says nothing still plays. Stated as a
+     * default rather than assumed in the loop, so a genre can say otherwise
+     * and so the old behaviour has a name.
+     */
+    chordBars: [[1, 1]],
     /** No genre extends past the seventh unless it says so. [chosen] */
     ninths: 0,
     /**
@@ -2172,6 +2294,12 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
 
   drums: {
     figure: [["own", 1]],    /** in beats */
+    /**
+     * NO KETTLE RUN unless a genre asks for one. `run: 0` is the four-lane kit
+     * every genre played before the toms came back, so lofi is the record it
+     * always was and a genre that wants the kettles says so.
+     */
+    toms: { run: 0, bars: [1, 3], shapes: [[[[2.5, "tom1"], [2.75, "tom2"], [3, "tom3"]], 1]] },
     kick: [
       [[0, 2], 4],
       [[0, 2.5], 2],
@@ -2510,6 +2638,10 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
         snare: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
         hat: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
         openhat: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        tom3: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        tom2: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        tom1: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        rim: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
       },
     },
   },

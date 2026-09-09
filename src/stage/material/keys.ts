@@ -336,6 +336,8 @@ export function drawKeys(
    * in the loop now sounds like the same place in the loop.
    */
   const shapeAt = new Map<number, { inv: number; drop: number }>();
+  /** The shape the hand is holding right now, so a chord that lasts keeps it. */
+  let prevShape: { inv: number; drop: number } | null = null;
   /** Which note in `out` is still sounding at each pitch, so a held tone grows rather than repeats. */
   const ringing = new Map<number, { at: number }>();
   const motif = Math.max(1, chart.genre.harmony.motif);
@@ -358,8 +360,25 @@ export function drawKeys(
     const rubbing = (v: readonly number[]): number =>
       v.filter((p) => strike.some((st) => sounding.rubs(chord.bar, st, p))).length;
     const pos = chord.bar % motif;
-    const want = shapeAt.get(pos);
     const moved = prevChord !== null && prevChord.name !== chord.name;
+    /**
+     * A CHORD THAT HAS NOT CHANGED KEEPS THE HAND ALREADY ON IT.
+     *
+     * The motif shape is drawn per POSITION in the loop, which is right when
+     * every bar is a new chord and wrong the moment one lasts longer than a
+     * bar: the same chord at two motif positions was voiced two ways, the
+     * pitches changed underneath, and `ringing` dropped every tone that moved.
+     * So `keys.hold` — which only ever grows a tone that is still sounding and
+     * still in the chord — had nothing left to grow, and this genre's held
+     * chords were held for exactly as long as the voicing happened to sit
+     * still. `moved` was already computed on the next line and already told
+     * the cost function this; it just was not allowed to say it here.
+     *
+     * A voicing is still only PREFERRED, never forced: the collision filter
+     * above runs first, so a hand that would now land on a seat another part
+     * has taken still moves off it.
+     */
+    const want = !moved && prevShape !== null ? prevShape : shapeAt.get(pos);
     // DRAWING AMONG THE VOICINGS THE COST RATES EQUAL WAS TRIED HERE AND COST
     // MORE THAN IT PAID. The complaint it was against is real — the strict
     // minimum makes the voicing a function of the chord and nothing else, so F
@@ -386,6 +405,7 @@ export function drawKeys(
     const best = bestV.v;
     // the first turn of a position is what the later ones answer to
     if (want === undefined) shapeAt.set(pos, { inv: bestV.inv, drop: bestV.drop });
+    prevShape = { inv: bestV.inv, drop: bestV.drop };
     prev = best;
     prevChord = chord;
 

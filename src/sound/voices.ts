@@ -364,12 +364,72 @@ export function snare(n: NoteIn): Float32Array {
   return fade(out, sr);
 }
 
-export function hat(n: NoteIn, open: boolean): Float32Array {
+/**
+ * THE KETTLE. A tom is the kick's circuit with the punch taken out of it: a
+ * sine whose pitch falls onto a body, but falling a little way over a long
+ * time instead of a long way over fifty milliseconds. That is the difference
+ * between a bass drum and a timpano — the kettle is TUNED, so its fundamental
+ * is the note and the bend is the head settling, not a click.
+ *
+ * MK2's own number for it: `tomDecay: 0.40`. The three lanes are ONE circuit
+ * at three pitches — "the three tom lanes ARE the timpani in this machine" —
+ * so the pitch comes off the channel strip's TUNE and not from three
+ * functions. `hz` is the lane's own fundamental, in the kit table.
+ */
+const TOM_TAU = 0.40;
+
+export function tom(n: NoteIn, hz: number): Float32Array {
   const sr = n.sampleRate;
-  const tau = open ? 0.12 : 0.025;
+  const out = buffer(tailSec(TOM_TAU), sr);
+  const twoPi = 2 * Math.PI;
+  let phase = 0;
+  for (let i = 0; i < out.length; i++) {
+    const t = i / sr;
+    // a fifth of the fundamental of bend, gone in a fifth of a second: the
+    // head settling, not the kick's fifty-millisecond drop onto its body
+    const f = hz * (1 + 0.2 * Math.exp(-t / 0.2));
+    phase += (twoPi * f) / sr;
+    const env = Math.exp(-t / TOM_TAU) * (t < 0.002 ? t / 0.002 : 1);
+    out[i] = Math.tanh(Math.sin(phase) * 1.4) * env * 0.9 * n.gain;
+  }
+  return fade(out, sr);
+}
+
+/**
+ * THE RIM, AND THE STICK. A rim shot is a click with a pitch in it and almost
+ * no body — the stick on the hoop. It is the high sound the owner asked MK2
+ * for by name ("two that are rim shots or the takio stick clash so we can get
+ * a high note in there"), and it is what a kit this low needs to be legible.
+ */
+export function rim(n: NoteIn): Float32Array {
+  const sr = n.sampleRate;
+  const tau = 0.035;
+  const out = buffer(tailSec(tau), sr);
+  const twoPi = 2 * Math.PI;
+  const noise = new Noise(n.seed);
+  const band = new Biquad("bandpass", 2400, 3, sr);
+  for (let i = 0; i < out.length; i++) {
+    const t = i / sr;
+    const tone = Math.sin(twoPi * 1700 * t) * Math.exp(-t / 0.012);
+    const knock = band.run(noise.next()) * Math.exp(-t / tau);
+    out[i] = (0.7 * tone + 1.1 * knock) * n.gain * 0.55;
+  }
+  return fade(out, sr);
+}
+
+/**
+ * THE METAL, at four lengths. A cymbal and a hat are the same stack of
+ * inharmonic partials through a highpass; what tells them apart is how long
+ * they ring and how far down they start. So the crash and the ride are this
+ * circuit at a longer tau rather than two more functions — which is also what
+ * the machine's own comment says a cymbal is.
+ */
+export function hat(n: NoteIn, open: boolean, tauOverride?: number, hpHz = 7000): Float32Array {
+  const sr = n.sampleRate;
+  const tau = tauOverride ?? (open ? 0.12 : 0.025);
   const out = buffer(tailSec(tau), sr);
   const noise = new Noise(n.seed);
-  const hp = new Biquad("highpass", 7000, 0.8, sr);
+  const hp = new Biquad("highpass", hpHz, 0.8, sr);
   for (let i = 0; i < out.length; i++) {
     const t = i / sr;
     out[i] = hp.run(noise.next()) * Math.exp(-t / tau) * 0.6 * n.gain;
