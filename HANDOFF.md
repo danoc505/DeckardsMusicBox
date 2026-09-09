@@ -72,12 +72,19 @@ on/off where it moved −8.6, and grind's move on the fuzz is −26.3 where it w
 −36.9. The tritone is allowed (0 → 9.8% of chords), Phrygian is beside the
 minor, the bass is a protagonist — and letting the diminished degree through
 found a bass bug (`tones[2] ?? root+7` on a two-tone chord) that refused 2 of
-60 records; fixed where it was. Two honest costs: 0.8 dB quieter and brighter
-(low/high 46 → 37). **Found and not done:** the Dyna Comp RAISES crest on a
-pulsed bass — its 3 ms attack and 1.5 s release make it a sustainer, not the
-limiter a sludge wall is; that pedal does not exist here. And pauses are held
-on the owner's word: tails render but cut at −40 dB (`TAIL_DB`), inaudible in
-a record, audible in a silence. `DOOM-AND-SLUDGE.md` has all of it.
+60 records; fixed where it was. **Then the wall's enemy turned out to be on the board:
+the supply sag is an EXPANDER** — the transient passes, the body collapses,
+the clipping goes asymmetric — and it was the single source of every cost the
+rig paid (quieter, spikier, brighter). Sag 0.8 → 0.3, battery 1 → 0.8 so
+`revive` has a rail to raise (stated now, beside `starve`). Final, seed 42:
+RMS −15.2 dBFS (2.2 dB LOUDER than before the branch), crest 4.8, low/high 73
+(DARKER than before), motion −31.7 on its test. Four proof seeds: three louder
+and squashier, all four darker. **Flag:** 218 and 9423 now peak at the −1 dBTP
+ceiling; loud, maybe too loud — listen first. The Dyna Comp is a sustainer,
+not a limiter (crest 6.45 → 9.25 on a bass); a rack compressor stays a sourced
+option, no longer the missing piece. Pauses held on the owner's word: tails
+render but cut at −40 dB (`TAIL_DB`), inaudible in a record, audible in a
+silence. `DOOM-AND-SLUDGE.md` has all of it.
 
 **`revive` fell out of `treat.test.ts` on the chord change and came back on the
 rig change.** It sat at −38.9 dB, one decibel inside the −40 floor; the held

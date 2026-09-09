@@ -66,8 +66,40 @@ const SLUDGE_RIG: PedalsSpec = {
   // and the overdrive in FRONT of it, fully in — "fuzz/overdrive stacks" is
   // a stack only if both are in the chain.
   overdrive: { drive: 4, tone: 0.3, mix: 0.85 },
-  // THE POWER SUPPLY GIVING WAY. Unchanged in character; more of it.
-  sag: { depth: 0.45, idle: 1, recovSec: 0.28, draw: 0.35, mix: 0.8 },
+  // THE POWER SUPPLY, MOSTLY HOLDING UP — AND THIS IS THE KNOB THAT WAS THE
+  // WALL'S ENEMY. A sagging rail is an EXPANDER: the transient passes before
+  // the supply notices, the body of the note collapses under it, and the
+  // clipping goes asymmetric as it does. Measured on the bass alone with the
+  // sag as the only pedal in line: crest 6.45 without it, 17.4 with it, level
+  // −27.7 → −43.7 dBFS. On the whole record, sweeping only this knob:
+  //
+  //   sag mix 0.8   RMS -18.2 dBFS   crest 6.1   low/high 37
+  //   sag mix 0.5   RMS -16.4        crest 5.3   low/high 60
+  //   sag mix 0.3   RMS -15.2        crest 4.8   low/high 73
+  //   sag mix 0.0   RMS -13.5        crest 4.0   low/high 88
+  //
+  // Every step of sag taken out is louder, more squashed and DARKER — it was
+  // the source of all three costs the rig-in-line change paid (quieter,
+  // spikier, brighter), and it does what a compressor would have. The doom
+  // source is on the same side: "a high powered amp… more power equals more
+  // volume and headroom, as well as a much better ability to handle the low
+  // frequencies… consider 50 watts as the bare minimum"
+  // (boostguitarpedals.co.uk). A doom amp does not sag. 0.3 keeps the tired
+  // rectifier as a hint — `starve` and `revive` still have a rail to move —
+  // and stops it eating the wall it was supposed to be under.
+  // AND THE BATTERY A FIFTH DOWN. `idle` at 1 was a fresh supply, and it made
+  // `revive` — the rail coming back — a move with nowhere to go: this file
+  // said so and left the treatment unstated because of it. With less sag in
+  // line it fell under the floor outright (−43.5 dB at idle 1). Swept:
+  //
+  //   idle 1.0  mix 0.3   revive -43.5   starve -34.1
+  //   idle 0.9  mix 0.3   revive -40.0   starve -35.6
+  //   idle 0.8  mix 0.3   revive -37.4   starve -37.6   RMS -15.2  crest 4.8
+  //
+  // 0.8 puts both halves of the pair over the floor with the same margin and
+  // costs nothing in level or squash. It is also what the chain says it is —
+  // "a tired valve rectifier" rests below full.
+  sag: { depth: 0.45, idle: 0.8, recovSec: 0.28, draw: 0.35, mix: 0.3 },
 };
 
 export const dungeonsynth: GenreSpec = {
@@ -675,7 +707,13 @@ export const dungeonsynth: GenreSpec = {
       // faintest thing this genre would carry, beside `sweep` at −28.1. So it
       // is weighted like `sweep`: stated, and rare.
       ["starve", 1],
-      // AND NO `revive`, WHICH IS THIS GENRE'S OWN FAULT AND NOT THE MOVE'S.
+      // AND `revive` WITH IT, NOW THAT THE BATTERY IS NOT FULL. The note below
+      // is kept as the record of why it was left out: it was true at
+      // `sag.idle: 1` and is not true at 0.8, where the rail has somewhere to
+      // come back to and the move measures −37.4 dB — beside `starve`, as a
+      // pair should. Weighted like it.
+      ["revive", 1],
+      // (was) AND NO `revive`, WHICH IS THIS GENRE'S OWN FAULT AND NOT THE MOVE'S.
       // At −38.9 dB it is the faintest offered move in either genre's table,
       // quieter than anything either of them states — and the reason is in the
       // genre rather than in the treatment: this file ships `sag.idle` at 1, a

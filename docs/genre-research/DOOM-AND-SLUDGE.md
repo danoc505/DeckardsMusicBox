@@ -150,6 +150,11 @@ seeds. A bare fifth's fifth is `tones[1]`. Zero refusals over 200 seeds after.
 
 **Phrygian 1 → 3, dorian 3 → 2. The bass into the protagonist pool at 2.**
 
+**The supply sag cut to 0.3 and its battery to 0.8 — found after the rig went
+in line, and it is the real wall.** See §5a. `revive` is now stated in the
+treatment table beside `starve`, because the reason it was left out ("a genre
+whose battery is not already full") stopped being true.
+
 ---
 
 ## 5. What it did, on seeds nobody chose
@@ -172,6 +177,63 @@ Muff's level knob is not the lever for it (0.85 → 1.1 recovers 0.2 dB); and it
 is **brighter**, 46 → 37, because that is what a fuzz does — it makes upper
 harmonics — and this genre's guide asks it to avoid bright top-end. It is still
 37:1 dark. Listen before deciding.
+
+### 5a. The sag was the anti-wall
+
+The rig-in-line numbers above paid three costs — quieter, spikier, brighter —
+and all three had one source. The supply sag is an **expander**: the transient
+passes before the rail notices, the body of the note collapses under it, and
+the clipping goes asymmetric as it does. On the bass alone, the sag as the only
+pedal in line: crest **6.45 → 17.4**, level **−27.7 → −43.7 dBFS**. The
+rig-in-line change had raised its mix 0.5 → 0.8 — the wrong way. Sweeping
+only that knob on the whole record, seed 42:
+
+```
+sag mix 0.8   RMS -18.2 dBFS   crest 6.1   low/high 37
+sag mix 0.5   RMS -16.4        crest 5.3   low/high 60     (before this branch)
+sag mix 0.3   RMS -15.2        crest 4.8   low/high 73
+sag mix 0.0   RMS -13.5        crest 4.0   low/high 88
+```
+
+Every step of sag taken out is louder, more squashed and **darker** at once. It
+does what a compressor would have, and the source is already on that side:
+"more power equals more volume and headroom… consider 50 watts as the bare
+minimum" (boostguitarpedals) — a doom amp does not sag. Set to **0.3**: a hint
+of tired rectifier, not a collapse.
+
+Then `revive` fell under the treat floor (−43.5): with less sag, raising a rail
+already at 1 has even less to do — the fault this genre's file had named all
+along. Swept `sag.idle` against `sag.mix`:
+
+```
+idle 1.0  mix 0.3   revive -43.5   starve -34.1
+idle 0.9  mix 0.3   revive -40.0   starve -35.6
+idle 0.8  mix 0.3   revive -37.4   starve -37.6   RMS -15.2   crest 4.8
+idle 0.8  mix 0.4   revive -34.2   starve -34.4   RMS -15.8   crest 5.0
+```
+
+**`idle 0.8, mix 0.3`**: both halves of the pair over the floor with the same
+margin, nothing lost in level or squash. Seed 42 on the final rig: RMS
+**−15.2 dBFS** (2.2 dB louder than before the branch), crest **4.8**, low/high
+**73** (darker than before the branch), rig on/off **−1.6 dB**, grind −11.1,
+darken −8.5, motion **−31.7 dBFS** on the test's own metric.
+
+Four proof seeds, the desk only (the notes are §5's table), before the branch
+→ final:
+
+```
+seed    RMS dBFS          crest        low/high
+8660   -16.0 -> -13.3    4.7 -> 3.8    42 ->  88
+5665   -13.5 -> -14.5    4.2 -> 4.7    81 -> 197
+9423   -12.9 -> -10.8    3.6 -> 3.0    52 -> 103
+218    -12.2 -> -10.5    3.5 -> 2.9    88 -> 150
+```
+
+Three of four louder and squashier, all four darker. 5665 — the bass-led one —
+is the odd one out, a decibel quieter. **And a flag:** 218 and 9423 now sit
+near −10.5 dBFS at crest 3, which puts their peaks at the master's −1 dBTP
+ceiling. The record is loud now. Whether that is the wall or too much of it is
+the first thing to listen for.
 
 **The harmony**, 200 seeds: tritone chords **0% → 9.8%**, in **46%** of
 records. Scales minor 48 · phrygian **25** · dorian 28 (was 49 · 17 · 34).
@@ -230,14 +292,16 @@ over a signal already cut at 3.2 kHz has almost nothing left to move:
 (relative to the record; the test's own figure is absolute dBFS, so the 0.8 dB
 the record lost counted against it too — it read −41.2 against a −40 floor).
 The sweep now runs about 1.2–2.4 kHz, under the cab, where the pad still has
-body to take away. Same gesture, lower. With it the test reads **-39.5 dBFS**
-(-20.8 dB relative): over the floor, and not by much — the next change that
-takes a decibel off this genre's level puts it out again, and the test's
-absolute floor is why. Named so nobody chases the pole a second time.
+body to take away. Same gesture, lower. With the pole alone it read −39.5 dBFS — half a
+decibel over the floor. With the sag then cut (§5a) the record is louder and
+it reads **−31.7**: comfortable. The test's floor is absolute dBFS, so it
+moves with the record's level; named so nobody chases the pole a second time.
 
-**`revive` came back over the floor without being touched.** It fell out of
-`treat.test.ts` on the chord change (−41.9) and the rig in line lifted it back.
-Not fixed, moved: `sag.idle` still ships at 1.
+**`revive` fell out twice and is fixed once.** Out on the chord change
+(−41.9), back on the rig in line, out again when the sag was cut (−43.5) —
+every time for the reason the genre's file had written down: a full battery.
+`sag.idle` 0.8 gives the rail somewhere to come back to; revive measures −37.4
+and is stated in the treatment table beside `starve`.
 
 **`index.test.ts` used dungeon synth as its "genre that avoids the diminished
 degree" and the genre stopped avoiding it.** The mechanism is what the test is
@@ -251,18 +315,22 @@ the diminished degree was allowed through as a power chord. Zero of 200 after.
 
 ## 7. What was found and not done
 
-**The compressor does not compress, and it is the circuit, not the knob.** The
-Dyna Comp on the bass alone: crest **6.45 without it, 9.25 with it** — it makes
-the peaks stand out MORE. Its 3 ms attack lets every transient through and its
-1.5 s release (both verbatim from the teardown) never recovers between beats
-of a pulsed bass, so the bodies duck and the peaks do not. It is doing what a
-Dyna Comp does — "amplifying weak signals", sustaining — and a sludge wall is
-the other thing: a slow-attack, fast-release limiter that catches the peaks.
-This program does not have that pedal. Naming it rather than bending this one.
+**The compressor does not compress, and it turned out not to matter.** The
+Dyna Comp on the bass alone: crest **6.45 without it, 9.25 with it** — a 3 ms
+attack and a 1.5 s release make it a sustainer, as its own comment says. A
+sludge wall was thought to need the other thing, a slow-attack fast-release
+limiter this program does not have; the practitioners describe it at the mix
+("smashing the crappolla out of it with a nice compressor" on the drum room,
+the bass "really squash[ed]" through a stereo compressor — gearspace.com,
+"Doom, Sludge, Recording, Production, Mixing", reached only through a search
+summary; the page itself returned 403). Then §5a found the squash was already
+in the rig, hidden under an expander. A rack compressor on the sum or a part's
+line is still a sourced build, and the `fx` mechanism is where it would go; it
+is no longer the missing piece.
 
-**The unblended board costs the bass 3.7 dB on its own line.** Masked in the
-sum to 0.8 dB. The genre file swept makeup once before for exactly this and
-the Muff's level is no longer where the loss is. Left; the master absorbs it.
+**The unblended board cost the bass 3.7 dB on its own line** — and the sag
+was where it went. With the sag at 0.3 the record is 2.2 dB louder than before
+the branch, not 0.8 quieter. Closed by §5a.
 
 **Pauses — the owner's hold, and the measurements that bear on it.** "Notes
 are on or off. That is not how instruments work; there is a tail." Measured:
