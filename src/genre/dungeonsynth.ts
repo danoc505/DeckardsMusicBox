@@ -465,12 +465,63 @@ export const dungeonsynth: GenreSpec = {
      * and a character has to be distinguishable from the thing beside it.
      * Weights [chosen], from the sources this file already carries.
      */
+    /**
+     * AND THIS POOL IS THE ONLY THING THAT DECIDES HOW A RECORD OPENS.
+     *
+     * `canIntroduce` leaves `hook` legal only where the character is the lead
+     * and `rhythm` only where it is the drums or the bass, so for this genre
+     * — whose pool has no bass — every character admits exactly ONE way in
+     * except the drums, which admit two. The `intro` weights below are
+     * therefore inert in twelve records of thirteen, and MEASURED SO:
+     * weighting `hook` at 400 against 2 produced byte-identical openers to
+     * weighting it at 1. The kind is a function of this pool and nothing
+     * else. The weights are left as they are rather than deleted because the
+     * drums character does draw from them, and because they are not this
+     * genre's alone.
+     *
+     * So the lead goes from 2 to 4. At 2, the tune was in the opening of 17%
+     * of records and 77% opened on a lone sustaining part, which is the fault
+     * the owner's ear caught: a held tone by itself gives a record nothing to
+     * develop. At 6 it is 58%, and the drums character is crowded out of the
+     * pool altogether (0% of openings) — a genre that can no longer tell one
+     * of its four stories. 4 is 33%, with the drone still leading.
+     *
+     * The records support a tune-led record being ordinary rather than rare:
+     * the broken-chord layers in these files are "arpeggiated or broken-chord
+     * accompaniments — a chord's tones taken one at a time in a steady pulse
+     * — UNDER A SLOWER MELODY" (DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4.5),
+     * which is a melody-over-accompaniment-over-drone record and not a mood
+     * alone. The drone still leads because "carefully sustaining a single
+     * mood" is the genre's own description of itself. Weights [chosen].
+     */
     protagonist: [
       ["drone", 6],
       ["keys", 4],
-      ["lead", 2],
+      ["lead", 4],
       ["drums", 1],
     ],
+    /**
+     * ONE, AND TWO WAS TRIED AND MEASURED AT WORSE THAN NOTHING.
+     *
+     * The argument for 2 was that `spec.ts` defines a bed as "the chord
+     * progression, OR THE CHORDS AND THE BEAT" and `opensWith` adds the bass
+     * to a rhythm intro on `introParts >= 2` — two documented shapes that 1
+     * cannot build. Both halves of that are false HERE, and the arithmetic
+     * says so: `opensWith` takes the first `introParts` of the RECORD's entry
+     * order, this genre's is drone, keys, bass, drums, and the character goes
+     * to the front. The drums are never in the first two, so a bed cannot
+     * reach "the beat" at any value of this number; and a rhythm intro is
+     * only ever drawn when the character IS the drums (`canIntroduce`), which
+     * puts the bass at index 3, so `indexOf("bass") <= 2` never holds either.
+     *
+     * What 2 actually did, over twelve records drawn at random: records
+     * opening on one part 83% → 0%, and the openers went from `keys×7` to
+     * `keys+drone×9`. It bought a second SUSTAINING part, which is more of
+     * exactly what was wrong, and it took away the lone-drone opening — which
+     * is a real dungeon synth record and should stay reachable.
+     *
+     * The lever that works is `protagonist`; see below. Left at 1.
+     */
     introParts: 1,
     fullAbove: 0.85,
     thinBelow: 0.3,
@@ -892,9 +943,14 @@ export const dungeonsynth: GenreSpec = {
       "smallest ceiling that admits what the source names. The inherited default of 12 s is Léveillé Gauvin's " +
       "figure for 303 top-10 pop singles and nothing this genre offers fits under it",
     "arrangement.intro":
-      "\"primarily beatless\", \"very subtle percussion\" (note.com/soundwitches): the drum-led opening Burns " +
-      "documents (\"solo drums... will attract especially great attention to rhythm\") is the one way in this " +
-      "genre cannot use, so the pool is the drone alone or the flute over it. Weights [chosen]",
+      "\"primarily beatless\", \"very subtle percussion\" (note.com/soundwitches). THIS ENTRY USED TO SAY the " +
+      "drum-led opening Burns documents \"is the one way this genre cannot use\", and the pool has weighted " +
+      "`rhythm` at 2 the whole time — the string and the code disagreed, and the string was the wrong one. It " +
+      "was written off the prose guide alone; DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4 then measured a kit in " +
+      "six of nine Burzum synth pieces, so a record here may open on one. What that research does rule out is " +
+      "the SNARE, not the kit (§4.3), and that is drums.snare's business rather than this pool's. " +
+      "Weights [chosen]: `hook` was 1 of 8 against `bed` at 5, which left the record's own protagonist " +
+      "inaudible for up to 64 bars of intro in five records of eight",
     "feel.accent":
       "the voices are an organ and a pad, and a pipe organ has no touch at all: its pipes sound the same however " +
       "the key is pressed (soundonsound.com Synthesizing Tonewheel Organs). 0.12 [chosen]",
