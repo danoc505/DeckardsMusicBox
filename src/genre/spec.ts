@@ -815,6 +815,20 @@ export interface DrumsSpec {
    * per strike would be writing a drum part rather than stating a kit.
    */
   readonly tom?: Weighted<Beats>;
+  /**
+   * WHICH INTERRUPTIONS THIS GENRE ALLOWS — see `material/event.ts`.
+   *
+   * Not a weighted pool and not a rate: a list of names. How often one lands
+   * is the event pool's own business and the same for every genre, because
+   * what makes an interruption an interruption is that it is rare, and a genre
+   * that could tune that would tune it into a pattern.
+   *
+   * A genre that says nothing gets them all, which is the point: a tom roll is
+   * a tom roll in lofi, and these are parts of a song rather than parts of a
+   * style. A genre states a subset only where one of them is genuinely not a
+   * thing its music does. `[]` is a genre that never interrupts itself.
+   */
+  readonly events?: readonly EventName[];
   /** The hat strikes every this many beats: 1 is quarters, 0.5 eighths, 0 none. */
   readonly hat?: Weighted<number>;
   /** One letter per bar, drawn per material. */
@@ -837,6 +851,7 @@ export interface DrumsRules {
   readonly kick: Weighted<readonly number[]>;
   readonly snare: Weighted<readonly number[]>;
   readonly tom: Weighted<readonly number[]>;
+  readonly events: readonly EventName[];
   readonly hat: Weighted<number>;
   readonly phrase: Weighted<readonly BarLetter[]>;
   readonly art: ArtSpec;
@@ -880,6 +895,16 @@ export type IntroKind = (typeof INTRO_KINDS)[number];
  * They come in pairs that pull opposite ways, because a record that can only
  * ever get darker is not developing, it is decaying.
  */
+/**
+ * THE EVENTS: things that happen to a record instead of being played by it.
+ *
+ * `material/event.ts` is what each one does and where it may go. The names are
+ * here for the same reason `TREATMENTS` is: a genre names which it allows, and
+ * a genre may not reach into a stage.
+ */
+export const EVENTS = ["tomroll", "snarebuild", "stop", "double"] as const;
+export type EventName = (typeof EVENTS)[number];
+
 export const TREATMENTS = [
   "darken", "brighten",
   "drench", "dry",
@@ -2250,6 +2275,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     ],
     /** No genre plays a tom unless it says so, so porting them moved no record. */
     tom: [[[], 1]],
+    /** All of them. An interruption belongs to music, not to a style. */
+    events: [...EVENTS],
     hat: [
       [0.5, 5],
       [0.25, 2],

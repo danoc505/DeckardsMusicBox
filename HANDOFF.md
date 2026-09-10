@@ -158,6 +158,61 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**AND THERE IS A POOL OF THINGS THAT BREAK THE ORDER NOW — `material/event.ts`.**
+The owner's framing, which is the right one and worth keeping in these words:
+"we have basic rules for music to be generated algorithmically correct? Well
+music is not made like that normally, you need emergence of things to happen.
+So we need pools of special things that break the order of things."
+
+`treat.ts` was already exactly that pool FOR THE MIX — special things, each
+refused where it would do nothing, none of them scheduled. What was missing was
+its twin for what is PLAYED. So: `tomroll`, `snarebuild`, `stop`, `double`.
+Each has a socket — the section's energy, whether this is the seam out of a
+section, how many times the material has been heard, and which lanes the kit
+actually strikes — and each OVERWRITES a bar the figure, the phrase letter and
+the manner pass had already finished with.
+
+THREE THINGS ABOUT IT THAT ARE THE DESIGN AND NOT DETAILS:
+
+- **It is applied per TIME ROUND, not per treatment.** The beat is cached by
+  treatment, so an event fired inside `drawDrums` would come back identically
+  every time that treatment came round — which is another pattern, and a
+  pattern is what an interruption is not. Addressed by the round, the same beat
+  is interrupted on its fourth hearing and not its second.
+- **Every socket requires the material to have been heard at least once.** An
+  interruption on a first hearing is not one; there is no pattern yet to break.
+  That is also the link to the rule of three — an event is one more way a third
+  hearing can differ, and the only one that costs notes without costing a new
+  idea.
+- **Events belong to no genre.** A genre names which it allows and nothing
+  else; how often one lands is the pool's own and the same everywhere, because
+  a genre that could tune the rate would tune it into a pattern. Both genres
+  take the default, which is all four.
+
+Measured over sixty records a genre, with neither genre stating anything:
+
+| | dungeon synth | lofi |
+|---|---|---|
+| a socket was open on | 71% of drum cycles | 57% |
+| an event fired on | 20.5% | 14.5% |
+| events per record | 2.4 | 1.6 |
+| records with at least one | 52 of 60 | 48 of 60 |
+| which | double 71 · stop 57 · tomroll 12 · snarebuild 6 | snarebuild 34 · double 32 · stop 28 |
+
+The pool selects itself per genre without either genre saying a word: lofi
+fires no tom rolls because it has no toms, and dungeon synth almost no snare
+builds because its snare is now mostly empty.
+
+**`REACHES` (0.28) is the number to point an ear at.** It decides whether this
+is emergence or a new kind of order, it is `[chosen]`, and no count can settle
+it — the honest version is the rate above which a listener starts EXPECTING the
+next one. If every seam carries a fill then the fill is the figure.
+
+**What is NOT built**: the pitched events. A bass solo and everything-stops
+change WHO is playing, which is `arrange.ts`'s to decide, not the material
+stage's. `event.ts` is deliberately only the half that rewrites bars already
+belonging to the drums.
+
 **FOUR FAULTS THE OWNER'S EAR NAMED, ALL FOUR TRACED TO A LINE AND FIXED.**
 The complaint was: the chords are too few a kind, every seed opens on chords
 or a drone alone, the third repetition should alter the motif rather than

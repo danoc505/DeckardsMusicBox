@@ -283,6 +283,20 @@ left alone. Its first entry is the one that outranks the rest — a measurement
 proves a mechanism exists and never that a record is any good, so the ear is
 the judge and the numbers are only evidence that there is something to judge.
 
+**And things happen to a record that it did not plan.** Everything else in the
+material stage is order: a pocket is drawn once and every bar plays it, a
+figure is tiled, a phrase letter says what each bar does to the figure it
+already has. That is what makes a record coherent, and it is also why a record
+made only of it is explicable all the way down — an ear that has heard eight
+bars has heard the rules. So there is a second pool beside the treatments, and
+it is the same idea for NOTES: `src/stage/material/event.ts`, four
+interruptions — a tom roll, a snare build, a stop, a bar of double time — each
+with a SOCKET saying what has to be true for it to slot in, each overwriting a
+bar the rules had already finished with, and none of them scheduled. They
+belong to no genre: a tom roll is a tom roll in lofi, and a genre states only
+which it allows. A record fires two or three, and about one in seven fires
+none.
+
 And the record moves its own desk. The rule of three says a third hearing must
 differ, and until recently the only way this program could answer that was to
 rewrite the notes — so a third of every variant it built was heard once and

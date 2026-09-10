@@ -47,6 +47,7 @@ import { drawKeys } from "./keys.ts";
 import { contourOf, drawLead, ladder, lawsFor } from "./lead.ts";
 import { assertInside, at, GROOVE, Sounding, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
 import { CHANGES, otherChange, varyLine, type Change } from "./vary.ts";
+import { lanesOf, withEvent, type Where } from "./event.ts";
 
 export type { Chord, Figure, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
 export { GROOVE } from "./note.ts";
@@ -96,24 +97,40 @@ interface Rounds {
    * is the silence-by-omission this program is built to make impossible.
    */
   readonly opens: ReadonlyMap<Role, ReadonlySet<number>>;
+  /**
+   * WHERE EACH ROUND IS, one entry per round, per part — the section's energy
+   * and whether this round is the last of its section.
+   *
+   * Here rather than computed again beside the drums, because this function is
+   * already walking the placements and doing exactly this arithmetic to count
+   * the rounds. An event needs to know it is at a seam, and a seam is a fact
+   * about the placement rather than about the beat.
+   */
+  readonly where: ReadonlyMap<Role, readonly Where[]>;
 }
 
 function timesRound(arrangement: Arrangement, bars: number): ReadonlyMap<string, Rounds> {
   const times = new Map<string, Map<Role, number>>();
   const opens = new Map<string, Map<Role, Set<number>>>();
+  const where = new Map<string, Map<Role, Where[]>>();
   for (const p of arrangement.placed) {
     const per = times.get(p.material) ?? new Map<Role, number>();
     const firsts = opens.get(p.material) ?? new Map<Role, Set<number>>();
+    const spots = where.get(p.material) ?? new Map<Role, Where[]>();
     for (const role of p.heard) {
       const before = per.get(role) ?? 0;
       (firsts.get(role) ?? firsts.set(role, new Set()).get(role)!).add(before);
-      per.set(role, before + Math.ceil(p.section.bars / bars));
+      const rounds = Math.ceil(p.section.bars / bars);
+      const list = spots.get(role) ?? spots.set(role, []).get(role)!;
+      for (let i = 0; i < rounds; i++) list.push({ energy: p.section.energy, last: i === rounds - 1 });
+      per.set(role, before + rounds);
     }
     times.set(p.material, per);
     opens.set(p.material, firsts);
+    where.set(p.material, spots);
   }
   const out = new Map<string, Rounds>();
-  for (const [key, per] of times) out.set(key, { times: per, opens: opens.get(key)! });
+  for (const [key, per] of times) out.set(key, { times: per, opens: opens.get(key)!, where: where.get(key)! });
   return out;
 }
 
@@ -135,7 +152,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
   });
 
   for (const key of order) {
-    const { times, opens } = rounds.get(key)!;
+    const { times, opens, where } = rounds.get(key)!;
     const [ideaStr, vStr] = key.split("/");
     const idea = ideaStr as Idea;
     const variant = vStr === undefined ? 0 : Number(vStr);
@@ -608,6 +625,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // sixteen different beats in it and repeated none of them.
     const treatments = Math.max(1, chart.genre.drums.treatments);
     const cut = new Map<number, readonly Hit[]>();
+    const spots = where.get("drums") ?? [];
     const drums = Object.freeze(
       Array.from({ length: times.get("drums") ?? 0 }, (_, n) => {
         // A VARIANT TAKES THE NEXT BEAT ALONG. "Changing the drum beat works
@@ -617,10 +635,34 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
         // Verse 2") — the cheapest change there is, and the strongest.
         const which = (n + variant) % treatments;
         const already = cut.get(which);
-        if (already !== undefined) return already;
-        const made = Object.freeze(drawDrums(chart, rng.at("drums"), figure, bars, steps, which));
-        cut.set(which, made);
-        return made;
+        const beat = already ?? Object.freeze(drawDrums(chart, rng.at("drums"), figure, bars, steps, which));
+        if (already === undefined) cut.set(which, beat);
+        /**
+         * AND THEN SOMETHING MAY INTERRUPT IT — see `event.ts`.
+         *
+         * PER TIME ROUND, and that is the whole point of doing it here rather
+         * than inside `drawDrums`. The beat above is cached by TREATMENT, so an
+         * event fired in there would come back identically every time that
+         * treatment came round — which is another pattern, and a pattern is
+         * exactly what an interruption is not. Addressed by `n`, the same beat
+         * is interrupted on its fourth hearing and not on its second.
+         *
+         * It also has to be last. An event OVERWRITES the bar the figure, the
+         * phrase letter and the manner pass have already finished with; a
+         * gesture drawn into the bar alongside them would be one more rule.
+         */
+        const spot = spots[n];
+        if (spot === undefined) return beat;
+        const got = withEvent(beat, {
+          energy: spot.energy,
+          seam: spot.last,
+          heard: n,
+          lanes: lanesOf(beat),
+          steps,
+          beat: chart.metre.perBeat,
+          bars,
+        }, chart.genre.drums.events, rng.at("drums", "event", n));
+        return got.event === null ? beat : Object.freeze(got.hits);
       }),
     );
 
