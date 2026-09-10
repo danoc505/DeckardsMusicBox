@@ -91,7 +91,7 @@ if (barsAt >= 0) { const [a, b] = process.argv[barsAt+1].split("-").map(Number);
 const nBars = bar1 - bar0;
 
 const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], counter: [186,148,255], drone: [163,255,107] };
-const LANE = { kick: 0, snare: 1, hat: 2, openhat: 3 };
+const LANE = { kick: 0, snare: 1, tomlo: 2, tomhi: 3, hat: 4, openhat: 5 };
 const PXB = Math.max(10, Math.min(46, Math.round(1700 / nBars)));   // bar width
 // HEAD0 was 22 with one label line; the assignment line under it needs nine more
 const SH = 7, GUT = 34, HEAD0 = 31, DRUM = 4*9 + 6, SPAN = 20;
@@ -259,7 +259,7 @@ for (const pl of song.arrangement.placed) {
   }
 }
 // which drum is which lane
-const LANE_NAME = { kick: "KCK", snare: "SNR", hat: "HAT", openhat: "OHH" };
+const LANE_NAME = { kick: "KCK", snare: "SNR", tomlo: "LTM", tomhi: "HTM", hat: "HAT", openhat: "OHH" };
 for (const [lane, i] of Object.entries(LANE)) {
   text(cv, LANE_NAME[lane] ?? lane.slice(0, 3), 2, TOP + PITCH + 4 + i*9, [110, 78, 62]);
 }

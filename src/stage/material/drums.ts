@@ -37,6 +37,8 @@ const HEAVY: ReadonlySet<DrumLane> = new Set(["kick", "snare"]);
 export interface Figure {
   readonly kick: readonly number[];
   readonly snare: readonly number[];
+  /** Which steps the toms strike; empty for a kit with none. */
+  readonly tom: readonly number[];
   /** The hat strikes every this many steps; 0 for none. */
   readonly hatEvery: number;
   /**
@@ -58,11 +60,14 @@ export function drawFigure(chart: Chart, rng: Rng): Figure {
     const per = chart.metre.perBeat;
     const steps = (b: readonly number[]): number[] => b.map((x) => Math.round(x * per));
     const cycle = named.bars.map((bar) => Object.freeze({ kick: steps(bar.kick), snare: steps(bar.snare), crash: steps(bar.crash ?? []) }));
-    return Object.freeze({ kick: cycle[0]!.kick, snare: cycle[0]!.snare, hatEvery: Math.round(named.hat * per), cycle });
+    // a NAMED figure is a transcription of a particular beat and states no
+    // toms; the genre's own pocket still applies over it
+    return Object.freeze({ kick: cycle[0]!.kick, snare: cycle[0]!.snare, tom: rng.weighted("tom", D.tom), hatEvery: Math.round(named.hat * per), cycle });
   }
   return Object.freeze({
     kick: rng.weighted("kick", D.kick),
     snare: rng.weighted("snare", D.snare),
+    tom: rng.weighted("tom", D.tom),
     hatEvery: rng.weighted("hat", D.hat),
   });
 }
@@ -77,7 +82,7 @@ export function drawFigure(chart: Chart, rng: Rng): Figure {
 export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, steps: number, cycle: number): Hit[] {
   const D = chart.genre.drums;
   const beat = chart.metre.perBeat;
-  const { kick, snare, hatEvery } = figure;
+  const { kick, snare, tom, hatEvery } = figure;
   const own = rng.at("cycle", cycle);
   const phrase = own.weighted("phrase", D.phrase);
 
@@ -105,6 +110,14 @@ export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, 
       if (st % beat === 0) hits.push({ bar, step: st, lane: "snare", vel: 1 });
       else hits.push({ bar, step: st, lane: "snare", vel: 1, art: "ghost" });
     }
+    // THE TOMS. Which of the two takes a strike is not the genre's to state:
+    // a tom ON a beat is the LOW one and one off it is the HIGH one, the same
+    // shape as the snare's backbeat-or-ghost rule above. A drummer's floor tom
+    // carries weight and the rack tom answers it, and a genre naming the lane
+    // per strike would be writing a drum part instead of stating a kit.
+    for (const st of tom) {
+      hits.push({ bar, step: st, lane: st % beat === 0 ? "tomlo" : "tomhi", vel: st % beat === 0 ? 0.95 : 0.8 });
+    }
     if (hatEvery > 0) {
       for (let st = 0; st < steps; st += hatEvery) {
         hits.push({ bar, step: st, lane: "hat", vel: 0.66 });
@@ -117,16 +130,34 @@ export function drawDrums(chart: Chart, rng: Rng, figure: Figure, bars: number, 
 
     if (letter === "D") {
       if (at.chance("fill", 0.6)) {
-        // a fill: the snare on every step of the last beat, rising into the
-        // downbeat that follows. The fill OWNS the beat — a backbeat already
-        // sitting on its first step joins the ramp rather than starting it at
-        // full weight, or the gesture falls instead of rising.
+        // a fill: every step of the last beat, rising into the downbeat that
+        // follows. The fill OWNS the beat — anything already sitting on its
+        // first step joins the ramp rather than starting it at full weight, or
+        // the gesture falls instead of rising.
+        //
+        // AND A KIT WITH TOMS ROLLS ON THEM. A snare ramp and a tom roll are
+        // the same gesture on different drums, so this is not a second kind of
+        // fill: it is the one fill, played on what the kit has. The roll
+        // DESCENDS — high to low — because that is the direction a fill leads
+        // into a downbeat, where the floor tom lands with the kick. A kit with
+        // no toms rolls on the snare exactly as it always did.
         const lastBeat = steps - beat;
+        const rolls = tom.length > 0;
         for (let i = hits.length - 1; i >= 0; i--) {
-          if (hits[i]!.lane === "snare" && hits[i]!.step >= lastBeat) hits.splice(i, 1);
+          const h = hits[i]!;
+          if (h.step < lastBeat) continue;
+          if (rolls ? (h.lane === "tomlo" || h.lane === "tomhi") : h.lane === "snare") hits.splice(i, 1);
         }
         for (let st = lastBeat; st < steps; st++) {
-          hits.push({ bar, step: st, lane: "snare", vel: 0.55 + (0.4 * (st - lastBeat)) / Math.max(1, beat - 1) });
+          // THE ARITHMETIC IS WRITTEN EXACTLY AS IT WAS, and that is not a
+          // style note. Rewriting this as `0.55 + 0.4 * (x / span)` is the
+          // same number in algebra and a DIFFERENT one in IEEE 754, and a
+          // velocity lands on a whole MIDI value — so the tidier form moved
+          // three of five lofi records that this change must not touch at all.
+          const vel = 0.55 + (0.4 * (st - lastBeat)) / Math.max(1, beat - 1);
+          // high through the run, landing on the low: the roll descends
+          const half = lastBeat + (steps - lastBeat) / 2;
+          hits.push({ bar, step: st, lane: rolls ? (st < half ? "tomhi" : "tomlo") : "snare", vel });
         }
       } else {
         // an empty: the last beat drops out, so the next downbeat arrives from

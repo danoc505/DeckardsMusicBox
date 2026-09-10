@@ -720,7 +720,20 @@ export interface CounterRules {
 }
 
 /** The drums a kit can strike. A union: a lane that does not exist is a compile error. */
-export const DRUM_LANES = ["kick", "snare", "hat", "openhat"] as const;
+/**
+ * THE LANES A DRUM BUILDER MAY WRITE ON.
+ *
+ * The toms are here now. `tr1000.ts` carried MK2's unported circuits — rim,
+ * clap, toms, crash, ride — with a note saying they go in "the day a drum
+ * builder writes a note on a tom", because a circuit declared and never struck
+ * is a defect in this repo and not a feature. Two of the five are struck now.
+ *
+ * TWO OF THEM, low and high, because a roll needs somewhere to move: one tom
+ * repeated is a pulse on a pitched drum, and the thing that makes a fill read
+ * as a fill is the head changing under the stick. MK2's channels were LT and
+ * HT and these are those. A third is one row of the kit table away.
+ */
+export const DRUM_LANES = ["kick", "snare", "tomlo", "tomhi", "hat", "openhat"] as const;
 export type DrumLane = (typeof DRUM_LANES)[number];
 
 /**
@@ -791,6 +804,17 @@ export interface DrumsSpec {
   readonly figure?: Weighted<string>;
   readonly kick?: Weighted<Beats>;
   readonly snare?: Weighted<Beats>;
+  /**
+   * WHICH BEATS THE TOMS STRIKE. Empty for a kit that has none, which is the
+   * default and what every genre played until the toms were ported.
+   *
+   * Which of the two toms takes a strike is NOT stated: a tom on a beat is the
+   * LOW one and a tom off it is the HIGH one, the same rule the snare above
+   * keeps between a backbeat and a ghost. A drummer's floor tom carries the
+   * weight and the rack tom answers it, and a genre that had to name the lane
+   * per strike would be writing a drum part rather than stating a kit.
+   */
+  readonly tom?: Weighted<Beats>;
   /** The hat strikes every this many beats: 1 is quarters, 0.5 eighths, 0 none. */
   readonly hat?: Weighted<number>;
   /** One letter per bar, drawn per material. */
@@ -812,6 +836,7 @@ export interface DrumsRules {
   readonly figure: Weighted<string>;
   readonly kick: Weighted<readonly number[]>;
   readonly snare: Weighted<readonly number[]>;
+  readonly tom: Weighted<readonly number[]>;
   readonly hat: Weighted<number>;
   readonly phrase: Weighted<readonly BarLetter[]>;
   readonly art: ArtSpec;
@@ -2223,6 +2248,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
       [[1, 3, 3.75], 1],
       [[1.5, 3], 1],
     ],
+    /** No genre plays a tom unless it says so, so porting them moved no record. */
+    tom: [[[], 1]],
     hat: [
       [0.5, 5],
       [0.25, 2],
@@ -2549,6 +2576,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
         snare: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
         hat: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
         openhat: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        tomlo: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
+        tomhi: { tune: 0, decay: 1, level: 1, cut: 20000, sends: { echo: 0, spring: 0, room: 0, ensemble: 0, flange: 0 } },
       },
     },
   },

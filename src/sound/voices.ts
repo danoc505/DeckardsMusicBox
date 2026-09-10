@@ -345,6 +345,59 @@ export function kick(n: NoteIn): Float32Array {
   return fade(out, sr);
 }
 
+/**
+ * THE TOMS. MK2's machine had them and this program has never struck one.
+ *
+ * `tr1000.ts` has said in writing for a long time that its unported circuits —
+ * rim, clap, toms, crash, ride — go into the kit table "the day a drum builder
+ * writes a note on a tom", and that a circuit declared and never struck is a
+ * defect here rather than a feature. This is that day.
+ *
+ * A tom is a KICK THAT STAYS PITCHED. The kick's whole design is a pitch that
+ * falls onto a body in fifty milliseconds and a short tail; a tom keeps a
+ * recognisable note and rings four times as long, which is why a run of them
+ * reads as a melody of drums and a run of kicks reads as a pulse.
+ *
+ * TWO MODES, NOT ONE, and that is what makes it a drum rather than a sine. An
+ * ideal circular membrane's modes are not harmonic — they are the zeros of the
+ * Bessel function, at ratios 1.000, 1.593, 2.135, 2.295 of the fundamental
+ * (Rossing, "The Science of Percussion Instruments"; the 1.593 is the (1,1)
+ * mode against the (0,1)). The second is here at a third of the first's weight,
+ * which is the interval an ear hears as "drum" and cannot name as a pitch.
+ *
+ * The skin is twenty milliseconds of noise, gone before the note is: it is the
+ * stick, not the drum, and a tom without one sounds struck by a pillow.
+ */
+const TOM_TAU = 0.42;
+
+/** The (1,1) mode of an ideal circular membrane against its (0,1). [Rossing] */
+const MEMBRANE_2 = 1.593;
+
+export function tom(n: NoteIn, low: boolean): Float32Array {
+  const sr = n.sampleRate;
+  const out = buffer(tailSec(TOM_TAU), sr);
+  const twoPi = 2 * Math.PI;
+  // a fifth apart, and both under the snare: these are floor and rack toms in
+  // a stone room, not a rock kit's rising fill
+  const base = low ? 82 : 123;
+  const noise = new Noise(n.seed);
+  let phase = 0;
+  let mode2 = 0;
+  for (let i = 0; i < out.length; i++) {
+    const t = i / sr;
+    // the head is tightest at the strike and settles onto its note: a quarter
+    // above, gone in ninety milliseconds. Less than the kick's, on purpose —
+    // the kick's fall IS the kick, and a tom that falls that far is a kick.
+    const hz = base * (1 + 0.26 * Math.exp(-t / 0.09));
+    phase += (twoPi * hz) / sr;
+    mode2 += (twoPi * hz * MEMBRANE_2) / sr;
+    const env = Math.exp(-t / TOM_TAU) * (t < 0.002 ? t / 0.002 : 1);
+    const skin = t < 0.02 ? noise.next() * Math.exp(-t / 0.008) * 0.55 : 0;
+    out[i] = (Math.sin(phase) + 0.33 * Math.sin(mode2) + skin) * env * n.gain * 0.7;
+  }
+  return fade(out, sr);
+}
+
 /** The rattle outlasts the tone, so it sizes the buffer. */
 const SNARE_TAU = 0.13;
 

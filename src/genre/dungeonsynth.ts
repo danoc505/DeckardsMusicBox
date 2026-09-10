@@ -380,7 +380,48 @@ export const dungeonsynth: GenreSpec = {
   // a timpani on the beat, no hat, a drum on three now and then
   drums: {
     kick: [[[0], 3], [[0, 2], 2], [[0, 2, 3.5], 1]],
-    snare: [[[2], 2], [[3], 1]],
+    /**
+     * THE SNARE IS THE ONE DRUM THESE RECORDS DO NOT HAVE, and this file
+     * played it on every bar of every record.
+     *
+     * `DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §4.3, measured off the files:
+     * four of the six Burzum synth pieces that carry a kit have NO SNARE
+     * STRIKE AT ALL, the two that do are the two of uncertain provenance, and
+     * the kit that is there is a kick or a timpani at 3 a bar with cymbals.
+     * §7 row 2 named the fix — "an empty snare pattern in the pool, weighted
+     * above the others" — and it sat unapplied. Measured over sixty of this
+     * program's records before this change: 4,536 kicks, 2,509 SNARES, 292
+     * cymbals. The kit was inverted.
+     *
+     * The empty pattern is weighted at four against two, so a snare is a thing
+     * this genre may do rather than a thing it does by default.
+     */
+    snare: [[[], 4], [[2], 1], [[3], 1]],
+    /**
+     * AND THE DRUM THIS GENRE ACTUALLY HAS IS THE TOM.
+     *
+     * "A timpani beats a drum pattern" throughout (erichgrunewald.com,
+     * making-dungeon-synth-without-perfectionism) — already the source behind
+     * `drums.kick` in this file — and "very subtle percussion"
+     * (note.com/soundwitches). A timpani IS a pitched membrane struck in a
+     * pattern, which is this program's tom, and until the toms were ported the
+     * nearest thing the kit could offer was a snare on three.
+     *
+     * This is also where the punk and doom in this record come in, and they
+     * agree with the source rather than fighting it: a floor tom on the beat
+     * with no snare over it is the tribal, marching pulse both the genre's own
+     * timpani and a sludge record's toms are made of.
+     *
+     * Weights [chosen]. The pocket is on beats, so `resolve.ts` gives it to
+     * this genre's own metre and a record in five four needs nothing new.
+     */
+    tom: [
+      [[0, 2], 3],
+      [[2], 3],
+      [[0, 1.5, 2], 2],
+      [[], 2],
+      [[0, 2, 3], 1],
+    ],
     hat: [[0, 1]],
     phrase: [
       [["A", "A", "A", "B"], 3],
@@ -942,6 +983,17 @@ export const dungeonsynth: GenreSpec = {
       "section\" (Wikipedia, \"Turnaround (music)\"). 1 for lofi's stated reason — one that sometimes does not " +
       "come is not a turnaround — and this genre's loops run longer than any other's here",
     "drums.kick": "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com); \"very subtle percussion\" (note.com/soundwitches)",
+    "drums.snare":
+      "measured off the records rather than the guides: four of the six Burzum synth pieces carrying a kit have " +
+      "NO snare strike at all, and the two that do are the two of uncertain provenance " +
+      "(DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4.3, §7 row 2, which named this fix and sat unapplied). " +
+      "Before this, sixty of this program's records carried 2,509 snare strikes against 292 cymbals. " +
+      "The empty pattern is weighted above the others; the weights are [chosen]",
+    "drums.tom":
+      "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com, making-dungeon-synth-without-" +
+      "perfectionism) — the same source this file already cites for the kick — and a timpani is a pitched " +
+      "membrane struck in a pattern, which is what this program's tom is. Unreachable until the toms were " +
+      "ported out of MK2. Weights [chosen]",
     "drums.hat": "beatless: no hat (note.com/soundwitches)",
     "arrangement.drift":
       "\"open a low-pass filter by a few percent each time the loop repeats, so over 32 bars the sound brightens " +

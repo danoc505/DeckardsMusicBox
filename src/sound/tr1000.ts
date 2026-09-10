@@ -46,7 +46,7 @@
  */
 
 import { Biquad, Noise, fade } from "./dsp.ts";
-import { hat, kick, snare, type NoteIn } from "./voices.ts";
+import { hat, kick, snare, tom, type NoteIn } from "./voices.ts";
 import type { DrumLane, MachineRules, StripRules } from "../genre/spec.ts";
 
 /** The 808's hi-hat ratios: six squares, deliberately inharmonic. [theory] */
@@ -124,7 +124,7 @@ const triangle = (p: number): number => 4 * Math.abs(p - Math.floor(p + 0.5)) - 
  * loudest and the two add; the 808's slower sweep has them apart by then. One
  * constant for both circuits put the 909 kick over full scale at 1.10.
  */
-const LEVEL = { kick: { "808": 0.74, "909": 0.52 }, snare: 1.14, hat: 0.23 } as const;
+const LEVEL = { kick: { "808": 0.74, "909": 0.52 }, snare: 1.14, hat: 0.23, tom: 0.9 } as const;
 
 /** What the channel strip's TUNE means: semitones, as a ratio. */
 const tuneOf = (strip: StripRules): number => Math.pow(2, strip.tune / 12);
@@ -239,6 +239,36 @@ function s808(n: NoteIn, M: MachineRules, strip: StripRules): Float32Array {
  * closed are the same circuit; only the decay differs, which is what the
  * machine's two knobs say.
  */
+/**
+ * THE 808's TOMS: a bridged-T oscillator rung once and left to decay.
+ *
+ * The 808's toms and its kick are the SAME circuit with different components —
+ * a resonant bridged-T fed an impulse — which is why an 808 tom is a clean
+ * pitched thump with none of the skin noise an acoustic tom has. The only
+ * noise on the machine's toms is the trigger pulse itself.
+ *
+ * The pitch envelope is shallower than `k808`'s for the reason the acoustic
+ * tom's is: a drop as deep as the kick's makes another kick.
+ */
+function t808(n: NoteIn, low: boolean, strip: StripRules): Float32Array {
+  const sr = n.sampleRate;
+  const tune = tuneOf(strip);
+  const dec = 0.5 * strip.decay;
+  const out = buffer(dec + 0.05, sr);
+  const twoPi = 2 * Math.PI;
+  const base = (low ? 78 : 116) * tune;
+  const tau = decayTau(dec);
+  let phase = 0;
+  for (let i = 0; i < out.length; i++) {
+    const t = i / sr;
+    const hz = base * (1 + 0.18 * Math.exp(-t / 0.07));
+    phase += (twoPi * hz) / sr;
+    const env = Math.exp(-t / tau) * (t < 0.001 ? t / 0.001 : 1);
+    out[i] = Math.sin(phase) * env * n.gain * LEVEL.tom;
+  }
+  return fade(out, sr);
+}
+
 function h808(n: NoteIn, decaySec: number, hpHz: number, strip: StripRules): Float32Array {
   const sr = n.sampleRate;
   const tune = tuneOf(strip);
@@ -292,8 +322,8 @@ function replay(buf: Float32Array, rate: number, decay: number, sampleRate: numb
 
 /** Which circuit or recording each lane calls, per kit. A kit is this table and nothing else. */
 export const KITS = {
-  acoustic: { kick: "kick", snare: "snare", hat: "hat", openhat: "openhat" },
-  analog: { kick: "k808", snare: "s808", hat: "h808", openhat: "oh808" },
+  acoustic: { kick: "kick", snare: "snare", hat: "hat", openhat: "openhat", tomlo: "tomlo", tomhi: "tomhi" },
+  analog: { kick: "k808", snare: "s808", hat: "h808", openhat: "oh808", tomlo: "t808lo", tomhi: "t808hi" },
 } as const satisfies Readonly<Record<string, Readonly<Record<DrumLane, string>>>>;
 
 /** What is playing a lane, by name — for the dump, the page, and the note cache's key. */
@@ -315,9 +345,15 @@ export function drum(lane: DrumLane, n: NoteIn, M: MachineRules): Float32Array {
       case "snare": return s808(n, M, strip);
       case "hat": return h808(n, M.chdecay, 7200, strip);
       case "openhat": return h808(n, M.ohdecay, 6200, strip);
+      case "tomlo": return t808(n, true, strip);
+      case "tomhi": return t808(n, false, strip);
     }
   }
-  const plain = lane === "kick" ? kick(n) : lane === "snare" ? snare(n) : hat(n, lane === "openhat");
+  const plain = lane === "kick" ? kick(n)
+    : lane === "snare" ? snare(n)
+    : lane === "tomlo" ? tom(n, true)
+    : lane === "tomhi" ? tom(n, false)
+    : hat(n, lane === "openhat");
   const rate = tuneOf(strip);
   if (rate === 1 && strip.decay >= 1) return plain;
   return replay(plain, rate, strip.decay, n.sampleRate);

@@ -488,6 +488,21 @@ export function resolveGenre(
     v.every((b) => finite(b) && b >= 0 && b < span && onGrid(b)) &&
     v.every((b, i) => i === 0 || b > (v[i - 1] as number));
   const isBeatList = beatList(beats, true);
+  /**
+   * A POCKET THAT MAY STRIKE NOTHING — the snare's and the toms'.
+   *
+   * `beatList` refuses an empty list, and for the KICK that is right: it must
+   * start on the downbeat and it is the pulse, so an entry striking nothing is
+   * a genre saying nothing where it meant to say something.
+   *
+   * For the other two, "none" is a real kit. The toms are empty in every genre
+   * that has not ported them. And an empty SNARE is what
+   * DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §7 row 2 asks for by name — four of
+   * the six Burzum synth pieces with a kit have no snare strike at all — which
+   * this validator refused outright until a genre tried to say it.
+   */
+  const mayBeEmpty = (v: unknown): boolean =>
+    Array.isArray(v) && (v.length === 0 || beatList(beats, false)(v));
   const beatsWhat = `a list of beats starting at 0, inside a ${beats}-beat bar, on a grid of ${perBeat} per beat`;
   /** beats -> grid steps, once, so no builder ever multiplies by perBeat */
   const toSteps = (pool: unknown): Weighted<readonly number[]> =>
@@ -733,8 +748,11 @@ export function resolveGenre(
       (v) => v === "own" || (typeof v === "string" && v in FIGURES),
       `"own" or a named figure: ${Object.keys(FIGURES).join(", ")}`);
     checkPool(problems, "drums.kick", drums["kick"], isBeatList, beatsWhat);
-    checkPool(problems, "drums.snare", drums["snare"], beatList(beats, false),
-      `an ascending list of beats inside a ${beats}-beat bar, on a grid of ${perBeat} per beat`);
+    checkPool(problems, "drums.snare", drums["snare"], mayBeEmpty,
+      `an ascending list of beats inside a ${beats}-beat bar on a grid of ${perBeat} per beat, or empty for a kit with no snare`);
+    // a tom pocket is like a snare's and may be empty: a kit with no toms
+    checkPool(problems, "drums.tom", drums["tom"], mayBeEmpty,
+      `an ascending list of beats inside a ${beats}-beat bar on a grid of ${perBeat} per beat, or empty for a kit with no toms`);
     checkPool(problems, "drums.hat", drums["hat"],
       (v) => finite(v) && v >= 0 && v <= beats && onGrid(v),
       "a division of the beat that lands on the grid, or 0 for none");
@@ -745,6 +763,7 @@ export function resolveGenre(
     if (problems.length === 0) {
       drums["kick"] = toSteps(drums["kick"]);
       drums["snare"] = toSteps(drums["snare"]);
+      drums["tom"] = toSteps(drums["tom"]);
       drums["hat"] = (drums["hat"] as Weighted<number>).map(([b, w]) => [Math.round(b * perBeat), w] as const);
     }
   }

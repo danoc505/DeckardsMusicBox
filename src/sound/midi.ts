@@ -44,6 +44,8 @@ const GM_DRUM: Readonly<Record<string, number>> = Object.freeze({
   snare: 38,    // acoustic snare
   hat: 42,      // closed hi-hat
   openhat: 46,  // open hi-hat
+  tomlo: 41,    // low floor tom
+  tomhi: 45,    // low tom
 });
 
 /**
