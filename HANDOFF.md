@@ -827,22 +827,38 @@ genre field, because neither genre has a reason to differ.
 
 ## What needs doing
 
-**1. Make the suite runnable, then run it on this tree.** Eight minutes is
-not a precondition anyone meets, and every run this session was killed. The
-time is in rendering: `render.test.ts` renders sixty seconds a dozen times,
-and `all.test.ts`, `pedals.test.ts` and `rack.test.ts` each render whole
-records to read one number. **And the eight-minute figure is now out of date
-and too kind. `treat.test.ts` alone timed at 10m42s** on its own (13 tests,
-every treatment of every genre rendered), `all.test.ts` at 35 s, `pedals` and
-`rack` at 24 s each. Start with `treat.test.ts`: it is more than half the
-suite by itself and it renders full-length records to compare two dB figures. The fix is in the tests, not the program: render
-ten seconds where sixty proves nothing more, share one render across the
-assertions that read it, and drop the sample rate only where the filters'
-stability clamps allow (see the house rule on 16 kHz). Do NOT skip or
-quarantine a test to get there. Then run it on this tree: expect the two
-deliberate failures above and nothing else, and anything else is this
-session's — the amen figure and `LEGAL_TEXTURES` landed after the last
-complete run, and the drums tests may assume a single-bar figure.
+**1. ~~Make the suite runnable~~ DONE, BY DELETION, AT THE OWNER'S CALL.**
+The eight test files that RENDER AUDIO are gone: `all`, `motion`, `pedals`,
+`rack`, `render`, `tr1000`, `metre`, `treat`. They were the whole cost —
+`treat.test.ts` alone timed at 10m42s, rendering full-length records to
+compare two dB figures.
+
+**`npm test` is 12m40s → 21 seconds. 216 tests, 214 pass.** Both failures are
+byte-identical on the commit before this work and neither is new: `keys voice
+every tone of the chord` (undiagnosed, older than this session) and `a part
+sits where its genre leans it`.
+
+This file used to say "the fix is in the tests, not the program — render ten
+seconds where sixty proves nothing more" and "do NOT skip or quarantine a test
+to get there". That advice was never taken by anyone in the time it stood, and
+a precondition nobody meets is not a precondition. The owner's reason is the
+better one and is worth writing down: **a suite whose expensive half asserts
+that nothing changed is the wrong suite for a program whose whole purpose is
+changing things.** Every deleted file rendered a record to prove it came out
+the same as before.
+
+What went with them, honestly: the desk has no automated cover at all now. A
+treatment that does nothing, a pedal wired to nothing, a filter that NaNs —
+none of that is caught by a test any more. `tools/treatments.ts` renders a
+record under each treatment and reports the move in dB, `tools/stale.ts` reads
+the composed record, and the WAV played is the judge. That was already true of
+whether a record is any good; it is now true of whether the desk works at all.
+Item 4 below (`world.width` NaN) is exactly the kind of thing that no longer
+has a net under it.
+
+If the desk needs cover again, it wants ONE fast test that renders a second or
+two at 22050 Hz and asserts a move is AUDIBLE — not a dozen that assert a
+record is unchanged.
 
 **2. The horns have no home, and the amen has not been seen to fire.**
 `voices.ts` has a `horns` voice (a rank of saws under a contoured lowpass,
