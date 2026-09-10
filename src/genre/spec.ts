@@ -218,6 +218,42 @@ export interface HarmonySpec {
    * come out with a diminished triad in one mode and a major one in another.
    */
   readonly diminished?: "allow" | "avoid";
+  /**
+   * 0..1, how often a chord takes its FOURTH in place of its third.
+   *
+   * Every other quality this spec offers moves the chord in the same
+   * direction: `sevenths` and `ninths` stack more thirds on it, and both were
+   * written for lofi — `ninths` carries a lo-fi citation in its own comment.
+   * The one move away from the triad was `fifths`, which DROPS the third and
+   * leaves a hole. So a genre that wants neither jazz nor a bare fifth has
+   * exactly one chord: the plain triad.
+   *
+   * A suspension is the third REPLACED rather than dropped or extended, and
+   * it is the colour early music is built on — "cadences reminiscent of early
+   * music", "simple stepwise resolutions" (en.wikipedia.org/wiki/Dungeon_synth;
+   * dungeonsynth.proboards.com, "Chords for Dungeon Synth"). `chordName`
+   * already names sus2 and sus4; until now nothing could build one, so those
+   * two branches were unreachable.
+   *
+   * THE FOURTH, NOT THE SECOND, and this is a choice worth stating. A sus2 is
+   * the same pitch class as the ninth an octave down, so a genre asking for
+   * no jazz would be getting one by another name; a sus4 is the suspension
+   * the cadential figure is made of.
+   *
+   * AND IT IS THE COLOUR, NOT A PREPARED SUSPENSION. A suspension proper is
+   * a dissonance held over from the chord before and resolved down a step
+   * inside the bar, and this program has one chord per bar — so what this
+   * gives is the hanging fourth, and the resolution can only happen at the
+   * next bar line if the progression puts the same degree there. Saying that
+   * plainly because the limit is the model's, not this field's, and a reader
+   * who wants the real figure needs a chord to be able to change inside a
+   * bar first.
+   *
+   * Drawn after the bare fifth and applied only to a chord that still has a
+   * third, so a genre asking for both gets a fifth rather than a suspension
+   * with its fifth doubled.
+   */
+  readonly suspended?: number;
 }
 
 export interface HarmonyRules {
@@ -227,6 +263,7 @@ export interface HarmonyRules {
   readonly progressions: Readonly<Record<Idea, Weighted<Progression>>>;
   readonly sevenths: number;
   readonly fifths: number;
+  readonly suspended: number;
   readonly diminished: "allow" | "avoid";
 }
 
@@ -1865,6 +1902,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     bars: 4,
     /** No genre extends past the seventh unless it says so. [chosen] */
     ninths: 0,
+    /** No genre suspends unless it says so, so this field cannot move a record that does not ask. [chosen] */
+    suspended: 0,
     /**
      * Two. A motif shorter than the idea is what gives a four-bar loop an
      * inside; equal to it, the idea is one long gesture and nothing within

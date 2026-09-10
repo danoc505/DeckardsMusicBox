@@ -472,6 +472,8 @@ export function resolveGenre(
     if (!finite(sv) || sv < 0 || sv > 1) problems.push(`harmony.sevenths must be 0..1, got ${String(sv)}`);
     const fi = harmony["fifths"];
     if (!finite(fi) || fi < 0 || fi > 1) problems.push(`harmony.fifths must be 0..1, got ${String(fi)}`);
+    const su = harmony["suspended"];
+    if (!finite(su) || su < 0 || su > 1) problems.push(`harmony.suspended must be 0..1, got ${String(su)}`);
     const dm = harmony["diminished"];
     if (dm !== "allow" && dm !== "avoid") problems.push(`harmony.diminished must be "allow" or "avoid", got ${String(dm)}`);
   }

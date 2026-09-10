@@ -53,6 +53,21 @@ export function drawChords(chart: Chart, idea: Idea): Chord[] {
     // the seventh so a genre that asks for both gets a fifth, not a seventh
     // with a hole in it.
     if (tones.length >= 3 && draw.at("spot", spot).chance("fifth", H.fifths)) tones = [tones[0]!, tones[2]!];
+    // A SUSPENSION: the third REPLACED by the fourth, where the bare fifth
+    // did not already drop it. Every other quality here stacks more thirds on
+    // the chord or takes the third away; this is the one that puts something
+    // in its place, and it is the colour early music cadences are made of —
+    // dungeon synth "favors modal scales, open fifths, and cadences
+    // reminiscent of early music" and its cadences "use simple stepwise
+    // resolutions" (en.wikipedia.org/wiki/Dungeon_synth;
+    // dungeonsynth.proboards.com, "Chords for Dungeon Synth"). `chordName`
+    // has named sus4 since it was written and nothing has ever built one.
+    //
+    // Addressed by name like every draw beside it, so a genre that asks for
+    // none renders the record it rendered before this existed.
+    else if (tones.length >= 3 && draw.at("spot", spot).chance("suspended", H.suspended)) {
+      tones = [tones[0]!, degreeMidi(chart.tonic, chart.scale, degree + 3), ...tones.slice(2)];
+    }
     out.push(
       Object.freeze({
         bar,
