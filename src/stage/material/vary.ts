@@ -8,9 +8,25 @@
  * harmony, and an ear that was promised something it knows gets something it
  * does not. That is exactly what this replaced.
  *
- * So a variant INHERITS. It keeps the groove — the bass, the keys, the drone
- * — note for note, because the groove is what makes a section recognisable as
- * itself, and it changes two things:
+ * So a variant INHERITS. It keeps the bass and the drone note for note,
+ * because the ground is what makes a section recognisable as itself.
+ *
+ * THIS PARAGRAPH USED TO INCLUDE THE KEYS AND HAD NOT FOR SOME TIME. The
+ * material stage stopped inheriting them and started REDRAWING them, for the
+ * reason written at that line — inheriting all three meant the rule of three
+ * fired and nothing happened, a seventy-two-bar record putting the identical
+ * two bars down thirty-six times — and this header was never brought with it.
+ * It said the opposite of the code, which is the one thing a comment in this
+ * program may not do.
+ *
+ * The keys are neither inherited nor redrawn now: they are DEVELOPED, by the
+ * same operations below, from the statement's own turn. A redraw was a
+ * different line over the same chords, which answers the rule of three with
+ * new music where it asked for the same music changed. See the paragraph at
+ * `drawnKeys` in `material/index.ts` for why, and for the laws a developed
+ * line is judged by, which are the seat's and not the tune's.
+ *
+ * Beyond the ground it inherits, a variant changes two things:
  *
  *   THE BEAT, which is the cheapest and strongest change there is. "Changing
  *   the drum beat works every time, and you could keep everything exactly the

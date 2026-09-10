@@ -341,7 +341,68 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       // over a picture that had not moved since bar eight. That is a record
       // repeating the same thing for over half its length, and the law that
       // was supposed to stop it was being obeyed the whole time.
-      const drawnKeys = serve("keys", chart.register.keys, inLoop);
+      /**
+       * AND A VARIANT DEVELOPS ITS KEYS RATHER THAN ROLLING THEM AGAIN.
+       *
+       * Redrawing was already better than inheriting — see the paragraph
+       * above, which is why it is done — but a redraw and a development are
+       * not the same promise. A redraw is a DIFFERENT line over the same
+       * chords: it comes off this material's own address and owes the
+       * statement nothing, so the third hearing arrives as new music where
+       * the law asked for the same music changed. "Repetition, sequence,
+       * modulation, augmentation, diminution, retrograde, inversion, and
+       * fragmentation" (tobyrush.com, "Motivic Development") are ways of
+       * keeping an idea while altering it, and until now this program applied
+       * them to the tune ALONE — `varyLine` had exactly one caller, the lead
+       * — in a genre where the tune is absent for the first third of the
+       * record and the keys are what the record IS.
+       *
+       * So the statement's own turn is put through the same operations, in
+       * the same try-each-from-the-drawn-one order the tune uses, and the
+       * first that both changes the line and survives the laws is the
+       * variant's keys. A development that cannot be made lawful falls back
+       * to the redraw, which is what the code did before this and is still a
+       * variant — never to inheriting, which is what it never was.
+       *
+       * THE LAWS ARE THE SEAT'S, not the tune's: inside the keys' own band,
+       * and landing on nothing the bass or drone is already holding or rubbing
+       * against. `avoidFor` is deliberately NOT among them — it is a COST in
+       * `keys.ts` rather than a refusal, and a development judged by a
+       * preference would be refused for being merely worse.
+       *
+       * A developed line keeps the statement's JOB, because it is the
+       * statement's line: an arpeggio thinned is still an arpeggio.
+       */
+      const developedKeys = ((): readonly Note[] | null => {
+        if (plain === undefined) return null;
+        const from = plain.groove.keys.filter((n) => n.bar < period);
+        if (from.length === 0) return null;
+        const rungs = ladder(chart, chart.register.keys);
+        const [lo, hi] = chart.register.keys;
+        const fits = (line: readonly Note[]): boolean =>
+          line.every((n) => {
+            if (n.pitch < lo || n.pitch > hi) return false;
+            for (let i = 0; i < n.dur; i++) {
+              const abs = n.bar * steps + n.step + i;
+              const bar = Math.floor(abs / steps) % period;
+              const st = abs % steps;
+              if (inLoop.holds(bar, st, n.pitch) || inLoop.rubs(bar, st, n.pitch)) return false;
+            }
+            return true;
+          });
+        const keysRng = rng.at("keys").at("develop");
+        const start = keysRng.pick("change", CHANGES as readonly Change[]);
+        for (let k = 0; k < CHANGES.length; k++) {
+          const which = CHANGES[(CHANGES.indexOf(start) + k) % CHANGES.length]!;
+          const got = varyLine(from, loop, keysRng.at("vary", which), steps, period, which, rungs, chart.tonic, chart.scale, fits);
+          if (got.changed && fits(got.line)) {
+            served["keys"] = plain.served["keys"];
+            return tile(got.line);
+          }
+        }
+        return null;
+      })();
+      const drawnKeys = developedKeys ?? serve("keys", chart.register.keys, inLoop);
       sounding.add(drawnKeys, bars, steps);
       inLoop.add(drawnKeys, period, steps);
       return { bass: drawnBass, keys: drawnKeys, drone: drawnDrone };

@@ -114,7 +114,7 @@
 
 import type { Rng } from "../../core/rng.ts";
 import { inScale, intoBand, pc } from "../../core/theory.ts";
-import type { Arc, Contour } from "../../genre/spec.ts";
+import type { Arc, Contour, Register } from "../../genre/spec.ts";
 import type { Chart } from "../chart.ts";
 import { manner } from "./manner.ts";
 import type { Chord, Note, Sounding } from "./note.ts";
@@ -165,8 +165,17 @@ const SIGNATURE_MAX = 12;
 const LEAD_WEIGHT = 0.76;
 
 /** The scale tones inside the lead's register, ascending: the rungs a tonal move steps along. */
-export const ladder = (chart: Chart): number[] =>
-  scaleTones(chart, chart.register.lead[0], chart.register.lead[1]);
+/**
+ * The rungs a tonal move steps along: the scale tones inside a register.
+ *
+ * The lead's by default, because the tune is what has always been varied. It
+ * takes a register now because `varyLine` is not the lead's — every operation
+ * in `vary.ts` is written against a line, a ladder and the laws handed to it,
+ * and the keys use it too. A seat that develops its own line needs the rungs
+ * of its OWN band, or a sequence walks it into somebody else's.
+ */
+export const ladder = (chart: Chart, register: Register = chart.register.lead): number[] =>
+  scaleTones(chart, register[0], register[1]);
 
 /** The scale tones inside a register, ascending. */
 function scaleTones(chart: Chart, lo: number, hi: number): number[] {

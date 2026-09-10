@@ -158,6 +158,79 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**FOUR FAULTS THE OWNER'S EAR NAMED, ALL FOUR TRACED TO A LINE AND FIXED.**
+The complaint was: the chords are too few a kind, every seed opens on chords
+or a drone alone, the third repetition should alter the motif rather than
+only the desk, and the bass "is an on or off, doesn't sound bass like".
+Every one turned out to be a line nobody chose rather than a law, and two of
+them were fields that could not do what their own comments claimed.
+
+**The bass was a second drone, and `tones` was config nothing read.**
+`drawBass` consults `tones` only for a strike that is NOT the downbeat, and
+this genre's pocket was `[0]` at weight 3 against `[0, 2]` at 1 — so three
+materials in four were one root note a bar and the whole tone pool was
+unreachable. 1.17 notes per playing bar, 3.75 distinct pitches a record. A
+one-note-a-bar low layer IS in these records, but it is the held one
+(`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §4.6) and this program plays that on
+the drone seat. Now 1.94 and 4.83, with `approach` in the pool and
+`turnaround` stated. NO THIRD, deliberately: a third of these chords are
+voiced as bare fifths to leave exactly that room.
+
+**The `intro` pool cannot decide how this genre opens, and never could.**
+`canIntroduce` leaves `hook` legal only where the character is the lead and
+`rhythm` only where it is the drums or bass, so for a genre with no bass in
+its protagonist pool every character admits exactly one way in but the drums.
+MEASURED: `hook` at 400 against 2 gives byte-identical openers to `hook` at 1.
+The weights are inert in twelve records of thirteen. They stay — the drums
+character draws from them and they are not this genre's alone — but the note
+is in the file now. `introParts: 2` was tried, on an argument the arithmetic
+refutes, and it bought a second SUSTAINING part: openings on one part 83% → 0%
+and `keys×7` → `keys+drone×9`. Reverted with the measurement kept. The lever
+is `protagonist.lead`, 2 → 4: the opener carries the tune in 33% of records
+against 17%.
+
+**A chord could be extended or hollowed out, never RESOLVED into.** Every
+quality `HarmonySpec` offered stacked more thirds (`sevenths`, `ninths` — both
+lofi's, and `ninths` cites a lo-fi source in its own comment) or dropped the
+third (`fifths`). A genre wanting neither had one chord. `harmony.suspended`
+is the third replaced by the fourth, which is the colour this genre's sources
+name and could not build — `chordName` has named sus2 and sus4 since it was
+written and both branches were unreachable. Dungeon synth states 0.2 and now
+has four chord qualities where it had two. Default 0, and lofi renders
+byte-identical MIDI across seven seeds.
+
+**AND A VARIANT DEVELOPS ITS KEYS NOW INSTEAD OF ROLLING THEM AGAIN — this is
+the one to read.** The material stage already stopped INHERITING the keys, for
+a good reason written at that line. But a redraw is a different line over the
+same chords: it owes the statement nothing, so the third hearing arrived as
+new music where the law asked for the same music changed. `varyLine` — thin,
+augment, invert, retrograde, sequence, octave, every one of them documented —
+had exactly ONE caller in this program, the lead, in a genre where the tune is
+absent for the first third of the record and the keys are what the record IS.
+The statement's own turn goes through the same operations in the same
+try-each-from-the-drawn-one order, judged by the SEAT's laws (its band, and
+nothing the bass or drone holds or rubs against) rather than the tune's. It
+takes in 90% of dungeon synth variants and 96% of lofi's; what it cannot make
+lawful falls back to the redraw, never to inheriting.
+
+  statement onsets the variant also plays   dungeon synth 36% → **81%**
+                                            lofi          64% → **93%**
+
+`vary.ts`'s header said the variant keeps the keys note for note and had said
+so since before the redraw landed — a comment saying the opposite of its code,
+which is the one thing a comment here may not do. Rewritten.
+
+**What is still unapplied from `DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §7**:
+the snare (row 2 — four of six kit files have none, and 60 of our records
+carry 2,509 snare strikes against 292 cymbals), phrygian's weight (row 3 —
+the corpus is phrygian 5 dorian 3 minor 0, the file is minor 4 dorian 3
+phrygian 1, and `DRONE_STRINGS` in `spec.ts` cannot hold a flat second at
+all), and rows 4–8.
+
+---
+
+### Before that
+
 **THE GENRES HAVE BEEN READ OFF RECORDS FOR THE FIRST TIME, AND NOT ONE
 NUMBER IS APPLIED.** `docs/genre-research/DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md`
 is the document; `tools/corpus.ts` is the tool, and `tools/smf.ts` is the

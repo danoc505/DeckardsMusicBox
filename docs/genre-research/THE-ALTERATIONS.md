@@ -351,6 +351,45 @@ bars and never losing a player, which is the oscillating texture again in
 better clothes. A treatment is now priced at what this file already prices the
 drums' expression at: half a part.
 
+
+### And the operations are no longer the tune's alone
+
+The premise at the top of this document — "satisfying the rule always costs new
+material" — was true of the *tune* and quietly false of everything else, in a
+way worth writing down because it inverts for a genre like dungeon synth.
+
+`varyLine` is a general motivic transformer: a line, a ladder, a key and the
+laws handed to it. It had exactly **one caller in the whole program**, the
+lead. The keys, meanwhile, were REDRAWN in a variant — better than the
+inheriting it replaced, which made the rule fire and nothing happen, but a
+redraw is a different line over the same chords. It owes the statement nothing.
+So the third hearing arrived as *new music* where the law asked for *the same
+music changed*, and in a genre whose tune is absent for the first third of the
+record and whose keys are the record, the one seat that could develop was the
+one seat nobody was listening to yet.
+
+The statement's own turn now goes through the same six operations, judged by
+the seat's laws — its own band, and nothing the bass or drone is holding or
+rubbing against — rather than the tune's. `avoidFor` is deliberately excluded:
+it is a COST in `keys.ts`, and a development refused by a preference would be
+refused for being merely worse. What cannot be made lawful falls back to the
+redraw; never to inheriting.
+
+| how much of the statement survives into its variant's keys | before | after |
+|---|---|---|
+| dungeon synth, onsets the variant also plays | 36% | **81%** |
+| lofi, onsets the variant also plays | 64% | **93%** |
+| dungeon synth, intervals present in the statement | 70% | **87%** |
+| lofi, intervals present in the statement | 81% | **89%** |
+
+Measured over 120 seeds a genre, 98 and 76 variant/parent pairs. The operation
+takes in 90% of dungeon synth's variant materials and 96% of lofi's.
+
+**This does not reduce how often the rule is answered by the desk** — 30 desk
+moves per varied section, unchanged — and that ratio is a question for
+`arrange.ts`'s score, not for this file. What it changes is what a variant IS
+when one happens.
+
 ## What the repetition law allows, and what it does not
 
 §3, §4 and §5 are performance moves, and there is one law they have to get
