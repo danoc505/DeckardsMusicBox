@@ -790,15 +790,16 @@ test("no more than four elements sound at once, five at a peak, and a material's
           assert.ok(LEGAL_TEXTURES[p.elements[r]].includes(p.textures[r]),
             `${g} seed ${seed} ${p.material}: ${r} is ${p.elements[r]} with texture ${p.textures[r]}, which that job does not allow`);
         }
-        // AND DUNGEON SYNTH'S CHORDS ARE HELD. The owner states it as the
-        // genre's defining rule and its literature is about "carefully
-        // sustaining a single mood"; the genre's guide does not mention an
-        // arpeggio at all. So its keys serve the pad, sustained, in every
-        // record — and no seat of that genre is arpeggiated.
+        // AND DUNGEON SYNTH'S KEYS ARE HELD, OR THEY ARE THE CHORD TAKEN ONE
+        // NOTE AT A TIME — nothing else. The held chord is the genre's
+        // literature ("carefully sustaining a single mood"); the broken chord
+        // is its records: the Burzum synth pieces carry one-note-a-beat
+        // accompaniment at 75-86% leaps under a held layer
+        // (DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4.5). A struck chord, a
+        // comped one, a thinned one is neither, and is not this genre.
         if (g === "dungeonsynth") {
-          assert.equal(p.elements.keys, "pad", `${g} seed ${seed}: the keys are not the pad`);
-          assert.equal(p.textures.keys, "sustain", `${g} seed ${seed}: the keys are not held`);
-          for (const r of ROLES) assert.notEqual(p.textures[r], "arp", `${g} seed ${seed}: ${r} is arpeggiated`);
+          const pair = `${p.elements.keys}/${p.textures.keys}`;
+          assert.ok(pair === "pad/sustain" || pair === "rhythm/arp", `${g} seed ${seed}: the keys are ${pair}, neither held nor spilled`);
         }
         // the drums are the foundation, the lead seat is the lead, and there is
         // ONE lead: "a lead vocal, lead instrument or solo", singular

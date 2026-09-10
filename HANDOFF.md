@@ -168,12 +168,22 @@ people's transcriptions of other people's records — and the document says
 where each of the 87 came from and how the Songsterr ones were converted.
 
 Four things in it are findings against lines in `dungeonsynth.ts`, and the
-first is the one to read: **the Burzum synth pieces are full of broken-chord
+first is now APPLIED: **the Burzum synth pieces are full of broken-chord
 accompaniment at one note a beat, 75–86% leaps, under a held layer** — and the
-genre file pins the keys to pad/sustain on the ground that the guide "does not
-mention arpeggios at all", with `arrange.test.ts` asserting it. A prose
+genre file pinned the keys to pad/sustain on the ground that the guide "does
+not mention arpeggios at all", with `arrange.test.ts` asserting it. A prose
 source's silence against a measured presence is the case the README says the
-document settles first. The others: four of six kit files have no snare where
+document settles first. So dungeon synth's keys now draw pad 3 : rhythm 2,
+a rhythm draw is the arp texture (the mechanism lofi's keys already used),
+`arp.every` is stated at the records' quarters, and the test asserts the pair
+and nothing else. Measured over 200 records: **38% of keys materials are the
+broken chord, all served, none gave way**; seed 2's keys read off the file as
+one note a beat at 61% leaps where they were a held four-voice chord; over
+seeds 1–20 who opens, how long alone and when everyone is in are unchanged on
+17 and move a bar on 3, the keys at the end 35% → 25%, the drone at the end
+80% → 85%. The roll of seed 2 before and after is the proof, and it is the
+picture the document's §4.5 describes. The other three are not applied: four
+of six kit files have no snare where
 the genre states one always; phrygian is 5 of 9 pieces and 6 of 15 Mortiis
 tracks against a weight of 1 in 8; and Mortiis's records carry a pulse four to
 ten times stronger than this program's seed 2 (0.47 against 0.06 on the same

@@ -163,6 +163,20 @@ export const dungeonsynth: GenreSpec = {
     },
   },
 
+  /**
+   * HOW THE CHORD IS SPILLED HERE: ONE NOTE A BEAT. The default is eighths,
+   * "the rate a pad spills at without becoming the lead" in a genre at 80-95
+   * bpm; this genre's records spill at quarters — the riff track's median
+   * note length is 1.0 beat across the nine Burzum pieces, 3.5 to 4 notes a
+   * bar in Dauði Baldrs, and only Feðrahellir runs at eighths
+   * (`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §4). At 60-80 bpm a quarter is
+   * 0.75-1 s, which is a broken chord and not a tremolo. The patterns are the
+   * default's: the lines leap 75-86% and no pattern is readable off that.
+   */
+  arp: {
+    every: [[1, 4], [0.5, 2]],
+  },
+
   // a pedal under the chords: the root, and the fifth
   bass: {
     register: [31, 45],
@@ -208,19 +222,33 @@ export const dungeonsynth: GenreSpec = {
      */
     register: [45, 71],
     /**
-     * THE KEYS ARE HELD, AND THAT IS A LAW OF THIS GENRE. Its structure is
-     * "not based on the typical pop song progression... but rather on
-     * carefully sustaining a single mood" (note.com/soundwitches, as read in
-     * `DUNGEON-SYNTH-ARRANGEMENT.md`), and the owner states it outright: this
-     * genre is defined by long held chords. So the keys serve the pad and
-     * nothing else, and the pad is sustained and nothing else. An earlier
-     * version offered these keys an arpeggio at weight 3 on the strength of a
-     * sentence about "the medieval-harp figure over the drone" that no source
-     * says — the genre's own guide (dungeon-synth.neocities.org) does not
-     * mention arpeggios at all. `arrange.test.ts` holds this.
+     * THE KEYS ARE HELD, OR THEY ARE THE CHORD TAKEN ONE NOTE AT A TIME.
+     *
+     * This used to pin the keys to pad/sustain, on the ground that the
+     * genre's guide "does not mention arpeggios at all". The guide does not;
+     * the records do. Read off the Burzum synth pieces
+     * (`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §4.5): Dauði Baldrs's church
+     * organ moves 82% by leap at four notes a bar, its harpsichord 78% at
+     * 3.5, Feðrahellir's figure 86% at eight, Tomhet's string line alternates
+     * two notes a fifth apart — broken-chord accompaniment, one note a beat,
+     * under a layer that holds for whole bars. A prose source's silence
+     * against a measured presence is the case the README settles first.
+     *
+     * The mechanism is the one lofi's keys already use: a seat serving the
+     * RHYTHM element with the arp texture is a broken-chord part
+     * (`LEGAL_TEXTURES` — a pad may not be spilled, so a pad draw takes
+     * sustain and a rhythm draw takes arp, and the two weights below only
+     * ever meet their own job). The held layer this spills under is the
+     * drone, which holds the tonic or the fifth for whole bars, as the
+     * second organ of Dauði Baldrs holds one E3 for a bar twenty-eight times.
+     *
+     * Weighted 3:2 for the pad [chosen]: four of the nine pieces carry the
+     * broken-chord layer prominently, and the keys are this genre's
+     * character in 38% of records, where the job is drawn once and held.
+     * `arrange.test.ts` asserts the pair, and only the pair.
      */
-    element: [["pad", 1]],
-    texture: [["sustain", 1]],
+    element: [["pad", 3], ["rhythm", 2]],
+    texture: [["sustain", 3], ["arp", 2]],
     strike: [[[0], 4], [[0, 2], 1]],
     open: 0.6,
     /** a pad swells rather than strikes: it holds, and it slurs from chord to chord */
@@ -818,6 +846,15 @@ export const dungeonsynth: GenreSpec = {
       "(en.wikipedia.org/wiki/Alto_recorder); and this music \"avoids bright top-end\" " +
       "(dungeon-synth.neocities.org/music-making-guide). G4–A#5 [chosen inside those], the ceiling brought down " +
       "off D6 — 64–79 is the equally clean lower alternative and is named in the register's own note",
+    "keys.element":
+      "broken-chord accompaniment at one note a beat under a held layer, measured off the Burzum synth pieces — " +
+      "Dauði Baldrs's organ 82% leaps at 4 notes a bar, Feðrahellir 86% at 8, Tomhet's string line alternating a fifth " +
+      "(docs/genre-research/DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4.5); the rhythm element with the arp texture is what " +
+      "that is here. 3:2 for the pad [chosen]: four of nine pieces carry the layer",
+    "keys.texture": "sustain for the pad, arp for the rhythm: `LEGAL_TEXTURES` admits no other pairing, so the weights meet their own job only",
+    "arp.every":
+      "median note length on the riff track 1.0 beat over the nine Burzum synth pieces, 3.5-4 notes a bar in Dauði Baldrs, " +
+      "8 in Feðrahellir alone (DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4); quarters 2:1 over eighths [chosen inside that]",
     "keys.register":
       "\"just sustaining minor chords or power chords (root + 5th) for a long time\" (dungeonsynth.neocities.org/" +
       "howto) needs room for open fifths and octaves: 26 semitones is what `open` 0.6 can voice, measured — " +
