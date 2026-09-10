@@ -666,10 +666,8 @@ export const dungeonsynth: GenreSpec = {
       // out. [chosen], and low: see sources.
       ["revoice", 2],
       ["darken", 6],
-      ["drench", 5],
       ["wear", 4],
       ["far", 3],
-      ["dry", 3],
       ["brighten", 2],
       ["ease", 2],
       ["push", 2],

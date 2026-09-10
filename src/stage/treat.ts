@@ -69,37 +69,6 @@ import { HOLDS } from "../sound/voices.ts";
 
 const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > hi ? hi : v);
 
-/**
- * Every part's send to every return, scaled — the parts that already feed a
- * return feed it more, and a part that feeds nothing still feeds nothing.
- */
-/**
- * THE SAME GESTURE ON THE OTHER PLUMBING — every part's WET FX, scaled.
- *
- * "More reverb on this section" used to mean one thing: turn the sends up.
- * Now a genre may carry its reverb as a return that parts send to, or in line
- * on each part, or both — so a move that only knew about sends stopped being
- * heard the moment a genre moved its room onto the parts. `drench` and `dry`
- * are the same gesture either way, and this is what they say to a board.
- *
- * The DRY units are not here. Scaling a filter's or a tape's mix is not
- * getting wetter, it is a different move — `darken` and `wear` own those.
- */
-const WET_FX = ["echo", "spring", "room", "ensemble", "flange"] as const;
-
-function fxWet(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
-  const out: Record<string, Record<string, { mix: number }>> = {};
-  for (const role of only === undefined ? ROLES : [only]) {
-    const one: Record<string, { mix: number }> = {};
-    for (const name of WET_FX) {
-      const u = S.fx[role][name] as { mix: number };
-      if (u.mix > 0) one[name] = { mix: clamp(u.mix * by, 0, 1) };
-    }
-    if (Object.keys(one).length > 0) out[role] = one;
-  }
-  return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
-}
-
 /** The reverbs standing in a part's own line, made bigger — `linger`'s half of the same split. */
 function fxLonger(S: SoundRules, only?: Role): NonNullable<SoundSpec["fx"]> | undefined {
   const out: Record<string, Record<string, { sec: number }>> = {};
@@ -196,17 +165,6 @@ function fxWavier(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec
   return Object.keys(out).length === 0 ? undefined : (out as NonNullable<SoundSpec["fx"]>);
 }
 
-function sends(S: SoundRules, by: number, only?: Role): NonNullable<SoundSpec["mix"]> {
-  const mix: Record<string, { sends: Record<string, number> }> = {};
-  for (const role of only === undefined ? ROLES : [only]) {
-    const ch = S.mix[role];
-    const out: Record<string, number> = {};
-    for (const sd of SENDS) out[sd] = clamp(ch.sends[sd] * by, 0, 1);
-    mix[role] = { sends: out };
-  }
-  return mix as NonNullable<SoundSpec["mix"]>;
-}
-
 /** One number per part, scaled and clamped: level, pedals, dist and the rest. */
 function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: number, lo: number, hi: number, only?: Role): NonNullable<SoundSpec["mix"]> {
   const mix: Record<string, Record<string, number>> = {};
@@ -229,7 +187,7 @@ function perPart(S: SoundRules, key: "pedals" | "dist" | "sweepDepth", by: numbe
  * `echoed`, `brighten` and `widen` are the rack and the room — a rack is not
  * something one part has, so those stay what they are.
  */
-export const PER_PART: readonly Treatment[] = ["drench", "dry", "push", "ease", "far", "sweep", "orbit", "revoice"];
+export const PER_PART: readonly Treatment[] = ["push", "ease", "far", "sweep", "orbit", "revoice"];
 
 /**
  * THE MOVES THAT ARE THE DRUM MACHINE, and are worth nothing where the drums
@@ -449,39 +407,16 @@ export function specOf(name: Treatment, S: SoundRules, only?: Role): SoundSpec |
     }
 
     // ── the room ──
-    // BOTH PLUMBINGS, because a genre may carry its reverb either way and this
-    // is the same gesture on each: the returns and the sends that feed them,
-    // AND the wet fx standing in each part's own line. A genre that uses one
-    // finds the other side of this is zeros over zeros, which changes nothing.
-    case "drench": {
-      const wet = fxWet(S, 1.4, only);
-      spec = {
-        rack: {
-          room: { ret: clamp(S.rack.room.ret * 1.5, 0, 2) },
-          spring: { ret: clamp(S.rack.spring.ret * 1.5, 0, 2) },
-        },
-        mix: sends(S, 1.4, only),
-        ...(wet === undefined ? {} : { fx: wet }),
-      };
-      break;
-    }
-    case "dry": {
-      const wet = fxWet(S, 0.5, only);
-      spec = {
-        rack: {
-          room: { ret: clamp(S.rack.room.ret * 0.45, 0, 2) },
-          spring: { ret: clamp(S.rack.spring.ret * 0.45, 0, 2) },
-        },
-        mix: sends(S, 0.5, only),
-        ...(wet === undefined ? {} : { fx: wet }),
-      };
-      break;
-    }
     case "linger":
-      // §8, move 47: "a longer room for the peak". `drench` sends MORE to the
-      // room; this makes the room BIGGER, which is a different move and the
-      // only one in §7-§9 that nothing reached — the reverbs' `sec` was the
-      // one leaf of the rack no treatment touched while `ret` had two.
+      // §8, move 47: "a longer room for the peak". This makes the room BIGGER
+      // rather than sending more to it — the reverbs' `sec`, which was the one
+      // leaf of the rack no treatment touched while `ret` had two.
+      //
+      // AND IT IS THE ROOM MOVE THIS PROGRAM KEEPS. `drench` and `dry` sent
+      // more or less to the returns and scaled `ret` — the returns' own LEVEL
+      // — with it, which is why they moved the record's loudness by about 2 dB
+      // and why they are gone. A bigger room and a further-off part both say
+      // something a listener can name without the section arriving louder.
       spec = {
         rack: {
           // the two reverbs have DIFFERENT ceilings — the room reaches 12
@@ -812,10 +747,6 @@ function reaches(name: Treatment, S: SoundRules): boolean {
     // the faintest thing lofi could do with a boundary is measured.
     case "brighten":
       return poleHeard(S);
-    // the returns: a genre that sends nothing to a room has no room to open
-    case "drench":
-    case "dry":
-      return live.has("room") || live.has("spring");
     // and the echo is the one that was wrong. Dungeon synth patches none:
     // every part's send is 0 and no return feeds it through the matrix.
     case "echoed":

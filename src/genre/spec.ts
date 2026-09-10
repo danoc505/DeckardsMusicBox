@@ -905,9 +905,27 @@ export type IntroKind = (typeof INTRO_KINDS)[number];
 export const EVENTS = ["tomroll", "snarebuild", "stop", "double"] as const;
 export type EventName = (typeof EVENTS)[number];
 
+/**
+ * THE TWO THAT WERE TAKEN OUT, and why, so nobody adds them back.
+ *
+ * `drench` and `dry` scaled the room and spring RETURNS — `rack.room.ret` —
+ * as well as the parts' sends. A return's `ret` is its level, so both moved
+ * the record's LOUDNESS by about 2 dB, which is the one thing a treatment is
+ * defined as not doing: "every one leaves the notes exactly where they were"
+ * is only half the promise, and the other half is that a section which comes
+ * back treated has not simply come back louder. HANDOFF item 3 had this
+ * measured and standing as a question for an ear; the owner's ear answered it.
+ *
+ * They are DELETED rather than fixed to move only the sends. A wetter section
+ * without a level change is `linger` (a bigger room) and `far` (further off),
+ * both of which are still here and both of which say something a listener can
+ * name. What `drench` added over those was the level, and that was the fault.
+ */
 export const TREATMENTS = [
   "darken", "brighten",
-  "drench", "dry",
+  // "drench" and "dry" WERE HERE and are deleted, not disabled — see the note
+  // below. A flag that turns a rule off is two behaviours to reason about for
+  // ever, and this repo deletes the field and keeps the note.
   "push", "ease",
   "widen", "close",
   "far", "sweep",
