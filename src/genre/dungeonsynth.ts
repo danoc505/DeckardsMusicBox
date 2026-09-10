@@ -177,15 +177,56 @@ export const dungeonsynth: GenreSpec = {
     every: [[1, 4], [0.5, 2]],
   },
 
-  // a pedal under the chords: the root, and the fifth
+  /**
+   * A PEDAL THAT IS STILL A LINE, WHICH IS NOT WHAT THIS WAS.
+   *
+   * `pocket` was `[0]` at 3 against `[0, 2]` at 1, and `drawBass` only reads
+   * `tones` for a strike that is NOT on the downbeat — so three materials in
+   * four were one root note a bar and the whole `tones` pool was config
+   * nothing read. Measured over twelve records: 1.17 bass notes per bar it
+   * plays, 3.75 distinct pitches in a whole record. That is a second drone,
+   * not a bass, and it is what the owner's ear caught.
+   *
+   * A LOW LAYER AT ONE NOTE A BAR DOES EXIST IN THESE RECORDS — it is the
+   * held one. Dauði Baldrs's second organ holds E3 for a bar twenty-eight
+   * times, and this program already has a seat for that: the drone. The
+   * corpus's OTHER low lines move — its riff track's median note is 1.0 beat
+   * against this program's 2.9 (`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §4,
+   * and `tools/corpus.ts` over twenty of our own records). So the pedal stays
+   * available, at two turns in seven rather than three in four.
+   *
+   * NO THIRD, DELIBERATELY. `BASS_TONES` offers one and this genre does not
+   * take it: a third of these chords are voiced as bare fifths precisely
+   * because a fifth "is neither major nor minor... the room it leaves is
+   * where a melody puts the mode back" (`spec.ts`, `harmony.fifths`). A bass
+   * third under a bare fifth fills the room the bare fifth was for.
+   *
+   * The weights are [chosen]; the shape of the change is not — `approach` and
+   * `turnaround` are the two things this program already had for a line that
+   * idles, and the turnaround carries its own source in `spec.ts`.
+   */
   bass: {
     register: [31, 45],
-    pocket: [[[0], 3], [[0, 2], 1]],
+    pocket: [
+      [[0], 2],
+      [[0, 2], 3],
+      [[0, 1.5, 2], 1],
+      [[0, 2, 3], 1],
+    ],
     tones: [
-      ["root", 6],
-      ["fifth", 2],
+      ["root", 5],
+      ["fifth", 3],
+      ["approach", 2],
       ["octave", 1],
     ],
+    /**
+     * "Repetition without escalation doesn't establish a thought, it idles on
+     * one" (Future Music, quoted in `spec.ts` `bass.turnaround`). lofi states
+     * 1 for the reason given there — a turnaround that sometimes does not
+     * come is not a turnaround — and this genre, whose loops run longer than
+     * any other's, has more to gain from the seam being marked, not less.
+     */
+    turnaround: 1,
   },
 
   keys: {
@@ -801,6 +842,24 @@ export const dungeonsynth: GenreSpec = {
     "harmony.diminished": "\"fairly standard chord progressions\" in \"a handful of common modes\" (note.com/soundwitches): the mode's diminished triad is not one",
     "harmony.progressions":
       "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; the rest [chosen]",
+    "bass.pocket":
+      "[chosen]. The old pool made the bass one root a bar in three materials of four, measured at 1.17 notes " +
+      "per playing bar and 3.75 distinct pitches a record — a second drone. The one-note-a-bar low layer these " +
+      "records do have is the HELD one (Dauði Baldrs's second organ, one note a bar, twenty-eight times, " +
+      "DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4.6), and this program plays that on the drone seat. The moving " +
+      "lines run at 1.0 beat on the median (ibid. §4, and tools/corpus.ts reads 2.9 off our own twenty). " +
+      "The pedal is kept at two turns in seven so the old record is still reachable",
+    "bass.tones":
+      "\"grounded drones in the bass\" (note.com/soundwitches) is the root and the fifth, which this keeps as five " +
+      "and three. `approach` is added because the program already defines it as one scale step toward the next " +
+      "root — the smallest thing that makes a low line lead somewhere. NO THIRD, though BASS_TONES offers one: " +
+      "a third of these chords drop their own third to be bare fifths (harmony.fifths above), and a bass third " +
+      "under a bare fifth fills exactly the room that voicing is for. Weights [chosen]",
+    "bass.turnaround":
+      "\"repetition without escalation doesn't establish a thought, it idles on one\" (Future Music, quoted in " +
+      "spec.ts bass.turnaround); a turnaround is \"a passage at the end of a section which leads to the next " +
+      "section\" (Wikipedia, \"Turnaround (music)\"). 1 for lofi's stated reason — one that sometimes does not " +
+      "come is not a turnaround — and this genre's loops run longer than any other's here",
     "drums.kick": "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com); \"very subtle percussion\" (note.com/soundwitches)",
     "drums.hat": "beatless: no hat (note.com/soundwitches)",
     "arrangement.drift":
