@@ -242,13 +242,19 @@ export const dungeonsynth: GenreSpec = {
      * drone, which holds the tonic or the fifth for whole bars, as the
      * second organ of Dauði Baldrs holds one E3 for a bar twenty-eight times.
      *
-     * Weighted 3:2 for the pad [chosen]: four of the nine pieces carry the
-     * broken-chord layer prominently, and the keys are this genre's
-     * character in 38% of records, where the job is drawn once and held.
-     * `arrange.test.ts` asserts the pair, and only the pair.
+     * AND THESE ARE A CAPABILITY, NOT A FREQUENCY. They were 3:2 for a day,
+     * which is a dial with a measurement painted on it: nothing in those
+     * records says 60/40, and a genre that states how often something happens
+     * has decided the outcome instead of the conditions for it. Equal here
+     * means "the keys can do either" — `arrange.ts`'s `jobOf` decides which,
+     * per material, from whether anything else in the room is already holding
+     * and whether the room has space for another colour. So the held chord
+     * comes back on its own wherever the material is thick enough to have its
+     * jobs already taken, and the broken chord appears where there is a held
+     * tone and space over it. `arrange.test.ts` asserts the pair, not the rate.
      */
-    element: [["pad", 3], ["rhythm", 2]],
-    texture: [["sustain", 3], ["arp", 2]],
+    element: [["pad", 1], ["rhythm", 1]],
+    texture: [["sustain", 1], ["arp", 1]],
     strike: [[[0], 4], [[0, 2], 1]],
     open: 0.6,
     /** a pad swells rather than strikes: it holds, and it slurs from chord to chord */
@@ -850,8 +856,9 @@ export const dungeonsynth: GenreSpec = {
       "broken-chord accompaniment at one note a beat under a held layer, measured off the Burzum synth pieces — " +
       "Dauði Baldrs's organ 82% leaps at 4 notes a bar, Feðrahellir 86% at 8, Tomhet's string line alternating a fifth " +
       "(docs/genre-research/DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4.5); the rhythm element with the arp texture is what " +
-      "that is here. 3:2 for the pad [chosen]: four of nine pieces carry the layer",
-    "keys.texture": "sustain for the pad, arp for the rhythm: `LEGAL_TEXTURES` admits no other pairing, so the weights meet their own job only",
+      "that is here. NO WEIGHT: the pair is a capability and `arrange.ts` decides which is taken, from what else in the " +
+      "material is already holding and whether the room has space for another job",
+    "keys.texture": "sustain for the pad, arp for the rhythm: `LEGAL_TEXTURES` admits no other pairing, so the element decides the texture",
     "arp.every":
       "median note length on the riff track 1.0 beat over the nine Burzum synth pieces, 3.5-4 notes a bar in Dauði Baldrs, " +
       "8 in Feðrahellir alone (DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4); quarters 2:1 over eighths [chosen inside that]",

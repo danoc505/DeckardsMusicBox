@@ -173,16 +173,61 @@ accompaniment at one note a beat, 75–86% leaps, under a held layer** — and t
 genre file pinned the keys to pad/sustain on the ground that the guide "does
 not mention arpeggios at all", with `arrange.test.ts` asserting it. A prose
 source's silence against a measured presence is the case the README says the
-document settles first. So dungeon synth's keys now draw pad 3 : rhythm 2,
-a rhythm draw is the arp texture (the mechanism lofi's keys already used),
-`arp.every` is stated at the records' quarters, and the test asserts the pair
-and nothing else. Measured over 200 records: **38% of keys materials are the
-broken chord, all served, none gave way**; seed 2's keys read off the file as
-one note a beat at 61% leaps where they were a held four-voice chord; over
-seeds 1–20 who opens, how long alone and when everyone is in are unchanged on
-17 and move a bar on 3, the keys at the end 35% → 25%, the drone at the end
-80% → 85%. The roll of seed 2 before and after is the proof, and it is the
-picture the document's §4.5 describes. The other three are not applied: four
+document settles first.
+
+**AND THE FIX IS A CONSTRAINT, NOT A WEIGHT — THIS IS THE PART TO READ.** The
+first pass wrote `pad 3 : rhythm 2` into the genre, which is a dial with a
+measurement painted on it: nothing in those records says 60/40, and a genre
+that states how often a thing happens has decided the outcome instead of the
+conditions for it. What the records show is a RELATIONSHIP — one voice holds,
+the others move, and which is which depends on how much room there is — and
+**this program already had the sentence for it**, in `arrange.ts`'s own
+ceiling: "several parts serving one element are one thing to an ear." Three
+rules follow from that sentence and none of them was being applied:
+
+- **`jobOf` — a seat takes the job nobody is doing, while the room has space
+  for another job.** Once the room is at its element ceiling, the same
+  sentence says the opposite and a seat with a choice doubles instead. Seats
+  are asked most-constrained-first, so a part that can only be the pad keeps
+  it and a part that can be either goes elsewhere. A genre states a
+  capability; the arrangement states the outcome; neither states a number.
+- **`shedTo` — a section loses a spare voice before it loses a job.** Losing
+  one of two parts on the same job costs the ear nothing it can count; losing
+  the only part doing a job takes a whole element out. They were priced by the
+  same number, a position in a list of names. This is what lets a record keep
+  its tune: the lead element has one carrier by law, so a tune is never spare.
+- **`enter` is derived — a part bringing a job nobody else can bring does not
+  queue behind one bringing a job the record already has.** The sourced law
+  about entry is the PACE, one at a time (Johnston); the ORDER was a list, and
+  a list cannot know what the record already sounds like. Dungeon synth named
+  its lead FIFTH of six, so no record could have a melody in its first two
+  sections — that read like a decision about the music and was the arithmetic
+  of a list.
+
+Measured over twenty seeds a genre: **the tune sounds in 48% → 51% of dungeon
+synth's bars and 58% → 75% of lofi's**, and is in the last section of 20% →
+35% and 35% → 45% of records; the opening is heard alone again 97.5% → 100%
+and 38% → 54%; the keys take the broken chord in **48%** of dungeon synth
+materials and **40%** of lofi's, which are not weights but what the constraint
+came to — and lofi's file was not touched at all. **Two costs, reported as
+costs:** the bass and the drums both serve the foundation, so one of them is
+the spare voice in any busy room, and lofi's bass fell 84% → 66% of bars
+(drums 79% → 68%); and the record's most-present part changes between halves
+in 30% of dungeon synth records against 10%, which is the entry derivation
+rather than the shed rule (with only the first two rules in it was 15%).
+`arrange.test.ts` is 24/24; `all.test.ts` and `material/index.test.ts` are
+29/31, the two failures being the two standing ones below.
+
+**AND `Arrangement.intro` EXISTS NOW**, because two tests were reconstructing
+which way in a record took from who was playing, and that guess stops being
+right the moment a second part may arrive behind the opener. The arrangement
+knows; it says so. The law did not move.
+
+**WHAT DID NOT MOVE:** seed 2's tune still waits until bar 48 of 104. The
+remaining gate is the walk-in PACE — one new part per section — and six seats
+against six sections is a band bigger than the record has room to introduce.
+That is the next line to look at, and it is sourced, so it wants an argument
+rather than a number. The other three findings are not applied: four
 of six kit files have no snare where
 the genre states one always; phrygian is 5 of 9 pieces and 6 of 15 Mortiis
 tracks against a weight of 1 in 8; and Mortiis's records carry a pulse four to

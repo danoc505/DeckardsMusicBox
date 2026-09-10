@@ -431,7 +431,7 @@ program, and the decision is separate from the reading.
 
 | | the program | the files | what would move |
 |---|---|---|---|
-| 1 | `dungeonsynth.ts` pinned the keys to pad/sustain; `LEGAL_TEXTURES` forbids an arpeggiated pad; `arrange.test.ts` asserted no arp in the genre. The comment's ground was that the guide does not mention arpeggios | Dauði Baldrs, Feðrahellir, Tomhet and Rundtgåing all carry broken-chord lines at one note a beat, 75–86% leaps, under a held layer (§4.5) | **APPLIED.** The keys draw pad 3 : rhythm 2, and a rhythm draw is the arp texture — the mechanism lofi's keys already used; `arp.every` is stated at quarters 2 : eighths 1, the records' rate; the test asserts the pair pad/sustain or rhythm/arp and nothing else. **Measured over 200 records: 428 of 1136 keys materials (38%) are the broken chord, and every one of them was served, none gave way.** On seed 2 the keys line reads off its MIDI as one note a beat, 61% leaps, 20% held, F#3–D#4, where before it was a held four-voice chord for the bar (`node tools/measure.ts dungeonsynth 2 --part keys`). What it was NOT aiming at, over seeds 1–20: who opens, how long alone, when everyone is in and the opener's return are unchanged on 17 of 20 and move by one bar on 3; the keys' share of bars 77% → 76%, the keys at the end 35% → 25%, the drone at the end 80% → 85%; everything else identical |
+| 1 | `dungeonsynth.ts` pinned the keys to pad/sustain; `LEGAL_TEXTURES` forbids an arpeggiated pad; `arrange.test.ts` asserted no arp in the genre. The comment's ground was that the guide does not mention arpeggios | Dauði Baldrs, Feðrahellir, Tomhet and Rundtgåing all carry broken-chord lines at one note a beat, 75–86% leaps, under a held layer (§4.5) | **APPLIED, AS A CONSTRAINT — see §7a.** The prohibition is gone and no frequency replaced it. The genre states that its keys CAN hold or spill; `arrange.ts` decides which per material, from whether anything else in the room is already holding and whether the room has space for another job |
 | 2 | `drums.snare: [[[2],2],[[3],1]]` — a snare on three or four, always | four of six kit files have **no snare**; the kit is a kick or a timpani at 3 a bar, and cymbals (§4.3) | an empty snare pattern in the pool, weighted above the others |
 | 3 | `scales: minor 4, dorian 3, phrygian 1` | Burzum phrygian 5 dorian 3 minor 0; Mortiis aeolian 7 phrygian 6; doom phrygian 15 of 30 | phrygian weighted at least with dorian; and the flat second is a note the held layer may sit on, which `drone.tone` (tonic, fifth) cannot do |
 | 4 | `tempo: [60, 80]`, and the intro note calls the music "primarily beatless" | Mortiis 47–108 felt, median 76, pulse strength median 0.47 against this program's 0.06 (§5.2) | the range is roughly right; the pulse is not. Whatever keeps time in these records is louder and steadier than this program's timpani |
@@ -439,6 +439,85 @@ program, and the decision is separate from the reading.
 | 6 | the arc: floor → ceiling → floor, every record | Mortiis's loudness is a terrace with its lowest plateau mid-record (§5.6) | `HANDOFF.md` item 16's "the archetype is unstateable" has a first data point against the romance |
 | 7 | `form.lengths` 8/16/32; `introSec` 64 | Mortiis sections 35–80 s ≈ 16 bars at 76; doom sections 16 bars median (§5.5, §2.7) | nothing — the program's 16 is the records' 16 |
 | 8 | there is no doom genre | a doom record is a band playing 2–4-bar power-chord riffs at ~1.8 root changes a bar, 3 of 4 parts sounding in every bar, the kit in 90%+ of bars from bar 4–10, on a tonic that is the open string, a fifth to an octave below this program's lowest note, at a crawl of 48–70 or a drive of 120–140 (§2) | a genre file's worth of numbers, every one sourced to a file rather than a guide; and a design question first, since the arrangement stage is additive and a doom record is not |
+
+---
+
+## 7a. What was applied, and why it is not a copy of these records
+
+A measurement of somebody else's record is evidence about music. It is not a
+setting. The first pass at row 1 got that wrong: it read "four of nine pieces
+carry a broken-chord layer" and wrote `pad 3 : rhythm 2` into the genre, which
+is a dial with a measurement painted on it. Nothing in those files says 60/40,
+and a genre that states how often a thing happens has decided the outcome
+instead of the conditions for it. Every record then rolls the same dice.
+
+What the records actually show is a RELATIONSHIP: one voice holds and the
+others move, and which is which depends on how much room there is. Dauði
+Baldrs is eight monophonic voices with 3.1 sounding at a time, one holding;
+Illa tiðandi is a moving left hand under a held choir; Feðrahellir is nine
+voices at once and the moving figure is doubled rather than answered. That is
+a rule about the room, and this program already had the sentence for it, in
+`arrange.ts`'s own ceiling: **"several parts serving one element are one thing
+to an ear."** Three things follow from that sentence and none of them was
+being applied:
+
+**A seat takes the job nobody is doing, while there is room for another job.**
+If two parts on one element are one thing to an ear, a second seat on a
+covered job is a seat spent on nothing, and a seat holding an alternative
+should spend it where it counts. Once the room is at its element ceiling the
+same sentence says the opposite — another distinct job would break the
+ceiling — so a seat with a choice doubles instead. Seats are asked in
+most-constrained-first order, so a part that can only ever be the pad keeps
+the pad and a part that can be either goes elsewhere. The genre states a
+capability; the arrangement states the outcome; neither states a number.
+
+**A section loses a spare voice before it loses a job.** Read the other way
+round, the same sentence prices every drop. Losing one of two parts doing the
+same job costs the ear nothing it can count. Losing the only part doing a job
+takes a whole element out of the record. Those are not the same size of loss
+and they were ranked by the same number: a position in a list of names.
+
+**A part that brings a job nobody else can bring does not queue behind one
+that brings a job the record already has.** The sourced law about entry is the
+PACE — one at a time, each establishing itself before the next (Johnston).
+The ORDER was a stated list, and a list cannot know what the record already
+sounds like.
+
+Measured over twenty seeds a genre, against the commit before:
+
+| | dungeon synth | lofi |
+|---|---|---|
+| the tune sounds in | 48% → **51%** of bars | 58% → **75%** |
+| the tune is in the last section of | 20% → **35%** of records | 35% → **45%** |
+| the opening is heard alone again | 97.5% → **100%** | 38% → **54%** |
+| the keys take the broken chord | — → **48%** of materials | 29% → **40%** |
+| the bass sounds in | 53% → 52% | 84% → **66%** |
+| the drums sound in | 49% → **42%** | 79% → **68%** |
+| the most-present part changes between halves | 10% → **30%** of records | 35% → **45%** |
+
+The keys figures are the point: 48% and 40% are not weights, they are what the
+constraint came to. Neither genre states them and neither genre can. lofi's
+keys moved without lofi's file being touched at all.
+
+**Two of those numbers are costs and are reported as costs.** The bass and the
+drums both serve the foundation, so under the first rule one of them is the
+spare voice in any room that has other jobs going — lofi's bass sounds in 66%
+of bars where it sounded in 84%. Whether a lofi record wants its bass in five
+bars of six or four is a question for an ear, and Owsinski's vocabulary is too
+coarse to settle it: "the foundation is usually the bass and drums" makes them
+one element, and this program now believes that all the way down. And the
+record's centre of gravity moves more often than it did. Both are the entry
+derivation rather than the shed rule: with only the first two constraints in,
+dungeon synth's figure was 15% rather than 30%.
+
+**What did NOT move.** Seed 2's tune still does not arrive until bar 48 of
+104. The tune is fourth in that record's derived order now instead of fifth,
+and a part cannot be heard until everything before it has arrived — one new
+part per section, which is the sourced pace. Six seats and six sections is a
+band bigger than the record has room to introduce, and that is the next line
+to look at, not another weight.
+
+---
 
 On the last row: the arrangement's laws — the two-loop rule, the walk-in, the
 shed order, the floor — are pop and dungeon synth laws, and a doom record as

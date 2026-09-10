@@ -294,8 +294,15 @@ test("the outro lets the last-entered part go, once it has been a fixture", () =
 test("a bridge thins, a quiet section thins, the peak never does", () => {
   for (const a of sweep(120)) {
     for (const p of a.placed) {
-      const rhythmIntro = p.section.fn === "intro" && p.heard.has("drums")
-        && [...p.heard].every((r) => r === "drums" || r === "bass");
+      // THE RECORD SAYS WHICH WAY IN IT TOOK, and this used to guess it from
+      // the roster — "the drums, or the drums and the bass, and nothing
+      // else". That proxy was only ever right while the part arriving behind
+      // the opener could not be anything but the bass. The entry order is
+      // derived now, so a rhythm intro can be joined by whoever brings the
+      // record a job it has not got, and the guess called those sections
+      // ordinary and demanded a thinned kit of them. The law never moved:
+      // an intro whose whole subject is the drums keeps its hat.
+      const rhythmIntro = p.section.fn === "intro" && a.intro === "rhythm";
       // AND ONLY WHERE THERE IS A KIT TO THIN. This file's header says a
       // bridge "thins the drums: a breath, not a stop", and a section with no
       // drums in it has no hat to take off. This test asserted `thin` on a

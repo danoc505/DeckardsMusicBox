@@ -318,7 +318,20 @@ export interface Arrangement {
    * orders below are derived from it. See `THE-ARRANGEMENT-AS-STORY.md` §9.
    */
   readonly protagonist: Role;
-  /** The order parts arrive in, IN THIS RECORD: the genre's, character first. */
+  /**
+   * WHICH OF THE THREE WAYS IN THIS RECORD TOOK. Drawn once, and until now it
+   * was a local: every reader that wanted it — the two tests that check what
+   * an intro is, and anything asking why a section kept its hat — had to
+   * reconstruct it from who was playing, which is a guess and stops being
+   * right the moment a second part is allowed in behind the first. The
+   * arrangement knows; it should say so. See INTRO_KINDS in the spec.
+   */
+  readonly intro: IntroKind;
+  /**
+   * The order parts arrive in, IN THIS RECORD. Derived: the genre's own order
+   * with the character first, and with a part that brings a job no other part
+   * can bring not left queueing behind one that brings a job already heard.
+   */
   readonly enter: readonly Role[];
   /** The order parts leave in, IN THIS RECORD: the genre's, character last. */
   readonly shed: readonly Role[];
@@ -584,7 +597,62 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
    * first — which is what every genre's `enter` was written assuming — comes
    * out byte-identical.
    */
-  const enter: readonly Role[] = [star, ...A.enter.filter((r) => r !== star)];
+  /**
+   * AND WHAT ARRIVES NEXT BRINGS SOMETHING THE ROOM HAS NOT GOT.
+   *
+   * The sourced law here is the PACE — one at a time, each establishing itself
+   * before the next. The ORDER was a list of names, and a list has no idea
+   * what the record already sounds like. That cost this program its tune:
+   * dungeon synth names its lead fifth of six, and a part cannot be heard
+   * until everything before it has arrived, so no record could have a melody
+   * in its first two sections. Measured, the tune sounded in 48% of bars and
+   * went missing for up to 26 at a stretch, in a genre whose own sources put a
+   * flute over a drone. It read like a decision about that music. It was the
+   * arithmetic of a list.
+   *
+   * The rule that replaces it is the ceiling's, again: two parts on one job
+   * are one thing to an ear, so a part arriving onto a job the record already
+   * has adds nothing an ear can count, and it has no claim to go first. So a
+   * part that brings a job NOBODY ELSE IN THE BAND CAN BRING does not wait
+   * behind one that brings a job the record already has. Sole carrier, and
+   * only past a part bringing nothing new: a genre's stated order still
+   * decides everything else, and a record whose order already reads that way
+   * comes out unchanged.
+   *
+   * It is a permission and not an instruction. Nothing here says the tune is
+   * early — it says the tune does not queue behind a second bass.
+   */
+  const canServe = (r: Role): readonly Element[] => {
+    if (r === "drums") return ["foundation"];
+    if (r === "lead") return ["lead"];
+    const seat = chart.genre[r as (typeof PITCHED_ROLES)[number]];
+    const own = [...new Set(seat.element.filter(([e]) => e !== "lead").map(([e]) => e))];
+    return own.length > 0 ? own : ["pad"];
+  };
+  /** An element only one seat in this band could ever serve. */
+  const onlyFrom = (e: Element): boolean => ROLES.filter((r) => canServe(r).includes(e)).length === 1;
+  const enter: readonly Role[] = (() => {
+    const left = [star, ...A.enter.filter((r) => r !== star)];
+    const out: Role[] = [];
+    const covered = new Set<Element>();
+    while (left.length > 0) {
+      const brings = (r: Role): Element[] => canServe(r).filter((e) => !covered.has(e));
+      // the genre's own next, unless it brings nothing the record has not got
+      let at = 0;
+      if (brings(left[0]!).length === 0) {
+        const sole = left.findIndex((r) => brings(r).some(onlyFrom));
+        if (sole > 0) at = sole;
+      }
+      const took = left.splice(at, 1)[0]!;
+      out.push(took);
+      // it brings ONE job, not every job it is capable of: a seat that can
+      // hold or spill covers whichever of those the room still wanted, and
+      // the other stays open for whoever comes next
+      const got = brings(took);
+      if (got.length > 0) covered.add(got.find(onlyFrom) ?? got[0]!);
+    }
+    return out;
+  })();
   /**
    * AND IT IS THE LAST THING THE RECORD GIVES UP, so it is last in the
    * record's own shed order.
@@ -782,8 +850,33 @@ const kindOf = (mv: Move): string =>
    */
   const elementsOf = new Map<string, Record<Role, Element>>();
   const texturesOf = new Map<string, Record<Role, Texture>>();
-  /** One seat's job and its layout, drawn from that seat's own weights. */
-  const jobOf = (r: Role, draw: Rng): { element: Element; texture: Texture } => {
+  /**
+   * ONE SEAT'S JOB, ANSWERED TO THE ROOM RATHER THAN DRAWN FROM A DIAL.
+   *
+   * A genre's `element` pool is what a seat CAN do. Which of them it does here
+   * is not a frequency the genre states — it is what this material still
+   * lacks. The law is already in this file, at `MOST_ELEMENTS`: "several parts
+   * serving one element are one thing to an ear". If that is true then a
+   * second seat on a job somebody is already doing is a seat spent on nothing,
+   * and a seat holding an alternative should spend it on the job nobody has —
+   * WHILE THERE IS ROOM FOR ANOTHER JOB. Once the room is full, the opposite
+   * follows from the same sentence: another distinct element would break the
+   * ceiling, so a seat with a choice doubles instead, and two voices on one
+   * job is what a thick arrangement sounds like.
+   *
+   * So a genre states a capability and the arrangement states the outcome, and
+   * neither states a number. Dungeon synth's keys can hold the chord or take
+   * it one note at a time; which happens is decided by whether anything else
+   * in this material is already holding, and by whether the room has space for
+   * a second colour. Measured off that genre's own records
+   * (`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §4), the sparse pieces are a held
+   * tone with a moving line over it and the dense ones are voices doubling —
+   * which is this rule, and was a weight of 3:2 before it.
+   *
+   * The weight is not gone, it is demoted: it breaks ties among the jobs the
+   * room actually allows, and speaks not at all where the room leaves one.
+   */
+  const jobOf = (r: Role, draw: Rng, taken: ReadonlySet<Element>, room: number): { element: Element; texture: Texture } => {
     if (r === "drums") return { element: "foundation", texture: "line" };
     const seat = chart.genre[r as (typeof PITCHED_ROLES)[number]];
     let element: Element;
@@ -791,7 +884,15 @@ const kindOf = (mv: Move): string =>
       element = "lead";
     } else {
       const pool = seat.element.filter(([e]) => e !== "lead");
-      element = pool.length > 0 ? draw.weighted(`${r}:element`, pool) : "pad";
+      const fresh = pool.filter(([e]) => !taken.has(e));
+      const again = pool.filter(([e]) => taken.has(e));
+      // room for another job: take one nobody has. Room full: double onto one
+      // that is already here. Either way, fall back to the whole pool rather
+      // than to nothing — a seat always has a job.
+      const use = taken.size < room
+        ? (fresh.length > 0 ? fresh : pool)
+        : (again.length > 0 ? again : pool);
+      element = use.length > 0 ? draw.weighted(`${r}:element`, use) : "pad";
     }
     // THE TEXTURE IS DRAWN FROM WHAT THE JOB ALLOWS. A pad may not be
     // arpeggiated — see `LEGAL_TEXTURES` — so the seat's pool is filtered
@@ -817,16 +918,47 @@ const kindOf = (mv: Move): string =>
    * own address, so the other seats' draws do not move.
    * `THE-ARRANGEMENT-AS-STORY.md` §13 rule 2.
    */
-  const starJob = jobOf(star, chart.rng.at("element", "character"));
-  const assign = (key: string): void => {
+  // THE CHARACTER ANSWERS TO NOBODY: it is the fixed point the others are
+  // written around, so it draws against an empty room with every job free.
+  const starJob = jobOf(star, chart.rng.at("element", "character"), new Set(), MOST_ELEMENTS);
+  /** How many DISTINCT jobs a seat could serve: 1 is a seat with no choice. */
+  const options = (r: Role): number => {
+    if (r === "drums" || r === "lead") return 1;
+    const seat = chart.genre[r as (typeof PITCHED_ROLES)[number]];
+    return Math.max(1, new Set(seat.element.filter(([e]) => e !== "lead").map(([e]) => e)).size);
+  };
+  /**
+   * THE SEAT WITH NO CHOICE GOES FIRST, and that is not an arbitrary order.
+   *
+   * If a seat can only ever be the pad, the pad is its to take and nobody
+   * else's to spend. A seat that can be the pad OR the rhythm arrives to find
+   * the pad covered and puts its alternative where it is worth something. Ask
+   * them in the other order and the flexible seat takes the job the rigid one
+   * was going to have to take anyway, and the rigid one doubles it — a seat
+   * spent on nothing, by an accident of iteration order. Most constrained
+   * first is the standard way out of that, and here it is also the musical
+   * one: the drone can only drone, so it drones, and the keys go elsewhere.
+   *
+   * `cast` is who this material is likely to be heard with and `room` is how
+   * many jobs that leaves space for. Both are estimates made BEFORE any
+   * roster is chosen, and they have to be: the same material is the same
+   * assignment wherever it is heard (`arrange.test.ts` holds that), so the
+   * assignment cannot depend on a roster that differs section to section. It
+   * depends on the section the material was written for, which is stable.
+   */
+  const assign = (key: string, cast: ReadonlySet<Role>, room: number): void => {
     if (elementsOf.has(key)) return;
     const el = {} as Record<Role, Element>;
     const tx = {} as Record<Role, Texture>;
     const draw = chart.rng.at("element", key);
-    for (const r of ROLES) {
-      const job = r === star ? starJob : jobOf(r, draw);
+    const rest = ROLES.filter((r) => r !== star).sort((a, b) => options(a) - options(b));
+    const taken = new Set<Element>();
+    for (const r of [star, ...rest]) {
+      const job = r === star ? starJob : jobOf(r, draw, taken, room);
       el[r] = job.element;
       tx[r] = job.texture;
+      // only what is going to SOUND fills the room up
+      if (cast.has(r)) taken.add(job.element);
     }
     elementsOf.set(key, el);
     texturesOf.set(key, tx);
@@ -866,7 +998,6 @@ const kindOf = (mv: Move): string =>
     }
     /** This section's material, and the jobs its seats draw for it. */
     const key = materialKey(section.idea, variant);
-    assign(key);
     /** The ceiling this section is held to, in elements. */
     const cap = section.peak ? MOST_ELEMENTS_AT_PEAK : MOST_ELEMENTS;
 
@@ -890,6 +1021,22 @@ const kindOf = (mv: Move): string =>
      * on less than a middle section, never on more.
      */
     const floor = closing ? Math.min(A.fewest, Math.max(1, openers.size)) : A.fewest;
+    /** How many parts this section wants sounding, before any roster is chosen. */
+    const wanted = section.peak
+      ? ROLES.length
+      : Math.round(floor + (ROLES.length - floor) * section.energy);
+    /**
+     * AND THE MATERIAL IS WRITTEN INTO A ROOM. Its seats draw their jobs
+     * against the cast this section wants and the number of distinct jobs
+     * that leaves space for — see `assign`. A thin section has room for a
+     * held tone and a line moving over it; a full one has its jobs taken
+     * already and the spare seats double. Neither is a number anybody stated.
+     */
+    assign(
+      key,
+      new Set(enter.slice(0, Math.max(1, Math.min(ROLES.length, wanted)))),
+      Math.min(cap, Math.max(1, wanted)),
+    );
 
     let heard: Set<Role>;
     /**
@@ -971,9 +1118,6 @@ const kindOf = (mv: Move): string =>
       // the floor instead of a stated one. A genre that opens on one part can
       // end on that one part; a genre that opens on three ends on three. No
       // genre states a number for this and none should have to.
-      const wanted = section.peak
-        ? ROLES.length
-        : Math.round(floor + (ROLES.length - floor) * section.energy);
       const playing = Math.min(arrived, Math.max(floor, Math.min(ROLES.length, wanted)));
       // WHO GOES IS WHAT THE RECORD CAN SPARE, and that is a fact about this
       // record rather than a list written before it existed.
@@ -1129,8 +1273,43 @@ const kindOf = (mv: Move): string =>
          * at all while anything else is still there.
          */
         const foundation = shed[shed.length - 1];
-        for (const r of heard) {
-          if (r === foundation && heard.size > 1) continue;
+        /**
+         * AND WHAT A SECTION LOSES IS A SPARE VOICE BEFORE IT IS A JOB.
+         *
+         * This file's own ceiling says it, and said it the whole time:
+         * "several parts serving one element are ONE THING to an ear". Read
+         * the other way round, that sentence prices every drop in the room.
+         * Losing one of two parts doing the same job costs the ear nothing it
+         * can count — the job is still there. Losing the only part doing a job
+         * takes a whole element out of the record. They are not the same size
+         * of loss, and until now they were ranked by the same number: a
+         * position in a list of names written before the record existed.
+         *
+         * So the candidates are the doubled parts while there are any, and
+         * everything only when there are none. The score below is untouched
+         * and still chooses freely inside whichever set it is handed.
+         *
+         * THIS IS WHAT LETS A RECORD KEEP ITS TUNE. The lead element has one
+         * carrier by law — "a record with two tunes has no tune" — so a tune
+         * is never spare, and a section thinning past a spare voice has to
+         * take the whole element to get it. That is a permission, not an
+         * instruction: where nothing doubles, the tune is a candidate like
+         * anything else and the score may still spend it. Measured before
+         * this, dungeon synth's lead sounded in 48% of bars and was gone for
+         * up to 26 at a stretch, which is not a genre whose sources put a
+         * melody over a drone. The old answer was to name the lead late in
+         * `shed`, which is the same list doing the same thing from the other
+         * end.
+         */
+        const job = elementsOf.get(key)!;
+        const carrying = new Map<Element, number>();
+        for (const r of heard) carrying.set(job[r], (carrying.get(job[r]) ?? 0) + 1);
+        // the foundation's refusal is applied FIRST, so that a roster whose
+        // only spare voice is the foundation falls back to everything else
+        // rather than to nothing — the loop must always find somebody to drop
+        const may = [...heard].filter((r) => !(r === foundation && heard.size > 1));
+        const doubled = may.filter((r) => (carrying.get(job[r]) ?? 0) > 1);
+        for (const r of doubled.length > 0 ? doubled : may) {
           // how much of the record so far this part has been in: all of it is
           // furniture, little of it is still being established
           const share = (sectionsHeard.get(r) ?? 0) / Math.max(1, section.index);
@@ -2199,6 +2378,7 @@ const kindOf = (mv: Move): string =>
   return Object.freeze({
     placed: Object.freeze(placed),
     protagonist: star,
+    intro: kind,
     enter: Object.freeze([...enter]),
     shed: Object.freeze([...shed]),
     release: Object.freeze(ledger.release.map((r) => Object.freeze(r))),
