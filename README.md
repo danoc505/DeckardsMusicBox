@@ -17,6 +17,7 @@ time, anywhere: as notes, as a text dump, as a WAV, in the page.
     node tools/measure.ts --sweep lofi 1 20     the same numbers over twenty seeds
     node tools/measure.ts lofi 42 --map         who plays which bar, and how the record opens
     node tools/measure.ts lofi 42 --json        the parsed notes and the numbers, for a drawing
+    node tools/corpus.ts <folder> --table       a folder of OTHER people's records, counted the same way
 
 **The piano roll is the main test.** A record is judged by ear, and no
 assertion is a record: this suite can be entirely green on a program that

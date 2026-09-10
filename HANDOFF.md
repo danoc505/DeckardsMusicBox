@@ -154,8 +154,37 @@ measured. Write the next one that way.
 | `genre-research/EFFECTS-IN-TIME.md` | what a DAW does with a send over a song — the same move at different amounts, the build, the build that is dropped to land something, the effect saved for one place — and why this program can do none of them. The blocker is `specOf`'s signature, not the absoluteness rule |
 | `genre-research/LOFI-LINEAGE.md` | what lofi descends from — the aesthetic, boom bap, jazz rap, trip hop — and the four places the genre file is running on a tutorial rather than on its own ancestry. Nothing applied |
 | `genre-research/THE-STALENESS-CLOCK.md` | when a move must fire, counted per part. **STALE — it describes two designs that were built, measured and taken back out. Read it for the research and the failed attempts, not for what the code does.** |
+| `genre-research/DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` | the first document here measured off RECORDS rather than prose: 30 Sleep and Electric Wizard transcriptions, 9 Burzum synth pieces, 17 Summoning, 8 Burzum metal, and 15 Mortiis tracks off their audio. §7 is the table of what it contradicts in `dungeonsynth.ts` — the arpeggio ban, the snare, phrygian's weight — and nothing is applied |
 
 ## What was just done
+
+**THE GENRES HAVE BEEN READ OFF RECORDS FOR THE FIRST TIME, AND NOT ONE
+NUMBER IS APPLIED.** `docs/genre-research/DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md`
+is the document; `tools/corpus.ts` is the tool, and `tools/smf.ts` is the
+MIDI reader lifted out of `measure.ts` so both can share it (`measure.ts` and
+the roll are byte-identical before and after on dungeonsynth 2, dungeonsynth
+7 and lofi 42). The corpora are not in the repository — they are other
+people's transcriptions of other people's records — and the document says
+where each of the 87 came from and how the Songsterr ones were converted.
+
+Four things in it are findings against lines in `dungeonsynth.ts`, and the
+first is the one to read: **the Burzum synth pieces are full of broken-chord
+accompaniment at one note a beat, 75–86% leaps, under a held layer** — and the
+genre file pins the keys to pad/sustain on the ground that the guide "does not
+mention arpeggios at all", with `arrange.test.ts` asserting it. A prose
+source's silence against a measured presence is the case the README says the
+document settles first. The others: four of six kit files have no snare where
+the genre states one always; phrygian is 5 of 9 pieces and 6 of 15 Mortiis
+tracks against a weight of 1 in 8; and Mortiis's records carry a pulse four to
+ten times stronger than this program's seed 2 (0.47 against 0.06 on the same
+measure), so "primarily beatless" is not what the founding records are.
+
+The doom side is groundwork for a genre that does not exist here: a band
+playing 2–4-bar power-chord riffs at ~1.8 root changes a bar, three of four
+parts sounding in every bar, the kit in 90%+ of bars from bar 4–10, a fifth to
+an octave below this program's lowest note, at a crawl of 48–70 or a drive of
+120–140. The design question before the numbers is §7's last row: the
+arrangement stage is additive and a doom record is not.
 
 **THE CHARACTER SHEETS ARE BUILT, AS FAR AS THE SOURCES REACH.** Five
 commits after the protagonist field landed, each measured on and off over 200
@@ -924,5 +953,6 @@ built and measured (see "what was just done"). Three are not:
 | how long a part goes unchanged | `node tools/stale.ts --records` |
 | the rule of three per part: due, and answered | `node tools/stale.ts [genre] [first] [last]` |
 | what each treatment is worth | `node tools/treatments.ts [genre] [seed]` |
+| a folder of somebody else's records, counted | `node tools/corpus.ts <folder> [--table] [--one <name>]` |
 | every test, then types | `npm test` · `npm run check` |
 | the single file | `npm run build` |
