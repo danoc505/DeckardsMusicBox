@@ -26,7 +26,7 @@ import type { Role, Treatment } from "../genre/spec.ts";
 import type { Arrangement, Span } from "./arrange.ts";
 import type { Chart } from "./chart.ts";
 import type { Form } from "./form.ts";
-import type { Materials } from "./material/index.ts";
+import type { GrooveRole, Materials } from "./material/index.ts";
 
 export interface Event {
   /** Seconds from the top of the record. May be slightly negative: a pushed downbeat. */
@@ -421,11 +421,15 @@ export function makePerformance(
             place("drums", h.lane, at, 1, null, h.vel, h.art);
           }
         } else {
-          // the two written lines are addressed by TIME ROUND; the groove is
-          // written once and looped, which is the thing a groove is allowed to be
+          // EVERY PITCHED LINE IS ADDRESSED BY TIME ROUND NOW, the ground
+          // included. This used to read "the groove is written once and
+          // looped, which is the thing a groove is allowed to be" — and that
+          // sentence, which had no source, was the reason a bass could state
+          // the same four bars five times while the rule of three said it may
+          // not. The ground still loops; it is no longer unable to stop.
           const notes = role === "lead" ? nth(m.lead, "lead", round)
             : role === "counter" ? nth(m.counter, "counter", round)
-            : m.groove[role];
+            : nth(m.groove[role as GrooveRole], role, round);
           for (const n of notes) {
             if (n.bar !== mbar) continue;
             place(role, role, n.step, n.dur, n.pitch, n.vel, n.art);

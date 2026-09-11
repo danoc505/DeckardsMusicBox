@@ -89,8 +89,8 @@ test("a varied statement is its statement changed, not a new one", () => {
       assert.deepEqual(v.chords.map((c) => c.name), plain.chords.map((c) => c.name), "a variant changed the changes");
       // it IS the same idea: the same changes, the same ground under them, the
       // same beat's skeleton, and the same grammar in its tune
-      assert.equal(JSON.stringify(v.groove.bass), JSON.stringify(plain.groove.bass), `${k} redrew the bass instead of inheriting it`);
-      assert.equal(JSON.stringify(v.groove.drone), JSON.stringify(plain.groove.drone), `${k} redrew the drone instead of inheriting it`);
+      assert.equal(JSON.stringify(v.groove.bass[0]), JSON.stringify(plain.groove.bass[0]), `${k} redrew the bass instead of inheriting it`);
+      assert.equal(JSON.stringify(v.groove.drone[0]), JSON.stringify(plain.groove.drone[0]), `${k} redrew the drone instead of inheriting it`);
       assert.deepEqual(v.figure, plain.figure, `${k} redrew the beat's skeleton, leaving the bass on a kick that is not there`);
       assert.equal(v.contour, plain.contour, `${k} plays its statement's tune but calls it something else`);
       // and it is CHANGED: the beat, the tune, or both
@@ -133,11 +133,24 @@ test("every chord is built from the record's scale", () => {
   }
 });
 
+/**
+ * EVERY ROUND OF A GROUND PART, flattened for the laws that must hold of each
+ * line the record actually plays. The ground is one line per time round now —
+ * it alters itself on its third statement — so a law that read `groove.bass`
+ * as a single line was reading an array of lines and finding nothing in it.
+ * Checking every round is stricter than the old single check, not looser.
+ */
+const everyLine = (m: { groove: Record<string, readonly (readonly Note[])[]> }, part: string): readonly Note[] =>
+  (m.groove[part] ?? []).flat();
+/** Just the plain statement, for laws about what a figure IS rather than what it became. */
+const firstLine = (m: { groove: Record<string, readonly (readonly Note[])[]> }, part: string): readonly Note[] =>
+  (m.groove[part] ?? [])[0] ?? [];
+
 test("bass plays the root on every downbeat", () => {
   for (const m of sweep(60)) {
     for (const mat of m.all.values()) {
       for (const ch of mat.chords) {
-        const down = mat.groove.bass.find((n) => n.bar === ch.bar && n.step === 0);
+        const down = firstLine(mat, "bass").find((n) => n.bar === ch.bar && n.step === 0);
         assert.ok(down, `${mat.key} bar ${ch.bar} has no bass on the downbeat`);
         assert.equal(pc(down.pitch), pc(ch.root), `${mat.key} bar ${ch.bar} downbeat is not the root`);
       }
@@ -153,7 +166,11 @@ test("the bass is a line, not a pedal", () => {
   let same = 0;
   for (const m of sweep(80)) {
     for (const mat of m.all.values()) {
-      const ns = mat.groove.bass.slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
+      // THE FIGURE, not every round of it. Flattened, the wrap from the last
+      // bar of one round to the first of the next counts as a repeat, and a
+      // loop that loops is what a groove IS — the question this asks is
+      // whether the FIGURE moves.
+      const ns = firstLine(mat, "bass").slice().sort((a, b) => a.bar - b.bar || a.step - b.step);
       for (let i = 1; i < ns.length; i++) {
         const d = Math.abs(ns[i]!.pitch - ns[i - 1]!.pitch);
         if (d === 0) same++;
@@ -172,7 +189,7 @@ test("bass notes fill the pocket and never overlap", () => {
   for (const m of sweep(40)) {
     for (const mat of m.all.values()) {
       for (let bar = 0; bar < mat.bars; bar++) {
-        const ns = mat.groove.bass.filter((n) => n.bar === bar).sort((a, b) => a.step - b.step);
+        const ns = firstLine(mat, "bass").filter((n) => n.bar === bar).sort((a, b) => a.step - b.step);
         let end = 0;
         for (const n of ns) {
           assert.ok(n.step >= end, `${mat.key} bass overlaps at ${bar}:${n.step}`);
@@ -200,7 +217,7 @@ test("bass notes fill the pocket and never overlap", () => {
  * which is what the two laws below are about.
  */
 const withoutTurnaround = (chart: Chart, mat: Material): Note[] => {
-  const bass = mat.groove.bass;
+  const bass = firstLine(mat, "bass");
   if (chart.genre.bass.turnaround <= 0) return [...bass];
   const steps = stepsPerBar(chart.metre);
   const seam = steps - Math.max(1, Math.floor(chart.metre.perBeat / 2));
@@ -267,7 +284,7 @@ test("keys voice every tone of the chord, in register, led smoothly", () => {
          * neither struck nor still ringing.
          */
         const at = ch.bar * STEPS;
-        const struck = mat.groove.keys.filter(
+        const struck = firstLine(mat, "keys").filter(
           (n) => n.bar * STEPS + n.step <= at && n.bar * STEPS + n.step + n.dur > at,
         );
         // AT LEAST every tone, because a voicing may DOUBLE — the same tone in
@@ -304,7 +321,7 @@ test("keys voicings avoid mud below the low-interval floor", () => {
   for (const mat of m.all.values()) {
     for (const ch of mat.chords) {
       chords++;
-      const v = mat.groove.keys.filter((n) => n.bar === ch.bar && n.step === 0).map((n) => n.pitch).sort((a, b) => a - b);
+      const v = firstLine(mat, "keys").filter((n) => n.bar === ch.bar && n.step === 0).map((n) => n.pitch).sort((a, b) => a - b);
       for (let i = 1; i < v.length; i++) if (v[i - 1]! < 48 && v[i]! - v[i - 1]! < 4) muddy++;
     }
   }
@@ -316,7 +333,7 @@ test("every note is in the scale and in its register", () => {
     const chart = makeChart({ seed, genre: lofi, seconds: 240 });
     const m = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
     for (const mat of m.all.values()) {
-      for (const n of [...mat.groove.bass, ...mat.groove.keys]) {
+      for (const n of [...everyLine(mat, "bass"), ...everyLine(mat, "keys")]) {
         assert.ok(inScale(chart.tonic, chart.scale, n.pitch));
       }
     }
@@ -347,6 +364,7 @@ test("materials are frozen", () => {
   for (const mat of m.all.values()) {
     assert.ok(Object.isFrozen(mat));
     assert.ok(Object.isFrozen(mat.groove.bass));
+    assert.ok(Object.isFrozen(mat.groove.bass[0]));
     assert.ok(Object.isFrozen(mat.chords));
   }
 });
@@ -394,8 +412,8 @@ test("the drone holds the key, not the chord", () => {
       const chart = makeChart({ seed, genre: g, seconds: 200 });
       const mats = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
       for (const m of mats.all.values()) {
-        assert.ok(m.groove.drone.length >= 1, `${name} ${m.key}: no drone`);
-        for (const n of m.groove.drone) {
+        assert.ok(firstLine(m, "drone").length >= 1, `${name} ${m.key}: no drone`);
+        for (const n of everyLine(m, "drone")) {
           // a tonic or a fifth of the KEY, in register, whatever the chord is
           const degree = pc(n.pitch - chart.tonic);
           assert.ok(degree === 0 || degree === 7, `${name} ${m.key}: the drone sits on ${noteName(n.pitch)}, ${degree} above the tonic`);
@@ -406,7 +424,7 @@ test("the drone holds the key, not the chord", () => {
           held++;
         }
         // one tone per hold, evenly spaced, covering the material
-        const starts = m.groove.drone.map((n) => n.bar);
+        const starts = firstLine(m, "drone").map((n) => n.bar);
         assert.deepEqual(starts, [...starts].sort((a, b) => a - b));
         assert.equal(starts[0], 0, `${name} ${m.key}: the drone does not start the material`);
       }
@@ -449,7 +467,7 @@ test("the loop is as long as the changes are, and everything pitched repeats on 
       // Adams's loops are "one, two, or four measures", and a two-bar cell
       // with a pickup at the seam of every second turn is his four
       for (const part of ["bass", "keys"] as const) {
-        const line = part === "bass" ? withoutTurnaround(chart, m) : m.groove[part];
+        const line = part === "bass" ? withoutTurnaround(chart, m) : firstLine(m, part);
         for (let k = 1; k * m.period < m.bars; k++) {
           assert.equal(turn(line, k), turn(line, 0), `${m.key}: the ${part} does not repeat on the loop`);
         }

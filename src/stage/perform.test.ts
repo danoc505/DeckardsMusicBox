@@ -64,9 +64,12 @@ test("every heard note of every section is played, and nothing else", () => {
               && !(span.thin && (h.lane === "hat" || h.lane === "openhat"))
               && !(span.halved && h.step * 2 >= s.form.clock.steps)).length;
           } else {
+            // the ground is addressed by time round now, like the two written
+            // lines beside it — it alters itself on its third statement
+            const ground = m.groove[role as "bass" | "keys" | "drone"];
             const notes = role === "lead" ? m.lead[nth]!
               : role === "counter" ? m.counter[nth] ?? []
-              : m.groove[role];
+              : ground[Math.min(nth, ground.length - 1)] ?? [];
             expected += notes.filter((n) => n.bar === mbar).length;
           }
         }
@@ -421,7 +424,7 @@ test("a third hearing is played differently, one rung and no further", () => {
         for (const r of ["bass", "keys", "drone"] as const) {
           // "a note that does not say is played plain" — and written as
           // `n.art` this skipped every unmarked note, which is most of them
-          for (const n of m.groove[r] ?? []) wrote.set(`${r}:${n.bar}:${n.step}`, n.art ?? "plain");
+          for (const n of (m.groove[r] ?? []).flat()) wrote.set(`${r}:${n.bar}:${n.step}`, n.art ?? "plain");
         }
         for (const e of s.performance.events) {
           if (e.bar < p.section.startBar || e.bar >= p.section.endBar) continue;
@@ -722,9 +725,43 @@ test("a figure played again is played the same way, note for note", () => {
       const line = `${e.role}:${e.lane}:${e.step}:${e.pitch ?? "."}:${e.art}:${e.playedStep.toFixed(6)}`;
       bars.set(e.bar, (bars.get(e.bar) ?? "") + line + "\n");
     }
+    /**
+     * WHICH TIME ROUND EACH PLACEMENT STARTS ON, per material — the same walk
+     * `timesRound` does in the material stage. The ground keeps the rule of
+     * three on its own clock now, so bar N and bar N + one material are only
+     * "the same bar of the same loop" when both rounds hold the same line;
+     * on a third statement the material altered it on purpose.
+     */
+    const startRound = new Map<string, number>();
+    const usedRounds = new Map<string, number>();
+    for (const p of s.arrangement.placed) {
+      const m0 = s.materials.all.get(p.material)!;
+      // PER ROLE, because that is how the material stage counts them: a
+      // placement that does not hear the keys does not advance the keys'
+      // clock. Counted per material, this drifted and called two different
+      // rounds the same one.
+      for (const r of ["bass", "keys", "drone"] as const) {
+        if (!p.heard.has(r)) continue;
+        const k = `${p.material}:${r}`;
+        const before = usedRounds.get(k) ?? 0;
+        startRound.set(`${p.section.startBar}:${k}`, before);
+        usedRounds.set(k, before + Math.ceil(p.section.bars / m0.bars));
+      }
+    }
     for (const p of s.arrangement.placed) {
       const m = s.materials.all.get(p.material)!;
       if (p.section.bars < m.bars * 2) continue;
+      /** The ground line each role holds on the round covering this bar. */
+      const lineAt = (bar: number, r: "bass" | "keys" | "drone"): readonly unknown[] | null => {
+        if (!p.heard.has(r)) return null;
+        const rounds = m.groove[r] ?? [];
+        const base = startRound.get(`${p.section.startBar}:${p.material}:${r}`) ?? 0;
+        const k = base + Math.floor((bar - p.section.startBar) / m.bars);
+        return rounds[Math.min(k, rounds.length - 1)] ?? [];
+      };
+      /** Is this pair of bars the same figure, or did the material alter it between them? */
+      const sameFigure = (a: number, b: number): boolean =>
+        (["bass", "keys", "drone"] as const).every((r) => lineAt(a, r) === lineAt(b, r));
       // the same position in the loop, two turns running: the parts that the
       // material says loop — the groove — must be identical, to the note and
       // to the microsecond. What may differ between rounds is what the
@@ -740,7 +777,24 @@ test("a figure played again is played the same way, note for note", () => {
         (bars.get(bar) ?? "").split("\n")
           .filter((l) => /^(bass|keys|drone):/.test(l) && only.has(l.split(":")[0]!))
           .sort().join("\n");
+      /**
+       * ONLY WHERE THE FIGURE IS ACTUALLY PLAYED AGAIN.
+       *
+       * This law is the HAND's — "a figure played again is played the same
+       * way" — and it compared bar N against bar N + one material, on the
+       * ground that those are the same bar of the same loop. Since the ground
+       * keeps the rule of three on its own clock, that is no longer true of
+       * every pair: on a part's third statement the figure is ALTERED, so the
+       * two bars are not the same figure and comparing them asks the hand to
+       * account for a change the material made.
+       *
+       * So a material that alters itself anywhere is not compared. What is
+       * left is every material whose ground does repeat literally, which is
+       * where the law was always aimed, and the count below still holds it to
+       * a real sample rather than letting it go vacuous.
+       */
       for (let bar = p.section.startBar; bar + m.bars < p.section.endBar; bar++) {
+        if (!sameFigure(bar, bar + m.bars)) continue;
         const both = rolesIn(bar);
         for (const r of [...both]) if (!rolesIn(bar + m.bars).has(r)) both.delete(r);
         const here = groove(bar, both);

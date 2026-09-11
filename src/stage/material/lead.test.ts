@@ -237,7 +237,7 @@ test("nothing the tune targets rubs against what is ringing", () => {
   each(80, (chart, m) => {
     const beat = chart.metre.perBeat;
     const ringing = (bar: number, step: number): number[] =>
-      [...m.groove.keys, ...m.groove.bass]
+      [...m.groove.keys.flat(), ...m.groove.bass.flat()]
         .filter((n) => n.bar === bar && n.step <= step && step < n.step + n.dur)
         .map((n) => n.pitch);
     for (const line of m.lead) {
@@ -258,7 +258,7 @@ test("the tune never lands on a pitch that is already ringing", () => {
   each(60, (_, m) => {
     for (const line of m.lead) {
       for (const n of line) {
-        const ringing = [...m.groove.keys, ...m.groove.bass]
+        const ringing = [...m.groove.keys.flat(), ...m.groove.bass.flat()]
           .filter((o) => o.bar === n.bar && o.step <= n.step && n.step < o.step + o.dur)
           .map((o) => o.pitch);
         assert.ok(!ringing.includes(n.pitch), `${m.key} bar ${n.bar}: the tune doubles a held ${n.pitch}`);
@@ -269,7 +269,7 @@ test("the tune never lands on a pitch that is already ringing", () => {
 
 test("the tune never lands on a seat the keys or bass hold", () => {
   each(60, (_, m) => {
-    const held = new Set([...m.groove.keys, ...m.groove.bass].map((n) => `${n.bar}:${n.step}:${n.pitch}`));
+    const held = new Set([...m.groove.keys.flat(), ...m.groove.bass.flat()].map((n) => `${n.bar}:${n.step}:${n.pitch}`));
     for (const l of m.lead) for (const n of l) assert.ok(!held.has(`${n.bar}:${n.step}:${n.pitch}`));
   });
 });

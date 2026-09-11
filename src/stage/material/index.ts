@@ -45,7 +45,7 @@ import { drawCounter } from "./counter.ts";
 import { drawChords, harmonicPeriod } from "./harmony.ts";
 import { drawKeys } from "./keys.ts";
 import { contourOf, drawLead, ladder, lawsFor } from "./lead.ts";
-import { assertInside, at, GROOVE, Sounding, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
+import { assertInside, at, GROOVE, Sounding, type GrooveRole, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
 import { CHANGES, otherChange, varyLine, type Change } from "./vary.ts";
 import { lanesOf, withEvent, type Where } from "./event.ts";
 
@@ -330,9 +330,145 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       return Object.freeze(line);
     };
 
+    /**
+     * HOW MANY TIMES EACH GROUND PART PLAYS THIS MATERIAL THROUGH. The same
+     * count `lead` and `counter` are built against; the ground had no such
+     * count because it had no per-round existence.
+     */
+    const roundsOf = (r: GrooveRole): number => Math.max(1, times.get(r) ?? 1);
+    /**
+     * TWO THE SAME, THEN ALTERED. The rule of three, on each part's own clock.
+     *
+     * "If I say something to you once then it's an idea that you've heard one
+     * time. If I say it a second time it's reinforcing that idea. But if I say
+     * it a third time ... this is where our brain will actually begin to tune
+     * it out" (transcript `006`, quoted in THE-STALENESS-CLOCK.md §1). The
+     * published rule is the same: whenever a pattern, idea or motif is about
+     * to be heard a third time, change it.
+     *
+     * The record has kept this rule for its IDEAS since `form.ts` was written,
+     * and every PART broke it, because a part had one line and no way to hold
+     * a third statement that differed. Measured before this, over sixty
+     * records: the bass, keys and drone each had about half of every change
+     * they were owed go unpaid, and the worst case was the same four bars five
+     * times over twenty bars.
+     *
+     * AND THE COUNT RESETS, exactly as `form.ts` resets its own: state, state,
+     * alter, and back to the thing the ear knows. Without the reset every
+     * round after the third is altered and the figure itself is heard twice
+     * and never again, which is not a return.
+     *
+     * IT IS AN ALTERATION AND NOT A REWRITE. `varyLine` holds the documented
+     * motivic operations and the seat's own laws judge the result — its band,
+     * and nothing another ground part is holding in that round. A change that
+     * cannot be made lawful leaves the line exactly as it was, which is the
+     * old behaviour and still a correct record.
+     */
+    const STATE_BEFORE_ALTERING = 2;
+    const perRound = (r: GrooveRole, line: readonly Note[], register: Register, held: Sounding): readonly (readonly Note[])[] => {
+      const n = roundsOf(r);
+      const out: (readonly Note[])[] = [];
+      const rungs = ladder(chart, register);
+      const [lo, hi] = register;
+      /**
+       * THE SEAT'S OWN LAWS: its band, and nothing another ground part is
+       * already holding. The second half is not optional — an altered drone
+       * that moves onto the bass's E2 is the collision the checker exists to
+       * catch, and it caught it. The parts are pictured in the order they are
+       * written, so each one is judged against everyone written before it.
+       */
+      const fits = (l: readonly Note[]): boolean =>
+        l.every((note) => {
+          if (note.pitch < lo || note.pitch > hi) return false;
+          for (let i = 0; i < note.dur; i++) {
+            const abs = note.bar * steps + note.step + i;
+            if (held.holds(Math.floor(abs / steps) % bars, abs % steps, note.pitch)) return false;
+          }
+          return true;
+        });
+      let stated = 0;
+      for (let k = 0; k < n; k++) {
+        stated++;
+        if (stated <= STATE_BEFORE_ALTERING || line.length === 0) { out.push(line); continue; }
+        stated = 0;
+        /**
+         * THE DRONE IS NOT TILED, and this is where forgetting that showed.
+         *
+         * Everything else pitched is written for one turn and repeated, so an
+         * alteration is made to the turn and tiled like the line it replaces.
+         * A drone is a held tone whose whole nature is to be LONGER than the
+         * loop under it — tiling its altered turn made three drones where
+         * there was one, and two lofi records duly put one of the copies on
+         * the keys' F3. So the drone is altered whole, over the material's own
+         * length, and laid down as it is.
+         */
+        const loops = r !== "drone";
+        const span = loops ? period : bars;
+        const turn = loops ? line.filter((note) => note.bar < period) : line;
+        /**
+         * A HELD TONE MAY BE SUBTRACTED FROM AND NOTHING ELSE.
+         *
+         * `vary.ts` divides its operations in two and says which: THIN and
+         * AUGMENT "add no pitch that was not already there"; the other four
+         * MOVE pitches. For the drone that difference is a law rather than a
+         * preference — a drone "sits upon the tonic or dominant", held while
+         * the chords change over it (chromatone.center/theory/melody/drone,
+         * this genre's own cited source for `drone.tone`), and `index.test.ts`
+         * holds it to that. Measured: an inverted lofi drone sat on A#3, nine
+         * semitones above the tonic, which is neither.
+         *
+         * So the drone's third statement is the drone dropping a tone or
+         * holding one longer — the floor thinning or settling — and its pitches
+         * stay where its own law puts them.
+         */
+        const vocabulary: readonly Change[] = loops ? CHANGES : ["thin", "augment"];
+        const seatRng = rng.at(r).at("third", k);
+        const start = seatRng.pick("change", vocabulary);
+        let got: readonly Note[] | null = null;
+        for (let i = 0; i < vocabulary.length && got === null; i++) {
+          const which = vocabulary[(vocabulary.indexOf(start) + i) % vocabulary.length]!;
+          const tried = varyLine(turn, loop, seatRng.at("vary", which), steps, span, which, rungs, chart.tonic, chart.scale, fits);
+          /**
+           * JUDGED ON THE LINE THAT WILL BE PLAYED, tiled and all.
+           *
+           * `varyLine` alters ONE TURN, and everything but the drone is then
+           * tiled across the material. Checking the turn alone checks bars 0
+           * and 1 of a two-bar loop and lets the copies at bars 2 and 3 land
+           * wherever they like — which is exactly how a lofi keys line moved
+           * up two semitones onto a drone holding that pitch at bar 2, four
+           * records in a hundred and twenty. The turn was lawful; the record
+           * was not.
+           */
+          const laid = tried.changed ? (loops ? tile(tried.line) : [...tried.line]) : null;
+          if (laid !== null && fits(laid)) got = laid;
+        }
+        out.push(got === null ? line : Object.freeze(got));
+      }
+      return Object.freeze(out);
+    };
+
     const groove = Object.freeze((() => {
+      /**
+       * EVERY ROUND OF THE GROUND GOES INTO THE PICTURE, not just the first.
+       *
+       * The tune and the counter are written against what the ground holds, so
+       * that nothing lands on a pitch somebody else is already sounding. With
+       * one ground line that was one picture. With a ground that alters itself
+       * on its third statement it is several, and writing the tune against
+       * only the first is how a counter came to land on the drone's A2 at
+       * round five — which the checker caught, because that is what it is for.
+       *
+       * The union, deliberately: the tune avoids every pitch the ground takes
+       * in ANY round. It costs the tune a few seats it could legally have had
+       * in the rounds where the ground did not take them, and it buys a rule
+       * that cannot produce a collision at all rather than one that has to be
+       * checked for afterwards.
+       */
+      const picture = (lines: readonly (readonly Note[])[]): void => {
+        for (const l of lines) { sounding.add(l, bars, steps); inLoop.add(l, period, steps); }
+      };
       const drawnBass = plain
-        ? plain.groove.bass
+        ? plain.groove.bass[0] ?? []
         : serve("bass", chart.register.bass, sounding);
       sounding.add(drawnBass, bars, steps);
       inLoop.add(drawnBass, period, steps);
@@ -340,7 +476,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       // anything that follows the changes — and it is NOT tiled: a drone is a
       // held tone whose whole nature is to be longer than the loop under it
       const drawnDrone = plain
-        ? plain.groove.drone
+        ? plain.groove.drone[0] ?? []
         : serve("drone", chart.register.drone, sounding);
       sounding.add(drawnDrone, bars, steps);
       inLoop.add(drawnDrone, period, steps);
@@ -392,7 +528,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
        */
       const developedKeys = ((): readonly Note[] | null => {
         if (plain === undefined) return null;
-        const from = plain.groove.keys.filter((n) => n.bar < period);
+        const from = (plain.groove.keys[0] ?? []).filter((n) => n.bar < period);
         if (from.length === 0) return null;
         const rungs = ladder(chart, chart.register.keys);
         const [lo, hi] = chart.register.keys;
@@ -422,10 +558,44 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       const drawnKeys = developedKeys ?? serve("keys", chart.register.keys, inLoop);
       sounding.add(drawnKeys, bars, steps);
       inLoop.add(drawnKeys, period, steps);
-      return { bass: drawnBass, keys: drawnKeys, drone: drawnDrone };
+
+      /**
+       * AND THE THIRD-STATEMENT ALTERATION RUNS LAST, once all three plain
+       * lines exist.
+       *
+       * Done as each part was drawn, it could only avoid the parts drawn
+       * BEFORE it: the drone was altered while the keys did not yet exist, and
+       * a lofi drone duly moved onto a keys F#3 at round eight. The checker
+       * caught it, which is what it is for, and the order was the fault rather
+       * than the rule.
+       *
+       * So each part is judged against the other two — their altered rounds
+       * where those are already decided, their plain line where they are not —
+       * and each result joins the picture before the next part is asked. A
+       * part that cannot be altered lawfully keeps its line, which is the
+       * record this program made before any of this and still a correct one.
+       */
+      const others = (skip: GrooveRole, done: Partial<Record<GrooveRole, readonly (readonly Note[])[]>>): Sounding => {
+        const pic = new Sounding();
+        const plainOf: Record<GrooveRole, readonly Note[]> = { bass: drawnBass, keys: drawnKeys, drone: drawnDrone };
+        for (const o of GROOVE) {
+          if (o === skip) continue;
+          for (const l of done[o] ?? [plainOf[o]]) pic.add(l, bars, steps);
+        }
+        return pic;
+      };
+      const done: Partial<Record<GrooveRole, readonly (readonly Note[])[]>> = {};
+      done.bass = perRound("bass", drawnBass, chart.register.bass, others("bass", done));
+      done.drone = perRound("drone", drawnDrone, chart.register.drone, others("drone", done));
+      done.keys = perRound("keys", drawnKeys, chart.register.keys, others("keys", done));
+      const bassRounds = done.bass;
+      const droneRounds = done.drone;
+      const keysRounds = done.keys;
+      for (const l of [...bassRounds, ...droneRounds, ...keysRounds]) { sounding.add(l, bars, steps); inLoop.add(l, period, steps); }
+      return { bass: bassRounds, keys: keysRounds, drone: droneRounds };
     })());
-    for (const n of groove.bass) taken.add(`${at(n)}:${n.pitch}`);
-    for (const n of groove.drone) taken.add(`${at(n)}:${n.pitch}`);
+    for (const n of groove.bass.flat()) taken.add(`${at(n)}:${n.pitch}`);
+    for (const n of groove.drone.flat()) taken.add(`${at(n)}:${n.pitch}`);
 
     // the tune's plan, applied to every time the lead plays this material
     // through; the development is written only where a time will play it
@@ -586,7 +756,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
           // So the picture this seat is written against is the groove AND
           // this round's tune — the same law, given the whole picture.
           const withTune = new Sounding();
-          withTune.add([...groove.bass, ...groove.keys, ...groove.drone], period, steps);
+          withTune.add([...groove.bass.flat(), ...groove.keys.flat(), ...groove.drone.flat()], period, steps);
           withTune.add(lead[n] ?? [], period, steps);
           // A SECOND PAD VOICES THE CHORD, IT DOES NOT FIGHT THE PEDAL. A pad
           // is "a long sustaining note OR CHORD"; the drone's builder holds
@@ -710,11 +880,27 @@ function check(chart: Chart, m: Material, steps: number): void {
     seats.set(seat, part);
   };
 
-  for (const part of GROOVE) {
-    for (const n of m.groove[part]) checkNote(part, n, `${m.key} ${part} bar ${n.bar} step ${n.step}`, grooveSeats);
+  /**
+   * THE GROUND IS CHECKED ROUND BY ROUND, and that is the point of the round.
+   *
+   * Flattened, this compared the bass on its third statement against the keys
+   * on their first — two lines that are never in the air together — and would
+   * have called a legal record a collision. Two parts can only land on one
+   * pitch if they are sounding at the same moment, and "the same moment" now
+   * means the same time round.
+   */
+  const groundSeats: Map<string, Pitched>[] = [];
+  const groundRounds = Math.max(...GROOVE.map((p) => m.groove[p].length), 1);
+  for (let round = 0; round < groundRounds; round++) {
+    const seats = new Map<string, Pitched>();
+    for (const part of GROOVE) {
+      const line = m.groove[part][Math.min(round, m.groove[part].length - 1)] ?? [];
+      for (const n of line) checkNote(part, n, `${m.key} ${part} round ${round} bar ${n.bar} step ${n.step}`, seats);
+    }
+    groundSeats.push(seats);
   }
   for (const [time, line] of m.lead.entries()) {
-    const seats = new Map(grooveSeats);
+    const seats = new Map(groundSeats[Math.min(time, groundSeats.length - 1)] ?? grooveSeats);
     for (const n of line) checkNote("lead", n, `${m.key} lead time ${time} bar ${n.bar} step ${n.step}`, seats);
     // the counter is checked AGAINST THE TUNE OF ITS OWN ROUND, in the same
     // seat map: the two written lines can only collide with each other, and
@@ -740,7 +926,7 @@ function check(chart: Chart, m: Material, steps: number): void {
 
 /** "A: Cm7 Ab Fm G | bass 8 · keys 16 · lead 14/14/11/14 · drums 40/38/41/36" — for tests and dumps. */
 export function describeMaterial(m: Material): string {
-  const groove = GROOVE.map((p) => `${p} ${m.groove[p].length}`).join(" · ");
+  const groove = GROOVE.map((p) => `${p} ${(m.groove[p][0] ?? []).length}`).join(" · ");
   const lead = m.lead.map((l) => l.length).join("/") || "-";
   const drums = m.drums.map((h) => h.length).join("/") || "-";
   return `${m.key}: ${m.chords.map((c) => c.name).join(" ")} | ${groove} · lead ${lead} · drums ${drums}`;

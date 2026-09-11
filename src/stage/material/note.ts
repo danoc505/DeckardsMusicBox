@@ -62,8 +62,23 @@ export interface Material {
    */
   readonly period: number;
   readonly chords: readonly Chord[];
-  /** Bass and keys, the same every time round — a groove is the thing that is allowed to loop. */
-  readonly groove: Readonly<Record<GrooveRole, readonly Note[]>>;
+  /**
+   * THE GROUND, ONE LINE PER TIME ROUND — the same shape `lead` and `counter`
+   * have, and for the same reason.
+   *
+   * THIS USED TO BE ONE ARRAY, with the comment "bass and keys, the same every
+   * time round — a groove is the thing that is allowed to loop." That sentence
+   * has no source, and the rule of three does: nothing may be stated three
+   * times unaltered. The type and the sourced law contradicted each other and
+   * the type won every time, because there was nowhere to PUT a third
+   * statement that differed. Measured before this: a bass playing the same
+   * four bars five times over twenty bars, and across sixty records the bass,
+   * keys and drone had about half of every change they were owed go unpaid.
+   *
+   * A groove still loops — most rounds are the same line, because that is what
+   * makes a groove a groove. What changes is that it no longer HAS to.
+   */
+  readonly groove: Readonly<Record<GrooveRole, readonly (readonly Note[])[]>>;
   /**
    * The tune, one line per time the lead plays this material through, in
    * the order it plays them: the statement, a restatement, the development,
