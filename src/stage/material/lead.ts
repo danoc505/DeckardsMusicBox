@@ -620,6 +620,29 @@ export function drawLead(
       cands = cands.filter((p) => clear(bar, step, p, chord));
       //   and the last note of the loop is not its first
       cands = cands.filter((p) => !barred(p, finalOnset));
+      /**
+       *   AND NOTHING REACHES FURTHER THAN AN OCTAVE, ACROSS A REST EITHER.
+       *
+       *   The reach above is applied only where the line is running. When an
+       *   onset is boxed — every candidate refused, so it rests — the next one
+       *   takes the `prev === null || boxed` branch below and is drawn near the
+       *   middle of the register, with no bound from the note it is actually
+       *   following. The line broke, so the generator started again.
+       *
+       *   An ear does not. A melodic interval is the interval between the
+       *   notes that sound, and a rest between them does not make fourteen
+       *   semitones into something else — `lawsFor` has always measured it
+       *   that way, `lead.test.ts` asserts it at the octave, and every
+       *   TRANSFORMED line was held to it while the generator was not. Lofi
+       *   seed 50's A/1 opened its second phrase fourteen semitones above
+       *   where its first left off, across exactly such a rest, and all six
+       *   fresh draws produced it because nothing in here refuses it.
+       *
+       *   A law and not a preference, in the block that holds the laws: if it
+       *   empties the list this onset rests too, which is always legal, and
+       *   the line picks up where it can reach.
+       */
+      if (prev !== null) cands = cands.filter((p) => Math.abs(p - prev.pitch) <= SIGNATURE_MAX);
       if (cands.length === 0) { boxed = true; continue; }
 
       // THE PREFERENCES, AMONG WHAT IS LEGAL. Each narrows only if something

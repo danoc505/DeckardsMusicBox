@@ -862,10 +862,39 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
       return laws(out) ? out : tile(turn);
     };
 
+    /**
+     * A FRESHLY DRAWN TUNE IS OFFERED TO THE LAWS LIKE EVERY OTHER CANDIDATE.
+     *
+     * `worksFrom` puts each motivic change through `lawsFor`; `asSentence`
+     * refuses an assembly it rejects. The fresh draw — what a material falls
+     * back to when no change takes — went straight in, on the ground that
+     * `drawLead` is a generator that constrains every choice as it makes it.
+     *
+     * It constrains every choice INSIDE a phrase. A phrase's opening pitch is
+     * drawn for the shape that phrase walks, so the seam BETWEEN two phrases
+     * is not bounded by the reach that bounds a move — and lofi seed 50's A/1
+     * opened its second phrase fourteen semitones above where its first ended,
+     * two past the octave `lawsFor` bounds every transformed line to. The law
+     * existed, the generator did not go through it, and which seeds reach the
+     * hole is a fact about the arrangement rather than about the tune.
+     *
+     * Redrawn from a fresh attempt rather than repaired, which is this file's
+     * rule everywhere: constrain the choice, never fix the result. A handful
+     * of tries is the honest limit; where every one is refused the last is
+     * kept, because a material the lead plays must have a line to play.
+     */
+    const drawn = (): readonly Note[] => {
+      let line: readonly Note[] = [];
+      for (let attempt = 0; attempt < 6; attempt++) {
+        line = asSentence(drawLead(chart, loop, leadRng, steps, inLoop, attempt, contour));
+        if (laws(line)) return line;
+      }
+      return line;
+    };
     const asTune = worksFrom(first, statedTurn);
     const tune = asTune !== null
       ? Object.freeze(asSentence(asTune.line))
-      : letters.length > 0 ? Object.freeze(asSentence(drawLead(chart, loop, leadRng, steps, inLoop, 0, contour))) : null;
+      : letters.length > 0 ? Object.freeze(drawn()) : null;
     // AND THE DEVELOPMENT IS CHECKED AGAINST WHAT WAS ACTUALLY KEPT, not
     // against the intermediate it came from. `tune` above is the change if it
     // changed anything and a freshly written line if it did not, so comparing
@@ -874,10 +903,33 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     // line four times.
     const asDev = asTune === null ? null : worksFrom(otherChange(asTune.which), statedTurn);
     const devLine = asDev !== null ? asSentence(asDev.line) : null;
+    /**
+     * AND THE FALLBACK IS JUDGED BY THE LAWS LIKE EVERYTHING ELSE.
+     *
+     * Every other path to a lead line goes through `lawsFor`: `worksFrom`
+     * offers each motivic change to it, `asSentence` refuses an assembly it
+     * rejects. `develop` was the one that did not — it was written as a
+     * generator that keeps the question phrases and answers them afresh, so
+     * it was trusted to be lawful by construction, and it is not. It opened a
+     * FOURTEEN-semitone leap on a lofi A/1, two semitones past the octave
+     * that `lawsFor` bounds every other line to. The hole was always there
+     * and was reached the moment the arrangement's clock changed which seeds
+     * build which materials — which is the honest reason to state a law as a
+     * filter rather than trust a generator to keep it.
+     *
+     * A development that cannot be made lawful is not built, and the round
+     * plays the statement — a variant whose B is its A is worse music and
+     * still a correct record, and this program has always preferred that to
+     * an unlawful line.
+     */
+    const grown = ((): readonly Note[] | null => {
+      if (devLine !== null && JSON.stringify(devLine) !== JSON.stringify(tune)) return devLine;
+      if (tune === null) return null;
+      const fresh = tile(develop(chart, loop, leadRng, steps, inLoop, tune, period, contour));
+      return laws(fresh) ? fresh : null;
+    })();
     const developed = letters.includes("B") && tune !== null
-      ? Object.freeze(devLine !== null && JSON.stringify(devLine) !== JSON.stringify(tune)
-        ? devLine
-        : tile(develop(chart, loop, leadRng, steps, inLoop, tune, period, contour)))
+      ? Object.freeze(grown ?? tune)
       : null;
     const tacet: readonly Note[] = Object.freeze([]);
     // AND A BLOCK MAY INTERRUPT ANY ROUND OF IT, judged by exactly the laws

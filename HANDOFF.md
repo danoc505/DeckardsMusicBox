@@ -158,6 +158,82 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**A PART ESTABLISHES ITSELF OVER A SPAN, NOT A SECTION.** The owner asked for
+three random whole seeds a genre; `shuf` picked them; dungeon synth 3127 came
+back with its bass, its tune AND its counter all starting at bar 48 of 88. Half
+a record of a drone, some drums and a scatter of keys, and then the band walks
+in at once.
+
+`arrange.ts` grew `arrived` by ONE inside a walk over sections, so a part
+established itself over sixteen to thirty-two bars and a six-part record needed
+five of them. The sourced law is the PACE — "characters usually aren't all
+introduced at once, they're gradually introduced, allowing each to breathe and
+establish themselves before the next enters the scene" (Johnston) — and it says
+nothing about a section. The measured source says the opposite of what the code
+did: "everybody plays nearly all the time … THIS IS THE FINDING MOST AT ODDS
+WITH HOW THIS PROGRAM THINKS. Its arrangement stage is additive — parts walk in
+one at a time" (`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §2.6).
+
+So the clock is the span — two turns of the loop, this stage's own unit for
+"the arrangement changed" — **capped at two per boundary**. The cap is the one
+number and it is measured, not chosen: uncapped, four parts arrived at once and
+three other laws broke (the dénouement kept its opener in 83% of records
+against 90%, the break reached 47% against 50%, and a desk boundary spent two
+further kinds against one). Capped at two they hold and most of the gain stays.
+
+| over 200 records | before | after |
+|---|---|---|
+| ds voices in an average bar | 2.84 | **2.97** (records: 2.9–3.1) |
+| ds bars with one voice or none | 25% | **19%** |
+| ds median lead entry | 27% of the record | **17%** |
+| ds median bass entry | 27% | **20%** |
+| lofi counter entry | 33% | **7%** |
+| lofi voices per bar | 3.52 | 3.60 |
+
+Seed 3127's tune now arrives at bar 16 instead of 48. Seed 2510's bass at 16
+instead of 32, and its near-empty bars fall from 27% to 11%. Lofi 2488 — a
+record with no beat for its first 32 bars — now has drums at bar 16.
+
+**TWO LATENT BUGS CAME OUT WITH IT, both reached rather than caused.**
+
+1. **A tune could leap fourteen semitones across a rest.** When `drawLead`
+   refuses every candidate at an onset it rests and sets `boxed`, and the NEXT
+   onset is drawn near the middle of the register with no bound from the note
+   it actually follows — the generator started again because the line broke. An
+   ear does not: a melodic interval is between the notes that sound, `lawsFor`
+   has always measured it that way and `lead.test.ts` asserts it at the octave.
+   Every TRANSFORMED line was held to the bound while the generator was not.
+   Lofi seed 50's A/1 opened its second phrase fourteen semitones up, and all
+   six fresh draws produced it. The octave is now a law in the block that holds
+   the laws; if it empties the list the onset rests, which is always legal.
+2. **The break was scored as three moves.** `arrange.test.ts` bounds a desk
+   boundary to one further KIND, and already carves out `all-back` for players
+   — "a single legal move" that moves several. The break is another: it strips
+   a section to its openers, and `thin`/`halved` CANNOT survive the drums
+   leaving because `arrange.ts` refuses any state that sets them without a kit.
+   That is bookkeeping forced by a guard, not a second decision, and the test
+   now says so.
+
+**A standing failure went green.** "A part sits where its genre leans it" had
+been red since before this session; it passes now, because more parts sounding
+gives its timing measurement a real sample. Two standing failures remain —
+"keys voice every tone of the chord" (it demands whole chords of a line that
+may be an arpeggio: the wrong question since arpeggios were allowed) and "a
+returning idea plays its statement's own figure, changed".
+
+**WHAT THIS DOES NOT FIX, measured and stated rather than glossed.** 52% of
+dungeon synth records still open on ONE part and the kit still first sounds at
+bar 31% of the record against the records' bar 4–10. Both are the INTRO's, not
+this clock's: `opensWith` takes `introParts` of the entry order and the genre
+states 1, with a measured note in `dungeonsynth.ts` saying 2 was tried and
+bought "a second SUSTAINING part, which is more of exactly what was wrong". The
+lever that has not been tried is the entry ORDER — the kit is fourth of six in
+this genre — and whether this music wants its drums at bar 4 is a question for
+an ear, since the genre's own intro note calls it "primarily beatless" while
+§5.2 of the research measures Mortiis's pulse at 0.47 against this program's
+0.06.
+
+
 **DUNGEON SYNTH'S LEAD WAS A METRONOME CARRYING PITCHES, AND ONE LINE DID IT.**
 The owner asked why the lead is not a lead. Measured over 120 records:
 

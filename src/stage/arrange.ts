@@ -1111,20 +1111,75 @@ const kindOf = (mv: Move): string =>
        * and stays as it always did.
        */
       const introTurn = 2 * Math.max(1, periodOf(chart, section.idea));
-      const next = enter[heard.size];
       // ONLY WHERE THERE IS A SECOND SPAN FOR IT TO ARRIVE AT. `heard` is the
       // union of the section's spans and the material stage builds for it, so
       // a part named here that never sounds is a part built and silent —
       // which `all.test.ts` catches by name and is the one thing this stage
       // promises never to do. A four-bar intro has one span and is left alone.
+      const next = enter[heard.size];
       if (next !== undefined && section.bars > introTurn && loops(next)) {
         heard = new Set([...heard, next]);
         arrived = Math.max(arrived, enter.indexOf(next) + 1);
       }
     } else {
-      // WHAT HAS ARRIVED still only grows: a part the record has not yet
-      // introduced cannot appear, and each section lets the next one in.
-      arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      /**
+       * WHAT HAS ARRIVED still only grows: a part the record has not yet
+       * introduced cannot appear. WHAT CHANGED IS THE CLOCK IT GROWS ON.
+       *
+       * The sourced law is the PACE: "characters usually aren't all
+       * introduced at once, they're gradually introduced, allowing each to
+       * breathe and establish themselves before the next enters the scene"
+       * (Johnston, "Horizontal arrangement"). One at a time, each
+       * establishing itself first. It says nothing about a SECTION.
+       *
+       * This line said `arrived + 1` inside a walk over sections, so a part
+       * established itself over a whole section — sixteen to thirty-two bars
+       * here — and a six-part record needed five of them. Measured over 200
+       * dungeon synth records: the kit first sounds at bar 32 on the median
+       * and after the halfway point in 32 of them; 2.86 voices sound in an
+       * average bar; 25% of bars carry ONE voice or none; and 52% of records
+       * open on a single part. Random seed 3127 put its bass, its tune AND
+       * its counter all at bar 48 of 88 — the whole first half is a drone,
+       * some drums and a scatter of keys, and then the band walks in at once.
+       *
+       * The records say otherwise, and they were measured in this repository:
+       * "everybody plays nearly all the time — 2.8 of 3 and 3.0 of 4 tracks
+       * sound in an average bar, the kit plays in 89–94% of bars, and it
+       * enters at bar 4 or 10. THIS IS THE FINDING MOST AT ODDS WITH HOW THIS
+       * PROGRAM THINKS. Its arrangement stage is additive — parts walk in one
+       * at a time. Doom does not layer"
+       * (`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §2.6); and for the dungeon
+       * synth side, Dauði Baldrs runs 3.1 voices at a time and Feðrahellir
+       * nine at once (§4.5). A prose source against a measured one is the
+       * case the README settles first, and it settles it for the measured.
+       *
+       * SO A PART ESTABLISHES ITSELF OVER A SPAN, which is the unit this
+       * stage already owns for "the arrangement changed" — two turns of the
+       * loop, the two-loop rule. A thirty-two-bar section on a four-bar loop
+       * is four spans and lets four parts in; an eight-bar intro is one and
+       * lets one. The pace is unchanged and the clock is the right one.
+       *
+       * The INTRO branch above has done exactly this since it was written —
+       * "a long intro lets the next part in, LIKE EVERY OTHER SECTION" — and
+       * every other section was the one place it did not happen.
+       */
+      /**
+       * AND AT MOST TWO AT A BOUNDARY, which is the one number here and is
+       * measured rather than chosen. Uncapped, a thirty-two-bar section on a
+       * four-bar loop let FOUR parts in at once, and the record's other laws
+       * said so: the dénouement kept its opener in 83% of records against a
+       * law of 90%, the break reached 47% against 50%, and a desk boundary
+       * spent two further kinds of move against a law of one. Capped at two,
+       * those three hold and the gain is nearly all still there — 3.04 voices
+       * a bar uncapped against 2.97 capped, from 2.84.
+       *
+       * Two is also what the arrangement already spends: "a boundary now
+       * spends up to two changes" is this stage's own measured number for how
+       * much may move at once, and a part arriving is one of the four ways it
+       * names of moving.
+       */
+      const spans = Math.max(1, Math.min(2, Math.floor(section.bars / (2 * Math.max(1, periodOf(chart, section.idea))))));
+      arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + spans);
       // HOW MANY OF THEM PLAY is this section's energy, between the fewest a
       // genre will carry and all of them. The peak takes everyone.
       //

@@ -7,6 +7,7 @@ import { makeChart } from "./chart.ts";
 import { makeForm } from "./form.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
 import { LEGAL_TEXTURES, ROLES, TREATMENTS } from "../genre/spec.ts";
+import { periodOf } from "./material/harmony.ts";
 
 const lofi = GENRES.lofi;
 const build = (seed: number, seconds: number | null = 240): Arrangement => {
@@ -170,7 +171,11 @@ test("parts arrive in order, and how many play is the section's energy", () => {
   const A = lofi.arrangement;
   let quieter = 0;
   let fuller = 0;
-  for (const a of sweep(120)) {
+  // BUILT WITH ITS CHART, because the mirror below needs the loop's length and
+  // that is a fact about the material rather than about the arrangement.
+  for (let seed = 1; seed <= 120; seed++) {
+    const chart = makeChart({ seed, genre: lofi, seconds: 240 });
+    const a = makeArrangement(chart, makeForm(chart));
     // AGAINST THE RECORD'S OWN ENTRY ORDER, not the genre's. A record draws a
     // main character and that character is introduced first, so `enter` is the
     // genre's order with one name moved to the front
@@ -189,7 +194,13 @@ test("parts arrive in order, and how many play is the section's energy", () => {
         arrived = Math.max(arrived, ...[...p.heard].map((r) => enter.indexOf(r) + 1));
         continue;
       }
-      arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      // A PART ESTABLISHES ITSELF OVER A SPAN, NOT A SECTION — the arrangement's
+      // own clock, capped at two per boundary. Mirrored from `arrange.ts`
+      // rather than imported, for the reason this file gives everywhere: a law
+      // that imports the code it checks is checking nothing. The law here is
+      // unchanged and is the next assertion — nobody appears out of turn.
+      const spans = Math.max(1, Math.min(2, Math.floor(s.bars / (2 * Math.max(1, periodOf(chart, s.idea))))));
+      arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + spans);
       // NOBODY APPEARS OUT OF TURN. Whoever is heard has ARRIVED — a part
       // cannot appear before the one in front of it in the entry order. It is
       // no longer a PREFIX of that order, because who LEAVES is the shed
@@ -451,7 +462,24 @@ test("a treatment changes the sound, and never who is playing, by itself", () =>
         const gone = [...a.heard].filter((r) => !b.heard.has(r));
         const came = [...b.heard].filter((r) => !a.heard.has(r));
         const players = gone.length + came.length;
-        const kit = (a.thin !== b.thin ? 1 : 0) + (a.halved !== b.halved ? 1 : 0);
+        /**
+         * AND A FLAG THAT CANNOT SURVIVE THE DRUMS LEAVING IS NOT A MOVE.
+         *
+         * `thin` and `halved` say what the DRUMS are doing, and `arrange.ts`
+         * refuses any state that sets either without a kit — "the span said
+         * the kit was in half time with no kit", which `perform.test.ts`
+         * catches. So when the drums go, those two must go with them. That is
+         * bookkeeping forced by the guard, not a second decision, and counting
+         * it is the same error this test already carved out for players:
+         * `all-back` puts a whole section back in one legal move.
+         *
+         * It is reachable through THE BREAK, which is one named move that
+         * strips a section to its openers. Seed 32's instrumental drops bass,
+         * lead, counter and drums at a desk boundary, and `thin` falls with
+         * the drums — one move, scored as three kinds.
+         */
+        const kitForced = a.heard.has("drums") && !b.heard.has("drums");
+        const kit = kitForced ? 0 : (a.thin !== b.thin ? 1 : 0) + (a.halved !== b.halved ? 1 : 0);
         const held = a.hush !== b.hush ? 1 : 0;
         // ONE FURTHER MOVE, WHICH IS NOT ONE FURTHER PART: `all-back` puts
         // the whole section back in one move, so counting players would call
