@@ -420,19 +420,40 @@ test("a third hearing is played differently, one rung and no further", () => {
           assert.equal(p.section.recast, false, "a recast section was handed as well");
         }
         const m = s.materials.all.get(p.material)!;
-        const wrote = new Map<string, string>();
-        for (const r of ["bass", "keys", "drone"] as const) {
-          // "a note that does not say is played plain" — and written as
-          // `n.art` this skipped every unmarked note, which is most of them
-          for (const n of (m.groove[r] ?? []).flat()) wrote.set(`${r}:${n.bar}:${n.step}`, n.art ?? "plain");
-        }
+        /**
+         * WHAT WAS WRITTEN, PER TIME ROUND.
+         *
+         * Flattened into one map this kept whichever round came last, so a
+         * ground part that alters itself on its third statement looked like a
+         * manner change wherever an earlier round differed. The ground is
+         * addressed by round now, and so is the question "what was written
+         * here" — the rounds counted PER ROLE, as the material stage counts
+         * them, because a placement that does not hear a part does not advance
+         * that part's clock.
+         */
+        const wroteAt = (role: string, bar: number, step: number): string | undefined => {
+          if (role !== "bass" && role !== "keys" && role !== "drone") return undefined;
+          const rounds = m.groove[role] ?? [];
+          if (rounds.length === 0) return undefined;
+          let before = 0;
+          for (const q of s.arrangement.placed) {
+            if (q === p) break;
+            if (q.material === p.material && q.heard.has(role)) {
+              before += Math.ceil(q.section.bars / m.bars);
+            }
+          }
+          const k = before + Math.floor((bar - p.section.startBar) / m.bars);
+          const line = rounds[Math.min(k, rounds.length - 1)] ?? [];
+          const n = line.find((x) => x.bar === (bar - p.section.startBar) % m.bars && x.step === step);
+          return n === undefined ? undefined : n.art ?? "plain";
+        };
         for (const e of s.performance.events) {
           if (e.bar < p.section.startBar || e.bar >= p.section.endBar) continue;
-          const was = wrote.get(`${e.role}:${(e.bar - p.section.startBar) % m.bars}:${e.step}`);
+          const was = wroteAt(e.role, e.bar, e.step);
           if (was === undefined || was === e.art) continue;
           // the tune and the drums are written per round and are never handed
           assert.ok(e.role !== "lead" && e.role !== "drums", `the ${e.role} was handed, and it is written per round`);
-          assert.notEqual(p.manner, null, `${e.role} changed manner in a section with none`);
+          assert.notEqual(p.manner, null, `${e.role} changed manner in a section with none — seed ${seed} ${g} bar ${e.bar} step ${e.step}: written "${was}" played "${e.art}"`);
           const from = LADDER.indexOf(was), to = LADDER.indexOf(e.art);
           assert.ok(from >= 0 && to >= 0, `${was} to ${e.art} is off the length ladder`);
           // and only the two manners that are ABOUT length move a note at all

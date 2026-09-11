@@ -161,3 +161,88 @@ export function drawDrone(
   }
   return out;
 }
+
+/**
+ * HOW A DRONE MAY CHANGE ON ITS THIRD STATEMENT.
+ *
+ * `vary.ts`'s operations are MELODIC — invert the intervals, walk the pitches
+ * backwards, move the shape a step along the scale. A drone has no melody to
+ * do any of that to, and the one time it was tried an inverted lofi drone sat
+ * on A#3, nine semitones above the tonic, which is not a drone at all.
+ * Restricting it to `thin` and `augment` instead produced a rule that fired
+ * ZERO TIMES IN 872 ROUNDS, because `varyLine` will not thin a line this
+ * short. A knob that does nothing is this repo's cardinal sin and it shipped.
+ *
+ * So the drone gets its own, from its own sources rather than from the tune's:
+ *
+ *   "A drone effect can be achieved through a sustained sound OR THROUGH
+ *    REPETITION OF A NOTE." — chromatone.center/theory/melody/drone
+ *
+ * Both are the drone. Moving between them is therefore a change that leaves
+ * the drone a drone, and it is the change this instrument actually has:
+ * PLUCK and SUSTAIN are the two ends of what a tanpura does.
+ *
+ *   "a note or chord is continuously sounded throughout MOST OR ALL of a
+ *    piece." — ibid.
+ *
+ * "Most" is not "all", so the floor may go out.
+ *
+ * AND THE STRINGS DO NOT MOVE. Tonic-to-fifth would be lawful by the source —
+ * "most often placed upon the tonic or dominant" names both — and it is left
+ * out anyway, because this file's own design says "a string is tuned once and
+ * that is its pitch", and a seat hunted for mid-record is the climb that
+ * paragraph was written against. Every change below keeps every pitch exactly
+ * where the material put it, which is also why none of them can collide.
+ */
+/**
+ * TWO, AND THE THIRD IS LEFT OUT FOR A REASON WORTH KEEPING.
+ *
+ * `rearticulate` — splitting a ringing tone into two strikes of the same pitch
+ * — is the change the source most directly names ("a sustained sound OR the
+ * repetition of a note") and it is NOT here. Measured, it breaks the manner
+ * law: a strike appears at a bar `drawDrone`'s own `manner()` pass never saw,
+ * and copying the ringing note's manner onto a freshly struck one is not the
+ * manner that note would have been given. "Written tenuto, played ring", on
+ * dungeon synth seed 8 bar 62.
+ *
+ * The operation is right and the PLACE is wrong: a new strike needs the rng
+ * and the genre's own art pool, which live in `drawDrone`. It belongs as a
+ * pluck-density the drone is drawn with, not as an alteration applied after
+ * the fact. Left undone rather than done wrongly.
+ */
+export const DRONE_CHANGES = ["sustain", "rest"] as const;
+export type DroneChange = (typeof DRONE_CHANGES)[number];
+
+export function alterDrone(
+  line: readonly Note[],
+  which: DroneChange,
+  steps: number,
+): { readonly line: readonly Note[]; readonly changed: boolean } {
+  if (line.length === 0) return { line, changed: false };
+
+  switch (which) {
+    case "rest":
+      // the floor goes out for this turn. Made of what it takes away, like
+      // every other silence in `THE-BLOCKS.md`'s fourth layer.
+      return { line: [], changed: true };
+
+    case "sustain": {
+      // THE OPPOSITE, and the other thing the source calls a drone: where one
+      // string is plucked twice running, the second pluck is not taken and the
+      // first rings on through it. Fewer events, longer tones, same pitches.
+      const sorted = [...line].sort((a, b) => a.bar - b.bar || a.step - b.step);
+      const out: Note[] = [];
+      let changed = false;
+      for (const n of sorted) {
+        const prev = out.length > 0 ? out[out.length - 1]! : null;
+        if (prev !== null && prev.pitch === n.pitch && prev.bar + Math.floor(prev.dur / steps) >= n.bar) {
+          out[out.length - 1] = { ...prev, dur: (n.bar - prev.bar) * steps + n.dur };
+          changed = true;
+          continue;
+        }
+        out.push(n);
+      }
+      return { line: out, changed };
+    }
+  }
+}

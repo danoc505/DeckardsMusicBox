@@ -38,7 +38,7 @@ import type { Rng } from "../../core/rng.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
 import { drawBass, withTurnaround } from "./bass.ts";
-import { drawDrone } from "./drone.ts";
+import { alterDrone, drawDrone, DRONE_CHANGES, type DroneChange } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
 import { drawArp } from "./arp.ts";
 import { drawCounter } from "./counter.ts";
@@ -421,10 +421,31 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
          * holding one longer — the floor thinning or settling — and its pitches
          * stay where its own law puts them.
          */
-        const vocabulary: readonly Change[] = loops ? CHANGES : ["thin", "augment"];
         const seatRng = rng.at(r).at("third", k);
-        const start = seatRng.pick("change", vocabulary);
         let got: readonly Note[] | null = null;
+
+        /**
+         * THE DRONE HAS ITS OWN VOCABULARY — see `alterDrone` in `drone.ts`.
+         *
+         * `vary.ts`'s operations are melodic and a drone has no melody to
+         * invert or walk backwards. Handing it `thin` and `augment` instead
+         * made a rule that fired 0 times in 872 rounds. Its own three come
+         * from its own source: a drone is "a sustained sound OR the repetition
+         * of a note", and it sounds through "most or all" of a piece.
+         */
+        if (!loops) {
+          const start = seatRng.pick("dronechange", DRONE_CHANGES as readonly DroneChange[]);
+          for (let i = 0; i < DRONE_CHANGES.length && got === null; i++) {
+            const which = DRONE_CHANGES[(DRONE_CHANGES.indexOf(start) + i) % DRONE_CHANGES.length]!;
+            const tried = alterDrone(turn, which, steps);
+            if (tried.changed && fits(tried.line)) got = [...tried.line];
+          }
+          out.push(got === null ? line : Object.freeze(got));
+          continue;
+        }
+
+        const vocabulary: readonly Change[] = CHANGES;
+        const start = seatRng.pick("change", vocabulary);
         for (let i = 0; i < vocabulary.length && got === null; i++) {
           const which = vocabulary[(vocabulary.indexOf(start) + i) % vocabulary.length]!;
           const tried = varyLine(turn, loop, seatRng.at("vary", which), steps, span, which, rungs, chart.tonic, chart.scale, fits);
