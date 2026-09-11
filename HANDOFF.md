@@ -158,6 +158,82 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**DUNGEON SYNTH'S LEAD WAS A METRONOME CARRYING PITCHES, AND ONE LINE DID IT.**
+The owner asked why the lead is not a lead. Measured over 120 records:
+
+| the genre's lead | before | the genre STATES |
+|---|---|---|
+| bars whose rhythm is `[0,4,8]` — beats 1, 2, 3 | **71%** | five cells, weighted 3:2:1:1:1 |
+| distinct bar-rhythms in a whole record | **3.7** | — |
+| lead notes on beat four | **2%** | two of five cells use it |
+| lead notes off the beat | **1%** | one cell uses it |
+
+`lead.ts` narrows the rhythm pool to cells that can state the figure TWICE
+before drawing — right idea, and `motif.restate` is 0.66. But a 3-onset motif
+stated twice needs SIX onsets in a phrase, and dungeon synth's cells are four
+and five: it is a flute line, slow and sparse. **Exactly one of its five cells
+qualifies.** So two thirds of its phrases narrowed a five-cell vocabulary to
+one cell, and that cell came out in 71% of every sounding lead bar in the
+genre. Every pitch law in `lead.ts` was working perfectly while it happened —
+the tune walked, it resolved, it arched, and it said the same rhythm forever.
+
+THE RULE: **a narrowing that leaves one option is not a constraint, it is a
+decision.** The restatement is `[chosen]`; the rhythms are what the genre
+states. Where the carriers are a real choice the pool narrows as before —
+lofi has five of six and did not move a note — and where they are not, the
+cell comes from the whole pool and the phrase restates only if it can.
+
+| | before | after |
+|---|---|---|
+| commonest cell's share | 71% | **25%** |
+| distinct rhythms per record | 3.7 | **4.8** |
+| notes on beat four | 2% | **8%** |
+| notes per bar | 2.76 | 2.39 |
+
+Fewer notes, because the pool's heaviest cell (`[0,8,16,24]`, weight 3 of 8)
+is the sparsest one — the genre's stated weights now show through instead of
+being overridden. Seed 88's chorus went from `0,4,8` in all four bars to
+`0,4,8 / 0,4,8 / 0,6,8 / 0,8`.
+
+**THIS DOES NOT MAKE THE LEAD SING, and saying otherwise would be the mistake
+that preceded it.** It removes a collapse. The lead is still rhythmically
+plain, because the genre's own cells are plain; whether that pool is right is
+the next question, and `DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §4.5 has the
+measured melodic densities to answer it with (1.9 to 4.3 notes a bar across
+Burzum and Summoning; this program is at 2.39).
+
+### And the bigger fault the rolls showed, unfixed
+
+Reading six rolls as RECORDS rather than as diffs — which is the thing this
+file and `CLAUDE.md` both ask for and which had not been done — dungeon synth
+is close to empty for its first third:
+
+| | this program | the records (§2.6, §4.5) |
+|---|---|---|
+| voices in an average bar | 2.86 | 3.0–3.1 |
+| bars with ONE voice or none | **25%** | — |
+| bars the kit plays in | **44%** | 89–94% |
+| kit enters at bar (median) | **32** | 4–10 |
+| records opening on keys and/or drone alone | **65%** | — |
+| records opening on ONE part alone | **52%** | — |
+
+The opening numbers were 78% and 61% before this session; `5bf0188` moved them
+to 65% and 52% and nothing since has touched them. The owner named this as
+fault 2 of 4 at the start of the session — "every single seed starts with ONLY
+chords or drones, that's boring as all hell and wrong" — and it is still true
+of half the genre's records.
+
+THE LINE is `arrange.ts`'s `arrived = ... arrived + 1`: **one part arrives per
+SECTION.** Six roles over five or six sections means the last one shows up at
+the end. §2.6 names this exactly — "its arrangement stage is additive: parts
+walk in one at a time. Doom does not layer" — and flags it as a design
+question first, which is why it is written down here rather than changed. The
+one live question for an ear: `dungeonsynth.ts`'s intro note calls the music
+"primarily beatless" while the records put the kit in 89–94% of bars, and this
+repo's own §5.2 already disputes "beatless" (Mortiis pulse strength 0.47
+against this program's 0.06).
+
+
 **HALF THE DUNGEON SYNTH RECORDS HAD NO CHORD IN THEM, AND THE OWNER'S EYE
 FOUND IT ON THE ROLL BEFORE ANY TEST DID.** "What are those little tiny blue
 dots? That used to be chords." They were the keys arpeggiating — one note at a

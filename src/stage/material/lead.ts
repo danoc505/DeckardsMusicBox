@@ -439,8 +439,31 @@ export function drawLead(
       }
       return false;
     };
+    /**
+     * AND A NARROWING THAT LEAVES ONE CELL IS NOT A CONSTRAINT, IT IS A
+     * DECISION — so it is refused, and this is the line that made dungeon
+     * synth's lead stop being a tune.
+     *
+     * A figure needs SIX onsets in a phrase to be stated twice at
+     * `motif.notes` of 3, and dungeon synth's cells are four and five: it is a
+     * flute line, slow and sparse, and only one of its five cells is long
+     * enough. `restate` is 0.66, so two thirds of its phrases narrowed a
+     * five-cell vocabulary to that ONE cell — and it came out in 71% of every
+     * sounding lead bar in the genre, three even notes on beats one, two and
+     * three, bar after bar after bar. 96% of the genre's lead notes landed on
+     * those three beats; the fourth beat got 2% and the off-beats got 1%
+     * between them. A record held 3.7 distinct bar-rhythms across its whole
+     * length. That is not a tune, it is a metronome carrying pitches, and the
+     * pitch laws in this file were all working perfectly while it happened.
+     *
+     * The restatement is worth having and it is `[chosen]` at 0.66; the
+     * rhythms are what the genre STATES. So a preference gives way: where the
+     * carriers are a real choice the pool narrows as before — lofi has five
+     * of six and is untouched — and where they are not, the cell comes from
+     * the whole pool and the phrase restates only if that cell can.
+     */
     const carries = L.rhythms.filter(([cell]) => says(cell));
-    const rhythm = at.weighted("rhythm", restating && carries.length > 0 ? carries : L.rhythms);
+    const rhythm = at.weighted("rhythm", restating && carries.length > 1 ? carries : L.rhythms);
 
     // THE SHAPE THIS PHRASE WALKS, drawn from the genre's ranking of them —
     // arch first, because it is the commonest contour in every corpus that
