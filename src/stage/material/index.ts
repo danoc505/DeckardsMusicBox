@@ -33,7 +33,7 @@
 
 import { stepsPerBar } from "../../core/clock.ts";
 import { inScale, noteName } from "../../core/theory.ts";
-import { DRUM_LANES, PITCHED_ROLES, type Contour, type Element, type Idea, type Register, type Role, type Texture } from "../../genre/spec.ts";
+import { DRUM_LANES, PITCHED_ROLES, ROLES, type Contour, type Element, type EventName, type Idea, type Register, type Role, type Texture } from "../../genre/spec.ts";
 import type { Rng } from "../../core/rng.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
@@ -261,6 +261,13 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
      * was written and nothing gave way.
      */
     const served: Record<string, { element: Element; texture: Texture }> = {};
+    /**
+     * WHAT INTERRUPTED EACH ROUND, filled in as each part is written and read
+     * back off the material afterwards. One entry per round per part, `null`
+     * where nothing fired — see `Material.blocks`.
+     */
+    const fired: Partial<Record<Role, (EventName | null)[]>> = {};
+    for (const r of ROLES) fired[r] = [];
     // ONLY WHAT IS INHERITED NOTE FOR NOTE INHERITS ITS JOB. A variant keeps
     // the plain material's bass and drone and redraws everything else, so the
     // keys, the counter and the lead start from this material's own draw.
@@ -843,7 +850,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
          * gesture drawn into the bar alongside them would be one more rule.
          */
         const spot = spots[n];
-        if (spot === undefined) return beat;
+        if (spot === undefined) { fired["drums"]!.push(null); return beat; }
         const got = withEvent(beat, {
           energy: spot.energy,
           seam: spot.last,
@@ -853,6 +860,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
           beat: chart.metre.perBeat,
           bars,
         }, chart.genre.drums.events, rng.at("drums", "event", n));
+        fired["drums"]!.push(got.event);
         return got.event === null ? beat : Object.freeze(got.hits);
       }),
     );
@@ -861,6 +869,9 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     const material: Material = Object.freeze({
       key, idea, variant, contour, bars, period, chords, groove, lead, counter, figure, drums,
       served: Object.freeze(served) as Material["served"],
+      blocks: Object.freeze(
+        Object.fromEntries(ROLES.map((r) => [r, Object.freeze(fired[r] ?? [])])),
+      ) as Material["blocks"],
     });
     check(chart, material, steps);
     all.set(key, material);
