@@ -957,8 +957,35 @@ const kindOf = (mv: Move): string =>
       const job = r === star ? starJob : jobOf(r, draw, taken, room);
       el[r] = job.element;
       tx[r] = job.texture;
-      // only what is going to SOUND fills the room up
-      if (cast.has(r)) taken.add(job.element);
+      /**
+       * ONLY WHAT IS GOING TO SOUND FILLS THE ROOM UP — AND A PEDAL IS NOT A
+       * VOICING.
+       *
+       * `taken` answers one question for the seats after this one: is this
+       * colour already here, so should I go and be something else? The drone
+       * answers it wrongly. Owsinski's pad is "a long sustaining note OR
+       * chord" so the drone is honestly a pad by the taxonomy — but its
+       * builder holds a TONIC OR A FIFTH and nothing else, for whole bars,
+       * and that is one note. It has not voiced the chord. `material/
+       * index.ts` says this outright where the counter is written — "a second
+       * pad voices the chord, it does not fight the pedal" — and this line
+       * was the one place in the program that did not know it.
+       *
+       * WHAT IT COST. The drone can only ever be a pad, so it is the most
+       * constrained seat and goes first, so `taken` holds `pad` before the
+       * keys are asked anything. In a genre whose keys may be the pad or the
+       * broken chord, that is not a draw at all: the only job left is the
+       * rhythm, and the keys arpeggiate. Measured over 200 dungeon synth
+       * records, 49% of them never struck a chord ANYWHERE — no instant in
+       * the whole record where three notes sound together — while the chart
+       * underneath went on computing a progression nobody voiced.
+       *
+       * The drone still counts as a colour everywhere else: `distinct` reads
+       * the assignment, not this set, so the room's ceiling is unchanged and
+       * a record with a drone is still that much fuller. What changes is only
+       * that a held tonic no longer tells the hands the harmony is covered.
+       */
+      if (cast.has(r) && r !== "drone") taken.add(job.element);
     }
     elementsOf.set(key, el);
     texturesOf.set(key, tx);

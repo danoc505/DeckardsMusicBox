@@ -158,6 +158,66 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**HALF THE DUNGEON SYNTH RECORDS HAD NO CHORD IN THEM, AND THE OWNER'S EYE
+FOUND IT ON THE ROLL BEFORE ANY TEST DID.** "What are those little tiny blue
+dots? That used to be chords." They were the keys arpeggiating — one note at a
+time — for whole records.
+
+Measured over 200 records, the share that never strike three notes at one
+instant ANYWHERE: dungeon synth **28% → 49%** across this session's work, lofi
+23% → 29%. Bisected across all thirteen commits: it jumps at `43cbb94`
+("a variant develops its keys instead of rolling them again") and every commit
+after it is flat. That commit's idea was right and its side effect was never
+measured — and the claim "I broke nothing that was working" was made in this
+file's spirit and without the measurement that would have caught it.
+
+THE CHAIN, because no single line was wrong on its own:
+
+1. The drone can only ever be a `pad`, so `assign` asks it first — most
+   constrained seat first — and `taken` holds `pad` before the keys are asked.
+2. `jobOf` prefers a job nobody has yet, so the keys' only remaining option is
+   `rhythm`, which is the arp texture. Not a draw at all: 68% of dungeon synth
+   materials arpeggiated off a genre weight that says pad and rhythm are equal.
+3. The one place a chord still appeared was a VARIANT redrawing its keys and
+   landing on `pad` by luck. `43cbb94` replaced the redraw with a development
+   that inherits the statement's job — so an arp statement gives an arp variant
+   for ever, and the accidental chord source closed.
+
+THE LINE: `assign` counted the drone's `pad` as the pad being spoken for. A
+drone holds a tonic or a fifth for whole bars — ONE NOTE. It has not voiced the
+chord, and `material/index.ts` says so outright where the counter is written
+("a second pad voices the chord, it does not fight the pedal"). One clause —
+the drone no longer fills the room's pad slot — and the keys draw their genre's
+actual 1:1.
+
+| | before | after | (base, 04ab6da) |
+|---|---|---|---|
+| ds records with no chord anywhere | 49% | **30%** | 28% |
+| lofi | 29% | **21%** | 23% |
+| ds keys on arp | 68% | **45%** | — |
+| lofi keys on arp | 39% | **27%** | — |
+
+41 of 150 dungeon synth seeds gained a chord, 11 lost one, net +30. Seed 3's
+chorus goes from a scatter of single notes to a held voicing on the roll, and
+its `#element` line from `keys=rhythm/arp` to `keys=pad/sustain`.
+
+WHAT IT COST, measured because it was not what was aimed at: distinct jobs per
+section 3.27 → 3.12 in dungeon synth (3.40 → 3.37 in lofi) and about 6% fewer
+pitched notes per record — a held chord is fewer events than an arpeggio
+running. That is the trade: slightly less colour variety, for the harmony
+actually being voiced. The variety was partly false anyway, since the keys were
+pushed off the pad by a label rather than by the music.
+
+STILL OPEN: `43cbb94`'s inheritance is untouched and correct — a variant should
+develop, not redraw. But it means a record whose statement arpeggiates will
+arpeggiate in every variant of it, and nothing anywhere asks whether a record
+ever voices its own harmony. `index.test.ts`'s "keys voice every tone of the
+chord" is one of the three standing failures for exactly this reason: it was
+written when the keys could only be a pad, and an arpeggio voices one tone at a
+time by definition. That test is now the wrong question and has been failing
+since before this session.
+
+
 **AND THERE IS A POOL OF THINGS THAT BREAK THE ORDER NOW — `material/block.ts`.**
 The owner's framing, which is the right one and worth keeping in these words:
 "we have basic rules for music to be generated algorithmically correct? Well
