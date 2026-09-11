@@ -43,9 +43,13 @@ test("an intro is one of the three ways in, and each one is what its source says
     if (!intro) continue;
     intros++;
     const heard = intro.heard;
-    const kind = heard.has("lead") ? "hook"
-      : [...heard].every((r) => r === "drums" || r === "bass") && heard.has("drums") ? "rhythm"
-      : "bed";
+    // THE KIND THE RECORD ACTUALLY DREW, not one inferred from the roster.
+    // This read the heard set and called {bass, drums} a rhythm intro — so a
+    // BED that happened to come out as bass and drums was held to the rhythm
+    // intro's law and failed it, while the code's own guard (which reads the
+    // drawn kind) was working correctly. A law that guesses what the code
+    // knows is checking its guess.
+    const kind = a.intro;
     kinds.set(kind, (kinds.get(kind) ?? 0) + 1);
     assert.ok(heard.size >= 1, describeArrangement(a));
     if (kind === "rhythm") {
@@ -92,14 +96,38 @@ test("the record ends carrying what it opened with", () => {
   // first, so whatever opened the record is still there at the end. A shed
   // order that PROTECTED the opening was tried and measured at nothing; see
   // the note in arrange.ts.
+  //
+  // AND THE LAW IS THAT THE OPENING COMES BACK, NOT THAT ALL OF IT DOES.
+  //
+  // This asserted EVERY opener in the outro, at over 90%, and that held while
+  // most records opened on one part. Two things widened the opening — a drone
+  // may no longer open alone, and a hook intro is no longer reserved to
+  // records whose character IS the tune — and a two-part opening is often two
+  // parts on ONE job: the drums and the bass are both the foundation. The
+  // outro carries fewer parts than that, and the shed loop must drop one of a
+  // doubled pair whatever it does; `restate` gives both a score of zero and
+  // something still has to go.
+  //
+  // MEASURED over 120 records: every opener survives in 86%, and AT LEAST ONE
+  // survives in 100%. The dénouement — "a restatement of established musical
+  // materials" — is what the second number is, and it is absolute. The first
+  // is a consequence of how wide the opening happened to be, so it is held to
+  // a floor that catches rot rather than to a number that moves whenever an
+  // intro gets one part bigger.
   let records = 0;
   let inOutro = 0;
+  let anyBack = 0;
   for (const a of sweep(120)) {
     records++;
     const openers = [...a.placed[0]!.heard];
-    if (openers.every((r) => a.placed[a.placed.length - 1]!.heard.has(r))) inOutro++;
+    const outro = a.placed[a.placed.length - 1]!.heard;
+    if (openers.every((r) => outro.has(r))) inOutro++;
+    if (openers.some((r) => outro.has(r))) anyBack++;
+    assert.ok(openers.some((r) => outro.has(r)),
+      `the record ends carrying nothing it opened with: ${describeArrangement(a)}`);
   }
-  assert.ok(inOutro / records > 0.9, `the opening is in the outro of only ${((100 * inOutro) / records).toFixed(0)}% of records`);
+  assert.equal(anyBack, records);
+  assert.ok(inOutro / records > 0.8, `the whole opening is in the outro of only ${((100 * inOutro) / records).toFixed(0)}% of records`);
 });
 
 test("the break goes below the floor mid-record, and it carries the opening", () => {

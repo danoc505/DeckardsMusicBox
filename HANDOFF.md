@@ -158,6 +158,68 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**A RECORD NO LONGER OPENS ON A DRONE ALONE, AND THE INTRO POOL IS NOT DEAD.**
+Two more pieces of the owner's first complaint — "every single seed starts with
+ONLY chords or drones, that's boring as all hell and wrong."
+
+1. **A held tone is not an intro of any kind this program has.** All three
+   kinds are defined by what they STATE: a bed is "the chord progression, or
+   the chords and the beat"; a rhythm intro is "solo drums, solo bass, or drums
+   and bass in duet"; a hook is the tune from bar one. A drone holds a tonic or
+   a fifth and nothing else, so it states no progression, keeps no time and
+   carries no tune. **50 of 200 dungeon synth records — a quarter — opened on
+   the drone and nothing else**, which at this tempo is half a minute of one
+   held note. Same mistake as the pad slot, at the front of the record.
+2. **`canIntroduce` was deciding the intro kind instead of the genre.** It
+   allowed a hook only where the character IS the lead — but `opensWith` builds
+   a hook as the character PLUS the lead, over "whatever foundation the intro
+   carries", so any character can be that foundation. Dungeon synth states
+   bed 5 : rhythm 2 : hook 1 and got bed 139, hook 54, rhythm 7 over 200
+   records — and the hook count was EXACTLY the number of lead-led records,
+   because the kind was deduced rather than drawn. Every drone-led and keys-led
+   record was barred from opening with its tune.
+
+| over 200 records | before this turn | after |
+|---|---|---|
+| ds records opening on ONE part | 52% | **24%** |
+| ds voices in an average bar | 2.97 | **3.08** (records: 2.9–3.1) |
+| ds bars with one voice or none | 19% | **15%** |
+| ds median lead entry | 17% of the record | **8%** |
+| ds median counter entry | 29% | **21%** |
+| ds hook intros | 54 of 200 | **77** |
+| first 8 bars only keys and/or drone | 51% | **44%** |
+
+**TWO MORE LATENT BUGS, both reached by the reshuffle rather than caused.**
+
+- **A walk-in could add a part to a RHYTHM intro**, the one kind defined by
+  what it excludes. A lofi record came out `intro[drums keys]`, which is not a
+  rhythm intro, it is a bed with a beat.
+- **`arrange.test.ts` was inferring the intro kind from the roster** instead of
+  reading the one the record drew, so a bed that happened to be bass and drums
+  was held to the rhythm intro's law and failed it while the code's own guard
+  was right. A law that guesses what the code knows is checking its guess.
+
+**AND ONE LAW RESTATED RATHER THAN WEAKENED.** "The record ends carrying what
+it opened with" asserted EVERY opener in the outro at over 90%. Wider openings
+are often two parts on ONE job — the drums and the bass are both the foundation
+— and the outro carries fewer than that, so the shed loop must drop one of a
+doubled pair whatever it does. Measured: every opener survives in 86%, AT LEAST
+ONE in **100% of 120 records**. The dénouement is the second number and it is
+absolute; the test now asserts it as such and holds the first to a floor.
+
+**`introParts: 2` NOW BUILDS THE SHAPE ITS SOURCE DESCRIBES, and is left at 1.**
+A bed's second part was `enter[1]` — the next sustaining name — which is why
+raising it was measured at worse than nothing. It is the BEAT now, by name, as
+the source says. At 2 the genre measures 0% boring openings and the kit from
+bar 0; it also overshoots the research in both directions (3.17 voices a bar
+against 2.9–3.1, kit at bar 0 against the records' bar 4–10) and costs three
+laws. One line in `dungeonsynth.ts` and an ear's decision, not a number's.
+
+**STILL NOT FIXED**: the kit first sounds at 30% of the record against the
+records' bar 4–10, and 44% of first-eight-bars are still keys and/or drone
+only. Both need the genre's entry order, where the kit is fourth of six.
+
+
 **A PART ESTABLISHES ITSELF OVER A SPAN, NOT A SECTION.** The owner asked for
 three random whole seeds a genre; `shuf` picked them; dungeon synth 3127 came
 back with its bass, its tune AND its counter all starting at bar 48 of 88. Half

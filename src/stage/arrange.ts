@@ -439,6 +439,36 @@ function opensWith(kind: IntroKind, A: ArrangementRules, enter: readonly Role[],
       const under = enter.find(sounds);
       if (under !== undefined) out.add(under);
     }
+    /**
+     * AND A RECORD DOES NOT OPEN ON A DRONE ALONE, because a held tone is not
+     * an intro of any kind this program has.
+     *
+     * All three kinds are defined by what they STATE. A bed is "the chord
+     * progression, or the chords and the beat" (planetarygroup.com, quoted in
+     * `INTRO_KINDS`); a rhythm intro is "solo drums, solo bass, or drums and
+     * bass in duet" (Burns 1987); a hook is the tune from bar one. A drone
+     * holds a tonic or a fifth for whole bars — `drone.ts` permits it nothing
+     * else — so it states no progression, keeps no time and carries no tune.
+     * It is none of the three, and an opening that is only the drone is an
+     * intro by position and not by definition.
+     *
+     * MEASURED, over 200 dungeon synth records: 50 of them — a quarter —
+     * opened on the drone and NOTHING ELSE. At this genre's tempo an
+     * eight-bar intro is half a minute of one held note. This is the second
+     * half of the fault the owner named first ("every single seed starts with
+     * ONLY chords or drones, that's boring as all hell"): the first half was
+     * the drone claiming the room's pad slot, fixed where `taken` is built,
+     * and this is the same mistake at the front of the record.
+     *
+     * So the drone keeps whatever else the opening has and gains the first
+     * part that can state something if it has nothing. It stays REACHABLE as
+     * the thing a dungeon synth record opens under — it simply no longer opens
+     * alone.
+     */
+    if (out.size === 1 && out.has("drone")) {
+      const states = enter.find((r) => r !== "drone" && sounds(r));
+      if (states !== undefined) out.add(states);
+    }
     return out;
   };
   switch (kind) {
@@ -459,11 +489,29 @@ function opensWith(kind: IntroKind, A: ArrangementRules, enter: readonly Role[],
       return audible(out);
     }
     case "bed": {
-      // the foundation without the tune: what the intro withholds is what
-      // arrives when it ends
-      const out = new Set<Role>(first);
+      /**
+       * THE FOUNDATION WITHOUT THE TUNE: what the intro withholds is what
+       * arrives when it ends.
+       *
+       * AND A BED HAS TWO SHAPES, not one. The source names both — "the chord
+       * progression, OR THE CHORDS AND THE BEAT" (planetarygroup.com, quoted
+       * in `INTRO_KINDS`) — and this could only ever build the first, because
+       * the second part of a bed was `enter[1]`: the next name in the entry
+       * order, which in every genre here is another sustaining part. Dungeon
+       * synth's own note says it outright — "the drums are never in the first
+       * two, so a bed cannot reach 'the beat' at any value of this number" —
+       * and that is why raising `introParts` was measured at worse than
+       * nothing: it bought a second held tone where the source asked for a
+       * beat.
+       *
+       * So the beat is what a two-part bed carries, by name. A genre that
+       * states one part still opens on one; a genre that states two opens on
+       * the chords and the beat, which is the shape its source describes.
+       */
+      const out = new Set<Role>([star]);
+      if (A.introParts >= 2) out.add("drums");
+      for (const r of first) { if (out.size >= Math.max(1, A.introParts)) break; out.add(r); }
       if (out.size > 1) out.delete("lead");
-      out.add(star);
       return audible(out);
     }
   }
@@ -482,8 +530,35 @@ function opensWith(kind: IntroKind, A: ArrangementRules, enter: readonly Role[],
  * load a genre whose pool cannot carry a character it weights, so this can
  * never come out empty.
  */
+/**
+ * WHICH INTRODUCTIONS CAN INTRODUCE THIS CHARACTER, which is a question about
+ * what each kind IS and not about who the character is.
+ *
+ *   BED — "the foundation without the tune". `opensWith` deletes the lead from
+ *   a bed of more than one part, so a bed cannot introduce a lead: it would
+ *   have to withhold the very thing it was opening on.
+ *
+ *   RHYTHM — "solo drums, solo bass, or drums and bass in duet ... it only
+ *   works because there is little or no melody or harmony to attend to"
+ *   (Burns 1987). Exclusive by definition, so the character has to be one of
+ *   the two it admits.
+ *
+ *   HOOK — "the tune from bar one, OVER WHATEVER FOUNDATION THE INTRO
+ *   CARRIES", which `opensWith` builds as the character plus the lead. Any
+ *   character can be that foundation, and this line said `star === "lead"`.
+ *
+ * THAT MADE THE GENRE'S OWN POOL ALMOST DEAD. Dungeon synth states bed 5 :
+ * rhythm 2 : hook 1 — 62 : 25 : 13 — and over 200 records got bed 139, hook
+ * 54, rhythm 7. The hook count was EXACTLY the number of records whose
+ * character is the lead, because the kind was not being drawn at all: it was
+ * being deduced from the protagonist. A genre that states three weights and
+ * has one of them decided for it is this repository's cardinal sin with an
+ * extra step, and it cost every drone-led and keys-led record any chance of
+ * opening with its tune — which is half of what "every seed starts with only
+ * chords or drones" was.
+ */
 const canIntroduce = (kind: IntroKind, star: Role): boolean =>
-  kind === "bed" ? star !== "lead" : kind === "hook" ? star === "lead" : star === "drums" || star === "bass";
+  kind === "bed" ? star !== "lead" : kind === "hook" ? true : star === "drums" || star === "bass";
 
 /**
  * WHERE THE BREAK GOES, decided with the whole form in view.
@@ -1117,7 +1192,15 @@ const kindOf = (mv: Move): string =>
       // which `all.test.ts` catches by name and is the one thing this stage
       // promises never to do. A four-bar intro has one span and is left alone.
       const next = enter[heard.size];
-      if (next !== undefined && section.bars > introTurn && loops(next)) {
+      // AND NEVER INTO A RHYTHM INTRO, which is exclusive by definition: "solo
+      // drums, solo bass, or drums and bass in duet ... it only works because
+      // there is little or no melody or harmony to attend to" (Burns 1987).
+      // `opensWith` builds it correctly and then this handed it the next name
+      // in the entry order — a lofi record opened `intro[drums keys]`, which
+      // is not a rhythm intro, it is a bed with a beat. The one kind of intro
+      // that is defined by what it EXCLUDES was the one kind a walk-in could
+      // add to.
+      if (next !== undefined && kind !== "rhythm" && section.bars > introTurn && loops(next)) {
         heard = new Set([...heard, next]);
         arrived = Math.max(arrived, enter.indexOf(next) + 1);
       }
