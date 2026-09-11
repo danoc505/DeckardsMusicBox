@@ -289,13 +289,25 @@ figure is tiled, a phrase letter says what each bar does to the figure it
 already has. That is what makes a record coherent, and it is also why a record
 made only of it is explicable all the way down — an ear that has heard eight
 bars has heard the rules. So there is a second pool beside the treatments, and
-it is the same idea for NOTES: `src/stage/material/event.ts`, four
-interruptions — a tom roll, a snare build, a stop, a bar of double time — each
-with a SOCKET saying what has to be true for it to slot in, each overwriting a
-bar the rules had already finished with, and none of them scheduled. They
-belong to no genre: a tom roll is a tom roll in lofi, and a genre states only
-which it allows. A record fires two or three, and about one in seven fires
-none.
+it is the same idea for NOTES: `src/stage/material/block.ts`, nine
+interruptions grouped by the SHAPE of the interruption rather than by who plays
+it — a fill, an anti-fill, a build, an accent, a dropped hit, a pickup note, a
+cut, and the bar in double or half time. Each has a SOCKET saying what has to
+be true for it to slot in, each overwrites a bar the rules had already finished
+with, and none of them is scheduled.
+
+**A BLOCK IS A FUNCTION, NOT AN INSTRUMENT**, which is the part that took two
+goes to get right. A fill is a job the sources name seven instruments doing
+(en.wikipedia.org/wiki/Fill_(music)), and the drum literature's own taxonomy of
+fills is by function; so a block declares how it is played on a kit and how it
+is played on a LINE, either may be absent, and the caller judges the result by
+the seat's own laws. A block that would put a part outside its register or onto
+a pitch somebody else is holding did not fire. They belong to no genre either:
+a tom roll is a tom roll in lofi, and a genre states only which it allows.
+About one part-round in seven carries one, and `Material.blocks` records which
+— so `tools/blocks.ts` can count them and the roll can draw a bracket over the
+bar each one landed in. `docs/genre-research/THE-BLOCKS.md` is the catalogue,
+including the six rows that are not built and why.
 
 And the record moves its own desk. The rule of three says a third hearing must
 differ, and until recently the only way this program could answer that was to

@@ -7,10 +7,12 @@
  */
 
 import type { ArtName } from "../../core/articulation.ts";
-import type { Contour, Element, EventName, Idea, PitchedRole, Role, Texture } from "../../genre/spec.ts";
+import type { Contour, Element, Idea, PitchedRole, Role, Texture } from "../../genre/spec.ts";
+import type { Fired } from "./block.ts";
 import type { Figure, Hit } from "./drums.ts";
 
 export type { Figure, Hit } from "./drums.ts";
+export type { Fired } from "./block.ts";
 
 export interface Note {
   /** Bar within the material, from 0. */
@@ -108,7 +110,7 @@ export interface Material {
    * WHICH BLOCK INTERRUPTED EACH ROUND — one entry per round per part, and
    * `null` for the rounds nothing fired in, which is most of them.
    *
-   * `event.ts` returns the name of what it fired and every caller threw it
+   * `block.ts` returns the name of what it fired and every caller threw it
    * away. That is this repository's cardinal sin waiting to happen: a pool of
    * interruptions whose firing rate is a `[chosen]` constant, with no way to
    * ask a record how often it actually reached for one. The drone's dead knob
@@ -118,7 +120,7 @@ export interface Material {
    * interruption is drawn from an address, and a tool that re-drew it would be
    * measuring its own copy of the rule instead of the record's.
    */
-  readonly blocks: Readonly<Record<Role, readonly (EventName | null)[]>>;
+  readonly blocks: Readonly<Record<Role, readonly (Fired | null)[]>>;
 }
 
 /** A material is exactly `bars` long; a note that is not in it is a bug. */

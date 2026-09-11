@@ -129,6 +129,26 @@ const PITCH = (hi - lo) * SH;
 /* which treatments this record actually reaches for, in the order it first
    reaches for them — a legend built from the record rather than from the
    catalogue, so a row is never drawn for a treatment nobody played */
+/* EVERY BLOCK THIS WINDOW SHOWS, worked out before the canvas is sized
+   because it needs a band of its own — see the drawing pass below. */
+const blockAt = [];
+{
+  const used = new Map();
+  for (const pl of song.arrangement.placed) {
+    const m = song.materials.all.get(pl.material);
+    if (!m || !m.blocks) continue;
+    const rounds = Math.ceil(pl.section.bars / m.bars);
+    for (const role of pl.heard) {
+      const k = `${pl.material}:${role}`;
+      const before = used.get(k) ?? 0;
+      for (let i = 0; i < rounds; i++) {
+        const f = m.blocks[role]?.[before + i];
+        if (f) blockAt.push({ role, name: f.name, bar: pl.section.startBar + i * m.bars + f.bar });
+      }
+      used.set(k, before + rounds);
+    }
+  }
+}
 const deskAt = song.performance.desk ?? [];
 const fxNames = [];
 for (const d of deskAt) if (d.treatment && !fxNames.includes(d.treatment)) fxNames.push(d.treatment);
@@ -145,9 +165,17 @@ const FX = 22 + fxNames.length * FX_ROW + moves.length * MOVE_ROW + (fxNames.len
    and not a summary of it. So the whole set goes at the top, in the colour
    each one is drawn in below — the legend and the row are the same colour, so
    a name up here and a bar down there are the same thing seen twice. */
+/* ONE ROW PER PART THAT FIRES ONE, and no band at all where none does. Two
+   blocks can land on the same bar in different seats — a dropped kick under a
+   bass in half time is exactly the sort of thing this pool is for — and drawn
+   on one line the second would paint over the first, which is a picture that
+   says a record did less than it did. */
+const BLK_ROW = 8;
+const blkRoles = ROLES.filter((r) => blockAt.some((b) => b.role === r && b.bar >= bar0 && b.bar < bar1));
+const BLK = blkRoles.length ? blkRoles.length * BLK_ROW + 4 : 0;
 const LEG = fxNames.length ? 9 : 0;
 const HEAD = HEAD0 + LEG;
-const W = GUT + nBars*PXB + 8, H = HEAD + SPAN + PITCH + DRUM + FX + 12;
+const W = GUT + nBars*PXB + 8, H = HEAD + SPAN + PITCH + DRUM + BLK + FX + 12;
 const cv = canvas(W, H, [8, 12, 16]);
 
 const spb = song.chart.metre.beats;                 // beats in a bar
@@ -210,6 +238,32 @@ for (const pl of song.arrangement.placed) {
       // row are drawn in, so a name here is findable in both without reading it
       text(cv, sp.treatment.slice(0, room), x0 + 2, HEAD + 14, hue(sp.treatment), 0.95);
     }
+  }
+}
+/* -- THE BLOCKS ----------------------------------------------------------
+   WHAT INTERRUPTED THE RECORD, drawn where it interrupted it.
+
+   A treatment shows on the strip because the strip is where the running order
+   is. A block is not in the running order - nothing schedules it, it belongs
+   to one part, and it lasts ONE BAR - so it gets a mark of its own: a bracket
+   in the part's colour over exactly the bar it landed in, with its name beside
+   it. The bar is the material's own record of it, not an estimate: a marker
+   four bars wide over a one-bar gesture would be a picture that lies.
+
+   Where a record fires none, nothing is drawn, which is the correct picture of
+   a record that never interrupts itself. */
+for (const [row, role] of blkRoles.entries()) {
+  const y = TOP + PITCH + DRUM + 2 + row * BLK_ROW;
+  const c = COL[role] ?? [200, 200, 200];
+  text(cv, role.slice(0, 3), 2, y, [70, 80, 92]);
+  for (const b of blockAt) {
+    if (b.role !== role || b.bar < bar0 || b.bar >= bar1) continue;
+    const x0 = X(b.bar), x1 = X(b.bar + 1);
+    // the bracket is the BAR, and the bar is what the material recorded
+    cv.rect(x0 + 1, y + 5, Math.max(2, x1 - x0 - 2), 1, c, 0.95);
+    cv.rect(x0 + 1, y + 3, 1, 3, c, 0.95);
+    cv.rect(x1 - 2, y + 3, 1, 3, c, 0.95);
+    text(cv, b.name.slice(0, Math.max(0, Math.floor((x1 - x0 - 2) / 4))), x0 + 2, y, c, 0.95);
   }
 }
 // bar rules + numbers
@@ -278,7 +332,7 @@ for (const e of song.performance.events) {
 /* ── the FX roll ──────────────────────────────────────────────────────────
    Each treatment gets a colour off its own name, so the same move is the same
    colour in every record and two rolls can be read against each other. */
-const FX_TOP = TOP + PITCH + DRUM + 6;
+const FX_TOP = TOP + PITCH + DRUM + BLK + 6;
 function hue(name) {
   let h = 0;
   for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360;
@@ -414,6 +468,7 @@ console.log(`${out}  ${W}x${H}  bars ${bar0}-${bar1}`);
 console.log(`${song.chart.genre.label} · seed ${seedArg} · ${song.chart.tempo} bpm · ${song.form.bars} bars`);
 console.log("colours: drums=orange bass=yellow keys=cyan lead=pink counter=violet drone=green · amber verticals are section starts");
 console.log("FX rows: bar HEIGHT is the treatment's depth — a rising wedge is a build, a full row is full travel");
+console.log("a bracket at the foot of the roll, in a part's colour: a BLOCK, the one bar it interrupts");
 console.log("the strip: a block per part in · half weight = held back · boxed = a treatment aimed at it · orange dash = half time · a name = the desk");
 if (fxNames.length) console.log(`the line at the very top: every alteration this record used — ${fxNames.join(", ")}`);
 if (fxNames.length || moves.length) {

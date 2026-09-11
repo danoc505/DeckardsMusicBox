@@ -1,7 +1,7 @@
 /**
  * HOW OFTEN A RECORD INTERRUPTS ITSELF, and with what, and on which part.
  *
- * `material/event.ts` is a pool of gestures that break the order of things,
+ * `material/block.ts` is a pool of gestures that break the order of things,
  * and the rate it reaches for one is a `[chosen]` constant. A constant nobody
  * counts is how the drone's alteration came to fire 0 times in 872 rounds and
  * ship anyway — this repository calls that its cardinal sin, and the reason it
@@ -62,12 +62,12 @@ for (const genre of genres) {
       for (const role of ROLES) {
         const list = m.blocks[role];
         rounds.set(role, (rounds.get(role) ?? 0) + list.length);
-        for (const b of list) {
-          if (b === null) continue;
+        for (const f of list) {
+          if (f === null) continue;
           here++;
           fired.set(role, (fired.get(role) ?? 0) + 1);
-          names.set(b, (names.get(b) ?? 0) + 1);
-          (seen.get(b) ?? seen.set(b, new Set()).get(b)!).add(seed);
+          names.set(f.name, (names.get(f.name) ?? 0) + 1);
+          (seen.get(f.name) ?? seen.set(f.name, new Set()).get(f.name)!).add(seed);
         }
       }
     }

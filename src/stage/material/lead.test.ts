@@ -314,8 +314,16 @@ test("a developed time round differs, and keeps the question where there is one"
     longMaterials++;
     const first = tune(m);
     const inLoop = (ns: readonly Note[]): string => JSON.stringify(ns.filter((n) => n.bar < m.period));
-    for (const line of m.lead.slice(1)) {
+    for (const [i, line] of m.lead.slice(1).entries()) {
       if (line.length === 0) { rests++; continue; }
+      // A ROUND THAT WAS INTERRUPTED IS NOT A DEVELOPMENT. `block.ts` rewrites
+      // ONE BAR of one round, and that bar can be any of them — so a statement
+      // with a fill in its third bar differs from the statement without
+      // differing inside the first turn, which is the one thing this law says
+      // a development may not do. It is not a development; it is the statement
+      // with something happening in it, and the material records which rounds
+      // those were.
+      if (m.blocks.lead[i + 1] != null) continue;
       if (JSON.stringify(line) === JSON.stringify(first)) continue;
       developed++;
       // whatever the loop's length, a development differs inside it — the

@@ -815,20 +815,6 @@ export interface DrumsSpec {
    * per strike would be writing a drum part rather than stating a kit.
    */
   readonly tom?: Weighted<Beats>;
-  /**
-   * WHICH INTERRUPTIONS THIS GENRE ALLOWS — see `material/event.ts`.
-   *
-   * Not a weighted pool and not a rate: a list of names. How often one lands
-   * is the event pool's own business and the same for every genre, because
-   * what makes an interruption an interruption is that it is rare, and a genre
-   * that could tune that would tune it into a pattern.
-   *
-   * A genre that says nothing gets them all, which is the point: a tom roll is
-   * a tom roll in lofi, and these are parts of a song rather than parts of a
-   * style. A genre states a subset only where one of them is genuinely not a
-   * thing its music does. `[]` is a genre that never interrupts itself.
-   */
-  readonly events?: readonly EventName[];
   /** The hat strikes every this many beats: 1 is quarters, 0.5 eighths, 0 none. */
   readonly hat?: Weighted<number>;
   /** One letter per bar, drawn per material. */
@@ -851,7 +837,6 @@ export interface DrumsRules {
   readonly kick: Weighted<readonly number[]>;
   readonly snare: Weighted<readonly number[]>;
   readonly tom: Weighted<readonly number[]>;
-  readonly events: readonly EventName[];
   readonly hat: Weighted<number>;
   readonly phrase: Weighted<readonly BarLetter[]>;
   readonly art: ArtSpec;
@@ -896,14 +881,31 @@ export type IntroKind = (typeof INTRO_KINDS)[number];
  * ever get darker is not developing, it is decaying.
  */
 /**
- * THE EVENTS: things that happen to a record instead of being played by it.
+ * THE BLOCKS: things that happen to a record instead of being played by it.
  *
- * `material/event.ts` is what each one does and where it may go. The names are
- * here for the same reason `TREATMENTS` is: a genre names which it allows, and
- * a genre may not reach into a stage.
+ * `material/block.ts` is what each one does and where it may go, and
+ * `docs/genre-research/THE-BLOCKS.md` is the catalogue both come from. The
+ * names are here for the same reason `TREATMENTS` is: a genre names which it
+ * allows, and a genre may not reach into a stage.
+ *
+ * Grouped by the SHAPE of the interruption rather than by who plays it, which
+ * is how the drum literature groups its own fills — "all drum fills can be
+ * grouped into three types: variation, tension, and notification"
+ * (hackmusictheory.com) — and the grouping generalises to every seat.
  */
-export const EVENTS = ["tomroll", "snarebuild", "stop", "double"] as const;
-export type EventName = (typeof EVENTS)[number];
+export const BLOCKS = [
+  // NOTIFY: the boundary is announced, by a flurry or by a gap
+  "tomroll", "empty",
+  // TENSE: pressure accumulates toward a point
+  "snarebuild",
+  // VARY: the section is spiced and nothing structural is said
+  "accent", "drop", "pickup",
+  // SUBTRACT: the block IS the silence
+  "cut",
+  // LURCH: the feel changes while the notes stay
+  "double", "half",
+] as const;
+export type BlockName = (typeof BLOCKS)[number];
 
 /**
  * THE TWO THAT WERE TAKEN OUT, and why, so nobody adds them back.
@@ -1783,6 +1785,7 @@ export interface Genre {
   readonly counter: CounterRules;
   readonly drone: DroneRules;
   readonly drums: DrumsRules;
+  readonly blocks: readonly BlockName[];
   readonly arrangement: ArrangementRules;
   readonly feel: FeelRules;
   readonly sound: SoundRules;
@@ -2293,8 +2296,6 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     ],
     /** No genre plays a tom unless it says so, so porting them moved no record. */
     tom: [[[], 1]],
-    /** All of them. An interruption belongs to music, not to a style. */
-    events: [...EVENTS],
     hat: [
       [0.5, 5],
       [0.25, 2],
@@ -2351,6 +2352,29 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      */
     treatments: 2,
   },
+
+  /**
+   * WHICH INTERRUPTIONS THIS GENRE ALLOWS — see `material/block.ts`.
+   *
+   * Not a weighted pool and not a rate: a list of names. How often one lands
+   * is the pool's own business and the same for every genre, because what
+   * makes an interruption an interruption is that it is rare, and a genre that
+   * could tune that would tune it into a pattern.
+   *
+   * ALL OF THEM, and a genre that says nothing keeps all of them. A tom roll
+   * is a tom roll in lofi: these are parts of a song rather than parts of a
+   * style. A genre states a subset only where one of them is genuinely not a
+   * thing its music does. `[]` is a genre that never interrupts itself.
+   *
+   * THIS USED TO LIVE UNDER `drums`, and that was the whole bug. A pool named
+   * as the kit's gets called from the kit's builder and nowhere else, which is
+   * exactly what happened: across 120 records every block that fired, fired on
+   * the drums. A fill is a job rather than an instrument — the sources name
+   * "electric lead guitar, bass guitar, organ, drums, strings, horns, voice"
+   * doing it (en.wikipedia.org/wiki/Fill_(music)) — so the pool sits where the
+   * genre's other whole-record vocabularies sit.
+   */
+  blocks: [...BLOCKS],
 
   arrangement: {
     /** the chord first, then the beat under it, the bass, and the tune last */

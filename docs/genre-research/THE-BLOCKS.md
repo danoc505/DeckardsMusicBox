@@ -27,7 +27,8 @@ landed:
 > correctly."
 
 What was built instead was a literal transcription of the examples: a tom roll,
-a snare build, a stop, a bar of double time (`src/stage/material/event.ts`).
+a snare build, a stop, a bar of double time (`src/stage/material/event.ts`, now
+`block.ts`).
 Four things, none researched, chosen because they were the four named in
 conversation. **"For example" was read as a specification.** §5 says which of
 the four survive contact with the sources.
@@ -70,8 +71,15 @@ A block is one of these six, played by whoever is available. That is the lego.
 > — rhythmnotes.net / blog.landr.com, drum fills
 
 This is the single most useful number found and the program contradicts it.
-`event.ts`'s `tomroll` **replaces a whole bar** — four times the upper bound,
-sixteen times the common case. A fill that long is not a fill, it is a section.
+`event.ts`'s `tomroll` **replaced a whole bar, every time**.
+
+*(An earlier draft of this paragraph said a bar was "four times the upper bound,
+sixteen times the common case". That was wrong arithmetic: a bar of 4/4 is four
+beats, which is exactly the upper bound and four times the common case. The
+fault is not that the length is illegal — it is that the roll is ALWAYS the
+maximum and never the common one, so the program has one fill, at its longest
+setting, and the source describes a distribution. Fixed in `block.ts` by
+drawing the length, weighted toward the single beat.)*
 
 And for the genres this record is being pushed toward:
 
@@ -92,11 +100,11 @@ suspect it is high rather than low.
 
 | | block | in notes | socket | length |
 |---|---|---|---|---|
-| 1 | ◐ **fill** | the last beat of the phrase is given to one part, played denser than the figure | the bar before a section seam | **1–4 beats** |
+| 1 | ◐ **fill** (`tomroll`, on a kit only) | the last beat of the phrase is given to one part, played denser than the figure | the bar before a section seam | **1–4 beats** |
 | 2 | ○ **pickup / anacrusis** | one to three notes ahead of the downbeat, leading into it | into any seam | < 1 bar |
 | 3 | ○ **crash on the one** | a single ringing cymbal on the downbeat of a new section | the first beat after a seam | 1 hit |
 | 4 | ○ **turnaround** | the last bar of a loop leads back to its own first chord instead of sitting | the seam of a repeat | 1 bar |
-| 5 | ○ **anti-fill** | the last beat is EMPTIED instead of filled | as the fill, in its place | 1–4 beats |
+| 5 | ● **anti-fill** (`empty`) | the last beat is EMPTIED instead of filled | as the fill, in its place | 1–4 beats |
 
 Row 5 is the one an algorithm never reaches for and arrangers name outright: the
 gap before the downbeat does the same job as the flurry.
@@ -116,12 +124,12 @@ gap before the downbeat does the same job as the flurry.
 | | block | in notes | socket | length |
 |---|---|---|---|---|
 | 11 | ○ **mid-phrase fill** | the variation fill — halfway through a long section, signalling nothing | mid-section, not a seam | 1–2 beats |
-| 12 | ○ **added accent** | one hit of the figure is leant on that was not before | anywhere, on a repeat | 1 hit |
-| 13 | ○ **dropped hit** | one hit of the figure is missing this pass | anywhere, on a repeat | 1 hit |
-| 14 | ○ **pickup note added** | a grace note appears before a figure's strong note | on a repeat | 1 note |
+| 12 | ● **added accent** (`accent`) | one hit of the figure is leant on that was not before | MID-SECTION, on a repeat | 1 hit |
+| 13 | ● **dropped hit** (`drop`) | one hit of the figure is missing this pass | MID-SECTION, on a repeat | 1 hit |
+| 14 | ● **pickup note added** (`pickup`) | a grace note appears before a figure's strong note | MID-SECTION, on a repeat | 1 note |
 
-**Rows 12–14 are the doom and sludge vocabulary and the program does not have
-them.** This is the finding that most contradicts what was built:
+**Rows 12–14 are the doom and sludge vocabulary and the program did not have
+them.** This was the finding that most contradicted what was built:
 
 > "Favor cyclical, mantra-like repetition with **subtle variation (rests, pickup
 > notes, accents)**, and employ long sustains, bends, and vibrato to make simple
@@ -129,14 +137,27 @@ them.** This is the finding that most contradicts what was built:
 > — riffhard.com, how-to-write-doom-metal-riffs
 
 The genre's own variation vocabulary is **a rest, a pickup note, an accent**.
-The program's is inversion, retrograde, sequence and octave transposition —
+The program's was inversion, retrograde, sequence and octave transposition —
 a classical/jazz motivic set, applied to music whose sources describe none of it.
+
+**AND THE LAYER IS MID-SECTION, WHICH IS ITS DEFINITION.** The socket column
+above said "anywhere" and that was a misreading of the same source this section
+opens with: "the function of a VARIATION drum fill is to spice up a section,
+**for example halfway through a 16-bar verse**". Halfway through, not at the
+end — and the position is the whole difference, because a gesture at a seam is
+read as a notification whatever it is made of ("fills … **signal the end of a
+phrase**", en.wikipedia.org/wiki/Fill_(music)).
+
+Measured with all nine blocks fitting everywhere: `tomroll` fell from 12
+firings in 60 dungeon synth records to 4, and `snarebuild` from 6 to 3, because
+at a seam the roll was one draw in nine instead of one in three. The layers
+have to refuse each other's ground or the commonest one eats the pool.
 
 ### Layer 4 — SUBTRACT
 
 | | block | in notes | socket | length |
 |---|---|---|---|---|
-| 15 | ◐ **the cut** | everything stops on a beat; the bar finishes empty | mid-section, dense record | ½–1 bar |
+| 15 | ● **the cut** (`cut`) | everything stops on a beat; the bar finishes empty | mid-section, dense record | ½–1 bar |
 | 16 | ○ **caesura** | a break in playing before the next entry — "the conductor decides when to bring the ensemble back in" | any seam | unmetered |
 | 17 | ○ **the empty bar** | one whole bar of nothing where the figure would be | a repeat, mid-section | 1 bar |
 
@@ -170,14 +191,14 @@ decide, not the material stage's.
 | | block | in notes | socket | length |
 |---|---|---|---|---|
 | 21 | ● **double time** | the figure at half the spacing, same pitches | a record already at its top | 1–2 bars |
-| 22 | ○ **half time** | the figure at twice the spacing — doom's own move | to thicken, anywhere | 2–8 bars |
+| 22 | ● **half time** (`half`) | the figure at twice the spacing — doom's own move | to thicken, anywhere | 2–8 bars |
 | 23 | ○ **the lurch** | the feel changes between trudge and drive without the tempo changing | sludge, at a seam | a section |
 
 > "Use **half-time feels to thicken grooves** … drums that **lurch between
 > trudging slow-motion grooves and ragged mid-tempo blasts**."
 > — riffhard.com, how-to-play-sludge-metal
 
-Half time is the doom move and the program has only its opposite.
+Half time is the doom move and the program had only its opposite.
 
 ---
 
@@ -185,7 +206,7 @@ Half time is the doom move and the program has only its opposite.
 
 The program restricted the drone's third-statement alteration to `thin` and
 `augment`, reasoning from a collision bug that only subtraction is safe on a
-held tone. **Measured: 0 of 872 drone rounds are altered.** `varyLine` refuses
+held tone. **Measured: 0 of 872 drone rounds were altered.** `varyLine` refuses
 to thin a line of one or two notes, and `augment` thins first. The rule fires
 never. This repo calls that its cardinal sin and it shipped.
 
@@ -202,9 +223,9 @@ Three alterations follow, and none of them moves the pitch off its law:
 
 | | block | in notes |
 |---|---|---|
-| 24 | ○ **re-articulate** | a held tone becomes the same pitch struck repeatedly, or repeats merge into one hold — the source names BOTH as drone |
+| 24 | ● **re-articulate** (`alterDrone`'s `sustain`, one direction of it) | a held tone becomes the same pitch struck repeatedly, or repeats merge into one hold — the source names BOTH as drone |
 | 25 | ○ **shift the string** | tonic ↔ fifth — both are named, so moving between them stays lawful |
-| 26 | ○ **the floor goes out** | the drone drops for one turn — "most or all" is not "all" |
+| 26 | ● **the floor goes out** (`alterDrone`'s `rest`) | the drone drops for one turn — "most or all" is not "all" |
 
 The general research agrees the pitch itself should not wander:
 
@@ -221,29 +242,56 @@ So the constraint was right and the operations were wrong.
 
 | | verdict |
 |---|---|
-| `tomroll` | **Shape sound, length wrong.** A fill is 1–4 beats, commonly the last beat; this takes the whole bar. Rebuild at the researched length. |
+| `tomroll` | **Shape sound, length always the maximum.** A fill is 1–4 beats, commonly the last beat; this took the whole bar every time. Draw the length. |
 | `snarebuild` | **Sound.** Row 6, a tension block, correct shape and plausible length. |
-| `stop` | **Not a device as built.** It deletes the back half of a bar, which matches no named gesture. The real ones are the caesura (16), the empty bar (17) and stop-time (19), and stop-time — hits on one, silence between, under a feature — is the one worth having. |
+| `stop` | **Row 15, THE CUT, misnamed.** It deletes the back half of a bar — "everything stops on a beat; the bar finishes empty", which is row 15 and not the nothing this section first called it. The name was the fault, and being drums-only was the rest of it. |
 | `double` | **Sound, and half a pair.** Row 21. Its partner, HALF time, is the move doom actually uses and is missing. |
 
-Two of four survive. One has the wrong length. One is not a thing.
+All four survive as shapes. One had the wrong length, one had the wrong name,
+and all four could only ever happen to the drums.
 
 ---
 
-## 6. Build order
+## 6. Build order, and what is built
 
-1. **The drone's three (24–26).** It is the shipped dead knob, and all three are
-   cheap: none needs a new mechanism, only operations that fit a held tone.
-2. **The doom vocabulary (12–14): accent, dropped hit, pickup note.** The
-   sources name these as the genre's own variation, and the program's motivic
-   set contains none of them. This is also what the "ornamentation — the program
-   cannot ADD a note" gap really is.
-3. **Fix `tomroll` to 1–4 beats, and add the anti-fill (5).** Both are edits to
-   a file that exists.
-4. **Half time (22).** The missing half of a pair already built.
-5. **The SPOTLIGHT layer (18–20).** The bass solo and the drum break, properly
-   named. These need `arrange.ts`, because they change who is playing — the one
-   group here that is not the material stage's to do alone.
+1. ✅ **The drone's three (24–26).** Rows 24 (`sustain`) and 26 (`rest`) are
+   `alterDrone`; row 25 is deliberately left out, and `drone.ts` says why.
+2. ✅ **The doom vocabulary (12–14): accent, dropped hit, pickup note.** All
+   three, on every seat. `pickup` is the first thing in this program that can
+   ADD a note — `vary.ts`'s five operations can thin, stretch, turn over and
+   move a line, and none of them can put a note in it.
+3. ✅ **`tomroll` at a drawn 1–4 beats, and the anti-fill (5) as `empty`.**
+4. ✅ **Half time (22).** `half`, on every seat.
+5. ○ **The SPOTLIGHT layer (18–20).** The bass solo and the drum break,
+   properly named. These need `arrange.ts`, because they change who is playing
+   — the one group here that is not the material stage's to do alone.
+
+**And the finding that outranked the list.** Every block in the program fired
+on the kit, because `drawDrums` was the only caller and the genre's pool was
+called `drums.events`. Measured over 120 records: 240 blocks, all of them on
+the drums, none reachable by any other seat. The sources say a fill is a JOB —
+"electric lead guitar, bass guitar, organ, drums, strings, horns, voice"
+(en.wikipedia.org/wiki/Fill_(music)) — and the drum literature's own taxonomy
+is by function, not by kit. So a block now declares how it is played on a kit
+and how it is played on a LINE, either may be absent, and the pool sits at the
+genre's top level as `blocks`.
+
+| after | rounds | fired | drums | bass | keys | lead | counter | drone |
+|---|---|---|---|---|---|---|---|---|
+| lofi 1–60 | 3395 | 13% | 18% | 14% | 20% | 11% | 4% | 3% |
+| dungeonsynth 1–60 | 5873 | 13% | 22% | 17% | 20% | 11% | 3% | 5% |
+
+The counter and the drone are low because their laws refuse most of what is
+offered — the counter is written against the ground AND the tune, and a drone
+that stops being a tonic held from a downbeat for a bar is not a drone. That is
+the laws winning, which is what should happen.
+
+**What is still [chosen] and un-eared.** `REACHES = 0.28` is a guess, and it is
+now a guess applied to six seats instead of one, so a record's total
+interruption rate is six times what it was. §2 above says doom and sludge want
+blocks RARER than the pop default and the pool has no way for a genre to say
+so — deliberately, because "a genre that could tune that would tune it into a
+pattern". Whether that principle survives an ear is the open question.
 
 Everything above row 18 rewrites bars a part already owns and needs nothing new
 from the program.

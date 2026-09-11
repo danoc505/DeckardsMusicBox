@@ -158,7 +158,7 @@ measured. Write the next one that way.
 
 ## What was just done
 
-**AND THERE IS A POOL OF THINGS THAT BREAK THE ORDER NOW — `material/event.ts`.**
+**AND THERE IS A POOL OF THINGS THAT BREAK THE ORDER NOW — `material/block.ts`.**
 The owner's framing, which is the right one and worth keeping in these words:
 "we have basic rules for music to be generated algorithmically correct? Well
 music is not made like that normally, you need emergence of things to happen.
@@ -166,11 +166,48 @@ So we need pools of special things that break the order of things."
 
 `treat.ts` was already exactly that pool FOR THE MIX — special things, each
 refused where it would do nothing, none of them scheduled. What was missing was
-its twin for what is PLAYED. So: `tomroll`, `snarebuild`, `stop`, `double`.
-Each has a socket — the section's energy, whether this is the seam out of a
-section, how many times the material has been heard, and which lanes the kit
-actually strikes — and each OVERWRITES a bar the figure, the phrase letter and
-the manner pass had already finished with.
+its twin for what is PLAYED.
+
+THE FIRST GO WAS FOUR BLOCKS OFF AN OFFHAND LIST — `tomroll`, `snarebuild`,
+`stop`, `double` — chosen because they were the four named in conversation.
+"For example" was read as a specification. `docs/genre-research/THE-BLOCKS.md`
+is the catalogue that should have come first: twenty-six blocks in six layers,
+grouped by the SHAPE of the interruption rather than by who plays it, which is
+how the drum literature groups its own fills. §5 judges the four; §6 is the
+build order and what has since been built off it.
+
+**THE POOL IS NINE NOW AND IT REACHES EVERY SEAT.** The second finding was
+worse than the first: measured over 120 records, every one of the 240 blocks
+that fired, fired on the DRUMS — because `drawDrums` was the only call site and
+the genre's pool was a field called `drums.events`. A tom roll could not happen
+on the keys; nothing at all could happen to the bass.
+
+The sources say a fill is a JOB and name the instruments that do it —
+"electric lead guitar, bass guitar, organ, drums, strings, horns, voice … and
+turntable scratching" (en.wikipedia.org/wiki/Fill_(music)) — and the taxonomy
+the catalogue is built on is by FUNCTION: "all drum fills can be grouped into
+three types: variation, tension, and notification" (hackmusictheory.com). A tom
+roll and a keyboard run are the same notification on different instruments.
+
+So a block declares HOW IT IS PLAYED ON A KIT and HOW IT IS PLAYED ON A LINE,
+and either may be absent — an absence is a refusal in the same sense a socket
+is. `tomroll` has no pitched half because a roll down the toms is a kit
+gesture; `pickup` has no drum half because a grace note is a pitch. The genre's
+pool moved out of `drums` to the top level as `blocks`.
+
+| | |
+|---|---|
+| NOTIFY | `tomroll` (a drawn 1–4 beats now, not the whole bar), `empty` — the anti-fill |
+| TENSE | `snarebuild` |
+| VARY | `accent`, `drop`, `pickup` — the doom vocabulary, and `pickup` is the first thing here that can ADD a note |
+| SUBTRACT | `cut` (was `stop`; it is the catalogue's row 15 and the name was the fault) |
+| LURCH | `double`, `half` — half time is doom's own move and the program had only its opposite |
+
+Each has a socket — the seat, the section's energy, whether this is the seam
+out of a section, how many times the material has been heard, which lanes the
+kit strikes, and the ladder of pitches the seat may write — and each OVERWRITES
+a bar the figure, the phrase letter, the third-statement alteration and the
+manner pass had already finished with.
 
 THREE THINGS ABOUT IT THAT ARE THE DESIGN AND NOT DETAILS:
 
@@ -189,29 +226,65 @@ THREE THINGS ABOUT IT THAT ARE THE DESIGN AND NOT DETAILS:
   a genre that could tune the rate would tune it into a pattern. Both genres
   take the default, which is all four.
 
-Measured over sixty records a genre, with neither genre stating anything:
+THREE MORE THINGS THAT ARE THE DESIGN:
 
-| | dungeon synth | lofi |
+- **The VARY layer refuses a seam, and that is its definition.** "The function
+  of a VARIATION drum fill is to spice up a section, for example halfway
+  through a 16-bar verse" — halfway through, not at the end, because a gesture
+  at a seam is read as a notification whatever it is made of. Measured with all
+  nine fitting everywhere: `tomroll` fell from 12 firings in 60 records to 4,
+  because at a seam the roll was one draw in nine instead of one in three. The
+  layers have to refuse each other's ground or the commonest one eats the pool.
+- **The seat's own laws decide, not the pool.** A block hands back a line and
+  the CALLER judges it — register, scale, and nothing another part is sounding
+  — so the laws stay where they already live. `drone.ts` now exports `isDrone`
+  for the same reason: three blocks write lines that are correct on any other
+  seat and are not a drone.
+- **A stroke, not a note.** An accent leans on every note struck at that
+  instant and a dropped hit takes all of them. A chord is one stroke, which
+  `perform.test.ts` has held all along, and an accent on one note of a four-note
+  voicing broke it on lofi seed 2 at bar 44.
+
+Measured over sixty records a genre, with neither genre stating anything —
+`node tools/blocks.ts`:
+
+| part-rounds carrying a block | dungeon synth | lofi |
 |---|---|---|
-| a socket was open on | 71% of drum cycles | 57% |
-| an event fired on | 20.5% | 14.5% |
-| events per record | 2.4 | 1.6 |
-| records with at least one | 52 of 60 | 48 of 60 |
-| which | double 71 · stop 57 · tomroll 12 · snarebuild 6 | snarebuild 34 · double 32 · stop 28 |
+| all seats | 13% of 5873 | 13% of 3395 |
+| drums | 22% | 18% |
+| keys | 20% | 20% |
+| bass | 17% | 14% |
+| lead | 11% | 11% |
+| drone | 5% | 3% |
+| counter | 3% | 4% |
+| which | half 166 · accent 162 · empty 115 · cut 99 · drop 79 · double 69 · pickup 57 · tomroll 5 · snarebuild 2 | half 130 · empty 91 · drop 61 · accent 54 · cut 36 · double 34 · pickup 21 · snarebuild 11 |
 
-The pool selects itself per genre without either genre saying a word: lofi
-fires no tom rolls because it has no toms, and dungeon synth almost no snare
-builds because its snare is now mostly empty.
+The pool still selects itself per genre without either genre saying a word:
+lofi fires no tom rolls because it has no toms, and dungeon synth almost no
+snare builds because its snare is now mostly empty. The counter and the drone
+are low because their own laws refuse most of what is offered, which is the
+laws winning.
 
-**`REACHES` (0.28) is the number to point an ear at.** It decides whether this
-is emergence or a new kind of order, it is `[chosen]`, and no count can settle
-it — the honest version is the rate above which a listener starts EXPECTING the
-next one. If every seam carries a fill then the fill is the figure.
+**`REACHES` (0.28) is the number to point an ear at, and it now applies to six
+seats instead of one.** It decides whether this is emergence or a new kind of
+order, it is `[chosen]`, and no count can settle it — the honest version is the
+rate above which a listener starts EXPECTING the next one. A record's TOTAL
+interruption rate is six times what it was, and THE-BLOCKS.md §2 has a source
+saying doom and sludge want blocks rarer and shorter than the pop default,
+which the pool has no way for a genre to say. Deliberately: "a genre that could
+tune the rate would tune it into a pattern." Whether that principle survives an
+ear is the open question.
 
-**What is NOT built**: the pitched events. A bass solo and everything-stops
-change WHO is playing, which is `arrange.ts`'s to decide, not the material
-stage's. `event.ts` is deliberately only the half that rewrites bars already
-belonging to the drums.
+**And the pool picks flat among whatever fits**, so a block that fits almost
+everywhere fires most. `accent` and `half` are half of all firings between
+them. Nothing published ranks them, so nothing here does either — but `accent`
+only moves a weight, so it is the one firing that the roll cannot draw.
+
+**What is NOT built**: the SPOTLIGHT layer — the tacet, stop-time, the break.
+Those are the bass solo and the drum break properly named, they change WHO is
+playing, and that is `arrange.ts`'s to decide rather than the material stage's.
+`block.ts` is deliberately only the half that rewrites bars a seat already
+owns. THE-BLOCKS.md §3 layer 5 has the definitions.
 
 **FOUR FAULTS THE OWNER'S EAR NAMED, ALL FOUR TRACED TO A LINE AND FIXED.**
 The complaint was: the chords are too few a kind, every seed opens on chords

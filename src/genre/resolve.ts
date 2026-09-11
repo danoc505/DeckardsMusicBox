@@ -14,8 +14,8 @@ import type { ArtName } from "../core/articulation.ts";
 import { SCALES } from "../core/theory.ts";
 import { pathOf } from "../sound/motion.ts";
 import {
-  ARCS, ARP_PATTERNS, BAR_LETTERS, BASS_TONES, ELEMENTS, FIGURES, FX_ORDER, FX_WHERE, TEXTURES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
-  type Genre, type GenreSpec, type Role, type VoiceName, type Weighted,
+  ARCS, ARP_PATTERNS, BAR_LETTERS, BASS_TONES, BLOCKS, ELEMENTS, FIGURES, FX_ORDER, FX_WHERE, TEXTURES, CAN, CAN_DRUM, CIRCUITS, DEFAULTS, DRONE_TONES, DRUM_LANES, FLOOR, IDEAS, INTRO_KINDS, KIT_NAMES, LEAD_CYCLES, MANNERS, PEDAL_ORDER, PITCHED_ROLES, ROLES, SECTION_FNS, SENDS, SWING_GRIDS, TREATMENTS, VOICES,
+  type BlockName, type Genre, type GenreSpec, type Role, type VoiceName, type Weighted,
 } from "./spec.ts";
 
 /** Everything wrong with one genre, so a fix is one pass and not twelve. */
@@ -845,6 +845,27 @@ export function resolveGenre(
     checkPool(problems, "arrangement.manner", arr["manner"], (v) => (MANNERS as readonly unknown[]).includes(v), `one of ${MANNERS.join(", ")}`);
   }
 
+  /**
+   * THE BLOCK POOL: a plain list of names, not a weighted one — how often a
+   * record reaches for one is `block.ts`'s own business and the same for every
+   * genre, so there is no weight for a genre to state.
+   *
+   * EMPTY IS LEGAL and is the only reason this is not `checkPool`: `[]` is a
+   * genre that never interrupts itself, which is a thing a genre may be. What
+   * is not legal is a name nothing answers to, because that is a genre asking
+   * for a gesture the program does not have and getting silence.
+   */
+  const blocks = merged["blocks"];
+  if (!Array.isArray(blocks)) {
+    problems.push("blocks must be a list of names");
+  } else {
+    for (const b of blocks) {
+      if (!(BLOCKS as readonly unknown[]).includes(b)) {
+        problems.push(`blocks names "${String(b)}", which is not one of ${BLOCKS.join(", ")}`);
+      }
+    }
+  }
+
   const feel = isPlainObject(merged["feel"]) ? merged["feel"] : null;
   if (feel === null) {
     problems.push("feel is missing");
@@ -1100,6 +1121,7 @@ export function resolveGenre(
     arp: deepFreeze(arp) as unknown as Genre["arp"],
     drone: deepFreeze(drone) as unknown as Genre["drone"],
     drums: deepFreeze(drums) as unknown as Genre["drums"],
+    blocks: Object.freeze([...(blocks as BlockName[])]),
     arrangement: deepFreeze(arr) as unknown as Genre["arrangement"],
     feel: deepFreeze(feel) as unknown as Genre["feel"],
     sound: deepFreeze(sound) as unknown as Genre["sound"],

@@ -109,9 +109,14 @@ test("a material heard again does not start its tune over: the count runs across
       assert.equal(rounds.length, m.lead.length);
       if (rounds.length < 4) continue;
       checked++;
-      // whatever the plan, its four letters hold at most three distinct
-      // lines and the material was written with exactly those
-      assert.ok(new Set(rounds).size <= 3);
+      // AND THE COUNT IS OF WHAT THE PLAN WROTE. The letters hold at most
+      // three distinct lines — the statement, the development, a rest — and
+      // this law is about the plan being read straight through rather than
+      // started over. A round that `block.ts` interrupted is a fourth line
+      // nothing planned: one bar of one round, from a pool with no schedule.
+      // Counting it here would be counting the interruption as a plan.
+      const planned = rounds.filter((_, i) => m.blocks.lead[i] == null);
+      assert.ok(new Set(planned).size <= 3);
       assert.ok(new Set(rounds).size >= 2, `${key} on seed ${s.chart.seed}: ${rounds.length} times round, all the same`);
     }
   }

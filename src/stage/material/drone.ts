@@ -210,6 +210,37 @@ export function drawDrone(
  * pluck-density the drone is drawn with, not as an alteration applied after
  * the fact. Left undone rather than done wrongly.
  */
+/**
+ * WHAT A DRONE IS, written as a test any line can be put to.
+ *
+ * `index.test.ts` holds every drone in every record to four things — it sits
+ * on the tonic or the dominant, it starts on a downbeat, it holds at least a
+ * bar, and it is inside its own register — and until now the only thing
+ * keeping them was that `drawDrone` and `alterDrone` happened not to break
+ * them. That was enough while those two were the only writers.
+ *
+ * They are not any more: `block.ts` is a pool of gestures that rewrite a bar
+ * of whatever seat they land on, and three of them — a grace note before a
+ * strong note, a bar said twice in half the time, a bar cut off halfway —
+ * would each produce something a drone cannot be. Every one is correct on a
+ * bass or a keyboard and none is a drone.
+ *
+ * So the law is stated once, HERE, where the thing it describes is built, and
+ * anything that rewrites a drone is judged by it rather than by a copy of it.
+ * The register is left out on purpose: that is the SEAT's law rather than the
+ * drone's, every caller already checks it, and a law with two owners drifts.
+ *
+ * An EMPTY line passes. "A note or chord is continuously sounded throughout
+ * most or all of a piece" (chromatone.center/theory/melody/drone) — most is
+ * not all, and the floor going out for a turn is `alterDrone`'s own `rest`.
+ */
+export function isDrone(line: readonly Note[], tonic: number, steps: number): boolean {
+  return line.every((n) => {
+    const degree = ((n.pitch - tonic) % 12 + 12) % 12;
+    return (degree === 0 || degree === 7) && n.step === 0 && n.dur >= steps;
+  });
+}
+
 export const DRONE_CHANGES = ["sustain", "rest"] as const;
 export type DroneChange = (typeof DRONE_CHANGES)[number];
 

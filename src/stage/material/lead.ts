@@ -256,6 +256,32 @@ export function lawsFor(
       // as every other law in this file: constrain the choice, never repair it.
       if (i > 0 && Math.abs(n.pitch - ns[i - 1]!.pitch) > SIGNATURE_MAX) return false;
     }
+    /**
+     * AND NO LINE PLANTS THREE DISTINCTIVE INTERVALS.
+     *
+     * "Any interval larger than a perfect fifth seems distinctive" (Burns,
+     * "A typology of 'hooks' in popular records", 1987): one of those is a
+     * signature and a line full of them is an arpeggio with a wide grip.
+     * `lead.test.ts` has held every tune to at most two since the signature
+     * was built, and the GENERATOR keeps it by spending a signature once —
+     * `signatureSpent` above.
+     *
+     * Stated here for exactly the reason the octave bound ten lines up is:
+     * the generator's version is a procedure and a line that did not come
+     * from the generator never went through it. That used to mean only
+     * `vary.ts`, whose five operations move pitches but keep every note; it
+     * now also means `block.ts`, which can take a note OUT — and a dropped
+     * middle note turns two stepwise moves into one leap over a fifth. Seed
+     * 3's A/1 planted four of them that way.
+     *
+     * A RIFF IS EXEMPT, as it is in the test: an arpeggio leaps by nature and
+     * this rule is about a line.
+     */
+    if (contour !== "riff") {
+      let wide = 0;
+      for (let i = 1; i < ns.length; i++) if (Math.abs(ns[i]!.pitch - ns[i - 1]!.pitch) > FIFTH) wide++;
+      if (wide > 2) return false;
+    }
     // the tune ends on a chord tone, and its last note is not its first —
     // the line loops, and a loop whose end is its beginning repeats itself
     const last = ns[ns.length - 1]!;

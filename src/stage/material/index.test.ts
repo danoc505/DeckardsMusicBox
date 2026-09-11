@@ -444,6 +444,7 @@ test("the loop is as long as the changes are, and everything pitched repeats on 
   // and a two-bar phrase is "a default phrase expectation" (Adams,
   // "Parameters of Phrase in Hip-Hop", MTO 26.2, 2.5 and 1.13).
   let shorter = 0;
+  let tiled = 0;
   for (let seed = 1; seed <= 60; seed++) {
     const chart = makeChart({ seed, genre: GENRES.lofi, seconds: 240 });
     const mats = makeMaterials(chart, makeArrangement(chart, makeForm(chart)));
@@ -480,7 +481,24 @@ test("the loop is as long as the changes are, and everything pitched repeats on 
       // statement's: every one of the five motivic operations keeps the
       // onsets, so a turn that strikes where turn 0 never struck is a fresh
       // line and not a repetition of any kind.
+      //
+      // AND THE EXCEPTION IS THE ONE ADAMS LEAVES ROOM FOR. He writes that the
+      // pitched elements "TEND TO repeat" and that "exceptions to this are
+      // EXTREMELY RARE" — not that there are none — and the exception has a
+      // name: a fill is "a short musical passage which helps to sustain the
+      // listener's attention during a break between the phrases of a melody",
+      // after which "the time-keeping pattern resumes immediately"
+      // (en.wikipedia.org/wiki/Fill_(music)). A block is exactly that and
+      // nothing else: one bar of one round, drawn from a pool nobody
+      // schedules, and the loop goes back to being the loop afterwards.
+      //
+      // So a round that carried one is not compared — and the material SAYS
+      // which those were, so this is exact rather than a licence. Every other
+      // round is held to the law as before, and the count below keeps it from
+      // quietly becoming vacuous.
       for (const [i, line] of m.lead.entries()) {
+        if (m.blocks.lead[i] != null) continue;
+        tiled++;
         const feet = (k: number) =>
           line.filter((n) => Math.floor(n.bar / m.period) === k).map((n) => `${n.bar % m.period}:${n.step}`);
         for (let k = 1; k * m.period < m.bars; k++) {
@@ -494,6 +512,9 @@ test("the loop is as long as the changes are, and everything pitched repeats on 
   // and the case this is about actually occurs: some materials really are a
   // shorter loop stated more than once
   assert.ok(shorter > 40, `only ${shorter} materials had a loop shorter than the material — the two-bar loop is not the common case`);
+  // and the exception stayed an exception: the great majority of the lead's
+  // rounds carried no block and were held to the law above
+  assert.ok(tiled > 400, `only ${tiled} lead rounds were tiled and checked`);
 });
 
 test("a returning idea plays its statement's own figure, changed", () => {

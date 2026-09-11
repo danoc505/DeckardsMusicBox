@@ -33,12 +33,12 @@
 
 import { stepsPerBar } from "../../core/clock.ts";
 import { inScale, noteName } from "../../core/theory.ts";
-import { DRUM_LANES, PITCHED_ROLES, ROLES, type Contour, type Element, type EventName, type Idea, type Register, type Role, type Texture } from "../../genre/spec.ts";
+import { DRUM_LANES, PITCHED_ROLES, ROLES, type Contour, type DrumLane, type Element, type Idea, type Register, type Role, type Texture } from "../../genre/spec.ts";
 import type { Rng } from "../../core/rng.ts";
 import type { Arrangement } from "../arrange.ts";
 import type { Chart } from "../chart.ts";
 import { drawBass, withTurnaround } from "./bass.ts";
-import { alterDrone, drawDrone, DRONE_CHANGES, type DroneChange } from "./drone.ts";
+import { alterDrone, drawDrone, DRONE_CHANGES, isDrone, type DroneChange } from "./drone.ts";
 import { drawDrums, drawFigure } from "./drums.ts";
 import { drawArp } from "./arp.ts";
 import { drawCounter } from "./counter.ts";
@@ -47,7 +47,7 @@ import { drawKeys } from "./keys.ts";
 import { contourOf, drawLead, ladder, lawsFor } from "./lead.ts";
 import { assertInside, at, GROOVE, Sounding, type GrooveRole, type Chord, type Hit, type Material, type Note, type Pitched } from "./note.ts";
 import { CHANGES, otherChange, varyLine, type Change } from "./vary.ts";
-import { lanesOf, withEvent, type Where } from "./event.ts";
+import { lanesOf, withBlock, withBlockOnLine, NO_LANES, type Fired, type Socket, type Where } from "./block.ts";
 
 export type { Chord, Figure, GrooveRole, Hit, Material, Note, Pitched } from "./note.ts";
 export { GROOVE } from "./note.ts";
@@ -141,6 +141,23 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
 
   const chordsOf = new Map<Idea, readonly Chord[]>();
   const all = new Map<string, Material>();
+
+  /**
+   * WHERE A BLOCK IS BEING ASKED TO GO — the one place a socket is built, so
+   * the kit and the five pitched seats cannot come to disagree about what the
+   * pool is allowed to read. A seat hands in what it alone knows: the kit its
+   * lanes, a line its ladder, and the other is empty.
+   */
+  const socketFor = (
+    part: Role,
+    spot: Where,
+    round: number,
+    lanes: ReadonlySet<DrumLane>,
+    rungs: readonly number[],
+  ): Socket => ({
+    part, energy: spot.energy, seam: spot.last, heard: round, lanes, rungs,
+    steps, beat: chart.metre.perBeat, bars,
+  });
 
   // PLAIN STATEMENTS FIRST, so a variant has the thing it varies. A variant
   // is a descendant and not a sibling: it inherits its groove note for note
@@ -266,8 +283,46 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
      * back off the material afterwards. One entry per round per part, `null`
      * where nothing fired — see `Material.blocks`.
      */
-    const fired: Partial<Record<Role, (EventName | null)[]>> = {};
+    const fired: Partial<Record<Role, (Fired | null)[]>> = {};
     for (const r of ROLES) fired[r] = [];
+    /**
+     * ONE ROUND OF ONE PITCHED SEAT, INTERRUPTED — or exactly as it was
+     * written, which is what happens most of the time.
+     *
+     * LAST, and that is the whole point of doing it out here rather than
+     * inside each builder. A block OVERWRITES the bar the figure, the phrase
+     * and the third-statement alteration have already finished with; a gesture
+     * drawn alongside them would be one more rule, and the thing this pool
+     * exists to be is the one thing in the stage that is not a rule.
+     *
+     * PER ROUND, addressed by the round, for the same reason the kit's is: a
+     * block fired inside a builder whose line is cached would come back
+     * identically every time that line came round, which is another pattern.
+     *
+     * AND THE SEAT'S OWN LAWS DECIDE, not the pool. `lawful` is whatever the
+     * caller was already judging this seat by — its register, and what the
+     * parts written before it hold — so a gesture that would put the bass on
+     * the drone's E2 simply did not fire.
+     */
+    const blocked = (
+      part: Pitched,
+      line: readonly Note[],
+      round: number,
+      register: Register,
+      lawful: (l: readonly Note[]) => boolean,
+    ): readonly Note[] => {
+      const spot = (where.get(part) ?? [])[round];
+      if (spot === undefined) { fired[part]!.push(null); return line; }
+      const got = withBlockOnLine(
+        line,
+        socketFor(part, spot, round, NO_LANES, ladder(chart, register)),
+        chart.genre.blocks,
+        rng.at(part, "block", round),
+        lawful,
+      );
+      fired[part]!.push(got.block);
+      return got.block === null ? line : Object.freeze(got.notes);
+    };
     // ONLY WHAT IS INHERITED NOTE FOR NOTE INHERITS ITS JOB. A variant keeps
     // the plain material's bass and drone and redraws everything else, so the
     // keys, the counter and the lead start from this material's own draw.
@@ -393,10 +448,20 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
           }
           return true;
         });
+      /**
+       * AND THE SEAT'S LAWS INCLUDE WHAT THE SEAT IS. `fits` above is the
+       * band and the collisions, which is everything a bass or a keyboard
+       * has to answer for. A drone answers for more: it holds the tonic or
+       * the dominant, from a downbeat, for at least a bar. Three blocks in
+       * the pool write lines that are correct on every other seat and are
+       * not a drone, so the law comes from where the drone is built.
+       */
+      const lawful = (l: readonly Note[]): boolean =>
+        fits(l) && (r !== "drone" || isDrone(l, chart.tonic, steps));
       let stated = 0;
       for (let k = 0; k < n; k++) {
         stated++;
-        if (stated <= STATE_BEFORE_ALTERING || line.length === 0) { out.push(line); continue; }
+        if (stated <= STATE_BEFORE_ALTERING || line.length === 0) { out.push(blocked(r, line, k, register, lawful)); continue; }
         stated = 0;
         /**
          * THE DRONE IS NOT TILED, and this is where forgetting that showed.
@@ -447,7 +512,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
             const tried = alterDrone(turn, which, steps);
             if (tried.changed && fits(tried.line)) got = [...tried.line];
           }
-          out.push(got === null ? line : Object.freeze(got));
+          out.push(blocked(r, got === null ? line : Object.freeze(got), k, register, lawful));
           continue;
         }
 
@@ -470,7 +535,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
           const laid = tried.changed ? (loops ? tile(tried.line) : [...tried.line]) : null;
           if (laid !== null && fits(laid)) got = laid;
         }
-        out.push(got === null ? line : Object.freeze(got));
+        out.push(blocked(r, got === null ? line : Object.freeze(got), k, register, lawful));
       }
       return Object.freeze(out);
     };
@@ -625,6 +690,61 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
     for (const n of groove.bass.flat()) taken.add(`${at(n)}:${n.pitch}`);
     for (const n of groove.drone.flat()) taken.add(`${at(n)}:${n.pitch}`);
 
+    /**
+     * WHAT THE GROUND IS HOLDING ON A GIVEN TIME ROUND — the same picture
+     * `check` builds to refuse a material, built here so a block can be
+     * refused BEFORE the material is one.
+     *
+     * Round by round, because the ground alters itself on its third statement
+     * and two lines that are never in the air together cannot collide. Past
+     * the ground's last round it holds its last, which is how `check` reads it
+     * and how `perform.ts` plays it.
+     */
+    const groundRounds = Math.max(...GROOVE.map((p) => groove[p].length), 1);
+    const pictured = new Map<number, Sounding>();
+    const groundAt = (round: number): Sounding => {
+      const k = Math.min(round, groundRounds - 1);
+      const got = pictured.get(k);
+      if (got !== undefined) return got;
+      const pic = new Sounding();
+      for (const p of GROOVE) pic.add(groove[p][Math.min(k, groove[p].length - 1)] ?? [], bars, steps);
+      pictured.set(k, pic);
+      return pic;
+    };
+    /**
+     * AND WHAT EVERY SEAT MUST KEEP WHATEVER HAPPENS TO IT: `check`'s own
+     * laws, asked before the fact instead of after it.
+     *
+     * A block rewrites a bar somebody else's builder wrote, so it is the one
+     * thing in this stage that can hand `check` a line no builder would have
+     * produced. Rather than teach the pool the laws — which would be a second
+     * copy of them, and the bill comes later — the caller judges the result by
+     * the same three things `check` throws for: the seat's band, the record's
+     * scale, and a pitch nobody else is sounding at that instant.
+     *
+     * STRICTER THAN `check` IN ONE WAY, on purpose: `check` compares where
+     * notes START and this compares every step either note SOUNDS for, which
+     * is the difference between a tune that lands on a held chord tone and one
+     * that lands beside it. `Sounding` exists because three quarters of this
+     * program's clashes were a note arriving under something already ringing.
+     */
+    const keeps = (register: Register, held: Sounding) => (l: readonly Note[]): boolean => {
+      const [lo, hi] = register;
+      return l.every((n) => {
+        if (n.pitch < lo || n.pitch > hi) return false;
+        if (!Number.isInteger(n.bar) || n.bar < 0 || n.bar >= bars) return false;
+        if (!Number.isInteger(n.step) || n.step < 0 || n.step >= steps) return false;
+        if (!Number.isInteger(n.dur) || n.dur < 1) return false;
+        if (n.vel <= 0 || n.vel > 1) return false;
+        if (!inScale(chart.tonic, chart.scale, n.pitch)) return false;
+        for (let i = 0; i < n.dur; i++) {
+          const abs = n.bar * steps + n.step + i;
+          if (held.holds(Math.floor(abs / steps) % bars, abs % steps, n.pitch)) return false;
+        }
+        return true;
+      });
+    };
+
     // the tune's plan, applied to every time the lead plays this material
     // through; the development is written only where a time will play it
     const leadRng = rng.at("lead");
@@ -760,7 +880,24 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
         : tile(develop(chart, loop, leadRng, steps, inLoop, tune, period, contour)))
       : null;
     const tacet: readonly Note[] = Object.freeze([]);
-    const lead = Object.freeze(letters.map((l) => (l === "A" ? tune ?? tacet : l === "B" ? developed ?? tune ?? tacet : tacet)));
+    // AND A BLOCK MAY INTERRUPT ANY ROUND OF IT, judged by exactly the laws
+    // the tune was written under — `lawsFor`, which is what refused every
+    // pitch `varyLine` tried to move above. A round the letters make tacet has
+    // nothing to interrupt and `withBlockOnLine` returns it untouched.
+    const lead = Object.freeze(letters.map((l, n) =>
+      blocked(
+        "lead",
+        l === "A" ? tune ?? tacet : l === "B" ? developed ?? tune ?? tacet : tacet,
+        n,
+        chart.register.lead,
+        // BOTH, and neither on its own is enough. `lawsFor` is what makes a
+        // line a TUNE — it walks rather than leaps, it resolves what it hangs,
+        // it ends on a chord tone — and it reads its picture modulo the LOOP,
+        // so it says nothing at all about the tiled copies past bar `period`.
+        // A block landed there and put the lead on the keys' C#4 in the first
+        // sweep this ran. `keeps` covers the line as it will be played.
+        (line) => laws(line) && keeps(chart.register.lead, groundAt(n))(line),
+      )));
 
     // AND THE COUNTER-LINE IS WRITTEN AGAINST THE TUNE, one line per time the
     // counter plays this material through. It reads the lead's line for the
@@ -812,7 +949,19 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
           // the counter is written per round; the job it served is the same
           // whichever round gave way, and the last word here is the honest one
           served["counter"] = { element: servedEl, texture: servedTx };
-          return line;
+          // AND THE SAME POOL REACHES IT, against the same picture it was
+          // written against: the ground, this round's tune, and its own band.
+          const [lo, hi] = chart.register.counter;
+          return blocked("counter", line, n, chart.register.counter, (l) =>
+            l.every((note) => {
+              if (note.pitch < lo || note.pitch > hi) return false;
+              for (let i = 0; i < note.dur; i++) {
+                const abs = note.bar * steps + note.step + i;
+                const b = Math.floor(abs / steps) % period, st = abs % steps;
+                if (withTune.holds(b, st, note.pitch) || withTune.rubs(b, st, note.pitch)) return false;
+              }
+              return true;
+            }));
         })())),
     );
 
@@ -836,7 +985,7 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
         const beat = already ?? Object.freeze(drawDrums(chart, rng.at("drums"), figure, bars, steps, which));
         if (already === undefined) cut.set(which, beat);
         /**
-         * AND THEN SOMETHING MAY INTERRUPT IT — see `event.ts`.
+         * AND THEN SOMETHING MAY INTERRUPT IT — see `block.ts`.
          *
          * PER TIME ROUND, and that is the whole point of doing it here rather
          * than inside `drawDrums`. The beat above is cached by TREATMENT, so an
@@ -851,17 +1000,14 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
          */
         const spot = spots[n];
         if (spot === undefined) { fired["drums"]!.push(null); return beat; }
-        const got = withEvent(beat, {
-          energy: spot.energy,
-          seam: spot.last,
-          heard: n,
-          lanes: lanesOf(beat),
-          steps,
-          beat: chart.metre.perBeat,
-          bars,
-        }, chart.genre.drums.events, rng.at("drums", "event", n));
-        fired["drums"]!.push(got.event);
-        return got.event === null ? beat : Object.freeze(got.hits);
+        const got = withBlock(
+          beat,
+          socketFor("drums", spot, n, lanesOf(beat), []),
+          chart.genre.blocks,
+          rng.at("drums", "block", n),
+        );
+        fired["drums"]!.push(got.block);
+        return got.block === null ? beat : Object.freeze(got.hits);
       }),
     );
 
