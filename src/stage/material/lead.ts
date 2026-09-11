@@ -642,7 +642,8 @@ export function drawLead(
        *   empties the list this onset rests too, which is always legal, and
        *   the line picks up where it can reach.
        */
-      if (prev !== null) cands = cands.filter((p) => Math.abs(p - prev.pitch) <= SIGNATURE_MAX);
+      const cameFrom = prev;
+      if (cameFrom !== null) cands = cands.filter((p) => Math.abs(p - cameFrom.pitch) <= SIGNATURE_MAX);
       if (cands.length === 0) { boxed = true; continue; }
 
       // THE PREFERENCES, AMONG WHAT IS LEGAL. Each narrows only if something

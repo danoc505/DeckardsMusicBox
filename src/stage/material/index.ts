@@ -556,10 +556,13 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
        * in the rounds where the ground did not take them, and it buys a rule
        * that cannot produce a collision at all rather than one that has to be
        * checked for afterwards.
+       *
+       * The loop that does it is at the foot of this block, where the three
+       * ground parts are finished; a `picture()` helper stood here doing the
+       * same two `add` calls and nothing ever called it. It typechecked as
+       * dead for as long as the repository has had a `tsc` run with its
+       * dependencies installed, which turns out to be not very long.
        */
-      const picture = (lines: readonly (readonly Note[])[]): void => {
-        for (const l of lines) { sounding.add(l, bars, steps); inLoop.add(l, period, steps); }
-      };
       const drawnBass = plain
         ? plain.groove.bass[0] ?? []
         : serve("bass", chart.register.bass, sounding);
