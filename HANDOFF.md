@@ -86,7 +86,7 @@ here and they are easy to get wrong:
 
 | | bass | keys | lead | counter | drone |
 |---|---|---|---|---|---|
-| lofi | 36–50 | 43–76 | 64–84 *(default)* | 50–66 | 46–60 |
+| lofi | 36–50 | 43–76 | 64–81 | 50–66 | 46–60 |
 | dungeon synth | 31–45 | 45–71 | 67–82 | 48–64 | 43–57 |
 
 The counter's band is not free: `resolve.ts` refuses a genre whose counter and
@@ -158,6 +158,108 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**SIX RANDOM SEEDS WERE READ OFF THE ROLL, AND FOUR OF THE FINDINGS WERE
+LINES.** The seeds were drawn by the shell — lofi 688381, 527724, 346235;
+dungeon synth 17479, 462612, 274106 — every one rolled and evaluated in the
+order `THE-PIANO-ROLL.md` §4 gives, and each finding was then traced to the
+line that produced it and sorted into law or accident. Four were accidents and
+are fixed; three are laws and are left, with the reason. Every number below is
+sixty seeds a genre against `04ab6da` unless it says otherwise, and the
+`--parts` sweep was read every time so the costs are listed with the wins.
+
+- **`arrive` grew by ONE a section, whatever the section's length.** That was
+  the "walk-in PACE" gate this file's own "what did not move" note named: a
+  dungeon synth flute fourth in the order behind a 16-bar intro and a 32-bar
+  verse could not be admitted before the third section, and seed 462612's
+  tune waited until bar 48 of 80 — three minutes in, and `wanted` had asked
+  for five parts while `arrived` allowed three. The sourced pace is one at a
+  time (Johnston), and the unit of "one at a time" this stage already keeps is
+  the two-turn boundary. So a section now admits one part at its door and one
+  per two-turn boundary it has, never past what its energy asks for, and only
+  one part written per round (tune, drums, counter) through a door.
+  `arrange.test.ts` mirrors the same arithmetic. **The dungeon synth tune
+  first sounds at bar 13.2 mean, from 30.0; at bar 48 or later in 0 of 30
+  full-length records, from 7.** Lofi is unchanged (bar 4.0 both ways: its
+  order puts two per-round parts back to back). What was NOT aimed at:
+  everyone is in at 42% of the record against 43%, the most-present part still
+  changes between halves in 27% of dungeon synth records. **Costs:** the tune
+  is in the last section of 20% of dungeon synth records, from 33%, and the
+  bass's longest absence there is 39 bars, from 25 — a fuller room sheds more.
+- **And a fuller room exposed a hole: the protagonist could be `part-out`'d
+  at span scale.** `shed` says the character is the last thing the record
+  gives up and that this "needs no rule of its own" because the section's
+  shedding loop refuses the foundation — the span pool did not, and the
+  offer was only ever refused for being under the floor. With verses at the
+  size their energy asks for, the character was the stalest thing in the room
+  and the score took it: **65 of 2270 dungeon synth spans, from 4.** `movable`
+  in `push()` now refuses it while anything else stands, as the drone already
+  was: **0 of 2270, and 0 of 1460 in lofi.** A break still carries it out and
+  back, and a section change is still the section loop's to decide.
+- **At the climax, one thing is held back at a time.** The peak spent one
+  change a boundary, which stopped a boundary taking two things away at once
+  and did not stop the NEXT boundary adding a second while the first stood:
+  seed 274106 hushed its keys at bar 32 of a 32-bar chorus and took the hat
+  off at 48, and played the second half of its own peak with two pieces
+  missing — the exact regression `arrange.test.ts` "the climax is not where
+  things are taken away" describes and tolerated at a tenth. A guard in
+  `push()`, where every other rule about which states exist lives. **Peak
+  spans holding back two things: lofi 4.2% → 0.0%, dungeon synth 8.0% →
+  0.0%; one thing held back 35% → 39% and 38% → 33%**, so the peak still
+  breathes. `stuck` is still 0.
+- **Lofi's lead topped at C6 on the program-wide default, 64–84, and this
+  file's own source for that register says "avoid the top octave".** The
+  owner objected to C6 (item 5, now closed). `lofi.ts` states `[64, 81]`, E4
+  to A5, a muted guitar's top string at the seventeenth fret; the floor did
+  not move and the counter stays 14.5 semitones off at the centres. **Top
+  note of the tune over 30 seeds: C6 in 7 and D6 in 1, to none above A5.**
+  Lofi `--parts` is unchanged to a point (keys 95 → 94, lead 74 → 71 share).
+- **A phrygian dungeon synth record never stated its flat second.** The one
+  progression carrying degree 1, `[1, 4, 1, 4]`, pairs it with the fifth
+  degree, whose triad is diminished in phrygian, so `diminished: "avoid"`
+  threw the whole progression out and seed 274106 in E phrygian came out on
+  Em C Em Dm and C5 Dm E5 Em, which is aeolian by ear. `DOOM-AND-DUNGEON-
+  SYNTH-BY-THE-FILE.md` §7 row 3 asked for two things and both are applied:
+  phrygian weighted level with dorian (3, from 1 — Burzum phrygian 5 dorian 3
+  minor 0, Mortiis aeolian 7 phrygian 6), and the flat second somewhere to
+  stand — the Andalusian cadence i–iv–III–bII in the A pool and a bII–i vamp in
+  B, neither pairing the second with the diminished degree, so the filter
+  keeps them exactly where the second's own triad is whole. **Phrygian records
+  14 → 23 of 60, of which state the flat second 0 → 11.** Seed 274106 now
+  runs Em Am G F / F5 Em F5 Em. The drone still holds tonic or fifth; the
+  corpus's "a note the held layer may sit on" is not built.
+
+- **And one thing the suite found on the way: `revive` on dungeon synth was
+  a knob at the floor.** `treat.test.ts` measures every offered move on seed
+  2, and `revive` there read −38.9 dB against a −40 no-op floor — the genre
+  file had already written that the battery is full and half the move "has
+  nowhere to go", and left it unweighted on that ground. When seed 2's record
+  changed under the arrival rule it read −40.9 and the test went red. The
+  desk now refuses it itself: `supplyStarved` in `treat.ts`, a reach rule
+  like the others (a full battery and no Fuzz Face bias is nothing to
+  revive), and the refuses test names that ground. `starve` is untouched.
+
+**THREE FINDINGS ARE LAWS AND ARE LEFT.** (1) Two of the six records had no
+chorus and peaked on a second verse at 0.59 — that is `next.verse` drawing a
+verse in a record too short for a chorus after it, and both genres' sources
+describe exactly that form (lofi: "loop, loop with beat, loop without beat";
+dungeon synth: "sustain a single mood"). (2) Seed 17479 opened on 53 seconds
+of drums alone: the drums drawn as protagonist at 1 in 13, the rhythm intro at
+a quarter, and `dungeonsynth.ts` argues for both by name ("a war song"). If
+the owner disagrees the number to move is `protagonist`'s drums weight. (3)
+The tune's highest note sounds 7–22 times across a record: `MELODY-AND-THE-
+HOOK.md` §5 says the record-wide count "counts the tiling rather than the
+tune" and measures per phrase, where the six seeds sit at 10 of 16 to 36 of
+36 phrases with a single peak. Nothing to fix there without an argument with
+that document first.
+
+**THE SUITE ON THIS TREE:** `npm test` end to end twice, 12–13 minutes each.
+The two standing `material/index.test.ts` failures are unchanged, and
+`sound/rack.test.ts` dies with SIGKILL as a whole file **on `04ab6da` as
+well as here**, in this container — it is not in any earlier tally, so it is
+either the container's memory or the same kind of thing the tr1000 fix found.
+Nothing else is red. `arrange.test.ts` is 24/24 with one test rewritten to
+mirror the new arithmetic (it restated the old rule verbatim).
+
 **THE GENRES HAVE BEEN READ OFF RECORDS FOR THE FIRST TIME, AND NOT ONE
 NUMBER IS APPLIED.** `docs/genre-research/DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md`
 is the document; `tools/corpus.ts` is the tool, and `tools/smf.ts` is the
@@ -223,16 +325,17 @@ which way in a record took from who was playing, and that guess stops being
 right the moment a second part may arrive behind the opener. The arrangement
 knows; it says so. The law did not move.
 
-**WHAT DID NOT MOVE:** seed 2's tune still waits until bar 48 of 104. The
-remaining gate is the walk-in PACE — one new part per section — and six seats
-against six sections is a band bigger than the record has room to introduce.
-That is the next line to look at, and it is sourced, so it wants an argument
-rather than a number. The other three findings are not applied: four
-of six kit files have no snare where
-the genre states one always; phrygian is 5 of 9 pieces and 6 of 15 Mortiis
-tracks against a weight of 1 in 8; and Mortiis's records carry a pulse four to
-ten times stronger than this program's seed 2 (0.47 against 0.06 on the same
-measure), so "primarily beatless" is not what the founding records are.
+**WHAT DID NOT MOVE, then:** seed 2's tune still waited until bar 48 of 104.
+The remaining gate was the walk-in PACE — one new part per section — and six
+seats against six sections is a band bigger than the record has room to
+introduce. **That gate is gone** (see the entry above: a section admits one
+part per door it has, and the dungeon synth tune first sounds at bar 13 mean
+against 30). Of the other three findings, **phrygian is applied** (weight 3,
+level with dorian, and the flat second in the pool). Two are not: four of six
+kit files have no snare where the genre states one always; and Mortiis's
+records carry a pulse four to ten times stronger than this program's seed 2
+(0.47 against 0.06 on the same measure), so "primarily beatless" is not what
+the founding records are.
 
 The doom side is groundwork for a genre that does not exist here: a band
 playing 2–4-bar power-chord riffs at ~1.8 root changes a bar, three of four
@@ -823,8 +926,11 @@ until this is understood.
   fifth below where this started. 67–82 shipped, because the part is a flute
   and 64–79's bottom nine semitones sit in the flute's weakest register. If it
   should go lower, that needs keys 43–69 and drone 41–55 with it.
-- And **lofi's lead still tops at C6** on the program-wide default of 64–84.
-  The owner objected to C6. Nothing has been done about it.
+- ~~And **lofi's lead still tops at C6** on the program-wide default of
+  64–84. The owner objected to C6.~~ **CLOSED:** `lofi.ts` states 64–81, E4
+  to A5, with the guitar's range as its source; over 30 seeds the tune's top
+  went from C6 in 7 (and one D6) to nothing above A5. See "what was just
+  done".
 
 **6. ~~The break-rarity failure~~ CLOSED, by the third option it named.** The
 options recorded here were "a longer lofi record, a `leastTurns` lofi states

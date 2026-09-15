@@ -47,7 +47,7 @@ import { GENRE_NAMES, genre } from "../genre/index.ts";
 import { TREATMENTS, type Treatment } from "../genre/spec.ts";
 import { Engine, render, rms } from "../sound/render.ts";
 import { boardWalked, depthHeard, liveSends, poleHeard, wetHeard } from "../sound/reach.ts";
-import { graded, deskOf, offeredBy, specOf } from "./treat.ts";
+import { graded, deskOf, offeredBy, specOf, supplyStarved } from "./treat.ts";
 
 /** Above the pole's `sr/6` and the biquad's `sr*0.49` for every genre's filters. */
 const SR = 22050;
@@ -174,6 +174,10 @@ for (const g of GENRE_NAMES) {
         "no pole in the sum": t === "brighten" && !poleHeard(S),
         "no part walks the board": (t === "push" || t === "ease") && !boardWalked(S),
         "the world is flat": (t === "far" || t === "close") && !depthHeard(S),
+        // a battery already full and a Fuzz Face with no bias set: nothing to
+        // revive, so the move is the droop knob alone, which measured at this
+        // file's own no-op floor on the one genre that carries a sag
+        "no supply is starved": t === "revive" && !supplyStarved(S),
       };
       const why = Object.entries(ground).filter(([, held]) => held).map(([name]) => name);
       assert.ok(why.length > 0, `${g} refuses ${t} at ${moved.toFixed(1)} dB and nothing about its desk says why`);

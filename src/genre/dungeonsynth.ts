@@ -102,10 +102,19 @@ export const dungeonsynth: GenreSpec = {
 
   // the church modes: in the altered minors the sixth and seventh degrees
   // are diminished, and a loop of diminished triads is not this music
+  /**
+   * PHRYGIAN AT LEAST WITH DORIAN, because the records say so. This weighted
+   * phrygian 1 against minor 4 and dorian 3 on a guide's "such as Dorian or
+   * Aeolian"; the files measured in `DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md`
+   * fit phrygian in five of nine Burzum synth pieces (dorian 3, minor 0) and
+   * six of fifteen Mortiis tracks (aeolian 7), and §7 row 3 asked for exactly
+   * this. Minor keeps the lead because Mortiis is mostly aeolian; dorian
+   * and phrygian stand level. Weights [chosen] from those counts.
+   */
   scales: [
     ["minor", 4],
     ["dorian", 3],
-    ["phrygian", 1],
+    ["phrygian", 3],
   ],
 
   lengthSec: [240, 420],
@@ -144,16 +153,39 @@ export const dungeonsynth: GenreSpec = {
     sevenths: 0,
     fifths: 0.34,
     diminished: "avoid",
+    /**
+     * AND THE FLAT SECOND HAS SOMEWHERE TO STAND. A phrygian record here
+     * never stated its own defining chord: the one progression carrying the
+     * second degree, `[1, 4, 1, 4]`, pairs it with the fifth, and in phrygian
+     * the fifth degree's triad is diminished — so `harmony.diminished:
+     * "avoid"` threw the whole progression out and a record in E phrygian
+     * came out on Em C Em Dm and C5 Dm E5 Em, which is E aeolian by ear
+     * (seed 274106, drawn at random). In the files the flat second is not a
+     * passing tone: it carries 19–31% of the duration of three Burzum pieces
+     * (`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §4.8).
+     *
+     * So the cadence that IS the mode is in the pool: iv–III–bII–i, "a
+     * diatonic phrygian tetrachord", is the Andalusian cadence
+     * (en.wikipedia.org/wiki/Andalusian_cadence), written here as the loop
+     * i–iv–III–bII so it comes round onto the tonic; and a bII–i vamp for the
+     * departure. Neither pairs the second with the diminished degree, so the
+     * filter keeps them wherever the second's own triad is whole — phrygian
+     * and dorian — and drops them in the altered minors, where the second
+     * degree is the diminished one and this was never a question. Weights
+     * [chosen], under the loops the released track states.
+     */
     progressions: {
       A: [
         [[0, 2, 0, 3], 3],
         [[0, 5, 0, 6], 2],
+        [[0, 3, 2, 1], 2],
         [[0, 0, 5, 6], 1],
         [[0, 3], 1],
       ],
       B: [
         [[1, 4, 1, 4], 2],
         [[5, 6, 0, 0], 2],
+        [[1, 0, 1, 0], 1],
         [[3, 3, 0, 0], 1],
       ],
       C: [
@@ -575,12 +607,15 @@ export const dungeonsynth: GenreSpec = {
       // fresh battery, so the only half of the move left is lowering the droop
       // and the other half has nowhere to go.
       //
-      // NOTHING FORCED THIS. `treat.test.ts` passes with it weighted; its
-      // audibility floor sits below −38.9. It is left unstated as a judgement
-      // that a boundary is worth more than the quietest thing this desk can
-      // do, and it is recorded here so the judgement can be reversed by
-      // somebody who disagrees. The pair stays in the vocabulary — as
-      // `recircuit` does — for a genre whose battery is not already full.
+      // NOTHING FORCED THIS, THEN. `treat.test.ts` passed with it weighted;
+      // its no-op floor sat one decibel below −38.9, on one seed. When that
+      // seed's record changed — the arrangement admitting parts by the door —
+      // the same move read −40.9 and the test said what this note had said.
+      // So the desk now refuses it itself (`supplyStarved` in `treat.ts`): a
+      // full battery has nothing to revive, and the judgement recorded here
+      // is a reach rule rather than a weight left blank. The pair stays in
+      // the vocabulary — as `recircuit` does — for a genre whose battery is
+      // not already full, and `starve` is still this genre's to state.
       // AND THE MACHINE, barely. This music "notably avoids" a busy kit and
       // carries the fewest drums of any part here, so a move that is ONLY
       // about the drums is worth least in this genre of the two. `soak` puts
@@ -784,7 +819,9 @@ export const dungeonsynth: GenreSpec = {
       "a released track at 115 (erichgrunewald.com making-dungeon-synth-without-perfectionism) shows the range is wide",
     scales:
       "\"church modes (such as Dorian or Aeolian)\", \"a handful of common modes, little chromaticism\" (note.com/soundwitches); " +
-      "a practitioner also names melodic minor (erichgrunewald.com), left out because its VI and VII are diminished; weights [chosen]",
+      "a practitioner also names melodic minor (erichgrunewald.com), left out because its VI and VII are diminished; " +
+      "phrygian level with dorian because the files fit it — Burzum phrygian 5, dorian 3, minor 0; Mortiis aeolian 7, phrygian 6 " +
+      "(docs/genre-research/DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4.8, §5); weights [chosen]",
     lengthSec: "[chosen] — long, loop-based tracks; no measured average found",
     metre: "[chosen] — 4/4; the sourced track is in 6/4, which the program does not yet hold",
     "form.lengths": "\"simple, loop-based compositions\" (note.com/soundwitches), \"repeated extensively\" (erichgrunewald.com); the lengths [chosen]",
@@ -800,7 +837,10 @@ export const dungeonsynth: GenreSpec = {
       "(en.wikipedia.org/wiki/Dungeon_synth; dungeonsynth.proboards.com). A third of the chords [chosen]",
     "harmony.diminished": "\"fairly standard chord progressions\" in \"a handful of common modes\" (note.com/soundwitches): the mode's diminished triad is not one",
     "harmony.progressions":
-      "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; the rest [chosen]",
+      "i–III–i–IV and ii–V loops from a released track (erichgrunewald.com), as scale degrees; iv–III–bII–i is the " +
+      "Andalusian cadence, \"a diatonic phrygian tetrachord\" (en.wikipedia.org/wiki/Andalusian_cadence), and the flat " +
+      "second carries 19–31% of three Burzum pieces (docs/genre-research/DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md §4.8); " +
+      "the rest [chosen]",
     "drums.kick": "\"a timpani beats a drum pattern\" throughout (erichgrunewald.com); \"very subtle percussion\" (note.com/soundwitches)",
     "drums.hat": "beatless: no hat (note.com/soundwitches)",
     "arrangement.drift":

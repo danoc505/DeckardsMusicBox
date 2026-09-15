@@ -12,8 +12,10 @@
  * no table here to forget.
  *
  * PARTS ARRIVE, AND THEN THEY COME AND GO. A record opens with the first few
- * parts of the genre's entry order and each section lets the next one in, so
- * the second verse is not the first verse again: something has been added.
+ * parts of the genre's entry order and each section lets the next ones in —
+ * one at its door and one at each two-turn boundary it has, never more than
+ * its energy asks for — so the second verse is not the first verse again:
+ * something has been added.
  *
  * BUT ARRIVING IS NOT STAYING. It used to be: once a section was big enough
  * to want everyone, everyone played to the end of the record, and every part
@@ -1096,8 +1098,53 @@ const kindOf = (mv: Move): string =>
       }
     } else {
       // WHAT HAS ARRIVED still only grows: a part the record has not yet
-      // introduced cannot appear, and each section lets the next one in.
-      arrived = section.peak || section.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      // introduced cannot appear.
+      //
+      // AND A SECTION ADMITS AS MANY AS IT HAS DOORS. This grew by ONE a
+      // section whatever the section's length, and that arithmetic — no
+      // source — is why a dungeon synth tune waited until bar 48 of 104
+      // (`HANDOFF.md`, "what did not move", and the same again on a seed
+      // nobody chose: 462612, the flute at bar 48 of 80, three minutes in).
+      // The flute is fourth in the record's order behind a 16-bar intro and
+      // a 32-bar verse, so it could not be admitted before the third section
+      // however much room the verse's own energy asked for — `wanted` said
+      // five and `arrived` said three.
+      //
+      // The pace the sources state is one at a time, "each establishing
+      // themselves before the next enters the scene" (Johnston), and the unit
+      // of establishing this stage already keeps is the two-turn boundary:
+      // the walk-in below admits one newcomer per boundary and never batches.
+      // So a section may admit one part at its door and one more per two-turn
+      // boundary it has — a 32-bar verse on a four-bar loop has three, a
+      // 16-bar one has one, and a section shorter than two turns admits the
+      // one it always did.
+      //
+      // ONLY A PART THAT LOOPS TAKES A BOUNDARY. The tune, the drums and the
+      // counter are written per round and cannot walk in (`loops`), so they
+      // arrive at the door — and a door lets ONE of them through, or two parts
+      // are introduced at once, which is the fault every source names.
+      //
+      // AND NEVER MORE THAN THE SECTION WILL PLAY. An admission past `wanted`
+      // is a part the shedding below has to make room for, and it makes room
+      // by dropping something established — `spare` protects a part that has
+      // never been heard — which is a swap wearing an entrance's clothes.
+      if (section.peak || section.energy >= A.fullAbove) {
+        arrived = ROLES.length;
+      } else {
+        const turnOf = 2 * Math.max(1, periodOf(chart, section.idea));
+        const most = Math.max(floor, Math.min(ROLES.length, wanted));
+        let doors = 1 + Math.max(0, Math.floor((section.bars - 1) / turnOf));
+        let perRound = 0;
+        while (doors > 0 && arrived < most) {
+          const next = enter[arrived]!;
+          if (!loops(next)) {
+            if (perRound >= 1) break;
+            perRound++;
+          }
+          arrived++;
+          doors--;
+        }
+      }
       // HOW MANY OF THEM PLAY is this section's energy, between the fewest a
       // genre will carry and all of them. The peak takes everyone.
       //
@@ -1824,6 +1871,20 @@ const kindOf = (mv: Move): string =>
             // what a bar point here may spend — which is the build.
             if (!slowAt(s) && (section.peak || swell)
               && ((th && !cur.thin) || (halved && !cur.halved) || (hush !== null && hush !== cur.hush))) return;
+            // AND AT THE CLIMAX, ONE THING IS HELD BACK AT A TIME. The peak
+            // spends one change a boundary, and that stopped a boundary
+            // taking two things away at once; it did not stop the NEXT
+            // boundary taking a second while the first still stood. Dungeon
+            // synth seed 274106 — drawn at random — hushed its keys at bar 32
+            // of a 32-bar chorus and took the hat off at 48, and played the
+            // second half of its own climax with two pieces missing, which is
+            // exactly what `arrange.test.ts` "the climax is not where things
+            // are taken away" describes and tolerated at a tenth of peak
+            // spans. A peak may breathe — one part stepped back is the peak
+            // breathing — and a second subtraction on top of the first is the
+            // climax arriving with two pieces missing, whichever boundary
+            // added it. Which states exist, so it is here.
+            if (section.peak && (th ? 1 : 0) + (hush !== null ? 1 : 0) + (halved ? 1 : 0) >= 2) return;
             // AT A BAR POINT THE ROSTER IS FROZEN. The fast clock exists to
             // stop a loop holding still between two-turn boundaries, and the
             // two-loop rule is what says who may come and go — every two
@@ -1882,7 +1943,24 @@ const kindOf = (mv: Move): string =>
           // THE DROP IS THE ONE EXCEPTION, and says so at `Span.broken`: it
           // is not the floor going out under a texture that carries on, it is
           // the texture going and coming back.
-          const movable = (r: Role): boolean => r !== "drone";
+          //
+          // AND NEITHER DOES THE RECORD'S MAIN CHARACTER. `shed` says it is
+          // the last thing the record gives up, and the note there claims
+          // that "needs no rule of its own" because the section's shedding
+          // loop refuses the foundation while anything else stands. The
+          // section's loop does; this pool did not. `part-out` offered the
+          // character like any other part, and while the room held only the
+          // floor the offer was refused for being under it — so it never
+          // showed. The moment a verse could admit the parts its energy asked
+          // for, the character was the stalest thing in the room and the
+          // score took it: measured, the protagonist was out at 65 of 2270
+          // dungeon synth spans while others played, from 4. An ostinato
+          // "persistently repeats in the same musical voice"; the character
+          // is the fixed point and the others come and go around it. It
+          // still leaves in a break, which carries the openers and is the
+          // texture going and coming back, and it still leaves at a section
+          // where the material changes — the section's own loop decides that.
+          const movable = (r: Role): boolean => r !== "drone" && !(r === star && cur.heard.size > 1);
           // an instrument out — stacked on where the span already is, not on the base
           if (!section.peak && cur.heard.size > floor) {
             for (const r of shed) {

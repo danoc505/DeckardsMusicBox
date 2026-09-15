@@ -334,6 +334,31 @@ const anyKnob = (
   rows: readonly (readonly [keyof PedalsRules, string, number, number, ...number[]])[],
 ): boolean => onBoards(S).some((r) => knobs(S, r, rows, 1) !== null);
 
+/**
+ * IS ANY SUPPLY ACTUALLY STARVED — the question `revive` has to ask, which
+ * is not the one `starve` asks. A board with a sag or a Fuzz Face can always
+ * be starved further; it can only be REVIVED if something is starved to
+ * begin with. A battery already full (`sag.idle` at 1) has nothing to come
+ * back from, and a Fuzz Face with no bias set has nothing to un-gate, so on
+ * such a desk the move is half a move: the droop knob alone, scaled down.
+ *
+ * Dungeon synth is exactly that desk, and its genre file already said so —
+ * "this file ships `sag.idle` at 1, a fresh battery, so the only half of the
+ * move left is lowering the droop and the other half has nowhere to go" —
+ * and left the move unweighted on that ground, measured at −38.9 dB, the
+ * faintest offered move in either genre. `treat.test.ts` held it above its
+ * −40 dB no-op floor by one decibel, on one seed; the day that seed's record
+ * changed (the arrangement admitting parts by the door, `arrange.ts`) it read
+ * −40.9 and the test said what the genre file had said: a move that does not
+ * move the record is not offered. The refusal belongs here, with the others,
+ * grounded in the desk.
+ */
+export const supplyStarved = (S: SoundRules): boolean =>
+  onBoards(S).some((r) => {
+    const board = S.pedals[r];
+    return (board.sag.mix > 0 && board.sag.idle < 1) || (board.meat.mix > 0 && board.meat.bias > 0);
+  });
+
 /** The returns some part actually feeds, busiest first. A return nothing feeds
  * is not a return this record has. */
 function fed(S: SoundRules): readonly Send[] {
@@ -881,8 +906,10 @@ function reaches(name: Treatment, S: SoundRules): boolean {
     case "clean":
       return anyKnob(S, DIRT);
     case "starve":
-    case "revive":
       return anyKnob(S, STARVE);
+    // and reviving a supply needs one that is starved — see `supplyStarved`
+    case "revive":
+      return anyKnob(S, STARVE) && supplyStarved(S);
     // a return into another return: `specOf` already refuses a record with
     // fewer than two returns fed, and the one it patches FROM is by
     // construction one this record feeds, so the tail it grows is heard

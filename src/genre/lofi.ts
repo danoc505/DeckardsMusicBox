@@ -343,6 +343,28 @@ export const lofi: GenreSpec = {
 
   // the muted guitar is the one part with a hand still on the string
   lead: {
+    /**
+     * C6 WAS TOO HIGH, AND IT WAS NEVER THIS GENRE'S NUMBER.
+     *
+     * The register was inherited from the program-wide default, 64–84, E4 to
+     * C6 — and this file's own source for it says "keep it in its mid-range,
+     * avoid the top octave" (masteringthemix.com). A ceiling of C6 is the top
+     * octave. The owner objected to C6 (`HANDOFF.md` item 5), and measured on
+     * seeds nobody chose the tune reached it: lofi 346235 topped at C6 four
+     * times, all before its peak.
+     *
+     * 64–81 is E4 to A5. The part is a muted guitar; the guitar's first twelve
+     * frets run E2–E5 and a 24-fret neck to E6 (en.wikipedia.org/wiki/
+     * Electric_guitar), so every pitch here is on the instrument and A5 is
+     * the top string at the seventeenth fret — the neck's upper middle, not
+     * its top. The floor did not move: it is where the keys' ceiling of 76
+     * already leaves the tune room to stand, and the counter at 50–66 stays
+     * fourteen and a half semitones off at the centres, past the twelve
+     * `counter.apart` asks for. Seventeen semitones wide, which is what
+     * dungeon synth's flute already has. [chosen] inside the instrument's
+     * compass, a minor third under the note that was objected to.
+     */
+    register: [64, 81],
     art: [["plain", 6], ["slur", 5], ["tenuto", 3], ["ghost", 2], ["staccato", 2], ["slide", 2], ["bend", 1]],
     /** a muted guitar over a beat plays as many arpeggios as it does tunes */
     contour: [["sung", 4], ["riff", 3], ["chant", 1]],
@@ -865,6 +887,7 @@ export const lofi: GenreSpec = {
       "cited 4-8 range does not reach",
     "lead.register":
       "\"keep it in its mid-range, avoid the top octave\" (masteringthemix.com how-to-make-lo-fi-hip-hop); " +
-      "E4–C6 [chosen]",
+      "the guitar's first twelve frets run E2–E5 and a 24-fret neck to E6 (en.wikipedia.org/wiki/Electric_guitar); " +
+      "E4–A5 [chosen] — the inherited default topped at C6, which is the top octave the source says to avoid",
   },
 };

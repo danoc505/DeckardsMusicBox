@@ -7,6 +7,7 @@ import { makeChart } from "./chart.ts";
 import { makeForm } from "./form.ts";
 import { GENRES, resolveGenre } from "../genre/index.ts";
 import { LEGAL_TEXTURES, ROLES, TREATMENTS } from "../genre/spec.ts";
+import { periodOf } from "./material/harmony.ts";
 
 const lofi = GENRES.lofi;
 const build = (seed: number, seconds: number | null = 240): Arrangement => {
@@ -170,7 +171,9 @@ test("parts arrive in order, and how many play is the section's energy", () => {
   const A = lofi.arrangement;
   let quieter = 0;
   let fuller = 0;
-  for (const a of sweep(120)) {
+  for (let seed = 1; seed <= 120; seed++) {
+    const chart = makeChart({ seed, genre: lofi, seconds: 240 });
+    const a = makeArrangement(chart, makeForm(chart));
     // AGAINST THE RECORD'S OWN ENTRY ORDER, not the genre's. A record draws a
     // main character and that character is introduced first, so `enter` is the
     // genre's order with one name moved to the front
@@ -180,6 +183,7 @@ test("parts arrive in order, and how many play is the section's energy", () => {
     const enter = a.enter;
     let arrived = A.introParts;
     const sizes: number[] = [];
+    const loops = (r: string): boolean => r === "bass" || r === "keys" || r === "drone";
     for (const p of a.placed) {
       const s = p.section;
       if (s.fn === "intro") {
@@ -189,7 +193,32 @@ test("parts arrive in order, and how many play is the section's energy", () => {
         arrived = Math.max(arrived, ...[...p.heard].map((r) => enter.indexOf(r) + 1));
         continue;
       }
-      arrived = s.peak || s.energy >= A.fullAbove ? ROLES.length : Math.min(ROLES.length, arrived + 1);
+      // A SECTION ADMITS ONE PART AT ITS DOOR AND ONE PER TWO-TURN BOUNDARY,
+      // never more than its energy asks for, and only one part written per
+      // round (the tune, the drums, the counter) through the door — the same
+      // arithmetic `arrange.ts` does, so a section cannot hear a part its
+      // length and energy could not have admitted. It grew by ONE a section
+      // before, and that is why a tune sat out until the third section of a
+      // record whose second section was thirty-two bars long.
+      if (s.peak || s.energy >= A.fullAbove) {
+        arrived = ROLES.length;
+      } else {
+        const closing = s.index === a.placed.length - 1;
+        const floor = closing ? Math.min(A.fewest, Math.max(1, a.placed[0]!.heard.size)) : A.fewest;
+        const wanted = Math.round(floor + (ROLES.length - floor) * s.energy);
+        const most = Math.max(floor, Math.min(ROLES.length, wanted));
+        const turn = 2 * Math.max(1, periodOf(chart, s.idea));
+        let doors = 1 + Math.max(0, Math.floor((s.bars - 1) / turn));
+        let perRound = 0;
+        while (doors > 0 && arrived < most) {
+          if (!loops(enter[arrived]!)) {
+            if (perRound >= 1) break;
+            perRound++;
+          }
+          arrived++;
+          doors--;
+        }
+      }
       // NOBODY APPEARS OUT OF TURN. Whoever is heard has ARRIVED — a part
       // cannot appear before the one in front of it in the entry order. It is
       // no longer a PREFIX of that order, because who LEAVES is the shed

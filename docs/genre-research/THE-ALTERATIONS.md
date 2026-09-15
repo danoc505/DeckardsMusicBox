@@ -297,7 +297,7 @@ way on the same seed, after the board could be tuned rather than rebuilt:
 | `grind` | **−16.0 dB** | **−25.9 dB** |
 | `clean` | −16.2 | −27.4 |
 | `starve` | −29.5 | *−222, refused: no sag, no Fuzz Face* |
-| `revive` | *−38.9, not stated* | *−222, refused* |
+| `revive` | *−38.9 then −40.9, refused: no supply is starved* | *−222, refused* |
 
 Two things in that table are worth more than the numbers. **On lofi these are
 the loudest moves its board has** — ahead of `stomp` (−26.5), `ease` (−30.4),
@@ -310,11 +310,13 @@ And **`revive` is the faintest offered move in either table** — quieter than
 anything either genre states — for a reason that belongs to the genre and not
 to the treatment: dungeon synth ships `sag.idle` at 1, a fresh battery, so the
 only half of the move left is lowering the droop and the other half has nowhere
-to go. Nothing forced it out; `treat.test.ts` passes with it weighted, and its
-audibility floor sits below −38.9 dB. It is left unstated as a judgement that a
-boundary is worth more than the quietest thing this desk can do, and it stays
-in the vocabulary — as `recircuit` does — for a genre whose battery is not
-already full.
+to go. Nothing forced it out at first; `treat.test.ts` passed with it weighted,
+its no-op floor one decibel below −38.9, on one seed. When that seed's record
+changed under the arrangement's arrival rule the same move read −40.9 and the
+test said what the paragraph above had said, so the desk now refuses it itself
+— `supplyStarved` in `treat.ts`: a full battery and no Fuzz Face bias is
+nothing to revive. It stays in the vocabulary — as `recircuit` does — for a
+genre whose battery is not already full.
 
 Three things this says, and not one of them is settled by it:
 
