@@ -84,6 +84,10 @@ export function dump(song: Song): string {
   L.push(`#genre\t${chart.genre.name}`);
   L.push(`#label\t${chart.genre.label}`);
   L.push(`#seed\t${chart.seed}`);
+  // WHAT WAS DONE TO IT, in order: a record with edits is not the record the
+  // seed alone makes, and a dump that did not say so would be lying about
+  // where its notes came from. Address and salt, so the record can be remade.
+  for (const e of chart.edits) L.push(`#edit\t${e.at}\t${e.salt}`);
   L.push(`#key\t${NOTE_NAMES[pc(chart.tonicPc)]}`);
   L.push(`#mode\t${chart.scaleName}`);
   L.push(`#tempo\t${r2(chart.tempo)}`);

@@ -12,6 +12,7 @@ import { ROLES } from "../src/genre/spec.ts";
 import { writeFileSync } from "node:fs";
 import zlib from "node:zlib";
 import { compose } from "../src/song.ts";
+import { describeEdit, parseEdit, parseSelection, reroll } from "../src/edit.ts";
 
 // ── a PNG, by hand ────────────────────────────────────────────────────────
 const CRC = (() => { const t = new Int32Array(256);
@@ -81,13 +82,24 @@ const NOTE = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const noteName = (p) => NOTE[((p % 12) + 12) % 12] + (Math.floor(p/12) - 1);
 
 // ── draw ──────────────────────────────────────────────────────────────────
-const [genre, seedArg, outArg] = process.argv.slice(2).filter(a => !a.startsWith("--"));
-const barsAt = process.argv.indexOf("--bars");
-const song = compose({ genre, seed: Number(seedArg) });
+/* REROLLS, the same words the CLI takes: `--reroll lead`, `--reroll keys:16-32`,
+   `--edit material/A/0/lead=2`, each repeatable and applied in order — so a
+   reroll can be rolled before and after and LOOKED at, which is the test the
+   README names for anything that changes notes. */
+const VALUED = ["--bars", "--reroll", "--edit"];
+const argv = process.argv.slice(2);
+const [genre, seedArg, outArg] = argv.filter((a, i) => !a.startsWith("--") && !(i > 0 && VALUED.includes(argv[i - 1])));
+const barsAt = argv.indexOf("--bars");
+let edits = [];
+for (let i = 0; i + 1 < argv.length; i++) {
+  if (argv[i] === "--edit") edits.push(parseEdit(argv[i + 1]));
+  if (argv[i] === "--reroll") edits = edits.concat(reroll(compose({ genre, seed: Number(seedArg), edits }), parseSelection(argv[i + 1])));
+}
+const song = compose({ genre, seed: Number(seedArg), edits });
 const out = outArg || `roll-${genre}-${seedArg}.png`;
 
 let bar0 = 0, bar1 = song.form.bars;
-if (barsAt >= 0) { const [a, b] = process.argv[barsAt+1].split("-").map(Number); bar0 = a; bar1 = b; }
+if (barsAt >= 0) { const [a, b] = argv[barsAt+1].split("-").map(Number); bar0 = a; bar1 = b; }
 const nBars = bar1 - bar0;
 
 const COL = { drums: [255,138,92], bass: [255,209,102], keys: [100,220,255], lead: [255,107,214], counter: [186,148,255], drone: [163,255,107] };
@@ -412,6 +424,10 @@ writeFileSync(out, png(W, H, cv.buf));
 // ── and the structure in words ────────────────────────────────────────────
 console.log(`${out}  ${W}x${H}  bars ${bar0}-${bar1}`);
 console.log(`${song.chart.genre.label} · seed ${seedArg} · ${song.chart.tempo} bpm · ${song.form.bars} bars`);
+// WHAT WAS DONE TO IT, in the same words the page and the dump use: a picture
+// of a rerolled record that did not say so would be a picture of a different
+// record wearing this seed's name
+for (const e of song.chart.edits) console.log(`rerolled: ${describeEdit(song, e)}`);
 console.log("colours: drums=orange bass=yellow keys=cyan lead=pink counter=violet drone=green · amber verticals are section starts");
 console.log("FX rows: bar HEIGHT is the treatment's depth — a rising wedge is a build, a full row is full travel");
 console.log("the strip: a block per part in · half weight = held back · boxed = a treatment aimed at it · orange dash = half time · a name = the desk");

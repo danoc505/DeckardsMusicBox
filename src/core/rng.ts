@@ -45,12 +45,41 @@ const UNIT = 1 / 4294967296;
 /** A weighted table: `[value, weight]`, weights any positive scale. */
 export type Weighted<T> = ReadonlyArray<readonly [T, number]>;
 
+/**
+ * A REROLL: every draw at or under one address answers differently.
+ *
+ * Addressing is what makes this possible at all. A draw is a pure function of
+ * (seed, address), so "draw this again" is not a new generator or a new seed
+ * for the whole record — it is a salt folded into the hash of every address
+ * under one prefix, and nothing outside that prefix can move. Reroll the tune
+ * of one material and the keys of that material, the drums, the chords and
+ * every other material are byte for byte what they were; only what was BUILT
+ * FROM the tune changes, because it is built from the tune.
+ *
+ * `at` is relative to the generator `edited` was called on — the record's
+ * root, so an edit reads `material/A/0/lead` and not `42/lofi/material/...`.
+ * The salt is any integer; the same address salted twice with different salts
+ * is two different rerolls, and the same list applied to the same seed is the
+ * same record, which is what makes a list of edits undoable by popping it.
+ */
+export interface Edit {
+  readonly at: string;
+  readonly salt: number;
+}
+
 export interface Rng {
   /** The address this generator is rooted at, for diagnostics. */
   readonly path: string;
 
   /** A generator rooted deeper. `r.at("bar", 3)` scopes everything below it. */
   at(...seg: Seg[]): Rng;
+
+  /**
+   * The same generator with rerolls applied: every draw at or under each
+   * edit's address, relative to THIS path, is salted. An empty list is this
+   * generator exactly.
+   */
+  edited(edits: readonly Edit[]): Rng;
 
   /** A number in [0, 1). */
   unit(...seg: Seg[]): number;
@@ -88,16 +117,41 @@ const join = (base: string, seg: readonly Seg[]): string =>
 
 /** Root a generator for one song. Every draw below it is addressed. */
 export function rng(seed: number, ...seg: Seg[]): Rng {
-  return make(seed, join(String(seed), seg));
+  return make(seed, join(String(seed), seg), []);
 }
 
-function make(seed: number, path: string): Rng {
-  const u = (seg: readonly Seg[]): number => hash32(join(path, seg)) * UNIT;
+/** A reroll resolved against a root: the absolute prefix it salts, and the salt. */
+interface Salt {
+  readonly prefix: string;
+  readonly salt: number;
+}
+
+function make(seed: number, path: string, salts: readonly Salt[]): Rng {
+  /**
+   * THE SALT IS PART OF THE ADDRESS, and only under the edited prefix. Every
+   * matching edit contributes, in the order the edits were made, so a second
+   * reroll of the same thing is a different record from the first and popping
+   * it gives the first back exactly. A draw nothing edited hashes the bare
+   * address it always did, so a record with no edits is the record it was.
+   */
+  const u = (seg: readonly Seg[]): number => {
+    const full = join(path, seg);
+    let key = full;
+    for (const { prefix, salt } of salts) {
+      if (full === prefix || full.startsWith(prefix + "/")) key += `#${salt}`;
+    }
+    return hash32(key) * UNIT;
+  };
 
   const self: Rng = {
     path,
 
-    at: (...seg) => make(seed, join(path, seg)),
+    at: (...seg) => make(seed, join(path, seg), salts),
+
+    edited: (edits) =>
+      edits.length === 0
+        ? self
+        : make(seed, path, [...salts, ...edits.map((e) => ({ prefix: join(path, [e.at]), salt: e.salt }))]),
 
     unit: (...seg) => u(seg),
 

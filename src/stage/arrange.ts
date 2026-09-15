@@ -359,6 +359,19 @@ export interface Arrangement {
 export const materialKey = (idea: Idea, variant: number): string => (variant === 0 ? idea : `${idea}/${variant}`);
 
 /**
+ * WHERE A MATERIAL'S DRAWS LIVE, from its key: the address the material stage
+ * roots itself at (`chart.rng.at("material", idea, variant)`), so a reroll can
+ * name a material by the same key the arrangement, the dump and the roll use.
+ * The plain material is variant 0, which the key leaves off and the address
+ * does not. One place, because a key read one way here and another way in
+ * `src/edit.ts` is a reroll that lands on nothing.
+ */
+export const materialAddress = (key: string): string => {
+  const [idea, variant] = key.split("/");
+  return `material/${idea}/${variant ?? 0}`;
+};
+
+/**
  * WHAT THE RECORD OPENS WITH, by the kind of intro the genre drew.
  *
  * An intro is the record's own material with something withheld, and which

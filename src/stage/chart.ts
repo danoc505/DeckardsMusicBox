@@ -10,7 +10,7 @@
  */
 
 import { barsForSec, type Metre } from "../core/clock.ts";
-import { rng, type Rng } from "../core/rng.ts";
+import { rng, type Edit, type Rng } from "../core/rng.ts";
 import { NOTE_NAMES, SCALES, pc, type Scale, type ScaleName } from "../core/theory.ts";
 import type { Genre, Register, Role } from "../genre/spec.ts";
 
@@ -84,6 +84,13 @@ export interface Chart {
 
   /** Rooted at this song. Every later stage draws below it. */
   readonly rng: Rng;
+  /**
+   * THE REROLLS THIS RECORD CARRIES, in the order they were made. A record is
+   * a pure function of genre, seed and this list; the list is what the page
+   * pops to step back, and the dump prints it so the record says what was
+   * done to it. Empty for a record nobody has touched.
+   */
+  readonly edits: readonly Edit[];
 }
 
 export interface ChartRequest {
@@ -91,11 +98,14 @@ export interface ChartRequest {
   readonly genre: Genre;
   /** Ask for a length in seconds; omit to let the genre decide. */
   readonly seconds?: number;
+  /** Rerolls, relative to the record's root: see `Edit`. */
+  readonly edits?: readonly Edit[];
 }
 
 export function makeChart(req: ChartRequest): Chart {
   const { seed, genre } = req;
-  const root = rng(seed, genre.name);
+  const edits = req.edits ?? [];
+  const root = rng(seed, genre.name).edited(edits);
   const draw = root.at("chart");
 
   const tonicPc = draw.int("key", 0, 11);
@@ -147,6 +157,7 @@ export function makeChart(req: ChartRequest): Chart {
     askedSec,
     targetSec: wantSec,
     rng: root,
+    edits: Object.freeze(edits.map((e) => Object.freeze({ at: e.at, salt: e.salt }))),
   });
 }
 

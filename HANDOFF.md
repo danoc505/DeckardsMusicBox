@@ -158,6 +158,52 @@ measured. Write the next one that way.
 
 ## What was just done
 
+**A RECORD CAN BE REROLLED A PART AT A TIME, AND STEPPED BACK.** The owner
+wants to alter a record rather than take it whole: pick a part in one
+section, a part over a run of bars, or a whole instrument, get new notes for
+it, have whatever is written from those notes follow, and step back. All of it
+is one mechanism, and the mechanism was already here.
+
+- **A reroll is a salt on an address** (`Rng.edited`, `core/rng.ts`). Every
+  draw is a hash of (seed, address), so every draw under one prefix answers
+  differently with a salt folded into that prefix, and no draw outside it can
+  move. `rng.test.ts` holds that: under the prefix moves, beside it, above it
+  and a prefix that merely shares characters do not.
+- **The unit a user can point at is a part of a material**, because that is
+  what the program writes: `material/<idea>/<variant>/<role>` is the address
+  the material stage already roots each seat at, and `materialAddress` in
+  `arrange.ts` maps the key the dump and the roll use onto it. `src/edit.ts`
+  turns a selection (parts, and optionally bars) into one edit per part per
+  material those bars play. A part in one section is therefore a part in every
+  section playing that material, and the description says which bars.
+- **Nothing propagates; the pipeline does.** The counter is written against
+  the tune and the bass stands on the kick, so a rebuild with the tune's draws
+  salted rebuilds the counter and leaves the keys, drums, drone, chords, form
+  and roster byte for byte — `edit.test.ts` asserts exactly that over twelve
+  seeds a genre.
+- **Step back is the list one press shorter.** `compose` takes `edits`; the
+  chart carries them; the page keeps a list of presses and pops one. The same
+  list is the same record, so undo is exact and the dump prints `#edit`
+  lines so a rerolled record says what was done to it.
+- **The page has a Reroll plate**: six part toggles in their roll colours,
+  drag across the roll for bars (an amber band shows what the press will
+  cover), Reroll, Step back, and the list of presses. A new seed or genre
+  clears it. Driven end to end with Playwright against the built file: reroll
+  the tune → the tune moves and the keys do not; drag a range and add the
+  drums → a second press; back once → the first record byte for byte; back
+  twice → the original; no page errors.
+- **The CLI and the roll tool take `--reroll` and `--edit`**, so a reroll can
+  be rolled before and after and looked at, which the README names as the
+  test for anything that changes notes.
+
+NOT BUILT, deliberately: rerolling below a material (one phrase, one bar) —
+the tune is a walk with memory, so a reroll inside it moves the rest of the
+tune, and the honest unit is the material until note provenance exists.
+Rerolling the chords, the key or the tempo: the addresses exist
+(`harmony/<idea>`, `chart`), the edit mechanism reaches them, nothing on the
+page names them yet. Splitting one section off from a shared material (a
+user-forced `vary`) is the next thing the owner will ask for.
+
 **SIX RANDOM SEEDS WERE READ OFF THE ROLL, AND FOUR OF THE FINDINGS WERE
 LINES.** The seeds were drawn by the shell — lofi 688381, 527724, 346235;
 dungeon synth 17479, 462612, 274106 — every one rolled and evaluated in the
@@ -1108,6 +1154,8 @@ built and measured (see "what was just done"). Three are not:
 | the same, through the built page | `npm run shot <genre> <seed>` |
 | the record as sound | `node src/cli.ts <genre> <seed> --wav out.wav` |
 | the record as text | `node src/cli.ts <genre> <seed>` |
+| the same with a part rerolled | `node src/cli.ts <genre> <seed> --reroll lead` · `--reroll keys,bass:16-32` · `--edit material/A/0/lead=2` |
+| a reroll as a picture, before and after | `npm run roll <genre> <seed> a.png` then `... b.png --reroll lead:16-32` |
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
 | what becomes of each part | `node tools/measure.ts --sweep <genre> 1 20 --parts` |

@@ -148,6 +148,16 @@
   .transport { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
   .transport .wide { grid-column: 1 / -1; }
 
+  /* ── reroll: which parts, which bars, and what has been done ── */
+  .parts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+  .parts button { padding: 7px 4px; font-size: 9px; letter-spacing: 0.12em; border-color: #0b0d10; }
+  .parts button[data-on="1"] { color: #0b0d10; text-shadow: none; background: var(--part, var(--amber)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 3px 0 #0b0d10, 0 0 10px var(--part, var(--amber)); }
+  .range { display: flex; align-items: center; gap: 8px; }
+  .range .v { flex: 1; font: 700 11px/1 var(--mono); color: var(--amber); letter-spacing: 0.1em; }
+  .range button { padding: 6px 8px; font-size: 9px; }
+  .edits { margin: 6px 0 0; padding: 0 0 0 16px; font: 9px/1.6 var(--mono); color: var(--cream-dim); max-height: 120px; overflow-y: auto; }
+  .edits li:last-child { color: var(--cream); }
+
   /* ── program: selector switch, counter, knob ── */
   .selector { display: grid; gap: 6px; }
   .selector .pos { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 3px; cursor: pointer; border: 1px solid transparent; }
@@ -361,6 +371,18 @@
           <button type="button" class="wide" id="save">Save WAV · stereo</button>
         </div>
         <div class="hint" id="hint" style="margin-top:10px">Play starts at once — the record is made as it goes. Move any knob while it plays and the record takes it.</div>
+      </section>
+      <section class="plate"><span class="screwB"></span><h2>Reroll <small>new notes for a part</small></h2>
+        <div class="stack">
+          <div class="parts" id="rr-parts"></div>
+          <div class="range"><span class="lbl dim">Bars</span><span class="v" id="rr-range">whole record</span><button type="button" id="rr-all">All</button></div>
+          <div class="transport">
+            <button type="button" class="go" id="rr-go">Reroll</button>
+            <button type="button" id="rr-back" disabled>Step back</button>
+          </div>
+          <ol class="edits" id="rr-list"></ol>
+          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars. Anything written from a rerolled part follows it. Step back pops the last reroll.</div>
+        </div>
       </section>
     </div>
 
@@ -603,10 +625,22 @@
     // a new genre is a new desk: the overlay goes, and so does which part each
     // pedal was showing — `opensOn` picks that from who walks a board, and the
     // last genre's answer is worse than no answer
-    l.querySelector("input").addEventListener("change", function () { genreVal = g; over = {}; picked = {}; fxPicked = {}; compose(); });
+    l.querySelector("input").addEventListener("change", function () { genreVal = g; over = {}; picked = {}; fxPicked = {}; fresh(); compose(); });
     genreEl.appendChild(l);
   });
-  function request() { var r = { seed: Number(seedEl.value) || 0, genre: genreVal }; if (secEl.value) r.seconds = Number(secEl.value); return r; }
+  /* ── REROLLS ────────────────────────────────────────────────────────────
+     A record is a pure function of genre, seed and this list, and nothing
+     else is kept: reroll appends what `M.reroll` says the selection covers,
+     step back pops, and the record is composed again from the list either
+     way. That is the whole undo. `rrSel` is a bar range dragged on the roll,
+     or null for the whole record; `rrRoles` is which parts. */
+  /* ONE PRESS IS ONE STEP. A reroll of the tune across the record is one edit
+     per material it plays, and stepping back undoes the press, not one
+     material of it — so what is kept is a list of presses, each the edits it
+     made, and the record's own list is those laid end to end. */
+  var rrActions = [], rrRoles = { lead: true }, rrSel = null, rrDrag = null;
+  function editsOf() { return [].concat.apply([], rrActions); }
+  function request() { var r = { seed: Number(seedEl.value) || 0, genre: genreVal, edits: editsOf() }; if (secEl.value) r.seconds = Number(secEl.value); return r; }
 
   // ── compose and draw everything ──
   function compose() {
@@ -625,7 +659,7 @@
     meterSvg($("d-energy"), peakE, "PEAK " + peakE.toFixed(2));
     meterSvg($("d-left"), 0, "L dB"); meterSvg($("d-right"), 0, "R dB");
     $("roll-sub").textContent = M.summary(song);
-    drawTape(); drawRoll(null); drawScope(); drawMatrix(); drawMachine(); drawBoard(); drawFx(); drawPatch(); drawRack();
+    drawTape(); drawRoll(null); drawReroll(); drawScope(); drawMatrix(); drawMachine(); drawBoard(); drawFx(); drawPatch(); drawRack();
     $("dump").value = M.dump(song);
     $("chrono").textContent = "0:00.0"; nowDesk(null);
     resetDrive(); if (reduced) frame();
@@ -737,6 +771,13 @@
       }
     }
     g.globalAlpha = 1;
+    /* THE SELECTION: the bars a reroll will cover, as an amber band, so what
+       the next Reroll touches is on the picture before it is pressed */
+    if (rrSel) {
+      var sx0 = x(clk.at(rrSel.from)), sx1 = x(clk.at(rrSel.to));
+      g.fillStyle = "rgba(255,179,71,0.14)"; g.fillRect(sx0, top, sx1 - sx0, H - fxH - top - 4);
+      g.strokeStyle = "rgba(255,179,71,0.8)"; g.lineWidth = 1; g.strokeRect(sx0 + 0.5, top + 0.5, sx1 - sx0 - 1, H - fxH - top - 5);
+    }
     if (playSec !== null) { var px = x(playSec); g.strokeStyle = "#fff"; g.lineWidth = 1.5; g.shadowColor = "#fff"; g.shadowBlur = 8; g.beginPath(); g.moveTo(px, 2); g.lineTo(px, H - fxH - 2); g.stroke(); g.shadowBlur = 0; }
     /* ── THE ALTERATIONS, NAMED ACROSS THE TOP ──────────────────────────
        What did this record DO, answered before any other question and
@@ -811,6 +852,48 @@
     $("roll-read").innerHTML = clock(Math.max(0, sec)) + " · bar <b>" + bar + "</b>" + (pl ? " · " + pl.section.fn + " <b>" + pl.material + "</b>" : "");
   });
   roll.addEventListener("mouseleave", function () { $("roll-read").textContent = ""; });
+
+  // ── the reroll panel ──
+  /** The bar under a pointer on the roll, the same arithmetic as the readout. */
+  function barAtPointer(e) {
+    var rect = roll.getBoundingClientRect(), W = rect.width, sec = (e.clientX - rect.left - 10) / (W - 20) * song.performance.seconds;
+    return Math.max(0, Math.min(song.form.bars - 1, Math.floor(song.form.clock.barAt(sec))));
+  }
+  // DRAG ACROSS THE ROLL FOR BARS. A click without a drag clears the range,
+  // which is the whole record again — the picture says so by having no band.
+  roll.addEventListener("pointerdown", function (e) { if (!song) return; rrDrag = { at: barAtPointer(e), moved: false }; roll.setPointerCapture(e.pointerId); });
+  roll.addEventListener("pointermove", function (e) {
+    if (!rrDrag) return;
+    var b = barAtPointer(e); if (b !== rrDrag.at) rrDrag.moved = true;
+    rrSel = { from: Math.min(rrDrag.at, b), to: Math.max(rrDrag.at, b) + 1 };
+    drawRoll(null); drawReroll();
+  });
+  roll.addEventListener("pointerup", function () { if (rrDrag && !rrDrag.moved) { rrSel = null; drawRoll(null); drawReroll(); } rrDrag = null; });
+  function selection() { var s = { roles: ROLES.filter(function (r) { return rrRoles[r]; }) }; if (rrSel) { s.from = rrSel.from; s.to = rrSel.to; } return s; }
+  function drawReroll() {
+    var parts = $("rr-parts");
+    if (!parts.children.length) {
+      ROLES.forEach(function (r) {
+        var b = document.createElement("button"); b.type = "button"; b.textContent = r; b.style.setProperty("--part", COLOR[r]);
+        b.addEventListener("click", function () { rrRoles[r] = !rrRoles[r]; drawReroll(); });
+        parts.appendChild(b);
+      });
+    }
+    ROLES.forEach(function (r, i) { parts.children[i].dataset.on = rrRoles[r] ? "1" : "0"; });
+    $("rr-range").textContent = rrSel ? "bars " + rrSel.from + "–" + rrSel.to : "whole record";
+    $("rr-go").disabled = !ROLES.some(function (r) { return rrRoles[r]; });
+    $("rr-back").disabled = rrActions.length === 0;
+    var list = $("rr-list"); list.innerHTML = "";
+    rrActions.forEach(function (made) {
+      var li = document.createElement("li");
+      made.forEach(function (e, i) { if (i) li.appendChild(document.createElement("br")); li.appendChild(document.createTextNode(M.describeEdit(song, e))); });
+      list.appendChild(li);
+    });
+  }
+  function rerollNow() { var made = M.reroll(song, selection()); if (made.length) { rrActions.push(made); compose(); } }
+  function stepBack() { if (rrActions.length) { rrActions.pop(); compose(); } }
+  /** A different seed or genre is a different record, and its rerolls are not this one's. */
+  function fresh() { rrActions = []; rrSel = null; }
 
   // ── the world scope ──
   var scope = $("scope"), sctx = scope.getContext("2d"), sweepA = 0, dragging = null;
@@ -2525,16 +2608,21 @@
     a.href = URL.createObjectURL(new Blob([M.wav(d.left, d.right, 44100)], { type: "audio/wav" }));
     a.download = genreVal + "-" + seedEl.value + ".wav"; a.click();
   }
-  function step(by) { seedEl.value = String(Math.max(0, (Number(seedEl.value) || 0) + by)); compose(); }
+  function step(by) { seedEl.value = String(Math.max(0, (Number(seedEl.value) || 0) + by)); fresh(); compose(); }
 
   $("compose").addEventListener("click", compose);
   $("play").addEventListener("click", play);
   $("stop").addEventListener("click", stop);
   $("save").addEventListener("click", save);
+  $("rr-go").addEventListener("click", rerollNow);
+  $("rr-back").addEventListener("click", stepBack);
+  $("rr-all").addEventListener("click", function () { rrSel = null; drawRoll(null); drawReroll(); });
   $("seed-up").addEventListener("click", function () { step(1); });
   $("seed-down").addEventListener("click", function () { step(-1); });
-  $("random").addEventListener("click", function () { seedEl.value = String(Math.floor(Math.random() * 1e6)); compose(); });
-  [seedEl, secEl].forEach(function (el) { el.addEventListener("change", compose); el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); compose(); } }); });
+  $("random").addEventListener("click", function () { seedEl.value = String(Math.floor(Math.random() * 1e6)); fresh(); compose(); });
+  seedEl.addEventListener("change", function () { fresh(); compose(); });
+  secEl.addEventListener("change", compose);
+  [seedEl, secEl].forEach(function (el) { el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); if (el === seedEl) fresh(); compose(); } }); });
   // a resized canvas is a cleared canvas, so the screens repaint whatever they
   // last painted rather than being skipped as unchanged
   window.addEventListener("resize", function () { driveW = 0; rollW = 0; if (song) { drawRoll(null); drawCable(); screenSig = {}; M.RACK_ORDER.forEach(refreshScreen); } });

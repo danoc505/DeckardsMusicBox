@@ -142,6 +142,37 @@ test("sample takes distinct entries and stops when the table runs out", () => {
   assert.equal(r.sample("all", table, 99).length, 3);
 });
 
+test("a reroll moves every draw under its address and none outside it", () => {
+  const plain = rng(42, "song");
+  const rolled = plain.edited([{ at: "material/A/0/lead", salt: 1 }]);
+  // under the prefix: the address itself, and everything below it
+  assert.notEqual(plain.at("material", "A", 0, "lead").unit("contour"), rolled.at("material", "A", 0, "lead").unit("contour"));
+  assert.notEqual(plain.at("material", "A", 0, "lead", "phrase", 1).unit("arc"), rolled.at("material", "A", 0, "lead", "phrase", 1).unit("arc"));
+  // beside it, above it, and a prefix that only shares characters: untouched
+  assert.equal(plain.at("material", "A", 0, "keys").unit("voicing"), rolled.at("material", "A", 0, "keys").unit("voicing"));
+  assert.equal(plain.at("material", "A", 1, "lead").unit("contour"), rolled.at("material", "A", 1, "lead").unit("contour"));
+  assert.equal(plain.at("material", "A", 0).unit("figure"), rolled.at("material", "A", 0).unit("figure"));
+  assert.equal(plain.at("material", "A", 0, "leader").unit("x"), rolled.at("material", "A", 0, "leader").unit("x"));
+  assert.equal(plain.at("harmony", "A").unit("progression"), rolled.at("harmony", "A").unit("progression"));
+});
+
+test("rerolls stack in order, differ by salt, and an empty list is the generator itself", () => {
+  const plain = rng(7, "g");
+  const once = plain.edited([{ at: "a", salt: 1 }]);
+  const twice = plain.edited([{ at: "a", salt: 1 }, { at: "a", salt: 2 }]);
+  const other = plain.edited([{ at: "a", salt: 2 }]);
+  const draws = (r: ReturnType<typeof rng>) => r.at("a", "b").unit("c");
+  assert.notEqual(draws(plain), draws(once));
+  assert.notEqual(draws(once), draws(twice));
+  assert.notEqual(draws(once), draws(other));
+  // the same list is the same record: what makes stepping back exact
+  assert.equal(draws(twice), draws(plain.edited([{ at: "a", salt: 1 }]).edited([{ at: "a", salt: 2 }])));
+  assert.equal(draws(plain.edited([])), draws(plain));
+  assert.equal(plain.edited([]), plain);
+  // and an edit is relative to the generator it was made on
+  assert.equal(plain.at("a").edited([{ at: "b", salt: 1 }]).unit("b", "c"), plain.edited([{ at: "a/b", salt: 1 }]).at("a").unit("b", "c"));
+});
+
 test("hash32 is a 32-bit unsigned value", () => {
   for (const s of ["", "a", "1/lofi/bass/3/rest", "\u{1F600}"]) {
     const h = hash32(s);

@@ -4,6 +4,8 @@
  */
 
 export { compose, type Request, type Song } from "./song.ts";
+export { type Edit } from "./core/rng.ts";
+export { reroll, describeEdit, formatEdit, parseEdit, parseSelection, type Selection } from "./edit.ts";
 export { dump, summary, motionOf, distinctBars, PROGRAM, type Motion } from "./dump.ts";
 export { Engine, render, rms, peak, settle, type Stereo } from "./sound/render.ts";
 export {

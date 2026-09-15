@@ -259,6 +259,17 @@ rack, each rack unit with a screen of its own impulse response. It plays
 through a worker that stays about half a second in front, and saves through a
 second one, so rendering a file never interrupts the record.
 
+**And a record can be rerolled a part at a time.** Every draw is addressed
+(`core/rng.ts`), so "draw this again" is a salt on one address and nothing
+outside it can move: pick parts on the page, drag bars on the roll, press
+Reroll, and the tune of that material is new while its keys, drums and chords
+are byte for byte what they were. What was written FROM the rerolled part —
+the counter against the tune, the bass on the kick — follows on its own,
+because the record is rebuilt and those are built from it. A record is a pure
+function of genre, seed and its list of rerolls (`src/edit.ts`), so Step back
+is the list one press shorter, the dump prints the list as `#edit` lines, and
+`--reroll lead:16-32` on the CLI or the roll tool makes the same record.
+
 The melody is theory as constraint: a phrase states a figure and restates it,
 walks one of Huron's contour shapes and closes where that shape was going,
 spends at most one interval wider than a fifth, answers a leap the other way,
