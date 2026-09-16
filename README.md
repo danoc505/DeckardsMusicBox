@@ -274,6 +274,9 @@ own addresses; the tempo, key and mode can also be SAID, as a pin the draw
 site honours only where it could have drawn that value. A range inside a
 section reaches the tune a phrase at a time and the drums a beat at a time,
 and "only these bars" splits the section off into its own material first.
+The whole of it is one line of text — genre, seed, length, edits — shown on
+the page as a recipe and loaded back from one, so a record worth keeping is
+a line to paste.
 
 The melody is theory as constraint: a phrase states a figure and restates it,
 walks one of Huron's contour shapes and closes where that shape was going,

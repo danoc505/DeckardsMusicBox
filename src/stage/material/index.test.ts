@@ -219,14 +219,24 @@ const feetOf = (chart: Chart, mat: Material, bar: number): number[] =>
 
 test("where the genre says so, the bass stands on the kick's feet", () => {
   assert.equal(lofi.bass.pocket, "kick");
+  let named = 0;
   for (const { chart, mats: m } of charted(40)) {
     for (const mat of m.all.values()) {
+      // THE KICK OF THE BAR THE BASS IS IN. A named figure's bars differ, so
+      // the feet are the cycle's for that bar — and the bass is written for
+      // one turn of the loop and tiled, so a bar past the first turn stands
+      // on the first turn's bar, whatever the cycle does there. Both halves
+      // are the program's own rules and this asks exactly them.
+      const kicks = mat.figure.cycle ? mat.figure.cycle.map((c) => c.kick) : [mat.figure.kick];
+      if (mat.figure.cycle) named++;
       for (let bar = 0; bar < mat.bars; bar++) {
         const feet = feetOf(chart, mat, bar);
-        assert.deepEqual(feet, [...mat.figure.kick], `${mat.key} bar ${bar}: bass on ${feet}, kick on ${mat.figure.kick}`);
+        const kick = kicks[(bar % mat.period) % kicks.length]!;
+        assert.deepEqual(feet, [...kick], `${mat.key} bar ${bar}: bass on ${feet}, kick on ${kick}`);
       }
     }
   }
+  assert.ok(named > 5, `only ${named} materials drew a named figure, so the cycle's half of this went unasked`);
 });
 
 test("a genre with its own bass pocket does not follow the kick", () => {

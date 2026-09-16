@@ -249,6 +249,18 @@ Driven end to end again: set the tempo, the key and the mode; reroll the
 chords of a dragged range; only-here on the tune, with the split in the list
 and the dump; step back to the start byte for byte; no page errors.
 
+**AND THE RECORD AS A RECIPE.** A record is genre, seed, length and its
+edits and nothing else, so those four are shown as one line in the words
+the CLI takes — `lofi 688381 seconds=120 material/A/0/lead=1
+chart/tempo:=84` — after every move, and a pasted line loads back as one
+press, genre and seed included. A stepping stone worth keeping is a line of
+text. Driven: two presses, reload the page, paste, Load, the same record
+byte for byte; nonsense says what a recipe starts with.
+
+**AND THE BASS STANDS ON THE KICK OF ITS OWN BAR.** Item 2's amen check,
+done: see item 2 for the numbers (86% → 88%, the rest is the loop tiling
+under a four-bar figure, which is a decision recorded there).
+
 **AND A STEP FORWARD, AND THE ROLL SHOWS WHAT A MOVE CHANGED.** A press taken
 back is kept until the next new press, so Step forward un-steps it (the list
 of presses is the whole state, so this is a second list). And the roll keeps
@@ -991,9 +1003,21 @@ weighted pool per part, resolved in `resolve.ts`, drawn per record in the
 chart, and read by the three places that currently read `genre.sound` —
 `render.ts` (`this.base`), `arrange.ts` (`deskOf(t, chart.genre.sound)` and
 `reachesPart`) and `perform.test.ts`. Then lofi's counter can be wurly 3 :
-horns 1. Either build that or delete the voice. And sweep lofi seeds for
+horns 1. Either build that or delete the voice. ~~And sweep lofi seeds for
 `drums.figure === "amen"`, roll one, and confirm the bass stands on the amen
-kick and not on the pockets it replaced.
+kick and not on the pockets it replaced.~~ **DONE, and it half did.** Over
+200 lofi records the amen is drawn in 119 of 402 plain materials (104
+records), and the bass stood on a kick of ITS OWN bar in 86% of onsets under
+it against 95% under the genre's own figures — every miss in a bar past the
+first, because `drawBass` took the first bar's kicks for every bar. It takes
+the kick bar by bar now (88%). What is left is the loop: the bass is written
+for one turn and tiled, and lofi's loop is mostly two bars under a four-bar
+figure, so bars three and four still stand on bars one and two. That is the
+"loop is as long as the changes are" rule meeting a named figure that is
+longer than the loop, and it is a decision, not a bug: either the bass is
+written over the figure's cycle where one outruns the loop (and the loop
+picture folds it), or the amen stays a drum thing. `index.test.ts` states
+both halves.
 
 **3. What an ear should be pointed at next, and this outranks the rest.**
 This item used to read "nobody has listened", and that was an assistant's

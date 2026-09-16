@@ -163,6 +163,9 @@
   .only input { accent-color: var(--amber); }
   .sets { display: grid; grid-template-columns: auto 1fr 1fr 64px; gap: 6px; align-items: center; }
   .sets select, .sets input { width: 100%; font: 700 11px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 5px 4px; }
+  .recipe { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: stretch; margin-top: 6px; }
+  .recipe textarea { width: 100%; resize: vertical; font: 9px/1.4 var(--mono); color: var(--cream-dim); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 4px 6px; }
+  .recipe button { padding: 6px 8px; font-size: 9px; }
 
   /* ── program: selector switch, counter, knob ── */
   .selector { display: grid; gap: 6px; }
@@ -397,6 +400,7 @@
           </div>
           <ol class="edits" id="rr-list"></ol>
           <div class="hint" id="rr-changed"></div>
+          <div class="recipe"><textarea id="rr-recipe" rows="2" spellcheck="false" title="the record as a recipe: genre, seed, length, every edit"></textarea><button type="button" id="rr-load">Load</button></div>
           <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. Step back pops the last press.</div>
         </div>
       </section>
@@ -949,6 +953,7 @@
     $("rr-back").disabled = rrActions.length === 0;
     $("rr-fwd").disabled = rrUndone.length === 0;
     $("rr-changed").textContent = rrPrev ? "last move: " + rrDiff.fresh + " notes new, " + rrDiff.gone + " gone — the new ones are ringed on the roll" : "";
+    $("rr-recipe").value = recipe();
     var list = $("rr-list"); list.innerHTML = "";
     rrActions.forEach(function (made) {
       var li = document.createElement("li");
@@ -957,6 +962,30 @@
     });
   }
   function rerollNow() { press(M.reroll(song, selection())); }
+  /* THE RECORD AS A RECIPE. A record is a pure function of genre, seed,
+     length and its edits, so those four things ARE the record, in the words
+     the CLI takes: `lofi 688381 seconds=120 material/A/0/lead=1
+     chart/tempo:=84`. Shown after every move so a stepping stone worth
+     keeping can be copied out, and loaded back as one press. */
+  function recipe() {
+    var c = song.chart, words = [c.genre.name, String(c.seed)];
+    if (c.askedSec !== null) words.push("seconds=" + c.askedSec);
+    return words.concat(c.edits.map(M.formatEdit)).join(" ");
+  }
+  function loadRecipe(text) {
+    var words = text.trim().split(/\s+/).filter(function (w) { return w.length; });
+    if (words.length < 2 || M.GENRE_NAMES.indexOf(words[0]) < 0 || !/^\d+$/.test(words[1])) { $("rr-recipe").value = "a recipe starts with a genre and a seed: " + M.GENRE_NAMES.join(" | ") + " <seed> [seconds=n] [edits...]"; return; }
+    var made = [], seconds = "";
+    for (var i = 2; i < words.length; i++) {
+      var m = /^seconds=(\d+)$/.exec(words[i]);
+      if (m) { seconds = m[1]; continue; }
+      try { made.push(M.parseEdit(words[i])); } catch (e) { $("rr-recipe").value = String(e.message || e); return; }
+    }
+    var radio = document.querySelector('input[name="genre"][value="' + words[0] + '"]');
+    if (radio && !radio.checked) { radio.checked = true; genreVal = words[0]; over = {}; picked = {}; fxPicked = {}; }
+    seedEl.value = words[1]; secEl.value = seconds;
+    fresh(); if (made.length) rrActions.push(made); compose();
+  }
   function stepBack() { if (rrActions.length) { rrPrev = song.performance.events; rrUndone.push(rrActions.pop()); compose(); } }
   function stepForward() { if (rrUndone.length) { rrPrev = song.performance.events; rrActions.push(rrUndone.pop()); compose(); } }
   /** A different seed or genre is a different record, and its rerolls are not this one's. */
@@ -2684,6 +2713,7 @@
   $("rr-go").addEventListener("click", rerollNow);
   $("rr-back").addEventListener("click", stepBack);
   $("rr-fwd").addEventListener("click", stepForward);
+  $("rr-load").addEventListener("click", function () { loadRecipe($("rr-recipe").value); });
   $("rr-all").addEventListener("click", function () { rrSel = null; drawRoll(null); drawReroll(); });
   $("seed-up").addEventListener("click", function () { step(1); });
   $("seed-down").addEventListener("click", function () { step(-1); });

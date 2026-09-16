@@ -289,8 +289,13 @@ export function makeMaterials(chart: Chart, arrangement: Arrangement): Materials
           // spilled is not a pad
           line = tile(drawArp(chart, loop, register, seatRng, steps, period, heard));
         } else if (el === "foundation") {
-          // the loop, tiled, and the second turn adding one — see `withTurnaround`
-          line = withTurnaround(chart, tile(drawBass(chart, loop, seatRng, steps, figure.kick, register)), loop, period, bars, steps, seatRng, register);
+          // the loop, tiled, and the second turn adding one — see `withTurnaround`.
+          // THE KICK OF EACH BAR: a named figure's bars differ, and the bass
+          // stands on the bar it is in. Where the cycle outruns the loop the
+          // tiled turns still stand on the first turn's kicks — the loop is
+          // as long as the changes are, and that is not this line's to change.
+          const kicks = figure.cycle ? figure.cycle.map((c) => c.kick) : [figure.kick];
+          line = withTurnaround(chart, tile(drawBass(chart, loop, seatRng, steps, kicks, register)), loop, period, bars, steps, seatRng, register);
         } else if (r === "drone") {
           // the pedal is the drone's own: a tonic or a fifth, held. A second pad
           // on another seat voices the chord below instead of fighting it for
