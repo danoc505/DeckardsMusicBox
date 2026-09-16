@@ -111,7 +111,7 @@ function roundsBefore(song: Song, at: Placed, role: Role): number {
  * same selection rerolled twice is two different records, and neither is the
  * original — the original is the list before either was added.
  */
-export function reroll(song: Song, sel: Selection): Edit[] {
+export function reroll(song: Song, sel: Selection, skip = 0): Edit[] {
   const whole = sel.from === undefined && sel.to === undefined;
   const from = sel.from ?? 0;
   const to = sel.to ?? song.form.bars;
@@ -134,7 +134,7 @@ export function reroll(song: Song, sel: Selection): Edit[] {
     if (seen.has(at)) return;
     seen.add(at);
     const before = base.chart.edits.filter((e) => !isPin(e) && e.at === at).length;
-    out.push({ at, salt: before + 1 });
+    out.push({ at, salt: before + 1 + skip });
   };
   const treatments = Math.max(1, base.chart.genre.drums.treatments);
 
@@ -167,6 +167,20 @@ export function reroll(song: Song, sel: Selection): Edit[] {
     }
   }
   return out;
+}
+
+/**
+ * SEVERAL ANSWERS TO ONE SELECTION, to choose among rather than gamble on.
+ *
+ * Nothing needs rendering to reroll, so the answer to a selection need not
+ * be one record: each candidate is the same selection salted one further
+ * along, and every one is legal because the laws are filters at the point
+ * of choice. Keeping the k-th is pressing its edits; the ones not kept cost
+ * nothing and leave nothing behind. `from` skips the first few, so "try
+ * four more" is the next four and never the same four again.
+ */
+export function candidates(song: Song, sel: Selection, n: number, from = 0): Edit[][] {
+  return Array.from({ length: Math.max(0, n) }, (_, k) => reroll(song, sel, from + k));
 }
 
 /** Reroll something record-wide: the chords of the ideas a range plays, or the key, mode, tempo or form. */

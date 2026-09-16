@@ -166,6 +166,14 @@
   .recipe { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: stretch; margin-top: 6px; }
   .recipe textarea { width: 100%; resize: vertical; font: 9px/1.4 var(--mono); color: var(--cream-dim); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 4px 6px; }
   .recipe button { padding: 6px 8px; font-size: 9px; }
+  /* ── candidates: four answers to one selection, under the roll ── */
+  .cands { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+  .cands .cand { position: relative; cursor: pointer; border: 1px solid var(--seam-hi); border-radius: 3px; background: #071510; padding: 4px; }
+  .cands .cand:hover { border-color: var(--amber); box-shadow: 0 0 10px rgba(255,179,71,0.35); }
+  .cands .cand canvas { width: 100%; height: 110px; display: block; }
+  .cands .cand .k { position: absolute; top: 6px; left: 8px; font: 700 9px/1 var(--mono); color: var(--amber); letter-spacing: 0.1em; }
+  .cands .more { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; font: 9px/1.4 var(--mono); color: var(--cream-dim); }
+  .cands .more button { padding: 5px 8px; font-size: 9px; }
 
   /* ── program: selector switch, counter, knob ── */
   .selector { display: grid; gap: 6px; }
@@ -387,7 +395,8 @@
           <div class="range"><span class="lbl dim">Bars</span><span class="v" id="rr-range">whole record</span><button type="button" id="rr-all">All</button></div>
           <label class="only"><input type="checkbox" id="rr-only"><span>only these bars · the section is split off first</span></label>
           <div class="transport">
-            <button type="button" class="go wide" id="rr-go">Reroll</button>
+            <button type="button" class="go" id="rr-go">Reroll</button>
+            <button type="button" id="rr-try">Try four</button>
             <button type="button" id="rr-back" disabled>Step back</button>
             <button type="button" id="rr-fwd" disabled>Step forward</button>
           </div>
@@ -410,6 +419,7 @@
       <h2>Piano roll <small id="roll-sub"></small></h2>
       <div class="crt" id="roll-crt"><canvas id="roll" height="420"></canvas><div class="readout" id="roll-read"></div></div>
       <div class="chips" id="chips"></div>
+      <div class="cands" id="rr-cands" hidden></div>
     </section>
 
     <div class="stack">
@@ -962,6 +972,54 @@
     });
   }
   function rerollNow() { press(M.reroll(song, selection())); }
+  /* ── FOUR ANSWERS, NOT ONE. Nothing needs rendering to reroll, so the
+     selection is answered four times over and drawn four times under the
+     roll — the selected bars, the selected parts bright and the rest dim —
+     and clicking one keeps it as a press. "Four more" is the next four. */
+  var rrTried = 0;
+  function tryFour() {
+    var sel = selection(), strip = $("rr-cands");
+    var made = M.candidates(song, sel, 4, rrTried);
+    strip.innerHTML = ""; strip.hidden = false;
+    made.forEach(function (edits, k) {
+      var r = request(); r.edits = editsOf().concat(edits);
+      var cand = M.compose(r);
+      var d = document.createElement("div"); d.className = "cand"; d.title = "keep this one";
+      var c = document.createElement("canvas"); d.appendChild(c);
+      var lbl = document.createElement("span"); lbl.className = "k"; lbl.textContent = String(rrTried + k + 1); d.appendChild(lbl);
+      d.addEventListener("click", function () { strip.hidden = true; strip.innerHTML = ""; press(edits); });
+      strip.appendChild(d);
+      drawMini(c, cand, sel);
+    });
+    var more = document.createElement("div"); more.className = "more";
+    var again = document.createElement("button"); again.type = "button"; again.textContent = "Four more";
+    again.addEventListener("click", function () { rrTried += 4; tryFour(); });
+    var none = document.createElement("button"); none.type = "button"; none.textContent = "None of these";
+    none.addEventListener("click", function () { strip.hidden = true; strip.innerHTML = ""; });
+    more.appendChild(again); more.appendChild(none);
+    more.appendChild(document.createTextNode("click one to keep it · the selected parts are bright, the rest dim"));
+    strip.appendChild(more);
+  }
+  /** A small roll of one candidate: the selected bars, every part, the selected ones bright. */
+  function drawMini(c, cand, sel) {
+    var dpr = Math.min(2, window.devicePixelRatio || 1), W = Math.max(120, c.parentNode.clientWidth - 8), H = 110;
+    c.width = W * dpr; c.height = H * dpr; var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = "#071510"; g.fillRect(0, 0, W, H);
+    var clk = cand.form.clock, from = sel.from === undefined ? 0 : sel.from, to = sel.to === undefined ? cand.form.bars : Math.min(sel.to, cand.form.bars);
+    var t0 = clk.at(from), t1 = clk.at(to), span = Math.max(0.001, t1 - t0);
+    var lo = 24, hi = 96, drumH = 22, top = 4, pitchH = H - drumH - top - 4;
+    var x = function (sec) { return 2 + (W - 4) * (sec - t0) / span; };
+    var y = function (midi) { return top + pitchH * (1 - (midi - lo) / (hi - lo)); };
+    var lanes = { kick: 0, snare: 1, hat: 2, openhat: 3 }, ev = cand.performance.events;
+    for (var i = 0; i < ev.length; i++) {
+      var e = ev[i]; if (e.tSec + e.durSec < t0 || e.tSec > t1) continue;
+      var bright = sel.roles.indexOf(e.role) >= 0;
+      g.fillStyle = COLOR[e.role]; g.globalAlpha = bright ? 0.95 : 0.22;
+      if (e.role === "drums") g.fillRect(x(e.tSec), H - drumH + (lanes[e.lane] || 0) * 5, Math.max(1, (W - 4) * 0.05 / span), 4);
+      else g.fillRect(x(e.tSec), y(e.pitch) - 1, Math.max(1.5, (W - 4) * e.durSec / span), 2.5);
+    }
+    g.globalAlpha = 1;
+  }
   /* THE RECORD AS A RECIPE. A record is a pure function of genre, seed,
      length and its edits, so those four things ARE the record, in the words
      the CLI takes: `lofi 688381 seconds=120 material/A/0/lead=1
@@ -989,7 +1047,7 @@
   function stepBack() { if (rrActions.length) { rrPrev = song.performance.events; rrUndone.push(rrActions.pop()); compose(); } }
   function stepForward() { if (rrUndone.length) { rrPrev = song.performance.events; rrActions.push(rrUndone.pop()); compose(); } }
   /** A different seed or genre is a different record, and its rerolls are not this one's. */
-  function fresh() { rrActions = []; rrUndone = []; rrPrev = null; rrSel = null; }
+  function fresh() { rrActions = []; rrUndone = []; rrPrev = null; rrSel = null; $("rr-cands").hidden = true; $("rr-cands").innerHTML = ""; }
 
   // ── the world scope ──
   var scope = $("scope"), sctx = scope.getContext("2d"), sweepA = 0, dragging = null;
@@ -2713,6 +2771,7 @@
   $("rr-go").addEventListener("click", rerollNow);
   $("rr-back").addEventListener("click", stepBack);
   $("rr-fwd").addEventListener("click", stepForward);
+  $("rr-try").addEventListener("click", function () { rrTried = 0; tryFour(); });
   $("rr-load").addEventListener("click", function () { loadRecipe($("rr-recipe").value); });
   $("rr-all").addEventListener("click", function () { rrSel = null; drawRoll(null); drawReroll(); });
   $("seed-up").addEventListener("click", function () { step(1); });

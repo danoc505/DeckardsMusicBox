@@ -249,6 +249,16 @@ Driven end to end again: set the tempo, the key and the mode; reroll the
 chords of a dragged range; only-here on the tune, with the split in the list
 and the dump; step back to the start byte for byte; no page errors.
 
+**AND FOUR ANSWERS TO ONE SELECTION** (`candidates` in `edit.ts`, "Try
+four" on the page). Nothing needs rendering to reroll, so a selection is
+answered four times over — the same addresses salted one further along
+each — and drawn four times under the roll, the selected bars with the
+selected parts bright and the rest dim; clicking one keeps it as a press,
+"Four more" is the next four and never the same four again, and the ones
+not kept leave nothing behind. A reroll stops being a die and becomes a
+menu. Driven: four drawn, four more numbered five to eight, the seventh
+kept and its salt in the dump, no page errors.
+
 **AND THE RECORD AS A RECIPE.** A record is genre, seed, length and its
 edits and nothing else, so those four are shown as one line in the words
 the CLI takes — `lofi 688381 seconds=120 material/A/0/lead=1

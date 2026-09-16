@@ -6,7 +6,7 @@
 export { compose, type Request, type Song } from "./song.ts";
 export { isPin, type Edit } from "./core/rng.ts";
 export {
-  ASPECTS, reroll, rerollAspect, rerollWord, setTempo, setKey, setMode, setWord, split,
+  ASPECTS, reroll, candidates, rerollAspect, rerollWord, setTempo, setKey, setMode, setWord, split,
   describeEdit, formatEdit, parseEdit, type Aspect, type Selection,
 } from "./edit.ts";
 export { dump, summary, motionOf, distinctBars, PROGRAM, type Motion } from "./dump.ts";

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { compose } from "./song.ts";
 import { dump } from "./dump.ts";
 import { isPin } from "./core/rng.ts";
-import { describeEdit, formatEdit, parseEdit, reroll, rerollAspect, rerollWord, setKey, setMode, setTempo, setWord, split } from "./edit.ts";
+import { candidates, describeEdit, formatEdit, parseEdit, reroll, rerollAspect, rerollWord, setKey, setMode, setTempo, setWord, split } from "./edit.ts";
 import { GENRE_NAMES } from "./genre/index.ts";
 import { ROLES, type Role } from "./genre/spec.ts";
 import { NOTE_NAMES, pc } from "./core/theory.ts";
@@ -97,6 +97,27 @@ test("every part can be rerolled in every material, and the record still builds"
       for (const r of ROLES) assert.ok(rolled.performance.events.some((e) => e.role === r), `${genre} ${seed}: no ${r} after rerolling everyone`);
     }
   }
+});
+
+test("several candidates for one selection are several different records, and keeping one is pressing it", () => {
+  const song = compose({ seed: 8, genre: "lofi" });
+  const p = song.arrangement.placed.find((q) => q.heard.has("lead"))!;
+  const sel = { roles: ["lead" as const], from: p.section.startBar, to: p.section.endBar };
+  const four = candidates(song, sel, 4);
+  assert.equal(four.length, 4);
+  const dumps = four.map((made) => dump(compose({ seed: 8, genre: "lofi", edits: made })));
+  assert.equal(new Set(dumps).size, 4, "two candidates were the same record");
+  for (const d of dumps) assert.notEqual(d, dump(song));
+  // the first candidate is the plain reroll, and the next four are new ones
+  assert.deepEqual(four[0], reroll(song, sel));
+  const more = candidates(song, sel, 4, 4);
+  for (const made of more) assert.ok(!dumps.includes(dump(compose({ seed: 8, genre: "lofi", edits: made }))), "trying again showed a candidate already shown");
+  // keeping the third is the record the third was
+  const kept = compose({ seed: 8, genre: "lofi", edits: four[2]! });
+  assert.equal(dump(kept), dumps[2]);
+  // and a reroll after keeping it is a different record again, not the first candidate back
+  const next = compose({ seed: 8, genre: "lofi", edits: [...four[2]!, ...reroll(kept, sel)] });
+  assert.ok(!dumps.includes(dump(next)));
 });
 
 test("edits and selections read back from the words the command line uses", () => {
