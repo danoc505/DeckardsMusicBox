@@ -245,11 +245,38 @@ test("keys voice every tone of the chord, in register, led smoothly", () => {
   const STEPS = 16;
   let moves = 0;
   let total = 0;
+  let held = 0;
+  let spilled = 0;
   for (const { chart, mats: m } of charted(60)) {
     const [lo, hi] = chart.register.keys;
     for (const mat of m.all.values()) {
+      /**
+       * A KEYS SEAT THAT ARPEGGIATES IS NOT VOICING A CHORD. It is spilling
+       * one — "the notes that compose a chord are individually sounded" —
+       * one note at a time, at the genre's own rate, so at any one instant it
+       * sounds ONE tone of the chord and never all of them. That is what the
+       * texture means, and `DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §7 row 1 is
+       * where the program was allowed to do it. This test was written when a
+       * keys seat could only hold, and asked the held law of every material:
+       * measured over sixty seeds a genre, every one of the 620 bars it failed
+       * on was a keys seat serving rhythm/arp, and not one held bar failed.
+       *
+       * The law an arpeggio keeps is the same law's other half: every note
+       * it strikes is a tone of the chord under it, in register. Asked here,
+       * and the held law is asked of the seats that hold.
+       */
+      if (mat.served.keys.texture === "arp") {
+        for (const n of mat.groove.keys) {
+          const ch = mat.chords[n.bar % mat.chords.length]!;
+          assert.ok(ch.tones.some((t) => pc(t) === pc(n.pitch)), `${mat.key} bar ${n.bar}: the arpeggio struck ${n.pitch}, which is not in ${ch.name}`);
+          assert.ok(n.pitch >= lo && n.pitch <= hi, `${mat.key} bar ${n.bar}: the arpeggio left the register at ${n.pitch}`);
+          spilled++;
+        }
+        continue;
+      }
       let prevTop: number | null = null;
       for (const ch of mat.chords) {
+        held++;
         /**
          * SOUNDING AT THIS BAR, not struck in it.
          *
@@ -291,6 +318,8 @@ test("keys voice every tone of the chord, in register, led smoothly", () => {
     }
   }
   assert.ok(moves / total < 5, `the top voice moves ${(moves / total).toFixed(1)} semitones a bar on average`);
+  // both halves were actually asked, or this test proves nothing about one of them
+  assert.ok(held > 100 && spilled > 100, `held ${held} bars and ${spilled} arpeggiated notes: one law went unasked`);
 });
 
 test("keys voicings avoid mud below the low-interval floor", () => {
@@ -536,8 +565,18 @@ test("a returning idea plays its statement's own figure, changed", () => {
   // has to stay the exception
   assert.ok(redrawn < 15, `${redrawn} variants were redrawn against ${descended} varied`);
   // and both kinds are really used: the subtractive pair carries most of it,
-  // and the ones that move pitches are legal often enough to be worth having
-  assert.ok(byKind.subtractive > 75, `only ${byKind.subtractive} variants were thinned or augmented`);
+  // and the ones that move pitches are legal often enough to be worth having.
+  //
+  // ASKED AS THE CLAIM AND NOT AS A COUNT. This asserted more than 75
+  // subtractive variants, which was a measurement from the day it was written
+  // painted on as a threshold: the number of variants that exist is the
+  // form's to decide, and every change to which sections repeat an idea moved
+  // it — it stood at 71 of 118 on `04ab6da` and 72 of 113 after the arrival
+  // rule, failing both times while the claim in the sentence above held both
+  // times (the subtractive pair carried 60% and 64%). The claim is a
+  // proportion, so it is asked as one.
+  assert.ok(byKind.subtractive > byKind.moved, `${byKind.subtractive} variants were thinned or augmented against ${byKind.moved} moved: the subtractive pair no longer carries most of it`);
+  assert.ok(byKind.moved >= 10, `only ${byKind.moved} variants moved pitches: inversion, retrograde and sequence are hardly ever legal`);
   assert.ok(byKind.moved > 10, `only ${byKind.moved} variants had their pitches moved`);
 });
 

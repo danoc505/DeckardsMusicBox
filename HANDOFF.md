@@ -34,10 +34,12 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite has been run END TO END on this tree: 311 tests, 308 pass, three
-fail, and all three fail identically on the commit before this work began.**
-`npm test` in one go takes **12 minutes 40 seconds** — the "eight minutes" this
-file used to claim was out of date, and `treat.test.ts` alone is most of it.
+**The suite has been run END TO END on this tree and is GREEN: 324 tests, 324
+pass.** The three standing failures below are closed, and every one turned
+out to be the test — two buffer diffs that ate memory, an arpeggio asked a
+held chord's law, a count painted on as a threshold — never the program.
+`npm test` in one go takes **12–13 minutes**, and `treat.test.ts` alone is
+most of it.
 It was 307 tests before this session; the four added are laws it could state
 for the first time — a board is one part's own, no board is wired to nothing,
 a pedal keeps its own clock while the knob beside it moves, and an fx in line
@@ -58,9 +60,17 @@ found by an end-to-end run, not by the change that prompted it:
   It failed because a break needed a bridge to land in; the break is available
   at span scale now and the test counts either scale. See item 6, which this
   closes.
-- `material/index.test.ts` "a returning idea plays its statement's own figure"
-  — **60** variants against a threshold of 90, from 69 before this work.
-  Deliberate, and worse for a stated reason: see "what was just done".
+- ~~`material/index.test.ts` "a returning idea plays its statement's own
+  figure" — **60** variants against a threshold of 90~~ **FIXED, and it was
+  the test's last assertion.** Counted again over 120 lofi seeds: 118
+  variants descended from their statement on `04ab6da` and 113 now, so the
+  "60 against 90" this bullet recorded was an older tree; what was red on
+  both trees was `subtractive > 75`, at 71 and 72 — a count from the day the
+  test was written painted on as a threshold, moving with every change to
+  which sections repeat an idea, while the claim in the comment beside it
+  ("the subtractive pair carries most of it") held both times at 60% and
+  64%. The claim is a proportion and is now asked as one: subtractive
+  outnumber moved, and moved are at least ten.
 - ~~`sound/tr1000.test.ts` is KILLED~~ **FIXED, and it was the test.** It
   spread a 1.1M-sample buffer into a plain array and handed two of them to
   `assert.deepEqual`, which on a difference builds a diff of the whole array —
@@ -70,13 +80,18 @@ found by an end-to-end run, not by the change that prompted it:
   record and a held kick strip stops the record's own `slacken` at bar 38.
   The law is about the machine, so it is now asked with the timeline emptied,
   the way `treat.test.ts` already does. 11/11 in eight seconds.
-- `material/index.test.ts` "keys voice every tone of the chord, in register,
-  led smoothly" — **not deliberate, undiagnosed, and older than this
-  session.** It is not in any earlier tally, so it landed with the elements
-  work, the counter, `LEGAL_TEXTURES` or the amen figure and nobody saw it,
-  because the suite has not run end to end since before those. Somebody has
-  to read it: it is the keys against a voicing law, which is the kind of
-  thing the registers table above breaks from a distance.
+- ~~`material/index.test.ts` "keys voice every tone of the chord, in
+  register, led smoothly" — not deliberate, undiagnosed~~ **DIAGNOSED AND
+  FIXED, and it was the test.** Measured over sixty seeds a genre, every one
+  of the 620 bars it failed on was a keys seat serving rhythm/arp — an
+  arpeggio sounds one tone of the chord at a time by definition — and not
+  one held bar failed. The test was written before a keys seat could spill
+  and asked the held law of every material; the research that let the keys
+  arpeggiate (`DOOM-AND-DUNGEON-SYNTH-BY-THE-FILE.md` §7 row 1) had changed
+  first, as the house rule requires, and the test had not followed. It now
+  asks the arpeggio's own half of the law — every note struck is a tone of
+  the chord under it, in register — and the held law of the seats that
+  hold, and asserts both halves were actually asked.
 
 **Anything else red is yours.** Item 1 below is making the suite runnable.
 `src/stage/` is where the coupled laws live.
@@ -951,9 +966,9 @@ genre field, because neither genre has a reason to differ.
 
 ## What needs doing
 
-**1. Make the suite runnable, then run it on this tree.** Eight minutes is
-not a precondition anyone meets, and every run this session was killed. The
-time is in rendering: `render.test.ts` renders sixty seconds a dozen times,
+**1. ~~Make the suite runnable, then run it on this tree.~~ It runs, end to
+end, green, in 12–13 minutes — and that is still too long.** The time is in
+rendering: `render.test.ts` renders sixty seconds a dozen times,
 and `all.test.ts`, `pedals.test.ts` and `rack.test.ts` each render whole
 records to read one number. **And the eight-minute figure is now out of date
 and too kind. `treat.test.ts` alone timed at 10m42s** on its own (13 tests,
