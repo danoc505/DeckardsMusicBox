@@ -157,11 +157,12 @@
   .range button { padding: 6px 8px; font-size: 9px; }
   .edits { margin: 6px 0 0; padding: 0 0 0 16px; font: 9px/1.6 var(--mono); color: var(--cream-dim); max-height: 120px; overflow-y: auto; }
   .edits li:last-child { color: var(--cream); }
-  .parts.also { flex: 1; grid-template-columns: repeat(5, 1fr); }
+  .parts.also { flex: 1; grid-template-columns: repeat(3, 1fr); }
   .parts.also button { padding: 6px 2px; font-size: 8px; letter-spacing: 0.08em; }
   .only { display: flex; align-items: center; gap: 8px; font: 9px/1.3 var(--mono); color: var(--cream-dim); cursor: pointer; }
   .only input { accent-color: var(--amber); }
   .sets { display: grid; grid-template-columns: auto 1fr 1fr 64px; gap: 6px; align-items: center; }
+  .sets.voices { grid-template-columns: auto 1fr 1fr; }
   .sets select, .sets input { width: 100%; font: 700 11px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 5px 4px; }
   .recipe { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: stretch; margin-top: 6px; }
   .recipe textarea { width: 100%; resize: vertical; font: 9px/1.4 var(--mono); color: var(--cream-dim); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 4px 6px; }
@@ -407,10 +408,15 @@
             <select id="rr-mode" title="mode"></select>
             <input id="rr-tempo" type="number" step="1" title="tempo">
           </div>
+          <div class="sets voices">
+            <span class="lbl dim">Voice</span>
+            <select id="rr-vpart" title="which part"></select>
+            <select id="rr-voice" title="played on"></select>
+          </div>
           <ol class="edits" id="rr-list"></ol>
           <div class="hint" id="rr-changed"></div>
           <div class="recipe"><textarea id="rr-recipe" rows="2" spellcheck="false" title="the record as a recipe: genre, seed, length, every edit"></textarea><button type="button" id="rr-load">Load</button></div>
-          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. Step back pops the last press.</div>
+          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. <b>Set</b> says the key, the mode or the tempo; <b>Voice</b> says which instrument a part is played on, from the genre's own pool for that part. Step back pops the last press.</div>
         </div>
       </section>
     </div>
@@ -540,7 +546,7 @@
   function shown(path) {
     var h = get(path, over); if (h !== undefined) return h;
     if (live) { var v = get(path, live); if (v !== undefined) return v; }
-    return get(path, song.chart.genre.sound);
+    return get(path, song.chart.sound);
   }
 
   // ── the player ────────────────────────────────────────────────────────
@@ -570,7 +576,7 @@
   function clock(sec) { var m = Math.floor(sec / 60), s = sec % 60; return m + ":" + (s < 10 ? "0" : "") + s.toFixed(1); }
   function get(path, base) { var o = base; for (var i = 0; i < path.length; i++) { if (o == null) return undefined; o = o[path[i]]; } return o; }
   function set(path, v) { var o = over; for (var i = 0; i < path.length - 1; i++) o = (o[path[i]] = o[path[i]] || {}); o[path[path.length - 1]] = v; }
-  function current(path) { var v = get(path, over); return v === undefined ? get(path, song.chart.genre.sound) : v; }
+  function current(path) { var v = get(path, over); return v === undefined ? get(path, song.chart.sound) : v; }
   function fmt(v, unit) {
     var s = Math.abs(v) >= 100 ? String(Math.round(v)) : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2).replace(/\.?0+$/, "");
     return s + (unit ? unit : "");
@@ -925,7 +931,7 @@
   function press(made) { if (made.length) { rrPrev = song.performance.events; rrUndone = []; rrActions.push(made); compose(); } }
   var rrBuilt = false;
   function drawReroll() {
-    var parts = $("rr-parts"), also = $("rr-also"), keySel = $("rr-key"), modeSel = $("rr-mode"), tempoEl = $("rr-tempo"), c = song.chart;
+    var parts = $("rr-parts"), also = $("rr-also"), keySel = $("rr-key"), modeSel = $("rr-mode"), tempoEl = $("rr-tempo"), vpart = $("rr-vpart"), vsel = $("rr-voice"), c = song.chart;
     if (!rrBuilt) {
       rrBuilt = true;
       ROLES.forEach(function (r) {
@@ -950,12 +956,20 @@
       keySel.addEventListener("change", function () { if (keySel.value !== M.NOTE_NAMES[M.pc(song.chart.tonicPc)]) press([M.setKey(song, keySel.value)]); });
       modeSel.addEventListener("change", function () { if (modeSel.value !== song.chart.scaleName) press([M.setMode(song, modeSel.value)]); });
       tempoEl.addEventListener("change", function () { var v = Number(tempoEl.value); if (v > 0 && Math.round(v) !== Math.round(song.chart.tempo)) press([M.setTempo(song, v)]); });
+      // a part's voice: the pool is the genre's, the choice is the record's
+      ROLES.forEach(function (r) { if (r !== "drums") { var o = document.createElement("option"); o.value = r; o.textContent = r; vpart.appendChild(o); } });
+      vpart.addEventListener("change", function () { vsel.dataset.pool = ""; drawReroll(); });
+      vsel.addEventListener("change", function () { if (vsel.value !== song.chart.sound.voices[vpart.value]) press([M.setVoice(song, vpart.value, vsel.value)]); });
     }
     ROLES.forEach(function (r, i) { parts.children[i].dataset.on = rrRoles[r] ? "1" : "0"; });
     // the mode list is the genre's, so it is rebuilt when the genre is
     var modes = c.genre.scales.filter(function (s) { return s[1] > 0; }).map(function (s) { return s[0]; });
     if (modeSel.dataset.genre !== c.genre.name) { modeSel.innerHTML = ""; modes.forEach(function (m) { var o = document.createElement("option"); o.value = m; o.textContent = m; modeSel.appendChild(o); }); modeSel.dataset.genre = c.genre.name; }
     keySel.value = M.NOTE_NAMES[M.pc(c.tonicPc)]; modeSel.value = c.scaleName; tempoEl.value = String(Math.round(c.tempo));
+    // the voice list is one part's pool in one genre, so it is rebuilt when either is
+    var pool = c.genre.sound.voices[vpart.value].filter(function (e) { return e[1] > 0; }).map(function (e) { return e[0]; });
+    if (vsel.dataset.pool !== c.genre.name + ":" + vpart.value) { vsel.innerHTML = ""; pool.forEach(function (v) { var o = document.createElement("option"); o.value = v; o.textContent = v; vsel.appendChild(o); }); vsel.dataset.pool = c.genre.name + ":" + vpart.value; }
+    vsel.value = c.sound.voices[vpart.value]; vsel.disabled = pool.length < 2;
     tempoEl.min = String(c.genre.tempo[0]); tempoEl.max = String(c.genre.tempo[1]);
     $("rr-range").textContent = rrSel ? "bars " + rrSel.from + "–" + rrSel.to : "whole record";
     $("rr-only").disabled = !rrSel;
@@ -2585,7 +2599,7 @@
     "  if (d.cmd === 'start') {",
     "    tok = d.tok;",
     "    var s = MKIII.compose(d.req);",
-    "    base = s.chart.genre.sound;",
+    "    base = s.chart.sound;",
     "    E = new MKIII.Engine(s, { sampleRate: d.sampleRate, desk: d.desk, blockSize: Math.round(d.chunkSec * d.sampleRate) });",
     "    credits = d.credits; pump();",
     "  } else if (d.cmd === 'more') { if (d.tok === tok) { credits += d.n; pump(); } }",
@@ -2630,7 +2644,7 @@
       if (d.cmd === "start") {
         tok = d.tok;
         var s = M.compose(d.req);
-        base = s.chart.genre.sound;
+        base = s.chart.sound;
         E = new M.Engine(s, { sampleRate: d.sampleRate, desk: d.desk,
                               blockSize: Math.round(d.chunkSec * d.sampleRate) });
         credits = d.credits; kick();

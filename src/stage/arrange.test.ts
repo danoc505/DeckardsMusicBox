@@ -607,12 +607,15 @@ test("no treatment puts a knob outside the range the genre resolver enforces", (
     path.split(".").reduce<unknown>((v, k) => (v as Record<string, unknown> | undefined)?.[k], o);
   let checked = 0;
   for (const G of [lofi, GENRES.dungeonsynth]) {
+    // a record's desk, since a genre's voices are pools and a treatment is
+    // asked of the desk a record is played on
+    const desk = makeChart({ seed: 1, genre: G }).sound;
     for (const t of TREATMENTS) {
       for (const only of [undefined, ...ROLES]) {
-        const spec = deskOf(t, G.sound, only);
+        const spec = deskOf(t, desk, only);
         if (spec === null) continue;
         checked++;
-        const S = settle(G.sound, spec);
+        const S = settle(desk, spec);
         for (const [path, lo, hi] of RANGES) {
           const v = at(S, path);
           if (typeof v !== "number") continue;

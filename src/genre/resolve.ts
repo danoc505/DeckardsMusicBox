@@ -866,24 +866,31 @@ export function resolveGenre(
     const voices = isPlainObject(sound["voices"]) ? sound["voices"] : null;
     if (voices === null) problems.push("sound.voices is missing");
     else {
+      // ONE VOICE OR A POOL OF THEM: a name is a pool of one, so a genre that
+      // names one instrument per part reads exactly as it did. Each entry has
+      // to be an instrument this program has, and something must have weight.
       for (const r of PITCHED_ROLES) {
-        const v = voices[r];
-        if (!(VOICES as readonly unknown[]).includes(v)) problems.push(`sound.voices.${r} is ${String(v)}, not one of ${VOICES.join(", ")}`);
+        const pool = asPool<VoiceName>(voices[r]);
+        if (pool === null) { problems.push(`sound.voices.${r} is ${String(voices[r])}, not a voice or a weighted list of them`); continue; }
+        checkPool(problems, `sound.voices.${r}`, pool, (v) => (VOICES as readonly unknown[]).includes(v), `one of ${VOICES.join(", ")}`);
       }
       // A MANNER AN INSTRUMENT CANNOT PRODUCE IS NOT TASTE, IT IS A MISTAKE.
       // The genre says how often each part reaches for each manner and the
       // instrument says which ones its body can make; asking a struck piano
       // to bend is caught here rather than rendered silently as a plain note.
       // The pairing is only knowable once both are resolved, which is why the
-      // check lives with the voices and not with the parts.
+      // check lives with the voices and not with the parts — and it is asked
+      // of EVERY voice in the pool that has weight, because any of them may
+      // be the one a record draws.
       for (const r of PITCHED_ROLES) {
-        const v = voices[r];
-        if (!(VOICES as readonly unknown[]).includes(v)) continue;
-        const can = new Set<string>([...FLOOR, ...CAN[v as VoiceName]]);
-        const pool = asPool<ArtName>((merged[r] as Record<string, unknown> | undefined)?.["art"]) ?? [];
-        for (const [name, weight] of pool) {
-          if (weight > 0 && !can.has(name)) {
-            problems.push(`${r}.art asks for "${name}", which a ${String(v)} cannot play (it can: ${[...can].join(", ")})`);
+        for (const [v, weight] of asPool<VoiceName>(voices[r]) ?? []) {
+          if (weight <= 0 || !(VOICES as readonly unknown[]).includes(v)) continue;
+          const can = new Set<string>([...FLOOR, ...CAN[v]]);
+          const pool = asPool<ArtName>((merged[r] as Record<string, unknown> | undefined)?.["art"]) ?? [];
+          for (const [name, w] of pool) {
+            if (w > 0 && !can.has(name)) {
+              problems.push(`${r}.art asks for "${name}", which a ${String(v)} cannot play (it can: ${[...can].join(", ")})`);
+            }
           }
         }
       }
@@ -1062,6 +1069,14 @@ export function resolveGenre(
 
   if (problems.length > 0) throw new GenreError(name, problems);
 
+  // the voices as pools, whatever the author wrote: a name is a pool of one
+  const soundRules = {
+    ...(sound as Record<string, unknown>),
+    voices: Object.fromEntries(
+      PITCHED_ROLES.map((r) => [r, (asPool<VoiceName>((sound as Record<string, Record<string, unknown>>)["voices"]![r]) ?? []).map((e) => [...e])]),
+    ),
+  };
+
   const resolved = {
     name,
     label,
@@ -1081,7 +1096,7 @@ export function resolveGenre(
     drums: deepFreeze(drums) as unknown as Genre["drums"],
     arrangement: deepFreeze(arr) as unknown as Genre["arrangement"],
     feel: deepFreeze(feel) as unknown as Genre["feel"],
-    sound: deepFreeze(sound) as unknown as Genre["sound"],
+    sound: deepFreeze(soundRules) as unknown as Genre["sound"],
     sources: Object.freeze({ ...sources }),
   } as Genre;
 

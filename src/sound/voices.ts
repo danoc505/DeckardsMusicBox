@@ -246,7 +246,12 @@ export function horns(n: NoteIn): Float32Array {
       rows.push({ mult, cents, amp: (amp * rowAmp[i]!) / (1 + 2 * section), phase: 0.13 * i });
     });
   }
-  const norm = 0.42 / rows.reduce((a, r) => a + r.amp, 0);
+  // LEVEL: the rank summed to 0.92 before the filter, which puts a held note at
+  // the Wurlitzer's level — the seat's fader is the part's and not the voice's, so
+  // two voices in one pool have to come out level or the pool is a level knob
+  // in disguise. At MKII's 0.42 the horns sat 6–7 dB under every other voice
+  // here and a counter on them fell below the audibility floor.
+  const norm = 0.92 / rows.reduce((a, r) => a + r.amp, 0);
   const kRelease = decayPerSample(HORNS.releaseSec, sr);
   let release = 1;
   const RETUNE = 64;

@@ -55,8 +55,8 @@
 
 import { isPin, type Edit } from "./core/rng.ts";
 import { NOTE_NAMES, pc, type ScaleName } from "./core/theory.ts";
-import type { Role } from "./genre/spec.ts";
-import { ROLES } from "./genre/spec.ts";
+import type { PitchedRole, Role, VoiceName } from "./genre/spec.ts";
+import { PITCHED_ROLES, ROLES } from "./genre/spec.ts";
 import { compose, type Song } from "./song.ts";
 import { materialAddress, type Placed } from "./stage/arrange.ts";
 
@@ -72,7 +72,7 @@ export interface Selection {
 }
 
 /** The record-wide things that can be rerolled by name. */
-export const ASPECTS = ["chords", "key", "mode", "tempo", "form"] as const;
+export const ASPECTS = ["chords", "key", "mode", "tempo", "form", "voices"] as const;
 export type Aspect = (typeof ASPECTS)[number];
 
 /** A phrase of the tune is two bars: `lead.ts` PHRASE_BARS, read here so a bar can be turned into a phrase. */
@@ -193,6 +193,7 @@ export function rerollAspect(song: Song, what: Aspect, range?: { readonly from: 
       if (!ats.includes(at)) ats.push(at);
     }
   } else if (what === "form") ats.push("form");
+  else if (what === "voices") ats.push("chart/voice");
   else ats.push(`chart/${what === "mode" ? "scale" : what}`);
   return ats.map((at) => ({ at, salt: song.chart.edits.filter((e) => !isPin(e) && e.at === at).length + 1 }));
 }
@@ -216,6 +217,14 @@ export function setMode(song: Song, name: string): Edit {
   const offered = song.chart.genre.scales.filter(([, w]) => w > 0).map(([s]) => s);
   if (!offered.includes(name as ScaleName)) throw new Error(`no mode "${name}" in this genre (offers: ${offered.join(", ")})`);
   return { at: "chart/scale", value: name };
+}
+
+/** A part's instrument, by name, from the ones the genre offers that part. */
+export function setVoice(song: Song, role: string, name: string): Edit {
+  if (!(PITCHED_ROLES as readonly string[]).includes(role)) throw new Error(`no pitched part "${role}" (parts: ${PITCHED_ROLES.join(", ")})`);
+  const offered = song.chart.genre.sound.voices[role as PitchedRole].filter(([, w]) => w > 0).map(([v]) => v);
+  if (!offered.includes(name as VoiceName)) throw new Error(`no voice "${name}" for the ${role} in this genre (offers: ${offered.join(", ")})`);
+  return { at: `chart/voice/${role}`, value: name };
 }
 
 /** This section, split off into its own material — and every later statement of its idea with it. */
@@ -249,6 +258,8 @@ export function describeEdit(song: Song, edit: Edit): string {
     if (edit.at === "chart/tempo") return `tempo set to ${String(edit.value)}`;
     if (edit.at === "chart/key" && typeof edit.value === "number") return `key set to ${NOTE_NAMES[pc(edit.value + c.shift)]}`;
     if (edit.at === "chart/scale") return `mode set to ${String(edit.value)}`;
+    const vp = /^chart\/voice\/([a-z]+)$/.exec(edit.at);
+    if (vp !== null) return `${vp[1]} played on the ${String(edit.value)}`;
     const sp = /^form\/section\/(\d+)\/split$/.exec(edit.at);
     if (sp !== null) {
       const s = song.form.sections[Number(sp[1])];
@@ -263,6 +274,7 @@ export function describeEdit(song: Song, edit: Edit): string {
   if (edit.at === "chart/key") return `key rerolled${times}`;
   if (edit.at === "chart/scale") return `mode rerolled${times}`;
   if (edit.at === "chart/tempo") return `tempo rerolled${times}`;
+  if (edit.at === "chart/voice") return `voices rerolled${times}`;
   const m = /^material\/([^/]+)\/(\d+)\/([a-z]+)(?:\/(.*))?$/.exec(edit.at);
   if (m === null || !(ROLES as readonly string[]).includes(m[3]!)) return `${edit.at}${times}`;
   const key = m[2] === "0" ? m[1]! : `${m[1]}/${m[2]}`;
@@ -329,5 +341,7 @@ export function setWord(song: Song, word: string): Edit {
   if (what === "tempo") return setTempo(song, Number(value));
   if (what === "key") return setKey(song, value);
   if (what === "mode") return setMode(song, value);
-  throw new Error(`nothing to set called "${what}" (tempo, key, mode)`);
+  const v = /^voice\.([a-z]+)$/.exec(what);
+  if (v !== null) return setVoice(song, v[1]!, value);
+  throw new Error(`nothing to set called "${what}" (tempo, key, mode, voice.<part>)`);
 }

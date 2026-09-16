@@ -162,7 +162,7 @@ for (const g of genres) {
             .join(",");
           // the desk counts for this part only where the treatment reaches it:
           // the machine's reverb is not a change to the bass
-          const under = sp.treatment !== null && reachesPart(sp.treatment, chart.genre.sound, sp.at ?? undefined).has(role);
+          const under = sp.treatment !== null && reachesPart(sp.treatment, chart.sound, sp.at ?? undefined).has(role);
           const desk = under ? `${sp.treatment}${sp.at === role ? "*" : ""}` : ".";
           const held = `${sp.hush === role ? "h" : ""}${role === "drums" && sp.thin ? "t" : ""}${role === "drums" && sp.halved ? "H" : ""}`;
           sigs.push(`${notes}|${desk}|${held}`);

@@ -244,3 +244,33 @@ test("a pedal knob out of its own range is refused, by part and by name", () => 
   // and the same knob on another player's board is nobody's problem
   assert.ok(!/pedals\.drone\./.test(joined), `a board nobody touched was faulted:\n${joined}`);
 });
+
+test("a part's voice may be a name or a weighted pool of names, and reads the same either way", () => {
+  // a name is a pool of one, so a genre that names one instrument per part
+  // resolves to exactly what it always did — only the shape is a pool now
+  const one = resolveGenre("one", specs({ one: { label: "One", sound: { voices: { counter: "wurly" } } } }));
+  assert.deepEqual(one.sound.voices.counter, [["wurly", 1]]);
+  const many = resolveGenre("many", specs({ many: { label: "Many", sound: { voices: { counter: [["wurly", 3], ["horns", 1]] } } } }));
+  assert.deepEqual(many.sound.voices.counter, [["wurly", 3], ["horns", 1]]);
+  // and the parts the genre said nothing about keep their defaults
+  assert.deepEqual(many.sound.voices.keys, DEFAULTS.sound.voices.keys);
+  // an instrument this program does not have, or a pool nothing can be drawn
+  // from, is refused at load and names the part
+  assert.throws(
+    () => resolveGenre("a", specs({ a: { label: "A", sound: { voices: { lead: [["pluck", 1], ["kazoo" as never, 1]] } } } })),
+    /sound\.voices\.lead/,
+  );
+  assert.throws(
+    () => resolveGenre("a", specs({ a: { label: "A", sound: { voices: { lead: [["pluck", 0]] } } } })),
+    /sound\.voices\.lead/,
+  );
+  // a manner is checked against EVERY voice a record might draw, not the
+  // first: a bend is fine on the pluck and not on a struck piano, and a pool
+  // holding both is asking the piano to bend some of the time
+  assert.throws(
+    () => resolveGenre("a", specs({ a: { label: "A", lead: { art: [["bend", 1]] }, sound: { voices: { lead: [["pluck", 3], ["rhodes", 1]] } } } })),
+    /lead\.art asks for "bend", which a rhodes cannot play/,
+  );
+  // and a pool member at weight 0 cannot be drawn, so its manners are not asked
+  resolveGenre("a", specs({ a: { label: "A", lead: { art: [["bend", 1]] }, sound: { voices: { lead: [["pluck", 3], ["rhodes", 0]] } } } }));
+});

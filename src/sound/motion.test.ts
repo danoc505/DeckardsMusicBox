@@ -13,11 +13,19 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { compose } from "../song.ts";
-import { GENRE_NAMES, GENRES } from "../genre/index.ts";
+import { GENRE_NAMES, GENRES, type GenreName } from "../genre/index.ts";
+import { makeChart } from "../stage/chart.ts";
 import { render } from "./render.ts";
 import { motionAt, pathOf, readAt, WAVES } from "./motion.ts";
 
 const SR = 22050;
+
+/**
+ * The desk a record is played on. A genre's voices are pools and a record
+ * draws one per part, so the rules `motionAt` reads are a chart's, not a
+ * genre's — the motion itself is the genre's and the same on every record.
+ */
+const deskOf = (g: GenreName) => makeChart({ seed: 1, genre: GENRES[g] }).sound;
 
 /** How far one record is from another, in dB. Below −40 is this program's floor for "nothing happened". */
 function moved(a: Float32Array, b: Float32Array): number {
@@ -44,7 +52,7 @@ test("every wave is bipolar and starts where it should", () => {
 });
 
 test("a move is a pure function of the bar: no state, no memory of the last block", () => {
-  const rules = GENRES.dungeonsynth.sound;
+  const rules = deskOf("dungeonsynth");
   const moves = rules.motion;
   assert.ok(moves.length > 0, "dungeon synth states no motion");
   // read the same bar twice, far apart in the calling order — a stateful
@@ -57,7 +65,7 @@ test("a move is a pure function of the bar: no state, no memory of the last bloc
 });
 
 test("the cycle actually cycles, and comes back to where it started", () => {
-  const rules = GENRES.lofi.sound;
+  const rules = deskOf("lofi");
   const mv = rules.motion[0]!;
   const at = (bar: number): number => readAt(motionAt([mv], rules, bar, 0) as never, mv.path)!;
   // one full cycle later is the same number
@@ -70,7 +78,7 @@ test("the cycle actually cycles, and comes back to where it started", () => {
 });
 
 test("a reset trigger starts the cycle at the section, not at the record", () => {
-  const rules = GENRES.dungeonsynth.sound;
+  const rules = deskOf("dungeonsynth");
   const mv = rules.motion.find((m) => m.reset === "section");
   assert.ok(mv !== undefined, "dungeon synth states no section-reset move");
   // `pathOf`, NOT `mv.path`. A per-part move is written `fx.*.pole.hz` with an

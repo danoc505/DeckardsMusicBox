@@ -1,8 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { compose } from "../song.ts";
-import { resolveGenre } from "../genre/index.ts";
+import { GENRES, GENRE_NAMES, resolveGenre } from "../genre/index.ts";
+import { PITCHED_ROLES, type VoiceName } from "../genre/spec.ts";
 import { Engine, mono, peak, render, rms } from "./render.ts";
+import * as voices from "./voices.ts";
 import { hat, kick, pluck, rhodes, snare, sub } from "./voices.ts";
 import { Biquad } from "./dsp.ts";
 import { wav } from "./wav.ts";
@@ -248,7 +250,7 @@ test("the engine hands out the record the renderer writes", () => {
 });
 
 test("a knob moved mid-record changes what follows it and nothing before it", () => {
-  const base = song.chart.genre.sound;
+  const base = song.chart.sound;
   const half = Math.floor(Math.ceil(song.performance.seconds * SR) / 2);
   const engine = new Engine(song, { sampleRate: SR, blockSize: half });
   const L = new Float32Array(half * 2), R = new Float32Array(half * 2);
@@ -275,4 +277,31 @@ test("a wav file has the right header and length", () => {
   assert.equal(String.fromCharCode(...bytes.subarray(8, 12)), "WAVE");
   assert.equal(new DataView(bytes.buffer).getUint16(22, true), 2, "two channels");
   assert.equal(bytes.length, 44 + out.left.length * 4);
+});
+
+test("two voices in one pool come out level, because the fader is the part's and not the voice's", () => {
+  // a record draws one voice per part from its genre's pool and the part's
+  // mix level does not know which. So the members of a pool have to sit at
+  // one level for the same note, or the draw is a level knob in disguise:
+  // the horns at MKII's own constant sat 6–7 dB under every other voice and
+  // a counter on them fell below the audibility floor
+  const level = (v: VoiceName, midi: number): number => {
+    const buf = voices[v]({ midi, heldSec: 1, gain: 0.7, seed: 7, sampleRate: SR }).subarray(0, SR);
+    return 20 * Math.log10(rms({ left: buf, right: buf }));
+  };
+  let pools = 0;
+  for (const g of GENRE_NAMES) {
+    for (const r of PITCHED_ROLES) {
+      const pool = GENRES[g].sound.voices[r].filter(([, w]) => w > 0).map(([v]) => v);
+      if (pool.length < 2) continue;
+      pools++;
+      const midi = Math.round((GENRES[g][r].register[0] + GENRES[g][r].register[1]) / 2);
+      const first = level(pool[0]!, midi);
+      for (const v of pool.slice(1)) {
+        const d = level(v, midi) - first;
+        assert.ok(Math.abs(d) < 3, `${g} ${r}: the ${v} is ${d.toFixed(1)} dB against the ${pool[0]} on the same note`);
+      }
+    }
+  }
+  assert.ok(pools > 0, "no genre pools two voices on one part, so this law is asked of nothing");
 });

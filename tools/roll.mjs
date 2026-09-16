@@ -147,7 +147,7 @@ const PITCH = (hi - lo) * SH;
 const deskAt = song.performance.desk ?? [];
 const fxNames = [];
 for (const d of deskAt) if (d.treatment && !fxNames.includes(d.treatment)) fxNames.push(d.treatment);
-const moves = song.chart.genre.sound.motion ?? [];
+const moves = song.chart.sound.motion ?? [];
 // + the depth strip, which is one row above the per-treatment rows
 const FX = 22 + fxNames.length * FX_ROW + moves.length * MOVE_ROW + (fxNames.length || moves.length ? 10 : 0);
 /* ── THE LEGEND, ACROSS THE VERY TOP ──────────────────────────────────────

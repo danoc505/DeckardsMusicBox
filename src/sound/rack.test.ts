@@ -80,7 +80,7 @@ test("every unit in the rack, bypassed, renders the same record twice, and a sen
 });
 
 test("a page's knob settles over the genre's, and only that knob, at any depth", () => {
-  const base = GENRES.dungeonsynth.sound;
+  const base = compose({ seed: 1, genre: "dungeonsynth" }).chart.sound;
   const r = settle(base, { rack: { room: { ret: 0.2 }, tape: { drive: 3 } }, mix: { lead: { az: -90 } } });
   assert.equal(r.rack.room.ret, 0.2);
   assert.equal(r.rack.room.sec, base.rack.room.sec);

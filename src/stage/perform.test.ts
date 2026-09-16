@@ -678,7 +678,7 @@ test("the dump follows the format and counts itself correctly", () => {
   // the voice column names the instrument, not the lane again
   for (const r of ROLES) {
     if (r === "drums") continue;
-    const want = s.chart.genre.sound.voices[r];
+    const want = s.chart.sound.voices[r];
     assert.ok(lines.some((l) => l === `#voice\t${r}\t${want}`), `no #voice line for ${r}`);
     const row = lines.find((l) => l.split("\t")[3] === r);
     assert.equal(row?.split("\t")[5], want, `${r} is played by ${row?.split("\t")[5]}`);

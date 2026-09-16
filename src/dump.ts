@@ -98,11 +98,11 @@ export function dump(song: Song): string {
   L.push(`#tempo_varies\t${form.clock.varies ? "yes" : "no"}`);
   for (const r of ROLES) {
     if (r === "drums") continue;
-    L.push(`#voice\t${r}\t${chart.genre.sound.voices[r]}`);
+    L.push(`#voice\t${r}\t${chart.sound.voices[r]}`);
   }
   // and the drums are a machine with a kit in it, which is the same question
   // asked of the one part that has no `voices` entry
-  L.push(`#kit\t${chart.genre.sound.machine.kit}\t${chart.genre.sound.machine.circuit}`);
+  L.push(`#kit\t${chart.sound.machine.kit}\t${chart.sound.machine.circuit}`);
   // WHO THE RECORD IS ABOUT — one word, and the two orders derived from it. A
   // record that cannot say who its main character is has not got one.
   L.push(`#about\t${song.arrangement.protagonist}`);
@@ -208,7 +208,7 @@ export function dump(song: Song): string {
         // the instrument that actually plays it: the genre's voice for a
         // pitched part, and for a drum whatever the machine's kit has loaded
         // on that lane — which is the circuit or the recording, not the lane
-        e.role === "drums" ? voiceOf(e.lane as DrumLane, chart.genre.sound.machine) : chart.genre.sound.voices[e.role],
+        e.role === "drums" ? voiceOf(e.lane as DrumLane, chart.sound.machine) : chart.sound.voices[e.role],
         e.pitch ?? ".",
         e.pitch === null ? "." : noteName(e.pitch),
         r4(e.durSec),

@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { compose } from "../song.ts";
-import { GENRES } from "../genre/index.ts";
 import { DRUM_LANES, type MachineSpec } from "../genre/spec.ts";
 import { KITS, drum, inert, voiceOf } from "./tr1000.ts";
 import { mono, peak, render, rms, settle } from "./render.ts";
@@ -12,7 +11,7 @@ const song = compose({ seed: 1, genre: "lofi", seconds: 15 });
 const drums = (desk: MachineSpec): Float32Array =>
   mono(render(song, { sampleRate: SR, only: "drums", desk: { machine: desk } }));
 
-const machine = (over: MachineSpec) => settle(GENRES.lofi.sound, { machine: over }).machine;
+const machine = (over: MachineSpec) => settle(song.chart.sound, { machine: over }).machine;
 
 /**
  * TWO BUFFERS COMPARED AS SAMPLES, NOT AS A MILLION-ELEMENT ARRAY. This file

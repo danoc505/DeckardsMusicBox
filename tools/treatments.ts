@@ -37,7 +37,7 @@
  */
 
 import { compose } from "../src/song.ts";
-import { GENRE_NAMES, genre as genreOf, type GenreName } from "../src/genre/index.ts";
+import { GENRE_NAMES, type GenreName } from "../src/genre/index.ts";
 import { TREATMENTS, type Treatment } from "../src/genre/spec.ts";
 import { render, rms, type Stereo } from "../src/sound/render.ts";
 import { offeredBy, specOf } from "../src/stage/treat.ts";
@@ -130,7 +130,8 @@ function apart(base: Stereo, out: Stereo, level: number): number {
 }
 
 for (const g of genres) {
-  const offered = offeredBy(genreOf(g).sound);
+  // the desk a record is played on: a genre's voices are pools, a record draws one per part
+  const offered = offeredBy(compose({ seed: seeds[0]!, genre: g, seconds: SECONDS }).chart.sound);
   const refused = TREATMENTS.filter((t) => !offered.includes(t));
   process.stdout.write(`\n${g}  —  offers ${offered.length} of ${TREATMENTS.length}, at ${SR} Hz over ${SECONDS}s\n`);
   if (refused.length > 0) process.stdout.write(`  refused, as unreachable on this desk: ${refused.join(", ")}\n`);
@@ -152,7 +153,7 @@ for (const g of genres) {
       // right. `specOf` is the move unfiltered — and null from it is not a
       // refusal either but a move with nothing to write on this desk, which
       // renders the record unchanged and prints as the 0 dB it is.
-      const spec = specOf(t as Treatment, genreOf(g).sound);
+      const spec = specOf(t as Treatment, song.chart.sound);
       const out = render(flat, { sampleRate: SR, ...(spec === null ? {} : { desk: spec }) });
       const c = centre(out.left, SR);
       process.stdout.write(

@@ -1654,11 +1654,29 @@ export interface GenreSpec {
   readonly drums?: DrumsSpec;
   readonly arrangement?: ArrangementSpec;
   readonly feel?: FeelSpec;
-  readonly sound?: SoundSpec;
+  readonly sound?: GenreSoundSpec;
 
   /** Field path -> where its value came from. */
   readonly sources?: Sources;
 }
+
+/**
+ * WHAT A GENRE WRITES FOR ITS SOUND: the desk, and for each part the voices
+ * it may be played on — one name, or a weighted pool of them. A record draws
+ * one voice per part from the pool (`chart.ts`, at `chart/voice/<part>`),
+ * so the desk the record is played on has one voice per part as it always
+ * did, and a genre may say "the counter is a Wurlitzer, and now and then a
+ * horn" without a second mechanism. A voice no genre names in any pool is a
+ * voice nothing reaches, which this program calls its cardinal sin.
+ */
+export type GenreSoundSpec = Omit<SoundSpec, "voices"> & {
+  readonly voices?: Readonly<Partial<Record<PitchedRole, VoiceName | Weighted<VoiceName>>>>;
+};
+
+/** The genre's sound, resolved: every part's voices as a pool, everything else the desk as it is played. */
+export type GenreSoundRules = Omit<SoundRules, "voices"> & {
+  readonly voices: Readonly<Record<PitchedRole, Weighted<VoiceName>>>;
+};
 
 /** What the program reads. Every field final. */
 export interface Genre {
@@ -1680,7 +1698,8 @@ export interface Genre {
   readonly drums: DrumsRules;
   readonly arrangement: ArrangementRules;
   readonly feel: FeelRules;
-  readonly sound: SoundRules;
+  /** The desk, with each part's voices as a pool; the record draws one per part into `chart.sound`. */
+  readonly sound: GenreSoundRules;
   readonly sources: Sources;
 }
 
@@ -2400,7 +2419,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
   sound: {
     /** NOTHING MOVES until a genre says so, which is the record this program made before motion existed. */
     motion: [],
-    voices: { keys: "rhodes", bass: "sub", lead: "pluck", counter: "wurly", drone: "pad" },
+    // one voice per part, as pools of one: a genre may widen any of them
+    voices: { keys: [["rhodes", 1]], bass: [["sub", 1]], lead: [["pluck", 1]], counter: [["wurly", 1]], drone: [["pad", 1]] },
     /** every unit in the rack, every one bypassed: a clean record */
     rack: {
       pole: { hz: 18000, resonance: 0, mix: 0 },

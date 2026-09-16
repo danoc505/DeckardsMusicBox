@@ -779,7 +779,8 @@ export class Engine {
     this.sampleRate = sr;
     this.blockSize = opts.blockSize ?? BLOCK;
     this.length = Math.ceil(song.performance.seconds * sr);
-    this.base = song.chart.genre.sound;
+    // the record's own desk: the genre's, with the voices this record drew
+    this.base = song.chart.sound;
     this.over = opts.desk;
     this.deskAt = song.performance.desk;
     this.S = settle(this.base, this.over);

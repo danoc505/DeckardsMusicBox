@@ -145,7 +145,7 @@ export function midi(song: Song, opts: MidiOptions = {}): Uint8Array {
     const evs = byRole.get(role);
     if (evs === undefined || evs.length === 0) continue;
     const T = TRACKS[role];
-    const voice = role === "drums" ? "kit" : song.chart.genre.sound.voices[role];
+    const voice = role === "drums" ? "kit" : song.chart.sound.voices[role];
     const name = `${role} (${voice})`;
 
     // every note becomes an on and an off; sorted by tick, and offs before ons

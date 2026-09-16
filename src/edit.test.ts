@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { compose } from "./song.ts";
 import { dump } from "./dump.ts";
 import { isPin } from "./core/rng.ts";
-import { candidates, describeEdit, formatEdit, parseEdit, reroll, rerollAspect, rerollWord, setKey, setMode, setTempo, setWord, split } from "./edit.ts";
+import { candidates, describeEdit, formatEdit, parseEdit, reroll, rerollAspect, rerollWord, setKey, setMode, setTempo, setVoice, setWord, split } from "./edit.ts";
 import { GENRE_NAMES } from "./genre/index.ts";
 import { ROLES, type Role } from "./genre/spec.ts";
 import { NOTE_NAMES, pc } from "./core/theory.ts";
@@ -97,6 +97,28 @@ test("every part can be rerolled in every material, and the record still builds"
       for (const r of ROLES) assert.ok(rolled.performance.events.some((e) => e.role === r), `${genre} ${seed}: no ${r} after rerolling everyone`);
     }
   }
+});
+
+test("a part's voice is drawn from the genre's pool, can be said, and can be rerolled", () => {
+  // lofi's counter is a Wurlitzer three records in four and a horn in the fourth
+  let horns = 0;
+  for (let seed = 1; seed <= 80; seed++) if (compose({ seed, genre: "lofi" }).chart.sound.voices.counter === "horns") horns++;
+  assert.ok(horns >= 10 && horns <= 30, `the horn was drawn for the counter in ${horns} of 80 records`);
+  const song = compose({ seed: 1, genre: "lofi" });
+  for (const r of ["keys", "bass", "lead", "drone"] as const) assert.equal(song.chart.sound.voices[r], song.chart.genre.sound.voices[r][0]![0], `${r} is not the one voice its pool names`);
+  // said
+  const on = compose({ seed: 1, genre: "lofi", edits: [setVoice(song, "counter", "horns")] });
+  assert.equal(on.chart.sound.voices.counter, "horns");
+  assert.equal(dump(on).match(/^#voice\tcounter\t(.*)$/m)![1], "horns");
+  assert.match(describeEdit(on, on.chart.edits[0]!), /^counter played on the horns$/);
+  assert.deepEqual(setWord(song, "voice.counter=wurly"), setVoice(song, "counter", "wurly"));
+  assert.throws(() => setVoice(song, "counter", "flute"), /no voice "flute" for the counter/);
+  assert.throws(() => setVoice(song, "drums", "flute"), /no pitched part "drums"/);
+  // and the notes are the notes: a voice is how a part is played, not what
+  for (const r of ROLES) assert.ok(same(notesOf(song, r), notesOf(on, r)), `the ${r}'s notes moved when only the counter's voice was set`);
+  // rerolled
+  assert.deepEqual(rerollAspect(song, "voices"), [{ at: "chart/voice", salt: 1 }]);
+  assert.match(describeEdit(song, { at: "chart/voice", salt: 1 }), /^voices rerolled$/);
 });
 
 test("several candidates for one selection are several different records, and keeping one is pressing it", () => {

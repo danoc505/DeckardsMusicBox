@@ -81,6 +81,14 @@ function baseline(g: Name): NonNullable<ReturnType<typeof untreated.get>> {
 }
 
 /**
+ * THE DESK A TREATMENT IS ASKED OF IS A RECORD'S, not a genre's: a genre's
+ * voices are pools now, and a record draws one per part into `chart.sound`.
+ * Everything below reads the baseline record's desk, which for a genre that
+ * names one voice per part is the genre's desk exactly.
+ */
+const deskFor = (g: Name): ReturnType<typeof compose>["chart"]["sound"] => baseline(g).song.chart.sound;
+
+/**
  * How far a treatment moved the record: the difference signal's level against
  * the record's own, in dB. Zero difference comes out around −220 dB, which is
  * the floor of the arithmetic and not a small change.
@@ -116,7 +124,7 @@ function movedBy(g: Name, t: Treatment): number {
 }
 function measure(g: Name, t: Treatment): number {
   const { flat, base, level } = baseline(g);
-  const spec = specOf(t, genre(g).sound);
+  const spec = specOf(t, deskFor(g));
   const out = render(flat, { sampleRate: SR, ...(spec === null ? {} : { desk: spec }) });
   let d = 0;
   for (let i = 0; i < out.left.length; i++) {
@@ -133,7 +141,7 @@ const FLOOR_DB = -40;
 
 for (const g of GENRE_NAMES) {
   test(`every treatment ${g} offers moves the record`, () => {
-    const offered = offeredBy(genre(g).sound);
+    const offered = offeredBy(deskFor(g));
     assert.ok(offered.length > 0, `${g} offers no treatment at all`);
     for (const t of offered) {
       const moved = movedBy(g, t);
@@ -158,7 +166,7 @@ for (const g of GENRE_NAMES) {
    * filter to open, and the measurement agrees it was the faintest of them.
    */
   test(`every treatment ${g} refuses names a unit this genre has not got`, () => {
-    const S = genre(g).sound;
+    const S = deskFor(g);
     const offered = offeredBy(S);
     const live = liveSends(S);
     const quietest = Math.min(...offered.map((t) => movedBy(g, t)));
@@ -195,7 +203,7 @@ for (const g of GENRE_NAMES) {
    */
   test(`what reach calls live is what ${g} actually patches in`, () => {
     const engine = new Engine(baseline(g).song, { sampleRate: SR });
-    const live = liveSends(genre(g).sound);
+    const live = liveSends(deskFor(g));
     for (const sd of engine.liveReturns) {
       assert.ok(live.has(sd), `the record patches ${sd} in and reach.ts calls it dead`);
     }
@@ -221,7 +229,7 @@ for (const g of GENRE_NAMES) {
    * This is free: it reads two lists and renders nothing.
    */
   test(`${g} weights no treatment its desk refuses`, () => {
-    const offered = new Set<Treatment>(offeredBy(genre(g).sound));
+    const offered = new Set<Treatment>(offeredBy(deskFor(g)));
     for (const [t, w] of genre(g).arrangement.treat) {
       assert.ok(
         offered.has(t),
@@ -245,7 +253,7 @@ for (const g of GENRE_NAMES) {
    * reach against `engine.liveReturns`, which is a fact about returns.
    */
   test(`${g} is never offered a unit nothing feeds`, () => {
-    const S = genre(g).sound;
+    const S = deskFor(g);
     const live = wetHeard(S);
     const offered = offeredBy(S);
     if (!live.has("echo")) assert.ok(!offered.includes("echoed"), `${g} has no echo anywhere and is offered echoed`);
@@ -260,7 +268,7 @@ test("a treatment is a pure function of the desk it is handed", () => {
   // The whole block-size guarantee rests on this: span seventeen's desk is the
   // base and its treatment and nothing that happened before it.
   for (const g of GENRE_NAMES) {
-    const S = genre(g).sound;
+    const S = deskFor(g);
     for (const t of TREATMENTS) {
       assert.deepEqual(deskOf(t, S), deskOf(t, S), `${g}/${t} is not the same twice`);
     }
@@ -276,7 +284,7 @@ test("depth 1 is the move as it always was, and depth 0 is no move at all", () =
   // number is back where the genre put it, so a depth can never invent a value
   // the move itself would not have reached.
   for (const g of GENRE_NAMES) {
-    const S = genre(g).sound;
+    const S = deskFor(g);
     for (const t of TREATMENTS) {
       const full = deskOf(t, S);
       if (full === null) continue;
@@ -306,7 +314,7 @@ test("a graded move is one whose every changed leaf is a number", () => {
   // travel whatever depth it is asked for. A fraction of them silently
   // becoming all of them is the failure this guards.
   for (const g of GENRE_NAMES) {
-    const S = genre(g).sound;
+    const S = deskFor(g);
     for (const t of TREATMENTS) {
       if (deskOf(t, S) === null || graded(t, S)) continue;
       assert.deepEqual(deskOf(t, S, undefined, 0.4), deskOf(t, S), `${g}/${t} is not graded, so a depth must not change it`);

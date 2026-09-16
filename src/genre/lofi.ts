@@ -637,7 +637,16 @@ export const lofi: GenreSpec = {
       { path: "rack.tape.drive", bars: 12, depth: 0.45, wave: "sin" },
       { path: "mix.keys.level", bars: 7, depth: 0.3, wave: "tri" },
     ],
-    voices: { keys: "rhodes", bass: "sub", lead: "pluck", counter: "wurly", drone: "pad" },
+    /**
+     * AND NOW AND THEN THE COUNTER IS A HORN. The soul jazz and jazz-funk
+     * records this genre samples answered their electric pianos with a horn
+     * section as often as with another keyboard, and this program had a
+     * horn voice — MKII's rank of saws under a contoured lowpass — that no
+     * genre named, which is its cardinal sin: a voice nothing reaches. One
+     * record in four draws it for the counter; the Wurlitzer keeps the rest.
+     * Weights [chosen].
+     */
+    voices: { keys: "rhodes", bass: "sub", lead: "pluck", counter: [["wurly", 3], ["horns", 1]], drone: "pad" },
     /**
      * WHAT IS LEFT ON THE SUM: the mastering chain, and only that.
      *
@@ -850,7 +859,9 @@ export const lofi: GenreSpec = {
       "because the swing already carries half the looseness [chosen under the measurement]",
     "sound.voices":
       "Rhodes is the standard melodic instrument, a muted fingerstyle guitar sits under the chords, a warm sub " +
-      "carries the bass (blog.native-instruments.com/lo-fi-hip-hop-beats; masteringthemix.com how-to-make-lo-fi-hip-hop)",
+      "carries the bass (blog.native-instruments.com/lo-fi-hip-hop-beats; masteringthemix.com how-to-make-lo-fi-hip-hop); " +
+      "the counter is a Wurlitzer three records in four and a horn in the fourth — the soul jazz this genre samples " +
+      "answered its electric pianos with horns (LOFI-LINEAGE.md); the split [chosen]",
     "sound.mix":
       "sends: a dotted-eighth delay and a small room on the keys and lead at 10–20% (audeobox.com how-to-make-lofi-beats-in-fl-studio); " +
       "placement and the pedal feed [chosen]",

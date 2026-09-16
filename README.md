@@ -192,8 +192,11 @@ genre states carries its source in the genre's `sources` map, and a number
 without one says `[chosen]`.
 
 Two genres, lofi hip hop and dungeon synth. Six parts — drums, bass, keys,
-lead, counter and drone — and eight synthesised voices, one of which (the
-horns) no genre yet names; `HANDOFF.md` item 2 says what to do about it. A
+lead, counter and drone — and eight synthesised voices. A genre names a pool
+of voices per part, weighted, and a record draws one from each pool in its
+chart, so `chart.sound` is the desk that record is played on and
+`genre.sound` is what it was drawn from (lofi's counter is a Wurlitzer three
+records in four and horns in the fourth). A
 part is a seat, and
 what it plays is drawn per material from the five arrangement elements; the
 ceiling is on how many distinct elements sound at once, not on parts, so how

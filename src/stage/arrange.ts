@@ -713,7 +713,7 @@ export function makeArrangement(chart: Chart, form: Form): Arrangement {
   const offered = A.treat
     .filter(([, w]) => w > 0)
     .map(([t]) => t)
-    .filter((t) => deskOf(t, chart.genre.sound) !== null);
+    .filter((t) => deskOf(t, chart.sound) !== null);
   /** How readily the genre reaches for one, 0..1, from its own weights. */
   const heaviest = Math.max(1e-9, ...A.treat.map(([, w]) => w));
   const weightOf = (t: Treatment): number =>
@@ -2164,7 +2164,7 @@ const kindOf = (mv: Move): string =>
             push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
             if (isPerPart(t)) {
               for (const r of cur.heard) {
-                if (deskOf(t, chart.genre.sound, r) === null) continue;
+                if (deskOf(t, chart.sound, r) === null) continue;
                 push(`treat-${t}`, new Set(cur.heard), cur.thin, r, 1, t, r);
               }
             }
@@ -2190,7 +2190,7 @@ const kindOf = (mv: Move): string =>
               for (const t of [mv.treatment, cur.treatment]) {
                 if (t === null) continue;
                 const only = (t === mv.treatment ? mv.at : cur.at) ?? undefined;
-                for (const r of reachesPart(t, chart.genre.sound, only)) if (cur.heard.has(r)) out.add(r);
+                for (const r of reachesPart(t, chart.sound, only)) if (cur.heard.has(r)) out.add(r);
               }
             }
             for (const r of cur.heard) if (!mv.heard.has(r)) out.add(r);
@@ -2317,7 +2317,7 @@ const kindOf = (mv: Move): string =>
           if (r === "drums" && (lastSpan.thin !== cur.thin || lastSpan.halved !== cur.halved)) moved.add(r);
           if (lastSpan.treatment !== cur.treatment || lastSpan.at !== cur.at) {
             for (const t of [cur.treatment, lastSpan.treatment]) {
-              if (t !== null && reachesPart(t, chart.genre.sound, (t === cur.treatment ? cur.at : lastSpan.at) ?? undefined).has(r)) moved.add(r);
+              if (t !== null && reachesPart(t, chart.sound, (t === cur.treatment ? cur.at : lastSpan.at) ?? undefined).has(r)) moved.add(r);
             }
           }
         }

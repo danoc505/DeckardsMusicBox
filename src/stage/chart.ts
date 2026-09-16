@@ -12,7 +12,7 @@
 import { barsForSec, type Metre } from "../core/clock.ts";
 import { rng, type Edit, type Rng } from "../core/rng.ts";
 import { NOTE_NAMES, SCALES, pc, type Scale, type ScaleName } from "../core/theory.ts";
-import type { Genre, Register, Role } from "../genre/spec.ts";
+import { PITCHED_ROLES, type Genre, type PitchedRole, type Register, type Role, type SoundRules, type VoiceName } from "../genre/spec.ts";
 
 /**
  * The octave the tonic is placed in.
@@ -65,6 +65,15 @@ export interface Chart {
 
   readonly tempo: number;
   readonly metre: Metre;
+
+  /**
+   * THE DESK THIS RECORD IS PLAYED ON: the genre's sound with one voice per
+   * part drawn from the genre's pool (`chart/voice/<part>`). Everything that
+   * plays or reads the desk — the renderer's base, the treatments' reach, the
+   * dump, the MIDI file, the page — reads this and never `genre.sound`, whose
+   * voices are pools. A genre that names one voice per part draws that one.
+   */
+  readonly sound: SoundRules;
 
   /**
    * How many bars the record is AIMING at.
@@ -124,6 +133,11 @@ export function makeChart(req: ChartRequest): Chart {
 
   const metre = genre.metre;
   const shift = draw.weighted("shift", genre.shift);
+  // one instrument per part, from the genre's pool for that part
+  const voices = Object.freeze(
+    Object.fromEntries(PITCHED_ROLES.map((r) => [r, draw.at("voice").weighted(r, genre.sound.voices[r])])) as Record<PitchedRole, VoiceName>,
+  );
+  const sound: SoundRules = Object.freeze({ ...genre.sound, voices });
   /** A band moved with the record, and never past what a MIDI pitch can be. */
   const moved = (r: Register): Register =>
     [Math.max(0, r[0] + shift), Math.min(127, r[1] + shift)] as const;
@@ -153,6 +167,7 @@ export function makeChart(req: ChartRequest): Chart {
     scale,
     tempo,
     metre,
+    sound,
     targetBars: barsForSec(wantSec, tempo, metre),
     askedSec,
     targetSec: wantSec,

@@ -34,8 +34,8 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite has been run END TO END on this tree and is GREEN: 324 tests, 324
-pass.** The three standing failures below are closed, and every one turned
+**The suite has been run END TO END on this tree and is GREEN: 328 tests, 328
+pass** (last run after the voice pools and the horns' level, below). The three standing failures below are closed, and every one turned
 out to be the test — two buffer diffs that ate memory, an arpeggio asked a
 held chord's law, a count painted on as a threshold — never the program.
 `npm test` in one go takes **12–13 minutes**, and `treat.test.ts` alone is
@@ -258,6 +258,45 @@ selected parts bright and the rest dim; clicking one keeps it as a press,
 not kept leave nothing behind. A reroll stops being a die and becomes a
 menu. Driven: four drawn, four more numbered five to eight, the seventh
 kept and its salt in the dump, no page errors.
+
+**AND A PART'S VOICE IS DRAWN PER RECORD FROM A POOL, so the horns have a
+home** (item 2 below, the half that was left). `sound.voices` in a genre
+spec is one name or a weighted list of them per part; `resolve.ts` reads
+either as a pool and refuses an instrument this program does not have, a
+pool nothing can be drawn from, or a manner (`<part>.art`) that ANY pooled
+voice with weight cannot play. The chart draws one voice per part at
+`chart/voice/<part>` and carries the result as `chart.sound`, the desk the
+record is played on; everything that used to read `genre.sound` — the
+renderer's base, `deskOf` and `reachesPart` in `arrange.ts`, the MIDI
+writer, the dump, the page — reads the chart's now, because a treatment is
+judged against the instrument actually loaded. `genre.sound.voices` is the
+pool; `chart.sound.voices` is the choice. The dump prints `#voice` lines.
+Lofi's counter is `wurly 3 : horns 1` (61 of 200 records draw the horns,
+30.5%); everything else is a pool of one and resolves to exactly what it
+did. A new draw under `chart/` moves nothing beside it: the notes and the
+desk timeline of eighteen records, nine a genre, are byte-identical to the
+commit before. The voice is an aspect (`--reroll voices`, the page's Also
+row) and a pin (`--set voice.counter=horns`, the page's Voice row, which
+lists the genre's pool for the chosen part and is disabled when the pool is
+one). Driven: the counter's pool read wurly and horns, set to the wurly →
+the matrix label and the dump say wurly, step back → horns, reroll voices →
+a press, no page errors.
+
+**What the pool found the moment it was drawn: the horns were 6–7 dB under
+every other voice, and the suite said so.** On lofi seed 3 the counter alone
+under the horns was −40.7 dBFS, under `all.test.ts`'s audibility floor. The
+eight voices at one held note (1 s, gain 0.7, C4) sat between −7.7 and
+−15.4 dBFS and the horns at −21.5, so the owner was the voice's own level
+constant, MKII's 0.42 summed rank, and not the pool, the counter or the
+mix: it is 0.92 now and the horns sit at −14.7 against the wurly's −14.8.
+Over a record the counter on the horns is still 3–4 dB under the counter on
+the wurly, because the lofi counter plays strikes held 0.14–0.29 s and a
+brass note spends its first hundred milliseconds opening — that is the
+source's law and it stays. `render.test.ts` now states the rule that
+caught it: two voices in one pool come out within 3 dB of each other on the
+same note, because the fader is the part's and cannot know which voice was
+drawn. Whether a horn answering the tune with stabs is the right horn for
+the part is a question for an ear: lofi 527724 and 274106 both draw it.
 
 **AND THE RECORD AS A RECIPE.** A record is genre, seed, length and its
 edits and nothing else, so those four are shown as one line in the words
@@ -1005,15 +1044,17 @@ deliberate failures above and nothing else, and anything else is this
 session's — the amen figure and `LEGAL_TEXTURES` landed after the last
 complete run, and the drums tests may assume a single-bar figure.
 
-**2. The horns have no home, and the amen has not been seen to fire.**
-`voices.ts` has a `horns` voice (a rank of saws under a contoured lowpass,
+**2. ~~The horns have no home~~, and the amen has not been seen to fire.**
+~~`voices.ts` has a `horns` voice (a rank of saws under a contoured lowpass,
 MKII's) that no genre names, which is this program's cardinal sin: a voice
-nothing reaches. The design chosen and not built: let `sound.voices` be a
-weighted pool per part, resolved in `resolve.ts`, drawn per record in the
-chart, and read by the three places that currently read `genre.sound` —
-`render.ts` (`this.base`), `arrange.ts` (`deskOf(t, chart.genre.sound)` and
-`reachesPart`) and `perform.test.ts`. Then lofi's counter can be wurly 3 :
-horns 1. Either build that or delete the voice. ~~And sweep lofi seeds for
+nothing reaches.~~ **BUILT, as designed**: `sound.voices` is a weighted pool
+per part, resolved in `resolve.ts`, drawn per record in the chart at
+`chart/voice/<part>` and carried as `chart.sound`, which is what every
+reader of the desk reads now. Lofi's counter is wurly 3 : horns 1 and draws
+the horns in 30.5% of 200 records; the notes of every record are unchanged.
+The voice's level was 6–7 dB under the rest and is calibrated to the
+wurly's now (see "What was just done"); what is left is an ear's question,
+whether a horn suits a part that plays stabs. ~~And sweep lofi seeds for
 `drums.figure === "amen"`, roll one, and confirm the bass stands on the amen
 kick and not on the pockets it replaced.~~ **DONE, and it half did.** Over
 200 lofi records the amen is drawn in 119 of 402 plain materials (104
@@ -1252,7 +1293,7 @@ built and measured (see "what was just done"). Three are not:
 | the record as sound | `node src/cli.ts <genre> <seed> --wav out.wav` |
 | the record as text | `node src/cli.ts <genre> <seed>` |
 | the same with a part rerolled | `node src/cli.ts <genre> <seed> --reroll lead` · `--reroll keys,bass:16-32` · `--reroll drums:16-24:only` · `--edit material/A/0/lead=2` |
-| the chords, key, mode, tempo or form rerolled, or said | `--reroll chords:16-32` · `--reroll key` · `--set tempo=92` · `--set key=D` · `--set mode=dorian` · `--split 3` |
+| the chords, key, mode, tempo, form or voices rerolled, or said | `--reroll chords:16-32` · `--reroll key` · `--reroll voices` · `--set tempo=92` · `--set key=D` · `--set mode=dorian` · `--set voice.counter=horns` · `--split 3` |
 | a reroll as a picture, before and after | `npm run roll <genre> <seed> a.png` then `... b.png --reroll lead:16-32` |
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
