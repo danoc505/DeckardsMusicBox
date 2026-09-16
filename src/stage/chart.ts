@@ -157,7 +157,7 @@ export function makeChart(req: ChartRequest): Chart {
     askedSec,
     targetSec: wantSec,
     rng: root,
-    edits: Object.freeze(edits.map((e) => Object.freeze({ at: e.at, salt: e.salt }))),
+    edits: Object.freeze(edits.map((e) => Object.freeze({ ...e }))),
   });
 }
 

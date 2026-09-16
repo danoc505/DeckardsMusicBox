@@ -11,6 +11,7 @@
  */
 
 import { clockFace } from "./core/clock.ts";
+import { isPin } from "./core/rng.ts";
 import { NOTE_NAMES, noteName, pc } from "./core/theory.ts";
 import { ROLES, type DrumLane, type Role } from "./genre/spec.ts";
 import { voiceOf } from "./sound/tr1000.ts";
@@ -87,7 +88,7 @@ export function dump(song: Song): string {
   // WHAT WAS DONE TO IT, in order: a record with edits is not the record the
   // seed alone makes, and a dump that did not say so would be lying about
   // where its notes came from. Address and salt, so the record can be remade.
-  for (const e of chart.edits) L.push(`#edit\t${e.at}\t${e.salt}`);
+  for (const e of chart.edits) L.push(`#edit\t${e.at}\t${isPin(e) ? `=${String(e.value)}` : e.salt}`);
   L.push(`#key\t${NOTE_NAMES[pc(chart.tonicPc)]}`);
   L.push(`#mode\t${chart.scaleName}`);
   L.push(`#tempo\t${r2(chart.tempo)}`);
@@ -121,6 +122,7 @@ export function dump(song: Song): string {
     const flags: string[] = [];
     if (s.peak) flags.push("peak");
     if (s.vary) flags.push("vary");
+    if (s.split) flags.push("split");
     // the three other answers to the rule of three, which the arrangement
     // decides per hearing and which the notes alone cannot show: a section
     // whose change is on the desk, one that builds into the climax, and one

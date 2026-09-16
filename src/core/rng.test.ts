@@ -173,6 +173,33 @@ test("rerolls stack in order, differ by salt, and an empty list is the generator
   assert.equal(plain.at("a").edited([{ at: "b", salt: 1 }]).unit("b", "c"), plain.edited([{ at: "a/b", salt: 1 }]).at("a").unit("b", "c"));
 });
 
+test("a pin answers one draw with what the site could have drawn, and nothing else moves", () => {
+  const plain = rng(3, "g").at("chart");
+  const pinned = rng(3, "g").edited([
+    { at: "chart/tempo", value: 88 },
+    { at: "chart/key", value: 5.4 },
+    { at: "chart/scale", value: "dorian" },
+    { at: "chart/split", value: true },
+    { at: "chart/pick", value: "b" },
+  ]).at("chart");
+  // honoured, clamped, rounded
+  assert.equal(pinned.range("tempo", 70, 90), 88);
+  assert.equal(rng(3, "g").edited([{ at: "chart/tempo", value: 300 }]).at("chart").range("tempo", 70, 90), 90);
+  assert.equal(pinned.int("key", 0, 11), 5);
+  assert.equal(pinned.weighted("scale", [["minor", 4], ["dorian", 3]]), "dorian");
+  assert.equal(pinned.chance("split", 0), true);
+  assert.equal(pinned.pick("pick", ["a", "b", "c"]), "b");
+  // a value the site cannot use is ignored and the draw stands
+  assert.equal(pinned.weighted("scale", [["minor", 4], ["phrygian", 1]]), plain.weighted("scale", [["minor", 4], ["phrygian", 1]]));
+  assert.equal(pinned.weighted("scale", [["minor", 4], ["dorian", 0]]), plain.weighted("scale", [["minor", 4], ["dorian", 0]]));
+  assert.equal(pinned.pick("pick", ["x", "y"]), plain.pick("pick", ["x", "y"]));
+  // exactly there and not under it, and the draw beside it is untouched
+  assert.equal(pinned.at("tempo").unit("drift"), plain.at("tempo").unit("drift"));
+  assert.equal(pinned.unit("length"), plain.unit("length"));
+  // the last pin made wins, which is what makes setting a thing twice one setting
+  assert.equal(rng(3, "g").edited([{ at: "t", value: 1 }, { at: "t", value: 2 }]).range("t", 0, 10), 2);
+});
+
 test("hash32 is a 32-bit unsigned value", () => {
   for (const s of ["", "a", "1/lofi/bass/3/rest", "\u{1F600}"]) {
     const h = hash32(s);

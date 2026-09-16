@@ -268,7 +268,12 @@ the counter against the tune, the bass on the kick — follows on its own,
 because the record is rebuilt and those are built from it. A record is a pure
 function of genre, seed and its list of rerolls (`src/edit.ts`), so Step back
 is the list one press shorter, the dump prints the list as `#edit` lines, and
-`--reroll lead:16-32` on the CLI or the roll tool makes the same record.
+`--reroll lead:16-32` on the CLI or the roll tool makes the same record. The
+chords, the key, the mode, the tempo and the form reroll by name from their
+own addresses; the tempo, key and mode can also be SAID, as a pin the draw
+site honours only where it could have drawn that value. A range inside a
+section reaches the tune a phrase at a time and the drums a beat at a time,
+and "only these bars" splits the section off into its own material first.
 
 The melody is theory as constraint: a phrase states a figure and restates it,
 walks one of Huron's contour shapes and closes where that shape was going,

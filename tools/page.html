@@ -157,6 +157,12 @@
   .range button { padding: 6px 8px; font-size: 9px; }
   .edits { margin: 6px 0 0; padding: 0 0 0 16px; font: 9px/1.6 var(--mono); color: var(--cream-dim); max-height: 120px; overflow-y: auto; }
   .edits li:last-child { color: var(--cream); }
+  .parts.also { flex: 1; grid-template-columns: repeat(5, 1fr); }
+  .parts.also button { padding: 6px 2px; font-size: 8px; letter-spacing: 0.08em; }
+  .only { display: flex; align-items: center; gap: 8px; font: 9px/1.3 var(--mono); color: var(--cream-dim); cursor: pointer; }
+  .only input { accent-color: var(--amber); }
+  .sets { display: grid; grid-template-columns: auto 1fr 1fr 64px; gap: 6px; align-items: center; }
+  .sets select, .sets input { width: 100%; font: 700 11px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 5px 4px; }
 
   /* ── program: selector switch, counter, knob ── */
   .selector { display: grid; gap: 6px; }
@@ -376,12 +382,20 @@
         <div class="stack">
           <div class="parts" id="rr-parts"></div>
           <div class="range"><span class="lbl dim">Bars</span><span class="v" id="rr-range">whole record</span><button type="button" id="rr-all">All</button></div>
+          <label class="only"><input type="checkbox" id="rr-only"><span>only these bars · the section is split off first</span></label>
           <div class="transport">
             <button type="button" class="go" id="rr-go">Reroll</button>
             <button type="button" id="rr-back" disabled>Step back</button>
           </div>
+          <div class="range"><span class="lbl dim">Also</span><div class="parts also" id="rr-also"></div></div>
+          <div class="sets">
+            <span class="lbl dim">Set</span>
+            <select id="rr-key" title="key"></select>
+            <select id="rr-mode" title="mode"></select>
+            <input id="rr-tempo" type="number" step="1" title="tempo">
+          </div>
           <ol class="edits" id="rr-list"></ol>
-          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars. Anything written from a rerolled part follows it. Step back pops the last reroll.</div>
+          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. Step back pops the last press.</div>
         </div>
       </section>
     </div>
@@ -672,7 +686,7 @@
       d.title = s.fn + " · " + s.bars + " bars · " + pl.material + " · energy " + s.energy.toFixed(2);
       var out = ROLES.filter(function (r) { return !pl.heard.has(r); }).map(function (r) { return r[0] + r[1]; });
       d.innerHTML = '<div class="fill" style="height:' + Math.round(15 + 75 * s.energy) + '%"></div><div class="t">' + s.fn + '</div><div class="m">' + pl.material + '</div>' +
-        '<div class="f' + (s.peak ? " p" : "") + '">' + (s.peak ? "PEAK " : "") + (s.vary ? "VARY " : "") + (pl.thin ? "THIN " : "") + (out.length ? "−" + out.join(" ") : "") + '</div>';
+        '<div class="f' + (s.peak ? " p" : "") + '">' + (s.peak ? "PEAK " : "") + (s.split ? "SPLIT " : s.vary ? "VARY " : "") + (pl.thin ? "THIN " : "") + (out.length ? "−" + out.join(" ") : "") + '</div>';
       t.appendChild(d);
     });
   }
@@ -869,18 +883,45 @@
     drawRoll(null); drawReroll();
   });
   roll.addEventListener("pointerup", function () { if (rrDrag && !rrDrag.moved) { rrSel = null; drawRoll(null); drawReroll(); } rrDrag = null; });
-  function selection() { var s = { roles: ROLES.filter(function (r) { return rrRoles[r]; }) }; if (rrSel) { s.from = rrSel.from; s.to = rrSel.to; } return s; }
+  function selection() { var s = { roles: ROLES.filter(function (r) { return rrRoles[r]; }) }; if (rrSel) { s.from = rrSel.from; s.to = rrSel.to; if ($("rr-only").checked) s.only = true; } return s; }
+  /** One press: whatever edits it made, kept together so Step back undoes the press. */
+  function press(made) { if (made.length) { rrActions.push(made); compose(); } }
+  var rrBuilt = false;
   function drawReroll() {
-    var parts = $("rr-parts");
-    if (!parts.children.length) {
+    var parts = $("rr-parts"), also = $("rr-also"), keySel = $("rr-key"), modeSel = $("rr-mode"), tempoEl = $("rr-tempo"), c = song.chart;
+    if (!rrBuilt) {
+      rrBuilt = true;
       ROLES.forEach(function (r) {
         var b = document.createElement("button"); b.type = "button"; b.textContent = r; b.style.setProperty("--part", COLOR[r]);
         b.addEventListener("click", function () { rrRoles[r] = !rrRoles[r]; drawReroll(); });
         parts.appendChild(b);
       });
+      // the record-wide things, each a press of its own: the chords of the
+      // ideas the selected bars play, or the key, the mode, the tempo, the form
+      M.ASPECTS.forEach(function (a) {
+        var b = document.createElement("button"); b.type = "button"; b.textContent = a;
+        b.addEventListener("click", function () { press(M.rerollAspect(song, a, rrSel ? { from: rrSel.from, to: rrSel.to } : undefined)); });
+        also.appendChild(b);
+      });
+      M.NOTE_NAMES.forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n; keySel.appendChild(o); });
+      // SAID, NOT DRAWN: each control is a pin, and a pin chooses among what
+      // the genre offers — the modes are the genre's own list, the tempo is
+      // held inside its range
+      // and a control that already shows the record's value presses nothing:
+      // a field the browser re-fires `change` on when it loses focus would
+      // otherwise set the same tempo twice
+      keySel.addEventListener("change", function () { if (keySel.value !== M.NOTE_NAMES[M.pc(song.chart.tonicPc)]) press([M.setKey(song, keySel.value)]); });
+      modeSel.addEventListener("change", function () { if (modeSel.value !== song.chart.scaleName) press([M.setMode(song, modeSel.value)]); });
+      tempoEl.addEventListener("change", function () { var v = Number(tempoEl.value); if (v > 0 && Math.round(v) !== Math.round(song.chart.tempo)) press([M.setTempo(song, v)]); });
     }
     ROLES.forEach(function (r, i) { parts.children[i].dataset.on = rrRoles[r] ? "1" : "0"; });
+    // the mode list is the genre's, so it is rebuilt when the genre is
+    var modes = c.genre.scales.filter(function (s) { return s[1] > 0; }).map(function (s) { return s[0]; });
+    if (modeSel.dataset.genre !== c.genre.name) { modeSel.innerHTML = ""; modes.forEach(function (m) { var o = document.createElement("option"); o.value = m; o.textContent = m; modeSel.appendChild(o); }); modeSel.dataset.genre = c.genre.name; }
+    keySel.value = M.NOTE_NAMES[M.pc(c.tonicPc)]; modeSel.value = c.scaleName; tempoEl.value = String(Math.round(c.tempo));
+    tempoEl.min = String(c.genre.tempo[0]); tempoEl.max = String(c.genre.tempo[1]);
     $("rr-range").textContent = rrSel ? "bars " + rrSel.from + "–" + rrSel.to : "whole record";
+    $("rr-only").disabled = !rrSel;
     $("rr-go").disabled = !ROLES.some(function (r) { return rrRoles[r]; });
     $("rr-back").disabled = rrActions.length === 0;
     var list = $("rr-list"); list.innerHTML = "";
@@ -890,7 +931,7 @@
       list.appendChild(li);
     });
   }
-  function rerollNow() { var made = M.reroll(song, selection()); if (made.length) { rrActions.push(made); compose(); } }
+  function rerollNow() { press(M.reroll(song, selection())); }
   function stepBack() { if (rrActions.length) { rrActions.pop(); compose(); } }
   /** A different seed or genre is a different record, and its rerolls are not this one's. */
   function fresh() { rrActions = []; rrSel = null; }

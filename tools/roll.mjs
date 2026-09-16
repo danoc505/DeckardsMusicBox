@@ -12,7 +12,7 @@ import { ROLES } from "../src/genre/spec.ts";
 import { writeFileSync } from "node:fs";
 import zlib from "node:zlib";
 import { compose } from "../src/song.ts";
-import { describeEdit, parseEdit, parseSelection, reroll } from "../src/edit.ts";
+import { describeEdit, parseEdit, rerollWord, setWord, split } from "../src/edit.ts";
 
 // ── a PNG, by hand ────────────────────────────────────────────────────────
 const CRC = (() => { const t = new Int32Array(256);
@@ -86,16 +86,19 @@ const noteName = (p) => NOTE[((p % 12) + 12) % 12] + (Math.floor(p/12) - 1);
    `--edit material/A/0/lead=2`, each repeatable and applied in order — so a
    reroll can be rolled before and after and LOOKED at, which is the test the
    README names for anything that changes notes. */
-const VALUED = ["--bars", "--reroll", "--edit"];
+const VALUED = ["--bars", "--reroll", "--set", "--split", "--edit"];
 const argv = process.argv.slice(2);
 const [genre, seedArg, outArg] = argv.filter((a, i) => !a.startsWith("--") && !(i > 0 && VALUED.includes(argv[i - 1])));
 const barsAt = argv.indexOf("--bars");
 let edits = [];
+const sofar = () => compose({ genre, seed: Number(seedArg), edits });
 for (let i = 0; i + 1 < argv.length; i++) {
   if (argv[i] === "--edit") edits.push(parseEdit(argv[i + 1]));
-  if (argv[i] === "--reroll") edits = edits.concat(reroll(compose({ genre, seed: Number(seedArg), edits }), parseSelection(argv[i + 1])));
+  if (argv[i] === "--reroll") edits = edits.concat(rerollWord(sofar(), argv[i + 1]));
+  if (argv[i] === "--set") edits.push(setWord(sofar(), argv[i + 1]));
+  if (argv[i] === "--split") edits.push(split(sofar(), Number(argv[i + 1])));
 }
-const song = compose({ genre, seed: Number(seedArg), edits });
+const song = sofar();
 const out = outArg || `roll-${genre}-${seedArg}.png`;
 
 let bar0 = 0, bar1 = song.form.bars;
@@ -441,7 +444,7 @@ if (fxNames.length || moves.length) {
 console.log(`the record is about the ${song.arrangement.protagonist} — it enters first, it is the last thing dropped, and the break carries it`);
 for (const pl of song.arrangement.placed) {
   const s = pl.section;
-  console.log(`  bar ${String(s.startBar).padStart(3)}-${String(s.endBar).padEnd(3)} ${s.fn.padEnd(13)} material ${String(pl.material).padEnd(4)} energy ${s.energy.toFixed(2)}${s.peak?" PEAK":""}${s.vary?" VARY":""}${s.recast?" RECAST":""}${pl.swell?" SWELL":""}${pl.manner?" "+pl.manner.toUpperCase():""}${pl.thin?" THIN":""}`);
+  console.log(`  bar ${String(s.startBar).padStart(3)}-${String(s.endBar).padEnd(3)} ${s.fn.padEnd(13)} material ${String(pl.material).padEnd(4)} energy ${s.energy.toFixed(2)}${s.peak?" PEAK":""}${s.split?" SPLIT":s.vary?" VARY":""}${s.recast?" RECAST":""}${pl.swell?" SWELL":""}${pl.manner?" "+pl.manner.toUpperCase():""}${pl.thin?" THIN":""}`);
   // and what each span of it does, so the picture and the words agree
   // ADDRESSED BY THE SPAN'S OWN BAR. This read `startBar + k * turn`, which
   // was right while every span was two turns and now runs off the end of the

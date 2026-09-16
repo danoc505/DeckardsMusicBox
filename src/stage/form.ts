@@ -90,6 +90,18 @@ export interface Section {
    * second says change everything except the notes.
    */
   readonly recast: boolean;
+  /**
+   * SPLIT OFF BY HAND. The rule of three is the program's reason to vary a
+   * hearing; this is the owner's: "this one, different". It is never drawn —
+   * the chance is zero — and only a pinned edit at `form/section/<i>/split`
+   * makes it true, so a record nobody touched has none. A split hearing is a
+   * variant like any other and the law that follows a variant still holds:
+   * every later statement of the idea plays the developed one, because an
+   * idea that has developed has developed. So splitting a section gives it
+   * and everything after it their own material, and the last statement of
+   * an idea is the one this isolates exactly.
+   */
+  readonly split: boolean;
 
   readonly startBar: number;
   readonly endBar: number;
@@ -425,8 +437,13 @@ export function makeForm(chart: Chart): Form {
     // is already decided, so this is a lookup and not a forecast: if the idea
     // never comes back, new notes here would be new notes nobody hears twice.
     const returns = ideas.indexOf(idea, i + 1) >= 0;
-    const vary = owed && returns;
-    const recast = owed && !returns;
+    // OR THE OWNER ASKED FOR THIS ONE TO DIFFER: a draw at zero, so it is
+    // only ever true by a pin, and a split hearing varies whether or not the
+    // idea comes back — the owner's ask is not the rule of three's and does
+    // not wait for a return to be heard against
+    const split = draw.at("section", i).chance("split", 0);
+    const vary = split || (owed && returns);
+    const recast = !split && owed && !returns;
     // AND THE COUNT RESETS, so the record comes back round to the plain
     // statement afterwards. Without this every hearing after the third is a
     // variant and the tune itself is heard twice and never again — and coming
@@ -435,14 +452,14 @@ export function makeForm(chart: Chart): Form {
     // A recast resets it too: the demand was met, by the arrangement rather
     // than by the notes, and leaving the counter armed would make every
     // remaining hearing of a trailing idea demand a change again.
-    since.set(idea, owed ? 0 : heard);
+    since.set(idea, owed || split ? 0 : heard);
     carry = run;
 
     const position = fns.length > 1 ? i / (fns.length - 1) : 1;
     const energy = Math.min(1, rules.energy[fn] * (1 + LATE_LIFT * position));
 
     built.push({
-      index: i, fn, idea, statement, run, vary, recast,
+      index: i, fn, idea, statement, run, vary, recast, split,
       startBar, endBar: startBar + len, bars: len,
       energy, peak: false,
     });
@@ -505,6 +522,6 @@ function arcOf(sections: readonly Section[], bars: number): number[] {
 /** "intro[A] verse[A] chorus[B]^ ..." — the shape at a glance. */
 export function describeForm(f: Form): string {
   return f.sections
-    .map((s) => `${s.fn}[${s.idea}${s.vary ? "*" : ""}]${s.peak ? "^" : ""}:${s.bars}`)
+    .map((s) => `${s.fn}[${s.idea}${s.split ? "!" : s.vary ? "*" : ""}]${s.peak ? "^" : ""}:${s.bars}`)
     .join(" ");
 }

@@ -62,10 +62,27 @@ export type Weighted<T> = ReadonlyArray<readonly [T, number]>;
  * is two different rerolls, and the same list applied to the same seed is the
  * same record, which is what makes a list of edits undoable by popping it.
  */
-export interface Edit {
-  readonly at: string;
-  readonly salt: number;
-}
+export type Edit =
+  | {
+      readonly at: string;
+      /** A REROLL: every draw at or under `at` answers differently. */
+      readonly salt: number;
+    }
+  | {
+      readonly at: string;
+      /**
+       * A PIN: the draw AT `at` — exactly there, nothing under it — answers
+       * this instead of drawing. Honoured only where the draw site could have
+       * produced it: a number is clamped into the range or the integer bounds
+       * the site asks for, a table entry has to be in the table with weight,
+       * and a value the site cannot use is ignored and the draw stands. So a
+       * pin can never put a value in a record that the genre's own pool could
+       * not have — it chooses among what was offered, it does not overrule.
+       */
+      readonly value: number | string | boolean;
+    };
+
+export const isPin = (e: Edit): e is Extract<Edit, { value: unknown }> => "value" in e;
 
 export interface Rng {
   /** The address this generator is rooted at, for diagnostics. */
@@ -117,7 +134,7 @@ const join = (base: string, seg: readonly Seg[]): string =>
 
 /** Root a generator for one song. Every draw below it is addressed. */
 export function rng(seed: number, ...seg: Seg[]): Rng {
-  return make(seed, join(String(seed), seg), []);
+  return make(seed, join(String(seed), seg), [], []);
 }
 
 /** A reroll resolved against a root: the absolute prefix it salts, and the salt. */
@@ -126,7 +143,15 @@ interface Salt {
   readonly salt: number;
 }
 
-function make(seed: number, path: string, salts: readonly Salt[]): Rng {
+/** A pin resolved against a root: the absolute address it answers for, and the answer. */
+interface Pin {
+  readonly at: string;
+  readonly value: number | string | boolean;
+}
+
+const clamp = (v: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, v));
+
+function make(seed: number, path: string, salts: readonly Salt[], pins: readonly Pin[]): Rng {
   /**
    * THE SALT IS PART OF THE ADDRESS, and only under the edited prefix. Every
    * matching edit contributes, in the order the edits were made, so a second
@@ -142,30 +167,56 @@ function make(seed: number, path: string, salts: readonly Salt[]): Rng {
     }
     return hash32(key) * UNIT;
   };
+  /** The pin at exactly this address, the last one made winning, or undefined. */
+  const pinned = (seg: readonly Seg[]): number | string | boolean | undefined => {
+    if (pins.length === 0) return undefined;
+    const full = join(path, seg);
+    let got: number | string | boolean | undefined;
+    for (const p of pins) if (p.at === full) got = p.value;
+    return got;
+  };
 
   const self: Rng = {
     path,
 
-    at: (...seg) => make(seed, join(path, seg), salts),
+    at: (...seg) => make(seed, join(path, seg), salts, pins),
 
     edited: (edits) =>
       edits.length === 0
         ? self
-        : make(seed, path, [...salts, ...edits.map((e) => ({ prefix: join(path, [e.at]), salt: e.salt }))]),
+        : make(
+            seed,
+            path,
+            [...salts, ...edits.filter((e) => !isPin(e)).map((e) => ({ prefix: join(path, [e.at]), salt: (e as { salt: number }).salt }))],
+            [...pins, ...edits.filter(isPin).map((e) => ({ at: join(path, [e.at]), value: e.value }))],
+          ),
 
-    unit: (...seg) => u(seg),
+    unit: (...seg) => {
+      const p = pinned(seg);
+      return typeof p === "number" && p >= 0 && p < 1 ? p : u(seg);
+    },
 
-    range: (name, lo, hi) => lo + u([name]) * (hi - lo),
+    range: (name, lo, hi) => {
+      const p = pinned([name]);
+      return typeof p === "number" && Number.isFinite(p) ? clamp(p, lo, hi) : lo + u([name]) * (hi - lo);
+    },
 
     int: (name, lo, hi) => {
       if (hi < lo) [lo, hi] = [hi, lo];
+      const p = pinned([name]);
+      if (typeof p === "number" && Number.isFinite(p)) return clamp(Math.round(p), lo, hi);
       return lo + Math.min(hi - lo, Math.floor(u([name]) * (hi - lo + 1)));
     },
 
-    chance: (name, p) => u([name]) < p,
+    chance: (name, p) => {
+      const pin = pinned([name]);
+      return typeof pin === "boolean" ? pin : u([name]) < p;
+    },
 
     pick: (name, from) => {
       if (from.length === 0) throw new Error(`pick from nothing at ${join(path, [name])}`);
+      const p = pinned([name]);
+      if (p !== undefined && (from as readonly unknown[]).includes(p)) return p as (typeof from)[number];
       const i = Math.min(from.length - 1, Math.floor(u([name]) * from.length));
       return from[i]!;
     },
@@ -174,6 +225,11 @@ function make(seed: number, path: string, salts: readonly Salt[]): Rng {
       let total = 0;
       for (const [, w] of table) if (w > 0) total += w;
       if (total <= 0) throw new Error(`no positive weight at ${join(path, [name])}`);
+      const p = pinned([name]);
+      if (p !== undefined) {
+        const hit = table.find(([v, w]) => w > 0 && (v as unknown) === p);
+        if (hit !== undefined) return hit[0];
+      }
       let x = u([name]) * total;
       for (const [v, w] of table) {
         if (w <= 0) continue;

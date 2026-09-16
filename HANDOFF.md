@@ -196,13 +196,43 @@ is one mechanism, and the mechanism was already here.
   be rolled before and after and looked at, which the README names as the
   test for anything that changes notes.
 
-NOT BUILT, deliberately: rerolling below a material (one phrase, one bar) —
-the tune is a walk with memory, so a reroll inside it moves the rest of the
-tune, and the honest unit is the material until note provenance exists.
-Rerolling the chords, the key or the tempo: the addresses exist
-(`harmony/<idea>`, `chart`), the edit mechanism reaches them, nothing on the
-page names them yet. Splitting one section off from a shared material (a
-user-forced `vary`) is the next thing the owner will ask for.
+**AND THEN THE THREE THINGS THAT NOTE SAID WERE NOT BUILT, BUILT.**
+
+- **Pins** (`Rng.edited`, the other half of `Edit`): a value at exactly one
+  address, answered instead of drawn, and only where the draw site could have
+  drawn it — a number is clamped into the site's range, a table entry has to
+  be in the table with weight, anything else is ignored and the draw stands.
+  So a pin chooses among what the genre offers and never overrules it. The
+  tempo, the key and the mode are pinned from the page's Set row and the
+  CLI's `--set tempo=92 | key=D | mode=dorian`; the tempo is held inside the
+  genre's range because the form's intro ceiling is checked against it.
+- **The chords, the key, the mode, the tempo and the form reroll by name**
+  (`rerollAspect`): the addresses were always there — `harmony/<idea>`,
+  `chart/key`, `chart/scale`, `chart/tempo`, `form`. Rerolling the chords of
+  a range rerolls the ideas those bars play. Note what the chords reach: the
+  loop's period comes from them and the phrase floor is counted in turns of
+  the loop, so a chord reroll can change which section lengths are drawn,
+  and `edit.test.ts` says so rather than pretending otherwise.
+- **A section can be split off** (`form/section/<i>/split`, a pin on a
+  `chance` drawn at zero, so a record nobody touched has none). A split
+  hearing is a variant by the form's own machinery, and the variant law
+  still holds — every later statement plays the developed one — so a split
+  is exact for the last statement and "from here on" for the others. The
+  page's **only these bars** does it in one press: split first, then reroll
+  the material the split section now plays. The list and the dump say so.
+- **Below a material, where a draw exists to land on.** A range inside a
+  section reaches the tune's phrases (`lead/phrase/<n>`, and the development
+  under `lead/answer`) and the drums' cycles (`drums/cycle/<n>`, the treatment
+  that round plays, which comes round again every `treatments` rounds). The
+  keys, bass, drone and counter have no draw of their own per bar — voiced
+  from the chords, standing on the kick, written against the tune — so for
+  those a partial range is still the whole material, and the description
+  says so. The tune is a walk with memory, so a phrase reroll moves the
+  phrases after it; the description says that too.
+
+Driven end to end again: set the tempo, the key and the mode; reroll the
+chords of a dragged range; only-here on the tune, with the split in the list
+and the dump; step back to the start byte for byte; no page errors.
 
 **SIX RANDOM SEEDS WERE READ OFF THE ROLL, AND FOUR OF THE FINDINGS WERE
 LINES.** The seeds were drawn by the shell — lofi 688381, 527724, 346235;
@@ -1154,7 +1184,8 @@ built and measured (see "what was just done"). Three are not:
 | the same, through the built page | `npm run shot <genre> <seed>` |
 | the record as sound | `node src/cli.ts <genre> <seed> --wav out.wav` |
 | the record as text | `node src/cli.ts <genre> <seed>` |
-| the same with a part rerolled | `node src/cli.ts <genre> <seed> --reroll lead` · `--reroll keys,bass:16-32` · `--edit material/A/0/lead=2` |
+| the same with a part rerolled | `node src/cli.ts <genre> <seed> --reroll lead` · `--reroll keys,bass:16-32` · `--reroll drums:16-24:only` · `--edit material/A/0/lead=2` |
+| the chords, key, mode, tempo or form rerolled, or said | `--reroll chords:16-32` · `--reroll key` · `--set tempo=92` · `--set key=D` · `--set mode=dorian` · `--split 3` |
 | a reroll as a picture, before and after | `npm run roll <genre> <seed> a.png` then `... b.png --reroll lead:16-32` |
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
