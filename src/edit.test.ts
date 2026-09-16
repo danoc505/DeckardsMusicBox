@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { compose } from "./song.ts";
 import { dump } from "./dump.ts";
 import { isPin } from "./core/rng.ts";
-import { candidates, describeEdit, formatEdit, parseEdit, reroll, rerollAspect, rerollWord, setKey, setMode, setTempo, setVoice, setWord, split } from "./edit.ts";
+import { candidates, describeEdit, deskOf, deskWords, formatEdit, parseEdit, reroll, rerollAspect, rerollWord, setFigure, setIntro, setJob, setKey, setMode, setPlays, setProtagonist, setTempo, setVoice, setWord, split } from "./edit.ts";
 import { GENRE_NAMES } from "./genre/index.ts";
 import { ROLES, type Role } from "./genre/spec.ts";
 import { NOTE_NAMES, pc } from "./core/theory.ts";
@@ -111,7 +111,7 @@ test("a part's voice is drawn from the genre's pool, can be said, and can be rer
   assert.equal(on.chart.sound.voices.counter, "horns");
   assert.equal(dump(on).match(/^#voice\tcounter\t(.*)$/m)![1], "horns");
   assert.match(describeEdit(on, on.chart.edits[0]!), /^counter played on the horns$/);
-  assert.deepEqual(setWord(song, "voice.counter=wurly"), setVoice(song, "counter", "wurly"));
+  assert.deepEqual(setWord(song, "voice.counter=wurly"), [setVoice(song, "counter", "wurly")]);
   assert.throws(() => setVoice(song, "counter", "flute"), /no voice "flute" for the counter/);
   assert.throws(() => setVoice(song, "drums", "flute"), /no pitched part "drums"/);
   // and the notes are the notes: a voice is how a part is played, not what
@@ -160,8 +160,8 @@ test("edits and selections read back from the words the command line uses", () =
   assert.throws(() => rerollWord(song, "horns"), /no part "horns"/);
   assert.throws(() => rerollWord(song, "lead:32-16"), /bad bar range/);
   assert.throws(() => rerollWord(song, "lead:0-8:twice"), /unknown flag/);
-  assert.deepEqual(setWord(song, "tempo=80"), setTempo(song, 80));
-  assert.deepEqual(setWord(song, "key=D"), setKey(song, "D"));
+  assert.deepEqual(setWord(song, "tempo=80"), [setTempo(song, 80)]);
+  assert.deepEqual(setWord(song, "key=D"), [setKey(song, "D")]);
   assert.throws(() => setWord(song, "swing=1"), /nothing to set/);
 });
 
@@ -294,4 +294,124 @@ test("below a material: a partial range reaches the tune's phrases and the drums
   }
   assert.ok(leadJudged >= 6, `a phrase reroll moved the tune in the range in only ${leadJudged} records`);
   assert.ok(drumJudged >= 6, `a cycle reroll moved the drums in the range in only ${drumJudged} records`);
+});
+
+test("a part can be said in or out of a section, the material follows, and the last part standing stays", () => {
+  let asked = 0;
+  for (const genre of GENRE_NAMES) {
+    for (let seed = 1; seed <= 12; seed++) {
+      const plain = compose({ seed, genre, seconds: 60 });
+      const p = plain.arrangement.placed[1];
+      if (p === undefined) continue;
+      const bars = { from: p.section.startBar, to: p.section.startBar + 1 };
+      const inSec = (song: ReturnType<typeof compose>, r: Role): number =>
+        song.performance.events.filter((e) => e.role === r && e.bar >= p.section.startBar && e.bar < p.section.endBar).length;
+      // OUT: a part heard there is heard no more there, and the others are still there
+      const gone = p.heard.size > 1 ? [...p.heard][0] : undefined;
+      if (gone !== undefined) {
+        const out = setPlays(plain, gone, false, bars);
+        assert.equal(out.length, 1, "one section, one pin");
+        assert.equal(out[0]!.at, `arrange/section/${p.section.index}/${gone}/out`);
+        const made = compose({ seed, genre, seconds: 60, edits: out });
+        const q = made.arrangement.placed.find((x) => x.section.index === p.section.index)!;
+        assert.ok(!q.heard.has(gone), `${genre} ${seed}: the ${gone} said out is still heard`);
+        assert.equal(inSec(made, gone), 0, `${genre} ${seed}: the ${gone} said out still plays`);
+        for (const r of p.heard) if (r !== gone) assert.ok(q.heard.has(r), `${genre} ${seed}: saying ${gone} out lost the ${r}`);
+        assert.match(describeEdit(made, out[0]!), new RegExp(`^${gone} out · ${p.section.fn} at bar ${p.section.startBar}$`));
+        asked++;
+      }
+      // IN: a part not heard there is written and plays there
+      const missing = ROLES.find((r) => !p.heard.has(r));
+      if (missing !== undefined) {
+        const inn = setPlays(plain, missing, true, bars);
+        const made = compose({ seed, genre, seconds: 60, edits: inn });
+        const q = made.arrangement.placed.find((x) => x.section.index === p.section.index)!;
+        assert.ok(q.heard.has(missing), `${genre} ${seed}: the ${missing} said in is not heard`);
+        assert.ok(inSec(made, missing) > 0, `${genre} ${seed}: the ${missing} said in is heard and silent`);
+        asked++;
+      }
+    }
+  }
+  assert.ok(asked >= 20, `only ${asked} rosters were said`);
+  // the last part standing stays, and saying so is refused as a knob that does nothing
+  const song = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  const p = song.arrangement.placed[0]!;
+  const bars = { from: p.section.startBar, to: p.section.startBar + 1 };
+  const everyone = [...p.heard].map((r) => setPlays(song, r, false, bars)).flat();
+  const emptied = compose({ seed: 3, genre: "lofi", seconds: 60, edits: everyone });
+  const q = emptied.arrangement.placed[0]!;
+  assert.equal(q.heard.size, 1, "a section was emptied");
+  assert.throws(() => setPlays(emptied, [...q.heard][0]!, false, bars), /last part standing/);
+  assert.throws(() => setPlays(song, "harp", true), /no part/);
+  // and the words
+  assert.deepEqual(setWord(song, `play.${[...p.heard][0]}=out:0-1`), setPlays(song, [...p.heard][0]!, false, bars));
+});
+
+test("a seat's job can be said, only from its own pools and only where the room has a place for it", () => {
+  const song = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  // the lofi keys may serve the pad or the rhythm; said the rhythm, arpeggiated, everywhere it is the protagonist or per material
+  const edits = setJob(song, "keys", "rhythm", "arp");
+  const made = compose({ seed: 3, genre: "lofi", seconds: 60, edits });
+  for (const p of made.arrangement.placed) {
+    assert.equal(p.elements.keys, "rhythm", `bar ${p.section.startBar}`);
+    assert.equal(p.textures.keys, "arp", `bar ${p.section.startBar}`);
+  }
+  assert.match(describeEdit(made, edits[0]!), /^keys serves the rhythm/);
+  // the drums and the tune have no job to say, a job outside the seat's pool is refused, and so is a texture the element forbids
+  assert.throws(() => setJob(song, "lead", "rhythm", null), /tune/);
+  assert.throws(() => setJob(song, "drums", "rhythm", null), /no pitched part/);
+  assert.throws(() => setJob(song, "drone", "rhythm", null), /never serves/);
+  assert.throws(() => setJob(song, "keys", null, "sustain"), /never plays/);
+  assert.throws(() => setJob(song, "keys", "pad", "arp"), /cannot be/);
+  assert.throws(() => setJob(song, "keys", null, null), /nothing to set/);
+  // the word form, with a range
+  const w = setWord(song, "job.keys=rhythm/arp:0-8");
+  assert.ok(w.length >= 2 && w.every((e) => isPin(e)));
+});
+
+test("the drums' figure, the protagonist and the way in can be said from the genre's own pools", () => {
+  const song = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  const fig = setFigure(song, "amen");
+  const made = compose({ seed: 3, genre: "lofi", seconds: 60, edits: fig });
+  for (const m of made.materials.all.values()) assert.ok(m.figure.cycle !== undefined && m.figure.cycle.length > 1, "the amen was not drawn");
+  assert.match(describeEdit(made, fig[0]!), /^drums play the amen figure/);
+  assert.throws(() => setFigure(song, "bossa"), /no figure/);
+  assert.throws(() => setFigure(compose({ seed: 3, genre: "dungeonsynth" }), "amen"), /no figure "amen"/);
+  // the protagonist: from the pool, honoured, and refused when it is already so
+  const ds = compose({ seed: 17479, genre: "dungeonsynth", seconds: 60 });
+  const star = setProtagonist(ds, "keys");
+  const led = compose({ seed: 17479, genre: "dungeonsynth", seconds: 60, edits: [star] });
+  assert.equal(led.arrangement.protagonist, "keys");
+  assert.throws(() => setProtagonist(led, "keys"), /already/);
+  assert.throws(() => setProtagonist(song, "drone"), /no protagonist/);
+  // the way in: only a kind that can carry the protagonist
+  assert.throws(() => setIntro(song, "hook"), /cannot introduce/);
+  assert.throws(() => setIntro(song, "cold"), /no intro/);
+  const withTune = compose({ seed: 3, genre: "lofi", seconds: 60, edits: [setProtagonist(song, "lead")] });
+  if (withTune.arrangement.intro !== "hook") {
+    const hook = setIntro(withTune, "hook");
+    assert.equal(compose({ seed: 3, genre: "lofi", seconds: 60, edits: [...withTune.chart.edits, hook] }).arrangement.intro, "hook");
+  }
+  assert.deepEqual(setWord(ds, "protagonist=keys"), [star]);
+});
+
+test("the jobs, the desk moves and the whole arrangement reroll by name, and a desk word is a hand on the desk", () => {
+  const song = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  assert.deepEqual(rerollAspect(song, "jobs"), [{ at: "element", salt: 1 }]);
+  assert.deepEqual(rerollAspect(song, "arrangement"), [{ at: "arrange", salt: 1 }]);
+  assert.deepEqual(rerollAspect(song, "desk"), [{ at: "arrange/treat", salt: 1 }]);
+  const ranged = rerollAspect(song, "desk", { from: 16, to: 17 });
+  assert.equal(ranged.length, 1);
+  assert.match(ranged[0]!.at, /^arrange\/treat\/\d+$/);
+  const jobs = rerollAspect(song, "jobs", { from: 0, to: 1 });
+  assert.match(jobs[0]!.at, /^element\/[^/]+$/);
+  // rerolling the desk moves changes no note
+  const moved = compose({ seed: 3, genre: "lofi", seconds: 60, edits: rerollAspect(song, "desk") });
+  assert.equal(moved.performance.events.length, song.performance.events.length);
+  assert.ok(moved.performance.events.every((e, i) => e.pitch === song.performance.events[i]!.pitch && e.tSec === song.performance.events[i]!.tSec));
+  // a desk word round-trips, later words win, and nonsense is refused
+  const desk = deskOf(["desk.mix.keys.level=0.5", "desk.machine.kit=analog", "desk.mix.keys.level=0.8"]);
+  assert.deepEqual(desk, { mix: { keys: { level: 0.8 } }, machine: { kit: "analog" } });
+  assert.deepEqual(deskWords(desk), ["desk.machine.kit=analog", "desk.mix.keys.level=0.8"]);
+  assert.throws(() => deskOf(["mix.keys.level"]), /not a desk word/);
 });

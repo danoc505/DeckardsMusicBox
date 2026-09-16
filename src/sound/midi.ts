@@ -198,3 +198,37 @@ export function midiCounts(song: Song): ReadonlyMap<Role, number> {
   }
   return out;
 }
+
+/** One message for a wire, with the millisecond it is due. */
+export interface LiveEvent {
+  readonly atMs: number;
+  /** The status byte, the key and the velocity, as `MIDIOutput.send` takes them. */
+  readonly msg: readonly [number, number, number];
+}
+
+/**
+ * THE RECORD FOR A WIRE, not a file: every note as the on and the off it
+ * makes, with the millisecond each is due from the top of the record, on the
+ * channels and keys the file uses (`TRACKS`, `GM_DRUM`), so what a synth on
+ * the other end hears is what the file says. From `fromSec`, so a range can be
+ * sent; a note that began before it is not sent, because half a note is not
+ * a note. The page hands these to `MIDIOutput.send(msg, when)`, one timestamp
+ * each, and the wire keeps time — nothing here runs a clock.
+ */
+export function live(song: Song, fromSec = 0, toSec = Infinity, only?: Role): LiveEvent[] {
+  const out: LiveEvent[] = [];
+  for (const e of song.performance.events) {
+    if (e.tSec < fromSec || e.tSec >= toSec) continue;
+    if (only !== undefined && e.role !== only) continue;
+    const key = keyOf(e);
+    if (key === null || key < 0 || key > 127) continue;
+    const ch = TRACKS[e.role].ch;
+    const at = (e.tSec - fromSec) * 1000;
+    out.push({ atMs: at, msg: [0x90 | ch, key, velOf(e.gain)] });
+    // a drum's off is a formality on the wire as in the file: a hit rings as long as the machine says
+    out.push({ atMs: at + Math.max(1, (e.role === "drums" ? 0.05 : e.durSec) * 1000), msg: [0x80 | ch, key, 0] });
+  }
+  // offs before ons at the same millisecond, so a repeated key re-triggers
+  out.sort((a, b) => a.atMs - b.atMs || (a.msg[0] & 0xf0) - (b.msg[0] & 0xf0));
+  return out;
+}

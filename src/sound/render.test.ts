@@ -305,3 +305,28 @@ test("two voices in one pool come out level, because the fader is the part's and
   }
   assert.ok(pools > 0, "no genre pools two voices on one part, so this law is asked of nothing");
 });
+
+test("the engine can be moved to a moment: it plays the notes from there, on the desk the record had put there", () => {
+  const song = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  const second = song.arrangement.placed[1]!;
+  const barSec = (60 / song.chart.tempo) * song.chart.metre.beats;
+  const at = second.section.startBar * barSec;
+  const e = new Engine(song, { sampleRate: SR });
+  e.seek(at);
+  assert.ok(Math.abs(e.atSec - at) < 1 / SR);
+  const n = SR * 2;
+  const L = new Float32Array(n), R = new Float32Array(n);
+  // driven as the page drives it: a block at a time, never more than the engine's own
+  for (let done = 0; done < n;) done += e.block(L.subarray(done), R.subarray(done), Math.min(e.blockSize, n - done));
+  assert.ok(peak(L) > 0.01, "nothing sounds after a seek");
+  for (const v of L) assert.ok(Number.isFinite(v));
+  // the same two seconds from a whole render are the same music: within a
+  // few dB, because what a seek lacks is tails and never notes
+  const whole = render(song, { sampleRate: SR });
+  const off = Math.round(at * SR);
+  const ratio = rms({ left: L, right: R }) / rms({ left: whole.left.subarray(off, off + n), right: whole.right.subarray(off, off + n) });
+  assert.ok(ratio > 0.5 && ratio < 2, `a seek plays at ${(20 * Math.log10(ratio)).toFixed(1)} dB against playing through`);
+  // and seeking back to the top is the top again
+  e.seek(0);
+  assert.equal(e.at, 0);
+});

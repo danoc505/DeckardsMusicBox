@@ -163,6 +163,13 @@
   .only input { accent-color: var(--amber); }
   .sets { display: grid; grid-template-columns: auto 1fr 1fr 64px; gap: 6px; align-items: center; }
   .sets.voices { grid-template-columns: auto 1fr 1fr; }
+  .sets.say { grid-template-columns: auto 1fr 1fr auto; }
+  .sets.say4 { grid-template-columns: auto 1fr 1fr 1fr auto; }
+  .sets button { padding: 5px 8px; font-size: 9px; }
+  .midi { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: center; margin-top: 6px; }
+  .midi select { width: 100%; font: 700 10px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 5px 4px; }
+  .midi label { font: 9px/1.3 var(--mono); color: var(--cream-dim); display: flex; gap: 6px; align-items: center; cursor: pointer; }
+  .cands .cand .hear { position: absolute; right: 4px; bottom: 4px; padding: 2px 5px; font-size: 8px; }
   .sets select, .sets input { width: 100%; font: 700 11px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 5px 4px; }
   .recipe { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: stretch; margin-top: 6px; }
   .recipe textarea { width: 100%; resize: vertical; font: 9px/1.4 var(--mono); color: var(--cream-dim); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 4px 6px; }
@@ -387,8 +394,10 @@
           <button type="button" id="play">Play</button>
           <button type="button" id="stop" disabled>Stop</button>
           <button type="button" class="wide" id="save">Save WAV · stereo</button>
+          <button type="button" class="wide" id="save-mid">Save MIDI</button>
         </div>
-        <div class="hint" id="hint" style="margin-top:10px">Play starts at once — the record is made as it goes. Move any knob while it plays and the record takes it.</div>
+        <div class="midi"><select id="midi-out" title="a MIDI output to send the record to"><option value="">no MIDI out</option></select><label><input type="checkbox" id="midi-send"> send on play</label></div>
+        <div class="hint" id="hint" style="margin-top:10px">Play starts at once — the record is made as it goes. Move any knob while it plays and the record takes it. With a MIDI output chosen and <b>send on play</b> on, every note goes out the wire on the same clock as the sound — the drums on channel 10, the parts on 1 to 5 — so a synth on the other end plays the record with this page; a looped range is sent once through.</div>
       </section>
       <section class="plate"><span class="screwB"></span><h2>Reroll <small>new notes for a part</small></h2>
         <div class="stack">
@@ -400,6 +409,8 @@
             <button type="button" id="rr-try">Try four</button>
             <button type="button" id="rr-back" disabled>Step back</button>
             <button type="button" id="rr-fwd" disabled>Step forward</button>
+            <button type="button" id="rr-loop" disabled title="play the dragged bars round and round">Loop bars</button>
+            <button type="button" id="rr-before" disabled title="play the record as it was before the last press, over the same bars">Hear before</button>
           </div>
           <div class="range"><span class="lbl dim">Also</span><div class="parts also" id="rr-also"></div></div>
           <div class="sets">
@@ -413,15 +424,42 @@
             <select id="rr-vpart" title="which part"></select>
             <select id="rr-voice" title="played on"></select>
           </div>
+          <div class="sets say">
+            <span class="lbl dim">Part</span>
+            <select id="rr-ppart" title="which part"></select>
+            <select id="rr-pin" title="in or out of the selected bars' sections"><option value="in">in</option><option value="out">out</option></select>
+            <button type="button" id="rr-pgo">Say</button>
+          </div>
+          <div class="sets say4">
+            <span class="lbl dim">Job</span>
+            <select id="rr-jpart" title="which seat"></select>
+            <select id="rr-jel" title="what it serves"></select>
+            <select id="rr-jtx" title="how it lays it out"></select>
+            <button type="button" id="rr-jgo">Say</button>
+          </div>
+          <div class="sets say">
+            <span class="lbl dim">Drums</span>
+            <select id="rr-fig" title="the figure, by name"></select>
+            <select id="rr-star" title="the protagonist: the part the record is written around"></select>
+            <button type="button" id="rr-fgo">Say</button>
+          </div>
+          <div class="sets voices">
+            <span class="lbl dim">Intro</span>
+            <select id="rr-intro" title="the way in"></select>
+            <span class="hint" style="margin:0">star and intro apply at once</span>
+          </div>
           <ol class="edits" id="rr-list"></ol>
           <div class="hint" id="rr-changed"></div>
           <div class="recipe"><textarea id="rr-recipe" rows="2" spellcheck="false" title="the record as a recipe: genre, seed, length, every edit"></textarea><button type="button" id="rr-load">Load</button></div>
-          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. <b>Set</b> says the key, the mode or the tempo; <b>Voice</b> says which instrument a part is played on, from the genre's own pool for that part. Step back pops the last press.</div>
+          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. <b>Set</b> says the key, the mode or the tempo; <b>Voice</b> says which instrument a part is played on, from the genre's own pool for that part. <b>Part</b> says a part in or out of the sections the dragged bars fall in (the whole record with no bars); <b>Job</b> says what a seat serves and how, for the materials those bars play, from the seat's own pools and only where the room has a place for it; <b>Drums</b> says the figure by name and the protagonist; <b>Intro</b> the way in. What the record cannot honour is refused and says why. Every knob on the console is in the recipe too, as <code>desk.</code> words. Step back pops the last press. <b>Loop bars</b> plays the dragged bars round and round; <b>Hear before</b> plays the record as it was before the last press over the same bars; <b>hear</b> on a candidate plays it over the selection.</div>
         </div>
       </section>
     </div>
 
-    <section class="plate" style="display:grid;grid-template-rows:auto 1fr auto"><span class="screwB"></span>
+    <!-- the roll stays at the top of its plate: the plate is stretched to the
+         column beside it, and a canvas of fixed aspect cannot fill that, so
+         the spare height goes below the candidates rather than above the roll -->
+    <section class="plate" style="display:grid;grid-template-rows:auto auto auto auto 1fr"><span class="screwB"></span>
       <h2>Piano roll <small id="roll-sub"></small></h2>
       <div class="crt" id="roll-crt"><canvas id="roll" height="420"></canvas><div class="readout" id="roll-read"></div></div>
       <div class="chips" id="chips"></div>
@@ -572,7 +610,7 @@
   function busy(on) { lamp("l-busy", on); lamp("l-ready", !on && !playing); }
   function copy(o) { return JSON.parse(JSON.stringify(o)); }
   /** A knob moved. If the record is playing, the desk goes to it now. */
-  function desked() { if (playing && worker) worker.postMessage({ cmd: "desk", tok: token, desk: copy(over) }); }
+  function desked() { if (playing && worker) worker.postMessage({ cmd: "desk", tok: token, desk: copy(over) }); if (song) $("rr-recipe").value = recipe(); }
   function clock(sec) { var m = Math.floor(sec / 60), s = sec % 60; return m + ":" + (s < 10 ? "0" : "") + s.toFixed(1); }
   function get(path, base) { var o = base; for (var i = 0; i < path.length; i++) { if (o == null) return undefined; o = o[path[i]]; } return o; }
   function set(path, v) { var o = over; for (var i = 0; i < path.length - 1; i++) o = (o[path[i]] = o[path[i]] || {}); o[path[path.length - 1]] = v; }
@@ -928,7 +966,9 @@
   roll.addEventListener("pointerup", function () { if (rrDrag && !rrDrag.moved) { rrSel = null; drawRoll(null); drawReroll(); } rrDrag = null; });
   function selection() { var s = { roles: ROLES.filter(function (r) { return rrRoles[r]; }) }; if (rrSel) { s.from = rrSel.from; s.to = rrSel.to; if ($("rr-only").checked) s.only = true; } return s; }
   /** One press: whatever edits it made, kept together so Step back undoes the press. */
-  function press(made) { if (made.length) { rrPrev = song.performance.events; rrUndone = []; rrActions.push(made); compose(); } }
+  var rrPrevReq = null;   // the record before the last press, as a request, so it can be heard again
+  function press(made) { if (made.length) { rrPrev = song.performance.events; rrPrevReq = request(); rrUndone = []; rrActions.push(made); compose(); } }
+  function complain(e) { $("rr-changed").textContent = String(e && e.message || e); }
   var rrBuilt = false;
   function drawReroll() {
     var parts = $("rr-parts"), also = $("rr-also"), keySel = $("rr-key"), modeSel = $("rr-mode"), tempoEl = $("rr-tempo"), vpart = $("rr-vpart"), vsel = $("rr-voice"), c = song.chart;
@@ -960,7 +1000,41 @@
       ROLES.forEach(function (r) { if (r !== "drums") { var o = document.createElement("option"); o.value = r; o.textContent = r; vpart.appendChild(o); } });
       vpart.addEventListener("change", function () { vsel.dataset.pool = ""; drawReroll(); });
       vsel.addEventListener("change", function () { if (vsel.value !== song.chart.sound.voices[vpart.value]) press([M.setVoice(song, vpart.value, vsel.value)]); });
+      // SAID, NOT ARRANGED: a part in or out, a seat's job, the figure, the
+      // protagonist, the way in. Each is a pin the arrangement's own draw
+      // honours where it can, and refuses out loud where it cannot.
+      var fill = function (sel, names) { sel.innerHTML = ""; names.forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o); }); };
+      fill($("rr-ppart"), ROLES);
+      fill($("rr-jpart"), ROLES.filter(function (r) { return r !== "drums" && r !== "lead"; }));
+      var bars = function () { return rrSel ? { from: rrSel.from, to: rrSel.to } : undefined; };
+      var say = function (make) { try { press(make()); } catch (e) { complain(e); } };
+      $("rr-pgo").addEventListener("click", function () { say(function () { return M.setPlays(song, $("rr-ppart").value, $("rr-pin").value === "in", bars()); }); });
+      $("rr-jpart").addEventListener("change", function () { $("rr-jel").dataset.seat = ""; drawReroll(); });
+      $("rr-jgo").addEventListener("click", function () { say(function () { return M.setJob(song, $("rr-jpart").value, $("rr-jel").value || null, $("rr-jtx").value || null, bars()); }); });
+      $("rr-fgo").addEventListener("click", function () { say(function () { return M.setFigure(song, $("rr-fig").value, bars()); }); });
+      $("rr-star").addEventListener("change", function () { if ($("rr-star").value !== song.arrangement.protagonist) say(function () { return [M.setProtagonist(song, $("rr-star").value)]; }); });
+      $("rr-intro").addEventListener("change", function () { if ($("rr-intro").value !== song.arrangement.intro) say(function () { return [M.setIntro(song, $("rr-intro").value)]; }); });
+      $("rr-loop").addEventListener("click", function () { if (rrSel) play({ from: secOf(rrSel.from), to: secOf(rrSel.to), loop: true }); });
+      $("rr-before").addEventListener("click", function () { if (rrPrevReq) play({ req: rrPrevReq, from: rrSel ? secOf(rrSel.from) : 0, to: rrSel ? secOf(rrSel.to) : undefined, loop: !!rrSel }); });
     }
+    // the say rows read the genre's pools and the record's own answers
+    var G = c.genre, weighted = function (t, drop) { return t.filter(function (e) { return e[1] > 0 && e[0] !== drop; }).map(function (e) { return e[0]; }); };
+    var jpart = $("rr-jpart"), jel = $("rr-jel"), jtx = $("rr-jtx");
+    if (jel.dataset.seat !== G.name + ":" + jpart.value) {
+      jel.innerHTML = '<option value="">— element —</option>'; jtx.innerHTML = '<option value="">— texture —</option>';
+      weighted(G[jpart.value].element, "lead").forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n; jel.appendChild(o); });
+      weighted(G[jpart.value].texture).forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n; jtx.appendChild(o); });
+      jel.dataset.seat = G.name + ":" + jpart.value;
+    }
+    if ($("rr-fig").dataset.genre !== G.name) {
+      var fig = $("rr-fig"), star = $("rr-star"), intro = $("rr-intro");
+      fig.innerHTML = ""; weighted(G.drums.figure).forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n + " figure"; fig.appendChild(o); });
+      star.innerHTML = ""; weighted(G.arrangement.protagonist).forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n + " leads"; star.appendChild(o); });
+      intro.innerHTML = ""; weighted(G.arrangement.intro).forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n + " intro"; intro.appendChild(o); });
+      fig.dataset.genre = G.name;
+    }
+    $("rr-star").value = song.arrangement.protagonist; $("rr-intro").value = song.arrangement.intro;
+    $("rr-loop").disabled = !rrSel; $("rr-before").disabled = !rrPrevReq;
     ROLES.forEach(function (r, i) { parts.children[i].dataset.on = rrRoles[r] ? "1" : "0"; });
     // the mode list is the genre's, so it is rebuilt when the genre is
     var modes = c.genre.scales.filter(function (s) { return s[1] > 0; }).map(function (s) { return s[0]; });
@@ -1002,6 +1076,10 @@
       var c = document.createElement("canvas"); d.appendChild(c);
       var lbl = document.createElement("span"); lbl.className = "k"; lbl.textContent = String(rrTried + k + 1); d.appendChild(lbl);
       d.addEventListener("click", function () { strip.hidden = true; strip.innerHTML = ""; press(edits); });
+      // and heard before it is chosen: the candidate over the selection, looped
+      var h = document.createElement("button"); h.type = "button"; h.className = "hear"; h.textContent = "hear";
+      h.addEventListener("click", function (ev) { ev.stopPropagation(); play(sel.from !== undefined ? { req: r, from: secOf(sel.from), to: secOf(sel.to), loop: true } : { req: r }); });
+      d.appendChild(h);
       strip.appendChild(d);
       drawMini(c, cand, sel);
     });
@@ -1042,26 +1120,29 @@
   function recipe() {
     var c = song.chart, words = [c.genre.name, String(c.seed)];
     if (c.askedSec !== null) words.push("seconds=" + c.askedSec);
-    return words.concat(c.edits.map(M.formatEdit)).join(" ");
+    return words.concat(c.edits.map(M.formatEdit)).concat(M.deskWords(over)).join(" ");
   }
   function loadRecipe(text) {
     var words = text.trim().split(/\s+/).filter(function (w) { return w.length; });
     if (words.length < 2 || M.GENRE_NAMES.indexOf(words[0]) < 0 || !/^\d+$/.test(words[1])) { $("rr-recipe").value = "a recipe starts with a genre and a seed: " + M.GENRE_NAMES.join(" | ") + " <seed> [seconds=n] [edits...]"; return; }
-    var made = [], seconds = "";
+    var made = [], seconds = "", desk = [];
     for (var i = 2; i < words.length; i++) {
       var m = /^seconds=(\d+)$/.exec(words[i]);
       if (m) { seconds = m[1]; continue; }
+      if (/^desk\./.test(words[i])) { desk.push(words[i]); continue; }
       try { made.push(M.parseEdit(words[i])); } catch (e) { $("rr-recipe").value = String(e.message || e); return; }
     }
     var radio = document.querySelector('input[name="genre"][value="' + words[0] + '"]');
-    if (radio && !radio.checked) { radio.checked = true; genreVal = words[0]; over = {}; picked = {}; fxPicked = {}; }
+    if (radio && !radio.checked) { radio.checked = true; genreVal = words[0]; picked = {}; fxPicked = {}; }
+    // the desk in the recipe is the hand on the console, exactly as it was
+    try { over = M.deskOf(desk); } catch (e) { $("rr-recipe").value = String(e.message || e); return; }
     seedEl.value = words[1]; secEl.value = seconds;
     fresh(); if (made.length) rrActions.push(made); compose();
   }
-  function stepBack() { if (rrActions.length) { rrPrev = song.performance.events; rrUndone.push(rrActions.pop()); compose(); } }
-  function stepForward() { if (rrUndone.length) { rrPrev = song.performance.events; rrActions.push(rrUndone.pop()); compose(); } }
+  function stepBack() { if (rrActions.length) { rrPrev = song.performance.events; rrPrevReq = request(); rrUndone.push(rrActions.pop()); compose(); } }
+  function stepForward() { if (rrUndone.length) { rrPrev = song.performance.events; rrPrevReq = request(); rrActions.push(rrUndone.pop()); compose(); } }
   /** A different seed or genre is a different record, and its rerolls are not this one's. */
-  function fresh() { rrActions = []; rrUndone = []; rrPrev = null; rrSel = null; $("rr-cands").hidden = true; $("rr-cands").innerHTML = ""; }
+  function fresh() { rrActions = []; rrUndone = []; rrPrev = null; rrPrevReq = null; rrSel = null; $("rr-cands").hidden = true; $("rr-cands").innerHTML = ""; }
 
   // ── the world scope ──
   var scope = $("scope"), sctx = scope.getContext("2d"), sweepA = 0, dragging = null;
@@ -2582,17 +2663,20 @@
   // where we started. Staying close behind is also what makes a knob quick —
   // there is only ever half a second of committed record in front of it.
   var WORKER_SRC = [
-    "var E = null, base = null, credits = 0, tok = 0;",
+    "var E = null, base = null, credits = 0, tok = 0, stopAt = 0, loopFrom = -1;",
+    // a stretch of the record, and round again from its top when asked: the
+    // engine is moved back with `seek`, which is the record from there, cold
     "function pump() {",
-    "  while (E && credits > 0 && E.at < E.length) {",
-    "    var n = Math.min(E.blockSize, E.length - E.at);",
+    "  while (E && credits > 0) {",
+    "    if (E.at >= stopAt) { if (loopFrom >= 0) E.seek(loopFrom); else break; }",
+    "    var n = Math.min(E.blockSize, stopAt - E.at); if (n <= 0) break;",
     "    var L = new Float32Array(n), R = new Float32Array(n);",
     "    E.block(L, R, n); credits--;",
     // the desk THIS chunk was rendered through, back with the chunk itself, so
     // the console is never showing a desk the samples were not made on
     "    postMessage({ tok: tok, left: L, right: R, desk: E.desk }, [L.buffer, R.buffer]);",
     "  }",
-    "  if (E && E.at >= E.length) { postMessage({ tok: tok, end: true }); E = null; }",
+    "  if (E && loopFrom < 0 && E.at >= stopAt) { postMessage({ tok: tok, end: true }); E = null; }",
     "}",
     "onmessage = function (e) {",
     "  var d = e.data;",
@@ -2601,6 +2685,9 @@
     "    var s = MKIII.compose(d.req);",
     "    base = s.chart.sound;",
     "    E = new MKIII.Engine(s, { sampleRate: d.sampleRate, desk: d.desk, blockSize: Math.round(d.chunkSec * d.sampleRate) });",
+    "    stopAt = d.to > 0 ? Math.min(E.length, Math.round(d.to * d.sampleRate)) : E.length;",
+    "    loopFrom = d.loop ? (d.from || 0) : -1;",
+    "    if (d.from > 0) E.seek(d.from);",
     "    credits = d.credits; pump();",
     "  } else if (d.cmd === 'more') { if (d.tok === tok) { credits += d.n; pump(); } }",
     "  else if (d.cmd === 'desk') { if (d.tok === tok && E) E.setDesk(base, d.desk); }",
@@ -2672,9 +2759,15 @@
   }
 
   // ── play, chunk by chunk ──
-  function play() {
+  /** Bar to second: one tempo for the record, so a bar is a fixed length. */
+  function secOf(bar) { return bar * (60 / song.chart.tempo) * song.chart.metre.beats; }
+  var playFrom = 0, playLen = 0, playReq = null;
+  /** `opts`: `req` (another record, for a candidate or the record before), `from`/`to` in seconds, `loop`. */
+  function play(opts) {
     if (!song) return;
+    opts = opts || {};
     stop();
+    playFrom = opts.from || 0; playLen = opts.loop && opts.to > playFrom ? opts.to - playFrom : 0; playReq = opts.req || null;
     ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === "suspended") ctx.resume();
     // the drive listens on the way out: an analyser between the chunks and the
@@ -2684,8 +2777,9 @@
     token++; playing = true; started = false; ending = false; queued = []; nextAt = 0; deskLine = [];
     busy(true); lamp("l-play", 1);
     $("stop").disabled = false; $("play").disabled = true; $("play").classList.add("lit");
-    worker.postMessage({ cmd: "start", tok: token, req: request(), desk: copy(over),
-                         sampleRate: ctx.sampleRate, chunkSec: CHUNK_SEC, credits: AHEAD });
+    worker.postMessage({ cmd: "start", tok: token, req: playReq || request(), desk: copy(over),
+                         sampleRate: ctx.sampleRate, chunkSec: CHUNK_SEC, credits: AHEAD,
+                         from: playFrom, to: opts.to || 0, loop: !!opts.loop });
     tick();
   }
 
@@ -2703,7 +2797,7 @@
     // clock up again from here rather than trying to play the past
     if (nextAt < ctx.currentTime + 0.02) {
       nextAt = ctx.currentTime + 0.12;
-      if (!started) { startedAt = nextAt; started = true; }
+      if (!started) { startedAt = nextAt; started = true; midiGo(); }
     }
     s.start(nextAt);
     // THE DESK THIS CHUNK IS PLAYED ON, put on the same clock as the sound.
@@ -2725,7 +2819,8 @@
 
   function tick() {
     if (!playing) return;
-    var sec = started ? Math.max(0, ctx.currentTime - startedAt) : 0;
+    var gone = started ? Math.max(0, ctx.currentTime - startedAt) : 0;
+    var sec = playFrom + (playLen > 0 ? gone % playLen : gone);
     $("chrono").textContent = clock(sec);
     if (started) driveSec = sec;
     // the desk of the chunk that is sounding NOW — drop the ones already past,
@@ -2742,7 +2837,7 @@
 
   function stop() {
     if (worker && playing) worker.postMessage({ cmd: "stop", tok: ++token });
-    playing = false; started = false; ending = false;
+    playing = false; started = false; ending = false; midiHush();
     for (var i = 0; i < queued.length; i++) { try { queued[i].onended = null; queued[i].stop(); } catch (err) {} }
     queued = []; nextAt = 0; deskLine = [];
     $("stop").disabled = true; $("play").disabled = false; $("play").classList.remove("lit");
@@ -2759,6 +2854,44 @@
     var f = function (x) { return (db(x) + 36) / 36; };
     meterSvg($("d-left"), f(l.rms), "L " + db(l.rms).toFixed(1)); meterSvg($("d-right"), f(r.rms), "R " + db(r.rms).toFixed(1));
     var vl = $("vu-l"), vr = $("vu-r"); if (vl) { meterSvg(vl, f(l.pk), "L PK " + db(l.pk).toFixed(1)); meterSvg(vr, f(r.pk), "R PK " + db(r.pk).toFixed(1)); }
+  }
+
+  // ── MIDI out: the record on a wire, on the same clock as the sound ──
+  // `M.live` is the note list with a millisecond for each on and off; the wire
+  // keeps time from one timestamp per message, so nothing here runs a clock.
+  var midiAccess = null, midiSent = false;
+  function midiPort() { var id = $("midi-out").value; return midiAccess && id ? midiAccess.outputs.get(id) : null; }
+  function midiList() {
+    var sel = $("midi-out"), was = sel.value; sel.innerHTML = '<option value="">no MIDI out</option>';
+    if (!midiAccess) return;
+    midiAccess.outputs.forEach(function (o) { var opt = document.createElement("option"); opt.value = o.id; opt.textContent = o.name || o.id; sel.appendChild(opt); });
+    sel.value = was; if (sel.value !== was) sel.value = "";
+  }
+  if (navigator.requestMIDIAccess) {
+    navigator.requestMIDIAccess().then(function (a) { midiAccess = a; midiList(); a.onstatechange = midiList; }, function () { midiAccess = null; });
+  } else { $("midi-out").disabled = true; $("midi-send").disabled = true; }
+  /** The first chunk is on the clock: send the stretch, once through, timed from its start. */
+  function midiGo() {
+    var out = midiPort();
+    if (!out || !$("midi-send").checked || midiSent) return;
+    var s = playReq ? M.compose(playReq) : song;
+    var base = performance.now() + (startedAt - ctx.currentTime) * 1000;
+    var to = playLen > 0 ? playFrom + playLen : Infinity;
+    M.live(s, playFrom, to).forEach(function (e) { try { out.send(e.msg, base + e.atMs); } catch (err) {} });
+    midiSent = true;
+  }
+  /** Everything off, on every channel the file uses, and the queue cleared. */
+  function midiHush() {
+    midiSent = false;
+    var out = midiPort(); if (!out) return;
+    try { if (out.clear) out.clear(); } catch (err) {}
+    for (var ch = 0; ch < 10; ch++) { try { out.send([0xb0 | ch, 123, 0]); } catch (err) {} }
+  }
+  function saveMidi() {
+    if (!song) return;
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([M.midi(song)], { type: "audio/midi" }));
+    a.download = genreVal + "-" + seedEl.value + ".mid"; a.click();
   }
 
   // ── save: its own worker, so a render for the file cannot starve the record ──
@@ -2779,7 +2912,8 @@
   function step(by) { seedEl.value = String(Math.max(0, (Number(seedEl.value) || 0) + by)); fresh(); compose(); }
 
   $("compose").addEventListener("click", compose);
-  $("play").addEventListener("click", play);
+  $("play").addEventListener("click", function () { play(); });
+  $("save-mid").addEventListener("click", saveMidi);
   $("stop").addEventListener("click", stop);
   $("save").addEventListener("click", save);
   $("rr-go").addEventListener("click", rerollNow);

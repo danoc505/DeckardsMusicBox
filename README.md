@@ -196,7 +196,12 @@ lead, counter and drone — and eight synthesised voices. A genre names a pool
 of voices per part, weighted, and a record draws one from each pool in its
 chart, so `chart.sound` is the desk that record is played on and
 `genre.sound` is what it was drawn from (lofi's counter is a Wurlitzer three
-records in four and horns in the fourth). A
+records in four and horns in the fourth). A record can be altered rather than
+taken whole: any part of any material rerolled with four answers to choose
+among, and the chords, key, mode, tempo, form, voices, a part in or out of a
+section, a seat's job, the drums' figure, the protagonist and the way in
+either rerolled or said — every one a salt or a pin on a draw the program
+already makes (`src/edit.ts`), never a second mechanism. A
 part is a seat, and
 what it plays is drawn per material from the five arrangement elements; the
 ceiling is on how many distinct elements sound at once, not on parts, so how

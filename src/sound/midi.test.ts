@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { compose } from "../song.ts";
 import { ROLES, type Role } from "../genre/spec.ts";
-import { midi, midiCounts } from "./midi.ts";
+import { live, midi, midiCounts } from "./midi.ts";
 
 /**
  * A Standard MIDI File read back with nothing of this program's in it: the
@@ -207,4 +207,30 @@ test("a note is never written with a length of nothing", () => {
       assert.ok(n.vel >= 1 && n.vel <= 127, `${t.name}: velocity ${n.vel}`);
     }
   }
+});
+
+test("the record for a wire: every note an on and an off, on the file's channels, from a chosen second", () => {
+  const song = compose({ seed: 3, genre: "lofi", seconds: 45 });
+  const all = live(song);
+  const ons = all.filter((e) => (e.msg[0] & 0xf0) === 0x90);
+  const offs = all.filter((e) => (e.msg[0] & 0xf0) === 0x80);
+  assert.equal(ons.length, offs.length, "an on without an off, or the reverse");
+  assert.ok(ons.length > 100);
+  for (let i = 1; i < all.length; i++) assert.ok(all[i]!.atMs >= all[i - 1]!.atMs, "out of order");
+  for (const e of all) {
+    assert.ok(e.msg[1] >= 0 && e.msg[1] <= 127 && e.msg[2] >= 0 && e.msg[2] <= 127, "a byte out of range");
+    assert.ok((e.msg[0] & 0x0f) <= 9, "a channel the file does not use");
+  }
+  // the drums are on channel ten and the kick is General MIDI's bass drum
+  const kick = song.performance.events.find((e) => e.role === "drums" && e.lane === "kick")!;
+  assert.ok(ons.some((e) => (e.msg[0] & 0x0f) === 9 && e.msg[1] === 36 && Math.abs(e.atMs - kick.tSec * 1000) < 0.5));
+  // from a second: what starts before it is not sent, and the clock restarts there
+  const from = live(song, 10, 20);
+  assert.ok(from.length > 0 && from.length < all.length);
+  assert.ok(from.every((e) => e.atMs >= 0));
+  const firstOn = from.find((e) => (e.msg[0] & 0xf0) === 0x90)!;
+  const src = song.performance.events.filter((e) => e.tSec >= 10 && e.tSec < 20).sort((a, b) => a.tSec - b.tSec)[0]!;
+  assert.ok(Math.abs(firstOn.atMs - (src.tSec - 10) * 1000) < 0.5);
+  // one part alone
+  assert.ok(live(song, 0, Infinity, "bass").every((e) => (e.msg[0] & 0x0f) === 0));
 });

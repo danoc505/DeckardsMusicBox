@@ -7,15 +7,18 @@ export { compose, type Request, type Song } from "./song.ts";
 export { isPin, type Edit } from "./core/rng.ts";
 export {
   ASPECTS, reroll, candidates, rerollAspect, rerollWord, setTempo, setKey, setMode, setVoice, setWord, split,
+  setPlays, setJob, setFigure, setProtagonist, setIntro, parseDeskWord, deskOf, deskWords,
   describeEdit, formatEdit, parseEdit, type Aspect, type Selection,
 } from "./edit.ts";
 export { dump, summary, motionOf, distinctBars, PROGRAM, type Motion } from "./dump.ts";
 export { Engine, render, rms, peak, settle, type Stereo } from "./sound/render.ts";
 export {
-  RACK_ORDER, PEDAL_ORDER, PEDALS_ADD, FX_ORDER, FX_WHERE, SENDS, ROLES, DRUM_LANES, KIT_NAMES, CIRCUITS,
+  RACK_ORDER, PEDAL_ORDER, PEDALS_ADD, FX_ORDER, FX_WHERE, SENDS, ROLES, PITCHED_ROLES, DRUM_LANES, KIT_NAMES, CIRCUITS,
+  ELEMENTS, TEXTURES, LEGAL_TEXTURES, INTRO_KINDS,
   type RackSpec, type RackRules, type SoundSpec,
 } from "./genre/spec.ts";
 export { wav } from "./sound/wav.ts";
+export { midi, live, type LiveEvent } from "./sound/midi.ts";
 export { GENRES, GENRE_NAMES, genre, type GenreName } from "./genre/index.ts";
 export { NOTE_NAMES, noteName, pc } from "./core/theory.ts";
 export * as dsp from "./sound/dsp.ts";

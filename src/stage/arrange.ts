@@ -1397,6 +1397,22 @@ const kindOf = (mv: Move): string =>
       // something an ear can miss.
       if (section.fn === "outro" && heard.size > floor && (sectionsHeard.get(lastIn) ?? 0) >= 2) heard.delete(lastIn);
     }
+    /**
+     * SAID, NOT ARRANGED. Everything above decides who plays here from what
+     * the record has done, and none of it is a draw, so there was nothing an
+     * owner could point at and say "the counter, here" or "no drums in this
+     * verse". These two chances are drawn at zero — a record nobody touched
+     * never fires them — and exist to be PINNED (`edit.ts`, `setPlays`), the
+     * same way a section is split off. They land after the roster is final
+     * so that what the record decided stands everywhere the owner said
+     * nothing, and a part said out never empties the section: the last one
+     * standing stays, because a bar of nothing is not an arrangement.
+     */
+    for (const r of ROLES) {
+      const said = chart.rng.at("arrange", "section", section.index, r);
+      if (said.chance("in", 0)) heard.add(r);
+      if (said.chance("out", 0) && heard.size > 1) heard.delete(r);
+    }
     if (section.index === 0) openers = new Set(heard);
     // what the section before this one carried, for the shrink law above and
     // for the walk-in below, which needs to know who is NEW here

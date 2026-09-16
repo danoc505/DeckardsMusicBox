@@ -55,8 +55,8 @@
 
 import { isPin, type Edit } from "./core/rng.ts";
 import { NOTE_NAMES, pc, type ScaleName } from "./core/theory.ts";
-import type { PitchedRole, Role, VoiceName } from "./genre/spec.ts";
-import { PITCHED_ROLES, ROLES } from "./genre/spec.ts";
+import type { Element, PitchedRole, Role, SoundSpec, Texture, VoiceName } from "./genre/spec.ts";
+import { ELEMENTS, INTRO_KINDS, LEGAL_TEXTURES, PITCHED_ROLES, ROLES, TEXTURES } from "./genre/spec.ts";
 import { compose, type Song } from "./song.ts";
 import { materialAddress, type Placed } from "./stage/arrange.ts";
 
@@ -71,8 +71,14 @@ export interface Selection {
   readonly only?: boolean;
 }
 
-/** The record-wide things that can be rerolled by name. */
-export const ASPECTS = ["chords", "key", "mode", "tempo", "form", "voices"] as const;
+/**
+ * The record-wide things that can be rerolled by name. The last three are the
+ * arrangement's own draws: `jobs` is what each seat does in each material
+ * (`element/<key>`), `desk` is which colour each treated span takes
+ * (`arrange/treat`), and `arrangement` is everything the arrangement draws —
+ * the protagonist, the way in, the manners and the desk together.
+ */
+export const ASPECTS = ["chords", "key", "mode", "tempo", "form", "voices", "jobs", "desk", "arrangement"] as const;
 export type Aspect = (typeof ASPECTS)[number];
 
 /** A phrase of the tune is two bars: `lead.ts` PHRASE_BARS, read here so a bar can be turned into a phrase. */
@@ -194,6 +200,17 @@ export function rerollAspect(song: Song, what: Aspect, range?: { readonly from: 
     }
   } else if (what === "form") ats.push("form");
   else if (what === "voices") ats.push("chart/voice");
+  else if (what === "jobs") {
+    // the seats' jobs are drawn per material, and the protagonist's once
+    if (range === undefined) ats.push("element");
+    else for (const p of sectionsIn(song, range.from, range.to)) {
+      const at = `element/${p.material}`;
+      if (!ats.includes(at)) ats.push(at);
+    }
+  } else if (what === "desk") {
+    if (range === undefined) ats.push("arrange/treat");
+    else for (const p of sectionsIn(song, range.from, range.to)) ats.push(`arrange/treat/${p.section.index}`);
+  } else if (what === "arrangement") ats.push("arrange");
   else ats.push(`chart/${what === "mode" ? "scale" : what}`);
   return ats.map((at) => ({ at, salt: song.chart.edits.filter((e) => !isPin(e) && e.at === at).length + 1 }));
 }
@@ -235,6 +252,166 @@ export function split(song: Song, sectionIndex: number): Edit {
   return { at: `form/section/${sectionIndex}/split`, value: true };
 }
 
+/** The sections a range covers, or every section for no range. */
+const sectionsOf = (song: Song, range?: { readonly from: number; readonly to: number }): Placed[] =>
+  range === undefined ? [...song.arrangement.placed] : sectionsIn(song, range.from, range.to);
+
+/**
+ * A PART SAID IN OR OUT of the sections a range covers. The arrangement
+ * decides who plays from what the record has done and draws nothing for it,
+ * so this pins the two chances `arrange.ts` holds at zero for exactly this:
+ * `in` adds the part to the section's roster after the roster is final, `out`
+ * takes it off unless it is the last one standing. The material the section
+ * plays is built for whoever is heard, so a part said in is written, not just
+ * unmuted — and everything written from it follows, as always.
+ */
+export function setPlays(song: Song, role: string, on: boolean, range?: { readonly from: number; readonly to: number }): Edit[] {
+  if (!(ROLES as readonly string[]).includes(role)) throw new Error(`no part "${role}" (parts: ${ROLES.join(", ")})`);
+  const placed = sectionsOf(song, range);
+  if (placed.length === 0) throw new Error("no section in that range");
+  const out: Edit[] = placed.map((p) => ({ at: `arrange/section/${p.section.index}/${role}/${on ? "in" : "out"}`, value: true }));
+  // and it has to have happened somewhere, or it is a knob that does nothing:
+  // a part said out of a section it is the last one standing in stays
+  const made = again(song, out);
+  const took = placed.some((p) => {
+    const q = made.arrangement.placed.find((x) => x.section.index === p.section.index);
+    return q !== undefined && p.heard.has(role as Role) !== on && q.heard.has(role as Role) === on;
+  });
+  if (!took) throw new Error(on ? `the ${role} is already in there` : `the ${role} is the last part standing there, and a section of nothing is not an arrangement`);
+  return out;
+}
+
+/**
+ * A PART'S JOB, SAID: the element it serves and the texture it lays it out in,
+ * for the materials a range plays. The draw is the arrangement's own, at
+ * `element/<key>/<part>:element` and `:texture` — or `element/character` for
+ * the protagonist, whose job is drawn once for the whole record — and a pin
+ * is honoured only where the draw site could have drawn it: an element the
+ * room has no place for, or a texture the element forbids (`LEGAL_TEXTURES`),
+ * stands as drawn. This checks the record it made and refuses a pin that
+ * changed nothing, because a knob that does nothing is this program's
+ * cardinal sin.
+ */
+export function setJob(
+  song: Song, role: string, element: string | null, texture: string | null,
+  range?: { readonly from: number; readonly to: number },
+): Edit[] {
+  if (!(PITCHED_ROLES as readonly string[]).includes(role)) throw new Error(`no pitched part "${role}" (parts: ${PITCHED_ROLES.join(", ")})`);
+  if (role === "lead") throw new Error("the lead's job is the tune, and it is not a draw");
+  if (element !== null && !(ELEMENTS as readonly string[]).includes(element)) throw new Error(`no element "${element}" (elements: ${ELEMENTS.join(", ")})`);
+  if (texture !== null && !(TEXTURES as readonly string[]).includes(texture)) throw new Error(`no texture "${texture}" (textures: ${TEXTURES.join(", ")})`);
+  if (element === null && texture === null) throw new Error("nothing to set: name an element, a texture, or both");
+  // the seat's own pools: a pin chooses among what the genre offers the seat
+  const seat = song.chart.genre[role as PitchedRole];
+  const elements = seat.element.filter(([e, w]) => w > 0 && e !== "lead").map(([e]) => e);
+  const textures = seat.texture.filter(([, w]) => w > 0).map(([t]) => t);
+  if (element !== null && !(elements as readonly string[]).includes(element)) {
+    throw new Error(`the ${song.chart.genre.name} ${role} never serves the ${element} (it serves: ${elements.join(", ")})`);
+  }
+  if (texture !== null && !(textures as readonly string[]).includes(texture)) {
+    throw new Error(`the ${song.chart.genre.name} ${role} never plays ${texture} (it plays: ${textures.join(", ")})`);
+  }
+  if (element !== null && texture !== null && !LEGAL_TEXTURES[element as Element].includes(texture as Texture)) {
+    throw new Error(`a ${element} cannot be ${texture} (it can be: ${LEGAL_TEXTURES[element as Element].join(", ")})`);
+  }
+  const star = song.arrangement.protagonist === role;
+  const keys = star ? ["character"] : [...new Set(sectionsOf(song, range).map((p) => p.material))];
+  const out: Edit[] = [];
+  for (const key of keys) {
+    if (element !== null) out.push({ at: `element/${key}/${role}:element`, value: element });
+    if (texture !== null) out.push({ at: `element/${key}/${role}:texture`, value: texture });
+  }
+  // and the pin has to have landed, or it is a knob that does nothing
+  const made = again(song, out);
+  const heard = sectionsOf(made, range);
+  const took = heard.some((p) =>
+    (element === null || p.elements[role as Role] === element) && (texture === null || p.textures[role as Role] === texture));
+  if (!took) {
+    const now = heard[0];
+    const was = now === undefined ? "" : ` (it is the ${now.elements[role as Role]}, ${now.textures[role as Role]})`;
+    throw new Error(`the ${role} cannot be ${[element, texture].filter((x) => x !== null).join(" ")} there: the room has no place for it${was}`);
+  }
+  return out;
+}
+
+/** The drums' figure by name, for the materials a range plays, from the ones the genre offers. A variant plays its plain statement's figure, so the plain is what is pinned. */
+export function setFigure(song: Song, name: string, range?: { readonly from: number; readonly to: number }): Edit[] {
+  const offered = song.chart.genre.drums.figure.filter(([, w]) => w > 0).map(([f]) => f);
+  if (!offered.includes(name)) throw new Error(`no figure "${name}" in this genre (offers: ${offered.join(", ")})`);
+  const ideas = [...new Set(sectionsOf(song, range).map((p) => p.section.idea))];
+  if (ideas.length === 0) throw new Error("no section in that range");
+  return ideas.map((idea) => ({ at: `material/${idea}/0/drums/figure`, value: name }));
+}
+
+/** The record's main character, said: the part the arrangement is written around. From the genre's own pool. */
+export function setProtagonist(song: Song, role: string): Edit {
+  const offered = song.chart.genre.arrangement.protagonist.filter(([, w]) => w > 0).map(([r]) => r);
+  if (!(offered as readonly string[]).includes(role)) throw new Error(`no protagonist "${role}" in this genre (offers: ${offered.join(", ")})`);
+  if (song.arrangement.protagonist === role) throw new Error(`the ${role} is the protagonist already`);
+  return { at: "arrange/protagonist", value: role };
+}
+
+/** The way in, said: which kind of intro the record opens with. From the genre's own pool, and only a kind that can carry the protagonist is honoured. */
+export function setIntro(song: Song, kind: string): Edit {
+  const offered = song.chart.genre.arrangement.intro.filter(([, w]) => w > 0).map(([k]) => k);
+  if (!(INTRO_KINDS as readonly string[]).includes(kind) || !(offered as readonly string[]).includes(kind)) {
+    throw new Error(`no intro "${kind}" in this genre (offers: ${offered.join(", ")})`);
+  }
+  if (song.arrangement.intro === kind) throw new Error(`the record opens on a ${kind} intro already`);
+  const edit: Edit = { at: "arrange/intro", value: kind };
+  // only a kind that can carry the protagonist is drawn, so the pin is
+  // honoured only there: a hook intro introduces a tune, not a drum kit
+  if (again(song, [edit]).arrangement.intro !== kind) {
+    throw new Error(`a ${kind} intro cannot introduce the ${song.arrangement.protagonist}, which is this record's protagonist (say the protagonist first)`);
+  }
+  return edit;
+}
+
+/**
+ * THE DESK IN THE RECIPE. A hand on the page's console is a render-time
+ * override laid over the record's own desk (`RenderOptions.desk`), not an
+ * edit: it changes no note and no draw. It still belongs in the recipe, or a
+ * mix worth keeping is lost the moment the page is reloaded. A desk word is
+ * `desk.<path>=<value>` — `desk.mix.keys.level=0.8`, `desk.machine.kit=analog`
+ * — and a list of them is one `SoundSpec`.
+ */
+export function parseDeskWord(word: string): { readonly path: readonly string[]; readonly value: number | string | boolean } {
+  const m = /^desk\.([a-zA-Z0-9_.]+)=(.+)$/.exec(word);
+  if (m === null) throw new Error(`not a desk word: "${word}" (want desk.<path>=<value>, e.g. desk.mix.keys.level=0.8)`);
+  const raw = m[2]!;
+  const value = raw === "true" ? true : raw === "false" ? false : raw.trim() !== "" && Number.isFinite(Number(raw)) ? Number(raw) : raw;
+  return { path: m[1]!.split("."), value };
+}
+
+/** Desk words laid into one override, later words winning. */
+export function deskOf(words: readonly string[]): SoundSpec {
+  const out: Record<string, unknown> = {};
+  for (const w of words) {
+    const { path, value } = parseDeskWord(w);
+    let o = out;
+    for (let i = 0; i + 1 < path.length; i++) {
+      const k = path[i]!;
+      if (typeof o[k] !== "object" || o[k] === null) o[k] = {};
+      o = o[k] as Record<string, unknown>;
+    }
+    o[path[path.length - 1]!] = value;
+  }
+  return out as SoundSpec;
+}
+
+/** The reverse: an override as desk words, one per leaf, in a stable order. */
+export function deskWords(desk: SoundSpec | undefined): string[] {
+  const out: string[] = [];
+  const walk = (o: unknown, path: string[]): void => {
+    if (o === null || o === undefined) return;
+    if (typeof o === "object") {
+      for (const k of Object.keys(o as Record<string, unknown>).sort()) walk((o as Record<string, unknown>)[k], [...path, k]);
+    } else if (typeof o === "number" || typeof o === "string" || typeof o === "boolean") out.push(`desk.${path.join(".")}=${String(o)}`);
+  };
+  walk(desk, []);
+  return out;
+}
+
 /** The bars a material is heard in, as `[start, end)` runs in record order, adjacent sections joined. */
 function barsOf(song: Song, key: string): [number, number][] {
   const runs: [number, number][] = [];
@@ -260,6 +437,21 @@ export function describeEdit(song: Song, edit: Edit): string {
     if (edit.at === "chart/scale") return `mode set to ${String(edit.value)}`;
     const vp = /^chart\/voice\/([a-z]+)$/.exec(edit.at);
     if (vp !== null) return `${vp[1]} played on the ${String(edit.value)}`;
+    if (edit.at === "arrange/protagonist") return `the ${String(edit.value)} is the protagonist`;
+    if (edit.at === "arrange/intro") return `a ${String(edit.value)} intro`;
+    const pl = /^arrange\/section\/(\d+)\/([a-z]+)\/(in|out)$/.exec(edit.at);
+    if (pl !== null) {
+      const s = song.form.sections[Number(pl[1])];
+      const where = s === undefined ? `section ${pl[1]}` : `${s.fn} at bar ${s.startBar}`;
+      return `${pl[2]} ${pl[3]} · ${where}`;
+    }
+    const jb = /^element\/([^/]+)\/([a-z]+):(element|texture)$/.exec(edit.at);
+    if (jb !== null) {
+      const where = jb[1] === "character" ? "everywhere, as the protagonist" : `${jb[1]} · bars ${runsText(barsOf(song, jb[1]!))}`;
+      return `${jb[2]} ${jb[3] === "element" ? "serves the" : "plays"} ${String(edit.value)} · ${where}`;
+    }
+    const fg = /^material\/([^/]+)\/0\/drums\/figure$/.exec(edit.at);
+    if (fg !== null) return `drums play the ${String(edit.value)} figure · ${fg[1]} · bars ${runsText(barsOf(song, fg[1]!))}`;
     const sp = /^form\/section\/(\d+)\/split$/.exec(edit.at);
     if (sp !== null) {
       const s = song.form.sections[Number(sp[1])];
@@ -275,6 +467,16 @@ export function describeEdit(song: Song, edit: Edit): string {
   if (edit.at === "chart/scale") return `mode rerolled${times}`;
   if (edit.at === "chart/tempo") return `tempo rerolled${times}`;
   if (edit.at === "chart/voice") return `voices rerolled${times}`;
+  if (edit.at === "element") return `every seat's job rerolled${times}`;
+  const ej = /^element\/([^/]+)$/.exec(edit.at);
+  if (ej !== null) return `jobs · ${ej[1]} · bars ${runsText(barsOf(song, ej[1]!))}${times}`;
+  if (edit.at === "arrange") return `arrangement rerolled${times}`;
+  if (edit.at === "arrange/treat") return `desk moves rerolled${times}`;
+  const et = /^arrange\/treat\/(\d+)$/.exec(edit.at);
+  if (et !== null) {
+    const s = song.form.sections[Number(et[1])];
+    return `desk moves · ${s === undefined ? `section ${et[1]}` : `${s.fn} at bar ${s.startBar}`}${times}`;
+  }
   const m = /^material\/([^/]+)\/(\d+)\/([a-z]+)(?:\/(.*))?$/.exec(edit.at);
   if (m === null || !(ROLES as readonly string[]).includes(m[3]!)) return `${edit.at}${times}`;
   const key = m[2] === "0" ? m[1]! : `${m[1]}/${m[2]}`;
@@ -333,15 +535,48 @@ export function rerollWord(song: Song, word: string): Edit[] {
   return reroll(song, { roles, ...(bars ?? {}), ...(flag === "only" ? { only: true } : {}) });
 }
 
-/** `tempo=92`, `key=D`, `mode=dorian` — a setting as a command-line word. */
-export function setWord(song: Song, word: string): Edit {
+/** `16-32` at the end of a value, as a range, or nothing. */
+function rangeOf(value: string): { readonly rest: string; readonly range?: { from: number; to: number } } {
+  const m = /^(.*?):(\d+)-(\d+)$/.exec(value);
+  if (m === null) return { rest: value };
+  const from = Number(m[2]), to = Number(m[3]);
+  if (to <= from) throw new Error(`bad bar range "${m[2]}-${m[3]}" (want from-to, e.g. 16-32)`);
+  return { rest: m[1]!, range: { from, to } };
+}
+
+const SET_WORDS = "tempo, key, mode, voice.<part>, play.<part>=in|out[:from-to], job.<part>=<element>[/<texture>][:from-to], figure=<name>[:from-to], protagonist, intro";
+
+/**
+ * `tempo=92`, `key=D`, `mode=dorian`, `voice.counter=horns`, `play.drone=in:16-32`,
+ * `job.keys=rhythm/arp:16-32`, `figure=amen`, `protagonist=keys`, `intro=hook` —
+ * a setting as a command-line word, applied to this record.
+ */
+export function setWord(song: Song, word: string): Edit[] {
   const eq = word.indexOf("=");
   const what = eq < 0 ? word : word.slice(0, eq);
   const value = eq < 0 ? "" : word.slice(eq + 1);
-  if (what === "tempo") return setTempo(song, Number(value));
-  if (what === "key") return setKey(song, value);
-  if (what === "mode") return setMode(song, value);
+  if (what === "tempo") return [setTempo(song, Number(value))];
+  if (what === "key") return [setKey(song, value)];
+  if (what === "mode") return [setMode(song, value)];
+  if (what === "protagonist") return [setProtagonist(song, value)];
+  if (what === "intro") return [setIntro(song, value)];
   const v = /^voice\.([a-z]+)$/.exec(what);
-  if (v !== null) return setVoice(song, v[1]!, value);
-  throw new Error(`nothing to set called "${what}" (tempo, key, mode, voice.<part>)`);
+  if (v !== null) return [setVoice(song, v[1]!, value)];
+  const p = /^play\.([a-z]+)$/.exec(what);
+  if (p !== null) {
+    const { rest, range } = rangeOf(value);
+    if (rest !== "in" && rest !== "out") throw new Error(`play.${p[1]} wants in or out, not "${rest}"`);
+    return setPlays(song, p[1]!, rest === "in", range);
+  }
+  const j = /^job\.([a-z]+)$/.exec(what);
+  if (j !== null) {
+    const { rest, range } = rangeOf(value);
+    const [el, tx] = rest.split("/");
+    return setJob(song, j[1]!, el === undefined || el === "" || el === "-" ? null : el, tx === undefined || tx === "" || tx === "-" ? null : tx, range);
+  }
+  if (what === "figure") {
+    const { rest, range } = rangeOf(value);
+    return setFigure(song, rest, range);
+  }
+  throw new Error(`nothing to set called "${what}" (${SET_WORDS})`);
 }

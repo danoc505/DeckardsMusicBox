@@ -14,7 +14,11 @@
  *   --reroll drums:16-24:only  the drums there and nowhere else (the section is split off first)
  *   --reroll chords            the chords of every idea; `chords:16-32` for the ideas those bars play
  *   --reroll key | mode | tempo | form
- *   --set tempo=92 | key=D | mode=dorian
+ *   --set tempo=92 | key=D | mode=dorian | voice.counter=horns | protagonist=keys | intro=hook
+ *   --set play.drone=in:16-32  a part said in (or out) of the sections those bars fall in
+ *   --set job.keys=rhythm/arp  what a seat does, and how; `:16-32` for the materials those bars play
+ *   --set figure=amen          the drums' figure by name, from the genre's own pool
+ *   --desk mix.keys.level=0.8  a hand on the desk for the rendering: the page's override as a word
  *   --split 3                  section 3 gets its own material, and what follows it plays that
  *   --edit material/A/0/lead=2 one address, salted by hand; `chart/tempo:=92` pins one
  */
@@ -24,7 +28,7 @@ import type { Edit } from "./core/rng.ts";
 import { GENRE_NAMES, type GenreName } from "./genre/index.ts";
 import { compose } from "./song.ts";
 import { dump, summary } from "./dump.ts";
-import { parseEdit, rerollWord, setWord, split } from "./edit.ts";
+import { deskOf, parseEdit, rerollWord, setWord, split } from "./edit.ts";
 import { render } from "./sound/render.ts";
 import { wav } from "./sound/wav.ts";
 import { midi } from "./sound/midi.ts";
@@ -32,7 +36,7 @@ import { midi } from "./sound/midi.ts";
 function usage(): never {
   process.stderr.write(
     "usage: node src/cli.ts <genre> <seed> [seconds] [--summary] [--wav <file>] [--mid <file>]\n" +
-      "                       [--reroll <what>]... [--set <what>=<value>]... [--split <section>]... [--edit <address>=<salt>]...\n" +
+      "                       [--reroll <what>]... [--set <what>=<value>]... [--split <section>]... [--edit <address>=<salt>]... [--desk <path>=<value>]...\n" +
       "       node src/cli.ts --genres\n" +
       `genres: ${GENRE_NAMES.join(", ")}\n`,
   );
@@ -46,7 +50,7 @@ if (args.includes("--genres")) {
 }
 const wantSummary = args.includes("--summary");
 /** Flags that take the argument after them. */
-const VALUED = ["--wav", "--mid", "--reroll", "--set", "--split", "--edit"];
+const VALUED = ["--wav", "--mid", "--reroll", "--set", "--split", "--edit", "--desk"];
 const wavAt = args.indexOf("--wav");
 const wavFile = wavAt >= 0 ? args[wavAt + 1] : undefined;
 if (wavAt >= 0 && wavFile === undefined) usage();
@@ -74,6 +78,8 @@ if (seconds !== undefined && !(seconds > 0)) usage();
  * does it one press at a time.
  */
 let edits: Edit[] = [];
+/** `--desk mix.keys.level=0.8`: a hand on the desk for the rendering, the page's override as a word. Not an edit — it changes no note — so it is laid over the render and printed as `#desk` lines. */
+const deskWords: string[] = [];
 const sofar = (): ReturnType<typeof compose> => compose({ seed, genre: genreArg as GenreName, ...(seconds === undefined ? {} : { seconds }), edits });
 for (let i = 0; i + 1 < args.length; i++) {
   const flag = args[i];
@@ -81,7 +87,8 @@ for (let i = 0; i + 1 < args.length; i++) {
   try {
     if (flag === "--edit") edits.push(parseEdit(value));
     else if (flag === "--reroll") edits = edits.concat(rerollWord(sofar(), value));
-    else if (flag === "--set") edits.push(setWord(sofar(), value));
+    else if (flag === "--set") edits = edits.concat(setWord(sofar(), value));
+    else if (flag === "--desk") deskWords.push(value.startsWith("desk.") ? value : `desk.${value}`);
     else if (flag === "--split") edits.push(split(sofar(), Number(value)));
   } catch (e) {
     process.stderr.write(`${(e as Error).message}\n`);
@@ -95,9 +102,10 @@ if (midFile !== undefined) {
   process.stderr.write(`${summary(song)} → ${midFile}\n`);
 }
 if (wavFile !== undefined) {
-  const out = render(song);
+  const out = render(song, deskWords.length > 0 ? { desk: deskOf(deskWords) } : {});
   writeFileSync(wavFile, wav(out.left, out.right, 44100));
   process.stderr.write(`${summary(song)} → ${wavFile}\n`);
 } else if (midFile === undefined) {
   process.stdout.write(wantSummary ? summary(song) + "\n" : dump(song));
+  if (deskWords.length > 0) process.stdout.write(deskWords.map((w) => `#desk\t${w.slice(5)}\n`).join(""));
 }

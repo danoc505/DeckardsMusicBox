@@ -833,6 +833,40 @@ export class Engine {
   get done(): boolean { return this.t >= this.length; }
 
   /**
+   * MOVE TO A MOMENT, for hearing one stretch of the record without the
+   * record in front of it. The desk arrives where the record's own moves
+   * had put it by then (every change up to here is applied, and a walk that
+   * would have been under way is taken as arrived), and the notes admitted
+   * from here on are the ones that START from here on: a note already
+   * sounding at the seek point is not played, because half a note is not a
+   * note, and a reverb tail from before it is not carried, because it was
+   * never rendered. So a seek is not the same bytes as playing through —
+   * it is the record from here, cold — and it is for the ear, not for a
+   * test of the render.
+   */
+  seek(sec: number): void {
+    const t = Math.max(0, Math.min(this.length, Math.round(sec * this.sampleRate)));
+    this.t = t;
+    this.flight = [];
+    this.cursor = 0;
+    while (this.cursor < this.events.length && Math.round(this.events[this.cursor]!.tSec * this.sampleRate) < t) this.cursor++;
+    this.deskNext = 0;
+    this.treatment = null;
+    this.treatAt = null;
+    this.treatDepth = 1;
+    while (this.deskNext < this.deskAt.length && this.deskSample(this.deskNext) <= t) {
+      const moved = this.deskAt[this.deskNext]!;
+      this.treatment = moved.treatment;
+      this.treatAt = moved.at;
+      this.treatDepth = moved.depth;
+      this.deskNext++;
+    }
+    this.rampFrom = null;
+    this.rampTo = null;
+    this.retune();
+  }
+
+  /**
    * Move any knob of the desk while the record is playing.
    *
    * Levels, sends, returns and the master are read afresh every block, so

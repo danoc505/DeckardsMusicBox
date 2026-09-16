@@ -34,8 +34,9 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite has been run END TO END on this tree and is GREEN: 328 tests, 328
-pass** (last run after the voice pools and the horns' level, below). The three standing failures below are closed, and every one turned
+**The suite has been run END TO END on this tree and is GREEN: 334 tests, 334
+pass** (last run after the said roster, jobs, figure, desk words, seek and
+live MIDI, below). The three standing failures below are closed, and every one turned
 out to be the test — two buffer diffs that ate memory, an arpeggio asked a
 held chord's law, a count painted on as a threshold — never the program.
 `npm test` in one go takes **12–13 minutes**, and `treat.test.ts` alone is
@@ -297,6 +298,86 @@ caught it: two voices in one pool come out within 3 dB of each other on the
 same note, because the fader is the part's and cannot know which voice was
 drawn. Whether a horn answering the tune with stabs is the right horn for
 the part is a question for an ear: lofi 527724 and 274106 both draw it.
+
+**AND THEN WHAT THE OWNER ASKED FOR: EVERYTHING A RECORD STILL COULD NOT BE
+TOLD.** Asked what was missing before a record could be altered into
+something good, the answer was seven things; six are built and one is
+declined below, with the reason.
+
+- **A part said in or out** (`setPlays`, `--set play.drone=in:16-32`, the
+  page's Part row). The arrangement decides who plays from what the record
+  has done and drew nothing for it, so there was no address to pin. It has
+  two now, `arrange/section/<i>/<part>/in` and `/out`, chances held at zero
+  in `arrange.ts` exactly as a split is — a record nobody touched never
+  fires them — landing after the roster is final, so the record's own
+  decision stands everywhere the owner said nothing. A part said in is
+  WRITTEN, because the material stage builds for whoever is heard; a part
+  said out never empties a section, the last one standing stays; and a pin
+  that changes nothing (a part already in, the last part out) is refused
+  out loud, because it would be a knob that does nothing. This is what "add
+  an instrument" means in a program whose seats are fixed and whose roster
+  is a consequence.
+- **A seat's job said** (`setJob`, `--set job.keys=rhythm/arp:16-32`, the
+  Job row): pins on `element/<key>/<part>:element` and `:texture`, or
+  `element/character/...` for the protagonist, whose job is drawn once.
+  The draw site filters its table by the room — an element nobody has
+  while there is room, a doubling when there is none — so a pin outside
+  what the room allows stands as drawn, and `setJob` composes the record
+  and refuses one that did not land, saying what the seat is instead. A
+  job outside the seat's own pool is refused before that, naming the pool.
+- **The drums' figure by name** (`setFigure`, `--set figure=amen`): a pin
+  on the plain material's `drums/figure`, from the genre's pool; a variant
+  plays its plain statement's figure, so the plain is what is pinned.
+- **The protagonist and the way in** (`setProtagonist`, `setIntro`,
+  `--set protagonist=lead`, `--set intro=hook`): pins on
+  `arrange/protagonist` and `arrange/intro`. Only a kind of intro that can
+  carry the protagonist is drawn, so `setIntro` refuses one that cannot,
+  and says to say the protagonist first — the page showed exactly that: the
+  lead made protagonist turned the intro into a hook on its own.
+- **Three more aspects to reroll by name**: `jobs` (`element`, or
+  `element/<key>` for a range), `desk` (`arrange/treat`, or one section's),
+  `arrangement` (everything under `arrange`). Rerolling the desk moves
+  changes no note; `edit.test.ts` holds that.
+- **The desk is in the recipe.** A hand on the console is a render-time
+  override, not an edit — it changes no draw — and it was lost on reload.
+  A desk word is `desk.<path>=<value>` (`deskWords`/`deskOf` in `edit.ts`);
+  the page writes every touched knob into the recipe and reads them back
+  on Load, and the CLI takes `--desk mix.keys.level=0.8` for a rendering.
+- **Hearing before choosing.** `Engine.seek(sec)` moves the engine to a
+  moment: notes admitted from there, the desk where the record's own moves
+  had put it, no tails from before (measured: within 2 dB of playing
+  through on a lofi record, and the drums and drone quieter at an outro
+  that has neither, which is their tails). The worker plays a stretch and
+  round again from its top. On the page: **Loop bars** plays the dragged
+  bars round and round, **Hear before** plays the record as it was before
+  the last press over the same bars, and each candidate has a **hear**
+  button that plays it over the selection. Driven: the clock stayed inside
+  the window over a loop, the record before played, a candidate played
+  with the strip still up.
+- **MIDI out, live.** `live(song, from, to)` in `midi.ts` is the record as
+  on/off messages with a millisecond each, on the file's channels and keys
+  (`midi.test.ts`). The page lists Web MIDI outputs, and with **send on
+  play** every message is handed to the wire with one timestamp, computed
+  from the audio clock at the first chunk, so the wire keeps time and the
+  page runs no clock; stop sends all-notes-off on every channel. A looped
+  range is sent once through. **Save MIDI** writes the file the CLI writes.
+  Not tested against hardware: the driver has no MIDI device, so what is
+  proved is the message list and that the page builds with no error.
+- **The Piano roll plate** now puts its spare height BELOW the candidates:
+  the plate is stretched to the column beside it and the canvas has a fixed
+  aspect, and with the Reroll plate this tall the roll was being pushed 700
+  px down. `grid-template-rows` is the whole fix.
+- **Not built: moving one note.** Every note comes from a draw, so a hand
+  edit to one note is an overlay on top of the pipeline — a second
+  mechanism beside the first, which README § "How a change is made here"
+  says always works at first and bills later. What an owner reaches for
+  when a note is wrong is here instead: reroll the phrase it is in, hear
+  four answers, say the job or the part, and step back. If a note editor is
+  ever wanted, it is one more stage AFTER the performance with its own dump
+  lines, never a patch inside it.
+
+Untouched records are byte-identical to the commit before on eighteen
+seeds, nine a genre. Full suite green.
 
 **AND THE RECORD AS A RECIPE.** A record is genre, seed, length and its
 edits and nothing else, so those four are shown as one line in the words
@@ -1294,6 +1375,9 @@ built and measured (see "what was just done"). Three are not:
 | the record as text | `node src/cli.ts <genre> <seed>` |
 | the same with a part rerolled | `node src/cli.ts <genre> <seed> --reroll lead` · `--reroll keys,bass:16-32` · `--reroll drums:16-24:only` · `--edit material/A/0/lead=2` |
 | the chords, key, mode, tempo, form or voices rerolled, or said | `--reroll chords:16-32` · `--reroll key` · `--reroll voices` · `--set tempo=92` · `--set key=D` · `--set mode=dorian` · `--set voice.counter=horns` · `--split 3` |
+| a part said in or out, a seat's job, the figure, the protagonist, the way in | `--set play.drone=in:16-32` · `--set play.counter=out` · `--set job.keys=rhythm/arp:16-32` · `--set figure=amen` · `--set protagonist=lead` · `--set intro=hook` |
+| the jobs, the desk moves or the whole arrangement rerolled | `--reroll jobs` · `--reroll desk:16-32` · `--reroll arrangement` |
+| a hand on the desk for a rendering | `--desk mix.keys.level=0.8 --desk machine.kit=analog --wav out.wav` |
 | a reroll as a picture, before and after | `npm run roll <genre> <seed> a.png` then `... b.png --reroll lead:16-32` |
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |
