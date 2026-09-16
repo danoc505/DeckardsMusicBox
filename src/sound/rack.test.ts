@@ -11,6 +11,19 @@ const impulse = (n: number): Float32Array => { const b = new Float32Array(n); b[
 const through = (run: (x: number) => number, input: Float32Array): Float32Array => input.map((x) => run(x));
 const argmax = (b: Float32Array, from = 1): number => { let k = from; for (let i = from; i < b.length; i++) if (Math.abs(b[i]!) > Math.abs(b[k]!)) k = i; return k; };
 const sine = (hz: number, n: number): Float32Array => Float32Array.from({ length: n }, (_, i) => Math.sin((2 * Math.PI * hz * i) / SR));
+/**
+ * TWO RENDERINGS, SAMPLE FOR SAMPLE — and on a difference, WHERE, not a diff.
+ * `assert.deepEqual` on two buffers of a million samples builds a diff of the
+ * whole array when they differ, which is the thirteen gigabytes that killed
+ * this file on every run (the same fault `tr1000.test.ts` had, and the same
+ * fix). A failure names the first sample that differs and how far.
+ */
+const sameSamples = (a: Float32Array, b: Float32Array, what: string): void => {
+  assert.equal(a.length, b.length, `${what}: ${a.length} samples against ${b.length}`);
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) assert.fail(`${what}: first differs at sample ${i} (${(i / SR).toFixed(2)}s), ${a[i]} against ${b[i]}`);
+  }
+};
 
 test("an echo comes back at the time set, quieter each time", () => {
   const e = new Echo(0.1, 0.5, SR);
@@ -60,7 +73,7 @@ test("every unit in the rack, bypassed, renders the same record twice, and a sen
   const s = compose({ seed: 4, genre: "lofi", seconds: 30 });
   const a = mono(render(s, { sampleRate: SR, ...dry }));
   const b = mono(render(s, { sampleRate: SR, ...dry }));
-  assert.deepEqual(a, b);
+  sameSamples(a, b, "the same record rendered twice");
   const wet = mono(render(s, { sampleRate: SR, desk: { ...dry.desk, mix: { ...dry.desk.mix, keys: { sends: { echo: 0.8, room: 0 } } }, rack: { ...dry.desk.rack, echo: { beats: 1, feedback: 0.5, ret: 1 } } } }));
   let diff = 0; for (let i = 0; i < a.length; i++) diff += Math.abs(a[i]! - wet[i]!);
   assert.ok(diff / a.length > 1e-3, "the echo send did nothing");
@@ -98,9 +111,16 @@ test("the world is stereo: a part to the right is louder and earlier in the righ
   const k = lag(right.right, right.left);
   // the head's delay, plus a few samples the far ear's shadow filter adds
   assert.ok(k > 0 && k <= Math.round(0.00065 * SR) + 6, `the far ear is late by ${k} samples`);
-  // and a mono world collapses it
-  const flat = render(s, { sampleRate: SR, only: "lead", desk: { world: { width: 0, depth: 0 }, mix: { lead: { az: 90, pan: 0, sweepDepth: 0, pedals: 0, sends: { echo: 0, room: 0 } } } } });
-  assert.deepEqual(flat.left, flat.right);
+  // and a mono world collapses it. ASKED WITH THE TIMELINE EMPTIED, as the
+  // machine's law is in `tr1000.test.ts`: this law is about the WORLD, and
+  // the record's own desk moves are not the world — seed 2 reaches for
+  // `medium` at 32 s, and an old medium is stereo whatever the width is, so
+  // with the timeline in the two ears diverged from that second on and this
+  // assertion, written as a deepEqual, built a diff of a million samples
+  // and was killed for its memory on every run
+  const still = { ...s, performance: { ...s.performance, desk: [] } };
+  const flat = render(still, { sampleRate: SR, only: "lead", desk: { world: { width: 0, depth: 0 }, mix: { lead: { az: 90, pan: 0, sweepDepth: 0, pedals: 0, sends: { echo: 0, room: 0 } } } } });
+  sameSamples(flat.left, flat.right, "a flat world's two ears");
 });
 
 test("a distant part is quieter and darker than a near one", () => {
@@ -117,7 +137,7 @@ test("the pedal board is heard only where a part feeds it, and every pedal does 
   const off = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 0, sends: { echo: 0, room: 0 } } } } }));
   const bare = { wah: { mix: 0 }, overdrive: { mix: 0 }, fuzz: { mix: 0 }, phaser: { mix: 0 }, tremolo: { mix: 0 } };
   const same = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { lead: bare } } }));
-  assert.deepEqual(same, off, "a board with every pedal off changed the part");
+  sameSamples(same, off, "a board with every pedal off changed the part");
   for (const pedal of ["wah", "overdrive", "fuzz", "phaser", "tremolo"] as const) {
     const on = mono(render(s, { sampleRate: SR, only: "lead", desk: { mix: { lead: { pedals: 1, sends: { echo: 0, room: 0 } } }, pedals: { lead: { ...bare, [pedal]: { mix: 1 } } } } }));
     let diff = 0; for (let i = 0; i < on.length; i++) diff += Math.abs(on[i]! - off[i]!);
@@ -184,7 +204,7 @@ test("an fx in line is heard, and which END of the board it clips onto changes t
   const noBoard = { mix: { lead: { pedals: 0, sends: { echo: 0, room: 0 } } } };
   const bothEnds = (["first", "last"] as const).map((w) =>
     mono(render(s, { sampleRate: SR, only: "lead", desk: { ...noBoard, fx: at(w) } })));
-  assert.deepEqual(bothEnds[0], bothEnds[1], "with no board between them, the two ends are the same place and did not agree");
+  sameSamples(bothEnds[0]!, bothEnds[1]!, "with no board between them, the two ends are the same place and did not agree");
 });
 
 test("a pedal keeps its own clock while the knob beside it is automated", () => {

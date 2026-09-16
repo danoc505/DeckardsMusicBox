@@ -384,8 +384,9 @@
           <div class="range"><span class="lbl dim">Bars</span><span class="v" id="rr-range">whole record</span><button type="button" id="rr-all">All</button></div>
           <label class="only"><input type="checkbox" id="rr-only"><span>only these bars · the section is split off first</span></label>
           <div class="transport">
-            <button type="button" class="go" id="rr-go">Reroll</button>
+            <button type="button" class="go wide" id="rr-go">Reroll</button>
             <button type="button" id="rr-back" disabled>Step back</button>
+            <button type="button" id="rr-fwd" disabled>Step forward</button>
           </div>
           <div class="range"><span class="lbl dim">Also</span><div class="parts also" id="rr-also"></div></div>
           <div class="sets">
@@ -395,6 +396,7 @@
             <input id="rr-tempo" type="number" step="1" title="tempo">
           </div>
           <ol class="edits" id="rr-list"></ol>
+          <div class="hint" id="rr-changed"></div>
           <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. Step back pops the last press.</div>
         </div>
       </section>
@@ -652,7 +654,10 @@
      per material it plays, and stepping back undoes the press, not one
      material of it — so what is kept is a list of presses, each the edits it
      made, and the record's own list is those laid end to end. */
-  var rrActions = [], rrRoles = { lead: true }, rrSel = null, rrDrag = null;
+  /* AND ONE STEP FORWARD: a press taken back is kept until the next new
+     press, so a step back can be un-stepped. `rrPrev` is the record before
+     the last move either way, so the roll can show what the move changed. */
+  var rrActions = [], rrUndone = [], rrPrev = null, rrRoles = { lead: true }, rrSel = null, rrDrag = null;
   function editsOf() { return [].concat.apply([], rrActions); }
   function request() { var r = { seed: Number(seedEl.value) || 0, genre: genreVal, edits: editsOf() }; if (secEl.value) r.seconds = Number(secEl.value); return r; }
 
@@ -692,7 +697,7 @@
   }
 
   // ── the piano roll ──
-  var roll = $("roll"), rctx = roll.getContext("2d");
+  var roll = $("roll"), rctx = roll.getContext("2d"), rrDiff = { fresh: 0, gone: 0 };
   /* THE TREATMENT'S OWN COLOUR, off its own name — the SAME arithmetic as
      `tools/roll.mjs`, so a move is the same colour in this page and in the
      tool, and the two pictures can be read against each other. That agreement
@@ -771,18 +776,36 @@
     g.strokeStyle = "rgba(87,242,165,0.2)"; g.beginPath(); g.moveTo(10, H - fxH - drumH - 4); g.lineTo(W - 10, H - fxH - drumH - 4); g.stroke();
     // notes
     var lanes = { kick: 0, snare: 1, hat: 2, openhat: 3 };
-    for (var i = 0; i < ev.length; i++) {
-      var e = ev[i], col = COLOR[e.role];
+    /* WHAT THE LAST MOVE CHANGED. A note is the same note if the same part
+       plays the same pitch at the same bar and step; against the record
+       before the move, a note that was not there is NEW and drawn with a
+       ring, and one that is no longer there is GONE and drawn as a ghost
+       where it was — so a press can be judged by eye before it is kept. */
+    var keyOf = function (e) { return e.role + "|" + e.bar + "|" + e.step + "|" + e.pitch + "|" + e.lane; };
+    var was = null, now = null;
+    if (rrPrev) { was = {}; now = {}; for (var pi = 0; pi < rrPrev.length; pi++) was[keyOf(rrPrev[pi])] = rrPrev[pi]; for (var ni = 0; ni < ev.length; ni++) now[keyOf(ev[ni])] = true; }
+    rrDiff = { fresh: 0, gone: 0 };
+    var drawNote = function (e, col, ghost, ringed) {
       if (e.role === "drums") {
-        var ly = H - fxH - drumH + 6 + (lanes[e.lane] || 0) * 10;
+        var ly = H - fxH - drumH + 6 + (lanes[e.lane] || 0) * 10, dw = Math.max(1.5, (W - 20) * 0.08 / total);
+        if (ghost) { g.globalAlpha = 0.35; g.strokeStyle = col; g.lineWidth = 1; g.strokeRect(x(e.tSec) + 0.5, ly + 0.5, dw, 6); return; }
         g.fillStyle = col; g.globalAlpha = 0.35 + 0.65 * Math.min(1, e.gain);
-        g.fillRect(x(e.tSec), ly, Math.max(1.5, (W - 20) * 0.08 / total), 7);
+        g.fillRect(x(e.tSec), ly, dw, 7);
+        if (ringed) { g.globalAlpha = 1; g.strokeStyle = "#fff"; g.lineWidth = 1; g.strokeRect(x(e.tSec) - 1.5, ly - 1.5, dw + 3, 10); }
       } else {
         var w = Math.max(2, (W - 20) * e.durSec / total), h = Math.max(2, pitchH / (hi - lo));
+        if (ghost) { g.globalAlpha = 0.35; g.strokeStyle = col; g.lineWidth = 1; g.strokeRect(x(e.tSec) + 0.5, y(e.pitch) - h / 2 + 0.5, w, h); return; }
         g.globalAlpha = 0.9; g.shadowColor = col; g.shadowBlur = 6;
         g.fillStyle = col; g.fillRect(x(e.tSec), y(e.pitch) - h / 2, w, h);
         g.shadowBlur = 0;
+        if (ringed) { g.globalAlpha = 1; g.strokeStyle = "#fff"; g.lineWidth = 1; g.strokeRect(x(e.tSec) - 1.5, y(e.pitch) - h / 2 - 1.5, w + 3, h + 3); }
       }
+    };
+    if (was) { for (var k in was) { if (!now[k]) { rrDiff.gone++; drawNote(was[k], COLOR[was[k].role], true, false); } } }
+    for (var i = 0; i < ev.length; i++) {
+      var e = ev[i], fresh = was !== null && !was[keyOf(e)];
+      if (fresh) rrDiff.fresh++;
+      drawNote(e, COLOR[e.role], false, fresh);
     }
     g.globalAlpha = 1;
     /* THE SELECTION: the bars a reroll will cover, as an amber band, so what
@@ -885,7 +908,7 @@
   roll.addEventListener("pointerup", function () { if (rrDrag && !rrDrag.moved) { rrSel = null; drawRoll(null); drawReroll(); } rrDrag = null; });
   function selection() { var s = { roles: ROLES.filter(function (r) { return rrRoles[r]; }) }; if (rrSel) { s.from = rrSel.from; s.to = rrSel.to; if ($("rr-only").checked) s.only = true; } return s; }
   /** One press: whatever edits it made, kept together so Step back undoes the press. */
-  function press(made) { if (made.length) { rrActions.push(made); compose(); } }
+  function press(made) { if (made.length) { rrPrev = song.performance.events; rrUndone = []; rrActions.push(made); compose(); } }
   var rrBuilt = false;
   function drawReroll() {
     var parts = $("rr-parts"), also = $("rr-also"), keySel = $("rr-key"), modeSel = $("rr-mode"), tempoEl = $("rr-tempo"), c = song.chart;
@@ -924,6 +947,8 @@
     $("rr-only").disabled = !rrSel;
     $("rr-go").disabled = !ROLES.some(function (r) { return rrRoles[r]; });
     $("rr-back").disabled = rrActions.length === 0;
+    $("rr-fwd").disabled = rrUndone.length === 0;
+    $("rr-changed").textContent = rrPrev ? "last move: " + rrDiff.fresh + " notes new, " + rrDiff.gone + " gone — the new ones are ringed on the roll" : "";
     var list = $("rr-list"); list.innerHTML = "";
     rrActions.forEach(function (made) {
       var li = document.createElement("li");
@@ -932,9 +957,10 @@
     });
   }
   function rerollNow() { press(M.reroll(song, selection())); }
-  function stepBack() { if (rrActions.length) { rrActions.pop(); compose(); } }
+  function stepBack() { if (rrActions.length) { rrPrev = song.performance.events; rrUndone.push(rrActions.pop()); compose(); } }
+  function stepForward() { if (rrUndone.length) { rrPrev = song.performance.events; rrActions.push(rrUndone.pop()); compose(); } }
   /** A different seed or genre is a different record, and its rerolls are not this one's. */
-  function fresh() { rrActions = []; rrSel = null; }
+  function fresh() { rrActions = []; rrUndone = []; rrPrev = null; rrSel = null; }
 
   // ── the world scope ──
   var scope = $("scope"), sctx = scope.getContext("2d"), sweepA = 0, dragging = null;
@@ -2657,6 +2683,7 @@
   $("save").addEventListener("click", save);
   $("rr-go").addEventListener("click", rerollNow);
   $("rr-back").addEventListener("click", stepBack);
+  $("rr-fwd").addEventListener("click", stepForward);
   $("rr-all").addEventListener("click", function () { rrSel = null; drawRoll(null); drawReroll(); });
   $("seed-up").addEventListener("click", function () { step(1); });
   $("seed-down").addEventListener("click", function () { step(-1); });

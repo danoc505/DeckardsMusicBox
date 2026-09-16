@@ -234,6 +234,17 @@ Driven end to end again: set the tempo, the key and the mode; reroll the
 chords of a dragged range; only-here on the tune, with the split in the list
 and the dump; step back to the start byte for byte; no page errors.
 
+**AND A STEP FORWARD, AND THE ROLL SHOWS WHAT A MOVE CHANGED.** A press taken
+back is kept until the next new press, so Step forward un-steps it (the list
+of presses is the whole state, so this is a second list). And the roll keeps
+the record before the last move: a note is the same note if the same part
+plays the same pitch at the same bar and step, so a note that was not there
+is NEW and drawn ringed in white, one no longer there is GONE and drawn as a
+ghost outline where it was, and the plate says how many of each. That is
+how a press is judged by eye before it is kept. Driven: reroll, back,
+forward gives the first reroll back byte for byte, a new press after a back
+clears the forward stack.
+
 **SIX RANDOM SEEDS WERE READ OFF THE ROLL, AND FOUR OF THE FINDINGS WERE
 LINES.** The seeds were drawn by the shell — lofi 688381, 527724, 346235;
 dungeon synth 17479, 462612, 274106 — every one rolled and evaluated in the
@@ -328,12 +339,19 @@ tune" and measures per phrase, where the six seeds sit at 10 of 16 to 36 of
 36 phrases with a single peak. Nothing to fix there without an argument with
 that document first.
 
-**THE SUITE ON THIS TREE:** `npm test` end to end twice, 12–13 minutes each.
-The two standing `material/index.test.ts` failures are unchanged, and
-`sound/rack.test.ts` dies with SIGKILL as a whole file **on `04ab6da` as
-well as here**, in this container — it is not in any earlier tally, so it is
-either the container's memory or the same kind of thing the tr1000 fix found.
-Nothing else is red. `arrange.test.ts` is 24/24 with one test rewritten to
+**THE SUITE ON THIS TREE:** `npm test` end to end, 12–13 minutes. The two
+standing `material/index.test.ts` failures are unchanged. **`rack.test.ts`
+was the tr1000 fault again, and is fixed.** It died with SIGKILL as a whole
+file — and once, when the killer did not come, sat on thirteen gigabytes and
+starved the rest of the suite — because "a mono world collapses it" was an
+`assert.deepEqual` of two buffers of 1.19M samples, and on a difference that
+builds a diff of the whole array. The difference was real and not the world's:
+seed 2 reaches for `medium` at 32 s, and an old medium is seeded hiss PER EAR
+(`medium/<seed>/L` and `/R` in `render.ts`), stereo by design whatever the
+width. The law is about the world, so it is asked with the timeline emptied,
+exactly as the machine's law is in `tr1000.test.ts` — and every buffer
+comparison in the file now names the first sample that differs instead of
+diffing a million. 13/13 in 24 seconds. `arrange.test.ts` is 24/24 with one test rewritten to
 mirror the new arithmetic (it restated the old rule verbatim).
 
 **THE GENRES HAVE BEEN READ OFF RECORDS FOR THE FIRST TIME, AND NOT ONE
