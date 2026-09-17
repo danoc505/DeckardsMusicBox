@@ -170,6 +170,22 @@
   .midi select { width: 100%; font: 700 10px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 5px 4px; }
   .midi label { font: 9px/1.3 var(--mono); color: var(--cream-dim); display: flex; gap: 6px; align-items: center; cursor: pointer; }
   .cands .cand .hear { position: absolute; right: 4px; bottom: 4px; padding: 2px 5px; font-size: 8px; }
+  .sets.swing { grid-template-columns: auto 1fr 1fr 64px; }
+  .shelf { margin-top: 6px; }
+  .shelf ol { list-style: none; margin: 4px 0 0; padding: 0; }
+  .shelf li { display: grid; grid-template-columns: 1fr auto auto auto; gap: 4px; align-items: center; font: 9px/1.3 var(--mono); color: var(--cream-dim); padding: 2px 0; border-bottom: 1px solid #0b0d10; }
+  .shelf li button { padding: 2px 5px; font-size: 8px; }
+  .shelf .keep { display: grid; grid-template-columns: 1fr auto; gap: 6px; }
+  .shelf input { width: 100%; font: 700 10px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 4px; }
+  .save-bars { font: 9px/1.3 var(--mono); color: var(--cream-dim); display: flex; gap: 6px; align-items: center; cursor: pointer; margin-top: 6px; }
+  .wire { margin-top: 8px; }
+  .wire .top { display: grid; grid-template-columns: auto 1fr auto; gap: 6px; align-items: center; }
+  .wire .top select { font: 700 10px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 4px; }
+  .wire .top label { font: 9px/1.3 var(--mono); color: var(--cream-dim); display: flex; gap: 5px; align-items: center; cursor: pointer; }
+  .wiretab { width: 100%; border-collapse: collapse; margin-top: 4px; }
+  .wiretab td { padding: 2px 2px; font: 9px/1 var(--mono); color: var(--cream-dim); letter-spacing: 0.06em; }
+  .wiretab td:first-child { width: 52px; }
+  .wiretab select, .wiretab input { width: 100%; font: 700 10px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 3px 2px; }
   .sets select, .sets input { width: 100%; font: 700 11px/1 var(--mono); color: var(--cream); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 5px 4px; }
   .recipe { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: stretch; margin-top: 6px; }
   .recipe textarea { width: 100%; resize: vertical; font: 9px/1.4 var(--mono); color: var(--cream-dim); background: #0f1214; border: 1px solid #0b0d10; border-radius: 3px; padding: 4px 6px; }
@@ -396,8 +412,13 @@
           <button type="button" class="wide" id="save">Save WAV · stereo</button>
           <button type="button" class="wide" id="save-mid">Save MIDI</button>
         </div>
+        <label class="save-bars"><input type="checkbox" id="save-bars" disabled> save the dragged bars only</label>
         <div class="midi"><select id="midi-out" title="a MIDI output to send the record to"><option value="">no MIDI out</option></select><label><input type="checkbox" id="midi-send"> send on play</label></div>
-        <div class="hint" id="hint" style="margin-top:10px">Play starts at once — the record is made as it goes. Move any knob while it plays and the record takes it. With a MIDI output chosen and <b>send on play</b> on, every note goes out the wire on the same clock as the sound — the drums on channel 10, the parts on 1 to 5 — so a synth on the other end plays the record with this page; a looped range is sent once through.</div>
+        <div class="wire" id="wire">
+          <div class="top"><span class="lbl dim">Rig</span><select id="wire-rig" title="where the parts go: a preset, then your own channels below"></select><label><input type="checkbox" id="wire-clock" checked> clock</label></div>
+          <table class="wiretab" id="wire-tab"></table>
+        </div>
+        <div class="hint" id="hint" style="margin-top:10px">Play starts at once — the record is made as it goes. Move any knob while it plays and the record takes it. With a MIDI output chosen and <b>send on play</b> on, every note goes out the wire on the same clock as the sound — the drums on channel 10, the parts on 1 to 5 — so a synth on the other end plays the record with this page; a looped range is sent once through. The <b>rig</b> says where each part and each drum lane goes — a box and its channel, and for a lane on a LIVEN sample track the key that plays the sample — and the record's own mix moves go out as that box's control changes (the Lofi-12's TRACK LEVEL, PAN, →REVERB and FILTER CUTOFF; the Mega Synthesis's TRACK LEVEL, PAN and →FX) with MIDI clock, start and stop, which the BeatStep Pro and both LIVENs follow when their clock source is MIDI. The rig is in the recipe.</div>
       </section>
       <section class="plate"><span class="screwB"></span><h2>Reroll <small>new notes for a part</small></h2>
         <div class="stack">
@@ -409,6 +430,7 @@
             <button type="button" id="rr-try">Try four</button>
             <button type="button" id="rr-back" disabled>Step back</button>
             <button type="button" id="rr-fwd" disabled>Step forward</button>
+            <button type="button" id="rr-feel" disabled title="new timing and weight for the selected parts' hits, the notes left where they are">Reroll feel</button>
             <button type="button" id="rr-loop" disabled title="play the dragged bars round and round">Loop bars</button>
             <button type="button" id="rr-before" disabled title="play the record as it was before the last press, over the same bars">Hear before</button>
           </div>
@@ -418,6 +440,12 @@
             <select id="rr-key" title="key"></select>
             <select id="rr-mode" title="mode"></select>
             <input id="rr-tempo" type="number" step="1" title="tempo">
+          </div>
+          <div class="sets swing">
+            <span class="lbl dim">Swing</span>
+            <input id="rr-swing" type="number" step="1" title="swing, percent, inside the genre's allowance">
+            <select id="rr-regpart" title="which part to move"></select>
+            <select id="rr-reg" title="octaves up or down, inside the seat's allowance"></select>
           </div>
           <div class="sets voices">
             <span class="lbl dim">Voice</span>
@@ -448,10 +476,33 @@
             <select id="rr-intro" title="the way in"></select>
             <span class="hint" style="margin:0">star and intro apply at once</span>
           </div>
+          <div class="sets say">
+            <span class="lbl dim">Chords</span>
+            <select id="rr-idea" title="which idea"></select>
+            <select id="rr-prog" title="the degrees it stands on, from the genre's pool"></select>
+            <button type="button" id="rr-cgo">Say</button>
+          </div>
+          <div class="sets say4">
+            <span class="lbl dim">Form</span>
+            <select id="rr-fsec" title="which section"></select>
+            <select id="rr-fkind" title="its kind"></select>
+            <select id="rr-flen" title="its length in bars"></select>
+            <button type="button" id="rr-fgo2">Say</button>
+          </div>
+          <div class="sets say">
+            <span class="lbl dim">Desk</span>
+            <select id="rr-treat" title="a colour held over the selected bars' sections"></select>
+            <span class="hint" style="margin:0">held for each whole section</span>
+            <button type="button" id="rr-tgo">Say</button>
+          </div>
           <ol class="edits" id="rr-list"></ol>
           <div class="hint" id="rr-changed"></div>
           <div class="recipe"><textarea id="rr-recipe" rows="2" spellcheck="false" title="the record as a recipe: genre, seed, length, every edit"></textarea><button type="button" id="rr-load">Load</button></div>
-          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. <b>Set</b> says the key, the mode or the tempo; <b>Voice</b> says which instrument a part is played on, from the genre's own pool for that part. <b>Part</b> says a part in or out of the sections the dragged bars fall in (the whole record with no bars); <b>Job</b> says what a seat serves and how, for the materials those bars play, from the seat's own pools and only where the room has a place for it; <b>Drums</b> says the figure by name and the protagonist; <b>Intro</b> the way in. What the record cannot honour is refused and says why. Every knob on the console is in the recipe too, as <code>desk.</code> words. Step back pops the last press. <b>Loop bars</b> plays the dragged bars round and round; <b>Hear before</b> plays the record as it was before the last press over the same bars; <b>hear</b> on a candidate plays it over the selection.</div>
+          <div class="shelf" id="shelf">
+            <div class="keep"><input id="shelf-name" placeholder="a name for this stepping stone" spellcheck="false"><button type="button" id="shelf-keep">Keep</button></div>
+            <ol id="shelf-list"></ol>
+          </div>
+          <div class="hint">Pick parts, drag across the roll for bars, reroll. A part in one section is a part in every section that plays the same material — the list says which bars — unless <b>only these bars</b>, which splits the section off first. A range inside a section reaches the tune a phrase at a time and the drums a beat at a time. Anything written from a rerolled part follows it. <b>Set</b> says the key, the mode or the tempo; <b>Voice</b> says which instrument a part is played on, from the genre's own pool for that part. <b>Part</b> says a part in or out of the sections the dragged bars fall in (the whole record with no bars); <b>Job</b> says what a seat serves and how, for the materials those bars play, from the seat's own pools and only where the room has a place for it; <b>Drums</b> says the figure by name and the protagonist; <b>Intro</b> the way in. What the record cannot honour is refused and says why. Every knob on the console is in the recipe too, as <code>desk.</code> words. Step back pops the last press. <b>Loop bars</b> plays the dragged bars round and round; <b>Hear before</b> plays the record as it was before the last press over the same bars; <b>hear</b> on a candidate plays it over the selection. <b>Swing</b> and a part's <b>octave</b> are said inside the genre's allowances; <b>Chords</b> says what an idea stands on from the genre's pool; <b>Form</b> says a section's kind or length where the walk has room; <b>Desk</b> holds a colour over the dragged bars' sections; <b>Reroll feel</b> gives the selected parts new timing and weight with every note left where it is. <b>Keep</b> puts the record on the shelf, in this browser, to hear or load again.</div>
         </div>
       </section>
     </div>
@@ -736,7 +787,7 @@
     meterSvg($("d-energy"), peakE, "PEAK " + peakE.toFixed(2));
     meterSvg($("d-left"), 0, "L dB"); meterSvg($("d-right"), 0, "R dB");
     $("roll-sub").textContent = M.summary(song);
-    drawTape(); drawRoll(null); drawReroll(); drawScope(); drawMatrix(); drawMachine(); drawBoard(); drawFx(); drawPatch(); drawRack();
+    drawTape(); drawRoll(null); drawReroll(); drawScope(); drawMatrix(); drawMachine(); drawBoard(); drawFx(); drawPatch(); drawRack(); drawWire();
     $("dump").value = M.dump(song);
     $("chrono").textContent = "0:00.0"; nowDesk(null);
     resetDrive(); if (reduced) frame();
@@ -969,7 +1020,7 @@
   var rrPrevReq = null;   // the record before the last press, as a request, so it can be heard again
   function press(made) { if (made.length) { rrPrev = song.performance.events; rrPrevReq = request(); rrUndone = []; rrActions.push(made); compose(); } }
   function complain(e) { $("rr-changed").textContent = String(e && e.message || e); }
-  var rrBuilt = false;
+  var rrBuilt = false, fill = null;
   function drawReroll() {
     var parts = $("rr-parts"), also = $("rr-also"), keySel = $("rr-key"), modeSel = $("rr-mode"), tempoEl = $("rr-tempo"), vpart = $("rr-vpart"), vsel = $("rr-voice"), c = song.chart;
     if (!rrBuilt) {
@@ -1003,11 +1054,9 @@
       // SAID, NOT ARRANGED: a part in or out, a seat's job, the figure, the
       // protagonist, the way in. Each is a pin the arrangement's own draw
       // honours where it can, and refuses out loud where it cannot.
-      var fill = function (sel, names) { sel.innerHTML = ""; names.forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o); }); };
+      fill = function (sel, names) { sel.innerHTML = ""; names.forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o); }); };
       fill($("rr-ppart"), ROLES);
       fill($("rr-jpart"), ROLES.filter(function (r) { return r !== "drums" && r !== "lead"; }));
-      var bars = function () { return rrSel ? { from: rrSel.from, to: rrSel.to } : undefined; };
-      var say = function (make) { try { press(make()); } catch (e) { complain(e); } };
       $("rr-pgo").addEventListener("click", function () { say(function () { return M.setPlays(song, $("rr-ppart").value, $("rr-pin").value === "in", bars()); }); });
       $("rr-jpart").addEventListener("change", function () { $("rr-jel").dataset.seat = ""; drawReroll(); });
       $("rr-jgo").addEventListener("click", function () { say(function () { return M.setJob(song, $("rr-jpart").value, $("rr-jel").value || null, $("rr-jtx").value || null, bars()); }); });
@@ -1015,10 +1064,23 @@
       $("rr-star").addEventListener("change", function () { if ($("rr-star").value !== song.arrangement.protagonist) say(function () { return [M.setProtagonist(song, $("rr-star").value)]; }); });
       $("rr-intro").addEventListener("change", function () { if ($("rr-intro").value !== song.arrangement.intro) say(function () { return [M.setIntro(song, $("rr-intro").value)]; }); });
       $("rr-loop").addEventListener("click", function () { if (rrSel) play({ from: secOf(rrSel.from), to: secOf(rrSel.to), loop: true }); });
+      // the swing and a seat's octave: numbers nothing draws, said inside the genre's allowance
+      $("rr-swing").addEventListener("change", function () { var v = Number($("rr-swing").value); if (v > 0 && Math.round(v) !== Math.round(song.chart.swing)) say(function () { return [M.setSwing(song, v)]; }); });
+      fill($("rr-regpart"), ROLES.filter(function (r) { return r !== "drums"; }));
+      $("rr-regpart").addEventListener("change", function () { $("rr-reg").dataset.seat = ""; drawReroll(); });
+      $("rr-reg").addEventListener("change", function () { say(function () { return [M.setRegister(song, $("rr-regpart").value, Number($("rr-reg").value))]; }); });
+      $("rr-idea").addEventListener("change", function () { $("rr-prog").dataset.idea = ""; drawReroll(); });
+      $("rr-cgo").addEventListener("click", function () { say(function () { return [M.setChords(song, $("rr-idea").value, $("rr-prog").value)]; }); });
+      $("rr-fsec").addEventListener("change", function () { $("rr-fkind").dataset.sec = ""; drawReroll(); });
+      $("rr-fkind").addEventListener("change", function () { $("rr-flen").dataset.kind = ""; drawReroll(); });
+      $("rr-fgo2").addEventListener("click", function () { say(function () { var k = $("rr-fkind").value, l = $("rr-flen").value; return M.setForm(song, Number($("rr-fsec").value), k === "" ? null : k, l === "" ? null : Number(l)); }); });
+      $("rr-tgo").addEventListener("click", function () { say(function () { return M.setTreatment(song, $("rr-treat").value, bars()); }); });
       $("rr-before").addEventListener("click", function () { if (rrPrevReq) play({ req: rrPrevReq, from: rrSel ? secOf(rrSel.from) : 0, to: rrSel ? secOf(rrSel.to) : undefined, loop: !!rrSel }); });
     }
     // the say rows read the genre's pools and the record's own answers
     var G = c.genre, weighted = function (t, drop) { return t.filter(function (e) { return e[1] > 0 && e[0] !== drop; }).map(function (e) { return e[0]; }); };
+    var bars = function () { return rrSel ? { from: rrSel.from, to: rrSel.to } : undefined; };
+    var say = function (make) { try { press(make()); } catch (e) { complain(e); } };
     var jpart = $("rr-jpart"), jel = $("rr-jel"), jtx = $("rr-jtx");
     if (jel.dataset.seat !== G.name + ":" + jpart.value) {
       jel.innerHTML = '<option value="">— element —</option>'; jtx.innerHTML = '<option value="">— texture —</option>';
@@ -1035,6 +1097,42 @@
     }
     $("rr-star").value = song.arrangement.protagonist; $("rr-intro").value = song.arrangement.intro;
     $("rr-loop").disabled = !rrSel; $("rr-before").disabled = !rrPrevReq;
+    // swing inside its allowance; the octave list is the chosen seat's own
+    var swingEl = $("rr-swing"); swingEl.value = String(Math.round(c.swing)); swingEl.min = String(G.feel.swingRange[0]); swingEl.max = String(G.feel.swingRange[1]);
+    var regPart = $("rr-regpart"), reg = $("rr-reg");
+    if (reg.dataset.seat !== G.name + ":" + regPart.value) {
+      reg.innerHTML = ""; var oc = G[regPart.value].octaves;
+      for (var o = oc[0]; o <= oc[1]; o++) { var opt = document.createElement("option"); opt.value = String(o); opt.textContent = o === 0 ? "own octave" : (o > 0 ? "+" : "") + o + " oct"; reg.appendChild(opt); }
+      reg.dataset.seat = G.name + ":" + regPart.value;
+    }
+    reg.value = String(Math.round((c.register[regPart.value][0] - G[regPart.value].register[0] - c.shift) / 12)); reg.disabled = G[regPart.value].octaves[0] === G[regPart.value].octaves[1];
+    // the chords: the ideas this record states, and each one's pool
+    var ideaSel = $("rr-idea"), progSel = $("rr-prog");
+    var ideas = Object.keys(G.harmony.progressions).filter(function (i) { return song.arrangement.placed.some(function (p) { return p.section.idea === i; }); });
+    if (ideaSel.dataset.rec !== G.name + ":" + ideas.join()) { fill(ideaSel, ideas); ideaSel.dataset.rec = G.name + ":" + ideas.join(); progSel.dataset.idea = ""; }
+    if (progSel.dataset.idea !== G.name + ":" + ideaSel.value && ideaSel.value) {
+      fill(progSel, weighted(G.harmony.progressions[ideaSel.value]).map(function (p) { return p.join("-"); }));
+      progSel.dataset.idea = G.name + ":" + ideaSel.value;
+    }
+    var standing = song.materials.all.get(ideaSel.value); if (standing) { var degs = []; standing.chords.forEach(function (ch) { if (degs.indexOf(ch.degree) < 0) degs.push(ch.degree); }); if ([].slice.call(progSel.options).some(function (o) { return o.value === degs.join("-"); })) progSel.value = degs.join("-"); }
+    // the form: every section but the outro, its kinds and lengths from the genre
+    var fsec = $("rr-fsec"), fkind = $("rr-fkind"), flen = $("rr-flen");
+    var secNames = song.form.sections.filter(function (x) { return x.fn !== "outro"; }).map(function (x) { return x.index + ": " + x.fn + " @" + x.startBar; });
+    if (fsec.dataset.rec !== secNames.join()) { fsec.innerHTML = ""; song.form.sections.forEach(function (x) { if (x.fn === "outro") return; var o = document.createElement("option"); o.value = String(x.index); o.textContent = x.index + ": " + x.fn + " @" + x.startBar; fsec.appendChild(o); }); fsec.dataset.rec = secNames.join(); fkind.dataset.sec = ""; }
+    var fs = song.form.sections[Number(fsec.value)];
+    if (fs && fkind.dataset.sec !== G.name + ":" + fsec.value) {
+      fkind.innerHTML = '<option value="">— kind —</option>'; if (fs.index > 0) M.SECTION_FNS.filter(function (k) { return k !== "outro" && k !== "intro"; }).forEach(function (k) { var o = document.createElement("option"); o.value = k; o.textContent = k; fkind.appendChild(o); });
+      fkind.dataset.sec = G.name + ":" + fsec.value; flen.dataset.kind = "";
+    }
+    if (fs && flen.dataset.kind !== G.name + ":" + fsec.value + ":" + fkind.value) {
+      var kind = fkind.value || fs.fn;
+      flen.innerHTML = '<option value="">— bars —</option>'; weighted(G.form.lengths[kind]).forEach(function (n) { var o = document.createElement("option"); o.value = String(n); o.textContent = n + " bars"; flen.appendChild(o); });
+      flen.dataset.kind = G.name + ":" + fsec.value + ":" + fkind.value;
+    }
+    // the desk: what this record's desk offers
+    var treat = $("rr-treat");
+    if (treat.dataset.genre !== G.name) { fill(treat, M.offeredBy(song.chart.sound)); treat.dataset.genre = G.name; }
+    drawShelf();
     ROLES.forEach(function (r, i) { parts.children[i].dataset.on = rrRoles[r] ? "1" : "0"; });
     // the mode list is the genre's, so it is rebuilt when the genre is
     var modes = c.genre.scales.filter(function (s) { return s[1] > 0; }).map(function (s) { return s[0]; });
@@ -1048,6 +1146,8 @@
     $("rr-range").textContent = rrSel ? "bars " + rrSel.from + "–" + rrSel.to : "whole record";
     $("rr-only").disabled = !rrSel;
     $("rr-go").disabled = !ROLES.some(function (r) { return rrRoles[r]; });
+    $("rr-feel").disabled = $("rr-go").disabled;
+    $("save-bars").disabled = !rrSel; if (!rrSel) $("save-bars").checked = false;
     $("rr-back").disabled = rrActions.length === 0;
     $("rr-fwd").disabled = rrUndone.length === 0;
     $("rr-changed").textContent = rrPrev ? "last move: " + rrDiff.fresh + " notes new, " + rrDiff.gone + " gone — the new ones are ringed on the roll" : "";
@@ -1060,6 +1160,7 @@
     });
   }
   function rerollNow() { press(M.reroll(song, selection())); }
+  function rerollFeel() { var sel = selection(); sel.feel = true; press(M.reroll(song, sel)); }
   /* ── FOUR ANSWERS, NOT ONE. Nothing needs rendering to reroll, so the
      selection is answered four times over and drawn four times under the
      roll — the selected bars, the selected parts bright and the rest dim —
@@ -1120,24 +1221,33 @@
   function recipe() {
     var c = song.chart, words = [c.genre.name, String(c.seed)];
     if (c.askedSec !== null) words.push("seconds=" + c.askedSec);
-    return words.concat(c.edits.map(M.formatEdit)).concat(M.deskWords(over)).join(" ");
+    return words.concat(c.edits.map(M.formatEdit)).concat(M.deskWords(over)).concat(M.rigWords(rig)).join(" ");
   }
-  function loadRecipe(text) {
+  /** A recipe read: the request, the hand on the desk and the rig it names, or null with the reason shown. */
+  function parseRecipe(text) {
     var words = text.trim().split(/\s+/).filter(function (w) { return w.length; });
-    if (words.length < 2 || M.GENRE_NAMES.indexOf(words[0]) < 0 || !/^\d+$/.test(words[1])) { $("rr-recipe").value = "a recipe starts with a genre and a seed: " + M.GENRE_NAMES.join(" | ") + " <seed> [seconds=n] [edits...]"; return; }
-    var made = [], seconds = "", desk = [];
+    if (words.length < 2 || M.GENRE_NAMES.indexOf(words[0]) < 0 || !/^\d+$/.test(words[1])) { $("rr-recipe").value = "a recipe starts with a genre and a seed: " + M.GENRE_NAMES.join(" | ") + " <seed> [seconds=n] [edits...]"; return null; }
+    var made = [], seconds = "", desk = [], wires = [];
     for (var i = 2; i < words.length; i++) {
       var m = /^seconds=(\d+)$/.exec(words[i]);
       if (m) { seconds = m[1]; continue; }
       if (/^desk\./.test(words[i])) { desk.push(words[i]); continue; }
-      try { made.push(M.parseEdit(words[i])); } catch (e) { $("rr-recipe").value = String(e.message || e); return; }
+      if (/^wire\./.test(words[i])) { wires.push(words[i]); continue; }
+      try { made.push(M.parseEdit(words[i])); } catch (e) { $("rr-recipe").value = String(e.message || e); return null; }
     }
-    var radio = document.querySelector('input[name="genre"][value="' + words[0] + '"]');
-    if (radio && !radio.checked) { radio.checked = true; genreVal = words[0]; picked = {}; fxPicked = {}; }
+    var out = { genre: words[0], seed: words[1], seconds: seconds, edits: made, req: { seed: Number(words[1]), genre: words[0], edits: made } };
+    if (seconds) out.req.seconds = Number(seconds);
+    try { out.desk = M.deskOf(desk); out.rig = M.rigOf(wires, M.RIGS.gm); } catch (e) { $("rr-recipe").value = String(e.message || e); return null; }
+    return out;
+  }
+  function loadRecipe(text) {
+    var r = parseRecipe(text); if (!r) return;
+    var radio = document.querySelector('input[name="genre"][value="' + r.genre + '"]');
+    if (radio && !radio.checked) { radio.checked = true; genreVal = r.genre; picked = {}; fxPicked = {}; }
     // the desk in the recipe is the hand on the console, exactly as it was
-    try { over = M.deskOf(desk); } catch (e) { $("rr-recipe").value = String(e.message || e); return; }
-    seedEl.value = words[1]; secEl.value = seconds;
-    fresh(); if (made.length) rrActions.push(made); compose();
+    over = r.desk; rig = r.rig; drawWire();
+    seedEl.value = r.seed; secEl.value = r.seconds;
+    fresh(); if (r.edits.length) rrActions.push(r.edits); compose();
   }
   function stepBack() { if (rrActions.length) { rrPrev = song.performance.events; rrPrevReq = request(); rrUndone.push(rrActions.pop()); compose(); } }
   function stepForward() { if (rrUndone.length) { rrPrev = song.performance.events; rrPrevReq = request(); rrActions.push(rrUndone.pop()); compose(); } }
@@ -2694,7 +2804,15 @@
     "  else if (d.cmd === 'stop') { E = null; credits = 0; tok = d.tok; }",
     "  else if (d.cmd === 'save') {",
     "    var s2 = MKIII.compose(d.req);",
-    "    var out = MKIII.render(s2, { desk: d.desk, sampleRate: 44100 });",
+    // the whole record, or a stretch of it: the engine moved to its top and driven to its end
+    "    var out;",
+    "    if (d.to > 0) {",
+    "      var E2 = new MKIII.Engine(s2, { desk: d.desk, sampleRate: 44100 });",
+    "      E2.seek(d.from); var stop = Math.min(E2.length, Math.round(d.to * 44100)), n = Math.max(0, stop - E2.at);",
+    "      var L2 = new Float32Array(n), R2 = new Float32Array(n);",
+    "      for (var at2 = 0; at2 < n;) { var got = E2.block(L2.subarray(at2), R2.subarray(at2), Math.min(E2.blockSize, n - at2)); if (!got) break; at2 += got; }",
+    "      out = { left: L2, right: R2 };",
+    "    } else out = MKIII.render(s2, { desk: d.desk, sampleRate: 44100 });",
     "    postMessage({ tok: d.tok, save: true, left: out.left, right: out.right }, [out.left.buffer, out.right.buffer]);",
     "  }",
     "};"
@@ -2760,7 +2878,7 @@
 
   // ── play, chunk by chunk ──
   /** Bar to second: one tempo for the record, so a bar is a fixed length. */
-  function secOf(bar) { return bar * (60 / song.chart.tempo) * song.chart.metre.beats; }
+  function secOf(bar) { return song.form.clock.at(bar); }
   var playFrom = 0, playLen = 0, playReq = null;
   /** `opts`: `req` (another record, for a candidate or the record before), `from`/`to` in seconds, `loop`. */
   function play(opts) {
@@ -2777,7 +2895,7 @@
     token++; playing = true; started = false; ending = false; queued = []; nextAt = 0; deskLine = [];
     busy(true); lamp("l-play", 1);
     $("stop").disabled = false; $("play").disabled = true; $("play").classList.add("lit");
-    worker.postMessage({ cmd: "start", tok: token, req: playReq || request(), desk: copy(over),
+    worker.postMessage({ cmd: "start", tok: token, req: playReq || request(), desk: copy(opts.desk || over),
                          sampleRate: ctx.sampleRate, chunkSec: CHUNK_SEC, credits: AHEAD,
                          from: playFrom, to: opts.to || 0, loop: !!opts.loop });
     tick();
@@ -2860,6 +2978,62 @@
   // `M.live` is the note list with a millisecond for each on and off; the wire
   // keeps time from one timestamp per message, so nothing here runs a clock.
   var midiAccess = null, midiSent = false;
+  /** Where the record goes on the wire: a preset until the owner says a channel. In the recipe as `wire.` words. */
+  var rig = M.RIGS.gm;
+  function drawWire() {
+    var sel = $("wire-rig");
+    if (!sel.options.length) {
+      Object.keys(M.RIGS).forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o); });
+      var own = document.createElement("option"); own.value = ""; own.textContent = "own"; sel.appendChild(own);
+      sel.addEventListener("change", function () { if (sel.value) { rig = M.rigOf(["wire.rig=" + sel.value], rig); drawWire(); recipeShow(); } });
+      $("wire-clock").addEventListener("change", function () { rig = M.rigOf(["wire.clock=" + ($("wire-clock").checked ? "on" : "off")], rig); recipeShow(); });
+    }
+    var words = M.rigWords(rig), preset = /^wire\.rig=(\w+)$/.exec(words.length === 1 ? words[0] : "");
+    sel.value = preset ? preset[1] : "";
+    $("wire-clock").checked = rig.clock;
+    var t = $("wire-tab"); t.innerHTML = "";
+    var pick = function (names, value, on) { var s = document.createElement("select"); names.forEach(function (n) { var o = document.createElement("option"); o.value = String(n); o.textContent = String(n); s.appendChild(o); }); s.value = String(value); s.addEventListener("change", function () { on(s.value); }); return s; };
+    var say = function (word) { try { rig = M.rigOf([word], rig); drawWire(); recipeShow(); } catch (e) { $("hint").textContent = String(e.message || e); } };
+    var chans = []; for (var c = 1; c <= 16; c++) chans.push(c);
+    M.PITCHED_ROLES.forEach(function (r) {
+      var tr = document.createElement("tr"), d = rig.parts[r];
+      var cells = [r, pick(M.DEVICE_NAMES, d.device, function (v) { say("wire." + r + "=" + v + ":" + (d.ch + 1)); }), pick(chans, d.ch + 1, function (v) { say("wire." + r + "=" + d.device + ":" + v); }), ""];
+      cells.forEach(function (c) { var td = document.createElement("td"); if (typeof c === "string") td.textContent = c; else td.appendChild(c); tr.appendChild(td); });
+      t.appendChild(tr);
+    });
+    M.DRUM_LANES.forEach(function (l) {
+      var tr = document.createElement("tr"), d = rig.lanes[l];
+      var key = document.createElement("input"); key.type = "number"; key.min = "0"; key.max = "127"; key.value = String(d.note); key.title = "the key that plays this lane";
+      key.addEventListener("change", function () { say("wire." + l + "=" + d.device + ":" + (d.ch + 1) + ":" + key.value); });
+      var cells = [l, pick(M.DEVICE_NAMES, d.device, function (v) { say("wire." + l + "=" + v + ":" + (d.ch + 1) + ":" + d.note); }), pick(chans, d.ch + 1, function (v) { say("wire." + l + "=" + d.device + ":" + v + ":" + d.note); }), key];
+      cells.forEach(function (c) { var td = document.createElement("td"); if (typeof c === "string") td.textContent = c; else td.appendChild(c); tr.appendChild(td); });
+      t.appendChild(tr);
+    });
+  }
+  function recipeShow() { if (song) $("rr-recipe").value = recipe(); }
+  /* ── THE SHELF: stepping stones kept in this browser, to hear or load again.
+     A recipe is the whole record, so a kept one is a line of text; the list
+     lives in localStorage, which is this browser's and nobody else's. */
+  function shelfRead() { try { return JSON.parse(localStorage.getItem("mkiii.shelf") || "[]"); } catch (e) { return []; } }
+  function shelfWrite(list) { try { localStorage.setItem("mkiii.shelf", JSON.stringify(list)); } catch (e) {} }
+  function drawShelf() {
+    var ol = $("shelf-list"); ol.innerHTML = "";
+    shelfRead().forEach(function (it, i) {
+      var li = document.createElement("li");
+      var name = document.createElement("span"); name.textContent = it.name; name.title = it.recipe; li.appendChild(name);
+      var hear = document.createElement("button"); hear.type = "button"; hear.textContent = "hear"; hear.title = "play it, over the dragged bars if any, without loading it";
+      hear.addEventListener("click", function () { var r = parseRecipe(it.recipe); if (!r) return; play({ req: r.req, desk: r.desk, from: rrSel ? secOf(rrSel.from) : 0, to: rrSel ? secOf(rrSel.to) : undefined, loop: !!rrSel }); });
+      var load = document.createElement("button"); load.type = "button"; load.textContent = "load"; load.addEventListener("click", function () { loadRecipe(it.recipe); });
+      var drop = document.createElement("button"); drop.type = "button"; drop.textContent = "×"; drop.title = "off the shelf"; drop.addEventListener("click", function () { var l = shelfRead(); l.splice(i, 1); shelfWrite(l); drawShelf(); });
+      li.appendChild(hear); li.appendChild(load); li.appendChild(drop);
+      ol.appendChild(li);
+    });
+  }
+  function shelfKeep() {
+    if (!song) return;
+    var l = shelfRead(), name = $("shelf-name").value.trim() || (genreVal + " " + seedEl.value + " · " + (rrActions.length ? rrActions.length + " press" + (rrActions.length === 1 ? "" : "es") : "as drawn") + " · " + new Date().toLocaleTimeString());
+    l.unshift({ name: name, recipe: recipe() }); shelfWrite(l.slice(0, 40)); $("shelf-name").value = ""; drawShelf();
+  }
   function midiPort() { var id = $("midi-out").value; return midiAccess && id ? midiAccess.outputs.get(id) : null; }
   function midiList() {
     var sel = $("midi-out"), was = sel.value; sel.innerHTML = '<option value="">no MIDI out</option>';
@@ -2877,7 +3051,7 @@
     var s = playReq ? M.compose(playReq) : song;
     var base = performance.now() + (startedAt - ctx.currentTime) * 1000;
     var to = playLen > 0 ? playFrom + playLen : Infinity;
-    M.live(s, playFrom, to).forEach(function (e) { try { out.send(e.msg, base + e.atMs); } catch (err) {} });
+    M.wire(s, rig, { fromSec: playFrom, toSec: to }).forEach(function (e) { try { out.send(e.msg, base + e.atMs); } catch (err) {} });
     midiSent = true;
   }
   /** Everything off, on every channel the file uses, and the queue cleared. */
@@ -2885,12 +3059,14 @@
     midiSent = false;
     var out = midiPort(); if (!out) return;
     try { if (out.clear) out.clear(); } catch (err) {}
-    for (var ch = 0; ch < 10; ch++) { try { out.send([0xb0 | ch, 123, 0]); } catch (err) {} }
+    if (rig.clock) { try { out.send([0xfc]); } catch (err) {} }
+    for (var ch = 0; ch < 16; ch++) { try { out.send([0xb0 | ch, 123, 0]); } catch (err) {} }
   }
   function saveMidi() {
     if (!song) return;
     var a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([M.midi(song)], { type: "audio/midi" }));
+    var stretch = $("save-bars").checked && rrSel ? { fromSec: secOf(rrSel.from), toSec: secOf(rrSel.to) } : {};
+    a.href = URL.createObjectURL(new Blob([M.midi(song, Object.assign({ rig: rig }, stretch))], { type: "audio/midi" }));
     a.download = genreVal + "-" + seedEl.value + ".mid"; a.click();
   }
 
@@ -2900,7 +3076,8 @@
     saver = saver || spawn(onChunk);
     saving = ++saveTok;
     lamp("l-save", 1); $("save").disabled = true; $("save").textContent = "Rendering…";
-    saver.postMessage({ cmd: "save", tok: saving, req: request(), desk: copy(over) });
+    var stretch = $("save-bars").checked && rrSel ? { from: secOf(rrSel.from), to: secOf(rrSel.to) } : { from: 0, to: 0 };
+    saver.postMessage({ cmd: "save", tok: saving, req: request(), desk: copy(over), from: stretch.from, to: stretch.to });
   }
   function saved(d) {
     if (d.tok !== saving) return;
@@ -2917,6 +3094,8 @@
   $("stop").addEventListener("click", stop);
   $("save").addEventListener("click", save);
   $("rr-go").addEventListener("click", rerollNow);
+  $("rr-feel").addEventListener("click", rerollFeel);
+  $("shelf-keep").addEventListener("click", shelfKeep);
   $("rr-back").addEventListener("click", stepBack);
   $("rr-fwd").addEventListener("click", stepForward);
   $("rr-try").addEventListener("click", function () { rrTried = 0; tryFour(); });

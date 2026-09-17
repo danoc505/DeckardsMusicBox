@@ -492,6 +492,16 @@ export function resolveGenre(
     (pool as Weighted<readonly number[]>).map(([list, w]) =>
       [list.map((b) => Math.round(b * perBeat)), w] as const);
 
+  /** The allowance for a said octave shift: whole octaves, holding zero, never more than two. */
+  const checkOctaves = (field: string, v: unknown): void => {
+    if (!Array.isArray(v) || v.length !== 2 || !Number.isInteger(v[0]) || !Number.isInteger(v[1])) {
+      problems.push(`${field} must be [low, high] whole octaves, got ${JSON.stringify(v)}`);
+      return;
+    }
+    const [lo, hi] = v as [number, number];
+    if (lo > 0 || hi < 0) problems.push(`${field} ${lo}..${hi} does not hold 0, so the record's own register would be unsayable`);
+    if (lo < -2 || hi > 2) problems.push(`${field} ${lo}..${hi} moves a seat more than two octaves`);
+  };
   const checkRegister = (field: string, v: unknown): void => {
     if (!Array.isArray(v) || v.length !== 2 || !finite(v[0]) || !finite(v[1])) {
       problems.push(`${field} must be [low, high] MIDI pitches, got ${JSON.stringify(v)}`);
@@ -509,6 +519,7 @@ export function resolveGenre(
     problems.push("bass is missing");
   } else {
     checkRegister("bass.register", bass["register"]);
+    checkOctaves("bass.octaves", bass["octaves"]);
     // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
     checkPool(problems, "bass.element", bass["element"],
       (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
@@ -531,6 +542,7 @@ export function resolveGenre(
     problems.push("keys is missing");
   } else {
     checkRegister("keys.register", keys["register"]);
+    checkOctaves("keys.octaves", keys["octaves"]);
     // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
     checkPool(problems, "keys.element", keys["element"],
       (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
@@ -549,6 +561,7 @@ export function resolveGenre(
     problems.push("lead is missing");
   } else {
     checkRegister("lead.register", lead["register"]);
+    checkOctaves("lead.octaves", lead["octaves"]);
     // A RECORD HAS A TUNE. "A lead vocal, lead instrument or solo" is one
     // element, singular, and the seat named for it is where it lives: the
     // arrangement gives lead to this seat and strikes it from every other, so
@@ -630,6 +643,7 @@ export function resolveGenre(
     problems.push("counter is missing");
   } else {
     checkRegister("counter.register", counter["register"]);
+    checkOctaves("counter.octaves", counter["octaves"]);
     // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
     checkPool(problems, "counter.element", counter["element"],
       (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
@@ -707,6 +721,7 @@ export function resolveGenre(
     problems.push("drone is missing");
   } else {
     checkRegister("drone.register", drone["register"]);
+    checkOctaves("drone.octaves", drone["octaves"]);
     // WHAT THIS SEAT MAY DO, AND HOW: the crayons a genre puts in the box
     checkPool(problems, "drone.element", drone["element"],
       (v) => typeof v === "string" && (ELEMENTS as readonly string[]).includes(v),
@@ -839,6 +854,15 @@ export function resolveGenre(
     }
     const jm = feel["jitterMs"];
     if (!finite(jm) || jm < 0 || jm > 50) problems.push(`feel.jitterMs must be 0..50, got ${String(jm)}`);
+    // the allowance for a said swing: it has to hold the swing and stay in range
+    const sr = feel["swingRange"];
+    if (!Array.isArray(sr) || sr.length !== 2 || !finite(sr[0]) || !finite(sr[1]) || sr[0] > sr[1]) {
+      problems.push(`feel.swingRange must be [low, high] percent, got ${JSON.stringify(sr)}`);
+    } else {
+      const [lo, hi] = sr as [number, number];
+      if (lo < 50 || hi > 75) problems.push(`feel.swingRange ${lo}..${hi} leaves 50..75`);
+      if (finite(sw) && (sw < lo || sw > hi)) problems.push(`feel.swingRange ${lo}..${hi} does not hold feel.swing ${String(sw)}`);
+    }
     const lean = feel["lean"];
     if (!isPlainObject(lean)) {
       problems.push("feel.lean must be a map of part or drum lane to milliseconds");

@@ -85,24 +85,29 @@ function keyOf(e: { role: Role; lane: string; pitch: number | null }): number | 
   return e.pitch;
 }
 
-/**
- * 0..1.25 becomes 1..127. The scale is the same one the renderer uses, so a
- * ghost note reads as a ghost note in the file: at 0.4 of full weight it
- * arrives at 40 of 127, which is where the programming guides put one.
- */
-const velOf = (gain: number): number => Math.max(1, Math.min(127, Math.round(gain * 100)));
+import { RIGS, velOf, wire, type LiveEvent, type Rig } from "./wire.ts";
+export type { LiveEvent } from "./wire.ts";
 
 export interface MidiOptions {
   /** Only this part, for reading one line on its own. */
   readonly only?: Role;
+  /** The channels and keys of a rig (`wire.ts`) instead of the file's own: a file for the owner's boxes rather than for a DAW. */
+  readonly rig?: Rig;
+  /** A stretch of the record, from this second: what starts before it is left out and the file's clock starts here. */
+  readonly fromSec?: number;
+  /** And up to this one. */
+  readonly toSec?: number;
 }
 
 /** The record as the bytes of a .mid file. */
 export function midi(song: Song, opts: MidiOptions = {}): Uint8Array {
   const clock: Clock = song.form.clock;
   const beats = song.chart.metre.beats;
-  // through the clock, so a record that one day has a tempo map is right
-  const tick = (sec: number): number => Math.round(clock.barAt(sec) * beats * PPQ);
+  const from = opts.fromSec ?? 0;
+  const to = opts.toSec ?? Infinity;
+  // through the clock, so a record that one day has a tempo map is right;
+  // a stretch is counted from its own top
+  const tick = (sec: number): number => Math.max(0, Math.round((clock.barAt(sec) - clock.barAt(from)) * beats * PPQ));
 
   const tracks: number[][] = [];
 
@@ -138,13 +143,15 @@ export function midi(song: Song, opts: MidiOptions = {}): Uint8Array {
   const byRole = new Map<Role, typeof song.performance.events[number][]>();
   for (const e of song.performance.events) {
     if (opts.only !== undefined && e.role !== opts.only) continue;
+    if (e.tSec < from - 0.06 || e.tSec >= to) continue;
     (byRole.get(e.role) ?? byRole.set(e.role, []).get(e.role)!).push(e);
   }
 
+  const rig = opts.rig;
   for (const role of Object.keys(TRACKS) as Role[]) {
     const evs = byRole.get(role);
     if (evs === undefined || evs.length === 0) continue;
-    const T = TRACKS[role];
+    const T = rig === undefined || role === "drums" ? TRACKS[role] : { ch: rig.parts[role].ch, prog: TRACKS[role].prog };
     const voice = role === "drums" ? "kit" : song.chart.sound.voices[role];
     const name = `${role} (${voice})`;
 
@@ -152,12 +159,15 @@ export function midi(song: Song, opts: MidiOptions = {}): Uint8Array {
     // at the same instant so a repeated pitch retriggers instead of cancelling
     const msgs: { t: number; order: number; b: number[] }[] = [];
     for (const e of evs) {
-      const key = keyOf(e);
+      // a drum lane on a rig has its own channel and key: a sample track
+      const lane = rig !== undefined && e.role === "drums" ? rig.lanes[e.lane as keyof typeof rig.lanes] : undefined;
+      const key = lane !== undefined ? lane.note : keyOf(e);
       if (key === null) continue;
+      const ch = lane !== undefined ? lane.ch : T.ch;
       const on = tick(e.tSec);
       const off = Math.max(on + 1, tick(e.tSec + e.durSec));
-      msgs.push({ t: on, order: 1, b: [0x90 | T.ch, key, velOf(e.gain)] });
-      msgs.push({ t: off, order: 0, b: [0x80 | T.ch, key, 64] });
+      msgs.push({ t: on, order: 1, b: [0x90 | ch, key, velOf(e.gain)] });
+      msgs.push({ t: off, order: 0, b: [0x80 | ch, key, 64] });
     }
     msgs.sort((a, z) => a.t - z.t || a.order - z.order);
 
@@ -199,36 +209,11 @@ export function midiCounts(song: Song): ReadonlyMap<Role, number> {
   return out;
 }
 
-/** One message for a wire, with the millisecond it is due. */
-export interface LiveEvent {
-  readonly atMs: number;
-  /** The status byte, the key and the velocity, as `MIDIOutput.send` takes them. */
-  readonly msg: readonly [number, number, number];
-}
-
 /**
- * THE RECORD FOR A WIRE, not a file: every note as the on and the off it
- * makes, with the millisecond each is due from the top of the record, on the
- * channels and keys the file uses (`TRACKS`, `GM_DRUM`), so what a synth on
- * the other end hears is what the file says. From `fromSec`, so a range can be
- * sent; a note that began before it is not sent, because half a note is not
- * a note. The page hands these to `MIDIOutput.send(msg, when)`, one timestamp
- * each, and the wire keeps time — nothing here runs a clock.
+ * The record for a wire on the file's own channels and keys, notes only:
+ * `wire()` on the General MIDI rig with the desk and the clock left out. Kept
+ * for what only wants the notes; the page sends `wire()` itself.
  */
 export function live(song: Song, fromSec = 0, toSec = Infinity, only?: Role): LiveEvent[] {
-  const out: LiveEvent[] = [];
-  for (const e of song.performance.events) {
-    if (e.tSec < fromSec || e.tSec >= toSec) continue;
-    if (only !== undefined && e.role !== only) continue;
-    const key = keyOf(e);
-    if (key === null || key < 0 || key > 127) continue;
-    const ch = TRACKS[e.role].ch;
-    const at = (e.tSec - fromSec) * 1000;
-    out.push({ atMs: at, msg: [0x90 | ch, key, velOf(e.gain)] });
-    // a drum's off is a formality on the wire as in the file: a hit rings as long as the machine says
-    out.push({ atMs: at + Math.max(1, (e.role === "drums" ? 0.05 : e.durSec) * 1000), msg: [0x80 | ch, key, 0] });
-  }
-  // offs before ons at the same millisecond, so a repeated key re-triggers
-  out.sort((a, b) => a.atMs - b.atMs || (a.msg[0] & 0xf0) - (b.msg[0] & 0xf0));
-  return out;
+  return wire(song, { ...RIGS["gm"]!, clock: false }, { fromSec, toSec, ...(only === undefined ? {} : { only }), desk: false });
 }

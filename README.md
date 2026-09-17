@@ -200,8 +200,13 @@ records in four and horns in the fourth). A record can be altered rather than
 taken whole: any part of any material rerolled with four answers to choose
 among, and the chords, key, mode, tempo, form, voices, a part in or out of a
 section, a seat's job, the drums' figure, the protagonist and the way in
-either rerolled or said — every one a salt or a pin on a draw the program
-already makes (`src/edit.ts`), never a second mechanism. A
+either rerolled or said, as are the swing, a seat's octave, the chords an
+idea stands on, a section's kind or length and a colour held over a section
+— every one a salt or a pin on a draw the program already makes
+(`src/edit.ts`), never a second mechanism. The record goes out on a wire
+(`src/sound/wire.ts`) for the owner's own boxes, built from their MIDI
+implementation charts: notes on their channels, the desk's moves as their
+control changes, and clock. A
 part is a seat, and
 what it plays is drawn per material from the five arrangement elements; the
 ceiling is on how many distinct elements sound at once, not on parts, so how

@@ -34,9 +34,9 @@ name on the roll say what each seat is doing. A drawn job that has nowhere to
 stand gives way to the seat's own, and `Material.served` records which
 happened — read that, not the draw.
 
-**The suite has been run END TO END on this tree and is GREEN: 334 tests, 334
-pass** (last run after the said roster, jobs, figure, desk words, seek and
-live MIDI, below). The three standing failures below are closed, and every one turned
+**The suite has been run END TO END on this tree and is GREEN: 342 tests, 342
+pass** (last run after the wire for the owner's boxes and the said form,
+desk, feel, swing, register and chords, below). The three standing failures below are closed, and every one turned
 out to be the test — two buffer diffs that ate memory, an arpeggio asked a
 held chord's law, a count painted on as a threshold — never the program.
 `npm test` in one go takes **12–13 minutes**, and `treat.test.ts` alone is
@@ -378,6 +378,75 @@ declined below, with the reason.
 
 Untouched records are byte-identical to the commit before on eighteen
 seeds, nine a genre. Full suite green.
+
+**AND THE WIRE, FOR THE BOXES IT ACTUALLY GOES TO.** The owner's rig is a
+SONICWARE LIVEN Lofi-12, a LIVEN Mega Synthesis and an Arturia BeatStep
+Pro, and none is a General MIDI module. `src/sound/wire.ts` is built from
+their own MIDI implementation charts (Lofi-12: 43 control numbers, one
+sample track per channel, notes 0–127, clock and commands received with
+SRC at MIDI; Mega Synthesis: 26 control numbers, three FM tracks, two PSG,
+one PCM, each on its own channel; BeatStep Pro: slaves to MIDI clock,
+fires its drum gates from notes on its drum channel — sources in the file
+header). A RIG says where each part and each drum lane goes — device and
+channel, and for a lane on a sample track the key that plays it — and is
+words in the recipe (`wire.rig=sonicware`, `wire.keys=mega:5`,
+`wire.kick=lofi12:1:60`, `wire.clock=off`), because the channels are
+whatever the owner set on the boxes. `wire()` is the record for that rig:
+every note on its channel and key; the desk as the control changes each
+device HAS (Lofi-12: 60 TRACK LEVEL, 61 PAN, 33 →REVERB, 38 FILTER
+CUTOFF, 39 RESO; Mega Synthesis: 36, 35, 37 and no filter), the record's
+own mix at the top and every treatment and cycle after it, a track's level
+sent AGAINST THE RECORD'S REST (100 at rest) because the box's fader is
+the owner's; and clock at 24 pulses a quarter with start and stop. The
+page's Rig panel edits it, **send on play** sends it on the audio clock,
+**Save MIDI** writes the file for it, and the CLI takes `--wire`.
+`wire.test.ts` holds the channels, the keys, the control numbers, the
+"only when a knob moves" rule and the clock. NOT tested against the boxes
+themselves — the driver has no MIDI device — so the first thing to do
+with the hardware is set the LIVENs' track channels to match the rig (or
+the rig to match them), SRC to MIDI, M.CMD to RX, and listen.
+
+**AND THE EIGHT THINGS NAMED AS STILL MISSING, BUILT.**
+
+- **The form, said** (`setForm`, `--set form.2=chorus/16`, the Form row):
+  pins on `form/step/<i>/fn` and `/len`, honoured where the walk could
+  have drawn them and checked on the record made; the first section's
+  kind is the way in, the outro's length the genre's. `intro=none` and
+  `intro=some` pin the form's own `form/intro` chance.
+- **A desk move said for a section** (`setTreatment`, `--set
+  treat=darken:16-32`, the Desk row): `arrange.ts` holds `treated` (a
+  chance at zero) and `treatment` (a pick over what this desk offers) per
+  section, and a section said this way holds its colour for its whole
+  length — the walk offers it no desk move. Note that this changes what
+  the walk does with the rest of the section's boundaries, so the notes
+  there may move too.
+- **The feel** (`reroll` with `feel: true`, `--reroll feel:lead:16-32`,
+  **Reroll feel**): a salt on `perform/<material>/<part>`, the hand's own
+  address, so every written note stays and only how it is played moves.
+  `edit.test.ts` holds both halves.
+- **Swing and register, said inside an allowance** — the mechanism is new
+  and worth knowing: `Rng.said(name, fallback, lo, hi)` is a number
+  nothing draws, answered only by a pin and clamped into the genre's
+  allowance, the `chance` at zero generalised. `feel.swingRange` (default
+  all of 50–75) and `<seat>.octaves` (default none; lofi's keys and counter
+  an octave either way, its tune down one, with sources) are the
+  allowances; `chart/swing` and `chart/register/<part>` the addresses;
+  `chart.swing` and a register moved by whole octaves what the stages read.
+  A record nobody touched is unchanged, byte for byte.
+- **The chords, said** (`setChords`, `--set chords.A=0-5-3-4`, the Chords
+  row): the harmony draw is now named by the progression's own degrees so
+  a pin can name one; the pool's order and weights are untouched, so every
+  record lands where it did. Refused where the genre avoids the diminished
+  degree the progression would land on in this scale.
+- **The shelf**: kept recipes in this browser's localStorage, each with
+  hear (over the dragged bars, without loading), load and drop.
+- **A stretch saved**: **save the dragged bars only** makes Save WAV render
+  the bars through `Engine.seek` and Save MIDI write them (`midi()` takes
+  `fromSec`/`toSec`).
+
+Driven on the page: every row said and shown, a refusal shown, the shelf
+kept, heard, loaded back to the same recipe, and a stretch saved as WAV
+and MIDI. Dump: `#swing` and `#register` lines.
 
 **AND THE RECORD AS A RECIPE.** A record is genre, seed, length and its
 edits and nothing else, so those four are shown as one line in the words
@@ -1378,6 +1447,9 @@ built and measured (see "what was just done"). Three are not:
 | a part said in or out, a seat's job, the figure, the protagonist, the way in | `--set play.drone=in:16-32` · `--set play.counter=out` · `--set job.keys=rhythm/arp:16-32` · `--set figure=amen` · `--set protagonist=lead` · `--set intro=hook` |
 | the jobs, the desk moves or the whole arrangement rerolled | `--reroll jobs` · `--reroll desk:16-32` · `--reroll arrangement` |
 | a hand on the desk for a rendering | `--desk mix.keys.level=0.8 --desk machine.kit=analog --wav out.wav` |
+| the swing, a seat's octave, the chords, a section's kind or length, a colour held over a section, no intro | `--set swing=62` · `--set register.keys=-1` · `--set chords.A=0-5-3-4` · `--set form.2=chorus/16` · `--set treat=darken:16-32` · `--set intro=none` |
+| the hand and not the notes | `--reroll feel:lead` · `--reroll feel:drums,bass:16-32` |
+| the MIDI file for the owner's boxes | `--mid out.mid --wire rig=sonicware --wire keys=mega:5 --wire kick=lofi12:1:60` |
 | a reroll as a picture, before and after | `npm run roll <genre> <seed> a.png` then `... b.png --reroll lead:16-32` |
 | who plays which bar | `node tools/measure.ts <genre> <seed> --map` |
 | the same over twenty seeds | `node tools/measure.ts --sweep <genre> 1 20 --map` |

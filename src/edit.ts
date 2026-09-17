@@ -56,9 +56,10 @@
 import { isPin, type Edit } from "./core/rng.ts";
 import { NOTE_NAMES, pc, type ScaleName } from "./core/theory.ts";
 import type { Element, PitchedRole, Role, SoundSpec, Texture, VoiceName } from "./genre/spec.ts";
-import { ELEMENTS, INTRO_KINDS, LEGAL_TEXTURES, PITCHED_ROLES, ROLES, TEXTURES } from "./genre/spec.ts";
+import { ELEMENTS, INTRO_KINDS, LEGAL_TEXTURES, PITCHED_ROLES, ROLES, SECTION_FNS, TEXTURES, TREATMENTS, type SectionFn, type Treatment } from "./genre/spec.ts";
 import { compose, type Song } from "./song.ts";
 import { materialAddress, type Placed } from "./stage/arrange.ts";
+import { offeredBy } from "./stage/treat.ts";
 
 export interface Selection {
   /** Which parts to reroll. */
@@ -69,6 +70,8 @@ export interface Selection {
   readonly to?: number;
   /** Split the selected sections off first, so only they (and what follows them) change. */
   readonly only?: boolean;
+  /** Reroll the HAND and not the notes: the timing and weight each hit is played with (`perform/...`). */
+  readonly feel?: boolean;
 }
 
 /**
@@ -147,6 +150,13 @@ export function reroll(song: Song, sel: Selection, skip = 0): Edit[] {
   for (const p of sectionsIn(base, from, to)) {
     const m = base.materials.all.get(p.material);
     if (m === undefined) continue;
+    // THE FEEL: the hand is drawn per material, part, lane and position
+    // (`perform.ts`), under `perform/<material>/<part>`, so a part's feel
+    // rerolls with the notes left exactly where they are
+    if (sel.feel) {
+      for (const role of sel.roles) salted(`perform/${p.material}/${role}`);
+      continue;
+    }
     const addr = materialAddress(p.material);
     const wholeSection = whole || (from <= p.section.startBar && to >= p.section.endBar);
     const a = Math.max(from, p.section.startBar);
@@ -353,6 +363,14 @@ export function setProtagonist(song: Song, role: string): Edit {
 
 /** The way in, said: which kind of intro the record opens with. From the genre's own pool, and only a kind that can carry the protagonist is honoured. */
 export function setIntro(song: Song, kind: string): Edit {
+  // NO INTRO, or one: the form's own chance (`form/intro`) pinned, so the
+  // record opens cold on whatever would have followed the intro, or opens
+  // on one whatever the genre's odds
+  if (kind === "none" || kind === "some") {
+    const has = song.form.sections[0]?.fn === "intro";
+    if (has === (kind === "some")) throw new Error(kind === "none" ? "the record opens cold already" : "the record has an intro already");
+    return { at: "form/intro", value: kind === "some" };
+  }
   const offered = song.chart.genre.arrangement.intro.filter(([, w]) => w > 0).map(([k]) => k);
   if (!(INTRO_KINDS as readonly string[]).includes(kind) || !(offered as readonly string[]).includes(kind)) {
     throw new Error(`no intro "${kind}" in this genre (offers: ${offered.join(", ")})`);
@@ -412,6 +430,107 @@ export function deskWords(desk: SoundSpec | undefined): string[] {
   return out;
 }
 
+/** The swing, said, in percent, held inside the genre's allowance (`feel.swingRange`). */
+export function setSwing(song: Song, pct: number): Edit {
+  const [lo, hi] = song.chart.genre.feel.swingRange;
+  if (!Number.isFinite(pct)) throw new Error(`not a swing: ${String(pct)}`);
+  const v = Math.round(Math.min(hi, Math.max(lo, pct)) * 10) / 10;
+  if (v === song.chart.swing) throw new Error(`the swing is ${v} already (the genre allows ${lo}..${hi})`);
+  return { at: "chart/swing", value: v };
+}
+
+/** A seat moved by whole octaves, said, inside the seat's own allowance (`<seat>.octaves`); 0 puts it back. */
+export function setRegister(song: Song, role: string, octaves: number): Edit {
+  if (!(PITCHED_ROLES as readonly string[]).includes(role)) throw new Error(`no pitched part "${role}" (parts: ${PITCHED_ROLES.join(", ")})`);
+  const [lo, hi] = song.chart.genre[role as PitchedRole].octaves;
+  if (!Number.isInteger(octaves)) throw new Error(`not whole octaves: ${String(octaves)}`);
+  if (octaves < lo || octaves > hi) throw new Error(`the ${song.chart.genre.name} ${role} may move ${lo}..${hi} octaves, not ${octaves}`);
+  const now = Math.round((song.chart.register[role as PitchedRole][0] - song.chart.genre[role as PitchedRole].register[0] - song.chart.shift) / 12);
+  if (now === octaves) throw new Error(`the ${role} is ${octaves === 0 ? "in its own register" : `${octaves} octave${Math.abs(octaves) === 1 ? "" : "s"} over`} already`);
+  return { at: `chart/register/${role}`, value: octaves };
+}
+
+/** The chords an idea stands on, said by their degrees (`0-5-3-4`), from the genre's own pool for that idea. */
+export function setChords(song: Song, idea: string, degrees: string): Edit {
+  const pools = song.chart.genre.harmony.progressions;
+  const pool = pools[idea as keyof typeof pools];
+  if (pool === undefined) throw new Error(`no idea "${idea}" (ideas: ${Object.keys(pools).join(", ")})`);
+  const name = degrees.trim().replace(/\s+/g, "-");
+  const offered = pool.filter(([, w]) => w > 0).map(([p]) => p.join("-"));
+  if (!offered.includes(name)) throw new Error(`the ${song.chart.genre.name} ${idea} never stands on ${name} (it offers: ${offered.join(", ")})`);
+  const edit: Edit = { at: `harmony/${idea}/progression`, value: name };
+  // a progression that lands on this scale's diminished degree is not drawn
+  // for a genre that avoids it, so the pin stands only where the draw could
+  const made = again(song, [edit]);
+  const m = [...made.materials.all.values()].find((x) => x.chords.length > 0 && made.arrangement.placed.some((p) => p.section.idea === idea && p.material.split("/")[0] === idea));
+  const got = m === undefined ? null : [...new Set(m.chords.map((c) => c.degree))];
+  const want = name.split("-").map(Number);
+  if (got === null || !want.every((d) => got.includes(d))) throw new Error(`${name} cannot stand in this record's scale (it lands on the diminished degree the genre avoids)`);
+  return edit;
+}
+
+/**
+ * A SECTION'S KIND OR LENGTH, SAID. The form is a walk that draws each step's
+ * function and length from what is affordable there (`form.ts`), so a pin
+ * is honoured only where the walk could have drawn it — a length the phrase
+ * floor forbids, a function the genre's grammar does not allow after the one
+ * before, stand as drawn — and this checks the record it made. The first
+ * section's kind is the way in (`setIntro`), and the outro's length is the
+ * genre's, not a step.
+ */
+export function setForm(song: Song, index: number, fn: string | null, bars: number | null): Edit[] {
+  const sections = song.form.sections;
+  if (!Number.isInteger(index) || index < 0 || index >= sections.length) throw new Error(`no section ${String(index)} (the record has ${sections.length})`);
+  const sec = sections[index]!;
+  if (sec.fn === "outro") throw new Error("the outro's length is the genre's, not a step of the walk");
+  if (fn === null && bars === null) throw new Error("nothing to set: name a kind, a length, or both");
+  if (fn !== null && !(SECTION_FNS as readonly string[]).includes(fn)) throw new Error(`no section kind "${fn}" (kinds: ${SECTION_FNS.join(", ")})`);
+  if (fn !== null && index === 0) throw new Error("the first section's kind is the way in: say the intro instead");
+  if (bars !== null && (!Number.isInteger(bars) || bars < 1)) throw new Error(`not a length in bars: ${String(bars)}`);
+  const kind = (fn ?? sec.fn) as SectionFn;
+  if (bars !== null) {
+    const offered = song.chart.genre.form.lengths[kind].filter(([, w]) => w > 0).map(([n]) => n);
+    if (!offered.includes(bars)) throw new Error(`a ${song.chart.genre.name} ${kind} is never ${bars} bars (it offers: ${offered.join(", ")})`);
+  }
+  const out: Edit[] = [];
+  if (fn !== null) out.push({ at: `form/step/${index}/fn`, value: fn });
+  if (bars !== null) out.push({ at: `form/step/${index}/len`, value: bars });
+  const made = again(song, out);
+  const got = made.form.sections[index];
+  if (got === undefined || (fn !== null && got.fn !== fn) || (bars !== null && got.bars !== bars)) {
+    const was = got === undefined ? "" : ` (it is a ${got.fn} of ${got.bars})`;
+    throw new Error(`section ${index} cannot be ${[fn, bars === null ? null : `${bars} bars`].filter((x) => x !== null).join(" of ")} there: the walk has no room for it${was}`);
+  }
+  if ((fn === null || sec.fn === fn) && (bars === null || sec.bars === bars)) throw new Error(`section ${index} is that already`);
+  return out;
+}
+
+/**
+ * A DESK MOVE SAID FOR THE SECTIONS A RANGE COVERS: the colour, held for each
+ * whole section. Pins on the two draws `arrange.ts` holds for exactly this,
+ * `treated` (a chance at zero) and `treatment` (a pick over what this
+ * record's desk offers). Refused for a move this desk cannot make, and
+ * refused where it did not land.
+ */
+export function setTreatment(song: Song, name: string, range?: { readonly from: number; readonly to: number }): Edit[] {
+  if (!(TREATMENTS as readonly string[]).includes(name)) throw new Error(`no treatment "${name}" (treatments: ${TREATMENTS.join(", ")})`);
+  const offered = offeredBy(song.chart.sound);
+  if (!offered.includes(name as Treatment)) throw new Error(`"${name}" reaches nothing on this record's desk (it offers: ${offered.join(", ")})`);
+  const placed = sectionsOf(song, range);
+  if (placed.length === 0) throw new Error("no section in that range");
+  const out: Edit[] = placed.flatMap((p) => [
+    { at: `arrange/section/${p.section.index}/treated`, value: true },
+    { at: `arrange/section/${p.section.index}/treatment`, value: name },
+  ]);
+  const made = again(song, out);
+  const took = placed.every((p) => {
+    const q = made.arrangement.placed.find((x) => x.section.index === p.section.index);
+    return q !== undefined && q.spans.every((sp) => sp.treatment === name);
+  });
+  if (!took) throw new Error(`"${name}" did not hold there: the drums it needs are not sounding in one of those sections`);
+  return out;
+}
+
 /** The bars a material is heard in, as `[start, end)` runs in record order, adjacent sections joined. */
 function barsOf(song: Song, key: string): [number, number][] {
   const runs: [number, number][] = [];
@@ -438,6 +557,20 @@ export function describeEdit(song: Song, edit: Edit): string {
     const vp = /^chart\/voice\/([a-z]+)$/.exec(edit.at);
     if (vp !== null) return `${vp[1]} played on the ${String(edit.value)}`;
     if (edit.at === "arrange/protagonist") return `the ${String(edit.value)} is the protagonist`;
+    if (edit.at === "chart/swing") return `swing set to ${String(edit.value)}%`;
+    if (edit.at === "form/intro") return edit.value ? "opens on an intro" : "opens cold, no intro";
+    const rg = /^chart\/register\/([a-z]+)$/.exec(edit.at);
+    if (rg !== null) { const n = Number(edit.value); return n === 0 ? `${rg[1]} back in its own register` : `${rg[1]} ${Math.abs(n)} octave${Math.abs(n) === 1 ? "" : "s"} ${n > 0 ? "up" : "down"}`; }
+    const hp = /^harmony\/([^/]+)\/progression$/.exec(edit.at);
+    if (hp !== null) return `${hp[1]} stands on ${String(edit.value)}`;
+    const fs = /^form\/step\/(\d+)\/(fn|len)$/.exec(edit.at);
+    if (fs !== null) return fs[2] === "fn" ? `section ${fs[1]} is a ${String(edit.value)}` : `section ${fs[1]} is ${String(edit.value)} bars`;
+    const tr = /^arrange\/section\/(\d+)\/treat(ed|ment)$/.exec(edit.at);
+    if (tr !== null) {
+      if (tr[2] === "ed") return "";
+      const s = song.form.sections[Number(tr[1])];
+      return `${String(edit.value)} held over ${s === undefined ? `section ${tr[1]}` : `the ${s.fn} at bar ${s.startBar}`}`;
+    }
     if (edit.at === "arrange/intro") return `a ${String(edit.value)} intro`;
     const pl = /^arrange\/section\/(\d+)\/([a-z]+)\/(in|out)$/.exec(edit.at);
     if (pl !== null) {
@@ -477,6 +610,8 @@ export function describeEdit(song: Song, edit: Edit): string {
     const s = song.form.sections[Number(et[1])];
     return `desk moves · ${s === undefined ? `section ${et[1]}` : `${s.fn} at bar ${s.startBar}`}${times}`;
   }
+  const fe = /^perform\/([^/]+(?:\/\d+)?)\/([a-z]+)$/.exec(edit.at);
+  if (fe !== null) return `${fe[2]} · ${fe[1]} · the feel · bars ${runsText(barsOf(song, fe[1]!))}${times}`;
   const m = /^material\/([^/]+)\/(\d+)\/([a-z]+)(?:\/(.*))?$/.exec(edit.at);
   if (m === null || !(ROLES as readonly string[]).includes(m[3]!)) return `${edit.at}${times}`;
   const key = m[2] === "0" ? m[1]! : `${m[1]}/${m[2]}`;
@@ -520,6 +655,19 @@ export function parseEdit(s: string): Edit {
  * rolled and looked at.
  */
 export function rerollWord(song: Song, word: string): Edit[] {
+  // `feel:lead,keys:16-32` — the hand, not the notes
+  if (word.startsWith("feel:")) {
+    const [, who, range] = word.split(":");
+    const roles = (who ?? "").split(",").filter((r) => r.length > 0) as Role[];
+    for (const r of roles) if (!(ROLES as readonly string[]).includes(r)) throw new Error(`no part "${r}" (parts: ${ROLES.join(", ")})`);
+    let bars: { from: number; to: number } | undefined;
+    if (range !== undefined && range.length > 0) {
+      const [a, b] = range.split("-").map(Number);
+      if (!Number.isInteger(a) || !Number.isInteger(b) || b! <= a!) throw new Error(`bad bar range "${range}" (want from-to, e.g. 16-32)`);
+      bars = { from: a!, to: b! };
+    }
+    return reroll(song, { roles, feel: true, ...(bars ?? {}) });
+  }
   const [who, range, flag] = word.split(":");
   if (flag !== undefined && flag !== "only") throw new Error(`unknown flag "${flag}" in "${word}" (only "only")`);
   let bars: { from: number; to: number } | undefined;
@@ -544,7 +692,7 @@ function rangeOf(value: string): { readonly rest: string; readonly range?: { fro
   return { rest: m[1]!, range: { from, to } };
 }
 
-const SET_WORDS = "tempo, key, mode, voice.<part>, play.<part>=in|out[:from-to], job.<part>=<element>[/<texture>][:from-to], figure=<name>[:from-to], protagonist, intro";
+const SET_WORDS = "tempo, key, mode, swing, voice.<part>, register.<part>=<octaves>, play.<part>=in|out[:from-to], job.<part>=<element>[/<texture>][:from-to], figure=<name>[:from-to], protagonist, intro (a kind, none or some), chords.<idea>=<degrees>, form.<section>=<kind>[/<bars>], treat=<name>[:from-to]";
 
 /**
  * `tempo=92`, `key=D`, `mode=dorian`, `voice.counter=horns`, `play.drone=in:16-32`,
@@ -560,6 +708,20 @@ export function setWord(song: Song, word: string): Edit[] {
   if (what === "mode") return [setMode(song, value)];
   if (what === "protagonist") return [setProtagonist(song, value)];
   if (what === "intro") return [setIntro(song, value)];
+  if (what === "swing") return [setSwing(song, Number(value))];
+  const rg = /^register\.([a-z]+)$/.exec(what);
+  if (rg !== null) return [setRegister(song, rg[1]!, Number(value))];
+  const ch = /^chords\.([A-Za-z0-9]+)$/.exec(what);
+  if (ch !== null) return [setChords(song, ch[1]!, value)];
+  const fm = /^form\.(\d+)$/.exec(what);
+  if (fm !== null) {
+    const [kind, len] = value.split("/");
+    return setForm(song, Number(fm[1]), kind === undefined || kind === "" || kind === "-" ? null : kind, len === undefined || len === "" ? null : Number(len));
+  }
+  if (what === "treat") {
+    const { rest, range } = rangeOf(value);
+    return setTreatment(song, rest, range);
+  }
   const v = /^voice\.([a-z]+)$/.exec(what);
   if (v !== null) return [setVoice(song, v[1]!, value)];
   const p = /^play\.([a-z]+)$/.exec(what);

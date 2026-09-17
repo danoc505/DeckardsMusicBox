@@ -1755,8 +1755,21 @@ const kindOf = (mv: Move): string =>
     const opensWithout = new Set(base);
     for (const r of queue) opensWithout.delete(r);
 
+    /**
+     * A DESK MOVE SAID FOR THIS SECTION, or null. Whether a span is treated
+     * is scored below from what the record owes, and which colour is drawn;
+     * there was nothing an owner could point at to say "the bridge, drenched".
+     * `treated` is a chance held at zero — only ever true by a pin, as a split
+     * is — and `treatment` a pick over what this record's desk offers, so a
+     * pin lands only on a move this desk can make (`setTreatment` checks that
+     * it did). A section said this way holds its colour for its whole length:
+     * the walk offers it no desk move, because the owner has made that one.
+     */
+    const saidDesk = chart.rng.at("arrange", "section", section.index);
+    const saidPool = offered.filter((t) => !needsDrums(t) || heard.has("drums"));
+    const saidTreat: Treatment | null = saidPool.length > 0 && saidDesk.chance("treated", 0) ? saidDesk.pick("treatment", saidPool) : null;
     let cur: { heard: Set<Role>; thin: boolean; treatment: Treatment | null; at: Role | null; hush: Role | null; halved: boolean; broken: boolean } =
-      { heard: opensWithout, thin, treatment: opening, at: null, hush: null, halved: false, broken: false };
+      { heard: opensWithout, thin, treatment: saidTreat ?? opening, at: null, hush: null, halved: false, broken: false };
     // HOW LONG A POINT LASTS, IN TURNS OF THE LOOP. Read off the points
     // rather than assumed: they are no longer evenly spaced, so this used to
     // be `2` everywhere and would now be wrong at every bar point. The ledger
@@ -2175,7 +2188,7 @@ const kindOf = (mv: Move): string =>
             .filter((t) => !needsDrums(t) || cur.heard.has("drums"))
             .map((t) => [t, weightOf(t) / (1 + (ledger.used.get(`treat:${t}`) ?? 0))] as const)
             .filter(([, w]) => w > 0);
-          if (live.length > 0) {
+          if (live.length > 0 && saidTreat === null) {
             const t = chart.rng.at("arrange", "treat", section.index, s).weighted("which", live);
             push(`treat-${t}`, new Set(cur.heard), cur.thin, "drums", 1, t);
             if (isPerPart(t)) {
@@ -2187,7 +2200,7 @@ const kindOf = (mv: Move): string =>
           }
           //    and back to the record's own sound, which is a change like any
           //    other and the only way a treated span ever ends
-          if (cur.treatment !== null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null, null);
+          if (cur.treatment !== null && saidTreat === null) push("untreat", new Set(cur.heard), cur.thin, "drums", 1, null, null);
 
           // ── THE SCORE. Three terms, multiplied, no coefficients: any one at
           //    zero kills the move, and there is nothing to tune.

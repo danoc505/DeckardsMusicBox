@@ -92,6 +92,7 @@ export function dump(song: Song): string {
   L.push(`#key\t${NOTE_NAMES[pc(chart.tonicPc)]}`);
   L.push(`#mode\t${chart.scaleName}`);
   L.push(`#tempo\t${r2(chart.tempo)}`);
+  L.push(`#swing\t${r2(chart.swing)}`);
   L.push(`#bars\t${form.bars}`);
   L.push(`#steps_per_bar\t${form.clock.steps}`);
   L.push(`#seconds\t${r2(performance.seconds)}`);
@@ -99,6 +100,7 @@ export function dump(song: Song): string {
   for (const r of ROLES) {
     if (r === "drums") continue;
     L.push(`#voice\t${r}\t${chart.sound.voices[r]}`);
+    L.push(`#register\t${r}\t${chart.register[r][0]}\t${chart.register[r][1]}`);
   }
   // and the drums are a machine with a kit in it, which is the same question
   // asked of the one part that has no `voices` entry

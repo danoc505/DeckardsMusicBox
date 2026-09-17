@@ -58,8 +58,14 @@ export interface Chart {
    * the tones straight back into the same absolute band.
    */
   readonly shift: number;
-  /** The genre's registers, moved to where this record sits. Parts read these, never the genre's. */
+  /**
+   * The genre's registers, moved to where this record sits — and by whole
+   * octaves where the owner said so (`chart/register/<part>`, inside the
+   * seat's `octaves` allowance). Parts read these, never the genre's.
+   */
   readonly register: Readonly<Record<Role, Register>>;
+  /** The swing, percent: the genre's, or what the owner said inside `feel.swingRange` (`chart/swing`). */
+  readonly swing: number;
   readonly scaleName: ScaleName;
   readonly scale: Scale;
 
@@ -138,9 +144,14 @@ export function makeChart(req: ChartRequest): Chart {
     Object.fromEntries(PITCHED_ROLES.map((r) => [r, draw.at("voice").weighted(r, genre.sound.voices[r])])) as Record<PitchedRole, VoiceName>,
   );
   const sound: SoundRules = Object.freeze({ ...genre.sound, voices });
-  /** A band moved with the record, and never past what a MIDI pitch can be. */
-  const moved = (r: Register): Register =>
-    [Math.max(0, r[0] + shift), Math.min(127, r[1] + shift)] as const;
+  /** A band moved with the record, and by the octaves the owner said, never past what a MIDI pitch can be. */
+  const moved = (r: Register, octaves = 0): Register =>
+    [Math.max(0, r[0] + shift + 12 * octaves), Math.min(127, r[1] + shift + 12 * octaves)] as const;
+  // SAID, NOT DRAWN: an octave for a seat and the swing are numbers nothing
+  // draws, answered only by a pin and held inside the genre's allowance
+  const said = draw.at("register");
+  const octave = (r: PitchedRole): number => Math.round(said.said(r, 0, genre[r].octaves[0], genre[r].octaves[1]));
+  const swing = draw.said("swing", genre.feel.swing, genre.feel.swingRange[0], genre.feel.swingRange[1]);
 
   return Object.freeze({
     seed,
@@ -157,12 +168,13 @@ export function makeChart(req: ChartRequest): Chart {
       // the kit has no pitch, so nothing reads this; it is here because the
       // type is one entry per part and a missing one would be a silent hole
       drums: moved(genre.bass.register),
-      bass: moved(genre.bass.register),
-      keys: moved(genre.keys.register),
-      lead: moved(genre.lead.register),
-      counter: moved(genre.counter.register),
-      drone: moved(genre.drone.register),
+      bass: moved(genre.bass.register, octave("bass")),
+      keys: moved(genre.keys.register, octave("keys")),
+      lead: moved(genre.lead.register, octave("lead")),
+      counter: moved(genre.counter.register, octave("counter")),
+      drone: moved(genre.drone.register, octave("drone")),
     }),
+    swing,
     scaleName,
     scale,
     tempo,

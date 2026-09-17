@@ -110,6 +110,15 @@ export interface Rng {
   /** True with probability `p`. `p <= 0` is never, `p >= 1` is always. */
   chance(name: Seg, p: number): boolean;
 
+  /**
+   * A NUMBER THE OWNER MAY SAY AND NOTHING DRAWS: `fallback` unless a pin
+   * answers this address, and then the pin clamped into [lo, hi] — the
+   * allowance a genre states for it. No draw is spent, so a record nobody
+   * touched is the same record whether or not the address exists: this is
+   * the `chance` at zero that `split` and the said roster use, for a number.
+   */
+  said(name: Seg, fallback: number, lo: number, hi: number): number;
+
   /** One element, uniformly. Throws on an empty list — silence is not a draw. */
   pick<T>(name: Seg, from: readonly T[]): T;
 
@@ -211,6 +220,11 @@ function make(seed: number, path: string, salts: readonly Salt[], pins: readonly
     chance: (name, p) => {
       const pin = pinned([name]);
       return typeof pin === "boolean" ? pin : u([name]) < p;
+    },
+
+    said: (name, fallback, lo, hi) => {
+      const p = pinned([name]);
+      return typeof p === "number" && Number.isFinite(p) ? clamp(p, lo, hi) : fallback;
     },
 
     pick: (name, from) => {

@@ -18,7 +18,10 @@
  *   --set play.drone=in:16-32  a part said in (or out) of the sections those bars fall in
  *   --set job.keys=rhythm/arp  what a seat does, and how; `:16-32` for the materials those bars play
  *   --set figure=amen          the drums' figure by name, from the genre's own pool
+ *   --set swing=62 | register.keys=-1 | chords.A=0-5-3-4 | form.2=chorus/16 | treat=darken:16-32 | intro=none
+ *   --reroll feel:lead:16-32   the hand and not the notes: how the tune's hits are timed and weighted there
  *   --desk mix.keys.level=0.8  a hand on the desk for the rendering: the page's override as a word
+ *   --wire rig=sonicware       the MIDI file on the owner's boxes: `wire.ts` presets, or keys=mega:5, kick=lofi12:1:60
  *   --split 3                  section 3 gets its own material, and what follows it plays that
  *   --edit material/A/0/lead=2 one address, salted by hand; `chart/tempo:=92` pins one
  */
@@ -29,6 +32,7 @@ import { GENRE_NAMES, type GenreName } from "./genre/index.ts";
 import { compose } from "./song.ts";
 import { dump, summary } from "./dump.ts";
 import { deskOf, parseEdit, rerollWord, setWord, split } from "./edit.ts";
+import { rigOf } from "./sound/wire.ts";
 import { render } from "./sound/render.ts";
 import { wav } from "./sound/wav.ts";
 import { midi } from "./sound/midi.ts";
@@ -36,7 +40,7 @@ import { midi } from "./sound/midi.ts";
 function usage(): never {
   process.stderr.write(
     "usage: node src/cli.ts <genre> <seed> [seconds] [--summary] [--wav <file>] [--mid <file>]\n" +
-      "                       [--reroll <what>]... [--set <what>=<value>]... [--split <section>]... [--edit <address>=<salt>]... [--desk <path>=<value>]...\n" +
+      "                       [--reroll <what>]... [--set <what>=<value>]... [--split <section>]... [--edit <address>=<salt>]... [--desk <path>=<value>]... [--wire <what>=<where>]...\n" +
       "       node src/cli.ts --genres\n" +
       `genres: ${GENRE_NAMES.join(", ")}\n`,
   );
@@ -50,7 +54,7 @@ if (args.includes("--genres")) {
 }
 const wantSummary = args.includes("--summary");
 /** Flags that take the argument after them. */
-const VALUED = ["--wav", "--mid", "--reroll", "--set", "--split", "--edit", "--desk"];
+const VALUED = ["--wav", "--mid", "--reroll", "--set", "--split", "--edit", "--desk", "--wire"];
 const wavAt = args.indexOf("--wav");
 const wavFile = wavAt >= 0 ? args[wavAt + 1] : undefined;
 if (wavAt >= 0 && wavFile === undefined) usage();
@@ -80,6 +84,8 @@ if (seconds !== undefined && !(seconds > 0)) usage();
 let edits: Edit[] = [];
 /** `--desk mix.keys.level=0.8`: a hand on the desk for the rendering, the page's override as a word. Not an edit — it changes no note — so it is laid over the render and printed as `#desk` lines. */
 const deskWords: string[] = [];
+/** `--wire rig=sonicware`, `--wire keys=mega:5`: where the parts go, for the MIDI file. */
+const wireWords: string[] = [];
 const sofar = (): ReturnType<typeof compose> => compose({ seed, genre: genreArg as GenreName, ...(seconds === undefined ? {} : { seconds }), edits });
 for (let i = 0; i + 1 < args.length; i++) {
   const flag = args[i];
@@ -89,6 +95,7 @@ for (let i = 0; i + 1 < args.length; i++) {
     else if (flag === "--reroll") edits = edits.concat(rerollWord(sofar(), value));
     else if (flag === "--set") edits = edits.concat(setWord(sofar(), value));
     else if (flag === "--desk") deskWords.push(value.startsWith("desk.") ? value : `desk.${value}`);
+    else if (flag === "--wire") wireWords.push(value.startsWith("wire.") ? value : `wire.${value}`);
     else if (flag === "--split") edits.push(split(sofar(), Number(value)));
   } catch (e) {
     process.stderr.write(`${(e as Error).message}\n`);
@@ -98,7 +105,7 @@ for (let i = 0; i + 1 < args.length; i++) {
 
 const song = sofar();
 if (midFile !== undefined) {
-  writeFileSync(midFile, midi(song));
+  writeFileSync(midFile, midi(song, wireWords.length > 0 ? { rig: rigOf(wireWords) } : {}));
   process.stderr.write(`${summary(song)} → ${midFile}\n`);
 }
 if (wavFile !== undefined) {

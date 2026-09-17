@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { compose } from "./song.ts";
 import { dump } from "./dump.ts";
 import { isPin } from "./core/rng.ts";
-import { candidates, describeEdit, deskOf, deskWords, formatEdit, parseEdit, reroll, rerollAspect, rerollWord, setFigure, setIntro, setJob, setKey, setMode, setPlays, setProtagonist, setTempo, setVoice, setWord, split } from "./edit.ts";
+import { candidates, describeEdit, deskOf, deskWords, formatEdit, parseEdit, reroll, rerollAspect, rerollWord, setChords, setFigure, setForm, setIntro, setJob, setKey, setMode, setPlays, setProtagonist, setRegister, setSwing, setTempo, setTreatment, setVoice, setWord, split } from "./edit.ts";
 import { GENRE_NAMES } from "./genre/index.ts";
 import { ROLES, type Role } from "./genre/spec.ts";
 import { NOTE_NAMES, pc } from "./core/theory.ts";
@@ -162,7 +162,7 @@ test("edits and selections read back from the words the command line uses", () =
   assert.throws(() => rerollWord(song, "lead:0-8:twice"), /unknown flag/);
   assert.deepEqual(setWord(song, "tempo=80"), [setTempo(song, 80)]);
   assert.deepEqual(setWord(song, "key=D"), [setKey(song, "D")]);
-  assert.throws(() => setWord(song, "swing=1"), /nothing to set/);
+  assert.throws(() => setWord(song, "colour=1"), /nothing to set/);
 });
 
 test("the tempo, the key and the mode can be said instead of drawn, and only inside the genre's own pool", () => {
@@ -414,4 +414,119 @@ test("the jobs, the desk moves and the whole arrangement reroll by name, and a d
   assert.deepEqual(desk, { mix: { keys: { level: 0.8 } }, machine: { kit: "analog" } });
   assert.deepEqual(deskWords(desk), ["desk.machine.kit=analog", "desk.mix.keys.level=0.8"]);
   assert.throws(() => deskOf(["mix.keys.level"]), /not a desk word/);
+});
+
+test("the swing and a seat's register can be said inside the genre's allowances, and nothing draws them", () => {
+  const song = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  assert.equal(song.chart.swing, song.chart.genre.feel.swing, "a record nobody touched swings at the genre's swing");
+  const sw = setSwing(song, 66);
+  const swung = compose({ seed: 3, genre: "lofi", seconds: 60, edits: [sw] });
+  assert.equal(swung.chart.swing, 66);
+  // the notes are where they were; only where they are PLAYED moved
+  const written = (s: typeof song): string => s.performance.events.map((e) => `${e.role}/${e.bar}/${e.step}/${e.pitch}`).sort().join("|");
+  assert.equal(written(swung), written(song));
+  assert.notEqual(swung.performance.events.map((e) => e.playedStep).join(), song.performance.events.map((e) => e.playedStep).join());
+  assert.deepEqual(setSwing(song, 99), { at: "chart/swing", value: song.chart.genre.feel.swingRange[1] }, "held inside the allowance");
+  assert.throws(() => setSwing(song, song.chart.swing), /already/);
+  // the keys may move an octave either way in lofi; the drone may not move
+  const down = setRegister(song, "keys", -1);
+  const low = compose({ seed: 3, genre: "lofi", seconds: 60, edits: [down] });
+  assert.equal(low.chart.register.keys[0], song.chart.register.keys[0] - 12);
+  assert.equal(low.chart.register.keys[1], song.chart.register.keys[1] - 12);
+  const keysTop = (s: typeof song): number => Math.max(...s.performance.events.filter((e) => e.role === "keys").map((e) => e.pitch ?? 0));
+  assert.ok(keysTop(low) < keysTop(song), "the keys did not go down");
+  assert.throws(() => setRegister(song, "drone", 1), /may move 0\.\.0/);
+  assert.throws(() => setRegister(song, "keys", 0), /already/);
+  assert.throws(() => setRegister(song, "keys", 2), /may move/);
+  assert.match(describeEdit(low, down), /^keys 1 octave down$/);
+  assert.deepEqual(setWord(song, "register.keys=-1"), [down]);
+  assert.deepEqual(setWord(song, "swing=66"), [sw]);
+  // and untouched, the dump says the genre's numbers
+  assert.match(dump(song), /^#swing\t60(\.0+)?$/m);
+});
+
+test("the chords an idea stands on can be said from the genre's pool, and refused where the scale forbids them", () => {
+  const song = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  const pool = song.chart.genre.harmony.progressions.A.filter(([, w]) => w > 0).map(([p]) => p.join("-"));
+  const now = [...song.materials.all.values()][0]!.chords.map((c) => c.degree);
+  const other = pool.find((p) => p.split("-").length === 4 && p !== now.join("-"))!;
+  const edit = setChords(song, "A", other);
+  const made = compose({ seed: 3, genre: "lofi", seconds: 60, edits: [edit] });
+  const got = [...made.materials.all.values()].find((m) => m.chords.length > 0)!.chords.map((c) => c.degree);
+  assert.equal(got.join("-"), other, "the said progression was not drawn");
+  assert.match(describeEdit(made, edit), /^A stands on /);
+  assert.throws(() => setChords(song, "A", "9-9"), /never stands on/);
+  assert.throws(() => setChords(song, "Q", "0-5"), /no idea/);
+  // dungeon synth avoids the diminished degree, so a progression landing on it in this scale is refused as a knob that does nothing
+  const ds = compose({ seed: 17479, genre: "dungeonsynth", seconds: 60 });
+  let refused = 0, landed = 0;
+  for (const [p] of ds.chart.genre.harmony.progressions.A) {
+    try { setChords(ds, "A", p.join("-")); landed++; } catch (e) { if (/diminished|already/.test((e as Error).message)) refused++; else throw e; }
+  }
+  assert.ok(landed > 0, "no progression could be said at all");
+  assert.equal(refused + landed, ds.chart.genre.harmony.progressions.A.length);
+});
+
+test("a section's kind or length can be said where the walk has room, the way in can be none, and the outro is not a step", () => {
+  const song = compose({ seed: 3, genre: "lofi" });
+  const s = song.form.sections;
+  assert.ok(s.length >= 3, `a record of ${s.length} sections is too short to say a form on`);
+  const mid = s.find((x) => x.index > 0 && x.fn !== "outro")!;
+  const lens = song.chart.genre.form.lengths[mid.fn].filter(([, w]) => w > 0).map(([n]) => n).filter((n) => n !== mid.bars);
+  if (lens.length > 0) {
+    let said = false;
+    for (const len of lens) {
+      try {
+        const edits = setForm(song, mid.index, null, len);
+        const made = compose({ seed: 3, genre: "lofi", edits });
+        assert.equal(made.form.sections[mid.index]!.bars, len);
+        assert.match(describeEdit(made, edits[0]!), new RegExp(`^section ${mid.index} is ${len} bars$`));
+        said = true;
+        break;
+      } catch (e) { if (!/no room/.test((e as Error).message)) throw e; }
+    }
+    assert.ok(said, "no other length could be said for any section");
+  }
+  assert.throws(() => setForm(song, s.length - 1, null, 8), /outro/);
+  assert.throws(() => setForm(song, 0, "chorus", null), /way in/);
+  assert.throws(() => setForm(song, mid.index, "coda", null), /no section kind/);
+  assert.throws(() => setForm(song, mid.index, null, 7), /never 7 bars/);
+  assert.throws(() => setForm(song, mid.index, null, null), /nothing to set/);
+  // no intro, or one
+  const cold = s[0]!.fn !== "intro";
+  const flip = setIntro(song, cold ? "some" : "none");
+  const flipped = compose({ seed: 3, genre: "lofi", edits: [flip] });
+  assert.equal(flipped.form.sections[0]!.fn === "intro", cold);
+  assert.throws(() => setIntro(song, cold ? "none" : "some"), /already/);
+  assert.deepEqual(setWord(song, cold ? "intro=some" : "intro=none"), [flip]);
+});
+
+test("a desk move can be said for a section and holds for its whole length, and the feel of a part rerolls without moving a note", () => {
+  const song = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  const p = song.arrangement.placed[0]!;
+  const bars = { from: p.section.startBar, to: p.section.startBar + 1 };
+  const edits = setTreatment(song, "darken", bars);
+  assert.equal(edits.length, 2);
+  const made = compose({ seed: 3, genre: "lofi", seconds: 60, edits });
+  const q = made.arrangement.placed[0]!;
+  assert.ok(q.spans.length > 0 && q.spans.every((sp) => sp.treatment === "darken"), `the verse's spans are ${q.spans.map((sp) => sp.treatment).join(",")}`);
+  assert.ok(made.performance.desk.some((d) => d.treatment === "darken"), "the desk timeline never darkens");
+  assert.equal(describeEdit(made, edits[0]!), "", "the chance carries no words of its own");
+  assert.match(describeEdit(made, edits[1]!), /^darken held over the verse at bar 0$/);
+  assert.throws(() => setTreatment(song, "sparkle", bars), /no treatment/);
+  assert.deepEqual(setWord(song, "treat=darken:0-1"), edits);
+  // a record nobody touched is untouched by the draw existing at all
+  const again = compose({ seed: 3, genre: "lofi", seconds: 60 });
+  assert.equal(again.performance.desk.length, song.performance.desk.length);
+  // the feel: the written notes stay, the played positions and weights move
+  const feel = rerollWord(song, "feel:lead");
+  assert.ok(feel.every((e) => !isPin(e) && /^perform\/[^/]+(\/\d+)?\/lead$/.test(e.at)), feel.map((e) => e.at).join());
+  const felt = compose({ seed: 3, genre: "lofi", seconds: 60, edits: feel });
+  const written = (s: typeof song, r: Role): string => s.performance.events.filter((e) => e.role === r).map((e) => `${e.bar}/${e.step}/${e.pitch}`).sort().join("|");
+  assert.equal(written(felt, "lead"), written(song, "lead"), "the feel moved a written note");
+  assert.equal(written(felt, "keys"), written(song, "keys"));
+  const hand = (s: typeof song, r: Role): string => s.performance.events.filter((e) => e.role === r).map((e) => `${e.playedStep.toFixed(4)}/${e.gain.toFixed(4)}`).join("|");
+  assert.notEqual(hand(felt, "lead"), hand(song, "lead"), "the tune's hand did not move");
+  assert.equal(hand(felt, "keys"), hand(song, "keys"), "the keys' hand moved");
+  assert.match(describeEdit(felt, feel[0]!), /the feel/);
 });

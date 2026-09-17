@@ -183,7 +183,7 @@ export function makePerformance(
   // the second note of each pair lands where the first note's share ends:
   // at 66.7% two thirds of the way through the pair, one sixth of it late
   const pairSteps = F.swingGrid === 16 ? perBeat / 2 : perBeat;
-  const swingSteps = ((F.swing - 50) / 100) * pairSteps;
+  const swingSteps = ((chart.swing - 50) / 100) * pairSteps;
   const swung = (step: number): boolean => step % pairSteps === pairSteps / 2;
   // the metre's hierarchy, as far as this genre leans on it. Worked out once
   // per step of a bar, because it is the same in every bar of the record.

@@ -222,6 +222,7 @@ export const lofi: GenreSpec = {
      * sixty.
      */
     register: [43, 76],
+    octaves: [-1, 1],
     /**
      * WHAT THE KEYS MAY DO. The Rhodes is a pad by the source's own account —
      * "a Hammond Organ provided the best pad and was joined later by the
@@ -365,6 +366,7 @@ export const lofi: GenreSpec = {
      * compass, a minor third under the note that was objected to.
      */
     register: [64, 81],
+    octaves: [-1, 0],
     art: [["plain", 6], ["slur", 5], ["tenuto", 3], ["ghost", 2], ["staccato", 2], ["slide", 2], ["bend", 1]],
     /** a muted guitar over a beat plays as many arpeggios as it does tunes */
     contour: [["sung", 4], ["riff", 3], ["chant", 1]],
@@ -387,6 +389,7 @@ export const lofi: GenreSpec = {
    */
   counter: {
     register: [50, 66],
+    octaves: [-1, 1],
     /**
      * WHAT THE COUNTER MAY DO. Fills, by definition — "an answer to the Lead"
      * — and, since a Wurlitzer answering can just as well be a Wurlitzer
@@ -842,6 +845,9 @@ export const lofi: GenreSpec = {
       "That it is stated per part is Keil's point: the discrepancy is BETWEEN parts, \"one plays ever so slightly " +
       "ahead of the other\" (Keil, \"Participatory Discrepancies and the Power of Music\", 1987). " +
       "18 ms on the snare is inside the measured band; the rest [chosen] under it",
+    "keys.octaves": "an octave either way: the Rhodes is voiced anywhere from its low mids to its top (LOFI-LINEAGE.md) [chosen]",
+    "lead.octaves": "down an octave, never up: the tune already tops at A5 (HANDOFF.md, lead register) [chosen]",
+    "counter.octaves": "an octave either way, as the keys [chosen]",
     "feel.swing":
       "MPC swing is a share of each pair in percent, 50 straight and 66.7 a triplet, applied to sixteenths; " +
       "hip hop sits at 54–62 and 62 is 'almost a triplet' (melodiefabriek.com/blog/mpc-swing-reason; " +

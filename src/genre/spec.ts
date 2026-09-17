@@ -331,6 +331,12 @@ export interface SeatSpec {
   readonly element?: Weighted<Element>;
   /** How it lays those jobs out, by weight. */
   readonly texture?: Weighted<Texture>;
+  /**
+   * HOW FAR AN OWNER MAY MOVE THIS SEAT, in octaves, [low, high] holding 0.
+   * Nothing draws from this: a record nobody touched sits in `register`. It
+   * is the allowance for `--set register.keys=-1`, clamped to it.
+   */
+  readonly octaves?: readonly [number, number];
 }
 
 export interface BassSpec extends SeatSpec {
@@ -376,6 +382,7 @@ export interface BassRules {
   readonly element: Weighted<Element>;
   readonly texture: Weighted<Texture>;
   readonly register: Register;
+  readonly octaves: readonly [number, number];
   readonly pocket: Weighted<readonly number[]> | "kick";
   readonly tones: Weighted<BassTone>;
   readonly turnaround: number;
@@ -429,6 +436,7 @@ export interface KeysRules {
   readonly element: Weighted<Element>;
   readonly texture: Weighted<Texture>;
   readonly register: Register;
+  readonly octaves: readonly [number, number];
   readonly strike: Weighted<readonly number[]>;
   readonly open: number;
   readonly hold: number;
@@ -578,6 +586,7 @@ export interface DroneRules {
   readonly element: Weighted<Element>;
   readonly texture: Weighted<Texture>;
   readonly register: Register;
+  readonly octaves: readonly [number, number];
   readonly tone: Weighted<DroneTone>;
   readonly hold: Weighted<number>;
   readonly strings: Weighted<readonly DroneString[]>;
@@ -621,6 +630,7 @@ export interface LeadRules {
   readonly element: Weighted<Element>;
   readonly texture: Weighted<Texture>;
   readonly register: Register;
+  readonly octaves: readonly [number, number];
   readonly rhythms: Weighted<readonly number[]>;
   readonly leap: number;
   readonly span: number;
@@ -677,6 +687,7 @@ export interface CounterRules {
   readonly element: Weighted<Element>;
   readonly texture: Weighted<Texture>;
   readonly register: Register;
+  readonly octaves: readonly [number, number];
   readonly art: ArtSpec;
   readonly density: number;
   readonly apart: number;
@@ -1118,6 +1129,12 @@ export interface FeelSpec {
    * machines sit at 54–62.
    */
   readonly swing?: number;
+  /**
+   * WHAT AN OWNER MAY SAY THE SWING IS, [low, high] percent, holding `swing`.
+   * Nothing draws from this: a record nobody touched swings at `swing`. It is
+   * the allowance for `--set swing=62`, clamped to it. Default: all of 50..75.
+   */
+  readonly swingRange?: readonly [number, number];
   /** The grid the pairs are on: 16 swings every second sixteenth, 8 every second eighth. */
   readonly swingGrid?: SwingGrid;
   /** How far a hand misses the grid either way, in milliseconds. */
@@ -1154,6 +1171,7 @@ export interface FeelSpec {
 
 export interface FeelRules {
   readonly swing: number;
+  readonly swingRange: readonly [number, number];
   readonly swingGrid: SwingGrid;
   readonly jitterMs: number;
   readonly lean: Readonly<Partial<Record<Role | DrumLane, number>>>;
@@ -1929,6 +1947,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     element: [["foundation", 1]],
     texture: [["line", 1]],
     register: [36, 50],
+    octaves: [0, 0],
     /** in beats: one-and-three is the strong default */
     pocket: [
       [[0, 2], 4],
@@ -1967,6 +1986,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     element: [["pad", 1]],
     texture: [["line", 1]],
     register: [52, 76],
+    octaves: [0, 0],
     /** in beats */
     strike: [
       [[0], 3],
@@ -1999,6 +2019,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     element: [["lead", 1]],
     texture: [["line", 1]],
     register: [64, 84],
+    octaves: [0, 0],
     /**
      * In beats across a two-bar phrase. Each cell leaves the second bar's end
      * open so the phrase breathes before the next one. [chosen]
@@ -2125,6 +2146,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
     element: [["fills", 1]],
     texture: [["line", 1]],
     register: [40, 62],
+    octaves: [0, 0],
     art: [["plain", 5], ["tenuto", 2], ["staccato", 1]],
     density: 0.5,
     apart: 12,
@@ -2141,6 +2163,7 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * more often than not.
      */
     register: [51, 65],
+    octaves: [0, 0],
     tone: [
       ["tonic", 5],
       ["fifth", 2],
@@ -2372,6 +2395,8 @@ export const DEFAULTS: Omit<Genre, "name" | "label" | "sources"> = {
      * says so.
      */
     swing: 50,
+    // an owner may say any legal swing unless the genre narrows it
+    swingRange: [50, 75],
     swingGrid: 16,
     jitterMs: 10,
     /**

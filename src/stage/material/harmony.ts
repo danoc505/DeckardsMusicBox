@@ -26,7 +26,12 @@ export function drawChords(chart: Chart, idea: Idea): Chord[] {
     const clear = pool.filter(([p]) => !p.some(diminished));
     if (clear.length > 0) pool = clear;
   }
-  const prog = draw.weighted("progression", pool);
+  // NAMED BY ITS OWN DEGREES, so an owner can say one (`setChords`): a pin
+  // is honoured only where it equals an entry, and an array never equals
+  // another. The names keep the pool's order and weights, so the draw lands
+  // where it always did.
+  const name = draw.weighted("progression", pool.map(([p, w]) => [p.join("-"), w] as const));
+  const prog = pool.find(([p]) => p.join("-") === name)![0];
 
   const out: Chord[] = [];
   for (let bar = 0; bar < H.bars; bar++) {
