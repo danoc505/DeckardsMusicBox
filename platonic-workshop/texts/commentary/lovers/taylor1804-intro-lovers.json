@@ -1,0 +1,95 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-lovers",
+ "work": "tlg016",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Rivals",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804), pp. 372-372",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   15926,
+   16041
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Rivals. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-lovers.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null,
+    372,
+    573
+   ],
+   "line": 15935,
+   "text": "1 HE general fubjea of tliis short Dialogue is so evident, that it is no wonder all the copies agree in the entitling it Concerning Philofophy.** But in the naming it there is some difference. For this is one of those few Dialogues of Plato, which take not their names from any one of the speakers: the reason of which in this is much the same with that in The Banquet; it is because the two subordinate speakers are placed on an equal footing of importance in the Dialogue; where we see their characters contrasted, one to the other. They are presented to our view, at their first appearance, contending together for the honour of their respective studies or ways of life, which are of quite opposite kinds, and jealous of each other in the gaining of partisans or followers. It was necessary, therefore, that the Dialogue should have such a name, as might comprise both these persons. The name, usually prefixed to the copies of it, and confirmed by Olympiodorus, is E^aa-^oci, signifying all those persons, mentioned in the beginning of the Dialogue, an account of whom is given in note 4, The other name, found in some copies, and authorized by Diogenes Laertius and Proclus, is Avrs^cKo-Toit. We have given the preference to this latter; which, we think, will appear to be the genuine name, and the former to be spurious, from the following obfcrvations. In the first place, the former name is too general, and comprehends many other persons present at the convcrilition, who are mute, and merely auditors: whereas the latter peculiarly characterizes the two fubordijiatc Speakers, cxclufive of the rell of the coinpany. Aiiotlicr reason, whicii alone seems fufficicnt to prove the authenticity of the name we have chosen, is this, that the contention or rivalHiip between thclc two, besides forming the moll: entertaining part of the Introduction y i\\es occasion to the fubjet-l of the Dialogue, and is the very foundation oii which the structure of it is built. Our lail: reason is, that where the Man of Ivcarning makes his first appearance, he is by Plato himself called Rival to the JMaJi of Excrciie; a name, which could not properly be attributed to either, till they were both brouglit upon the stage: however, it is soon afterwards repeated, and applied to the Man of Exercise; which needed not to have been done, but for the sake of marking them the more flron^^ly with this name, common to them both; because terms of reciprocal relation, as well as other correlatives, always suppose and imply one another. In other parts of the Dialogue they are denoted, each by his proper and peculiar epithets; s^^M^vogy A!/xa% a-opMTs^osj o-o(pog^.. Thus much concerning the name of the Dialogue, the Introduction to it, and the general subject which gives the title, — The particular subject is the peculiar nature and essence of true philosophy. That by which it is distinguished from all those other kinds of knowledge, that falsely assumes its name, the study of which has in all ages pretended to be, and been set up for, the study of wisdom, or philosophy. For the deiign of this Dialogue is to show that the completely just and good man, who is such upon the principles of science, is alone the wise man or true philosopher. In order to this end, first is detected and exposed that appearance or show of wisdom, which consists in polymathy* in general, or much learning and knowledge of various kinds. Next, are disproved and disallowed those prcteofions, claimed by the matheinatlcal sciences or by any of the liberal arts, which in the Platonic discipline do but smooth and pave the v^ay to true philosophy. The false species being thus rejected, lastly is exhibited this wisdom in her genuine form, as the knowledge of ourfclvcs; the science of that divhie principle in man, his mind; the science of justice and goodness, tlierein included; and the science of government thence immediately derived. — This short bill of fare presents to our readers all they are to expect in the following repast:; small in quantity; but great In value, as being a juH: simple of those rich and plentiful entertainments provided for them by Plato in his longer Dialogues. — The outward form of this piece is purely narrative. But the conversation, recited in it, is peculiarly dramatic. For, besides the other excellencies of the drama, common to it with the rest of Plato's Dialogues, it has this singular beauty, that the figures of the two Rivals are described in as exact and lively a manner, as painting itself could draw them: a clrcumftance that well niay recommend the scene to some ingenious profcflbr of that art, to design after and delineate. — The inward form or genius of the Dialogue corresponds to what has been before said of the conduct of it: for it is partly disputative, of that species where the adverse party is confuted; and partly, to do particular honour to an adversary far superior to the sophists, it is demcnflrative, of that species where the proof is by induc",
+   "raw": "1  HE  general  fubjea  of  tliis  fhort  Dialogue  is  fo  evident,  that  it  is  no \nwonder  all  the  copies  agree  in  the  entitling  it  **  Concerning  Philofophy.** \nBut  in  the  naming  it  there  is  fome  difference.  For  this  is  one  of  thofe \nfew  Dialogues  of  Plato,  which  take  not  their  names  from  any  one  of  the \nfpeakers:  the  reafon  of  which  in  this  is  much  the  fame  with  that  in  The \nBanquet ;  it  is  becaufe  the  two  fubordinate  fpeakers  are  placed  on  an \nequal  footing  of  importance  in  the  Dialogue ;  where  we  fee  their  charaders \ncontrafled,  one  to  the  other.  They  are  prefented  to  our  view,  at  their  firft \nappearance,  contending  together  for  the  honour  of  their  refpedive  ftudies \nor  ways  of  life,  which  are  of  quite  oppofite  kinds,  and  jealous  of  each  other \nin  the  gaining  of  partifans  or  followers.  It  was  necefTary,  therefore,  that  the \nDialogue  fhould  have  fuch  a  name,  as  might  comprife  both  thefe  perfons. \nThe  name,  ufually  prefixed  to  the  copies  of  it,  and  confirmed  by  Olympio- \ndorus,  is  E^aa-^oci,  fignifying  all  thofe  perfons,  mentioned  in  the  beginning  of \nthe  Dialogue,  an  account  of  whom  is  given  in  note  4,  The  other  name, \nfound  in  fome  copies,  and  authorized  by  Diogenes  Laertius  and  Proclus,  is \nAvrs^cKo-Toit.  We  have  given  the  preference  to  this  latter  ;  which,  we  think, \nwill  appear  to  be  the  genuine  name,  and  the  former  to  be  fpurious,  from \nthe  following  obfcrvations.  In  the  firfl  place,  the  former  name  is  too \ngeneral,  and  »  comprehends  many  other  perfons  prefent  at  the  convcrilition, \nwho  are  mute,  and  merely  auditors  :  whereas  the  latter  peculiarly  charac- \nterizes the  two  fubordijiatc  Ipeakers,  cxclufive  of  the  rell  of  the  coinpany. \nAiiotlicr  reafon,  whicii  alone  feems  fufficicnt  to  prove  the  authenticity  of \nthe  name  we  liave  chofen,  is  this,  that  the  contention  or  rivalHiip  between \nthclc  two,  befides  forming  the  moil:  entertaining  part  of  the  Introdudion \ny i\\es  occafion  to  the  fubjet-l  of  the  Dialogue,  and  is  the  very  foundation  oii \nwhich  the  flruclure  of  it  is  built.  Our  lail:  reafon  is,  that  where  the  Man \nof  Ivcarning  makes  liis  fjrft  appearance,  he  is  '  by  Plato  himielf  called  Rival  to \nthe  JMaJi  of  Excrciie  ;  a  narne,  which  could  not  properly  be  attributed  to \neither,  till  they  were  both  brouglit  upon  the  ftage  :  however,  it  is  foon  after- \nwards repeated,  and  applied  to  the  Man  of  Exercife  ;  which  needed  not  to \nhave  been  done,  but  for  the  fake  of  marking  them  the  more  flron^^ly  with \nthis  name,  common  to  them  both  ;  becaufe  terms  of  reciprocal  relation,  as \nwell  as  other  correlatives,  always  fuppofe  and  imply  one  another.  In  other \nparts  of  the  Dialogue  they  are  denoted,  each  by  his  proper  and  peculiar \nepithets;  s^^M^vogy  A!/xa%-  a-opMTs^osj  o-o(pog^..  Thus  much  concerning  the \nname  of  the  Dialogue,  the  Introduction  to  it,  and  the  general  fubjed  which \ngives  the  title, — The  particular  fubje£l  is  the  peculiar  nature  and  effence \nof  true  philofophy.  That  by  which  it  is  diftinguifhed  from  all  thofe  other \nkinds  of  knowledge,  that  falfely  aflumes  its  name,  the  fludy  of  which  has  in \nall  ages  pretended  to  be,  and  been  fet  up  for,  the  fludy  of  wifdom,  or  philo- \nfophy. For  the  deiign  of  this  Dialogue  is  to  fhow^  that  the  completely  juft \nand  good  man,  who  is  fuch  upon  the  principles  of  fcience,  is  alone  the  wife \nman  or  true  philofopher.  In  order  to  this  end,  firft  is  dcteded  and  expofed \nthat  appearance  or  fliow  of  wifdom,  which  confifts  in  polymathy*  in  gene- \nral,  or  much  learning  and  knowledge  of  various  kinds.  Next,  are  difproved \nand  difallowed  thofc  prcteofions,  claimed  by  the  matheinatlcal  fciences  or  by \nany  of  the  liberal  arts,  which  in  the  Platonic  difcipline  do  but  fmooth  and \npave  the  v^ay  to  true  philofophy.  The  falfe  fpecies  being  thus  rejeded, \nlaftly  is  exhibited  this  wifdom  in  her  genuine  form,  as  the  knowledge  of  our- \nfclvcs  ;  the  fcience  of  that  divhie  principle  in  man,  his  mind  ;  the  fcience  of \njuftice  and  goodncfs,  tlierein  included ;  and  the  fcience  of  government \nthence  immediately  derived. — This  fhort  bill  of  fare  prefents  to  our \nreaders  all  they  arc  to  expe6l  in  the  following  repafl:  ;  fmall  in  quantity; \nbut  great  In  value,  as  being  a  juH:  fimple  of  thofe  rich  and  plentiful  enter- \ntainments provided  for  them  by  Plato  in  his  longer  Dialogues. — The \noutward  form  of  this  piece  is  purely  narrative.  But  the  converfation, \nrecited  in  it,  is  peculiarly  dramatic.  For,  befides  the  other  excellencies  of \nthe  drama,  common  to  it  with  the  reft  of  Plato's  Dialogues,  it  has  this \nfingular  beauty,  that  the  figures  of  the  two  Rivals  are  defcribed  in  as  exa6l \nand  lively  a  manner,  as  painting  itfelf  could  draw  them  :  a  clrcumftance \nthat  well  niay  recommend  the  fcene  to  fome  ingenious  profcflbr  of  that  art, \nto  defign  after  and  delineate. — The  inward  form  or  genius  of  the \nDialogue  correfponds  to  what  has  been  before  faid  of  the  condud  of  it : \nfor  it  is  partly  difputative,  of  that  fpecies  where  the  adverfe  party  is  confuted  ; \nand  partly,  to  do  particular  honour  to  an  adverfary  far  fuperior  to  the \nfophifts,  it  is  demcnflrative,  of  that  fpecies  where  the  proof  is  by  induc- "
+  },
+  {
+   "id": "taylor1804-intro-lovers.f01",
+   "kind": "footnote",
+   "seq": 2,
+   "page": null,
+   "line": 15956,
+   "on": "taylor1804-intro-lovers.001",
+   "text": "Much the same reason vvitli this our first is assigned by Dr. Forster in the notes to his etlillon, for the preference which he also gives to this name of the Dialogue. — S.",
+   "raw": "'  Much  the  fame  reafon  vvitli  this  our  firft  is  afligned  by  Dr.  Forfler  in  the  notes  to  his  etlillon, \nfor  the  preference  which  he  alfo  gives  to  this  name  of  the  Dialogue. — S. "
+  },
+  {
+   "id": "taylor1804-intro-lovers.f02",
+   "kind": "footnote",
+   "seq": 3,
+   "page": 372,
+   "line": 15990,
+   "on": "taylor1804-intro-lovers.001",
+   "text": "Part of this third reason is agreeable likcvvlfe to an observation of Menage in favour of the name AvTs^x(Trat. See Menagii Obfcrvat. in Laertium, p. 137-— S.",
+   "raw": "'  Part  of  this  third  reafon  is  agreeable  likcvvlfe  to  an  obfervation  of  Menage  in  favour  of  the \nname  AvTs^x(Trat.     Sec  Menagii  Obfcrvat.  in  Laertium,  p.  137-— S. "
+  },
+  {
+   "id": "taylor1804-intro-lovers.f03",
+   "kind": "footnote",
+   "seq": 4,
+   "page": 372,
+   "line": 15993,
+   "on": "taylor1804-intro-lovers.001",
+   "text": "Besides Menage and Forster, Stanley also and Fabricips approve of the name Ams^affrat, It is probable, that the sx,Tong name owed its origin merely to an accidental oniilTion of the first fy liable in the right name, and prevailed with the after copiers the more easily, as they were so much used to the work £^a<rrai in tranfcribing other Diak)gues of Pialo; and efpeciaily as it occurred in the very first sentence of this. — S.",
+   "raw": "*  Befides  Menage  and  Forfter,  Stanley  alfo  and  Fabricips  approve  of  the  name  Ams^affrat, \nIt  is  probable,  that  the  sx,Tong  name  owed  its  origin  merely  to  an  accidental  oniilTion  of  the \nfirft  fy liable  in  the  right  name,  and  prevailed  with  the  after- copiers  the  more  eafily,  as  they \nwere  fo  much  ufed  to  the  work  £^a<rrai  in  tranfcribing  other  Diak)gues  of  Pialo;  and  efpeciaily \nas  it  occurred  in  the  very  firfl  fentence  of  this. — S. "
+  },
+  {
+   "id": "taylor1804-intro-lovers.f04",
+   "kind": "footnote",
+   "seq": 5,
+   "page": 372,
+   "line": 15999,
+   "on": "taylor1804-intro-lovers.001",
+   "text": "5!■ rom confideriiig, as it seems, this design of the Dialogue, the antients agree in referring it In the ethic kind. — S.",
+   "raw": "5  !■  rom  confideriiig,  as  it  feems,  this  defign  of  the  Dialogue,  the  antients  agree  in  referring  it \nIn  the  ethic  kind. — S. "
+  },
+  {
+   "id": "taylor1804-intro-lovers.f05",
+   "kind": "footnote",
+   "seq": 6,
+   "page": 372,
+   "line": 16002,
+   "on": "taylor1804-intro-lovers.001",
+   "text": "It was beautifully said therefore, by Heraclitus, that ^^ po!jvialhj does not teach intcIIc«Sl i'^ •no'Kv ii^d.T^ vcev ev Mafxu, — T,",
+   "raw": "^  It  was  beautifully  faid  therefore,  by  Heraclitus,  that  ^^ po!jvialhj  does  not  teach  intcIIc«Sl  i'^ \n•no'Kv ii^d.T^  vcev  ov  Mafxu, — T, "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 5,
+  "running heads removed": 5,
+  "words joined across lines": 6,
+  "notes": 6,
+  "paragraphs run on across a page": 2,
+  "note marks removed": 3
+ }
+}

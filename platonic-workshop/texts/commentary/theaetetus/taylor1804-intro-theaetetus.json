@@ -1,0 +1,126 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-theaetetus",
+ "work": "tlg006",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Theaetetus",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804), pp. 4-5",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   116,
+   232
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Theaetetus. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-theaetetus.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": 4,
+   "pages": [
+    4
+   ],
+   "line": 125,
+   "text": "Il HE following very learned and adniirable dialogue is on a subject which, to a rational being, is obviously of the utmost: importance. For what can be more important to such a being than an accurate knowledge of things human and divine, practical and theoretic? And as such a knowledge cannot be obtained without science, the inquiry what science is, mufi: consequently rank among those investigations that are the most useful and necessary to man.",
+   "raw": "Jl  HE  following  very  learned  and  adniirable  dialogue  is  on  a  fubje6l  which, \nto  a  rational  being,  is  obvioufly  of  the  utmofl:  importance.  For  what  can  be \nmore  important  to  fuch  a  being  than  an  accurate  knowledge  of  things  human \nand  divine,  practical  and  theoretic  ?  And  as  fuch  a  knowledge  cannot  be \nobtained  without  fcience,  the  inquiry  what  fcience  is,  mufi:  confequently  rank \namong  thofe  inveftigations  that  are  the  moft  ufeful  and  neceffary  to  man. "
+  },
+  {
+   "id": "taylor1804-intro-theaetetus.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": 4,
+   "pages": [
+    4
+   ],
+   "line": 132,
+   "text": "As this dialogue is wholly of the maieutic kind, Socrates, with admirable {kill, ai^s the part of a midwife towards Theaetetus, one of the principal persons of the dialogue, in leading forth his conceptions concerning science into light. For this pu.pofc, he, in the first place, asks him what science is? and Theastetus replies, that science is geometry and arithmetic, together with other disciplines of this kind, and the several arts. This answer is however rejected by Socrates, as by no means according witH the question; because, when alked what science is, he replies by enumerating how many sciences there are, and on what subjects they are employed. In the next place, Socrates introduces the dcfuiition of Protagoras, that science is sense. For Protagoras asserted, that man is the measure of aU things, and that every tiling was to every man such as it appeared to him. This doctrine was, indeed, founded in the philosophy of Ileraclitus, of which the principal dogma was this, that nothing is permanent, but that all things are in a con*. tiuLial iliix. Socrates, however, confutes this opinion, because, if it were admitted, the perceptions of the intoxicated and insane, of those who dream, and of those whose Icnfcs are vitiated by disease, would be true, because they appear to be so, though at the same time they are evidently false. From this",
+   "raw": "As  this  dialogue  is  wholly  of  the  maieutic  kind,  Socrates,  with  admirable \n{kill,  ai^s  the  part  of  a  midwife  towards  Theaetetus,  one  of  the  principal \nperfons  of  the  dialogue,  in  leading  forth  his  conceptions  concerning  fcience \ninto  light.  For  this  pu.pofc,  he,  in  the  firft  place,  afks  him  what  fcience  is  ? \nand  Theastetus  replies,  that  fcience  is  geometry  and  arithmetic,  together \nwith  other  difciplines  of  this  kind,  and  the  feveral  arts.  This  anfwer  is  how- \never rejeded  by  Socrates,  as  by  no  means  according  witH  the  queftion  ;  be- \ncaufe,  when  alked  what  fcience  is,  he  replies  by  enumerating  how  many  fci- \nences  there  are,  and  on  what  fubjedls  they  are  employed.  In  the  next  place, \nSocrates  introduces  the  dcfuiition  of  Protagoras,  that  fcience  is  fenfe.  For \nProtagoras  afTcrted,  that  man  is  the  meafure  of  aU  things,  and  that  every \ntiling  was  to  every  man  fuch  as  it  appeared  to  him.  This  do61rine  was, \nindeed,  founded  in  the  philofophy  of  Ileraclitus,  of  which  the  principal \ndogma  was  this,  that  nothing  is  permanent,  but  that  all  things  are  in  a  con*. \ntiuLial  iliix.  Socrates,  however,  confutes  this  opinion,  becaufe,  if  it  were \nadmitted,  the  perceptions  of  the  intoxicated  and  infane,  of  thofe  who  dream, \nand  of  thofe  whofc  Icnfcs  are  vitiated  by  difeafe,  would  be  true,  becaufe  they \nappear  to  be  fo,  though  at  the  fame  time  they  are  evidently  falfe.    From  this "
+  },
+  {
+   "id": "taylor1804-intro-theaetetus.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 151,
+   "text": "B z hypothecs hypothesis also, all mcMi would be similarly wise, the opinions of the most illiterate in geometry would be as true as any geometrical theorems; and in the actions of human life the means of accomplishing any end would be indifferent, and consequently all deliberation and consultation would be vain'.",
+   "raw": "B  z  hypothecs \nhypothefis  alfo,  all  mcMi  would  be  fimilarly  wife,  the  opinions  of  the  moft  illi- \nterate  in  geometry  would  be  as  true  as  any  geometrical  theorems ;  and  in \nthe  a6lions  of  human  life  the  means  of  accomplifhing  any  end  would  be  in- \ndifferent, and  confequently  all  deliberation  and  confultation  would  be \nvain'. "
+  },
+  {
+   "id": "taylor1804-intro-theaetetus.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 4,
+   "pages": [
+    4
+   ],
+   "line": 162,
+   "text": "In order to demonstrate that faience is not sense, Socrates, in the fird: place, obtains this from Theaetetus, that sense arises from the soul perceiving corporeal things externally situated, through several organs of the body. And secondly, that one sense, or organical perception, cannot take cognizance of the object of another; as sight cannot see sounds, nor the hearing hear.light and colours. Hence he infers, that when we compare the objects of several senses together, and consider certain things which are common to them all, this cannot be sense, or organical perception, because one sense cannot consider the object of another. And if there is any thing common to both, it cannot perceive it by either organ. Thus, for instance, when we consider sound and colour together, and attribute several things to them in common, as, in the first: place, essence, and in the next plaQc, sameness in each with itself, and difference from the other; when we also consider that both of them are two, and each of them one, by what sense or organ does the soul perceive all these things which are common both to sound and colour? It cannot be by the senses of sight or hearing, because these. cannot consider each other's objects; nor can any otlier corporeal organ be found by which the soul may pafilvely perceive all these, and consider the objects of both those senses of sight and hearing. Hence, Theastetus is made to confess that the soul does not organically perceive these things by any sense, Jjut by itself alone without any corporeal organ.",
+   "raw": "In  order  to  demonftrate  that  faience  is  not  fenfc,  Socrates,  in  the  fird: \nplace,  obtains  this  from  Theaetetus,  that  fenfe  arifes  from  the  foul  perceiving \ncorporeal  things  externally  fituated,  through  feveral  organs  of  the  body.  And \nfecondly,  that  one  fenfe,  or  organical  perception,  cannot  take  cognizance \nof  the  objed  of  another  ;  as  fight  cannot  fee  founds,  nor  the  hearing  hear.light \nand  colours.  Hence  he  infers,  that  when  we  compare  the  obje61s  of  feveral \nfenfes  together,  and  confider  certain  things  which  are  common  to  them  all, \nthis  cannot  be  fenfe,  or  organical  perception,  bccaufe  one  fenfe  cannot  con- \nfider the  obje6l  of  another.  And  if  there  is  any  thing  common  to  both,  it \ncannot  perceive  it  by  either  organ.  Thus,  for  inftance,  when  we  confider \nfound  and  colour  together,  and  attribute  feveral  things  to  them  in  common, \nas,  in  the  firfl:  place,  eflence,  and  in  the  next  plaQc,  famenefs  in  each  with \nitfelf,  and  difference  from  the  other ;  when  we  alfb  confider  that  both  of \nthem  are  two,  and  each  of  them  one,  by  what  fenfe  or  organ  does  the  foul \nperceive  all  thefe  things  which  are  common  both  to  found  and  colour?  It \ncannot  be  by  the  fenfes  of  fight  or  hearing,  becaufe  thefe.  cannot  confider \neach  other's  objeds;  nor  can  any  otlier  corporeal  organ  be  found  by  which \nthe  foul  may  pafilvely  perceive  all  thefe,  and  confider  the  objeds  of  both \nthofe  fenfes  of  fight  and  hearing.  Hence,  Theastetus  is  made  to  confefs  that \nthe  foul  does  not  organically  perceive  thefe  things  by  any  fenfe,  Jjut  by  itfelf \nalone  without  any  corporeal  organ. "
+  },
+  {
+   "id": "taylor1804-intro-theaetetus.005",
+   "kind": "introduction",
+   "seq": 5,
+   "page": null,
+   "pages": [
+    null,
+    5
+   ],
+   "line": 184,
+   "text": "Theastetus, therefore, being convinced that science is not sense, in the next place defines it to be true opinion. This, however, is confuted by Socrates, because rhetoric also produces true opmion when its assertions are true, but yet cannot produce science. For there never can be any science of thlnj^ which are perpetually in motion, and which subsist differently at different times. Such, however, are human atTairs with which orators are conversant, especially when they induce their hearers to believe that of which they are themselves doubtful. After this, Theastetus adds the definition of Leucippus and Theodorus the Cyrenaean, that science is true opinion in conjuh«£lIon with reason; and hence, that things which possess reason can be known, but by no means those which are deprived of it. This, however, is also confuted by Socrates, who shows, that whether reason (logos) signifies external speech, or a procession through the elements of a thing, or definition, Icience cannot be true opinion in conjunction with reason.",
+   "raw": "Theastetus,  therefore,  being  convinced  that  fcience  is  not  fenfe,  in  the \nnext  place  defines  it  to  be  true  opinion.  This,  however,  is  confuted  by  So- \ncrates, becaufe  rhetoric  alfb  produces  true  opmion  when  its  affertions  are \ntrue,  but  yet  cannot  produce  fcience.    For  there  never  can  be  any  fcience  of \nthlnj^  which  are  perpetually  in  motion,  and  which  fubfift  differently  at  dif- \nferent times.  Such,  however,  are  human  atTairs  with  which  orators  are  con- \nverfant,  efpecially  when  they  induce  their  hearers  to  believe  that  of  which \nthey  are  themfelves  doubtful.  After  this,  Theastetus  adds  the  definition  of \nLeucippus  and  Theodorus  the  Cyrenaean,  that  fcience  is  true  opinion  in  con- \njuh«£lIon  with  rcafon  ;  and  hence,  that  things  which  poflefs  reafon  can  be \nknown,  but  by  no  means  thofe  which  are  deprived  of  it.  This,  however,  is \nalfo  confuted  by  Socrates,  who  fliows,  that  whether  reafbn  (logos)  fignifies \nexternal  fpecch,  or  a  procefTion  through  the  elements  of  a  thing,  or  definition, \nIcience  cannot  be  true  opinion  in  conjundion  with  reafon. "
+  },
+  {
+   "id": "taylor1804-intro-theaetetus.006",
+   "kind": "introduction",
+   "seq": 6,
+   "page": 5,
+   "pages": [
+    5
+   ],
+   "line": 210,
+   "text": "Though Socrates, therefore, confutes all these definitions of science, as being erroneous, yet he does not inform \\is what science is; for this would have been contrary to the chara6ier of the dialogue, which, as we have already observed, is entirely maieutic, and consequently can do no more than present us with the conceptions of Theastetus fairly unfolded into light. As all these conceptions, therefore, are found to be false, we mull search elsewhere for an accurate definition of science.",
+   "raw": "Though  Socrates,  therefore,  confutes  all  thefe  definitions  of  fcience,  as \nbeing  erroneous,  yet  he  does  not  inform  \\is  what  fcience  is ;  for  this  would \nhave  been  contrary  to  the  chara6ier  of  the  dialogue,  which,  as  we  have  al- \nready obferved,  is  entirely  maleutic,  and  confequently  can  do  no  more  than \nprefent  us  with  the  conceptions  of  Theastetus  fairly  unfolded  into  light. \nAs  all  thefe  conceptions,  therefore,  are  found  to  be  falfe,  we  mull  fearch \nelfewhere  for  an  accurate  definition  of  fcience. "
+  },
+  {
+   "id": "taylor1804-intro-theaetetus.007",
+   "kind": "introduction",
+   "seq": 7,
+   "page": 5,
+   "pages": [
+    5
+   ],
+   "line": 218,
+   "text": "What then shall we say science is, according to Plato? We reply, that considered according to its fnH: subsistence, which is in intellect, it is the eternal and uniform intelligence of eternal entities; but in partial souls, such as ours, it is a diano'etic perception of eternal beings \\ and is, consequently, a perception neither eternal nor uniform, because it is transitive, and accompanied with the intervention of oblivion. >",
+   "raw": "What  then  fhali  we  fay  fcience  is,  according  to  Plato?  We  reply,  that \nconfidered  according  to  its  fnH:  fubfiftence,  which  is  in  intelled,  it  is  the \neternal  and  uniform  intelligence  of  eternal  entities  ;  but  in  partial  fouls,  fuch  as \nours,  it  is  a  diano'etic perception  of  eternal  beings  \\  and  is,  confequently,  a  per- \nception neither  eternal  nor  uniform,  becaufe  it  is  tranfitive,  and  accompanied \nwith  the  intervention  of  oblivion.    > "
+  },
+  {
+   "id": "taylor1804-intro-theaetetus.f01",
+   "kind": "footnote",
+   "seq": 8,
+   "page": 4,
+   "line": 189,
+   "on": "taylor1804-intro-theaetetus.005",
+   "text": "This absurd opinion is very fubtilely opposed by Sextus Empiricus. If, says he, every imagination be true, then the imagination that not every imagination is true will also be true, and so the afi'ertion that every imagination is true will be false. Ei 'natra tpscvTacrix tartv ax>;6»f, tiai ro /in va<Ta\\t ^avraa-tav uvai ahndijj natd ^avrajiay v^KTTafji'ivov eo'rai aM9:i* km ouru to sraa'av fturaariav e.vsu",
+   "raw": "'  This  abfurd  opinion  is  very  fubtilely  oppofed  by  Sextus  Empiricus.  If,  fays  he,  every  imagi- \nnation be  true,  then  the  imagination  that  not  every  imagination  is  true  will  alfo  be  true,  and  fo \nthe  afi'ertion  that  every  imagination  is  true  will  be  falfe.  Ei  'natra  tpscvTacrix  tartv  ax>;6»f,  tiai  ro  /in \nva<Ta\\t  ^avraa-tav  uvai  ahndijj  natd  ^avrajiay  v^KTTafji'ivov  eo'rai  aM9:i*  km  ouru  to  sraa'av  fturaariav  e.vsu "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 3,
+  "running heads removed": 5,
+  "words joined across lines": 12,
+  "paragraphs run on across a page": 2,
+  "notes": 8,
+  "note marks removed": 0
+ }
+}

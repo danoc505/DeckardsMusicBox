@@ -1,0 +1,113 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-charmides",
+ "work": "tlg018",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Charmides",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804), pp. 141-240",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   10452,
+   10578
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Charmides. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-charmides.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": 239,
+   "pages": [
+    239
+   ],
+   "line": 10461,
+   "text": "IL we things are to be noted in the exordium of this Dialogue, whIcFi transfer love from corporeal to incorporeal form. Firil:, the assertion of Socrates, that nearly all young men appear to him to be beautiful; which Is as if he had said that he did not stop at the form of one. body, but ascended to the common beauty of the whole species. As therefore we ascend frcm the beauty of an individual, to that which is common to the species, and from this to that beauty which is uncoordinated with the many, and is an ia-corporeal form fubdfting by itself; so by what is here said we are admonished to pass from the love of an individual form, to the love of that which is common, and from this to the love of ideal form, fubdfUng in intellect as its native seat. The second thing which deserves tabe noted is,, that Socrates orders the soul of Charmides to be expolcd naked to tl^e viev\\', and that neglecting the form of the body we should behold the natural beauty of the soul, and diligently endeavour to obtain it when it is found to be wanting. Nor is it without reason that the exhortation to temperance begins from the beauty of body: for thils is nothing more than a symphony and consent of the organical parts, which corrcfponds to temperance in the soul",
+   "raw": "JL  wo  things  are  to  be  noted  in  the  exordium  of  this  Dialogue,  whIcFi \ntransfer  love  from  corporeal  to  incorporeal  form.  Firil:,  the  aflertion  of \nSocrates,  that  nearly  all  young  men  appear  to  him  to  be  beautiful ;  which  Is \nas  if  he  had  faid  that  he  did  not  flop  at  the  form- of  one.  body,  but  afcended \nto  the  common  beauty  of  the  whole  fpecies.  As  therefore  we  afcend  frcm \nthe  beauty  of  an  individual,  to  that  which  is  common  to  the  fpecies,  and \nfrom  this  to  that  beauty  which  is  uncoordinated  with  the  many,  and  is  an  ia- \ncorporeal  form  fubdfting  by  itfelf ;  fo  by  what  is  here  faid  we  are  admoniflied \nto  pafs  from  the  love  of  an  individual  form,  to  the  love  of  that  which  is \ncommon,  and  from  this  to  the  love  of  ideal  form,  fubdfUng  in  intelled  as \nits  native  feat.  The  fecond  thing  which  deferves  tabe  noted  is,,  that  Socrates \norders  the  foul  of  Charmides  to  be  expolcd  naked  to  tl^e  viev\\',  and  that  ne- \ngleding  the  form  of  the  body  we  fhould  behold  the  natural  beauty  of  the  foul, \nand  diligently  endeavour  to  obtain  it  when  it  is  found  to  be  wanting.  Nor \nis  it  without  reafon  that  the  exhortation  to  temperance  begins  from  the \nbeauty  of  body  :  for  thils  is  nothing  more  than  a  fymphony  and  confent  of \nthe  organical  parts,  which  corrcfponds  to  temperance  in  the  fouL "
+  },
+  {
+   "id": "taylor1804-intro-charmides.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null,
+    240
+   ],
+   "line": 10479,
+   "text": "Plato in the Cratylus explains the name of temperance, as (ignlfyinor a certain safety and prefcrvation of prudence. For he cor/.fidered all truth as naturally inherent in the soul; and that, in confcqucnce of this, the soul by profountily looking into licrfelf will discover every truth. She is however impeded from this conversion to herself, by an immoderate love of body and corporeal natures. Hence temperance is in the first place necessary, by W hich the daiknefs of peiturbations being expelled, the intellect becomes more serene, and is abundantly irradiated with the fplendors of di\\inity. But as Socrates intends to discourse about temperance, he admonidies Gharmides to look into himself. For a convei-sign of the soul into hcrfclf is the business of this virtue. And it is said in the Timitus that all our affairs become prosperous, from the soul being in harmony with hcifclf, and in concord with respect to the body. The Pythagoreans dlio nfTcrt, that if the soul prudently governs not only her own motions, but those of the body, length of life will be the portion of the latter, and perpetual health of both. To this Socrates adds, as still more wonderful, that the Magi promise by their verses immortality to bodies: and we learn from Plato, in the Bifh Alcibiades, that the magic of Zoroaster was nothing else than the wor/hipof divinity. Socrates however observes, that the soul and body are not only preserved from death by magical verses, but likewise by philosophic rcafon* ings and temperance. Again, as that discourse, which is calculated to persuade its auditors to temperance, requires power imparted by divinity, and reasonings produced by philosophy, Plato calls such a discourse a magical incantation.",
+   "raw": "Plato  in  the  Cratylus  explains  the  name  of  temperance,  as  (ignlfyinor  a \ncertain  fafety  and  prefcrvation  of  prudence.  For  he  cor/.fidered  all  truth  as \nnaturally  inherent  in  the  foul  ;  and  that,  in  confcqucnce  of  this,  the  foul  by \nprofountily  looking  into  licrfelf  will  difcover  every  truth.  She  is  however \nimpeded  from  this  converfion  to  herfclf,  by  an  immoderate  love  of  body  and \ncorporeal  natures.  Hence  temperance  is  in  the  flrft  place  necefTary,  by \nVv  hich  the  daiknefs  of  peiturbations  being  expelled,  the  intelled  becomes \nmore  fcrene,  and  is  abundantly  irradiated  with   the  fplendors  of  di\\inity. \nBut  as  Socrates  intends  to  difcourfe  about  temperance,  he  admonidies  Ghar- \nmides  to  look  into  hlmfelf.     For  a  convei-fion  of  the  foul  into  hcrfclf  is  the \nbufinefs  of  this  virtue.     And  it  is   faid  in   the  Timitus  tliat  all  our  affairs \nbecome  profperous,  from  the  foul  being  in  harmony  with  hcifclf,  and  in \nconcord  with  refped  to  the  body.     The  Pythagoreans  dlio  nfTcrt,  that  if  the \nfoul  prudently  governs  not  only  her  own  motions,  but   thofe  of  the  body, \nlength  of  life  will  be  the  portion  of  the  latter,  and  perpetual  health  of  both. \nTo  this  Socrates  adds,  as  flill  more  wonderful,    that  the   Magi  promife  by \ntheir  verfes   immortality  to  bodies  :  and  we  learn   from   Plato,  in   the  Bifh \nAlcibiades,  that  the  magic  of  Zoroafter  was  nothing  elfe  than  the  wor/hipof \ndivinity.     Socrates  however  obferves,  that  the  foul  and  body  are  not  only \npreferved  from  death  by  magical  verfes,  but  likewife  by  philofophic  rcafon* \nings  and  temperance.     Again,  as  that  difcourfe,  which  is  calculated  to  per- \nfuade  its  auditors  to  temperance,  requires  power  imparted  by  divinity,  and \nreafonings  produced  by  philofophy,  Plato  calls  fuch  a  difcourfe  a  magical  in- \ncantation. "
+  },
+  {
+   "id": "taylor1804-intro-charmides.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 240,
+   "pages": [
+    240
+   ],
+   "line": 10510,
+   "text": "In the next place, Socrates often inquires what temperance is, which, neither Charmides nor Critias accurately defines. For the one adduces, that which is not properly temperance, but its attendant, and the other, that which rather belongs to prudence. Hence the latter defines tcrnperance to be a certain science, which both knows itself and all other sciences, but is ignorant of the things themselves which are the objects of science. This however is false, because the truth of science consists in a certain congruity and contact of that, which knows with that which is known. Besides, science cannot be perfectly known, unless it is perceived what science is, and this cannot be obtained without a knowledge of its object. But as Critias brino^s the discourse on temperance to prudence, Socrates asserts that prudence, or the science of good and evil, obtains the hlghefi: authority with refpe(5l to beatitude, as well because it demonstrates the most excellent end, and the media which lead to it, as b«caufe all arts and pursuits, so far as they are o-overncd by it, contribute to our advantage, but end in our detriment when it is neglected. In the last place, Socrates teaches us that nothing can with more difficulty be defined, or procured, than temperance. It is most difficult to define, because it is so intimately combined with the other virtues, of which it is a certain consonance; and it cannot be obtained",
+   "raw": "In  the  next  place,  Socrates  often  inquires  what  temperance  is,  which, \nneither  Charmides  nor  Critias  accurately  defines.  For  the  one  adduces,  that \nwhich  is  not  properly  temperance,  but  its  attendant,  and  the  other,  that \nwhich  rather  belongs  to  prudence.  Hence  the  latter  defines  tcrnperance  to \nbe  a  certain  fcicnce,  which  both  knows  itfelf  and  all  other  fciences,  but  is \nignorant  of  the  things  themfelves  which  are  the  objedls  of  fcience.  This \nhowever  is  falfe,  becaufe  the  truth  of  fcience  confifls  in  a  certain  congruity \nand  contad  of  that,  which  knows  with  that  which  is  known.  Bcfides, \nfcience  cannot  be  perfe611y  known,  unlefs  it  is  perceived  what  fcience  is,  and \nthis  cannot  be  obtained  without  a  knowledge  of  its  objed.  But  as  Critias \nbrino^s  the  difcourfe  on  temperance  to  prudence,  Socrates  afferts  that  pru- \ndence, or  the  fcience  of  good  and  evil,  obtains  the  hlghefi:  authority  with  re- \nfpe(5l  to  beatitude,  as  well  becaufe  it  demonftrates  the  mofl  excellent  end, \nand  the  media  which  lead  to  it,  as  b«caufe  all  arts  and  purfuits,  fb  far  as  they \nare  o-overncd  by  it,  contribute  to  our  advantage,  but  end  in  our  detriment \nwhen  it  is  nagledled.  In  the  lafl  place,  Socrates  teaches  us  that  nothing \ncan  with  more  difficulty  be  defined,  or  procured,  than  temperance.  It  is \nmoft  difficult  to  define,  becaufe  it  is  fo  intimately  combined  with  the  other \nvirtues,  of  which  it  is  a  certain  confonance  ;  and   it    cannot  be  obtained "
+  },
+  {
+   "id": "taylor1804-intro-charmides.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 240,
+   "pages": [
+    240,
+    141
+   ],
+   "line": 10530,
+   "text": "without without great difficulty, because from our union with body we are prone to intemperance, and from our infancy drink deep of the envenomed cup of pleasure.",
+   "raw": "without \nwithout  great  difficulty,  becaufe  from  our  union  with  body  wc  are  prone  to \nintemperance,  and  from  our  infancy  drink  deep  of  the  envenomed  cup  of \npleafure. "
+  },
+  {
+   "id": "taylor1804-intro-charmides.005",
+   "kind": "introduction",
+   "seq": 5,
+   "page": 141,
+   "pages": [
+    141
+   ],
+   "line": 10540,
+   "text": "For the benefit of the Platonic reader, as this Dialogue is piraftic, I shall conclude this Introduction with the following admirable observations from Jamblichus', in which the nature of temperance is beautifully unfolded. \" Every virtue despises that which is mortal, and eHibraces that which is immortal; but this in a very remarkable degree is the endeavour of temperance, as defpiiing those pleasures which fasten the soul to the body as by a nail, and eftablirtiing itself, as Plato says, on holy foundations. For how is it pofllble that temperance should not make us perfect, since it exterminates from us the imperfect and the passive? But you may know that this is the case by attending to the fable of Bcllerophon, who, contending in conjunction with moderation, destroyed Chimaera, and every beastly, wild, and savage tribe. For, in short, the immoderate dominion of the pafilons does not suffer men to be men, but draws them down to that which is irrational, beastly, and difordcred. But that excellent order, which confines the pleasures within definite measures, preserves families, and preserves cities according to the assertion of Crates: and further fl:ill, it also in a certain respect: approximates to the form of the gods. Perseus therefore, riding to the highest: good of temperance, with Mines-va for his leader, cut off the head of Gorgon, which appears to me to be desire drawmg men down to matter, and turning them into stone, through a re« pletion of stupid paffions» Continence of pleasure therefore, as Socrates says, is the foundation of virtue; and temperance sfppears to be the ornament of all the virtues, as Plato also asserts. And, as I say, this virtue is the fortification of the most beautiful habits. Plence, I shall with confidence strenuously assert, as a thing truly acknowledged, that the beauty of temperance extends through all the virtues, that it coharmonizes them according to one harmony, and that it inserts in them symmetry and mixture with each other. Such then being the nature of temperance, it affords an opportunity to the implanting of the other virtues, and when they are implanted, imparts to them stable security.\"",
+   "raw": "For  the  benefit  of  the  Platonic  reader,  as  this  Dialogue  is  piraftic,  I  (hall  con- \nclude this  Introdu6lion  with  the  following  admirable  obfervations  from  Jam- \nblichus',  in  which  the  nature  of  temperance  is  beautifully  unfolded.  \"  Every \nvirtue  defpifes  that  which  is  mortal,  and  eHibraces  that  which  is  immortal;  but \nthis  in  a  very  remarkable  degree  is  the  endeavour  of  temperance,  as  defpiiing \nthofe  pleafures  which  faften  the  foul  to  the  body  as  by  a  nail,  and  eftablirtiing \nitfelf,  as  Plato  fays,  on  holy  foundations.  For  how  is  it  pofllble  that  temperance \nfhould  not  make  us  perfed,  fince  it  exterminates  from  us  the  imperfed  and \nthe  pafTive  ?  But  you  may  know  that  this  is  the  cafe  by  attending  to  the  fable \nof  Bcllerophon,  who,  contending  in  conjundion  with  moderation,  deftroyed \nChimaera,  and  every  beaflly,  wild,  and  favage  tribe.  For,  in  ihort,  the  im- \nmoderate dominion  of  the  pafilons  does  not  fuffer  men  to  be  men,  but  draws \nthem  down  to  that  which  is  irrational,  beaftly,  and  difordcred.  But \nthat  excellent  order,  which  confines  the  pleafures  within  definite  meafures, \npreferves  families,  and  preferves  cities  according  to  the  affertion  of  Crates : \nand  further  fl:ill,  it  alfo  in  a  certain  refped:  approximates  to  the  form  of  the \ngods.  Perfeus  therefore,  riding  to  the  highefl: good  of  temperance,  with  Minei-va \nfor  his  leader,  cut  off  the  head  of  Gorgon,  which  appears  to  me  to  be  defire \ndrawmg  men  down  to  matter,  and  turning  them  into  flone,  through  a  re« \npletion  of  ftupid  paffions»  Continence  of  pleafure  therefore,  as  Socrates \nfays,  is  the  foundation  of  virtue;  and  temperance  sfppears  to  be  the  ornament \nof  all  the  virtues,  as  Plato  alfo  alTerts.  And,  as  I  fay,  this  virtue  is  the  for- \ntification of  the  moft  beautiful  habits.  Plence,  I  fhall  with  confidence \nflrenuoufly  afiert,  as  a  thing  truly  acknowledged,  that  the  beauty  of  tempe- \nrance extends  through  all  the  virtues,  that  it  coharmonizes  them  according \nto  one  harmony,  and  that  it  inferts  in  them  fymmetry  and  mixture  with  each \nother.  Such  then  being  the  nature  of  temperance,  it  affords  an  opportunity \nto  the  implanting  of  the  other  virtues,  and  when  they  arc  implanted,  imparts \nto  them  flable  fecurity.\" "
+  },
+  {
+   "id": "taylor1804-intro-charmides.f01",
+   "kind": "footnote",
+   "seq": 6,
+   "page": 141,
+   "line": 10570,
+   "on": "taylor1804-intro-charmides.005",
+   "text": "Stobaii Eclog. p. 68.",
+   "raw": "»  Stobaii  Eclog.  p.  68. "
+  },
+  {
+   "id": "taylor1804-intro-charmides.f02",
+   "kind": "footnote",
+   "seq": 7,
+   "page": 141,
+   "line": 10572,
+   "on": "taylor1804-intro-charmides.005",
+   "text": "VOL. V. 2 1 THE",
+   "raw": "VOL.  V.  2  1  THE "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 4,
+  "running heads removed": 4,
+  "words joined across lines": 12,
+  "paragraphs run on across a page": 2,
+  "notes": 7,
+  "note marks removed": 0
+ }
+}

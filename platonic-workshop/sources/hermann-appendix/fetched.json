@@ -1,0 +1,18 @@
+{
+  "platonisdialogi06plat_djvu.txt": {
+    "url": "https://archive.org/download/platonisdialogi06plat/platonisdialogi06plat_djvu.txt",
+    "fetched_at": "2026-11-05T11:24:00+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1710680,
+    "sha256": "c64ae849ef22a8c3d24e714c50d1da5b67f6392bf298a62c2b7b43c94819d371"
+  },
+  "platonisdialogi06plat_metadata.json": {
+    "url": "https://archive.org/metadata/platonisdialogi06plat/metadata",
+    "fetched_at": "2026-11-05T11:24:03+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2582,
+    "sha256": "1642c5527007182e77200603ae716179b354f8588af11c2a5cd5efbc9a3f731a"
+  }
+}

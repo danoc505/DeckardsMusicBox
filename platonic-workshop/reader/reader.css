@@ -531,3 +531,37 @@ ul.cited > li.doubt { background: linear-gradient(90deg, var(--warn-soft, #fbf1d
 .doubt-why { font: 12px var(--sans); color: var(--warn, #9a5b00); }
 .cited-full { margin: 6px 0 0 12px; padding-left: 10px; border-left: 2px solid var(--rule); max-height: 40vh; overflow: auto; }
 @media (max-width: 700px) { table.disc .bar-cell, table.disc td:last-child, table.disc th:last-child { display: none; } }
+
+/* Milestone 9: the dialogue as a whole, and the corpus map (whole.js). */
+body.whole-view #whole-btn, body.corpus-view #corpus-btn { background: var(--accent); color: var(--panel); }
+body.whole-view .jump button, body.corpus-view .jump button { visibility: hidden; }
+.whole section { margin-bottom: 8px; }
+.whole h4 { font: 600 13px var(--sans); margin: 12px 0 4px; }
+blockquote.ev { margin: 4px 0 8px; padding: 2px 0 2px 12px; border-left: 2px solid var(--faint); font-size: 15px; }
+blockquote.ev[lang="grc"] { font-family: var(--greek); }
+blockquote.ev .cite { display: inline-block; font: 12px var(--sans); color: var(--muted); }
+.claim { margin: 6px 0 12px; }
+.claim ul, .claim ol { margin: 4px 0; padding-left: 20px; }
+.stance { display: inline-block; font: 600 11px var(--sans); text-transform: uppercase; letter-spacing: .04em; color: var(--tag); background: var(--tag-soft); border-radius: 3px; padding: 1px 6px; }
+.stance.rejected { color: var(--warn); background: var(--warn-soft); }
+ol.chapters { padding-left: 0; list-style: none; }
+ol.chapters li, ul.sidenotes li { margin: 0 0 8px; line-height: 1.45; }
+ol.chapters .span, ul.sidenotes .span { font: 600 12px var(--sans); color: var(--accent); margin-right: 4px; white-space: nowrap; }
+ul.sidenotes { list-style: none; padding-left: 0; }
+.toc ul.sidenotes li { margin: 0 0 4px; }
+.map-wrap { overflow-x: auto; margin: 6px 0 12px; }
+svg.corpus-map { width: 100%; min-width: 760px; height: auto; display: block; font-family: var(--sans); }
+svg.corpus-map .tet { font-size: 11px; fill: var(--muted); text-anchor: middle; }
+svg.corpus-map .node rect { fill: var(--panel); stroke: var(--faint); stroke-width: 1; }
+svg.corpus-map .node.on rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+svg.corpus-map .node:hover rect, svg.corpus-map .node:focus rect { stroke: var(--ink); }
+svg.corpus-map .name { font-size: 12px; fill: var(--ink); text-anchor: middle; }
+svg.corpus-map .node:not(.on) .name { fill: var(--muted); }
+svg.corpus-map .mk { font-size: 11px; font-weight: 600; fill: var(--accent); text-anchor: middle; }
+svg.corpus-map .link { fill: none; stroke: var(--accent); stroke-opacity: .55; stroke-linecap: round; }
+svg.corpus-map .link:hover { stroke-opacity: 1; }
+svg.corpus-map .arrowhead { fill: var(--accent); }
+.overlay-list table.counts td { vertical-align: top; }
+.ancient-sec h4 { font: 600 13px var(--sans); margin: 10px 0 2px; }
+.ancient-sec[lang="grc"] p { font-family: var(--greek); }
+.ancient-sec pre { white-space: pre-wrap; font-size: 12px; color: var(--muted); }

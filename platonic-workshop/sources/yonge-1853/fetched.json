@@ -1,0 +1,10 @@
+{
+  "pg57342.txt": {
+    "url": "https://www.gutenberg.org/cache/epub/57342/pg57342.txt",
+    "fetched_at": "2026-11-05T11:23:55+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1154825,
+    "sha256": "0176dd702dfcc4a11d355475cab857f2a521a72dc316ecd8921ef12a0495c5a1"
+  }
+}

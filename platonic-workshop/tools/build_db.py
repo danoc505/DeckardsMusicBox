@@ -53,6 +53,7 @@ import lexicon  # noqa: E402
 import translations  # noqa: E402
 import commentary_db  # noqa: E402
 import citations  # noqa: E402
+import structure  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -796,6 +797,14 @@ def build(works, db_path=None, progress=False):
     db.execute("INSERT INTO build VALUES ('citation_stats', ?)", (json.dumps(cite_stats),))
     if progress:
         print(f"  citation web: {cite_stats}", flush=True)
+    # Milestone 9: each dialogue as a whole, and the corpus as a whole.
+    struct_stats = structure.build(db)
+    if set(works) == set(ALL_WORKS):
+        structure.write_report(db, struct_stats)
+    db.execute("INSERT INTO build VALUES ('structure_stats', ?)", (json.dumps(struct_stats, ensure_ascii=False),))
+    if progress:
+        print("  structure: " + ", ".join(f"{k} {v}" for k, v in struct_stats.items() if k != "not found")
+              + f"; not found: {len(struct_stats['not found'])}", flush=True)
     build_search(db)
     lookup_stats = build_dictionaries(db)
     lookup_stats.update(build_grammar(db))

@@ -1,0 +1,57 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-epinomis",
+ "work": "tlg035",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Epinomis",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. II (London, 1804), pp. 89-89",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v2_djvu.txt",
+  "lines": [
+   17338,
+   17406
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Epinomis. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-epinomis.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": 89,
+   "pages": [
+    89
+   ],
+   "line": 17344,
+   "text": "1 HE Epinomis, or Nocturnal Convention, was not written by Plato, but, as we are informed by Diogenes Laertius, by Philip Opuntius, one of Plato's disciples. This dialogue, which, as its name implies, is a supplement to the Laws, is highly valuable, both for its great antiquity, its author being contemporary with Plato, and the recondite wisdom which it contains^ However, notwithstanding its great intrinsic excellence, it appears to me that any one much conversant with the writings of Plato might easily diCcover that it was not written by that philosopher, though antiquity had been totally silent in this particular; for, where shall we find in it either his heroical strength and magnificence of di£kion, or his profundity, accuracy, and sublimity of conception?",
+   "raw": "1  HE  Epinomis,  or  No61urnal  Convention,  was  not  written  by  Plato,  but, \nas  we  are  informed  by  Diogenes  Laertius,  by  Philip  Opuntius,  one  of  Plato's \ndifciples.  This  dialogue,  which,  as  its  name  implies,  is  a  fupplement  to \nthe  Laws,  is  highly  valuable,  both  for  its  great  antiquity,  its  author  being \ncontemporary  with  Plato,  and  the  recondite  wifdom  which  it  contains^ \nHowever,  notwithftanding  its  great  intrinfic  excellence,  it  appears  to  mc \nthat  any  one  much  converfant  with  the  writings  of  Plato  might  eafily  diC- \ncover  that  it  was  not  written  by  that  philofopher,  though  antiquity  had  been \ntotally  filent  in  this  particular ;  for,  where  fhall  we  find  in  it  either  his  hero- \nical  ftrength  and  magnificence  of  di£kion,  or  his  profundity,  accuracy,  and \nfublimity  of  conception  ? "
+  },
+  {
+   "id": "taylor1804-intro-epinomis.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null,
+    88,
+    90
+   ],
+   "line": 17356,
+   "text": "This dialogue is also very properly inscribed TAe Fhtlofoliher^ since the design of it, as the author informs us in the very beginning, is to show what wildom is, and how it may be obtained. Before, however, he teaches us what wisdom is, he inquires what it is not; and having premised certain things necessary to its definition, he shows that the august name of wisdom. can by no means accord with those arts which are subservient to the necef^ farles and conveniences of life, such as politics,, agriculture, architedure rhetoric, and the Uke. After this, he enumerates the speculative disciplines, and, in the first: place, not only praises but admires arithmetic, which, according to Plato, moll of all things fharpcns the wit, strengthens the memory, and renders the mind prompt and adapted to every speculation and action.. The arithmetic, however, which is here so deservedly praised, is not that which is commonly taught, and which is subservient to merchandize and traffic; but it is entirely speculative, and considers the properties of pure numbers unconnected with any thing sensible. Of this arithmetic Euclid and Nicomachus have transmitted to us the elements; but the study of it is at present neglected, because it is not calculated to promote gain, facilitate calculation, or expedite bufuiefs. The author also adds, that number was dehvered by divinity to men, as a necessary instrument of reason and discursive energy; and that, this being taken away, the soul would appear to be destitute of intellect, and arts and sciences entirely vanish. He also praises geometry, astronomy, music, and physics; and places dialectic, i. e. metaphysics, or wisdom, before all the other sciences, because it employs these as steps in the discovery and adoration of Divinity. He likewise shows that there are three employments of this queen of the sciences about other disciplines. The first: consists in beholding the multitude of all these; the second, iii surveying the communion and connection in all of them; and the third conliders in what manner this multitude and its union contribute to the one itfclj and divine good. Lastly, the reader may learn from this dialogue, that as religion consists in the worship, so wisdom in the contemplation of Divinity; and that human felicity and the end of laws are only to be obtained in xhe union of both. O R,",
+   "raw": "This  dialogue  is  alfo  very  properly  infcribed  TAe  Fhtlofoliher^  fince  the \ndefign  of  it,  as  the  author  informs  us  in  the  very  beginning,  is  to  fliow  what \nwildom  is,  and  how  it  may  be  obtained.  Before,  however,  he  teaches  us \nwhat  wifdom  is,  he  inquires  what  it  is  not ;  and  having  premifed  certain \nthings  neceffary  to  its  definition,  he  fhows  that  the  auguft  name  of  wifdom. \ncan  by  no  means  accord  witli  thofe  arts  which  are  fubfervient  to  the  necef^ \nfarles  and  conveniences  of  life,  fuch  as  politics,,  agriculture,  architedure \nrhetoric,  and  the  Uke.  After  this,  he  enumerates  the  fpeculative  difciplines, \nand,  in  the  firfl:  place,  not  only  praifes  but  admires  arithmetic,  which,  ac- \ncording  to  Plato,  moil  of  all  things  fharpcns  the  wit,  flrengthens  the  memory, \nand  renders  the  mind  prompt  and  adapted  to  every  fpeculation  and  adion..  The \narithmetic,  however,  which  is  here  fo  defervedly  praifed,  is  not  that  which \nis  commonly  taught,    and  which  is  fubfervient  to  merchandize  and  traffic ; \nbut  it  is  entirely  fpeculative,  and  confiders  the  properties  of  pure  numbers \nunconne6led  with  any  thing  fenfible.  Of  this  arithmetic  Euclid  and  Nico- \nmachus  have  tranfmitted  to  us  the  elements  ;  but  the  fludy  of  it  is  at  prefent \nnegledled,  becaufe  it  is  not  calculated  to  promote  gain,  facilitate  calcu- \nlation, or  expedite  bufuiefs.  The  author  alfo  adds,  that  number  was  deh- \nvered  by  divinity  to  men,  as  a  necefTary  inftrument  of  reafon  and  difcurfive \nenergy  ;  and  that,  this  being  taken  away,  the  foul  would  appear  to  be  defti- \ntute  of  intelle61,  and  arts  and  fciences  entirely  vanifh.  He  alfo  praifes \ngeometry,  aftronomy,  mufic,  and  phyfics  ;  and  places  diale6lic,  i.  e.  meta- \nphyfics,  or  wifdorn,  before  all  the  other  fciences,  becaufe  it  employs  thefe  as \nfleps  in  the  difcovery  and  adoration  of  Divinity.  He  likewife  fhovvs  that \nthere  are  three  employments  of  this  queen  of  the  fciences  about  other  difci- \nplines.  The  firfl:  confifts  in  beholding  the  multitude  of  all  thefe;  the  fecond, \niji  furveying  the  communion  and  conneclion  in  all  of  them  ;  and  the  third \nconliders  in  what  manner  this  multitude  and  its  union  contribute  to  the  one \nitfclj  and  divine  good.  Laftly,  the  reader  may  learn  from  this  dialogue,  that \nas  religion  confifts  in  the  worship,  fo  wifdom  in  the  contemplation  of  Divi- \nnity ;  and  that  human  felicity  and  the  end  of  laws  are  only  to  be  obtained  in \nxhe  union  of  both. \nO  R, "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 2,
+  "running heads removed": 4,
+  "words joined across lines": 10,
+  "paragraphs run on across a page": 2,
+  "note marks removed": 0,
+  "notes": 2
+ }
+}

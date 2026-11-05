@@ -1,0 +1,418 @@
+{
+ "_comment": "Recurring myths and images (milestone 9). Each passage quotes Burnet's Greek at the section where it begins; tools/structure.py checks the quotation and refuses a passage whose words are not there. Where a passage ends is chosen by hand and is marked so in the reader. 'keywords' are English words the build looks for in the notes on the passage (any commentator, any translator) to show who names it so; 'groups' gather the passages a theme recurs in, and the build lists every note in the library that links two of them (the citation web).",
+ "themes": [
+  {
+   "id": "sun",
+   "label": "The sun",
+   "kind": "image",
+   "keywords": [
+    "sun"
+   ],
+   "passages": [
+    {
+     "work": "tlg030",
+     "start": "507a",
+     "end": "509c",
+     "quote": "τοῦτον δὲ δὴ οὖν τὸν τόκον τε καὶ ἔκγονον αὐτοῦ τοῦ ἀγαθοῦ"
+    }
+   ]
+  },
+  {
+   "id": "line",
+   "label": "The divided line",
+   "kind": "image",
+   "keywords": [
+    "line"
+   ],
+   "passages": [
+    {
+     "work": "tlg030",
+     "start": "509d",
+     "end": "511e",
+     "quote": "ὥσπερ τοίνυν γραμμὴν δίχα τετμημένην"
+    }
+   ]
+  },
+  {
+   "id": "cave",
+   "label": "The cave",
+   "kind": "image",
+   "keywords": [
+    "cave",
+    "den"
+   ],
+   "passages": [
+    {
+     "work": "tlg030",
+     "start": "514a",
+     "end": "517a",
+     "quote": "οἷον ἐν καταγείῳ οἰκήσει σπηλαιώδει"
+    }
+   ]
+  },
+  {
+   "id": "ship",
+   "label": "The ship of state",
+   "kind": "image",
+   "keywords": [
+    "ship",
+    "pilot"
+   ],
+   "passages": [
+    {
+     "work": "tlg030",
+     "start": "488a",
+     "end": "489a",
+     "quote": "ναύκληρον μεγέθει μὲν καὶ"
+    }
+   ]
+  },
+  {
+   "id": "gyges",
+   "label": "The ring of Gyges",
+   "kind": "myth",
+   "keywords": [
+    "Gyges",
+    "ring"
+   ],
+   "passages": [
+    {
+     "work": "tlg030",
+     "start": "359d",
+     "end": "360b",
+     "quote": "τῷ [Γύγου] τοῦ Λυδοῦ προγόνῳ"
+    },
+    {
+     "work": "tlg030",
+     "start": "612b",
+     "end": "612b",
+     "quote": "τὸν Γύγου δακτύλιον"
+    }
+   ]
+  },
+  {
+   "id": "metals",
+   "label": "The myth of the metals",
+   "kind": "myth",
+   "keywords": [
+    "metal",
+    "gold",
+    "lie"
+   ],
+   "passages": [
+    {
+     "work": "tlg030",
+     "start": "414b",
+     "end": "415d",
+     "quote": "τίς ἂν οὖν ἡμῖν, ἦν δʼ ἐγώ, μηχανὴ γένοιτο τῶν ψευδῶν τῶν ἐν δέοντι γιγνομένων"
+    }
+   ]
+  },
+  {
+   "id": "charioteer",
+   "label": "The charioteer",
+   "kind": "myth",
+   "keywords": [
+    "charioteer",
+    "chariot",
+    "horses",
+    "steeds"
+   ],
+   "passages": [
+    {
+     "work": "tlg012",
+     "start": "246a",
+     "end": "256e",
+     "quote": "ὑποπτέρου ζεύγους τε καὶ ἡνιόχου"
+    }
+   ]
+  },
+  {
+   "id": "cicadas",
+   "label": "The cicadas",
+   "kind": "myth",
+   "keywords": [
+    "cicada",
+    "grasshopper"
+   ],
+   "passages": [
+    {
+     "work": "tlg012",
+     "start": "258e",
+     "end": "259d",
+     "quote": "οἱ τέττιγες ᾁδοντες"
+    }
+   ]
+  },
+  {
+   "id": "theuth",
+   "label": "Theuth and the invention of writing",
+   "kind": "myth",
+   "keywords": [
+    "Theuth",
+    "writing"
+   ],
+   "passages": [
+    {
+     "work": "tlg012",
+     "start": "274c",
+     "end": "275b",
+     "quote": "αὐτῷ δὲ ὄνομα τῷ δαίμονι εἶναι Θεύθ"
+    }
+   ]
+  },
+  {
+   "id": "gorgias-judgment",
+   "label": "The judgment of the dead (Gorgias)",
+   "kind": "myth",
+   "group": "judgment",
+   "keywords": [
+    "judgment",
+    "judge",
+    "myth",
+    "tale"
+   ],
+   "passages": [
+    {
+     "work": "tlg023",
+     "start": "523a",
+     "end": "527a",
+     "quote": "ἄκουε δή, φασί, μάλα καλοῦ λόγου"
+    }
+   ]
+  },
+  {
+   "id": "phaedo-myth",
+   "label": "The journey of the dead and the true earth (Phaedo)",
+   "kind": "myth",
+   "group": "judgment",
+   "keywords": [
+    "myth",
+    "earth",
+    "judgment",
+    "tale"
+   ],
+   "passages": [
+    {
+     "work": "tlg004",
+     "start": "107d",
+     "end": "114c",
+     "quote": "ὁ ἑκάστου δαίμων, ὅσπερ ζῶντα εἰλήχει"
+    }
+   ]
+  },
+  {
+   "id": "er",
+   "label": "The myth of Er",
+   "kind": "myth",
+   "group": "judgment",
+   "keywords": [
+    "Er",
+    "myth",
+    "judgment",
+    "tale"
+   ],
+   "passages": [
+    {
+     "work": "tlg030",
+     "start": "614b",
+     "end": "621b",
+     "quote": "Ἠρὸς τοῦ Ἀρμενίου"
+    }
+   ]
+  },
+  {
+   "id": "aristophanes",
+   "label": "Aristophanes' myth of the halves",
+   "kind": "myth",
+   "keywords": [
+    "Aristophanes",
+    "halves",
+    "myth"
+   ],
+   "passages": [
+    {
+     "work": "tlg011",
+     "start": "189d",
+     "end": "193d",
+     "quote": "ἡ γὰρ πάλαι ἡμῶν φύσις οὐχ αὑτὴ ἦν"
+    }
+   ]
+  },
+  {
+   "id": "diotima",
+   "label": "Diotima and the ascent to beauty",
+   "kind": "myth",
+   "keywords": [
+    "Diotima",
+    "ascent",
+    "beauty",
+    "ladder"
+   ],
+   "passages": [
+    {
+     "work": "tlg011",
+     "start": "201d",
+     "end": "212a",
+     "quote": "γυναικὸς Μαντινικῆς Διοτίμας"
+    },
+    {
+     "work": "tlg011",
+     "start": "210a",
+     "end": "212a",
+     "quote": "δεῖ γάρ, ἔφη, τὸν ὀρθῶς ἰόντα ἐπὶ τοῦτο τὸ πρᾶγμα"
+    }
+   ]
+  },
+  {
+   "id": "prometheus",
+   "label": "Prometheus and Epimetheus",
+   "kind": "myth",
+   "keywords": [
+    "Prometheus",
+    "Epimetheus",
+    "myth"
+   ],
+   "passages": [
+    {
+     "work": "tlg022",
+     "start": "320c",
+     "end": "322d",
+     "quote": "ἦν γάρ ποτε χρόνος ὅτε θεοὶ μὲν ἦσαν"
+    }
+   ]
+  },
+  {
+   "id": "reversed-cosmos",
+   "label": "The age of Cronos and the reversed cosmos",
+   "kind": "myth",
+   "keywords": [
+    "myth",
+    "Cronos",
+    "Kronos",
+    "revolution"
+   ],
+   "passages": [
+    {
+     "work": "tlg008",
+     "start": "268d",
+     "end": "274e",
+     "quote": "συχνῷ γὰρ μέρει δεῖ μεγάλου μύθου προσχρήσασθαι"
+    }
+   ]
+  },
+  {
+   "id": "atlantis",
+   "label": "Atlantis",
+   "kind": "myth",
+   "keywords": [
+    "Atlantis",
+    "Atlantic"
+   ],
+   "passages": [
+    {
+     "work": "tlg031",
+     "start": "20d",
+     "end": "25d",
+     "quote": "λόγου μάλα μὲν ἀτόπου, παντάπασί γε μὴν ἀληθοῦς"
+    },
+    {
+     "work": "tlg032",
+     "start": "108e",
+     "end": "121c",
+     "quote": "τὸ κεφάλαιον ἦν ἐνακισχίλια ἔτη"
+    }
+   ]
+  },
+  {
+   "id": "midwife",
+   "label": "Socrates the midwife",
+   "kind": "image",
+   "keywords": [
+    "midwife",
+    "midwifery"
+   ],
+   "passages": [
+    {
+     "work": "tlg006",
+     "start": "149a",
+     "end": "151d",
+     "quote": "μαίας"
+    }
+   ]
+  },
+  {
+   "id": "wax",
+   "label": "The block of wax",
+   "kind": "image",
+   "keywords": [
+    "wax"
+   ],
+   "passages": [
+    {
+     "work": "tlg006",
+     "start": "191c",
+     "end": "195b",
+     "quote": "κήρινον ἐκμαγεῖον"
+    }
+   ]
+  },
+  {
+   "id": "aviary",
+   "label": "The aviary",
+   "kind": "image",
+   "keywords": [
+    "aviary",
+    "birds",
+    "pigeon"
+   ],
+   "passages": [
+    {
+     "work": "tlg006",
+     "start": "197c",
+     "end": "200d",
+     "quote": "περιστερεῶνα"
+    }
+   ]
+  },
+  {
+   "id": "puppet",
+   "label": "The puppet of the gods",
+   "kind": "image",
+   "keywords": [
+    "puppet"
+   ],
+   "passages": [
+    {
+     "work": "tlg034",
+     "start": "644d",
+     "end": "645c",
+     "quote": "θαῦμα μὲν ἕκαστον ἡμῶν ἡγησώμεθα τῶν ζῴων θεῖον"
+    }
+   ]
+  },
+  {
+   "id": "swans",
+   "label": "The swan song",
+   "kind": "image",
+   "keywords": [
+    "swan"
+   ],
+   "passages": [
+    {
+     "work": "tlg004",
+     "start": "84e",
+     "end": "85b",
+     "quote": "τῶν κύκνων δοκῶ φαυλότερος ὑμῖν εἶναι τὴν μαντικήν"
+    }
+   ]
+  }
+ ],
+ "groups": [
+  {
+   "id": "judgment",
+   "label": "The judgment myths",
+   "about": "The three myths of the soul's judgment after death. Grouped by the Workshop; the build lists the notes in the library that link any two of them."
+  }
+ ]
+}

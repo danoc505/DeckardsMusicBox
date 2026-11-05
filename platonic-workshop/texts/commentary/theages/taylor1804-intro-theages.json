@@ -1,0 +1,87 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-theages",
+ "work": "tlg017",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Theages",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804)",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   7230,
+   7279
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Theages. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-theages.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 7239,
+   "text": "In order to understand the defigii of this Dialogue, it is necessary to observe that wisdom is two-fold, the one absolute, the other conditional. The absolute is that which is denominated wisdom simply, and without any addition; but the conditional is that which is not simply called wisdom, but a certain wisdom. The former of these is defined to be the knowledge of tho(e things which are the objects of science, and the objects of science are things which po(refs a necessary eternal and invariable subsistence, such as are those luminous causes and principles of things resident in a divine intellect:, which Plato denominates ideas, and Aristotle things most honourable by nature. But conditional wisdom is common to all arts: for the summit or perfection of every art is called a certaui wisdom. Of all those arts however, which possess conditional wisdom, the principal is political wisdom, to which the rest are ministrant. This is called as well the political as the royal discipline; of which the subject is a city, the end the common good, and its servants all the arts.",
+   "raw": "In  order  to  underftand  the  defigii  of  this  Dialogue,  it  is  neceflary  to  obfervc \nthat  wifdom  is  two-fold,  the  one  abfolute,  the  other  conditional.  The  ab- \nfolute  is  that  which  is  denominated  wifdom  (imply,  and  without  any  addition-; \nbut  the  conditional  is  that  which  is  not  (imply  called  wifdom,  but  a  certain \nwifdom.  The  former  of  thefe  is  defined  to  be  the  knowledge  of  tho(e  things \nwhich  are  the  objeds  of  fcience,  and  the  objecls  of  fcience  are  things  which \npo(refs  a  neceflary  eternal  and  invariable  fubfiftence,  fuch  as  are  thofc  lumi- \nnous caufes  and  principles  of  things  refident  in  a  divine  intelled:,  which  Plato \ndenominates  ideas,  and  Ariftotle  '  things  moft  honourable  by  nature.  But \nconditional  wifdom  is  common  to  all  arts :  for  the  fummit  or  perfedion  of \nevery  art  is  called  a  certaui  wifdom.  Of  all  thofc  arts  however,  which \npoffefs  conditional  wifdom,  the  principal  is  political  wifdom,  to  which  the \nreft  are  miniftrant.  This  is  called  as  well  the  political  as  the  royal  difcipline  ; \nof  which  the  fubjedl  is  a  city,  the  end  the  common  good,  and  its  fervants \nall  the  arts. "
+  },
+  {
+   "id": "taylor1804-intro-theages.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 7255,
+   "text": "As this political wisdom, the subject of this Dialogue, forms an important part of virtue considered as a whole, Socrates, conformably to what he had delivered in the Meno, indicates that it can only be obtained by a divine dcfiiny (Bsix iioipx), without which all the endeavours of the most consummate masters are useless; and this he confirms by various examples.",
+   "raw": "As  this  political  wifdom,  the  fubjed  of  this  Dialogue,  forms  an  important \npart  of  virtue  confidered  as  a  whole,  Socrates,  conformably  to  what  he  had \ndelivered  in  the  Meno,  indicates  that  it  can  only  be  obtained  by  a  divine  dcfiiny \n(Bsix  iioipx),  without  which  all  the  endeavours  of  the  moft  confummate  maf- \nters  are  ufelefs  ;  and  this  he  confirms  by  various  examples. "
+  },
+  {
+   "id": "taylor1804-intro-theages.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 7270,
+   "text": "This conversation, according to Dacier, passed that year in which the Athenians were vanquilhcd at Ephesus by Tifaphernus; which was the 4th year of the yid Olympiad, and 470 years before the birth of ChrilU Plato being twenty years of age, was then the disciple of Socrates.",
+   "raw": "This  converfation,  according  to  Dacier,  paffed  that  year  in  which  the \nAthenians  were  vanquilhcd  at  Ephcfus  by  Tifaphernus  ;  which  was  the  4th \nyear  of  the  yid  Olympiad,  and  470  years  before  the  birth  of  ChrilU  Plato \nbeing  twenty  years  of  age,  was  then  the  difciple  of  Socrates. "
+  },
+  {
+   "id": "taylor1804-intro-theages.f01",
+   "kind": "footnote",
+   "seq": 4,
+   "page": null,
+   "line": 7259,
+   "on": "taylor1804-intro-theages.002",
+   "text": "Aristotle, in his Nicomachean Ethics, defines wisdom absolutely considered to be '* Science, and the intelleft of things nioft honourable by nature, and the intellect of principles.\" H ao^xa",
+   "raw": "»  Ariftotle,  in  his  Nicomachean  Ethics,  defines  wifdom  abfolutely  confidered  to  be  '*  Science, \nand  the  intelleft  of  things  nioft  honourable  by  nature,  and  the  intelled  of  principles.\"    H  ao^xa "
+  },
+  {
+   "id": "taylor1804-intro-theages.f02",
+   "kind": "footnote",
+   "seq": 5,
+   "page": null,
+   "line": 7262,
+   "on": "taylor1804-intro-theages.002",
+   "text": "WIVI 71 l?n^TIJ/A)l, A0(1 VOl/J TWV 7tfJUU7aTUV TJJ (pWEi, KCH VOl/f XCiiV Of^fiU",
+   "raw": "WIVI  71  l?n^TIJ/A)l,  A0(1  VOl/J  TWV  7tfJUU7aTUV  TJJ  (pWEi,  KCH  VOl/f  XCiiV  Of^fiU "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 2,
+  "running heads removed": 3,
+  "words joined across lines": 3,
+  "notes": 5,
+  "paragraphs run on across a page": 1,
+  "note marks removed": 1
+ }
+}

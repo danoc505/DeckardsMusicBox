@@ -1,0 +1,125 @@
+{
+ "_comment": "Statements of the skopos (the single aim) of a dialogue, chosen by hand from the Anonymous Prolegomena, chapters 21-26 (Hermann VI pp. 214-220), in Greek as the OCR has it. 'stance' is whether the Prolegomena accepts the view or rejects it (it argues against views that take the aim from a part of the dialogue, from its persons or from its means). tools/structure.py finds every quotation in texts/ancient/prolegomena-hermann.json. Taylor's statements of the scope in his 1804 Introductions, and Proclus' in his preface to the Timaeus, are found by rule, not listed here.",
+ "statements": [
+  {
+   "work": "tlg004",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "τοὺς λέγοντας τρεῖς εἶναι τοὺς σκοποὺς τοῦ Φαίδωνος περὶ ἀθανασίας ψυχῆς καὶ περὶ εὐθανασίας"
+  },
+  {
+   "work": "tlg007",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "τοὺς λέγοντας τὸν Σοφιστὴν περὶ τοῦ σοφιστοῦ ἔχειν τὸν σκοπόν"
+  },
+  {
+   "work": "tlg007",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "ἀλλὰ τοὺς λέγοντας περὶ τοῦ μὴ ὄντος ἀποδεκτέον"
+  },
+  {
+   "work": "tlg007",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "οἱ τὸν Σοφιστὴν λέγοντες περὶ τῆς διαιρετικῆς"
+  },
+  {
+   "work": "tlg012",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "τοὺς λέγοντας τὸν Φαῖδρον περὶ ῥητορικῆς σκοπὸν ἔχειν"
+  },
+  {
+   "work": "tlg012",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "ἐν ὅλῳ γὰρ τῷ διαλόγῳ περὶ τοῦ διὰ παντὸς κάλλους λαμβάνει"
+  },
+  {
+   "work": "tlg023",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "σκοπὸν ἔχειν τὸν Πλάτωνα διαλεχθῆναι περὶ τοῦ εἰ ἄμεινον ἀδικεῖν"
+  },
+  {
+   "work": "tlg023",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "σκοπὸν ἔχειν ἐν Γοργίᾳ τὴν ἐν Πώλῳ καὶ Γοργίᾳ ῥητορικὴν ἐλέγξαι"
+  },
+  {
+   "work": "tlg023",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "ἀλλὰ τὴν ἀληθῆ ῥητορικὴν πρόκειται διδάξαι"
+  },
+  {
+   "work": "tlg023",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "τοὺς λέγοντας σκοπὸν ἔχειν τὸν Γοργίαν περὶ τοῦ ἑαυτὸν ὁρῶντος νοῦ"
+  },
+  {
+   "work": "tlg031",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "τοὺς λέγοντας τον σκοπὸν εἶναι τοῦ Τιμαίου περὶ φυσιολογίας διδάξαι"
+  },
+  {
+   "work": "tlg031",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "ὅτι περὶ τῆς κατὰ Πλάτωνα φυσιολογίας ἐστὶν ὁ σκοπός"
+  },
+  {
+   "work": "tlg028",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "τοὺς λέγοντας τὸν σκοπὸν εἶναι τοῦ Μενεξένου περὶ τοῦ διαβάλλειν καὶ προσαμιλλᾶσθαι πρὸς Θουκυδίδην"
+  },
+  {
+   "work": "tlg010",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "περὶ ἡδονῆς φασὶν ἔχειν τὸν σκοπόν"
+  },
+  {
+   "work": "tlg010",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "οὐ περὶ τούτου οὖν αὐτῷ ὁ σκοπός ἀλλὰ περὶ τῆς τάξεως τῶν ἓξ ἀγαθῶν"
+  },
+  {
+   "work": "tlg013",
+   "stance": "rejected",
+   "source": "prolegomena-hermann",
+   "quote": "τὸν Ἀλκιβιάδην λέγοντες σκοπὸν ἔχειν περὶ τῆς"
+  },
+  {
+   "work": "tlg013",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "ὅτι περὶ τῆς ἐν ἑκάστῃ ψυχῇ φιλοτιμίας σκοπὸν ἔχει τοῦ ἐλέγξαι"
+  },
+  {
+   "work": "tlg036",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "περὶ μὲν οὖν τοῦ ἐξ ἐπανορθώσεως ἐν ταῖς Ἐπιστολαῖς διαλαμβάνει"
+  },
+  {
+   "work": "tlg034",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "περὶ δὲ τοῦ ἐξ ὑποθέσεως ἐν τοῖς Νόμοις"
+  },
+  {
+   "work": "tlg030",
+   "stance": "accepted",
+   "source": "prolegomena-hermann",
+   "quote": "περὶ δὲ τοῦ ἀνυποθέτου ἐν τῇ Πολιτείᾳ"
+  }
+ ]
+}

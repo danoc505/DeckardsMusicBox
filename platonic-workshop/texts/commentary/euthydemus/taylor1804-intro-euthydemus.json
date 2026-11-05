@@ -1,0 +1,80 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-euthydemus",
+ "work": "tlg021",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Euthydemus",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804), pp. 309-310",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   13443,
+   13518
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Euthydemus. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-euthydemus.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": 309,
+   "pages": [
+    309
+   ],
+   "line": 13452,
+   "text": "Il LATE, in the following Dialogue, has given an illustrious specimen of that philanthropy, which he often difplays in bis other dialogues. For be here studies to avert the reader from the vain trifles of the sophists, by showing that these men, even when tl>ey discuss the most weighty fubje^s^ jest and delude the expectation of the hearers. Both in this Dialogue, however, and elsewhere, he describes these men to be curious and vain ifputants in verbal altercation, and prompt to refute whatever may be said,. whether it be true or false. And, in the first place, indeed, he shows how avaricious* the genius of the sophists is, since the brother fophifts^ Euthydemus and Dionysodorus, are prepared to teach for money the i»ilitary art, ia whicb they boast, and which no one ever fold* In the next place how ambitious, since they at the same time profess judicial together with military skill, and together with both the sophistic art, though all these widely differ from each other. In the third place, how vain;. since, though now old men, they betak© themselves from things to words, and from the study of truth to falfehoodr And, in the fourth place, how despicable; since, in a short time, any one may become a pro£cient in this cavilUng art..",
+   "raw": "Jl  LATO,  in  the  following  Dialogue,  has  given  an  illuftrious  fpecimcn  of \nthat  philanthropy,  which  he  often  difplays  in  bis  other  dialogues.  For  be \nhere  ftudies  to  avert  the  reader  from  the  vain  trifles  of  the  fophifts,  by \nfhowing  that  thefe  men,  even  when  tl>ey  difcufs  the  moft  weighty  fubje^s^ \njcft  and  delude  the  expectation  of  the  hearers.  Both  in  this  Dialogue,  how- \never, and  elfewhere,  he  defcribes  thefe  men  to  be  curious  and  vaiu  ifputants \nin  verbal  altercation,  and  prompt  to  refute  whatever  may  be  faid,.  whether \nit  be  true  or  falfe.  And,  in  the  firft  place,  indeed,  he  (hows  how  avaricious* \nthe  genius  of  the  fophifts  is,  (ince  the  brother  fophifts^  Euthydemus  and \nDionyfodorus,  are  prepared  to  teach  for  money  the  i»ilitary  art,  ia  whicb \nthey  boaft,  and  which  no  one  ever  fold*  In  the  next  place^  how  ambitious, \nfince  they  at  the  fame  time  profefs  judicial  together  with  military  ikill,  and \ntogether  with  both  the  fophiftic  art,  though  all  thefe  widely  differ  from  each \nother.  In  the  third  place,  how  vain ;.  fince,  though  now  old  men,  they  betak© \nthemfelves  from  things  to  words,  and  from  the  fludy  of  truth  to  falfehoodr \nAnd,  in  the  fourth  place,  how  defpicable ;  fince,  in  a  fliort  time,  any  one \nmay  become  a  pro£cient  in  this  cavilUng  art.. "
+  },
+  {
+   "id": "taylor1804-intro-euthydemus.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null,
+    310
+   ],
+   "line": 13470,
+   "text": "In the Gourfe of this Dialogue, Socrates, with a most facetious irony, bcfecches the sophists, that after jesting they would come to fcrioHS concerns;, and he proposes a certain formula, conformable to which, as a pattern, he hopes to receive from them an exhortation to philosophy. In this formula he first defines felicity, by a common conception, to be living well. Afterwards he proves that this living well consists either in obtaining things agreeable to the will, or in the right use of the things themselves. And he concludes that wisdom alone renders its poffeflbrs blessed, since it alone obtains what is agreeable to the will, and rightly uses what it obtains. In the course of the argument an illustrious dogma presents itself to the view, and which afterwards became the foundation of the Stoic philosophy, viz. that things external and corporeal ought rather to be called indifferent and common, than good or evil; apd that wisdom is properly good, and folly properly evil: since through the former we partake of every good, and through the latter of every evil. But that all the power of felicity conlifts in wisdom, the three appellations of felicity, instituted by the antient authors of the Greek language, fuflficiently evince, viz, ivlai^oviot^ evrvxia,, evTrpuyiay eudaimonia, eutuchia, eupragia. For the first: of these appellations signifies the knowledge of good; the second, the attainment of it; and the third, the vife of it; all which are accomplifhcd for us by wisdom.",
+   "raw": "In  the  Gourfe  of  this  Dialogue,  Socrates,  with  a  moft  facetious  irony, \nbcfecches  the  fophifts,  that  after  jefting  they  would  come  to  fcrioHS  concerns;, \nand  he  propofes  a  certain  formula,  conformable  to  which,  as  a  pattern,  he \nhopes  to  receive  from  them  an  exhortation  to  philofophy.  In  this  formula \nhe  firft  defines  felicity,  by  a  common  conception,  to  be  living  well.  After- \nwards  he  proves  that  this  living  well  confifts  either  in  obtaining  things \nagreeable  to  the  will,  or  in  the  right  ufe  of  the  things  themfelves.  And  he \nconcludes  that  wifdom  alone  renders  its  poffeflbrs  blefled,  fince  it  alone \nobtains  what  is  agreeable  to  the  will,  and  rightly  ufes  what  it  obtains.  In  the \ncourfe  of  the  argument  an  illuflrious  dogma  prefents  itfelf  to  the  view,  and \nwhich  afterwards  became  the  foundation  of  the  Stoic  philofophy,  viz.  that \nthings  external  and  corporeal  ought  rather  to  be  called  indifferent  and \ncommon,  than  good  or  evil;  apd  that  wifdom  is  properly  good,  and  folly \nproperly  evil :  fince  through  the  former  we  partake  of  every  good,  and \nthrough  the  latter  of  every  evil.  But  that  all  the  power  of  felicity  conlifts \nin  wifdom,  the  three  appellations  of  felicity,  inftituted  by  the  antient  authors \nof  the  Greek  language,  fuflficiently  evince,  viz,  ivlai^oviot^  evrvxia,,  evTrpuyiay \neudaimonia,  eutuchia,  eupragia.  For  the  firfl:  of  thefe  appellations  fignifies \nthe  knowledge  of  good  ;  the  fecond,  the  attainment  of  it ;  and  the  third,  the \nvife  of  it ;  all  which  are  accomplifhcd  for  us  by  wifdom. "
+  },
+  {
+   "id": "taylor1804-intro-euthydemus.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 310,
+   "pages": [
+    310
+   ],
+   "line": 13496,
+   "text": "Near the conclusion of this Dialogue, the artificial, polite, facetious, and elegant irony of Socrates collects the reprehension of sophistic cavilling into three heads, Firll:, that the most worthy men despise trifles of this kind. Secondly, that the sophisms confute themselves. And thirdly, that even boys might acquire this most trifling artifice in the space of two days. Soon after this, he descends from the sophist: to the rhetorician, for each of these falsely profeflbs political virtue, as we learn from the Gorgias. And he shows that rhetoricians, while they profess themselves to be both politicians and philosophers, are pcrfetSlly useless for the purposes of either.",
+   "raw": "Near  the  conclufion  of  this  Dialogue,  the  artificial,  polite,  facetious,  and \nelegant  irony  of  Socrates  colle61s  the  reprehenfion  of  fophiftic  cavilling  into \nthree  heads,  Firll:,  that  the  mofl  worthy  men  defpife  trifles  of  this  kind. \nSecondly,  that  the  fophifms  confute  themfelves.  And  thirdly,  that  even  boys \nmight  acquire  this  moft  trifling  artifice  in  the  fpace  of  two  days.  Soon \nafter  this,  he  defcends  from  the  fophifl:  to  the  rhetorician,  for  each  of  thefe \nfalfely  profeflbs  political  virtue,  as  we  learn  from  the  Gorgias.  And  he \nfliows  that  rhetoricians,  while  they  profefs  themfelves  to  be  both  politicians \nand  philofophers,  are  pcrfetSlly  ufelefs  for  the  purpofes  of  either. "
+  },
+  {
+   "id": "taylor1804-intro-euthydemus.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 310,
+   "pages": [
+    310
+   ],
+   "line": 13506,
+   "text": "I only add, that this Dialogue appears to have been justly ranked by the antients among thole of the anatreptic^ or subversive character, and that it belongs to that energy of Plato's dialectic, which, as we have already observed in the Introduction to the Parmenides, consists in confuting false opinions.",
+   "raw": "I  only  add,  that  this  Dialogue  appears  to  have  been  juftly  ranked  by  the \nantients  among  thole  of  the  anatreptic^  or  fubverfive  chara61er,  and  that  it \nbelongs  to  that  energy  of  Plato's  dialedic,  which,  as  we  have  already  obferved \nin  the  Introdu6lion  to  the  Parmenides,  confifts  in  confuting  falfc  opinions. "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 3,
+  "running heads removed": 4,
+  "words joined across lines": 1,
+  "paragraphs run on across a page": 1,
+  "note marks removed": 0,
+  "notes": 4
+ }
+}

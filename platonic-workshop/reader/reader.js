@@ -1,7 +1,7 @@
-// Platonic Workshop reader (milestones 2 to 8). No libraries, no build step.
+// Platonic Workshop reader (milestones 2 to 9). No libraries, no build step.
 // Your translations and notes (milestone 4) are in mywork.js; the word search
 // across Plato and your word studies (milestone 5) in search.js; the
-// commentaries (milestone 7) in commentary.js; the citation web (milestone 8) in citations.js.
+// commentaries (milestone 7) in commentary.js; the citation web (milestone 8) in citations.js; the dialogue and the corpus as a whole (milestone 9) in whole.js.
 "use strict";
 
 // The work being read (a Perseus id, 'tlg031'). Changes when you open another dialogue.
@@ -378,7 +378,8 @@ function renderToc() {
     const here = cur.some((r) => seq.get(r) >= seq.get(m.start_ref) && seq.get(r) <= seq.get(m.end_ref));
     const label = m.labels.length > 2 ? "Dialogue" : m.labels.join(", ");
     return `<li class="${here ? "here" : ""}"><a href="${esc(placeHash(WORK, m.start_ref))}"><span>${esc(label)}</span><span>${m.start_ref === m.end_ref ? m.start_ref : m.start_ref + "–" + m.end_ref}</span></a></li>`;
-  }).join("")}</ul><p class="note">From the speaker markup in the Perseus text. The parts of the argument and the dialogue's skopos are added in milestone 9.</p>`;
+  }).join("")}</ul><p class="note">From the speaker markup in the Perseus text.</p>`;
+  html += renderTocWhole(w, cur);
   html += renderTocCitations(w);
   $("#toc").innerHTML = html;
 }
@@ -670,9 +671,15 @@ document.addEventListener("keydown", (ev) => {
 function route(push) {
   const raw = location.hash.slice(1);
   if (raw.startsWith("search")) { showSearchFromHash(raw); return; }  // its parameters are decoded there
-  document.body.classList.remove("discussing");
+  document.body.classList.remove("discussing", "whole-view", "corpus-view");
   if (raw.startsWith("discussed")) { showDiscussedFromHash(raw); return; }
+  if (raw === "corpus" || raw.startsWith("corpus?")) { showCorpusFromHash(raw); return; }
   const h = decodeURIComponent(raw);
+  // Milestone 9: #timaeus/whole, any of the 36 works (those not yet imported too).
+  if (h.endsWith("/whole")) {
+    const w = state.works.find((x) => x.slug === h.slice(0, -6) || x.id === h.slice(0, -6));
+    if (w) { showWhole(w.id); return; }
+  }
   const slash = h.indexOf("/");
   let p = null;
   if (slash > 0) {

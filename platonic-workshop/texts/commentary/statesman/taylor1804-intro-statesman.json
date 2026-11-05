@@ -1,0 +1,92 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-statesman",
+ "work": "tlg008",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Politicus",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804), pp. 101-102",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   5001,
+   5081
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Politicus. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-statesman.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": 101,
+   "pages": [
+    101
+   ],
+   "line": 5010,
+   "text": "As there is one end for which nature, or rather the author of nature, pro duced the parts of the human body, and another for which he formed the whole man, so likewise he directed an Individual of the human species t«> one end, a family to another, and again a city and kingdom to another. And laftfy, that is to be considered as the best end, for the sake of which he produced the whole human race. Let no one however think, that though there is a certain end of every partial aflbciation among mankind, yet there is none of the whole; and that though there is order in the parts of human life, yet there is confusion in the whole; or, in short, that though the parts possess union from being directed to one end, yet the whole is dispersed and unconnected: for, if this were admitted, parts would be more honourable than the whole; though the former subsist: for the sake of the latter, and not the latter for the sake of the former. Hence it is neceiTary that there should be a certain end of the human race, and that.it fhou Id consist in those energies through which it may imitate as much as possible things supernal; by science fpeculating things natural, human and divine; by prudence properly managing human affairs; and by piety cultivating and venerating divinity. An end, therefore, of this kind requires a twofold life, consisting both in a61iofi and contemplation, yet so constituted as that action may fublifl: for the sake of contemplation,, as that which is more excellent and divine.",
+   "raw": "As  there  is  one  end  for  which  nature,  or  rather  the  author  of  nature,  pro^ \nduced  the  parts  of  the  human  body,  and  another  for  which  he  formed  the \nwhole  man,  fo  likewife  he  diredled  an  Individual  of  the  human  fpecies  t«> \none  end,  a  family  to  another,  and  again  a  city  and  kingdom  to  another. \nAnd  laftfy,  that  is  to  be  confidered  as  the  beft  end,  for  the  fake  of  which  he \nproduced  the  whole  human  race.  Let  no  one  however  think,  that  though \nthere  is  a  certain  end  of  every  partial  aflbciation  among  mankind,  yet  there \nis  none  of  the  whole ;  and  that  though  there  is  order  in  the  parts  of \nhuman  life,  yet  there  is  confufion  in  the  whole ;  or,  in  fhort,  that  though \nthe  parts  pofTefs  union  from  being  dire6led  to  one  end,  yet  the  whole  is  di- \nfperfed  and  unconnedted  :  for,  if  this  were  admitted,  parts  would  be  more \nhonourable  than  the  whole  ;  though  the  former  fubfifl:  for  the  fake  of  the  latter, \nand  not  the  latter  for  the  fake  of  the  former.  Hence  it  is  neceiTary  that  there \nfhould  be  a  certain  end  of  the  human  race,  and  that.it  fhou Id  confift- in  thofe \nenergies  through  which  it  may  imitate  as  much  as  poffible  things  fupernal ;  by \nfcience  fpeculating  things  natural,  human  and  divine  ;  by  prudence  properly \nmanaging  human  affairs  ;  and  by  piety  cultivating  and  venerating  divinity.  An \nend,  therefore,  of  this  kind  requires  a  twofold  life,  confifting  both  in  a61iofi \nand  contemplation,  yet  fo  conflituted  as  that  a61ion  may  fublifl:  for  the  fake \nof  contemplation,,  as  that  which  is  more  excellent  and  divine. "
+  },
+  {
+   "id": "taylor1804-intro-statesman.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": 101,
+   "pages": [
+    101
+   ],
+   "line": 5031,
+   "text": "Plato in this dialogue demon (I rates that this end can alone be obtained by",
+   "raw": "Plato  in  this  dialogue  demon (1  rates  that  this  end  can  alone  be  obtained  by "
+  },
+  {
+   "id": "taylor1804-intro-statesman.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 101,
+   "pages": [
+    101
+   ],
+   "line": 5033,
+   "text": "the human race, under the govcniment of a king who possesses consummate",
+   "raw": "the  human  race,  under  the  govcniment  of  a  king  who  pofTefTcs  confummate "
+  },
+  {
+   "id": "taylor1804-intro-statesman.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": null,
+   "pages": [
+    null,
+    102
+   ],
+   "line": 5035,
+   "text": "probity and science. Hence employing a most accurate division which is* essentially necessary to dcfHiition and science, and in which Plato and his genuine disciples excelled in a transcendent degree, he Homerically denominates a king the shepherd and curator of the human race. This king, too, he compares to a physician; lince such a one, by impofmg laws both on the willing and the unwilling, procures salutary remedies for his subjects. But he more frequently calls a governor and curator of this kind, a politician than a king, signifying by this that he will be so humane and mild, that among the citizens he will appear to be a fellow-citizen, and will evince that he is rather superior to them in justice, prudence and science, than in any other endowmeiUs. He likewise asserts, that the man who far surpasses all others in justice and prudence is born a king, though he should live the life of a private individual: and it may be collected from his other dialogues a« his opinion, that royal authority should be given to the older and more worthy, a senate of whom should be the colleagues of the king, forming, as it were, a certain arlftocracy, or government of the mod excellent men. As he proves too in this dialogue that a royal surpasses every other form of governments he likewise shows that a tyraimy is the worst kind of dominion, since it governs neither by law nor intellect, but by unrestrained impulse and arbitrary will. As the next in excellence to a royal government, he praises an aristocracy, but reprobates an oligarchy, or the government of a few: and he considers a popular government as deserving praise in the third degree, if it governs according to law. After this he discusses the duty of a king, and shows that it consists in providing such things as are necessary for the human race, and especially such as contribute to its felicity, in prudently judging what arts are subservient to this end in peace and war, in public and private conduct; and in exercifmg sovereign authority in conjunction with the senate.",
+   "raw": "probity  and  fcience.     Hence  employing  a  moft  accurate   divifion  which  is* \nefTentially  neceflary  to  dcfHiition  and  fcience,  and  in  which  Plato  and  his \ngenuine  difciples  excelled  in  a  tranfcendent  degree,  he  Homerically  deno- \nminates a  king  the  fheplierd  and  curator  of  the  human  race.  This  king,  too, \nhe  compares  to  a  phyfician  ;  lince  fuch  a  one,  by  impofmg  laws  both  on  the \nwilling  and  the  unwilling,  procures  falutary  remedies  for  his  fubje61s.  But \nhe  more  frequently  calls  a  governor  and  curator  of  this  kind,  a  politician \nthan  a  king,  fignifying  by  this  that  he  will  be  fo  humane  and  mild,  that \namong  the  citizens  he  will  appear  to  be  a  fellow-citizen,  and  will  evince \nthat  he  is  rather  fuperior  to  them  in  juflice,  prudence  and  fcience,  than  in \nany  other  endowmeiUs.  He  likewife  aflerts,  that  the  man  who  far  furpafles \nall  others  in  juftice  and  prudence  is  born  a  king,  though  he  fhould  live  the \nlife  of  a  private  individual:  and  it  may  be  colle61ed  from  his  other  dialogues \na«  his  opinion,  that  royal  authority  fliould  be  given  to  the  older  and  more \nworthy,  a  fenate  of  whom  fhould  be  the  colleagues  of  the  king,  forming,  as \nit  were,  a  certain  arlftocracy,  or  government  of  the  mod  excellent  men.  As \nhe  proves  too  in  this  dialogue  that  a  royal  furpafTes  every  other  form  of \ngovernments  he  likewife  fhows  that  a  tyraimy  is  the  worft  kind  of  dominion, \nfince  it  governs  neither  by  law  nor  intellecl,  but  by  unreftrained  impulfe \nand  arbitrary  will.  As  the  next  in  excellence  to  a  royal  government,  he \npraifes  an  ariftocracy,  but  reprobates  an  oligarchy,  or  the  government  of  a \nfew  :  and  he  confiders  a  popular  government  as  deferving  praifc  in  the  third \ndegree,  if  it  governs  according  to  law.  After  this  he  difcufles  the  duty  of  a \nking,  and  fhows  that  it  confifts  in  providing  fuch  things  as  are  neceffary  for \nthe  human  race,  and  efpecially  fuch  as  contribute  to  its  felicity,  in  prudently \njudging  what  arts  are  fubfervient  to  this  end  in  peace  and  war,  in  public  and \nprivate  conduct ;  and  in  exercifmg  fovereign  authority  in  conjundion  with \nthe  fenate. "
+  },
+  {
+   "id": "taylor1804-intro-statesman.005",
+   "kind": "introduction",
+   "seq": 5,
+   "page": 102,
+   "pages": [
+    102
+   ],
+   "line": 5070,
+   "text": "With respect to what he says of the motion of the spheres and the kingdoms of Saturn and Jupiter, the mystic meaning of this fabulous narration vill be unfolded in the notes on this dialogue.",
+   "raw": "With  refped  to  what  he  fays  of  the  motion  of  the  fpheres  and  the  king- \ndoms of  Saturn  and  Jupiter,  the  myflic  meaning  of  this  fabulous  narration \nvill  be  unfolded  in  the  notes  on  this  dialogue. "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 3,
+  "running heads removed": 4,
+  "words joined across lines": 3,
+  "paragraphs run on across a page": 1,
+  "note marks removed": 0,
+  "notes": 5
+ }
+}

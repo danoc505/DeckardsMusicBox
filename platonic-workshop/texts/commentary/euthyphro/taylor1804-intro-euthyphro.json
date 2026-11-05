@@ -1,0 +1,78 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-euthyphro",
+ "work": "tlg001",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Euthyphro",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804), pp. 4-4",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   95,
+   180
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Euthyphro. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-euthyphro.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 104,
+   "text": "J. HE whole of the'^Euthyphro of Plato, says Flcinus, is employed In confutation; whence some Platonists have called this dialogue, as well as the Euthydemus and Greater Hippias, elendic* However, as he justly observes, while Socrates confutes the false ophiions which Euthyphro entertained of holiness, he presents certain velViges of the truth to its investigators. We may collect therefore from this dialogue and the Gorgias that holiness according to Plato is that part of justice which attributes to Divinity that which is his own. But as man is a compoiite being, aiKl the different parts of his composition were produced, according to the Platonic theology, from different divinities, perfe<a piety will consist in consecrating to each deity that part of us which he immediately gave. This definition being premised, what Plato says here and elsewhere respecting holiness will be apparent. Hence, when it is said that holiness is that which is beloved by Divinity it is true; but it is beloved by Divinity because it is holiness, and is not holiness because it is beloved by him, Likewile because it is beloved by him it may be beloved, but is not beloved because it may be beloved: for the holy is not in every respect the same with that which may be beloved; since neither does the essence of holiness consist in being the object of love, but rather in retribution and devotion.",
+   "raw": "J.  HE  whole  of  the'^Euthyphro  of  Plato,  fays  Flcinus,  is  employed  In  confu- \ntation ;  whence  fome  Platonifts  have  called  this  dialogue,  as  well  as  the \nEuthydemus  and  Greater  Hippias,  elendic*  However,  as  he  juftly  obferves, \nwhile  Socrates  confutes  the  falfe  ophiions  which  Euthyphro  entertained  of \nholinefs,  he  prefents  certain  velViges  of  the  truth  to  its  inveftigators. \nWe  may  colle6l  therefore  from  this  dialogue  and  the  Gorgias  that  holinefs \naccording  to  Plato  is  that  part  of  juftice  which  attributes  to  Divinity  that \nwhich  is  his  own.  But  as  man  is  a  compoiite  being,  aiKl  the  different  parts \nof  his  compofition  were  produced,  according  to  the  Platonic  theology,  from \ndifferent  divinities,  perfe<a  piety  will  confift  in  confecrating  to  each  deity \nthat  part  of  us  which  he  immediately  gave.  This  definition  being  premifed, \nwhat  Plato  fays  here  and  elfewhere  refpe£ling  holinefs  will  be  apparent. \nHence,  when  it  is  faid  that  holinefs  is  that  which  is  beloved  by  Divinity \nit  is  true;  but  it  is  beloved  by  Divinity  becaufc  it  is  holinefs,  and  is  not \nholinefs  becaufe  it  is  beloved  by  him,  Likewile  becaufe  it  is  beloved  by \nhim  it  may  be  beloved,  but  is  not  beloved  becaufe  it  may  be  beloved  :  for \nthe  holy  is  not  in  every  refped  the  fame  with  that  which  may  be  beloved  ; \nfince  neither  does  the  effence  of  holinefs  confift  in  being  the  objcd  of  love, \nbut  rather  in  retribution  and  devotion. "
+  },
+  {
+   "id": "taylor1804-intro-euthyphro.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 124,
+   "text": "Again, when it is laid that holinef, is that which is minrftrant to the opera* tions of Divinity, this also is truly said: for it is ministrant to the convcrfion to Divinity of that which we receive from him. And the work of Divinity",
+   "raw": "Again,  when  it  is  laid  that  holinef,  is  that  which  is  minrftrant  to  the  opera* \ntions  of  Divinity,  this  alfo  is  truly  faid  :  for  it  is  miniftrant  to  the  convcrfion \nto  Divinity  of  that  which  we  receive  from  him.     And  the  work  of  Divinity "
+  },
+  {
+   "id": "taylor1804-intro-euthyphro.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": null,
+   "pages": [
+    null,
+    4
+   ],
+   "line": 128,
+   "text": "B z is is to produce, convert, purify, illuminate, and perfect. Hence it is beautifully observed by Porphyry, \" that being conjoined and assimilated to the highest God, we should offer the elevation of ourselves to him as a sacred sacrifice; for thus we shall celebrate him and procure our own falvalion.\" He adds,\" In the soul's contemplation therefore of this Divinity, unattended by the passions, the sacrifice to him receives its completion; but his progeny, the intelligible gods, are to be celebrated vocally by hymns'.\" LalHy, when it is said that holiness is the science of requesting and giving to the gods, this likewise is true, though it is not a perfect definition of sanctity. For he who properly prays to Divinity, will request him to impart that by which he may be enabled to offer himself to him in the most acceptable manner.",
+   "raw": "B  z  is \nis  to  produce,  convert,  purify,  illuminate,  and  perfedl.  Hence  it  is  beau- \ntifully obferved  by  Porphyry,  \"  that  being  conjoined  and  affimilated  to  the \nhigheft  God,  we  fhould  offer  the  elevation  of  ourfelves  to  him  as  a  facred \nfacrifice  ;  for  thus  we  fhall  celebrate  him  and  procure  our  own  falvalion.\" \nHe  adds,\"  In  the  foul's  contemplation  therefore  of  this  Divinity,  unattended \nby  the  paflions,  the  facrifice  to  him  receives  its  completion ;  but  his  progeny, \nthe  intelligible  gods,  are  to  be  celebrated  vocally  by  hymns'.\"  LalHy,  when \nit  is  faid  that  holinefs  is  the  fcience  of  requefting  and  giving  to  the  gods, \nthis  likewife  is  true,  though  it  is  not  a  perfe6l  definition  of  fan61ity.  For  he \nwho  properly  prays  to  Divinity,  will  requeft  him  to  impart  that  by  which  he \nmay  be  enabled  to  offer  himfelf  to  him  in  the  mofl  acceptable  manner. "
+  },
+  {
+   "id": "taylor1804-intro-euthyphro.f01",
+   "kind": "footnote",
+   "seq": 4,
+   "page": 4,
+   "line": 145,
+   "on": "taylor1804-intro-euthyphro.003",
+   "text": "For the sake of the Platonic reader I will give the whole of this very beautiful passage. 0y<7o/*ev roivvv kui nfxeii' aAXa dva-c/xsv, wj '7rpo(rviKiiy Sja^opovj raj 6vaia<;, to( av ^la^opoii ^vvocfxeaei tt/joo-cyovre;. Q>ica (mev ra stti wacr/, w? rig avnp <ro<pc<; f(p>j, (xm^tvruv atcrdrtruv, /Jir,r£ Oufxiuvrt^, finre STrovofjix^ovrti' ov^ev yap env ewXov b fxr\\ tw au\\m Etflyj tTiV aKaOxprov. Aio ov^e Xoyog toutw o Kara. ^«v>iv, oineioi, cuV o fvJov, cTov inuhi ^J/J;xr)? )i [j.siJi.o>^ua-/xevoi' ha e a-iyn icadapaf xai ruv Ttepi avrov xaOapuv evvoiuv 6py)(TK£uofA.£V avrov. ^£1 ape <ruvap6evragf Kai OfioicnQsvrag avru^ my auruv avxyuyr]v Oujiav itpav Tfpoa-ayocyeiv ru flfw, tjjv aumv Iii tcai v/*vov oucrav koi -nixav (rurtipiav. ev a'^aSsi ape rm 4''^X^i rout rou 6eou Qeupta, v Ou<na aurt) reMirai. Toigh aurou eyyovojj, u-nroi^ h Geck;, nJn vai rr,v ex. rou Xoyou vptvuhav Trpoa-Osnov. h'nap'/^g yap £Karu uf h^ojKsv r] 9v<ria, xai h uv r/otwv rpf<pBiy uai eij to tivai avvsx^^ £'? '^^^ Oycriav. fl{ ouv ytupyog ^payi^-aruv a'TTapx^''''^^ Ka< ray aKpo^pvuv^ ourug using aTrapiofitOx auroig, swoiuv ruv ttb^i avruy hxXuv, suxcJ^pifouvrEg o:v »i/xjk ^E^coKaa-i my Oeapiav, Kat en t^fxag 3ia mg aurm hag ahnSivug fpi^ovtrt, (ruvovref xai ^anopiEvot xai Tyi YifxErepa trumpia ETnT.afji'Trovrtg. Porphy. de Abstinentia, lib. ii. p. 165, 4I0. 1 767: i.e. \" Let us also sacrifice, but let us sacrifice in such a manner as is proper, offering difierent sacrifices to different powers. To that God, indeed, who is above all things, as a certain wise man says, neither fumigating nor confccrating any thing fenfiblc. For there is nothing material, which, to an immaterial nature, is Tjot immediately impure. Hence neither is external language adapted to him, nor that which is internal when it is defiled by any passion of the soul; but we ffiould adore him in pure silence, and with pure conceptions concerning him. It is necessary, therefore, that, being conjoined and assimilated to him, we should offer the elevation of ourselves to Divinity as a sacred sacrifice; for thus we shall both celebrate him and procure our own salvation. In the soul's contemplation, therefore, of this Divinity, unattended by the passions, the sacrifice to him receives its completion; but his progeny, the intelligible gods, are to be celebrated vocally by hymns. For to each of the gods the first fruits are to be sacrificed of what he imparts to us, and through which he nouriflics and prcfervcs us. As, therefore, the husbandman offers his first fruits from bandfuls ot fruits and acorns, so also we should sacrifice from beautiful concepiions concerning the gods, giving thanks for those things of which they have imparted to u.; the contemplation, and that, through the vision of themselves, they truly nouriffi ns^ affbciating with and appearing to us, and lliining upon us for our falvation.'*",
+   "raw": "»  For  the  fake  of  the  Platonic  reader  I  will  give  the  whole  of  this  very  beautiful  pafTage. \n0y<7o/*ev  roivvv  kui   nfxeii'  aAXa  dva-c/xsv,  wj  '7rpo(rviKiiy    Sja^opovj  raj  6vaia<;,  to(  av  ^la^opoii  ^vvocfxeaei   tt/joo-- \ncyovre;.    Q>ica  (mev  ra  stti  wacr/,  w?  rig  avnp  <ro<pc<;  f(p>j,  (xm^tvruv  atcrdrtruv,  /Jir,r£  Oufxiuvrt^,  finre  STrovofjix^ovrti' \nov^ev  yap  env  ewXov  b  fxr\\  tw  au\\m  Etflyj  tTiV  aKaOxprov.      Aio  ov^e  Xoyog  toutw  o  Kara.  ^«v>iv,  oineioi,  cuV  o  fvJov, \ncTov  inuhi  ^J/J;xr)?  )i  [j.siJi.o>^ua-/xevoi'   ha  ^e  a-iyn  icadapaf  xai  ruv  Ttepi  avrov  xaOapuv  evvoiuv  6py)(TK£uofA.£V  avrov. \n^£1  apa  <ruvap6evragf  Kai  OfioicnQsvrag  avru^  my  auruv  avxyuyr]v  Oujiav  itpav  Tfpoa-ayocyeiv  ru  flfw,  tjjv  aumv  Jii \ntcai  v/*vov   oucrav  koi  -nixav    (rurtipiav.   ev   a'^aSsi   apa  rm  4''^X^i  rou^t  rou  6eou  Qeupta,  v  Ou<na  aurt)  reMirai. \nToigh  aurou  eyyovojj,   u-nroi^  h  Geck;,  nJn  vai  rr,v  ex.  rou  Xoyou  vptvuhav  Trpoa-Osnov.     h'nap'/^g  yap  £Karu  uf \nh^ojKsv  r]  9v<ria,   xai  h  uv  r/otwv  rpf<pBiy  uai   eij  to   tivai  avvsx^^  £'?    '^^^  Oycriav.      fl{  ouv  ytupyog  ^payi^-aruv \na'TTapx^''''^^  Ka<  rav  aKpo^pvuv^  ourug  nfing  aTrapiofitOx  auroig,  swoiuv  ruv  ttb^i  avruy  hxXuv,  suxcJ^pifouvrEg  o:v  »i/xjk \n^E^coKaa-i  mv  Oeapiav,  Kat  en  t^fxag  3ia  mg  aurm  hag  ahnSivug  fpi^ovtrt,  (ruvovref  xai  ^anopiEvot  xai  Tyi  YifxErepa \ntrumpia  ETnT.afji'Trovrtg.    Porphy.  de  Abftinentia,  lib.  ii.  p.  165,  4I0.  1 767 :  i.e.  \"  Let  us  also  sacrifice, \nbut  let  us  facrifice  in  fuch  a  manner  as  is  proper,  offering  difierent  facrifices  to  different  powers.   To \nthat  God,  indeed,  who  is  above  all  things,  as  a  certain  wife  man  fays,  neither  fumigating  nor  con- \nfccrating  any  thing  fenfiblc.     For  there  is  nothing  material,  which,  to  an  immaterial  nature,  is \nTjot  immediately  impure.     Hence  neither  is  external  language  adapted  to  him,  nor  that  which  is \ninternal  when  it  is  defiled  by  any  paffion  of  the  foul ;  but  we  ffiould  adore  him  in  pure  filence, \nand  with  pure  conceptions  concerning  him.     It  is  neceffary,  therefore,  that,  being  conjoined  and \naffimilated  to  him,  we  fhould  offer  the  elevation  of  ourfelves  to  Divinity  as  a  facred  facrifice;  for \nthus  we  fliall  both  celebrate  him  and  procure  our  own  falvation.     In  the  foul's  contemplation, \ntherefore,  of  this  Divinity,  unattended  by  the  paffions,  the  facrifice  to  him  receives  its  com- \npletion ;  but  his  progeny,  the  intelligible  gods,  are  to  be  celebrated  vocally  by  hymns.     For \nto  each  of  the  gods  the  firft  fruits  are  to  be  facrificed  of  what  he  imparts  to  us,  and  through \nwhich  he  nouriflics  and  prcfervcs  us.     As,    therefore,    the    hufbandman  offers  his  firff  fruits \nfrom  bandfuls  ot  fruits  and  acorns,  fo  alfo  we  fliould  facrifice  from  beautiful  concepiions  con- \ncerning the  gods,  giving  thanks  for  thofe  things  of  which  they  have  imparted  to  u.-;  the  con- \ntemplation, and  that,  through  the  vifion  of  themfelves,  they  truly  nouriffi  ns^  affbciating  with \nand  appearing  to  us,  and  lliining  upon  us  for  our  falvation.'* "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 3,
+  "running heads removed": 3,
+  "words joined across lines": 2,
+  "paragraphs run on across a page": 1,
+  "notes": 4,
+  "note marks removed": 0
+ }
+}

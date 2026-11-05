@@ -154,13 +154,19 @@ CREATE TABLE morph (
 CREATE TABLE division (
     id          INTEGER PRIMARY KEY,
     work_id     TEXT NOT NULL REFERENCES work(id),
-    kind        TEXT NOT NULL,             -- page | speech | part | skopos
+    kind        TEXT NOT NULL,             -- page | speech | part | skopos | chapter | sidenote
     label       TEXT NOT NULL,
     start_ref   TEXT NOT NULL,
     end_ref     TEXT NOT NULL,
     parent_id   INTEGER REFERENCES division(id),
     source_id   TEXT NOT NULL REFERENCES source(id),
-    basis       TEXT NOT NULL              -- how it was derived, or who said so
+    basis       TEXT NOT NULL,             -- how it was derived, or who said so
+    -- Milestone 9 (tools/structure.py): divisions printed by a commentator or translator.
+    detail      TEXT,                      -- the summary printed with it (Archer-Hind's chapters)
+    printed_at  TEXT,                      -- where it is printed: the OCR or ebook line
+    seq         INTEGER,                   -- order among the divisions of its kind and author
+    precision   TEXT,                      -- section | page: how closely the printed book places it
+    author      TEXT                       -- 'Archer-Hind (1888)', 'Jowett'
 );
 CREATE INDEX division_work ON division(work_id, kind);
 
@@ -359,4 +365,146 @@ CREATE TABLE relation_label (
     name        TEXT,                      -- 'subject', where the guidelines give one
     definition_html TEXT NOT NULL,         -- the guidelines' definition, Smyth references linked
     source_id   TEXT NOT NULL REFERENCES source(id)
+);
+
+
+-- ------------------------------------------------------------ milestone 9
+-- Each dialogue as a whole, and the corpus as a whole (tools/structure.py).
+-- Every row says where it comes from; every quotation is looked for in the
+-- text it names and marked found or not (reports/structure.md).
+
+-- The ancient introductions to reading Plato (texts/ancient/, tools/ancient.py).
+CREATE TABLE ancient_text (
+    id          TEXT PRIMARY KEY,          -- 'dl3-burges'
+    title       TEXT NOT NULL,
+    author      TEXT NOT NULL,             -- Diogenes Laertius | Albinus | Anonymous
+    translator  TEXT,                      -- empty for the Greek
+    lang        TEXT NOT NULL,
+    printed     TEXT NOT NULL,
+    cite        TEXT NOT NULL,             -- 'DL III', 'Anon. Prol.'
+    numbering   TEXT NOT NULL,             -- sections | chapters | pages
+    source_id   TEXT NOT NULL REFERENCES source(id),
+    file        TEXT NOT NULL,
+    proof_status TEXT NOT NULL
+);
+CREATE TABLE ancient_section (
+    text_id     TEXT NOT NULL REFERENCES ancient_text(id),
+    seq         INTEGER NOT NULL,
+    n           TEXT NOT NULL,             -- the section, chapter or page as printed
+    pages       TEXT,                      -- the printed page (or pages)
+    line        INTEGER,                   -- line in the OCR file
+    text        TEXT NOT NULL,
+    raw         TEXT,                      -- as received
+    number_read TEXT,                      -- the OCR's garbled number, where it was read as the next due
+    PRIMARY KEY (text_id, seq)
+);
+
+-- A quotation offered as evidence for a claim, and whether it was found.
+CREATE TABLE evidence (
+    id          INTEGER PRIMARY KEY,
+    owner       TEXT NOT NULL,             -- 'order:thrasyllus:0', 'sequence:trial-and-death:2', 'theme:cave:0'
+    source_text TEXT NOT NULL,             -- an ancient_text id, or 'plato' (Burnet's Greek)
+    work_id     TEXT,                      -- for 'plato'
+    at          TEXT,                      -- where it was found: section, chapter, page or Stephanus ref
+    quote       TEXT NOT NULL,
+    found       INTEGER,                   -- 1 if the words are in that text; empty if that work is not in this build. Found: whitespace, quotes, accents, hyphens normalised
+    cited_as    TEXT NOT NULL              -- 'DL III 56 (Burges, p. 207)'
+);
+CREATE INDEX evidence_owner ON evidence(owner);
+
+-- What someone said of a dialogue as a whole: its persons, scene, frame, skopos.
+CREATE TABLE claim (
+    id          INTEGER PRIMARY KEY,
+    kind        TEXT NOT NULL,             -- persons | scene | frame | skopos
+    work_id     TEXT NOT NULL,
+    value       TEXT,                      -- persons, scene, frame: as printed
+    stance      TEXT,                      -- skopos: accepted | rejected (in the Prolegomena) | stated
+    source_id   TEXT NOT NULL REFERENCES source(id),
+    cited_as    TEXT NOT NULL,
+    quote       TEXT NOT NULL,             -- the words it rests on
+    found       INTEGER NOT NULL,
+    method      TEXT NOT NULL,             -- as printed | chosen by hand | found by rule: ...
+    text_id     TEXT,                      -- an ancient_text, when it is from one
+    at          TEXT,                      -- where in it
+    note_id     INTEGER REFERENCES note(id) -- the note it is from, when it is from one
+);
+CREATE INDEX claim_work ON claim(work_id, kind);
+
+-- The ancient orders of reading and classes (sources/structure/orders.json).
+CREATE TABLE reading_order (
+    id          TEXT PRIMARY KEY,          -- 'thrasyllus'
+    label       TEXT NOT NULL,
+    by          TEXT NOT NULL,
+    cited       TEXT NOT NULL,
+    kind        TEXT NOT NULL,             -- groups | sequence | set | classes
+    about       TEXT,
+    seq         INTEGER NOT NULL
+);
+CREATE TABLE reading_order_item (
+    order_id    TEXT NOT NULL REFERENCES reading_order(id),
+    n           INTEGER NOT NULL,
+    pos         INTEGER,                   -- place in the order; empty for a set
+    grp         TEXT,                      -- 'Tetralogy 1', 'Physics'
+    work_id     TEXT,                      -- empty where the source names no one dialogue
+    name        TEXT,                      -- as the source names it
+    subtitle    TEXT,
+    character   TEXT,                      -- Thrasyllus' character of the dialogue
+    doubt       TEXT,
+    PRIMARY KEY (order_id, n)
+);
+
+-- Dramatic sequences: dialogues that continue one another (sources/structure/sequences.json).
+CREATE TABLE sequence (
+    id          TEXT PRIMARY KEY,
+    label       TEXT NOT NULL,
+    works       TEXT NOT NULL,             -- JSON list of work ids
+    seq         INTEGER NOT NULL
+);
+CREATE TABLE sequence_step (
+    sequence_id TEXT NOT NULL REFERENCES sequence(id),
+    n           INTEGER NOT NULL,
+    work_id     TEXT NOT NULL,
+    ref         TEXT NOT NULL,             -- where the dialogue says it
+    says        TEXT NOT NULL,             -- what it says, in the Workshop's words; the Greek is in evidence
+    PRIMARY KEY (sequence_id, n)
+);
+
+-- Recurring myths and images (sources/structure/themes.json).
+CREATE TABLE theme_group (
+    id          TEXT PRIMARY KEY,
+    label       TEXT NOT NULL,
+    about       TEXT
+);
+CREATE TABLE theme (
+    id          TEXT PRIMARY KEY,
+    label       TEXT NOT NULL,
+    kind        TEXT NOT NULL,             -- myth | image
+    group_id    TEXT REFERENCES theme_group(id),
+    keywords    TEXT NOT NULL,             -- JSON: the words a note names it by
+    seq         INTEGER NOT NULL
+);
+CREATE TABLE theme_passage (
+    theme_id    TEXT NOT NULL REFERENCES theme(id),
+    n           INTEGER NOT NULL,
+    work_id     TEXT NOT NULL,
+    start_ref   TEXT NOT NULL,             -- where it begins: the quotation of Burnet's Greek is there
+    end_ref     TEXT NOT NULL,             -- where it ends: chosen by hand
+    quote       TEXT NOT NULL,
+    found       INTEGER,                   -- empty if the work is not in this build
+    PRIMARY KEY (theme_id, n)
+);
+-- Notes placed inside a passage that name its theme by one of the keywords.
+CREATE TABLE theme_named (
+    theme_id    TEXT NOT NULL,
+    n           INTEGER NOT NULL,          -- theme_passage.n
+    note_id     INTEGER NOT NULL REFERENCES note(id),
+    word        TEXT NOT NULL              -- the word that names it
+);
+-- Links of the citation web (milestone 8) from one passage of a theme, or group, to another.
+CREATE TABLE theme_link (
+    theme_a     TEXT NOT NULL,
+    n_a         INTEGER NOT NULL,
+    theme_b     TEXT NOT NULL,
+    n_b         INTEGER NOT NULL,
+    link_id     INTEGER NOT NULL REFERENCES link(id)
 );

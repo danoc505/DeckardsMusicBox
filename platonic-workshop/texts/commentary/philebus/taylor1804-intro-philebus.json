@@ -1,0 +1,81 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-philebus",
+ "work": "tlg010",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Philebus",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804), pp. 464-465",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   21540,
+   21639
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Philebus. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-philebus.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null,
+    464
+   ],
+   "line": 21546,
+   "text": "IL HE design of this dialogue is to discover what is the chief good of man; and in order to efTc'^ this in the most: perfect manner, it is divided into twelve parts. In the first: part, therefore, Plato proposes the subject of discussion, viz. what the good of man is, and whether wisdom or pleasure is more conducive to the attainment of this good. In the second part, he explains the condition of a voluptuous life, and also of a life according to wisdom, that it may be seen which of the two most: contributes to felicity, and also whether some third Aate of life will appear, which is better than either of these; and that, if this should be the case, it may be seen whether pleasure or wisdom is more allied to the perfection of this life. In the third part, he shows how this discussion should be conduced, and that division and definition Should precede demonstration. In the fourth, he describes the co^iditions of the good, and shows that neither wisdom nor.pleafure is the chief good of man. In the fifth part, he investigates the genus of pleasure, and also of wisdom, and unfolds those t\\\\'o great genera of things bound £Lnd the infinite^ principles the next in dignity to the ineffable cause of all; from which two he exhibits that whicJi is mixt, and prelages the cause of the mixture. In the sixth part, because through those genera certain sparks of knowledge are enkindled, he enters on the comparilbn between pleasure and wii'dom. In the seventh, he more largely explains the cause of the mixtr.rc, and continues the comparison ir,ore clearly In the eighth part, the principles and ^icra being now unfolded, he investigates the differences; inquires, in what pleasure anJ pain confif}, which among these are properly produced from paGion, and how many parts they contain. In the ninth part, he investigates, in what Icicnce properly consists, and, having divided it, shows that a certain third life presides over wisdom, and wisdom over pleasure. In the tenth part, it appears how pleasure and wisdom are mingled together, and that our good consists in a composition of this kind. In the eleventh part, he inquires what it is in that composition from the dominion of which felicity is produced; in v/hich part both our good and good itself become conspicuous. And, in the twelfth and last part, all the kinds of good which are purfuable as ends are enumerated in order, according to the relative value of each of them to man.",
+   "raw": "JL  HE  defign  of  this  dialogue  is  to  difcover  what  is  the  chief  good  of  man  ; \nand  in  order  to  efTc'^  this  in  the  mofl:  perfe6l  manner,  it  is  divided  into \ntwelve  parts.  In  the  firfl:  part,  therefore,  Plato  propofes  the  fubjed  of \ndifcuflion,  viz.  what  the  good  of  man  is,  and  whether  wifdom  or  pleafure  is \nmore  conducive  to  the  attainment  of  this  good.  In  the  fecond  part,  he \nexplains  the  condition  of  a  voluptuous  life,  and  alfo  of  a  life  according  to \nwifdom,  that  it  may  be  feen  which  of  the  two  mofl:  contributes  to  felicity, \nand  alfo  whether  fome  third  Aate  of  life  will  appear,  which  is  better  than \neither  of  thefe  ;  and  that,  if  this  (hould  be  the  cafe,  it  may  be  feen  whether \npleafure  or  wifdom  is  more  allied  to  the  perfe6lion  of  this  life.  In  the \nthird  part,  he  (hows  how  this  difcuflion  fhould  be  conduced,  and  that \ndivifion  and  definition  Ihould  precede  demonftration.  In  the  fourth,  he \ndcfcribes  the  co^iditions  of  the  good,  and  fhows  that  neither  wifdom  nor \n.pleafure  is  the  chief  good  of  man.  In  the  fifth  part,  he  inveftigates  the \ngenus  of  pleafure,  and  alfo  of  wifdom,  and  unfolds  thofe  t\\\\'o  great  genera \nof  things  bound  £Lnd  the  infinite^  principles  the  next  in  dignity  to  the  ineffable \ncaufe  of  all ;  from  which  two  he  exhibits  that  whicJi  is  mixt,  and  prelages \nthe  caufe  of  the  mixture.  In  the  fixth  part,  becaufc  through  thofe  genera \ncertain  fparks  of  knowledge  are  enkindled,  he  enters  on  the  comparilbn \nbetween  pleafure  and  wii'dom.  In  the  feventh,  he  more  largely  explains \nthe  caufe  of  the  mixtr.rc,  and  continues  the  comparifon  ir,ore  clearlv  In \nthe  eighth  part,  the  principles  and  ^icra  being  now  unfolded,  he  invefligates \nthe  differences ;  inquires,  in  what  plcafure  anJ  pain  confif},  which  among \nthefe  are  properly  produced  from  paGion,  and  how  many  parts  they  contain. \nIn  the  ninth  part,  he  inveftigates,  in  what  Icicnce  properly  confifts,  and, \nhaving  divided  it,  fliows  that  a  certain  third  life  prefides  over  wifdom, \nand  wifdom  over  pleafure.  In  the  tenth  part,  it  appears  how  pleafure \nand  wifdorn  are  mingled  together,  and  that  our  good  confifts  in  a  compofi- \ntion  of  this  kind.  In  the  eleventh  part,  he  inquires  what  it  is  in  that  com- \npofition  from  the  dominion  of  which  felicity  is  produced ;  in  v/hich  part \nboth  our  good  and  good  itfclf  become  confpicuous.  And,  in  the  twelfth \nand  laft  part,  all  the  kinds  of  good  which  are  purfuable  as  ends  are  enume- \nrated in  order,  according  to  the  relative  value  of  each  of  them  to  man. "
+  },
+  {
+   "id": "taylor1804-intro-philebus.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": 464,
+   "pages": [
+    464
+   ],
+   "line": 21586,
+   "text": "\" The subject of this dialogue,'* says Mr. Sydenham, \" is introduced by stating the different opinions of Socrates and Philebus concerning the nature of that good wherein the happiness of man is to be found; opinions which, it seems, they had just: before severally avowed. Philebus, a man strongly prepoflefTed with the do6^rine of Aristippus, had asserted that this good was pleasure, meaning pleasurable sensation, or pleasure felt through the outward senses. On the other hand Socrates had supposed the sovereign good of man to be placed in mind, and in the energies of mind on mental Tubjeds. Philebus, in support of his own assertion, had been haranguing for a long time together, after the manner of the sophists, until he found his spirits and imagination, or perhaps his stock of plausible arguments, quite exhausted. He had, therefore, desired his friend Protarchus, a young gentleman who appears to have been a follower of Gorgias, to take up the controversy, and carry it on in his stead and behalf. Protarchus had consented, and had engaged himself so to do. Immediately on this engagement, at this very point of time the present dialogue commences: accordingly it is carried on chiefly between Socrates and Protarchus. But as Philebus is the principal person whose opinion combats against: that of Socrates, and as no higher chara<Sl:er is given to Protarchus than that of accelTary, or second to Philebus, in this argumentative combat, the dialogue now before us, very properly and confidently with the rule which Plato seems to have laid down to himself in naming his dialogues, has the name given to it of Philebus.\"",
+   "raw": "\"  The  fubjed  of  this  dialogue,'*  fays  Mr.  Sydenham,  \"  is  introduced  by \nflating  the  different  opinions  of  Socrates  and  Philebus  concerning  the  nature \nof  that  good  wherein  the  happinefs  of  man  is  to  be  found  ;  opinions  which, \nit  feems,  they  had  juft:  before  feverally  avowed.  Philebus,  a  man  flrongly \nprepoflefTed  with  the  do6^rine  of  Ariftippus,  had  aflerted  that  this  good  was \npleafure,  meaning  pleafurable  fenfation,  or  pleafure  felt  through  the  out- \nward fenfes.  On  the  other  hand  Socrates  had  fuppofed  the  fovereign  good \nof  man  to  be  placed  in  mind,  and  in  the  energies  of  mind  on  mental  Tub- \njeds.  Philebus,  in  fupport  of  his  own  affertion,  had  been  haranguing  for \na  long  time  together,  after  the  manner  of  the  fophifts,  until  he  found  his \nfpirits  and  imagination,  or  perhaps  his  ftock  of  plaufible  arguments,  quite \nexhaufted.  He  had,  therefore,  defired  his  friend  Protarchus,  a  young \ngentleman  who  appears  to  have  been  a  follower  of  Gorgias,  to  take  up \nthe  controverfy,  and  carry  it  on  in  his  flcad  and  behalf.  Protarchus  had \nconfented,  and  had  engaged  himfelf  fo  to  do.  Immediately  on  this  engage- \nment, at  this  very  point  of  time  the  prefent  dialogue  commences:  accordingly \nit  is  carried  on  chiefly  between  Socrates  and  Protarchus.  But  as  Philebus \nis  the  principal  perfon  whofe  opinion  combats  againft:  that  of  Socrates,  and \nas  no  higher  chara<Sl:er  is  given  to  Protarchus  than  that  of  accelTary,  or  fecond \nto  Philebus,  in  this  argumentative  combat,  the  dialogue  now  before  us, \nvery  properly  and  confidently  with  the  rule  which  Plato  feems  to  have \nlaid  down  to  himfelf  in  naming  his  dialogues,  has  the  name  given  to  it  of \nPhilebus.\" "
+  },
+  {
+   "id": "taylor1804-intro-philebus.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 464,
+   "pages": [
+    464,
+    465
+   ],
+   "line": 21610,
+   "text": "This admirable dialogue is replete with feme of the most: important dogmas of the Platonic theology, as will appear from our notes upon It; and by those who are capable of knowing wholes from parts it may be collected from what is here said, that intclled has not the same order with the first cause of all. For, if our intellect is the image of the first intellect, and the good of the whole of our life is not to be defined according to this alone, it necessarily follows that the cause of good is efliablifhed above intellectual perfection. The goo J therefore, or the ineffable principle of things, has a super-intellectual subsistence, agreeably to what is asserted in the Sixth Book of the Republic.",
+   "raw": "This  admirable  dialogue  is  replete  with  feme  of  the  mofl:  important  dogmas \nof  the  Platonic  theology,  as  will  appear  from  our  notes  upon  It ;  and  by  thofc \nwho  are  capable  of  knowing  wholes  from  parts  it  may  be  colleded  from \nwhat  is  here  faid,  that  intclled  has  not  the  fame  order  with  the  firft  caufe  of \nall.  For,  if  our  intelledl  is  the  image  of  the  firft  intellect,  and  the  good  of  the \nwhole  of  our  life  is  not  to  be  defined  according  to  this  alone,  it  neceflarily \nfollows  that  the  caufe  of  good  is  efliablifhed  above  intellectual  perfection. \nThe  goo  J^  therefore,  or  the  ineffable  principle  of  things,  has  a  fuper-intelledlual \nfubfiftence,  agreeably  to  what  is  aflerted  in  the  Sixth  Book  of  the  Republic. "
+  },
+  {
+   "id": "taylor1804-intro-philebus.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 465,
+   "pages": [
+    465
+   ],
+   "line": 21625,
+   "text": "I fiiall only add, as is well observed by Mr. Sydenham, that the apparent form of this dialogue is dramatic; the genius of it, dida5iic\\ and the reafon* ing, for the most part analyticaU",
+   "raw": "I  fiiall  only  add,  as  is  well  obferved  by  Mr.  Sydenham,  that  the  apparent \nform  of  this  dialogue  is  dramatic  ;  the  genius  of  it,  dida5iic\\  and  the  reafon* \ning,  for  the  moft  part  analyticaU "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 4,
+  "running heads removed": 5,
+  "words joined across lines": 6,
+  "paragraphs run on across a page": 2,
+  "note marks removed": 0,
+  "notes": 4
+ }
+}

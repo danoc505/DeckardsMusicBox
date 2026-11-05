@@ -1,0 +1,93 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-lysis",
+ "work": "tlg020",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Lysis",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804), pp. 212-213",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   9454,
+   9565
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Lysis. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-lysis.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 9454,
+   "text": "INTRODUCTION THE LYSIS. When Socrates, says Ficinus, disputes with the sophists and their followers, he confutes false opinions, and signifies, rather than teaches, such as are true. This is evident from the Euthydemus, Protagoras, Meno, Hippias, Euthyphro, and Lysis. But where he discourses with his disciples, and those who were anxious to be injflrudted, he unfolds and teaches, as is evident from many of the preceding dialogues. In this Dialogue, therefore, in which he disputes concerning friendship among the disciples of the sophists, he is rather studious of confuting false opinions than of demonstrating such as are true.",
+   "raw": "INTRODUCTION \nTHE      LYSIS. \nWhen  Socrates,  fays  Ficinus,  difputes  with  the  fophlfts  and  their \nfollowers,  he  confutes  falfe  opinions,  and  (ignifies,  rather  than  teaches,  fuch \nas  are  true.  This  is  evident  from  the  Euthydemus,  Protagoras,  Meno, \nHipplas,  Euthyphro,  and  Lyfis.  But  where  he  difcourfes  with  his  difciples, \nand  thofe  who  were  anxious  to  be  injflrudted,  he  unfolds  and  teaches,  as  is \nevident  from  many  of  the  preceding  dialogues.  In  this  Dialogue,  therefore, \nin  which  he  difputes  concerning  friendfhip  among  the  difciples  of  the \nfophifts,  he  is  rather  fludious  of  confuting  falfe  opinions  than  of  de- \nmonflrating  fuch  as  are  true. "
+  },
+  {
+   "id": "taylor1804-intro-lysis.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null,
+    212
+   ],
+   "line": 9468,
+   "text": "But, that we may take a cursory view of the contents of the Lysis, in the first place, Socrates reproves those who pervert the power of love, and, under the pretext of friendship, are subservient to base lust. In the second place, he admonidies those who, looking no higher than corporeal beauty, think tbemfelves worthy to be beloved for this alone. And, in the last place, he indicates to the sagacious a certain path by which friendship may be investigated and discovered. Again, while Socrates ironically derides Hippothales and Ctesippus, he fignifics that they were captivated by base love. And, while in their presence he prepares youth for moral difcipllne, he admoniflies lovers how they should live together, and what kind of attachment they should entertain for each other. Having instructed lovers in the second part of the Dialogue, he instructs those that are the objects of love; and, by a long series of induction, teaches that wisdom and prudence ou^ht to be explored by friends, which compose the true beauty of the soul, and:not the shadowy form of this fleeting body. In the third place, he confutes, and fnft the opinion of Solon, who said that those who are beloved are friends; for these often hate their lovers. He adds, that neither are lovers only si ends, because these are frequently the objects of hatred. And here he concludes that reciprocal benevolence should be called friendship. In the next place, he reproves Empedocles, who was of opinion that any kind of similitude is sufficient to produce friendship. This, however, the fimihtude of many arts shows to be false, which more frequently generates envy and hatred than friendship, in the last place, the alfcrtion of Hesiod and Heraclitus is adduced, that difTimilars are friendly to each other. — That they are not, however, appears from this, that hatin^d and love, since they are diflimilars, will not be friendly, nor will a just: and an unjufi: man; and of others in a fmiilar manner. And, if it should be said that sometimes a thing desires that which is dissimilar to itself, as that which is dry, moifturc, or that which is hot, the cold, the answer is, that it does not in this case love its contrary, but seeks after a restitution of itself from a contrary. For that •which is preternaturally hot is reduced through cold to its proper temperament; so that it does not love cold, but through it desires a temperament accommodated to its nature",
+   "raw": "But,  that  we  may  take  a  curfory  view  of  the  contents  of  the  Lyfis,  in  the \nfirfl  place,  Socrates  reproves  thofe  who  pervert  the  power  of  love,  and,  under \nthe  pretext  of  friendfhip,  are  fubfervient  to  bafe  luft.  In  the  fecond  place, \nhe  admonidies  thofe  who,  looking  no  higher  than  corporeal  beauty,  think \ntbemfelves  worthy  to  be  beloved  for  this  alone.  And,  in  the  laft  place,  he \nindicates  to  the  fagacious  a  certain  path  by  which  friendfhip  may  be  invefli- \ngated  and  difcovered.  Again,  while  Socrates  ironically  derides  Hlppothales \nand  Ctefippus,  he  fignifics  that  they  were  captivated  by  bafe  love.  And, \nwhile  in  their  prcfence  he  prepares  youth  for  moral  difcipllne,  he  ad- \nmoniflies  lovers  how  they  fliould  live  together,  and  what  kind  of  attachment \nthey  fliould  entertain  for  each  other.  Having  inflruded  lovers  in  the \nfecond  part  of  the  Dialogue,  he  inftruds  thofe  that  are  the  objeds  of  love ; \nand,  by  a  long  feries  of  indu61ion,  teaches  that  wifdom  and  prudence  ou^ht \nto  be  explored  by  friends,  which  compofe  the  true  beauty  of  the  foul,  and \n:not  the  fhadowy  form  of  this  fleeting  body.  In  the  third  place,  he  confutes, \nand  fnft  the  opinion  of  Solon,  who  faid  that  thofe  who  are  beloved  are \nfriends;  for  thefe  often  hate  their  lovers.  He  adds,  that  neither  are  lovers \nonly  fi  ends,  bccaufe  thefe  are  frequently  the  objecls  of  hatred.  And  here  he \nconcludes  that  reciprocal  benevolence  (hould  be^  called  friendfhip.  In  the \nnext  place,  he  reproves  Empedocles,  who  was  of  opinion  that  any  kind  of \nfimilitude  is  fufficient  to  produce  friendfhip.  This,  however,  the  fimihtude \nof  many  arts  fliows  to  be  falfe,  which  more  frequently  generates  envy  and \nhatred  than  friendfhip,  in  the  laft  place,  the  alfcrtion  of  Hefiod  and \nHeraclitus  is  adduced,  that  difTimilars  arc  friendly  to  each  other. — That  they \nare  not,  however,  appears  from  this,  that  hatin^d  and  love,  fince  they \nare  diflimilars,  will  not  be  friendly,  nor  will  a  jufl:  and  an  unjufi:  man  ;  and  of \nothers  in  a  fmiilar  manner.  And,  if  it  fhould  be  faid  that  fometimes  a  thing \ndefires  that  which  is  diflimilar  to  itfelf,  as  that  which  is  dry,  moifturc, \nor  that  which  is  hot,  the  cold,  the  anfwer  is,  that  it  does  not  in  this  cafe  love \nits  contrary,  but  feeks  after  a  reftitution  of  itfelf  from  a  contrary.  For  that \n•which  is  preternaturally  hot  is  reduced  through  cold  to  its  proper  tempera- \nment ;  fo  that  it  does  not  love  cold,  but  through  it  defires  a  temperament \naccommodated  to  its  nature- "
+  },
+  {
+   "id": "taylor1804-intro-lysis.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 212,
+   "pages": [
+    212,
+    213
+   ],
+   "line": 9508,
+   "text": "Having confuted these assertions, Socrates, as if prophesying, introduces a certain opinion as his own, and says that there appear to him to be three genera of tilings, the good, the evil, and that which is neither good nor evil. But the evil, on account of diversity, cannot be a friend to the good, and the evil, through injulliice, are injured by the evil. These, therefore, cannot be mutually friends. It is likewise impossible for him who is neither good nor evil to love the evil; for evil, since it is noxious, is always attended with hatred. It remains, therefore, that friendship mud subsist: between the good and the good, and between that which is neither, and the good. But here certain objections arise which Socrates openly introduces, but the folutions of which he occultly indicates. In the first place, the good is similar to the good; but it was said, in opposition to the opinion of Empedocles, that similars are -not friendly to each other. It must, however, be oblerved, that it was not iifferted that similars are by no means friendly; but it was denied that every kind of fimiHtucle is sufficient to the produ6lioii of friendship. Again, when, in the second place, it is objected that the good naan is sufficient to himself, that on this account he does not desire another, is without love, and therefore is not the friend of the good; — it must: be observed that this absurdity does not follow from the dodrine of Plato, but from the assertions of Empedocles and Heraclitus fuperficially considered, in which the desire of love is not apparently distinguished from friendship. And as desire is a want, for it always tends to something unpofTefTed, it follows, from this doctrine, that friendship is always attended with desire. To admit this, however, would be to confound friendship with love. But, according to Plato, they are different, because they are directed to different ends: for friendship tends to the good, and love to the beautiful.",
+   "raw": "Havino-  confuted  thefe  alTertions,  Socrates,  as  if  prophefying,  introduces  a \ncertain  opinion  as  his  own,  and  fays  that  there  appear  to  him  to  be  three \ngenera  of  tilings,  the  good,  the  evil,  and  that  which  is  neither  good  nor  evil. \nBut  the  evil,  on  account  of  diverfity,  cannot  be  a  friend  to  the  good,  and  the \nevil,  through  injulliice,  are  injured  by  the  evil.  Thefe,  therefore,  cannot  be \nmutually  friends.  It  is  likewife  impoffible  for  him  who  is  neither  good  nor \nevil  to  love  the  evil ;  for  evil,  fince  it  is  noxious,  is  always  attended  with \nhatred.  It  remains,  therefore,  that  friendfhip  mud  fubfifl:  between  the  good \nand  the  good,  and  between  that  which  is  neither,  and  the  good.  But  here \ncertain  objedions  arife  which  Socrates  openly  introduces,  but  the  folutions  of \nwhich  he  occultly  indicates.  In  the  firfl  place,  the  good  is  fimilar  to  the  good  ; \nbut  it  was  faid,  in  oppofition  to  the  opinion  of  Empedocles,  that  fimilars  are \n-not  friendly  to  each  other.  It  muft,  however,  be  oblerved,  that  it  was  not \niifferted  that  fimilars  are  by  no  means  friendly  ;  but  it  was  denied  tliat  every \nkind  of  fimiHtucle  is  fufficient  to  the  produ6lioii  of  friendship.  Aoain,  when, \nin  the  fecond  place,  it  is  obje61ed  that  the  good  naan  is  fufficient  to  himfelf, \nthat  on  this  account  he  does  not  defire  another,  is  without  love,  and  therefore \nis  not  the  friend  of  the  good; — it  mufl:  be  obferved  that  this  abfurdity  does \nnot  follow  from  the  dodrine  of  Plato,  but  from  the  aflertions  of  Empedoclcs \nand  Heraclitus  fuperficially  confidered,  in  which  the  defire  of  love  is  not \napparently  diflinguifhed  from  friendfHip.  And  as  defire  is  a  want,  for \nit  always  tends  to  fomething  unpofTefTed,  it  follows,  from  this  do6trine,  that \nfriendfhip  is  always  attended  with  defire.  To  admit  this,  however,  would \nbe  to  confound  friendfhip  with  love.  But,  according  to  Plato,  they  are \ndifferent,  becaufe  they  are  direded  to  different  ends :  for  friendfhip  tends \nto  the  good,  and  love  to  the  beautiful. "
+  },
+  {
+   "id": "taylor1804-intro-lysis.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 213,
+   "pages": [
+    213
+   ],
+   "line": 9541,
+   "text": "In short, friendship, considered with relation to man, is a union among worthy characters, arising from a similitude of disposition and pursuits. Love also is a union between the lover and the beloved; but it differs from the union of friendship in this, that the former is infeparab^e from indigence, from which likewise it originates; while, on the other hand, the latter arises from plenitude, with which it is confi:antly attended in proportion to the perfection which it possesses, In the friendships, indeed, of the most worthy men, this union is not without desire, and is consequently accompanied with want; but this is because the object of friendship is not in this case the highest good. Hence friendship with divinity is the only union in which a perfect plenitude is produced, desire dies, and indigence is unknown.",
+   "raw": "In  fhort,  friendfhip,  confidered  with  relation  to  man,  is  a  union  among \nworthy  characters,  arifing  from  a  fimilitude  of  difpofition  and  purfuits. \nLove  alfo  is  a  union  between  the  lover  and  the  beloved  ;  but  it  differs  from \nthe  union  of  friendfhip  in  this,  that  the  former  is  infeparab^e  from  indigence, \nfrom  which  likewife  it  originates ;  while,  on  the  other  hand,  the  latter \narifes  from  plenitude,  with  which  it  is  confi:antly  attended  in  proportion  to \nthe  perfedion  which  it  pofTeffes,  In  the  friendfhips,  indeed,  of  the  moft \nworthy  men,  this  union  is  not  without  defire,  and  is  confequently  ac- \ncompanied with  want;  but  this  is  becaufe  the  objecl  of  friendfhip  is  not  in \nthis  cafe  the  highefl  good.  Hence  friendfhip  with  divinity  is  the  only \nunion  in  which  a  perfed  plenitude  is  produced,  defire  dies,  and  indigence  is \nunknown. "
+  },
+  {
+   "id": "taylor1804-intro-lysis.005",
+   "kind": "introduction",
+   "seq": 5,
+   "page": 213,
+   "pages": [
+    213
+   ],
+   "line": 9554,
+   "text": "The character of this Dialogue, like that of the Theaetetus, is maieutic^ and the conceptions here, of which Socrates is the midwife, as well as there, are abortive.",
+   "raw": "The  charader  of  this  Dialogue,  like  that  of  the  Theaetetus,  is  maieutic^ \nand  the  conceptions  here,  of  which  Socrates  is  the  midwife,  as  well  as  there, \nare  abortive. "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 2,
+  "words joined across lines": 5,
+  "paragraphs run on across a page": 3,
+  "running heads removed": 4,
+  "note marks removed": 0,
+  "notes": 5
+ }
+}

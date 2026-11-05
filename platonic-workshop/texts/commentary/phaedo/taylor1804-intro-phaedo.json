@@ -1,0 +1,162 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-phaedo",
+ "work": "tlg004",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Phaedo",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804), pp. 49-50",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   11650,
+   11817
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Phaedo. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-phaedo.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": 49,
+   "pages": [
+    49
+   ],
+   "line": 11656,
+   "text": "1 H E following dialogue is no less remarkable for the mafterly manner of its composition, than for the different effects which the perufal of it is related to have formerly produced. For the arguments which it contains for the immortality of the soul, are said to have mcited Cleombrotus to suicide, and to have difluaded Olympiodorus, an eminent Platonic philosopher, from its perpetration. Indeed, it is by no means wonderful that a person like Cleombrotus, ignorant (es his conduct evinces) that the death so much inculcated in this dialogue is a philosophic, and not a natural death, should be led to an action which is in most cases highly criminal. This ignorance however is not peculiar to Cleombrotus, since I am afraid there are scarcely any of the prelent day who know that it is one thing for the soul to be separated from the body, and another for the body to be separated from the soul, and that the former is by no means a necessary consequence of the latter.",
+   "raw": "1  H  E  following  dialogue  is  no  lefs  remarkable  for  the  mafterly  manner  of \nits  compofition,  than  for  the  different  efFeds  which  the  perufal  of  it  is \nrelated  to  have  formerly  produced.  For  the-  arguments  which  it  contains \nfor  the  immortality  of  the  foul,  are  faid  to  have  mcited  Cleombrotus  to \nfuicide,  and  to  have  difluaded  Olympiodorus,  an  eminent  Platonic  philo- \nfopher,  from  its  perpetration.  Indeed,  it  is  by  no  means  wonderful  that  a \nperfon  like  Cleombrotus,  ignorant  (as  his  condud  evinces)  that  the  death \nfo  much  inculcated  in  this  dialogue  is  a  philofophic,  and  not  a  natural \ndeath,  fhould  be  led  to  an  adion  which  is  in  moft  cafes  highly  criminal. \nThis  ignorance  however  is  not  peculiar  to  Cleombrotus,  fince  I  am  afraid \nthere  are  fcarcely  any  of  the  prelent  day  who  know  that  it  is  one  thing  for \nthe  foul  to  be  feparated  from  the  body,  and  another  for  the  body  to  be  fepara- \nted  from  the  foul,  and  that  the  former  is  by  no  means  a  neceflary  confe- \nquence  of  the  latter. "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": 49,
+   "pages": [
+    49
+   ],
+   "line": 11671,
+   "text": "This philosophic death, or separation of the soul from the body, which forms one of the mod leading particulars of the dialogue, is no other than the exercise of the cathartic virtues, of which the reader will find a copious explanation in the following notes. That these virtues are not figments of the latter Platonists, as some ignorant verbalifts have rashly asserted, is not only evident from the first part of this dialogue, but from the Golden Pythagorean verses, which are certainly of greater antiquity than even the writings of Plato: for the following is one of the precepts in these verses —",
+   "raw": "This  philofophic  death,  or  feparation  of  the  foul  from  the  body,  which \nforms  one  of  the  mod  leading  particulars  of  the  dialogue,  is  no  other  than \nthe  exercife  of  the  cathartic  virtues,  of  which  the  reader  will  find  a  copious \nexplanation  in  the  following  notes.  That  thefe  virtues  are  not  figments \nof  the  latter  Platonifts,  as  fome  ignorant  verbalifts  have  rafhly  aflerted,  is  not \nonly  evident  from  the  firft  part  of  this  dialogue,  but  from  the  Golden  Pytha- \ngorean vcrfes,  which  are  certainly  of  greater  antiquity  than  even  the  writings \nof  Plato:  for  the  following  is  one  of  the  precepts  in  thefe  verfes — "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 11680,
+   "text": "AAA' sipyov /3pa;T^v, uv siTrof^sv, £V Tf xocSap^oig, Ev Te yvcTit 4'fX'???^p'vwy* i. e. \" Abstain from the foods of which we have spoken in the purifications and SOLUTION of the soul.\" And the employment of cathartic virtue entirely consists \\\\\\ purifying the soul and liberating it from all attachment to the body, as far as the condition of its union with it will permit.",
+   "raw": "AAA'  sipyov  /3pa;T^v,  uv  siTrof^sv,  £V  Tf  xocSap^oig, \nEv  Tc  yvcTit  4'fX'??  ?^p'vwy* \ni.  e.  \"  Abflaln  from  the  foods  of  which  we  have  fpoken  in  the  purifica- \ntions and  SOLUTION  of  the  foul.\"  And  the  employment  of  cathartic \nvirtue  entirely  confifts  \\\\\\  purifying  the  foul  and  liberating  it  from  all  attach- \nment to  the  body,  as  far  as  the  condition  of  its  union  with  it  will  permit. "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 49,
+   "pages": [
+    49
+   ],
+   "line": 11693,
+   "text": "Of the arguments adduced by Socrates in this dialogue, some, as will be shown in the notes, only demonllrate that the soul subsisted prior to, and will survive the dissolution of, the body, but do not prove that it has?i jierjietual cxiftence; but others demonstrate, and with an invincible force, that the soul is tiuly immortaL Should it seem strange, and to those who are not deeply skilled in the philosophy of Plato it doubtless will, that Socrates in no part of this dialogue introduces that argument for the immortality of the soul which he adopts in the Phaedrus, an argument drawn from the rational soul being the origin of motion, and which may be said to possess adamantine strength, — it is necessary to observe, in answer to this doubt, that, in the Phaidrus, Socrates demonstrates the immortality of every rational soul, viz. the human, dsemoniacal and divine; but in the Phcedo he alone demonstrates the immortality of the human soul.",
+   "raw": "Of  the  arguments  adduced  by  Socrates  in  this  dialogue,  fome,  as  will  be \n(hown  in  the  notes,  only  demonllrate  that  the  foul  fubfifted  prior  to,  and  will \nfurvive  the  difTolution  of,  the  body,  but  do  not  prove  that  it  has  ?i  jierjietual \ncxiftence  ;  but  others  demonflrate,  and  with  an  invincible  force,  that  the  foul \nis  tiuly  immortaL  Should  it  feem  flrange,  and  to  thofe  who  are  not  deeply \nfkilled  in  the  philofophy  of  Plato  it  doubtlefs  will,  that  Socrates  in  no  part \nof  this  dialogue  introduces  that  argument  for  the  immortality  of  the  foul \nwhich  he  adopts  in  the  Phaedrus,  an  argument  drawn  from  the  rational  foul \nbeing  the  origin  of  motion,  and  which  may  be  faid  to  poffefs  adamantine \nflrength, — it  is  neceflary  to  obferve,  in  anfwer  to  this  doubt,  that,  in  the \nPhaidrus,  Socrates  demonftrates  the  immortality  of  every  rational  foul,  viz. \nthe  human,  dsemoniacal  and  divine  ;  but  in  the  Phcedo  he  alone  demonftrates \nthe  immortality  of  the  human  foul. "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.005",
+   "kind": "introduction",
+   "seq": 5,
+   "page": 49,
+   "pages": [
+    49
+   ],
+   "line": 11707,
+   "text": "But though some of the arguments in this dialogue are perfectly demonstrative, yet certain modern writers, from not understanding, have not only attempted to invalidate them, but have been induced to imagine that Socrates himself, convinced of their infufficiency, insinuates in the course of the dialogue the necessity of a divine revelation in order to obtain a full convi61ioil of this moll important truth. As this is an opinion no less dangerous than cf roueous, I shall present the reader with the passage that gave occasion to it, and then unfold to him from antient sources its genuine explanation.",
+   "raw": "But  though  fome  of  the  arguments  in  this  dialogue  are  perfedlly  demon- \nftrative,  yet  certain  modern  writers,  from  not  underflanding,  have  not  only \nattempted  to  invalidate  them,  but  have  been  induced  to  imagine  that \nSocrates  himfelf,  convinced  of  their  infufficiency,  infinuates  in  the  courfe  of \nthe  dialogue  the  neceflity  of  a  divine  revelation  in  order  to  obtain  a  full  con- \nvi61ioil  of  this  moil  important  truth.  As  this  is  an  opinion  no  lefs  danger- \nous than  ef  roueous,  I  fhall  prefent  the  reader  with  the  pafTage  that  gave \noccafion  to  it,  and  then  unfold  to  him  from  antient  fources  its  genuine \nexplanation. "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.006",
+   "kind": "introduction",
+   "seq": 6,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 11717,
+   "text": "About the middle of th^s dialogue, then, Simmias observes as follows: — As to myself, Socrates, I am perhaps of the same opinion about these particulars as yourself; that to know them clearly in the present life is either impofilble, or a thing very difficult to obtain. But not to argue about what has been said in every possible way, and to desist before, by an arduous investigation on all sides, weariness is produced, can only take place among indolent and effeminate men. For it is necessary in things of this kind either to learn or to discover the manner of their subsistence; or, if both these are impossible, then by receiving the best of human reasons, and that which is the most difficult of confutation, to venture upon this as on a rest, and fail in it through the ocean of life, unless feme one should be able to be carried more safely and with less danger by means of a firmer vehicle, or a certain olivine rea/on,'* Here, in the iirfl: place, it must be observed, that it is Simmias vi'ho thus speaks, an imperfect disciple of his great mailer, as is evident from many parts of this dialogue, and not Socrates himself. And, in the next place, though it should be urged that Socrates himself is here said by Simmias to have admitted that \" to know these particulars clearly in the present life is either impossible or a thing very difficult to obtain,\" it must be observed, that Socrates thus speaks from a deep conviction that this sublime truth, the immortality of the soul, could not be fully comprehended by his auditors, who were very far from being masters in philosophy, and that this must be the case with the multitude in general. Hence, he says, it is either impossible or very difficult to obtain this knowledge. — To the multitude it is impossible, and to the fe%v very difficult, because it requires many preparatory disciplines, and a genius naturally adapted to sublime speculations.",
+   "raw": "About  the  middle  of  th^s  dialogue,  then,  Simmias  obferves  as  follows:  — \n^*  As  to  myfelf,  Socrates,  I  am  perhaps  of  the  fame  opinion  about  thefe  par- \nticulars as  yourfelf;  that  to  know  them  clearly  in  the  prefent  life  is  either \nimpofilble,  or  a  thing  very  difficult  to  obtain.  But  not  to  argue  about  what \nhas  been  faid  in  every  poffible  way,  and  to  defift  before,  by  an  arduous  invefli- \ngation  on  all  fides,  wearinefs  is  produced,  can  only  take  place  among  indolent \nand  effeminate  men.  For  it  is  neceffary  in  things  of  this  kind  either  to \nlearn  or  to  difcover  the  manner  of  their  fubfiftence  ;  or,  if  both  thefe  are \nimpoflible,  then  by  receiving  the  befl  of  human  reafons,  and  that  which  is \nthe  moft  difficult  of  confutation,  to  venture  upon  this  as  on  a  raft,  and  fail \nin  it  through  the  ocean  of  life,  unlcfs  feme  one  fhould  be  able  to  be  carried \nmore  fafely  and  with  lefs  danger  by  means  of  a  firmer  vehicle,  or  a  certain \nolivine  rea/on,'*  Here,  in  the  iirfl:  place,  it  muft  be  obferved,  that  it  is \nSimmias  vi'ho  thus  fpeaks,  an  imperfe6l  difciple  of  his  great  mailer,  as  is \nevident  from  many  parts  of  this  dialogue,  and  not  Socrates  himfelf.  And, \nin  the  next  place,  though  it  fhould  be  urged  that  Socrates  himfelf  is  here  faid \nby  Simmias  to  have  admitted  that  \"  to  know  thefe  particulars  *  clearly  in \nthe  prefent  life  is  either  impoflible  or  a  thing  very  difficult  to  obtain,\"  it \nmufl  be  obferved,  that  Socrates  thus  fpeaks  from  a  deep  convidion  that  this \nfublime  truth,  the  immortality  of  the  foul,  could  not  be  fully  comprehended \nby  his  auditors,  who  were  very  far  from  being  maflcrs  in  philofophy,  and \nthat  this  muft  be  the  cafe  with  the  multitude  in  general.  Hence,  he  fays, \nit  is  either  impoffible  or  very  difficult  to  obtain  this  knowledge. — To  the \nmultitude  it  is  impoffible,  and  to  the  fe%v  very  difficult,  becaufe  it  requires \nmany  preparatory  difciplines,  and  a  genius  naturally  adapted  to  fublime \nfpeculations. "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.007",
+   "kind": "introduction",
+   "seq": 7,
+   "page": 49,
+   "pages": [
+    49
+   ],
+   "line": 11749,
+   "text": "In the third place, by a firmer vehicle^ or a certain divine reafon^ Socrates does not allude to a divine tradition, since this affords no higher evidence than that of opinion. It is well observed, therefore, by Olympiodorus, in his MS. Scholia on this dialogue, that by this -^f/of X^oj, ox divine re af on y we must understand f elf -beholding intetle^i^ which, agreeably to Plato's description of it in the Phaedrus, associates with Deity itself. T^f l oca-ipcc\\s(rT6'",
+   "raw": "In  the  third  place,  by  a  firmer  vehicle^  or  a  certain  divine  reafon^  Socrates \ndoes  not  allude  to  a  divine  tradition,  fince  this  affords  no  higher  evidence \nthan  that  of  opinion.  It  is  well  obferved,  therefore,  by  Olympiodorus,  in \nhis  MS.  Scholia  on  this  dialogue,  that  by  this -^f/of  X^oj-,  ox  divine  re af on y \nwe  muft  underfland  f elf -beholding  intetle^i^  which,  agreeably  to  Plato's \ndefcription  of  it  in  the  Phaedrus,  alfociates  with  Deity  itfelf.     T^f  l  oca-ipcc\\s(rT6' "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.008",
+   "kind": "introduction",
+   "seq": 8,
+   "page": null,
+   "pages": [
+    null,
+    50
+   ],
+   "line": 11756,
+   "text": "poii Kcci ocKtv^vyoTEpos, Kat jSe^ociOTspof, Koct 3iiog Koyog; ev ^y}7rov cog (pacriv o ^ioQiv £y2o9cig, ^o^(x<rrtKog yap o ys roioVTog' uKK e<niv o sipYjjxtvog avroTTTiKog vovgy o Bsoo rco ovti (tvvujv, cog ev <t>ai^^a}. In order however to understand what Olympiodorus means by felf'behoUrnig intelled^ it is necessary to observe, that there are four modes of knowledge which we are able to acquire in the present life. The first of these results from opinion, by which we learn that a thing is, without knowing the why: and this constitutes that part of knowledge which was called by Aristotle and Plato Troahfcc, or erudition; and which consists in moral irw ftrudions, for the purpose of purifying ourselves from immoderate passions. But the second is produced by the sciences; in which, from establishing certain principles as hypotheses, we educe necessary conclusions, and arrive at the knowledge of the ^vhy (es in the mathennatical sciences); but at th« same time we are ignorant with respect to the principks of these conclusions, because they are merely hypothetical. The third species of knowledge is that which results from Plato's dialectic; in which, by a progrefliion through all ideas, we arrive at the fiift principle of things, and at that which is no longer hypothetical; and this by dividing some things and analyling others, by producing many things from one thing, and one thing from many. But the fourth species is still more simple than this; because it no longer uses analyfations or compositions, definitions or demonstrations, but by a simple and self-visive energy of intellect /peculates things theml'elves, and by intuition and contact becomes one with the object of its perception; and this energy is the divine reason which Plato speaks of in the present passage, and which far transcends the evidence of the most: divine revelation; fmcc this last is at best but founded in opinion, while the former surpasses even the indubitable certainty of science.",
+   "raw": "poii  Kcci  ocKtv^vyoTEpos,  Kat  jSe^ociOTspof,  Koct  3iiog  Koyog  ;  ov  ^y}7rov  cog  (pacriv  o  ^ioQiv  £y2o9cig, \n^o^(x<rrtKog  yap  o  ys  roioVTog'  uKK  e<niv  o  sipYjjxtvog  avroTTTiKog  vovgy  o  Bsoo  rco  ovti  (tvvujv,  cog \nev  <t>ai^^a}.  In  order  however  to  underftand  what  Olympiodorus  means  by \nfelf'behoUrnig  intelled^  it  is  neceflary  to  obferve,  that  there  are  four  modes  of \nknowledge  which  we  are  able  to  acquire  in  the  prefent  life.  The  firfl  of \nthefe  rcfults  from  opinion,  by  which  we  learn  that  a  thing  is,  without  know- \ning the  why :  and  this  conftitutes  that  part  of  knowledge  which  was  called \nby  Ariftotle  and  Plato  Troahfcc,  or  erudition  ;  and  which  confifts  in  moral  irw \nftrudions,  for  the  purpofe  of  purifying  ourfelves  from  immoderate  paffions. \nBut  the  fecond  is  produced  by  the  fciences  ;  in  which,  from  eftablifhing \ncertain  principles  as  hypothefes,  we  educe  neceflary  conclufions,  and  arrive \nat  the  knowledge  of  the  ^vhy  (as  in  the  mathennatical  fciences);  but  at  th« \nfame  time  we  are  ignorant  with  rcfpe6l  to  the  principks  of  thefe  conclufions, \nbecaufe  they  are  merely  hypothetical.  The  third  fpecies  of  knowledge  is \nthat  which  refults  from  Plato's  dialedic  ;  in  which,  by  a  progrefliion  through \nall  ideas,  we  arrive  at  the  fiift  principle  of  things,  and  at  that  which  is  no \nlonger  hypothetical ;  and  this  by  dividing  fome  things  and  analyling  others, \nby  producing  many  things  from  one  thing,  and  one  thing  from  many.  But \nthe  fourth  fpecies  is  ftill  more  (imple  than  this  ;  becaufe  it  no  longer  ufes \nanalyfations  or  compofitions,  definitions  or  demonftrations,  but  by  a  fimplc \nand  felf-vifive  energy  of  intelled /peculates  things  theml'elves,  and  by  in- \ntuition and  conta61  becomes  one  with  the  objed  of  its  perception  ;  and \nthis  energy  is  the  divine  reafon  which  Plato  fpeaks  of  in  the  prefent \npalTage,  and  which  far  tranfcends  the  evidence  of  the  mofl:  divine  revelation  ; \nfmcc  this  laft  is  at  bcft  but  founded  in  opinion,  while  the  former  furpafTes \neven  the  indubitable  certainty  of  fcience. "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.009",
+   "kind": "introduction",
+   "seq": 9,
+   "page": 50,
+   "pages": [
+    50
+   ],
+   "line": 11790,
+   "text": "In ftiort, that Socrates, and confequcntly Plato, firmly believed in this mod important truth, is evident from the Phaedrus and the tenth book of the Republic^; and in the seventh Epistle of Plato there is the following remarkable passage: — '7rsi9s(r9ai h ovTMg ass %^y\\ loig TraKcaoig TE Kat ispoig Xoyotg ^5?; jjivivvova-iv TjiMiv uQavocTcv iJjvxyiv Sivoct, ^mua-Tug ts KTyjiv, Koci rtvsiv rag ixsyia-Tocg TifJioopioigf orav Tig ocTraXXax^y} toy crcu^aTog, i. e. \" It is proper indeed always to believe in antient anri f acred difcoi^rfes^ which announce to us that the soul is immortal, and that it has judges of its conduct, and suffers the greatest punishments when it is liberated from the body.\" From which passage we also learn, that the immortality of the soul is a dodrine of the highest antiquity, and that it was delivered in the sacred writings of the heathens.",
+   "raw": "In  ftiort,  that  Socrates,  and  confequcntly  Plato,  firmly  believed  in  this  mod \nimportant  truth,  is  evident  from  the  Pha^drus  and  the  tenth  book  of  the \nRepublic^;  and  in  the  feventh  Epiftle  of  Plato  there  is  the  following \nremarkable  paflage  : — '7rsi9s(r9ai  h  ovTMg  asi  %^y\\  loig  TraKcaoig  T6  Kat  ispoig  Xoyotg  ^5?; \njjivivvova-iv  TjiMiv  uQavocTcv  iJjvxyiv  Sivoct,  ^mua-Tug  ts  KTyjiv,  Koci  rtvsiv  rag  ixsyia-Tocg  TifJioopioigf \norav  Tig  ocTraXXax^y}  tov  crcu^aTog,  i.  e.  \"  It  is  proper  indeed  always  to  believe \nin  antient  anri f acred difcoi^rfes^  which  announce  to  us  that  the  foul  is  immor- \ntal, and  that  it  has  judges  of  its  conduct,  and  fuffers  the  greateft  punifhments \nw^hen  it  is  liberated  from  the  body.\"  From  which  paflage  we  alfo  learn, \nthat  the  immortality  of  the  foul  is  a  dodrine  of  the  higheft  antiquity,  and \nthat  it  was  delivered  in  the  facred  writings  of  the  heathens. "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.010",
+   "kind": "introduction",
+   "seq": 10,
+   "page": 50,
+   "pages": [
+    50
+   ],
+   "line": 11802,
+   "text": "I shall only observe further, that the character of Socrates, as exhibited in this dialogue, in the Crito, and in the Apology, is so transcendently great, and difplays such a perfection of justice, fortitude and piety, that it may be considered as a mod splendid instance of the moral and intelledual excellence which human nature is capable of attaining, and an e3i:ample of consummate wisdom and virtue, which will be imitated by the hw in all future ages.",
+   "raw": "I  fhall  only  obferve  further,  that  the  chara6ler  of  Socrates,  as  exhibited  in \nthis  dialogue,  in  the  Crito,  and  in  the  Apology,  is  fo  tranfcendently  great, \nand  difplays  fuch  a  perfedion  of  juflice,  fortitude  and  piety,  that  it  may  be \nconfidered  as  a  mod  fplendid  inftance  of  the  moral  and  intelledual  excel- \nlence which  human  nature  is  capable  of  attaining,  and  an  e3i:ample  of  con- \nfummate  wifdom  and  virtue,  which  will  be  imitated  by  the  hw  in  all  future \nages. "
+  },
+  {
+   "id": "taylor1804-intro-phaedo.f01",
+   "kind": "footnote",
+   "seq": 11,
+   "page": 49,
+   "line": 11768,
+   "on": "taylor1804-intro-phaedo.008",
+   "text": "Viz. the particulars pertaining to the past and future cxiflencc of the foul*, VOL. IV. 2 K at",
+   "raw": "*  Viz.  the  particulars  pertaining  to  the  paft  and  future  cxiflencc  of  the  foul*, \nVOL.  IV.  2  K  at "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 3,
+  "running heads removed": 6,
+  "words joined across lines": 16,
+  "paragraphs run on across a page": 3,
+  "notes": 11,
+  "note marks removed": 2
+ }
+}

@@ -1,0 +1,1584 @@
+{
+ "_comment": "The ancient orders and classes of Plato's dialogues (milestone 9). Every item quotes the source that states it; tools/structure.py finds each quotation in texts/ancient/ when the library is built and refuses an item whose quotation is not found. 'work' is the Perseus id; 'name', 'subtitle' and 'character' are as the translation prints them. Read and chosen by hand from the texts; nothing is inferred.",
+ "orders": [
+  {
+   "id": "thrasyllus",
+   "label": "Thrasyllus' tetralogies",
+   "by": "Thrasyllus (1st century AD), as reported by Diogenes Laertius",
+   "cited": "Diogenes Laertius III 56-61",
+   "kind": "groups",
+   "about": "Nine groups of four, each work with a second title 'from the matter' and its character. The Perseus order of the 36 works (tlg001 to tlg036) is this order.",
+   "frame": [
+    {
+     "source": "dl3-burges",
+     "quote": "Thrasyllus says that Plato put forth his dialogues after the manner of the tragic tetralogy"
+    },
+    {
+     "source": "dl3-yonge",
+     "quote": "Thrasybulus says that he published his dialogues as the dramatic poets published their tetralogies"
+    }
+   ],
+   "items": [
+    {
+     "pos": 1,
+     "group": "Tetralogy 1",
+     "work": "tlg001",
+     "name": "Euthyphron",
+     "subtitle": "On Holiness",
+     "character": "tentative",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Euthyphron, or On Holiness, takes the lead; and the dialogue is tentative"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "commenced by the Euthyphron, or what is Holy; and that dialogue is a tentative one"
+      }
+     ]
+    },
+    {
+     "pos": 2,
+     "group": "Tetralogy 1",
+     "work": "tlg002",
+     "name": "The Apology of Socrates",
+     "subtitle": null,
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the second is The Apology of Socrates, moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The second is the Defence of Socrates, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 3,
+     "group": "Tetralogy 1",
+     "work": "tlg003",
+     "name": "Crito",
+     "subtitle": "About what is to be done",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the third, Crito, or About what is to be done, moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The third is the Criton, or What is to be done, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 4,
+     "group": "Tetralogy 1",
+     "work": "tlg004",
+     "name": "Phedon",
+     "subtitle": "About the Soul",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the fourth, Phedon, or About the Soul, moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The fourth is the Phædo, or the Dialogue on the Soul, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 5,
+     "group": "Tetralogy 2",
+     "work": "tlg005",
+     "name": "Cratylus",
+     "subtitle": "On the Rectitude of Names",
+     "character": "logical",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Cratylus, or On the Rectitude of Names, takes the lead, is logical"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Cratylus, or the correctness of names, a logical one"
+      }
+     ]
+    },
+    {
+     "pos": 6,
+     "group": "Tetralogy 2",
+     "work": "tlg006",
+     "name": "Thestetus",
+     "subtitle": "On Knowledge",
+     "character": "tentative",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Thestetus, or On Knowledge, tentative"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Theætetus, or Knowledge, a tentative one"
+      }
+     ]
+    },
+    {
+     "pos": 7,
+     "group": "Tetralogy 2",
+     "work": "tlg007",
+     "name": "Sophist",
+     "subtitle": "On the Being",
+     "character": "logical",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Sophist, or On the Being, logical"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Sophist, or a dialogue on the Existent, a logical one"
+      }
+     ]
+    },
+    {
+     "pos": 8,
+     "group": "Tetralogy 2",
+     "work": "tlg008",
+     "name": "Statesman",
+     "subtitle": "On Kingly Power",
+     "character": "logical",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Statesman, or On Kingly Power, logical"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Statesman, or a dialogue of Monarchy, a logical one"
+      }
+     ]
+    },
+    {
+     "pos": 9,
+     "group": "Tetralogy 3",
+     "work": "tlg009",
+     "name": "Parmenides",
+     "subtitle": "About Ideas",
+     "character": "logical",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Parmenides, or About Ideas, is logical"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Parmenides, or a dialogue of Ideas, a logical one"
+      }
+     ]
+    },
+    {
+     "pos": 10,
+     "group": "Tetralogy 3",
+     "work": "tlg010",
+     "name": "Philebus",
+     "subtitle": "On Pleasure",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Philebus, or On Pleasure, moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Philebus, or on Pleasure, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 11,
+     "group": "Tetralogy 3",
+     "work": "tlg011",
+     "name": "Banquet",
+     "subtitle": "About Good",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Banquet, or About Good"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Banquet, or on the Good, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 12,
+     "group": "Tetralogy 3",
+     "work": "tlg012",
+     "name": "Phedrus",
+     "subtitle": "About Love",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Phedrus, or About Love, moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "Phædrus, or on Love, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 13,
+     "group": "Tetralogy 4",
+     "work": "tlg013",
+     "name": "(first) Alcibiades",
+     "subtitle": "About the Nature of Man",
+     "character": "maieutic",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the (first) Alcibiades, or About the Nature of Man, takes the lead, maieutic"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Alcibiades, or a treatise on the Nature of Man, a midwife-like work"
+      }
+     ]
+    },
+    {
+     "pos": 14,
+     "group": "Tetralogy 4",
+     "work": "tlg014",
+     "name": "Second Alcibiades",
+     "subtitle": "About Prayer",
+     "character": "maieutic",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Second Alcibiades, or About Prayer, maieutic"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The second Alcibiades, or on Prayer, a piece of the same character"
+      }
+     ]
+    },
+    {
+     "pos": 15,
+     "group": "Tetralogy 4",
+     "work": "tlg015",
+     "name": "Hipparchus",
+     "subtitle": "About the Love of Gain",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Hipparchus, or About the Love of Gain"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Hipparchus, or on the Love of Gain, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 16,
+     "group": "Tetralogy 4",
+     "work": "tlg016",
+     "name": "Rivals",
+     "subtitle": "About Philosophy",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Rivals, or About Philosophy, moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Rival Lovers, or a treatise on Philosophy, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 17,
+     "group": "Tetralogy 5",
+     "work": "tlg017",
+     "name": "Theages",
+     "subtitle": "About Philosophy",
+     "character": "maieutic",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Theages, or About Philosophy, takes the lead, maieutic"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Theages, or another treatise on Philosophy, another midwife-like work"
+      }
+     ]
+    },
+    {
+     "pos": 18,
+     "group": "Tetralogy 5",
+     "work": "tlg018",
+     "name": "Charmides",
+     "subtitle": "About Temperance",
+     "character": "tentative",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Charmides, or About Temperance, tentative"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Charmides, or on Temperance, a tentative essay"
+      }
+     ]
+    },
+    {
+     "pos": 19,
+     "group": "Tetralogy 5",
+     "work": "tlg019",
+     "name": "Laches",
+     "subtitle": "About Fortitude",
+     "character": "maieutic",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Laches, or About Fortitude, maieutic"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Laches, or on Manly Courage, midwife-like"
+      }
+     ]
+    },
+    {
+     "pos": 20,
+     "group": "Tetralogy 5",
+     "work": "tlg020",
+     "name": "Lysis",
+     "subtitle": "About Friendship",
+     "character": "maieutic",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Lysis, or About Friendship, maieutic"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "Lysis, or a dissertation on Friendship, also midwife-like"
+      }
+     ]
+    },
+    {
+     "pos": 21,
+     "group": "Tetralogy 6",
+     "work": "tlg021",
+     "name": "Euthydemus",
+     "subtitle": "the Disputations",
+     "character": "eversive",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Euthydemus, or the Disputations, takes the lead, eversive"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Euthydemus, or the Disputatious Man, a distinctive dialogue"
+      }
+     ]
+    },
+    {
+     "pos": 22,
+     "group": "Tetralogy 6",
+     "work": "tlg022",
+     "name": "Protagoras",
+     "subtitle": "the Sophist",
+     "character": "detective",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Protagoras, or the Sophist, detective"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Protagoras, or the Sophists, a demonstrative one"
+      }
+     ]
+    },
+    {
+     "pos": 23,
+     "group": "Tetralogy 6",
+     "work": "tlg023",
+     "name": "Gorgias",
+     "subtitle": "On the Orator's Art",
+     "character": "eversive",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Gorgias, or On the Orator's Art, eversive"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Gorgias, or a dissertation on Rhetoric, another distinctive one"
+      }
+     ]
+    },
+    {
+     "pos": 24,
+     "group": "Tetralogy 6",
+     "work": "tlg024",
+     "name": "Meno",
+     "subtitle": "On Virtue",
+     "character": "tentative",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Meno, or On Virtue, tentative"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Meno, or on Virtue, a tentative dialogue"
+      }
+     ]
+    },
+    {
+     "pos": 25,
+     "group": "Tetralogy 7",
+     "work": "tlg025",
+     "name": "the first (Hippias)",
+     "subtitle": "About the Beautiful",
+     "character": "eversive",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the two Hippias take the lead ; the first, or About the Beautiful"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The first being a dissertation on the Beautiful"
+      }
+     ]
+    },
+    {
+     "pos": 26,
+     "group": "Tetralogy 7",
+     "work": "tlg026",
+     "name": "the second (Hippias)",
+     "subtitle": "About Falsehood",
+     "character": "eversive",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the second, or About Falsehood, (both) eversive"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the second one on Falsehood, both distinctive"
+      }
+     ]
+    },
+    {
+     "pos": 27,
+     "group": "Tetralogy 7",
+     "work": "tlg027",
+     "name": "Ion",
+     "subtitle": "About the Iliad",
+     "character": "tentative",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Ion, or About the Iliad"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Ion, or a dissertation on the Iliad, a tentative one"
+      }
+     ]
+    },
+    {
+     "pos": 28,
+     "group": "Tetralogy 7",
+     "work": "tlg028",
+     "name": "Menexenus",
+     "subtitle": "The Funeral (Oration)",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Menexenus, or The Funeral (Oration), moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Menexenus, or the Funeral Oration, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 29,
+     "group": "Tetralogy 8",
+     "work": "tlg029",
+     "name": "Cleitophon",
+     "subtitle": "the Exhortative",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Cleitophon, or the Exhortative, moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Clitophon, or the Exhortation, a moral piece"
+      }
+     ]
+    },
+    {
+     "pos": 30,
+     "group": "Tetralogy 8",
+     "work": "tlg030",
+     "name": "Republic",
+     "subtitle": "About Justice",
+     "character": "political",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Republic, or About Justice, political"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Republic, or the treatise on Justice, a political one"
+      }
+     ]
+    },
+    {
+     "pos": 31,
+     "group": "Tetralogy 8",
+     "work": "tlg031",
+     "name": "Timzus",
+     "subtitle": "About Nature",
+     "character": "physical",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Timzus, or About Nature, physical"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Timæus, or a dissertation on Nature, a dialogue on Natural Philosophy"
+      }
+     ]
+    },
+    {
+     "pos": 32,
+     "group": "Tetralogy 8",
+     "work": "tlg032",
+     "name": "Critias",
+     "subtitle": "the Atlantic",
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Critias, or the Atlantic, moral"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Critias, or Atlanticus, a moral one"
+      }
+     ]
+    },
+    {
+     "pos": 33,
+     "group": "Tetralogy 9",
+     "work": "tlg033",
+     "name": "Minos",
+     "subtitle": "About Law",
+     "character": "political",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Minos, or About Law, political, takes the lead"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the Minos, or a treatise on Law, a political work"
+      }
+     ]
+    },
+    {
+     "pos": 34,
+     "group": "Tetralogy 9",
+     "work": "tlg034",
+     "name": "Laws",
+     "subtitle": "About Legislation",
+     "character": "political",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Laws, or About Legislation, political"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The Laws, or a dissertation on Legislation, another political work"
+      }
+     ]
+    },
+    {
+     "pos": 35,
+     "group": "Tetralogy 9",
+     "work": "tlg035",
+     "name": "Epinomis",
+     "subtitle": "the Night-meeting, or Philosopher",
+     "character": "political",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Epinomis, or the Night-meeting"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "Epinomis, or the Nocturnal Conversation, or the Philosopher, a third political one"
+      }
+     ]
+    },
+    {
+     "pos": 36,
+     "group": "Tetralogy 9",
+     "work": "tlg036",
+     "name": "Epistles",
+     "subtitle": null,
+     "character": "moral",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "There are thirteen Epistles of a moral kind"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "thirteen epistles, all moral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "aristophanes",
+   "label": "Aristophanes' trilogies",
+   "by": "Aristophanes of Byzantium (3rd-2nd century BC), as reported by Diogenes Laertius",
+   "cited": "Diogenes Laertius III 61-62",
+   "kind": "groups",
+   "about": "Five groups of three; 'the rest singly, and in no order'.",
+   "frame": [
+    {
+     "source": "dl3-burges",
+     "quote": "some, amongst whom is Aristophanes the grammarian, distributed the dialogues into trilogies"
+    },
+    {
+     "source": "dl3-yonge",
+     "quote": "others, among whom is Aristophanes, the grammarian, arrange his dialogues in trilogies"
+    }
+   ],
+   "items": [
+    {
+     "pos": 1,
+     "group": "Trilogy 1",
+     "work": "tlg030",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the one in which the Republic, Timzus, (and) Critias take the lead"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the first to consist of the Republic, the Timæus and the Critias"
+      }
+     ]
+    },
+    {
+     "pos": 2,
+     "group": "Trilogy 1",
+     "work": "tlg031",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the one in which the Republic, Timzus, (and) Critias take the lead"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the first to consist of the Republic, the Timæus and the Critias"
+      }
+     ]
+    },
+    {
+     "pos": 3,
+     "group": "Trilogy 1",
+     "work": "tlg032",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the one in which the Republic, Timzus, (and) Critias take the lead"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "the first to consist of the Republic, the Timæus and the Critias"
+      }
+     ]
+    },
+    {
+     "pos": 4,
+     "group": "Trilogy 2",
+     "work": "tlg007",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "as the second, (where) the Sophist, Statesman, (and) Critias (do so)"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The second of the Sophist, the Statesman, the Cratylus."
+      }
+     ]
+    },
+    {
+     "pos": 5,
+     "group": "Trilogy 2",
+     "work": "tlg008",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "as the second, (where) the Sophist, Statesman, (and) Critias (do so)"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The second of the Sophist, the Statesman, the Cratylus."
+      }
+     ]
+    },
+    {
+     "pos": 6,
+     "group": "Trilogy 2",
+     "work": "tlg005",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "as the second, (where) the Sophist, Statesman, (and) Critias (do so)"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The second of the Sophist, the Statesman, the Cratylus."
+      }
+     ],
+     "doubt": "Burges prints 'Critias' as the third of this trilogy, a second time; Yonge prints 'the Cratylus'. The Cratylus is given here, after Yonge; check the Greek."
+    },
+    {
+     "pos": 7,
+     "group": "Trilogy 3",
+     "work": "tlg034",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "(and) Epinomis; as the fourth"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The third of the Laws, the Minos, the Epinomis."
+      }
+     ]
+    },
+    {
+     "pos": 8,
+     "group": "Trilogy 3",
+     "work": "tlg033",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "(and) Epinomis; as the fourth"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The third of the Laws, the Minos, the Epinomis."
+      }
+     ]
+    },
+    {
+     "pos": 9,
+     "group": "Trilogy 3",
+     "work": "tlg035",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "(and) Epinomis; as the fourth"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The third of the Laws, the Minos, the Epinomis."
+      }
+     ]
+    },
+    {
+     "pos": 10,
+     "group": "Trilogy 4",
+     "work": "tlg006",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Theztetus, Euthyphron, (and) Apology"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The fourth of the Theætetus, the Euthyphro, the Defence of Socrates."
+      }
+     ]
+    },
+    {
+     "pos": 11,
+     "group": "Trilogy 4",
+     "work": "tlg001",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Theztetus, Euthyphron, (and) Apology"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The fourth of the Theætetus, the Euthyphro, the Defence of Socrates."
+      }
+     ]
+    },
+    {
+     "pos": 12,
+     "group": "Trilogy 4",
+     "work": "tlg002",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Theztetus, Euthyphron, (and) Apology"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The fourth of the Theætetus, the Euthyphro, the Defence of Socrates."
+      }
+     ]
+    },
+    {
+     "pos": 13,
+     "group": "Trilogy 5",
+     "work": "tlg003",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Criton, Phzedon, (and) Epistles"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The fifth of the Crito, the Phædo, the Epistles."
+      }
+     ]
+    },
+    {
+     "pos": 14,
+     "group": "Trilogy 5",
+     "work": "tlg004",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Criton, Phzedon, (and) Epistles"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The fifth of the Crito, the Phædo, the Epistles."
+      }
+     ]
+    },
+    {
+     "pos": 15,
+     "group": "Trilogy 5",
+     "work": "tlg036",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "the Criton, Phzedon, (and) Epistles"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "The fifth of the Crito, the Phædo, the Epistles."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "beginnings",
+   "label": "Where some begin (Diogenes)",
+   "by": "Various readers, as reported by Diogenes Laertius",
+   "cited": "Diogenes Laertius III 62",
+   "kind": "set",
+   "about": "The dialogues others are said to begin with; no order among them.",
+   "frame": [
+    {
+     "source": "dl3-burges",
+     "quote": "But some, as before stated, begin with the Republic"
+    },
+    {
+     "source": "dl3-yonge",
+     "quote": "And some authors, as has been said already, place the Republic at the head of his works"
+    }
+   ],
+   "items": [
+    {
+     "pos": null,
+     "work": "tlg030",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "begin with the Republic"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "place the Republic at the head of his works"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "work": "tlg013",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "others from the greater"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "others begin with the Greater Alcibiades"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "work": "tlg017",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "and others from the Theages"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "others with the Theages"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "work": "tlg001",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "and some, too, from the Euthyphron"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "some with the Euthyphro"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "work": "tlg029",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "others from the Cleitophon"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "others with the Clitophon"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "work": "tlg031",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "some from the Timeus"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "some with the Timæus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "work": "tlg012",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "some from the Phedrus"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "some with the Phædrus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "work": "tlg006",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "and others from the Theetetus"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "others again with the Theætetus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "work": "tlg002",
+     "evidence": [
+      {
+       "source": "dl3-burges",
+       "quote": "many make a beginning with the Apology"
+      },
+      {
+       "source": "dl3-yonge",
+       "quote": "Many make the Defence of Socrates the first piece"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "albinus",
+   "label": "Albinus' order",
+   "by": "Albinus (2nd century AD), Prologue",
+   "cited": "Albinus, Prologue 5-6 (Burges' chapters 6 and 8)",
+   "kind": "sequence",
+   "about": "For the reader well born, of the age for philosophy and drawn away from politics. Albinus also reports that some begin with the Epistles or the Theages, and rejects the tetralogies as an order for teaching.",
+   "frame": [
+    {
+     "source": "albinus-burges",
+     "quote": "let us state, in addition, from what dialogues persons must begin their entrance upon a discourse of Plato"
+    }
+   ],
+   "items": [
+    {
+     "pos": 1,
+     "work": "tlg013",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "will begin from the Alcibiades"
+      }
+     ]
+    },
+    {
+     "pos": 2,
+     "work": "tlg004",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "must enter upon the Phedo next in order"
+      }
+     ]
+    },
+    {
+     "pos": 3,
+     "work": "tlg030",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "After this it would be requisite to enter upon the Republic"
+      }
+     ]
+    },
+    {
+     "pos": 4,
+     "work": "tlg031",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "we shall enter upon the Timaus"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "iamblichus",
+   "label": "The Iamblichean curriculum",
+   "by": "Iamblichus (c. 245-325), as reported by the Anonymous Prolegomena (6th century)",
+   "cited": "Anon. Prol. 26 (Hermann VI pp. 219-220)",
+   "kind": "sequence",
+   "about": "Twelve dialogues, physical and theological, gathered into two, the Timaeus and the Parmenides. The order of the rest follows the grades of virtue (political, purificatory, theoretical). In Hermann's text the dialogue that follows the Theaetetus is not named, only described as 'the one teaching about natural things'; it is left unnamed here.",
+   "frame": [
+    {
+     "source": "prolegomena-hermann",
+     "quote": "λέγομεν δὲ ὃ ὃ θεῖος Ἰάμβλεχος ἐποίησεν αὐτὸς τοίνυν πάντας εἰς ιβ διήρει διαλόγους"
+    }
+   ],
+   "items": [
+    {
+     "pos": 1,
+     "group": "First",
+     "work": "tlg013",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "πρῶτον τοίνυν δεῖ τὸν Ἀλκιβιάδην πράττειν"
+      }
+     ]
+    },
+    {
+     "pos": 2,
+     "group": "Political",
+     "work": "tlg023",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "πρῶτον δεῖ ἀναγνῶναι τὸν Γοργίαν ὡς πολιτικὸν ὄντα"
+      }
+     ]
+    },
+    {
+     "pos": 3,
+     "group": "Purificatory",
+     "work": "tlg004",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "δεύτερον δὲ τὸν Φαίδωνα ὡς καθαρτικόν"
+      }
+     ]
+    },
+    {
+     "pos": 4,
+     "group": "On names",
+     "work": "tlg005",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "τέταρτον τὸν Κρατύλον ὡς περὶ ὀνομάτων διδάσκοντα"
+      }
+     ]
+    },
+    {
+     "pos": 5,
+     "group": "On things",
+     "work": "tlg006",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "εἶτα τὸν Θεαίτητον ὡς περὶ πραγμάτων"
+      }
+     ]
+    },
+    {
+     "pos": 6,
+     "group": "On natural things",
+     "work": null,
+     "name": "(not named in Hermann's text)",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "εἶτα ἐρχόμεθα μετὰ τούτους εἰς τὸν περὶ φυσικῶν διδάσκοντα"
+      }
+     ]
+    },
+    {
+     "pos": 7,
+     "group": "Theoretical, on theology",
+     "work": "tlg012",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "ἐπὶ τὸν Φαῖδρον καὶ τὸ Συμπόσιον ὡς θεωρητικῶς καὶ περὶ θεολογικῶν διαλεγομένους"
+      }
+     ]
+    },
+    {
+     "pos": 8,
+     "group": "Theoretical, on theology",
+     "work": "tlg011",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "ἐπὶ τὸν Φαῖδρον καὶ τὸ Συμπόσιον ὡς θεωρητικῶς καὶ περὶ θεολογικῶν διαλεγομένους"
+      }
+     ]
+    },
+    {
+     "pos": 9,
+     "group": "Last",
+     "work": "tlg010",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "ἔσχατον δὲ δεῖ τὸν Φίληβον"
+      }
+     ]
+    },
+    {
+     "pos": 10,
+     "group": "The perfect dialogues",
+     "work": "tlg031",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "ἐπὶ τοὺς τελείους δεῖ ἐλθεῖν τὸν Τίμαιόν φημι καὶ τὸν Παρμενίδην"
+      }
+     ]
+    },
+    {
+     "pos": 11,
+     "group": "The perfect dialogues",
+     "work": "tlg009",
+     "evidence": [
+      {
+       "source": "prolegomena-hermann",
+       "quote": "ἐπὶ τοὺς τελείους δεῖ ἐλθεῖν τὸν Τίμαιόν φημι καὶ τὸν Παρμενίδην"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "albinus-classes",
+   "label": "Albinus' classes",
+   "by": "Albinus, Prologue",
+   "cited": "Albinus, Prologue 3 (Burges' chapter 5)",
+   "kind": "classes",
+   "about": "Each class with the dialogues Albinus puts in it, as Burges translates the text (which is thought to be corrupt here).",
+   "frame": [
+    {
+     "source": "albinus-burges",
+     "quote": "Of the dialogues of Plato there are drawn out in the class of Physics"
+    }
+   ],
+   "items": [
+    {
+     "pos": null,
+     "group": "Physics",
+     "work": "tlg031",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the class of Physics, the Timzeus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Morals",
+     "work": "tlg002",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of Morals, the Apology"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Logic",
+     "work": "tlg017",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of Logic, the Theages, Cratylus, Lysis, Sophist, Laches, (and) Statesman"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Logic",
+     "work": "tlg005",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of Logic, the Theages, Cratylus, Lysis, Sophist, Laches, (and) Statesman"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Logic",
+     "work": "tlg020",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of Logic, the Theages, Cratylus, Lysis, Sophist, Laches, (and) Statesman"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Logic",
+     "work": "tlg007",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of Logic, the Theages, Cratylus, Lysis, Sophist, Laches, (and) Statesman"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Logic",
+     "work": "tlg019",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of Logic, the Theages, Cratylus, Lysis, Sophist, Laches, (and) Statesman"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Logic",
+     "work": "tlg008",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of Logic, the Theages, Cratylus, Lysis, Sophist, Laches, (and) Statesman"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Confutation",
+     "work": "tlg009",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of confutation, the Parmenides (and) Protagoras"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Confutation",
+     "work": "tlg022",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of confutation, the Parmenides (and) Protagoras"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg003",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg004",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg033",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg011",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg034",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg036",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg035",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg028",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg029",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Statesmanship",
+     "work": "tlg010",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in that of statesmanship, the Crito, Phadon, Minos, Banquet, Laws, Epistles, Epinomis, Menexenus, Cleitophon, (and) Philebus"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Tentative",
+     "work": "tlg001",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the tentative (class are) the Euthyphron, Meno, Ion, (and) Charmides"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Tentative",
+     "work": "tlg024",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the tentative (class are) the Euthyphron, Meno, Ion, (and) Charmides"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Tentative",
+     "work": "tlg027",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the tentative (class are) the Euthyphron, Meno, Ion, (and) Charmides"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Tentative",
+     "work": "tlg018",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the tentative (class are) the Euthyphron, Meno, Ion, (and) Charmides"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Obstetrical",
+     "work": "tlg013",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the obstetrical,? the Alcibiades"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Overthrowing",
+     "work": null,
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the overthrowing, the Hippias, Euthydemus, (and) Gorgias"
+      }
+     ],
+     "name": "the Hippias (Albinus does not say which)"
+    },
+    {
+     "pos": null,
+     "group": "Overthrowing",
+     "work": "tlg021",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the overthrowing, the Hippias, Euthydemus, (and) Gorgias"
+      }
+     ]
+    },
+    {
+     "pos": null,
+     "group": "Overthrowing",
+     "work": "tlg023",
+     "evidence": [
+      {
+       "source": "albinus-burges",
+       "quote": "in the overthrowing, the Hippias, Euthydemus, (and) Gorgias"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
