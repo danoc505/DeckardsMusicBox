@@ -297,7 +297,7 @@ class Library(unittest.TestCase):
         self.assertIn("cites", kinds)
         self.assertNotIn("names", kinds)
         r = self.find("cites:Tim 29e")
-        self.assertTrue(all("read as Timaeus 29e" in x["why"] for x in r["groups"][0]["results"]))
+        self.assertTrue(all(re.search(r"read as Timaeus 29e? ", x["why"]) for x in r["groups"][0]["results"]))  # the section, or its page
 
     def test_names_concepts_reconciliation_and_methods(self):
         self.assertIn("names", {g["kind"] for g in self.find("Archer-Hind")["groups"]})
