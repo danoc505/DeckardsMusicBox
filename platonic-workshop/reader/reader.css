@@ -533,8 +533,8 @@ ul.cited > li.doubt { background: linear-gradient(90deg, var(--warn-soft, #fbf1d
 @media (max-width: 700px) { table.disc .bar-cell, table.disc td:last-child, table.disc th:last-child { display: none; } }
 
 /* Milestone 9: the dialogue as a whole, and the corpus map (whole.js). */
-body.whole-view #whole-btn, body.corpus-view #corpus-btn, body.concepts-view #concepts-btn { background: var(--accent); color: var(--panel); }
-body.whole-view .jump button, body.corpus-view .jump button, body.concepts-view .jump button { visibility: hidden; }
+body.whole-view #whole-btn, body.corpus-view #corpus-btn, body.concepts-view #concepts-btn, body.commentaries-view #commentaries-btn { background: var(--accent); color: var(--panel); }
+body.whole-view .jump button, body.corpus-view .jump button, body.concepts-view .jump button, body.commentaries-view .jump button { visibility: hidden; }
 .whole section { margin-bottom: 8px; }
 .whole h4 { font: 600 13px var(--sans); margin: 12px 0 4px; }
 blockquote.ev { margin: 4px 0 8px; padding: 2px 0 2px 12px; border-left: 2px solid var(--faint); font-size: 15px; }
@@ -576,6 +576,12 @@ svg.corpus-map .arrowhead { fill: var(--accent); }
 .concept-passages > li { margin-bottom: 0.9em; }
 .dist .bar-cell { width: 50%; }
 .dist .bar { display: inline-block; height: 0.6em; background: var(--accent); opacity: 0.6; }
+
+/* Milestone 11: every commentary in the library */
+.commlib { max-width: 60rem; }
+.commlib h3 { margin-top: 1.4rem; }
+.commlib h3 a { color: inherit; }
+.commlib-t td .meta { font-size: 0.85em; }
 .layer-academy { background: rgba(60, 100, 160, 0.13); }
 .rel-cat { font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted, #777); margin-right: 0.3em; }
 .concept-filter { display: flex; gap: 1em; flex-wrap: wrap; margin: 0.6em 0; }

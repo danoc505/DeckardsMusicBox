@@ -1,0 +1,18 @@
+{
+  "cu31924026679435_djvu.txt": {
+    "url": "https://archive.org/download/cu31924026679435/cu31924026679435_djvu.txt",
+    "fetched_at": "2026-11-05T12:58:33+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 795656,
+    "sha256": "6f39d002c821554a377cdf5692d9af5f6239964ab6b92abfcae430753cee1a30"
+  },
+  "cu31924026679435_metadata.json": {
+    "url": "https://archive.org/metadata/cu31924026679435/metadata",
+    "fetched_at": "2026-11-05T12:58:35+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 1681,
+    "sha256": "bf465adb9bfd5f9adb166342eb3c3866ec3d95a3c764c55d1578c64d71cfeec5"
+  }
+}
