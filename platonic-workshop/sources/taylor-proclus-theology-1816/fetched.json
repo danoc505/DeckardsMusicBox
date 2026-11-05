@@ -1,0 +1,34 @@
+{
+  "taylor-theology-of-plato-en-t.-1-1816_djvu.txt": {
+    "url": "https://archive.org/download/taylor-theology-of-plato-en-t.-1-1816/Taylor%20-%20Theology%20of%20Plato%2C%20%5Ben%5D%2C%20t.1%2C%201816_djvu.txt",
+    "fetched_at": "2026-11-05T13:05:12+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1118118,
+    "sha256": "061931f9aca9a485506a639e046209a2009bb72e6583a70c9797cc3aecf28749"
+  },
+  "taylor-theology-of-plato-en-t.-1-1816_metadata.json": {
+    "url": "https://archive.org/metadata/taylor-theology-of-plato-en-t.-1-1816/metadata",
+    "fetched_at": "2026-11-05T13:05:14+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 1104,
+    "sha256": "8aea56bc105ac2b476b8d3c523dcdb380107a6b77fce654af3b5a9a7528cd443"
+  },
+  "taylor-theology-of-plato-en-t.-2-1816_djvu.txt": {
+    "url": "https://archive.org/download/taylor-theology-of-plato-en-t.-2-1816/Taylor%20-%20Theology%20of%20Plato%2C%20%5Ben%5D%2C%20t.2%2C%201816_djvu.txt",
+    "fetched_at": "2026-11-05T13:05:18+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1281618,
+    "sha256": "d1cc777a38d95b6ad0b71fd714964394aa8f187dd7678f771f77a18acf52d0ff"
+  },
+  "taylor-theology-of-plato-en-t.-2-1816_metadata.json": {
+    "url": "https://archive.org/metadata/taylor-theology-of-plato-en-t.-2-1816/metadata",
+    "fetched_at": "2026-11-05T13:05:20+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 1137,
+    "sha256": "ba3a059716fc569580837ad60ac75e98fe62fde3ceb2cd8a9c3fad6f06bf02e8"
+  }
+}

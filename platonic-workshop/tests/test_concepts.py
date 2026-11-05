@@ -14,6 +14,7 @@ import sys
 import tempfile
 import threading
 import unittest
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -56,7 +57,7 @@ class Files(unittest.TestCase):
             self.assertTrue(any(a.lower() in l.lower() for l in labels), a)
 
     def test_every_record_is_complete(self):
-        ids = {c["id"] for c in self.d["concepts"]}
+        ids = {c["id"] for c in self.d["concepts"]} | {r["concept"] for k in ("definitions", "taylor_terms") for r in concepts.load_defined()[k]}
         for c in self.d["concepts"]:
             for k in ("id", "label", "greek", "layer", "note", "terms", "keywords", "definitions", "passages", "later", "related"):
                 self.assertIn(k, c, f"{c['id']}: {k}")
@@ -97,6 +98,41 @@ class Files(unittest.TestCase):
                 else:
                     self.assertIn(e["source"], ("plato", "note"))
         self.assertEqual(missing, [])
+
+    def test_every_relation_has_a_category_and_all_seven_are_used(self):
+        cats = self.d["categories"]
+        prompt = ["shared concept", "philosophical analogy", "different formulation", "historical interpretation",
+                  "apparent contradiction", "metaphysical distinction", "allegorical parallel"]
+        self.assertEqual(list(cats)[:7], prompt)
+        used = {r["category"] for c in self.d["concepts"] for r in c["related"]}
+        self.assertTrue(set(prompt) <= used, set(prompt) - used)
+        self.assertTrue(used <= set(cats))
+
+    def test_the_words_compared_across_translators(self):
+        cw = self.d["compared_words"]
+        self.assertEqual(cw["named_in_prompt"], ["λόγος", "νόος", "ψυχή", "ἀγαθός", "εἶδος", "ἀρετή"])
+        self.assertGreater(len(cw["more"]), 20)
+
+    def test_the_terms_the_sources_define(self):
+        x = concepts.load_defined()
+        self.assertGreater(len(x["definitions"]), 170)
+        self.assertGreater(len(x["taylor_terms"]), 60)
+        segs = {s["id"] for s in json.loads(concepts.TERMS.read_text(encoding="utf-8"))["segments"]}
+        for r in x["taylor_terms"]:
+            self.assertIn(r["segment"], segs)
+        pages = {s["n"]: s["text"] for s in self.docs["definitions-burges"]["sections"]}
+        greek = " ".join(s["text"] for s in self.docs["definitions-hermann"]["sections"]).replace("ϑ", "θ")
+        for r in x["definitions"]:
+            self.assertIn(r["english"], pages[str(r["page"])])
+            if r["greek"]:
+                self.assertIn(r["greek"], greek)
+
+    def test_later_platonists_are_quoted_from_their_books(self):
+        x = concepts.load_defined()
+        texts = {k: [concepts.eng(concepts.book_text(f)) for f in b["files"]] for k, b in x["books"].items()}
+        self.assertEqual(set(texts), {"plotinus-taylor-1817", "proclus-theology-taylor-1816", "iamblichus-taylor-1821"})
+        for r in x["later"]:
+            self.assertTrue(any(concepts.eng(r["quote"]) in t for t in texts[r["source"]]), r["quote"])
 
     def test_keywords_are_not_the_links(self):
         # Keywords only find notes on a concept's own passages; they never link passages to one another.
@@ -182,9 +218,29 @@ class Library(unittest.TestCase):
             self.assertEqual(pw, nw)
             self.assertTrue(word in body or word in concepts.grc(body), (word, ref))
 
+    def test_the_index_holds_every_defined_term(self):
+        n = self.q("SELECT count(*) FROM concept")[0][0]
+        self.assertGreater(n, 180)
+        self.assertEqual(self.q("SELECT layer FROM concept WHERE id = 'courage'")[0][0], "academy")
+        self.assertEqual(self.q("SELECT layer FROM concept WHERE id = 'monad'")[0][0], "later")
+        # A concept of concepts.json keeps its layer and gains the Definitions' entry.
+        self.assertTrue(self.q("SELECT 1 FROM concept_cite c JOIN evidence e ON e.owner = c.owner WHERE c.concept_id = 'justice' AND e.source_text = 'definitions-burges'"))
+        self.assertEqual(self.q("SELECT count(*) FROM concept_relation WHERE category NOT IN (SELECT name FROM concept_category)")[0][0], 0)
+
+    def test_renderings(self):
+        r = self.get("/api/renderings/" + urllib.parse.quote("ψυχή") + "?work=tlg004&limit=3")
+        self.assertEqual(len(r["places"]), 3)
+        self.assertIsNotNone(r["next"])
+        p = r["places"][0]
+        self.assertTrue(p["greek"] and p["forms"])
+        self.assertTrue(any(f in p["greek"] for f in p["forms"]))
+        self.assertGreaterEqual(len({e["edition_id"] for e in p["english"]}), 2)
+        self.assertEqual([c["id"] for c in r["concepts"]], ["soul"])
+
     def test_api(self):
         idx = self.get("/api/concepts")
-        self.assertEqual(len(idx["concepts"]), 25)
+        self.assertGreater(len(idx["concepts"]), 180)
+        self.assertEqual([w["lemma"] for w in idx["words"][:6]], ["λόγος", "νόος", "ψυχή", "ἀγαθός", "εἶδος", "ἀρετή"])
         good = self.get("/api/concept/the-good")
         self.assertEqual(good["layer"], "plato-later")
         self.assertTrue(any(p["work_id"] == "tlg030" and p["start_ref"] == "509b" for p in good["passages"]))

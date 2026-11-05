@@ -1,0 +1,1860 @@
+{
+ "schema": "platonic-workshop/concept-sources-v1",
+ "about": "The terms the sources themselves define, mapped by hand to concepts of the index. 'definitions': each definition of the pseudo-Platonic Definitions (Ὅροι), as Burges prints the English heading (page) and as Hermann's Greek prints the headword (OCR as received), with the GLAUx lemma it is indexed under (empty where GLAUx does not tag the word in Plato). The definition quoted is cut by rule: from the heading to the first stop. 'taylor_terms': each entry of Taylor's 'Explanation of Certain Platonic Terms' (1804), by segment. A row whose concept is one of concepts.json adds to it; the others make a concept of their own. 'later': readings of the later Platonists, quoted from Taylor's translations of Plotinus, Proclus' Theology and Iamblichus (Internet Archive OCR, as received), added to a concept.",
+ "definitions": [
+  {
+   "page": 123,
+   "english": "Eternal",
+   "greek": null,
+   "lemma": "ἀίδιος",
+   "concept": "eternal",
+   "label": "Eternal"
+  },
+  {
+   "page": 123,
+   "english": "God",
+   "greek": "Θεὸς",
+   "lemma": "θεός",
+   "concept": "god",
+   "label": "God"
+  },
+  {
+   "page": 123,
+   "english": "Generation",
+   "greek": "Γένεσις",
+   "lemma": "γένεσις",
+   "concept": "becoming"
+  },
+  {
+   "page": 123,
+   "english": "The sun",
+   "greek": "Ἥλιος",
+   "lemma": "ἥλιος",
+   "concept": "sun",
+   "label": "The sun"
+  },
+  {
+   "page": 123,
+   "english": "Time",
+   "greek": "Χρόνος",
+   "lemma": "χρόνος",
+   "concept": "time",
+   "label": "Time"
+  },
+  {
+   "page": 124,
+   "english": "Day",
+   "greek": "Ἡμέρα",
+   "lemma": "ἡμέρα",
+   "concept": "day",
+   "label": "Day"
+  },
+  {
+   "page": 124,
+   "english": "Morning",
+   "greek": "Ἕως",
+   "lemma": "ἕως",
+   "concept": "dawn",
+   "label": "Morning (dawn)"
+  },
+  {
+   "page": 124,
+   "english": "Mid-day",
+   "greek": "Μεσημβρία",
+   "lemma": "μεσημβρία",
+   "concept": "midday",
+   "label": "Midday"
+  },
+  {
+   "page": 124,
+   "english": "Evening",
+   "greek": "Δείλη",
+   "lemma": "δείλη",
+   "concept": "evening",
+   "label": "Evening"
+  },
+  {
+   "page": 124,
+   "english": "Night",
+   "greek": "Νὺξ",
+   "lemma": "νύξ",
+   "concept": "night",
+   "label": "Night"
+  },
+  {
+   "page": 124,
+   "english": "Chance",
+   "greek": "Τύχη",
+   "lemma": "τύχη",
+   "concept": "chance",
+   "label": "Chance (fortune)"
+  },
+  {
+   "page": 124,
+   "english": "Old Age",
+   "greek": "Γῆρας",
+   "lemma": "γῆρας",
+   "concept": "old-age",
+   "label": "Old age"
+  },
+  {
+   "page": 124,
+   "english": "Wind",
+   "greek": "Πνεῦμα",
+   "lemma": "πνεῦμα",
+   "concept": "wind",
+   "label": "Wind (breath)"
+  },
+  {
+   "page": 124,
+   "english": "Air",
+   "greek": "᾽δὴρ",
+   "lemma": "ἀήρ",
+   "concept": "air",
+   "label": "Air"
+  },
+  {
+   "page": 124,
+   "english": "Heaven",
+   "greek": "Οὐρανὸς",
+   "lemma": "οὐρανός",
+   "concept": "heaven",
+   "label": "Heaven"
+  },
+  {
+   "page": 125,
+   "english": "Soul",
+   "greek": "Ψυχὴ",
+   "lemma": "ψυχή",
+   "concept": "soul"
+  },
+  {
+   "page": 125,
+   "english": "Power",
+   "greek": "Ζυναμις",
+   "lemma": "δύναμις",
+   "concept": "power",
+   "label": "Power (dynamis)"
+  },
+  {
+   "page": 125,
+   "english": "Vision",
+   "greek": "Οψις",
+   "lemma": "ὄψις",
+   "concept": "sight",
+   "label": "Sight"
+  },
+  {
+   "page": 125,
+   "english": "Bone",
+   "greek": "Ὀστοῦν",
+   "lemma": "ὀστέον",
+   "concept": "bone",
+   "label": "Bone"
+  },
+  {
+   "page": 125,
+   "english": "Element",
+   "greek": "Στοιχεῖον",
+   "lemma": "στοιχεῖον",
+   "concept": "element",
+   "label": "Element"
+  },
+  {
+   "page": 125,
+   "english": "Virtwe",
+   "greek": "ΑἈφετὴ",
+   "lemma": "ἀρετή",
+   "concept": "virtue"
+  },
+  {
+   "page": 126,
+   "english": "Discretion",
+   "greek": "Φρόνησις",
+   "lemma": "φρόνησις",
+   "concept": "phronesis",
+   "label": "Wisdom in action (phronēsis)"
+  },
+  {
+   "page": 126,
+   "english": "Justice",
+   "greek": "Δικαιοσύνη",
+   "lemma": "δικαιοσύνη",
+   "concept": "justice"
+  },
+  {
+   "page": 126,
+   "english": "Temperance",
+   "greek": "Σωφροσύνη",
+   "lemma": "σωφροσύνη",
+   "concept": "temperance",
+   "label": "Temperance (sōphrosynē)"
+  },
+  {
+   "page": 127,
+   "english": "Fortitude",
+   "greek": "ἀνδρεία",
+   "lemma": "ἀνδρεία",
+   "concept": "courage",
+   "label": "Courage (andreia)"
+  },
+  {
+   "page": 128,
+   "english": "Self-sufficiency",
+   "greek": "Αὐτάρκεια",
+   "lemma": "αὐτάρκεια",
+   "concept": "self-sufficiency",
+   "label": "Self-sufficiency"
+  },
+  {
+   "page": 128,
+   "english": "Reasonableness",
+   "greek": "Επιείκεια",
+   "lemma": "ἐπιείκεια",
+   "concept": "equity",
+   "label": "Reasonableness (equity)"
+  },
+  {
+   "page": 128,
+   "english": "Endurance",
+   "greek": "Καρτερία",
+   "lemma": "καρτερία",
+   "concept": "endurance",
+   "label": "Endurance"
+  },
+  {
+   "page": 128,
+   "english": "Boldness",
+   "greek": "Θάρσος",
+   "lemma": "θάρσος",
+   "concept": "boldness",
+   "label": "Boldness"
+  },
+  {
+   "page": 128,
+   "english": "Non-perception of pain",
+   "greek": "λυπία",
+   "lemma": null,
+   "concept": "freedom-from-pain",
+   "label": "Freedom from pain"
+  },
+  {
+   "page": 128,
+   "english": "The love of labour",
+   "greek": "Φιλοπονία",
+   "lemma": "φιλοπονία",
+   "concept": "love-of-labour",
+   "label": "Love of labour"
+  },
+  {
+   "page": 128,
+   "english": "Modesty",
+   "greek": "Αἰδὼς",
+   "lemma": "αἰδώς",
+   "concept": "modesty",
+   "label": "Modesty (aidōs)"
+  },
+  {
+   "page": 128,
+   "english": "Freedom",
+   "greek": "Ἐλευθερία",
+   "lemma": "ἐλευθερία",
+   "concept": "freedom",
+   "label": "Freedom"
+  },
+  {
+   "page": 128,
+   "english": "Liberality",
+   "greek": "Ἐλευθεριότης",
+   "lemma": "ἐλευθεριότης",
+   "concept": "liberality",
+   "label": "Liberality"
+  },
+  {
+   "page": 129,
+   "english": "Mildness",
+   "greek": "Πραύότης",
+   "lemma": "πραότης",
+   "concept": "gentleness",
+   "label": "Gentleness"
+  },
+  {
+   "page": 129,
+   "english": "Decorum",
+   "greek": "Κοσμιύτης",
+   "lemma": "κοσμιότης",
+   "concept": "orderliness",
+   "label": "Orderliness (decorum)"
+  },
+  {
+   "page": 129,
+   "english": "Felicity",
+   "greek": "Εὐδαιμονία",
+   "lemma": "εὐδαιμονία",
+   "concept": "happiness",
+   "label": "Happiness (eudaimonia)"
+  },
+  {
+   "page": 129,
+   "english": "Magnificence",
+   "greek": "Μεγαλοπρέπεια",
+   "lemma": "μεγαλοπρέπεια",
+   "concept": "magnificence",
+   "label": "Magnificence"
+  },
+  {
+   "page": 129,
+   "english": "Sagacity",
+   "greek": "γχίνοια",
+   "lemma": "ἀγχίνοια",
+   "concept": "quickness-of-mind",
+   "label": "Quickness of mind"
+  },
+  {
+   "page": 129,
+   "english": "Honesty",
+   "greek": "Χρηστότης",
+   "lemma": null,
+   "concept": "chrestotes",
+   "label": "Goodness of character (chrēstotēs)"
+  },
+  {
+   "page": 129,
+   "english": "Kalokagathia",
+   "greek": "Καλοκαγαθία",
+   "lemma": null,
+   "concept": "kalokagathia",
+   "label": "Nobility and goodness (kalokagathia)"
+  },
+  {
+   "page": 129,
+   "english": "High-mindedness",
+   "greek": "Μεγαλοψυχία",
+   "lemma": "μεγαλοψυχία",
+   "concept": "greatness-of-soul",
+   "label": "Greatness of soul"
+  },
+  {
+   "page": 130,
+   "english": "Philanthropy",
+   "greek": "Φιλανθρωπία",
+   "lemma": "φιλανθρωπία",
+   "concept": "philanthropy",
+   "label": "Love of mankind"
+  },
+  {
+   "page": 130,
+   "english": "Piety",
+   "greek": "Εὐσέβεια",
+   "lemma": "εὐσέβεια",
+   "concept": "piety",
+   "label": "Piety"
+  },
+  {
+   "page": 130,
+   "english": "Good",
+   "greek": "γαθὸν τὸ αὑτοῦ",
+   "lemma": "ἀγαθός",
+   "concept": "the-good"
+  },
+  {
+   "page": 130,
+   "english": "Fearlessness",
+   "greek": "ἀφοβία",
+   "lemma": "ἀφοβία",
+   "concept": "fearlessness",
+   "label": "Fearlessness"
+  },
+  {
+   "page": 130,
+   "english": "Apathy",
+   "greek": "πάθεια",
+   "lemma": null,
+   "concept": "apatheia",
+   "label": "Freedom from passion (apatheia)"
+  },
+  {
+   "page": 130,
+   "english": "Peace",
+   "greek": "Εἰρήνη",
+   "lemma": "εἰρήνη",
+   "concept": "peace",
+   "label": "Peace"
+  },
+  {
+   "page": 130,
+   "english": "Listlessness",
+   "greek": "αθυμία",
+   "lemma": "ῥαθυμία",
+   "concept": "rhathymia",
+   "label": "Easiness of soul (rhathymia)"
+  },
+  {
+   "page": 130,
+   "english": "Shkilfulness",
+   "greek": "Ζεινότης",
+   "lemma": "δεινότης",
+   "concept": "cleverness",
+   "label": "Cleverness (deinotēs)"
+  },
+  {
+   "page": 131,
+   "english": "Friendship",
+   "greek": "Φιλία",
+   "lemma": "φιλία",
+   "concept": "friendship",
+   "label": "Friendship (philia)"
+  },
+  {
+   "page": 131,
+   "english": "Nobility of birth",
+   "greek": "Εὐγένεια",
+   "lemma": "εὐγένεια",
+   "concept": "nobility",
+   "label": "Nobility of birth"
+  },
+  {
+   "page": 131,
+   "english": "Selection",
+   "greek": "ρεσις δοκιμασία",
+   "lemma": "αἵρεσις",
+   "concept": "choice",
+   "label": "Choice"
+  },
+  {
+   "page": 131,
+   "english": "Kind feeling",
+   "greek": "Εὔνοια",
+   "lemma": "εὔνοια",
+   "concept": "goodwill",
+   "label": "Goodwill"
+  },
+  {
+   "page": 131,
+   "english": "Familiarity",
+   "greek": "Οἰχειότης",
+   "lemma": "οἰκειότης",
+   "concept": "kinship",
+   "label": "Kinship"
+  },
+  {
+   "page": 132,
+   "english": "Agreement",
+   "greek": "Ὁμόνοια κοινωνία",
+   "lemma": "ὁμόνοια",
+   "concept": "concord",
+   "label": "Concord (homonoia)"
+  },
+  {
+   "page": 132,
+   "english": "Lovingness",
+   "greek": "γάπησις",
+   "lemma": null,
+   "concept": "affection",
+   "label": "Affection"
+  },
+  {
+   "page": 132,
+   "english": "Statesmanship",
+   "greek": "Πολιτικὴ ἐπιστήμη",
+   "lemma": "πολιτικός",
+   "concept": "statesmanship",
+   "label": "Statesmanship"
+  },
+  {
+   "page": 132,
+   "english": "Good counsel",
+   "greek": "Εὐβουλία",
+   "lemma": "εὐβουλία",
+   "concept": "good-counsel",
+   "label": "Good counsel"
+  },
+  {
+   "page": 132,
+   "english": "Belief",
+   "greek": "Πίστις",
+   "lemma": "πίστις",
+   "concept": "belief",
+   "label": "Belief (pistis)"
+  },
+  {
+   "page": 133,
+   "english": "Truth",
+   "greek": "λήθεια ἕξις",
+   "lemma": "ἀλήθεια",
+   "concept": "truth"
+  },
+  {
+   "page": 133,
+   "english": "A wishing",
+   "greek": "Βούλησις",
+   "lemma": "βούλησις",
+   "concept": "wish",
+   "label": "Wish (boulēsis)"
+  },
+  {
+   "page": 133,
+   "english": "Counselling",
+   "greek": "Συμβούλευσις",
+   "lemma": null,
+   "concept": "advising",
+   "label": "Advising"
+  },
+  {
+   "page": 133,
+   "english": "Fit opportunity",
+   "greek": "Εὐκαιρία",
+   "lemma": "εὐκαιρία",
+   "concept": "timeliness",
+   "label": "Timeliness"
+  },
+  {
+   "page": 133,
+   "english": "Caution",
+   "greek": "Εὐλάβεια φυλακὴ",
+   "lemma": "εὐλάβεια",
+   "concept": "caution",
+   "label": "Caution"
+  },
+  {
+   "page": 133,
+   "english": "Order",
+   "greek": "Τάξις",
+   "lemma": "τάξις",
+   "concept": "order",
+   "label": "Order (taxis)"
+  },
+  {
+   "page": 133,
+   "english": "Application",
+   "greek": "Πρόσεξις",
+   "lemma": "πρόσεξις",
+   "concept": "attention",
+   "label": "Attention"
+  },
+  {
+   "page": 133,
+   "english": "Natural ability",
+   "greek": "Βὐφυΐα",
+   "lemma": null,
+   "concept": "natural-gifts",
+   "label": "Natural gifts"
+  },
+  {
+   "page": 133,
+   "english": "Docility",
+   "greek": "Εὐμάθεια",
+   "lemma": "εὐμάθεια",
+   "concept": "readiness-to-learn",
+   "label": "Readiness to learn"
+  },
+  {
+   "page": 133,
+   "english": "Judgment",
+   "greek": "Ζίκῃ",
+   "lemma": "δίκη",
+   "concept": "dike",
+   "label": "Judgment (dikē)"
+  },
+  {
+   "page": 133,
+   "english": "Law",
+   "greek": "ἀμφισβήτησις περὶ τοῦ ἀδικεῖν",
+   "lemma": "δίκη",
+   "concept": "dike"
+  },
+  {
+   "page": 134,
+   "english": "Good legal conduct",
+   "greek": "Εὐνομία",
+   "lemma": "εὐνομία",
+   "concept": "eunomia",
+   "label": "Good order under law (eunomia)"
+  },
+  {
+   "page": 134,
+   "english": "Cheerfulness",
+   "greek": "Εὐφροσύνη",
+   "lemma": "εὐφροσύνη",
+   "concept": "gladness",
+   "label": "Gladness"
+  },
+  {
+   "page": 134,
+   "english": "Honour",
+   "greek": "Τιμὴ",
+   "lemma": "τιμή",
+   "concept": "honour",
+   "label": "Honour"
+  },
+  {
+   "page": 134,
+   "english": "Alaerity",
+   "greek": "Προθυμία",
+   "lemma": "προθυμία",
+   "concept": "eagerness",
+   "label": "Eagerness"
+  },
+  {
+   "page": 134,
+   "english": "Favour",
+   "greek": "Χάρις",
+   "lemma": "χάρις",
+   "concept": "grace",
+   "label": "Grace (charis)"
+  },
+  {
+   "page": 134,
+   "english": "Concord",
+   "greek": "Ὁμόνοια ὁμοδοξέα",
+   "lemma": "ὁμόνοια",
+   "concept": "concord"
+  },
+  {
+   "page": 134,
+   "english": "A polity",
+   "greek": "Πολιτεία",
+   "lemma": "πολιτεία",
+   "concept": "constitution",
+   "label": "Constitution (politeia)"
+  },
+  {
+   "page": 134,
+   "english": "Forethought",
+   "greek": "Πρόνοια",
+   "lemma": "πρόνοια",
+   "concept": "providence",
+   "label": "Providence (pronoia)"
+  },
+  {
+   "page": 134,
+   "english": "Counsel",
+   "greek": "Βουλὴ",
+   "lemma": "βουλή",
+   "concept": "deliberation",
+   "label": "Deliberation"
+  },
+  {
+   "page": 134,
+   "english": "Victory",
+   "greek": "Νίκη",
+   "lemma": "νίκη",
+   "concept": "victory",
+   "label": "Victory"
+  },
+  {
+   "page": 135,
+   "english": "Bribe",
+   "greek": "ΔΙωρεὰ",
+   "lemma": "δωρεά",
+   "concept": "gift",
+   "label": "Gift"
+  },
+  {
+   "page": 135,
+   "english": "Opportunity",
+   "greek": "Καιρὸς χρόνου",
+   "lemma": "καιρός",
+   "concept": "kairos",
+   "label": "The right moment (kairos)"
+  },
+  {
+   "page": 135,
+   "english": "Memory",
+   "greek": "Μνήμη",
+   "lemma": "μνήμη",
+   "concept": "memory",
+   "label": "Memory"
+  },
+  {
+   "page": 135,
+   "english": "The keeping in mind",
+   "greek": "Ἔννοια",
+   "lemma": "ἔννοια",
+   "concept": "ennoia",
+   "label": "Concept (ennoia)"
+  },
+  {
+   "page": 135,
+   "english": "Thinking",
+   "greek": "Νόησις",
+   "lemma": "νόησις",
+   "concept": "intellect"
+  },
+  {
+   "page": 135,
+   "english": "Holiness",
+   "greek": "ἡγνεία",
+   "lemma": "ἁγνεία",
+   "concept": "purity",
+   "label": "Purity (hagneia)"
+  },
+  {
+   "page": 135,
+   "english": "The prophetic art",
+   "greek": "Μαντεία",
+   "lemma": "μαντεία",
+   "concept": "divination",
+   "label": "Divination"
+  },
+  {
+   "page": 135,
+   "english": "Wisdom",
+   "greek": "Σοφία",
+   "lemma": "σοφία",
+   "concept": "wisdom",
+   "label": "Wisdom (sophia)"
+  },
+  {
+   "page": 135,
+   "english": "Philosophy",
+   "greek": "Φιλοσοφία",
+   "lemma": "φιλοσοφία",
+   "concept": "philosophy",
+   "label": "Philosophy"
+  },
+  {
+   "page": 135,
+   "english": "Knowledge",
+   "greek": "Ἐπιστήμη",
+   "lemma": "ἐπιστήμη",
+   "concept": "knowledge"
+  },
+  {
+   "page": 136,
+   "english": "Opinion",
+   "greek": "Ζόξα",
+   "lemma": "δόξα",
+   "concept": "opinion"
+  },
+  {
+   "page": 136,
+   "english": "Sensation",
+   "greek": "ἴσθησις",
+   "lemma": "αἴσθησις",
+   "concept": "sense-perception",
+   "label": "Sense-perception (aisthēsis)"
+  },
+  {
+   "page": 136,
+   "english": "Habit",
+   "greek": "Ἕξις",
+   "lemma": "ἕξις",
+   "concept": "hexis",
+   "label": "State (hexis)"
+  },
+  {
+   "page": 137,
+   "english": "Voice",
+   "greek": "Φωνη",
+   "lemma": "φωνή",
+   "concept": "voice",
+   "label": "Voice"
+  },
+  {
+   "page": 137,
+   "english": "Speech",
+   "greek": "όγος φωνὴ",
+   "lemma": "λόγος",
+   "concept": "logos"
+  },
+  {
+   "page": 137,
+   "english": "Noun",
+   "greek": "Ὄνομα",
+   "lemma": "ὄνομα",
+   "concept": "name",
+   "label": "Name (onoma)"
+  },
+  {
+   "page": 137,
+   "english": "Syllable",
+   "greek": "Συλλαβὴ",
+   "lemma": "συλλαβή",
+   "concept": "syllable",
+   "label": "Syllable"
+  },
+  {
+   "page": 137,
+   "english": "Definition",
+   "greek": "Ὅρος",
+   "lemma": "ὅρος",
+   "concept": "definition",
+   "label": "Definition (horos)"
+  },
+  {
+   "page": 138,
+   "english": "Proof",
+   "greek": "Τεκμήριον",
+   "lemma": "τεκμήριον",
+   "concept": "proof",
+   "label": "Proof (tekmērion)"
+  },
+  {
+   "page": 138,
+   "english": "Demonstration",
+   "greek": "πόδειξις",
+   "lemma": "ἀπόδειξις",
+   "concept": "demonstration",
+   "label": "Demonstration"
+  },
+  {
+   "page": 138,
+   "english": "Useful",
+   "greek": "φέλιμον",
+   "lemma": "ὠφέλιμος",
+   "concept": "beneficial",
+   "label": "The beneficial"
+  },
+  {
+   "page": 138,
+   "english": "Advantageous",
+   "greek": "Συμφέρον",
+   "lemma": "συμφέρω",
+   "concept": "advantageous",
+   "label": "The advantageous"
+  },
+  {
+   "page": 138,
+   "english": "Honourable",
+   "greek": "Καλὸν τὸ ἀγαθόν",
+   "lemma": "καλός",
+   "concept": "the-beautiful"
+  },
+  {
+   "page": 138,
+   "english": "Good",
+   "greek": "ἡγαθὸν τὸ αἴτιον",
+   "lemma": "ἀγαθός",
+   "concept": "the-good"
+  },
+  {
+   "page": 138,
+   "english": "Temperate",
+   "greek": "Σῶφρον",
+   "lemma": "σώφρων",
+   "concept": "temperance"
+  },
+  {
+   "page": 138,
+   "english": "Just",
+   "greek": "Ζέκαιον",
+   "lemma": "δίκαιος",
+   "concept": "justice"
+  },
+  {
+   "page": 138,
+   "english": "Voluntary",
+   "greek": "Ἐκούσιον",
+   "lemma": "ἑκούσιος",
+   "concept": "voluntary",
+   "label": "The voluntary"
+  },
+  {
+   "page": 139,
+   "english": "Free",
+   "greek": "Ελευθερον",
+   "lemma": "ἐλεύθερος",
+   "concept": "freedom"
+  },
+  {
+   "page": 139,
+   "english": "Moderate",
+   "greek": "Μέτριον",
+   "lemma": "μέτριος",
+   "concept": "measure",
+   "label": "The measured (metrion)"
+  },
+  {
+   "page": 139,
+   "english": "Moderation",
+   "greek": "Μέτρον",
+   "lemma": "μέτρον",
+   "concept": "measure"
+  },
+  {
+   "page": 139,
+   "english": "Prize",
+   "greek": "ἅθλον",
+   "lemma": "ἆθλον",
+   "concept": "prize",
+   "label": "Prize"
+  },
+  {
+   "page": 139,
+   "english": "Immortality",
+   "greek": "θανασία",
+   "lemma": "ἀθανασία",
+   "concept": "immortality",
+   "label": "Immortality"
+  },
+  {
+   "page": 139,
+   "english": "A holy thing",
+   "greek": "Ὅσιον",
+   "lemma": "ὅσιος",
+   "concept": "holy",
+   "label": "The holy (hosion)"
+  },
+  {
+   "page": 139,
+   "english": "Festival",
+   "greek": "Ἑορτὴ",
+   "lemma": "ἑορτή",
+   "concept": "festival",
+   "label": "Festival"
+  },
+  {
+   "page": 139,
+   "english": "Man",
+   "greek": "ἄνθρωπος ξῶον",
+   "lemma": "ἄνθρωπος",
+   "concept": "human-being",
+   "label": "Human being"
+  },
+  {
+   "page": 139,
+   "english": "Sacrifice",
+   "greek": "Θυσία",
+   "lemma": "θυσία",
+   "concept": "sacrifice",
+   "label": "Sacrifice"
+  },
+  {
+   "page": 139,
+   "english": "Prayer",
+   "greek": "Εὐχὴ",
+   "lemma": "εὐχή",
+   "concept": "prayer",
+   "label": "Prayer"
+  },
+  {
+   "page": 139,
+   "english": "King",
+   "greek": "Βασιλεὺς",
+   "lemma": "βασιλεύς",
+   "concept": "king",
+   "label": "King"
+  },
+  {
+   "page": 140,
+   "english": "Government",
+   "greek": "Ζρχὴ",
+   "lemma": "ἀρχή",
+   "concept": "rule",
+   "label": "Rule (archē)"
+  },
+  {
+   "page": 140,
+   "english": "Licence",
+   "greek": "Ἐξουσία",
+   "lemma": "ἐξουσία",
+   "concept": "authority",
+   "label": "Authority"
+  },
+  {
+   "page": 140,
+   "english": "Law-giver",
+   "greek": "Νομοθέτης",
+   "lemma": "νομοθέτης",
+   "concept": "lawgiver",
+   "label": "Lawgiver"
+  },
+  {
+   "page": 140,
+   "english": "Law",
+   "greek": "Νόμος",
+   "lemma": "νόμος",
+   "concept": "law",
+   "label": "Law (nomos)"
+  },
+  {
+   "page": 140,
+   "english": "Hypothesis",
+   "greek": "Ὑπόθεσις",
+   "lemma": "ὑπόθεσις",
+   "concept": "hypothesis",
+   "label": "Hypothesis"
+  },
+  {
+   "page": 140,
+   "english": "A vote",
+   "greek": "Ψήφισμα",
+   "lemma": "ψήφισμα",
+   "concept": "decree",
+   "label": "Decree"
+  },
+  {
+   "page": 140,
+   "english": "Statesman",
+   "greek": "Πολιτικὸς",
+   "lemma": "πολιτικός",
+   "concept": "statesmanship"
+  },
+  {
+   "page": 140,
+   "english": "A state",
+   "greek": "Πόλις",
+   "lemma": "πόλις",
+   "concept": "city",
+   "label": "City (polis)"
+  },
+  {
+   "page": 140,
+   "english": "The excellence of a state",
+   "greek": "Πόλεως ἀρετὴ",
+   "lemma": "πόλις",
+   "concept": "city"
+  },
+  {
+   "page": 140,
+   "english": "The science of war",
+   "greek": "Πολεμικὴ",
+   "lemma": "πολεμικός",
+   "concept": "art-of-war",
+   "label": "The art of war"
+  },
+  {
+   "page": 140,
+   "english": "Alliance",
+   "greek": "Συμμαχία",
+   "lemma": "συμμαχία",
+   "concept": "alliance",
+   "label": "Alliance"
+  },
+  {
+   "page": 140,
+   "english": "Safety",
+   "greek": "Σωτηρία",
+   "lemma": "σωτηρία",
+   "concept": "safety",
+   "label": "Safety (sōtēria)"
+  },
+  {
+   "page": 140,
+   "english": "Tyrant",
+   "greek": "Τύραννος",
+   "lemma": "τύραννος",
+   "concept": "tyrant",
+   "label": "Tyrant"
+  },
+  {
+   "page": 140,
+   "english": "Sophist",
+   "greek": "Σοφιστὴς",
+   "lemma": "σοφιστής",
+   "concept": "sophist",
+   "label": "Sophist"
+  },
+  {
+   "page": 140,
+   "english": "Wealth",
+   "greek": "Πλοῦτος",
+   "lemma": "πλοῦτος",
+   "concept": "wealth",
+   "label": "Wealth"
+  },
+  {
+   "page": 140,
+   "english": "Deposit",
+   "greek": "Παρακαταθήκη",
+   "lemma": "παρακαταθήκη",
+   "concept": "deposit",
+   "label": "Deposit"
+  },
+  {
+   "page": 140,
+   "english": "Purgation",
+   "greek": "Κάθαρσις",
+   "lemma": "κάθαρσις",
+   "concept": "purification",
+   "label": "Purification (katharsis)"
+  },
+  {
+   "page": 141,
+   "english": "To conquer",
+   "greek": "Νικᾷν",
+   "lemma": "νικάω",
+   "concept": "victory"
+  },
+  {
+   "page": 141,
+   "english": "A good man",
+   "greek": "γαθὸς ἄνθρωπος",
+   "lemma": "ἀγαθός",
+   "concept": "good-man",
+   "label": "The good man"
+  },
+  {
+   "page": 141,
+   "english": "Conscience",
+   "greek": "Σύννοια",
+   "lemma": "σύννοια",
+   "concept": "synnoia",
+   "label": "Brooding (synnoia)"
+  },
+  {
+   "page": 141,
+   "english": "Indocility",
+   "greek": "υσμάθεια",
+   "lemma": "δυσμάθεια",
+   "concept": "slowness-to-learn",
+   "label": "Slowness to learn"
+  },
+  {
+   "page": 141,
+   "english": "Lordship",
+   "greek": "εσποτεία",
+   "lemma": "δεσποτεία",
+   "concept": "mastery",
+   "label": "Mastery (despoteia)"
+  },
+  {
+   "page": 141,
+   "english": "Dislike of wisdom",
+   "greek": "φιλοσοφία ἕξις",
+   "lemma": null,
+   "concept": "misology",
+   "label": "Hatred of philosophy"
+  },
+  {
+   "page": 141,
+   "english": "Fear",
+   "greek": "Φόβος",
+   "lemma": "φόβος",
+   "concept": "fear",
+   "label": "Fear"
+  },
+  {
+   "page": 141,
+   "english": "Passion",
+   "greek": "Θυμὸς",
+   "lemma": "θυμός",
+   "concept": "thymos",
+   "label": "Spirit (thymos)"
+  },
+  {
+   "page": 141,
+   "english": "Consternation",
+   "greek": "Ἔκπληξις",
+   "lemma": "ἔκπληξις",
+   "concept": "consternation",
+   "label": "Consternation"
+  },
+  {
+   "page": 142,
+   "english": "Flattery",
+   "greek": "Κολακεία",
+   "lemma": "κολακεία",
+   "concept": "flattery",
+   "label": "Flattery"
+  },
+  {
+   "page": 142,
+   "english": "Anger",
+   "greek": "Ὀργὴ",
+   "lemma": "ὀργή",
+   "concept": "anger",
+   "label": "Anger (orgē)"
+  },
+  {
+   "page": 142,
+   "english": "Insult",
+   "greek": "Ὕθβρις",
+   "lemma": "ὕβρις",
+   "concept": "hybris",
+   "label": "Insolence (hybris)"
+  },
+  {
+   "page": 142,
+   "english": "Intemperance",
+   "greek": "ἀκρασία ἕξις",
+   "lemma": null,
+   "concept": "akrasia",
+   "label": "Lack of self-control (akrasia)"
+  },
+  {
+   "page": 142,
+   "english": "Hesitation",
+   "greek": "Ὄκνος",
+   "lemma": "ὄκνος",
+   "concept": "hesitation",
+   "label": "Hesitation"
+  },
+  {
+   "page": 142,
+   "english": "Cowardice",
+   "greek": "δειλία ἀντιληπτικὴ",
+   "lemma": "δειλία",
+   "concept": "cowardice",
+   "label": "Cowardice"
+  },
+  {
+   "page": 142,
+   "english": "Calumny",
+   "greek": "Ζιαβολὴ",
+   "lemma": "διαβολή",
+   "concept": "slander",
+   "label": "Slander"
+  },
+  {
+   "page": 142,
+   "english": "Opportunity",
+   "greek": "Καιρὸς ἐν ᾧ",
+   "lemma": "καιρός",
+   "concept": "kairos"
+  },
+  {
+   "page": 142,
+   "english": "Injustice",
+   "greek": "δικία ἕξις",
+   "lemma": "ἀδικία",
+   "concept": "injustice",
+   "label": "Injustice"
+  },
+  {
+   "page": 142,
+   "english": "Want",
+   "greek": "Ἔνδεια",
+   "lemma": "ἔνδεια",
+   "concept": "want",
+   "label": "Want (endeia)"
+  },
+  {
+   "page": 143,
+   "english": "Shame",
+   "greek": "Αἰσχύνη",
+   "lemma": "αἰσχύνη",
+   "concept": "shame",
+   "label": "Shame"
+  },
+  {
+   "page": 143,
+   "english": "Vain-gloriousness",
+   "greek": "λαξονεία",
+   "lemma": "ἀλαζονεία",
+   "concept": "boastfulness",
+   "label": "Boastfulness"
+  },
+  {
+   "page": 143,
+   "english": "Sinning",
+   "greek": "ἁμαρτία πρᾶξις",
+   "lemma": "ἁμαρτία",
+   "concept": "error",
+   "label": "Error (hamartia)"
+  },
+  {
+   "page": 143,
+   "english": "Envy",
+   "greek": "Φθόνος",
+   "lemma": "φθόνος",
+   "concept": "envy",
+   "label": "Envy"
+  },
+  {
+   "page": 143,
+   "english": "Shamelessness",
+   "greek": "ἀναισχυντία",
+   "lemma": "ἀναισχυντία",
+   "concept": "shamelessness",
+   "label": "Shamelessness"
+  },
+  {
+   "page": 143,
+   "english": "Rashness",
+   "greek": "Θρασύτης",
+   "lemma": "θρασύτης",
+   "concept": "rashness",
+   "label": "Rashness"
+  },
+  {
+   "page": 143,
+   "english": "A love of honour",
+   "greek": "Φιλοτιμία",
+   "lemma": "φιλοτιμία",
+   "concept": "love-of-honour",
+   "label": "Love of honour"
+  },
+  {
+   "page": 143,
+   "english": "Natural depravity",
+   "greek": "Κακοφυΐα",
+   "lemma": null,
+   "concept": "natural-badness",
+   "label": "Natural badness"
+  },
+  {
+   "page": 143,
+   "english": "Hope",
+   "greek": "Ἐλπὶς",
+   "lemma": "ἐλπίς",
+   "concept": "hope",
+   "label": "Hope"
+  },
+  {
+   "page": 143,
+   "english": "Madness",
+   "greek": "Μανία",
+   "lemma": "μανία",
+   "concept": "madness",
+   "label": "Madness (mania)"
+  },
+  {
+   "page": 143,
+   "english": "Talkativeness",
+   "greek": "αλιὰ ἀκρασία",
+   "lemma": null,
+   "concept": "talkativeness",
+   "label": "Talkativeness"
+  },
+  {
+   "page": 143,
+   "english": "Contrariety",
+   "greek": "Ἐναντιότης",
+   "lemma": "ἐναντιότης",
+   "concept": "contrariety",
+   "label": "Contrariety"
+  },
+  {
+   "page": 143,
+   "english": "Involuntary",
+   "greek": "κούσιον τὸ παρὰ",
+   "lemma": "ἀκούσιος",
+   "concept": "voluntary"
+  },
+  {
+   "page": 143,
+   "english": "Instruction",
+   "greek": "Παιδεία",
+   "lemma": "παιδεία",
+   "concept": "education",
+   "label": "Education (paideia)"
+  },
+  {
+   "page": 143,
+   "english": "Instructing",
+   "greek": "Παίδευσις",
+   "lemma": "παίδευσις",
+   "concept": "education"
+  },
+  {
+   "page": 143,
+   "english": "Legislation",
+   "greek": "Νομοθετικὴ",
+   "lemma": "νομοθετικός",
+   "concept": "lawgiver"
+  },
+  {
+   "page": 144,
+   "english": "Admonition",
+   "greek": "Νουθέτησις",
+   "lemma": "νουθέτησις",
+   "concept": "admonition",
+   "label": "Admonition"
+  },
+  {
+   "page": 144,
+   "english": "Assistance",
+   "greek": "Βοήθεια",
+   "lemma": "βοήθεια",
+   "concept": "help",
+   "label": "Help"
+  },
+  {
+   "page": 144,
+   "english": "Punishment",
+   "greek": "Κόλασις",
+   "lemma": "κόλασις",
+   "concept": "punishment",
+   "label": "Punishment (kolasis)"
+  },
+  {
+   "page": 144,
+   "english": "Power",
+   "greek": "Ζύναμις ὑπεροχὴ",
+   "lemma": "δύναμις",
+   "concept": "power"
+  },
+  {
+   "page": 144,
+   "english": "To preserve",
+   "greek": "Σώξειν",
+   "lemma": "σῴζω",
+   "concept": "safety"
+  }
+ ],
+ "taylor_terms": [
+  {
+   "segment": "taylor1804.platonic-terms.text.p0002",
+   "concept": "alliation",
+   "label": "Alliation"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0003",
+   "concept": "altermotive",
+   "label": "The altermotive"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0004",
+   "concept": "ascent"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0005",
+   "concept": "ascent"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0006",
+   "concept": "thymos"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0007",
+   "concept": "return"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0008",
+   "concept": "composite",
+   "label": "The composite",
+   "lemmas": [
+    "σύνθετος"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0009",
+   "concept": "demiurge"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0010",
+   "concept": "demiurge"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0011",
+   "concept": "desire",
+   "label": "Desire (epithymia)",
+   "lemmas": [
+    "ἐπιθυμία"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0012",
+   "concept": "dianoia",
+   "label": "Discursive thought (dianoia)",
+   "lemmas": [
+    "διάνοια"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0013",
+   "concept": "dianoia"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0014",
+   "concept": "the-divine",
+   "label": "The divine",
+   "lemmas": [
+    "θεῖος"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0015",
+   "concept": "opinion"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0016",
+   "concept": "opinion"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0017",
+   "concept": "inspiration",
+   "label": "Divine inspiration",
+   "lemmas": [
+    "ἔνθεος"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0018",
+   "concept": "desire"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0019",
+   "concept": "eternal",
+   "lemmas": [
+    "αἰώνιος"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0020",
+   "concept": "becoming"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0021",
+   "concept": "becoming"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0022",
+   "concept": "becoming"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0023",
+   "concept": "becoming"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0024",
+   "concept": "guest",
+   "label": "Guest (xenos)",
+   "lemmas": [
+    "ξένος"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0025",
+   "concept": "hyparxis",
+   "label": "Hyparxis (summit of essence)",
+   "lemmas": [
+    "ὕπαρξις"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0026",
+   "concept": "image-and-original"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0027",
+   "concept": "idiom",
+   "label": "Idiom (characteristic peculiarity)",
+   "lemmas": [
+    "ἰδίωμα"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0028",
+   "concept": "image-and-original"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0029",
+   "concept": "immortality",
+   "lemmas": [
+    "ἀθάνατος"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0030",
+   "concept": "imparticipable",
+   "label": "The imparticipable",
+   "lemmas": [
+    "ἀμέθεκτος"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0031",
+   "concept": "imparticipable"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0032",
+   "concept": "intellect"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0033",
+   "concept": "intellectual-projection",
+   "label": "Intellectual projection",
+   "lemmas": [
+    "ἐπιβολή"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0034",
+   "concept": "intellectual-projection"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0035",
+   "concept": "intelligible-world"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0036",
+   "concept": "intelligible-world"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0037",
+   "concept": "logos"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0039",
+   "concept": "monad",
+   "label": "The monad",
+   "lemmas": [
+    "μονάς"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0040",
+   "concept": "shape",
+   "label": "Shape (morphē)",
+   "lemmas": [
+    "μορφή"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0041",
+   "concept": "power"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0042",
+   "concept": "cause",
+   "label": "Cause (aitia) and its kinds",
+   "lemmas": [
+    "αἰτία"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0043",
+   "concept": "opinion"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0044",
+   "concept": "appetite",
+   "label": "Appetite (orexis)",
+   "lemmas": [
+    "ὄρεξις"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0045",
+   "concept": "image-and-original"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0046",
+   "concept": "rest",
+   "label": "Rest and permanency (stasis)",
+   "lemmas": [
+    "στάσις"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0047",
+   "concept": "eternal"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0048",
+   "concept": "imagination",
+   "label": "Imagination (phantasia)",
+   "lemmas": [
+    "φαντασία"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0049",
+   "concept": "philopolemic",
+   "label": "Philopolemic (Minerva)"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0050",
+   "concept": "plenitude",
+   "label": "Plenitude (plērōma)",
+   "lemmas": [
+    "πλήρωμα"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0051",
+   "concept": "statesmanship"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0052",
+   "concept": "phronesis"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0053",
+   "concept": "phronesis"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0055",
+   "concept": "soul"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0056",
+   "concept": "soul"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0057",
+   "concept": "logos"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0058",
+   "concept": "logos"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0059",
+   "concept": "knowledge"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0060",
+   "concept": "telestic",
+   "label": "The telestic art"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0061",
+   "concept": "telestic"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0062",
+   "concept": "theurgy",
+   "label": "Theurgy",
+   "lemmas": [
+    "θεουργία"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0063",
+   "concept": "truth"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0064",
+   "concept": "truth"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0067",
+   "concept": "one-and-many",
+   "lemmas": [
+    "ἑνιαῖος"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0068",
+   "concept": "one-and-many"
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0069",
+   "concept": "one-and-many",
+   "lemmas": [
+    "ἑνοειδής"
+   ]
+  },
+  {
+   "segment": "taylor1804.platonic-terms.text.p0070",
+   "concept": "wholeness",
+   "label": "Wholeness",
+   "lemmas": [
+    "ὁλότης"
+   ]
+  }
+ ],
+ "later": [
+  {
+   "concept": "emanation",
+   "source": "plotinus-taylor-1817",
+   "quote": "We must conceive a surrounding splendor, proceeding indeed from this cause, but from it in a permanent state, like a light from the sun shining",
+   "says": "Plotinus: what proceeds from the first is like light shining from the sun, the cause abiding unmoved."
+  },
+  {
+   "concept": "soul",
+   "source": "plotinus-taylor-1817",
+   "quote": "yet it is a certain image of intellect",
+   "says": "Plotinus: soul is an image of intellect, and must look to it."
+  },
+  {
+   "concept": "intellect",
+   "source": "plotinus-taylor-1817",
+   "quote": "it is necessary that intellect should look to the highest God, in order that it may be intellect",
+   "says": "Plotinus: intellect is intellect by looking to the first God."
+  },
+  {
+   "concept": "ascent",
+   "source": "plotinus-taylor-1817",
+   "quote": "a flight of the alone to the alone",
+   "says": "Plotinus, the closing words of the Enneads: the life of the gods and of divine men."
+  },
+  {
+   "concept": "virtue",
+   "source": "plotinus-taylor-1817",
+   "quote": "temperance is an inward conversion to intellect",
+   "says": "Plotinus, on the virtues: temperance as the soul's turning inward to intellect."
+  },
+  {
+   "concept": "return",
+   "source": "plotinus-taylor-1817",
+   "quote": "This, therefore, is the virtue of the soul, or rather that which happens to it from conversion",
+   "says": "Plotinus: virtue is what comes to the purified soul from its conversion."
+  },
+  {
+   "concept": "evil-as-privation",
+   "source": "plotinus-taylor-1817",
+   "quote": "And if it is so evil, as to be evil itself, it will not participate of good",
+   "says": "Plotinus on matter: what is evil itself has no share in good."
+  },
+  {
+   "concept": "image-and-original",
+   "source": "plotinus-taylor-1817",
+   "quote": "there should be an image of the one , and which possesses unity in continuity of succession",
+   "says": "Plotinus on time: an image of the one, a unity spread out in succession."
+  },
+  {
+   "concept": "the-beautiful",
+   "source": "plotinus-taylor-1817",
+   "quote": "the beautiful itself, and not a certain beauty only",
+   "says": "Plotinus: the lover is to be led to the beautiful itself."
+  },
+  {
+   "concept": "the-good",
+   "source": "plotinus-taylor-1817",
+   "quote": "who has neither any form nor idea, but is established above intellect and every intelligible",
+   "says": "Porphyry's Life of Plotinus, in Taylor's version: the first God, beyond intellect, which Plotinus reached by the paths of the Symposium."
+  },
+  {
+   "concept": "the-good",
+   "source": "proclus-theology-taylor-1816",
+   "quote": "for the one is the same with the good",
+   "says": "Proclus, Theology of Plato: the one is the same as the good."
+  },
+  {
+   "concept": "intellect",
+   "source": "proclus-theology-taylor-1816",
+   "quote": "is impartible and uniform, but at the",
+   "says": "Proclus, Theology of Plato: every intellect is impartible and uniform (yet also manifold)."
+  },
+  {
+   "concept": "one-and-many",
+   "source": "iamblichus-taylor-1821",
+   "quote": "It denominates this principle however, the one and the good; by the former of these names indicating its transcendent simplicity",
+   "says": "Taylor's introduction to Iamblichus: the first principle is called the one, for its simplicity, and the good."
+  },
+  {
+   "concept": "ignorance",
+   "source": "iamblichus-taylor-1821",
+   "quote": "the ignorance of things honourable and beautiful will be darkness, but the knowledge of them will be light",
+   "says": "Porphyry's letter to Anebo, which Iamblichus answers: ignorance is darkness, knowledge light."
+  },
+  {
+   "concept": "theurgy",
+   "source": "iamblichus-taylor-1821",
+   "quote": "the sacred operations pertaining to which called theurgy are here developed",
+   "says": "Taylor's preface: the Mysteries sets out theurgy, the sacred operations of the ancient theology."
+  },
+  {
+   "concept": "soul",
+   "source": "iamblichus-taylor-1821",
+   "quote": "thus also the human soul is conjoined to them by knowledge",
+   "says": "Iamblichus: the human soul is joined to the gods by knowledge."
+  }
+ ],
+ "books": {
+  "plotinus-taylor-1817": {
+   "cite": "Plotinus, Select Works, tr. Thomas Taylor (London, 1817)",
+   "files": [
+    "sources/taylor-plotinus-1817/b29318178_djvu.txt"
+   ]
+  },
+  "proclus-theology-taylor-1816": {
+   "cite": "Proclus, The Six Books on the Theology of Plato, tr. Thomas Taylor (London, 1816)",
+   "files": [
+    "sources/taylor-proclus-theology-1816/taylor-theology-of-plato-en-t.-1-1816_djvu.txt",
+    "sources/taylor-proclus-theology-1816/taylor-theology-of-plato-en-t.-2-1816_djvu.txt"
+   ]
+  },
+  "iamblichus-taylor-1821": {
+   "cite": "Iamblichus on the Mysteries, tr. Thomas Taylor (Chiswick, 1821)",
+   "files": [
+    "sources/taylor-iamblichus-1821/b29338888_0002_djvu.txt"
+   ]
+  }
+ }
+}

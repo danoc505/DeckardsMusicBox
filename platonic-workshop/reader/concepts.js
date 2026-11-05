@@ -8,8 +8,11 @@ const CONCEPTS = { list: null, one: null };
 const LAYER = {
   "plato": ["Plato", "Plato names it and argues about it in the dialogues."],
   "plato-later": ["Plato, systematised later", "Plato names it; its place in an ordered system of principles is the later Platonists'."],
-  "later": ["Later Platonist", "A doctrine of the later Platonists. Plato does not name it: the passages are those the later readers read it in, and say who reads them so."],
+  "later": ["Later Platonist", "A doctrine or term of the later Platonists. Plato does not name it: the passages are those the later readers read it in, and say who reads them so."],
+  "academy": ["Plato's school", "Defined in the Definitions, the collection from Plato's school printed with his works; not a dialogue."],
 };
+const ORIGIN = { "index": "written for the index", "Definitions": "the Definitions", "Taylor's terms": "Taylor's Platonic terms", "later Platonists": "the later Platonists" };
+const CFILTER = { q: "", layer: "" };
 const layerBadge = (l) => `<span class="layer layer-${esc(l)}" title="${esc(LAYER[l][1])}">${esc(LAYER[l][0])}</span>`;
 
 // One quotation: Burnet's Greek, an ancient text, Taylor's Platonic terms, or a note in the library.
@@ -19,7 +22,7 @@ function conceptEv(e) {
     const where = e.note_id ? `<button type="button" class="link-btn" data-note-full="${e.note_id}" title="Read the whole note">${esc(e.cited_as)}</button>` : esc(e.cited_as);
     return `<blockquote class="ev" lang="${lang}">“${esc(e.quote)}” <span class="cite">${where} ${evFound(e)}</span></blockquote>`;
   }
-  if (e.source_text === "taylor-terms") {
+  if (e.source_text === "taylor-terms" || /-taylor-18/.test(e.source_text)) {
     return `<blockquote class="ev" lang="en">“${esc(e.quote)}” <span class="cite">${esc(e.cited_as)} ${evFound(e)}</span></blockquote>`;
   }
   return evidenceHtml(e);
@@ -48,20 +51,34 @@ async function showConcepts(id) {
 function renderConceptIndex() {
   const { concepts, stats } = CONCEPTS.list;
   const label = new Map(concepts.map((c) => [c.id, c.label]));
+  const { words, categories } = CONCEPTS.list;
+  const from = (o) => o.map((x) => ORIGIN[x] || x).join(", ");
   let h = `<div class="search concepts">
     <h2>Concepts across the dialogues</h2>
-    <p class="prov">Twenty-five Platonic concepts, each gathered from the places it is argued, the ancient definitions, the later Platonists' readings, and the other concepts it stands in relation to.
+    <p class="prov">${concepts.length} concepts: the foundational ones written for the index, each gathered from the places it is argued, and every term the sources themselves define,
+      the Definitions of Plato's school (in Hermann's Greek and Burges' English) and Taylor's Platonic terms, with the readings of the later Platonists (Alcinous, Plotinus, Proclus, Iamblichus, Taylor).
       Every link rests on quoted words, shown with where they are; nothing is linked because two places share a word.
       ${stats ? `${(stats["quotations found"] || 0).toLocaleString()} of ${(stats.quotations || 0).toLocaleString()} quotations were found in the texts they are said to be in (<code>reports/concepts.md</code>).` : ""}</p>
     <p class="meta">${Object.entries(LAYER).map(([k, [, about]]) => `${layerBadge(k)} ${esc(about)}`).join("<br>")}</p>
-    <table class="counts concept-table"><thead><tr><th>Concept</th><th>Greek</th><th>Layer</th><th>Indexed under</th><th class="num">Passages</th><th>In</th><th>Related</th></tr></thead><tbody>`;
+    <form class="concept-filter" onsubmit="return false"><label>Find <input type="search" id="concept-q" value="${esc(CFILTER.q)}" placeholder="name, Greek or English"></label>
+      <label>Layer <select id="concept-layer"><option value="">all</option>${Object.entries(LAYER).map(([k, [n]]) => `<option value="${k}" ${CFILTER.layer === k ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></label></form>
+    <table class="counts concept-table"><thead><tr><th>Concept</th><th>Greek</th><th>Layer</th><th>Indexed under</th><th class="num">Definitions</th><th class="num">Passages</th><th class="num">Later readings</th><th class="num">Related</th></tr></thead><tbody>`;
+  const q = CFILTER.q.toLowerCase();
+  const plainGk = (x) => (x || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   for (const c of concepts) {
+    if (CFILTER.layer && c.layer !== CFILTER.layer) continue;
+    if (q && !(c.label.toLowerCase().includes(q) || plainGk(c.greek).includes(plainGk(q)) || c.terms.some((t) => plainGk(t.lemma).includes(plainGk(q))))) continue;
     h += `<tr><td><a href="#concepts/${esc(c.id)}"><b>${esc(c.label)}</b></a></td><td lang="grc">${esc(c.greek)}</td><td>${layerBadge(c.layer)}</td>
       <td lang="grc">${c.terms.map((t) => esc(t.lemma)).join(", ") || `<span class="meta">no word of Plato's</span>`}</td>
-      <td class="num">${c.passages}</td><td class="meta">${c.works.map((w) => esc(w.title)).join(", ")}</td>
-      <td class="meta">${c.related.map((r) => `${esc(r.kind)} <a href="#concepts/${esc(r.other_id)}">${esc(label.get(r.other_id))}</a>`).join("; ")}</td></tr>`;
+      <td class="num">${c.definitions}</td><td class="num" title="${esc(c.works.map((w) => w.title).join(", "))}">${c.passages}</td><td class="num">${c.later}</td>
+      <td class="num" title="${esc(c.related.map((r) => r.kind + " " + (label.get(r.other_id) || r.other_id)).join("; "))}">${c.related.length}</td></tr>`;
   }
-  $("#main").innerHTML = h + `</tbody></table></div>`;
+  h += `</tbody></table>
+    <section><h3>Words across the translators</h3><p class="prov">${esc("How each translator renders a word, passage by passage: every place the word is tagged, with the Greek and each English translation of that section. The English is not aligned word by word, so the whole passage is shown.")}
+      The six the build prompt names come first.</p>
+      <p>${words.map((w) => `<a href="#renderings/${encodeURIComponent(w.lemma)}" lang="grc" class="${w.named ? "named-word" : ""}">${esc(w.lemma)}</a> <span class="meta">${(w.n || 0).toLocaleString()}</span>`).join(" · ")}</p></section>
+    <section><h3>Kinds of relation</h3><table class="counts"><tbody>${categories.map((k) => `<tr><td><b>${esc(k.name)}</b></td><td class="meta">${esc(k.about)}</td><td class="num">${k.n}</td></tr>`).join("")}</tbody></table></section></div>`;
+  $("#main").innerHTML = h;
 }
 
 function termHtml(t) {
@@ -71,6 +88,7 @@ function termHtml(t) {
   return `<div class="claim"><p><b lang="grc">${esc(t.lemma)}</b> <span class="meta">${t.occurrences.toLocaleString()} words in ${t.works} works${t.broad ? "; mostly the ordinary word" : ""}</span>
       <a href="#search?q=${encodeURIComponent(t.lemma)}&by=lemma">Every occurrence</a></p>
     ${t.note ? `<p class="meta">${esc(t.note)}</p>` : ""}
+    <p><a href="#renderings/${encodeURIComponent(t.lemma)}">How the translators render it, passage by passage</a></p>
     <details><summary class="meta">Where the word occurs, by dialogue</summary><table class="counts dist"><tbody>${rows}</tbody></table></details></div>`;
 }
 
@@ -91,16 +109,18 @@ function renderConcept() {
   let h = `<div class="search concepts concept">
     <p class="meta"><a href="#concepts">‹ All concepts</a></p>
     <h2>${esc(c.label)} <span lang="grc" class="greek-name">${esc(c.greek)}</span></h2>
-    <p>${layerBadge(c.layer)} <span class="meta">${esc(LAYER[c.layer][1])}</span></p>
+    <p>${layerBadge(c.layer)} <span class="meta">${esc(LAYER[c.layer][1])} Gathered from ${esc(c.origin.map((x) => ORIGIN[x] || x).join(", "))}.</span></p>
     <p class="prov"><b>The index's note</b> (the Workshop's own words, saying what is gathered here; not a definition): ${esc(c.note)}</p>`;
   h += `<section><h3>Indexed under</h3><p class="meta">Lexical evidence: the words, and where GLAUx tags them. A word in two places does not link the places.</p>
-    ${c.terms.length ? c.terms.map(termHtml).join("") : `<p class="none-msg">No word of Plato's: this is a later doctrine, and its later word (<span lang="grc">${esc(c.greek)}</span>) is not Plato's.</p>`}</section>`;
+    ${c.terms.length ? c.terms.map(termHtml).join("") : ""}
+    ${c.untagged.length ? `<p class="meta">Not tagged anywhere in Plato (a later word, or one GLAUx files otherwise): <span lang="grc">${c.untagged.map(esc).join(", ")}</span>.</p>`
+      : !c.terms.length ? `<p class="none-msg">No word of Plato's${c.greek ? ` (<span lang="grc">${esc(c.greek)}</span> is the later word)` : ""}.</p>` : ""}</section>`;
   if (c.definitions.length) h += `<section><h3>Definitions</h3>${c.definitions.map(citeHtml).join("")}</section>`;
-  h += `<section><h3>${c.layer === "later" ? "The passages it is read in" : "In Plato"}</h3><ul class="concept-passages">${c.passages.map((p) => passageHtml(p, c)).join("")}</ul></section>`;
+  if (c.passages.length) h += `<section><h3>${c.layer === "later" ? "The passages it is read in" : "In Plato"}</h3><ul class="concept-passages">${c.passages.map((p) => passageHtml(p, c)).join("")}</ul></section>`;
   if (c.later.length) h += `<section><h3>In the later Platonists</h3>${c.later.map(citeHtml).join("")}</section>`;
   if (c.related.length || c.related_from.length) {
-    h += `<section><h3>Related concepts</h3>${c.related.map((r) => `<div class="claim"><p><b>${esc(r.kind)}</b> <a href="#concepts/${esc(r.other_id)}">${esc(r.other_label)}</a>: ${esc(r.why)}</p>${r.evidence.map(conceptEv).join("")}</div>`).join("")}
-      ${c.related_from.length ? `<p class="meta">Stated from the other side (the words are on their pages): ${c.related_from.map((r) => `<a href="#concepts/${esc(r.concept_id)}">${esc(r.label)}</a> ${esc(r.kind)} this`).join("; ")}.</p>` : ""}</section>`;
+    h += `<section><h3>Related concepts</h3>${c.related.map((r) => `<div class="claim"><p><span class="rel-cat">${esc(r.category)}</span> <b>${esc(r.kind)}</b> <a href="#concepts/${esc(r.other_id)}">${esc(r.other_label)}</a>: ${esc(r.why)}</p>${r.evidence.map(conceptEv).join("")}</div>`).join("")}
+      ${c.related_from.length ? `<p class="meta">Stated from the other side (the words are on their pages): ${c.related_from.map((r) => `<a href="#concepts/${esc(r.concept_id)}">${esc(r.label)}</a> ${esc(r.kind)} this (${esc(r.category)})`).join("; ")}.</p>` : ""}</section>`;
   }
   $("#main").innerHTML = h + `</div>`;
 }
@@ -126,4 +146,47 @@ function renderTocConcepts(w, inside) {
 
 document.addEventListener("click", (ev) => {
   if (ev.target.closest("#concepts-btn")) location.hash = "concepts";
+});
+
+// How the translators render a word (#renderings/ψυχή, #renderings/ψυχή?work=tlg004).
+async function showRenderings(hash) {
+  state.view = "concepts";
+  setView("concepts-view");
+  const [lemma, qs] = hash.split("?");
+  const p = new URLSearchParams(qs || "");
+  const work = p.get("work") || "";
+  CONCEPTS.lemma = lemma;
+  const after = +(p.get("after") || 0);
+  $("#main").innerHTML = `<p class="loading">Gathering the translations…</p>`;
+  let r;
+  try { r = await api(`renderings/${encodeURIComponent(lemma)}?after=${after}&limit=10` + (work ? `&work=${work}` : "")); } catch (e) { $("#main").innerHTML = `<p class="error">${esc(e.message)}</p>`; return; }
+  document.title = `${lemma} in the translators · Platonic Workshop`;
+  const link = (o) => `#renderings/${encodeURIComponent(lemma)}?` + new URLSearchParams(Object.entries(o).filter(([, v]) => v)).toString();
+  const mark = (g, forms) => forms.reduce((acc, f) => acc.split(f).join(`\u0001${f}\u0002`), g);
+  let h = `<div class="search concepts renderings"><p class="meta"><a href="#concepts">‹ All concepts</a></p>
+    <h2>How the translators render <span lang="grc">${esc(lemma)}</span></h2>
+    <p class="prov">Every place GLAUx tags the word (${r.words.toLocaleString()} words in ${r.works} ${r.works === 1 ? "work" : "works"}), with the Greek section and each English translation of it.
+      Passage by passage: the English is not aligned to the Greek word by word, so read the whole passage to see how each translator renders the word. Where a translation's sections are computed, it says so.
+      ${r.concepts.length ? `In the concept index: ${r.concepts.map((c) => `<a href="#concepts/${esc(c.id)}">${esc(c.label)}</a>`).join(", ")}.` : ""}</p>
+    <form onsubmit="return false"><label>Dialogue <select id="rend-work">${[`<option value="">all</option>`, ...r.by_work.map((w) => `<option value="${esc(w.work_id)}" ${w.work_id === work ? "selected" : ""}>${esc(w.title)} (${w.n})</option>`)].join("")}</select></label></form>`;
+  for (const pl of r.places) {
+    const g = esc(mark(pl.greek, pl.forms)).replace(/\u0001/g, "<mark>").replace(/\u0002/g, "</mark>");
+    h += `<div class="claim rendering"><p><b>${esc(pl.title)} <a href="${esc(placeHash(pl.work_id, pl.ref))}">${esc(pl.ref)}</a></b> <span class="meta" lang="grc">${pl.forms.map(esc).join(", ")}</span></p>
+      <p lang="grc" class="rend-greek">${g}</p>
+      ${pl.english.length ? pl.english.map((e) => `<div class="rend-eng"><p class="meta"><b>${esc(e.translator || e.responsible || e.label)}</b>, ${esc(e.label)}${e.section_ref !== pl.ref || e.end_ref ? ` · passage ${esc(e.section_ref)}${e.end_ref ? "–" + esc(e.end_ref) : ""}` : ""}${e.align_method && e.align_method !== "printed" ? ` · <span title="How this translation's Stephanus sections were found">${esc(e.align_method)}</span>` : ""}</p><p lang="en">${esc(e.text)}</p></div>`).join("")
+        : `<p class="none-msg">No English translation of this section in the library.</p>`}</div>`;
+  }
+  h += `<p>${after ? `<a href="${esc(link({ work, after: Math.max(0, after - 10) }))}">‹ Earlier places</a>` : ""} ${r.next !== null ? `<a href="${esc(link({ work, after: r.next }))}">Later places ›</a>` : ""}</p></div>`;
+  $("#main").innerHTML = h;
+  if (!CONCEPTS.list) { try { CONCEPTS.list = await api("concepts"); } catch (e) { return; } }
+  renderConceptToc(null);
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener("input", (ev) => {
+  if (ev.target.id === "concept-q") { CFILTER.q = ev.target.value; const pos = ev.target.selectionStart; renderConceptIndex(); const i = $("#concept-q"); i.focus(); i.setSelectionRange(pos, pos); }
+});
+document.addEventListener("change", (ev) => {
+  if (ev.target.id === "concept-layer") { CFILTER.layer = ev.target.value; renderConceptIndex(); }
+  else if (ev.target.id === "rend-work") location.hash = `renderings/${encodeURIComponent(CONCEPTS.lemma)}` + (ev.target.value ? `?work=${ev.target.value}` : "");
 });

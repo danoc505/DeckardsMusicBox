@@ -675,6 +675,7 @@ function route(push) {
   document.body.classList.remove("discussing", "whole-view", "corpus-view", "concepts-view");
   // Milestone 10: #concepts, #concepts/the-good.
   if (raw === "concepts" || raw.startsWith("concepts/")) { showConcepts(decodeURIComponent(raw.slice(9)) || null); return; }
+  if (raw.startsWith("renderings/")) { showRenderings(decodeURIComponent(raw.slice(11))); return; }
   if (raw.startsWith("discussed")) { showDiscussedFromHash(raw); return; }
   if (raw === "corpus" || raw.startsWith("corpus?")) { showCorpusFromHash(raw); return; }
   const h = decodeURIComponent(raw);

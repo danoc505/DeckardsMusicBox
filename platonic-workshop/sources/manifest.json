@@ -265,6 +265,52 @@
       "licence": "Public domain",
       "provenance": "Internet Archive 'djvu.txt' OCR, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Unproofread Greek OCR. No public-domain English of the Prolegomena exists (Westerink's of 1962 is in copyright). Read into texts/ancient/ by tools/ancient.py (milestone 9; the Definitions, milestone 10). The scholia are read into texts/commentary/<dialogue>/scholia-hermann.json by tools/scholia.py (milestone 10).",
       "status": "local"
+    },
+    {
+      "id": "taylor-plotinus-1817",
+      "title": "Select Works of Plotinus, translated from the Greek by Thomas Taylor (London, 1817), OCR text",
+      "kind": "local",
+      "path": "sources/taylor-plotinus-1817",
+      "urls": [
+        "https://archive.org/details/b29318178"
+      ],
+      "layer": "later platonist",
+      "language": "eng",
+      "citation_scheme": "Page of the 1817 edition",
+      "licence": "Public domain",
+      "provenance": "Internet Archive 'djvu.txt' OCR, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256 of each file. Unproofread. Quoted in the concept index (milestone 10, sources/concepts/sources.json).",
+      "status": "local"
+    },
+    {
+      "id": "taylor-proclus-theology-1816",
+      "title": "The Six Books of Proclus on the Theology of Plato, translated from the Greek by Thomas Taylor, 2 vols (London, 1816), OCR text",
+      "kind": "local",
+      "path": "sources/taylor-proclus-theology-1816",
+      "urls": [
+        "https://archive.org/details/taylor-theology-of-plato-en-t.-1-1816",
+        "https://archive.org/details/taylor-theology-of-plato-en-t.-2-1816"
+      ],
+      "layer": "later platonist",
+      "language": "eng",
+      "citation_scheme": "Volume and page of the 1816 edition",
+      "licence": "Public domain",
+      "provenance": "Internet Archive 'djvu.txt' OCR, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256 of each file. Unproofread. Quoted in the concept index (milestone 10, sources/concepts/sources.json). The OCR is poor in places.",
+      "status": "local"
+    },
+    {
+      "id": "taylor-iamblichus-1821",
+      "title": "Iamblichus on the Mysteries of the Egyptians, Chaldeans, and Assyrians, translated from the Greek by Thomas Taylor (Chiswick, 1821), OCR text",
+      "kind": "local",
+      "path": "sources/taylor-iamblichus-1821",
+      "urls": [
+        "https://archive.org/details/b29338888_0002"
+      ],
+      "layer": "later platonist",
+      "language": "eng",
+      "citation_scheme": "Page of the 1821 edition",
+      "licence": "Public domain",
+      "provenance": "Internet Archive 'djvu.txt' OCR, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256 of each file. Unproofread. Quoted in the concept index (milestone 10, sources/concepts/sources.json).",
+      "status": "local"
     }
   ]
 }
