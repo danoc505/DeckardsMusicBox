@@ -1,0 +1,144 @@
+{
+ "https://plato.stanford.edu/entries/ancient-soul/": {
+  "checked": "2026-11-05T21:33:31+00:00",
+  "status": 200,
+  "sha256": "0085ac44e9aebb5c36940d922f8e5a864669b624dfbafe64c2217d460f620757",
+  "quotes": {
+   "in the Phaedo , to exemplify a conflict between soul and body; in the Republic , to exemplify a conflict between two parts or aspects of the soul, reason and spirit.": true
+  },
+  "authors": {
+   "Hendrik Lorenz": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plato-aesthetics/": {
+  "checked": "2026-11-05T21:33:31+00:00",
+  "status": 200,
+  "sha256": "89ce0f54132cec1dc6a96849a45c34f9c4d04ff9d51918ff56bed8b42bc0e018",
+  "quotes": {
+   "But the dialogues are far-ranging documents, and a reader discovers these core arguments among passages that argue to opposite effect, or deploying the vocabulary of mimêsis in contradictory ways.": true
+  },
+  "authors": {
+   "Nickolas Pappas": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plato-ethics-shorter/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "2ac4d2118ec57f0941c94d230787786decb3393be11812f402b47d2e5885f655",
+  "quotes": {
+   "In view of other dialogues, however, it is likely that Socrates is using hedonism to build a trap for Protagoras.": true,
+   "The conclusion of these personified laws—that one must obey the city in all things (51bc)—seems to conflict with a memorable text in the Apology , as Grote first pointed out; there Socrates promises to disobey the court if it should let him off on the condition that he give up his mission in Athens (29d).": true
+  },
+  "authors": {
+   "Paul Woodruff": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plato-ethics/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "951b2f0179b673b481e2ddec2ea8c8ffc33e0c2cd864d049a6982c0ebb31544a",
+  "quotes": {
+   "A lot of ink has been spilt over the following passage in Republic book VI, 509b": true
+  },
+  "authors": {
+   "Dorothea Frede": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plato-parmenides/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "6e1e96a31c26b39f19ce70e2a54b83a749ba9bb387523e429d8ebf68377b2516",
+  "quotes": {
+   "In the first part of the dialogue, Plato sets out reasons for thinking that, on either of these accounts of partaking, the theory of forms is internally inconsistent.": true
+  },
+  "authors": {
+   "Samuel Rickless": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plato-rhetoric/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "5662285354cb3dd6ae185622f337754b48362d88db0becbf1259ec7f885ab6a1",
+  "quotes": {
+   "The Ideas too are said to be made , even though that is entirely inconsistent with the doctrine of Ideas as eternal expressed earlier in the Republic itself (and in all the other Platonic dialogues).": true
+  },
+  "authors": {
+   "Charles L. Griswold": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plato-theaetetus/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "969cc6700f1130a990b64b31a454a08753da518499d2085b3cf3e3b20b672c14",
+  "quotes": {
+   "There are a significant number of other passages where something very like Theaetetus’ claim ( D3 ) that knowledge is “true belief with an account” is not only discussed, but actually defended": true
+  },
+  "authors": {
+   "Francesco Verde": true,
+   "Sophie-Grace Chappell": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plato-timaeus/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "7d72cc8246c6027355464bff68e9173168a8e48faf78e1887394c7d54f4b739b",
+  "quotes": {
+   "The question of how literally the creation story is to be interpreted remains an intriguing one that continues to interest (and divide) scholars to this day": true
+  },
+  "authors": {
+   "Barbara Sattler": true,
+   "Donald Zeyl": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plato/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "0239e463ade775946668160f08ae241d8d62f3cd1abb455969c0b969c583fb1a",
+  "quotes": {
+   "As noted above, the authenticity of Plato’s letters is a matter of great controversy; and in any case, the author of the seventh letter declares his opposition to the writing of philosophical books.": true,
+   "But it would be utterly implausible to suppose that these developmental questions need not be raised, on the grounds that Republic and Laws each has its own cast of characters, and that the two works therefore cannot come into contradiction with each other.": true,
+   "If preludes can educate a whole citizenry that is prepared to learn from them, then surely Plato thinks that other sorts of written texts—for example, his own dialogues—can also serve an educative function.": true,
+   "Plato’s writings, he implies in this passage from Phaedrus , will work best when conversational seeds have already been sown for the arguments they contain.": true
+  },
+  "authors": {
+   "Richard Kraut": true
+  }
+ },
+ "https://plato.stanford.edu/entries/plotinus/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "9241b42ad5355cb9b9c321d9bf4ea455ba1eb5b11ee52cb255879442b3afbbc6",
+  "quotes": {
+   "This view brought Plotinus into direct confrontation with the views of his contemporary Gnostics, who held that the sensible world is the work of a foolish or even malevolent creator (II 9.4.2–26)": true,
+   "We thus arrive at the identification of the absolute One as the logical origin of everything with the One described in the First Hypothesis of Plato’s Parmenides , and with the Form of the Good introduced in the sixth book of the Republic as what is “beyond being”.": true
+  },
+  "authors": {
+   "Paul Kalligas": true
+  }
+ },
+ "https://plato.stanford.edu/entries/proclus/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "d67268bf542a39140a22f61f46b707d58ac67e90fd362225f0c1f84d1ff4eccb",
+  "quotes": {
+   "What may seem to be contradictions between statements made in different dialogues, can be explained by different pedagogical contexts, some dialogues being rather maieutic than expository, some elenctic of the sophistic pseudo-science, some offering a dialectical training to young students.": true
+  },
+  "authors": {
+   "Carlos Steel": true,
+   "Christoph Helmig": true
+  }
+ },
+ "https://plato.stanford.edu/entries/socrates/": {
+  "checked": "2026-11-05T21:33:32+00:00",
+  "status": 200,
+  "sha256": "66c1adbed21e237788c9c3fcb5a81c7bbb30b910e3f5b118c78dda95804daf17",
+  "quotes": {
+   "For example, Socrates in the Gorgias opposes, while in the Protagoras he supports, hedonism": true,
+   "Inconsistencies among the dialogues seem to demand explanation, though not all philosophers have thought so (Shorey 1903).": true
+  },
+  "authors": {
+   "Debra Nails": true,
+   "S. Sara Monoson": true
+  }
+ }
+}

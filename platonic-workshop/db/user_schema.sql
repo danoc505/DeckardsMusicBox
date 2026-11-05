@@ -15,7 +15,7 @@
 --   * an upgrade of this schema copies the file to data/backups/ first and only
 --     adds columns (tools/mywork.py, migrate()).
 --
--- Schema version 4 (milestone 7) adds proofreading. Version 3 (milestone 5) added word_study. Version 2 (milestone 4) had
+-- Schema version 5 (milestone 12) adds reconciliation worksheets. Version 4 (milestone 7) added proofreading. Version 3 (milestone 5) added word_study. Version 2 (milestone 4) had
 -- the other tables as they are. Version 1 had them without the
 -- anchor-to-words, format, rev, label and deleted_at columns on translation;
 -- tools/mywork.py adds them in place.
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS word_study (
 -- Rows are only ever added.
 CREATE TABLE IF NOT EXISTS revision (
     id          INTEGER PRIMARY KEY,
-    table_name  TEXT NOT NULL,             -- translation | user_note | word_study
+    table_name  TEXT NOT NULL,             -- translation | user_note | word_study | reconciliation | user_method
     row_id      INTEGER NOT NULL,
     rev         INTEGER,                   -- 1, 2, 3 ... per row
     event       TEXT,                      -- create | edit | delete | restore
@@ -125,4 +125,40 @@ CREATE TABLE IF NOT EXISTS proofreading (
 );
 CREATE INDEX IF NOT EXISTS proofreading_key ON proofreading(note_key, id);
 
-INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '4');
+-- A reconciliation worksheet (milestone 12): your working-through of passages
+-- that seem to disagree, on one of the Workshop's recorded tensions or on any
+-- passages you choose. `body` is JSON: passages [{work, start_ref, end_ref}],
+-- methods [method id], and the texts contradiction, dictionary, commentary,
+-- interpretation, rendering (your reconciled translation), references, and
+-- status (working | proposal). Several worksheets on one tension are several
+-- readings, to be compared; none is "the" answer. Every version is kept in
+-- `revision`, like your other texts.
+CREATE TABLE IF NOT EXISTS reconciliation (
+    id          INTEGER PRIMARY KEY,
+    tension_id  TEXT,                      -- reconcile_tension.id in the library, or NULL for your own
+    title       TEXT NOT NULL,
+    format      TEXT NOT NULL DEFAULT 'markdown',
+    body        TEXT NOT NULL,             -- JSON, as above
+    rev         INTEGER NOT NULL DEFAULT 1,
+    created_at  TEXT NOT NULL,
+    updated_at  TEXT NOT NULL,
+    deleted_at  TEXT
+);
+
+-- Your own interpretive methods (milestone 12), beside the library's methods
+-- database (sources/reconcile/methods.json). `body` is JSON: plain (what the
+-- method is), citation (who uses or describes it, and where: required), and
+-- concepts [concept id] (the concepts it retrieves for, like the library's).
+-- A worksheet names one as 'mine:<id>'.
+CREATE TABLE IF NOT EXISTS user_method (
+    id          INTEGER PRIMARY KEY,
+    title       TEXT NOT NULL,
+    format      TEXT NOT NULL DEFAULT 'markdown',
+    body        TEXT NOT NULL,
+    rev         INTEGER NOT NULL DEFAULT 1,
+    created_at  TEXT NOT NULL,
+    updated_at  TEXT NOT NULL,
+    deleted_at  TEXT
+);
+
+INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '5');

@@ -55,6 +55,8 @@ import commentary_db  # noqa: E402
 import citations  # noqa: E402
 import structure  # noqa: E402
 import concepts  # noqa: E402
+import find  # noqa: E402
+import reconcile  # noqa: E402
 import dossiers  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -830,6 +832,18 @@ def build(works, db_path=None, progress=False):
         print("  dossiers: " + ", ".join(f"{k} {v}" for k, v in dossier_stats.items() if k not in ("not found", "web not found"))
               + f"; not found: {len(dossier_stats['not found'])}, web not found: {len(dossier_stats['web not found'])}", flush=True)
     db.execute("INSERT INTO build VALUES ('lookup_stats', ?)", (json.dumps(lookup_stats, ensure_ascii=False),))
+    # Milestone 12: the reconciliation records and methods (they read the notes, the citation web and the
+    # concept index), then the text index for the one search box (tools/find.py).
+    rec_stats = reconcile.build(db)
+    if set(works) == set(ALL_WORKS):
+        reconcile.write_report(db, rec_stats)
+    db.execute("INSERT INTO build VALUES ('reconcile_stats', ?)", (json.dumps(rec_stats, ensure_ascii=False),))
+    find_stats = find.build(db)
+    db.execute("INSERT INTO build VALUES ('find_stats', ?)", (json.dumps(find_stats),))
+    if progress:
+        print("  reconciliation: " + ", ".join(f"{k} {v}" for k, v in rec_stats.items() if not isinstance(v, list))
+              + f"; not found: {len(rec_stats['not found'])}, not checked: {len(rec_stats['not checked'])}", flush=True)
+        print("  search index: " + ", ".join(f"{k} {v}" for k, v in find_stats.items()), flush=True)
     db.execute("INSERT INTO build VALUES ('built_at', ?)", (time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),))
     db.execute("INSERT INTO build VALUES ('stats', ?)", (json.dumps(all_stats),))
     # Milestone 6: how often the computed placement of translations is right,

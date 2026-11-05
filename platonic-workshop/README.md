@@ -128,6 +128,32 @@ or by the Greek words it quotes, found in Burnet's text; where both are there, t
 feed the citation web, the dialogue pages and the concept index like the others. See
 [The commentaries across Plato](#the-commentaries-across-plato) below and [`reports/commentaries.md`](reports/commentaries.md).
 
+**Milestone 12, reconciliation, search and polish: done.** *Reconciliations* (`#reconcile`) records thirteen
+places where Plato seems to say two things that cannot both be true: the simple soul of the Phaedo and the
+divided soul of the Republic, the Forms made by God in Republic X, the world that "came to be" in the Timaeus,
+pleasure in the Protagoras and the Gorgias, the poets banished and inspired, obeying the city in the Apology and
+the Crito, the Republic's city and the Laws', the Parmenides on the Forms, the Good beyond being, the cause of
+evil, the body as prison and the cosmos as a visible god, knowledge in the Meno and the Theaetetus, and writing
+in the Phaedrus and the Seventh Letter. Each gives the passages in Burnet's Greek with an English translation,
+the words at issue with what Middle Liddell and LSJ say of them (and whether LSJ cites the very passage), the
+commentators' notes on each passage and those on one that cite another, the scholars who document the tension
+(quoted from the Stanford Encyclopedia, each page fetched and checked), and the ways of reconciling it: 21
+**established** readings, quoted from Plato, the commentators or the Platonists who give them, and 12
+**proposed** readings, the Workshop's suggestions, labelled as proposals. Twelve interpretive methods, the
+eight the build prompt names and four more (dialectical context, didactic exposition, the likely account,
+development), are kept in an editable file with their grounds, and retrieved for a passage from the concepts
+it belongs to. Work any tension through on a nine-step worksheet, or passages of your own choosing; keep
+several, every version saved; compare them side by side with the recorded readings; add methods of your own
+(with a citation). *Search everything* (the box at the top, `#find`) looks in the Greek, the translations,
+the notes, the ancient texts, the concepts, the reconciliations, the names and your own work at once, by lemma
+with a morphological filter, by form, by phrase, by passage, by commentator or translator, by the citations of
+a passage; every result says why it was returned. The navigation is now Library, Reader, Dictionary,
+Concordance, Concepts, Reconciliations, My Translations, with light and dark themes, a text size control and
+panels you can drag wider. `python3 workshop.py` downloads, builds and starts everything with one command.
+Every quotation is checked by the build: 163 of 163 found. See [Reconciliations](#reconciliations),
+[Search everything](#search-everything) and [`reports/reconcile.md`](reports/reconcile.md).
+Screenshots: [a record](docs/reader-m12-reconcile.png), [a worksheet](docs/reader-m12-worksheet.png),
+[comparing readings](docs/reader-m12-compare.png), [a search](docs/reader-m12-find.png), [the dark theme](docs/reader-m12-dark.png).
 **Passage dossiers: done.** *Dossiers* (top right, or `#dossiers`) gathers 71 of Plato's famous passages,
 images, myths and arguments from 20 works, each one whole: the divided line, the cave, the sun, Er, the
 charioteer, the ladder of love, Aristophanes' halves, the slave and the doubled square, the second sailing,
@@ -146,12 +172,20 @@ Plato and the phrases it shares with other passages, the concepts and themes on 
 
 ## Running it
 
-Python 3.10 or later, standard library only. Nothing to install.
+Python 3.10 or later, standard library only. Nothing to install. One command does everything:
 
 ```sh
 cd platonic-workshop
+python3 workshop.py                 # downloads the sources if needed, builds the library if needed, opens the reader
+```
+
+The first run downloads about 640 MB into `data/` (not committed, two minutes) and builds the library
+(about four minutes); after that it starts at once, and rebuilds only when something the library is built
+from has changed. `--rebuild`, `--no-build`, `--port` and `--no-browser` do what they say. The steps by hand:
+
+```sh
 python3 tools/fetch_sources.py      # about 640 MB into data/ (not committed), 2 minutes
-python3 tools/build_db.py           # builds data/workshop.sqlite, all 36 works, about a minute
+python3 tools/build_db.py           # builds data/workshop.sqlite, all 36 works, about four minutes
 python3 tools/serve.py              # then open http://localhost:8800/
 ```
 
@@ -690,6 +724,58 @@ the Perseus website's downloads became reachable.)
   committed, with `fetched.json`); `python3 tools/commentary_corpus.py` reads them into `texts/commentary/<dialogue>/`
   (committed); `tools/build_db.py` places the notes and writes the report.
 
+## Reconciliations
+
+`#reconcile` lists the tensions; each has a page (`#reconcile/soul-simple-or-in-parts`) in this order: the
+question; the nature of the contradiction; who sees the tension, quoted; the passages, each with Burnet's Greek,
+an English translation at the same section, a plain summary, the words at issue (with GLAUx's count of them in
+the passage, the senses Middle Liddell and LSJ give, and *cites 78d* where LSJ cites the passage itself) and the
+commentators' notes printed on it; the notes on one passage that cite another (from the citation web); the
+concepts; the readings, each with its method, who holds it and the words it rests on; and the methods the
+database retrieves for the tension, each with why. Text marked † is the Workshop's own summary, not a quotation.
+Under a section of the reader that begins one of these passages, *Tension* links to its record.
+
+- **The records** are `sources/reconcile/tensions.json`, the **methods** `sources/reconcile/methods.json`:
+  edit either and run `python3 tools/reconcile.py` (seconds) to rebuild just these tables, with every quotation
+  checked again. A quotation is looked for in Burnet's Greek at the section named (accents normalised), in the
+  translator's English at that section, in the note of the commentator named at that place, in Taylor's books
+  (Plotinus, Proclus' *Theology*, Porphyry, Taurus, from Project Gutenberg: `tools/fetch_reconcile.py`), or on the
+  web page named. The web pages are fetched by `python3 tools/reconcile.py --web`, which records in
+  `sources/reconcile/web-checks.json` whether each quotation, and the author named in its citation, is on the page.
+- **Established and proposed.** A reading is established only when its holder is quoted giving it; the build
+  refuses an established reading with no quotation. Every proposed reading is by "the Workshop". Every tension
+  has at least two readings, and none is shown as the answer.
+- **Methods retrieved for a passage.** `/api/applicable/<work>/<ref>` gives the tensions the section is in, the
+  concepts whose passages contain it, and the methods those retrieve, each with the reason.
+- **Worksheets** (`#reconcile/new?tension=…`, or *New worksheet* for passages of your choice) have nine steps:
+  the passages, the contradiction, dictionary evidence, commentary, methods, your interpretation, your reconciled
+  translation, references and status (in progress, or your proposal). Each step shows the record's evidence beside
+  it. They are kept in `data/user.sqlite` (schema version 5, upgraded in place after a backup) like your other
+  work: every version kept, a second tab refused rather than written over, delete and restore, and exported with
+  everything else to Markdown and JSON. *Compare* (`#reconcile/compare/<id>`) sets the recorded readings and your
+  worksheets side by side.
+- **Your own methods** (on the methods page) need a citation and may be placed with concepts, which retrieves
+  them for the tensions on those concepts.
+
+## Search everything
+
+The box at the top (`f` to reach it) searches the whole Workshop; `#find?q=…` is the address of a search. It
+looks in Burnet's Greek, every English translation, every note, the ancient texts, the concept index, the
+reconciliations and methods, the dossiers when there are any, the names of works, commentators, translators and
+ancient authors, and your own work. A Stephanus reference (`Rep. 509b`, `Tim 29e-30a`) gives the passage, the
+notes on it, the notes anywhere that cite it and the concepts and tensions it belongs to. A single Greek word is
+searched by lemma as well as in the text. Fields narrow a search: `lemma:` `form:` `plain:`, with `case:`
+`number:` `tense:` `mood:` `voice:` `person:` `gender:` `pos:` `degree:` for a morphological filter
+(`lemma:λόγος case:gen in:Tim`); `greek:` `english:` `note:` `ancient:` for one text; `in:` (or `work:`) for one
+dialogue; `by:` for a commentator or translator, `translator:` for a translator; `cites:Rep 509b`; `concept:`
+`tension:` `method:`; and `mine:` for your work alone. Words in double quotes are an exact phrase.
+
+Every result carries a line saying why it was returned: "Jowett's English of Republic 509b contains the
+words", "tagged by GLAUx with the lemma λόγος, parsed case genitive (machine tagging, not checked by hand)",
+"the note cites “509 B”, read as Republic 509b (certain, rule page in this dialogue)". Nothing is ranked by
+meaning: the texts are matched word for word by SQLite's full-text index (accents and capitals ignored, built
+with the library by `tools/find.py`), the rest by the words appearing in the named fields. From the command line:
+`python3 tools/find.py lemma:ψυχή case:dat`.
 ## Passage dossiers
 
 ![The divided line as a dossier: its stages, each on the Greek it rests on, and the dossiers it is tied to](docs/reader-dossier-line.png)
@@ -759,6 +845,8 @@ sources/          what we use and where it comes from (committed)
   jowett-campbell-1894/, lodge-1896/  Internet Archive OCR of the commentaries of milestone 11, as received
   structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos
   concepts/       the concept index of milestone 10 (concepts.json, sources.json)
+  reconcile/      the reconciliations of milestone 12: tensions.json, methods.json, sources.json, web-checks.json
+  taylor-gutenberg/  Taylor's Proclus' Theology, Porphyry and Taurus from Project Gutenberg, as received
   dossiers/       the passage dossiers, one file per dialogue (index.json lists them), and web-checks.json
   taylor-plotinus-1817/, taylor-proclus-theology-1816/, taylor-iamblichus-1821/  Taylor's later Platonists, as received
 texts/            imported texts, one JSON file per work (committed)
@@ -780,6 +868,12 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   fetch_ancient.py, ancient.py, taylor_intros.py and structure.py (the whole, milestone 9),
                   scholia.py and concepts.py (the concept index, milestone 10),
                   commentary_corpus.py (the commentaries across Plato, milestone 11),
+                  reconcile.py and fetch_reconcile.py (the reconciliations, milestone 12), find.py (the search box)
+workshop.py       one command: download, build if needed, serve
+reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
+                  commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,
+                  concepts.js the concept index, commentaries.js the list of every commentary,
+                  reconcile.js the reconciliations and worksheets, shell.js the navigation, the search box, themes and panels
                   dossiers.py and webcheck.py (the passage dossiers and their web checks)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
                   commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,
