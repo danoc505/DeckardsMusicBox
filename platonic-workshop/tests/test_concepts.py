@@ -134,6 +134,24 @@ class Files(unittest.TestCase):
         for r in x["later"]:
             self.assertTrue(any(concepts.eng(r["quote"]) in t for t in texts[r["source"]]), r["quote"])
 
+    def test_alcinous_chapters_and_scholia(self):
+        x = concepts.load_defined()
+        alc = self.docs["alcinous-burges"]
+        chapters = {r["chapter"] for r in x["alcinous"]}
+        self.assertGreater(len(chapters), 25)
+        for r in x["alcinous"]:
+            s = ancient.find(alc, r["quote"])
+            self.assertTrue(s and s["n"] == str(r["chapter"]), r["quote"])
+        self.assertGreater(len(x["scholia"]), 20)
+        for r in x["scholia"]:
+            self.assertTrue(r["says"] and r["work"].startswith("tlg"), r)
+        ids = {c["id"] for c in self.d["concepts"]} | {r["concept"] for k in ("definitions", "taylor_terms", "alcinous", "scholia") for r in x[k]}
+        for r in x["relations"]:
+            self.assertIn(r["from"], ids)
+            self.assertIn(r["concept"], ids)
+            self.assertIn(r["category"], self.d["categories"])
+            self.assertTrue(r["evidence"])
+
     def test_keywords_are_not_the_links(self):
         # Keywords only find notes on a concept's own passages; they never link passages to one another.
         for c in self.d["concepts"]:
@@ -226,6 +244,19 @@ class Library(unittest.TestCase):
         # A concept of concepts.json keeps its layer and gains the Definitions' entry.
         self.assertTrue(self.q("SELECT 1 FROM concept_cite c JOIN evidence e ON e.owner = c.owner WHERE c.concept_id = 'justice' AND e.source_text = 'definitions-burges'"))
         self.assertEqual(self.q("SELECT count(*) FROM concept_relation WHERE category NOT IN (SELECT name FROM concept_category)")[0][0], 0)
+
+    def test_alcinous_scholia_and_lsj_in_the_library(self):
+        origins = {o for (j,) in self.q("SELECT origin FROM concept") for o in json.loads(j)}
+        self.assertTrue({"Alcinous", "scholia"} <= origins)
+        self.assertEqual(self.q("SELECT layer FROM concept WHERE id = 'fate'")[0][0], "plato-later")
+        self.assertTrue(self.q("SELECT 1 FROM concept_cite c JOIN evidence e ON e.owner = c.owner WHERE c.concept_id = 'adrasteia' AND e.found = 1 AND e.note_id IS NOT NULL"))
+        # LSJ's citations of Plato under a concept's word: its places, and its quotations checked in Burnet.
+        rows = self.q("SELECT work_id, ref, quote, found FROM lsj_plato WHERE lemma = 'ψυχή'")
+        self.assertGreater(len(rows), 10)
+        self.assertTrue(any(f == 1 for *_, f in rows))
+        self.assertTrue(all(f is None for _, _, q, f in rows if q is None))
+        soul = self.get("/api/concept/soul")
+        self.assertTrue(any(t["lsj"] for t in soul["terms"]))
 
     def test_renderings(self):
         r = self.get("/api/renderings/" + urllib.parse.quote("ψυχή") + "?work=tlg004&limit=3")

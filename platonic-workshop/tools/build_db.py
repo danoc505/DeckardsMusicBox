@@ -812,7 +812,9 @@ def build(works, db_path=None, progress=False):
         print("  structure: " + ", ".join(f"{k} {v}" for k, v in struct_stats.items() if k != "not found")
               + f"; not found: {len(struct_stats['not found'])}", flush=True)
     build_search(db)
-    # Milestone 10: the concept index across the dialogues (after build_search: it reads lemma_count).
+    lookup_stats = build_dictionaries(db)  # before the concept index, which reads LSJ's entries
+    lookup_stats.update(build_grammar(db))
+    # Milestone 10: the concept index across the dialogues (after build_search and the dictionaries: it reads lemma_count and LSJ).
     concept_stats = concepts.build(db)
     if set(works) == set(ALL_WORKS):
         concepts.write_report(db, concept_stats)
@@ -820,8 +822,6 @@ def build(works, db_path=None, progress=False):
     if progress:
         print("  concepts: " + ", ".join(f"{k} {v}" for k, v in concept_stats.items() if k not in ("not found", "terms not tagged"))
               + f"; not found: {len(concept_stats['not found'])}", flush=True)
-    lookup_stats = build_dictionaries(db)
-    lookup_stats.update(build_grammar(db))
     db.execute("INSERT INTO build VALUES ('lookup_stats', ?)", (json.dumps(lookup_stats, ensure_ascii=False),))
     # Milestone 12: the reconciliation records and methods (they read the notes, the citation web and the
     # concept index), then the text index for the one search box (tools/find.py).

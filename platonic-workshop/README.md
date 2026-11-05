@@ -98,20 +98,22 @@ quotes its source, and the build looks for each quotation in the text it names: 
 [`reports/structure.md`](reports/structure.md).
 
 **Milestone 10, the concept index across the dialogues: done.** *Concepts* (top right, or `#concepts`) gathers
-197 concepts: every term the pseudo-Platonic *Definitions* define (Hermann's Greek, Burges' English) and every
-term of Taylor's "Explanation of Certain Platonic Terms", joined to the twenty-five the index was first written
-with (the Good, the Forms, the Soul, Emanation, Return, Evil as privation and the rest). Each has the Greek words
-it is indexed under (with where GLAUx tags them, dialogue by dialogue), its definitions, Plato's own passages,
-the later Platonists' readings (Alcinous' handbook, Plotinus and Proclus' *Theology* in Taylor's versions,
-Iamblichus, Proclus on the Timaeus, Taylor), and its relations to the other concepts, each of one of seventeen
-kinds: the seven the build prompt names (shared concept, philosophical analogy, different formulation,
-historical interpretation, apparent contradiction, metaphysical distinction, allegorical parallel) and ten more
-the sources need (cause, opposition, part and whole, definition, knower and known, participation, image and
-pattern, ascent and goal, a question the dialogue asks, an argument). Each concept is marked as Plato's own,
-Plato's but systematised later, a later doctrine, or defined in Plato's school (the *Definitions*). Thirty-nine
+223 concepts: every term the pseudo-Platonic *Definitions* define (Hermann's Greek, Burges' English), every term
+of Taylor's "Explanation of Certain Platonic Terms", the topics of Alcinous' handbook of Platonism chapter by
+chapter (51 readings from 30 of its 34 chapters, such as Fate, Matter, Dialectic, Likeness to god), and the terms
+the Greek scholia on the dialogues name or define (25 scholia, such as Adrasteia and the triad of will, power and
+intellect), joined to the twenty-five the index was first written with. Each has the Greek words it is indexed
+under (with where GLAUx tags them, and LSJ's own citations of Plato for each word, sense by sense), its
+definitions, Plato's own passages, the later Platonists' readings (Alcinous, Plotinus and Proclus' *Theology* in
+Taylor's versions, Iamblichus, Proclus on the Timaeus, the scholia, Taylor), and its relations to the other
+concepts, each of one of seventeen kinds: the seven the build prompt names (shared concept, philosophical analogy,
+different formulation, historical interpretation, apparent contradiction, metaphysical distinction, allegorical
+parallel) and ten more the sources need (cause, opposition, part and whole, definition, knower and known,
+participation, image and pattern, ascent and goal, a question the dialogue asks, an argument). Each concept is
+marked as Plato's own, Plato's but systematised later, a later doctrine, or defined in Plato's school. Thirty-nine
 words, the six the prompt names (λόγος, νοῦς, ψυχή, ἀγαθόν, εἶδος, ἀρετή) and thirty-three more, can be read
 across the translators passage by passage (`#renderings/ψυχή`). Every link quotes the words it rests on, and the
-build looks for each in the text it names: 628 of 628 found. Nothing is linked because two places share a word.
+build looks for each in the text it names: 722 of 722 found. Nothing is linked because two places share a word.
 See [The concept index](#the-concept-index) below and [`reports/concepts.md`](reports/concepts.md).
 
 **Milestone 11, the commentaries across Plato: done.** Ten more commentaries, found by searching the Internet
@@ -564,12 +566,16 @@ the Perseus website's downloads became reachable.)
 ![The Good in the concept index: its word, its definitions, and Plato's passages with the Greek they rest on](docs/reader-m10-concept.png)
 
 - **Concepts** (`#concepts`): all 197, with a filter by name, Greek or layer, each with its Greek name, its layer,
-  where it was gathered from (the index, the *Definitions*, Taylor's terms, the later Platonists), the words it is
+  where it was gathered from (the index, the *Definitions*, Taylor's terms, Alcinous, the scholia, the later
+  Platonists), the words it is
   indexed under and the number of its definitions, passages, later readings and relations. `#concepts/the-good` opens one:
   - *The index's note*: one sentence on what is gathered there, marked as the Workshop's own words, not a definition.
   - *Indexed under*: the GLAUx lemmas (νοῦς is tagged νόος), with a count per dialogue and a link to every
     occurrence. This is lexical evidence: a word in two places does not link the places, and a word that is
     mostly the ordinary sense (εἰμί, λόγος) says so.
+  - *LSJ cites*: under each word, the places of Plato LSJ cites for it, sense by sense, with LSJ's English and
+    the Greek it quotes, marked ✓ where the quotation is word for word in Burnet at that place (LSJ often adapts
+    its quotations, so about half are not); and the whole LSJ and Middle Liddell entries, opened on demand.
   - *Definitions* and *In the later Platonists*: each a quotation, with where it is (click to read the passage
     of an ancient text, or the whole note).
   - *In Plato* (or, for a later doctrine, *The passages it is read in*): each passage with Burnet's Greek where it
@@ -590,7 +596,8 @@ the Perseus website's downloads became reachable.)
 - **In the reader**: "Where you are in the whole" names the concept passages on the page; the word box names the
   concepts indexed under the word's lemma (the word, not that place).
 - **Where it comes from.** `sources/concepts/sources.json` maps, by hand, each term the *Definitions* (176) and
-  Taylor's terms (65) define to a concept, and quotes the later Platonists' books (Taylor's Plotinus, 1817;
+  Taylor's terms (65) define to a concept, quotes Alcinous chapter by chapter (51) and the scholia (25), states
+  17 relations with the words they rest on, and quotes the later Platonists' books (Taylor's Plotinus, 1817;
   Proclus' *Theology of Plato*, 1816; Iamblichus, 1821; in `sources/taylor-*`); the words of each definition are
   cut from the text by rule. `sources/concepts/concepts.json` is written by hand; its quotations are of Burnet's
   Greek (`plato`), of the ancient texts in `texts/ancient/` (`alcinous-burges`, `definitions-hermann`,
@@ -602,13 +609,14 @@ the Perseus website's downloads became reachable.)
 
 | | |
 |---|---:|
-| Concepts | 197 |
-| Quotations checked, found | 628, 628 |
-| Terms (GLAUx lemmas) | 207 |
+| Concepts | 223 |
+| Quotations checked, found | 722, 722 |
+| Terms (GLAUx lemmas) | 243 |
 | Passages of Plato | 87 |
-| Definitions, later readings | 429, 47 |
-| Relations between concepts, kinds | 62, 17 |
+| Later readings (Alcinous, scholia, Plotinus, Proclus, Iamblichus, notes) | 123 |
+| Relations between concepts, kinds | 80, 17 |
 | Words compared across the translators | 39 |
+| LSJ's citations of Plato under those words; quoted, word for word | 1,509; 602, 280 |
 | Notes naming a concept on its passages | 91 |
 | Greek scholia imported | 1,515 |
 

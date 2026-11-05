@@ -11,7 +11,7 @@ const LAYER = {
   "later": ["Later Platonist", "A doctrine or term of the later Platonists. Plato does not name it: the passages are those the later readers read it in, and say who reads them so."],
   "academy": ["Plato's school", "Defined in the Definitions, the collection from Plato's school printed with his works; not a dialogue."],
 };
-const ORIGIN = { "index": "written for the index", "Definitions": "the Definitions", "Taylor's terms": "Taylor's Platonic terms", "later Platonists": "the later Platonists" };
+const ORIGIN = { "index": "written for the index", "Definitions": "the Definitions", "Taylor's terms": "Taylor's Platonic terms", "later Platonists": "the later Platonists", "Alcinous": "Alcinous' handbook", "scholia": "the Greek scholia" };
 const CFILTER = { q: "", layer: "" };
 const layerBadge = (l) => `<span class="layer layer-${esc(l)}" title="${esc(LAYER[l][1])}">${esc(LAYER[l][0])}</span>`;
 
@@ -89,8 +89,38 @@ function termHtml(t) {
       <a href="#search?q=${encodeURIComponent(t.lemma)}&by=lemma">Every occurrence</a></p>
     ${t.note ? `<p class="meta">${esc(t.note)}</p>` : ""}
     <p><a href="#renderings/${encodeURIComponent(t.lemma)}">How the translators render it, passage by passage</a></p>
-    <details><summary class="meta">Where the word occurs, by dialogue</summary><table class="counts dist"><tbody>${rows}</tbody></table></details></div>`;
+    <details><summary class="meta">Where the word occurs, by dialogue</summary><table class="counts dist"><tbody>${rows}</tbody></table></details>
+    ${lsjHtml(t)}</div>`;
 }
+
+// LSJ's own citations of Plato for the word: its sense, its English, the place and the Greek it quotes there.
+// LSJ often adapts a quotation (case, order, a word left out), so "word for word" is checked, not assumed.
+function lsjHtml(t) {
+  const xs = t.lsj || [];
+  const full = `<details class="lsj-full" data-lemma="${esc(t.lemma)}"><summary class="meta">The whole entry in LSJ and Middle Liddell</summary><div class="dict-body"></div></details>`;
+  if (!xs.length) return full;
+  const exact = xs.filter((x) => x.found === 1).length, quoted = xs.filter((x) => x.quote).length;
+  const mark = (x) => x.found === 1 ? `<span class="ok" title="Word for word in Burnet at the place, or the next two sections">✓</span>`
+    : x.found === 0 ? `<span class="meta" title="Not word for word in Burnet there: LSJ adapts its quotations">(adapted)</span>` : "";
+  let last = null;
+  const li = xs.map((x) => {
+    const head = x.sense !== last ? `<li class="lsj-sense"><b>${esc(x.sense || "—")}</b> ${esc(x.gloss)}</li>` : "";
+    last = x.sense;
+    return head + `<li><a href="${esc(placeHash(x.work_id, x.ref))}">${esc(x.title)} ${esc(x.ref)}</a>${x.quote ? ` <span lang="grc">${esc(x.quote)}</span> ${mark(x)}` : ""}</li>`;
+  }).join("");
+  return `<details><summary class="meta">LSJ cites ${xs.length} places of Plato for it (${quoted} quoted, ${exact} word for word in Burnet)</summary>
+    <p class="prov">From LSJ's entry, as printed: its sense numbers, its English, the places it cites. Nothing added.</p><ul class="lsj-cites">${li}</ul></details>${full}`;
+}
+
+document.addEventListener("toggle", async (ev) => {
+  const d = ev.target;
+  if (!d.classList || !d.classList.contains("lsj-full") || !d.open || d.dataset.loaded) return;
+  d.dataset.loaded = "1";
+  const data = await api(`lookup/${encodeURIComponent(d.dataset.lemma)}`);
+  const lx = await api("lexica");
+  d.querySelector(".dict-body").innerHTML = lx.map((l) => (data.entries[l.id] || []).map((e) => `<div class="entry"><p class="meta">${esc(l.label)}</p>${e.html}</div>`).join("")).join("")
+    || `<p class="none-msg">No entry found.</p>`;
+}, true);
 
 function citeHtml(x) {
   return `<div class="claim"><p>${esc(x.says)}</p>${x.evidence.map(conceptEv).join("")}</div>`;
