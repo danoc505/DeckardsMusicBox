@@ -1,7 +1,7 @@
-// Platonic Workshop reader (milestones 2 to 7). No libraries, no build step.
+// Platonic Workshop reader (milestones 2 to 8). No libraries, no build step.
 // Your translations and notes (milestone 4) are in mywork.js; the word search
 // across Plato and your word studies (milestone 5) in search.js; the
-// commentaries (milestone 7) in commentary.js.
+// commentaries (milestone 7) in commentary.js; the citation web (milestone 8) in citations.js.
 "use strict";
 
 // The work being read (a Perseus id, 'tlg031'). Changes when you open another dialogue.
@@ -343,21 +343,9 @@ function renderApparatus(s, d, numbers) {
     rows.push(`<div class="app-row app-notes"><div class="app-k">Notes</div><div class="app-v"><ul class="notes">${items}</ul></div></div>`);
   }
   rows.push(renderCommentaryRow(s, d));
-  const out = d.links_out.filter((l) => l.from_ref === s.ref);
-  if (out.length) {
-    const chips = out.map((l) => {
-      const label = l.to_work === WORK ? `${workAbbr(WORK)} ${l.to_ref}` : `${l.to_title} ${l.to_ref}`;
-      return linkChip(l.to_work, l.to_ref, label, l.to_imported, `“${l.raw}” in note ${numbers.get(l.note_id) ?? ""}, read by ${l.method}`);
-    }).join("");
-    rows.push(`<div class="app-row app-links"><div class="app-k">Points to</div><div class="app-v chips">${chips}</div></div>`);
-  }
-  const page = String(parseInt(s.ref));
-  const inn = d.links_in.filter((l) => l.to_ref === s.ref || (l.to_ref === page && s.ref.endsWith("a")));
-  if (inn.length) {
-    const chips = inn.map((l) => linkChip(l.from_work, l.from_ref, `${l.from_work === WORK ? workAbbr(WORK) : l.from_title} ${l.from_ref}`, true,
-      `The Loeb note at ${l.from_title} ${l.from_ref} cites “${l.raw}”`)).join("");
-    rows.push(`<div class="app-row app-links"><div class="app-k">Cited from</div><div class="app-v chips">${chips}</div></div>`);
-  }
+  // Milestone 8: what this section's notes cite, and the notes anywhere in Plato that cite it (citations.js).
+  rows.push(renderLinksOut(s, d));
+  rows.push(renderLinksIn(s, d));
   rows.push(renderMineRow(s, d));
   return rows.join("");
 }
@@ -391,6 +379,7 @@ function renderToc() {
     const label = m.labels.length > 2 ? "Dialogue" : m.labels.join(", ");
     return `<li class="${here ? "here" : ""}"><a href="${esc(placeHash(WORK, m.start_ref))}"><span>${esc(label)}</span><span>${m.start_ref === m.end_ref ? m.start_ref : m.start_ref + "–" + m.end_ref}</span></a></li>`;
   }).join("")}</ul><p class="note">From the speaker markup in the Perseus text. The parts of the argument and the dialogue's skopos are added in milestone 9.</p>`;
+  html += renderTocCitations(w);
   $("#toc").innerHTML = html;
 }
 
@@ -681,6 +670,8 @@ document.addEventListener("keydown", (ev) => {
 function route(push) {
   const raw = location.hash.slice(1);
   if (raw.startsWith("search")) { showSearchFromHash(raw); return; }  // its parameters are decoded there
+  document.body.classList.remove("discussing");
+  if (raw.startsWith("discussed")) { showDiscussedFromHash(raw); return; }
   const h = decodeURIComponent(raw);
   const slash = h.indexOf("/");
   let p = null;

@@ -29,6 +29,9 @@ tlg036) the same way, and adds the word search:
   structure   books (Republic, Laws) and letters (Letters) as divisions
   search      counts of every lemma and every form per work (lemma_count,
               form_count), so a search of all Plato answers at once
+Milestone 8 adds the citation web (citations.py): every note, of every
+commentator and translator, read for references to passages of Plato, and
+every link checked against the library's own Stephanus sections.
 Every rule used is in this file or those two; nothing is guessed or generated.
 """
 import argparse
@@ -49,6 +52,7 @@ import greek  # noqa: E402
 import lexicon  # noqa: E402
 import translations  # noqa: E402
 import commentary_db  # noqa: E402
+import citations  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -785,6 +789,13 @@ def build(works, db_path=None, progress=False):
         for w, s in comm_stats.items():
             for cid, c in s.items():
                 print(f"  commentary {cid}: " + ", ".join(f"{k} {v}" for k, v in c.items() if v and k != "label"), flush=True)
+    # Milestone 8: the citation web. Every note read for references to Plato, every link checked.
+    cite_stats = citations.harvest(db)
+    if set(works) == set(ALL_WORKS):
+        cite_stats.update(citations.write_report(db))
+    db.execute("INSERT INTO build VALUES ('citation_stats', ?)", (json.dumps(cite_stats),))
+    if progress:
+        print(f"  citation web: {cite_stats}", flush=True)
     build_search(db)
     lookup_stats = build_dictionaries(db)
     lookup_stats.update(build_grammar(db))

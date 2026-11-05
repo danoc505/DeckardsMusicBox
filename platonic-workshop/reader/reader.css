@@ -510,3 +510,24 @@ table.mini-counts tr.here td:first-child { font-weight: 700; color: var(--accent
 .pf-actions { margin: 8px 0 12px; }
 .raw-pre { white-space: pre-wrap; font-size: 12px; max-height: 300px; overflow: auto; }
 details.raw-in summary { font: 11px var(--sans); color: var(--muted); cursor: pointer; }
+
+/* Milestone 8: the citation web */
+.chip .who { color: var(--muted); font-size: 11px; margin-left: 5px; }
+.chip.doubt { border-style: dashed; }
+.doubt-mark { display: inline-block; font: 600 11px var(--sans); color: var(--warn, #9a5b00); margin-left: 2px; cursor: help; }
+.cite-all { font: 12px var(--sans); margin-left: 4px; }
+body.discussing #discussed-btn { background: var(--accent); color: var(--panel); }
+.disc-form { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font: 13px var(--sans); margin: 8px 0 14px; }
+.disc-form select { font: inherit; max-width: 16em; }
+table.disc td { vertical-align: middle; }
+table.disc .bar-cell { width: 110px; }
+table.disc .bar { display: block; height: 8px; margin-top: 5px; background: var(--accent); border-radius: 2px; opacity: .75; }
+ul.cited { list-style: none; margin: 0; padding: 0; }
+ul.cited > li { padding: 8px 0; border-top: 1px solid var(--rule); }
+ul.cited > li.doubt { background: linear-gradient(90deg, var(--warn-soft, #fbf1dc), transparent 60%); }
+.cited-head { font: 14px var(--sans); }
+.cited-ex { margin: 4px 0; line-height: 1.5; }
+.cited-ex mark { background: var(--accent-soft); color: inherit; padding: 0 2px; border-radius: 2px; }
+.doubt-why { font: 12px var(--sans); color: var(--warn, #9a5b00); }
+.cited-full { margin: 6px 0 0 12px; padding-left: 10px; border-left: 2px solid var(--rule); max-height: 40vh; overflow: auto; }
+@media (max-width: 700px) { table.disc .bar-cell, table.disc td:last-child, table.disc th:last-child { display: none; } }

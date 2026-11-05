@@ -139,7 +139,8 @@ class Corpus(unittest.TestCase):
 
     def test_republic_links(self):
         # Shorey's bare 'cf. 509 B' is the Republic, not the Timaeus.
-        bad = self.q("SELECT count(*) FROM link WHERE from_work = 'tlg030' AND to_work = 'tlg031' AND raw NOT LIKE 'Tim%'")[0][0]
+        # (Milestone 8 adds links to whole dialogues named without a page, "the Timaeus": kind 'dialogue'.)
+        bad = self.q("SELECT count(*) FROM link WHERE from_work = 'tlg030' AND to_work = 'tlg031' AND kind = 'cf' AND raw NOT LIKE 'Tim%'")[0][0]
         self.assertEqual(bad, 0)
         self.assertGreater(self.q("SELECT count(*) FROM link WHERE from_work = 'tlg030' AND to_work = 'tlg030'")[0][0], 1000)
 
