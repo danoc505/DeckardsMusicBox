@@ -519,6 +519,14 @@ CREATE TABLE concept (
     layer       TEXT NOT NULL,             -- plato | plato-later | later
     note        TEXT NOT NULL,             -- the index's own sentence on what is gathered here
     keywords    TEXT NOT NULL,             -- JSON {en: [...], grc: [...]}: the words a note names it by
+    seq         INTEGER NOT NULL,
+    origin      TEXT NOT NULL,             -- JSON: where it was gathered from: index (concepts.json), Definitions, Taylor's terms, later Platonists
+    untagged    TEXT                       -- JSON: its Greek words that GLAUx does not tag in Plato (later words)
+);
+-- The kinds of relation between concepts: the build prompt's seven and those the sources show.
+CREATE TABLE concept_category (
+    name        TEXT PRIMARY KEY,
+    about       TEXT NOT NULL,
     seq         INTEGER NOT NULL
 );
 -- The GLAUx lemmas a concept is indexed under: lexical evidence, not links.
@@ -562,7 +570,8 @@ CREATE TABLE concept_relation (
     other_id    TEXT NOT NULL REFERENCES concept(id),
     kind        TEXT NOT NULL,             -- 'cause of', 'contrasted with', ...
     why         TEXT NOT NULL,
-    owner       TEXT NOT NULL              -- evidence.owner
+    owner       TEXT NOT NULL,             -- evidence.owner
+    category    TEXT NOT NULL REFERENCES concept_category(name)
 );
 -- Notes placed on a concept's passage that name it by a keyword (found by rule).
 CREATE TABLE concept_named (
@@ -570,4 +579,10 @@ CREATE TABLE concept_named (
     n           INTEGER NOT NULL,          -- concept_passage.n
     note_id     INTEGER NOT NULL REFERENCES note(id),
     word        TEXT NOT NULL
+);
+-- Words whose renderings are compared across the translators, passage by passage.
+CREATE TABLE compared_word (
+    lemma       TEXT PRIMARY KEY,
+    named       INTEGER NOT NULL,          -- 1: one of the six the build prompt names
+    seq         INTEGER NOT NULL
 );

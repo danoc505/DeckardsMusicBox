@@ -1,0 +1,18 @@
+{
+  "b29318178_djvu.txt": {
+    "url": "https://archive.org/download/b29318178/b29318178_djvu.txt",
+    "fetched_at": "2026-11-05T13:03:56+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 996725,
+    "sha256": "edcb6e376194c0ebea4991f082f4239451d05bfa05800fdccba3b4cc51d58c9c"
+  },
+  "b29318178_metadata.json": {
+    "url": "https://archive.org/metadata/b29318178/metadata",
+    "fetched_at": "2026-11-05T13:03:59+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2039,
+    "sha256": "4bf0128e5d206122eb9c19fd5093aff1c9a58047ab259cb0eb98bfae3de84a83"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "b29338888_0002_djvu.txt": {
+    "url": "https://archive.org/download/b29338888_0002/b29338888_0002_djvu.txt",
+    "fetched_at": "2026-11-05T13:05:24+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 551488,
+    "sha256": "5aafccedd48c742706e1cd65bd8dfd537eb9bd0de2ba704c69600b2f4f4419a9"
+  },
+  "b29338888_0002_metadata.json": {
+    "url": "https://archive.org/metadata/b29338888_0002/metadata",
+    "fetched_at": "2026-11-05T13:05:26+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2262,
+    "sha256": "38153fbd1f4c0b79280cd7dc87bed7c9251d72f568679fb4681808712e01cdc9"
+  }
+}
