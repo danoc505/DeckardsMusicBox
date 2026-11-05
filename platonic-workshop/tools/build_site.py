@@ -74,7 +74,10 @@ def build(out=OUT):
     # The Python the browser runs: the tools and the schemas, as on the laptop.
     files = {f"tools/{p.name}": p.read_text(encoding="utf-8") for p in sorted((ROOT / "tools").glob("*.py"))}
     files.update({f"db/{p.name}": p.read_text(encoding="utf-8") for p in sorted((ROOT / "db").glob("*.sql"))})
-    for p in [ROOT / "sources" / "manifest.json", *sorted((ROOT / "sources" / "dossiers").glob("*.json"))]:
+    # The small JSON files the server reads as it answers (the dossiers' index, the reconciliation tables, ...).
+    for p in sorted([*(ROOT / "sources").rglob("*.json"), *(ROOT / "reports").glob("*.json")]):
+        if p.stat().st_size > 2_000_000:
+            continue
         files[p.relative_to(ROOT).as_posix()] = p.read_text(encoding="utf-8")
     files["web/bridge.py"] = (ROOT / "web" / "bridge.py").read_text(encoding="utf-8")
     (out / "web" / "files.json").write_text(json.dumps(files, ensure_ascii=False), encoding="utf-8")
