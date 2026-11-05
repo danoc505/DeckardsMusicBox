@@ -1,0 +1,34 @@
+{
+  "thelawsofplatoth01platuoft_djvu.txt": {
+    "url": "https://archive.org/download/thelawsofplatoth01platuoft/thelawsofplatoth01platuoft_djvu.txt",
+    "fetched_at": "2026-11-05T12:58:12+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 2031723,
+    "sha256": "ebac7f4ad5d0d6f8f4ed987bf7c21a46f0b94ea66e51aeb605a86dc3a1e00db7"
+  },
+  "thelawsofplatoth01platuoft_metadata.json": {
+    "url": "https://archive.org/metadata/thelawsofplatoth01platuoft/metadata",
+    "fetched_at": "2026-11-05T12:58:14+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2163,
+    "sha256": "0d39f42d6d29b1132eca3f5ef9d638c91110af2be861c745f293ee3dc6841688"
+  },
+  "lawsofplatotexte02platuoft_djvu.txt": {
+    "url": "https://archive.org/download/lawsofplatotexte02platuoft/lawsofplatotexte02platuoft_djvu.txt",
+    "fetched_at": "2026-11-05T12:58:18+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 2131415,
+    "sha256": "7cf75553371d69fda78f2b8f2499ae679d835a71e7c9603244198f330c6380f7"
+  },
+  "lawsofplatotexte02platuoft_metadata.json": {
+    "url": "https://archive.org/metadata/lawsofplatotexte02platuoft/metadata",
+    "fetched_at": "2026-11-05T12:58:19+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2055,
+    "sha256": "4f622b81615d68ce16374cd5bde9cee04c30f692c496d96a0bd4cf8ef684c2ff"
+  }
+}

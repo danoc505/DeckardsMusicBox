@@ -1,0 +1,18 @@
+{
+  "gorgiasss00platuoft_djvu.txt": {
+    "url": "https://archive.org/download/gorgiasss00platuoft/gorgiasss00platuoft_djvu.txt",
+    "fetched_at": "2026-11-05T13:10:23+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1048204,
+    "sha256": "f68c0823254124573bd4478d5b62a47c4fc33490f7d9c11f3c3827072c48f270"
+  },
+  "gorgiasss00platuoft_metadata.json": {
+    "url": "https://archive.org/metadata/gorgiasss00platuoft/metadata",
+    "fetched_at": "2026-11-05T13:10:25+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2096,
+    "sha256": "6e11bd26ee504ae094cc8f9e8ba575137da229fb3eaecf3c6f42c67ce0a72230"
+  }
+}

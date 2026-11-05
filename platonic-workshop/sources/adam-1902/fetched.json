@@ -1,0 +1,34 @@
+{
+  "republic01platuoft_djvu.txt": {
+    "url": "https://archive.org/download/republic01platuoft/republic01platuoft_djvu.txt",
+    "fetched_at": "2026-11-05T12:58:02+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1390739,
+    "sha256": "c00d03b9a8fcbe8fdbefe6234bb23b7065636e12891913bc0377c56720626da4"
+  },
+  "republic01platuoft_metadata.json": {
+    "url": "https://archive.org/metadata/republic01platuoft/metadata",
+    "fetched_at": "2026-11-05T12:58:03+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2011,
+    "sha256": "f32e4d4510321731108aa183a93e2f2d2e2f009c4f09fd9b1640770cbc23a383"
+  },
+  "republic02platuoft_djvu.txt": {
+    "url": "https://archive.org/download/republic02platuoft/republic02platuoft_djvu.txt",
+    "fetched_at": "2026-11-05T12:58:07+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 2460774,
+    "sha256": "81a1f86eae2bfad6250748e3e8f32187f0f93113693e7107a33f4a23fd6c3548"
+  },
+  "republic02platuoft_metadata.json": {
+    "url": "https://archive.org/metadata/republic02platuoft/metadata",
+    "fetched_at": "2026-11-05T12:58:09+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 1643,
+    "sha256": "747073e01801965653257b494db1aa2a3edf7731639e6cfceeca98dcbea7d814"
+  }
+}

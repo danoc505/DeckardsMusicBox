@@ -109,6 +109,18 @@ linked because two places share a word. To rest it on, Alcinous (Burges, 34 chap
 and Hermann's Greek scholia on the dialogues (1,515 scholia, placed by their printed Stephanus page) are imported.
 See [The concept index](#the-concept-index) below and [`reports/concepts.md`](reports/concepts.md).
 
+**Milestone 11, the commentaries across Plato: done.** Ten more commentaries, found by searching the Internet
+Archive and read from its scans, are under the sections they are on: Adam (1902) and Jowett and Campbell (1894) on
+the Republic, England (1921) on the Laws, Burnet (1911) and Archer-Hind (1883) on the Phaedo, Campbell on the
+Theaetetus (1883) and on the Sophist and Statesman (1867), Bury (1909) on the Symposium and Lodge (1896) on the
+Gorgias; with Jowett's Introductions to the 27 other dialogues he translated. The library now holds 102 commentaries
+and introductions on all 36 works, 17,602 notes. Each note is placed by the Stephanus reference printed at its head,
+or by the Greek words it quotes, found in Burnet's text; where both are there, the Greek checks the reference (65 to
+79% found word for word at the section printed, the rest mostly OCR misreadings). *Commentaries* (top right, or
+`#commentaries`) lists them all, dialogue by dialogue, to read under the text or straight through. The new notes
+feed the citation web, the dialogue pages and the concept index like the others. See
+[The commentaries across Plato](#the-commentaries-across-plato) below and [`reports/commentaries.md`](reports/commentaries.md).
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install.
@@ -584,6 +596,43 @@ the Perseus website's downloads became reachable.)
 | Notes naming a concept on its passages | 91 |
 | Greek scholia imported | 1,515 |
 
+## The commentaries across Plato
+
+![The Phaedo at 66a with Archer-Hind's and Burnet's notes, and the notes on other dialogues that cite it](docs/reader-m11-phaedo.png)
+
+| Commentary | Dialogue | Notes | How they are placed |
+|---|---|---:|---|
+| Adam (1902), 2 vols. | Republic | 1,776 | Headed by page, letter and line (`568 D 26 θρέψεται`), or the line alone on the same section. Vol. I's OCR reads the Greek in Latin letters, so its notes rest on the reference only. |
+| Jowett and Campbell (1894), vol. III | Republic | 2,202 | The Greek quoted and a bracket; found in Burnet's text. |
+| England (1921), 2 vols. | Laws | 3,904 | Headed by page, letter and line (`659a1.`), or letter and line on the page before. |
+| Burnet (1911) | Phaedo | 614 | Letter and line, the page from the running head (`NOTES 59`). |
+| Archer-Hind (1883) | Phaedo | 527 | The Greek quoted and a bracket, as in his Timaeus. |
+| Campbell (1883) | Theaetetus | 797 | The Greek quoted and a bracket. |
+| Campbell (1867) | Sophist, Statesman | 709, 670 | The Greek quoted and a bracket. |
+| Bury (1909) | Symposium | 217 | Page and letter (`176 C ἐξαιρῶ λόγον`). |
+| Lodge (1896) | Gorgias | 784 | Line and the Greek quoted, then a colon. |
+| Jowett, Introductions (1892; Republic 1888) | 27 dialogues | 1,981 paragraphs | On the whole dialogue: *Introductions* in the Commentary bar. |
+
+- **Placed by the printed reference.** A note headed by its Stephanus reference is at that section. Where it quotes
+  Greek, the words are looked for there in Burnet's text: found word for word, the note is on those words (dotted in
+  the text), and the reference is confirmed by the text itself. A letter printed without its page takes the page
+  of the note before, or the next page where the letter is lower than the one before; such a counted page is
+  checked by the Greek in the same way, the note moved to where the Greek is only if the words are found at one place
+  alone within two pages, and marked ≈ if the Greek cannot confirm it.
+- **Placed by the Greek words.** A note headed by the Greek alone is placed as Archer-Hind's Timaeus notes were in
+  milestone 7. Printed in the order of the text, 98 to 99.7% of them are placed in order, which is the check.
+- **Every note says how** (hover *placed by…*), keeps the OCR as received, and can be proofread and corrected in your
+  own database as in milestone 7.
+- **All the commentaries**: *Commentaries* lists the 102 commentaries and introductions in the library, dialogue by
+  dialogue, with their notes, the sections they cover, how many are on the Greek words and how many are ≈; each can
+  be read straight through, its notes linked to their passages.
+- **Looked for and left out**, with the reason (Thompson's Gorgias and Phaedrus, whose only scans read the Greek in
+  Latin letters; Bury's Philebus; Adam's Euthyphro and Crito; others), and six more found with legible Greek, to read
+  next, are listed at the end of [`reports/commentaries.md`](reports/commentaries.md).
+- **Rebuilding.** `python3 tools/commentary_corpus.py fetch` downloads the OCR again (the copies in `sources/` are
+  committed, with `fetched.json`); `python3 tools/commentary_corpus.py` reads them into `texts/commentary/<dialogue>/`
+  (committed); `tools/build_db.py` places the notes and writes the report.
+
 ## Layout
 
 ```
@@ -597,13 +646,16 @@ sources/          what we use and where it comes from (committed)
   jowett-gutenberg/  Jowett's translations from Project Gutenberg, as received, and which is which
   proclus-1820/, archer-hind-1888/  Internet Archive OCR of the commentaries, as received, with provenance
   burges-1854/, yonge-1853/, hermann-appendix/  Diogenes Laertius III, Albinus, the Anonymous Prolegomena, as received
+  adam-1902/, england-1921/, burnet-1911/, bury-1909/, archer-hind-1883/, campbell-1883/, campbell-1867/,
+  jowett-campbell-1894/, lodge-1896/  Internet Archive OCR of the commentaries of milestone 11, as received
   structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos
   concepts/       the concept index of milestone 10 (concepts.json)
 texts/            imported texts, one JSON file per work (committed)
   taylor-1804/vol1/
   taylor-1804/vol2/ ... vol5/  Taylor's OCR cleaned by rule, with the OCR kept beside it
   commentary/timaeus/  each commentary read into notes, with the OCR kept beside each
-  commentary/<dialogue>/  Taylor's Introductions to 24 more dialogues (tools/taylor_intros.py)
+  commentary/<dialogue>/  Taylor's Introductions to 24 more dialogues (tools/taylor_intros.py), the scholia, and
+                  the commentaries and Jowett's Introductions of milestone 11 (tools/commentary_corpus.py)
   ancient/        the ancient introductions, by section, chapter or page (tools/ancient.py)
   structure/      Archer-Hind's chapters, Jowett's sidenotes, the persons and scene (tools/structure.py read)
 db/               schema of the library and of your own database
@@ -615,10 +667,11 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   translations.py (the historical translations), commentary.py and commentary_db.py
                   (reading and placing the commentaries), citations.py (the citation web),
                   fetch_ancient.py, ancient.py, taylor_intros.py and structure.py (the whole, milestone 9),
-                  scholia.py and concepts.py (the concept index, milestone 10)
+                  scholia.py and concepts.py (the concept index, milestone 10),
+                  commentary_corpus.py (the commentaries across Plato, milestone 11)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
                   commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,
-                  concepts.js the concept index
+                  concepts.js the concept index, commentaries.js the list of every commentary
 tests/
 docs/             screenshots
 reports/          output of verify_sources.py and of the build (corpus.md), committed so results are reviewable

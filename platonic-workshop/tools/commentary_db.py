@@ -228,10 +228,15 @@ class TaylorPlaced:
 
 # ------------------------------------------------------------------ writing
 
+def source_of(doc):
+    m = doc["source"]["manifest_id"]
+    return SOURCE_OF.get(m, m)
+
+
 def add_commentary(db, doc, work_id):
     db.execute("INSERT INTO commentary (id, source_id, work_id, author, label, title, printed, kind, lang, proof_status, "
                "anchoring, file, stats) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-               (doc["id"], SOURCE_OF[doc["source"]["manifest_id"]], work_id, doc["author"], doc["label"], doc["title"],
+               (doc["id"], source_of(doc), work_id, doc["author"], doc["label"], doc["title"],
                 doc["printed"], doc["kind"], doc["lang"], doc["proof_status"], doc["anchoring"],
                 str((TEXTS / WORK_DIRS[work_id] / f"{doc['id']}.json").relative_to(ROOT)),
                 json.dumps(doc.get("stats", {}), ensure_ascii=False)))
@@ -243,7 +248,9 @@ def add_note(db, doc, n, work_id, start, end, method, detail, computed, word=Non
         printed.append(f"vol. {'I' * n['vol']}")
     if n.get("page"):
         printed.append(f"p. {n['page']}" + (f"–{n['last_page']}" if n.get("last_page") and n["last_page"] != n["page"] else ""))
-    if n.get("printed_line"):
+    if n.get("steph"):
+        printed.append(f"headed {n['steph']}" + (f" {n['printed_line']}" if n.get("printed_line") else ""))
+    elif n.get("printed_line"):
         printed.append(f"note on line {n['printed_line']} of his page of Greek")
     if n.get("book"):
         printed.insert(0, f"Book {n['book']}")
@@ -252,7 +259,7 @@ def add_note(db, doc, n, work_id, start, end, method, detail, computed, word=Non
         "INSERT INTO note (source_id, commentator, work_id, start_ref, end_ref, edition_id, chunk_id, offset, lemma_text, body, "
         "body_html, printed_at, anchor_method, proof_status, commentary_id, note_key, kind, seq, word_start, word_end_ref, "
         "word_end, word_method, computed, anchor_detail, raw, parent_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        (SOURCE_OF[doc["source"]["manifest_id"]], doc["label"], work_id, start, end, None, None, None, n.get("lemma"),
+        (source_of(doc), doc["label"], work_id, start, end, None, None, None, n.get("lemma"),
          n["text"], body_html(n["text"]), ", ".join(printed) or None, method, doc["proof_status"], doc["id"], n["id"],
          n["kind"], n["seq"], w.get("start"), w.get("end_ref"), w.get("end"), w.get("method"), 1 if computed else 0,
          detail, n.get("raw"), parent))
@@ -361,6 +368,10 @@ def build_commentaries(db, work_id):
         if doc.get("ocr_theta"):
             # Hermann's Teubner prints θ as ϑ, which the reading of Archer-Hind's OCR takes for δ.
             greek_notes = [dict(n, lemma=n["lemma"].replace("ϑ", "θ")) for n in greek_notes]
+        if doc.get("place_by") == "steph":
+            place_steph(db, doc, work_id, greek_text, sections, seq_of, st, id_of)
+            db.execute("UPDATE commentary SET n_notes = ? WHERE id = ?", (st["notes"], doc["id"]))
+            continue
         greek_hits = place_greek_lemmata(greek_text, greek_notes)
         quoter = doc.get("quoter", "Archer-Hind")
         for n in sorted(doc["notes"], key=lambda x: (x["kind"] == "footnote", x["seq"])):
@@ -445,6 +456,107 @@ def build_commentaries(db, work_id):
     return stats
 
 
+STEPH_STATS = ("printed, on the Greek words quoted", "printed, quoted Greek not found there", "printed, no Greek quoted",
+               "counted, on the Greek words quoted", "counted, the Greek found on another section",
+               "counted, quoted Greek not found", "counted, no Greek quoted", "letter not in Burnet's text")
+
+
+def steph_lemma(lemma):
+    """The Greek words of a lemma headed by a Stephanus reference: up to the first
+    comma, semicolon, bracket or word in Latin letters, without 'κτλ.' (and the rest)."""
+    out = []
+    for w in re.split(r"\s+", lemma.strip()):
+        if re.search(r"[A-Za-z0-9]", w) or w.startswith(("κτλ", "κ.τ.λ")):
+            break
+        stop = re.search(r"[,;()\[\]]", w)
+        if stop:
+            w = w[:stop.start()]
+            if w:
+                out.append(w)
+            break
+        out.append(w)
+    return " ".join(out)
+
+
+def place_steph(db, doc, work_id, text, sections, seq_of, st, id_of):
+    """Milestone 11: notes headed by their Stephanus reference (Adam, England,
+    Burnet, Bury; tools/commentary_corpus.py).
+
+    The note is at the section printed at its head. Where it quotes Greek, the
+    words are looked for in Burnet's text on that section (and a little either
+    side, since a lemma may run over a letter): found word for word, the note is
+    on those words. Where the page was counted rather than printed, the Greek is
+    also looked for on the two pages either side; found word for word at one
+    place only, the note is put there, on those words, and says so. Nothing
+    else moves a note."""
+    for k in STEPH_STATS:
+        st.setdefault(k, 0)
+    pages_of = {}
+    for r in sections:
+        pages_of.setdefault(re.match(r"\d+", r).group(0), []).append(r)
+    for n in doc["notes"]:
+        st["notes"] += 1
+        if n["kind"] == "introduction":
+            id_of[n["id"]] = add_note(db, doc, n, work_id, sections[0], sections[-1], "whole dialogue",
+                                      "An introduction to the whole dialogue, not to one passage.", 0)
+            st["whole dialogue"] += 1
+            continue
+        ref = n["steph"]
+        counted = n["steph_how"].startswith("counted")
+        how = {"printed": "printed at the head of the note",
+               "printed with an earlier note": "the letter printed at the head of the note, the page printed with an earlier note",
+               "running head": "the letter printed at the head of the note, the page from the running head",
+               }.get(n["steph_how"], n["steph_how"])
+        if ref not in seq_of:
+            page = re.match(r"\d+", ref).group(0)
+            on_page = [r for r in pages_of.get(page, []) if r <= ref]
+            fallback = on_page[-1] if on_page else (pages_of.get(page) or [sections[0]])[0]
+            detail = f"{ref} ({how}); Burnet's text has no such section, so placed at {fallback}."
+            ref, counted = fallback, True
+            st["letter not in Burnet's text"] += 1
+        else:
+            detail = f"At {ref}: {how}."
+        words = text.lemma_words(steph_lemma(n["lemma"])) if n.get("lemma") else []
+        i0 = text.first_of.get(ref)
+        nxt = sections[seq_of[ref] + 1] if seq_of[ref] + 1 < len(sections) else None
+        i1 = text.first_of.get(nxt, len(text.plain)) if nxt else len(text.plain)
+        hit = text.find(words, i0 - 40, i1 + 60, i0) if words and i0 is not None else None
+        if hit and hit[3] != "exact":
+            hit = None
+        moved = False
+        if words and not hit and counted and len(words) >= 2 and i0 is not None:
+            span = 1200
+            cands = [i for i in text.exact_all(words) if i0 - span <= i <= i1 + span]
+            if len(cands) == 1:
+                hit = (cands[0], cands[0] + len(words) - 1, len(words), "exact")
+                moved = True
+        word = None
+        if hit:
+            a, b, _, _ = hit
+            ta, tb = text.toks[a], text.toks[b]
+            word = {"start": ta[1], "end_ref": tb[0], "end": tb[1], "method": "quoted Greek found word for word (accents ignored)"}
+            if moved:
+                detail = (f"The page was counted ({ref}); the Greek it quotes, {n['lemma']!r}, is found word for word at one "
+                          f"place only near there, {ta[0]}: " + " ".join(t[2] for t in text.toks[a:b + 1]) + ".")
+                ref = ta[0]
+                st["counted, the Greek found on another section"] += 1
+            else:
+                detail += f" The Greek quoted, {n['lemma']!r}, is found there word for word: " + " ".join(t[2] for t in text.toks[a:b + 1]) + "."
+                st["counted, on the Greek words quoted" if counted else "printed, on the Greek words quoted"] += 1
+            start = ref
+            end = tb[0] if seq_of.get(tb[0], 0) >= seq_of[ref] else ref
+            computed = 0        # the place rests on the Greek words quoted, found word for word
+        else:
+            if words:
+                detail += f" The Greek quoted, {n['lemma']!r}, is not found there word for word (the OCR may have misread it)."
+                st["counted, quoted Greek not found" if counted else "printed, quoted Greek not found there"] += 1
+            else:
+                st["counted, no Greek quoted" if counted else "printed, no Greek quoted"] += 1
+            start, end, computed = ref, ref, 1 if counted else 0
+        id_of[n["id"]] = add_note(db, doc, n, work_id, start, end, "printed reference", detail, computed, word)
+        st["computed"] += computed
+
+
 # ------------------------------------------------------------------ report
 
 def write_report(db, work_id, stats, path):
@@ -526,3 +638,87 @@ def write_report(db, work_id, stats, path):
           "Taylor's Introduction (1804), Archer-Hind's Introduction (1888), Jowett's Introduction and Analysis (1892) and "
           "Proclus' preface are on the whole dialogue: the reader shows them under *Introductions*, not at a passage.", ""]
     path.write_text("\n".join(L) + "\n", encoding="utf-8")
+
+
+# ------------------------------------------------------------------ milestone 11: the report on the whole corpus
+
+def write_corpus_report(db, comm_stats, path):
+    """reports/commentaries.md: every commentary on the rest of Plato (milestone 11), how its notes
+    were placed, and the checks, every figure counted from the library."""
+    import commentary_corpus
+    books = {b["id"]: b for b in commentary_corpus.BOOKS}
+    title = dict(db.execute("SELECT id, title FROM work"))
+    seq_of = {}
+    for w, r, i in db.execute("SELECT work_id, ref, seq FROM section"):
+        seq_of[(w, r)] = i
+    L = ["# The commentaries across Plato: what the import found", "",
+         "Written by `tools/build_db.py` (milestone 11) from the library it builds; every figure is counted, not typed. "
+         "The books are read into notes by `tools/commentary_corpus.py` into `texts/commentary/<dialogue>/`, and placed "
+         "by `tools/commentary_db.py`. The Timaeus commentaries of milestone 7 are in `reports/commentary_timaeus.md`.", "",
+         "## Every commentary in the library", "",
+         "| Dialogue | Commentary | Notes | On the Greek words | Computed (≈) | On the whole dialogue | Sections with a note |",
+         "|---|---|---:|---:|---:|---:|---:|"]
+    rows = db.execute(
+        "SELECT c.work_id, c.id, c.label, count(n.id), sum(n.word_start IS NOT NULL), sum(n.computed), "
+        "sum(n.kind = 'introduction'), count(DISTINCT CASE WHEN n.kind != 'introduction' THEN n.start_ref END) "
+        "FROM commentary c JOIN note n ON n.commentary_id = c.id GROUP BY c.id ORDER BY c.work_id, c.label").fetchall()
+    tot = [0] * 5
+    works = set()
+    for w, cid, label, n, words, comp, whole, secs in rows:
+        L.append(f"| {title[w]} | {label} | {n} | {words} | {comp} | {whole} | {secs} |")
+        for k, v in enumerate((n, words, comp, whole, secs)):
+            tot[k] += v or 0
+        works.add(w)
+    L += [f"| **{len(works)} dialogues** | **{len(rows)} commentaries** | **{tot[0]}** | **{tot[1]}** | **{tot[2]}** | **{tot[3]}** | **{tot[4]}** |", ""]
+
+    # Notes headed by a Stephanus reference.
+    L += ["## Notes headed by their Stephanus reference", "",
+          "Adam, England, Burnet and Bury head each note with the page, letter and line it is on. The note is put at that "
+          "section. Where the page had to be counted (only the letter is printed, lower than the one before), the Greek the note "
+          "quotes decides: found word for word there, the count is confirmed; found at one place only on a page either side, "
+          "the note is put there and says so. Where the Greek is found at the section printed, the printed reference is "
+          "confirmed by the text itself: that share is the check on the reading of the heads.", "",
+          "| Commentary | Notes | Printed, Greek found there | Printed, Greek not found | Printed, no Greek | Counted, Greek found there | Counted, Greek found nearby (moved) | Counted, Greek not found (≈) | Counted, no Greek (≈) | Letter not in Burnet |",
+          "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
+    for w, st in comm_stats.items():
+        for cid, s in st.items():
+            if "printed, on the Greek words quoted" not in s:
+                continue
+            L.append(f"| {s['label']} ({title[w]}) | {s['notes']} | " + " | ".join(str(s[k]) for k in STEPH_STATS) + " |")
+            found = s["printed, on the Greek words quoted"] + s["counted, on the Greek words quoted"]
+            tried = found + s["printed, quoted Greek not found there"] + s["counted, quoted Greek not found"] + s["counted, the Greek found on another section"]
+            L.append("")
+            L.append(f"{s['label']}: of the {tried} notes whose quoted Greek could be looked for, {found} "
+                     f"({100 * found / max(1, tried):.1f}%) are found word for word at the section their head gives.")
+            L.append("")
+    L += ["", "Where the quoted Greek is not found, the OCR has usually misread it (Adam's vol. I reads all his Greek in Latin "
+          "letters), or the editor's text differs from Burnet's. The note stays at the section printed.", ""]
+
+    # Notes headed by the Greek words alone.
+    L += ["## Notes headed by the Greek words alone", "",
+          "Archer-Hind's Phaedo, Campbell's Theaetetus, Sophist and Statesman, and Jowett and Campbell's Republic quote the Greek and close it with a bracket (Lodge's Gorgias with a colon), "
+          "with the line of their page of Greek but no Stephanus reference; the words are found in Burnet's text, as for "
+          "Archer-Hind's Timaeus. **Check:** the notes are printed in the order of the text, so a note placed before the "
+          "note printed before it is out of order; the share in order is the check on the placing.", "",
+          "| Commentary | Notes | Word for word | In part (≈) | Not found, with the note before (≈) | In order |",
+          "|---|---:|---:|---:|---:|---:|"]
+    for w, st in comm_stats.items():
+        for cid, s in st.items():
+            if cid.split("-")[0] not in books or books[cid.split("-")[0]]["style"] not in ("bracket", "colon"):
+                continue
+            refs = [r for (r,) in db.execute("SELECT start_ref FROM note WHERE commentary_id = ? AND word_start IS NOT NULL "
+                                              "ORDER BY seq", (cid,))]
+            ok = sum(1 for a, b in zip(refs, refs[1:]) if seq_of[(w, b)] >= seq_of[(w, a)])
+            L.append(f"| {s['label']} ({title[w]}) | {s['notes']} | {s['words exact']} | {s['words partial']} | {s['not found']} | "
+                     f"{ok} of {max(0, len(refs) - 1)} ({100 * ok / max(1, len(refs) - 1):.1f}%) |")
+    L += ["", "## Where each book came from", ""]
+    for b in commentary_corpus.BOOKS:
+        L.append(f"- **{b['label']}**: {b['printed']}. Internet Archive OCR of {b['copy']}: "
+                 + ", ".join(f"[{x}](https://archive.org/details/{x})" for x in b["items"])
+                 + f", in `sources/{b['folder']}/`." + (f" {b['ocr_note']}" if b.get("ocr_note") else ""))
+    L.append("- **Jowett, Introductions**: The Dialogues of Plato, 3rd ed. (Oxford, 1892), and the Republic (3rd ed., 1888), "
+             "Project Gutenberg plain text in `sources/jowett-gutenberg/`. A note on the whole dialogue per paragraph; his marginal "
+             "headings are left to the structure layer (milestone 9).")
+    L += ["", "## Looked for and not imported", ""] + [f"- {x}" for x in commentary_corpus.NOT_IMPORTED]
+    L += ["", "## Found, with Greek the OCR reads, not yet read into notes", ""] + [f"- {x}" for x in commentary_corpus.FOUND_NOT_YET_READ] + [""]
+    path.write_text("\n".join(L), encoding="utf-8")

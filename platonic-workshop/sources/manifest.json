@@ -7,8 +7,13 @@
       "kind": "git",
       "repo": "https://github.com/PerseusDL/canonical-greekLit.git",
       "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
-      "paths": ["data/tlg0059"],
-      "include": ["*-grc*.xml", "__cts__.xml"],
+      "paths": [
+        "data/tlg0059"
+      ],
+      "include": [
+        "*-grc*.xml",
+        "__cts__.xml"
+      ],
       "layer": "text",
       "language": "grc",
       "citation_scheme": "CTS urn:cts:greekLit:tlg0059.tlgNNN; Stephanus page+letter in <milestone unit='section' resp='Stephanus'>",
@@ -22,8 +27,12 @@
       "kind": "git",
       "repo": "https://github.com/PerseusDL/canonical-greekLit.git",
       "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
-      "paths": ["data/tlg0059"],
-      "include": ["*-eng*.xml"],
+      "paths": [
+        "data/tlg0059"
+      ],
+      "include": [
+        "*-eng*.xml"
+      ],
       "layer": "translation",
       "language": "eng",
       "citation_scheme": "Same Stephanus milestones as the Greek",
@@ -37,7 +46,11 @@
       "kind": "git",
       "repo": "https://github.com/alekkeersmaekers/glaux.git",
       "commit": "b077d8f6ff429a5c7245954bc16bb7d1d7948823",
-      "paths": ["README.md", "metadata.txt", "xml/0059-*.xml"],
+      "paths": [
+        "README.md",
+        "metadata.txt",
+        "xml/0059-*.xml"
+      ],
       "layer": "lemma",
       "language": "grc",
       "citation_scheme": "Each word carries div_page and div_stephanus_section (e.g. 29e) from the Perseus text",
@@ -51,7 +64,11 @@
       "kind": "git",
       "repo": "https://github.com/cltk/greek_lexica_perseus.git",
       "commit": "8b77ce0547275a1d17e7bce1e7d98e200a9ff511",
-      "paths": ["README.md", "greek-analyses_1.txt", "greek-analyses_2.txt"],
+      "paths": [
+        "README.md",
+        "greek-analyses_1.txt",
+        "greek-analyses_2.txt"
+      ],
       "layer": "morphology",
       "language": "grc",
       "citation_scheme": "Keyed by inflected form in Beta Code",
@@ -65,7 +82,10 @@
       "kind": "git",
       "repo": "https://github.com/PerseusDL/lexica.git",
       "commit": "1c34cdf756c63cf37db61bd366d733431dbd7aa0",
-      "paths": ["license.md", "CTS_XML_TEI/perseus/pdllex/grc/lsj"],
+      "paths": [
+        "license.md",
+        "CTS_XML_TEI/perseus/pdllex/grc/lsj"
+      ],
       "layer": "dictionary",
       "language": "grc-eng",
       "citation_scheme": "<entryFree key='...'> in Beta Code",
@@ -79,7 +99,11 @@
       "kind": "git",
       "repo": "https://github.com/blinskey/middle-liddell.git",
       "commit": "5db8d88a20066e182ca3fc6ee758c9f61ac60603",
-      "paths": ["LICENSE.md", "README.md", "Perseus_text_1999.04.0058.xml"],
+      "paths": [
+        "LICENSE.md",
+        "README.md",
+        "Perseus_text_1999.04.0058.xml"
+      ],
       "layer": "dictionary",
       "language": "grc-eng",
       "citation_scheme": "<entryFree key='...'> in Beta Code",
@@ -122,7 +146,11 @@
       "kind": "git",
       "repo": "https://github.com/PerseusDL/treebank_data.git",
       "commit": "bf4334f0af5e13d16b04c1cccd6237e683ac6f5f",
-      "paths": ["README.md", "AGDT2/guidelines/readme.md", "AGDT2/guidelines/Greek_guidelines.md"],
+      "paths": [
+        "README.md",
+        "AGDT2/guidelines/readme.md",
+        "AGDT2/guidelines/Greek_guidelines.md"
+      ],
       "layer": "grammar",
       "language": "eng",
       "citation_scheme": "Section 3 of the guidelines, one heading per syntactic label (PRED, SBJ, OBJ, ATR ...)",
@@ -136,7 +164,10 @@
       "kind": "git",
       "repo": "https://github.com/GITenberg/Timaeus_1572.git",
       "commit": "53f2f2bc44091a887cf49ec57db79559d0404a09",
-      "paths": ["1572.txt", "metadata.yaml"],
+      "paths": [
+        "1572.txt",
+        "metadata.yaml"
+      ],
       "layer": "translation+commentary",
       "language": "eng",
       "citation_scheme": "None printed; aligned to Stephanus by hand later (milestone 6)",
@@ -193,7 +224,9 @@
       "kind": "git",
       "repo": "https://github.com/OpenGreekAndLatin/First1KGreek.git",
       "commit": "ed91552c52530c8f5a3ddf2dd767e899372a804c",
-      "paths": ["data/tlg4036"],
+      "paths": [
+        "data/tlg4036"
+      ],
       "layer": "commentary",
       "language": "grc",
       "citation_scheme": "Kroll volume and page; needs a concordance to Stephanus",
@@ -206,7 +239,10 @@
       "title": "The Commentaries of Proclus on the Timaeus of Plato, in five books, translated from the Greek by Thomas Taylor, 2 vols (London, 1820), OCR text",
       "kind": "local",
       "path": "sources/proclus-1820",
-      "urls": ["https://archive.org/details/proclusontimaeus01procuoft", "https://archive.org/details/proclusontimaeus02procuoft"],
+      "urls": [
+        "https://archive.org/details/proclusontimaeus01procuoft",
+        "https://archive.org/details/proclusontimaeus02procuoft"
+      ],
       "layer": "commentary",
       "language": "eng",
       "citation_scheme": "Volume and page of the 1820 edition; Proclus' lemmata quote the Timaeus in Taylor's translation, with no Stephanus numbers",
@@ -219,7 +255,9 @@
       "title": "The Timaeus of Plato, edited with introduction and notes by R. D. Archer-Hind (London: Macmillan, 1888), OCR text",
       "kind": "local",
       "path": "sources/archer-hind-1888",
-      "urls": ["https://archive.org/details/timaeusofplato00platiala"],
+      "urls": [
+        "https://archive.org/details/timaeusofplato00platiala"
+      ],
       "layer": "commentary",
       "language": "eng+grc",
       "citation_scheme": "Each note names the line of Archer-Hind's page of Greek and quotes the Greek words; the pages are headed with Stephanus references",
@@ -232,7 +270,9 @@
       "title": "The Works of Plato, vol. VI, translated by George Burges (London: Henry G. Bohn, 1854), OCR text: the Life of Plato by Diogenes Laertius, the Introduction of Albinus, Alcinous' handbook and the Definitions",
       "kind": "local",
       "path": "sources/burges-1854",
-      "urls": ["https://archive.org/details/worksofplatonewl06platiala"],
+      "urls": [
+        "https://archive.org/details/worksofplatonewl06platiala"
+      ],
       "layer": "ancient introduction",
       "language": "eng",
       "citation_scheme": "Diogenes Laertius by the section numbers printed in brackets, [57.]; Albinus by chapter, [1.] to [9.]",
@@ -245,7 +285,9 @@
       "title": "Diogenes Laertius, The Lives and Opinions of Eminent Philosophers, translated by C. D. Yonge (London: Henry G. Bohn, 1853), Project Gutenberg ebook 57342",
       "kind": "local",
       "path": "sources/yonge-1853",
-      "urls": ["https://www.gutenberg.org/ebooks/57342"],
+      "urls": [
+        "https://www.gutenberg.org/ebooks/57342"
+      ],
       "layer": "ancient introduction",
       "language": "eng",
       "citation_scheme": "Yonge's chapters of book III, I to LXXV",
@@ -258,12 +300,151 @@
       "title": "Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; Appendix Platonica), OCR text: the Greek of Albinus' Prologue, the Anonymous Prolegomena, the Definitions and the Scholia Platonica",
       "kind": "local",
       "path": "sources/hermann-appendix",
-      "urls": ["https://archive.org/details/platonisdialogi06plat"],
+      "urls": [
+        "https://archive.org/details/platonisdialogi06plat"
+      ],
       "layer": "ancient introduction",
       "language": "grc",
       "citation_scheme": "Hermann's page numbers",
       "licence": "Public domain",
       "provenance": "Internet Archive 'djvu.txt' OCR, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Unproofread Greek OCR. No public-domain English of the Prolegomena exists (Westerink's of 1962 is in copyright). Read into texts/ancient/ by tools/ancient.py (milestone 9; the Definitions, milestone 10). The scholia are read into texts/commentary/<dialogue>/scholia-hermann.json by tools/scholia.py (milestone 10).",
+      "status": "local"
+    },
+    {
+      "id": "adam-1902",
+      "title": "The Republic of Plato, edited with critical notes, commentary and appendices by James Adam, 2 vols. (Cambridge: University Press, 1902), OCR text",
+      "kind": "local",
+      "path": "sources/adam-1902",
+      "urls": [
+        "https://archive.org/details/republic01platuoft",
+        "https://archive.org/details/republic02platuoft"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note is headed by the Stephanus page, letter and line it is on",
+      "licence": "Public domain (James Adam died in 1907)",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of Toronto copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread. Vol. I's OCR reads Adam's Greek in Latin letters, so its notes are placed by the reference printed at their head only; vol. II reads the Greek well. Read into notes by tools/commentary_corpus.py (milestone 11).",
+      "status": "local"
+    },
+    {
+      "id": "england-1921",
+      "title": "The Laws of Plato, the text edited with introduction, notes, etc. by E. B. England, 2 vols. (Manchester: University Press, 1921), OCR text",
+      "kind": "local",
+      "path": "sources/england-1921",
+      "urls": [
+        "https://archive.org/details/thelawsofplatoth01platuoft",
+        "https://archive.org/details/lawsofplatotexte02platuoft"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note is headed by the Stephanus page, letter and line it is on",
+      "licence": "Public domain (E. B. England died in 1936; printed 1921)",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of Toronto copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread.  Read into notes by tools/commentary_corpus.py (milestone 11).",
+      "status": "local"
+    },
+    {
+      "id": "burnet-1911",
+      "title": "Plato's Phaedo, edited with introduction and notes by John Burnet (Oxford: Clarendon Press, 1911), OCR text",
+      "kind": "local",
+      "path": "sources/burnet-1911",
+      "urls": [
+        "https://archive.org/details/cu31924026679484"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note is headed by the Stephanus page, letter and line it is on",
+      "licence": "Public domain (John Burnet died in 1928)",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the Cornell University copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread.  Read into notes by tools/commentary_corpus.py (milestone 11).",
+      "status": "local"
+    },
+    {
+      "id": "bury-1909",
+      "title": "The Symposium of Plato, edited with introduction, critical notes and commentary by R. G. Bury (Cambridge: W. Heffer and Sons, 1909), OCR text",
+      "kind": "local",
+      "path": "sources/bury-1909",
+      "urls": [
+        "https://archive.org/details/cu31924073426151"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note is headed by the Stephanus page, letter and line it is on",
+      "licence": "Public domain (R. G. Bury died in 1951; printed 1909 (public domain in the United States, and since 2022 under life plus 70))",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the Cornell University copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread.  Read into notes by tools/commentary_corpus.py (milestone 11).",
+      "status": "local"
+    },
+    {
+      "id": "archer-hind-1883",
+      "title": "The Phaedo of Plato, edited with introduction, notes and appendices by R. D. Archer-Hind (London: Macmillan, 1883), OCR text",
+      "kind": "local",
+      "path": "sources/archer-hind-1883",
+      "urls": [
+        "https://archive.org/details/cu31924026679435"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note names the line of the editor's page of Greek and quotes the Greek words it is on",
+      "licence": "Public domain (R. D. Archer-Hind died in 1910)",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the Cornell University copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread.  Read into notes by tools/commentary_corpus.py (milestone 11).",
+      "status": "local"
+    },
+    {
+      "id": "campbell-1883",
+      "title": "The Theaetetus of Plato, with a revised text and English notes by Lewis Campbell, 2nd ed. (Oxford: Clarendon Press, 1883), OCR text",
+      "kind": "local",
+      "path": "sources/campbell-1883",
+      "urls": [
+        "https://archive.org/details/thetetusofplatow00plat"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note names the line of the editor's page of Greek and quotes the Greek words it is on",
+      "licence": "Public domain (Lewis Campbell died in 1908)",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the Internet Archive copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread.  Read into notes by tools/commentary_corpus.py (milestone 11).",
+      "status": "local"
+    },
+    {
+      "id": "campbell-1867",
+      "title": "The Sophistes and Politicus of Plato, with a revised text and English notes by Lewis Campbell (Oxford: Clarendon Press, 1867), OCR text",
+      "kind": "local",
+      "path": "sources/campbell-1867",
+      "urls": [
+        "https://archive.org/details/sophistespolitic00plat"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note names the line of the editor's page of Greek and quotes the Greek words it is on",
+      "licence": "Public domain (Lewis Campbell died in 1908)",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the Internet Archive copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread.  Read into notes by tools/commentary_corpus.py (milestone 11).",
+      "status": "local"
+    },
+    {
+      "id": "jowett-campbell-1894",
+      "title": "Plato's Republic, the Greek text, edited with notes and essays by B. Jowett and Lewis Campbell, vol. III, Notes (Oxford: Clarendon Press, 1894), OCR text",
+      "kind": "local",
+      "path": "sources/jowett-campbell-1894",
+      "urls": [
+        "https://archive.org/details/republicgreektex03platuoft"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note quotes the Greek words it is on, closed by a bracket",
+      "licence": "Public domain (Jowett died in 1893, Campbell in 1908)",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of Toronto copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread. Read into notes by tools/commentary_corpus.py (milestone 11).",
+      "status": "local"
+    },
+    {
+      "id": "lodge-1896",
+      "title": "Plato, Gorgias, edited on the basis of the Deuschle-Cron edition by Gonzalez Lodge (Boston: Ginn, 1896), OCR text",
+      "kind": "local",
+      "path": "sources/lodge-1896",
+      "urls": [
+        "https://archive.org/details/gorgiasss00platuoft"
+      ],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note is headed by the line of the editor's page of Greek and the Greek words, closed by a colon",
+      "licence": "Public domain (Gonzalez Lodge died in 1942; printed 1896)",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of Toronto copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread. Read into notes by tools/commentary_corpus.py (milestone 11).",
       "status": "local"
     }
   ]

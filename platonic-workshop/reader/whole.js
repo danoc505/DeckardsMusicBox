@@ -22,7 +22,7 @@ const wholeHash = (id) => { const w = workById(id); return "#" + (w ? w.slug : i
 const refSpan = (w, a, b) => `<a href="${esc(placeHash(w, a))}">${esc(a)}</a>${b && b !== a ? `–<a href="${esc(placeHash(w, b))}">${esc(b)}</a>` : ""}`;
 
 function setView(cls) {
-  document.body.classList.remove("searching", "discussing", "whole-view", "corpus-view", "concepts-view");
+  document.body.classList.remove("searching", "discussing", "whole-view", "corpus-view", "concepts-view", "commentaries-view");
   if (cls) document.body.classList.add(cls);
   closeInspector();
 }

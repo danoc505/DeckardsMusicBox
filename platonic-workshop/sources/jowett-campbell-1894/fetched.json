@@ -1,0 +1,18 @@
+{
+  "republicgreektex03platuoft_djvu.txt": {
+    "url": "https://archive.org/download/republicgreektex03platuoft/republicgreektex03platuoft_djvu.txt",
+    "fetched_at": "2026-11-05T13:10:19+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1467849,
+    "sha256": "65bbd63684f2c64c09888cf60b044cb17956e77c8dfb2d8d55e8f0fd2e09efc6"
+  },
+  "republicgreektex03platuoft_metadata.json": {
+    "url": "https://archive.org/metadata/republicgreektex03platuoft/metadata",
+    "fetched_at": "2026-11-05T13:10:21+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2082,
+    "sha256": "05a5fd8b651b4979b94cc7940cc9980a7ccd888196ba6b59aaec0efc8db9a4f5"
+  }
+}
