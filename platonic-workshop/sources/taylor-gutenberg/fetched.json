@@ -1,0 +1,38 @@
+{
+ "pg77393.txt": {
+  "ebook": "77393",
+  "title": "Proclus, The Six Books on the Theology of Plato, tr. Thomas Taylor (London, 1816), vol. 1",
+  "url": "https://www.gutenberg.org/cache/epub/77393/pg77393.txt",
+  "catalogue": "https://www.gutenberg.org/ebooks/77393",
+  "fetched": "2026-11-05T17:14:57+00:00",
+  "sha256": "243e2cd63e2b162bacaba357d04ed1c340f0947273c1b53728b59dceb34789ce",
+  "bytes": 1177047
+ },
+ "pg78800.txt": {
+  "ebook": "78800",
+  "title": "Proclus, The Six Books on the Theology of Plato, tr. Thomas Taylor (London, 1816), vol. 2",
+  "url": "https://www.gutenberg.org/cache/epub/78800/pg78800.txt",
+  "catalogue": "https://www.gutenberg.org/ebooks/78800",
+  "fetched": "2026-11-05T17:14:58+00:00",
+  "sha256": "36d17e60316c4e5632d7bf5612faaab083ac2c30152d7f1b67e1452a602dd904",
+  "bytes": 1352533
+ },
+ "pg77014.txt": {
+  "ebook": "77014",
+  "title": "Select Works of Porphyry, tr. Thomas Taylor (London, 1823)",
+  "url": "https://www.gutenberg.org/cache/epub/77014/pg77014.txt",
+  "catalogue": "https://www.gutenberg.org/ebooks/77014",
+  "fetched": "2026-11-05T17:14:58+00:00",
+  "sha256": "a835f6fe77040afc0e201eb59bd30743165c60ead7cca6691871bf4a119280c8",
+  "bytes": 617358
+ },
+ "pg75391.txt": {
+  "ebook": "75391",
+  "title": "Ocellus Lucanus on the Nature of the Universe; Taurus on the Eternity of the World; tr. Thomas Taylor (London, 1831)",
+  "url": "https://www.gutenberg.org/cache/epub/75391/pg75391.txt",
+  "catalogue": "https://www.gutenberg.org/ebooks/75391",
+  "fetched": "2026-11-05T17:14:58+00:00",
+  "sha256": "f3410a946205070cbcbda68be9a8a319ac5fb54d3bc0f1ce066fac9906d3923f",
+  "bytes": 177777
+ }
+}

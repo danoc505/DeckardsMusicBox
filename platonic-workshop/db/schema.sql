@@ -586,3 +586,84 @@ CREATE TABLE compared_word (
     named       INTEGER NOT NULL,          -- 1: one of the six the build prompt names
     seq         INTEGER NOT NULL
 );
+
+-- @reconcile ------------------------------------------- reconciliation
+--
+-- Milestone 12 (tools/reconcile.py), from sources/reconcile/. Every quotation
+-- is a row of `evidence`: owner 'method:<id>' for a method's grounds,
+-- 'reconcile:<tension>:documented' for who documents the tension,
+-- 'reconcile:<tension>:passage:<n>' for Burnet's Greek and the English of a
+-- passage, 'reconcile:<tension>:reading:<n>' for what a reading rests on.
+
+-- An interpretive method: allegorical reading, ontological distinction ...
+CREATE TABLE reconcile_method (
+    id          TEXT PRIMARY KEY,          -- 'allegorical'
+    name        TEXT NOT NULL,
+    plain       TEXT NOT NULL,             -- what it is, in plain English (written for the Workshop)
+    named       INTEGER NOT NULL,          -- 1: one of the eight the build prompt names
+    greek       TEXT,                      -- the Greek term, where the sources have one
+    owner       TEXT NOT NULL,             -- evidence.owner of its grounds
+    seq         INTEGER NOT NULL
+);
+-- The concepts a method belongs with: how the worksheet retrieves the methods for a passage.
+CREATE TABLE reconcile_method_concept (
+    method_id   TEXT NOT NULL REFERENCES reconcile_method(id),
+    concept_id  TEXT NOT NULL REFERENCES concept(id),
+    PRIMARY KEY (method_id, concept_id)
+);
+-- A documented tension between passages of Plato.
+CREATE TABLE reconcile_tension (
+    id          TEXT PRIMARY KEY,          -- 'soul-simple-or-in-parts'
+    title       TEXT NOT NULL,
+    category    TEXT NOT NULL REFERENCES concept_category(name),
+    question    TEXT NOT NULL,             -- the question, in plain English
+    nature      TEXT NOT NULL,             -- the nature of the apparent contradiction (editorial)
+    owner       TEXT NOT NULL,             -- evidence.owner of the quotations documenting it
+    seq         INTEGER NOT NULL
+);
+CREATE TABLE reconcile_passage (
+    tension_id  TEXT NOT NULL REFERENCES reconcile_tension(id),
+    n           INTEGER NOT NULL,          -- 0 = side a, 1 = side b, 2... further passages
+    side        TEXT NOT NULL,             -- a | b | more
+    work_id     TEXT NOT NULL,
+    start_ref   TEXT NOT NULL,
+    end_ref     TEXT NOT NULL,
+    says        TEXT NOT NULL,             -- what the passage says (editorial summary)
+    owner       TEXT NOT NULL,             -- evidence.owner of its Greek and English quotations
+    PRIMARY KEY (tension_id, n),
+    FOREIGN KEY (work_id, start_ref) REFERENCES section(work_id, ref),
+    FOREIGN KEY (work_id, end_ref) REFERENCES section(work_id, ref)
+);
+-- The Greek words at issue in a passage: dictionary evidence, each tagged there.
+CREATE TABLE reconcile_word (
+    tension_id  TEXT NOT NULL,
+    n           INTEGER NOT NULL,          -- reconcile_passage.n
+    lemma       TEXT NOT NULL,
+    why         TEXT NOT NULL,
+    tagged      INTEGER NOT NULL           -- how many words of the passage GLAUx tags with this lemma
+);
+CREATE TABLE reconcile_concept (
+    tension_id  TEXT NOT NULL REFERENCES reconcile_tension(id),
+    concept_id  TEXT NOT NULL REFERENCES concept(id),
+    PRIMARY KEY (tension_id, concept_id)
+);
+-- A way of reconciling a tension, with its method and who holds it.
+CREATE TABLE reconcile_reading (
+    tension_id  TEXT NOT NULL REFERENCES reconcile_tension(id),
+    n           INTEGER NOT NULL,
+    method_id   TEXT NOT NULL REFERENCES reconcile_method(id),
+    status      TEXT NOT NULL,             -- established (quoted from its holder) | proposed (the Workshop's suggestion)
+    by          TEXT NOT NULL,             -- who holds it: 'Proclus', 'Plato himself (Rep. 611b)', 'the Workshop'
+    summary     TEXT NOT NULL,
+    owner       TEXT NOT NULL,             -- evidence.owner of the words it rests on
+    PRIMARY KEY (tension_id, n)
+);
+-- Notes on one passage of a tension that cite another passage of it (from the citation web, by rule).
+CREATE TABLE reconcile_cites (
+    tension_id  TEXT NOT NULL,
+    from_n      INTEGER NOT NULL,
+    to_n        INTEGER NOT NULL,
+    note_id     INTEGER NOT NULL REFERENCES note(id),
+    PRIMARY KEY (tension_id, from_n, to_n, note_id)
+);
+-- @end reconcile

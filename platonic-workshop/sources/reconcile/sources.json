@@ -1,0 +1,17 @@
+{
+ "about": "Books the reconciliation worksheet quotes besides those of the concept index (sources/concepts/sources.json): Project Gutenberg's proofread transcriptions of Thomas Taylor's translations, downloaded by tools/fetch_reconcile.py into sources/taylor-gutenberg/ (fetched.json has the URL, time and SHA-256 of each).",
+ "books": {
+  "proclus-theology-gutenberg": {
+   "cite": "Proclus, The Six Books on the Theology of Plato, tr. Thomas Taylor (London, 1816; Project Gutenberg)",
+   "files": ["sources/taylor-gutenberg/pg77393.txt", "sources/taylor-gutenberg/pg78800.txt"]
+  },
+  "porphyry-gutenberg": {
+   "cite": "Select Works of Porphyry, tr. Thomas Taylor (London, 1823; Project Gutenberg)",
+   "files": ["sources/taylor-gutenberg/pg77014.txt"]
+  },
+  "taurus-gutenberg": {
+   "cite": "Taurus on the Eternity of the World, in Ocellus Lucanus on the Nature of the Universe, tr. Thomas Taylor (London, 1831; Project Gutenberg)",
+   "files": ["sources/taylor-gutenberg/pg75391.txt"]
+  }
+ }
+}

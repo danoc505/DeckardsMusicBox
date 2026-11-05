@@ -1,0 +1,144 @@
+{
+ "about": "The interpretive methods of the reconciliation worksheet (milestone 12). 'plain' is the Workshop's own account of the method, in plain English, and is marked so in the reader. 'grounds' are quotations of Plato, or of the Platonists who use the method, each checked by the build in the text it names. 'concepts' are the concepts of the index (sources/concepts) the method belongs with: the worksheet retrieves, for any passage, the methods of the concepts whose passages contain it. The first eight are those the build prompt names; the rest are methods the sources themselves use.",
+ "methods": [
+  {
+   "id": "allegorical",
+   "name": "Allegorical interpretation",
+   "named_in_prompt": true,
+   "greek": "ὑπόνοια",
+   "plain": "Reading a myth, a character or a story as saying something other than its surface says: a philosophical truth told in the form of a narrative. Plato knows the practice by the name hyponoia, the 'under-meaning', and the later Platonists read Homer, Hesiod and Plato's own myths this way.",
+   "concepts": ["image-and-original", "soul", "demiurge", "ascent", "god"],
+   "grounds": [
+    {"source": "plato", "work": "tlg030", "ref": "378d", "quote": "ὁ γὰρ νέος οὐχ οἷός τε κρίνειν ὅτι τε ὑπόνοια καὶ ὃ μή"},
+    {"source": "translation", "by": "Jowett", "work": "tlg030", "ref": "378d", "quote": "these tales must not be admitted into our State, whether they are supposed to have an allegorical meaning or not. For a young person cannot judge what is allegorical and"},
+    {"source": "porphyry-gutenberg", "quote": "it can neither be a fiction casually devised for the purpose of procuring delight, nor an exposition of a topical history; but something allegorical must be indicated in it by the poet"}
+   ]
+  },
+  {
+   "id": "ontological-distinction",
+   "name": "Ontological distinction",
+   "named_in_prompt": true,
+   "plain": "Two statements that seem to clash are each true of a different level of reality: one of what always is (the intelligible, grasped by thought), the other of what comes to be (the sensible, grasped by opinion and sensation). Plato makes this the first distinction of the Timaeus.",
+   "concepts": ["being", "becoming", "intelligible-world", "sensible-world", "forms", "eternal", "time"],
+   "grounds": [
+    {"source": "plato", "work": "tlg031", "ref": "27d", "quote": "τί τὸ ὂν ἀεί, γένεσιν δὲ οὐκ ἔχον, καὶ τί τὸ γιγνόμενον μὲν"},
+    {"source": "translation", "by": "Jowett", "work": "tlg031", "ref": "28a", "quote": "That which is apprehended by intelligence and reason is always in the same state; but that which is conceived by opinion with the help of sensation and without reason, is always in a process of becoming and perishing and never really is."}
+   ]
+  },
+  {
+   "id": "image-and-original",
+   "name": "Image and original",
+   "named_in_prompt": true,
+   "greek": "εἰκών, παράδειγμα",
+   "plain": "A lower thing is understood as an image (eikōn) of a higher pattern (paradeigma): it resembles the pattern as far as it can, and falls short of it. What is said of the image need not be said of the pattern, and an account of the image is only as exact as an image allows.",
+   "concepts": ["image-and-original", "forms", "sensible-world", "time"],
+   "grounds": [
+    {"source": "plato", "work": "tlg031", "ref": "29b", "quote": "πᾶσα ἀνάγκη τόνδε τὸν κόσμον εἰκόνα τινὸς εἶναι"},
+    {"source": "translation", "by": "Jowett", "work": "tlg031", "ref": "29b", "quote": "the world has been framed in the likeness of that which is apprehended by reason and mind and is unchangeable, and must therefore of necessity, if this is admitted, be a copy of something"}
+   ]
+  },
+  {
+   "id": "participation",
+   "name": "Participation",
+   "named_in_prompt": true,
+   "greek": "μέθεξις, μετέχειν",
+   "plain": "A particular thing has a quality because it shares in (metechei) the Form of that quality: a beautiful thing is beautiful by sharing in the Beautiful itself. Two things can then be called by the same name in different ways, the Form in itself, the particular by sharing.",
+   "concepts": ["participation", "forms", "one-and-many", "the-beautiful"],
+   "grounds": [
+    {"source": "plato", "work": "tlg004", "ref": "100c", "quote": "οὐδὲ δι’ ἓν ἄλλο καλὸν εἶναι ἢ διότι μετέχει ἐκείνου τοῦ καλοῦ"},
+    {"source": "translation", "by": "Jowett", "work": "tlg004", "ref": "100c", "quote": "it can be beautiful only in so far as it partakes of absolute beauty"}
+   ]
+  },
+  {
+   "id": "privation",
+   "name": "Evil as privation",
+   "named_in_prompt": true,
+   "plain": "Evil is not a principle or a thing with a nature of its own, but a lack, a falling short or turning away from the good, as darkness is the absence of light. On this reading a passage that seems to make evil necessary, or to give it a cause, is read as speaking of deficiency in what is lower, not of a rival to the Good.",
+   "concepts": ["evil-as-privation", "the-good", "god"],
+   "grounds": [
+    {"source": "plato", "work": "tlg006", "ref": "176a", "quote": "ἀλλʼ οὔτʼ ἀπολέσθαι τὰ κακὰ δυνατόν, ὦ Θεόδωρε— ὑπεναντίον γάρ τι τῷ ἀγαθῷ ἀεὶ εἶναι ἀνάγκη"},
+    {"source": "proclus-theology-gutenberg", "quote": "For evil is nothing else than a greater or less declination, departure, defect and privation from the good itself, and which is good alone, in the same manner as darkness from the sun."},
+    {"source": "proclus-theology-gutenberg", "quote": "Good has an hypostasis, but evil a parhypostasis or a deviation from hypostasis. Good is form, but evil is without form, and is as it were privation."}
+   ]
+  },
+  {
+   "id": "ascent-and-return",
+   "name": "Ascent and return",
+   "named_in_prompt": true,
+   "plain": "A passage is read as a stage on a way up, from images and bodies to the Forms and the Good, and back down again to ordinary life with what was seen. The Symposium gives the ladder, the Republic the climb out of the cave and the duty to go back down into it.",
+   "concepts": ["ascent", "return", "the-good", "the-beautiful", "knowledge"],
+   "grounds": [
+    {"source": "plato", "work": "tlg011", "ref": "211c", "quote": "ἐκείνου ἕνεκα τοῦ καλοῦ ἀεὶ ἐπανιέναι, ὥσπερ ἐπαναβασμοῖς χρώμενον"},
+    {"source": "translation", "by": "Loeb", "work": "tlg011", "ref": "211c", "quote": "Beginning from obvious beauties he must for the sake of that highest beauty be ever climbing aloft, as on the rungs of a ladder"},
+    {"source": "plato", "work": "tlg030", "ref": "520c", "quote": "καταβατέον οὖν ἐν μέρει ἑκάστῳ εἰς τὴν τῶν ἄλλων συνοίκησιν"},
+    {"source": "translation", "by": "Jowett", "work": "tlg030", "ref": "520c", "quote": "Wherefore each of you, when his turn comes, must go down to the general underground abode, and get the habit of seeing in the dark."}
+   ]
+  },
+  {
+   "id": "psychological",
+   "name": "Psychological interpretation",
+   "named_in_prompt": true,
+   "plain": "A myth or an image is read as an account of the soul: its parts, its ignorance, its conflicts and its transformation. Plato does this himself when he 'moulds an image of the soul in words' and when he tells the soul's nature through the figure of the charioteer, saying that what it really is would take a divine account, what it is like a human one.",
+   "concepts": ["soul", "ignorance", "virtue", "justice", "thymos", "appetite"],
+   "grounds": [
+    {"source": "plato", "work": "tlg030", "ref": "588b", "quote": "εἰκόνα πλάσαντες τῆς ψυχῆς λόγῳ"},
+    {"source": "translation", "by": "Jowett", "work": "tlg030", "ref": "588b", "quote": "Let us make an image of the soul, that he may have his own words presented before his eyes."},
+    {"source": "plato", "work": "tlg012", "ref": "246a", "quote": "οἷον μέν ἐστι, πάντῃ πάντως θείας εἶναι καὶ μακρᾶς διηγήσεως, ᾧ δὲ ἔοικεν, ἀνθρωπίνης τε καὶ ἐλάττονος"},
+    {"source": "translation", "by": "Loeb", "work": "tlg012", "ref": "246a", "quote": "To tell what it really is would be a matter for utterly superhuman and long discourse, but it is within human power to describe it briefly in a figure"}
+   ]
+  },
+  {
+   "id": "symbolic",
+   "name": "Symbolic interpretation",
+   "named_in_prompt": true,
+   "plain": "Divine names, cosmic structures and religious images are read as symbols of philosophical principles. Proclus sets out four ways in which Plato teaches about divine things: through symbols (the Orphic way), through images (the Pythagorean way, by number and figure), by inspiration, and by science (dialectic).",
+   "concepts": ["god", "demiurge", "sun", "the-good", "the-divine"],
+   "grounds": [
+    {"source": "proclus-theology-gutenberg", "quote": "For those who treat of divine concerns in an indicative manner, either speak symbolically and fabulously, or through images. But of those who openly announce their conceptions, some frame their discourses according to science, but others according to inspiration from the Gods."},
+    {"source": "porphyry-gutenberg", "quote": "For they were of opinion, that a cave is a symbol of the sensible world, because caverns are dark, stony, and humid"}
+   ]
+  },
+  {
+   "id": "dialectical-context",
+   "name": "Reading by the dialogue's aim and audience",
+   "plain": "A statement is read in the dialogue it belongs to: who is speaking, to whom, and to what end. A dialogue that tests an interlocutor, or trains a young man, may argue from premises Plato does not hold, so two dialogues need not be stating rival doctrines. The Neoplatonists read every dialogue by its single aim (skopos) and its manner.",
+   "concepts": ["knowledge", "opinion", "logos"],
+   "grounds": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/proclus/", "cite": "Christoph Helmig and Carlos Steel, 'Proclus', Stanford Encyclopedia of Philosophy", "quote": "What may seem to be contradictions between statements made in different dialogues, can be explained by different pedagogical contexts, some dialogues being rather maieutic than expository, some elenctic of the sophistic pseudo-science, some offering a dialectical training to young students."},
+    {"source": "plato", "work": "tlg009", "ref": "135d", "quote": "ἕλκυσον δὲ σαυτὸν καὶ γύμνασαι μᾶλλον διὰ τῆς δοκούσης ἀχρήστου εἶναι"},
+    {"source": "translation", "by": "Jowett", "work": "tlg009", "ref": "135d", "quote": "in that you must train and exercise yourself, now that you are young, or truth will elude your grasp"}
+   ]
+  },
+  {
+   "id": "didactic",
+   "name": "Told as a process, for teaching",
+   "plain": "What is timeless is told as if it happened in time, or as if it were built up step by step, because that is easier to follow: the order of the telling is the order of explanation, not of events. The ancient defenders of the Timaeus read its making of the world this way.",
+   "concepts": ["becoming", "demiurge", "time", "eternal", "cause"],
+   "grounds": [
+    {"source": "taurus-gutenberg", "quote": "At the same time, however, he asserts that Timæus perhaps supposed the world to be generated, for the sake of perspicuity."},
+    {"source": "note", "by": "Archer-Hind (1888)", "work": "tlg031", "ref": "28b", "quote": "The creation in time is simply part of the figurative representation"}
+   ]
+  },
+  {
+   "id": "likely-account",
+   "name": "The likely account",
+   "greek": "εἰκὼς μῦθος, εἰκὼς λόγος",
+   "plain": "An account of what comes to be can only be likely, not exact and fully consistent, because its object is itself only an image. Plato says so at the start of the Timaeus, so a looseness or a disagreement in such an account is expected, and is no mark against the account of what always is.",
+   "concepts": ["becoming", "sensible-world", "opinion", "image-and-original"],
+   "grounds": [
+    {"source": "plato", "work": "tlg031", "ref": "29c", "quote": "μὴ δυνατοὶ γιγνώμεθα πάντῃ πάντως αὐτοὺς ἑαυτοῖς ὁμολογουμένους λόγους καὶ ἀπηκριβωμένους ἀποδοῦναι, μὴ θαυμάσῃς"},
+    {"source": "translation", "by": "Jowett", "work": "tlg031", "ref": "29c", "quote": "we are not able to give notions which are altogether and in every respect exact and consistent with one another, do not be surprised"},
+    {"source": "plato", "work": "tlg031", "ref": "29d", "quote": "τὸν εἰκότα μῦθον ἀποδεχομένους πρέπει τούτου μηδὲν ἔτι πέρα ζητεῖν"}
+   ]
+  },
+  {
+   "id": "developmental",
+   "name": "Development of Plato's thought (does not reconcile)",
+   "plain": "The modern explanation that the two passages belong to different stages of Plato's thinking, so that he changed his mind. It explains a tension rather than reconciling it, and is recorded so that the worksheet shows it beside the Platonic readings, not as one of them.",
+   "concepts": [],
+   "grounds": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/socrates/", "cite": "Debra Nails and S. Sara Monoson, 'Socrates', Stanford Encyclopedia of Philosophy", "quote": "Inconsistencies among the dialogues seem to demand explanation, though not all philosophers have thought so (Shorey 1903)."}
+   ]
+  }
+ ]
+}
