@@ -1,0 +1,411 @@
+{
+ "dossiers": [
+  {
+   "id": "aristophanes",
+   "label": "Aristophanes' myth of the split humans",
+   "greek": "ἡ πάλαι ἡμῶν φύσις",
+   "kind": "myth",
+   "group": "eros",
+   "about": "Our original nature: round double beings of three sexes, male, female and androgynous, who assaulted the gods; Zeus cut them in two like sorb-apples, and love is the longing of each half for its other, the desire and pursuit of the whole.",
+   "passage": {
+    "work": "tlg011",
+    "start": "189c",
+    "end": "193d",
+    "start_quote": "ἄλλῃ γέ πῃ ἐν νῷ ἔχω λέγειν ἢ ᾗ σύ τε καὶ Παυσανίας εἰπέτην",
+    "end_quote": "οὗτος, ἔφη, ὦ Ἐρυξίμαχε, ὁ ἐμὸς λόγος ἐστὶ περὶ Ἔρωτος"
+   },
+   "parts": [
+    {
+     "label": "Our ancient nature was not the same as now",
+     "ref": "189d",
+     "quote": "ἡ γὰρ πάλαι ἡμῶν φύσις"
+    },
+    {
+     "label": "Three kinds: male, female and androgynous",
+     "ref": "189e",
+     "quote": "ἀνδρόγυνον"
+    },
+    {
+     "label": "Zeus cuts them in two",
+     "ref": "190d",
+     "quote": "τεμῶ δίχα"
+    },
+    {
+     "label": "Each of us a tally, like a flatfish",
+     "ref": "191d",
+     "quote": "ὥσπερ αἱ ψῆτται"
+    },
+    {
+     "label": "Love is the name for the desire and pursuit of the whole",
+     "ref": "192e",
+     "quote": "τοῦ ὅλου οὖν τῇ ἐπιθυμίᾳ"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg011",
+     "ref": "205e",
+     "quote": "ἡμίσεος",
+     "why": "Diotima answers: love is not of the half nor of the whole, unless it is good."
+    },
+    {
+     "work": "tlg011",
+     "ref": "212c",
+     "quote": "Ἀριστοφάνη",
+     "why": "After Socrates' speech Aristophanes tries to reply to Socrates' allusion to him."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "ladder-of-love",
+     "why": "Diotima corrects Aristophanes: love is not of the half or the whole but of the good.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg011",
+       "ref": "205e",
+       "quote": "ἡμίσεος"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "androgynous",
+     "androgyne",
+     "hermaphrodite",
+     "sorb-apple"
+    ],
+    "grc": [
+     "ανδρογυν"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Myths",
+     "url": "https://plato.stanford.edu/entries/plato-myths/",
+     "quote": "the myth of the androgyne (Symposium 189d–193d)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "eros-birth",
+   "label": "The birth of Eros: Poros and Penia",
+   "greek": "Πόρος καὶ Πενία",
+   "kind": "myth",
+   "group": "eros",
+   "about": "Diotima's story: at the feast for Aphrodite's birth, Poverty lay with the drunken Resource and conceived Eros, who is neither god nor mortal, neither wise nor ignorant, but a daimon between, a lover of wisdom.",
+   "passage": {
+    "work": "tlg011",
+    "start": "203b",
+    "end": "204c",
+    "start_quote": "ὅτε γὰρ ἐγένετο ἡ Ἀφροδίτη",
+    "end_quote": "τοιοῦτος ὢν ὁ Ἔρως τίνα χρείαν ἔχει τοῖς ἀνθρώποις"
+   },
+   "parts": [
+    {
+     "label": "Resource, son of Cunning, at the feast",
+     "ref": "203b",
+     "quote": "ὁ τῆς Μήτιδος ὑὸς Πόρος"
+    },
+    {
+     "label": "Poverty conceives a child by him",
+     "ref": "203b",
+     "quote": "ἡ οὖν Πενία ἐπιβουλεύουσα διὰ τὴν αὑτῆς ἀπορίαν παιδίον ποιήσασθαι ἐκ τοῦ Πόρου"
+    },
+    {
+     "label": "Eros a philosopher, between wisdom and ignorance",
+     "ref": "204b",
+     "quote": "φιλόσοφον"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg011",
+     "ref": "202e",
+     "quote": "μεταξύ ἐστι θεοῦ τε καὶ θνητοῦ",
+     "why": "Just before: everything daimonic is between god and mortal."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Poros",
+     "Porus",
+     "Penia",
+     "Poverty and Plenty",
+     "Resource and Poverty",
+     "Plenty and Poverty"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Symposium (Plato)",
+     "url": "https://en.wikipedia.org/wiki/Symposium_(Plato)",
+     "quote": "upon seeing Porus lying unconscious took the chance to sleep with him",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "ladder-of-love",
+   "label": "The ladder of love",
+   "greek": "ἐπαναβασμοί",
+   "kind": "doctrine",
+   "group": "eros",
+   "about": "Diotima's 'final mysteries': the lover rises from one beautiful body to all, to beautiful souls, practices and laws, to the sciences, and suddenly beholds beauty itself, always being, unmixed, in which all beautiful things share.",
+   "passage": {
+    "work": "tlg011",
+    "start": "210a",
+    "end": "212a",
+    "start_quote": "τὰ δὲ τέλεα καὶ ἐποπτικά",
+    "end_quote": "ἀθανάτῳ καὶ ἐκείνῳ"
+   },
+   "parts": [
+    {
+     "label": "First, one beautiful body",
+     "ref": "210a",
+     "quote": "ἑνὸς αὐτὸν σώματος ἐρᾶν"
+    },
+    {
+     "label": "Suddenly he will see something wonderful",
+     "ref": "210e",
+     "quote": "ἐξαίφνης κατόψεταί τι θαυμαστὸν"
+    },
+    {
+     "label": "Always being, neither coming to be nor perishing",
+     "ref": "211a",
+     "quote": "ἀεὶ ὂν καὶ οὔτε γιγνόμενον οὔτε ἀπολλύμενον"
+    },
+    {
+     "label": "Using these as steps",
+     "ref": "211c",
+     "quote": "ὥσπερ ἐπαναβασμοῖς χρώμενον"
+    },
+    {
+     "label": "Beauty itself",
+     "ref": "211d",
+     "quote": "αὐτὸ τὸ καλόν"
+    },
+    {
+     "label": "Giving birth to true virtue, dear to the gods",
+     "ref": "212a",
+     "quote": "τεκόντι δὲ ἀρετὴν ἀληθῆ"
+    }
+   ],
+   "diagram": {
+    "kind": "steps",
+    "upward": true,
+    "title": "The steps of 211c",
+    "about": "Diotima's own summary of the ascent at 211c, from the first step to the last, as rungs.",
+    "steps": [
+     {
+      "label": "from one beautiful body",
+      "ref": "211c",
+      "quote": "ἀπὸ ἑνὸς ἐπὶ δύο"
+     },
+     {
+      "label": "to all beautiful bodies",
+      "ref": "211c",
+      "quote": "ἀπὸ δυοῖν ἐπὶ πάντα τὰ καλὰ σώματα"
+     },
+     {
+      "label": "to beautiful practices",
+      "ref": "211c",
+      "quote": "ἀπὸ τῶν καλῶν σωμάτων ἐπὶ τὰ καλὰ ἐπιτηδεύματα"
+     },
+     {
+      "label": "to beautiful learning",
+      "ref": "211c",
+      "quote": "ἀπὸ τῶν ἐπιτηδευμάτων ἐπὶ τὰ καλὰ μαθήματα"
+     },
+     {
+      "label": "to that learning which is of beauty itself",
+      "ref": "211c",
+      "quote": "ἐπʼ ἐκεῖνο τὸ μάθημα τελευτῆσαι"
+     },
+     {
+      "label": "to know at last what beauty itself is",
+      "ref": "211d",
+      "quote": "αὐτὸ τὸ καλόν"
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg012",
+     "ref": "250d",
+     "quote": "κάλλος",
+     "why": "The Phaedrus: of the forms beauty alone shines clearly through sight."
+    },
+    {
+     "work": "tlg030",
+     "ref": "476b",
+     "quote": "αὐτὸ τὸ καλὸν",
+     "why": "The Republic: few can reach beauty itself and see it by itself."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "charioteer",
+     "why": "In the Phaedrus too the sight of beauty regrows the soul's wings.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "249c",
+       "quote": "ἀνάμνησις"
+      }
+     ]
+    },
+    {
+     "dossier": "cave",
+     "why": "Both are ascents ending in a sudden sight of what is.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "517b",
+       "quote": "τὴν δὲ ἄνω ἀνάβασιν καὶ θέαν τῶν ἄνω"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "alcinous-burges",
+     "quote": "the beauty in bodies, will then proceed to the beauty of the soul",
+     "says": "Alcinous retells the ascent of the Symposium as the way to think of the good."
+    }
+   ],
+   "renderings": [
+    {
+     "term": "αὐτὸ τὸ καλόν",
+     "ref": "211d",
+     "grc": "αὐτὸ τὸ καλόν",
+     "by": {
+      "perseus-eng2": "beauty itself",
+      "jowett": "absolute beauty",
+      "taylor1804": "the beautiful itself"
+     }
+    },
+    {
+     "term": "ἐπαναβασμοί",
+     "ref": "211c",
+     "grc": "ἐπαναβασμοῖς",
+     "by": {
+      "perseus-eng2": "rungs of a ladder",
+      "jowett": "steps",
+      "taylor1804": "steps"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "beauty itself",
+     "absolute beauty",
+     "Diotima",
+     "lesser mysteries",
+     "greater mysteries"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato on Friendship and Eros, §4 Love and the Ascent to the Beautiful",
+     "url": "https://plato.stanford.edu/entries/plato-friendship/",
+     "quote": "Love and the Ascent to the Beautiful",
+     "kind": "essay"
+    },
+    {
+     "site": "Wikipedia",
+     "title": "Symposium (Plato)",
+     "url": "https://en.wikipedia.org/wiki/Symposium_(Plato)",
+     "quote": "The erotic ascent described in the Symposium",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "silenus",
+   "label": "Socrates as a Silenus figure",
+   "greek": "οἱ σιληνοί",
+   "kind": "image",
+   "group": "socrates",
+   "about": "Alcibiades' praise of Socrates 'through images': he is like the Silenus statues in the sculptors' shops, which open to show images of gods inside, and like the satyr Marsyas, who bewitched with the flute as Socrates does with bare words.",
+   "passage": {
+    "work": "tlg011",
+    "start": "215a",
+    "end": "222b",
+    "start_quote": "ἔσται δʼ ἡ εἰκὼν τοῦ ἀληθοῦς ἕνεκα, οὐ τοῦ γελοίου",
+    "end_quote": "μὴ ἐξαπατᾶσθαι ὑπὸ τούτου"
+   },
+   "parts": [
+    {
+     "label": "The image is for the truth, not for a laugh",
+     "ref": "215a",
+     "quote": "ἡ εἰκὼν τοῦ ἀληθοῦς ἕνεκα, οὐ τοῦ γελοίου"
+    },
+    {
+     "label": "Silenus figures with gods inside",
+     "ref": "215b",
+     "quote": "διχάδε διοιχθέντες φαίνονται ἔνδοθεν ἀγάλματα ἔχοντες θεῶν"
+    },
+    {
+     "label": "Like Marsyas the satyr",
+     "ref": "215b",
+     "quote": "Μαρσύᾳ"
+    },
+    {
+     "label": "His words, too, like the opened Silenus",
+     "ref": "221d",
+     "quote": "σιληνοῖς"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg024",
+     "ref": "80a",
+     "quote": "νάρκῃ τῇ θαλαττίᾳ",
+     "why": "Meno's comparison of Socrates to the torpedo fish, another likeness of his effect."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "torpedo",
+     "why": "Another image of Socrates' effect on those he talks with.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg024",
+       "ref": "80a",
+       "quote": "νάρκῃ τῇ θαλαττίᾳ"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Silenus",
+     "Sileni",
+     "Marsyas",
+     "satyr"
+    ],
+    "grc": [
+     "σιλην"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Symposium (Plato)",
+     "url": "https://en.wikipedia.org/wiki/Symposium_(Plato)",
+     "quote": "Alcibiades begins by comparing Socrates to a statue of Silenus",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

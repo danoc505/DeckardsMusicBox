@@ -6,7 +6,7 @@
 
 const SHELL = { lastRead: null, find: null };
 const NAV = [
-  ["library", "Library", "#library", "The dialogues, the commentaries, the corpus map and the sources"],
+  ["library", "Library", "#library", "The dialogues, the passage dossiers, the commentaries, the corpus map and the sources"],
   ["read", "Reader", null, "Back to the passage you were reading"],
   ["dictionary", "Dictionary", "#dictionary", "Look up a Greek word in Middle Liddell and LSJ"],
   ["concordance", "Concordance", "#search", "Every place a Greek word occurs in Plato, by lemma, form or letters"],
@@ -15,7 +15,7 @@ const NAV = [
   ["mine", "My Translations", "#mine", "Everything you have written: translations, notes, word studies, worksheets"],
 ];
 const VIEW_CLASSES = ["searching", "discussing", "whole-view", "corpus-view", "concepts-view", "commentaries-view",
-  "reconcile-view", "find-view", "library-view", "dict-view", "mine-view"];
+  "dossiers-view", "reconcile-view", "find-view", "library-view", "dict-view", "mine-view"];
 
 function prefsGet(k, d) { try { return localStorage.getItem("pw." + k) ?? d; } catch (e) { return d; } }
 function prefsSet(k, v) { try { localStorage.setItem("pw." + k, v); } catch (e) { /* private window */ } }
@@ -31,7 +31,7 @@ function renderNav() {
 
 function currentNav() {
   const h = location.hash.slice(1);
-  if (h.startsWith("library") || h === "corpus" || h.startsWith("corpus?") || h === "commentaries" || h.startsWith("discussed")) return "library";
+  if (h.startsWith("library") || h === "corpus" || h.startsWith("corpus?") || h === "commentaries" || h.startsWith("discussed") || h.startsWith("dossiers")) return "library";
   if (h.startsWith("dictionary")) return "dictionary";
   if (h.startsWith("search") || h.startsWith("renderings/")) return "concordance";
   if (h.startsWith("concepts")) return "concepts";
@@ -148,7 +148,7 @@ async function showLibrary() {
   setView("library-view");
   document.title = "Library · Platonic Workshop";
   $("#toc").innerHTML = `<h3>Library</h3><ul class="books"><li><a href="#corpus"><span>Corpus map</span></a></li><li><a href="#commentaries"><span>Commentaries</span></a></li>
-    <li><a href="#discussed"><span>Most discussed passages</span></a></li><li><button type="button" class="link-btn" id="lib-sources">Sources</button></li></ul>`;
+    <li><a href="#dossiers"><span>Passage dossiers</span></a></li><li><a href="#discussed"><span>Most discussed passages</span></a></li><li><button type="button" class="link-btn" id="lib-sources">Sources</button></li></ul>`;
   const groups = new Map();
   for (const w of state.works) {
     const k = w.tetralogy || 0;
@@ -158,7 +158,7 @@ async function showLibrary() {
   let h = `<div class="search library"><h2>Library</h2>
     <p class="prov">The 36 works of Plato in Thrasyllus' nine tetralogies, in Burnet's Greek with the English translations and the commentaries the library holds.
       Open a dialogue to read it, or see it as a whole.</p>
-    <p><a class="btn" href="#corpus">Corpus map</a> <a class="btn" href="#commentaries">Every commentary</a> <a class="btn" href="#discussed">The passages the notes cite most</a>
+    <p><a class="btn" href="#corpus">Corpus map</a> <a class="btn" href="#dossiers">Passage dossiers</a> <a class="btn" href="#commentaries">Every commentary</a> <a class="btn" href="#discussed">The passages the notes cite most</a>
       <button type="button" class="btn" id="lib-sources2">Sources and licences</button></p>
     <div class="lib-grid">`;
   for (const [k, ws] of groups) {

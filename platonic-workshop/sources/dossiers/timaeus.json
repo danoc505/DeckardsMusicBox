@@ -1,0 +1,778 @@
+{
+ "dossiers": [
+  {
+   "id": "likely-story",
+   "label": "Being and becoming; the likely story",
+   "greek": "ὁ εἰκὼς μῦθος",
+   "kind": "method",
+   "group": "cosmology",
+   "about": "Timaeus' prelude: what always is, grasped by thought with reason, and what comes to be, grasped by opinion with perception. The world has come to be, so it is an image of an eternal model; and of an image we can give only a likely account, a 'likely story'.",
+   "passage": {
+    "work": "tlg031",
+    "start": "27d",
+    "end": "29d",
+    "start_quote": "τί τὸ ὂν ἀεί, γένεσιν δὲ οὐκ ἔχον",
+    "end_quote": "τὸν εἰκότα μῦθον"
+   },
+   "parts": [
+    {
+     "label": "What always is, and has no becoming",
+     "ref": "27d",
+     "quote": "τί τὸ ὂν ἀεί, γένεσιν δὲ οὐκ ἔχον"
+    },
+    {
+     "label": "The maker, the craftsman of the world",
+     "ref": "28a",
+     "quote": "δημιουργὸς"
+    },
+    {
+     "label": "So this world must be an image of something",
+     "ref": "29b",
+     "quote": "τόνδε τὸν κόσμον εἰκόνα τινὸς εἶναι"
+    },
+    {
+     "label": "As being is to becoming, truth is to belief",
+     "ref": "29c",
+     "quote": "ὅτιπερ πρὸς γένεσιν οὐσία, τοῦτο πρὸς πίστιν ἀλήθεια"
+    },
+    {
+     "label": "Accept the likely story and seek nothing further",
+     "ref": "29d",
+     "quote": "τὸν εἰκότα μῦθον ἀποδεχομένους"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "534a",
+     "quote": "καὶ ὅτι οὐσία πρὸς γένεσιν, νόησιν πρὸς δόξαν",
+     "why": "The Republic's line in the same proportion: as being to becoming, intellection to opinion."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "divided-line",
+     "why": "The same split of being and becoming, thought and opinion, with the same proportion.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "534a",
+       "quote": "καὶ ὅτι οὐσία πρὸς γένεσιν, νόησιν πρὸς δόξαν"
+      }
+     ]
+    },
+    {
+     "dossier": "demiurge-goodness",
+     "why": "The prelude leads straight into why the maker made.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "29e",
+       "quote": "ἀγαθὸς ἦν"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "likely story",
+     "likely account",
+     "probable account",
+     "probable story",
+     "eikos mythos",
+     "being and becoming"
+    ],
+    "grc": [
+     "εικοτα μυθον",
+     "εικοτα λογον"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Timaeus",
+     "url": "https://plato.stanford.edu/entries/plato-timaeus/",
+     "quote": "The Status of the Account",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "demiurge-goodness",
+   "label": "The maker was good, and without envy",
+   "greek": "ἀγαθὸς ἦν",
+   "kind": "doctrine",
+   "group": "cosmology",
+   "about": "Why did the maker make the world? He was good, and in the good no envy ever arises; so he wished all things to be as like himself as possible, brought order out of disorder, and made the world a living being with soul and mind.",
+   "passage": {
+    "work": "tlg031",
+    "start": "29d",
+    "end": "30c",
+    "start_quote": "λέγωμεν δὴ διʼ ἥντινα αἰτίαν γένεσιν καὶ τὸ πᾶν",
+    "end_quote": "τίνι τῶν ζῴων αὐτὸν εἰς ὁμοιότητα ὁ συνιστὰς συνέστησεν"
+   },
+   "parts": [
+    {
+     "label": "He was good, and the good has no envy",
+     "ref": "29e",
+     "quote": "ἀγαθῷ δὲ οὐδεὶς περὶ οὐδενὸς οὐδέποτε ἐγγίγνεται φθόνος"
+    },
+    {
+     "label": "He wanted all to be like himself",
+     "ref": "29e",
+     "quote": "πάντα ὅτι μάλιστα ἐβουλήθη γενέσθαι παραπλήσια ἑαυτῷ"
+    },
+    {
+     "label": "A living being with soul and mind",
+     "ref": "30b",
+     "quote": "ζῷον ἔμψυχον ἔννουν"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg012",
+     "ref": "247a",
+     "quote": "φθόνος γὰρ ἔξω θείου χοροῦ ἵσταται",
+     "why": "The Phaedrus: envy stands outside the divine chorus."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "world-soul",
+     "why": "Next the maker composes the soul of the world.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "35a",
+       "quote": "τῆς ἀμερίστου καὶ ἀεὶ κατὰ ταὐτὰ ἐχούσης οὐσίας"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "without envy",
+     "free from envy",
+     "no jealousy"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Timaeus",
+     "url": "https://plato.stanford.edu/entries/plato-timaeus/",
+     "quote": "It is the handiwork of a divine Craftsman",
+     "kind": "essay"
+    },
+    {
+     "site": "Wikipedia",
+     "title": "Demiurge",
+     "url": "https://en.wikipedia.org/wiki/Demiurge",
+     "quote": "Demiurge",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "world-soul",
+   "label": "The making of the world soul",
+   "greek": "ἡ τοῦ παντὸς ψυχή",
+   "kind": "doctrine",
+   "group": "cosmology",
+   "about": "The maker mixes Being, Same and Different, then marks off portions in the double and triple series 1, 2, 4, 8 and 1, 3, 9, 27, fills the intervals with means, and fills the 4:3 intervals with 9:8 tones and a remainder of 256:243; he splits the strip in two, bends it into the circles of the Same and the Different.",
+   "passage": {
+    "work": "tlg031",
+    "start": "35a",
+    "end": "36d",
+    "start_quote": "τῆς ἀμερίστου καὶ ἀεὶ κατὰ ταὐτὰ ἐχούσης οὐσίας",
+    "end_quote": "ἐπεὶ δὲ κατὰ νοῦν τῷ συνιστάντι πᾶσα ἡ τῆς ψυχῆς σύστασις ἐγεγένητο"
+   },
+   "parts": [
+    {
+     "label": "Indivisible being, divisible being, and a third between",
+     "ref": "35a",
+     "quote": "τρίτον ἐξ ἀμφοῖν ἐν μέσῳ"
+    },
+    {
+     "label": "Forcing the Different, hard to mix, into the Same",
+     "ref": "35a",
+     "quote": "τὴν θατέρου φύσιν δύσμεικτον οὖσαν εἰς ταὐτὸν συναρμόττων βίᾳ"
+    },
+    {
+     "label": "Two means in each interval",
+     "ref": "36a",
+     "quote": "ὥστε ἐν ἑκάστῳ διαστήματι δύο εἶναι μεσότητας"
+    },
+    {
+     "label": "The 9:8 interval and the remainder",
+     "ref": "36b",
+     "quote": "τῷ τοῦ ἐπογδόου διαστήματι τὰ ἐπίτριτα πάντα συνεπληροῦτο, λείπων αὐτῶν ἑκάστου μόριον"
+    },
+    {
+     "label": "Split lengthwise and bent into a chi",
+     "ref": "36b",
+     "quote": "οἷον χεῖ προσβαλὼν"
+    },
+    {
+     "label": "Seven unequal circles",
+     "ref": "36d",
+     "quote": "ἑπτὰ κύκλους ἀνίσους"
+    }
+   ],
+   "diagram": {
+    "kind": "lambda",
+    "title": "The two series of 35b–c",
+    "about": "The seven portions the maker cut, set out in the shape of a Greek lambda (Λ): the doubles down one side and the triples down the other. Each number is Timaeus' own word.",
+    "left": [
+     {
+      "label": "1",
+      "ref": "35b",
+      "quote": "μίαν ἀφεῖλεν τὸ πρῶτον ἀπὸ παντὸς μοῖραν"
+     },
+     {
+      "label": "2",
+      "ref": "35b",
+      "quote": "ἀφῄρει διπλασίαν ταύτης"
+     },
+     {
+      "label": "4",
+      "ref": "35b",
+      "quote": "τετάρτην δὲ τῆς δευτέρας διπλῆν"
+     },
+     {
+      "label": "8",
+      "ref": "35c",
+      "quote": "τὴν δʼ ἕκτην τῆς πρώτης ὀκταπλασίαν"
+     }
+    ],
+    "right": [
+     {
+      "label": "1",
+      "ref": "35b",
+      "quote": "μίαν ἀφεῖλεν τὸ πρῶτον ἀπὸ παντὸς μοῖραν"
+     },
+     {
+      "label": "3",
+      "ref": "35b",
+      "quote": "τριπλασίαν δὲ τῆς πρώτης"
+     },
+     {
+      "label": "9",
+      "ref": "35b",
+      "quote": "πέμπτην δὲ τριπλῆν τῆς"
+     },
+     {
+      "label": "27",
+      "ref": "35c",
+      "quote": "ἑβδόμην δʼ ἑπτακαιεικοσιπλασίαν τῆς πρώτης"
+     }
+    ],
+    "notes": [
+     {
+      "label": "Means: harmonic and arithmetic",
+      "ref": "36a",
+      "quote": "δύο εἶναι μεσότητας"
+     },
+     {
+      "label": "3:2, 4:3 and 9:8 intervals arise",
+      "ref": "36a",
+      "quote": "ἡμιολίων δὲ διαστάσεων καὶ ἐπιτρίτων καὶ ἐπογδόων γενομένων"
+     },
+     {
+      "label": "The remainder (the leimma, 256:243)",
+      "ref": "36b",
+      "quote": "λείπων αὐτῶν ἑκάστου μόριον"
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "617b",
+     "quote": "Σειρῆνα",
+     "why": "The Republic's spindle: a Siren on each circle sings one note, eight making one harmony."
+    },
+    {
+     "work": "tlg034",
+     "ref": "898a",
+     "quote": "νοῦ περιόδῳ",
+     "why": "The Laws: the motion of the heavens is like the circling of mind."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "er",
+     "why": "The cosmic circles and their harmony in the myth of Er.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "617b",
+       "quote": "Σειρῆνα"
+      }
+     ]
+    },
+    {
+     "dossier": "time-moving-image",
+     "why": "The circles of the soul become the clock of time.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "38c",
+       "quote": "εἰς διορισμὸν καὶ φυλακὴν ἀριθμῶν χρόνου γέγονεν"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "alcinous-burges",
+     "quote": "soul of the world",
+     "says": "Alcinous' handbook on the world soul."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "world soul",
+     "world-soul",
+     "soul of the world",
+     "soul of the universe",
+     "Same and the Different",
+     "same and other",
+     "leimma",
+     "Crantor"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Timaeus (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Timaeus_(dialogue)",
+     "quote": "World soul",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Timaeus",
+     "url": "https://plato.stanford.edu/entries/plato-timaeus/",
+     "quote": "the world soul",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "time-moving-image",
+   "label": "Time, the moving image of eternity",
+   "greek": "κινητὸν εἰκὼ αἰῶνος",
+   "kind": "image",
+   "group": "cosmology",
+   "about": "The model is an eternal living thing; no generated thing could be eternal, so the maker made 'a moving image of eternity', moving according to number: time, which came to be with the heavens; 'was' and 'will be' belong to becoming, 'is' alone to eternal being.",
+   "passage": {
+    "work": "tlg031",
+    "start": "37c",
+    "end": "38c",
+    "start_quote": "ὡς δὲ κινηθὲν αὐτὸ καὶ ζῶν ἐνόησεν",
+    "end_quote": "εἰς διορισμὸν καὶ φυλακὴν ἀριθμῶν χρόνου γέγονεν"
+   },
+   "parts": [
+    {
+     "label": "An image of the eternal gods, and the father rejoiced",
+     "ref": "37c",
+     "quote": "ἠγάσθη τε καὶ εὐφρανθεὶς"
+    },
+    {
+     "label": "A moving image of eternity",
+     "ref": "37d",
+     "quote": "κινητόν τινα αἰῶνος ποιῆσαι"
+    },
+    {
+     "label": "Eternal image moving according to number: time",
+     "ref": "37d",
+     "quote": "κατʼ ἀριθμὸν ἰοῦσαν αἰώνιον εἰκόνα, τοῦτον ὃν δὴ χρόνον ὠνομάκαμεν"
+    },
+    {
+     "label": "Time came to be with the heaven",
+     "ref": "38b",
+     "quote": "χρόνος δʼ οὖν μετʼ οὐρανοῦ γέγονεν"
+    },
+    {
+     "label": "Sun, moon and the planets to mark it",
+     "ref": "38c",
+     "quote": "εἰς διορισμὸν καὶ φυλακὴν ἀριθμῶν χρόνου"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "likely-story",
+     "why": "The eternal model and its image, from the prelude.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "29b",
+       "quote": "τόνδε τὸν κόσμον εἰκόνα τινὸς εἶναι"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "moving image",
+     "image of eternity",
+     "image of eternity"
+    ],
+    "grc": [
+     "αιωνος"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "receptacle",
+   "label": "The receptacle (chora)",
+   "greek": "ἡ ὑποδοχή, ἡ χώρα",
+   "kind": "doctrine",
+   "group": "cosmology",
+   "about": "A 'third kind' besides model and copy: the receptacle and nurse of all becoming, like gold that is shaped and reshaped, a mould-stuff without features of its own; space, which is grasped by a 'bastard reasoning' and seen as in a dream.",
+   "passage": {
+    "work": "tlg031",
+    "start": "48e",
+    "end": "53c",
+    "start_quote": "νῦν δὲ τρίτον ἄλλο γένος ἡμῖν δηλωτέον",
+    "end_quote": "πρῶτον μὲν δὴ πῦρ καὶ γῆ καὶ ὕδωρ"
+   },
+   "parts": [
+    {
+     "label": "A third kind must now be shown",
+     "ref": "48e",
+     "quote": "νῦν δὲ τρίτον ἄλλο γένος ἡμῖν δηλωτέον"
+    },
+    {
+     "label": "Receptacle of all becoming, like a nurse",
+     "ref": "49a",
+     "quote": "πάσης εἶναι γενέσεως ὑποδοχὴν αὐτὴν οἷον τιθήνην"
+    },
+    {
+     "label": "The mould-stuff of everything",
+     "ref": "50c",
+     "quote": "ἐκμαγεῖον"
+    },
+    {
+     "label": "The kind that is space, always",
+     "ref": "52a",
+     "quote": "τρίτον δὲ αὖ γένος ὂν τὸ τῆς χώρας ἀεί"
+    },
+    {
+     "label": "Grasped by a bastard reasoning, as in a dream",
+     "ref": "52b",
+     "quote": "λογισμῷ τινι νόθῳ, μόγις πιστόν, πρὸς ὃ δὴ καὶ ὀνειροπολοῦμεν"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg031",
+     "ref": "48a",
+     "quote": "τὸ τῆς πλανωμένης εἶδος αἰτίας",
+     "why": "Just before: the 'wandering cause', necessity, persuaded by mind."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "elements-solids",
+     "why": "In the receptacle the god shapes the four kinds by forms and numbers.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "53b",
+       "quote": "διεσχηματίσατο εἴδεσί τε καὶ ἀριθμοῖς"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "receptacle",
+     "chora",
+     "khora",
+     "nurse of all",
+     "nurse of becoming",
+     "bastard reasoning",
+     "spurious reasoning",
+     "wandering cause"
+    ],
+    "grc": [
+     "υποδοχ",
+     "τιθηνη"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Timaeus, §6 The Receptacle",
+     "url": "https://plato.stanford.edu/entries/plato-timaeus/",
+     "quote": "The second main section begins with the introduction of the receptacle",
+     "kind": "essay"
+    },
+    {
+     "site": "Wikipedia",
+     "title": "Khôra",
+     "url": "https://en.wikipedia.org/wiki/Kh%C3%B4ra",
+     "quote": "Khôra",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "elements-solids",
+   "label": "The elements and the regular solids",
+   "greek": "τὰ τέτταρα γένη",
+   "kind": "doctrine",
+   "group": "cosmology",
+   "about": "The god builds fire, air, water and earth out of two right-angled triangles: pyramid, octahedron, icosahedron and cube; a fifth construction he used for the whole, 'embroidering' it. Fire is sharpest and lightest, earth the hardest to move.",
+   "passage": {
+    "work": "tlg031",
+    "start": "53c",
+    "end": "57c",
+    "start_quote": "πρῶτον μὲν δὴ πῦρ καὶ γῆ καὶ ὕδωρ",
+    "end_quote": "πρῶτα σώματα διὰ τοιούτων αἰτιῶν γέγονεν"
+   },
+   "parts": [
+    {
+     "label": "All triangles from two",
+     "ref": "53c",
+     "quote": "τὰ δὲ τρίγωνα πάντα ἐκ δυοῖν ἄρχεται"
+    },
+    {
+     "label": "A fifth construction for the whole",
+     "ref": "55c",
+     "quote": "ἐπὶ τὸ πᾶν ὁ θεὸς αὐτῇ κατεχρήσατο ἐκεῖνο διαζωγραφῶν"
+    },
+    {
+     "label": "One world, or five?",
+     "ref": "55d",
+     "quote": "πότερον δὲ ἕνα ἢ πέντε"
+    },
+    {
+     "label": "Earth the cube",
+     "ref": "55d",
+     "quote": "γῇ μὲν δὴ τὸ κυβικὸν εἶδος δῶμεν"
+    }
+   ],
+   "diagram": {
+    "kind": "table",
+    "title": "The four kinds, 55a–56b",
+    "about": "Each body, its solid as Timaeus builds it, and the quality he draws from its shape.",
+    "columns": [
+     {
+      "head": "Solid"
+     },
+     {
+      "head": "Why"
+     }
+    ],
+    "rows": [
+     {
+      "head": "Fire",
+      "cells": [
+       {
+        "text": "pyramid (tetrahedron), four faces",
+        "ref": "56b",
+        "quote": "τὸ μὲν τῆς πυραμίδος στερεὸν γεγονὸς εἶδος πυρὸς στοιχεῖον"
+       },
+       {
+        "text": "most mobile, sharpest, lightest",
+        "ref": "56a",
+        "quote": "τὸ δʼ εὐκινητότατον πυρί"
+       }
+      ]
+     },
+     {
+      "head": "Air",
+      "cells": [
+       {
+        "text": "octahedron, eight faces",
+        "ref": "55a",
+        "quote": "κατὰ δὲ ἰσόπλευρα τρίγωνα ὀκτὼ συστάντων"
+       },
+       {
+        "text": "in the middle",
+        "ref": "56a",
+        "quote": "τὸ δὲ μέσον ἀέρι"
+       }
+      ]
+     },
+     {
+      "head": "Water",
+      "cells": [
+       {
+        "text": "icosahedron, twenty faces",
+        "ref": "55b",
+        "quote": "εἴκοσι βάσεις ἔχον ἰσοπλεύρους τριγώνους"
+       },
+       {
+        "text": "the least mobile of the three",
+        "ref": "56a",
+        "quote": "ὕδατι δʼ αὖ τῶν λοιπῶν τὸ δυσκινητότατον εἶδος"
+       }
+      ]
+     },
+     {
+      "head": "Earth",
+      "cells": [
+       {
+        "text": "cube, six square faces",
+        "ref": "55c",
+        "quote": "ἓξ ἐπιπέδους τετραγώνους ἰσοπλεύρους βάσεις ἔχον"
+       },
+       {
+        "text": "the hardest to move",
+        "ref": "55d",
+        "quote": "γῇ μὲν δὴ τὸ κυβικὸν εἶδος δῶμεν"
+       }
+      ]
+     },
+     {
+      "head": "The whole",
+      "cells": [
+       {
+        "text": "a fifth construction (Plato does not name it)",
+        "ref": "55c",
+        "quote": "ἔτι δὲ οὔσης συστάσεως μιᾶς πέμπτης"
+       },
+       {
+        "text": "used for the universe",
+        "ref": "55c",
+        "quote": "ἐπὶ τὸ πᾶν ὁ θεὸς αὐτῇ κατεχρήσατο"
+       }
+      ]
+     }
+    ]
+   },
+   "related": [
+    {
+     "dossier": "receptacle",
+     "why": "The solids are shaped in the receptacle.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "53b",
+       "quote": "διεσχηματίσατο εἴδεσί τε καὶ ἀριθμοῖς"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Platonic solids",
+     "regular solids",
+     "tetrahedron",
+     "octahedron",
+     "icosahedron",
+     "dodecahedron",
+     "elementary triangles"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Platonic solid",
+     "url": "https://en.wikipedia.org/wiki/Platonic_solid",
+     "quote": "Plato wrote about them in the dialogue Timaeus",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "atlantis",
+   "label": "Atlantis and ancient Athens",
+   "greek": "ἡ Ἀτλαντὶς νῆσος",
+   "kind": "myth",
+   "group": "city",
+   "about": "Critias' story, from Solon, from the priests of Saïs: 'you Greeks are always children'; nine thousand years ago ancient Athens defeated the island empire of Atlantis beyond the Pillars of Heracles, which then sank in a single day and night. The Critias describes the island and breaks off.",
+   "passage": {
+    "work": "tlg031",
+    "start": "20d",
+    "end": "25d",
+    "start_quote": "ἄκουε δή, ὦ Σώκρατες, λόγου μάλα μὲν ἀτόπου, παντάπασί γε μὴν ἀληθοῦς",
+    "end_quote": "ἥ τε Ἀτλαντὶς νῆσος ὡσαύτως κατὰ τῆς θαλάττης δῦσα ἠφανίσθη"
+   },
+   "parts": [
+    {
+     "label": "A strange tale, but wholly true",
+     "ref": "20d",
+     "quote": "λόγου μάλα μὲν ἀτόπου, παντάπασί γε μὴν ἀληθοῦς"
+    },
+    {
+     "label": "'Solon, Solon, you Greeks are always children'",
+     "ref": "22b",
+     "quote": "ὦ Σόλων, Σόλων, Ἕλληνες ἀεὶ παῖδές ἐστε"
+    },
+    {
+     "label": "The island sank into the sea",
+     "ref": "25d",
+     "quote": "ἥ τε Ἀτλαντὶς νῆσος ὡσαύτως κατὰ τῆς θαλάττης δῦσα ἠφανίσθη"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg032",
+     "ref": "108e",
+     "quote": "οἱ τῆς Ἀτλαντίδος νήσου βασιλῆς",
+     "why": "The Critias takes up the story: nine thousand years, the kings of Atlantis."
+    },
+    {
+     "work": "tlg032",
+     "ref": "113c",
+     "quote": "Ποσειδ",
+     "why": "The Critias: Poseidon's allotment, the island."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "true-city",
+     "why": "The Timaeus opens by recalling the city of the Republic, which ancient Athens was to set in motion.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "19b",
+       "quote": "ζῷα καλά"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Atlantis",
+     "Pillars of Heracles",
+     "Pillars of Hercules"
+    ],
+    "grc": [
+     "ατλαντ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Atlantis",
+     "url": "https://en.wikipedia.org/wiki/Atlantis",
+     "quote": "is a fictional island mentioned in Plato's works Timaeus and Critias",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Timaeus",
+     "url": "https://plato.stanford.edu/entries/plato-timaeus/",
+     "quote": "his account of a war between ancient Athens and Atlantis",
+     "kind": "essay"
+    }
+   ]
+  }
+ ]
+}

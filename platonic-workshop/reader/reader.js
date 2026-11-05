@@ -674,12 +674,14 @@ document.addEventListener("keydown", (ev) => {
 function route(push) {
   const raw = location.hash.slice(1);
   if (raw.startsWith("search")) { showSearchFromHash(raw); return; }  // its parameters are decoded there
-  document.body.classList.remove("discussing", "whole-view", "corpus-view", "concepts-view", "commentaries-view");
+  document.body.classList.remove("discussing", "whole-view", "corpus-view", "concepts-view", "commentaries-view", "dossiers-view");
   // Milestone 11: #commentaries.
   if (raw === "commentaries") { showCommentaryLibrary(); return; }
   // Milestone 10: #concepts, #concepts/the-good.
   if (raw === "concepts" || raw.startsWith("concepts/")) { showConcepts(decodeURIComponent(raw.slice(9)) || null); return; }
   if (raw.startsWith("renderings/")) { showRenderings(decodeURIComponent(raw.slice(11))); return; }
+  // Passage dossiers: #dossiers, #dossiers/divided-line, #dossiers/divided-line/notes.
+  if (raw === "dossiers" || raw.startsWith("dossiers/")) { showDossiers(decodeURIComponent(raw.slice(9))); return; }
   if (raw.startsWith("discussed")) { showDiscussedFromHash(raw); return; }
   if (raw === "corpus" || raw.startsWith("corpus?")) { showCorpusFromHash(raw); return; }
   const h = decodeURIComponent(raw);

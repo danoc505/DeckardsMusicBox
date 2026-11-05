@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_db  # noqa: E402
 import citations  # noqa: E402
 import find  # noqa: E402
+import dossiers  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
 import mywork  # noqa: E402
@@ -102,6 +103,9 @@ class Library:
         # Milestone 12: the recorded tensions with a passage in this dialogue.
         w["tensions"] = self.rows("SELECT t.id, t.title, p.n, p.side, p.start_ref, p.end_ref FROM reconcile_passage p "
                                   "JOIN reconcile_tension t ON t.id = p.tension_id WHERE p.work_id = ? ORDER BY t.seq, p.n", work_id)
+        # The passage dossiers in this dialogue.
+        w["dossiers"] = self.rows("SELECT id, label, kind, start_ref, end_ref FROM dossier WHERE work_id = ? ORDER BY seq", work_id) \
+            if self.one("SELECT name FROM sqlite_master WHERE name = 'dossier'") else []
         w["counts"] = {
             "notes": self.one("SELECT count(*) n FROM note WHERE work_id = ?", work_id)["n"],
             "links_out": self.one("SELECT count(*) n FROM link WHERE from_work = ?", work_id)["n"],
@@ -309,6 +313,116 @@ class Library:
                 "words": total["n"], "works": total["w"],
                 "concepts": self.rows("SELECT DISTINCT c.id, c.label FROM concept_term t JOIN concept c ON c.id = t.concept_id WHERE t.lemma = ? ORDER BY c.seq", lemma),
                 "by_work": self.rows("SELECT l.work_id, w.title, l.n FROM lemma_count l JOIN work w ON w.id = l.work_id WHERE l.lemma = ? ORDER BY l.n DESC", lemma)}
+
+    # ------------------------------------------------------------ passage dossiers (tools/dossiers.py)
+
+    def dossiers(self):
+        """Every dossier, with its span and how much is gathered for it."""
+        if not self.one("SELECT name FROM sqlite_master WHERE name = 'dossier'"):
+            return {"dossiers": [], "stats": None, "groups": {}, "kinds": {}}
+        out = []
+        for r in self.rows("SELECT d.id, d.label, d.greek, d.kind, d.work_id, d.start_ref, d.end_ref, d.grp, d.data, w.title, w.slug "
+                           "FROM dossier d JOIN work w ON w.id = d.work_id ORDER BY d.seq"):
+            x = json.loads(r.pop("data"))
+            r["about"] = x.get("about")
+            r["diagram"] = (x.get("diagram") or {}).get("kind")
+            r["counts"] = {k: len(x.get(k) or []) for k in ("parts", "echoes", "testimonia", "renderings", "web", "related", "shared")}
+            r["related"] = [y["dossier"] for y in x.get("related", [])]
+            out.append(r)
+        stats = self.one("SELECT value FROM build WHERE key = 'dossier_stats'")
+        meta = dossiers.load()
+        return {"dossiers": out, "stats": json.loads(stats["value"]) if stats else None, "groups": meta["groups"], "kinds": meta["kinds"]}
+
+    def span_refs(self, work_id, a, b):
+        return [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? AND seq BETWEEN (SELECT seq FROM section WHERE work_id = ? AND ref = ?) "
+                                            "AND (SELECT seq FROM section WHERE work_id = ? AND ref = ?) ORDER BY seq", work_id, work_id, a, work_id, b)]
+
+    def dossier(self, dossier_id):
+        """A dossier: what was written for it, and everything the library holds on its span."""
+        d = self.one("SELECT d.*, w.title, w.slug, w.abbr FROM dossier d JOIN work w ON w.id = d.work_id WHERE d.id = ?", dossier_id)
+        if not d:
+            return None
+        x = json.loads(d.pop("data"))
+        d.update(x)
+        w, a, b = d["work_id"], d["start_ref"], d["end_ref"]
+        refs = self.span_refs(w, a, b)
+        marks = ",".join("?" * len(refs))
+        d["refs"] = refs
+        pages = sorted({int(re.match(r"\d+", r).group()) for r in refs})
+        # The text, every edition: the Greek and each translation, section by section (a translation's
+        # paragraph that begins before the span and runs into it is included, and marked).
+        cols = "c.id, c.edition_id, c.section_ref, c.end_ref, c.para, c.label, c.text, c.align_method, c.translator, c.printed_at"
+        d["editions"] = self.rows("SELECT e.id, e.lang, e.label, e.responsible, e.printed, e.proof_status, e.align_method, e.translator_note "
+                                  "FROM edition e WHERE e.work_id = ? ORDER BY e.lang = 'eng', e.id", w)
+        first = self.one("SELECT seq FROM section WHERE work_id = ? AND ref = ?", w, a)["seq"]
+        chunks = self.rows(f"SELECT {cols} FROM chunk c WHERE c.work_id = ? AND c.section_ref IN ({marks}) ORDER BY c.edition_id, c.seq", w, *refs)
+        running = self.rows(f"SELECT {cols} FROM chunk c JOIN section s1 ON s1.work_id = c.work_id AND s1.ref = c.section_ref "
+                            "JOIN section s2 ON s2.work_id = c.work_id AND s2.ref = c.end_ref "
+                            "WHERE c.work_id = ? AND c.end_ref IS NOT NULL AND s1.seq < ? AND s2.seq >= ? ORDER BY c.edition_id, c.seq", w, first, first)
+        for c in running:
+            c["continued"] = True
+        by_ed = {}
+        for c in running + chunks:
+            by_ed.setdefault(c["edition_id"], []).append(c)
+        for e in d["editions"]:
+            e["chunks"] = by_ed.get(e["id"], [])
+        # Notes placed on the span: translators' notes, commentaries, scholia.
+        notes = self.rows(f"SELECT {COMMENT_COLS}, COALESCE(c.label, n.commentator) AS who, n.body FROM note n LEFT JOIN commentary c ON c.id = n.commentary_id "
+                          f"WHERE n.work_id = ? AND n.start_ref IN ({marks}) AND (n.kind IS NULL OR n.kind != 'introduction') ORDER BY who, n.id", w, *refs)
+        for n in notes:
+            n.pop("body")
+        d["notes"] = self.shorten(notes)
+        # Cited by: every note anywhere citing a section of the span, or one of its pages.
+        link_cols = ("l.id, l.raw, l.rule, l.certainty, l.doubt, l.note_id, l.from_work, l.from_ref, l.to_ref, w.title AS from_title, "
+                     "COALESCE(c.label, n.commentator) AS commentator, n.body, n.kind AS note_kind")
+        cited = self.rows(f"SELECT {link_cols} FROM link l JOIN note n ON n.id = l.note_id JOIN work w ON w.id = l.from_work "
+                          f"LEFT JOIN commentary c ON c.id = n.commentary_id WHERE l.to_work = ? AND l.kind = 'cf' AND l.certainty != 'unresolved' "
+                          f"AND (l.to_ref IN ({marks}) OR l.to_ref IN ({','.join('?' * len(pages))})) ORDER BY l.from_work, l.from_ref", w, *refs, *map(str, pages))
+        for l in cited:
+            l["excerpt"] = citations.excerpt(l.pop("body"), l["raw"], 260)
+            l["inside"] = l["from_work"] == w and l["from_ref"] in refs
+            l["page_only"] = l["to_ref"] not in refs
+        d["cited_by"] = cited
+        d["cites"] = self.rows(f"SELECT l.id, l.raw, l.certainty, l.note_id, l.from_ref, l.to_work, l.to_ref, w.title AS to_title, COALESCE(c.label, n.commentator) AS commentator "
+                               f"FROM link l JOIN note n ON n.id = l.note_id JOIN work w ON w.id = l.to_work LEFT JOIN commentary c ON c.id = n.commentary_id "
+                               f"WHERE l.from_work = ? AND l.from_ref IN ({marks}) AND l.kind = 'cf' AND l.certainty != 'unresolved' "
+                               f"AND NOT (l.to_work = ? AND l.to_ref IN ({marks})) ORDER BY l.to_work, l.to_ref", w, *refs, w, *refs)
+        named = self.rows("SELECT dn.word, dn.placed, n.id AS note_id, n.work_id, n.start_ref, n.kind AS note_kind, wk.title, COALESCE(c.label, n.commentator) AS commentator, n.body "
+                          "FROM dossier_named dn JOIN note n ON n.id = dn.note_id JOIN work wk ON wk.id = n.work_id LEFT JOIN commentary c ON c.id = n.commentary_id "
+                          "WHERE dn.dossier_id = ? ORDER BY dn.placed DESC, n.work_id, n.id", dossier_id)
+        for n in named:
+            n["excerpt"] = citations.excerpt(n.pop("body"), n["word"], 300)
+        d["named"] = named
+        d["vocab"] = self.rows("SELECT lemma, here, plato, works, kind FROM dossier_vocab WHERE dossier_id = ? ORDER BY kind != 'only here', here DESC", dossier_id)
+        # The printed divisions over the span: Jowett's marginal analysis, Archer-Hind's chapters.
+        d["divisions"] = self.rows("SELECT kind, label, start_ref, end_ref, author, detail FROM division d JOIN section s1 ON s1.work_id = d.work_id AND s1.ref = d.start_ref "
+                                   "JOIN section s2 ON s2.work_id = d.work_id AND s2.ref = d.end_ref WHERE d.work_id = ? AND d.kind IN ('chapter', 'sidenote') "
+                                   "AND s1.seq <= (SELECT seq FROM section WHERE work_id = ? AND ref = ?) AND s2.seq >= ? ORDER BY s1.seq",
+                                   w, w, b, first)
+        d["speeches"] = self.rows("SELECT label, start_ref, end_ref FROM division WHERE work_id = ? AND kind = 'speech' AND start_ref IN (" + marks + ") ORDER BY id", w, *refs)
+        titles = {r["id"]: r["title"] for r in self.rows("SELECT id, title FROM work")}
+        for e in d.get("echoes", []):
+            e["title"] = titles.get(e["work"], e["work"])
+        for s in d.get("shared", []):
+            for p in s["elsewhere"]:
+                p["title"] = titles.get(p["work_id"], p["work_id"])
+        labels = {r["id"]: r["label"] for r in self.rows("SELECT id, label FROM dossier")}
+        for r in d.get("related", []):
+            r["label"] = labels.get(r["dossier"], r["dossier"])
+        # Other dossiers that point here.
+        d["related_from"] = []
+        for r in self.rows("SELECT id, label, data FROM dossier WHERE id != ?", dossier_id):
+            for y in json.loads(r["data"]).get("related", []):
+                if y["dossier"] == dossier_id:
+                    d["related_from"].append({"dossier": r["id"], "label": r["label"], "why": y["why"]})
+        # Your own translations and notes on the span.
+        d["mine"] = self.mine.rows_for_sections(w, refs)
+        return d
+
+    def dossier_markdown(self, dossier_id):
+        """The dossier as a Markdown study sheet: everything quoted, with where it is."""
+        d = self.dossier(dossier_id)
+        return dossiers.markdown(d) if d else None
 
     def ancient(self, text_id, at=None):
         t = self.one("SELECT * FROM ancient_text WHERE id = ?", text_id)
@@ -802,6 +916,14 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 2 and parts[0] == "concept":
                     c = lib.concept(parts[1])
                     return self.send_json(c) if c else self.not_found()
+                if parts == ["dossiers"]:
+                    return self.send_json(lib.dossiers())
+                if len(parts) == 2 and parts[0] == "dossier":
+                    d = lib.dossier(parts[1])
+                    return self.send_json(d) if d else self.not_found()
+                if len(parts) == 3 and parts[0] == "dossier" and parts[2] == "md":
+                    md = lib.dossier_markdown(parts[1])
+                    return self.send_file(md.encode("utf-8"), "text/markdown; charset=utf-8", f"{parts[1]}.md") if md else self.not_found()
                 if parts == ["corpus"]:
                     return self.send_json(lib.corpus())
                 if len(parts) == 2 and parts[0] == "ancient":

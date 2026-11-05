@@ -1,0 +1,2169 @@
+{
+ "dossiers": [
+  {
+   "id": "sun",
+   "label": "The sun",
+   "greek": "ὁ ἥλιος, ἔκγονος τοῦ ἀγαθοῦ",
+   "kind": "image",
+   "group": "republic-images",
+   "about": "Socrates will not say what the Good is, but offers its 'offspring', the sun: as the sun is to sight and the things seen, so the Good is to intellect and the things known; and the Good is 'beyond being'.",
+   "passage": {
+    "work": "tlg030",
+    "start": "506e",
+    "end": "509c",
+    "start_quote": "ὃς δὲ ἔκγονός τε τοῦ ἀγαθοῦ φαίνεται καὶ ὁμοιότατος ἐκείνῳ",
+    "end_quote": "τὴν περὶ τὸν ἥλιον ὁμοιότητα αὖ διεξιών"
+   },
+   "parts": [
+    {
+     "label": "The offspring of the Good",
+     "ref": "506e",
+     "quote": "ἔκγονός τε τοῦ ἀγαθοῦ"
+    },
+    {
+     "label": "Sight needs a third thing, light",
+     "ref": "507e",
+     "quote": "φῶς"
+    },
+    {
+     "label": "The eye is the most sun-like of the organs",
+     "ref": "508b",
+     "quote": "ἡλιοειδέστατόν γε οἶμαι τῶν περὶ τὰς αἰσθήσεις ὀργάνων"
+    },
+    {
+     "label": "The analogy stated",
+     "ref": "508c",
+     "quote": "ἐν τῷ νοητῷ τόπῳ πρός τε νοῦν καὶ τὰ νοούμενα, τοῦτο τοῦτον ἐν τῷ ὁρατῷ πρός τε ὄψιν καὶ τὰ ὁρώμενα"
+    },
+    {
+     "label": "The Good, cause of knowledge and truth",
+     "ref": "508e",
+     "quote": "αἰτίαν δʼ ἐπιστήμης οὖσαν καὶ ἀληθείας"
+    },
+    {
+     "label": "Beyond being",
+     "ref": "509b",
+     "quote": "ἐπέκεινα τῆς οὐσίας πρεσβείᾳ καὶ δυνάμει ὑπερέχοντος"
+    },
+    {
+     "label": "Glaucon: 'Apollo! What a daemonic excess!'",
+     "ref": "509c",
+     "quote": "Ἄπολλον, ἔφη, δαιμονίας ὑπερβολῆς"
+    }
+   ],
+   "diagram": {
+    "kind": "analogy",
+    "title": "The analogy of 508b–c and 509b",
+    "about": "Each cell is Plato's word at the section shown. As the sun is to sight and the visible, so the Good is to intellect and the intelligible (508c); the sun gives the visible its coming-to-be, the Good gives the known its being (509b).",
+    "columns": [
+     {
+      "head": "In the visible region",
+      "ref": "508c",
+      "quote": "ἐν τῷ ὁρατῷ"
+     },
+     {
+      "head": "In the intelligible region",
+      "ref": "508c",
+      "quote": "ἐν τῷ νοητῷ τόπῳ"
+     }
+    ],
+    "rows": [
+     {
+      "head": "The source",
+      "cells": [
+       {
+        "text": "the sun",
+        "ref": "508b",
+        "quote": "ὁ ἥλιος"
+       },
+       {
+        "text": "the Good",
+        "ref": "508b",
+        "quote": "τἀγαθὸν ἐγέννησεν ἀνάλογον ἑαυτῷ"
+       }
+      ]
+     },
+     {
+      "head": "The power that sees",
+      "cells": [
+       {
+        "text": "sight",
+        "ref": "508c",
+        "quote": "πρός τε ὄψιν"
+       },
+       {
+        "text": "intellect",
+        "ref": "508c",
+        "quote": "πρός τε νοῦν"
+       }
+      ]
+     },
+     {
+      "head": "What it sees",
+      "cells": [
+       {
+        "text": "the things seen",
+        "ref": "508c",
+        "quote": "τὰ ὁρώμενα"
+       },
+       {
+        "text": "the things thought",
+        "ref": "508c",
+        "quote": "τὰ νοούμενα"
+       }
+      ]
+     },
+     {
+      "head": "What the source gives",
+      "cells": [
+       {
+        "text": "light; coming to be, growth, nurture",
+        "ref": "509b",
+        "quote": "τὴν γένεσιν καὶ αὔξην καὶ τροφήν"
+       },
+       {
+        "text": "truth; being and essence",
+        "ref": "509b",
+        "quote": "τὸ εἶναί τε καὶ τὴν οὐσίαν"
+       }
+      ]
+     },
+     {
+      "head": "Yet the source is not it",
+      "cells": [
+       {
+        "text": "not itself coming to be",
+        "ref": "509b",
+        "quote": "οὐ γένεσιν αὐτὸν ὄντα"
+       },
+       {
+        "text": "not being, but beyond being",
+        "ref": "509b",
+        "quote": "οὐκ οὐσίας ὄντος τοῦ ἀγαθοῦ"
+       }
+      ]
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "517b",
+     "quote": "τὸ δὲ τοῦ πυρὸς ἐν αὐτῇ φῶς τῇ τοῦ ἡλίου δυνάμει",
+     "why": "The cave is applied to the sun: the fire in the prison is the power of the sun."
+    },
+    {
+     "work": "tlg030",
+     "ref": "516b",
+     "quote": "τελευταῖον δὴ οἶμαι τὸν ἥλιον",
+     "why": "Last of all the freed prisoner sees the sun itself, in its own place."
+    },
+    {
+     "work": "tlg030",
+     "ref": "540a",
+     "quote": "ἀνακλίναντας τὴν τῆς ψυχῆς αὐγὴν εἰς αὐτὸ ἀποβλέψαι τὸ πᾶσι φῶς παρέχον",
+     "why": "At the end of their education the rulers lift the eye of the soul to what gives light to all."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "divided-line",
+     "why": "Socrates goes on from the sun to the line at Glaucon's asking.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "509c",
+       "quote": "τὴν περὶ τὸν ἥλιον ὁμοιότητα αὖ διεξιών"
+      }
+     ]
+    },
+    {
+     "dossier": "cave",
+     "why": "The cave is to be applied as a whole to what was said before.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "517b",
+       "quote": "προσαπτέον ἅπασαν τοῖς ἔμπροσθεν λεγομένοις"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "alcinous-burges",
+     "quote": "he has laid down our good in the knowledge and contemplation of the primary good, which a person would call god and the primary mind",
+     "says": "Alcinous, the second-century handbook: the primary good is god and the first mind."
+    },
+    {
+     "source": "note",
+     "by": "Proclus, tr. Taylor (1820)",
+     "work": "tlg031",
+     "ref": "30a",
+     "quote": "The good itself is prior to being",
+     "says": "Proclus, reading 'beyond being' in the Timaeus: the good is prior to being."
+    }
+   ],
+   "renderings": [
+    {
+     "term": "ἔκγονος",
+     "ref": "508b",
+     "grc": "τὸν τοῦ ἀγαθοῦ ἔκγονον",
+     "by": {
+      "perseus-eng2": "offspring of the good",
+      "jowett": "child of the good",
+      "taylor1804": "offspring of the good"
+     }
+    },
+    {
+     "term": "ἐπέκεινα τῆς οὐσίας",
+     "ref": "509b",
+     "grc": "ἐπέκεινα τῆς οὐσίας",
+     "by": {
+      "perseus-eng2": "transcends essence",
+      "jowett": "far exceeds essence",
+      "taylor1804": "beyond essence"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "analogy of the sun",
+     "offspring of the good",
+     "child of the good",
+     "beyond being",
+     "beyond essence",
+     "above essence"
+    ],
+    "grc": [
+     "επεκεινα της ουσιας"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Analogy of the Sun",
+     "url": "https://en.wikipedia.org/wiki/Analogy_of_the_sun",
+     "quote": "so the sun stands in the visible realm to sight and the things we see",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Middle Period Metaphysics and Epistemology, §13 Sun, Line and Cave",
+     "url": "https://plato.stanford.edu/entries/plato-metaphysics/",
+     "quote": "analogies of Sun, Line and Cave in Books Six and Seven",
+     "kind": "essay"
+    },
+    {
+     "site": "Internet Encyclopedia of Philosophy",
+     "title": "Republic",
+     "url": "https://iep.utm.edu/republic/",
+     "quote": "Socrates considers several candidates for what the Good is, such as pleasure and knowledge and he rejects them (505b-d)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "divided-line",
+   "label": "The divided line",
+   "greek": "γραμμὴ δίχα τετμημένη",
+   "kind": "image",
+   "group": "republic-images",
+   "about": "A line cut into two unequal parts, the visible and the intelligible, and each part cut again in the same ratio: four sections, with four states of the soul, from images to the forms grasped by dialectic.",
+   "passage": {
+    "work": "tlg030",
+    "start": "509d",
+    "end": "511e",
+    "start_quote": "ὥσπερ τοίνυν γραμμὴν δίχα τετμημένην λαβὼν ἄνισα τμήματα",
+    "end_quote": "μανθάνω, ἔφη, καὶ συγχωρῶ καὶ τάττω ὡς λέγεις"
+   },
+   "parts": [
+    {
+     "label": "Two kinds, the visible and the intelligible",
+     "ref": "509d",
+     "quote": "ἀλλʼ οὖν ἔχεις ταῦτα διττὰ εἴδη, ὁρατόν, νοητόν"
+    },
+    {
+     "label": "The line cut, and each part cut in the same ratio",
+     "ref": "509d",
+     "quote": "πάλιν τέμνε ἑκάτερον τὸ τμῆμα ἀνὰ τὸν αὐτὸν λόγον"
+    },
+    {
+     "label": "The lowest section: shadows and reflections",
+     "ref": "510a",
+     "quote": "μὲν τὰς σκιάς, ἔπειτα τὰ ἐν τοῖς ὕδασι φαντάσματα"
+    },
+    {
+     "label": "The second: animals, plants and made things",
+     "ref": "510a",
+     "quote": "τά τε περὶ ἡμᾶς ζῷα καὶ πᾶν τὸ φυτευτὸν καὶ τὸ σκευαστὸν ὅλον γένος"
+    },
+    {
+     "label": "Opinable to knowable as likeness to original",
+     "ref": "510a",
+     "quote": "ὡς τὸ δοξαστὸν πρὸς τὸ γνωστόν, οὕτω τὸ ὁμοιωθὲν πρὸς τὸ ᾧ ὡμοιώθη"
+    },
+    {
+     "label": "The third: the geometers, from hypotheses down",
+     "ref": "510b",
+     "quote": "ἐξ ὑποθέσεων"
+    },
+    {
+     "label": "The fourth: dialectic, up to the unhypothetical first principle",
+     "ref": "511b",
+     "quote": "μέχρι τοῦ ἀνυποθέτου ἐπὶ τὴν τοῦ παντὸς ἀρχὴν"
+    },
+    {
+     "label": "Four states of the soul",
+     "ref": "511d",
+     "quote": "τέτταρα ταῦτα παθήματα ἐν τῇ ψυχῇ γιγνόμενα"
+    }
+   ],
+   "diagram": {
+    "kind": "line",
+    "title": "The line of 509d–511e",
+    "about": "Plato says only that the parts are unequal and that each is cut in the same ratio; he does not say which part is longer. Choose the ratio: whatever it is, the two middle sections come out equal in length, since each is the whole times r(1−r): a consequence of the construction, not something Plato states.",
+    "cut": {
+     "ref": "509d",
+     "quote": "πάλιν τέμνε ἑκάτερον τὸ τμῆμα ἀνὰ τὸν αὐτὸν λόγον"
+    },
+    "halves": [
+     {
+      "label": "the visible",
+      "ref": "509d",
+      "quote": "τὸ δʼ αὖ ὁρατοῦ"
+     },
+     {
+      "label": "the intelligible",
+      "ref": "509d",
+      "quote": "τὸ μὲν νοητοῦ γένους τε καὶ τόπου"
+     }
+    ],
+    "sections": [
+     {
+      "state": "εἰκασία",
+      "state_en": "image-thinking",
+      "state_ref": "511e",
+      "state_quote": "τῷ τελευταίῳ εἰκασίαν",
+      "objects": "shadows, reflections",
+      "ref": "510a",
+      "quote": "μὲν τὰς σκιάς, ἔπειτα τὰ ἐν τοῖς ὕδασι φαντάσματα"
+     },
+     {
+      "state": "πίστις",
+      "state_en": "belief",
+      "state_ref": "511e",
+      "state_quote": "τῷ τρίτῳ δὲ πίστιν ἀπόδος",
+      "objects": "animals, plants, made things",
+      "ref": "510a",
+      "quote": "τά τε περὶ ἡμᾶς ζῷα καὶ πᾶν τὸ φυτευτὸν"
+     },
+     {
+      "state": "διάνοια",
+      "state_en": "understanding",
+      "state_ref": "511d",
+      "state_quote": "διάνοιαν δὲ καλεῖν μοι δοκεῖς τὴν τῶν γεωμετρικῶν",
+      "objects": "the geometers' objects, from hypotheses",
+      "ref": "510b",
+      "quote": "ἐξ ὑποθέσεων"
+     },
+     {
+      "state": "νόησις",
+      "state_en": "intellection",
+      "state_ref": "511d",
+      "state_quote": "νόησιν μὲν ἐπὶ τῷ ἀνωτάτω",
+      "objects": "forms alone, up to the first principle",
+      "ref": "511c",
+      "quote": "εἴδεσιν αὐτοῖς διʼ αὐτῶν εἰς αὐτά"
+     }
+    ],
+    "proportion": {
+     "ref": "511e",
+     "quote": "τάξον αὐτὰ ἀνὰ λόγον"
+    }
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "533e",
+     "end": "534a",
+     "quote": "ὥσπερ τὸ πρότερον, τὴν μὲν πρώτην μοῖραν ἐπιστήμην καλεῖν, δευτέραν δὲ διάνοιαν",
+     "why": "Socrates returns to the four sections 'as before', now naming the first 'knowledge' (ἐπιστήμη) instead of νόησις."
+    },
+    {
+     "work": "tlg030",
+     "ref": "534a",
+     "quote": "ἐπιστήμην πρὸς πίστιν καὶ διάνοιαν πρὸς εἰκασίαν",
+     "why": "The proportions of the line restated, and the further division of their objects set aside."
+    },
+    {
+     "work": "tlg030",
+     "ref": "510b",
+     "quote": "ἀνυπόθετον",
+     "why": "The unhypothetical principle first named, in the line itself; dialectic reaches it at 511b."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "sun",
+     "why": "The line continues the likeness of the sun.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "509c",
+       "quote": "τὴν περὶ τὸν ἥλιον ὁμοιότητα αὖ διεξιών"
+      }
+     ]
+    },
+    {
+     "dossier": "cave",
+     "why": "The cave is to be applied to what was said before; Shorey reads the cave's artificial objects as the line's things of sense.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "517b",
+       "quote": "προσαπτέον ἅπασαν τοῖς ἔμπροσθεν λεγομένοις"
+      },
+      {
+       "source": "note",
+       "by": "Shorey (Loeb, 1935-37)",
+       "work": "tlg030",
+       "ref": "514b",
+       "quote": "The artificial objects correspond to the things of sense and opinion in the divided line"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "note",
+     "by": "Shorey (Loeb, 1935-37)",
+     "work": "tlg030",
+     "ref": "514b",
+     "quote": "the shadows to the world of reflections",
+     "says": "Shorey: the shadows in the cave correspond to the line's lowest section."
+    },
+    {
+     "source": "note",
+     "by": "Taylor (1804), note",
+     "work": "tlg030",
+     "ref": "517c",
+     "quote": "Every thing in this cave is analogous to things visible",
+     "says": "Taylor's note maps the cave onto the sections of the line."
+    }
+   ],
+   "renderings": [
+    {
+     "term": "νόησις",
+     "ref": "511d",
+     "grc": "νόησιν μὲν ἐπὶ τῷ ἀνωτάτω",
+     "by": {
+      "perseus-eng2": "intellection or reason",
+      "jowett": "reason answering to the highest",
+      "taylor1804": "intelligence answering to the highest"
+     }
+    },
+    {
+     "term": "διάνοια",
+     "ref": "511e",
+     "grc": "τῷ δευτέρῳ",
+     "by": {
+      "perseus-eng2": "understanding for the second",
+      "jowett": "understanding to the second",
+      "taylor1804": "the dianoëtic part to the second"
+     }
+    },
+    {
+     "term": "πίστις",
+     "ref": "511e",
+     "grc": "πίστιν",
+     "by": {
+      "perseus-eng2": "belief to the third",
+      "jowett": "faith (or conviction) to the third",
+      "taylor1804": "faith to the third"
+     }
+    },
+    {
+     "term": "εἰκασία",
+     "ref": "511e",
+     "grc": "εἰκασίαν",
+     "by": {
+      "perseus-eng2": "picture-thinking or conjecture",
+      "jowett": "perception of shadows",
+      "taylor1804": "assimilation"
+     }
+    },
+    {
+     "term": "ἀνὰ τὸν αὐτὸν λόγον",
+     "ref": "509d",
+     "grc": "ἀνὰ τὸν αὐτὸν λόγον",
+     "by": {
+      "perseus-eng2": "in the same ratio",
+      "jowett": "in the same proportion",
+      "taylor1804": "according to the same ratio"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "divided line",
+     "line divided",
+     "section of the line",
+     "sections of the line",
+     "segment of the line",
+     "segments of the line",
+     "four sections"
+    ],
+    "grc": [
+     "γραμμην διχα"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Analogy of the divided line",
+     "url": "https://en.wikipedia.org/wiki/Analogy_of_the_divided_line",
+     "quote": "The analogy of the divided line (Ancient Greek: γραμμὴ δίχα τετμημένη, romanized: grammē dicha tetmēmenē) is presented by the Greek philosopher Plato in the Republic (509d–511e)",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Middle Period Metaphysics and Epistemology, §13 Sun, Line and Cave",
+     "url": "https://plato.stanford.edu/entries/plato-metaphysics/",
+     "quote": "unhypothetical first principle and descending the line",
+     "kind": "essay"
+    },
+    {
+     "site": "Internet Encyclopedia of Philosophy",
+     "title": "Republic",
+     "url": "https://iep.utm.edu/republic/",
+     "quote": "Socrates offers the analogy of the divided line to explain the Form of the Good even further (509d-511d)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "cave",
+   "label": "The cave",
+   "greek": "κατάγειος οἴκησις σπηλαιώδης",
+   "kind": "image",
+   "group": "republic-images",
+   "about": "Prisoners chained from childhood see only shadows of carried objects cast by a fire; one is freed, turned round, dragged up into the sunlight, and must go back down. Socrates applies it to the sun and the line, to education as the turning of the soul, and to the philosopher's return.",
+   "passage": {
+    "work": "tlg030",
+    "start": "514a",
+    "end": "520c",
+    "start_quote": "ἀπείκασον τοιούτῳ πάθει τὴν ἡμετέραν φύσιν παιδείας τε πέρι καὶ ἀπαιδευσίας",
+    "end_quote": "καταβατέον οὖν ἐν μέρει ἑκάστῳ εἰς τὴν τῶν ἄλλων συνοίκησιν"
+   },
+   "parts": [
+    {
+     "label": "The dwelling, the chains, the fire",
+     "ref": "514a",
+     "quote": "οἷον ἐν καταγείῳ οἰκήσει σπηλαιώδει"
+    },
+    {
+     "label": "'Like us'",
+     "ref": "515a",
+     "quote": "ὁμοίους ἡμῖν"
+    },
+    {
+     "label": "The release and the turning",
+     "ref": "515c",
+     "quote": "αὐτῶν λύσιν τε καὶ ἴασιν τῶν τε δεσμῶν καὶ τῆς ἀφροσύνης"
+    },
+    {
+     "label": "The ascent, and the sun itself",
+     "ref": "516b",
+     "quote": "τελευταῖον δὴ οἶμαι τὸν ἥλιον"
+    },
+    {
+     "label": "The return, and the prisoners would kill him",
+     "ref": "517a",
+     "quote": "ἀποκτεινύναι ἄν"
+    },
+    {
+     "label": "The image applied to what was said before",
+     "ref": "517b",
+     "quote": "προσαπτέον ἅπασαν τοῖς ἔμπροσθεν λεγομένοις"
+    },
+    {
+     "label": "Education as turning the soul around",
+     "ref": "518d",
+     "quote": "τῆς περιαγωγῆς"
+    },
+    {
+     "label": "The philosophers must go back down",
+     "ref": "520c",
+     "quote": "καταβατέον οὖν ἐν μέρει ἑκάστῳ"
+    }
+   ],
+   "diagram": {
+    "kind": "cave",
+    "title": "The cave as 514a–515a describes it",
+    "about": "Laid out from Socrates' description, left to right as he gives it: the prisoners facing the back wall, the low wall behind them like a puppeteers' screen, the people carrying objects along a road behind it, the fire above and behind, and the long passage up to the light. Each label is his word.",
+    "items": [
+     {
+      "key": "wall",
+      "label": "the wall facing them: the shadows",
+      "ref": "515a",
+      "quote": "εἰς τὸ καταντικρὺ αὐτῶν τοῦ σπηλαίου"
+     },
+     {
+      "key": "prisoners",
+      "label": "prisoners, chained legs and necks",
+      "ref": "514a",
+      "quote": "ἐν δεσμοῖς καὶ τὰ σκέλη καὶ τοὺς αὐχένας"
+     },
+     {
+      "key": "parapet",
+      "label": "a low wall, like a puppet screen",
+      "ref": "514b",
+      "quote": "τειχίον παρῳκοδομημένον"
+     },
+     {
+      "key": "carriers",
+      "label": "carriers of implements and figures",
+      "ref": "514c",
+      "quote": "σκεύη τε παντοδαπὰ ὑπερέχοντα τοῦ τειχίου καὶ ἀνδριάντας"
+     },
+     {
+      "key": "road",
+      "label": "a road, between fire and prisoners",
+      "ref": "514b",
+      "quote": "ἐπάνω ὁδόν"
+     },
+     {
+      "key": "fire",
+      "label": "a fire burning far above and behind",
+      "ref": "514b",
+      "quote": "φῶς δὲ αὐτοῖς πυρὸς ἄνωθεν καὶ πόρρωθεν καόμενον ὄπισθεν αὐτῶν"
+     },
+     {
+      "key": "entrance",
+      "label": "the long way up to the light",
+      "ref": "514a",
+      "quote": "ἀναπεπταμένην πρὸς τὸ φῶς τὴν εἴσοδον"
+     },
+     {
+      "key": "sun",
+      "label": "the sun, seen last",
+      "ref": "516b",
+      "quote": "τελευταῖον δὴ οἶμαι τὸν ἥλιον"
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "532b",
+     "end": "532c",
+     "quote": "λύσις τε ἀπὸ τῶν δεσμῶν καὶ μεταστροφὴ ἀπὸ τῶν σκιῶν",
+     "why": "The release from the chains and the ascent from the cave, recalled as what the mathematical studies do for the soul."
+    },
+    {
+     "work": "tlg030",
+     "ref": "539e",
+     "quote": "καταβιβαστέοι",
+     "why": "At thirty-five the trained philosophers are to be sent down into the cave again."
+    },
+    {
+     "work": "tlg030",
+     "ref": "521c",
+     "quote": "ψυχῆς περιαγωγὴ",
+     "why": "Education again called a turning of the soul from a day like night to the true day."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "sun",
+     "why": "The fire in the prison is the power of the sun.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "517b",
+       "quote": "τὸ δὲ τοῦ πυρὸς ἐν αὐτῇ φῶς τῇ τοῦ ἡλίου δυνάμει"
+      }
+     ]
+    },
+    {
+     "dossier": "divided-line",
+     "why": "The ascent is the soul's way up to the intelligible region.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "517b",
+       "quote": "τὴν εἰς τὸν νοητὸν τόπον τῆς ψυχῆς ἄνοδον"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "note",
+     "by": "Proclus, tr. Taylor (1820)",
+     "work": "tlg031",
+     "ref": "29a",
+     "quote": "it is deservedly called a cavern and a den",
+     "says": "Proclus, on the Timaeus: compared with the intelligible, the visible cosmos is called a cavern."
+    },
+    {
+     "source": "note",
+     "by": "Proclus, tr. Taylor (1820)",
+     "work": "tlg031",
+     "ref": "17a",
+     "quote": "have their eyes darkened when they descend into the",
+     "says": "Proclus recalls the cave: those raised in the light are dazzled when they go back down."
+    },
+    {
+     "source": "note",
+     "by": "Taylor (1804), Additional Note from Proclus",
+     "work": "tlg013",
+     "ref": "105c",
+     "quote": "departing from images and a subterranean cavern to the light and true essence",
+     "says": "Proclus on the First Alcibiades, in Taylor's note: the learner led up out of the cavern."
+    },
+    {
+     "source": "note",
+     "by": "Shorey (Loeb, 1935-37)",
+     "work": "tlg030",
+     "ref": "514a",
+     "quote": "The image of the cave illustrates by another proportion the contrast between the world of sense-perception and the world of thought",
+     "says": "Shorey on the cave as a second proportion."
+    }
+   ],
+   "renderings": [
+    {
+     "term": "κατάγειος οἴκησις σπηλαιώδης",
+     "ref": "514a",
+     "grc": "ἐν καταγείῳ οἰκήσει σπηλαιώδει",
+     "by": {
+      "perseus-eng2": "subterranean cavern",
+      "jowett": "underground den",
+      "taylor1804": "subterraneous habitation"
+     }
+    },
+    {
+     "term": "περιαγωγή",
+     "ref": "518d",
+     "grc": "τῆς περιαγωγῆς",
+     "by": {
+      "perseus-eng2": "conversion",
+      "jowett": "conversion",
+      "taylor1804": "conversion"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "cave",
+     "cavern",
+     "subterraneous",
+     "the den",
+     "underground den"
+    ],
+    "grc": [
+     "σπηλαι"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Allegory of the cave",
+     "url": "https://en.wikipedia.org/wiki/Allegory_of_the_cave",
+     "quote": "The allegory of the cave is an allegory presented by the Greek philosopher Plato in his work Republic (514a–520a, Book VII)",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Middle Period Metaphysics and Epistemology, §13 Sun, Line and Cave",
+     "url": "https://plato.stanford.edu/entries/plato-metaphysics/",
+     "quote": "Cave, arguably the most famous analogy in the history of philosophy",
+     "kind": "essay"
+    },
+    {
+     "site": "Internet Encyclopedia of Philosophy",
+     "title": "Republic",
+     "url": "https://iep.utm.edu/republic/",
+     "quote": "True education is the turning around of the soul from shadows and visible objects to true understanding of the Forms (518c-d)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "gyges",
+   "label": "The ring of Gyges",
+   "greek": "ὁ Γύγου δακτύλιος",
+   "kind": "myth",
+   "group": "soul",
+   "about": "Glaucon's story of the shepherd who finds a ring that makes him invisible, seduces the queen, kills the king and takes the throne: would anyone stay just who could do wrong unseen?",
+   "passage": {
+    "work": "tlg030",
+    "start": "359c",
+    "end": "360d",
+    "start_quote": "δόντες ἐξουσίαν ἑκατέρῳ ποιεῖν ὅτι ἂν βούληται",
+    "end_quote": "διὰ τὸν τοῦ ἀδικεῖσθαι φόβον"
+   },
+   "parts": [
+    {
+     "label": "The test: give the just and the unjust the power to do what they like",
+     "ref": "359c",
+     "quote": "δόντες ἐξουσίαν ἑκατέρῳ ποιεῖν ὅτι ἂν βούληται"
+    },
+    {
+     "label": "The shepherd, the chasm and the bronze horse",
+     "ref": "359d",
+     "quote": "ἵππον χαλκοῦν, κοῖλον, θυρίδας ἔχοντα"
+    },
+    {
+     "label": "Turning the bezel inward, he vanishes",
+     "ref": "360a",
+     "quote": "στρέφοντι μὲν εἴσω τὴν σφενδόνην ἀδήλῳ γίγνεσθαι, ἔξω δὲ δήλῳ"
+    },
+    {
+     "label": "He seduces the queen and kills the king",
+     "ref": "360b",
+     "quote": "μετʼ ἐκείνης ἐπιθέμενον τῷ βασιλεῖ ἀποκτεῖναι"
+    },
+    {
+     "label": "No one would be so adamantine as to stay just",
+     "ref": "360b",
+     "quote": "οὕτως ἀδαμάντινος, ὃς ἂν μείνειεν ἐν τῇ δικαιοσύνῃ"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "612b",
+     "quote": "τὸν Γύγου δακτύλιον",
+     "why": "At the end of the argument Socrates says justice is best for the soul itself, 'whether it has the ring of Gyges or not'."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "er",
+     "why": "The rewards of justice, set aside with the ring at 612b, are told in the myth of Er.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "612b",
+       "quote": "τὸν Γύγου δακτύλιον"
+      }
+     ]
+    }
+   ],
+   "renderings": [
+    {
+     "term": "σφενδόνη",
+     "ref": "360a",
+     "grc": "τὴν σφενδόνην",
+     "by": {
+      "perseus-eng2": "collet",
+      "jowett": "collet",
+      "taylor1804": "turned the stone"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Gyges"
+    ],
+    "grc": [
+     "γυγου",
+     "γυγης"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Ring of Gyges",
+     "url": "https://en.wikipedia.org/wiki/Ring_of_Gyges",
+     "quote": "is a hypothetical magic ring mentioned by the philosopher Plato in Book 2 of his Republic",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Myths, §2",
+     "url": "https://plato.stanford.edu/entries/plato-myths/",
+     "quote": "such as the story of Gyges (Republic 359d–360b)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "true-city",
+   "label": "The healthy city and the fevered city",
+   "greek": "ὑγιὴς πόλις, φλεγμαίνουσα πόλις",
+   "kind": "image",
+   "group": "city",
+   "about": "The city founded on need, each doing one work; Glaucon calls it 'a city of pigs', and Socrates agrees to look at the luxurious, fevered city, where justice and injustice will be found.",
+   "passage": {
+    "work": "tlg030",
+    "start": "369b",
+    "end": "372e",
+    "start_quote": "γίγνεται τοίνυν, ἦν δʼ ἐγώ, πόλις",
+    "end_quote": "καὶ φλεγμαίνουσαν πόλιν θεωρήσωμεν"
+   },
+   "parts": [
+    {
+     "label": "A city arises because none of us is self-sufficient",
+     "ref": "369b",
+     "quote": "ἡμῶν ἕκαστος οὐκ αὐτάρκης"
+    },
+    {
+     "label": "One man, one work",
+     "ref": "370c",
+     "quote": "ἓν κατὰ φύσιν"
+    },
+    {
+     "label": "'A city of pigs'",
+     "ref": "372d",
+     "quote": "ὑῶν πόλιν"
+    },
+    {
+     "label": "The true city, a healthy one; the fevered city",
+     "ref": "372e",
+     "quote": "ἡ μὲν οὖν ἀληθινὴ πόλις δοκεῖ μοι εἶναι ἣν διεληλύθαμεν, ὥσπερ ὑγιής τις"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "433a",
+     "quote": "τὸ τὰ αὑτοῦ πράττειν",
+     "why": "Justice found at last: doing one's own, the principle laid down when the city was founded."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "city of pigs",
+     "city of swine",
+     "healthy city",
+     "fevered city",
+     "luxurious city",
+     "inflamed"
+    ]
+   },
+   "web": [
+    {
+     "site": "Internet Encyclopedia of Philosophy",
+     "title": "Republic",
+     "url": "https://iep.utm.edu/republic/",
+     "quote": "city of pigs",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "metals",
+   "label": "The myth of the metals (the noble lie)",
+   "greek": "γενναῖον ψεῦδος",
+   "kind": "myth",
+   "group": "city",
+   "about": "A 'Phoenician tale' to be told to rulers and citizens alike: they were formed in the earth, and the god mixed gold into the rulers, silver into the auxiliaries, iron and bronze into the farmers and craftsmen.",
+   "passage": {
+    "work": "tlg030",
+    "start": "414b",
+    "end": "415d",
+    "start_quote": "τίς ἂν οὖν ἡμῖν, ἦν δʼ ἐγώ, μηχανὴ γένοιτο τῶν ψευδῶν τῶν ἐν δέοντι γιγνομένων",
+    "end_quote": "ἀλλὰ καὶ τοῦτο, ἦν δʼ ἐγώ, εὖ ἂν ἔχοι"
+   },
+   "parts": [
+    {
+     "label": "One noble falsehood",
+     "ref": "414c",
+     "quote": "τι ἓν ψευδομένους πεῖσαι μάλιστα μὲν καὶ αὐτοὺς τοὺς ἄρχοντας"
+    },
+    {
+     "label": "Something Phoenician",
+     "ref": "414c",
+     "quote": "ἀλλὰ Φοινικικόν τι"
+    },
+    {
+     "label": "Gold, silver, iron and bronze",
+     "ref": "415a",
+     "quote": "χρυσὸν ἐν τῇ γενέσει συνέμειξεν αὐτοῖς"
+    },
+    {
+     "label": "Children may be born of another metal",
+     "ref": "415b",
+     "quote": "ἐξ ἀργυροῦ χρυσοῦν"
+    }
+   ],
+   "diagram": {
+    "kind": "table",
+    "title": "The metals of 415a",
+    "about": "What the god mixed into each class, in Socrates' words.",
+    "columns": [
+     {
+      "head": "Mixed in at birth"
+     },
+     {
+      "head": "Who"
+     }
+    ],
+    "rows": [
+     {
+      "head": "Gold",
+      "cells": [
+       {
+        "text": "gold",
+        "ref": "415a",
+        "quote": "χρυσὸν ἐν τῇ γενέσει συνέμειξεν"
+       },
+       {
+        "text": "those fit to rule: most honoured",
+        "ref": "415a",
+        "quote": "ὅσοι μὲν ὑμῶν ἱκανοὶ ἄρχειν"
+       }
+      ]
+     },
+     {
+      "head": "Silver",
+      "cells": [
+       {
+        "text": "silver",
+        "ref": "415a",
+        "quote": "ἄργυρον"
+       },
+       {
+        "text": "the auxiliaries",
+        "ref": "415a",
+        "quote": "ὅσοι δʼ ἐπίκουροι"
+       }
+      ]
+     },
+     {
+      "head": "Iron and bronze",
+      "cells": [
+       {
+        "text": "iron and bronze",
+        "ref": "415a",
+        "quote": "σίδηρον δὲ καὶ χαλκὸν"
+       },
+       {
+        "text": "the farmers and the other craftsmen",
+        "ref": "415a",
+        "quote": "τοῖς τε γεωργοῖς καὶ τοῖς ἄλλοις δημιουργοῖς"
+       }
+      ]
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "382c",
+     "quote": "τὸ ἐν τοῖς λόγοις ψεῦδος",
+     "why": "The lie in words, useful 'as a drug' against enemies or friends, which licenses the tale."
+    },
+    {
+     "work": "tlg034",
+     "ref": "663d",
+     "quote": "ψεῦδος",
+     "why": "The Athenian of the Laws: a lawgiver might tell the young a useful lie, as the Cadmean tale shows."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "noble lie",
+     "Phoenician tale",
+     "myth of the metals",
+     "royal lie",
+     "gold, silver"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Noble lie",
+     "url": "https://en.wikipedia.org/wiki/Noble_lie",
+     "quote": "Descriptions of it and application of terminology to it, date back as early as ancient Greece in Plato's The Republic",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Ethics and Politics in the Republic",
+     "url": "https://plato.stanford.edu/entries/plato-ethics-politics/",
+     "quote": "they advance a “noble lie” to convince citizens of their unequal standing and deep tie to the city (414b–415d)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "soul-parts",
+   "label": "The three parts of the soul",
+   "greek": "λογιστικόν, θυμοειδές, ἐπιθυμητικόν",
+   "kind": "argument",
+   "group": "soul",
+   "about": "From the principle that one thing cannot do or suffer opposites in the same respect at the same time, Socrates finds reason and appetite in the soul, then spirit as a third, with Leontius at the corpses as witness.",
+   "passage": {
+    "work": "tlg030",
+    "start": "435c",
+    "end": "441c",
+    "start_quote": "εἰς φαῦλόν γε αὖ",
+    "end_quote": "μόγις διανενε"
+   },
+   "parts": [
+    {
+     "label": "The same thing will not do or suffer opposites at once",
+     "ref": "436b",
+     "quote": "ταὐτὸν τἀναντία ποιεῖν ἢ πάσχειν κατὰ ταὐτόν γε καὶ πρὸς ταὐτὸν"
+    },
+    {
+     "label": "The thirsty man who does not drink: reason and appetite",
+     "ref": "439d",
+     "quote": "λογιστικὸν προσαγορεύοντες τῆς ψυχῆς"
+    },
+    {
+     "label": "Leontius at the north wall",
+     "ref": "439e",
+     "quote": "Λεόντιος ὁ Ἀγλαΐωνος ἀνιὼν ἐκ Πειραιῶς"
+    },
+    {
+     "label": "Anger makes war on the desires",
+     "ref": "440a",
+     "quote": "τὴν ὀργὴν πολεμεῖν ἐνίοτε ταῖς ἐπιθυμίαις ὡς ἄλλο ὂν ἄλλῳ"
+    },
+    {
+     "label": "Spirit, a third, the ally of reason",
+     "ref": "441a",
+     "quote": "θυμοειδές"
+    }
+   ],
+   "diagram": {
+    "kind": "table",
+    "title": "Soul and city, 441a–c",
+    "about": "The parts of the soul set beside the classes of the city, as Socrates pairs them; each cell is his word.",
+    "columns": [
+     {
+      "head": "In the soul"
+     },
+     {
+      "head": "In the city"
+     }
+    ],
+    "rows": [
+     {
+      "head": "Reasoning",
+      "cells": [
+       {
+        "text": "the reasoning part",
+        "ref": "439d",
+        "quote": "λογιστικὸν"
+       },
+       {
+        "text": "the counselling class",
+        "ref": "441a",
+        "quote": "βουλευτικόν"
+       }
+      ]
+     },
+     {
+      "head": "Spirit",
+      "cells": [
+       {
+        "text": "the spirited part",
+        "ref": "441a",
+        "quote": "θυμοειδές"
+       },
+       {
+        "text": "the auxiliaries",
+        "ref": "441a",
+        "quote": "ἐπικουρητικόν"
+       }
+      ]
+     },
+     {
+      "head": "Appetite",
+      "cells": [
+       {
+        "text": "the appetitive part",
+        "ref": "439d",
+        "quote": "ἐπιθυμητικόν"
+       },
+       {
+        "text": "the money-making class",
+        "ref": "441a",
+        "quote": "χρηματιστικόν"
+       }
+      ]
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "580d",
+     "quote": "τριχῇ",
+     "why": "In Book IX the three parts return, each with its own pleasure."
+    },
+    {
+     "work": "tlg030",
+     "ref": "588c",
+     "quote": "θηρίου ποικίλου καὶ πολυκεφάλου",
+     "why": "The three parts become an image: the many-headed beast, the lion and the man."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "many-headed-beast",
+     "why": "The three parts moulded as a beast, a lion and a man inside a man.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "588d",
+       "quote": "μίαν δὴ τοίνυν ἄλλην ἰδέαν λέοντος, μίαν δὲ ἀνθρώπου"
+      }
+     ]
+    },
+    {
+     "dossier": "charioteer",
+     "why": "The Phaedrus gives the soul a charioteer and two horses.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "246a",
+       "quote": "ὑποπτέρου ζεύγους τε καὶ ἡνιόχου"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "alcinous-burges",
+     "quote": "the reasoning",
+     "says": "Alcinous sets out the parts of the soul (chapter as found)."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "three parts of the soul",
+     "tripartite",
+     "Leontius",
+     "spirited part",
+     "spirited element",
+     "irascible"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Plato's tripartite theory of soul",
+     "url": "https://en.wikipedia.org/wiki/Plato%27s_tripartite_theory_of_soul",
+     "quote": "Plato's theory of the soul, which was inspired variously by the teachings of Socrates",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Ethics and Politics in the Republic",
+     "url": "https://plato.stanford.edu/entries/plato-ethics-politics/",
+     "quote": "every human soul has three parts: reason, spirit, and appetite",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "philosopher-kings",
+   "label": "Philosopher-kings",
+   "greek": "οἱ φιλόσοφοι βασιλεύσωσιν",
+   "kind": "saying",
+   "group": "city",
+   "about": "The 'greatest wave': unless philosophers rule or rulers philosophise, there is no rest from evils for cities or for humankind.",
+   "passage": {
+    "work": "tlg030",
+    "start": "473c",
+    "end": "473e",
+    "start_quote": "ἐὰν μή, ἦν δʼ ἐγώ, ἢ οἱ φιλόσοφοι βασιλεύσωσιν",
+    "end_quote": "οὔτε ἰδίᾳ οὔτε δημοσίᾳ"
+   },
+   "parts": [
+    {
+     "label": "The wave that may drown him in laughter",
+     "ref": "473c",
+     "quote": "ὥσπερ κῦμα ἐκγελῶν"
+    },
+    {
+     "label": "Unless philosophers rule",
+     "ref": "473c",
+     "quote": "ἢ οἱ φιλόσοφοι βασιλεύσωσιν"
+    },
+    {
+     "label": "No rest from evils",
+     "ref": "473d",
+     "quote": "κακῶν παῦλα"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "501e",
+     "quote": "κακῶν παῦλα",
+     "why": "Repeated: no rest from evils till the philosophic class rules."
+    },
+    {
+     "work": "tlg036",
+     "ref": "326b",
+     "quote": "φιλοσοφήσῃ",
+     "why": "The Seventh Letter tells the same thought as Plato's own conviction."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "philosopher-king",
+     "philosopher king",
+     "philosophers are kings",
+     "philosophers become kings",
+     "kings philosophize",
+     "kings become philosophers"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Philosopher king",
+     "url": "https://en.wikipedia.org/wiki/Philosopher_king",
+     "quote": "The concept of a city-state ruled by philosophers is first explored in Plato's Republic",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "ship",
+   "label": "The ship of state",
+   "greek": "ναύκληρος",
+   "kind": "image",
+   "group": "city",
+   "about": "A shipowner big and strong but half-deaf and short-sighted; sailors who quarrel over the helm and deny there is any art of steering; and the true pilot, called a stargazer and a babbler.",
+   "passage": {
+    "work": "tlg030",
+    "start": "488a",
+    "end": "489a",
+    "start_quote": "ἄκουε δʼ οὖν τῆς εἰκόνος",
+    "end_quote": "δίδασκέ τε τὴν εἰκόνα"
+   },
+   "parts": [
+    {
+     "label": "The shipowner",
+     "ref": "488a",
+     "quote": "ναύκληρον μεγέθει μὲν καὶ"
+    },
+    {
+     "label": "The sailors quarrelling over the helm",
+     "ref": "488b",
+     "quote": "κυβερνᾶν"
+    },
+    {
+     "label": "The true pilot, 'a stargazer'",
+     "ref": "488e",
+     "quote": "μετεωροσκόπον"
+    },
+    {
+     "label": "Teach the image to the man who wonders that philosophers are not honoured",
+     "ref": "489a",
+     "quote": "δίδασκέ τε τὴν εἰκόνα"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg008",
+     "ref": "297e",
+     "quote": "κυβερνήτην",
+     "why": "The Statesman's image of the ship's captain and the doctor, against rule by fixed laws."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "ship of state",
+     "shipowner",
+     "ship-owner",
+     "true pilot",
+     "stargazer",
+     "star-gazer"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Ship of State",
+     "url": "https://en.wikipedia.org/wiki/Ship_of_State",
+     "quote": "Ship of State",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "tyrant-729",
+   "label": "The tyrant lives 729 times less pleasantly",
+   "greek": "ἐννεακαιεικοσικαιεπτακοσιοπλασιάκις",
+   "kind": "argument",
+   "group": "soul",
+   "about": "Socrates counts the distance of the tyrant from the king: three steps from the oligarch, who is three from the king; nine as a plane, cubed to 729, 'nearly the number of days and nights in a year'.",
+   "passage": {
+    "work": "tlg030",
+    "start": "587b",
+    "end": "588a",
+    "start_quote": "οἶσθʼ οὖν, ἦν δʼ ἐγώ, ὅσῳ ἀηδέστερον ζῇ τύραννος βασιλέως",
+    "end_quote": "ἀμηχάνῳ μέντοι νὴ Δία, ἔφη"
+   },
+   "parts": [
+    {
+     "label": "The tyrant third from the oligarch",
+     "ref": "587c",
+     "quote": "ἀπὸ τοῦ ὀλιγαρχικοῦ τρίτος που ὁ τύραννος ἀφειστήκει"
+    },
+    {
+     "label": "The oligarch third from the king",
+     "ref": "587c",
+     "quote": "ὁ δέ γε ὀλιγαρχικὸς ἀπὸ τοῦ βασιλικοῦ αὖ τρίτος"
+    },
+    {
+     "label": "Three times three: a plane",
+     "ref": "587d",
+     "quote": "ἐπίπεδον ἄρʼ"
+    },
+    {
+     "label": "Raised to the third increase",
+     "ref": "587d",
+     "quote": "κατὰ δὲ δύναμιν καὶ τρίτην αὔξην"
+    },
+    {
+     "label": "Seven hundred and twenty-nine times",
+     "ref": "587e",
+     "quote": "ἐννεακαιεικοσικαιεπτακοσιοπλασιάκις ἥδιον αὐτὸν ζῶντα εὑρήσει"
+    }
+   ],
+   "diagram": {
+    "kind": "steps",
+    "title": "The reckoning of 587b–e",
+    "about": "Socrates' arithmetic, step by step: 3 × 3 = 9 (the 'plane' number), 9³ = 729.",
+    "steps": [
+     {
+      "label": "Tyrant from oligarch: 3",
+      "ref": "587c",
+      "quote": "τρίτος που ὁ τύραννος ἀφειστήκει"
+     },
+     {
+      "label": "Oligarch from king: 3 (counting aristocrat and king as one)",
+      "ref": "587d",
+      "quote": "εἰς ταὐτὸν ἀριστοκρατικὸν καὶ βασιλικὸν τιθῶμεν"
+     },
+     {
+      "label": "3 × 3 = 9: 'the threefold of a threefold'",
+      "ref": "587d",
+      "quote": "τριπλασίου ἄρα, ἦν δʼ ἐγώ, τριπλάσιον"
+     },
+     {
+      "label": "9 is a plane number (by length)",
+      "ref": "587d",
+      "quote": "ἐπίπεδον ἄρʼ, ἔφην, ὡς ἔοικεν, τὸ εἴδωλον κατὰ τὸν τοῦ μήκους ἀριθμὸν"
+     },
+     {
+      "label": "Squared and cubed: 9 × 9 × 9 = 729",
+      "ref": "587e",
+      "quote": "τελειωθείσῃ τῇ πολλαπλασιώσει"
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "546b",
+     "quote": "θείῳ μὲν γεννητῷ περίοδος",
+     "why": "The other number of the Republic: the 'nuptial' or 'Platonic' number of the Muses."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "729",
+     "seven hundred and twenty-nine"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "many-headed-beast",
+   "label": "The many-headed beast, the lion and the man",
+   "greek": "θηρίον ποικίλον καὶ πολυκέφαλον",
+   "kind": "image",
+   "group": "soul",
+   "about": "An image of the soul moulded in words: a many-headed beast, a lion and a man, joined in one and wrapped in the outward likeness of a man. Injustice feeds the beast; justice makes the inner man master.",
+   "passage": {
+    "work": "tlg030",
+    "start": "588b",
+    "end": "589b",
+    "start_quote": "εἰκόνα πλάσαντες τῆς ψυχῆς λόγῳ",
+    "end_quote": "ὁ μὲν τὰ δίκαια ἐγκωμιάζων ἀληθῆ"
+   },
+   "parts": [
+    {
+     "label": "Like the Chimaera, Scylla and Cerberus",
+     "ref": "588c",
+     "quote": "ἥ τε Χιμαίρας καὶ ἡ Σκύλλης καὶ Κερβέρου"
+    },
+    {
+     "label": "A beast of many heads, tame and wild",
+     "ref": "588c",
+     "quote": "θηρίου ποικίλου καὶ πολυκεφάλου"
+    },
+    {
+     "label": "A lion, and a man",
+     "ref": "588d",
+     "quote": "μίαν δὴ τοίνυν ἄλλην ἰδέαν λέοντος, μίαν δὲ ἀνθρώπου"
+    },
+    {
+     "label": "Wrapped in the likeness of a man",
+     "ref": "588d",
+     "quote": "περίπλασον δὴ αὐτοῖς ἔξωθεν ἑνὸς εἰκόνα, τὴν τοῦ ἀνθρώπου"
+    },
+    {
+     "label": "The inner man as a farmer of the beast",
+     "ref": "589b",
+     "quote": "ὥσπερ γεωργός"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "soul-parts",
+     "why": "The image is of the three parts.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "588d",
+       "quote": "σύναπτε τοίνυν αὐτὰ εἰς ἓν τρία ὄντα"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "many-headed",
+     "many headed",
+     "Chimaera",
+     "inner man"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "three-beds",
+   "label": "The three beds",
+   "greek": "τριτταί τινες κλῖναι",
+   "kind": "argument",
+   "group": "forms",
+   "about": "The bed in nature, made by god; the bed the carpenter makes looking to it; the bed the painter paints, an imitation of an appearance, third from the truth.",
+   "passage": {
+    "work": "tlg030",
+    "start": "596a",
+    "end": "598d",
+    "start_quote": "εἶδος γάρ πού τι ἓν ἕκαστον εἰώθαμεν τίθεσθαι",
+    "end_quote": "μίμησιν ἐξετάσαι"
+   },
+   "parts": [
+    {
+     "label": "One form for each many with one name",
+     "ref": "596a",
+     "quote": "εἶδος γάρ πού τι ἓν ἕκαστον εἰώθαμεν τίθεσθαι περὶ ἕκαστα τὰ πολλά"
+    },
+    {
+     "label": "The mirror carried round",
+     "ref": "596d",
+     "quote": "κάτοπτρον"
+    },
+    {
+     "label": "Three beds, three makers",
+     "ref": "597b",
+     "quote": "ζωγράφος δή, κλινοποιός, θεός, τρεῖς οὗτοι ἐπιστάται τρισὶν εἴδεσι κλινῶν"
+    },
+    {
+     "label": "God made one only",
+     "ref": "597d",
+     "quote": "μίαν φύσει αὐτὴν ἔφυσεν"
+    },
+    {
+     "label": "The imitator, third from the king and the truth",
+     "ref": "597e",
+     "quote": "τρίτος τις ἀπὸ βασιλέως καὶ τῆς ἀληθείας"
+    }
+   ],
+   "diagram": {
+    "kind": "table",
+    "title": "The three beds of 597b–e",
+    "about": "Each bed with its maker and what Socrates calls the maker; every cell is his word.",
+    "columns": [
+     {
+      "head": "The bed"
+     },
+     {
+      "head": "Its maker"
+     },
+     {
+      "head": "Called"
+     }
+    ],
+    "rows": [
+     {
+      "head": "First",
+      "cells": [
+       {
+        "text": "the one in nature",
+        "ref": "597b",
+        "quote": "μία μὲν ἡ ἐν τῇ φύσει οὖσα"
+       },
+       {
+        "text": "god",
+        "ref": "597b",
+        "quote": "θεὸν ἐργάσασθαι"
+       },
+       {
+        "text": "planter of its nature",
+        "ref": "597d",
+        "quote": "φυτουργὸν"
+       }
+      ]
+     },
+     {
+      "head": "Second",
+      "cells": [
+       {
+        "text": "the carpenter's",
+        "ref": "597b",
+        "quote": "μία δέ γε ἣν ὁ τέκτων"
+       },
+       {
+        "text": "the carpenter",
+        "ref": "597d",
+        "quote": "τὸν τέκτονα"
+       },
+       {
+        "text": "craftsman of a bed",
+        "ref": "597d",
+        "quote": "δημιουργὸν κλίνης"
+       }
+      ]
+     },
+     {
+      "head": "Third",
+      "cells": [
+       {
+        "text": "the painter's",
+        "ref": "597b",
+        "quote": "μία δὲ ἣν ὁ ζωγράφος"
+       },
+       {
+        "text": "the painter",
+        "ref": "597d",
+        "quote": "τὸν ζωγράφον"
+       },
+       {
+        "text": "imitator",
+        "ref": "597e",
+        "quote": "μιμητὴν"
+       }
+      ]
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "599d",
+     "quote": "τρίτος ἀπὸ τῆς ἀληθείας",
+     "why": "Homer judged by the same measure: third from the truth."
+    },
+    {
+     "work": "tlg030",
+     "ref": "393c",
+     "quote": "μιμήσεως",
+     "why": "Book III's first account of imitation in poetry."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "three beds",
+     "the bed",
+     "third from the truth",
+     "third from truth",
+     "removed from the truth"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Mimesis",
+     "url": "https://en.wikipedia.org/wiki/Mimesis",
+     "quote": "Mimesis (/mɪˈmiːsɪs, maɪ-/; Ancient Greek: μίμησις, mīmēsis) is the representation of aspects of the real world",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "glaucus",
+   "label": "The sea-god Glaucus",
+   "greek": "ὁ θαλάττιος Γλαῦκος",
+   "kind": "image",
+   "group": "soul",
+   "about": "We see the soul as men see the sea-god Glaucus, his old limbs broken and worn by the waves and crusted with shells, weed and stones: to know its true nature we must look to its love of wisdom.",
+   "passage": {
+    "work": "tlg030",
+    "start": "611b",
+    "end": "612a",
+    "start_quote": "μήτε γε αὖ τῇ ἀληθεστάτῃ φύσει τοιοῦτον εἶναι ψυχήν",
+    "end_quote": "ἐπιεικῶς αὐτῆς διεληλύθαμεν"
+   },
+   "parts": [
+    {
+     "label": "Glaucus, unrecognisable",
+     "ref": "611d",
+     "quote": "θαλάττιον Γλαῦκον ὁρῶντες οὐκ ἂν ἔτι ῥᾳδίως αὐτοῦ ἴδοιεν τὴν ἀρχαίαν φύσιν"
+    },
+    {
+     "label": "Shells, weed and stones grown on",
+     "ref": "611d",
+     "quote": "ὄστρεά τε καὶ φυκία καὶ πέτρας"
+    },
+    {
+     "label": "Look to its love of wisdom",
+     "ref": "611e",
+     "quote": "εἰς τὴν φιλοσοφίαν αὐτῆς"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg004",
+     "ref": "110a",
+     "quote": "ἐν τῇ θαλάττῃ",
+     "why": "The Phaedo's true earth: everything in our sea is corroded and eaten away, as Glaucus is."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Glaucus"
+    ],
+    "grc": [
+     "θαλαττιον γλαυκον"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "er",
+   "label": "The myth of Er",
+   "greek": "ὁ Ἠρὸς τοῦ Ἀρμενίου μῦθος",
+   "kind": "myth",
+   "group": "judgment-myths",
+   "about": "Er, killed in battle, revives on his pyre and tells what he saw: the judgment of souls, the spindle of Necessity and its eight whorls with the Sirens, the Fates, the choice of lives, the plain of Lethe.",
+   "passage": {
+    "work": "tlg030",
+    "start": "614b",
+    "end": "621d",
+    "start_quote": "ἀλλʼ οὐ μέντοι σοι, ἦν δʼ ἐγώ, Ἀλκίνου γε ἀπόλογον ἐρῶ",
+    "end_quote": "ἐν τῇ χιλιέτει πορείᾳ, ἣν διεληλύθαμεν, εὖ πράττωμεν"
+   },
+   "parts": [
+    {
+     "label": "Er the Pamphylian revives on the pyre",
+     "ref": "614b",
+     "quote": "δωδεκαταῖος ἐπὶ τῇ πυρᾷ κείμενος ἀνεβίω"
+    },
+    {
+     "label": "The meadow and the two openings",
+     "ref": "614c",
+     "quote": "χάσματα"
+    },
+    {
+     "label": "The light like a pillar, and the spindle of Necessity",
+     "ref": "616c",
+     "quote": "ἐκ δὲ τῶν ἄκρων τεταμένον Ἀνάγκης ἄτρακτον"
+    },
+    {
+     "label": "Eight whorls, one within another",
+     "ref": "616d",
+     "quote": "ὀκτὼ γὰρ εἶναι τοὺς σύμπαντας σφονδύλους"
+    },
+    {
+     "label": "The Sirens, one note each, one harmony",
+     "ref": "617b",
+     "quote": "ἐκ πασῶν δὲ ὀκτὼ οὐσῶν μίαν ἁρμονίαν συμφωνεῖν"
+    },
+    {
+     "label": "The speech of Lachesis: virtue has no master; the god is blameless",
+     "ref": "617e",
+     "quote": "αἰτία ἑλομένου· θεὸς ἀναίτιος"
+    },
+    {
+     "label": "The choice of lives: Orpheus a swan, Odysseus a private man",
+     "ref": "620c",
+     "quote": "βίον ἀνδρὸς ἰδιώτου ἀπράγμονος"
+    },
+    {
+     "label": "The plain of Lethe and the river of Unheeding",
+     "ref": "621a",
+     "quote": "Λήθης πεδίον"
+    },
+    {
+     "label": "'And so the tale was saved'",
+     "ref": "621b",
+     "quote": "καὶ οὕτως, ὦ Γλαύκων, μῦθος ἐσώθη"
+    }
+   ],
+   "diagram": {
+    "kind": "rings",
+    "title": "The whorls of the spindle, 616d–617b",
+    "about": "The eight whorls, numbered from the outermost, as Er describes them: the rank of each rim's width, its colour, and the rank of its speed (the inner seven turn against the whole). The drawing gives each rim a thickness by its rank, not by any measure Plato gives.",
+    "columns": [
+     {
+      "head": "Rim width (rank)",
+      "key": "width"
+     },
+     {
+      "head": "Colour",
+      "key": "colour"
+     },
+     {
+      "head": "Speed (rank)",
+      "key": "speed"
+     }
+    ],
+    "rings": [
+     {
+      "label": "1st (outermost)",
+      "width_rank": 1,
+      "width": {
+       "text": "1: widest",
+       "ref": "616e",
+       "quote": "τὸν μὲν οὖν πρῶτόν τε καὶ ἐξωτάτω σφόνδυλον πλατύτατον τὸν τοῦ χείλους κύκλον ἔχειν"
+      },
+      "colour": {
+       "text": "spangled",
+       "ref": "616e",
+       "quote": "τὸν μὲν τοῦ μεγίστου ποικίλον"
+      },
+      "speed": {
+       "text": "the motion of the whole",
+       "ref": "617a",
+       "quote": "τὸν ἄτρακτον ὅλον μὲν τὴν αὐτὴν φοράν"
+      }
+     },
+     {
+      "label": "2nd",
+      "width_rank": 8,
+      "width": {
+       "text": "8: narrowest",
+       "ref": "616e",
+       "quote": "ὄγδοον δὲ τὸν τοῦ δευτέρου"
+      },
+      "colour": {
+       "text": "yellower, like the 5th",
+       "ref": "617a",
+       "quote": "τὸν δὲ τοῦ δευτέρου καὶ πέμπτου παραπλήσια ἀλλήλοις, ξανθότερα ἐκείνων"
+      },
+      "speed": {
+       "text": "5th",
+       "ref": "617b",
+       "quote": "πέμπτον τὸν δεύτερον"
+      }
+     },
+     {
+      "label": "3rd",
+      "width_rank": 7,
+      "width": {
+       "text": "7",
+       "ref": "616e",
+       "quote": "ἕβδομον δὲ τὸν τοῦ τρίτου"
+      },
+      "colour": {
+       "text": "whitest",
+       "ref": "617a",
+       "quote": "τρίτον δὲ λευκότατον χρῶμα ἔχειν"
+      },
+      "speed": {
+       "text": "4th",
+       "ref": "617b",
+       "quote": "τέταρτον δὲ τὸν τρίτον"
+      }
+     },
+     {
+      "label": "4th",
+      "width_rank": 3,
+      "width": {
+       "text": "3",
+       "ref": "616e",
+       "quote": "τρίτον δὲ τὸν τοῦ τετάρτου"
+      },
+      "colour": {
+       "text": "reddish",
+       "ref": "617a",
+       "quote": "τέταρτον δὲ ὑπέρυθρον"
+      },
+      "speed": {
+       "text": "3rd, seeming to counter-revolve",
+       "ref": "617b",
+       "quote": "ἐπανακυκλούμενον τὸν τέταρτον"
+      }
+     },
+     {
+      "label": "5th",
+      "width_rank": 6,
+      "width": {
+       "text": "6",
+       "ref": "616e",
+       "quote": "ἕκτον δὲ τὸν τοῦ πέμπτου"
+      },
+      "colour": {
+       "text": "yellower, like the 2nd",
+       "ref": "617a",
+       "quote": "τὸν δὲ τοῦ δευτέρου καὶ πέμπτου παραπλήσια ἀλλήλοις"
+      },
+      "speed": {
+       "text": "2nd, with the 6th and 7th",
+       "ref": "617b",
+       "quote": "τόν τε ἕβδομον καὶ ἕκτον καὶ πέμπτον"
+      }
+     },
+     {
+      "label": "6th",
+      "width_rank": 2,
+      "width": {
+       "text": "2",
+       "ref": "616e",
+       "quote": "τὸν δὲ τοῦ ἕκτου δεύτερον"
+      },
+      "colour": {
+       "text": "second in whiteness",
+       "ref": "617a",
+       "quote": "δεύτερον δὲ λευκότητι τὸν ἕκτον"
+      },
+      "speed": {
+       "text": "2nd, with the 5th and 7th",
+       "ref": "617b",
+       "quote": "τόν τε ἕβδομον καὶ ἕκτον καὶ πέμπτον"
+      }
+     },
+     {
+      "label": "7th",
+      "width_rank": 5,
+      "width": {
+       "text": "5",
+       "ref": "616e",
+       "quote": "πέμπτον δὲ τὸν τοῦ ἑβδόμου"
+      },
+      "colour": {
+       "text": "brightest",
+       "ref": "616e",
+       "quote": "τὸν δὲ τοῦ ἑβδόμου λαμπρότατον"
+      },
+      "speed": {
+       "text": "2nd, with the 5th and 6th",
+       "ref": "617b",
+       "quote": "τόν τε ἕβδομον καὶ ἕκτον καὶ πέμπτον"
+      }
+     },
+     {
+      "label": "8th (innermost)",
+      "width_rank": 4,
+      "width": {
+       "text": "4",
+       "ref": "616e",
+       "quote": "τέταρτον δὲ τὸν τοῦ ὀγδόου"
+      },
+      "colour": {
+       "text": "lit by the 7th",
+       "ref": "617a",
+       "quote": "τοῦ ὀγδόου τὸ χρῶμα ἀπὸ τοῦ ἑβδόμου ἔχειν προσλάμποντος"
+      },
+      "speed": {
+       "text": "1st: fastest",
+       "ref": "617a",
+       "quote": "τάχιστα μὲν ἰέναι τὸν ὄγδοον"
+      }
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "612b",
+     "quote": "τὸν Γύγου δακτύλιον",
+     "why": "The rewards of justice, set aside with the ring of Gyges, are restored before the myth is told."
+    },
+    {
+     "work": "tlg004",
+     "ref": "107d",
+     "quote": "λέγεται δὲ οὕτως",
+     "why": "The Phaedo's judgment myth: each soul led by its daimon to the place of judgment."
+    },
+    {
+     "work": "tlg023",
+     "ref": "523a",
+     "quote": "ἄκουε δή",
+     "why": "The Gorgias's judgment myth, which Socrates says he holds to be a true account."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "gyges",
+     "why": "The ring returns at 612b, just before the myth.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "612b",
+       "quote": "τὸν Γύγου δακτύλιον"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "note",
+     "by": "Shorey (Loeb, 1935-37)",
+     "work": "tlg030",
+     "ref": "614b",
+     "quote": "Alcinous",
+     "says": "Shorey on the pun of Alcinous' tale (Odyssey IX–XII) and the 'valiant man', alkimos."
+    }
+   ],
+   "renderings": [
+    {
+     "term": "ἀρετὴ δὲ ἀδέσποτον",
+     "ref": "617e",
+     "grc": "ἀρετὴ δὲ ἀδέσποτον",
+     "by": {
+      "perseus-eng2": "virtue has no master",
+      "jowett": "Virtue is free",
+      "taylor1804": "Virtue is independent"
+     }
+    },
+    {
+     "term": "αἰτία ἑλομένου· θεὸς ἀναίτιος",
+     "ref": "617e",
+     "grc": "αἰτία ἑλομένου· θεὸς ἀναίτιος",
+     "by": {
+      "perseus-eng2": "The blame is his who chooses: God is blameless",
+      "jowett": "God is justified",
+      "taylor1804": "God is blameless"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Er",
+     "Armenius",
+     "spindle of Necessity",
+     "Lachesis",
+     "whorl"
+    ],
+    "grc": [
+     "ηρος",
+     "ατρακτ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Myth of Er",
+     "url": "https://en.wikipedia.org/wiki/Myth_of_Er",
+     "quote": "is a legend that concludes Plato's Republic (10.614–10.621)",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Myths, §2",
+     "url": "https://plato.stanford.edu/entries/plato-myths/",
+     "quote": "such as the myth of Er (Republic 621b8)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "thrasymachus",
+   "label": "Thrasymachus: justice is the advantage of the stronger",
+   "greek": "τὸ τοῦ κρείττονος συμφέρον",
+   "kind": "argument",
+   "group": "city",
+   "about": "Thrasymachus bursts in like a wild beast: justice is nothing but the advantage of the stronger; each ruling power makes laws for its own advantage and calls them just. Socrates draws him into the ruler 'in the precise sense', who like the doctor or the pilot serves those in his care.",
+   "passage": {
+    "work": "tlg030",
+    "start": "336b",
+    "end": "354c",
+    "start_quote": "συστρέψας ἑαυτὸν ὥσπερ θηρίον",
+    "end_quote": "ἢ εὐδαίμων"
+   },
+   "parts": [
+    {
+     "label": "Like a wild beast",
+     "ref": "336b",
+     "quote": "ὥσπερ θηρίον"
+    },
+    {
+     "label": "Justice is the advantage of the stronger",
+     "ref": "338c",
+     "quote": "φημὶ γὰρ ἐγὼ εἶναι τὸ δίκαιον οὐκ ἄλλο τι ἢ τὸ τοῦ κρείττονος συμφέρον"
+    },
+    {
+     "label": "The ruler in the precise sense",
+     "ref": "341b",
+     "quote": "ἀκριβεῖ λόγῳ"
+    },
+    {
+     "label": "Justice is another's good",
+     "ref": "343c",
+     "quote": "ἀλλότριον ἀγαθὸν"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "callicles-nature",
+     "why": "The Gorgias' Callicles argues the same case from nature.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg023",
+       "ref": "483e",
+       "quote": "κατὰ νόμον γε τὸν τῆς φύσεως"
+      }
+     ]
+    },
+    {
+     "dossier": "gyges",
+     "why": "Glaucon and Adeimantus restate Thrasymachus' case more strongly.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "358c",
+       "quote": "Θρασυμάχου"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "advantage of the stronger",
+     "interest of the stronger",
+     "another's good"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Thrasymachus",
+     "url": "https://en.wikipedia.org/wiki/Thrasymachus",
+     "quote": "Thrasymachus",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

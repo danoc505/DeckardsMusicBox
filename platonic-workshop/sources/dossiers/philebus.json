@@ -1,0 +1,121 @@
+{
+ "dossiers": [
+  {
+   "id": "fourfold",
+   "label": "The four kinds: limit, unlimited, mixture, cause",
+   "greek": "τὰ τέτταρα γένη",
+   "kind": "doctrine",
+   "group": "forms",
+   "about": "Socrates divides all that now is into kinds: the unlimited, the limit, the mixture of these two, and the cause of the mixture. Pleasure falls under the unlimited, the good life under the mixture, and mind is akin to the cause.",
+   "passage": {
+    "work": "tlg010",
+    "start": "23c",
+    "end": "27c",
+    "start_quote": "πάντα τὰ νῦν ὄντα ἐν τῷ παντὶ διχῇ διαλάβωμεν",
+    "end_quote": "περὶ ὧν δὴ τὸ πρῶτον ἠμφεσβητήσαμεν"
+   },
+   "parts": [
+    {
+     "label": "God showed the unlimited and the limit",
+     "ref": "23c",
+     "quote": "τὸν θεὸν ἐλέγομέν που τὸ μὲν ἄπειρον δεῖξαι τῶν ὄντων, τὸ δὲ πέρας"
+    },
+    {
+     "label": "A ridiculous fellow, sorting and counting kinds",
+     "ref": "23d",
+     "quote": "γελοῖός τις ἄνθρωπος κατʼ εἴδη διιστὰς καὶ συναριθμούμενος"
+    },
+    {
+     "label": "The maker and the cause are one",
+     "ref": "26e",
+     "quote": "τὸ δὲ ποιοῦν καὶ τὸ αἴτιον ὀρθῶς ἂν εἴη λεγόμενον ἕν"
+    }
+   ],
+   "diagram": {
+    "kind": "table",
+    "title": "The four kinds, 23c–27b",
+    "about": "The four kinds as Socrates names them.",
+    "columns": [
+     {
+      "head": "Kind"
+     }
+    ],
+    "rows": [
+     {
+      "head": "1",
+      "cells": [
+       {
+        "text": "the unlimited",
+        "ref": "23c",
+        "quote": "τὸ μὲν ἄπειρον"
+       }
+      ]
+     },
+     {
+      "head": "2",
+      "cells": [
+       {
+        "text": "the limit",
+        "ref": "23c",
+        "quote": "τὸ δὲ πέρας"
+       }
+      ]
+     },
+     {
+      "head": "3",
+      "cells": [
+       {
+        "text": "one thing mixed out of both",
+        "ref": "23d",
+        "quote": "ἐξ ἀμφοῖν τούτοιν ἕν τι συμμισγόμενον"
+       }
+      ]
+     },
+     {
+      "head": "4",
+      "cells": [
+       {
+        "text": "the cause of their mixture",
+        "ref": "23d",
+        "quote": "τῆς συμμείξεως τούτων πρὸς ἄλληλα τὴν αἰτίαν"
+       }
+      ]
+     }
+    ]
+   },
+   "related": [
+    {
+     "dossier": "collection-division",
+     "why": "Counting kinds is the method of the Phaedrus.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg010",
+       "ref": "23d",
+       "quote": "κατʼ εἴδη διιστὰς"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "limit and unlimited",
+     "the unlimited",
+     "peras",
+     "apeiron",
+     "four kinds",
+     "fourfold"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Philebus",
+     "url": "https://en.wikipedia.org/wiki/Philebus",
+     "quote": "the Unlimited (ápeiron) or boundlessness",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

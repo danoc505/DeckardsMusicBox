@@ -1,0 +1,366 @@
+{
+ "dossiers": [
+  {
+   "id": "apology-oracle",
+   "label": "The oracle: no one is wiser",
+   "greek": "μηδένα σοφώτερον εἶναι",
+   "kind": "scene",
+   "group": "socrates",
+   "about": "Chaerephon asked at Delphi whether anyone was wiser than Socrates, and the Pythia said no one. Socrates, knowing himself wise in nothing, tests politicians, poets and craftsmen, and finds he is wiser by this small thing: he does not think he knows what he does not know.",
+   "passage": {
+    "work": "tlg002",
+    "start": "20e",
+    "end": "23b",
+    "start_quote": "οὐ γὰρ ἐμὸν ἐρῶ τὸν λόγον ὃν ἂν λέγω",
+    "end_quote": "τῷ θεῷ βοηθῶν"
+   },
+   "parts": [
+    {
+     "label": "Chaerephon goes to Delphi",
+     "ref": "21a",
+     "quote": "εἰς Δελφοὺς ἐλθὼν ἐτόλμησε τοῦτο μαντεύσασθαι"
+    },
+    {
+     "label": "The Pythia: no one is wiser",
+     "ref": "21a",
+     "quote": "ἀνεῖλεν οὖν ἡ Πυθία μηδένα σοφώτερον εἶναι"
+    },
+    {
+     "label": "I do not think I know what I do not know",
+     "ref": "21d",
+     "quote": "ἐγὼ δέ, ὥσπερ οὖν οὐκ οἶδα, οὐδὲ οἴομαι"
+    },
+    {
+     "label": "He is wisest who knows his wisdom is worth nothing",
+     "ref": "23b",
+     "quote": "ἔγνωκεν ὅτι οὐδενὸς ἄξιός ἐστι τῇ ἀληθείᾳ πρὸς σοφίαν"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg024",
+     "ref": "80c",
+     "quote": "αὐτὸς ἀπορῶν",
+     "why": "The Meno: Socrates perplexes others because he is perplexed himself."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "boreas",
+     "why": "Delphi again: Socrates cannot yet 'know himself', as the inscription bids.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "229e",
+       "quote": "γνῶναι ἐμαυτόν"
+      }
+     ]
+    },
+    {
+     "dossier": "gadfly",
+     "why": "The service to the god continues as the gadfly.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg002",
+       "ref": "30e",
+       "quote": "μύωπός"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Chaerephon",
+     "Pythia",
+     "human wisdom",
+     "I know that I know nothing"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Apology (Plato)",
+     "url": "https://en.wikipedia.org/wiki/Apology_(Plato)",
+     "quote": "He says that Chaerephon, reputed to be impetuous, went to the Oracle of Delphi",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "gadfly",
+   "label": "The gadfly",
+   "greek": "ὁ μύωψ",
+   "kind": "image",
+   "group": "socrates",
+   "about": "Socrates is the god's gift to the city: like a gadfly on a great, well-bred but sluggish horse, he settles everywhere all day long, rousing, persuading and reproaching; kill him and you will sleep out the rest of your lives.",
+   "passage": {
+    "work": "tlg002",
+    "start": "30d",
+    "end": "31a",
+    "start_quote": "νῦν οὖν, ὦ ἄνδρες Ἀθηναῖοι, πολλοῦ δέω ἐγὼ ὑπὲρ ἐμαυτοῦ ἀπολογεῖσθαι",
+    "end_quote": "εἰ μή τινα ἄλλον ὁ θεὸς ὑμῖν ἐπιπέμψειεν"
+   },
+   "parts": [
+    {
+     "label": "Attached to the city by the god",
+     "ref": "30e",
+     "quote": "προσκείμενον τῇ πόλει ὑπὸ τοῦ θεοῦ"
+    },
+    {
+     "label": "A great and noble horse, sluggish, needing a gadfly",
+     "ref": "30e",
+     "quote": "ὥσπερ ἵππῳ μεγάλῳ μὲν καὶ γενναίῳ, ὑπὸ μεγέθους δὲ νωθεστέρῳ καὶ δεομένῳ ἐγείρεσθαι ὑπὸ μύωπός τινος"
+    },
+    {
+     "label": "You will sleep out the rest of your lives",
+     "ref": "31a",
+     "quote": "εἶτα τὸν λοιπὸν βίον καθεύδοντες διατελοῖτε ἄν"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "torpedo",
+     "why": "The opposite image: Meno says Socrates numbs rather than stings awake.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg024",
+       "ref": "80a",
+       "quote": "νάρκῃ τῇ θαλαττίᾳ"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "gadfly"
+    ],
+    "grc": [
+     "μυωπ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Apology (Plato)",
+     "url": "https://en.wikipedia.org/wiki/Apology_(Plato)",
+     "quote": "he is the social gadfly required by Athens",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "apology-unexamined",
+   "label": "The unexamined life",
+   "greek": "ὁ ἀνεξέταστος βίος",
+   "kind": "saying",
+   "group": "socrates",
+   "about": "Socrates cannot keep quiet: the greatest good for a human being is to talk every day about virtue, examining himself and others, and the unexamined life is not worth living.",
+   "passage": {
+    "work": "tlg002",
+    "start": "37e",
+    "end": "38a",
+    "start_quote": "οὐχ οἷός τʼ ἔσῃ",
+    "end_quote": "ταῦτα δʼ ἔτι ἧττον πείσεσθέ μοι λέγοντι"
+   },
+   "parts": [
+    {
+     "label": "The greatest good: to talk every day about virtue",
+     "ref": "38a",
+     "quote": "μέγιστον ἀγαθὸν ὂν ἀνθρώπῳ τοῦτο, ἑκάστης ἡμέρας περὶ ἀρετῆς τοὺς λόγους ποιεῖσθαι"
+    },
+    {
+     "label": "The unexamined life is not worth living",
+     "ref": "38a",
+     "quote": "ὁ δὲ ἀνεξέταστος βίος οὐ βιωτὸς ἀνθρώπῳ"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg002",
+     "ref": "42a",
+     "quote": "ἀλλὰ γὰρ ἤδη ὥρα ἀπιέναι",
+     "why": "The last words of the Apology."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "death-of-socrates",
+     "why": "The end the verdict led to.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg004",
+       "ref": "118a",
+       "quote": "τῷ Ἀσκληπιῷ ὀφείλομεν ἀλεκτρυόνα"
+      }
+     ]
+    },
+    {
+     "dossier": "apology-oracle",
+     "why": "The examining began with the oracle.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg002",
+       "ref": "21a",
+       "quote": "μηδένα σοφώτερον εἶναι"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "unexamined life",
+     "not worth living",
+     "examined life"
+    ],
+    "grc": [
+     "ανεξεταστος"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "The unexamined life is not worth living",
+     "url": "https://en.wikipedia.org/wiki/The_unexamined_life_is_not_worth_living",
+     "quote": "The unexamined life is not worth living",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "crito-laws",
+   "label": "The speech of the Laws (Crito)",
+   "greek": "οἱ νόμοι καὶ τὸ κοινὸν τῆς πόλεως",
+   "kind": "argument",
+   "group": "city",
+   "about": "Should Socrates escape? He imagines the Laws and the commonwealth of Athens confronting him: we begot, reared and educated you; you agreed, by staying, to obey us or persuade us; would you destroy us? Their words boom in his ears like the flutes in the ears of the Corybants.",
+   "passage": {
+    "work": "tlg003",
+    "start": "50a",
+    "end": "54d",
+    "start_quote": "ἀλλʼ ὧδε σκόπει",
+    "end_quote": "μάτην ἐρεῖς"
+   },
+   "parts": [
+    {
+     "label": "The Laws and the commonwealth come and ask",
+     "ref": "50a",
+     "quote": "ἐλθόντες οἱ νόμοι καὶ τὸ κοινὸν τῆς πόλεως ἐπιστάντες ἔροιντο"
+    },
+    {
+     "label": "Can a city stand where judgments have no force?",
+     "ref": "50b",
+     "quote": "ἐν ᾗ ἂν αἱ γενόμεναι δίκαι μηδὲν ἰσχύωσιν"
+    },
+    {
+     "label": "Persuade or obey",
+     "ref": "51c",
+     "quote": "πείθειν"
+    },
+    {
+     "label": "Their words boom like the Corybants' flutes",
+     "ref": "54d",
+     "quote": "ὥσπερ οἱ κορυβαντιῶντες τῶν αὐλῶν δοκοῦσιν ἀκούειν"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "death-of-socrates",
+     "why": "Socrates stays, and dies in the Phaedo.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg004",
+       "ref": "117c",
+       "quote": "εὐκόλως"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Laws of Athens",
+     "social contract",
+     "Corybant",
+     "Corybantes"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Crito",
+     "url": "https://en.wikipedia.org/wiki/Crito",
+     "quote": "personifies the Laws of Athens",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "euthyphro-dilemma",
+   "label": "The Euthyphro dilemma",
+   "greek": "τὸ ὅσιον ὅτι ὅσιόν ἐστιν φιλεῖται",
+   "kind": "argument",
+   "group": "forms",
+   "about": "Is the holy loved by the gods because it is holy, or holy because it is loved? Euthyphro has given only something that happens to the holy, being loved, not what it is; and his definitions walk away like the statues of Daedalus.",
+   "passage": {
+    "work": "tlg001",
+    "start": "10a",
+    "end": "11e",
+    "start_quote": "ἆρα τὸ ὅσιον ὅτι ὅσιόν ἐστιν φιλεῖται ὑπὸ τῶν θεῶν",
+    "end_quote": "ἢ τὸ μὲν ὅσιον"
+   },
+   "parts": [
+    {
+     "label": "Loved because holy, or holy because loved?",
+     "ref": "10a",
+     "quote": "ἆρα τὸ ὅσιον ὅτι ὅσιόν ἐστιν φιλεῖται ὑπὸ τῶν θεῶν, ἢ ὅτι φιλεῖται ὅσιόν ἐστιν"
+    },
+    {
+     "label": "Say what the holy is, not what happens to it",
+     "ref": "11b",
+     "quote": "τί ποτε ὂν τὸ ὅσιον εἴτε φιλεῖται ὑπὸ θεῶν εἴτε ὁτιδὴ πάσχει"
+    },
+    {
+     "label": "Your words walk away like Daedalus' works",
+     "ref": "11c",
+     "quote": "Δαιδάλου τὰ ὑπὸ σοῦ λεγόμενα"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "daedalus",
+     "why": "The Meno's statues of Daedalus, which run away unless tied down.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg024",
+       "ref": "97d",
+       "quote": "Δαιδάλου ἀγάλμασιν"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Euthyphro dilemma",
+     "loved by the gods",
+     "god-beloved",
+     "dear to the gods"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Euthyphro dilemma",
+     "url": "https://en.wikipedia.org/wiki/Euthyphro_dilemma",
+     "quote": "Is the pious (τὸ ὅσιον) loved by the gods because it is pious, or is it pious because it is loved by the gods?",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}
