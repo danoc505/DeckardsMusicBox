@@ -1,0 +1,139 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg003",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   12604,
+   12640
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg003",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "pages read": 4,
+  "scholia": 8,
+  "with a lemma": 5,
+  "scholia with no letter": 1,
+  "page numbers not read": 2,
+  "paragraphs run on": 1,
+  "pages read through a misreading": 1
+ },
+ "notes": [
+  {
+   "kind": "note",
+   "line": 12607,
+   "page_steph": "48a",
+   "page_how": null,
+   "head_raw": "Ρ. 48 Α.",
+   "lemma": "ἐπιεικῶς",
+   "lemma_lang": "grc",
+   "text": "ἱκανῶς. ἐπίπαν, φιλικῶς παρὰ Πλάτωνι.",
+   "raw": "Ρ. 48 Α. ἐπιεικῶς] ἱκανῶς. ἐπίπαν, φιλικῶς παρὰ Πλάτωνι. ",
+   "id": "scholia-hermann.tlg003.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 12610,
+   "page_steph": "48a",
+   "page_how": "no letter printed (or read); at the place of the scholion before",
+   "head_raw": "",
+   "lemma": "Ρ. ἀλλὰ δοκεῖ",
+   "lemma_lang": "grc",
+   "text": "γράφεται καὶ ἀλλὰ δοκεῖν. Β.",
+   "raw": "Ρ. ἀλλὰ δοκεῖ] γράφεται καὶ ἀλλὰ δοκεῖν. Β. ",
+   "id": "scholia-hermann.tlg003.0002",
+   "seq": 2
+  },
+  {
+   "kind": "note",
+   "line": 12612,
+   "page_steph": "48c",
+   "page_how": "page printed 45: not a page due here, so kept at 48",
+   "head_raw": "45 6.",
+   "lemma": "χωρὶς μὲν",
+   "lemma_lang": "grc",
+   "text": "γράφεται καὶ ἀλλὰ χωρὶς μέν. Ἀ. ὃ. εἰ γὰρ ὥφελον)] ἀντὶ τοῦ εἴθε. Ἡ.",
+   "raw": "45 6. χωρὶς μὲν] γράφεται καὶ ἀλλὰ χωρὶς μέν. Ἀ. \n\nὃ. εἰ γὰρ ὥφελον)] ἀντὶ τοῦ εἴθε. Ἡ. ",
+   "id": "scholia-hermann.tlg003.0003",
+   "seq": 3
+  },
+  {
+   "kind": "note",
+   "line": 12616,
+   "page_steph": "48e",
+   "page_how": "page printed 46: not a page due here, so kept at 48",
+   "head_raw": "46 Ε.",
+   "lemma": "ὅσα γε, τἀνϑρώπεια",
+   "lemma_lang": "grc",
+   "text": "ἀντὶ τοῦ ὅσον κατ᾽ ἄνϑρωπον, ὕσον εἰς γνῶσιν ἧκεν ἀνθρώπων, ὅσον αἰσϑάνεσϑαι ἄνϑρωπος δύναται. 0.",
+   "raw": "46 Ε. ὅσα γε, τἀνϑρώπεια] ἀντὶ τοῦ ὅσον κατ᾽ ἄνϑρωπον, \nὕσον εἰς γνῶσιν ἧκεν ἀνθρώπων, ὅσον αἰσϑάνεσϑαι ἄνϑρωπος \nδύναται. 0. ",
+   "id": "scholia-hermann.tlg003.0004",
+   "seq": 4
+  },
+  {
+   "kind": "note",
+   "line": 12620,
+   "page_steph": "48c",
+   "page_how": null,
+   "head_raw": "48 0.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "χρήματα πράττοντες ἀντὶ τοῦ τελοῦντες. Ἐ.",
+   "raw": "48 0. χρήματα πράττοντες ἀντὶ τοῦ τελοῦντες. Ἐ. ",
+   "id": "scholia-hermann.tlg003.0005",
+   "seq": 5
+  },
+  {
+   "kind": "note",
+   "line": 12622,
+   "page_steph": "50a",
+   "page_how": "page printed 60, read as 50",
+   "head_raw": "60. Α..",
+   "lemma": "εἶπτέ μοι",
+   "lemma_lang": "grc",
+   "text": "σημείωσαι τὴν μετάβασιν τοῦ ἀριϑμοῦ. 0,",
+   "raw": "60. Α.. εἶπτέ μοι] σημείωσαι τὴν μετάβασιν τοῦ ἀριϑμοῦ. 0, ",
+   "id": "scholia-hermann.tlg003.0006",
+   "seq": 6
+  },
+  {
+   "kind": "note",
+   "line": 12628,
+   "page_steph": "51e",
+   "page_how": null,
+   "head_raw": "51 Ε.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "γεννῆται οἵ τοῦ αὐτοῦ γένους μετέχοντες καὶ ἀπὶ ἀργῆς ἔχοντες κοινὰ ἱερά. οἵ δὲ ὁμογάλακτας, φράτορας, συγγενεῖς τοὺς γεννήτας. Βὶ 8. ξήτει δὲ εἰ διὰ β νγν γραφόμενον γεννῆται ὀφείλει γράφεσθαι. Ὁ.",
+   "raw": "51 Ε. γεννῆται οἵ τοῦ αὐτοῦ γένους μετέχοντες καὶ ἀπὶ ἀρ- \nγῆς ἔχοντες κοινὰ ἱερά. οἵ δὲ ὁμογάλακτας, φράτορας, συγγενεῖς \nτοὺς γεννήτας. Βὶ 8. ξήτει δὲ εἰ διὰ β νγν γραφόμενον γεννῆται \nὀφείλει γράφεσθαι. Ὁ. ",
+   "id": "scholia-hermann.tlg003.0007",
+   "seq": 7
+  },
+  {
+   "kind": "note",
+   "line": 12633,
+   "page_steph": "54d",
+   "page_how": null,
+   "head_raw": "54 Ὁ.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "δύο σημαίνει τὸ ἔσϑι. τό τε ὑπάρχειν καὶ τὸ γνῶναι. εἰ μὲν οὖν κατὰ τὸ ὑπάρχειν. τοῦτο βούλεται ἐνταῦϑα δηλοῦν \" ἔσο νῦν καὶ διαγίνου τοῖς παροῦσιν εἰς πττάντα ὅσα γέ μοι δοκεῖ, ἢ ταῦτα νῦν ἔσο τὰ ἐμοὶ δοκοῦντα. κατὰ δὲ τὸ τοῦ γνῶναι σημαινόμενον οὕτως\" γνῶϑι κατὰ τὰ ἐμοὶ νῦν δοκοῦντα ὡς εἴπερ ταῦτα ἐρεῖς μάτην ἐρῶν. 0.",
+   "raw": "54 Ὁ. δύο σημαίνει τὸ ἔσϑι. τό τε ὑπάρχειν καὶ τὸ γνῶναι. \nεἰ μὲν οὖν κατὰ τὸ ὑπάρχειν. τοῦτο βούλεται ἐνταῦϑα δηλοῦν \" \nἔσο νῦν καὶ διαγίνου τοῖς παροῦσιν εἰς πττάντα ὅσα γέ μοι δοκεῖ, \nἢ ταῦτα νῦν ἔσο τὰ ἐμοὶ δοκοῦντα. κατὰ δὲ τὸ τοῦ γνῶναι ση- \nμαινόμενον οὕτως\" γνῶϑι κατὰ τὰ ἐμοὶ νῦν δοκοῦντα ὡς εἴπερ \nταῦτα ἐρεῖς μάτην ἐρῶν. 0. ",
+   "id": "scholia-hermann.tlg003.0008",
+   "seq": 8
+  }
+ ]
+}

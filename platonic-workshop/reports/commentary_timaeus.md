@@ -8,6 +8,7 @@ Written by `tools/build_db.py` (milestone 7) from the library it builds; every f
 | Archer-Hind (1888) | 823 | 688 | 106 | 0 | 29 | 0 | 0 |
 | Jowett, Introduction and Analysis (1892) | 181 | 0 | 0 | 0 | 0 | 181 | 0 |
 | Proclus, tr. Taylor (1820) | 254 | 0 | 0 | 253 | 0 | 1 | 0 |
+| Scholia (Hermann) | 40 | 17 | 3 | 0 | 2 | 1 | 0 |
 | Taylor, Additional Notes from Proclus (1804) | 55 | 0 | 0 | 5 | 2 | 0 | 48 |
 | Taylor, Introduction (1804) | 133 | 0 | 0 | 0 | 0 | 98 | 35 |
 

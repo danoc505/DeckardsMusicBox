@@ -37,7 +37,7 @@ class Reading(unittest.TestCase):
     def test_every_commentary_is_read(self):
         ids = sorted(p.stem for p in TEXTS.glob("*.json"))
         self.assertEqual(ids, ["archerhind1888", "archerhind1888-intro", "jowett1892-intro", "proclus1820",
-                               "taylor1804-addnotes", "taylor1804-intro"])
+                               "scholia-hermann", "taylor1804-addnotes", "taylor1804-intro"])
         for i in ids:
             d = doc(i)
             self.assertEqual(d["schema"], "platonic-workshop/commentary-v1")

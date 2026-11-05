@@ -338,6 +338,8 @@ class Texts:
         cited = f"{doc['cite']} {unit}{where}"
         if doc["numbering"] != "pages" and doc["translator"] and doc["translator"].split()[-1] not in doc["cite"]:
             cited += f" ({doc['translator'].split()[-1]}" + (f", p. {s['page']}" if s.get("page") else "") + ")"
+        elif doc["numbering"] == "pages" and doc["translator"]:
+            cited = f"{doc['cite']}, {doc['translator'].split()[-1]} p. {where}"
         elif doc["numbering"] == "pages":
             cited = f"{doc['cite']}, Hermann VI p. {s.get('pages') or where}"
         return True, where, cited

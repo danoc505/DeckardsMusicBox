@@ -1,0 +1,112 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg017",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   15707,
+   15748
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg017",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "pages read": 2,
+  "scholia": 6,
+  "with a lemma": 5,
+  "scholia with no letter": 1,
+  "pages read through a misreading": 1,
+  "paragraphs run on": 1
+ },
+ "notes": [
+  {
+   "kind": "note",
+   "line": 15710,
+   "page_steph": "122b",
+   "page_how": null,
+   "head_raw": "Ρ, 122 Β.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "παροιμία ἱερὸν συμβουλή, ἐπὶ τῶν καϑαρῶς καὶ ἀδόλως συμβουλευόντων. δεῖ γὰρ τὸν συμβουλεύοντα μὴ τοΐδιον σκοπεῖν\" τὸ γὰρ ἱερὸν οὐδενὸς ἴδιον ἀλλὰ τῶν «ἀρωμένων ἐστὶ κοινόν\" ἐπειδὴ καταφεύγουσιν ὥσπερ εἰς τὰ ἱερὰ ϑέλοντες συμβουλεύεσϑαι οἵ ἄνϑρωποι. προσήπει οὖν τοῖς συμβουλεύουσιν ἀψευδεῖν καὶ τὰ βέλτιστα κατὰ τὴν αὑτῶν γνώμην συμβουλεύεἰν. ἄλλοι δέ φασιν ἔπαινον φέρειν τῆς συμβουλῆς τὴν παροιμίαν\" εἶναι γὰρ αὐτὴν ϑείαν καὶ ὑπὲρ ἄνϑρωπον. μέμνηται ὃ ΐ αὐτῆς καὶ ᾿Δριστοφάνης ἐν “Δμφιαράῳφ. Ἧ;",
+   "raw": "Ρ, 122 Β. παροιμία ἱερὸν συμβουλή, ἐπὶ τῶν καϑαρῶς καὶ \nἀδόλως συμβουλευόντων. δεῖ γὰρ τὸν συμβουλεύοντα μὴ τοΐδιον \nσκοπεῖν\" τὸ γὰρ ἱερὸν οὐδενὸς ἴδιον ἀλλὰ τῶν «ἀρωμένων ἐστὶ \nκοινόν\" ἐπειδὴ καταφεύγουσιν ὥσπερ εἰς τὰ ἱερὰ ϑέλοντες συμ- \nβουλεύεσϑαι οἵ ἄνϑρωποι. προσήπει οὖν τοῖς συμβουλεύουσιν \nἀψευδεῖν καὶ τὰ βέλτιστα κατὰ τὴν αὑτῶν γνώμην συμβουλεύ- \nεἰν. ἄλλοι δέ φασιν ἔπαινον φέρειν τῆς συμβουλῆς τὴν παροι- \nμίαν\" εἶναι γὰρ αὐτὴν ϑείαν καὶ ὑπὲρ ἄνϑρωπον. μέμνηται ὃ ΐ \nαὐτῆς καὶ ᾿Δριστοφάνης ἐν “Δμφιαράῳφ. Ἧ; ",
+   "id": "scholia-hermann.tlg017.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 15720,
+   "page_steph": "122b",
+   "page_how": "no letter printed (or read); at the place of the scholion before",
+   "head_raw": "",
+   "lemma": "Ε'. ἐδιδάξατο",
+   "lemma_lang": "grc",
+   "text": "ἀντὶ τοῦ οὐκ αὐτὸς ἀλλὰ δι᾽ ἑτέρου ἐδίδαξέ τινος. Ἐ.",
+   "raw": "Ε'. ἐδιδάξατο] ἀντὶ τοῦ οὐκ αὐτὸς ἀλλὰ δι᾽ ἑτέρου ἐδίδαξέ \nτινος. Ἐ. ",
+   "id": "scholia-hermann.tlg017.0002",
+   "seq": 2
+  },
+  {
+   "kind": "note",
+   "line": 15723,
+   "page_steph": "126c",
+   "page_how": "page printed 196, read as 126",
+   "head_raw": "196 Ο.",
+   "lemma": "τί ἂν ἡμῖν",
+   "lemma_lang": "grc",
+   "text": "γρ. τί ἂν οἴῃ αὐτὸν ἀποκρίνασϑαι. Β.",
+   "raw": "196 Ο. τί ἂν ἡμῖν] γρ. τί ἂν οἴῃ αὐτὸν ἀποκρίνασϑαι. Β. ",
+   "id": "scholia-hermann.tlg017.0003",
+   "seq": 3
+  },
+  {
+   "kind": "note",
+   "line": 15725,
+   "page_steph": "126c",
+   "page_how": null,
+   "head_raw": "0.",
+   "lemma": "μαγείρων",
+   "lemma_lang": "grc",
+   "text": "γρ. μαγειρικῶν. Ἱ:",
+   "raw": "0. μαγείρων] γρ. μαγειρικῶν. Ἱ: ",
+   "id": "scholia-hermann.tlg017.0004",
+   "seq": 4
+  },
+  {
+   "kind": "note",
+   "line": 15727,
+   "page_steph": "126b",
+   "page_how": null,
+   "head_raw": "126 Β.",
+   "lemma": "ἱππικοὶ",
+   "lemma_lang": "grc",
+   "text": "γρ. οἷς εἰσί τε ἵπποι καὶ χρῶνται. ἐνῷ",
+   "raw": "126 Β. ἱππικοὶ] γρ. οἷς εἰσί τε ἵπποι καὶ χρῶνται. ἐνῷ ",
+   "id": "scholia-hermann.tlg017.0005",
+   "seq": 5
+  },
+  {
+   "kind": "note",
+   "line": 15729,
+   "page_steph": "126b",
+   "page_how": null,
+   "head_raw": "Β.",
+   "lemma": "παρὰ τίνος",
+   "lemma_lang": "grc",
+   "text": "᾿Δττικὴ ἡ σύνταξις\" ᾿4ττικοὶ γὰρ εἰς διδα- σκάλου φασίν, οὐκ εἰς διδάσκαλον. οὕτως οὖν κἀνταῦϑα γενικὴ ἀντ᾽ αἰτιατικῆς. 0. 1970. ἔμβραχυ] ὃ ὅπερ ἂν εἴποι τις εὐχερῶς εἰπεῖν ἐθέλων ῆ ἁπλῶς. τοῦτο ἔμβραχυ λέγεται. ἔμβραχυ οὖν συντόμως καὶ ἁπλῶς. Ὑπερείδης ἐν τῷ κατὰ ᾿Δριστοφῶντος᾽ οἶδε γὰρ αὑτῷ δεδομένην ἄδειαν καὶ πράττειν καὶ γράφειν ὃ τι ἂν ἔμβραχυ βούληται. ᾿Δριστοφάνης Θεσμοφοριαξούσαις\" ποῦ δ᾽ οὐχὶ διαβέβληκεν, Ὁ ὅπου περ ἔμβραχυ εἰσὶν ϑεαταὶ καὶ τραγῳδικοὶ χοροί; Κρατῖνος “Φῳραις᾽ ἔδει παρέχειν, ὁ τί τις εὔξαιτ᾽ ἔμβραχυ. Β 5. Ε. ᾿δναγυροῦς δῆμος Αἰαντίδος, ἀφ᾽ οὗ ᾿ἀναγυράσιοι. Ἀ.",
+   "raw": "Β. παρὰ τίνος] ᾿Δττικὴ ἡ σύνταξις\" ᾿4ττικοὶ γὰρ εἰς διδα- \n\nσκάλου φασίν, οὐκ εἰς διδάσκαλον. οὕτως οὖν κἀνταῦϑα γενικὴ \nἀντ᾽ αἰτιατικῆς. 0. \n1970. ἔμβραχυ] ὃ ὅπερ ἂν εἴποι τις εὐχερῶς εἰπεῖν ἐθέλων \nῆ ἁπλῶς. τοῦτο ἔμβραχυ λέγεται. ἔμβραχυ οὖν συντόμως καὶ \nἁπλῶς. Ὑπερείδης ἐν τῷ κατὰ ᾿Δριστοφῶντος᾽ οἶδε γὰρ αὑτῷ \nδεδομένην ἄδειαν καὶ πράττειν καὶ γράφειν ὃ τι ἂν ἔμβραχυ \nβούληται. ᾿Δριστοφάνης Θεσμοφοριαξούσαις\" \nποῦ δ᾽ οὐχὶ διαβέβληκεν, Ὁ ὅπου περ ἔμβραχυ \nεἰσὶν ϑεαταὶ καὶ τραγῳδικοὶ χοροί; \nΚρατῖνος “Φῳραις᾽ \nἔδει παρέχειν, ὁ τί τις εὔξαιτ᾽ ἔμβραχυ. Β 5. \nΕ. ᾿δναγυροῦς δῆμος Αἰαντίδος, ἀφ᾽ οὗ ᾿ἀναγυράσιοι. Ἀ. ",
+   "id": "scholia-hermann.tlg017.0006",
+   "seq": 6
+  }
+ ]
+}

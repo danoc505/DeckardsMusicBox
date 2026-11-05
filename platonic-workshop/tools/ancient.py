@@ -80,6 +80,32 @@ RANGES = {
                         "author": "Albinus", "translator": None, "title": "Ἀλβίνου εἰσαγωγή (Albinus, Prologue)",
                         "cite": "Albinus, Prologue (Greek)", "printed": HERMANN_BOOK + ", pp. 147-151", "numbering": "pages",
                         "first_page": 147, "head": r"ΕἸ?Ι?Σ\S{0,3}Α\S{0,2}Γ|Α\S{0,2}Β\S{0,2}ΟΣ"},
+    # Milestone 10, the concept index: the handbook of Platonic doctrine and the Platonic Definitions.
+    "alcinous-burges": {"file": BURGES, "manifest_id": "burges-1854", "lines": [14744, 19160], "lang": "eng",
+                        "author": "Alcinous", "translator": "George Burges",
+                        "title": "The Introduction of Alcinous to the Doctrines of Plato (the Didaskalikos)", "cite": "Alcinous, Didask.",
+                        "printed": BURGES_BOOK + ", pp. 241-314", "numbering": "chapters",
+                        "head": r"INTRODUCTION\s*OF\s*ALCINOUS|DOCTRINES\s*OF\s*PLATO",
+                        # Burges' 34 chapters (the standard division has 36). The OCR garbles many of the
+                        # numbers ('[2.7', '[45 5' for 28, '[80.]4' for 30, 'δ.' for 33; 23 has none), so the
+                        # line each chapter begins on is listed here, read by eye: `--check` prints them.
+                        "chapter_lines": {1: 14756, 2: 14813, 3: 14874, 4: 14979, 5: 15212, 6: 15351, 7: 15665, 8: 15848,
+                                          9: 15911, 10: 15986, 11: 16276, 12: 16328, 13: 16448, 14: 16578, 15: 16804,
+                                          16: 16874, 17: 16921, 18: 16996, 19: 17100, 20: 17238, 21: 17284, 22: 17296,
+                                          23: 17348, 24: 17416, 25: 17490, 26: 17716, 27: 17850, 28: 18224, 29: 18346,
+                                          30: 18516, 31: 18589, 32: 18814, 33: 18934, 34: 19059}},
+    "definitions-burges": {"file": BURGES, "manifest_id": "burges-1854", "lines": [7726, 9150], "lang": "eng",
+                           "author": "[Plato]", "translator": "George Burges", "title": "Definitions (spurious; appended to Plato's works)",
+                           "cite": "[Pl.] Def.", "printed": BURGES_BOOK + ", pp. 123-144", "numbering": "pages",
+                           "first_page": 123, "head": r"DEFINITIONS"},
+    "definitions-hermann": {"file": HERMANN, "manifest_id": "hermann-appendix", "lines": [5490, 6076], "lang": "grc",
+                            "author": "[Plato]", "translator": None, "title": "Ὅροι (Definitions, spurious; Stephanus pp. 411-416)",
+                            "cite": "[Pl.] Def. (Greek)", "printed": HERMANN_BOOK + ", pp. 70-80", "numbering": "pages",
+                            "first_page": 70,
+                            # The running heads of these pages are too short for the rule of read_hermann
+                            # ('ὍΡΟΙ. 11', '12 ὉΡΟΙ.', '714 ΟΡΟΊ.'): their lines, read by eye, and the page each begins.
+                            "head_lines": {5542: 71, 5595: 72, 5647: 73, 5706: 74, 5762: 75, 5817: 76, 5873: 77,
+                                           5931: 78, 5992: 79, 6057: 80}},
 }
 
 NOTE_START = re.compile(r"^[_\s]*(?:[\d*°'‘’!“\"§†‡^®©¢]{1,3}(?:\s*[—–-]+\s*[\d*°'‘’!“\"®]{0,3})?\.?)\s+(?=\S)")
@@ -136,6 +162,46 @@ def paragraphs(page_lines):
     if cur:
         paras.append(cur)
     return paras
+
+
+def read_burges_chapters(cfg):
+    """Burges' text cut at the chapter lines listed in cfg['chapter_lines'] (footnotes kept apart)."""
+    lines = lines_of(cfg["file"])
+    a, b = cfg["lines"]
+    starts = {ln: n for n, ln in cfg["chapter_lines"].items()}
+    chapters, notes, cur = [], [], None
+    for k, (page, pl) in enumerate(pages(lines[a - 1:b], a, cfg["head"], "sections")):
+        in_notes = False
+        paras = []
+        for p in paragraphs(pl):
+            # A chapter may begin inside a paragraph (no blank line before its heading): cut it there.
+            cut = [i for i, x in enumerate(p) if x[0] in starts and i > 0]
+            for i, j in zip([0] + cut, cut + [len(p)]):
+                paras.append(p[i:j])
+        for p in paras:
+            first = p[0][1]
+            if p[0][0] in starts:
+                in_notes = False
+                text = join_lines([x[1] for x in p])
+                for _ in range(2):      # the garbled number ('[45 5', '_ [6.]', 'δ.'), not the heading
+                    tok = text.split(" ", 1)
+                    if not re.match(r"[A-Z][a-z]", tok[0]):
+                        text = tok[1] if len(tok) > 1 else ""
+                cur = {"n": str(starts[p[0][0]]), "page": page, "line": p[0][0], "text": text,
+                       "raw": "\n".join(x[1] for x in p), "heading_raw": first.strip()}
+                chapters.append(cur)
+                continue
+            if not in_notes and k > 0 and NOTE_START.match(first):
+                in_notes = True
+            if in_notes:
+                notes.append({"page": page, "line": p[0][0], "text": join_lines([x[1] for x in p]),
+                              "raw": "\n".join(x[1] for x in p)})
+            elif cur is not None:
+                cur["text"] += " " + join_lines([x[1] for x in p])
+                cur["raw"] += "\n\n" + "\n".join(x[1] for x in p)
+    if len(chapters) != len(starts):
+        raise SystemExit(f"{cfg['title']}: {len(chapters)} chapters read, {len(starts)} listed")
+    return chapters, notes
 
 
 def read_burges(cfg):
@@ -195,6 +261,54 @@ def read_burges(cfg):
     return sections, notes
 
 
+def read_burges_pages(cfg):
+    """Burges' text numbered by his printed pages (the Definitions, which have no
+    section numbers): each page's text without its footnotes, which are kept apart."""
+    lines = lines_of(cfg["file"])
+    a, b = cfg["lines"]
+    out, notes = [], []
+    expected = cfg["first_page"] - 1
+    for k, (printed, pl) in enumerate(pages(lines[a - 1:b], a, cfg["head"], "sections")):
+        # The head's number when the OCR reads it where it is due ('182' for 132 is not): else the next page.
+        expected += 1
+        page = printed if printed is not None and expected <= printed <= expected + 1 else expected
+        expected = page
+        body, in_notes = [], False
+        for p in paragraphs(pl):
+            first = p[0][1]
+            # A page's footnotes begin at the first paragraph that opens with a note mark and is
+            # not a definition ('1 Eternal—that which ...', '2( Science—is ...').
+            m = NOTE_START.match(first)
+            if not in_notes and m and not re.match(r"[(\s]*[A-Z][\w\s'’,()-]{0,40}—", first[m.end():]):
+                in_notes = True
+            if in_notes:
+                notes.append({"page": page, "line": p[0][0], "text": join_lines([x[1] for x in p]), "raw": "\n".join(x[1] for x in p)})
+            else:
+                body.append(p)
+        text = "\n\n".join(join_lines([x[1] for x in p]) for p in body)
+        nonblank = [x for x in pl if x[1].strip()]
+        out.append({"n": str(page), "page": page, "line": nonblank[0][0] if nonblank else None,
+                    "text": text, "raw": "\n".join(x[1] for x in pl), **({"page_read": printed} if printed is not None and printed != page else {})})
+    return out, notes
+
+
+def read_hermann_heads(cfg):
+    """Hermann's Greek cut into pages at the head lines listed in cfg['head_lines']."""
+    lines = lines_of(cfg["file"])
+    a, b = cfg["lines"]
+    cuts = sorted((ln, pg) for ln, pg in cfg["head_lines"].items())
+    starts = [(a, cfg["first_page"])] + [(ln + 1, pg) for ln, pg in cuts]
+    out = []
+    for k, (s, pg) in enumerate(starts):
+        e = (cuts[k][0] - 1) if k < len(cuts) else b
+        pl = [(i, lines[i - 1]) for i in range(s, e + 1)]
+        text = join_lines([x[1] for x in pl])
+        nonblank = [x for x in pl if x[1].strip()]
+        out.append({"n": str(pg), "page": pg, "page_read": None, "line": nonblank[0][0] if nonblank else None,
+                    "text": unicodedata.normalize("NFC", text), "raw": "\n".join(x[1] for x in pl)})
+    return out, []
+
+
 def read_yonge(cfg):
     lines = lines_of(cfg["file"])
     a, b = cfg["lines"]
@@ -244,8 +358,14 @@ def read_hermann(cfg):
 def read_all():
     docs = {}
     for id_, cfg in RANGES.items():
-        if id_.endswith("burges"):
+        if id_.endswith("burges") and cfg["numbering"] == "pages":
+            secs, notes = read_burges_pages(cfg)
+        elif cfg.get("chapter_lines"):
+            secs, notes = read_burges_chapters(cfg)
+        elif id_.endswith("burges"):
             secs, notes = read_burges(cfg)
+        elif cfg.get("head_lines"):
+            secs, notes = read_hermann_heads(cfg)
         elif id_ == "dl3-yonge":
             secs, notes = read_yonge(cfg)
         else:
@@ -300,6 +420,10 @@ def main():
             ls = lines_of(cfg["file"])
             a, b = cfg["lines"]
             print(f"{id_}: {a}: {ls[a - 1].strip()!r} ... {b}: {ls[b - 1].strip()!r}")
+            for n, ln in (cfg.get("chapter_lines") or {}).items():
+                print(f"  c. {n}: {ln}: {ls[ln - 1].strip()!r}")
+            for ln, pg in (cfg.get("head_lines") or {}).items():
+                print(f"  p. {pg}: {ln}: {ls[ln - 1].strip()!r}")
         return
     OUT.mkdir(parents=True, exist_ok=True)
     for id_, d in read_all().items():

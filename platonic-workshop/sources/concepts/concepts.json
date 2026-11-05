@@ -1,0 +1,581 @@
+{
+ "schema": "platonic-workshop/concepts-v1",
+ "about": "The concept index of milestone 10: twenty-five Platonic concepts, each with the Greek words it is indexed under, Plato's own passages, the ancient and later definitions, the later Platonists' readings, and its relations to the others. Every link quotes the words it rests on, and the build looks for each quotation in the text it names (reports/concepts.md). Nothing is linked because two passages share a word: shared words are shown apart, as lexical evidence, and notes that name a concept are shown apart, as found by rule. The 'note' of each concept is the index's own sentence on what is gathered under it, not a definition.",
+ "sources": {
+  "plato": "Burnet's Greek, at the Stephanus section named.",
+  "taylor-terms": "Thomas Taylor, 'Explanation of Certain Platonic Terms', The Works of Plato vol. I (1804); texts/taylor-1804/vol1/platonic-terms.json.",
+  "definitions-hermann": "The Definitions (Ὅροι) printed with Plato's works, not by Plato; Hermann's Greek (OCR).",
+  "definitions-burges": "The same Definitions in Burges' English (1854, OCR).",
+  "alcinous-burges": "Alcinous, the handbook of Platonic doctrine (2nd century AD), in Burges' English (1854, OCR), by Burges' chapters.",
+  "note": "A note in the library: a commentator's or translator's note, at the work and section named."
+ },
+ "layers": {
+  "plato": "Plato names it and argues about it in the dialogues.",
+  "plato-later": "Plato names it; its systematic form (its place in an order of principles) is the later Platonists'.",
+  "later": "A doctrine of the later Platonists. Plato does not name it; the passages listed are those the later readers cite or read it from, and are marked so."
+ },
+ "concepts": [
+  {
+   "id": "the-good", "label": "The Good", "greek": "τὸ ἀγαθόν", "layer": "plato-later",
+   "note": "The Good as Plato speaks of it (the form of the Good, 'beyond being' in the Republic) and as the later Platonists identify it with the first principle.",
+   "terms": [{"lemma": "ἀγαθός", "note": "the adjective, and τὸ ἀγαθόν, 'the good', which GLAUx tags under it; most occurrences are ordinary 'good'."}],
+   "keywords": {"en": ["the Good", "the good itself", "idea of good", "idea of the good", "form of the good"], "grc": ["αγαθον", "ταγαθον", "ταγαθου"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "τὸ αὑτοῦ ἕνεκεν", "says": "The Definitions: the good is 'that which is for its own sake'."},
+    {"source": "definitions-burges", "quote": "Good—the cause of safety to things existing", "says": "The Definitions, a second definition, in Burges' English."}
+   ],
+   "passages": [
+    {"work": "tlg030", "start": "505a", "end": "505b", "quote": "ἡ τοῦ ἀγαθοῦ ἰδέα μέγιστον μάθημα", "why": "Socrates calls the form of the Good the greatest study."},
+    {"work": "tlg030", "start": "508e", "end": "509b", "quote": "τὴν τοῦ ἀγαθοῦ ἰδέαν φάθι εἶναι", "why": "The Good as the cause of knowledge and truth, like the sun of sight."},
+    {"work": "tlg030", "start": "509b", "end": "509b", "quote": "ἐπέκεινα τῆς οὐσίας", "why": "The Good 'beyond being' (ousia) in dignity and power."},
+    {"work": "tlg030", "start": "517b", "end": "517c", "quote": "ἐν τῷ γνωστῷ τελευταία ἡ τοῦ", "why": "At the end of the ascent from the cave, last and hardest to see."},
+    {"work": "tlg010", "start": "20d", "end": "20d", "quote": "ἱκανὸν τἀγαθόν", "why": "The Philebus: the good is complete and sufficient, and all that knows it pursues it."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "he has laid down our good in the knowledge and contemplation of the primary good, which a person would call god and the primary mind", "says": "Alcinous identifies the primary good with god and the first mind."},
+    {"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "30a", "quote": "The good itself is prior to being", "says": "Proclus: the good is prior to being."}
+   ],
+   "related": [
+    {"concept": "truth", "kind": "cause of", "evidence": [{"source": "plato", "work": "tlg030", "ref": "508e", "quote": "αἰτίαν δʼ ἐπιστήμης οὖσαν καὶ ἀληθείας"}], "why": "The Good is the cause of knowledge and truth."},
+    {"concept": "being", "kind": "beyond", "evidence": [{"source": "plato", "work": "tlg030", "ref": "509b", "quote": "ἐπέκεινα τῆς οὐσίας"}], "why": "The Good is beyond being."},
+    {"concept": "the-beautiful", "kind": "identified with", "evidence": [{"source": "definitions-hermann", "quote": "Καλὸν τὸ ἀγαθόν"}], "why": "The Definitions define the beautiful as the good."},
+    {"concept": "demiurge", "kind": "named of", "evidence": [{"source": "plato", "work": "tlg031", "ref": "29e", "quote": "ἀγαθὸς ἦν"}], "why": "The maker of the cosmos was good."}
+   ]
+  },
+  {
+   "id": "the-beautiful", "label": "The Beautiful", "greek": "τὸ καλόν", "layer": "plato",
+   "note": "Beauty itself, the goal of the ascent of love in the Symposium, and beauty seen through the senses in the Phaedrus.",
+   "terms": [{"lemma": "καλός", "note": "'beautiful, fine, noble'; most occurrences are ordinary praise."}, {"lemma": "κάλλος", "note": "'beauty', the noun."}],
+   "keywords": {"en": ["the Beautiful", "beauty itself", "the beautiful itself"], "grc": ["καλλος", "αυτο το καλον"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "Καλὸν τὸ ἀγαθόν", "says": "The Definitions: the beautiful is the good."}
+   ],
+   "passages": [
+    {"work": "tlg011", "start": "211a", "end": "211b", "quote": "ἀεὶ ὂν καὶ οὔτε γιγνόμενον", "why": "Diotima: beauty itself always is, neither coming to be nor passing away."},
+    {"work": "tlg011", "start": "211b", "end": "211b", "quote": "τὰ δὲ ἄλλα πάντα καλὰ ἐκείνου μετέχοντα", "why": "All other beautiful things share in it."},
+    {"work": "tlg011", "start": "211c", "end": "211d", "quote": "ἐπαναβασμοῖς", "why": "The ascent by steps to beauty itself."},
+    {"work": "tlg012", "start": "250b", "end": "250d", "quote": "κάλλος δέ", "why": "The Phaedrus: of the forms beauty alone shines clearly through sight."},
+    {"work": "tlg004", "start": "100c", "end": "100c", "quote": "μετέχει ἐκείνου τοῦ καλοῦ", "why": "The Phaedo: a thing is beautiful because it shares in the beautiful itself."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "and a beautiful thing, Tbecause he is (so) by himself more than that by nature and symmetrical", "says": "Alcinous names the first god beautiful (the OCR's 'T' is a note mark)."}
+   ],
+   "related": [
+    {"concept": "participation", "kind": "shared by", "evidence": [{"source": "plato", "work": "tlg011", "ref": "211b", "quote": "ἐκείνου μετέχοντα"}], "why": "Beautiful things share in beauty itself."},
+    {"concept": "ascent", "kind": "goal of", "evidence": [{"source": "plato", "work": "tlg011", "ref": "211c", "quote": "ἐπαναβασμοῖς"}], "why": "The ascent of love ends in it."}
+   ]
+  },
+  {
+   "id": "truth", "label": "Truth", "greek": "ἀλήθεια", "layer": "plato",
+   "note": "Truth as what the Good gives to what is known, the 'plain of truth' the soul sees, and truth in speech and belief.",
+   "terms": [{"lemma": "ἀλήθεια", "note": "'truth'."}, {"lemma": "ἀληθής", "note": "'true'; most occurrences are ordinary assent."}],
+   "keywords": {"en": ["truth itself", "the truth of things", "plain of truth"], "grc": ["αληθεια"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "ἕξις ἐν καταφάσει καὶ ἀποφάσει", "says": "The Definitions: truth is a state in affirming and denying."},
+    {"source": "definitions-burges", "quote": "Truth—a habit in affirming and denying; a knowledge of things true", "says": "The same, in Burges' English."},
+    {"source": "taylor-terms", "quote": "Plato, following ancient theologists. considers truth multifariously", "says": "Taylor: truth is spoken of in many ways, the highest being the light from the good."}
+   ],
+   "passages": [
+    {"work": "tlg030", "start": "508e", "end": "508e", "quote": "τὸ τὴν ἀλήθειαν παρέχον τοῖς γιγνωσκομένοις", "why": "The Good gives truth to what is known."},
+    {"work": "tlg012", "start": "248b", "end": "248b", "quote": "πεδίον", "why": "The souls strive to see the plain of truth."},
+    {"work": "tlg031", "start": "29c", "end": "29c", "quote": "πρὸς πίστιν ἀλήθεια", "why": "As being is to becoming, so truth is to belief."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "and truth, because he is the beginning of all truth, as the Sun is of all light", "says": "Alcinous: the first god is the beginning of truth."}
+   ],
+   "related": [
+    {"concept": "knowledge", "kind": "given with", "evidence": [{"source": "plato", "work": "tlg030", "ref": "508e", "quote": "αἰτίαν δʼ ἐπιστήμης οὖσαν καὶ ἀληθείας"}], "why": "Knowledge and truth both come from the Good."},
+    {"concept": "opinion", "kind": "contrasted with", "evidence": [{"source": "plato", "work": "tlg031", "ref": "29c", "quote": "πρὸς πίστιν ἀλήθεια"}], "why": "Truth stands to belief as being to becoming."}
+   ]
+  },
+  {
+   "id": "being", "label": "Being", "greek": "οὐσία, τὸ ὄν", "layer": "plato",
+   "note": "What always is and never comes to be, set against what comes to be, and being as one of the greatest kinds in the Sophist.",
+   "terms": [{"lemma": "οὐσία", "note": "'being, substance, essence'; also 'property' in the ordinary sense."}, {"lemma": "εἰμί", "note": "'to be': τὸ ὄν, 'what is', is tagged under it. Very broad: almost every occurrence is the ordinary verb.", "broad": true}],
+   "keywords": {"en": ["true being", "real being", "that which is", "being itself"], "grc": ["ουσια", "το ον"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "the first principle or foundation, as it were, of the essence of a thing", "says": "Taylor, s.v. Hyparxis: the summit of essence."}
+   ],
+   "passages": [
+    {"work": "tlg031", "start": "27d", "end": "28a", "quote": "τί τὸ ὂν ἀεί, γένεσιν δὲ οὐκ ἔχον", "why": "Timaeus' first distinction: what always is and has no becoming."},
+    {"work": "tlg004", "start": "78d", "end": "78d", "quote": "αὐτὴ ἡ οὐσία", "why": "The Phaedo: being itself, always the same."},
+    {"work": "tlg030", "start": "477a", "end": "477a", "quote": "τὸ μὲν παντελῶς ὂν παντελῶς γνωστόν", "why": "What wholly is, is wholly knowable."},
+    {"work": "tlg007", "start": "248e", "end": "248e", "quote": "τὴν οὐσίαν δὴ κατὰ τὸν λόγον τοῦτον γιγνωσκομένην", "why": "The Sophist: being as known, and whether it is moved."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "although desirous to lay hold of the Being, yet are they in a dream", "says": "Alcinous on the sciences that dream of being."}
+   ],
+   "related": [
+    {"concept": "becoming", "kind": "contrasted with", "evidence": [{"source": "plato", "work": "tlg031", "ref": "27d", "quote": "τί τὸ ὂν ἀεί, γένεσιν δὲ οὐκ ἔχον, καὶ τί τὸ γιγνόμενον μὲν"}], "why": "The first division of the Timaeus."},
+    {"concept": "knowledge", "kind": "object of", "evidence": [{"source": "plato", "work": "tlg030", "ref": "477a", "quote": "παντελῶς ὂν παντελῶς γνωστόν"}], "why": "What wholly is, is wholly knowable."}
+   ]
+  },
+  {
+   "id": "becoming", "label": "Becoming", "greek": "γένεσις, τὸ γιγνόμενον", "layer": "plato",
+   "note": "What always comes to be and never is, grasped by opinion with sensation; generation.",
+   "terms": [{"lemma": "γένεσις", "note": "'coming to be, generation, birth'."}, {"lemma": "γίγνομαι", "note": "'to become, come to be'. Very broad.", "broad": true}],
+   "keywords": {"en": ["generation", "becoming", "that which is generated"], "grc": ["γενεσις", "γιγνομενον"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "Γένεσις κίνησις εἰς οὐσίαν", "says": "The Definitions: becoming is a motion towards being."},
+    {"source": "definitions-burges", "quote": "Generation—a movement towards existence", "says": "The same, in Burges' English."},
+    {"source": "taylor-terms", "quote": "A flowing condition of being, or a subsistence in becoming to be", "says": "Taylor, s.v. Generation, from Proclus on the Timaeus."}
+   ],
+   "passages": [
+    {"work": "tlg031", "start": "28a", "end": "28a", "quote": "δόξῃ μετʼ αἰσθήσεως ἀλόγου δοξαστόν, γιγνόμενον καὶ ἀπολλύμενον", "why": "What becomes is grasped by opinion with sensation."},
+    {"work": "tlg006", "start": "152e", "end": "152e", "quote": "ἀεὶ δὲ γίγνεται", "why": "The Theaetetus: the view that nothing ever is, but always becomes."}
+   ],
+   "later": [
+    {"source": "taylor-terms", "quote": "Fables call the ineffable unfolding into light through causes, generation", "says": "Taylor, quoting Proclus on the Parmenides: 'generation' in the myths means the procession from causes."}
+   ],
+   "related": [
+    {"concept": "being", "kind": "contrasted with", "evidence": [{"source": "plato", "work": "tlg031", "ref": "28a", "quote": "ὄντως δὲ οὐδέποτε ὄν"}], "why": "What becomes never really is."},
+    {"concept": "sensible-world", "kind": "known by sense", "evidence": [{"source": "plato", "work": "tlg031", "ref": "28a", "quote": "δόξῃ μετʼ αἰσθήσεως"}], "why": "Becoming is grasped by opinion and sense."},
+    {"concept": "opinion", "kind": "known by", "evidence": [{"source": "plato", "work": "tlg031", "ref": "28a", "quote": "δόξῃ μετʼ αἰσθήσεως ἀλόγου δοξαστόν"}], "why": "Becoming is the object of opinion."}
+   ]
+  },
+  {
+   "id": "forms", "label": "The Forms", "greek": "εἶδος, ἰδέα", "layer": "plato",
+   "note": "The forms (ideas): one in each case, by themselves, in which the many things share.",
+   "terms": [{"lemma": "εἶδος", "note": "'form, kind, look'; often only 'kind'."}, {"lemma": "ἰδέα", "note": "'form, look'."}],
+   "keywords": {"en": ["the Forms", "the forms", "the Ideas", "the ideas", "theory of ideas", "doctrine of ideas", "ideal theory"], "grc": ["ειδος", "ιδεα", "ειδη"]},
+   "definitions": [
+    {"source": "alcinous-burges", "quote": "Now persons define Idea as the eternal pattern of things existing according to Nature", "says": "Alcinous: the Idea is the eternal pattern of natural things."}
+   ],
+   "passages": [
+    {"work": "tlg004", "start": "102b", "end": "102b", "quote": "εἶναί τι ἕκαστον τῶν εἰδῶν", "why": "The Phaedo: each of the forms is something."},
+    {"work": "tlg030", "start": "476a", "end": "476a", "quote": "αὐτὸ μὲν ἓν ἕκαστον εἶναι", "why": "Each form is one, but appears many."},
+    {"work": "tlg030", "start": "596a", "end": "596b", "quote": "εἶδος γάρ πού τι ἓν ἕκαστον", "why": "One form for each set of many things with one name."},
+    {"work": "tlg009", "start": "130b", "end": "130e", "quote": "χωρὶς μὲν εἴδη αὐτὰ ἄττα, χωρὶς δὲ τὰ τούτων αὖ μετέχοντα", "why": "Parmenides questions Socrates on which things have forms."},
+    {"work": "tlg031", "start": "51d", "end": "52a", "quote": "ἀναίσθητα ὑφʼ ἡμῶν εἴδη, νοούμενα μόνον", "why": "The Timaeus: forms not sensed, only thought."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "Now Idea is, as regards god, a mental operation by him; as regards us, the first thing perceptible by mind", "says": "Alcinous: the Ideas are the thoughts of god."},
+    {"source": "alcinous-burges", "quote": "For it does not please the majority of Platonists (to admit) that there are Ideas of works of art", "says": "Alcinous on which things have Ideas."}
+   ],
+   "related": [
+    {"concept": "participation", "kind": "shared in by", "evidence": [{"source": "plato", "work": "tlg009", "ref": "131a", "quote": "ἤτοι ὅλου τοῦ εἴδους ἢ μέρους ἕκαστον τὸ μεταλαμβάνον μεταλαμβάνει"}], "why": "Parmenides asks how things share in a form."},
+    {"concept": "one-and-many", "kind": "one over many", "evidence": [{"source": "plato", "work": "tlg030", "ref": "476a", "quote": "πανταχοῦ φανταζόμενα πολλὰ φαίνεσθαι ἕκαστον"}], "why": "Each form is one but appears as many."},
+    {"concept": "intelligible-world", "kind": "known by thought", "evidence": [{"source": "plato", "work": "tlg031", "ref": "51d", "quote": "νοούμενα μόνον"}], "why": "The forms are only thought."},
+    {"concept": "image-and-original", "kind": "pattern of", "evidence": [{"source": "plato", "work": "tlg030", "ref": "596b", "quote": "πρὸς τὴν ἰδέαν βλέπων"}], "why": "The craftsman makes looking to the form."}
+   ]
+  },
+  {
+   "id": "intellect", "label": "Intellect (Nous)", "greek": "νοῦς", "layer": "plato-later",
+   "note": "Intellect: in the cosmos (the world-soul's intellect, intellect as king of heaven and earth) and in us; for the later Platonists, the second principle.",
+   "terms": [{"lemma": "νόος", "note": "νοῦς: GLAUx files it under its uncontracted form νόος."}, {"lemma": "νόησις", "note": "'intellection, thought'."}, {"lemma": "νοέω", "note": "'to think, understand'."}],
+   "keywords": {"en": ["intellect", "Intellect", "the mind of the universe", "Nous", "nous"], "grc": ["νους", "νουν", "νοησις"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "In the human soul is the summit of dianoia", "says": "Taylor, s.v. Intellect: in us the summit of discursive reason; in divine natures an eternal essence perceiving all at once."},
+    {"source": "definitions-hermann", "quote": "Νόησις ἀρχὴ ἐπιστήμης", "says": "The Definitions: intellection is the beginning of knowledge."}
+   ],
+   "passages": [
+    {"work": "tlg031", "start": "30b", "end": "30b", "quote": "χωρὶς ψυχῆς", "why": "The Timaeus: intellect cannot come to be in anything apart from soul."},
+    {"work": "tlg010", "start": "28c", "end": "28c", "quote": "νοῦς ἐστι βασιλεὺς", "why": "The Philebus: the wise agree that intellect is king of heaven and earth."},
+    {"work": "tlg004", "start": "97c", "end": "97c", "quote": "νοῦς ἐστιν ὁ διακοσμῶν", "why": "Socrates on Anaxagoras: intellect orders all things."},
+    {"work": "tlg034", "start": "897b", "end": "897b", "quote": "νοῦν μὲν προσλαβοῦσα", "why": "The Laws: soul with intellect guides all things rightly."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "this would be the primary god, as being the cause %of perpetually operating for the mind of the whole heaven", "says": "Alcinous: the first god, a mind, causes the activity of the mind of heaven."}
+   ],
+   "related": [
+    {"concept": "soul", "kind": "in", "evidence": [{"source": "plato", "work": "tlg031", "ref": "30b", "quote": "νοῦν δʼ αὖ χωρὶς ψυχῆς ἀδύνατον"}], "why": "Intellect needs soul to be in a body."},
+    {"concept": "knowledge", "kind": "beginning of", "evidence": [{"source": "definitions-hermann", "quote": "Νόησις ἀρχὴ ἐπιστήμης"}], "why": "Intellection is the beginning of knowledge."}
+   ]
+  },
+  {
+   "id": "logos", "label": "Reason and Logos", "greek": "λόγος, λογισμός", "layer": "plato",
+   "note": "Logos as account, argument and reason; reasoning (logismos); thought as the soul's dialogue with itself.",
+   "terms": [{"lemma": "λόγος", "note": "'word, speech, account, argument, reason, ratio': many meanings, most of them ordinary."}, {"lemma": "λογισμός", "note": "'reckoning, reasoning'."}],
+   "keywords": {"en": ["reason (logos)", "logos", "Logos", "the reasoning power"], "grc": ["λογος", "λογισμος"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "This word in Platonic writers signifies either that inward discursive energy called reasoning; or a certain productive and seminal principle; or that which is indicative and definitive of a thing", "says": "Taylor, s.v. Reason: three senses of logos."},
+    {"source": "taylor-terms", "quote": "When applied to divinity as by Plato, in the Timæus, signifies a distributive cause of things", "says": "Taylor, s.v. Logismos."}
+   ],
+   "passages": [
+    {"work": "tlg004", "start": "99e", "end": "99e", "quote": "εἰς τοὺς λόγους καταφυγόντα", "why": "Socrates' 'second sailing': taking refuge in accounts (logoi)."},
+    {"work": "tlg007", "start": "263e", "end": "263e", "quote": "διάνοια μὲν καὶ λόγος ταὐτόν", "why": "The Sophist: thought and speech are the same, thought being the soul's silent dialogue."},
+    {"work": "tlg006", "start": "206e", "end": "206e", "quote": "μετὰ λόγου", "why": "The Theaetetus: is knowledge true opinion with an account?"},
+    {"work": "tlg031", "start": "28a", "end": "28a", "quote": "νοήσει μετὰ λόγου περιληπτόν", "why": "What always is, is grasped by intellection with an account."}
+   ],
+   "later": [
+    {"source": "taylor-terms", "quote": "Productive principles or powers; and they also signify forms", "says": "Taylor, s.v. Reasons (logoi), from Proclus on the Timaeus."},
+    {"source": "alcinous-burges", "quote": "But reason likewise is a judge, through which the truth is judged", "says": "Alcinous: reason as the judge of truth."}
+   ],
+   "related": [
+    {"concept": "knowledge", "kind": "with", "evidence": [{"source": "plato", "work": "tlg006", "ref": "210b", "quote": "δόξα ἀληθὴς οὔτε μετʼ ἀληθοῦς δόξης λόγος προσγιγνόμενος ἐπιστήμη ἂν εἴη"}], "why": "The Theaetetus ends: knowledge is not true opinion with an account."},
+    {"concept": "being", "kind": "grasps", "evidence": [{"source": "plato", "work": "tlg031", "ref": "28a", "quote": "νοήσει μετὰ λόγου περιληπτόν"}], "why": "Being is grasped by thought with an account."}
+   ]
+  },
+  {
+   "id": "soul", "label": "Soul (Psychē)", "greek": "ψυχή", "layer": "plato",
+   "note": "Soul: self-moving and immortal, the world-soul of the Timaeus, the parts of the soul in the Republic.",
+   "terms": [{"lemma": "ψυχή", "note": "'soul, life'."}],
+   "keywords": {"en": ["the soul", "Soul", "world-soul", "soul of the world", "soul of the universe"], "grc": ["ψυχη"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "Ψυχὴ τὸ αὐτὸ ἑαυτὸ κινοῦν", "says": "The Definitions: soul is what moves itself."},
+    {"source": "definitions-burges", "quote": "that which moves itself", "says": "The same, in Burges' English."}
+   ],
+   "passages": [
+    {"work": "tlg012", "start": "245c", "end": "246a", "quote": "ψυχὴ πᾶσα ἀθάνατος", "why": "The Phaedrus: all soul is immortal, being self-moving."},
+    {"work": "tlg034", "start": "896a", "end": "896a", "quote": "τὸ ἑαυτὸ κινεῖν", "why": "The Laws: soul is the motion that moves itself."},
+    {"work": "tlg031", "start": "37a", "end": "37a", "quote": "ἁρμονίας ψυχή", "why": "The Timaeus: the world-soul, best of things begotten."},
+    {"work": "tlg030", "start": "611b", "end": "611b", "quote": "ἀίδιον εἶναι σύνθετόν", "why": "The Republic: the soul in its truest nature."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "That the soul is immortal (Plato) proves by proceeding in this", "says": "Alcinous gathers Plato's arguments for immortality."},
+    {"source": "alcinous-burges", "quote": "It is plain then that the World is a thing of life and intellectual", "says": "Alcinous on the world-soul."}
+   ],
+   "related": [
+    {"concept": "intellect", "kind": "receives", "evidence": [{"source": "plato", "work": "tlg034", "ref": "897b", "quote": "νοῦν μὲν προσλαβοῦσα"}], "why": "Soul guides rightly when it takes intellect to itself."},
+    {"concept": "recollection", "kind": "proves immortality of", "evidence": [{"source": "alcinous-burges", "quote": "Moreover if learning is (but) recollection, the soul would be immortal"}], "why": "Alcinous: recollection shows the soul immortal."}
+   ]
+  },
+  {
+   "id": "demiurge", "label": "The Demiurge", "greek": "ὁ δημιουργός", "layer": "plato-later",
+   "note": "The maker and father of the cosmos in the Timaeus, good and without envy, who looks to the eternal pattern; for the later Platonists a rank among the gods.",
+   "terms": [{"lemma": "δημιουργός", "note": "'craftsman'; in the Timaeus the maker of the cosmos. Most occurrences elsewhere are ordinary craftsmen."}, {"lemma": "ποιητής", "note": "'maker, poet': the Timaeus' 'maker and father'. Mostly 'poet'.", "broad": true}],
+   "keywords": {"en": ["Demiurgus", "demiurgus", "Demiurge", "demiurge", "artificer of the universe", "maker and father"], "grc": ["δημιουργ"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "The artificer (maker) of the universe is thus denominated, because he produces the universe so far as it is a whole", "says": "Taylor, s.v. Demiurgus of Wholes."}
+   ],
+   "passages": [
+    {"work": "tlg031", "start": "28c", "end": "28c", "quote": "ποιητὴν καὶ πατέρα", "why": "The maker and father of this universe, hard to find and impossible to declare to all."},
+    {"work": "tlg031", "start": "29a", "end": "29a", "quote": "ὅ τε δημιουργὸς ἀγαθός", "why": "The maker is good and looked to the eternal pattern."},
+    {"work": "tlg031", "start": "29e", "end": "30a", "quote": "ἀγαθὸς ἦν", "why": "He was good, and without envy wished all things to be like himself."},
+    {"work": "tlg031", "start": "41a", "end": "41a", "quote": "θεοὶ θεῶν", "why": "His speech to the gods he has made."},
+    {"work": "tlg008", "start": "273b", "end": "273b", "quote": "τὴν τοῦ δημιουργοῦ καὶ πατρὸς", "why": "The Statesman: the world remembers the teaching of its maker and father."},
+    {"work": "tlg030", "start": "530a", "end": "530a", "quote": "τῷ τοῦ οὐρανοῦ δημιουργῷ", "why": "The Republic: the craftsman of the heavens."}
+   ],
+   "later": [
+    {"source": "taylor-terms", "quote": "Jupiter, the artificer of the universe", "says": "Taylor, s.v. Demiurgus: the Neoplatonists' Jupiter."},
+    {"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "29e", "quote": "the perpetuity of the universe is suspended from the goodness of its maker", "says": "Proclus on the goodness of the maker."}
+   ],
+   "related": [
+    {"concept": "the-good", "kind": "is", "evidence": [{"source": "plato", "work": "tlg031", "ref": "29e", "quote": "ἀγαθὸς ἦν"}], "why": "He was good."},
+    {"concept": "image-and-original", "kind": "makes after", "evidence": [{"source": "plato", "work": "tlg031", "ref": "28a", "quote": "ὁ δημιουργὸς πρὸς τὸ κατὰ ταὐτὰ ἔχον βλέπων ἀεί"}], "why": "He makes looking to what is always the same, as to a pattern."},
+    {"concept": "intellect", "kind": "puts in the world", "evidence": [{"source": "plato", "work": "tlg031", "ref": "30b", "quote": "νοῦν μὲν ἐν ψυχῇ"}], "why": "He put intellect in soul and soul in body."}
+   ]
+  },
+  {
+   "id": "one-and-many", "label": "The One and the Many", "greek": "τὸ ἕν, τὰ πολλά", "layer": "plato-later",
+   "note": "The one and the many in the Philebus and the Parmenides; for the later Platonists the One is the first principle, read from the Parmenides' hypotheses.",
+   "terms": [{"lemma": "εἷς", "note": "'one'; τὸ ἕν, 'the one', is tagged under it. Very broad.", "broad": true}, {"lemma": "πολύς", "note": "'many, much'. Very broad.", "broad": true}],
+   "keywords": {"en": ["the One", "the one itself", "the one and the many"], "grc": ["το εν", "εν και πολλα"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "in divine natures is that which contains distinct, but at the same time profoundly-united multitude", "says": "Taylor, s.v. Monad."},
+    {"source": "taylor-terms", "quote": "In a way conformable to the nature of The One", "says": "Taylor, s.v. Unically."}
+   ],
+   "passages": [
+    {"work": "tlg010", "start": "14d", "end": "16c", "quote": "ἓν καὶ πολλὰ", "why": "The Philebus: the one and the many in every account."},
+    {"work": "tlg009", "start": "137c", "end": "137c", "quote": "εἰ ἕν ἐστιν", "why": "The Parmenides: the first hypothesis, if the one is."},
+    {"work": "tlg009", "start": "142b", "end": "142b", "quote": "ἓν εἰ ἔστιν", "why": "The second hypothesis, if one is."}
+   ],
+   "later": [
+    {"source": "note", "by": "Taylor (1804), note", "work": "tlg009", "ref": "142b", "quote": "The first procession therefore from the first cause will be the Intelligible triad", "says": "Taylor on the order of principles read from the Parmenides."}
+   ],
+   "related": [
+    {"concept": "forms", "kind": "one over many", "evidence": [{"source": "plato", "work": "tlg030", "ref": "476a", "quote": "αὐτὸ μὲν ἓν ἕκαστον εἶναι"}], "why": "Each form is one."}
+   ]
+  },
+  {
+   "id": "participation", "label": "Participation", "greek": "μέθεξις", "layer": "plato",
+   "note": "Things share (metechein, metalambanein) in the forms, and Parmenides' questions about how they share.",
+   "terms": [{"lemma": "μετέχω", "note": "'to share in, partake of'."}, {"lemma": "μεταλαμβάνω", "note": "'to get a share of'."}, {"lemma": "μέθεξις", "note": "'participation', the noun."}],
+   "keywords": {"en": ["participation", "participate", "partake of"], "grc": ["μεθεξις", "μετεχει", "μετεχειν"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "That which is not consubsistent with an inferior nature", "says": "Taylor, s.v. Imparticipable: the later doctrine of what is not shared in."}
+   ],
+   "passages": [
+    {"work": "tlg004", "start": "100c", "end": "100c", "quote": "διότι μετέχει ἐκείνου τοῦ καλοῦ", "why": "Beautiful because it shares in the beautiful itself."},
+    {"work": "tlg009", "start": "131a", "end": "131a", "quote": "ἢ ἄλλη τις ἂν μετάληψις χωρὶς τούτων γένοιτο", "why": "Parmenides: does each share in the whole form or a part?"},
+    {"work": "tlg011", "start": "211b", "end": "211b", "quote": "ἐκείνου μετέχοντα", "why": "Beautiful things share in beauty itself, which is not changed by it."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "he conceived to have obtained that appellation from their participating somehow in the primary and most honoured (good)", "says": "Alcinous: goods are so named by sharing in the first good."},
+    {"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "29e", "quote": "is a God through participation, and not on account of its own proper essence", "says": "Proclus: what is good by participation, as against what is good of itself."}
+   ],
+   "related": [
+    {"concept": "forms", "kind": "in", "evidence": [{"source": "plato", "work": "tlg004", "ref": "100c", "quote": "μετέχει ἐκείνου τοῦ καλοῦ"}], "why": "Sharing in the form."},
+    {"concept": "the-good", "kind": "in", "evidence": [{"source": "alcinous-burges", "quote": "their participating somehow in the primary and most honoured (good)"}], "why": "Alcinous: all goods share in the first good."}
+   ]
+  },
+  {
+   "id": "emanation", "label": "Emanation (procession)", "greek": "πρόοδος", "layer": "later",
+   "note": "The procession of all things from the first principle, which Taylor renders 'progression' and 'procession'. Not a word of Plato's: the passages are the ones the later Platonists read it in.",
+   "terms": [],
+   "keywords": {"en": ["procession", "progression", "emanation", "proceeds from", "unfolding into light"], "grc": ["προοδος"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "Fables call the ineffable unfolding into light through causes, generation", "says": "Taylor, s.v. Generation, quoting Proclus."}
+   ],
+   "passages": [
+    {"work": "tlg031", "start": "29e", "end": "30a", "quote": "πάντα ὅτι μάλιστα ἐβουλήθη γενέσθαι παραπλήσια ἑαυτῷ", "why": "Read by Proclus as the procession of all things from the goodness of the maker.", "read_by": [{"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "29e", "quote": "For the procession of the Gods frum the principle of all things"}]},
+    {"work": "tlg009", "start": "142b", "end": "142b", "quote": "ἓν εἰ ἔστιν", "why": "Read by Taylor (after Proclus) as the first procession from the first cause.", "read_by": [{"source": "note", "by": "Taylor (1804), note", "work": "tlg009", "ref": "142b", "quote": "The first procession therefore from the first cause will be the Intelligible triad"}]}
+   ],
+   "later": [
+    {"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "30a", "quote": "we conceive of the nature of things in a two-fold respect, either according to their progression, or according to their conversion", "says": "Proclus: things are seen by their progression and their conversion."}
+   ],
+   "related": [
+    {"concept": "return", "kind": "paired with", "evidence": [{"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "30a", "quote": "either according to their progression, or according to their conversion"}], "why": "Procession and return (conversion) go together in Proclus."},
+    {"concept": "the-good", "kind": "from", "evidence": [{"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "29e", "quote": "the perpetuity of the universe is suspended from the goodness of its maker"}], "why": "Proclus: the universe depends on the goodness of its maker."}
+   ]
+  },
+  {
+   "id": "return", "label": "Return (conversion)", "greek": "ἐπιστροφή", "layer": "later",
+   "note": "The return or conversion (epistrophē) of what proceeds back to its source. Plato's word for the soul's turning is periagōgē; the systematic doctrine is the later Platonists'.",
+   "terms": [{"lemma": "περιαγωγή", "note": "'turning around', the soul's turning in the Republic."}, {"lemma": "ἐπιστροφή", "note": "'turning, conversion'; rare in Plato."}],
+   "keywords": {"en": ["conversion", "return to", "regression", "turning around", "turning of the soul"], "grc": ["επιστροφη", "περιαγωγη"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "Restitution to a pristine form, or condition of being", "says": "Taylor, s.v. Apocatastasis."},
+    {"source": "taylor-terms", "quote": "That which elevates the soul from sensibles to intelligibles", "says": "Taylor, s.v. the Anagogic."}
+   ],
+   "passages": [
+    {"work": "tlg030", "start": "518d", "end": "518d", "quote": "τῆς περιαγωγῆς", "why": "Education is an art of turning the soul around, from becoming to being."}
+   ],
+   "later": [
+    {"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "35b", "quote": "For that which returns, is made as it were that which abides", "says": "Proclus: what returns becomes like what abides."},
+    {"source": "note", "by": "Taylor, Additional Notes from Proclus (1804)", "work": "tlg031", "ref": "35b", "quote": "as abiding, proceeding, and returning", "says": "Taylor from Proclus: abiding, proceeding and returning."}
+   ],
+   "related": [
+    {"concept": "ascent", "kind": "like", "evidence": [{"source": "plato", "work": "tlg030", "ref": "518d", "quote": "μεταστραφήσεται"}], "why": "The turning of the soul begins its ascent."},
+    {"concept": "emanation", "kind": "paired with", "evidence": [{"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "30a", "quote": "either according to their progression, or according to their conversion"}], "why": "Procession and conversion together."}
+   ]
+  },
+  {
+   "id": "knowledge", "label": "Knowledge", "greek": "ἐπιστήμη", "layer": "plato",
+   "note": "Knowledge (epistēmē) as against opinion, its objects, and the Theaetetus' search for what it is.",
+   "terms": [{"lemma": "ἐπιστήμη", "note": "'knowledge, science, skill'."}, {"lemma": "γνῶσις", "note": "'knowing, knowledge'."}],
+   "keywords": {"en": ["knowledge", "science"], "grc": ["επιστημη"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "Ἐπιστήμη ὑπόληψις ψυχῆς ἀμετάπτωτος ὑπὸ λόγου", "says": "The Definitions: knowledge is a conception of the soul not to be overturned by argument."},
+    {"source": "definitions-burges", "quote": "Knowledge—a comprehension by the soul", "says": "The same, in Burges' English."},
+    {"source": "taylor-terms", "quote": "This word is sometimes defined by Plato to be that which assigns the causes of things", "says": "Taylor, s.v. Science."}
+   ],
+   "passages": [
+    {"work": "tlg006", "start": "145e", "end": "146a", "quote": "ἐπιστήμη", "why": "The Theaetetus asks what knowledge is."},
+    {"work": "tlg030", "start": "477b", "end": "477b", "quote": "ἐπʼ ἄλλῳ ἄρα τέτακται δόξα καὶ ἐπʼ ἄλλῳ ἐπιστήμη", "why": "Knowledge and opinion are set over different things."},
+    {"work": "tlg024", "start": "98a", "end": "98a", "quote": "αἰτίας λογισμῷ", "why": "The Meno: true opinions become knowledge when tied down by reasoning about the cause."},
+    {"work": "tlg006", "start": "210b", "end": "210b", "quote": "ἐπιστήμη ἂν εἴη", "why": "The Theaetetus ends without a definition."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "of which the one, conversant about things perceptible by mind, is Science and Scientific Reason", "says": "Alcinous: science is of the intelligible."}
+   ],
+   "related": [
+    {"concept": "opinion", "kind": "contrasted with", "evidence": [{"source": "plato", "work": "tlg030", "ref": "477b", "quote": "ἐπʼ ἄλλῳ ἄρα τέτακται δόξα καὶ ἐπʼ ἄλλῳ ἐπιστήμη"}], "why": "Different powers, over different things."},
+    {"concept": "recollection", "kind": "is", "evidence": [{"source": "plato", "work": "tlg024", "ref": "98a", "quote": "ἀνάμνησις"}], "why": "Tying down by the cause is recollection."},
+    {"concept": "virtue", "kind": "is it?", "evidence": [{"source": "plato", "work": "tlg024", "ref": "87c", "quote": "ἐπιστήμη τις ἡ ἀρετή"}], "why": "The Meno: if virtue is a kind of knowledge, it can be taught."}
+   ]
+  },
+  {
+   "id": "opinion", "label": "Opinion", "greek": "δόξα", "layer": "plato",
+   "note": "Opinion (doxa), true and false, between knowledge and ignorance, and its object, what becomes.",
+   "terms": [{"lemma": "δόξα", "note": "'opinion, belief, seeming; reputation'."}],
+   "keywords": {"en": ["opinion", "true opinion", "right opinion"], "grc": ["δοξα"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "Is the last of the gnostic powers of the rational soul", "says": "Taylor, s.v. Opinion: it knows that a thing is, not why."},
+    {"source": "taylor-terms", "quote": "This power knows the universal in particulars", "says": "Taylor, s.v. Doxastic."}
+   ],
+   "passages": [
+    {"work": "tlg030", "start": "478c", "end": "478d", "quote": "οὔτε ἄρα ἄγνοια οὔτε γνῶσις δόξα ἂν εἴη", "why": "Opinion is neither ignorance nor knowledge, but between."},
+    {"work": "tlg024", "start": "98a", "end": "98a", "quote": "δραπετεύουσιν ἐκ τῆς ψυχῆς", "why": "True opinions run away from the soul unless tied down."},
+    {"work": "tlg031", "start": "51d", "end": "51e", "quote": "εἰ μὲν νοῦς καὶ δόξα ἀληθής ἐστον δύο γένη", "why": "The Timaeus: if intellect and true opinion are two kinds, there are forms."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "Now this is called Opinion through our combining the recollection brought previously into action with the sensation recently produced", "says": "Alcinous: opinion joins memory to fresh sensation."}
+   ],
+   "related": [
+    {"concept": "knowledge", "kind": "contrasted with", "evidence": [{"source": "plato", "work": "tlg031", "ref": "51e", "quote": "τὸ μὲν γὰρ αὐτῶν διὰ διδαχῆς, τὸ δʼ ὑπὸ πειθοῦς ἡμῖν ἐγγίγνεται"}], "why": "One comes by teaching, the other by persuasion."},
+    {"concept": "ignorance", "kind": "between it and knowledge", "evidence": [{"source": "plato", "work": "tlg030", "ref": "478c", "quote": "οὔτε ἄρα ἄγνοια οὔτε γνῶσις δόξα ἂν εἴη"}], "why": "Opinion lies between."}
+   ]
+  },
+  {
+   "id": "ignorance", "label": "Ignorance", "greek": "ἄγνοια, ἀμαθία", "layer": "plato",
+   "note": "Ignorance, and the worst kind of it, thinking one knows what one does not.",
+   "terms": [{"lemma": "ἄγνοια", "note": "'not knowing'."}, {"lemma": "ἀμαθία", "note": "'lack of learning, stupidity'; in the Sophist, thinking one knows."}],
+   "keywords": {"en": ["ignorance", "twofold ignorance", "double ignorance"], "grc": ["αγνοια", "αμαθια"]},
+   "definitions": [
+    {"source": "note", "by": "Taylor (1804), note", "work": "tlg031", "ref": "70b", "quote": "so far as it is ignorance, and a privation of science", "says": "Taylor: ignorance is a privation of science."}
+   ],
+   "passages": [
+    {"work": "tlg007", "start": "229c", "end": "229c", "quote": "τὸ μὴ κατειδότα τι δοκεῖν εἰδέναι", "why": "The Sophist: thinking one knows what one does not, called stupidity (amathia)."},
+    {"work": "tlg002", "start": "21d", "end": "21d", "quote": "οἴεταί τι εἰδέναι οὐκ εἰδώς", "why": "The Apology: Socrates is wiser only in not thinking he knows."},
+    {"work": "tlg030", "start": "478c", "end": "478c", "quote": "μὴ ὄντι μὴν ἄγνοιαν ἐξ ἀνάγκης ἀπέδομεν", "why": "Ignorance is set over what is not."}
+   ],
+   "later": [],
+   "related": [
+    {"concept": "opinion", "kind": "contrasted with", "evidence": [{"source": "plato", "work": "tlg030", "ref": "478c", "quote": "οὔτε ἄρα ἄγνοια οὔτε γνῶσις δόξα ἂν εἴη"}], "why": "Opinion is between knowledge and ignorance."},
+    {"concept": "evil-as-privation", "kind": "a privation", "evidence": [{"source": "note", "by": "Taylor (1804), note", "work": "tlg031", "ref": "70b", "quote": "a privation of science"}], "why": "Taylor: ignorance is a privation."}
+   ]
+  },
+  {
+   "id": "virtue", "label": "Virtue", "greek": "ἀρετή", "layer": "plato",
+   "note": "Virtue (aretē): whether it is knowledge and can be taught, the virtues of the soul, and true virtue with wisdom.",
+   "terms": [{"lemma": "ἀρετή", "note": "'excellence, virtue'."}],
+   "keywords": {"en": ["virtue", "the virtues"], "grc": ["αρετη"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "διάθεσις ἡ βελτίστη", "says": "The Definitions: virtue is the best disposition."},
+    {"source": "definitions-burges", "quote": "a (mental) constitution of the best kind", "says": "The same, in Burges' English."}
+   ],
+   "passages": [
+    {"work": "tlg024", "start": "87c", "end": "87c", "quote": "ἐπιστήμη τις ἡ ἀρετή", "why": "The Meno: if virtue is a kind of knowledge, it can be taught."},
+    {"work": "tlg004", "start": "69b", "end": "69b", "quote": "ἀληθὴς ἀρετή, μετὰ φρονήσεως", "why": "The Phaedo: true virtue is with wisdom."},
+    {"work": "tlg030", "start": "353e", "end": "353e", "quote": "στερομένη τῆς οἰκείας ἀρετῆς", "why": "The Republic: the soul cannot do its work without its own excellence."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "While Virtue is a thing divine", "says": "Alcinous: virtue is divine, the best constitution of the soul."}
+   ],
+   "related": [
+    {"concept": "justice", "kind": "includes", "evidence": [{"source": "plato", "work": "tlg004", "ref": "69b", "quote": "καὶ ἀνδρεία καὶ σωφροσύνη καὶ δικαιοσύνη"}], "why": "Justice is among the virtues."},
+    {"concept": "knowledge", "kind": "is it?", "evidence": [{"source": "plato", "work": "tlg024", "ref": "87c", "quote": "ἐπιστήμη τις ἡ ἀρετή"}], "why": "Whether virtue is knowledge."}
+   ]
+  },
+  {
+   "id": "justice", "label": "Justice", "greek": "δικαιοσύνη", "layer": "plato",
+   "note": "Justice in the city and in the soul: each part doing its own.",
+   "terms": [{"lemma": "δικαιοσύνη", "note": "'justice'."}],
+   "keywords": {"en": ["justice"], "grc": ["δικαιοσυνη"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "Δικαιοσύνη ὁμόνοια τῆς ψυχῆς πρὸς αὑτήν", "says": "The Definitions: justice is the soul's agreement with itself."},
+    {"source": "definitions-burges", "quote": "an agreement of the soul with itself", "says": "The same, in Burges' English."}
+   ],
+   "passages": [
+    {"work": "tlg030", "start": "433a", "end": "433b", "quote": "τὸ τὰ αὑτοῦ πράττειν", "why": "Justice is doing one's own."},
+    {"work": "tlg030", "start": "443d", "end": "443d", "quote": "συναρμόσαντα τρία ὄντα", "why": "The just man harmonizes the three parts of his soul."},
+    {"work": "tlg030", "start": "444d", "end": "444d", "quote": "τὸ δικαιοσύνην ἐμποιεῖν", "why": "Justice is to the soul as health to the body."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "But Justice is a certain agreement", "says": "Alcinous: justice is the three parts' agreement."}
+   ],
+   "related": [
+    {"concept": "virtue", "kind": "one of", "evidence": [{"source": "plato", "work": "tlg004", "ref": "69b", "quote": "καὶ δικαιοσύνη καὶ συλλήβδην ἀληθὴς ἀρετή"}], "why": "One of the virtues."},
+    {"concept": "soul", "kind": "of", "evidence": [{"source": "definitions-hermann", "quote": "ὁμόνοια τῆς ψυχῆς πρὸς αὑτήν"}], "why": "Justice is a state of the soul."}
+   ]
+  },
+  {
+   "id": "evil-as-privation", "label": "Evil as privation", "greek": "κακόν, στέρησις", "layer": "later",
+   "note": "Evil as a lack or failure of good, the later Platonists' doctrine. Plato says that god is not the cause of evils and that evil must always be opposed to the good; the doctrine of privation is Proclus' and Taylor's reading.",
+   "terms": [{"lemma": "κακός", "note": "'bad, evil'; most occurrences are ordinary."}, {"lemma": "κακία", "note": "'badness, vice'."}],
+   "keywords": {"en": ["privation", "evil itself", "the cause of evil", "origin of evil"], "grc": ["στερησις", "κακον"]},
+   "definitions": [
+    {"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "42c", "quote": "a deviation from sub sistence, eitherthrou^h a privation of symmetry", "says": "Proclus: evil comes about by a deviation from being, a privation of symmetry (OCR as received)."}
+   ],
+   "passages": [
+    {"work": "tlg030", "start": "379c", "end": "379c", "quote": "τῶν δὲ κακῶν ἄλλʼ ἄττα δεῖ ζητεῖν τὰ αἴτια, ἀλλʼ οὐ τὸν θεόν", "why": "God is not the cause of evils."},
+    {"work": "tlg006", "start": "176a", "end": "176a", "quote": "ὑπεναντίον γάρ τι τῷ ἀγαθῷ ἀεὶ εἶναι ἀνάγκη", "why": "Evils cannot perish: there must always be something opposed to the good."},
+    {"work": "tlg031", "start": "30a", "end": "30a", "quote": "ἀγαθὰ μὲν πάντα, φλαῦρον δὲ μηδὲν εἶναι κατὰ δύναμιν", "why": "The god wished all things good and nothing bad, so far as possible.", "read_by": [{"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "30a", "quote": "But it subsists in the privation of symmetry"}]}
+   ],
+   "later": [
+    {"source": "note", "by": "Proclus, tr. Taylor (1820)", "work": "tlg031", "ref": "30a", "quote": "that which is most distant from thr good is evil itself", "says": "Proclus: what is furthest from the good is evil itself (OCR 'thr')."}
+   ],
+   "related": [
+    {"concept": "the-good", "kind": "opposed to", "evidence": [{"source": "plato", "work": "tlg006", "ref": "176a", "quote": "ὑπεναντίον γάρ τι τῷ ἀγαθῷ ἀεὶ εἶναι ἀνάγκη"}], "why": "Something must always be opposed to the good."},
+    {"concept": "ignorance", "kind": "like", "evidence": [{"source": "note", "by": "Taylor (1804), note", "work": "tlg031", "ref": "70b", "quote": "a privation of science"}], "why": "Taylor: ignorance is a privation."}
+   ]
+  },
+  {
+   "id": "image-and-original", "label": "Image and original", "greek": "εἰκών, παράδειγμα", "layer": "plato",
+   "note": "The cosmos as an image of its pattern, time as a moving image of eternity, the images of the divided line, and likenesses and semblances.",
+   "terms": [{"lemma": "εἰκών", "note": "'image, likeness'."}, {"lemma": "παράδειγμα", "note": "'pattern, model, example'."}, {"lemma": "μίμημα", "note": "'imitation, copy'."}],
+   "keywords": {"en": ["image", "paradigm", "pattern", "resemblance"], "grc": ["εικων", "παραδειγμα"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "A pattern, or that with reference to which a thing is made", "says": "Taylor, s.v. Paradigm."},
+    {"source": "taylor-terms", "quote": "A thing is said to subsist iconically, when it subsists after the manner of an image", "says": "Taylor, s.v. Iconically."}
+   ],
+   "passages": [
+    {"work": "tlg031", "start": "29b", "end": "29b", "quote": "τόνδε τὸν κόσμον εἰκόνα τινὸς εἶναι", "why": "This cosmos must be an image of something."},
+    {"work": "tlg031", "start": "37d", "end": "37d", "quote": "εἰκὼ δʼ ἐπενόει κινητόν τινα αἰῶνος ποιῆσαι", "why": "Time, a moving image of eternity."},
+    {"work": "tlg030", "start": "510a", "end": "510a", "quote": "τὰ ἐν τοῖς ὕδασι φαντάσματα", "why": "The divided line: images and what they are images of."},
+    {"work": "tlg007", "start": "236c", "end": "236c", "quote": "εἰκαστικὴν καὶ φανταστικήν", "why": "The Sophist: likeness-making and semblance-making."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "the image, as it were, of eternity", "says": "Alcinous: time the image of eternity."}
+   ],
+   "related": [
+    {"concept": "forms", "kind": "original of", "evidence": [{"source": "plato", "work": "tlg031", "ref": "29b", "quote": "περί τε εἰκόνος καὶ περὶ τοῦ παραδείγματος αὐτῆς"}], "why": "The image and its pattern."},
+    {"concept": "sensible-world", "kind": "is an image", "evidence": [{"source": "plato", "work": "tlg031", "ref": "29b", "quote": "τόνδε τὸν κόσμον εἰκόνα τινὸς εἶναι"}], "why": "The visible cosmos is an image."}
+   ]
+  },
+  {
+   "id": "ascent", "label": "Ascent", "greek": "ἀνάβασις, ἄνοδος", "layer": "plato",
+   "note": "The soul's going up: out of the cave to the intelligible, and by steps to beauty itself; and becoming like god.",
+   "terms": [{"lemma": "ἀνάβασις", "note": "'going up'."}, {"lemma": "ἄνοδος", "note": "'way up'."}, {"lemma": "ὁμοίωσις", "note": "'becoming like'."}],
+   "keywords": {"en": ["ascent", "ascend", "the anagogic", "likeness to God", "assimilation to"], "grc": ["αναβασις", "ανοδος", "ομοιωσις"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "That which elevates the soul from sensibles to intelligibles", "says": "Taylor, s.v. the Anagogic."}
+   ],
+   "passages": [
+    {"work": "tlg030", "start": "517b", "end": "517b", "quote": "τὴν εἰς τὸν νοητὸν τόπον τῆς ψυχῆς ἄνοδον", "why": "The way up out of the cave is the soul's ascent to the intelligible."},
+    {"work": "tlg011", "start": "211c", "end": "211c", "quote": "ἐπαναβασμοῖς", "why": "The ascent of love by steps."},
+    {"work": "tlg006", "start": "176b", "end": "176b", "quote": "φυγὴ δὲ ὁμοίωσις θεῷ κατὰ τὸ δυνατόν", "why": "Flight from here is becoming like god, as far as possible."},
+    {"work": "tlg012", "start": "249c", "end": "249c", "quote": "ἀνακύψασα εἰς τὸ ὂν ὄντως", "why": "The soul that once looked up to what truly is."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "one is an ascent from things perceptible by a sense to the primary perceptible by mind", "says": "Alcinous: analysis as an ascent to the intelligible."}
+   ],
+   "related": [
+    {"concept": "intelligible-world", "kind": "to", "evidence": [{"source": "plato", "work": "tlg030", "ref": "517b", "quote": "εἰς τὸν νοητὸν τόπον"}], "why": "The ascent is to the intelligible place."},
+    {"concept": "the-good", "kind": "ends in", "evidence": [{"source": "plato", "work": "tlg030", "ref": "517b", "quote": "ἐν τῷ γνωστῷ τελευταία ἡ τοῦ"}], "why": "Last in the knowable is the form of the Good."}
+   ]
+  },
+  {
+   "id": "intelligible-world", "label": "The intelligible world", "greek": "τὸ νοητόν, ὁ νοητὸς τόπος", "layer": "plato",
+   "note": "The intelligible (what is grasped by thought), the 'intelligible place' of the Republic, ruled by the Good.",
+   "terms": [{"lemma": "νοητός", "note": "'intelligible, thought-of'."}],
+   "keywords": {"en": ["intelligible world", "the intelligible", "intelligibles", "intelligible place"], "grc": ["νοητον", "νοητος", "νοητω"]},
+   "definitions": [
+    {"source": "taylor-terms", "quote": "This word in Plato and Platonic writers has a various signification", "says": "Taylor, s.v. the Intelligible: three senses."}
+   ],
+   "passages": [
+    {"work": "tlg030", "start": "508c", "end": "508c", "quote": "ἐν τῷ νοητῷ τόπῳ", "why": "The Good rules in the intelligible place as the sun in the visible."},
+    {"work": "tlg030", "start": "509d", "end": "509d", "quote": "τὸ μὲν νοητοῦ γένους τε καὶ τόπου", "why": "Two kinds, the visible and the intelligible."},
+    {"work": "tlg031", "start": "37a", "end": "37a", "quote": "τῶν νοητῶν ἀεί τε ὄντων", "why": "The intelligibles that always are."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "there will have been the primaries perceived by mind, and the primaries perceived by a sense", "says": "Alcinous: primary intelligibles and primary sensibles."}
+   ],
+   "related": [
+    {"concept": "sensible-world", "kind": "contrasted with", "evidence": [{"source": "plato", "work": "tlg030", "ref": "509d", "quote": "ὁρατόν, νοητόν"}], "why": "The two kinds."},
+    {"concept": "the-good", "kind": "ruled by", "evidence": [{"source": "plato", "work": "tlg030", "ref": "517c", "quote": "ἔν τε νοητῷ αὐτὴ κυρία ἀλήθειαν καὶ νοῦν παρασχομένη"}], "why": "In the intelligible the Good is sovereign."}
+   ]
+  },
+  {
+   "id": "sensible-world", "label": "The sensible world", "greek": "τὸ αἰσθητόν, τὸ ὁρατόν", "layer": "plato",
+   "note": "The visible and sensible: what becomes and is grasped by opinion with sensation.",
+   "terms": [{"lemma": "αἰσθητός", "note": "'perceptible by the senses'."}, {"lemma": "ὁρατός", "note": "'visible'."}],
+   "keywords": {"en": ["sensible world", "the sensible", "sensibles", "visible world"], "grc": ["αισθητον", "ορατον"]},
+   "definitions": [],
+   "passages": [
+    {"work": "tlg030", "start": "509d", "end": "509d", "quote": "ὁρατόν, νοητόν", "why": "The visible and the intelligible."},
+    {"work": "tlg031", "start": "28c", "end": "28c", "quote": "δόξῃ περιληπτὰ μετʼ αἰσθήσεως", "why": "Sensibles are grasped by opinion with sensation."},
+    {"work": "tlg004", "start": "79a", "end": "79a", "quote": "κἂν ταῖς ἄλλαις αἰσθήσεσιν αἴσθοιο", "why": "The Phaedo: what can be touched and seen, and what only reasoning grasps."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "the other, conversant about things perceptible by a sense, is Opinionative and Opinion", "says": "Alcinous: opinion is of sensibles."}
+   ],
+   "related": [
+    {"concept": "becoming", "kind": "is", "evidence": [{"source": "plato", "work": "tlg031", "ref": "28c", "quote": "γιγνόμενα καὶ γεννητὰ ἐφάνη"}], "why": "Sensibles come to be."},
+    {"concept": "opinion", "kind": "known by", "evidence": [{"source": "plato", "work": "tlg031", "ref": "28c", "quote": "δόξῃ περιληπτὰ"}], "why": "Grasped by opinion."}
+   ]
+  },
+  {
+   "id": "recollection", "label": "Recollection", "greek": "ἀνάμνησις", "layer": "plato",
+   "note": "Learning as recollection of what the soul knew before birth.",
+   "terms": [{"lemma": "ἀνάμνησις", "note": "'recollection'."}, {"lemma": "ἀναμιμνῄσκω", "note": "'to remind, recall'; also ordinary remembering."}],
+   "keywords": {"en": ["recollection", "reminiscence"], "grc": ["αναμνησις"]},
+   "definitions": [
+    {"source": "definitions-hermann", "quote": "Μνήμη διάθεσις ψυχῆς φυλακτικὴ τῆς ἐν αὐτῇ ὑπαρχούσης ἀληθείας", "says": "The Definitions, of memory: a disposition of the soul that keeps the truth in it."}
+   ],
+   "passages": [
+    {"work": "tlg024", "start": "81d", "end": "81d", "quote": "τὸ γὰρ ζητεῖν ἄρα καὶ τὸ μανθάνειν ἀνάμνησις ὅλον ἐστίν", "why": "The Meno: seeking and learning are all recollection."},
+    {"work": "tlg004", "start": "72e", "end": "76a", "quote": "ἀνάμνησις τυγχάνει οὖσα", "why": "The Phaedo: learning is recollection, so the soul was before."},
+    {"work": "tlg012", "start": "249c", "end": "249c", "quote": "τοῦτο δʼ ἐστὶν ἀνάμνησις ἐκείνων ἅ ποτʼ εἶδεν ἡμῶν ἡ ψυχὴ", "why": "The Phaedrus: recollection of what the soul once saw with god."}
+   ],
+   "later": [
+    {"source": "alcinous-burges", "quote": "for learning could not be based otherwise than on the recollection of what has been known of old", "says": "Alcinous on recollection."}
+   ],
+   "related": [
+    {"concept": "soul", "kind": "shows immortal", "evidence": [{"source": "plato", "work": "tlg004", "ref": "72e", "quote": "ἡ μάθησις οὐκ ἄλλο τι ἢ ἀνάμνησις τυγχάνει οὖσα"}], "why": "Cebes: if learning is recollection, the soul existed before."},
+    {"concept": "knowledge", "kind": "makes", "evidence": [{"source": "plato", "work": "tlg024", "ref": "98a", "quote": "τοῦτο δʼ ἐστίν, ὦ Μένων ἑταῖρε, ἀνάμνησις"}], "why": "Tying down true opinions by reasoning is recollection."}
+   ]
+  }
+ ]
+}

@@ -1,0 +1,79 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg014",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   15577,
+   15614
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg014",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "scholia": 3,
+  "with a lemma": 0,
+  "paragraphs run on": 2,
+  "pages read": 1
+ },
+ "notes": [
+  {
+   "kind": "introduction",
+   "line": 15580,
+   "text": "Ρ, 140}. ἐνεοὺρ] 1 ἀφώνους, κωφούς, ἐξεστηκότας, νωδούς, νωχελεῖς, μετεώρους. Ἀ:\n\n1471. ἐπουρίσῃ] ἀποπέμψῃ, ἢ ὡς νῦν; ἐφορμήσῃ. Ἀ.",
+   "raw": "Ρ, 140}. ἐνεοὺρ] 1 ἀφώνους, κωφούς, ἐξεστηκότας, νωδούς, \nνωχελεῖς, μετεώρους. Ἀ: \n\n1471. ἐπουρίσῃ] ἀποπέμψῃ, ἢ ὡς νῦν; ἐφορμήσῃ. Ἀ. ",
+   "id": "scholia-hermann.tlg014.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 15585,
+   "page_steph": "138c",
+   "page_how": null,
+   "head_raw": "0.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "φϑονερὸς ὃ ἐπὶ τοῖς εὐπραγοῦσιν ἀχϑόμενος καϑ' ἕἑαυτόν. ἔστι δὲ καὶ ὁ ἐπίρϑονος φϑονερός. διαφέρει δὲ βασκά- νου\" ὃ γὰρ βασκανος ὑπὸ φϑόνου καὶ συκοφαντεῖ καὶ καηγορεῖ, ἀπὸ τοῦ τον υῶμι ἴσως. ἔστι δὲ βαβάκτης ὃ κράκτης καὶ μανιώδης. Β",
+   "raw": "0. φϑονερὸς ὃ ἐπὶ τοῖς εὐπραγοῦσιν ἀχϑόμενος καϑ' ἕἑαυ- \nτόν. ἔστι δὲ καὶ ὁ ἐπίρϑονος φϑονερός. διαφέρει δὲ βασκά- \n\nνου\" ὃ γὰρ βασκανος ὑπὸ φϑόνου καὶ συκοφαντεῖ καὶ καηγορεῖ, \nἀπὸ τοῦ τον υῶμι ἴσως. ἔστι δὲ βαβάκτης ὃ κράκτης καὶ μα- \nνιώδης. Β ",
+   "id": "scholia-hermann.tlg014.0002",
+   "seq": 2
+  },
+  {
+   "kind": "note",
+   "line": 15596,
+   "page_steph": "138d",
+   "page_how": null,
+   "head_raw": "Ὁ.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "τὸ φαῦλον ἐπὶ τεσσάρων ἐννοιῶν τάσσεται, κατ᾽ ἐναν-- τιότητα παραλαμβανομένων. ἐπὶ ἁπλότητος καὶ εὐηϑείας Ζ4ημοσϑένης\" οὐ γὰρ εἶ φαύλοις ὑμεῖς προστάταις χρῆσϑε\" ἐπὶ δὲ τοῦ ἐπαίνου Εὐριπίδης\" φαῦλον; ἄκομψον, τὰ μέγιστ᾽ ἀγαϑόν\" ἐπὶ δὲ μεγέϑους, φαῦλον στόμα ἀντὶ τοῦ μέγα\" ἐπὶ δὲ μικρότῆτος εὐϑέως ἐν ἀρχῇ τοῦ κατ ᾿Δφιστοκράτους. λέγουσι δὲ καὶ τὴν φαυλίαν ἐλαίαν “μικρόκαρπον οὐσαν.͵ οὕτως ὀνομάξεσϑαι. ἐκνενίκηνε μέντοι τὴν παλαιὰν χρῆσιν ἢ εἰς τὸ κακὸν μετάληψις\" φαῦλον γὰρ οἷ πλεῖστοι τὸ κακὸν ἐξακούουσι. Ἀ, 5.",
+   "raw": "Ὁ. τὸ φαῦλον ἐπὶ τεσσάρων ἐννοιῶν τάσσεται, κατ᾽ ἐναν-- \nτιότητα παραλαμβανομένων. ἐπὶ ἁπλότητος καὶ εὐηϑείας Ζ4η- \nμοσϑένης\" οὐ γὰρ εἶ φαύλοις ὑμεῖς προστάταις χρῆσϑε\" ἐπὶ δὲ \nτοῦ ἐπαίνου Εὐριπίδης\" \n\nφαῦλον; ἄκομψον, τὰ μέγιστ᾽ ἀγαϑόν\" \nἐπὶ δὲ μεγέϑους, φαῦλον στόμα ἀντὶ τοῦ μέγα\" ἐπὶ δὲ μικρό- \nτῆτος εὐϑέως ἐν ἀρχῇ τοῦ κατ ᾿Δφιστοκράτους. λέγουσι δὲ καὶ \nτὴν φαυλίαν ἐλαίαν “μικρόκαρπον οὐσαν.͵ οὕτως ὀνομάξεσϑαι. \nἐκνενίκηνε μέντοι τὴν παλαιὰν χρῆσιν ἢ εἰς τὸ κακὸν μετά- \nληψις\" φαῦλον γὰρ οἷ πλεῖστοι τὸ κακὸν ἐξακούουσι. Ἀ, 5. ",
+   "id": "scholia-hermann.tlg014.0003",
+   "seq": 3
+  },
+  {
+   "kind": "note",
+   "line": 15608,
+   "page_steph": "149a",
+   "page_how": null,
+   "head_raw": "149 Α.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "δωροδόκοι καὶ οὗ δῶρα λαμβάνοντες καὶ οἵ δῶρα διδόντες. “4ημοσϑένης ἐν Φιλιππικῷ ἐπὶ τοῦ Ζελείτου 4ρὃμίου ἔφη δωροδόπος. ὅπερ ἐν ἴσῳ κεῖται τῷ δῶρα διδούς. ἐπὶ δὲ τοῦ δῶρα λαμβάνειν πολλὴ ἡ παράϑεσις, ὥσπερ καὶ ἐνταῦϑα. Ἐ.",
+   "raw": "149 Α. δωροδόκοι καὶ οὗ δῶρα λαμβάνοντες καὶ οἵ δῶρα \nδιδόντες. “4ημοσϑένης ἐν Φιλιππικῷ ἐπὶ τοῦ Ζελείτου 4ρὃ- \nμίου ἔφη δωροδόπος. ὅπερ ἐν ἴσῳ κεῖται τῷ δῶρα διδούς. ἐπὶ \nδὲ τοῦ δῶρα λαμβάνειν πολλὴ ἡ παράϑεσις, ὥσπερ καὶ ἐν- \nταῦϑα. Ἐ. ",
+   "id": "scholia-hermann.tlg014.0004",
+   "seq": 4
+  }
+ ]
+}

@@ -2,7 +2,7 @@
 
 Written by `tools/build_db.py` (milestone 8, `tools/citations.py`). Every note in the library is read for references to passages of Plato; each reference is a link that names the note it was read from.
 
-**5,835 links**: 5,622 certain, 174 uncertain, 39 unresolved (the work is named but has no such page). 5,197 cite a passage, 638 name a dialogue without a page.
+**5,847 links**: 5,634 certain, 174 uncertain, 39 unresolved (the work is named but has no such page). 5,209 cite a passage, 638 name a dialogue without a page.
 
 ## By commentator
 
@@ -24,6 +24,7 @@ Written by `tools/build_db.py` (milestone 8, `tools/citations.py`). Every note i
 | Taylor or Sydenham (1804), unsigned note | 19 | 17 | 2 | 0 | 11 | 19 |
 | Taylor (1804), note signed T. | 17 | 16 | 1 | 0 | 12 | 17 |
 | Taylor (1804), Additional Note from Proclus | 15 | 13 | 2 | 0 | 9 | 15 |
+| Scholia (Hermann) | 12 | 12 | 0 | 0 | 9 | 0 |
 | Lamb (Loeb, 1925) | 10 | 10 | 0 | 0 | 8 | 5 |
 | Fowler (Loeb, 1926) | 7 | 7 | 0 | 0 | 5 | 0 |
 | Fowler (Loeb, 1925) | 6 | 6 | 0 | 0 | 6 | 0 |

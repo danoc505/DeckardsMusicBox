@@ -408,7 +408,8 @@ CREATE TABLE evidence (
     at          TEXT,                      -- where it was found: section, chapter, page or Stephanus ref
     quote       TEXT NOT NULL,
     found       INTEGER,                   -- 1 if the words are in that text; empty if that work is not in this build. Found: whitespace, quotes, accents, hyphens normalised
-    cited_as    TEXT NOT NULL              -- 'DL III 56 (Burges, p. 207)'
+    cited_as    TEXT NOT NULL,             -- 'DL III 56 (Burges, p. 207)'
+    note_id     INTEGER REFERENCES note(id) -- source 'note' (milestone 10): the note the words are in
 );
 CREATE INDEX evidence_owner ON evidence(owner);
 
@@ -507,4 +508,66 @@ CREATE TABLE theme_link (
     theme_b     TEXT NOT NULL,
     n_b         INTEGER NOT NULL,
     link_id     INTEGER NOT NULL REFERENCES link(id)
+);
+
+-- Milestone 10: the concept index (sources/concepts/concepts.json, tools/concepts.py).
+-- Every quotation is in evidence, owner 'concept:<id>:<part>:<n>'.
+CREATE TABLE concept (
+    id          TEXT PRIMARY KEY,          -- 'the-good'
+    label       TEXT NOT NULL,
+    greek       TEXT NOT NULL,
+    layer       TEXT NOT NULL,             -- plato | plato-later | later
+    note        TEXT NOT NULL,             -- the index's own sentence on what is gathered here
+    keywords    TEXT NOT NULL,             -- JSON {en: [...], grc: [...]}: the words a note names it by
+    seq         INTEGER NOT NULL
+);
+-- The GLAUx lemmas a concept is indexed under: lexical evidence, not links.
+CREATE TABLE concept_term (
+    concept_id  TEXT NOT NULL REFERENCES concept(id),
+    n           INTEGER NOT NULL,
+    lemma       TEXT NOT NULL,
+    note        TEXT,
+    broad       INTEGER NOT NULL,          -- 1: most occurrences are the ordinary word
+    occurrences INTEGER NOT NULL,          -- words tagged with it in this build
+    works       INTEGER NOT NULL,
+    PRIMARY KEY (concept_id, n)
+);
+CREATE INDEX concept_term_lemma ON concept_term(lemma);
+-- Definitions and later readings: a quotation (in evidence) and what it says.
+CREATE TABLE concept_cite (
+    concept_id  TEXT NOT NULL REFERENCES concept(id),
+    kind        TEXT NOT NULL,             -- definition | later
+    n           INTEGER NOT NULL,
+    source_text TEXT NOT NULL,             -- an ancient_text id, 'taylor-terms', 'note'
+    says        TEXT NOT NULL,             -- in the index's words
+    owner       TEXT NOT NULL,             -- evidence.owner
+    note_id     INTEGER REFERENCES note(id)
+);
+CREATE TABLE concept_passage (
+    concept_id  TEXT NOT NULL REFERENCES concept(id),
+    n           INTEGER NOT NULL,
+    work_id     TEXT NOT NULL,
+    start_ref   TEXT NOT NULL,             -- the quotation of Burnet's Greek is here
+    end_ref     TEXT NOT NULL,
+    quote       TEXT NOT NULL,
+    found       INTEGER,
+    why         TEXT NOT NULL,
+    read_by     INTEGER NOT NULL,          -- 1: a later reading; the note that reads it so is in evidence
+    PRIMARY KEY (concept_id, n)
+);
+CREATE INDEX concept_passage_work ON concept_passage(work_id);
+CREATE TABLE concept_relation (
+    concept_id  TEXT NOT NULL REFERENCES concept(id),
+    n           INTEGER NOT NULL,
+    other_id    TEXT NOT NULL REFERENCES concept(id),
+    kind        TEXT NOT NULL,             -- 'cause of', 'contrasted with', ...
+    why         TEXT NOT NULL,
+    owner       TEXT NOT NULL              -- evidence.owner
+);
+-- Notes placed on a concept's passage that name it by a keyword (found by rule).
+CREATE TABLE concept_named (
+    concept_id  TEXT NOT NULL,
+    n           INTEGER NOT NULL,          -- concept_passage.n
+    note_id     INTEGER NOT NULL REFERENCES note(id),
+    word        TEXT NOT NULL
 );

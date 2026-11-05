@@ -416,6 +416,7 @@ async function inspect(id) {
     html += `<div class="box none"><h3>Not tagged</h3>GLAUx has no word that lines up with this one${/^\[|\]$/.test(t.form) ? "" : " (often a word Burnet brackets as spurious, which GLAUx leaves out)"}. The parses below are still every possibility.</div>`;
   }
   html += renderElsewhere(t);
+  html += renderConceptsForWord(t);
   html += renderGrammar(t);
   html += `<div class="box dict" id="dict"></div>`;
   if (t.morph.length) {
@@ -671,7 +672,9 @@ document.addEventListener("keydown", (ev) => {
 function route(push) {
   const raw = location.hash.slice(1);
   if (raw.startsWith("search")) { showSearchFromHash(raw); return; }  // its parameters are decoded there
-  document.body.classList.remove("discussing", "whole-view", "corpus-view");
+  document.body.classList.remove("discussing", "whole-view", "corpus-view", "concepts-view");
+  // Milestone 10: #concepts, #concepts/the-good.
+  if (raw === "concepts" || raw.startsWith("concepts/")) { showConcepts(decodeURIComponent(raw.slice(9)) || null); return; }
   if (raw.startsWith("discussed")) { showDiscussedFromHash(raw); return; }
   if (raw === "corpus" || raw.startsWith("corpus?")) { showCorpusFromHash(raw); return; }
   const h = decodeURIComponent(raw);

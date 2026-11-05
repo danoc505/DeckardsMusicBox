@@ -1,0 +1,98 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg026",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   17839,
+   17882
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg026",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "pages read through a misreading": 2,
+  "scholia": 5,
+  "with a lemma": 2,
+  "paragraphs run on": 6,
+  "pages read": 1
+ },
+ "notes": [
+  {
+   "kind": "note",
+   "line": 17842,
+   "page_steph": "368a",
+   "page_how": "page printed 868, read as 368",
+   "head_raw": "Ρ, 868 Α.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "ἀνέδην ἐκκεχυμένως . καὶ τὸ κατὰ στέρησιν του ἕδους. ἐνταῦϑα δὲ ἀπὸ τοῦ ἀνίημις ὡσεὶ εἶπεν ἀνέτως. Β.",
+   "raw": "Ρ, 868 Α. ἀνέδην ἐκκεχυμένως . καὶ τὸ κατὰ στέρησιν του \nἕδους. ἐνταῦϑα δὲ ἀπὸ τοῦ ἀνίημις ὡσεὶ εἶπεν ἀνέτως. Β. ",
+   "id": "scholia-hermann.tlg026.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 17845,
+   "page_steph": "368c",
+   "page_how": null,
+   "head_raw": "Ο.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "στλεγγὶς ἣ ξύστρα, καὶ στλεγγιξόμενοι. οἵ ἀποξυόμενοι, ὁ ἐστι κτενιζόμενοι. στλεγγὶς γὰρ τὸ κτένιον, ὡς ᾿Δριστοφάνης Γήρα\" εἰ παιδαρίοις ἀκολουϑεῖν δεῖ, σ σφαῖραν καὶ στλεγγίδ᾽ ἔχοντα. καὶ Δαιταλεῦσιν\" οὐδ᾽ ἔστιν αὐτοῖς στλεγγὶς οὐδὲ λήκυϑος. καλεῖται δὲ στλεγγὶς καὶ χρυσοῦν ἔλασμα τὸ περὶ τῇ κεφαλῇ τῶν γυναικῶν. λήκυϑον δὲ ἀγγεῖόν τί φασιν ᾿Δττικοί, ἐν ᾧ τοῖς νεκροῖς ἔφερον τὸ μύρον, τὴν ἀλάβαστρον. ἀρσενικῶς δὲ τὸν ἀλάβαστρον εἶπεν Ἡρόδοτος. ἐχρῶντο δὲ καὶ ἀντὶ φασκωλίων ληκύϑοις, ἃ ἐστι δερμάτινα βαλλάντια (φάσκωλος δὲ τὸ μέγα, εἰς ὃ τὰ ἱμάτια ἐμβάλλεται). διὸ καὶ τοὺς ἀπόρους αὐτοληκύϑους ἔλεγον. λέγουσι δὲ καὶ τὴν λάγυ γον λήκυϑον, καὶ τὸ μεταξὺ τοῦ λαυκανίου καὶ τοῦ αὐχένος ἠχῶδες, ὥς φησι Κλέαρχος. Β. 5. 869 ἢ. λιπαρῆ) προσεδρευτικόν. το τόν Ἧς",
+   "raw": "Ο. στλεγγὶς ἣ ξύστρα, καὶ  στλεγγιξόμενοι. οἵ ἀποξυόμενοι, \nὁ ἐστι κτενιζόμενοι. στλεγγὶς γὰρ τὸ κτένιον, ὡς ᾿Δριστοφάνης \nΓήρα\" \n\nεἰ παιδαρίοις ἀκολουϑεῖν δεῖ, σ σφαῖραν καὶ \nστλεγγίδ᾽ ἔχοντα. \nκαὶ Δαιταλεῦσιν\" \nοὐδ᾽ ἔστιν αὐτοῖς στλεγγὶς οὐδὲ λήκυϑος. \n\nκαλεῖται δὲ στλεγγὶς καὶ χρυσοῦν ἔλασμα τὸ περὶ τῇ κεφαλῇ τῶν \nγυναικῶν. λήκυϑον δὲ ἀγγεῖόν τί φασιν ᾿Δττικοί, ἐν ᾧ τοῖς νε- \nκροῖς ἔφερον τὸ μύρον, τὴν ἀλάβαστρον. ἀρσενικῶς δὲ τὸν ἀλά- \nβαστρον εἶπεν Ἡρόδοτος. ἐχρῶντο δὲ καὶ ἀντὶ φασκωλίων λη- \nκύϑοις, ἃ ἐστι δερμάτινα βαλλάντια (φάσκωλος δὲ τὸ μέγα, εἰς \nὃ τὰ ἱμάτια ἐμβάλλεται). διὸ καὶ τοὺς ἀπόρους αὐτοληκύϑους \nἔλεγον. λέγουσι δὲ καὶ τὴν λάγυ γον λήκυϑον, καὶ τὸ μεταξὺ τοῦ \nλαυκανίου καὶ τοῦ αὐχένος ἠχῶδες, ὥς φησι Κλέαρχος. Β. 5. \n\n869 ἢ. λιπαρῆ) προσεδρευτικόν. το τόν Ἧς ",
+   "id": "scholia-hermann.tlg026.0002",
+   "seq": 2
+  },
+  {
+   "kind": "note",
+   "line": 17865,
+   "page_steph": "371d",
+   "page_how": "page printed 871, read as 371",
+   "head_raw": "8711 Ὁ.",
+   "lemma": "ἀρχαῖον",
+   "lemma_lang": "grc",
+   "text": "εὐήϑη. ἡ ἁπλοῦν. Ῥ,",
+   "raw": "8711 Ὁ. ἀρχαῖον] εὐήϑη. ἡ ἁπλοῦν. Ῥ, ",
+   "id": "scholia-hermann.tlg026.0003",
+   "seq": 3
+  },
+  {
+   "kind": "note",
+   "line": 17867,
+   "page_steph": "371d",
+   "page_how": null,
+   "head_raw": "Ὁ.",
+   "lemma": "εὐηϑείας",
+   "lemma_lang": "grc",
+   "text": "γο. καὶ εὐνοίας. ἈΝ.",
+   "raw": "Ὁ. εὐηϑείας] γο. καὶ εὐνοίας. ἈΝ. ",
+   "id": "scholia-hermann.tlg026.0004",
+   "seq": 4
+  },
+  {
+   "kind": "note",
+   "line": 17869,
+   "page_steph": "372e",
+   "page_how": null,
+   "head_raw": "372 Ε.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "χατηβολὴ τὸ ἐπιβάλλον. Εὐριπίδης Τημένω καὶ Πελιάσι. λέγεται, δὲ οὕτω καὶ ῇ τοῦ πυρετοῦ περίοδος καὶ ὁρμή. καὶ μερίς, καὶ ἱερὰ νόσος; τὸ χρεών, τὸ καϑῆκον, ϑυσία, τελετή, ΄ τὰ νομιζόμενα. Ἐ.",
+   "raw": "372 Ε. χατηβολὴ τὸ ἐπιβάλλον. Εὐριπίδης Τημένω καὶ \n\nΠελιάσι. λέγεται, δὲ οὕτω καὶ ῇ τοῦ πυρετοῦ περίοδος καὶ ὁρμή. \n\nκαὶ μερίς, καὶ ἱερὰ νόσος; τὸ χρεών, τὸ καϑῆκον, ϑυσία, τελετή, \n΄ \n\nτὰ νομιζόμενα. Ἐ. ",
+   "id": "scholia-hermann.tlg026.0005",
+   "seq": 5
+  }
+ ]
+}

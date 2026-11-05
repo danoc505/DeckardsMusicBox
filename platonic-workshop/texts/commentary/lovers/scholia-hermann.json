@@ -1,0 +1,58 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg016",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   15674,
+   15706
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg016",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "pages read through a misreading": 1,
+  "scholia": 2,
+  "with a lemma": 1,
+  "paragraphs run on": 5
+ },
+ "notes": [
+  {
+   "kind": "note",
+   "line": 15677,
+   "page_steph": "138d",
+   "page_how": "page printed 188, read as 138",
+   "head_raw": "Ρ, 188 Ὁ.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "παροιμία\" γηράσκω δ᾽ αἰεὶ πολλὰ διδασκόμενος, ἐπὶ τῶν διὰ τὸ γῆρας ἐμπειροτέρων. εἵἴλκυσται μέντοι ἐκ τῶν Σόλωνος ἐλεγείων. Β..",
+   "raw": "Ρ, 188 Ὁ. παροιμία\" \nγηράσκω δ᾽ αἰεὶ πολλὰ διδασκόμενος, \n\nἐπὶ τῶν διὰ τὸ γῆρας ἐμπειροτέρων. εἵἴλκυσται μέντοι ἐκ τῶν \nΣόλωνος ἐλεγείων. Β.. ",
+   "id": "scholia-hermann.tlg016.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 15687,
+   "page_steph": "138d",
+   "page_how": null,
+   "head_raw": "Ὁ.",
+   "lemma": "εἰρωνικῶς",
+   "lemma_lang": "grc",
+   "text": "εἰρωνεία τὸ προχείρως καὶ μετὰ τοῦ πρὸς χάριν διαλέγεσϑαι, κολακεία, ψευδολογία. καὶ εἴρωνα τὸν κόλακα. Ἐ. 185 ΒΕ. πένταϑλοι οὗ τὸν ἀγῶνα τὸν πένταϑλον ἀγωνιζόμέενοιν. ἔστι γὰρ πένταϑλος οὗτος, τοῖς γέοις ἀγωνία; πάλη; σίγυννος; ἅλμα; δίσκος καὶ δρὸμ ος. σίγυννος δέ ἐστι ξυστὸν δόρυ: παρ᾽ Ἡροδότῳ δὲ τὸ ὁλοσίδηρον ἀκόντιον. πέλτη δὲ ἀσπὶς ἴτυν οὐκ ἔχουσα ῇ τετράγωνος : ἣν οὗ φοροῦντες λέγονται πελτασταί, ἢ τοξόται, ἢ οἵ τοὺς ξυστοὺς κατέχοντες. Β, 5. 138 ΕἸ. σημείωσαι ὅ ὁτι διαιτητὴς μὲν ὁ τοὺς φίλους ἰδίᾳ συμβιβάξων, δικαστὴς δὲ ὁ δημοσίᾳ κρίνειν ἅπαντας τοὺς ἀμφισβητοῦντας λαχών. 0.",
+   "raw": "Ὁ. εἰρωνικῶς] εἰρωνεία τὸ προχείρως καὶ μετὰ τοῦ πρὸς \nχάριν διαλέγεσϑαι, κολακεία, ψευδολογία. καὶ εἴρωνα τὸν κό- \nλακα. Ἐ. \n\n185 ΒΕ. πένταϑλοι οὗ τὸν ἀγῶνα τὸν πένταϑλον ἀγωνιζό- \nμέενοιν. ἔστι γὰρ \n\nπένταϑλος οὗτος, τοῖς γέοις ἀγωνία; \n\nπάλη; σίγυννος; ἅλμα; δίσκος καὶ δρὸμ ος. \nσίγυννος δέ ἐστι ξυστὸν δόρυ: παρ᾽ Ἡροδότῳ δὲ τὸ ὁλοσίδηρον \nἀκόντιον. πέλτη δὲ ἀσπὶς ἴτυν οὐκ ἔχουσα ῇ τετράγωνος : ἣν οὗ \nφοροῦντες λέγονται πελτασταί, ἢ τοξόται, ἢ οἵ τοὺς ξυστοὺς \nκατέχοντες. Β, 5. \n\n138 ΕἸ. σημείωσαι ὅ ὁτι διαιτητὴς μὲν ὁ τοὺς φίλους ἰδίᾳ συμ- \nβιβάξων, δικαστὴς δὲ ὁ δημοσίᾳ κρίνειν ἅπαντας τοὺς ἀμφισβη- \nτοῦντας λαχών. 0. ",
+   "id": "scholia-hermann.tlg016.0002",
+   "seq": 2
+  }
+ ]
+}
