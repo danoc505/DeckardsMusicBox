@@ -4,12 +4,16 @@
     python3 tools/build_db.py      # once, and after any change to the sources
     python3 tools/serve.py         # then open http://localhost:8800/
 
-Standard library only. Serves reader/ and a small read-only JSON API over
-data/workshop.sqlite (the library) and data/user.sqlite (your own work).
-It listens on 127.0.0.1 only, so nothing is reachable from other machines.
+Standard library only. Serves reader/ and a small JSON API over
+data/workshop.sqlite (the library, read only) and data/user.sqlite (your own
+work, written only through tools/mywork.py, which keeps every version).
+It listens on 127.0.0.1 only, so nothing is reachable from other machines,
+and refuses writes from any page not served by itself.
 """
 import argparse
 import json
+import os
+import tempfile
 import mimetypes
 import re
 import sqlite3
@@ -23,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_db  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
+import mywork  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
@@ -37,10 +42,8 @@ class Library:
             raise SystemExit(f"{db_path} not found; run python3 tools/build_db.py first")
         self.db = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True, check_same_thread=False)
         self.db.row_factory = sqlite3.Row
-        self.user = None
-        if Path(user_path).exists():
-            self.user = sqlite3.connect(f"file:{user_path}?mode=ro", uri=True, check_same_thread=False)
-            self.user.row_factory = sqlite3.Row
+        # Your work: its own connection per call, so writes from any request thread are safe.
+        self.mine = mywork.MyWork(user_path, self.db)
 
     def rows(self, sql, *args, db=None):
         return [dict(r) for r in (db or self.db).execute(sql, args)]
@@ -106,15 +109,8 @@ class Library:
         seq = {r: i for i, r in enumerate(self.work_sections(work_id))}
         lo, hi = seq[refs[0]], seq[refs[-1]]
         speeches = [s for s in speeches if seq[s["start_ref"]] <= hi and seq[s["end_ref"]] >= lo]
-        mine = []
-        if self.user:
-            urn = self.one("SELECT urn FROM work WHERE id = ?", work_id)["urn"]
-            mine = self.rows(
-                f"SELECT id, start_ref, end_ref, word_start, word_end, words, kind, body, updated_at FROM user_note "
-                f"WHERE work_urn = ? AND start_ref IN ({marks}) ORDER BY id", urn, *refs, db=self.user)
-            mine += self.rows(
-                f"SELECT id, start_ref, end_ref, NULL AS word_start, NULL AS word_end, NULL AS words, 'translation' AS kind, body, updated_at "
-                f"FROM translation WHERE work_urn = ? AND start_ref IN ({marks}) ORDER BY id", urn, *refs, db=self.user)
+        # Your translations and notes whose span overlaps this page (it may start on an earlier one).
+        mine = self.mine.rows_for_sections(work_id, refs)
         all_pages = [r["page"] for r in self.rows("SELECT DISTINCT page FROM section WHERE work_id = ? ORDER BY page", work_id)]
         i = all_pages.index(page)
         return {
@@ -220,7 +216,7 @@ class Library:
 
 class Handler(BaseHTTPRequestHandler):
     library = None
-    server_version = "PlatonicWorkshop/3"
+    server_version = "PlatonicWorkshop/4"
 
     def log_message(self, fmt, *args):
         if self.server.verbose:
@@ -237,6 +233,79 @@ class Handler(BaseHTTPRequestHandler):
 
     def not_found(self):
         self.send_json({"error": "not found"}, HTTPStatus.NOT_FOUND)
+
+    def send_file(self, body, ctype, filename):
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Content-Disposition", f'attachment; filename="{filename}"')
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(body)
+
+    # ------------------------------------------------------------ writes
+
+    def same_origin(self):
+        """Accept a write only from the reader itself: the Host must be this
+        server (no DNS rebinding), any Origin must match it, and the body must be
+        JSON (which a page elsewhere cannot send here without a CORS preflight,
+        which this server never answers)."""
+        port = self.server.server_address[1]
+        hosts = {f"127.0.0.1:{port}", f"localhost:{port}"}
+        if self.headers.get("Host") not in hosts:
+            return False
+        origin = self.headers.get("Origin")
+        if origin and origin not in {f"http://{h}" for h in hosts}:
+            return False
+        return (self.headers.get("Content-Type") or "").split(";")[0].strip() == "application/json"
+
+    def read_json(self):
+        n = int(self.headers.get("Content-Length") or 0)
+        if n > 1_000_000:
+            raise mywork.Invalid("request too large")
+        try:
+            data = json.loads(self.rfile.read(n) or b"{}")
+        except (ValueError, UnicodeDecodeError):
+            raise mywork.Invalid("the request is not JSON")
+        if not isinstance(data, dict):
+            raise mywork.Invalid("the request is not a JSON object")
+        return data
+
+    def write(self, method):
+        path = unquote(urlparse(self.path).path)
+        if not self.same_origin():
+            return self.send_json({"error": "writes are accepted only from the reader at this address"}, HTTPStatus.FORBIDDEN)
+        mine = self.library.mine
+        try:
+            data = self.read_json()
+            if method == "POST" and path == "/api/mine":
+                return self.send_json(mine.create(data), HTTPStatus.CREATED)
+            m = re.fullmatch(r"/api/mine/(translation|note)/(\d+)(?:/(delete|restore))?", path)
+            if m:
+                table, row_id, action = m.group(1), int(m.group(2)), m.group(3)
+                if method == "PUT" and not action:
+                    return self.send_json(mine.update(table, row_id, data))
+                if method == "POST" and action == "delete":
+                    return self.send_json(mine.delete(table, row_id, data))
+                if method == "POST" and action == "restore":
+                    return self.send_json(mine.restore(table, row_id, data))
+            return self.not_found()
+        except mywork.Conflict as e:
+            return self.send_json({"error": "This text was changed somewhere else (another tab?) since you opened it. "
+                                            "Nothing was saved over it; your text is still in the editor.",
+                                   "current": e.current}, HTTPStatus.CONFLICT)
+        except mywork.NotFound as e:
+            return self.send_json({"error": f"not found: {e}"}, HTTPStatus.NOT_FOUND)
+        except mywork.Invalid as e:
+            return self.send_json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
+        except sqlite3.Error as e:
+            return self.send_json({"error": str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR)
+
+    def do_POST(self):
+        self.write("POST")
+
+    def do_PUT(self):
+        self.write("PUT")
 
     def do_GET(self):
         path = unquote(urlparse(self.path).path)
@@ -262,6 +331,32 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 2 and parts[0] == "token" and parts[1].isdigit():
                     t = lib.token(int(parts[1]))
                     return self.send_json(t) if t else self.not_found()
+                if parts == ["mine", "config"]:
+                    return self.send_json({"span_units": mywork.SPAN_UNITS, "default_format": mywork.DEFAULT_FORMAT,
+                                           "note_kinds": mywork.NOTE_KINDS, "formats": mywork.FORMATS})
+                if parts == ["mine", "deleted"]:
+                    return self.send_json(lib.mine.deleted())
+                if len(parts) == 4 and parts[0] == "mine" and parts[3] == "history" and parts[2].isdigit():
+                    row = lib.mine.get(parts[1], int(parts[2]))
+                    return self.send_json({"item": row, "revisions": lib.mine.history(parts[1], int(parts[2]))})
+                if len(parts) == 3 and parts[0] == "mine" and parts[2].isdigit():
+                    return self.send_json(lib.mine.get(parts[1], int(parts[2])))
+                if parts == ["export", "my-plato.md"]:
+                    return self.send_file(lib.mine.export_markdown().encode("utf-8"), "text/markdown; charset=utf-8", "my-plato.md")
+                if parts == ["export", "my-plato.json"]:
+                    body = json.dumps(lib.mine.export_json(), ensure_ascii=False, indent=1).encode("utf-8")
+                    return self.send_file(body, "application/json; charset=utf-8", "my-plato.json")
+                if parts == ["export", "user.sqlite"]:
+                    fd, tmp = tempfile.mkstemp(suffix=".sqlite")
+                    os.close(fd)
+                    try:
+                        lib.mine.export_sqlite(tmp)
+                        body = Path(tmp).read_bytes()
+                    finally:
+                        os.unlink(tmp)
+                    return self.send_file(body, "application/vnd.sqlite3", "user.sqlite")
+            except (mywork.NotFound, mywork.Invalid):
+                return self.not_found()
             except sqlite3.Error as e:
                 return self.send_json({"error": str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR)
             return self.not_found()

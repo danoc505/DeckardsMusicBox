@@ -284,3 +284,94 @@ dialog .entries { max-height: none; font-size: 16px; }
 .box.busy { opacity: .6; }
 dialog.wide { max-width: 900px; }
 .entries abbr.ab.amb { border-bottom-style: dashed; }
+
+/* ---------------------------------------------------------- milestone 4: your translations and notes */
+.w.mine-a { text-decoration: underline dotted var(--mine); text-decoration-thickness: 1.5px; text-underline-offset: 5px; }
+.w.mine-a.mine-tr { text-decoration-style: solid; text-decoration-color: color-mix(in srgb, var(--mine) 55%, transparent); }
+.w.mine-hi { background: var(--mine-soft); box-shadow: 0 0 0 1px var(--mine-soft); }
+.w.mine-hi.sel { background: var(--tag); }
+body.no-mine .w.mine-a { text-decoration: none; }
+body.no-mine .mine-fn { display: none; }
+.mine-fn a { color: var(--mine); text-decoration: none; font: 700 11px var(--sans); padding: 0 1px; }
+.mine-row-empty { border-top: 0 !important; padding: 0; }
+.mine-row-empty .app-k { visibility: hidden; }
+.mine-add { font: 12px var(--sans); color: var(--mine); opacity: .7; }
+.mine-add:hover { opacity: 1; }
+.sec:not(:hover) .mine-row-empty .mine-add { opacity: 0; }
+.sec:focus-within .mine-row-empty .mine-add, .mine-add:focus { opacity: 1; }
+@media (hover: none) { .sec .mine-row-empty .mine-add { opacity: .7; } }
+.mine-item { padding: 6px 10px; margin-bottom: 6px; border-left: 3px solid var(--mine); }
+.mine-item.kind-translation { border-left-style: solid; }
+.mine-item.kind-footnote, .mine-item.kind-note, .mine-item.kind-alternative { border-left-style: dotted; }
+.mine-item.flash { outline: 2px solid var(--mine); }
+.mine-meta { font: 12px var(--sans); color: var(--muted); }
+.mine-meta b { color: var(--mine); font-weight: 600; }
+.mine-num { display: inline-block; min-width: 16px; padding: 0 4px; margin-right: 4px; border-radius: 3px; background: var(--mine); color: var(--panel); font-weight: 700; text-align: center; }
+.mine-words { font: 14px var(--greek); color: var(--ink); }
+.mine-actions { white-space: nowrap; margin-left: 4px; }
+.mine-actions .link-btn, .mine-foot .link-btn { color: var(--mine); font-size: 12px; }
+.mine-foot { margin-top: 2px; }
+.md { font: 15px/1.55 var(--serif); }
+.md p { margin: 4px 0; }
+.md blockquote { margin: 4px 0; padding-left: 10px; border-left: 2px solid var(--faint); color: var(--muted); }
+.md ul, .md ol { margin: 4px 0; padding-left: 22px; }
+.md h4, .md h5, .md h6 { font: 600 14px var(--sans); margin: 8px 0 2px; }
+.md code { font: 13px ui-monospace, Menlo, Consolas, monospace; background: var(--paper); padding: 0 3px; border-radius: 3px; }
+.md a { color: var(--mine); }
+.md-fnref a { color: var(--mine); text-decoration: none; font: 700 10px var(--sans); padding: 0 1px; }
+.md-fns { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule); margin-top: 6px; padding-top: 4px; }
+.md-fns li.flash { background: var(--mine-soft); }
+.md-fns li.missing { color: var(--warn); }
+.md [lang="grc"] { font-family: var(--greek); }
+
+.sel-bar {
+  position: fixed; z-index: 30; display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
+  padding: 5px 6px; border-radius: 8px; background: var(--ink); color: var(--paper);
+  font: 13px var(--sans); box-shadow: 0 4px 16px rgba(0, 0, 0, .25); max-width: calc(100vw - 16px);
+}
+.sel-bar[hidden] { display: none; }
+.sel-bar button { background: none; border: 0; color: var(--paper); padding: 3px 8px; border-radius: 5px; cursor: pointer; }
+.sel-bar button:hover, .sel-bar button:focus-visible { background: color-mix(in srgb, var(--paper) 20%, transparent); }
+.sel-what { padding: 0 6px; opacity: .7; font-variant-numeric: tabular-nums; }
+
+.box.mine-box { border: 1px solid var(--mine-soft); }
+.box.mine-box h3 { color: var(--mine); }
+.box.mine-box ul { margin: 0 0 6px; padding-left: 18px; }
+.mine-quick { display: flex; flex-wrap: wrap; gap: 4px; }
+.mine-quick .chip { cursor: pointer; font-size: 12px; }
+.mine-quick .chip:hover { border-color: var(--mine); color: var(--mine); }
+
+.editor .ed-h { margin: 0 0 6px; font: 600 12px var(--sans); text-transform: uppercase; letter-spacing: .05em; color: var(--mine); }
+.ed-greek { margin: 0 0 10px; padding: 6px 10px; border-left: 3px solid var(--mine); background: var(--mine-soft); font: 17px/1.5 var(--greek); max-height: 9em; overflow-y: auto; }
+.seg { display: flex; flex-wrap: wrap; gap: 2px 12px; margin-bottom: 8px; }
+.seg label { cursor: pointer; white-space: nowrap; }
+.ed-label, .ed-body {
+  width: 100%; border: 1px solid var(--faint); border-radius: 6px; background: var(--paper); color: var(--ink);
+  padding: 6px 8px; font: 14px var(--sans);
+}
+.ed-label { margin-bottom: 6px; }
+.ed-body { font: 15px/1.55 var(--serif); resize: vertical; min-height: 8em; }
+.ed-label:focus, .ed-body:focus { outline: 2px solid var(--mine); outline-offset: -1px; border-color: transparent; }
+.ed-tabs { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
+.ed-tabs .meta { margin-left: auto; }
+.ed-tabs .tab.on { background: var(--mine); border-color: var(--mine); }
+.ed-preview { min-height: 8em; border: 1px dashed var(--faint); border-radius: 6px; padding: 6px 8px; }
+.ed-help { margin: 4px 0; }
+.ed-help code { font-size: 11px; }
+.ed-actions { display: flex; align-items: center; gap: 6px; margin: 8px 0 4px; }
+.ed-actions .meta { margin-left: auto; }
+.btn { font: 13px var(--sans); padding: 4px 12px; border-radius: 6px; border: 1px solid var(--faint); background: var(--paper); color: var(--ink); cursor: pointer; }
+.btn.primary { background: var(--mine); border-color: var(--mine); color: var(--panel); }
+.btn:disabled { opacity: .5; cursor: default; }
+.ed-status { font-size: 13px; margin: 4px 0; min-height: 1em; }
+.ed-status.ok { color: var(--tag); }
+.ed-status.warn { color: var(--warn); background: var(--warn-soft); border-radius: 4px; padding: 4px 8px; }
+.ed-status:empty { display: none; }
+.conflict { margin-top: 6px; color: var(--ink); }
+.conflict .md { background: var(--panel); border-radius: 4px; padding: 4px 8px; margin: 4px 0; }
+.revs { padding-left: 0; list-style: none; }
+.rev { border-top: 1px solid var(--rule); padding: 6px 0; }
+.exports li, .deleted li { margin-bottom: 8px; }
+.deleted { padding-left: 18px; }
+#mine-dialog h3 { font: 600 12px var(--sans); text-transform: uppercase; letter-spacing: .05em; color: var(--mine); margin: 14px 0 6px; }
+#mine-dialog a { color: var(--mine); }

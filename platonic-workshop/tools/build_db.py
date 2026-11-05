@@ -675,12 +675,10 @@ def build(works, db_path=None):
 
 
 def ensure_user_db(path=USER_DB_PATH):
-    """Create your own database's tables if they are missing. Never alters rows."""
-    path.parent.mkdir(exist_ok=True)
-    db = sqlite3.connect(path)
-    db.executescript(USER_SCHEMA.read_text(encoding="utf-8"))
-    db.commit()
-    db.close()
+    """Create your own database's tables if they are missing, or upgrade an
+    older one in place after backing it up. Never alters or removes a row."""
+    import mywork
+    mywork.ensure(path)
 
 
 def main():

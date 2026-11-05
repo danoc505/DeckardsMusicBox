@@ -24,6 +24,7 @@
     <label><input type="checkbox" data-layer="links" checked> Links</label>
     <label><input type="checkbox" data-layer="mine" checked> Your work</label>
     <label><input type="checkbox" data-layer="untagged"> Mark untagged words</label>
+    <button type="button" id="mine-btn" class="link-btn" title="Export your translations and notes, or restore deleted ones">Export</button>
     <button type="button" id="about-btn" class="link-btn">Sources</button>
   </nav>
 </header>
@@ -34,6 +35,7 @@
   <aside class="inspector" id="inspector" aria-label="Word">
     <div class="inspector-empty">
       <p><strong>Click any Greek word</strong> for its lemma and parse, plain-English grammar notes from Smyth, and its entries in Middle Liddell and LSJ, with every other possible parse beside it.</p>
+      <p><strong>Select Greek words</strong> (drag across them, or click one and Shift-click the last) to write your translation of them, a footnote, a note or an alternative rendering.</p>
       <p>Click a section number (<span class="ref-sample">29e</span>) to copy its reference.</p>
       <p class="keys">Keys: ← → pages, <kbd>g</kbd> go to reference, <kbd>Esc</kbd> close.</p>
     </div>
@@ -52,6 +54,22 @@
   <div id="entry-body"></div>
 </dialog>
 
+<dialog id="mine-dialog">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2>Your work</h2>
+  <div id="mine-body"></div>
+</dialog>
+
+<div id="sel-bar" class="sel-bar" hidden role="toolbar" aria-label="Write on the selected words">
+  <span class="sel-what" id="sel-what"></span>
+  <button type="button" data-sel-kind="translation">Translate</button>
+  <button type="button" data-sel-kind="footnote">Footnote</button>
+  <button type="button" data-sel-kind="note">Note</button>
+  <button type="button" data-sel-kind="alternative">Alternative</button>
+  <button type="button" id="sel-close" aria-label="Cancel">×</button>
+</div>
+
 <script src="reader.js"></script>
+<script src="mywork.js"></script>
 </body>
 </html>
