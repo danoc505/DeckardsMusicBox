@@ -1,0 +1,191 @@
+{
+ "dossiers": [
+  {
+   "id": "reversed-cosmos",
+   "label": "The myth of the reversed cosmos",
+   "greek": "ὁ μέγας μῦθος",
+   "kind": "myth",
+   "group": "cosmology",
+   "about": "Sometimes the god himself guides the world round; then he lets go of the tiller and it turns back of itself the opposite way. In the age of Cronus the god shepherded mankind and men were born from the earth and grew younger; in our age the world runs by itself and forgets. The divine shepherd is not our king.",
+   "passage": {
+    "work": "tlg008",
+    "start": "268d",
+    "end": "274e",
+    "start_quote": "συχνῷ γὰρ μέρει δεῖ μεγάλου μύθου προσχρήσασθαι",
+    "end_quote": "καὶ τὸ μὲν δὴ τοῦ μύθου τέλος ἐχέτω"
+   },
+   "parts": [
+    {
+     "label": "A large part of a great myth, mixed with play",
+     "ref": "268d",
+     "quote": "σχεδὸν παιδιὰν ἐγκερασαμένους· συχνῷ γὰρ μέρει δεῖ μεγάλου μύθου προσχρήσασθαι"
+    },
+    {
+     "label": "The god guides it, then lets it go",
+     "ref": "269c",
+     "quote": "τὸ γὰρ πᾶν τόδε τοτὲ μὲν αὐτὸς ὁ θεὸς συμποδηγεῖ πορευόμενον καὶ συγκυκλεῖ, τοτὲ δὲ ἀνῆκεν"
+    },
+    {
+     "label": "Body cannot be always the same",
+     "ref": "269d",
+     "quote": "σώματος δὲ φύσις οὐ ταύτης τῆς τάξεως"
+    },
+    {
+     "label": "Earth-born men",
+     "ref": "271b",
+     "quote": "γηγενεῖς"
+    },
+    {
+     "label": "The age of Cronus",
+     "ref": "271c",
+     "quote": "Κρόνου"
+    },
+    {
+     "label": "The pilot lets go of the tiller",
+     "ref": "272e",
+     "quote": "τοῦ παντὸς ὁ μὲν κυβερνήτης, οἷον πηδαλίων οἴακος ἀφέμενος"
+    },
+    {
+     "label": "He takes the helm again",
+     "ref": "273e",
+     "quote": "πάλιν ἔφεδρος αὐτοῦ τῶν πηδαλίων γιγνόμενος"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg034",
+     "ref": "713b",
+     "quote": "Κρόνου",
+     "why": "The Laws tells again of life under Cronus, when daimons ruled men."
+    },
+    {
+     "work": "tlg031",
+     "ref": "37c",
+     "quote": "ἠγάσθη",
+     "why": "The Timaeus' maker, who rejoiced at the moving world."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "ship",
+     "why": "The pilot and the helm again, here of the whole world.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg008",
+       "ref": "272e",
+       "quote": "κυβερνήτης"
+      }
+     ]
+    },
+    {
+     "dossier": "weaving",
+     "why": "After the myth the Stranger turns to a small model, weaving.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg008",
+       "ref": "279b",
+       "quote": "τήν γε ὑφαντικὴν προελώμεθα"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "age of Cronus",
+     "age of Kronos",
+     "Cronus",
+     "Kronos",
+     "reversal",
+     "earth-born",
+     "golden age"
+    ],
+    "grc": [
+     "κρονου"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Statesman (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Statesman_(dialogue)",
+     "quote": "a myth similar to the myth of ages",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Myths",
+     "url": "https://plato.stanford.edu/entries/plato-myths/",
+     "quote": "Statesman",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "weaving",
+   "label": "Statesmanship as weaving",
+   "greek": "ἡ ὑφαντική",
+   "kind": "image",
+   "group": "city",
+   "about": "The small model for the king: weaving woollen cloth, divided from its neighbouring arts. The statesman's art at last rules the others and weaves the city together, binding the brave and the moderate characters, warp and woof, into one fabric of concord and friendship.",
+   "passage": {
+    "work": "tlg008",
+    "start": "279a",
+    "end": "283b",
+    "start_quote": "τί δῆτα παράδειγμά τις ἄν",
+    "end_quote": "περιήλθομεν ἐν κύκλῳ πάμπολλα διοριζόμενοι μάτην"
+   },
+   "parts": [
+    {
+     "label": "Choose weaving as the model",
+     "ref": "279b",
+     "quote": "τήν γε ὑφαντικὴν προελώμεθα"
+    },
+    {
+     "label": "Interweaving of warp and woof",
+     "ref": "283b",
+     "quote": "πλεκτικὴν εἶναι κρόκης καὶ στήμονος ὑφαντικήν"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg008",
+     "ref": "305e",
+     "quote": "πάντα συνυφαίνουσαν ὀρθότατα",
+     "why": "The art that rules the others and weaves everything together rightly is statesmanship."
+    },
+    {
+     "work": "tlg008",
+     "ref": "311b",
+     "quote": "τοῦτο δὴ τέλος ὑφάσματος εὐθυπλοκίᾳ συμπλακὲν",
+     "why": "The end of the work: the brave and the moderate woven into one fabric."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "angler",
+     "why": "The Sophist's small model, chosen the same way.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg007",
+       "ref": "218e",
+       "quote": "εὔγνωστον μὲν καὶ σμικρόν"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "weaving",
+     "weaver"
+    ],
+    "grc": [
+     "υφαντ"
+    ]
+   },
+   "web": []
+  }
+ ]
+}

@@ -1,0 +1,44 @@
+{
+ "about": "The passage dossiers, in reading order of the files listed. Each file holds dossiers written by hand; tools/dossiers.py checks every quotation and gathers the rest from the library.",
+ "files": [
+  "republic.json",
+  "phaedrus.json",
+  "symposium.json",
+  "phaedo.json",
+  "meno.json",
+  "timaeus.json",
+  "theaetetus.json",
+  "sophist.json",
+  "statesman.json",
+  "gorgias.json",
+  "protagoras.json",
+  "apology.json",
+  "laws.json",
+  "parmenides.json",
+  "philebus.json",
+  "cratylus.json",
+  "letters.json",
+  "alcibiades.json"
+ ],
+ "kinds": {
+  "image": "An image or likeness Plato draws (eikōn): the sun, the line, the cave.",
+  "myth": "A story told as a story (mythos): Er, the charioteer, Atlantis.",
+  "argument": "An argument famous as an argument: recollection, the third man.",
+  "scene": "A scene of the drama: the death of Socrates, the oracle.",
+  "method": "A method shown at work: division, hypothesis, the second sailing.",
+  "doctrine": "A doctrine set out at length: the world soul, the receptacle, the elements.",
+  "saying": "A saying famous on its own: the unexamined life, philosopher-kings."
+ },
+ "groups": {
+  "republic-images": "The images at the centre of the Republic: the sun, the line and the cave, which Socrates ties together.",
+  "judgment-myths": "The myths of the soul's judgment after death.",
+  "recollection": "Learning as recollection.",
+  "cosmology": "The making of the cosmos in the Timaeus.",
+  "eros": "Love and the ascent of the soul.",
+  "socrates": "The life and death of Socrates.",
+  "method": "Plato's methods shown at work.",
+  "forms": "Arguments about the Forms.",
+  "soul": "The soul, its parts and its likenesses.",
+  "city": "The city and its rulers."
+ }
+}

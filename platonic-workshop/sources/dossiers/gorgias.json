@@ -1,0 +1,260 @@
+{
+ "dossiers": [
+  {
+   "id": "callicles-nature",
+   "label": "Callicles: the law of nature",
+   "greek": "ὁ νόμος ὁ τῆς φύσεως",
+   "kind": "argument",
+   "group": "city",
+   "about": "Callicles' challenge: convention is made by the weak many to tame the strong, but nature shows that the better should have more; a man of real nature would trample our spells and charms and rise up as master. And philosophy, fine for a boy, makes a grown man ridiculous.",
+   "passage": {
+    "work": "tlg023",
+    "start": "482c",
+    "end": "486d",
+    "start_quote": "ὦ Σώκρατες, δοκεῖς νεανιεύεσθαι ἐν τοῖς λόγοις",
+    "end_quote": "οὐδέν με δεῖ ἄλλης βασάνου"
+   },
+   "parts": [
+    {
+     "label": "According to the law of nature",
+     "ref": "483e",
+     "quote": "κατὰ νόμον γε τὸν τῆς φύσεως"
+    },
+    {
+     "label": "We mould the best, like lion cubs, with spells",
+     "ref": "483e",
+     "quote": "ὥσπερ λέοντας, κατεπᾴδοντές τε καὶ γοητεύοντες καταδουλούμεθα"
+    },
+    {
+     "label": "The slave rises up as our master",
+     "ref": "484a",
+     "quote": "ἐπαναστὰς ἀνεφάνη δεσπότης ἡμέτερος ὁ δοῦλος"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "338c",
+     "quote": "τὸ τοῦ κρείττονος συμφέρον",
+     "why": "Thrasymachus in the Republic: justice is the advantage of the stronger."
+    },
+    {
+     "work": "tlg030",
+     "ref": "359c",
+     "quote": "πλεονεξίαν",
+     "why": "Glaucon's restatement: by nature every creature pursues getting more."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "gyges",
+     "why": "Glaucon revives the case for nature over convention, with the ring.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "359c",
+       "quote": "πλεονεξίαν"
+      }
+     ]
+    },
+    {
+     "dossier": "leaky-jars",
+     "why": "Socrates answers Callicles' life of desire with the leaky jars.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg023",
+       "ref": "493b",
+       "quote": "τετρημένος εἴη πίθος"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Callicles",
+     "law of nature",
+     "nature and convention"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Gorgias (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Gorgias_(dialogue)",
+     "quote": "Callicles criticizes philosophy (481c–505b)",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "leaky-jars",
+   "label": "The leaky jars",
+   "greek": "ὁ τετρημένος πίθος",
+   "kind": "image",
+   "group": "soul",
+   "about": "A wise man said the body is our tomb, and the desiring part of the soul a leaky jar; the uninitiated in Hades carry water to it in a sieve. Two men with jars: one sound and full, at rest; the other holed, filling day and night. Callicles prefers the second, and Socrates offers him the plover.",
+   "passage": {
+    "work": "tlg023",
+    "start": "493a",
+    "end": "494b",
+    "start_quote": "τὸ μὲν σῶμά ἐστιν ἡμῖν σῆμα",
+    "end_quote": "χαραδριοῦ"
+   },
+   "parts": [
+    {
+     "label": "The body is our tomb",
+     "ref": "493a",
+     "quote": "τὸ μὲν σῶμά ἐστιν ἡμῖν σῆμα"
+    },
+    {
+     "label": "Desire, like a jar full of holes",
+     "ref": "493b",
+     "quote": "ὡς τετρημένος εἴη πίθος, διὰ τὴν ἀπληστίαν ἀπεικάσας"
+    },
+    {
+     "label": "Water carried in a sieve",
+     "ref": "493b",
+     "quote": "ἑτέρῳ τοιούτῳ τετρημένῳ κοσκίνῳ"
+    },
+    {
+     "label": "Which life is happier, the orderly or the intemperate?",
+     "ref": "494a",
+     "quote": "λέγεις τὸν τοῦ ἀκολάστου εὐδαιμονέστερον εἶναι ἢ τὸν τοῦ κοσμίου"
+    },
+    {
+     "label": "The plover's life",
+     "ref": "494b",
+     "quote": "χαραδριοῦ"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg012",
+     "ref": "250c",
+     "quote": "ὀστρέου τρόπον",
+     "why": "The Phaedrus: the soul imprisoned in the body like an oyster in its shell."
+    },
+    {
+     "work": "tlg005",
+     "ref": "400c",
+     "quote": "σῆμά",
+     "why": "The Cratylus discusses the same derivation of σῶμα from σῆμα."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "many-headed-beast",
+     "why": "The Republic's image of insatiable appetite.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "588c",
+       "quote": "θηρίου ποικίλου καὶ πολυκεφάλου"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "leaky jar",
+     "leaky jars",
+     "sieve",
+     "pithos",
+     "tomb",
+     "plover"
+    ],
+    "grc": [
+     "τετρημεν",
+     "σωμα σημα"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "gorgias-judgment",
+   "label": "The judgment of naked souls",
+   "greek": "γυμνοὺς κριτέον",
+   "kind": "myth",
+   "group": "judgment-myths",
+   "about": "'Hear a very fine account, which you will think a myth but I think true.' Under Cronus men were judged clothed and alive, by living judges, and judged wrongly; Zeus decreed that they be judged naked, dead, soul viewing soul, by Minos, Rhadamanthys and Aeacus.",
+   "passage": {
+    "work": "tlg023",
+    "start": "523a",
+    "end": "527e",
+    "start_quote": "ἄκουε δή, φασί, μάλα καλοῦ λόγου",
+    "end_quote": "ἔστι γὰρ οὐδενὸς ἄξιος"
+   },
+   "parts": [
+    {
+     "label": "You will think it a myth, I think it true",
+     "ref": "523a",
+     "quote": "ὃν σὺ μὲν ἡγήσῃ μῦθον, ὡς ἐγὼ οἶμαι, ἐγὼ δὲ λόγον"
+    },
+    {
+     "label": "Judged naked, soul looking at soul",
+     "ref": "523e",
+     "quote": "αὐτῇ τῇ ψυχῇ αὐτὴν τὴν ψυχὴν θεωροῦντα"
+    },
+    {
+     "label": "Death the separation of soul and body",
+     "ref": "524b",
+     "quote": "δυοῖν πραγμάτοιν διάλυσις, τῆς ψυχῆς καὶ τοῦ σώματος"
+    },
+    {
+     "label": "Let us follow this account as our guide",
+     "ref": "527e",
+     "quote": "ὥσπερ οὖν ἡγεμόνι τῷ λόγῳ χρησώμεθα τῷ νῦν παραφανέντι"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "er",
+     "why": "The Republic's judgment myth.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "614b",
+       "quote": "Ἠρὸς τοῦ Ἀρμενίου"
+      }
+     ]
+    },
+    {
+     "dossier": "true-earth",
+     "why": "The Phaedo's judgment myth.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg004",
+       "ref": "107c",
+       "quote": "ἐπιμελείας δὴ δεῖται"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Minos",
+     "Rhadamanthus",
+     "Rhadamanthys",
+     "Aeacus",
+     "Isles of the Blessed",
+     "Islands of the Blest",
+     "naked souls"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Gorgias (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Gorgias_(dialogue)",
+     "quote": "The Judgement of Naked Souls",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

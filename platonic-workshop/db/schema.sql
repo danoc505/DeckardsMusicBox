@@ -586,3 +586,37 @@ CREATE TABLE compared_word (
     named       INTEGER NOT NULL,          -- 1: one of the six the build prompt names
     seq         INTEGER NOT NULL
 );
+
+-- Passage dossiers (sources/dossiers/*.json, tools/dossiers.py). Each dossier's hand-written
+-- claims are kept whole in `data`, each quotation annotated with whether it was found; every
+-- quotation is also in evidence, owner 'dossier:<id>:<part>:<n>'. What the reader gathers for the
+-- span (the Greek, the translations, the notes, the citation web) is read from the other tables.
+CREATE TABLE dossier (
+    id          TEXT PRIMARY KEY,          -- 'divided-line'
+    label       TEXT NOT NULL,
+    greek       TEXT,
+    kind        TEXT NOT NULL,             -- image | myth | argument | scene | method | doctrine | saying
+    work_id     TEXT NOT NULL REFERENCES work(id),
+    start_ref   TEXT NOT NULL,
+    end_ref     TEXT NOT NULL,
+    grp         TEXT,                      -- a group of dossiers ('the central images of the Republic')
+    seq         INTEGER NOT NULL,
+    data        TEXT NOT NULL              -- JSON: the dossier as written, with what the build found
+);
+CREATE INDEX dossier_work ON dossier(work_id);
+-- Notes anywhere in the library naming a dossier by one of its keywords (found by rule).
+CREATE TABLE dossier_named (
+    dossier_id  TEXT NOT NULL REFERENCES dossier(id),
+    note_id     INTEGER NOT NULL REFERENCES note(id),
+    word        TEXT NOT NULL,
+    placed      TEXT NOT NULL              -- on (a note placed on the passage) | elsewhere
+);
+-- The passage's vocabulary: lemmas found only here in Plato, and lemmas far more frequent here.
+CREATE TABLE dossier_vocab (
+    dossier_id  TEXT NOT NULL REFERENCES dossier(id),
+    lemma       TEXT NOT NULL,
+    here        INTEGER NOT NULL,          -- words tagged with it in the passage
+    plato       INTEGER NOT NULL,          -- in all of Plato
+    works       INTEGER NOT NULL,          -- in how many works
+    kind        TEXT NOT NULL              -- 'only here', or how many times its rate in Plato ('35x')
+);

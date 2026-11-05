@@ -1,0 +1,93 @@
+{
+ "dossiers": [
+  {
+   "id": "eye-of-soul",
+   "label": "The eye that sees itself",
+   "greek": "ὀφθαλμὸς ὀφθαλμὸν θεώμενος",
+   "kind": "image",
+   "group": "soul",
+   "about": "What does the Delphic 'know thyself' mean? If it said to an eye 'see thyself', the eye would look into another eye, at the pupil where its image appears as in a mirror. So the soul, to know itself, must look at soul, and at the part where wisdom comes to be, the most godlike part.",
+   "passage": {
+    "work": "tlg013",
+    "start": "132c",
+    "end": "133c",
+    "start_quote": "τοῦ Δελφικοῦ γράμματος",
+    "end_quote": "οὕτω καὶ ἑαυτὸν ἂν γνοίη μάλιστα"
+   },
+   "parts": [
+    {
+     "label": "The Delphic inscription",
+     "ref": "132c",
+     "quote": "τοῦ Δελφικοῦ γράμματος"
+    },
+    {
+     "label": "If it said to the eye 'see thyself'",
+     "ref": "132d",
+     "quote": "εἰ ἡμῶν τῷ ὄμματι ὥσπερ ἀνθρώπῳ συμβουλεῦον εἶπεν ἰδὲ σαυτόν"
+    },
+    {
+     "label": "The face appears in the pupil as in a mirror",
+     "ref": "133a",
+     "quote": "ὥσπερ ἐν κατόπτρῳ, ὃ δὴ καὶ κόρην καλοῦμεν"
+    },
+    {
+     "label": "So the soul must look into soul",
+     "ref": "133b",
+     "quote": "καὶ ψυχὴ εἰ μέλλει γνώσεσθαι αὑτήν, εἰς ψυχὴν αὐτῇ βλεπτέον"
+    },
+    {
+     "label": "The godlike part; knowing god, it knows itself",
+     "ref": "133c",
+     "quote": "τῷ θεῷ ἄρα τοῦτʼ ἔοικεν αὐτῆς"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "boreas",
+     "why": "Socrates in the Phaedrus has no time for myths: he cannot yet know himself.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "229e",
+       "quote": "γνῶναι ἐμαυτόν"
+      }
+     ]
+    },
+    {
+     "dossier": "charioteer",
+     "why": "In the Phaedrus too the lover sees himself in the beloved as in a mirror.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "255d",
+       "quote": "ὥσπερ δὲ ἐν κατόπτρῳ"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "know thyself",
+     "Know thyself",
+     "know yourself",
+     "Delphic inscription",
+     "pupil of the eye"
+    ],
+    "grc": [
+     "γνωθι σαυτον"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Alcibiades I",
+     "url": "https://en.wikipedia.org/wiki/Alcibiades_I",
+     "quote": "the famous Delphic phrase: gnōthi seautón meaning know thyself",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

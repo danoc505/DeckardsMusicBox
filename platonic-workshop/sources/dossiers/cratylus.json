@@ -1,0 +1,62 @@
+{
+ "dossiers": [
+  {
+   "id": "heraclitus-river",
+   "label": "Heraclitus' river",
+   "greek": "πάντα χωρεῖ καὶ οὐδὲν μένει",
+   "kind": "saying",
+   "group": "forms",
+   "about": "In the etymologies Socrates finds Heraclitus behind the names of Cronus and Rhea: everything gives way and nothing stays; likening things to the flow of a river, he says you could not step twice into the same river.",
+   "passage": {
+    "work": "tlg005",
+    "start": "402a",
+    "end": "402a",
+    "start_quote": "τὸν Ἡράκλειτόν μοι δοκῶ καθορᾶν",
+    "end_quote": "δὶς ἐς τὸν αὐτὸν ποταμὸν οὐκ ἂν ἐμβαίης"
+   },
+   "parts": [
+    {
+     "label": "Everything gives way, nothing stays",
+     "ref": "402a",
+     "quote": "πάντα χωρεῖ καὶ οὐδὲν μένει"
+    },
+    {
+     "label": "You could not step twice into the same river",
+     "ref": "402a",
+     "quote": "δὶς ἐς τὸν αὐτὸν ποταμὸν οὐκ ἂν ἐμβαίης"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg005",
+     "ref": "440c",
+     "quote": "Ἡρακλ",
+     "why": "At the end: can there be knowledge if all things flow?"
+    },
+    {
+     "work": "tlg006",
+     "ref": "152e",
+     "quote": "Ἡράκλειτος",
+     "why": "The Theaetetus: Heraclitus and the poets behind the doctrine that all is motion."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Heraclitus",
+     "flux",
+     "all things flow",
+     "panta rhei"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Heraclitus",
+     "url": "https://en.wikipedia.org/wiki/Heraclitus",
+     "quote": "You cannot step into the same river twice",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

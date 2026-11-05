@@ -1,0 +1,378 @@
+{
+ "dossiers": [
+  {
+   "id": "torpedo",
+   "label": "The torpedo fish",
+   "greek": "ἡ νάρκη ἡ θαλαττία",
+   "kind": "image",
+   "group": "socrates",
+   "about": "Meno: Socrates is like the flat torpedo fish that numbs whoever touches it; Socrates: only if the torpedo is itself numb, for he makes others perplexed by being perplexed himself.",
+   "passage": {
+    "work": "tlg024",
+    "start": "80a",
+    "end": "80d",
+    "start_quote": "γοητεύεις με καὶ φαρμάττεις καὶ ἀτεχνῶς κατεπᾴδεις",
+    "end_quote": "ὅμως δὲ ἐθέλω μετὰ σοῦ σκέψα"
+   },
+   "parts": [
+    {
+     "label": "You bewitch and drug me",
+     "ref": "80a",
+     "quote": "γοητεύεις με καὶ φαρμάττεις"
+    },
+    {
+     "label": "Like the flat torpedo of the sea",
+     "ref": "80a",
+     "quote": "πλατείᾳ νάρκῃ τῇ θαλαττίᾳ"
+    },
+    {
+     "label": "Numb in soul and mouth",
+     "ref": "80b",
+     "quote": "τὴν ψυχὴν καὶ τὸ στόμα ναρκῶ"
+    },
+    {
+     "label": "Socrates: I perplex because I am perplexed",
+     "ref": "80c",
+     "quote": "αὐτὸς ἀπορῶν"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "silenus",
+     "why": "Alcibiades' images of Socrates' power over those he talks with.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg011",
+       "ref": "215b",
+       "quote": "Μαρσύᾳ"
+      }
+     ]
+    },
+    {
+     "dossier": "meno-paradox",
+     "why": "The perplexity leads straight to Meno's challenge.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg024",
+       "ref": "80d",
+       "quote": "ποῖον γὰρ ὧν οὐκ οἶσθα προθέμενος ζητήσεις"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "torpedo",
+     "cramp-fish",
+     "numb",
+     "electric ray",
+     "sting-ray",
+     "stingray"
+    ],
+    "grc": [
+     "ναρκ"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "meno-paradox",
+   "label": "Meno's paradox",
+   "greek": "ὁ ἐριστικὸς λόγος",
+   "kind": "argument",
+   "group": "recollection",
+   "about": "How will you search for what you do not know? If you find it, how will you know it is what you did not know? Socrates restates it as 'the eristic argument' and answers with the priests' doctrine that the soul is immortal and learning is recollection.",
+   "passage": {
+    "work": "tlg024",
+    "start": "80d",
+    "end": "81e",
+    "start_quote": "ποῖον γὰρ ὧν οὐκ οἶσθα προθέμενος ζητήσεις",
+    "end_quote": "ἣν καλοῦμεν μάθησιν ἀνάμνησίς ἐστιν"
+   },
+   "parts": [
+    {
+     "label": "How will you search for what you do not know at all?",
+     "ref": "80d",
+     "quote": "ποῖον γὰρ ὧν οὐκ οἶσθα προθέμενος ζητήσεις"
+    },
+    {
+     "label": "Socrates restates it: neither what one knows nor what one does not",
+     "ref": "80e",
+     "quote": "οὐκ ἄρα ἔστιν ζητεῖν ἀνθρώπῳ οὔτε ὃ οἶδε οὔτε ὃ μὴ οἶδε"
+    },
+    {
+     "label": "Priests and priestesses: the soul is immortal",
+     "ref": "81a",
+     "quote": "τῶν ἱερέων τε καὶ τῶν ἱερειῶν"
+    },
+    {
+     "label": "Searching and learning are wholly recollection",
+     "ref": "81d",
+     "quote": "τὸ γὰρ ζητεῖν ἄρα καὶ τὸ μανθάνειν ἀνάμνησις ὅλον ἐστίν"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "meno-geometry",
+     "why": "The answer is demonstrated on the slave.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg024",
+       "ref": "82b",
+       "quote": "ἀναμιμνῃσκόμενος ἢ μανθάνων παρʼ ἐμοῦ"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Meno's paradox",
+     "eristic argument",
+     "paradox of inquiry",
+     "contentious argument",
+     "sophistic argument"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Meno",
+     "url": "https://en.wikipedia.org/wiki/Meno",
+     "quote": "Socrates demonstrates recollection in action by posing a mathematical puzzle to one of Meno's slaves",
+     "kind": "reference"
+    },
+    {
+     "site": "Internet Encyclopedia of Philosophy",
+     "title": "Meno",
+     "url": "https://iep.utm.edu/meno/",
+     "quote": "A model geometry lesson with an uneducated slave",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "meno-geometry",
+   "label": "The slave and the doubled square",
+   "greek": "τὸ διπλάσιον χωρίον",
+   "kind": "argument",
+   "group": "recollection",
+   "about": "Socrates questions Meno's household slave about a square of side two feet: double the side, the boy says, and finds sixteen; three feet, and finds nine; then he is perplexed; then, led by questions, he finds the square on the diagonal. 'Not taught, but questioned.'",
+   "passage": {
+    "work": "tlg024",
+    "start": "82b",
+    "end": "86c",
+    "start_quote": "δεῦρο πρόσελθε",
+    "end_quote": "ζητητέον"
+   },
+   "parts": [
+    {
+     "label": "Is he Greek, does he speak Greek?",
+     "ref": "82b",
+     "quote": "Ἕλλην μέν ἐστι καὶ ἑλληνίζει"
+    },
+    {
+     "label": "Watch: recollecting, or learning from me?",
+     "ref": "82b",
+     "quote": "ἢ ἀναμιμνῃσκόμενος ἢ μανθάνων παρʼ ἐμοῦ"
+    },
+    {
+     "label": "He thinks he knows: from the doubled line",
+     "ref": "82e",
+     "quote": "οἴεται δέ γε ἀπὸ τῆς διπλασίας"
+    },
+    {
+     "label": "Perplexed, he is better off",
+     "ref": "84a",
+     "quote": "ἀλλὰ μὰ τὸν Δία, ὦ Σώκρατες, ἔγωγε οὐκ οἶδα"
+    },
+    {
+     "label": "The sophists call it the diagonal",
+     "ref": "85b",
+     "quote": "καλοῦσιν δέ γε ταύτην διάμετρον οἱ σοφισταί"
+    },
+    {
+     "label": "Not taught but questioned, he will know",
+     "ref": "85d",
+     "quote": "οὐδενὸς διδάξαντος ἀλλʼ ἐρωτήσαντος ἐπιστήσεται"
+    }
+   ],
+   "diagram": {
+    "kind": "square",
+    "title": "The squares of 82b–85b",
+    "about": "The square of side two (4 square feet, shaded), the boy's square on the doubled side (16), and the square on the diagonal (8), which is the double. Each step is the dialogue's word.",
+    "steps": [
+     {
+      "label": "A square of side two feet: four square feet",
+      "ref": "82c",
+      "quote": "εἰ οὖν εἴη αὕτη ἡ πλευρὰ δυοῖν ποδοῖν καὶ αὕτη δυοῖν"
+     },
+     {
+      "label": "The boy: the double comes from the doubled side",
+      "ref": "82e",
+      "quote": "δῆλον δή, ὦ Σώκρατες, ὅτι διπλασία"
+     },
+     {
+      "label": "But that gives four times as much: sixteen",
+      "ref": "83c",
+      "quote": "οὐ διπλάσιον ἀλλὰ τετραπλάσιον γίγνεται χωρίον"
+     },
+     {
+      "label": "Side three gives nine, not eight",
+      "ref": "83e",
+      "quote": "τρεῖς δὲ τρὶς πόσοι εἰσὶ πόδες; ἐννέα"
+     },
+     {
+      "label": "He is at a loss",
+      "ref": "84a",
+      "quote": "ἔγωγε οὐκ οἶδα"
+     },
+     {
+      "label": "Four squares, and the line from corner to corner",
+      "ref": "84d",
+      "quote": "τέτταρα ἴσα χωρία"
+     },
+     {
+      "label": "The double square is on the diagonal",
+      "ref": "85b",
+      "quote": "γίγνοιτʼ ἂν τὸ διπλάσιον χωρίον"
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg004",
+     "ref": "73b",
+     "quote": "διαγράμματα",
+     "why": "The Phaedo recalls the proof: lead a man to diagrams and he answers rightly."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "recollection-phaedo",
+     "why": "The Phaedo's argument from recollection cites this kind of proof.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg004",
+       "ref": "73b",
+       "quote": "διαγράμματα"
+      }
+     ]
+    },
+    {
+     "dossier": "meno-paradox",
+     "why": "The demonstration answers the paradox.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg024",
+       "ref": "81d",
+       "quote": "ἀνάμνησις ὅλον ἐστίν"
+      }
+     ]
+    }
+   ],
+   "renderings": [
+    {
+     "term": "διάμετρος",
+     "ref": "85b",
+     "grc": "διάμετρον",
+     "by": {
+      "perseus-eng2": "diagonal",
+      "jowett": "diagonal",
+      "taylor1804": "diameter"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "slave-boy",
+     "double the square",
+     "doubling the square"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Meno",
+     "url": "https://en.wikipedia.org/wiki/Meno",
+     "quote": "Socrates demonstrates recollection in action by posing a mathematical puzzle to one of Meno's slaves",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Middle Period Metaphysics and Epistemology, §10 The Meno",
+     "url": "https://plato.stanford.edu/entries/plato-metaphysics/",
+     "quote": "The Meno",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "daedalus",
+   "label": "The statues of Daedalus: knowledge and true opinion",
+   "greek": "τὰ Δαιδάλου ἀγάλματα",
+   "kind": "image",
+   "group": "recollection",
+   "about": "True opinions are as useful as knowledge while they stay, but like Daedalus' statues they run away unless tied down 'by reasoning out the cause'; and that tying is recollection. That is why knowledge is worth more.",
+   "passage": {
+    "work": "tlg024",
+    "start": "97d",
+    "end": "98a",
+    "start_quote": "Δαιδάλου ἀγάλμασιν",
+    "end_quote": "διαφέρει δεσμῷ ἐπιστήμη ὀρθῆς δόξης"
+   },
+   "parts": [
+    {
+     "label": "Daedalus' statues run away unless tied",
+     "ref": "97d",
+     "quote": "ἐὰν μὲν μὴ δεδεμένα ᾖ, ἀποδιδράσκει καὶ δραπετεύει"
+    },
+    {
+     "label": "Tied by reasoning out the cause",
+     "ref": "98a",
+     "quote": "αἰτίας λογισμῷ"
+    },
+    {
+     "label": "And that is recollection",
+     "ref": "98a",
+     "quote": "ἀνάμνησις"
+    },
+    {
+     "label": "Knowledge differs from right opinion by a tether",
+     "ref": "98a",
+     "quote": "διαφέρει δεσμῷ ἐπιστήμη ὀρθῆς δόξης"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg001",
+     "ref": "11c",
+     "quote": "Δαιδάλου",
+     "why": "The Euthyphro: Euthyphro's definitions walk away like the works of Daedalus, Socrates' ancestor."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Daedalus",
+     "tether"
+    ],
+    "grc": [
+     "δαιδαλ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Meno",
+     "url": "https://en.wikipedia.org/wiki/Meno",
+     "quote": "True belief and knowledge",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,90 @@
+{
+ "dossiers": [
+  {
+   "id": "third-man",
+   "label": "The sail and the third man",
+   "greek": "ἄλλο εἶδος μεγέθους",
+   "kind": "argument",
+   "group": "forms",
+   "about": "Young Socrates meets old Parmenides. Is the whole form in each thing, like one day in many places? Rather like a sail spread over many people, Parmenides says, a part over each. And if one sees the large itself and the large things together, another largeness will appear, and another: no longer one form, but infinitely many.",
+   "passage": {
+    "work": "tlg009",
+    "start": "131b",
+    "end": "132b",
+    "start_quote": "οἷον [εἰ] ἡμέρα [εἴη] μία καὶ ἡ αὐτὴ οὖσα πολλαχοῦ ἅμα ἐστὶ",
+    "end_quote": "νόημα δὲ οὐδενός"
+   },
+   "parts": [
+    {
+     "label": "Like one day in many places",
+     "ref": "131b",
+     "quote": "ἡμέρα [εἴη] μία καὶ ἡ αὐτὴ οὖσα πολλαχοῦ ἅμα ἐστὶ"
+    },
+    {
+     "label": "Like a sail spread over many people",
+     "ref": "131b",
+     "quote": "οἷον εἰ ἱστίῳ καταπετάσας πολλοὺς ἀνθρώπους"
+    },
+    {
+     "label": "One form over many large things",
+     "ref": "132a",
+     "quote": "μία τις ἴσως δοκεῖ ἰδέα ἡ αὐτὴ εἶναι ἐπὶ πάντα ἰδόντι"
+    },
+    {
+     "label": "Another form of largeness will appear",
+     "ref": "132a",
+     "quote": "ἄλλο ἄρα εἶδος μεγέθους ἀναφανήσεται"
+    },
+    {
+     "label": "Unlimited in number",
+     "ref": "132b",
+     "quote": "ἀλλὰ ἄπειρα τὸ πλῆθος"
+    },
+    {
+     "label": "Perhaps forms are thoughts in souls?",
+     "ref": "132b",
+     "quote": "μὴ τῶν εἰδῶν ἕκαστον ᾖ τούτων νόημα"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "597c",
+     "quote": "δύο",
+     "why": "The Republic's beds: if god made two, a third would appear whose form they both had."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "three-beds",
+     "why": "The Republic's own regress argument: god made only one bed.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "597c",
+       "quote": "μία"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "third man",
+     "Third Man",
+     "largeness",
+     "the sail"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Parmenides (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Parmenides_(dialogue)",
+     "quote": "Parmenides presses Socrates on how, precisely, many particulars can participate in a single Form",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

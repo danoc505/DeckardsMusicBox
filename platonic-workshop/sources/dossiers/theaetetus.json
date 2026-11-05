@@ -1,0 +1,381 @@
+{
+ "dossiers": [
+  {
+   "id": "midwife",
+   "label": "Socrates the midwife",
+   "greek": "ἡ μαιευτικὴ τέχνη",
+   "kind": "image",
+   "group": "socrates",
+   "about": "Socrates, son of the midwife Phaenarete, practises the same art on souls, not bodies: barren of wisdom himself, he delivers young men of their thoughts and tests whether the offspring is a phantom or genuine and true.",
+   "passage": {
+    "work": "tlg006",
+    "start": "148e",
+    "end": "151d",
+    "start_quote": "ὠδίνεις γάρ, ὦ φίλε Θεαίτητε",
+    "end_quote": "ψεῦδός τε συγχωρῆσαι καὶ ἀληθὲς ἀφανίσαι οὐδαμῶς θέμις"
+   },
+   "parts": [
+    {
+     "label": "You are in labour, for you are not empty but pregnant",
+     "ref": "148e",
+     "quote": "ὠδίνεις γάρ, ὦ φίλε Θεαίτητε, διὰ τὸ μὴ κενὸς ἀλλʼ ἐγκύμων εἶναι"
+    },
+    {
+     "label": "Son of a midwife, Phaenarete",
+     "ref": "149a",
+     "quote": "ὑὸς μαίας μάλα γενναίας τε καὶ βλοσυρᾶς, Φαιναρέτης"
+    },
+    {
+     "label": "Phantom or genuine and true",
+     "ref": "150c",
+     "quote": "πότερον εἴδωλον καὶ ψεῦδος ἀποτίκτει τοῦ νέου ἡ διάνοια ἢ γόνιμόν τε καὶ ἀληθές"
+    },
+    {
+     "label": "Barren of wisdom; the god compels me to deliver",
+     "ref": "150c",
+     "quote": "μαιεύεσθαί με ὁ θεὸς ἀναγκάζει, γεννᾶν δὲ ἀπεκώλυσεν"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg006",
+     "ref": "210b",
+     "quote": "ἡ μαιευτικὴ ἡμῖν τέχνη ἀνεμιαῖά φησι γεγενῆσθαι",
+     "why": "At the end: our midwife's art declares all these offspring wind-eggs."
+    },
+    {
+     "work": "tlg011",
+     "ref": "206b",
+     "quote": "τόκος ἐν καλῷ",
+     "why": "Diotima: love is giving birth in beauty, in body and in soul."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "torpedo",
+     "why": "Another image of Socrates' effect: he makes others perplexed.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg006",
+       "ref": "149a",
+       "quote": "ποιῶ τοὺς ἀνθρώπους ἀπορεῖν"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "midwife",
+     "midwifery",
+     "maieutic",
+     "Phaenarete",
+     "wind-egg",
+     "wind-eggs"
+    ],
+    "grc": [
+     "μαιευ",
+     "μαια"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Theaetetus (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Theaetetus_(dialogue)",
+     "quote": "Socrates considers his philosophical work as midwifery",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "wonder",
+   "label": "Wonder, the beginning of philosophy",
+   "greek": "τὸ θαυμάζειν",
+   "kind": "saying",
+   "group": "socrates",
+   "about": "Theaetetus is dizzy at the puzzles of the dice; Socrates: this feeling, wonder, belongs to the philosopher; philosophy has no other beginning, and whoever made Iris the daughter of Thaumas was no bad genealogist.",
+   "passage": {
+    "work": "tlg006",
+    "start": "155d",
+    "end": "155d",
+    "start_quote": "μάλα γὰρ φιλοσόφου τοῦτο τὸ πάθος, τὸ θαυμάζειν",
+    "end_quote": "Θαύμαντος ἔκγονον φήσας οὐ κακῶς γενεαλογεῖν"
+   },
+   "parts": [
+    {
+     "label": "Wonder is the philosopher's feeling",
+     "ref": "155d",
+     "quote": "μάλα γὰρ φιλοσόφου τοῦτο τὸ πάθος, τὸ θαυμάζειν"
+    },
+    {
+     "label": "No other beginning of philosophy",
+     "ref": "155d",
+     "quote": "οὐ γὰρ ἄλλη ἀρχὴ φιλοσοφίας ἢ αὕτη"
+    },
+    {
+     "label": "Iris, daughter of Thaumas",
+     "ref": "155d",
+     "quote": "τὴν Ἶριν Θαύμαντος ἔκγονον"
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Thaumas"
+    ],
+    "grc": [
+     "θαυμαζειν"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Wonder (emotion)",
+     "url": "https://en.wikipedia.org/wiki/Wonder_(emotion)",
+     "quote": "Theaetetus",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "digression",
+   "label": "The digression: the philosopher, Thales, and becoming like god",
+   "greek": "ὁμοίωσις θεῷ",
+   "kind": "scene",
+   "group": "socrates",
+   "about": "The philosopher in court looks ridiculous, like Thales who fell into a well while gazing at the stars and was mocked by a Thracian servant girl. Evils cannot vanish; so we should flee from here to there, and flight is becoming like god so far as possible: to become just and holy with wisdom.",
+   "passage": {
+    "work": "tlg006",
+    "start": "172c",
+    "end": "177c",
+    "start_quote": "οἱ ἐν ταῖς φιλοσοφίαις πολὺν χρόνον διατρίψαντες",
+    "end_quote": "ἐπὶ δὲ τὰ ἔμπροσθεν ἴωμεν"
+   },
+   "parts": [
+    {
+     "label": "Philosophers in court look ridiculous",
+     "ref": "172c",
+     "quote": "εἰς τὰ δικαστήρια ἰόντες γελοῖοι φαίνονται ῥήτορες"
+    },
+    {
+     "label": "Thales in the well and the Thracian girl",
+     "ref": "174a",
+     "quote": "Θαλῆν ἀστρονομοῦντα, ὦ Θεόδωρε, καὶ ἄνω βλέποντα, πεσόντα εἰς φρέαρ"
+    },
+    {
+     "label": "Evils can never perish",
+     "ref": "176a",
+     "quote": "ἀλλʼ οὔτʼ ἀπολέσθαι τὰ κακὰ δυνατόν"
+    },
+    {
+     "label": "Flight is becoming like god so far as possible",
+     "ref": "176b",
+     "quote": "φυγὴ δὲ ὁμοίωσις θεῷ κατὰ τὸ δυνατόν"
+    },
+    {
+     "label": "To become just and holy with wisdom",
+     "ref": "176b",
+     "quote": "ὁμοίωσις δὲ δίκαιον καὶ ὅσιον μετὰ φρονήσεως γενέσθαι"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "613b",
+     "quote": "ὁμοιοῦσθαι θεῷ",
+     "why": "The Republic: the gods never neglect one who seeks to become like god by practising virtue."
+    },
+    {
+     "work": "tlg030",
+     "ref": "517d",
+     "quote": "γελοῖος",
+     "why": "The cave: the returning philosopher looks ridiculous in the courts below."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "cave",
+     "why": "The philosopher who returns to the courts is laughed at.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "517d",
+       "quote": "ἐν δικαστηρίοις"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "alcinous-burges",
+     "quote": "to be assimilated to god, as far as it is possible for a man to be",
+     "says": "Alcinous (ch. 28 in modern numbering) makes likeness to god the end of life, citing the Theaetetus."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "becoming like god",
+     "likeness to god",
+     "likeness to God",
+     "assimilation to god",
+     "Thales",
+     "Thracian",
+     "flight from"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato on Knowledge in the Theaetetus",
+     "url": "https://plato.stanford.edu/entries/plato-theaetetus/",
+     "quote": "The Digression: 172c1–177b7",
+     "kind": "essay"
+    },
+    {
+     "site": "Wikipedia",
+     "title": "Thales of Miletus",
+     "url": "https://en.wikipedia.org/wiki/Thales_of_Miletus",
+     "quote": "Thracian",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "wax-tablet",
+   "label": "The wax tablet",
+   "greek": "τὸ κήρινον ἐκμαγεῖον",
+   "kind": "image",
+   "group": "soul",
+   "about": "Suppose there is a block of wax in our souls, a gift of Memory, mother of the Muses, larger or smaller, purer or muddier; we stamp on it what we perceive and think, like a signet ring. False belief is fitting a perception to the wrong imprint.",
+   "passage": {
+    "work": "tlg006",
+    "start": "191c",
+    "end": "195a",
+    "start_quote": "θὲς δή μοι λόγου ἕνεκα ἐν ταῖς ψυχαῖς ἡμῶν ἐνὸν κήρινον ἐκμαγεῖον",
+    "end_quote": "ἀμαθεῖς"
+   },
+   "parts": [
+    {
+     "label": "A block of wax in our souls",
+     "ref": "191c",
+     "quote": "ἐν ταῖς ψυχαῖς ἡμῶν ἐνὸν κήρινον ἐκμαγεῖον"
+    },
+    {
+     "label": "The gift of Memory, mother of the Muses",
+     "ref": "191d",
+     "quote": "δῶρον τοίνυν αὐτὸ φῶμεν εἶναι τῆς τῶν Μουσῶν μητρὸς Μνημοσύνης"
+    },
+    {
+     "label": "Like the marks of signet rings",
+     "ref": "191d",
+     "quote": "ὥσπερ δακτυλίων σημεῖα ἐνσημαινομένους"
+    },
+    {
+     "label": "Small, muddy or crowded souls judge falsely",
+     "ref": "195a",
+     "quote": "πάντες οὖν οὗτοι γίγνονται οἷοι δοξάζειν ψευδῆ"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "aviary",
+     "why": "The next model of false belief, after the wax tablet fails for thought alone.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg006",
+       "ref": "197c",
+       "quote": "περιστερεῶνα"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "wax tablet",
+     "waxen block",
+     "block of wax",
+     "signet",
+     "Mnemosyne"
+    ],
+    "grc": [
+     "κηριν"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato on Knowledge in the Theaetetus",
+     "url": "https://plato.stanford.edu/entries/plato-theaetetus/",
+     "quote": "Fourth Puzzle About False Belief: the Wax Tablet",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "aviary",
+   "label": "The aviary",
+   "greek": "ὁ περιστερεών",
+   "kind": "image",
+   "group": "soul",
+   "about": "Knowledge possessed is not always knowledge held: like a man who keeps wild birds in an aviary, we have caught pieces of knowledge, but must hunt them again to hold them, and may grab a ring-dove for a pigeon, eleven for twelve.",
+   "passage": {
+    "work": "tlg006",
+    "start": "197c",
+    "end": "200c",
+    "start_quote": "ὥσπερ εἴ τις ὄρνιθας ἀγρίας",
+    "end_quote": "ἔγωγε οὐκ ἔχω τί χρὴ λέγειν"
+   },
+   "parts": [
+    {
+     "label": "Wild birds kept in an aviary at home",
+     "ref": "197c",
+     "quote": "οἴκοι κατασκευασάμενος περιστερεῶνα τρέφοι"
+    },
+    {
+     "label": "Possessing is not having in hand",
+     "ref": "197c",
+     "quote": "τρόπον μὲν [γὰρ] ἄν πού τινα φαῖμεν αὐτὸν αὐτὰς ἀεὶ ἔχειν"
+    },
+    {
+     "label": "A ring-dove for a pigeon: eleven for twelve",
+     "ref": "199b",
+     "quote": "οἷον φάτταν ἀντὶ περιστερᾶς"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "wax-tablet",
+     "why": "Socrates names both models together when the aviary fails.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg006",
+       "ref": "200c",
+       "quote": "περιστερεῶσιν ἢ κηρίνοις πλάσμασι"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "aviary",
+     "dovecote"
+    ],
+    "grc": [
+     "περιστερ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato on Knowledge in the Theaetetus",
+     "url": "https://plato.stanford.edu/entries/plato-theaetetus/",
+     "quote": "Fifth Puzzle About False Belief: The Aviary",
+     "kind": "essay"
+    }
+   ]
+  }
+ ]
+}

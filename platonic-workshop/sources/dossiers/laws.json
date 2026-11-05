@@ -1,0 +1,169 @@
+{
+ "dossiers": [
+  {
+   "id": "puppets",
+   "label": "The puppets of the gods",
+   "greek": "θαῦμα θεῖον",
+   "kind": "image",
+   "group": "soul",
+   "about": "Each of us is a divine puppet, made as the gods' plaything or for some serious purpose. Our feelings are cords that pull us opposite ways; we should follow always one cord, the golden and sacred pull of reasoning, called the common law of the city, which is soft and needs helpers against the hard iron ones.",
+   "passage": {
+    "work": "tlg034",
+    "start": "644d",
+    "end": "645c",
+    "start_quote": "θαῦμα μὲν ἕκαστον ἡμῶν ἡγησώμεθα τῶν ζῴων θεῖον",
+    "end_quote": "τῆς γε νῦν διατριβῆς ἄξιον γίγνηται"
+   },
+   "parts": [
+    {
+     "label": "A divine puppet, a plaything or something serious",
+     "ref": "644d",
+     "quote": "εἴτε ὡς παίγνιον ἐκείνων εἴτε ὡς σπουδῇ τινι συνεστηκός"
+    },
+    {
+     "label": "Feelings are cords that pull us",
+     "ref": "644e",
+     "quote": "οἷον νεῦρα ἢ σμήρινθοί τινες ἐνοῦσαι σπῶσίν τε ἡμᾶς"
+    },
+    {
+     "label": "The golden and sacred cord of reasoning",
+     "ref": "645a",
+     "quote": "τὴν τοῦ λογισμοῦ ἀγωγὴν χρυσῆν καὶ ἱεράν"
+    },
+    {
+     "label": "Called the common law of the city",
+     "ref": "645a",
+     "quote": "τῆς πόλεως κοινὸν νόμον ἐπικαλουμένην"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg034",
+     "ref": "803c",
+     "quote": "θεοῦ τι παίγνιον",
+     "why": "Later in the Laws: man is a plaything of god, and that is the best thing about him."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "charioteer",
+     "why": "Another image of the soul pulled different ways.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "246b",
+       "quote": "ἡνιόχησις"
+      }
+     ]
+    },
+    {
+     "dossier": "metals",
+     "why": "Gold again marks the best element in us.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "415a",
+       "quote": "χρυσὸν ἐν τῇ γενέσει συνέμειξεν"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "puppet",
+     "puppets",
+     "marionette",
+     "golden cord",
+     "golden cords"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Laws (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Laws_(dialogue)",
+     "quote": "Laws",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "laws-soul-first",
+   "label": "Soul is older than body (Laws X)",
+   "greek": "ψυχὴ πρεσβυτέρα σώματος",
+   "kind": "argument",
+   "group": "soul",
+   "about": "Against the atheists, who make soul later than the elements: of the kinds of motion, the one that moves itself must be first and eldest; and self-motion is just what we call soul. So soul is the first cause of becoming, older than body, and the heavens are ruled by soul, best soul.",
+   "passage": {
+    "work": "tlg034",
+    "start": "891e",
+    "end": "899d",
+    "start_quote": "ὃ πρῶτον γενέσεως καὶ φθορᾶς αἴτιον ἁπάντων",
+    "end_quote": "τούτοις μὲν τοίνυν ἡμῖν τὸ λόγων τέλος ἐχέτω"
+   },
+   "parts": [
+    {
+     "label": "They made the first cause later",
+     "ref": "891e",
+     "quote": "τοῦτο οὐ πρῶτον ἀλλὰ ὕστερον ἀπεφήναντο εἶναι γεγονὸς"
+    },
+    {
+     "label": "Self-motion the eldest and mightiest change",
+     "ref": "895b",
+     "quote": "πρεσβυτάτην καὶ κρατίστην μεταβολὴν πασῶν"
+    },
+    {
+     "label": "What moves itself is what we call soul",
+     "ref": "896a",
+     "quote": "τὸ ἑαυτὸ κινεῖν φῂς λόγον ἔχειν τὴν αὐτὴν οὐσίαν, ἥνπερ τοὔνομα ὃ δὴ πάντες ψυχὴν προσαγορεύομεν"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg012",
+     "ref": "245c",
+     "quote": "τὸ γὰρ ἀεικίνητον ἀθάνατον",
+     "why": "The Phaedrus: what is ever-moving is immortal."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "self-mover",
+     "why": "The Phaedrus' proof from self-motion.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "245c",
+       "quote": "τὸ γὰρ ἀεικίνητον ἀθάνατον"
+      }
+     ]
+    },
+    {
+     "dossier": "world-soul",
+     "why": "The Timaeus' soul of the world, older than its body.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "34c",
+       "quote": "πρεσβυτέραν"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "self-moving",
+     "self-motion",
+     "moves itself",
+     "prior to body",
+     "older than body"
+    ]
+   },
+   "web": []
+  }
+ ]
+}
