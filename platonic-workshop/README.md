@@ -160,6 +160,23 @@ run `python3 tools/import_taylor_vol1.py` (seconds). `tools/fetch_theosophylib.p
 downloads the theosophylib.com pages again; it is not needed for the import, which works
 from the committed copies.
 
+### On the iPad (or any browser, no computer needed)
+
+Open **https://danoc505.github.io/DeckardsMusicBox/** in Safari. To keep it on the home screen,
+tap the Share button, then *Add to Home Screen*. The first opening takes up to a minute; after
+that it opens quickly, and pages already read open without the internet.
+
+- Swipe left or right across the text to turn the Stephanus page. Tap a word for the word box;
+  to take in several words, press and hold on the first and drag the handles.
+- Your translations and notes are kept on the iPad itself, separately from the laptop's
+  `data/user.sqlite`. *Export* saves them as Markdown, JSON or a copy of the database.
+- The website is the same reader answered by the same `tools/serve.py`, run inside the browser
+  by Python compiled for the web (Pyodide), over the library database cut into small compressed
+  pieces that are fetched only when read. `web/` holds the parts only the website uses.
+- GitHub rebuilds and republishes it by itself after every change to the Workshop on `main`
+  (`.github/workflows/platonic-workshop-site.yml`, the one file outside this folder; it takes about
+  ten minutes). To try the website on this computer: `python3 tools/build_site.py --serve`.
+
 `python3 tools/build_db.py tlg031` builds only the Timaeus (or any list of Perseus work ids).
 `tools/verify_sources.py` re-runs milestone 1's checks, and
 `python3 -m unittest discover -s tests -v` runs all the tests.

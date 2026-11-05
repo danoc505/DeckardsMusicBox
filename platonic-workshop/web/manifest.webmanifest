@@ -1,0 +1,10 @@
+{
+  "name": "Platonic Workshop",
+  "short_name": "Workshop",
+  "start_url": "../",
+  "scope": "../",
+  "display": "standalone",
+  "background_color": "#f7f4ec",
+  "theme_color": "#fffdf8",
+  "icons": [{ "src": "icon.png", "sizes": "512x512", "type": "image/png" }]
+}
