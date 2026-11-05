@@ -67,6 +67,12 @@ class Library:
             return None
         w["editions"] = self.rows(
             "SELECT e.*, s.title AS source_title, s.licence FROM edition e JOIN source s ON s.id = e.source_id WHERE work_id = ?", work_id)
+        for e in w["editions"]:
+            e["chunks"] = self.one("SELECT count(*) n FROM chunk WHERE edition_id = ?", e["id"])["n"]
+            e["sections"] = self.one("SELECT count(DISTINCT section_ref) n FROM chunk WHERE edition_id = ?", e["id"])["n"]
+        # How often computed placements are right, from the build's check (reports/alignment.md).
+        chk = self.one("SELECT value FROM build WHERE key = 'alignment_check'")
+        w["alignment_check"] = json.loads(chk["value"]) if chk else None
         w["sections"] = [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", work_id)]
         w["pages"] = self.rows("SELECT label, start_ref, end_ref FROM division WHERE work_id = ? AND kind = 'page' ORDER BY id", work_id)
         w["speeches"] = self.rows("SELECT label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind = 'speech' ORDER BY id", work_id)
@@ -91,17 +97,28 @@ class Library:
             return None
         refs = [s["ref"] for s in secs]
         marks = ",".join("?" * len(refs))
+        cols = ("c.id, c.edition_id, e.lang, c.section_ref, c.end_ref, c.para, c.speaker, c.label, c.text, "
+                "c.align_method, c.translator, c.raw, c.printed_at")
         chunks = self.rows(
-            f"SELECT c.id, c.edition_id, e.lang, c.section_ref, c.para, c.speaker, c.label, c.text FROM chunk c "
+            f"SELECT {cols} FROM chunk c "
             f"JOIN edition e ON e.id = c.edition_id WHERE c.work_id = ? AND c.section_ref IN ({marks}) ORDER BY c.edition_id, c.seq",
             work_id, *refs)
+        # Milestone 6: a translation's paragraph that starts on an earlier page and runs into this one.
+        first_seq = self.one("SELECT seq FROM section WHERE work_id = ? AND ref = ?", work_id, refs[0])["seq"]
+        running = self.rows(
+            f"SELECT {cols}, 1 AS continued FROM chunk c JOIN edition e ON e.id = c.edition_id "
+            "JOIN section a ON a.work_id = c.work_id AND a.ref = c.section_ref "
+            "JOIN section b ON b.work_id = c.work_id AND b.ref = c.end_ref "
+            "WHERE c.work_id = ? AND c.end_ref IS NOT NULL AND a.seq < ? AND b.seq >= ? ORDER BY c.edition_id, c.seq",
+            work_id, first_seq, first_seq)
+        chunks = running + chunks
         tokens = self.rows(
             f"SELECT t.id, t.chunk_id, t.section_ref, t.seq, t.start, t.end, t.form, "
             f"(SELECT count(*) FROM tag g WHERE g.token_id = t.id) AS tagged FROM token t "
             f"WHERE t.edition_id IN (SELECT id FROM edition WHERE work_id = ?) AND t.section_ref IN ({marks}) ORDER BY t.id",
             work_id, *refs)
         notes = self.rows(
-            f"SELECT id, commentator, start_ref, end_ref, chunk_id, offset, body_html, printed_at, anchor_method, proof_status, source_id "
+            f"SELECT id, commentator, start_ref, end_ref, edition_id, chunk_id, offset, body_html, printed_at, anchor_method, proof_status, source_id "
             f"FROM note WHERE work_id = ? AND start_ref IN ({marks}) ORDER BY id", work_id, *refs)
         links_out = self.rows(
             f"SELECT l.id, l.from_ref, l.to_work, l.to_ref, l.raw, l.method, l.note_id, w.title AS to_title, w.imported AS to_imported "
@@ -225,7 +242,7 @@ class Library:
 
 class Handler(BaseHTTPRequestHandler):
     library = None
-    server_version = "PlatonicWorkshop/5"
+    server_version = "PlatonicWorkshop/6"
 
     def log_message(self, fmt, *args):
         if self.server.verbose:

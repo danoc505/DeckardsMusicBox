@@ -145,6 +145,18 @@
       "status": "verified"
     },
     {
+      "id": "jowett-gutenberg",
+      "title": "Jowett's translations of Plato from Project Gutenberg: the Republic (3rd edition, 1888, with Stephanus sections), the Dialogues vol. II (3rd edition, 1892, with Stephanus pages), and the older Gutenberg transcriptions of the other dialogues he translated",
+      "kind": "local",
+      "path": "sources/jowett-gutenberg",
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "Per ebook (sources/jowett-gutenberg/ebooks.json): Stephanus sections printed (Republic), Stephanus pages printed (vol. II), or none",
+      "licence": "Public domain (Project Gutenberg licence on each file)",
+      "provenance": "Downloaded from gutenberg.org by tools/fetch_jowett.py on 2026-11-05 (milestone 6, when gutenberg.org was reachable); fetched.json records the URL, time and sha256 of each file, kept as received. The Second Alcibiades (and the Eryxias) in vol. II are by Matthew Knight, Jowett's secretary, as Jowett says in vol. II.",
+      "status": "local"
+    },
+    {
       "id": "taylor-1804",
       "title": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, 5 vols (London, 1804), OCR text",
       "kind": "local",

@@ -1,0 +1,1301 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.crito",
+ "title": "The Crito",
+ "author": "Plato",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804)",
+ "perseus_work": "urn:cts:greekLit:tlg0059.tlg003",
+ "citation": "1804 page on every segment; Stephanus sections are assigned when the library is built (tools/align.py)",
+ "proof_status": "OCR cleaned by rule",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   10940,
+   11633
+  ],
+  "exclude": []
+ },
+ "gap": null,
+ "segments": [
+  {
+   "id": "taylor1804.crito.p0001",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "PERSONS OF THE DIALOGUE.",
+   "raw": "PERSONS    OF   THE   DIALOGUE. ",
+   "pages": [
+    229
+   ],
+   "line": 10940
+  },
+  {
+   "id": "taylor1804.crito.p0002",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "SOCRATES AND CRITO.",
+   "raw": "SOCRATES  AND  CRITO. ",
+   "pages": [
+    229
+   ],
+   "line": 10942
+  },
+  {
+   "id": "taylor1804.crito.p0003",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "SCENE .-^Tbe Pri/on of SOCRA TES,",
+   "raw": "SCENE  .-^Tbe  Pri/on  of  SOCRA  TES, ",
+   "pages": [
+    229
+   ],
+   "line": 10944
+  },
+  {
+   "id": "taylor1804.crito.p0004",
+   "kind": "paragraph",
+   "label": "Socrates",
+   "translator": "Thomas Taylor",
+   "text": "WTh Y came you at this early hour, Crito? Or is it not yet morning?",
+   "raw": "WTh  Y  came  you  at  this  early  hour,  Crito  ?  Or  is  it  not  yet  morning  ? ",
+   "pages": [
+    229
+   ],
+   "line": 10949
+  },
+  {
+   "id": "taylor1804.crito.p0005",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Cri.  It  is. ",
+   "pages": [
+    229
+   ],
+   "line": 10951
+  },
+  {
+   "id": "taylor1804.crito.p0006",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what time of the morning is it?",
+   "raw": "Soc.  But  what  time  of  the  morning  is  it? ",
+   "pages": [
+    229
+   ],
+   "line": 10953
+  },
+  {
+   "id": "taylor1804.crito.p0007",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "It is now the break of day.",
+   "raw": "Cri.  It  is  now  the  break  of  day. ",
+   "pages": [
+    229
+   ],
+   "line": 10955
+  },
+  {
+   "id": "taylor1804.crito.p0008",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I wonder how the keq>er of the prison came to admit you.",
+   "raw": "Soc.  I  wonder  how  the  keq>er  of  the  prifbn  came  to  admit  you. ",
+   "pages": [
+    229
+   ],
+   "line": 10957
+  },
+  {
+   "id": "taylor1804.crito.p0009",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "He is accustomed to me, Socrates, in consequence of my frequently coming hither; and he is also in a certain respect under obligations to me.",
+   "raw": "Cri.  He  is  accuftomed  to  mc,  Socrates,  in  confequence  of  my  frequently \ncoming  hither ;  and  he  is  alfo  in  a  certain  refped  under  obligations  to  me. ",
+   "pages": [
+    229
+   ],
+   "line": 10959
+  },
+  {
+   "id": "taylor1804.crito.p0010",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Did you come just now, or some time ago?",
+   "raw": "Soc.  Did  you  come  juft  now,  or  fome  time  ago  ? ",
+   "pages": [
+    229
+   ],
+   "line": 10962
+  },
+  {
+   "id": "taylor1804.crito.p0011",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "It is a considerable time since I came.",
+   "raw": "Cri.  It  is  a  confiderable  time  fince  I  came. ",
+   "pages": [
+    229
+   ],
+   "line": 10964
+  },
+  {
+   "id": "taylor1804.crito.p0012",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But why did you not immediately call me, and not fit down in silence?",
+   "raw": "Soc.  But  why  did  you  not  immediately  call  me,  and  not  fit  down  in \nfilcnce  ? ",
+   "pages": [
+    229
+   ],
+   "line": 10966
+  },
+  {
+   "id": "taylor1804.crito.p0013",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Not so, by Jopiter, Socrates; nor should I my self be willing to be for so Sons: a time awake and in sorrow. But I have for some time admired you, on perceiving how sweetly you slept. And I designedly did not call you, that you might continue in that pleasant condition. Indeed I have often and formerly through the whole of your life considered you as happy on account of your manners, but far more so in the present calamity, because you bear it so easily and mildly.",
+   "raw": "Cri.  Not  fo,  by  Jopiter,  Socrates  ;  nor  fhould  I  my  (elf  be  willing  to  be  for \nfo  Ions:  a  time  awake  and  in  forrow.  But  I  have  for  fome  time  admired  vou, \non  perceiving  how  fweetly  you  flept.  And  I  defignedly  did  not  call  you, \nthat  you  might  continue  in  that  pleafant  condition.     Indeed  I  have  often \nand  formerly  through  the  whole  of  your  life  confidered  yon  as  happy  on \naccount  of  your  manners,  but  far  more  fo  in  the  prefent  calamity,  bccaufe \nyou  bear  it  fo  eafily  and  mildly. ",
+   "pages": [
+    null,
+    230
+   ],
+   "line": 10969
+  },
+  {
+   "id": "taylor1804.crito.p0014",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But it would be absurd, Crito, if a man of my age were to be indignant when it is necessary for him to die,",
+   "raw": "Soc.  But  it  would  be  abfurd,  Crito,  if  a  man  of  my  age  were  to  be  indig- \nnant when  it  is  nccefTary  for  him  to  die, ",
+   "pages": [
+    230
+   ],
+   "line": 10988
+  },
+  {
+   "id": "taylor1804.crito.p0015",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "And yet others, Socrates, equally old, when they have been involved in such-like calamities, have notwithstanding their age been indignant with their present fortune.",
+   "raw": "Cri.  And  yet  others,  Socrates,  equally  old,  when  they  have  been  involved \nin  fuch-like  calamities,  have  notwithftanding  their  age  been  indignant  with \ntheir  prefent  fortune. ",
+   "pages": [
+    230
+   ],
+   "line": 10991
+  },
+  {
+   "id": "taylor1804.crito.p0016",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is sc. But why did you come to me so early?",
+   "raw": "Soc.  It  is  fc.     But  why  did  you  come  to  me  fo  early  ? ",
+   "pages": [
+    230
+   ],
+   "line": 10995
+  },
+  {
+   "id": "taylor1804.crito.p0017",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "I come, Socrates, bearing a message not unpleasant to you, as it appears to me, but bitter and weighty to me and to all your associates; and which I indeed shall bear most heavily.",
+   "raw": "Cri.  1  come,  Socrates,  bearing  a  mefTage  not  unpleafant  to  you,  as  it \nappears  to  me,  but  bitter  and  weighty  to  m6  and  to  all  your  afTociates ;  and \nwhich  I  indeed  (hall  bear  moft  heavily. ",
+   "pages": [
+    230
+   ],
+   "line": 10997
+  },
+  {
+   "id": "taylor1804.crito.p0018",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What is it? Is the ship come from Delos, on the arrival of which It is necessary I should die?",
+   "raw": "Soc,  What  is  it  ?  Is  the  fhip  '  come  from  Delos,  on  the  arrival  of  which \nIt  is  neceflary  I  fhould  die  ? ",
+   "pages": [
+    230
+   ],
+   "line": 11001
+  },
+  {
+   "id": "taylor1804.crito.p0019",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Not yet; but it appears to me, from what certain persons coming from Sunium have announced, and who left it there, that it will arrive today. From these messengers, therefore, it is evident that it will be here today; and consequently it will be necessary for you, Socrates, to die tomorrow.",
+   "raw": "Cri.  Not  yet;  but  it  appears  to  me,  from  what  certain  perfons  coming \nfrom  Sunium  have  announced,  and  who  left  it  there,  that  it  will  arrive  to- \nday. From  thefe  melfengers,  therefore,  it  is  evident  that  it  will  be  here  to- \nday ;  and  confequently  it  will  be  neceflary  for  you,  Socrates,  to  die  to- \nmorrow. ",
+   "pages": [
+    230
+   ],
+   "line": 11004
+  },
+  {
+   "id": "taylor1804.crito.p0020",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But with good fortune, Crito: and if it please the Gods, be it'fo. Yet I do not think that it will arrive here to-day.",
+   "raw": "Soc.  But  with  good  fortune,  Crito:  and  if  it  pleafe  the  Gods,  be  it'fo. \nYet  I  do  not  think  that  it  will  arrive  here  to-day. ",
+   "pages": [
+    230
+   ],
+   "line": 11010
+  },
+  {
+   "id": "taylor1804.crito.p0021",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Whence do you infer this?",
+   "raw": "Cri.  Whence  do  you  infer  this  ? ",
+   "pages": [
+    230
+   ],
+   "line": 11013
+  },
+  {
+   "id": "taylor1804.crito.p0022",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I will tell you. For on the day after, or on the very day in which the ship arrives, it is necessary that I should die,",
+   "raw": "Soc.  I  will  tell  you.  For  on  the  day  after,  or  on  the  very  day  in  which \nthe  fhip  arrives,  it  is  neccffary  that  I  fhould  die, ",
+   "pages": [
+    230
+   ],
+   "line": 11015
+  },
+  {
+   "id": "taylor1804.crito.p0023",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Those that have power over these things say so.",
+   "raw": "Cri.  Thofe  that  have  power  over  thefe  things  fay  fo. ",
+   "pages": [
+    230
+   ],
+   "line": 11018
+  },
+  {
+   "id": "taylor1804.crito.p0024",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I do not, therefore, think it will come this, but the next day. But I infer this from a certain dream which I saw this night a little before you came; and you appear very opportunely not to have disturbed me.",
+   "raw": "Soc.  I  do  not,  therefore,  think  it  will  come  this,  but  the  next  day.  But \nI  infer  this  from  a  certain  dream  which  I  faw  this  night  a  little  before  you \ncame  ;  and  you  appear  very  opportunely  not  to  have  difturbed  me. ",
+   "pages": [
+    230
+   ],
+   "line": 11020
+  },
+  {
+   "id": "taylor1804.crito.p0025",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "But what was this dream?",
+   "raw": "Cri.  But  what  was  this  dream  ? ",
+   "pages": [
+    230
+   ],
+   "line": 11024
+  },
+  {
+   "id": "taylor1804.crito.p0026",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "A certain woman, beautiful, of a pleasing aspect and in white raiment, seemed to approach, and calling me to say, The third day hence, O Socrates, you will arrive at the fertile Phthia'. P",
+   "raw": "Soc.  A  certain  woman,  beautiful,  of  a  pleafing  afpe6t  and  in  white  rai- \nment, feemed  to  approach,  and  calling  me  to  fay,  The  third  day  hence,  O \nSocrates,  you  will  arrive  at  the  fertile  Phthia'.  P ",
+   "pages": [
+    230
+   ],
+   "line": 11026
+  },
+  {
+   "id": "taylor1804.crito.p0027",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "What a strange dream, Socrates!",
+   "raw": "Cri.  What  a  ftrange  dream,  Socrates  ! ",
+   "pages": [
+    231
+   ],
+   "line": 11040
+  },
+  {
+   "id": "taylor1804.crito.p0028",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Manifest however, as it appears to me, O Crito,",
+   "raw": "Soc.  Manifcft  however,  as  it  appears  to  me,  O  Crito, ",
+   "pages": [
+    231
+   ],
+   "line": 11042
+  },
+  {
+   "id": "taylor1804.crito.p0029",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Very much so, as it seems. But, O blessed Socrates, be now persuaded by me, and save yourself. For, if you die, not one calamity only will befall me; but, exclusively of being deprived of you, an associate so necessary as I never have found any other to be, those who do not well know me and you, will think that I might have saved you if I had been willing to spend my money, but that I neglected to do so. Though what can be more base than such an opinion, by which I should appear to value riches more than my friends? For the multitude will not be persuaded that you were unwilling to depart hence, though we endeavoured to effect your escape.",
+   "raw": "Cri.  Very  much  fo,  as  it  feems.  But,  O  blefled  Socrates,  be  now  per- \nfuaded  by  me,  and  fave  yourfelf.  For,  if  you  die,  not  one  calamity  only  will \nbefall  me  ;  but,  exclufively  of  being  deprived  of  you,  an  afTociate  fo  neceflary \nas  I  never  have  found  any  other  to  be,  thofe  who  do  not  well  know  me  and \nyou,  will  think  that  I  might  have  faved  you  if  I  had  been  willing  to  fpend \nmy  money,  but  that  I  negle61ed  to  do  fo.  Though  what  can  be  more  bafe \nthan  fuch  an  opinion,  by  which  I  fhould  appear  to  value  riches  more  than \nmy  friends  ?  For  the  multitude  will  not  be  perfuaded  that  you  were  unwil- \nling to  depart  hence,  though  we  endeavoured  to  cfFedt  your  efcape. ",
+   "pages": [
+    231
+   ],
+   "line": 11044
+  },
+  {
+   "id": "taylor1804.crito.p0030",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But why, O blessed Crito, should we so much respect the epi-- nion of the multitude? For the most worthy men, whose opinion ought rather to be regarded, will think these things to have been so transacted as they were,",
+   "raw": "Soc.  But  why,  O  blefled  Crito,  (hould  we  fo  much  refpe6l  the  opi-- \nnion  of  the  multitude?  For  the  mofl  worthy  men,  whofe  opinion  ought \nrather  to  be  regarded,  will  think  thefe  things  to  have  been  fo  tranfa61ed  as^ \nthey  were, ",
+   "pages": [
+    231
+   ],
+   "line": 11054
+  },
+  {
+   "id": "taylor1804.crito.p0031",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Nevertheless you see, Socrates, that it is necessary to pay attention to the opinion of the multitude. For the present circumstances now evince that the multitude can effect not the smallest of evils, but nearly the greatest:,. if any one is calumniated by them.",
+   "raw": "Cri.  Neverthelef^  you  fee,  Socrates,  that  it  is  neceflary  to  pay  attention \nto  the  opinion  of  the  multitude.  For  the  prefent  circumftances  now  evince \nthat  the  multitude  can  effed  not  the  fmalleft  of  evils,  but  nearly  the  greatefl:,. \nif  any  one  is  calumniated  by  them. ",
+   "pages": [
+    231
+   ],
+   "line": 11059
+  },
+  {
+   "id": "taylor1804.crito.p0032",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I wish, O Crito, the multitude could effect the greatest: evils, that they might also accomplish the greatest good:; for then it; would be well.. But now they can do neither of these. For they can neither make a man wise, nor dcflitute of wisdom'; but they do whatever casually takes place.",
+   "raw": "Soe.  I  wifh,  O  Crito,  the- multitude  could  efFe61  the  greatefl:  evils,  that \nthey  might  alfo  accomplifli  the  greatefl  good:;  for  then  it;  would  be  well.. \nBut  now  they  can  do  neither  of  thefe.  For  they  can  neither  make  a  man  wife, \nnor  dcflitute  of  wifdom';  but  they  do  whatever  cafually  takes  place. ",
+   "pages": [
+    231
+   ],
+   "line": 11064
+  },
+  {
+   "id": "taylor1804.crito.p0033",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Let these things be so. But answer me, Socrates, whether your concern for me and the rest of your associates prevents you from escaping hence, lest we should be molefted by calumniators, as having fraudulently taken you from hence, and be forced either to lose all our property, or a great sum of money, or to fulfer something else besides this? For, if you fear any such thing, bid farewell to it,. For we shall be just in saving you from, this danger, and, if it were requisite, from one even greater than this. But be persuaded by me, and do not act otherwise.",
+   "raw": "Cri.  Let  thefe  things  be  fo.  But  anfwer  me,  Socrates,  whether  your \nconcern  for  me  and  the  reft  of  your  alTociates  prevents  you  from  efcaping \nhence,  left  we  fliould  be  molefted  by  calumniators,  as  having  fraudulently \ntaken  you  from  hence,  and  be  forced  either  to  lofe  all  our  property,  or  a \ngreat  fum  of  money,  or  to  fulfer  fomcthing  elfe  befides  this  ?  For,  if  you  fear \nany  fuch  thing,  bid  farewell  to  it,.  For  we  fliall  be  juft  in  faving  you  from, \nthis  danger,  and,  if  it  were  requifite,  from  one  even  greater  than  this.  But \nbe  perfuaded  by  me,  and  do  not  a6l  otherwifc. ",
+   "pages": [
+    231
+   ],
+   "line": 11069
+  },
+  {
+   "id": "taylor1804.crito.p0034",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I pay attention to these things, Crito, and also to many others.",
+   "raw": "Soc.  I  pay  attention  to  thefe  things,  Crito,  and  alfo  to  many  others. ",
+   "pages": [
+    231
+   ],
+   "line": 11078
+  },
+  {
+   "id": "taylor1804.crito.p0035",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Do not, therefore, dread these things. For those whoThave agreed to lave you, and to takt you from hence, demand no great suns for this purpose. And, in the nex:t place, do you not see how poor your calumniators are, and that on this account your liberty may be purchased at a 'fmall expense? My property too, which I think is sufficient, is at your service. And if, out of regard to me, you do not think fittoacccpt my offer, these guests here are readily disposed to pay what may be necessary. One also among them, Simmias the Theban, has brought with him a sum of money sufficient for this purpose. Cebes, too, and very many others are. ready to do the same: so that, as I said, neither fearing ihefe things, should you hesitate to save yourself, nor should you be troubled on leaving the city (es in court you said you should from not knowing how to conduct Tourfelf. For in many other places, wherevei\" you may go, you will be beloved. And if you are difp6fed to go to Thessaly, you will there find iny guests, v/ho will pay you every attention, and will render your abode there so secure, that no one in The/Ialy will moleft you. Besides this, Socrates, neither do you appear to me to attempt a just thing, in betraying when you might save yourself; and in endeavouring to promote the earnest: wishes of your enemies, who strive td.,dcflroy you. To this I may also add, that you appear to me to betray your own children, whom it is incumbent on you to maintain and educate; and, as far as pertains to you, leave them to the guidance of chance; though it is likely that such things will happen to them as orphans are wont to experience. However, either it is not proper to beget children, or it is requisite to labour in rearing and instructing them when begotten. But you appear to me to have chosen the moist indolent mode of conduct; though it is proper that you should choose such things as a good and brave man would adopt, especially as you profess to have made virtue the object of your attention through the whole of life. I am, therefore, a^amed both for you, and those familiars who are our associates as well as yours, left the whole affair concerning you should appear to have bef'n accomplished through a certain cowardice on our part. And in the first place, your landing a trial which might have been prevented; in the next place, your defence; and, in the last place, the extremity to which you are now brought, wi41 be placed to the account of our vicioufnefs and cowardice, and will be considered as so many ridiculous circumilanccs which might have been avoided, if we had exerted ourselves even in a trifling degree. See, therefore, O Socrates, whether these things, besides being evil, will not also be difgraccful both to you and us. Advile then with yourself quickly, though indeed there is no time for consultation; for on the following night all this must be done. But, if we delay, it will be impossible to effect your escape. By all means, therefore, be persuaded by me, Socrates, and do not in any respect otherwise.",
+   "raw": "Cri.  Do  not,  therefore,  dread  thefe  things.  For  thoie  whoThave  agreed \nto  lave  you,  and  to  takt  you  from  hence,  demand  no  great  funi  for  this \npurpofe.  And,  in  the  nex:t  place,  do  you  not  fee  how  poor  your  calum- \nniators arc,  and  that  on  this  account  your  liberty  may  be  purchafed  at  a \n'fmall  expenfe  ?  My  property  too,  which  I  think  is  fufficient,  is  at  your  fer- \nvice.  And  if,  out  of  regard  to  me,  you  do  not  think  fittoacccpt  my  offer, \nthefe  guefts  here  are  readily  difpofed  to  pay  what  may  be  neceflary.  One \nalfo  among  them,  Simmias  the  Theban,  has  brought  with  him  a  fum  of \nmoney  fufficient  for  this  purpofe.  Cebes,  too,  and  very  many  others  are. \nready  to  do  the  fame  :  fo  that,  as  I  faid,  neither  fearing  ihefe  things,  (hould \nyou  hefitate  to  fave  yourfelf,  nor  (hould  you  be  troubled  on  leaving  the  city \n(as  in  court  you  iaid  you  fhould^  from  not  knowing  how  to  condudl \nTourfelf.  For  in  many  other  places,  wherevei\"  you  may  go,  you  will  be \nbeloved.  And  if  you  are  difp6fed  to  go  to  ThelTaly,  you  will  there  find \niny  guefts,  v/ho  will  pay  you  every  attention,  and  will  render  your  abode \nthere  fo  fecure,  that  no  one  in  The/Ialy  will  moleft  you.  Befides  this, \nSocrates,  neither  do  you  appear  to  me  to  attempt  a  jufl  thing,  in  betraying \nwhen  you  might  fave  yourfelf;  and  in  endeavouring  to  promote  the  earnefl: \nwiflies  of  your  enemies,  who  ftrive  td.,dcflroy  you.  To  this  I  may  alfo  add, \nthat  you  appear  to  me  to  betray  your  own  children,  whom  it  is  incumbent \non  you  to  maintain  and  educate ;  and,  as  far  as  pertains  to  you,  leave  them \nto  the  guidance  of  chance;  though  it  is  likely  that  fuch  things  will  happen \nto  them  as  orphans  arc  wont  to  experience.  However,  either  it  is  not \nproper  to  beget  children,  or  it  is  requifite  to  labour  in  rearing  and  inftrud- \ning  them  when  begotten.  But  you  appear  to  me  to  have  chofen  the  mojft \nindolent  mode  of  condud ;  though  it  is  proper  that  you  fhould  choofe  fuch \nthings  as  a  good  and  brave  man  would  adopt,  efpecially  as  you  profefs  to \nhave  made  virtue  the  objed  of  your  attention  through  the  whole  of  life.  I \nam,  therefore,  a^amed  both  for  you,  and  thofe  familiars  who  are  our  affo- \nciates  as  well  as  yours,  left  the  whole  affair  concerning  you  (hould  appear  to \nhave  bef'n  accompliflied  through  a  certain  cowardice  on  our  part.  And  in \nthe  firfl  place,  your  landing  a  trial  which  might  have  been  prevented ;  in \nthe  next  place,  your  defence ;  and,  in  the  lafl  place,  the  extremity  to  which \nyou  are  now  brought,  wi41  be  placed  to  the  account  of  our  vicioufnefs  and \ncowardice,  and  will  be  confidered  as  fo  many  ridiculous  circumilanccs  which \nmight  have  been  avoided,  if  we  had  exerted  ourfelves  even  in  a  trifling \ndegree.  See,  therefore,  O  Socrates,  whether  thefe  things,  befides  being \nevil,  will  not  alfo  be  difgraccful  both  to  you  and  us.  Advile  then  with \nyourfelf  quickly,  though  indeed  there  is  no  time  for  confultation  ;  for  on  the \nfollowing  night  all  this  muft  be  done.  But,  if  we  delay,  it  will  be  impofTible \nto  effed  your  efcape.  By  all  means,  therefore,  be  perfuaded  by  me,  Socrates, \nand  do  not  in  any  refpedl  otherwife. ",
+   "pages": [
+    232,
+    33
+   ],
+   "line": 11089
+  },
+  {
+   "id": "taylor1804.crito.p0036",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "My dear Crito, your alacrity is very commendable, if it is attended with a certain rectitude; but if not, by how much the greater it is, by To much is it the more blameable. It is necessary, therefore, to confidcr whether these things ought to be done or not. For I am a man of that kind, not only now but always, who acts in obedience to that reason which appears to me on mature deliberation to be the best. And the reasons which I have formerly adopted, I am not able now to reject in my present fortune, but they nearly. appear to me to be similar: and I venerate and honour the same principles as formerly; so that, unless we have any thing better to adduce at present than these, be well aiTured that I shall not comply with your request, not though the power of the multitude should endeavour to terrify us like children, by threatening more bonds and deaths, and ablations of property.",
+   "raw": "Soc.  My  dear  Crito,  your  alacrity  is  very  commendable,  if  it  is  attended \nwith  a  certain  re61itude ;  but  if  not,  by  how  much  the  greater  it  is,  by  To \nmuch  is  it  the  more  blameable.  It  is  nccefTary,  therefore,  to  confidcr \nwhether  thefe  things  ought  to  be  done  or  not.  For  I  am  a  man  of  that  kind, \nnot  only  now  but  always,  who  a61s  in  obedience  to  that  reafon  which  appears \nto  me  on  mature  deliberation  to  be  the  beft.  And  the  reafons  which  1  have \nformerly  adopted,  I  am  not  able  now  to  rejedt  in  my  prefent  fortune,  but  they \nnearly. appear  to  me  to  be  fimilar:  and  I  venerate  and  honour  the  fame \nprinciples  as  formerly  ;  fo  that,  unlefs  we  have  any  thing  better  to  adduce \nat  prefent  than  thefe,  be  well  aiTured  that  I  fliall  not  comply  with  your \nrequeft,  not  though  the  power  of  the  multitude  fliould  endeavour  to  terrify \nus  like  children,  by  threatening  more  bonds  and  deaths,  and  ablations  of \nproperty. ",
+   "pages": [
+    33
+   ],
+   "line": 11137
+  },
+  {
+   "id": "taylor1804.crito.p0037",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "How, therefore, may we conflder these things in the best manner?",
+   "raw": "Cri.  How,  therefore,  may  we  conflder  thefe  things  in  the  beft  manner? ",
+   "pages": [
+    33
+   ],
+   "line": 11151
+  },
+  {
+   "id": "taylor1804.crito.p0038",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If, in the first place, we resume that which you said concerning opinions, considering whether it was well said by us or not, that to feme opinions we ought to pay attention, and to others not; or rather indeed, before it was necessary that I should die, it was well said, but now it becomes evident that it was asserted for the sake of discussion, though in reality it was merely a jest and a trifle, I desire, however, O Crito, to conflder, in common with you, whether that assertion appears to me in my present condition to be diiferent, or the same, and whether we shall bid farewell to or be persuaded by it. But thus I think it is every where said by those who appear to say any thing pertinently, that, as I just: now aflTerted of the opinions which men opine, some ought to be very much attended to, and others not. By the Gods, Crito, does not this appear to you to be well said? For you, so far as relates to human power, are out of danger of dying to-morrow, and such a calamity as the present will not seduce you into",
+   "raw": "Soc.  If,  in  the  firft  place,  we  refume  that  which  you  faid  concerning \nopinions,  confidering  whether  it  was  well  faid  by  us  or  not,  that  to  feme \nopinions  we  ought  to  pay  attention,  and  to  others  not ;  or  rather  indeed, \nbefore  it  was  neceflary  that  I  fhould  die,  it  was  well  faid,  but  now  it  becomes \nevident  that  it  was  afTerted  for  the  fake  of  difcuffion,  though  in  reality  it \nwas  merely  a  jeft  and  a  trifle,  I  defire,  however,  O  Crito,  to  conflder,  in \ncommon  with  you,  whether  that  aflertion  appears  to  me  in  my  prefent \ncondition  to  be  diiferent,  or  the  fame,  and  whether  we  fhall  bid  farewell  to \nor  be  perfuaded  by  it.  But  thus  1  think  it  is  every  where  faid  by  thofe \nwho  appear  to  fay  any  thing  pertinently,  that,  as  I  jufl:  now  aflTerted  of  the \nopinions  which  men  opine,  fome  ought  to  be  very  much  attended  to,  and \nothers  not.  By  the  Gods,  Crito,  does  not  this  appear  to  you  to  be  well  faid? \nFor  you,  fo  far  as  relates  to  human  power,  are  out  of  danger  of  dying \nto-morrow,  and  fuch  a  calamity  as   the   prefent   will  not  feduce  you  into ",
+   "pages": [
+    33
+   ],
+   "line": 11153
+  },
+  {
+   "id": "taylor1804.crito.p0039",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "VOL. IV. 2 H a false a false declfion, Consider then: does it not appear to you to have been asserted with lufficient rectitude, that it is not fit to reverence all the opinions of men, but that some should be honoured and others not? Nor yet the opinions of all men, but those of some and not those of others? What do you say? Are not these things well said?",
+   "raw": "VOL.  IV.  2  H  a  falfe \na  falfe  declfion,  Confider  then:  does  it  not  appear  to  you  to  have  been  aflerted \nwith  lufficient  redtitude,  that  it  is  not  fit  to  reverence  all  the  opinions  of \nmen,  but  that  fome  fhould  be  honoured  and  others  not?  Nor  yet  the \nopinions  of  all  men,  but  thofe  of  fome  and  not  thofe  of  others  ?  What  do \nyou  fay  ?    Are  not  thefe  things  well  faid  ? ",
+   "pages": [
+    33,
+    234
+   ],
+   "line": 11168
+  },
+  {
+   "id": "taylor1804.crito.p0040",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Well.",
+   "raw": "Cri.  Well. ",
+   "pages": [
+    234
+   ],
+   "line": 11179
+  },
+  {
+   "id": "taylor1804.crito.p0041",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are not worthy opinions, therefore, to be honoured, but base opinions not?",
+   "raw": "Soc.  Are  not  worthy  opinions,  therefore,  to  be  honoured,  but  bafe  opi- \nnions not  ? ",
+   "pages": [
+    234
+   ],
+   "line": 11181
+  },
+  {
+   "id": "taylor1804.crito.p0042",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "They are.",
+   "raw": "Cri.  They  are. ",
+   "pages": [
+    234
+   ],
+   "line": 11184
+  },
+  {
+   "id": "taylor1804.crito.p0043",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And are not worthy opinions those of wise men; but base opinions those of the unwise?",
+   "raw": "Soc.  And  are  not  worthy  opinions  thofe  of  wife  men  ;  but  bafe  opinions \nthofe  of  the  unwife  ? ",
+   "pages": [
+    234
+   ],
+   "line": 11186
+  },
+  {
+   "id": "taylor1804.crito.p0044",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly.",
+   "raw": "Cri.  Undoubtedly. ",
+   "pages": [
+    234
+   ],
+   "line": 11189
+  },
+  {
+   "id": "taylor1804.crito.p0045",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Come then, let us again consider how things of this kind were asserted. Whether does he who is conversant in gymnastic exercises pay attention to the praise and blame and opinion of every man, or of that one man alone who is a physician, or the preceptor of boys in their bodily exercises?",
+   "raw": "Soc.  Come  then,  let  us  again  confider  how  things  of  this  kind  were \naflerted.  Whether  does  he  whb  is  converfant  in  gymnaftic  exercifes  pay \nattention  to  the  praife  and  blame  and  opinion  of  every  man,  or  of  that  one \nman  alone  who  is  a  phyfician,  or  the  preceptor  of  boys  in  their  bodily \nexercifes  ? ",
+   "pages": [
+    234
+   ],
+   "line": 11191
+  },
+  {
+   "id": "taylor1804.crito.p0046",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Of that one alone.",
+   "raw": "Cri.  Of  that  one  alone. ",
+   "pages": [
+    234
+   ],
+   "line": 11197
+  },
+  {
+   "id": "taylor1804.crito.p0047",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it not, therefore, proper that he should fear the blame and embrace the praise of that one, but not the praise and blame of the multitude }",
+   "raw": "Soc,  Is  it  not,  therefore,  proper  that  he  fhould  fear  the  blame  and \nembrace  the  praife  of  that  one,  but  not  the  praife  and  blame  of  the  mul- \ntitude } ",
+   "pages": [
+    234
+   ],
+   "line": 11199
+  },
+  {
+   "id": "taylor1804.crito.p0048",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Evidently.",
+   "raw": "Cri.  Evidently. ",
+   "pages": [
+    234
+   ],
+   "line": 11203
+  },
+  {
+   "id": "taylor1804.crito.p0049",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "In this manner, therefore, he ought to ad and exercise himself, and also to eat and drink, which appears fit to the one who presides and knows,\" rather than in that which may appear to be proper to all others.",
+   "raw": "Soc.  In  this  manner,  therefore,  he  ought  to  ad  and  cxercife  himfelf,  and \nalfo  to  eat  and  drink,  which  appears  fit  to  the  one  who  prefides  and  knows,\" \nrather  tlian  in  that  which  may  appear  to  be  proper  to  all  others. ",
+   "pages": [
+    234
+   ],
+   "line": 11205
+  },
+  {
+   "id": "taylor1804.crito.p0050",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "Cri.  Certainly. ",
+   "pages": [
+    234
+   ],
+   "line": 11209
+  },
+  {
+   "id": "taylor1804.crito.p0051",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Be it so. But if he is difobcdient to that one, and disregards his opinion and his praise, but honours the opinion and praise of the multitude, who know nothing, will he not suffer some evil?",
+   "raw": "Soc.  Be  it  fo.  But  if  he  is  difobcdient  to  that  one,  and  difregards  his \nopinion  and  his  praife,  but  honours  the  opinion  and  praife  of  the  multitude, \nwho  know  nothing,  will  he  not  fuffer  fome  evil  ? ",
+   "pages": [
+    234
+   ],
+   "line": 11211
+  },
+  {
+   "id": "taylor1804.crito.p0052",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "How is it possible he should not?",
+   "raw": "Cri.  How  is  it  poflible  he  fhould  not  ? ",
+   "pages": [
+    234
+   ],
+   "line": 11215
+  },
+  {
+   "id": "taylor1804.crito.p0053",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what is this evil, whither does it tend,, and to which of the things pertaining to him who is disobedient?",
+   "raw": "Soc.  But  what  is  this  evil,  whither  does  it  tend,,  and  to  which  of  the \nthings  pertaining  to  him  who  is  difobedient  ? ",
+   "pages": [
+    234
+   ],
+   "line": 11217
+  },
+  {
+   "id": "taylor1804.crito.p0054",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Evidently to his body, for this it corrupts..",
+   "raw": "Cri.  Evidently  to  his  body,  for  this  it  corrupts.. ",
+   "pages": [
+    234
+   ],
+   "line": 11220
+  },
+  {
+   "id": "taylor1804.crito.p0055",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You speak well. We must form the same conclusion, therefore, Crito,, in other things, that we ymy not run through all of them. With rcfpcdl, therefore, to things just and unjust, base and beautiful, good and evil, and which are now the subjects of our consultation, whether ought we to follow the opinion of the multitude, and to dread it, or that of one man if there is any one knowing in these things, whom we ought to reverence and fear rather than all others; to whom if we are not obedient, we Shall corrupt and injure that which becomes better by the just, but is destroyed by the unjust? Or is this nothing? v,",
+   "raw": "Soc.  You  fpeak  well.  We  mufl  form  the  fame  conclufion,  therefore, \nCrito,,  in  other  things,  that  we  ymy  not  run  through  all  of  them.     With \nrcfpcdl,  therefore,  to  things  juft  and  unjuft,  bafe  and  beautiful,  good  and \nevil,  and  which  are  now  the  fubje6ls  of  our  confultation,  whether  ought  we \nto  follow  the  opinion  of  the  multitude,  and  to  dread  it,  or  that  of  one  man \nif  there  is  any  one  knowing  in  thefe  things,  whom  we  ought  to  reverence \nand  fear  rather  than  all  others ;  to  whom  if  we  arc  not  obedient,  we  Ihall \ncorrupt  and  injure  that  which  becomes  better  by  the  juft,  but  is  deftroycd \nby  the  unjuft  ?    Or  is  this  nothing  ?  v, ",
+   "pages": [
+    234,
+    139
+   ],
+   "line": 11222
+  },
+  {
+   "id": "taylor1804.crito.p0056",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "I think, Socrates, we ought to follow the opinion of that one.",
+   "raw": "Cri.   I  think,  Socrates,  we  ought  to  follow  the  opinion  of  that  one. ",
+   "pages": [
+    139
+   ],
+   "line": 11238
+  },
+  {
+   "id": "taylor1804.crito.p0057",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Come then, if not being perfliaded by the opinion of those that are judges, we destroy that which becomes better by the falubrious, but is corrupted by the infalubrious, can we live after this destruction? But is not this very thhig of which we are speaking the body?",
+   "raw": "Soc.  Come  then,  if  not  being  perfliaded  by  the  opinion  of  thofe  that  arc \njudges,  we  deftroy  that  which  becomes  better  by  the  falubrious,  but  is  corrupted \nby  the  infalubrious,  can  we  live  after  this  deftru6lion  ?  But  is  not  this  very \nthhig  of  which  we  are  fpeaking  the  body  ? ",
+   "pages": [
+    139
+   ],
+   "line": 11240
+  },
+  {
+   "id": "taylor1804.crito.p0058",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Cri.  Yes. ",
+   "pages": [
+    139
+   ],
+   "line": 11245
+  },
+  {
+   "id": "taylor1804.crito.p0059",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Can we, therefore, live after the body is depraved and corrupted?",
+   "raw": "Soc.  Can  we,  therefore,  live  after  the  body  is  depraved  and  corrupted  ? ",
+   "pages": [
+    139
+   ],
+   "line": 11247
+  },
+  {
+   "id": "taylor1804.crito.p0060",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "By no means.",
+   "raw": "Cri.  By  no  means. ",
+   "pages": [
+    139
+   ],
+   "line": 11249
+  },
+  {
+   "id": "taylor1804.crito.p0061",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But can we live when that is corrupted which is injured by the unjust, but benefited by the just? Or ftiall we think that to be viler than the body, whatever it may be, pertaining to us, about which justice and injustice subsist?",
+   "raw": "Soc.  But  can  we  live  when  that  is  corrupted  which  is  injured  by  the \nunjuft,  but  benefited  by  the  juft?  Or  ftiall  we  think  that  to  be  viler  than \nthe  body,  whatever  it  may  be,  pertaining  to  us,  about  which  juftice  and \ninjuftice  fubfift  ? ",
+   "pages": [
+    139
+   ],
+   "line": 11251
+  },
+  {
+   "id": "taylor1804.crito.p0062",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "By no means.",
+   "raw": "Cri.  By  no  means. ",
+   "pages": [
+    139
+   ],
+   "line": 11256
+  },
+  {
+   "id": "taylor1804.crito.p0063",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is, therefore, more honourable.",
+   "raw": "Soc.  It  is,  therefore,  more  honourable. ",
+   "pages": [
+    139
+   ],
+   "line": 11258
+  },
+  {
+   "id": "taylor1804.crito.p0064",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "By far.",
+   "raw": "Cri.  By  far. ",
+   "pages": [
+    139
+   ],
+   "line": 11260
+  },
+  {
+   "id": "taylor1804.crito.p0065",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "We should not, therefore, O best of men, be so very much concerned about what the multitude say of us, but what that one man who knows what is just and unjust, and what truth itself is, asserts respecting us. So that you did not aO: rightly at first, in introducing the opinion of the multitude concerning things just, beautiful and good, and the contraries of these, as that to which we ought to pay attention. Though some one may say that the multitude are able to destroy us.",
+   "raw": "Soc.  We  fhould  not,  therefore,  O  beft  of  men,  be  fo  very  much  concerned \nabout  what  the  multitude  fay  of  us,  but  what  that  one  man  who  knows \nwhat  is  juft  and  unjuft,  and  what  truth  itfelf  is,  aflcrts  refpeding  us.  So \nthat  you  did  not  aO:  rightly  at  firft,  in  introducing  the  opinion  of  the  mul- \ntitude concerning  things  juft,  beautiful  and  good,  and  the  contraries  of  thefe, \nas  that  to  which  we  ought  to  pay  attention.  Though  fome  one  may  fay \nthat  the  multitude  arc  able  to  deftroy  us. ",
+   "pages": [
+    139
+   ],
+   "line": 11262
+  },
+  {
+   "id": "taylor1804.crito.p0066",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Some one, Socrates, may indeed say so.",
+   "raw": "Cri.  Some  one,  Socrates,  may  indeed  fay  fo. ",
+   "pages": [
+    139
+   ],
+   "line": 11270
+  },
+  {
+   "id": "taylor1804.crito.p0067",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "True. But, O wonderful man, the 'aflertion which we have discussed appears to me to be diflimijar and prior to this: and again consider whether this is still granted by us, that we are not to admit the merely living, but living well, to be a thing of the greatest consequence.",
+   "raw": "Soc.  True.  But,  O  wonderful  man,  the  'aflertion  which  we  have \ndifcufled  appears  to  me  to  be  diflimijar  and  prior  to  this  :  and  again  confider \nwhether  this  is  ftill  granted  by  us,  that  we  are  not  to  admit  the  merely \nliving,  but  living  well,  to  be  a  thing  of  the  greateft  confequence. ",
+   "pages": [
+    139
+   ],
+   "line": 11272
+  },
+  {
+   "id": "taylor1804.crito.p0068",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "It is granted.",
+   "raw": "Cri.  It  is  granted. ",
+   "pages": [
+    139
+   ],
+   "line": 11277
+  },
+  {
+   "id": "taylor1804.crito.p0069",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And is this also granted, or not, that it is the same thing to live well, beautifully, and justly?",
+   "raw": "Soc.  And  is  this  alfo  granted,  or  not,  that  it  is  the  fame  thing  to  live  well, \nbeautifully,  and  juftly  ? ",
+   "pages": [
+    140
+   ],
+   "line": 11284
+  },
+  {
+   "id": "taylor1804.crito.p0070",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Cri.  It  is. ",
+   "pages": [
+    140
+   ],
+   "line": 11287
+  },
+  {
+   "id": "taylor1804.crito.p0071",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "From what has been assented to, therefore, this must be considered, whether it is just for me to endeavour to depart hence, the Athenians not dismissing me, or whether it is not just. And if it should appear to be just indeed, we ftiould endeavour to accomplifti it; but if not, we must bid farewell to the attempt. For as to the considerations which you adduce concerning money, opinion, and the education of children, see, Crito, whether these are not in reality the reflections of the vulgar, who rashly put men to death, and if it were in their power would recall them to life, and this without being at all guided by intellect. But by us, since reason requires it, nothing else is to be considered than as we just now said, whether we ftiall act justly in giving money and thanks to those who may lead me hence; or whether in reality, both we that are led from hence and those that lead us, ftiall not in all these things ad unjustly. And if it ftiould appear that we in so doing ftiall act unjustly, We must by no means pay attention to these things, rather than to the consideration whether we ftiall do any thing unjustly, not even if it ftiould be necessary for us to die, staying here and being quiet, or to suffer any thing else whatever.",
+   "raw": "Soc.  From  what  has  been  afTcnted  to,  therefore,  this  muft  be  confi- \ndered,  whether  it  is  juft  for  me  to  endeavour  to  depart  hence,  the  Athe- \nnians not  difmifling  me,  or  whether  it  is  not  juft.  And  if  it  fhould  appear \nto  be  juft  indeed,  we  ftiould  endeavour  to  accomplifti  it ;  but  if  not,  we  muft \nbid  farewell  to  the  attempt.  For  as  to  the  confiderations  which  you  adduce \nconcerning  money,  opinion,  and  the  education  of  children,  fee,  Crito,  whether \nthefe  are  not  in  reality  the  refledions  of  the  vulgar,  who  raflily  put  men  to \ndeath,  and  if  it  were  in  their  power  would  recall  them  to  life,  and  this  with- \nout being  at  all  guided  by  intellect.  But  by  us,  fince  reafon  requires  it, \nnothing  elfe  is  to  be  confidered  than  as  we  juft  now  faid,  whether  we  ftiall \nacl  juftly  in  giving  money  and  thanks  to  thofe  who  may  lead  me  hence ;  ^or \nwhether  in  reality,  both  we  that  are  led  from  hence  and  thofe  that  lead  us, \nftiall  not  in  all  thefe  things  ad  unjuftly.  And  if  it  ftiould  appear  that  we \nin  fo  doing  ftiall  a6l  unjuftly,  Wc  muft  by  no  means  pay  attention  to  thefe \nthings,  rather  than  to  the  confideration  whether  we  ftiall  do  any  thing  un- \njuftly, not  even  if  it  ftiould  be  neceflary  for  us  to  die,  ftaying  here  and  being \nquiet,  or  to  fuffer  any  thing  elfe  whatever. ",
+   "pages": [
+    140
+   ],
+   "line": 11289
+  },
+  {
+   "id": "taylor1804.crito.p0072",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "You appear to me, Socrates, to speak well; but see. what is to be done.",
+   "raw": "Cri.  You  appear  to  me,  Socrates,  to  fpeak  well;  but  fee.  what  is  to  be \ndone. ",
+   "pages": [
+    140
+   ],
+   "line": 11307
+  },
+  {
+   "id": "taylor1804.crito.p0073",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Let us consider, O good man, in common; and if you can in any respect contradict what I say, contradict me, and I will assent to you; but if you cannot, cease, O blessed man, to repeat often to me the same thing, that I ought to depart hence, though the Athenians are unwilling. For I {hall think it a great thing if you can persuade me thus to ad, but not if you attempt this contrary to my will. See then, whether the beginning of this consideration satisfies you, and endeavour to answer the interrogation in such a way as you especially think it is proper. Cri. I will endeavour,",
+   "raw": "Soc.  Let  us  confider,  O  good  man,  in  common;  and  if  you  can  in  any \nrefpcd  contradi6l  what  I  fay,  contradict  me,  and  I  will  aftent  to  you  ;  but  if \nyou  cannot,  ccafe,  O  blefled  man,  to  repeat  often  to  me  the  fame  thing,  that \nI  ought  to  depart  hence,  though  the  Athenians  are  unwilling.  For  I  {hall \nthink  it  a  great  thing  if  you  can  perfuade  me  thus  to  ad,  but  not  if  you \nattempt  this  contrary  to  my  will.  See  then,  whether  the  beginning  of  this \nconfideration  fatisfies  you,  and  endeavour  to  anfwcr  the  interrogation  in  fuch \na  way  as  you  efpecially  think  it  is  proper. \nCri.  I  will  endeavour, ",
+   "pages": [
+    140
+   ],
+   "line": 11310
+  },
+  {
+   "id": "taylor1804.crito.p0074",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Shall we say then, that we ftiould by no means willingly ad unjustly? Or may we in a certain respect ad unjustly, and in a certain respect not? Or is toad unjustly by no means neither good nor beautiful, as we have often confessed before, and as we just now said? Or are all those things which we formerly assented to dissipated in these few days; and has it for some time been concealed from us, that though we are so old, yet in seriously discoursing with each other, we have in no refpe^l differed from children? Or does it not thus subsist more than any thing, as we then said, whether the multitude admit it or not? And whether it be necessary that we should suffer things still more grievous, or such as are milder than these, at the same time shall we say or not that to a£t unjustly is evil and base to him who thus acts?",
+   "raw": "Soc.  Shall  we  fay  then,  that  we  ftiould  by  no  means  willingly  ad  unjuftly? \nOr  may  we  in  a  certain  refped  ad  unjuftly,  and  in  a  certain  refped  not  ?  Or  is \ntoad  unjuftly  by  no  means  neither  good  nor  beautiful,  as  we  have  often  con- \nfeffed  before,  and  as  we  juft  now  faid  ?    Or  are  all  thofe  things  which  wc \nformerly  aflented  to  diffipated  in  thefe  few  days;  and  has  it  for  fome  time  been \nconcealed  from  us,  that  though  we  are  fo  old,  yet  in  ferioufly  difcourfing  with \neach  other,  we  have  in  no  refpe^l  differed  from  children  ?  Or  does  it  not  thus \nfubfift  more  than  any  thing,  as  we  then  faid,  whether  the  multitude  admit \nit  or  not  ?  And  whether  it  be  neceflary  that  we  fhould  fuffer  things  ftill  more \ngrievous,  or  fuch  as  are  milder  than  thefe,  at  the  fame  time  fhall  we  fay \nor  not  that  to  a£t  unjuftly  is  evil  and  bafe  to  him  who  thus  a6ls  ? ",
+   "pages": [
+    140,
+    237
+   ],
+   "line": 11320
+  },
+  {
+   "id": "taylor1804.crito.p0075",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "We shall say so.",
+   "raw": "Cri.  We  fhall  fay  fo. ",
+   "pages": [
+    237
+   ],
+   "line": 11338
+  },
+  {
+   "id": "taylor1804.crito.p0076",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "By no means, therefore, ought we to act unjustly. I Cri. We ought not.",
+   "raw": "Soc.  By  no  means,  therefore,  ought  we  to  adt  unjuftly. \nI    Cri.  We  ought  not. ",
+   "pages": [
+    237
+   ],
+   "line": 11340
+  },
+  {
+   "id": "taylor1804.crito.p0077",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Neither, therefore, ought he who is injured to return the injury, as the multitude think, since it is by no means proper to a<a unjulHy.",
+   "raw": "Soc.  Neither,  therefore,  ought  he  who  is  injured  to  return  the  injury,  as \nthe  multitude  think,  fince  it  is  by  no  means  proper  to  a<a  unjulHy. ",
+   "pages": [
+    237
+   ],
+   "line": 11343
+  },
+  {
+   "id": "taylor1804.crito.p0078",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "So it appears.",
+   "raw": "Cri.  So  it  appears. ",
+   "pages": [
+    237
+   ],
+   "line": 11346
+  },
+  {
+   "id": "taylor1804.crito.p0079",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what then? Is it proper to do evil to any one, O Crito, or not?",
+   "raw": "Soc,  But  what  then  ?    Is  it  proper  to  do  evil  to  any  one,  O  Crito,  or \nnot? ",
+   "pages": [
+    237
+   ],
+   "line": 11348
+  },
+  {
+   "id": "taylor1804.crito.p0080",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "It is not proper, Socrates,",
+   "raw": "Cri.  It  is  not  proper,  Socrates, ",
+   "pages": [
+    237
+   ],
+   "line": 11351
+  },
+  {
+   "id": "taylor1804.crito.p0081",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? Is it just to repay evil with evil, as the multitude say, or is it not just?",
+   "raw": "Soc.  But  what  ?    Is  it  jufl  to  repay  evil  with  evil,   as  the  multitude  fay, \nor  is  it  not  juft  ? ",
+   "pages": [
+    237
+   ],
+   "line": 11353
+  },
+  {
+   "id": "taylor1804.crito.p0082",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "By no means.",
+   "raw": "Cri.  By  no  means. ",
+   "pages": [
+    237
+   ],
+   "line": 11356
+  },
+  {
+   "id": "taylor1804.crito.p0083",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Foriie who does evil to men, differs in no respect from him who ac^s unjustly,",
+   "raw": "Soc.  Foriie  who  does  evil  to  men,  differs  in  no  refped  from  him  who  ac^s \nunjuflly, ",
+   "pages": [
+    237
+   ],
+   "line": 11358
+  },
+  {
+   "id": "taylor1804.crito.p0084",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Your assertion is true.",
+   "raw": "Cri.  Your  affertion  is  true. ",
+   "pages": [
+    237
+   ],
+   "line": 11361
+  },
+  {
+   "id": "taylor1804.crito.p0085",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Neither, therefore, is it proper to return an injury, nor to do evil to any man, however you may be injured, by. him. But see, Crito, while you acknowledge these things, that you do not assent to them contrary to your opinion. For I know that these things appear to and are opined by very few. But tht)fe to whom these things appear, and those to whom they do not, difagFce with each other in their decisions; and it is necessary that these should despise each other, while they look to each other's deliberations. Do you therefore consider, and very diligently, whether it thus appears to you in common with me, and whether deliberating we should begin from hence, that it is never right either to do an injury, or to return an injury, or when fiiffcring evil to revenge it by doing evil in return; or, whether you will depart and not agree with us in this principle. For it thus appears to me both formerly and now; but if it in any respect appears otherwise to you, speak and inform me. And if you acquiesce in what has been said above, hear what follows.",
+   "raw": "Soc.  Neither,  therefore,  is  it  proper  to  return  an  injury,  nor  to  do  evil \nto  any  man,  however  you  may  be  injured,  by.  him.  But  fee,  Crito,  while  you \nacknowledge  thefe  things,  that  you  do  not  affent  to  them  contrary  to  your \nopinion.  For  1  know  that  thefe  things  appear  to  and  are  opined  by  very \nfew.  But  tht)fe  to  whom  thefe  things  appear,  and  thofe  to  whom  they  do \nnot,  difagFce  with  each  other  in  their  decifions  ;  and  it  is  neceffary  that  thefe \nfhould  dcfpife  each  other,  while  they  look  to  each  other's  deliberations. \nDo  you  therefore  confider,  and  very  diligently,  whether  it  thus  appears  to \nyou  in  common  with  me,  and  whether  deliberating  we  fhould  begin  from \nhence,  that  it  is  never  right  either  to  do  an  injury,  or  to  return  an  injury,  or \nwhen  fiiffcring  evil  to  revenge  it  by  doing  evil  in  return  ;  or,  whether  you \nwill  depart  and  not  agree  with  us  in  this  principle.  For  it  thus  appears \nto  me  both  formerly  and  now ;  but  if  it  in  any  refped  appears  otherwife \nto  you,  fpeak  and  inform  me.     And  if  you  acquiefce  in  what  has  been  faid \nabove,  hear  what  follows. ",
+   "pages": [
+    237,
+    238
+   ],
+   "line": 11363
+  },
+  {
+   "id": "taylor1804.crito.p0086",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "Btit I do acquiesce and accord with you. Speak, therefore. Soc. I will say then that which is consequent to this, or rather I will ask you, whether when a man has promised to do things that are just, he ouo-ht to do them, or to break his promise. Cri. He ought to do them.",
+   "raw": "Cri.  Btit  I  do  acquiefce  and  accord  with  you.     Speak,  therefore. \nSoe.   I  will  fay  then  that  which  is  confequent  to  this,  or  rather  1  will  afk \nyou,  whether  when  a  man  has  promifed  to  do  things  that  are  juft,   he  ouo-ht \nto  do  them,  or  to  break  his  promife. \nCri.  He  ought  to  do  them. ",
+   "pages": [
+    238
+   ],
+   "line": 11384
+  },
+  {
+   "id": "taylor1804.crito.p0087",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "From these things then thus consider. If we should depart hence without the consent of the city, shall we do evil to certain persons, and those such as we ought not in the smallest degree to injure, or shall we not? And shall we acquiesce in those things which we assented to as being juftj or shall we not?",
+   "raw": "Soc.  From  thefe  things  then  thus  confider.  If  we  fhould  depart  hence \nwithout  the  confent  of  the  city,  fhall  we  do  evil  to  certain  perfons,  and \nthofe  fuch  as  we  ought  not  in  the  fmallefl  degree  to  injure,  or  fhall  we  not  ? \nAnd  fhall  we  acquiefce  in  thofe  things  which  we  aflentcd  to  as  being  juftj \nor  fhall  we  not  ? ",
+   "pages": [
+    238
+   ],
+   "line": 11390
+  },
+  {
+   "id": "taylor1804.crito.p0088",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "I cannot reply to your question, Socrates: for I do not understand it.",
+   "raw": "Cri.  I  cannot  reply  to  your  queflion,  Socrates:  for  I  do  not  under- \nftand  it. ",
+   "pages": [
+    238
+   ],
+   "line": 11396
+  },
+  {
+   "id": "taylor1804.crito.p0089",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But thus consider. If to us, intending to escape from hence, or in whatever manner it may be requisite to denominate it, the Laws and the Republic should present themselves in a body, and thus address us, — Tell us, O Scrates, what is it you intend to do? Do you conceive that by this thing which you attempt, you will destroy any thing else than, as far as you are able, us the Laws, and the whole city? Or does it appear *to you to be poiTible for that city to subsist: and not be subverted, in which Justice is not only without strength, but is likewise divested of its authority and corrupted by private persons? — What should we say, Crito, to these things, and to others of a fimildr kind? For much might be said, and particularly by rhetoricians, on the fubverfion of that law. which provides that sentences once passed shall not be infringed. Shall we say to them that the city has not passed an equitable sentence upon us? Shall we say this, or something else?",
+   "raw": "Soc.  But  thus  confider.  If  to  us,  intending  to  efcape  from  hence,  or  in \nwhatever  manner  it  may  be  requifite  to  denominate  it,  the  Laws  and  the \nRepublic  fhould  prefent  themfelves  in  a  body,  and  thus  addrefs  us, — Tell \nus,  O  Scrates,  what  is  it  you  intend  to  do  ?  Do  you  conceive  that  by  this \nthing  which  you  attempt,  you  will  deftroy  any  thing  elfe  than,  as  far  as  you \narc  able,  us  the  Laws,  and  the  whole  city  ?  Or  does  it  appear  *to  you  to  be \npoiTible  for  that  city  to  fubfifl:  and  not  be  fubverted,  in  which  Juflice  is  not \nonly  without  flrength,  but  is  likewife  divefled  of  its  authority  and  corrupted \nby  private  perfons  ? — What  fhould  we  fay,  Crito,  to  thefe  things,  and  to \nothers  of  a  fimildr  kind  ?  For  much  might  be  faid,  and  particularly  by \nrhetoricians,  on  the  fubverfion  of  that  law.  which  provides  that  fentences \nonce  pafTed  fhall  not  be  infringed.  Shall  we  fay  to  them  that  the  city  has \nnot  pafTed  an  equitable  fentence  upon  us  ?  Shall  we  fay  this,  or  fomething \nelfe  ? ",
+   "pages": [
+    238
+   ],
+   "line": 11399
+  },
+  {
+   "id": "taylor1804.crito.p0090",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "This, by Jupiter, Socrates.",
+   "raw": "Cri.  This,  by  Jupiter,  Socrates. ",
+   "pages": [
+    238
+   ],
+   "line": 11414
+  },
+  {
+   "id": "taylor1804.crito.p0091",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Will not the Laws then thus address us? O Socrates, has it not been admitted by us and you, that you should acquiesce in the sentence which the city has passed? If, therefore, we should wonder at the Laws thus speaking, perhaps they would say, Be not surprised, O Socrates, at what we have asserted, but answer, since you are accustomed both to interrogate and reply* For what is the charge against us and the city, for which you endeavour to destroy us? Did we not {ir{\\. beget you? And was it not through us that your father married your mother, and planted you? Tell us, therefore, whether you blame these laws of ours concerning marriage as improper? I should say I do not blame them. But do you blame those laws concerning the nurture &nd education of children in which you were yourself instructed? Or did not the laws framed for this purpose order in a becoming manner when they commanded your father to instruct you in music and gymnastic? I should say they ordered well. Since then we bec^ot and nourished and educated you, can you deny that both you and your progenitors are our offspring and servants? And if this be the case, do you think that there is an equality of ju st ice between us and you, and that it is just for you to attempt to do those things to us which we endeavour to do to you? Or will you admit that there is no equality of justice between you and your father, or master, if you happen to have either of them, so that you are not to return to these any evil you may suffer from them, nor, when they reproach you, contradict them, nor, when they strike you, strike them again, nor do many other things of a similar nature;. but that against your country and the Laws it is lawful for you to atl: in this, manner, so that if we endeavour to destroy you, thinking it to be just, you also should endeavour, as far as you are able, to destroy in return, us the Laws and your country, and should say that in so doing you ad juilly, — you who in reality make virtue the object of your care? Or, are you so wise as to be ignorant that your country is more honourable, venerable and holy, than your mother and father, and all the rest of your progenitors, and ranks higher both among the Gods and among men endued with intelle(a? That it is also more necessary for a man to venerate, obey and assent to his country, when conducting itself with severity, than to his father? Likewise that he should be persuaded by it, and do what it orders? That he should quietly suffer, if it orders him to suffer? And that, if it commands him to be beaten or confined in bonds, or sends him to battle to be wounded or [slain, he should do these things, and that it is just to comply? And that he should neither decline nor recede from nor desert his rank; but in war, in a court of justice, and?very wh^rc, the commands of the city and his country should be obeyed; or he <hould perfgade his country to that which is naturally just; but that it is not holy to offer violence either to a mother or a father, and m-uch less to one's country? — What shall we say to these things, Crito? Shall we acknowledge that the Laws Speak the truth or not?",
+   "raw": "Soc.  Will  not  the  Laws  then  thus  addrefs  us  ?  O  Socrates,  has  it  not \nbeen  admitted  by  us  and  you,  that  you  fhould  acquiefce  in  the  fentence  which \nthe  city  has  pafTed?  If,  therefore,  we  fhould  wonder  at  the  Laws  thus \nfpeaking,  perhaps  they  would  fay,  Be  not  furprifed,  O  Socrates,  at  what  wc \nhave  afTerted,  but  anfwer,  fince  you  are  accuflomed  both  to  interrogate  and \nreply*      For  what  is  the  charge  againfl  us  and  the  city,  for  which  you \nendeavour  to  deftroy  us  ?  Did  we  not  {ir{\\.  beget  you  ?  And  was  it  not \nthrough  us  that  your  father  married  your  mother,  and  planted  you  ?  Tell  us, \ntherefore,  whether  you  blame  thefe  laws  of  ours  concerning  marriage  as \nimproper  ?  I  (hould  fay  I  do  not  blame  them.  But  do  you  blame  thofc \nlaws  concerning  the  nurture  &nd  education  of  children  in  which  you  were \nyourfelf  inftru6led  ?  Or  did  not  the  laws  framed  for  this  purpofe  order  in  a \nbecoming  manner  when  they  commanded  your  father  to  inftru6l  you  in \nmufic  and  gymnaftic  ?  I  (hould  fay  they  ordered  well.  Since  then  we  bec^ot \nand  nourifhed  and  educated  you,  can  you  deny  that  both  you  and  your \nprogenitors  are  our  offspring  and  fervants?  And  if  this  be  the  cafe,  do  you \nthink  that  there  is  an  equality  ^  of  ju  ft  ice  between  us  and  you,  and  that  it \nis  jufl  for  you  to  attempt  to  do  thofe  things  to  us  which  we  endeavour  to \ndo  to  you  ?  Or  will  you  admit  that  there  is  no  equality  of  juftice  between \nyou  and  your  father,  or  mafter,  if  you  happen  to  have  either  of  them,  fo \nthat  you  are  not  to  return  to  thefe  any  evil  you  may  fuffer  from  them,  nor, \nwhen  they  reproach  you,  contradidl  them,  nor,  when  they  ftrike  you,  ftrike \nthem  again,  nor  do  many  other  things  of  a  fimilar  nature ;.  but  that  againfl \nyour  country  and  the  Laws  it  is  lawful  for  you  to  atl:  in  this,  manner,  fo \nthat  if  we  endeavour  to  deftroy  you,  thinking  it  to  be  juft,  you  alfo  (hould \nendeavour,  as  far  as  you  are  able,  to  deftroy  in  return,  us  the  Laws  and \nyour  country,  and  fhould  fay  that  in  fo  doing  you  ad  juilly,- — ^you  who  in \nreality  make  virtue  the  obje6t  of  your  care  ?  Or,  are  you  fo  wife  as  to  be \nignorant  that  your  country  is  more  honourable,  venerable  and  holy,  than  your \nmother  and  father,  and  all  the  reft  of  your  progenitors,  and  ranks  higher \nboth  among  the  Gods  and  among  men  endued  with  intelle(a  ?  That  it  is \nalfo  more  neceflary  for  a  man  to  venerate,  obey  and  affent  to  his  country, \nwhen  condudling  itfelf  with  feverity,  than  to  his  father  ?  Likewife  that  he \nfhould  be  pcrfuaded  by  it,  and  do  what  it  orders?  That  he  fhould  quietly \nfuffer,  if  it  orders  him  to  fufFer  ?  And  that,  if  it  commands  him  to  be  beaten^ \nor  confined  in  bonds,  or  fends  him  to  battle  to  be  wounded  or  [flain,  he \nfhould  do  thefe  things,  and  that  it  is  jufl  to  comply?  And  that  he  fhould \nneither  decline  nor  recede  from  nor  defert  his  rank  ;  but  in  war,   in  a  court \nof  juftice,  and  ?very  wh^rc,  the  commands  of  the  city  and  his  country  (hould \nbe  obeyed  ;  or  he  <hould  perfgade  his  country  to  that  which  is  naturally  juft  ; \nbut  that  it  is  not  holy  to  offer  violence  either  to  a  mother  or  a  father,  and \nm-uch  lefs  to  one's  country  ? — What  (hall  we  fay  to  thefe  things,  Crito  ? \nShall  we  acknowledge  that  the  Laws  Ipeak  the  truth  or  not  ? ",
+   "pages": [
+    238,
+    239,
+    240
+   ],
+   "line": 11416
+  },
+  {
+   "id": "taylor1804.crito.p0092",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "To me it appears that they do,",
+   "raw": "Cri.  To  me  it  appears  that  they  do, ",
+   "pages": [
+    240
+   ],
+   "line": 11475
+  },
+  {
+   "id": "taylor1804.crito.p0093",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Conhder, therefore, O Socrates, perhaps the Laws will say, whether our assertion is true, that your present attempt against us is unjust. For we are the authors of your birth, we nourished, we educated you, imparting both to you and all the other citizens all the good in our power, at the same lime proclaiming, that every Athenian who is willing has the liberty of departing wherever he pleases, with all his property, if after having explored and leen the affairs of the city, and us the Laws, we should not be confl:ituted according to his wishes/ Nor does any one of us the Laws impede or forbid any one of you from migrating into some colony, or any other place, with all his property, ^^if we and the city do not please him. But, on the other hand, if any one of you continues to live here after he has seen the manner in which we administer justice, and' govern the city in other parculars, we now say, that he in reality acknowledges to us, that he will do such things as we may command. We also say, that he who is not obedient is triply unjust, because he is difbbedient to his begetters, and to those by whom he was educated; and because, having promised to be persuaded by us, he is neither persuaded, nor does he persuade us, if we do any thing improperly; though at the same time we only propose, and do not fiercely command him to do what we order, but leave to his choice one of two things, either to persuade us, or to obey our mandates; and yet he does neither of these.",
+   "raw": "Soc.  Conhder,  therefore,  O  Socrates,  perhaps  the  Laws  will  fay,  whether \nour  aflertion  is  true,  that  your  prefent  attempt  againft  us  is  unjuft.  For \nwe  are  the  authors  of  your  birth,  we  nourifhed,  we  educated  you,  imparting \nboth  to  you  and  all  the  other  citizens  all  the  good  in  our  power,  at  the  fame \nlime  proclaiming,  that  every  Athenian  who  is  willing  has  the  liberty  of \ndeparting  wherever  he  pleafes,  with  all  his  property,  if  after  having  explored \nand  leen  the  affairs  of  the  city,  and  us  the  Laws,  we  fhould  not  be  con- \nfl:ituted  according  to  his  wishes/  Nor  does  any  one  of  us  the  Laws  impede \nor  forbid  any  one  of  you  from  migrating  into  fome  colony,  or  any  other \nplace,  with  all  his  property,  ^^if  we  and  the  city  do  not  pleafe  him.  But,  on \nthe  other  hand,  if  any  one  of  you  continues  to  live  here  after  he  has  feen  the \nmanner  in  which  we  adminiffer  juftice,  and'  govern  the  city  in  other  par- \nculars,  we  now  fay,  that  he  in  reality  acknowledges  to  us,  that  he  will  do \nfuch  things  as  we  may  command.  We  alfo  fay,  that  he  who  is  not  obedient \nis  triply  unjuft,  bccaufe  he  is  difbbedient  to  his  begetters,  and  to  thofe  by  whom \nhe  was  educated  ;  and  becaufe,  having  promifed  to  be  perfuaded  by  us,  he  is \nneither  perfuaded,  nor  does  he  perfuade  us,  if  we  do  any  thing  improperly ; \nthough  at  the  fame  time  we  only  propofe,  and  do  not  fiercely  command  him \nto  do  what  we  order,  but  leave  to  his  choice  one  of  two  things,  either  to \nperfuade  us,  or  to  obey  our  mandates  ;  and  yet  he  does  neither  of  thefe. ",
+   "pages": [
+    240
+   ],
+   "line": 11477
+  },
+  {
+   "id": "taylor1804.crito.p0094",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "And we say that you also, O Socrates, will be obnoxious to these crimes if you execute what you intend to do; nor will you be the least, but the most obnoxious of all the Athenians. If, therefore, I should a(k them the reason of this, they would perhaps justly reproach me by saying, that I promised to submit to all these conditions beyond the rest of the Athenians. For they would say. This, O Socrates, is a great argument with us, that both we and the city were pleafmg to you; that you especially of all the Athenians would never have dwelt in it, if it had not been particularly agreeable to you. For you never left the city for any of the public fpei^acles except once, when you went to the Isthmian games, nor did you ever go elsewhere, except in your military expeditions. You never went any other journey like other men; nor had you ever any desire of seeing any other city, or becoming acquainted with any other laws; but we and our city were fufficieut for you, so exceedingly were you attached to us, and so much did you consent to be governed by our mandates. Besides, you have procreated children in this city, in consequence of being pleased with it. Further still, in this very judicial process, you might have been condemned to exile, if you had been willing, and might then have executed with the consent of the city what you now attempt without it. Then however you carried yourself loftily, as one who would not be indignant, if it were requisite that you should die; but you preferred, as you said, death to exile. But now you are neither ashamed of those assertions, nor do you revere us the Laws, since you endeavour to destroy us. You also do that which the most vile Have would do, by endeavouring to make your escape contrary to the compacts and agreements according to which you consented to become a member of this CQmmunity, In the first place, therefore, answer us this very thing, -whether we speak the truth in averting, that yoii consented to be governed by us in reality, and not merely in words? Do we in asserting this speak the truth? What shall we say to these things, Crito? Can we say any thing else than that we assent to them?",
+   "raw": "And  we  fay  that  you  alfo,  O  Socrates,  will  be  obnoxious  to  thefe  crimes \nif  you  execute  what  you  intend  to  do ;  nor  will  you  be  the  leaft,  but  the  moft \nobnoxious  of  all  the  Athenians.  If,  therefore,  I  fhould  a(k  them  the  reafon \nof  this,  they  would  perhaps  juffly  reproach  me  by  faying,  that  I  promifed  to \nfubmit  to  all  thefe  conditions  beyond  the  refl  of  the  Athenians.  For  they \nwould  fay.  This,  O  Socrates,  is  a  great  argument  with  us,  that  both  we  and \nthe  city  were  pleafmg  to  you  ;  that  you  efpecially  of  all  the  Athenians  would \nnever  have  dwelt  in  it,  if  it  had  not  been  particularly  agreeable  to  you.  For \nyou  never  left  the  city  for  any  of  the  public  fpei^acles  except  once,  when  you \nwent  to  the  Ifthmian  games,  nor  did  you  ever  go  elfewhere,  except  in  your \nmilitary  expeditions.  You  never  went  any  other  journey  like  other  men  ; \nnor  had  you  ever  any  defire  of  feeing  any  other  city,  or  becoming  acquainted \nwith  any  other  laws ;  but  we  and  our  city  were  fufficieut  for  you,  fo  exceed- \ningly were  you  attached  to  us,  and  fo  much  did  you  confent  to  be  governed \nby  our  mandates.  Befides,  you  have  procreated  children  in  this  city,  in \nconfequence  of  being  pleafed  with  it.  Further  flill,  in  this  very  judicial  pro- \ncefs,  you  might  have  been  condemned  to  exile,  if  you  had  been  willing,  and \nmight  then  have  executed  with  the  confent  of  the  city  what  you  now \nattempt  without  it.  Then  however  you  carried  yourfelf  loftily,  as  one  who \nwould  not  be  indignant,  if  it  were  requifite  that  you  fhould  die  ;  but  you \npreferred,  as  you  faid,  death  to  exile.  But  now  you  are  neither  afhamed  of \nthofe  affertions,  nor  do  you  revere  u^  the  Laws,  fince  you  endeavour  to \ndeflroy  us.  You  alfo  do  that  which  the  moft  vile  Have  would  do,  by  endea- \nvouring to  make  your  efcape  contrary  to  the  compadts  and  agreements \naccording  to  which  you  confented  to  become  a  member  of  this  CQmmunity, \nIn  the  firft  place,  therefore,  anfwer  us  this  very  thing,  -whether  we  fpeak \nthe  truth  in  averting,  that  yoii  confented  to  be  governed  by  us  in  reality,  and \nnot  merely  in  words  ?  Do  we  in  aflerting  this  fpeak  the  truth  ?  What \nfhall  we  fay  to  thefe  things,  Crito?  Can  we  fay  any  thing  elie  than  that \nwe  aflent  to  them  ? ",
+   "pages": [
+    240,
+    241
+   ],
+   "line": 11498
+  },
+  {
+   "id": "taylor1804.crito.p0095",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "It is necessary so to do, Socrates.",
+   "raw": "Cri.  It  is  necelTary  fo  to  do,  Socrates. ",
+   "pages": [
+    241
+   ],
+   "line": 11535
+  },
+  {
+   "id": "taylor1804.crito.p0096",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you not then, they will say, violate these compacts and agreements between us; which you consented to neither from necessity nor through deception, nor in consequence of being compelled to deliberate in a short time; but during the space of seventy years, in which you might have departed if you had been dilTatisfled with us, and the compacts had appeared to you to be unjust? You however neither preferred Lacedasmon nor Crete, which you are perpetually saying are governed by good laws, nor any other city of the Greeks or Barbarians; but you have been less out of Athens than the lame and the blind, and other mutilated persons. So much did the city and we the Laws please you beyond the rest of the Athenians. For who can be pleased with a city without the laws? But now you do not abide by the compacts. You will however abide by them if you are persuaded by us, Socrates, and do not become ridiculous by escaping from the city.",
+   "raw": "Soc.  Do  you  not  then,  they  will  fay,  violate  thefe  compa6ls  and  agree- \nments between  us  ;  which  you  confented  to  neither  from  neceffity  nor \nthrough  deception,  nor  in  confequence  of  being  compelled  to  deliberate  in  a \nfhort  time  ;  but  during  the  fpace  of  feventy  years,  in  which  you  might  have \ndeparted  if  you  had  been  dilTatisfled  with  us,  and  the  compacts  had  appeared \nto  you  to  be  unjuft  ?  You  however  neither  preferred  Lacedasmon  nor  Crete, \nwhich  you  are  perpetually  faying  are  governed  by  good  laws,  nor  any  other \ncity  of  the  Greeks  or  Barbarians  ;  but  you  have  been  lefs  out  of  Athens \nthan  the  lame  and  the  blind,  and  other  mutilated  perfons.  So  much  did \nthe  city  and  we  the  Laws  pleafe  you  beyond  the  reft  of  the  Athenians.  For \nwho  can  be  pleafed  with  a  city  without  the  laws  ?  But  now  you  do  not  abide \nby  the  compads.  You  will  however  abide  by  them  if  you  are  perfuaded  by \nus,  Socrates,  and  do  not  become  ridiculous  by  efcaping  from  the  city. ",
+   "pages": [
+    241
+   ],
+   "line": 11537
+  },
+  {
+   "id": "taylor1804.crito.p0097",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "VOL, IV. 2 1 For For coiifider what advantage can be derived either to yourself or your friends by violating those con:ipa&. For in consequence of your cfcaplng from hence, it is nearly evident that your friends will be exposed to the danger either of baiiifhment, or of the loss of their property. And as for yourself, if you retire to any neighbouring city, vrhether Thebes or Megara (for both are governed by good laws), you will be considered, Socrates, as an cne/ny to their polity. And such as have any regard for their country will look upon you as a corrupter of the laws. You will also confirm them in their good opinion of your judges, who will appear to have very properly condemned you. For he who is a corrupter of the laws will very much appear to be a corrupter of youth and of stupid men. Will you then avoid these well-governed cities, and men of the most elegant manners? Suppofuig you should, will it, therefore, be worth while for you to live? Or,. should you go to these cities, wifl you not blush, Socrates, to difcourfc about the same things as you did here, viz. that virtue and justice, legal inftitutes,. and the laws, should be objects of the greatest attention to men? And do you not think that this conduct of Socrates would be very indecorous? You mull: necessarily think so. But perhaps, avoiding these cities, you will go-to Thessaly, to the guests of Crito. For there there is the greatest disorder and intemperance. And perhaps they will willingly hear you relating how ridiculously you escaped from prison, inverting yourself with a certain apparatus, such as a Skin, or something else which those that make their escape are accustomed to provide, and thus altering your usual appearance.",
+   "raw": "VOL,  IV.  2  1  For \nFor  coiifider  what  advantage  can  be  derived  either  to  yourfclf  or  yonr  friends \nby  violating  thofe  con:ipa&.  For  in  confequence  of  your  cfcaplng  from \nhence,  it  is  nearly  evident  that  your  friends  will  be  cxpofed  to  the  danger \neither  of  baiiifhment,  or  of  the  lofs  of  their  property.  And  as  for  yourfelf, \nif  you  retire  to  any  neighbouring  city,  vrhether  Thebes  or  Megara  (for  both \nare  governed  by  good  laws),  you  will  be  confidered,  Socrates,  as  an  cne/ny \nto  their  polity.  And  fuch  as  have  any  regard  for  their  country  will  look \nupon  you  as  a  corrupter  of  the  laws.  You  will  alfo  confirm  them  in  their \ngood  opinion  of  your  judges,  who  will  appear  to  have  very  properly  con- \ndemned you.  For  he  who  is  a  corrupter  of  the  laws  will  very  much \nappear  to  be  a  corrupter  of  youth  and  of  ftupid  men.  Will  you  then  avoid \nthefe  well-governed  cities,  and  men  of  the  moft  elegant  manners  ?  Sup- \npofuig  you  (hould,  will  it,  therefore,  be  worth  while  for  you  to  live  ?  Or,. \nfhould  you  go  to  thefe  cities,  wifl  you  not  blufh,  Socrates,  to  difcourfc  about \nthe  fame  things  as  you  did  here,  viz.  that  virtue  and  juftice,  legal  inftitutes,. \nand  the  laws,  fhould  be  objeds  of  the  greateft  attention  to  men  ?  And  do \nvou  not  think  that  this  condud  of  Socrates  would  be  very  indecorous?  You \nmull:  necelTarily  think  fo.  But  perhaps,  avoiding  thefe  cities,  you  will  go- \nto ThefTaly,  to  the  guefts  of  Crito.  For  there  there  is  the  greateft  diforder \nand  intemperance.  And  perhaps  they  will  willingly  hear  you  relating  how \nridiculoufly  you  efcaped  from  prifon,  inverting  yourfelf  with  a  certain  appa- \nratus, fuch  as  a  Ikin,  or  fomething  elfe  which  thofe  that  make  their  efcape \nare  accuftomed  to  provide,  and  thus  altering  your  ufual  appearance. ",
+   "pages": [
+    241,
+    242
+   ],
+   "line": 11551
+  },
+  {
+   "id": "taylor1804.crito.p0098",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Do you think no one will say, that you, though an old man, and likely to live but a very little longer, have dared to desire life with such sordid avidity,, and to transgress the greatest laws? Perhaps this will be the case, though you should not have offended any one. But if you should, you will hear, Socrates, many things unworthy of you. You will however live obnoxious, and ii> subjection to all men. But what will you do in Thessaly besides feasting? having come to Theffalj as to a supper. Arvd where shall we find those difcourfes^ concerning justice, and the other virtues? — But do you wish to live for the sake of your children, that you may nurture and instruct them? What then? Bringing them to Thessaly, will you there educate them, making them to be stranger guests, that they may also derive this advantage from you? Or, if you should not do this, but should leave them here, will they be better nurtured and educated in your absence? for your friends will take care of them. Do you suppose then that your children will be taken care of by your friends if you go to Thessaly, and that they will be negledcd by them if you depart to Hades? If indeed any advantage is to be derived from those that call themselves your friends, it is proper to think that they will not.",
+   "raw": "Do  you  think  no  one  will  fay,  that  you,  though  an  old  man,  and  likely  to \nlive  but  a  very  little  longer,  have  dared  to  defire  life  with  fuch  fordid  avidity,, \nand  to  tranfgrefs  the  greatefl  laws  ?  Perhaps  this  will  be  the  cafe,  though  you \nfhould  not  have  offended  any  one.  But  if  you  fhould,  you  will  hear,  Socrates, \nmany  things  unworthy  of  you.  You  will  however  live  obnoxious,  and  ii> \nfubjedion  to  all  men.  But  what  will  you  do  in  ThefTaly  befides  feafting  ?  hav- \ning come  to  Theffalj  as  to  a  fupper.  Arvd  where  fhall  we  find  thofe  difcourfes^ \nconcerning  juftice,  and  the  other  virtues  ? — But  do  you  wifh  to  live  for  the \nfake  of  your  children,  that  you  may  nurture  and  inftrud  them?  What  then? \nBringing  them  to  ThefTaly,  will  you  there  educate  them,  making  them  to  be \nflranger  guefls,  that  they  may  alfo  derive  this  advantage  from  you  ?  Or,  if  you \nfhould  not  do  this,  but  fhould  leave  them  here,  will  they  be  better  nurtured  and \neducated  in  your  abfence  ?  for  your  friends  will  take  care  of  them.  Do \nyou  fuppofe  then  that  your  children  will  be  taken  care  of  by  your  friends \nif  you  go  to  ThefTaly,  and  that  they  will  be  negledcd  by  them  if  you  depart \nto  Hades  ?  If  indeed  any  advantage  is  to  be  derived  from  thofe  that  call \nthemfelves  your  friends,  it  is  proper  to  think  that  they  will  not. ",
+   "pages": [
+    242,
+    243
+   ],
+   "line": 11580
+  },
+  {
+   "id": "taylor1804.crito.p0099",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "But, O Socrates, being persuaded by us your nurses, neither pay more attention to your children, nor to life, nor to any thing else than to justice, that, when you arrive at Hades, you may be able to defend all these particulars to the rulers there. For if, transgressing the laws, you should thus act, it will neither be better, nor more just, nor more holy to yourself, nor to any one of your friends; nor will it be more advantageous to you when you arrive at Hades. But you will depart, if you do depart, not injured by us the Laws, but by men. If however you should so difgracefuUy escape, returning injury for injury, and evil for evil, tranigrefling your agreements and compacts with us, and injuring those whom you ought not to injure in the smallest: degree, viz. yourself, your friends, your country, and us;— in this case, we shall be indignant with you as long as you live; and in another life, our brothers the Laws who reside in Hades will not benevolently receive you; knowing that you attempted, as far as you was able, to destroy us. Let not Crito, therefore, rather than us, persuade you to do what he says.",
+   "raw": "But,  O  Socrates,  being  perfuaded  by  us  your  nurfes,  neither  pay  more \nattention  to  your  children,  nor  to  life,  nor  to  any  thing  elfe  than  to  juflice, \nthat,  when  you  arrive  at  Hades,  you  may  be  able  to  defend  all  thefe  par- \nticulars to  the  rulers  there.  For  if,  tranfgrefling  the  laws,  you  fhould  thus \nadt,  it  will  neither  be  better,  nor  more  juft,  nor  more  holy  to  yourfelf,  nor \nto  any  one  of  your  friends ;  nor  will  it  be  more  advantageous  to  you  when \nyou  arrive  at  Hades.  But  you  will  depart,  if  you  do  depart,  not  injured  by \nus  the  Laws,  but  by  men.  If  however  you  fhould  fo  difgracefuUy  efcape, \nreturning  injury  for  injury,  and  evil  for  evil,  tranigrefling  your  agreements \nand  compadls  with  us,  and  injuring  thofe  whom  you  ought  not  to  injure  in \nthe  fmallefl:  degree,  viz.  yourfelf,  your  friends,  your  country,  and  us;— in \nthis  cafe,  we  fhall  be  indignant  with  you  as  long  as  you  live  ;  and  in  another \nlife,  our  brothers  the  Laws  who  refide  in  Hades  will  not  benevolently \nreceive  you  ;  knowing  that  you  attempted,  as  far  as  you  was  able,  to  deftroy \nus.  Let  not  Crito,  therefore,  rather  than  us,  perfuade  you  to  do  what  he \nfays. ",
+   "pages": [
+    243
+   ],
+   "line": 11603
+  },
+  {
+   "id": "taylor1804.crito.p0100",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Be well afliired, my dear friend Crito, that I seem to hear thefe'things, just as those who are agitated with Corybantic fury appear to hear the melody of pipes. And the sound of these words, like the humming of bees, in my ears, renders me incapable of hearing any thing else. You see then what appears to me at present; and if you should say any thing contrary to these things, you will speak in vain. At the same time, if you think that any thing more should be done, tell me.",
+   "raw": "Be  well  afliired,  my  dear  friend  Crito,  that  I  fcem  to  hear  thefe'things, \njufl  as  thofe  who  are  agitated  with  Corybantic  fury  appear  to  hear  the \nmelody  of  pipes.  And  the  found  of  thefe  words,  like  the  humming  of \nbees,  in  my  ears,  renders  me  incapable  of  hearing  any  thing  elfe.  You  fee \nthen  what  appears  to  me  at  prefent ;  and  if  you  (hould  fay  any  thing  con- \ntrary to  thefe  things,  you  will  fpeak  in  vain.  At  the  fame  time,  if  you \nthink  that  any  thing  more  fhould  be  done,  tell  me. ",
+   "pages": [
+    243
+   ],
+   "line": 11620
+  },
+  {
+   "id": "taylor1804.crito.p0101",
+   "kind": "paragraph",
+   "label": "Cri",
+   "translator": "Thomas Taylor",
+   "text": "But, Socrates, I have nothing further to say.",
+   "raw": "Cri.  But,  Socrates,  I  have  nothing  further  to  fay. ",
+   "pages": [
+    243
+   ],
+   "line": 11628
+  },
+  {
+   "id": "taylor1804.crito.p0102",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Desist, therefore, Crito, and let us adopt this conduct, lince Divinity persuades us thus to act.",
+   "raw": "Soc.  Defifl,  therefore,  Crito,  and  let  us  adopt  this  conduct,  lince  Divinity \nperfuadcs  us  thus  to  adt. ",
+   "pages": [
+    243
+   ],
+   "line": 11630
+  }
+ ],
+ "notes": [
+  {
+   "text": "The Crito is difpofcd after a manner so regular and plain, that it requires no Introduction. I flnll therefore only obfcrvc, that it admirably teaches us to despise the opinions of the vulgar, to endure calamities patiently, and to confidcr the good of the whole as incomparably more important than that of a part,",
+   "raw": "'  The  Crito  is  difpofcd  after  a  manner  fo  regular  and  plain,  that  it  requires  no  Introdu(9ion. \nI  flnll  therefore  only  obfcrvc,  that  it  admirably  teaches  us  to  defpife  the  opinions  of  tlie  vulgar, \nto  endure  calamities  patiently,  and  to  confidcr  the  good  of  the  whole  as  incomparably  more  im- \nportant than  that  of  a  part, ",
+   "page": 229,
+   "line": 10974,
+   "in": "taylor1804.crito.p0013",
+   "anchor": "same page",
+   "id": "taylor1804.crito.n001",
+   "signed": null
+  },
+  {
+   "text": "See The Phaedo, near the beginning.",
+   "raw": "'  See  The  Phaedo,  near  the  beginning. ",
+   "page": 230,
+   "line": 11030,
+   "in": "taylor1804.crito.p0026",
+   "anchor": "same page",
+   "id": "taylor1804.crito.n002",
+   "signed": null
+  },
+  {
+   "text": "What this woman said to Socrates In a dream is taken from the ninth book of the Iliad, and belongs to the speech of Achilles on the embassy to him from Agamemnon, The original is hfMiTi kiv rpiraru ^9ir,v ipi^c>}Mv moififiv. As Socrates applied what is here said ih the dream to a< returning to his true country, the intelligible world, he confirms the explanation of theTrojan wapwhich we have given from Proclus in the Notes on the Phaedrus,.",
+   "raw": "*  What  this  woman  faid  to  Socrates  In  a  dream  is  taken  from  the  ninth  book  of  the  Iliad,  and \nbelongs  to  the  fpeech  of  Achilles  on  the  embafly  to  him  from  Agamemnon,    The  original  is \nhfMiTi  kiv  rpiraru  ^9ir,v  ipi^c>}Mv  moififiv.  As  Socrates  applied  what  is  here  fald  ih  the  dream  to  a< \nreturning  to  his  true  country,  the  intelligible  world,  he  confirms  the  explanation  of  theTrojan  wap- \nwhich  we  have  given  from  Proclus  in  the  Notes  on  the  Phaedrus, . ",
+   "page": 230,
+   "line": 11032,
+   "in": "taylor1804.crito.p0026",
+   "anchor": "same page",
+   "id": "taylor1804.crito.n003",
+   "signed": null
+  },
+  {
+   "text": "Wholes in the order of nature are more excellent than parts; and in consequence of this, as sing more honourable, there is no reciprocity of obligation between the two.",
+   "raw": "*  Wholes  in  the  order  of  nature  arc  more  excellent  than  parts;  and  in  confequence  of  this,  as \n^ing  more  honourable,  there  is  no  reciprocity  of  obligation  between  the  two. ",
+   "page": 239,
+   "line": 11461,
+   "in": "taylor1804.crito.p0091",
+   "anchor": "note mark",
+   "id": "taylor1804.crito.n004",
+   "signed": null
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 12,
+  "notes": 4,
+  "running heads removed": 14,
+  "paragraphs run on across a page": 11,
+  "words joined across lines": 33,
+  "notes run on across a page": 1,
+  "note marks removed": 2,
+  "speeches": 92
+ }
+}

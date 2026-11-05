@@ -1,0 +1,43 @@
+{
+  "_comment": "Jowett's translations of Plato from Project Gutenberg, one entry per ebook, with the Perseus work id of each dialogue it holds. 'markers' says which Stephanus numbers the transcription prints: 'sections' (327B), 'pages' (page numbers in the margin), or 'none'. 'translator' is who made the English, from the book itself (see README.md). Downloaded by tools/fetch_jowett.py; the import is tools/jowett.py.",
+  "ebooks": [
+    {"ebook": 55201, "title": "The Republic of Plato", "printed": "The Republic of Plato, translated by B. Jowett, third edition (Oxford, Clarendon Press, 1888)", "markers": "sections",
+     "works": [{"work": "tlg030", "title": "The Republic", "translator": "Benjamin Jowett"}]},
+    {"ebook": 76464, "title": "The Dialogues of Plato in five volumes, vol. 2", "printed": "The Dialogues of Plato, translated by B. Jowett, third edition, vol. II (Oxford, Clarendon Press, 1892)", "markers": "pages",
+     "works": [
+       {"work": "tlg024", "title": "Meno", "translator": "Benjamin Jowett"},
+       {"work": "tlg001", "title": "Euthyphro", "translator": "Benjamin Jowett"},
+       {"work": "tlg002", "title": "Apology", "translator": "Benjamin Jowett"},
+       {"work": "tlg003", "title": "Crito", "translator": "Benjamin Jowett"},
+       {"work": "tlg004", "title": "Phaedo", "translator": "Benjamin Jowett"},
+       {"work": "tlg023", "title": "Gorgias", "translator": "Benjamin Jowett"},
+       {"work": "tlg026", "title": "Lesser Hippias", "translator": "Benjamin Jowett"},
+       {"work": "tlg013", "title": "Alcibiades I", "translator": "Benjamin Jowett"},
+       {"work": "tlg028", "title": "Menexenus", "translator": "Benjamin Jowett"},
+       {"work": "tlg014", "title": "Alcibiades II", "translator": "Matthew Knight",
+        "translator_evidence": "Jowett, introduction to Appendix II (vol. II, 1892): 'For the translation of these two dialogues [Alcibiades II and Eryxias] I am indebted to my friend and secretary, Mr. Knight.'"},
+       {"work": null, "title": "Eryxias", "translator": "Matthew Knight", "skip": "not one of the 36 works of the tetralogies"}
+     ]},
+    {"ebook": 1572, "title": "Timaeus", "markers": "none", "works": [{"work": "tlg031", "title": "Timaeus", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1571, "title": "Critias", "markers": "none", "works": [{"work": "tlg032", "title": "Critias", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1750, "title": "Laws", "markers": "none", "works": [{"work": "tlg034", "title": "Laws", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1616, "title": "Cratylus", "markers": "none", "works": [{"work": "tlg005", "title": "Cratylus", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1726, "title": "Theaetetus", "markers": "none", "works": [{"work": "tlg006", "title": "Theaetetus", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1735, "title": "Sophist", "markers": "none", "works": [{"work": "tlg007", "title": "Sophist", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1738, "title": "Statesman", "markers": "none", "works": [{"work": "tlg008", "title": "Statesman", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1687, "title": "Parmenides", "markers": "none", "works": [{"work": "tlg009", "title": "Parmenides", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1744, "title": "Philebus", "markers": "none", "works": [{"work": "tlg010", "title": "Philebus", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1600, "title": "Symposium", "markers": "none", "works": [{"work": "tlg011", "title": "Symposium", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1636, "title": "Phaedrus", "markers": "none", "works": [{"work": "tlg012", "title": "Phaedrus", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1580, "title": "Charmides", "markers": "none", "works": [{"work": "tlg018", "title": "Charmides", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1584, "title": "Laches", "markers": "none", "works": [{"work": "tlg019", "title": "Laches", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1579, "title": "Lysis", "markers": "none", "works": [{"work": "tlg020", "title": "Lysis", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1598, "title": "Euthydemus", "markers": "none", "works": [{"work": "tlg021", "title": "Euthydemus", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1591, "title": "Protagoras", "markers": "none", "works": [{"work": "tlg022", "title": "Protagoras", "translator": "Benjamin Jowett"}]},
+    {"ebook": 1635, "title": "Ion", "markers": "none", "works": [{"work": "tlg027", "title": "Ion", "translator": "Benjamin Jowett"}]}
+  ],
+  "not_translated_by_jowett": {
+    "tlg015": "Hipparchus", "tlg016": "Lovers", "tlg017": "Theages", "tlg025": "Greater Hippias",
+    "tlg029": "Cleitophon", "tlg033": "Minos", "tlg035": "Epinomis", "tlg036": "Letters"
+  }
+}

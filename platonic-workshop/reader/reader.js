@@ -1,4 +1,4 @@
-// Platonic Workshop reader (milestones 2 to 5). No libraries, no build step.
+// Platonic Workshop reader (milestones 2 to 6). No libraries, no build step.
 // Your translations and notes (milestone 4) are in mywork.js; the word search
 // across Plato and your word studies (milestone 5) in search.js.
 "use strict";
@@ -19,7 +19,7 @@ async function api(path) {
 
 // ------------------------------------------------------------------ layers
 
-const LAYERS = { eng: "no-eng", notes: "no-notes", links: "no-links", mine: "no-mine" };
+const LAYERS = { grc: "no-grc", eng: "no-eng", notes: "no-notes", links: "no-links", mine: "no-mine" };
 function loadLayers() {
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem("pw.layers") || "{}"); } catch (e) { /* private window */ }
@@ -178,7 +178,7 @@ function renderChunkEnglish(chunk, notes, numbers) {
   const here = notes.filter((n) => n.chunk_id === chunk.id).sort((a, b) => a.offset - b.offset);
   let out = "", pos = 0;
   for (const n of here) {
-    const at = Math.min(n.offset, chunk.text.length);
+    const at = Math.min(n.offset ?? chunk.text.length, chunk.text.length);
     out += esc(chunk.text.slice(pos, at)) + `<sup><a href="#note-${n.id}" data-note="${n.id}" title="${esc(n.commentator)}">${numbers.get(n.id)}</a></sup>`;
     pos = at;
   }
@@ -189,40 +189,137 @@ function speakerLabel(c) {
   return c.label ? `<span class="speaker" title="${esc(c.speaker || "")}">${esc(c.label)}</span>` : "";
 }
 
+// ------------------------------------------------------------------ translations (milestone 6)
+
+// Which English translations are shown, by kind, remembered in the browser.
+const TRANS_DEFAULT = { loeb: true, taylor: true, jowett: false };
+function transKind(ed) {
+  if (ed.source_id === "perseus-english-plato") return "loeb";
+  if (ed.id.endsWith(".jowett")) return "jowett";
+  if (ed.id.endsWith(".taylor1804")) return "taylor";
+  return ed.id;
+}
+function transPrefs() {
+  let p = {};
+  try { p = JSON.parse(localStorage.getItem("pw.trans") || "{}"); } catch (e) { /* private window */ }
+  return { ...TRANS_DEFAULT, ...p };
+}
+function englishEditions() {
+  const order = { loeb: 0, taylor: 1, jowett: 2 };
+  return state.work.editions.filter((e) => e.lang === "eng").sort((a, b) => (order[transKind(a)] ?? 9) - (order[transKind(b)] ?? 9));
+}
+function shownEditions() {
+  const p = transPrefs();
+  const eds = englishEditions().filter((e) => p[transKind(e)]);
+  return eds.length ? eds : englishEditions().slice(0, 1);
+}
+function pct(x) { return (100 * x).toFixed(0) + "%"; }
+// What the reader is told about a translation's placement.
+function placementNote(ed) {
+  const chk = state.work.alignment_check;
+  const rows = (chk && chk.rows) || [];
+  const tot = (rs, k) => { const n = rs.reduce((a, r) => a + r.units, 0); return n ? rs.reduce((a, r) => a + r[k] * r.units, 0) / n : null; };
+  const t = rows.filter((r) => r.level === "section" && r.translation.includes("1804"));
+  const j = rows.filter((r) => r.level === "section" && !r.translation.includes("1804"));
+  const pg = rows.filter((r) => r.level === "page");
+  const tested = (rs, what) => rs.length && tot(rs, "exact") !== null
+    ? ` Tested where the numbers are printed (${what}): the right section for ${pct(tot(rs, "exact"))} of sentences, within one section for ${pct(tot(rs, "within_one"))}.` : "";
+  if (ed.align_method === "computed") {
+    const rs = transKind(ed) === "taylor" ? t : j;
+    return "No Stephanus numbers are printed in this text: each paragraph is placed by computation against the Loeb English (tools/align.py), marked ≈." +
+      tested(rs.length ? rs : t.concat(j), transKind(ed) === "taylor" ? "Taylor's Republic and First Alcibiades" : "Jowett's Republic") +
+      " A paragraph that runs on is shown where it starts, with → and the section where it ends.";
+  }
+  if (ed.align_method === "printed page, section computed") {
+    return "The Stephanus page is printed in the margin; the section within the page is computed (tools/align.py), marked ≈." +
+      (pg.length ? ` Without the printed pages the computation puts ${pct(tot(pg, "exact"))} of sentences on the right page.` : "");
+  }
+  if (ed.align_method === "printed") return "Stephanus sections as printed: " + (ed.translator_note || "");
+  return "Stephanus sections as printed in the Perseus text.";
+}
+function editionTitle(ed) {
+  return [ed.responsible ? "Translator: " + ed.responsible : "", ed.printed || "", ed.translator_note && ed.align_method !== "printed" ? ed.translator_note : "",
+    placementNote(ed), "Proofreading: " + ed.proof_status].filter(Boolean).join("\n");
+}
+function renderTransBar() {
+  const p = transPrefs();
+  const eds = englishEditions();
+  if (eds.length < 2) return "";
+  return `<div class="trans-bar" role="group" aria-label="Translations shown"><span class="tb-k">Translations</span>${eds.map((e) => {
+    const k = transKind(e);
+    const approx = e.align_method && e.align_method !== "printed" ? ` <span class="approx" aria-hidden="true">≈</span>` : "";
+    return `<label class="tb-chip" title="${esc(editionTitle(e))}"><input type="checkbox" data-trans="${esc(k)}" ${p[k] ? "checked" : ""}> ${esc(e.label)}${approx}</label>`;
+  }).join("")}<button type="button" class="link-btn" id="trans-about">About these translations</button></div>`;
+}
+function showTransAbout() {
+  const eds = englishEditions();
+  $("#about-body").innerHTML = `<p class="meta">The English translations of the ${esc(state.work.title)} in this library, and how each is placed at the Stephanus sections.</p>` +
+    eds.map((e) => `<div class="src"><h4>${esc(e.label)}${e.responsible ? ` · ${esc(e.responsible)}` : ""}</h4>
+      <div>${esc(e.printed || "")}</div>
+      ${e.translator_note ? `<div>${esc(e.translator_note)}</div>` : ""}
+      <div>${esc(placementNote(e))}</div>
+      <div class="meta">Proofreading: ${esc(e.proof_status)} · ${e.sections} of ${state.work.sections.length} sections · <code>${esc(e.file || "")}</code></div></div>`).join("") +
+    `<p class="meta">Taylor's volume I (First Alcibiades, Republic) is the corrected text of theosophylib.com; volumes II to V are the OCR of the 1804 printing, cleaned by rule (reports/taylor_ocr.md), and each paragraph keeps the OCR as received: tick <em>Show the OCR</em> to see it under the text. How often computed placements are right: reports/alignment.md.</p>`;
+  $("#about").querySelector("h2").textContent = "Translations";
+  $("#about").showModal();
+}
+function renderTransChunk(c, d, numbers, cont) {
+  const ed = state.work.editions.find((e) => e.id === c.edition_id);
+  const approx = c.align_method && c.align_method !== "printed";
+  const pre = cont ? `<span class="runs" title="Continued from ${esc(c.section_ref)}">from ${esc(c.section_ref)} · </span>` : "";
+  const mark = approx && !cont ? `<span class="approx" title="Placed by computation: ${esc(c.align_method)}">≈</span> ` : "";
+  const runs = !cont && c.end_ref && c.end_ref !== c.section_ref ? ` <span class="runs" title="This paragraph runs on to ${esc(c.end_ref)}">→ ${esc(c.end_ref)}</span>` : "";
+  const who = ed && ed.responsible && ed.responsible.includes(" and ") && c.translator ? ` <span class="runs">(${esc(c.translator.split(" ").pop())})</span>` : "";
+  const raw = c.raw ? `<details class="raw"><summary>OCR as received${c.printed_at ? ", " + esc(c.printed_at) : ""}</summary><pre>${esc(c.raw)}</pre></details>` : "";
+  return `<p>${pre}${mark}${speakerLabel(c)}${renderChunkEnglish(c, d.notes, numbers)}${runs}${who}</p>${raw}`;
+}
+
 function renderPage() {
   const d = state.data;
   const w = state.work;
   const grcEd = w.editions.find((e) => e.lang === "grc");
-  const engEd = w.editions.find((e) => e.lang === "eng");
+  const eds = shownEditions();
+  const shown = new Set(eds.map((e) => e.id));
   const tokByChunk = new Map();
   for (const t of d.tokens) {
     if (!tokByChunk.has(t.chunk_id)) tokByChunk.set(t.chunk_id, []);
     tokByChunk.get(t.chunk_id).push(t);
   }
-  const numbers = new Map(d.notes.map((n, i) => [n.id, i + 1]));
+  // Notes of translations not shown are left out, and the rest numbered in order.
+  d.shownNotes = d.notes.filter((n) => !n.edition_id || shown.has(n.edition_id) || !englishEditions().some((e) => e.id === n.edition_id));
+  const numbers = new Map(d.shownNotes.map((n, i) => [n.id, i + 1]));
   const lastPara = {};
   const idx = MINE.idx = mineIndex(d);
   let html = `<div class="page-head"><h1>${d.page}</h1><span>Stephanus page ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
+  html += renderTransBar();
   if (!d.mine.length) html += `<p class="page-note mine-note">Your work: select Greek words to translate them or write a footnote, or use <em>Write on</em> under a section for the whole of it.</p>`;
-  html += `<div class="cols-head"><span></span><span>Greek · ${esc(grcEd.label)}</span><span class="eng-h">English · ${esc(engEd.label)}</span></div>`;
+  $("#main").style.setProperty("--n", eds.length);
+  html += `<div class="cols-head"><span></span><span class="grc-h">Greek · ${esc(grcEd.label)}</span>${eds.map((e) =>
+    `<span class="eng-h" title="${esc(editionTitle(e))}">${esc(e.label)}${e.align_method && e.align_method !== "printed" ? ` <span class="approx">≈</span>` : ""}${d.chunks.some((c) => c.edition_id === e.id && c.raw) ? ` <label class="raw-toggle"><input type="checkbox" data-raw> Show the OCR</label>` : ""}</span>`).join("")}</div>`;
 
-  for (const s of d.sections) {
-    const g = d.chunks.filter((c) => c.lang === "grc" && c.section_ref === s.ref);
-    const e = d.chunks.filter((c) => c.lang === "eng" && c.section_ref === s.ref);
+  d.sections.forEach((s, i) => {
+    const g = d.chunks.filter((c) => c.lang === "grc" && c.section_ref === s.ref && !c.continued);
     const para = (c, lang) => {
       const cont = lastPara[lang] === c.para;
       lastPara[lang] = c.para;
       return cont ? ' class="cont"' : "";
     };
     const grc = g.map((c) => `<p${para(c, "grc")}>${speakerLabel(c)}${renderChunkGreek(c, tokByChunk.get(c.id) || [], idx)}</p>`).join("");
-    const eng = e.map((c) => `<p${para(c, "eng")}>${speakerLabel(c)}${renderChunkEnglish(c, d.notes, numbers)}</p>`).join("");
+    const eng = eds.map((e) => {
+      const before = i === 0 ? d.chunks.filter((c) => c.continued && c.edition_id === e.id).map((c) => renderTransChunk(c, d, numbers, true)).join("") : "";
+      const here = d.chunks.filter((c) => !c.continued && c.edition_id === e.id && c.section_ref === s.ref);
+      const body = e.source_id === "perseus-english-plato"
+        ? here.map((c) => `<p${para(c, e.id)}>${speakerLabel(c)}${renderChunkEnglish(c, d.shownNotes, numbers)}</p>`).join("")
+        : here.map((c) => renderTransChunk(c, { ...d, notes: d.shownNotes }, numbers, false)).join("");
+      return `<div class="eng" lang="en" data-ed="${esc(e.id)}" data-label="${esc(e.label)}">${before}${body}</div>`;
+    }).join("");
     html += `<section class="sec" id="s-${s.ref}" data-ref="${s.ref}">
       <button class="ref" data-copy="${esc(s.urn)}" title="${esc(s.urn)} (click to copy)">${s.ref}</button>
       <div class="grc" lang="grc">${grc}</div>
-      <div class="eng" lang="en">${eng}</div>
+      ${eng}
       <div class="app">${renderApparatus(s, d, numbers)}</div>
     </section>`;
-  }
+  });
   html += `<div class="pager">${d.prev ? `<a href="${placeHash(WORK, String(d.prev))}">‹ page ${d.prev}</a>` : "<span></span>"}${d.next ? `<a href="${placeHash(WORK, String(d.next))}">page ${d.next} ›</a>` : "<span></span>"}</div>`;
   $("#main").innerHTML = html;
 }
@@ -236,7 +333,7 @@ function linkChip(to_work, to_ref, label, imported, title) {
 
 function renderApparatus(s, d, numbers) {
   const rows = [];
-  const notes = d.notes.filter((n) => n.start_ref === s.ref);
+  const notes = (d.shownNotes || d.notes).filter((n) => n.start_ref === s.ref);
   if (notes.length) {
     const items = notes.map((n) => `<li id="note-${n.id}"><span class="n">${numbers.get(n.id)}</span>${n.body_html}
       <span class="meta"> · ${esc(n.commentator)} · anchored by ${esc(n.anchor_method)} · ${esc(n.proof_status)}</span></li>`).join("");
@@ -475,6 +572,7 @@ function closeInspector() {
 
 async function showSources() {
   const d = await api("sources");
+  $("#about").querySelector("h2").textContent = "Sources in this library";
   const all = JSON.parse(d.build.stats || "[]");
   const sum = (k) => all.reduce((n, s) => n + (s[k] || 0), 0);
   const stats = { sections: sum("sections"), tokens: sum("tokens").toLocaleString(), tagged: sum("tagged").toLocaleString(), notes: sum("notes"), links: sum("links") };
@@ -493,6 +591,7 @@ document.addEventListener("click", (ev) => {
   const w = ev.target.closest(".w");
   if (w) { inspect(+w.dataset.t); return; }
   if (ev.target.closest(".insp-close")) { closeInspector(); return; }
+  if (ev.target.closest("#trans-about")) { showTransAbout(); return; }
   const lk = ev.target.closest("[data-lemma]");
   if (lk) {
     ev.preventDefault();
@@ -534,6 +633,18 @@ document.addEventListener("click", (ev) => {
 });
 
 document.addEventListener("change", (ev) => {
+  if (ev.target.dataset && ev.target.dataset.trans) {
+    const p = transPrefs();
+    p[ev.target.dataset.trans] = ev.target.checked;
+    try { localStorage.setItem("pw.trans", JSON.stringify(p)); } catch (e) { /* ignore */ }
+    if (state.data) { renderPage(); scrollToTarget(); }
+    return;
+  }
+  if (ev.target.matches && ev.target.matches("[data-raw]")) {
+    document.body.classList.toggle("show-raw", ev.target.checked);
+    document.querySelectorAll("[data-raw]").forEach((x) => { x.checked = ev.target.checked; });
+    return;
+  }
   if (ev.target.id === "ab-expand") {
     savePrefs({ expand: ev.target.checked });
     applyAbbr($("#dict .entries"), ev.target.checked);

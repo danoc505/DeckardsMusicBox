@@ -47,6 +47,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import grammar  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
+import translations  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -474,12 +475,12 @@ def build_work(db, work_id, sources):
 
     gh, eh = header_info(g_root), header_info(e_root)
     g_ed, e_ed = f"{work_id}.{grc_file.stem.split('.')[-1]}", f"{work_id}.{eng_file.stem.split('.')[-1]}"
-    db.execute("INSERT INTO edition VALUES (?,?,?,?,?,?,?,?,?,?)", (
+    db.execute("INSERT INTO edition (id, work_id, source_id, lang, role, label, responsible, printed, file, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?)", (
         g_ed, work_id, "perseus-greek-plato", "grc", "text",
         f"{gh['editor'].split()[-1]} ({gh['place']}, {gh['date']})", gh["editor"],
         f"{gh['editor']}, {gh['title']}, vol. {gh['volume']} ({gh['place']}, {gh['date']})",
         f"data/tlg0059/{work_id}/{grc_file.name}", "clean source text"))
-    db.execute("INSERT INTO edition VALUES (?,?,?,?,?,?,?,?,?,?)", (
+    db.execute("INSERT INTO edition (id, work_id, source_id, lang, role, label, responsible, printed, file, proof_status) VALUES (?,?,?,?,?,?,?,?,?,?)", (
         e_ed, work_id, "perseus-english-plato", "eng", "translation",
         f"{eh['editor'].split()[-1]} (Loeb, {eh['date']})", eh["editor"],
         f"{eh['editor']}, {eh['title']}, vol. {eh['volume']} ({eh['place']}, {eh['date']})",
@@ -767,16 +768,23 @@ def build(works, db_path=None, progress=False):
     for w in works:
         t0 = time.time()
         all_stats.append(build_work(db, w, sources))
+        all_stats[-1]["translations"] = translations.build_work_translations(db, w)
         if progress:
             s = all_stats[-1]
+            tr = ", ".join(f"{t['edition'].split('.')[1]} {t['method']}" for t in s["translations"]) or "no other translation"
             print(f"  {s['title']}: {s['sections']} sections, {s['tokens']} words, {s['tagged']} tagged, "
-                  f"{s['notes']} notes ({time.time() - t0:.0f}s)", flush=True)
+                  f"{s['notes']} notes; {tr} ({time.time() - t0:.0f}s)", flush=True)
     build_search(db)
     lookup_stats = build_dictionaries(db)
     lookup_stats.update(build_grammar(db))
     db.execute("INSERT INTO build VALUES ('lookup_stats', ?)", (json.dumps(lookup_stats, ensure_ascii=False),))
     db.execute("INSERT INTO build VALUES ('built_at', ?)", (time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),))
     db.execute("INSERT INTO build VALUES ('stats', ?)", (json.dumps(all_stats),))
+    # Milestone 6: how often the computed placement of translations is right,
+    # checked on the translations whose Stephanus numbers are printed.
+    rows = translations.alignment_check(db)
+    summary = translations.write_alignment_report(rows, REPORTS / "alignment.md") if set(works) == set(ALL_WORKS) else None
+    db.execute("INSERT INTO build VALUES ('alignment_check', ?)", (json.dumps({"rows": rows, "summary": summary}),))
     db.commit()
     problems = db.execute("PRAGMA foreign_key_check").fetchall()
     db.close()

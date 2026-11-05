@@ -1,0 +1,692 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.epinomis",
+ "title": "The Epinomis",
+ "author": "Plato",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. II (London, 1804)",
+ "perseus_work": "urn:cts:greekLit:tlg0059.tlg035",
+ "citation": "1804 page on every segment; Stephanus sections are assigned when the library is built (tools/align.py)",
+ "proof_status": "OCR cleaned by rule",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v2_djvu.txt",
+  "lines": [
+   17406,
+   18297
+  ],
+  "exclude": []
+ },
+ "gap": null,
+ "segments": [
+  {
+   "id": "taylor1804.epinomis.p0001",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "PERSONS OF THE DIALOGUE.",
+   "raw": "PERSONS    OF    THE     DIALOGUE. ",
+   "pages": [
+    393
+   ],
+   "line": 17406
+  },
+  {
+   "id": "taylor1804.epinomis.p0002",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "An ATHENIAN GUEST, CLINIAS the Cretan, and MEGILLUS the Lacedaemonian. According to our agreement, O guest, we are all of us rightly assembled, being three, I, and you, and Megiilus here, for the purpose of considering after what manner we should investigate prudence; which when understood, we say that it causes the human habit to subsist: in the most beautiful manner possible to man, with respect to itself. For we have discussed every thing else respecting the cfl.ibllfhment of laws. But we have not yet related and discovered, that which it is the greatest thing to discover and relate, I mean, what that is by the learning of which mortal man will become wise. We should now endeavour not to leave this uninvestigated: for, if we do, we shall nearly leave that imperfedl,^ for the sake of rendering which apparent from the beginning to the end we have all of us proceeded thus far.",
+   "raw": "An  ATHENIAN  GUEST, \nCLINIAS  the  Cretan,  and \nMEGILLUS  the  Lacedaemonian. \nAccording  to  our  agreement,  O  guefl,  we  are  all  of  us  rightly \naflembled,  being  three,  I,  and  you,  and  Megiilus  here,  for  the  purpofe  of \nconfidering  after  what  manner  we  fhould  inveftigate  prudence;  which  when \nunderftood,  we  fay  that  it  caufes  the  human  habit  to  fubfifl:  in  the  moft \nbeautiful  manner  poffible  to  man,  with  refped  to  itfelf.  For  we  have \ndifcufled  every  thing  elfe  refpedling  the  cfl.ibllfhment  of  laws.  But  we \nhave  not  yet  related  and  difcovered,  that  which  it  is  the  greateft  thing  to \ndifcover  and  relate,  I  mean,  what  that  is  by  the  learning  of  which  mortal \nman  will  become  wife.  We  fhould  now  endeavour  not  to  leave  this  un- \ninveftigated  :  for,  if  we  do,  we  fliall  nearly  leave  that  imperfedl,^  for  the \nfake  of  rendering  which  apparent  from  the  beginning  to  the  end  we  have \nall  of  us  proceeded  thus  far. ",
+   "pages": [
+    null
+   ],
+   "line": 17408
+  },
+  {
+   "id": "taylor1804.epinomis.p0003",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Athenian Guest. You speak well, friend Clinias. But I think you will now hear a wonderful discourse, though again in a certain respect it is not wonderful. For many that we meet with in life assert, that the human race can neither be blejffed nor happy. Attend, jtherefore, and see, whether it appears to you as well as to me, that by speaking as follows about this afFair we shall speak well. For I say it is not possible for men in this Hfe, except a few, to become blessed and happy. But the hope is beautiful that after death we shall obtain every thing, for the sake of which we cheerfully live and die in the best manner we are able. Nor is my assertion novel, but that which we all after a certain manner know, as well Barbarians as Greeks.-For the production of every animal is in the beginning difficult. In the first place, the participation of the foetal habit is difficult; and, in the next place, to be nouriffied and educated. And, as we all say, these thinf>-s are accomplished through ten thousand labours. The time, too, is short, not only with respect to the endurance of calamities, but every thing else which causes human life to take breath, as it were, about a medium. For old ao-e swiftly arriving makes every one who is not full of puerile opinion unwilling to return to life again, wheii he considers the life he has lived. And is not the subject of our present investigation an argument of the truth of these assertions? For we investigate how we may become wise, taking it for granted that there is in each of us a power by which this may be accom-^ plifhcd. But wisdom theii flies from us, when we apply ourselves to any of those things which are called by the name of art or prudence, or to any other such particulars as we rank among the sciences; because no one of these, as being conversant with human affairs, deserves to be called by the appellation of wisdom. The soul, however, vehemently confides and prophesies, that she naturally possesses this power: but what it is, and when, and how it subsists, she is not altogether able to discover. But do not our doubting and investigation respecting wisdom refer to this exceedingly^ viz. that there is abundance of hope for such as are able to examine botb themselves and others prudently, and in an according manner, through every kind of reasoning and disputation? Shall we say that these things are so, or not?",
+   "raw": "Athenian  Guest.  You  fpeak  well,  friend  Clinias.  But  I  think  you  will \nnow  hear  a  wonderful  difcourfe,  though  again  in  a  certain  refpedt  it  is  not \nwonderful.  For  many  that  we  meet  with  in  life  affert,  that  the  human  race \ncan  neither  be  blejffed  nor  happy.     Attend,  jtherefore,   and  fee,   whether  it \nappears  to  you  as  well  as  to  me,  that  by  fpeaking  as  follows  about  this  afFair \nwe  (hall  fpeak  well.  For  I  fay  it  is  not  poffible  for  men  in  this  Hfe,  except \na  few,  to  become  bleffed  and  happy.  But  the  hope  is  beautiful  that  after \ndeath  we  (hall  obtain  every  thing,  for  the  fake  of  which  we  cheerfully  live \nand  die  in  the  bcfl  manner  we  are  able.  Nor  is  my  aflertion  novel,  but \nthat  which  we  all  after  a  certain  manner  know,  as  well  Barbarians  as  Greeks.- \nFor  the  produ6lion  of  every  animal  is  in  the  beginning  difficult.  In  the \nfirft  place,  the  participation  of  the  foetal  habit  is  difficult;  and,  in  the  next \nplace,  to  be  nouriffied  and  educated.  And,  as  we  all  fay,  thefe  thinf>-s  are \naccomplifhed  through  ten  thoufand  labours.  The  time,  too,  is  fhort,  not \nonly  with  refpe61  to  the  endurance  of  calamities,  but  every  thing  elfe  which \ncaufes  human  life  to  take  breath,  as  it  were,  about  a  medium.  For  old  ao-e \nfwiftly  arriving  makes  every  one  who  is  not  full  of  puerile  opinion  unwil- \nling to  return  to  life  again,  wheii  he  confiders  the  life  he  has  lived.  And  is \nnot  the  fubjed  of  our  prefent  inveftigation  an  argument  of  the  truth  of  thefe \naflertions  ?  For  we  inveftigate  how  we  may  become  wife,  taking  it  for \ngranted  that  there  is  in  each  of  us  a  power  by  which  this  may  be  accom-^ \nplifhcd.  But  wifdom  theii  flies  from  us,  when  we  apply  ourfelves  to  any  of \nthofe  things  which  are  called  by  the  name  of  art  or  prudence,  or  to  any \nother  fuch  particulars  as  we  rank  among  the  fciences ;  becaufe  no  one  of \nthefe,  as  being  converfant  with  human  affairs,  deferves  to  be  called  by  the \nappellation  of  wifdom.  The  foul,  however,  vehemently  confides  and  pro- \nphefies,  that  (he  naturally  pofTefTes  this  power  :  but  what  it  is,  and  when,  and \nhow  it  fubfifls,  fhe  is  not  altogether  able  to  difcover.  But  do  not  our \ndoubting  and  inveftigation  refpedling  wifdom  refer  to  this  exceedingly^ \nviz.  that  there  is  abundance  of  hope  for  fuch  as  are  able  to  examine  botb \nthemfelves  and  others  prudently,  and  in  an  according  manner,  througli \nevery  kind  of  reafoning  and  difputation  ?  Shall  we  fay  that  thefe  things  are \nfo,  or  not  ? ",
+   "pages": [
+    null
+   ],
+   "line": 17426
+  },
+  {
+   "id": "taylor1804.epinomis.p0004",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "We admit that they are, O guest, hoping that we shall in time too-ether with you, entertain the most true opinions respecting them.",
+   "raw": "Clin.  We  admit  that  they  are,  O  gueft,  hoping  that  we  fhall  in  time^ \ntoo-ether  with  you,  entertain  the  mofl  true  opinions  refpeding  them. ",
+   "pages": [
+    393
+   ],
+   "line": 17466
+  },
+  {
+   "id": "taylor1804.epinomis.p0005",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "In the first: place, then, let us discuss those other pursuits which)",
+   "raw": "Guest.  In  the  firfl:  place,  then,  let  us  difcufs  thofe  other  purfuits  which) ",
+   "pages": [
+    393
+   ],
+   "line": 17469
+  },
+  {
+   "id": "taylor1804.epinomis.p0006",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "are, indeed, called sciences, but do not render him wise who receives and",
+   "raw": "are,   indeed,  called   fciences,   but  do  not  render  him  wife  who  receives  and ",
+   "pages": [
+    393
+   ],
+   "line": 17471
+  },
+  {
+   "id": "taylor1804.epinomis.p0007",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "possesses them; that, removing these out of the way, we may endeavour to",
+   "raw": "pofTefTes  them ;  that,  removing  thefe  out  of  the  way,  we  may  endeavour  to ",
+   "pages": [
+    393
+   ],
+   "line": 17473
+  },
+  {
+   "id": "taylor1804.epinomis.p0008",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "assign the particulars of which we are in want, and, when assigned, to learn them. Let us, therefore, first confidcr the things which the mortal genus first requires: for these are nearly mofi: nccefiary, and truly such as are firll. But he who is knowing in these, though at firi} he may appear to be wise, yet now he is not considered as such, but is rather disgraced by science of this kind. We shall mention, therefore, what they are, and shall show that every one who proposes to appear to others to be a mod excellent man, will avoid these through the poileffioa of prudence and accurate study. J.ct the first art then be that which orders us to abstain from the eating of human flesh; this, according to the fable, being the practice of mankind formerly, after the manner of savage animals, and which recalls us to legal nutriment* The antients, indeed, were and are benevolent to us. Let us, however, bid farewell to those whom we call the first men. The preparation, indeed, and nutriment of Cerealian food is beautiful and good, but will never render a man completely wise: for it is attended with molestation. Nor yet will the whole of agriculture be able to accomplish this. For we all of us appear to undertake the cultivation of the earth, not from art but nature, through the favour of Divinity. But neither can the con/lru61ion of houses, the whole of architecture, the making of every kind of furniture, the art of the copperfmith, and the apparatus of tedonic, plastic, ple6tic, and, in short, of all instruments which are accommodated to the vulgar, but are not subservient to virtue, accomplish this. Nor, again, can the whole of hunting, though it is various and artificial, confer magnificence on the wise man. Nor yet divination, or the interpreting art; for these alone know that which is asserted, but they do not understand whether it is true or not. Since then we see that none of those arts by which necessaries are procured can make any one v^afe, after this that discipline remains which is for the most part imitative, but by no means serious. For imitation is here effected by means of many instruments, and through many gestures of bodies not altogether graceful. In discourse, too, there is imitation in every Muse; and in things of which the graphic art is the mother, where things, many and all-various, are expressed in moist and dry bodies; none of which, though fabricated with the greatest diligence, can in any respect render a man wise. After imitation, those arts remain which afford sg^i T n E E P T N O M I S; o n,",
+   "raw": "afTign  the  particulars  of  which  we  are  in  want,  and,  when  afligned,  to  learn \nthem.     Let  us,   therefore,  firft  confidcr  the  things  which  the  mortal  genus \nfirft  requires  :  for  thefc  arc  nearly  mofi:  nccefiary,  and  truly  fuch  as  are  firll  * . \nBut  he  who  is  knowing  in  thefe,  though  at  firi}  he  may  appear  to   be  wife, \nyet  now  he  is  not  confidered  as   fuch,    but  is  rather  difgraced  by  fcicnce  of \nthis  kind.     We  fliall  mention,  therefore,  what  they  are,  and  fhall  (how  that \nevery  one   who  propofes  to  appear   to  others   to    be  a  mod  excellent  man, \nwill  avoid  thefe  through  the  poileffioa  of  prudence  and  accurate  fludy.     J.ct \nthe  firft  art  then  be  that  which  orders  us  to  abflain  from  the  eating  of  human \nflefh  ;  this,  according  to  the  fable,   being  the  pra61ice  of  mankind  formerly, \nafter  the  manner  of  favage  animals,  and  which  recalls  us  to  legal  nutriment* \nThe  antients,  indeed,  were  and  are  benevolent  to  us.     Let  us,  however,  bid \nfarewell  to  thofe  whom  we  call  the  firft  men.     The  preparation,   indeed, \nand  nutriment  of  Cerealian  food  is  beautiful  and  good,  but  will  never  render \na  man  completely  wife :    for  it  is  attended   with   moleftation.     Nor   yet \nwill   the  whole  of  agriculture   be  able   to  accomplifh   this.     For    we  all \nof  us  appear  to  undertake  the  cultivation  of  the  earth,  not  from  art  but \nnature,  through  the  favour  of  Divinity.     But  neither  can  the  con/lru61ion \nof  houfes,  the  whole  of  architecture,  the  making  of  every  kind  of  furni- \nture, the  art  of  the  copperfmith,  and  the  apparatus   of  tedonic,  plaftic, \nple6tic,  and,  in  fhort,  of  all  inflruments  which  are  accommodated  to  the \nvulgar,  but  are  not  fubfervient  to  virtue,  accomplifh  this.     Nor,  again,  can \nthe  whole  of  hunting,  though  it  is  various  and  artificial,  confer  magnificence \non  the   wife   man.     Nor  yet  divination,   or  the  interpreting  art;  for  thefe \nalone  know  that  which  is  afTerted,  but  they  do  not  underftand  whether  it  is \ntrue  or  not.     Since  then  we  fee  that  none   of  thofe  arts  by  which  necelTa- \nries  are  procured  can  make  any  one  v^afe,  after  this  that  difcipline  remains \nwhich  is  for  the  mofl  part  imitative,  but  by  no  means  ferious.     For  imita- \ntion is  here  efFeded  by  means  of  many  inflruments,  and  through  many  gef- \ntures  of  bodies  not  altogether  graceful.     In  difcourfe,  too,  there  is  imita- \ntion in  every  Mufe  ;  and  in  things  of  which  the  graphic  art  is  the  mother, \nwhere  things,  many  and  all-various,  are  exprefTed  in  moifl  and  dry  bodies  ; \nnone  of  which,  though  fabricated  with  the  greateft  diligence,  can  in  any \nrefped  render  a  man  wife.     After  imitation,  thofe  arts  remain  which  afford \nsg^i  T  n  E    E  P  T  N  O  M  I  S ;    o  n, ",
+   "pages": [
+    null
+   ],
+   "line": 17475
+  },
+  {
+   "id": "taylor1804.epinomis.p0009",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "innumerable hdps to men on innnmerable occasions. The greatest of these and the most useful is the warlike art; but it is in want of abundance of felicity, and naturally rather requires fortitude than wisdom. But that which they call the medicinal art affords us assistance in unseasonable cold and heat, and in all those circumstances by which the nature of animals is injured; at the same time that no one of these contributes to the most: true wisdom, for they proceed by uncertain conjectures and opinions. We likewise acknowledge that pilots and sailors afford us afUflance; but at the same time we do not permit any one of these to be called a wise man. For none of them knows the rage, or the friendship, of the winds, which is the mod acceptable thing in the whole of the pilot's art. Nor yet do we call those wise who by the power of eloquence afford afllftance in courts of justice;, for these pay attention to the manners of opinion, through memory and experience, but wander from t\"he truth of things juH: in reality. There still remains a certain absurd power with refpe£t to the opinion of wifdom^ which many denominate nature rather than wisdom. This takes place when any one easily understands a thing which he is learning, and firmly remembers a multitude of things; and can rapidly attribute to any thing that which is accommodated to it, when it is proper so to do. For all these some denominate nature, others wisdom, and others sagacity of nature.. But no prudent person will ever be willing to call any one of these a truly wise nnan. It is however necessary, that a certain science should be rendered, apparent, which he who possesses will.be truly wise, and not only so in opinion. But let us consider; for we are attempting a thing in every respect difficult, as we are endeavouring to find something different from the above-mentioned particulars, which may be truly and with propriety called wlldom, and which he who receives will neither be vile, nor stupid, but be rendered through it wise and good, and become an elegant man in a cit}%. whether he governs or is governed.",
+   "raw": "innumerable  hdps  to  men  on  innnmerable  occafions.  The  greatefl  of  tliefe \nand  the  moft  ufeful  is  the  warlike  art ;  but  it  is  in  want  of  abundance  of \nfelicity,  and  naturally  rather  requires  fortitude  than  wifdom.  But  that \nwhich  they  call  the  medicinal  art  affords  us  afliflance  in  unfeafonable  cold \nand  heat,  and  in  all  thofe  circumftances  by  which  the  nature  of  animals  is \ninjured  ;  at  the  fame  time  that  no  one  of  thefe  contributes  to  the  mofl:  true \nwifdom,  for  they  proceed  by  uncertain  conje6lures  and  opinions.  We  like- \nwife  acknowledge  that  pilots  and  fallors  afford  us  afUflance  ;  but  at  the  fame \ntime  we  do  not  permit  any  one  of  thefe  to  be  called  a  wife  man.  For  none \nof  them  knows  the  rage,  or  the  friendfliip,  of  the  winds,  which  is  the  mod \nacceptable  thing  in  the  whole  of  the  pilot's  art.  Nor  yet  do  we  call  thofc \nwife  who  by  the  power  of  eloquence  afford  afllftance  in  courts  of  juflice  ;, \nfor  thefe  pay  attention  to  the  manners  of  opinion,  through  memory  and \nexperience,  but  wander  from  t\"he  truth  of  things  juH:  in  reality.  There \nftill  remains  a  certain  abfurd  power  with  refpe£t  to  the  opinion  of  wifdom^ \nwhich  many  denominate  nature  rather  than  wifdom.  This  takes  place \nwhen  any  one  eafily  underflands  a  thing  which  he  is  learning,  and  firmly \nremembers  a  multitude  of  things ;  and  can  rapidly  attribute  to  any  thing \nthat  which  is  accommodated  to  it,  when  it  is  proper  fo  to  do.  For  all  thefe \nfome  denominate  nature,  others  wifdom,  and  others  fagacity  of  nature.. \nBut  no  prudent  perfon  will  ever  be  willing  to  call  any  one  of  thefe  a  truly \nwife  nnan.  It  is  however  neceffary,  that  a  certain  fcience  fhould  be  rendered, \napparent,  which  he  who  pofTelTes  will.be  truly  wife,  and  not  only  fo  in \nopinion.  But  let  us  confider  ;  for  we  are  attempting  a  thing  in  every  refped \ndifficult,  as  we  are  endeavouring  to  find  fomething  different  from  the  above- \nmentioned  particulars,  which  may  be  truly  and  with  propriety  called  wll- \ndom,  and  which  he  who  receives  will  neither  be  vile,  nor  ftupid,  but  be \nrendered  through  it  wife  and  good,  and  become  an  elegant  man  in  a  cit}%. \nwhether  he  governs  or  is  governed. ",
+   "pages": [
+    393
+   ],
+   "line": 17527
+  },
+  {
+   "id": "taylor1804.epinomis.p0010",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Let us, therefore, consider this in the first place, investigating that one science belonging to human nature, which not existing, man would become most stupid and unwise. But this is not very difficult to perceive. For, as I may say, referring one to one, that which number imparts to the mortal race will accomplish this. I think, however, that a God himself, rather th^ii a certain fortune, gave us this for our preservation. It is proper,",
+   "raw": "Let  us,  therefore,  confider  this  in  the  firfl  place,  invefligating  that  one \nfcience  belonging  to  human  nature,  which  not  exifling,  man  would  become \nmofl  flupid  and  unwife.  But  this  is  not  very  difficult  to  perceive.  For, \nas  I  may  fay,  referring  one  to  one,  that  which  number  imparts  to  the  mortal \nrace  will  accomplifh  this.  I  think,  however,  that  a  God  himfelf,  rather \nth^ii  a   certain  fortune,  gave  us  this  for  our  prefervation.     It  is  proper, ",
+   "pages": [
+    393
+   ],
+   "line": 17557
+  },
+  {
+   "id": "taylor1804.epinomis.p0011",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "however. T H E P H I L O S O P H E R. 393",
+   "raw": "however. \nT  H  E    P  H  I  L  O  S  O  P  H  E  R.  393 ",
+   "pages": [
+    null
+   ],
+   "line": 17564
+  },
+  {
+   "id": "taylor1804.epinomis.p0012",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "iiowever, to inform you what God I think it was, though my opinion will appear wonderful, and yet in a certain respect: nut wonderful. For, how is it pofTiblc that he who is the cause to us of every thing good should not also be the cause of by far the greatest good, prudence? But what God am I celebrating, O Mcglllns and Clinias? Nearly Heaveriy whom it is moll just we should, in the highest: degree, honour, and fervently pray to, iince this is done by all other Daemons and Gods. That Heaven indeed, is the cause to us of all other good, we all acknowledge. But we must: also assert that, at the same time, he has given us number, and still imparts it to us, if any one is willing to follow us in what we say. For he will ascend to the right contemplation of this divinity (whether we may be allowed to call him the World, or Olympus, or Heaven,) U'ho attends to the variety it contains, and how, by the courses of the stars which revolve in it, it imparts the seasons and nutriment to all things; and besides these, prudence, as we have said, together with all number, and every other good. But this is the greatest thing, when any one, receiving from him the gift of number, proceeds through every circulation. Again, recurring back a little, let us call to mind that we very rightly conceived that, by taking away number from human nature, we should be deprived of prudence. For the soul of this animal would scarcely any longer be able to receive every virtue, if deprived of reason. But the animal which does not know two and three, the even and the odd, and is entirely ignorant of number, will never be able to give a reason respecting those things of which it alone pofleiTes sensation and memory; but nothing hinders it from pofTeliing the other virtues, I mean fortitude and temperance, without this knowledge. However, he who is void of true reason can never become wise. And he to whom wisdom is not present, which is the greatest part of the whole of virtue, as in this Q?i{c he will not be perfedly good, so he will never be happy. So thait there is the greatest necessity that number should be cftabliihed as a principle: but to show that this is necessary, a difcourfc longer than the preceding is requisite. It was, however, just now rightly asserted by us, that all the other arts which we a little before enumerated, must be entirely subverted if the arithmetical science is taken away. But some one who looks to the arts may be oi opinion, that there are but {^vf thinsis in which mankind are indio^ent of number; yet, even here its utility is great. But if any one looks to that VOL. II. £ which which is divine and mortal in gcneratron, in \\^hich the cultivation of ciivinity and true piety are known, he v/ill find that no prophet can compreiiend the mighty power \\\\4iich the whole of numher poiTeflcs. J'or It is evident that every thing pertairring to music requires numbered motion and sounds And, which is the greatest: thing, it may be easily ku-o\\^'n that irumber is the cause of every thing good, but of nothing evil, becaule every irr-ational, dii-ordered, inelegant, and unharmonious lation, and all such things as participate of a certain evil, are deprived of all number. And this ought to be thus understood by him who is to be finally happy. To which we may add that he who is ignorant of the just, the good, the beautiful, an<l all such things, and who has not received a true opinion respecting them, cannot employ the power of number in order to persuade himself and others.",
+   "raw": "iiowever,  to  inform  you  what  God  I  think  it  was,  though  my  opinion  will \nappear  wonderful,  and  yet  in  a  certain  refped:  nut  wonderful.  For,  how  is \nit  pofTiblc  that  he  who  is  the  caufe  to  us  of  every  thing  good  fliould  not  alfo \nbe  the  caufe  of  by  far  the  greateft  good,  prudence  ?  But  what  God  am  I \ncelebrating,  O  Mcglllns  and  Clinias  ?  Nearly  Heaveriy  whom  it  is  moil \njuft  we  (hould,  in  the  hlghefl:  degree,  honour,  and  fervently  pray  to,  iince \nthis  is  done  by  all  other  Daemons  and  Gods.  That  Heaven^  indeed,  is  the \ncaufe  to  us  of  all  other  good,  we  all  acknowledge.  But  we  mufl:  alfo  affert \nthat,  at  the  fame  time,  he  has  given  us  number,  and  ftill  imparts  it  to  us,  if \nany  one  is  willing  to  follow  us  in  what  we  fay.  For  he  will  afcend  to  the \nright  contemplation  of  this  divinity  (whether  we  may  be  allowed  to  call \nhim  the  World,  or  Olympus,  or  Heaven,)  U'ho  attends  to  the  variety  it \ncontains,  and  how,  by  the  courfes  of  the  ftars  which  revolve  in  it,  it  imparts \nthe  fcafons  and  nutriment  to  all  things  ;  and  befides  thefe,  prudence,  as  we \nhave  faid,  together  with  all  number,  and  every  other  good.  But  this  is  the \ngreateft  thing,  when  any  one,  receiving  from  him  the  gift  of  number,  pro- \nceeds through  every  circulation.  Again,  recurring  back  a  little,  let  us  call \nto  mind  that  we  very  rightly  conceived  that,  by  taking  away  number  from \nhuman  nature,  we  fliould  be  deprived  of  prudence.  For  the  foul  of  this  ani- \nmal would  fcarcely  any  longer  be  able  to  receive  every  virtue,  if  deprived  of \nreafon.  But  the  animal  which  does  not  know  two  and  three,  the  even  and \nthe  odd,  and  is  entirely  ignorant  of  number,  will  never  be  able  to  give  a  rea- \nfon refpedling  thofe  things  of  which  it  alone  pofleiTes  fenfation  and  memory  ; \nbut  nothing  hinders  it  from  pofTeliing  the  other  virtues,  I  mean  fortitude \nand  temperance,  without  this  knowledge.  However,  he  who  is  void  of \ntrue  reafon  can  never  become  wife.  And  he  to  whom  wifdom  is  not  pre- \nfent,  which  is  the  greateft  part  of  the  whole  of  virtue,  as  in  this  Q?i{c  he  will \nnot  be  perfedly  good,  fo  he  will  never  be  happy.  So  thait  there  is  the \ngreateft  neceffity  that  number  fhould  be  cftabliihed  as  a  principle  :  but  to \n(how  that  this  is  neceftary,  a  difcourfc  longer  than  the  preceding  is  requifite. \nIt  was,  however,  juft  now  rightly  afferted  by  us,  that  all  the  other  arts \nwhich  we  a  little  before  enumerated,  muft  be  entirely  fubverted  if  the  arith- \nmetical feience  is  taken  away.  But  fome  one  who  looks  to  the  arts  may  be \noi  opinion,  that  there  are  but  {^vf  thinsis  in  which  mankind  are  indio^ent  of \nnumber  ;  yet,  even  here  its  utility  is  great.  But  if  any  one  looks  to  that \nVOL.  II.  ^  £  which \nwhich  is  divine  and  mortal-  in  gcneratron,  in  \\^hich  the  cultivation  of  ciivi- \nnity  and  true  piety  are  known,  he  v/ill  find  that  no  prophet  can  compreiiend \nthe  mighty  power  \\\\4iich  the  whole  of  numher  poiTeflcs.  J'or  It  is  evident \nthat  every  thing  pertairring  to  mufic  requires  numbered  motion  and  founds \nAnd,  which  is  the  greatefl:  thing,  it  may  be  cafily  kn-o\\^'n  that  irumber  is  the \ncaufe  of  every  thing  good,  but  of  nothing  evil,  becaule  every  irr-ational,  dii- \nordered,  inelegant,  and  unharmonious  lation,  and  all  fuch  things  as  parti- \ncipate of  a  certain  evil,  are  deprived  of  all  number.  And  this  ought  to  be \nthus  underftood  by  him  who  is  to  be  finally  happy.  To  which  we  may  add^ \nthat  he  who  is  ignorant  of  the  juft,  the  good,  the  beautiful,  an<l  all  fuch \nthings,  and  who  has  not  received  a  true  opinion  refpe61ing  them,  cannot \nemploy  the  power  of  number  in  order  to  perfuade  himfclf  and  others. ",
+   "pages": [
+    null,
+    394
+   ],
+   "line": 17569
+  },
+  {
+   "id": "taylor1804.epinomis.p0013",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "But let us now proceed to consider how we learnt to number: — Whence then, came we to perceive one find two; so that we might understand that in order to the knowledge of which we received this power from the universe? Nature,, indeed, has not imparted to many animals the power of numbering, derived from their parents; but Divinity first: implanted in us the ability of understanding number in that which is pointed out to us. Afterwards he rendered it more apparent to us; in which unfolding of things-nothing can be seen more beautiful, if one thing is compared with another,. than the genus of day* In the next place behold the night, which poffcffes the greatest diversity. For, by continually revolvhig these things, you; will see many days, and many nights, in which the heavens, without ccafing^ teach men one and two, so that even the most indocile may hence learn to-number. For thus each of us, on perceiving these things, may understand three and four, and the many. And from these,. Divinity fabricating, made-one thing the moon, which at one time appearing greater, and at another less, continually varies as far as to fifteen days and nights. And this is a period, if any one is willing to establish the whole circle as one. So that, ass may say, the most indocile animal may learn to number, if he is one to whom Divinity has imparted the ability of learning. And, as far as to these, and in these particulars, every animal has the abihty of becoming skilled in arithmetic, by considering one thing itself,. by itself. But always to reafoii about all numbers, when compared with each other, appears to be a more arduous undertaking. And for the sake of tliis, Divinity having made, as we. have said, the moon, incrcafing and decreasing, fabricated months for the purpose of conftituthig the year, and caused us to compare every number with number, with prosperous fortune. Hence, earth bears fruit for us, and becomes prolific, so that she is the nurse of all animals; and winds and fhowers are produced, neither immoderate nor immense. But if any thing evil happens in these, it is proper to accuse not a divine, but human, nature, as unjustly distributing its own life. To us, therefore, investigating laws, k has appeared, that other things which are best: for men, are easy to be known, and that every one can sufficiently understand and perform what we asserted respecting them, if he understands what is advantageous and what is not so. It has been shown by us, indeed, and at present it appears, that all other pursuits are not difficult in the extreme; but to assign the manner in which men may be rendered good, is perfedly difficult. And again, to possess other goods in a proper manner is, as has been said, possible, and not difficult, — I mean riches, and the body. Likewise, every one acknowledges it is requilite that the soul should be good; and every one will say that it becomes good through temperance, fortitude, and the like. Every one, too, will say that the soul ought to be wile; but what the wisdom is which it ought to acquire, is not, as wejufl: now observed, determined by any of the multitude. Now, therefore, besides the above-mentioned kinds of wisdom, we have discovered a wisdom by no means vile; so that he who learns what we have discussed will appear to be wise. But whether he who learns these things will be in reality wise and good, mud become the fubje£t of our discourse.",
+   "raw": "But  let  us  now  proceed  to  confider  how  we  learnt  to  number : — Whence^ \nthen,  came  we  to  perceive  one  iind  two ;  fo  that  we  might  underfland  that \nin  order  to  the  knowledge  of  which  we  received  this  power  from  the  uni- \nverfe  ?  Nature,,  indeed,  has  not  imparted  to  many  animals  the  power  of \nnumbering,  derived  from  their  parents  ;  but  Divinity  firfl:  implanted  in  us  the^ \nability  of  underftanding  number  in  that  which  is  pointed  out  to  us.  After- \nwards he  rendered  it  more  apparent  to  us ;  in  which  unfolding  of  things- \nnothing  can  be  feen  more  beautiful,  if  one  thing  is  compared  with  another,. \nthan  the  genus  of  day*  In  the  next  place  behold  the  night,  which  pof- \nfcffes  the  greateft  diverfity.  For,  by  continually  revolvhig  thefe  things,  you; \nwill  fee  many  days,  and  many  nights,  in  which  the  heavens,  without  ccafing^ \nteach  men  one  and  two,  fo  that  even  the  moft  indocile  may  hence  learn  to- \nnumber.  For  thus  each  of  us,  on  perceiving  thefe  things,  may  underfland \nthree  and  four,  and  the  many.  And  from  thefe,.  Divinity  fabricating,  made- \none  thing  the  moon,  which  at  one  time  appearing  greater,  and  at  another \nlefs,  continually  varies  as  far  as  to  fifteen  days  and  nights.  And  this  is  a \nperiod,  if  any  one  is  willing  to  eftablifh  the  whole  circle  as  one.  So  that,  as- \nI  may  fay,  the  mofl  indocile  animal  may  learn  to  number,  if  he  is  one  to \nwhom  Divinity  has  imparted  the  ability  of  learning.  And,  as  far  as  to  thefe, \nand  in  thefe  particulars,  every  animal  has  the  abihty  of  becoming  fkilled  in \narithmetic,  by  confidering  one  thing  itfelf,.  by  itfelf.  But  always  to  reafoii \nabout  all  numbers,  when  compared  with  each  other,  appears  to  be  a  more \narduous  undertaking.     And  for  the  fake  of  tliis,  Divinity  having  made,  as \nwe.  have  faid,  the  moon,  incrcafing  and  decreafing,  fabricated  months   for \nthe  purpofc  of  conftituthig  the  year,  and  caufed  us  to  compare  every  num- \nber with  number,  with  profperous  fortune.     Hence,  earth  bears  fruit  for  us, \nand  becomes  prolific,  fo  that  (he  is  the  nurfe  of  all  animals  ;  and  winds  and \nfhowers  are  produced,  neither  immoderate  nor  immenfe.     But  if  any  thing \nevil  happens  in  thefe,  it  is  proper  to  accufe  not  a  divine,  but  human,  nature, \nas  unjuftly  diftributing  its  own  life.     To  us,  therefore,  inveftigating  laws, \nk  has  appeared,  that  other  things  which  are  befl:   for  men,  are  eafy  to  be \nknown,  and  that  every  one  can  fufficiently  underftand  and  perform  what  we \nafTerted  refpe6ling  them,  if  he  underftands  what  is  advantageous  and  what  is  not \nfo.  It  has  been  fhown  by  us,  indeed,  and  at  prefent  it  appears,  that  all  other  pur- \nsuits are  not  difficult  in  the  extreme ;  but  to  aflign  the  manner  in  which  men \nmay  be  rendered  good,  is  perfedly  difficult.    And  again,  to  pofTefs  other  goods \nin  a  proper  manner  is,  as  has  been  faid,  poffible,  and  not  difficult, — I  mean \nriches,  and  the  body.     Likewife,  every  one  acknowledges  it  is  requilite  that \nthe  foul  fliould  be  good ;  and  every  one  will  fay  that  it  becomes  good  through \ntemperance,  fortitude,  and  the  like.     Every  one,  too,  will  fay  that  the  foul \nought  to  be  wile  ;  but  what  the  wifdom  is  which  it  ought  to  acquire,  is  not, \nas  wejufl:  now  obferved,  determined  by  any  of  the  multitude.    Now,  there- \nfore, befides  the  above-mentioned  kinds  of  wifdom,  we  have  difcovered  a \nwifdom  by  no  means  vile ;  fo  that  he  who  learns  what  we  have  difcuffed  will \nappear  to  be  wife.     But  whether  he  who  learns  thefe  things  will  be  in \nreality  wife  and  good,  mud  become  the  fubje£t  of  our  difcourfe. ",
+   "pages": [
+    394,
+    395
+   ],
+   "line": 17622
+  },
+  {
+   "id": "taylor1804.epinomis.p0014",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "How justly, O guest, you said that you should endeavour to speak greatly about great things!",
+   "raw": "Clin.  How  juflly,  O  guefl,  you  faid  that  you  fliould  endeavour  to  fpeak \ngreatly  about  great  things  ! ",
+   "pages": [
+    395
+   ],
+   "line": 17675
+  },
+  {
+   "id": "taylor1804.epinomis.p0015",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "They are not trifling things, Clinias; and what is of still greater consequence, they are in every respect true.",
+   "raw": "Guest.  They  are  not  trifling  things,  Clinias ;  and  what  is  of  flill  greater \nconfequence,  they  are  in  every  refpedl  true. ",
+   "pages": [
+    395
+   ],
+   "line": 17678
+  },
+  {
+   "id": "taylor1804.epinomis.p0016",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "Exccediiigly so, O guest; but, at the same time, do not yield to labour, but continue your discourse.",
+   "raw": "Clin.  Exccediiigly  fo,  O  gueft ;  but,  at  the  fame  time,  do  not  yield  to \nlabour,  but  continue  your  difcourfe. ",
+   "pages": [
+    395
+   ],
+   "line": 17681
+  },
+  {
+   "id": "taylor1804.epinomis.p0017",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "GujEsT. I will. Neither do you, therefore, be weary of hearing. Clin. We shall not: for I will be anfwerable to you for both of us. Guest. It is well. But it is necedary, as it appears, to speak first of all from the beginning; and especially, if we are able, we should comprehend in one name that which we consider as wisdom. But if we are very incapable of accomplishing this, we should consider that which ranks in the second place, the quality and number of those arts, which he who receive* will, according to our do'^irine, be a wise man.",
+   "raw": "GujEsT.  I  will.     Neither  do  you,  therefore,  be  weary  of  hearing. \nClin.  We  fhall  not:  for  I  will  be  anfwerable  to  you  for  both  of  us. \nGuest.  It  is  well.     But  it  is  necedary,  as  it  appears,  to  fpeak  firft  of  all \nfrom  the  beginning;  and  efpecially,  if  we  are  able,  we  fhould  comprehend \nin  one  name  that  which  we  confider  as  wifdom.     But  if  we  are  very  inca- \npable of  accomplifliing  this,  we  fliould  confider   that  which  ranks  in  the \nfecond  place,  the  quality  and  number  of  thofe  arts,  which  he  who  receive* \nwill,  according  to  our  do'^irine,  be  a  wife  man. ",
+   "pages": [
+    395,
+    396
+   ],
+   "line": 17684
+  },
+  {
+   "id": "taylor1804.epinomis.p0018",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "Proceed, then, in this manner.",
+   "raw": "Clin.  Proceed,  then,  in  this  manner. ",
+   "pages": [
+    396
+   ],
+   "line": 17699
+  },
+  {
+   "id": "taylor1804.epinomis.p0019",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "In the next place, then, the legislator will be without envy who speaks better respecting the Gods than the antients, and who employing, a» it were, beautiful djfcipline, honours the Gods with hymns, extols their felicity, and thus passes through life.",
+   "raw": "Guest.  In  the  next  place,  then,  the  legiflator  will  be  without  envy  who \nipeaks  better  refpeding  the  Gods  than  the  antients,  and  who  employing,  a» \nit  were,  beautiful  djfcipline,  honours  the  Gods  with  hymns,  extols  their \nfelicity,  and  thus  pafles  through  life. ",
+   "pages": [
+    396
+   ],
+   "line": 17701
+  },
+  {
+   "id": "taylor1804.epinomis.p0020",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "You speak well, O guest; iince the proposed end of your laws consists in acquiring the best and most beautiful end of life, through reverencing the Gods, and purky of conduft.",
+   "raw": "Clin.  You  fpeak  well,  O  gueft ;  iince  the  propofed  end  of  your  laws \nconfifls  in  acquiring  the  beft  and  moft  beautiful  end  of  life,  through  reve- \nrencing the  Gods,  and  purky  of  conduft. ",
+   "pages": [
+    396
+   ],
+   "line": 17706
+  },
+  {
+   "id": "taylor1804.epinomis.p0021",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "How, therefore, shall we speak, Cliuias.^ Does it appear to you that we should vehemently honour by hymning the Gods, and that we should beseech them that we may proceed to speak things the most beautiful andf the best respecting their divinities? Or how do you say }",
+   "raw": "Guest.  How,  therefore,  ihall  we  fpeak,  Cliuias.^  Does  it  appear  to  you \nthat  we  fhould  vehemently  honour  by  hymning  the  Gods,  and  that  we  fhould \nbefeech  them  that  we  may  proceed  to  fpeak  things  the  mofl  beautiful  andf \nthe  beft  refpe6ling  their  divinities  ?     Or  how  do  you  fay  } ",
+   "pages": [
+    396
+   ],
+   "line": 17710
+  },
+  {
+   "id": "taylor1804.epinomis.p0022",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "Thus, in a wonderful manner. But, Odaemoniacal man, confiding in the Gods, pray, and begin your discourse on the beautiful things respecting the Gods and Goddesses,",
+   "raw": "Clin.  Thus,  in  a  wonderful  manner.  But,  Odaemoniacal  man,  confiding \nin  the  Gods,  pray,  and  begin  your  difcourfe  on  the  beautiful  things  refpedling \nthe  Gods  and  Goddeffes, ",
+   "pages": [
+    396
+   ],
+   "line": 17715
+  },
+  {
+   "id": "taylor1804.epinomis.p0023",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "Be it so,. if Divinity himself is pleased to be our leader. Do yoii only pray with me.",
+   "raw": "Guest.  Be  it  fo,.  if  Divinity  himfelf  is  pleafed  to  be  our  leader.  Do  yoii \nonly  pray  with  me. ",
+   "pages": [
+    396
+   ],
+   "line": 17719
+  },
+  {
+   "id": "taylor1804.epinomis.p0024",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "Now, therefore, proceed with your discourse.",
+   "raw": "Clin.  Now,  therefore,  proceed  with  your  difcourfe. ",
+   "pages": [
+    396
+   ],
+   "line": 17722
+  },
+  {
+   "id": "taylor1804.epinomis.p0025",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "As the antients, then, as it seems, have badly delivered in image* the generation of Gods and animals, it is proper, in the first place, according to our former assertion, to accomplish this in a better raamier, by resuming our discourse to the impious. For, if you remember, Clinias, we have shown that there are Gods, that their providence extends to all things botl$ small and great, and that they are not to be appeased by any unjust supplications or gifts. These things, indeed, you should call to mind, because they are highly true. But the greatest among those assertions is this, that every soul is more antient than every body. Do you remember? or, rather, do' you not perfedly remember this? For that which is better, more antient, and more divine, is prior to that which is worse, junior, and less honourable. And, universally, that which governs is more antient than that which is governed, and that which leads than that which is led. We must admit thi?, therefore, that soul is more antient than body. But, if this be the case, it is probable that what is first in the generation of the first must take the lead. We lay down this position, then, that the principle of a principle subsists in a more becoming manner, and that thus we shall most rightly ascend to the wisdom respecting the generation of the Gods,",
+   "raw": "Guest.  As  the  antients,  then,  as  it  feems,  have  badly  delivered  in  image* \nthe  generation  of  Gods  and  animals,  it  is  proper,  in  the  firfl  place,  accord- \ning to  our  former  afTertion,  to  accomplifli  this  in  a  better  raamier,  by  re- \nfuming  our  difcourfe  to  the  impious.  For,  if  you  remember,  Clinias,  we  have \nfhown  that  there  are  Gods,  that  their  providence  extends  to  all  things  botl$ \nfmall  and  great,  and  that  they  are  not  to  be  appeafed  by  any  unjuft  fupplica- \ntions  or  gifts.  Thefe  things,  indeed,  you  fhould  call  to  mind,  becaufe  they \nare  highly  true.  But  the  greatefl  among  thofe  affertions  is  this,  that  every \nfoul  is  more  antient  than  every  body.  Do  you  remember  ?  or,  rather,  do' \nyou  not  perfedly  remember  this  ?  For  that  which  is  better,  more  antient, \nand  more  divine,  is  prior  to  that  which  is  worfe,  junior,  and  lefs  honourable. \nAnd,  univerfally,  that  which  governs  is  more  antient  than  that  which  is \ngoverned,  and  that  which  leads  than  that  which  is  led.  We  mufl  admit \nthi?,  therefore,  that  foul  is  more  antient  than  body.  But,  if  this  be  the  cafe, \nit  is  probable  that  what  is  firfl  in  the  generation  of  the  firfl  mufl  take  the \nlead.  We  lay  down  this  pofition,  then,  that  the  principle  of  a  principle  fub- \nfifts  in  a  more  becoming  manner,  and  that  thus  we  fhall  moft  rightly  afcend \nto  the  wifdom  refpedling  the  generation  of  the  Gods, ",
+   "pages": [
+    396,
+    397
+   ],
+   "line": 17724
+  },
+  {
+   "id": "taylor1804.epinomis.p0026",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "Let tbefe things be so, which are asserted in the best manner we are able.",
+   "raw": "Clin.  Let  tbefe  things  be  fo,  which  are  afTerted  in  the  beft  manner  we \nare  able. ",
+   "pages": [
+    397
+   ],
+   "line": 17749
+  },
+  {
+   "id": "taylor1804.epinomis.p0027",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "Come, then, do we not say that an animal then subsists most: truly according to nature, when one composition of soul and body produces by its junction one form?",
+   "raw": "Guest.  Come,  then,  do  we  not  fay  that  an  animal  then  fubfifls  mofl:  truly \naccording  to  nature,  when  one  compofition  of  foul  and  body  produces  by  its \njundion  one  form  ? ",
+   "pages": [
+    397
+   ],
+   "line": 17752
+  },
+  {
+   "id": "taylor1804.epinomis.p0028",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "We do.",
+   "raw": "Clin.  We  do. ",
+   "pages": [
+    397
+   ],
+   "line": 17756
+  },
+  {
+   "id": "taylor1804.epinomis.p0029",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "A thing of this kind, then, is most justly called an animaL",
+   "raw": "Guest.  A  thing  of  this  kind,  then,  is  moft  juflly  called  an  animaL ",
+   "pages": [
+    397
+   ],
+   "line": 17758
+  },
+  {
+   "id": "taylor1804.epinomis.p0030",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Clin.  It  is. ",
+   "pages": [
+    397
+   ],
+   "line": 17760
+  },
+  {
+   "id": "taylor1804.epinomis.p0031",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "But it is requisite, aecording to assimilative reasoning, to say, that there are five solid bodies, from which the most beautiful and best things may be fashioned. But the whole of the other genus poiTefTes one form. For there is not any thing else which can be generated immortal, and in na respect at any time possess colour, except the truly most divine genus of soul. But this is nearly that alone to which it pertains to fashion and fabricate; but it belongs to body to be fashioned, generated, and become thd\" object of sight. And we again assert (for it must not be said once only) that it is the property of soul to be invisible, endued with knowledge, intelligible'^ and to partake of memory and the reasoning power in even and odd mutations. As there are, therefore, five bodies, it is requisite to say that two o{ them are fire and water, that the third is air, the fo^ttb earth, and the* fifth aether. But in the several principalities of these many and all-varioua animals are produced The truth of this we may thus learn in one of these bodies. For let us, in the first place, consider the terrene genus of animals,, viz. all the human kind, all such animals as have many feet, and are without feet, such as have a progressive motion, and such as are stable and connected by roots. But this one thing ought to be attended to, that though all animals are constituted from all these genera, yet the terrene genus abounds with e-.rth and solidity. It is, however, requisite to place another genus of animals, which is generated, and, at the same time, capable of being seen. For it consists for the melt part of fire; but likewise contains small parts of earth and air, and of all other things. Hence, it is requisite to afi[ert that all-various and visible animals are generated from this genus. It is likewise necessary to think that these genera of animals constitute all that the heavens contain; or, in other words, that they are the divine genus of the stars, confining of a most beautiful body, and of a soul the most happy and the bed. It is also requisite to consider this respecting these two genera of animals. For each of them is, from the greatell: necefllty, either indestructible, immortal and divine, or the life of each is so extended as not to require any longer period of duration. In the iirfl place, therefore, as we have said, we must consider that there are these two genera of animals. And we again say that both of them are visible; the one, as it appears, consisting wholly of fire, and the other of earth. We must likewise assert, that the earthly genus is moved in a disorderly manner, but that which consists from fire, in perfect order. It is proper, therefore, to consider that which is moved without order, as stupid. But it is requisite to efi:abli(h this as a great argument, that the natures which revolve in the heavens are endued with intelleft, — I mean, that they always proceed according to the same and in a similar manner, and both do and suffer the same. But the necessity of a soul possessing intellect is by far the greatest: of all nece/fities '. For it promulgates laws governing and not governed. But when soul, which is a thing of the most excellent nature, deliberates according to the most excellent intelleft, then that which is perfe<3: according to intelleft takes place in reality, nor can an adamant be more firm and inconvertible than such a soul. Indeed, the three fates preserve perfect that which is deliberated by each of the Gods with the best counsel. It is requisite, therefore, men should be convinced that the stars, and the whole of this progrefilon, are endued with intellect:, from this circumstance, that they always perform the same things. For in the past: time they have deliberated for a wonderfully extended period refpefting their actions. But they are not, in deliberating, agitated upwards and downwards, nor do they wander and revolve in a disorderly manner, afting differently at different times. The contrary of this, however, appears to many of us, — I mean, that because they perform the same things, and in a similar manner, they are without a soul. The vulgar, too, embracing this INSANE OPINION, conccivc that the human genus is intelledual and vital, becayfe it is moved, but that the divine genus is destitute of intellect, because it abides in the same latlons. Rut it becomes the man who attributes to the Gods tilings more beautiful, more excellent, and more friendly to their natures, to conceive that it is necessary to consider them as pofTefiing intellc61, because they always accomplish the same things, according to the same, and in a similar maimer. And that this is the nature of the stars, most beautiful to the sight, and which by a progression and musical dance, the most: beautiful and magnificent of all choirs, produces in all animals every thing that is proper and becoming. But that we justly consider them as animated, may, In the first: place, be evinced by their magnitude. For they are not in reality so small as they appear to be; but it deserves to be believed, that each of them is of an immense magnitude, as this may be shown by sufficient demonstrations. For we may rightly think that the whole sun is larger than the whole earth; and that all the stars possess a wonderful magnitude. We should consider, therefore, after what manner so great a bulk can be made to revolve by a certain nature perpetually in the same time. I say, therefore, that Divinity is the cause of this, and that it cannot in any other manner be accomplished. For it can no othcrwifc become animated than through a God, as we have evinced. As Divinity, therefore, is the cause of its animation, and all things are easy to a God, in the first place, he generated every body and every bulk in the heavens an animal; and, in the next place, he caused it to move in that manner which he conceived, by a dianoetic energy, to be the best. And now, respecting all these particulars, we shall make one true assertion, viz. It is impossible that earth, heaven, all the stars, and all the bulks composed from these, could subsist, unless a soul is either present with each, or resident in each, enabling them to revolve with such accuracy according to years, and months, and days, and thus procuring for all of us every good. But it is requisite that, by how much more vile man is than celestial animals, by so much the less should he trifle, but assert something conspicuous concerning them. He, therefore, who assigns certain fluxions of bodies, or natures, or any thing of this kind, as the causes of the celestial convolutions, will not assert any thing conspicuous.",
+   "raw": "Guest.  But  it  is  requifite,  aecording  to  afTimilative  reafoning,  to  fay,  that \nthere  are  five  folid  bodies,  from  which  the  mofl  beautiful  and  beft  things \nmay  be  fafhioned.  But  the  whole  of  the  other  genus  poiTefTes  one  form.  For \nthere  is  not  any  thing  elfe  which  can  be  generated  immortal,  and  in  na \nrefpedt  at  any  time  polfefs  colour,  except  the  truly  moft  divine  genus  of \nfoul.  But  this  is  nearly  that  alone  to  which  it  pertains  to  fafhion  and  fabri- \ncate ;  but  it  belongs  to  body  to  be  fafhioned,  generated,  and  become  thd\" \nobjcdt  of  fight.  And  we  again  aflert  (for  it  mufl  not  be  faid  once  only)  that \nit  is  the  property  of  foul  to  be  invifible,  endued  with  knowledge,  intelligible'^ \nand  to  partake  of  memory  and  the  reafoning  power  in  even  and  odd  muta- \ntions. As  there  are,  therefore,  five  bodies,  it  is  requifite  to  fay  that  two  o{ \nthem  are  fire  and  water,  that  the  third  is  air,  the  fo^ttb  earth,  and  the* \nfifth  aether.  But  in  the  feveral  principalities  of  thefe  many  and  all-varioua \nanimals  are  produced-  The  truth  of  this  we  may  thus  learn  in  one  of  thefe \nbodies.  For  let  us,  in  the  firft  place,  confider  the  terrene  genus  of  animals,, \nviz.  all  the  human  kind,  all  fuch  animals  as  have  many  feet,  and  are  without \nfeet,  fuch  as  have  a  progreflive  motion,  and  fuch  as  are  flable  and  connected \nby  roots.  But  this  one  thing  ought  to  be  attended  to,  that  though  all  ani- \nmals are  conflituted  from  all  thefe  genera,  yet  the  terrene  genus  abounds \nwith  e-.rth  and  folidity.  It  is,  however,  requifite  to  place  another  genus  of \nanimals,  which  is  generated,  and,  at  the  fame  time,  capable  of  being  feen. \nFor  it  confifls  for  the  molt  part  of  fire  ;  but  likewife  contains  fmall  parts  of \nearth  and  air,  and  of  all  other  things.  Hence,  it  is  requifite  to  afi[ert  that \nall-various  and  vifible  animals  are  generated  from  this  genus.     It  is  likewife \nneceflary  to  think  that  thefc  genera  of  animals  conftitute  all  that  the  heavens \ncontain  ;  or,  in  other  words,  that  they  are  the  divine  genus  of  the  ftars,  con- \nfining of  a  mofl  beautiful  body,  and  of  a  foul  the  moft  happy  and  the  bed. \nIt  is  alfo  requifite  to  confider  this  refpeding  thefe  two  genera  of  animals. \nFor  each  of  them  is,  from  the  greatell:  necefllty,  either  indeftrudible,  im- \nmortal and  divine,  or  the  life  of  each  is  fo  extended  as  not  to  require  any \nlonger  period  of  duration.  In  the  iirfl  place,  therefore,  as  we  have  faid, \nwe  muft  confider  that  there  are  thefe  two  genera  of  animals.  And  we  again \nfay  that  both  of  them  are  vifible  ;  the  one,  as  it  appears,  confifting  wholly \nof  iire,  and  the  other  of  earth.  We  muft  likewife  affert,  that  the  earthly \ngenus  is  moved  in  a  diforderly  manner,  but  that  which  confifts  from  fire,  in \nperfe6l  order.  It  is  proper,  therefore,  to  confider  that  which  is  moved \nwithout  order,  as  ftupid.  But  it  is  requifite  to  efi:abli(h  this  as  a  great  argu- \nment, that  the  natures  which  revolve  in  the  heavens  are  endued  with  intel- \nleft, — I  mean,  that  they  always  proceed  according  to  the  fame  and  in  a  fimi- \nlar  manner,  and  both  do  and  fuffer  the  fame.  But  the  neceffity  of  a  foul  pof- \nfeffing  intelled  is  by  far  the  greatefl:  of  all  nece/fities  '.  For  it  promulgates \nlaws  governing  and  not  governed.  But  when  foul,  which  is  a  thing  of  the \nmoft  excellent  nature,  deliberates  according  to  the  moft  excellent  intelleft, \nthen  that  which  is  perfe<3:  according  to  intelleft  takes  place  in  reality,  nor \ncan  an  adamant  be  more  firm  and  inconvertible  than  fuch  a  foul.  Indeed, \nthe  three  fates  preferve  perfect  that  which  is  deliberated  by  each  of  the  Gods \nwith  the  befl  counfel.  It  is  requifite,  therefore,  men  fhould  be  convinced \nthat  the  ftars,  and  the  whole  of  this  progrefilon,  are  endued  with  intelled:, \nfrom  this  circumftance,  that  they  always  perform  the  fame  things.  For  in \nthe  pafl:  time  they  have  deliberated  for  a  wonderfully  extended  period  re- \nfpefting  their  adions.  But  they  are  not,  in  deliberating,  agitated  upwards \nand  downwards,  nor  do  they  wander  and  revolve  in  a  diforderly  manner, \nafting  differently  at  different  times.  The  contrary  of  this,  however,  appears \nto  many  of  us, — I  mean,  that  becaufe  they  perform  the  fame  things,  and  in \na  fimilar  manner,  they  are  without  a  foul.  The  vulgar,  too,  embracing  this \nINSANE  OPINION,  conccivc  that  the  human  genus  is  intelledual  and  vital, \nbecayfe  it  is  moved,  but  that  the  divine  genus  is  deflitute  of  intelled,  becaufe \nit  abides  in  the  iame  latlons.  Rut  it  becomes  the  man  who  attributes  to \nthe  Gods  tilings  more  beautiful,  more  excellent,  and  more  friendly  to  their \nnatures,  to  conceive  that  it  is  necefTary  to  confider  them  as  pofTefiing  intel- \nlc61,  becaufe  they  always  accomplifh  the  fame  things,  according  to  the  fame, \nand  in  a  fimilar  maimer.  And  that  this  is  the  nature  of  the  ftars,  moft  beau- \ntiful to  the  fight,  and  which  by  a  progreflion  and  mufical  dance,  the  mofl: \nbeautiful  and  magnificent  of  all  choirs,  produces  in  all  animals  every  thing  that \nis  proper  and  becoming.  But  that  we  juftly  confider  them  as  animated, \nmay,  In  the  firfl:  place,  be  evinced  by  their  magnitude.  For  they  are  not \nin  reality  fo  fmall  as  they  appear  to  be  ;  but  it  deferves  to  be  believed,  that \neach  of  them  is  of  an  immenfe  magnitude,  as  this  may  be  fhown  by  fufficient \ndemonflrations.  For  we  may  rightly  think  that  the  whole  fun  is  larger  than \nthe  whole  earth  ;  and  that  all  the  ftars  poffefs  a  wonderful  magnitude.  We \nfhould  confider,  therefore,  after  what  manner  fo  great  a  bulk  can  be  made \nto  revolve  by  a  certain  nature  perpetually  in  the  fame  time.  I  fay,  there- \nfore, that  Divinity  is  the  caufe  of  this,  and  that  it  cannot  in  any  other  man- \nner be  accomplifhed.  For  it  can  no  othcrwifc  become  animated  than  through \na  God,  as  we  have  evinced.  As  Divinity,  therefore,  is  the  caufe  of  its \nanimation,  and  all  things  are  cafy  to  a  God,  in  the  firfl  place,  he  generated \nevery  body  and  every  bulk  in  the  heavens  an  animal ;  and,  in  the  next  place, \nhe  caufed  it  to  move  in  that  manner  which  he  conceived,  by  a  dianoetic \nenergy,  to  be  the  befl.  And  now,  refpeding  all  thefe  particulars,  we  fhall \nmake  one  true  aflertion,  viz.  It  is  impofTible  that  earth,  heaven,  all  the \nftars,  and  all  the  bulks  compofed  from  thefe,  could  fubfifl,  unlefs  a  foul  is \neither  prefent  with  each,  or  refident  in  each,  enabling  them  to  revolve  with \nfuch  accuracy  according  to  years,  and  months,  and  days,  and  thus  procuring \nfor  all  of  us  every  good.  But  it  is  requifite  that,  by  how  much  more  vile \nman  is  than  celeflial  animals,  by  fo  much  the  lefs  fhould  he  trifle,  but  afTert \nfomething  confpicuous  concerning  them.  He,  therefore,  who  afligns  cer- \ntain fluxions  of  bodies,  or  natures,  or  any  thing  of  this  kind,  as  the  caufes  of \nthe  celeflial  convolutions,  will  not  affert  any  thing  confpicuous. ",
+   "pages": [
+    397,
+    398,
+    399
+   ],
+   "line": 17762
+  },
+  {
+   "id": "taylor1804.epinomis.p0032",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "It is, however, requisite to rcconfidcr what we have said with the utmost attention, that it may appear Whether our assertions were reasonable, or altogether futile. In the firil: place, then, we said, that there were two things, the one soul, aHd the other body; and that there were many things pertaining to each. We likewise asserted, that all these mutually differed from each other; and that there was no other third thing common to any one of them: but that soul differed from body in this, that the former poffcffcd, and the latter was destitute of, intellect; that the one governed, and the other was in a state of fubje6i:ion; and that the one was the cause of all the passions of bodies, but that the other was not the caule of any one of these. So that he who asserts that celestial natures were generated by any thing else, and that they do not consist:, in the manner we have said, from soul and body, must be very stupid and irrational. If, therefore, it is requisite that the arguments respecting all such particulars as these should be vidorious, and that ewcry nature of this kind should be believed to be divine, one of these two things must follow, viz. we must either celebrate the celestial orbs as Gods, and in so doing we shall act mod rightly; or we must consider them as images of the Gods, fabricated as statues by the Gods themselves. For these two consequences are neither absurd nor of small importance, but, as we have said, one of these must ensue; and these statues are to be honoured beyond all other statues. For no statues will ever be found more beautiful and more common to all men than these, nor any that are established in more excellent places, or which so transcend in purity, venerableness, and all life, as these, which are throughout generated the same. Now, therefore, we should also endeavour to assert this respecting the Gods, viz. Since we perceive two species of visible animals, one of which we say is immortal, and the whole of the other which is terrene, mortal, we should endeavour to unfold, according to probable opinion, three species of animals which subsist between these five. After fire, then, we place aether; and we assert, that from it soul fashions animals which possess, like other genera, an abundant power from their own nature, but the smallest degree of power for the sake of a mutual bond, from other genera. But, after aether, soul fashions from air another genus of animals; and a third genus from water. Soul, therefore, having fabricated all these, filled the whole of heaven with animals, employing, to the utmost of its power, all the genera, as all these participate of life. But the second, third, fourth, and fifth, beginning from the generation of the visible Gods, at length end in us men. Respecting the •Gods, Jupiter, Juno, and all the veR, let any one assign them luch places as he pleases, if he only distributes them according to the same law, and considers this reasoning as stable.",
+   "raw": "It  is,  however,  requifite  to  rcconfidcr  what  we  have  faid  with  the  utmofl \nattention,  that  it  may  appear  Vvhether  our  alfertions  were  reafonable,  or  alto- \ngether futile.    In  the  firil:  place,  then,  we  faid,  that  there  were  two  things, \nthe  one  foul,  aHd  the  other  body ;  and  that  there  were  many  things  pertain- \ning to  each.  We  likewife  afferted,  that  all  thefe  mutually  differed  from  each \nother  ;  and  that  there  was  no  other  third  thing  common  to  any  one  of  them: \nbut  that  foul  differed  from  body  in  this,  that  the  former  poffcffcd,  and  the \nlatter  was  deftitute  of,  intelle6t ;  that  the  one  governed,  and  the  other  was \nin  a  ftate  of  fubje6i:ion  ;  and  that  the  one  was  the  caufe  of  all  the  paffions  of \nbodies,  but  that  the  other  was  not  the  caule  of  any  one  of  thefe.  So  that \nhe  who  afferts  that  celeftial  natures  were  generated  by  any  thing  elfe,  and \nthat  they  do  not  confifl:,  in  the  manner  we  have  faid,  from  foul  and  body, \nmuft  be  very  flupid  and  irrational.  If,  therefore,  it  is  requifite  that  the \narguments  refpeding  all  fuch  particulars  as  thefe  (hould  be  vidorious,  and \nthat  ewcry  nature  of  this  kind  fliould  be  believed  to  be  divine,  one  of  thefe \ntwo  things  muft  follow,  viz.  we  muft  either  celebrate  the  celeflial  orbs  as \nGods,  and  in  fo  doing  we  fhall  a6l  mod  rightly  ;  or  we  muft  confider  them \nas  images  of  the  Gods,  fabricated  as  ftatues  by  the  Gods  themfelves.  For \nthefe  two  confequences  are  neither  abiurd  nor  of  fmall  importance,  but,  as \nwe  have  faid,  one  of  thefe  mufl  enfue ;  and  thefe  flatues  are  to  be  honoured \nbeyond  all  other  ftatues.  For  no  flatues  will  ever  be  found  more  beautiful \nand  more  common  to  all  men  than  thefe,  nor  any  that  are  eflablifhed  in \nmore  excellent  places,  or  which  fo  tranfcend  in  purity,  venerablenefs,  and  all \nlife,  as  thefe,  which  are  throughout  generated  the  fame.  Now,  therefore, \nwe  fhould  alfo  endeavour  to  affert  this  refpe<51ing  the  Gods,  viz.  Since  we \nperceive  two  fpecies  of  vifible  animals,  one  of  which  we  fay  is  immortal, \nand  the  whole  of  the  other  which  is  terrene,  mortal,  we  fliould  endeavour \nto  unfold,  according  to  probable  opinion,  three  fpecies  of  animals  which \nfubfifl  between  thefe  five.  After  fire,  then,  we  place  aether  ;  and  we  affert, \nthat  from  it  foul  fafliions  animals  which  pofTefs,  like  other  genera,  an  abun- \ndant power  from  their  own  nature,  but  the  fmalleft  degree  of  power  for  the \nfake  of  a  mutual  bond,  from  other  genera.  But,  after  aether,  foul  fafliions \nfrom  air  another  genus  of  animals  ;  and  a  third  genus  from  water.  Soul, \ntherefore,  having  fabricated  all  thefe,  filled  the  whole  of  heaven  with  ani- \nmals, employing,  to  the  utmofl  of  its  power,  all  the  genera,  as  all  thefe  par- \nticipate of  life.  But  the  fecond,  third,  fourth,  and  fifth,  beginning  from  the \ngeneration  of  the  vifible  Gods,  at  length  end  in  us  men.  Refpedling  the \n•Gods,  Jupiter,  Juno,  and  all  the  veR,  let  any  one  aflign  them  luch  places  as \nhe  pleafes,  if  he  only  diftributes  them  according  to  the  fame  law,  and  con- \nfiders  this  reafoning  as  flable. ",
+   "pages": [
+    399,
+    400,
+    401
+   ],
+   "line": 17863
+  },
+  {
+   "id": "taylor1804.epinomis.p0033",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "We mufV call, therefore, the nature of the stars, and such things as we perceive together with the stars, the visible Gods, the greatest: and the mod honourable, perceiving every way most acutely, and ranking among such things as are first. But after, and under these, in a following order, demons subsist, an aerial genus, possessing a third and middle seat, who unfold the will of the Gods to men, and whom it is highly fit we should honour by prayers, for the sake of obtaining their propitious intcrceffion. We cannot, however, wholly perceive either of these two kinds of animals, one of which subsists in ether, and the other in a following order in air. For, though these daemons are by their situations near us, yet they never become manifest: to us; but they participate of an admirable prudence, as being docile and of a good memory; and they know all our thoughts. They likewise love in a wonderful manner worthy and good men, and vehemently hate such as are vicious, as being themfclvcs participants of pain. For the Gods, indeed, who possess the end of a divine allotment, are situated beyond the reach of all pleasure and pain, and participate, in the utmost perfection, of prudence and knowledge. And, as the heavens are full of animals, these daemons, and the highest Gods, mutually interpret all things to each other. For the middle animals are borne to earth and the whole heaven with a light and rapid impetus. But he who assimilates the fifth genus of animals, which is from water to a demigod, will assimilate rightly. And this genus is sometimes visible, and sometimes concealed from our sight; and, when it is visible, is fccn in a wonderful and oblcure manner. As, therefore, there are these f\\e kinds of animals, whatever occurs to us in dreams, oracles, and divinatiois, and such things as we hear through the voice of the healthy or difcafed, or vvliich happen to us at the dole of life, whence many sacred rites are inftitnted, both privately and publicly, and will be instituted hereafter,— iv/Z/i rcfpeB to all these the legijlator who pojfejfes the fmallcjl degree oflnteU li'tl^ 'uiil?iLrcr make hi novations in any of them leji he jhould turn his city to a religion lijhich pojjejjes nothing conjpicuous. Nor will he forbid any thing respecting sacrifices which the law of his country has eftablKhed, as being convinced that it is not poirible for a mortal nature to know any thing about such like particulars. And for the same reason must not those be",
+   "raw": "We  mufV  call,  therefore,  the  nature  of  the  flars,  and  fuch  things  as  we \nperceive  together  with  the  ftars,  the  vifible  Gods,  the  greatefl:  and  the  mod \nhonourable,  perceiving  every  way  moft  acutely,  and   ranking  among  fuch \nthings  as  are  firft.    But  after,  and  under  thefe,  in  a  following  order,  damons \nfubfift,  an  aerial  genus,  pofTefling  a  third  and  middle  feat,  who  unfold  the \nwill   of  the  Gods  to  men,  and  whom  it  is  highly  fit  we  (hould  honour  by \nprayers,  for  the  fake  of  obtaining  their  propitious  intcrceffion.     We  cannot, \nhowever,  wholly  perceive  either  of  thefe  two  kinds  of  animals,  one  of  which \nfubfifts  in  ether,  and  the  other  in  a   following  order  in  air.     For,   though \nthefe  daemons  are  by  their  fituations  near  us,  yet  they  never  become  manlfefl: \nto  us  ;  but  they  participate  of  an  admirable  prudence,  as  being  docile  and  of \na  good  memory ;  and  they  know  all  our  thoughts.     They  likewife  love  in  a \nwonderful  manner  worthy  and  good  men,  and  vehemently  hate  fuch  as  are \nvicious,  as  being  themfclvcs  participants  of  pain.      For  the  Gods,   indeed, \nwho  pofTefs  the  end  of  a  divine  allotment,  are  fituated  beyond  the  reach  of \nall  pleafure  and  pain,  and  participate,  in  the  utmoft  perfedlion,  of  prudence \nand  knowledge.     And,  as  the  heavens   are  full  of  animals,  thefe  daemons, \nand  the  highcft  Gods,  mutually  '  interpret  all  things  to  each  other.      For  the \nmiddle  animals  are   borne  to  earth  and  the  whole  heaven  with  a  light  and \nrapid  impetus.     But  he  who  affimilates  the  fifth  genus  of  animals,  which  is \nfrom  water  to  a  demigod,  will  affimilate  rightly.     And  this  genus  is  fome- \ntimes  vifible,  and  fometimes  concealed  from  our  fight ;  and,  when  it  is  vifible, \nis  fccn  in  a  wonderful  and  oblcure  manner.     As,  therefore,  there  are  thefe \nf\\e  kinds  of  animals,  whatever  occurs  to  us  in  dreams,  oracles,  and  divina- \ntiois,  and   fuch  things  as  we  hear  through  the  voice  of  the  healthy  or  dif- \ncafed,  or  vvliich  happen  to  us  at  the  dole  of  life,  whence  many  facred  rites \nare  inftitnted,  both  privately  and  publicly,  and  will  be  inflituted  hereafter,— \niv/Z/i  rcfpeB  to  all  thefe ^  the  legijlator  who  pojfejfes  the  fmallcjl  degree  oflnteU \nli'tl^  'uiil  ?iLrcr  make  hi  novations  in  any  of  them^  leji  he  jhould  turn  his  city \nto  a  religion  lijhich  pojjejjes  nothing  conjpicuous.    Nor  will  he  forbid  any  thing \nrefpecling  facrifices  which  the  law  of  his  country  has  eftablKhed,  as  being \nconvinced  that  it  is  not  poirible  for  a  mortal  nature  to  know  any  thing  about \nfuch  like  particulars.      And  for    the   fame    reafon    must  not  those    be ",
+   "pages": [
+    401,
+    402
+   ],
+   "line": 17915
+  },
+  {
+   "id": "taylor1804.epinomis.p0034",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "THE worst of men WHO DO NOT CELEBRATE THE TRULY APPARENT",
+   "raw": "THE  worst  of  men  WHO  DO  NOT  CELEBRATE  THE  TRULY  APPARENT ",
+   "pages": [
+    402
+   ],
+   "line": 17958
+  },
+  {
+   "id": "taylor1804.epinomis.p0035",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Gods, and who suffer the other Gods to remain deprived o",
+   "raw": "Gods,  and  who  suffer  the  other  Gods  to  remain  deprived  o^ ",
+   "pages": [
+    402
+   ],
+   "line": 17960
+  },
+  {
+   "id": "taylor1804.epinomis.p0036",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "THEIR SACRED RITES, AND THE HONOURS WHICH ARE THEIR DUE?",
+   "raw": "THEIR    SACRED    RITES,     AND     THE     HONOURS     WHICH     ARE     THEIR     DUE? ",
+   "pages": [
+    402
+   ],
+   "line": 17962
+  },
+  {
+   "id": "taylor1804.epinomis.p0037",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "For this is just as if some one should perceive the sun and moon inspecting without receiving any honours from the whole of the human race, and at the same time ftiould not be anxious for the celebration of their divinities by mankind, that festivals and sacrifices may be inftitutcd, and that certain parts: of greater and lesser years may be often distributed in honour of them. Would not such a one, if he should be said to be evil both to himself and to any other by whom he is known, be justly said to be so?",
+   "raw": "For  this  is  juft  as  if  fome  one  fliould  perceive  the  fun  and  moon  infpeding \nwithout  receiving  any  honours  from  the  whole  of  the  human  race,  and  at \nthe  fame  time  ftiould  not  be  anxious  for  the  celebration  of  their  divinities  by \nmankind,  that  feftivals  and  facrifices  may  be  inftitutcd,  and  that  certain  parts: \nof  greater  and  leffer  years  may  be  often  diftributed  in  honour  of  them. \nWould  not  fuch  a  one,  if  he  fliould  be  faid  to  be  evil  both  to  himfelf  and  to \nany  other  by  whom  he  is  known,  be  juftly  faid  to  be  fo  ? ",
+   "pages": [
+    402
+   ],
+   "line": 17964
+  },
+  {
+   "id": "taylor1804.epinomis.p0038",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly, O guest: for such a one mud be the worst of mdn.",
+   "raw": "Clin.  Undoubtedly,  O  gueft  :  for  fuch  a  one  mud  be  the  worft  of  mdn. ",
+   "pages": [
+    402
+   ],
+   "line": 17972
+  },
+  {
+   "id": "taylor1804.epinomis.p0039",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Gu£ST. Know assuredly then, friend Clinias, that this very thing has now happened respecting myself.",
+   "raw": "Gu£ST.  Know  affuredly  then,  friend  Clinias,  that  this  very  thing  has \nnow  happened  refpeding  myfelf. ",
+   "pages": [
+    402
+   ],
+   "line": 17974
+  },
+  {
+   "id": "taylor1804.epinomis.p0040",
+   "kind": "paragraph",
+   "label": "Clin",
+   "translator": "Thomas Taylor",
+   "text": "How do you say }",
+   "raw": "Clin.   How  do  you  fay  } ",
+   "pages": [
+    402
+   ],
+   "line": 17977
+  },
+  {
+   "id": "taylor1804.epinomis.p0041",
+   "kind": "paragraph",
+   "label": "Guest",
+   "translator": "Thomas Taylor",
+   "text": "Know that there are eight powers revolving round the whole heaven, which are sisters to each other, and which I have beheld without pavincr them any great attention: for this is easy for another to accomplish. Of these, the following are three; one of the sun, another of the moon, and another of all the stars, which I mentioned a little before: and besides these there are five others. With respect to all these, and such natures as are contained in these, whether they have a progressive motion themlelves, or are borne along in vehicles, no one of us should at any time think that some of them are Gods, and others not; nor yet, that some of them are legitimate, but others such as it is not lawful for any of us to mention; but we should lay that they are all of them brothers, and that they live in fraternal allotments. We should likewise honour them, not ordaining for some a year,, for others a month, and for others no allotted portion of time, in which they accomplish their revolutions, and at the same time give perfection to a world, which realbn determines to be the mod divine of all visible things. This world a happy man will in the first place admire; and, in the next T H E P H I L O S O P n E R. 403",
+   "raw": "Guest.  Know  that  there  arc  eight  powers  revolving  round  the  whole  hea- \nven, which  are  fifters  to  each  other,  and  which  I  have  beheld  without  pavincr \nthem  any  great  attention  :  for  this  is  eafy  for  another  to  accomplifh.  Of  thefe, \nthe  following  are  three  ;  one  of  the  fun,  another  of  the  moon,  and  another \nof  all  the  ftars,  which  I  mentioned  a  little  before  :  and  befides  thefe  there \nare  five  *  others.  With  refpe6l  to  all  thefe,  and  fuch  natures  as  are  con- \ntained in  thefe,  whether  they  have  a  progreflive  motion  themlelves,  or  are \nborne  along  in  vehicles,  no  one  of  us  fhould  at  any  time  think  that  fome  of \nthem  are  Gods,  and  others  not ;  nor  yet,  that  fome  of  them  are  legitimate, \nbut  others  fuch  as  it  is  not  lawful  for  any  of  us  to  mention  ;  but  we  fliould \nlay  that  they  are  all  of  them  brothers,  and  that  they  live  in  fraternal  allot- \nments. We  fhould  likewife  honour  them,  not  ordaining  for  fome  a  year,, \nfor  others  a  month,  and  for  others  no  allotted  portion  of  time,  in  which \ntliey  accomplifh  their  revolutions,  and  at  the  fame  time  give  perfe6tion  to  a \nworld,  which  realbn  determines  to  be  the  mod  divine  of  all  vifible  things. \nThis  world  a  happy  man  will  in  the  firfl  place  admire  ;  and,   in  the  next \nT  H  E     P  H  I  L  O  S  O  P  n  E  R.  403 ",
+   "pages": [
+    402,
+    403
+   ],
+   "line": 17979
+  },
+  {
+   "id": "taylor1804.epinomis.p0042",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "place, he will ardently desire to learn as much respecting it as i> p.^iTible to a mortal nature; thinking that he shall thus pals throngli life in the bed ajid nioft foj'tunatc manner, and after death ans-.e at places adapted ta virtue; and thus bcin;^^ truly initiated, and participating in reality of prudence, and becoming one, will pass the rell: of his time in the contemplation of tlnivTs the m: st beautiful of all luch as nertain to tne fiijht.",
+   "raw": "place,  he  will  ardently  defire  to  learn  as  much  refpedllng  it  as  i>  p.^iTible  to \na  mortal  nature;  thinking  that  he  fhall  thu^  pals  throngli  life  in  the  bed \najid  nioft  foj'tunatc  manner,  and  after  death  ani-.e  at  places  adapted  ta \nvirtue;  and  thus  bcin;^^  truly  initiated,  and  participating  in  reality  of  pru- \ndence, and  becoming  one,  will  pafs  the  rell:  of  his  time  in  the  contempla- \ntion of  tlnivTs  the  m:  ft  beautiful  of  all  luch  as  nertain  to  tne  fiijht. ",
+   "pages": [
+    403
+   ],
+   "line": 18003
+  },
+  {
+   "id": "taylor1804.epinomis.p0043",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "It now ren:ains tljut we fnould relate, in the next place, what and how many these are. For v\\'e may without falsehood ftrcnuoufly aiTert as follow?. I again say, then, that there are eight of these, three of which we have r.lready dilculTeJ, and confcquently five remain. But the fourth and fifth lation and transition are nearly equal in swiftness with the sun, and are neither slower nor swifter. And of thele three, intellect is always a sufficient leader, I mean of the sun, Lucifer, and that third which cannot be denominated hccaule it is not known. But the reaibn of tliis is, because a ]]a:b.irian was the firrt: fpcdator of these. For an antient region is the iiurfc of thole who frfl; underllood these particulars throu-h the beauty of the summer karrii. And such was Egypt, and Syria, whcic, as I nay say, all the stars are perpetually apparent, because clouds and rain are always far remote from that part of the world. Hence, both here, and in every other })lacc, these things are found by the experience of an inhnite length of time to be true; and on this account they ought boldly to be cllablifhed by the Jaws. For to think that divine natures are not honourable, or tlvat these th.iuirs are n(;t divine, is clearly the province of one not endued \\\\ ith inl^liLch Rut it is requiiite to assign this as the rcalon w In tlicv have no name.->, tliough indeed they are denominated by ccriain persons, I oi Iaici:er is called \\\\ljv:r, or the der of Venus, by which it is probLibie that the author of this appellation was a Syrian. But the fl:ar w hich rcvob.cs with an equal \\eiocity with the sun and Lucifer, is called Stilbon, or Mercury. And, belides these, there are three lations of those stars, whose course is to the right hand, in conjunction with the sun and moon. But it is requisite to call the eighth orb one, which may w ith the grcatell propriety be denomhiatcd tb.e upj^er world. This orb moves contrary to the rell, and draws",
+   "raw": "It  now  ren:ains  tljut  we  fnould  relate,  in  the  next  place,  wliat  and  how \nmany  thcfe  are.  For  v\\'e  may  without  falfehood  ftrcnuoufly  aiTert  as  follow?. \nI  again  fay,  then,  that  there  are  eight  of  thcfe,  three  of  which  we  have \nr.lready  dilculTeJ,  and  confcquently  five  remain.  But  the  fourth  and  fifth \nlation  and  tranfition  are  nearly  equal  in  fwiftnefs  with  the  fun,  and  are \nneither  flower  nor  fwifter.  And  of  thele  three,  intelled  is  always  a  fufficient \nleader,  I  mean  of  the  fun,  Lucifer,  and  that  third  which  cannot  be  deno- \nminated hccaule  it  is  not  known.  But  the  reaibn  of  tliis  is,  becaufe  a \n]]a:b.irian  was  the  firrt:  fpcdator  of  thefe.  For  an  antient  region  is  the \niiurfc  of  thole  who  frfl;  underllood  thefe  particulars  throu-^h  the  beauty  of \nthe  fummcr  karrii.  And  fuch  was  Egypt,  and  Syria,  whcic,  as  1  n^ay  fay, \nail  the  ftars  are  perpetually  apparent,  becaufe  clouds  and  rain  are  always  far \nremote  from  that  part  of  the  world.  Hence,  both  here,  and  in  every  other \n})lacc,  thcfe  things  are  found  by  the  experience  of  an  inhnite  length  of  time \nto  be  true  ;  and  on  this  account  they  ought  boldly  to  be  cllablifhed  by  the \nJaws.  For  to  think  that  divine  natures  are  not  honourable,  or  tlvat  thefe \nth.iuirs  are  n(;t  divine,  is  clearly  the  province  of  one  not  endued  \\\\  ith  in- \nl^liLch  Rut  it  is  requiiite  to  aflign  this  as  the  rcalon  w  In  tlicv  have  no \nname.->,  tliough  indeed  thev  are  denominated  by  ccriain  perions,  I  oi-  Iaici- \n:er  is  called  \\\\ljv:r,  or  the  dar  of  Venus,  by  which  it  is  probLibie  that  the \nauthor  of  this  appellation  was  a  Syrian.  But  the  fl:ar  w  hich  rcvob.cs  with \nan  equal  \\eiocity  with  the  fun  and  Lucifer,  is  called  Stilbon,  or  Mercury. \nAnd,  belides  thefe,  there  are  three  lations  of  thofe  ftars,  whofe  courfe  is  to \nthe  right  hand,  in  conjundion  with  the  fun  and  moon.  But  it  is  requifite \nto  call  the  eiglith  orb  *  one,  which  may  w  ith  the  grcatell  propriety  be  deno- \nmhiatcd  tb.e  upj^er  world.     This  orb  moves  contrary  to  the  rell,   and  draws ",
+   "pages": [
+    403
+   ],
+   "line": 18010
+  },
+  {
+   "id": "taylor1804.epinomis.p0044",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "!■ That is, the fphcrc of the fixed stars. the others along with it, according to the opinion of those who have some Skill in these affairs. But it is necessary to speak of such things as we sufficiently know. For true wisdom will thus in a certain respect appear to him who participates, though in a small degree, of right and divine intelligence. Three stars then remain, one of which differs from the rest by the slowness of its motion. This star is called by some Phienon, or Saturn. That which is next to this in slowness is called Phaethon, or Jupiter: and, after this follows Puroeis, or Mars, who has the most red colour of them all. These things, when explained by any one, are not difficult to be undcrflood; but, when understood, we should frame such conceptions respecting them as we have mentioned above. This, also, ought to be known by every Grecian, that we inhabit a region which is nearly the best of all others for the acquisition of virtue. But it is proper to assert that its praise consists in being situated between the nature of summer and winter. However, as we have said, because we are more dif^a/it from the nature of summer than the Barbarians we vmderflood posterior to them the orderly arrangement of these Gods; yet we must: assert, that whatever the Greeks receive from the Barbarians, is by them carried to greater perfection. This, too, we should conceive to be the case v/ith respect to the subject of the present difcourle. For, though it is difficult to discover without ambiguity all such puticulars as the present, yet the hope is both beautiful and great, that the Greeks will reverence all these divinities with a more excellent mode of worship than that which they received from the B:irbarians, and that they will employ both diicipline and the Delphic oracle^, and every legitimate ohferv^ance, for this purpnfe. Nor should any Greek be at any tim fearful, that mortals ought not busily to employ themselves about divme concerns; but, on the contrary, lie should think that neither is a divine nature destitute of intellect, nor ignorant of human nature. For he knows that, in consequence of Divinity admg as a teacher, those that are taught follow and learn: and he likewise certainly knows that he teaches us number and to numerate. For he would be the most stupid of all beings if he were ignorant of this. For,, as it is said, he would truly be ignorant of himself, if he were indignant, and not delighted with those that are able to learn, and who are rendered good through Divinity. But it is highly reasonable to suppose that the first conccptions of men, refpe^iing the nature and alliens oftb.e Gods, were neither such as wise men would frame, nor those that succeeded them. For they asserted, that fire and water, and the other bodies, were the mv;fl: antient of all things; but that the particulars belonging to that wonderful thing soul were of posterior origin. Hence, they confiJered the lation of body as better and more honourable, and as moving itself through heat and cold,, and every thing else of this kind: but they asserted that Ibul neither moved body nor itself. But, now since we say, if soul fubfiAs in body, that it is not at all wonderful it should move and carry about both the body and itself, there can be no reason todifbelieve its ability to carry about a certain weight. Hence, as we now think proper to assert, that soul is the cause of the universe; and as of things, some are good and others evil, it is not at all wonderful, that soul should be the cause of every lation and motion, but that a lation and motion which tends to good should proceed from the best: soul, and a lation and motion to the contrary, from a contrary soul. Hut it is necessary that things good should have vanquished, and should continue to vanquish, things which are not so. All these particulars have been asserted by us according to Justice, the avenger of the impious. With respect, however, to that which we have just: now examined, we ought not to hesitate in asserting, that a good man is a wise man.",
+   "raw": "!■  That  is,  the  fphcrc  of  the  fixed  flars. \nthe  others  along  with  it,  according  to  the  opinion  of  thofe  who  have  fbme \nIkill  in  thefe  affairs.  But  it  is  necefTary  to  fpeak  of  fuch  things  as  we \nfufficiently  know.  For  true  wifdom  will  thus  in  a  certain  refpedl  appear  to \nhim  who  participates,  though  in  a  fmall  degree,  of  right  and  divine  intelli- \ngence. Three  flars  then  remain,  one  of  which  differs  from  the  refl  by  the \nflownefs  of  its  motion.  This  ftar  is  called  by  fomc  Phienon,  or  Saturn. \nThat  which  is  next  to  this  in  flownefs  is  called  Phaethon,  or  Jupiter  :  and, \nafter  this  follows  Puroeis,  or  Mars,  who  has  the  moft  red  colour  of  them  all. \nThefe  things,  when  explained  by  any  one,  are  not  difficult  to  be  undcrflood  ; \nbut,  when  underftood,  we  fliould  frame  fuch  conceptions  refpeding  them \nas  we  have  mentioned  above.  This,  alfo,  ought  to  be  known  by  every \nGrecian,  that  we  inhabit  a  region  which  is  nearly  the  befl  of  all  others  for \nthe  acquifition  of  virtue.  But  it  is  proper  to  afTert  that  its  praife  confifls  in \nbeing  fituated  between  the  nature  of  fummer  and  winter.  However,  as  we \nhave  faid,  becaufe  we  are  more  dif^a/it  from  the  nature  of  fummer  than  the \nBarbarians  we  vmderflood  poflerior  to  them  the  orderly  arrangement  of \nthefe  Gods  ;  yet  we  mufl:  affert,  that  whatever  the  Greeks  receive  from  the \nBarbarians,  is  by  them  carried  to  greater  perfection.  This,  too,  we  fhould \nconceive  to  be  the  cafe  v/ith  refpcdl  to  the  fubjedl  of  the  prefent  difcourle. \nFor,  though  it  is  difficult  to  difcover  without  ambiguity  all  fuch  puticulars \nas  the  prefent,  yet  the  hope  is  both  beautiful  and  great,  that  the  Greeks \nwill  reverence  all  thefe  divinities  with  a  more  excellent  mode  of  worfhip \nthan  that  which  they  received  from  the  B:irbarians,  and  that  they  will \nemploy  both  diicipline  and  tlie  Delphic  oracle^,  and  every  legitimate  ohferv^- \nance,  for  this  purpnfe.  Nor  fhould  any  Greek  be  at  any  tim  fearful,  that \nmortals  ought  not  bufily  to  employ  themfelves  about  divme  concerns  ;  but, \non  the  contrary,  lie  fhould  think  that  neither  is  a  divine  nature  deftitute  of \nintelled,  nor  ignorant  of  human  nature.  For  he  knows  that,  in  confequence  of \nDivinity  admg  as  a  teacher,  thofe  that  are  taught  follow  and  learn:  and  he \nlikewife  certainly  knows  that  he  teaches  us  number  and  to  numerate.  For  he \nwould  be  the  mofl  flupid  of  all  beings  if  he  were  ignorant  of  this.  For,, \nas  it  is  faid,  he  would  truly  be  ignorant  of  himfelf,  if  he  were  indignant,  and \nnot  delighted  with  thofe  that  are  able  to  learn,  and  who  are  rendered  good \nthrough  Divinity.  But  it  is  highly  reafbnable  to  fuppofe  that  the  firft  con- \nccptions  of  men,  refpe^iing  the  nature  and  alliens  oftb.e  Gods,  were  neither \nfuch  as  wife  men  would  frame,  nor  thofe  that  fucceeded  them.  For  they \naflerted,  that  fire  and  water,  and  the  other  bodies,  were  the  mv;fl:  antient  of \nall  things  ;  but  that  the  particulars  belonging  to  that  wonderful  thing  foul \nwere  of  pofterior  origin.  Hence,  tliey  confiJered  the  lation  of  body  as \nbetter  and  more  honourable,  and  as  moving  itfelf  through  heat  and  cold,, \nand  every  thing  elfe  of  this  kind  :  but  they  aflerted  that  Ibul  neither  moved \nbody  nor  itfelf.  But,  now  fince  we  fay,  if  foul  fubfiAs  in  body,  that  it  is \nnot  at  all  wonderful  it  fhould  move  and  carry  about  both  the  body  and  itfelf, \nthere  can  be  no  reafon  todifbelieve  its  ability  to  carry  about  a  certain  weight. \nHence,  as  we  now  think  proper  to  afTert,  that  foul  is  the  caufe  of  the  uni- \nverfe ;  and  as  of  things,  fome  are  good  and  others  evil,  it  is  not  at  all \nwonderful,  that  foul  fhould  be  the  caufe  of  every  lation  and  motion,  but  that \na  lation  and  motion  which  tends  to  good  fhould  proceed  from  the  befl:  foul, \nand  a  lation  and  motion  to  the  contrary,  from  a  contrary  foul.  Hut  it  is \nneceflary  that  things  good  fhould  have  vanquifhed,  and  fhould  continue  to \nvanqulfh,  things  which  are  not  fo.  All  thefe  particulars  have  been  afTcrted \nby  us  according  to  Juflice,  the  avenger  of  the  impious.  With  refpedl,  how- \never, to  that  which  we  have  jufl:  now  examined,  we  ought  not  to  hefitate  in \nafferting,  that  a  good  man  is  a  wife  man. ",
+   "pages": [
+    403,
+    404,
+    405
+   ],
+   "line": 18037
+  },
+  {
+   "id": "taylor1804.epinomis.p0045",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Let us however see, whether this wisdom, of which we were some time since in fearch,can be acquired by discipline or art. For, if we are destitute of the knowledge of this, we shall be ignorant of things just. Thus it appears to me, and therefore I assert this to be the case. For, having explored upwards and downwards, I will endeavour to evince to you that which has become apparent to me. For, when the greatest part of virtue is negligently attended to, it becomes the cause of ignorance, as what we have just now said appears to me most perspicuously to signify. But no one shall persuade us, that there is any part of virtue belonging to the mortal race, greater than piety. We must: likewise assert that this is not produced in the most excellent natures through the greatest ignorance. But those are the most excellent natures which are most rarely found, and which when found benefit others in the highest degree. For the soul which, moderately and inildly receives a flow^ or the contrary nature, is simple and ingenuous: it likewlfe admires fortitude, and is obedient to temperance: and, what is the gieatefl of all in these natures, it is able to learn. Is of a good memory, is a lover of literature, and is very much delighted with things of this kind. For these things are not easily implanted by nature; and when they are innate, and obtain proper education and difclpline, their pofTeflbrs obtain such authority over moll: part of their inferiors as to caiifc them to think, speak, and act, in such a manner as is requiiite, and when it is requisite, towards the Gods; prevent them from employing artiiice in the facriiices and purifications which are performed both to Gods and men; and dispose them to honour virtue in reality, which is the most important of all things to every city. This part, therefore, we say is naturally the most: principal, and, when instructed, is capable of learning in the greatest degree, and in the beil manner. But no one can teach, unless Divinity leads the way. It is better, therefore, not to learn from one who teaches, but at the same time does not ad after this manner. However, from what we have now said, it is ncceiTary to learn these things; and I have aflferted that a nature of this kind is the mofi: •excellent, let us then endeavour to explain what these particulars are, and how it is requisite to learn them; and this both according to my ability, who am the speaker, and the ability of those \\s ho are able to hear, that we may know after what manner certain things pertaining to the culture of divinity may be learnt. Perhaps, therefore, what you w ill hear is unusual: we shall, however, mention the name of the thing which, to him who is ignorant of it, would never appear to be the name. Are you then ignorant of adronomy, and that a true astronomer is necclTarily the wisest: of men? Not, indeed, that he is so who aftronomizes according to Hesiod ', and all such as consider the rising and setting of the stars; but this must be affirmed of him who contemplates the eight periods, and how seven of these are contained under the ilrfl:, and in what order each revolves. But no one will easily contemplate these things, unless he participates of a wonderful nature, as we have just now said, and as we shall again say, unfolding what is to be learnt, and the manner of learnhig it. In the su-st place, therefore, let this be said by us, that the moon accomplishes its period most: swiftly, and thus, first of all, leads forth month and full moon. In the second place, it is requisite to consider the sun who produces the folfllces through the whole of his period, and, together with the sun, those that revolve in conjunction with him. But that we may not often assert the same things about the same, the revolutions of all those natures which we mentioned before, and which it is not easy to vinderrtand, must: be made the subject of contemplation; preparing human nature for this purpose by disciplines pertaining to these speculations, and this by long exercise and labour, while it is in a juvenile state. On this account, the mathematical disciplines will be necessary; of which the first and the greatest is that which respects numbers, but not those that possess a body, but which contain the whole of the generation and power of the even and the odd, as these two contribute to the knowledge and nature of things. That which is very ridiculously called geometry follows these in an orderly succession. But the similitude of numbers naturally dissimilar to planes, becomes conspicuous by comparison. This circumstance, however, to him who is capable of underfl^anding it, will evidently appear to be not a human, but a divine miracle. After this, those numbers which receive a triple increase, and are limilar to the nature of a solid, are to be considered, and likewise those that are dissimilar to this nature, which is called by those that are conversant with it, geometry. But this, to those that are capable of understanding it, is a divine and wonderful thing, that as the power of things always revolves about that which is double, and in its own opposite, according to each proportion, every nature is fadiioned according to genera and species. The first: power, therefore, of the double proceeds according to number, in the ratio of one to two, being double according to",
+   "raw": "Let  us  however  fee,  whether  this  wifdom,  of  which  we  were  fome  time \nfince  in  fearch,can  be  acquired  by  difcipline  or  art.  For,  if  we  are  deftitute \nof  the  knowledge  of  this,  we  fhall  be  ignorant  of  things  jufl.  Thus  it \nappears  to  me,  and  therefore  I  afTert  this  to  be  the  cafe.  For,  having \nexplored  upwards  and  downwards,  I  will  endeavour  to  evince  to  you  that \nwhich  has  become  apparent  to  me.  For,  when  the  greatefl  part  of  virtue \nis  negligently  attended  to,  it  becomes  the  caufe  of  ignorance,  as  what  we \nhave  jufl  now  faid  appears  to  me  moft  perfpicuoufly  to  fignify.  But  no  one \nfhall  perfuade  us,  that  there  is  any  part  of  virtue  belonging  to  the  mortal \nrace,  greater  than  piety.  We  mufl:  likewife  afTert  that  this  is  not  produced \nin  the  moft  excellent  natures  through  the  greatefl  ignorance.  But  thofe \nare  the  mofl  excellent  natures  which  are  mofl  rarely  found,  and  which \nwhen  found  benefit  others  in  the  highefl  degree.  For  the  foul  which, \nmoderately  and  inildly  receives  a  flow^  or  the  contrary  nature,  is  fimple  and \ningenuous:  it  likewlfe  admires  fortitude,  and  is  obedient  to  temperance  : \nand,  what  is  the  gieatefl  of  all  in  thefe  natures,  it  is  able  to  learn.  Is  of  a \ngood  memory,  is  a  lover  of  literature,  and  is  very  much  delighted  with \nthings  of  this  kind.  For  thefe  things  are  not  eafily  implanted  by  nature  ;  and \nwhen  they  are  innate,  and  obtain  proper  education  and  difclpline,  their  pofTeflbrs \nobtain  fuch  authority  over  moil:  part  of  their  inferiors  as  to  caiifc  them  to \nthink,  fpeak,  and  a61,  in  fuch  a  manner  as  is  requiiite,  and  when  it  is  requlfite, \ntowards  the  Gods  ;  prevent  them  from  employing  artiiice  in  the  facriiices  and \npurifications  which  are  performed  both  to  Gods  and  men;  and  difpofe  them \nto  honour  virtue  in  reality,  which  is  the  moft  important  of  ail  things  to  every \ncity.  This  part,  therefore,  we  fay  is  naturally  the  mofl:  principal,  and,  when \ninflrucled,  is  capable  of  learning  in  the  greatefl  degree,  and  in  the  beil  man- \nner. But  no  one  can  teach,  unlefs  Divinity  leads  the  way.  It  is  better,  there- \nfore, not  to  learn  from  one  who  teaches,  but  at  the  fame  time  does  not  ad \nafter  this  manner.  However,  from  what  we  have  now  faid,  it  is  ncceiTary  to \nlearn  thefe  things ;  and  I  have  aflferted  that  a  nature  of  this  kind  is  the  mofi: \n•excellent,  l^et  us  then  endeavour  to  explain  what  thefe  particulars  are,  and \nhow  it  is  requifite  to  learn  them;  and  this  both  according  to  my  ability,  who  am \nthe  fpeaker,  and  the  ability  of  thofe  \\s  ho  are  able  to  hear,  that  we  may  know \nafter  what  manner  certain  things  pertaining  to  the  culture  of  divinity  may  be \nlearnt.  Perhaps,  therefore,  what  you  w  ill  hear  is  unufual :  we  fliall,  how- \never, mention  the  name  of  the  thing  which,  to  him  who  is  ignorant  of  it, \nwould  never  appear  to  be  the  name.  Are  you  then  ignorant  of  adronomy, \nand  that  a  true  aflronomer  is  necclTarily  the  wifefl:  of  men  ?  Not,  indeed, \nthat  he  is  fo  who  aftronomizes  according  to  Hefiod  ',  and  all  fuch  as  confider \nthe  rlfing  and  fetting  of  the  flars  ;  but  this  muft  be  affirmed  of  him  who \ncontemplates  the  eight  periods,  and  how  feven  of  thefe  are  contained  under \nthe  ilrfl:,  and  in  what  order  each  revolves.  But  no  one  will  eafily  contem- \nplate thefe  things,  unlefs  he  participates  of  a  wonderful  nature,  as  we  have \njuft  now  faid,  and  as  we  fhall  again  fay,  unfolding  what  is  to  be  learnt, \nand  the  manner  of  learnhig  it.     In  the  fn-ft  place,  therefore,  let  this  be  faid \nby  ns,  that  the  moon  accomplifhes  its  period  mofl:  fwiftly,  and  thus,  firft  of \nall,  leads  forth  month  and  full  moon.  In  the  fecond  place,  it  is  requifite  to \nconfider  the  fun  who  produces  the  folfllces  through  the  whole  of  his  period, \nand,  together  with  the  fun,  thofe  that  revolve  in  conjundion  with  him. \nBut  that  we  may  not  often  affert  the  fame  things  about  the  fame,  the  revo- \nlutions of  all  thofe  natures  which  we  mentioned  before,  and  which  it  is  not \neafy  to  vinderrtand,  mufl:  be  made  the  fubjed  of  contemplation;  preparing \nhuman  nature  for  this  purpofe  by  difciplines  pertaining  to  thefe  fpeculations, \nand  this  by  long  exercife  and  labour,  while  it  is  in  a  juvenile  flate.  On \nthis  account,  the  mathematical  difciplines  will  be  neceifary  ;  of  which  the \nfirfl  and  the  greateft  is  that  which  refpeds  numbers,  but  not  thofe  that \npolTefs  a  body,  but  which  contain  the  whole  of  the  generation  and  power  of \nthe  even  and  the  odd,  as  thefe  two  contribute  to  the  knowledge  and  nature \nof  things.  That  which  is  very  ridiculoufly  called  geometry  '  follows  thefe \nin  an  orderly  fucceffion.  But  the  fimilitude  of  numbers  naturally  diffimilar \nto  planes,  becomes  confpicuous  by  comparifon.  This  circumftance,  how- \never, to  him  who  is  capable  of  underfl^anding  it,  will  evidently  appear  to  be \nnot  a  human,  but  a  divine  miracle.  After  this,  thofe  numbers  which  receive \na  triple  increafe,  and  are  limilar  to  the  nature  of  a  folid,  are  to  be  confi- \ndered,  and  likewife  thofe  that  are  diffimilar  to  this  nature,  which  is  called \nby  thofe  that  are  converfant  with  it,  geometry.  But  this,  to  thofe  that  are \ncapable  of  underftanding  it,  is  a  divine  and  wonderful  thing,  that  as  the \npower  of  things  always  revolves  about  that  which  is  double,  and  in  its  own \noppofite,  according  to  each  proportion,  every  nature  is  fadiioned  according \nto  genera  and  fpecies.  The  firfl:  power,  therefore,  of  the  double  proceeds \naccording  to  number,  in  the  ratio  of  one  to  two,  being  double  *  according  to ",
+   "pages": [
+    405,
+    406,
+    407
+   ],
+   "line": 18104
+  },
+  {
+   "id": "taylor1804.epinomis.p0046",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "power. power. Bill in that which is solid and tangible, the double again proceeds from one to eight. Another power of the double proceeds to the middle, but perhaps into that which is more than the less, and less than the greater; while again, another power by the same part furpaffjs, and is surpassed by the extremities. But in the middle, of the proportion of six to twelve, the sesquialter and sesquitertian proportion subsists. And in the middle of these, a power revolving to both distributes to men an according and apt utility, which is imparted by the blessed choir of the Mules for the sake of sports, rhythm, and harmony. All these things, therefore, are produced and subsist after this manner. But their end is this, that we may betake ourselves to divine generation, and the moll: beautiful and divine nature of things visible, as far as divinity has conferred on men the ability of beholding them. These, however, we shall never behold without the above-mentioned difciplinc. Besides this, in our several conversations we must: refer every individual thing to its species, by interrogating and confuting when any thing is improperly asserted. For this may be rightly said to be the most beautiful and the first: touch-stone which men can employ. But where only a pretended examination takes place, it is of all labours the most vain.",
+   "raw": "power. \npower.  Bill  in  that  which  is  folid  and  tangible,  the  double  again  proceeds \nfrom  one  to  eight.  Another  power  of  the  double  proceeds  to  the  middle, \nbut  perhaps  into  that  which  is  more  than  the  lefs,  and  lefs  than  the  greater  ; \nwhile  again,  another  power  by  the  fame  part  furpaffjs,  and  is  furpafled  by \nthe  extremities.  But  in  the  middle,  of  the  proportion  of  fix  to  twelve,  the \nfefquialter  and  fefquitertian  proportion  fubfifts.  And  in  the  middle  of  thefc, \na  power  revolving  to  both  diftributes  to  men  an  according  and  apt  utility, \nwhich  is  imparted  by  the  blelTed  choir  of  the  Mules  for  the  fake  of  fports, \nrhythm,  and  harmony.  All  thefe  things,  therefore,  are  produced  and  fubfifl \nafter  this  manner.  But  their  end  is  this,  that  we  may  betake  ourfelves  to \ndivine  generation,  and  the  moil:  beautiful  and  divine  nature  of  things  vifible, \nas  far  as  divinity  has  conferred  on  men  the  ability  of  beholding  them.  Thefe, \nhowever,  we  fhall  never  behold  without  the  above-mentioned  difciplinc. \nBefides  this,  in  our  feveral  converfations  we  mufl:  refer  every  individual \nthing  to  its  fpecies,  by  interrogating  and  confuting  when  any  thing  is  im- \nproperly afferted.  For  this  may  be  rightly  faid  to  be  the  moft  beautiful  and \nthe  firfl:  touch-ftone  which  men  can  employ.  But  where  only  a  pretended \nexamination  takes  place,  it  is  of  all  labours  the  moft  vain. ",
+   "pages": [
+    407,
+    408
+   ],
+   "line": 18190
+  },
+  {
+   "id": "taylor1804.epinomis.p0047",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Further still, the accuracy of time must be considered by us, and the exactness with which it causes all the revolutions of the heavenly bodies to be accomplished; that he who believes the assertion to be true, that soul is more anticnt and more divine than body, may also think it was beautifully ana fufEciently said, that all things are full of Gods and that no one of the natures more excellent than mankind, at any time forget, or pay but little attention to our concerns. But in all such things as these we should thus consider, that he who rightly apprehends each of these particulars will be benefited by them; but that it will be better for him who does not, to invoke Divinity. The manner, however, m which these particulars may be rightly apprehended is as follows: (for it is necessary to relate this alfo)— Every diagram, system of number, and composition of.harmony, together with the one concord of all the stars iv their revolutions, ought to be beheld by him who learns in a proper manner. But that of which we are speaking will become apparent to him who rightly learns looking to one thing. For to those ivho reason fcieniljically^ there will apjiear to be naturally one bond of all these. But he who attempts to apprehend these in any other way ought, as we have said, to invoke Fortune. For, without these, it is not possible that any nature in cities can be happy. But this is the mode, this is the education, these are the disciplines; and through these we must proceed, whether they are difficult or easy. But it is not lawful to neglect: the Gods; since the prosperous conception of all the above-mentioned particulars becomes apparent by an orderly progression. And I call him who rightly apprehends all these, moll: truly the wisest of men. I likewise strenuously affirm, both in jest and seriously, that such a one, when he has by death filled up his allotted time, will no longer participate of many senses, as at present, but will be a partaker of one destiny alone; and becoming one, instead of a multitude of things, will be happy, and, at the same time, moll: wise. and blessed. And again, whether any one lives blessed on the continent, or in iQands, I affirm that he will always participate a fortune of this kind; and that, whether any one living a public or a private life studies these things, he will, in like manner, obtain the same destiny from the Gods. But, as we have said in the beginning, and now the assertion appears to be moll: true, it is only [lofftble for afezv of mankind to be perfedly blejfed and hajijiy. And this is rightly aiTerted by us. For those that are divine and at the same time prudent men, who naturally participate of the other virtues, and who besides this have acquired all such portions of blessed dif ciplitie as we have mentioned, these alone can sufficiently receive and possess 410 THE EPINOMIS, OR, THE PH I LO S 0 PH E R.",
+   "raw": "Further  ftill,  the  accuracy  of  time  muft  be  confidered  by  us,  and  the  ex- \naclnefs  with  which  it  caufes  all  the  revolutions  of  the  heavenly  bodies  to  be \naccompliflied  ;  that  he  who  believes  the  affertion  to  be  true,  that  foul  is \nmore  anticnt  and  more  divine  than  body,  may  alfo  think  it  was  beautifully \nana  fufEciently  faid,  that  all  things  are  full  of  Gods^  and  that  no  one  of  the \nnatures  more  excellent  than  mankind,  at  any  time  forget,  or  pay  but  little \nattention  to  our  concerns.  But  in  all  fuch  things  as  thefe  we  fliould  thus \nconfider,  that  he  who  rightly  apprehends  each  of  thefe  particulars  will  be \nbenefited  by  them  ;  but  that  it  will  be  better  for  him  who  does  not,  to  in- \nvoke Divinity.  The  manner,  however,  m  which  thefe  particulars  may  be \nrightly  apprehended  is  as  follows :  (for  it  is  neceffary  to  relate  this  alfo)— ^ \nEvery  diagram,  fyftem  of  number,  and  compofition  of  .harmony,  together \nwith  the  one  concord  of  all  the  ftars  i^v  their  revolutions,  ought  to  be  beheld \nby  him  who  learns  in  a  proper  manner.  But  that  of  which  we  are  fpeaking \nwill  become  apparent  to  him  who  rightly  learns  looking  to  one  thing.  For^ \nto  thofe  ivho  reafon  fcieniljically^  there  will  apjiear  to  be  naturally  one  bond  ' \nof  all  thefe.  But  he  who  attempts  to  apprehend  thefe  in  any  other  way \nought,  as  we  have  faid,  to  invoke  Fortune.  For,  without  thefe,  it  is  not \npoflible  that  any  nature  in  cities  can  be  happy.  But  this  is  the  mode,  this \nis  the  education,  thefe  are  the  difciplines  ;  and  through  thefe  we  muft  pro- \nceed, whether  they  are  difficult  or  eafy.  But  it  is  not  lawful  to  negledl:  the \nGods ;  fince  the  profpcrous  conception  of  all  the  above-mentioned  parti- \nculars becomes  apparent  by  an  orderly  progreffion.  And  I  call  him  who \nrightly  apprehends  all  thefe,  moil:  truly  the  wifeft  of  men.  I  likewife  ftre- \nnuoufly  affirm,  both  in  jeft  and  ferioufly,  that  fuch  a  one,  when  he  has  by \ndeath  filled  up  his  allotted  time,  will  no  longer  participate  of  many  fenfes, \nas  at  prefent,  but  will  be  a  partaker  of  one  deftiny  alone  ;  and  becoming  one, \ninftead  of  a  multitude  of  things,  will  be  happy,  and,  at  the  fame  time,  moil: \nwife. and  bleffed.  And  again,  whether  any  one  lives  bleffed  on  the  conti- \nnent, or  in  iQands,  I  affirm  that  he  will  always  participate  a  fortune  of  this \nkind ;  and  that,  whether  any  one  living  a  public  or  a  private  life  ftudies \nthefe  things,  he  will,  in  like  manner,  obtain  the  fame  deftiny  from  the \nGods.  But,  as  we  have  faid  in  the  beginning,  and  now  the  affertion  appears \nto  be  moil:  true,  it  is  only  [lofftble  for  afezv  of  mankind  to  be perfedly  blejfed \nand  hajijiy.  And  this  is  rightly  aiTerted  by  us.  For  thofe  that  are  divine \nand  at  the  fame  time  prudent  men,  who  naturally  participate  of  the  other \nvirtues,  and  who  befides  this  have  acquired  all  fuch  portions  of  bleffed  dif \nciplitie  as  we  have  mentioned,  thefe  alone  can  fufficiently  receive  and  pofTefs \n410  THE    EPINOMIS,-    OR,    THE    PH  I  LO  S  0  PH  E  R. ",
+   "pages": [
+    408,
+    409,
+    410
+   ],
+   "line": 18225
+  },
+  {
+   "id": "taylor1804.epinomis.p0048",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "all that pertains to a divine destiny. We legally, therefore, ordain, that those who thus labour in these things, both privately and publicly, when they have arrived at old age, ought to possess the greatest authority in cities; and that others should follow these, and should celebrate all the Gods and Goddesses; and lastly, that all of us, in confeqtience of having examined these things, may, with the greatest propriety, exhort the nocturnal assembly to the pursuit of this wisdom.",
+   "raw": "all  that  pertains  to  a  divine  defliny.  We  legally,  therefore,  ordain,  that \nthofe  who  thus  labour  in  thefe  things,  both  privately  and  publicly,  when  they \nhave  arrived  at  old  age,  ought  to  pofTefs  the  greateft  authority  in  cities ;  and \nthat  others  fhould  follow  thefe,  and  (hould  celebrate  all  the  Gods  and  God- \ndefles ;  and  laftly,  that  all  of  us,  in  confeqtience  of  having  examined  thefe \nthings,  may,  with  the  greateft  propriety,  exhort  the  nodturnal  afTcmbly  to \nthe  purfuit  of  this  wifdom. ",
+   "pages": [
+    410
+   ],
+   "line": 18288
+  }
+ ],
+ "notes": [
+  {
+   "text": "That is, they are first to man, who Is naturally adapted to proceed from the imperfect: to the perfect 5 but the perfeft is first to nature.",
+   "raw": "'  That  is,  they  are  firft  to  man,  who  Is  naturally  adapted  to  proceed  from  the  imperfe61:  to  the \nperfe6l  5  but  the  perfeft  is  firft  to  nature. ",
+   "page": 393,
+   "line": 17519,
+   "in": "taylor1804.epinomis.p0008",
+   "anchor": "same page",
+   "id": "taylor1804.epinomis.n001",
+   "signed": null
+  },
+  {
+   "text": "\"Sex ptrfuafion belongs to soul, but necessity to intcUedt.",
+   "raw": "*  \"Sox  ptrfuafion  belongs  to  foul,  but  neceffity  to  intcUedt. ",
+   "page": 398,
+   "line": 17826,
+   "in": "taylor1804.epinomis.p0031",
+   "anchor": "same page",
+   "id": "taylor1804.epinomis.n002",
+   "signed": null
+  },
+  {
+   "text": "By dcemons interpreting all things to the Gods> nothing more is implied than an energy in demons, by which iLey become fitted to receive the influence of divinity more abundantly.",
+   "raw": "*  By  dcemons  interpreting  all  things  to  the  Gods>  nothing  more  is  implied  than  an  energy  in \ndemons,  by  which  iLey  become  fitted  to  receive  the  influence  of  divinity  more  abundantly. ",
+   "page": 401,
+   "line": 17946,
+   "in": "taylor1804.epinomis.p0033",
+   "anchor": "note mark",
+   "id": "taylor1804.epinomis.n003",
+   "signed": null
+  },
+  {
+   "text": "\"VOL. II, 2 F reipedling",
+   "raw": "\"VOL.  II,  2  F  reipedling ",
+   "page": 401,
+   "line": 17949,
+   "in": "taylor1804.epinomis.p0033",
+   "anchor": "note mark",
+   "id": "taylor1804.epinomis.n004",
+   "signed": null
+  },
+  {
+   "text": "Viz. the five planets, Saturn, Jupiter, Mars, Venus, and Mercury.",
+   "raw": "'  Viz.  the  five  planets,  Saturn,  Jupiter,  Mars,  Venus,  and  Mercury. ",
+   "page": 402,
+   "line": 17996,
+   "in": "taylor1804.epinomis.p0041",
+   "anchor": "same page",
+   "id": "taylor1804.epinomis.n005",
+   "signed": null
+  },
+  {
+   "text": "Alluding to The Works and Days of Hesiod. He is not a true astronomer who (ludici the heavenly bodies with a view to the necefiaries, conveniences, or elcgancivS of a mortal life, bu: he who speculates them us images of true beingst",
+   "raw": "'  Alluding  to  The  Works  and  Days  of  Hefiod.  He  is  not  a  true  aflronomer  who  (ludici  the  hea- \nvenly bodies  with  a  view  to  the  necefiaries,  conveniences,  or  elcgancivS  of  a  mortal  life,  bu: \nhe  who  fpeculates  them  us  images  of  true  beingst ",
+   "page": 406,
+   "line": 18154,
+   "in": "taylor1804.epinomis.p0045",
+   "anchor": "same page",
+   "id": "taylor1804.epinomis.n006",
+   "signed": null
+  },
+  {
+   "text": "Alluding to its name, which fignlfiesthe measuring of the earth, which is a mechanical opcraiion; but geometry is a speculative science.",
+   "raw": "'  Alluding  to  its  name,  which  fignlfiesthe  meafuring  of  the  earth,  which  is  a  mechanical  opc- \nraiion;  but  geometry  is  a  fpeculative  fcience. ",
+   "page": 407,
+   "line": 18192,
+   "in": "taylor1804.epinomis.p0045",
+   "anchor": "note mark",
+   "id": "taylor1804.epinomis.n007",
+   "signed": null
+  },
+  {
+   "text": "Of numbers, feme are linear, others superficial, and others cubic and solid. The first are such as the number 2; the second such as the number 4, which is the square or second power «f 2; and the third such as eight, which is the cube or third power of 2. Duple proportion also was confidcred by the anticnts as perfeft. In the first; place, because it is the first proportion, being produced between one and two j and, in the second place, because it contains all proportions within itself i for the sesquialter, fefqui tertian, and the like proportions are, as it were, parts below duple proportion. The numbers which she author of the t pinomis here adduces are i, 2, 4, 6, 8, 12. The ratio of 4 to 2 is duple, and that of 8 to 4 is also duple. These two excesses are equal in ratio, for that of each is duple, but they are not equal irt number; for 8 exceed 4 by 4, but 4 exceeds 2 by 2. Again, if we compare 6 to 4, and afterwards to 8, in the first case we shall have a sesquialter, and in the second a sesquitertian ratio i but these excesses are unequal in ratio, but equal in number. For the ratio of 6 to 4 = it, and the ratio of 8 to b= if i but 6 exceeds 4 by 2, and is exceeded by 8 by 2. Again, compare 12 to 6, which is a duple ratio, and between these compare 8 to each. Then, 12 to 8 will be a sesquialter ratio, and 8 to 6 will be a sesquitertian ratio; but a duple ratio arises from 12 to 6j and the excesses between 12 and Of and \"i and 6, are unequal both in ratio and number.",
+   "raw": "»  Of  numbers,  feme  are  linear,  others  fuperficial,  and  others  cubic  and  folid.  The  firft  are \nfuch  as  the  number  2  ;  the  fecond  fuch  as  the  number  4,  which  is  the  fquare  or  fecond  power \n«f  2  ;  and  the  third  fuch  as  eight,  which  is  the  cube  or  third  power  of  2.  Duple  proportion  alfo \nwas  confidcred  by  the  anticnts  as  perfeft.  In  the  firfl;  place,  becaufe  it  is  the  firfl  proportion, \nbeing  produced  between  one  and  two  j  and,  in  the  fecond  place,  becaufe  it  contains  all  proportions \nwithin  itfelf  i  for  the  fefquialter,  fefqui tertian,  and  the  like  proportions  are,  as  it  were,  parts \nbelow  duple  proportion.  The  numbers  which  ihe  author  of  the  t  pinomis  here  adduces  arc  i,  2, \n4,  6,  8,  12.  The  ratio  of  4  to  2  is  duple,  and  that  of  8  to  4  is  alfo  duple.  Thefe  two  excefles \nare  equal  in  ratio,  for  that  of  each  is  duple,  but  they  are  not  equal  irt  number ;  for  8  exceed^  4 \nby  4,  but  4  exceeds  2  by  2.  Again,  if  we  compare  6  to  4,  and  afterwards  to  8,  in  the  firft  cafe \nwe  (hall  have  a  fefquialter,  and  in  the  fecond  a  fefquitertian  ratio  i  but  thefe  excefies  are  unequal \nin  ratio,  but  equal  in  number.  For  the  ratio  of  6  to  4  =  it,  and  the  ratio  of  8  to  b=  if  i  but \n6  exceeds  4  by  2,  and  is  exceeded  by  8  by  2.  Again,  compare  12  to  6,  which  is  a  duple  ratio, \nand  between  thefe  compare  8  to  each.  Then,  12  to  8  will  be  a  fefquialter  ratio,  and  8  to  6  will \nbe  a  fefquitertian  ratio  ;  but  a  duple  ratio  arifes  from  12  to  6j  and  the  excefles  between  12  and \nBf  and  \"i  and  6,  are  unequal  both  in  ratio  and  number. ",
+   "page": 407,
+   "line": 18195,
+   "in": "taylor1804.epinomis.p0045",
+   "anchor": "note mark",
+   "id": "taylor1804.epinomis.n008",
+   "signed": null
+  },
+  {
+   "text": "Meaning DiaUciic; for an account of which see my Introduction to the Parmenides.",
+   "raw": "^  Meaning  DiaUciic ;  for  an  account  of  which  fee  my  Introdudion  to  the  Parmenides. ",
+   "page": 409,
+   "line": 18282,
+   "in": "taylor1804.epinomis.p0047",
+   "anchor": "same page",
+   "id": "taylor1804.epinomis.n009",
+   "signed": null
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 17,
+  "words joined across lines": 88,
+  "paragraphs run on across a page": 22,
+  "running heads removed": 17,
+  "notes": 9,
+  "notes run on across a page": 1,
+  "note marks removed": 10,
+  "speeches": 22
+ }
+}

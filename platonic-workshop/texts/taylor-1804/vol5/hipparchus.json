@@ -1,0 +1,1986 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.hipparchus",
+ "title": "The Hipparchus",
+ "author": "Plato",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804)",
+ "perseus_work": "urn:cts:greekLit:tlg0059.tlg015",
+ "citation": "1804 page on every segment; Stephanus sections are assigned when the library is built (tools/align.py)",
+ "proof_status": "OCR cleaned by rule",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   15353,
+   15908
+  ],
+  "exclude": []
+ },
+ "gap": null,
+ "segments": [
+  {
+   "id": "taylor1804.hipparchus.p0001",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "THE PERSONS OF THE DIALOGUE. SOCRATES AND HIPPARCHUS,",
+   "raw": "THE  PERSONS  OF  THE  DIALOGUE. \nSOCRATES    AND    HIPPARCHUS, ",
+   "pages": [
+    857
+   ],
+   "line": 15353
+  },
+  {
+   "id": "taylor1804.hipparchus.p0002",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "SOCRATES.",
+   "raw": "SOCRATES. ",
+   "pages": [
+    857
+   ],
+   "line": 15357
+  },
+  {
+   "id": "taylor1804.hipparchus.p0003",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "What is the love, and who are the lovers of gain?",
+   "raw": "What  is  the  love,  and  who  are  the  lovers  of  gain  ? ",
+   "pages": [
+    857
+   ],
+   "line": 15359
+  },
+  {
+   "id": "taylor1804.hipparchus.p0004",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It appears to me that those are lovers of gain, who think it worth while to acquire wealth from things of no worth.",
+   "raw": "Hip,  It  appears  to  me  that  thofe  are  lovers  of  gain,  who  think  it  worth \nwhile  to  acquire  wealth  from  things  of  no  worth. ",
+   "pages": [
+    857
+   ],
+   "line": 15361
+  },
+  {
+   "id": "taylor1804.hipparchus.p0005",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Whether therefore do they appear to you to do this in confeqnence of knowing, or being ignorant that thele are things of no worth? For if they do this through ignorance, you call the lovers of gain stupid.",
+   "raw": "Soc.  Whether  therefore  do  they  appear  to  you  to  do  this  in  confeqnence \nof  knowing,  or  being  ignorant  that  thele  are  things  of  no  worth?  For  if  they \ndo  this  through  ignorance,  you  call  the  lovers  of  gain  ftupid. ",
+   "pages": [
+    857
+   ],
+   "line": 15364
+  },
+  {
+   "id": "taylor1804.hipparchus.p0006",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "But I do not call them stupid, but perfectly crafty and base; men who are vanquished by gain, who know that the things from which they have the boldness to acquire wealth, are of no worth, and yet at the same time, through their impudence, dare to love gain.",
+   "raw": "Hip.  But  I  do  not  call  them  ftupid,  but  perfectly  crafty  and  bafe  ;  men \nwho  are  vanquifhed  by  gain,  who  know  that  the  things  from  which  they \nhave  the  boldnefs  to  acquire  wealth,  are  of  no  worth,  and  yet  at  the  fame \ntime,  through  their  impudence,  dare  to  love  gain. ",
+   "pages": [
+    857
+   ],
+   "line": 15368
+  },
+  {
+   "id": "taylor1804.hipparchus.p0007",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, call a character of the following kind a lover of gain? I mean, as if a husbandman, planting a tree or herb, and knowing that it is oi no worth, fhoukl nevertheless think it worth while to enrich himself from the cultivation of such a plant? Do you call such a one as this a lover of gain?",
+   "raw": "Soc.  Do  you,  therefore,  call  a  character  of  the  following  kind  a  lover  of \ngain  ?  I  mean,  as  if  a  hufbandman,  planting  a  tree  or  herb,  and  knowing \nthat  it  is  oi  no  worth,  fhoukl  neverthelefs  think  it  worth  while  to  enrich \nhimfclf  from  tlie  cultivation  of  fuch  a  plant  ?  Do  you  call  fuch  a  one  as  this \na  lover  of  gain  ? ",
+   "pages": [
+    857
+   ],
+   "line": 15373
+  },
+  {
+   "id": "taylor1804.hipparchus.p0008",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "a lover of gain, Socrates, thinks he ought to enrich himself from every thing.",
+   "raw": "Hip.  a  lover  of  gain,  Socrates,  thinks  he  ought  to  enrich  himfelf  from \nevery  thing. ",
+   "pages": [
+    857
+   ],
+   "line": 15379
+  },
+  {
+   "id": "taylor1804.hipparchus.p0009",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do not thus rashly answer me, like a man who has been injured by lomeone; but, attending to what I say, answer me as if I should again interrogate you from the beginning. Do you agree with me, that a lover of gain knows the value of that thing whence he thinks it worth while to enrich himself?",
+   "raw": "Soc.  Do  not  thus  rafhiy  anfvver  me,  like  a  man  who  has  been  injured  by \nlomeone;  but,  attending  to  what  I  fay,  anfwer  me  as  if  I  (hould  again \ninterrogate  you  from  the  beginning.    Do  you  agree  with  me,  that  a  lover  of \ngain  knows  the  value  of  that  thing  whence  he  thinks  it  worth    while  to \nenrich  himfelf  ? ",
+   "pages": [
+    null,
+    858
+   ],
+   "line": 15382
+  },
+  {
+   "id": "taylor1804.hipparchus.p0010",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Hip.  I  do. ",
+   "pages": [
+    858
+   ],
+   "line": 15392
+  },
+  {
+   "id": "taylor1804.hipparchus.p0011",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Who then is he that has a knowledge of the worth of plants f and who like wise knows in what region, and at what time of the year it is worth while to plant them? that we alio may adopt something from those words of the wise, which lawyers employ for the lake of elegance.",
+   "raw": "Soc.  Who  then  is  he  that  has  a  knowledge  of  the  worth  of  plants  f  and \nwho  like  wife  knows  in  what  region,  and  at  what  time  of  the  year  it  is \nworth  while  to  plant  them?  that  we  alio  may  adopt  fomething  from  thofe \nwords  of  the  wife,  which  lawyers  employ  for  the  lake  of  elegance. ",
+   "pages": [
+    858
+   ],
+   "line": 15394
+  },
+  {
+   "id": "taylor1804.hipparchus.p0012",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "a husbandman, I think.",
+   "raw": "Hip.   a  hufbandman,  I  think. ",
+   "pages": [
+    858
+   ],
+   "line": 15399
+  },
+  {
+   "id": "taylor1804.hipparchus.p0013",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, say that the term, It is worth while to acquire wealth, is any thing else than to think that it is requisite to acquire wealth?",
+   "raw": "Soc.  Do  you,  therefore,  fay  that  tlie  term,  It  is  worth  while  to  acquire \nwealth,  is  any  thing  elfe  than  to  think  that  it  is  requifite  to  acquire  wealth  ? ",
+   "pages": [
+    858
+   ],
+   "line": 15401
+  },
+  {
+   "id": "taylor1804.hipparchus.p0014",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I say it is this very thing.",
+   "raw": "Hip.  I  fay  it  is  this  very  thing. ",
+   "pages": [
+    858
+   ],
+   "line": 15404
+  },
+  {
+   "id": "taylor1804.hipparchus.p0015",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do not therefore you, who are so young, endeavour to deceive me, who am now an elderly man, by answering, as )ou do at prcfcnt, what you by no means think; but answer me truly, whelijeryou think tl.at the man who is a husbandman, and who knows thcit it is not worthwhile to set a certain plant, will yet expect to be enriched by such a plant?",
+   "raw": "Soc.  Do  not  therefore  you,  who  are  fo  young,  endeavour  to  deceive  me, \nwho  am  now  an  elderly  man,  by  anfwering,  as  )ou  do  at  prcfcnt,  what  you  by \nno  means  think  ;  but  anfwer  me  truly,  whelijeryou  think  tl.at  the  man  who \nis  a  hufbandman,  and  who  knows  thcit  it  is  not  worthwhile  to  fet  a  certain \nplant,  will  yet  expe61  to  be  enriched  by  fuch  a  plant  ? ",
+   "pages": [
+    858
+   ],
+   "line": 15406
+  },
+  {
+   "id": "taylor1804.hipparchus.p0016",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, not I.",
+   "raw": "Hip.  By  Jupiter,  not  I. ",
+   "pages": [
+    858
+   ],
+   "line": 15412
+  },
+  {
+   "id": "taylor1804.hipparchus.p0017",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then? Will a jockey who knows tlw.v she food which he gives a horse is of no worth, be ignorant that by luch food he will destroy the horse?",
+   "raw": "Soc.  What  then  ?  Will  a  jockey  who  knows  tlw.v  ihe  food  which  he  gives \na  horfe  is  of  no  worth,  be  ignorant  that  by  luch  food  he  will  dcflroy  the \nhorfe? ",
+   "pages": [
+    858
+   ],
+   "line": 15414
+  },
+  {
+   "id": "taylor1804.hipparchus.p0018",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do not think he w-ilk",
+   "raw": "Hip.  I  do  not  think  he  w-ilk ",
+   "pages": [
+    858
+   ],
+   "line": 15418
+  },
+  {
+   "id": "taylor1804.hipparchus.p0019",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "He will not, therefore, think that from such aliment as this, which is of no worth, he shall be enriched.",
+   "raw": "Soc.  He  will  not,  therefore,  think  that  from  fuch  aliment  as  this,  which \nis  of  no  worth,  he  ihall  be  enriched. ",
+   "pages": [
+    858
+   ],
+   "line": 15420
+  },
+  {
+   "id": "taylor1804.hipparchus.p0020",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "He will not.",
+   "raw": "Hip.  He  will  not. ",
+   "pages": [
+    858
+   ],
+   "line": 15423
+  },
+  {
+   "id": "taylor1804.hipparchus.p0021",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then? Do you think that a pilot who furnishes a ship with a rudder and fails, which are of no value, can be ignorant that he shall fulkin an injury, be himself in danger of perishing, and both destroy the ship and all it contains?",
+   "raw": "Soc.  What  then  ?  Do  you  think  that  a  pilot  who  furnifhes  a  (hip  with  a \nrudder  and  fails,  which  are  of  no  value,  can  be  ignorant  that  he  fliall  fulkin  an \ninjury,  be  himfelf  in  danger  of  perifliing,  and  both  deflroy  the  (hip  and  all  it \ncontains  ? ",
+   "pages": [
+    858
+   ],
+   "line": 15425
+  },
+  {
+   "id": "taylor1804.hipparchus.p0022",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do not",
+   "raw": "Hip.  I  do  not ",
+   "pages": [
+    858
+   ],
+   "line": 15430
+  },
+  {
+   "id": "taylor1804.hipparchus.p0023",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "He will not therefore think that he shall be enriched by furniture of no value.",
+   "raw": "Soc.  He  will  not  therefore  think  that  he  fhall  be  enriched  by  furniture  of \nno  value. ",
+   "pages": [
+    858
+   ],
+   "line": 15432
+  },
+  {
+   "id": "taylor1804.hipparchus.p0024",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "He will not.",
+   "raw": "Hip.  He  will  not. ",
+   "pages": [
+    858
+   ],
+   "line": 15435
+  },
+  {
+   "id": "taylor1804.hipparchus.p0025",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Will the general of an army, likewise, when he knows that his soldiers have arms wliich are of no value, think that he shall acquire wealth, or that it is worth while to be enriched by these?",
+   "raw": "Soc.  Will  tlie  general  of  an  army,  likewife,  when  he  knows  that  his \nfoldiers  have  arms  wliich  are  of  no  value,  think  that  he  fhall  acquire  wealth, \nor  that  it  is  worth  while  to  be  enriched  by  thefe  ? ",
+   "pages": [
+    858
+   ],
+   "line": 15437
+  },
+  {
+   "id": "taylor1804.hipparchus.p0026",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "By no means.",
+   "raw": "Hip.  By  no  means. ",
+   "pages": [
+    359
+   ],
+   "line": 15446
+  },
+  {
+   "id": "taylor1804.hipparchus.p0027",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "In like manner, if a piper poflTefTes a pipe of no value, a lyrist a lyre, an archer a bow, or in short if any other artist or skilful person potfefTes instruments, or any other apparatus of no value, will he think that he shall be enriched by these?",
+   "raw": "Soc.  In  like  manner,  if  a  piper  poflTefTes  a  pipe  of  no  value,  a  lyrift  a  lyre, \nan  archer  a  bow,  or  in  fhort  if  any  other  artift  or  fkilful  perfbn  potfefTes \ninftruments,  or  any  other  apparatus  of  no  value,  will  he  think  that  he  fhall \nbe  enriched  by  thefe  ? ",
+   "pages": [
+    359
+   ],
+   "line": 15448
+  },
+  {
+   "id": "taylor1804.hipparchus.p0028",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It appears he will not.",
+   "raw": "Hip.  It  appears  he  will  not. ",
+   "pages": [
+    359
+   ],
+   "line": 15453
+  },
+  {
+   "id": "taylor1804.hipparchus.p0029",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Who then do you call lovers of gain? For they are certainly not tliofe whom we have already mentioned, who expect to be enriched from things which they know are of no value. And thus, O wonderful man, according to what you say, no one is a lover of gain.",
+   "raw": "Soc.  Who  then  do  you  call  lovers  of  gain  ?  For  they  are  certainly  not \ntliofe  whom  we  have  already  mentioned,  who  expe6l  to  be  enriched  from \nthings  which  they  know  are  of  no  value.  And  thus,  O  wonderful  man, \naccording  to  what  you  fay,  no  one  is  a  lover  of  gain. ",
+   "pages": [
+    359
+   ],
+   "line": 15455
+  },
+  {
+   "id": "taylor1804.hipparchus.p0030",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "But I, Socrates, wish to say, that those are lovers of gain, who, through insatiable avidity, transcendently aspire after things very small and trifling, and which are of no value, and this for the sake of gain.",
+   "raw": "Hip.  But  I,  Socrates,  wifli  to  fay,  that  thofe  are  lovers  of  gain,  who, \nthrough  infatiable  avidity,  tranfcendently  afpire  after  things  very  fmall  and \ntrifling,  and  which  are  of  no  value,  and  this  for  the  fake  of  gain. ",
+   "pages": [
+    359
+   ],
+   "line": 15460
+  },
+  {
+   "id": "taylor1804.hipparchus.p0031",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But certainly, O best of men, they do not act in this manner, knowing that they are things of no worth; for we have granted that this is impossible.",
+   "raw": "Soc.  But  certainly,  O  befl  of  men,  they  do  not  a6l  in  this  manner,  know- \ning that  they  are  things  of  no  worth ;  for  we  have  granted  that  this  is \nimpoffible. ",
+   "pages": [
+    359
+   ],
+   "line": 15464
+  },
+  {
+   "id": "taylor1804.hipparchus.p0032",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "So it appears to me.",
+   "raw": "Hip.  So  it  appears  to  me. ",
+   "pages": [
+    359
+   ],
+   "line": 15468
+  },
+  {
+   "id": "taylor1804.hipparchus.p0033",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If, therefore, they do not ad in this manner knowingly, it is evident that their conduct must be the effect of ignorance; the consequence of thinking that things which are of no worth are highly valuable.",
+   "raw": "Soc.  If,  therefore,  they  do  not  ad  in  this  manner  knowingly,  it  is  evident \nthat  their  condu6l  muft  be  the  efFed  of  ignorance  ;  the  confequence  of  think- \ning that  things  which  are  of  no  worth  are  highly  valuable. ",
+   "pages": [
+    359
+   ],
+   "line": 15470
+  },
+  {
+   "id": "taylor1804.hipparchus.p0034",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It appears so.",
+   "raw": "Hip.  It  appears  fo. ",
+   "pages": [
+    359
+   ],
+   "line": 15474
+  },
+  {
+   "id": "taylor1804.hipparchus.p0035",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do the lovers of gain, love any thing else than gain?",
+   "raw": "Soc.  Do  the  lovers  of  gain,  love  any  thing  elfe  than  gain  ? ",
+   "pages": [
+    359
+   ],
+   "line": 15476
+  },
+  {
+   "id": "taylor1804.hipparchus.p0036",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Nothing else.",
+   "raw": "Hip.  Nothing  elfe. ",
+   "pages": [
+    359
+   ],
+   "line": 15478
+  },
+  {
+   "id": "taylor1804.hipparchus.p0037",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But do you say that gain is contrary to loss?",
+   "raw": "Soc.  But  do  you  fay  that  gain  is  contrary  to  lofs  ? ",
+   "pages": [
+    359
+   ],
+   "line": 15480
+  },
+  {
+   "id": "taylor1804.hipparchus.p0038",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Hip.  I  do. ",
+   "pages": [
+    359
+   ],
+   "line": 15482
+  },
+  {
+   "id": "taylor1804.hipparchus.p0039",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it therefore good to any one to suffer a loss?",
+   "raw": "Soc.  Is  it  therefore  good  to  any  one  to  fufFer  a  lofs  ? ",
+   "pages": [
+    359
+   ],
+   "line": 15484
+  },
+  {
+   "id": "taylor1804.hipparchus.p0040",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "To no one.",
+   "raw": "Hip.  To  no  one. ",
+   "pages": [
+    359
+   ],
+   "line": 15486
+  },
+  {
+   "id": "taylor1804.hipparchus.p0041",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it then an evil?",
+   "raw": "Soc.  Is  it  then  an  evil  ? ",
+   "pages": [
+    359
+   ],
+   "line": 15488
+  },
+  {
+   "id": "taylor1804.hipparchus.p0042",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Hip.  Yes. ",
+   "pages": [
+    359
+   ],
+   "line": 15490
+  },
+  {
+   "id": "taylor1804.hipparchus.p0043",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are men, therefore, injured by loss?",
+   "raw": "Soc.  Are  men,  therefore,  injured  by  lofs  ? ",
+   "pages": [
+    359
+   ],
+   "line": 15492
+  },
+  {
+   "id": "taylor1804.hipparchus.p0044",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "They are injured.",
+   "raw": "Hip.  They  are  injured. ",
+   "pages": [
+    359
+   ],
+   "line": 15494
+  },
+  {
+   "id": "taylor1804.hipparchus.p0045",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is then loss an evil?",
+   "raw": "Soc.  Is  then  lofs  an  evil  ? ",
+   "pages": [
+    359
+   ],
+   "line": 15496
+  },
+  {
+   "id": "taylor1804.hipparchus.p0046",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Hip.  It  is. ",
+   "pages": [
+    359
+   ],
+   "line": 15498
+  },
+  {
+   "id": "taylor1804.hipparchus.p0047",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And is gain contrary to loss?",
+   "raw": "Soc.  And  is  gain  contrary  to  lofs  ? ",
+   "pages": [
+    359
+   ],
+   "line": 15500
+  },
+  {
+   "id": "taylor1804.hipparchus.p0048",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Contrary,",
+   "raw": "Hip.  Contrary, ",
+   "pages": [
+    359
+   ],
+   "line": 15502
+  },
+  {
+   "id": "taylor1804.hipparchus.p0049",
+   "kind": "paragraph",
+   "label": "SoC",
+   "translator": "Thomas Taylor",
+   "text": "Is gain therefore good?",
+   "raw": "SoC.  Is  gain  therefore  good  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15509
+  },
+  {
+   "id": "taylor1804.hipparchus.p0050",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Hip.  It  is. ",
+   "pages": [
+    360
+   ],
+   "line": 15511
+  },
+  {
+   "id": "taylor1804.hipparchus.p0051",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, call those that love good, lovers of gain?",
+   "raw": "Soc.  Do  you,  therefore,  call  thofe  that  love  good,  lovers  of  gain  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15513
+  },
+  {
+   "id": "taylor1804.hipparchus.p0052",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "So it seems,",
+   "raw": "Hip.  So  it  fcems, ",
+   "pages": [
+    360
+   ],
+   "line": 15515
+  },
+  {
+   "id": "taylor1804.hipparchus.p0053",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You do not then, my friend, call the lovers of gain insane persons. But with respect to yourself, whether do you love that which is good, or do not love it?",
+   "raw": "Soc,  You  do  not  then,  my  friend,  call  the  lovers  of  gain  infane  persons. \nBut  with  refpe6t  to  yourfelf,  whether  do  you  love  that  which  is  good,  or  do \nnot  love  it  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15517
+  },
+  {
+   "id": "taylor1804.hipparchus.p0054",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I love it.",
+   "raw": "Hip.  I  love  it. ",
+   "pages": [
+    360
+   ],
+   "line": 15521
+  },
+  {
+   "id": "taylor1804.hipparchus.p0055",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is there a certain good which you do not love, but a certain evil which you do?",
+   "raw": "Soc.  Is  there  a  certain  good  which  you  do  not  love,  but  a  certain  evil \nwhich  you  do  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15523
+  },
+  {
+   "id": "taylor1804.hipparchus.p0056",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, there is not.",
+   "raw": "Hip.  By  Jupiter,  there  is  not. ",
+   "pages": [
+    360
+   ],
+   "line": 15526
+  },
+  {
+   "id": "taylor1804.hipparchus.p0057",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But you love all good things equally.",
+   "raw": "Soc.  But  you  love  all  good  things  equally. ",
+   "pages": [
+    360
+   ],
+   "line": 15528
+  },
+  {
+   "id": "taylor1804.hipparchus.p0058",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Hip.  I  do. ",
+   "pages": [
+    360
+   ],
+   "line": 15530
+  },
+  {
+   "id": "taylor1804.hipparchus.p0059",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "A(k me, if I also do not. For I also shall acknowledge to you, that I love things good. But besides I and you, do not all other men appear to you to love things good, and hate such as are evil?",
+   "raw": "Soc.  A(k  me,  if  1  alfo  do  not.  ^  For  I  alfo  (hall  acknowledge  to  you,  that  I \nlove  things  good.  But  befides  I  and  you,  do  not  all  other  men  appear  to  you \nto  love  things  good,  and  hate  fuch  as  are  evil  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15532
+  },
+  {
+   "id": "taylor1804.hipparchus.p0060",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "To me it appears so.",
+   "raw": "Hip.  To  me  it  appears  fo. ",
+   "pages": [
+    360
+   ],
+   "line": 15536
+  },
+  {
+   "id": "taylor1804.hipparchus.p0061",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But have we not acknowledged that gain is good }",
+   "raw": "Soc.  But  have  we  not  acknowledged  that  gain  is  good  } ",
+   "pages": [
+    360
+   ],
+   "line": 15538
+  },
+  {
+   "id": "taylor1804.hipparchus.p0062",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Hip.  Yes. ",
+   "pages": [
+    360
+   ],
+   "line": 15540
+  },
+  {
+   "id": "taylor1804.hipparchus.p0063",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "After this manner, therefore, all lovers of gain appear; but according to that mode which we before mentioned, no one was a lover of gain. By employing which of these two, then, shall we not err?",
+   "raw": "Soc.  After  this  manner,  therefore,  all  lovers  of  gain  appear;  but  according \nto  that  mode  which  we  before  mentioned,  no  one  was  a  lover  of  gain.  By \nemploying  which  of  thefe  two,  then,  fhall  we  not  err  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15542
+  },
+  {
+   "id": "taylor1804.hipparchus.p0064",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "If any one, Socrates, rightly apprehends what a lover of gain is, I thhik he will rightly consider him to be a character of this kind, who earneilly applies himself to the acquisition of wealth, and thinks it worth while to jenrich himself from those things from which good men never dare to enrich themlelves.",
+   "raw": "Hip.  If  any  one,  Socrates,  rightly  apprehends  what  a  lover  of  gain  is,  I \nthhik  he  will  rightly  confider  him  to  be  a  charadler  of  this  kind,  who  earneilly \napplies  himfelf  to  the  acquifition  of  wealth,  and  thinks  it  worth  while  to \njenrich  himfelf  from  thofe  things  from  which  good  men  never  dare  to  enrich \nthemlelves. ",
+   "pages": [
+    360
+   ],
+   "line": 15546
+  },
+  {
+   "id": "taylor1804.hipparchus.p0065",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But do you not see, O sweetest of men, that we ju/l now acknowledged that to be enriched is to be benefited?",
+   "raw": "Soc.  But  do  you  not  fee,  O  fweeteft  of  men,  that  we  ju/l  now  acknow- \nledged that  to  be  enriched  is  to  be  benefited  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15552
+  },
+  {
+   "id": "taylor1804.hipparchus.p0066",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "But what then?",
+   "raw": "Hip.  But  what  then  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15555
+  },
+  {
+   "id": "taylor1804.hipparchus.p0067",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Because this also we previously admitted, that all men always aspired after things good. Hip. We did.",
+   "raw": "Soc.  Becaufe  this  alfo  we  previoufly  admitted,  that  all  men  always  afpired \nafter  things  good. \nHip.  We  did. ",
+   "pages": [
+    360
+   ],
+   "line": 15557
+  },
+  {
+   "id": "taylor1804.hipparchus.p0068",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Will not, therefore, good men wi(h to possess every thing lucrative, ilnce every thing lucrative is good?",
+   "raw": "Soc.  Will  not,  therefore,  good  men  wi(h  to  poffefs  every  thing  lucrative, \nilnce  every  thing  lucrative  is  good  ? ",
+   "pages": [
+    360
+   ],
+   "line": 15561
+  },
+  {
+   "id": "taylor1804.hipparchus.p0069",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "But they will not, Socrates, desire things lucrative, by which they may be injured.",
+   "raw": "Hip.  But  they  will  not,  Socrates,  defirc  things  lucrative,  by  which  they \nmay  be  injured. ",
+   "pages": [
+    361
+   ],
+   "line": 15569
+  },
+  {
+   "id": "taylor1804.hipparchus.p0070",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you say that to be injured, is to suffer a lose, or that it is focnething el.e?",
+   "raw": "Soc,  Do  you  fay  that  to  be  injured,  is  to  fufFer  a  lofe,  or  that  it  is  focne- \nthing  el.e  ? ",
+   "pages": [
+    361
+   ],
+   "line": 15572
+  },
+  {
+   "id": "taylor1804.hipparchus.p0071",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I say it is no other than to suffer a loss.",
+   "raw": "Hip.  I  fay  it  is  no  other  than  to  fufFer  a  lofs. ",
+   "pages": [
+    361
+   ],
+   "line": 15575
+  },
+  {
+   "id": "taylor1804.hipparchus.p0072",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do men, therefore, suffer a loss through gain, or through loss?",
+   "raw": "Soc.  Do  men,  therefore,  fufFer  a  lofs  through  gain,  or  through  lofs  ? ",
+   "pages": [
+    361
+   ],
+   "line": 15577
+  },
+  {
+   "id": "taylor1804.hipparchus.p0073",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Through both. For they suffer a loss through loss, and through base gain.",
+   "raw": "Hip.  Through  both.  For  they  fuffer  a  lofs  through  lofs,  and  through \nbafe  gain. ",
+   "pages": [
+    361
+   ],
+   "line": 15579
+  },
+  {
+   "id": "taylor1804.hipparchus.p0074",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Does it therefore appear to you that any thihg useful and good is base?",
+   "raw": "Soc.  Does  it  therefore  appear  to  you  that  any  thihg  ufeful  and  good  is \nbafe? ",
+   "pages": [
+    361
+   ],
+   "line": 15582
+  },
+  {
+   "id": "taylor1804.hipparchus.p0075",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It does not.",
+   "raw": "Hip.  It  does  not. ",
+   "pages": [
+    361
+   ],
+   "line": 15585
+  },
+  {
+   "id": "taylor1804.hipparchus.p0076",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Did we not then, a little before this, acknowledge that gain is con* trary to loss, which is an evil i",
+   "raw": "Soc.  Did  we  not  then,  a  little  before  this,  acknowledge  that  gain  is  con* \ntrary  to  lofs,  which  is  an  evil  i ",
+   "pages": [
+    361
+   ],
+   "line": 15587
+  },
+  {
+   "id": "taylor1804.hipparchus.p0077",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "We did.",
+   "raw": "Hip.  We  did. ",
+   "pages": [
+    361
+   ],
+   "line": 15590
+  },
+  {
+   "id": "taylor1804.hipparchus.p0078",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And that being contrary to evil, it is good?",
+   "raw": "Soc.  And  that  being  contrary  to  evil,  it  is  good  ? ",
+   "pages": [
+    361
+   ],
+   "line": 15592
+  },
+  {
+   "id": "taylor1804.hipparchus.p0079",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "We granted this.",
+   "raw": "Hip.  We  granted  this. ",
+   "pages": [
+    361
+   ],
+   "line": 15594
+  },
+  {
+   "id": "taylor1804.hipparchus.p0080",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You see therefore that you endeavour to deceive me, and that you designedly assert the contrary to that which we just now granted.",
+   "raw": "Soc.  You  fee  therefore  that  you  endeavour  to  deceive  me,  and  that  you \ndefignedly  affert  the  contrary  to  that  which  we  jufl  now  granted. ",
+   "pages": [
+    361
+   ],
+   "line": 15596
+  },
+  {
+   "id": "taylor1804.hipparchus.p0081",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do not, by Jupiter, Socrates: but, on the contrary, you deceive me; and I do not know how it is, but in your discourse you turn all things upwards and downwards.",
+   "raw": "Hip.  I  do  not,  by  Jupiter,  Socrates :  but,  on  the  contrary,  you  deceive \nme ;  and  1  do  not  know  how  it  is,  but  in  your  difcourfe  you  turn  all  things \niipwards  and  downwards. ",
+   "pages": [
+    361
+   ],
+   "line": 15599
+  },
+  {
+   "id": "taylor1804.hipparchus.p0082",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Good words, I beseech you. For indeed I should not as well, if I were not persuaded by a good and wise man.",
+   "raw": "Soc.  Good  words,  I  befeech  you.  For  indeed  I  fhould  not  a^  well,  if  I \nwere  not  perfuaded  by  a  good  and  wife  man. ",
+   "pages": [
+    361
+   ],
+   "line": 15603
+  },
+  {
+   "id": "taylor1804.hipparchus.p0083",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Who is he? and to what purpose is this?",
+   "raw": "Hip.  Who  is  he  ?  and  to  what  purpofc  is  this? ",
+   "pages": [
+    361
+   ],
+   "line": 15606
+  },
+  {
+   "id": "taylor1804.hipparchus.p0084",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "My fellow citizen, and likewise yours, Hipparchus the son of the Philaedonic Pisistratus, and the eldest and wisest of the sons of Pififlratus* This man, besides exhibiting many other illustrious works of wisdom, was the first that introduced into this land the writings of Homer, and compelled the rhapsodists to recite them in the Fanathenaia, alternately, and in order, just as you know they do at present. He likewise brought back Anacreon, who was sent to Teium, in a ship of fifty oars: and always had about him Simonides of Chius; persuading him to reside with him, by great rewards and gifts. He did these things, wishing to persuade his citizens, that thus he rpight rule over the best of men; thinking, that it was not proper to",
+   "raw": "Soc.  My  fellow  citizen,  and  likewife  yours,  Hipparchus  the  fbn  of  the \nPhilaedonic  Pififtratus,  and  the  eldefl  and  wifefl  of  the  fons  of  Pififlratus* \nThis  man,  befides  exhibiting  many  other  illuflrious  works  of  wifdom,  was  the \nfirfl  that  introduced  into  this  land  the  writings  of  Homer,  and  compelled \nthe  rhapfodifts  to  recite  them  in  the  Fanathenaia,  alternately,  and  in  order, \njufl  as  you  know  they  do  at  prefent.  He  likewife  brought  back  Anacreon, \nwho  was  fent  to  Teium,  in  a  fhip  of  fifty  oars:  and  always  had  about  him \nSimonides  of  Chius  ;  perfuading  him  to  refide  with  him,  by  great  rewards \nand  gifts.  He  did  thefe  things,  wifhing  to  perfuade  his  citizens,  that  thus \nhe  rpight  rule  over  the  befl  of  men ;  thinking,  that  it  was   not  proper  to ",
+   "pages": [
+    361
+   ],
+   "line": 15608
+  },
+  {
+   "id": "taylor1804.hipparchus.p0085",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "vox,. V, 3 A envy envy any man the possession of wisdom, and this because he himself was a worthy and good man. As, therefore, his fellow citizens were well educated men, and admired him for his wisdom, he lik^wife endeavoured to instruct the husbandmen, and in order to this, placed Hermae for them in the roads, in the middle of the city, and in each of the towns. Afterwards, from this wisdom of his, which he partly learned, and partly himself discovered, selecting such things as he thought were the wisest, he inserted them in an elegy, and inscribed this work, nis pqems, and specimens op avisDOM. This he did, in the first place, that his citizens might not admire tjofe wise inscriptions in the temple of Delphi, \"Know thyself,\" \" Nothing too much,\" and the rest of this kind, but that they might think the words <jf Hi pparchus were to be preferred for wisdom to these: and, in the next place, that by every where reading and receiving a taste of his wisdom, they might come from the fields, and be instructed in the other branches of learnmg. But there are t^vo epigrams, on« on the left hand part of each of the Hermse, in which, according to the inscription, Hermes says, that the column should stand in -the middle of the city-and the people; and the other on the right hand part; which was thus inscribed: \"This monument was raised by Hipparchus — Persist in paying. attention to juftice.*' There are also many other beautiful iiifcriptioiis, on other HernruE; and the following is to be seen in the Stiriac road: \" This monument was raised by Hipparchus — Do not deceive your friend,** I therefore, being your friend, dare not deceive you, and oppose the mandate of so great a man; after whole death, the Athenians were under tyrannic subjection to his brother Hippias. And you must have heard from all old men, that there never was a tyranny in Athens till these three y<eans past, and that during every other time, the Athenians lived somewhat nearly after the same manner, as when Saturn reigned. But it is said by more elegant men, that he did not die in the way which the multitude report, viz. through the ignominy of his sister Canephoria; (for it is absurd to suppose that this was the case;) but that Harmodius was beloved and inftruiSted by Ariftogiton, who valued himself very highly on this account, and thought that Hipparchus would be his antagonift* But at that time it happened that Harmodius was the lover of a certain noble and beautiful youth, w.hofe name I have heard, but do ant at present remember. This young man then at drO: admired Harmodius and Ariftogiton^ as wise men, but afterwards aflbciating with Hipparchus, he despised them; and they being very much affli(^ed with thedifgrace, slew Hipparchus.",
+   "raw": "vox,.  V,  3  A  envy \nenvy  any  man  the  pofleflion  of  wifdom,  and  this  becaufe  he  himfelf  was  a \nworthy  and  good  man.  As,  therefore,  his  fellow  citizens  were  well  edu- \ncated men,  and  admired  him  for  his  wifdom,  he  lik^wife  endeavoured  to \ninftrudt  the  hufbandmen,  and  in  order  to  this,  placed  Hermae  for  them  in \nthe  roads,  in  the  middle  of  the  city,  and  in  each  of  the  towns.  Afterwards, \nfrom  this  wifdom  of  his,  which  he  partly  learned,  and  partly  himfelf  dif- \ncovered,  feleding  fuch  things  as  he  thought  were  the  wifeft,  he  inferted \nthem  in  an  elegy,  and  infcribed  this  work,  nis  pqems,  and  specimens  op \navisDOM.  This  he  did,  in  the  iirft  piace,  that  his  citizens  might  not  admire \ntjofe  wife  infcriptions  in  the  temple  of  Delphi,  \"Know  thyfelf,\"  \"  Nothing \ntoo  much,\"  and  the  reft  of  this  kind,  but  that  they  might  think  the  words \n<jf  Hi pparchus  were  to  be  preferred  for  wifdom  to  thefe  :  and,  in  the  next \nplace,  that  by  every  where  reading  and  receiving  a  tafte  of  his  wifdom,  they \nmight  come  from  the  fields,  and  be  inftruded  in  the  other  branches  of \nlearnmg.  But  there  are  t^vo  epigrams,  on«  on  the  left  hand  part  of  each  of  the \nHermse,  in  which,  according  to  the  infcription,  Hermes  fays,  that  the  column \nihould  ftand  in -the  middle  of  the  city^-and  the  people;  and  the  other  on  the \nright  hand  part;  which  was  thus  infcribed:  \"This  monument  was  raifed  by \nHipparchus — Perfift  in  paying. attention  to  juftice.*'  There  are  alfo  many \nother  beautiful  iiifcriptioiis,  on  other  HernruE ;  and  the  following  is  to  be \nfeen  in  the  Stiriac  road  :  \"  This  monument  was  raifed  by  Hipparchus — Do \nnot  deceive  your  friend,**  I  therefore,  being  your  friend,  dare  not  deceive \nyou,  and  oppofe  the  mandate  of  fo  great  a  man ;  after  whole  death,  the \nAthenians  were  under  tyrannic  fubjedtion  to  his  brother  Hippias.  And  you \nmuft  have  heard  from  all  old  men,  that  there  never  was  a  tyranny  in  Athens \ntill  thefe  three  y<eans  paft,  and  that  during  every  other  time,  the  Athenians \nlived  fomewhat  nearly  after  the  fame  manner,  as  when  Saturn  reigned. \nBut  it  is  faid  by  more  elegant  men,  that  he  did  not  die  in  the  way  which  the \nmultitude  report,  viz.  through  the  ignominy  of  his  fifter  Canephoria ;  (for  it  is \nabfurd  to  fuppofe  that  this  was  the  cafe;)  but  that  Harmodius  was  beloved \nand  inftruiSted  by  Ariftogiton,  who  valued  himfelf  very  highly  on  this  account, \nand  thought  that  Hipparchus  would  be  his  antagonift*  But  at  that  time  it \nhappened  that  Harmodius  was  the  lover  of  a  certain  noble  and  beautiful \nyouth,  w.hofe  name  I  hav^  heard,  but  do  aot  at  prefent  remember.    This \nyoung  man  then  at  drO:  admired  Harmodius  and  Ariftogiton^  as  wife  men, \nbut  afterwards aflbciating  with  Hipparchus, he  defpifed  them;  and  they  being \nvery  much  affli(^ed  with  thedifgrace,  flew  Hipparchus. ",
+   "pages": [
+    361,
+    362,
+    363
+   ],
+   "line": 15619
+  },
+  {
+   "id": "taylor1804.hipparchus.p0086",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "You appear, therefore, Socrates, either not to consider me as a friend; or, if you do think me a friend, not to be persuaded by Hipparchus:• for I do not know how to persuade myself that you have not deceived me ixt the prcccduig discourse..",
+   "raw": "Hip.  You  appear,  therefore,  Socrates,  either  not  to  confider  me  as  a \nfriend  ;  or,  if  you  do  think  me  a  friend,  not  to  be  perfuaded  by  Hipparchus  :• \nfor  I  do  not  know  how  to  perfuade  myfelf  that  you  have  not  deceived  me  ixt \nthe  prcccduig  difcourfe.. ",
+   "pages": [
+    363
+   ],
+   "line": 15668
+  },
+  {
+   "id": "taylor1804.hipparchus.p0087",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But indeed, just as in the game of chess. Tam willing to retraft. V'hatevcr you please, that you may not think I have deceived yous Whether therefore shall I retract this assertion for you,, that all men desire good?",
+   "raw": "Soc.  But  indeed,  jufl  as  in  the  game  of  chefs.  Tarn  willing  to  retraft. \nV'hatevcr  you  pleafe,  that  you  may  not  think  I  have  deceived  yous  Whether \ntherefore  fhall  I  retradt  this  aflertion  for  you,,  that  all  men  defire  good  ? ",
+   "pages": [
+    363
+   ],
+   "line": 15673
+  },
+  {
+   "id": "taylor1804.hipparchus.p0088",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Not for me.",
+   "raw": "Hip.  Not  for  me. ",
+   "pages": [
+    363
+   ],
+   "line": 15677
+  },
+  {
+   "id": "taylor1804.hipparchus.p0089",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Shall I retract this then, that neither tafuftain a loss-nor a loss itfelf^, is an evil?",
+   "raw": "Soc.  Shall  I  retrad  this  tlien,  that  neither  tafuftain  a  lofs^-^nor  a  lofs  itfelf^, \nis  an  evil  ? ",
+   "pages": [
+    363
+   ],
+   "line": 15679
+  },
+  {
+   "id": "taylor1804.hipparchus.p0090",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Hip* Not for me.",
+   "raw": "Hip*  Not  for  me. ",
+   "pages": [
+    363
+   ],
+   "line": 15682
+  },
+  {
+   "id": "taylor1804.hipparchus.p0091",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Shall it be this then, that gain, and to acquire gain,, are contrary to loss, and to suffer a loss?:.",
+   "raw": "Soc.  Shall  it  be  this  then,  that  gain,  and  to  acquire  gain,,  are  contrary  to \nlofs,  and  to  fuiFer  a  lofs  ?:. ",
+   "pages": [
+    363
+   ],
+   "line": 15684
+  },
+  {
+   "id": "taylor1804.hipparchus.p0092",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Nor this neither",
+   "raw": "Hip.  Nor  this  neither- ",
+   "pages": [
+    363
+   ],
+   "line": 15687
+  },
+  {
+   "id": "taylor1804.hipparchus.p0093",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Shall I retract this assertion, that to acquire gain, as being coiitrary^ to evil, is good h",
+   "raw": "Soc.  Shall  I  retrad  this  aflertion,  that  to  acquire  gain,  as  being  coiitrary^ \nto  evil,  is  good  h ",
+   "pages": [
+    363
+   ],
+   "line": 15689
+  },
+  {
+   "id": "taylor1804.hipparchus.p0094",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "You shall not retradany thing of this.",
+   "raw": "Hip.  You  fliall  not  retradany  thing  of  this. ",
+   "pages": [
+    363
+   ],
+   "line": 15692
+  },
+  {
+   "id": "taylor1804.hipparchus.p0095",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It appears to you therefore, as-it seems, that of gain one part is good, and another part evil.",
+   "raw": "Soc.  It  appears  to  you^  therefore,  as-it  fecms,  that  of  gain  one  part  is \ngood,  and  another  part  evil.- ",
+   "pages": [
+    363
+   ],
+   "line": 15694
+  },
+  {
+   "id": "taylor1804.hipparchus.p0096",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "To me it does appear so,",
+   "raw": "Hip.  To  me  it  does  appear  fo, ",
+   "pages": [
+    363
+   ],
+   "line": 15697
+  },
+  {
+   "id": "taylor1804.hipparchus.p0097",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I will therefore retract this for you. For let it be that one kind of gain is good, and another kind evil: but gain itself is not more good than evil. For is it?^",
+   "raw": "Soc.  I  will  therefore  retrad  this  for  you.  For  let  it  be  that  one  kind  of \ngain  is  good,  and  another  kind  evil:  but  gain  itfelf  is  not  more  good  thau \nevil.     For  is  it  ?^ ",
+   "pages": [
+    363
+   ],
+   "line": 15699
+  },
+  {
+   "id": "taylor1804.hipparchus.p0098",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Why do you ask me?",
+   "raw": "Hip.  Why  do  you  afk  me  ? ",
+   "pages": [
+    363
+   ],
+   "line": 15703
+  },
+  {
+   "id": "taylor1804.hipparchus.p0099",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I will tell you. Is there good, and is there likewlfe bad, food?",
+   "raw": "Soc.  1  will  tell  you.     Is  there  good,  and  is  there  likewlfe  bad,  food? ",
+   "pages": [
+    363
+   ],
+   "line": 15705
+  },
+  {
+   "id": "taylor1804.hipparchus.p0100",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Hip.  Yes. ",
+   "pages": [
+    363
+   ],
+   "line": 15707
+  },
+  {
+   "id": "taylor1804.hipparchus.p0101",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is therefore one of them more food than the other.? or are both of them similarly food? and does the one in no respect differ from the other, so far as each is. food, but so far as one is good, and the other bad?",
+   "raw": "Soc.  Is  therefore  one  of  them  more  food  than  the  other.?  or  are  both  of \nthem  fimilarly  food  ?  and  does  the  one  in  no  refped  differ  from  the  other,  fo \nfar  as  each  is. food,  but  fo  far  as  one  is  good,  and  the  other  bad  ? ",
+   "pages": [
+    363
+   ],
+   "line": 15709
+  },
+  {
+   "id": "taylor1804.hipparchus.p0102",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Hip.  Yes. ",
+   "pages": [
+    363
+   ],
+   "line": 15713
+  },
+  {
+   "id": "taylor1804.hipparchus.p0103",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And does it not llkewifc follow with respect to drink,. a«d all ©ther things which participate of the good and the bad, that they differ in no respect from each other, iii that in which they are the same? Just as with respect to our own species, one man is good, and another bad.",
+   "raw": "Soc.  And  does  it  not  llkewifc  follow  with  refped  to  drink,.  a«d  all \n©ther  things  which  participate  of  the  good  and  the  bad,  that  they  differ  in  no \nrefped  from  each  other,  iii  that  in  which  they  are  the  fame  ?  Juft  as  with \nrefped  to  our  own  fpecies,  one  man  is  good,  and  another  bad. ",
+   "pages": [
+    363,
+    364
+   ],
+   "line": 15715
+  },
+  {
+   "id": "taylor1804.hipparchus.p0104",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Hip.  Yes. ",
+   "pages": [
+    364
+   ],
+   "line": 15726
+  },
+  {
+   "id": "taylor1804.hipparchus.p0105",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But with respect to men, I think that one man is neither more norlefs a man than another, neither the good than the bad, nor the bad than the good.",
+   "raw": "Soc.  But  with  refpe61  to  men,  1  think  that  one  man  is  neither  more  norlefs \na  man  than  another,  neither  the  good  than  the  bad,  nor  the  bad  than  the  good. ",
+   "pages": [
+    364
+   ],
+   "line": 15728
+  },
+  {
+   "id": "taylor1804.hipparchus.p0106",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "True.",
+   "raw": "Hip.  True. ",
+   "pages": [
+    364
+   ],
+   "line": 15731
+  },
+  {
+   "id": "taylor1804.hipparchus.p0107",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Muil: we not therefore think in the same manner respecting gain, that both the good and the bad are similarly gain?",
+   "raw": "Soc.  Muil:  we  not  therefore  think  in  the  fame  manner  refpcding  gain, \nthat  both  the  good  and  the  bad  are  fimilarly  gain? ",
+   "pages": [
+    364
+   ],
+   "line": 15733
+  },
+  {
+   "id": "taylor1804.hipparchus.p0108",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It is neceirary.",
+   "raw": "Hip.  It  is  neceirary. ",
+   "pages": [
+    364
+   ],
+   "line": 15736
+  },
+  {
+   "id": "taylor1804.hipparchus.p0109",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "He, therefore, who possesses good gain, is not in any respect more enriched than he who possesses bad gaui: for we have granted that neither of these appears to be more gain than the other.",
+   "raw": "Soc.  He,  therefore,  who  poflefles  good  gain,  is  not  in  any  refpe6l  more \nenriched  than  he  who  poflefles  bad  gaui :  for  we  have  granted  that  neither \nof  thefe  appears  to  be  more  gain  than  the  other. ",
+   "pages": [
+    364
+   ],
+   "line": 15738
+  },
+  {
+   "id": "taylor1804.hipparchus.p0110",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "True.",
+   "raw": "Hip,  True. ",
+   "pages": [
+    364
+   ],
+   "line": 15742
+  },
+  {
+   "id": "taylor1804.hipparchus.p0111",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For neither the more nor the less is present to either of these.",
+   "raw": "Soc.  For  neither  the  more  nor  the  lefs  is  prefcnt  to  either  of  thefe. ",
+   "pages": [
+    364
+   ],
+   "line": 15744
+  },
+  {
+   "id": "taylor1804.hipparchus.p0112",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It is not.",
+   "raw": "Hip.  It  is  not. ",
+   "pages": [
+    364
+   ],
+   "line": 15746
+  },
+  {
+   "id": "taylor1804.hipparchus.p0113",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But how can any one do, or suffer, more or Icfs with respect to a thing to which neither of these pertains?",
+   "raw": "Soc.  But  how  can  any  one  do,  or  fufFcr,  more  or  Icfs  with  refpedl  to  a \nthing  to  which  neither  of  thefe  pertains  ? ",
+   "pages": [
+    364
+   ],
+   "line": 15748
+  },
+  {
+   "id": "taylor1804.hipparchus.p0114",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It is impossible.",
+   "raw": "Hip.   It  is  impoffible. ",
+   "pages": [
+    364
+   ],
+   "line": 15751
+  },
+  {
+   "id": "taylor1804.hipparchus.p0115",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Since, therefore, both are similarly gain and lucrative, it is requifitc that we should still further consider this; on what account you call both of them gain, and what it is that you discover to be in both the same. Just as if you should ask me why I just now called both good and bad food similarly food, I should say. It is because each is a dry aliment of the body. And this you will also grant. Or will you not?",
+   "raw": "Soc.  Since,  therefore,  both  are  fimilarly  gain  and  lucrative,  it  is  requifitc \nthat  we  fhould  flill  further  confider  this ;  on  what  account  you  call  both  of \nthem  gain,  and  what  it  is  that  you  difcover  to  be  in  both  the  fame.  Juft  as  if \nyou  fhould  afk  me  why  I  juft  now  called  both  good  and  bad  food  (imilarly \nfood,  I  fliould  fav.  It  is  becaufe  each  is  a  dry  aliment  of  the  body.  And  this  yon \nwill  alfo  grant.     Or  will  you  not  ? ",
+   "pages": [
+    364
+   ],
+   "line": 15753
+  },
+  {
+   "id": "taylor1804.hipparchus.p0116",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Hip.  Yes. ",
+   "pages": [
+    364
+   ],
+   "line": 15760
+  },
+  {
+   "id": "taylor1804.hipparchus.p0117",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And there will be the same mode of answering respecting drink, that we give this appellation to the moist aliment of the body, whether it is good or bad: and the reply in other things will be similar. Do you, therefore, endeavour to imitate me, by answering as follows. You say with respect to good and bad gain, that each of them is gain. What same thing is it then which, perceiving in these, you dcnomiiiate gain? But if you are not able to answer me this question, attend to what I am now going to say. Do you then call every pofTedion which any one obtains gain, when he either spends nothing, or receives nlorc than he spends?",
+   "raw": "Soc.  And  there  will  be  the  fame  mode  of  anfwering  refpeding  drink,  that \nwe  give  this  appellation  to  the  moift  aliment  of  the  body,  whether  it  is  good \nor  bad  :  and  the  reply  in  other  things  will  be  fimilar.  Do  you,  therefore, \nendeavour  to  imitate  me,  by  anfwering  as  follows.  You  fay  with  refpedl  to \ngood  and  bad  gain,  that  each  of  them  is  gain.  What  fame  thing  is  it  then \nwhich,  perceiving  in  thefe,  you  dcnomiiiate  gain  ?  But  if  you  are  not  able \nto  anfwer  me  this  queftion,  attend  to  what  I  am  now  going  to  fay.  Do  you \nthen  call  every  pofTedion  which  any  one  obtains  gain,  when  he  either \nipends  nothing,  or  receives  nlorc  than  he  fpends  ? ",
+   "pages": [
+    364
+   ],
+   "line": 15762
+  },
+  {
+   "id": "taylor1804.hipparchus.p0118",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It appears to me that this should be called gain,",
+   "raw": "Hip.  It  appears  to  me  that  this  (hould  be  called  gain, ",
+   "pages": [
+    365
+   ],
+   "line": 15777
+  },
+  {
+   "id": "taylor1804.hipparchus.p0119",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, thus denominate such things as -follow: If any one at a feall: should spend nothing, but when fatiated should become diseased?",
+   "raw": "Soc.  Do  you,  therefore,  thus  denominate  fuch  things  as  -follow :  If  any \none  at  a  feall:  fhould  fpcnd  nothing,  but  when  fatiated  fhould  become \ndifeafed  ? ",
+   "pages": [
+    365
+   ],
+   "line": 15779
+  },
+  {
+   "id": "taylor1804.hipparchus.p0120",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Not I, by Jupiter.",
+   "raw": "Hip.  Not  I,  by  Jupiter. ",
+   "pages": [
+    365
+   ],
+   "line": 15783
+  },
+  {
+   "id": "taylor1804.hipparchus.p0121",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But if he should obtain health from feasting, would he acquire gain, or suffer a loss?",
+   "raw": "Soc.  But  if  he  fhould  obtain  health  from  feafling,  would  he  acquire  gain, \nor  fuffer  a  lofs  ? ",
+   "pages": [
+    365
+   ],
+   "line": 15785
+  },
+  {
+   "id": "taylor1804.hipparchus.p0122",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "He would acquire gain.",
+   "raw": "Hip.  He  would  acquire  gain. ",
+   "pages": [
+    365
+   ],
+   "line": 15788
+  },
+  {
+   "id": "taylor1804.hipparchus.p0123",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "This, therefore, is not gain, to acquire any kind of poffefllon whatever.",
+   "raw": "Soc.  This,  therefore,  is  not  gain,  to  acquire  any  kind  of  poffefllon \nwhatever. ",
+   "pages": [
+    365
+   ],
+   "line": 15790
+  },
+  {
+   "id": "taylor1804.hipparchus.p0124",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It is not.",
+   "raw": "Hip.  It  is  not. ",
+   "pages": [
+    365
+   ],
+   "line": 15793
+  },
+  {
+   "id": "taylor1804.hipparchus.p0125",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Does it therefore follow that gain is not to Ipe acquired from every kind of poffeflioii, whether it be good or bad?",
+   "raw": "Soc.  Does  it  therefore  follow  that  gain  is  not  to  Ipe  acquired  from  every \nkind  of  poffeflioii,  whether  it  be  good  or  bad  ? ",
+   "pages": [
+    365
+   ],
+   "line": 15795
+  },
+  {
+   "id": "taylor1804.hipparchus.p0126",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It appears so.",
+   "raw": "Hip.  It  appears  fo. ",
+   "pages": [
+    365
+   ],
+   "line": 15798
+  },
+  {
+   "id": "taylor1804.hipparchus.p0127",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And does it likewise follow that loss will not be sustained from every thing, whether it be good or bad?",
+   "raw": "Soc.  And  does  it  likewife  follow  that  lofs  will  not  be  fuftained  from \nevery  thing,  whether  it  be  good  or  bad  ? ",
+   "pages": [
+    365
+   ],
+   "line": 15800
+  },
+  {
+   "id": "taylor1804.hipparchus.p0128",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "To me it appears so.",
+   "raw": "Hip.  To  me  it  appears  fo. ",
+   "pages": [
+    365
+   ],
+   "line": 15803
+  },
+  {
+   "id": "taylor1804.hipparchus.p0129",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, perceive how you again revolve to the same thing? For gain appears to be good, but loss evil.",
+   "raw": "Soc.  Do  you,  therefore,  perceive  how  you  again  revolve  to  the  fame \nthing  ?  For  gain  appears  to  be  good,  but  lofs  evil. ",
+   "pages": [
+    365
+   ],
+   "line": 15805
+  },
+  {
+   "id": "taylor1804.hipparchus.p0130",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I am dubious what to say.",
+   "raw": "Hip.  I  am  dubious  what  to  fay. ",
+   "pages": [
+    365
+   ],
+   "line": 15808
+  },
+  {
+   "id": "taylor1804.hipparchus.p0131",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And this not unjustly. But still further, answer me this: If any one obtains more than he spends, do you say that this is gain?",
+   "raw": "Soc.  And  this  not  unjuflly.  But  ftill  further,  anfwer  me  this  :  If  any \none  obtains  more  than  he  fpends,  do  you  fay  that  this  is  gain  ? ",
+   "pages": [
+    365
+   ],
+   "line": 15810
+  },
+  {
+   "id": "taylor1804.hipparchus.p0132",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do, if his gain is not base, but he receives more than he spends, cither of gold or silver.",
+   "raw": "Hip.  I  do,  if  his  gain  is  not  bafe,  but  he  receives  more  than  he  fpends, \ncither  of  gold  or  (ilver. ",
+   "pages": [
+    365
+   ],
+   "line": 15813
+  },
+  {
+   "id": "taylor1804.hipparchus.p0133",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And I shall also ask you this: If any one, spending half a pound of gold, should receive double this weight of fdver, would he be a gainer, or a loser?",
+   "raw": "Soc.  And  I  fhall  alfo  afk  you  this  :  If  any  one,  fpending  half  a  pound  of \ngold,  fhould  receive  double  this  weight  of  fdver,  would  he  be  a  gainer, \nor  a  lofer  ? ",
+   "pages": [
+    365
+   ],
+   "line": 15816
+  },
+  {
+   "id": "taylor1804.hipparchus.p0134",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "a loser, certainly, Socrates: for he would only receive half the value of what he spent.",
+   "raw": "Hip.  a  lofer,  certainly,  Socrates :  for  he  would  only  receive  half  the \nvalue  of  what  he  fpent. ",
+   "pages": [
+    365
+   ],
+   "line": 15820
+  },
+  {
+   "id": "taylor1804.hipparchus.p0135",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But yet he would receive more. Or is not double more than half?",
+   "raw": "Soc.  But  yet  he  would  receive  more.     Or  is  not  double  more  than  half? ",
+   "pages": [
+    365
+   ],
+   "line": 15823
+  },
+  {
+   "id": "taylor1804.hipparchus.p0136",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "But silver is not of the same value as gold.",
+   "raw": "Hip.  But  filver  is  not  of  the  fame  value  as  gold. ",
+   "pages": [
+    365
+   ],
+   "line": 15825
+  },
+  {
+   "id": "taylor1804.hipparchus.p0137",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is requisite therefore, as it seems, to add value to gain: for in this case, though the silver is more than the gold, yet you say it is not of equal value.",
+   "raw": "Soc.  It  is  requifite  therefore,  as  it  feems,  to  add  value  to  gain :  for  in  this \ncafe,  though  the  filvcr  is  more  than  the  gold,  yet  you  fay  it  is  not  of  equal \nvalue. ",
+   "pages": [
+    365
+   ],
+   "line": 15827
+  },
+  {
+   "id": "taylor1804.hipparchus.p0138",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "And very much so: for thus it is.",
+   "raw": "Hip,  And  very  much  fo  :  for  thus  it  is. ",
+   "pages": [
+    966
+   ],
+   "line": 15836
+  },
+  {
+   "id": "taylor1804.hipparchus.p0139",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Value, therefore, is lucrative, whether it is, small or great: but that uhich is without value is without gain..",
+   "raw": "Soc.  Value,  therefore,  is  lucrative,  whether  it  is,  fmall  or  great :  but  that \nuhich  is  without  value  is  without  gain.. ",
+   "pages": [
+    966
+   ],
+   "line": 15838
+  },
+  {
+   "id": "taylor1804.hipparchus.p0140",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Hip,  It  is. ",
+   "pages": [
+    966
+   ],
+   "line": 15841
+  },
+  {
+   "id": "taylor1804.hipparchus.p0141",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you say that value is aiiy other value than that* which defervc% to be acquired?",
+   "raw": "Soc.  Do  you  fay  that  value  is  aiiy  other  value  than  that*  which  defervc% \nto  be  acquired  ? ",
+   "pages": [
+    966
+   ],
+   "line": 15843
+  },
+  {
+   "id": "taylor1804.hipparchus.p0142",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do not.",
+   "raw": "Hip.  I  do  not. ",
+   "pages": [
+    966
+   ],
+   "line": 15846
+  },
+  {
+   "id": "taylor1804.hipparchus.p0143",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what do you call that which deserves to be acquired? The useless, or the useful",
+   "raw": "Soc,  But  what  do  you  call  that  which  defcrves  to  be  acquired?  The \nufelefs,  or  the  ufefuL ",
+   "pages": [
+    966
+   ],
+   "line": 15848
+  },
+  {
+   "id": "taylor1804.hipparchus.p0144",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "The useful, certainly.",
+   "raw": "Hip.  The  ufeful,  certainly. ",
+   "pages": [
+    966
+   ],
+   "line": 15851
+  },
+  {
+   "id": "taylor1804.hipparchus.p0145",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The useful, therefore, is good..",
+   "raw": "Soc.  The  ufeful,  therefore,  is  good.. ",
+   "pages": [
+    966
+   ],
+   "line": 15853
+  },
+  {
+   "id": "taylor1804.hipparchus.p0146",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "Yes.^",
+   "raw": "Hip.  Yes.^ ",
+   "pages": [
+    966
+   ],
+   "line": 15855
+  },
+  {
+   "id": "taylor1804.hipparchus.p0147",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Hence, O most virile of all men, have we not a third or a fourth: time granted that the lucrative is good?",
+   "raw": "Soc.  Hence,  O  moft  virile  of  all  men,  have  we  not  a  third  or  a  fourth: \ntime  granted  that  the  lucrative  is  good  ? ",
+   "pages": [
+    966
+   ],
+   "line": 15857
+  },
+  {
+   "id": "taylor1804.hipparchus.p0148",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Hits So it feeros.,",
+   "raw": "HiTi  So  it  feeros., ",
+   "pages": [
+    966
+   ],
+   "line": 15860
+  },
+  {
+   "id": "taylor1804.hipparchus.p0149",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you remember, therefore,, whence this difcourfc of ours originated?",
+   "raw": "Soc,  Do  you  remember,  therefore,,  whence  this  difcourfc  of  ours \noriginated  ? ",
+   "pages": [
+    966
+   ],
+   "line": 15862
+  },
+  {
+   "id": "taylor1804.hipparchus.p0150",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I think I do*",
+   "raw": "Hip.  I  think  I  do* ",
+   "pages": [
+    966
+   ],
+   "line": 15865
+  },
+  {
+   "id": "taylor1804.hipparchus.p0151",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If you do not, I will remind ycru. It originated from your denying^ that good men would be willing to acquire every kind. of gain, but that they would. wish to poffefe good, and not base gain.",
+   "raw": "Soc.  If  you  do  not,  I  will  remind  ycru.  It  originated  from  your  denying^ \nthat  good  men  would  be  willing  to  acquire  every  kind. of  gain,  but  that  they \nwould. wifh  to  poffefe  good,  and  not  bafe  gain. ",
+   "pages": [
+    966
+   ],
+   "line": 15867
+  },
+  {
+   "id": "taylor1804.hipparchus.p0152",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It did originate from this.",
+   "raw": "Hip.  It  did  originate  from  this. ",
+   "pages": [
+    966
+   ],
+   "line": 15871
+  },
+  {
+   "id": "taylor1804.hipparchus.p0153",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But did not our, discourse compel us to acknowledge, that all kinds of gain, both small and great, are good?",
+   "raw": "Soc.  But  did  not  our,  difcourfe  compel  us  to  acknowledge,  that  all  kinds \nof  gain,  both  fmall  and  great,  are  good  ? ",
+   "pages": [
+    966
+   ],
+   "line": 15873
+  },
+  {
+   "id": "taylor1804.hipparchus.p0154",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It did cGmpel,.Socrates, rather than perfuadfi me.",
+   "raw": "Hip.  It  did  cGmpel,.Socrates,  rather  than  perfuadfi  me. ",
+   "pages": [
+    966
+   ],
+   "line": 15876
+  },
+  {
+   "id": "taylor1804.hipparchus.p0155",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But perhaps,., after this, it will also persuade you. Now, however,, whether you are persuaded, or in whatever manner you may be affected, do. you agree with us, that all. gain is good, both small and great I",
+   "raw": "Soc.  But  perhaps,., after  this,  it  will  alfo  perfuade  you.  Now,  however,, \nwhether  you  are  perfuaded,  or  in  whatever  manner  you  may  be  affected,  do. \nyou  agree  with  us,  that  all. gain  is  good,  both  fmall  and  great  I ",
+   "pages": [
+    966
+   ],
+   "line": 15878
+  },
+  {
+   "id": "taylor1804.hipparchus.p0156",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Hip.  I  do. ",
+   "pages": [
+    966
+   ],
+   "line": 15882
+  },
+  {
+   "id": "taylor1804.hipparchus.p0157",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And do you agree with me, or not, that all good men aspire after all things that are good?",
+   "raw": "Soc.  And  do  you  agree  with  mc,  or  not,  that  ail  good  men  afpire  after  all \nthings  that  are  good  ? ",
+   "pages": [
+    966
+   ],
+   "line": 15884
+  },
+  {
+   "id": "taylor1804.hipparchus.p0158",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Hip.  I  do. ",
+   "pages": [
+    966
+   ],
+   "line": 15887
+  },
+  {
+   "id": "taylor1804.hipparchus.p0159",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But you said that bad men love gain of every kind, both small and. great..",
+   "raw": "Soc.  But  you  faid  that  bad  men  love  gain  of  every  kind,  both  fmall  and. \ngreat.. ",
+   "pages": [
+    966
+   ],
+   "line": 15889
+  },
+  {
+   "id": "taylor1804.hipparchus.p0160",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "I did say so,",
+   "raw": "Hip,  I  did  fay  fo, ",
+   "pages": [
+    36
+   ],
+   "line": 15897
+  },
+  {
+   "id": "taylor1804.hipparchus.p0161",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "According to your affcrtion, therefore, all men will be lovers of gain, both good and bad meru",
+   "raw": "Soc.  According  to  your  affcrtion,  therefore,  all  men  will  be  lovers  of  gain, \nboth  good  and  bad  meru ",
+   "pages": [
+    36
+   ],
+   "line": 15899
+  },
+  {
+   "id": "taylor1804.hipparchus.p0162",
+   "kind": "paragraph",
+   "label": "Hip",
+   "translator": "Thomas Taylor",
+   "text": "It appears so.",
+   "raw": "Hip.  It  appears  fo. ",
+   "pages": [
+    36
+   ],
+   "line": 15902
+  },
+  {
+   "id": "taylor1804.hipparchus.p0163",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "No one, therefore, who blames the love of gain will blame rightly fiiicc he who does so is himself also a lover of gain.",
+   "raw": "Soc,  No  one,  therefore,  who  blames  the  love  of  gain  will  blame  rightly^ \nfiiicc  he  who  does  fo  is  himfelf  alfo  a  lover  of  gain. ",
+   "pages": [
+    36
+   ],
+   "line": 15904
+  }
+ ],
+ "notes": [],
+ "stats": {
+  "running heads removed": 10,
+  "catchwords and signatures removed": 8,
+  "paragraphs run on across a page": 4,
+  "words joined across lines": 6,
+  "note marks removed": 1,
+  "speeches": 157
+ }
+}

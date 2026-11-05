@@ -1,0 +1,1005 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.apology",
+ "title": "The Apology of Socrates",
+ "author": "Plato",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804)",
+ "perseus_work": "urn:cts:greekLit:tlg0059.tlg002",
+ "citation": "1804 page on every segment; Stephanus sections are assigned when the library is built (tools/align.py)",
+ "proof_status": "OCR cleaned by rule",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   9721,
+   10919
+  ],
+  "exclude": []
+ },
+ "gap": null,
+ "segments": [
+  {
+   "id": "taylor1804.apology.p0001",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "SOCRATES.",
+   "raw": "SOCRATES. ",
+   "pages": [
+    100
+   ],
+   "line": 9731
+  },
+  {
+   "id": "taylor1804.apology.p0002",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "1 KNOW not, O Athenians, how you may be afFedcd by tny accusers: I indeed have through them almost forgotten myself, Co persuasively have they spoken; though, as I may say, they have not asserted any thing which is true. But among the multitude of their false assertions I am most: surprised at this, in which they say that you ought to beware of being deceived by me, as if I were an eloquent speaker. For that they should not be ashamed of asserting that which will be immediately confuted by me in reality, since in the present instance I shall appear to you to be by no means eloquent, — this seems to me to be the consummation of impudence; unless they call him eloquent who speaks the truth. For, if they assert this, I shall indeed acknowledge myself to be a rhetorician, though not according to their-conceptions. They have not then, as I said, asserted any thing which is true; but from me you will hear all the truth. Not, by Jupiter, O Athenians, that you will hear from me a discourse splendidly decorated with nouns and verbs, and adorned in other respects, like the harangues of these men; but you will hear me speaking in such language as may casually present itself. For I am confident that what I say will be just:, nor let any one of you expect it will be otherwise: for it does not become one of my age to come before you like a lad with a fludicd discourse. And, indeed, I very much request: and beseech you, O Athenians, that if you should hear me apologizing in the lame terms and modes of expression which I am accustomed to use in the Forum, on the Exchange and public Banks, and in other places, where many of you have heard me, — that you will neither wonder nor be disturbed on this account; for the case is as follows: — I now for the first time come before this tribunal, though I am more than seventy years old and consequently I am a stranger to the mode of speaking which is here adopted. As, therefore, if I were in reality a foreigner, you would pardon me for ufino* the language and the manner in which I had been educated, so now I request you, and this justly, as it appears to me, to suffer the mode of my diction, whether it be better or worse, and to attend so this, whether I speak what is just or not: for this is the virtue of a judge, as that of an orator is to speak the truth. Ih the first: place, therefore, O Athenians, it is just that I should answer the iirfl: false accusations of me, and my firrt: accusers, and afterwards the latter accusations, and the latter accusers. For many have been accusers of me to you for many years, and who have asserted nothing true> of whom I am more afraid than of Anytus'and his accomplices, though these indeed are powerful in persuading; but those are still more so, who having beeii conversant with many of you from infancy, have persuaded you, and accused me falsely. For they have said, that there is one Socrates, a wise man, studious of things on high, and exploring every thing under the earth, and who also can make the worse to be the better argument. These men, O Athenians, who spread this report an my dire accusers. For those who hear it think that such as investigate these things do not believe that there are Gods. In the next place, these accusers are nvfm'erous, and have accused me for a long time. They also i^id these things to you in that age in which you would most rcadify believe there, some of you being boys and lads; and they accused me quietly, no one speaking in my defence. But that which is most irrational of aH is tbds, that neither is it possible to know and tell their names, except some one of them should be a coiTiic poet. Such however as have persuaded you by employing envy and calumny, together with those who being persuaded themselves have persuaded others, — with: respect to all these, the method to be adopted is most dubious. For it is not possible to call them to account here before you, nor to confute any one of them; but it is necessary, as if fighting with shadows, to make my defence and refutation without any to anYwer me. Consider, therefore, as I have said that my accusers are twofold, some haying accused me lately, and others formerly; and think that it is necessary I should answer the latter of these first; for you also have heard these my accusers, and much more than you have those by whom I have been recently accused. Be it so. I must defend myself then, O Athenians, and endeavour in this so short a space of time to remove from you the calumny which you have so long entertained. I wi(h, therefore, that this my defence may effect something better both for you and me, and that it may contribute to some more important end. I think however that it will be attended with difficulty, and I am not entirely ignorant what the difficulty is. At the same time let this terminate as Divinity pleases. It is my business to obey the law, and to make my apology.",
+   "raw": "1  KNOW  not,  O  Athenians,  how  you  may  be  afFedcd  by  tny  accufers  :  I \nindeed  have  through  them  almoft  forgotten  myfelf,  Co  perfuafively  have  they \nfpoken ;  though,  as  I  may  fay,  they  have  not  aflerted  any  thing  which  is \ntrue.  But  among  the  multitude  of  their  falfe  aflertions  I  am  mofl:  furprifed \nat  this,  in  which  they  fay  that  you  ought  to  beware  of  being  deceived  by  me, \nas  if  1  were  an  eloquent  fpeaker.  For  that  they  fliould  not  be  afhamed  of \nafferting  that  which  will  be  immediately  confuted  by  me  in  reality,  fince  in \nthe  prefent  inftance  I  fhall  appear  to  you  to  be  by  no  means  eloquent, — \nthis  feems  to  me  to  be  the  confummation  of  impudence ;  unlefs  they  call \nhim  eloquent  who  fpeaks  the  truth.  For,  if  they  affert  this,  I  fhall  indeed \nacknowledge  myfelf  to  be  a  rhetorician,  though  not  according  to  their- \nconceptions.  They  have  not  then,  as  I  faid,  aflerted  any  thing  which  is  true  ; \nbut  from  me  you  will  hear  all  the  truth.  Not,  by  Jupiter,  O  Athenians, \nthat  you  will  hear  from  me  a  difcourfe  fplendidly  decorated  with  nouns  and \nverbs,  and  adorned  in  other  rcfpecls,  like  the  harangues  of  thefe  men  ;  but \nyou  will  hear  me  fpcaking  in  fuch  language  as  may  cafually  prefent  itfelf. \nFor  I  am  confident  that  what  I  fay  will  be  jufl:,  nor  let  any  one  of  you \nexped  it  will  be  otherwifc  :  for  it  does  not  become  one  of  my  age  to \ncome  before  you  like  a  lad  with  a  fludicd  difcourfe.  And,  indeed,  I  very \nmuch  requcfl:  and  befeech  you,  O  Athenians,  that  if  you  ihould  hear  mc \napologizing  in  the  lame  terms  and  modes  of  expreffion  which  I  am  ac- \ncuftomed  to  ufe  in  the  Forum,  on  the  Exchange  and  public  Banks,  and  in \nother  places,  where  many  of  you  have  heard  me, — that  you  will  neither  wonder \nnor  be  difturbed  on  this  account ;  for  the  cafe  is  as  follows  : — 1  now  for  the \nfirft  time  come  before  this  tribunal,  though  I  am  more  than  feventy  years  old  ^ \nand  confequently  I  am  a  flranger  to  the  mode  of  fpeaking  which  is  here  adopted. \nAs,  therefore,  if  I  were  in  reality  a  foreigner,  you  would  pardon  me  for  ufino* \nthe  language  and  the  manner  in  which  I  had  been  educated,  fo  now  I  requeft \nyou,  and  this  juftly,  as  it  appears  to  me,  to  fuffer  the  mode  of  my  didion, \nwhether  it  be  better  or  worfe,  and  to  attend  fo  this,  whether  I  fpeak  what  is  juft \nor  not:  for  this  is  the  virtue  of  a  judge,  as  that  of  an  orator  is  to  fpeak  the  truth. \nIh  the  flrfl:  place,  therefore,  O  Athenians,  it  is  juft  that  1  fhould  anfwer \nthe  iirfl:  falfe  accufations  of  me,  and  my  firrt:  accufers,  and  afterwards  the \nlatter  accufations,  and  the  latter  accufers.  For  many  have  been  accufers \nof  me  to  you  for  many  years,  and  who  have  afferted  nothing  true>  of  whom \nI  am  more  afraid  than  of  Anytus'and  his  accomplices,  though  thefe  indeed  are \npowerful  in  perfuading ;  but  thofe  are  ftill  more  (b,  who  having  beeii  con- \nverfant  with  many  of  you  from  infancy,  have  perfuaded  you,  and  accufed \nme  falfely.  For  they  have  faid,  that  there  is  one  Socrates,  a  wife  man, \nfludious  of  things  on  high,  and  exploring  every  thing  under  the  earth,  and \nwho  alfo  can  make  the  worie  to  be  the  better  argument.  Thefe  men,  O \nAthenians,  who  fpread  this  report  an^  my  dire  accufers.  For  thofe  who \nhear  it  think  that  fuch  as  inveftigate  thefe  things  do  not  believe  that  there  are \nGods.  In  the  next  place,  thefe  accufers  are  nvfm'erous,  and  have  accufed \nme  for  a  long  time.  They  alfo  i^id  thefe  things  to  you  in  that  age  in  which \nyou  would  moft  rcadify  believe  thera,  fomc  of  you  being  boys  and  lads ;  and \nthey  accufed  me  quietly,  no  one  fpeaking  in  my  defence.  But  that  which \nis  mofl  irrational  of  aH  is  tbds,  that  neither  is  it  pofTible  to  know  and  tell \ntheir  names,  except  fome  one  of  them  fhould  be  a  coiTiic  ^  poet.  Such \nhowever  as  have  perfuaded  you  by  employing  envy  and  calumny,  together \nwith  thofe  who  being  perfuaded  themfelves  have  perfuaded  others, — with: \nrefpedl  to  all  thefe,  the  method  to  be  adopted  is  moft  dubious.  For  it  is \nnot  pofTible  to  call  them  to  account  here  before  you,  nor  to  confute  any  one \nof  them  ;  but  it  is  neceflary,  as  if  fighting  with  fhadows,  to  make  my  defence \nand  refutation  without  any  to  anYwer  me.     Confider,  therefore,  as  I  have \nfald  that  my  accufers  are  twofold,  fome  haying  accufed  me  lately,  and  others \nformerly ;  and  think  that  it  is  neceflary  1  fhould  anfwer  the  latter  of  thefe \nfirft ;  for  you  alfo  have  heard  thefe  my  accufers,  and  much  more  than  yon \nhave  thofe  by  whom  I  have  been  recently  accufed.  Be  it  fo.  I  muft \ndefend  myfelf  then,  O  Athenians,  and  endeavour  in  this  fo  fhort  a  fpace  of \ntime  to  remove  from  you  the  calumny  which  you  have  fo  long  entertained. \nI  wi(h,  therefore,  that  this  my  defence  may  effedl  fomething  better  both \nfor  you  and  me,  and  that  it  may  contribute  to  fome  more  important  end. \nI  think  however  that  it  will  be  attended  with  difficulty,  and  I  am  not  entirely \nignorant  what  the  difficulty  is.  At  the  fame  time  let  this  terminate  as \nDivinity  pleafes.  It  is  my  bufinefs  to  obey  the  law,  and  to  make  my \napology. ",
+   "pages": [
+    null,
+    100,
+    101
+   ],
+   "line": 9734
+  },
+  {
+   "id": "taylor1804.apology.p0003",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Let us repeat, therefore, from the beginning what the accusation was» the source of that calumny in which Melitus confiding brought this charge against me. Be it so. What then do my accusers say? For their accusation must be formally recited as if given upon oath. It is this: Socrates",
+   "raw": "Let  us  repeat,  therefore,  from  the  beginning  what  the  accufation  was» \nthe  fource  of  that  calumny  in  which  Melitus  confiding  brought  this  charge \nagainft  me.  Be  it  fo.  What  then  do  my  accufers  fay  ?  For  their  accufa- \ntion muft  be  formally  recited  as  if  given  upon  oath.     It  is  this :  Socrates ",
+   "pages": [
+    101
+   ],
+   "line": 9815
+  },
+  {
+   "id": "taylor1804.apology.p0004",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "ACT3 WICKEDLY, AND WITH CRIMINAL CURIOSITY INVESTIGATES THINGS UNDER THE EARTH, AND IN THE HEAVENS. He ALSO MAKES THE WORSE TO BE THE BETTER ARGUMENT; AND HE TEACHES THESE THINGS",
+   "raw": "ACT3  WICKEDLY,  AND  WITH  CRIMINAL  CURIOSITY  INVESTIGATES  THINGS \nUNDER  THE  EARTH,  AND  IN  THE  HEAVENS.  He  ALSO  MAKES  THE \nWORSE  TO  BE  THE  BETTER  ARGUMENT  ;    AND  HE  TEACHES  THESE  THINGS ",
+   "pages": [
+    101
+   ],
+   "line": 9820
+  },
+  {
+   "id": "taylor1804.apology.p0005",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "TO OTHERS. Such is the accusation: for things of this kind you also have yourselves seen in the comedy of Aristophanes: for there one Socrates is carried about, who affirms that he walks upon the air, and idly asserts many other trifles of this nature; of which things however I neither know much nor little. Nor do I say this as defpifmg such a science, if there be any one wise about things of this kind, left Melitus ffiould charge me with this as a new crime; but because, O Athenians, I have no such knowledge. I adduce many of you as witnesses of this, and I call upon such of you as have at any time heard me difcourfnig, and there are many such among you, to teach and declare to each other, if you have ever heard me speak much or little about things of this kind. And from this you may know that other thin<ys also, which the multitude assert of me, are all of them of a similar nature: for no one of them is true. For neither if you have heard any one assert that I attempt to teach men, and that I make money by so doing,— neither is this true. This indeed appears to me to be a beautiful thing, if some one Is able to instruct men, like Gorgias the Leontine, Prodicus the Cean, and Hippias the Elean. For each of these, in the several cities which he vUitf, has the power of persuading the young men, who are permitted to apply themselves to such of their own countrymen as they please without aBy charge, to adhere to them only, and to give them money and thanks besides for their instruction. There is also another wise man, a Parian, who I hear has arrived hither. For it happened that I once met with a man who spends more money on the sophists than all others, — I meanCallias the son of Hipponicus. I therefore aikcd him, for he has two sons, O Callias, said I, if your two foes were two colts or calves, should we not have some one to take care of them, who would be paid for so doing, and who would make them beautiful, and the pofleflbrs of such good qualities as belong to their nature? But now, since your fohs are men, what master do you intend to have for them? Who is there that is scientifically knowing in human and political virtue of this kind? For I thhik that you have confidcred this, since you have sons. Is there such a one, said I, or not? There certainly is, he replied. Who is he? said I. And whence is he? And for how much money does he teach? It is Evenus the Parian, said he, Socrates, and he teaches for five minae ( 1 5I.). And I indeed have considered Evenus as bleffed^ if he in rcaHty poffcfles this art, and so elegantly teaches. I, therefore, should also glory and think highly of myself, if I had a scientific knowledge of these things; but this, O Athenians, is certainly not the case.",
+   "raw": "TO  OTHERS.  Such  is  thc  accufation  :  for  things  of  this  kind  you  alfo  have \nyourfelves  feen  in  the  comedy  of  Ariflophanes  '  :  for  there  one  Socrates  is \ncarried  about,  who  affirms  that  he  walks  upon  the  air,  aod  idly  aflcrts  many \nother  trifles  of  this  nature  ;  of  which  things  however  I  neither  know  much \nnor  little.  Nor  do  I  fay  this  as  defpifmg  fuch  a  fcience,  if  there  be  any  one^ \nwife  about  things  of  this  kind,  left  Melitus  ffiould  charge  me  with  this  as  a \nnew  crime;  but  becaufe,  O  Athenians,  I  have  no  fiich  knowledge.  I  adduce \nmany  of  you  as  witnefles  of  this,  and  I  call  upon  fuch  of  you  as  have  at \nany  time  heard  me  difcourfnig,  and  there  are  many  fuch  among  you,  to \nteach  and  declare  to  each  other,  if  you  have  ever  heard  me  fpeak  much  or \nlittle  about  things  of  this  kind.  And  from  this  you  may  know  that  other \nthin<ys  alfo,  which  the  multitude  aflert  of  me,  are  all  of  them  of  a  fimilar \nnature  :  for  no  one  of  them  is  true.  For  neither  if  you  have  heard  any \none  alTcrt  that  I  attempt  to  teach  men,  and  that  I  make  money  by  fo  doing,— \nneither  is  this  true.  This  indeed  appears  to  me  to  be  a  beautiful  thing,  if \nfome  one  Is  able  to  inftru6l  men,  like  Gorgias  the  Leontine,  Prodicus  the \nCean,  and  Hippias  the  Elean.  For  each  of  thefe,  in  the  feveral  cities  which \nhe  vUitf,  has  the  power  of  perfuading  the  young  men,  who  are  permitted  to \napply  thcmfelves  to  fuch  of  their  own  countrymen  as  they  pleafe  without \naBy  charge,  to  adhere  to  them  only,  and  to  give  them  money  and  thanks \nbesides  for  their  inftru£lion.  There  is  alfo  another  wife  man,  a  Parian,  who \nI  hear  has  arrived  hither.  For  it  happened  that  I  once  met  with  a  man \nwho  fpends  more  money  on  the  fophifts  than  all  others, — 1  meanCallias  the  fou \nof  Hipponicus.  I  therefore  aikcd  him,  for  he  has  two  fons,  O  Callias,  faid \nI,  if  your  two  foas  w^re  two  colts  or  calves,  fhould  wc  not  have  fome  one  to \ntake  care  of  them,  who  would  be  paid  for  fo  doing,  and  who  would  make \nthem  beautiful,  and  the  pofleflbrs  of  fuch  good  qualities  as  belong  to  their \nnature?  But  now,  fince  your  fohs  are  men,  what  mafter  do  you  intend  to \nhave  for  them  ?  Who  is  there  that  is  fcientifically  knowing  in  human  and \npolitical  virtue  of  this  kind  ?  For  I  thhik  that  you  have  confidcred  this, \n(inee  you  have  fons.  Is  there  fuch  a  one,  faid  I,  or  not?  There  cer- \ntainly is,  he  replied.  Who  is  he  ?  faid  I.  And  whence  is  he  ?  And  for  how \nmuch  money  does  he  teach  ?  It  is  Evenus  the  Parian,  faid  he,  Socrates,  and  he \nteaches  for  five  minae  ( 1 5I.).  And  I  indeed  have  confidered  Evenus  as  bleffed^ \nif  he  in  rcaHty  poffcfles  this  art,  and  fo  elegantly  teaches.  I,  therefore, \nfhould  alfo  glory  and  think  highly  of  myfelf,  if  I  had  a  fcientific  knowledge \nof  thefe  things;  but  this,  O  Athenians,  is  certainly  not  the  cafe. ",
+   "pages": [
+    101,
+    102
+   ],
+   "line": 9824
+  },
+  {
+   "id": "taylor1804.apology.p0006",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Perhaj^s, however, some one may reply: But, Socrates, what have you done-then? Whence have these calumnies againH: you arisen? For unless you had more curiously employed yourself than others, and had done something different from the multitude, so great a rumour would never have been raised against you. Tell us, therefore, what it is, that we may not pass an unadvifcd sentence against you., He who says these things appears to me to speak justly, and I will endeavour to show you what that is which has occa-» fioned me this appellation and calumny. Hear, therefore; and though perhaps I shall appear to some of you to jest, yet be well allured that I shall tell you all the truth. For I, O Athenians, have acquired this name through nothing elle than a certain vvildom. But of what kind is this wisdom? Perhaps it is human wisdom. For this in reality I appear to possess, Those indeed whom I just now mentioned possessed perhaps more than human wisdom, which I know not how to denominate: for I have no knowledge of it. And whoever says that I have, speaks falsely, and asserts this ta cahimniate me. But, O Athenians, be not disturbed if I appear to speak somewhat magnificently of myself. For this which I say is not my own assertion, but I shall refer it to one who is considered by you as worthy of behef. For I shall adduce to you the Delphic Deity himself as a testimony of my wisdom, if I have any, and of the quahty it pofTefrcs. You certainly then know Chaerepho: he was my aflbciate from a youth, was familiar with most of you, and accompanied you in and returned with you from your exile. You know, therefore, what kind of a man Chasrepho was, and how eager in all his undertakings. He then, coming to Delphi, had the boldness to consult the oracle about this particular. Be not, as I said, O Athenians, disturbed: for he a(ked if there was any one more wise than I am. The Pythian priestess, therefore, answered that there was not any one more wise. His brother can testify to you the truth of these things; for Chacrepho himself is dead.",
+   "raw": "Perhaj^s,  however,  fome  one  may  reply:  But,  Socrates,  what  have  you  done- \nthen  ?  Whence  have  thefe  calumnies  againH:  you  arifen  ?  For  unlefs  you \nhad  more  curioufly  employed  yourfelf  than  others,  and  had  done  fomething \ndifferent  from  the  multitude,  fo  great  a  rumour  would  never  have  been \nraifcd  againft  you.  Tell  us,  therefore,  what  it  is,  that  wc  may  not  pafs  an \nunadvifcd  fcntence  againft  you.  ,  He  who  fays  thefe  things  appears  to  me  to \nfpeak  juftly,  and  I  will  endeavour  to  fhow  you  what  that  is  which  has  occa-» \nfioned  me  this  appellation  and  calumny.  Hear,  therefore  ;  and  though  per- \nhaps I  fhall  appear  to  fome  of  you  to  jeft,  yet  be  well  allured  that  I  fhall  tell \nyou  all  the  truth.  For  I,  O  Athenians,  have  acquired  this  name  through \nnothing  elle  than  a  certain  vvildom.  But  of  what  kind  is  this  wifdom  ? \nPerhaps  it  is  human  wifdom.     For  this  in  reality  I  appear  to  pofTefs,     Thofe \nindeed  whom  I  jiift  now  mentioned  pofTefTed  perhaps  more  than  human \nwifdom,  which  I  know  not  how  to  denominate  :  for  1  have  no  knowledge \nof  it.  And  whoever  fays  that  1  have,  fpeaks  falfely,  and  afTerts  this  ta \ncahimniate  me.  But,  O  Athenians,  be  not  diflurbed  if  I  appear  to  fpcak \nfomewhat  magnificently  of  myfelf.  For  this  which  I  fay  is  not  my  own \naffertion,  but  I  fhall  refer  it  to  one  who  is  confidered  by  you  as  worthy  of \nbehef.  For  I  fliall  adduce  to  you  the  Delphic  Deity  himfelf  as  a  teftimony \nof  my  wifdom,  if  I  have  any,  and  of  the  quahty  it  pofTefrcs.  You  certainly \nthen  know  Chaerepho :  he  was  my  aflbciate  from  a  youth,  was  familiar \nwith  moft  of  you,  and  accompanied  you  in  and  returned  with  you  from  your \nexile.  You  know,  therefore,  what  kind  of  a  man  Chasrepho  was,  and \nhow  eager  in  all  his  undertakings.  He  then,  coming  to  Delphi,  had  the \nboldncfs  to  confult  the  oracle  about  this  particular.  Be  not,  as  I  faid,  O \nAthenians,  difturbed :  for  he  a(ked  if  there  was  any  one  more  wife  than  I \nam.  The  Pythian  prieftefs,  therefore,  anfwered  that  there  was  not  any \none  more  wife.  His  brother  can  teftify  to  you  the  truth  of  thefc  things ; \nfor  Chacrepho  himfelf  is  dead. ",
+   "pages": [
+    102,
+    103
+   ],
+   "line": 9869
+  },
+  {
+   "id": "taylor1804.apology.p0007",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Consider then on what account I assert these things: for I am going to inform you whence this calumny against me arose. When, therefore, I had heard this answer of the oracle, I thus considered with myself, What does the God say? and what does he obscurely signify? For I am not conscious to myself that I am wise, either in a great or in a small degree. What then does he mean in saying that I am most wise? For he does not lie, since this is not lawful to him. And for a long time, indeed, I was dubious what he could mean. Afterwards with confidcrable difficulty I betook myself to the following mode of investigating his meaning. I went to one of those who appear to be wise men, that here if any where I might confute the prediction, and evince to the oracle that this man was more wise than I. Surveying, therefore, this man, (for there is no occasion to mention his name, but he was a poHtician;) while I beheld him and discoursed with him, it so happened, O Athenians, that this man appeared to me to be wise in the opinion of many other men, and especially in his own, but that he was not so. And afterwards I endeavoured to show him that he fancied himself to be wise, but was not. Hence I became odious to him, and also to many others that were present. Departing, therefore, I reasoned with myself that I was wiser than this man. For it appears tl^t neither of us knows any thing beautiful or good: but ne indeed not knowing, thinks that he knows fometbing; but I, as f do not know any thing, neither do I think that I know. Hence in this trifling particular I appear to be wiser than him, because I do not think that I know thinc^s which I do not know. After this I went to another of those who appeared to be wiser than him; and of him also I formed the same opinion. Hence also I became odious to him and many others*",
+   "raw": "Confider  then  on  what  account  I  aflert  thefe  things :  for  I  am  going \nto  inform  you  whence  this  calumny  againft  me  arofe.  When,  therefore, \nI  had  heard  this  anfwer  of  the  oracle,  I  thus  confidered  with  myfelf,  What \ndoes  the  God  fay  ?  and  what  does  he  obfcurely  fignify  ?  For  I  am  not \nconfcious  to  myfelf  that  I  am  wife,  either  in  a  great  or  in  a  fmall  degree. \nWhat  then  does  he  mean  in  faying  that  I  am  moft  wife  ?  For  he  does  not \nlie,  fincc  this  is  not  lawful  to  him.  And  for  a  long  time,  indeed,  I  was \ndubious  what  he  could  mean.  Afterwards  with  confidcrable  difficulty  I \nbetook  myfelf  to  the  following  mode  of  inveftigating  his  meaning.  I  went \nto  one  of  thofe  who  appear  to  be  wife  men,  that  here  if  any  where  I  might \nconfute  the  predidion,  and  evince  to  the  oracle  that  this  man  was  more \nwife  than  I.  Surveying,  therefore,  this  man,  (for  there  is  no  occafion  to \nmention  his  name,  but  he  was  a  poHtician  ;)  while  I  beheld  him  and  dif- \ncourfed  with  him,  it  fo  happened,  O  Athenians,  that  this  man  appeared  to \nme  to  be  wife  in  the  opinion  of  many  other  men,  and  efpecially  in  his  own, \nbut  that  he  was  not  fo.  And  afterwards  I  endeavoured  to  fhow  him \nthat  he  fancied  himfelf  to  be  wife,  but  was  not.  Hence  I  became \nodious   to  him,  and  alfo   to  many  others  that  were  prefent.     Departing, \ntherefore,  I  reafoned  with  myfelf  that  I  was  wifer  than  this  man.  For  it \nappears  tl^t  neither  of  us  knows  any  thing  beautiful  or  good  :  but  ne  indeed \nnot  knowing,  thinks  that  he  knows  fometbing;  but  I,  as  f  do  not  know  any \nthing,  neither  do  I  think  that  I  know.  Hence  in  this  trifling  particular  I \nappear  to  be  wifer  than  him,  becaufe  I  do  not  think  that  I  know  thinc^s \nwhich  I  do  not  know.  After  this  I  went  to  another  of  thofe  who  appeared \nto  be  wifer  than  him  ;  and  of  him  alfo  I  formed  the  fame  opinion.  Hence  - \nalfo  I  became  odious  to  him  and  many  others* ",
+   "pages": [
+    103,
+    104
+   ],
+   "line": 9905
+  },
+  {
+   "id": "taylor1804.apology.p0008",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Afterwards however I went to others, suspecting and grieving and fearing that I should make enemies. At the same time however it appeared to me to be necessary to pay the greatest attention to the oracle of the God, and that, conlidering what could be its meaning, I should go to all that appeared to possess any knowledge. And by the dog ', O Athenians, (for it is necessary to tell you the truth,) that which happened to me was as follows. Those that were most celebrated for their wisdom appeared to me to be most remote from it; but others who were considered as far inferior to them possessed more of intellect. But it is necessary to relate t» you my wandering, and the labours as it were which I endured, that the oracle might become to me unconfuted. For after the politicians I went to the poets both tragic and dithyrambic, and also others, expecting that I should here immediately find myself to be less wifp than these. Taking up, therefore, some of their poems which appeared to me to be the most elaborately written, I alked them what was their meaning, that at the same time I might learn something from them. I am ashamed indeed, O Athenians, to tell you' the truth; but at the same time it must be told. For, as I may say, all that were present would have spoken better about the things which they had composed. I discovered this, therefore, in a short time concerning the poets, that they did not effect by wisdom that which they did, but by a certain genius and from enthusiastic energy, like prophets and those that utter oracles. For these also say many and beautiful things, but they understand nothing of what they say. Poets, therefore, appeared to me to be affected in a similar maryier. And at the same time I perceived that they confidcred themselves, on account of their poetry, to be the wisest of men in other things, in which they were not so, I departed, therefore, also from them, thinking that I surpassed them by the very lame thing in which I furpafifed the politicians.",
+   "raw": "Afterwards  however  I  went  to  others,  fufpe6ling  and  grieving  and  fear- \ning that  I  fhould  make  enemies.  At  the  fame  time  however  it  appeared  to \nme  to  be  neceflary  to  pay  the  greateft  attention  to  the  oracle  of  the  God, \nand  that,  conlidering  what  could  be  its  meaning,  I  (hould  go  to  all  that \nappeared  to  poffefs  any  knowledge.  And  by  the  dog  ',  O  Athenians,  (for \nit  is  neceflary  to  tell  you  the  truth,)  that  which  happened  to  me  was  as \nfollows.  Thofe  that  were  moft  celebrated  for  their  wifdom  appeared  to \nme  to  be  moft  remote  from  it ;  but  others  who  were  confidered  as  far \ninferior  to  them  poflefled  more  of  intelledl.  But  it  is  neceflary  to  relate  t» \nyou  my  wandering,  and  the  labours  as  it  were  which  1  endured,  that  the \noracle  might  become  to  me  unconfuted.  For  after  the  politicians  I  went \nto  the  poets  both  tragic  and  dithyrambic,  and  alfo  others,  expe61ing  that  I \nfhould  here  immediately  find  myfelf  to  be  lefs  wifp  than  thefe.  Taking  up, \ntherefore,  fome  of  their  poems  which  appeared  to  me  to  be  the  moft \nelaborately  written,  1  alked  them  what  was  their  meaning,  that  at  the  fame \ntime  1  might  learn  fomething  from  them.  I  am  afliamed  indeed,  O  Athe- \nnians, to  tell  you' the  truth;  but  at  the  fame  time  it  muft  be  told.  For,  as \nI  may  fay,  all  that  were  prefent  would  have  fpoken  better  about  the  things \nwhich  they  had  compofed.  I  difcovered  this,  therefore,  in  a  fhort  time \nconcerning  the  poets,  that  they  did  not  effed  by  wifdom  that  which  they \ndid,  but  by  a  certain  genius  and  from  enthufiaftic  energy,  like  prophets  and \nthofe  that  utter  oracles.  For  thefe  alfo  fay  many  and  beautiful  things,  but \nthey  underftand  nothing  of  what  they  fay.  Poets,  therefore,  appeared  to \nme  to  be  affe61ed  in  a  fimilar  maryier.     And  at  the  fame   time  I  perceived \nthat  they  confidcred  themfelves,  on  account  of  their  poetry,  to  be  the  wifeft \nof  men  in  other  things,  in  which  they  were  not  fo,  I  departed,  therefore, \nalfo  from  them,  thinking  that  I  furpalTed  them  by  the  very  lame  thing  in \nwhich  1  furpafifed  the  politicians. ",
+   "pages": [
+    104,
+    105
+   ],
+   "line": 9938
+  },
+  {
+   "id": "taylor1804.apology.p0009",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "In the last place, therefore, I went to the artificers. For I was conscious to myself that I knew, nothing, as I may say, but that these men pofTeflTed knowlcdo-e, because I had found them acquainted with many and beautiful things. And in this indeed I was not deceived; for they knew things which I did not, and in this they were wiser than I. But, O Athenians, good artificers also appeared to me to have the same fault as the poets. For each, in consequence of performing well in his art, thought that he was also most wise in other things, and those the greatest. And this their error obscured that very wisdom which they did possess. I therefore asked myself in behalf of the oracle, whether I would choose to be as I am, pofTcfling no part either of their wisdom or ignorance, or to have both which they possess. I answered, therefore,\" for myself and for the oracle, that it was advantageous for me to be as I am",
+   "raw": "In  the  laft  place,  therefore,  I  went  to  the  artificers.  For  I  was  confcious \nto  myfelf  that  I  knew,  nothing,  as  I  may  fay,  but  that  thcfe  men  pofTeflTed \nknowlcdo-e,  becaufe  I  had  found  them  acquainted  with  many  and  beautiful \nthings.  And  in  this  indeed  I  was  not  deceived  ;  for  they  knew  things \nwhich  I  did  not,  and  in  this  they  were  wifer  than  I.  But,  O  Athenians, \ngood  artificers  alfo  appeared  to  me  to  have  the  fame  fault  as  the  poets. \nFor  each,  in  confequence  of  performing  well  in  his  art,  thought  that  he  was \nalfo  moft  wife  in  other  things,  and  thofe  the  greateft.  And  this  their  error \nobfcured  that  very  wifdom  which  they  did  poflefs.  I  therefore  aiked  my- \nfelf in  behalf  of  the  oracle,  whether  I  would  choofe  to  be  as  I  am,  pofTcfling \nno  part  either  of  their  wifdom  or  ignorance,  or  to  have  both  which  they \npolTefs.  I  anfwered,  therefore,\"  for  myfelf  and  for  the  oracle,  that  it  was \nadvantageous  for  me  to  be  as  I  am- ",
+   "pages": [
+    105
+   ],
+   "line": 9977
+  },
+  {
+   "id": "taylor1804.apology.p0010",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "From this my investigation, O Athenians, many enmities were excited against me, and such as were moll grievous and weighty, so that many calumnies were produced from them; and hence I obtained the appellation of t/ie wise man. For those that hear me think that I am wise in these things, the ignorance of which I confute in others. It appears however, O Athenians, that Divinity is wise in reality, and that in this oracle he says this, that human wisdom is but of little, or indeed of no worth; and it seems that he used my name, making me an example, as if he had said. He, O men, is the wisest among you, who, like Socrates, knovos that he is in reality o{ no worth with respect to wisdom. These things, therefore, going about, I even now inquire and explore in obedience to the God, both among citizens and Grangers, if any one of them appears to me to be wise; and when I find he is not, giving assistance to the God, I demonstrate that he is not wise. And in consequence of this employment I have no leisure worth meiiti6rting either for public or private transactions; but I am ia great poverty through my religious cultivation of the God.",
+   "raw": "From  this  my  inveftigation,  O  Athenians,  many  enmities  were  excited \nagainft  me,  and  fuch  as  were  moil  grievous  and  weighty,  fo  that  many \ncalumnies  were  produced  from  them  ;  and  hence  I  obtained  the  appellation \nof  t/ie  wife  man.  For  thofe  that  hear  me  think  that  I  am  wife  in  thefc \nthings,  the  ignorance  of  which  I  confute  in  others.  It  appears  however, \nO  Athenians,  that  Divinity  is  wife  in  reality,  and  that  in  this  oracle  he  fays \nthis,  that  human  wifdom  '  is  but  of  little,  or  indeed  of  no  worth  ;  and  it \nfeems  that  he  ufed  my  name,  making  me  an  example,  as  if  he  had  faid.  He, \nO  men,  is  the  wifeft  among  you,  who,  like  Socrates,  knovos  that  he  is  in \nreality  o{  no  worth  with  refpedl  to  wifdom.  Thefe  things,  therefore, \ngoing  about,  I  even  now  inquire  and  explore  in  obedience  to  the  God,  both \namong  citizens  and  Grangers,  if  any  one  of  them  appears  to  me  to  be  wife  ; \nand  when  I  find  he  is  not,  giving  affiflance  to  the  God,  I  demonftrate  that \nhe  is  not  wife.     And  in  confequence  of  this  employment  I  have  no  leifurc \nworth  meiiti6rting  either  for  public  or  private  tranfadions ;  but  I  am  ia \ngreat  poverty  through  my  religious  cultivation  of  the  God. ",
+   "pages": [
+    105,
+    106
+   ],
+   "line": 9991
+  },
+  {
+   "id": "taylor1804.apology.p0011",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Belides, the youth that spontaneously follow me, who especially abound in leisure, as being the sons of the most wealthy, rejoice on hearing men confuted by me; and often imitating me, they afterwards endeavour to make trial of others. In which attempt I think they find a numerous multitude of men who fancy that they know something, but who know little or nothing. Hpncc, therefore, those who are tried by them are angry with me, and not with them, and say that there is one Socrates a most wicked person, and who corrupts the youth. And when some one asks them what he does, and what he teaches, they have nothing to say, but are ignorant. That they may not however appear to be dubious, they assert things which may be readily adduced against all that philosophize, as, that he explores things on high and under the earth, that he does not think' there are Gods, and that he makes the worse to be the better reason. For I think they are not wilHng to speak the truth, that they clearly pretend to be knowing, but know nothing. Hence, as it appears to me, being ambi* tious and vehement and numerous, and speaking in an elegant and persuasive manner about me, they fill your ears, both before and now calumniating in the extreme. Among these, Melitus, Anytus, and Lycon, have attacked me; Melitus indeed being my enemy on account of the poets; but Anytus on account of the artificers and politicians; and Lycon on account of the orators. So that, as I said in the beginning, I should wonder if I could remove such an abundant calumny from your minds in so short a time. These things, O Athenians, are true; and I thus speak, neither concealing nor subtracting any thing from you, either great or small; though I nearly know that I shall make enemies by what I have said. This however is an argument that I speak the truth, that this is the calumny which is raised against me, and that the causes of it are these. And whether now or hereafter you investigate these things, you will find them to be as I have said. Concerning the particulars, therefore, which my first accusers urged against me, let this be a sufficient apology to you.",
+   "raw": "Belides,  the  youth  that  fpontaneoufly  follow  me,  who  efpecially  abound \nin  leifure,  as  being  the  fons  of  the  moft  wealthy,  rejoice  on  hearing  men \nconfuted  by  me  ;  and  often  imitating  me,  they  afterwards  endeavour  to \nmake  trial  of  others.  In  which  attempt  I  think  they  find  a  numerous \nmultitude  of  men  who  fancy  that  they  know  fomething,  but  who  know \nlittle  or  nothing.  Hpncc,  therefore,  thofe  who  are  tried  by  them  arc \nangry  with  me,  and  not  with  them,  and  fay  that  there  is  one  Socrates  a  moft \nwicked  perfon,  and  who  corrupts  the  youth.  And  when  fome  one  afks \nthem  what  he  docs,  and  what  he  teaches,  they  have  nothing  to  fay,  but  are \nignorant.  That  they  may  not  however  appear  to  be  dubious,  they  afTert \nthings  which  may  be  readily  adduced  againft  all  that  philofophize,  as,  that \nhe  explores  things  on  high  and  under  the  earth,  that  he  does  not  think' \nthere  are  Gods,  and  that  he  makes  the  worfe  to  be  the  better  reafon.  For \nI  think  they  are  not  wilHng  to  fpeak  the  truth,  that  they  clearly  pretend  to \nbe  knowing,  but  know  nothing.  Hence,  as  it  appears  to  me,  being  ambi* \ntious  and  vehement  and  numerous,  and  fpeaking  in  an  elegant  and  per- \nfuafive  manner  about  me,  they  fill  your  ears,  both  before  and  now  calum- \nniating in  the  extreme.  Among  thefe,  Melitus,  Anytus,  and  Lycon,  have \nattacked  me ;  Melitus  indeed  being  my  enemy  on  account  of  the  poets ; \nbut  Anytus  on  account  of  the  artificers  and  politicians ;  and  Lycon  on \naccount  of  the  orators.  So  that,  as  I  faid  in  the  beginning,  I  fhould  wonder \nif  I  could  remove  fuch  an  abundant  calumny  from  your  minds  in  fo  fhort \na  time.  Thefe  things,  O  Athenians,  arc  true ;  and  I  thus  fpeak,  neither \nconcealing  nor  fubtra6ting  any  thing  from  you,  either  great  or  fmall ; \nthough  I  nearly  know  that  I  fhall  make  enemies  by  what  I  have  faid.  This \nhowever  is  an  argument  that  I  fpeak  the  truth,  that  this  is  the  calumny \nwhich  is  raifed  againft  me,  and  that  the  caufcs  of  it  are  thefe.  And  whether \nnow  or  hereafter  you  inveftigate  thefe  things,  you  will  find  them  to  be  as  I \nhave  faid.  Concerning  the  particulars,  therefore,  which  my  firfl  accufers \nurged  agalnft  me,  let  this  be  a  fufficient  apology  to  you. ",
+   "pages": [
+    106
+   ],
+   "line": 10018
+  },
+  {
+   "id": "taylor1804.apology.p0012",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "In the next place, I shall endeavour to reply to Melitus, that good",
+   "raw": "In    the    next    place,  I    fhall  endeavour   to    reply  to   Melitus,  that  good ",
+   "pages": [
+    106
+   ],
+   "line": 10049
+  },
+  {
+   "id": "taylor1804.apology.p0013",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "man and lover of his country, as he says, and also to my latter accusers.",
+   "raw": "man  and  lover  of  his  country,   as  he  fays,   and  alfo  to  my  latter  accufers. ",
+   "pages": [
+    106
+   ],
+   "line": 10051
+  },
+  {
+   "id": "taylor1804.apology.p0014",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "For again, as being different from the former accusers', let us take the oath of these. tnen for calumny. The accufatioii then is as follows: So crates, it says, acts unjuftly^ corrupting the youth; aivd not believing in those Gods in which the city beUeves, he introduces other novel daemon iacal natures. Such then is the accusation; of which let us examine every part. It says, therefore, that I ad unjustly by corrupting the youth. But I, O Athenians, say that Melitus acts unjustly, becaufic he intentionally trifles, rashly bringing men into danger, and pretending to be fhudious and follcitous about things which were never the objects of his care. But that this is the case I will endeavour to show you.",
+   "raw": "For  again,  as  being  different  from  the  former  accufers-',  let  us  take  the  oath \nof  thefe.  tnen  for  calumny.  The  accufatioii  theu  is  as  follows :  So^ \ncrates,  it  fays,  ads  unjuftly^  corrupting  the  youth  ;  aivd  not  believing  in \nthofe  Gods  in  which  the  city  beUeves,  he  introduces  other  novel  daemon iacal \nnatures.  Such  then  is  the  accufation;  of  which  let  us  examine  every  part. \nIt  fays,  therefore,  that  1  ad  unjuftly  by  corrupting  the  youth.  But  I,  O \nAthenians,  fay  that  Melitus  ads  unjuftly,  becaufic  he  intentionally  trifles, \nrafhly  bringing  men  into  danger,  and  pretending  to  be  fhudious  and  foll- \ncitous  about  things  which  were  never  the  objeds  of  his  care.  But  that  this \nis  the  cafe  I  will  endeavour  to  fhow  you. ",
+   "pages": [
+    106,
+    7
+   ],
+   "line": 10053
+  },
+  {
+   "id": "taylor1804.apology.p0015",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Tell me then, O Melitus, whether you consider it as a thing of the greatest consequence, for the youth to become the best of men? — I do.— Come, then, do you therefore tell them what will make them better } For it is evident that you know, lince it is the object of your care. For, having found me to be a corrupter of youth, as you say, you have brought me hither, anci are my accuser; but come, inform me wKo it is that makes them better, aad signify it to this assembly. - Do yo\\i see, O Melitus, that you are silent, and have iiot any thing id say? Though, does it not appear to yovL to be shameful, and a fuffijient argument of what I say,-.that this is not the object of your attention? But tell me, O good man, who it is that makes thenji better.— The laws. — I do not, however, alk this, O best of men, but whaj: man it is that first knows this very thmg, the laws, — Theft men, Socrates, are the judges. — How do you say, Melitus? Do they know how to instruct the youth, and to make them better? — Especially fo.— But whether dp aU of them know how? or do some of them know, and others not? — All of thcm.^ — You speak well, by Juno, and adduce a great abundance of those that benefit. But what? Can these auditors also make the youth better, or not? — These also. — And what of the senators?— The senators alio can effect this. — But, O Melitus, do some of those that harangue the people in an assembly corrupt the more juvenile; or do all these make them better ^-— All thefe.— -All the Athenians therefore, as it seems, make them to be worthy and good, except me, but I alone corrupt them. Do you say so? — These very things I strenuously assert. — You charge me with a very great infelicity.. But answer me: Does this also appear to you to be the case respecting horses, viz. that all men can make them better, but that there is only one person that corrupts them? or does the pcrfeQ. contrary of this take place, so that it is one person who can make thfem better, ar, at least, that those possessed of equestrian skill are very few; but the multitude, if they meddle with and make use of horses, corrupt them? Is not this the case, O Melitus, both with refpe£t to horses and all other animals? It certainly is so, whether you and Anytus say so, or not. For a great felicity would take place concerning youth if only one person corrupted, and the rest beneiited them. •However, you have sufficiently shown, O Melitus, that you never bestowed any care upon youth; and you clearly evince your negligence, and that you pay «o attention to the particulars for which you accuse me.",
+   "raw": "Tell  me  then,  O  Melitus,  whether  you  confider  it  as  a  thing  of  the  greatcfl \nconfequence,  for  the  youth  to  become  the  beft  of  men  ? — I  do.— Come, \nthen,  do  you  therefore  tell  them  what  will  make  them  better }  For  it  is \nevident  that  you  know,  lince  it  is  the  objed  of  your  care.  For,  having  found \nmc  to  be  a  corrupter  of  youth,  as  you  fay,  you  have  brought  mc  hither,  anci \nare  my  accufer  ;  but  come,  inform  me  wKo  it  is  that  makes  them  better,  aad \nfignify  it  to  this  affembly.  -  Do  yo\\i  fee,  O  Melitus,  that  you  are  filent,  and \nhave  iiot  any  thing  id  fay  ?  Though,  docs  it  not  appear  to  yovL  to  be  ihame- \nful,  and  a  fuffijient  argument  of  what  I  fay ,- .that  this  is  not  the  objed  of \nyour  attention  ?  But  tell  me,  O  gbod  man,  who  it  is  that  makes  thenji \nbetter.— The  laws. — I  do  not,  however,  alk  this,  O  beft  of  men,  but  whaj: \nman  it  is  that  firft  knows  this  very  thmg,  the  laws, — Theft  men,  Socrates, \narc  the  judges. — How  do  you  fay,  Melitus  ?  Do  they  know  how  to  inflrud \nthe  youth,  and  to  make  them  better  ? — Efpecially  fo.— But  whether  dp  aU \nof  them  know  how  ?  or  do  fome  of  them  know,  and  others  not  ? — All  of \nthcm.^ — You  fpeak  well,  by  Juno,  and  adduce  a  great  abundance  of  thofe  that \nbenefit.  But  what  ?  Can  thefe  auditors  alfo  make  the  youth  better,  or \nnot  ? — Thefe  alfo. — And  what  of  the  fenators  ?— The  fcnators  alio  can  efFed \nthis. — But,  O  Melitus,  do  fome  of  thofe  that  harangue  the  people  in  an \naflembly  corrupt  the  more  juvenile  ;  or  do  all  thefe  make  them  better  ^-— All \nthefe.— -All  the  Athenians  therefore,  as  it  feems,  make  them  to  be  worthy \nand  good,  except  me,  but  I  alone  corrupt  them.  Do  you  fay  fo  ? — Thefe \nvery  things  I  ftrenuoufly  alTert. — You  charge  me  with  a  very  great  infelicity.. \nBut  anfwer  me  :  Does  this  alfo  appear  to  you  to  be  the  cafe  refpeding  horfes, ' \nviz.  that  all  men  can  make  them  better,  but  that  there  is  only  one  pcrfon \nthat  corrupts  them  ?  or  does  the  pcrfeQ.  contrary  of  this  take  place,  fo  that \nit  is  one  perfon  who  can  make  thfem  better,  ar,  at  leaft,  that  thofe  poffefTed \nof  equeftrian  ikill  are  very  few  ;  but  the  multitude,  if  they  meddle  with  and \nmake  ufe  of  horfes,  corrupt  them  ?  Is  not  this  the  cafe,  O  Melitus,  both \nwith  refpe£t  to  horfes  and  all  other  animals  ?  It  certainly  is  fo,  whether \nyou  and  Anytus  fay  fo,  or  not.  For  a  great  felicity  would  take  place  con- \ncerning youth  if  only  one  perfon  corrupted,  and  the  reft  beneiited  them. \n•However,  you  have  fufficiently  fhown,  O  Melitus,  that  you  never  beftowed \nany  care  upon  youth  ;  and  you  clearly  evince  your  negligence,  and  that  you \npay  «o  attention  to  the  particulars  for  which  you  accufe  me. ",
+   "pages": [
+    7,
+    8
+   ],
+   "line": 10070
+  },
+  {
+   "id": "taylor1804.apology.p0016",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Further iVill, tell me, by Jupiter, O Melitus, whether it is better to dwell in good or in bad polities? Answer, my friend: for I alk you nothing difficult. Do not the depraved always procure some evil to those that continually reside near them; and do not the good procure some good? — Entirely so. — Is there then any one who wifties to be injured by his associates, rather than to be benefited? Answer, O good man: for the law orders you to answer. Is there any one who wishes to be injured? — There is not. — Come then, whether do you bring me hitiier, as one that corrupts the youth, and makes them depraved willingly, or as one who does this unwillingly? — I say that you do it willingly. — But what, O Melitus, is it possible that you,, who are so much younger than I am, should well know that the depraved always procure some evil to those that are most near to \"them, and the good some good; but that I should have arrived at such ignorance as not to know that, if I make any one of my associates depraved, I /hall be in danger of receiving some evil from him; and that I, therefore, do this so great an evil willingly, as you say? I cannot be persuaded by you, O Melitus, as to these things, nor do I think that any other man would: but either I do not corrupt the youth, or I corrupt them unwillingly. So that you speak falsely in both assertions. But if I unwillingly corrupt them, the law does not order me to be brought hither for such-like involuntary offences, but that I should be taken and privately taught and admonished. For it is evident that, if I am taught better, 1 shall cease doing that which I unwillingly do. But you, indeed, have avoided me, and have not been willing to associate with and inftru/5i me; but you have brought me hither, where the law orders those who require punishment, and not difciplinc, to be brought. Wherefore, O Athenians, this now is manifest which I have said, that Melitus never paid the imallefl: attention to this affair.",
+   "raw": "Further  iVill,  tell  me,  by  Jupiter,  O  Melitus,  whether  it  is  better  to  dwell \nin  good  or  in  bad  polities  ?  Anfwer,  my  friend:  for  I  alk  you  nothing  diffi- \ncult. Do  not  the  depraved  always  procure  fome  evil  to  thofe  that  continu- \nally refide  near  them  ;  and  do  not  the  good  procure  fome  good  ? — Entirely \nfo. — Is  there  then  any  one  who  wifties  to  be  injured  by  his  afTociates,  rather \nthan  to  be  benefited  ?  Anfwer,  O  good  man  :  for  the  law  orders  you  to  an- \nfwer. Is  there  any  one  who  wifhes  to  be  injured  ? — There  is  not. — Come \nthen,  whether  do  you  bring  me  hitiier,  as  one  that  corrupts  the  youth,  and \nmakes  them  depraved  willingly,  or  as  one  who  docs  this  unwillingly  ? — I  fay \nthat  you  do  it  willingly. — But  what,  O  Melitus,  is  it  poffible  that  you,,  who \nare  fo  much  younger  than  I  am,  fhould  well  know  that  the  depraved  always \nprocure  fome  evil  to  thofe  that  are  moft  near  to  \"them,  and  the  good  fome \ngood  ;  but  that  I  fhould  have  arrived  at  fuch  ignorance  as  not  to  know  that, \nif  I  make  any  one  of  my  affociates  depraved,  I  /hall  be  in  danger  of  receiving \nfome  evil  from  him  ;  and  that  I,  therefore,  do  this  fo  great  an  evil  willingly, \nas  you  fay  ?  I  cannot  be  perfuaded  by  you,  O  Melitus,  as  to  thefe  things, \nnor  do  I  think  that  any  other  man  would :  but  either  I  do  not  corrupt  the \nvouth,  or  I  corrupt  them  unwillingly.  So  that  you  fpeak  falfely  in  both \naflertions.  But  if  I  unwillingly  corrupt  them,  the  law  does  not  order  me  to \nbe  brought  hither  for  fuch-like  involuntary  offences,  but  that  I  fhould  be \ntaken  and  privately  taught  and  admonifhed.  For  it  is  evident  that,  if  I  am \ntaught  better,  1  (hall  ceafc  doing  that  which  I  unwillingly  do.  But  you, \nindeed,  have  avoided  me,  and  have  not  been  willing  to  afTociate  with  and  in- \nftru/5i  me ;  but  you  have  brought  me  hither,  where  the  law  orders  thofe  who \nrequire  punifliment,  and  not  difciplinc,  to  be  brought.  Wherefore,  O  Athe- \nnians, this  now  is  manifeft  which  I  have  faid,  that  Melitus  never  paid  the \nimallefl:  attention  to  this  affair. ",
+   "pages": [
+    8,
+    9
+   ],
+   "line": 10112
+  },
+  {
+   "id": "taylor1804.apology.p0017",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "At the same time, however, tell us, O MeUtus, how you say I corrupt the youth. Or is it not evident, from your written accusation, that I teach them not to believe in the Gods in which the city believes, but in other new divine powers? Do you not say that, teaching these things, I corrupt the youth? — Perfectly so: I strenuously assert these things. — By those very Gods, therefore, Melitus, of whom we are now speaking, speak in a still clearer manner both to me and to these men. For I cannot learn whether you say that I teach them to think that there are not certain Gods, (though I myself believe that these are Gods, for I am by no means an atheist, nor in this respect do I a<^ ujijuftly,) not, indeed, such as the city believes in, but others, and that this it is for which you accuse me, that I introduce other Gods; or whether you altogether say that I do not believe there are Gods, ajid that I teach this doctrine also to Others. — I say this, that you do not believe that there are Gods. — O wonderful Melitus, why do you thus speak? Do I then think, unlike the red of mankind, that the sun and moon are not Gods? — lie does not, by Jupiter, O judges: for he says that the sun is a stone, and that the moon is earth. — O friend Melitus, you think that you accuse Anaxagoras; and you so despise these judges, and think them to be so illiterate, as not to know that the books of Anaxagoras the Clazomenian are full of these afTcrtions. Bclides, wouW the youth learn those things from me, which they might buy for a drachma at most in the orcheftra, and thus might de-ride Socrates if he pretended they were his own, especially since they ARE LIKEWISE SO ABSURD? But, by Jupiter, do I then appear to you to think that there is no God? — None whatever, by Jupiter.— What you say, O Melitus, is incredible, and, as it appears to me, is so even to yourself. Indeed, O Athenians, this man appears to me to be perfedly iniblent and intemperate in his speech, and to have in reality written this accusation, impelled by a certain insolence, wnntonnefs, and youthfulncfs. For he seems, as it were, to have composed an ienigma in order to try me, and to have said to himself, Will the wise Socrates know that I am jesting, and fpcakingcorrw trary tonayfelf? Or shall I deceive him, together with the other hearers? For he appears to me to contradict himself in his acculation, as if he had said Socrates is impious in not believing that there are Gods, hut believing that there are Gods. And this indeed, muil be the assertion of one in jest.",
+   "raw": "At  the  fame  time,  however,  tell  us,  O  MeUtus,  how  you  fay  I  corrupt  the \nyouth.  Or  is  it  not  evident,  from  your  written  accufation,  that  I  teach  them \nnot  to  believe  in  the  Gods  in  which  the  city  believes,  but  in  other  new  divine \npowers  ?  Do  you  not  fay  that,  teaching  thefe  things,  I  corrupt  the  youth? — \nPerfe6lly  fo :  I  ftrenuoufly  affert  thefe  things. — By  thofe  very  Gods,  there- \nfore, Melitus,  of  whom  we  are  now  fpeaking,  fpcak  in  a  ftill  clearer  man- \nner both  to  mc  and  to  thefe  men.  For  I  cannot  learn  whether  you  fay  that \nI  teach  them  to  think  that  there  arc  not  certain  Gods,  (though  I  myfelf  be- \nlieve that  theie  are  Gods,  for  I  am  by  no  means  an  atheift,  nor  in  this  re- \nfpcd  do  I  a<^  ujijuftly,)  not,  indeed,  fuch  as  the  city  believes  in,  but  others, \nand  that  this  it  is  for  which  you  accufe  me,  that  I  introduce  other  Gods ;  or \nwhether  you  altogether  fay  that  I  do  not  believe  there  are  Gods,  ajid  that  I \nteach  this  do61rine  alfo  to  Others. — I  fay  this,  that  you  do  not  believe  that \nthere  are  Gods. —  O  wonderful  Melitus,  why  do  you  thus  fpeak  ?  Do  I  then \nthink,  unlike  the  red  of  mankind,  that  the  fun  and  moon  are  not  Gods  ? — \nlie  does  not,  by  Jupiter,  O  judges  :  for  he  fays  that  the  fun  is  a  ftone,  and \nthat  the  moon  is  earth. — O  friend  Melitus,  you  think  that  you  accufe  Anax- \nagoras  ;  and  you  fo  defpife  thefe  judges,  and  think  them  to  be  fo  illiterate, \nas  not  to  know  that  the  books  of  Anaxagoras  the  Clazomenian  are  full  of \nthefe  afTcrtions.  Bclides,  wouW  the  youth  learn  thofe  things  from  me,  which \nthey  might  buy  for  a  drachma  at  mofl  in  the  orcheftra,  and  thus  might  de- \nride Socrates  if  he  pretended  they  were  his  own,  especially  since  they \nARE  LIKEWISE  SO  ABSURD '  ?  But,  by  Juplter,  do  I  then  appear  to  you  to \nthink  that  there  is  no  God  ? — None  whatever,  by  Jupiter.— What  you  fav, \nO  Melitus,  is  incredible,  and,  as  it  appears  to  me,  is  fo  even  to  yourfelf. \nIndeed,  O  Athenians,  this  man  appears  to  me  to  be  perfedly  iniblent  and \nintemperate  in  his  fpecch,  and  to  have  in  reality  written  this  accufation,  im- \npelled by  a  certain  infolence,  wnntonnefs,  and  youthfulncfs.  For  he  feems, \nas  it  were,  to  have  compofed  an  ienigma  in  order  to  try  mc,  and  to  have  faid \nto  himfelf,  Will  the  wife  Socrates  know  that  I  am  jefting,  and  fpcakingcorrw \ntrary  tonayfelf?  Or  (hall  I  deceive  him,  together  with  the  other  hearers? \nFor  he  appears  to  me  to  contradict  himfelf  in  his  acculation,  as  if  he  had  faid^ \nSocrates  is  impious  in  not  believing  that  there  are  Gods,  hut  believing  that \nthere  are  Gods.     And  this^  indeed,  muil  be  the  aflertion  of  one  in  jeft. ",
+   "pages": [
+    9,
+    510
+   ],
+   "line": 10146
+  },
+  {
+   "id": "taylor1804.apology.p0018",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "But let us jointly consider, O Athenians, how he appears to me to have asserted these things. And do you, O Melitus, answer us, and, as I requeued you at first, be mindful not to didurb me if I discourse after my usual manner Is there then any man, O Melitus, who thinks that there are human affairs,, but does not think that there are men? Pray answer me, and do not make so much noise. And is there any one who does not think that there are horses, but yet thinks that there are equestrian affairs? or who does not think that there are pipers, but yet that there are things pertaining to pipers? There is not, O bell: of men. For I will /peak for you, since you are not willing to answer yourself. But answer also to this: Is there any one who thinks-that there are daemoniacal affairs, but yet does not think that there are tlasmons? — There is not. — How averse you are to speak! so that you scarcely answer, compelled by these things* Do you not, therefore, say that I believe in and teach things daBmoniacal, whether they are new or old? But indeed you acknowledge that I believe in things daemoniacal, and to this you have Sworn in your accusation. If then I believe in dsemoniacal affairs, there is an abundant necessity that I should also believe in the cxiftencc of daemons.. Is it not so?— It is. — For I suppose you to assent, since youdo not answer.. But with respect to daemons *, do we not think either that they are Gods, or the sons of Gods? Will you acknowledge this or not? — Entirely fo.-— If, therefore, I believe that there are daemons as you say, if daemons are certain Gods,, will it not be as I say,, that you speak aenigmatically and in. jest, fuice you assert that I do not think there are Gods,, and yet again think that there are, since I believe in daemons? But if daemons are certain, spurious sons of the Gods, either from Nymphs, or from certain others, of whom they are said to be the offspring, what man can believe that there are sons of the Gods, and yet that there are no Gods? For this would be ]u(k as absurd, as if some one should think that there are colts and mules, but {hould not think that there are horses and asses. However, O Mclitus, it cannot be otherwise but that you have written this accusation, either to try -me, or because there vwas not any crime of which you could truly accuse me. For it is impossible that you should persuade any man who has the smallest degree of intellect, that one and the same person can believe that there are daemoniacal and divine affairs, and yet that there are neither <la£mons, nor Gods, jior heroes. That I am not, therefore, impious, O Athenians, according to the accusation of Melitus, does not appear to me to require a long apology; but what I have said is sufficient.",
+   "raw": "But  let  us  jointly  confider,  O  Athenians,  how  he  appears  to  me  to  have \naflerted  thefe  things.  And  do  you,  O  Melitus,  anfwer  us,  and,  as  I  requeued \nyou  at  firft,  be  mindful  not  to  didurb  me  if  I  difcourfe  after  my  ufual  manner^ \nIs  there  then  any  man,  O  Melitus,  who  thinks  that  there  are  human  affairs,, \nbut  does  not  think  that  there  are  men  ?  Pray  anfwer  me,  and  do  not  make  fo \nmuch  noife.  And  is  there  any  one  who  does  not  think  that  there  are  horfes, \nbut  yet  thinks  that  there  are  equeftrian  affairs  ?  or  who  does  not  think  that \nthere  are  pipers,  but  yet  that  there  are  things  pertaining  to  pipers  ?  There \nis  not,  O  bell:  of  men.  For  I  will  /peak  for  you,  fiuce  you  are  not  willing \nto  anfwer  yourfelf.  But  anfwer  alfo  to  this  :  Is  there  any  one  who  thinks- \nthat  there  are  daemoniacal  affairs,  but  yet  does  not  think  that  there  are \ntlasmons  ? — There  is  not. — How  averfe  you  are  to  fpeak  !  fo  that  you  icarcely \nanfwer,  compelled  by  thefe  things*  Do  you  not,  therefore,  fay  that  I  believe \nin  and  teach  things  daBmoniacal,  whether  they  are  new  or  old  ?  But  indeed \nyou  acknowledge  that  I  believe  in  things  daemoniacal,  and  to  this  you  have \nIworn  in  your  accufation.  If  then  I  believe  in  dsemoniacal  affairs,  there  is \nan  abundant  neceffity  that  I  fhould  alfo  believe  in  the  cxiftencc  of  daemons.. \nIs  it  not  fb  ?— It  is. — For  I  fuppofe  you  to  aflent,  fince  youdo  not  anfwer.. \nBut  with  refpedl  to  daemons  *,  do  we  not  think  either  that  they  are  Gods, \nor  the  fons  of  Gods  ?  Will  you  acknowledge  this  or  not? — Entirely  fo.-— \nIf,  therefore,  I  believe  that  there  are  daemons  as  you  fay,  if  daemons  are \ncertain  Gods,,  will  it  not  be  as  I  fay,,  that  you  fpeak  aenigmatically  and  in. \njeft,  fuice  you  aflert  that  I  do  not  think  there  are  Gods,,  and  yet  again  think \nthat  there  are,  fince  I  believe  in  daemons  ?  But  if  daemons  are  certain, \nfpurious  fbns  of  the  Gods,  either  from  Nymphs,  or  from  certain  others,  of \nwhom  they  are  faid  to  be  the  offspring,  what  man  can  believe  that  there  are \nfbns  of  the  Gods,  and  yet  that  there  are  no  Gods  ?  For  this  would  be  ]u(k \nas  abfurd,  as  if  fome   one  fhould  think  that  there  are  colts  and  mules,   but \n{hould  not  think  that  there  are  horfes  and  afles.  However,  O  Mclitus,  it \ncannot  be  otherwifc  but  that  you  have  written  this  accufation,  either  to  try \n-me,  or  becaufc  there  vwas  not  any  crime  of  which  you  could  truly  accufc \nme.  For  it  is  impofTible  that  you  fhould  perfuade  any  man  who  has  the \nfmalleft  degree  of  intellect,  that  one  and  the  fame  perfon  can  believe  that \nthere  are  daemoniacal  and  divine  affairs,  and  yet  that  there  arc  neither \n<la£mons,  nor  Gods,  jior  heroes.  That  1  am  not,  therefore,  impious,  O \nAthenians,  according  to  the  accufation  of  Melitus,  does  not  appear  to  mc \nto  require  a  long  apology ;  but  what  I  have  faid  is  fufficient. ",
+   "pages": [
+    510,
+    211
+   ],
+   "line": 10191
+  },
+  {
+   "id": "taylor1804.apology.p0019",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "As to what I before observed, that there is a great enmity towards me >among the vulo-ar, you may be well assured that it is true. And this it is which will condemn me, if I should happen to be condemned, viz. the hatred and envy of the multitude, and not Melitus, nor Anytus; which indeed has also happened to many otiiers, and those good men, and will I think again happen in futurity. For there is no reason to expect that it will terminate in me. Perhaps, however, feme one will say, Are you not ashamed, Socrates, to have applied yourself to a study, through which you are now in danger of being put to death? To this person i shall justly reply. That you do not speak well, O man, if you think that life or death ought to be regarded by the man who is capable of being useful though but in a small degree; and that he ought not to consider this alone when he acts, whether he acts justly, or unjustly, and like a good or a bad man. For those demigods that died at Troy would, according to your reasoning, be vile characters, as well others as the son of Thetis, who so much despised the dano-er of death when compared with difgraccful conduct, that when his mother, who was a goddess, on his desiring to kill Hedor, thus I think addressed him — My son, if you revenge the slaughter of your friend Patroclus, and kill Hedor, you will yourself die, for said she, death awaits you as soon as Hedor expires:— Notwithstanding this, he considered the danger of death as a trifle, and much more dreaded living basely, and not revenging his friends* For he says, May I Immediately die, when I have inflicted just punishment on him who has acted unjustly, and not stay here an object of ridicule, by the crooked ships, and a burden to the ground? Do you think that he was solicitous about death and danger? For this, O Athenians, is in reality the case: wherever any one ranks himself, thinking it to be the best for him, or wherever he is ranked by the ruler, there as it appears to me he ogglu to. abide, and encounter danger, neither paying attention to death nor to any thing else before that which is base.",
+   "raw": "As  to  what  I  before  obferved,  that  there  is  a  great  enmity  towards  mc \n>among  the  vulo-ar,  you  may  be  well  afTured  that  it  is  true.  And  this  it  is \nwhich  will  condemn  me,  if  I  fhould  happen  to  be  condemned,  viz.  the \nhatred  and  envy  of  the  multitude,  and  not  Melitus,  nor  Anytus ;  which \nindeed  has  alfo  happened  to  many  otiiers,  and  thofe  good  men,  and  will  I \nthink  again  happen  in  futurity.  For  there  is  no  reafon  to  expe6l  that  it  will \nterminate  in  me.  Perhaps,  however,  feme  one  will  fay,  Are  you  not  afhamed, \nSocrates,  to  have  applied  yourfelf  to  a  fludy,  through  which  you  are  now  iu \ndanger  of  being  put  to  death?  To  this  perfon  i  ihall  juftly  reply.  That \nyou  do  not  fpeak  well,  O  man,  if  you  think  that  life  or  death  ought  to  be \nregarded  by  the  man  who  is  capable  of  being  ufeful  though  but  in  a  fmali \ndegree ;  and  that  he  ought  not  to  confider  this  alone  when  he  a61s,  whether \nhe  a6ls  juftly,  or  unjuftly,  and  like  a  good  or  a  bad  man.  For  thofe  demi- \ngods that  died  at  Troy  would,  according  to  your  reafoning,  be  vile  characters, \nas  well  others  as  the  fon  of  Thetis,  who  fo  much  defpifed  the  dano-er  of \ndeath  when  compared  with  difgraccful  condu6t,  that  when  his  mother,  who \nwas  a  goddefs,  on  his  defiring  to  kill  Hedor,  thus  I  think  addreffed  '  him — \nMy  fon,  if  you  revenge  the  (laughter  of  your  friend  Patroclus,  and  kill  Hedor, \nyou  will  yourfelf  die,  for  faid  fhe,  death  awaits  you  as  foon  as  Hedor \nexpires  :— Notwithftanding  this,  he  confidered  the  danger  of  death  as  a  trifle, \nand  much  more  dreaded  living  bafely,  and  not  revenging  his  friends*  For \nhe  fays,  May  I  Immediately  die,  when  I  have  inflided  juft  punifhment  on \nhim  who  has  aded  unjuflly,  and  not  flay  here  an  objed  of  ridicule,  by  the \ncrooked  fhips,  and  a   burden  to  the  ground  ?    Do  you  think  that  he  was \nfolicitous  about  death  and  danger  ?  For  this,  O  Athenians,  is  in  reality \nthe  cafe  :  wherever  any  one  ranks  himfclf,  thinking  it  to  be  the  beft  for \nhim,  or  wherever  he  is  ranked  by  the  ruler,  there  as  it  appears  to  me  he \nogglu  to.  abide,  and  encounter  danger,  neither  paying  attention  to  death \nnor  to  any  thing  elfe  before  that  which  is  bafe. ",
+   "pages": [
+    211,
+    212
+   ],
+   "line": 10237
+  },
+  {
+   "id": "taylor1804.apology.p0020",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "I therefore, O Athenians, should have acted in a dire manner, if, when",
+   "raw": "I  therefore,   O  Athenians,  ihould  have  aded  in  a  dire  manner,   if,  when ",
+   "pages": [
+    212
+   ],
+   "line": 10275
+  },
+  {
+   "id": "taylor1804.apology.p0021",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "those rulers which you had placed over me had assigned me a rank at",
+   "raw": "thofe  rulers    which  you  had  placed  over  me  had  afligned  me  a  rank  at ",
+   "pages": [
+    212
+   ],
+   "line": 10277
+  },
+  {
+   "id": "taylor1804.apology.p0022",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Potidea, at Amphipolis, and at Delium, I should then have remained where",
+   "raw": "Potidea,  at  Amphipolis,  and  at  Delium,   I  fhould  then  have  remained  where ",
+   "pages": [
+    212
+   ],
+   "line": 10279
+  },
+  {
+   "id": "taylor1804.apology.p0023",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "they stationed me, like any other person, and should have encountered the",
+   "raw": "they  flationed  me,   like  any  other  perfon,  and  fhould  have  encountered  the ",
+   "pages": [
+    212
+   ],
+   "line": 10281
+  },
+  {
+   "id": "taylor1804.apology.p0024",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "daiiger of death; but that, when Divijjity has ordered, as I think and",
+   "raw": "daiiger   of  death  ;    but  that,  when  Divijjity  has  ordered,    as    I    think  and ",
+   "pages": [
+    212
+   ],
+   "line": 10283
+  },
+  {
+   "id": "taylor1804.apology.p0025",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "apprehend, that I ought to live philofophiling, and exploring myself and",
+   "raw": "apprehend,   that  I  ought  to   live  philofophiling,  and  exploring  myfelf  and ",
+   "pages": [
+    212
+   ],
+   "line": 10285
+  },
+  {
+   "id": "taylor1804.apology.p0026",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "others, I should here through fear of death or any other thing desert my",
+   "raw": "others,   I   fhould   here   through  fear  of  death  or  any  other  thing  defert  my ",
+   "pages": [
+    212
+   ],
+   "line": 10287
+  },
+  {
+   "id": "taylor1804.apology.p0027",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "rank. for this would be dire r and then in reality any one might justly",
+   "raw": "rank.     ^For   this  would   be  dire  r  and  then  in   reality  any  one  might  juftly ",
+   "pages": [
+    212
+   ],
+   "line": 10289
+  },
+  {
+   "id": "taylor1804.apology.p0028",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "bring me to a court of judicature, and accuse me of not believing in the",
+   "raw": "bring  me  to  a  court  of  judicature,   and  accufe  me  of  not  believing  in  the ",
+   "pages": [
+    212
+   ],
+   "line": 10291
+  },
+  {
+   "id": "taylor1804.apology.p0029",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Gods, in consequence of not obeying the oracle, fearing death, and thinking",
+   "raw": "Gods,  in  confequence  of  not  obeying  the  oracle,  fearing  death,  and  thinking ",
+   "pages": [
+    212
+   ],
+   "line": 10293
+  },
+  {
+   "id": "taylor1804.apology.p0030",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "myself to be wise when I am not. For to dread death, O Athenians, is",
+   "raw": "myfelf  to   be  wife    when   I  am  not.     For  to  dread  death,   O  Athenians,  is ",
+   "pages": [
+    212
+   ],
+   "line": 10295
+  },
+  {
+   "id": "taylor1804.apology.p0031",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "nothing else than to appear to be wise, without being so: fnice it is for a",
+   "raw": "nothing  elfe  than  to  appear  to  be  wife,  without   being  fo :  fnice  it  is  for  a ",
+   "pages": [
+    212
+   ],
+   "line": 10297
+  },
+  {
+   "id": "taylor1804.apology.p0032",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "tnan to appear to know that which he does not know. For no one knows",
+   "raw": "tnan  to  appear  to  know  that  which  he  does  not  know.     For  no  one  knows ",
+   "pages": [
+    212
+   ],
+   "line": 10299
+  },
+  {
+   "id": "taylor1804.apology.p0033",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "but that death may be to man the greatest of goods; but they dread it, as if",
+   "raw": "but  that  death  may  be  to  man  the  greateft  of  goods ;  but  they  dread  it,  as  if ",
+   "pages": [
+    212
+   ],
+   "line": 10301
+  },
+  {
+   "id": "taylor1804.apology.p0034",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "they well knew that it is the greatest af evils. And how is it possible that",
+   "raw": "they  well  knew  that   it   is  the  greateft  af  evils.     And  how  is  it  pofTible  that ",
+   "pages": [
+    212
+   ],
+   "line": 10303
+  },
+  {
+   "id": "taylor1804.apology.p0035",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "this should not be a most disgraceful ignorance, I mean for a pnan to fufped^",
+   "raw": "this  fhould  not  be  a  moft  difgraceful  ignorance,  I  mean  for  a  pnan  to  fufped^ ",
+   "pages": [
+    212
+   ],
+   "line": 10305
+  },
+  {
+   "id": "taylor1804.apology.p0036",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "that he has a knowledge of that of which he is ignorant? But I, O Athe",
+   "raw": "that  he  has  a  knowledge  of  that  of  which  he  is  ignorant  ?     But  I,  O  Athe- ",
+   "pages": [
+    212
+   ],
+   "line": 10307
+  },
+  {
+   "id": "taylor1804.apology.p0037",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "nianSy differ perhaps in this from the rnultitude of men; and if I should say",
+   "raw": "nianSy  differ  perhaps  in  this  from  the  rnultitude  of  men ;  and  if  I  fhould  fay ",
+   "pages": [
+    212
+   ],
+   "line": 10309
+  },
+  {
+   "id": "taylor1804.apology.p0038",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "that I am wiser than some one in any thing, it would be in this, that not",
+   "raw": "that  I  am  wifer  than  fomc  one  in  any  thing,  it  would  be  in  this,  that  not ",
+   "pages": [
+    212
+   ],
+   "line": 10311
+  },
+  {
+   "id": "taylor1804.apology.p0039",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "having a sufficient knowledge of the things in Hades,^ I also think that I",
+   "raw": "having  a  fufficient  knowledge  of  the  things  in  Hades,^  I  alfo  think  that  I ",
+   "pages": [
+    212
+   ],
+   "line": 10313
+  },
+  {
+   "id": "taylor1804.apology.p0040",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "have not this knowledge. But I know that to ad unjustly, and to be dif",
+   "raw": "have  not  this  knowledge.     But  I  know  that  to  ad  unjuftly,  and  to   be  dif- ",
+   "pages": [
+    212
+   ],
+   "line": 10315
+  },
+  {
+   "id": "taylor1804.apology.p0041",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "obedient to one more excellent, whether God or man, is evil and base. I",
+   "raw": "obedient  to  one  more  excellent,  whether  God  or  man,  is  evil  and  bafe.     I ",
+   "pages": [
+    212
+   ],
+   "line": 10317
+  },
+  {
+   "id": "taylor1804.apology.p0042",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "shall never, therefore, fear and avoid things which for aught I know may be",
+   "raw": "fhall  never,  therefore,  fear  and  avoid  things  which  for  aught  I  know  may  be ",
+   "pages": [
+    212
+   ],
+   "line": 10319
+  },
+  {
+   "id": "taylor1804.apology.p0043",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "good, before those evils which I know to be evils* So that neither if",
+   "raw": "good,   before  thofe  evils  which  1  know  to   be  evils*      So   tliat   neither   if ",
+   "pages": [
+    212
+   ],
+   "line": 10321
+  },
+  {
+   "id": "taylor1804.apology.p0044",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "you should now dismiss me, (being unperfuaded by Anytus, who said that",
+   "raw": "you  fhould  now  difmifs  me,  (being  unperfuaded  by  Anytus,  who  faid  that ",
+   "pages": [
+    212
+   ],
+   "line": 10323
+  },
+  {
+   "id": "taylor1804.apology.p0045",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "either I ought not to have been brought hither at first, or that, when brought",
+   "raw": "either  I  ought  not  to  have  been  brought  hither  at  firft,  or  that,  when  brought ",
+   "pages": [
+    212
+   ],
+   "line": 10325
+  },
+  {
+   "id": "taylor1804.apology.p0046",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "hither, it was impossible not to put me to death, telling you that if I escaped,",
+   "raw": "hither,  it  was  impoffible  not  to  put  mc  to  death,  telling  you  that  if  I  efcaped, ",
+   "pages": [
+    212
+   ],
+   "line": 10327
+  },
+  {
+   "id": "taylor1804.apology.p0047",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "all your sons studying what Socrates had taught them would be corrupted,)",
+   "raw": "all  your  fons  ftudying  what  Socrates  had  taught  them  would  be  corrupted,) ",
+   "pages": [
+    212
+   ],
+   "line": 10329
+  },
+  {
+   "id": "taylor1804.apology.p0048",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "if besides these tl]ings you should say to me, O Socrates, we now indeed",
+   "raw": "if  befides  thefe   tl]ings  you   fhould  fay  to   me,  O  Socrates,  we  now  indeed ",
+   "pages": [
+    212
+   ],
+   "line": 10331
+  },
+  {
+   "id": "taylor1804.apology.p0049",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "shall not be persuaded by Anytus, but we fhalP dismiss you, though on this condition, that afterwards you no longer busy yourself with this investigation, nor philofophiie, and if hereafter you are detected in so doing, you shall die, — if, as I said, you should dismiss me on these terms, I should thus address you: O Athenians, I honour and love you: but I obey Divinity rather than you; and as long as I breathe and am able, I shall not cease to philofophife, and to exhort and indicate to any one of you I may happen to meet, such things as the following, after my usual manner. Q best of men, since you are an Athenian, of a city the greatest: and the mod celebrated for wiliiom and strength, are you not ashamed of being attentive to the means of acquiring riches, glory and honour, in great abundance, but to bestow no care nor any consideration upon prudence and truth, nor how your soul may subsist in the most excellent conditiou? And if any one of you should contend with me, and say that these things are the objects of his care> I should not immediately dismiss him, nor depart, but I should interrogate, explore, and reason with him. And if he should not appear to me to possess virtue, and yet pretend to the possession of it, I should reprove him as one who but little esteems things of the greatest worthy but coiifidcrs things of a vile and abject nature as of great importance. In this manner I should act by any one I might happen to meet, whether younger or older, a stranger or a citizen; but rather to citizens, because ye are more allied to me. For be well assured that Divinity commands me thus to ad. And I think that a greater good never happened to you in the city, than this my obedience to the will of Divinity. For I go about doing nothing else than persuading both the younger and older among you, neither to pay attention to the body, nor to richer, nor any thing else prior to the soul r nor to be so much concerned for anything, as how the soul may subsist in the most excellent-condition. I also say that virtue is not produced from riches, but riches from virtue, as likewise all other human goods, both privately and publicly •. If, therefore, asserting these things, I corrupt the youth,, these things will be noxious; but if any one says that I assert other things than these,, he says nothing* In addition to this I shall say, O Athenians, that whether you are perfiiaded by Anytus or not, and whether you dismiss rae or nor, I fliaiti not ad otherwise, even though I should die ofteii^ Be not disturbed, O Athenians, but patiently hear what I shall request of you; for I think it will be advantageous for you to hear. For^I am about to mention certain other things to you, at which perhaps you will be clamorous; though let this on no account take place. Be well assured then, if you put xne to death, being such a man as I say I am, you will not injure me more than yourselves. For neither Melitus nor Anytus injures me; for neither can they. Indeed, I think it is not lawful for a better to be injured by a worse man. He may indeed perhaps condemn me to death, or exile, or disgrace; and he or some other may consider these as mighty evils. I however do not think so; but, in my opinion, it is much more an evil to ad as he now a<5ls, who endeavours to put a man to death unjustly. Now, therefore, O Athenians, it is far from my intention to defend myself, (es some one may think,) but I thus speak for your sake, left in condemning ine you should sin against the gift of Divinity, For, if you should put me to death, you will not easily find such another (though the comparison is ridiculous) whom Divinity has united to this city as to a great and generous horse, but sluggish through his magnitude, and requiring to be excited by a certain fly. In like manner Divinity appears to have united such a one as I am to the city, that I might not cease exciting, persuading and reproving each of you, and every where sitting among you through the whole day. Such another man, therefore, will not eafiiy arise among you. And if you will be persuaded by me, you will spare me Perhaps, however, you, being indignant, like those who are awakened from sleep, will repulse me, and, being persuaded by Anytus, will inconsiderately put me to death. Should this be the case, you will pass the rest of your time in deep, unless Divinity ftiould send some other person to take care of you. But that J am such a one as I have said, one imparted to this city by Divinity, you may understand from hence. For my conduct does not appear to be human, in neglecting every thing pertaining to myself and my private affairs for so many years, and always attending to your concerns, addreifing each of you separately, like a father, or an elder brother, and persuading you to the study of virtue. And if indeed I had obtained any emolument from this conduil, and receiving a recompense had exhorted you to these things, there might be some reason for asserting that I acted like other men; but now behold, even my ^ccufers themselves, who have so shamelessly calumniated me in every thing else, have not been so impudent as to charge me with this, or to bring witnesses to prove that I ever either demanded or folicited a reward. And that I speak the truth, my poverty I think affords a sufficient testimony.",
+   "raw": "fhall  not  be  perfuaded  by  Anytus,   but  we  fhalP  difmifs  you,  though  on  this \ncondition,  that  afterwards  you  no  longer  bufy  yourfelf  with  this  invefli- \ngation,  nor  philofophiie,  and  if  hereafter  you  are  detcded  in  fo  doing,  you \n(hall  die, — if,  as  I  faid,  you  (hould  difmifs  me  on  thefe  terms,  I  fhould  thus \naddrefs  you  :  O  Athenians,  I  honour  and  love  you  :  but  I  obey  Divinity \nrather  than  you  ;  and  as  long  as  I  breathe  and  am  able,  I  fhall  not  ceafe  to \nphilofophife,  and  to  exhort  and  indicate  to  any  one  of  you  I  may  happen  to \nmeet,  fuch  things  as  the  following,  after  my  ufual  manner.  Q  befl  of  men-, \nfince  you  are  an  Athenian,  of  a  city  the  grcatefl:  and  the  mod  celebrated  for \nwiliiom  and  ftrength,  are  you  not  afhamed  of  being  attentive  to  the  means \nof  acquiring  riches,  glory  and  honour,  in  great  abundance,  but  to  beftow  no \ncare  nor  any  confideration  upon  prudence  *  and  truth,  nor  how  your  foul \nmay  fubfift  in  the  moft  excellent  conditiou  ?  And  if  any  one  of  you \nfhould  contend  with  me,  and  fay  that  thefe  things  are  the  objects  of  his  care> \nI  fhould  not  immediately  difmifs  him,  nor  depart,  but  I  (hould  interrogate, \nexplore,  and  reafon  with  him.  And  if  he  fhould  not  appear  to  me  to  pofTcfs \nvirtue,  and  yet  pretend  to  the  pofTeflion  of  it,  I  (hould  reprove  him  as  one \nwho  but  little  efteems  things  of  the  greatefl  worthy  but  coiifidcrs  things  of \na  vile  and  abjed  nature  as  of  great  importance.  In  this  manner  I  fhould \na6l  by  any  one  I  might  happen-  to  meet,  whether  younger  or  older,  a  flranger \nor  a  citizen  ;  but  rather  to  citizens,  becaufe  ye  are  more  allied  to  me.  For \nbe  well  alTured  that  Divinity  commands  me  thus  to  ad.  And  I  think  that \na  greater  good  never  happened  to  you  in  the  city,  than  this  my  obedience \nto  the  will  of  Divinity.  For  I  go  about  doing  nothing- elfc  than  perfuading \nboth  the  younger  and  older  among  you,  neither  to  pay  attention  to  the \nbody,  nor  to  richer,  nor  any  thing  elfe  prior  to  the  foul  r  nor  to  be  fo  much \nconcerned  for  anything,  as  how  the  foul  may  fubfift  in  the  moft  excellent- \ncondition.  I  alfo  fay  that  virtue  is  not  produced  from  riches,  but  riches \nfrom  virtue,  as  likewife  all  other  human  goods,  both  privately  and  publicly •. \nIf,  therefore,  aflerting  thefe  things-,  I  corrupt  the  youth,,  thefe  things  will  be \nnoxious;  but  if  any  one  fays  that  I  affert  other  things  than  thefe,,  he  fays^ \nnothing*  In  addition  to  this  I  fhall  fay,  O  Athenians,  that  whether  you  are \nperfiiaded  by  Anytus  or  not,  and  whether  you  difmifs  rae  or  nor,  I  fliaiti \nnot  ad  otherwife,  even  though  I  fhould  die  ofteii^ \nBe  not  difturbed,  O  Athenians,  but  patiently  hear  what  I  (liall  requeft  of \nyou  ;  for  I  think  it  will  be  advantageous  for  you  to  hear.     For^I  am  about  to \nmention  certain  other  things  to  you,  at  which  perhaps  you  will  be  clamorous  ; \nthough  let  this  on  no  account  take  place.     Be  well  affured  then,   if  you  put \nxne  to  death,  being  fuch  a  man  as  I  fay  I  am,  you  will  not  injure  me  more \nthan  yourfelvcs.     For  neither  Melitus  nor  Anytus  injures  me;  for  neither \ncan  they.     Indeed,  I  think  it  is  not  lawful  for  a  better  to  be  injured  by  a \nworfe  man.     He  may  indeed  perhaps  condemn  me  to  death,  or  exile,  or \ndifgrace  ;  and  he  or  fome  other  may  confider  thefe  as  mighty  evils.     I  how- \never do  not  think  fo  ;  but,  in   my  opinion,  it   is  much   more  an  evil  to  ad \nas  he  now  a<5ls,   who  endeavours   to   put  a  man  to  death  unjuflly.     Now, \ntherefore,  O  Athenians,  it  is  far  from  my  intention  to  defend  myfelf,   (as \nfome  one  may  think,)  but  I  thus  fpeak  for  your  fake,  left  in  condemning \nine  you  fhould  (in  againft  the  gift  of  Divinity,     For,  if  you  fhould  put  me  to \ndeath,  you  will  not  eafily  find  fuch  another  (though  the  comparifon  is  ridi- \nculous)  whom  Divinity  has  united  to  this  city  as  to  a  great  and  generous \nhorfe,  but  fluggifh  through  his  magnitude,  and  requiring  to  be  excited  by  a \ncertain  fly.     In   like   manner  Divinity  appears  to  have  united  fuch  a  one  as \nI  am   to  the   city,    that  I  might  not  ceafe  exciting,  perfuading  and  reprov- \ning each  of  you,   and  every  where   fitting  among  you  through  the  whole \nday.     Such  another  man,  therefore,  will  not  eafiiy  arife  among  you.     And \nif  you  will  be  perfuaded  by  me,  you  will  fpare  me-     Perhaps,  however,  you, \nbeing  indignant,  like  thofe  who  are  awakened  from  (leep,  will  repulfe   me, \nand,    being   perfuaded   by  Anytus,    will   inconfiderately  put  me    to   death. \nShould  this  be  the  cafe,  you  will  pafs  the  reft  of  your  time  in  deep,  unlefs \nDivinity  ftiould  fend  fome  other  perfon  to  take  care  of  you.     But  that  J  am \nfuch   a   one  as  I  have  faid,   one  imparted  to  this  city  by  Divinity,  you  may \nunderftand  from   hence.      For  my  condu6l  does  not  appear  to  be  human,  in \nnegle6ling  every  thing  pertaining  to  myfelf  and  my  private  affairs  for  fo  many \nyears,  and  always  attending  to  your  concerns,  addreifing  each  of  you  feparately, \nlike  a  father,  or  an  elder  brother,  and  perfuading  you  to  the  ftudy  of  virtue. \nAnd  if  indeed  I  had  obtained  any  emolument  from  this  conduil,  and  receiv- \ning a  recompenfe  had  exhorted  you  to  thefe   things,  there  might  be  fome \nreafon  for  afterting  that  1  aded  like  other  men  ;  but  now  behold,  even  my \n^ccufers  themfelves,  who  have  fo  fhamelefsly  calumniated  me  in  every  thing \nelfe,  have  not  been  fo  impudent  as  to  charge  me  with  this,  or  to  bring \nwitnefles  to  prove  that  I  ever  either  demanded  or  folicited  a  reward.  And \nthat  I  fpeak  the  truth,  my  poverty  I  think  affords  a  fufficient  teftimony. ",
+   "pages": [
+    212,
+    213,
+    214,
+    215
+   ],
+   "line": 10333
+  },
+  {
+   "id": "taylor1804.apology.p0050",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps, therefore, it may appear absurd, that, going about and involving myself in a multiplicity of affairs, I should privately advise thele things, but that I should never dare to come to your convention,, and consult for the city. The cause of this is that which you have often heard me every where asserting, viz* because a certain divine and daemoniacal voice is present with me, which also Melitus in his accusation derided. This voice attended me from a child; and, when it is present, always diffuades me from what I intended to do, but never incites me. This it is which opposed my engao-inn ill poUtical affiiirs; and to me its opposition appears to be all-beautiful. For be well aflfured, O Athenians, if I had formerly attempted to transact: political affairs, I should have peri(hed long before this, and should neither have benefited you in any fefpedl, nor myself And be not indignant with me for speaking the truth. For it is not possible that any man can be safe, who sincerely opposes either you, or any other multitude, and who prevents many unjust and illegal actions from taking place in the city; but it is necessary that he who in reality contends for the just, if he wishes even but for a little time to be safe, should live privately, and not engage in public affairs.",
+   "raw": "Perhaps,  therefore,  it  may  appear  abfurd,  that,  going  about  and  involving \nmyfelf  in  a  multiplicity  of  affairs,  I  fhould  privately  advife  thele  things,  but \nthat  I  fhould  never  dare  to  come  to  your  convention,,  and  confult  for  the \ncity.  The  caufe  of  this  is  that  which  you  have  often  heard  me  every  where \nafTerting,  viz*  becaufe  a  certain  divine  and  daemoniacal  '  voice  is  prefent \nwith  me,  which  alfo  Melitus  in  his  accufation  derided.  This  voice  attended \nme  from  a  child;  and,  when  it  is  prefent,  always  diffuades  me  from  what \nI  intended  to  do,  but  never  incites  me.  This  it  is  which  oppofed  my  enga- \no-ino-  ill  poUtical  affiiirs  ;  and  to  me  its  oppofition  appears  to  be  all-beautiful. \nFor  be  well  aflfured,  O  Athenians,  if  I  had  formerly  attempted  to  tranfad: \npolitical  affairs,  I  fhould  have  peri(hed  long  before  this,  and  fhould  neither \nhave  benefited  you  in  any  fefpedl,  nor  myfelf^  And  be  not  indignant  with \nme  for  fpeaking  the  truth.  For  it  is  not  pofTible  that  any  man  can  be  fafe, \nwho  (incerely  oppofes  either  you,  or  any  other  multitude,  and  who  prevents \nmany  unjuft  and  illegal  adions  from  taking  place  in  the  city ;  but  it  is \nneceflary  that  he  who  in  reality  contends  for  the  jufl,  if  he  wifhes  even  but \nfor  a  little  time  to  be  fafe,  fhould  live  privately,  and  not  engage  in  public \naffairs. ",
+   "pages": [
+    215
+   ],
+   "line": 10425
+  },
+  {
+   "id": "taylor1804.apology.p0051",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "I will present you with mighty proofs of these things, not words, which you honour, but deeds. Hear then the circumff:ances which have happened to me, that you may know that I shall not yield to any one contrary to what is becoming, through dread of death; though at the same time by not yielding I shall perish. For I, O Athenians, never borcthc office of magif-^ trate in the city, but I have been a senator: and it happened that our Antiochean tribe governed, when you thought proper to condemn the ten generals collectively, for not taking up the bodies of those that perished in the naval battle '; and in so doing acted illegally, as afterwards appeared to all of you. At that time I alone of the Prytaneans opposed you, that you might not act contrary to the laws and my suffrage was contrary to yours. When the orators also were ready to point me out aud condemn me, and you likewifc were exhorting and vociferating to the same end, I thought that I ought rather to encounter danger with law and justice, than adhere to you, not establishing what is just, through fear of bonds or death. And •thefe things indeed happened while the city was yet a democracy; but when It became an oligarchy, the Thirty sent for me and four others to the Tholus ', and ordered us to bring Leon the Salaminian from Salamis, in order to be |)ut to death*; for by these orders they meant to involve many others in guilt. Then indeed I, not in words but in deeds, showed them, if the assertion is not too rustic, that I made no account of death; but that all my ^attention was directed to this, that I might do nothing unjust or unholy. For that dominion of the Thirty, though so strong, did not terrify me into the perpetration of any unjust action. But when we departed from the Tholus, the four indeed went to Salamis, and brought with them Leon; but I returned home. And perhaps for this I should have been put to death, if -that government had not been rapidly diflblved. These things many of you can testify.",
+   "raw": "I  will  prefent  you  with  mighty  proofs  of  thefe  things,  not  words,  which \nyou  honour,  but  deeds.  Hear  then  the  circumff:ances  which  have  happened \nto  me,  that  you  may  know  that  I  fhall  not  yield  to  any  one  contrary  to \nwhat  is  becoming,  through  dread  of  death  ;  though  at  the  fame  time  by  not \nyielding  I  fhall  perifh.  For  I,  O  Athenians,  never  borcthc  office  of  magif-^ \ntrate  *  in  the  city,  but  I  have  been  a  fenator :  and  it  happened  that  our \nAntiochean  tribe  governed,  when  you  thought  proper  to  condemn  the  ten \ngenerals  colle61ively,  for  not  taking  up  the  bodies  of  thofe  that  perifhed  in \nthe  naval  battle  ';  and  in  fo  doing  aded  illegally,  as  afterwards  appeared  to \nall  of  you.  At  that  time  I  alone  of  the  Prytaneans  oppofed  you,  that  you \nmight  not  adl  contrary  to  the  laws^  and  my  fuffragc  was  contrary  to  yours. \nWhen  the  orators  alfo  were  ready  to  point  me  out  aiid  condemn  me,  and \nyou  likewifc  were  exhorting  and  vociferating  to  the  fame  end,  I  thought \nthat  I  ought  rather  to  encounter  danger  with  law  and  juftice,  than  adhere \nto  you,  not  eftablifliing  what  is  juft,  through  fear  of  bonds  or  death.  And \n•thefe  things  indeed  happened  while  the  city  was  yet  a  democracy  ;  but  when \nIt  became  an  oligarchy,  the  Thirty  fent  for  me  and  four  others  to  the  Tholus  ', \nand  ordered  us  to  bring  Leon  the  Salaminian  from  Salamis,  in  order  to  be \n|)ut  to  death*;  for  by  thefe  orders  they  meant  to  involve  many  others  in \nguilt.  Then  indeed  I,  not  in  words  but  in  deeds,  (howed  them,  if  the  afTer- \ntion  is  not  too  ruftic,  that  I  made  no  account  of  death  ;  but  that  all  my \n^attention  was  directed  to  this,  that  I  might  do  nothing  unjuft  or  unholy. \nFor  that  dominion  of  the  Thirty,  though  fo  ftrong,  did  not  terrify  me  into  the \nperpetration  of  any  unjuft  adion.  But  when  we  departed  from  the  Tholus, \nthe  four  indeed  went  to  Salamis,  and  brought  with  them  Leon;  but  I \nreturned  home.  And  perhaps  for  this  I  fhould  have  been  put  to  death,  if \n-that  government  had  not  been  rapidly  diflblved.  Thefe  things  many  of  you \ncan  teftify. ",
+   "pages": [
+    215,
+    1
+   ],
+   "line": 10444
+  },
+  {
+   "id": "taylor1804.apology.p0052",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Do you think, therefore, that I could have lived for so many years, if I had engaged in public affairs, and had acted in a manner becoming a good man, giving afiiftance to justice, and doing this in the most eminent degree? Far otherwise, O Athenians: for neither could any other man. But I, through the whole of my life, if I do any thing publicly, shall appear to be such a man; and being the same privately, I shall never grant any thing to any one contrary to justice, neither to any other, nor to any one of these whom my calumniators say are my disciples. I however was never the preceptor of any one; but I never rcpuifed either the young or the old that were desirous of hearing me speak after my usual manner. Nor do I ilifcourfe when I receive money, but refrain from speaking when I do not receive any; but I similarly offer myself to be interrogated by the rich and the poor: and if any one is willing to answer, he hears what I have to say. Of",
+   "raw": "Do  you  think,  therefore,  that  I  could  have  lived  for  fo  many  years,  if  I \nhad  engaged  in  public  affairs,  and  had  aded  in  a  manner  becoming  a \ngood  man,  giving  afiiftance  to  juftice,  and  doing  this  in  the  moft  eminent \ndegree  ?  Far  otherwife,  O  Athenians  :  for  neither  could  any  other  man. \nBut  I,  through  the  whole  of  my  life,  if  I  do  any  thing  publicly,  fhall  appear \nto  be  fuch  a  man  ;  and  being  the  fame  privately,  I  fhall  never  grant  any \nthing  to  any  one  contrary  to  juftice,  neither  to  any  other,  nor  to  any  one  of \nthefe  whom  my  calumniators  fay  are  my  difciples.  I  however  was  never \nthe  preceptor  of  any  one  ;  but  I  never  rcpuifed  either  the  young  or  the  old \nthat  were  defirous  of  hearing  me  fpeak  after  my  ufual  manner.  Nor  do  I \nilifcourfe  when  I  receive  money,  but  refrain  from  fpcaking  when  I  do  not \nreceive  any  ;  but  I  fimilarly  offer  myfelf  to  be  interrogated  by  the  rich  and  the \npoor  :  and  if  any  one  is  willing  to  anfwcr,  he  hears  what  1  have  to  fay.     Of ",
+   "pages": [
+    1
+   ],
+   "line": 10487
+  },
+  {
+   "id": "taylor1804.apology.p0053",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "''The Tliolos was a kind of clerks ofEce, where the Prytanl Uincd, and the clerks sat. This happened in the fc.cond year of the 39th Olympiad. these too, whether any one becomes good or not, I cannot justly be said to be the cause, because I never cither promised or taught them any difciplioc. But if any one says that he has ever learnt or heard any thing from me privately which all others have not, be well assured that he does not speak the truth.",
+   "raw": "''The  Tliolos  was  a  kind  of  clerks  ofEce,  where  the  Prytanl  Uincd,  and  the  clerks  fat. \n^  This  happened  in  the  fc.cond  year  of  the  39th  Olympiad. \nthcfe  too,  whether  any  one  becomes  good  or  not,  I  cannot  juflly  be  faid  to \nbe  the  caufe,  becaufe  I  never  cither  promlfed  or  taught  them  any  difciplioc. \nBut  if  any  one  fays  that  he  has  ever  learnt  or  heard  any  thing  from  me \nprivately  which  all  others  have  not,  be  well  affurcd  that  he  does  not  fpeak \nthe  truth. ",
+   "pages": [
+    1,
+    2
+   ],
+   "line": 10501
+  },
+  {
+   "id": "taylor1804.apology.p0054",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Why therefore some have delighted to aflbciatc with me for a long time ye have heard, O Athenians. I have told you all the truth, that men are delighted on hearing those interrogated who think themselves to be wise, but who are not: for this is not unpleasant. But, as I say, I am ordered to do this by Divinity, by oracles, by dreams, and by every mode by which any other divine destiny ever commanded any thing to be done by man. These thuigs, O Athenians, are true, and might easily be confuted if they were not. For if, with refpe6i: to the youth, I corrupt some, and have corrupted others, it is fit, if any of them have become old, that, knowing I gave them bad advice when they were young, they should now rise up, accuse and take vengeance on me; but if they themselves are unwilling to do thi?, that their fathers, or brothers, or others of their kindred, should now call to mind and avenge the evil which their relatives fufFer^d from me. But in short many of them are here present, whom I see:— In the first place, Crito, who is of the same age and city that I am, and who is the father of this Critobulus: in the next place, Lysanias the Sphecian, the father of this ^fchines; and further ftiJJ, Antipho the Cephilian, the father of Epigenes. There are also others whose brothers are in this assembly, viz. Nicostratus the son of Zotidas, and the brother of Theodotus, And Theodotus indeed is dead, and so has no occasion for his brother's assistance. Paralus also is here, the son of Dentodochus, of whom Theages was the brother; likewise Adimantus the son of Aristo, the brother of whom is this Plato; and^antidorus, of whom Apollodorus is the brother. I could also mention many others, some one of whom Mclitus, efpccially in his oration, ought to have adduced as a witness. If however he then forgot to do so, let him aow produce him, for he has my consent; and if he has any thing of this kind to disclose, let him declare it. However, you will find the very contrary of this to be the case, and that all these are ready to assist me who have corrupted and injured their kindred, as Melitus and Anytus say. It might indeed perhaps be reasonable to suppose that those whom I have corrupted would assist me; but what VOL. IV. 2 F otlier other reason can the relatives ofthefe have, who are not corrupted, and who are now advanced in age, for giving me assistance, except that which is right and just? For they know that Melitus lies, and that I speak the truth. Be it so then, O \"Athenians: and these indeed, and perhaps other such-like particulars, are what I have to urge in my defence.",
+   "raw": "Why  therefore  fome  have  delighted  to  aflbciatc  with  me  for  a  long  time \nye  have  heard,  O  Athenians.     I  have   told  you  all  the  truth,  that  men  are \ndelighted  on  hearing  thofe  interrogated   who  think  themfelves  to  be  wife, \nbut  who  are  not :  for  this  is  not  unpleafant.     But,  as  I  fay,    I  am  ordered  to \ndo  this  by  Divinity,  by  oracles,  by  dreams,  and  by  every  mode  by  which  any \nother  divine  deftiny  ever  commanded  any  thing  to  be  done  by  man.     Thefe \nthuigs,  O  Athenians,  are  true,  and  might  eafily  be  confuted  if  they  were  not. \nFor  if,  with  refpe6i:  to  the  youth,  I  corrupt  fome,  and  have  corrupted  others, \nit  is  fit,  if  any  of  them  have  become  old,  that,  knowing  I  gave  them  bad  advice \nwhen  they  were  young,  they  (hould  now  rife  up,  accufe  and  take  vengeance \non  me  ;  but  if  they  themfelves  are  unwilling  to  do  thi?,  that  their  fathers,  or \nbrothers,  or  others  of  their  kindred,  fhould  now  call  to  mind  and  avenge  the \nevil  which  their  relatives  fufFer^d  from  me.     But  in  fhort  many  of  them \nare  here  prcfent,  whom  I  fee  :— In  the  firfl  place,  Crito,  who  is  of  the  fame  age \nand  city  that  I  am,  and  who  is  the  father  of  this  Critobulus :  in  the  next \nplace,  Lyfanias  the  Sphecian,  the  father  of  this  ^fchines  ;  and  further  ftiJJ, \nAntipho  the  Cephilian,   the  father  of  Epigenes.      There  are  alfo  others \nwhofe  brothers  are  in  this  aflembly,  viz.  Nicoftratus  the  fon  of  Zotidas,  and \nthe  brother  of  Thcodotus,     And  Theodotus  indeed  is  dead,  and  fo  has  no \noccafion  for  his  brother's  afTiftance.     Paralus  alfo  is  here,  the  fon  of  Dento- \ndochus,  of  whom  Theages  was  the  brother  ;  likewife  Adimantus  the  fon  of \nArifto,  the  brother  of  whom  is  this  Plato  ;  and^antidorus,  of  whom  Apol- \nlodorus  is  the  brother.     I  could  alfo  mention  many  others,   fome   one  of \nwhom   Mclitus,    efpccially   in  his    oration,   ought    to    have  adduced    as  a \nwitnefs.     If  however  he  then  forgot  to   do  fo,   let  him  aow  produce  him, \nfor  he  has  my  confcnt ;  and  if  he  has  any  thing  of  this  kind  to  difclofe,  let \nhim  declare  it.     However,  you  will  find  the  very  contrary  of  this  to  be  the \ncafe,  and  that  all  thefc  arc  ready  to  affift  me  who  have  corrupted  and  injured \ntheir  kindred,  as  Melitus  and  Anytus  fay.     It  might  indeed  perhaps  be  reafon- \nable  to  fuppofe  that  thofe  whom  I  have  corrupted  would  aflifl  me  ;  but  what \nVOL.  IV.  2  F  otlier \nother  reafon  can  the  relatives  ofthefe  have,  who  are  not  corrupted,  and  who \nare  now  advanced  in  age,  for  giving  me  afliftance,  except  that  which  is  right  and \njuft  ?  For  they  know  that  Melitus  lies,  and  that  I  fpeak  the  truth.  Be  it \nfo  then,  O  \"Athenians  :  and  thefe  indeed,  and  perhaps  other  fuch-like  par- \nticulars, are  what  I  have  to  urge  in  my  defence. ",
+   "pages": [
+    2,
+    218
+   ],
+   "line": 10515
+  },
+  {
+   "id": "taylor1804.apology.p0055",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps, however, some one among you will be indignant on recollecting that he, when engaged in a much less conteftthan this, fuppliantly implored the judges with many tears; that he also brought his children hither, that by these he might especially excite companion, together with many others of his relatives and friends: but I do none ofthefe things, though, as it may appear, I am brought to extreme danger. Perhaps, therefore, some one thus thinking may become more hostile towards me, and, being enraged with these very particulars, may give his vote with anger. If then any one of you is thus affected, I do not think it by any means right; but if he should be, I shall appear to myself to speak equitably to such a one by saying that I also, O best of men, have certain relatives. For, as Homer says, I am not sprung from an oak, nor from a rock, but from men. So that I also, O Athenians, have relations, and three sons; one now a lad; but the other two, boys: I have not however brought any one of them hither, that I might fiipplicate you on that account to acquit me. Why is it then that I do none of these things? It is not, O Athenians, because I am contumacious, nor is it in contempt of you. And as to my fearing or not fearing death, that is another queAion, But it does not appear to me to be consistent cither with my own glory or yours, or that of the whole city, that I should do any thing of this kind at my age, and with the reputation I have acquired, whether true or false. For it is admitted that Socrates surpasses in something the multitude of mankind. If, therefore, those among you who appear to excell either in wisdom, in fortitude, or any other virtue, should ad in such a manner as I have {een some when they have been judged, it would be shameful: for these, appearing indeed to be something, have condu6ied themselves in a wonderful manner, thinking they should suffer something dreadful by dying, as if they would be immortal if you did not put them to death. These men, as it appears to me, would so disgrace the city, that any Granger might apprehend that such of the Athenians as excell in virtue, and who are promoted to the magistracy and other honours in preference to the rest, do not in any ^refpe^l surpass women. For these things, O Athenians, ought not to be done by us who have gained some degree of reputation, nor should you suffer us to do them, if we were willing; but you should show that you will much sooner condemn him who introduces these lamentable dramas, and who thus makes the city ridiculous, than him who quietly expects your decision.",
+   "raw": "Perhaps,  however,  fome  one  among  you  will  be  indignant  on  recollecting \nthat  he,  when  engaged  in  a  much  lefs  conteftthan  this,  fuppliantly  implored \nthe  judges  with  many  tears  ;  that  he  alfo  brought  his  children  hither,  that \nby  thefe  he  might  efpecially  excite  companion,  together  with  many  others \nof  his  relatives  and  friends  :  but  I  do  none  ofthefe  things,  though,  as  it  may \nappear,  I  am  brought  to  extreme  danger.  Perhaps,  therefore,  fome  one \nthus  thinking  may  become  more  hoftile  towards  me,  and,  being  enraged \nwith  thefe  very  particulars,  may  give  his  vote  with  anger.  If  then  any  one \nof  you  is  thus  afFedled,  I  do  not  think  it  by  any  means  right ;  but  if  he \nfhould  be,  I  (hall  appear  to  myfelf  to  fpeak  equitably  to  fuch  a  one  by  fay- \ning that  I  alfo,  O  befl  of  men,  have  certain  relatives.  For,  as  Homer  fays, \nI  am  not  fprung  from  an  oak,  nor  from  a  rock,  but  from  men.  So  that  I \nalfo,  O  Athenians,  have  relations,  and  three  fons  ;  one  now  a  lad  ;  but  the \nother  two,  boys  :  I  have  not  however  brought  any  one  of  them  hither,  that  I \nmight  fiipplicate  you  on  that  account  to  acquit  me.  Why  is  it  then  that  I \ndo  none  of  thefe  things?  It  is  not,  O  Athenians,  becaufe  I  am  contu- \nmacious, nor  is  it  in  contempt  of  you.  And  as  to  my  fearing  or  not  fearing \ndeath,  that  is  another  queAion,  But  it  does  not  appear  to  me  to  be  con- \nfiftent  cither  with  my  own  glory  or  yours,  or  that  of  the  whole  city,  that \nI  fliould  do  any  thing  of  this  kind  at  my  age,  and  with  the  reputation  I  have \nacquired,  whether  true  or  falfe.  For  it  is  admitted  that  Socrates  furpaffes \nin  fomething  the  multitude  of  mankind.  If,  therefore,  thofe  among  you \nwho  appear  to  excell  either  in  wifdom,  in  fortitude,  or  any  other  virtue,  fhould \nad  in  fuch  a  manner  as  I  have  {een  fome  when  they  have  been  judged,  it \nwould  be  fhameful  :  for  thefe,  appearing  indeed  to  be  fomething,  have  con- \ndu6ied  themfelves  in  a  wonderful  manner,  thinking  they  fhould  fuffcr  fome- \nthing dreadful  by  dying,  as  if  they  would  be  immortal  if  you  did  not  put \nthem  to  death.  Thefe  men,  as  it  appears  to  me,  would  fo  difgrace  the  city, \nthat  any  Granger  might  apprehend  that  fuch  of  the  Athenians  as  excell \nin  virtue,  and  who  are  promoted  to  the  magiftracy  and  other  honours  in \npreference  to  the  reft,  do  not  in  any  ^refpe^l  furpafs  women.  For  thefe \nthings,  O  Athenians,  ought  not  to  be  done  by  us  who  have  gained  fome \ndegree  of  reputation,  nor  fhould  you  fuffer  us  to  do  them,  if  we  were  will- \ning ;  but  you  fhould  fhow  that  you  will  much  fooner  condemn  him  who \nintroduces  thefe  lamentable  dramas,  and  who  thus  makes  the  city  ridiculous, \nthan  him  who  quietly  expe6ls  your  decifion. ",
+   "pages": [
+    218,
+    219
+   ],
+   "line": 10556
+  },
+  {
+   "id": "taylor1804.apology.p0056",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "But exclusive of glory, O Athenians, neither does it appear to me to be just for a judge to be entreated, or to acquit any one in consequence of being supplicated; but in my opinion he ought to teach and persuade. For a judge does not fit for the purpose of showing favour, but that he may judge what is just: and he takes an oath that he will not show favour to any, but that he will judge according to the laws. Hence it is neither fit that we should accustom you, nor that you should be accustomed to swear: for in {o doing neither of us will act piously. Do not, therefore, think, O Athenians, that I ought to act in such a manner towards you as 1 should neither conceive to be beautiful, nor just, nor holy; and especially, by Jupiter, since I am accused of impiety by this Melitus. For it clearly follows, that if I ^ould persuade you, and, though you have taken an oath, force you to be favourable, I might then indeed teach that you do not think there are Gods; and in reality, while making my defence, I should accuse myself as not 'believing in the Gods. This however is far from being the case: /or I believe that there are Gods more than any one of my accusers; and I refer it ■to you and to Divinity to judge concerning me such things as will be best both for me and you '.",
+   "raw": "But  exclufive  of  glory,  O  Athenians,  neither  does  it  appear  to  me  to  be \njuft  for  a  judge  to  be  entreated,  or  to  acquit  any  one  in  confequence  of  being \nfupplicated ;  but  in  my  opinion  he  ought  to  teach  and  perfuade.  For  a \njudge  does  not  fit  for  the  purpofe  of  fhowing  favour,  but  that  he  may  judge \nwhat  is  juft:  and  he  takes  an  oath  that  he  will  not  fhow  favour  to  any,  but \nthat  he  will  judge  according  to  the  laws.  Hence  it  is  neither  fit  that  we \nfhould  accuftom  you,  nor  that  you  fhould  be  accuftomed  to  fwear :  for  in  {o \ndoing  neither  of  us  will  a6l  pioufly.  Do  not,  therefore,  think,  O  Athenians, \nthat  1  ought  to  a6t  in  fuch  a  manner  towards  you  as  1  (hould  neither  con- \nceive to  be  beautiful,  nor  juft,  nor  holy ;  and  efpecially,  by  Jupiter,  fince  I \nam  accufed  of  impiety  by  this  Melitus.  For  it  clearly  follows,  that  if  I \n^ould  perfuade  you,  and,  though  you  have  taken  an  oath,  force  you  to  be \nfavourable,  I  might  then  indeed  teach  that  you  do  not  think  there  are  Gods  ; \nand  in  reality,  while  making  my  defence,  I  fhould  accufe  myfelf  as  not \n'believing  in  the  Gods.  This  however  is  far  from  being  the  cafe :  /or  I \nbelieve  that  there  are  Gods  more  than  any  one  of  my  accufers ;  and  I  refer  it \n■to  you  and  to  Divinity  to  judge  concerning  me  fuch  things  as  will  be  befl \nboth  for  me  and  you  '. ",
+   "pages": [
+    219
+   ],
+   "line": 10598
+  },
+  {
+   "id": "taylor1804.apology.p0057",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "That I should not, therefore, O Athenians, be itidignant with you because you have condemned me, there are many reasons, and among others this, that it has not happened to me contrary to my expedation; but I much •rather wonder that there should have been so great a number of votes on both sides. For I did not think that I should have wanted such a few additional votes for my acquittal. But now, as it seems, if there had been only three more votes, I should have escaped condemnation. Indeed, as it appears to me, I now have escaped Melitus; and I have not only escaped him, but it is perfcdly evident that unless Anytus and Lyco had lifcn to accuse me, he had lost his thousand drachmas, fmce he had not the fifth part of the votes on his side.",
+   "raw": "That  1  fhould  not,  therefore,  O  Athenians,  be  itidignant  with  you  becaufe \nyou  have  condemned  mc,  there  are  many  rcafons,  and  among  others  this, \nthat  it  has  not  happened  to  me  contrary  to  my  expedation  ;  but  I  much \n•rather  wonder  that  there  fhould  have  been  fo  great  a  number  of  votes  on \nboth  fides.  For  I  did  not  think  that  I  fhould  have  wanted  fuch  a  few \nadditional  votes  for  my  acquittal.  But  now,  as  it  feems,  if  there  had  been \nonly  three  more  votes,  I  fhould  have  cfcaped  condemnation.     Indeed,  as  it \nappears  to  me,  I  now  have  efcaped  Melitus ;  and  I  have  not  only  efcaped \nhim,  but  it  is  perfcdly  evident  that  unlefs  Anytus  and  Lyco  had  lifcn  to \naccufe  me,  he  had  loft  his  thoufand  *  drachmas,  fmce  he  had  not  the  fifth  part \nof  the  votes  on  his  fide. ",
+   "pages": [
+    219,
+    220
+   ],
+   "line": 10617
+  },
+  {
+   "id": "taylor1804.apology.p0058",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Melitus then thinks that I deserve death. Be it so. But what punifhment*, O Athenians, shall I assign to myself? Is it not evident that it will be such a one as I deserve? What then do I deserve to suffer or to pay, for not having during my life concealed what I have learned, but neglected all that the multitude esteem, riches, domestic concerns, military command, authority in public assemblies, and other magistracies? for having avoided the conspiracies and seditions which have happened in the city, thinking that I was in reality a more worthy character than to depend on these things for my safety? I have not, therefore, applied myself to those pursuits, by which I could neither benefit you nor myself; but my whole endeavour has been to benefit every individual in the greatest degree; st riving to persuade each of you, that he ftiould pay no attention to any of his concerns, prior to that care of himself by which he may become a most worthy and wise man; that he ftiould not attend to the affairs of the city prior to the city itself; and that attention should be paid to other things in a similar manner. What then, being such a man, do I deserve to suffer? A certain good, O Athenians, if in reality you honour me according to my defeit; and this such a good as it is proper for me to receive. What then is the good which is adapted to a poor man who is a benefactor, and who requires leisure that he may exhort you to virtue? There is not any thing •more adapted, O Athenians, than that such a man ftjould be supported at the public expense in the Prytaneum; and this much more than if some one of you had been victorious in the Olympic games with horses, or in the two or four-yoked car. For such a one makes you ajijiear to be happy, but I cause you to be so: and he is not in want of support, but I am. If, therefore, it is necessary that I Should be honoured according to what is justly my desert, I should be honoured with this support in the Prytaneum.",
+   "raw": "Melitus  then  thinks  that  I  deferve  death.  Be  it  fo.  But  what  punifh- \nment*,  O  Athenians,  (hall  I  aflign  to  myfelf?  Is  it  not  evident  that  it  will \nbe  fuch  a  one  as  I  deferve  ?  What  then  do  I  deferve  to  fuffer  or  to  pay,  for \nnot  having  during  my  life  concealed  what  I  have  learned,  but  neglected  all \nthat  the  multitude  efteem,  riches,  domeftic  concerns,  military  command, \nauthority  in  public  affemblies,  and  other  magiftracies  ?  for  having  avoided \nthe  confpiracies  and  feditions  which  have  happened  in  the  city,  thinking \nthat  I  was  in  reality  a  more  worthy  charadler  than  to  depend  on  thefe \nthings  for  my  fafety  ?  I  have  not,  therefore,  applied  myfelf  to  thofe  purfuits, \nby  which  I  could  neither  benefit  you  nor  myfelf;  but  my  whole  endeavour \nhas  been  to  benefit  every  individual  in  the  greateft  degree;  ft  riving  to  per- \nfuade  each  of  you,  that  he  ftiould  pay  no  attention  to  any  of  his  concerns, \nprior  to  that  care  of  himfelf  by  which  he  may  become  a  moft  worthy  and \nwife  man  ;  that  he  ftiould  not  attend  to  the  affairs  of  the  city  prior  to  the \ncity  itfelf ;  and  that  attention  fhould  be  paid  to  other  things  in  a  fimilar \nmanner.  What  then,  being  fuch  a  man,  do  I  deferve  to  fufFcr  ?  A  cer- \ntain good,  O  Athenians,  if  in  reality  you  honour  me  according  to  my  de- \nfeit ;  and  this  fuch  a  good  as  it  is  proper  for  me  to  receive.  What  then \nis  the  good  which  is  adapted  to  a  poor  man  who  is  a  benefa6lor,  and  who \nrequires  leifure  that  he  may  exhort  you  to  virtue  ?  There  is  not  any  thing \n•more  adapted,  O  Athenians,  than  that  fuch  a  man  ftjould  be  fupported  at \nthe  public  cxpenfe  in  the  Prytaneum ;  and  this  much  more  than  if  fomc \none  of  you  had  been  vi6torious  in  the  Olympic  games  with  horfes,  or  in  the \ntwo  or  four-yoked  car.  For  fuch  a  one  makes  you  ajijiear  to  be  happy, \nbut  I  caufe  you  to  be  fo  :  and  he  is  not  in  want  of  fupport,  but  I  am.  If, \ntherefore,  it  is  ncceflary  that  I  Ihould  be  honoured  according  to  what  is \njuftly  my  defert,  I  (hould  be  honoured  with  this  fupport  in  the  Prytaneum. ",
+   "pages": [
+    220,
+    221
+   ],
+   "line": 10639
+  },
+  {
+   "id": "taylor1804.apology.p0059",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps, therefore, in saying these things, I shall appear to you to speak in the same manner as when I reprobated lamentations and supplications. A thing of this kind, however, O Athenians, is not the case, but rather the following. I am determined not to injure any man willingly; though I shall not persuade you of this, because the time in which we can discourse with each other is but short. For if there was the same law with you as with others, that in cases of death the judicial process should not continue for one day only but for many, I think I should be able to persuade you. But now it is not easy in a short time to dissolve great calumnies. Being however determined to injure no one, I shall be very far from injuring myself, and of pronouncing against myself that I am worthy of evil and punishment. What then? Fearing lest I should suffer that which Melitus thinks I deserve, which I say I know not whether it is good or evil, that I may avoid this, shall I choose that which I well know to be evil, and think that I deserve this? Whether then shall I choose bonds? But why is it necessary that I should live in prison, in perpetual subjection to the eleven magistrates? Shall I pay a fine then, and remain in bonds till it is discharged? But this is what I just now said: for I have not money to pay it. Shall I then choose exile? For perhaps I Oiall be thought worthy of this. I should however, O Athenians, be a great lover of life, if I were so absurd as not to be able to infer that if you, being my fellow citizens, could not endure my habits and difcourfcs, which have become to you so burthenfome and odious, that you now seek to be liberated from them, it is not likely that others would easily bear them. It is far othervi^ife, O Athenians. My life would be beau-» tiful indeed were I at this advanced age to live in exile, ehangiiig and being driven from one city to another. For I well know that, wherever I may go,. the youth will hear me when I discourse, in the same manner as they do here. And if I should repell them, they alio would expell me, persuading the more elderly to this cffc6l. But if I should not repell them, the fathers and kindred of these would banish me on account of these very young men themlelvcs.",
+   "raw": "Perhaps,  therefore,  in  faying  thefe  things,  I  (hall  appear  to  you  to  fpeak \nin  the  fame  manner  as  when  I  reprobated  lamentations  and  fupplications. \nA  thing  of  this  kind,  however,  O  Athenians,  is  not  the  cafe,  but  rather  the \nfollowing.  I  am  determined  not  to  injure  any  man  willingly  ;  though  I \nfhall  not  perfuade  you  of  this,  becaufe  the  time  in  which  we  can  difcourfe \nwith  each  other  is  but  fhort.  For  if  there  was  the  fame  law  with  you  as \nwith  others,  that  in  cafes  of  death  the  judicial  procefs  (hould  not  continue \nfor  one  day  only  but  for  many,  I  think  I  fhould  be  able  to  perfuade  you. \nBut  now  it  is  not  eafy  in  a  fhort  time  to  diffolve  great  calumnies.  Being \nhowever  determined  to  injure  no  one,  I  (hall  be  very  far  from  injuring  my- \nfclf,  and  of  pronouncing  againft  myfclf  that  I  am  worthy  of  evil  and  punish- \nment. What  then  ?  Fearing  left  I  fhould  fuffer  that  which  Melitus  thinks \nI  deferve,  which  I  fay  I  know  not  whether  it  is  good  or  evil,  that  I  may \navoid  this,  fhall  I  choofe  that  which  I  well  know  to  be  evil,  and  think  that \nI  deferve  this  ?  Whether  then  fhall  I  choofe  bonds  ?  But  why  is  it  neceffary \nthat  I  fhould  live  in  prifon,  in  perpetual  fubjedion  to  the  eleven  magiftrates  ? \nShall  I  pay  a  fine  then,  and  remain  in  bonds  till  it  is  difcharged  ?  But  this \nis  what  I  jufl  now  faid  :  for  I  have  not  money  to  pay  it.  Shall  1  then \nchoofe  exile  ?  For  perhaps  I  Oiall  be  thought  worthy  of  this.  I  fhould  how- \never, O  Athenians,  be  a  great  lover  of  life,  if  I  were  fo  abfurd  as  not  to  be \nable  to  infer  that  if  yon,  being  my  fellow  citizens,  could  not  endure  my  habits \nand  difcourfcs,  which  have  become  to  you  fo  burthenfome  and  odious,  that \nyou  now  feek  to  be  liberated  from  them,  it  is  not  likely  that  others  would \neafily  bear  them.  It  is  far  othervi^ife,  O  Athenians.  My  life  would  be  beau-» \ntiful  indeed  were  I  at  this  advanced  age  to  live  in  exile,  ehangiiig  and  being \ndriven  from  one  city  to  another.  For  I  well  know  that,  wherever  1  may  go,. \nthe  youth  will  hear  me  when  I  difcourfe,  in  the  fame  manner  as  they  do \nhere.  And  if  I  fhould  repell  them,  they  alio  would  expell  me,  perfuading \nthe  more  elderly  to  this  cffc6l.     But  if  I  fhould  not  repell  them,  the  fathers \nand  kindred  of  thcfe  would  banifh  me  on  account  of  thefe  very  young  men \nthemlelvcs. ",
+   "pages": [
+    221,
+    222
+   ],
+   "line": 10681
+  },
+  {
+   "id": "taylor1804.apology.p0060",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps how ever some one will say, Can you not, Socrates, live in exile silently and quietly? But it is the most difficult of all things to persuade some among you, that this cannot take place. For if I say that in so doing I should difobcy Divinity, and that on this account it is impoffiblc for me to live a life of leisure and quiet, you would not believe me, in consequence of fuppofuig that I spoke ironically. And if, again, I should say that this is the greatest good to man, to discourse every day concerning virtue, and other things which you have heard me discussing, exploring both myself and others; and if I should also assert that an uninveftigating life is to be rejected by man, much less, were I thus to speak, would you believe me. These things however, O Athenians, are as I say; but it is not easy to persuade you that they are so. And at the same time I am not accustomed to think myself deserving of any ill. Indeed, if I were rich, I would amerce myself in such a sum as I might be able to pay; but now I am not in a condition to do this, unless you would allow the dn^ to be proportioned to what I am able to pay. For thus perhaps I might be able to pay a mina of silver (3I.). But Plato here, O Athenians, Crito, Critobulus, and Apollodorus, exhort me to pay thirty minas, (90I.) for which they will be anfwerable. I amerce myself, therefore, in thirty minae; and these will be my securities for the payment.",
+   "raw": "Perhaps  how  ever  fome  one  will  fay,  Can  you  not,  Socrates,  live  in  exile \nfilently  and  quietly  ?  But  it  is  the  mofl  difficult  of  all  things  to  perfuade \nfome  among  you,  that  this  cannot  take  place.  For  if  I  fay  that  in  fo  doing \n1  fliould  difobcy  Divinity,  and  that  on  this  account  it  is  impoffiblc  for  me  to \nlive  a  life  of  leifure  and  quiet,  you  would  not  believe  me,  in  confequence  of \nfuppofuig  that  I  fpoke  ironically.  And  if,  again,  I  (hould  fay  that  this  is \nthe  greateft  good  to  man,  to  difcourfe  every  day  concerning  virtue,  and \nother  things  which  you  have  heard  me  difcufling,  exploring  both  myfelf  and \nothers ;  and  if  I  fhould  alfo  affert  that  an  uninveftigating  life  is  to  be  re- \njeded  by  man,  much  lefs,  were  I  thus  to  fpeak,  would  you  believe  me. \nThefe  things  however,  O  Athenians,  are  as  I  fay  ;  but  it  is  not  eafv  to \nperfuade  you  that  they  are  fo.  And  at  the  fame  time  I  am  not  accuftomed \nto  think  myfelf  deferving  of  any  ill.  Indeed,  if  I  were  rich,  I  would  amerce \nmyfelf  in  fuch  a  fum  as  I  might  be  able  to  pay  ;  but  now  I  am  not  in  a \ncondition  to  do  this,  unlefs  you  would  allow  the  dn^  to  be  proportioned  to \nwhat  I  am  able  to  pay.  For  thus  perhaps  I  might  be  able  to  pay  a  mina  of \nfilver  (3I.).  But  Plato  here,  O  Athenians,  Crito,  Critobulus,  and  Apollo- \ndorus,  exhort  me  to  pay  thirty  minas,  (90I.)  for  which  they  will  be  anfwer- \nable.  I  amerce  myfelf,  therefore,  in  thirty  minae ;  and  thefe  will  be  my \nfecurities  for  the  payment^. ",
+   "pages": [
+    222
+   ],
+   "line": 10719
+  },
+  {
+   "id": "taylor1804.apology.p0061",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Now, O Athenians, your impatience and precipitancy will draw upon you a great reproach, and give occasion to those who are so disposed, to revile the city for having put that wise man Socrates to death. For those who are willing to reproach you will call me a wise man, though I am not. If, therefore, you had waited but for a short time, this very thing, my death, would have happened to you spontaneously. For behold my age, that it is far advanced in life, and is near to death. But I do not say this to all of you, but to those only who have condemned me to die. This also I say to them: Perhaps you think, O Athenians, that I was condemned through the want of such language, by which I might have persuaded you, if I had thought it requisite, to say and do any thing, so that I might escape punishment. Far otherwise: for I am condemned through want indeed, yet not of words, hut of audacity and impudence, and because I was unwilling to say such things to you as you would have been much gratified in hearing, I at the same time weeping and lamenting, and doing and saying many other things unworthy of me, as I say, but such as you are accustomed to hear and see in others. But neither then did I think it was necessary, for the sake of avoiding danger, to do any thing illiberal, nor do I now repent that I have thus defended myself; but I should much rather choose to die, after having made this apology, than to live after that manner. For neither in a judicial process, nor in battle, is it proper that I or any other (liould devise how he may by any means avoid death; fmce in battle it is frequently evident that a man might easily avoid death by throwing away his arms, and fuppliantly converting himself to his pursuers. There are also many other devices in other dangers, by which he who dares to do and say any thing may escape death. To fly from death however, O Athenians, is not difficult, but it is much more diflicult to fly from depravity; for it runs fv/ifrer than death. And now I indeed, as being flow and old, am caught by the flower; but my accusers, as being Ikilful and swift, are caught by the swifter of these two, improbity. Now too, I indeed depart, condemned by you to death; but they being condemned by truth, depart to depravity and injustice. And I acquiesce in this dccifion, and they also. Perhaps, therefore, it is necessary that these things should fubilfl: in this manner, and I think they subsist: properly.",
+   "raw": "Now,  O  Athenians,  your  impatience  and  precipitancy  will  draw  upon \nyou  a  great  reproach,  and  give  occafion  to  thofe  who  arc  fo  difpofed,  to \nrevile  the  city  for  having  put  that  wife  man  Socrates  to  death.  For  thofc \nwho  are  willing  to  reproach  you  will  call  me  a  wife  man,  though  I  am  not. \nIf,  therefore,  you  had  waited  but  for  a  fhort  time,  this  very  thing,  my  death, \nwould  have  happened  to  you  fpontaneoufly.  For  behold  my  age,  that  it  is  far \nadvanced  in  life,  and  is  near  to  death.  But  I  do  not  fay  this  to  all  of  you, \nbut  to  thofe  only  who  have  condemned  me  to  die.     This  alfo  I  fay  to  them: \nPerhaps  you  think,  O  Athenians,  that  I  was  condemned  through  the  want \nof  fuch  language,  by  which  I  might  have  perfuaded  you,  if  I  had  thought  it \nrequifite,  to  fay  and  do  any  thing,  fo  that  I  might  efcape  punifhment.  Far \notherwife  :  for  I  am  condemned  through  want  indeed,  yet  not  of  words,  hut \nof  audacity  and  impudence,  and  becaufe  I  was  unwilling  to  fay  fuch  things \nto  you  as  you  would  have  been  much  gratified  in  hearing,  I  at  the  fame \ntime  weeping  and  lamenting,  and  doing  and  faying  many  other  things \nunworthy  of  me,  as  I  fay,  but  fuch  as  you  are  accuftomed  to  hear  and  fee \nin  others.  But  neither  then  did  I  think  it  was  neceflary,  for  the  fake  of \navoiding  danger,  to  do  any  thing  illiberal,  nor  do  I  now  repent  that  I  have \nthus  defended  myfelf ;  but  I  fliould  much  rather  choofe  to  die,  after  having \nmade  this  apology,  than  to  live  after  that  manner.  For  neither  in  a  judi- \ncial procefs,  nor  in  battle,  is  it  proper  that  I  or  any  other  (liould  devife  how \nhe  may  by  any  means  avoid  death  ;  fmce  in  battle  it  is  frequently  evident \nthat  a  man  might  eafily  avoid  death  by  throwing  away  his  arms,  and  fup- \npliantly  converting  himfclf  to  his  purfuers.  There  are  alfo  many  other \ndevices  in  other  dangers,  by  which  he  who  dares  to  do  and  fay  any  thing  may \nefcape  death.  To  fly  from  death  however,  O  Athenians,  is  not  difficult,  but \nit  is  much  more  diflicult  to  fly  from  depravity  ;  for  it  runs  fv/ifrer  than  death. \nAnd  now  I  indeed,  as  being  flow  and  old,  am  caught  by  the  flower  ;  but  my \naccufers,  as  being  Ikilful  and  fwift,  are  caught  by  the  fwifter  of  thefe  two, \nimprobity.  Now  too,  1  indeed  depart,  condemned  by  you  to  death;  but  they \nbeing  condemned  by  truth,  depart  to  depravity  and  injuftice.  And  I  acquiefce \nin  this  dccifion,  and  they  alfo.  Perhaps,  therefore,  it  is  neceffary  that  thefe \nthings  fhould  fubilfl:  in  this  manner,  and  I  think  they  fubfifl:  properly. ",
+   "pages": [
+    222,
+    223
+   ],
+   "line": 10740
+  },
+  {
+   "id": "taylor1804.apology.p0062",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "In the next place, I desire to predict to you who have condemned me, what will be your fate. For I am now in that situation in which men especially prophesy ', viz. when they are about to die. For I say, that you, my murderers, will immediately after my death be punished *, by dying in a manner, by Jupiter, much more {tvere than I shall. For now you have done this, thinking you should be liberated from the necessity of giving an account of your life. The very contrary however, as I say, will happen to you: for many will be your accusers, whom I have restrained, though you did not perceive it. These too will be more troublesome, because they are younger, and will be more indignant against you. For, if you think, that by putting men to death you will restrain others from upbraiding you that you do not live well, you are much mistaken; since this mode of liberation is neither sufficiently efficacious nor becoming. But this is the most beautiful and the most easy mode, not to disturb others, but to ad in such a manner that you may be most: excellent characters. And thus much I prophesy to those of you who condemned me.",
+   "raw": "In  the  next  place,  I  dcfire  to  predid  to  you  who  have  condemned  me, \nwhat  will  be  your  fate.  For  I  am  now  in  that  fituation  in  which  men \nefpecially  prophefv ',  viz.  when  they  are  about  to  die.  For  I  fay,  that  you, \nmy  murderers,    will  immediately  after  my  death  be  punifhed  *,  by  dying  in  a \nmanner,  by  Jupiter,  much  more  {tvere  than  I  fhall.  For  now  you  have \ndone  this,  thinking  you  (hould  be  liberated  from  the  neceflity  of  giving \nan  account  of  your  life.  The  very  contrary  however,  as  I  fay,  will  happen \nto  you  :  for  many  will  be  your  accufers,  whom  I  have  reftrained,  though \nyou  did  not  perceive  it.  Thefe  too  will  be  more  troublefome,  becaufe  they \narc  younger,  and  will  be  more  indignant  againft  you.  For,  if  you  think, \nthat  by  putting  men  to  death  you  will  reftrain  others  from  upbraiding  you \nthat  you  do  not  live  well,  you  are  much  miflaken  ;  fince  this  mode  of \nliberation  is  neither  fufficiently  efficacious  nor  becoming.  But  this  is  the \nmoft  beautiful  and  the  moft  eafy  mode,  not  to  difturb  others,  but  to  ad  in \nfuch  a  manner  that  you  may  be  mofl:  excellent  characlers.  And  thus  much \nI  prophefy  to  thofe  of  you  who  condemned  me. ",
+   "pages": [
+    223,
+    24
+   ],
+   "line": 10784
+  },
+  {
+   "id": "taylor1804.apology.p0063",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "But to you who have acquitted me by your^decifion, I would willingly speak concerning this affair during the time that the magidratcs are at leisure, and before I am brought to the place where it is necessary I should die. Atten,d to me, therefore, O Athenians, during that time. For nothing hinders our conversing with each other, as long as we are permitted so to do; fmce I wish to demonstrate to you, as friends, the meaning of that which has just now happened to me. To me then, O my judges, sand in calling you judges I rightly denominate you,) a certain wonderful circumstance has happened. For the prophetic voice of the d«mon, which opposed me in the most: trifling affairs, if I was about to a<fl in any thing improperly, prior to this I was continually accustomed to hear; but now, though these things have happened tome which you see, and which some one would think to be the extremity of evils, yet neither when I departed from home in the morning was the signal of the God adverse to me, nor when I ascended hither to the place of judgment, nor when I was about to speak, — though at other times it frequently restrained me in the midst of speaking. But now, in this affair, it has never been adverse to me, either in word or deed. I will now, therefore, tell you what I apprehend to be the cause of this. For this thing which has happened appears to me to be good; nor do those of us apprehend rightly who think death to be an evil; of which this appears to me to be a great argument, that the accustomed fignul would have opposed me, unless I had been about to do something good.",
+   "raw": "But  to  you  who  have  acquitted  me  by  your^decifion,  I  would  willingly \nfpeak  concerning  this  affair  during  the  time  that  the  magidratcs  are  at  lei- \nfure,  and  before  I  am  brought  to  the  place  where  it  is  neceflary  1  fhould  die. \nAtten,d  to  me,  therefore,  O  Athenians,  during  that  time.  For  nothing \nhinders  our  converfing  with  each  other,  as  long  as  we  are  permitted  fo  to \ndo ;  fmce  I  wifh  to  demonftrate  to  you,  as  friends,  the  meaning  of  that \nwhich  has  juft  now  happened  to  me.  To  me  then,  O  my  judges,  (and  in \ncalling  you  judges  I  rightly  denominate  you,)  a  certain  wonderful  circum- \nftance  has  happened.  For  the  prophetic  voice  of  the  d«mon,  which  oppofcd \nme  in  the  mofl:  trifling  affairs,  if  I  was  about  to  a<fl  in  any  thing  improperly, \nprior  to  this^  I  was  continually  accuftomed  to  hear ;  but  now,  though  thefe \nthings  have  happened  tome  which  you  fee,  and  which  fome  one  would  think \nto  be  the  extremity  of  evils,  yet  neither  when  I  departed  from  home  in  the \nmorning  was  the  fignal  of  the  God  adverfc  to  me,  nor  when  I  afcended \nhither  to  the  place  of  judgment,  nor  when  I  was  about  to  fpeak, — though  at \nother  times  it  frequently  reflrained  me  in  the  midft  of  fpeaking.  But \nnow,  in  this  affair,  it  has  never  been  adverfe  to  me,  either  in  word  or \ndeed.  I  will  now,  therefore,  tell  you  what  I  apprehend  to  be  the  caufe  of \nthis.  For  this  thing  which  has  happened  appears  to  me  to  be  good  ;  nor  do \nthofe  of  us  apprehend  rightly  who  think  death  to  be  an  evil ;  of  which  this \nappears  to  me  to  be  a  great  argument,  that  the  accuftomed  fignul  would \nhave  oppofcd  me,  unlcfs  I  had  been  about  to  do  fomething  good. ",
+   "pages": [
+    24
+   ],
+   "line": 10816
+  },
+  {
+   "id": "taylor1804.apology.p0064",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "After this manner too we may conceive that there is abundant hope that death is good. For to die is one of two things. For it is either to be as it were nothing \\ and to be deprived of all sensation; or, as it is said, it t$ a certain mutation and migration of the soul from this to another place. And whether no fenCition remains, but death is like Deep when unattended with any dreams, in tliis case death will he a gain. For, if any one compares such a night as this, in which he so profoundly (Iceps as not even to see a dream, with the other nights and days of his life, and should declare how many he had passed better and more p^eafantly than this night, I think that not only a private man, but even the great kinghimfelf, would find so small a number that they might be easily counted. If, therefore, death is a thing of this kind, I say it is a gain: for thus the whole of future time appears to be nothing more than one night. But if again death is a migration from hence to another place, and the affcrtion is true that all the dead are there, what greater good, O my judges, can there be than this? For if some one arriving at Hades, being liberated from thele who pretend to be judges, should find those who are true judges, and who are {aid to judge there, viz. Minos and Rhadamanthus, T^acus and Triptolemus, and such others of the demigods as lived justly, would this be a vile journey? At what rate would you not purchase a conference with Orpheus and Mufeus, with Hesiod-a«d Homer? I indeed should be willing to die Often, if these things are true. For to me the aflbciation will be admirable, when 1 shall xnect with Tialamedes, and Ajax the son of Telamon, and aiiy other of the anticnts who died through an unjust decision. The comparing 'my case with theirs will, I think, be no unpleasing employment to me. But the greatest plcafqre wijl conlift in passing my time there, as I have done here, in interrogating and exploring who among them is wise, and who fancies himfdf to be but is not so. What, O my judges, would not any one give for a conference with him who led that mighty army against Troy, or with Ulysses, or Sisyphus, or ten thousand others, both men and women, that might be mentioned? For to converse aud associate with these would be an inestimable felicity. For I should not be capitally condemned on this account by those that dwell there; since they are in other respects more happy than those that live here, and are for the rest of time immortal, if the assertions respecting these things are true.",
+   "raw": "After  this  manner  too  we  may  conceive  that  there  is  abundant  hope  that \ndeath  is  good.  For  to  die  is  one  of  two  things.  For  it  is  either  to  be  as  it \nwere  nothing  \\  and  to  be  deprived  of  all  fenfation  ;  or,  as  it  is  faid,  it  t$ \na  certain  mutation  and  migration  of  the  foul  from  this  to  another  place. \nAnd  whether  no  fenCition  remains,  but  death  is  like  Deep  when  unattended \nwith  any  dreams,  in  tliis  cafe  death  will  he  a  gain.  For,  if  any  one  com- \npares fuch  a  night  as  this,  in  which  he  fo  profoundly  (Iceps  as  not  even  to  iee \na  dream,  with  the  other  nights  and  days  of  his  life,  and  (hould  declare  how \nmany  he  had  pafled  better  and  more  p^eafantly  than  this  night,  I  think  that \nnot  only  a  private  man,  but  even  the  great  kinghimfelf,  would  find  fo  fmall \na  number  that  they  might  be  eafily  counted.  If,  therefore,  death  is  a  thing \nof  this  kind,  I  iay  it  is  a  gain  :  for  thus  the  whole  of  future  time  appears  to \nbe  nothing  more  than  one  night.  But  if  again  death  is  a  migration  from \nhence  to  another  place,  and  the  affcrtion  is  true  that  all  the  dead  arc  there, \nwhat  greater  good,  O  my  judges,  can  there  be  than  this?  For  if  fomc  one \narriving  at  Hades,  being  liberated  from  thele  who  pretend  to  be  judges, \n(hould  find  thofe  who  are  true  judges,  and  who  are  {aid  to  judge  there,  viz. \nMinos  and  Rhadamanthus,  T^acus  and  Triptolemus,  and  fuch  others  of  the \ndemigods  as  lived  juftly,  would  this  be  a  vile  journey  ?  At  what  rate  would \nyou  not  purchafe  a  conference  with  Orpheus  and  Mufeus,  with  Hefiod-a«d \nHomer  ?  I  indeed  (hould  be  willing  to  die  Often,  if  thefe  things  are  true. \nFor  to  me  the  aflbciation  will  be  admirable,  when  1  (hall  xnect  with Tiala- \nmedes,  and  Ajax  the  fon  of  Telamon,  and  aiiy  other  of  the  anticnts  who  died \nthrough  an  unjuft  decifion.  The  comparing  'my  cafe  with  theirs  will,  I \nthink,  be  no  unpleafing  employment  to  me.  But  the  greateft  plcafqre  wijl \nconlift  in  paffing  my  time  there,  as  I  have  done  here,  in  interrogating \nand  exploring  who  among  them  is  wife,  and  who  fancies  himfdf  to  be  but \nis  not  fo.  What,  O  my  judges,  would  not  any  one  give  for  a  conference \nwith  him  who  led  that  mighty  army  againft  Troy,  or  with  Ulyifes,  or  Sify- \nphus,  or  ten  thoufand  others,  both  men  and  women,  that  might  be  men- \ntioned ?  For  to  converfe  aud  affociate  with  thefe  would  be  an  ineftimable \nfelicity.  For  I  (hould  not  be  capitally  condemned  on  this  account  by  thofe \nthat  dwell  there ;  fince  they  are  in  other  refpe6ts  more  happy  than  thofe  that \nlive  here,  and  are  for  the  reft  of  time  immortal,  if  the  affertions  refpeding \nthefe  things  are  true. ",
+   "pages": [
+    24,
+    225,
+    226
+   ],
+   "line": 10839
+  },
+  {
+   "id": "taylor1804.apology.p0065",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "You, therefore, O my judges, ought to entertain good hopes with respect to death, and to be firmly persuaded of this one thing, that to a t^ood man nothing is evil, neither while living nor when dead, and that his concerns are Jiever neglected by the Gods. Nor is my present condition the effect of chance; but this is evident to me, that now to die, and be liberated from the affairs of life, is better for me. On this account the accustomed signal did not in this affair oppofeme. Nor am I very indignant with those that accused and condemned me, though their intention in so doing was to injure me; and for this they deserve to be blamed. Thus much however I request of them: That you will punish my sons when they grow up, if they cause you the same molestation that I have; and if they shall appear to you to j)ay more attention to riches or any thing else than to virtue, and shall think themselves to be something when they are nothing, that you will reprobate them as I do you, as neglecting the care of things to which they ought to attend, and conceiving themselves to be of some confcquence when they are of no worth. If ye do these things, your conduct both towards me and my sons will be just. But it is now time to depart hence, — for me indeed to die but for you to live. Which of us however will arrive at a better thing,. is> perfcdly immanifeft except to Divinity.",
+   "raw": "You,  therefore,  O  my  judges,  ought  to  entertain  good  hopes  with  refped \nto  death,  and  to  be  firmly  perfuaded  of  this  one  thing,  that  to  a  t^ood  man \nnothing  is  evil,  neither  while  living  nor  when  dead,  and  that  his  concerns \nare  Jiever  negle61ed  by  the  Gods.  Nor  is  my  prefent  condition  the  effed  of \nchance ;  but  this  is  evident  to  me,  that  now  to  die,  and  be  liberated  from \nthe  affairs  of  life,  is  better  for  me.  On  this  account  the  accuflomed  fignal \ndid  not  jn  this  affair  oppofeme.  Nor  am  I  very  indignant  with  thofe  that \naccufed  and  condemned  me,  though  their  intention  in  fo  doing  was  to  injure \nme  ;  and  for  this  they  deferve  to  be  blamed.  Thus  much  however  I  requefl \nof  them:  That  you  will  punifh  my  fons  when  they  grow  up,  if  they  caufc \nyou  the  fame  moleflation  that  I  have  ;  and  if  they  fhall  appear  to  you  to  j)ay \nmore  attention  to  riches  or  any  thing  elfe  than  to  virtue,  and  fhall  think \nthemfelves  to  be  fomething  when  they  are  nothing,  that  you  will  reprobate \nthem  as  I  do  you,  as  negle<51ing  the  care  of  things  to  which  they  ought  to \nattend,  and  conceiving  themfelves  to  be  of  fome  confcquence  when  they  are \nof  no  worth.  If  ye  do  thefe  things,  your  conduct  both  towards  me  and  my \nfons  will  be  juft.  But  it  is  now  time  to  depart  hence, — for  me  indeed  to  die^ \nbut  for  you  to  live.  Which  of  us  however  will  arrive  at  a  better  '  thing,.  is> \nperfcdly  immanifeft  except  to  Divinity. ",
+   "pages": [
+    226
+   ],
+   "line": 10890
+  }
+ ],
+ "notes": [
+  {
+   "text": "Meaning Ariftophane*.",
+   "raw": "'  Meaning  Ariftophane*. ",
+   "page": 100,
+   "line": 9795,
+   "in": "taylor1804.apology.p0002",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n001",
+   "signed": null
+  },
+  {
+   "text": "said.",
+   "raw": "faid. ",
+   "page": 100,
+   "line": 9797,
+   "in": "taylor1804.apology.p0002",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n002",
+   "signed": null
+  },
+  {
+   "text": "See The Clouds of that poet, ver. 1 12 et feq. et ver. 188.",
+   "raw": "'  See  The  Clouds  of  that  poet,  ver.  1 12  et  feq.  et  ver.    188. ",
+   "page": 101,
+   "line": 9839,
+   "in": "taylor1804.apology.p0005",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n003",
+   "signed": null
+  },
+  {
+   "text": "'fa^a(Ji.av&uoi opMi oj/toj, o Kara xuvoi, v X^^^^t ^ ^rXaravoi/, v ftptov, ^ rivof aXXou roiovroi/, Schol. Grsec. in Plat. p. 5. i. c \" This is the oath of Rhadamanthus, who swore by the dog, or the goose, or the plane tree, or the ram, or something else of this kind.\"",
+   "raw": "'  'fa^a(Ji.av&uoi  opMi  oj/toj,  o  Kara  xuvoi,  v  X^^^^t  ^  ^rXaravoi/,  v  ftptov,  ^  rivof  aXXou  roiovroi/,  Schol. \nGrsec.  in  Plat.  p.  5.  i.  c  \"  This  is  the  oath  of  Rhadamanthus,  who  fwore  by  the  dog,  or  the \ngoofc,  or  the  plane  tree,  or  the  ram,  or  fomething  elfe  of  this  kind.\" ",
+   "page": 104,
+   "line": 9963,
+   "in": "taylor1804.apology.p0008",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n004",
+   "signed": null
+  },
+  {
+   "text": "This 18 the key to the profound meaning of Socrates when he said that he knew that he knew nothing. For, as I have elsewhere observed, he only intended by this to Cgnify the nothingncfs of human when compared with divine knowledge.",
+   "raw": "'  This  18  the  key  to  the  profound  meaning  of  Socrates  when  he  faid  that  he  knew  that  he \nknew  nothing.  For,  as  I  have  elfcwhere  obferved,  he  only  intended  by  this  to  Cgnify  the  nothing- \nncfs  of  human  when  compared  with  divine  knowledge. ",
+   "page": 105,
+   "line": 10006,
+   "in": "taylor1804.apology.p0010",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n005",
+   "signed": null
+  },
+  {
+   "text": "This afll-rilon, among many others, afioids an inconteftablc proof that Socrates believed in the religion of his country: for he here clearly says, that the dotlrine of Anaxagorw, which made ihc sun and moon to be no Gods, is ah/urJ,",
+   "raw": "*  This  afll-rilon,  among  many  others,  afioids  an  inconteftablc  proof  that  Socrates  believed  in \nthe  religion  of  his  country  :  for  he  here  clearly  fays,  that  the  dotlrine  of  Anaxagorw,  which  made \nihc  fun  and  moon  to  be  no  Gods,  is  ah/urJ, ",
+   "page": 9,
+   "line": 10176,
+   "in": "taylor1804.apology.p0017",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n006",
+   "signed": null
+  },
+  {
+   "text": "VOL. IV. 2 E to",
+   "raw": "VOL.  IV.  2  E  to ",
+   "page": 9,
+   "line": 10180,
+   "in": "taylor1804.apology.p0017",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n007",
+   "signed": null
+  },
+  {
+   "text": "For a copious account of demons, see the Notes on The Banquet..",
+   "raw": "*•  For  a  copious  account  of  demons,  fee  the  Notes  on  The  Banquet.. ",
+   "page": 510,
+   "line": 10220,
+   "in": "taylor1804.apology.p0017",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n008",
+   "signed": null
+  },
+  {
+   "text": "Iliad, liU. xviii. ver. 94, &c.",
+   "raw": "^  Iliad,  liU.  xviii.  ver.  94,  &c. ",
+   "page": 211,
+   "line": 10262,
+   "in": "taylor1804.apology.p0019",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n009",
+   "signed": null
+  },
+  {
+   "text": "Meaning; inUlUnml j^ruitnce^ yfiliioii Tg tlic eontempTation of the forxn5<u>nlained in imclldtVi^",
+   "raw": "^  Meaning;  inUlUnml  j^ruitnce^  yfiliioii  Tg  tlic  eontempTation  of  the  forxn5<u>nlained  in  imclldtVi^ ",
+   "page": 213,
+   "line": 10374,
+   "in": "taylor1804.apology.p0049",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n010",
+   "signed": null
+  },
+  {
+   "text": "See the note at the beginning of the First Alcibiades for a full account of the dsemon of Socrates.",
+   "raw": "'  See  the  note  at  the  beginning  of  the  Firft  Alcibiades  for  a  full  account  of  the  dsemon  of  Socrates. ",
+   "page": 215,
+   "line": 10454,
+   "in": "taylor1804.apology.p0049",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n011",
+   "signed": null
+  },
+  {
+   "text": "The people of Athens were divided into tribes, and fifty men were chosen by turns out of each, who governed thirty-five days, and were called Prytani or Senators.",
+   "raw": "*  The  people  of  Athens  were  divided  into  tribes,  and  fifty  men  were  chofen  by  turns  out  of \neach,  who  governed  thirty-five  days,  and  were  called  Prytani  or  Senators. ",
+   "page": 215,
+   "line": 10456,
+   "in": "taylor1804.apology.p0050",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n012",
+   "signed": null
+  },
+  {
+   "text": "B This battle was fought by Callicratidas, the Laccdgemonian general, against: the ten Atheoiaa generals, who obtained the vitlory.",
+   "raw": "B  This  battle  was  fought  by  Callicratidas,  the  Laccdgemonian  general,  againfl:  the  ten  Athe- \noiaa  generals,  who  obtained  the  vitlory. ",
+   "page": 215,
+   "line": 10459,
+   "in": "taylor1804.apology.p0051",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n013",
+   "signed": null
+  },
+  {
+   "text": "After Socrates had thus spoken, votes were taken by the judges, and he was condemned by a majority of three voices. His speech after his condemnation commences in the paragraph immediately following.",
+   "raw": "*  After  Socrates  had  thus  fpoken,  votes  were  taken  by  the  judges,  and  he  was  condemned \nby  a  majority  of  three  voices.  His  fpecch  after  his  condemnation  commences  in  the  paragraph \nimmediately  following. ",
+   "page": 219,
+   "line": 10625,
+   "in": "taylor1804.apology.p0057",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n014",
+   "signed": null
+  },
+  {
+   "text": "An accuser was obliged to have one half of the votes and a fifth part more, or else he was fined in a thousand drachmas, i. e. nearly 26I. 3s. 4d.",
+   "raw": "'  An  accufer  was  obliged  to  have  one  half  of  the  votes^  and  a  fifth  part  more,  or  elfe  he  was \nfined  in  a  thoufand  drachmas,  i.  e.  nearly  26I.  3s.  4d. ",
+   "page": 220,
+   "line": 10662,
+   "in": "taylor1804.apology.p0058",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n015",
+   "signed": null
+  },
+  {
+   "text": "When the criminal was found guilty, and the accuser demanded a sentence of death, the law allowed the prisoner to condemn himfcif to one of these three punishments, viz. perpetual impri. fonmcnt, a fine, or baniftiment. This privilege was first enacted on the behalf of the judges, that ihey might not hesitate to pass sentence on those who, by condemning themselves, owned their guilt. Socrates, therefore, in obedience to the laws, and in order to proclaim his innocence, instead of a punilhment demanded a reward worthy of himself.",
+   "raw": "*  When  the  criminal  was  found  guilty,  and  the  accufer  demanded  a  fentence  of  death,  the  law \nallowed  the  prifoner  to  condemn  himfcif  to  one  of  thefe  three  punifliments,  viz.  perpetual  impri-. \nfonmcnt,  a  fine,  or  baniftiment.  This  privilege  was  firfl  ena6led  on  the  behalf  of  the  judges, \nthat  ihey  might  not  hefitatc  to  pafs  fentence  on  thofe  who,  by  condemning  themfelves,  owned \ntheir  guilt.  Socrates,  therefore,  in  obedience  to  the  laws,  and  in  order  to  proclaim  his  innocence, \ninftcad  of  a  punilhment  demanded  a  reward  worthy  of  himfelf. ",
+   "page": 220,
+   "line": 10665,
+   "in": "taylor1804.apology.p0058",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n016",
+   "signed": null
+  },
+  {
+   "text": "Socrates having amerced himself in obedience to the laws, the judges took the affair into consideration, and, without any regard to the fine, condemned hire to die. After the sentence was pronounced, Socrates. addreffedtliem as in the next paragraph.",
+   "raw": "'  Socrates  having  amerced  himfelf  in  obedience  to  the  laws,  the  judges  took  the  affair  into  con- \nfideration,  and,  without  any  regard  to  the  fine,  condemned  hira  to  die.  After  the  fcntence  was \npronounced,  Socrates. addreffedtliem  as  in  the  next  paragraph. ",
+   "page": 222,
+   "line": 10749,
+   "in": "taylor1804.apology.p0061",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n017",
+   "signed": null
+  },
+  {
+   "text": "That men?.re often prophetic at the point of death is an opinion which may be traced as far as to the lime of Homer, and is doubtless of infinite antiquity.",
+   "raw": "*  That  men  ?.re  often  prophetic  at  the  point  of  death  is  an  opinion  which  may  be  traced  as  far \nas  to  the  lime  of  Homer,  and  is  doubtlefs  of  infinite  antiquity. ",
+   "page": 223,
+   "line": 10789,
+   "in": "taylor1804.apology.p0062",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n018",
+   "signed": null
+  },
+  {
+   "text": "\"* This predi(flion was fulfilled aimofl immediately after the death of Socrates. The Athenl.^.ns repented of their cruelty j and his accusers were universally despised and shunned. One of thcni, Melitus, was torn in pieces j another, Anytus, was expelled the Heraclea, to which he fled for flielterj and others dcftroycd themselves. And, in addition to this, a rr.ging plague soon after dcfolated Athens.",
+   "raw": "\"*  This  predi(flion  was  fulfilled  aimofl  immediately  after  the  death  of  Socrates.  The  Athenl.^.ns \nrepented  of  their  cruelty  j  and  his  accufers  were  unlverfally  defpifed  and  fhunned.  One  of  thcni, \nMelitus,  was  torn  in  pieces  j  another,  Anytus,  was  expelled  the  Heraclea,  to  which  he  fled  for \nflielterj  and  others  dcftroycd  thcmfelves.  And,  in  addition  to  this,  a  rr.ging  plague  foon  after \ndcfolated  Athens. ",
+   "page": 223,
+   "line": 10792,
+   "in": "taylor1804.apology.p0062",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n019",
+   "signed": null
+  },
+  {
+   "text": "maimer.",
+   "raw": "maimer. ",
+   "page": 223,
+   "line": 10798,
+   "in": "taylor1804.apology.p0062",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n020",
+   "signed": null
+  },
+  {
+   "text": "The reader must not Imagine by this that Socrates calls In question the immortality of the soul; for this, as he will see, he demonstrates in the Phxdo.",
+   "raw": "«  The  reader  muft  not  Imagine  by  this  that  Socrates  calls  In  queftion  the  immortality  of  the \nfoul ;  for  this,  as  he  will  fee,  he  dcmonftrates  in  the  Phxdo. ",
+   "page": 225,
+   "line": 10879,
+   "in": "taylor1804.apology.p0064",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n021",
+   "signed": null
+  },
+  {
+   "text": "VOL. IV. 2 G live",
+   "raw": "VOL.  IV.  2  G  live ",
+   "page": 225,
+   "line": 10882,
+   "in": "taylor1804.apology.p0064",
+   "anchor": "same page",
+   "id": "taylor1804.apology.n022",
+   "signed": null
+  },
+  {
+   "text": "Ti is always good for a good man to die with respect to himself; but it is often better for the community that he should live. It is likewifc frequently better for a bad man to live than to< die, in order that his latent vices may be called forth into energy; and besides this, he is frequently an instrument in the hand of Divinity of good to others. Sociates, therefore,, with no less accuracy than profundity says, that Divinity only knows whether it is belter for him to die, than, for his accusers to live; for this could only be afcertaincd by a very extensive knowledge of futu»rity; awd consequently could only be manifell to Divinity.",
+   "raw": "'  Tl  is  always  good  for  a  good  man  to  die  with  refpe€l  to  himfelf ;  but  it  is  often  better  for  the \ncommunity  that  he  fliould  live.  It  is  likewifc  frequently  better  for  a  bad  man  to  live  than  to< \ndie,  in  order  that  his  latent  vices  may  be  called  forth  into  energy ;  and  befides  this,  he  is  fre- \nquently an  inftrument  in  the  hand  of  Divinity  of  good  to  others.  Sociates,  therefore,, with  no  lefs \naccuracy  than  profundity  fays,  that  Divinity  only  knows  whether  it  is  belter  for  him  to  die,  than, \nfor  his  accufers  to  live;  for  this  could  only  be  afcertaincd  by  a  very  extenfive  knowledge  of  futu»- \nrity;  awd  confequently  could  only  be  manifell  to  Divinity. ",
+   "page": 226,
+   "line": 10910,
+   "in": "taylor1804.apology.p0065",
+   "anchor": "note mark",
+   "id": "taylor1804.apology.n023",
+   "signed": null
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 23,
+  "running heads removed": 28,
+  "words joined across lines": 68,
+  "paragraphs run on across a page": 27,
+  "notes": 23,
+  "note marks removed": 13
+ }
+}

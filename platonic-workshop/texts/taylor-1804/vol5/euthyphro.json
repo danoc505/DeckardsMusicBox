@@ -1,0 +1,2918 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.euthyphro",
+ "title": "The Euthyphro",
+ "author": "Plato",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804)",
+ "perseus_work": "urn:cts:greekLit:tlg0059.tlg001",
+ "citation": "1804 page on every segment; Stephanus sections are assigned when the library is built (tools/align.py)",
+ "proof_status": "OCR cleaned by rule",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   180,
+   1241
+  ],
+  "exclude": []
+ },
+ "gap": null,
+ "segments": [
+  {
+   "id": "taylor1804.euthyphro.p0001",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "PERSONS OF THE DIALOGUE, EUTHYPHRO, SOCRATES.",
+   "raw": "PERSONS   OF  THE  DIALOGUE, \nEUTHYPHRO,  SOCRATES. ",
+   "pages": [
+    5
+   ],
+   "line": 180
+  },
+  {
+   "id": "taylor1804.euthyphro.p0002",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "EUTHYPHRO.",
+   "raw": "EUTHYPHRO. ",
+   "pages": [
+    5
+   ],
+   "line": 184
+  },
+  {
+   "id": "taylor1804.euthyphro.p0003",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "What novel circumstance has happened, Socrates, that you, leaving the discussions in the Lyceum, are now waiting about the porch of the king? For you have not an action with the king, as I have.",
+   "raw": "What  novel  circumflance  has  happened,  Socrates,  that  you,  leaving  the \ndifcuflions  in  the  Lyceum,  are  now  waiting  about  the  porch '  of  the  king  ? \nFor  you  have  not  an  a6lion  with  the  king,  as  1  have. ",
+   "pages": [
+    5
+   ],
+   "line": 186
+  },
+  {
+   "id": "taylor1804.euthyphro.p0004",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The Athenians, Euthyphro, do not call it an action, but an accusation.",
+   "raw": "Soc.  The  Athenians,  Euthyphro,  do  not  call  it  an  adion,  but  an  accu- \nfation. ",
+   "pages": [
+    5
+   ],
+   "line": 190
+  },
+  {
+   "id": "taylor1804.euthyphro.p0005",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "What do you say? Some one, as it seems, has accused you. For I should not think that you would accuse another.",
+   "raw": "EuTH.  What  do  you  fay  ?  Some  one,  as  it  feems,  has  accufed  you.  For \nI  fliould  not  think  that  you  would  accufe  another. ",
+   "pages": [
+    5
+   ],
+   "line": 193
+  },
+  {
+   "id": "taylor1804.euthyphro.p0006",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I should not, indeed.",
+   "raw": "Soc.  I  fhould  not,  indeed. ",
+   "pages": [
+    5
+   ],
+   "line": 196
+  },
+  {
+   "id": "taylor1804.euthyphro.p0007",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Has, then, another accused you?",
+   "raw": "EuTH.  Has,  then,  another  accufed  you? ",
+   "pages": [
+    5
+   ],
+   "line": 198
+  },
+  {
+   "id": "taylor1804.euthyphro.p0008",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "Soc.  Certainly. ",
+   "pages": [
+    5
+   ],
+   "line": 200
+  },
+  {
+   "id": "taylor1804.euthyphro.p0009",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Who is he?",
+   "raw": "EuTH.  Who  is  he  ? ",
+   "pages": [
+    5
+   ],
+   "line": 202
+  },
+  {
+   "id": "taylor1804.euthyphro.p0010",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I do not, Euthyphro, perfectly know the man: for he appears to me to be young, and of no note. But they call him, I think, Melitus; and he is of the town Pittheus: if you have in your recolJedtion one Melitus, a Pitthean, who has long hair, a thin beard, and an aquiline nose.",
+   "raw": "Soc.  I  do  not,  Euthyphro,  perfectly  know  the  man :  for  he  appears  to \nme  to  be  young,  and  of  no  note.  But  they  call  him,  I  think,  Melitus  ; \nand  he  is  of  the  town  Pittheus  :  if  you  have  in  your  recolJedtion  one  Melitus, \na  Pitthean,  who  has  long  hair,  a  thin  beard,  and  an  aquiline  nofe. ",
+   "pages": [
+    5
+   ],
+   "line": 204
+  },
+  {
+   "id": "taylor1804.euthyphro.p0011",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do not recoiled him, Socrates. But what is his accusation of you?",
+   "raw": "EuTH.  I  do  not  recoiled  him,  Socrates.  But  what  is  his  accufation \nof  you  ? ",
+   "pages": [
+    5
+   ],
+   "line": 209
+  },
+  {
+   "id": "taylor1804.euthyphro.p0012",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What is it r Not an ignoble one, as it appears to me. For it is no despicable thing, for one who is a young man, to be knowing in a circumflancc of such a magnitude. For he knows, as he says, how the youth are corrupted, and who they are that corrupt them. And he appears to be a certain wise man; and seeing my ignorance, and considering me as one who corrupts his equals in age, to have accused me to the city, as to a mother. In consequence of this, he only of the citizens seems to me to have begun rightly. For it is right to pay attention to youth, in the first place, that they may become the mod: excellent characters: juil: as it is reafonabic that a good husbandman should first: take care of the young plants, and after this of the others. Thus also Melitus perhaps will first cut us up who corrupt the bloflbms of youth, as he says, and afterwards he will certainly pay attention to those of a more advanced age, and thus will be the cause of the most numerous and the greatell: goods to the city. This is what may be expected to happen from one who makes such a beginning.",
+   "raw": "Soc.  What  is  it  r  Not  an  ignoble  one,  as  it  appears  to  me.     For  it  is  no \ndefplcable  thing,  for  one  who  is  a  young  man,  to  be  knowing  in  a  circum- \nflancc  of  fiich  a  magnitude.  For  he  knows,  as  he  fays,  how  the  youth  are \ncorrupted,  and  who  they  are  that  corrupt  them.  And  he  appears  to  be  a \ncertain  wife  man ;  and  feeing  my  ignorance,  and  confidering  me  as  one \nwho  corrupts  his  equals  in  age,  to  have  accufed  me  to  the  city,  as  to  a  mo- \nther. In  confequence  of  this,  he  only  of  the  citizens  feems  to  me  to  have \nbegun  rightly.  For  it  is  right  to  pay  attention  to  youth,  in  the  firft  place, \nthat  they  may  become  the  mod:  excellent  characters  :  juil:  as  it  is  reafonabic \nthat  a  good  hufbandman  fhould  firfl:  take  care  of  the  young  plants,  and  after \nthis  of  the  others.  Thus  alfo  Melitus  perhaps  will  firft  cut  us  up  who  cor- \nrupt the  bloflbms  of  youth,  as  he  fays,  and  afterwards  he  will  certainly  pay \nattention  to  thofe  of  a  more  advanced  age,  and  thus  will  be  the  caufe  of  the \nmoft  numerous  and  the  greatell:  goods  to  the  city.  This  is  what  may  be \nexpedted  to  happen  from  one  who  makes  fuch  a  beginning. ",
+   "pages": [
+    null,
+    6
+   ],
+   "line": 212
+  },
+  {
+   "id": "taylor1804.euthyphro.p0013",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I should wifn it were so, Socrates; but I tremble, left the contrary should happen. For, in reality, he appears to me, by trying to injure you, to begin to hurt the city from the Vestal hearth itself. But tell me by what part of your conduct it is that he says you corrupt the youth?",
+   "raw": "EuTH.  I  (hould  wifn  it  were  fo,  Socrates  ;  but  I  tremble,  left  the  con- \ntrary (hould  happen.  For,  in  reality,  he  appears  to  me,  by  trying  to  injure \nyou,  to  begin  to  hurt  the  city  from  the  Veftal  hearth  *  itfelf.  But  tell  me \nby  what  part  of  your  conduct  it  is  that  he  fays  you  corrupt  the  youth  ? ",
+   "pages": [
+    6
+   ],
+   "line": 238
+  },
+  {
+   "id": "taylor1804.euthyphro.p0014",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The things of which he accuses me, O wonderful man, mud: be considered, when they are heard, as absurd. For he says that I am a maker of gods; and, as if I introduced new and did not believe in the ancient gods, has brought this accusation against me.",
+   "raw": "Soc.  The  things  of  which  he  accufes  me,  O  wonderful  man,  mud:  be \nconfidered,  when  they  are  heard,  as  abfurd.  For  he  fays  that  I  am  a  maker \nof  gods  ;  and,  as  if  I  introduced  new  and  did  not  believe  in  the  ancient  gods, \nhas  brought  this  accufation  againfl  me. ",
+   "pages": [
+    6
+   ],
+   "line": 243
+  },
+  {
+   "id": "taylor1804.euthyphro.p0015",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I underhand you, Socrates; it is because you say that a dnEmoniacal power is every where present with you. This accusation, therefore, is brought against you as one that introduces novelties in divine affairs; and as well knowing that the multitude are always disposed to receive such kind of calumnies. For indeed they ridicule me as one insane, when I say any thing in a public assembly concerning the gods, and predict to them future events; though I do not predict to them any thing which is not true. At the same time, however, they envy all such as we are. But indeed it is not fit to pay any attention to them; but we should ilill go on in our own way.",
+   "raw": "EuTH.  I  underhand  you,  Socrates;  it  is  becaufe  you  fay  that  a  dnEmo- \nniacal  *  power  is  every  where  prefent  with  you.  This  accufation,  therefore, \nis  brought  againfl  you  as  one  that  introduces  novelties  in  divine  affairs  ;  and \nas  well  knowing  that  the  multitude  are  always  difpofed  to  receive  fuch \nkind  of  calumnies.  For  indeed  they  ridicule  me  as  one  infane,  when  I  fay \nany  thing  in  a  public  affembly  concerning  the  gods,  and  predidl  to  them \nfuture  events  ;  though  I  do  not  predi6t  to  them  any  thing  which  is  not  true. \nAt  the  fame  time,  however,  they  envy  all  fuch  as  we  are.     But  indeed  it  is \nnot  fit  to  pay  any  attention  to  them;  but  we  fliould   ilill  go  on  in  our \nown  way. ",
+   "pages": [
+    6,
+    7
+   ],
+   "line": 248
+  },
+  {
+   "id": "taylor1804.euthyphro.p0016",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But, dear Euthyphro, to be ridiculed is perhaps a trifling thing. For the Athenians, as it appears to me, are not very much concerned whether or not a man is (kiiful in any thing, so long as he is not a teacher of his wisdom; but they are indignant with him whom they think makes others to be such, whether this is from envy, as you say, or from some other cause.",
+   "raw": "Soc.  But,  dear  Euthyphro,  to  be  ridiculed  is  perhaps  a  trifling  thing. \nFor  the  Athenians,  as  it  appears  to  me,  are  not  very  much  concerned  whe- \nther or  not  a  man  is  (kiiful  in  any  thing,  fo  long  as  he  is  not  a  teacher  of \nhis  wifdom  ;  but  they  are  indignant  with  him  whom  they  think  makes \nothers  to  be  fuch,  whether  this  is  from  envy,  as  you  fay,  or  from  fome \nother  caufe. ",
+   "pages": [
+    7
+   ],
+   "line": 272
+  },
+  {
+   "id": "taylor1804.euthyphro.p0017",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "With respect to this circumstance, therefore, how they may be afl^eded towards me I am not very desirous to try.",
+   "raw": "EuTH.  With  refped  to  this  circumftance,  therefore,  how  they  may  be \nafl^eded  towards  me  I  am  not  very  defirous  to  try. ",
+   "pages": [
+    7
+   ],
+   "line": 279
+  },
+  {
+   "id": "taylor1804.euthyphro.p0018",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For perhaps you exhibit yourself but rarely, and are not willing to teach your wisdom; but I fear lest, through philanthropy, 1 should appear to disclose, with loo much freedom, to every man whatever I possess, not only without taking a reward, but even willingly adding one, if any person is willing to hear me. As I therefore just now said, if they were only to ridicule me, as you say they do you, there would be nothing unpleasant in passing the time in a court of justice, jesting and laughing; but if they are in earnest, how this affair may terminate is immanifeft, except to you diviners.",
+   "raw": "Soc.  For  perhaps  you  exhibit  yourfelf  but  rarely,  and  are  not  willing  to \nteach  your  wifdom  ;  but  I  fear  left,  through  philanthropy,  1  (hould  appear  to \ndifclofe,  with  loo  much  freedom,  to  every  man  whatever  I  pofTefs,  not  only \nwithout  taking  a  reward,  but  even  willingly  adding  one,  if  any  perfon  is \nwilling  to  hear  me.  As  I  therefore  juft  now  faid,  if  they  were  only  to  ridi- \ncule me,  as  you  fay  they  do  you,  there  would  be  nothing  unpleafant  in  paff- \ning  the  time  in  a  court  of  juftice,  jefting  and  laughing ;  but  if  they  are  in \nearneft,  how  this  affair  may  terminate  is  immanifeft,  except  to  you  diviners. ",
+   "pages": [
+    7
+   ],
+   "line": 282
+  },
+  {
+   "id": "taylor1804.euthyphro.p0019",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps, however, Socrates, the affair will be nothing; but you will plead your cause successfully, and I also think that I shall mine.",
+   "raw": "EuTH.  Perhaps,  however,  Socrates,  the  affair  will  be  nothing ;  but  you \nwill  plead  your  caufe  fuccefsfully,  and  I  alfo  think  that  I  fliall  mine. ",
+   "pages": [
+    7
+   ],
+   "line": 291
+  },
+  {
+   "id": "taylor1804.euthyphro.p0020",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what is the cause, Euthyphro, which you have to plead? Are you defendant or plaintiff?",
+   "raw": "Soc.  But  what  is  the  caufe,  Euthyphro,  which  you  have  to  plead  ?  Arc \nyou  defendant  or  plaintiff? ",
+   "pages": [
+    7
+   ],
+   "line": 294
+  },
+  {
+   "id": "taylor1804.euthyphro.p0021",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I am plaintiff.",
+   "raw": "EuTH.  I  am  plaintiff. ",
+   "pages": [
+    7
+   ],
+   "line": 297
+  },
+  {
+   "id": "taylor1804.euthyphro.p0022",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc Whom do you prosecute?",
+   "raw": "Soc  Whom  do  you  profecute  ? ",
+   "pages": [
+    7
+   ],
+   "line": 299
+  },
+  {
+   "id": "taylor1804.euthyphro.p0023",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "One whom, by prosecuting, I appear to be insane,",
+   "raw": "EuTH.  One  whom,  by  profecuting,  I  appear  to  be  infanc, ",
+   "pages": [
+    7
+   ],
+   "line": 301
+  },
+  {
+   "id": "taylor1804.euthyphro.p0024",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What, then, do you pursue one that flies?",
+   "raw": "Soc.  What,  then,  do  you  purfue  one  that  flies  ? ",
+   "pages": [
+    7
+   ],
+   "line": 303
+  },
+  {
+   "id": "taylor1804.euthyphro.p0025",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "He is very far from flying; for he is very much advanced hi years.",
+   "raw": "EuTH.  He  is  very  far  from  flying;  for  he  is  very  much  advanced  hi \nyears. ",
+   "pages": [
+    7
+   ],
+   "line": 305
+  },
+  {
+   "id": "taylor1804.euthyphro.p0026",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Who is he?",
+   "raw": "Soc.  Who  is  he  ? ",
+   "pages": [
+    7
+   ],
+   "line": 308
+  },
+  {
+   "id": "taylor1804.euthyphro.p0027",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "My father.",
+   "raw": "EuTH,  My  father. ",
+   "pages": [
+    7
+   ],
+   "line": 310
+  },
+  {
+   "id": "taylor1804.euthyphro.p0028",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Your father? O best of men!",
+   "raw": "Soc.  Your  father  ?   O  beft  of  men  ! ",
+   "pages": [
+    7
+   ],
+   "line": 312
+  },
+  {
+   "id": "taylor1804.euthyphro.p0029",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "He is, indeed.",
+   "raw": "EuTH.  He  is,  indeed. ",
+   "pages": [
+    7
+   ],
+   "line": 314
+  },
+  {
+   "id": "taylor1804.euthyphro.p0030",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what is the crime, and of what do you accuse him?",
+   "raw": "Soc.  But  what  is  the  crime,  and  of  what  do  you  accufe  him  ? ",
+   "pages": [
+    7
+   ],
+   "line": 316
+  },
+  {
+   "id": "taylor1804.euthyphro.p0031",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Of murder, Socrates.",
+   "raw": "EuTH.  Of  murder,  Socrates. ",
+   "pages": [
+    7
+   ],
+   "line": 318
+  },
+  {
+   "id": "taylor1804.euthyphro.p0032",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "O Hercules! The multitude, Euthyphro, will be ignorant how this can ever be right. For I do not think it is the province of any casual perfoii to make such an accusation with rectitude, but of one who has made a very great proficiency in wisdom.",
+   "raw": "Soc.  O  Hercules  !  The  multitude,  Euthyphro,  will  be  ignorant  how  this \ncan  ever  be  right.  For  I  do  not  think  it  is  the  province  of  any  cafual  perfoii \nto  make  fuch  an  accufation  with  redtitude,  but  of  one  who  has  made  a  very \ngreat  proficiency  in  wifdom. ",
+   "pages": [
+    8
+   ],
+   "line": 325
+  },
+  {
+   "id": "taylor1804.euthyphro.p0033",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Very great indeed, by Jupiter, Socrates.",
+   "raw": "EuTH.  Very  great  indeed,  by  Jupiter,  Socrates. ",
+   "pages": [
+    8
+   ],
+   "line": 330
+  },
+  {
+   "id": "taylor1804.euthyphro.p0034",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it any one of your relations who has been killed by your father? Though it certainly must be so; for you would not prosecute your father for the murder of a stranger.",
+   "raw": "Soc.  Is  it  any  one  of  your  relations  who  has  been  killed  by  your  father  ? \nThough  it  certainly  muft  be  fo  ;  for  you  would  not  profecute  your  father  for \nthe  murder  of  a  ftranger. ",
+   "pages": [
+    8
+   ],
+   "line": 332
+  },
+  {
+   "id": "taylor1804.euthyphro.p0035",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It is ridiculous, Socrates, if you think it makes any difference whether he who is slain is a stranger or a relation, and are not persuaded that this alone ought to be attended to, whether he who committed the murdcx did it justly or not; and, if justly, that he should be dismissed; but, if unjustly, that he should be prosecuted, even though he should be your domestic, and partake of your table. For you become equally defiled with him, if you knowingly associate with such a one, and do not expiate both yourself and him, by bringing him to juf^ice. But to apprize you of the fact: The deceased was one of our farmers, who rented a piece of land of us when we dwelt at Naxus. This man, having one day drank too much wine, was so transported with rage against one of our slaves, that he killed him. My father, therefore, ordered him to be cast into a pit, with his hands and feet bound, and immediately sent hither, to consult one of the interpreters of sacred concerns what he should do with him; and in the mean time neglected this prisoner, and left him without sustenance as an affaffin, whose life was of no consequence; so that he died. For hunger, cald, and the weight of chains killed him, before the person my father had sent returned. Hence my father and the rest of my relations are indignant with me, because I, for the fafee of a homicide, accuse my father of murder, which, as they say, he has not committed; and if he had, since he who is dead was a homicide, they think I ought not to be concerned for the fate of such a man. For they say it is impious for a son to prosecute his father for murder; so little do they know the manner in which a divine nature is affected about piety and impiety.",
+   "raw": "EuTH.  It  is  ridiculous,  Socrates,  if  you  think  it  makes  any  difference \nwhether  he  who  is  (lain  is  a  flranger  or  a  relation,  and  are  not  perfuaded  that \nthis  alone  ought  to  be  attended  to,  whether  he  who  committed  the  murdcx \ndid  it  juftly  or  not ;  and,  if  juftly,  that  he  fhould  be  difmifled  ;  but,  if  un- \njuftly,  that  he  fhould  be  profecuted,  even  though  he  fhould  be  your  domeftic, \nand  partake  of  your  table.  For  you  become  equally  defiled  with  him,  if  you \nknowingly  afTociate  with  fuch  a  one,  and  do  not  expiate  both  yourfelf  and \nhim,  by  bringing  him  to  juf^ice.  But  to  apprize  you  of  the  fa6l :  The \ndeceafed  was  one  of  our  farmers,  who  rented  a  piece  of  land  of  us  when  we \ndwelt  at  Naxus.  This  man,  having  one  day  drank  too  much  wine,  was  fb \ntranfported  with  rage  againft  one  of  our  (laves,  that  he  killed  him.  My \nfather,  therefore,  ordered  him  to  be  cafl  into  a  pit,  with  his  hands  and  feet \nbound,  and  immediately  fent  hither,  to  confult  one  of  the  interpreters  of \nfacred  concerns  what  he  fhould  do  with  him ;  and  in  the  mean  time  nc- \ngleded  this  prifoner,  and  left  him  without  fuftenance  as  an  affaffin,  whofe \nlife  was  of  no  confequence ;  fo  that  he  died.  For  hunger,  cald,  and  the \nweight  of  chains  killed  him,  before  the  perfon  my  father  had  fent  returned. \nHence  my  father  and  the  reft  of  my  relations  are  indignant  with  me,  be- \ncaufe  I,  for  the  fafee  of  a  homicide,  accufc  my  father  of  murder,  which,  as \nthey  fay,  he  has  not  committed  ;  and  if  he  had,  fince  he  who  is  dead  was  a \nhomicide,  they  think  1  ought  not  to  be  concerned  for  the  fate  of  fuch  a  man. \nFor  they  fay  it  is  impious  for  a  fon  to  profecute  his  father  for  murder ;  fo \nlittle  do  they  know  the  manner  in  which  a  divine  nature  is  affeded  about \npiety  and  impiety. ",
+   "pages": [
+    8
+   ],
+   "line": 336
+  },
+  {
+   "id": "taylor1804.euthyphro.p0036",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But, by Jupiter, Euthyphro, do you think you possess such an accurate knowledge about divine affairs, and how things holy and impious are circumstanced, that these things having taken place as you say, you are not afraid, lest in prosecuting your father you should commit an impious action?",
+   "raw": "Soc.  But,  by  Jupiter,  Euthyphro,  do  you  think  you  pofTefs  fuch  an  accu- \nrate knowledge  about  divine  affairs,   and  how  things  holy  and  impious  are \ncircumftanced,  that  thefe  things  having  taken  place  as  you  fay,  you  are  not \nafraid,  left  in  profecuting  your  father  you  fhould  commit  an  impious  a61ion  ? ",
+   "pages": [
+    8,
+    9
+   ],
+   "line": 361
+  },
+  {
+   "id": "taylor1804.euthyphro.p0037",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "My profession, Socrates, would be of no advantage to me, nor would Euthyphro surpass in any respect other men, unless he accurately knew all such particulars.",
+   "raw": "EuTH.  My  profefTion,  Socrates,  would  be  of  no  advantage  to  me,  nor \nwould  Euthyphro  furpafs  in  any  refpedt  other  men,  unlefs  he  accurately \nknew  all  fuch  particulars. ",
+   "pages": [
+    9
+   ],
+   "line": 372
+  },
+  {
+   "id": "taylor1804.euthyphro.p0038",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "O wonderful Euthyphro, it will therefore be a most excellent thing for me to become your disciple, and before the determination of my process to let Melitus know that I have hitherto considered the knowledge of divine concerns as a thing of the greatest consequence; and that now, since he says I am guilty of a61:ing in a rash manner, and introducing novelties concerning divine natures, I am become your disciple. If, therefore, I shall say, you. acknowledge, O Melitus, that Euthyphro is wise and thinks rightly in such affairs, think and judge also the same of me; but if you do not entertain this opinion, call him, my preceptor, to account before you call me, as one who corrupts elderly men, viz. me and his father; me by instructing, but him by reproving and punishing. And if he is not persuaded by me, but still continues his prosecution, or accuses me instead of you, it will be necessary to say the very same things on the trial, to which I shall have prcvioufly called his attention.",
+   "raw": "Soc.  O  wonderful  Euthyphro,  it  will  therefore  be  a  moft  excellent  thing \nfor  me  to  become  your  difciple,  and  before  the  determination  of  my  procefs \nto  let  Melitus  know  that  I  have  hitherto  confidered  the  knowledge  of  divine \nconcerns  as  a  thing  of  the  greateft  confequence  ;  and  that  now,  fince  he  fays \nI  am  guilty  of  a61:ing  in  a  rafh  manner,  and  introducing  novelties  concerning \ndivine  natures,  I  am  become  your  difciple.  If,  therefore,  I  fhall  fay,  you. \nacknowledge,  O  Melitus,  that  Euthyphro  is  wife  and  thinks  rightly  in  fuch \naffairs,  think  and  judge  alfo  the  fame  of  me;  but  if  you  do  not  entertain \nthis  opinion,  call  him,  my  preceptor,  to  account  before  you  call  me,  as  one \nwho  corrupts  elderly  men,  viz.  me  and  his  father ;  me  by  inftruding,  but \nhim  by  reproving  and  punifhing.  And  if  he  is  not  perfuaded  by  me,  but \nftill  continues  his  profecution,  or  accufes  me  inftead  of  you,  it  will  be \nneceffary  to  fay  the  very  fame  things  on  the  trial,  to  which  I  fliall  have  prc- \nvioufly  called  his  attention. ",
+   "pages": [
+    9
+   ],
+   "line": 376
+  },
+  {
+   "id": "taylor1804.euthyphro.p0039",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "EuTii. It will so, by Jupiter, Socrates; and if he attempts to accuse me, I shall find, as I think, his weak side, and he will be called to account in a court of justice long before me.",
+   "raw": "EuTii.  It  will  fo,  by  Jupiter,  Socrates;  and  if  he  attempts  to  accufc \nme,  I  fhall  find,  as  1  think,  his  weak  fide,  and  he  will  be  called  to  account \nin  a  court  of  juftice  long  before  me. ",
+   "pages": [
+    9
+   ],
+   "line": 391
+  },
+  {
+   "id": "taylor1804.euthyphro.p0040",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And I, O my dear associate, knowing these things, desire to become your disciple, as I am persuaded that no one, and not even Melitus himself, dares to look you in the face, though he so accutely, inartificially, and easily sees through me, that he has accused me of impiety. — Now therefore, by Jupiter, tell me that which you now strenuously contend you clearly know, viz. what kind of thing you assert holiness to be, and also unholiness, both refpe(fl:i:ig murder and other things? Or is not hohnefs the same with itself in every action? And again, is not unholiness, which is perfedly contrary to holiness itself, similar to itself? And does not every thing which it will be unholy to do, possess one certain idea according to unholiness?",
+   "raw": "Soc.  And  I,  O  my  dear  affociate,  knowing  thefe  things,  defire  to  become \nyour  difciple,  as  I  am  perfuaded  that  no  one,  and  not  even  Melitus  himfelf, \ndares  to  look  you  in  the  face,  though  he  fo  accutely,  inartificially,  and  eafily \nfees  through  me,  that  he  has  accufed  me  of  impiety. — Now  therefore,  by \nJupiter,  tell  me  that  which  you  now  ftrenuoufly  contend  you  clearly  know, \nviz.  what  kind  of  thing  you  aflert  holinefs  to  be,  and  alfo  unholinefs,  both \nrefpe(fl:i:ig  murder  and  other  things?  Or  is  not  hohnefs  the  fame  with \nitfelf  in  every  adlion  ?  And  again,  is  not  unholinefs,  which  is  perfedly  con- \ntrary to  holinefs  itfelf,  fimilar  to  itfelf?  And  does  not  every  thing  which  it \nwill  be  unholy  to  do,  polfefs  one  certain  idea  according  to  unholinefs  ? ",
+   "pages": [
+    9
+   ],
+   "line": 395
+  },
+  {
+   "id": "taylor1804.euthyphro.p0041",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Certainly, Socrates.",
+   "raw": "EuTH.  Certainly,  Socrates. ",
+   "pages": [
+    9
+   ],
+   "line": 406
+  },
+  {
+   "id": "taylor1804.euthyphro.p0042",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Tell me, then, what you say holiness, and also what unholiness is?",
+   "raw": "Soc.  Tell  me,  then,  what  you  fay  holinefs,  and  alfo  what  unholinefs  is  ? ",
+   "pages": [
+    9
+   ],
+   "line": 408
+  },
+  {
+   "id": "taylor1804.euthyphro.p0043",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I say, therefore, that holiness is that which I now do, viz. to profeciite him who acts unjustly either with reipcdt to murder or sacrilege, or any thing else of a similar nature; whether the offending person be a father or mother, or any other whatever; and that not to prosecute such a one is impious. For see, Socrates, what a great proof I will give you in law that it is so, and which I have also mentioned to others, viz. that it is right not to spare an impious man, whoever he may be. For men are firmly persuaded that Jupiter is the best and most just of gods, and yet they acknowledge that he put his father in chains, because he unjustly swallowed his children; and again, that Saturn caflrated his father, through other things of a similar nature: but they are indignant with me, because I prosecute my father who has a<£led unjustly; and thus these men assert things contrary to each other in what they say concerning the gods and concerning me.",
+   "raw": "EuTH.  I  fay,  therefore,  that  holinefs  is  that  which  I  now  do,  viz.  to  pro- \nfeciite  him  who  ads  unjuftly  either  with  reipcdt  to  murder  or  facrilege,  or \nany  thing  elfe  of  a  fimilar  nature ;  whether  the  offending  perfon  be  a  father \nor  mother,  or  any  other  whatever ;  and  that  not  to  profecute  fuch  a  one \nis  impious.  For  fee,  Socrates,  what  a  great  proof  I  will  give  you  in  law  that \nit  is  fo,  and  which  I  have  alfo  mentioned  to  others,  viz.  that  it  is  right  not \nto  fpare  an  impious  man,  whoever  he  may  be.  For  men  are  firmly  per- \nfuaded  that  Jupiter  is  the  beft  and  moft  jufl  of  gods,  and  yet  they  acknow- \nledge that  he  put  his  father  in  chains,  bccaufe  he  unjuflly  fwallowed  his \nchildren  ;  and  again,  that  Saturn  caflrated  '  his  father,  through  other  things \nof  a  fimilar  nature :  but  they  are  indignant  with  me,  becaufe  I  profecute  my \nfather  who  has  a<£led  unjuftly;  and  thus  thefe  men  afTert  things  contrary \nto  each  other  in  what  they  fay  concerning  the  gods  and  concerning  me. ",
+   "pages": [
+    10
+   ],
+   "line": 415
+  },
+  {
+   "id": "taylor1804.euthyphro.p0044",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is this the thing then, Euthyphro, on account of which I am brought to thef bar, because when any one asserts things of this kind concerning the gods, I admit them with pain; and through which, as it seems, some one calls me an offender? Now, therefore, if these things thus appear also to you who are well acquainted with such particulars, it is necessary, as it seems, that we also should admit them. For what else can we say, who acknowledge that we know nothing about such things? But tell me, by Jupiter, who presides over friendlTiip; do you think that these things thus happened in reality?",
+   "raw": "Soc.  Is  this  the  thing  then,  Euthyphro,  on  account  of  which  I  am  brought \nto  thef  bar,  becaufe  when  any  one  afTerts  things  of  this  kind  concerning  the \ngods,  I  admit  them  with  pain  ;  and  through  which,  as  it  feems,  fome  one \ncalls  me  an  offender  ?  Now,  therefore,  if  thefe  things  thus  appear  alfo  to \nyou  who  are  well  acquainted  with  fuch  particulars,  it  is  neceffary,  as  it  feems, \nthat  we  alfo  fhould  admit  them.  For  what  elfe  can  we  fay,  who  acknow- \nledge that  we  know  nothing  about  fuch  things  ?  But  tell  me,  by  Jupiter, \nwho  prefides  over  friendlTiip  ;  do  you  think  that  thefe  things  thus  happened \nin  reality  ? ",
+   "pages": [
+    10
+   ],
+   "line": 429
+  },
+  {
+   "id": "taylor1804.euthyphro.p0045",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Yes, and things still more wonderful than these, Socrates, of which the multitude are ignorant.",
+   "raw": "EuTH.  Yes,  and  things  ftill  more  wonderful  than  thefe,  Socrates,  of  which \nthe  multitude  are  ignorant. ",
+   "pages": [
+    11
+   ],
+   "line": 459
+  },
+  {
+   "id": "taylor1804.euthyphro.p0046",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you therefore think that the gods in reality wage war with each other, and that there are among them dire enmities and battles, and many other such like particulars as are related by the poets, with the representation of which by good painters our temples are decorated; and in the great Panathenaeas a veil full of such like variegated ornaments is carried into the Acropolis. Must: we say, O Euthyphro, that these things are true?",
+   "raw": "Soc.  Do  you  therefore  think  that  the  gods  in  reality  wage  war  with \neach  other,  and  that  there  are  among  them  dire  enmities  and  battles,  and \nmany  other  fuch  like  particulars  as  are  related  by  the  poets,  with  the  repre- \nfentation  of  which  by  good  painters  our  temples  are  decorated  ;  and  in  the \ngreat  Panathenaeas  a  veil  '  full  of  fuch  like  variegated  ornaments  is  carried \ninto  the  Acropolis.     Mufl:  we  fay,  O  Euthyphro,  that  thefe  things  are  true  ? ",
+   "pages": [
+    11
+   ],
+   "line": 462
+  },
+  {
+   "id": "taylor1804.euthyphro.p0047",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Not these only, O Socrates; but, as I just now said, I can relate to you many other things concerning divine affairs if you are willing, which when you hear I well know that you will be astonished.",
+   "raw": "EuTH.  Not  thefe  only,  O  Socrates ;  but,  as  I  juft  now  faid,  I  can  relate  to \nyou  many  other  things  concerning  divine  affairs  if  you  are  willing,  which \nwhen  you  hear  I  well  know  that  you  will  be  aftoniflied. ",
+   "pages": [
+    11
+   ],
+   "line": 469
+  },
+  {
+   "id": "taylor1804.euthyphro.p0048",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I should not wonder; but you may relate these things to me hereafter, when you are at leisure. Now, however, endeavour to tell me more clearly that which I jud now asked. For you have not yet, my friend, sufficiently answered my question what holiness is, but you have only told me that this which you are now doing is holy, viz, to prosecute your father for murder.",
+   "raw": "Soc.  I  (hould  not  wonder  ;  but  you  may  relate  thefe  things  to  me  here- \nafter, when  you  are  at  leifure.  Now,  however,  endeavour  to  tell  mc  more \nclearly  that  which  I  jud  now  afked.  For  you  have  not  yet,  my  friend, \nfufficiently  anfwered  my  queftion  what  holinefs  is,  but  you  have  only  told \nme  that  this  which  you  are  now  doing  is  holy,  viz,  to  profecute  your  father \nfor  murder. ",
+   "pages": [
+    11
+   ],
+   "line": 473
+  },
+  {
+   "id": "taylor1804.euthyphro.p0049",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "And I spoke the truth, Socrates.",
+   "raw": "EuTH.  And  I  fpoke  the  truth,  Socrates. ",
+   "pages": [
+    11
+   ],
+   "line": 480
+  },
+  {
+   "id": "taylor1804.euthyphro.p0050",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps so. But, O Euthyphro, do you not also say that many other things are holy?",
+   "raw": "Soc.  Perhaps  fo.  But,  O  Euthyphro,  do  you  not  alfo  fay  that  many \nother  things  are  holy  ? ",
+   "pages": [
+    11
+   ],
+   "line": 482
+  },
+  {
+   "id": "taylor1804.euthyphro.p0051",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "EuTH.  I  do. ",
+   "pages": [
+    11
+   ],
+   "line": 485
+  },
+  {
+   "id": "taylor1804.euthyphro.p0052",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Recollect, therefore, that I did not request you to teach me one or two from among many holy things, but what that form itself is by which all holy things are holy. For you have said that things unholy are unholy by one idea; and also that things holy are holy by another. Or do you not remember?",
+   "raw": "Soc.  Recollect,  therefore,  that  I  did  not  requeft  you  to  teach  me  one  or \ntwo  from  among  many  holy  things,  but  what  that  form  itfelf  is  by  which \nall  holy  things  are  holy.  For  you  have  faid  that  things  unholy  are  unholy \nby  one  idea ;  and  alfo  that  things  holy  are  holy  by  another.  Or  do  you  not \nremember  ? ",
+   "pages": [
+    11
+   ],
+   "line": 487
+  },
+  {
+   "id": "taylor1804.euthyphro.p0053",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do.,",
+   "raw": "EuTH.  1  do., ",
+   "pages": [
+    11
+   ],
+   "line": 493
+  },
+  {
+   "id": "taylor1804.euthyphro.p0054",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Teach me, therefore, what this very idea is, that looking to it and using it as a paradigm, I may say that whatever thing of this kind you or any other does is holy, and that whatever is not of this kind is unholy.",
+   "raw": "Soc.  Teach  me,  therefore,  what  this  very  idea  is,  that  looking  to  it^  and \nufing  it  as  a  paradigm,  1  may  fay  that  whatever  thing  of  this  kind  you  or \nany  other  does  is  holy,  and  that  whatever  is  not  of  this  kind  is  unholy. ",
+   "pages": [
+    11
+   ],
+   "line": 495
+  },
+  {
+   "id": "taylor1804.euthyphro.p0055",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "But if you wish it, SocrateSj I will also tell you this.",
+   "raw": "EuTH.  But  if  you  wifh  it,  SocrateSj  I  will  alfo  tell  you  this. ",
+   "pages": [
+    11
+   ],
+   "line": 499
+  },
+  {
+   "id": "taylor1804.euthyphro.p0056",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I do wish it.",
+   "raw": "Soc.  I  do  wifh  it. ",
+   "pages": [
+    11
+   ],
+   "line": 501
+  },
+  {
+   "id": "taylor1804.euthyphro.p0057",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "That, therefore, which is dear to the gods is holy, but that which is not dear to them is unholy.",
+   "raw": "EuTH.  That,  therefore,  which  is  dear  to  the  gods  is  holy,  but  that  which \nis  not  dear  to  them  is  unholy. ",
+   "pages": [
+    1
+   ],
+   "line": 510
+  },
+  {
+   "id": "taylor1804.euthyphro.p0058",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You have now answered, O Euthyphro, most beautifully, and in such a manner as I wilhed you to answer. Whether truly or not however, this I do not yet know. But you will doubtless in addition to this teach me that what you say is true.",
+   "raw": "Soc.  You  have  now  anfwered,  O  Euthyphro,  moft  beautifully,  and  in \nfuch  a  manner  as  I  wilhed  you  to  anfwer.  Whether  truly  or  not  however, \nthis  I  do  not  yet  know.  But  you  will  doubtlefs  in  addition  to  this  teach  me \nthat  what  you  fay  is  true. ",
+   "pages": [
+    1
+   ],
+   "line": 513
+  },
+  {
+   "id": "taylor1804.euthyphro.p0059",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "EuTH.  Certainly. ",
+   "pages": [
+    1
+   ],
+   "line": 518
+  },
+  {
+   "id": "taylor1804.euthyphro.p0060",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Come then, let us consider what we say. That which is dear to divinity, and the man who is dear to divinity, are holy; but that which is odious to divinity, and the man who is odious to divinity, are unholy. But the holy is not the same with the unholy, but is most contrary to it. Is it hot so?",
+   "raw": "Soc.  Come  then,  let  us  confider  what  we  fay.  That  which  is  dear  to \ndivinity,  and  the  man  who  is  dear  to  divinity,  are  holy ;  but  that  which  is \nodious  to  divinity,  and  the  man  who  is  odious  to  divinity,  are  unholy.  But \nthe  holy  is  not  the  fame  with  the  unholy,  but  is  moft  contrary  to  it.  Is  it \nhot  fo  ? ",
+   "pages": [
+    1
+   ],
+   "line": 520
+  },
+  {
+   "id": "taylor1804.euthyphro.p0061",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It certainly is so.",
+   "raw": "EuTH.  It  certainly  is  fo. ",
+   "pages": [
+    1
+   ],
+   "line": 526
+  },
+  {
+   "id": "taylor1804.euthyphro.p0062",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And these things appear to have been well said.",
+   "raw": "Soc.  And  thefe  things  appear  to  have  been  well  faid. ",
+   "pages": [
+    1
+   ],
+   "line": 528
+  },
+  {
+   "id": "taylor1804.euthyphro.p0063",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I think so, Socrates.",
+   "raw": "EuTH.  I  think  fo,  Socrates. ",
+   "pages": [
+    1
+   ],
+   "line": 530
+  },
+  {
+   "id": "taylor1804.euthyphro.p0064",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But has it not, O Euthyphro, also been said that there is fcdition among the gods, and that they oppose and are enemies to each other?",
+   "raw": "Soc.  But  has  it  not,  O  Euthyphro,  alfo  been  faid  that  there  is  fcdition \namong  the  gods,  and  that  they  oppofe  and  are  enemies  to  each  other  ? ",
+   "pages": [
+    1
+   ],
+   "line": 532
+  },
+  {
+   "id": "taylor1804.euthyphro.p0065",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It has been said.",
+   "raw": "EuTH.  It  has  been  faid. ",
+   "pages": [
+    1
+   ],
+   "line": 535
+  },
+  {
+   "id": "taylor1804.euthyphro.p0066",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But let us thus coniider, excellent man,''about what particulars discord produces enmity and wrath. If, therefore, I and you differed in opinion concerning numbers, which of them were more in quantity, would this difference make us enemies, and should we be enraged with each other I Or, betaking ourselves to computation about things of this kind, should we not be quickly liberated from this dissension?",
+   "raw": "Soc.  But  let  us  thus  coniider,  excellent  man,''about  what  particulars  difcord \nproduces  enmity  and  wrath.  If,  therefore,  I  and  you  differed  in  opinion  con- \ncerning numbers,  which  of  them  were  more  in  quantity,  would  this  difference \nmake  us  enemies,  and  fhould  we  be  enraged  with  each  other  I  Or,  betaking \nourfelves  to  computation  about  things  of  this  kind,  fhould  we  not  be  quickly \nliberated  from  this  diffenfion  ? ",
+   "pages": [
+    1
+   ],
+   "line": 537
+  },
+  {
+   "id": "taylor1804.euthyphro.p0067",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "EuTH.  Entirely  fo. ",
+   "pages": [
+    1
+   ],
+   "line": 544
+  },
+  {
+   "id": "taylor1804.euthyphro.p0068",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Hence also, if we differed concerning the greater and the lesser, should we not, by applying ourselves to measuring, soon bring our disagreement to an end?",
+   "raw": "Soc.  Hence  alfo,  if  we  differed  concerning  the  greater  and  the  leffer, \nfhould  we  not,  by  applying  ourfelves  to  meafuring,  foon  bring  our  difagree- \nment  to  an  end  ? ",
+   "pages": [
+    1
+   ],
+   "line": 546
+  },
+  {
+   "id": "taylor1804.euthyphro.p0069",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "We should.",
+   "raw": "EuTH.  We  fhould. ",
+   "pages": [
+    1
+   ],
+   "line": 550
+  },
+  {
+   "id": "taylor1804.euthyphro.p0070",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And, as I think, by betaking ourselves to weighing, we should be able to judge concerning the heavier and the lighter.",
+   "raw": "Soc.  And,  as  I  think,  by  betaking  ourfelves  to  weighing,  we  fhould  be \nable  to  judge  concerning  the  heavier  and  the  lighter. ",
+   "pages": [
+    1
+   ],
+   "line": 552
+  },
+  {
+   "id": "taylor1804.euthyphro.p0071",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly.",
+   "raw": "EuTH.  Undoubtedly. ",
+   "pages": [
+    1
+   ],
+   "line": 555
+  },
+  {
+   "id": "taylor1804.euthyphro.p0072",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "About what then disagreeing, and not being able to recur to a. certain criterion, Should we become enemies to, and be enraged with, each",
+   "raw": "Soc.  About  what  then  difagreeing,  and  not  being  able  to  recur  to  a. \ncertain  criterion,  Ihould  we  become  enemies  to,  and  be  enraged  with,  each ",
+   "pages": [
+    1
+   ],
+   "line": 557
+  },
+  {
+   "id": "taylor1804.euthyphro.p0073",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "other? other? Perhaps you cannot readily inform me; but consider whether they are such as these, viz. the just and the iinjuil:, the beautiful and the base, good and evil. Are not these the things about which disagreeing, and not being able to arrive at a certain judgment of them, we become enemies to each other, when we do so become, you and I, and all other men?",
+   "raw": "other  ? \nother  ?  Perhaps  you  cannot  readily  inform  me  ;  but  confider  whether  they \nare  fiich  as  thefe,  viz.  the  juft  and  the  iinjuil:,  the  beautiful  and  the  bafe, \ngood  and  evil.  Are  not  thefe  the  things  about  which  difagreeing,  and  not \nbeing  able  to  arrive  at  a  certain  judgment  of  them,  we  become  enemies  to \neach  other,  when  we  do  fo  become,  you  and  I,  and  all  other  men  ? ",
+   "pages": [
+    1,
+    2
+   ],
+   "line": 560
+  },
+  {
+   "id": "taylor1804.euthyphro.p0074",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "This, Socrates, is indeed the dissension, and it is about these things.",
+   "raw": "EuTH.  This,  Socrates,  is  indeed  the  diflenfion,  and  it  is  about  thefe  things. ",
+   "pages": [
+    2
+   ],
+   "line": 571
+  },
+  {
+   "id": "taylor1804.euthyphro.p0075",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? Do not the gods, O Euthyphro, if they disagree in any respect, disagree on account of these very things?",
+   "raw": "Soc.  But  what  ?  Do  not  the  gods,  O  Euthyphro,  if  they  difagree  in  any \nrefped,  difagree  on  account  of  thefe  very  things  ? ",
+   "pages": [
+    2
+   ],
+   "line": 573
+  },
+  {
+   "id": "taylor1804.euthyphro.p0076",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "By an abundant necessity.",
+   "raw": "EuTH.  By  an  abundant  neceflity. ",
+   "pages": [
+    2
+   ],
+   "line": 576
+  },
+  {
+   "id": "taylor1804.euthyphro.p0077",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Different gods, therefore, O generous Euthyphro, according to your assertion, think different things to be just, beautiful, base, good and evil. For they never would oppose each other unless they disagreed about these things. Or would they?",
+   "raw": "Soc.  Different  gods,  therefore,  O  generous  Euthyphro,  according  to  your \nafTertion,  think  different  things  to  be  juft,  beautiful,  bafe,  good  and  evil. \nFor  they  never  would  oppofe  each  other  unlefs  they  difagreed  about  thefe^ \nthings.     Or  would  they  ? ",
+   "pages": [
+    2
+   ],
+   "line": 578
+  },
+  {
+   "id": "taylor1804.euthyphro.p0078",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "You speak rightly.",
+   "raw": "EuTH.    You  fpeak  rightly. ",
+   "pages": [
+    2
+   ],
+   "line": 583
+  },
+  {
+   "id": "taylor1804.euthyphro.p0079",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do they not severally, therefore, love those things which they think to be beautiful, good and just, but hate the contraries of these?",
+   "raw": "Soc.  Do  they  not  feverally,  therefore,  love  thofe  things  which  they  think \nto  be  beautiful,  good  and  juft,  but  hate  the  contraries  of  thefe  ? ",
+   "pages": [
+    2
+   ],
+   "line": 585
+  },
+  {
+   "id": "taylor1804.euthyphro.p0080",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "EuTH.  Entirely  fo. ",
+   "pages": [
+    2
+   ],
+   "line": 588
+  },
+  {
+   "id": "taylor1804.euthyphro.p0081",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But with refpefl to these very things, some of the gods, as you say, think them to be just, and others unjust; about which also being dubious, they oppose and wage war with each other. Is it not so?",
+   "raw": "Soc.  But  with  refpefl  to  thefe  very  things,  fome  of  the  gods,  as  you  fay, \nthink  them  to  be  juft,  and  others  unjufl ;  about  which  alfo  being  dubious, \nthey  oppofe  and  wage  war  with  each  other.     Is  it  not  fo  ? ",
+   "pages": [
+    2
+   ],
+   "line": 590
+  },
+  {
+   "id": "taylor1804.euthyphro.p0082",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "EuTH.  It  is. ",
+   "pages": [
+    2
+   ],
+   "line": 594
+  },
+  {
+   "id": "taylor1804.euthyphro.p0083",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The same things therefore, as it seems, are hated and loved by the gods; and the things odious to and dear to the gods will be the very same.",
+   "raw": "Soc.  The  fame  things  therefore,  as  it  feems,  are  hated  and  loved  by  the \ngods ;  and  the  things  odious  to  and  dear  to  the  gods  will  be  the  very  fame. ",
+   "pages": [
+    2
+   ],
+   "line": 596
+  },
+  {
+   "id": "taylor1804.euthyphro.p0084",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "So it appears.",
+   "raw": "EuTH.  So  it  appears. ",
+   "pages": [
+    2
+   ],
+   "line": 599
+  },
+  {
+   "id": "taylor1804.euthyphro.p0085",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Hence also the same things will be holy and unholy, O Euthyphro, from this reasoning.",
+   "raw": "Soc.  Hence  alfo  the  fame  things  will  be  holy  and  unholy,  O  Euthyphro, \nfrom  this  reafoning. ",
+   "pages": [
+    2
+   ],
+   "line": 601
+  },
+  {
+   "id": "taylor1804.euthyphro.p0086",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "EuTU. It seems so.",
+   "raw": "EuTU.  It  feems  fb. ",
+   "pages": [
+    2
+   ],
+   "line": 604
+  },
+  {
+   "id": "taylor1804.euthyphro.p0087",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You have not therefore, O wonderful man, answered my question. For I did not alk you this, to whom the same thing is both holy and unholy: but, as it seems, that which is dear is also odious to divinity. So that, Euthyphro, there is nothing wonderful if in this which you are now doing, viz. punishing your father, you should do that which is pleasing to Jupiter, but odious to Saturn and Heaven; and which is pleafmg to Vulcan, but odious to Juno: and if any other of the gods differs from another about this very circumstance, you should in like manner do that which is approved by the one and hated by the other.",
+   "raw": "Soc.  You  have  not  therefore,  O  wonderful  man,  anfwered  my  queflion. \nFor  I  did  not  alk  you  this,  to  whom  the  fame  thing  is  both  holy  and  unholy  : \nbut,  as  it  feems,  that  which  is  dear  is  alfo  odious  to  divinity.  So  that, \nEuthyphro,  there  is  nothing  wonderful  if  in  this  which  you  are  now  doing, \nviz.  punifhing  your  father,  you  fhould  do  that  which  is  pleafing  to  Jupiter, \nbut  odious  to  Saturn  and  Heaven ;  and  which  is  pleafmg  to  Vulcan,  but \nodious  to  Juno :  and  if  any  other  of  the  gods  differs  from  another  about \nthis  very  circumflance,  you  fhould  in  like  manner  do  that  which  is  approved \nby  the  one  and  hated  by  the  other. ",
+   "pages": [
+    2,
+    14
+   ],
+   "line": 606
+  },
+  {
+   "id": "taylor1804.euthyphro.p0088",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "But I think, Socrates, that no one of the gods will differ from another in this affair, and assert that it is not proper for him to suffer punishment who has unjustly slain any one.",
+   "raw": "EuTH.  But  I  think,  Socrates,  that  no  one  of  the  gods  will  differ  from \nanother  in  this  affair,  and  affert  that  it  is  not  proper  for  him  to  fuffer \npunifhment  who  has  unjuftly  flain  any  one. ",
+   "pages": [
+    14
+   ],
+   "line": 622
+  },
+  {
+   "id": "taylor1804.euthyphro.p0089",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? Have you ever heard any man doubting, O Euthyphro, whether he who has unjiiftly slain another, or has done any thing eUc unjustly, ought to be punished?",
+   "raw": "Soc.  But  what?  Have  you  ever  heard  any  man  doubting,  O  Euthyphro, \nwhether  he  who  has  unjiiftly  (lain  another,  or  has  done  any  thing  eUc \nunjuftly,  ought  to  be  punifhed  ? ",
+   "pages": [
+    14
+   ],
+   "line": 626
+  },
+  {
+   "id": "taylor1804.euthyphro.p0090",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "They never cease doubting about these things, both elsewhere and in courts of justice. For those that act unjustly in a very great degree, say and do every thing in order to escape punishment.",
+   "raw": "EuTH.  They  never  ceafe  doubting  about  thefe  things,  both  elfewhere \nand  in  courts  of  juftice.  For  thofe  that  a61  unjuflly  in  a  very  great  degree, \nfay  and  do  every  thing  in  order  to  efcape  punifhment. ",
+   "pages": [
+    14
+   ],
+   "line": 630
+  },
+  {
+   "id": "taylor1804.euthyphro.p0091",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do they also, O Euthyphro, confess that they have acted unjustly? And confessing this, do they at the same time say, that they ought not to be punished.",
+   "raw": "Soc.  Do  they  alfo,  O  Euthyphro,  confefs  that  they  have  a6led  unjuftly  ? \nAnd  confeffing  this,  do  they  at  the  fame  time  fay,  that  they  ought  not  to \nbe  punifhed. ",
+   "pages": [
+    14
+   ],
+   "line": 634
+  },
+  {
+   "id": "taylor1804.euthyphro.p0092",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "They by no means say this.",
+   "raw": "EuTH.  They  by  no  means  fay  this. ",
+   "pages": [
+    14
+   ],
+   "line": 638
+  },
+  {
+   "id": "taylor1804.euthyphro.p0093",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "They do not, therefore, say and do every thing. For I think they dare not say, nor even doubt this, that if they act unjustly punishment must be inflicted on them: but, as it appears to me, they deny that they have a6ied unjustly. Do they not?",
+   "raw": "Soc.  They  do  not,  therefore,  fay  and  do  every  thing.  For  I  think  they \ndare  not  fay,  nor  even  doubt  this,  that  if  they  act  unjuftly  punifhment  muft  be \ninfli6ted  on  them  :  but,  as  it  appears  to  me,  they  deny  that  they  have  a6ied \nunjuftly.     Do  they  not  ? ",
+   "pages": [
+    14
+   ],
+   "line": 640
+  },
+  {
+   "id": "taylor1804.euthyphro.p0094",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "You speak the truth.",
+   "raw": "EuTH.  You  fpeak  the  truth. ",
+   "pages": [
+    14
+   ],
+   "line": 645
+  },
+  {
+   "id": "taylor1804.euthyphro.p0095",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "They are not, therefore, dubious about this, whether he who acts unjustly ought to be punished; but they perhaps doubt who he is that acts unjustly, and by what action, and when, his conduct may be considered as unjuH:.",
+   "raw": "Soc.  They  are  not,  therefore,  dubious  about  this,  whether  he  who  ads \nunjuftly  ought  to  be  punifhed ;  but  they  perhaps  doubt  who  he  is  that  a61s \nunjuftly,  and  by  what  adion,  and  when,  his  condu6l  may  be  confidered  as \nunjuH:. ",
+   "pages": [
+    14
+   ],
+   "line": 647
+  },
+  {
+   "id": "taylor1804.euthyphro.p0096",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "True.",
+   "raw": "EuTH.  True. ",
+   "pages": [
+    14
+   ],
+   "line": 652
+  },
+  {
+   "id": "taylor1804.euthyphro.p0097",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Will not, therefore, the very same things happen to the gods if they oppose each other concerning things just and unjust, according to your assertion; and will not some of them say, that they ad unjustly by each other, and others again deny this? Since, O wonderful man, no one, either of gods or men, dares to assert that punishment ought not to be inflicted on him who acts unjustly.",
+   "raw": "Soc.  Will  not,  therefore,  the  very  fame  things  happen  to  the  gods  if \nthey  oppofe  each  other  concerning  things  juft  and  unjuft,  according  to  your \naffertion ;  and  will  not  fome  of  them  fay,  that  they  ad  unjuftly  by  each \nother,  and  others  again  deny  this  ?  Since,  O  wonderful  man,  no  one,  either \nof  gods  or  men,  dares  to  aflert  that  punifhment  ought  not  to  be  inflided  on \nhim  who  ads  unjuftly. ",
+   "pages": [
+    14
+   ],
+   "line": 654
+  },
+  {
+   "id": "taylor1804.euthyphro.p0098",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "They will: and what yctu now say, Socrates, is summarily true. Soc. But those who are dubious, as well gods as men, will be dubious respecting each of the transactions; if the gods disagree about any action, and fotne of them say that it is done justly, but others unjustly. Is it not so?",
+   "raw": "EuTH.  They  will:   and  what  yctu  now  fay,  Socrates,  is  fummarily  true. \nSoc.  But  thofe  who  are  dubious,  as  well  gods  as   men,   will  be  dubious \nrcfpeding  each  of  the  tranfadions ;  if  the  gods  difagree  about  any  adion, \nand  fotne  of  them  fay  that  it  is  done  juftly,  but  others  unjuftly.     Is  it  not \nfo? ",
+   "pages": [
+    14,
+    15
+   ],
+   "line": 661
+  },
+  {
+   "id": "taylor1804.euthyphro.p0099",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "EuTH,  Certainly. ",
+   "pages": [
+    15
+   ],
+   "line": 673
+  },
+  {
+   "id": "taylor1804.euthyphro.p0100",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Come, then, my dear Euthyphro, teach me also that I may become more wise, what proof you have that all the gods think that he unjustly died, who having slain his fellow-servant, and being put in chains by the master of the deceased, perished before he that bound him received the answer from the interpreters, which was to inform him how he ought to act; and that, on account of such a man, it is right for a son to prosecute his father and accuse him of murder. Come, endeavour to demonstrate to me something clear about these things, and that all the gods consider this action to be right more than any thing. And if you demonstrate this to me sufficiently, I will never cease praising you for your wisdom.",
+   "raw": "Soc.  Come,  then,  my  dear  Euthyphro,  teach  me  alfo  that  I  may  become \nmore  wife,  what  proof  you  have  that  all  the  gods  think  that  he  unjuftly \ndied,  who  having  flain  his  fellow-fervant,  and  being  put  in  chains  by  the \nmafter  of  the  deceafed,  perifhcd  before  he  that  bound  him  received  the  anfwer \nfrom  the  interpreters,  which  was  to  inform  him  how  he  ought  to  adt ;  and \nthat,  on  account  of  fuch  a  man,  it  is  right  for  a  fon  to  profecute  his  father \nand  accufe  him  of  murder.  Come,  endeavour  to  demonftrate  to  me  fome- \nthing  clear  about  thefe  things,  and  that  all  the  gods  confider  this  a6lion  to  be \nright  more  than  any  thing.  And  if  you  demonftrate  this  to  me  fufficiently, \nI  will  never  ceafe  praifing  you  for  your  wifdom. ",
+   "pages": [
+    15
+   ],
+   "line": 675
+  },
+  {
+   "id": "taylor1804.euthyphro.p0101",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "EuTir. But perhaps, Socrates, this is no trifling employment, otherwise I could clearly demonstrate it to you.",
+   "raw": "EuTir.  But  perhaps,  Socrates,  this  is  no  trifling  employment,  otherwife  I \ncould  clearly  demonftrate  it  to  you. ",
+   "pages": [
+    15
+   ],
+   "line": 686
+  },
+  {
+   "id": "taylor1804.euthyphro.p0102",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I underiland you: I appear to you to be more dull of apprehenfioii than the judges; fnice you will evidently prove to them that your father's condu(fl was unjull:, and that all the gods hate such-like acflions.",
+   "raw": "Soc.  I  underiland  you  :  I  appear  to  you  to  be  more  dull  of  apprehenfioii \nthan  the  judges;  fnice  you  will  evidently  prove  to  them  that  your  father's \ncondu(fl  was  unjull:,  and  that  all  the  gods  hate  fuch-like  acflions. ",
+   "pages": [
+    15
+   ],
+   "line": 689
+  },
+  {
+   "id": "taylor1804.euthyphro.p0103",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I shall demonstrate this very clearly, Socrates, if they will only hear what I have to say.",
+   "raw": "EuTH.  I  fhall  demonflrate  this  very  clearly,  Socrates,  if  they  will  only  hear \nwhat  I  have  to  fay. ",
+   "pages": [
+    15
+   ],
+   "line": 693
+  },
+  {
+   "id": "taylor1804.euthyphro.p0104",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But they will hear, if you shall appear to speak v>'ell. However, while you was just now speaking, I thus thought and confrdered with myself: If Euthyphro Should especially convince me that all the gods think a death of this kind to be unjust:, in what respect shall I have the more learned from Euthyphro what the holy is, and also the unholy r l^^or this action, as it appears, will be odious to divinity. It has not, hov/ever, yet appeared from this, what is holy, and vv'hat not. For that which is odious has also appeared to be dear to divinity. So that I will grant you this, Ejthyphro, and if you pleale let all the gods think it to be unjust, and let them all hate it. Shall we, therefore, now make this correction in the definition, that what all the gods hate is unholy, and what they all love is holy; but that what some of them love, and others hate, is neither, or both? Are you willing that at prcfcnt we should thus define concerning the holy and unholy?",
+   "raw": "Soc.  But  they  will  hear,  if  you  fliall  appear  to  fpeak  v>'ell.  However, \nwhile  you  was  juft  now  fpeaking,  1  thus  thought  and  confrdered  with  myfelf  : \nIf  Euthyphro  Ihould  efpecially  convince  me  that  all  the  gods  think  a  death \nof  this  kind  to  be  unjufl:,  in  what  rcfpe6t  fhall  I  have  the  more  learned  from \nEuthyphro  what  the  holy  is,  and  alfo  the  unholy  r  l^^or  this  adion,  as  it  ap- \npears, will  be  odious  to  divinity.  It  has  not,  hov/ever,  yet  appeared  from \nthis,  what  is  holy,  and  vv'hat  not.  For  that  which  is  odious  has  alfo  appeared \nto  be  dear  to  divinity.  So  that  I  will  grant  you  this,  Ejthyphro,  and  if  you \npleale  let  all  the  gods  think  it  to  be  unjufl,  and  let  them  all  hate  it.  Shall \nwe,  therefore,  now  make  this  correction  in  the  definition,  that  what  all  the \ngods  hate  is  unholy,  and  what  they  all  love  is  holy  ;  but  that  what  fome  of \nthem  love,  and  others  hate,  is  neither,  or  both  ?  Are  you  willing  that  at \nprcfcnt  we  fliould  thus  define  concerning  the  holy  and  unholy  ? ",
+   "pages": [
+    15
+   ],
+   "line": 696
+  },
+  {
+   "id": "taylor1804.euthyphro.p0105",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "What Should hind.r, Socrates",
+   "raw": "EuTH.   What  Ihould  hind.r,  Socrates ",
+   "pages": [
+    15
+   ],
+   "line": 710
+  },
+  {
+   "id": "taylor1804.euthyphro.p0106",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "!:oc. Nothing hinders me, Euthyphro; hut do you, as to what relates to yourself, canfider whether, admuti ng this you caii so easily teach me what you promised?",
+   "raw": "!:oc.  Nothing  hinders  me,  Euthyphro;  hut  do  you,  as  to  what  relates  to \nyourfelf,  canfider  whether,  admuti ng  this^  you  caii  fo  eafily  teach  me  what \nyou  promifed  ? ",
+   "pages": [
+    15,
+    16
+   ],
+   "line": 712
+  },
+  {
+   "id": "taylor1804.euthyphro.p0107",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "But I say the holy is that which all the gods love; and Its contrary, the unholy, that which all the gods hate.",
+   "raw": "EuTH.  But  I  fay  the  holy  is  that  which  all  the  gods  love  ;  and  Its  contrary, \nthe  unholy,  that  which  all  the  gods  hate. ",
+   "pages": [
+    16
+   ],
+   "line": 722
+  },
+  {
+   "id": "taylor1804.euthyphro.p0108",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Shall we not therefore coafider, Euthyphro, whether thi& is well laid? Or shall we dismiss this coimderation, and thus grant both to ourselves and others, that if any one only says that a certain thhig is so, we shall ad mit that it is so? Or shall we coiifidsr what he who speaks says?",
+   "raw": "Soc.  Shall  we  not  therefore  coafider,  Euthyphro,  whether  thi&  is  well \nlaid  ?  Or  fhall  we  difmifs  this  coimderation,  and  thus  grant  both  to  ourfelves \nand  others,  that  if  any  one  only  fays  that  a  certain  thhig  is  fo,  we  fhall  ad^ \nmit  that  it  is  fo  ?   Or  (hall  we  coiifidsr  what  he  who  fpeaks  fays  ? ",
+   "pages": [
+    16
+   ],
+   "line": 725
+  },
+  {
+   "id": "taylor1804.euthyphro.p0109",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Consider it certainly; though I think that this is now well said.",
+   "raw": "EuTH.  Confider  it  certainly  ;  though  I  think  that  this  is  now  well  faid. ",
+   "pages": [
+    16
+   ],
+   "line": 730
+  },
+  {
+   "id": "taylor1804.euthyphro.p0110",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps, O good mail, we shall know this more clearly. For consider as follows: Is the holy, hccaufc it is holy,, beloved by the gods; or bccaule it is beloved by them, is it holy?",
+   "raw": "Soc.  Perhaps,  O  good  maii,  we  fliall  know  this  more  clearly.  For  con- \nfider as  follows  :  Is  the  holy,  hccaufc  it  is  holy,,  beloved  by  the  gods ;  or  bc- \ncaule  it  is  beloved  by  them,  is  it  holy  ? ",
+   "pages": [
+    16
+   ],
+   "line": 732
+  },
+  {
+   "id": "taylor1804.euthyphro.p0111",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do not know what you fly, Socrates.",
+   "raw": "EuTH.   I  do  not  know  what  you  fiy,  Socrates. ",
+   "pages": [
+    16
+   ],
+   "line": 736
+  },
+  {
+   "id": "taylor1804.euthyphro.p0112",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But I will endeavour to speak more clearly. We say that a thing may be carried, and that a thing carries; that a thing may be led, and that a thing leads; that a thing may be {ecu, and that a thing sees; and every thing else of this kind. Do \\ou understand that these are djiiTerent from each other, and in what they differ?",
+   "raw": "Soc.  But  I  will  endeavour  to  fpeak  more  clearly.  We  fay  that  a  thing \nmay  be  carried,  and  that  a  thing  carries  ;  that  a  thing  may  be  led,  and  that \na  thing  leads;  that  a  thing  may  be  {ecu,  and  that  a  thing  fees  ;  and  every \nthing  elfe  of  this  kind.  Do  \\ou  underfland  that  thefe  are  djiiTerent  from \neach  other,  and  in  what  they  differ  ? ",
+   "pages": [
+    16
+   ],
+   "line": 738
+  },
+  {
+   "id": "taylor1804.euthyphro.p0113",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I appear to myself to understand this.",
+   "raw": "EuTH.  1  appear  to  myfelf  to  underftand  this. ",
+   "pages": [
+    16
+   ],
+   "line": 744
+  },
+  {
+   "id": "taylor1804.euthyphro.p0114",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is therefoie that which is beloved a certain thing, and that which Joves another different from this?",
+   "raw": "Soc.  Is  therefoie  that  which  is  beloved  a  certain  thing,  and  that  which \nJoves  another  different  from  this  ? ",
+   "pages": [
+    16
+   ],
+   "line": 746
+  },
+  {
+   "id": "taylor1804.euthyphro.p0115",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly.",
+   "raw": "EuTH.  Undoubtedly. ",
+   "pages": [
+    16
+   ],
+   "line": 749
+  },
+  {
+   "id": "taylor1804.euthyphro.p0116",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Tell me, therefore, whether that which maybe carried, may be carried because it is carried, or for some other reason?",
+   "raw": "Soc.  Tell  me,  therefore,  whether  that  which  maybe  carried,  may  be  car- \nried becaufe  it  is  carried,  or  for  fome  other  reafon  ? ",
+   "pages": [
+    16
+   ],
+   "line": 751
+  },
+  {
+   "id": "taylor1804.euthyphro.p0117",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "For no other reason but for this.",
+   "raw": "EuTH.   For  no  other  reafon  but  for  this. ",
+   "pages": [
+    16
+   ],
+   "line": 754
+  },
+  {
+   "id": "taylor1804.euthyphro.p0118",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And is this the case with that which may be led, because it is led; and with that which may be seen, because it is i'cen?",
+   "raw": "Soc.  And  is  this  the  cafe  with  that  which  may  be  led,  becaufe  it  is  led  ; \nand  with  that  which  may  be  feen,  becaufe  it  is  i'cen  ? ",
+   "pages": [
+    16
+   ],
+   "line": 756
+  },
+  {
+   "id": "taylor1804.euthyphro.p0119",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "EuTH.  Entirely  fo. ",
+   "pages": [
+    16
+   ],
+   "line": 759
+  },
+  {
+   "id": "taylor1804.euthyphro.p0120",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "A thing therefore is not seen because it may be seen; but, on the contrary, because it is seen, on this account it may be {ecn. Nor bcpavife a thing may be led, on this account is it led; but because it is led, on this account it may be led. Nor because a thing may be carried, is it carried; bu': because it is carried, it may be carried. Is then what I wish to say evident, Euthyphro? But what I wish to say is this: If any thing is making, qr suffers any thing, it is not making because it may be made; but because it is making it may be made. Nor because it may suffer does it suffer; but because it suffers it may suffer, Or do you not admit this to be the case?",
+   "raw": "Soc.  A  thing  therefore  is  not  feen  becaufe  it  may  be  fcen;  but,  on  the \ncontrary,  becaufe  it  is  feen,  on  this  account  it  may  be  {ecn.  Nor  bcpavife  a \nthing  may  be  led,  on  this  account  is  it  led  ;  but  becaufe  it  is  led,  on  this  ac- \ncount it  may  be  led.  Nor  becaufe  a  thing  may  be  carried,  is  it  carried  ;  bu': \nbecaufe  it  is  carried,  it  may  be  carried.  Is  then  what  I  wifh  to  fay \nevident,  Euthyphro  ?     But  what  I  wifh  to  fay  is  this  :  If  any  thing  is  mak- \ning,  qr  fufFers  any  thing,  it  is  not  making  becaufe  it  may  be  made  ;  but  be- \ncaufc  it  is  making  it  may  be  made.  Nor  becaufe  it  may  fufFer  does  it  fuffer  ; \nbut  becaufe  it  fufFers  it  may  fufFer,  Or  do  you  not  admit  this  to  be  the \ncafe  ? ",
+   "pages": [
+    16,
+    17
+   ],
+   "line": 761
+  },
+  {
+   "id": "taylor1804.euthyphro.p0121",
+   "kind": "paragraph",
+   "label": "EUTH",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "EUTH.   I   do. ",
+   "pages": [
+    17
+   ],
+   "line": 778
+  },
+  {
+   "id": "taylor1804.euthyphro.p0122",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is not this therefore also the case with that which is beloved, or making, or suffering something from some one?",
+   "raw": "Soc.  Is  not  this  therefore  alfo  the  cafe  with  that  which  is  beloved,  or \nmaking,  or  fufFering  fomething  from  fome  one  ? ",
+   "pages": [
+    17
+   ],
+   "line": 780
+  },
+  {
+   "id": "taylor1804.euthyphro.p0123",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "EuTH.  Entirely  fo. ",
+   "pages": [
+    17
+   ],
+   "line": 783
+  },
+  {
+   "id": "taylor1804.euthyphro.p0124",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "This therefore subsists in the same manner as the things before mentioned: it is riot beloved by those by whom it is beloved, because it may be beloved; but because it is beloved, it may be beloved.",
+   "raw": "Soc.  This  therefore  fubfifts  in  the  fame  manner  as  the  things  before \nmentioned  :  it  is  riot  beloved  by  thofe  by  whom  it  is  beloved,  becaufe  it  may \nbe  beloved  ;  but  becaufe  it  is  beloved,  it  may  be  beloved. ",
+   "pages": [
+    17
+   ],
+   "line": 785
+  },
+  {
+   "id": "taylor1804.euthyphro.p0125",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "EuTii. It is necessary.",
+   "raw": "EuTii.   It  is  neccflary. ",
+   "pages": [
+    17
+   ],
+   "line": 789
+  },
+  {
+   "id": "taylor1804.euthyphro.p0126",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then do we say concerning holiucfs, O Euthyphro? Is it not this, that it is beloved by all the gods, according to your assertion?",
+   "raw": "Soc.  What  then  do  we  (ay  concerning  holiucfs,  O  Euthyphro  ?  Is  it  not \nthis,  that  it  is  beloved  by  all  the  gods,  according  to  your  alTertion  ? ",
+   "pages": [
+    17
+   ],
+   "line": 791
+  },
+  {
+   "id": "taylor1804.euthyphro.p0127",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "EuTH.  Yes. ",
+   "pages": [
+    17
+   ],
+   "line": 794
+  },
+  {
+   "id": "taylor1804.euthyphro.p0128",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it therefore beloved on this account, because it is holy, or for forr.e other reason?",
+   "raw": "Soc.  Is  it  therefore  beloved  on  this  account,  becaufe  it  is  holy,  or  for  forr.e \nother  reafon  ? ",
+   "pages": [
+    17
+   ],
+   "line": 796
+  },
+  {
+   "id": "taylor1804.euthyphro.p0129",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "For no other reason but on this account.",
+   "raw": "EuTH.  For  no  other  reafon  but  on  this  account. ",
+   "pages": [
+    17
+   ],
+   "line": 799
+  },
+  {
+   "id": "taylor1804.euthyphro.p0130",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Because i« is holy, therefore, it is beloved; but not because it is beloved, on this account it is holy.",
+   "raw": "Soc.  Becaufe  i«-  is  holy,  therefore,  it  is  beloved  ;  but  not  becaufe  it  is  be- \nloved, on  this  account  it  is  holy. ",
+   "pages": [
+    17
+   ],
+   "line": 801
+  },
+  {
+   "id": "taylor1804.euthyphro.p0131",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It appears so.",
+   "raw": "EuTH.  It  appears  fo. ",
+   "pages": [
+    17
+   ],
+   "line": 804
+  },
+  {
+   "id": "taylor1804.euthyphro.p0132",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Because hov.ever it is beloved by the gods, it may be beloved, and be dear to divinity,",
+   "raw": "Soc.  Becaufe  hov.ever  it  is  beloved  by  the  gods,  it  may  be  beloved,  and \nbe  dear  to  divinity, ",
+   "pages": [
+    17
+   ],
+   "line": 806
+  },
+  {
+   "id": "taylor1804.euthyphro.p0133",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly.",
+   "raw": "EuTH.  Undoubtedly. ",
+   "pages": [
+    17
+   ],
+   "line": 809
+  },
+  {
+   "id": "taylor1804.euthyphro.p0134",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "That which is dear to divinity, therefore, is not holy, O Euthyphro, nor mud holiness be defined to be that which is dear to divinity as you lay, but it is something disk rent from this.",
+   "raw": "Soc.  That  which  is  dear  to  divinity,  therefore,  is  not  holy,  O  Euthyphro, \nnor  mud  holinefs  be  defined  to  be  that  which  is  dear  to  divinity  as  you  lay, \nbut  it  is  fomething  difK  rent  from  this. ",
+   "pages": [
+    17
+   ],
+   "line": 811
+  },
+  {
+   "id": "taylor1804.euthyphro.p0135",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "ll'jvv is this, Socrates?",
+   "raw": "EuTH.  ll'jvv  is  this,  Socrates? ",
+   "pages": [
+    17
+   ],
+   "line": 815
+  },
+  {
+   "id": "taylor1804.euthyphro.p0136",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Because we have acknowledged that holiness is on this account he-loved because it is holy; and not that it is holy because it is beloved. Did we not?",
+   "raw": "Soc.  Becaufe  wc  have  acknowledged  that  holinefs  is  on  this  account  he- \nloved  becaufe  it  is  holy  ;  and  not  that  it  is  holy  becaufe  it  is  beloved.  Did  wc \nnot  ? ",
+   "pages": [
+    17
+   ],
+   "line": 817
+  },
+  {
+   "id": "taylor1804.euthyphro.p0137",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Ye?.",
+   "raw": "EuTH.  Ye?. ",
+   "pages": [
+    17
+   ],
+   "line": 821
+  },
+  {
+   "id": "taylor1804.euthyphro.p0138",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But that which is dear to divinity, because it is beloved by the crods, from this very circumdance that it is beloved, is dear to divinity; but not because it is dear to die iniry, on tliir account is it beloved.",
+   "raw": "Soc.  But  that  which  is  dear  to  divinity,  becaufe  it  is  beloved  bv  the  crods, \nfrom  this  very  circumdance  that  it  is  beloved,  is  dear  to  divinity  ;  but  not \nbecaufe  it  is  dear  to  di^  iniry,  on  tliir  account  is  it  beloved. ",
+   "pages": [
+    17
+   ],
+   "line": 823
+  },
+  {
+   "id": "taylor1804.euthyphro.p0139",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "'^'OL. V. D EuTil,",
+   "raw": "'^'OL.    V.  D  EuTil, ",
+   "pages": [
+    17
+   ],
+   "line": 827
+  },
+  {
+   "id": "taylor1804.euthyphro.p0140",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "True.. Soc. But, my dear Euthyphro, if that which is dear to divinity were the iiime with that which is holy, if holincfs were beloved through its being holiness, that also which is dear to divinity would be beloved through its being dear to divinity. But if that which is dear to divinity were dear to divinity through being beloved by the gods, that which is holy would also be holy through being beloved. Now, however, you see that they are contrarily affected, as being perfe6\\ly different from each other. For the one, viz. what is dear to the gods because it is beloved, is a thing of that kind that it may be beloved; but the other, viz. holiness, because it is a thing which may be beloved, on this account is beloved. And you appear, O Euthyphro, when you was asked what holiness is, to have been unwilling to manifest the essence of it to me, but to have mentioned a certain affection pertaining to it, which this same thing holiness suffers, viz, the being beloved by all the gods; but you have not yet told me what it is. If therefore it is agreeable to you, do not conceal this from me, but again say from the beginning what holiness is, whether it be beloved by the gods, or has any other property whatever pertaining to it. For we shall not differ about this. But tell me readily what the holy, and also what the unholy is?",
+   "raw": "EuTH.  True. \n.  Soc.  But,  my  dear  Euthyphro,  if  that  which  is  dear  to  divinity  were  the \niiime  with  that  which  is  holy,  if  holincfs  were  beloved  through  its  being  holi- \nnefs,  that  alfo  which  is  dear  to  divinity  would  be  beloved  through  its  being \ndear  to  divinity.  But  if  that  which  is  dear  to  divinity  were  dear  to  divinity \nthrough  being  beloved  by  the  gods,  that  which  is  holy  would  alfo  be  holy \nthrough  being  beloved.  Now,  however,  you  fee  that  they  are  contrarily \naffeded,  as  being  perfe6\\ly  different  from  each  other.  For  the  one,  viz. \nwhat  is  dear  to  the  gods  becaufe  it  is  beloved,  is  a  thing  of  that  kind  that  it \nmay  be  beloved  ;  but  the  other,  viz.  holinefs,  becaufe  it  is  a  thing  which  may \nbe  beloved,  on  this  account  is  beloved.  And  you  appear,  O  Euthyphro, \nwhen  you  was  afked  what  holinefs  is,  to  have  been  unwilling  to  manifeft \nthe  effence  of  it  to  me,  but  to  have  mentioned  a  certain  affedtion  pertaining \nto  it,  which  this  fame  thing  holinefs  fufFcrs,  viz,  the  being  beloved  by  all \nthe  gods ;  but  you  have  not  yet  told  me  what  it  is.  If  therefore  it  is  agree- \nable to  you,  do  not  conceal  this  from  me,  but  again  fay  from  the  beginning \nwhat  holinefs  is,  whether  it  be  beloved  by  the  gods,  or  has  any  other  pro- \nperty whatever  pertaining  to  it.  For  we  (hall  not  differ  about  this.  But \ntell  me  readily  what  the  holy,  and  alfo  what  the  unholy  is  ? ",
+   "pages": [
+    18
+   ],
+   "line": 832
+  },
+  {
+   "id": "taylor1804.euthyphro.p0141",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "But, Socrates, I cannot tell you what I conceive. For whatever position we adopt, is always some how or other circumvented, and is not willing to remain where we have established it.",
+   "raw": "EuTH.  But,  Socrates,  I  cannot  tell  you  what  I  conceive.  For  whatever \npofition  we  adopt,  is  always  fome  how  or  other  circumvented,  and  is  not \nwilling  to  remain  where  we  have  eftablifhed  it. ",
+   "pages": [
+    18
+   ],
+   "line": 852
+  },
+  {
+   "id": "taylor1804.euthyphro.p0142",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The things which you have asserted, O Euthyphro, appear to be the offspring of our progenitor Daedalus '. And if I indeed had said and adopted these things, perhaps you would have derided me, as if my works also, which consist: in discourse, through my alliance with him, privately escaped, and were unwilling to remain where they were placed. But now (for they are your hypotheses) the raillery of some other person is necessary. For they are unwilling to abide with you, as it also appears to you yourself.",
+   "raw": "Soc.  The  things  which  you  have  afferted,  O  Euthyphro,  appear  to  be  the \noffspring  of  our  progenitor  Daedalus  '.  And  if  I  indeed  had  faid  and  adopted \nthefe  things,  perhaps  you  would  have  derided  me,  as  if  my  works  alfo,  which \nconfifl:  in  difcourfe,  through  my  alliance  with  him,  privately  efcaped,  and \nwere  unwilling  to  remain  where  they  were  placed.  But  now  (for  they  are \nyour  hypothefes)  the  raillery  of  fome  other  perfon  is  neceflary.  For  they  arc \nunwilling  to  abide  with  you,  as  it  alfo  appears  to  you  yourfelf. ",
+   "pages": [
+    18
+   ],
+   "line": 856
+  },
+  {
+   "id": "taylor1804.euthyphro.p0143",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "But it appears to me, Socrates, that what is said ought to be exposed to nearly the same ridicule. For I am not the caute of the circuitous wandering of these affertlons, and of their not abiding in the same place; but you appear to me to be the Daedalus. For so far as pertains to me, these things would have remained firm.",
+   "raw": "EuTH.  But  it  appears  to  me,  Socrates,  that  what  is  faid  ought  to  be  ex- \npofed  to  nearly  the  fame  ridicule.     For  I  am  not  the  caute  of  the  circuitous \nwandering  of  thefe  affertlons,  and  of  their  not  abiding  in  the  fame  place  ;  but \nyou  appear  to  me  to  be  the  Daedalus.  For  fo  far  as  pertains  to  me,  thefe \nthings  would  have  remained  firm. ",
+   "pages": [
+    18,
+    19
+   ],
+   "line": 864
+  },
+  {
+   "id": "taylor1804.euthyphro.p0144",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I appear therefore, my friend, to have become so much more skilful than that man in this art, in as much as he only made his own productions unstable; but I, besides my own, as it seems, make those of others tabe so. And moreover, this is the mod elegant circumstance pertaining to my art, that I am unwillino-ly wise. For I had rather that my reasonings should abide, and be eflabllrtied immoveable, than that the riches of Tantalus, together with the wisdom of Daedalus, should become my pofleirion. But enough of this. — Since, however, you appear to be delicate, I, in conjunction with you, will endeavour to show how you may teach me concerning holiness, and not be weary till this is accomplished. For see whether it does not appear to you to be necessary that every thing holy should be just.",
+   "raw": "Soc.  I  appear  therefore,  my  friend,  to  have  become  fo  much  more  fkilful \nthan  that  man  in  this  art,  in  as  much  as  he  only  made  his  own  produdions \nunflable  ;  but  I,  befides  my  own,  as  it  feems,  make  thofe  of  others  tabe  fo. \nAnd  moreover,  this  is  the  mod  elegant  circumftance  pertaining  to  my  art, \nthat  I  am  unwillino-ly  wife.  For  I  had  rather  that  my  reafonings  fhould  abide, \nand  be  eflabllrtied  immoveable,  than  that  the  riches  of  Tantalus,  together \nwith  the  wifdom  of  Daedalus,  fhould  become  my  pofleirion.  But  enough  of \nthis. — Since,  however,  you  appear  to  be  delicate,  I,  in  conjun6lion  with  you, \nwill  endeavour  to  fhow  how  you  may  teach  me  concerning  holinefs,  and  not \nbe  weary  till  this  is  accomplifhed.  For  fee  whether  it  does  not  appear  to  you \nto  be  neceflary  that  every  thing  holy  (hould  be  juft. ",
+   "pages": [
+    19
+   ],
+   "line": 880
+  },
+  {
+   "id": "taylor1804.euthyphro.p0145",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Tome it does.",
+   "raw": "EuTH.  Tome  it  does. ",
+   "pages": [
+    19
+   ],
+   "line": 892
+  },
+  {
+   "id": "taylor1804.euthyphro.p0146",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is therefore every thing just: also holy? or is every thing holy indeed just; but not every thing just holy, but partly holy, and partly something else?",
+   "raw": "Soc.  Is  therefore  every  thing  jufl:  alfo  holy  ?  or  is  every  thing  holy  indeed \njuft ;  but  not  every  thing  juft  holy,  but  partly  holy,  and  partly  fomething \nelfe? ",
+   "pages": [
+    19
+   ],
+   "line": 894
+  },
+  {
+   "id": "taylor1804.euthyphro.p0147",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do not comprehend, Socrates, what you say.",
+   "raw": "EuTH.  I  do  not  comprehend,  Socrates,  what  you  fay. ",
+   "pages": [
+    19
+   ],
+   "line": 898
+  },
+  {
+   "id": "taylor1804.euthyphro.p0148",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And yet you are younger no less than you are wiser than I am; but, as I said, you are delicate through the riches of your wisdom. However, O blessed man, collect yourself: for it is not difficult to understand what I say. For I assert the contrary to the poet*, who says.",
+   "raw": "Soc.  And  yet  you  are  younger  no  lefs  than  you  are  wifcr  than  I  am  ;  but, \nas  I  faid,  you  are  delicate  through  the  riches  of  your  wifdom.  However,  O \nblefled  man,  colled  yourfelf :  for  it  is  not  difficult  to  underftand  what  I  fay. \nFor  I  affcrt  the  contrary  to  the  poet*,  who  fays. ",
+   "pages": [
+    19
+   ],
+   "line": 900
+  },
+  {
+   "id": "taylor1804.euthyphro.p0149",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "You Jove, the source of all, refuse to sing: For fear perpetually resides with ihaine.",
+   "raw": "You  Jove,  the  fourcc  of  all,  refufe  to  fing : \nFor  fear  perpetually  refides  with  ihaine. ",
+   "pages": [
+    19
+   ],
+   "line": 905
+  },
+  {
+   "id": "taylor1804.euthyphro.p0150",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "I therefore differ from this poet. Shall I tell you in what respect?",
+   "raw": "I  therefore  differ  from  this  poet.     Shall  I  tell  you  in  what  refped  ? ",
+   "pages": [
+    19
+   ],
+   "line": 908
+  },
+  {
+   "id": "taylor1804.euthyphro.p0151",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "By all means.",
+   "raw": "EuTH,  By  all  means. ",
+   "pages": [
+    19
+   ],
+   "line": 910
+  },
+  {
+   "id": "taylor1804.euthyphro.p0152",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It does not appear to me, that wherever there is fear, there also there is shame. For there are many, as it seems to me, who fear diseases, poverty, and many other things of this kind, but who by no means are ashamed of these things which they fear. Does not the same thing also appear to you? 20 T H E E U T H Y P H R 0.",
+   "raw": "Soc.  It  does  not  appear  to  me,  that  wherever  there  is  fear,  there  alfo  there \nis  fhame.  For  there  are  many,  as  it  feems  to  me,  who  fear  difeafes,  poverty, \nand  many  other  things  of  this  kind,  but  who  by  no  means  are  afhamed  of \nthefe  things  which  they  fear.  Does  not  the  fame  thing  alfo  appear  to \nyou  ? \n20  T  H  E      E  U  T  H  Y  P  H  R  0. ",
+   "pages": [
+    19,
+    20
+   ],
+   "line": 912
+  },
+  {
+   "id": "taylor1804.euthyphro.p0153",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "EuTH.  Certainly. ",
+   "pages": [
+    20
+   ],
+   "line": 925
+  },
+  {
+   "id": "taylor1804.euthyphro.p0154",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But wherever shame is, there also is fear. For is there any one who is afiiamed of and blushes at any thing, but who does not at the same time fear and dread the opinion of improbity?",
+   "raw": "Soc.  But  wherever  (hame  is,  there  alfo  is  fear.  For  is  there  any  one \nwho  is  afiiamed  of  and  blufhes  at  any  thing,  but  who  does  not  at  the  fame \ntime  fear  and  dread  the  opinion  of  improbity  ? ",
+   "pages": [
+    20
+   ],
+   "line": 927
+  },
+  {
+   "id": "taylor1804.euthyphro.p0155",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "He will certainly dread this.",
+   "raw": "EuTH.  He  will  certainly  dread  this. ",
+   "pages": [
+    20
+   ],
+   "line": 931
+  },
+  {
+   "id": "taylor1804.euthyphro.p0156",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is not therefore right to say, that where there is fear, there also there is shame; but we should U\\y that where there is shame, there also fear resides. For wherever there is fear, there is not also shame. For I think that fear extends further than Oiame; since shame is a part of fear, just as the odd is a part of number. So tiiat it does not fellow that wherever there is number, there also is the ode; but wherever there is the odd, there also there is number. Do you now apprehend me?",
+   "raw": "Soc.  It  is  not  therefore  right  to  fay,  that  where  there  is  fear,  there  alfo \nthere  is  fhame ;  but  we  fhould  U\\y  that  where  there  is  fhamc,  there  alfo  fear \nrefides.  For  wherever  there  is  fear,  there  is  not  alfo  fhame.  For  I  think \nthat  fear  extends  further  than  Oiame  ;  fince  fhame  is  a  part  of  fear,  juft  as  the \nodd  is  a  part  of  number.  So  tiiat  it  does  not  fellow  that  wherever  there  is \nnumber,  there  alfo  is  the  ode  ;  but  wherever  there  is  the  odd,  there  alfo  there \nis  number.    Do  you  now  apprehend  me? ",
+   "pages": [
+    20
+   ],
+   "line": 933
+  },
+  {
+   "id": "taylor1804.euthyphro.p0157",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Per fed ly fa»",
+   "raw": "EuTH.  Per  fed  ly  fa» ",
+   "pages": [
+    20
+   ],
+   "line": 941
+  },
+  {
+   "id": "taylor1804.euthyphro.p0158",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Respecting a thing of this kind, therefore, I inquired above, when I asked you whether where the jest was, there also the holy was; or whether \"where the holy was, there also the just: was, but the holy was not to be found every wherein conjunction with the just. For the holy is a part ofthejuH^ Does it appear to you that we should thus speak, or otherwise?",
+   "raw": "Soc.  Refpeding  a  thing  of  this  kind,  therefore,  I  inquired  above,  when  I \nafked  you  whether  where  the  jaft  was,  there  alfo  the  holy  was;  or  whether \n\"where  the  holy  was,  there  alfo  the  jufl:  was,  but  the  holy  was  not  to  be  found \nevery  wherein  conjunction  with  the  jufl.  For  the  holy  is  a  part  ofthejuH^ \nDoes  it  appear  to  you  that  we  (hould  thus  fpeak,  or  otherwife  ? ",
+   "pages": [
+    20
+   ],
+   "line": 943
+  },
+  {
+   "id": "taylor1804.euthyphro.p0159",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Not otherwise; but thus. For you appear to me to speak rightly.",
+   "raw": "EuTH.   Not  otherwife  ;   but  thus.     For  you  appear  to  me  to  fpcak  rightly. ",
+   "pages": [
+    20
+   ],
+   "line": 949
+  },
+  {
+   "id": "taylor1804.euthyphro.p0160",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Sac. See then what follows: for, if the holy is a part of the just, it is neceflfary, as it seems, that we should discover what part of the just the holy will be. If therefore you should ask me some of the things just now mentioned, as, for instance, what part of number the even is, and what number it is, I should say that it is not scalene, but isosceles'. Or does it not appear so to you?",
+   "raw": "Sac.  See  then  what  follows  :  for,  if  the  holy  is  a  part  of  the  jufl,  it  is \nneceflfary,  as  it  feems,  that  we  fliould  difcover  what  part  of  the  jufl  the  holy \nwill  be.  If  therefore  you-  fhould  afk  me  fome  of  the  things  jufl  now  mentioned, \nas,  for  inflance,  what  part  of  number  the  even  is,  and  what  number  it  is,  I \nfliould  fay  that  it  is  not  fcalene,  but  ifofceles'.  Or  does  it  not  appear  fo  to \nyou  ? ",
+   "pages": [
+    20
+   ],
+   "line": 951
+  },
+  {
+   "id": "taylor1804.euthyphro.p0161",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It does.",
+   "raw": "EuTH.  It  does. ",
+   "pages": [
+    20
+   ],
+   "line": 958
+  },
+  {
+   "id": "taylor1804.euthyphro.p0162",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you therefore also endeavour in like manner to teach me what part of the just the holy is, that we may tell Melitus he must no longer ad uiyuftly by us, nor accuse us of impiety, as having now sufficiently learnt from you what things are pious and holy, and what not.",
+   "raw": "Soc.  Do  you  therefore  alfo  endeavour  in  like  manner  to  teach  me  what \npart  of  the  jufl  the  holy  is,  that  we  may  tell  Melitus  he  mufl  no  longer  ad \nuiyuftly  by  us,  nor  accufe  us  of  impiety,  as  having  now  fufficiently  learnt  from \nyou  what  things  are  pious  and  holy,  and  what  not. ",
+   "pages": [
+    20
+   ],
+   "line": 960
+  },
+  {
+   "id": "taylor1804.euthyphro.p0163",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "This part then, Socrates, of the just, appears to me to be pious T H E E U T H Y P H R 0. ai",
+   "raw": "EuTH.  This  part  then,   Socrates,  of  the  jufl,  appears   to  me  to  be  pious \nT  H  E      E  U  T  H  Y  P  H  R  0.  ai ",
+   "pages": [
+    20,
+    21
+   ],
+   "line": 965
+  },
+  {
+   "id": "taylor1804.euthyphro.p0164",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "and holy, viz. that which is conversant with the culture of the gods; but that which is conversant with the culture of mankind is the remaining part of the just,",
+   "raw": "and  holy,  viz.  that  which  is  converfant  with  the  culture  of  the  gods ;  but \nthat  which  is  converfant  with  the  culture  of  mankind  is  the  remaining  part \nof  the juft, ",
+   "pages": [
+    21
+   ],
+   "line": 977
+  },
+  {
+   "id": "taylor1804.euthyphro.p0165",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And you appear to me, Euthyphro, to speak well. However, I am fl:ill in want of a certain triflmg particular. For I do not yet under stand what culture you mean. For you certainly do not say that such as is the culture about other things, such also is that which pertains to the gods. For iiiftancc, we say not every one knows the culture of horses, but he who is skilled in equestrian affairs. Do we not?",
+   "raw": "Soc.  And  you  appear  to  me,  Euthyphro,  to  fpeak  well.  However,  I  am \nfl:ill  in  want  of  a  certain  triflmg  particular.  For  I  do  not  yet  under ftand \nwhat  culture  you  mean.  For  you  certainly  do  not  fay  that  fuch  as  is  the \nculture  about  other  things,  fuch  alfo  is  that  which  pertains  to  the  gods. \nFor  iiiftancc,  we  fay  not  every  one  knows  the  culture  of  horfes,  but  he  who \nis  (killed  in  equeftrian  affairs.     Do  we  not  ? ",
+   "pages": [
+    21
+   ],
+   "line": 981
+  },
+  {
+   "id": "taylor1804.euthyphro.p0166",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Certainly,",
+   "raw": "EuTH.  Certainly, ",
+   "pages": [
+    21
+   ],
+   "line": 988
+  },
+  {
+   "id": "taylor1804.euthyphro.p0167",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For equestrian skill is the culture of horses..",
+   "raw": "Soc.   For  equeftrian  (kill  is  the  culture  of  horfes.. ",
+   "pages": [
+    21
+   ],
+   "line": 990
+  },
+  {
+   "id": "taylor1804.euthyphro.p0168",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "EuTH.  It  is. ",
+   "pages": [
+    21
+   ],
+   "line": 992
+  },
+  {
+   "id": "taylor1804.euthyphro.p0169",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nor does every one know the culture of dogs, but this belongs to the huntsman.",
+   "raw": "Soc.  Nor  does  every  one  know  the  culture  of  dogs,  but  this  belongs  to  the \nhuntfman. ",
+   "pages": [
+    21
+   ],
+   "line": 994
+  },
+  {
+   "id": "taylor1804.euthyphro.p0170",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It does.",
+   "raw": "EuTH,  It  does. ",
+   "pages": [
+    21
+   ],
+   "line": 997
+  },
+  {
+   "id": "taylor1804.euthyphro.p0171",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For the art of hunting is the culture of dogs",
+   "raw": "Soc.  For  the  art  of  hunting  is  the  culture- of  dogs- ",
+   "pages": [
+    21
+   ],
+   "line": 999
+  },
+  {
+   "id": "taylor1804.euthyphro.p0172",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "EuTH.  It  is. ",
+   "pages": [
+    21
+   ],
+   "line": 1001
+  },
+  {
+   "id": "taylor1804.euthyphro.p0173",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But the grazier's art is the culture of oxen.",
+   "raw": "Soc.  But  the  grazier's  art  is  the  culture  of  oxen. ",
+   "pages": [
+    21
+   ],
+   "line": 1003
+  },
+  {
+   "id": "taylor1804.euthyphro.p0174",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "EuTH.  Certainly. ",
+   "pages": [
+    21
+   ],
+   "line": 1005
+  },
+  {
+   "id": "taylor1804.euthyphro.p0175",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But holiness and piety are the culture of the gods, O Euryphro. Do you say so }",
+   "raw": "Soc.  But  holinefs  and  piety  are  the  culture  of  the  gods,  O  Euryphro.  Do \nyou  fay  fo  } ",
+   "pages": [
+    21
+   ],
+   "line": 1007
+  },
+  {
+   "id": "taylor1804.euthyphro.p0176",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "EuTH.  I  do. ",
+   "pages": [
+    21
+   ],
+   "line": 1010
+  },
+  {
+   "id": "taylor1804.euthyphro.p0177",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "All culture, therefore, effects the same thing, viz, the good and advantage of that which is cultivated. Just as with respect to horses, you see that being cultivated by the equestrian art, they are advantaged by it and become better. Or does it not appear so to you?",
+   "raw": "Soc.  All  culture,  therefore,  effe6ts  the  fame  thing,  viz,  the  good  and \nadvantage  of  that  which  is  cultivated.  Juft  as  with  refped  to  horfes,  you \nfee  that  being  cultivated  by  the  equeftrian  art,  they  are  advantaged  by  it  and \nbecome  better.     Or  does  it  not  appear  fo  to  you  ? ",
+   "pages": [
+    21
+   ],
+   "line": 1012
+  },
+  {
+   "id": "taylor1804.euthyphro.p0178",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It does,",
+   "raw": "EuTH.  It  does, ",
+   "pages": [
+    21
+   ],
+   "line": 1017
+  },
+  {
+   "id": "taylor1804.euthyphro.p0179",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Dogs alio are benefited by the huntfman's art, and oxen by that of the grazier, and all other things in a similar manner. Or do you think that culture is the injury of that which is cultivated? EuTH. Not I, by Jupiter. Soc. But the advantage therefore? EuTH. How should it not?",
+   "raw": "Soc.   Dogs  alio  are  benefited  by  the  huntfman's  art,  and  oxen  by  that  of \nthe  grazier,  and  all  other  things  in  a  (imilar  manner.     Or  do  you  think  that \nculture  is  the  injury  of  that  which  is  cultivated? \nEuTH.   Not  I,  by  Jupiter. \nSoc.  But  the  advantage  therefore  ? \nEuTH.  How  (hould  it  not? ",
+   "pages": [
+    21
+   ],
+   "line": 1019
+  },
+  {
+   "id": "taylor1804.euthyphro.p0180",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is holiness, therefore, since it is a culture of the gods, an advantage to the gods, and does it make the gods better? And do you admit this, that when you perform any thing holy, you render some one of the gods better?",
+   "raw": "Soc.  Is  holinefs,  therefore,  fince  it  is  a  culture  of  the  gods,  an  advantage \nto  the  gods,  and  does  it  make  the  gods  better  ?   And  do  you  admit  this,  that \nwhen  you  perform  any  thing  holy,  you  render  fome  one  of  the  gods  better  ? ",
+   "pages": [
+    21,
+    22
+   ],
+   "line": 1026
+  },
+  {
+   "id": "taylor1804.euthyphro.p0181",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Not I, by Jupiter.",
+   "raw": "EuTH.  Not  1,  by  Jupiter. ",
+   "pages": [
+    22
+   ],
+   "line": 1036
+  },
+  {
+   "id": "taylor1804.euthyphro.p0182",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nor do I, O Euthyphro, think that you say this: it certainly is far otherwise. And for this reason I asked you what this culture of the gods is, not thinking you would say a thing of this kind,",
+   "raw": "Soc.  Nor  do  I,  O  Euthyphro,  think  that  you  fay  this :  it  certainly  is  far \notherwifc.  And  for  this  reafon  I  afked  you  what  this  culture  of  the  gods  is, \nnot  thinking  you  would  fay  a  thing  of  this  kind, ",
+   "pages": [
+    22
+   ],
+   "line": 1038
+  },
+  {
+   "id": "taylor1804.euthyphro.p0183",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "ExjTH. And you thought rightly, Socrates: for I do not say any such thing.",
+   "raw": "ExjTH.  And  you  thought  rightly,  Socrates :  for  I  do  not  fay  any  fuch \nthing. ",
+   "pages": [
+    22
+   ],
+   "line": 1042
+  },
+  {
+   "id": "taylor1804.euthyphro.p0184",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Be it so. But what culture of the gods will holiness be?",
+   "raw": "Soc.  Be  it  fo.     But  what  culture  of  the  gods  will  holinefs  be  ? ",
+   "pages": [
+    22
+   ],
+   "line": 1045
+  },
+  {
+   "id": "taylor1804.euthyphro.p0185",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "That culture, Socrates, which slaves pay to their masters.",
+   "raw": "EuTH.  That  culture,  Socrates,  which  flaves  pay  to  their  mafters. ",
+   "pages": [
+    22
+   ],
+   "line": 1047
+  },
+  {
+   "id": "taylor1804.euthyphro.p0186",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc* I underftand* It will be a certain subserviency as it seems to the gods.",
+   "raw": "Soc*  I  underftand*  It  will  be  a  certain  fubferviency  as  it  feems  to  the \ngods. ",
+   "pages": [
+    22
+   ],
+   "line": 1049
+  },
+  {
+   "id": "taylor1804.euthyphro.p0187",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so,",
+   "raw": "EuTH.  Entirely  fo, ",
+   "pages": [
+    22
+   ],
+   "line": 1052
+  },
+  {
+   "id": "taylor1804.euthyphro.p0188",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Can you then tell me, with refpe^ to the art subservient to physicians, to the accompli(hment of what work it is subservient? Do you not think it is subservient to health?",
+   "raw": "Soc.  Can  you  then  tell  me,  with  refpe^  to  the  art  fubfervient  to  phy- \nficians,  to  the  accompli(hment  of  what  work  it  is  fubfervient  ?  Do  you  not \nthink  it  is  fubfervient  to  health  ? ",
+   "pages": [
+    22
+   ],
+   "line": 1054
+  },
+  {
+   "id": "taylor1804.euthyphro.p0189",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do",
+   "raw": "EuTH.  I  do^ ",
+   "pages": [
+    22
+   ],
+   "line": 1058
+  },
+  {
+   "id": "taylor1804.euthyphro.p0190",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? with respect to the art subservient to shipwrights, to the accompllfhment of what work is it subservient?",
+   "raw": "Soc.  But  what  ?  with  refped  to  the  art  fubfervient  to  (hipwrights,  to  the \naccompllfhment  of  what  work  is  it  fubfervient? ",
+   "pages": [
+    22
+   ],
+   "line": 1060
+  },
+  {
+   "id": "taylor1804.euthyphro.p0191",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Evidently, Socrates, to that of a /hip.",
+   "raw": "EuTH.  Evidently,  Socrates,  to  that  of  a  /hip. ",
+   "pages": [
+    22
+   ],
+   "line": 1063
+  },
+  {
+   "id": "taylor1804.euthyphro.p0192",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And is not the art subservient to archite^s, subservient to the building of houses?",
+   "raw": "Soc.  And  is  not  the  art  fubfervient  to  archite^s,  fubfervient  to  the  build- \ning of  houfes  ? ",
+   "pages": [
+    22
+   ],
+   "line": 1065
+  },
+  {
+   "id": "taylor1804.euthyphro.p0193",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "EuTH.  Yes. ",
+   "pages": [
+    22
+   ],
+   "line": 1068
+  },
+  {
+   "id": "taylor1804.euthyphro.p0194",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Tell me, then, O best of men: with ref]>e<S to the art subservient to the gods, to the accomplilhmcnt of what work will it be subservient? For it is evident that you know, because you say that you have a knowledge of divine concerns beyond that of other men.",
+   "raw": "Soc.  Tell  me,  then,  O  beft  of  men :  with  ref]>e<S  to  the  art  fubfervient \nto  the  gods,  to  the  accomplilhmcnt  of  what  work  will  it  be  fubfervient  ? \nFor  it  is  evident  that  you  know,  becaufe  you  fay  that  you  have  a  knowledge \nof  divine  concerns  beyond  that  of  other  men. ",
+   "pages": [
+    22
+   ],
+   "line": 1070
+  },
+  {
+   "id": "taylor1804.euthyphro.p0195",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "And I say true, Socrates.",
+   "raw": "EuTH.  And  I  fay  true,  Socrates. ",
+   "pages": [
+    22
+   ],
+   "line": 1075
+  },
+  {
+   "id": "taylor1804.euthyphro.p0196",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Inform me then, by Jupiter, what that all-beautiful work is which the o-ods efFt^V, employing our subserviency.",
+   "raw": "Soc.  Inform  me  then,  by  Jupiter,  what  that  all-beautiful  work  is  which \nthe  o-ods  efFt^V,  employing  our  fubferviency. ",
+   "pages": [
+    22
+   ],
+   "line": 1077
+  },
+  {
+   "id": "taylor1804.euthyphro.p0197",
+   "kind": "paragraph",
+   "label": "Euth",
+   "translator": "Thomas Taylor",
+   "text": "They are many and beautiful, Socrates.",
+   "raw": "Euth;  They  are  many  and  beautiful,  Socrates. ",
+   "pages": [
+    22
+   ],
+   "line": 1080
+  },
+  {
+   "id": "taylor1804.euthyphro.p0198",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The generals of an army too, my friend, accomplifti many and beautiful things -, but at the same time you can easily tell what that principal thing is which they effect, viz. vi^ory in battle. Or can you not?",
+   "raw": "Soc.  The  generals  of  an  army  too,  my  friend,  accomplifti  many  and \nbeautiful  things  -,  but  at  the  fame  time  you  can  eafily  tell  what  that  principal \nthing  is  which  they  effedl,  viz.  vi^ory  in  battle.     Or  can  you  not  ? ",
+   "pages": [
+    22
+   ],
+   "line": 1082
+  },
+  {
+   "id": "taylor1804.euthyphro.p0199",
+   "kind": "paragraph",
+   "label": "Euth",
+   "translator": "Thomas Taylor",
+   "text": "Et/TH. How is it pofllble I should not?",
+   "raw": "Et/TH.  How  is  it  pofllble  I  fhould  not? ",
+   "pages": [
+    23
+   ],
+   "line": 1091
+  },
+  {
+   "id": "taylor1804.euthyphro.p0200",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Husbandmen also, I think, accomplish many and beautiful things; but at the same time the principal thing which they produce is aliment from the earth.",
+   "raw": "Soc.  Hufbandmen  alfo,  I  think,  accomplifh  many  and  beautiful  things ; \nbut  at  the  fame  time  the  principal  thing  which  they  produce  is  aliment \nfrom  the  earth. ",
+   "pages": [
+    23
+   ],
+   "line": 1093
+  },
+  {
+   "id": "taylor1804.euthyphro.p0201",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "EuTH.  Entirely  fo. ",
+   "pages": [
+    23
+   ],
+   "line": 1097
+  },
+  {
+   "id": "taylor1804.euthyphro.p0202",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Of the many and beautiful things then which the gods accomplish, what is the principal?",
+   "raw": "Soc.  Of  the  many  and  beautiful  things  then  which  the  gods  accomplifli, \nwhat  is  the  principal  ? ",
+   "pages": [
+    23
+   ],
+   "line": 1099
+  },
+  {
+   "id": "taylor1804.euthyphro.p0203",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I told you a little before, Socrates, that to learn accurately how all these things subsist is an arduous undertaking; but I now tell you fi.nply this, that if any one knows how to say and do things acceptable to the gods, praying and sacrificing to them, these things are holy. Things of this kind also prtferve both private houses and cities; but the contraries to things acceptable to the gods are impious, and these subvert and dcfiroy all things,",
+   "raw": "EuTH.  I  told  you  a  little  before,  Socrates,  that  to  learn  accurately  how \nall  thefe  things  fubfift  is  an  arduous  undertaking;  but  I  now  tell  you  fi.nply \nthis,  that  if  any  one  knows  how  to  fay  and  do  things  acceptable  to  the  gods, \npraying  and  facrificing  to  them,  thefe  things  are  holy.  Things  of  this  kind \nalfo  prtferve  both  private  houfes  and  cities ;  but  the  contraries  to  things \nacceptable  to  the  gods  are  impious,  and  thefe  fubvert  and  dcfiroy  all  things, ",
+   "pages": [
+    23
+   ],
+   "line": 1102
+  },
+  {
+   "id": "taylor1804.euthyphro.p0204",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You might, if you had been willing, Euthyphro, h^ve told me the sum of my inquiries in a much shorter manner. But it is evident that you are not readily disposed to instruct me. For now when you drew near for this purpose you receded; though if you had answered, I should before this perhaps have learnt from you what holiness is. But now (tor it is necessary that he who interrogates should follow him who is interrogated wherever he may lead) what do you again say the holy, and holiness, is? Do you not say it is a certain science of sacrificing and praying?",
+   "raw": "Soc.  You  might,  if  you  had  been  willing,  Euthyphro,  h^ve  told  me  the \nfum  of  my  inquiries  in  a  much  (horter  manner.  But  it  is  evident  that  you \nare  not  readily  difpofed  to  inftrud  me.  For  now  when  you  drew  near  for \nthis  purpofe  you  receded ;  though  if  you  had  anfwercd,  I  fliould  before  this \nperhaps  have  learnt  from  you  what  holinefs  is.  But  now  (tor  it  is  neceflary \nthat  he  who  interrogates  fhould  follow  him  who  is  interrogated  wherever \nhe  may  lead)  what  do  you  again  fay  the  holy,  and  holinefs,  is  ?  Do  you  not \nfay  it  is  a  certain  fcience  of  facrificing  and  praying  ? ",
+   "pages": [
+    23
+   ],
+   "line": 1109
+  },
+  {
+   "id": "taylor1804.euthyphro.p0205",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "EuTH.  1  do. ",
+   "pages": [
+    23
+   ],
+   "line": 1118
+  },
+  {
+   "id": "taylor1804.euthyphro.p0206",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is not to sacrifice to offer gifts to the gods; but to pray to rcqucft something of the gods?",
+   "raw": "Soc.  Is  not  to  facrifice  to  offer  gifts  to  the  gods ;  but  to  pray  to  rcqucft \nfomething  of  the  gods  ? ",
+   "pages": [
+    23
+   ],
+   "line": 1120
+  },
+  {
+   "id": "taylor1804.euthyphro.p0207",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Very much so, Socrates.",
+   "raw": "EuTH.  Very  much  fo,  Socrates. ",
+   "pages": [
+    23
+   ],
+   "line": 1123
+  },
+  {
+   "id": "taylor1804.euthyphro.p0208",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "From this it follows that holiness will be the science of requesting and giving to the gods.",
+   "raw": "Soc.  From  this  it  follows  that  holinefs  will  be  the  fcience  of  requefting \nand  giving  to  the  gods. ",
+   "pages": [
+    23
+   ],
+   "line": 1125
+  },
+  {
+   "id": "taylor1804.euthyphro.p0209",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "You have very well underfliood, Socrates, what I said.",
+   "raw": "EuTH.  You  have  very  well  underfliood,  Socrates,  what  I  faid. ",
+   "pages": [
+    23
+   ],
+   "line": 1128
+  },
+  {
+   "id": "taylor1804.euthyphro.p0210",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For I am very desirous, my friend, of your wisdom, and I pay attention to it; so that what you say does not fail to the ground. But tell me what this subserviency to the gods is? Do you say it is to request of them and to give to them?",
+   "raw": "Soc.  For  I  am  very  defirous,  my  friend,  of  your  wifdom,  and  I  pay \nattention  to  it ;  fo  that  what  you  fay  docs  not  fall  to  the  ground.  But  tell \nme  what  this  fubferviency  to  the  gods  is  ?  Do  you  fay  it  is  to  requeft  of \nthem  and  to  give  to  them  ? ",
+   "pages": [
+    23
+   ],
+   "line": 1130
+  },
+  {
+   "id": "taylor1804.euthyphro.p0211",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "EuTH.  I  do. ",
+   "pages": [
+    23
+   ],
+   "line": 1135
+  },
+  {
+   "id": "taylor1804.euthyphro.p0212",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Will it not follow, therefore, that to request rightly, will be to rcqucft of ihem ihofe things of which we are in want?",
+   "raw": "Soc.  Will  it  not  follow,  therefore,  that  to  requeft  rightly,  will  be  to \nrcqucft  of  ihem  ihofe  things  of  which  wc  are  in  want? ",
+   "pages": [
+    23
+   ],
+   "line": 1137
+  },
+  {
+   "id": "taylor1804.euthyphro.p0213",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "What else can it be?",
+   "raw": "EuTH.  What  elfe  can  it  be  ? ",
+   "pages": [
+    24
+   ],
+   "line": 1145
+  },
+  {
+   "id": "taylor1804.euthyphro.p0214",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And again, will not to give rightly confiH: in giving to them in our turn such things as they are in -want of from us? For it would not be conformable to art to bestow upon any one those things of which he is not in want.",
+   "raw": "Soc.  And  again,  will  not  to  give  rightly  confiH:  in  giving  to  them  in  our \nturn  fuch  things  as  they  are  in  -want  of  from  us  ?  For  it  would  not  be  con- \nformable to  art  to  beftow  upon  any  one  thofe  things  of  which  he  is  not  in \nwant. ",
+   "pages": [
+    24
+   ],
+   "line": 1147
+  },
+  {
+   "id": "taylor1804.euthyphro.p0215",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "You say true, Socrates.",
+   "raw": "EuTH.  You  fay  true,  Socrates. ",
+   "pages": [
+    24
+   ],
+   "line": 1152
+  },
+  {
+   "id": "taylor1804.euthyphro.p0216",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Holiness, therefore, O Euthyphro, will be a certain mercantile art between gods and men.",
+   "raw": "Soc.  Holinefs,  therefore,  O  Euthyphro,  will  be  a  certain  mercantile  art \nbetween  gods  and  men. ",
+   "pages": [
+    24
+   ],
+   "line": 1154
+  },
+  {
+   "id": "taylor1804.euthyphro.p0217",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Let it be mercantile, if it pleases you so to call it.",
+   "raw": "EuTH.  Let  it  be  mercantile,  if  it  pleafes  you  fo  to  call  it. ",
+   "pages": [
+    24
+   ],
+   "line": 1157
+  },
+  {
+   "id": "taylor1804.euthyphro.p0218",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But it is not pleasing to me unless it be true. Tell me therefore what advantage the gods derive from the gifts which they receive from us J For the advantage ^rifuig from their gifts is evident to every one; fmcc we have not any good which they do not impart. But in what respect are they benefited from what they receive from us? Or have we ib mucfi the advantage in this merchandise, that we receive every good from them, but they receive nothing from us?",
+   "raw": "Soc.  But  it  is  not  pleafing  to  me  unlefs  it  be  true.  Tell  me  therefore \nwhat  advantage  the  gods  derive  from  the  gifts  which  they  receive  from  us  J \nFor  the  advantage  ^rifuig  from  their  gifts  is  evident  to  every  one  ;  fmcc  we \nhave  not  any  good  which  they  do  not  impart.  But  in  what  refpedl  are  they \nbenefited  from  what  they  receive  from  us  ?  Or  have  we  ib  mucfi  the  advan- \ntage in  this  merchandife,  that  we  receive  every  good  from  them,  but  they \nreceive  nothing  from  us  ? ",
+   "pages": [
+    24
+   ],
+   "line": 1159
+  },
+  {
+   "id": "taylor1804.euthyphro.p0219",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "But do you think, Socrates, that the gods are benefited by what they receive from us?",
+   "raw": "EuTH.  But  do  you  think,  Socrates,  that  the  gods  are  benefited  by  what \nthey  receive  from  us  ? ",
+   "pages": [
+    24
+   ],
+   "line": 1167
+  },
+  {
+   "id": "taylor1804.euthyphro.p0220",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What is the use then, Euthyphro, of these our gifts to the gods?",
+   "raw": "Soc.  What  is  the  ufc  then,  Euthyphro,  of  thefe  our  gifts  to  the  gods? ",
+   "pages": [
+    24
+   ],
+   "line": 1170
+  },
+  {
+   "id": "taylor1804.euthyphro.p0221",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "What other use do you think except honour an<l reverence, and, as I just: now said, gratitude?",
+   "raw": "EuTH.  What  other  ufe  do  you  think  except  honour  an<l  reverence,  and, \nas  1  jufl:  now  fald,  gratitude  ? ",
+   "pages": [
+    24
+   ],
+   "line": 1172
+  },
+  {
+   "id": "taylor1804.euthyphro.p0222",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "HoJinefs then, Euthyphro, is that which is acceptable to the gods, but not that which is profitable to, or beloved by them.",
+   "raw": "Soc.  HoJinefs  then,  Euthyphro,  is  that  which  is  acceptable  to  the  gods, \nbut  not  that  which  is  profitable  to,  or  beloved  by  them. ",
+   "pages": [
+    24
+   ],
+   "line": 1175
+  },
+  {
+   "id": "taylor1804.euthyphro.p0223",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "I think it is the most of all things beloved by them.",
+   "raw": "EuTH.  I  think  it  is  the  moft  of  all  things  beloved  by  them. ",
+   "pages": [
+    24
+   ],
+   "line": 1178
+  },
+  {
+   "id": "taylor1804.euthyphro.p0224",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "This then again is as it seems holiness, viz. that which is dear to the gods,",
+   "raw": "Soc.  This  then  again  is  as  it  fcems  holinefs,  viz.  that  which  is  dear  to \nthe  gods, ",
+   "pages": [
+    24
+   ],
+   "line": 1180
+  },
+  {
+   "id": "taylor1804.euthyphro.p0225",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "Especially so.",
+   "raw": "EuTH.  Efpecially  fo. ",
+   "pages": [
+    24
+   ],
+   "line": 1183
+  },
+  {
+   "id": "taylor1804.euthyphro.p0226",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "AOcrting these things, can you wonder that your discourse does not appear to be fixed, but wandering? And can you accuse me as being the Daedalus that causes them to wander, w hen you yourself far surpass Da?dalus in art, and make your afTcrtions to revolve in a circle? Or do you not perceive that our discourse, revolving again, comes to the same? For you remember that in the former part of our discourse, llic holy, and the dear to divinity, did not appear to us to be the same, but ditferent from each other: or do you not remember?",
+   "raw": "Soc.  AOcrting  thefe  things,  can  you  wonder  that  your  difcourfe  does  not \nappear  to  be  fixed,  but  wandering  ?  And  can  you  accufe  me  as  being  the \nDaedalus  that  caufes  them  to  wander,  w  hen  you  yourfelf  far  furpafs  Da?dalus \nin  art,  and  mak^  your  afTcrtions  to  revolve  in  a  circle  ?  Or  do  you  not  per- \nceive that  our  difcourfe,  revolving  again,  comes  to  the  fame  ?  For  you  re- \nmember that  in  the  former  part  of  our  difcourfe,  llic  holy,  and  the  dear  to \ndivinity,  did  not  appear  to  us  to  be  the  fame,  but  ditferent  from  each  other : \nor  do  you  not  remember  ? ",
+   "pages": [
+    24
+   ],
+   "line": 1185
+  },
+  {
+   "id": "taylor1804.euthyphro.p0227",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "T do.",
+   "raw": "EuTH.  T  do. ",
+   "pages": [
+    25
+   ],
+   "line": 1199
+  },
+  {
+   "id": "taylor1804.euthyphro.p0228",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Now, therefore, do you not perceive that you say the holy is that which is beloved by the gods? But is thiS any thing else than that which is dear to divinity?",
+   "raw": "Soc.  Now,  therefore,  do  you  not  perceive  that  you  fay  the  holy  is  that \nwhich  is  beloved  by  the  gods?  But  is  thiS  any  thing elfe  than  that  which  is \ndear  to  divinity  ? ",
+   "pages": [
+    25
+   ],
+   "line": 1201
+  },
+  {
+   "id": "taylor1804.euthyphro.p0229",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It is nothing else.",
+   "raw": "EuTH.  It  is  nothing  elfe. ",
+   "pages": [
+    25
+   ],
+   "line": 1205
+  },
+  {
+   "id": "taylor1804.euthyphro.p0230",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Either therefore we did not then conclude well, or, if we did, our present position is not right,",
+   "raw": "Soc.  Either  therefore  we  did  not  then  conclude  well,  or,  if  we  did,  our \nprefcnt  pofition  is  not  right, ",
+   "pages": [
+    25
+   ],
+   "line": 1207
+  },
+  {
+   "id": "taylor1804.euthyphro.p0231",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It seems so.",
+   "raw": "EuTH.   It  feems  fo. ",
+   "pages": [
+    25
+   ],
+   "line": 1210
+  },
+  {
+   "id": "taylor1804.euthyphro.p0232",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "From the beginning, therefore, we must again consider what the holy is. For I shall not willingly, before I have learnt this, run tiniidly away. Do not then despise me, but paying all possible attention, tell me the truth in the most eminent degree. For you know it, if any man does; and you will not be dismissed like Proteus till you hive told me. For if you had not cle.irly knoun what the holy, and also the unholy is, you never would have attempted, for the sake of a man who is a hireling, to accuse your father of murder, when he is now advanced in years; but you would have dreaded (lest you should not act rightly in this affair) the danger of incurring the anger of the gods, and the reproach of men. But now I well know that you c\\t2iv\\y suspects y that you have a knowledge of what the holy and its contrary are. Tell me, therefore, most excellent Euthyphro, and do not conceal from me what you think it to be?",
+   "raw": "Soc.  From  the  beginning,  therefore,  we  muft  again  confider  what  the \nholy  is.  For  I  fhall  not  willingly,  before  I  have  learnt  this,  run  tiniidly \naway.  Do  not  then  defpife  me,  but  paying  all  poflible  attention,  tell  me  the \ntruth  in  the  moft  eminent  degree.  For  you  know  it,  if  any  man  does  ;  and \nyou  will  not  be  difmifTed  like  Proteus  till  you  hive  told  me.  For  if  you  had \nnot  cle.irly  knoun  what  the  holy,  and  alfo  the  unholy  is,  you  never  would \nhave  attempted,  for  the  fake  of  a  man  who  is  a  hireling,  to  accufe  your  father \nof  murder,  when  he  is  now  advanced  in  years  ;  but  you  would  have  dreaded \n(left  you  (hould  not  adl  rightly  in  this  affair)  the  danger  of  incurring  the \nanger  of  the  gods,  and  the  reproach  of  men.  But  now  I  well  know  that \nyou  c\\t2iv\\y  fufpe£i  ^ y  that  you  have  a  knowledge  of  what  the  holy  and  its \ncontrary  are.  Tell  me,  therefore,  moft  excellent  Euthyphro,  and  do  not \nconceal  from  me  what  you  think  it  to  be  ? ",
+   "pages": [
+    25
+   ],
+   "line": 1212
+  },
+  {
+   "id": "taylor1804.euthyphro.p0233",
+   "kind": "paragraph",
+   "label": "EuTH",
+   "translator": "Thomas Taylor",
+   "text": "It must be at some other opportunity then, Socrates: for now I am in haste, and it is time for me to leave you.",
+   "raw": "EuTH.  It  muft  be  at  fome  other  opportunity  then,  Socrates  :  for  now  I \nam  in  hafte,  and  it  is  time  for  me  to  leave  you. ",
+   "pages": [
+    25
+   ],
+   "line": 1226
+  },
+  {
+   "id": "taylor1804.euthyphro.p0234",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What do you do, my friend? By your departure you will throw me from the great hope I had entertained of learning from you what things are holy, and what are not so, and of liberating myself from the accusation of Melitus, by Oiowing him that I was become wise through Euthyphro in divine concerns; that I ftiall no longer speak rashly, nor introduce any novelties refpc6^ing them through ignorance; and also that I shall ad better during the remainder of my life.",
+   "raw": "Soc.  What  do  you  do,  my  friend  ?  By  your  departure  you  will  throw  me \nfrom  the  great  hope  I  had  entertained  of  learning  from  you  what  things  are \nholy,  and  what  are  not  fo,  and  of  liberating  myfelf  from  the  accufation  of \nMelitus,  by  Oiowing  him  that  I  was  become  wife  through  Euthyphro  in \ndivine  concerns  ;  that  I  ftiall  no  longer  fpeak  raflily,  nor  introduce  any  no- \nvelties refpc6^ing  them  through  ignorance  ;  and  alfo  that  1  fhall  ad  better \nduring  the  remainder  of  my  life. ",
+   "pages": [
+    25
+   ],
+   "line": 1229
+  }
+ ],
+ "notes": [
+  {
+   "text": "The king's porch was a place en the right side of the Ceramicus, where the second of the nine archons, who was called the king, presided for the space of a year. See Pausanias in Atiic. lib. i. p. 5, and Meiirfius in Attic, Led. lib. vi, c, 27.",
+   "raw": "*  The  king's  porch  was  a  place  en  the  right  fide  of  the  Ceramicus,  where  the  fecond  of  the \nnine  archons,  who  was  called  the  king,  prefided  for  the  fpace  of  a  year.  See  Paufanias  in  Atiic. \nlib.  i.  p.  5,  and  Meiirfius  in  Attic,  Led.  lib.  vi,  c,  27. ",
+   "page": 5,
+   "line": 214,
+   "in": "taylor1804.euthyphro.p0003",
+   "anchor": "note mark",
+   "id": "taylor1804.euthyphro.n001",
+   "signed": null
+  },
+  {
+   "text": "The hearth, among the Greeks, contained the household gods, of whom Vesta was the chief. Hence /o begin from the Vestal hearth was a proverbial expression, when they spoke of beginning with what is most excellent and sacred.",
+   "raw": "'  The  hearth,  among  the  Greeks,  contained  the  houfehold  gods,  of  whom  Vefta  was  the  chief. \nHence  /o  begin  from  the  Veftal  hearth  was  a  proverbial  expreflion,  when  they  fpoke  of  beginning \nwith  what  is  moft  excellent  and  facred. ",
+   "page": 6,
+   "line": 257,
+   "in": "taylor1804.euthyphro.p0013",
+   "anchor": "note mark",
+   "id": "taylor1804.euthyphro.n002",
+   "signed": null
+  },
+  {
+   "text": "This perfectly accords with what we have cited from Xenophon, in the Introdu^lion to the Apology of Socrates »",
+   "raw": "»  This  perfectly  accords  with  what  wc  have  cited  from  Xcnophon,  in  the  Introdu^lion  to  the \nApology  of  Socrates » ",
+   "page": 6,
+   "line": 261,
+   "in": "taylor1804.euthyphro.p0015",
+   "anchor": "note mark",
+   "id": "taylor1804.euthyphro.n003",
+   "signed": null
+  },
+  {
+   "text": "For the signification of bonds and castrations, when applied to divine natures, see p. 141 of the Tnlrodu6lion to the Second Book of the Republic. I shall only observe here with Proclus, that Plato was of opinion that all such narrations as these will be condemned by the nnultitude and the stupid through ignorance of their arcane meaning, but that they will indicate certain • wonderful conjectures to the wise. Hence, though he does not admit this mode of mythologizing, yet, as is evident from what he says in the Timaeus, he thinks we ought to be persuaded by ihofe antients who were the oHspring of the gods, and to inveHigate tlieir occult conceptions. Hence tpo, though he reje<^ls the Saturnian bonds, and the castrations of Heaven, when discoursing Tvith Euthyphro and the auditors of his Republic, yet in his Cratylus, when he investigates names philosophically, he admits other secondary bonds about the mighty Saturn and Pluto. Plato, therefore, by no means ridicules the religion of his country in what he here says, as ft)me moderns have ])retended he does; but he admits such relations as these with pain, because he well knew that they would only be inipiouily perverted by, and were far beyond the comprehension of, the vulgar.",
+   "raw": "'  For  the  fignification  of  bonds  and  caftrations,  when  applied  to  divine  natures,  fee  p.  141  of \nthe  Tnlrodu6lion  to  the  Second  Book  of  the  Republic.  I  fliall  only  obferve  here  with  Proclus, \nthat  Plato  was  of  opinion  that  all  fuch  narrations  as  thefe  will  be  condemned  by  the  nnultitude \nand  the  ftupid  through  ignorance  of  their  arcane  meaning,  but  that  they  will  indicate  certain \n•  wonderful  conjeclures  to  the  wife.  Hence,  though  he  does  not  admit  this  mode  of  mythologizing, \nyet,  as  is  evident  from  what  he  fays  in  the  Timaeus,  he  thinks  we  ought  to  be  pcrfuaded  by  ihofe \nantients  who  were  the  oHspring  of  the  gods,  and  to  inveHigate  tlieir  occult  conceptions.  Hence \ntpo,  though  he  reje<^ls  the  Saturnian  bonds,  and  the  caftrations  of  Heaven,  when  difcourfing \nTvith  Euthyphro  and  the  auditors  of  his  Republic,  yet  in  his  Cratylus,  when  he  inveftigates \nnames  philofophically,  he  admits  other  fccondary  bonds  about  the  mighty  Saturn  and  Pluto. \nPlato,  therefore,  by  no  means  ridicules  the  religion  of  his  country  in  what  he  here  fays,  as  ft)me \nmoderns  have  ])retended  he  does;  but  he  admits  fuch  relations  as  thefe  witli  pain,  becaufe  he \nwell  knew  that  they  would  only  be  inipiouily  perverted  by,  and  were  far  beyond  the  compre- \nhenfion  of,  the  vulgar. ",
+   "page": 10,
+   "line": 439,
+   "in": "taylor1804.euthyphro.p0043",
+   "anchor": "note mark",
+   "id": "taylor1804.euthyphro.n004",
+   "signed": null
+  },
+  {
+   "text": "For the explanation of this veil, see the Additional Notes on the Republic, vol. i. p. 520. \" Daedalus was a most ingenious statuary, and is said to have made figures which moved of themselves, and seemed to be endovv ed with life. Socrates, therefore, calls Daedalus his progenitor, because his father was a llaiuary, and he himself when young cxcrcifcd his father's an.",
+   "raw": "»  For  the  explanation  of  this  veil,  fee  the  Additional  Notes  on  the  Republic,  vol.  i.  p.  520. \n\"  Daedalus  was  a  moft  ingenious  ftatuary,  and  is  faid  to  have  made  figures  which  moved  of \nthemfelves,  and  feemed  to  be  endovv  ed  with  life.  Socrates,  therefore,  calls  Daedalus  his  proge- \nnitor, becaufe  his  father  was  a  llaiuary,  and  he  himfelf  when  young  cxcrcifcd  his  father's  an. ",
+   "page": 11,
+   "line": 503,
+   "in": "taylor1804.euthyphro.p0046",
+   "anchor": "note mark",
+   "id": "taylor1804.euthyphro.n005",
+   "signed": null
+  },
+  {
+   "text": "The name of this poet appears to be unknown,",
+   "raw": "»  The  name  of  this  poet  appears  to  be  unknown, ",
+   "page": 19,
+   "line": 918,
+   "in": "taylor1804.euthyphro.p0152",
+   "anchor": "same page",
+   "id": "taylor1804.euthyphro.n006",
+   "signed": null
+  },
+  {
+   "text": "Socrates calls the even number isosceles, because it can be divided into two equal numbers as if ihey were sides; but this is not the case with the oJd number, which may therefore be compared to a scalene triangle, because as in this all tae fid is are unequal, so all the parts of an odd number are unequal.",
+   "raw": "'  Socrates  calls  the  even  number  ifofceles,  becaufc  it  can  be  divided  into  two  equal  numbers \nas  if  ihey  were  fides  ;  but  this  is  not  the  cafe  with  the  oJd  number,  which  may  thereiore  be  com- \npared  to  a  fcalene  triangle,  bccaufe  as  in  this  all  tae  fid  js  are  unequal,  fo  all  the  parts  of  an  odd \nnumber  arc  unequal. ",
+   "page": 20,
+   "line": 967,
+   "in": "taylor1804.euthyphro.p0163",
+   "anchor": "same page",
+   "id": "taylor1804.euthyphro.n007",
+   "signed": null
+  },
+  {
+   "text": "Plato here vtry properly uses she word oi«, jcu fvfffff, because Euthypbro not being freed from two-lolil ignorance, t)r, in oiher words, beng ignorant that he >\\ as ignorant, had nothing niore than a Juj^icion ol the nature otholincfs.",
+   "raw": "*  Plato  here  vtry  properly  ufcs  ihe  word  oi«,  jcu  fvfffff,  bccaufe  Euthypbro  not  being  freed \nfrom  tvvo-lolil  ignorance,  t)r,  in  oiher  words,  beng  ignorant  that  he  >\\  as  ignorant,  had  nothing \nniore  than  a  Juj^icion  ol  the  nature  otholincfs. ",
+   "page": 25,
+   "line": 1237,
+   "in": "taylor1804.euthyphro.p0232",
+   "anchor": "note mark",
+   "id": "taylor1804.euthyphro.n008",
+   "signed": null
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 17,
+  "words joined across lines": 43,
+  "notes": 8,
+  "running heads removed": 18,
+  "paragraphs run on across a page": 12,
+  "notes run on across a page": 1,
+  "note marks removed": 6,
+  "speeches": 216
+ }
+}

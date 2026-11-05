@@ -1,0 +1,2190 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.minos",
+ "title": "The Minos",
+ "author": "Plato",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804)",
+ "perseus_work": "urn:cts:greekLit:tlg0059.tlg033",
+ "citation": "1804 page on every segment; Stephanus sections are assigned when the library is built (tools/align.py)",
+ "proof_status": "OCR cleaned by rule",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   8887,
+   9560
+  ],
+  "exclude": []
+ },
+ "gap": null,
+ "segments": [
+  {
+   "id": "taylor1804.minos.p0001",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "PERSONS OF THE DIALOGUE. SOCRATES AKD MINOS.",
+   "raw": "PERSONS    OF   THE   DIALOGUE. \nSOCRATES  AKD  MINOS. ",
+   "pages": [
+    179
+   ],
+   "line": 8887
+  },
+  {
+   "id": "taylor1804.minos.p0002",
+   "kind": "paragraph",
+   "label": "Socrates",
+   "translator": "Thomas Taylor",
+   "text": "HAT is law with us?",
+   "raw": "HAT  is  law  with  us? ",
+   "pages": [
+    179
+   ],
+   "line": 8896
+  },
+  {
+   "id": "taylor1804.minos.p0003",
+   "kind": "paragraph",
+   "label": "Min",
+   "translator": "Thomas Taylor",
+   "text": "About what kind of law do you interrogate?",
+   "raw": "Min;  About  what  kind  of  law  do  you  interrogate  ? ",
+   "pages": [
+    179
+   ],
+   "line": 8898
+  },
+  {
+   "id": "taylor1804.minos.p0004",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What is that by which law differs from law, according to this very thing, the being law? For consider what I alk you. For I alk as if I should inquire what gold is; and if you in a similar manner should alk me, about what kind of gold I inquire, I Should think you would not rightly interrogate. For neither does gold differ in any thing from gold, so far as it is gold, nor a stone from a stone, so far as it is a stone. And in like manner, neither does law differ in any thing from law; but all laws are the same. For each of them is similarly law; nor is one more, but the other less so. I ask you, therefore, the whole of this \\cry thing, what law is; and if you have an answer at hand give it me.",
+   "raw": "Soc.  What  is  that  by  which  law  differs  from  law,  according  to  this  very \nthing,  the  being  law  ?  For  confider  what  I  alk  you.  For  I  alk  as  if  I  fliould \ninquire  what  gold  is ;  and  if  you  in  a  fimilar  manner  (hould  alk  me,  about \nwhat  kind  of  gold  I  inquire,  I  Ihould  think  you  would  not  rightly  interrogate. \nFor  neither  does  gold  differ  in  any  thing  from  gold,  fo  far  as  it  is  gold,  nor \na  ftone  from  a  flone,  fo  far  as  it  is  a  ftone.  And  in  like  manner,  neither \ndoes  law  differ  in  any  thing  from  law ;  but  all  laws  arc  the  fame.  For \neach  of  them  is  fimilarly  law  ;  nor  is  one  more,  but  the  other  lefs  fb.  I  afk \nyou,  therefore,  the  whole  of  this  \\cry  thing,  what  law  is ;  and  if  you  have  an \nanfwer  at  hand  give  it  me. ",
+   "pages": [
+    179
+   ],
+   "line": 8900
+  },
+  {
+   "id": "taylor1804.minos.p0005",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "What else, Socrates, will law be than things cftablifhed by law?",
+   "raw": "MiN.  What  elfc,  Socrates,  will  law  be  than  things  cftablifhed  by  law  ? ",
+   "pages": [
+    179
+   ],
+   "line": 8911
+  },
+  {
+   "id": "taylor1804.minos.p0006",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Does speech also appear to you ta be things which are fpokcnr or sight things which are seen f or hearing things which are heard r Or is speech one thing, and are things spoken another? Is sight one thing, and are things seen another? Is hearing one thing, and are things heard another? And, is law one thing, and are things eClablifhed by law another? Is this the case, or how does it appear to you?",
+   "raw": "Soc.  Does  fpcech  alfo  appear  to  you  ta  be  things  which  are  fpokcnr  or \nfight  things  which  are  feen  f  or  hearing  things  which  are  heard  r  Or  is  fpeech \none  thing,  and  are  things  fpoken  another?  Is  fight  one  thing,  and  are  things \nfeen  another  ?  Is  hearing  one  thing,  and  are  things  heard  another  ?  And,  is \nlaw  one  thing,  and  are  things  eClablifhed  by  law  another  ?  Is  this  the  cafe,  or \nhow  does  it  appear  to  you  ? ",
+   "pages": [
+    179
+   ],
+   "line": 8913
+  },
+  {
+   "id": "taylor1804.minos.p0007",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "This now appears to me to be the case.",
+   "raw": "MiN.  This  now  appears  to  me  to  be  the  cafe. ",
+   "pages": [
+    179
+   ],
+   "line": 8920
+  },
+  {
+   "id": "taylor1804.minos.p0008",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Law, therefore, is not things established by law.",
+   "raw": "Soc.  Law,  therefore,  is  not  things  eflablifhed  by  law. ",
+   "pages": [
+    179
+   ],
+   "line": 8922
+  },
+  {
+   "id": "taylor1804.minos.p0009",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It does not appear to me that it is.",
+   "raw": "MiN.  It  does  not  appear  to  me  that  it  is. ",
+   "pages": [
+    180
+   ],
+   "line": 8929
+  },
+  {
+   "id": "taylor1804.minos.p0010",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What law, therefore, may be, let us thus consider. If some one should alk us respecting those things of which we have just now spoken, fmce you say that things visible are seen by the sight, what the sight is by which they are seen? we should answer him, that it is a sense which through.,the eyes manifests colours to us. And if he should again alk us what the hearing is by which things are beard? we should reply> that it is a sense which through the ears manifests to us sounds. In like manner, if he should ask us, since legal institutions are legally established by law, what is law by which they are thus established? whether is it a certain sense, or manifeftation in the same manner as things which are learnt, are learnt by science rendering them manifest. Or is it a certain invention? just as things which are discovered are invented; as, for instance, things falubrious and noxious are* discovered by medicine; but the conceptions of the Gods, as prophets say, by divination. Fof the divining art is with us an invention of such like things: Or is it not r",
+   "raw": "Soc.  What  law,  therefore,  may  be,  let  us  thus  confider.  If  fomc  one \nfhould  alk  us  refpedting  thofe  things  of  which  we  have  juft  now  fpoken, \nfmce  you  fay  that  things  vifible  are  feen  by  the  fight,  what  the  fight  is  by \nwhich  they  are  feen  ?  we  (hould  anfwcr  him,  that  it  is  a  fcnfe  which  through. \n,the  eyes  manifefts  colours  to  us.  And  if  he  (hould  again  alk  us  what  the \nhearing  is  by  which  things  are  beard  ?  we  fliould  reply>  that  it  is  a  fenfe \nwhich  through  the  ears  manifefts  to  us  founds.  In  like  manner,  if  he  fhould \nafk  us,  fince  legal  inftitutions  are  legally  eftablifhed  by  law,  what  is  law  by \nwhich  they  are  thus  eftablifhed  ?  whether  is  it  a  certain  fenfe,  or  manifeftation  ^ \nin  the  fame  manner  as  things  which  are  learnt,  are  learnt  by  fcience  render- \ning them  manifefl.  Or  is  it  a  certain  invention  ?  jufl  as  things  which  arc \ndifcovered  are  invented ;  as,  for  inflance,  things  falubrious  and  noxious  are* \ndifcovered  by  medicine ;  but  the  conceptions  of  the  Gods,  as  prophets  fay, \nby  divination.  Fof  the  divining  art  is  with  us  an  invention  of  fuch  like \nthings  :  Or  is  it  not  r ",
+   "pages": [
+    180
+   ],
+   "line": 8931
+  },
+  {
+   "id": "taylor1804.minos.p0011",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "MiN.  Entirely  fo. ",
+   "pages": [
+    180
+   ],
+   "line": 8947
+  },
+  {
+   "id": "taylor1804.minos.p0012",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Which of these, therefore, may we especially presume law to be?' Shall we say it is these dogmas and decrees?",
+   "raw": "Soc.  Which  of  thefe,  therefore,  may  we  efpecially  prefume  law  to  be  ?' \nShall  we  fay  it  is  thefe  dogmas  and  decrees  ? ",
+   "pages": [
+    180
+   ],
+   "line": 8949
+  },
+  {
+   "id": "taylor1804.minos.p0013",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It appears so to me. For what else can any one say law is f So that it appears the whole of this which you ask, viz. law, is the dogma of the city.",
+   "raw": "MiN.  It  appears  fo  to  me.  For  what  elfc  can  any  one  fay  law  is  f  So \nthat  it  appears  the  whole  of  this  which  you  afk,  viz.  law,  is  the  dogma  of \nthe  city. ",
+   "pages": [
+    180
+   ],
+   "line": 8952
+  },
+  {
+   "id": "taylor1804.minos.p0014",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You call, as it seems, law, political opinron*",
+   "raw": "Soc.  You  call,  as  it  feems,  law,  political  opinron* ",
+   "pages": [
+    180
+   ],
+   "line": 8956
+  },
+  {
+   "id": "taylor1804.minos.p0015",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "MiN.  I  do.  ' ",
+   "pages": [
+    180
+   ],
+   "line": 8958
+  },
+  {
+   "id": "taylor1804.minos.p0016",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And perhaps you speak well; but perhaps we shall know better in. the following manner. Do you say that some men are wise I",
+   "raw": "Soc.  And  perhaps  you  fpeak  well ;  but  perhaps  we  fhall  know  better  in. \nthe  following  manner.     Do  you  fay  that  fome  men  are  wife  I ",
+   "pages": [
+    180
+   ],
+   "line": 8960
+  },
+  {
+   "id": "taylor1804.minos.p0017",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "MiN.  I  do. ",
+   "pages": [
+    180
+   ],
+   "line": 8963
+  },
+  {
+   "id": "taylor1804.minos.p0018",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are not the wise, therefore, wise by wisdom?",
+   "raw": "Soc.  Are  not  the  wife,  therefore,  wife  by  wifdom? ",
+   "pages": [
+    180
+   ],
+   "line": 8965
+  },
+  {
+   "id": "taylor1804.minos.p0019",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    180
+   ],
+   "line": 8967
+  },
+  {
+   "id": "taylor1804.minos.p0020",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? are the just, just by justice I",
+   "raw": "Soc.  But  what  ?  are  the  juft,  juft  by  juftice  I ",
+   "pages": [
+    180
+   ],
+   "line": 8969
+  },
+  {
+   "id": "taylor1804.minos.p0021",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "MiN.  Entirely  fo. ",
+   "pages": [
+    180
+   ],
+   "line": 8971
+  },
+  {
+   "id": "taylor1804.minos.p0022",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are the legitimate, therefore, also legitimate by law >",
+   "raw": "Soc.  Are  the  legitimate,  therefore,  alfo  legitimate  by  law  > ",
+   "pages": [
+    180
+   ],
+   "line": 8973
+  },
+  {
+   "id": "taylor1804.minos.p0023",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    180
+   ],
+   "line": 8975
+  },
+  {
+   "id": "taylor1804.minos.p0024",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And the illegitimate, illegitimate by a privation of law?",
+   "raw": "Soc.  And  the  illegitimate,  illegitimate  by  a  privation  of  law? ",
+   "pages": [
+    180
+   ],
+   "line": 8977
+  },
+  {
+   "id": "taylor1804.minos.p0025",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "JMiN. Yes.",
+   "raw": "JMiN.  Yes. ",
+   "pages": [
+    180
+   ],
+   "line": 8979
+  },
+  {
+   "id": "taylor1804.minos.p0026",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And are the legitimate just f",
+   "raw": "Soe.  And  are  the  legitimate  juft  f ",
+   "pages": [
+    181
+   ],
+   "line": 8986
+  },
+  {
+   "id": "taylor1804.minos.p0027",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes,",
+   "raw": "MiN.  Yes, ",
+   "pages": [
+    181
+   ],
+   "line": 8988
+  },
+  {
+   "id": "taylor1804.minos.p0028",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc* But the illegitimate unjuftf",
+   "raw": "Soc*  But  the  illegitimate  unjuftf ",
+   "pages": [
+    181
+   ],
+   "line": 8990
+  },
+  {
+   "id": "taylor1804.minos.p0029",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Unjust.",
+   "raw": "MiN.  Unjuft. ",
+   "pages": [
+    181
+   ],
+   "line": 8992
+  },
+  {
+   "id": "taylor1804.minos.p0030",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are not justice and law, therefore, things most beautiful?*",
+   "raw": "Soc.  Are  not  jufticc  and  law,  therefore,  things  moft  beautiful  ?* ",
+   "pages": [
+    181
+   ],
+   "line": 8994
+  },
+  {
+   "id": "taylor1804.minos.p0031",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They are.",
+   "raw": "MiN.  They  are. ",
+   "pages": [
+    181
+   ],
+   "line": 8996
+  },
+  {
+   "id": "taylor1804.minos.p0032",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And are not injuAice and illegality most base I",
+   "raw": "Soc.  And  arc  not  injuAice  and  illegality  moft  bafc  I ",
+   "pages": [
+    181
+   ],
+   "line": 8998
+  },
+  {
+   "id": "taylor1804.minos.p0033",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    181
+   ],
+   "line": 9000
+  },
+  {
+   "id": "taylor1804.minos.p0034",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And does not one of these preserve cities and every thing else, but the other destroy and subvert them I",
+   "raw": "Soc.  And  does  not  one  of  thefe  preferve  cities  and  every  thing  elfe,  but \nthe  other  deftroy  and  fubvert  them  I ",
+   "pages": [
+    181
+   ],
+   "line": 9002
+  },
+  {
+   "id": "taylor1804.minos.p0035",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    181
+   ],
+   "line": 9005
+  },
+  {
+   "id": "taylor1804.minos.p0036",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is necessary, therefore, dianoeticaUy to consider law as something beautiful, and to investigate it as good",
+   "raw": "Soc.  It  is  neceflary,  therefore,  dianoeticaUy  to  confider  law  as  fomething \nbeautiful,  and  to  inveftigate  it  as  good^ ",
+   "pages": [
+    181
+   ],
+   "line": 9007
+  },
+  {
+   "id": "taylor1804.minos.p0037",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Ml-N. How should we not?",
+   "raw": "Ml-N.  How  fhould  we  not  ? ",
+   "pages": [
+    181
+   ],
+   "line": 9010
+  },
+  {
+   "id": "taylor1804.minos.p0038",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Have we not, therefore, said that law is the dogma of the city?",
+   "raw": "Soc.  Have  we  not,  therefore,  faid  that  law  is  the  dogma  of  the  city? ",
+   "pages": [
+    181
+   ],
+   "line": 9012
+  },
+  {
+   "id": "taylor1804.minos.p0039",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "We have said so.",
+   "raw": "MiN.  We  have  faid  fo. ",
+   "pages": [
+    181
+   ],
+   "line": 9014
+  },
+  {
+   "id": "taylor1804.minos.p0040",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then? Are not some dogmas good, and others bad",
+   "raw": "Soc.  What  then?    Are  not  fomc  dogmas  good,  and  others  bad ^ ",
+   "pages": [
+    181
+   ],
+   "line": 9016
+  },
+  {
+   "id": "taylor1804.minos.p0041",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They are.",
+   "raw": "MiN.  They  are. ",
+   "pages": [
+    181
+   ],
+   "line": 9018
+  },
+  {
+   "id": "taylor1804.minos.p0042",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Law however is not bad*",
+   "raw": "Soc.  Law  however  is  not  bad* ",
+   "pages": [
+    181
+   ],
+   "line": 9020
+  },
+  {
+   "id": "taylor1804.minos.p0043",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It is not.",
+   "raw": "MiN.  It  is  not. ",
+   "pages": [
+    181
+   ],
+   "line": 9022
+  },
+  {
+   "id": "taylor1804.minos.p0044",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is not, therefore, right simply to determine tiiat law is the dogm% of the city.",
+   "raw": "Soc.  It  is  not,  therefore,  right  iimply  to  determine  tiiat  law  is  the^  dogm% \nof  the  city. ",
+   "pages": [
+    181
+   ],
+   "line": 9024
+  },
+  {
+   "id": "taylor1804.minos.p0045",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It does not appear to me that it is.",
+   "raw": "MiN,  It  does  not  appear  to  me  that  it  is. ",
+   "pages": [
+    181
+   ],
+   "line": 9027
+  },
+  {
+   "id": "taylor1804.minos.p0046",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The assertion, therefore, does not accord with the truth,, that law is a base dogma.",
+   "raw": "Soc.  The  aflertion,  therefore,  does  not  accord  with  the  truth,,  that  law  is \na  bafe  dogma. ",
+   "pages": [
+    181
+   ],
+   "line": 9029
+  },
+  {
+   "id": "taylor1804.minos.p0047",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It does not,",
+   "raw": "MiN.  It  does  not, ",
+   "pages": [
+    181
+   ],
+   "line": 9032
+  },
+  {
+   "id": "taylor1804.minos.p0048",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Law however appears also to me to be a certain opinion. And since it is not a base opinion, is not this, therefore, evident, that it is a good opinion, if law is opinion?",
+   "raw": "Soc.  Law  however  appears  alfb  to  me  to  be  a  certain  opinion.  And \nfince  it  is  not  a  bafe  opinion,  is  not  this,  therefore,  evident,  that  it  is  a  good \nopinion,  if  law  is  opinion  ? ",
+   "pages": [
+    181
+   ],
+   "line": 9034
+  },
+  {
+   "id": "taylor1804.minos.p0049",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    181
+   ],
+   "line": 9038
+  },
+  {
+   "id": "taylor1804.minos.p0050",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But is not a certain good, a true, opinion.^",
+   "raw": "Soc,  But  is  not  a  certain  good,  a  true,  opinion.^ ",
+   "pages": [
+    181
+   ],
+   "line": 9040
+  },
+  {
+   "id": "taylor1804.minos.p0051",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    181
+   ],
+   "line": 9042
+  },
+  {
+   "id": "taylor1804.minos.p0052",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is, therefore, true opinion the difcovcry of being?",
+   "raw": "Soc.  Is,  therefore,  true  opinion  the  difcovcry  of  being  ? ",
+   "pages": [
+    181
+   ],
+   "line": 9044
+  },
+  {
+   "id": "taylor1804.minos.p0053",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It is, Sof. Law, therefore, is the discovery of being,",
+   "raw": "MiN.  It  is, \nSof .  Law,  therefore,  is  the  difcovery  of  being, ",
+   "pages": [
+    181,
+    182
+   ],
+   "line": 9046
+  },
+  {
+   "id": "taylor1804.minos.p0054",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "But, Socrates, if law is the discovery of being, how is it that we do not always use the same laws about the fan>e things, fmce beings are discovered by us?",
+   "raw": "MiN.  But,  Socrates,  if  law  is  the  difcovery  of  being,  how  is  it  that  wc \ndo  not  always  ufe  the  fame  laws  about  the  fan>e  things,  fmce  beings  are  dif- \ncovered  by  us  ? ",
+   "pages": [
+    182
+   ],
+   "line": 9055
+  },
+  {
+   "id": "taylor1804.minos.p0055",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Ncverthelcfs law wiihcs to be the discovery of being; but men, as it seems, not always using the same laws, are not always able to discover that which law wi(hes, viz, being. But come, let us see if it will hence become evident to us, whether we always use the same laws, or different laws at.different times; and if all of us use the same laws/or different persons different laws.",
+   "raw": "Soc.  Ncverthelcfs  law  wiihcs  to  be  the  difcovery  of  being ;  but  men,  as  it \nfcems,  not  always  ufing  the  fame  laws,  arc  not  always  able  to  difcover  that \nwhich  law  wi(hes,  viz,  being.  But  come,  let  us  fee  if  it  will  hence  become \nevident  to  us,  whether  we  always  ufe  the  fame  laws,  or  different  laws  at \n.different  times  ;  and  if  ail  of  us  ufe  the  fame  laws/or  different  perfons  different \nlaws. ",
+   "pages": [
+    182
+   ],
+   "line": 9059
+  },
+  {
+   "id": "taylor1804.minos.p0056",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "But this, Socrates, is not difficult to know, that neither do the same persons always use the same laws, nor different persons always different laws. Thus, for example, it is not a law with us to sacrifice men, but this is confidcred as unholy; but the Carthaginians sacrifice men, this being holy and legal with them; so that some of them sacrifice their sons to Saturn, as perhaps you have heard. And not only do Barbarian men use laws different from ours, but also thorfe in Lycia, And as' to the progeny of Athamas ', what sacrifices do they perform, though they are Greeks? You also know and have heard what laws we formerly used concerning the dead, cutting the throats of the victims before the dead body was carried out, and calling those that carry the sacrifices to the dead. And those still prior to tbpfc buried the dead at home; but we do none of these. Ten thousand instances likewise of this might be adduced. For the field of demonfiration is very wide, that neither we always think invariably the same with ourselves, nor men with each other«",
+   "raw": "MiN.  But  this,  Socrates,  is  not  difficult  to  know,  that  neither  do  the  fame \nperfons  always  ufe  the  fame  laws,  nor  different  pcrfons  always  different  laws. \nThus,  for  example,  it  is  not  a  law  with  us  to  facrifice  men,  but  this  is  con- \nfidcred  as  unholy  ;  but  the  Carthaginians  facrifice  men,  this  being  holy  and \nlegal  with  them ;  fo  that  fome  of  them  facrifice  their  fons  to  Saturn,  as  per- \nhaps you  have  heard.  And  not  only  do  Barbarian  men  ufe  laws  different \nfrom  ours,  but  alfo  thorfe  in  Lycia,  And  as' to  the  progeny  of  Athamas  ', \nwhat  facrifices  do  they  perform,  though  they  are  Greeks  ?  You  alfo  know \nand  have  heard  what  laws  we  formerly  ufcd  concerning  the  dead,  cutting \nthe  throats  of  the  vidims  before  the  dead  body  was  carried  out,  and  calling \nthofc  that  carry  the  facrifices  to  the  dead.  And  thofe  flill  prior  to  tbpfc \nburied  the  dead  at  home  ;  but  we  do  none  of  thefe.  Ten  thoufand  inflances \nlikewife  of  this  might  be  adduced.  For  the  field  of  demonfiration  is  very \nwide,  that  neither  we  always  think  invariably  the  fame  with  ourfelvcs,  nor \nmen  with  each  other« ",
+   "pages": [
+    182
+   ],
+   "line": 9066
+  },
+  {
+   "id": "taylor1804.minos.p0057",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is by no means wonderful, O best of men, if you speak rightly, and this should be concealed from roe. But till you by you rfelf declare what appears to you, in a long difcourfc, and I again do the same, we shall never, as I think, agree. If however a common subject of speculation ispropofed, we shall perhaps accord. If, therefore, you are willing, interrogating me, consider together with me in common. Or, if it is more agreeable to you, instead of interrogating, answer.",
+   "raw": "Soc.  It  is  by  no  means  wonderful,  O  befl  of  men,  if  you  fpeak  rightly, \nand  this  fhould  be  concealed  from  roc.  But  till  you  by  you rfelf  declare  what \nappears  to  you,  in  a  long  difcourfc,  and  I  again  do  the  fame,  we  fhall  never, \nas  I  think,  agree.  If  however  a  common  fubje6t  of  fpeculation  ispropofed, \nwe  fhall  perhaps  accord.  If,  therefore,  you  are  willing,  interrogating  me, \nconfider  together  with  me  in  common.  Or,  if  it  is  more  agreeable  to  you, \ninflead  of  interrogating,  anfwer. ",
+   "pages": [
+    182
+   ],
+   "line": 9082
+  },
+  {
+   "id": "taylor1804.minos.p0058",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "But I wish, Socrate$, to reply to any question you may propose.",
+   "raw": "MiN.  But  I  wifh,  Socrate$,  to  reply  to  any  queflion  you  may  propofe. ",
+   "pages": [
+    182
+   ],
+   "line": 9090
+  },
+  {
+   "id": "taylor1804.minos.p0059",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Come then. Whether do you think that just things ar« unj\\ift, and unjust things just? Or that just things are just, and unjust things unjust?",
+   "raw": "Soc.  Come  then.  Whether  do  you  think  that  juft  things  ar«  unj\\ift,  and \nunjuft  things  juft  ?    Or  that  juft  things  are  juft,  and  unjuft  things  unjufl  ? ",
+   "pages": [
+    183
+   ],
+   "line": 9099
+  },
+  {
+   "id": "taylor1804.minos.p0060",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "I indeed think that ju st things are just, and unjust things unjust.",
+   "raw": "MiN.  I  indeed  think  that  ju ft  things  are  juft,  and  unjuft  things  unjuft. ",
+   "pages": [
+    183
+   ],
+   "line": 9102
+  },
+  {
+   "id": "taylor1804.minos.p0061",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is this opinion, therefore, entertained among all men, as well as here?",
+   "raw": "Soc.  Is  this  opinion,  therefore,  entertained  among  all  men,  as  well  as \nhere  ? ",
+   "pages": [
+    183
+   ],
+   "line": 9104
+  },
+  {
+   "id": "taylor1804.minos.p0062",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    183
+   ],
+   "line": 9107
+  },
+  {
+   "id": "taylor1804.minos.p0063",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Among the Persians also?",
+   "raw": "Soc.  Among  the  Perfians  aifo  ? ",
+   "pages": [
+    183
+   ],
+   "line": 9109
+  },
+  {
+   "id": "taylor1804.minos.p0064",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "And among the Persians too'.",
+   "raw": "MiN.  And  among  the  Perfians  too'. ",
+   "pages": [
+    183
+   ],
+   "line": 9111
+  },
+  {
+   "id": "taylor1804.minos.p0065",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But is this opinion always entertained f",
+   "raw": "Soc,  But  is  this  opinion  always  entertained  f ",
+   "pages": [
+    183
+   ],
+   "line": 9113
+  },
+  {
+   "id": "taylor1804.minos.p0066",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Always..",
+   "raw": "MiN.  Always.. ",
+   "pages": [
+    183
+   ],
+   "line": 9115
+  },
+  {
+   "id": "taylor1804.minos.p0067",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc* Whether are things which attra<^ more, thought by us to be hcavifr, but things which attract less, lighter? or the contrary?",
+   "raw": "Soc*  Whether  are  things  which  attra<^  more,  thought  by  us  to  be  hcavifr, \nbut  things  which  attra6l  lefs,  lighter  ?  or  the  contrary  ? ",
+   "pages": [
+    183
+   ],
+   "line": 9117
+  },
+  {
+   "id": "taylor1804.minos.p0068",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "MiN.. Not the contrary: but things which attract more are heavier, and things which attract lels are lighter.",
+   "raw": "MiN..  Not  the  contrary:  but  things  which attrad  more  are  heavier,  and \nthings  which  attract  lels  are  lighter. ",
+   "pages": [
+    183
+   ],
+   "line": 9120
+  },
+  {
+   "id": "taylor1804.minos.p0069",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "So€. Is this the case, therefore, in Carthage and in Lycia?",
+   "raw": "So€.  Is  this  the  cafe,  thercfore,  in  Carthage  and  in  Lycia  ? ",
+   "pages": [
+    183
+   ],
+   "line": 9123
+  },
+  {
+   "id": "taylor1804.minos.p0070",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    183
+   ],
+   "line": 9125
+  },
+  {
+   "id": "taylor1804.minos.p0071",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Things beautiful, as it seems, are every where thought to be beautiful; and things base to be base: but things base are not thought to be beautiful, nor things beautiful base.",
+   "raw": "Soc.  Things  beautiful,  as  it  feems,  are  every  where  thought  to  be  beauti- \nful ;  and  things  bafe  to  be  bafe :  but  things  bafe  are  not  thought  to  be  beau- \ntiful, nor  things  beautiful  bafe. ",
+   "pages": [
+    183
+   ],
+   "line": 9127
+  },
+  {
+   "id": "taylor1804.minos.p0072",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It is so.",
+   "raw": "MiN.  It  is  fo. ",
+   "pages": [
+    183
+   ],
+   "line": 9131
+  },
+  {
+   "id": "taylor1804.minos.p0073",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "As we may say, therefore, in all thiii^, beings are thought to be, and not non-beings, both with us and with all others..",
+   "raw": "Soc.  As  we  may  iay,  therefore,  in  all  thiii^,  beings  are  thought  to  be, \nand  not  non-beings,  both  with  us  and  with  all  others.. ",
+   "pages": [
+    183
+   ],
+   "line": 9133
+  },
+  {
+   "id": "taylor1804.minos.p0074",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It appears {b to me.",
+   "raw": "MiN.  It  appears  {b  to  me. ",
+   "pages": [
+    183
+   ],
+   "line": 9136
+  },
+  {
+   "id": "taylor1804.minos.p0075",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "He, therefore, who wanders from being wanders from that which is legitimate.",
+   "raw": "Soc.  He,  therefore,  who  wanders  from  being  wanders  from  that  which \nis  legitimate. ",
+   "pages": [
+    183
+   ],
+   "line": 9138
+  },
+  {
+   "id": "taylor1804.minos.p0076",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Thus, Socrates,, as you say, these things always appear legitimate both to us and to others. But when I consider that we n-ever cease tranfpofing laws upwards and downwards, I camiot be persuaded by what you fey.",
+   "raw": "MiN.  Thus,  Socrates,,  as  you  fay,  thefe  things  always  appear  legitimate \nboth  to  us  and  to  others^.  But  when  I  confider  that  we  n-ever  ceafe  tranf- \npofing  laws  upwards  and  downwards,  I  camiot  be  perfuaded  by  what  you \nfey. ",
+   "pages": [
+    183
+   ],
+   "line": 9141
+  },
+  {
+   "id": "taylor1804.minos.p0077",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps you do not perceive that these things thus transposed continue to be the same. But thus coniider them together with me. Did you ever meet with any book concerning the health of the sick?",
+   "raw": "Soc.  Perhaps  you  do  not  perceive  that  thefe  things  thus  tranfpofed  con- \ntinue to  be  the  fame.  But  thus  coniider  them  together  with  me.  Did  you \never  meet  with  any  book  concerning  the  health  of  the  fick  ? ",
+   "pages": [
+    183
+   ],
+   "line": 9146
+  },
+  {
+   "id": "taylor1804.minos.p0078",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "MiN. I have,",
+   "raw": "MiN-.  I  have, ",
+   "pages": [
+    183
+   ],
+   "line": 9150
+  },
+  {
+   "id": "taylor1804.minos.p0079",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you know, therefore, to what art this book belongs?",
+   "raw": "Soc.  Do  you  know,  therefore,  to  what  art  this  book  belongs  ? ",
+   "pages": [
+    183
+   ],
+   "line": 9152
+  },
+  {
+   "id": "taylor1804.minos.p0080",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "I know that it belongs to the art of medicine.",
+   "raw": "MiN.  I  know  that  it  belongs  to  the  art  of  medicine. ",
+   "pages": [
+    183
+   ],
+   "line": 9154
+  },
+  {
+   "id": "taylor1804.minos.p0081",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, call those who are scientifically skilled about these things, physicians? MiN. I call them so.",
+   "raw": "Soc.  Do  you,  therefore,  call  thofe  who  are  fcientifically  fkillcd  about  thefc \nthings,  phyficians  ? \nMiN.  I  call  them  fo. ",
+   "pages": [
+    104
+   ],
+   "line": 9161
+  },
+  {
+   "id": "taylor1804.minos.p0082",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Whether, therefore, do those that have a scientific knowledge think the same things about the same, or do some of these think differently fronor others about the same things?",
+   "raw": "Soc.  Whether,  therefore,  do  thofe  that  have  a  fcientific  knowledge  think \nthe  fame  things  about  the  fame,  or  do  fome  of  thefe  think  differently  fronor \n^others  about  the  fame  things  ? ",
+   "pages": [
+    104
+   ],
+   "line": 9165
+  },
+  {
+   "id": "taylor1804.minos.p0083",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They appear to me to think the same things.",
+   "raw": "MiN.  They  appear  to  me  to  think  the  fame  things. ",
+   "pages": [
+    104
+   ],
+   "line": 9169
+  },
+  {
+   "id": "taylor1804.minos.p0084",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Whether, therefore, do the Greeks alone accord with the Greeks about things of which they have a scientific knowledge, or do the Barbarians also both accord with each other about such things, and with the Greeks?",
+   "raw": "Soc.  Whether,  therefore,  do  the  Greeks  alone  accord  with  the  Greeks \nabout  things  of  which  they  have  a  fcientific  knowledge,  or  do  the  Barbarians \nalfo  both  accord  with  each  other  about  fuch  things,  and  with  the  Greeks  ? ",
+   "pages": [
+    104
+   ],
+   "line": 9171
+  },
+  {
+   "id": "taylor1804.minos.p0085",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "There is an abundant necessity that both Greeks and Barbarians who possess a scientific knowledge should accord in opinion with each other,",
+   "raw": "MiN.  There  is  an  abundant  neceflity  that  both  Greeks  and  Barbarians \nwho  pofTefs  a  fcientific  knowledge  fhould  accord  in  opinion  with  each  other, ",
+   "pages": [
+    104
+   ],
+   "line": 9175
+  },
+  {
+   "id": "taylor1804.minos.p0086",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You answer welL Do tbey npt^ therefore, always accord?",
+   "raw": "Soc.  You  anfwer  welL     Do  tbey  npt^  therefore,  always  accord  ? ",
+   "pages": [
+    104
+   ],
+   "line": 9178
+  },
+  {
+   "id": "taylor1804.minos.p0087",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes, always,",
+   "raw": "MiN.  Yes,  always, ",
+   "pages": [
+    104
+   ],
+   "line": 9180
+  },
+  {
+   "id": "taylor1804.minos.p0088",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do not phyiicians also write those things about health which they think to be true?",
+   "raw": "Soc.  Do  not  phyiicians  alfo  write  thofe  things  about  health  which  they \nthink  to  be  true  ? ",
+   "pages": [
+    104
+   ],
+   "line": 9182
+  },
+  {
+   "id": "taylor1804.minos.p0089",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly.",
+   "raw": "MiN.  Undoubtedly. ",
+   "pages": [
+    104
+   ],
+   "line": 9185
+  },
+  {
+   "id": "taylor1804.minos.p0090",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Things medicinal, therefore, and medicixutl laws, these are the writings of physicians.",
+   "raw": "Soc.  Things  medicinal,  therefore,  and  medicixutl  laws,  thefe  arc  the \nwritings  of  phyficians. ",
+   "pages": [
+    104
+   ],
+   "line": 9187
+  },
+  {
+   "id": "taylor1804.minos.p0091",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Things medicinal, certainly.",
+   "raw": "MiN.  Things  medicinal,  certainly. ",
+   "pages": [
+    104
+   ],
+   "line": 9190
+  },
+  {
+   "id": "taylor1804.minos.p0092",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Whether therefore, are geometrical writings also gconaetrlcal laws?",
+   "raw": "Soc.  Whether^  therefore,  are  geometrical  writings  alfo  gconaetrlcal  laws  ? ",
+   "pages": [
+    104
+   ],
+   "line": 9192
+  },
+  {
+   "id": "taylor1804.minos.p0093",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    104
+   ],
+   "line": 9194
+  },
+  {
+   "id": "taylor1804.minos.p0094",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Of whom, therefore^ are the writings and legitimate institutions concerning gardening?",
+   "raw": "Soc.  Of  whom,  therefore^  arc  the  writings  and  legitimate  inftitutions \nconcerning  gardening?    ' ",
+   "pages": [
+    104
+   ],
+   "line": 9196
+  },
+  {
+   "id": "taylor1804.minos.p0095",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Of gardeners.",
+   "raw": "MiN.  Of  gardeners. ",
+   "pages": [
+    104
+   ],
+   "line": 9199
+  },
+  {
+   "id": "taylor1804.minos.p0096",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Those laws, therefore, pertain to gardening.",
+   "raw": "Soc.  Thofe  laws,  therefore,  pertain  to  gardening. ",
+   "pages": [
+    104
+   ],
+   "line": 9201
+  },
+  {
+   "id": "taylor1804.minos.p0097",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They do.",
+   "raw": "MiN.  They  do. ",
+   "pages": [
+    104
+   ],
+   "line": 9203
+  },
+  {
+   "id": "taylor1804.minos.p0098",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are they not, therefore, the laws of those who know how to manage gardens?",
+   "raw": "Soc.  Are  they  not,  therefore,  the  laws  of  thofe  who  know  how  to  manage \ngardens  ? ",
+   "pages": [
+    104
+   ],
+   "line": 9205
+  },
+  {
+   "id": "taylor1804.minos.p0099",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "How should they not?",
+   "raw": "MiN.  How  (hould  they  not  ? ",
+   "pages": [
+    104
+   ],
+   "line": 9208
+  },
+  {
+   "id": "taylor1804.minos.p0100",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But gardeners possess this knowledge.",
+   "raw": "Soc.  But  gardeners  pofTefs  this  knowledge. ",
+   "pages": [
+    104
+   ],
+   "line": 9210
+  },
+  {
+   "id": "taylor1804.minos.p0101",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    104
+   ],
+   "line": 9212
+  },
+  {
+   "id": "taylor1804.minos.p0102",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc But of whom are the writings and legitimate institutions concerning food?",
+   "raw": "Soc^  But  of  whom  are  the  writings  and  legitimate  inftitutions  concerning \nfood  ? ",
+   "pages": [
+    104
+   ],
+   "line": 9214
+  },
+  {
+   "id": "taylor1804.minos.p0103",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Of cooks^",
+   "raw": "MiN.  Of  cooks^ ",
+   "pages": [
+    104
+   ],
+   "line": 9217
+  },
+  {
+   "id": "taylor1804.minos.p0104",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Those, therefore, are cooking laws.",
+   "raw": "Soc.  Thofe,  therefore,  arc  cooking  laws. ",
+   "pages": [
+    105
+   ],
+   "line": 9224
+  },
+  {
+   "id": "taylor1804.minos.p0105",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Cooking,",
+   "raw": "MiN.  Cooking, ",
+   "pages": [
+    105
+   ],
+   "line": 9226
+  },
+  {
+   "id": "taylor1804.minos.p0106",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And of those, as it seems, who know how to manage the prcparatioa of food,",
+   "raw": "Soc.  And  of  thofe,  as  it  feems,  who  know  how  to  manage  the  prcparatioa \nof  food, ",
+   "pages": [
+    105
+   ],
+   "line": 9228
+  },
+  {
+   "id": "taylor1804.minos.p0107",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN,  Yes. ",
+   "pages": [
+    105
+   ],
+   "line": 9231
+  },
+  {
+   "id": "taylor1804.minos.p0108",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But cooks, as they say, possess this knowledge,",
+   "raw": "Soc,  But  cooks,  as  they  fay,  polTefs  this  knowledge, ",
+   "pages": [
+    105
+   ],
+   "line": 9233
+  },
+  {
+   "id": "taylor1804.minos.p0109",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They do poiTefs it.",
+   "raw": "MiN.  They  do  poiTefs  it. ",
+   "pages": [
+    105
+   ],
+   "line": 9235
+  },
+  {
+   "id": "taylor1804.minos.p0110",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Be it so. But of whona are the writings and legal institutions concerning the government of a city? Are they not of those who scientifically know how to govern cities?",
+   "raw": "Soc.  Be  it  fo.  But  of  whona  are  the  writings  and  legal  inftitutions  con- \ncerning  the  government  of  a  city  ?  Are  they  not  of  thofe  who  fcientifically \nknow  how  to  govern  cities  ? ",
+   "pages": [
+    105
+   ],
+   "line": 9237
+  },
+  {
+   "id": "taylor1804.minos.p0111",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It appears so to me,",
+   "raw": "MiN.  It  appears  fo  to  me, ",
+   "pages": [
+    105
+   ],
+   "line": 9241
+  },
+  {
+   "id": "taylor1804.minos.p0112",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But do any others than politicians and kings poiTefs this knowledge?",
+   "raw": "Soc.  But  do  any  others  than  politicians  and  kings  poiTefs  this  knowledge  ? ",
+   "pages": [
+    105
+   ],
+   "line": 9243
+  },
+  {
+   "id": "taylor1804.minos.p0113",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They alone possess it,",
+   "raw": "MiN.  They  alone  poffefs  it, ",
+   "pages": [
+    105
+   ],
+   "line": 9245
+  },
+  {
+   "id": "taylor1804.minos.p0114",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "These writings, therefore, are political, -which men call the writbgs of kings and good men.",
+   "raw": "Soc.  Thefe  writings,  therefore,  ar^  political,  -which  men  call  the  writbgs \nof  kings  and  good  men. ",
+   "pages": [
+    105
+   ],
+   "line": 9247
+  },
+  {
+   "id": "taylor1804.minos.p0115",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "You speak the truth.",
+   "raw": "MiN.  You  fpeak  the  truth. ",
+   "pages": [
+    105
+   ],
+   "line": 9250
+  },
+  {
+   "id": "taylor1804.minos.p0116",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Those, therefore, who possess a scientific knowledge <Jo not at different times write differently about the same things.",
+   "raw": "Soc.  Thofe,  therefore,  who  poffefs  a  fcientific  knowledge  <Jo  not  at \ndifferent  times  write  differently  about  the  fame  things. ",
+   "pages": [
+    105
+   ],
+   "line": 9252
+  },
+  {
+   "id": "taylor1804.minos.p0117",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Certainly not,",
+   "raw": "MiN.  Certainly  not, ",
+   "pages": [
+    105
+   ],
+   "line": 9255
+  },
+  {
+   "id": "taylor1804.minos.p0118",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If, therefore, we see certain persons doing this, whether shall we say that those who ad ia this manner are scientific or unscientific?",
+   "raw": "Soc.  If,  therefore,  we  fee  certain  perfons  doing  this,  whether  (hall  wc \nfay  that  thofe  who  ad  ia  this  manner  are  fcientific  or  unfcientific  ? ",
+   "pages": [
+    105
+   ],
+   "line": 9257
+  },
+  {
+   "id": "taylor1804.minos.p0119",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "MiK, Unscientific.",
+   "raw": "MiK,  Unfcientific. ",
+   "pages": [
+    105
+   ],
+   "line": 9260
+  },
+  {
+   "id": "taylor1804.minos.p0120",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Shall we, therefore, say that what is right an every particular is legitimate, whether it be medicinal, or pertain to cooking, or to gardening?",
+   "raw": "Soc.  Shall  we,  therefore,  fay  that  what  is  right  an  every  particular  is \nlegitimate,  whether  it  be  medicinal,  or  pertain  to  cooking,  or  to  gardening? ",
+   "pages": [
+    105
+   ],
+   "line": 9262
+  },
+  {
+   "id": "taylor1804.minos.p0121",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    105
+   ],
+   "line": 9265
+  },
+  {
+   "id": "taylor1804.minos.p0122",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But with respect to what is not right, this we ao longer assert to be legitimate.",
+   "raw": "Soc.  But  with  refped  to  what  is  not  right,  this  we  ao  longer  affert  to  be \nlegitimate. ",
+   "pages": [
+    105
+   ],
+   "line": 9267
+  },
+  {
+   "id": "taylor1804.minos.p0123",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "No longer,",
+   "raw": "MiN,  No  longer, ",
+   "pages": [
+    105
+   ],
+   "line": 9270
+  },
+  {
+   "id": "taylor1804.minos.p0124",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It, therefore, becomes illegitimate.",
+   "raw": "Soc.  It,  therefore,  becomes  illegitimate. ",
+   "pages": [
+    105
+   ],
+   "line": 9272
+  },
+  {
+   "id": "taylor1804.minos.p0125",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Necessarily so.",
+   "raw": "MiN.  NecefTarily  fo. ",
+   "pages": [
+    105
+   ],
+   "line": 9274
+  },
+  {
+   "id": "taylor1804.minos.p0126",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Hence, in writings concerning things just and unjufV, and, in short, concerning the orderly distribution of a city, and the manner in which it ought to be governed, that which is right is a royal law; but that which is not right does not appear to be a royal law, because science is wanting: for it is illegal.",
+   "raw": "Soc.  Hence,  in  writings  concerning  things  jufl  and  unjufV,  and,  in  fhort, \nconcerning  the  orderly  diflribution  of  a  city,  and  the  manner  in  which  it \nought  to  be  governed,  that  which  is  right  is  a  royal  law  ;  but  that  which  is \nnot  right  does  not  appear  to  be  a  royal  law,  becaufe  fcience  is  wanting:  for \nit  is  illegal. ",
+   "pages": [
+    105
+   ],
+   "line": 9276
+  },
+  {
+   "id": "taylor1804.minos.p0127",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "VOL. IV. 2 B MiN.",
+   "raw": "VOL.  IV.  2    B  MiN. ",
+   "pages": [
+    105
+   ],
+   "line": 9282
+  },
+  {
+   "id": "taylor1804.minos.p0128",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "It is,",
+   "raw": "MiN.   It  is, ",
+   "pages": [
+    180
+   ],
+   "line": 9287
+  },
+  {
+   "id": "taylor1804.minos.p0129",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "We have rightly, therefore, acknowledged that law is the invention of being.",
+   "raw": "Soc.  We  have  rightly,  therefore,  acknowledged  that  law  is  the  invention \nof  being. ",
+   "pages": [
+    180
+   ],
+   "line": 9289
+  },
+  {
+   "id": "taylor1804.minos.p0130",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "So it appears.",
+   "raw": "MiN.  So  it  appears. ",
+   "pages": [
+    180
+   ],
+   "line": 9292
+  },
+  {
+   "id": "taylor1804.minos.p0131",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Further still, this also we should conflder In it: who is it that /cientifically knows how to sow seeds in the earth? JVliN, The husbandman. Soc. Does he then sow fit seeds in each soil? MiN. Yes.",
+   "raw": "Soc.  Further  ftill,  this  alfo  we  fhould  conflder  In   it:  who  is   it  that \n/cientifically  knows  how  to  fow  feeds  in  the  earth  ? \nJVliN,  The  hufbandman. \nSoc.  Does  he  then  fow  fit  feeds  in  each  foil? \nMiN.  Yes. ",
+   "pages": [
+    180
+   ],
+   "line": 9294
+  },
+  {
+   "id": "taylor1804.minos.p0132",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The husbandman, therefore, is a good distributor of these things, and his laws and distributions in these particulars are right. MiN. Yes.",
+   "raw": "Soc,  The  hufbandman,  therefore,   is  a  good  diflributor  of  thefe  things, \nand  his  laws  and  diflributions  in  thefe  particulars  are  right. \nMiN.  Yes. ",
+   "pages": [
+    180
+   ],
+   "line": 9300
+  },
+  {
+   "id": "taylor1804.minos.p0133",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But who is a good dispensator of pulfations for melodies, and distributes such things as are fit? Aud whose laws also, if he has any, are right? MiN. The laws of the piper, and those of the harper. Soc. He, therefore, who is most legitimate in these things is in the mod eminent degree a piper. MiN. Yes.",
+   "raw": "Soc.  But  who  is  a  good  difpenfator  of  pulfations  for  melodies,  and  diftri- \nbutes  fuch  things  as  are  fit  ?    Aiid  whofe  laws  alfb,  if  he  has  any,  are  right  ? \nMiN.  The  laws  of  the  piper,  and  thofe  of  the  harper. \nSoc.  He,  therefore,  who  is  mofl  legitimate  in  thefe  things  is  in  the  mod \neminent  degree  a  piper. \nMiN.  Yes. ",
+   "pages": [
+    180
+   ],
+   "line": 9304
+  },
+  {
+   "id": "taylor1804.minos.p0134",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But who in the best manner distributes niitriment to the bodies of men? Does not he do this who distributes that which is fit? MiN. Yes.",
+   "raw": "Soc.  But  who  in  the  beft  manner  diflributes   niitriment  to  the  bodies \nof  men  ?    Does  not  he  do  this  who  diflributes  that  which  is  fit  ? \nMiN.   Yes. ",
+   "pages": [
+    180
+   ],
+   "line": 9311
+  },
+  {
+   "id": "taylor1804.minos.p0135",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The distributions, therefore, and the laws of this man are the bell: t and he who is most legitimate about these things is the most excellent (Jiftributor.",
+   "raw": "Soc.  The  diftributions,  therefore,  and  the  laws  of  this  man  are  the  bell:  t \nand  he  who  is  mofl  legitimate  about  thefe  things  is  the  mofl  excellent \n(Jiftributor. ",
+   "pages": [
+    180
+   ],
+   "line": 9315
+  },
+  {
+   "id": "taylor1804.minos.p0136",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so. Soc. Who is he? MiN. The instructor of children",
+   "raw": "MiN.  Entirely  fo. \nSoc.  Who  is  he? \nMiN.  The  inflru61or  of  children ",
+   "pages": [
+    180
+   ],
+   "line": 9319
+  },
+  {
+   "id": "taylor1804.minos.p0137",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Does he know how to feed the stock of the human body in the best' manner? MiN. Yes.",
+   "raw": "Soc.  Does  he  know  how  to  feed  the  flock  of  the  human  body  in- the  befl' \nmanner  ? \nMiN.  Yes. ",
+   "pages": [
+    180
+   ],
+   "line": 9323
+  },
+  {
+   "id": "taylor1804.minos.p0138",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Btit who is he that seeds in the best manner a flock of sheep? WI:kat is his name?",
+   "raw": "Soc.  Btit  who  is  he  that  feeds  in  the  befl  manner  a  flock  of  fheep  ?  WI:kat \nis  his  name  ? ",
+   "pages": [
+    180
+   ],
+   "line": 9327
+  },
+  {
+   "id": "taylor1804.minos.p0139",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "A shepherd.",
+   "raw": "MiN.  A  fhcpherd. ",
+   "pages": [
+    180
+   ],
+   "line": 9330
+  },
+  {
+   "id": "taylor1804.minos.p0140",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The laws, therefore, of the shepherd are the beil for the fheep,^",
+   "raw": "Soc.  The  laws,  therefore,  of  the  fhephcrd  arc  the  beil  for  the  fheep,^ ",
+   "pages": [
+    180
+   ],
+   "line": 9332
+  },
+  {
+   "id": "taylor1804.minos.p0141",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They are.",
+   "raw": "MiN.  They  are. ",
+   "pages": [
+    180
+   ],
+   "line": 9334
+  },
+  {
+   "id": "taylor1804.minos.p0142",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And those of the herdsman for oxen.",
+   "raw": "Soc.  And  thofe  of  the  herdfman  for  oxen. ",
+   "pages": [
+    187
+   ],
+   "line": 9341
+  },
+  {
+   "id": "taylor1804.minos.p0143",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "MiN.  Yes. ",
+   "pages": [
+    187
+   ],
+   "line": 9343
+  },
+  {
+   "id": "taylor1804.minos.p0144",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But whose laws are the beJft for the souls of men? Are they not those of a king?.",
+   "raw": "Soc.  But  whofe  laws  are  the  beJft  for  the  fouls  of  men  ?  Arc  they  not \nthofc  of  a  king  ?        . ",
+   "pages": [
+    187
+   ],
+   "line": 9345
+  },
+  {
+   "id": "taylor1804.minos.p0145",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They are.",
+   "raw": "MiN.  They  are. ",
+   "pages": [
+    187
+   ],
+   "line": 9348
+  },
+  {
+   "id": "taylor1804.minos.p0146",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You speak well. Can you, therefore, tell me who among the antients was a good legislator in the laws pertaining to pipes? Perhaps you do not rccoliedl. Are you, therefore, willing that I should remind you?",
+   "raw": "Soc.  You  fpeak  well.  Can  you,  therefore,  tell  me  who  among  the \nantients  was  a  good  legiflator  in  the  laws  pertaining  to  pipes  ?  Perhaps  you \ndo  not  rccoliedl.     Are  you,  therefore,  willing  that  I  fhould  remind  you  ? ",
+   "pages": [
+    187
+   ],
+   "line": 9350
+  },
+  {
+   "id": "taylor1804.minos.p0147",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Perfeaiy so.",
+   "raw": "MiN.  Perfeaiy  fo. ",
+   "pages": [
+    187
+   ],
+   "line": 9354
+  },
+  {
+   "id": "taylor1804.minos.p0148",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Marsyas, then, and his beloved Olympus the Phrygian were of this description.",
+   "raw": "Soc.  Marfyas,  then,  and  his  beloved  Olympus  the  Phrygian  were  of  this \ndefcription. ",
+   "pages": [
+    187
+   ],
+   "line": 9356
+  },
+  {
+   "id": "taylor1804.minos.p0149",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "True.",
+   "raw": "MiN.  True. ",
+   "pages": [
+    187
+   ],
+   "line": 9359
+  },
+  {
+   "id": "taylor1804.minos.p0150",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "The harmony produced by the pipes of these men is most divine, and alone excites and unfolds those that stand in need of the Gods '. It Hkewife alone remains to the present time as being divine.",
+   "raw": "Soc.  The  harmony  produced  by  the  pipes  of  thefe  men  is  moft  divine, \nand  alone  excites  and  unfolds  thofe  that  ftand  in  need  of  the  Gods  '.  It \nHkewife  alone  remains  to  the  prcfent  time  as  being  divine. ",
+   "pages": [
+    187
+   ],
+   "line": 9361
+  },
+  {
+   "id": "taylor1804.minos.p0151",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Tlicle things are so.",
+   "raw": "MiN.  Tlicle  things  are  fo. ",
+   "pages": [
+    187
+   ],
+   "line": 9365
+  },
+  {
+   "id": "taylor1804.minos.p0152",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But who among the antient kings is said to have been a good legislator, and whose legal institutions even now remain as being divine?",
+   "raw": "Soc.  But  who  among  the  antient  kings  is  faid  to  have  been  a  good  legif- \nlator, and  whofe  legal  inftitutions  even  now  remain  as  being  divine  ? ",
+   "pages": [
+    187
+   ],
+   "line": 9367
+  },
+  {
+   "id": "taylor1804.minos.p0153",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "I do not recollect:.",
+   "raw": "MiN.  I  do  not  recolledl:. ",
+   "pages": [
+    187
+   ],
+   "line": 9370
+  },
+  {
+   "id": "taylor1804.minos.p0154",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you not know who they were that used the most antient laws of the Greeks?",
+   "raw": "Soc.  Do  you  not  know  who  they  were  that  ufed  the  moft  antient  laws \nof  the  Greeks  ? ",
+   "pages": [
+    187
+   ],
+   "line": 9372
+  },
+  {
+   "id": "taylor1804.minos.p0155",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Do you speak of the Lacedaemonians, and Lycurgus the legislator?",
+   "raw": "MiN.  Do  you  fpcak  of  the  Lacedaemonians,  and  Lycurgus  the  legiflator  ? ",
+   "pages": [
+    187
+   ],
+   "line": 9375
+  },
+  {
+   "id": "taylor1804.minos.p0156",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Thcfc institutions, however, have not perhaps been established three hundred years, or very little more than this. But do you know whence the bell of their laws were derived?",
+   "raw": "Soc,  Thcfc  inftitutions,  however,  have  not  perhaps  been  eftabliflied  three \nhundred  years,  or  very  little  more  than  this.  But  do  you  know  whence  the \nbell  of  their  laws  were  derived? ",
+   "pages": [
+    187
+   ],
+   "line": 9377
+  },
+  {
+   "id": "taylor1804.minos.p0157",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They say, from Crete.",
+   "raw": "MiN.  They  fay,  from  Crete. ",
+   "pages": [
+    187
+   ],
+   "line": 9381
+  },
+  {
+   "id": "taylor1804.minos.p0158",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do they, therefore, of all the Greeks use the most antient laws? MiN. Yes.",
+   "raw": "Soc.  Do  they,  therefore,  of  all  the  Greeks  ufe  the  moft  antient  laws  ? \nMiN.  Yes. ",
+   "pages": [
+    187
+   ],
+   "line": 9383
+  },
+  {
+   "id": "taylor1804.minos.p0159",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you know then who among these were good kings? I mean iMinos and Rhadamanthus, the sons of Jupiter and Europa, by whom these laws were framed.",
+   "raw": "Soc.  Do  you  know  then  who  among  thefe  were  good  kings  ?  I  mean \niMinos  and  Rhadamanthus,  the  fons  of  Jupiter  and  Europa,  by  whom  thefe \nlaws  were  framed. ",
+   "pages": [
+    187
+   ],
+   "line": 9386
+  },
+  {
+   "id": "taylor1804.minos.p0160",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They lay, Socrates, that Rliadamanthus was a just: man, but that IVruios was rustic, rnorofc and unjust.",
+   "raw": "MiN.  They  lay,  Socrates,  that  Rliadamanthus  was  a  jufl:  man,  but  that \nIVruios  was  ruflic,  rnorofc  and  unjufl. ",
+   "pages": [
+    187
+   ],
+   "line": 9390
+  },
+  {
+   "id": "taylor1804.minos.p0161",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You relate, O best of men, an Attic and tragical fable.",
+   "raw": "Soc.  You  relate,  O  beft  of  men,  an  Attic  and  tragical  fable. ",
+   "pages": [
+    188
+   ],
+   "line": 9400
+  },
+  {
+   "id": "taylor1804.minos.p0162",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Are not these things reported of Minos?",
+   "raw": "MiN.  Are  not  thefe  things  reported  of  Minos  ? ",
+   "pages": [
+    188
+   ],
+   "line": 9402
+  },
+  {
+   "id": "taylor1804.minos.p0163",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "They are not by Homer and Hesiod, whose authority is greater than that of all the tragic poets from whom you assert these things.",
+   "raw": "Soc.  They  arc  not  by  Homer  and  Hcfiod,  whofe  authority  is  greater  than \nthat  of  all  the  tragic  poets  from  whom  you  afTert  thefe  things. ",
+   "pages": [
+    188
+   ],
+   "line": 9404
+  },
+  {
+   "id": "taylor1804.minos.p0164",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "But what do they say about Minos?. Soc. I will tell you, left you as well as the many should be guilty of impiety. For there is not any thing which is more impious than this; nor is there any thing of which we ought to be more afraid than of offending againji the gods either in word or in deed. And next to this we should be fearful of offending against divine men. We Oiould however be very cautious, when we'praife or blame any man, that we do not speak erroneously; and for the sake of this it is necessary that we should learn to know good and bad men. For divinity is indignant when any one blames a man similar to himself, or praises one dissimilar to him: but the former of these is the good man. Nor ought you to think that stones, pieces of wood, birds and serpents are sacred, but that men are not so: for a good man is the most sacred, and a depraved man the most defiled, of all things. Now, therefore, since Homer and Hesiod pass an encomium on Minos, on this account I thus speak, leji youy being a man sprung from a man Jhould Jin in what you say against a hero the son of Jupiter, For Homer *, speaking of Crete, that there are many men and ninety cities in it, says that among these is Gnoflus, a great city in which Minos reigned, who for nine years conversed with the mighty Jupiter. This theivis Homer*s encomium of Minos, which though jfhort is such as he does nSl give to any one of his heroes. For that Jupiter is a fophift^, and that the art itself is all-beautiful, he evinces as well in many other places as here. For he says that Minos conversed nine years with Jupiter, and went to be instructed by him, as if Jupiter were a sophist. That Homer, therefore, does not bestow this honour of being instructed by Jupiter on any other hero than Minos alone, must be confidcrcd as a wonderful praise, Ulysses also, in speaking of the dead*, represents Minos judging with a golden sceptre in his hand; but neither here nor in any other place does he speak of Rhadamanthus as judging, or as conversing with Jupiter, On this account I say that Minos is extolled by Homer beyond all other heroes. For that being the son of Jupiter, he was oply intruded by Jupiter, contains no transcendency of praise. For the verse which says that Minos reigned nine years, and conversed with the mighty Jupiter, iignifies that he was the associate of Jupiter; fnice oapoi are discourses, and c^pta-Tijs is an aflbciate in discourse. Hence, for nine years Minos went to the cavern of Jupiter, learning some things, and teaching others, which during these nine years he had received from Jupiter. There are however some who conceive oapurTfis to {igiiify the associate of Jupiter in drhiking and sport. But that those who thus conceive lay nothing to the purpofe,* may be inferred from this, that, as both the Greeks and Barbarians are numerous, there are none among these who abstain from banquets, and that sport to which wine belongs, except the Cretans and the Lacedaemonians, who were intruded by the Cretans, In Crete, too, this is one of the other laws which Minos established, that men should not drink with each other to intoxication. And this indeed is evident, that he made those things to be laws for his citizens which he thought to be beautiful. For Minos did not, like a base man, think one thing, and do another different from what he thought; but his association with Jupiter was as I have said through discourse, in order to be instructed in virtue. Hence he eflablilhed these laws for his citizens through which Crete is perpetually happy, and also Lacedasmon, from the time in which it began to use these laws, in consequence of their being divine. But Rhadamanthus was indeed a good man; \"for he was mflrucled by Minos. He did not however learn the whole of the royal art, but that part of it which is of the miniflranf kind, and which possesses authority in Courts of judicature; and hence he is said to have been a good judge. For Minos employed him as a guardian of the laws in the city; but he used Talus for this purpose through the rest of Crete. For Talus thrice every year went through the villages in order to preserve the laws in them, and carried with him the laws written in tables of brass; whence also he was called brazen, Hesiod also asserts things similar to these of Minos. For, A son of Cres, the founder of the Cretaninatioo. having mentioned his name, he says that he was the most: royal of mortal kings, and that he reigned over many neighbouring men, having the sceptre of Jupiter, with which also he governed cities. And he calls the sceptre of Jupiter nothing else than the discipline of Jupiter, by which he governed Crete.",
+   "raw": "MiN.  But  what  do  they  fay  about  Minos  ? \n.  Soc.  I  will  tell  you,  left  you  as  well  as  the  many  fhould  be  guilty  of \nimpiety.  For  there  is  not  any  thing  which  is  more  impious  than  this  ;  nor \nis  there  any  thing  of  which  we  ought  to  be  more  afraid^  than  of  offending \nagainji  the  gods  either  in  word  or  in  deed  ' .  And  next  to  this  we  fhould  be \nfearful  of  offending  againft  divine  men-.  We  Oiould  however  be  very  cau- \ntious, when  we'praife  or  blame  any  man,  that  we  do  not  fpeak  erroneoufly ; \nand  for  the  fake  of  this  it  is  neceflary  that  we  fhould  learn  to  know  good \nand  bad  men.  For  divinity  is  indignant  when  any  one  blames  a  man  fimilar \nto  himfelf,  or  praifes  one  diflimilar  to  him  :  but  the  former  of  thefe  is  the \ngood  man.  Nor  ought  you  to  think  that  ftones,  pieces  of  wood,  birds  and \nferpents  are  facred,  but  that  men  are  not  fo :  for  a  good  man  is  the  moft \nfacrcd,  and  a  depraved  man  the  moft  defiled,  of  all  things.  Now,  therefore, \nfince  Homer  and  Hefiod  pafs  an  encomium  on  Minos,  on  this  account  I  thus \nfpeak,  leji  youy  being  a  man  fprung  from  a  man^  Jhould  Jin  in  what  you  fay \nagainft  a  hero  the  fon  of  Jupiter,  For  Homer  *,  fpeaking  of  Crete,  that  there \nare  many  men  and  ninety  cities  in  it,  fays  that  among  thefe  is  Gnoflus,  a \ngreat  city  in  which  Minos  reigned,  who  for  nine  years  converfed  with  the \nmighty  Jupiter.  This  theivis  Homer*s  encomium  of  Minos,  which  though \njfhort  is  fuch  as  he  does  nSl  give  to  any  one  of  his  heroes.  For  that  Jupiter \nis  a  fophift^,  and  that  the  art  itfelf  is  all-beautiful,  he  evinces  as  well  in \nmany  other  places  as  here.  For  he  fays  that  Minos  converfed  nine  years \nwith  Jupiter,  and  went  to  be  inftruded  by  him,  as  if  Jupiter  were  a  fophift. \nThat  Homer,  therefore,  does  not  beftow  this  honour  of  being  inftru61ed  by \nJupiter  on  any  other  hero  than  Minos  alone,  muft  be  confidcrcd  as  a  wonder- \nful praife,     Ulyfles  alfo,  in  fpeaking  of  the  dead*,  reprefents  Minos  judging \nwith  a  golden  fceptre  in  his  hand  ;  but  neither  here  nor  in  any  other  place \ndoes  he  fpeak  of  Rhadamanthus  as  judging,  or  as  converfing  with  Jupiter, \nOn  this  account  I  fay  that  Minos  is  extolled  by  Homer  beyond  all  other \nheroes.  For  that  being  the  fon  of  Jupiter,  he  was  oply  intruded  by \nJupiter,  contains  no  tranfcendency  of  praife.  For  the  verfe  which  fays \nthat  Minos  reigned  nine  years,  and  converfed  with  the  mighty  Jupiter, \niignifies  that  he  was  the  afTociate  of  Jupiter ;  fnice  oapoi  are  difcourfes,  and \nc^pta-Tijs  is  an  aflbciate  in  difcourfe.  Hence,  for  nine  years  Minos  went  to \nthe  cavern  of  Jupiter,  learning  fome  things,  and  teaching  others,  which \nduring  thefe  nine  years  he  had  received  from  Jupiter.  There  are  however \nfome  who  conceive  oapurTfis  to  {igiiify  the  aflociate  of  Jupiter  in  drhiking  and \nfport.  But  that  thofe  who  thus  conceive  lay  nothing  to  the  purpofe,*  may \nbe  inferred  from  this,  that,  as  both  the  Greeks  and  Barbarians  are  numerous, \nthere  arc  none  among  thefe  who  abftain  from  banquets,  and  that  fport  to \nwhich  wine  belongs,  except  the  Cretans  and  the  Lacedaemonians,  who  were \nintruded  by  the  Cretans,  In  Crete,  too,  this  is  one  of  the  other  laws  which \nMinos  eftablifhed,  that  men  fhould  not  drink  with  each  other  to  intoxication. \nAnd  this  indeed  is  evident,  that  he  made  thofe  things  to  be  laws  for  his \ncitizens  which  he  thought  to  be  beautiful.  For  Minos  did  not,  like  a  bafe \nman,  think  one  thing,  and  do  another  different  from  what  he  thought;  but \nhis  alTociation  with  Jupiter  was  as  I  have  faid  through  difcourfe,  in  order \nto  be  inftrudted  in  virtue.  Hence  he  eflablilhed  thefe  laws  for  his  citizens \nthrough  which  Crete  is  perpetually  happy,  and  alfo  Lacedasmon,  from  the \ntime  in  which  it  began  to  ufe  thefe  laws,  in  confequence  of  their  being \ndivine.  But  Rhadamanthus  was  indeed  a  good  man  ;  \"for  he  was  mflrucled \nby  Minos.  He  did  not  however  learn  the  whole  of  the  royal  art,  but  that \npart  of  it  which  is  of  the  miniflranf  kind,  and  which  pofTefTes  authority  in \nCourts  of  judicature  ;  and  hence  he  is  faid  to  have  been  a  good  judge.  For \nMinos  employed  him  as  a  guardian  of  the  laws  in  the  city  ;  but  he  ufed \nTalus  '  for  this  purpofe  through  the  refl  of  Crete.  For  Talus  thrice  every \nyear  went  through  the  villages  in  order  to  preferve  the  laws  in  them,  and \ncarried  with  him  the  laws  written  in  tables  of  brafs ;  whence  alfo  he  was \ncalled  brazen,     Hefiod  alfo  alferts  things  fimilar  to  thefe  of  Minos.     For, \nA  fon  of  Cres,  the  founder  of  the  Cretaninatioo. \nhaving  mentioned  his  name,  he  fays '  that  he  was  the  mofl:  royal  of  mortal \nkings,  and  that  he  reigned  over  many  neighbouring  men,  having  the  fccptre \nof  Jupiter,  with  which  alfo  he  governed  cities.  And  he  calls  the  fceptrc  of \nJupiter  nothing  elfe  than  the  difcipline  of  Jupiter,  by  which  he  governed \nCrete. ",
+   "pages": [
+    188,
+    189,
+    190,
+    192
+   ],
+   "line": 9407
+  },
+  {
+   "id": "taylor1804.minos.p0165",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "On what account then, Socrates, came the report to be spread that Minos was an unlearned and morose man?",
+   "raw": "^     MiN.  On  what  account  then,  Socrates,  came  the  report  to  be  fpread  that \nMinos  was  an  unlearned  and  morofe  man  ? ",
+   "pages": [
+    192
+   ],
+   "line": 9497
+  },
+  {
+   "id": "taylor1804.minos.p0166",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "On that account'-eth rough which you, O heft of men, if you are prudent, and every other man who intends to be celebrated, will be cautious never to offend a poet. For poets are able to effect much with respect to opinion, both in praising men and blaming them. In this particular, therefore, Minos erred when he warred on this city, in which there is much other wisdom, together with tragic and other poets of every description. But the tragedy here is antient, not originating, as is generally thought, from Thefpis, nor from Phrynicus; but, if you consider, you will find that it is a very antient invention of this city. Tragedy indeed is of all poetry the most pleasing to the vulgar, and the most alluring; to which applying ourselves we have taken vengeance on Minos, for which he has compelled us to pay those tributes, ]n offending us, therefore, Minos erred; whence, in reply to your question, he became infamous. For that he was a good man, a friend to law, and a good shepherd of the people, as I have before observed, this is the greatest token, that his laws are immutable, in consequence of having well discovered the truth concerning the government of a city.",
+   "raw": "Soc.  On  that  account'-^th rough  which  you,  O  heft  of  men,  if  you  arc \nprudent,  and  every  other  man  vvho  intends  to  be  celebrated,  will  be  cautious \nnever  to  offend  a  poet.  For  poets  are  able  to  effed  much  with  refpedl  to \nopinion,  both  in  praifing  men  and  blaming  them.  In  this  particular,  there- \nfore, Minos  erred  when  he  warred  on  this  city,  in  which  there  is  much  other \nwifdom,  together  with  tragic  and  other  poets  of  every  defcription.  But  the \ntragedy  here  is  antient,  not  originating,  as  is  generally  thought,  from  Thefpis, \nnor  from  Phrynicus;  but,  if  you  confider,  you  will  find  that  it  is  a  very  antient \ninvention  of  this  city.  Tragedy  indeed  is  of  all  poetry  the  mofl  pleafing  to \nthe  vulgar,  and  the  mofl  alluring;  to  which  applying  ourfelves  we  have  taken \nvengeance  on  Minos,  for  which  he  has  compelled  us  to  pay  thofc  tributes, \n]n  offending  us,  therefore,  Minos  erred  ;  whence,  in  reply  to  your  queftion, \nhe  became  infamous.  For  that  he  was  a  good  man,  a  friend  to  law,  and  a \ngood  fhepherd  of  the  people,  as  I  have  before  obferved,  this  is  the  greateft \ntoken,  that  his  laws  are  immutable,  in  confequence  of  having  well  difcovered \nthe  truth  concerning  the  government  of  a  city. ",
+   "pages": [
+    192
+   ],
+   "line": 9500
+  },
+  {
+   "id": "taylor1804.minos.p0167",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "You appear to me, Socrates, to have discovered a probable reason.",
+   "raw": "MiN.   You  appear  to  me,  Socrates,  to  have  difcovered  a  probable  reafon. ",
+   "pages": [
+    192
+   ],
+   "line": 9517
+  },
+  {
+   "id": "taylor1804.minos.p0168",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If, therefore, I speak the truth, do not the Cretans, the citizens of Alinos and Rhadamnathus, appear to you to have used the most antient laws?",
+   "raw": "Soc.  If,  therefore,  I  fpeak  the  truth,  do  not  the  Cretans,  the  citizens  of \nAlinos  and  Rhadamnathus,  appear  to  you  to  have  ufed  the  moft  antient  laws  ? ",
+   "pages": [
+    192
+   ],
+   "line": 9519
+  },
+  {
+   "id": "taylor1804.minos.p0169",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "They do.",
+   "raw": "MiN.  They  do. ",
+   "pages": [
+    192
+   ],
+   "line": 9522
+  },
+  {
+   "id": "taylor1804.minos.p0170",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "These, therefore, were the best legislators of the antients, and were alio shepherds of men; just as Homer likewiie says, that a good general is the shepherd of the people,",
+   "raw": "Soc.  Thefe,  therefore,  were  the  beft  legiflators  of  the  antients,  and  were \nalio  fhepherds  of  men ;  juft  as  Homer  likewiie  fays,  that  a  good  general  is \nthe  fhepherd  of  the  people, ",
+   "pages": [
+    192
+   ],
+   "line": 9524
+  },
+  {
+   "id": "taylor1804.minos.p0171",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "MiN.  Entirely  fo. ",
+   "pages": [
+    192
+   ],
+   "line": 9528
+  },
+  {
+   "id": "taylor1804.minos.p0172",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Come then, by Jupiter, who presides over friendship, if any one who is a good leglflator and ftiepherd of the body should ask us what those things are which when distributed to the body will make it better, we should well and briefly answer, that they are nutriment and labour, the former of which by increasing, and the latter by exercising, give stability to the body.",
+   "raw": "Soc.  Come  then,  by  Jupiter,  who  prefides  over  friendfliip,  if  any  one  who \nis  a  good  leglflator  and  ftiepherd  of  the  body  fhould  afk  us  what  thofe  things \nare  which  when  diflributed  to  the  body  will  make  it  better,  we  (hould  well \nand  briefly  anfwer,  that  they  are  nutriment  and  labour,  the  former  of  which \nby  increafing,  and  the  latter  by  exercifing,  give  ftability  to  the  body. ",
+   "pages": [
+    192,
+    191
+   ],
+   "line": 9530
+  },
+  {
+   "id": "taylor1804.minos.p0173",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "Right.",
+   "raw": "MiN»  Right. ",
+   "pages": [
+    191
+   ],
+   "line": 9545
+  },
+  {
+   "id": "taylor1804.minos.p0174",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If, therefore, after this, that good legislator and shepherd should also ask us what those things are which being distributed to the soul make it better, what shall we answer, that we may not be ashamed of ourselves and of our age?",
+   "raw": "Soc.  If,  therefore,  after  this,  that  good  legiflator  and  fhepherd  fhould  alfo \nafk  us  what  thofe  things  are  which  being  diflributed  to  the  foul  make  it  better, \nwhat  fhall  we  anfwer,  that  we  may  not  be  afhamed  of  ourfelves  and  of  our \nage  ? ",
+   "pages": [
+    191
+   ],
+   "line": 9547
+  },
+  {
+   "id": "taylor1804.minos.p0175",
+   "kind": "paragraph",
+   "label": "MiN",
+   "translator": "Thomas Taylor",
+   "text": "I am no longer able to answer this question.",
+   "raw": "MiN.  I  am  no  longer  able  to  anfwer  this  queflion. ",
+   "pages": [
+    191
+   ],
+   "line": 9552
+  },
+  {
+   "id": "taylor1804.minos.p0176",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is however disgraceful to the son) of each of us, if we should appear to be ignorant of things pertaining to our souls, in which good and evil are contained, but to be knowing in particulars pertaining to the body, and ta ©ther things.",
+   "raw": "Soc.  It  is  however  difgraceful  to  the  fou)  of  each  of  us,  if  we  fhould  appear \nto  be  ignorant  of  things  pertaining  to  our  fouls,  in  which  good  and  evil  are \ncontained,  but  to  be  knowing  in  particulars  pertaining  to  the  body,  and  ta^ \n©ther  things. ",
+   "pages": [
+    191
+   ],
+   "line": 9554
+  }
+ ],
+ "notes": [
+  {
+   "text": "Athamas was the son of -lEolus, and king of Thebes in Bocotia.",
+   "raw": "*  Athamas  was  the  fon  of  -lEolus,  and  king  of  Thebes  in  Bocotia. ",
+   "page": 182,
+   "line": 9092,
+   "in": "taylor1804.minos.p0058",
+   "anchor": "same page",
+   "id": "taylor1804.minos.n001",
+   "signed": null
+  },
+  {
+   "text": "See the Tpeech of Alcibiades in The BanqueU",
+   "raw": "'  See  the  Tpeech  of  Alcibiades  in  The  BanqueU ",
+   "page": 187,
+   "line": 9393,
+   "in": "taylor1804.minos.p0160",
+   "anchor": "same page",
+   "id": "taylor1804.minos.n002",
+   "signed": null
+  },
+  {
+   "text": "This among many other passages must convince the most careless reader, that Plato was a firm believer in the religion of his country. » Odyff. lib. xix. ver. 1 72, &c.",
+   "raw": "'  This  among  many  other  paflagcs  muft  convince  the  moft  carelefs  reader,  that  Plato  was  a \nfirm  believer  in  the  religion  of  his  country. \n»  Odyff.  lib.  xix.  ver.  1 72,  &c. ",
+   "page": 188,
+   "line": 9434,
+   "in": "taylor1804.minos.p0164",
+   "anchor": "same page",
+   "id": "taylor1804.minos.n003",
+   "signed": null
+  },
+  {
+   "text": "a That is, one endued with wisdom \\ for this is the original nncaning of the word. 4 Odyfl; lib. xi.",
+   "raw": "a  That  is,  one  endued  with  wifdom  \\  for  this  is  the  original  nncaning  of  the  word. \n4  Odyfl;  lib.  xi. ",
+   "page": 188,
+   "line": 9438,
+   "in": "taylor1804.minos.p0164",
+   "anchor": "same page",
+   "id": "taylor1804.minos.n004",
+   "signed": null
+  },
+  {
+   "text": "What Plato here cites from Hesiod is not to be found in any of tl:c w ritlngs of that poet cow extant.",
+   "raw": "*  What  Plato  here  cites  from  Hcfiod  is  not  to  be  found  in  any  of  tl:c  w  ritlngs  of  tliat  poet \ncow  extant. ",
+   "page": 192,
+   "line": 9532,
+   "in": "taylor1804.minos.p0172",
+   "anchor": "same page",
+   "id": "taylor1804.minos.n005",
+   "signed": null
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 12,
+  "running heads removed": 12,
+  "words joined across lines": 14,
+  "paragraphs run on across a page": 5,
+  "notes": 5,
+  "note marks removed": 8,
+  "speeches": 164
+ }
+}

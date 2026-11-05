@@ -1,0 +1,3230 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.laches",
+ "title": "The Laches",
+ "author": "Plato",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804)",
+ "perseus_work": "urn:cts:greekLit:tlg0059.tlg019",
+ "citation": "1804 page on every segment; Stephanus sections are assigned when the library is built (tools/align.py)",
+ "proof_status": "OCR cleaned by rule",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   8026,
+   9437
+  ],
+  "exclude": []
+ },
+ "gap": null,
+ "segments": [
+  {
+   "id": "taylor1804.laches.p0001",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "THE PERSONS OF I'HE DIALOGUE.",
+   "raw": "THE    PERSONS   OF  I'HE   DIALOGUE. ",
+   "pages": [
+    181
+   ],
+   "line": 8026
+  },
+  {
+   "id": "taylor1804.laches.p0002",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "LYSTMACHUS% 11 NICIAS3,",
+   "raw": "LYSTMACHUS%  11    NICIAS3, ",
+   "pages": [
+    181
+   ],
+   "line": 8028
+  },
+  {
+   "id": "taylor1804.laches.p0003",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "MLLKSIAS, It LACHESV",
+   "raw": "MLLKSIAS,  It    LACHESV ",
+   "pages": [
+    181
+   ],
+   "line": 8030
+  },
+  {
+   "id": "taylor1804.laches.p0004",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "The Sons of LYSIMACHUS and MEXESIAS, and SOCRATES; LYSlMACHaS. il OU have seen, O N'lcias and Laches, this man fighting In arnaour: and indeed we did not then tell you on what account I and Melesias here called you to see hun; but now we will tell you; for we think it is proper to speak freely to you. There are, indeed, some who laugh at things of this kind; and if any one consults them, they will not tell you what they think; but conjcifluring the thing about which their advice is alked, they speak contrary to their own opinion. Thinking, however, that you are I'ufficiently qualified to know, and that knowing you will in short say what you think, we have made you our aflbciates in the subject of our deliberation. The thing, therefore, about which I have for a long time prefaced so much is this: — These are our sons. That youtk, the f in of Melesias, is called Thucydides, by his grandfather's name; and this which is mine, is called Aristides, after my father. It has appeared therefore to us, that we should pay all the attention to them in our power, and that we should not act in the same manner as many do, who, when their children become lads*, suffer them to do as they please, but we now begin to take all the care of them we are able. Seeing, therefore, that you also have children, we thought that you especially must have considered how they may be educated so s to become the best of men. If, however, you have not frequently paid much attention to this thing, we now remind you that it is not proper to be negligent of it, and we call upon you to deliberate, in common with us, concerning the education of children. But whence we have bee;i Jed to think in this manner, O Nicias and Laches, it is proper you should hear, though the narration may be somewhat prolix.",
+   "raw": "The  Sons  of  LYSIMACHUS  and  MEXESIAS,  and  SOCRATES; \nLYSlMACHaS. \njL  OU  have  feen,  O  N'lcias  and  Laches,  this  man  fighting  In  arnaour  *  :  and \nindeed  we  did  not  then  tell  you  on  what  account  I  and  Melefias  here  called \nyou  to  fee  hun  ;  but  now  we  will  tell  you  ;  for  we  think  it  is  proper  to  fpeak \nfreely  to  you.  There  are,  indeed,  fome  who  laugh  at  things  of  this  kind  ; \nand  if  any  one  confults  them,  they  will  not  tell  you  what  they  think  ;  but \nconjcifluring  the  thing  about  which  their  advice  is  alked,  they  fpeak  contrary \nto  their  own  opinion.  Thinking,  however,  that  you  are  I'ufficiently  quali- \nfied to  know,  and  that  knowing  you  will  in  fhort  fay  what  you  think,  wc \nhave  made  you  our  aflbciates  in  the  fubjedl  of  our  deliberation.  The  thing, \ntherefore,  about  which  I  have  for  a  long  time  prefaced  fo  much  is  this  : — Thefe \nare  our  fons.  That  youtk,  the  f  jn  of  Melefias,  is  called  Thucydides,  by  his \ngrandfather's  name ;  and  this  which  is  mine,  is  called  Ariftides,  after  my \nfather.  It  has  appeared  therefore  to  us,  that  we  fhould  pay  all  the  atten- \ntion to  them  in  our  power,  and  that  we  fhould  not  a61  in  the  fame  manner  as \nmany  do,  who,  when  their  children  become  lads*,  fuffer  them  to  do  as  they \npleafe,  but  we  now  begin  to  take  all  the  care  of  them  we  are  able.  Seeing, \ntherefore,  that  you  alfo  have  children,  we  thought  that  you  efpecially  muft \nhave  confidered  how  they  may  be  educated  fo  ^s  to  become  the  beft  of  men. \nIf,  however,  you  have  not  frequently  paid  much  attention  to  this  thing,  we \nnow  remind  you  that  it  is  not  proper  to  be  negligent  of  it,  and  we  call  upon \nyou  to  deliberate,  in  common  with  us,  concerning  the  education  of  children. \nBut  whence  we  have  bee;i  Jed  to  think  in  this  manner,  O  Nicias  and  Laches, \nit  is  proper  you  ihould  hear,  though  the  narration  may  be  fomewhat  prolix. ",
+   "pages": [
+    null,
+    181,
+    182
+   ],
+   "line": 8032
+  },
+  {
+   "id": "taylor1804.laches.p0005",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "I and Melesias, l>ere, have but one table, and these lads eat with us. As I told you therefore at iirfl, we shall speak freely to you. For both of us are able to relate to the youths many beautiful deeds of our fathers, both in war and peace, during the time that they managed the affairs of their allies and of the city; but we cannot relate to them any deeds of our own. This covers us with shame, and we accuse our fathers for suffering us to live delicately when we became lads, while they in the mean time were busily employed about the affairs of others, These very things we point out to these youths, telling them that if they neglect themselves, and are not persuaded by us, they will become ignoble; but that, if they pay attention to themselves, they may quickly become worthy of the name which they bear. They therefore say that they will obey us; but we consider what that is through which they by learning or studying may become the beil of men. Hence, a certain person recommended to us, that the young men should learn to fight in armour, and said that this was a beautiful discipline. He also praised him, whom you have just now beheld exhibiting, and advised us likewise to see him. It appeared to us, therefore, proper to come and take you along with lis, that you might not only be fpe61:ators together with us, but might also afTill: us with your advice, if you were willing, concerning the attention which should be paid to children. These are the things which we wish to consider in common with you. It is now, therefore, your part to consult about this discipline, whether it appears proper to learn it or not; and with respect to other things, whether you have any discipline or study for the youths worthy of praise; and in short to tell us, what mode of conduct you intend to adopt for your own children,",
+   "raw": "I  and  Melefias,  l>ere,  have  but  one  table,  and  thefe  lads  eat  with  us.  As \nI  told  you  therefore  at  iirfl,  w^e  fhall  fpeak  freely  to  you.  For  both  of  us \nare  able  to  relate  to  the  youths  many  beautiful  deeds  of  our  fathers,  both  in \nwar  and  peace,  during  the  time  that  they  managed  the  affairs  of  their  allies \nand  of  the  city;  but  we  cannot  relate  to  them  any  deeds  of  our  own.  This \ncovers  us  with  (hame,  and  we  accufe  our  fathers  for  fuffering  us  to  live  deli- \ncately when  we  became  lads,  while  they  in  the  mean  time  were  bufily \nemployed  about  the  affairs  of  others,  Thefe  very  things  we  point  out  to \nthefe  youths,  telling  them  that  if  they  negledt  themfelves,  and  are  not  per- \nfuaded  by  us,  they  will  become  ignoble ;  but  that,  if  they  pay  attention  to \nthemfelves,  they  may  quickly  become  worthy  of  the  name  which  they  bear. \nThey  therefore  fay  that  they  will  obey  us  ;  but  we  confider  what  that  is  through \nwhich  they  by  learning  or  ftudying  may  become  the  beil  of  men.  Hence,  a \ncertain  perfon  recommended  to  us,  that  the  young  men  (hould  learn  to  fight  in \narmour,  and  faid  that  this  was  a  beautiful  difcipline.  He  alfo  praifed  him, \nwhom  you  have  juft  now  beheld  exhibiting,  and  advifed  us  likewife  to  fee \nhim.  It  appeared  to  us,  therefore,  proper  to  come  and  take  you  along  with \nlis,  that  you  might  not  only  be  fpe61:ators  together  with  us,  but  might  alfo \nafTill:  us  with  your  advice,  if  you  were  willing,  concerning  the  attention \nwhich  fhould  be  paid  to  children.  Thefe  are  the  things  which  we  wifh  to \nconfider  in  common  with  you.  It  is  now,  therefore,  your  part  to  confult \nabout  this  difcipline,  whether  it  appears  proper  to  learn  it  or  not ;  and  with \nrefpedl  to  other  things,  whether  you  have  any  difcipline  or  fludy  for  the \nyouths  worthy  of  praife  ;  and  in  fhort  to  tell  us,  what  mode  of  condud  you \nintend  to  adopt  for  your  own  children, ",
+   "pages": [
+    182,
+    181
+   ],
+   "line": 8099
+  },
+  {
+   "id": "taylor1804.laches.p0006",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "I indeed, O Lysimachus and Melesias, praise your conception, and am prepared to join with you in this deliberation, and I think that Laches here is prepared for the same purpose also.",
+   "raw": "Nic.  1  indeed,  O  Lyfimachus  and  Melefias,  praife  your  conception,  and \nam  prepared  to  join  with  you  in  this  deliberation,  and  I  think  that  Laches \nhere  is  prepared  for  the  fame  purpofe  alfo. ",
+   "pages": [
+    181
+   ],
+   "line": 8139
+  },
+  {
+   "id": "taylor1804.laches.p0007",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "You think with truth, O Nicias. And what Ivyfimachus just now said about his father, and the father of Melesias, appears to me to have been very well said, both against: them and us, and all such as engage in political affairs: for those things nearly happen to them which he fliid, both with respect to children and other domestic concerns, viz. that they are negle6ied and despised by them. These things, therefore, O Lysimachus, you have well said. But I am surprised that you fiiould call us to join with you in coiifulting about the education of youth, and should not call Socrates here: for, in the fird place, he is our fellow-citizen; and in the next place, he is always busily employed in confidcring that which is the object of your invef^ ligation, viz. what discipline or pursuit is proper for youth. Its. How do you say, O Laches? Does Socrates here pay attention to any thing of this kind?",
+   "raw": "Lac.  You  think  with  truth,  O  Nicias.  And  what  Ivyfimachus  juft  now \nfaid  about  his  father,  and  the  father  of  Melefias,  appears  to  me  to  have  been \nvery  well  faid,  both  againfl:  them  and  us,  and  all  fuch  as  engage  in  political \naffairs :  for  thofc  things  nearly  happen  to  them  which  he  fliid,  both  with \nrefpedt  to  children  and  other  domeftic  concerns,  viz.  that  they  are  negle6ied \nand  defpifed  by  them.  Thefe  things,  therefore,  O  Lyfimachus,  you  have \nwell  faid.  But  I  am  furprifed  that  you  fiiould  call  us  to  join  with  you  in \ncoiifulting  about  the  education  of  youth,  and  fhould  not  call  Socrates  here  : \nfor,  in  the  fird  place,  he  is  our  fellow-citizen  ;  and  in  the  next  place,  he  is \nalways  bufily  employed  in  confidcring  that  which  is  the  object  of  your  invef^ \nligation,  viz.  what  difcipline  or  purfuit  is  proper  for  youth. \nLts.  How  do  you  fay,  O  Laches  ?  Docs  Socrates  here  pay  attention  to \nany  thing  of  this  kind  ? ",
+   "pages": [
+    181,
+    182
+   ],
+   "line": 8143
+  },
+  {
+   "id": "taylor1804.laches.p0008",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "JLac. Entirely so, Lysimachus.",
+   "raw": "JLac.  Entirely  fo,  Lyfimachns. ",
+   "pages": [
+    182
+   ],
+   "line": 8163
+  },
+  {
+   "id": "taylor1804.laches.p0009",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "I also can assert this with no less confidence than Laches. For he lately introduced as a stranger to me, for the sake of intruding my son in music, Damon the disciple of Agathocles, a man most acceptable not only for his Skill in music, but also for other things which qualify a man to aflbciate with such youths as these.",
+   "raw": "Nic.  I  alfo  can  aflert  this  with  no  lefs  confidence  than  Laches.  For  he \nlately  introduced  as  a  ftranger  to  me,  for  the  fake  of  intruding  my  fon  in \nmufic,  Damon  the  difciple  of  Agathocles,  a  man  moft  acceptable  not  only \nfor  his  Ikill  in  mufic,  but  alfo  for  other  things  which  qualify  a  man  to  aflb- \nciate  with  fuch  youths  as  thefe. ",
+   "pages": [
+    182
+   ],
+   "line": 8165
+  },
+  {
+   "id": "taylor1804.laches.p0010",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "Indeed, O Socrates, Nicias, and Laches,!, and such as are my equals in age, have no longer any acquaintance with younger persons, because we for the most past keep within doors on account of our age. But, O sea of Sophroniscus, if you have anything to advise for the good of this your fellow-citizen, it is proper that you should communicate it: for it is just that you should; fmce you are a paternal friend to us; for I and your father were always aflbciates and friends; and our friendship lasted till his death without interruption. At present I have some recoUedlion of the name of Socrates: for these lads, when discoursing with each other at home, frequently make mention of Socrates, and very much praise him; but I never have yet alked them whether they spoke of Socrates the son of Sophroniscus. Ttll me, however, O boys, whether this is that Socrates of whom you so often make mention?",
+   "raw": "Lys.  Indeed,  O  Socrates,  Nicias,  and  Laches,!,  and  fuch  as  are  my  equals \nin  age,  have  no  longer  any  acquaintance  with  younger  perfons,  becaufe  we \nfor  the  moft  pait  keep  within  doors  on  account  of  our  age.  But,  O  foa \nof  Sophronifcus,  if  you  have  anything  to  advife  for  the  good  of  this  your \nfellow-citizen,  it  is  proper  that  you  (hould  communicate  it :  for  it  is  juft \nthat  you  (hould  ;  fmce  you  are  a  paternal  friend  to  us  ;  for  I  and  your \nfather  were  always  aflbciates  and  friends  ;  and  our  friendfhip  laftcd  till  his \ndeath  without  interruption.  At  prefent  I  have  fome  recoUedlion  of  the \nname  of  Socrates  :  for  thefe  lads,  when  difcourfing  with  each  other  at  home, \nfrequently  make  mention  of  Socrates,  and  very  much  praife  him  ;  but  I \nnever  have  yet  alked  them  whether  they  fpoke  of  Socrates  the  fon  of  So- \nphronifcus. Ttll  me,  however,  O  boys,  whether  this  is  that  Socrates  of \nwhom  you  fo  often  make  mention? ",
+   "pages": [
+    182
+   ],
+   "line": 8171
+  },
+  {
+   "id": "taylor1804.laches.p0011",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Sons of Mel. andlj^s. Yes, O Father, it is the same. Lys. It is well, by Juno, Socrates, that you do credit to your father, who was the best of men; and henceforward your interests shall be mine, and mine yours.",
+   "raw": "Sons  of  Mel.  andlj^s.  Yes,  O  Father,  it  is  the  fame. \nLys.  It  is  well,  by  Juno,  Socrates,  that  you  do  credit  to  your  father,  who \nwas  the  beft  of  men  ;  and  henceforward  your  interefts  (hall  be  mine,  and  mine \nyours. ",
+   "pages": [
+    182
+   ],
+   "line": 8185
+  },
+  {
+   "id": "taylor1804.laches.p0012",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "And, indeed, O Lysimachus, you must not let this man go: for I have ellewhere seen him, not only doing credit to his father, but also to his country. For, at the defeat at Delium*, he retired along with me; and I can assure you, that if the rest had conduced themselves as he did, our city would have stood firm, and would not then have fafFered such a ruin.",
+   "raw": "Lac,  And,  indeed,  O  Lyfimachus,  you  muft  not  let  this  man  go:  for  I \nhave  ellewhere  feen  him,  not  only  doing  credit  to  his  father,  but  alfo  to  his \ncountry.  For,  at  the  defeat  at  Delium*,  he  retired  along  with  me  ;  and  I \ncan  affure  you,  that  if  the  reft  had  conduced  themfelvcs  as  he  did,  our \ncity  would  have  ftood  firm,  and  would  not  then  have  fafFered  fuch  a \nruin. ",
+   "pages": [
+    182
+   ],
+   "line": 8190
+  },
+  {
+   "id": "taylor1804.laches.p0013",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "O Socrates, this indeed is a beautiful praise, which is now given to you by men who are worthy to be believed, and who deserve to be celebrated for the faoie things for which they praise you. Be well assured, therefore, that I, hearing these things, rejoice that you are renowned; and think that I am among the number of those who are most benevolently disposed towards you. Hence it is requisite that you should first come to us, and believe that we are your familiars, as it is jull you should. Novs% therefore, from this very day, since we have recognized each other, you should not do otherwise but be familiar with us and these youths, that mutual friendship may be preserved between us. Do you therefore do these things, and we will again recall them to your memory. But with respect to the things which we began to inquire mto, what do you say f Does it appear to you that this difcij^ine is adapted to lads, or not; I mean the learning to fight in amour?",
+   "raw": "Lys.  O  Socrates,  this  indeed  is  a  beautiful  praife,  which  is  now  given \nto  you  by  men  who  are  worthy  to  be  believed,  and  who  deferve  to  be  cele- \nbrated for  the  faoie  things  for  which  they  praife  yon.  Be  well  aflured, \ntherefore,  that  I,  hearing  thefe  things,  rejoice  that  you  are  renowned  ;  and \nthink  that  I  am  among  the  number  of  thofe  who  are  moft  benevolently  dif- \npofed  towards  you.  Hence  it  is  requifite  that  you  fhould  firft  come  to  us, \nand  believe  that  we  are  your  familiars,  as  it  is  jull  you  fliould.  Novs%  there- \nfore, from  this  very  day,  fince  we  have  recognized  each  other,  you  (hould \nnot  do  otherwife  ^  but  be  familiar  with  us  and  thefe  youths,  that  mutual \nfriendfliip  may  be  preferved  between  us.  Do  you  therefore  do  thefe  things, \nand  we  will  again  recall  them  to  your  memory.  But  with  refped  to  the \nthings  which  we  began  to  inquire  mto,  what  do  you  fay  f  Docs  it  appear  to \nyou  that  this  difcij^ine  is  adapted  to  lads,  or  not;  I  mean  the  learning  to \nfight  in  amour  ? ",
+   "pages": [
+    182,
+    183
+   ],
+   "line": 8197
+  },
+  {
+   "id": "taylor1804.laches.p0014",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "See. Concerning these things, O Lyiimachus, I will endeavour to give you what advice I am able; and again, to do all that you request It appears indeed to me to be most just, that I being the younger, and hfs experienced in these things, should ilrft hear what<thefe persons say, and learn from them. And if 1 should have any thing to say different from their opinion, then I will declare my Xentiments, and endeavour to persuade you and them of thc^ir truth* But, O Nicias, why do not you speak the £rft?",
+   "raw": "See.  Concerning  thefe  things,  O  Lyiimachus,  I  will  endeavour  to  give \nyou  what  advice  I  am  able;  and  again,  to  do  all  that  you  requefL  It  appears \nindeed  to  me  to  be  moft  juft,  that  I  being  the  younger,  and  hfs  ex- \nperienced in  thefe  things,  (hould  ilrft  hear  what<thefe  perfons  fay,  and  learn \nfrom  them.  And  if  1  (hould  have  any  thing  to  fay  different  from  their \nopinion,  then  I  will  declare  my  Xentiments,  and  endeavour  to  perfuade  you \nand  them  of  thc^ir  truth*  But,  O  Nicias,  why  do  not  you  fpeak  the \n£rft? ",
+   "pages": [
+    183
+   ],
+   "line": 8222
+  },
+  {
+   "id": "taylor1804.laches.p0015",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Nothing hinders, Socrates; for it appears to me that the knowledge of this discipline is very generally useful to youth. For it is well not to be busily employed about those things with which young men love to be conversant when they are at leisure, but to engage in this whence the body ficccflarily acquires a better condition. For it is not inferior to any of the exercises, nor has it less labour; and at the same time this exercise and cqueftrian skill are especially proper for a liberal man. Indeed, in the contest in which we are athletse, and in those exercises in which a contest: is proposed to us, those J^lone contenii who are exercised in these warlike inftrumenta. In the next place, this diicipline is of advantage in battle itself, when it is necessary to fight in rank with many others. But it is most: beneficial when the ranks are broken, and when it is necessary, in single combat, either to pursue one resisting, or in flight to repel one attacking. For he who is ikilledin thisart, will not be vanquished by one, nor perhaps by many enemies, but will every where through this be superior to his oppo* nent. Further fl:ill, a thing of this kind incites a desire of another beautiful discipline. For every one who has learnt to fight in armour, will also desire the discipline consequent to this, viz. that concerning the ranks of aa army; and having received these disciplines, and being ambitious of excelling in them, he will be impelled to every thing which concerns the command of an army. And this being the case, it is evident that he will apply himself to those beautiful disciplines and studies consequent to these, which it is well worth while for a man to learn and study, and of which this discipline is the leader. We may also add to it this, which is no trifling addition, that this science will make every man in no small degree more daring and brave in battle than he was before. Nor is this also to be passed over in silence (though it may appear to be very trifling), that it gives a man a graceful carriage, in those places where it is proper he should appear to poflTefs it; and where also through this gracefulnefs of carriage he will at the same time appear more terrible to his enemies. To me therefore, O Lysimachus, as I have said, it appears to be necessary to teach young men these things, and for the reasons which I have aflfigned. But I shall be glad to hear if Laches has any thing to say in opposition to what I have advanced.",
+   "raw": "Nic.  Nothing  hinders,  Socrates;  for  it  appears  to  me  that  the  knowledge \nof  this  difcipline  is  very  generally  ufeful  to  youth.  For  it  is  well  not  to  be \nbufily  employed  about  thofe  things  with  which  young  men  love  to  be  con- \nverfant  when  they  are  at  leifure,  but  to  engage  in  this  whence  the  body \nficccflarily  acquires  a  better  condition.  For  it  is  not  inferior  to  any  of  the \ncxercifes,  nor  has  it  lefs  labour;  and  at  the  fame  time  this  exercife  and \ncqueftrian  (kill  are  efpecially  proper  for  a  liberal  man.  Indeed,  in  the  con- \nteft  in  which  we  are  athletse,  and  in  thofe  exercifes  in  which  a  contefl:  is \npropofed  to  us,  thofe  J^lone  contenii  who  are  exerclfed  in  thefe  warlike  in- \nftrumenta.  In  the  next  place,  this  diicipline  is  of  advantage  in  battle  itfelf, \nwhen  it  is  neceifary  to  fight  in  rank  with  many  others.  But  it  is  mofl:  be- \nneficial when  the  ranks  are  broken,  and  when  it  is  neceflary,  in  (ingle  com- \nbat, either  to  purfue  one  refifting,  or  in  flight  to  repel  one  attacking.  For \nhe  who  is  ikilledin  thisart,  will  not  be  vanquiflied  by  one,  nor  perhaps  by \nmany  enemies,  but  will  every  where  through  this  be  fuperlor  to  his  oppo* \nnent.  Further  fl:ill,  a  thing  of  this  kind  incites  a  deflre  of  another  beautiful \ndifcipline.  For  every  one  who  has  learnt  to  fight  in  armour,  will  alfo  defire \nthe  difcipline  confequent  to  this,  viz.  that  concerning  the  ranks  of  aa \narmy ;  and  having  received  thefe  difciplines,  and  being  ambitious  of  excel- \nling in  them,  he  will  be  impelled  to  every  thing  which  concerns  the  command \nof  an  army.  And  this  being  the  cafe,  it  is  evident  that  he  will  apply  him- \nfelf  to  thofe  beautiful  difciplines  and  ftudies  confequent  to  thefe,  which  it  is \nwell  worth  while  for  a  man  to  learn  and  ftudy,  and  of  which  this  difcipline \nis  the  leader.  We  may  alfo  add  to  it  this,  which  is  no  trifling  addition,  that \nthis  fcicnce  will  make  every  man  in  no  fmall  degree  more  daring  and  brave \nin  battle  than  he  was  before.  Nor  is  this  alfo  to  be  pafTed  over  in  filencc \n(though  it  may  appear  to  be  very  trifling),  that  it  gives  a  man  a  graceful \ncarriage,  in  thofe  places  where  it  is  proper  he  fhould  appear  to  poflTefs  it ; \nand  where  alfo  through  this  gracefulnefs  of  carriage  he  will  at  the  fame  time \nappear  more  terrible  to  his  enemies.  To  me  therefore,  O  Lyfimachus,  as \nI  have  faid,  it  appears  to  be  necefTary  to  teach  young  men  thefe  things,  and \nfor  the  reafons  which  I  have  aflfigned.  But  I  fhall  be  glad  to  hear  if  Laches \nhas  any  thing  to  fay  in  oppofition  to  what  I  have  advanced. ",
+   "pages": [
+    183,
+    184
+   ],
+   "line": 8231
+  },
+  {
+   "id": "taylor1804.laches.p0016",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "But it is difficult, O Nicias, to say with respect to any discipline, that it is not proper to learn it: for it appears to be good to know all things. And indeed, as to this art refpe^^ing arms, if it is a discipline, (es those say it is who teach it, and if it is such as Nicias aflferts it to be,) it is necessary to learn it; but if it is not a discipline, and those deceive us who promise to teach it us as such, or if being a discipline, it is not of much worth, why is it necessary to learn it? But I say these things concerning it, looking to this circumstance, viz. that if it were of any value, I think it would not have been concealed from the Lacedaemonians, who are concerned for nothing else in life than to seek and study that by which they may surpass others in war. And if this art were concealed from them, yet it could not be concealed from the teachers of it, that the Lacedaemonians, the most of all the Greeks, pay attention to things of this kind, and that he who is renowned for these things, will accumulate much wealth both from them and from others, just as a tragic poet when he is renowned among us. For indeed, he who thinks that he can compose excellent tragedies, does not, wandering out of Attica, make the circuit of other cities, in order to attract notice, but immediately comes hither, and very properly exhibits himself to our citizens. But I see that those who fight in armour consider Lacedasmon as an inaccessible temple, and do not enter into it even on tip-toe, but they wander round it, and rather exhibit themselves to others, and especially to those who acknowledge themselves to be inferior to many others in warlike concerns. In the next place, O Lysimachus, I have been present with not a few of these men in the work itself, and I have seen what kind of men they are. But we may form a Judgment of them from this circumstance, that no man who has applied himself to armorial concerns has ever become illustrious in war; though in all other things men have been celebrated for their Skill in their refpeftive professions. But these men, as it seems, are particularly unfortunate in this respect beyond others. For this very same Stefileus, whom you beheld together with me exhibiting himself in so great a crowd, I have fccn truly displaying himself elsewhere, in a far better manner, though unwillingly. For when the ship he was in attacked a merchantman, he fought with a spear headed with a fey the that his arms might be as different as himself was from the rest of the combatants. Other particulars therefore respecting the man do not deserve to be related; but the success of this stratagem of heading a spear with a scythe must not be passed over in silence: for while he was fighting, his scythe became entangled in the tackling of the enemy's ship; Stefileus therefore pulled in order to disengage it, but was not able to effect: his purpose; and the one ship passed by the other. In the mean time he followed the course of the ship holding his spear. But when the enemy's ship fteered off, and was drawing him in, as he was still holding his spear, he suffered it to slip through his hands, till he had only hold of it by the small end. The crew of the merchantman laughed and shouted at this circumstance of his being drawn by his spear, and at the figure which he made. At length some. one having thrown a stone that fell just at his feet, on one of the rowers' seats, he quitted his spear. Then, indeed, those that were in the three-banked galley were no longer able to restrain their laughter on seeing that spear headed with a scythe hanging from the ship. Per-haps therefore, this art may be of some use, as Nicias says; such however are the particulars of which I was a fpedator. Hence, as I said at first, if it be a discipline, it possesses but little utility; and if it be not, but they diflfemble who say it is, it is not worth wbil« VOL V. 2 B t# to eiit!eavoT3T to learn it. For it appears to me, that if any cowjtrd fliouldl think he ought to learn this art, acquiring confidence through it, his cowardice would become more apparent; but that if a brave fnan Should learn ity in confequencc of being observed by every one, if he erred but in a small degree he must endure great calumnies* For the profession of this science is attended with envy; so that unless he surpasses others in virtue in a wonderful degree, he who acknowledges that he possesses this science cannot avoid becoming ridiculous. Such, O Lysimachus, does the pursuit of this difci-^ pline appear to me. But it is requisite, as I said at first, not to dii'mifs this Socrates, but to request: him to give his opinion on this subject.",
+   "raw": "Lac.  But  it  is  difficult,  O  Nicias,  to  fay  with  refpedt  to  any  difcipline,  that \nit  is  not  proper  to  learn  it  :  for  it  appears  to  be  good  to  know  all  things. \nAnd  indeed,  as  to  this  art  refpe^^ing  arms,  if  it  is  a  difcipline,  (as  thofe  fay  it \nis  who  teach  it,  and  if  it  is  fuch  as  Nicias  aflferts  it  to  be,)  it  is  neceffary  to \nlearn  it  ;  but  if  it  is  not  a  difcipline,  and  thofe  deceive  us  who  promife  to \nteach  it  us  as  fuch,  or  if  being  a  difcipline,  it  is  not  of  much  worth,  why  is  it \nneceffary  to  learn  it  ?  But  I  fay  thefe  things  concerning  it,  looking  to  this \ncircumftance,  viz.  that  if  it  were  of  any  value,  I  think  it  would  not  have  been \nconcealed  from  the  Lacedaemonians,  who  are  concerned  for  nothing  elfe  in \nlife  than  to  feek  and  ftudy  that  by  which  they  may  furpafs  others  in  war. \nAnd  if  this  art  were  concealed  from  them,  yet  it  could  not  be  concealed  from \nthe  teachers  of  it,  that  the  Lacedaemonians,  the  moft  of  all  the  Greeks,  pay \nattention  to  things  of  this  kind,  and  that  he  who  is  renowned  for  thefe \nthings,  will  accumulate  much  wealth  both  from  them  and  from  others,  juft  as \na  tragic  poet  when  he  is  renowned  among  us.  For  indeed,  he  who  thinks \nthat  he  can  compofe  excellent  tragedies,  does  not,  wandering  out  of  Attica, \nmake  the  circuit  of  other  cities,  in  order  to  attradl  notice,  but  immediately \ncomes  hither,  and  very  properly  exhibits  himfelf  to  our  citizens.     But  I  fee \nthat  thofe  who  fight  in  armour  confider  Lacedasmon  as  an  inacceffible  temple, \nand  do  not  enter  into  it  even  on  tip-toe,  but  they  wander  round  it,  and  rather \nexhibit  themfelves  to  others,  and  efpecially  to  thofe  who  acknowledge  them- \nfelves  to  be  inferior  to  many  others  in  warlike  concerns.    In  the  next  place, \nO  Lyfimachus,  I  have  been  prefent  with  not  a  few  of  thefe  men  in  the  work \nitfelf,  and  I  have  feen  what  kind  of  men  they  are.  But  we  may  form  a  Judg- \nment of  them  from  this  circumflance,  that  no  man  who  has  applied  himfelf  to \narmorial  concerns  has  ever  become  illuftrious  in  war ;  though  in  all  other \nthings  men  have  been  celebrated  for  their  Ikill  in  their  refpeftive  profeffions. \nBut  thefe  men,  as  it  feems,  are  particularly  unfortunate  in  this  refpe6l  beyond \nothers.     For  this  very  fame  Stefileus,  whom  you  beheld  together  with  me \nexhibiting  himfelf  in  fo  great  a  crowd,  I  have  fccn  truly  difplaying  himfelf \nelfewhere,  in  a  far  better  manner,  though  unwillingly.     For  when  the  (hip \nhe  was  in  attacked  a  merchantman,  he  fought  with  a  fpear  headed  with  a \nfey  the  that  his  arms  might  be  as  different  as  himfelf  was  from  the  reft  of  the \ncombatants.     Other  particulars  therefore  refpeding  the  man  do  not  defcrve \nto  be  related  ;  but  the  fuccefs  of  this  ftratagem  of  heading  a  fpear  with  a \nfcythe  muft  not  be  paffed  over   in  filence  :    for  while  he  was  fighting,   his \nfcythe   became   entangled   in   the  tackling  of  the  enemy's  fhip  ;   Stefileus \ntherefore  pulled  in  order  to  difengage  it,  but  was  not  able  to  effe6l:  his  pur- \npofe  ;  and  the  one  fhip  palfed  by  the  other.     In  the  mean  time  he  followed \nthe  courfe  of  the  fhip  holding  his  fpear.     But  when  the  enemy's  fhip  fteered \noff,  and  was  drawing  him  in,  as  he  was  flill  holding  his  fpear,  he  fuffered  it \nto  flip  through  his  hands,    till  he  had  only  hold  of  it  by  the  fmall  end.    The \ncrew  of  the  merchantman  laughed  and  fhouted  at  this  circumftance  of  his  be- \ning drawn  by  his  fpear,  and  at  the  figure  which  he  made.     At  length  fbme \n.  one  having  thrown  a  ftone  that  fell  jufl  at  his  feet,  on  one  of  the  rowers'  feats, \nhe  quitted  his  fpear.    Then,  indeed,  thofe  that  were  in  the  three-banked  gal- \nley were   no  longer  able  to  reftrain  their  laughter  on  feeing  that  fpear  headed \nwith  a  fcythe  hanging  from  the  fliip.     Per-haps  therefore,  this  art  may  be  of \nfome  ufe,  as  Nicias  fays  ;  fuch  however  are  the  particulars  of  which  I  was  a \nfpedator.     Hence,  as  I  faid  at  firft,  if  it  be  a  difcipline,  it  pofTeffes  but  little \nutility  ;  and  if  it  be  not,  but  they  diflfemble  who  fay  it  is,  it  is  not  worth  wbil« \nVOL  V.  2  B  t# \nto  eiit!eavoT3T  to  learn  it.  For  it  appears  to  me,  that  if  any  cowjtrd  fliouldl \nthink  he  ought  to  learn  this  art,  acquiring  confidence  through  it,  his  cowardice \nwould  become  more  apparent ;  but  that  if  a  brave  fnan  Ihould  learn  ity \nin  confequencc  of  being  obferved  by  every  one,  if  he  erred  but  in  a  fmall  de- \ngree he  mufl  endure  great  calumnies*  For  the  profeflion  of  this  fciencc  is \nattended  with  envy  ;  fo  that  unlefs  he  furpafles  others  in  virtue  in  a  wonder- \nful degree,  he  who  acknowledges  that  he  poflefles  this  fcience  cannot  avoid \nbecoming  ridiculous.  Such,  O  Lyfimachus,  does  the  purfuit  of  this  difci-^ \npline  appear  to  me.  But  it  is  requifite,  as  I  faid  at  firft,  not  to  dii'mifs  this \nSocrates,  but  to  requefl:  him  to  give  his  opinion  on  this  fubjedl. ",
+   "pages": [
+    184,
+    185,
+    186
+   ],
+   "line": 8271
+  },
+  {
+   "id": "taylor1804.laches.p0017",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "But I indeed request, O Socrates, that you will do so: for it appears tometh^t we want an umpire to decide the difference. Had these indeed agreed in opinion, a thing of this kind would have been less neceflTary. But now (for you see that Laches dissents from Nicias) it will be well to hear from you to which of the men you give your suffrage.",
+   "raw": "Lys.  But  I  indeed  requeft,  O  Socrates,  that  you  will  do  fo  :  for  it  appears \ntometh^t  we  want  an  umpire  to  decide  the  difference.  Had  thefe  indeed \nagreed  in  opinion,  a  thing  of  this  kind  would  have  been  lefs  neceflTary.  But \nnow  (for  you  fee  that  Laches  diffents  from  Nicias)  it  will  be  well  to  hear \nfrom  you  to  which  of  the  men  you  give  your  fufFrage. ",
+   "pages": [
+    186
+   ],
+   "line": 8344
+  },
+  {
+   "id": "taylor1804.laches.p0018",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what, O Lysimachus? If many praise us, will you make ufe©f them?",
+   "raw": "Soc.  But  what,  O  Lyfimachus  ?  If  many  praife  us,  will  you  make  ufe- \n©f  them  ? ",
+   "pages": [
+    186
+   ],
+   "line": 8350
+  },
+  {
+   "id": "taylor1804.laches.p0019",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "What else can any one do, O Socra;tes f",
+   "raw": "Lys.  What  elfe  can  any  one  do,  O  Socra;tes  f ",
+   "pages": [
+    186
+   ],
+   "line": 8353
+  },
+  {
+   "id": "taylor1804.laches.p0020",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And will you also, O Melesias, act in this manner? And if it Were laeceflary for you to consult about exercise for your son, would you rather be persuaded by the many, than by one who had learned under a skilful mailer,, and who had exGrcifed himself?",
+   "raw": "Soc.  And  will  you  alfo,  O  Melefias,  a6l  in  this  manner  ?  And  if  it  Were \nlaeceflary  for  you  to  confult  about  exercife  for  your  fon,  would  you  rather  be \nperfuaded  by  the  many,  than  by  one  who  had  learned  under  a  fkilful  mailer,, \nand  who  had  exGrcifed  himfelf  ? ",
+   "pages": [
+    186
+   ],
+   "line": 8355
+  },
+  {
+   "id": "taylor1804.laches.p0021",
+   "kind": "paragraph",
+   "label": "Mel",
+   "translator": "Thomas Taylor",
+   "text": "It is fit, Socrates, I should be persuaded by the latter.",
+   "raw": "Mel.  It  is  fit,  Socrates,  I  (hould  be  perfuaded  by  the  latter. ",
+   "pages": [
+    186
+   ],
+   "line": 8360
+  },
+  {
+   "id": "taylor1804.laches.p0022",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "SoG. You would rather, therefore, be persuaded by him than, by us four?",
+   "raw": "SoG.  You  would  rather,  therefore,  be  perfuaded  by  him  than,  by  us^ \nfour  ? ",
+   "pages": [
+    186
+   ],
+   "line": 8362
+  },
+  {
+   "id": "taylor1804.laches.p0023",
+   "kind": "paragraph",
+   "label": "Mel",
+   "translator": "Thomas Taylor",
+   "text": "Perhaps so.",
+   "raw": "Mel.  Perhaps  fo. ",
+   "pages": [
+    186
+   ],
+   "line": 8365
+  },
+  {
+   "id": "taylor1804.laches.p0024",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc For it is necessary, I think, to judge by science, and not by multitude, if a man intends to judge well.",
+   "raw": "Soc  For  it  is  neceffary,  I  think,  to  judge  by  fcience,  and  not  by  multi- \ntude, if  a  man  intends  to  judge  well. ",
+   "pages": [
+    186
+   ],
+   "line": 8367
+  },
+  {
+   "id": "taylor1804.laches.p0025",
+   "kind": "paragraph",
+   "label": "Mel",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly.",
+   "raw": "Mel.  Undoubtedly. ",
+   "pages": [
+    186
+   ],
+   "line": 8370
+  },
+  {
+   "id": "taylor1804.laches.p0026",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc Now, therefore, it is necessary to consider this very thing in the lirft place, viz. whether any one of us is an artist, in the thing about which we consult, or not.. And if any of us is,, we should be persuaded by him. being one,, dismissing the rest But if no one of us is an artist in this particular,, we must seek after some other person. Or, do you and Lysimachus think that this is an afikir of CmsLW consequence, and that it is not conceriiing that which is the greatest of all your possessions? For the government of the whole paternal house will be according as the children are worthy, or the contrary.",
+   "raw": "Soc  Now,  therefore,  it  is  neceffary  to  confider  this  very  thing  in  the \nlirft  place,  viz.  whether  any  one  of  us  is  an  artift,  in  the  thing  about  which \nwe  confult,  or  not..  And  if  any  of  us  is,,  we  fliould  be  perfuaded  by  him-. \nbeing  one,,  difmifling  the  reft^  But  if  no  one  of  us  is  an  artifl  in  this  par- \nticular,, we  muft  feek  after  fome  other  perfon.  Or,  do  you  and  Lyfimachus \nthink  that  this  is  an  afikir  of  CmsLW  confequence,  and  that  it  is  not  con- \nceriiing  that  which  is  the  greateft  of  all  your  pofTeflions  ?  For  the  govern- \nment of  the  whole  paternal  houfe  will  be  according  as  the  children  are \nworthy,  or  the  contrary. ",
+   "pages": [
+    186,
+    187
+   ],
+   "line": 8372
+  },
+  {
+   "id": "taylor1804.laches.p0027",
+   "kind": "paragraph",
+   "label": "Mel",
+   "translator": "Thomas Taylor",
+   "text": "You speak the truth,",
+   "raw": "Mel.  You  fpeak  the  truth, ",
+   "pages": [
+    187
+   ],
+   "line": 8388
+  },
+  {
+   "id": "taylor1804.laches.p0028",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is necessary, therefore, to pay much attention to this subject.",
+   "raw": "Soc.  It  is  neceflary,  therefore,  to  pay  much  attention  to  this  fubjedl. ",
+   "pages": [
+    187
+   ],
+   "line": 8390
+  },
+  {
+   "id": "taylor1804.laches.p0029",
+   "kind": "paragraph",
+   "label": "Mel",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "Mel.  Certainly.  ^ ",
+   "pages": [
+    187
+   ],
+   "line": 8392
+  },
+  {
+   "id": "taylor1804.laches.p0030",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "How then should we consider that which I just now mentioned, if we wi(hed to find which of us is most expert in contest? Should we not consult him who had learned and studied this art of contending, and who had been instructed in it by good masters?",
+   "raw": "Soc.  How  then  (hould  we  confider  that  which  I  juft  now  mentioned,  if \nwe  wi(hed  to  find  which  of  us  is  mofl  expert  in  conteft  ?  Should  we  not \nconfult  him  who  had  learned  and  ftudied  this  art  of  contending,  and  who \nhad  been  inflruded  in  it  by  good  mafters  ? ",
+   "pages": [
+    187
+   ],
+   "line": 8394
+  },
+  {
+   "id": "taylor1804.laches.p0031",
+   "kind": "paragraph",
+   "label": "Mel",
+   "translator": "Thomas Taylor",
+   "text": "To me it appears that we should.",
+   "raw": "Mel.  To  me  it  appears  that  we  fliould. ",
+   "pages": [
+    187
+   ],
+   "line": 8399
+  },
+  {
+   "id": "taylor1804.laches.p0032",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Should we not, therefore, prior to this, conftder what this thing is in which we seek for masters?",
+   "raw": "Soc.  Should  we  not,  therefore,  prior  to  thi^,  conftder  what  this  thing  is \nin  which  we  feek  for  mafters  ? ",
+   "pages": [
+    187
+   ],
+   "line": 8401
+  },
+  {
+   "id": "taylor1804.laches.p0033",
+   "kind": "paragraph",
+   "label": "Mel",
+   "translator": "Thomas Taylor",
+   "text": "How do you say?",
+   "raw": "Mel.  How  do  you  fay  ? ",
+   "pages": [
+    187
+   ],
+   "line": 8404
+  },
+  {
+   "id": "taylor1804.laches.p0034",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Thus, perhaps, what I say will be more manifest. It does not appear to me, to have been acknowledged by us at first: wha^ that is about which we consult and speculate, in order to know which of us is most {killed in it, and has had masters for the sake of this, and which of us is not,",
+   "raw": "Soc,  Thus,  perhaps,  what  I  fay  will  be  more  manifeft.  It  does  not \nappear  to  me,  to  have  been  acknowledged  by  us  at  firfl:  wha^  that  is  about \nwhich  we  confult  and  fpeculate,  in  order  to  know  which  of  us  is  mofl  {killed \nin  it,  and  has  had  maflers  for  the  fake  of  this,  and  which  of  us  is  not, ",
+   "pages": [
+    187
+   ],
+   "line": 8406
+  },
+  {
+   "id": "taylor1804.laches.p0035",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Did we not, O Socrates, consider about fighting in armour, whether it was proper lads should learn it or not?",
+   "raw": "Nic.  Did  we  not,  O  Socrates,  confider  about  fighting  in  armour,  whether \nit  was  proper  lads  fhould  learn  it  or  not  ? ",
+   "pages": [
+    187
+   ],
+   "line": 8411
+  },
+  {
+   "id": "taylor1804.laches.p0036",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Entirely io, O Nicias: but when any one considers about a remedy for the eyes, whether it is proper to apply it or not, whether do you think the consultation should then be about the remedy, or about the eyes?",
+   "raw": "Soc.  Entirely  io,  O  Nicias :  but  when  any  one  confiders  about  a  remedy \nfor  the  eyes,  whether  it  is  proper  to  apply  it  or  not,  whether  do  you  think \nthe  confultation  fliould  then  be  about  the  remedy,  or  about  the  eyes  ? ",
+   "pages": [
+    187
+   ],
+   "line": 8414
+  },
+  {
+   "id": "taylor1804.laches.p0037",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "About the eyes.",
+   "raw": "Nic.  About  the  eyes. ",
+   "pages": [
+    187
+   ],
+   "line": 8418
+  },
+  {
+   "id": "taylor1804.laches.p0038",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Hence also, when any one considers about a bridle for a horse, whether it should be used or not, and when it should be used, he will then consult about the horse, and not about the bridle.",
+   "raw": "Soc.  Hence  alfo,  when  any  one  confiders  about  a  bridle  for  a  horfe, \nwhether  it  fhould  be  ufed  or  not,  and  when  it  fhould  be  ufed,  he  will  then \nconfult  about  the  horfe,  and  not  about  the  bridle. ",
+   "pages": [
+    187
+   ],
+   "line": 8420
+  },
+  {
+   "id": "taylor1804.laches.p0039",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "True.",
+   "raw": "Nic.  True. ",
+   "pages": [
+    187
+   ],
+   "line": 8424
+  },
+  {
+   "id": "taylor1804.laches.p0040",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "In one word, therefore, when any one considers a certain thing for the sake of something, his consultation will be about that thing for the sake of which he speculates, and not about that which he seeks for the sake of something else '.",
+   "raw": "Soc.  In  one  word,  therefore,  when  any  one  confiders  a  certain  thing  for \nthe  fake  of  fomething,  his  confultation  will  be  about  that  thing  for  the  fake \nof  which  he  fpeculates,  and  not  about  that  which  he  feeks  for  the  fake  of \nfomething  elfe  '. ",
+   "pages": [
+    187
+   ],
+   "line": 8426
+  },
+  {
+   "id": "taylor1804.laches.p0041",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Neccffarily (os",
+   "raw": "Nic.  Neccffarily  (oi ",
+   "pages": [
+    188
+   ],
+   "line": 8440
+  },
+  {
+   "id": "taylor1804.laches.p0042",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is necessary, therefore, to consider whether the person whose advice we alk is Ikilled in that thing for the sake of which we engage in the present inquiry.",
+   "raw": "Soc.  It  is  neceflary,  therefore,  to  confider  whether  the  perfon  whofe \nadvice  we  alk  is  Ikilled  in  that  thing  for  the  fake  of  which  we  engage  in  the \nprefent  inquiry. ",
+   "pages": [
+    188
+   ],
+   "line": 8442
+  },
+  {
+   "id": "taylor1804.laches.p0043",
+   "kind": "paragraph",
+   "label": "Mel",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "Mel.  Certainly. ",
+   "pages": [
+    188
+   ],
+   "line": 8446
+  },
+  {
+   "id": "taylor1804.laches.p0044",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "See. Do we not therefore say, that we now inquire concernino discipline for the sake of the soul of youth?",
+   "raw": "See.  Do  we  not  therefore  fay,  that  we  now  inquire  concernino-  dif- \ncipline  for  the  fake  of  the  foul  of  youth  ? ",
+   "pages": [
+    188
+   ],
+   "line": 8448
+  },
+  {
+   "id": "taylor1804.laches.p0045",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Nic.   Yes. ",
+   "pages": [
+    188
+   ],
+   "line": 8451
+  },
+  {
+   "id": "taylor1804.laches.p0046",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Whether, therefore, any one of us is skilled in the art of takin<y care of the soul, and is able to accomplish this employment well, and has had good masters in this art himself, must be considered.",
+   "raw": "Soc.  Whether,  therefore,  any  one  of  us  is  fkilled  in  the  art  of  takin<y \ncare  of  the  foul,  and  is  able  to  accomplifh  this  employment  well,  and  has \nhad  good  mafters  in  this  art  himfelf,  muft  be  confidered. ",
+   "pages": [
+    188
+   ],
+   "line": 8453
+  },
+  {
+   "id": "taylor1804.laches.p0047",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "But what, O Socrates, have you never yet seen some persons become more skilful in a certain thing without than with masters?",
+   "raw": "Lac.  But  what,  O  Socrates,  have  you  never  yet  feen  fome  perfons  be- \ncome more  fkilful  in  a  certain  thing  without  than  with  mafters  ? ",
+   "pages": [
+    188
+   ],
+   "line": 8457
+  },
+  {
+   "id": "taylor1804.laches.p0048",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I have, O. Laches; whom, however, you would not be willing to believe, if they said that they were good artists, unless they could show you some excellent production of their art, and not only one but many.",
+   "raw": "Soc.  I  have,  O.  Laches  ;  whom,  however,  you  would  not  be  willing  to \nbelieve,  if  they  faid  that  they  were  good  artifts,  unlefs  they  could  fhow  you \nfome  excellent  produdion  of  their  art,  and  not  only  one  but  many. ",
+   "pages": [
+    188
+   ],
+   "line": 8460
+  },
+  {
+   "id": "taylor1804.laches.p0049",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Nic What you say is true.",
+   "raw": "Nic  What  you  fay  is  true. ",
+   "pages": [
+    188
+   ],
+   "line": 8464
+  },
+  {
+   "id": "taylor1804.laches.p0050",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is necessary, therefore, O Laches and Nicias, since Lysimachus and Meleiias have called upon us to consult with them concerning their sons, in consequence of being anxious that their souls may become most excellent,— I say, it is necessary that we, if we acknowledge that we have had masters, should Show who they were, they in the first place being good masters, and having cultivated the souls of many youths; and in the next place, who shall appear to have also instructed us. Or, if any one of us shall say that he has had no mailer, he ought to be able to speak of the works which he has performed, and to show what Athenians or foreigners, what slaves or freemen, have acknowledged themselves to have been benefited by him. But if we can do neither of these, we must order them to seek for advice from others, and not fubje<a ourselves to the danger of corrupting the sons of other men, and thus be exposed to the greatest reproach from those with whgm we are most familiar. I therefore, O Lysimachus and Melesias, in the first place, say concerning myself, that I have had no preceptor of this thing, though my desire has always tended to it from my youth. But I am not able to give a reward to the fopl.ifls, who alone profess themselves to be capable of making me a worthy man; and even now I am unable to discover this art myself. If, however, Nicias or Laches shall have either discovered or learned it, I shall not wonder: for they are richer than I am, so that they might learn it from others; and they are at the same time older, so that they may now have discovered it. But they appear to me to be able to instruct a man: for they never would so intrepidly have decided concerning worthy and base pursuits, unless they had believed that they had a sufficient knowledge of them. I believe them, therefore, as to other things; but I wonder that they differ from each other. Hence, as Laches just now ordered that you should not dismiss but interrogate me; in like manner I now call upon you not to dismiss Laches and Nicias, but to interrogate them; at the same time telling them, that Socrates says he has no knowledge of the thing, and is not qualified to judge which of you speaks the truth; for he is neither the inventor nor the disciple of any one about things of this kind. But do you, O Laches and Nicias, tell us what man you have met with most skilled in the education of youth; and whether you know these things in consequence of having learnt them from some one, or from having discovered them yourselves. And, if you have learnt them, tell us who was your master, and who those are that are similar artists; that if the affairs of the city should not afford you leisure sufficient to attend to us, we may go to those masters, and may persuade them, either by gifts or careffes, or both, to take care of our children and yours, that they may not, through becoming depraved characters, be a disgrace to their ancestors. But if you yourselves discovered this art, give us instances of those who by your care have, from being depraved, become worthy characters. For if you now begin to give instruction for the first time, it is requisite to consider that you will be exposed to the danger, not of making trial in Car ', but upon your sons, and the sons of your friends, and, in short, according to the proverb, that you will teach a potter in a tub. Tell us, then, what you can do, and what not. Inquire these things of them, O Lysimachus, and do not dismiss the men till they have answered.",
+   "raw": "Soc.  It  is  neceflary,  therefore,  O  Laches  and  Niclas,  fincc  Lyfimachus \nand  Meleiias  have  called  upon  us  to  confult  with  them  concerning  their \nfons,  in  confequence  of  being  anxious  that  their  fouls  may  become  moft  ex- \ncellent,— I  fay,  it  is  neceffary  that  we,  if  we  acknowledge  that  we  have  had \nmafters,  fhould  Ihow  who  they  were,  they  in  the  firft  place  being  good \nmafters,  and  having  cultivated  the  fouls  of  many  youths ;  and  in  the  next \nplace,  who  fhall  appear  to  have  alfo  inftru6ted  us.  Or,  if  any  one  of  us  fliall \nfay  that  he  has  had  no  mailer,  he  ought  to  be  able  to  fpeak  of  the  works \nwhich  he  has  performed,  and  to  fhow  what  Athenians  or  foreigners,  what \nflaves  or  freemen,  have  acknowledged  themfelvcs  to  have  been  benefited  by \nhim.  But  if  we  can  do  neither  of  thefe,  we  muft  order  them  to  feek  for  advice \nfrom  others,  and  not  fubje<a  ourfelves  to  the  danger  of  corrupting  the  fons \nof  other  men,  and  thus  be  expofed  to  the  greatcfl  reproach  from  thofe  with \nwhgm  we  are  moft  familiar.  I  therefore,  O  Lyfimachus  and  Melcfias,  in \nthe  firfl  place,  fay  concerning  myfelf,  that  1  have  had  no  preceptor  of  this \nthing,  though  my  defire  has  always  tended  to  it  from  my  youth.  But  I  am \nnot  able  to  give  a  reward  to  the  fopl.ifls,  who  alone  profefs  themfelves  to  be \ncapable  of  making  me  a  worthy  man  ;  and  even  now  I  am  unable  to  difcover \nthis  art  myfelf.  If,  however,  Nicias  or  Laches  (hall  have  either  difcovered \nor  learned  it,  I  (hall  not  wonder  :  for  they  are  richer  than  I  am,  fo  that  they \nmight  learn  it  from  others  ;  and  they  are  at  the  fame  time  older,  fo  that  they \nmay  now  have  difcovered  it.  But  they  appear  to  me  to  be  able  to  inftru6t \na  man  :  for  they  never  would  fo  intrepidly  have  decided  concerning  worthy \nand  bafe  purfuits,  unlefs  they  had  believed  that  they  had  a  fufficient  know- \nledge of  them.  1  believe  them,  therefore,  as  to  other  things ;  but  I \nwonder  that  they  differ  from  each  other.  Hence,  as  Laches  juft  now  ordered \nthat  you  fhould  not  difmifs  but  interrogate  me ;  in  like  manner  I  now  call \nupon  you  not  to  difmifs  Laches  and  Nicias,  but  to  interrogate  them  ;  at  the \nfame  time  telling  them,  that  Socrates  fays  he  has  no  knowledge  of  the  thing, \nand  is  not  qualified  to  judge  which  of  you  fpeaks  the  truth ;  for  he  is  neither \nthe  inventor  nor  the  difciple  of  any  one  about  things  of  this  kind.  But  do \nyou,  O  Laches  and  Nicias,  tell  us  what  man  you  have  met  with  moft  (killed \nin  the  education  of  youth  ;  and  whether  you  know  thefe  things  in  confe- \nquence  of  having  learnt  them  from  fome  one,  or  from  having  difcovered \nthem  yourfelves.  And,  if  you  have  learnt  them,  tell  us  who  was  your \nmafter,  and  who  thofe  are  that  are  fimilar  artifts  ;  that  if  the  affairs  of  the \ncity  fhould  not  afford  you  leifure  fufficient  to  attend  to  us,  we  may  go  to  thofe \nmafters,  and  may  perfuade  them,  either  by  gifts  or  careffes,  or  both,  to  take \ncare  of  our  children  and  yours,  that  they  may  not,  through  becoming  de- \npraved charadt^rs,  be  a  difgrace  to  their  anceftors.  But  if  you  yourfelves \ndifcovered  this  art,  give  us  inflances  of  thofe  who  by  your  care  have,  from \nbeing  depraved,  become  worthy  chara6lers.  For  if  you  now  begin  to  give \ninflru6lion  for  the  firft  time,  it  is  requifite  to  confider  that  you  will  be  ex- \npofed  to  the  danger,  not  of  making  trial  in  Car  ',  but  upon  your  fons,  and \nthe  fons  of  your  friends,  and,  in  fhort,  according  to  the  proverb,  that  you \nwill  teach  a  potter  *  in  a  tub.  Tell  us,  then,  what  you  can  do,  and  what  not. \nInquire  thefe  things  of  them,  O  Lyfimachus,  and  do  not  difmifs  the  men \ntill  they  have  anfwered. ",
+   "pages": [
+    188,
+    189
+   ],
+   "line": 8466
+  },
+  {
+   "id": "taylor1804.laches.p0051",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "Socrates, my friends, appears to me to speak well; wherefore, O Nicias and Laches, consider whether it will be agreeable to you to be interrogated about, and reply to such like particulars. For to me and Melesias here it will certainly be very agreeable, if you are willing to discuss all that Socrates may ask. For I said from the first, that we called upon you for advice, because we thought that you would pay attention to these things in a becominc' manner, and because your sons, as well as ours, are now nearly arrived at that age in which they ought to be intruded. If, therefore, it maices no difference to you, speak, and consider the affair in common with Socrates, giving and receiving arguments from each other: for this was well said by him, that we are now consulting about the most important of our concerns. See, therefore, whether it appears to you that this ought to be done.",
+   "raw": "Lys.  Socrates,   my  friends,  appears  to  me  to  fpeak  well ;  wherefore,   O \nNicias  and  Laches,  confider  whether  it  will  be  agreeable  to  you  to  be  interro- \ngated  about,  and  reply  to  fuch  like  particulars.  For  to  me  and  Melefias  here \nit  will  certainly  be  very  agreeable,  if  you  are  willing  to  difcufs  all  that  Socrates \nmay  afk.  For  I  faid  from  the  firft,  that  we  called  upon  you  for  advice,  be- \ncaufe  we  thought  that  you  would  pay  attention  to  thefe  things  in  a  becominc' \nmanner,  and  becaufe  your  fons,  as  well  as  ours,  are  now  nearly  arrived  at  that \nage  in  which  they  ought  to  be  intruded.  If,  therefore,  it  maices  no  differ- \nence to  you,  fpeak,  and  confider  the  affair  in  common  with  Socrates,  giving \nand  receiving  arguments  from  each  other:  for  this  was  well  faid  by  him, \nthat  we  are  now  confulting  about  the  moft  important  of  our  concerns.  See, \ntherefore,  whether  it  appears  to  you  that  this  ought  to  be  done. ",
+   "pages": [
+    189,
+    190
+   ],
+   "line": 8521
+  },
+  {
+   "id": "taylor1804.laches.p0052",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "O Lysimachus, you seem to me to know Socrates only from his father, and not to have associated with him; unless, perhaps, when he was a boy, you may have met with him in public affembJies following his father, or in a temple, or some other convention of the people; but it is evident that you never had any correspondence with him since he came to be a man.",
+   "raw": "Nic.  O  Lyfimachus,  you  fecm  to  me  to  know  Socrates  only  from  his \nfather,  and  not  to  have  afTociated  with  him ;  unlefs,  perhaps,  when  he  was \na  boy,  you  may  have  met  with  him  in  public  affembJies  following  his  father, \nor  in  a  temple,  or  fome  other  convention  of  the  people ;  but  it  is  evident \nthat  you  never  had  any  correfpondence  with  him  fince  he  came  to  be  a \nman. ",
+   "pages": [
+    190
+   ],
+   "line": 8544
+  },
+  {
+   "id": "taylor1804.laches.p0053",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "Why do you say this, O Nicias?",
+   "raw": "Lys.  Why  do  you  fay  this,  O  Nicias  ? ",
+   "pages": [
+    190
+   ],
+   "line": 8551
+  },
+  {
+   "id": "taylor1804.laches.p0054",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "You seem to me not to know that whoever draws near to Socrates by discourse, as if by family alliance, and converses with him, although he may begin to discourse about something else, will not cease to be led about by his arguments, till he falls on the necessity of giving an account of his present mode of life, a')d the manner in which his past life has been spent. And when he has fallen on this necessity, Socrates will not dismiss him till he has well and properly examined all these particulars. But I am accustomed to his manner, and I know that it is necessary to suffer these things from him; and I also well know that I must suffer them now: for I rejoice, O Lysimachus, to draw near to the man; and I think it is no bad thing to be reminded that we have acted or shall a£t in an improper manner. But, indeed, he who is not averse to this must necessarily be more cautious in future, being willing and thinking it worth while, according to the saying of Solon, to learn as long as he lives, and not expecting that age, when it comes, will -bring intellect along with it. To me, therefore, it is neither unusual nor unpleasant to be examined by Socrates; but, indeed, I have nearly for some time perceived that our discourse, as Socrates is present, would not be about the lads, but about ourselves. As I said, therefore, as to myself nothing hinders me from difconiTiiig with Socrates in whatever manner he pleases. But see how Laches here is disposed about a thing of this kind.",
+   "raw": "Nic.  You  feem  to  me  not  to  know  that  whoever  draws  near  to  Socrates \nby  difcourfe,  as  if  by  family  alliance,  and  converfes  with  him,  although  he \nmay  begin  to  difcourfe  about  fomething  elfe,  will  not  ceafe  to  be  led  about \nby  his  arguments,  till  he  falls  on  the  neceffity  of  giving  an  account  of  his \nprefent  mode  of  life,  a')d  the  manner  in  which  his  pafl  life  has  been  fpent. \nAnd  when  he  has  fallen  on  this  neceflity,  Socrates  will  not  difmifs  him  till \nhe  has  well  and  properly  examined  all  thefe  particulars.  But  I  am  accuf- \ntomed  to  his  manner,  and  I  know  that  it  is  necefTary  to  fuffer  thefe  things \nfrom  him  ;  and  I  alfo  well  know  that  I  muft  fuffer  them  now  :  for  I  rejoice, \nO  Lyfimachus,  to  draw  near  to  the  man  ;  and  I  think  it  is  no  bad  thing  to  be \nreminded  that  we  have  aded  or  fhall  a£t  in  an  improper  manner.  But,  in- \ndeed, he  who  is  not  averfe  to  this  muft  necefTarily  be  more  cautious  in  future, \nbeing  willing  and  thinking  it  worth  while,  according  to  the  faying  of  Solon, \nto  learn  as  long  as  he  lives,  and  not  expedling  that  age,  when  it  comes,  will \n-bring  intelled  along  with  it.  To  me,  therefore,  it  is  neither  unufual  nor \nunpleafant  to  be  examined  by  Socrates  ;  but,  indeed,  I  have  nearly  for  fome \ntime  perceived  that  our  difcourfe,  as  Socrates  is  prefent,  would  not  be  about \nthe  lads,  but  about  ourfelves.  As  I  faid,  therefore,  as  to  myfelf  nothing  hin- \nders  me  from    difconiTiiig  with  Socrates  in  whatever  manner  he  pleafes. \nBut  fee  how  Laches  here  is  difpofed  about  a  thing  of  this  kind. ",
+   "pages": [
+    190,
+    191
+   ],
+   "line": 8553
+  },
+  {
+   "id": "taylor1804.laches.p0055",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "The manner in which I am affected, O Nicias, with respect to discourse, is simple, or, if you will, is not simple, but double: for to some one I may appear to be a philologift, and not a mifologift. For when I hear a man dlfcourfing concerning virtue, or concerning a certain wisdom, he being one who is truly a man, and worthy the arguments which he uses, I rejoice tranfcendentry, contemplating at the same time him who speaks and what isfaid, how they fit and harmonize with each other. And, indeed, such a man appears to me to be a mufician^ and one who produces the mod beautiful harmony; not that he is harmonized according to the melody of the lyre, or inftriiments of sport; but in reality he attunes his life. Such a one tna lives in concord with himfelfboth in words and deeds, not indeed accordins: to the Ionic', or Phrygian, or Lydian harmony,, but according to the Dorian^ which is alone the Grecian harmony. Such a man, therefore, when he speaks, causes me to rejoice, and to seem to be a lover of words, with such avidity do I receive what he says. But he who acts in a manner contrary to this man pains me, and by how much the better he appears to speak, by so much the more does he make me seem to be a hater of words. I have not yet, indeed, had any experience of the words of Socrates; but of his works, as it seems, I formerly have; and there I found him a man worthy of beautiful afTcrtions and of all liberty of speech., If, therefore, he is such a. man, I will consult him, and most willingly shall I be interrogated by, and not be averse to learn from him. I also assent to the saying of Solon^ with the addition only of one thing: for I wish to learn as I grow old, but from the worthy alone. Let this then be granted to me that he is a worthy preceptor, led while I learn unpleasantly, I should appear to be indocile^ For it is with me a thing of no consequence, if he who teaches me should be younger than I am, or should not yet be renowned, and the like. I announce to you, therefore, Q Socrates,, that you may confute and teach me M hatever you pteafe: for I am favourably disposed towards you from that day, in which you was my companion in danger, and in which you gave such a specimen of your virtue, as it became a just man to give. Say therefore whatever you please, and pay no attention to our age.",
+   "raw": "Lac.  The  manner  in  which  I  am  afFeded,  O  Nicias,  with  refped  to  dif- \ncourfe,  is  fimple,  or,  if  you  will,  is  not  fimple,  but  double  :    for  to  fome  one \nI  may  appear  to  be  a  philologift,  and  not  a  mifologift.    For  when  I  hear  a  mau \ndlfcourfing  concerning  virtue,  or  concerning  a  certain  wifdom,  he  being  one \nwho  is  truly  a  man,  and  worthy  the  arguments  which    he  ufes,   I   rejoice \ntranfcendentry,  contemplating  at  the  fame  time  him  who  fpeaks  and  what  is- \nfaid,  how  they  fit  and  harmonize  with  each  other.  And,  indeed,  fuch  a  man \nappears  to  me  to  be  a  mufician^  and  one  who  produces  the  mod   beautiful \nharmony  ;  not  that  he  is  harmonized  according  to  the  melody  of  the  lyre, \nor  inftriiments  of  fport ;  but  in  reality  he  attunes  his  life.     Such  a  one  toa \nlives  in  concord  with  himfelfboth  in  words  and  deeds,  not  indeed  accordins: \nto  the  Ionic',  or  Phrygian,  or  Lydian  harmony,,  but  according  to  the  Dorian^ \nwhich  is  alone  the  Grecian  harmony.     Such  a  man,   therefore,   when   he \nfpeaks,  caufes  mc  to  rejoice,  and  to  feem  to  be  a  lover  of  words,  with  fuch \navidity  do  1  receive  what  he  fays.     But  he  who  a61s  in  a  manner  contrary \nto  this  man  pains  me,  and  by  how  much  the  better  he  appears  to  fpeak,  by \nfo  much  the  more  does  he  make  me  feem  to  be  a  hater  of  words.     I  have \nnot  yet,  indeed,  had  any  experience  of  the   words  of  Socrates ;  but  of  his \nworks,  as  it  feems,  I  formerly  have  ;  and  there  I  found  him  a  man  worthy  of \nbeautiful  afTcrtions  and  of  all  liberty  of  fpeech.,     If,  therefore,  he  is  fuch  a. \nman,  I  will  confult  him,  and  moft  willingly  fhall  I  be  interrogated  by,  and \nnot  be  averfe  to  learn  from  him.     I  aifo  aflent  to  the  faying  of  Solon^  with \nthe  addition  only  of  one  thing:  for  I  wifh  to  learn  as  I  grow  old,  but  from \nthe   worthy   alone.     Let  this   then   be  granted   to  me  that  he  is  a  worthy \npreceptor,  led  while  I  learn  unpleafantly,  I  fhould  appear  to  be  indocile^ \nFor  it  is  with  me  a  thing  of  no  confequence,  if  he  who  teaches  me  fhould \nbe  younger  than  I  am,  or  (hould  not  yet  be  renowned,  and  the  like.     I  an- \nnounce to  you,  therefore,  Q  Socrates,,  that  you  may  confute  and   teach  mc \nM  hatever  you  pteafe  :  for  I  am  favourably  difpofed  towards  you  from  that  day, \nin  which  you  was  my  companion  in  danger,  and  in  which  you  gave  fuch  a \nfpecimen  of  your  virtue,  as  it  became  a  jufl  man  to  give.  Say  therefore \nwhatever  you  pleafe,  and  pay  no  attention  to  our  age. ",
+   "pages": [
+    191,
+    192
+   ],
+   "line": 8579
+  },
+  {
+   "id": "taylor1804.laches.p0056",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "We cannot then accuse you, as it seems, that you are not ready jointly to consult and investigate with us.",
+   "raw": "Soc.  We  cannot  then  accufe  you,  as  it  fcems,  that  you  are  not  ready \njointly  to  confult  and  inveftigate  with  us. ",
+   "pages": [
+    192
+   ],
+   "line": 8623
+  },
+  {
+   "id": "taylor1804.laches.p0057",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "This is our bulinefs, Socrates; for I regard you as one of us. Coniider, therefore, instead of me, for the sake of the youths, what we ought to inquire of them, and consult by converfuig with them. For I have forgotten many things, through my age, which I had intended to alk them; and again, I do not \\cry well remember what I hear, if any other conversation intervenes. Do you therefore speak about, and discuss among yourselves, the things which we have proposed to be investigated; and when I have heard what you have to say, I will do, together with Melesias here, whatever shall appear to you proper to be done.",
+   "raw": "Lys.  This  is  our  bulinefs,  Socrates ;  for  I  regard  you  as  one  of  us.  Con- \niider,  therefore,  inftead  of  me,  for  the  fake  of  the  youths,  what  we  ought  to \ninquire  of  them,  and  confult  by  converfuig  with  them.  For  I  have  for- \ngotten many  things,  through  my  age,  which  I  had  intended  to  alk  them ; \nand  again,  I  do  not  \\cry  well  remember  what  I  hear,  if  any  other  converfa- \ntion  intervenes.  Do  you  therefore  fpeak  about,  and  difcufs  among  your- \nfelves,  the  things  which  we  have  propofcd  to  be  inveftigated  ;  and  when  I \nhave  heard  what  you  have  to  fay,  I  will  do,  together  with  Melefias  here, \nwhatever  fliall  appear  to  you  proper  to  be  done. ",
+   "pages": [
+    192
+   ],
+   "line": 8626
+  },
+  {
+   "id": "taylor1804.laches.p0058",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "O Nicias and Laches, we must obey Lysimachus and Melesias. The things then which we just: now endeavoured to consider, viz. who were our masters in a discipline of this kind, or what other persons we had made better, it will not perhaps be improper to investigate among ourselves. But I think that such a consideration as this tends to the same thing; or nearly it will be something which rather flows as from a principle. For if we have a scientific knowledge of any thing, which when communicated to another renders him better, and if we arealfo able to communicate it to another, it is evident that we know the thing itself, and also how it may be acquired in the easiest and best manner. Perhaps you do not understand what I say, but thus you will easily comprehend my meaning. If we know that sight, when present to the eyes, makes those eyes to which it is present better, and if besides this we have the power of making it present to the eyes, it is evident that we know what the sight is, and can inform him who consults us for this purpose how it may be acquired in the easiest and befi: manner. For if we have no knowledge of this very thing, what the sight is, or what the hearing is, we cannot be counsellors or physicians worthy of any regard, either about the eyes or the ears, with respect to the manner in which either the hearing or the sight may be most beautifully obtained.",
+   "raw": "Soc.  O  Nicias  and  Laches,  we  muft  obey  Lyfimachus  and  Melefias.  The \nthings  then  which  we  jufl:  now  endeavoured  to  confider,  viz.  who  were  our \nmafters  in  a  difcipline  of  this  kind,  or  what  other  perfons  we  had  made \nbetter,  it  will  not  perhaps  be  improper  to  inveftigate  among  ourfelves.  But \nI  think  that  fuch  a  confideration  as  this  tends  to  the  fame  thing ;  or  nearly \nit  will  be  fomething  which  rather  flows  as  from  a  principle.  For  if  we  have \na  fcientific  knowledge  of  any  thing,  which  when  communicated  to  another \nrenders  him  better,  and  if  we  arealfo  able  to  communicate  it  to  another,  it  is \nevident  that  we  know  the  thing  itfelf,  and  alfo  how  it  may  be  acquired  in \nthe  eafieft  and  beft  manner.  Perhaps  you  do  not  underfland  what  I  fay, \nbut  thus  you  will  eafily  comprehend  my  meaning.  If  we  know  that  fight, \nwhen  prefcnt  to  the  eyes,  makes  thofe  eyes  to  which  it  is  prefent  better,  and \nif  befides  this  we  have  the  power  of  making  it  prefent  to  the  eyes,  it  is  evident \nthat  we  know  what  the  fight  is,  and  can  inform  him  who  confults  us  for \nthis  purpofe  how  it  may  be  acquired  in  the  eafieft  and  befi:  manner.  For \nif  we  have  no  knowledge  of  this  very  thing,  what  the  fight  is,  or  what  the \nhearing  is,  we  cannot  be  counfellors  or  phyficians  worthy  of  any  regard,  either \nabout  the  eyes  or  the  ears,  with  refped  to  the  manner  in  which  either  the \nhearing  or  the  fight  may  be  moft  beautifully  obtained. ",
+   "pages": [
+    192
+   ],
+   "line": 8636
+  },
+  {
+   "id": "taylor1804.laches.p0059",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "You speak the truth, O Socrates.",
+   "raw": "Lys.  You  fpeak  the  truth,  O  Socrates. ",
+   "pages": [
+    192
+   ],
+   "line": 8656
+  },
+  {
+   "id": "taylor1804.laches.p0060",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do not therefore tbefe persons, O Laches, now call upon us to consult with them after what manner virtue, being present to the souls of their fonsf may render them better?",
+   "raw": "Soc.  Do  not  therefore  tbefe  perfons,  O  Laches,  now  call  upon  us  to  confult \nwith  them  after  what  manner  virtue,  being  prefent  to  the  fouls  of  their  fonsf \nmay  render  them  better  ? ",
+   "pages": [
+    192,
+    193
+   ],
+   "line": 8658
+  },
+  {
+   "id": "taylor1804.laches.p0061",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Lac.  Entirely  fo. ",
+   "pages": [
+    193
+   ],
+   "line": 8668
+  },
+  {
+   "id": "taylor1804.laches.p0062",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it not, therefore, essentially necessary to know this, what virtue IS? For if we are entirely ignorant what virtue is, how can we become advisers to any one, so as that he may be able to acquire it in the most beautiful manner?",
+   "raw": "Soc,  Is  it  not,  therefore,  eflentially  neceflary  to  know  this,  what  virtue \nIS  ?  For  if  we  are  entirely  ignorant  what  virtue  is,  how  can  we  become \nadvifcrs  to  any  one,  fo  as  that  he  may  be  able  to  acquire  it  in  the  moft \nbeautiful  manner  ? ",
+   "pages": [
+    193
+   ],
+   "line": 8670
+  },
+  {
+   "id": "taylor1804.laches.p0063",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "By no means can we, as it appears to me, Socrates.",
+   "raw": "Lac.  By  no  means  can  we,  as  it  appears  to  me,  Socrates. ",
+   "pages": [
+    193
+   ],
+   "line": 8675
+  },
+  {
+   "id": "taylor1804.laches.p0064",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Shall we say then, O Laches, that we know what virtue is?",
+   "raw": "Soc.  Shall  we  fay  then,  O  Laches,  that  we  know  what  virtue  is  ? ",
+   "pages": [
+    193
+   ],
+   "line": 8677
+  },
+  {
+   "id": "taylor1804.laches.p0065",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "We shall certainly say so.",
+   "raw": "Lac.  We  fliall  certainly  fay  fo. ",
+   "pages": [
+    193
+   ],
+   "line": 8679
+  },
+  {
+   "id": "taylor1804.laches.p0066",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If, therefore, we know, cannot we also tell what it is?",
+   "raw": "Soc.  If,  therefore,  we  know,  cannot  we  alfo  tell  what  it  is  ? ",
+   "pages": [
+    193
+   ],
+   "line": 8681
+  },
+  {
+   "id": "taylor1804.laches.p0067",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly.",
+   "raw": "Lac.  Undoubtedly. ",
+   "pages": [
+    193
+   ],
+   "line": 8683
+  },
+  {
+   "id": "taylor1804.laches.p0068",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "We will not, therefore, Q best of men, immediately speculate concerning the whole of virtue (for that perhaps would be a very laborious work); but let us first see with respect to a certain part of it, if we are sufficiently able to know it, and thus, as it is probable, the fpeculatioa will be easy to us.",
+   "raw": "Soc.  We  will  not,  therefore,  Q  beft  of  men,  immediately  fpeculate  con- \ncerning the  whole  of  virtue  (for  that  perhaps  would  be  a  very  laborious \nwork) ;  but  let  us  firft  fee  with  refpedl  to  a  certain  part  of  it,  if  we  are  fuffi- \nciently  able  to  know  it,  and  thus,  as  it  is  probable,  the  fpeculatioa  will  be \neafy  to  us. ",
+   "pages": [
+    193
+   ],
+   "line": 8685
+  },
+  {
+   "id": "taylor1804.laches.p0069",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Let us do so, Socrates, since it is agreeable to you,",
+   "raw": "Lac.  Let  us  do  fo,  Socrates,  fince  it  is  agreeable  to  you, ",
+   "pages": [
+    193
+   ],
+   "line": 8691
+  },
+  {
+   "id": "taylor1804.laches.p0070",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Which of the parts of virtue then shall we select? Is it not evident that it must be this, to which the discipline of arms appears to tend? But it appears to the many to tend to fortitude. Or does it not?",
+   "raw": "Soc.  Which  of  the  parts  of  virtue  then  fhall  we  feledl  ?  Is  it  not  evident \nthat  it  muft  be  this,  to  which  the  difcipline  of  arms  appears  to  tend  ?  But  it \nappears  to  the  many  to  tend  to  fortitude.     Or  does  it  not? ",
+   "pages": [
+    193
+   ],
+   "line": 8693
+  },
+  {
+   "id": "taylor1804.laches.p0071",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "And very much does it appear so.",
+   "raw": "Lac,  And  very  much  does  it  appear  fo. ",
+   "pages": [
+    193
+   ],
+   "line": 8697
+  },
+  {
+   "id": "taylor1804.laches.p0072",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "In the first place, therefore, O Laches, let us endeavour to say what fortitude is; and in the next place let us after this consider how it may be acquired by youth, so far as it is possible for it to be acquired by studies and disciplines. But endeavour to say what fortitude is,",
+   "raw": "Soc.  In  the  firft  place,  therefore,  O  Laches,  let  us  endeavour  to  fay  what \nfortitude  is ;  and  in  the  next  place  let  us  after  this  confider  how  it  may  be \nacquired  by  youth,  fo  far  as  it  is  pofTible  for  it  to  be  acquired  by  ftudies  and \ndifciplines.     But  endeavour  to  fay  what  fortitude  is, ",
+   "pages": [
+    193
+   ],
+   "line": 8699
+  },
+  {
+   "id": "taylor1804.laches.p0073",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, Socrates, it is not difficult to say what it is. For if any one is willing, keeping in his rank, to oppose the enemy, and does not fly, I well know that he will be a brave man.",
+   "raw": "Lac.  By  Jupiter,  Socrates,  it  is  not  difficult  to  fay  what  it  is.  For  if  any \none  is  willing,  keeping  in  his  rank,  to  oppofe  the  enemy,  and  does  not  fly,  I \nwell  know  that  he  will  be  a  brave  man. ",
+   "pages": [
+    193
+   ],
+   "line": 8704
+  },
+  {
+   "id": "taylor1804.laches.p0074",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You speak well, O Laches; but perhaps I, from not speaking clearly, am the cause of my perceiving that you do not answer that which I alked, but something else.",
+   "raw": "Soc,  You  fpeak  well,  O  Laches  ;  but  perhaps  I,  from  not  fpeaking  clearly, \nam  the  caufe  of  my  perceiving  that  you  do  not  anfwer  that  which  I  alked, \nbut  fomething  elfe. ",
+   "pages": [
+    193
+   ],
+   "line": 8708
+  },
+  {
+   "id": "taylor1804.laches.p0075",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Why do you say this, Socrates?",
+   "raw": "Lac.  Why  do  you  fay  this,  Socrates  ? ",
+   "pages": [
+    193
+   ],
+   "line": 8712
+  },
+  {
+   "id": "taylor1804.laches.p0076",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I will tell you, if I am able. A brave man, as you say, is one who, keeping in his rank, fights the enemy.",
+   "raw": "Soc.  I  will  tell  you,  if  I  am  able.  A  brave  man,  as  you  fay,  is  one  who, \nkeeping  in  his  rank,  fights  the  enemy. ",
+   "pages": [
+    193
+   ],
+   "line": 8714
+  },
+  {
+   "id": "taylor1804.laches.p0077",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "VOL. V. 2 c Lac.",
+   "raw": "VOL.  V.  2  c  Lac. ",
+   "pages": [
+    193
+   ],
+   "line": 8717
+  },
+  {
+   "id": "taylor1804.laches.p0078",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "So I faj.",
+   "raw": "Lac.  So  I  faj. ",
+   "pages": [
+    194
+   ],
+   "line": 8722
+  },
+  {
+   "id": "taylor1804.laches.p0079",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And I also. But is not he likewise a brave man, who flying and nor keeping in his rank fights the enemy?",
+   "raw": "Soc.  And  I  alfo.  But  is  not  he  likewife  a  brave  man,  who  flying  and  nor \nkeeping  in  his  rank  fights  the  enemy  ? ",
+   "pages": [
+    194
+   ],
+   "line": 8724
+  },
+  {
+   "id": "taylor1804.laches.p0080",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "How flying?",
+   "raw": "Lac.  How  flying  ? ",
+   "pages": [
+    194
+   ],
+   "line": 8727
+  },
+  {
+   "id": "taylor1804.laches.p0081",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Jull as the Scythians are said to fight no less flying than purfuingAnd Homer, praising the horses of neas, says.",
+   "raw": "Soc.  Jull  as  the  Scythians  are  faid  to  fight  no  leis  flying  than  purfuing- \nAnd  Homer,  praifing  the  horfes  of  ^neas,  fays. ",
+   "pages": [
+    194
+   ],
+   "line": 8729
+  },
+  {
+   "id": "taylor1804.laches.p0082",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Swiftly they every where pursue and fly.",
+   "raw": "Swiftly  they  every  where  purfue  and  fly. ",
+   "pages": [
+    194
+   ],
+   "line": 8732
+  },
+  {
+   "id": "taylor1804.laches.p0083",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "And for this very thing he praises neas himself, viz. for his being ikilled kj flying, and says, that he was expert in retreating,",
+   "raw": "And  for  this  very  thing  he  praifes  ^neas  himfelf,  viz.  for  his  being  ikilled \nkj  flying,  and  fays,  that  he  was  expert  in  retreating, ",
+   "pages": [
+    194
+   ],
+   "line": 8734
+  },
+  {
+   "id": "taylor1804.laches.p0084",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "And very properly, Socrates: for he there speaks concerning chariots; but you speak concerning the horse of the Scythians. For their cavalry fight in this manner; hqt the infantry of Greece sight as I said.",
+   "raw": "Lac.  And  very  properly,  Socrates :  for  he  there  fpeaks  concerning \nchariots  ;  but  you  fpeak  concerning  the  horfe  of  the  Scythians.  For  their \ncavalry  fight  in  this  manner  ;  hqt  the  infantry  of  Greece  fight  as  I  faid. ",
+   "pages": [
+    194
+   ],
+   "line": 8737
+  },
+  {
+   "id": "taylor1804.laches.p0085",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Except perhaps the Lacedaemonians, O Laches. For they say that the Lacedaemonians, in the battle of Plataea, when they were engaged with she Gt'rroJ)/bori \\ were not willing to fight standing their ground against: them, but fled; but that after the ranks of the Persians were broken, they rallied and sought like cavalry, and thus became conquerors in that battle.",
+   "raw": "Soc.  Except  perhaps  the  Lacedaemonians,  O  Laches.  For  they  fay  that \nthe  Lacedaemonians,  in  the  battle  of  Plataea,  when  they  were  engaged  with \nihe  Gt'rroJ)/bori  \\  were  not  willing  to  fight  flanding  their  ground  againfl: \nthem,  but  fled;  but  that  after  the  ranks  of  the  Perfians  were  broken,  they \nrallied  and  fought  like  cavalry,  and  thus  became  conquerors  in  that  battle. ",
+   "pages": [
+    194
+   ],
+   "line": 8741
+  },
+  {
+   "id": "taylor1804.laches.p0086",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "JLac^ You speak the truth..",
+   "raw": "JLac^  You  fpeak  the  truth.. ",
+   "pages": [
+    194
+   ],
+   "line": 8747
+  },
+  {
+   "id": "taylor1804.laches.p0087",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Sgc. CXn this account, therefore^ I said that I was the cause that you did not answer well, because I did not interrogate you well. For I wished to aflc you not only cpncerning»thofe who are brave in the infantry, but also concerning those who are brave in the cavalry, and in all the forms of war; and not onlvsoncerning those that are brave in battle, but also concernnie: those that are brave in dangers on the sea, — in difeafes,— in poverty, — and in political affairs: and again^not only concerning those who are brave in pains or fears, but also concerning those who are powerful in. contending against desires or pleasures, both by standing their attacks or retreating from them:. for some: men, O Laches,, are also brave in things of this kind.",
+   "raw": "Sgc.  CXn  this  account,  therefore^  I  faid  that  I  was  the  caufe  that  you  did \nnot  anfwer  well,  becaufe  I  did  not  interrogate  you  well.  For  I  wifhed  to  aflc \nyou  not  only  cpncerning»thofe  who  are  brave  in  the  infantry,  but  alfo  con- \ncerning thofe  who  are  brave  in  the  cavalry,  and  in  all  the  forms  of  war ;  and \nnot  onlvsoncerning  thofe  that  are  brave  in  battle,  but  alfo  concernnie:  thofe  that \nare  brave- in  dangers  on  the  fea, — in  difeafes,— in  poverty, — and  in  political \naffairs :  and  again^not  only  concerning  thofe  who  are  brave  in  pains  or  fears, \nbut  alfo  concerning  thofe  who  are  powerful  in.  contending  againft  defires  or \npleafures,  both  by  flanding  their  attacks^  or  retreating  from  them  :.  for  fomc: \nmen,  O  Laches,,  are  alfo  brave  in  things  of  this  kind. ",
+   "pages": [
+    194
+   ],
+   "line": 8749
+  },
+  {
+   "id": "taylor1804.laches.p0088",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "And very much ib, O Socrates..",
+   "raw": "Lac.  And  very  much  lb,  O  Socrates.. ",
+   "pages": [
+    194
+   ],
+   "line": 8760
+  },
+  {
+   "id": "taylor1804.laches.p0089",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc* All those, thar^fore, are brave;. but fomje of them pofiTefs fortitude; in pleasures, others in pains, others in desires, and others in fears; and: Qthers, I think, possess timidity in these very same things.",
+   "raw": "Soc*  All  thofe,  thar^fore,  are  brave  ;.  but  fomje  of  them  pofiTefs  fortitude; \niu  pleafures,  others  in  pains,  others  in  defires,  and  others  in  fears ;  and: \nQthers,  I  think,  pofFefs  timidity-  in  thefe  very  fame  things. ",
+   "pages": [
+    194
+   ],
+   "line": 8762
+  },
+  {
+   "id": "taylor1804.laches.p0090",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Lac.  Entirely  fo. ",
+   "pages": [
+    105
+   ],
+   "line": 8771
+  },
+  {
+   "id": "taylor1804.laches.p0091",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then each of these is, this is the thing which I ask. Again, therefore, endeavour to tell me, in the first place, what fortitude is which is the same in all these. Or do you not yet understand what I say?",
+   "raw": "Soc.  What  then  each  of  thefe  is,  this  is  the  thing  which  I  afk.  Again, \ntherefore,  endeavour  to  tell  me,  in  the  firft  place,  what  fortitude  is  which  is  the \nfame  in  all  thefe.     Or  do  you  not  yet  underftand  what  I  fay  ? ",
+   "pages": [
+    105
+   ],
+   "line": 8773
+  },
+  {
+   "id": "taylor1804.laches.p0092",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Not very much.",
+   "raw": "Lac.  Not  very  much. ",
+   "pages": [
+    105
+   ],
+   "line": 8777
+  },
+  {
+   "id": "taylor1804.laches.p0093",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But I say, just as if I should ask what swiftness is, which is present with us in running, in playing on the harp, in speaking, in learning, and in many other things. For we nearly possess it in such things as the following, which it is worth \\\\'hile to mention, viz. either in the actions of the hands or feet, or mouth and voice, or in those of the dianoetic part. Or do not you also say so?",
+   "raw": "Soc.  But  I  fay,  juft  as  if  I  fliould  afk  what  fwiftnefs  is,  which  is  prefent \nwith  us  in  running,  in  playing  on  the  harp,  in  fpeaking,  in  learning,  and  in \nmany  other  things.  For  we  nearly  poflefs  it  in  fuch  things  as  the  following, \nwhich  it  is  worth  \\\\'hile  to  mention,  viz.  either  in  the  adions  of  the  hands  or \nfeet,  or  mouth  and  voice,  or  in  thofe  of  the  dianoetic  part.  Or  do  not  you \nalfo  fay  fo  ? ",
+   "pages": [
+    105
+   ],
+   "line": 8779
+  },
+  {
+   "id": "taylor1804.laches.p0094",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Lac.  Entirely  fo. ",
+   "pages": [
+    105
+   ],
+   "line": 8786
+  },
+  {
+   "id": "taylor1804.laches.p0095",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If, therefore, any one should aflc me, O Socrates, What do you call this thing which you denominate swiftness in all things? I should say to him, that I call that power swiftness which accomplishes many things in a short time, about the voice, and about the course, and about all other things.",
+   "raw": "Soc.  If,  therefore,  any  one  fliould  aflc  me,  O  Socrates,  What  do  you  call \nthis  thing  which  you  denominate  fwiftnefs  in  all  things  ?  I  fliould  fay  to  him, \nthat  I  call  that  power  fwiftnefs  which  accompliflies  many  things  in  a  fliort \ntime,  about  the  voice,  and  about  the  courfc,  and  about  all  other  things. ",
+   "pages": [
+    105
+   ],
+   "line": 8788
+  },
+  {
+   "id": "taylor1804.laches.p0096",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "And you would say rightly.",
+   "raw": "Lac.  And  you  would  fay  rightly. ",
+   "pages": [
+    105
+   ],
+   "line": 8793
+  },
+  {
+   "id": "taylor1804.laches.p0097",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you also endeavour, O Laches, thus to define fortitude, and tell us what that power is which is the same in pleasure and in pain, and in all the above-mentioned cases, and which in all these is called fortitude.",
+   "raw": "Soc.  Do  you  alfo  endeavour,  O  Laches,  thus  to  define  fortitude,  and  tell \nus  what  that  power  is  which  is  the  fame  in  pleafure  and  in  pain,  and  in  all \nthe  above-mentioned  cafes,  and  which  in  all  thefe  is  called  fortitude. ",
+   "pages": [
+    105
+   ],
+   "line": 8795
+  },
+  {
+   "id": "taylor1804.laches.p0098",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "It appears, therefore, to me to be a certain endurance of the soul, if it is necessary to speak of that which accords with fortitude in all things.",
+   "raw": "Lac,  It  appears,  therefore,  to  me  to  be  a  certain  endurance  of  the  foul,  if \nit  is  neceffary  to  fpcak  of  that  which  accords  with  fortitude  in  all  things. ",
+   "pages": [
+    105
+   ],
+   "line": 8799
+  },
+  {
+   "id": "taylor1804.laches.p0099",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But this indeed is necessary, if we are to reply to the question that was asked us. This therefore appears to me, that you do not consider every kind of endurance to be fortitude. But I infer this from hence: for i nearly know, O Laches, that you think fortitude to be among the number of things which are very beautiRd.",
+   "raw": "Soc.  But  this  indeed  is  neceffary,  if  we  are  to  reply  to  the  queflion  that \nwas  afked  us.  This  therefore  appears  to  me,  that  you  do  not  confider  every \nkind  of  endurance  to  be  fortitude.  But  I  infer  this  from  hence:  for  i \nnearly  know,  O  Laches,  that  you  think  fortitude  to  be  among  the  number \nof  things  which  are  very  beautiRd. ",
+   "pages": [
+    105
+   ],
+   "line": 8802
+  },
+  {
+   "id": "taylor1804.laches.p0100",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I do indeed, and I also think that it ranks among things the most: beautiful,",
+   "raw": "Lac.  I  do  indeed,  and  I  alfo  think  that  it  ranks  among  things  the  mofl: \nbeautiful, ",
+   "pages": [
+    105
+   ],
+   "line": 8808
+  },
+  {
+   "id": "taylor1804.laches.p0101",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is not, therefore, that endurance which subsists in conjunction with prudence beautiful and good?",
+   "raw": "Soc.  Is  not,  therefore,  that  endurance  which  fubfifls  in  conjundlion  with \nprudence  beautiful  and  good  ? ",
+   "pages": [
+    105
+   ],
+   "line": 8811
+  },
+  {
+   "id": "taylor1804.laches.p0102",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac Entirely so. ]jut what of that endurance which subsists with folly? Is it not on the contrary bad and pernicious?",
+   "raw": "Lac  Entirely  fo.  ]jut  what  of  that  endurance  which  fubfifls  with  folly? \nIs  it  not  on  the  contrary  bad  and  pernicious  ? ",
+   "pages": [
+    105
+   ],
+   "line": 8814
+  },
+  {
+   "id": "taylor1804.laches.p0103",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Yes. Soc. Do you then say that a thing of this kind is beautiful^ though it is bad and pernicious?",
+   "raw": "Lac.   Yes. \nSoc.  Do  you  then  fay  that  a  thing  of  this  kind  is  beautiful^  though  it  is \nbad  and  pernicious  ? ",
+   "pages": [
+    105,
+    19
+   ],
+   "line": 8817
+  },
+  {
+   "id": "taylor1804.laches.p0104",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lr AC. This would not be just, O Socrates.",
+   "raw": "Lr AC.  This  would  not  be  juft,  O  Socrates. ",
+   "pages": [
+    19
+   ],
+   "line": 8827
+  },
+  {
+   "id": "taylor1804.laches.p0105",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You do not, therefore, acknowledge fach an endurance as. this to be fortitude, since it is iK)t beautiful; but fortitude is beautiful.",
+   "raw": "Soc.  You  do  not,  therefore,  acknowledge  fach  an  endurance  as.  this  to  be \nfortitude,  fince  it  is  iK)t  beautiful ;  but  fortitude  is  beautiful. ",
+   "pages": [
+    19
+   ],
+   "line": 8829
+  },
+  {
+   "id": "taylor1804.laches.p0106",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "JLac. That is true.",
+   "raw": "JLac.  That  is  true. ",
+   "pages": [
+    19
+   ],
+   "line": 8832
+  },
+  {
+   "id": "taylor1804.laches.p0107",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Prudent endurance, therefore, according to your assertion, will be fortitude.",
+   "raw": "Soc.  Prudent  endurance,  therefore,  according  to  your  aflertion,  will  be \nfortitude. ",
+   "pages": [
+    19
+   ],
+   "line": 8834
+  },
+  {
+   "id": "taylor1804.laches.p0108",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "So it seems.",
+   "raw": "Lac.  So  it  feems. ",
+   "pages": [
+    19
+   ],
+   "line": 8837
+  },
+  {
+   "id": "taylor1804.laches.p0109",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Let us see then in what this endurance is prudent; or whether it is prudent in all things both great and small. Thus, for instance, if some one endures to spend his money prudently, knowing that he shall be enriched by thus {pending it, would you call him a brave man?",
+   "raw": "Soc.  Let  us  fee  then  in  what  this  endurance  is  prudent ;  or  whether  it  is \nprudent  in  all  things  both  great  and  fmall.  Thus,  for  inftance,  if  fome  one \nendures  to  fpend  his  money  prudently,  knowing  that  he  (hall  be  enriched \nby  thus  {pending  it,  would  you  call  him  a  brave  man  ? ",
+   "pages": [
+    19
+   ],
+   "line": 8839
+  },
+  {
+   "id": "taylor1804.laches.p0110",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, not I.",
+   "raw": "Lac.  By  Jupiter,  not  I. ",
+   "pages": [
+    19
+   ],
+   "line": 8844
+  },
+  {
+   "id": "taylor1804.laches.p0111",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And if some one, being a physician, had a son or some other patient ill with an inflammation in his breast, and this patient should request him to give him something to eat or drink, but the physician should inflexibly persist in denying his request, would you call this endurance fortitude?",
+   "raw": "Soc.  And  if  fome  one,  being  a  phyfician,  had  a  fon  or  fome  other  patient \nill  with  an  inflammation  in  his  breaft,  and  this  patient  (hould  requeft  him \nto  give  him  fomething  to  eat  or  drink,  but  the  phyfician  fhould  inflexibly \nperfift  in  denying  his  requeft,  would  you  call  this  endurance  fortitude  ? ",
+   "pages": [
+    19
+   ],
+   "line": 8846
+  },
+  {
+   "id": "taylor1804.laches.p0112",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I should not.",
+   "raw": "Lac.  I  fhould  not. ",
+   "pages": [
+    19
+   ],
+   "line": 8851
+  },
+  {
+   "id": "taylor1804.laches.p0113",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But in war; here Is a man of endurance who is willing to fight; and he prudently reasons with himself, that others will give him assistance, and that he fights against those who are fewer and more defprcable than those of his own party, and still further that he has the advantage of the ground: will you say that this man, enduring with such like prudence and advantage, is braver than him in the contrary army who is willing to stand his ground and endure?",
+   "raw": "Soc.  But  in  war;  here  Is  a  man  of  endurance  who  is  willing  to  fight; \nand  he  prudently  reafons  with  himfelf,  that  others  will  give  him  afliflance, \nand  that  he  fights  agalnft  thofe  who  are  fewer  and  more  defprcable  than  thofe \nof  his  own  party,  and  flill  further  that  he  has  the  advantage  of  the  ground : \nwill  you  fay  that  this  man,  enduring  with  fuch  like  prudence  and  advantage, \nis  braver  than  him  in  the  contrary  army  who  is  willing  to  fland  his  ground \nand  endure  ? ",
+   "pages": [
+    19
+   ],
+   "line": 8853
+  },
+  {
+   "id": "taylor1804.laches.p0114",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac The man in the contrary army, O Socrates, appears to me to be the braver.",
+   "raw": "Lac  The  man  in  the  contrary  army,  O  Socrates,  appears  to  me  to  be  the \nbraver. ",
+   "pages": [
+    19
+   ],
+   "line": 8861
+  },
+  {
+   "id": "taylor1804.laches.p0115",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And yet the endurance of the one is more imprudent than that of the other.",
+   "raw": "Soc.  And  yet  the  endurance  of  the  one  is  more  imprudent  than  that  of  the \nother. ",
+   "pages": [
+    19
+   ],
+   "line": 8864
+  },
+  {
+   "id": "taylor1804.laches.p0116",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac That is true.",
+   "raw": "Lac  That  is  true. ",
+   "pages": [
+    19
+   ],
+   "line": 8867
+  },
+  {
+   "id": "taylor1804.laches.p0117",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Will you, therefore, say that a man who endures in an equeflrlan corrtefl with equestrian science, is less brave than him who endures without science?",
+   "raw": "Soc.  Will  you,  therefore,  fay  that  a  man  who  endures  in  an  equeflrlan \ncorrtefl  with  equeflrian  fcience,  is  lefs  brave  than  him  who  endures  without \nfcience  ? ",
+   "pages": [
+    19
+   ],
+   "line": 8869
+  },
+  {
+   "id": "taylor1804.laches.p0118",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac To me it appears that he is. Soc. And will you also say the same of a flingcr, or an archer, or of any Other who endures in any other art?",
+   "raw": "Lac  To  me  it  appears  that  he  is. \nSoc.  And  will  you  alfo  fay  the  fame  of  a  flingcr,  or  an  archer,  or  of  any \nOther  who  endures  in  any  other  art  ? ",
+   "pages": [
+    19,
+    20
+   ],
+   "line": 8873
+  },
+  {
+   "id": "taylor1804.laches.p0119",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Lac.  Entirely  fo. ",
+   "pages": [
+    20
+   ],
+   "line": 8883
+  },
+  {
+   "id": "taylor1804.laches.p0120",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And with respect to such as are willing to descend into a well, and there to endure swimming in it, though they are not skilled in this employment, or in any thing else of this kind, — will you say that such men are braver than those that are skilled in these things?",
+   "raw": "Soc.  And  with  refpe6l  to  fuch  as  are  willing  to  defcend  into  a  well,  and \nthere  to  endure  fwimming  in  it,  though  they  are  not  (killed  in  this  employ- \nment, or  in  any  thing  elfe  of  this  kind, — will  you  fay  that  fuch  men  are \nbraver  than  thofe  that  are  (killed  in  thefe  things  ? ",
+   "pages": [
+    20
+   ],
+   "line": 8885
+  },
+  {
+   "id": "taylor1804.laches.p0121",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "What else can one say, O Socrates?",
+   "raw": "Lac.  What  elfe  can  one  fay,  O  Socrates  ? ",
+   "pages": [
+    20
+   ],
+   "line": 8890
+  },
+  {
+   "id": "taylor1804.laches.p0122",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nothing, if he thinks so,",
+   "raw": "Soc.  Nothing,  if  he  thinks  fo, ",
+   "pages": [
+    20
+   ],
+   "line": 8892
+  },
+  {
+   "id": "taylor1804.laches.p0123",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "But I, indeed, do think so.",
+   "raw": "Lac.  But  I,  indeed,  do  think  fb. ",
+   "pages": [
+    20
+   ],
+   "line": 8894
+  },
+  {
+   "id": "taylor1804.laches.p0124",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And yet, O Laches, such men encounter danger, and endure more imprudently than those who do this in conjunction with art.",
+   "raw": "Soc,  And  yet,  O  Laches,  fuch  men  encounter  danger,  and  endure  more \nimprudently  than  thofe  who  do  this  in  conjundion  with  art. ",
+   "pages": [
+    20
+   ],
+   "line": 8896
+  },
+  {
+   "id": "taylor1804.laches.p0125",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "So it appears.",
+   "raw": "Lac.  So  it  appears. ",
+   "pages": [
+    20
+   ],
+   "line": 8899
+  },
+  {
+   "id": "taylor1804.laches.p0126",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Did not, therefore, bale and imprudent boldne(s and endurance appear to us. to be noxious in our former conclu(ions?",
+   "raw": "Soc.  Did  not,  therefore,  bale  and  imprudent  boldne(s  and  endurance \nappear  to  us.  to  be  noxious  in  our  former  conclu(ions  ? ",
+   "pages": [
+    20
+   ],
+   "line": 8901
+  },
+  {
+   "id": "taylor1804.laches.p0127",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Lac.  Entirely  fo. ",
+   "pages": [
+    20
+   ],
+   "line": 8904
+  },
+  {
+   "id": "taylor1804.laches.p0128",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But fortitude was acknowledged by us to be something beautiful.",
+   "raw": "Soc.  But  fortitude  was  acknowledged  by  us  to  be  (bmething  beautiful. ",
+   "pages": [
+    20
+   ],
+   "line": 8906
+  },
+  {
+   "id": "taylor1804.laches.p0129",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "It was acknowledged.",
+   "raw": "Lac.  It  was  acknowledged. ",
+   "pages": [
+    20
+   ],
+   "line": 8908
+  },
+  {
+   "id": "taylor1804.laches.p0130",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But now again we say that that base and imprudent endurance is fortitude.",
+   "raw": "Soc.  But  now  again  we  fay  that  that  bafe  and  imprudent  endurance  is \nfortitude. ",
+   "pages": [
+    20
+   ],
+   "line": 8910
+  },
+  {
+   "id": "taylor1804.laches.p0131",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "So it appears.",
+   "raw": "Lac,  So  it  appears. ",
+   "pages": [
+    20
+   ],
+   "line": 8913
+  },
+  {
+   "id": "taylor1804.laches.p0132",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do we therefore appear to you to speak well?",
+   "raw": "Soc.  Do  we  therefore  appear  to  you  to  fpeak  well  ? ",
+   "pages": [
+    20
+   ],
+   "line": 8915
+  },
+  {
+   "id": "taylor1804.laches.p0133",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, Socrates, to me we do not.",
+   "raw": "Lac.  By  Jupiter,  Socrates,  to  me  we  do  not. ",
+   "pages": [
+    20
+   ],
+   "line": 8917
+  },
+  {
+   "id": "taylor1804.laches.p0134",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "In your own language, therefore, O Laches, you and I are not Dorically harmonized: for our works do not accord with our words. For some one, as it seems, may say that we participate of fortitude in our deeds; but not, as I think, in our words, if he should hear us now discoursing.",
+   "raw": "Soc.  In  your  own  language,  therefore,  O  Laches,  you  and  I  are  not \nDorically  harmonized  :  for  our  works  do  not  accord  with  our  words.  For \nfome  one,  as  it  feems,  may  fay  that  we  participate  of  fortitude  in  our \ndeeds ;  but  not,  as  I  think,  in  our  words,  if  he  (hould  hear  us  now  dif- \ncourfing. ",
+   "pages": [
+    20
+   ],
+   "line": 8919
+  },
+  {
+   "id": "taylor1804.laches.p0135",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac You speak most truly.",
+   "raw": "Lac  You  fpeak  moft  truly. ",
+   "pages": [
+    20
+   ],
+   "line": 8925
+  },
+  {
+   "id": "taylor1804.laches.p0136",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then? Does it appear to you to be beautiful that we should be in this condition?",
+   "raw": "Soc.  What  then  ?  Does  it  appear  to  you  to  be  beautiful  that  we  (hould  be \nin  this  condition  ? ",
+   "pages": [
+    20
+   ],
+   "line": 8927
+  },
+  {
+   "id": "taylor1804.laches.p0137",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac By no means.",
+   "raw": "Lac  By  no  means. ",
+   "pages": [
+    20
+   ],
+   "line": 8930
+  },
+  {
+   "id": "taylor1804.laches.p0138",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are you willing, therefore, that we should yield our aflTent to what we said?",
+   "raw": "Soc.  Arc  you  willing,  therefore,  that  we  (hould  yield  our  aflTent  to  what \nwe  faid  ? ",
+   "pages": [
+    20
+   ],
+   "line": 8932
+  },
+  {
+   "id": "taylor1804.laches.p0139",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac To what a(fertiou of ours do you alluded Soc. To that which ordered us to endure. If you are vvillino, therefore let us persevere in our inquiry, and endure, left fortitude itself should deride us for not bravely investigating what it is; if, indeed, endurance itself is often fortitude.",
+   "raw": "Lac  To  what  a(fertiou  of  ours  do  you  alluded \nSoc.  To  that  which  ordered  ns  to  endure.  If  you  are  vvillino-,  therefore \nlet  us  perfevere  in  our  inquiry,  and  endure,  left  fortitude  itfelf  fhould  deride \nus  for  not  bravely  inveftigating  what  it  is  ;  if,  indeed,  endurance  itfelf  is \noften  fortitude. ",
+   "pages": [
+    20,
+    21
+   ],
+   "line": 8935
+  },
+  {
+   "id": "taylor1804.laches.p0140",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I, indeed, O Socrates, am ready to stand my ground, though I am unaccustomed to such like conferences. But a certain pertinacity inftigates me against what has been said, and I am in reality indignant that I am so incapable of telling my conceptions. For I seem to myself to know what fortitude is; but I know not how it just: now fled from me, so that I cannot comprehend in words and say what it is.",
+   "raw": "Lac.  I,  indeed,  O  Socrates,  am  ready  to  ftand  my  ground,  though  I  am \nunaccuflomed  to  fuch  like  conferences.  But  a  certain  pertinacity  inftigates \nme  againft  what  has  been  faid,  and  I  am  in  reality  indignant  that  I  am  fo \nincapable  of  telling  my  conceptions.  For  I  feem  to  myfelf  to  know  what \nfortitude  is  ;  but  I  know  not  how  it  jufl:  now  fled  from  me,  fo  that  I  cannot \ncomprehend  in  words  and  fay  what  it  is. ",
+   "pages": [
+    21
+   ],
+   "line": 8947
+  },
+  {
+   "id": "taylor1804.laches.p0141",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But a good huntsman, my friend, ought to run after the beast he hunts, and not remit his pursuit.",
+   "raw": "Soc.  But  a  good  huntfman,  my  friend,  ought  to  run  after  the  beaft  he \nhunts,  and  not  remit  his  purfuit. ",
+   "pages": [
+    21
+   ],
+   "line": 8954
+  },
+  {
+   "id": "taylor1804.laches.p0142",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "By all means he ought.",
+   "raw": "Lac.  By  all  means  he  ought. ",
+   "pages": [
+    21
+   ],
+   "line": 8957
+  },
+  {
+   "id": "taylor1804.laches.p0143",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are you willing, therefore, that we call Nicias also to this hunting, that we may try if he is in any respect more sagacious than us?",
+   "raw": "Soc.  Are  you  willing,  therefore,  that  we  call  Nicias  alfo  to  this  hunting, \nthat  we  may  try  if  he  is  in  any  refped  more  fagacious  than  us  ? ",
+   "pages": [
+    21
+   ],
+   "line": 8959
+  },
+  {
+   "id": "taylor1804.laches.p0144",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I am willing: for why should I not?",
+   "raw": "Lac.  I  am  willing  :  for  why  fhould  I  not  ? ",
+   "pages": [
+    21
+   ],
+   "line": 8962
+  },
+  {
+   "id": "taylor1804.laches.p0145",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Come then, O Nicias, gratify your friends, and assist them in their doubts in this conference, if you possess any power; for you see how we are embarrailed. Do you, therefore, tell us what you think fortitude is, free us from this doubt, and confirm by argument what you conceive it to be.",
+   "raw": "Soc.  Come  then,  O  Nicias,  gratify  your  friends,  and  affifl  them  in  their \ndoubts  in  this  conference,  if  you  poflefs  any  power ;  for  you  fee  how  we  are \nembarrailed.  Do  you,  therefore,  tell  us  what  you  think  fortitude  is,  free  us \nfrom  this  doubt,  and  confirm  by  argument  what  you  conceive  it  to  be. ",
+   "pages": [
+    21
+   ],
+   "line": 8964
+  },
+  {
+   "id": "taylor1804.laches.p0146",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "You have appeared to me, for sonic time past, Socrates, not to have well defined fortitude; for you make no use of that which I have heard you so well assert.",
+   "raw": "Nic.  You  have  appeared  to  me,  for  fonie  time  pafl,  Socrates,  not  to  have \nwell  defined  fortitude ;  for  you  make  no  ufe  of  that  which  I  have  heard \nyou  fo  well  affert. ",
+   "pages": [
+    21
+   ],
+   "line": 8969
+  },
+  {
+   "id": "taylor1804.laches.p0147",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "c. What is that, O Nicias?",
+   "raw": "^c.   What  is  that,  O  Nicias  ? ",
+   "pages": [
+    21
+   ],
+   "line": 8973
+  },
+  {
+   "id": "taylor1804.laches.p0148",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "I have often heard you assert that every one of us is good with refpec^ to those things in which he is wise, but bad with respect to those of which he is ignorant,",
+   "raw": "Nic.  I  have  often  heard  yon  affert  that  every  one  of  us  is  good  with  refpec^ \nto  thofe  things  in  which  he  is  wife,  but  bad  with  refpedl  to  thofe  of  which  he  is \nignorant, ",
+   "pages": [
+    21
+   ],
+   "line": 8975
+  },
+  {
+   "id": "taylor1804.laches.p0149",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, what you say is true, O Nicias.",
+   "raw": "Soc.  By  Jupiter,  what  you  fay  is  true,  O  Nicias. ",
+   "pages": [
+    21
+   ],
+   "line": 8979
+  },
+  {
+   "id": "taylor1804.laches.p0150",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "If, therefore, a brave is a good man, he is clearly a wise man.",
+   "raw": "Nic.  If,  therefore,  a  brave  is  a  good  man,  he  is  clearly  a  wife  man. ",
+   "pages": [
+    21
+   ],
+   "line": 8981
+  },
+  {
+   "id": "taylor1804.laches.p0151",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you hear, O Laches?",
+   "raw": "Soc.  Do  you  hear,  O  Laches  ? ",
+   "pages": [
+    21
+   ],
+   "line": 8983
+  },
+  {
+   "id": "taylor1804.laches.p0152",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I do, but I do not very much understand what he says.",
+   "raw": "Lac.  I  do,  but  I  do  not  very  much  underfland  what  he  fays. ",
+   "pages": [
+    21
+   ],
+   "line": 8985
+  },
+  {
+   "id": "taylor1804.laches.p0153",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But I seem to understand him, and he appears to me to call fortitude a certain wisdom.",
+   "raw": "Soc.  But  I  feem  to  underftand  him,  and  he  appears  to  me  to  call  fortitude \na  certain  wifdom. ",
+   "pages": [
+    21
+   ],
+   "line": 8987
+  },
+  {
+   "id": "taylor1804.laches.p0154",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac What kind of wisdom, O Socrates?",
+   "raw": "Lac  What  kind  of  wifdom,  O  Socrates  ? ",
+   "pages": [
+    21
+   ],
+   "line": 8990
+  },
+  {
+   "id": "taylor1804.laches.p0155",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Will you not therefore inquire this of him?",
+   "raw": "Soc.  Will  you  not  therefore  inquire  this  of  him? ",
+   "pages": [
+    21
+   ],
+   "line": 8992
+  },
+  {
+   "id": "taylor1804.laches.p0156",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I will,",
+   "raw": "Lac.  I  will, ",
+   "pages": [
+    22
+   ],
+   "line": 8999
+  },
+  {
+   "id": "taylor1804.laches.p0157",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Come then, O Nicias, tell him what kind of wifdora fortitude will be according to you: for it is not that which belongs to the pipe.",
+   "raw": "Soc.  Come  then,  O  Nicias,  tell  him  what  kind  of  wifdora  fortitude  will \nbe  according  to  you  :  for  it  is  not  that  which  belongs  to  the  pipe. ",
+   "pages": [
+    22
+   ],
+   "line": 9001
+  },
+  {
+   "id": "taylor1804.laches.p0158",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "By no means.",
+   "raw": "Nic.  By  no  means. ",
+   "pages": [
+    22
+   ],
+   "line": 9004
+  },
+  {
+   "id": "taylor1804.laches.p0159",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nor yet that which belongs to the harp.",
+   "raw": "Soc.  Nor  yet  that  which  belongs  to  the  harp. ",
+   "pages": [
+    22
+   ],
+   "line": 9006
+  },
+  {
+   "id": "taylor1804.laches.p0160",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "It is not..",
+   "raw": "Nic,  It  is  not.. ",
+   "pages": [
+    22
+   ],
+   "line": 9008
+  },
+  {
+   "id": "taylor1804.laches.p0161",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what is it then, or of what is it the science?",
+   "raw": "Soe.  But  what  is  it  then,  or  of  what  is  it  the  fcience? ",
+   "pages": [
+    22
+   ],
+   "line": 9010
+  },
+  {
+   "id": "taylor1804.laches.p0162",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "You very rightly interrogate him, Socrates; and let him tell us what wisdom it is.",
+   "raw": "Lac.  You  very  rightly  interrogate  him^,  Socrates ;  and  let  him  tell  us \nwhat  wifdom  it  is. ",
+   "pages": [
+    22
+   ],
+   "line": 9012
+  },
+  {
+   "id": "taylor1804.laches.p0163",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "I say then, O Laches,^ that it is the science of things dreadful and daring, both in war and in all other things.",
+   "raw": "Nic.  I  fay  then,  O  Laches,^  that  it  is  the  fcience  of  things  dreadful  and \ndaring,  both  in  war  and  in  all  other  things. ",
+   "pages": [
+    22
+   ],
+   "line": 9015
+  },
+  {
+   "id": "taylor1804.laches.p0164",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "How absurdly he speaks, Socrates I",
+   "raw": "Lac.  How  abfurdly  he  fpeaks,  Socrates  I ",
+   "pages": [
+    22
+   ],
+   "line": 9018
+  },
+  {
+   "id": "taylor1804.laches.p0165",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Looking to what do you say this, O Laches?",
+   "raw": "Soc.  Looking  to  what  do  you  fay  this,  O  Laches  ? ",
+   "pages": [
+    22
+   ],
+   "line": 9020
+  },
+  {
+   "id": "taylor1804.laches.p0166",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "To what.^ Why wisdom is separate from fortitude",
+   "raw": "Lac.  To  what  .^  Why  wifdom  is  feparate  from  fortitude ",
+   "pages": [
+    22
+   ],
+   "line": 9022
+  },
+  {
+   "id": "taylor1804.laches.p0167",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nicias does not say so..",
+   "raw": "Soc.  Nicias  does  not  fay  fb.. ",
+   "pages": [
+    22
+   ],
+   "line": 9024
+  },
+  {
+   "id": "taylor1804.laches.p0168",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "He does not, by Jupiter; and' therefore he raves.",
+   "raw": "Lac.  He  does  not,  by  Jupiter;  and'  therefore  he  raves. ",
+   "pages": [
+    22
+   ],
+   "line": 9026
+  },
+  {
+   "id": "taylor1804.laches.p0169",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Let us therefore teach and not revile him..",
+   "raw": "Soc.  Let  us  therefore  teach  and  not  revile  him.. ",
+   "pages": [
+    22
+   ],
+   "line": 9028
+  },
+  {
+   "id": "taylor1804.laches.p0170",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "He does not revile me vbut it seems to me, O Socrates, that Laches is desirous that I also may appear to say nothing, because this was just now the case with him..",
+   "raw": "Nic.  He  does  not  revile  me  vbut  it  feems  to  me,  O  Socrates,  that  Laches \nis  defirous  that  I  alfo  may  appear  to  fay  nothing,  becaufe  this  was  juft  now \nthe  cafe  with  him.. ",
+   "pages": [
+    22
+   ],
+   "line": 9030
+  },
+  {
+   "id": "taylor1804.laches.p0171",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so, O Nicias; and T will endeavour to evince this: for you say nothing. Without going any further, in diseases do not physicians know things that are dreadful? Or do brave men appear to you to know this? Or do you call physicians brave men?.",
+   "raw": "Lac.  Entirely  fo,  O  Nicias ;  and  T  will  endeavour  to  evince  this :  for \nyou  fay  nothing.  Without  going  any  further,  in  difeafes  do  not  phyficians \nknow  things  that  are  dreadful  ?  Or  do  brave  men  appear  to  you  to  know  this  ? \nOr  do  you  call  phyficians  brave  men  ?. ",
+   "pages": [
+    22
+   ],
+   "line": 9034
+  },
+  {
+   "id": "taylor1804.laches.p0172",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "By no means.",
+   "raw": "Nic.  By  no  means. ",
+   "pages": [
+    22
+   ],
+   "line": 9039
+  },
+  {
+   "id": "taylor1804.laches.p0173",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Neither do you give that name, I think, to hufhandm^n, though they know things that are dreadful in agriculture; and all other artificers know things that are dreadful and daring in their own arts,, and yet they are not in any respect the more brave for this.",
+   "raw": "Lac.  Neither  do  you  give  that  name,  I  think,  to  hufhandm^n,  though  they \nknow  things  that  are  dreadful  in  agriculture  ;  and  all  other  artificers  know \nthings  that  are  dreadful  and  daring  in  their  own  arts,,  and  yet  they  are  not  in \nany  rcfped  the  more  brave  for  this. ",
+   "pages": [
+    22
+   ],
+   "line": 9041
+  },
+  {
+   "id": "taylor1804.laches.p0174",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What does Laches, O Nicias, appear to you to say } for he cer^tainly appears to say something..",
+   "raw": "Soc.  What  does  Laches,  O  Nicias,  appear  to  you  to  fay  }  for  he  cer^- \ntainly  appears  to  fay  fomething.. ",
+   "pages": [
+    22
+   ],
+   "line": 9046
+  },
+  {
+   "id": "taylor1804.laches.p0175",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "He does indeed say something, and yet not what is true*,",
+   "raw": "Nic.   He  does  indeed  fay  fomething,  and  yet  not  what  is  true*, ",
+   "pages": [
+    22
+   ],
+   "line": 9049
+  },
+  {
+   "id": "taylor1804.laches.p0176",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "How so?",
+   "raw": "Soc.  How  fo  ? ",
+   "pages": [
+    22
+   ],
+   "line": 9051
+  },
+  {
+   "id": "taylor1804.laches.p0177",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Ni-c. Because he thinks that physicians know something more about the sick than the being able to say. thei a thing is healthful or unhealthful.; but they alone know this. But whether to be well Is a thing dreadful ta any one rather than to be ill; do you thmk, O Laches, that physicians have any knowledge of this? Or do you not think that it is better to many for them not to recover from disease than to recover? For tell me this: Do you say that it is better to all men to live, and that it is not more advantageous to many to die?",
+   "raw": "Ni-c.  Becaufe  he  thinks  that  phyficians  know  fomething  more  about  the \nfick   than  the  being  able  to  fay.  thai  a  thing  is  healthful  or  unhealthful.;  but \nthey  alone  know  this.  But  whether  to  be  well  Is  a  thing  dreadful  ta  any  one \nrather  than  to  be  ill;  do  you  thmk,  O  Laches,  that  phyficians  have  any  know- \nledge of  this  ?  Or  do  you  not  think  that  it  is  better  to  many  for  them \nnot  to  recover  from  difeafe  than  to  recover?  For  tell  me  this:  Do  you \nfay  that  it  is  better  to  all  men  to  live,  and  that  it  is  not  more  advantageous \nto  many  to  die  ? ",
+   "pages": [
+    22,
+    0
+   ],
+   "line": 9053
+  },
+  {
+   "id": "taylor1804.laches.p0178",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I do say this.",
+   "raw": "Lac.  I  do  fay  this. ",
+   "pages": [
+    0
+   ],
+   "line": 9068
+  },
+  {
+   "id": "taylor1804.laches.p0179",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "To those, therefore, to whom it is advantageous to die, do you think the same things are dreadful, as to those to whom it is better to live?",
+   "raw": "Nic.  To  thofe,  therefore,  to  whom  it  is  advantageous  to  die,  do  you \nthink  the  fame  things  are  dreadful,  as  to  thofe  to  whom  it  is  better  to \nlive  ? ",
+   "pages": [
+    0
+   ],
+   "line": 9070
+  },
+  {
+   "id": "taylor1804.laches.p0180",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Not I.",
+   "raw": "Lac.  Not  I. ",
+   "pages": [
+    0
+   ],
+   "line": 9074
+  },
+  {
+   "id": "taylor1804.laches.p0181",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "But do you allow that physicians know this, or that it is known by any other artificer than the man who is ikilled in things dreadful, and whom I call a brave man?",
+   "raw": "Nic.  But  do  you  allow  that  phyficians  know  this,  or  that  it  is  known  by \nany  other  artificer  than  the  man  who  is  ikilled  in  things  dreadful,  and  whom \n1  call  a  brave  man  ? ",
+   "pages": [
+    0
+   ],
+   "line": 9076
+  },
+  {
+   "id": "taylor1804.laches.p0182",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you understand, O Laches, what he says?",
+   "raw": "Soc.  Do  you  underftand,  O  Laches,  what  he  fays  ? ",
+   "pages": [
+    0
+   ],
+   "line": 9080
+  },
+  {
+   "id": "taylor1804.laches.p0183",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I do; and I perceive that he calls prophets brave men: for who else knows to whom it is better to live than to die? And I ask you, O Nicias, whether you acknowledge yourself to be a prophet, or to be neither a prophet nor a brave man?",
+   "raw": "Lac.  I  do ;  and  I  perceive  that  he  calls  prophets  brave  men  :  for  who \nelfe  knows  to  whom  it  is  better  to  live  than  to  die  ?  And  I  afk  you,  O  Ni- \ncias,  whether  you  acknowledge  yourfelf  to  be  a  prophet,  or  to  be  neither  a \nprophet  nor  a  brave  man  ? ",
+   "pages": [
+    0
+   ],
+   "line": 9082
+  },
+  {
+   "id": "taylor1804.laches.p0184",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "But what? Do you think it belongs to a prophet to know things dreadful and daring?",
+   "raw": "Nic,  But  what  ?  Do  you  think  it  belongs  to  a  prophet  to  know  things \ndreadful  and  daring  ? ",
+   "pages": [
+    0
+   ],
+   "line": 9087
+  },
+  {
+   "id": "taylor1804.laches.p0185",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I do; for to whom else does it belong?",
+   "raw": "Lac.  I  do ;    for  to  whom  elfe  does  it  belong  ? ",
+   "pages": [
+    0
+   ],
+   "line": 9090
+  },
+  {
+   "id": "taylor1804.laches.p0186",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Much more, O best: cf men, to him of whom I speak; since it is necessary that a prophet should only know the signs of future events, whether they portend death to any one, or disease, or the loss of riches, or vi«5lory, or the being vanquished in battle or in any other contest. But, why does it rather belong to a prophet, than any other, to judge for whom it is better to suffer or not suffer any one of these things?",
+   "raw": "Nic.  Much  more,  O  befl:  cf  men,  to  him  of  whom  I  fpeak;  fince  it  is \nneceffary  that  a  prophet  fhould  only  know  the  (igns  of  future  events,  whe- \nther they  portend  death  to  any  one,  or  difeafe,  or  the  lofs  of  riches,  or  vi«5lory, \nor  the  being  vanquifhed  in  battle  or  in  any  other  contefl.  But,  why  does \nit  rather  belong  to  a  prophet,  than  any  other,  to  judge  for  whom  it  is  better \nto  fufFer  or  not  fufFer  any  one  of  thefe  things  ? ",
+   "pages": [
+    0
+   ],
+   "line": 9092
+  },
+  {
+   "id": "taylor1804.laches.p0187",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I do not underhand, Socrates, what he means to say: for he does not render it manifest that it is either a prophet, or a physician, or any other person, whom he calls brave, unless he says that this brave person is a certain god. Nicias, therefore, appears to me to be unwilling ingenuously to confess that he says nothing, but he is rolled upwards and downwards, concealing his perplexity; though you and I might have been funilarly rolled, if we had wished not to appear to contradict ourselves. If, indeed, we were pleading in a court of justice, it might be reasonable to act in this manner; but now in such a conference as this, why should any one vainly adorn himself with empty words?",
+   "raw": "Lac.  I  do  not  underhand,  Socrates,  what  he  means  to  fay  :  for  he  does \nnot  render  it  manifefl  that  it  is  either  a  prophet,  or  a  phyfician,  or  any  other \nperfon,  whom  he  calls  brave,  unlefs  he  fays  that  this  brave  perfon  is  a  cer- \ntain god.  Nicias,  therefore,  appears  to  me  to  be  unwilling  ingenuoufly  to \nconfefs  that  he  fays  nothing,  but  he  is  rolled  upwards  and  downwards,  con- \ncealing his  perplexity;  though  you  and  I  might  have  been  funilarly  rolled,  if \nwc  had  wifhed  not  to  appear  to  contradict  ourfelves.     If,  indeed,  we  were \npleading  in  a  court  of  juftice,  it  might  be  reafonable  to  a6l  in  this  manner; \nbut  now  in  fuch  a  conference  as  this,  why  fliould  any  one  vainly  adorn \nhimfelf  with  empty  words  ? ",
+   "pages": [
+    0,
+    501
+   ],
+   "line": 9099
+  },
+  {
+   "id": "taylor1804.laches.p0188",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For no reason, as it appears to me, O Laches. But let us see; perhaps Nicias thinks that' he says something to the purpose, and does not assert these things merely for the sake of speaking. Let us, therefore, inquire of him more clearly what he means; and if it shall appear that he says any thing pertinent, let us assent to him; if not, we will teach him better.",
+   "raw": "Soc.  For  no  reafon,  as  it  appears  to  me,  O  Laches.  But  let  us  fee;  perhaps \nNicias  thinks  that' he  fays  fomething  to  the  purpofe,  and  does  not  afTert \nthefe  things  merely  for  the  fake  of  fpeaking.  Let  us,  therefore,  inquire  of \nhim  more  clearly  what  he  means  ;  and  if  it  fliall  appear  that  he  fays  any \nthing  pertinent,  let  us  afTent  to  him  ;  if  not,  we  will  teach  him  better. ",
+   "pages": [
+    501
+   ],
+   "line": 9116
+  },
+  {
+   "id": "taylor1804.laches.p0189",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, O Socrates, if you will, ask him; for I have interrogated him sufficiently.",
+   "raw": "Lac.  Do  you,  therefore,  O  Socrates,  if  you  will,  afk  him  ;  for  1  have  in- \nterrogated him  fufficiently. ",
+   "pages": [
+    501
+   ],
+   "line": 9122
+  },
+  {
+   "id": "taylor1804.laches.p0190",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nothing will liindcr me: for the interrogation will be in common to me and you.",
+   "raw": "Soc.  Nothing  will  liindcr  me  :  for  the  interrogation  will  be  in  common \nto  me  and  you. ",
+   "pages": [
+    501
+   ],
+   "line": 9125
+  },
+  {
+   "id": "taylor1804.laches.p0191",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Lac.  Entirely  fo. ",
+   "pages": [
+    501
+   ],
+   "line": 9128
+  },
+  {
+   "id": "taylor1804.laches.p0192",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Tell me then, O Nicias, (for I and Laches unite in this question,) Do you say that fortitude is rather the science of things dreadful and daring, than of any thing else?",
+   "raw": "Soc.  Tell  me  then,  O  Nicias,  (for  I  and  Laches  unite  in  this  queflion,) \nDo  you  fay  that  fortitude  is  rather  the  fcience  of  things  dreadful  and  daring, \nthan  of  any  thing  elfe  ? ",
+   "pages": [
+    501
+   ],
+   "line": 9130
+  },
+  {
+   "id": "taylor1804.laches.p0193",
+   "kind": "paragraph",
+   "label": "NiC",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "NiC.  I  do. ",
+   "pages": [
+    501
+   ],
+   "line": 9134
+  },
+  {
+   "id": "taylor1804.laches.p0194",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But it is not the province of every man to know this, since neither a physician nor a prophet possesses this knowledge; nor will a man be brave, unless he acquires this science. Do you not say so?",
+   "raw": "Soc.  But  it  is  not  the  province  of  every  man  to  know  this,  fince  neither \na  phyfician  nor  a  prophet  poffefTes  this  knowledge ;  nor  will  a  man  be \nbrave,  unlefs  he  acquires  this  fcience.     Do  you  not  fay  fo  ? ",
+   "pages": [
+    501
+   ],
+   "line": 9136
+  },
+  {
+   "id": "taylor1804.laches.p0195",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Nic.  I  do. ",
+   "pages": [
+    501
+   ],
+   "line": 9140
+  },
+  {
+   "id": "taylor1804.laches.p0196",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "According to the proverb, therefore, in reality, every hog does not know this, nor will every hog be valiant,",
+   "raw": "Soc.  According  to  the  proverb,  therefore,  in  reality,  every  hog  docs  not \nknow  this,  nor  will  every  hog  be  valiant, ",
+   "pages": [
+    501
+   ],
+   "line": 9142
+  },
+  {
+   "id": "taylor1804.laches.p0197",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "It does not appear to me that it will.",
+   "raw": "Nic.  It  does  not  appear  to  me  that  it  will. ",
+   "pages": [
+    501
+   ],
+   "line": 9145
+  },
+  {
+   "id": "taylor1804.laches.p0198",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It is evident, therefore, O Nicias, that neither do you believe that the Crommyonian sow was brave. But I do not say this in jest: for I think it is necessary that he who asserts these things should admit that no brute is brave; nor ought he to grant that any wild beast is so wise, that what few men know through the difficulty of acquiring knowledge, that a lion, or a leopard, or a certain boar knows. But he who defines fortitude, as you have done, must necessarily say that a lion and a stag, a bull and an ape, are similarly formed by nature with respect to fortitude.",
+   "raw": "Soc.  It  is  evident,  therefore,  O  Nicias,  that  neither  do  you  believe  that \nthe  Crommyonian  fow  was  brave.  But  I  do  not  fay  this  in  jefl :  for  I  think \nit  is  necelTary  that  he  who  afferts  thefe  things  fhould  admit  that  no  brute  is \nbrave  ;  nor  ought  he  to  grant  that  any  wild  beafl  is  fo  wife,  that  what  few \nmen  know  through  the  difficulty  of  acquiring  knowledge,  that  a  lion,  or  a \nleopard,  or  a  certain  boar  knows.  But  he  who  defines  fortitude,  as  you \nhave  done,  mufl  necefTarily  fay  that  a  lion  and  a  flag,  a  bull  and  an  ape, \nare  fimilarly  formed  by  nature  with  refpedl  to  fortitude. ",
+   "pages": [
+    501
+   ],
+   "line": 9147
+  },
+  {
+   "id": "taylor1804.laches.p0199",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac By the gods, Socrates, you speak well: and in reality inform us, O Nicias, whether you say that these wild hearts, which we all of us acknowledge to be brave, are wiser than we are, or, contrary tathe opinion of all men, will you dare to deny that they are brave?",
+   "raw": "Lac  By  the  gods,  Socrates,  you  fpeak  well :  and  in  reality  inform  us,  O \nNicias,  whether  you  fay  that  thefe  wild  hearts,  which  we  all  of  us  acknow- \nledge  to  be  brave,  are  wifer  than  we  are,  or,  contrary  tathe  opinion  of  all \nmen,  will  you  dare  to  deny  that  they  are  brave  ? ",
+   "pages": [
+    501,
+    202
+   ],
+   "line": 9156
+  },
+  {
+   "id": "taylor1804.laches.p0200",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Indeed, Laches, I do not call either a wild beast, or anything else brave, which through ignorance is not terrified at things dreadful, but is fearless and stupid. Or, do you think, that I call all boys brave, who through ignorance fear nothing? But I am of opinion, that the fcar/e/s is not the same with t/ie brave. For, I think, that fortitude and fore thought are to be found in very few; but that confidence and boldness, and a privation of fear, together with the want of forethought, may be seen in very many men and women, boys and wild beasts. That, therefore, which you and the many call fortitude, I call raftinefs; but I call the brave, the prudent and the wise, about whom I now {peak.",
+   "raw": "Nic.  Indeed,  Laches,  I  do  not  call  either  a  wild  beaft,  or  anything  elfc \nbrave,  which  through  ignorance  is  not  terrified  at  things  dreadful,  but  is \nfearlefs  and  flupid.  Or,  do  you  think,  that  1  call  all  boys  brave,  who \nthrough  ignorance  fear  nothing  ?  But  I  am  of  opinion,  that  the  fcar/e/s \nis  not  the  fame  with  t/ie  brave.  For,  I  think,  that  fortitude  and  fore \nthought  are  to  be  found  in  very  few  ;  but  that  confidence  and  boldnefs,  and \na  privation  of  fear,  together  with  the  want  of  forethought,  may  be  fecn  in \nvery  many  men  and  women,  boys  and  wild  bcafts.  That,  therefore,  which \nyou  and  the  many  call  fortitude,  I  call  raftinefs  ;  but  I  call  the  brave,  the \nprudent  and  the  wife,  about  whom  I  now  {peak. ",
+   "pages": [
+    202
+   ],
+   "line": 9167
+  },
+  {
+   "id": "taylor1804.laches.p0201",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "You see, Socrates, how well this man decorates himself, as he thinks with words; but those whom all men acknowledge to be brave he endeavours to deprive of this honour.",
+   "raw": "Lac,  You  fee,  Socrates,  how  well  this  man  decorates  himfelf,  as  he  thinks^ \nwith  words  ;  but  thofe  whom  all  men  acknowledge  to  be  brave  he  endea- \nvours to  deprive  of  this  honour. ",
+   "pages": [
+    202
+   ],
+   "line": 9178
+  },
+  {
+   "id": "taylor1804.laches.p0202",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Not I indeed, Laches; but take courage. For I say that you and Lammachus* are wife^if you are brave; and that this is also true of many others of the Athenians.",
+   "raw": "Nic.  Not  I  indeed,  Laches;  but  take  courage.  For  I  fay  that  you  and \nLammachus*  are  wife^if  you  are  brave;  and  that  this  is  alfo  true  of  many \nothers  of  the  Athenians. ",
+   "pages": [
+    202
+   ],
+   "line": 9182
+  },
+  {
+   "id": "taylor1804.laches.p0203",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "I say nothing against these things, though I could reply to thern^ left you should say that I am in reality a flanderer.",
+   "raw": "Lac.  I  fay  nothing  agalnft  thefe  things,  though  I  could  reply  to  thern^ \nleft  you  fhould  fay  that  I  am  in  reality  a  flanderer. ",
+   "pages": [
+    202
+   ],
+   "line": 9186
+  },
+  {
+   "id": "taylor1804.laches.p0204",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nor should you speak against them, O Laches; for you appear to me not to have perceived that Nicias here received this wisdom from our afTo ciate Damon; and Damon is very intimate with Prodicus, who appears to> distinguish appellations of this kind in a manner superior to the ethei sophists.",
+   "raw": "Soc.  Nor  fhould  you  fpeak  againft  them,  O  Laches ;  for  you  appear  to  me \nnot  to   have  perceived  that  Nicias  here  received  this  wifdom  from  our  afTo \nciate  Damon  ;  and  Damon  is  very  intimate  with  Prodicus,  who  appears  to> \ndiftinguifh  appellations  of   this   kind    in   a  manner  fuperior  to   the  othei \nfophifls. ",
+   "pages": [
+    202
+   ],
+   "line": 9189
+  },
+  {
+   "id": "taylor1804.laches.p0205",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "For it rather becomes a sophist, O Socrates, to think highly of himself on account of things of this kiiid,. thaii a man whom the city thinks worthy to be its governor.",
+   "raw": "Lac.  For  it  rather  becomes  a  fophift,  O  Socrates,  to  think  highly  of  him- \nfelf on  account  of  things  of  this  kiiid,.  thaii  a  man  whom  the  city  thinks \nworthy  to  be  its  governor. ",
+   "pages": [
+    202
+   ],
+   "line": 9195
+  },
+  {
+   "id": "taylor1804.laches.p0206",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It becomes indeed him, O blessed man, who presides over things of the greateil consequence, to participaiC of the greatest wisdom. But it appears to me to be worth while to consider with a view to what Nicias thu& defines fortitude,,, JLac. Confidec this then, Socrates, yourself,",
+   "raw": "Soc,  It  becomes  indeed  him,  O  bleffed  man,  who  prefides  over  things  of \nthe  greateil  confequence,  to  participaiC  of  the  greateft  wifdom.  But  it  ap- \npears to  me  to  be  worth  while  to  confider  with  a  view  to  what  Nicias  thu& \ndefines  fortitude,,, \nJLac.  Confidec  this  then,  Socrates,  yourfelf, ",
+   "pages": [
+    202,
+    3
+   ],
+   "line": 9199
+  },
+  {
+   "id": "taylor1804.laches.p0207",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I shall do this, O best of mem Do not, however, think that you are to be excluded from this conference, but attend and consider what is said,",
+   "raw": "Soc.  I  fhall  do  this,  O  beft  of  mem  Do  not,  however,  think  that  you \nare  to  be  excluded  from  this  conference,  but  attend  and  confider  what  is \nfaid, ",
+   "pages": [
+    3
+   ],
+   "line": 9214
+  },
+  {
+   "id": "taylor1804.laches.p0208",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "Let these things be so if it appears to be proper.",
+   "raw": "Lac.  Let  thefe  things  be  fo  if  it  appears  to  be  proper. ",
+   "pages": [
+    3
+   ],
+   "line": 9218
+  },
+  {
+   "id": "taylor1804.laches.p0209",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But it does appear to be so. And do you, Nicias, tell us again from the beginning; for you know that at the beginning of our conference we considered fortitude as a part of virtue,",
+   "raw": "Soc.  But  it  does  appear  to  be  fo.  And  do  you,  Nicias,  tell  us  again  from \nthe  beginning;  for  you  know  that  at  the  beginning  of  our  conference  wc \nconfidered  fortitude  as  a  part  of  virtue, ",
+   "pages": [
+    3
+   ],
+   "line": 9220
+  },
+  {
+   "id": "taylor1804.laches.p0210",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Nic.  Entirely  fo. ",
+   "pages": [
+    3
+   ],
+   "line": 9224
+  },
+  {
+   "id": "taylor1804.laches.p0211",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Did not you, therefore, also answer, that it was a part of virtue, there being likewifc other parts, all which are called virtue?",
+   "raw": "Soc.  Did  not  you,  therefore,  alfo  anfwer,  that  it  was  a  part  of  virtue, \nthere  being  likewifc  other  parts,  all  which  are  called  virtue  ? ",
+   "pages": [
+    3
+   ],
+   "line": 9226
+  },
+  {
+   "id": "taylor1804.laches.p0212",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "For how is it possible I should not $",
+   "raw": "Nic.  For  how  is  it  poflible  I  fhould  not  $ ",
+   "pages": [
+    3
+   ],
+   "line": 9229
+  },
+  {
+   "id": "taylor1804.laches.p0213",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, call the same things the parts of virtue as I do? For I, besides fortitude, call temperance and justice, and certain other such like things, parts of virtue. And do not you also? t",
+   "raw": "Soc.  Do  you,  therefore,  call  the  fame  things  the  parts  of  virtue  as  I  do  ? \nFor  I,  befides  fortitude,  call  temperance  and  juflice,  and  certain  other  fuch \nlike  things,  parts  of  virtue.     And  do  not  you  alfo  ?      t ",
+   "pages": [
+    3
+   ],
+   "line": 9231
+  },
+  {
+   "id": "taylor1804.laches.p0214",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Nic.  Entirely  fo. ",
+   "pages": [
+    3
+   ],
+   "line": 9235
+  },
+  {
+   "id": "taylor1804.laches.p0215",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Attend then: for these things are granted by us. But let us consider concerning things terrible and daring, left you should form one opinion of them, and we another. For we will tell you what we think concerning them; and do you, if you do not accord with us, teach us better. We then think those things to be dreadful which occasion fear, and that those things are daring, or may be dared, which do not occasion fear. Neither, however, past nor present evils occasion fear, but those which are expected: for fear is the expedation of a future evil. Or does it not likewise appear so to you, O Laches?",
+   "raw": "Soc.  Attend  then :  for  thefe  things  are  granted  by  us.  But  let  us  con- \nfider concerning  things  terrible  and  daring,  left  you  fhould  form  one  opinion \nof  them,  and  we  another.  For  we  will  tell  you  what  we  think  concerning \nthem  ;  and  do  you,  if  you  do  not  accord  with  us,  teach  us  better.  We  then \nthink  thofe  things  to  be  dreadful  which  occafion  fear,  and  that  thofe  things \nare  daring,  or  may  be  dared,  which  do  not  occafion  fear.  Neither,  however, \npaft  nor  prefent  evils  occafion  fear,  but  thofe  which  are  expedled  :  for \nfear  is  the  expedation  of  a  future  evil.  Or  does  it  not  likewife  appear  fo  to \nyou,  O  Laches  ? ",
+   "pages": [
+    3
+   ],
+   "line": 9237
+  },
+  {
+   "id": "taylor1804.laches.p0216",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Lac Very much so, Socrates.",
+   "raw": "Lac  Very  much  fo,  Socrates. ",
+   "pages": [
+    3
+   ],
+   "line": 9247
+  },
+  {
+   "id": "taylor1804.laches.p0217",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you, therefore, O Nicias, hear our assertions, that things dreadful are future evils; but that things which may be dared are future goods, or at Icaft are not evils. Do you say this, or something else about these things i",
+   "raw": "Soc.  Do  you,  therefore,  O  Nicias,  hear  our  afTertions,  that  things  dreadful \nare  future  evils ;  but  that  things  which  may  be  dared  are  future  goods,  or  at \nIcaft  are  not  evils.     Do  you  fay  this,  or  fomething  elfe  about  thefe  things  i ",
+   "pages": [
+    3
+   ],
+   "line": 9249
+  },
+  {
+   "id": "taylor1804.laches.p0218",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Nic T say this.",
+   "raw": "Nic  T  fay  this. ",
+   "pages": [
+    3
+   ],
+   "line": 9253
+  },
+  {
+   "id": "taylor1804.laches.p0219",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Soc But do you call the science of these things fortitude?",
+   "raw": "Soc  But  do  you  call  the  fcience  of  thefe  things  fortitude  ? ",
+   "pages": [
+    3
+   ],
+   "line": 9255
+  },
+  {
+   "id": "taylor1804.laches.p0220",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Nic I do.",
+   "raw": "Nic  I  do. ",
+   "pages": [
+    3
+   ],
+   "line": 9257
+  },
+  {
+   "id": "taylor1804.laches.p0221",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Let us then still further consider whether a third thing appears the same to you as to us.",
+   "raw": "Soc.  Let  us  then  ftill  further  confider  whether  a  third  thing  appears  the \nfame  to  you  as  to  us. ",
+   "pages": [
+    3
+   ],
+   "line": 9259
+  },
+  {
+   "id": "taylor1804.laches.p0222",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Nic What is that? Soc. I will tell you. For it appears to me and Laches, that of whatever things there is science, there is not one science of a thing which is past, by -which we know that it was made, another concerning things present, by which we know that they are made, and another concerning that which is not yet made, by which we know that it may and will be made in the most beautiful manner; but to know all these is the province of the same science. Thus, for instance, with respect to that which is falubrious at all times, there is no other science than medicine, which being one and the same, sees what has-been, what is, and what will be falubrious. And agriculture subsists in a limilar manner with respect to things which grow out of the earth. Thus too, in warlike concerns, you yourselves can testify that the science of commanding an army, provides in the most beautiful' manner for other things and for what will happen in future. For this art does not think it fit that it should be fubfervent to divhiation, but preside over it, as better knowing things which do and will take place about wars. And the law also orders this, not that the diviner shall command the general, but that the general shall command the diviner. Shall we affertthefe things, O Laches?",
+   "raw": "Nic  What  is  tliat  ? \nSoc.  I  will  tell  you.  For  it  appears  to  me  and  Laches,  that  of  whatever \nthings  there  is  fcience,  there  is  not  one  fcience  of  a  thing  which  is  paft,  by \n-which  we  know  that  it  was  made,  another  concerning  things  prefent,  by \nwhich  we  know  that  they  are  made,  and  another  concerning  that  which  is \nnot  yet  made,  by  which  we  know  that  it  may  and  will  be  made  in  the  moft \nbeautiful  manner  ;  but  to  know  all  thcfe  is  the  province  of  the  fame  fcience. \nThus,  for  inftance,  with  refped  to  that  which  is  falubrious  at  all  times,  there  is \nno  other  fcience  than  medicine,  which  being  one  and  the  fame,  fees  what  has- \nbeen,  what  is,  and  what  will  be  falubrious.  And  agriculture  fubfifts  in  a \nlimilar  manner  with  refped  to  things  which  grow  out  of  the  earth.  Thus \ntoo,  in  warlike  concerns,  you  yourfelves  can  teftify  that  the  fcience  of  com- \nmanding an  army,  provides  in  the  moft  beautiful' manner  for  other  things  and \nfor  what  will  happen  in  future.  For  this  art  does  not  think  it  fit  that  it  fliould \nbe  fubfervent  to  divhiation,  but  prefide  over  it,  as  better  knowing  things \nwhich  do  and  will  take  place  about  wars.  And  the  law  alfo  orders  this,  not \nthat  the  diviner  fhall  command  the  general,  but  that  the  general  fhall  com- \nmand the  diviner.     Shall  we  affertthefe  things,  O  Laches  ? ",
+   "pages": [
+    3,
+    4
+   ],
+   "line": 9262
+  },
+  {
+   "id": "taylor1804.laches.p0223",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "We must assert them.",
+   "raw": "Lac.  We  muft  affert  them. ",
+   "pages": [
+    4
+   ],
+   "line": 9287
+  },
+  {
+   "id": "taylor1804.laches.p0224",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? Do you agree with us, O Nicias, that it is the province of the same science to possess a knowledge of the same things, whether they beconfidered as past, or as present, or as future?",
+   "raw": "Soc.  But  what  ?  Do  you  agree  with  us,  O  Niclas,  that  it  is  the  province  of \nthe  fame  fcience  to  poffefs  a  knowledge  of  the  fame  things,  whether  they  be- \nconfidered  as  paft,  or  as  prefent,  or  as  future  ? ",
+   "pages": [
+    4
+   ],
+   "line": 9289
+  },
+  {
+   "id": "taylor1804.laches.p0225",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "I do: for thus it appears to me, O Socrates.",
+   "raw": "Nic.  I  do  :  for  thus  it  appears  to  me,  O  Socrates. ",
+   "pages": [
+    4
+   ],
+   "line": 9293
+  },
+  {
+   "id": "taylor1804.laches.p0226",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is not, therefore, O bed of men,, fortitude, as you say, the fcienceof things dreadful and daring?",
+   "raw": "Soc.  Is  not,  therefore,  O  bed  of  men,,  fortitude,  as  you  fay,  the  fcience- \nof  things  dreadful  and  daring  ? ",
+   "pages": [
+    4
+   ],
+   "line": 9295
+  },
+  {
+   "id": "taylor1804.laches.p0227",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Nic.  It  is. ",
+   "pages": [
+    4
+   ],
+   "line": 9298
+  },
+  {
+   "id": "taylor1804.laches.p0228",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But it has been acknowledged that things dreadful are future evils„ and things daring future goods.",
+   "raw": "Soc.  But  it  has  been  acknowledged  that  things  dreadful  arc  future  evils„ \nand  things  daring  future  goods. ",
+   "pages": [
+    4
+   ],
+   "line": 9300
+  },
+  {
+   "id": "taylor1804.laches.p0229",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Entirely so.",
+   "raw": "Nic.  Entirely  fo. ",
+   "pages": [
+    4
+   ],
+   "line": 9303
+  },
+  {
+   "id": "taylor1804.laches.p0230",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But the same science has a knowledge of things pact:, present, and; futu e.",
+   "raw": "Soc.  But  tlie  fame  fcience  has  a  knowledge  of  things  pad:,  prefent,  and; \nfutu  e. ",
+   "pages": [
+    4
+   ],
+   "line": 9305
+  },
+  {
+   "id": "taylor1804.laches.p0231",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "It has.",
+   "raw": "Nic.  It  has. ",
+   "pages": [
+    4
+   ],
+   "line": 9308
+  },
+  {
+   "id": "taylor1804.laches.p0232",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Fortitude, therefore, is not only the science of things dreadful and daring: for it not only has a knowledge of future goods and evils, but also €1 such as are pist and present and m short it surveys all things like the other tciences.",
+   "raw": "Soc.  Fortitude,  therefore,  i^  not  only  the  fcience  of  things  dreadful  and \ndaring  :  for  it  not  only  has  a  knowledge  of  future  goods  and  evils,  but  alfo \n€1  iuch  as  are  pi^fl  and  prefent  and  m  fhort  it  furveys  all  things  like  the \nother  tciences.-  '^ ",
+   "pages": [
+    4
+   ],
+   "line": 9310
+  },
+  {
+   "id": "taylor1804.laches.p0233",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "So it seems.",
+   "raw": "Nic.  So  it  feems. ",
+   "pages": [
+    5
+   ],
+   "line": 9318
+  },
+  {
+   "id": "taylor1804.laches.p0234",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You have, therefore, O Nicias, only defined to us in your answer the third part of fortitude, though we asked you what the whole of fortitude is. And now, as it seems, according to your assertion, fortitude is not only the science of things dreadful and daring, but nearly of all good and evil, and in short of all things, from your argument, in whatever manner they may subsist:. Do you thus determine, or how do you say, O Nicias?",
+   "raw": "Soc.  You  have,  therefore,  O  Nicias,  only  defined  to  us  in  your  anfwer  the \nthird  part  of  fortitude,  though  we  aiked  you  what  the  whole  of  fortitude  is. \nAnd  now,  as  it  feems,  according  to  your  aflertion,  fortitude  is  not  only  the \nfcience  of  things  dreadful  and  daring,  but  nearly  of  all  good  and  evil,  and \nin  fhort  of  all  things,  from  your  argument,  in  whatever  manner  they  may \nfubfifl:.     Do  you  thus  determine,  or  how  do  you  fay,  O  Nicias? ",
+   "pages": [
+    5
+   ],
+   "line": 9320
+  },
+  {
+   "id": "taylor1804.laches.p0235",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "To me it appears to be so, O Socrates.",
+   "raw": "Nic,  To  me  it  appears  to  be  fo,  O  Socrates. ",
+   "pages": [
+    5
+   ],
+   "line": 9327
+  },
+  {
+   "id": "taylor1804.laches.p0236",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Does then such a virtue as this appear to you, O blessed man, to be deficient in any respect, if it knows all goods, and in what manner they have been, are, and will be produced, and in the same manner as to evils? And do you think that he is indigent of temperance, or justice, or piety, to whom alone it belongs to be cautious with respect to such things as are dreadful and such as are not, both concerning*gods and men; who also knows how to ob« tain what is good, and to associate in a proper manner with others I",
+   "raw": "Soc.  Does  then  fuch  a  virtue  as  this  appear  to  you,  O  bleffed  man,  to  be \ndeficient  in  any  refpe61,  if  it  knows  all  goods,  and  in  what  manner  they  have \nbeen,  are,  and  will  be  produced,  and  in  the  fame  manner  as  to  evils  ?  And \ndo  you  think  that  he  is  indigent  of  temperance,  or  juftice,  or  piety,  to  whom \nalone  it  belongs  to  be  cautious  with  refped  to  fuch  things  as  are  dreadful  and \nfuch  as  are  not,  both  concerning*gods  and  men  ;  who  alfo  knows  how  to  ob« \ntain  what  is  good,  and  to  affociate  in  a  proper  manner  with  others  I ",
+   "pages": [
+    5
+   ],
+   "line": 9329
+  },
+  {
+   "id": "taylor1804.laches.p0237",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "You appear to me, O Socrates, to say something,",
+   "raw": "Nic.  You  appear  to  me,  O  Socrates,  to  fay  fomething, ",
+   "pages": [
+    5
+   ],
+   "line": 9337
+  },
+  {
+   "id": "taylor1804.laches.p0238",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "That therefore, O Nicias, which is now adduced by you, will not be a part of virtue, but all virtue*",
+   "raw": "Soc.  That  therefore,  O  Nicias,  which  is  now  adduced  by  you,  will  not  be \na  part  of  virtue,  but  all  virtue* ",
+   "pages": [
+    5
+   ],
+   "line": 9339
+  },
+  {
+   "id": "taylor1804.laches.p0239",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "So it feems*",
+   "raw": "Nic.  So  it  feems* ",
+   "pages": [
+    5
+   ],
+   "line": 9342
+  },
+  {
+   "id": "taylor1804.laches.p0240",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nevertheless we said that fortitude is one of the parts of virtue*",
+   "raw": "Soc.  Neverthelefs  we  faid  that  fortitude  is  one  of  the  parts  of  virtue* ",
+   "pages": [
+    5
+   ],
+   "line": 9344
+  },
+  {
+   "id": "taylor1804.laches.p0241",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "We did say so.",
+   "raw": "Nic.  We  did  fay  fo. ",
+   "pages": [
+    5
+   ],
+   "line": 9346
+  },
+  {
+   "id": "taylor1804.laches.p0242",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But that which is now said does not appear to be a part of virtue..",
+   "raw": "Soc.  But  that  which  is  now  faid  does  not  appear  to  be  a  part  of  virtue.. ",
+   "pages": [
+    5
+   ],
+   "line": 9348
+  },
+  {
+   "id": "taylor1804.laches.p0243",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "It does not.",
+   "raw": "Nic.   It  does  not. ",
+   "pages": [
+    5
+   ],
+   "line": 9350
+  },
+  {
+   "id": "taylor1804.laches.p0244",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "We have not, therefore, O Nicias, discovered what fortitude is.",
+   "raw": "Soc.  We  have  not,  therefore,  O  Nicias,  difcovered  what  fortitude  is. ",
+   "pages": [
+    5
+   ],
+   "line": 9352
+  },
+  {
+   "id": "taylor1804.laches.p0245",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "It does not appear that we have.",
+   "raw": "Nic.   It  does  not  appear  that  we  have. ",
+   "pages": [
+    5
+   ],
+   "line": 9354
+  },
+  {
+   "id": "taylor1804.laches.p0246",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "And yet I should have thought, my dear Nicias, that you would have discovered it, by your contempt of me when I answered Socrates. And therefore I had very great hope that you would have discovered it from the wii^ dem of Damon.",
+   "raw": "Lac.  And  yet  I  fhould  have  thought,  my  dear  Nicias,  that  you  would  have \ndifcovered  it,  by  your  contempt  of  me  when  I  anfwered  Socrates.  And  there- \nfore I  had  very  great  hope  that  you  would  have  difcovered  it  from  the  wii^ \ndom  of  Damon. ",
+   "pages": [
+    5
+   ],
+   "line": 9356
+  },
+  {
+   "id": "taylor1804.laches.p0247",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "Excellent indeed, O Laches, that you should think it a thing of no coniequencc, that you just now appeared to know nothing about fortitude;, but should be alone concerned that I also may appear to be as ignorant as yourself: and as it fccms you ire fatisfieJ, it Les well as you am ignorant of things, of which it bc:';aics him to have a knowledge who wiihcb lo he a man of any confcq^ucnce. You therefore appear to me toact in /cality after the manner of men, because you do not at all look to yourself but to others. I think, however, that I have spoken tolerably well on this subject; and if any thing that I have asserted is defective, I shall afterwards corre(f\\: it, and this with the assistance of Damon, whom you think proper to deride, though you have never seen him. I shall also do this by calling iii the aid of others: and when I have obtained a firm conviction of these things, I will likewise instruct you without envy; for you appear to me to be in very great want of infl:ru6lion.",
+   "raw": "Nic.  Excellent  indeed,  O  Laches,  that  you  fhould  think  it  a  thing  of  no \nconiequencc,  that  you  jufl  now  appeared  to  know  nothing  about  fortitude ;, \nbut  fhould  be  alone  concerned  that  I  alfo  may  appear  to  be  as  ignorant  as  your- \nfelf:  and  as  it  fccms  you  ire  fatisfieJ,  it  Las  well  as  you  am  ignorant  of \nthings,  of  which  it  bc:';aics  him  to  have  a  knowledge  who  wiihcb  lo  he \na  man  of  any  confcq^ucnce.      You  therefore  appear  to   me  toact  in /cality \nafter  the  manner  of  men,  becaufe  you  do  not  at  all  look  to  yourfclf  but  to \nothers.  I  think,  however,  that  I  have  fpoken  tolerably  well  on  this  fubjecl ; \nand  if  any  thing  that  I  have  alTerted  is  defedive,  I  fhall  afterwards  corre(f\\: \nit,  and  this  with  the  afTiftance  of  Damon,  whom  you  think  proper  to \nderide,  though  you  have  never  feen  him.  I  fhall  alfo  do  this  by  calling  iii \nthe  aid  of  others  :  and  when  I  have  obtained  a  firm  convidion  of  thefe  things, \nI  will  likewife  inftrud  you  without  envy ;  for  you  appear  to  me  to  be  in \nvery  great  want  of  infl:ru6lion. ",
+   "pages": [
+    5,
+    206
+   ],
+   "line": 9361
+  },
+  {
+   "id": "taylor1804.laches.p0248",
+   "kind": "paragraph",
+   "label": "Lac",
+   "translator": "Thomas Taylor",
+   "text": "You are indeed wise, O Nicias: but, at the same time, I advise Lysimachus here and Melesias to bid farewell to you and me concerning the education of youth; but not to dismiss this Socrates, as I said from the firil: for I would thus act, if my children were of a proper age.",
+   "raw": "Lac.  You  are  indeed  wife,  O  Nicias :  but,  at  the  fame  time,  I  advife \nLyfimachus  here  and  Melefias  to  bid  farewell  to  you  and  me  concerning  the \neducation  of  youth;  but  not  to  difmifs  this  Socrates,  as  I  faid  from  the  firil : \nfor  I  would  thus  adt,  if  my  children  were  of  a  proper  age. ",
+   "pages": [
+    206
+   ],
+   "line": 9380
+  },
+  {
+   "id": "taylor1804.laches.p0249",
+   "kind": "paragraph",
+   "label": "Nic",
+   "translator": "Thomas Taylor",
+   "text": "I also grant you, that if Socrates is willing to take the lads under his care, no other person should be sought after. Indeed, I should most gladly send Niceratus to him, if he were willing; but when I say any thing to him on this fubje<5l, he recommends others to me, and is unwilling to un^iertake this office himself. But see, O Lysimachus, whether Sucrates will more willingly comply with your request.",
+   "raw": "Nic.  I  alfo  grant  you,  that  if  Socrates  is  willing  to  take  the  lads  under  his \ncare,  no  other  perfon  fhould  be  fought  after.  Indeed,  I  (hould  moft  gladly \nfend  Niceratus  to  him,  if  he  were  willing ;  but  when  1  fay  any  thing  to  him \non  this  fubje<5l,  he  recommends  others  to  me,  and  is  unwilling  to  un^iertake \nthis  office  himfelf.  But  fee,  O  Lyfimachus,  whether  Sucrates  will  more \nwillingly  comply  with  your  requeft. ",
+   "pages": [
+    206
+   ],
+   "line": 9385
+  },
+  {
+   "id": "taylor1804.laches.p0250",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "It is jull:, O Nicias, since I also am willing to do many things for him, which I should not be very willing to do for many others. What then do you say, O Socrates? Will you comply with our request, and will you take charge of these lads, so that they may become mofi: excellent charade rs?",
+   "raw": "Lys.  It  is  jull:,  O  Nicias,  fince  I  alfo  am  willing  to  do  many  things  for \nhim,  which  I  fhould  not  be  very  willing  to  do  for  many  others.  What \nthen  do  you  fay,  O  Socrates?  Will  you  comply  with  our  requeft,  and  will \nyou  take  charge  of  thefe  lads,  fo  that  they  may  become  mofi:  excellent  cha- \nrade rs  ? ",
+   "pages": [
+    206
+   ],
+   "line": 9392
+  },
+  {
+   "id": "taylor1804.laches.p0251",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "It would certainly be a dreadful thing, O Lysimachus, not to be willing to endeavour that they may become most: worthy. If, therefore, in the preceding conference, I have appeared to be skilful, but the other persons of the dialogue not, it will be just to call me especially to this employment; but now, fmce we are all similarly involved in doubt, which of us ought to be preferred? To me indeed it seems that no one of us should have the preference. And fmce this is the case, consider whether I appear to advise you rightly: for I say it is requisite, O men, (since our conference is only among ourselves,) that we should all of us in common inquire, in the first place, after the best master for ourselves, for we stand in need of one; and in. the next place for these lads, sparing neither money nor any thing else; but I shall not advise our continuing in the condition in which we now are. And if any one should deride us for applying to teachers at theft years, it appears to me that it will be proper to adduce Homer ', who says,",
+   "raw": "Soc.  It  would  certainly  be  a  dreadful  thing,  O  Lyfimachus,  not  to  be \nwilling  to  endeavour  that  they  may  become  mofl:  worthy.  If,  therefore,  in \nthe  preceding  conference,  I  have  appeared  to  be  fkilful,  but  the  other  per- \nfons  of  the  dialogue  not,  it  will  be  jufl  to  call  me  efpecially  to  this  employ- \nment ;  but  now,  fmce  we  are  all  fimilarly  involved  in  doubt,  which  of  us \nought  to  be  preferred  ?  To  me  indeed  it  feems  that  no  one  of  us  fhould  have  the \npreference.  And  fmce  this  is  the  cafe,  confider  whether  I  appear  to  advife \nyou  rightly  :  for  I  fay  it  is  requifite,  O  men,  ((ince  our  conference  is  only \namong  ourfelves,)  that  we  fhould  all  of  us  in  common  inquire,  in  the  firfl \nplace,  after  the  beft  mafler  for  ourfelves,  for  we  fland  in  need  of  one  ;  and  in. \nthe  next  place  for  thefe  lads,  fparing  neither  money  nor  any  thing  elfe  ;  but \nI  fhall  not  advife  our  continuing  in  the  condition  in  which  we  now  arc.  And \nif  any  one  (hould  deride  us  for  applying  to  teachers  at  theft  years,  it  appears \nto  me  that  it  will  be  proper  to  adduce  Homer  ',  who  fays, ",
+   "pages": [
+    206,
+    107
+   ],
+   "line": 9398
+  },
+  {
+   "id": "taylor1804.laches.p0252",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "\" Shame ill -accompanies a man in need.*'",
+   "raw": "\"  Shame  ill -accompanies  a  man  in  need.*' ",
+   "pages": [
+    107
+   ],
+   "line": 9419
+  },
+  {
+   "id": "taylor1804.laches.p0253",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "We therefore, bidding farewell to reproach, will pay attention in common^ to ourselves and the lads.",
+   "raw": "We  therefore,  bidding  farewell  to  reproach,  will  pay  attention  in  common^ \nto  ourfelves  and  the  lads. ",
+   "pages": [
+    107
+   ],
+   "line": 9421
+  },
+  {
+   "id": "taylor1804.laches.p0254",
+   "kind": "paragraph",
+   "label": "Lys",
+   "translator": "Thomas Taylor",
+   "text": "What you say, Socrates, pleases me;^and by how much the older lam, by so much the more readily shall I desire to learn together with the youths. Do then as you have said: come to-morrow morning early to my house without fail, that we may consult about these very things: for it is now time that we should diflblve this conference.",
+   "raw": "Lys.  What  you  fay,  Socrates,  pleafes  me  ;^and  by  how  much  the  older  lam, \nby  fb  much  the  more  readily  fhall  I  defire  to  learn  together  with  the  youths.  Do \nthen  as  you  have  faid  :  come  to-morrow  morning  early  to  my  houfe  without \nfail,  that  we  may  confult  about  thefe  very  things:  for  it  is  now  time  that \nwe  fhould  diflblve  this  conference. ",
+   "pages": [
+    107
+   ],
+   "line": 9424
+  },
+  {
+   "id": "taylor1804.laches.p0255",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I will do these things, O Lysimachus; and, if it please God, I will be with you to-morrow morning. In the 17 th book of the Odyssey.",
+   "raw": "Soc.  I  will  do  thefe  things,  O  Lyfimachus  ;  and,  if  it  pleafe  God,  I  will  be \nwith  you  to-morrow  morning. \n'  In  the  17  th  book  of  the  Odyfley. ",
+   "pages": [
+    107,
+    108
+   ],
+   "line": 9430
+  }
+ ],
+ "notes": [
+  {
+   "text": "We have already observed, in the introdiKaion to the Parmenides, that the dialectic energy it triple; either subsisting through opposite arguments, or alone unfolding truth, or alone confuting falsehood. As the design of the prelent dialogue, therefore, is to confute the false opinions of Laches and Nicias concerning fortitude, and thus to liberate them from two-fold ignorance,, the reader must not expect to find in it an accurate definition of fortitude. As, however, he will douhilefs be anxious to obtain this definition, I shall present him with the luminous conceptions of the divine Jamblichus on this subject.",
+   "raw": "«  We  have  already  obferved,  in  the  introdiKaion  to  the  Parmenides,  that  the  dialectic  energy  it \ntriple;  either  fubfifting  through  oppofite  arguments,  or  alone  unfolding  truth,  or  alone  confuting \nfalfehood.  As  the  dcfign  of  the  prelent  dialogue,  therefore,  is  to  confute  the  falfc  opinions  of \nLaches  and  Nicias  concerning  fortitude,  and  thus  to  liberate  them  from  two-fold  ignorance,,  the \nreader  muft  not  expc6l  to  find  in  it  an  accurate  definition  of  fortitude.  As,  however,  he  will \ndouhilefs  be  anxious  to  obtain  this  definition,  1  fhail  prefent  him  with  the  luminous  conceptions \nof  the  divine  Jamblichus  on  this  fubjedl. ",
+   "page": 181,
+   "line": 8035,
+   "in": "taylor1804.laches.p0004",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n001",
+   "signed": null
+  },
+  {
+   "text": "Fortitude, considered according t(» its mod principal subsistence, is an immutable intelleflual power, and a most vigorous intelledual energy; or, in other words, it is a sameness and stable habit of intelle(^l in iiielf. And of this kind will the species of fortitude be, which are beheld about life, whether they are considered as fiil)filting by themselves, or as imparting their strength to the firm (lability of reasoning. But from these, those species of fortitude proceed, which are seen in the paflfions, about things dreadful and the contrary, and in fpr and boldness;. which generously refid pleasure and pain, and always preserve the same right opinions, and commensurate and moderate manners. In common with these, manifold species of fortitude arise from passion, reason, and free deliberation, through which human life derives a st renuoufncfs of action, incapable of being subdued. This strenuous energy likewise voluntarily performs whatever is beautiful, and to be chosen for its own sake; and for the sake of good, endures all labours and dangers. It alio cheerfully and readily gives itself to things which appear to be difficult; boldly encounters and meditates on death; and easily bears pain and calamity of every kind.",
+   "raw": "Fortitude,  confidered  according  t(»  its  mod  principal  fubfiflence,  is  an  immutable  intelleflual \npower,  and  a  moft  vigorous  intelledual  energy  ;  or,  in  other  word^-,  it  is  a  famenefs  and  (table \nhabit  of  intelle(^l  in  iiielf.  And  of  this  kind  will  the  fpecies  of  fortitude  be,  which  are  beheld \nabout  life,  whether  they  are  confidered  as  fiil)filting  by  themfelves,  or  as  imparting  their  ftrength \nto  the  firm  (lability  of  reafoning.  But  from  thefe,  thofe  fpecies  of  fortitude  proceed,  which  are \nfecn  in  the  paflfions,  about  things  dreadful  and  the  contrary,  and  in  fpr  and  boldnefs;.  which  gene- \nroufly  refid  pleafure  and  pain,  and  always  preferve  the  fame  right  opinions,  and  commenfurate \nand  moderate  manners.  In  common  with  thefc,  manifold  fpecies  of  fortitude  arife  from  paffion, \nreafon,  and  free  deliberation,  through  which  human  life  derives  a  ft renuoufncfs  of  action,  incapa- \nble of  being  fubdued.  This  ftrenuous  energy  likewife  voluntarily  performs  whatever  is  beautiful, \nand  to  be  chofen  for  its  own  fake  ;  and  for  the  fake  of  good,  endures  ali  labours  and  dangers.  It \nalio  cheerfully  and  readily  gives  itfelf  to  things  which  appear  to  be  difficult;  boldly  encounters \nand  meditates  on  death;  and  eafily  bears  pain  and  calamity  of  every  kind. ",
+   "page": 181,
+   "line": 8043,
+   "in": "taylor1804.laches.p0004",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n002",
+   "signed": null
+  },
+  {
+   "text": "This Dialogue is supposed to hav,e been written soon after the defeat of the Athenians at Delium, which happened in the first year of ihc 89th Olympiad,",
+   "raw": "This  Dialogue  is  fuppofed  to  hav,e  been  written  foon  after  the  defeat  of  the  Athenians  at \nDelium,  which  happened  in  the  firft  year  of  ihc  89th  Olympiad, ",
+   "page": 181,
+   "line": 8057,
+   "in": "taylor1804.laches.p0004",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n003",
+   "signed": null
+  },
+  {
+   "text": ".» The son of Aristides the Just.",
+   "raw": ".»  The  fon  of  Ariftides  the  Jnft. ",
+   "page": 181,
+   "line": 8060,
+   "in": "taylor1804.laches.p0004",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n004",
+   "signed": null
+  },
+  {
+   "text": "iThe general of the Athenians.",
+   "raw": "iThe  general  of  the  Athenians. ",
+   "page": 181,
+   "line": 8062,
+   "in": "taylor1804.laches.p0004",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n005",
+   "signed": null
+  },
+  {
+   "text": "Another Athenian general.",
+   "raw": "^  Another  Athenian  general. ",
+   "page": 181,
+   "line": 8064,
+   "in": "taylor1804.laches.p0004",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n006",
+   "signed": null
+  },
+  {
+   "text": "It is well obCcrved by Dacier, that this fightuig in armour appears to have been similar to the exercise which is at prcTent taught in fenciiio; schools.",
+   "raw": "'  It  is  well  obCcrved  by  Dacier,  that  this  fightuig  in  armour  appears  to  have  been  fimilar  to  the \nexercife  which  is  at  prcTent  taught  in  fenciiio;  (chools. ",
+   "page": 182,
+   "line": 8104,
+   "in": "taylor1804.laches.p0005",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n007",
+   "signed": null
+  },
+  {
+   "text": "In the original fxapumaj uhicli seems to corrcfpond to our English word /aJs. For according to the anonymous Greek interpreter of Prolemy's books De Judiciis, p. 1 66, the seven ages of nian iirc ^piipo^i 'xx-.s, fA.sipaHto'.', ^£o?, avr.p, 7rccj^yrr,<;, yepuv. i. c. an infant^ a boy, a lad, a youth, a man, an elderly man, an old nun.",
+   "raw": "*  In  the  original  fxapumaj  uhicli  feems  to  corrcfpond  to  our  Englifh  word  /aJs.  For  according \nto  the  anonymous  Greek  interpreter  of  Prolemy's  books  De  Judiciis,  p.  1 66,  the  feven  ages  of  nian \niirc  ^piipo^i  'xx-.s,  fA.sipaHto'.',  ^£o?,  avr.p,  7rccj^yrr,<;,  yepuv.  i.  c.  an  infant^  a  boy,  a  lad,  a  youth,  a  man,  an \nelderly  man,  an  old  nun. ",
+   "page": 182,
+   "line": 8107,
+   "in": "taylor1804.laches.p0005",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n008",
+   "signed": null
+  },
+  {
+   "text": "In this battle Socrates saved the life so Xenophon,who fell in confequenccof his horse being ][i11ed under him; and Socrates being on foot, took him on his back and carried him several tniles*",
+   "raw": "'  In  this  battle  Socrates  faved  the  life  fo  Xenophon,who  fell  in  confequenccof  his  horfe  being \n][i11ed  under  him ;  and  Socrates  being  on  foot,  took  him  on  his  back^  and  carried  him  feveral \ntniles* ",
+   "page": 182,
+   "line": 8199,
+   "in": "taylor1804.laches.p0013",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n009",
+   "signed": null
+  },
+  {
+   "text": "ThuSj in the above Instance of the bridle and the horse, the horse is that for the sake of whicl^ a man considers about a bridle 3 but the bridle is that which is sought for the sake of the horse.",
+   "raw": "*  ThuSj  in  the  above  Inftance  of  the  bridle  and  the  horfe,  the  horfe  is  that  for  the  fake  of \nwhicl^  a  man  confiders  about  a  bridle  3  but  the  bridle  is  that  which  is  fought  for  the  fake  of  the \nhorfe. ",
+   "page": 187,
+   "line": 8431,
+   "in": "taylor1804.laches.p0029",
+   "anchor": "note mark",
+   "id": "taylor1804.laches.n010",
+   "signed": null
+  },
+  {
+   "text": "This is said of those that engage in perilous concerns, and in the affairs of others, when they are attended with danger. * See this explained in a note on the Gorgias,",
+   "raw": "'  This  is  faid  of  thofe  that  engage  in  perilous  concerns,  and  in  the  affairs  of  others,  when  they \nare  attended  with  danger. \n*  See  this  explained  in  a  note  on  the  Gorgias, ",
+   "page": 189,
+   "line": 8524,
+   "in": "taylor1804.laches.p0050",
+   "anchor": "note mark",
+   "id": "taylor1804.laches.n011",
+   "signed": null
+  },
+  {
+   "text": "The Tonic harmony was effeminate and soft; the Lydian was doleful and adapted to lamentation; the Phrygian vehement, and capable of producing ecftaly, and on this account Proclus-informs us that il was iifed in the mysteries; and the Dorian was grave and mafcuHne, and oni tthii^ account was jjrtferred. by Plato to all the rest. See the third book of the Republic..",
+   "raw": "»  The  Tonic  harmony  was  effeminate  and  foft;  the  Lydian  was  doleful  and  adapted  to  lamenta- \ntion ;  the  Phrygian  vehement,  and  capable  of  producing  ecftaly,  and  on  this  account  Proclus- \ninforms  us  that  il  was  iifed  in  the  myflcries;  and  the  Dorian  was  grave  and  mafcuHne,  and  oni \ntthii^  account  was  jjrtferred.  by  Plato  to  all  the  reft.     Soe  the  third  book  of  the  Republic.. ",
+   "page": 191,
+   "line": 8609,
+   "in": "taylor1804.laches.p0055",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n012",
+   "signed": null
+  },
+  {
+   "text": "fill.",
+   "raw": "iill. ",
+   "page": 191,
+   "line": 8614,
+   "in": "taylor1804.laches.p0055",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n013",
+   "signed": null
+  },
+  {
+   "text": "Xhefe were Perfun troops armed with bucklers of willows.",
+   "raw": "'  Xhefe  were  Perfun  troops  armed  with  bucklers  of  willows. ",
+   "page": 194,
+   "line": 8766,
+   "in": "taylor1804.laches.p0089",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n014",
+   "signed": null
+  },
+  {
+   "text": "This Lammachus was general of the Alhenians, with Kicias and Alcibiadcs, in the expc<liUon.of Sicily, where he. was killed..",
+   "raw": "^  This  Lammachus  was  general  of  the  Alhenians,  with  Kicias  and  Alcibiadcs,  in  the  expc- \n<liUon.of  Sicily,  where  he.  was  killed.. ",
+   "page": 202,
+   "line": 9204,
+   "in": "taylor1804.laches.p0206",
+   "anchor": "same page",
+   "id": "taylor1804.laches.n015",
+   "signed": null
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 22,
+  "notes": 15,
+  "running heads removed": 28,
+  "paragraphs run on across a page": 25,
+  "words joined across lines": 73,
+  "note marks removed": 6,
+  "speeches": 216
+ }
+}

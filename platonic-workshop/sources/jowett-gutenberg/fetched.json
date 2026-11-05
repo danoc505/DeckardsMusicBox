@@ -1,0 +1,135 @@
+{
+ "pg1571.txt": {
+  "bytes": 75789,
+  "fetched_at": "2026-11-05T06:58:36+00:00",
+  "sha256": "4aad577c3e6f97fd30458026417a3ff0cd7569889e2d4fc1aa93bb331ee25e76",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1571/pg1571.txt"
+ },
+ "pg1572.txt": {
+  "bytes": 475689,
+  "fetched_at": "2026-11-05T06:58:33+00:00",
+  "sha256": "4f839b423198a80be946aeb7d4b0baef30862d12702a6026b2479be9718342d9",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1572/pg1572.txt"
+ },
+ "pg1579.txt": {
+  "bytes": 87878,
+  "fetched_at": "2026-11-05T06:59:03+00:00",
+  "sha256": "6ad2d81332ba07cf1e55418baf0fb963548a65e9f7c30c21848dc8fe22d70646",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1579/pg1579.txt"
+ },
+ "pg1580.txt": {
+  "bytes": 143818,
+  "fetched_at": "2026-11-05T06:58:58+00:00",
+  "sha256": "215ae680ac0086f18009b563663812046b03f5c04d87f9a76cf896df5127faa9",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1580/pg1580.txt"
+ },
+ "pg1584.txt": {
+  "bytes": 87782,
+  "fetched_at": "2026-11-05T06:59:00+00:00",
+  "sha256": "d3205813ac313991c998bbe84a39f4d115641c5ac880a8562b933f1a87c19417",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1584/pg1584.txt"
+ },
+ "pg1591.txt": {
+  "bytes": 176202,
+  "fetched_at": "2026-11-05T06:59:07+00:00",
+  "sha256": "7eb0299f5b11d13cb96ed1a1822c12c83f627c2488648d2013ac2e81eb5ab3ea",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1591/pg1591.txt"
+ },
+ "pg1598.txt": {
+  "bytes": 136680,
+  "fetched_at": "2026-11-05T06:59:05+00:00",
+  "sha256": "38ea17250f158dfe4ec0398ebde239d4e2b5a47f98ed8616acf60441b0b68556",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1598/pg1598.txt"
+ },
+ "pg1600.txt": {
+  "bytes": 200974,
+  "fetched_at": "2026-11-05T06:58:54+00:00",
+  "sha256": "8b5c599ea734ff0f5e8d83f399dead8c796800897b107c8d53fa909f74a05d6f",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1600/pg1600.txt"
+ },
+ "pg1616.txt": {
+  "bytes": 326450,
+  "fetched_at": "2026-11-05T06:58:40+00:00",
+  "sha256": "e5fe819c38e449ac686945b92aca54f3d4917e04ab1d47c576c54c9072e40acc",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1616/pg1616.txt"
+ },
+ "pg1635.txt": {
+  "bytes": 56012,
+  "fetched_at": "2026-11-05T06:59:09+00:00",
+  "sha256": "a432c98e3a8b3e2e461522dd01b41b904de1e03d55caad50f2f80b8880a13895",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1635/pg1635.txt"
+ },
+ "pg1636.txt": {
+  "bytes": 235362,
+  "fetched_at": "2026-11-05T06:58:56+00:00",
+  "sha256": "ce41cbe9eb5750163ef9084d253d7786d13c24968ae7f5079be3abda53114734",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1636/pg1636.txt"
+ },
+ "pg1687.txt": {
+  "bytes": 221868,
+  "fetched_at": "2026-11-05T06:58:49+00:00",
+  "sha256": "6a87d9c6c9e6526cee0bd0f70eacf1a5a9b3255936137b2029789977869bfd32",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1687/pg1687.txt"
+ },
+ "pg1726.txt": {
+  "bytes": 397545,
+  "fetched_at": "2026-11-05T06:58:42+00:00",
+  "sha256": "3d819c9137f018f31993ea6c340847e73a2e70db665fad5af12d841bcd50dfa8",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1726/pg1726.txt"
+ },
+ "pg1735.txt": {
+  "bytes": 286674,
+  "fetched_at": "2026-11-05T06:58:45+00:00",
+  "sha256": "bd88e451d82d3e519c04ced512d006e51a2076ac0f1a99b1b11cb9b7b28dd1e3",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1735/pg1735.txt"
+ },
+ "pg1738.txt": {
+  "bytes": 252962,
+  "fetched_at": "2026-11-05T06:58:47+00:00",
+  "sha256": "171c09697bde2a26ad7cd4775929e780b0bc218ea47c4b4755cabe437610d3f4",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1738/pg1738.txt"
+ },
+ "pg1744.txt": {
+  "bytes": 286898,
+  "fetched_at": "2026-11-05T06:58:51+00:00",
+  "sha256": "f224a1bdbb919332313d0ffd81341cc580537fa1f05ed70b6dcac7217790149a",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1744/pg1744.txt"
+ },
+ "pg1750.txt": {
+  "bytes": 1364421,
+  "fetched_at": "2026-11-05T06:58:38+00:00",
+  "sha256": "9a6ea73161956a622d0aba13d70b82c076feed7d37d257d26e458671b26dc8c9",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/1750/pg1750.txt"
+ },
+ "pg55201.txt": {
+  "bytes": 1457534,
+  "fetched_at": "2026-11-05T06:58:29+00:00",
+  "sha256": "8a30ff0c9c6384c218e28298aee340fea0fea820f81b59bb63e5f640d27a7460",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/55201/pg55201.txt"
+ },
+ "pg76464.txt": {
+  "bytes": 1318970,
+  "fetched_at": "2026-11-05T06:58:31+00:00",
+  "sha256": "504709b2c61926590988589a33099841fc9b1f77ae18c3cb38bf4f3d49ca1882",
+  "status": 200,
+  "url": "https://www.gutenberg.org/cache/epub/76464/pg76464.txt"
+ }
+}

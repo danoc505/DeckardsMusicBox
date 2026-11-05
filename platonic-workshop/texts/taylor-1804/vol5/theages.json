@@ -1,0 +1,1908 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.theages",
+ "title": "The Theages",
+ "author": "Plato",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804)",
+ "perseus_work": "urn:cts:greekLit:tlg0059.tlg017",
+ "citation": "1804 page on every segment; Stephanus sections are assigned when the library is built (tools/align.py)",
+ "proof_status": "OCR cleaned by rule",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   7279,
+   8004
+  ],
+  "exclude": []
+ },
+ "gap": null,
+ "segments": [
+  {
+   "id": "taylor1804.theages.p0001",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "THE PERSONS OF THE DIALOGUE. DEMODOCUS, SOCRATES, THEAGES.",
+   "raw": "THE   PERSONS   OF  THE  DIALOGUE. \nDEMODOCUS,  SOCRATES,  THEAGES. ",
+   "pages": [
+    161
+   ],
+   "line": 7279
+  },
+  {
+   "id": "taylor1804.theages.p0002",
+   "kind": "persons",
+   "translator": "Thomas Taylor",
+   "text": "DEMODOCUS.",
+   "raw": "DEMODOCUS. ",
+   "pages": [
+    161
+   ],
+   "line": 7283
+  },
+  {
+   "id": "taylor1804.theages.p0003",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "1 WANT, Socrates, to speak with you in private about certain things, if you are at leisure; and if you are not, unless your bufuiefs is of great importance, make leisure for my sake.",
+   "raw": "1  WANT,  Socrates,  to  fpeak  with  you  in  private  about  certain  things,  if \nyou  are  at  leifure  ;  and  if  you  are  not,  unlefs  your  bufuiefs  is  of  great  im- \nportance, make  leifure  for  my  fake. ",
+   "pages": [
+    161
+   ],
+   "line": 7286
+  },
+  {
+   "id": "taylor1804.theages.p0004",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But I am indeed at leisure, and very much at your service. You have my permission therefore to speak, if you wish to say any thing.",
+   "raw": "Soc.  But  I  am  indeed  at  leifure,  and  very  much  at  your  fervice.  You \nhave  my  permiflion  therefore  to  fpeak,  if  you  wifh  to  fay  any  thing. ",
+   "pages": [
+    161
+   ],
+   "line": 7290
+  },
+  {
+   "id": "taylor1804.theages.p0005",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "Are you willing therefore that we should retire from this place into the porch of Jupiter Eleutherius, which is very near?",
+   "raw": "Dem.  Are  you  willing  therefore  that  wc  fliould  retire  from  this  place  into \nthe  porch  of  Jupiter  Eleutherius,  which  is  very  near? ",
+   "pages": [
+    161
+   ],
+   "line": 7293
+  },
+  {
+   "id": "taylor1804.theages.p0006",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If you please.",
+   "raw": "Soc.  If  you  pleafe. ",
+   "pages": [
+    161
+   ],
+   "line": 7296
+  },
+  {
+   "id": "taylor1804.theages.p0007",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "Let us go then, Socrates, All plants, whatever is produced from the earth, other animals, and man, appear to subsist: after the same manner. For in plants this thing is easy to such of us as cultivate the earth, viz. to prepare every thing prior to planting, and the planting itself; but when that which is planted lives, then the attention which the plant requires is great and very difficult. The same thing also appears to take place respecting men. For I form a conjedure of other things from my own affairs. For of this my son, the planting, or the procreating, or whatever else it may be requifitc to call it, is the eaiiefl of all things; but his education is difficult, and occasions one to be in continual fear about him. With refpeft to other things, therefore, much might be said; but thedefire which he now poiTefTes very much terrifies me. It is not indeed ignoble, but it is dangerous. For be desires, Socrates, as he says, to become a wise man. And as it appears to me, certain plebeians of the same a^e with him, coming to this city, and re*",
+   "raw": "Dem.  Let  us  go  then,  Socrates,  All  plants,  whatever  is  produced  from \nthe  earth,  other  animals,  and  man,  appear  to  fubfifl:  after  the  fame  manner. \nFor  in  plants  this  thing  is  eafy  to  fuch  of  us  as  cultivate  the  earth,  viz.  to \nprepare  every  thing  prior  to  planting,  and  the  planting  itfelf ;  but  when  that \nwhich  is  planted  lives,  then  the  attention  which  the  plant  requires  is  great \nand  very  difficult.  The  fame  thing  alfo  appears  to  take  place  refpcding \nmen.  For  1  form  a  conjedure  of  other  things  from  my  own  affairs.  For \nof  this  my  fon,  the  planting,  or  the  procreating,  or  whatever  elfe  it  may \nbe  requifitc  to  call  it,  is  the  eaiiefl  of  all  things  ;  but  his  education  is  difficult, \nand  occafions  one  to  be  in  continual  fear  about  him.  With  refpeft  to  other \nthings,  therefore,  much  might  be  faid  ;  but  thedefire  which  he  now  poiTefTes \nvery  much  terrifies  me.  It  is  not  indeed  ignoble,  but  it  is  dangerous.  For \nbe  defires,  Socrates,  as  he  fays,  to  become  a  wife  man.  And  as  it  appears  to \nme,  certain  plebeians  of  the  fame  a^e  with  him,  coming  to  this  city,  and  re* ",
+   "pages": [
+    161
+   ],
+   "line": 7298
+  },
+  {
+   "id": "taylor1804.theages.p0008",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "yoi. V. y Plating peatipg certain discourses which they have heard, have very much disturbed him. Of these he is emulous, and some time ago was troublesome to me, thinking it fit that I should pay attention to him, and give a sum of money to some one of the f(^phin:s, who might make him a wise man. I am not indeed much concerned about the expense; but I think that the obje6lof his pursuit will lead him into no small danger. Hitherto, therefore, I have re-trained by soothing him; but as I am no longer able to effect this, I have thought it best: to comply with his wishes, left by frequently associating with others without me he Should be corrupted. Hence I am come for this very purpose, that I may place him with some one of those who appear to be sophists. Our meeting with you, therefore, is a fortunate circumstance: for as I am going to engage in affairs of this kind, I wi(h very much to consult you about them. If then you h^ve any advice to give respecting what you have heard from me, it is both lawful and proper for you to give it,",
+   "raw": "yoi-.  V.  y  Plating \npeatipg  certain  difcourfes  which  they  have  heard,  have  very  much  difturbed \nhim.  Of  thefe  he  is  emulous,  and  fomc  time  ago  was  troublefome  to  me, \nthinking  it  fit  that  1  fliould  pay  attention  to  him,  and  give  a  fum  of  money \nto  fome  one  of  the  f(^phin:s,  who  might  make  him  a  wife  man.  I  am  not \nindeed  much  concerned  about  the  expenfe  ;  but  I  think  that  the  obje6lof  his \npurfuit  will  lead  him  into  no  fmall  danger.  Hitherto,  therefore,  I  have  re- \ntrained by  foothing  him;  but  as  I  am  no  longer  able  to  efFed  this,  I  have \nthought  it  befl:  to  comply  with  his  wifhes,  left  by  frequently  affociating  with \nothers  without  me  he  Ihould  be  corrupted.  Hence  I  am  come  for  this  very \npurpofe,  that  I  may  place  him  with  fome  one  of  thofe  who  appear  to  be  fo- \nphifts.  Our  meeting  with  you,  therefore,  is  a  fortunate  circumftance  :  for \nas  1  am  going  to  engage  in  affairs  of  this  kind,  I  wi(h  very  much  to  confult \nyou  about  them.  If  then  you  h^ve  any  advice  to  give  refpeding  what  you \nhave  heard  from  mc,  it  is  both  lawful  and  proper  for  you  to  give  it, ",
+   "pages": [
+    null,
+    162
+   ],
+   "line": 7313
+  },
+  {
+   "id": "taylor1804.theages.p0009",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Counsel, however, O Demodocus, is said to be a sacred thing. If therefore any other thing whatever is sacred, this will be so which is now the object of your consultation: for it is not possible for man to consult about any thing more divine than about the erudition of himself and of those that belong to him. In the first place, therefore, you and I should mutually agree, what we think this thing to be about which we consult; lest I should frequently apprehend it to be one thing, and you another, and afterwards very much dissenting from each other in our conference, we should perceive ourfeives to be ridiculous: I who give, and you who request, advice not agreeing in anyone thing.",
+   "raw": "Soc.  Counfel,  however,  O  Demodocus,  is  faid  to  be  a  facred  thing.  If \ntherefore  any  other  thing  whatever  is  facred,  this  will  be  fo  which  is  now \nthe  objed  of  your  confultation  :  for  it  is  not  poflible  for  man  to  confult \nabout  any  thing  more  divine  than  about  the  erudition  of  himfelf  and  of  thofe \nthat  belong  to  him.  In  the  firft  place,  therefore,  you  and  I  fhould  mutually \nagree,  what  we  think  this  thing  to  be  about  which  we  confult ;  left  I  fhould \nfrequently  apprehend  it  to  be  one  thing,  and  you  another,  and  afterwards \nvery  much  diffenting  from  each  other  in  our  conference,  we  fhould  perceive \nourfeives  to  be  ridiculous  :  I  who  give,  and  you  who  requeft,  advice  not \nagreeing  in  anyone  thing. ",
+   "pages": [
+    162
+   ],
+   "line": 7333
+  },
+  {
+   "id": "taylor1804.theages.p0010",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "You appear to me, Socrates, to speak rightly, and it is proper so to do.",
+   "raw": "Dem.  You  appear  to  me,  Socrates,  to  fpeak  rightly,  and  it  is  proper  fo  to \ndo.  '  • ",
+   "pages": [
+    162
+   ],
+   "line": 7344
+  },
+  {
+   "id": "taylor1804.theages.p0011",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I do say right, and yet not entirely, since I make an alteration in a certain trifling particular: for I am thinking that perhaps this youth may not desire that which we think he desires, but something else. And if something else is the object of his wishes, we shall act absurdly in consulting about that which is different from them. It appears therefore to me to be most right to begin by inquiring of him what it is which he desires.",
+   "raw": "Soc.  I  do  fay  right,  and  yet  not  entirely,  fince  I  make  an  alteration  in  a \ncertain  trifling  particular  :  for  I  am  thinking  that  perhaps  this  youth  may \nnot  defire  that  which  we  think  he  defires,  but  fomething  elfe.  And  if  fome- \nthing  elfe  is  the  obje6t  of  his  wifhes,  we  fhall  a6t  abfurdly  in  confulting  about \nthat  which  is  different  from  them.  It  appears  therefore  to  me  to  be  mofl \nright  to  begin  by  inquiring  of  him  what  it  is  which  he  defires. ",
+   "pages": [
+    162
+   ],
+   "line": 7347
+  },
+  {
+   "id": "taylor1804.theages.p0012",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "It appears indeed, as you say, to be best to do so.",
+   "raw": "Dem.  It  appears  indeed,  as  you  fay,  to  be  befl  to  do  fo. ",
+   "pages": [
+    162
+   ],
+   "line": 7354
+  },
+  {
+   "id": "taylor1804.theages.p0013",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But tell me what the name is of this fine youth: what must we call hi.n?",
+   "raw": "Soc.  But  tell  me  what  the  name  is  of  this  fine  youth :  what  muft  we  call \nhi.n? ",
+   "pages": [
+    162
+   ],
+   "line": 7356
+  },
+  {
+   "id": "taylor1804.theages.p0014",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "His name, Socrates, is Theages.",
+   "raw": "Dem.  His  name,  Socrates,  is  Theages. ",
+   "pages": [
+    163
+   ],
+   "line": 7364
+  },
+  {
+   "id": "taylor1804.theages.p0015",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You have given to your Ton, O Demodocus, a beautiful and sacred name. But tell us, O Theages, do you say that you desire to become a wise man, and do you think it is fit that this your father should find out a man, who by associating with you may make you wise.",
+   "raw": "Soc.  You  have  given  to  your  Ton,  O  Demodocus,  a  beautiful  and  facred \nname.  But  tell  us,  O  Theages,  do  you  fay  that  you  defire  to  become  a  wife \nman,  and  do  you  think  it  is  fit  that  this  your  father  fhould  find  out  a  man, \nwho  by  afTociating  with  you  may  make  you  wife. ",
+   "pages": [
+    163
+   ],
+   "line": 7366
+  },
+  {
+   "id": "taylor1804.theages.p0016",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Thea.  I  do. ",
+   "pages": [
+    163
+   ],
+   "line": 7371
+  },
+  {
+   "id": "taylor1804.theages.p0017",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But whether do you call those men wise, who are scientifically knowing, whatever that may be about which they possess this knowledge; or do you call those wise who do not possess scientific knowledge?",
+   "raw": "Soc.  But  whether  do  you  call  thofe  men  wife,  who  are  fcientifically \nknowing,  whatever  that  may  be  about  which  they  pofTefs  this  knowledge; \nor  do  you  call  thofe  wife  who  do  not  pofTefs  fcientific  knowledge  ? ",
+   "pages": [
+    163
+   ],
+   "line": 7373
+  },
+  {
+   "id": "taylor1804.theages.p0018",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "I call the scientific wise.",
+   "raw": "Thea.  I  call  the  fcientific  wife. ",
+   "pages": [
+    163
+   ],
+   "line": 7377
+  },
+  {
+   "id": "taylor1804.theages.p0019",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then? Has not your father taught and in{l:ru6led you in those things, in which others here are inflru£ted who are the sons of respectable fathers; viz. letters, to play on the harp, to wrestle, and other exercises?",
+   "raw": "Soc.  What  then  ?  Has  not  your  father  taught  and  in{l:ru6led  you  in  thofe \nthings,  in  which  others  here  are  inflru£ted  who  are  the  fons  of  refpe6lable \nfathers ;  viz.  letters,  to  play  on  the  harp,  to  wreflle,  and  other  exercifes  ? ",
+   "pages": [
+    163
+   ],
+   "line": 7379
+  },
+  {
+   "id": "taylor1804.theages.p0020",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "He has,",
+   "raw": "Thea.  He  has, ",
+   "pages": [
+    163
+   ],
+   "line": 7383
+  },
+  {
+   "id": "taylor1804.theages.p0021",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you think, then, that there is still a certain science wanting, which it is proper your father should pay attention to for your sake?",
+   "raw": "Soc.  Do  you  think,  then,  that  there  is  ftill  a  certain  fcience  wanting, \nwhich  it  is  proper  your  father  fhould  pay  attention  to  for  your  fake  ? ",
+   "pages": [
+    163
+   ],
+   "line": 7385
+  },
+  {
+   "id": "taylor1804.theages.p0022",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Thea.  I  do. ",
+   "pages": [
+    163
+   ],
+   "line": 7388
+  },
+  {
+   "id": "taylor1804.theages.p0023",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What is it? Tell us also, that we may gratify you.",
+   "raw": "Soc.  What  is  it  ?  Tell  us  alfo,  that  we  may  gratify  you. ",
+   "pages": [
+    163
+   ],
+   "line": 7390
+  },
+  {
+   "id": "taylor1804.theages.p0024",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "My father also knows what it is, Socrates: for I have often mentioned it to him. But he designedly says these things to you, as if he did not know what I desire: for in other things also he similarly opposes me, and is not willing to place me with any one.",
+   "raw": "Thea.  My  father  alfo  knows  what  it  is,  Socrates :  for  I  have  often \nmentioned  it  to  him.  But  he  defignedly  fays  thefe  things  to  you,  as  if  he  did \nnot  know  what  1  defire  :  for  in  other  things  alfo  he  (imilarly  oppofes  me, \nand  is  not  willing  to  place  me  with  any  one. ",
+   "pages": [
+    163
+   ],
+   "line": 7392
+  },
+  {
+   "id": "taylor1804.theages.p0025",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But all that you have hitherto said to him has been said without witnesses: now therefore make me a witness, and before me say what the wisdom is which you desire: for come now, if you should desire that wise dem by which men steer ships, and I should ask you, O Theages, what is the wisdom, of which being in want, you blame your father as unwilling to place you with a man through whom you might become wise? what answer would you give me? What would you say this wisdom is? Is it not that of piloting?",
+   "raw": "Soc.  But  all  that  you  have  hitherto  faid  to  him  has  been  faid  without \nwitnefTes  :  now  therefore  make  me  a  witnefs,  and  before  me  fay  what  the \nwifdom  is  which  you  defire  :  for  come  now,  if  you  fhould  defire  that  wif^ \ndom  by  which  men  fleer  fhips,  and  1  fliould  afk  you,  O  Theages,  what  is \nthe  wifdom,  of  which  being  in  want,  you  blame  your  father  as  unwilling  to \nplace  you  with  a  man  through  whom  you  might  become  wife  ?  what  an- \nfwer  would  you  give  me  ?  What  would  you  fay  this  wifdom  is  ?  Is  it  not \nthat  of  piloting  ? ",
+   "pages": [
+    163
+   ],
+   "line": 7397
+  },
+  {
+   "id": "taylor1804.theages.p0026",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea.  Yes. ",
+   "pages": [
+    163
+   ],
+   "line": 7406
+  },
+  {
+   "id": "taylor1804.theages.p0027",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But if you desired to be wise according to that wisdom by which they drive chariots, and afterwards blamed your father, on my asking you what this wisdom is, what answer would you give me? Would you not say it is the charioteering art?",
+   "raw": "Soc.  But  if  you  defired  to  be  wife  according  to  that  wifdom  by  which \nthey  drive  chariots,  and  afterwards  blamed  your  father,  on  my  afking  you \nwhat  this  wifdom  is,  what  anfvver  would  you  give  me?  Would  you  not \nfay  it  is  the  charioteering  art  ? ",
+   "pages": [
+    163
+   ],
+   "line": 7408
+  },
+  {
+   "id": "taylor1804.theages.p0028",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea.  Yes. ",
+   "pages": [
+    164
+   ],
+   "line": 7418
+  },
+  {
+   "id": "taylor1804.theages.p0029",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But with rcfpcd to the wisdom which you now desire, whether is It without a name, or has it a name?",
+   "raw": "Soc.  But  with  rcfpcd  to  the  wifdom  which  you  now  dcfire,  whether  is \nIt  without  a  name,  or  has  it  a  name  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7420
+  },
+  {
+   "id": "taylor1804.theages.p0030",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "I think it has a name.",
+   "raw": "Thea.  I  think  it  has  a  name. ",
+   "pages": [
+    164
+   ],
+   "line": 7423
+  },
+  {
+   "id": "taylor1804.theages.p0031",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Whether therefore do you know the thing itself, but not its name? Or do you allb know its name }",
+   "raw": "Soc.  Whether  therefore  do  you  know  the  thing  itfelf,  but  not  its  name  ? \nOr  do  you  allb  know  its  name  } ",
+   "pages": [
+    164
+   ],
+   "line": 7425
+  },
+  {
+   "id": "taylor1804.theages.p0032",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "I a)i'o know its name.",
+   "raw": "Thea.  I  a)i'o  know  its  name. ",
+   "pages": [
+    164
+   ],
+   "line": 7428
+  },
+  {
+   "id": "taylor1804.theages.p0033",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Say, therefore, what it is.",
+   "raw": "Soc,  Say,  therefore,  what  it  is. ",
+   "pages": [
+    164
+   ],
+   "line": 7430
+  },
+  {
+   "id": "taylor1804.theages.p0034",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "What other name, Socrates, can any one say it has than that of wisdom?",
+   "raw": "Thea.  What  other  name,  Socrates,  can  any  one  fay  it  has  than  that  of \nwifdom  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7432
+  },
+  {
+   "id": "taylor1804.theages.p0035",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is not then the charioteering art also wisdom? Or does it appear to you to be ignorance?",
+   "raw": "Soc.  Is  not  then  the  charioteering  art  alfo  wifdom  ?  Or  does  it  appear \nto  you  to  be  ignorance  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7435
+  },
+  {
+   "id": "taylor1804.theages.p0036",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It does not,",
+   "raw": "Thea.  It  does  not, ",
+   "pages": [
+    164
+   ],
+   "line": 7438
+  },
+  {
+   "id": "taylor1804.theages.p0037",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But wisdom I",
+   "raw": "Soc.  But  wifdom  I ",
+   "pages": [
+    164
+   ],
+   "line": 7440
+  },
+  {
+   "id": "taylor1804.theages.p0038",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea.  Yes. ",
+   "pages": [
+    164
+   ],
+   "line": 7442
+  },
+  {
+   "id": "taylor1804.theages.p0039",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What is the use of it? Is it not that we may know how to manage horles when yoked to a chariot?",
+   "raw": "Soc.  What  is  the  ufe  of  it  ?  Is  it  not  that  we  may  know  how  to  manage \nhorles  when  yoked  to  a  chariot  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7444
+  },
+  {
+   "id": "taylor1804.theages.p0040",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea.  Yes. ",
+   "pages": [
+    164
+   ],
+   "line": 7447
+  },
+  {
+   "id": "taylor1804.theages.p0041",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is not therefore the piloting art also wisdom?",
+   "raw": "Soc.  Is  not  therefore  the  piloting  art  alfb  wifdom  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7449
+  },
+  {
+   "id": "taylor1804.theages.p0042",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "To me it appears to be fo»",
+   "raw": "Thea.  To  me  it  appears  to  be  fo» ",
+   "pages": [
+    164
+   ],
+   "line": 7451
+  },
+  {
+   "id": "taylor1804.theages.p0043",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it not that by. which we know how to manage ships?",
+   "raw": "Soc.  Is  it  not  that  by.  which  we  know  how  to  manage  fhips  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7453
+  },
+  {
+   "id": "taylor1804.theages.p0044",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Thea.  It  is. ",
+   "pages": [
+    164
+   ],
+   "line": 7455
+  },
+  {
+   "id": "taylor1804.theages.p0045",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what is the wisdom of which you are desirous I Or> what that which, when we obtain it, we shall know how to govern?",
+   "raw": "Soc.  But  what  is  the  wifdom  of  which  you  are  defirous  I  Or>  what  ^ \nthat  which,  when  we  obtain  it,  we  fhall  know  how  to  govern  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7457
+  },
+  {
+   "id": "taylor1804.theages.p0046",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "To me it appears to be that by which we know how to govern-men.",
+   "raw": "Thea.  To  me  it  appears  to  be  that  by  which  we  know  how  to  govern- \nmen. ",
+   "pages": [
+    164
+   ],
+   "line": 7460
+  },
+  {
+   "id": "taylor1804.theages.p0047",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What, fkk men f",
+   "raw": "Soc.  What,  fkk  men  f ",
+   "pages": [
+    164
+   ],
+   "line": 7463
+  },
+  {
+   "id": "taylor1804.theages.p0048",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "No.",
+   "raw": "Thea.  No. ",
+   "pages": [
+    164
+   ],
+   "line": 7465
+  },
+  {
+   "id": "taylor1804.theages.p0049",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For that wisdom is the medicinal art. Is it not?",
+   "raw": "Soc.  For  that  wifdom  is  the  medicinal  art.     Is  it  not  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7467
+  },
+  {
+   "id": "taylor1804.theages.p0050",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea.  Yes. ",
+   "pages": [
+    164
+   ],
+   "line": 7469
+  },
+  {
+   "id": "taylor1804.theages.p0051",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it thatj then, by which we know how to regulate singers ia choirs?",
+   "raw": "Soc.  Is  it  thatj  then,  by  which   we   know  how  to  regulate  fingers  ia \nchoirs  ? ",
+   "pages": [
+    164
+   ],
+   "line": 7471
+  },
+  {
+   "id": "taylor1804.theages.p0052",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It is not.",
+   "raw": "Thea.  It  is  not. ",
+   "pages": [
+    164
+   ],
+   "line": 7474
+  },
+  {
+   "id": "taylor1804.theages.p0053",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For this is music.",
+   "raw": "Soc.  For  this  is  mufic. ",
+   "pages": [
+    164
+   ],
+   "line": 7476
+  },
+  {
+   "id": "taylor1804.theages.p0054",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "Thea.  Certainlv. ",
+   "pages": [
+    164
+   ],
+   "line": 7478
+  },
+  {
+   "id": "taylor1804.theages.p0055",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But is it that by which we know how to govern those that eng-a»e in gymnastic exercises?",
+   "raw": "Soc.  But  is  it  that  by  which  we  know  how  to  govern  thofe  that  eno-a»e \nin  gymnaflic  exercifes  ? ",
+   "pages": [
+    165
+   ],
+   "line": 7485
+  },
+  {
+   "id": "taylor1804.theages.p0056",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It is not.",
+   "raw": "Thea.  It  is  not. ",
+   "pages": [
+    165
+   ],
+   "line": 7488
+  },
+  {
+   "id": "taylor1804.theages.p0057",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "For this is gymnaftic*",
+   "raw": "Soc.  For  this  is  gymnaftic* ",
+   "pages": [
+    165
+   ],
+   "line": 7490
+  },
+  {
+   "id": "taylor1804.theages.p0058",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It is.",
+   "raw": "Thea.  It  is. ",
+   "pages": [
+    165
+   ],
+   "line": 7492
+  },
+  {
+   "id": "taylor1804.theages.p0059",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Is it the wisdom by which those who do something effect their purpose? Endeavour to tell me, in the same manner as I have told yoa^^ above.",
+   "raw": "Soc.  Is  it  the  wifdom  by  which  thofe  who  do  fomething  effe6l  their  pur- \npofe  ?  Endeavour  to  tell  me,  in  the  fame  manner  as  I  have  told  yoa^^ \nabove. ",
+   "pages": [
+    165
+   ],
+   "line": 7494
+  },
+  {
+   "id": "taylor1804.theages.p0060",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It appears to me to be that wisdom by which we know how to govern those in a city.",
+   "raw": "Thea.  It  appears  to  me  to  be  that  wifdom  by  which  we  know  how  to \ngovern  thofe  in  a  city. ",
+   "pages": [
+    165
+   ],
+   "line": 7498
+  },
+  {
+   "id": "taylor1804.theages.p0061",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "SoG. Are there not, therefore, in a city also those that are fkrk?",
+   "raw": "SoG.  Are  there  not,  therefore,  in  a  city  alfo  thofe  that  are  fkrk  ? ",
+   "pages": [
+    165
+   ],
+   "line": 7501
+  },
+  {
+   "id": "taylor1804.theages.p0062",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes: but I do not speak of these only, but alio of otliers in the? city.",
+   "raw": "Thea.  Yes :  but  I  do  not  fpeak  of  thefe  only,  but  alio  of  otliers  in  the? \ncity. ",
+   "pages": [
+    165
+   ],
+   "line": 7503
+  },
+  {
+   "id": "taylor1804.theages.p0063",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "I understand then the art of which you speak. For you appear to me not to say, that it is that art by which we know how to govern mowers^ vine-dressers, ploughmen, fowers, and threfhers; for that by which we know how to govern these is agriculture. Is it not I",
+   "raw": "Soc.  I  underfland  then  the  art  of  which  you  fpeak.  For  you  appear  to \nme  not  to  fay,  that  it  is  that  art  by  which  we  know  how  to  govern  mowers^ \nvine-dreffers,  ploughmen,  fowers,  and  threfhers ;  for  that  by  which  wc \nknow  how  to  govern  thefe  is  agriculture.     Is  it  not  I ",
+   "pages": [
+    165
+   ],
+   "line": 7506
+  },
+  {
+   "id": "taylor1804.theages.p0064",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea.  Yes. ",
+   "pages": [
+    165
+   ],
+   "line": 7511
+  },
+  {
+   "id": "taylor1804.theages.p0065",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Nor is it that by which we know how to govern those that handlar the saw, the plane, and the lathe; for this belongs to the carpenter's art Does it not?",
+   "raw": "Soc.  Nor  is  it  that  by  which  we  know  how  to  govern  thofe  that  handlar \nthe  faw,  the  plane,  and  the  lathe ;  for  this  belongs  to  the  carpenter's  art^ \nDoes  it  not  ? ",
+   "pages": [
+    165
+   ],
+   "line": 7513
+  },
+  {
+   "id": "taylor1804.theages.p0066",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea,  Yes. ",
+   "pages": [
+    165
+   ],
+   "line": 7517
+  },
+  {
+   "id": "taylor1804.theages.p0067",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But perhaps you speak of that wisdom by which we govenrall these viz. husbandmen, carpenters, all artificers, and private persons, both mcu and women..",
+   "raw": "Soc.  But  perhaps  you  fpeak  of  that  wifdom  by  which  we  govenrall  thefe^ \nviz.  hufbandmen,  carpenters,  all  artificers,  and  private  perfons,  both  mcu \nand  women.. ",
+   "pages": [
+    165
+   ],
+   "line": 7519
+  },
+  {
+   "id": "taylor1804.theages.p0068",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It is this wiflom, Socrates, of which I wished to speak so me time ago.",
+   "raw": "Thea.  It  is  this  wiflom,  Socrates,  of  which  I  wiflied  to  fpeak  fo me  time \nago. ",
+   "pages": [
+    165
+   ],
+   "line": 7523
+  },
+  {
+   "id": "taylor1804.theages.p0069",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are you, therefore, disposed to say that ^gifthus, who slew Agamemnon in Argos, had dominion over these things of which you speak,, vi?:. all artificers and private persons, both men and women, or over cer>tain other things?",
+   "raw": "Soc.  Are  you,  therefore,  difpofed-  to  fay  that  ^gifthus,  who  flew  Aga- \nmcmnon  in  Argos,  had  dominion  over  thefe  things  of  which  you  fpeak,, \nvi?:.  all  artificers  and  private  perfons,  both  men  and  women,  or  over  cer>- \ntain  other  things  ? ",
+   "pages": [
+    165
+   ],
+   "line": 7526
+  },
+  {
+   "id": "taylor1804.theages.p0070",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "He only had dominion over such as these.",
+   "raw": "Thea.  He  only  had  dominion  over  fuch  as  thefe. ",
+   "pages": [
+    165
+   ],
+   "line": 7531
+  },
+  {
+   "id": "taylor1804.theages.p0071",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? Did not Peleus, the son of Aeacus, have dominion over these very things in Phthia? Thee, Yes,.",
+   "raw": "Soc.  But  what  ?  Did  not  Peleus,  the  fon  of  Aeacus,  have  dominion  over \nthefe  very  things  in  Phthia  ? \nThea,  Yes,. ",
+   "pages": [
+    165
+   ],
+   "line": 7533
+  },
+  {
+   "id": "taylor1804.theages.p0072",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And have you not heard that Periander, the son of Cypfelus, governed",
+   "raw": "Soc,  And  have  you  not  heard  that  Periander,  the  fon  of  Cypfelus,  governed ",
+   "pages": [
+    166
+   ],
+   "line": 7542
+  },
+  {
+   "id": "taylor1804.theages.p0073",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Corinth.",
+   "raw": "Corinth. ",
+   "pages": [
+    166
+   ],
+   "line": 7544
+  },
+  {
+   "id": "taylor1804.theages.p0074",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "The A. I have.",
+   "raw": "The  A.  I  have. ",
+   "pages": [
+    166
+   ],
+   "line": 7546
+  },
+  {
+   "id": "taylor1804.theages.p0075",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "And did he not rule over these very same things in his city?",
+   "raw": "Soc.  And  did  he  not  rule  over  thefc  very  fame  things  in  his  city? ",
+   "pages": [
+    166
+   ],
+   "line": 7548
+  },
+  {
+   "id": "taylor1804.theages.p0076",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Th£a. Yes.",
+   "raw": "Th£a.  Yes. ",
+   "pages": [
+    166
+   ],
+   "line": 7550
+  },
+  {
+   "id": "taylor1804.theages.p0077",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? Do you not think that Archelaus, the son of Perdiccas who lately governed in Macedonia, had dominion over these very things?",
+   "raw": "Soc.  But  what  ?  Do  you  not  think  that  Archelaus,  the  fon  of  Perdiccas \nwho  lately  governed  '  in  Macedonia,  had  dominion  over  thefe  very  things? ",
+   "pages": [
+    166
+   ],
+   "line": 7552
+  },
+  {
+   "id": "taylor1804.theages.p0078",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "I do.",
+   "raw": "Thea.  I  do. ",
+   "pages": [
+    166
+   ],
+   "line": 7555
+  },
+  {
+   "id": "taylor1804.theages.p0079",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But over what things do you think Hippias *, the son of Pisistratus, %\\'ho rules in this city, has dominion? Is it not over these things?",
+   "raw": "Soc,  But  over  what  things  do  you  think  Hippias  *,  the  fon  of  Pififtratus, \n%\\'ho  rules  in  this  city,  has  dominion  ?  Is  it  not  over  thefe  things  ? ",
+   "pages": [
+    166
+   ],
+   "line": 7557
+  },
+  {
+   "id": "taylor1804.theages.p0080",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Undoubtedly.",
+   "raw": "Thea.  Undoubtedly. ",
+   "pages": [
+    166
+   ],
+   "line": 7560
+  },
+  {
+   "id": "taylor1804.theages.p0081",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Can you tell me, then, what Bacis and the Sibyl, and our Amphilytus, are called?",
+   "raw": "Soc.  Can  you  tell  me,  then,  what  Bacis  ^  and  the  Sibyl,  and  our  Amphi- \nlytus,  are  called  ? ",
+   "pages": [
+    166
+   ],
+   "line": 7562
+  },
+  {
+   "id": "taylor1804.theages.p0082",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "What el(e, Socrates, than diviners?",
+   "raw": "Thea.  What  el(e,  Socrates,  than  diviners  ? ",
+   "pages": [
+    166
+   ],
+   "line": 7565
+  },
+  {
+   "id": "taylor1804.theages.p0083",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "You speak rightly. Endeavour, therefore, also to tell me what iiame you give to Hippias and Periander through the same dominion?",
+   "raw": "Soc.  You  fpeak  rightly.  Endeavour,  therefore,  alfo  to  tell  me  what \niiame  you  give  to  Hippias  and  Periander  through  the  fame  dominion  ? ",
+   "pages": [
+    166
+   ],
+   "line": 7567
+  },
+  {
+   "id": "taylor1804.theages.p0084",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Thea* I think they are tyrants: for what else can they be called?",
+   "raw": "Thea*  1  think  they  are  tyrants  :  for  what  elfe  can  they  be  called? ",
+   "pages": [
+    166
+   ],
+   "line": 7570
+  },
+  {
+   "id": "taylor1804.theages.p0085",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Whoever, therefore, desires to have dominion over all the men In the city, desires this very same dominion, the tyrannic, and to be a tyrant,",
+   "raw": "Soc.  Whoever,  therefore,  defires  to  have  dominion  over  all  the  men  In \nthe  city,  defires  this  very  fame  dominion,  the  tyrannic,  and  to  be  a  tyrant, ",
+   "pages": [
+    166
+   ],
+   "line": 7572
+  },
+  {
+   "id": "taylor1804.theages.p0086",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "So it appears,",
+   "raw": "Thea.  So  it  appears, ",
+   "pages": [
+    166
+   ],
+   "line": 7575
+  },
+  {
+   "id": "taylor1804.theages.p0087",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you therefore say that you desire this dominion?",
+   "raw": "Soc.  Do  you  therefore  fay  that  you  defire  this  dominion  ? ",
+   "pages": [
+    166
+   ],
+   "line": 7577
+  },
+  {
+   "id": "taylor1804.theages.p0088",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It seems so from what I have said.",
+   "raw": "Thea,  It  feems  fo  from  what  I  have  faid. ",
+   "pages": [
+    166
+   ],
+   "line": 7579
+  },
+  {
+   "id": "taylor1804.theages.p0089",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "O you wicked one I Do you desire to tyrannife over us? And did you Ibme time ago blame your father because he did not send you to forac tyrannic preceptor? And are not you, O Demodocus, ashamed; who, hav' ing for some time known what your son desires, and having likewise the ability offending him to be made that artist in wisdom which he aspires to be, have, notwithstanding, envied him this object of his wishes, and have not been wiHing to send him to obtain it? Now, however, since he a cu^es you before me, let us consult in common, you and I, whither we should send him; and through associating with whom he may become a wise tyrant.\"",
+   "raw": "Soc.  O  you  wicked  one  I  Do  you  defire  to  tyrannife  over  us  ?  And  did \nyou  Ibme  time  ago  blame  your  father  becaufe  he  did  not  fend  you  to  forac \ntyrannic  preceptor?  And  are  not  you,  O  Demodocus,  afhamed;  who,  hav-' \ning  for  fome  time  known  what  your  fon  defires,  and  having  likewife  the \nability  offending  him  to  be  made  that  artifl  in  wifdom  which  he  afpires  to \nbe,  have,  notwithftanding,  envied  him  this  objedt  of  his  wifhes,  and  have \nnot  been  wiHing  to  fend  him  to  obtain  it  ?  Now,  however,  fince  he  a  cu^es \nyou  before  me,  let  us  confult  in  common,  you  and  I,  whither  we  fhould \nfend  him  ;  and  through  affociating  with  whom  he  may  become  a  wife  ty- \nrant.\" ",
+   "pages": [
+    166,
+    167
+   ],
+   "line": 7581
+  },
+  {
+   "id": "taylor1804.theages.p0090",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "Let us indeed, by Jupiter, Socrates, consult: for it appears to me that no despicable counsel is requisite about this affair.",
+   "raw": "Dem.  Let  us  indeed,  by  Jupiter,  Socrates,  confult :  for  it  appears  to  mc \nthat  no  defpicable  counfel  is  requifite  about  this  affair. ",
+   "pages": [
+    167
+   ],
+   "line": 7611
+  },
+  {
+   "id": "taylor1804.theages.p0091",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Permit us first, O good man, to make inquiry of him sufficiently.",
+   "raw": "Soc.  Permit  us  firft,  O  good  man,  to  make  inquiry  of  him  fufficiently. ",
+   "pages": [
+    167
+   ],
+   "line": 7614
+  },
+  {
+   "id": "taylor1804.theages.p0092",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "Interrogate him.",
+   "raw": "Dem.  Interrogate  him. ",
+   "pages": [
+    167
+   ],
+   "line": 7616
+  },
+  {
+   "id": "taylor1804.theages.p0093",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then, O Theages, if we should make use of Euripides? For he somewhere says.",
+   "raw": "Soc.  What  then,  O  Theages,  if  we  fhould  make  ufe  of  Euripides  ?  For \nhe  fomewhere  fays. ",
+   "pages": [
+    167
+   ],
+   "line": 7618
+  },
+  {
+   "id": "taylor1804.theages.p0094",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Tyrants are wise that with she wise converse.",
+   "raw": "Tyrants  are  wife  that  with  ihe  wife  converfe. ",
+   "pages": [
+    167
+   ],
+   "line": 7621
+  },
+  {
+   "id": "taylor1804.theages.p0095",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "If, therefore, some one should ask Euripides, In what, O Euripides, do you say tyrants become wise by the conversation of the wise? just as if he had said,",
+   "raw": "If,  therefore,  fome  one  fhould  afk  Euripides,  In  what,  O  Euripides,  do \nyou  fay  tyrants  become  wife  by  the  converfation  of  the  wife  ?  juft  as  if \nhe  had  faid, ",
+   "pages": [
+    167
+   ],
+   "line": 7623
+  },
+  {
+   "id": "taylor1804.theages.p0096",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Farmers are wise that \\vith the wise converse:",
+   "raw": "Farmers  are  wife  that  \\vith  the  wife  converfe : ",
+   "pages": [
+    167
+   ],
+   "line": 7627
+  },
+  {
+   "id": "taylor1804.theages.p0097",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "and we should ask him. In what are they rendered wise? What answer would he give us? Would he reply that they are rendered wise in any thing else than in things pertaining to agriculture?",
+   "raw": "and  we  fhould  afk  him.  In  what  are  they  rendered  wife  ?  What  anfwer \nwould  he  give  us  ?  Would  he  reply  that  they  are  rendered  wife  in  any  thing \nelfe  than  in  things  pertaining  to  agriculture  ? ",
+   "pages": [
+    167
+   ],
+   "line": 7629
+  },
+  {
+   "id": "taylor1804.theages.p0098",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "He would not.",
+   "raw": "Thea.  He  would  not. ",
+   "pages": [
+    167
+   ],
+   "line": 7633
+  },
+  {
+   "id": "taylor1804.theages.p0099",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? If he had said,",
+   "raw": "Soc.  But  what  ?  If  he  had  faid, ",
+   "pages": [
+    167
+   ],
+   "line": 7635
+  },
+  {
+   "id": "taylor1804.theages.p0100",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Wise are the cooks that with the wise converse r",
+   "raw": "Wife  are  the  cooks  that  with  the  wife  converfe  r ",
+   "pages": [
+    167
+   ],
+   "line": 7637
+  },
+  {
+   "id": "taylor1804.theages.p0101",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "and we should ask him, In what they become wise? What do you think he would answer? Would it not be, that they become wise in things pertaining to cooking?",
+   "raw": "and  we  fhould  afk  him,  In  what  they  become  wife  ?  What  do  you  think  he \nwould  anfwer  ?  Would  it  not  be,  that  they  become  wife  in  things  pertaining \nto  cooking  ? ",
+   "pages": [
+    167
+   ],
+   "line": 7639
+  },
+  {
+   "id": "taylor1804.theages.p0102",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea.  Yes. ",
+   "pages": [
+    167
+   ],
+   "line": 7643
+  },
+  {
+   "id": "taylor1804.theages.p0103",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Again, if he had said,",
+   "raw": "Soc.  Again,  if  he  had  faid, ",
+   "pages": [
+    167
+   ],
+   "line": 7645
+  },
+  {
+   "id": "taylor1804.theages.p0104",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Wrestlers are wise that with the wise converse:",
+   "raw": "Wreftlers  are  wife  that  with  the  wife  converfe  : ",
+   "pages": [
+    167
+   ],
+   "line": 7647
+  },
+  {
+   "id": "taylor1804.theages.p0105",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "and we should ask him, In what they are rendered wise? Would he not say in things pertaining to wrestling?",
+   "raw": "and  we  fhould  afk  him,  In  what  they  are  rendered  wife?  Would  he  not  fay \nin  things  pertaining  to  wreflling  ? ",
+   "pages": [
+    167
+   ],
+   "line": 7649
+  },
+  {
+   "id": "taylor1804.theages.p0106",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes.",
+   "raw": "Thea.  Yes. ",
+   "pages": [
+    168
+   ],
+   "line": 7657
+  },
+  {
+   "id": "taylor1804.theages.p0107",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But since he says,",
+   "raw": "Soc.  But  fince  he  fays, ",
+   "pages": [
+    168
+   ],
+   "line": 7659
+  },
+  {
+   "id": "taylor1804.theages.p0108",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Tyrants are wise that with the wise converse:",
+   "raw": "Tyrants  are  wife  that  with  the  wife  converfc : ",
+   "pages": [
+    168
+   ],
+   "line": 7661
+  },
+  {
+   "id": "taylor1804.theages.p0109",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "if we should alk him, In what do you say they become wise, O Euripides? What would be his answer?",
+   "raw": "if  we  fhould  alk  him,  In  what  do  you  fay  they  become  wife,  O  Euripi- \ndes ?  What  would  be  his  anfwer  ? ",
+   "pages": [
+    168
+   ],
+   "line": 7663
+  },
+  {
+   "id": "taylor1804.theages.p0110",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, I do not know.",
+   "raw": "Thea.  By  Jupiter,  I  do  not  know. ",
+   "pages": [
+    168
+   ],
+   "line": 7666
+  },
+  {
+   "id": "taylor1804.theages.p0111",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Are you willing, then, I should tell you?",
+   "raw": "Soc.  Are  you  willing,  then,  I  fhould  tell  you  ? ",
+   "pages": [
+    168
+   ],
+   "line": 7668
+  },
+  {
+   "id": "taylor1804.theages.p0112",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "If you please.",
+   "raw": "Thea.  If  you  pleafe. ",
+   "pages": [
+    168
+   ],
+   "line": 7670
+  },
+  {
+   "id": "taylor1804.theages.p0113",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "These are the things which Anacreoii, says Callicrete ', knew. Or are you not acquainted with the verse?",
+   "raw": "Soc.  Thefe  are  the  things  which  Anacreoii,  fays  Callicrete  ',  knew.  Or \nare  you  not  acquainted  with  the  verfe  ? ",
+   "pages": [
+    168
+   ],
+   "line": 7672
+  },
+  {
+   "id": "taylor1804.theages.p0114",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "I am.",
+   "raw": "Thea.  I  am. ",
+   "pages": [
+    168
+   ],
+   "line": 7675
+  },
+  {
+   "id": "taylor1804.theages.p0115",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then? Do you also desire to associate with a man of this kind, who possesses the same art with Callicrete the daughter of Cyane, and who knows tyrannic concerns, in the same manner as the poet says she did; and this, that you may become a tyrant to us and the city?",
+   "raw": "Soc,  What  then  ?  Do  you  alfo  defire  to  affociate  with  a  man  of  this \nkind,  who  pofTefles  the  fame  art  with  Callicrete  the  daughter  of  Cyane,  and \nwho  knows  tyrannic  concerns,  in  the  fame  manner  as  the  poet  fays  fhe  did  ; \nand  this,  that  you  may  become  a  tyrant  to  us  and  the  city  ? ",
+   "pages": [
+    168
+   ],
+   "line": 7677
+  },
+  {
+   "id": "taylor1804.theages.p0116",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "You have for feme time, Socrates, derided and jefted with me.",
+   "raw": "Thea.  You  have  for  feme  time,  Socrates,  derided  and  jefted  with  me. ",
+   "pages": [
+    168
+   ],
+   "line": 7682
+  },
+  {
+   "id": "taylor1804.theages.p0117",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what? Do you not say that you desire this wisdom, by which you may have dominion over all the citizens? And doing this, will you be any thing else than a tyrant?",
+   "raw": "Soc.  But  what  ?  Do  you  not  fay  that  you  defire  this  wifdom,  by  which \nyou  may  have  dominion  over  all  the  citizens  ?  And  doing  this,  will  you \nbe  any  thing  elfe  than  a  tyrant  ? ",
+   "pages": [
+    168
+   ],
+   "line": 7684
+  },
+  {
+   "id": "taylor1804.theages.p0118",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "I think, indeed, that I should pray to become the tyrant of all men, or, if not of all, of the greater part; and I think that you, and all other men, would do the same. Or, perhaps, jyou would rather pray that you might become a god *. But I did not say that / desired this.",
+   "raw": "Thea.  I  think,  indeed,  that  I  fhould  pray  to  become  the  tyrant  of  all \nmen,  or,  if  not  of  all,  of  the  greater  part ;  and  I  think  that  you,  and  all  other \nmen,  would  do  the  fame.  Or,  perhaps,  jyou  would  rather  pray  that  you \nmight  become  a  god  *.  But  I  did  not  fay  that  /  defired  this. ",
+   "pages": [
+    168
+   ],
+   "line": 7688
+  },
+  {
+   "id": "taylor1804.theages.p0119",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what then, after all, is this which you desire? Do you not say that you desire to govern the citizens?",
+   "raw": "Soc.  But  what  then,  after  all,  is  this  which  you  defire  ?  Do  you  not  fay \nthat  you  defire  to  govern  the  citizens  ? ",
+   "pages": [
+    168
+   ],
+   "line": 7693
+  },
+  {
+   "id": "taylor1804.theages.p0120",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Not by violence, nor as tyrants do; hut I desire to govern the willing, in the same manner as other excellent men in the city,",
+   "raw": "Thea.  Not  by  violence,  nor  as  tyrants  do;  hut  I  defire  to  govern  the \nwilling,  in  the  fame  manner  as  other  excellent  men  in  the  city, ",
+   "pages": [
+    168
+   ],
+   "line": 7696
+  },
+  {
+   "id": "taylor1804.theages.p0121",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you speak of such men as Themistocles, and Pericles, and Cimon, and such as were Ikilful in political affairs?",
+   "raw": "Soc.  Do  you  fpeak  of  fuch  men  as  Themiftocles,  and  Pericles,  and  Ci- \nmon,  and  fuch  as  were  Ikilful  in  political  affairs  ? ",
+   "pages": [
+    168
+   ],
+   "line": 7699
+  },
+  {
+   "id": "taylor1804.theages.p0122",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, I speak of these.",
+   "raw": "Thea.  By  Jupiter,  I  fpeak  of  thefe. ",
+   "pages": [
+    169
+   ],
+   "line": 7713
+  },
+  {
+   "id": "taylor1804.theages.p0123",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then, if you defined to become wise 111 eqiieftrlan affairs, would you obtain the object of your wish, by going to any other than those who are Ikilled in the management of horses?",
+   "raw": "Soc.  What  then,  if  you  defined  to  become  wife  111  eqiieftrlan  affairs, \nwould  you  obtain  the  objed  of  your  wifh,  by  going  to  any  other  than  thofe \nwho  are  Ikilled  in  the  management  of  horfes  ? ",
+   "pages": [
+    169
+   ],
+   "line": 7715
+  },
+  {
+   "id": "taylor1804.theages.p0124",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "By Jupiter, not I.",
+   "raw": "Thea.  By  Jupiter,  not  I. ",
+   "pages": [
+    169
+   ],
+   "line": 7719
+  },
+  {
+   "id": "taylor1804.theages.p0125",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But you would go to these very men who are skilled in these thlno-s who possess horses, and who continually use both their own and many that are the property of others.",
+   "raw": "Soc.  But  you  would  go  to  thefe  very  men  who  are  fkilled  in  thefe  thlno-s^ \nwho  poflefs  horfes,  and  who  continually  ufe  both  their  own  and  many  that \nare  the  property  of  others. ",
+   "pages": [
+    169
+   ],
+   "line": 7721
+  },
+  {
+   "id": "taylor1804.theages.p0126",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Certainly.",
+   "raw": "Thea.  Certainly. ",
+   "pages": [
+    169
+   ],
+   "line": 7725
+  },
+  {
+   "id": "taylor1804.theages.p0127",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "But what! If you desired to become wise in things pertaininor ta the throwing of darts, would you not go to those who are Ikilled in these affairs, and who continually use many darts, both those belonging to others and their own?",
+   "raw": "Soc.  But  what  !  If  you  defired  to  become  wife  in  things  pertaininor  ta \nthe  throwing  of  darts,  would  you  not  go  to  thofe  who  are  Ikilled  in  thefe \naffairs,  and  who  continually  ufe  many  darts,  both  thofe  belonging  to  others \nand  their  own  ? ",
+   "pages": [
+    169
+   ],
+   "line": 7727
+  },
+  {
+   "id": "taylor1804.theages.p0128",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It appears so to me.",
+   "raw": "Thea.  It  appears  fo  to  me. ",
+   "pages": [
+    169
+   ],
+   "line": 7732
+  },
+  {
+   "id": "taylor1804.theages.p0129",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Tell me then, fnice you wish to become wise in political affairs^ do you think you will become wise by going to any others than these politicians, who are ikilful in political affairs, who continually use their own city, and many others, and who are converiant both with Grecian and Barbarian cities? Or do you think, that by associating with certain other persons you will become wise in those things in which they are wise, but not in these very things?",
+   "raw": "Soc.  Tell  me  then,  fnice  you  wifh  to  become  wife  in  political  affairs^ \ndo  you  think  you  will  become  wife  by  going  to  any  others  than  thefe  po- \nliticians, who  are  ikilful  in  political  affairs,  who  continually  ufe  their  own \ncity,  and  many  others,  and  who  are  converiant  both  with  Grecian  and \nBarbarian  cities  ?  Or  do  you  think,  that  by  affociating  with  certain  other \nperfons  you  will  become  wife  in  thofe  things  in  which  they  are  wife,  but  not \nin  thefe  very  things  ? ",
+   "pages": [
+    169
+   ],
+   "line": 7734
+  },
+  {
+   "id": "taylor1804.theages.p0130",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "Thjea. I have heard assertions, which they say are yours; that the sons of these political men are in no respect better than the sons of shoe-makers; and you appear to me to have spoken most truly, from what I am able to perceive. I should be stupid, therefore, if I should think that any one of these could impart to me his wisdom, when he cannot in any respect benefit his own son; or if I should suppose that he could in these things benefit any other man.",
+   "raw": "Thjea.  I  have  heard  affertions,  which  they  fay  are  yours;  that  the  fons \nof  thefe  political  men  are  in  no  refpedl  better  than  the  fons  of  fhoe-makers  ; \nand  you  appear  to  me  to  have  fpoken  moft  truly,  from  what  I  am  able \nto  perceive.  I  (hould  be  flupid,  therefore,  if  I  (hould  think  that  any  one  of \nthefe  could  impart  to  me  his  wifdom,  when  he  cannot  in  any  refpecl  benefit \nhis  own  fon  ;  or  if  I  fliould  fuppofe  that  he  could  in  thefe  things  benefit \nany  other  man. ",
+   "pages": [
+    169
+   ],
+   "line": 7742
+  },
+  {
+   "id": "taylor1804.theages.p0131",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "What then would you do, O best of men, if you had a son wha caused you molestation of this kind; and who should say that he desired ta become a good painter; and should blame you, his father, because you are not willing to be at any expense for the sake of these things; while he, on the other hand, despised those artists, the painters, and was unwilling to learn from them; or, if he acted in this manner towards pipers or harpers, being at the same time desirous to become a piper or harper? What would you do with him, and where would you send him, being thus unwillmg to learn from these persons?",
+   "raw": "Soc.  What  then  would  you  do,  O  befl  of  men,  if  you  had  a  fon  wha \ncaufed  you  moleflation  of  this  kind  ;  and  who  fhould  fay  that  he  defired  ta \nbecome  a  good  painter ;  and  fhould  blame  you,  his  father,  becaufe  you \nare  not  willing  to  be  at  any  expenfe  for  the  fake  of  thefe  things  ;  while  he, \non  the  other  hand,  defpifcd  thofe  artifts,  the  painters,  and  was  unwilling  to \nlearn  from  them  ;  or,  if  he  aded  in  this  manner  towards  pipers  or  harpers, \nbeing  at  the  fame  time  defirous  to  become  a  piper  or  harper  ?  What  would \nyou  do  with  him,  and  where  would  you  fend  him,  being  thus  unwillmg  to \nlearn  from  thefe  perfons  ? ",
+   "pages": [
+    169,
+    170
+   ],
+   "line": 7750
+  },
+  {
+   "id": "taylor1804.theages.p0132",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "The A. By Jupiter, I do not know.",
+   "raw": "The  A.  By  Jupiter,  I  do  not  know. ",
+   "pages": [
+    170
+   ],
+   "line": 7765
+  },
+  {
+   "id": "taylor1804.theages.p0133",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Now, therefore, doing these very things to your father, can you -wonder at and blame him, if he is dubious what he should do with you, and where he should send you? For, if you are willing, he will immediately place you with those Athenians that are most ikilled in political affairs: and with these you will not be at any expense, and at the same time will be much more generally renowned than by aflbciating with any others.",
+   "raw": "Soc.  Now,  therefore,  doing  thefe  very  things  to  your  father,  can  you \n-wonder  at  and  blame  him,  if  he  is  dubious  what  he  ihould  do  with  you,  and \nwhere  he  ihould  fend  you  ?  For,  if  you  are  willing,  he  will  immediately  place \nyou  with  thofe  Athenians  that  are  moft  ikilled  in  political  affairs  :  and  with \nthefe  you  will  not  be  at  any  expcnfe,  and  at  the  iame  time  will  be  much \nmore  generally  renowned  than  by  aflbciating  with  any  others. ",
+   "pages": [
+    170
+   ],
+   "line": 7767
+  },
+  {
+   "id": "taylor1804.theages.p0134",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "What then, Socrates; are not you among the number of excellent and worthy men? For if you are willing to associate with me, it is sufficient, and I shall seek for no other.",
+   "raw": "Thea.  What  then,  Socrates  ;  are  not  you  among  the  number  of  excel- \nlent and  worthy  men  ?  For  if  you  are  willing  to  affociate  with  me,  it  is  fuf- \nficient,  and  I  fhall  feek  for  no  other. ",
+   "pages": [
+    170
+   ],
+   "line": 7774
+  },
+  {
+   "id": "taylor1804.theages.p0135",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Why do you say this, Theages?",
+   "raw": "Soc.  Why  do  you  fay  this,  Theages  ? ",
+   "pages": [
+    170
+   ],
+   "line": 7778
+  },
+  {
+   "id": "taylor1804.theages.p0136",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "O Socrates, he does not speak badly; and at the lame time by doing this you will gratify me. For there is not any thing which I should condder to be a greater gain, than for my son to be pleased with your conversation; and for you to be willing to associate with him. And indeed I am ashamed to say how very much I wish this to take place. I therefore entreat both of you; you, Socrates, that you will be willing to associate with bim; and you, my son, thei you do not seek to associate with any other than Socrates; and you will thus liberate me from many and dreadful cares. For I.now very much fear lest my son should meet with some other person who may corr^apt him,",
+   "raw": "Dem.  O  Socrates,  he  does  not  fpeak  badly ;  and  at  the  lame  time  by  do- \ning this  you  will  gratify  me.  For  there  is  not  any  thing  which  I  fhould \ncondder  to  be  a  greater  gain,  than  for  my  fbn  to  be  pleafed  with  your  con- \nverfation  ;  and  for  you  to  be  willing  to  affociate  with  him.  And  indeed  I \nam  afhamed  to  fay  how  very  much  I  wifh  this  to  take  place.  1  therefore \nentreat  both  of  you  ;  you,  Socrates,  that  you  will  be  willing  to  affociate  with \nbim  ;  and  you,  my  fon,  thai  you  do  not  feek  to  affociate  with  any  other  than \nSocrates  ;  and  you  will  thus  liberate  me  from  many  and  dreadful  cares.  For \nI  .now  very  much  fear  left  my  fon  fhould  meet  with  fome  other  perfon  who \nmay  corr^apt  him, ",
+   "pages": [
+    170
+   ],
+   "line": 7780
+  },
+  {
+   "id": "taylor1804.theages.p0137",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "You need not fear any longer, O father, forme, if you can but persuade Socrates to permit me to associate with him.",
+   "raw": "Thea.  You  need  not  fear  any  longer,  O  father,  forme,  if  you  can  but \nperfuade  Socrates  to  permit  me  to  affociate  with  him. ",
+   "pages": [
+    170
+   ],
+   "line": 7791
+  },
+  {
+   "id": "taylor1804.theages.p0138",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "You speak very well. And after this, all the conversation, Socrates., will be directed to you. For I am ready, in short, to give up myself to you, and whatever is most dear to me that you may require, if you will love this my Theages, and benefit him to the utmost of your ability.",
+   "raw": "Dem.  You  fpeak  very  well.  And  after  this,  all  the  converfation,  So- \ncrates., will  be  direded  to  you.  For  I  am  ready,  in  ihort,  to  give  up \nmyfelf  to  you,  and  whatever  is  mofl  dear  to  me  that  you  may  require, \nif  you  will  love  this  my  Theages,  and  benefit  him  to  the  utmoft  of  your \nability. ",
+   "pages": [
+    170
+   ],
+   "line": 7794
+  },
+  {
+   "id": "taylor1804.theages.p0139",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "O Demodocus, I do not wonder that you are so importunate, if you think that your son can be especially benefited by me. For I do not know any thing about which he who is endued with intellect ought to be more anxious, than how his son may become the best of men. But whence it has appeared to you that I am more able to assist your son in becoming a good citizen, than you yourself, and whence you have thought that I caa benefit him more than you,l very much wonder. For you, in the Erll: place are older than I am; and in the next place, you have exerciied the principal offices among the Athenians; nor is any one more honoured than you by the Anagyrufian populace and the rest of the city. But neither of you sees, any one of these things in me. If herefore Thea^^es^ here, despises th& aflbciating with political men, and seeks after certain others who profess to-give instruction, there and here, Prodicus of Ceos, Gorgias the Leontine,. Polus the Agrigentine, and many others, who are so wise, that going into cities they persuade the noblest and most wealthy of the youth, who are permitted to associate gratis with any one of the citizens they please, — they persuade these, I say, to renounce those of their own city, and adhere to them, though the youth give them a coniTderable sum of money, and thanks besides, for their instruction. It is fit, therefore, that you and your foi> should choose some one of these; but it is not fit that you should choose me for I know none of these blessed and beautiful disciplines; though I wish I did; but I always profess to know nothing, as I may say, except a certaia small discipline of amatory affairs. In this discipline, I acknowledge nayfelf to be more ikilful than any one of the past or present age.",
+   "raw": "Soc.  O  Demodocus,  I  do  not  wonder  that  you  are  fo  importunate,  if \nyou  think  that  your  fon  can  be  efpecially  benefited  by  me.  For  I  do  not \nknow  any  thing  about  which  he  who  is  endued  with  intelledl  ought  to  be \nmore  anxious,  than  how  his  fon  may  become  the  befl  of  men.  But  whence \nit  has  appeared  to  you  that  I  am  more  able  to  affift  your  fon  in  becoming  a \ngood  citizen,  than  you  yourfelf,  and  whence  you  have  thought  that  I  caa \nbenefit  him  more  than  you,l  very  much  wonder.  For  you,  in  the  Erll:  place^ \nare  older  than  I  am  ;  and  in  the  next  place,  you  have  exerciied  the  principal \noffices  among  the  Athenians;  nor  is  any  one  more  honoured  than  you  by \nthe  Anagyrufian  populace  and  the  reft  of  the  city.  But  neither  of  you  fees, \nany  one  of  thefe  things  in  me.  If  herefore  Thea^^es^  here,  defpifes  th& \naflbciating  with  political  men,  and  feeks  after  certain  others  who  profefs  to- \ngive  inftrudion,  there  and  here,  Prodicus  of  Ceos,  Gorgias  the  Leontine,. \nPolus  the  Agrigentine,  and  many  others,  who  are  fb  wife,  that  going  into \ncities  they  perfuade  the  nobleft  and  moft  wealthy  of  the  youth,  who  are  per- \nmitted to  affociate  gratis  with  any  one  of  the  citizens  they  pleafe, — they \nperfuade  thefe,  I  fay,  to  renounce  thofe  of  their  own  city,  and  adhere  to \nthem,  though  the  youth  give  them  a  coniTderable  fum  of  money,  and  thanks \nbefides,  for  their  inflrudion.  It  is  fit,  therefore,  that  you  and  your  foi> \nihould  choofe  fome  one  of  thefe  ;  but  it  is  not  fit  that  you  fhould  choofe  me^ \nfor  I  know  none  of  thefe  blefled  and  beautiful  difciplines ;  though  I  wifli  I \ndid;  but  I  always  profefs  to  know  nothing,  as  I  may  fay,  except  a  certaia \nfmall  difcipline  of  amatory  affairs.  In  this  difcipline,  I  acknowledge  nayfelf \nto  be  more  ikilful  than  any  one  of  the  paft  or  prefent  age. ",
+   "pages": [
+    170,
+    171
+   ],
+   "line": 7800
+  },
+  {
+   "id": "taylor1804.theages.p0140",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "The A. Do you not see, O father, that Socrates does not appear to be very willing to associate with me. For, as to myself, I am ready, if he is willing; \"but he says these things in jest to us. For I know some of the same age-with myself, and others who are a little older, who before they were familiar with him were of no worth, but when they associated with him, in a very-little time appeared to be the best of all men, and surpassed those to whon& they were before inferior,",
+   "raw": "The  A.  Do  you  not  fee,  O  father,  that  Socrates  does  not  appear  to  be  very \nwilling  to  affociate  with  me.  For,  as  to  myfelf,  I  am  ready,  if  he  is  willing  ; \n\"but  he  fays  thefe  things  in  jefl  to  us.  For  I  know  fome  of  the  fame  age- \nwith  myfelf,  and  others  who  are  a  little  older,  who  before  they  were  familiar \nwith  him  were  of  no  worth,  but  when  they  affociated  with  him,  in  a  very- \nlittle  time  appeared  to  be  the  beft  of  all  men,  and  furpafled  thofe  to  whon& \nthey  were  before  inferior, ",
+   "pages": [
+    171
+   ],
+   "line": 7831
+  },
+  {
+   "id": "taylor1804.theages.p0141",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Do you know, therefore, O son of Demodocus, how this comes to pass?",
+   "raw": "Soc.  Do  you  know,  therefore,  O  fon  of  Demodocus,  how  this  comes  to \npafs  ? ",
+   "pages": [
+    171
+   ],
+   "line": 7839
+  },
+  {
+   "id": "taylor1804.theages.p0142",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "Yes, by Jupiter, I do; and if you were willing, I also should become such as they were»",
+   "raw": "Thea.  Yes,  by  Jupiter,  I  do ;  and  if  you  were  willing,  I  alfo  ihould  be- \ncome fuch  as  they  were» ",
+   "pages": [
+    171
+   ],
+   "line": 7842
+  },
+  {
+   "id": "taylor1804.theages.p0143",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "Not so, O excellent youth; but you are ignorant In what manner this takes place. However, I will tell you how it happens: — There is a certain dacmoniacal power' v/hich has followed me by a divirne allotnicnt fron>",
+   "raw": "Soc.  Not  fo,  O  excellent  youth ;  but  you  are  ignorant  In  what  manner \nthis  takes  place.  However,  I  will  tell  you  how  it  happens  : — There  is  a  cer- \ntain dacmoniacal  power'  v/hich  has  followed  me  by  a  divirne  allotnicnt  fron> ",
+   "pages": [
+    171
+   ],
+   "line": 7845
+  },
+  {
+   "id": "taylor1804.theages.p0144",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "childhood, childhood. This is a voice, which when it takes place always signifies to me that I should ahandon what I am about to do; but it never at any rime incites me. And, if any one of my friends communicutes any thing to me, and I hear the voice, it difluades me from this thing, and does not suffer me to do it. Of these things I will adduce to you witnesses: You know the beautiful Charmides, the son of Glauco; he once came to me, in order to communlcate to me his intention of contending in the Nemean games'; and immediately, on his beginning to tell me that he meant to contend, I heard the voice. And I forbade him, and said. While you was speaking to me, I heard the voice of the dasmoniacal power; do not, therefore, contend. Perhaps, laid he, the voice signified to you that I should not conqutr; but, though I should not be victorious, yet by exercising myself at this time I shall be benefited. Having thus spoken, he enci^aged in the contest. It is worth while, therefore, to inquire of him what l-appened to him from contending in these game. If yo\\i are wilTuv^ also, i(k Clitomachus, the brother of Timarchus *, ^^'hat Tim^rcfiu? said to him when he was about to die, for having despised the admonition of the da?monical power. For he and Euathlus, who was famous for running races, and who received Timarchus when he fled, will tell you what he then said.",
+   "raw": "childhood, \nchildhood.  This  is  a  voice,  which  when  it  takes  place  always  fignifies  to \nme  that  I  fhould  ahandon  what  I  am  about  to  do ;  but  it  never  at  any  rime \nincites  me.  And,  if  any  one  of  my  friends  communicutes  any  thing  to  me, \nand  1  hear  the  voice,  it  difluades  me  from  this  thing,  and  does  not  fufFer  me \nto  do  it.  Of  thefe  things  I  will  adduce  to  you  witnefTes  :  You  know  the  beau- \ntiful Charmides,  the  fon  of  Glauco  ;  he  once  came  to  me,  in  order  to  com- \nmunlcate  to  me  his  intention  of  contending  in  the  Nemean  games'  ;  and \nimmediately,  on  his  beginning  to  tell  me  that  he  meant  to  contend,  1  heard \nthe  voice.  And  I  forbade  him,  and  faid.  While  you  was  fpeaklng  to  me,  I  heard \nthe  voice  of  the  dasmoniacal  power  ;  do  not,  therefore,  contend.  Perhaps, \nlaid  he,  the  voice  fignified  to  you  that  I  fhould  not  conqutr;  but,  though  I \nfhould  not  be  victorious,  yet  by  exercifing  myfelf  at  this  time  I  fhall  be \nbenefited.  Having  thus  fpoken,  he  enci^aged  in  the  conteft.  It  is  worth \nwhile,  therefore,  to  inquire  of  him  what  l-appened  to  him  from  contending \nin  thefe  game-.  If  yo\\i  are  wilTuv^  alfo,  i(k  Clitomachus,  the  brother  of \nTimarchus  *,  ^^'hat  Tim^rcfiu?  faid  to  him  when  he  was  about  to  die,  for \nhaving  defpifed  the  admonition  of  the  da?monical  power.  For  he  and \nEuathlus,  who  was  famous  for  running  races,  and  who  received  Timarchus \nwhen  he  fled,  will  tell  you  what  he  then  faid. ",
+   "pages": [
+    171,
+    172
+   ],
+   "line": 7849
+  },
+  {
+   "id": "taylor1804.theages.p0145",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "What did he say?",
+   "raw": "Thea.   What  did  he  fay  ? ",
+   "pages": [
+    172
+   ],
+   "line": 7878
+  },
+  {
+   "id": "taylor1804.theages.p0146",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "O Clitomachus, said he, I indeed am now going to die, because t was unwilling to be persuaded by Socrates. But why Timarchus f^id this I will tell you. When Timarchus rose from the banquet, together with Philemon the son of Philemon ides, in order to kill Nicias the son of Herofcomander, for none but they two were in the conspiracy, — timarchus, as he rose, said to me, What do you say, Socrates? Do you indeed continue drinking; but it is necessary that I should depart. I will, however, return shortly, if I can. I then heard the voice, and I said to him, By no means should you leave us; for I have heard the accustomed dajmoniacal figfial. Upon this he stayed; and having remained with us for a time, he again rose uj> to depart, and said, Socrates, I am going: and again I heard the voice. Again, therefore, I compelled him to stay. The third time wishing to escape me unnoticed, he rose without saying any thing to me, when my attention was otherwise engaged, and thus departing he did that which was the cause of his death. Whence he said this to his brother, which I have now told you, viz. that he was going to die, because he would not believe me. Further still, you may also learn from many in Sicily, what I said concerning the de{lru61ion of the army. And with respect to things that are past, you may hear them from those that know them; but you may now make trial of the daemoniacal signal, if it says any thing to the purpose. For Sannion, the son of Calus, is gone to the army; and on his going, I heard the daemonical signal. But he is now gone with Thrasyllus ', in order to wage war immediately with Ephesus and Tonia; and I think that he will either die, or that some misfortune will befall him. And I very much fear* for the rest of the enterprise. I have said all these things to you, because this power of the daemon is able to effect every thing with respect to the conversations of those that aflbciate with me. For it is adverse to many, nor can those be benefited by associating with me whom the daemon opposes: so that it is not possible for me to live with these. With many, however, he does not prevent me from conversing; and yet they are not all benefited by associating with me. But those whose conversation with me is favoured by the power of the daemon, these are they whom you have noticed: for in a short time they make a proficiency. And of these, some possess this advantage with firmness and lability; but many, as long as they are with me, advance in a wonderful manner, but when they leave me, they again differ in no respect from other men. This Aristides, the son of Lysimachus and grandson of Aristides, once experienced: for, associating with me, he made a very great proficiency in a Short time; but afterwards he failed from hence, in order to engage in some military expedition. When he returned, he found Thucydides, the son of Melesias and grandson of Thucydides', aflbciating with me. But this Thucydides, the day before, had quarrelled with me in a certain conference. Aristides, therefore, seeing me, after he had saluted me, and some conversation had passed between us, faid,— I hear, Socrates, that Thucydides thinks highly of himself, with refpe€k to some things, and is angry with you, as if he were an extraordinary person. It is so, said I, But what? said he, does he not know what a slave he was before he aflbciated with you? It does not seem that he does, said I, by the gods. But a ridiculous circumstance, said he, has happened to me, Socrates. What is it, said I. It is this, said he,, that before I went to the army, I was able to converse with any man whoever he might be, nor did I appear to be inferior to any one in argument, so that I sought after the company of the most elegant men; but now, on the contrary, I shun any one whom I perceive to be learned, so ashamed am I of my own vileness. But, said I, whether did this power leave you suddenly, or by degrees I By degrees, he replied. When was it present with you, said I? Was it present while you was learning something from me, or was it in some other way? I will tell you, said he, Socrates, a thing incredible indeed, by the gods, but true: for I never, at any time, learnt any thing from you, as you know, but I made a proficiency when I associated with you, even if I was only in the same house that you were, though not in the same room; but my proficiency was greater when I was in the same room with you. I also appeared to myself to improve much more when, being in the same room with you, I looked at you when you spoke, thaiv when I looked another way. But I made by far the greatest proficiency when I sat near you and touched you. Now, however, said he, all that habit has entirely fled. Such, therefore, O Theages, is the association with rpe: for if it pleases divinity, you will make a very great and rapid proficiency; but you will not, if he does not please. See then, whether it is not safer for you to be instructed by some one of those who have power over the benefit which they impart to men, than by me who benefit, or not just as it may happen.",
+   "raw": "Soc.  O  Clitomachus,  (aid  he,  I  indeed  am  now  going  to  die,  becaufe  t \nwas  unwilling  to  be  perfuaded  by  Socrates.  But  why  Timarchus  f^id  this \nI  will  tell  you.  When  Timarchus  rofe  from  the  banquet,  together  with \nPhilemon  the  fon  of  Philemon  ides,  in  order  to  kill  Nicias  the  fon  of  Herof- \ncomander,  for  none  but  they  two  were  in  the  confpiracy, — ^Timarchus,  as  he \nrofe,  faid  to  me,  What  do  you  fay,  Socrates?  Do  you  indeed  continue  drink- \ning ;  but  it  is  neceflary  that  I  fhould  depart.  I  will,  however,  return  fhortly, \nif  1  can.     I  then  heard  the  voice,  and  I  faid  to  him,  By  no  means  fhould \nyou  leave  us ;  for  I  have  heard  the  accuftomed  dajmoniacal  figfial.  Upon \nthis  he  ftayed  ;  and  having  remained  with  us  for  a  time,  he  again  rofe  uj>  to \ndepart,  and  faid,  Socrates,  I  am  going  :  and  again  I  heard  the  voice.  Again, \ntherefore,  I  compelled  him  to  flay.  The  third  time  wifhing  to  efcape  mc \nunnoticed,  he  rofe  without  faying  any  thing  to  me,  when  my  attention  was \notherwife  engaged,  and  thus  departing  he  did  that  which  was  the  caufe  of  his \ndeath.  Whence  he  faid  this  to  his  brother,  which  I  have  now  told  you, \nviz.  that  he  was  going  to  die,  becaufe  he  would  not  believe  me.  Further \nftill,  you  may  alfo  learn  from  many  in  Sicily,  what  I  faid  concerning  the \nde{lru61ion  of  the  army.  And  with  refpe6t  to  things  that  are  paft,  you  may \nhear  them  from  thofe  that  know  them  ;  but  you  may  now  make  trial  of  the \ndaemoniacal  fignal,  if  it  fays  any  thing  to  the  purpofe.  For  Sannion,  the  fon \nof  Calus,  is  gone  to  the  army ;  and  on  his  going,  I  heard  the  daemonical \nfignal.  But  he  is  now  gone  with  Thrafyllus ',  in  order  to  wage  war  im- \nmediately with  Ephefus  and  Tonia  ;  and  I  think  that  he  will  either  die,  or  that \nfome  misfortune  will  befall  him.  And  I  very  much  fear*  for  the  reft  of  the \nenterprife.  I  have  faid  all  thefe  things  to  you,  becaufe  this  power  of  the \ndaemon  is  able  to  effed  every  thing  with  refpe6l  to  the  converfations  of  thofc \nthat  aflbciate  with  me.  For  it  is  adverfe  to  many,  nor  can  thofe  be  be- \nnefited by  affociating  with  me  whom  the  daemon  oppofes :  fo  that  it  is  not \npoffible  for  me  to  live  with  thefe.  With  many,  however,  he  does  not  prevent \nme  from  converfing ;  and  yet  they  are  not  all  benefited  by  affociating  with \nme.  But  thofe  whofe  converfation  with  me  is  favoured  by  the  power  of  the \ndaemon,  thefe  are  they  whom  you  have  noticed :  for  in  a  (hort  time  they  make \na  proficiency.  And  of  thefe,  fome  pofTefs  this  advantage  with  firmnefs  and \nlability ;  but  many,  as  long  as  they  are  with  me,  advance  in  a  wonderful  man- \nner, but  when  they  leave  me,  they  again  differ  in  no  refpedt  from  other  men. \nThis  Ariflides,  the  fon  of  Lyfimachus  and  grandfon  of  Ariflides,  once  expe- \nrienced :  for,  affociating  with  me,  he  made  a  very  great  proficiency  in  a  Ihort \ntime ;  but  afterwards  he  failed  from  hence,  in  order  to  engage  in  fome  military \nexpedition.  When  he  returned,  he  found  Thucydides,  the  fon  of  Melefias \nand  grandfon  of  Thucydides',  aflbciating  with  me.  But  this  Thucydides, \nthe  day  before,  had  quarrelled  with  me  in  a  certain  conference.  Ariftides, \ntherefore,  feeing  me,  after  he  had  faluted  me,  and  fome  converfation  had \npaffed  between  us,  faid,— I  hear,  Socrates,  that  Thucydides  thinks  highly  of \nhimfelf,  with  refpe€k  to  fome  things,  and  is  angry  with  you,  as  if  he  were \nan  extraordinary  perfon.  It  is  fo,  faid  I,  But  what  ?  faid  he,  does  he  not \nknow  what  a  flave  he  was  before  he  aflbciated  with  you  ?  It  does  not  feem \nthat  he  does,  faid  I,  by  the  gods.  But  a  ridiculous  circumftance,  faid  he, \nhas  happened  to  me,  Socrates.  What  is  it,  faid  I.  It  is  this,  faid  he,,  that \nbefore  I  went  to  the  army,  I  was  able  to  converfe  with  any  man  whoever \nhe  might  be,  nor  did  I  appear  to  be  inferior  to  any  one  in  argument,  fo  that \nI  fought  after  the  company  of  tlie  mofl  elegant  men  ;  but  now,  on  the  con- \ntrary, I  fhun  any  one  whom  I  perceive  to  be  learned,  fo  afhamed  am  I  of  my \nown  vilenefs.  But,  faid  1,  whether  did  this  power  leave  you  fuddenly,  or \nby  degrees  I  By  degrees,  he  replied.  When  was  it  prefent  with  you,  faid \nI  ?  Was  it  prefent  while  you  was  learning  fomething  from  me,  or  was  it  in \nfome  other  way  ?  I  will  tell  you,  faid  he,  Socrates,  a  thing  incredible \nindeed,  by  the  gods,  but  true :  for  I  never,  at  any  time,  learnt  any  thing \nfrom  you,  as  you  know,  but  I  made  a  proficiency  when  I  afTociated  with \nyou,  even  if  I  was  only  in  the  fame  houfe  that  you  were,  though  not  in \nthe  fame  room ;  but  my  proficiency  was  greater  when  I  was  in  the  fame \nroom  with  you.  I  alfo  appeared  to  myfeif  to  improve  much  more  when, \nbeing  in  the  fame  room  with  you,  I  looked  at  you  when  you  fpoke,  thaiv \nwhen  1  looked  another  way.  But  I  made  by  far  the  greatefl  proficiency \nwhen  I  fat  near  you  and  touched  you.  Now,  however,  faid  he,  all  that \nhabit  has  entirely  fled.  Such,  therefore,  O  Theages,  is  the  afTociation  with \nrpe :  for  if  it  pleafes  divinity,  you  will  make  a  very  great  and  rapid  profici- \nency ;  but  you  will  not,  if  he  does  not  pleafe.  See  then,  whether  it  is  not \nfafer  for  you  to  be  inflrudted  by  fome  one  of  thofe  who  have  power  over \nthe  benefit  which  they  impart  to  men,  than  by  me  who  benefit,  or  not^  juft \nas  it  may  happen. ",
+   "pages": [
+    172,
+    173,
+    174
+   ],
+   "line": 7880
+  },
+  {
+   "id": "taylor1804.theages.p0147",
+   "kind": "paragraph",
+   "translator": "Thomas Taylor",
+   "text": "! This grandson of Thucydides riyalled Pericles in the government..",
+   "raw": "!  This  grandfon  of  Thucydides  riyalled  Pericles  in  the  government.. ",
+   "pages": [
+    174
+   ],
+   "line": 7981
+  },
+  {
+   "id": "taylor1804.theages.p0148",
+   "kind": "paragraph",
+   "label": "Thee",
+   "translator": "Thomas Taylor",
+   "text": "It appears to me, therefore, Socrates, that we should aft in this manner, viz. that we should make trial of this daemoniacal power by affbciating together. And, if he is favourable to us, the best consequences will ensue; but if he is not, then let us immediately consult what is to be done, whether we should aflbciate with some other, or endeavour to appease the divine power, that is present with you, by prayers and sacrifices, or any other means which our diviners teach.",
+   "raw": "Thea.  It  appears  to  me,  therefore,  Socrates,  that  we  (hould  aft  in  this \nmanner,  viz.  that  we  (hould  make  trial  of  this  daemoniacal  power  by \naffbciating  together.  And,  if  he  is  favourable  to  us,  the  beft  confequences \nwill  enfue ;  but  if  he  is  not,  then  let  us  immediately  confult  what  is  to  be \ndone,  whether  we  fhould  aflbciate  with  fome  other,  or  endeavour  to  appeafc \nthe  divine  power,  that  is  prefent  with  you,  by  prayers  and  (acrifices,  or  any \nother  means  which  our  diviners  teach. ",
+   "pages": [
+    177
+   ],
+   "line": 7990
+  },
+  {
+   "id": "taylor1804.theages.p0149",
+   "kind": "paragraph",
+   "label": "Dem",
+   "translator": "Thomas Taylor",
+   "text": "Do not oppose the lad any longer, Socrates, in these things: for Theages speaks well.",
+   "raw": "Dem.  Do  not  oppofe  the  lad  any  longer,  Socrates,  in  thefe  things  :  for \nThcages  fpeaks  well. ",
+   "pages": [
+    177
+   ],
+   "line": 7998
+  },
+  {
+   "id": "taylor1804.theages.p0150",
+   "kind": "paragraph",
+   "label": "Soc",
+   "translator": "Thomas Taylor",
+   "text": "If it appears proper thus to act, let us do so.",
+   "raw": "Soc,  If  it  appears  proper  thus  to  a6l,  let  us  do  fo. ",
+   "pages": [
+    177
+   ],
+   "line": 8001
+  }
+ ],
+ "notes": [
+  {
+   "text": "It was five or six years before. He was kissed at the end of this very year. — ^Dacicr,",
+   "raw": "*  It  was  fiv^  or  fix  years  before.     He  was  kilted  at  the  end  of  this  very  year. — ^Dacicr, ",
+   "page": 166,
+   "line": 7586,
+   "in": "taylor1804.theages.p0089",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n001",
+   "signed": null
+  },
+  {
+   "text": "Hippias, the son of Pifidratus, was tyrant of Athens four years. According to Thucydides lie fwccecded bis father, and not Hipparchus. After he had reigned four years he was baniihed; and twenty years after his exile was slain at the battle of Marathon, where he bore arms for the Persians. — Dacier.",
+   "raw": "*  Hippias,  the  fon  of  Pifidratus,  was  tyrant  of  Athens  four  years.  According  to  Thucydides \nlie  fwccecded  bis  father,  and  not  Hipparchus.  After  he  had  reigned  four  years  he  was  ba- \nniihed  ;  and  twenty  years  after  his  exile  was  (lain  at  the  battle  of  Marathon,  where  he  bore  arms \nfor  the  Perfians. — Dacier. ",
+   "page": 166,
+   "line": 7588,
+   "in": "taylor1804.theages.p0089",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n002",
+   "signed": null
+  },
+  {
+   "text": "3 Bacis was a prophet, who, long before. Xerxes made a descent into Greece, prediAed to the people all that would befall them. Herodotus relates some of his prophecies in -his 8th book, and considers them to be so formal and plain, since their accompliihment, that he says he neither dares accuse those oracles of falsehood himself, nor suffer others to do so, or to refafe to give credit to them. Aristophanes speaks of this prophet in his comedy of Peace.— Dacier.",
+   "raw": "3  Bacis  was  a  prophet,  who,  long  before .  Xerxes  made  a  defcent  into  Greece,  prediAed  to  the \npeople  all  that  would  befall  them.  Herodotus  relates  fome  of  his  prophecies  in  -his  8th  book, \nand  confiders  them  to  be  fo  formal  and  plain,  fince  their  accompliihment,  that  he  fays  he  nei- \nther dares  accufe  thofe  oracles  of  falfehood  himfelf,  nor  fuffer  others  to  do  fo,  or  to  refafe  to  give \ncredit  to  them.    Ariftophanes  fpeaks  of  this  prophet  in  his  comedy  of  Peace.— Dacier. ",
+   "page": 166,
+   "line": 7593,
+   "in": "taylor1804.theages.p0089",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n003",
+   "signed": null
+  },
+  {
+   "text": "Tliis was a virgin who em])loyed herself In teaching politics, as Aspasia, Diotima, and fomfi others, did after her. The verses which Anacreon made on her are lost. — Dacier.",
+   "raw": "'  Tliis  was  a  virgin  who  em])loyed  herfelf  In  teaching  politics,  as  Afpafia,  Diotima,  and  fomfi \nothers,  did  after  her.     The  verfes  which  Anacreon  made  on  her  are  loft. — Dacier. ",
+   "page": 168,
+   "line": 7702,
+   "in": "taylor1804.theages.p0121",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n004",
+   "signed": null
+  },
+  {
+   "text": "Theages here alludes to what Socrates was wont to say, that men flioi^ld endeavour to become similar to divinity. •This passage inconteftably proves thei the rfaemon of Socrates wsw nat the intellect of that philosopher, nor any part of his soul, as has been radily asserted by some moderns unfkillcd in the writings and philosophy of Plato. Per a full account of this U^mon see the note at the beginning of the fird Alcibiades.",
+   "raw": "*  Theages  here  alludes  to  what  Socrates  was  wont  to  fay,  that  men  flioi^ld  endeavour  to  be- \ncome fimilar  to  divinity. \n•This  palTage  inconteftably  proves  thai  the  rfaemon  of  Socrates  wsw  nat  the  intellect  of  that \nphilofopher,  nor  any  part  of  his  foul,  as  has  been  radily  afferted  by  fome  moderns  unfkillcd  in  the \nwritings  and  philofophy  of  Plato.  Por  a  full  account  of  this  U^mon  fee  the  note  at  the  begin- \nning of  the  fird  Alcibiades. ",
+   "page": 168,
+   "line": 7705,
+   "in": "taylor1804.theages.p0121",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n005",
+   "signed": null
+  },
+  {
+   "text": "\" One of the four famous ganKs of Greece, which were celebrated once in three years.",
+   "raw": "\"  One  of  the  four  famous  ganKs  of  Oreece,  which  were  celebrated  once  in  three  years. ",
+   "page": 172,
+   "line": 7893,
+   "in": "taylor1804.theages.p0146",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n006",
+   "signed": null
+  },
+  {
+   "text": "I suppose this is Timarchus of Cheronea, who desired to bo interred near one of the sons of Socrates, who died a litl4!e before, I could never find any fuotlU-p of this history clfewhere.— I)acier>.",
+   "raw": "*  I  fuppofe  this  is  Timarchus  of  Cheronea,  who  defircd  to  bo  interred  near  one  of  the  fons  of \nSocrates,  who  died  a  litl4!e  before,  I  could  never  find  any  fuotlU-p  of  this  hiftory  clfewhere.— \nI)acier>. ",
+   "page": 172,
+   "line": 7895,
+   "in": "taylor1804.theages.p0146",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n007",
+   "signed": null
+  },
+  {
+   "text": "ThrafyHns wJte cbofen general with Thrasybulus, the fourth year of the ninety-second Olympiad.— DacitT.",
+   "raw": "'  ThrafyHns  wJte  cbofen  general  with  Thrafybulus,  the  fourth  year  of  the  ninety-fecond  Olym- \npiad.— DacitT. ",
+   "page": 173,
+   "line": 7934,
+   "in": "taylor1804.theages.p0146",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n008",
+   "signed": null
+  },
+  {
+   "text": "Tndoccl she Athenians were vanquished at Ephesus. Xenoph. lib. i. Hfnce Plutarch says, in the life of A\\.bi;ides, that the army of Thrasyllus was terribly galled under the walls of Ephesus; aiv! that in iTietiory of this defeat the Ephesians €rc6ted a trophy of brass, to the shame of ilic AiUeaians. — Dacier,",
+   "raw": "*  Tndoccl  ihe  Athenians  were  vanquifhed  at  Ephefus.  Xenoph.  lib.  i.  Hfnce  Plutarch  fays, \nin  the  life  of  A\\.bi;ides,  that  the  army  of  Thrafyllus  was  terribly  galled  under  the  walls  of \nEphefus;  aiv!  that  in  iTietiory  of  this  defeat  the  Ephefians  €rc6ted  a  trophy  of  brafs,  to  the \nihame  of  ilic  AiUeaians. — Dacier, ",
+   "page": 173,
+   "line": 7937,
+   "in": "taylor1804.theages.p0146",
+   "anchor": "same page",
+   "id": "taylor1804.theages.n009",
+   "signed": null
+  }
+ ],
+ "stats": {
+  "words joined across lines": 35,
+  "running heads removed": 14,
+  "catchwords and signatures removed": 13,
+  "paragraphs run on across a page": 7,
+  "notes": 9,
+  "notes run on across a page": 2,
+  "note marks removed": 5,
+  "speeches": 126
+ }
+}

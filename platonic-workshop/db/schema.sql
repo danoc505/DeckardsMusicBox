@@ -58,7 +58,7 @@ CREATE TABLE section (
 
 -- ------------------------------------------------------------------ text
 
--- One printed text of a work: Burnet's Greek, Bury's English, later Taylor's.
+-- One printed text of a work: Burnet's Greek, Bury's English, Jowett's, Taylor's.
 CREATE TABLE edition (
     id          TEXT PRIMARY KEY,          -- 'tlg031.perseus-grc2'
     work_id     TEXT NOT NULL REFERENCES work(id),
@@ -69,7 +69,10 @@ CREATE TABLE edition (
     responsible TEXT,                      -- editor or translator
     printed     TEXT,                      -- the printed book it reproduces
     file        TEXT,                      -- file inside the source
-    proof_status TEXT NOT NULL             -- see note.proof_status
+    proof_status TEXT NOT NULL,            -- see note.proof_status
+    -- Milestone 6: the historical translations.
+    translator_note TEXT,                  -- who made the English, and the evidence for it
+    align_method TEXT                      -- how its Stephanus sections were found (see chunk.align_method)
 );
 
 -- A run of text inside one paragraph and one Stephanus section. A paragraph
@@ -84,6 +87,13 @@ CREATE TABLE chunk (
     speaker     TEXT,                      -- from TEI <said who>
     label       TEXT,                      -- printed speaker label, 'ΣΩ.'
     text        TEXT NOT NULL,
+    -- Milestone 6. For the Greek and the Loeb English these are empty: their
+    -- sections are printed in the Perseus TEI. For Jowett and Taylor:
+    end_ref     TEXT,                      -- the section the chunk ends in, when it runs on
+    align_method TEXT,                     -- printed | printed page, section computed | computed (tools/align.py)
+    translator  TEXT,                      -- who made this English (the Banquet is Sydenham's and Taylor's)
+    raw         TEXT,                      -- the OCR as received, for text cleaned by rule
+    printed_at  TEXT,                      -- volume and page of the printed book, or the ebook
     FOREIGN KEY (work_id, section_ref) REFERENCES section(work_id, ref)
 );
 CREATE INDEX chunk_section ON chunk(work_id, section_ref, edition_id);

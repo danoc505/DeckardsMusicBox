@@ -57,8 +57,15 @@ word elsewhere in Plato" from the word box, and keep a search as a word study
 with your notes. See [All of Plato](#all-of-plato) and [Word search and word studies](#word-search-and-word-studies)
 below, and [`reports/corpus.md`](reports/corpus.md) for what the import found, work by work.
 
-Next is milestone 6: the historical translations (Perseus, Jowett, Taylor and
-Sydenham) aligned by Stephanus section.
+**Milestone 6, the historical translations: done.** Beside the Greek and the
+Loeb English, every dialogue now has Thomas Taylor's 1804 translation (with the
+nine Floyer Sydenham made, named as his), and the 28 that Jowett translated have
+Jowett's, each placed at its Stephanus sections. Choose which translations to see
+side by side; where a placement is computed rather than printed it is marked ≈,
+with how often the computation is right. See [Historical translations](#historical-translations)
+below and [`reports/alignment.md`](reports/alignment.md).
+
+Next is milestone 7: the commentary pipeline, proven on the Timaeus.
 
 ## Running it
 
@@ -132,6 +139,45 @@ by GLAUx, 4,387 Loeb notes (Fowler, Lamb, Shorey and Bury) and 4,841 references 
   Republic alone give 4,562 references, 1,817 of them within the Republic and 585 to the Laws.
 - **Speed.** Each dialogue opens with one request for its outline; each Stephanus page is loaded on
   its own. A page of the Laws comes back from the library in under 10 ms.
+
+## Historical translations
+
+![The Phaedo at 117c with the Loeb, Taylor and Jowett side by side](docs/reader-m6.png)
+
+The bar above each page lists the English translations of the dialogue; tick the ones to read side
+by side (the Loeb and Taylor by default; the choice is remembered). *About these translations* gives
+each one's translator, printing, proofreading status and how it is placed.
+
+| Translation | Works | Where from | How it is placed |
+|---|---|---|---|
+| The Loeb (Fowler, Lamb, Shorey, Bury) | 36 | Perseus TEI | Stephanus sections as printed |
+| Taylor (1804), vol. I: First Alcibiades, Republic | 2 | theosophylib.com corrected text | Stephanus sections as printed there |
+| Taylor (1804), vols. II–V | 34 | OCR of the 1804 printing, cleaned by rule (`tools/taylor_ocr.py`) | Computed ≈ |
+| Jowett, Republic (3rd ed., 1888) | 1 | Project Gutenberg 55201 | Sections as printed |
+| Jowett, Dialogues vol. II (1892): Euthyphro, Apology, Crito, Phaedo, Gorgias, Meno, Lesser Hippias, Alcibiades I and II, Menexenus | 10 | Project Gutenberg 76464 | Page printed, section computed ≈ |
+| Jowett, the others he translated | 17 | Project Gutenberg (`sources/jowett-gutenberg/ebooks.json`) | Computed ≈ |
+
+- **Who translated what.** Taylor's General Introduction (vol. I, pp. cv–cvi) names Sydenham's nine:
+  the First and Second Alcibiades, the Greater and Lesser Hippias, the Banquet except the speech of
+  Alcibiades (which is Taylor's), the Philebus, the Meno, the Io and the Rivals. Those editions say
+  "Sydenham (1804)", the Banquet "Sydenham and Taylor (1804)" with each paragraph's translator, and
+  their notes are attributed by Taylor's signatures S. and T. Jowett's Alcibiades II is Matthew
+  Knight's, as Jowett says. Jowett did not translate the Greater Hippias, Hipparchus, Rivals, Theages,
+  Clitophon, Minos, Epinomis or the Letters.
+- **Taylor's OCR.** The scans of vols. II–V read the long s as f, the ct ligature as d, and misread
+  letters. `tools/taylor_ocr.py` tries those readings on every word and keeps one only if it is a word
+  of English (from Taylor's own vol. I, Jowett and the Loeb), choosing by the words around it when two
+  are; running heads, catchwords and page signatures are removed, footnotes are kept as Taylor's notes.
+  About 15% of words were changed; unknown words are left as printed. Each paragraph keeps the OCR as
+  received (*Show the OCR*). Figures in [`reports/taylor_ocr.md`](reports/taylor_ocr.md). The
+  Timaeus scan stops at about 89e. Proofreading status: *OCR cleaned by rule*.
+- **Computed placement** (`tools/align.py`). No AI: words rare in both texts (names, numbers, unusual
+  nouns) pair a sentence of the translation with one of the Loeb, which knows its sections; the
+  longest consistent chain of pairs is kept, and positions in between are interpolated. Printed page
+  numbers are fixed anchors. A paragraph that spans more than two sections is cut at the sentence
+  where its section changes; otherwise it is shown whole where it begins, with → and its last section.
+  Tested where the numbers are printed: Taylor's Republic and First Alcibiades 87% of sentences in the
+  right section, 97% within one; Jowett's Republic 85% and 97%; Jowett's vol. II 95% on the right page.
 
 ## Word search and word studies
 
@@ -350,14 +396,18 @@ sources/          what we use and where it comes from (committed)
   TIMAEUS_PILOT.md
   taylor-1804/    OCR text, kept exactly as received
   taylor-1804-vol1-theosophylib/  corrected HTML of vol. I, kept as received, with provenance
+  taylor-1804/dialogues.json  where each dialogue lies in the OCR of vols. II-V, and its translator
+  jowett-gutenberg/  Jowett's translations from Project Gutenberg, as received, and which is which
 texts/            imported texts, one JSON file per work (committed)
   taylor-1804/vol1/
+  taylor-1804/vol2/ ... vol5/  Taylor's OCR cleaned by rule, with the OCR kept beside it
 db/               schema of the library and of your own database
   grammar/        which Smyth section is quoted for which grammatical category
 tools/            fetch, verify, import, build the database, serve the reader, Greek helpers,
                   lexicon.py (dictionary entries, LSJ's abbreviations), grammar.py (Smyth, treebank labels),
                   mywork.py (your translations, notes and word studies: the only code that writes user.sqlite),
-                  search.py (the word search across Plato)
+                  search.py (the word search across Plato), jowett.py, taylor_ocr.py, align.py and
+                  translations.py (the historical translations)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search
 tests/
 docs/             screenshots
