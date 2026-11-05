@@ -1,0 +1,749 @@
+{
+ "dossiers": [
+  {
+   "id": "self-mover",
+   "label": "The soul as self-mover",
+   "greek": "ψυχὴ πᾶσα ἀθάνατος",
+   "kind": "argument",
+   "group": "soul",
+   "about": "Every soul is immortal: what moves itself never ceases to move, and is the source and beginning of motion for all else; a beginning cannot come to be or perish.",
+   "passage": {
+    "work": "tlg012",
+    "start": "245c",
+    "end": "246a",
+    "start_quote": "ψυχὴ πᾶσα ἀθάνατος",
+    "end_quote": "περὶ μὲν οὖν ἀθανασίας αὐτῆς ἱκανῶς"
+   },
+   "parts": [
+    {
+     "label": "Every soul is immortal",
+     "ref": "245c",
+     "quote": "ψυχὴ πᾶσα ἀθάνατος"
+    },
+    {
+     "label": "Only the self-moving never ceases to move",
+     "ref": "245c",
+     "quote": "μόνον δὴ τὸ αὑτὸ κινοῦν, ἅτε οὐκ ἀπολεῖπον ἑαυτό, οὔποτε λήγει κινούμενον"
+    },
+    {
+     "label": "The source and beginning of motion",
+     "ref": "245c",
+     "quote": "τοῦτο πηγὴ καὶ ἀρχὴ κινήσεως"
+    },
+    {
+     "label": "So the soul is unborn and immortal",
+     "ref": "246a",
+     "quote": "ἐξ ἀνάγκης ἀγένητόν τε καὶ ἀθάνατον ψυχὴ ἂν εἴη"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg034",
+     "ref": "896a",
+     "quote": "τὴν δυναμένην αὐτὴν αὑτὴν κινεῖν κίνησιν",
+     "why": "Laws X defines soul as the motion able to move itself, and makes it prior to body."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "charioteer",
+     "why": "From the soul's immortality Socrates turns to its form, the charioteer.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "246a",
+       "quote": "περὶ δὲ τῆς ἰδέας αὐτῆς ὧδε λεκτέον"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "self-moving",
+     "self-motive",
+     "moves itself",
+     "self-mover",
+     "self-motion"
+    ],
+    "grc": [
+     "αυτο κινουν",
+     "αυτοκινητ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Phaedrus (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Phaedrus_(dialogue)",
+     "quote": "A soul is always in motion and as a self-mover has no beginning",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "charioteer",
+   "label": "The charioteer and the winged horses",
+   "greek": "ὑπόπτερον ζεῦγος καὶ ἡνίοχος",
+   "kind": "myth",
+   "group": "soul",
+   "about": "The soul is like a winged pair of horses and their charioteer. The gods' horses are good; ours are mixed. Following the gods round the heavens, souls glimpse the place beyond the heavens, fall, and regrow their wings through love of beauty.",
+   "passage": {
+    "work": "tlg012",
+    "start": "246a",
+    "end": "256e",
+    "start_quote": "ἐοικέτω δὴ συμφύτῳ δυνάμει ὑποπτέρου ζεύγους τε καὶ ἡνιόχου",
+    "end_quote": "ὁμοπτέρους ἔρωτος χάριν"
+   },
+   "parts": [
+    {
+     "label": "A winged pair and a charioteer",
+     "ref": "246a",
+     "quote": "ὑποπτέρου ζεύγους τε καὶ ἡνιόχου"
+    },
+    {
+     "label": "Zeus drives his winged chariot, the gods follow",
+     "ref": "246e",
+     "quote": "ὁ μὲν δὴ μέγας ἡγεμὼν ἐν οὐρανῷ Ζεύς, ἐλαύνων πτηνὸν ἅρμα"
+    },
+    {
+     "label": "The place beyond the heavens",
+     "ref": "247c",
+     "quote": "τὸν δὲ ὑπερουράνιον τόπον"
+    },
+    {
+     "label": "Being that truly is, seen by intellect alone",
+     "ref": "247c",
+     "quote": "ψυχῆς κυβερνήτῃ μόνῳ θεατὴ νῷ"
+    },
+    {
+     "label": "The plain of truth",
+     "ref": "248b",
+     "quote": "πεδίον"
+    },
+    {
+     "label": "The ordinance of Adrasteia",
+     "ref": "248c",
+     "quote": "θεσμός τε Ἀδραστείας ὅδε"
+    },
+    {
+     "label": "Learning as recollection of what the soul once saw",
+     "ref": "249c",
+     "quote": "τοῦτο δʼ ἐστὶν ἀνάμνησις ἐκείνων ἅ ποτʼ εἶδεν ἡμῶν ἡ ψυχὴ"
+    },
+    {
+     "label": "The two horses described",
+     "ref": "253d",
+     "quote": "τῶν δὲ δὴ ἵππων ὁ μέν, φαμέν, ἀγαθός, ὁ δʼ οὔ"
+    },
+    {
+     "label": "Lovers who win grow wings together",
+     "ref": "256e",
+     "quote": "ὁμοπτέρους ἔρωτος χάριν"
+    }
+   ],
+   "diagram": {
+    "kind": "table",
+    "title": "The two horses, 253d–e",
+    "about": "Socrates' description of the two horses, word by word.",
+    "columns": [
+     {
+      "head": "The good horse",
+      "ref": "253d",
+      "quote": "ὁ μὲν τοίνυν αὐτοῖν ἐν τῇ καλλίονι στάσει ὢν"
+     },
+     {
+      "head": "The other",
+      "ref": "253e",
+      "quote": "ὁ δʼ αὖ σκολιός"
+     }
+    ],
+    "rows": [
+     {
+      "head": "Build",
+      "cells": [
+       {
+        "text": "upright, clean-limbed",
+        "ref": "253d",
+        "quote": "τό τε εἶδος ὀρθὸς καὶ διηρθρωμένος"
+       },
+       {
+        "text": "crooked, bulky, put together anyhow",
+        "ref": "253e",
+        "quote": "σκολιός, πολύς, εἰκῇ συμπεφορημένος"
+       }
+      ]
+     },
+     {
+      "head": "Neck and face",
+      "cells": [
+       {
+        "text": "high-necked, hook-nosed",
+        "ref": "253d",
+        "quote": "ὑψαύχην, ἐπίγρυπος"
+       },
+       {
+        "text": "thick short neck, flat face",
+        "ref": "253e",
+        "quote": "κρατεραύχην, βραχυτράχηλος, σιμοπρόσωπος"
+       }
+      ]
+     },
+     {
+      "head": "Colour and eyes",
+      "cells": [
+       {
+        "text": "white, black-eyed",
+        "ref": "253d",
+        "quote": "λευκὸς ἰδεῖν, μελανόμματος"
+       },
+       {
+        "text": "dark, grey-eyed, bloodshot",
+        "ref": "253e",
+        "quote": "μελάγχρως, γλαυκόμματος, ὕφαιμος"
+       }
+      ]
+     },
+     {
+      "head": "Character",
+      "cells": [
+       {
+        "text": "lover of honour with temperance and modesty",
+        "ref": "253d",
+        "quote": "τιμῆς ἐραστὴς μετὰ σωφροσύνης τε καὶ αἰδοῦς"
+       },
+       {
+        "text": "companion of insolence and boasting",
+        "ref": "253e",
+        "quote": "ὕβρεως καὶ ἀλαζονείας ἑταῖρος"
+       }
+      ]
+     },
+     {
+      "head": "How driven",
+      "cells": [
+       {
+        "text": "by command and word alone, no whip",
+        "ref": "253d",
+        "quote": "ἄπληκτος, κελεύσματι μόνον"
+       },
+       {
+        "text": "shaggy-eared, deaf, barely yields to whip and goad",
+        "ref": "253e",
+        "quote": "μάστιγι μετὰ κέντρων μόγις ὑπείκων"
+       }
+      ]
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg031",
+     "ref": "41e",
+     "quote": "ἐμβιβάσας ὡς ἐς ὄχημα",
+     "why": "The Timaeus: the maker sets each soul in a star 'as in a chariot'."
+    },
+    {
+     "work": "tlg030",
+     "ref": "439d",
+     "quote": "λογιστικὸν",
+     "why": "The Republic's three parts of the soul, which the charioteer and two horses are often read as."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "self-mover",
+     "why": "The myth follows the proof of the soul's immortality.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "246a",
+       "quote": "περὶ δὲ τῆς ἰδέας αὐτῆς ὧδε λεκτέον"
+      }
+     ]
+    },
+    {
+     "dossier": "soul-parts",
+     "why": "The soul divided in three here too, two horse-shaped and the charioteer.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "253c",
+       "quote": "τριχῇ διείλομεν ψυχὴν ἑκάστην"
+      }
+     ]
+    }
+   ],
+   "testimonia": [
+    {
+     "source": "note",
+     "by": "Proclus, tr. Taylor (1820)",
+     "work": "tlg031",
+     "ref": "41d",
+     "quote": "charioteer",
+     "says": "Proclus reads the Timaeus's 'vehicle' of the soul with the Phaedrus's charioteer."
+    }
+   ],
+   "renderings": [
+    {
+     "term": "ὑπερουράνιος τόπος",
+     "ref": "247c",
+     "grc": "τὸν δὲ ὑπερουράνιον τόπον",
+     "by": {
+      "perseus-eng2": "region above the heaven",
+      "jowett": "heaven which is above the heavens",
+      "taylor1804": "supercelestial place"
+     }
+    },
+    {
+     "term": "ἡνίοχος",
+     "ref": "246a",
+     "grc": "ἡνιόχου",
+     "by": {
+      "perseus-eng2": "charioteer",
+      "jowett": "charioteer",
+      "taylor1804": "charioteer"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "charioteer",
+     "chariot",
+     "winged steeds",
+     "two horses",
+     "winged horses",
+     "supercelestial",
+     "super-celestial"
+    ],
+    "grc": [
+     "ηνιοχ",
+     "υπερουραν"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Phaedrus (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Phaedrus_(dialogue)",
+     "quote": "A soul, says Socrates, is like the \"natural union of a team of winged horses and their charioteer\"",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Myths",
+     "url": "https://plato.stanford.edu/entries/plato-myths/",
+     "quote": "the myth of the winged soul (Phaedrus 246a–249d)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "divine-madness",
+   "label": "Divine madness",
+   "greek": "θεία μανία",
+   "kind": "doctrine",
+   "group": "eros",
+   "about": "The greatest goods come to us through madness given by the gods: prophecy, the purifying madness of rites, the madness of the Muses, and the fourth and best, the lover's.",
+   "passage": {
+    "work": "tlg012",
+    "start": "244a",
+    "end": "245c",
+    "start_quote": "οὐκ ἔστʼ ἔτυμος λόγος",
+    "end_quote": "παρὰ θεῶν ἡ τοιαύτη μανία δίδοται"
+   },
+   "parts": [
+    {
+     "label": "The greatest goods come through madness",
+     "ref": "244a",
+     "quote": "τὰ μέγιστα τῶν ἀγαθῶν ἡμῖν γίγνεται διὰ μανίας, θείᾳ μέντοι δόσει διδομένης"
+    },
+    {
+     "label": "Prophecy: the priestess at Delphi",
+     "ref": "244a",
+     "quote": "ἥ τε γὰρ δὴ ἐν Δελφοῖς προφῆτις"
+    },
+    {
+     "label": "Love's madness, given by the gods",
+     "ref": "245c",
+     "quote": "παρὰ θεῶν ἡ τοιαύτη μανία δίδοται"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg012",
+     "ref": "265b",
+     "quote": "τέτταρα μέρη",
+     "why": "Socrates later sums up the four kinds and their gods: Apollo, Dionysus, the Muses, Aphrodite and Eros."
+    },
+    {
+     "work": "tlg027",
+     "ref": "534b",
+     "quote": "ἔνθεός",
+     "why": "The Ion: the poet is a light and winged and holy thing, out of his mind when inspired."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "divine madness",
+     "divine mania",
+     "fury",
+     "inspired madness"
+    ],
+    "grc": [
+     "μανια"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "cicadas",
+   "label": "The cicadas",
+   "greek": "οἱ τέττιγες",
+   "kind": "myth",
+   "group": "eros",
+   "about": "The cicadas singing overhead in the noon heat were once men who forgot to eat for joy of the Muses' song; they report to the Muses who honours them, and to Calliope and Urania those who live in philosophy.",
+   "passage": {
+    "work": "tlg012",
+    "start": "258e",
+    "end": "259d",
+    "start_quote": "οἱ τέττιγες ᾁδοντες",
+    "end_quote": "οὐ καθευδητέον ἐν τῇ μεσημβρίᾳ"
+   },
+   "parts": [
+    {
+     "label": "The cicadas singing overhead in the heat",
+     "ref": "258e",
+     "quote": "ὑπὲρ κεφαλῆς ἡμῶν οἱ τέττιγες ᾁδοντες"
+    },
+    {
+     "label": "Calliope and Urania honour those who live in philosophy",
+     "ref": "259d",
+     "quote": "τῇ δὲ πρεσβυτάτῃ Καλλιόπῃ καὶ τῇ μετʼ αὐτὴν Οὐρανίᾳ τοὺς ἐν φιλοσοφίᾳ διάγοντάς"
+    },
+    {
+     "label": "So we must talk, and not sleep at noon",
+     "ref": "259d",
+     "quote": "οὐ καθευδητέον ἐν τῇ μεσημβρίᾳ"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg012",
+     "ref": "230c",
+     "quote": "τεττίγων",
+     "why": "At the opening the shrill summer song of the cicada chorus answers the setting by the Ilissus."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "cicada",
+     "grasshopper",
+     "tettix"
+    ],
+    "grc": [
+     "τεττιγ"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "theuth",
+   "label": "Theuth and the invention of writing",
+   "greek": "Θεύθ",
+   "kind": "myth",
+   "group": "method",
+   "about": "Theuth offers King Thamus writing as a drug for memory; Thamus answers it is a drug for reminding, and will give the appearance of wisdom, not wisdom. Written words cannot answer or defend themselves; the living word written in the soul is their legitimate brother.",
+   "passage": {
+    "work": "tlg012",
+    "start": "274c",
+    "end": "276a",
+    "start_quote": "ἤκουσα τοίνυν περὶ Ναύκρατιν τῆς Αἰγύπτου",
+    "end_quote": "οὗ ὁ γεγραμμένος εἴδωλον ἄν τι λέγοιτο δικαίως"
+   },
+   "parts": [
+    {
+     "label": "Theuth of Naucratis, inventor of number and letters",
+     "ref": "274c",
+     "quote": "αὐτῷ δὲ ὄνομα τῷ δαίμονι εἶναι Θεύθ"
+    },
+    {
+     "label": "Writing as a drug of memory and wisdom",
+     "ref": "274e",
+     "quote": "φάρμακον"
+    },
+    {
+     "label": "Thamus: forgetfulness in the soul, a drug for reminding",
+     "ref": "275a",
+     "quote": "λήθην μὲν ἐν ψυχαῖς"
+    },
+    {
+     "label": "The appearance of wisdom, not its truth",
+     "ref": "275b",
+     "quote": "δοξόσοφοι γεγονότες ἀντὶ σοφῶν"
+    },
+    {
+     "label": "A written word always needs its father's help",
+     "ref": "275e",
+     "quote": "τοῦ πατρὸς ἀεὶ δεῖται βοηθοῦ"
+    },
+    {
+     "label": "The living word, its legitimate brother",
+     "ref": "276a",
+     "quote": "ἀδελφὸν γνήσιον"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg036",
+     "ref": "341c",
+     "quote": "ῥητὸν γὰρ οὐδαμῶς ἐστιν ὡς ἄλλα μαθήματα",
+     "why": "The Seventh Letter: there is no writing of Plato's on these matters, for it cannot be put into words like other learning."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "seventh-letter",
+     "why": "The Seventh Letter's distrust of writing.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg036",
+       "ref": "341c",
+       "quote": "ῥητὸν γὰρ οὐδαμῶς ἐστιν ὡς ἄλλα μαθήματα"
+      }
+     ]
+    }
+   ],
+   "renderings": [
+    {
+     "term": "φάρμακον",
+     "ref": "275a",
+     "grc": "φάρμακον",
+     "by": {
+      "perseus-eng2": "elixir",
+      "jowett": "aid",
+      "taylor1804": "medicine"
+     }
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Theuth",
+     "Thamus",
+     "Thoth",
+     "invention of writing",
+     "invention of letters"
+    ],
+    "grc": [
+     "θευθ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Phaedrus (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Phaedrus_(dialogue)",
+     "quote": "commenting on the gift of writing from the Egyptian god Theuth to King Thamus",
+     "kind": "reference"
+    },
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Myths",
+     "url": "https://plato.stanford.edu/entries/plato-myths/",
+     "quote": "the myth of Theuth (Phaedrus 274c–275e)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "collection-division",
+   "label": "Collection and division",
+   "greek": "διαιρέσεις καὶ συναγωγαί",
+   "kind": "method",
+   "group": "method",
+   "about": "Two procedures: to see scattered things together under one form, and to cut them again by forms 'at the joints, as nature grew them', not hacking like a bad butcher. Socrates is a lover of them and calls those who can do it dialecticians.",
+   "passage": {
+    "work": "tlg012",
+    "start": "265c",
+    "end": "266c",
+    "start_quote": "δυοῖν εἰδοῖν",
+    "end_quote": "διαλεκτικούς"
+   },
+   "parts": [
+    {
+     "label": "To bring the scattered into one form",
+     "ref": "265d",
+     "quote": "εἰς μίαν τε ἰδέαν συνορῶντα ἄγειν τὰ πολλαχῇ διεσπαρμένα"
+    },
+    {
+     "label": "To cut at the joints, not like a bad butcher",
+     "ref": "265e",
+     "quote": "κατʼ ἄρθρα ᾗ πέφυκεν, καὶ μὴ ἐπιχειρεῖν καταγνύναι μέρος μηδέν, κακοῦ μαγείρου τρόπῳ χρώμενον"
+    },
+    {
+     "label": "A lover of divisions and collections",
+     "ref": "266b",
+     "quote": "τῶν διαιρέσεων καὶ συναγωγῶν"
+    },
+    {
+     "label": "Those who can do this, 'dialecticians'",
+     "ref": "266c",
+     "quote": "διαλεκτικούς"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg007",
+     "ref": "253d",
+     "quote": "κατὰ γένη διαιρεῖσθαι",
+     "why": "The Sophist: dividing by kinds is the dialectical science."
+    },
+    {
+     "work": "tlg008",
+     "ref": "287c",
+     "quote": "κατὰ μέλη",
+     "why": "The Statesman: divide limb by limb, like a sacrificial victim."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "angler",
+     "why": "The Sophist's angler is the method shown at work.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg007",
+       "ref": "253d",
+       "quote": "κατὰ γένη διαιρεῖσθαι"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "collection and division",
+     "division and collection",
+     "carve",
+     "joints",
+     "dichotomy"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "boreas",
+   "label": "Boreas and Oreithyia: know thyself",
+   "greek": "Βορέας καὶ Ὠρείθυια",
+   "kind": "scene",
+   "group": "socrates",
+   "about": "By the Ilissus Phaedrus asks whether Socrates believes the tale of Boreas snatching Oreithyia. Socrates has no leisure to rationalise myths: he does not yet know himself, as the Delphic inscription bids, whether he is a beast more complex than Typhon or a gentler, simpler creature.",
+   "passage": {
+    "work": "tlg012",
+    "start": "229b",
+    "end": "230a",
+    "start_quote": "οὐκ ἐνθένδε μέντοι ποθὲν ἀπὸ τοῦ Ἰλισο",
+    "end_quote": "θείας τινὸς καὶ ἀτύφου μοίρας φύσει μετέχον"
+   },
+   "parts": [
+    {
+     "label": "Is this where Boreas carried off Oreithyia?",
+     "ref": "229b",
+     "quote": "ὁ Βορέας τὴν Ὠρείθυιαν ἁρπάσαι"
+    },
+    {
+     "label": "Know thyself, as the Delphic inscription says",
+     "ref": "229e",
+     "quote": "τὸ Δελφικὸν γράμμα"
+    },
+    {
+     "label": "Not these, but myself: Typhon or a gentler creature?",
+     "ref": "230a",
+     "quote": "σκοπῶ οὐ ταῦτα ἀλλʼ ἐμαυτόν"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg013",
+     "ref": "124a", "quote": "γνῶθι",
+     "why": "The First Alcibiades turns on the same inscription."
+    },
+    {
+     "work": "tlg018",
+     "ref": "164e", "quote": "γνῶθι",
+     "why": "The Charmides: Critias reads the inscription as a greeting of the god."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Boreas",
+     "Orithyia",
+     "Oreithyia",
+     "Typhon",
+     "know thyself"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Know thyself",
+     "url": "https://en.wikipedia.org/wiki/Know_thyself",
+     "quote": "Phaedrus",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "prayer-to-pan",
+   "label": "The prayer to Pan",
+   "greek": "ὦ φίλε Πάν",
+   "kind": "saying",
+   "group": "socrates",
+   "about": "Socrates' prayer at the end of the Phaedrus: to be beautiful within, the outer to be friendly to the inner, to count the wise man rich, and to have only as much gold as a temperate man can carry.",
+   "passage": {
+    "work": "tlg012",
+    "start": "279b",
+    "end": "279c",
+    "start_quote": "ὦ φίλε Πάν τε καὶ ἄλλοι ὅσοι τῇδε θεοί",
+    "end_quote": "κοινὰ γὰρ τὰ τῶν φίλων. ἴωμεν"
+   },
+   "parts": [
+    {
+     "label": "Beautiful within",
+     "ref": "279b",
+     "quote": "δοίητέ μοι καλῷ γενέσθαι τἄνδοθεν"
+    },
+    {
+     "label": "The wise man rich",
+     "ref": "279c",
+     "quote": "πλούσιον δὲ νομίζοιμι τὸν σοφόν"
+    },
+    {
+     "label": "Friends have all things in common",
+     "ref": "279c",
+     "quote": "κοινὰ γὰρ τὰ τῶν φίλων"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "424a",
+     "quote": "κοινὰ τὰ φίλων",
+     "why": "The proverb returns in the Republic, of the guardians' common life."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "prayer to Pan",
+     "O dear Pan",
+     "beautiful within",
+     "inward man",
+     "beauty in the inward soul"
+    ]
+   },
+   "web": []
+  }
+ ]
+}

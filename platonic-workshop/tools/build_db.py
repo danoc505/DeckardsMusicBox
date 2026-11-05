@@ -55,6 +55,7 @@ import commentary_db  # noqa: E402
 import citations  # noqa: E402
 import structure  # noqa: E402
 import concepts  # noqa: E402
+import dossiers  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -820,6 +821,14 @@ def build(works, db_path=None, progress=False):
     if progress:
         print("  concepts: " + ", ".join(f"{k} {v}" for k, v in concept_stats.items() if k not in ("not found", "terms not tagged"))
               + f"; not found: {len(concept_stats['not found'])}", flush=True)
+    # Passage dossiers: the famous passages gathered whole (after the concepts: they read concept_passage).
+    dossier_stats = dossiers.build(db)
+    if set(works) == set(ALL_WORKS):
+        dossiers.write_report(db, dossier_stats)
+    db.execute("INSERT INTO build VALUES ('dossier_stats', ?)", (json.dumps(dossier_stats, ensure_ascii=False),))
+    if progress:
+        print("  dossiers: " + ", ".join(f"{k} {v}" for k, v in dossier_stats.items() if k not in ("not found", "web not found"))
+              + f"; not found: {len(dossier_stats['not found'])}, web not found: {len(dossier_stats['web not found'])}", flush=True)
     db.execute("INSERT INTO build VALUES ('lookup_stats', ?)", (json.dumps(lookup_stats, ensure_ascii=False),))
     db.execute("INSERT INTO build VALUES ('built_at', ?)", (time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),))
     db.execute("INSERT INTO build VALUES ('stats', ?)", (json.dumps(all_stats),))

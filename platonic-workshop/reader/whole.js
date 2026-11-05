@@ -22,7 +22,7 @@ const wholeHash = (id) => { const w = workById(id); return "#" + (w ? w.slug : i
 const refSpan = (w, a, b) => `<a href="${esc(placeHash(w, a))}">${esc(a)}</a>${b && b !== a ? `–<a href="${esc(placeHash(w, b))}">${esc(b)}</a>` : ""}`;
 
 function setView(cls) {
-  document.body.classList.remove("searching", "discussing", "whole-view", "corpus-view", "concepts-view", "commentaries-view");
+  document.body.classList.remove("searching", "discussing", "whole-view", "corpus-view", "concepts-view", "commentaries-view", "dossiers-view");
   if (cls) document.body.classList.add(cls);
   closeInspector();
 }
@@ -302,7 +302,7 @@ function renderTocWhole(w, curRefs) {
   const sn = (w.sidenotes || []).filter((c) => inside(c.start_ref, c.end_ref));
   const th = (w.themes || []).filter((c) => inside(c.start_ref, c.end_ref));
   let h = `<h3>Where you are in the whole</h3>`;
-  const cs = renderTocConcepts(w, inside);
+  const cs = renderTocConcepts(w, inside) + renderTocDossiers(w, inside);
   if (!ch.length && !sn.length && !th.length && !cs) h += `<p class="note">No printed division, myth or concept passage is marked on this page.</p>`;
   h += ch.map((c) => `<p class="note"><b>${esc(c.author)}, ${esc(c.label)}</b> (${esc(c.start_ref)}–${esc(c.end_ref)}): ${esc(c.detail.length > 220 ? c.detail.slice(0, 219) + "…" : c.detail)}</p>`).join("");
   h += sn.length ? `<ul class="note sidenotes">${sn.slice(0, 8).map((s) => `<li>${esc(s.label)} <span class="meta">Jowett, ${esc(s.start_ref)}</span></li>`).join("")}</ul>` : "";

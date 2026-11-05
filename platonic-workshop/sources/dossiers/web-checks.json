@@ -1,0 +1,1001 @@
+{
+ "about": "Written by tools/webcheck.py: for each web page a dossier links to, when it was fetched, the HTTP status, a SHA-256 of its text, and whether each quotation the dossiers make of it was found there.",
+ "pages": {
+  "https://en.wikipedia.org/wiki/Alcibiades_I": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "5cad3fbed481ffab13ec31bac4b57ad286f2c9886c298db72a5e105486cc1dd2",
+   "quotes": {
+    "the famous Delphic phrase: gnōthi seautón meaning know thyself": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Allegory_of_the_cave": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "c48e7f77a297a7d5f52fda00ac58bb6e23e1be4d37edaddf2170c33733f9ae00",
+   "quotes": {
+    "The allegory of the cave is an allegory presented by the Greek philosopher Plato in his work Republic (514a–520a, Book VII)": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Analogy_of_the_divided_line": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "fc855e3e72678a86f848e31a61820cb7a419d0c34a231970e1d5ae6a0a389823",
+   "quotes": {
+    "The analogy of the divided line (Ancient Greek: γραμμὴ δίχα τετμημένη, romanized: grammē dicha tetmēmenē) is presented by the Greek philosopher Plato in the Republic (509d–511e)": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Analogy_of_the_sun": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "bd52ffbf6faa378d1e414dd36531b816719221b5bd9d37512a5a27dbd5ffc57e",
+   "quotes": {
+    "so the sun stands in the visible realm to sight and the things we see": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Anamnesis_(philosophy)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "c0d300823b678dc0273f041f14f9e9805199f549d8b344598a15dd96e453fa3b",
+   "quotes": {
+    "Anamnesis (philosophy)": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Apology_(Plato)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "353d2232eecd05789c176af24589460423a1869a2b866e22bcf74d05a307e6c0",
+   "quotes": {
+    "He says that Chaerephon, reputed to be impetuous, went to the Oracle of Delphi": true,
+    "he is the social gadfly required by Athens": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Atlantis": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "535b8b4168c0b959041764d87f849a15ace29c71cb27f24b014e4808f4d73ae0",
+   "quotes": {
+    "is a fictional island mentioned in Plato's works Timaeus and Critias": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Crito": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "546a7015af6093a47af0a9aacb8270b0f4a6f851eb017e6d88979d525f737f3b",
+   "quotes": {
+    "personifies the Laws of Athens": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Demiurge": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "e544c04cf4316d16c11ed6651010ed75028c9a0b7d0d6174abc967c37bbaec0c",
+   "quotes": {
+    "Demiurge": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Euthyphro_dilemma": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "fa46afcbd289946e21e2172ffce3d87af858b3c9af7d5318495ee5806e3e7a7f",
+   "quotes": {
+    "Is the pious (τὸ ὅσιον) loved by the gods because it is pious, or is it pious because it is loved by the gods?": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Gadfly_(philosophy)": {
+   "checked": "2026-11-05",
+   "status": 404,
+   "sha256": null,
+   "quotes": {
+    "Gadfly": false
+   }
+  },
+  "https://en.wikipedia.org/wiki/Gorgias_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "464da1bf8ca37ff9cc02af2714f2602c4cbb6a5f5ac324fee54b6d216710e018",
+   "quotes": {
+    "Callicles criticizes philosophy (481c–505b)": true,
+    "The Judgement of Naked Souls": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Heraclitus": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "9674aa0462d952143682906e9b03d5a5e3d0fffce9158fc710e046ede9d70b88",
+   "quotes": {
+    "You cannot step into the same river twice": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Kh%C3%B4ra": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "3439aea4fefb0fd1bc2ad1acfbe5881e5e5802d8c6356bc3f8e14ae6738db0dd",
+   "quotes": {
+    "Khôra": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Know_thyself": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "090baca9fb4bde9fec0f818036fa9138994ab9ff5c1da11e9e0338f8162d79ea",
+   "quotes": {
+    "Phaedrus": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Laws_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "84478c289015a18ae6bdfb3e8ff8dea590cccc3d73bc45a9daad5dbe1e9b9807",
+   "quotes": {
+    "Laws": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Meno": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "85344b1d9362841a1b71242e9492ec7d33406ed2fa7b34f917b18f54f078e6ae",
+   "quotes": {
+    "Socrates demonstrates recollection in action by posing a mathematical puzzle to one of Meno's slaves": true,
+    "True belief and knowledge": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Mimesis": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "f5c9d80b9a9b56adec20745af9ba166805db95fd40ddbf02ca43994237cee1d2",
+   "quotes": {
+    "Mimesis (/mɪˈmiːsɪs, maɪ-/; Ancient Greek: μίμησις, mīmēsis) is the representation of aspects of the real world": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Myth_of_Er": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "6b7d4f38b3cf2bfb6442952383c8e6c0629be808d8e440ee50b996aa739d3cca",
+   "quotes": {
+    "is a legend that concludes Plato's Republic (10.614–10.621)": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Noble_lie": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "4be24408ebe5d3678e7edad3d07046a5df34ebe9908a5e6091e3cfbdb020aea6",
+   "quotes": {
+    "Descriptions of it and application of terminology to it, date back as early as ancient Greece in Plato's The Republic": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Parmenides_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "9afbb6c4650981e6b397c832c00abcee15ac3885ab66f21e877b49c6f0d92e7e",
+   "quotes": {
+    "Parmenides presses Socrates on how, precisely, many particulars can participate in a single Form": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Phaedo": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "a1f5ab75c419b0858369fc936367e1b184e43929d5a6cfe975a338184e7403ff",
+   "quotes": {
+    "sacrifices a rooster to Asclepius on his behalf": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Phaedrus_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "a5893132a67da0197c2f62decbe5fea6614880f15ccc0212152cd26356d5b6de",
+   "quotes": {
+    "A soul is always in motion and as a self-mover has no beginning": true,
+    "A soul, says Socrates, is like the \"natural union of a team of winged horses and their charioteer\"": true,
+    "commenting on the gift of writing from the Egyptian god Theuth to King Thamus": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Philebus": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "56e9ba75cfc9c428253bdb21a9443767aced1a9b12f27a84b26b3837902e4e58",
+   "quotes": {
+    "the Unlimited (ápeiron) or boundlessness": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Philosopher_king": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "b09360866e664b9956ffca285c5e1a4a0fcf9b6317f07c2746e6f52523e3a03a",
+   "quotes": {
+    "The concept of a city-state ruled by philosophers is first explored in Plato's Republic": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Plato%27s_tripartite_theory_of_soul": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "4c152fa0b8e2d28bca1c798257d8e010db223502045f1d4edacb1f67705f1712",
+   "quotes": {
+    "Plato's theory of the soul, which was inspired variously by the teachings of Socrates": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Platonic_solid": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "a515732ccd3b6a32dbface05bb2f00cad0993251f300a113c6504f2c519bb35c",
+   "quotes": {
+    "Plato wrote about them in the dialogue Timaeus": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Protagoras_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "9b97064ddcfafaee8ead2e03a9b2ed6e1d214b58ba4a8e75dc092c9a817faf17",
+   "quotes": {
+    "they assigned two Titan brothers, Epimetheus (\"afterthought\") and Prometheus (\"forethought\")": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Ring_of_Gyges": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "63eb7e56c27294c26995cf983bdf422dbaaf383b63736e4d5c7b38050283b21c",
+   "quotes": {
+    "is a hypothetical magic ring mentioned by the philosopher Plato in Book 2 of his Republic": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Seventh_Letter": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "cc824896d04330ba4ef5d30b189bb94f3f471ad81d458cb20f7528ab20367579",
+   "quotes": {
+    "It also contains an extended philosophical interlude concerning the possibility of writing true philosophical works": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Ship_of_State": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "193a83a4f1ec243fd692969a740a66f2cb69f62f4dfb304a9157a00932ec869c",
+   "quotes": {
+    "Ship of State": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Sophist_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "4b8c4adb60f377c6ac76383b75ea2af23bbc283ae6efcf19a206479c6de46a81",
+   "quotes": {
+    "At first, he starts using a mundane model (a fisherman)": true,
+    "the great kinds (μέγιστα γένη megista genê)": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Statesman_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "b2b2e1ec6a5c8f917aed67f1fbed035e43413af72713cc998d8aebb268266c8f",
+   "quotes": {
+    "a myth similar to the myth of ages": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Symposium_(Plato)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "cf54bd33adafb1cd5432eb1eda5f8c2f42b33847771848e64ea0fa978e349f99",
+   "quotes": {
+    "Alcibiades begins by comparing Socrates to a statue of Silenus": true,
+    "The erotic ascent described in the Symposium": true,
+    "upon seeing Porus lying unconscious took the chance to sleep with him": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Thales_of_Miletus": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "7823381b3ebae2089573626aefd851fb97a8922245de09a0969085ebcd65c4a8",
+   "quotes": {
+    "Thracian": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/The_unexamined_life_is_not_worth_living": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "88b315c438930a6dde408caaf40500e907b97c82b3c99781986de73fa66097dd",
+   "quotes": {
+    "The unexamined life is not worth living": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Theaetetus_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "09f7b39b099831ce9d1aef34e23a2704e7c467fdeb360e37047d776fb4df64d5",
+   "quotes": {
+    "Socrates considers his philosophical work as midwifery": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Third_man_argument": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "292bc6f62a44c4881a4899de3abd25e9d83c9c2d7c6c95aedf82848c417f09a5",
+   "quotes": {
+    "Parmenides presses Socrates on how, precisely, many particulars can participate in a single Form": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Thrasymachus": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "16a98ec4d657221c03ec09202038b462e55cd4cb8124bcfaba1bf2b6fecb3cee",
+   "quotes": {
+    "Thrasymachus": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Timaeus_(dialogue)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "1fe498d43ec63822ceb91a87b2f5376a80ad6cd3cea3b956bb8bd04c553fbb1b",
+   "quotes": {
+    "World soul": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Wonder_(emotion)": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "1e3963bf239ee3e014fce2f67ed886ba1568a3b805ebf25a7fc9d6359d4f0a99",
+   "quotes": {
+    "Theaetetus": true
+   }
+  },
+  "https://iep.utm.edu/meno/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "72535f37289f9c647b7eba50cc4c64101792eef7d8119d3ee65de102a8723935",
+   "quotes": {
+    "A model geometry lesson with an uneducated slave": true
+   }
+  },
+  "https://iep.utm.edu/phaedo/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "d7a7ed870564775a1b09cfaea3a305f4ea8f2b7e7c6bfa9041f87d0ac36e16a3",
+   "quotes": {
+    "he presents the belief in the immortality of the soul as an uncommon belief": true
+   }
+  },
+  "https://iep.utm.edu/republic/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "fd7cf8dac8fabb682c65b94e9d8a38ef8b8812be9fe2594bd45be348cb5ec92d",
+   "quotes": {
+    "Socrates considers several candidates for what the Good is, such as pleasure and knowledge and he rejects them (505b-d)": true,
+    "Socrates offers the analogy of the divided line to explain the Form of the Good even further (509d-511d)": true,
+    "True education is the turning around of the soul from shadows and visible objects to true understanding of the Forms (518c-d)": true,
+    "city of pigs": true
+   }
+  },
+  "https://plato.stanford.edu/entries/plato-ethics-politics/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "116101312a1c01fd7536641538a20da2e36ea04aef9440f731b39f29b1fb442e",
+   "quotes": {
+    "every human soul has three parts: reason, spirit, and appetite": true,
+    "they advance a “noble lie” to convince citizens of their unequal standing and deep tie to the city (414b–415d)": true
+   }
+  },
+  "https://plato.stanford.edu/entries/plato-friendship/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "d1c08a1de95ed8743c9354060fd688345d00b54f7a3966eec322836515e24f97",
+   "quotes": {
+    "Love and the Ascent to the Beautiful": true
+   }
+  },
+  "https://plato.stanford.edu/entries/plato-metaphysics/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "be7e5ad9a1fdc42c761f145ee9a165996a81c097224e0f36143b76ccbadb8746",
+   "quotes": {
+    "Cave, arguably the most famous analogy in the history of philosophy": true,
+    "analogies of Sun, Line and Cave in Books Six and Seven": true,
+    "unhypothetical first principle and descending the line": true,
+    "Recollection in the Phaedo": true,
+    "The Meno": true
+   }
+  },
+  "https://plato.stanford.edu/entries/plato-myths/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "812555499af12622e2f2310d7ab943077e077bc5f8905d05b5b0bd3383ae526c",
+   "quotes": {
+    "such as the myth of Er (Republic 621b8)": true,
+    "such as the story of Gyges (Republic 359d–360b)": true,
+    "the myth of Theuth (Phaedrus 274c–275e)": true,
+    "the myth of the winged soul (Phaedrus 246a–249d)": true,
+    "the Phaedo myth (107c–115a)": true,
+    "the myth of the androgyne (Symposium 189d–193d)": true,
+    "Statesman": true
+   }
+  },
+  "https://plato.stanford.edu/entries/plato-theaetetus/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "9e2d9ee8a4d58104fb11d6b8d002c1fa2e42e67aa71a02593d1ca42b8a17df09",
+   "quotes": {
+    "Fifth Puzzle About False Belief: The Aviary": true,
+    "Fourth Puzzle About False Belief: the Wax Tablet": true,
+    "The Digression: 172c1–177b7": true
+   }
+  },
+  "https://plato.stanford.edu/entries/plato-timaeus/": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "84179275b5412fc4884263123e9809485c1670d4d1408e5e8272c9f41b7c7ff7",
+   "quotes": {
+    "It is the handiwork of a divine Craftsman": true,
+    "The Status of the Account": true,
+    "The second main section begins with the introduction of the receptacle": true,
+    "his account of a war between ancient Athens and Atlantis": true,
+    "the world soul": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,001:10a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "a845f927f72e03ffaf04011611a9649a9756fcce964395eb0d595445afa6dee7",
+   "quotes": {
+    "ἆρα τὸ ὅσιον ὅτι ὅσιόν ἐστιν φιλεῖται ὑπὸ τῶν θεῶν": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,002:20e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "87715f225e5d56230575edf636d3fdd135f7352f62aaf15c756c30f8adbce232",
+   "quotes": {
+    "οὐ γὰρ ἐμὸν ἐρῶ τὸν λόγον ὃν ἂν λέγω": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,002:30d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "dacd46a8a3f9f3a0b9b2cef00c45df99bdfb2a35449ed7e390afcfd91ddf9e3b",
+   "quotes": {
+    "νῦν οὖν, ὦ ἄνδρες Ἀθηναῖοι, πολλοῦ δέω ἐγὼ ὑπὲρ ἐμαυτοῦ ἀπολογεῖσθαι": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,002:37e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "c6db10e6c9dfc41224966f4ca3483e5b362818f1c3f719694ad4e9e7d4b8e5c8",
+   "quotes": {
+    "οὐχ οἷός τʼ ἔσῃ": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,003:50a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "6996e84552c0ff04b1a5a65b5e23337f4a3cac3cdecaf0970ff1b98ea010a73f",
+   "quotes": {
+    "ἀλλʼ ὧδε σκόπει": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,004:107c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "73cd4cc6fdc708e9013774efd176ba65c29127382b7916c8d29692225f996e68",
+   "quotes": {
+    "εἴπερ ἡ ψυχὴ ἀθάνατος, ἐπιμελείας δὴ δεῖται": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,004:116a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "acd88e88a7c722039968fd78aca2c1fd9bb3ee454e76e8f88c854223e76a3e89",
+   "quotes": {
+    "ταῦτ’ εἰπὼν ἐκεῖνος μὲν ἀνίστατο εἰς οἴκημά τι ὡς λουσόμενος": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,004:64a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "af10aef2b9b62b36a418f459f7ebfdfa45fa6605112ec0daef480446153cdf82",
+   "quotes": {
+    "κινδυνεύουσι γ": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,004:72e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "60ef766c18f11904a53a98515cba577d1f353bf7d02c43c31f18fb6a632032fa",
+   "quotes": {
+    "ὅτι ἡμῖν ἡ μάθησις οὐκ ἄλλο τι ἢ ἀνάμνησις τυγχάνει οὖσα": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,004:84e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "eb30fa443d689986300eb75bf8e75dc70d851cdd77d924c0c6c39ef4057a77c9",
+   "quotes": {
+    "τῶν κύκνων δοκῶ φαυλότερος ὑμῖν εἶναι τὴν μαντικήν": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,004:96a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "9210dcd37b4f4e250ce9165a9b8d729bf902f2619f2056712a7555a7b148a929",
+   "quotes": {
+    "ἐγὼ γάρ": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,005:402a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "2f489108168215e3c3e109e6db29f7f321abe68ade744da01cc548d94c67415d",
+   "quotes": {
+    "τὸν Ἡράκλειτόν μοι δοκῶ καθορᾶν": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,006:148e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "6c64a2d0793e9b5095e33f540658a5a857fb220b26f0664a33cda0fd6b231314",
+   "quotes": {
+    "ὠδίνεις γάρ, ὦ φίλε Θεαίτητε": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,006:155d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "accd8430224d2e43fd7c6e19f87ab63cb7db4f86e32918265bc5a06c92228f06",
+   "quotes": {
+    "μάλα γὰρ φιλοσόφου τοῦτο τὸ πάθος, τὸ θαυμάζειν": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,006:172c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "8a0b8fc0569539c4ce2a56cccad36a2cc294e3f666ef89febb23265e18e7a322",
+   "quotes": {
+    "οἱ ἐν ταῖς φιλοσοφίαις πολὺν χρόνον διατρίψαντες": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,006:191c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "d2df0f11d12fd5ad82208464b915035ac329751cb53282fea860fad406610c56",
+   "quotes": {
+    "θὲς δή μοι λόγου ἕνεκα ἐν ταῖς ψυχαῖς ἡμῶν ἐνὸν κήρινον ἐκμαγεῖον": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,006:197c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "a2b88d54a22f3fef74c9f75bacc774c9a2999fce889ce82aaff0ac65a1da7b3e",
+   "quotes": {
+    "ὥσπερ εἴ τις ὄρνιθας ἀγρίας": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,007:218e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "2e3f10ae97516cf5de3b5d0de2ba72aab7ba92143f81640ea9baa91ad155d11e",
+   "quotes": {
+    "οἷον ἀσπαλιευτής": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,007:245e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "e41448d0e6908072601ba7a8f4a397b4e3d64b23a6e146ee71e949fe8c4f8fbd",
+   "quotes": {
+    "τοὺς δὲ ἄλλως λέγοντας αὖ θεατέον": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,007:254b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "cc7f487c2aca76324c4b7e4531d73b1dbea033371cf1d6b21eeab483791ecbf6",
+   "quotes": {
+    "τὰ μὲν ἡμῖν τῶν γενῶν ὡμολόγηται κοινωνεῖν ἐθέλειν ἀλλήλοις": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,008:268d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "bf303d1a5ec85eda92d74c8a65f5bdc941a34c7f5e8702ca50695f22ec043a5e",
+   "quotes": {
+    "συχνῷ γὰρ μέρει δεῖ μεγάλου μύθου προσχρήσασθαι": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,008:279a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "aa2cf8223bf13907e6afb2502b3bc16746b42784ae97b922e4cfa98de77c643e",
+   "quotes": {
+    "τί δῆτα παράδειγμά τις ἄν": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,009:131b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "de62efe745ef386c8860198c43b2ddc738fc5e4453892902fb92be3dc6abb9c9",
+   "quotes": {
+    "οἷον [εἰ] ἡμέρα [εἴη] μία καὶ ἡ αὐτὴ οὖσα πολλαχοῦ ἅμα ἐστὶ": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,010:23c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "0d9d78dabe830361e21f01695a552da899ea691680c4ecfcbd54fc70f5a36c0d",
+   "quotes": {
+    "πάντα τὰ νῦν ὄντα ἐν τῷ παντὶ διχῇ διαλάβωμεν": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,011:189c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "c0ac87015cf539a5a741904e877b7d5f0cc46ce384569cbfe4a468f1a2a6025a",
+   "quotes": {
+    "ἄλλῃ γέ πῃ ἐν νῷ ἔχω λέγειν ἢ ᾗ σύ τε καὶ Παυσανίας εἰπέτην": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,011:203b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "48c132378b216ca51191ff1e366e81ff71d4ca6c8b2169e1628d608f265cbba2",
+   "quotes": {
+    "ὅτε γὰρ ἐγένετο ἡ Ἀφροδίτη": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,011:210a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "c3fbe477cc3d788a459c444cde68a72d114558d9ddba86f90d90bdfcdd27c3c5",
+   "quotes": {
+    "τὰ δὲ τέλεα καὶ ἐποπτικά": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,011:215a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "ccea23628ddc253122082775a2d22fca3d8d2b46d30ea97609aa1a807ac137c3",
+   "quotes": {
+    "ἔσται δʼ ἡ εἰκὼν τοῦ ἀληθοῦς ἕνεκα, οὐ τοῦ γελοίου": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,012:229b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "6d994fa631e46643428d064161508fb96bb9d3ecf422e4fdf6542e6b71652b74",
+   "quotes": {
+    "οὐκ ἐνθένδε μέντοι ποθὲν ἀπὸ τοῦ Ἰλισο": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,012:244a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "93b93765cd73913364d8a07139f9965deebfd6546400d43a4c915ea37ec4026f",
+   "quotes": {
+    "οὐκ ἔστʼ ἔτυμος λόγος": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,012:245c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "782de393f2b29268ffb88257c097728cbea96ec1b11a81bef917a59980098a66",
+   "quotes": {
+    "ψυχὴ πᾶσα ἀθάνατος": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,012:246a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "cf26f191bbcccbaf3aedb0939818f2faa37595b3fb556393ef3b89d5937aafd9",
+   "quotes": {
+    "ἐοικέτω δὴ συμφύτῳ δυνάμει ὑποπτέρου ζεύγους τε καὶ ἡνιόχου": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,012:258e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "040d4adcca89a7d987d65db5e19b9e4ac9733c9dff7235e549332a98b7c8f3d4",
+   "quotes": {
+    "οἱ τέττιγες ᾁδοντες": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,012:265c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "00083221e4491acede00fc94197bfef5d2b31b399ce72b48ce0f859658605817",
+   "quotes": {
+    "δυοῖν εἰδοῖν": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,012:274c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "f557c66715952478e6b0ade228cad0ff5de94f5937e6ba1a6f88484e8fd8e949",
+   "quotes": {
+    "ἤκουσα τοίνυν περὶ Ναύκρατιν τῆς Αἰγύπτου": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,012:279b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "e85d859fc3004bfd641188223d57e3d914e55980ed82899019536a6fdbdbd81d",
+   "quotes": {
+    "ὦ φίλε Πάν τε καὶ ἄλλοι ὅσοι τῇδε θεοί": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,013:132c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "3e8c120cdd036da2d393f54c55b429648627ecacd7fae1136498580d276c6e30",
+   "quotes": {
+    "τοῦ Δελφικοῦ γράμματος": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,022:320c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "46dee87382d0ee244178444dc356e5c15e9645343b4a3bcc047f8c93f9dfee79",
+   "quotes": {
+    "χαριέστερον εἶναι μῦθον ὑμῖν λέγειν": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,022:356c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "d7f7cf7952a0d8a2ae359eecdb6c267077990ac55c7e3280718f1a18c928739e",
+   "quotes": {
+    "φαίνεται ὑμῖν τῇ ὄψει τὰ αὐτὰ μεγέθη ἐγγύθεν μὲν μείζω": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,023:482c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "b7e9727b7281f3257d5cf3184f1a90c9060770f5fedb802bd2de9c6fb7205fc1",
+   "quotes": {
+    "ὦ Σώκρατες, δοκεῖς νεανιεύεσθαι ἐν τοῖς λόγοις": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,023:493a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "4d5919b1030a314c5af4c3bb3ee752082d0809db5b7d286da47a6687f11ba737",
+   "quotes": {
+    "τὸ μὲν σῶμά ἐστιν ἡμῖν σῆμα": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,023:523a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "6ae4557053de537765b56072247acf330bd37c989aa0a6be34976c9a07bf4e7e",
+   "quotes": {
+    "ἄκουε δή, φασί, μάλα καλοῦ λόγου": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,024:80a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "61c397fc6f793c21e4ada90a2c5da4fcb8020e6137b01f210725c12383936dca",
+   "quotes": {
+    "γοητεύεις με καὶ φαρμάττεις καὶ ἀτεχνῶς κατεπᾴδεις": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,024:80d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "cbcd595d3ba37fe2746f6f893d4a6ce47a3b54d48ea1db39a8601754bc7fdf67",
+   "quotes": {
+    "ποῖον γὰρ ὧν οὐκ οἶσθα προθέμενος ζητήσεις": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,024:82b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "6b220010ce55aab30eeaedcaafea7b7fe3679274a08a83583c7f2821b6494939",
+   "quotes": {
+    "δεῦρο πρόσελθε": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,024:97d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "4f7182f2ec72742fb25ba284f52c8d854227ec75dfa35678b491e44ae539b7e9",
+   "quotes": {
+    "Δαιδάλου ἀγάλμασιν": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:336b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "4ae5193a020c79b0808ab8a72beba16ecba0f5bf6bff86b081e360ec9c25cbfb",
+   "quotes": {
+    "συστρέψας ἑαυτὸν ὥσπερ θηρίον": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:359c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "a8d6b340765dfc4322ed4941f50d181c4cb86f5ced1b464e3db7b3466be3a06a",
+   "quotes": {
+    "δόντες ἐξουσίαν ἑκατέρῳ ποιεῖν ὅτι ἂν βούληται": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:369b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "3e72427eb65457eafcb597259fc18a04a1e41c23dc20505c0f331c39b1f0a335",
+   "quotes": {
+    "γίγνεται τοίνυν, ἦν δʼ ἐγώ, πόλις": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:414b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "7c40fdd481417bf70bd08ecde25b4a6d6a75eb1e0ab89adce0dc6f1dfbfb7387",
+   "quotes": {
+    "τίς ἂν οὖν ἡμῖν, ἦν δʼ ἐγώ, μηχανὴ γένοιτο τῶν ψευδῶν τῶν ἐν δέοντι γιγνομένων": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:435c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "62391d556a6a06ef664275498dfc8a7213c50d74bc6bc373816bc66e2cf9ea76",
+   "quotes": {
+    "εἰς φαῦλόν γε αὖ": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:473c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "b15d0b3db736b308ed391d89230a2a54dfc9ffa1e9947a9b649ac0cdc2d07f6a",
+   "quotes": {
+    "ἐὰν μή, ἦν δʼ ἐγώ, ἢ οἱ φιλόσοφοι βασιλεύσωσιν": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:488a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "491e8834f1811ae9a8d80378642eb7d010916e68f88a304b9c785ca524dfafcd",
+   "quotes": {
+    "ἄκουε δʼ οὖν τῆς εἰκόνος": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:506e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "e217836d236527ae018794aca589344eaa6bca29c693d5e6f7e7d446bfe51e2a",
+   "quotes": {
+    "ὃς δὲ ἔκγονός τε τοῦ ἀγαθοῦ φαίνεται καὶ ὁμοιότατος ἐκείνῳ": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:509d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "52bc054c0c258c336f0f2ba301b08b807824f051c45fc0de46107097830baa3e",
+   "quotes": {
+    "ὥσπερ τοίνυν γραμμὴν δίχα τετμημένην λαβὼν ἄνισα τμήματα": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:514a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "955fe3eaacfa9d6354b16765654434b0b551c2ab2f0db2d89d3b2ac241671f49",
+   "quotes": {
+    "ἀπείκασον τοιούτῳ πάθει τὴν ἡμετέραν φύσιν παιδείας τε πέρι καὶ ἀπαιδευσίας": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:587b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "c767a2be5be9e45dbd44da7eab0bd3a007ae7bb893733a6ff9e449c4a3d758db",
+   "quotes": {
+    "οἶσθʼ οὖν, ἦν δʼ ἐγώ, ὅσῳ ἀηδέστερον ζῇ τύραννος βασιλέως": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:588b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "5cf24fb01ddcbe141f17e8f7ddb995502d69a53501f1d9dc73e6fb607d3af336",
+   "quotes": {
+    "εἰκόνα πλάσαντες τῆς ψυχῆς λόγῳ": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:596a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "121b3576906dc6564e000c8c31cb24d3b5808be6827936257acbe8d6589197f8",
+   "quotes": {
+    "εἶδος γάρ πού τι ἓν ἕκαστον εἰώθαμεν τίθεσθαι": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:611b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "00fdbc62b9435b0bd6d71bddd17807360672a71aad3b818d5819f861619b3013",
+   "quotes": {
+    "μήτε γε αὖ τῇ ἀληθεστάτῃ φύσει τοιοῦτον εἶναι ψυχήν": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,030:614b": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "40749a42e70ba4c2d14508929de9dcbec0ca671a5a3174c5ce03d23ac5d7ce81",
+   "quotes": {
+    "ἀλλʼ οὐ μέντοι σοι, ἦν δʼ ἐγώ, Ἀλκίνου γε ἀπόλογον ἐρῶ": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,031:20d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "d11488509a0572e357df263d8f7775eccb47c2c4ece841bc7dbdfab3aac4ee02",
+   "quotes": {
+    "ἄκουε δή, ὦ Σώκρατες, λόγου μάλα μὲν ἀτόπου, παντάπασί γε μὴν ἀληθοῦς": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,031:27d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "d911c06624806e4d0176fb20e464abb23d39156d841980ef2b99212e31ed75c1",
+   "quotes": {
+    "τί τὸ ὂν ἀεί, γένεσιν δὲ οὐκ ἔχον": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,031:29d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "53214fc686963d5a7e65b5545018183f6da79a4c2b970aca6b9010c3f610ecdf",
+   "quotes": {
+    "λέγωμεν δὴ διʼ ἥντινα αἰτίαν γένεσιν καὶ τὸ πᾶν": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,031:35a": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "ababd59f29ab1a24a53301e6314416adf9b834b4b17a9541401d79430a4681c3",
+   "quotes": {
+    "τῆς ἀμερίστου καὶ ἀεὶ κατὰ ταὐτὰ ἐχούσης οὐσίας": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,031:37c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "817e2d4e20134c3b09d3eb33a1110d943e1ef30d622d13f0acf4ee401b817609",
+   "quotes": {
+    "ὡς δὲ κινηθὲν αὐτὸ καὶ ζῶν ἐνόησεν": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,031:48e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "92bbb47b80dbeba382b27c03c8288e46d35d567b37aa52408d57bb8dd4702815",
+   "quotes": {
+    "νῦν δὲ τρίτον ἄλλο γένος ἡμῖν δηλωτέον": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,031:53c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "4c8059661a413bd6e1cd9df094525dedf1088e392ae6a23fcafa4d1352e3ce61",
+   "quotes": {
+    "πρῶτον μὲν δὴ πῦρ καὶ γῆ καὶ ὕδωρ": false
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,034:644d": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "66ef78302204c0abf71a7cbbd07a0592bc08af925d0ff83a598d52c980bd0ba4",
+   "quotes": {
+    "θαῦμα μὲν ἕκαστον ἡμῶν ἡγησώμεθα τῶν ζῴων θεῖον": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,034:891e": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "2917ffead70f623e6563eae7e0c7a6a88e5c345cc84f7e7da4be61a4026e429b",
+   "quotes": {
+    "ὃ πρῶτον γενέσεως καὶ φθορᾶς αἴτιον ἁπάντων": true
+   }
+  },
+  "https://www.perseus.tufts.edu/hopper/text?doc=Perseus:abo:tlg,0059,036:341c": {
+   "checked": "2026-11-05",
+   "status": 200,
+   "sha256": "542caef74dc84e62d014de2aa9fb7a39f3af12b3a96c5a7d5c11f20fedcafe6e",
+   "quotes": {
+    "οὔκουν ἐμόν γε περὶ αὐτῶν ἔστιν σύγγραμμα οὐδὲ μήποτε γένηται": false
+   }
+  }
+ }
+}

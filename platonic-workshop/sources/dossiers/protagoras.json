@@ -1,0 +1,142 @@
+{
+ "dossiers": [
+  {
+   "id": "prometheus",
+   "label": "The myth of Prometheus and Epimetheus",
+   "greek": "ὁ Προμηθέως μῦθος",
+   "kind": "myth",
+   "group": "city",
+   "about": "Protagoras' 'great speech': Epimetheus hands out all the powers to the beasts and leaves man naked; Prometheus steals fire and the crafts from Hephaestus and Athena; but men lack the political art until Zeus sends Hermes with shame and justice, to be given to all.",
+   "passage": {
+    "work": "tlg022",
+    "start": "320c",
+    "end": "328d",
+    "start_quote": "χαριέστερον εἶναι μῦθον ὑμῖν λέγειν",
+    "end_quote": "Πρωταγόρας μὲν τοσαῦτα καὶ τοιαῦτα ἐπιδειξάμενος ἀπεπαύσατο τοῦ λόγου"
+   },
+   "parts": [
+    {
+     "label": "A myth, or a reasoned account?",
+     "ref": "320c",
+     "quote": "μῦθον λέγων ἐπιδείξω ἢ λόγῳ διεξελθών"
+    },
+    {
+     "label": "Man left naked and unshod",
+     "ref": "321c",
+     "quote": "τὸν δὲ ἄνθρωπον γυμνόν τε καὶ ἀνυπόδητον καὶ ἄστρωτον καὶ ἄοπλον"
+    },
+    {
+     "label": "Prometheus steals fire and the crafts",
+     "ref": "321d",
+     "quote": "κλέπτει Ἡφαίστου καὶ Ἀθηνᾶς τὴν ἔντεχνον σοφίαν σὺν πυρί"
+    },
+    {
+     "label": "Hermes brings shame and justice",
+     "ref": "322c",
+     "quote": "Ἑρμῆν πέμπει ἄγοντα εἰς ἀνθρώπους αἰδῶ τε καὶ δίκην"
+    },
+    {
+     "label": "To all, and let all share",
+     "ref": "322d",
+     "quote": "ἐπὶ πάντας, ἔφη ὁ Ζεύς, καὶ πάντες μετεχόντων"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg008",
+     "ref": "274c",
+     "quote": "Προμηθέως",
+     "why": "The Statesman's myth also has the gifts of Prometheus and Hephaestus."
+    },
+    {
+     "work": "tlg022",
+     "ref": "361c",
+     "quote": "Ἐπιμηθε",
+     "why": "At the end Socrates prefers Prometheus to Epimetheus as his guide."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "reversed-cosmos",
+     "why": "The Statesman's myth gives fire and crafts to men too.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg008",
+       "ref": "274c",
+       "quote": "Προμηθέως"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Prometheus",
+     "Epimetheus",
+     "great speech",
+     "shame and justice",
+     "reverence and justice"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Protagoras (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Protagoras_(dialogue)",
+     "quote": "they assigned two Titan brothers, Epimetheus (\"afterthought\") and Prometheus (\"forethought\")",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "measuring-art",
+   "label": "The measuring art",
+   "greek": "ἡ μετρητικὴ τέχνη",
+   "kind": "argument",
+   "group": "soul",
+   "about": "Being 'overcome by pleasure' is a mistake of measurement: near pleasures look larger, as near objects do. What would save our lives is a measuring art that removes the power of appearance and lets the soul rest in the truth; so it is knowledge.",
+   "passage": {
+    "work": "tlg022",
+    "start": "356c",
+    "end": "357b",
+    "start_quote": "φαίνεται ὑμῖν τῇ ὄψει τὰ αὐτὰ μεγέθη ἐγγύθεν μὲν μείζω",
+    "end_quote": "ὅτι δὲ ἐπιστήμη ἐστίν"
+   },
+   "parts": [
+    {
+     "label": "The measuring art or the power of appearance?",
+     "ref": "356d",
+     "quote": "ἆρα ἡ μετρητικὴ τέχνη ἢ ἡ τοῦ φαινομένου δύναμις"
+    },
+    {
+     "label": "Appearance made us wander up and down",
+     "ref": "356d",
+     "quote": "αὕτη μὲν ἡμᾶς ἐπλάνα καὶ ἐποίει ἄνω τε καὶ κάτω"
+    },
+    {
+     "label": "Measurement is an art and knowledge",
+     "ref": "357b",
+     "quote": "ἐπεὶ δὲ μετρητική, ἀνάγκῃ δήπου τέχνη καὶ ἐπιστήμη"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg030",
+     "ref": "602d",
+     "quote": "μετρεῖν",
+     "why": "The Republic: measuring, counting and weighing rescue us from the appearances of painting."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "measuring art",
+     "art of measurement",
+     "metretike",
+     "weakness of will",
+     "overcome by pleasure"
+    ]
+   },
+   "web": []
+  }
+ ]
+}

@@ -1,0 +1,128 @@
+{
+ "dossiers": [
+  {
+   "id": "seventh-letter",
+   "label": "The Seventh Letter: the spark and the five",
+   "greek": "οἷον ἀπὸ πυρὸς πηδήσαντος ἐξαφθὲν φῶς",
+   "kind": "doctrine",
+   "group": "method",
+   "about": "There is not and never will be a treatise of Plato's on these things; they cannot be put into words like other studies, but after long living together with the matter, suddenly, like light kindled from a leaping spark, it is born in the soul. For each thing there are name, definition, image and knowledge, and fifth the thing itself; and no one with sense will commit his thoughts to the fixity of writing.",
+   "passage": {
+    "work": "tlg036",
+    "start": "341c",
+    "end": "344d",
+    "start_quote": "οὔκουν ἐμόν γε περὶ αὐτῶν ἔστιν σύγγραμμα οὐδὲ μήποτε γένηται",
+    "end_quote": "τούτῳ δὴ τῷ μύθῳ τε καὶ πλάνῳ"
+   },
+   "parts": [
+    {
+     "label": "No treatise of mine exists or ever will",
+     "ref": "341c",
+     "quote": "οὔκουν ἐμόν γε περὶ αὐτῶν ἔστιν σύγγραμμα οὐδὲ μήποτε γένηται"
+    },
+    {
+     "label": "Not sayable like other studies",
+     "ref": "341c",
+     "quote": "ῥητὸν γὰρ οὐδαμῶς ἐστιν ὡς ἄλλα μαθήματα"
+    },
+    {
+     "label": "Suddenly, like light from a leaping spark",
+     "ref": "341c",
+     "quote": "ἐξαίφνης, οἷον ἀπὸ πυρὸς"
+    },
+    {
+     "label": "Name, definition, image, knowledge",
+     "ref": "342b",
+     "quote": "ἓν μὲν ὄνομα, δεύτερον δὲ λόγος, τὸ δὲ τρίτον εἴδωλον, τέταρτον δὲ ἐπιστήμη"
+    },
+    {
+     "label": "No one with sense will set it in writing",
+     "ref": "343a",
+     "quote": "νοῦν ἔχων οὐδεὶς τολμήσει ποτὲ εἰς αὐτὸ τιθέναι τὰ νενοημένα ὑπʼ αὐτοῦ"
+    }
+   ],
+   "diagram": {
+    "kind": "steps",
+    "title": "The five of 342a–b, with the circle",
+    "about": "The four means of knowing and the fifth, the thing itself, with the letter's own example, the circle.",
+    "steps": [
+     {
+      "label": "1. name: 'circle'",
+      "ref": "342b",
+      "quote": "κύκλος ἐστίν τι λεγόμενον, ᾧ τοῦτʼ αὐτό ἐστιν ὄνομα"
+     },
+     {
+      "label": "2. definition: equally distant from the centre",
+      "ref": "342b",
+      "quote": "τὸ γὰρ ἐκ τῶν ἐσχάτων ἐπὶ τὸ μέσον ἴσον ἀπέχον πάντῃ"
+     },
+     {
+      "label": "3. image: the drawn or turned circle",
+      "ref": "343a",
+      "quote": "κύκλος ἕκαστος τῶν ἐν ταῖς πράξεσι γραφομένων ἢ καὶ τορνευθέντων"
+     },
+     {
+      "label": "4. knowledge, understanding and true opinion",
+      "ref": "342b",
+      "quote": "τέταρτον δὲ ἐπιστήμη"
+     },
+     {
+      "label": "5. the thing itself, knowable and truly being",
+      "ref": "342b",
+      "quote": "ὃ δὴ γνωστόν τε καὶ ἀληθῶς ἐστιν ὄν"
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg011",
+     "ref": "210e",
+     "quote": "ἐξαίφνης κατόψεταί",
+     "why": "The Symposium: suddenly he will see beauty itself."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "theuth",
+     "why": "The Phaedrus' critique of writing.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "275a",
+       "quote": "λήθην"
+      }
+     ]
+    },
+    {
+     "dossier": "ladder-of-love",
+     "why": "The sudden vision at the end of long practice.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg011",
+       "ref": "210e",
+       "quote": "ἐξαίφνης κατόψεταί"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "Seventh Letter",
+     "seventh letter",
+     "unwritten"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Seventh Letter",
+     "url": "https://en.wikipedia.org/wiki/Seventh_Letter",
+     "quote": "It also contains an extended philosophical interlude concerning the possibility of writing true philosophical works",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

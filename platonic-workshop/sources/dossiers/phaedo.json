@@ -1,0 +1,478 @@
+{
+ "dossiers": [
+  {
+   "id": "practice-of-dying",
+   "label": "Philosophy as practice for dying",
+   "greek": "μελέτη θανάτου",
+   "kind": "doctrine",
+   "group": "socrates",
+   "about": "Those who rightly pursue philosophy practise nothing but dying and being dead: the separation of soul from body, which the philosopher seeks all his life; why then be vexed when it comes?",
+   "passage": {
+    "work": "tlg004",
+    "start": "64a",
+    "end": "69e",
+    "start_quote": "κινδυνεύουσι γ",
+    "end_quote": "εὖ ἂν ἔχοι"
+   },
+   "parts": [
+    {
+     "label": "Those who practise philosophy rightly practise dying",
+     "ref": "64a",
+     "quote": "ἀποθνῄσκειν τε καὶ τεθνάναι"
+    },
+    {
+     "label": "Death the release of soul from body",
+     "ref": "64c",
+     "quote": "τὴν τῆς ψυχῆς ἀπὸ τοῦ σώματος ἀπαλλαγήν"
+    },
+    {
+     "label": "The practice of philosophers is this release",
+     "ref": "67d",
+     "quote": "τὸ μελέτημα αὐτὸ τοῦτό ἐστιν τῶν φιλοσόφων"
+    },
+    {
+     "label": "Many bear the thyrsus, few are Bacchants",
+     "ref": "69c",
+     "quote": "ναρθηκοφόροι"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg004",
+     "ref": "81a",
+     "quote": "μελέτη θανάτου",
+     "why": "Taken up in the affinity argument: the pure soul has been practising death."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "practice of death",
+     "practise dying",
+     "practice dying",
+     "rehearsal for death",
+     "meditation of death",
+     "study of death"
+    ],
+    "grc": [
+     "μελετη θανατου"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "recollection-phaedo",
+   "label": "Recollection in the Phaedo: the equal itself",
+   "greek": "αὐτὸ τὸ ἴσον",
+   "kind": "argument",
+   "group": "recollection",
+   "about": "Cebes recalls Socrates' saying that learning is recollection. Equal sticks and stones seen fall short of the equal itself; we must have known the equal before we saw them, so the soul existed before birth.",
+   "passage": {
+    "work": "tlg004",
+    "start": "72e",
+    "end": "77a",
+    "start_quote": "ὅτι ἡμῖν ἡ μάθησις οὐκ ἄλλο τι ἢ ἀνάμνησις τυγχάνει οὖσα",
+    "end_quote": "ἱκανῶς, ἔφη ὁ Σιμμίας"
+   },
+   "parts": [
+    {
+     "label": "Learning is nothing but recollection",
+     "ref": "72e",
+     "quote": "ἡ μάθησις οὐκ ἄλλο τι ἢ ἀνάμνησις"
+    },
+    {
+     "label": "The equal itself, beyond equal sticks and stones",
+     "ref": "74a",
+     "quote": "αὐτὸ τὸ ἴσον"
+    },
+    {
+     "label": "They fall short of it",
+     "ref": "74e",
+     "quote": "ἐνδεῖ"
+    },
+    {
+     "label": "So our souls existed before birth, if these things are",
+     "ref": "77a",
+     "quote": "τὸ ὁμοίως εἶναι τήν τε ψυχὴν ἡμῶν πρὶν γενέσθαι ἡμᾶς καὶ τὴν οὐσίαν"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg024",
+     "ref": "81d",
+     "quote": "τὸ γὰρ ζητεῖν ἄρα καὶ τὸ μανθάνειν ἀνάμνησις ὅλον ἐστίν",
+     "why": "The Meno: all searching and learning is recollection."
+    },
+    {
+     "work": "tlg012",
+     "ref": "249c",
+     "quote": "τοῦτο δʼ ἐστὶν ἀνάμνησις ἐκείνων ἅ ποτʼ εἶδεν ἡμῶν ἡ ψυχὴ",
+     "why": "The Phaedrus: understanding is recollection of what the soul saw following a god."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "meno-geometry",
+     "why": "Cebes cites the proof by questioning with diagrams, which the Meno shows.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg004",
+       "ref": "73b",
+       "quote": "διαγράμματα"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "recollection",
+     "reminiscence",
+     "anamnesis",
+     "equal itself",
+     "absolute equality"
+    ],
+    "grc": [
+     "αναμνησ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Middle Period Metaphysics and Epistemology, §11 Recollection in the Phaedo",
+     "url": "https://plato.stanford.edu/entries/plato-metaphysics/",
+     "quote": "Recollection in the Phaedo",
+     "kind": "essay"
+    },
+    {
+     "site": "Wikipedia",
+     "title": "Anamnesis (philosophy)",
+     "url": "https://en.wikipedia.org/wiki/Anamnesis_(philosophy)",
+     "quote": "Anamnesis (philosophy)",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "swan-song",
+   "label": "The swan song",
+   "greek": "οἱ κύκνοι",
+   "kind": "image",
+   "group": "socrates",
+   "about": "Socrates will not be thought a worse prophet than the swans, who sing most and best when they know they must die, not from grief but because they are Apollo's and foresee the good things in Hades.",
+   "passage": {
+    "work": "tlg004",
+    "start": "84e",
+    "end": "85b",
+    "start_quote": "τῶν κύκνων δοκῶ φαυλότερος ὑμῖν εἶναι τὴν μαντικήν",
+    "end_quote": "ἕως ἂν Ἀθηναίων ἐῶσιν ἄνδρες ἕνδεκα"
+   },
+   "parts": [
+    {
+     "label": "No worse a prophet than the swans",
+     "ref": "84e",
+     "quote": "τῶν κύκνων δοκῶ φαυλότερος"
+    },
+    {
+     "label": "Apollo's birds, they foresee the good in Hades",
+     "ref": "85b",
+     "quote": "τοῦ Ἀπόλλωνος ὄντες, μαντικοί τέ εἰσι καὶ προειδότες τὰ ἐν Ἅιδου ἀγαθὰ"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg004",
+     "ref": "58b",
+     "quote": "τῷ οὖν Ἀπόλλωνι ηὔξαντο",
+     "why": "Socrates' death waited on the ship sent each year to Apollo at Delos."
+    }
+   ],
+   "keywords": {
+    "en": [
+     "swans"
+    ],
+    "grc": [
+     "κυκν"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "second-sailing",
+   "label": "The second sailing",
+   "greek": "ὁ δεύτερος πλοῦς",
+   "kind": "method",
+   "group": "method",
+   "about": "Disappointed in Anaxagoras' Mind, which explained nothing by the best, Socrates takes 'the second voyage' in search of the cause: he takes refuge in logoi, lays down the strongest hypothesis, and posits beauty itself, the good itself and the rest.",
+   "passage": {
+    "work": "tlg004",
+    "start": "96a",
+    "end": "100a",
+    "start_quote": "ἐγὼ γάρ",
+    "end_quote": "ὑποθέμενος ἑκάστοτε λόγον"
+   },
+   "parts": [
+    {
+     "label": "Anaxagoras' book: Mind orders all things",
+     "ref": "97b",
+     "quote": "Ἀναξαγόρου"
+    },
+    {
+     "label": "Socrates sits in prison not because of his bones and sinews",
+     "ref": "98c",
+     "quote": "νεῦρα"
+    },
+    {
+     "label": "The second voyage in search of the cause",
+     "ref": "99d",
+     "quote": "πλοῦν ἐπὶ τὴν τῆς αἰτίας ζήτησιν"
+    },
+    {
+     "label": "Not to look at the sun in an eclipse directly",
+     "ref": "99d",
+     "quote": "οἱ τὸν ἥλιον ἐκλείποντα θεωροῦντες"
+    },
+    {
+     "label": "Taking refuge in logoi",
+     "ref": "99e",
+     "quote": "εἰς τοὺς λόγους καταφυγόντα"
+    },
+    {
+     "label": "Laying down each time the strongest logos",
+     "ref": "100a",
+     "quote": "ὑποθέμενος ἑκάστοτε λόγον ὃν ἂν κρίνω ἐρρωμενέστατον εἶναι"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg004",
+     "ref": "100d",
+     "quote": "τῷ καλῷ πάντα τὰ καλὰ",
+     "why": "The 'safe and simple' cause that follows: by the beautiful all beautiful things are beautiful."
+    },
+    {
+     "work": "tlg030",
+     "ref": "510b",
+     "quote": "ἐξ ὑποθέσεων",
+     "why": "The divided line: the geometers proceed from hypotheses; dialectic goes up through them."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "divided-line",
+     "why": "Hypothesis again, and the turn from looking at things directly to their images.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "510b",
+       "quote": "ἐξ ὑποθέσεων"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "second voyage",
+     "second sailing"
+    ],
+    "grc": [
+     "δευτερον πλουν",
+     "δευτερος πλους"
+    ]
+   },
+   "web": [
+    {
+     "site": "Internet Encyclopedia of Philosophy",
+     "title": "Phaedo",
+     "url": "https://iep.utm.edu/phaedo/",
+     "quote": "he presents the belief in the immortality of the soul as an uncommon belief",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "true-earth",
+   "label": "The true earth (the Phaedo's myth)",
+   "greek": "ἡ ἀληθῶς γῆ",
+   "kind": "myth",
+   "group": "judgment-myths",
+   "about": "We live in a hollow of the earth like frogs round a pond, and take the murky air for heaven; the true earth above is like a ball of twelve coloured patches. Beneath, the rivers of the underworld, Ocean, Acheron, Pyriphlegethon and Cocytus, carry the dead to judgment.",
+   "passage": {
+    "work": "tlg004",
+    "start": "107c",
+    "end": "114c",
+    "start_quote": "εἴπερ ἡ ψυχὴ ἀθάνατος, ἐπιμελείας δὴ δεῖται",
+    "end_quote": "καλὸν γὰρ τὸ ἆθλον καὶ ἡ ἐλπὶς μεγάλη"
+   },
+   "parts": [
+    {
+     "label": "If the soul is immortal, it needs care for all time",
+     "ref": "107c",
+     "quote": "ἐπιμελείας δὴ δεῖται"
+    },
+    {
+     "label": "The earth is not as the geographers say",
+     "ref": "108c",
+     "quote": "οὔτε οἵα οὔτε ὅση δοξάζεται"
+    },
+    {
+     "label": "Like ants or frogs about a marsh",
+     "ref": "109b",
+     "quote": "ὥσπερ περὶ τέλμα μύρμηκας ἢ βατράχους"
+    },
+    {
+     "label": "Like the twelve-patched balls",
+     "ref": "110b",
+     "quote": "δωδεκάσκυτοι σφαῖραι"
+    },
+    {
+     "label": "Tartarus and the rivers",
+     "ref": "112a",
+     "quote": "Τάρταρον"
+    },
+    {
+     "label": "Fair the prize, great the hope",
+     "ref": "114c",
+     "quote": "καλὸν γὰρ τὸ ἆθλον καὶ ἡ ἐλπὶς μεγάλη"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg004",
+     "ref": "114d",
+     "quote": "καλὸς γὰρ ὁ κίνδυνος",
+     "why": "Socrates on the myth: no sensible man would insist it is just so, but it is a fine risk to believe it."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "er",
+     "why": "Another judgment myth, at the end of the Republic.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "614b",
+       "quote": "Ἠρὸς τοῦ Ἀρμενίου"
+      }
+     ]
+    },
+    {
+     "dossier": "glaucus",
+     "why": "Our sea corrodes everything, as the waves have Glaucus.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg030",
+       "ref": "611d",
+       "quote": "θαλάττιον Γλαῦκον"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "true earth",
+     "Tartarus",
+     "Acheron",
+     "Pyriphlegethon",
+     "Cocytus",
+     "hollows of the earth"
+    ]
+   },
+   "web": [
+    {
+     "site": "Stanford Encyclopedia of Philosophy",
+     "title": "Plato's Myths",
+     "url": "https://plato.stanford.edu/entries/plato-myths/",
+     "quote": "the Phaedo myth (107c–115a)",
+     "kind": "essay"
+    }
+   ]
+  },
+  {
+   "id": "death-of-socrates",
+   "label": "The death of Socrates",
+   "greek": "ἡ τελευτὴ τοῦ ἑταίρου",
+   "kind": "scene",
+   "group": "socrates",
+   "about": "Socrates bathes, sends away the women, drinks the hemlock calmly, walks until his legs are heavy, and his last words ask Crito to pay a cock to Asclepius. 'Such was the end of our friend, the best and wisest and most just.'",
+   "passage": {
+    "work": "tlg004",
+    "start": "116a",
+    "end": "118a",
+    "start_quote": "ταῦτ’ εἰπὼν ἐκεῖνος μὲν ἀνίστατο εἰς οἴκημά τι ὡς λουσόμενος",
+    "end_quote": "καὶ ἄλλως φρονιμωτάτου καὶ δικαιοτάτου"
+   },
+   "parts": [
+    {
+     "label": "Like children robbed of a father",
+     "ref": "116a",
+     "quote": "ὥσπερ πατρὸς στερηθέντες διάξειν ὀρφανοὶ"
+    },
+    {
+     "label": "He takes the cup calmly",
+     "ref": "117c",
+     "quote": "εὐκόλως"
+    },
+    {
+     "label": "'We owe a cock to Asclepius'",
+     "ref": "118a",
+     "quote": "τῷ Ἀσκληπιῷ ὀφείλομεν ἀλεκτρυόνα"
+    },
+    {
+     "label": "The best, wisest and most just",
+     "ref": "118a",
+     "quote": "ἀρίστου καὶ ἄλλως φρονιμωτάτου καὶ δικαιοτάτου"
+    }
+   ],
+   "echoes": [
+    {
+     "work": "tlg002",
+     "ref": "42a",
+     "quote": "ἀλλὰ γὰρ ἤδη ὥρα ἀπιέναι",
+     "why": "The Apology's last words: now it is time to go, I to die, you to live; which is better, only the god knows."
+    },
+    {
+     "work": "tlg003",
+     "ref": "43a",
+     "quote": "ὄρθρος βαθύς",
+     "why": "The Crito: Crito at dawn in the prison, before the ship from Delos arrives."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "apology-unexamined",
+     "why": "The defence that brought him here.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg002",
+       "ref": "42a",
+       "quote": "ἀλλὰ γὰρ ἤδη ὥρα ἀπιέναι"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "hemlock",
+     "Asclepius",
+     "Aesculapius"
+    ],
+    "grc": [
+     "ασκληπι"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Phaedo",
+     "url": "https://en.wikipedia.org/wiki/Phaedo",
+     "quote": "sacrifices a rooster to Asclepius on his behalf",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}

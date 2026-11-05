@@ -1,0 +1,429 @@
+{
+ "dossiers": [
+  {
+   "id": "angler",
+   "label": "The angler: a model division",
+   "greek": "ὁ ἀσπαλιευτής",
+   "kind": "method",
+   "group": "method",
+   "about": "Before hunting the sophist, the Stranger practises on something small and familiar: the angler. All arts are cut in two, production and acquisition, and the right-hand part is cut again and again until angling is reached; then the steps are read back as a definition, and the sophist is sought on the same model.",
+   "passage": {
+    "work": "tlg007",
+    "start": "218e",
+    "end": "221c",
+    "start_quote": "οἷον ἀσπαλιευτής",
+    "end_quote": "κατὰ τοῦτο τὸ παράδειγμα καὶ τὸν σοφιστὴν ἐπιχειρῶμεν εὑρεῖν"
+   },
+   "parts": [
+    {
+     "label": "Something small and well known: the angler",
+     "ref": "218e",
+     "quote": "τί δῆτα προταξαίμεθʼ ἂν εὔγνωστον μὲν καὶ σμικρόν"
+    },
+    {
+     "label": "Two kinds of all the arts",
+     "ref": "219a",
+     "quote": "τῶν γε τεχνῶν πασῶν σχεδὸν εἴδη δύο"
+    },
+    {
+     "label": "The definition read back, step by step",
+     "ref": "221b",
+     "quote": "συμπάσης γὰρ τέχνης τὸ μὲν ἥμισυ μέρος κτητικὸν ἦν"
+    },
+    {
+     "label": "Now find the sophist by this model",
+     "ref": "221c",
+     "quote": "κατὰ τοῦτο τὸ παράδειγμα καὶ τὸν σοφιστὴν ἐπιχειρῶμεν εὑρεῖν"
+    }
+   ],
+   "diagram": {
+    "kind": "tree",
+    "title": "The cuts of 219a–221a",
+    "about": "Each cut as the Stranger makes it; the branch followed is marked, the other set aside. Every name is his word.",
+    "root": {
+     "label": "Art",
+     "ref": "219a",
+     "quote": "τῶν γε τεχνῶν πασῶν σχεδὸν εἴδη δύο",
+     "children": [
+      {
+       "label": "productive",
+       "ref": "219b",
+       "quote": "ποιητικὴν τοίνυν αὐτὰ συγκεφαλαιωσάμενοι προσείπωμεν"
+      },
+      {
+       "label": "acquisitive",
+       "ref": "219c",
+       "quote": "τέχνη τις κτητικὴ λεχθεῖσα",
+       "chosen": true,
+       "children": [
+        {
+         "label": "by exchange",
+         "ref": "219d",
+         "quote": "ἑκόντων πρὸς ἑκόντας μεταβλητικὸν"
+        },
+        {
+         "label": "by capture",
+         "ref": "219d",
+         "quote": "χειρωτικὸν ἂν εἴη",
+         "chosen": true,
+         "children": [
+          {
+           "label": "openly: contest",
+           "ref": "219e",
+           "quote": "τὸ μὲν ἀναφανδὸν ὅλον ἀγωνιστικὸν"
+          },
+          {
+           "label": "covertly: hunting",
+           "ref": "219e",
+           "quote": "τὸ δὲ κρυφαῖον αὐτῆς πᾶν θηρευτικόν",
+           "chosen": true,
+           "children": [
+            {
+             "label": "of lifeless things",
+             "ref": "219e",
+             "quote": "τὸ μὲν ἀψύχου γένους"
+            },
+            {
+             "label": "of living things",
+             "ref": "220a",
+             "quote": "προσειπεῖν ζῳοθηρικήν",
+             "chosen": true,
+             "children": [
+              {
+               "label": "on land",
+               "ref": "220a",
+               "quote": "πεζοθηρικόν"
+              },
+              {
+               "label": "in fluid (swimming creatures)",
+               "ref": "220a",
+               "quote": "νευστικοῦ ζῴου πᾶν ἐνυγροθηρικόν",
+               "chosen": true,
+               "children": [
+                {
+                 "label": "winged: fowling",
+                 "ref": "220b",
+                 "quote": "ὀρνιθευτική"
+                },
+                {
+                 "label": "in water: fishing",
+                 "ref": "220b",
+                 "quote": "τοῦ δὲ ἐνύδρου σχεδὸν τὸ σύνολον ἁλιευτική",
+                 "chosen": true,
+                 "children": [
+                  {
+                   "label": "by enclosure",
+                   "ref": "220c",
+                   "quote": "ἑρκοθηρικὸν τῆς ἄγρας τὸ μέρος"
+                  },
+                  {
+                   "label": "by striking",
+                   "ref": "220d",
+                   "quote": "πληκτικὴν δέ τινα θήραν",
+                   "chosen": true,
+                   "children": [
+                    {
+                     "label": "by night, with fire",
+                     "ref": "220d",
+                     "quote": "πυρευτικὴν"
+                    },
+                    {
+                     "label": "by day, with hooks",
+                     "ref": "220d",
+                     "quote": "πᾶν ἀγκιστρευτικόν",
+                     "chosen": true,
+                     "children": [
+                      {
+                       "label": "from above: spearing",
+                       "ref": "220e",
+                       "quote": "τριοδοντία τις οἶμαι κέκληται"
+                      },
+                      {
+                       "label": "from below, drawn upward",
+                       "ref": "221a",
+                       "quote": "κάτωθεν εἰς τοὐναντίον ἄνω ῥάβδοις καὶ καλάμοις ἀνασπώμενον",
+                       "chosen": true
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "result": {
+     "label": "Angling",
+     "ref": "221c",
+     "quote": "ἡ νῦν ἀσπαλιευτικὴ ζητηθεῖσα ἐπίκλην γέγονεν"
+    }
+   },
+   "echoes": [
+    {
+     "work": "tlg007",
+     "ref": "221d",
+     "quote": "ἀσπαλιευτ",
+     "why": "At once the sophist turns out a kinsman of the angler: both hunters."
+    },
+    {
+     "work": "tlg008",
+     "ref": "279b",
+     "quote": "ὑφαντικὴν",
+     "why": "The Statesman takes weaving as its small model, as the Sophist took angling."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "collection-division",
+     "why": "The Phaedrus names the method that the Sophist practises.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg012",
+       "ref": "265e",
+       "quote": "κατʼ ἄρθρα ᾗ πέφυκεν"
+      }
+     ]
+    },
+    {
+     "dossier": "weaving",
+     "why": "The Statesman's model, chosen the same way.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg008",
+       "ref": "279b",
+       "quote": "τήν γε ὑφαντικὴν προελώμεθα"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "angler",
+     "angling",
+     "fisherman"
+    ],
+    "grc": [
+     "ασπαλιευ"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Sophist (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Sophist_(dialogue)",
+     "quote": "At first, he starts using a mundane model (a fisherman)",
+     "kind": "reference"
+    }
+   ]
+  },
+  {
+   "id": "gods-and-giants",
+   "label": "The battle of gods and giants over being",
+   "greek": "γιγαντομαχία περὶ τῆς οὐσίας",
+   "kind": "image",
+   "group": "forms",
+   "about": "A battle like the gods' war with the giants: materialists drag everything down from heaven to earth, grasping rocks and trees, while the friends of the forms defend bodiless forms from on high. The Stranger offers a mark of being to both: being is nothing but power, to act or be acted on.",
+   "passage": {
+    "work": "tlg007",
+    "start": "245e",
+    "end": "249d",
+    "start_quote": "τοὺς δὲ ἄλλως λέγοντας αὖ θεατέον",
+    "end_quote": "τὸ ὄν τε καὶ τὸ πᾶν συναμφότερα λέγειν"
+   },
+   "parts": [
+    {
+     "label": "Something like a battle of gods and giants",
+     "ref": "246a",
+     "quote": "οἷον γιγαντομαχία τις εἶναι διὰ τὴν ἀμφισβήτησιν περὶ τῆς οὐσίας"
+    },
+    {
+     "label": "Dragging all from heaven to earth",
+     "ref": "246a",
+     "quote": "οἱ μὲν εἰς γῆν ἐξ οὐρανοῦ καὶ τοῦ ἀοράτου πάντα ἕλκουσι"
+    },
+    {
+     "label": "The mark of being: power",
+     "ref": "247e",
+     "quote": "τὰ ὄντα ὡς ἔστιν οὐκ ἄλλο τι πλὴν δύναμις"
+    },
+    {
+     "label": "The friends of the forms",
+     "ref": "248a",
+     "quote": "τοὺς τῶν εἰδῶν φίλους"
+    },
+    {
+     "label": "Like children's wishes: both rest and change",
+     "ref": "249d",
+     "quote": "κατὰ τὴν τῶν παίδων εὐχήν, ὅσα ἀκίνητα καὶ κεκινημένα"
+    }
+   ],
+   "related": [
+    {
+     "dossier": "greatest-kinds",
+     "why": "Being, rest and change, the first three of the greatest kinds, come out of this battle.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg007",
+       "ref": "254d",
+       "quote": "τό τε ὂν αὐτὸ καὶ στάσις καὶ κίνησις"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "gods and giants",
+     "Giants",
+     "giants",
+     "Gigantomachy",
+     "gigantomachia",
+     "friends of the forms",
+     "friends of the ideas",
+     "materialists"
+    ]
+   },
+   "web": []
+  },
+  {
+   "id": "greatest-kinds",
+   "label": "The greatest kinds and not-being",
+   "greek": "τὰ μέγιστα τῶν γενῶν",
+   "kind": "argument",
+   "group": "forms",
+   "about": "Being, rest and change, then same and different: five kinds which blend with one another in some ways and not others. Not-being turns out to be not the opposite of being but the different; so false statement is possible, and Parmenides' command is defied: 'Theaetetus sits', 'Theaetetus flies'.",
+   "passage": {
+    "work": "tlg007",
+    "start": "254b",
+    "end": "259d",
+    "start_quote": "τὰ μὲν ἡμῖν τῶν γενῶν ὡμολόγηται κοινωνεῖν ἐθέλειν ἀλλήλοις",
+    "end_quote": "οὔτε τις ἔλεγχος οὗτος ἀληθινὸς"
+   },
+   "parts": [
+    {
+     "label": "The greatest kinds: being, rest, change",
+     "ref": "254d",
+     "quote": "μέγιστα μὴν τῶν γενῶν ἃ νυνδὴ διῇμεν τό τε ὂν αὐτὸ καὶ στάσις καὶ κίνησις"
+    },
+    {
+     "label": "Each other than the rest by sharing in the different",
+     "ref": "255e",
+     "quote": "διὰ τὸ μετέχειν τῆς ἰδέας τῆς θατέρου"
+    },
+    {
+     "label": "Not-being means not the contrary but the different",
+     "ref": "258b",
+     "quote": "οὐκ ἐναντίον ἐκείνῳ σημαίνουσα ἀλλὰ τοσοῦτον μόνον, ἕτερον ἐκείνου"
+    },
+    {
+     "label": "Against Parmenides' 'keep your thought from this way'",
+     "ref": "258d",
+     "quote": "ἀλλὰ σὺ τῆσδʼ ἀφʼ ὁδοῦ διζήσιος εἶργε νόημα"
+    }
+   ],
+   "diagram": {
+    "kind": "figure",
+    "title": "The five kinds, 254d–256d",
+    "items": [
+     {
+      "label": "Being",
+      "ref": "254d",
+      "quote": "τὸ δέ γε ὂν μεικτὸν ἀμφοῖν"
+     },
+     {
+      "label": "Rest and Change: they do not mix",
+      "ref": "254d",
+      "quote": "τώ γε δύο φαμὲν αὐτοῖν ἀμείκτω πρὸς ἀλλήλω"
+     },
+     {
+      "label": "Same: each is the same as itself",
+      "ref": "254d",
+      "quote": "αὐτὸ δʼ ἑαυτῷ ταὐτόν"
+     },
+     {
+      "label": "Different: runs through them all",
+      "ref": "255e",
+      "quote": "διὰ πάντων γε αὐτὴν αὐτῶν φήσομεν εἶναι διεληλυθυῖαν"
+     },
+     {
+      "label": "Five, taken one by one",
+      "ref": "255e",
+      "quote": "ἐπὶ τῶν πέντε καθʼ ἓν ἀναλαμβάνοντες"
+     }
+    ]
+   },
+   "echoes": [
+    {
+     "work": "tlg007",
+     "ref": "263a",
+     "quote": "Θεαίτητος κάθηται",
+     "why": "The test statements: 'Theaetetus sits' is true, 'Theaetetus flies' false."
+    },
+    {
+     "work": "tlg031",
+     "ref": "35a",
+     "quote": "θατέρου",
+     "why": "The Timaeus mixes same and different into the world soul."
+    }
+   ],
+   "related": [
+    {
+     "dossier": "gods-and-giants",
+     "why": "The battle over being sets up the kinds.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg007",
+       "ref": "249d",
+       "quote": "τὸ ὄν τε καὶ τὸ πᾶν συναμφότερα λέγειν"
+      }
+     ]
+    },
+    {
+     "dossier": "world-soul",
+     "why": "Being, same and different are blended in the world soul.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "35a",
+       "quote": "τὴν θατέρου φύσιν δύσμεικτον οὖσαν"
+      }
+     ]
+    }
+   ],
+   "keywords": {
+    "en": [
+     "greatest kinds",
+     "great kinds",
+     "greatest genera",
+     "highest kinds",
+     "not-being",
+     "non-being",
+     "Theaetetus flies"
+    ]
+   },
+   "web": [
+    {
+     "site": "Wikipedia",
+     "title": "Sophist (dialogue)",
+     "url": "https://en.wikipedia.org/wiki/Sophist_(dialogue)",
+     "quote": "the great kinds (μέγιστα γένη megista genê)",
+     "kind": "reference"
+    }
+   ]
+  }
+ ]
+}
