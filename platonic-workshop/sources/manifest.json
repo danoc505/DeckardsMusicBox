@@ -157,6 +157,25 @@
       "status": "local"
     },
     {
+      "id": "taylor-1804-vol1-theosophylib",
+      "title": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. I (London, 1804): corrected HTML text from theosophylib.com",
+      "kind": "local",
+      "path": "sources/taylor-1804-vol1-theosophylib",
+      "urls": [
+        "https://theosophylib.com/tt/plato-intro/",
+        "https://theosophylib.com/tt/explanation-of-certain-platonic-terms/",
+        "https://theosophylib.com/tt/the-life-of-plato-by-olympiodorus/",
+        "https://theosophylib.com/tt/the-first-alcibiades/",
+        "https://theosophylib.com/tt/the-republic/"
+      ],
+      "layer": "translation+commentary",
+      "language": "eng",
+      "citation_scheme": "Stephanus markers such as [331a] inserted by the site in the First Alcibiades and Republic; 1804 page numbers such as [p. iv] in the General Introduction and Life of Plato. Imported to texts/taylor-1804/vol1/ with one Stephanus section per translation segment.",
+      "licence": "Public domain (Taylor's text). The site's corrections and Stephanus markers are used for personal study.",
+      "provenance": "Downloaded from theosophylib.com on 2026-11-05 by tools/fetch_theosophylib.py (10 s between requests, as robots.txt asks) and kept as received in html/, with URL, time and sha256 in fetched.json. Suggested by Daniel. The site restored the long s and inserted the Stephanus numbers; a few typos remain. Four misnumbered Stephanus markers are corrected in stephanus_corrections.json; the Republic has no marker for 560d. See sources/taylor-1804-vol1-theosophylib/README.md and reports/taylor_vol1.md.",
+      "status": "local"
+    },
+    {
       "id": "first1k-proclus-republic",
       "title": "Proclus, In Platonis Rem Publicam commentarii (Kroll, 1899-1901), Greek, First1KGreek TEI",
       "kind": "git",

@@ -32,6 +32,15 @@ sentence role from the treebank guidelines, and its entries in Middle Liddell
 and LSJ, with LSJ's abbreviations expanded from LSJ's own lists. See
 [The word box](#the-word-box) below.
 
+**Taylor's volume I, imported.** The corrected text of the 1804 Works of
+Plato, vol. I, from theosophylib.com: the General Introduction, the
+Explanation of Platonic Terms, Olympiodorus' Life of Plato, the First
+Alcibiades and the Republic. Every translation segment carries its Stephanus
+section, and every footnote and Additional Note (Proclus) is a separate,
+linkable record placed at its section. See
+[`sources/taylor-1804-vol1-theosophylib/`](sources/taylor-1804-vol1-theosophylib/README.md)
+and [`reports/taylor_vol1.md`](reports/taylor_vol1.md).
+
 Next is milestone 4: your translations and notes.
 
 ## Running it
@@ -44,6 +53,11 @@ python3 tools/fetch_sources.py      # about 640 MB into data/ (not committed), 2
 python3 tools/build_db.py           # builds data/workshop.sqlite, about 30 seconds
 python3 tools/serve.py              # then open http://localhost:8800/
 ```
+
+Taylor's volume I is already imported into `texts/`. To rebuild it from the saved pages,
+run `python3 tools/import_taylor_vol1.py` (seconds). `tools/fetch_theosophylib.py`
+downloads the theosophylib.com pages again; it is not needed for the import, which works
+from the committed copies.
 
 `tools/verify_sources.py` re-runs milestone 1's checks, and
 `python3 -m unittest discover -s tests -v` runs all the tests.
@@ -185,13 +199,16 @@ hand-checked treebanks (about 98.8% accurate for lemmas, 97.2% for parses).
 Only Euthyphro, Apology, Crito and Clitophon are hand-checked; the Timaeus is
 entirely machine-tagged. The Workshop will label this data as tagged, never
 present it as established, and show Morpheus's rule-based list of every
-possible parse beside it, so you can always see the alternatives.
+possible parse beside it, so you can always see the alternatives. Daniel
+approved using GLAUx on 5 November 2026.
 
 ### What this environment cannot reach
 
 gutenberg.org, archive.org, wikisource.org, sacred-texts.com, hathitrust.org and
-distantreader.org are blocked from the cloud environment, so sources there have
-to be uploaded or their domains allowed in the project settings. GitHub works,
+distantreader.org were blocked from the cloud environment used for milestone 1,
+so sources there had to be uploaded. The environment used on 5 November 2026
+for Taylor's volume I reaches theosophylib.com, gutenberg.org, archive.org,
+wikisource.org and sacred-texts.com (hathitrust.org still answers 403). GitHub works,
 which covers Perseus, GLAUx, the lexica, First1KGreek and the GITenberg mirror
 of older Project Gutenberg books. (Network access was widened for milestone 3, which is how
 the Perseus website's downloads became reachable.)
@@ -204,9 +221,12 @@ sources/          what we use and where it comes from (committed)
   COMMENTARIES.md
   TIMAEUS_PILOT.md
   taylor-1804/    OCR text, kept exactly as received
+  taylor-1804-vol1-theosophylib/  corrected HTML of vol. I, kept as received, with provenance
+texts/            imported texts, one JSON file per work (committed)
+  taylor-1804/vol1/
 db/               schema of the library and of your own database
   grammar/        which Smyth section is quoted for which grammatical category
-tools/            fetch, verify, build the database, serve the reader, Greek helpers,
+tools/            fetch, verify, import, build the database, serve the reader, Greek helpers,
                   lexicon.py (dictionary entries, LSJ's abbreviations), grammar.py (Smyth, treebank labels)
 reader/           the reader (HTML, CSS, JavaScript; no libraries)
 tests/

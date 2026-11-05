@@ -1,0 +1,1727 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.platonic-terms",
+ "title": "Explanation of Certain Platonic Terms",
+ "author": "Thomas Taylor",
+ "translator": null,
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. I (London, 1804)",
+ "source": {
+  "manifest_id": "taylor-1804-vol1-theosophylib",
+  "file": "sources/taylor-1804-vol1-theosophylib/html/explanation-of-certain-platonic-terms.html",
+  "url": "https://theosophylib.com/tt/explanation-of-certain-platonic-terms/",
+  "fetched_at": "2026-11-05T02:27:27+00:00",
+  "sha256": "0c1c05f5ab44a26935ee4e28be506a5a428ec0593a762a5689c25fbfc63e9472"
+ },
+ "segments": [
+  {
+   "id": "taylor1804.platonic-terms.text.p0001",
+   "kind": "paragraph",
+   "part": "text",
+   "paragraph": 1,
+   "text": "As some apology may be thought necessary for having introduced, in the course of the following translation, certain unusual words of Greek origin, I shall only observe, that as all arts and sciences have certain appropriate terms peculiar to themselves, philosophy, which is the art of arts, and science of sciences, as being the mistress of both, has certainly a prior and a far superior claim to this privilege. I have not, however, introduced, I believe, any of these terms, without at the same time sufficiently explaining them; but, lest the contrary should have taken place, the following explanation of all such terms as I have been able to recollect, and also of common words used by Platonists in a peculiar sense, is subjoined for the information of the reader. [Plato Dialogues]",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.site.p0001",
+   "kind": "paragraph",
+   "part": "site",
+   "paragraph": 2,
+   "text": "Sources:",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.site.p0002",
+   "kind": "paragraph",
+   "part": "site",
+   "paragraph": 3,
+   "text": "[Plato Dialogues] : The Works of Plato, viz. His Fifty-Five Dialogues and Twelve Epistles, 1804, 5 vols.",
+   "marks": [
+    {
+     "type": "italic",
+     "start": 20,
+     "end": 90
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.site.p0003",
+   "kind": "paragraph",
+   "part": "site",
+   "paragraph": 4,
+   "text": "[Procl. Theol. Plato.] : The Six Books of Proclus on the Theology of Plato, 1816, 2 vols.",
+   "marks": [
+    {
+     "type": "italic",
+     "start": 25,
+     "end": 74
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.site.p0004",
+   "kind": "paragraph",
+   "part": "site",
+   "paragraph": 5,
+   "text": "[Procl. Comm. Timæus.] : The Commentaries of Proclus on the Timæus of Plato (2nd Edition), 1820, 2 vols.",
+   "marks": [
+    {
+     "type": "italic",
+     "start": 25,
+     "end": 89
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0002",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 6,
+   "text": "Alliation. Change in quality. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 9
+    }
+   ],
+   "notes": [],
+   "term": "Alliation",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0003",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 7,
+   "text": "Altermotive, the. That which is moved by another thing, and not by itself. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 16
+    }
+   ],
+   "notes": [],
+   "term": "Altermotive, the",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0004",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 8,
+   "text": "Anagogic, αναγωγικος. Leading on high. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    }
+   ],
+   "notes": [],
+   "term": "Anagogic",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0005",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 9,
+   "text": "Anagogic, the. That which elevates the soul from sensibles to intelligibles. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 13
+    }
+   ],
+   "notes": [],
+   "term": "Anagogic, the",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0006",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 10,
+   "text": "Anger. (thymos) An appetite of the soul directed to the avengement of incidental molestations. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 5
+    },
+    {
+     "type": "italic",
+     "start": 8,
+     "end": 14
+    }
+   ],
+   "notes": [],
+   "term": "Anger",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0007",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 11,
+   "text": "Apocatastasis. Restitution to a pristine form, or condition of being. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 13
+    }
+   ],
+   "notes": [],
+   "term": "Apocatastasis",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0008",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 12,
+   "text": "Composite, the, συνθετος. I have used the word composite instead of compounded, because the latter rather denotes the mingling than the contiguous union of one thing with another, which the former, through its derivation from the Latin word compositus, solely denotes. [Procl. Theol. Plato.] [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 14
+    },
+    {
+     "type": "italic",
+     "start": 68,
+     "end": 78
+    },
+    {
+     "type": "italic",
+     "start": 241,
+     "end": 251
+    }
+   ],
+   "notes": [],
+   "term": "Composite, the",
+   "cited_from": [
+    "Procl. Theol. Plato.",
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0009",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 13,
+   "text": "Demiurgus, δημιουργος. Jupiter, the artificer of the universe. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 9
+    }
+   ],
+   "notes": [],
+   "term": "Demiurgus",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0010",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 14,
+   "text": "Demiurgus of Wholes, δημιουργος των ολων. The artificer (maker) of the universe is thus denominated, because he produces the universe so far as it is a whole, and likewise all the wholes it contains, by his own immediate energy; other subordinate powers cooperating with him in the production of parts. Hence he produces the universe totally and at once. [Procl. Theol. Plato.] [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 19
+    },
+    {
+     "type": "italic",
+     "start": 152,
+     "end": 157
+    },
+    {
+     "type": "italic",
+     "start": 180,
+     "end": 186
+    },
+    {
+     "type": "italic",
+     "start": 334,
+     "end": 341
+    },
+    {
+     "type": "italic",
+     "start": 346,
+     "end": 353
+    }
+   ],
+   "notes": [],
+   "term": "Demiurgus of Wholes",
+   "cited_from": [
+    "Procl. Theol. Plato.",
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0011",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 15,
+   "text": "Desire, επιθυμια. Is an irrational appetite solely directed to external objects, and to the gratification arising from the possession of them. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 6
+    }
+   ],
+   "notes": [],
+   "term": "Desire",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0012",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 16,
+   "text": "Dianoia, διανοια, from whence dianoetic, the discursive energy of reason; (διεξοδικη του λογου ενεργεια) or according to its most accurate signification, it is that power of the soul which reasons scientifically, deriving the principles of its reasoning from intellect, or the power which sees truth intuitively. [Procl. Theol. Plato.] [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 7
+    },
+    {
+     "type": "italic",
+     "start": 30,
+     "end": 39
+    }
+   ],
+   "notes": [],
+   "term": "Dianoia",
+   "cited_from": [
+    "Procl. Theol. Plato.",
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0013",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 17,
+   "text": "Dianoetic. This word is derived from διανοια, or that power of the soul which reasons scientifically, deriving the principles of its reasoning from intellect. Plato is so uncommonly accurate in his diction, that this. word is very seldom used by him in any other than its primary sense. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 9
+    }
+   ],
+   "notes": [],
+   "term": "Dianoetic",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0014",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 18,
+   "text": "Divine, the, το ϑειον, is being subsisting in conjunction with the one. For all things except the one, viz. essence, life, and intellect, are considered by Plato as suspended from and secondary to the gods. For the gods do not subsist in, but prior to, these, which they also produce and connect, but are not characterized by these. In many places, however, Plato calls the participants of the gods by the names of the gods. For not only the Athenian Guest in the Laws, but also Socrates in the Phædrus, calls a divine soul a god. “For,” says he, “all the horses and charioteers of the gods are good,” etc. And afterwards, still more clearly, he adds, “And this is the life of the gods.” And not only this, but he also denominates those natures gods, that are always united to the gods, and which, in conjunction with them, give completion to one series. He also frequently calls dæmons gods, though, according to essence, they are secondary to, and subsist about, the gods. For in the Phædrus, Timæus, and other dialogues, he extends the appellation of gods as far as to dæmons. And what is still more paradoxical than all this, he does not refuse to call some men gods; as, for instance, the Elean Guest in the Sophista. From all this, therefore, we must infer, that with respect to the word god, one thing which is thus denominated is simply deity; another is so according to union; a third, according to participation; a fourth, according to contact; and a fifth, according to similitude. Thus every superessential nature is primarily a god; but every intellectual nature is so according to union. And again, every divine soul is a god according to participation; but divine dæmons are gods, according to contact with the gods: and the souls of men obtain this appellation through similitude. Each of these, however, except the first, is, as we have said, rather divine than a god: for the Athenian Guest, in the Laws, calls intellect itself divine. But that which is divine is secondary to the first deity, in the same manner as the united is to the one; that which is intellectual, to intellect; and that which is animated, to soul. Indeed, things more uniform and simple always precede; and the series of beings ends in the one itself. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 11
+    },
+    {
+     "type": "italic",
+     "start": 26,
+     "end": 31
+    },
+    {
+     "type": "italic",
+     "start": 63,
+     "end": 70
+    },
+    {
+     "type": "italic",
+     "start": 94,
+     "end": 101
+    },
+    {
+     "type": "italic",
+     "start": 582,
+     "end": 590
+    },
+    {
+     "type": "italic",
+     "start": 677,
+     "end": 685
+    },
+    {
+     "type": "italic",
+     "start": 2034,
+     "end": 2044
+    },
+    {
+     "type": "italic",
+     "start": 2051,
+     "end": 2059
+    },
+    {
+     "type": "italic",
+     "start": 2060,
+     "end": 2086
+    },
+    {
+     "type": "italic",
+     "start": 2091,
+     "end": 2101
+    },
+    {
+     "type": "italic",
+     "start": 2106,
+     "end": 2128
+    },
+    {
+     "type": "italic",
+     "start": 2133,
+     "end": 2137
+    }
+   ],
+   "notes": [
+    {
+     "note": "taylor1804.platonic-terms.n001",
+     "at": 12
+    }
+   ],
+   "term": "Divine, the",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0015",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 19,
+   "text": "Doxastic. This word is derived from δοξα, opinion, and signifies that which is apprehended by opinion, or that power which is the extremity of the rational soul. This power knows the universal in particulars, as that every man is a rational animal; but it knows not the διοτι, or why a thing is, but only the οτι, or that it is. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    },
+    {
+     "type": "italic",
+     "start": 42,
+     "end": 49
+    },
+    {
+     "type": "italic",
+     "start": 217,
+     "end": 222
+    },
+    {
+     "type": "italic",
+     "start": 280,
+     "end": 283
+    },
+    {
+     "type": "italic",
+     "start": 317,
+     "end": 321
+    }
+   ],
+   "notes": [],
+   "term": "Doxastic",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0016",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 20,
+   "text": "Doxastic, formed from δοξα, opinion, is the last of the gnostic powers of the rational soul; and knows that a thing is, but is ignorant of the cause of it, or why it is. The knowledge of the διοτι, or why a thing is, being the province of dianoia. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    },
+    {
+     "type": "italic",
+     "start": 103,
+     "end": 107
+    },
+    {
+     "type": "italic",
+     "start": 159,
+     "end": 162
+    },
+    {
+     "type": "italic",
+     "start": 201,
+     "end": 204
+    }
+   ],
+   "notes": [],
+   "term": "Doxastic",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0017",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 21,
+   "text": "Entheastically. In a divinely-inspired manner. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 14
+    }
+   ],
+   "notes": [],
+   "term": "Entheastically",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0018",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 22,
+   "text": "Epithymetic Part of the Soul, the, or that part of the soul which is the principle of all-various desires. But desire is well defined, by the Pythagoreans, to be a certain tendency, impulse, and appetite of the soul, in order to be filled with something, or to enjoy something present, or to be disposed according to some sensitive energy. They add, that there is also a desire of the contraries to these, and this is a desire of the evacuation and absence, and of having no sensible perception of certain things. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 33
+    },
+    {
+     "type": "italic",
+     "start": 111,
+     "end": 117
+    }
+   ],
+   "notes": [],
+   "term": "Epithymetic Part of the Soul, the",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0019",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 23,
+   "text": "Eternal, the, το αιωνιον, that which has a never-ending subsistence, without any connection with time; or, as Plotinus profoundly defines it, infinite life at once total and full. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 12
+    }
+   ],
+   "notes": [],
+   "term": "Eternal, the",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0020",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 24,
+   "text": "Generation, γενεσις. An essence composite and multiform, and conjoined with time. This is the proper signification of the word; but it is used symbolically by Plato, and also by theologists more ancient than Plato, for the sake of indication. For as Proclus beautifully observes (in MS. Comment. in Parmenidem), “Fables call the ineffable unfolding into light through causes, generation.” “Hence,” he adds. “in the Orphic writings, the first cause is denominated time; for where there is generation, according to its proper signification, there also there is time.” [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 10
+    }
+   ],
+   "notes": [],
+   "term": "Generation",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0021",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 25,
+   "text": "Generation. A flowing condition of being, or a subsistence in becoming to be. Hence, to gignesthai signifies an extension in subsistence, or a tendency to being. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 10
+    },
+    {
+     "type": "italic",
+     "start": 85,
+     "end": 98
+    }
+   ],
+   "notes": [],
+   "term": "Generation",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0022",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 26,
+   "text": "Generated, that which is, το γενητον. That which has not the whole of its essence or energy subsisting at once, without temporal dispersion. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 24
+    }
+   ],
+   "notes": [],
+   "term": "Generated, that which is",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0023",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 27,
+   "text": "Genesiurgic, the. That which is effective of generation. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 16
+    }
+   ],
+   "notes": [],
+   "term": "Genesiurgic, the",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0024",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 28,
+   "text": "Guest, ξενος. This word, in its more ample signification in the Greek, denotes a stranger, but properly implies one who receives another, or is himself received at an entertainment. In the following dialogues, therefore, wherever one of the speakers is introduced as a ξενος, I have translated this word guest, as being more conformable to the genius of Plato’s dialogues, which may be justly called rich mental banquets, and consequently the speakers in them may be considered as so many guests. Hence in the Timæus, the persons of that dialogue are expressly spoken of as guests. [Plato Dialogues] [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 5
+    },
+    {
+     "type": "italic",
+     "start": 304,
+     "end": 309
+    }
+   ],
+   "notes": [],
+   "term": "Guest",
+   "cited_from": [
+    "Plato Dialogues",
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0025",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 29,
+   "text": "Hyparxis, υπαρξις. The first principle or foundation, as it were, of the essence of a thing. Hence, also, it is the summit of essence. [Plato Dialogues] [Procl. Comm. Timæus.] [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    }
+   ],
+   "notes": [],
+   "term": "Hyparxis",
+   "cited_from": [
+    "Plato Dialogues",
+    "Procl. Comm. Timæus.",
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0026",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 30,
+   "text": "Iconically. A thing is said to subsist iconically, when it subsists after the manner of an image. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 10
+    },
+    {
+     "type": "italic",
+     "start": 39,
+     "end": 50
+    }
+   ],
+   "notes": [],
+   "term": "Iconically",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0027",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 31,
+   "text": "Idiom, ιδιωμα. The characteristic peculiarity of a thing. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 5
+    }
+   ],
+   "notes": [],
+   "term": "Idiom",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0028",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 32,
+   "text": "Idolically. Adumbratively. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 10
+    }
+   ],
+   "notes": [],
+   "term": "Idolically",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0029",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 33,
+   "text": "Immortal, the, το αθανατον. According to Plato, there are many orders of immortality, pervading from on high to the last of things; and the ultimate echo, as it were, of immortality, is seen in the perpetuity of the mundane wholes, which, according to the doctrine of the Elean Guest in the Politicus, they participate from the Father of the universe. For both the being and the life of every body depend on another cause; since body is not itself naturally adapted to connect, or adorn, or preserve itself. But the immortality of partial souls, such as ours, is more manifest and more perfect than this of the perpetual bodies in the universe; as is evident from the many demonstrations which are given of it in the Phædo, and in the 10th book of the Republic. For the immortality of partial souls has a more principal subsistence, as possessing in itself the cause of eternal permanency. But prior to both these is the immortality of dæmons; for these neither verge to mortality, nor are they filled with the nature of things which are generated and corrupted. More venerable, however, than these, and essentially transcending them, is the immortality of divine souls, which are primarily self-motive, and contain the fountains and principles of the life which is attributed about bodies, and through which bodies participate of renewed immortality And prior to all these is the immortality of the gods: for Diotima in the Banquet does not ascribe an immortality of this kind to dæmons. Hence such an immortality as this is separate and exempt from wholes. For, together with the immortality of the gods, eternity subsists, which is the fountain of all immortality and life, as well that life which is perpetual, as that which is dissipated into nonentity. In short, therefore, the divine immortal is that which is generative and connective of perpetual life. For it is not immortal, as participating of life, but as supplying divine life, and deifying life itself. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 13
+    },
+    {
+     "type": "italic",
+     "start": 1784,
+     "end": 1799
+    }
+   ],
+   "notes": [
+    {
+     "note": "taylor1804.platonic-terms.n002",
+     "at": 14
+    }
+   ],
+   "term": "Immortal, the",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0030",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 34,
+   "text": "Imparticipable, το αμεθεκτον. That which is not consubsistent with an inferior nature. Thus imparticipable intellect is an intellect which is not consubsistent with soul. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 14
+    }
+   ],
+   "notes": [],
+   "term": "Imparticipable",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0031",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 35,
+   "text": "Imparticipable, αμεθεκτος. One thing is said to be imparticipable with respect to another, to which it is superior, when it is not consubsistent with it. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 14
+    }
+   ],
+   "notes": [],
+   "term": "Imparticipable",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0032",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 36,
+   "text": "Intellect. (nous) In the human soul is the summit of dianoia, and is that power by the light proceeding from which, we perceive the truth of axioms. But in divine natures it is a self-subsistent, impartible, eternal essence, perceiving all things at once. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 9
+    },
+    {
+     "type": "italic",
+     "start": 12,
+     "end": 16
+    },
+    {
+     "type": "italic",
+     "start": 53,
+     "end": 60
+    }
+   ],
+   "notes": [],
+   "term": "Intellect",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0033",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 37,
+   "text": "Intellectual Projection, νοερα επιϐολη. As the perception of intellect is immediate, being a darting forth, as it were, directly to its proper objects, this direct intuition is expressed by the term projection. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 23
+    },
+    {
+     "type": "italic",
+     "start": 199,
+     "end": 209
+    }
+   ],
+   "notes": [],
+   "term": "Intellectual Projection",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0034",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 38,
+   "text": "Intellectual projection. The immediate energy of intellect is thus denominated, because it is an intuitive perception, or an immediate darting forth, as it were, to its proper object, the intelligible. [Procl. Theol. Plato.] [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 23
+    }
+   ],
+   "notes": [],
+   "term": "Intellectual projection",
+   "cited_from": [
+    "Procl. Theol. Plato.",
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0035",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 39,
+   "text": "Intelligible, the, το νοητον. This word in Plato and Platonic writers has a various signification: for, in the first place, whatever is exempt from sensibles, and has its essence separate from them, is said to be intelligible, and in this sense soul is intelligible. In the second place, intellect, which is prior to soul, is intelligible. In the third place, that which is more ancient than intellect, which replenishes intelligence, and is essentially perfective of it, is called intelligible: and this is the intelligible, which Timæus in Plato places in the order of a paradigm, prior to the demiurgic intellect and intellectual energy. But beyond these is the divine intelligible, which is defined according to divine union and hyparxis. For this is intelligible as the object of desire to intellect, as giving perfection to and containing it, and as the completion of being. The highest intelligible, therefore, is that which is the hyparxis of the gods; the second, that which is true being, and the first essence; the third, intellect, and all intellectual life; and the fourth, the order belonging to soul. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 17
+    },
+    {
+     "type": "italic",
+     "start": 482,
+     "end": 495
+    },
+    {
+     "type": "italic",
+     "start": 665,
+     "end": 671
+    }
+   ],
+   "notes": [],
+   "term": "Intelligible, the",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0036",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 40,
+   "text": "Intelligible, or Intellectual, or Psychical Breadth; i.e. the extent of the progression of the intelligible, of intellect and of soul, and of each of these according to its own order, and not according to a progression into an inferior order. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 51
+    },
+    {
+     "type": "italic",
+     "start": 53,
+     "end": 57
+    }
+   ],
+   "notes": [],
+   "term": "Intelligible, or Intellectual, or Psychical Breadth",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0037",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 41,
+   "text": "Logismos, reasoning. When applied to divinity as by Plato, in the Timæus, signifies a distributive cause of things. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    },
+    {
+     "type": "italic",
+     "start": 10,
+     "end": 20
+    }
+   ],
+   "notes": [],
+   "term": "Logismos",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0038",
+   "kind": "paragraph",
+   "part": "text",
+   "paragraph": 42,
+   "text": "Logos (see Reason)",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 5
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0039",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 43,
+   "text": "Monad, μονας, in divine natures is that which contains distinct, but at the same time profoundly-united multitude, and which produces a multitude exquisitely allied to itself. But in the sensible universe, the first monad is the world itself, which comprehends in itself all the multitude of which it is the cause (in conjunction with the cause of all). The second monad is the inerratic sphere. In the third place, the spheres of the planets succeed, each of which is also a monad, comprehending an appropriate multitude. And in the fourth and last place are the spheres of the elements, which are in a similar manner monads. All these monads likewise are denominated ολοτητες, wholenesses, and have a perpetual subsistence. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 5
+    },
+    {
+     "type": "italic",
+     "start": 55,
+     "end": 63
+    },
+    {
+     "type": "italic",
+     "start": 86,
+     "end": 103
+    },
+    {
+     "type": "italic",
+     "start": 679,
+     "end": 690
+    }
+   ],
+   "notes": [],
+   "term": "Monad",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0040",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 44,
+   "text": "Morphe. Pertains to the colour, figure, and magnitude of superficies. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 6
+    }
+   ],
+   "notes": [],
+   "term": "Morphe",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0041",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 45,
+   "text": "Multipotent. Possessing much power. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 11
+    }
+   ],
+   "notes": [],
+   "term": "Multipotent",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0042",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 46,
+   "text": "On account of which; with reference to which; through which; according to which; from which; or in which; viz. δι ο, προς ο, υφ’ ου, δι ου, καθ’ ο, εξ ου. By the first of these terms, Plato is accustomed to denominate the final cause; by the second the paradigmatic; by the third the demiurgic; by the fourth the instrumental; by the fifth form; and by the sixth matter. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 104
+    },
+    {
+     "type": "italic",
+     "start": 106,
+     "end": 110
+    }
+   ],
+   "notes": [],
+   "term": "On account of which; with reference to which; through which; according to which; from which; or in which",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0043",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 47,
+   "text": "Opinion. (doxa) Is the last of the gnostic powers of the rational soul; and knows that a thing is, ut is ignorant of the cause of it, or why it is. For the knowledge of the dioti, or why a thing is, belongs to dianoia. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 7
+    },
+    {
+     "type": "italic",
+     "start": 10,
+     "end": 14
+    },
+    {
+     "type": "italic",
+     "start": 82,
+     "end": 86
+    },
+    {
+     "type": "italic",
+     "start": 95,
+     "end": 98
+    },
+    {
+     "type": "italic",
+     "start": 137,
+     "end": 140
+    },
+    {
+     "type": "italic",
+     "start": 173,
+     "end": 179
+    },
+    {
+     "type": "italic",
+     "start": 183,
+     "end": 186
+    },
+    {
+     "type": "italic",
+     "start": 210,
+     "end": 218
+    }
+   ],
+   "notes": [],
+   "term": "Opinion",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0044",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 48,
+   "text": "Orectic. This word is derived from orexis, appetite. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 7
+    },
+    {
+     "type": "italic",
+     "start": 35,
+     "end": 41
+    }
+   ],
+   "notes": [],
+   "term": "Orectic",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0045",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 49,
+   "text": "Paradigm, παραδειγμα. A pattern, or that with reference to which a thing is made. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    }
+   ],
+   "notes": [],
+   "term": "Paradigm",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0046",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 50,
+   "text": "Permanency, στασις. The proper word for rest, in Greek, is ηρεμια. And Simplicius justly observes, that not every στασις is ηρεμια, but that only which is after motion. This word is employed by Plato in the Sophista, to express one of the five genera of being, viz. essence, permanency, (στασις), motion, sameness, and difference; in which place it evidently does not signify rest. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 10
+    },
+    {
+     "type": "italic",
+     "start": 266,
+     "end": 286
+    },
+    {
+     "type": "italic",
+     "start": 297,
+     "end": 314
+    },
+    {
+     "type": "italic",
+     "start": 319,
+     "end": 330
+    }
+   ],
+   "notes": [],
+   "term": "Permanency",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0047",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 51,
+   "text": "Perpetual, the, το αιδιον. That which subsists forever, but through a connection with time. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 14
+    }
+   ],
+   "notes": [],
+   "term": "Perpetual, the",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0048",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 52,
+   "text": "Phantasy, or Imagination, φαντασια, is, μορφωτικη νοησις, i. e. a figured intelligence, because all the perceptions of this power are inward, and not external, like those of sense, and are accompanied with figure. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    },
+    {
+     "type": "italic",
+     "start": 13,
+     "end": 24
+    },
+    {
+     "type": "italic",
+     "start": 64,
+     "end": 86
+    },
+    {
+     "type": "italic",
+     "start": 134,
+     "end": 140
+    },
+    {
+     "type": "italic",
+     "start": 206,
+     "end": 212
+    }
+   ],
+   "notes": [],
+   "term": "Phantasy",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0049",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 53,
+   "text": "Philopolemic. An epithet of Minerva, signifying that she is a lover of war; just as she is also called philosophic, as being a lover of wisdom. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 12
+    },
+    {
+     "type": "italic",
+     "start": 60,
+     "end": 75
+    },
+    {
+     "type": "italic",
+     "start": 103,
+     "end": 115
+    },
+    {
+     "type": "italic",
+     "start": 125,
+     "end": 143
+    }
+   ],
+   "notes": [],
+   "term": "Philopolemic",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0050",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 54,
+   "text": "Plenitude (pleroma), or Completeness. Is a whole which gives completion to the universe. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 9
+    },
+    {
+     "type": "italic",
+     "start": 11,
+     "end": 18
+    },
+    {
+     "type": "bold",
+     "start": 24,
+     "end": 36
+    }
+   ],
+   "notes": [],
+   "term": "Plenitude",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0051",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 55,
+   "text": "Politician, πολιτικος. This word, as Mr. Sydenham justly observes in his notes on the Rivals, is of a very large and extensive import, as used by Plato, and the other ancient writers on politics: for it includes all those statesmen or politicians in aristrocracies and democracies who were, either for life, or for a certain time, invested with the whole or a part of kingly authority, and the power thereto belonging. See the Politicus. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 10
+    }
+   ],
+   "notes": [],
+   "term": "Politician",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0052",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 56,
+   "text": "Prudence, φρονιησις. This word frequently means in Plato and Platonic writers, the habit of discerning what is good in all moral actions, and frequently signifies intelligence, or intellectual perception. The following admirable explanation of this word is given by Iamblichus.",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    }
+   ],
+   "notes": [],
+   "term": "Prudence",
+   "cited_from": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0053",
+   "kind": "quotation",
+   "part": "text",
+   "paragraph": 57,
+   "text": "“Prudence having a precedaneous subsistence, receives its generation from a pure and perfect intellect. Hence it looks to intellect itself, is perfected by it, and has this as the measure and most beautiful paradigm of all its energies. If also we have any communion with the gods, it is especially effected by this virtue; and through this we are in the highest degree assimilated to them. The knowledge too of such things as are good, profitable, and beautiful, and of the contraries to these, is obtained by this virtue; and the judgment and correction of works proper to be done are by this directed. And in short it is a certain governing leader of men, and of the whole arrangement of their nature; and referring cities and houses, and the particular life of every one, to a divine paradigm, it forms them according to the best similitude; obliterating some things and purifying others. So that prudence renders its possessors similar to divinity.” Iamblic. apud. Stob. p. 141.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0054",
+   "kind": "paragraph",
+   "part": "text",
+   "paragraph": 58,
+   "text": "[Plato Dialogues]",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0055",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 59,
+   "text": "Psychical, ψυχικος. Pertaining to soul. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 9
+    }
+   ],
+   "notes": [],
+   "term": "Psychical",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0056",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 60,
+   "text": "Psychical, ψυχικος, i.e. pertaining to soul, in the same manner as φυσικος, physical, is something pertaining to nature. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 9
+    },
+    {
+     "type": "italic",
+     "start": 25,
+     "end": 43
+    },
+    {
+     "type": "italic",
+     "start": 76,
+     "end": 84
+    },
+    {
+     "type": "italic",
+     "start": 89,
+     "end": 119
+    }
+   ],
+   "notes": [],
+   "term": "Psychical",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0057",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 61,
+   "text": "Reason, λογος. This word in Platonic writers signifies either that inward discursive energy called reasoning; or a certain productive and seminal principle; or that which is indicative and definitive of a thing. Hence λογοι or reasons in the soul, are, gnostically producing principles. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 6
+    }
+   ],
+   "notes": [],
+   "term": "Reason",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0058",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 62,
+   "text": "Reasons. (logoi) Productive principles or powers; and they also signify forms. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 7
+    },
+    {
+     "type": "italic",
+     "start": 10,
+     "end": 15
+    }
+   ],
+   "notes": [],
+   "term": "Reasons",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0059",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 63,
+   "text": "Science. This word is sometimes defined by Plato to be that which assigns the causes of things; sometimes to be that the subjects of which have a perfectly stable essence; and together with this, he conjoins the assignation of cause from reasoning. Sometimes again he defines it to be that the principles of which are not hypotheses; and, according to this definition, he asserts that there is one science which ascends as far as to the principle of things. For this science considers that which is truly the principle as unhypothetic, has for its subject true being, and produces its reasonings from cause. According to the second definition, he calls dianoëtic knowledge science; but according to the first alone, he assigns to physiology the appellation of science. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 7
+    }
+   ],
+   "notes": [],
+   "term": "Science",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0060",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 64,
+   "text": "Telestic Art, the. Is the art pertaining to mystic operations. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 17
+    }
+   ],
+   "notes": [],
+   "term": "Telestic Art, the",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0061",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 65,
+   "text": "Telestic Art, the. The art pertaining to mystic ceremonies. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 17
+    }
+   ],
+   "notes": [],
+   "term": "Telestic Art, the",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0062",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 66,
+   "text": "Theurgic. This word is derived from ϑεουργια, or that religious operation which deifies him by whom it is performed as much as is possible to man. [Plato Dialogues]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    }
+   ],
+   "notes": [],
+   "term": "Theurgic",
+   "cited_from": [
+    "Plato Dialogues"
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0063",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 67,
+   "text": "Truth, αληθεια. Plato, following ancient theologists. considers truth multifariously. Hence, according to his doctrine, the highest truth is characterized by unity; and is the light proceeding from the good, which imparts purity, as he says in the Philebus, and union as he says in the Republic, to intelligibles. The truth which is next to this in dignity is that which proceeds from intelligibles, and illuminates the intellectual order, and which an essence unfigured, uncoloured, and without contact, first receives, where also the plain of truths is situated, as it is written in the Phædrus. The third kind of truth is that which is connascent with souls, and which through intelligence comes into contact with true being. For the psychical light is the third from the intelligible; intellectual deriving its plenitude from intelligible light, and the psychical from the intellectual. And the last kind of truth is that which is in sensibles, which is full of error and inaccuracy through sense, and the instability of its object. For a material nature is perpetually flowing, and is not naturally adapted to abide even for a moment.",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 5
+    },
+    {
+     "type": "italic",
+     "start": 198,
+     "end": 206
+    },
+    {
+     "type": "italic",
+     "start": 222,
+     "end": 228
+    },
+    {
+     "type": "italic",
+     "start": 262,
+     "end": 267
+    }
+   ],
+   "notes": [],
+   "term": "Truth",
+   "cited_from": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0064",
+   "kind": "paragraph",
+   "part": "text",
+   "paragraph": 68,
+   "text": "The following beautiful description of the third kind of truth, or that which subsists in souls, is given by Iamblichus:",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0065",
+   "kind": "quotation",
+   "part": "text",
+   "paragraph": 69,
+   "text": "“Truth, as the name implies, makes a conversion about the gods and their incorporeal energy; but doxastic imitation, which, as Plato says, is fabricative of images, wanders about that which is deprived of divinity and is dark. And the former indeed receives its perfection in intelligible and divine forms, and real beings which have a perpetual sameness of subsistence; but the latter looks to that which is formless, and non-being, and which has a various subsistence; and about this its visive power is blunted. The former contemplates that which is; but the latter assumes such a form as appears to the many. Hence the former associates with intellect, and increases the intellectual nature which we contain; but the latter, from looking to that which always seems to be, hunts after folly and deceives.” Iamblic. apud Stob. p. 136.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0066",
+   "kind": "paragraph",
+   "part": "text",
+   "paragraph": 70,
+   "text": "[Plato Dialogues]",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0067",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 71,
+   "text": "Unical, ενιαιος, that which is characterized by unity. [Plato Dialogues] [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 6
+    }
+   ],
+   "notes": [],
+   "term": "Unical",
+   "cited_from": [
+    "Plato Dialogues",
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0068",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 72,
+   "text": "Unically. In a way conformable to the nature of The One. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 8
+    },
+    {
+     "type": "italic",
+     "start": 48,
+     "end": 56
+    }
+   ],
+   "notes": [],
+   "term": "Unically",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0069",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 73,
+   "text": "Uniform, ενοειδης. This word when it occurs in Proclus, and other Platonic writers, signifies that which has the form of the one, and not as in Johnson, that which keeps its tenour, or is similar to itself. [Procl. Theol. Plato.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 7
+    },
+    {
+     "type": "italic",
+     "start": 121,
+     "end": 128
+    }
+   ],
+   "notes": [],
+   "term": "Uniform",
+   "cited_from": [
+    "Procl. Theol. Plato."
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.text.p0070",
+   "kind": "term",
+   "part": "text",
+   "paragraph": 74,
+   "text": "Wholeness. A whole which has a perpetual subsistence, and which comprehends in itself all the multitude of which it is the cause. [Procl. Comm. Timæus.]",
+   "marks": [
+    {
+     "type": "bold",
+     "start": 0,
+     "end": 9
+    }
+   ],
+   "notes": [],
+   "term": "Wholeness",
+   "cited_from": [
+    "Procl. Comm. Timæus."
+   ]
+  }
+ ],
+ "notes": [
+  {
+   "id": "taylor1804.platonic-terms.n001",
+   "type": "footnote",
+   "printed_number": "1",
+   "signed": null,
+   "text": "See Procl. in Plat. Theol. p. 64.",
+   "anchors": [
+    {
+     "in": "taylor1804.platonic-terms.text.p0014",
+     "at": 12
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.platonic-terms.n002",
+   "type": "footnote",
+   "printed_number": "2",
+   "signed": null,
+   "text": "See Procl. in Plat. Theol. p. 65.",
+   "anchors": [
+    {
+     "in": "taylor1804.platonic-terms.text.p0029",
+     "at": 14
+    }
+   ]
+  }
+ ]
+}
