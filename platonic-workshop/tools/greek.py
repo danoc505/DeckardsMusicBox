@@ -109,3 +109,84 @@ def headword_key(betacode_key):
     """Normalise a lexicon or Morpheus headword key for matching: drop homonym
     digits and vowel-length marks."""
     return re.sub(r"[0-9_^]", "", betacode_key)
+
+
+_BETA_LETTERS = {v: k for k, v in _LETTERS.items() if k not in "ςϲ"}
+_BETA_MARKS = {v: k for k, v in _MARKS.items()}
+
+
+def from_betacode(beta):
+    """Lower- or mixed-case Beta Code -> Unicode Greek (NFC). Vowel-length marks
+    (_ and ^) and homonym digits are dropped.
+
+    a)gaqo/s -> ἀγαθός ; *)aqhnai=os -> Ἀθηναῖος ; yuxh=| -> ψυχῇ
+    """
+    beta = re.sub(r"[0-9_^]", "", beta)
+    out = []
+    i = 0
+    while i < len(beta):
+        ch = beta[i]
+        if ch == "*":
+            # Capital: marks come before the letter.
+            j = i + 1
+            pre = ""
+            while j < len(beta) and beta[j] in _BETA_MARKS:
+                pre += beta[j]
+                j += 1
+            if j < len(beta) and beta[j].lower() in _BETA_LETTERS:
+                out.append(_BETA_LETTERS[beta[j].lower()].upper())
+                out.extend(_BETA_MARKS[m] for m in sorted(pre, key=_mark_order))
+                i = j + 1
+                continue
+            i += 1
+            continue
+        low = ch.lower()
+        if low in _BETA_LETTERS:
+            out.append(_BETA_LETTERS[low])
+        elif ch in _BETA_MARKS:
+            out.append(_BETA_MARKS[ch])
+        elif ch == "'":
+            out.append("ʼ")
+        else:
+            out.append(ch)
+        i += 1
+    text = "".join(out)
+    # Final sigma at the end of a word.
+    text = re.sub(r"σ(?=$|[^\wͰ-Ͽἀ-῿̀-ͯ])", "ς", text)
+    return nfc(text)
+
+
+def _mark_order(m):
+    return {")": 0, "(": 0, "+": 1, "/": 2, "\\": 2, "=": 2, "|": 4}.get(m, 3)
+
+
+# The 9-position morphological tag of the Ancient Greek Dependency Treebank,
+# which GLAUx uses: part of speech, person, number, tense, mood, voice,
+# gender, case, degree. '-' means not applicable.
+_POSTAG = [
+    ("part of speech", {"n": "noun", "v": "verb", "a": "adjective", "d": "adverb", "l": "article",
+                        "g": "particle", "c": "conjunction", "r": "preposition", "p": "pronoun",
+                        "m": "numeral", "i": "interjection", "e": "exclamation", "u": "punctuation",
+                        "x": "irregular", "z": "other"}),
+    ("person", {"1": "1st person", "2": "2nd person", "3": "3rd person"}),
+    ("number", {"s": "singular", "p": "plural", "d": "dual"}),
+    ("tense", {"p": "present", "i": "imperfect", "r": "perfect", "l": "pluperfect", "t": "future perfect",
+               "f": "future", "a": "aorist"}),
+    ("mood", {"i": "indicative", "s": "subjunctive", "o": "optative", "n": "infinitive", "m": "imperative",
+              "p": "participle"}),
+    ("voice", {"a": "active", "p": "passive", "m": "middle", "e": "middle or passive"}),
+    ("gender", {"m": "masculine", "f": "feminine", "n": "neuter", "c": "common"}),
+    ("case", {"n": "nominative", "g": "genitive", "d": "dative", "a": "accusative", "v": "vocative",
+              "l": "locative"}),
+    ("degree", {"p": "positive", "c": "comparative", "s": "superlative"}),
+]
+
+
+def decode_postag(tag):
+    """'n-s---fn-' -> [('part of speech', 'noun'), ('number', 'singular'), ...].
+    Unknown codes are returned as the raw letter so nothing is silently lost."""
+    out = []
+    for (name, codes), ch in zip(_POSTAG, (tag or "").ljust(9, "-")):
+        if ch != "-":
+            out.append((name, codes.get(ch, ch)))
+    return out
