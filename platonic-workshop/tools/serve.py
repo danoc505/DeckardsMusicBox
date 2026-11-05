@@ -25,6 +25,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_db  # noqa: E402
+import citations  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
 import mywork  # noqa: E402
@@ -91,6 +92,10 @@ class Library:
             "notes": self.one("SELECT count(*) n FROM note WHERE work_id = ?", work_id)["n"],
             "links_out": self.one("SELECT count(*) n FROM link WHERE from_work = ?", work_id)["n"],
             "links_in": self.one("SELECT count(*) n FROM link WHERE to_work = ?", work_id)["n"],
+            # Milestone 8: notes on other dialogues that cite a passage of this one, or name it.
+            "cited_from_others": self.one("SELECT count(DISTINCT note_id) n FROM link WHERE to_work = ? AND from_work != ? "
+                                          "AND kind = 'cf' AND certainty != 'unresolved'", work_id, work_id)["n"],
+            "named_by_others": self.one("SELECT count(DISTINCT note_id) n FROM link WHERE to_work = ? AND kind = 'dialogue'", work_id)["n"],
             "tokens": w["n_tokens"] or 0,
             # Token ids of a work are one run, so this reads only the work's own rows of tag.
             "tagged": self.one("SELECT count(DISTINCT token_id) n FROM tag WHERE token_id BETWEEN ? AND ?",
@@ -134,14 +139,22 @@ class Library:
             f"SELECT {COMMENT_COLS} FROM note n WHERE n.work_id = ? AND n.start_ref IN ({marks}) "
             f"AND n.commentary_id IS NOT NULL AND n.kind != 'introduction' ORDER BY n.commentary_id, n.seq", work_id, *refs)
         self.shorten(commentary)
+        # Milestone 8: what each section cites and what cites it, from every note in the
+        # library, each link with the note it was read from and how sure the reading is.
+        link_cols = ("l.id, l.raw, l.method, l.rule, l.certainty, l.doubt, l.note_id, n.kind AS note_kind, "
+                     "COALESCE(c.label, n.commentator) AS commentator, n.computed")
         links_out = self.rows(
-            f"SELECT l.id, l.from_ref, l.to_work, l.to_ref, l.raw, l.method, l.note_id, w.title AS to_title, w.imported AS to_imported "
-            f"FROM link l JOIN work w ON w.id = l.to_work WHERE from_work = ? AND from_ref IN ({marks}) ORDER BY l.id", work_id, *refs)
+            f"SELECT {link_cols}, l.from_ref, l.to_work, l.to_ref, w.title AS to_title, w.imported AS to_imported "
+            f"FROM link l JOIN work w ON w.id = l.to_work JOIN note n ON n.id = l.note_id LEFT JOIN commentary c ON c.id = n.commentary_id "
+            f"WHERE l.from_work = ? AND l.from_ref IN ({marks}) AND n.kind IS NOT 'introduction' ORDER BY l.id", work_id, *refs)
         # Links in: to a section here, or to the bare page number.
         links_in = self.rows(
-            f"SELECT l.id, l.from_work, l.from_ref, l.to_ref, l.raw, l.method, l.note_id, w.title AS from_title "
-            f"FROM link l JOIN work w ON w.id = l.from_work WHERE to_work = ? AND (to_ref IN ({marks}) OR to_ref = ?) ORDER BY l.from_ref",
+            f"SELECT {link_cols}, l.from_work, l.from_ref, l.to_ref, w.title AS from_title, n.body "
+            f"FROM link l JOIN work w ON w.id = l.from_work JOIN note n ON n.id = l.note_id LEFT JOIN commentary c ON c.id = n.commentary_id "
+            f"WHERE l.to_work = ? AND (l.to_ref IN ({marks}) OR l.to_ref = ?) AND l.certainty != 'unresolved' ORDER BY l.from_work, l.from_ref",
             work_id, *refs, str(page))
+        for l in links_in:
+            l["excerpt"] = citations.excerpt(l.pop("body"), l["raw"], 160)
         speeches = self.rows(
             "SELECT label, start_ref, end_ref FROM division WHERE work_id = ? AND kind = 'speech' ORDER BY id", work_id)
         seq = {r: i for i, r in enumerate(self.work_sections(work_id))}
@@ -211,6 +224,22 @@ class Library:
         n["proof_history"] = self.mine.proof_history(n["note_key"]) if n["note_key"] else []
         n["footnotes"] = self.rows("SELECT id, note_key, body_html FROM note WHERE parent_id = ? ORDER BY seq", note_id)
         return n
+
+    # ------------------------------------------------------------ the citation web (milestone 8)
+
+    def discussed(self, work=None, commentator=None, uncertain=False, cross=False, limit=100):
+        rows = citations.most_discussed(self.db, work=work, commentator=commentator, include_uncertain=uncertain,
+                                        cross_only=cross, limit=limit)
+        titles = {r["id"]: (r["title"], r["abbr"], r["slug"]) for r in self.rows("SELECT id, title, abbr, slug FROM work")}
+        for r in rows:
+            r["to_title"], r["to_abbr"], _ = titles.get(r["to_work"], (r["to_work"], None, None))
+        who = self.rows("SELECT COALESCE(c.label, n.commentator) AS commentator, count(*) AS n FROM link l JOIN note n ON n.id = l.note_id "
+                        "LEFT JOIN commentary c ON c.id = n.commentary_id WHERE l.certainty != 'unresolved' GROUP BY 1 ORDER BY 2 DESC")
+        totals = {r["certainty"]: r["n"] for r in self.rows("SELECT certainty, count(*) AS n FROM link GROUP BY certainty")}
+        return {"rows": rows, "commentators": who, "totals": totals}
+
+    def cited(self, work_id, ref):
+        return citations.citing_notes(self.db, work_id, ref)
 
     def work_sections(self, work_id):
         return [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", work_id)]
@@ -448,6 +477,13 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 2 and parts[0] == "note" and parts[1].isdigit():
                     n = lib.note(int(parts[1]))
                     return self.send_json(n) if n else self.not_found()
+                if parts == ["discussed"]:
+                    return self.send_json(lib.discussed(work=query.get("work") or None, commentator=query.get("by") or None,
+                                                        uncertain=query.get("uncertain") == "1", cross=query.get("cross") == "1",
+                                                        limit=min(500, int(query.get("limit") or 100))))
+                if len(parts) in (2, 3) and parts[0] == "cited":
+                    # /api/cited/<work>/<ref>: notes citing a passage; /api/cited/<work>: notes naming the dialogue.
+                    return self.send_json(lib.cited(parts[1], parts[2] if len(parts) == 3 else ""))
                 if parts == ["lexica"]:
                     return self.send_json(lib.lexica())
                 if len(parts) == 2 and parts[0] == "token" and parts[1].isdigit():

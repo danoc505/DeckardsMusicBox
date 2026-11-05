@@ -75,7 +75,16 @@ OCR as received and says how it was placed, ≈ where the place is computed; you
 checked or correct it, in your own database. See [The commentaries](#the-commentaries) below and
 [`reports/commentary_timaeus.md`](reports/commentary_timaeus.md).
 
-Next is milestone 8: the citation web.
+**Milestone 8, the citation web: done.** Every note in the library, from all 23 commentators and translators
+(the Loeb notes, Taylor's and Sydenham's notes, Jowett's footnotes, Proclus, Archer-Hind, Taylor's Additional
+Notes and the introductions), is read for the passages of Plato it cites. Under every section, *Cites* lists
+what its notes point to and *Cited by* the notes anywhere in Plato that point to it, each with the note it came
+from and the words it was read from. *Most discussed* ranks the passages by how many notes cite them, for all of
+Plato or one dialogue, by one commentator, or from other dialogues only. Every reading the rules cannot settle is
+kept and marked with a ? and the reason. See [The citation web](#the-citation-web) below and
+[`reports/citations.md`](reports/citations.md).
+
+Next is milestone 9: each dialogue as a whole, and the corpus as a whole.
 
 ## Running it
 
@@ -216,6 +225,48 @@ each one's translator, printing, proofreading status and how it is placed.
 - **Rebuilding.** `python3 tools/fetch_commentaries.py` downloads the OCR again (the copies in `sources/` are
   committed); `python3 tools/commentary.py` reads the books into `texts/commentary/timaeus/` (committed,
   reviewable); `tools/build_db.py` places the notes and writes the report.
+
+## The citation web
+
+![Republic 529a: what its notes cite, and the notes in the Republic and the Timaeus that cite it](docs/reader-m8.png)
+
+- **Under each section.** *Cites*: every passage its notes cite, in this dialogue or another, each chip with the
+  commentator's name; *Cited by*: every note, in any dialogue, that cites this section (or its whole page). Hover a
+  chip for the words in the note it was read from and how it was read; *read the notes* opens all of them, the
+  reference marked in each, with the whole note one click away. A dialogue named without a page (Taylor's
+  "as it is said in the Phaedrus") is a chip for the whole dialogue.
+- **Most discussed** (top right): the passages ranked by the number of notes citing them, each note counted once,
+  with how many commentators and dialogues the citations come from and how many notes are written on the passage
+  itself. Choose a dialogue, a commentator, *only from notes on other dialogues*, and whether uncertain readings
+  count. The left column of the reader says how many notes on other dialogues cite the one you are reading, and
+  how many name it.
+
+  ![The Timaeus passages most cited from notes on other dialogues](docs/reader-m8-discussed.png)
+- **How references are read** (`tools/citations.py`, no AI): a title of one of Plato's works (full, abbreviated,
+  Taylor's *Banquet*, Latin *Legg.*) followed by Stephanus numbers (`Republic 370 E, 374 E ff.`, `Rep. vi. 509 b`,
+  `Philebus 26 E—28 E`); a bare page and letter (`cf. 31 B`) as the note's own dialogue; a title misread by the
+  OCR (`Zheaetetus 176 A`) when it is within a letter or two of a real one; a dialogue named after *the*, *his* or
+  *Plato's*. Not read: numbers after `p.`, `vol.`, `l.` or `§`, a line number after a section letter, another
+  author's book (`Proclus in Tim. 3 E`), and Archer-Hind's headings of his own parts (`27 C—29 D, c. v.`), which
+  are his outline of the dialogue and are kept for milestone 9. The Loeb notes keep milestone 2's reading from the
+  TEI and are checked the same way.
+- **Certainty.** Every link is checked against the library's own Stephanus sections. *Certain*: it reads cleanly
+  and the section exists. *Uncertain* (?): the title was read through OCR, the page has no such letter (linked to
+  the page), the page is not in the book named, a bare number follows another author's name, a number after
+  another title is read as the note's own dialogue because that title has no such page (`Laws 690 A ff. and 434 B`
+  in a note on the Republic), or a title that is also a common word (*the Laws*) is named without a page.
+  *Unresolved*: the work is named but has no such page; the words are kept, nothing is linked. Every doubt is
+  listed in [`reports/citations.md`](reports/citations.md).
+- **Provenance.** Each link is a row of `link` with the note it was read from (`note_id`), the words read (`raw`),
+  the rule, the certainty and the doubt in words. The note's own place keeps its ≈ if it was computed.
+
+| | Links | Certain | Uncertain | Unresolved |
+|---|---:|---:|---:|---:|
+| All notes, all of Plato | 5,795 | 5,587 | 169 | 39 |
+
+Shorey's notes on the Republic give most of the passage references (4,605). Taylor, Sydenham and Proclus
+almost never print a Stephanus number; what they give is the dialogue, and the Parmenides is the dialogue they and
+the others name most.
 
 ## Word search and word studies
 
@@ -365,7 +416,7 @@ Stephanus section, and every row names its source:
 | Word evidence | `tag`, `morph` | GLAUx lemma and parse for 23,670 words (99.97%), all machine-tagged; every Morpheus parse for 99.9% of words |
 | Structure | `division` | 76 Stephanus pages and 41 speeches. Parts of the argument and skopos: milestone 9 |
 | Commentary | `commentary`, `note` | Bury's 192 Loeb notes, anchored to the section they are printed in; from milestone 7 the commentaries, each note with its place, the Greek words it is on, and how they were found |
-| Links | `link` | 163 references read from those notes by pattern (101 within the Timaeus) |
+| Links | `link` | 163 references read from those notes by pattern (101 within the Timaeus); from milestone 8 every note's references, each with its certainty and the reason for any doubt |
 | Dictionaries | `lexicon`, `lex_entry`, `lemma_entry`, `abbreviation` | 4,000 LSJ and 3,209 Middle Liddell entries: every lemma GLAUx or Morpheus gives for a word of the text, and the entries those cross-refer to; LSJ's lists of abbreviations |
 | Grammar | `grammar_note`, `relation_label` | 32 notes from 31 sections of Smyth; 22 sentence-role definitions |
 | Search (milestone 5) | `lemma_count`, `form_count` | How often each lemma and each printed form occurs in each work |
@@ -448,9 +499,9 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   mywork.py (your translations, notes and word studies: the only code that writes user.sqlite),
                   search.py (the word search across Plato), jowett.py, taylor_ocr.py, align.py and
                   translations.py (the historical translations), commentary.py and commentary_db.py
-                  (reading and placing the commentaries)
+                  (reading and placing the commentaries), citations.py (the citation web)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
-                  commentary.js the commentaries
+                  commentary.js the commentaries, citations.js the citation web
 tests/
 docs/             screenshots
 reports/          output of verify_sources.py and of the build (corpus.md), committed so results are reviewable

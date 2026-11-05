@@ -235,10 +235,15 @@ CREATE TABLE link (
     note_id     INTEGER REFERENCES note(id),
     source_id   TEXT NOT NULL REFERENCES source(id),
     raw         TEXT NOT NULL,             -- the words in the note it was read from
-    method      TEXT NOT NULL              -- pattern | by hand
+    method      TEXT NOT NULL,             -- pattern (Loeb TEI titles) | pattern, plain text (milestone 8) | by hand
+    -- Milestone 8, the citation web (tools/citations.py).
+    rule        TEXT,                      -- which reading rule: title and page | page in this dialogue | title read through OCR
+    certainty   TEXT NOT NULL DEFAULT 'certain', -- certain | uncertain | unresolved (no such page: kept, not followable)
+    doubt       TEXT                       -- why it is not certain, in words
 );
 CREATE INDEX link_from ON link(from_work, from_ref);
 CREATE INDEX link_to ON link(to_work, to_ref);
+CREATE INDEX link_note ON link(note_id);
 
 -- ---------------------------------------------------------------- search
 --
