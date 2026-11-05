@@ -1,0 +1,83 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg035",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   21202,
+   21215
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg035",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "pages read": 4,
+  "scholia": 4,
+  "with a lemma": 4
+ },
+ "notes": [
+  {
+   "kind": "note",
+   "line": 21205,
+   "page_steph": "974a",
+   "page_how": null,
+   "head_raw": "Ρ, 974. Α.",
+   "lemma": "παιδικῆς",
+   "lemma_lang": "grc",
+   "text": "οἶμαι, ἵἱλαρᾶς- ἐξ οὗ καὶ παιδικώτερον τὸ ἵλαρώτερον. Β.",
+   "raw": "Ρ, 974. Α. παιδικῆς] οἶμαι, ἵἱλαρᾶς- ἐξ οὗ καὶ παιδικώ- \nτερον τὸ ἵλαρώτερον. Β. ",
+   "id": "scholia-hermann.tlg035.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 21208,
+   "page_steph": "978b",
+   "page_how": null,
+   "head_raw": "978 Β.",
+   "lemma": "διαρυϑμήσεται",
+   "lemma_lang": "grc",
+   "text": "διαλογίσεται. Β.",
+   "raw": "978 Β. διαρυϑμήσεται) διαλογίσεται. Β. ",
+   "id": "scholia-hermann.tlg035.0002",
+   "seq": 2
+  },
+  {
+   "kind": "note",
+   "line": 21210,
+   "page_steph": "980b",
+   "page_how": null,
+   "head_raw": "980 Β.",
+   "lemma": "προσπαίσαντι",
+   "lemma_lang": "grc",
+   "text": "προσπαίξαντι\" ἀντὶ τοῦ ἕ τὸ σ οὗ ᾿Δττικοί. Β.",
+   "raw": "980 Β. προσπαίσαντι] προσπαίξαντι\" ἀντὶ τοῦ ἕ τὸ σ οὗ \n᾿Δττικοί. Β. ",
+   "id": "scholia-hermann.tlg035.0003",
+   "seq": 3
+  },
+  {
+   "kind": "note",
+   "line": 21213,
+   "page_steph": "988c",
+   "page_how": null,
+   "head_raw": "988 Ο.",
+   "lemma": "ῥύμας",
+   "lemma_lang": "grc",
+   "text": "ὁρμὰς βιαίας. Β.",
+   "raw": "988 Ο. ῥύμας] ὁρμὰς βιαίας. Β. ",
+   "id": "scholia-hermann.tlg035.0004",
+   "seq": 4
+  }
+ ]
+}

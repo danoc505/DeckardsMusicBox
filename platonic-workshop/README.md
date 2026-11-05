@@ -97,7 +97,17 @@ quotes its source, and the build looks for each quotation in the text it names: 
 [The dialogue and the corpus as a whole](#the-dialogue-and-the-corpus-as-a-whole) below and
 [`reports/structure.md`](reports/structure.md).
 
-Next is milestone 10: the concept index across the dialogues.
+**Milestone 10, the concept index across the dialogues: done.** *Concepts* (top right, or `#concepts`) gathers
+twenty-five Platonic concepts, from the Good, the Forms and the Soul to Emanation, Return and Evil as privation.
+Each has the Greek words it is indexed under (with where GLAUx tags them, dialogue by dialogue), the ancient
+definitions (the pseudo-Platonic *Definitions* in Hermann's Greek and Burges' English, Taylor's "Explanation of
+Certain Platonic Terms"), Plato's own passages, the later Platonists' readings (Alcinous' handbook, Proclus,
+Taylor), and its relations to the other concepts. Each is marked as Plato's own, Plato's but systematised later,
+or a later doctrine, which shows the passages the later readers read it in and who reads them so. Every link
+quotes the words it rests on, and the build looks for each in the text it names: 217 of 217 found. Nothing is
+linked because two places share a word. To rest it on, Alcinous (Burges, 34 chapters), the *Definitions* (both)
+and Hermann's Greek scholia on the dialogues (1,515 scholia, placed by their printed Stephanus page) are imported.
+See [The concept index](#the-concept-index) below and [`reports/concepts.md`](reports/concepts.md).
 
 ## Running it
 
@@ -532,6 +542,48 @@ which covers Perseus, GLAUx, the lexica, First1KGreek and the GITenberg mirror
 of older Project Gutenberg books. (Network access was widened for milestone 3, which is how
 the Perseus website's downloads became reachable.)
 
+## The concept index
+
+![The Good in the concept index: its word, its definitions, and Plato's passages with the Greek they rest on](docs/reader-m10-concept.png)
+
+- **Concepts** (`#concepts`): the twenty-five, each with its Greek name, its layer, the words it is indexed under,
+  the dialogues its passages are in and its relations. `#concepts/the-good` opens one:
+  - *The index's note*: one sentence on what is gathered there, marked as the Workshop's own words, not a definition.
+  - *Indexed under*: the GLAUx lemmas (νοῦς is tagged νόος), with a count per dialogue and a link to every
+    occurrence. This is lexical evidence: a word in two places does not link the places, and a word that is
+    mostly the ordinary sense (εἰμί, λόγος) says so.
+  - *Definitions* and *In the later Platonists*: each a quotation, with where it is (click to read the passage
+    of an ancient text, or the whole note).
+  - *In Plato* (or, for a later doctrine, *The passages it is read in*): each passage with Burnet's Greek where it
+    begins (where it ends is chosen by hand), why it is here, the note that reads it so if it is a later reading,
+    and the notes placed on it that name the concept (found by rule, by the keywords in `concepts.json`; read the
+    note).
+  - *Related concepts*: "the Good is the cause of Truth", each with the words it rests on, and the relations other
+    concepts state to this one.
+- **Layers**: *Plato* (he names it and argues about it), *Plato, systematised later* (the Good, Intellect, the
+  Demiurge, the One and the Many: his words, the later Platonists' order of principles), and *Later Platonist*
+  (Emanation, Return, Evil as privation: Plato does not name them).
+- **In the reader**: "Where you are in the whole" names the concept passages on the page; the word box names the
+  concepts indexed under the word's lemma (the word, not that place).
+- **Where it comes from.** `sources/concepts/concepts.json` is written by hand; its quotations are of Burnet's
+  Greek (`plato`), of the ancient texts in `texts/ancient/` (`alcinous-burges`, `definitions-hermann`,
+  `definitions-burges`), of Taylor's Platonic terms (`taylor-terms`), or of a note in the library (`note`: by
+  commentator, dialogue and section). `tools/concepts.py` checks every one, fills the concept tables, and writes
+  [`reports/concepts.md`](reports/concepts.md). `tools/scholia.py` reads Hermann's *Scholia Platonica* (vol. VI) into
+  `texts/commentary/<dialogue>/scholia-hermann.json`; the commentary build places each scholion at its printed
+  Stephanus page and letter (≈ where the page number had to be inferred, and the reading kept).
+
+| | |
+|---|---:|
+| Concepts | 25 |
+| Quotations checked, found | 217, 217 |
+| Terms (GLAUx lemmas) | 46 |
+| Passages of Plato | 87 |
+| Definitions, later readings | 40, 31 |
+| Relations between concepts | 56 |
+| Notes naming a concept on its passages | 91 |
+| Greek scholia imported | 1,515 |
+
 ## Layout
 
 ```
@@ -546,6 +598,7 @@ sources/          what we use and where it comes from (committed)
   proclus-1820/, archer-hind-1888/  Internet Archive OCR of the commentaries, as received, with provenance
   burges-1854/, yonge-1853/, hermann-appendix/  Diogenes Laertius III, Albinus, the Anonymous Prolegomena, as received
   structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos
+  concepts/       the concept index of milestone 10 (concepts.json)
 texts/            imported texts, one JSON file per work (committed)
   taylor-1804/vol1/
   taylor-1804/vol2/ ... vol5/  Taylor's OCR cleaned by rule, with the OCR kept beside it
@@ -561,9 +614,11 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   search.py (the word search across Plato), jowett.py, taylor_ocr.py, align.py and
                   translations.py (the historical translations), commentary.py and commentary_db.py
                   (reading and placing the commentaries), citations.py (the citation web),
-                  fetch_ancient.py, ancient.py, taylor_intros.py and structure.py (the whole, milestone 9)
+                  fetch_ancient.py, ancient.py, taylor_intros.py and structure.py (the whole, milestone 9),
+                  scholia.py and concepts.py (the concept index, milestone 10)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
-                  commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map
+                  commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,
+                  concepts.js the concept index
 tests/
 docs/             screenshots
 reports/          output of verify_sources.py and of the build (corpus.md), committed so results are reviewable

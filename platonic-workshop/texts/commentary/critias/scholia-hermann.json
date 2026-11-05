@@ -1,0 +1,171 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg032",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   20086,
+   20141
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg032",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "scholia": 10,
+  "with a lemma": 1,
+  "paragraphs run on": 5,
+  "pages read": 3,
+  "pages inferred": 1
+ },
+ "notes": [
+  {
+   "kind": "introduction",
+   "line": 20089,
+   "text": "Ρ. 108 ἢ. μελλητέου] ὑπερϑετέον ἐστίν. Π. 109 Ὁ. σημείωσαι τὸ ἐκ πρύμνης, οἶμαι; τὸ ἔνδοϑεν. Β. 110 Ὁ. ᾿Ισϑμὸς ,.)γῆ στενὴ καὶ ἀμφιϑάλασσος, καϑ᾽ ἣν ἡ 4χαία τῇ Πελοποννήσῳ συνάπτεται. Ἐ. ῬΡιατο Υ͂Ι. 24",
+   "raw": "Ρ. 108 ἢ. μελλητέου] ὑπερϑετέον ἐστίν. Π. \n109 Ὁ. σημείωσαι τὸ ἐκ πρύμνης, οἶμαι; τὸ ἔνδοϑεν. Β. \n110 Ὁ. ᾿Ισϑμὸς ,.)γῆ στενὴ καὶ ἀμφιϑάλασσος, καϑ᾽ ἣν ἡ \n4χαία τῇ Πελοποννήσῳ συνάπτεται. Ἐ. \nῬΡιατο Υ͂Ι. 24 ",
+   "id": "scholia-hermann.tlg032.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 20099,
+   "page_steph": "106d",
+   "page_how": null,
+   "head_raw": "Ὦ.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "“Κιϑαιρὼν ὄρος Βοιωτίας. Πάρνης δὲ ὄρος μεταξὺ ᾽4ττικῆς καὶ Βοιωτίας; πλησίον Πανάκτου. Β. Ἐὰ Κῶρωπὸς πόλις Βοιωτίας. ΒΕ.",
+   "raw": "Ὦ. “Κιϑαιρὼν ὄρος Βοιωτίας. Πάρνης δὲ ὄρος μεταξὺ ᾽4τ- \nτικῆς καὶ Βοιωτίας; πλησίον Πανάκτου. Β. \n\nἘὰ Κῶρωπὸς πόλις Βοιωτίας. ΒΕ. ",
+   "id": "scholia-hermann.tlg032.0002",
+   "seq": 2
+  },
+  {
+   "kind": "note",
+   "line": 20104,
+   "page_steph": "106e",
+   "page_how": null,
+   "head_raw": "Ἐ.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "᾿ἀσωπὸς ποταμὸς Βοιωτίας. ἸΟῪ",
+   "raw": "Ἐ. ᾿ἀσωπὸς ποταμὸς Βοιωτίας. ἸΟῪ ",
+   "id": "scholia-hermann.tlg032.0003",
+   "seq": 3
+  },
+  {
+   "kind": "note",
+   "line": 20106,
+   "page_steph": "111b",
+   "page_how": null,
+   "head_raw": "111 Β.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "φελλεὺς τόπος σκληρὸς ποσῶς καὶ πετρώδης. συνεργὴς δέ. οἵ [ δὲ τὸν ἐξ ἐπιπολῆς πετρώδη. ΗΒ. Ὄ: σὰ τὰ σῶα μονοσυλλάβως φασὶν ᾿Αττικοί. καὶ τὸν σῶον σῶν. καὶ ἡ σώα σᾶ παρ᾽ αὐτοῖς. Ἡ, 1124. Ἠριδανὸς καὶ Ἰλισσὸς καὶ ἀλλαχοῦ μέν, ἀλλ᾽ οὗτοι ἐν τῇ ᾿Αττικῇ. ΗΠ.",
+   "raw": "111 Β. φελλεὺς τόπος σκληρὸς ποσῶς καὶ πετρώδης. συν- \nεργὴς δέ. οἵ [ δὲ τὸν ἐξ ἐπιπολῆς πετρώδη. ΗΒ. \n\nὌ: σὰ τὰ σῶα μονοσυλλάβως φασὶν ᾿Αττικοί. καὶ τὸν σῶον \nσῶν. καὶ ἡ σώα σᾶ παρ᾽ αὐτοῖς. Ἡ, \n\n1124. Ἠριδανὸς καὶ Ἰλισσὸς καὶ ἀλλαχοῦ μέν, ἀλλ᾽ οὗτοι \nἐν τῇ ᾿Αττικῇ. ΗΠ. ",
+   "id": "scholia-hermann.tlg032.0004",
+   "seq": 4
+  },
+  {
+   "kind": "note",
+   "line": 20115,
+   "page_steph": "112a",
+   "page_how": "no page printed; the letter goes back from B to A, so the next page, 112, is taken",
+   "head_raw": "Α.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "Πνὺξ τόπος ᾿Αϑήνησιν, ἐ ἐν ᾧ ᾿ ἐκκλησίαι ἐ ἐγίγνοντο πάλαι μὲν πᾶσαι. ὕστερον δὲ ἅπαξ. ὅταν τὸν στρατηγὸν χειροτονῶσιν. ἐκλήϑη δὲ οὕτως ἤτοι ἀπὸ τοῦ πυκνοῦσϑαι τὸν ὄχλον ἐκεῖ, ἢ ἀπὸ τοῦ πυκνὰ εἶναι τὰ περὶ αὐτὴν οἰκήματα. Β.",
+   "raw": "Α. Πνὺξ τόπος ᾿Αϑήνησιν, ἐ ἐν ᾧ ᾿ ἐκκλησίαι ἐ ἐγίγνοντο πάλαι \nμὲν πᾶσαι. ὕστερον δὲ ἅπαξ. ὅταν τὸν στρατηγὸν χειροτονῶσιν. \nἐκλήϑη δὲ οὕτως ἤτοι ἀπὸ τοῦ πυκνοῦσϑαι τὸν ὄχλον ἐκεῖ, ἢ \nἀπὸ τοῦ πυκνὰ εἶναι τὰ περὶ αὐτὴν οἰκήματα. Β. ",
+   "id": "scholia-hermann.tlg032.0005",
+   "seq": 5
+  },
+  {
+   "kind": "note",
+   "line": 20120,
+   "page_steph": "112a",
+   "page_how": null,
+   "head_raw": "Α.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "“Δυκαβηττὸς ὄρος τῆς ᾿Αττικῆς. εἴρηται δὲ οὕτως διὰ τὸ λύκοις πληϑύειν. Ἐν,",
+   "raw": "Α. “Δυκαβηττὸς ὄρος τῆς ᾿Αττικῆς. εἴρηται δὲ οὕτως διὰ \nτὸ λύκοις πληϑύειν. Ἐν, ",
+   "id": "scholia-hermann.tlg032.0006",
+   "seq": 6
+  },
+  {
+   "kind": "note",
+   "line": 20123,
+   "page_steph": "112b",
+   "page_how": null,
+   "head_raw": "Β.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "ξυσσίτια τὰ δεῖτονα ἃ κοινῇ ποιοῦνται “ακεδαιμόνιοι. εὐρνύξε δὲ καὶ φιλίτια; ἐπεὶ φιλίας συναγωγά ἐστιν. Ὁ εὐκρὰς εὔκρατος ῇ εὐκέφαλος, ὡς Εὐριπίδης ᾿Δντιόπῃ.",
+   "raw": "Β. ξυσσίτια τὰ δεῖτονα ἃ κοινῇ ποιοῦνται “ακεδαιμόνιοι. \nεὐρνύξε δὲ καὶ φιλίτια; ἐπεὶ φιλίας συναγωγά ἐστιν. \n\nὉ εὐκρὰς εὔκρατος ῇ εὐκέφαλος, ὡς Εὐριπίδης ᾿Δντιόπῃ. ",
+   "id": "scholia-hermann.tlg032.0007",
+   "seq": 7
+  },
+  {
+   "kind": "note",
+   "line": 20128,
+   "page_steph": "116b",
+   "page_how": null,
+   "head_raw": "116 Β.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "ἀκρόδρυα κοινῶς οὗ τῶν δένδρων καρποί.",
+   "raw": "116 Β. ἀκρόδρυα κοινῶς οὗ τῶν δένδρων καρποί. ",
+   "id": "scholia-hermann.tlg032.0008",
+   "seq": 8
+  },
+  {
+   "kind": "note",
+   "line": 20130,
+   "page_steph": "116b",
+   "page_how": null,
+   "head_raw": "Β.",
+   "lemma": "μεταδόρπια",
+   "lemma_lang": "grc",
+   "text": "ἐπίδειπνα.",
+   "raw": "Β. μεταδόρπια] ἐπίδειπνα. ",
+   "id": "scholia-hermann.tlg032.0009",
+   "seq": 9
+  },
+  {
+   "kind": "note",
+   "line": 20132,
+   "page_steph": "116d",
+   "page_how": null,
+   "head_raw": "Ὁ.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "τὸ πλέϑρον ἐστὶ ποδῶν ἕς δίμοιρον. Ρ. στάδιόν ἐστι μέρος τι μιλίου ἕβδομον τεσσαρεσκαιδέκατον\" τὸ γὰρ μέλιόν ἐστι ζ5΄ στάδια.",
+   "raw": "Ὁ. τὸ πλέϑρον ἐστὶ ποδῶν ἕς δίμοιρον. \n\nΡ. στάδιόν ἐστι μέρος τι μιλίου ἕβδομον τεσσαρεσκαιδέκα- \nτον\" τὸ γὰρ μέλιόν ἐστι ζ5΄ στάδια. ",
+   "id": "scholia-hermann.tlg032.0010",
+   "seq": 10
+  },
+  {
+   "kind": "note",
+   "line": 20137,
+   "page_steph": "116c",
+   "page_how": null,
+   "head_raw": "116 0.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "φιτῦσαι ἐπὶ τοῦ πατρός; ἐπὶ δὲ μητρὸς γεννῆσαι. καὶ φιτύων ὃ γεννῶν; καὶ τὸ γέννημα φῖτυ, ὡς Εὔπολις Αὐτολύκῳ ἀτὰρ ἤγαγες καινὸν \" τὸ ἢ φῖτυ τῶν βοῶν.",
+   "raw": "116 0. φιτῦσαι ἐπὶ τοῦ πατρός; ἐπὶ δὲ μητρὸς γεννῆσαι. \nκαὶ φιτύων ὃ γεννῶν; καὶ τὸ γέννημα φῖτυ, ὡς Εὔπολις Αὐτο- \nλύκῳ ἀτὰρ ἤγαγες καινὸν \" τὸ ἢ φῖτυ τῶν βοῶν. ",
+   "id": "scholia-hermann.tlg032.0011",
+   "seq": 11
+  }
+ ]
+}

@@ -1,0 +1,111 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg029",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   18006,
+   18040
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg029",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "pages read": 4,
+  "scholia": 6,
+  "with a lemma": 6,
+  "paragraphs run on": 1,
+  "scholia with no letter": 1
+ },
+ "notes": [
+  {
+   "kind": "note",
+   "line": 18009,
+   "page_steph": "406a",
+   "page_how": null,
+   "head_raw": "Ρ. 406 Α.",
+   "lemma": "διατριβὰς",
+   "lemma_lang": "grc",
+   "text": "τὰς φιλοσόφους διαλέξεις σημαίνει, καὶ τὸν τόπον ἐν ᾧ εἰσί, καὶ τὴν περί τι χρόνιον διάϑεσιν. ἐλ;",
+   "raw": "Ρ. 406 Α. διατριβὰς] τὰς φιλοσόφους διαλέξεις σημαίνει, \nκαὶ τὸν τόπον ἐν ᾧ εἰσί, καὶ τὴν περί τι χρόνιον διάϑεσιν. ἐλ; ",
+   "id": "scholia-hermann.tlg029.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 18012,
+   "page_steph": "407a",
+   "page_how": null,
+   "head_raw": "407 Α.",
+   "lemma": "ἐπὶ μηχανῆς",
+   "lemma_lang": "grc",
+   "text": "ἐν ταῖς τραγῳδίαις, μετὰ ἄλλας ἐπιδείξεις πολλάς. ἐπιφάνειαί τινὲς ἐπὶ τέλει ἔκ μηχα νῆς τινὸς δεῶν ἀνεδείκνυντο. τοῦτο γοῦν ἐνταῦϑα φησίν. ἄλλως. ἀπὸ μηχανῆς ϑεὸς ἕπεφάνης: ἐπὶ τῶν ἀπροσδοκήτως ἐπὶ ὠφελείᾳ καὶ σωτηρίᾳ φαινομένων. ἐν γὰρ ταῖς τραγῳδίαις ἐξ ἀφανοῦς ϑεοὶ ἐπὶ τῆς σκηνῆς ἐφαίνοντο: Μένανδρος Θεοφορουμένῃ καὶ Κεκρυφάλῳ.",
+   "raw": "407 Α. ἐπὶ μηχανῆς] ἐν ταῖς τραγῳδίαις, μετὰ ἄλλας ἐπι- \nδείξεις πολλάς. ἐπιφάνειαί τινὲς ἐπὶ τέλει ἔκ μηχα νῆς τινὸς δεῶν \nἀνεδείκνυντο. τοῦτο γοῦν ἐνταῦϑα φησίν. ἄλλως. ἀπὸ μηχανῆς \nϑεὸς ἕπεφάνης: ἐπὶ τῶν ἀπροσδοκήτως ἐπὶ ὠφελείᾳ καὶ σωτηρίᾳ \nφαινομένων. ἐν γὰρ ταῖς τραγῳδίαις ἐξ ἀφανοῦς ϑεοὶ ἐπὶ τῆς \nσκηνῆς ἐφαίνοντο: Μένανδρος Θεοφορουμένῃ καὶ Κεκρυφάλῳ. ",
+   "id": "scholia-hermann.tlg029.0002",
+   "seq": 2
+  },
+  {
+   "kind": "note",
+   "line": 18024,
+   "page_steph": "407e",
+   "page_how": null,
+   "head_raw": "Ε,",
+   "lemma": "ὀφθαλμοῖς χρῆσϑαι",
+   "lemma_lang": "grc",
+   "text": "κρεῖττόν ἐστι τῷ μὴ ἐπισταμένῳ ὡς δεῖ ὃ ὁρᾷν μηδ᾽ αὐ χρείαν μηδεμίαν χρῆσϑαι᾽ τῷ σώματι. μηδ᾽ ὅλως δρᾶν μηδέ τι πράττειν, ἢ ὡς ἔτυχε πράττειν ἀμαϑῶς καὶ ἀφυῶς. Ά.",
+   "raw": "Ε, ὀφθαλμοῖς χρῆσϑαι] κρεῖττόν ἐστι τῷ μὴ ἐπισταμένῳ \nὡς δεῖ ὃ ὁρᾷν μηδ᾽ αὐ χρείαν μηδεμίαν χρῆσϑαι᾽ τῷ σώματι. μηδ᾽ \nὅλως δρᾶν μηδέ τι πράττειν, ἢ ὡς ἔτυχε πράττειν ἀμαϑῶς καὶ \nἀφυῶς. Ά. ",
+   "id": "scholia-hermann.tlg029.0003",
+   "seq": 3
+  },
+  {
+   "kind": "note",
+   "line": 18029,
+   "page_steph": "408a",
+   "page_how": null,
+   "head_raw": "408 Α.",
+   "lemma": "μὴ ξῇν κρεῖττον",
+   "lemma_lang": "grc",
+   "text": "οἴομαι παρόμοιον καὶ τὸ παρὰ Σοφοκλεῖ\" ἀλλ ἢ καλῶς ἕῇν ἢ καλῶς τεϑνηκέναι τὸν εὐγενῆ χρή. ΗΒ.",
+   "raw": "408 Α. μὴ ξῇν κρεῖττον] οἴομαι παρόμοιον καὶ τὸ παρὰ Σο- \nφοκλεῖ\" \n\nἀλλ ἢ καλῶς ἕῇν ἢ καλῶς τεϑνηκέναι \nτὸν εὐγενῆ χρή. ΗΒ. ",
+   "id": "scholia-hermann.tlg029.0004",
+   "seq": 4
+  },
+  {
+   "kind": "note",
+   "line": 18035,
+   "page_steph": "408a",
+   "page_how": "no letter printed (or read); at the place of the scholion before",
+   "head_raw": "",
+   "lemma": "409 ἢ. κομψότατα",
+   "lemma_lang": "grc",
+   "text": "πιϑανώτατα ἢ τεχνικώτατα ἢ σπουδαιότατα. Ἐ.",
+   "raw": "409 ἢ. κομψότατα] πιϑανώτατα ἢ τεχνικώτατα ἢ σπου- \nδαιότατα. Ἐ. ",
+   "id": "scholia-hermann.tlg029.0005",
+   "seq": 5
+  },
+  {
+   "kind": "note",
+   "line": 18038,
+   "page_steph": "410b",
+   "page_how": null,
+   "head_raw": "410 Β.",
+   "lemma": "λιπαρῶν",
+   "lemma_lang": "grc",
+   "text": "παρακαλῶν, προσεδρεύων. Ἡ.",
+   "raw": "410 Β. λιπαρῶν] παρακαλῶν, προσεδρεύων. Ἡ. ",
+   "id": "scholia-hermann.tlg029.0006",
+   "seq": 6
+  }
+ ]
+}

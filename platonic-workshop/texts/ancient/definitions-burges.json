@@ -1,0 +1,973 @@
+{
+ "schema": "platonic-workshop/ancient-v1",
+ "id": "definitions-burges",
+ "title": "Definitions (spurious; appended to Plato's works)",
+ "author": "[Plato]",
+ "translator": "George Burges",
+ "lang": "eng",
+ "printed": "The Works of Plato, vol. VI, translated by George Burges (London: Henry G. Bohn, 1854), pp. 123-144",
+ "cite": "[Pl.] Def.",
+ "numbering": "pages",
+ "source": {
+  "manifest_id": "burges-1854",
+  "file": "sources/burges-1854/worksofplatonewl06platiala_djvu.txt",
+  "lines": [
+   7726,
+   9150
+  ]
+ },
+ "proof_status": "OCR as received",
+ "sections": [
+  {
+   "n": "123",
+   "page": 123,
+   "line": 7726,
+   "text": "DEFINITIONS.\n\n1 Eternal—that which has existed formerly through all time, and is now not destroyed.!\n\nGod—an immortal living-being,” sufficient in itself for happiness; an eternal existence; the cause of the nature of the good.\n\nGeneration—a movement towards existence; *a sharing through a change® in existence; a progression towards existence.\n\nThe sun—a fire in heaven, which can alone be seen from morning to evening by the same ;* >the greatest star, visible by day ;° a perpetually living being, possessing a soul.®\n\nTime—‘ a movement of the sun; a measure of progress.’\n\n1_1 As the idea of eternity necessarily includes the idea of continuance through the three periods of time, past, present, and future, this definition is evidently defective.",
+   "raw": "DEFINITIONS. \n\n\n\n\n\n1 Eternal—that which has existed formerly through all \ntime, and is now not destroyed.! \n\nGod—an immortal living-being,” sufficient in itself for \nhappiness; an eternal existence; the cause of the nature of \nthe good. \n\nGeneration—a movement towards existence; *a sharing \nthrough a change® in existence; a progression towards ex- \nistence. \n\nThe sun—a fire in heaven, which can alone be seen from \nmorning to evening by the same ;* >the greatest star, visible \nby day ;° a perpetually living being, possessing a soul.® \n\nTime—‘ a movement of the sun; a measure of progress.’ \n\n\n1_1 As the idea of eternity necessarily includes the idea of continu- \nance through the three periods of time, past, present, and future, this \ndefinition is evidently defective. \n\n2 T have translated ζῶον “ἃ living being,” to avoid the incongruity of \nconsidering god as an “ animal,” the ordinary meaning of ζῶον. \n\n3_s This is the proper version here of μετάληψις, not merely “a \n\n4 Instead of “by the same,” in Greek τοῖς αὐτοῖς, one would have \nexpected ‘‘the same,” in Greek ὁ αὐτὸς : for the question is not about \nthe parties seeing, but the thing seen. Hence Corradus has “ Sol—idem \nvideri potest.” \n\n5—* I have followed the reading of four MSS., ἄστρον ἡμεροφανὲς τὸ \na τον ἡ and placed the words ζῶον ἀΐδιον ἔμψυχον after μέγιστον, not \n\nefore them, as Bekker has done. Ficinus omits ἡμεροφανές. Corradus \nhas correctly, ‘‘ astrum maximum de die lucens.” \n- © On the sun possessing a soul, see Epinomis, p. 982, C. § 6. \n\n7—7 Although this definition coincides in part with that of Eratos-. \nthenes, who, as we learn from Plutarch, ii. p. 884, B., described Time as \n“the journeying of the sun,” yet it would be more correctly defined as \n‘the measure of the motion of the sun, or of the progressive movement of \n\n",
+   "page_read": null
+  },
+  {
+   "n": "124",
+   "page": 124,
+   "line": 7780,
+   "text": "Day—a journeying of the sun from its rising (east) to its setting (west); a light, the opposite to Night.!\n\nMorning—the beginning of day; the first light from the sun.\n\nMid-day—the time when the shadows of substances have the least length.\n\nEvening—the close of day. .\n\nNight— darkness, the opposite to Day ;? a deprivation of the sun.\n\nChance—a proceeding from uncertainty to uncertainty, and from what is spontaneous ;* the* cause ° of a fortuitous action.®\n\nOld Age—the wasting away of a thing with life, the result of time.\n\nWind®’—a movement in the air around the earth.\n\nAir--an element, all of whose movements ‘according to space are according to nature.’\n\nHeaven—a substance, surrounding all things perceived by the senses, except the uppermost air.®\n\nany thing,” in Greek Χρόνος ἡλίου κινήσεως μέτρον ἢ φορᾶς Tov, not Χρόνος ἡλίου κίνησις, μέτρον φορᾶς. The Stoics defined it,as “ the interval during (two) motions of the world.” Corradus has, ‘‘mensura celestis conversionis.”’",
+   "raw": "\n\nDay—a journeying of the sun from its rising (east) to its \nsetting (west); a light, the opposite to Night.! \n\nMorning—the beginning of day; the first light from the \nsun. \n\nMid-day—the time when the shadows of substances have \nthe least length. \n\nEvening—the close of day. . \n\nNight— darkness, the opposite to Day ;? a deprivation of \nthe sun. \n\nChance—a proceeding from uncertainty to uncertainty, and \nfrom what is spontaneous ;* the* cause ° of a fortuitous action.® \n\nOld Age—the wasting away of a thing with life, the re- \nsult of time. \n\nWind®’—a movement in the air around the earth. \n\nAir--an element, all of whose movements ‘according to \nspace are according to nature.’ \n\nHeaven—a substance, surrounding all things perceived by \nthe senses, except the uppermost air.® \n\n\nany thing,” in Greek Χρόνος ἡλίου κινήσεως μέτρον ἢ φορᾶς Tov, not \nΧρόνος ἡλίου κίνησις, μέτρον φορᾶς. The Stoics defined it,as “ the in- \nterval during (two) motions of the world.” Corradus has, ‘‘mensura \ncelestis conversionis.”’ \n\n1 From this definition it would seem as if Night were a light, as well \nas Day. Hence one would have preferred φῶς, τοὐναντίον νυκτὸς σκότῳ, \nnot simply τοὐναντίον νυκτὶ, and similarly in *, Νὺξ σκότος τοὐναντίον \nἡμέρας φωτί, not ἡμέρᾳ merely. Corradus makes this a new definition, \n** Lux, id, quod nocti est contrarium.” \n\n5 So Suidas, Τύχη---ἡ φορὰ ἐξ ἀδήλου εἰς ἄδηλον καὶ αὐτόματον. But \nAristotle, according to Plutarch, ii. p. 885, C., made a distinction be- \ntween Τύχη and τὸ αὐτόματον. \n\n* The ἡ, which is found before ἐκ in two MSS., and in its place in two, \nfrom whence ἐκ is placed over ἡ in two others, belongs in fact to αἰτία. \n\n5—5 So I have translated δαιμονίας πράξεως. Stephens has, “ causa \nfelicis successus ;”” but as “ chance”’ is the cause of an unsuccessful as \nwell as a successful action, the version in English should be as am- \n\n\nbiguous as δαιμονίας is in Greek. Ficinus, too, “ felicis actionis causa.” - \n\n\nCorradus, “ et felicis actionis fortuita causa.” \n\n\n° Why πνεῦμα is written here, where one would have expected ἄνεμος, I \n\n\nmust leave for others to explain. Corradus renders πνεῦμα by “‘spiritus.” \n7’ Here, again, I must leave for others to explain, what I cannot \nunderstand, the meaning of κατὰ φύσιν. Did the author write κατὰ \npedo? For the Stoics asserted, as we learn from Plutarch, ii. p. 895, \nA., that πᾶν πνεῦμα ἀέρος εἶναι ῥεῦσιν. \nδ Here seems to be an allusion to what is called ὑπερουράνιος τόπος \nin Pheedr. p. 247, Ὁ. Ficinus omits αἰσθητὰ--- \n\n"
+  },
+  {
+   "n": "125",
+   "page": 125,
+   "line": 7853,
+   "text": "Soul—! that which moves itself ;! the cause of vital motion in living beings.\n\n2 Power—that, which is able by itself to produce an effect.?\n\nVision— the (bodily) habit? of distinguishing substances.\n\nBone—marrow, consolidated by heat.\n\nElement—that, which combines and separates (particles) brought together.*\n\nVirtwe—*a (mental) constitution of the best kind; a habit of a mortal living being; ®the object of praise on account of itself ;° a habit, according to which that, which possesses it, is said to be good; ‘a just communion of laws : 1 a disposition, according to which * that, which is constituted perfectly,® is called steady ;9 a habit, effective of a good state of law.\n\n1_1 Qn the self-moving power of the soul, see Pheedrus, p. 246, Ὁ. ὁ 51.\n\n2_2 There is another definition of power given in p. 144.\n\n3_8 Although ἕξις and διάθεσις seem to be synonymous in p. 136, yet ἕξις appears to be applied to the body, and διάθεσις to the mind ; .and hence I have introduced between the lunes “ bodily ” here, and shortly afterwards “‘ mental”? in ὅ,\n\n4_4 A similar definition was given by the Stoics, as we learn from Diogenes L. vii. 136, ἐστι δὲ στοιχεῖον, ἐξ οὗ πρώτου γίνεταί τι (80 Suidas correctly in Στοιχεῖον in lieu of γινόμενα) καὶ εἰς ὃ ἔσχατον ἀναλύerat. Ficinus has ‘ ex quo componuntur, et in quod composita dissolvuntur. ν",
+   "raw": "\n\nSoul—! that which moves itself ;! the cause of vital motion \nin living beings. \n\n2 Power—that, which is able by itself to produce an effect.? \n\nVision— the (bodily) habit? of distinguishing substances. \n\nBone—marrow, consolidated by heat. \n\nElement—that, which combines and separates (particles) \nbrought together.* \n\nVirtwe—*a (mental) constitution of the best kind; a habit \nof a mortal living being; ®the object of praise on account of \nitself ;° a habit, according to which that, which possesses it, \nis said to be good; ‘a just communion of laws : 1 a disposi- \ntion, according to which * that, which is constituted perfectly,® \nis called steady ;9 a habit, effective of a good state of law. \n\n\n1_1 Qn the self-moving power of the soul, see Pheedrus, p. 246, Ὁ. ὁ 51. \n\n2_2 There is another definition of power given in p. 144. \n\n3_8 Although ἕξις and διάθεσις seem to be synonymous in p. 136, yet \nἕξις appears to be applied to the body, and διάθεσις to the mind ; .and \nhence I have introduced between the lunes “ bodily ” here, and shortly \nafterwards “‘ mental”? in ὅ, \n\n4_4 A similar definition was given by the Stoics, as we learn from \nDiogenes L. vii. 136, ἐστι δὲ στοιχεῖον, ἐξ οὗ πρώτου γίνεταί τι (80 Sui- \ndas correctly in Στοιχεῖον in lieu of γινόμενα) καὶ εἰς ὃ ἔσχατον ἀναλύ- \nerat. Ficinus has ‘ ex quo componuntur, et in quod composita dissol- \nvuntur. ν \n\n5 See at ὅ-ὃ, \n\n6_6 So Cleanthes the Stoic, in Diogenes L. vii. 89, defined virtue as \nδιάθεσιν---δι’ αὑτὴν---αἱρετὴν, οὐ διά τινα φόβον ἢ ἐλπίδα ἤ τι τῶν ἔξωθεν : \nfrom whence one would prefer here αἱρετὴ to ἐπαινετή. \n\n7—7 How virtue can be said to be “ a just communion of laws” I can- \nnot understand; nor could Ficinus; and hence he considered this as a \nfresh definition. But the two following sentences plainly prove that \nVirtue is still the subject of the definition. Did the author write ἕξις \nποιητικὴ εὐνομίας καὶ κοινωνίας νόμων δικαίας ἢ And so perhaps Stephens \nwished to read; for his version is—‘*‘ Communio, legum est justa affectio, \nsecundum quam id, quod habet perfecte affectum, honestum dicitur ; aut \nhabitus, qui equitatis et concordiz faciende vim habet:” which he got \nperhaps partly from Ficinus—‘‘ Communio, legum justa constitutio: qua \nquod preditum est, probum dicitur; habitus concordiam prestans.”’ \nCorradus too considers this.a new definition. His version is—‘‘ Com- \nmunitas, legum justa dispositio, quam quicunque est adeptus, si modo \n7 optime affectus, honestus appellatur; habitus bonas legum lationem \nefficiens.”’ \n\n88 I have followed Bekker; who says, “libri rd Zyov:’’ where he \nmeant by “libri” printed books, not MSS., where those two words were, \nit seems, wanting. \n\n® I have translated σπουδαῖος “ steady,” i. e. a person who pursues \nan object in view without swerving and earnestly. \n\n"
+  },
+  {
+   "n": "126",
+   "page": 126,
+   "line": 7920,
+   "text": "! Discretion—a power effective by itself of the good fortune of man; a knowledge of things good and evil; 38 knowledge effective of felicity ;? a (mental) constitution, by which we determine what is to be done and what is not to be done.!\n\nJustice—' an agreement of the soul with itself,3 and 4a correct arrangement of the parts of the soul towards each other and about each other ;4 °a habit, distributive to each person of that, which is according to worthiness ;° a habit, according to which he, who possesses it, can select what seems to him to be just; a habit in life,° subservient to law; 7an equality that can share in common ;’ a habit ministering to upright® laws.\n\nTemperance—a moderation of soul relating to the desires and pleasures, which exist in it according to nature; a fitness in, and correct ordering of, the soul, as regards its natural pleasures and pains ; a harmony in the soul touching the states\n\n1_1 The whole of this definition is found in Stobeus iii. p, 49, with a slight change in the position of the sentences.",
+   "raw": "\n\n! Discretion—a power effective by itself of the good fortune \nof man; a knowledge of things good and evil; 38 knowledge \neffective of felicity ;? a (mental) constitution, by which we \ndetermine what is to be done and what is not to be done.! \n\nJustice—' an agreement of the soul with itself,3 and 4a cor- \nrect arrangement of the parts of the soul towards each other \nand about each other ;4 °a habit, distributive to each person \nof that, which is according to worthiness ;° a habit, according \nto which he, who possesses it, can select what seems to him \nto be just; a habit in life,° subservient to law; 7an equality \nthat can share in common ;’ a habit ministering to upright® \nlaws. \n\nTemperance—a moderation of soul relating to the desires \nand pleasures, which exist in it according to nature; a fitness \nin, and correct ordering of, the soul, as regards its natural \npleasures and pains ; a harmony in the soul touching the states \n\n\n1_1 The whole of this definition is found in Stobeus iii. p, 49, with a \nslight change in the position of the sentences. \n\n22 The words ἐπιστήμη ποιητικὴ εὐδαιμονίας, although acknowledged \nby Stobeus, have been cut out by Bekker from the text on the authority \nof a single MS. \n\n38 How Justice can be said to be “an agreement of the soul with it- \nself,’ I confess I cannot understand; and still less how, in  ---ἰ, it is a \n‘correct arrangement of the parts of the soul towards each other and \nabout each other ;”’ especially as a similar definition is given of Temper- \nance in Stobeus v. p. 78, 1. Σωφροσύνη ἐστὶν ὁμολογία τῶν τῆς ψυχῆς \nμερῶν πρὸς ἄλληλα. Stephens too seems to have been at a loss; for he \nrenders πρὸς ἄλληλα καὶ περὶ ἄλληλα by merely “ inter se,”’ similar to \n‘ad invicem cui mutuus” in Ficinus. Corradus has more closely \n‘inter se et secum ordinis conservatio.” \n\n5—5 A similar definition is given from a not-mentioned author by Sto- \nbeus, ix. p. 125, 40. Δικαιοσύνη δὲ ἐστιν ἀρετὴ ψυχῆς διανεμητικὴ τῶν \nκατ᾽ agiav—where ἑκάστῳ seems to have dropt out between διανεμητικὴ \nand τῶν--- \n\n6 Since one MS. offers Bia for βίῳ, perhaps the author wrote ἄνευ \nβίας, not ἐν βίῳ, and thus showed that Justice is subservient to law, not \nby force, but willingly. \n\n7—7 How Justice can be “ an equality sharing in common,’ I cannot \nunderstand; nor could, I think, Stephens; whose version is—“ socialis \nequalitas.” I could have understood ἰσότητος κοινωνία, or ἰσότητος κοι- \nνωνικὴ ἕξις---““ a habit sharing in equality.”’ \n\n® As four MSS. omit ὀρθῶν, one would suspect that ἀγράφων was \nwritten here originally, similar to the ἀγράφους νόμους mentioned by \nXenophon in Memorab. iv. 4, 19, and by Demosthenes, p. 317 and 343, \ned R., and the ἄγραπτα---νόμιμα in Soph. Antig. 453, and the “ lex non \nscripta,’’ on which Cicero is so eloquent, Pro Milone, § iii. \n\n"
+  },
+  {
+   "n": "127",
+   "page": 127,
+   "line": 7981,
+   "text": "of ruling and being ruled; a self-acting according to nature ; {a well-ordering of the soul 3]! an ?intercourse of the soul,? founded on reason, relating to things honourable and base; a habit according to which he, who has it, can select and be cautious of what he ought.\n\nFortitude—a habit of the soul, not to be moved by fear; a boldness in war; %a knowledge of the things relating to war ;* a command over the soul relating to things of fear and dread; a boldness subservient to discretion; a bold bearing under the expectation of death ; a habit, preservative of right reasoning in dangers; ‘a strength (of mind) balancing (the apprehension) of danger ;4 a strength, bearing up on the side of virtue ; a tranquillity of soul with reference to things that appear, according to correct reasoning, to be full of dread and daring ; the safe preservation ὅ οἵ uncertain determinations® relating to things of dread; ®a skill in war;® ‘a habit, that can abide in law.7\n\nContinénce~-a power enduring pain ; 88 following of correct reasoning :8 °a power not exceeded by that which is perceived by correct reasoning.°\n\n1_1 The words between the brackets are evidently an interpolated repetition of the preceding εὐταξία ψυχῆς. They are omitted by Ficinus.",
+   "raw": "\n\nof ruling and being ruled; a self-acting according to nature ; \n{a well-ordering of the soul 3]! an ?intercourse of the soul,? \nfounded on reason, relating to things honourable and base; a \nhabit according to which he, who has it, can select and be \ncautious of what he ought. \n\nFortitude—a habit of the soul, not to be moved by fear; \na boldness in war; %a knowledge of the things relating to \nwar ;* a command over the soul relating to things of fear and \ndread; a boldness subservient to discretion; a bold bearing \nunder the expectation of death ; a habit, preservative of right \nreasoning in dangers; ‘a strength (of mind) balancing (the \napprehension) of danger ;4 a strength, bearing up on the side \nof virtue ; a tranquillity of soul with reference to things that \nappear, according to correct reasoning, to be full of dread and \ndaring ; the safe preservation ὅ οἵ uncertain determinations® \nrelating to things of dread; ®a skill in war;® ‘a habit, that \ncan abide in law.7 \n\nContinénce~-a power enduring pain ; 88 following of cor- \nrect reasoning :8 °a power not exceeded by that which is per- \nceived by correct reasoning.° \n\n\n1_1 The words between the brackets are evidently an interpolated re- \npetition of the preceding εὐταξία ψυχῆς. They are omitted by Ficinus. \n\n22 I confess I do not understand how Temperance is ὁμιλία τῆς ψυ- \nχῆς : nor could Corradus ; for his version is—‘* animi quasi sermo—”’ \n\n3_% Most assuredly Fortitude could never be correctly defined as “a \nknowledge of the things relating to war.” ; \n\n4—‘ This, although paraphrastical, is still as close a version as can be \nwell made of the terse original—pwyn πρὸς κίνδυνον ἀντίρροπος. On \nthe word ἀντίρροπος, see Porson’s translation of ἀντίρροπον ἄχθος in \nSoph. El. 119, as given by Monk in the Museum Criticum, No. 1.  Fici- \nnus, apparently unable to understand the clause, has omitted it. Corradus \nhas—“ robur periculo par.” \n\n5—5 Of the meaning of δογμάτων ἀδήλων, I confess myself quite in \nthe dark. I could have understood οὐ δειλῶν --- not cowardly.”’ Ficinus \nhas—* observatio eorum, que ratio dictat, in rebus pavendis.” Corradus, \n‘*incertarum opinionum de rebus adversis liberatio.”’ \n\n&—® Here again Fortitude is said incorrectly to be “a skill in war.” \n\n7—1 Instead of νόμου one MS. has λόγου: which seems to lead to \nψόγου, “ blame :” while in ἐμμελητικὴ, found in two MSS. for ἐμμενη- \nTun, perhaps ἀμελητικὴ, “ neglectful,” lies hid. \n\n8-- and *—® These definitions of ᾿Εγκράτεια are quite beyond my com- \nprehension. How much more intelligible is the language of an unknown \nauthor, quoted by Stobeus, xvii. p. 157, who defines Continence as “ the \nbeing able to restrain by reason the desire, that is rushing to the enjoy- \nment of improper pleasures; and the bearing up against and under the \n\n"
+  },
+  {
+   "n": "128",
+   "page": 128,
+   "line": 8042,
+   "text": "Self-sufficiency—a completion in the possession of good things; 1a habit, according to which they, who possess it, are the masters of themselves.!\n\nReasonableness—a reduction in what is just and useful; a moderation in compacts; a well-ordering of the soul, founded on reason, as regards things honourable and base.\n\nEndurance—the bearing-up against pain, for the sake of what is honourable; a bearing-up under labour for the sake of what is honourable.\n\n2 Boldness—the non-expectation of an ill; an imperturbability in the presence of an ill.?\n\nNon-perception of pain—a habit, according to which we do not fall into sorrows. :\n\nThe love of labour—a habit, that accomplishes what a person chooses (to do); a voluntary endurance ; 3a habit not to be cavilled at on the subject of labour.®\n\nModesty —a voluntary shrinking from daring on just grounds towards what seems to be the best ; a voluntary laying hold of the best ; a cautious care of blame on just grounds.\n\nFreedom—the ruling power of life; a power ruling by itself on every occasion ; 4a power over that, which relates to oneself in life;4 ὅδ unsparingness in the use and possession of property.®\n\nLiberality—a habit in transacting money matters in a way\n\nwant of, and pain from, that, which is.a natural desire :’’ where I have translated as if the Greek were τῆς κατὰ φύσιν ἐφέσεως ἐνδείας ---ίο which I have been led by Gesner’s conjecture, κατὰ φύσεας in lieu of κατὰ φύσιν---- See too the definition in Diogen. L. vii. 93, τὴν δὲ ἐγκράτειαν, διάθεσιν ἀνυπέρβατον τῶν Kar’ ὀρθὸν λόγον ἢ ἕξιν, ἀήττητον ἡδονῶν\" τὴν δὲ καρτερίαν, ἐπιστήμην ἢ ἕξιν ὧν ἐμμενητέον ἢ μὴ. Ficinus has here— *potestas, que nunquam dejicitur 6 rationis proposito,”” which is intelligible indeed, but not to be got from the Greek.",
+   "raw": "\n\nSelf-sufficiency—a completion in the possession of good \nthings; 1a habit, according to which they, who possess it, are \nthe masters of themselves.! \n\nReasonableness—a reduction in what is just and useful; a \nmoderation in compacts; a well-ordering of the soul, founded \non reason, as regards things honourable and base. \n\nEndurance—the bearing-up against pain, for the sake of \nwhat is honourable; a bearing-up under labour for the sake \nof what is honourable. \n\n2 Boldness—the non-expectation of an ill; an imperturb- \nability in the presence of an ill.? \n\nNon-perception of pain—a habit, according to which we \ndo not fall into sorrows. : \n\nThe love of labour—a habit, that accomplishes what a per- \nson chooses (to do); a voluntary endurance ; 3a habit not to \nbe cavilled at on the subject of labour.® \n\nModesty —a voluntary shrinking from daring on just \ngrounds towards what seems to be the best ; a voluntary lay- \ning hold of the best ; a cautious care of blame on just grounds. \n\nFreedom—the ruling power of life; a power ruling by \nitself on every occasion ; 4a power over that, which relates to \noneself in life;4 ὅδ unsparingness in the use and possession \nof property.® \n\nLiberality—a habit in transacting money matters in a way \n\n\nwant of, and pain from, that, which is.a natural desire :’’ where I have \ntranslated as if the Greek were τῆς κατὰ φύσιν ἐφέσεως ἐνδείας ---ίο which \nI have been led by Gesner’s conjecture, κατὰ φύσεας in lieu of κατὰ φύσιν---- \nSee too the definition in Diogen. L. vii. 93, τὴν δὲ ἐγκράτειαν, διάθεσιν \nἀνυπέρβατον τῶν Kar’ ὀρθὸν λόγον ἢ ἕξιν, ἀήττητον ἡδονῶν\" τὴν δὲ \nκαρτερίαν, ἐπιστήμην ἢ ἕξιν ὧν ἐμμενητέον ἢ μὴ. Ficinus has here— \n*potestas, que nunquam dejicitur 6 rationis proposito,”” which is intel- \nligible indeed, but not to be got from the Greek. \n\n1! The words between the numerals are a definition rather of Con- \ntinence than of Self-sufficiency. Corradus renders ᾿Εγκράτεια by “ Be- \natitudo ’— \n\n2_* Ficinus has elegantly, but not closely—‘ Audacia securitas, qua \nquis malum neque futurum exspectat, neque presens horrescit.” \n\n3_2 Ficinus—“ adversus labores inconcussus habitus.’”? Corradus— \n‘habitus laborem nunquam reprehendens.”’ \n\n‘4 Such, I presume, is the meaning of ᾿Εξουσία τοῦ καθ᾽ ἑαυτὸν ἐν \nβίῳ : Ficinus—“ licentia propria vite.’ Corradus—“ in uno quoque sita \npotestas vivendi ’’—as if he wished to read ἐν ἑκάστῳ --- \n\n55 The words between the numerals are the definition rather of the \nfollowing ᾿Ελευθεριότης, than of ᾿Ελευθερία. \n\n"
+  },
+  {
+   "n": "129",
+   "page": 129,
+   "line": 8106,
+   "text": "that is fitting; the adding to, and possession of, property, as is meet.\n\nMildness—the settling down of an excitement arising from passion ; a moderated temperament of soul.\n\nDecorum—a voluntary yielding to what appears the best ; a well-ordering respecting the movement of the body.\n\nFelicity—a good composed of all good things; a power self-sufficient towards living well; a consummation as regards virtue; an utility self-sufficient for a living being.!\n\nMagnificence—the estimation according to correct reason 2of that which is the most worthy of respect.”\n\nSagacity—a natural ability in the soul, according to which he, who possesses it, makes a conjecture *in the quickest (time)* relating to what is needful ; an acuteness of intellect.\n\nHonesty—a simplicity in moral conduct in union with fair speaking ; a steadiness‘ in moral conduct.\n\nKalokagathia®*—a habit of selecting things that are the best.\n\nHigh-mindedness—a gentlemanly® use of accidental circumstances ; a majesty of soul in union with reason.",
+   "raw": "\n\nthat is fitting; the adding to, and possession of, property, as \nis meet. \n\nMildness—the settling down of an excitement arising from \npassion ; a moderated temperament of soul. \n\nDecorum—a voluntary yielding to what appears the best ; \na well-ordering respecting the movement of the body. \n\nFelicity—a good composed of all good things; a power \nself-sufficient towards living well; a consummation as regards \nvirtue; an utility self-sufficient for a living being.! \n\nMagnificence—the estimation according to correct reason \n2of that which is the most worthy of respect.” \n\nSagacity—a natural ability in the soul, according to which \nhe, who possesses it, makes a conjecture *in the quickest \n(time)* relating to what is needful ; an acuteness of intellect. \n\nHonesty—a simplicity in moral conduct in union with fair \nspeaking ; a steadiness‘ in moral conduct. \n\nKalokagathia®*—a habit of selecting things that are the best. \n\nHigh-mindedness—a gentlemanly® use of accidental cir- \ncumstances ; a majesty of soul in union with reason. \n\n\n1 Stephens renders “vite,” as if he wished to read ζωῆς in lieu of \nζώου, or else he got ‘‘ vite ’’ from Ficinus. \n\n2—* Instead of τὸν σεμνότατον, which could not be applied to λογισ- \nμὸν, I have translated, as if the Greek were τοῦ σεμνοτάτουι One MS. \nhas τὸ and another καὶ, which seem to lead to καὶ τὸ σεμνότατον. \nFicinus too, “et honorandum.” Corradus has, what to myself is un- \nintelligible, “ Magnificentia, amplitudo a gravissima mentis agitatione, et \npropositione profecta.” \n\n3% Since one MS. offers ἐν ἑκάστῳ in lieu of ἑκάστῳ, it is easy to \nelicit from thence ἐν ὠκίστῳ. So the Stoics defined ἀγχίνοιαν by ἕξιν \nεὑρετικὴν τοῦ καθήκοντος ἐκ τοῦ παραχρῆμα, as we learn from Diogenes \nL. vii. 98, where Casaubon refers to Aristotle, Ethic. vi. 9, who says that \nἀγχίνοια is κατὰ ταχύ τι evoroxia. Ficinus however found in his MS. \nἐν ἑκάστῳ : for his version is “‘in singulis ”— \n\n4 Here, as before, I have translated σπουδαιότης by “ steadiness.” \n\n5 As there is no single nor even compound word in English to answer \nto the Greek Καλοκᾳγαθία, by which was meant the union of bodily and \nmental accomplishments, I have put the Greek word into English letters, \njust as Philanthropy is in the next definition but one, where, for a \nsimilar reason, Ficinus has left in his Latin version the Greek word \nΦιλανθρωπία ; but translated Καλοκᾳγαθία by ‘“bonitas.” The whole \ndefinition is omitted by Corradus. \n\n6 By ἀστεῖος, literally, “living in a city,’ was meant also “a person \nof elegant manners,” for such those in the city were, as opposed to those \nof inelegant manners, who lived in the country and were called ἀγροῖκοι. \nFicinus has “ moderatus ”’— \n\nVOL. VI. K \n\n"
+  },
+  {
+   "n": "130",
+   "page": 130,
+   "line": 8173,
+   "text": "Philanthropy—a habit of moral conduct that easily leads to a friendship with man; a habit of acting kindly towards men; 'the having thanks; a recollection with kind conduct.!\n\nPiety—justice relating to the gods; a power® paying attention to the gods willingly :5 a correct perception of the honour due to the gods; a knowledge of the honour due to the gods.\n\nGood—‘ that on account of itself.4\n\nFearlessness—a habit, according to which we do not fall into fear.\n\nApathy—a habit, according to which we do not fall into sufferings.\n\nPeace—a quietness as regards enmity in war.\n\nListlessness—an easiness of soul; apathy respecting the objects of anger.\n\nShkilfulness°’—a habit, according to which he, who pos-\n\n1_! All the words between the numerals were first edited by Bekker from the text of five MSS., and the margin of two. But what is the meaning of χάριτος σχέσις, and how φιλανθρωπία can be defined as μνήμη per’ εὐεργεσίας, I cannot understand. I could have understood χάριτος ἔκχυσις γνώμῳ per’ εὐεργεσίας, ‘a pouring out of favours designedly in combination with beneficence.”’ The words were found in the MS. of Ficinus likewise; for his version is “‘ gratiarum redditio; gratitudo benefica.”",
+   "raw": "\n\nPhilanthropy—a habit of moral conduct that easily leads \nto a friendship with man; a habit of acting kindly towards \nmen; 'the having thanks; a recollection with kind con- \nduct.! \n\nPiety—justice relating to the gods; a power® paying at- \ntention to the gods willingly :5 a correct perception of the \nhonour due to the gods; a knowledge of the honour due to \nthe gods. \n\nGood—‘ that on account of itself.4 \n\n\nFearlessness—a habit, according to which we do not fall \ninto fear. \n\n\nApathy—a habit, according to which we do not fall into \nsufferings. \n\nPeace—a quietness as regards enmity in war. \n\nListlessness—an easiness of soul; apathy respecting the \nobjects of anger. \n\n\nShkilfulness°’—a habit, according to which he, who pos- \n\n\n1_! All the words between the numerals were first edited by Bek- \nker from the text of five MSS., and the margin of two. But what is \nthe meaning of χάριτος σχέσις, and how φιλανθρωπία can be defined as \nμνήμη per’ εὐεργεσίας, I cannot understand. I could have understood \nχάριτος ἔκχυσις γνώμῳ per’ εὐεργεσίας, ‘a pouring out of favours de- \nsignedly in combination with beneficence.”’ The words were found in the \nMS. of Ficinus likewise; for his version is “‘ gratiarum redditio; grati- \ntudo benefica.” \n\n3 Instead of δύναμις the sense evidently requires διάθεσις, similar to \n‘‘ affectio ” in Ficinus. \n\n5.1 have translated, as if the Greek were ἑκουσίως, not ἑκούσιος. \nFicinus has ‘‘ voluntaria veneratio dei; recta honoris divini scientia ”’”— \nCorradus, “‘ voluntaria religionis deorum susceptio ; recta cultus deorum \nscientia;’’ one or both of whom Stephens has followed in his version, \n**voluntaria de deorum cultu existimatio; recta cultus deorum scientia,”’ \nas if he wished to unite ἑκόυσιος with ὑπόληψις, and ὀρθὴ with ἐπιστήμη, \nnot, as Bekker has done, ἑκούσιος with δύναμις, and ὀρθὴ with ὑπόληψις. \nThe definition of piety given by the Stoics in Diogen, L. vii. 119, is \nshorter, if not better, Ἐὐσέβεια, ἐπιστήμη θεῶν θεραπείας. \n\n4—4 The words between the numerals, in Greek, ᾿Αγαθὸν, τὸ αὑτοῦ \nἕνεκεν, are too few to make either syntax or sense. Stephens’ version in \nEnglish is, “Good is that, which exists for its own sake,”’ a definition \nscarcely intelligible. Did the author write ᾿Αγαθὸν, ταὐτὸν ἢ οὐχ ἕτερον \nὠφελείας, which is the very definition given by the Stoics in Diogen. L. \nvii. 94; for ὠφελείας might easily have dropt out before ἀφοβία. Ficinus \nhas supplied the word, requisite for the sense, in his version, ‘*‘ Bonum, \nquod sui ipsius gratia expetendum :”’ and so too has Corradus, ‘ Bonum, \nquod sua ipsius causa appetitur.” \n\nδ There is no single word in English to answer to the Greek δεινότης, \n\n"
+  },
+  {
+   "n": "131",
+   "page": 131,
+   "line": 8240,
+   "text": "sesses it, is able to form a conjecture about the peculiar termination (of a thing).\n\nFriendship—a union of sentiment, relating to things honourable and just; the choice of the same kind of life; a union in opinion on questions of sect! and practice; a union in sentiment relating to a communion in life in combination with kind feelings; 2a communion in doing well and in suffering.”\n\n3 Nobility of birth—the virtue of a noble moral conduct ; an easy leading of the soul to words and deeds.*\n\nSelection—a correct approval after examination.\n\nKind feeling—* the selection of a person for the purpose of embracing by a person.’\n\nFamiliarity—a sharing in the same family.\n\nby which was meant, as explained by Suidas, a power in speaking and a everness in acting.",
+   "raw": "\n\nsesses it, is able to form a conjecture about the peculiar \ntermination (of a thing). \n\nFriendship—a union of sentiment, relating to things hon- \nourable and just; the choice of the same kind of life; a union \nin opinion on questions of sect! and practice; a union in \nsentiment relating to a communion in life in combination \nwith kind feelings; 2a communion in doing well and in suf- \nfering.” \n\n3 Nobility of birth—the virtue of a noble moral conduct ; \nan easy leading of the soul to words and deeds.* \n\nSelection—a correct approval after examination. \n\nKind feeling—* the selection of a person for the purpose of \nembracing by a person.’ \n\nFamiliarity—a sharing in the same family. \n\n\nby which was meant, as explained by Suidas, a power in speaking and a \neverness in acting. \n\n1 Such seems to be the meaning here of προαίρεσις, similar to the \nsimple αἵρεσις. Stephens’ version is, “ consensio de proposito et actione.”’ \nFicinus has ‘‘in deliberando atque agendo.” Corradus, “ de eligendo et \nfaciendo opinionum consensus.”’ \n\n*_? Such is the literal translation of the Greek. Stephens’ version is \n*societas beneficiorum mutuorum.” Ficinus has ‘‘ communio in dandis \naccipiendisque beneficiis.” \n\n%—% Orelli, unable to understand how Ἐὐγένεια is ἀρετὴ εὐγενοῦς ἤθους, \nproposed to read συγγενοῦς, by which he probably meant “ cognate.” \nBut what is gained by the alteration I confess I cannot discover. The \nauthor wrote, I suspect, Ἐὐγένεια, ἀρετὴ οὐ γένους, ἤθους δὲ, εὐαγωγικὴ \nΨυχῆς πρὸς λόγους καὶ πράξεις, ‘ Nobility is an excellence, not from \n\nirth, but moral conduct, leading the soul to words and deeds ;’’ where \nthe definition is best explained by the sentiment of Juvenal in viii., \nTota licet veteres exornent undique cere \nAtria, nobilitas sola est atque unica virtus— \nBut even thus the definition is defective. For as words and deeds are \nof different kinds, it should be stated of what kind they are, to which no- \nbility leads. Ficinus has, “\" Generositas, virtus ingenui moris; facilitas \nanimi ad dicenda pariter atque agenda.”’ Corradus, ‘‘ Genervsitas, gene- \nrosi moris yirtus ; animi ad rationes et actiones facilis inductio.” \n\n4—4 Here again Orelli was, as I am, at a loss about the meaning of \nthe definition; and hence he wished to cut out αἵρεσις. But to my \nmind the difficulty lies in πρὸς ἄνθρωπον ἀσπασμός, or as eight MSS. \nread, ἀσπασμῷ. Stephens’ version is, ‘‘ Benevolentia est electio hominis ; \nhominis amplexus et salutatio,” as if he wished to omit πρὸς--- Ficinus \nhas, “‘ Benevolentia, electio hominis ad hominem grata atque accepta.” \nCorradus, “ Benevyolentia, electio; complexus hominem cum homine \ncopulans,” <a \n\nκ 2 \n\n"
+  },
+  {
+   "n": "132",
+   "page": 132,
+   "line": 8304,
+   "text": "1 Agreement—a sharing in all things existing ; a concordance in thoughts and conceptions.!\n\n2 Lovingness—a perfect exhibition.”\n\nStatesmanship*—the knowledge of what is honourable and advantageous (for a state);4 a knowledge productive of justice ‘in a state.\n\nSociality’>—a friendship arising from an association amongst persons of the same age.®\n\n7 Good counsel—the cognate virtue of reasoning.’\n\nBelief—the correct conception *of a thing being really as it seems to be ;* %a firmness in moral conduct.®",
+   "raw": "\n\n1 Agreement—a sharing in all things existing ; a concord- \nance in thoughts and conceptions.! \n\n2 Lovingness—a perfect exhibition.” \n\nStatesmanship*—the knowledge of what is honourable and \nadvantageous (for a state);4 a knowledge productive of \njustice ‘in a state. \n\nSociality’>—a friendship arising from an association amongst \npersons of the same age.® \n\n7 Good counsel—the cognate virtue of reasoning.’ \n\nBelief—the correct conception *of a thing being really as \nit seems to be ;* %a firmness in moral conduct.® \n\n\n1! As it is difficult to perceive the difference between νοημάτων and \nὑπολημμάτων, I suspect the words καὶ ὑπολημμάτων ought to follow \nτῶν ὄντων ἁπάντων inthe preceding clause, or be omitted altogether. \nFicinus has “\" cogitationum suspicionumque concordia.” \n\n22 Of the words between the numerals I am quite content to express \nmy perfect ignorance. Ficinus has “ Charitas integra animi declaratio,”’ \nas if he had found ψυχῆς in his MS. \n\n3 So I have translated ἸΤολιτικὸς in the dialogue of that name. \n\n4 The words between the lunes have been added for the sense. \n\n5 By ἑταιρεία was meant “a political club,” as it would be called in \nEngland, not merely domestic sociality. \n\n6 In lieu of γεγενημένοις, which seems superfluous after καθ᾽ ἡλικίαν, \none would have expected συνηνωμένοις, “united.” Ficinus has * ex \ndiuturna cequalium consuetudine conflata.” \n\n7!’ With this unintelligible definition of Good Counsel, may be con- \ntrasted the very intelligible one given by the Stoics, as found in Diogenes \nLaertius, vii. 93, τὴν δὲ εὐβουλίαν, ἐπιστήμην τοῦ σκοπεῖσθαι ποῖα Kai \nπῶς πράττοντες πράξομεν συμφερόντως, i. 6. “ good counsel is the science \nof considering by doing what, and in what manner, we can act advan- \ntageously.”’ Stephens’ version is “\" Consilii prestantia est virtus rationi \ninsita,”’ as if he wished to read Ἐὐβουλίας ἀρετὴ ἀρετὴ λογισμῷ ἔμφυτος. \nFicinus, however, translates Ἐὐβουλία by “ Sagacitas,’’ evidently for the \nsense. Corradus, ‘“‘Consilium bonum, vis cogitationis insita:’ as if he \nwished to read ἔμφυτος in lieu of σύμφυτος. \n\n88 Bekker’s text is τοῦ οὕτως\" ἔχειν we αὐτῷ φαίνεται, which I can- \nnot understand. Opportunely then does one MS. offer αὐτὸ: for the \nauthor probably wrote, as I have translated, τοῦ ὄντως ἔχειν τι, ὡς αὐτὸ \nφαίνεται. Stephens’ version is “‘ Fides—persuasio, que res ita se habet, \nvelut ipsi videtur,” which, to myself, is quite as unintelligible as the \nGreek. Ficinus, “ Fides, recta presumptio quod res sic se habet, ut sibi \n\n\nvidetur.” Corradus, “Fides, opinio recta rem ita, ut ipsi videtur, ha-_ \n\n\nbere: certa veri comprehensio.”’ \n®_° The author has evidently confounded πίστις, “ belief,’’ with πεσ- \nτότης, ** fidelity.” ΄ \n\n",
+   "page_read": 182
+  },
+  {
+   "n": "133",
+   "page": 133,
+   "line": 8372,
+   "text": "1 Truth—a habit in affirming and denying; a knowledge of things true.!\n\nA wishing—a desire with right reason ; a reasonable longing; a longing with reason, according to nature.\n\nCounselling—an exhortation to another person, previous to acting, as to what manner it is meet to act.\n\nFit opportunity—the meeting with the time in which it is requisite to suffer or do something. ' Caution—a guard against ill; the care of guarding (oneself).\n\nOrder—the working out a similarity in? all things existing with a relation to each other; a symmetry of communion; the cause of all things existing with a relation to each other ; %a symmetry towards learning.’\n\nApplication—a bracing up of the soul for learning.\n\nNatural ability—a quickness in learning; a good production of nature; an excellence from nature.\n\nDocility—a natural ability in the soul towards a quickness in learning.\n\nJudgment—a peremptory decision‘ respecting a disputed matter.\n\nLaw— the (process of a) contest’ respecting the having\n\ndone an injury or not.",
+   "raw": "\n\n1 Truth—a habit in affirming and denying; a knowledge \nof things true.! \n\nA wishing—a desire with right reason ; a reasonable long- \ning; a longing with reason, according to nature. \n\nCounselling—an exhortation to another person, previous to \nacting, as to what manner it is meet to act. \n\nFit opportunity—the meeting with the time in which it is \nrequisite to suffer or do something. \n' Caution—a guard against ill; the care of guarding (oneself). \n\nOrder—the working out a similarity in? all things existing \nwith a relation to each other; a symmetry of communion; \nthe cause of all things existing with a relation to each other ; \n%a symmetry towards learning.’ \n\nApplication—a bracing up of the soul for learning. \n\nNatural ability—a quickness in learning; a good produc- \ntion of nature; an excellence from nature. \n\nDocility—a natural ability in the soul towards a quickness \nin learning. \n\nJudgment—a peremptory decision‘ respecting a disputed \nmatter. \n\nLaw— the (process of a) contest’ respecting the having \n\n\ndone an injury or not. \n\n\n1—1 Here again is another definition, which not even the author of it \ncould have understood. For to say that Truth is a knowledge of things \ntrue is to say nothing, without previously defining what true things are. \nMoreover Truth could never be called a ἕξις, “ἃ habit or state of. the \nmind.” For it is the result of a discovery made by science from assertion \nand denial respecting what has been well said, in Greek, ᾿Αλήθεια εὕρεσις \nἐν καταφάσει καὶ ἀποφάσει Ov ἐπιστήμην τῶν εὖ exOEvTwy'—which might \nhave been corrupted into ᾿Αλήθεια ἕξις ἐν καταφάσει καὶ ἀποφάσει ἐπισ- \nτήμη ἀληθῶν᾽.---αἱ that it was so corrupted, is more than I dare assert. \nFicinus, however, renders ’A\\jQea.by “ Veracitas,’’ i. 6. Truthfulness ; \nwhich will get rid of a part of the difficulty, but not of all. \n\n? I have adopted ἐργασία ὁμοιότητος, found in one MS., in lieu of \nἐργασίας ὁμοιότης. Ficinus too has ““ concentus operationum.” But \nCorradus—* actionis—similitudo.” \n\n38 | must leave for others to explain the meaning of the words with- \nin the numerals as a definition of Order. Ficinus—‘‘ contemperatio ad \npercipiendum idonea.”’ \n\n* I have translated as if the Greek were κατάφασις, “ assertion,” not \nἀπόφασις, “ denial’? Stephens—* sententia rata ’’—what the sense re- \nquires; but such is not the meaning of ἀπόφασις. So too Ficinus—“ rata \npronunciatio.” Corradus—‘“ Judicium, eventus rei,de qua ambigebatur, \nratus.” \n\n5—5 So I have translated ἀμφισβήτησις, for the sake of the sense. \n\n"
+  },
+  {
+   "n": "134",
+   "page": 134,
+   "line": 8439,
+   "text": "Good legal conduct—an obedience shown to proper laws.\n\nCheerfulness—a delight! at the acts of a temperate person.\n\nHonour—a gift of good things presented on actions done through virtue; a mark of esteem in return? for virtue; *the outward bearing of what is an object of reverence;* ‘the watching of a mark of esteem.*\n\nAlaerity— the exhibition of a practical preference.®\n\nFavour—a voluntary act of kindness; the return for 4 good act; a ministering at a fit time. .\n\nConcord—a similarity of opinion between rulers and ruled, how they ought to rule and be ruled.\n\nA polity—the community of a multitude of persons, selfsufficient for a happy state; the community of a multitude according to law.\n\nForethought—a preparation with respect to things about to be.\n\nCounsel—a consideration respecting future things how they may be advantageous. ’\n\nVictory—a power having the superiority, as regards contention.\n\n6.4 ready-way-finding—a ready discrimination,’ that possesses a power over what is thought upon.”\n\nFicinus, with a similar view, has—‘ Lex, norma ad quam queeritur ’— Corradus—“ Lex, de rebus justis vel injustis disceptatio.”’",
+   "raw": "\n\nGood legal conduct—an obedience shown to proper laws. \n\nCheerfulness—a delight! at the acts of a temperate person. \n\nHonour—a gift of good things presented on actions done \nthrough virtue; a mark of esteem in return? for virtue; *the \noutward bearing of what is an object of reverence;* ‘the \nwatching of a mark of esteem.* \n\nAlaerity— the exhibition of a practical preference.® \n\nFavour—a voluntary act of kindness; the return for 4 \ngood act; a ministering at a fit time. . \n\nConcord—a similarity of opinion between rulers and ruled, \nhow they ought to rule and be ruled. \n\nA polity—the community of a multitude of persons, self- \nsufficient for a happy state; the community of a multitude \naccording to law. \n\nForethought—a preparation with respect to things about \nto be. \n\nCounsel—a consideration respecting future things how they \nmay be advantageous. ’ \n\nVictory—a power having the superiority, as regards con- \ntention. \n\n6.4 ready-way-finding—a ready discrimination,’ that pos- \nsesses a power over what is thought upon.” \n\n\nFicinus, with a similar view, has—‘ Lex, norma ad quam queeritur ’— \nCorradus—“ Lex, de rebus justis vel injustis disceptatio.”’ \n\n' Here χαρὰ, like ἀμφισβήτησις, has a pregnant sense; for it is not \nmerely “ delight,” but “ the result of delight.” \n\n2 1 have translated, as if the Greek were ἀντ᾽, not ἀπ᾽, which I can \nhardly understand. Corradus has—‘ dignitas ex virtute comparata.” \n\n’—8 Such seems to be the meaning of σχῆμα σεμνότητος, which will \nbe best understood by turning to the Menexenus, § 2. \n\n‘—* I hardly understand the words τήρησις ἀξιώματος as applied to \nτιμή. Stephens’ version is ‘‘ observatio dignitatum;” that of Ficinus— \n‘* conservatio dignitatis ;” that of Corradus—“ autoritatis conservatio.” \n\n5—® Stephens has, what the sense requires, ‘‘ declaratio voluntatis ad \nagendum ;”’ but that can scarcely be got from the Greek. Ficinus, still \nmore widely—“ patens expeditio propositi ad res agendas.”” Corradus— \n‘‘voluntatis ad agendum propter se significatio.” \n\n‘—8 Instead of defining Eizopia by Εὐκρίνεια, one would have ex- \npected to see Evxpivera defined by Εὐπορία ; and so Corradus—* Per- \nspicientia, facultas ejus, quod cogitatur, assequendi.”’ Cousin’s version \nis— Le succés dans la discussion vient du coup d’q@il sur qui domine \nune question:’’ and his note—‘ Peut-étre voudrait-il mieux entendre \npar εὐκρίνεια V art de faire des distinctions; car c’est avec des distinc- \ntions qu’on triomphe dans la discussion.” \n\n\" Here AoyiZouévov is used, contrary to custom, in a passive sense. \n\n"
+  },
+  {
+   "n": "135",
+   "page": 135,
+   "line": 8508,
+   "text": "Bribe—the exchange for a favour.\n\nOpportunity—the point of time suited to what is advantageous ; a time that works for some good.\n\nMemory—a disposition of the soul preservative of the truth that is in it.!\n\nThe keeping in mind—the having thought on the stretch.\n\nThinking—the commencement of knowledge.\n\nHoliness—a religious dread of sins against the gods; ?an attention to the honour due naturally to a deity.”\n\n‘A prophecy—a knowledge, that points out beforehand an action, without a demonstrative proof.\n\nThe prophetic art—a science, that speculates upon what is now and will be to a mortal being.\n\nWisdom —a science not-hypothetical;? a knowledge of things as they happen to exist;* a science that speculates upon the cause of things existing.\n\nPhilosophy—a longing after the knowledge of things as they happen to exist ;° a habit of speculating upon the truth as to how it is true; a careful study in combination with correct reasoning.\n\nKnowledge—a comprehension by the soul, ®not to be changed or cast down by reasoning ;° 7[the power of compre-\n\nFicinus—* Facundia, perspicacia et facultas obtinendi quod propositum est.”",
+   "raw": "\n\nBribe—the exchange for a favour. \n\nOpportunity—the point of time suited to what is advan- \ntageous ; a time that works for some good. \n\nMemory—a disposition of the soul preservative of the truth \nthat is in it.! \n\nThe keeping in mind—the having thought on the stretch. \n\nThinking—the commencement of knowledge. \n\nHoliness—a religious dread of sins against the gods; ?an \nattention to the honour due naturally to a deity.” \n\n‘A prophecy—a knowledge, that points out beforehand an \naction, without a demonstrative proof. \n\nThe prophetic art—a science, that speculates upon what is \nnow and will be to a mortal being. \n\nWisdom —a science not-hypothetical;? a knowledge of \nthings as they happen to exist;* a science that speculates \nupon the cause of things existing. \n\nPhilosophy—a longing after the knowledge of things as \nthey happen to exist ;° a habit of speculating upon the truth \nas to how it is true; a careful study in combination with cor- \nrect reasoning. \n\nKnowledge—a comprehension by the soul, ®not to be \nchanged or cast down by reasoning ;° 7[the power of compre- \n\n\nFicinus—* Facundia, perspicacia et facultas obtinendi quod propositum \nest.” \n\n1 As ἀλήθεια, the Greek word for truth, would mean literally “ non- \nforgetfulness,” and as memory is “ non-forgetfulness,” perhaps ἀλήθεια \nought to be taken here in its literal sense ; although such a meaning is not, \nI believe, given to ἀλήθεια elsewhere. The more correct definition of \nΜνήμη is in Suidas—7) τῶν πάλαι ἐγνωσμένων κατοχή, i. 6. “ the reten- \ntion of what have been known of old.” \n\n22 Since six MSS. read θεραπείας, and one re μνημῆς, perhaps the \nauthor wrote τῆς θεοῦ τημέλεια ἡ κατὰ φύσιν θεραπείας ---ἰ. 6. the natural \ncare of the attention due to a deity. \n\n3. By “not-hypothetical” is meant that which is founded on facts. \nStephens’ version is, “ nullius certi argumenti,’”’ which would be strangely \napplied to a definition of wisdom. Ficinus more correctly—“ scientia, \nque nihil penitus praesupponit.” Corradus too—“ scientia non supposita.” \n\n4,5 I have translated, as if the Greek were not τῶν ὄντων ἀεὶ, but τῶν \nἀεὶ ὄντων, as in the preceding definition. In both places Corradus has \n—‘rerum divinarum.” \n\n*—§ So I have translated ἀμετάπτωτος, to preserve the idea of change \nconveyed by μετὰ--- \n\n7? The words between the brackets are properly omitted in the three \nbest MSS., for they are merely an explanation of the preceding sentence. \nThey are, however, acknowledged by Ficinus and Corradus. \n\n"
+  },
+  {
+   "n": "136",
+   "page": 136,
+   "line": 8576,
+   "text": "hending a thing or things, not to be changed or thrown down by reasoning ;|’ a true reasoning not to be changed or cast\n\ndown upon! reflection. . : Opinion—a conception 2to be changed by the persuasion of reason ;? a rational® impetus; a notion falling upon false-\n\nhood and truth by (not-)reason.* i Sensation—an impetus of the soul; a movement of mind;\n\na heralding of the soul through the body to °the seasons of man ;> from which there results a power of the soul devoid of reason, “having a cognizance through the body.®\n\nHabit—a disposition of the soul, according to which we are said to be with certain qualities.",
+   "raw": "\n\nhending a thing or things, not to be changed or thrown down \nby reasoning ;|’ a true reasoning not to be changed or cast \n\n\ndown upon! reflection. . : \nOpinion—a conception 2to be changed by the persuasion \nof reason ;? a rational® impetus; a notion falling upon false- \n\n\nhood and truth by (not-)reason.* i \nSensation—an impetus of the soul; a movement of mind; \n\n\na heralding of the soul through the body to °the seasons of \nman ;> from which there results a power of the soul devoid \nof reason, “having a cognizance through the body.® \n\nHabit—a disposition of the soul, according to which we \nare said to be with certain qualities. \n\n\n1 So I have translated ἐπὶ, although I have some doubts about the read- \ning. Stephens’ version is—“ in mente,” similar to “in cogitatione,” in \nFicinus and Corradus. \n\n22 As in the case of ἀμετάπτωτος, so here in that of μεταπειστὺς, I \nhave introduced the idea of a change to answer to wera— \n\n3 How Opinion can be called “a rational impetus ’’ I cannot under- \nstand. One would have expected οὐ λογιστικὴ, for ov might have been \neasily lost after λόγον. Ficinus has—“ Opinio, cum fide per ratiocina- \ntionem rationis discursus,’’ from which it is difficult to discover what he \nfound in his MS., except μετὰ πίστεως in lieu of μεταπειστός. Corradus \navoids the difficulty by his version—“ ratiocinandi impetus.” : \n\n4 Here again οὐ seems to have dropt out after ὑπὸ--- On the similar \n\nloss of οὐ, I ‘have written not a little in the Specimens of Notes, ap- \npended to my translation of the Midian Oration of Demosthenes; and to \nthe passages of Sophocles emended there I could now add not a few \nmore. \n5—5 Such is the literal translation of εἰς ὥρας ἀνθρώπων, by which \nwas meant perhaps what we call in English, “ the periods of man’s life.?” \nStephens’ version is—“ ad opportunitates hominum;”’ that of Ficinus— \n‘in formas hominum.’”’ Corradus—‘“‘ ad extremas hominum partes.” \nCousin—“ vers le monde exterieure ;”” and he adds in a note-—“ ΠῚ fant \nconvenir que ὥρας ἀνθρώπων est une expression bien extraordinaire, et \ndont il est bien difficile de determiner le sens.” ba \n\n5-α Ὑ confess my inability to understand the words between the brackets. \nFor after γνωριστικὴ there is wanting something, to which that word ma’ \nbe referred. Hence as one MS. has δι᾿ ἀνθρώπων, expressed by ov avy, \nin lieu of διὰ σώματος, perhaps the author τυτοίθ---γνωριστικὴ τῶν διὰ \nσώματος ibvrwy— having a cognizance of what is passing through the \nbody :” with which may be compared the expression in the Phedrus, p. \n250, D., τῶν διὰ σώματος αἰσθήσεων : or else in ἀνθρώπων lies hid aio- \nθητηρίων. Compare Diogenes L. vii. 52, αἴσθησις λέγεται----ἡ περὶ τὰ \nαἰσθητήρια κατασκευὴ, καθ᾽ ἥν τινες πηροὶ γίνονται : where one would \nhave expected to find πόροι, Anglice “pores,” as in Plutarch, quoted \nby Stephens in Thesaur. Gr., τῶν περὶ τὰ αἰσθητήρια πόρων. Corradus \navoids the difficulty by translating γνωριστικὴ “ cognitionis particeps.”” \n\n\n2 \n\n"
+  },
+  {
+   "n": "137",
+   "page": 137,
+   "line": 8645,
+   "text": "! Voice—a flowing through the mouth from a thought.!\n\n2 Speech—voice expressed by letters descriptive of each of things existing ;? a form of language, compounded of nouns and verbs, without melody.®\n\nNoun—a form of language uncompounded, the interpreter of that which is predicated ‘against being, and of every thing which is not spoken of against itself.‘\n\nLanguage’—the voice of a man, expressed by letters, and some common symbol, acting as an interpreter, without melody.\n\nSyllable—an articulation® of the human voice, expressed by letters.\n\nDefinition—a sentence’ composed 8 of difference and genus.®\n\n1_1 A similar definition is in The Sophist, § 106, p. 263, E., and in Diogenes L. vii. 55, φωνὴ---ἀνθρώπου ἔστιν ἔναρθρος καὶ ἀπὸ διανοίας ἐκπεμπομένη.",
+   "raw": "\n\n! Voice—a flowing through the mouth from a thought.! \n\n2 Speech—voice expressed by letters descriptive of each of \nthings existing ;? a form of language, compounded of nouns \nand verbs, without melody.® \n\nNoun—a form of language uncompounded, the interpreter \nof that which is predicated ‘against being, and of every \nthing which is not spoken of against itself.‘ \n\nLanguage’—the voice of a man, expressed by letters, and \nsome common symbol, acting as an interpreter, without melody. \n\nSyllable—an articulation® of the human voice, expressed \nby letters. \n\nDefinition—a sentence’ composed 8 of difference and genus.® \n\n\n1_1 A similar definition is in The Sophist, § 106, p. 263, E., and in \nDiogenes L. vii. 55, φωνὴ---ἀνθρώπου ἔστιν ἔναρθρος καὶ ἀπὸ διανοίας \nἐκπεμπομένη. \n\n3. 5 Something similar is given as a definition in Diogenes L. vii. 56, \nΛέξις---φωνὴ ἐγγράμματος---λόγος δὲ φωνὴ σημαντική. \n\n3. Ficinus has “‘sine harmonia cantus,” and so he renders shortly \nafterwards ἄνευ μέλους. \n\n4—4 This is the literal translation of κατὰ with a genitive. What the \nsense requires is in the former sentence, περὶ: but what in the latter, I \nconfess I do not know; for I cannot perceive what the author meant by \nπαντὸς τοῦ μὴ καθ᾽ ἑαυτοῦ λεγομένου, unless it be something similar to \nwhat Aristotle says in Poetic, ᾧ 34, Ὄνομα ἐστὶ φωνὴ συνθετὴ, σημαν- \nτικὴ ἄνευ χρόνου, ἧς μέρος οὐδέν ἐστι καθ’ αὑτὸ σημαντικόν. Ficinus \nhas ‘‘Nomen, dictio simplex, significativa ejus, quod secundum essen- \ntiam predicatur, et omnis quod secundum ipsum minime dicitur :’’. from \nwhich it would seem that he found in his MS. κατὰ τὴν οὐσίαν and καθ᾽ \nἑαυτὸ: which last is read in one MS. collated by Bekker. Corradus has \n** Nomen dictio simplex, que, cum id, quod de vi dicitur ea, quam οὐσίαν \nvocant, tum omne, quod non per se dicitur, significat.’’ \n\n5 Although I have just above translated διάλεκτος “a form of lan- \nguage,” for the sake of the sense, yet here I have rendered it merely by \n“language,”’ for a similar reason. \n\n® How a syllable can be said to be an articulation of the human voice \nI cannot understand. It ought to have been defined, ‘“‘ a combination of \nletters expressed or not by the human voice.’’ But as Aristotle has de- \nfined it in Poetic, § 34, by φωνὴ ἄσημος, συνθετὴ ἐξ ἀφώνου καὶ φωνὴν \nἔχοντος, one would have expected here, Συλλαβὴ ἀνθρωπίνης φωνῆς \nἄσημος ἀρθμὸς ἐγγραμμάτου, i. 6. “a syllable is a combination without \nmeaning of sounds of the human voice expressed by letters.’ \n\n7 T have followed Twining on Aristotle’s Poetics, δ: 34, in translating \nλόγος “a sentence.” \n\n‘—* To avoid the ὕστερον πρότερον in διαφορᾶς and yévouc—for the \ngenus should be mentioned before that which differs from it—Stephens \nhas, after Ficinus, rendered, “ex genere et differentia.”” There is a \nbetter definition in Diogenes L. vii. 60. \n\n"
+  },
+  {
+   "n": "138",
+   "page": 138,
+   "line": 8711,
+   "text": "Proof—the showing forth of a thing not evident.\n\nDemonstration—true reasoning 'founded on syllogisms ;! a reasoning, that makes a matter plain by what is previously known.\n\nElement (of voice)?—* a vocal sound uncompounded ; the cause to the rest of vocal sounds of their being vocal sounds.?\n\nUseful—the cause of doing well; the cause of good,\n\nAdvantageous—that which conduces to good.\n\n4 Honourable—that which is good.*\n\n5 Good—the cause of safety to things existing; the cause of all that relates to itself ; from which it happens to choose what is meet.°\n\nTemperate—the orderly conduct of the soul.\n\nJust—an ordonnance of law, productive of justice.\n\nVoluntary—that which is drawn on by itself ;° that which is selected with reference to itself, 7(and) completed according to design.’\n\n'_1 Ficinus omits συλλογιστικὸς---\n\n2-Since στοιχεῖον by itself frequently means ‘a letter,” the word φωνῆς has been added to show what kind of element is here intended by the word, which generally means an ‘‘element’’ in physical philosophyCorradus too, “ Elementum vocis, vox simplex.”",
+   "raw": "\n\nProof—the showing forth of a thing not evident. \n\nDemonstration—true reasoning 'founded on syllogisms ;! \na reasoning, that makes a matter plain by what is previously \nknown. \n\nElement (of voice)?—* a vocal sound uncompounded ; the \ncause to the rest of vocal sounds of their being vocal sounds.? \n\nUseful—the cause of doing well; the cause of good, \n\nAdvantageous—that which conduces to good. \n\n4 Honourable—that which is good.* \n\n5 Good—the cause of safety to things existing; the cause \nof all that relates to itself ; from which it happens to choose \nwhat is meet.° \n\nTemperate—the orderly conduct of the soul. \n\nJust—an ordonnance of law, productive of justice. \n\nVoluntary—that which is drawn on by itself ;° that which \nis selected with reference to itself, 7(and) completed accord- \ning to design.’ \n\n\n'_1 Ficinus omits συλλογιστικὸς--- \n\n2-Since στοιχεῖον by itself frequently means ‘a letter,” the word \nφωνῆς has been added to show what kind of element is here intended by \nthe word, which generally means an ‘‘element’’ in physical philosophy- \nCorradus too, “ Elementum vocis, vox simplex.” \n\n3. 35 Here, again, I am quite ignorant of the meaning of the words be- \ntween the numerals; where I have designedly translated φωνὴ by “a \nvocal sound,’’ not merely ‘‘a voice.” \n\n44 Instead of καλὸν τὸ ἀγαθὸν, Stephens would seem to have wished \nto read Καλοκάγαθὸν, τὸ ἀγαθόν, for his version is “ Honestum et pul- \nchrum est bonum.” \n\n5—5 Here too I am at a loss; and so too, I think, was Stephens; \nwhose version is, ‘‘ Bonum est causa salutis his, que sunt causa cujus- \nvis, quod ad ipsum refertur; a quo contingit electio eorum, que conve- \nniunt.’’ Ficinus more closely, but not more intelligibly, ‘‘ Bonum, quod \nin omnibus, que sunt, salutis est causa; causa omnis, quod ad ipsum \ntendit id, a quo veniunt quecunque sunt eligenda.”’ Corradus, “ Bonum, \ncausa ut ea, que sunt, serventur; causa rei omnis que spectat ad ipsum, \na quo proficiscuntur omnia, que sunt eligenda.”’ \n\n® As Bekker has edited αὑτοῦ from one MS. in lieu of αὐτὸ, he should \nhave inserted from conjecture, δι’ before αὑτοῦ, for the sake of the \nsyntax and sense. Stephens’ version is, “\" Voluntarium idem est quod \nblandum et illectans :” where προσαγωγὸν is taken in an active sense; \nand so it is in the version of Ficinus, “ Voluntarium quod se ipsum \nducit ;”” and of Corradus, “quod se ipsum insinuat.” \n\n*—\" 1 have translated as if the Greek were not κατὰ, but καὶ τὸ κατὰ, \nto which τὸ καὶ in five MSS. and τὸ κατὰ in two manifestly lead. \n\n\nFicinus has “ quod cogitationem perficit,” as if his MS. read τὸ διάνοια: \nδιατελοῦν. \n\n"
+  },
+  {
+   "n": "139",
+   "page": 139,
+   "line": 8781,
+   "text": "Free—that which rules itself.\n\nModerate—a mean between excess and deficiency ; and sufficient according to art.'\n\nModeration—a mean between excess and deficiency.\n\nPrize—the reward of excellence, that is chosen for its own sake.\n\nImmortality— an existence endowed with soul? and a remaining for ever.\n\nA holy thing—service paid to a god, acceptable to a god.\n\nFestival—a holy time according to law.\n\n3’ Man—an animal, wingless, biped, with wide nails ;* the only one of beings that is a recipient of knowledge founded on reason.\n\nSacrifice—the gift* of a victim® to a god.\n\nPrayer—an asking for good things, or that seem so, ® by man from gods.®\n\nKing—a ruler according to laws; 7not subject to the audit-",
+   "raw": "\n\nFree—that which rules itself. \n\nModerate—a mean between excess and deficiency ; and \nsufficient according to art.' \n\nModeration—a mean between excess and deficiency. \n\nPrize—the reward of excellence, that is chosen for its own \nsake. \n\nImmortality— an existence endowed with soul? and a re- \nmaining for ever. \n\nA holy thing—service paid to a god, acceptable to a god. \n\nFestival—a holy time according to law. \n\n3’ Man—an animal, wingless, biped, with wide nails ;* the \nonly one of beings that is a recipient of knowledge founded \non reason. \n\nSacrifice—the gift* of a victim® to a god. \n\nPrayer—an asking for good things, or that seem so, ® by \nman from gods.® \n\nKing—a ruler according to laws; 7not subject to the audit- \n\n\n1 I must leave for others to explain this reference to art in a definition \nof Moderation.. \n\n_ 2_? Corradus—“ natura, que οὐσία dicitur, animata.”” But as four \nMSS. offer ἐμψύχου in lieu of ἔμψυχος, perhaps the true reading is \n᾿Αθανασία, οὐσίας ἐμψύχου ἡ ἀΐδιος porn, “ Immortality, the remaining \nfor ever of an existence endowed with soul :’”’ where ἡ has been corrupted \n~ into καὶ by a very common confusion. \n\n3. 3 This is the celebrated definition of Plato; who, after he had de- \nscribed man as a wingless and biped animal, was induced to add another \nword; πλατυώνυχον, “with wide nails,’ after Diogenes the Cynic. had \ntaken a cock, and stripping it of its feathers, cried out—‘ Behold Plato’s \nMan.” The story is told by Diogenes Laertius, vi. 40. In lieu, how- \never, of πλατυώνυχος, which would be more applicable to an elephant or \nan aquatic bird, one would have expected to hear that Plato’s word was \nπολυώνυχος, in allusion to the twenty nails found on the feet and hands \nof a man. \n\n* Here is the Alexandriné word δόμα, to which I have alluded in the \nIntroduction, as furnishing internal evidence that these’Definitions were \nwritten long after the time of Speusippus. \n\n5 To avoid the absurdity of saying that a sacrifice is the gift of a sacri- \nfice—for such is the ordinary meaning of θῦμα---Ἰ have translated θῦμα by \n“victim.” Some would, however, prefer perhaps to read θυσία, θνητοῦ \nδόμα ἀθανάτοις in lieu of Θυσία, θεῷ δόμα θύματος. Corradus has— \n** Sacrificium, donum ad rem sacram deo dicatum.” \n\n6_6 | have translated as if the Greek were not αἴτησις ἀνθρώποις --- \nπαρὰ θεοῖς, where both the datives are without regimen, but αἴτησις ἀπ᾽ \nἀνθρώπου---παρὰ VeGv—where θεῶν is due to one MS. \n\n7—’ A similar definition in Diogenes L. vii. 122. \n\n"
+  },
+  {
+   "n": "140",
+   "page": 140,
+   "line": 8849,
+   "text": "ing of his accounts ;7 the chief magistrate in a political constitution.\n\nGovernment—the care of the whole.\n\n1 Licence—a superintendence of law.)\n\nLaw-giver—a maker of luws according to which it is meet for a polity to exist.\n\nLaw—a decree, relating to the state, made by the multitude, not limited to any time.\n\nHypothesis—a principle not demonstrated; the summary of a discourse.\n\nA vote—a decree of the state limited to a certain time.\n\nStatesman—a person skilled in the constitution of a state.\n\nA state—the residence of a multitude of persons making use of decrees in common; a multitude of persons existing under the same law.\n\nThe excellence of a state—a constitution of a correct polity.\n\nThe science of war—skill in war.\n\nAlliance—a communion in war.\n\nSafety—a protection from injury.? ,\n\nTyrant—a person ruling a state according to his own notion.\n\n4 Sophist—a mercenary hunter after the young, rich, (and) in high repute.\n\nWealth—a possession suited for happiness; an abundance of means tending to happiness.\n\nDeposit—a thing given‘ with faith.>\n\nPurgation—a separation of the worse from the better.\n\nπὶ This definition I confess I cannot understand. Ficinus has-—",
+   "raw": "\n\ning of his accounts ;7 the chief magistrate in a political con- \nstitution. \n\nGovernment—the care of the whole. \n\n1 Licence—a superintendence of law.) \n\nLaw-giver—a maker of luws according to which it is meet \nfor a polity to exist. \n\nLaw—a decree, relating to the state, made by the multi- \ntude, not limited to any time. \n\nHypothesis—a principle not demonstrated; the summary \nof a discourse. \n\nA vote—a decree of the state limited to a certain time. \n\nStatesman—a person skilled in the constitution of a state. \n\nA state—the residence of a multitude of persons making \nuse of decrees in common; a multitude of persons existing \nunder the same law. \n\nThe excellence of a state—a constitution of a correct polity. \n\nThe science of war—skill in war. \n\nAlliance—a communion in war. \n\nSafety—a protection from injury.? , \n\nTyrant—a person ruling a state according to his own notion. \n\n4 Sophist—a mercenary hunter after the young, rich, (and) \nin high repute. \n\nWealth—a possession suited for happiness; an abundance \nof means tending to happiness. \n\nDeposit—a thing given‘ with faith.> \n\nPurgation—a separation of the worse from the better. \n\n\nπὶ This definition I confess I cannot understand. Ficinus has-— \n\n“ Licentia, legis concessio,’’ a meaning that ἐπιτροπὴ would hardly bear. \n_Corradus—“ Potestas, legis procuratio.”” Perhaps the correct reading is \nἀποτροπὴ, “a turning aside from law.” \n\n? Such seems to be the meaning intended by περιποίησις ἀβλαβής: \nwhere, however, one would prefer ἀβλαβείας ; and so perhaps Ficinus \nfound in his ΜΆ. ; for his version is—‘‘ Salus, munitio ab omni damno \nsecura.”” Corradus—“ Salus, securi status comparatio.”’ \n\n%—8 This very definition of a Sophist is found in Sophist, § 17, p. 223, \nB., and § 36, p. 231, D. From the first passage I have introduced καὶ \nbefore ἐνδόξων. So too Ficinus—“ nobilium atque divitum ;” and Cor- \nradus—“ et gloriosos.”’ \n\nif Here again we meet with δόμα, where Attic Greek would require \n\nσις. , \n\n° The expression—“ a gift with faith,” is strangely applied as the de- \nfinition ofa deposit. One would have expected διὰ πίστεως ---“ through \nfaith,” in the honesty of the party receiving the deposit. \n\n"
+  },
+  {
+   "n": "141",
+   "page": 141,
+   "line": 8922,
+   "text": "To conquer—to possess the power, when having a difference.! A good man—such a one as is able to effect good for a person. A temperate man—one who has moderate desires. A continent man—one who has a power over the portions of the soul contending against right reason. _. A steady? man—one who is perfectly good ; one who preserves his virtue. 3 Conscience—a reflection with pain without reason.* Indocility—a slowness in learning. Lordship*—a just government, not subject to the auditing of accounts. Dislike of wisdom—a habit, according to which he, who has it, dislikes reasoning.° 6 Fear—a consternation of the soul on the expectation of ill.® Passion—a violent impetus without reason ; ‘mind of regulation of soul without reason.’ 8 Consternation—a fear on the expectation of ill.§",
+   "raw": "\n\nTo conquer—to possess the power, when having a differ- \nence.! \nA good man—such a one as is able to effect good for a \nperson. \nA temperate man—one who has moderate desires. \nA continent man—one who has a power over the portions \nof the soul contending against right reason. \n_. A steady? man—one who is perfectly good ; one who pre- \nserves his virtue. \n3 Conscience—a reflection with pain without reason.* \nIndocility—a slowness in learning. \nLordship*—a just government, not subject to the auditing \nof accounts. \nDislike of wisdom—a habit, according to which he, who \nhas it, dislikes reasoning.° \n6 Fear—a consternation of the soul on the expectation of ill.® \nPassion—a violent impetus without reason ; ‘mind of re- \ngulation of soul without reason.’ \n8 Consternation—a fear on the expectation of ill.§ \n\n\n1 Ficinus seems to have found in his MS. τὸν διαφερόμενον : for his \nversion is “ adversarium.” \n\n3 Here, as before, I have translated σπουδαῖος by “‘ steady.” \n\n3... 9 Stephens, not perceiving that Σύννοια means here ‘“ Conscience,” \nthus renders incorrectly the whole definition—‘‘ Meditatio est cogitatio \ncum dolore, absque ratione.””» Ficinus has—‘*‘ Conscientia, cogitatio tris- \ntis absque ratiocinatione.” But the sense evidently requires — “ not \nwithout reason ””—in Greek οὐκ ἄνευ λόγου, or else ‘ without speaking;” \nfor Conscience has a still voice; so Corradus—* Conscientia, tacita cum \nmeerore cogitatio.” \n\n4 This seems the exact rendering of δεσποτεία, not ‘ despotism.” \n\n5. Here again Stephens has missed the meaning of μισολόγος, as shown \nby his version—“‘ eruditionis et doctrine osor est.’? Ficinus correctly— \n“rationes odit.’’ Corradus, too, ‘‘ rationem odit.’’ \n\n‘—6 A similar definition in Aristotle’s Rhetor. § 5, 1. \n\n7—? Such is the unintelligible English of the unintelligible Greek— \nνοῦς τάξεως ψυχῆς ἀλογίστου. Stephens’ version is— Animi concita- \ntio est impetus violentus anime irrationalis, absque ratione et ordine \nmentis,” as if he wished to read the whole definition thus—Ovupoc, ὁρμὴ \nβίαιος ψυχῆς ἀλογίστου ἄνευ λογισμοῦ vod τε τάξεως : at least Ficinus \nfound this in this MS., as is evident from his version—‘‘ Animositas, im- \npetus violentus irrationalis anime absque ratione et ordine mentis.’’ \nCorradus has—“ Iracundia, appetitio sine cogitatione vehemens et vio- \n\nenta: significatio ordinis in animo perturbati.” \n\n8_8 By comparing the definitions of Fear and Consternation it would \nseem the two words were synonymous. The Stoics, however, made a \ndistinction, as we learn from Diogenes L, vii. 112, by whom Φόβος was \n\n"
+  },
+  {
+   "n": "142",
+   "page": 142,
+   "line": 8983,
+   "text": "Flattery—a conversation to gratify 'without the best ;' a habit of conversing to gratify, exceeding moderation.\n\n2 Anger—an exhortation by passion to revenge.?\n\nInsult—an injury leading to dishonour. |\n\nIntemperance—a habit forcing a person, contrary to right reason, towards what seem to be pleasant. .\n\n3 Hesitation—a flight from the commencement of labours.*\n\nCowardice—that which lays hold of (and detains)* a rushing on; ®the cause of a (mental) contraction.°\n\n(A beginning)’—the first cause of existence.\n\n7 Calumny—the setting friends apart by a word.’\n\nOpportunity—that in which it is fitting to do and suffer each thing. ‘\n\nInjustice—a habit disregardful of laws.\n\nWant—a diminution of good things.\n\n\"\n\ndefined προσδοκία κακοῦ : θυΐ [Ἔκπληξις, φόβος ἐκ φαντασίας ἀσυνήθους πράγματος, i. 6. “ Consternation, a fear from the appearance of an unusual event.”\n\nνι 1 am completely at a loss in the words between the numerals. I could have understood οὐκ ἐπὶ τῷ βελτίστῳ, the very phrase used by Theophrastus, where he defines τὴν ἀρέσκειαν, ‘ obsequiousness,” by saying that ἔστιν, ὡς ὅρῳ περιλαβεῖν, ἔντευξις οὐκ ἐπὶ τῷ βελτίστῳ ἡδονῆς παρασκευαστικῆ. But “ without the best”? is not the same as “for not the best.”? Ficinus fills out the sense by his ‘ absque ratione boni”-—Corradus evades the difficulty by his “‘ colloquium—fallax et improbum.”\n\n*_2 A similar definition in Aristotle’s Rhetor. § 2.",
+   "raw": "\n\nFlattery—a conversation to gratify 'without the best ;' a \nhabit of conversing to gratify, exceeding moderation. \n\n2 Anger—an exhortation by passion to revenge.? \n\nInsult—an injury leading to dishonour. | \n\nIntemperance—a habit forcing a person, contrary to right \nreason, towards what seem to be pleasant. . \n\n3 Hesitation—a flight from the commencement of labours.* \n\nCowardice—that which lays hold of (and detains)* a rush- \ning on; ®the cause of a (mental) contraction.° \n\n(A beginning)’—the first cause of existence. \n\n7 Calumny—the setting friends apart by a word.’ \n\nOpportunity—that in which it is fitting to do and suffer \neach thing. ‘ \n\nInjustice—a habit disregardful of laws. \n\nWant—a diminution of good things. \n\n\n\" \n\n\ndefined προσδοκία κακοῦ : θυΐ [Ἔκπληξις, φόβος ἐκ φαντασίας ἀσυνήθους \nπράγματος, i. 6. “ Consternation, a fear from the appearance of an un- \nusual event.” \n\nνι 1 am completely at a loss in the words between the numerals. I \ncould have understood οὐκ ἐπὶ τῷ βελτίστῳ, the very phrase used by \nTheophrastus, where he defines τὴν ἀρέσκειαν, ‘ obsequiousness,” by \nsaying that ἔστιν, ὡς ὅρῳ περιλαβεῖν, ἔντευξις οὐκ ἐπὶ τῷ βελτίστῳ \nἡδονῆς παρασκευαστικῆ. But “ without the best”? is not the same as \n“for not the best.”? Ficinus fills out the sense by his ‘ absque ratione \nboni”-—Corradus evades the difficulty by his “‘ colloquium—fallax et \nimprobum.” \n\n*_2 A similar definition in Aristotle’s Rhetor. § 2. \n\n38 A similar definition in Diogenes L. vii. 112, Ὄκνος, φόβος per- \nλούσης ἐνεργείας. \n\n* T have introduced the words between the lunes to complete the sense. \nStephens’ version is—‘* Timiditas est affectio, que percipit impetum.” \nBut such a definition is applicable to Forethought as well as Cowardice. \nFicinus has—* Pigritia, fuga laborum, qui ex gubernando proveniunt ;” \nwhere he took ἀρχὴ in the sense of “ government,’ not “ commence- \nment.” : \n\n5- For this part of the definition we are indebted to a solitary MS. \nthat offers αἰτία συστολῆς : where συστολὴ is used as in Diogenes L. vii. \n111, λυπὴν εἶναι συστολὴν ἄλογον. \n\n56. On the word ἀρχὴ, found, it would seem, in none of the MSS. ex- \namined by Bekker, Stephens remarks that he has translated as if ἀρχὴ \nhad dropt out. He got the idea from Ficinus, who has—‘ Timiditas, \nprima causa subcurrentis impetus,’ as if he had found in his MS., \nΔειλία, ὁρμὴν πρώτη τοῦ εἶναι αἰτία, without ἀντιληπτικῆ. Corradus— \n“ Ignavia, causa prima rei alicujus appetitionem faciende reprimens.” \n\n\n’—1 Corradus has rather strangely—* Disputatio, amicorum in ser- \nmone dissensio.”’ t \n\n"
+  },
+  {
+   "n": "143",
+   "page": 143,
+   "line": 9057,
+   "text": "1 Shame—a fear on the expectation of dishonour.!\n\nVain-gloriousness—a habit of laying claim to a good or good things, not belonging to a person.\n\nSinning—acting contrary to right reason.\n\nEnvy—a pain at the good things of friends,? which either are or have been.\n\nShamelessness—a habit of the soul, that endures dishonour for the sake of gain.\n\nRashness—the excess of boldness in the case of dangers, 3which it ought not.3\n\nA love of honour—a habit of the soul, lavish of every expense without consideration.\n\nNatural depravity—a badness by nature, and a sinning in that, which is according to nature; 4a disease of that, which is according to nature.‘\n\nHope—the expectation of a good.\n\nMadness—a habit destructive of a correct perception.\n\nTalkativeness—intemperance in speech, devoid of reason.\n\nContrariety—the greatest standing apart of things, that according to a certain difference fall under the same genus.\n\nInvoluntary—that which is brought to an end contrary to intention.\n\nInstruction—a power that has the cure of the soul.\n\nInstructing—the delivering of instruction.\n\nLegislation—the science that renders a state ὅ firmly fixed (and without suffering. )°\n\nete similar definition in Aristotle’s Rhetor. § 6, and Diogenes L. vii. 112.\n\n? Although φίλων seems to be defended by Aristotle in Rhetor. ii. 10, yet one would have preferred ἄλλων, similar to the definition in Diogenes L. vii. 111, φθόνον, λύπην ἐπ᾽ ἀλλοτρίοις ἀγαθοῖς. Proclus, ii. p. 110, tg ἐστὶν ἡ ἐπὶ τοῖς ἀλλοτρίοις ἀγαθοῖς AuTH. Corradus seems to\n\nave wished to read ποτε γενησομένοις in lieu of ποτε γεγενημένοις. For his version is, ‘‘ vel olim futura sint.”\n\n%—4 Such is the literal version of od¢ μὴ δεῖ, which I cannot understand; nor could Stephens, whose version is “ubi non est opus,” as if he wished to read os—Ficinus has ‘“‘ que metuenda sunt,” which seems to lead to οἷς ἢ δεῖμα. ;",
+   "raw": "\n\n1 Shame—a fear on the expectation of dishonour.! \n\nVain-gloriousness—a habit of laying claim to a good or \ngood things, not belonging to a person. \n\nSinning—acting contrary to right reason. \n\nEnvy—a pain at the good things of friends,? which either \nare or have been. \n\nShamelessness—a habit of the soul, that endures dishonour \nfor the sake of gain. \n\nRashness—the excess of boldness in the case of dangers, \n3which it ought not.3 \n\nA love of honour—a habit of the soul, lavish of every ex- \npense without consideration. \n\nNatural depravity—a badness by nature, and a sinning in \nthat, which is according to nature; 4a disease of that, which \nis according to nature.‘ \n\nHope—the expectation of a good. \n\nMadness—a habit destructive of a correct perception. \n\nTalkativeness—intemperance in speech, devoid of reason. \n\nContrariety—the greatest standing apart of things, that \naccording to a certain difference fall under the same genus. \n\nInvoluntary—that which is brought to an end contrary to \nintention. \n\nInstruction—a power that has the cure of the soul. \n\nInstructing—the delivering of instruction. \n\nLegislation—the science that renders a state ὅ firmly fixed \n(and without suffering. )° \n\n\nete similar definition in Aristotle’s Rhetor. § 6, and Diogenes L. \nvii. 112. \n\n? Although φίλων seems to be defended by Aristotle in Rhetor. ii. 10, \nyet one would have preferred ἄλλων, similar to the definition in Diogenes \nL. vii. 111, φθόνον, λύπην ἐπ᾽ ἀλλοτρίοις ἀγαθοῖς. Proclus, ii. p. 110, \ntg ἐστὶν ἡ ἐπὶ τοῖς ἀλλοτρίοις ἀγαθοῖς AuTH. Corradus seems to \n\nave wished to read ποτε γενησομένοις in lieu of ποτε γεγενημένοις. For \nhis version is, ‘‘ vel olim futura sint.” \n\n%—4 Such is the literal version of od¢ μὴ δεῖ, which I cannot under- \nstand; nor could Stephens, whose version is “ubi non est opus,” as if \nhe wished to read os—Ficinus has ‘“‘ que metuenda sunt,” which seems \nto lead to οἷς ἢ δεῖμα. ; \n\n4—4 Such is the version of νόσος τοῦ κατὰ φύσιν, which is equally \nunintelligible in Greek, and in English, and in the Latin of Ficinus and \nStephens, “‘morbus ejus quod est secundum naturam,”’ and of Corradus, \n‘*morbus in natura insitus.”’ \n\n5—5 In lieu of εὐπαγὴς three MSS. offer ἀπαθὴς, one ἀγαθοῦ, and one \nἀγαθῆς. By selecting from all what seems to be the best suited to the \n\n",
+   "page_read": 148
+  },
+  {
+   "n": "144",
+   "page": 144,
+   "line": 9128,
+   "text": "Admonition—a speech that finds fault from design; a speech for the sake of turning aside from error.\n\nAssistance—the hindering an ill either existing or in the way of existing.\n\nPunishment—a curing of the soul for an error committed.\n\n1 Power—a superiority in doing or speaking; a habit according to which that, which possesses it, is powerful; a strength according to nature. :\n\nTo preserve—to protect from hurt.!\n\n2( Science—is a knowledge without stumbling. )?\n\nsense, I have elicited, εὐπαγοῦς καὶ ἀπαθοῦς, what I have translated. Ficinus has “‘ tumultu vacuam,”’ answering to εὐπαθοῦς.",
+   "raw": "\n\nAdmonition—a speech that finds fault from design; a \nspeech for the sake of turning aside from error. \n\nAssistance—the hindering an ill either existing or in the \nway of existing. \n\nPunishment—a curing of the soul for an error committed. \n\n1 Power—a superiority in doing or speaking; a habit ac- \ncording to which that, which possesses it, is powerful; a \nstrength according to nature. : \n\nTo preserve—to protect from hurt.! \n\n2( Science—is a knowledge without stumbling. )? \n\n\nsense, I have elicited, εὐπαγοῦς καὶ ἀπαθοῦς, what I have translated. \nFicinus has “‘ tumultu vacuam,”’ answering to εὐπαθοῦς. \n\n1—1! These two definitions are thus separated in the version of Ficinus, \n“Potestas, excellentia in agendis seu dicendis; habitus, quo potentes \nefficimur. Robur, vis unum quidque in natura servans eo, quod detri- "
+  }
+ ],
+ "notes": [
+  {
+   "page": 123,
+   "line": 7754,
+   "text": "2 T have translated ζῶον “ἃ living being,” to avoid the incongruity of considering god as an “ animal,” the ordinary meaning of ζῶον.",
+   "raw": "2 T have translated ζῶον “ἃ living being,” to avoid the incongruity of \nconsidering god as an “ animal,” the ordinary meaning of ζῶον. "
+  },
+  {
+   "page": 123,
+   "line": 7757,
+   "text": "3_s This is the proper version here of μετάληψις, not merely “a",
+   "raw": "3_s This is the proper version here of μετάληψις, not merely “a "
+  },
+  {
+   "page": 123,
+   "line": 7759,
+   "text": "4 Instead of “by the same,” in Greek τοῖς αὐτοῖς, one would have expected ‘‘the same,” in Greek ὁ αὐτὸς : for the question is not about the parties seeing, but the thing seen. Hence Corradus has “ Sol—idem videri potest.”",
+   "raw": "4 Instead of “by the same,” in Greek τοῖς αὐτοῖς, one would have \nexpected ‘‘the same,” in Greek ὁ αὐτὸς : for the question is not about \nthe parties seeing, but the thing seen. Hence Corradus has “ Sol—idem \nvideri potest.” "
+  },
+  {
+   "page": 123,
+   "line": 7764,
+   "text": "5—* I have followed the reading of four MSS., ἄστρον ἡμεροφανὲς τὸ a τον ἡ and placed the words ζῶον ἀΐδιον ἔμψυχον after μέγιστον, not",
+   "raw": "5—* I have followed the reading of four MSS., ἄστρον ἡμεροφανὲς τὸ \na τον ἡ and placed the words ζῶον ἀΐδιον ἔμψυχον after μέγιστον, not "
+  },
+  {
+   "page": 123,
+   "line": 7767,
+   "text": "efore them, as Bekker has done. Ficinus omits ἡμεροφανές. Corradus has correctly, ‘‘ astrum maximum de die lucens.” - © On the sun possessing a soul, see Epinomis, p. 982, C. § 6.",
+   "raw": "efore them, as Bekker has done. Ficinus omits ἡμεροφανές. Corradus \nhas correctly, ‘‘ astrum maximum de die lucens.” \n- © On the sun possessing a soul, see Epinomis, p. 982, C. § 6. "
+  },
+  {
+   "page": 123,
+   "line": 7771,
+   "text": "7—7 Although this definition coincides in part with that of Eratos-. thenes, who, as we learn from Plutarch, ii. p. 884, B., described Time as “the journeying of the sun,” yet it would be more correctly defined as ‘the measure of the motion of the sun, or of the progressive movement of",
+   "raw": "7—7 Although this definition coincides in part with that of Eratos-. \nthenes, who, as we learn from Plutarch, ii. p. 884, B., described Time as \n“the journeying of the sun,” yet it would be more correctly defined as \n‘the measure of the motion of the sun, or of the progressive movement of "
+  },
+  {
+   "page": 124,
+   "line": 7814,
+   "text": "1 From this definition it would seem as if Night were a light, as well as Day. Hence one would have preferred φῶς, τοὐναντίον νυκτὸς σκότῳ, not simply τοὐναντίον νυκτὶ, and similarly in *, Νὺξ σκότος τοὐναντίον ἡμέρας φωτί, not ἡμέρᾳ merely. Corradus makes this a new definition, ** Lux, id, quod nocti est contrarium.”",
+   "raw": "1 From this definition it would seem as if Night were a light, as well \nas Day. Hence one would have preferred φῶς, τοὐναντίον νυκτὸς σκότῳ, \nnot simply τοὐναντίον νυκτὶ, and similarly in *, Νὺξ σκότος τοὐναντίον \nἡμέρας φωτί, not ἡμέρᾳ merely. Corradus makes this a new definition, \n** Lux, id, quod nocti est contrarium.” "
+  },
+  {
+   "page": 124,
+   "line": 7820,
+   "text": "5 So Suidas, Τύχη---ἡ φορὰ ἐξ ἀδήλου εἰς ἄδηλον καὶ αὐτόματον. But Aristotle, according to Plutarch, ii. p. 885, C., made a distinction between Τύχη and τὸ αὐτόματον.",
+   "raw": "5 So Suidas, Τύχη---ἡ φορὰ ἐξ ἀδήλου εἰς ἄδηλον καὶ αὐτόματον. But \nAristotle, according to Plutarch, ii. p. 885, C., made a distinction be- \ntween Τύχη and τὸ αὐτόματον. "
+  },
+  {
+   "page": 124,
+   "line": 7824,
+   "text": "* The ἡ, which is found before ἐκ in two MSS., and in its place in two, from whence ἐκ is placed over ἡ in two others, belongs in fact to αἰτία.",
+   "raw": "* The ἡ, which is found before ἐκ in two MSS., and in its place in two, \nfrom whence ἐκ is placed over ἡ in two others, belongs in fact to αἰτία. "
+  },
+  {
+   "page": 124,
+   "line": 7827,
+   "text": "5—5 So I have translated δαιμονίας πράξεως. Stephens has, “ causa felicis successus ;”” but as “ chance”’ is the cause of an unsuccessful as well as a successful action, the version in English should be as am-",
+   "raw": "5—5 So I have translated δαιμονίας πράξεως. Stephens has, “ causa \nfelicis successus ;”” but as “ chance”’ is the cause of an unsuccessful as \nwell as a successful action, the version in English should be as am- "
+  },
+  {
+   "page": 124,
+   "line": 7832,
+   "text": "biguous as δαιμονίας is in Greek. Ficinus, too, “ felicis actionis causa.” -",
+   "raw": "biguous as δαιμονίας is in Greek. Ficinus, too, “ felicis actionis causa.” - "
+  },
+  {
+   "page": 124,
+   "line": 7835,
+   "text": "Corradus, “ et felicis actionis fortuita causa.”",
+   "raw": "Corradus, “ et felicis actionis fortuita causa.” "
+  },
+  {
+   "page": 124,
+   "line": 7838,
+   "text": "° Why πνεῦμα is written here, where one would have expected ἄνεμος, I",
+   "raw": "° Why πνεῦμα is written here, where one would have expected ἄνεμος, I "
+  },
+  {
+   "page": 124,
+   "line": 7841,
+   "text": "must leave for others to explain. Corradus renders πνεῦμα by “‘spiritus.” 7’ Here, again, I must leave for others to explain, what I cannot understand, the meaning of κατὰ φύσιν. Did the author write κατὰ pedo? For the Stoics asserted, as we learn from Plutarch, ii. p. 895, A., that πᾶν πνεῦμα ἀέρος εἶναι ῥεῦσιν. δ Here seems to be an allusion to what is called ὑπερουράνιος τόπος in Pheedr. p. 247, Ὁ. Ficinus omits αἰσθητὰ---",
+   "raw": "must leave for others to explain. Corradus renders πνεῦμα by “‘spiritus.” \n7’ Here, again, I must leave for others to explain, what I cannot \nunderstand, the meaning of κατὰ φύσιν. Did the author write κατὰ \npedo? For the Stoics asserted, as we learn from Plutarch, ii. p. 895, \nA., that πᾶν πνεῦμα ἀέρος εἶναι ῥεῦσιν. \nδ Here seems to be an allusion to what is called ὑπερουράνιος τόπος \nin Pheedr. p. 247, Ὁ. Ficinus omits αἰσθητὰ--- "
+  },
+  {
+   "page": 125,
+   "line": 7888,
+   "text": "5 See at ὅ-ὃ,",
+   "raw": "5 See at ὅ-ὃ, "
+  },
+  {
+   "page": 125,
+   "line": 7890,
+   "text": "6_6 So Cleanthes the Stoic, in Diogenes L. vii. 89, defined virtue as διάθεσιν---δι’ αὑτὴν---αἱρετὴν, οὐ διά τινα φόβον ἢ ἐλπίδα ἤ τι τῶν ἔξωθεν : from whence one would prefer here αἱρετὴ to ἐπαινετή.",
+   "raw": "6_6 So Cleanthes the Stoic, in Diogenes L. vii. 89, defined virtue as \nδιάθεσιν---δι’ αὑτὴν---αἱρετὴν, οὐ διά τινα φόβον ἢ ἐλπίδα ἤ τι τῶν ἔξωθεν : \nfrom whence one would prefer here αἱρετὴ to ἐπαινετή. "
+  },
+  {
+   "page": 125,
+   "line": 7894,
+   "text": "7—7 How virtue can be said to be “ a just communion of laws” I cannot understand; nor could Ficinus; and hence he considered this as a fresh definition. But the two following sentences plainly prove that Virtue is still the subject of the definition. Did the author write ἕξις ποιητικὴ εὐνομίας καὶ κοινωνίας νόμων δικαίας ἢ And so perhaps Stephens wished to read; for his version is—‘*‘ Communio, legum est justa affectio, secundum quam id, quod habet perfecte affectum, honestum dicitur ; aut habitus, qui equitatis et concordiz faciende vim habet:” which he got perhaps partly from Ficinus—‘‘ Communio, legum justa constitutio: qua quod preditum est, probum dicitur; habitus concordiam prestans.”’ Corradus too considers this.a new definition. His version is—‘‘ Communitas, legum justa dispositio, quam quicunque est adeptus, si modo 7 optime affectus, honestus appellatur; habitus bonas legum lationem efficiens.”’",
+   "raw": "7—7 How virtue can be said to be “ a just communion of laws” I can- \nnot understand; nor could Ficinus; and hence he considered this as a \nfresh definition. But the two following sentences plainly prove that \nVirtue is still the subject of the definition. Did the author write ἕξις \nποιητικὴ εὐνομίας καὶ κοινωνίας νόμων δικαίας ἢ And so perhaps Stephens \nwished to read; for his version is—‘*‘ Communio, legum est justa affectio, \nsecundum quam id, quod habet perfecte affectum, honestum dicitur ; aut \nhabitus, qui equitatis et concordiz faciende vim habet:” which he got \nperhaps partly from Ficinus—‘‘ Communio, legum justa constitutio: qua \nquod preditum est, probum dicitur; habitus concordiam prestans.”’ \nCorradus too considers this.a new definition. His version is—‘‘ Com- \nmunitas, legum justa dispositio, quam quicunque est adeptus, si modo \n7 optime affectus, honestus appellatur; habitus bonas legum lationem \nefficiens.”’ "
+  },
+  {
+   "page": 125,
+   "line": 7909,
+   "text": "88 I have followed Bekker; who says, “libri rd Zyov:’’ where he meant by “libri” printed books, not MSS., where those two words were, it seems, wanting.",
+   "raw": "88 I have followed Bekker; who says, “libri rd Zyov:’’ where he \nmeant by “libri” printed books, not MSS., where those two words were, \nit seems, wanting. "
+  },
+  {
+   "page": 125,
+   "line": 7913,
+   "text": "® I have translated σπουδαῖος “ steady,” i. e. a person who pursues an object in view without swerving and earnestly.",
+   "raw": "® I have translated σπουδαῖος “ steady,” i. e. a person who pursues \nan object in view without swerving and earnestly. "
+  },
+  {
+   "page": 126,
+   "line": 7943,
+   "text": "22 The words ἐπιστήμη ποιητικὴ εὐδαιμονίας, although acknowledged by Stobeus, have been cut out by Bekker from the text on the authority of a single MS.",
+   "raw": "22 The words ἐπιστήμη ποιητικὴ εὐδαιμονίας, although acknowledged \nby Stobeus, have been cut out by Bekker from the text on the authority \nof a single MS. "
+  },
+  {
+   "page": 126,
+   "line": 7947,
+   "text": "38 How Justice can be said to be “an agreement of the soul with itself,’ I confess I cannot understand; and still less how, in ---ἰ, it is a ‘correct arrangement of the parts of the soul towards each other and about each other ;”’ especially as a similar definition is given of Temperance in Stobeus v. p. 78, 1. Σωφροσύνη ἐστὶν ὁμολογία τῶν τῆς ψυχῆς μερῶν πρὸς ἄλληλα. Stephens too seems to have been at a loss; for he renders πρὸς ἄλληλα καὶ περὶ ἄλληλα by merely “ inter se,”’ similar to ‘ad invicem cui mutuus” in Ficinus. Corradus has more closely ‘inter se et secum ordinis conservatio.”",
+   "raw": "38 How Justice can be said to be “an agreement of the soul with it- \nself,’ I confess I cannot understand; and still less how, in  ---ἰ, it is a \n‘correct arrangement of the parts of the soul towards each other and \nabout each other ;”’ especially as a similar definition is given of Temper- \nance in Stobeus v. p. 78, 1. Σωφροσύνη ἐστὶν ὁμολογία τῶν τῆς ψυχῆς \nμερῶν πρὸς ἄλληλα. Stephens too seems to have been at a loss; for he \nrenders πρὸς ἄλληλα καὶ περὶ ἄλληλα by merely “ inter se,”’ similar to \n‘ad invicem cui mutuus” in Ficinus. Corradus has more closely \n‘inter se et secum ordinis conservatio.” "
+  },
+  {
+   "page": 126,
+   "line": 7957,
+   "text": "5—5 A similar definition is given from a not-mentioned author by Stobeus, ix. p. 125, 40. Δικαιοσύνη δὲ ἐστιν ἀρετὴ ψυχῆς διανεμητικὴ τῶν κατ᾽ agiav—where ἑκάστῳ seems to have dropt out between διανεμητικὴ and τῶν---",
+   "raw": "5—5 A similar definition is given from a not-mentioned author by Sto- \nbeus, ix. p. 125, 40. Δικαιοσύνη δὲ ἐστιν ἀρετὴ ψυχῆς διανεμητικὴ τῶν \nκατ᾽ agiav—where ἑκάστῳ seems to have dropt out between διανεμητικὴ \nand τῶν--- "
+  },
+  {
+   "page": 126,
+   "line": 7962,
+   "text": "6 Since one MS. offers Bia for βίῳ, perhaps the author wrote ἄνευ βίας, not ἐν βίῳ, and thus showed that Justice is subservient to law, not by force, but willingly.",
+   "raw": "6 Since one MS. offers Bia for βίῳ, perhaps the author wrote ἄνευ \nβίας, not ἐν βίῳ, and thus showed that Justice is subservient to law, not \nby force, but willingly. "
+  },
+  {
+   "page": 126,
+   "line": 7966,
+   "text": "7—7 How Justice can be “ an equality sharing in common,’ I cannot understand; nor could, I think, Stephens; whose version is—“ socialis equalitas.” I could have understood ἰσότητος κοινωνία, or ἰσότητος κοινωνικὴ ἕξις---““ a habit sharing in equality.”’",
+   "raw": "7—7 How Justice can be “ an equality sharing in common,’ I cannot \nunderstand; nor could, I think, Stephens; whose version is—“ socialis \nequalitas.” I could have understood ἰσότητος κοινωνία, or ἰσότητος κοι- \nνωνικὴ ἕξις---““ a habit sharing in equality.”’ "
+  },
+  {
+   "page": 126,
+   "line": 7971,
+   "text": "® As four MSS. omit ὀρθῶν, one would suspect that ἀγράφων was written here originally, similar to the ἀγράφους νόμους mentioned by Xenophon in Memorab. iv. 4, 19, and by Demosthenes, p. 317 and 343, ed R., and the ἄγραπτα---νόμιμα in Soph. Antig. 453, and the “ lex non scripta,’’ on which Cicero is so eloquent, Pro Milone, § iii.",
+   "raw": "® As four MSS. omit ὀρθῶν, one would suspect that ἀγράφων was \nwritten here originally, similar to the ἀγράφους νόμους mentioned by \nXenophon in Memorab. iv. 4, 19, and by Demosthenes, p. 317 and 343, \ned R., and the ἄγραπτα---νόμιμα in Soph. Antig. 453, and the “ lex non \nscripta,’’ on which Cicero is so eloquent, Pro Milone, § iii. "
+  },
+  {
+   "page": 127,
+   "line": 8008,
+   "text": "22 I confess I do not understand how Temperance is ὁμιλία τῆς ψυχῆς : nor could Corradus ; for his version is—‘* animi quasi sermo—”’",
+   "raw": "22 I confess I do not understand how Temperance is ὁμιλία τῆς ψυ- \nχῆς : nor could Corradus ; for his version is—‘* animi quasi sermo—”’ "
+  },
+  {
+   "page": 127,
+   "line": 8011,
+   "text": "3_% Most assuredly Fortitude could never be correctly defined as “a knowledge of the things relating to war.” ;",
+   "raw": "3_% Most assuredly Fortitude could never be correctly defined as “a \nknowledge of the things relating to war.” ; "
+  },
+  {
+   "page": 127,
+   "line": 8014,
+   "text": "4—‘ This, although paraphrastical, is still as close a version as can be well made of the terse original—pwyn πρὸς κίνδυνον ἀντίρροπος. On the word ἀντίρροπος, see Porson’s translation of ἀντίρροπον ἄχθος in Soph. El. 119, as given by Monk in the Museum Criticum, No. 1. Ficinus, apparently unable to understand the clause, has omitted it. Corradus has—“ robur periculo par.”",
+   "raw": "4—‘ This, although paraphrastical, is still as close a version as can be \nwell made of the terse original—pwyn πρὸς κίνδυνον ἀντίρροπος. On \nthe word ἀντίρροπος, see Porson’s translation of ἀντίρροπον ἄχθος in \nSoph. El. 119, as given by Monk in the Museum Criticum, No. 1.  Fici- \nnus, apparently unable to understand the clause, has omitted it. Corradus \nhas—“ robur periculo par.” "
+  },
+  {
+   "page": 127,
+   "line": 8021,
+   "text": "5—5 Of the meaning of δογμάτων ἀδήλων, I confess myself quite in the dark. I could have understood οὐ δειλῶν --- not cowardly.”’ Ficinus has—* observatio eorum, que ratio dictat, in rebus pavendis.” Corradus, ‘*incertarum opinionum de rebus adversis liberatio.”’",
+   "raw": "5—5 Of the meaning of δογμάτων ἀδήλων, I confess myself quite in \nthe dark. I could have understood οὐ δειλῶν --- not cowardly.”’ Ficinus \nhas—* observatio eorum, que ratio dictat, in rebus pavendis.” Corradus, \n‘*incertarum opinionum de rebus adversis liberatio.”’ "
+  },
+  {
+   "page": 127,
+   "line": 8026,
+   "text": "&—® Here again Fortitude is said incorrectly to be “a skill in war.”",
+   "raw": "&—® Here again Fortitude is said incorrectly to be “a skill in war.” "
+  },
+  {
+   "page": 127,
+   "line": 8028,
+   "text": "7—1 Instead of νόμου one MS. has λόγου: which seems to lead to ψόγου, “ blame :” while in ἐμμελητικὴ, found in two MSS. for ἐμμενηTun, perhaps ἀμελητικὴ, “ neglectful,” lies hid.",
+   "raw": "7—1 Instead of νόμου one MS. has λόγου: which seems to lead to \nψόγου, “ blame :” while in ἐμμελητικὴ, found in two MSS. for ἐμμενη- \nTun, perhaps ἀμελητικὴ, “ neglectful,” lies hid. "
+  },
+  {
+   "page": 127,
+   "line": 8032,
+   "text": "8-- and *—® These definitions of ᾿Εγκράτεια are quite beyond my comprehension. How much more intelligible is the language of an unknown author, quoted by Stobeus, xvii. p. 157, who defines Continence as “ the being able to restrain by reason the desire, that is rushing to the enjoyment of improper pleasures; and the bearing up against and under the",
+   "raw": "8-- and *—® These definitions of ᾿Εγκράτεια are quite beyond my com- \nprehension. How much more intelligible is the language of an unknown \nauthor, quoted by Stobeus, xvii. p. 157, who defines Continence as “ the \nbeing able to restrain by reason the desire, that is rushing to the enjoy- \nment of improper pleasures; and the bearing up against and under the "
+  },
+  {
+   "page": 128,
+   "line": 8085,
+   "text": "1! The words between the numerals are a definition rather of Continence than of Self-sufficiency. Corradus renders ᾿Εγκράτεια by “ Beatitudo ’—",
+   "raw": "1! The words between the numerals are a definition rather of Con- \ntinence than of Self-sufficiency. Corradus renders ᾿Εγκράτεια by “ Be- \natitudo ’— "
+  },
+  {
+   "page": 128,
+   "line": 8089,
+   "text": "2_* Ficinus has elegantly, but not closely—‘ Audacia securitas, qua quis malum neque futurum exspectat, neque presens horrescit.”",
+   "raw": "2_* Ficinus has elegantly, but not closely—‘ Audacia securitas, qua \nquis malum neque futurum exspectat, neque presens horrescit.” "
+  },
+  {
+   "page": 128,
+   "line": 8092,
+   "text": "3_2 Ficinus—“ adversus labores inconcussus habitus.’”? Corradus— ‘habitus laborem nunquam reprehendens.”’",
+   "raw": "3_2 Ficinus—“ adversus labores inconcussus habitus.’”? Corradus— \n‘habitus laborem nunquam reprehendens.”’ "
+  },
+  {
+   "page": 128,
+   "line": 8095,
+   "text": "‘4 Such, I presume, is the meaning of ᾿Εξουσία τοῦ καθ᾽ ἑαυτὸν ἐν βίῳ : Ficinus—“ licentia propria vite.’ Corradus—“ in uno quoque sita potestas vivendi ’’—as if he wished to read ἐν ἑκάστῳ ---",
+   "raw": "‘4 Such, I presume, is the meaning of ᾿Εξουσία τοῦ καθ᾽ ἑαυτὸν ἐν \nβίῳ : Ficinus—“ licentia propria vite.’ Corradus—“ in uno quoque sita \npotestas vivendi ’’—as if he wished to read ἐν ἑκάστῳ --- "
+  },
+  {
+   "page": 128,
+   "line": 8099,
+   "text": "55 The words between the numerals are the definition rather of the following ᾿Ελευθεριότης, than of ᾿Ελευθερία.",
+   "raw": "55 The words between the numerals are the definition rather of the \nfollowing ᾿Ελευθεριότης, than of ᾿Ελευθερία. "
+  },
+  {
+   "page": 129,
+   "line": 8135,
+   "text": "1 Stephens renders “vite,” as if he wished to read ζωῆς in lieu of ζώου, or else he got ‘‘ vite ’’ from Ficinus.",
+   "raw": "1 Stephens renders “vite,” as if he wished to read ζωῆς in lieu of \nζώου, or else he got ‘‘ vite ’’ from Ficinus. "
+  },
+  {
+   "page": 129,
+   "line": 8138,
+   "text": "2—* Instead of τὸν σεμνότατον, which could not be applied to λογισμὸν, I have translated, as if the Greek were τοῦ σεμνοτάτουι One MS. has τὸ and another καὶ, which seem to lead to καὶ τὸ σεμνότατον. Ficinus too, “et honorandum.” Corradus has, what to myself is unintelligible, “ Magnificentia, amplitudo a gravissima mentis agitatione, et propositione profecta.”",
+   "raw": "2—* Instead of τὸν σεμνότατον, which could not be applied to λογισ- \nμὸν, I have translated, as if the Greek were τοῦ σεμνοτάτουι One MS. \nhas τὸ and another καὶ, which seem to lead to καὶ τὸ σεμνότατον. \nFicinus too, “et honorandum.” Corradus has, what to myself is un- \nintelligible, “ Magnificentia, amplitudo a gravissima mentis agitatione, et \npropositione profecta.” "
+  },
+  {
+   "page": 129,
+   "line": 8145,
+   "text": "3% Since one MS. offers ἐν ἑκάστῳ in lieu of ἑκάστῳ, it is easy to elicit from thence ἐν ὠκίστῳ. So the Stoics defined ἀγχίνοιαν by ἕξιν εὑρετικὴν τοῦ καθήκοντος ἐκ τοῦ παραχρῆμα, as we learn from Diogenes L. vii. 98, where Casaubon refers to Aristotle, Ethic. vi. 9, who says that ἀγχίνοια is κατὰ ταχύ τι evoroxia. Ficinus however found in his MS. ἐν ἑκάστῳ : for his version is “‘in singulis ”—",
+   "raw": "3% Since one MS. offers ἐν ἑκάστῳ in lieu of ἑκάστῳ, it is easy to \nelicit from thence ἐν ὠκίστῳ. So the Stoics defined ἀγχίνοιαν by ἕξιν \nεὑρετικὴν τοῦ καθήκοντος ἐκ τοῦ παραχρῆμα, as we learn from Diogenes \nL. vii. 98, where Casaubon refers to Aristotle, Ethic. vi. 9, who says that \nἀγχίνοια is κατὰ ταχύ τι evoroxia. Ficinus however found in his MS. \nἐν ἑκάστῳ : for his version is “‘in singulis ”— "
+  },
+  {
+   "page": 129,
+   "line": 8152,
+   "text": "4 Here, as before, I have translated σπουδαιότης by “ steadiness.”",
+   "raw": "4 Here, as before, I have translated σπουδαιότης by “ steadiness.” "
+  },
+  {
+   "page": 129,
+   "line": 8154,
+   "text": "5 As there is no single nor even compound word in English to answer to the Greek Καλοκᾳγαθία, by which was meant the union of bodily and mental accomplishments, I have put the Greek word into English letters, just as Philanthropy is in the next definition but one, where, for a similar reason, Ficinus has left in his Latin version the Greek word Φιλανθρωπία ; but translated Καλοκᾳγαθία by ‘“bonitas.” The whole definition is omitted by Corradus.",
+   "raw": "5 As there is no single nor even compound word in English to answer \nto the Greek Καλοκᾳγαθία, by which was meant the union of bodily and \nmental accomplishments, I have put the Greek word into English letters, \njust as Philanthropy is in the next definition but one, where, for a \nsimilar reason, Ficinus has left in his Latin version the Greek word \nΦιλανθρωπία ; but translated Καλοκᾳγαθία by ‘“bonitas.” The whole \ndefinition is omitted by Corradus. "
+  },
+  {
+   "page": 129,
+   "line": 8162,
+   "text": "6 By ἀστεῖος, literally, “living in a city,’ was meant also “a person of elegant manners,” for such those in the city were, as opposed to those of inelegant manners, who lived in the country and were called ἀγροῖκοι. Ficinus has “ moderatus ”’—",
+   "raw": "6 By ἀστεῖος, literally, “living in a city,’ was meant also “a person \nof elegant manners,” for such those in the city were, as opposed to those \nof inelegant manners, who lived in the country and were called ἀγροῖκοι. \nFicinus has “ moderatus ”’— "
+  },
+  {
+   "page": 129,
+   "line": 8167,
+   "text": "VOL. VI. K",
+   "raw": "VOL. VI. K "
+  },
+  {
+   "page": 130,
+   "line": 8211,
+   "text": "3 Instead of δύναμις the sense evidently requires διάθεσις, similar to ‘‘ affectio ” in Ficinus.",
+   "raw": "3 Instead of δύναμις the sense evidently requires διάθεσις, similar to \n‘‘ affectio ” in Ficinus. "
+  },
+  {
+   "page": 130,
+   "line": 8214,
+   "text": "5.1 have translated, as if the Greek were ἑκουσίως, not ἑκούσιος. Ficinus has ‘‘ voluntaria veneratio dei; recta honoris divini scientia ”’”— Corradus, “‘ voluntaria religionis deorum susceptio ; recta cultus deorum scientia;’’ one or both of whom Stephens has followed in his version, **voluntaria de deorum cultu existimatio; recta cultus deorum scientia,”’ as if he wished to unite ἑκόυσιος with ὑπόληψις, and ὀρθὴ with ἐπιστήμη, not, as Bekker has done, ἑκούσιος with δύναμις, and ὀρθὴ with ὑπόληψις. The definition of piety given by the Stoics in Diogen, L. vii. 119, is shorter, if not better, Ἐὐσέβεια, ἐπιστήμη θεῶν θεραπείας.",
+   "raw": "5.1 have translated, as if the Greek were ἑκουσίως, not ἑκούσιος. \nFicinus has ‘‘ voluntaria veneratio dei; recta honoris divini scientia ”’”— \nCorradus, “‘ voluntaria religionis deorum susceptio ; recta cultus deorum \nscientia;’’ one or both of whom Stephens has followed in his version, \n**voluntaria de deorum cultu existimatio; recta cultus deorum scientia,”’ \nas if he wished to unite ἑκόυσιος with ὑπόληψις, and ὀρθὴ with ἐπιστήμη, \nnot, as Bekker has done, ἑκούσιος with δύναμις, and ὀρθὴ with ὑπόληψις. \nThe definition of piety given by the Stoics in Diogen, L. vii. 119, is \nshorter, if not better, Ἐὐσέβεια, ἐπιστήμη θεῶν θεραπείας. "
+  },
+  {
+   "page": 130,
+   "line": 8224,
+   "text": "4—4 The words between the numerals, in Greek, ᾿Αγαθὸν, τὸ αὑτοῦ ἕνεκεν, are too few to make either syntax or sense. Stephens’ version in English is, “Good is that, which exists for its own sake,”’ a definition scarcely intelligible. Did the author write ᾿Αγαθὸν, ταὐτὸν ἢ οὐχ ἕτερον ὠφελείας, which is the very definition given by the Stoics in Diogen. L. vii. 94; for ὠφελείας might easily have dropt out before ἀφοβία. Ficinus has supplied the word, requisite for the sense, in his version, ‘*‘ Bonum, quod sui ipsius gratia expetendum :”’ and so too has Corradus, ‘ Bonum, quod sua ipsius causa appetitur.”",
+   "raw": "4—4 The words between the numerals, in Greek, ᾿Αγαθὸν, τὸ αὑτοῦ \nἕνεκεν, are too few to make either syntax or sense. Stephens’ version in \nEnglish is, “Good is that, which exists for its own sake,”’ a definition \nscarcely intelligible. Did the author write ᾿Αγαθὸν, ταὐτὸν ἢ οὐχ ἕτερον \nὠφελείας, which is the very definition given by the Stoics in Diogen. L. \nvii. 94; for ὠφελείας might easily have dropt out before ἀφοβία. Ficinus \nhas supplied the word, requisite for the sense, in his version, ‘*‘ Bonum, \nquod sui ipsius gratia expetendum :”’ and so too has Corradus, ‘ Bonum, \nquod sua ipsius causa appetitur.” "
+  },
+  {
+   "page": 130,
+   "line": 8234,
+   "text": "δ There is no single word in English to answer to the Greek δεινότης,",
+   "raw": "δ There is no single word in English to answer to the Greek δεινότης, "
+  },
+  {
+   "page": 131,
+   "line": 8264,
+   "text": "1 Such seems to be the meaning here of προαίρεσις, similar to the simple αἵρεσις. Stephens’ version is, “ consensio de proposito et actione.”’ Ficinus has ‘‘in deliberando atque agendo.” Corradus, “ de eligendo et faciendo opinionum consensus.”’",
+   "raw": "1 Such seems to be the meaning here of προαίρεσις, similar to the \nsimple αἵρεσις. Stephens’ version is, “ consensio de proposito et actione.”’ \nFicinus has ‘‘in deliberando atque agendo.” Corradus, “ de eligendo et \nfaciendo opinionum consensus.”’ "
+  },
+  {
+   "page": 131,
+   "line": 8269,
+   "text": "*_? Such is the literal translation of the Greek. Stephens’ version is *societas beneficiorum mutuorum.” Ficinus has ‘‘ communio in dandis accipiendisque beneficiis.”",
+   "raw": "*_? Such is the literal translation of the Greek. Stephens’ version is \n*societas beneficiorum mutuorum.” Ficinus has ‘‘ communio in dandis \naccipiendisque beneficiis.” "
+  },
+  {
+   "page": 131,
+   "line": 8273,
+   "text": "%—% Orelli, unable to understand how Ἐὐγένεια is ἀρετὴ εὐγενοῦς ἤθους, proposed to read συγγενοῦς, by which he probably meant “ cognate.” But what is gained by the alteration I confess I cannot discover. The author wrote, I suspect, Ἐὐγένεια, ἀρετὴ οὐ γένους, ἤθους δὲ, εὐαγωγικὴ Ψυχῆς πρὸς λόγους καὶ πράξεις, ‘ Nobility is an excellence, not from",
+   "raw": "%—% Orelli, unable to understand how Ἐὐγένεια is ἀρετὴ εὐγενοῦς ἤθους, \nproposed to read συγγενοῦς, by which he probably meant “ cognate.” \nBut what is gained by the alteration I confess I cannot discover. The \nauthor wrote, I suspect, Ἐὐγένεια, ἀρετὴ οὐ γένους, ἤθους δὲ, εὐαγωγικὴ \nΨυχῆς πρὸς λόγους καὶ πράξεις, ‘ Nobility is an excellence, not from "
+  },
+  {
+   "page": 131,
+   "line": 8279,
+   "text": "irth, but moral conduct, leading the soul to words and deeds ;’’ where the definition is best explained by the sentiment of Juvenal in viii., Tota licet veteres exornent undique cere Atria, nobilitas sola est atque unica virtus— But even thus the definition is defective. For as words and deeds are of different kinds, it should be stated of what kind they are, to which nobility leads. Ficinus has, “\" Generositas, virtus ingenui moris; facilitas animi ad dicenda pariter atque agenda.”’ Corradus, ‘‘ Genervsitas, generosi moris yirtus ; animi ad rationes et actiones facilis inductio.”",
+   "raw": "irth, but moral conduct, leading the soul to words and deeds ;’’ where \nthe definition is best explained by the sentiment of Juvenal in viii., \nTota licet veteres exornent undique cere \nAtria, nobilitas sola est atque unica virtus— \nBut even thus the definition is defective. For as words and deeds are \nof different kinds, it should be stated of what kind they are, to which no- \nbility leads. Ficinus has, “\" Generositas, virtus ingenui moris; facilitas \nanimi ad dicenda pariter atque agenda.”’ Corradus, ‘‘ Genervsitas, gene- \nrosi moris yirtus ; animi ad rationes et actiones facilis inductio.” "
+  },
+  {
+   "page": 131,
+   "line": 8289,
+   "text": "4—4 Here again Orelli was, as I am, at a loss about the meaning of the definition; and hence he wished to cut out αἵρεσις. But to my mind the difficulty lies in πρὸς ἄνθρωπον ἀσπασμός, or as eight MSS. read, ἀσπασμῷ. Stephens’ version is, ‘‘ Benevolentia est electio hominis ; hominis amplexus et salutatio,” as if he wished to omit πρὸς--- Ficinus has, “‘ Benevolentia, electio hominis ad hominem grata atque accepta.” Corradus, “ Benevyolentia, electio; complexus hominem cum homine copulans,” <a",
+   "raw": "4—4 Here again Orelli was, as I am, at a loss about the meaning of \nthe definition; and hence he wished to cut out αἵρεσις. But to my \nmind the difficulty lies in πρὸς ἄνθρωπον ἀσπασμός, or as eight MSS. \nread, ἀσπασμῷ. Stephens’ version is, ‘‘ Benevolentia est electio hominis ; \nhominis amplexus et salutatio,” as if he wished to omit πρὸς--- Ficinus \nhas, “‘ Benevolentia, electio hominis ad hominem grata atque accepta.” \nCorradus, “ Benevyolentia, electio; complexus hominem cum homine \ncopulans,” <a "
+  },
+  {
+   "page": 131,
+   "line": 8298,
+   "text": "κ 2",
+   "raw": "κ 2 "
+  },
+  {
+   "page": 132,
+   "line": 8322,
+   "text": "1! As it is difficult to perceive the difference between νοημάτων and ὑπολημμάτων, I suspect the words καὶ ὑπολημμάτων ought to follow τῶν ὄντων ἁπάντων inthe preceding clause, or be omitted altogether. Ficinus has “\" cogitationum suspicionumque concordia.”",
+   "raw": "1! As it is difficult to perceive the difference between νοημάτων and \nὑπολημμάτων, I suspect the words καὶ ὑπολημμάτων ought to follow \nτῶν ὄντων ἁπάντων inthe preceding clause, or be omitted altogether. \nFicinus has “\" cogitationum suspicionumque concordia.” "
+  },
+  {
+   "page": 132,
+   "line": 8327,
+   "text": "22 Of the words between the numerals I am quite content to express my perfect ignorance. Ficinus has “ Charitas integra animi declaratio,”’ as if he had found ψυχῆς in his MS.",
+   "raw": "22 Of the words between the numerals I am quite content to express \nmy perfect ignorance. Ficinus has “ Charitas integra animi declaratio,”’ \nas if he had found ψυχῆς in his MS. "
+  },
+  {
+   "page": 132,
+   "line": 8331,
+   "text": "3 So I have translated ἸΤολιτικὸς in the dialogue of that name.",
+   "raw": "3 So I have translated ἸΤολιτικὸς in the dialogue of that name. "
+  },
+  {
+   "page": 132,
+   "line": 8333,
+   "text": "4 The words between the lunes have been added for the sense.",
+   "raw": "4 The words between the lunes have been added for the sense. "
+  },
+  {
+   "page": 132,
+   "line": 8335,
+   "text": "5 By ἑταιρεία was meant “a political club,” as it would be called in England, not merely domestic sociality.",
+   "raw": "5 By ἑταιρεία was meant “a political club,” as it would be called in \nEngland, not merely domestic sociality. "
+  },
+  {
+   "page": 132,
+   "line": 8338,
+   "text": "6 In lieu of γεγενημένοις, which seems superfluous after καθ᾽ ἡλικίαν, one would have expected συνηνωμένοις, “united.” Ficinus has * ex diuturna cequalium consuetudine conflata.”",
+   "raw": "6 In lieu of γεγενημένοις, which seems superfluous after καθ᾽ ἡλικίαν, \none would have expected συνηνωμένοις, “united.” Ficinus has * ex \ndiuturna cequalium consuetudine conflata.” "
+  },
+  {
+   "page": 132,
+   "line": 8342,
+   "text": "7!’ With this unintelligible definition of Good Counsel, may be contrasted the very intelligible one given by the Stoics, as found in Diogenes Laertius, vii. 93, τὴν δὲ εὐβουλίαν, ἐπιστήμην τοῦ σκοπεῖσθαι ποῖα Kai πῶς πράττοντες πράξομεν συμφερόντως, i. 6. “ good counsel is the science of considering by doing what, and in what manner, we can act advantageously.”’ Stephens’ version is “\" Consilii prestantia est virtus rationi insita,”’ as if he wished to read Ἐὐβουλίας ἀρετὴ ἀρετὴ λογισμῷ ἔμφυτος. Ficinus, however, translates Ἐὐβουλία by “ Sagacitas,’’ evidently for the sense. Corradus, ‘“‘Consilium bonum, vis cogitationis insita:’ as if he wished to read ἔμφυτος in lieu of σύμφυτος.",
+   "raw": "7!’ With this unintelligible definition of Good Counsel, may be con- \ntrasted the very intelligible one given by the Stoics, as found in Diogenes \nLaertius, vii. 93, τὴν δὲ εὐβουλίαν, ἐπιστήμην τοῦ σκοπεῖσθαι ποῖα Kai \nπῶς πράττοντες πράξομεν συμφερόντως, i. 6. “ good counsel is the science \nof considering by doing what, and in what manner, we can act advan- \ntageously.”’ Stephens’ version is “\" Consilii prestantia est virtus rationi \ninsita,”’ as if he wished to read Ἐὐβουλίας ἀρετὴ ἀρετὴ λογισμῷ ἔμφυτος. \nFicinus, however, translates Ἐὐβουλία by “ Sagacitas,’’ evidently for the \nsense. Corradus, ‘“‘Consilium bonum, vis cogitationis insita:’ as if he \nwished to read ἔμφυτος in lieu of σύμφυτος. "
+  },
+  {
+   "page": 132,
+   "line": 8353,
+   "text": "88 Bekker’s text is τοῦ οὕτως\" ἔχειν we αὐτῷ φαίνεται, which I cannot understand. Opportunely then does one MS. offer αὐτὸ: for the author probably wrote, as I have translated, τοῦ ὄντως ἔχειν τι, ὡς αὐτὸ φαίνεται. Stephens’ version is “‘ Fides—persuasio, que res ita se habet, velut ipsi videtur,” which, to myself, is quite as unintelligible as the Greek. Ficinus, “ Fides, recta presumptio quod res sic se habet, ut sibi",
+   "raw": "88 Bekker’s text is τοῦ οὕτως\" ἔχειν we αὐτῷ φαίνεται, which I can- \nnot understand. Opportunely then does one MS. offer αὐτὸ: for the \nauthor probably wrote, as I have translated, τοῦ ὄντως ἔχειν τι, ὡς αὐτὸ \nφαίνεται. Stephens’ version is “‘ Fides—persuasio, que res ita se habet, \nvelut ipsi videtur,” which, to myself, is quite as unintelligible as the \nGreek. Ficinus, “ Fides, recta presumptio quod res sic se habet, ut sibi "
+  },
+  {
+   "page": 132,
+   "line": 8361,
+   "text": "videtur.” Corradus, “Fides, opinio recta rem ita, ut ipsi videtur, ha-_",
+   "raw": "videtur.” Corradus, “Fides, opinio recta rem ita, ut ipsi videtur, ha-_ "
+  },
+  {
+   "page": 132,
+   "line": 8364,
+   "text": "bere: certa veri comprehensio.”’ ®_° The author has evidently confounded πίστις, “ belief,’’ with πεστότης, ** fidelity.” ΄",
+   "raw": "bere: certa veri comprehensio.”’ \n®_° The author has evidently confounded πίστις, “ belief,’’ with πεσ- \nτότης, ** fidelity.” ΄ "
+  },
+  {
+   "page": 133,
+   "line": 8407,
+   "text": "1—1 Here again is another definition, which not even the author of it could have understood. For to say that Truth is a knowledge of things true is to say nothing, without previously defining what true things are. Moreover Truth could never be called a ἕξις, “ἃ habit or state of. the mind.” For it is the result of a discovery made by science from assertion and denial respecting what has been well said, in Greek, ᾿Αλήθεια εὕρεσις ἐν καταφάσει καὶ ἀποφάσει Ov ἐπιστήμην τῶν εὖ exOEvTwy'—which might have been corrupted into ᾿Αλήθεια ἕξις ἐν καταφάσει καὶ ἀποφάσει ἐπιστήμη ἀληθῶν᾽.---αἱ that it was so corrupted, is more than I dare assert. Ficinus, however, renders ’A\\jQea.by “ Veracitas,’’ i. 6. Truthfulness ; which will get rid of a part of the difficulty, but not of all.",
+   "raw": "1—1 Here again is another definition, which not even the author of it \ncould have understood. For to say that Truth is a knowledge of things \ntrue is to say nothing, without previously defining what true things are. \nMoreover Truth could never be called a ἕξις, “ἃ habit or state of. the \nmind.” For it is the result of a discovery made by science from assertion \nand denial respecting what has been well said, in Greek, ᾿Αλήθεια εὕρεσις \nἐν καταφάσει καὶ ἀποφάσει Ov ἐπιστήμην τῶν εὖ exOEvTwy'—which might \nhave been corrupted into ᾿Αλήθεια ἕξις ἐν καταφάσει καὶ ἀποφάσει ἐπισ- \nτήμη ἀληθῶν᾽.---αἱ that it was so corrupted, is more than I dare assert. \nFicinus, however, renders ’A\\jQea.by “ Veracitas,’’ i. 6. Truthfulness ; \nwhich will get rid of a part of the difficulty, but not of all. "
+  },
+  {
+   "page": 133,
+   "line": 8419,
+   "text": "? I have adopted ἐργασία ὁμοιότητος, found in one MS., in lieu of ἐργασίας ὁμοιότης. Ficinus too has ““ concentus operationum.” But Corradus—* actionis—similitudo.”",
+   "raw": "? I have adopted ἐργασία ὁμοιότητος, found in one MS., in lieu of \nἐργασίας ὁμοιότης. Ficinus too has ““ concentus operationum.” But \nCorradus—* actionis—similitudo.” "
+  },
+  {
+   "page": 133,
+   "line": 8423,
+   "text": "38 | must leave for others to explain the meaning of the words within the numerals as a definition of Order. Ficinus—‘‘ contemperatio ad percipiendum idonea.”’",
+   "raw": "38 | must leave for others to explain the meaning of the words with- \nin the numerals as a definition of Order. Ficinus—‘‘ contemperatio ad \npercipiendum idonea.”’ "
+  },
+  {
+   "page": 133,
+   "line": 8427,
+   "text": "* I have translated as if the Greek were κατάφασις, “ assertion,” not ἀπόφασις, “ denial’? Stephens—* sententia rata ’’—what the sense requires; but such is not the meaning of ἀπόφασις. So too Ficinus—“ rata pronunciatio.” Corradus—‘“ Judicium, eventus rei,de qua ambigebatur, ratus.”",
+   "raw": "* I have translated as if the Greek were κατάφασις, “ assertion,” not \nἀπόφασις, “ denial’? Stephens—* sententia rata ’’—what the sense re- \nquires; but such is not the meaning of ἀπόφασις. So too Ficinus—“ rata \npronunciatio.” Corradus—‘“ Judicium, eventus rei,de qua ambigebatur, \nratus.” "
+  },
+  {
+   "page": 133,
+   "line": 8433,
+   "text": "5—5 So I have translated ἀμφισβήτησις, for the sake of the sense.",
+   "raw": "5—5 So I have translated ἀμφισβήτησις, for the sake of the sense. "
+  },
+  {
+   "page": 134,
+   "line": 8476,
+   "text": "' Here χαρὰ, like ἀμφισβήτησις, has a pregnant sense; for it is not merely “ delight,” but “ the result of delight.”",
+   "raw": "' Here χαρὰ, like ἀμφισβήτησις, has a pregnant sense; for it is not \nmerely “ delight,” but “ the result of delight.” "
+  },
+  {
+   "page": 134,
+   "line": 8479,
+   "text": "2 1 have translated, as if the Greek were ἀντ᾽, not ἀπ᾽, which I can hardly understand. Corradus has—‘ dignitas ex virtute comparata.”",
+   "raw": "2 1 have translated, as if the Greek were ἀντ᾽, not ἀπ᾽, which I can \nhardly understand. Corradus has—‘ dignitas ex virtute comparata.” "
+  },
+  {
+   "page": 134,
+   "line": 8482,
+   "text": "’—8 Such seems to be the meaning of σχῆμα σεμνότητος, which will be best understood by turning to the Menexenus, § 2.",
+   "raw": "’—8 Such seems to be the meaning of σχῆμα σεμνότητος, which will \nbe best understood by turning to the Menexenus, § 2. "
+  },
+  {
+   "page": 134,
+   "line": 8485,
+   "text": "‘—* I hardly understand the words τήρησις ἀξιώματος as applied to τιμή. Stephens’ version is ‘‘ observatio dignitatum;” that of Ficinus— ‘* conservatio dignitatis ;” that of Corradus—“ autoritatis conservatio.”",
+   "raw": "‘—* I hardly understand the words τήρησις ἀξιώματος as applied to \nτιμή. Stephens’ version is ‘‘ observatio dignitatum;” that of Ficinus— \n‘* conservatio dignitatis ;” that of Corradus—“ autoritatis conservatio.” "
+  },
+  {
+   "page": 134,
+   "line": 8489,
+   "text": "5—® Stephens has, what the sense requires, ‘‘ declaratio voluntatis ad agendum ;”’ but that can scarcely be got from the Greek. Ficinus, still more widely—“ patens expeditio propositi ad res agendas.”” Corradus— ‘‘voluntatis ad agendum propter se significatio.”",
+   "raw": "5—® Stephens has, what the sense requires, ‘‘ declaratio voluntatis ad \nagendum ;”’ but that can scarcely be got from the Greek. Ficinus, still \nmore widely—“ patens expeditio propositi ad res agendas.”” Corradus— \n‘‘voluntatis ad agendum propter se significatio.” "
+  },
+  {
+   "page": 134,
+   "line": 8494,
+   "text": "‘—8 Instead of defining Eizopia by Εὐκρίνεια, one would have expected to see Evxpivera defined by Εὐπορία ; and so Corradus—* Perspicientia, facultas ejus, quod cogitatur, assequendi.”’ Cousin’s version is— Le succés dans la discussion vient du coup d’q@il sur qui domine une question:’’ and his note—‘ Peut-étre voudrait-il mieux entendre par εὐκρίνεια V art de faire des distinctions; car c’est avec des distinctions qu’on triomphe dans la discussion.”",
+   "raw": "‘—8 Instead of defining Eizopia by Εὐκρίνεια, one would have ex- \npected to see Evxpivera defined by Εὐπορία ; and so Corradus—* Per- \nspicientia, facultas ejus, quod cogitatur, assequendi.”’ Cousin’s version \nis— Le succés dans la discussion vient du coup d’q@il sur qui domine \nune question:’’ and his note—‘ Peut-étre voudrait-il mieux entendre \npar εὐκρίνεια V art de faire des distinctions; car c’est avec des distinc- \ntions qu’on triomphe dans la discussion.” "
+  },
+  {
+   "page": 134,
+   "line": 8502,
+   "text": "\" Here AoyiZouévov is used, contrary to custom, in a passive sense.",
+   "raw": "\" Here AoyiZouévov is used, contrary to custom, in a passive sense. "
+  },
+  {
+   "page": 135,
+   "line": 8545,
+   "text": "1 As ἀλήθεια, the Greek word for truth, would mean literally “ nonforgetfulness,” and as memory is “ non-forgetfulness,” perhaps ἀλήθεια ought to be taken here in its literal sense ; although such a meaning is not, I believe, given to ἀλήθεια elsewhere. The more correct definition of Μνήμη is in Suidas—7) τῶν πάλαι ἐγνωσμένων κατοχή, i. 6. “ the retention of what have been known of old.”",
+   "raw": "1 As ἀλήθεια, the Greek word for truth, would mean literally “ non- \nforgetfulness,” and as memory is “ non-forgetfulness,” perhaps ἀλήθεια \nought to be taken here in its literal sense ; although such a meaning is not, \nI believe, given to ἀλήθεια elsewhere. The more correct definition of \nΜνήμη is in Suidas—7) τῶν πάλαι ἐγνωσμένων κατοχή, i. 6. “ the reten- \ntion of what have been known of old.” "
+  },
+  {
+   "page": 135,
+   "line": 8552,
+   "text": "22 Since six MSS. read θεραπείας, and one re μνημῆς, perhaps the author wrote τῆς θεοῦ τημέλεια ἡ κατὰ φύσιν θεραπείας ---ἰ. 6. the natural care of the attention due to a deity.",
+   "raw": "22 Since six MSS. read θεραπείας, and one re μνημῆς, perhaps the \nauthor wrote τῆς θεοῦ τημέλεια ἡ κατὰ φύσιν θεραπείας ---ἰ. 6. the natural \ncare of the attention due to a deity. "
+  },
+  {
+   "page": 135,
+   "line": 8556,
+   "text": "3. By “not-hypothetical” is meant that which is founded on facts. Stephens’ version is, “ nullius certi argumenti,’”’ which would be strangely applied to a definition of wisdom. Ficinus more correctly—“ scientia, que nihil penitus praesupponit.” Corradus too—“ scientia non supposita.”",
+   "raw": "3. By “not-hypothetical” is meant that which is founded on facts. \nStephens’ version is, “ nullius certi argumenti,’”’ which would be strangely \napplied to a definition of wisdom. Ficinus more correctly—“ scientia, \nque nihil penitus praesupponit.” Corradus too—“ scientia non supposita.” "
+  },
+  {
+   "page": 135,
+   "line": 8561,
+   "text": "4,5 I have translated, as if the Greek were not τῶν ὄντων ἀεὶ, but τῶν ἀεὶ ὄντων, as in the preceding definition. In both places Corradus has —‘rerum divinarum.”",
+   "raw": "4,5 I have translated, as if the Greek were not τῶν ὄντων ἀεὶ, but τῶν \nἀεὶ ὄντων, as in the preceding definition. In both places Corradus has \n—‘rerum divinarum.” "
+  },
+  {
+   "page": 135,
+   "line": 8565,
+   "text": "*—§ So I have translated ἀμετάπτωτος, to preserve the idea of change conveyed by μετὰ---",
+   "raw": "*—§ So I have translated ἀμετάπτωτος, to preserve the idea of change \nconveyed by μετὰ--- "
+  },
+  {
+   "page": 135,
+   "line": 8568,
+   "text": "7? The words between the brackets are properly omitted in the three best MSS., for they are merely an explanation of the preceding sentence. They are, however, acknowledged by Ficinus and Corradus.",
+   "raw": "7? The words between the brackets are properly omitted in the three \nbest MSS., for they are merely an explanation of the preceding sentence. \nThey are, however, acknowledged by Ficinus and Corradus. "
+  },
+  {
+   "page": 136,
+   "line": 8597,
+   "text": "1 So I have translated ἐπὶ, although I have some doubts about the reading. Stephens’ version is—“ in mente,” similar to “in cogitatione,” in Ficinus and Corradus.",
+   "raw": "1 So I have translated ἐπὶ, although I have some doubts about the read- \ning. Stephens’ version is—“ in mente,” similar to “in cogitatione,” in \nFicinus and Corradus. "
+  },
+  {
+   "page": 136,
+   "line": 8601,
+   "text": "22 As in the case of ἀμετάπτωτος, so here in that of μεταπειστὺς, I have introduced the idea of a change to answer to wera—",
+   "raw": "22 As in the case of ἀμετάπτωτος, so here in that of μεταπειστὺς, I \nhave introduced the idea of a change to answer to wera— "
+  },
+  {
+   "page": 136,
+   "line": 8604,
+   "text": "3 How Opinion can be called “a rational impetus ’’ I cannot understand. One would have expected οὐ λογιστικὴ, for ov might have been easily lost after λόγον. Ficinus has—“ Opinio, cum fide per ratiocinationem rationis discursus,’’ from which it is difficult to discover what he found in his MS., except μετὰ πίστεως in lieu of μεταπειστός. Corradus avoids the difficulty by his version—“ ratiocinandi impetus.” :",
+   "raw": "3 How Opinion can be called “a rational impetus ’’ I cannot under- \nstand. One would have expected οὐ λογιστικὴ, for ov might have been \neasily lost after λόγον. Ficinus has—“ Opinio, cum fide per ratiocina- \ntionem rationis discursus,’’ from which it is difficult to discover what he \nfound in his MS., except μετὰ πίστεως in lieu of μεταπειστός. Corradus \navoids the difficulty by his version—“ ratiocinandi impetus.” : "
+  },
+  {
+   "page": 136,
+   "line": 8611,
+   "text": "4 Here again οὐ seems to have dropt out after ὑπὸ--- On the similar",
+   "raw": "4 Here again οὐ seems to have dropt out after ὑπὸ--- On the similar "
+  },
+  {
+   "page": 136,
+   "line": 8613,
+   "text": "loss of οὐ, I ‘have written not a little in the Specimens of Notes, appended to my translation of the Midian Oration of Demosthenes; and to the passages of Sophocles emended there I could now add not a few more. 5—5 Such is the literal translation of εἰς ὥρας ἀνθρώπων, by which was meant perhaps what we call in English, “ the periods of man’s life.?” Stephens’ version is—“ ad opportunitates hominum;”’ that of Ficinus— ‘in formas hominum.’”’ Corradus—‘“‘ ad extremas hominum partes.” Cousin—“ vers le monde exterieure ;”” and he adds in a note-—“ ΠῚ fant convenir que ὥρας ἀνθρώπων est une expression bien extraordinaire, et dont il est bien difficile de determiner le sens.” ba",
+   "raw": "loss of οὐ, I ‘have written not a little in the Specimens of Notes, ap- \npended to my translation of the Midian Oration of Demosthenes; and to \nthe passages of Sophocles emended there I could now add not a few \nmore. \n5—5 Such is the literal translation of εἰς ὥρας ἀνθρώπων, by which \nwas meant perhaps what we call in English, “ the periods of man’s life.?” \nStephens’ version is—“ ad opportunitates hominum;”’ that of Ficinus— \n‘in formas hominum.’”’ Corradus—‘“‘ ad extremas hominum partes.” \nCousin—“ vers le monde exterieure ;”” and he adds in a note-—“ ΠῚ fant \nconvenir que ὥρας ἀνθρώπων est une expression bien extraordinaire, et \ndont il est bien difficile de determiner le sens.” ba "
+  },
+  {
+   "page": 136,
+   "line": 8625,
+   "text": "5-α Ὑ confess my inability to understand the words between the brackets. For after γνωριστικὴ there is wanting something, to which that word ma’ be referred. Hence as one MS. has δι᾿ ἀνθρώπων, expressed by ov avy, in lieu of διὰ σώματος, perhaps the author τυτοίθ---γνωριστικὴ τῶν διὰ σώματος ibvrwy— having a cognizance of what is passing through the body :” with which may be compared the expression in the Phedrus, p. 250, D., τῶν διὰ σώματος αἰσθήσεων : or else in ἀνθρώπων lies hid aioθητηρίων. Compare Diogenes L. vii. 52, αἴσθησις λέγεται----ἡ περὶ τὰ αἰσθητήρια κατασκευὴ, καθ᾽ ἥν τινες πηροὶ γίνονται : where one would have expected to find πόροι, Anglice “pores,” as in Plutarch, quoted by Stephens in Thesaur. Gr., τῶν περὶ τὰ αἰσθητήρια πόρων. Corradus avoids the difficulty by translating γνωριστικὴ “ cognitionis particeps.””",
+   "raw": "5-α Ὑ confess my inability to understand the words between the brackets. \nFor after γνωριστικὴ there is wanting something, to which that word ma’ \nbe referred. Hence as one MS. has δι᾿ ἀνθρώπων, expressed by ov avy, \nin lieu of διὰ σώματος, perhaps the author τυτοίθ---γνωριστικὴ τῶν διὰ \nσώματος ibvrwy— having a cognizance of what is passing through the \nbody :” with which may be compared the expression in the Phedrus, p. \n250, D., τῶν διὰ σώματος αἰσθήσεων : or else in ἀνθρώπων lies hid aio- \nθητηρίων. Compare Diogenes L. vii. 52, αἴσθησις λέγεται----ἡ περὶ τὰ \nαἰσθητήρια κατασκευὴ, καθ᾽ ἥν τινες πηροὶ γίνονται : where one would \nhave expected to find πόροι, Anglice “pores,” as in Plutarch, quoted \nby Stephens in Thesaur. Gr., τῶν περὶ τὰ αἰσθητήρια πόρων. Corradus \navoids the difficulty by translating γνωριστικὴ “ cognitionis particeps.”” "
+  },
+  {
+   "page": 136,
+   "line": 8639,
+   "text": "2",
+   "raw": "2 "
+  },
+  {
+   "page": 137,
+   "line": 8668,
+   "text": "3. 5 Something similar is given as a definition in Diogenes L. vii. 56, Λέξις---φωνὴ ἐγγράμματος---λόγος δὲ φωνὴ σημαντική.",
+   "raw": "3. 5 Something similar is given as a definition in Diogenes L. vii. 56, \nΛέξις---φωνὴ ἐγγράμματος---λόγος δὲ φωνὴ σημαντική. "
+  },
+  {
+   "page": 137,
+   "line": 8671,
+   "text": "3. Ficinus has “‘sine harmonia cantus,” and so he renders shortly afterwards ἄνευ μέλους.",
+   "raw": "3. Ficinus has “‘sine harmonia cantus,” and so he renders shortly \nafterwards ἄνευ μέλους. "
+  },
+  {
+   "page": 137,
+   "line": 8674,
+   "text": "4—4 This is the literal translation of κατὰ with a genitive. What the sense requires is in the former sentence, περὶ: but what in the latter, I confess I do not know; for I cannot perceive what the author meant by παντὸς τοῦ μὴ καθ᾽ ἑαυτοῦ λεγομένου, unless it be something similar to what Aristotle says in Poetic, ᾧ 34, Ὄνομα ἐστὶ φωνὴ συνθετὴ, σημαντικὴ ἄνευ χρόνου, ἧς μέρος οὐδέν ἐστι καθ’ αὑτὸ σημαντικόν. Ficinus has ‘‘Nomen, dictio simplex, significativa ejus, quod secundum essentiam predicatur, et omnis quod secundum ipsum minime dicitur :’’. from which it would seem that he found in his MS. κατὰ τὴν οὐσίαν and καθ᾽ ἑαυτὸ: which last is read in one MS. collated by Bekker. Corradus has ** Nomen dictio simplex, que, cum id, quod de vi dicitur ea, quam οὐσίαν vocant, tum omne, quod non per se dicitur, significat.’’",
+   "raw": "4—4 This is the literal translation of κατὰ with a genitive. What the \nsense requires is in the former sentence, περὶ: but what in the latter, I \nconfess I do not know; for I cannot perceive what the author meant by \nπαντὸς τοῦ μὴ καθ᾽ ἑαυτοῦ λεγομένου, unless it be something similar to \nwhat Aristotle says in Poetic, ᾧ 34, Ὄνομα ἐστὶ φωνὴ συνθετὴ, σημαν- \nτικὴ ἄνευ χρόνου, ἧς μέρος οὐδέν ἐστι καθ’ αὑτὸ σημαντικόν. Ficinus \nhas ‘‘Nomen, dictio simplex, significativa ejus, quod secundum essen- \ntiam predicatur, et omnis quod secundum ipsum minime dicitur :’’. from \nwhich it would seem that he found in his MS. κατὰ τὴν οὐσίαν and καθ᾽ \nἑαυτὸ: which last is read in one MS. collated by Bekker. Corradus has \n** Nomen dictio simplex, que, cum id, quod de vi dicitur ea, quam οὐσίαν \nvocant, tum omne, quod non per se dicitur, significat.’’ "
+  },
+  {
+   "page": 137,
+   "line": 8687,
+   "text": "5 Although I have just above translated διάλεκτος “a form of language,” for the sake of the sense, yet here I have rendered it merely by “language,”’ for a similar reason.",
+   "raw": "5 Although I have just above translated διάλεκτος “a form of lan- \nguage,” for the sake of the sense, yet here I have rendered it merely by \n“language,”’ for a similar reason. "
+  },
+  {
+   "page": 137,
+   "line": 8691,
+   "text": "® How a syllable can be said to be an articulation of the human voice I cannot understand. It ought to have been defined, ‘“‘ a combination of letters expressed or not by the human voice.’’ But as Aristotle has defined it in Poetic, § 34, by φωνὴ ἄσημος, συνθετὴ ἐξ ἀφώνου καὶ φωνὴν ἔχοντος, one would have expected here, Συλλαβὴ ἀνθρωπίνης φωνῆς ἄσημος ἀρθμὸς ἐγγραμμάτου, i. 6. “a syllable is a combination without meaning of sounds of the human voice expressed by letters.’",
+   "raw": "® How a syllable can be said to be an articulation of the human voice \nI cannot understand. It ought to have been defined, ‘“‘ a combination of \nletters expressed or not by the human voice.’’ But as Aristotle has de- \nfined it in Poetic, § 34, by φωνὴ ἄσημος, συνθετὴ ἐξ ἀφώνου καὶ φωνὴν \nἔχοντος, one would have expected here, Συλλαβὴ ἀνθρωπίνης φωνῆς \nἄσημος ἀρθμὸς ἐγγραμμάτου, i. 6. “a syllable is a combination without \nmeaning of sounds of the human voice expressed by letters.’ "
+  },
+  {
+   "page": 137,
+   "line": 8699,
+   "text": "7 T have followed Twining on Aristotle’s Poetics, δ: 34, in translating λόγος “a sentence.”",
+   "raw": "7 T have followed Twining on Aristotle’s Poetics, δ: 34, in translating \nλόγος “a sentence.” "
+  },
+  {
+   "page": 137,
+   "line": 8702,
+   "text": "‘—* To avoid the ὕστερον πρότερον in διαφορᾶς and yévouc—for the genus should be mentioned before that which differs from it—Stephens has, after Ficinus, rendered, “ex genere et differentia.”” There is a better definition in Diogenes L. vii. 60.",
+   "raw": "‘—* To avoid the ὕστερον πρότερον in διαφορᾶς and yévouc—for the \ngenus should be mentioned before that which differs from it—Stephens \nhas, after Ficinus, rendered, “ex genere et differentia.”” There is a \nbetter definition in Diogenes L. vii. 60. "
+  },
+  {
+   "page": 138,
+   "line": 8746,
+   "text": "3. 35 Here, again, I am quite ignorant of the meaning of the words between the numerals; where I have designedly translated φωνὴ by “a vocal sound,’’ not merely ‘‘a voice.”",
+   "raw": "3. 35 Here, again, I am quite ignorant of the meaning of the words be- \ntween the numerals; where I have designedly translated φωνὴ by “a \nvocal sound,’’ not merely ‘‘a voice.” "
+  },
+  {
+   "page": 138,
+   "line": 8750,
+   "text": "44 Instead of καλὸν τὸ ἀγαθὸν, Stephens would seem to have wished to read Καλοκάγαθὸν, τὸ ἀγαθόν, for his version is “ Honestum et pulchrum est bonum.”",
+   "raw": "44 Instead of καλὸν τὸ ἀγαθὸν, Stephens would seem to have wished \nto read Καλοκάγαθὸν, τὸ ἀγαθόν, for his version is “ Honestum et pul- \nchrum est bonum.” "
+  },
+  {
+   "page": 138,
+   "line": 8754,
+   "text": "5—5 Here too I am at a loss; and so too, I think, was Stephens; whose version is, ‘‘ Bonum est causa salutis his, que sunt causa cujusvis, quod ad ipsum refertur; a quo contingit electio eorum, que conveniunt.’’ Ficinus more closely, but not more intelligibly, ‘‘ Bonum, quod in omnibus, que sunt, salutis est causa; causa omnis, quod ad ipsum tendit id, a quo veniunt quecunque sunt eligenda.”’ Corradus, “ Bonum, causa ut ea, que sunt, serventur; causa rei omnis que spectat ad ipsum, a quo proficiscuntur omnia, que sunt eligenda.”’",
+   "raw": "5—5 Here too I am at a loss; and so too, I think, was Stephens; \nwhose version is, ‘‘ Bonum est causa salutis his, que sunt causa cujus- \nvis, quod ad ipsum refertur; a quo contingit electio eorum, que conve- \nniunt.’’ Ficinus more closely, but not more intelligibly, ‘‘ Bonum, quod \nin omnibus, que sunt, salutis est causa; causa omnis, quod ad ipsum \ntendit id, a quo veniunt quecunque sunt eligenda.”’ Corradus, “ Bonum, \ncausa ut ea, que sunt, serventur; causa rei omnis que spectat ad ipsum, \na quo proficiscuntur omnia, que sunt eligenda.”’ "
+  },
+  {
+   "page": 138,
+   "line": 8763,
+   "text": "® As Bekker has edited αὑτοῦ from one MS. in lieu of αὐτὸ, he should have inserted from conjecture, δι’ before αὑτοῦ, for the sake of the syntax and sense. Stephens’ version is, “\" Voluntarium idem est quod blandum et illectans :” where προσαγωγὸν is taken in an active sense; and so it is in the version of Ficinus, “ Voluntarium quod se ipsum ducit ;”” and of Corradus, “quod se ipsum insinuat.”",
+   "raw": "® As Bekker has edited αὑτοῦ from one MS. in lieu of αὐτὸ, he should \nhave inserted from conjecture, δι’ before αὑτοῦ, for the sake of the \nsyntax and sense. Stephens’ version is, “\" Voluntarium idem est quod \nblandum et illectans :” where προσαγωγὸν is taken in an active sense; \nand so it is in the version of Ficinus, “ Voluntarium quod se ipsum \nducit ;”” and of Corradus, “quod se ipsum insinuat.” "
+  },
+  {
+   "page": 138,
+   "line": 8770,
+   "text": "*—\" 1 have translated as if the Greek were not κατὰ, but καὶ τὸ κατὰ, to which τὸ καὶ in five MSS. and τὸ κατὰ in two manifestly lead.",
+   "raw": "*—\" 1 have translated as if the Greek were not κατὰ, but καὶ τὸ κατὰ, \nto which τὸ καὶ in five MSS. and τὸ κατὰ in two manifestly lead. "
+  },
+  {
+   "page": 138,
+   "line": 8774,
+   "text": "Ficinus has “ quod cogitationem perficit,” as if his MS. read τὸ διάνοια: διατελοῦν.",
+   "raw": "Ficinus has “ quod cogitationem perficit,” as if his MS. read τὸ διάνοια: \nδιατελοῦν. "
+  },
+  {
+   "page": 139,
+   "line": 8810,
+   "text": "1 I must leave for others to explain this reference to art in a definition of Moderation..",
+   "raw": "1 I must leave for others to explain this reference to art in a definition \nof Moderation.. "
+  },
+  {
+   "page": 139,
+   "line": 8813,
+   "text": "_ 2_? Corradus—“ natura, que οὐσία dicitur, animata.”” But as four MSS. offer ἐμψύχου in lieu of ἔμψυχος, perhaps the true reading is ᾿Αθανασία, οὐσίας ἐμψύχου ἡ ἀΐδιος porn, “ Immortality, the remaining for ever of an existence endowed with soul :’”’ where ἡ has been corrupted ~ into καὶ by a very common confusion.",
+   "raw": "_ 2_? Corradus—“ natura, que οὐσία dicitur, animata.”” But as four \nMSS. offer ἐμψύχου in lieu of ἔμψυχος, perhaps the true reading is \n᾿Αθανασία, οὐσίας ἐμψύχου ἡ ἀΐδιος porn, “ Immortality, the remaining \nfor ever of an existence endowed with soul :’”’ where ἡ has been corrupted \n~ into καὶ by a very common confusion. "
+  },
+  {
+   "page": 139,
+   "line": 8819,
+   "text": "3. 3 This is the celebrated definition of Plato; who, after he had described man as a wingless and biped animal, was induced to add another word; πλατυώνυχον, “with wide nails,’ after Diogenes the Cynic. had taken a cock, and stripping it of its feathers, cried out—‘ Behold Plato’s Man.” The story is told by Diogenes Laertius, vi. 40. In lieu, however, of πλατυώνυχος, which would be more applicable to an elephant or an aquatic bird, one would have expected to hear that Plato’s word was πολυώνυχος, in allusion to the twenty nails found on the feet and hands of a man.",
+   "raw": "3. 3 This is the celebrated definition of Plato; who, after he had de- \nscribed man as a wingless and biped animal, was induced to add another \nword; πλατυώνυχον, “with wide nails,’ after Diogenes the Cynic. had \ntaken a cock, and stripping it of its feathers, cried out—‘ Behold Plato’s \nMan.” The story is told by Diogenes Laertius, vi. 40. In lieu, how- \never, of πλατυώνυχος, which would be more applicable to an elephant or \nan aquatic bird, one would have expected to hear that Plato’s word was \nπολυώνυχος, in allusion to the twenty nails found on the feet and hands \nof a man. "
+  },
+  {
+   "page": 139,
+   "line": 8829,
+   "text": "* Here is the Alexandriné word δόμα, to which I have alluded in the Introduction, as furnishing internal evidence that these’Definitions were written long after the time of Speusippus.",
+   "raw": "* Here is the Alexandriné word δόμα, to which I have alluded in the \nIntroduction, as furnishing internal evidence that these’Definitions were \nwritten long after the time of Speusippus. "
+  },
+  {
+   "page": 139,
+   "line": 8833,
+   "text": "5 To avoid the absurdity of saying that a sacrifice is the gift of a sacrifice—for such is the ordinary meaning of θῦμα---Ἰ have translated θῦμα by “victim.” Some would, however, prefer perhaps to read θυσία, θνητοῦ δόμα ἀθανάτοις in lieu of Θυσία, θεῷ δόμα θύματος. Corradus has— ** Sacrificium, donum ad rem sacram deo dicatum.”",
+   "raw": "5 To avoid the absurdity of saying that a sacrifice is the gift of a sacri- \nfice—for such is the ordinary meaning of θῦμα---Ἰ have translated θῦμα by \n“victim.” Some would, however, prefer perhaps to read θυσία, θνητοῦ \nδόμα ἀθανάτοις in lieu of Θυσία, θεῷ δόμα θύματος. Corradus has— \n** Sacrificium, donum ad rem sacram deo dicatum.” "
+  },
+  {
+   "page": 139,
+   "line": 8839,
+   "text": "6_6 | have translated as if the Greek were not αἴτησις ἀνθρώποις --- παρὰ θεοῖς, where both the datives are without regimen, but αἴτησις ἀπ᾽ ἀνθρώπου---παρὰ VeGv—where θεῶν is due to one MS.",
+   "raw": "6_6 | have translated as if the Greek were not αἴτησις ἀνθρώποις --- \nπαρὰ θεοῖς, where both the datives are without regimen, but αἴτησις ἀπ᾽ \nἀνθρώπου---παρὰ VeGv—where θεῶν is due to one MS. "
+  },
+  {
+   "page": 139,
+   "line": 8843,
+   "text": "7—’ A similar definition in Diogenes L. vii. 122.",
+   "raw": "7—’ A similar definition in Diogenes L. vii. 122. "
+  },
+  {
+   "page": 140,
+   "line": 8896,
+   "text": "“ Licentia, legis concessio,’’ a meaning that ἐπιτροπὴ would hardly bear. _Corradus—“ Potestas, legis procuratio.”” Perhaps the correct reading is ἀποτροπὴ, “a turning aside from law.”",
+   "raw": "“ Licentia, legis concessio,’’ a meaning that ἐπιτροπὴ would hardly bear. \n_Corradus—“ Potestas, legis procuratio.”” Perhaps the correct reading is \nἀποτροπὴ, “a turning aside from law.” "
+  },
+  {
+   "page": 140,
+   "line": 8900,
+   "text": "? Such seems to be the meaning intended by περιποίησις ἀβλαβής: where, however, one would prefer ἀβλαβείας ; and so perhaps Ficinus found in his ΜΆ. ; for his version is—‘‘ Salus, munitio ab omni damno secura.”” Corradus—“ Salus, securi status comparatio.”’",
+   "raw": "? Such seems to be the meaning intended by περιποίησις ἀβλαβής: \nwhere, however, one would prefer ἀβλαβείας ; and so perhaps Ficinus \nfound in his ΜΆ. ; for his version is—‘‘ Salus, munitio ab omni damno \nsecura.”” Corradus—“ Salus, securi status comparatio.”’ "
+  },
+  {
+   "page": 140,
+   "line": 8905,
+   "text": "%—8 This very definition of a Sophist is found in Sophist, § 17, p. 223, B., and § 36, p. 231, D. From the first passage I have introduced καὶ before ἐνδόξων. So too Ficinus—“ nobilium atque divitum ;” and Corradus—“ et gloriosos.”’",
+   "raw": "%—8 This very definition of a Sophist is found in Sophist, § 17, p. 223, \nB., and § 36, p. 231, D. From the first passage I have introduced καὶ \nbefore ἐνδόξων. So too Ficinus—“ nobilium atque divitum ;” and Cor- \nradus—“ et gloriosos.”’ "
+  },
+  {
+   "page": 140,
+   "line": 8910,
+   "text": "if Here again we meet with δόμα, where Attic Greek would require",
+   "raw": "if Here again we meet with δόμα, where Attic Greek would require "
+  },
+  {
+   "page": 140,
+   "line": 8912,
+   "text": "σις. ,",
+   "raw": "σις. , "
+  },
+  {
+   "page": 140,
+   "line": 8914,
+   "text": "° The expression—“ a gift with faith,” is strangely applied as the definition ofa deposit. One would have expected διὰ πίστεως ---“ through faith,” in the honesty of the party receiving the deposit.",
+   "raw": "° The expression—“ a gift with faith,” is strangely applied as the de- \nfinition ofa deposit. One would have expected διὰ πίστεως ---“ through \nfaith,” in the honesty of the party receiving the deposit. "
+  },
+  {
+   "page": 141,
+   "line": 8943,
+   "text": "1 Ficinus seems to have found in his MS. τὸν διαφερόμενον : for his version is “ adversarium.”",
+   "raw": "1 Ficinus seems to have found in his MS. τὸν διαφερόμενον : for his \nversion is “ adversarium.” "
+  },
+  {
+   "page": 141,
+   "line": 8946,
+   "text": "3 Here, as before, I have translated σπουδαῖος by “‘ steady.”",
+   "raw": "3 Here, as before, I have translated σπουδαῖος by “‘ steady.” "
+  },
+  {
+   "page": 141,
+   "line": 8948,
+   "text": "3... 9 Stephens, not perceiving that Σύννοια means here ‘“ Conscience,” thus renders incorrectly the whole definition—‘‘ Meditatio est cogitatio cum dolore, absque ratione.””» Ficinus has—‘*‘ Conscientia, cogitatio tristis absque ratiocinatione.” But the sense evidently requires — “ not without reason ””—in Greek οὐκ ἄνευ λόγου, or else ‘ without speaking;” for Conscience has a still voice; so Corradus—* Conscientia, tacita cum meerore cogitatio.”",
+   "raw": "3... 9 Stephens, not perceiving that Σύννοια means here ‘“ Conscience,” \nthus renders incorrectly the whole definition—‘‘ Meditatio est cogitatio \ncum dolore, absque ratione.””» Ficinus has—‘*‘ Conscientia, cogitatio tris- \ntis absque ratiocinatione.” But the sense evidently requires — “ not \nwithout reason ””—in Greek οὐκ ἄνευ λόγου, or else ‘ without speaking;” \nfor Conscience has a still voice; so Corradus—* Conscientia, tacita cum \nmeerore cogitatio.” "
+  },
+  {
+   "page": 141,
+   "line": 8956,
+   "text": "4 This seems the exact rendering of δεσποτεία, not ‘ despotism.”",
+   "raw": "4 This seems the exact rendering of δεσποτεία, not ‘ despotism.” "
+  },
+  {
+   "page": 141,
+   "line": 8958,
+   "text": "5. Here again Stephens has missed the meaning of μισολόγος, as shown by his version—“‘ eruditionis et doctrine osor est.’? Ficinus correctly— “rationes odit.’’ Corradus, too, ‘‘ rationem odit.’’",
+   "raw": "5. Here again Stephens has missed the meaning of μισολόγος, as shown \nby his version—“‘ eruditionis et doctrine osor est.’? Ficinus correctly— \n“rationes odit.’’ Corradus, too, ‘‘ rationem odit.’’ "
+  },
+  {
+   "page": 141,
+   "line": 8962,
+   "text": "‘—6 A similar definition in Aristotle’s Rhetor. § 5, 1.",
+   "raw": "‘—6 A similar definition in Aristotle’s Rhetor. § 5, 1. "
+  },
+  {
+   "page": 141,
+   "line": 8964,
+   "text": "7—? Such is the unintelligible English of the unintelligible Greek— νοῦς τάξεως ψυχῆς ἀλογίστου. Stephens’ version is— Animi concitatio est impetus violentus anime irrationalis, absque ratione et ordine mentis,” as if he wished to read the whole definition thus—Ovupoc, ὁρμὴ βίαιος ψυχῆς ἀλογίστου ἄνευ λογισμοῦ vod τε τάξεως : at least Ficinus found this in this MS., as is evident from his version—‘‘ Animositas, impetus violentus irrationalis anime absque ratione et ordine mentis.’’ Corradus has—“ Iracundia, appetitio sine cogitatione vehemens et vio-",
+   "raw": "7—? Such is the unintelligible English of the unintelligible Greek— \nνοῦς τάξεως ψυχῆς ἀλογίστου. Stephens’ version is— Animi concita- \ntio est impetus violentus anime irrationalis, absque ratione et ordine \nmentis,” as if he wished to read the whole definition thus—Ovupoc, ὁρμὴ \nβίαιος ψυχῆς ἀλογίστου ἄνευ λογισμοῦ vod τε τάξεως : at least Ficinus \nfound this in this MS., as is evident from his version—‘‘ Animositas, im- \npetus violentus irrationalis anime absque ratione et ordine mentis.’’ \nCorradus has—“ Iracundia, appetitio sine cogitatione vehemens et vio- "
+  },
+  {
+   "page": 141,
+   "line": 8973,
+   "text": "enta: significatio ordinis in animo perturbati.”",
+   "raw": "enta: significatio ordinis in animo perturbati.” "
+  },
+  {
+   "page": 141,
+   "line": 8975,
+   "text": "8_8 By comparing the definitions of Fear and Consternation it would seem the two words were synonymous. The Stoics, however, made a distinction, as we learn from Diogenes L, vii. 112, by whom Φόβος was",
+   "raw": "8_8 By comparing the definitions of Fear and Consternation it would \nseem the two words were synonymous. The Stoics, however, made a \ndistinction, as we learn from Diogenes L, vii. 112, by whom Φόβος was "
+  },
+  {
+   "page": 142,
+   "line": 9028,
+   "text": "38 A similar definition in Diogenes L. vii. 112, Ὄκνος, φόβος perλούσης ἐνεργείας.",
+   "raw": "38 A similar definition in Diogenes L. vii. 112, Ὄκνος, φόβος per- \nλούσης ἐνεργείας. "
+  },
+  {
+   "page": 142,
+   "line": 9031,
+   "text": "* T have introduced the words between the lunes to complete the sense. Stephens’ version is—‘* Timiditas est affectio, que percipit impetum.” But such a definition is applicable to Forethought as well as Cowardice. Ficinus has—* Pigritia, fuga laborum, qui ex gubernando proveniunt ;” where he took ἀρχὴ in the sense of “ government,’ not “ commencement.” :",
+   "raw": "* T have introduced the words between the lunes to complete the sense. \nStephens’ version is—‘* Timiditas est affectio, que percipit impetum.” \nBut such a definition is applicable to Forethought as well as Cowardice. \nFicinus has—* Pigritia, fuga laborum, qui ex gubernando proveniunt ;” \nwhere he took ἀρχὴ in the sense of “ government,’ not “ commence- \nment.” : "
+  },
+  {
+   "page": 142,
+   "line": 9038,
+   "text": "5- For this part of the definition we are indebted to a solitary MS. that offers αἰτία συστολῆς : where συστολὴ is used as in Diogenes L. vii. 111, λυπὴν εἶναι συστολὴν ἄλογον.",
+   "raw": "5- For this part of the definition we are indebted to a solitary MS. \nthat offers αἰτία συστολῆς : where συστολὴ is used as in Diogenes L. vii. \n111, λυπὴν εἶναι συστολὴν ἄλογον. "
+  },
+  {
+   "page": 142,
+   "line": 9042,
+   "text": "56. On the word ἀρχὴ, found, it would seem, in none of the MSS. examined by Bekker, Stephens remarks that he has translated as if ἀρχὴ had dropt out. He got the idea from Ficinus, who has—‘ Timiditas, prima causa subcurrentis impetus,’ as if he had found in his MS., Δειλία, ὁρμὴν πρώτη τοῦ εἶναι αἰτία, without ἀντιληπτικῆ. Corradus— “ Ignavia, causa prima rei alicujus appetitionem faciende reprimens.”",
+   "raw": "56. On the word ἀρχὴ, found, it would seem, in none of the MSS. ex- \namined by Bekker, Stephens remarks that he has translated as if ἀρχὴ \nhad dropt out. He got the idea from Ficinus, who has—‘ Timiditas, \nprima causa subcurrentis impetus,’ as if he had found in his MS., \nΔειλία, ὁρμὴν πρώτη τοῦ εἶναι αἰτία, without ἀντιληπτικῆ. Corradus— \n“ Ignavia, causa prima rei alicujus appetitionem faciende reprimens.” "
+  },
+  {
+   "page": 142,
+   "line": 9050,
+   "text": "’—1 Corradus has rather strangely—* Disputatio, amicorum in sermone dissensio.”’ t",
+   "raw": "’—1 Corradus has rather strangely—* Disputatio, amicorum in ser- \nmone dissensio.”’ t "
+  },
+  {
+   "page": 143,
+   "line": 9116,
+   "text": "4—4 Such is the version of νόσος τοῦ κατὰ φύσιν, which is equally unintelligible in Greek, and in English, and in the Latin of Ficinus and Stephens, “‘morbus ejus quod est secundum naturam,”’ and of Corradus, ‘*morbus in natura insitus.”’",
+   "raw": "4—4 Such is the version of νόσος τοῦ κατὰ φύσιν, which is equally \nunintelligible in Greek, and in English, and in the Latin of Ficinus and \nStephens, “‘morbus ejus quod est secundum naturam,”’ and of Corradus, \n‘*morbus in natura insitus.”’ "
+  },
+  {
+   "page": 143,
+   "line": 9121,
+   "text": "5—5 In lieu of εὐπαγὴς three MSS. offer ἀπαθὴς, one ἀγαθοῦ, and one ἀγαθῆς. By selecting from all what seems to be the best suited to the",
+   "raw": "5—5 In lieu of εὐπαγὴς three MSS. offer ἀπαθὴς, one ἀγαθοῦ, and one \nἀγαθῆς. By selecting from all what seems to be the best suited to the "
+  },
+  {
+   "page": 144,
+   "line": 9148,
+   "text": "1—1! These two definitions are thus separated in the version of Ficinus, “Potestas, excellentia in agendis seu dicendis; habitus, quo potentes efficimur. Robur, vis unum quidque in natura servans eo, quod detri-",
+   "raw": "1—1! These two definitions are thus separated in the version of Ficinus, \n“Potestas, excellentia in agendis seu dicendis; habitus, quo potentes \nefficimur. Robur, vis unum quidque in natura servans eo, quod detri- "
+  }
+ ]
+}

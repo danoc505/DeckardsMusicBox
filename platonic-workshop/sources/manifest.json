@@ -229,7 +229,7 @@
     },
     {
       "id": "burges-1854",
-      "title": "The Works of Plato, vol. VI, translated by George Burges (London: Henry G. Bohn, 1854), OCR text: the Life of Plato by Diogenes Laertius and the Introduction of Albinus",
+      "title": "The Works of Plato, vol. VI, translated by George Burges (London: Henry G. Bohn, 1854), OCR text: the Life of Plato by Diogenes Laertius, the Introduction of Albinus, Alcinous' handbook and the Definitions",
       "kind": "local",
       "path": "sources/burges-1854",
       "urls": ["https://archive.org/details/worksofplatonewl06platiala"],
@@ -237,7 +237,7 @@
       "language": "eng",
       "citation_scheme": "Diogenes Laertius by the section numbers printed in brackets, [57.]; Albinus by chapter, [1.] to [9.]",
       "licence": "Public domain",
-      "provenance": "Internet Archive 'djvu.txt' OCR of the University of California copy, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Unproofread. Read into texts/ancient/ by tools/ancient.py (milestone 9).",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of California copy, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Unproofread. Read into texts/ancient/ by tools/ancient.py (milestone 9; Alcinous and the Definitions, milestone 10).",
       "status": "local"
     },
     {
@@ -255,7 +255,7 @@
     },
     {
       "id": "hermann-appendix",
-      "title": "Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; Appendix Platonica), OCR text: the Greek of Albinus' Prologue and of the Anonymous Prolegomena",
+      "title": "Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; Appendix Platonica), OCR text: the Greek of Albinus' Prologue, the Anonymous Prolegomena, the Definitions and the Scholia Platonica",
       "kind": "local",
       "path": "sources/hermann-appendix",
       "urls": ["https://archive.org/details/platonisdialogi06plat"],
@@ -263,7 +263,7 @@
       "language": "grc",
       "citation_scheme": "Hermann's page numbers",
       "licence": "Public domain",
-      "provenance": "Internet Archive 'djvu.txt' OCR, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Unproofread Greek OCR. No public-domain English of the Prolegomena exists (Westerink's of 1962 is in copyright). Read into texts/ancient/ by tools/ancient.py (milestone 9).",
+      "provenance": "Internet Archive 'djvu.txt' OCR, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Unproofread Greek OCR. No public-domain English of the Prolegomena exists (Westerink's of 1962 is in copyright). Read into texts/ancient/ by tools/ancient.py (milestone 9; the Definitions, milestone 10). The scholia are read into texts/commentary/<dialogue>/scholia-hermann.json by tools/scholia.py (milestone 10).",
       "status": "local"
     }
   ]

@@ -22,7 +22,7 @@ const wholeHash = (id) => { const w = workById(id); return "#" + (w ? w.slug : i
 const refSpan = (w, a, b) => `<a href="${esc(placeHash(w, a))}">${esc(a)}</a>${b && b !== a ? `–<a href="${esc(placeHash(w, b))}">${esc(b)}</a>` : ""}`;
 
 function setView(cls) {
-  document.body.classList.remove("searching", "discussing", "whole-view", "corpus-view");
+  document.body.classList.remove("searching", "discussing", "whole-view", "corpus-view", "concepts-view");
   if (cls) document.body.classList.add(cls);
   closeInspector();
 }
@@ -302,10 +302,12 @@ function renderTocWhole(w, curRefs) {
   const sn = (w.sidenotes || []).filter((c) => inside(c.start_ref, c.end_ref));
   const th = (w.themes || []).filter((c) => inside(c.start_ref, c.end_ref));
   let h = `<h3>Where you are in the whole</h3>`;
-  if (!ch.length && !sn.length && !th.length) h += `<p class="note">No printed division or myth is marked on this page.</p>`;
+  const cs = renderTocConcepts(w, inside);
+  if (!ch.length && !sn.length && !th.length && !cs) h += `<p class="note">No printed division, myth or concept passage is marked on this page.</p>`;
   h += ch.map((c) => `<p class="note"><b>${esc(c.author)}, ${esc(c.label)}</b> (${esc(c.start_ref)}–${esc(c.end_ref)}): ${esc(c.detail.length > 220 ? c.detail.slice(0, 219) + "…" : c.detail)}</p>`).join("");
   h += sn.length ? `<ul class="note sidenotes">${sn.slice(0, 8).map((s) => `<li>${esc(s.label)} <span class="meta">Jowett, ${esc(s.start_ref)}</span></li>`).join("")}</ul>` : "";
   h += th.map((t) => `<p class="note">${esc(t.kind === "myth" ? "Myth" : "Image")}: <a href="#corpus?show=theme:${esc(t.id)}">${esc(t.label)}</a> (${esc(t.start_ref)}–${esc(t.end_ref)})</p>`).join("");
+  h += cs;
   h += `<p class="note"><a href="${esc(wholeHash(w.id))}">The ${esc(w.title)} as a whole</a> · <a href="#corpus">the corpus map</a></p>`;
   return h;
 }

@@ -48,7 +48,7 @@ for _d in sorted((ROOT / "texts" / "commentary").glob("*/")):
         WORK_DIRS.setdefault(json.loads(_f.read_text(encoding="utf-8"))["work"], _d.name)
 
 SOURCE_OF = {"taylor-1804": "taylor-1804", "proclus-1820": "proclus-1820", "archer-hind-1888": "archer-hind-1888",
-             "jowett-timaeus": "jowett-timaeus"}
+             "jowett-timaeus": "jowett-timaeus", "hermann-appendix": "hermann-appendix"}
 
 
 def load(work_id):
@@ -326,6 +326,20 @@ def place_greek_lemmata(text, notes):
     return out
 
 
+def printed_place(n, sections, seq_of, prev_ref):
+    """(section, computed, detail) for a note placed at the Stephanus page and letter printed
+    over it (the scholia). A letter the page lacks gives the last section of the page before it."""
+    ref = n.get("page_steph")
+    how = n.get("page_how")
+    if ref in seq_of:
+        return ref, 1 if how else 0, f"Placed at {ref}, the page and letter printed" + (f" ({how})." if how else ".")
+    page = re.match(r"\d+", ref or "")
+    on_page = [r for r in sections if page and re.match(r"\d+", r).group(0) == page.group(0) and r <= ref]
+    if on_page:
+        return on_page[-1], 1, f"{ref} is printed, but Burnet's text has no such section; placed at {on_page[-1]}" + (f" ({how})." if how else ".")
+    return prev_ref, 1, f"{ref} is printed, but is not a page of this dialogue in Burnet's text; placed with the note before."
+
+
 def build_commentaries(db, work_id):
     docs = load(work_id)
     if not docs:
@@ -340,10 +354,15 @@ def build_commentaries(db, work_id):
         add_commentary(db, doc, work_id)
         st = stats.setdefault(doc["id"], {"label": doc["label"], "notes": 0, "whole dialogue": 0, "words exact": 0,
                                           "words partial": 0, "not found": 0, "computed": 0, "with its note": 0,
-                                          "found in Taylor": 0})
+                                          "found in Taylor": 0, **({"placed as printed": 0} if doc.get("place_by") == "printed" else {})})
         id_of = {}
         prev_ref = first
-        greek_hits = place_greek_lemmata(greek_text, [n for n in doc["notes"] if n.get("lemma_lang") == "grc"])
+        greek_notes = [n for n in doc["notes"] if n.get("lemma_lang") == "grc"]
+        if doc.get("ocr_theta"):
+            # Hermann's Teubner prints θ as ϑ, which the reading of Archer-Hind's OCR takes for δ.
+            greek_notes = [dict(n, lemma=n["lemma"].replace("ϑ", "θ")) for n in greek_notes]
+        greek_hits = place_greek_lemmata(greek_text, greek_notes)
+        quoter = doc.get("quoter", "Archer-Hind")
         for n in sorted(doc["notes"], key=lambda x: (x["kind"] == "footnote", x["seq"])):
             st["notes"] += 1
             if n["kind"] == "footnote":
@@ -363,7 +382,7 @@ def build_commentaries(db, work_id):
                 continue
             if n.get("lemma_lang") == "grc":
                 hit = greek_hits.get(n["id"])
-                words = greek_text.lemma_words(n["lemma"])
+                words = greek_text.lemma_words(n["lemma"].replace("ϑ", "θ") if doc.get("ocr_theta") else n["lemma"])
                 if hit:
                     a, b, matched, kind = hit
                     ta, tb = greek_text.toks[a], greek_text.toks[b]
@@ -371,11 +390,19 @@ def build_commentaries(db, work_id):
                             "method": "quoted Greek found word for word (accents ignored)" if kind == "exact"
                             else f"quoted Greek found in part ({matched} of {len(words)} words)"}
                     computed = kind != "exact"
-                    detail = (f"Archer-Hind quotes {n['lemma']!r}; found {'word for word' if kind == 'exact' else 'in part'} "
+                    detail = (f"{quoter} quotes {n['lemma']!r}; found {'word for word' if kind == 'exact' else 'in part'} "
                               f"in Burnet's text at {ta[0]}: " + " ".join(t[2] for t in greek_text.toks[a:b + 1]) + ".")
                     id_of[n["id"]] = add_note(db, doc, n, work_id, ta[0], tb[0], "quoted Greek", detail, computed, word)
                     prev_ref = ta[0]
                     st["words exact" if kind == "exact" else "words partial"] += 1
+                    st["computed"] += computed
+                elif doc.get("place_by") == "printed":
+                    ref, computed, detail = printed_place(n, sections, seq_of, prev_ref)
+                    detail = f"{quoter} quotes {n['lemma']!r}; not found in Burnet's text near the place printed. " + detail
+                    id_of[n["id"]] = add_note(db, doc, n, work_id, ref, ref, "printed reference", detail, computed)
+                    prev_ref = ref
+                    st["not found"] += 1
+                    st["placed as printed"] += 1
                     st["computed"] += computed
                 else:
                     ref = prev_ref
@@ -384,6 +411,13 @@ def build_commentaries(db, work_id):
                     id_of[n["id"]] = add_note(db, doc, n, work_id, ref, ref, "quoted Greek", detail, 1)
                     st["not found"] += 1
                     st["computed"] += 1
+                continue
+            if doc.get("place_by") == "printed":
+                ref, computed, detail = printed_place(n, sections, seq_of, prev_ref)
+                id_of[n["id"]] = add_note(db, doc, n, work_id, ref, ref, "printed reference", "No words of Plato quoted. " + detail, computed)
+                prev_ref = ref
+                st["placed as printed"] += 1
+                st["computed"] += computed
                 continue
             # A quotation of Taylor's translation.
             if taylor is None:

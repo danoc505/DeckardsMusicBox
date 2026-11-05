@@ -93,6 +93,9 @@ class Library:
         w["sidenotes"] = self.rows("SELECT label, start_ref, end_ref, author, precision FROM division WHERE work_id = ? AND kind = 'sidenote' ORDER BY seq", work_id)
         w["themes"] = self.rows("SELECT t.id, t.label, t.kind, p.n, p.start_ref, p.end_ref FROM theme_passage p JOIN theme t ON t.id = p.theme_id "
                                 "WHERE p.work_id = ? ORDER BY p.start_ref", work_id)
+        # Milestone 10: the concept index's passages in this dialogue.
+        w["concepts"] = self.rows("SELECT c.id, c.label, c.layer, p.n, p.start_ref, p.end_ref, p.read_by FROM concept_passage p "
+                                  "JOIN concept c ON c.id = p.concept_id WHERE p.work_id = ? ORDER BY p.start_ref", work_id)
         w["counts"] = {
             "notes": self.one("SELECT count(*) n FROM note WHERE work_id = ?", work_id)["n"],
             "links_out": self.one("SELECT count(*) n FROM link WHERE from_work = ?", work_id)["n"],
@@ -113,7 +116,7 @@ class Library:
     def evidence(self, prefix):
         """Every quotation offered for the claims whose owner starts with prefix, by owner."""
         out = {}
-        for e in self.rows("SELECT owner, source_text, work_id, at, quote, found, cited_as FROM evidence WHERE owner = ? OR owner LIKE ? ORDER BY id",
+        for e in self.rows("SELECT owner, source_text, work_id, at, quote, found, cited_as, note_id FROM evidence WHERE owner = ? OR owner LIKE ? ORDER BY id",
                            prefix, prefix + ":%"):
             out.setdefault(e["owner"], []).append(e)
         return out
@@ -203,6 +206,58 @@ class Library:
                 "persons": self.rows("SELECT work_id, value, cited_as FROM claim WHERE kind = 'persons' ORDER BY work_id, id"),
                 "ancient": self.rows("SELECT * FROM ancient_text ORDER BY id"),
                 "stats": json.loads(stats["value"]) if stats else None}
+
+    # ------------------------------------------------------------ milestone 10: the concept index
+
+    def concepts(self):
+        """The index: each concept with its layer, terms and how much is gathered under it."""
+        out = self.rows("SELECT id, label, greek, layer, note FROM concept ORDER BY seq")
+        for c in out:
+            c["terms"] = self.rows("SELECT lemma, broad, occurrences, works FROM concept_term WHERE concept_id = ? ORDER BY n", c["id"])
+            c["passages"] = self.one("SELECT count(*) n FROM concept_passage WHERE concept_id = ?", c["id"])["n"]
+            c["works"] = self.rows("SELECT DISTINCT p.work_id, w.title, w.slug FROM concept_passage p JOIN work w ON w.id = p.work_id "
+                                   "WHERE concept_id = ? ORDER BY p.work_id", c["id"])
+            c["related"] = self.rows("SELECT other_id, kind FROM concept_relation WHERE concept_id = ? ORDER BY n", c["id"])
+        stats = self.one("SELECT value FROM build WHERE key = 'concept_stats'")
+        return {"concepts": out, "stats": json.loads(stats["value"]) if stats else None}
+
+    def concept(self, concept_id):
+        c = self.one("SELECT * FROM concept WHERE id = ?", concept_id)
+        if not c:
+            return None
+        c["keywords"] = json.loads(c["keywords"])
+        ev = self.evidence(f"concept:{concept_id}")
+        c["terms"] = self.rows("SELECT lemma, note, broad, occurrences, works FROM concept_term WHERE concept_id = ? ORDER BY n", concept_id)
+        for t in c["terms"]:
+            # Lexical evidence: where the word occurs, per dialogue. Not a link between the places.
+            t["by_work"] = self.rows("SELECT l.work_id, w.title, w.slug, l.n FROM lemma_count l JOIN work w ON w.id = l.work_id "
+                                     "WHERE l.lemma = ? ORDER BY l.n DESC, l.work_id", t["lemma"])
+        cites = self.rows("SELECT c.kind, c.n, c.source_text, c.says, c.owner, c.note_id, n.commentator, n.work_id AS note_work, n.start_ref AS note_ref, "
+                          "w.slug AS note_slug FROM concept_cite c LEFT JOIN note n ON n.id = c.note_id LEFT JOIN work w ON w.id = n.work_id "
+                          "WHERE c.concept_id = ? ORDER BY c.kind, c.n", concept_id)
+        for x in cites:
+            x["evidence"] = ev.get(x["owner"], [])
+        c["definitions"] = [x for x in cites if x["kind"] == "definition"]
+        c["later"] = [x for x in cites if x["kind"] == "later"]
+        c["passages"] = self.rows("SELECT p.*, w.title, w.slug, (SELECT page FROM section s WHERE s.work_id = p.work_id AND s.ref = p.start_ref) AS page "
+                                  "FROM concept_passage p JOIN work w ON w.id = p.work_id WHERE concept_id = ? ORDER BY n", concept_id)
+        for p in c["passages"]:
+            owner = f"concept:{concept_id}:passage:{p['n']}"
+            p["evidence"] = ev.get(owner, [])
+            p["read_by_evidence"] = [e for k, v in ev.items() if k.startswith(owner + ":read:") for e in v]
+            p["named"] = self.rows("SELECT cn.word, n.id AS note_id, COALESCE(cm.label, n.commentator) AS commentator, n.start_ref, n.body "
+                                   "FROM concept_named cn JOIN note n ON n.id = cn.note_id LEFT JOIN commentary cm ON cm.id = n.commentary_id "
+                                   "WHERE cn.concept_id = ? AND cn.n = ? ORDER BY n.id", concept_id, p["n"])
+            for n in p["named"]:
+                n["excerpt"] = citations.excerpt(n.pop("body"), n["word"], 220)
+        c["related"] = self.rows("SELECT r.n, r.other_id, o.label AS other_label, r.kind, r.why, r.owner FROM concept_relation r "
+                                 "JOIN concept o ON o.id = r.other_id WHERE r.concept_id = ? ORDER BY r.n", concept_id)
+        for r in c["related"]:
+            r["evidence"] = ev.get(r["owner"], [])
+        # The relations other concepts state to this one (their evidence is on their page).
+        c["related_from"] = self.rows("SELECT r.concept_id, o.label, r.kind, r.why FROM concept_relation r JOIN concept o ON o.id = r.concept_id "
+                                      "WHERE r.other_id = ? ORDER BY o.seq, r.n", concept_id)
+        return c
 
     def ancient(self, text_id, at=None):
         t = self.one("SELECT * FROM ancient_text WHERE id = ?", text_id)
@@ -393,6 +448,10 @@ class Library:
         t["elsewhere"] = [self.search.elsewhere(l) for l in dict.fromkeys(g["lemma"] for g in tags if g["lemma"])]
         here = [c["n"] for e in t["elsewhere"][:1] for c in e["counts"] if c["work_id"] == t["work_id"]]
         t["elsewhere_in_work"] = here[0] if here else 0
+        # Milestone 10: concepts indexed under this word's lemma (the word, not this place, is indexed).
+        lemmas = [g["lemma"] for g in tags if g["lemma"]]
+        t["concepts"] = self.rows(f"SELECT DISTINCT c.id, c.label, c.layer, ct.lemma, ct.broad FROM concept_term ct JOIN concept c ON c.id = ct.concept_id "
+                                  f"WHERE ct.lemma IN ({','.join('?' * len(lemmas)) or 'NULL'}) ORDER BY c.seq", *lemmas)
         t["form_in_plato"] = self.one("SELECT coalesce(sum(n), 0) n FROM form_count WHERE form = ?", t["form"])["n"]
         return t
 
@@ -565,6 +624,11 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 2 and parts[0] == "whole":
                     w = lib.whole(parts[1])
                     return self.send_json(w) if w else self.not_found()
+                if parts == ["concepts"]:
+                    return self.send_json(lib.concepts())
+                if len(parts) == 2 and parts[0] == "concept":
+                    c = lib.concept(parts[1])
+                    return self.send_json(c) if c else self.not_found()
                 if parts == ["corpus"]:
                     return self.send_json(lib.corpus())
                 if len(parts) == 2 and parts[0] == "ancient":

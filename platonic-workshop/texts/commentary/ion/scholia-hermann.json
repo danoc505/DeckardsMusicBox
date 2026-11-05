@@ -1,0 +1,112 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "work": "tlg027",
+ "author": "Scholia (ancient and Byzantine)",
+ "lang": "grc",
+ "printed": "Scholia Platonica, in Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; first printed 1853), pp. 223-397",
+ "source": {
+  "manifest_id": "hermann-appendix",
+  "file": "sources/hermann-appendix/platonisdialogi06plat_djvu.txt",
+  "lines": [
+   17883,
+   17916
+  ]
+ },
+ "proof_status": "OCR as received",
+ "id": "scholia-hermann-tlg027",
+ "label": "Scholia (Hermann)",
+ "title": "Scholia on Plato",
+ "kind": "notes",
+ "ocr_theta": true,
+ "quoter": "The scholion",
+ "place_by": "printed",
+ "anchoring": "Hermann heads each scholion with the Stephanus page (when it changes) and the letter of the place, then the words of Plato it is on. Those words are found in Burnet's Greek when the library is built, near the page printed; a scholion is then on them, at their section. A scholion whose words are not found, or which quotes none, is placed at the page and letter Hermann prints, as the OCR reads them (tools/scholia.py says how each page was read).",
+ "stats": {
+  "pages read through a misreading": 2,
+  "scholia": 6,
+  "with a lemma": 3,
+  "paragraphs run on": 1,
+  "scholia with no letter": 1,
+  "page numbers not read": 1
+ },
+ "notes": [
+  {
+   "kind": "note",
+   "line": 17886,
+   "page_steph": "530a",
+   "page_how": "page printed 680, read as 530",
+   "head_raw": "Ρ. 680 Α.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "Ἔφεσος πόλις Ἰωνίας. Β. ἌΝ ᾿Επίδαυρος πόλις ἐ ἐν πο ρῶν",
+   "raw": "Ρ. 680 Α. Ἔφεσος πόλις Ἰωνίας. Β. \n\nἌΝ ᾿Επίδαυρος πόλις ἐ ἐν πο ρῶν ",
+   "id": "scholia-hermann.tlg027.0001",
+   "seq": 1
+  },
+  {
+   "kind": "note",
+   "line": 17890,
+   "page_steph": "530a",
+   "page_how": "no letter printed (or read); at the place of the scholion before",
+   "head_raw": "",
+   "lemma": "Ἅ. μῶν",
+   "lemma_lang": "grc",
+   "text": "μὴ αὖ, οὐ δή, ἄρα. ἢ",
+   "raw": "Ἅ. μῶν] μὴ αὖ, οὐ δή, ἄρα. ἢ ",
+   "id": "scholia-hermann.tlg027.0002",
+   "seq": 2
+  },
+  {
+   "kind": "note",
+   "line": 17892,
+   "page_steph": "530a",
+   "page_how": null,
+   "head_raw": "Α.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "ῥαψῳδούς φασι τοὺς τὰ Ὁμήρου ἔπη ἐν τοῖς ϑεάτροις ἀπαγγέλλοντας. ἐκλήϑησαν δὲ οὕτως. ἐπεὶ ῥάβδους κατέχοντες δαφνίνας ἀπήγγελλον. ᾿“ῥαψῳδῆσαι λέγεται καὶ τὸ φλυαρῆσαι, ἢ τὸ ἁπλῶς λαλεῖν καὶ ἀπαγγεῖλαι χωρὶς ἔργου τινός. Ἐ.",
+   "raw": "Α. ῥαψῳδούς φασι τοὺς τὰ Ὁμήρου ἔπη ἐν τοῖς ϑεάτροις \nἀπαγγέλλοντας. ἐκλήϑησαν δὲ οὕτως. ἐπεὶ ῥάβδους κατέχοντες \nδαφνίνας ἀπήγγελλον. ᾿“ῥαψῳδῆσαι λέγεται καὶ τὸ φλυαρῆσαι, \nἢ τὸ ἁπλῶς λαλεῖν καὶ ἀπαγγεῖλαι χωρὶς ἔργου τινός. Ἐ. ",
+   "id": "scholia-hermann.tlg027.0003",
+   "seq": 3
+  },
+  {
+   "kind": "note",
+   "line": 17897,
+   "page_steph": "530d",
+   "page_how": "page printed 58: not a page due here, so kept at 530",
+   "head_raw": "58 Ὁ.",
+   "lemma": "᾿αγνῆήτιν",
+   "lemma_lang": "grc",
+   "text": "Πτολεμαῖος ὁ Ο “μέγας ἐν ξ΄ τῶν γεωγραφικῶν ὑφηγήσεών φησι κατὰ τὴν ἐκτὸς Γάγγου ποταμοῦ Ἰνδικὴν μετὰ καὶ ἄλλων νήσους τινὰς Σατύρων εἶναι τρεῖς. ὧν τοὺς ἐνοικοῦντας οὐρὰς ἔχειν ὁποίας διαγράφουσι τῶν Σατύρων. φέθονταν δὲ συνεχεῖς καὶ ἄλλαι δέκα νῆσοι, καλούμεναι \"Μανιόλαι, ἐν αἷς φασὶ τὰ σιδηροῦς ἐ ἔχοντα ἥλους πλοῖα κατέχεσϑαι, “μήποτε τῆς Ἡρακλείας λίϑου περὶ αὐτὰς γεννωμένης, καὶ διὰ τοῦτο ἐπιοὔροις ναυπηγεῖσϑαι\" κατέχειν τὲ αὐτὰς ἀνϑρωποφάγους. «“4:0- “γενιανὸς δὲ ᾿Μαγνῆτιν μὲν πλανᾷν λέγει τὴν ὄψιν λίϑον, ὡς εἴη ἀργύρῳ ἐμφερής, τὴν δὲ Ἡρακλεῶτιν ἐπισπᾶσϑαι τὸν σίδηροιι.",
+   "raw": "58 Ὁ. ᾿αγνῆήτιν] Πτολεμαῖος ὁ Ο “μέγας ἐν ξ΄ τῶν γεωγρα- \nφικῶν ὑφηγήσεών φησι κατὰ τὴν ἐκτὸς Γάγγου ποταμοῦ Ἰνδι- \nκὴν μετὰ καὶ ἄλλων νήσους τινὰς Σατύρων εἶναι τρεῖς. ὧν τοὺς \nἐνοικοῦντας οὐρὰς ἔχειν ὁποίας διαγράφουσι τῶν Σατύρων. φέ- \nθονταν δὲ συνεχεῖς καὶ ἄλλαι δέκα νῆσοι, καλούμεναι \"Μανιόλαι, \nἐν αἷς φασὶ τὰ σιδηροῦς ἐ ἔχοντα ἥλους πλοῖα κατέχεσϑαι, “μήποτε \nτῆς Ἡρακλείας λίϑου περὶ αὐτὰς γεννωμένης, καὶ διὰ τοῦτο ἐπι- \nοὔροις ναυπηγεῖσϑαι\" κατέχειν τὲ αὐτὰς ἀνϑρωποφάγους. «“4:0- \n“γενιανὸς δὲ ᾿Μαγνῆτιν μὲν πλανᾷν λέγει τὴν ὄψιν λίϑον, ὡς εἴη \nἀργύρῳ ἐμφερής, τὴν δὲ Ἡρακλεῶτιν ἐπισπᾶσϑαι τὸν σίδηροιι. ",
+   "id": "scholia-hermann.tlg027.0004",
+   "seq": 4
+  },
+  {
+   "kind": "note",
+   "line": 17910,
+   "page_steph": "538c",
+   "page_how": "page printed 588, read as 538",
+   "head_raw": "588 0.",
+   "lemma": null,
+   "lemma_lang": null,
+   "text": "Πράμνειος οἶνος ἤτοι ὃ ἀπὸ τῆς Πραμνείας ἀμπέλου, ἢ ὃ πραὔνων τὸ μένος. τινὲς δέ, ἐπειδὴ ἐν Πράμνῃ πρῶτον ἐφυτεύϑη ἄμπελος τῇ ἐν Ἰκάρῳ. Β.",
+   "raw": "588 0. Πράμνειος οἶνος ἤτοι ὃ ἀπὸ τῆς Πραμνείας ἀμπέ- \nλου, ἢ ὃ πραὔνων τὸ μένος. τινὲς δέ, ἐπειδὴ ἐν Πράμνῃ πρῶ- \nτον ἐφυτεύϑη ἄμπελος τῇ ἐν Ἰκάρῳ. Β. ",
+   "id": "scholia-hermann.tlg027.0005",
+   "seq": 5
+  },
+  {
+   "kind": "note",
+   "line": 17914,
+   "page_steph": "538c",
+   "page_how": null,
+   "head_raw": "Ο.",
+   "lemma": "κνῆ τυρὸν κνήστει",
+   "lemma_lang": "grc",
+   "text": "ἔκοπτε τυρὸν κοπίδι. Βὶ",
+   "raw": "Ο. κνῆ τυρὸν κνήστει] ἔκοπτε τυρὸν κοπίδι. Βὶ ",
+   "id": "scholia-hermann.tlg027.0006",
+   "seq": 6
+  }
+ ]
+}

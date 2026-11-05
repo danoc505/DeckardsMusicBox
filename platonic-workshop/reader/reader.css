@@ -533,8 +533,8 @@ ul.cited > li.doubt { background: linear-gradient(90deg, var(--warn-soft, #fbf1d
 @media (max-width: 700px) { table.disc .bar-cell, table.disc td:last-child, table.disc th:last-child { display: none; } }
 
 /* Milestone 9: the dialogue as a whole, and the corpus map (whole.js). */
-body.whole-view #whole-btn, body.corpus-view #corpus-btn { background: var(--accent); color: var(--panel); }
-body.whole-view .jump button, body.corpus-view .jump button { visibility: hidden; }
+body.whole-view #whole-btn, body.corpus-view #corpus-btn, body.concepts-view #concepts-btn { background: var(--accent); color: var(--panel); }
+body.whole-view .jump button, body.corpus-view .jump button, body.concepts-view .jump button { visibility: hidden; }
 .whole section { margin-bottom: 8px; }
 .whole h4 { font: 600 13px var(--sans); margin: 12px 0 4px; }
 blockquote.ev { margin: 4px 0 8px; padding: 2px 0 2px 12px; border-left: 2px solid var(--faint); font-size: 15px; }
@@ -565,3 +565,14 @@ svg.corpus-map .arrowhead { fill: var(--accent); }
 .ancient-sec h4 { font: 600 13px var(--sans); margin: 10px 0 2px; }
 .ancient-sec[lang="grc"] p { font-family: var(--greek); }
 .ancient-sec pre { white-space: pre-wrap; font-size: 12px; color: var(--muted); }
+
+/* Milestone 10: the concept index */
+.layer { display: inline-block; font-size: 0.78em; padding: 0 0.45em; border-radius: 3px; border: 1px solid var(--rule, #ccc); white-space: nowrap; }
+.layer-plato { background: rgba(60, 120, 80, 0.12); }
+.layer-plato-later { background: rgba(160, 120, 40, 0.14); }
+.layer-later { background: rgba(120, 70, 150, 0.14); }
+.concept .greek-name { font-weight: normal; margin-left: 0.4em; }
+.concept-table td { vertical-align: top; }
+.concept-passages > li { margin-bottom: 0.9em; }
+.dist .bar-cell { width: 50%; }
+.dist .bar { display: inline-block; height: 0.6em; background: var(--accent); opacity: 0.6; }
