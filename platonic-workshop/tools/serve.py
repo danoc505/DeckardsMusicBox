@@ -241,6 +241,9 @@ class Library:
             # Lexical evidence: where the word occurs, per dialogue. Not a link between the places.
             t["by_work"] = self.rows("SELECT l.work_id, w.title, w.slug, l.n FROM lemma_count l JOIN work w ON w.id = l.work_id "
                                      "WHERE l.lemma = ? ORDER BY l.n DESC, l.work_id", t["lemma"])
+            # LSJ's own citations of Plato for the word, sense by sense, as LSJ prints them.
+            t["lsj"] = self.rows("SELECT x.sense, x.gloss, x.work_id, w.title, x.ref, x.quote, x.found FROM lsj_plato x JOIN work w ON w.id = x.work_id "
+                                 "WHERE x.lemma = ? ORDER BY x.n", t["lemma"])
         cites = self.rows("SELECT c.kind, c.n, c.source_text, c.says, c.owner, c.note_id, n.commentator, n.work_id AS note_work, n.start_ref AS note_ref, "
                           "w.slug AS note_slug FROM concept_cite c LEFT JOIN note n ON n.id = c.note_id LEFT JOIN work w ON w.id = n.work_id "
                           "WHERE c.concept_id = ? ORDER BY c.kind, c.n", concept_id)
