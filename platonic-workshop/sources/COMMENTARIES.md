@@ -28,6 +28,7 @@ the project's allowed domains, or uploaded, before it can be imported.
 | Work | Status | Notes |
 |---|---|---|
 | Works of Plato (1804), 5 vols, with Sydenham: translations, introductions, footnotes, and "Additional Notes" drawn from Proclus, Hermias, Olympiodorus and Damascius | **In hand** (OCR you uploaded) | `sources/taylor-1804/`. Internet Archive OCR of the AMS Press 1972 facsimile. Unproofread; about 9% of words are long-s errors ("fuch", "thefe"). For the Timaeus: introduction p. 415ff, translation, and 2,500 lines of Additional Notes from Proclus. No Stephanus numbers printed. |
+| theosophylib.com, Works of Plato (1804) | OCR online | Suggested by Daniel. Vol. I as HTML (proofreading not stated); vols. II-V as per-dialogue PDFs whose text layer is the same long-s OCR as our upload. The Timaeus PDF that was checked holds the introduction but not the dialogue. Blocked from this environment. |
 | Wikisource transcription project, Taylor's Timaeus (1804) | Clean online, partial? | Listed on Wikisource's Timaeus page as a "transcription project". How far it has got could not be checked (Wikisource is blocked here and the page reader could not follow the link). Worth checking from your own browser. |
 | Commentaries of Proclus on the Timaeus (1820), 2 vols | Scan only | Archive.org scans (e.g. `proclusontimaeus01procuoft`). Not on Project Gutenberg. Modern reprints are facsimiles. |
 | Proclus, Theology of Plato (1816), 2 vols | Clean online | Project Gutenberg #77393 and #78800. |
