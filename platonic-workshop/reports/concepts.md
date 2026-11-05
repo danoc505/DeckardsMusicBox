@@ -2,40 +2,57 @@
 
 Written by `tools/build_db.py` (milestone 10, `tools/concepts.py`) from `sources/concepts/concepts.json`; every figure is counted from the library.
 
-**628 of 628 quotations found** in the texts they are said to be in (Burnet's Greek at the section named; the Definitions, Alcinous; Taylor's Platonic terms; Taylor's Plotinus, Proclus' Theology and Iamblichus; the notes, by commentator and place).
+**722 of 722 quotations found** in the texts they are said to be in (Burnet's Greek at the section named; the Definitions, Alcinous; Taylor's Platonic terms; Taylor's Plotinus, Proclus' Theology and Iamblichus; the notes, by commentator and place).
 
 Not found: none.
 
 
 Every term is a lemma GLAUx tags in the corpus.
 
-## 197 concepts, and where they come from
+## 223 concepts, and where they come from
 
 Each concept was gathered from one or more of: **index** (written for the index, `concepts.json`), **Definitions** (an entry of the Definitions, Hermann's Greek and Burges' English), **Taylor's terms** (an entry of Taylor's 'Explanation of Certain Platonic Terms'), **later Platonists** (a reading of Alcinous, Plotinus, Proclus or Iamblichus, quoted from the library). The mapping of each defined term to a concept is by hand (`sources/concepts/sources.json`); the words of each definition are cut by rule from the text.
 
 | Gathered from | Concepts |
 |---|---:|
-| Definitions | 143 |
-| Taylor's terms | 22 |
-| Definitions, Taylor's terms | 6 |
-| index | 5 |
-| index, Definitions, Taylor's terms | 5 |
+| Definitions | 117 |
+| Taylor's terms | 21 |
+| Alcinous | 21 |
+| Definitions, Alcinous | 18 |
+| Definitions, scholia | 6 |
+| index | 4 |
 | index, Taylor's terms, later Platonists | 4 |
-| index, later Platonists | 3 |
-| index, Definitions, later Platonists | 3 |
-| index, Taylor's terms | 2 |
-| index, Definitions, Taylor's terms, later Platonists | 2 |
+| scholia | 3 |
+| index, Definitions, Taylor's terms | 3 |
+| Definitions, Taylor's terms, scholia | 3 |
+| index, later Platonists | 2 |
+| Definitions, Taylor's terms, Alcinous | 2 |
+| Definitions, Alcinous, scholia | 2 |
+| Alcinous, scholia | 2 |
+| index, scholia, later Platonists | 1 |
+| index, Taylor's terms | 1 |
+| index, Taylor's terms, scholia | 1 |
 | index, Definitions | 1 |
+| index, Definitions, later Platonists | 1 |
+| index, Definitions, Taylor's terms, scholia | 1 |
+| index, Definitions, Taylor's terms, Alcinous | 1 |
+| index, Definitions, Taylor's terms, Alcinous, scholia, later Platonists | 1 |
+| index, Definitions, Taylor's terms, Alcinous, later Platonists | 1 |
+| index, Definitions, Alcinous, scholia, later Platonists | 1 |
+| index, Definitions, Alcinous, later Platonists | 1 |
+| index, Alcinous | 1 |
+| Taylor's terms, scholia | 1 |
 | Taylor's terms, later Platonists | 1 |
+| Definitions, Taylor's terms | 1 |
 
 | Layer | Concepts |
 |---|---:|
 | academy | 149 |
-| later | 26 |
+| later | 29 |
+| plato-later | 27 |
 | plato | 18 |
-| plato-later | 4 |
 
-Greek words of a concept that GLAUx does not tag anywhere in Plato (later words, or filed otherwise): The One and the Many: ἑνιαῖος, ἑνοειδής; Hyparxis (summit of essence): ὕπαρξις; Idiom (characteristic peculiarity): ἰδίωμα; The imparticipable: ἀμέθεκτος; Intellectual projection: ἐπιβολή; Appetite (orexis): ὄρεξις; Theurgy: θεουργία; Wholeness: ὁλότης.
+Greek words of a concept that GLAUx does not tag anywhere in Plato (later words, or filed otherwise): The One and the Many: ἑνιαῖος, ἑνοειδής; Hyparxis (summit of essence): ὕπαρξις; Idiom (characteristic peculiarity): ἰδίωμα; The imparticipable: ἀμέθεκτος; Intellectual projection: ἐπιβολή; Appetite (orexis): ὄρεξις; Theurgy: θεουργία; Wholeness: ὁλότης; Fate (heimarmenē): εἱμαρμένη.
 
 ## Kinds of relation
 
@@ -44,20 +61,24 @@ Greek words of a concept that GLAUx does not tag anywhere in Plato (later words,
 | shared concept | The two are said of one and the same thing, or one is said of the other. | 3 |
 | philosophical analogy | As one stands to something, so the other stands to something else. | 3 |
 | different formulation | The same thought put in other words or terms, by Plato or a later reader. | 1 |
-| historical interpretation | A later Platonist or translator relates them; Plato does not. | 6 |
+| historical interpretation | A later Platonist or translator relates them; Plato does not. | 9 |
 | apparent contradiction | The two seem to conflict, and the sources say how, or how it is resolved. | 1 |
 | metaphysical distinction | Two levels or kinds of being set apart, or one set between two others. | 7 |
 | allegorical parallel | A myth or image read as standing for the other. | 1 |
-| causal dependence | One is the cause, source or ruler of the other. | 4 |
+| causal dependence | One is the cause, source or ruler of the other. | 6 |
 | opposition | Contraries or opposites, or two powers set over different things. | 4 |
-| part and whole | One is a part, kind or member of the other. | 6 |
-| definition | One is defined by, or said to be, the other. | 5 |
-| knower and known | A power of knowing and its object. | 6 |
+| part and whole | One is a part, kind or member of the other. | 13 |
+| definition | One is defined by, or said to be, the other. | 6 |
+| knower and known | A power of knowing and its object. | 7 |
 | participation | One shares in the other. | 4 |
-| image and pattern | One is the image or copy of the other as its pattern. | 4 |
-| ascent and goal | One is the way up, the other where it leads. | 3 |
+| image and pattern | One is the image or copy of the other as its pattern. | 5 |
+| ascent and goal | One is the way up, the other where it leads. | 5 |
 | question in the dialogue | A dialogue asks whether the one is the other, and may leave it open. | 3 |
 | argument | One is used in an argument for the other. | 1 |
+
+## LSJ's citations of Plato
+
+Under the concept index's words, LSJ cites 1,509 places of Plato (read from its entries in the lexicon tables). 602 come with a Greek quotation: 280 are word for word in Burnet at the place cited (or the next two sections); 322 are not, because LSJ adapts its quotations (the case or order of words, a word left out). 907 cite the place without a quotation. Not in LSJ: δυσμάθεια.
 
 ## Words compared across the translators
 
@@ -71,24 +92,24 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 
 | Concept | Layer | Terms (words in the corpus) | Definitions | Passages | Later readings | Related | Notes naming it on its passages |
 |---|---|---|---:|---:|---:|---:|---:|
-| The Good | plato-later | ἀγαθός (2,621) | 4 | 5 | 4 | 5 | 7 |
+| The Good | plato-later | ἀγαθός (2,621) | 4 | 5 | 5 | 5 | 7 |
 | The Beautiful | plato | καλός (1,974), κάλλος (92) | 2 | 5 | 2 | 2 | 1 |
 | Truth | plato | ἀλήθεια (243), ἀληθής (1,208) | 5 | 3 | 1 | 2 | 0 |
 | Being | plato | οὐσία (264), εἰμί (15,941) | 1 | 4 | 1 | 2 | 6 |
 | Becoming | plato | γένεσις (247), γίγνομαι (3,871) | 6 | 2 | 1 | 3 | 6 |
-| The Forms | plato | εἶδος (412), ἰδέα (98) | 1 | 5 | 2 | 4 | 6 |
-| Intellect (Nous) | plato-later | νόος (410), νόησις (24), νοέω (107) | 3 | 4 | 3 | 2 | 2 |
-| Reason and Logos | plato | λόγος (2,481), λογισμός (74) | 7 | 4 | 2 | 2 | 1 |
-| Soul (Psychē) | plato | ψυχή (1,142) | 3 | 4 | 4 | 2 | 6 |
-| The Demiurge | plato-later | δημιουργός (167), ποιητής (226) | 3 | 6 | 2 | 3 | 17 |
+| The Forms | plato | εἶδος (412), ἰδέα (98) | 1 | 5 | 3 | 5 | 6 |
+| Intellect (Nous) | plato-later | νόος (410), νόησις (24), νοέω (107) | 3 | 4 | 4 | 2 | 2 |
+| Reason and Logos | plato | λόγος (2,481), λογισμός (74) | 7 | 4 | 3 | 2 | 1 |
+| Soul (Psychē) | plato | ψυχή (1,142) | 3 | 4 | 6 | 2 | 6 |
+| The Demiurge | plato-later | δημιουργός (167), ποιητής (226) | 3 | 6 | 5 | 3 | 17 |
 | The One and the Many | plato-later | εἷς (1,747), πολύς (3,002) | 4 | 3 | 2 | 1 | 0 |
 | Participation | plato | μετέχω (263), μεταλαμβάνω (81), μέθεξις (5) | 1 | 3 | 2 | 2 | 4 |
-| Emanation (procession) | later | none | 1 | 2 | 2 | 2 | 8 |
+| Emanation (procession) | later | none | 1 | 2 | 3 | 2 | 8 |
 | Return (conversion) | later | περιαγωγή (4), ἐπιστροφή (1) | 3 | 1 | 3 | 2 | 0 |
 | Knowledge | plato | ἐπιστήμη (611), γνῶσις (32) | 3 | 4 | 1 | 4 | 1 |
-| Opinion | plato | δόξα (439) | 5 | 3 | 1 | 2 | 2 |
+| Opinion | plato | δόξα (439) | 5 | 3 | 2 | 3 | 2 |
 | Ignorance | plato | ἄγνοια (54), ἀμαθία (82) | 1 | 3 | 1 | 2 | 0 |
-| Virtue | plato | ἀρετή (610) | 2 | 3 | 2 | 5 | 0 |
+| Virtue | plato | ἀρετή (610) | 2 | 3 | 5 | 5 | 0 |
 | Justice | plato | δικαιοσύνη (261), δίκαιος (859) | 4 | 3 | 1 | 2 | 2 |
 | Evil as privation | later | κακός (1,194), κακία (93) | 1 | 3 | 2 | 3 | 3 |
 | Image and original | plato | εἰκών (103), παράδειγμα (90), μίμημα (54) | 4 | 4 | 2 | 2 | 7 |
@@ -96,10 +117,10 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | The intelligible world | plato | νοητός (28) | 3 | 3 | 1 | 2 | 5 |
 | The sensible world | plato | αἰσθητός (22), ὁρατός (52) | 0 | 3 | 1 | 2 | 1 |
 | Recollection | plato | ἀνάμνησις (20), ἀναμιμνῄσκω (103) | 1 | 3 | 1 | 2 | 5 |
-| Eternal | academy | ἀίδιος (9), αἰώνιος (4) | 3 | 0 | 0 | 0 | 0 |
-| God | academy | θεός (1,282) | 2 | 0 | 0 | 0 | 0 |
-| The sun | academy | ἥλιος (86) | 2 | 0 | 0 | 0 | 0 |
-| Time | academy | χρόνος (539) | 2 | 0 | 0 | 0 | 0 |
+| Eternal | academy | ἀίδιος (9), αἰώνιος (4), αἰών (7) | 3 | 0 | 1 | 0 | 0 |
+| God | academy | θεός (1,282) | 2 | 0 | 1 | 0 | 0 |
+| The sun | academy | ἥλιος (86) | 2 | 0 | 1 | 0 | 0 |
+| Time | academy | χρόνος (539) | 2 | 0 | 2 | 1 | 0 |
 | Day | academy | ἡμέρα (170) | 2 | 0 | 0 | 0 | 0 |
 | Morning (dawn) | academy | ἕως (125) | 2 | 0 | 0 | 0 | 0 |
 | Midday | academy | μεσημβρία (6) | 2 | 0 | 0 | 0 | 0 |
@@ -110,11 +131,11 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | Wind (breath) | academy | πνεῦμα (48) | 2 | 0 | 0 | 0 | 0 |
 | Air | academy | ἀήρ (102) | 2 | 0 | 0 | 0 | 0 |
 | Heaven | academy | οὐρανός (123) | 2 | 0 | 0 | 0 | 0 |
-| Power (dynamis) | academy | δύναμις (513) | 5 | 0 | 0 | 0 | 0 |
-| Sight | academy | ὄψις (145) | 2 | 0 | 0 | 0 | 0 |
+| Power (dynamis) | academy | δύναμις (513) | 5 | 0 | 1 | 0 | 0 |
+| Sight | academy | ὄψις (145) | 2 | 0 | 1 | 0 | 0 |
 | Bone | academy | ὀστέον (35) | 2 | 0 | 0 | 0 | 0 |
-| Element | academy | στοιχεῖον (65) | 2 | 0 | 0 | 0 | 0 |
-| Wisdom in action (phronēsis) | academy | φρόνησις (187) | 4 | 0 | 0 | 0 | 0 |
+| Element | academy | στοιχεῖον (65) | 2 | 0 | 1 | 0 | 0 |
+| Wisdom in action (phronēsis) | academy | φρόνησις (187) | 4 | 0 | 1 | 1 | 0 |
 | Temperance (sōphrosynē) | academy | σωφροσύνη (196), σώφρων (134) | 4 | 0 | 0 | 0 | 0 |
 | Courage (andreia) | academy | ἀνδρεία (170) | 2 | 0 | 0 | 0 | 0 |
 | Self-sufficiency | academy | αὐτάρκεια (1) | 2 | 0 | 0 | 0 | 0 |
@@ -124,12 +145,12 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | Freedom from pain | academy | none | 2 | 0 | 0 | 0 | 0 |
 | Love of labour | academy | φιλοπονία (3) | 2 | 0 | 0 | 0 | 0 |
 | Modesty (aidōs) | academy | αἰδώς (44) | 2 | 0 | 0 | 0 | 0 |
-| Freedom | academy | ἐλευθερία (45), ἐλεύθερος (153) | 4 | 0 | 0 | 0 | 0 |
-| Liberality | academy | ἐλευθεριότης (2) | 2 | 0 | 0 | 0 | 0 |
+| Freedom | academy | ἐλευθερία (45), ἐλεύθερος (153) | 4 | 0 | 1 | 0 | 0 |
+| Liberality | academy | ἐλευθεριότης (2), ἀνελευθερία (13) | 2 | 0 | 1 | 0 | 0 |
 | Gentleness | academy | πραότης (6) | 2 | 0 | 0 | 0 | 0 |
 | Orderliness (decorum) | academy | κοσμιότης (4) | 2 | 0 | 0 | 0 | 0 |
-| Happiness (eudaimonia) | academy | εὐδαιμονία (40) | 2 | 0 | 0 | 0 | 0 |
-| Magnificence | academy | μεγαλοπρέπεια (9) | 2 | 0 | 0 | 0 | 0 |
+| Happiness (eudaimonia) | academy | εὐδαιμονία (40) | 2 | 0 | 1 | 0 | 0 |
+| Magnificence | academy | μεγαλοπρέπεια (9) | 2 | 0 | 1 | 0 | 0 |
 | Quickness of mind | academy | ἀγχίνοια (2) | 2 | 0 | 0 | 0 | 0 |
 | Goodness of character (chrēstotēs) | academy | none | 2 | 0 | 0 | 0 | 0 |
 | Nobility and goodness (kalokagathia) | academy | none | 2 | 0 | 0 | 0 | 0 |
@@ -141,17 +162,17 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | Peace | academy | εἰρήνη (52) | 2 | 0 | 0 | 0 | 0 |
 | Easiness of soul (rhathymia) | academy | ῥαθυμία (9) | 2 | 0 | 0 | 0 | 0 |
 | Cleverness (deinotēs) | academy | δεινότης (5) | 2 | 0 | 0 | 0 | 0 |
-| Friendship (philia) | academy | φιλία (99) | 2 | 0 | 0 | 0 | 0 |
+| Friendship (philia) | academy | φιλία (99) | 2 | 0 | 1 | 0 | 0 |
 | Nobility of birth | academy | εὐγένεια (5) | 2 | 0 | 0 | 0 | 0 |
 | Choice | academy | αἵρεσις (47) | 2 | 0 | 0 | 0 | 0 |
 | Goodwill | academy | εὔνοια (20) | 2 | 0 | 0 | 0 | 0 |
 | Kinship | academy | οἰκειότης (11) | 2 | 0 | 0 | 0 | 0 |
 | Concord (homonoia) | academy | ὁμόνοια (19) | 4 | 0 | 0 | 0 | 0 |
-| Affection | academy | none | 2 | 0 | 0 | 0 | 0 |
+| Affection | academy | πάθος (172) | 2 | 0 | 1 | 0 | 0 |
 | Statesmanship | academy | πολιτικός (212) | 5 | 0 | 0 | 0 | 0 |
 | Good counsel | academy | εὐβουλία (6) | 2 | 0 | 0 | 0 | 0 |
 | Belief (pistis) | academy | πίστις (19) | 2 | 0 | 0 | 0 | 0 |
-| Wish (boulēsis) | academy | βούλησις (34) | 2 | 0 | 0 | 0 | 0 |
+| Wish (boulēsis) | academy | βούλησις (34) | 2 | 0 | 1 | 0 | 0 |
 | Advising | academy | none | 2 | 0 | 0 | 0 | 0 |
 | Timeliness | academy | εὐκαιρία (1) | 2 | 0 | 0 | 0 | 0 |
 | Caution | academy | εὐλάβεια (13) | 2 | 0 | 0 | 0 | 0 |
@@ -159,38 +180,38 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | Attention | academy | πρόσεξις (1) | 2 | 0 | 0 | 0 | 0 |
 | Natural gifts | academy | none | 2 | 0 | 0 | 0 | 0 |
 | Readiness to learn | academy | εὐμάθεια (9) | 2 | 0 | 0 | 0 | 0 |
-| Judgment (dikē) | academy | δίκη (370) | 3 | 0 | 0 | 0 | 0 |
+| Judgment (dikē) | academy | δίκη (370) | 3 | 0 | 1 | 0 | 0 |
 | Good order under law (eunomia) | academy | εὐνομία (5) | 2 | 0 | 0 | 0 | 0 |
 | Gladness | academy | εὐφροσύνη (3) | 2 | 0 | 0 | 0 | 0 |
 | Honour | academy | τιμή (145) | 2 | 0 | 0 | 0 | 0 |
 | Eagerness | academy | προθυμία (29) | 2 | 0 | 0 | 0 | 0 |
 | Grace (charis) | academy | χάρις (81) | 2 | 0 | 0 | 0 | 0 |
-| Constitution (politeia) | academy | πολιτεία (259) | 2 | 0 | 0 | 0 | 0 |
-| Providence (pronoia) | academy | πρόνοια (13) | 2 | 0 | 0 | 0 | 0 |
+| Constitution (politeia) | academy | πολιτεία (259) | 2 | 0 | 1 | 0 | 0 |
+| Providence (pronoia) | academy | πρόνοια (13) | 2 | 0 | 1 | 0 | 0 |
 | Deliberation | academy | βουλή (32) | 2 | 0 | 0 | 0 | 0 |
 | Victory | academy | νίκη (37), νικάω (123) | 4 | 0 | 0 | 0 | 0 |
 | Gift | academy | δωρεά (13) | 2 | 0 | 0 | 0 | 0 |
 | The right moment (kairos) | academy | καιρός (50) | 4 | 0 | 0 | 0 | 0 |
-| Memory | academy | μνήμη (75) | 2 | 0 | 0 | 0 | 0 |
-| Concept (ennoia) | academy | ἔννοια (8) | 2 | 0 | 0 | 0 | 0 |
+| Memory | academy | μνήμη (75) | 2 | 0 | 1 | 0 | 0 |
+| Concept (ennoia) | academy | ἔννοια (8) | 2 | 0 | 1 | 0 | 0 |
 | Purity (hagneia) | academy | ἁγνεία (2) | 2 | 0 | 0 | 0 | 0 |
 | Divination | academy | μαντεία (20) | 2 | 0 | 0 | 0 | 0 |
-| Wisdom (sophia) | academy | σοφία (261) | 2 | 0 | 0 | 0 | 0 |
-| Philosophy | academy | φιλοσοφία (145) | 2 | 0 | 0 | 0 | 0 |
-| Sense-perception (aisthēsis) | academy | αἴσθησις (193) | 2 | 0 | 0 | 0 | 0 |
+| Wisdom (sophia) | academy | σοφία (261) | 2 | 0 | 1 | 0 | 0 |
+| Philosophy | academy | φιλοσοφία (145) | 2 | 0 | 1 | 0 | 0 |
+| Sense-perception (aisthēsis) | academy | αἴσθησις (193) | 2 | 0 | 1 | 0 | 0 |
 | State (hexis) | academy | ἕξις (69) | 2 | 0 | 0 | 0 | 0 |
-| Voice | academy | φωνή (136) | 2 | 0 | 0 | 0 | 0 |
-| Name (onoma) | academy | ὄνομα (767) | 2 | 0 | 0 | 0 | 0 |
+| Voice | academy | φωνή (136) | 2 | 0 | 1 | 0 | 0 |
+| Name (onoma) | academy | ὄνομα (767) | 2 | 0 | 1 | 0 | 0 |
 | Syllable | academy | συλλαβή (53) | 2 | 0 | 0 | 0 | 0 |
-| Definition (horos) | academy | ὅρος (57) | 2 | 0 | 0 | 0 | 0 |
+| Definition (horos) | academy | ὅρος (57) | 2 | 0 | 1 | 1 | 0 |
 | Proof (tekmērion) | academy | τεκμήριον (72) | 2 | 0 | 0 | 0 | 0 |
 | Demonstration | academy | ἀπόδειξις (31) | 2 | 0 | 0 | 0 | 0 |
 | The beneficial | academy | ὠφέλιμος (114) | 2 | 0 | 0 | 0 | 0 |
 | The advantageous | academy | συμφέρω (124) | 2 | 0 | 0 | 0 | 0 |
-| The voluntary | academy | ἑκούσιος (59), ἀκούσιος (50) | 4 | 0 | 0 | 0 | 0 |
+| The voluntary | academy | ἑκούσιος (59), ἀκούσιος (50) | 4 | 0 | 1 | 0 | 0 |
 | The measured (metrion) | academy | μέτριος (178), μέτρον (102) | 4 | 0 | 0 | 0 | 0 |
 | Prize | academy | ἆθλον (22) | 2 | 0 | 0 | 0 | 0 |
-| Immortality | academy | ἀθανασία (15), ἀθάνατος (97) | 3 | 0 | 0 | 0 | 0 |
+| Immortality | academy | ἀθανασία (15), ἀθάνατος (97) | 3 | 0 | 1 | 0 | 0 |
 | The holy (hosion) | academy | ὅσιος (154) | 2 | 0 | 0 | 0 | 0 |
 | Festival | academy | ἑορτή (26) | 2 | 0 | 0 | 0 | 0 |
 | Human being | academy | ἄνθρωπος (1,299) | 2 | 0 | 0 | 0 | 0 |
@@ -207,8 +228,8 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | The art of war | academy | πολεμικός (73) | 2 | 0 | 0 | 0 | 0 |
 | Alliance | academy | συμμαχία (7) | 2 | 0 | 0 | 0 | 0 |
 | Safety (sōtēria) | academy | σωτηρία (78), σῴζω (146) | 4 | 0 | 0 | 0 | 0 |
-| Tyrant | academy | τύραννος (101) | 2 | 0 | 0 | 0 | 0 |
-| Sophist | academy | σοφιστής (124) | 2 | 0 | 0 | 0 | 0 |
+| Tyrant | academy | τύραννος (101) | 2 | 0 | 1 | 0 | 0 |
+| Sophist | academy | σοφιστής (124) | 2 | 0 | 2 | 2 | 0 |
 | Wealth | academy | πλοῦτος (79) | 2 | 0 | 0 | 0 | 0 |
 | Deposit | academy | παρακαταθήκη (3) | 2 | 0 | 0 | 0 | 0 |
 | Purification (katharsis) | academy | κάθαρσις (15) | 2 | 0 | 0 | 0 | 0 |
@@ -218,7 +239,7 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | Mastery (despoteia) | academy | δεσποτεία (6) | 2 | 0 | 0 | 0 | 0 |
 | Hatred of philosophy | academy | none | 2 | 0 | 0 | 0 | 0 |
 | Fear | academy | φόβος (117) | 2 | 0 | 0 | 0 | 0 |
-| Spirit (thymos) | academy | θυμός (78) | 3 | 0 | 0 | 0 | 0 |
+| Spirit (thymos) | academy | θυμός (78) | 3 | 0 | 1 | 0 | 0 |
 | Consternation | academy | ἔκπληξις (2) | 2 | 0 | 0 | 0 | 0 |
 | Flattery | academy | κολακεία (19) | 2 | 0 | 0 | 0 | 0 |
 | Anger (orgē) | academy | ὀργή (34) | 2 | 0 | 0 | 0 | 0 |
@@ -259,7 +280,7 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | Intellectual projection | later | none | 1 | 0 | 0 | 0 | 0 |
 | The monad | later | μονάς (5) | 1 | 0 | 0 | 0 | 0 |
 | Shape (morphē) | later | μορφή (13) | 1 | 0 | 0 | 0 | 0 |
-| Cause (aitia) and its kinds | later | αἰτία (159) | 1 | 0 | 0 | 0 | 0 |
+| Cause (aitia) and its kinds | later | αἰτία (159) | 1 | 0 | 1 | 0 | 0 |
 | Appetite (orexis) | later | none | 1 | 0 | 0 | 0 | 0 |
 | Rest and permanency (stasis) | later | στάσις (81) | 1 | 0 | 0 | 0 | 0 |
 | Imagination (phantasia) | later | φαντασία (7) | 1 | 0 | 0 | 0 | 0 |
@@ -268,6 +289,32 @@ Layer: **plato**, Plato names it and argues about it; **plato-later**, Plato nam
 | The telestic art | later | none | 1 | 0 | 0 | 0 | 0 |
 | Theurgy | later | none | 1 | 0 | 1 | 0 | 0 |
 | Wholeness | later | none | 1 | 0 | 0 | 0 | 0 |
+| Contemplation and action (theōria, praxis) | plato-later | θεωρία (14), πρᾶξις (177) | 0 | 0 | 1 | 0 | 0 |
+| The criterion (judging) | plato-later | κριτήριον (4), κρίσις (65) | 0 | 0 | 1 | 0 | 0 |
+| Dialectic | plato-later | διαλεκτικός (22) | 0 | 0 | 1 | 5 | 0 |
+| Division (diairesis) | plato-later | διαίρεσις (19) | 0 | 0 | 1 | 0 | 0 |
+| Induction (epagōgē) | plato-later | ἐπαγωγή (2) | 0 | 0 | 1 | 0 | 0 |
+| Analysis | plato-later | none | 0 | 0 | 1 | 0 | 0 |
+| Syllogism | plato-later | συλλογισμός (2) | 0 | 0 | 1 | 0 | 0 |
+| Proposition, affirmation and negation | plato-later | ἀπόφασις (4) | 0 | 0 | 1 | 0 | 0 |
+| The mathematical sciences | plato-later | μάθημα (180), γεωμετρία (32), ἀστρονομία (24), λογιστικός (39) | 0 | 0 | 2 | 0 | 0 |
+| Matter (the receptacle) | plato-later | χώρα (164), ὑποδοχή (9), ὕλη (13) | 0 | 0 | 1 | 0 | 0 |
+| Quality (poiotēs) | plato-later | ποιότης (2) | 0 | 0 | 1 | 0 | 0 |
+| The soul of the world | plato-later | none | 0 | 0 | 1 | 0 | 0 |
+| Daemons | plato-later | δαίμων (69) | 0 | 0 | 2 | 1 | 0 |
+| Hearing | plato-later | ἀκοή (79) | 0 | 0 | 1 | 0 | 0 |
+| The heavy and the light | plato-later | βαρύς (62), κοῦφος (33) | 0 | 0 | 1 | 0 | 0 |
+| Respiration | plato-later | ἀναπνοή (18) | 0 | 0 | 1 | 0 | 0 |
+| Disease | plato-later | νόσος (129) | 0 | 0 | 1 | 0 | 0 |
+| Fate (heimarmenē) | plato-later | none | 0 | 0 | 1 | 0 | 0 |
+| Likeness to god (homoiōsis theōi) | plato-later | ὁμοίωσις (4) | 0 | 0 | 1 | 2 | 0 |
+| Vice (kakia) | plato-later | κακία (93) | 0 | 0 | 1 | 0 | 0 |
+| Pleasure and pain | plato-later | ἡδονή (659), λύπη (221) | 0 | 0 | 1 | 1 | 0 |
+| Love (erōs) | plato-later | ἔρως (188) | 0 | 0 | 1 | 0 | 0 |
+| Not-being (to mē on) | plato-later | none | 0 | 0 | 1 | 0 | 0 |
+| Will, power and intellect (the triad) | later | βούλησις (34), δύναμις (513), νόος (410) | 0 | 0 | 1 | 0 | 0 |
+| Adrasteia (the ordinance of Adrasteia) | later | Ἀδράστεια (2) | 0 | 0 | 1 | 1 | 0 |
+| The divided line | later | γραμμή (20) | 0 | 0 | 1 | 0 | 0 |
 
 ## Passages by dialogue
 

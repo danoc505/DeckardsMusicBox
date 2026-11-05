@@ -1856,5 +1856,795 @@
     "sources/taylor-iamblichus-1821/b29338888_0002_djvu.txt"
    ]
   }
- }
+ },
+ "alcinous": [
+  {
+   "chapter": 1,
+   "concept": "philosophy",
+   "quote": "Philosophy is a longing after wisdom, or a release or withdrawal of the soul from the body"
+  },
+  {
+   "chapter": 1,
+   "concept": "wisdom",
+   "quote": "Now Wisdom is the knowledge of things divine and human"
+  },
+  {
+   "chapter": 2,
+   "concept": "contemplation",
+   "label": "Contemplation and action (theōria, praxis)",
+   "lemmas": [
+    "θεωρία",
+    "πρᾶξις"
+   ],
+   "quote": "Since life is twofold, Contemplative and Active, of the former the chief point lies in the knowledge of truth"
+  },
+  {
+   "chapter": 4,
+   "concept": "criterion",
+   "label": "The criterion (judging)",
+   "lemmas": [
+    "κριτήριον",
+    "κρίσις"
+   ],
+   "quote": "Respecting the faculty of Judging, and the Judicatory powers of the soul"
+  },
+  {
+   "chapter": 4,
+   "concept": "memory",
+   "quote": "the preservation of it is called Memory"
+  },
+  {
+   "chapter": 4,
+   "concept": "opinion",
+   "quote": "But Opinion is the complication of memory and sensation"
+  },
+  {
+   "chapter": 4,
+   "concept": "sense-perception",
+   "quote": "Now Perception is an affection of the soul, that gives, like a leader, by means of the body a previous intimation of a power that has been affected"
+  },
+  {
+   "chapter": 4,
+   "concept": "intellect",
+   "quote": "Now Cogitation is an operation of the mind, while contemplating the first things perceptible by mind"
+  },
+  {
+   "chapter": 4,
+   "concept": "ennoia",
+   "quote": "For by having a natural notion of what is beautiful and good we make use of reason"
+  },
+  {
+   "chapter": 5,
+   "concept": "dialectic",
+   "label": "Dialectic",
+   "lemmas": [
+    "διαλεκτικός"
+   ],
+   "quote": "The most elementary part of Dialectic Science he deems to be, first, the looking upon the essence of every thing whatsoever"
+  },
+  {
+   "chapter": 5,
+   "concept": "division",
+   "label": "Division (diairesis)",
+   "lemmas": [
+    "διαίρεσις"
+   ],
+   "quote": "Now the dividing is the separating a genus into its species, or a whole into its parts"
+  },
+  {
+   "chapter": 5,
+   "concept": "definition",
+   "quote": "Now a Definition is produced from a division after this manner"
+  },
+  {
+   "chapter": 5,
+   "concept": "induction",
+   "label": "Induction (epagōgē)",
+   "lemmas": [
+    "ἐπαγωγή"
+   ],
+   "quote": "Induction is wholly a method by reasoning"
+  },
+  {
+   "chapter": 5,
+   "concept": "analysis",
+   "label": "Analysis",
+   "quote": "But the Analysis from an hypothesis is of this kind"
+  },
+  {
+   "chapter": 6,
+   "concept": "syllogism",
+   "label": "Syllogism",
+   "lemmas": [
+    "συλλογισμός"
+   ],
+   "quote": "Now a Syllogism is a reasoning, in which, on some things being laid down, something necessarily turns out different from what has been laid down"
+  },
+  {
+   "chapter": 6,
+   "concept": "proposition",
+   "label": "Proposition, affirmation and negation",
+   "lemmas": [
+    "ἀπόφασις"
+   ],
+   "quote": "Of that portion of reasoning, which we call a Proposition, there are two kinds; one is Affirmation, the other Negation"
+  },
+  {
+   "chapter": 6,
+   "concept": "name",
+   "quote": "For the name is an instrument of a thing, not such as occurs accidentally"
+  },
+  {
+   "chapter": 7,
+   "concept": "mathematics",
+   "label": "The mathematical sciences",
+   "lemmas": [
+    "μάθημα",
+    "γεωμετρία",
+    "ἀστρονομία"
+   ],
+   "quote": "For Geometry, and Arithmetic, and the sciences that follow upon them, although desirous to lay hold of the Being, yet are they in a dream"
+  },
+  {
+   "chapter": 8,
+   "concept": "matter",
+   "label": "Matter (the receptacle)",
+   "lemmas": [
+    "χώρα",
+    "ὑποδοχή",
+    "ὕλη"
+   ],
+   "quote": "and a nurse, and a mother, and a space, and a thing subjective and tangible"
+  },
+  {
+   "chapter": 9,
+   "concept": "forms",
+   "quote": "Now Idea is, as regards god, a mental operation by him; as regards us, the first thing perceptible by mind; as regards Matter, a standard"
+  },
+  {
+   "chapter": 10,
+   "concept": "god",
+   "quote": "Moreover the primary god is eternal, ineffable, perfect in itself"
+  },
+  {
+   "chapter": 11,
+   "concept": "quality",
+   "label": "Quality (poiotēs)",
+   "lemmas": [
+    "ποιότης"
+   ],
+   "quote": "Qualities moreover can be shown in this manner to be incorporeal"
+  },
+  {
+   "chapter": 13,
+   "concept": "element",
+   "quote": "These four substances did the fabricator of the World take together"
+  },
+  {
+   "chapter": 14,
+   "concept": "world-soul",
+   "label": "The soul of the world",
+   "quote": "It is plain then that the World is a thing of life and intellectual"
+  },
+  {
+   "chapter": 14,
+   "concept": "time",
+   "quote": "For an interval in the movement of the World has produced Time"
+  },
+  {
+   "chapter": 14,
+   "concept": "sun",
+   "quote": "The Sun is the leader of all, showing and illuminating all things"
+  },
+  {
+   "chapter": 15,
+   "concept": "daemons",
+   "label": "Daemons",
+   "lemmas": [
+    "δαίμων"
+   ],
+   "quote": "There are other Demons likewise, which a person might call created gods, according to each of the Elements"
+  },
+  {
+   "chapter": 18,
+   "concept": "sight",
+   "quote": "On the sense of Sight, and on light, and the formation of images in mirrors"
+  },
+  {
+   "chapter": 19,
+   "concept": "hearing",
+   "label": "Hearing",
+   "lemmas": [
+    "ἀκοή"
+   ],
+   "quote": "Hearing has been created for distinguishing sound"
+  },
+  {
+   "chapter": 19,
+   "concept": "voice",
+   "quote": "And sound is that, which passes through the ears and brain and blood"
+  },
+  {
+   "chapter": 20,
+   "concept": "heavy-and-light",
+   "label": "The heavy and the light",
+   "lemmas": [
+    "βαρύς",
+    "κοῦφος"
+   ],
+   "quote": "For that is heavy, which is drawn with difficulty to a place contrary to nature"
+  },
+  {
+   "chapter": 21,
+   "concept": "respiration",
+   "label": "Respiration",
+   "lemmas": [
+    "ἀναπνοή"
+   ],
+   "quote": "We respire in this manner"
+  },
+  {
+   "chapter": 22,
+   "concept": "disease",
+   "label": "Disease",
+   "lemmas": [
+    "νόσος"
+   ],
+   "quote": "Respecting the Causes of Diseases"
+  },
+  {
+   "chapter": 24,
+   "concept": "soul",
+   "quote": "That the Soul is tripartite according to its powers"
+  },
+  {
+   "chapter": 25,
+   "concept": "immortality",
+   "quote": "Now that, which brings life to any thing, is itself non-recipient of death"
+  },
+  {
+   "chapter": 26,
+   "concept": "fate",
+   "label": "Fate (heimarmenē)",
+   "quote": "For Fate, while holding the rank of a law",
+   "lemmas": [
+    "εἱμαρμένη"
+   ]
+  },
+  {
+   "chapter": 26,
+   "concept": "freedom",
+   "quote": "The soul then is without a master"
+  },
+  {
+   "chapter": 27,
+   "concept": "the-good",
+   "quote": "The good to be most honoured and the greatest, he conceived it was not easy to discover"
+  },
+  {
+   "chapter": 27,
+   "concept": "likeness-to-god",
+   "label": "Likeness to god (homoiōsis theōi)",
+   "lemmas": [
+    "ὁμοίωσις"
+   ],
+   "quote": "that to be prudent, and just, and holy, is a similarity with god"
+  },
+  {
+   "chapter": 27,
+   "concept": "happiness",
+   "quote": "misery is the evil-doing of a presiding genius, but happiness the good-doing"
+  },
+  {
+   "chapter": 28,
+   "concept": "virtue",
+   "quote": "it is itself a constitution of the soul perfect and the best"
+  },
+  {
+   "chapter": 28,
+   "concept": "phronesis",
+   "quote": "Now Prudence is a knowledge of things good and bad"
+  },
+  {
+   "chapter": 29,
+   "concept": "vice",
+   "label": "Vice (kakia)",
+   "lemmas": [
+    "κακία"
+   ],
+   "quote": "Vices however admit both of extension and remission"
+  },
+  {
+   "chapter": 30,
+   "concept": "voluntary",
+   "quote": "Whatever wrongs then a bad man does are involuntary"
+  },
+  {
+   "chapter": 31,
+   "concept": "affection",
+   "lemmas": [
+    "πάθος"
+   ],
+   "quote": "Now an Affection is an irrational movement of the soul, as regards either an ill or a good"
+  },
+  {
+   "chapter": 31,
+   "concept": "pleasure",
+   "label": "Pleasure and pain",
+   "lemmas": [
+    "ἡδονή",
+    "λύπη"
+   ],
+   "quote": "there are two Affections, simple and elementary, (namely,) Pleasure and Pain"
+  },
+  {
+   "chapter": 32,
+   "concept": "friendship",
+   "quote": "Now this takes place, when each party wishes equally that his neighbour and himself should do well"
+  },
+  {
+   "chapter": 32,
+   "concept": "eros",
+   "label": "Love (erōs)",
+   "lemmas": [
+    "ἔρως"
+   ],
+   "quote": "For the bad is the love of the body alone, through its being overcome by what is pleasant"
+  },
+  {
+   "chapter": 33,
+   "concept": "constitution",
+   "quote": "is a Polity divided into three parts, relating to the guardians and aiders and operatives"
+  },
+  {
+   "chapter": 34,
+   "concept": "sophist",
+   "quote": "the Sophist busies himself about that which is not"
+  },
+  {
+   "chapter": 34,
+   "concept": "not-being",
+   "label": "Not-being (to mē on)",
+   "quote": "is not a naked negation of what is"
+  }
+ ],
+ "scholia": [
+  {
+   "concept": "soul",
+   "work": "tlg013",
+   "ref": "130a",
+   "quote": "τῷ σώματι χρώμενον ψυχή ἐστι",
+   "says": "The scholiast on Alcibiades I 130a: the soul is what uses the body."
+  },
+  {
+   "concept": "virtue",
+   "work": "tlg023",
+   "ref": "466a",
+   "quote": "ὅτι ἀρετή τέ ἐστι καὶ ἐπιστήμη τῶν ὄντων",
+   "says": "The scholiast on Gorgias 466a: virtue is also knowledge of the things that are."
+  },
+  {
+   "concept": "wish",
+   "work": "tlg023",
+   "ref": "470b",
+   "quote": "καὶ ὅτι ἢ βούλησις ἀεὶ τῶν ἀγαϑῶν ἐστιν",
+   "says": "The scholiast on Gorgias 470b: wish is always of good things."
+  },
+  {
+   "concept": "will-power-intellect",
+   "label": "Will, power and intellect (the triad)",
+   "lemmas": [
+    "βούλησις",
+    "δύναμις",
+    "νόος"
+   ],
+   "work": "tlg023",
+   "ref": "471e",
+   "quote": "τρία ταῦτά ἐστι περὶ τὰ ὄντα, ἃ ἄνωϑεν ἀρχόμενα μέχρι τῶν ἡμετέρων ἀφικνοῦνται ψυχῶν",
+   "says": "The scholiast on Gorgias 471e: three things, wish, power and intellect, reach from above down to our souls, and are seen in the Demiurge."
+  },
+  {
+   "concept": "magnificence",
+   "work": "tlg030",
+   "ref": "486a",
+   "quote": "μεγαλοπρέπειά ἐστιν ἕξις βελτίστη περὶ δαπάνας",
+   "says": "The scholiast on Republic 486a defines magnificence."
+  },
+  {
+   "concept": "liberality",
+   "lemmas": [
+    "ἀνελευθερία"
+   ],
+   "work": "tlg030",
+   "ref": "486a",
+   "quote": "ἐστὶν ἕξις φαύλη περὶ χρήματα, μὴ ἀναλίσκουσα ταῦτα εἰς ἃ δεῖ",
+   "says": "The scholiast on Republic 486a defines its opposite, illiberality (ἀνελευθερία)."
+  },
+  {
+   "concept": "time",
+   "work": "tlg030",
+   "ref": "546a",
+   "quote": "ὃ πᾶς χρόνος αἰῶνός ἐστι τοῦ παντὸς εἰκών",
+   "says": "The scholiast on Republic 546a: the whole of time is an image of the whole of eternity."
+  },
+  {
+   "concept": "eternal",
+   "lemmas": [
+    "αἰών"
+   ],
+   "work": "tlg030",
+   "ref": "546a",
+   "quote": "μέτρον δ᾽ ὃ πᾶς αἰών",
+   "says": "The scholiast on Republic 546a: eternity is the measure (of the life of the intelligible)."
+  },
+  {
+   "concept": "sophist",
+   "work": "tlg007",
+   "ref": "216a",
+   "quote": "σοφιστὴν καλεῖ ὃ Πλάτων καὶ τὸν Ἔρωτα",
+   "says": "The scholiast on the Sophist's opening: Plato calls Eros, Hades and Zeus sophists too."
+  },
+  {
+   "concept": "demiurge",
+   "work": "tlg007",
+   "ref": "216a",
+   "quote": "ἔστι γὰρ κατὰ τὸν μέγαν Ἰάμβλιχον σκοπὸς νῦν περὶ τοῦ ὑπὸ σελήνην δημιουργοῦ",
+   "says": "The scholiast, after Iamblichus: the Sophist's subject (skopos) is the demiurge below the moon."
+  },
+  {
+   "concept": "demiurge",
+   "work": "tlg034",
+   "ref": "638e",
+   "quote": "ϑεὸν μὲν τὸν δημιουργὸν σαφῶς, παλαιὸν δὲ λόγον λέγει τὸν Ὀρφικόν",
+   "says": "The scholiast on Laws 715e: 'the god' is plainly the Demiurge, the 'ancient saying' the Orphic one."
+  },
+  {
+   "concept": "adrasteia",
+   "label": "Adrasteia (the ordinance of Adrasteia)",
+   "lemmas": [
+    "Ἀδράστεια"
+   ],
+   "work": "tlg012",
+   "ref": "248c",
+   "quote": "ἡ ᾿Αδράστεια μία ἐστὶ ϑεὸς τῶν μενουσῶν ἐν τῇ νυκτί",
+   "says": "The scholiast on Phaedrus 248c: Adrasteia, the goddess who gives the divine laws, born of Providence."
+  },
+  {
+   "concept": "providence",
+   "work": "tlg012",
+   "ref": "248c",
+   "quote": "ἐκ τῆς οὖν προνοίας τῆς ἀκλινοῦς γέγονεν",
+   "says": "The scholiast on Phaedrus 248c: Adrasteia comes from unswerving providence."
+  },
+  {
+   "concept": "dike",
+   "work": "tlg012",
+   "ref": "248c",
+   "quote": "διαφέρει δὲ τῆς ἐκεῖ Δίκης",
+   "says": "The scholiast on Phaedrus 248c sets Adrasteia apart from Dikē there."
+  },
+  {
+   "concept": "logos",
+   "work": "tlg023",
+   "ref": "451a",
+   "quote": "τὸ μὲν ὀργανικὸν αἴτιον ὃ λόγος ἐστίν",
+   "says": "The scholiast on Gorgias 451a: speech (logos) is the instrumental cause of rhetoric."
+  },
+  {
+   "concept": "power",
+   "work": "tlg023",
+   "ref": "456c",
+   "quote": "πᾶσα γὰρ δύναμις ἄλλου ἐστὶ",
+   "says": "The scholiast on Gorgias 456c: every power is the power of something else, its user."
+  },
+  {
+   "concept": "daemons",
+   "work": "tlg023",
+   "ref": "456a",
+   "quote": "διὰ ποικιλίας καὶ κινήσεως καὶ τῆς ἐπὶ πᾶν προόδου μεμίμηνται",
+   "says": "The scholiast on Gorgias 456a: daemons imitate the simple divine nature by variety, motion and procession."
+  },
+  {
+   "concept": "emanation",
+   "work": "tlg023",
+   "ref": "456a",
+   "quote": "διὰ ποικιλίας καὶ κινήσεως καὶ τῆς ἐπὶ πᾶν προόδου μεμίμηνται",
+   "says": "The scholiast on Gorgias 456a speaks of procession (πρόοδος) to all things."
+  },
+  {
+   "concept": "divided-line",
+   "label": "The divided line",
+   "lemmas": [
+    "γραμμή"
+   ],
+   "work": "tlg030",
+   "ref": "509d",
+   "quote": "Σχόλιον ἐκ τῶν ᾿Αρχύτου καὶ Βροντίνου καὶ Ἰαμβλίχου ἐπιτμηϑέν",
+   "says": "The scholion on Republic 509d is drawn from Archytas, Brontinus and Iamblichus."
+  },
+  {
+   "concept": "mathematics",
+   "lemmas": [
+    "λογιστικός"
+   ],
+   "work": "tlg018",
+   "ref": "169e",
+   "quote": "λογιστική ἐστι ϑεωρία τῶν ἀριϑμητῶν",
+   "says": "The scholiast defines calculation (logistikē): the study of numbered things."
+  },
+  {
+   "concept": "demiurge",
+   "work": "tlg030",
+   "ref": "530a",
+   "quote": "διὰ τῆς εὐτάκτου κινήσεως τὸν δημιουργόν",
+   "says": "The scholiast on Republic 530a: the true astronomer wonders at the Demiurge through the heaven's ordered motion."
+  },
+  {
+   "concept": "virtue",
+   "work": "tlg034",
+   "ref": "633a",
+   "quote": "ἡ ἀρετὴ δύναται καὶ ὡς ὅλον εἰς μέρη τὰς ὑπ᾽ αὐτὴν ἀρετὰς διαιρεῖσϑαί",
+   "says": "The scholiast on Laws 633a: virtue is divided into the virtues under it, as a whole into parts."
+  },
+  {
+   "concept": "cause",
+   "work": "tlg023",
+   "ref": "508c",
+   "quote": "τοῦ δὲ τελικοῦ αἰτίου τῶν ἠϑικῶν ἀρχῶν",
+   "says": "The scholiast on Gorgias 508c: the final cause of the principles of ethics."
+  },
+  {
+   "concept": "thymos",
+   "work": "tlg034",
+   "ref": "631b",
+   "quote": "φιλότιμον καὶ ϑυμικὸν",
+   "says": "The scholiast on Laws 631b: the honour-loving and spirited kind of soul."
+  },
+  {
+   "concept": "tyrant",
+   "work": "tlg030",
+   "ref": "577e",
+   "quote": "τὸ γὰρ λογιστικὸν τῆς τοῦ τυράννου ψυχῆς",
+   "says": "The scholiast on Republic 577e: the reasoning part of the tyrant's soul, ruled by spirit and desire."
+  }
+ ],
+ "relations": [
+  {
+   "from": "time",
+   "concept": "eternal",
+   "kind": "image of",
+   "category": "image and pattern",
+   "why": "The scholiast and Alcinous: time is an image of eternity.",
+   "evidence": [
+    {
+     "source": "note",
+     "by": "Scholia (Hermann)",
+     "work": "tlg030",
+     "ref": "546a",
+     "quote": "ὃ πᾶς χρόνος αἰῶνός ἐστι τοῦ παντὸς εἰκών"
+    },
+    {
+     "source": "alcinous-burges",
+     "quote": "produced Time, — 4the image, as it were, of eternity"
+    }
+   ]
+  },
+  {
+   "from": "adrasteia",
+   "concept": "providence",
+   "kind": "born of",
+   "category": "causal dependence",
+   "why": "The scholiast: Adrasteia comes from unswerving providence.",
+   "evidence": [
+    {
+     "source": "note",
+     "by": "Scholia (Hermann)",
+     "work": "tlg012",
+     "ref": "248c",
+     "quote": "ἐκ τῆς οὖν προνοίας τῆς ἀκλινοῦς γέγονεν"
+    }
+   ]
+  },
+  {
+   "from": "dialectic",
+   "concept": "division",
+   "kind": "includes",
+   "category": "part and whole",
+   "why": "Alcinous: dialectic divides, defines, analyses, and reasons by induction and syllogism.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "in Dialectical Science there is a dividing, and a defining, and an analyzing, and, moreover, that which is inductive and syllogistic"
+    }
+   ]
+  },
+  {
+   "from": "dialectic",
+   "concept": "definition",
+   "kind": "includes",
+   "category": "part and whole",
+   "why": "Alcinous: defining is a part of dialectic.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "in Dialectical Science there is a dividing, and a defining, and an analyzing"
+    }
+   ]
+  },
+  {
+   "from": "dialectic",
+   "concept": "analysis",
+   "kind": "includes",
+   "category": "part and whole",
+   "why": "Alcinous: analysing is a part of dialectic.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "in Dialectical Science there is a dividing, and a defining, and an analyzing"
+    }
+   ]
+  },
+  {
+   "from": "dialectic",
+   "concept": "induction",
+   "kind": "includes",
+   "category": "part and whole",
+   "why": "Alcinous: induction is a part of dialectic.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "and, moreover, that which is inductive and syllogistic"
+    }
+   ]
+  },
+  {
+   "from": "dialectic",
+   "concept": "syllogism",
+   "kind": "includes",
+   "category": "part and whole",
+   "why": "Alcinous: syllogism is a part of dialectic.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "and, moreover, that which is inductive and syllogistic"
+    }
+   ]
+  },
+  {
+   "from": "definition",
+   "concept": "division",
+   "kind": "is produced from",
+   "category": "causal dependence",
+   "why": "Alcinous: a definition is produced from a division.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "Now a Definition is produced from a division after this manner"
+    }
+   ]
+  },
+  {
+   "from": "pleasure",
+   "concept": "affection",
+   "kind": "is one of the two simple",
+   "category": "part and whole",
+   "why": "Alcinous: pleasure and pain are the two simple affections, from which the rest are formed.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "there are two Affections, simple and elementary, (namely,) Pleasure and Pain"
+    }
+   ]
+  },
+  {
+   "from": "likeness-to-god",
+   "concept": "happiness",
+   "kind": "the end of",
+   "category": "ascent and goal",
+   "why": "Alcinous: Plato set likeness to god, as far as possible, as the end.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "To all which he placed ‘as an end, that was to follow,’ a similarity to god"
+    }
+   ]
+  },
+  {
+   "from": "likeness-to-god",
+   "concept": "virtue",
+   "kind": "is reached by",
+   "category": "ascent and goal",
+   "why": "Alcinous, after the Theaetetus: to be prudent, just and holy is likeness to god.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "that to be prudent, and just, and holy, is a similarity with god"
+    }
+   ]
+  },
+  {
+   "from": "phronesis",
+   "concept": "virtue",
+   "kind": "perfection of the rational part",
+   "category": "part and whole",
+   "why": "Alcinous: prudence is the perfection of the rational part of the soul.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "Now the perfection of the rational part is Prudence"
+    }
+   ]
+  },
+  {
+   "from": "sophist",
+   "concept": "not-being",
+   "kind": "busies himself with",
+   "category": "knower and known",
+   "why": "Alcinous: the sophist busies himself with that which is not.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "the Sophist busies himself about that which is not"
+    }
+   ]
+  },
+  {
+   "from": "sophist",
+   "concept": "demiurge",
+   "kind": "read as",
+   "category": "historical interpretation",
+   "why": "The scholiast, after Iamblichus: the Sophist is about the demiurge below the moon.",
+   "evidence": [
+    {
+     "source": "note",
+     "by": "Scholia (Hermann)",
+     "work": "tlg007",
+     "ref": "216a",
+     "quote": "ἔστι γὰρ κατὰ τὸν μέγαν Ἰάμβλιχον σκοπὸς νῦν περὶ τοῦ ὑπὸ σελήνην δημιουργοῦ"
+    }
+   ]
+  },
+  {
+   "from": "daemons",
+   "concept": "emanation",
+   "kind": "imitate the divine by",
+   "category": "historical interpretation",
+   "why": "The scholiast: daemons imitate the divine nature by variety, motion and procession to all.",
+   "evidence": [
+    {
+     "source": "note",
+     "by": "Scholia (Hermann)",
+     "work": "tlg023",
+     "ref": "456a",
+     "quote": "διὰ ποικιλίας καὶ κινήσεως καὶ τῆς ἐπὶ πᾶν προόδου μεμίμηνται"
+    }
+   ]
+  },
+  {
+   "from": "forms",
+   "concept": "god",
+   "kind": "thought of",
+   "category": "historical interpretation",
+   "why": "Alcinous: an Idea is, as regards god, his thought.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "Now Idea is, as regards god, a mental operation by him"
+    }
+   ]
+  },
+  {
+   "from": "opinion",
+   "concept": "memory",
+   "kind": "made of memory and sensation",
+   "category": "definition",
+   "why": "Alcinous: opinion is the combining of memory and sensation.",
+   "evidence": [
+    {
+     "source": "alcinous-burges",
+     "quote": "But Opinion is the complication of memory and sensation"
+    }
+   ]
+  }
+ ]
 }

@@ -141,6 +141,50 @@ def same(a, b):
     return a in b or b in a
 
 
+SENSE = re.compile(r'<div class="sense l(\d)">')
+LSJ_CITE = re.compile(r'(?:<span lang="grc">((?:(?!</span>).)*)</span>\s*)?<span class="bibl plato" data-work="(tlg\d+)" data-ref="(\d+[a-e]?)"', re.S)
+
+
+def lsj_plato(html):
+    """LSJ's citations of Plato in one entry, as the lexicon build rendered it: per sense, its number,
+    its glosses (LSJ's <tr>, as printed) and each place of Plato with the Greek LSJ quotes there, if any."""
+    out = []
+    parts = SENSE.split(html)
+    chunks = [("", parts[0])] + list(zip(parts[1::2], parts[2::2]))
+    for _, chunk in chunks:
+        sn = re.search(r'<b class="sn">([^<]*)</b>', chunk)
+        tr = [re.sub(r"<[^>]+>", "", t).strip(" ,;:.") for t in re.findall(r'<em class="tr">(.*?)</em>', chunk, re.S)]
+        for m in LSJ_CITE.finditer(chunk):
+            q = re.sub(r"<[^>]+>", "", m.group(1)).strip(" ,;:") if m.group(1) else None
+            out.append({"sense": sn.group(1).strip().rstrip(".") if sn else "", "gloss": "; ".join(t for t in tr if t)[:200],
+                        "work": m.group(2), "ref": m.group(3), "quote": q or None})
+    return out
+
+
+def lsj_found(src, seqs, work, ref, quote):
+    """Is LSJ's quotation in Burnet's Greek at the place cited, or the next two sections? A word LSJ
+    abbreviates to its first letters ('ψ.') may stand for any form of it; LSJ's dots of omission are gaps."""
+    if work not in src.imported or ref not in seqs.setdefault(work, structure.ref_range(src.db, work)):
+        return None
+    toks = []
+    for t in re.split(r"\s+", quote.replace("…", " … ").replace("...", " … ")):
+        if t in ("…", "") or not re.search(r"\w", t):
+            if t == "…":
+                toks.append(r"(?:\S+ ){0,12}?")
+            continue
+        n = ancient.norm(t, "grc")
+        if not n:
+            continue
+        toks.append(re.escape(n) + (r"\S*" if t.rstrip(",;:·").endswith(".") else "") + " ")
+    if not toks:
+        return None
+    pat = re.compile("(?<!\\S)" + "".join(toks).rstrip())
+    by_seq = {v: k for k, v in seqs[work].items()}
+    k = seqs[work][ref]
+    text = " ".join(src.plato(work, by_seq[i]) for i in range(k, k + 3) if i in by_seq)
+    return bool(pat.search(text.replace("  ", " ") + " "))
+
+
 def gather(src):
     """The whole index: the concepts written by hand (concepts.json), and every term the
     sources define (sources.json): each definition of the Definitions, in Burges' English and
@@ -207,6 +251,26 @@ def gather(src):
         define(c, {"source": "taylor-terms", "quote": cut(t, 0, r"\.(\s|$)", 240), "says": f"Taylor, s.v. {head}."})
         for lemma in r.get("lemmas", []):
             word(c, lemma, "the Greek word of Taylor's entry")
+    for r in x["alcinous"]:
+        c = concept(r["concept"], r.get("label"), "plato-later",
+                    "A topic of Alcinous' handbook of Platonism (Didaskalikos, 2nd c. AD), which sets out Plato's doctrine chapter by chapter.")
+        if "Alcinous" not in c["origin"]:
+            c["origin"].append("Alcinous")
+        c["later"].append({"source": "alcinous-burges", "quote": r["quote"], "says": f"Alcinous, Handbook of Platonism, ch. {r['chapter']}."})
+        for lemma in r.get("lemmas", []):
+            word(c, lemma, "the word of Alcinous' chapter")
+    for r in x["scholia"]:
+        c = concept(r["concept"], r.get("label"), "later",
+                    "Named in the Greek scholia on Plato (Hermann's Scholia Platonica): the ancient notes on the dialogues, some of them Neoplatonic.")
+        if "scholia" not in c["origin"]:
+            c["origin"].append("scholia")
+        c["later"].append({"source": "note", "by": "Scholia (Hermann)", "work": r["work"], "ref": r["ref"], "quote": r["quote"], "says": r["says"]})
+        for lemma in r.get("lemmas", []):
+            word(c, lemma, "the word of the scholion")
+    for r in x["relations"]:
+        if r["from"] not in by or r["concept"] not in by:
+            raise SystemExit(f"concepts: relation {r['from']} -> {r['concept']}: unknown concept")
+        by[r["from"]]["related"].append({k: v for k, v in r.items() if k != "from"})
     for r in x["later"]:
         if r["concept"] not in by:
             raise SystemExit(f"concepts: later reading for unknown concept {r['concept']!r}")
@@ -277,6 +341,21 @@ def build(db):
         stats["words compared across translators"] += 1
     for name, about in categories.items():
         db.execute("INSERT INTO concept_category VALUES (?,?,?)", (name, about, list(categories).index(name)))
+    lsj_n = 0
+    seqs = {}
+    lemmas = list(dict.fromkeys([t["lemma"] for c in concepts for t in c["terms"]] + cw["named_in_prompt"] + cw["more"]))
+    for lemma in lemmas:
+        rows = db.execute("SELECT e.html FROM lemma_entry le JOIN lex_entry e ON e.id = le.entry_id WHERE le.lemma = ? AND le.lexicon_id = 'lsj' ORDER BY e.id", (lemma,)).fetchall()
+        if not rows:
+            stats.setdefault("words not in LSJ", []).append(lemma)
+            continue
+        for (html,) in rows:
+            for x in lsj_plato(html):
+                found = lsj_found(src, seqs, x["work"], x["ref"], x["quote"]) if x["quote"] else None
+                db.execute("INSERT INTO lsj_plato VALUES (?,?,?,?,?,?,?,?)", (lemma, lsj_n, x["sense"], x["gloss"], x["work"], x["ref"], x["quote"], found))
+                lsj_n += 1
+                stats["LSJ citations of Plato"] += 1
+                stats["LSJ quotations " + {True: "found", False: "not found as printed", None: "not checked (no quotation, or not in this build)"}[found]] += 1
     for c in concepts:
         cid = c["id"]
         for i, t in enumerate(c["terms"]):
@@ -361,6 +440,12 @@ def write_report(db, stats, path=REPORT):
     lines += ["", "## Kinds of relation", "", "| Category | About | Relations |", "|---|---|---:|"]
     for name, about in q("SELECT name, about FROM concept_category ORDER BY seq"):
         lines.append(f"| {name} | {about} | {q('SELECT count(*) FROM concept_relation WHERE category = ?', name)[0][0]} |")
+    lx = dict(q("SELECT coalesce(found, -1), count(*) FROM lsj_plato GROUP BY 1"))
+    lines += ["", "## LSJ's citations of Plato", "",
+              f"Under the concept index's words, LSJ cites {sum(lx.values()):,} places of Plato (read from its entries in the lexicon tables). "
+              f"{lx.get(1, 0) + lx.get(0, 0):,} come with a Greek quotation: {lx.get(1, 0):,} are word for word in Burnet at the place cited "
+              f"(or the next two sections); {lx.get(0, 0):,} are not, because LSJ adapts its quotations (the case or order of words, a word left out). "
+              f"{lx.get(-1, 0):,} cite the place without a quotation." + (f" Not in LSJ: {', '.join(stats['words not in LSJ'])}." if stats.get("words not in LSJ") else "")]
     lines += ["", "## Words compared across the translators", "",
               "Passage by passage (`/api/renderings/<lemma>`, `#renderings/<lemma>` in the reader): the six the build prompt names, then the chief words of the index.", "",
               ", ".join(f"{w}{' (named)' if named else ''}" for w, named in q("SELECT lemma, named FROM compared_word ORDER BY seq")) + "."]
