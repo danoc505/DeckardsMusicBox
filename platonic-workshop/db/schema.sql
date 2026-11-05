@@ -580,6 +580,19 @@ CREATE TABLE concept_named (
     note_id     INTEGER NOT NULL REFERENCES note(id),
     word        TEXT NOT NULL
 );
+-- LSJ's citations of Plato under the concept index's words, read from the LSJ entries of the lexicon
+-- tables, with whether LSJ's Greek quotation is in Burnet's text at the place cited (NULL: no quotation).
+CREATE TABLE lsj_plato (
+    lemma       TEXT NOT NULL,
+    n           INTEGER NOT NULL,
+    sense       TEXT NOT NULL,             -- LSJ's sense number, as printed ('A', 'II', '2')
+    gloss       TEXT NOT NULL,             -- LSJ's English for that sense, as printed
+    work_id     TEXT NOT NULL,
+    ref         TEXT NOT NULL,
+    quote       TEXT,
+    found       INTEGER
+);
+CREATE INDEX lsj_plato_lemma ON lsj_plato(lemma);
 -- Words whose renderings are compared across the translators, passage by passage.
 CREATE TABLE compared_word (
     lemma       TEXT PRIMARY KEY,
