@@ -221,7 +221,7 @@ class Library(unittest.TestCase):
             srv.shutdown()
             srv.server_close()
             lib.db.close()
-            lib.user.close()
+            pass
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
-// Platonic Workshop reader (milestones 2 and 3). No libraries, no build step.
+// Platonic Workshop reader (milestones 2 to 4). No libraries, no build step.
+// Your translations and notes (milestone 4) are in mywork.js.
 "use strict";
 
 const WORK = "tlg031";
@@ -82,13 +83,14 @@ function scrollToTarget() {
 
 // ------------------------------------------------------------------ rendering
 
-function renderChunkGreek(chunk, tokens) {
+function renderChunkGreek(chunk, tokens, idx) {
   let out = "", pos = 0;
   const t = chunk.text;
   for (const tok of tokens) {
     out += esc(t.slice(pos, tok.start));
-    const cls = "w" + (tok.tagged ? "" : " untagged") + (state.selected === tok.id ? " sel" : "");
-    out += `<span class="${cls}" data-t="${tok.id}">${esc(t.slice(tok.start, tok.end))}</span>`;
+    const mine = idx ? mineWordAttrs(tok.id, idx) : { cls: "", after: "" };
+    const cls = "w" + (tok.tagged ? "" : " untagged") + (state.selected === tok.id ? " sel" : "") + mine.cls;
+    out += `<span class="${cls}" data-t="${tok.id}">${esc(t.slice(tok.start, tok.end))}</span>${mine.after}`;
     pos = tok.end;
   }
   return out + esc(t.slice(pos));
@@ -122,8 +124,9 @@ function renderPage() {
   }
   const numbers = new Map(d.notes.map((n, i) => [n.id, i + 1]));
   const lastPara = {};
+  const idx = MINE.idx = mineIndex(d);
   let html = `<div class="page-head"><h1>${d.page}</h1><span>Stephanus page ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
-  if (!d.mine.length) html += `<p class="page-note mine-note">Your work: nothing on this page yet. Writing translations and notes arrives in milestone 4, kept apart from the imported texts in data/user.sqlite.</p>`;
+  if (!d.mine.length) html += `<p class="page-note mine-note">Your work: select Greek words to translate them or write a footnote, or use <em>Write on</em> under a section for the whole of it.</p>`;
   html += `<div class="cols-head"><span></span><span>Greek · ${esc(grcEd.label)}</span><span class="eng-h">English · ${esc(engEd.label)}</span></div>`;
 
   for (const s of d.sections) {
@@ -134,7 +137,7 @@ function renderPage() {
       lastPara[lang] = c.para;
       return cont ? ' class="cont"' : "";
     };
-    const grc = g.map((c) => `<p${para(c, "grc")}>${speakerLabel(c)}${renderChunkGreek(c, tokByChunk.get(c.id) || [])}</p>`).join("");
+    const grc = g.map((c) => `<p${para(c, "grc")}>${speakerLabel(c)}${renderChunkGreek(c, tokByChunk.get(c.id) || [], idx)}</p>`).join("");
     const eng = e.map((c) => `<p${para(c, "eng")}>${speakerLabel(c)}${renderChunkEnglish(c, d.notes, numbers)}</p>`).join("");
     html += `<section class="sec" id="s-${s.ref}" data-ref="${s.ref}">
       <button class="ref" data-copy="${esc(s.urn)}" title="${esc(s.urn)} (click to copy)">${s.ref}</button>
@@ -177,12 +180,7 @@ function renderApparatus(s, d, numbers) {
       `Bury's note at ${l.from_ref} cites “${l.raw}”`)).join("");
     rows.push(`<div class="app-row app-links"><div class="app-k">Cited from</div><div class="app-v chips">${chips}</div></div>`);
   }
-  const mine = d.mine.filter((m) => m.start_ref === s.ref);
-  if (mine.length) {
-    rows.push(`<div class="app-row mine-row"><div class="app-k">Your work</div><div class="app-v">${
-      mine.map((m) => `<div class="mine-item"><span class="meta">${esc(m.kind)}${m.words ? " on " + esc(m.words) : ""} · ${esc(m.updated_at)}</span><br>${esc(m.body)}</div>`).join("")
-    }</div></div>`);
-  }
+  rows.push(renderMineRow(s, d));
   return rows.join("");
 }
 
@@ -225,6 +223,7 @@ async function inspect(id) {
   let html = `<button class="insp-close" aria-label="Close" title="Close (Esc)">×</button>
     <div class="insp-form" lang="grc">${esc(t.form)}</div>
     <div class="insp-addr" title="CTS address of this word">${esc(t.address)}</div>`;
+  html += renderMineForWord(id);
   if (t.tags.length) {
     const split = t.tags.length > 1;
     html += `<div class="box tagged"><h3>Tagged <span class="badge">machine</span></h3>`;
@@ -379,6 +378,8 @@ async function lookupLemma(lemma, isTagged) {
 
 function closeInspector() {
   state.selected = null;
+  MINE.editing = null;
+  highlightSpan(null);
   document.querySelectorAll(".w.sel").forEach((e) => e.classList.remove("sel"));
   document.body.classList.remove("inspecting");
   $("#inspector").innerHTML = `<div class="inspector-empty"><p><strong>Click any Greek word</strong> for its lemma, parse, grammar notes and dictionary entry.</p></div>`;

@@ -41,7 +41,13 @@ linkable record placed at its section. See
 [`sources/taylor-1804-vol1-theosophylib/`](sources/taylor-1804-vol1-theosophylib/README.md)
 and [`reports/taylor_vol1.md`](reports/taylor_vol1.md).
 
-Next is milestone 4: your translations and notes.
+**Milestone 4, your translations and notes: done.** Select any run of Greek
+words, or a whole Stephanus section, and write your translation of it, a
+footnote, a note or an alternative rendering, in Markdown. Every version is
+kept, nothing is ever written over, and everything exports to Markdown, JSON or
+a copy of the database. See [Your translations and notes](#your-translations-and-notes) below.
+
+Next is milestone 5: all of Plato, and each word across the dialogues.
 
 ## Running it
 
@@ -83,7 +89,8 @@ from the committed copies.
   the Timaeus that cite this passage. Links to other dialogues are shown but not yet followable:
   the rest of Plato arrives in milestone 5.
 - **Who is speaking.** The left column lists the speeches, from the speaker markup in the Perseus text.
-- **Your work.** Shown when there is any. The editor comes in milestone 4.
+- **Your work.** Your translations and notes under each section, and the words they are on
+  underlined in the Greek. See [below](#your-translations-and-notes).
 - **Sources.** The *Sources* link lists every source in the library with its provenance, licence and commit.
 
 Each layer can be switched off at the top; the choice is remembered in the browser.
@@ -134,6 +141,57 @@ the `abbreviation` table. Middle Liddell's own list of abbreviations is not digi
 entries only grammatical abbreviations and the authors LSJ abbreviates the same way (*Hdt.*,
 *Ar.*) are expanded; *Plat.*, *Xen.* and the like are left as printed.
 
+## Your translations and notes
+
+![Writing a translation of Timaeus 29e 1–9, with a footnote on 29e 11–13](docs/reader-m4.png)
+
+- **Choose the words.** Drag across Greek words (a partly selected word counts), or click
+  one word and Shift-click the last; a bar offers *Translate*, *Footnote*, *Note* and
+  *Alternative*. A span may run across sections. *Write on 29e* under a section takes the
+  whole section, and the word box has the same four buttons for the word alone.
+- **Write.** The editor opens in the right-hand column with the Greek you chose above it.
+  Give the text a name if you like (*literal*, *after Taylor*): several translations of the
+  same words are your alternative renderings, told apart by name. Text is Markdown:
+  `*italic*`, `**bold**`, `> quotation`, lists, links, and footnotes inside a translation
+  (`…the maker[^1] of…` with `[^1]: The note.` on its own line), numbered for you.
+  *Preview* shows it as it will appear; Ctrl+Enter saves.
+- **On the page.** Under each section, *Your work* lists what starts there, with its span
+  (*29e 1–9*: section, then word numbers) and the opening and closing Greek words. Words
+  under a translation are underlined; a footnote, note or alternative on words gets a
+  letter (a, b, c) after its last word, so it is not confused with Bury's numbered notes.
+  Hover an item to light up its words. The *Your work* switch at the top hides all of it.
+- **History.** Every save is a new revision; *History* shows them all, and *Bring this
+  version back* saves an old one as the newest, leaving the rest in place.
+- **Delete** hides an item from the page. It stays, with its history, and *Export* lists
+  deleted items with a *Restore* button.
+- **Export** (top right): Markdown in Stephanus order, with the Greek of every span and your
+  footnotes; JSON with every version and the deleted items; or a copy of `user.sqlite`.
+  From the command line: `python3 tools/mywork.py md my-plato.md` (or `json`, `sqlite`).
+
+**How your text is kept safe.**
+
+- It is in `data/user.sqlite`, a separate file from the library. `build_db.py` only ever
+  creates its tables if they are missing.
+- Nothing is overwritten. Each save adds a row to `revision`; delete only marks the item.
+- Two tabs cannot clobber each other: a save names the revision it was edited from, and if
+  the text has changed since, the server refuses, shows you the saved version, and keeps
+  yours in the editor. *Save mine as the newest version* then saves it on top, and the other
+  stays in the history.
+- Unsaved typing is kept in the browser as a draft and brought back if the page is closed or
+  reloaded; leaving with unsaved text asks first.
+- An upgrade of the file's layout (milestone 4 is the first) copies it to `data/backups/`
+  first, then only adds columns.
+- Anchors keep the Greek words as well as their numbers. If a re-import ever changes the
+  text under an anchor, the item says so and shows the words you wrote it on; it is never
+  moved or rewritten automatically.
+- The server writes only for the reader it serves: it listens on 127.0.0.1, checks the
+  Host and Origin of every write, and accepts only JSON, so no other web page can post to it.
+
+**Two choices, each one line to change** in [`tools/mywork.py`](tools/mywork.py):
+`SPAN_UNITS = "words"` (any run of words; `"sections"` widens every selection to whole
+Stephanus sections) and `DEFAULT_FORMAT = "markdown"` (or `"plain"`). Each item records the
+format it was written in, so changing the default leaves earlier work displayed as written.
+
 ## The database
 
 Two SQLite files in `data/` (not committed):
@@ -141,11 +199,11 @@ Two SQLite files in `data/` (not committed):
 | File | What | Written by |
 |---|---|---|
 | `workshop.sqlite` | The library: everything imported from the sources | `tools/build_db.py`, rebuilt from scratch every time |
-| `user.sqlite` | Your translations, notes and their revision history | You, from milestone 4. A rebuild never opens it for writing |
+| `user.sqlite` | Your translations, notes and every revision of them | You, through the reader (`tools/mywork.py`). A rebuild only creates missing tables |
 
-Your rows point into the library by CTS URN and Stephanus reference
-(`urn:cts:greekLit:tlg0059.tlg031`, `29e`) and the Greek words themselves, never
-by internal row numbers, so a rebuild cannot orphan them.
+Your rows point into the library by CTS URN, Stephanus reference and word number within
+the section (`urn:cts:greekLit:tlg0059.tlg031`, `29e`, words 1 to 9) and keep the Greek
+words themselves, never internal row numbers, so a rebuild cannot orphan them.
 
 The library holds the five layers of the plan, each anchored to a work and a
 Stephanus section, and every row names its source:
@@ -227,11 +285,13 @@ texts/            imported texts, one JSON file per work (committed)
 db/               schema of the library and of your own database
   grammar/        which Smyth section is quoted for which grammatical category
 tools/            fetch, verify, import, build the database, serve the reader, Greek helpers,
-                  lexicon.py (dictionary entries, LSJ's abbreviations), grammar.py (Smyth, treebank labels)
-reader/           the reader (HTML, CSS, JavaScript; no libraries)
+                  lexicon.py (dictionary entries, LSJ's abbreviations), grammar.py (Smyth, treebank labels),
+                  mywork.py (your translations and notes: the only code that writes user.sqlite)
+reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor
 tests/
 docs/             screenshots
 reports/          output of verify_sources.py (committed so results are reviewable)
 data/raw/         downloaded sources (git-ignored)
 data/*.sqlite     the library and your work (git-ignored)
+data/backups/     copies of user.sqlite made before an upgrade (git-ignored)
 ```
