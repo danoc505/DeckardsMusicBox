@@ -1,0 +1,18 @@
+{
+  "thetetusofplatow00plat_djvu.txt": {
+    "url": "https://archive.org/download/thetetusofplatow00plat/thetetusofplatow00plat_djvu.txt",
+    "fetched_at": "2026-11-05T12:58:39+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1165317,
+    "sha256": "638a6eda1540f4b74371eaa5ece4e11d8b7208d52bafea21b6e43b110d5e088a"
+  },
+  "thetetusofplatow00plat_metadata.json": {
+    "url": "https://archive.org/metadata/thetetusofplatow00plat/metadata",
+    "fetched_at": "2026-11-05T12:58:40+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2156,
+    "sha256": "eb1ab7a83d5a877c43fd8688dbe66d0d000ae30057319c9dec8c51f24be687a1"
+  }
+}

@@ -415,6 +415,18 @@ class Library:
                 "WHERE commentary_id = ? GROUP BY 1, 2, 3", r["id"])
         return rows
 
+    def all_commentaries(self):
+        """Milestone 11: every commentary in the library, dialogue by dialogue, with how its notes are placed."""
+        rows = self.rows(
+            "SELECT c.id, c.work_id, w.title AS work_title, w.slug, w.tetralogy, c.author, c.label, c.title, c.printed, c.kind, "
+            "c.proof_status, c.anchoring, c.source_id, c.n_notes, "
+            "sum(n.kind = 'introduction') AS whole, sum(n.word_start IS NOT NULL) AS on_words, sum(n.computed) AS computed, "
+            "count(DISTINCT CASE WHEN n.kind != 'introduction' THEN n.start_ref END) AS sections "
+            "FROM commentary c JOIN work w ON w.id = c.work_id LEFT JOIN note n ON n.commentary_id = c.id "
+            "GROUP BY c.id ORDER BY w.id, c.kind = 'introduction', c.label")
+        stats = self.one("SELECT value FROM build WHERE key = 'commentary_stats'")
+        return {"commentaries": rows, "stats": json.loads(stats["value"]) if stats else None}
+
     def commentary(self, cid, after=0, limit=200):
         """A commentary read straight through, in printed order."""
         c = self.one("SELECT * FROM commentary WHERE id = ?", cid)
@@ -669,6 +681,8 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 2 and parts[0] == "whole":
                     w = lib.whole(parts[1])
                     return self.send_json(w) if w else self.not_found()
+                if parts == ["commentaries"]:
+                    return self.send_json(lib.all_commentaries())
                 if len(parts) == 2 and parts[0] == "renderings":
                     return self.send_json(lib.renderings(greek.nfc(parts[1]), work=query.get("work") or None,
                                                          after=int(query.get("after") or 0), limit=int(query.get("limit") or 10)))

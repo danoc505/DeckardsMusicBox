@@ -1,0 +1,18 @@
+{
+  "sophistespolitic00plat_djvu.txt": {
+    "url": "https://archive.org/download/sophistespolitic00plat/sophistespolitic00plat_djvu.txt",
+    "fetched_at": "2026-11-05T12:58:43+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1707010,
+    "sha256": "653c161a8dd6403616ffde4e146a0a59f884c92ef03ede2fe2ddb0a1bf58ca19"
+  },
+  "sophistespolitic00plat_metadata.json": {
+    "url": "https://archive.org/metadata/sophistespolitic00plat/metadata",
+    "fetched_at": "2026-11-05T12:58:45+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2036,
+    "sha256": "a32263ba65e689d3ed51bf3c01359e8b39d8ed9dc924d0f72c3439486843b06b"
+  }
+}

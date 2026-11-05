@@ -19,7 +19,8 @@ function commList() {
   return (state.work && state.work.commentaries) || [];
 }
 // The order of the columns: the ancient commentary first, then Taylor's notes from it, then the modern.
-const COMM_ORDER = ["proclus1820", "taylor1804-addnotes", "archerhind1888"];
+const COMM_ORDER = ["proclus1820", "taylor1804-addnotes", "archerhind1888", "archerhind1883", "campbell1883",
+  "campbell1867-tlg007", "campbell1867-tlg008", "adam1902", "burnet1911", "bury1909", "england1921"];
 function commRank(cid) { const i = COMM_ORDER.indexOf(cid); return i < 0 ? 99 : i; }
 function commInfo(cid) { return commList().find((c) => c.id === cid) || { label: cid }; }
 
@@ -122,20 +123,22 @@ function highlightNote(id, on) {
 
 // ------------------------------------------------------------------ reading straight through
 
-async function showCommentary(cid, title) {
+async function showCommentary(cid, title, work, info) {
+  // From the list of all commentaries (milestone 11) a commentary on another dialogue can be read.
+  const W = work || WORK;
   const dlg = $("#comm-dialog");
   $("#comm-title").textContent = title || commInfo(cid).label;
   const body = $("#comm-body");
   body.innerHTML = `<p class="loading">…</p>`;
   dlg.showModal();
   let after = 0, html = "";
-  const c0 = commInfo(cid);
+  const c0 = info || commInfo(cid);
   html += `<p class="meta">${esc(c0.printed || "")}. ${esc(c0.anchoring || "")} Proofreading: ${esc(c0.proof_status || "")}.</p>`;
   for (let k = 0; k < 20; k++) {
     const c = await api(`commentary/${encodeURIComponent(cid)}?after=${after}&limit=300`);
     for (const n of c.notes) {
       if (n.kind === "footnote") continue;
-      const where = n.kind === "introduction" ? "" : `<a class="chip" href="${esc(placeHash(WORK, n.start_ref))}" data-close-comm>${esc(workAbbr(WORK))} ${esc(n.start_ref)}${n.end_ref !== n.start_ref ? "–" + esc(n.end_ref) : ""}</a> ${n.computed ? '<span class="approx">≈</span> ' : ""}`;
+      const where = n.kind === "introduction" ? "" : `<a class="chip" href="${esc(placeHash(W, n.start_ref))}" data-close-comm>${esc(workAbbr(W))} ${esc(n.start_ref)}${n.end_ref !== n.start_ref ? "–" + esc(n.end_ref) : ""}</a> ${n.computed ? '<span class="approx">≈</span> ' : ""}`;
       html += `<div class="cm-read" id="cm-${n.id}">${where}${n.lemma_text ? `<span class="cm-lemma"${/[Ͱ-Ͽἀ-῿]/.test(n.lemma_text) ? ' lang="grc"' : ""}>${esc(n.lemma_text)}</span>` : ""}${noteBody(n)}</div>`;
       after = Math.max(after, n.seq);
     }
@@ -157,7 +160,7 @@ function showIntroductions() {
 function showCommAbout() {
   const cs = commList();
   $("#about").querySelector("h2").textContent = "Commentaries";
-  $("#about-body").innerHTML = `<p class="meta">The commentaries on the ${esc(state.work.title)} in this library, how each note is placed at its passage, and how much of each is placed on the Greek words themselves. ≈ marks a place that is computed rather than printed. Figures in reports/commentary_timaeus.md.</p>` +
+  $("#about-body").innerHTML = `<p class="meta">The commentaries on the ${esc(state.work.title)} in this library, how each note is placed at its passage, and how much of each is placed on the Greek words themselves. ≈ marks a place that is computed rather than printed. Figures in reports/commentaries.md (the Timaeus: reports/commentary_timaeus.md). Every commentary in the library: <a href="#commentaries">Commentaries</a>.</p>` +
     cs.map((c) => {
       const placed = (c.placed || []).map((r) => `${r.n} by ${r.anchor_method}${r.on_words ? ", on the Greek words" : ""}${r.computed ? " (≈)" : ""}`).join("; ");
       return `<div class="src"><h4>${esc(c.label)}</h4><div>${esc(c.title)}. ${esc(c.printed)}</div><div>${esc(c.anchoring)}</div>

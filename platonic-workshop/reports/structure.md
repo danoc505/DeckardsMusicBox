@@ -57,28 +57,28 @@ Doubt, aristophanes item 6 (tlg005): Burges prints 'Critias' as the third of thi
 
 | Theme | Passages | Notes naming it | Notes linking its passages |
 |---|---|---:|---:|
-| The sun | Republic 507a–509c | 2 | 0 |
-| The divided line | Republic 509d–511e | 2 | 0 |
-| The cave | Republic 514a–517a | 1 | 0 |
-| The ship of state | Republic 488a–489a | 4 | 0 |
-| The ring of Gyges | Republic 359d–360b; Republic 612b–612b | 2 | 1 |
-| The myth of the metals | Republic 414b–415d | 3 | 0 |
+| The sun | Republic 507a–509c | 9 | 0 |
+| The divided line | Republic 509d–511e | 7 | 0 |
+| The cave | Republic 514a–517a | 8 | 0 |
+| The ship of state | Republic 488a–489a | 11 | 0 |
+| The ring of Gyges | Republic 359d–360b; Republic 612b–612b | 4 | 1 |
+| The myth of the metals | Republic 414b–415d | 12 | 0 |
 | The charioteer | Phaedrus 246a–256e | 4 | 0 |
 | The cicadas | Phaedrus 258e–259d | 0 | 0 |
 | Theuth and the invention of writing | Phaedrus 274c–275b | 0 | 0 |
-| The judgment of the dead (Gorgias) | Gorgias 523a–527a | 4 | 1 |
-| The journey of the dead and the true earth (Phaedo) | Phaedo 107d–114c | 12 | 0 |
-| The myth of Er | Republic 614b–621b | 5 | 15 |
-| Aristophanes' myth of the halves | Symposium 189d–193d | 2 | 0 |
-| Diotima and the ascent to beauty | Symposium 201d–212a; Symposium 210a–212a | 13 | 0 |
+| The judgment of the dead (Gorgias) | Gorgias 523a–527a | 14 | 1 |
+| The journey of the dead and the true earth (Phaedo) | Phaedo 107d–114c | 56 | 7 |
+| The myth of Er | Republic 614b–621b | 34 | 33 |
+| Aristophanes' myth of the halves | Symposium 189d–193d | 3 | 0 |
+| Diotima and the ascent to beauty | Symposium 201d–212a; Symposium 210a–212a | 20 | 1 |
 | Prometheus and Epimetheus | Protagoras 320c–322d | 2 | 0 |
-| The age of Cronos and the reversed cosmos | Statesman 268d–274e | 3 | 0 |
+| The age of Cronos and the reversed cosmos | Statesman 268d–274e | 21 | 0 |
 | Atlantis | Timaeus 20d–25d; Critias 108e–121c | 17 | 14 |
-| Socrates the midwife | Theaetetus 149a–151d | 0 | 0 |
-| The block of wax | Theaetetus 191c–195b | 1 | 0 |
-| The aviary | Theaetetus 197c–200d | 0 | 0 |
-| The puppet of the gods | Laws 644d–645c | 0 | 0 |
-| The swan song | Phaedo 84e–85b | 0 | 0 |
+| Socrates the midwife | Theaetetus 149a–151d | 1 | 0 |
+| The block of wax | Theaetetus 191c–195b | 6 | 0 |
+| The aviary | Theaetetus 197c–200d | 1 | 0 |
+| The puppet of the gods | Laws 644d–645c | 3 | 0 |
+| The swan song | Phaedo 84e–85b | 2 | 0 |
 
 Where a passage ends is chosen by hand; where it begins is a quotation of Burnet's Greek, checked. 'Notes naming it' are the notes placed inside the passage whose words include one of the theme's keywords (sources/structure/themes.json).
 

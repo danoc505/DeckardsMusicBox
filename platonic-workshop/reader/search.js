@@ -31,7 +31,7 @@ function openSearch(q, by, extra = {}) {
 async function showSearchFromHash(h) {
   const p = new URLSearchParams(h.replace(/^search\??/, ""));
   state.view = "search";
-  document.body.classList.remove("whole-view", "corpus-view", "concepts-view");
+  document.body.classList.remove("whole-view", "corpus-view", "concepts-view", "commentaries-view");
   document.body.classList.add("searching");
   closeInspector();
   SEARCH.q = p.get("q") || "";
