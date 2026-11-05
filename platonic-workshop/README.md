@@ -20,18 +20,96 @@ downloaded and checked. See:
 - [`sources/TIMAEUS_PILOT.md`](sources/TIMAEUS_PILOT.md): the commentaries the pipeline will be proven on.
 - [`sources/taylor-1804/`](sources/taylor-1804/): the OCR text of Taylor and Sydenham's 1804 Works of Plato.
 
-Next is milestone 2: the Timaeus reader and its database.
+**Milestone 2, the Timaeus reader and its database: done.** The Greek
+Timaeus with Stephanus navigation, Bury's English beside it, his footnotes as
+the first commentary, the references in those footnotes as links, and every
+word clickable for its tagged lemma and parse with all the other possible
+parses beside it. See [The reader](#the-reader) and [The database](#the-database) below.
+
+Next is milestone 3: word lookup (dictionary entries and plain-English grammar notes).
 
 ## Running it
 
-Python 3.10 or later, standard library only.
+Python 3.10 or later, standard library only. Nothing to install.
 
 ```sh
 cd platonic-workshop
 python3 tools/fetch_sources.py      # about 630 MB into data/ (not committed), 2 minutes
-python3 tools/verify_sources.py     # writes reports/verification.md and .json, under a minute
-python3 -m unittest discover -s tests -v
+python3 tools/build_db.py           # builds data/workshop.sqlite, about 10 seconds
+python3 tools/serve.py              # then open http://localhost:8800/
 ```
+
+`tools/verify_sources.py` re-runs milestone 1's checks, and
+`python3 -m unittest discover -s tests -v` runs all the tests.
+
+## The reader
+
+![The reader at Timaeus 29e, with a word selected](docs/reader-m2.png)
+
+- **Navigation.** Type a reference (`29e`, or a page, `52`) in the box at the top, use ‹ ›
+  or the arrow keys to turn Stephanus pages, or pick a page in the left column. The
+  address bar follows you (`http://localhost:8800/#29e`), so a reference can be bookmarked.
+- **Text.** Burnet's Greek on the left, Bury's Loeb English (1929) on the right, section
+  by section. Words Burnet brackets as spurious keep his square brackets.
+- **Words.** Click any Greek word. The green box is GLAUx's single tagged choice of lemma and
+  parse, marked *machine*: it was assigned by a statistical tagger and nobody has checked it.
+  Under it, every parse the rule-based Morpheus analyser allows for that spelling; the
+  one that agrees with the tag is highlighted, so you can see at a glance what else the word
+  could be. The word's CTS address is shown for citing. *Mark untagged words* underlines the
+  few words GLAUx has no match for.
+- **Commentary.** Bury's 192 footnotes, numbered in the English and printed under their section.
+  Each says how it was anchored and its proofreading status.
+- **Links.** *Points to* lists the passages a note cites; *Cited from* lists the notes elsewhere in
+  the Timaeus that cite this passage. Links to other dialogues are shown but not yet followable:
+  the rest of Plato arrives in milestone 5.
+- **Who is speaking.** The left column lists the speeches, from the speaker markup in the Perseus text.
+- **Your work.** Shown when there is any. The editor comes in milestone 4.
+- **Sources.** The *Sources* link lists every source in the library with its provenance, licence and commit.
+
+Each layer can be switched off at the top; the choice is remembered in the browser.
+The server listens on 127.0.0.1 only.
+
+## The database
+
+Two SQLite files in `data/` (not committed):
+
+| File | What | Written by |
+|---|---|---|
+| `workshop.sqlite` | The library: everything imported from the sources | `tools/build_db.py`, rebuilt from scratch every time |
+| `user.sqlite` | Your translations, notes and their revision history | You, from milestone 4. A rebuild never opens it for writing |
+
+Your rows point into the library by CTS URN and Stephanus reference
+(`urn:cts:greekLit:tlg0059.tlg031`, `29e`) and the Greek words themselves, never
+by internal row numbers, so a rebuild cannot orphan them.
+
+The library holds the five layers of the plan, each anchored to a work and a
+Stephanus section, and every row names its source:
+
+| Layer | Tables | Timaeus, milestone 2 |
+|---|---|---|
+| Provenance | `source` | One row per manifest entry, with the commit actually on disk |
+| Text | `edition`, `chunk`, `token` | Burnet's Greek and Bury's English, 364 sections each; 23,677 Greek words, each addressed by character position |
+| Word evidence | `tag`, `morph` | GLAUx lemma and parse for 23,670 words (99.97%), all machine-tagged; every Morpheus parse for 99.9% of words |
+| Structure | `division` | 76 Stephanus pages and 41 speeches. Parts of the argument and skopos: milestone 9 |
+| Commentary | `note` | Bury's 192 Loeb notes, anchored to the section they are printed in |
+| Links | `link` | 163 references read from those notes by pattern (101 within the Timaeus) |
+
+The full schema, with a comment on every column, is [`db/schema.sql`](db/schema.sql)
+and [`db/user_schema.sql`](db/user_schema.sql).
+
+**How GLAUx's tags are matched to the words.** GLAUx tokenises the same Perseus text
+slightly differently, so its words are lined up with ours section by section. A word is
+tagged only when the match is certain: the same letters (`same-form`), or GLAUx writing it
+as two words that spell it exactly, as with οὐδέ as οὐ + δέ (`split-word`, 124 words). The
+7 words left untagged are the 6 Burnet brackets as spurious, which GLAUx leaves out, and
+one οὐδέ at 17b where the two tokenisations do not line up.
+
+**How links are read.** A `<title>` in a note naming a work of Plato, followed by Stephanus
+numbers (`Rep. 369 E ff., 374 E ff.`), gives one link per number; a letter on its own carries
+the page before it (`Laws 892 A, B`). A bare number and letter between 17 and 92 (`cf. 31 B`)
+is a reference within the Timaeus. Titles after another author's name (`Eurip. Ion`) are
+skipped. References are recorded as printed, mistakes included: Bury's "Phaedo 244 A" at
+71e is surely the Phaedrus, and his misprint "Ref. 416 D" at 18b is not read at all.
 
 ## What milestone 1 found
 
@@ -70,8 +148,12 @@ sources/          what we use and where it comes from (committed)
   COMMENTARIES.md
   TIMAEUS_PILOT.md
   taylor-1804/    OCR text, kept exactly as received
-tools/            fetch, verify, Greek helpers
+db/               schema of the library and of your own database
+tools/            fetch, verify, build the database, serve the reader, Greek helpers
+reader/           the reader (HTML, CSS, JavaScript; no libraries)
 tests/
+docs/             screenshots
 reports/          output of verify_sources.py (committed so results are reviewable)
 data/raw/         downloaded sources (git-ignored)
+data/*.sqlite     the library and your work (git-ignored)
 ```

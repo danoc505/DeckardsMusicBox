@@ -503,11 +503,12 @@ def build_work(db, work_id, sources):
     return stats
 
 
-def build(works):
+def build(works, db_path=None):
+    db_path = Path(db_path or DB_PATH)
     sources = load_sources()
     require(["perseus-greek-plato", "glaux-plato", "morpheus-analyses"], sources)
     DATA.mkdir(exist_ok=True)
-    tmp = DB_PATH.with_suffix(".building")
+    tmp = db_path.with_suffix(".building")
     if tmp.exists():
         tmp.unlink()
     db = sqlite3.connect(tmp)
@@ -524,12 +525,11 @@ def build(works):
     db.execute("INSERT INTO build VALUES ('built_at', ?)", (time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),))
     db.execute("INSERT INTO build VALUES ('stats', ?)", (json.dumps(all_stats),))
     db.commit()
-    db.execute("PRAGMA foreign_key_check")
     problems = db.execute("PRAGMA foreign_key_check").fetchall()
     db.close()
     if problems:
         raise SystemExit(f"foreign key problems: {problems[:5]}")
-    tmp.replace(DB_PATH)
+    tmp.replace(db_path)
     return all_stats
 
 

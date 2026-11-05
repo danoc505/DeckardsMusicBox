@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+"""Run the Workshop reader on this computer.
+
+    python3 tools/build_db.py      # once, and after any change to the sources
+    python3 tools/serve.py         # then open http://localhost:8800/
+
+Standard library only. Serves reader/ and a small read-only JSON API over
+data/workshop.sqlite (the library) and data/user.sqlite (your own work).
+It listens on 127.0.0.1 only, so nothing is reachable from other machines.
+"""
+import argparse
+import json
+import mimetypes
+import re
+import sqlite3
+import sys
+from http import HTTPStatus
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_db  # noqa: E402
+import greek  # noqa: E402
+
+ROOT = Path(__file__).resolve().parent.parent
+READER = ROOT / "reader"
+
+
+class Library:
+    """Read-only queries the reader needs. One instance per request thread is
+    cheap: sqlite connections open in microseconds."""
+
+    def __init__(self, db_path=build_db.DB_PATH, user_path=build_db.USER_DB_PATH):
+        if not Path(db_path).exists():
+            raise SystemExit(f"{db_path} not found; run python3 tools/build_db.py first")
+        self.db = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True, check_same_thread=False)
+        self.db.row_factory = sqlite3.Row
+        self.user = None
+        if Path(user_path).exists():
+            self.user = sqlite3.connect(f"file:{user_path}?mode=ro", uri=True, check_same_thread=False)
+            self.user.row_factory = sqlite3.Row
+
+    def rows(self, sql, *args, db=None):
+        return [dict(r) for r in (db or self.db).execute(sql, args)]
+
+    def one(self, sql, *args):
+        r = self.db.execute(sql, args).fetchone()
+        return dict(r) if r else None
+
+    # ------------------------------------------------------------ works
+
+    def works(self):
+        return self.rows("SELECT id, urn, title, imported FROM work ORDER BY id")
+
+    def work(self, work_id):
+        w = self.one("SELECT * FROM work WHERE id = ?", work_id)
+        if not w or not w["imported"]:
+            return None
+        w["editions"] = self.rows(
+            "SELECT e.*, s.title AS source_title, s.licence FROM edition e JOIN source s ON s.id = e.source_id WHERE work_id = ?", work_id)
+        w["sections"] = [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", work_id)]
+        w["pages"] = self.rows("SELECT label, start_ref, end_ref FROM division WHERE work_id = ? AND kind = 'page' ORDER BY id", work_id)
+        w["speeches"] = self.rows("SELECT label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind = 'speech' ORDER BY id", work_id)
+        w["parts"] = self.rows("SELECT label, start_ref, end_ref, basis, source_id FROM division WHERE work_id = ? AND kind IN ('part', 'skopos') ORDER BY id", work_id)
+        w["counts"] = {
+            "notes": self.one("SELECT count(*) n FROM note WHERE work_id = ?", work_id)["n"],
+            "links_out": self.one("SELECT count(*) n FROM link WHERE from_work = ?", work_id)["n"],
+            "links_in": self.one("SELECT count(*) n FROM link WHERE to_work = ?", work_id)["n"],
+            "tokens": self.one("SELECT count(*) n FROM token t JOIN edition e ON e.id = t.edition_id WHERE e.work_id = ?", work_id)["n"],
+            "tagged": self.one("SELECT count(DISTINCT token_id) n FROM tag g JOIN token t ON t.id = g.token_id JOIN edition e ON e.id = t.edition_id WHERE e.work_id = ?", work_id)["n"],
+        }
+        return w
+
+    # ------------------------------------------------------------ one Stephanus page
+
+    def page(self, work_id, page):
+        secs = self.rows("SELECT ref, urn FROM section WHERE work_id = ? AND page = ? ORDER BY seq", work_id, page)
+        if not secs:
+            return None
+        refs = [s["ref"] for s in secs]
+        marks = ",".join("?" * len(refs))
+        chunks = self.rows(
+            f"SELECT c.id, c.edition_id, e.lang, c.section_ref, c.para, c.speaker, c.label, c.text FROM chunk c "
+            f"JOIN edition e ON e.id = c.edition_id WHERE c.work_id = ? AND c.section_ref IN ({marks}) ORDER BY c.edition_id, c.seq",
+            work_id, *refs)
+        tokens = self.rows(
+            f"SELECT t.id, t.chunk_id, t.section_ref, t.seq, t.start, t.end, t.form, "
+            f"(SELECT count(*) FROM tag g WHERE g.token_id = t.id) AS tagged FROM token t "
+            f"JOIN edition e ON e.id = t.edition_id WHERE e.work_id = ? AND t.section_ref IN ({marks}) ORDER BY t.id",
+            work_id, *refs)
+        notes = self.rows(
+            f"SELECT id, commentator, start_ref, end_ref, chunk_id, offset, body_html, printed_at, anchor_method, proof_status, source_id "
+            f"FROM note WHERE work_id = ? AND start_ref IN ({marks}) ORDER BY id", work_id, *refs)
+        links_out = self.rows(
+            f"SELECT l.id, l.from_ref, l.to_work, l.to_ref, l.raw, l.method, l.note_id, w.title AS to_title, w.imported AS to_imported "
+            f"FROM link l JOIN work w ON w.id = l.to_work WHERE from_work = ? AND from_ref IN ({marks}) ORDER BY l.id", work_id, *refs)
+        # Links in: to a section here, or to the bare page number.
+        links_in = self.rows(
+            f"SELECT l.id, l.from_work, l.from_ref, l.to_ref, l.raw, l.method, l.note_id, w.title AS from_title "
+            f"FROM link l JOIN work w ON w.id = l.from_work WHERE to_work = ? AND (to_ref IN ({marks}) OR to_ref = ?) ORDER BY l.from_ref",
+            work_id, *refs, str(page))
+        speeches = self.rows(
+            "SELECT label, start_ref, end_ref FROM division WHERE work_id = ? AND kind = 'speech' ORDER BY id", work_id)
+        seq = {r: i for i, r in enumerate(self.work_sections(work_id))}
+        lo, hi = seq[refs[0]], seq[refs[-1]]
+        speeches = [s for s in speeches if seq[s["start_ref"]] <= hi and seq[s["end_ref"]] >= lo]
+        mine = []
+        if self.user:
+            urn = self.one("SELECT urn FROM work WHERE id = ?", work_id)["urn"]
+            mine = self.rows(
+                f"SELECT id, start_ref, end_ref, word_start, word_end, words, kind, body, updated_at FROM user_note "
+                f"WHERE work_urn = ? AND start_ref IN ({marks}) ORDER BY id", urn, *refs, db=self.user)
+            mine += self.rows(
+                f"SELECT id, start_ref, end_ref, NULL AS word_start, NULL AS word_end, NULL AS words, 'translation' AS kind, body, updated_at "
+                f"FROM translation WHERE work_urn = ? AND start_ref IN ({marks}) ORDER BY id", urn, *refs, db=self.user)
+        all_pages = [r["page"] for r in self.rows("SELECT DISTINCT page FROM section WHERE work_id = ? ORDER BY page", work_id)]
+        i = all_pages.index(page)
+        return {
+            "work_id": work_id, "page": page, "sections": secs, "chunks": chunks, "tokens": tokens,
+            "notes": notes, "links_out": links_out, "links_in": links_in, "speeches": speeches, "mine": mine,
+            "prev": all_pages[i - 1] if i > 0 else None, "next": all_pages[i + 1] if i + 1 < len(all_pages) else None,
+        }
+
+    def work_sections(self, work_id):
+        return [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", work_id)]
+
+    # ------------------------------------------------------------ one word
+
+    def token(self, token_id):
+        t = self.one(
+            "SELECT t.*, e.work_id, s.urn AS section_urn FROM token t JOIN edition e ON e.id = t.edition_id "
+            "JOIN section s ON s.work_id = e.work_id AND s.ref = t.section_ref WHERE t.id = ?", token_id)
+        if not t:
+            return None
+        # CTS subreference: the n-th occurrence of this form in the section.
+        n = self.one("SELECT count(*) n FROM token WHERE edition_id = ? AND section_ref = ? AND form = ? AND seq <= ?",
+                     t["edition_id"], t["section_ref"], t["form"], t["seq"])["n"]
+        t["address"] = f"{t['section_urn']}@{t['form']}[{n}]"
+        tags = self.rows("SELECT * FROM tag WHERE token_id = ? ORDER BY source_id, part", token_id)
+        for g in tags:
+            g["features"] = greek.decode_postag(g["postag"])
+        t["tags"] = tags
+        tag_lemmas = {greek.strip_accents(re.sub(r"\d", "", g["lemma"] or "")) for g in tags}
+        morph = self.rows("SELECT n, lemma, lemma_beta, gloss, parse FROM morph WHERE beta_key = ? ORDER BY n", t["morph_key"]) if t["morph_key"] else []
+        for m in morph:
+            m["same_lemma_as_tag"] = greek.strip_accents(m["lemma"]) in tag_lemmas
+            # The parse the tagger chose, if Morpheus lists it: same lemma, consistent features.
+            m["matches_tag"] = m["same_lemma_as_tag"] and any(greek.morpheus_agrees(m["parse"], g["features"]) for g in tags)
+        t["morph"] = morph
+        t["sources"] = {s["id"]: s for s in self.rows(
+            "SELECT id, title, licence, provenance, commit_sha FROM source WHERE id IN ('glaux-plato', 'morpheus-analyses', 'perseus-greek-plato')")}
+        t["elsewhere_in_work"] = self.one(
+            "SELECT count(*) n FROM token t2 JOIN tag g ON g.token_id = t2.id WHERE t2.edition_id = ? AND g.lemma IN (SELECT lemma FROM tag WHERE token_id = ?)",
+            t["edition_id"], token_id)["n"]
+        return t
+
+    def sources(self):
+        return self.rows("SELECT * FROM source ORDER BY rowid")
+
+    def build_info(self):
+        return {r["key"]: r["value"] for r in self.rows("SELECT * FROM build")}
+
+
+class Handler(BaseHTTPRequestHandler):
+    library = None
+    server_version = "PlatonicWorkshop/2"
+
+    def log_message(self, fmt, *args):
+        if self.server.verbose:
+            super().log_message(fmt, *args)
+
+    def send_json(self, obj, status=HTTPStatus.OK):
+        body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(body)
+
+    def not_found(self):
+        self.send_json({"error": "not found"}, HTTPStatus.NOT_FOUND)
+
+    def do_GET(self):
+        path = unquote(urlparse(self.path).path)
+        lib = self.library
+        m = re.fullmatch(r"/api/(.*)", path)
+        if m:
+            parts = m.group(1).strip("/").split("/")
+            try:
+                if parts == ["works"]:
+                    return self.send_json(lib.works())
+                if parts == ["sources"]:
+                    return self.send_json({"sources": lib.sources(), "build": lib.build_info()})
+                if len(parts) == 2 and parts[0] == "work":
+                    w = lib.work(parts[1])
+                    return self.send_json(w) if w else self.not_found()
+                if len(parts) == 3 and parts[0] == "page" and parts[2].isdigit():
+                    p = lib.page(parts[1], int(parts[2]))
+                    return self.send_json(p) if p else self.not_found()
+                if len(parts) == 2 and parts[0] == "token" and parts[1].isdigit():
+                    t = lib.token(int(parts[1]))
+                    return self.send_json(t) if t else self.not_found()
+            except sqlite3.Error as e:
+                return self.send_json({"error": str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return self.not_found()
+        # Static files from reader/.
+        rel = "index.html" if path in ("", "/") else path.lstrip("/")
+        f = (READER / rel).resolve()
+        if READER.resolve() not in f.parents or not f.is_file():
+            return self.not_found()
+        body = f.read_bytes()
+        self.send_response(HTTPStatus.OK)
+        ctype = mimetypes.guess_type(f.name)[0] or "application/octet-stream"
+        if ctype.startswith("text/") or ctype.endswith("javascript"):
+            ctype += "; charset=utf-8"
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+
+def make_server(port=8800, host="127.0.0.1", verbose=False, library=None):
+    Handler.library = library or Library()
+    srv = ThreadingHTTPServer((host, port), Handler)
+    srv.verbose = verbose
+    return srv
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--port", type=int, default=8800)
+    ap.add_argument("--verbose", action="store_true", help="log every request")
+    args = ap.parse_args()
+    build_db.ensure_user_db()
+    srv = make_server(args.port, verbose=args.verbose)
+    print(f"Platonic Workshop reader: http://localhost:{args.port}/   (Ctrl+C to stop)")
+    try:
+        srv.serve_forever()
+    except KeyboardInterrupt:
+        pass
+
+
+if __name__ == "__main__":
+    main()

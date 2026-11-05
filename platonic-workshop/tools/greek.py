@@ -190,3 +190,41 @@ def decode_postag(tag):
         if ch != "-":
             out.append((name, codes.get(ch, ch)))
     return out
+
+
+# Morpheus parse words -> the GLAUx feature values they can stand for.
+_MORPHEUS_FEATURES = {
+    "masc": ("gender", {"masculine"}), "fem": ("gender", {"feminine"}), "neut": ("gender", {"neuter"}),
+    "nom": ("case", {"nominative"}), "gen": ("case", {"genitive"}), "dat": ("case", {"dative"}),
+    "acc": ("case", {"accusative"}), "voc": ("case", {"vocative"}),
+    "sg": ("number", {"singular"}), "pl": ("number", {"plural"}), "dual": ("number", {"dual"}),
+    "pres": ("tense", {"present"}), "imperf": ("tense", {"imperfect"}), "perf": ("tense", {"perfect"}),
+    "plup": ("tense", {"pluperfect"}), "fut": ("tense", {"future"}), "aor": ("tense", {"aorist"}),
+    "futperf": ("tense", {"future perfect"}),
+    "ind": ("mood", {"indicative"}), "subj": ("mood", {"subjunctive"}), "opt": ("mood", {"optative"}),
+    "inf": ("mood", {"infinitive"}), "imperat": ("mood", {"imperative"}), "part": ("mood", {"participle"}),
+    "act": ("voice", {"active"}), "mid": ("voice", {"middle", "middle or passive"}),
+    "pass": ("voice", {"passive", "middle or passive"}), "mp": ("voice", {"middle", "passive", "middle or passive"}),
+    "1st": ("person", {"1st person"}), "2nd": ("person", {"2nd person"}), "3rd": ("person", {"3rd person"}),
+    "comp": ("degree", {"comparative"}), "superl": ("degree", {"superlative"}),
+}
+
+
+def morpheus_agrees(parse, features):
+    """True if a Morpheus parse ('masc/neut dat pl (attic)') is consistent with
+    decoded GLAUx features: every grammatical category the parse names must
+    allow the tag's value for that category. Dialect notes are ignored."""
+    tag = dict(features)
+    named = {}
+    for word in re.sub(r"\(.*?\)", " ", parse).split():
+        options = set()
+        cat = None
+        for part in word.split("/"):
+            if part in _MORPHEUS_FEATURES:
+                cat, vals = _MORPHEUS_FEATURES[part]
+                options |= vals
+        if cat:
+            named.setdefault(cat, set()).update(options)
+    if not named:
+        return False
+    return all(cat in tag and tag[cat] in vals for cat, vals in named.items())
