@@ -98,15 +98,20 @@ quotes its source, and the build looks for each quotation in the text it names: 
 [`reports/structure.md`](reports/structure.md).
 
 **Milestone 10, the concept index across the dialogues: done.** *Concepts* (top right, or `#concepts`) gathers
-twenty-five Platonic concepts, from the Good, the Forms and the Soul to Emanation, Return and Evil as privation.
-Each has the Greek words it is indexed under (with where GLAUx tags them, dialogue by dialogue), the ancient
-definitions (the pseudo-Platonic *Definitions* in Hermann's Greek and Burges' English, Taylor's "Explanation of
-Certain Platonic Terms"), Plato's own passages, the later Platonists' readings (Alcinous' handbook, Proclus,
-Taylor), and its relations to the other concepts. Each is marked as Plato's own, Plato's but systematised later,
-or a later doctrine, which shows the passages the later readers read it in and who reads them so. Every link
-quotes the words it rests on, and the build looks for each in the text it names: 217 of 217 found. Nothing is
-linked because two places share a word. To rest it on, Alcinous (Burges, 34 chapters), the *Definitions* (both)
-and Hermann's Greek scholia on the dialogues (1,515 scholia, placed by their printed Stephanus page) are imported.
+197 concepts: every term the pseudo-Platonic *Definitions* define (Hermann's Greek, Burges' English) and every
+term of Taylor's "Explanation of Certain Platonic Terms", joined to the twenty-five the index was first written
+with (the Good, the Forms, the Soul, Emanation, Return, Evil as privation and the rest). Each has the Greek words
+it is indexed under (with where GLAUx tags them, dialogue by dialogue), its definitions, Plato's own passages,
+the later Platonists' readings (Alcinous' handbook, Plotinus and Proclus' *Theology* in Taylor's versions,
+Iamblichus, Proclus on the Timaeus, Taylor), and its relations to the other concepts, each of one of seventeen
+kinds: the seven the build prompt names (shared concept, philosophical analogy, different formulation,
+historical interpretation, apparent contradiction, metaphysical distinction, allegorical parallel) and ten more
+the sources need (cause, opposition, part and whole, definition, knower and known, participation, image and
+pattern, ascent and goal, a question the dialogue asks, an argument). Each concept is marked as Plato's own,
+Plato's but systematised later, a later doctrine, or defined in Plato's school (the *Definitions*). Thirty-nine
+words, the six the prompt names (λόγος, νοῦς, ψυχή, ἀγαθόν, εἶδος, ἀρετή) and thirty-three more, can be read
+across the translators passage by passage (`#renderings/ψυχή`). Every link quotes the words it rests on, and the
+build looks for each in the text it names: 628 of 628 found. Nothing is linked because two places share a word.
 See [The concept index](#the-concept-index) below and [`reports/concepts.md`](reports/concepts.md).
 
 **Milestone 11, the commentaries across Plato: done.** Ten more commentaries, found by searching the Internet
@@ -558,8 +563,9 @@ the Perseus website's downloads became reachable.)
 
 ![The Good in the concept index: its word, its definitions, and Plato's passages with the Greek they rest on](docs/reader-m10-concept.png)
 
-- **Concepts** (`#concepts`): the twenty-five, each with its Greek name, its layer, the words it is indexed under,
-  the dialogues its passages are in and its relations. `#concepts/the-good` opens one:
+- **Concepts** (`#concepts`): all 197, with a filter by name, Greek or layer, each with its Greek name, its layer,
+  where it was gathered from (the index, the *Definitions*, Taylor's terms, the later Platonists), the words it is
+  indexed under and the number of its definitions, passages, later readings and relations. `#concepts/the-good` opens one:
   - *The index's note*: one sentence on what is gathered there, marked as the Workshop's own words, not a definition.
   - *Indexed under*: the GLAUx lemmas (νοῦς is tagged νόος), with a count per dialogue and a link to every
     occurrence. This is lexical evidence: a word in two places does not link the places, and a word that is
@@ -570,14 +576,23 @@ the Perseus website's downloads became reachable.)
     begins (where it ends is chosen by hand), why it is here, the note that reads it so if it is a later reading,
     and the notes placed on it that name the concept (found by rule, by the keywords in `concepts.json`; read the
     note).
-  - *Related concepts*: "the Good is the cause of Truth", each with the words it rests on, and the relations other
-    concepts state to this one.
+  - *Related concepts*: "the Good is the cause of Truth", each with its kind of relation and the words it rests
+    on, and the relations other concepts state to this one. The kinds are listed with their counts under
+    the index.
+- **Words across the translators** (`#renderings/<lemma>`, linked from the index and from each concept): every
+  place in a dialogue where the word stands, with Burnet's Greek (the word marked) and, beside it, the passage in
+  each translation (Jowett, Fowler, Taylor...). The English is the passage, not an aligned word: no rendering
+  is guessed.
 - **Layers**: *Plato* (he names it and argues about it), *Plato, systematised later* (the Good, Intellect, the
   Demiurge, the One and the Many: his words, the later Platonists' order of principles), and *Later Platonist*
-  (Emanation, Return, Evil as privation: Plato does not name them).
+  (Emanation, Return, Evil as privation: Plato does not name them), and *Plato's school* (a term defined in the
+  *Definitions* that the index has not otherwise gathered).
 - **In the reader**: "Where you are in the whole" names the concept passages on the page; the word box names the
   concepts indexed under the word's lemma (the word, not that place).
-- **Where it comes from.** `sources/concepts/concepts.json` is written by hand; its quotations are of Burnet's
+- **Where it comes from.** `sources/concepts/sources.json` maps, by hand, each term the *Definitions* (176) and
+  Taylor's terms (65) define to a concept, and quotes the later Platonists' books (Taylor's Plotinus, 1817;
+  Proclus' *Theology of Plato*, 1816; Iamblichus, 1821; in `sources/taylor-*`); the words of each definition are
+  cut from the text by rule. `sources/concepts/concepts.json` is written by hand; its quotations are of Burnet's
   Greek (`plato`), of the ancient texts in `texts/ancient/` (`alcinous-burges`, `definitions-hermann`,
   `definitions-burges`), of Taylor's Platonic terms (`taylor-terms`), or of a note in the library (`note`: by
   commentator, dialogue and section). `tools/concepts.py` checks every one, fills the concept tables, and writes
@@ -587,12 +602,13 @@ the Perseus website's downloads became reachable.)
 
 | | |
 |---|---:|
-| Concepts | 25 |
-| Quotations checked, found | 217, 217 |
-| Terms (GLAUx lemmas) | 46 |
+| Concepts | 197 |
+| Quotations checked, found | 628, 628 |
+| Terms (GLAUx lemmas) | 207 |
 | Passages of Plato | 87 |
-| Definitions, later readings | 40, 31 |
-| Relations between concepts | 56 |
+| Definitions, later readings | 429, 47 |
+| Relations between concepts, kinds | 62, 17 |
+| Words compared across the translators | 39 |
 | Notes naming a concept on its passages | 91 |
 | Greek scholia imported | 1,515 |
 
@@ -649,7 +665,8 @@ sources/          what we use and where it comes from (committed)
   adam-1902/, england-1921/, burnet-1911/, bury-1909/, archer-hind-1883/, campbell-1883/, campbell-1867/,
   jowett-campbell-1894/, lodge-1896/  Internet Archive OCR of the commentaries of milestone 11, as received
   structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos
-  concepts/       the concept index of milestone 10 (concepts.json)
+  concepts/       the concept index of milestone 10 (concepts.json, sources.json)
+  taylor-plotinus-1817/, taylor-proclus-theology-1816/, taylor-iamblichus-1821/  Taylor's later Platonists, as received
 texts/            imported texts, one JSON file per work (committed)
   taylor-1804/vol1/
   taylor-1804/vol2/ ... vol5/  Taylor's OCR cleaned by rule, with the OCR kept beside it

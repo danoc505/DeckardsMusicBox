@@ -211,21 +211,30 @@ class Library:
 
     def concepts(self):
         """The index: each concept with its layer, terms and how much is gathered under it."""
-        out = self.rows("SELECT id, label, greek, layer, note FROM concept ORDER BY seq")
+        out = self.rows("SELECT id, label, greek, layer, note, origin, untagged FROM concept ORDER BY seq")
         for c in out:
+            c["origin"] = json.loads(c["origin"])
+            c["untagged"] = json.loads(c["untagged"]) if c["untagged"] else []
+            c["definitions"] = self.one("SELECT count(*) n FROM concept_cite WHERE concept_id = ? AND kind = 'definition'", c["id"])["n"]
+            c["later"] = self.one("SELECT count(*) n FROM concept_cite WHERE concept_id = ? AND kind = 'later'", c["id"])["n"]
             c["terms"] = self.rows("SELECT lemma, broad, occurrences, works FROM concept_term WHERE concept_id = ? ORDER BY n", c["id"])
             c["passages"] = self.one("SELECT count(*) n FROM concept_passage WHERE concept_id = ?", c["id"])["n"]
             c["works"] = self.rows("SELECT DISTINCT p.work_id, w.title, w.slug FROM concept_passage p JOIN work w ON w.id = p.work_id "
                                    "WHERE concept_id = ? ORDER BY p.work_id", c["id"])
-            c["related"] = self.rows("SELECT other_id, kind FROM concept_relation WHERE concept_id = ? ORDER BY n", c["id"])
+            c["related"] = self.rows("SELECT other_id, kind, category FROM concept_relation WHERE concept_id = ? ORDER BY n", c["id"])
         stats = self.one("SELECT value FROM build WHERE key = 'concept_stats'")
-        return {"concepts": out, "stats": json.loads(stats["value"]) if stats else None}
+        words = self.rows("SELECT c.lemma, c.named, (SELECT sum(n) FROM lemma_count l WHERE l.lemma = c.lemma) AS n FROM compared_word c ORDER BY c.seq")
+        return {"concepts": out, "stats": json.loads(stats["value"]) if stats else None, "words": words,
+                "categories": self.rows("SELECT name, about, (SELECT count(*) FROM concept_relation r WHERE r.category = k.name) AS n FROM concept_category k ORDER BY seq")}
 
     def concept(self, concept_id):
         c = self.one("SELECT * FROM concept WHERE id = ?", concept_id)
         if not c:
             return None
         c["keywords"] = json.loads(c["keywords"])
+        c["origin"] = json.loads(c["origin"])
+        c["untagged"] = json.loads(c["untagged"]) if c["untagged"] else []
+        c["compared"] = [r["lemma"] for r in self.rows("SELECT t.lemma FROM concept_term t JOIN compared_word w ON w.lemma = t.lemma WHERE t.concept_id = ?", concept_id)]
         ev = self.evidence(f"concept:{concept_id}")
         c["terms"] = self.rows("SELECT lemma, note, broad, occurrences, works FROM concept_term WHERE concept_id = ? ORDER BY n", concept_id)
         for t in c["terms"]:
@@ -250,14 +259,47 @@ class Library:
                                    "WHERE cn.concept_id = ? AND cn.n = ? ORDER BY n.id", concept_id, p["n"])
             for n in p["named"]:
                 n["excerpt"] = citations.excerpt(n.pop("body"), n["word"], 220)
-        c["related"] = self.rows("SELECT r.n, r.other_id, o.label AS other_label, r.kind, r.why, r.owner FROM concept_relation r "
+        c["related"] = self.rows("SELECT r.n, r.other_id, o.label AS other_label, r.kind, r.category, r.why, r.owner FROM concept_relation r "
                                  "JOIN concept o ON o.id = r.other_id WHERE r.concept_id = ? ORDER BY r.n", concept_id)
         for r in c["related"]:
             r["evidence"] = ev.get(r["owner"], [])
         # The relations other concepts state to this one (their evidence is on their page).
-        c["related_from"] = self.rows("SELECT r.concept_id, o.label, r.kind, r.why FROM concept_relation r JOIN concept o ON o.id = r.concept_id "
+        c["related_from"] = self.rows("SELECT r.concept_id, o.label, r.kind, r.category, r.why FROM concept_relation r JOIN concept o ON o.id = r.concept_id "
                                       "WHERE r.other_id = ? ORDER BY o.seq, r.n", concept_id)
         return c
+
+    def renderings(self, lemma, work=None, after=0, limit=10):
+        """How the translators render a word: each place GLAUx tags it, with the Greek section and
+        every English translation of that section. Passage by passage: the English is not aligned
+        to the Greek word by word, so the whole passage of each translator is given."""
+        limit = max(1, min(50, limit))
+        cond, args = ("AND e.work_id = ?", (work,)) if work else ("", ())
+        places = self.rows(
+            "SELECT e.work_id, t.section_ref AS ref, min(s.seq) AS sseq, group_concat(t.form, ' ') AS forms FROM tag g JOIN token t ON t.id = g.token_id "
+            "JOIN edition e ON e.id = t.edition_id JOIN section s ON s.work_id = e.work_id AND s.ref = t.section_ref "
+            f"WHERE g.lemma = ? {cond} GROUP BY e.work_id, t.section_ref ORDER BY e.work_id, sseq LIMIT ? OFFSET ?",
+            lemma, *args, limit + 1, after)
+        more = len(places) > limit
+        places = places[:limit]
+        titles = {w["id"]: w for w in self.rows("SELECT id, title, slug FROM work")}
+        for p in places:
+            p["title"] = titles[p["work_id"]]["title"]
+            p["forms"] = sorted(set(p["forms"].split()))
+            p["greek"] = " ".join(r["text"] for r in self.rows(
+                "SELECT c.text FROM chunk c JOIN edition e ON e.id = c.edition_id WHERE c.work_id = ? AND c.section_ref = ? AND e.lang = 'grc' ORDER BY c.seq",
+                p["work_id"], p["ref"]))
+            p["english"] = self.rows(
+                "SELECT e.id AS edition_id, e.label, e.responsible, c.translator, c.align_method, c.section_ref, c.end_ref, c.printed_at, "
+                "group_concat(c.text, ' ') AS text FROM chunk c JOIN edition e ON e.id = c.edition_id "
+                "LEFT JOIN section a ON a.work_id = c.work_id AND a.ref = c.section_ref LEFT JOIN section b ON b.work_id = c.work_id AND b.ref = c.end_ref "
+                "WHERE c.work_id = ? AND e.lang = 'eng' AND (c.section_ref = ? OR (c.end_ref IS NOT NULL AND a.seq < ? AND b.seq >= ?)) "
+                "GROUP BY e.id ORDER BY e.id", p["work_id"], p["ref"], p["sseq"], p["sseq"])
+            del p["sseq"]
+        total = self.one("SELECT coalesce(sum(n), 0) n, count(*) w FROM lemma_count WHERE lemma = ?" + (" AND work_id = ?" if work else ""), lemma, *args)
+        return {"lemma": lemma, "work": work, "places": places, "after": after, "next": after + limit if more else None,
+                "words": total["n"], "works": total["w"],
+                "concepts": self.rows("SELECT DISTINCT c.id, c.label FROM concept_term t JOIN concept c ON c.id = t.concept_id WHERE t.lemma = ? ORDER BY c.seq", lemma),
+                "by_work": self.rows("SELECT l.work_id, w.title, l.n FROM lemma_count l JOIN work w ON w.id = l.work_id WHERE l.lemma = ? ORDER BY l.n DESC", lemma)}
 
     def ancient(self, text_id, at=None):
         t = self.one("SELECT * FROM ancient_text WHERE id = ?", text_id)
@@ -638,6 +680,9 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send_json(w) if w else self.not_found()
                 if parts == ["commentaries"]:
                     return self.send_json(lib.all_commentaries())
+                if len(parts) == 2 and parts[0] == "renderings":
+                    return self.send_json(lib.renderings(greek.nfc(parts[1]), work=query.get("work") or None,
+                                                         after=int(query.get("after") or 0), limit=int(query.get("limit") or 10)))
                 if parts == ["concepts"]:
                     return self.send_json(lib.concepts())
                 if len(parts) == 2 and parts[0] == "concept":

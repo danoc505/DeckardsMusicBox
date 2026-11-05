@@ -37,11 +37,24 @@ ITEMS = {
     "yonge-1853": [("pg57342.txt", "https://www.gutenberg.org/cache/epub/57342/pg57342.txt")],
     "hermann-appendix": [("platonisdialogi06plat_djvu.txt", "https://archive.org/download/platonisdialogi06plat/platonisdialogi06plat_djvu.txt"),
                          ("platonisdialogi06plat_metadata.json", "https://archive.org/metadata/platonisdialogi06plat/metadata")],
+    # Milestone 10: the later Platonists in Taylor's English, for the concept index.
+    "taylor-plotinus-1817": [("b29318178_djvu.txt", "https://archive.org/download/b29318178/b29318178_djvu.txt"),
+                             ("b29318178_metadata.json", "https://archive.org/metadata/b29318178/metadata")],
+    "taylor-proclus-theology-1816": [("taylor-theology-of-plato-en-t.-1-1816_djvu.txt", "https://archive.org/download/taylor-theology-of-plato-en-t.-1-1816/Taylor%20-%20Theology%20of%20Plato%2C%20%5Ben%5D%2C%20t.1%2C%201816_djvu.txt"),
+                                     ("taylor-theology-of-plato-en-t.-1-1816_metadata.json", "https://archive.org/metadata/taylor-theology-of-plato-en-t.-1-1816/metadata"),
+                                     ("taylor-theology-of-plato-en-t.-2-1816_djvu.txt", "https://archive.org/download/taylor-theology-of-plato-en-t.-2-1816/Taylor%20-%20Theology%20of%20Plato%2C%20%5Ben%5D%2C%20t.2%2C%201816_djvu.txt"),
+                                     ("taylor-theology-of-plato-en-t.-2-1816_metadata.json", "https://archive.org/metadata/taylor-theology-of-plato-en-t.-2-1816/metadata")],
+    "taylor-iamblichus-1821": [("b29338888_0002_djvu.txt", "https://archive.org/download/b29338888_0002/b29338888_0002_djvu.txt"),
+                               ("b29338888_0002_metadata.json", "https://archive.org/metadata/b29338888_0002/metadata")],
 }
 
 
 def main():
+    import sys
+    only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
     for folder, files in ITEMS.items():
+        if only and folder not in only:
+            continue
         dest = ROOT / "sources" / folder
         dest.mkdir(parents=True, exist_ok=True)
         rec_path = dest / "fetched.json"

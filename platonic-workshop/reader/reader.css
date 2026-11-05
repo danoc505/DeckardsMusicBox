@@ -582,3 +582,9 @@ svg.corpus-map .arrowhead { fill: var(--accent); }
 .commlib h3 { margin-top: 1.4rem; }
 .commlib h3 a { color: inherit; }
 .commlib-t td .meta { font-size: 0.85em; }
+.layer-academy { background: rgba(60, 100, 160, 0.13); }
+.rel-cat { font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted, #777); margin-right: 0.3em; }
+.concept-filter { display: flex; gap: 1em; flex-wrap: wrap; margin: 0.6em 0; }
+.named-word { font-weight: bold; }
+.rendering mark { background: rgba(200, 160, 40, 0.35); color: inherit; }
+.rend-eng { border-left: 2px solid var(--rule, #ccc); padding-left: 0.7em; margin: 0.4em 0; }
