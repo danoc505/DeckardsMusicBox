@@ -84,7 +84,20 @@ Plato or one dialogue, by one commentator, or from other dialogues only. Every r
 kept and marked with a ? and the reason. See [The citation web](#the-citation-web) below and
 [`reports/citations.md`](reports/citations.md).
 
-Next is milestone 9: each dialogue as a whole, and the corpus as a whole.
+**Milestone 9, each dialogue as a whole and the corpus as a whole: done.** Every dialogue has a page,
+*As a whole*, with what the tradition says of it as one thing: its persons and scene as Jowett and Taylor print
+them, its scope (skopos) in the words of the Anonymous Prolegomena and of Taylor's and Proclus' introductions, its
+printed divisions (Archer-Hind's 44 chapters of the Timaeus with his summaries, Jowett's marginal analysis of the
+Republic and ten other dialogues), its place in the ancient orders of reading, the dramatic sequences it belongs to,
+its myths and images, and its citations to and from the other dialogues. The *Corpus map* draws the 36 works in
+Thrasyllus' tetralogies with any of these over them. The ancient introductions are imported to rest it on: Diogenes
+Laertius III (Burges, 1854, and Yonge, 1853), Albinus (Burges, and Hermann's Greek) and the Anonymous Prolegomena
+(Hermann's Greek; no public-domain English exists); and Taylor's Introductions to 24 more dialogues. Every claim
+quotes its source, and the build looks for each quotation in the text it names: 236 of 236 found. See
+[The dialogue and the corpus as a whole](#the-dialogue-and-the-corpus-as-a-whole) below and
+[`reports/structure.md`](reports/structure.md).
+
+Next is milestone 10: the concept index across the dialogues.
 
 ## Running it
 
@@ -267,6 +280,49 @@ each one's translator, printing, proofreading status and how it is placed.
 Shorey's notes on the Republic give most of the passage references (4,605). Taylor, Sydenham and Proclus
 almost never print a Stephanus number; what they give is the dialogue, and the Parmenides is the dialogue they and
 the others name most.
+
+## The dialogue and the corpus as a whole
+
+![The Timaeus as a whole: Thrasyllus' place for it, its persons, and its scope in the Anonymous Prolegomena](docs/reader-m9-whole.png)
+
+- **As a whole** (top right, or `#timaeus/whole`): for the dialogue you are reading, or any of the 36. Each line
+  names its source and quotes the words it rests on; click a citation of an ancient text to read the passage (and
+  the OCR as received). Reading orders and myths link to the corpus map.
+  - *Persons and scene*: as printed at the head of Jowett's translation and of Taylor's (1804 OCR, cleaned by rule,
+    misreadings kept), with who speaks in the Greek as the Perseus text marks it.
+  - *Its scope*: the Prolegomena's statements, chosen by hand, in Greek, marked as its own view or as one it
+    rejects; and every sentence of Taylor's Introduction (and Proclus' preface, for the Timaeus) that says "scope"
+    or "design" of the dialogue, found by rule (`SCOPE` in `tools/structure.py`) and so offered as candidates.
+  - *Divisions*: Archer-Hind's chapters of the Timaeus, spans read from his headings (every reading of the OCR
+    noted; a summary the OCR breaks at a page ends […]); Jowett's sidenotes, placed at the section (Republic) or
+    page (vol. II) printed before them.
+- **Where you are in the whole**: beside the text, the chapter, Jowett's sidenotes and the myth or image the page
+  is in.
+- **Corpus map** (`#corpus`): the 36 works in Thrasyllus' nine tetralogies. Draw over them an ancient order
+  (Thrasyllus, Aristophanes' trilogies, where readers began, Albinus' order and classes, Iamblichus' curriculum of
+  twelve), a dramatic sequence, a myth or image (or a group, such as the three judgment myths), the citation web
+  between dialogues, or the dialogues a speaker speaks in. Below the map, every item with its quotation.
+
+  ![Iamblichus' curriculum on the corpus map](docs/reader-m9-corpus.png)
+- **Where it comes from.** `sources/structure/` holds the claims written for this milestone: reading orders
+  (`orders.json`), dramatic sequences (`sequences.json`, each step quoting Burnet's Greek where the dialogue says
+  it), myths and images (`themes.json`: where a passage begins is a quotation of the Greek; where it ends is chosen
+  by hand and marked so), and the Prolegomena on the skopos (`skopos.json`). `tools/ancient.py` reads the ancient
+  texts into `texts/ancient/` (sections, chapters or pages as printed; a section number the OCR garbled is read as
+  the next due, and says so); `tools/structure.py read` reads the printed divisions and the persons into
+  `texts/structure/`; the build checks every quotation and writes [`reports/structure.md`](reports/structure.md).
+  For each myth and image it also lists the notes placed in the passage that name it, and the notes of the
+  citation web that link two passages of it.
+
+| | |
+|---|---:|
+| Quotations checked, found | 236, 236 |
+| Reading orders and classes, items | 6, 103 |
+| Dramatic sequences, steps | 4, 13 |
+| Myths and images, passages | 22, 25 |
+| Archer-Hind's chapters | 44 |
+| Jowett's sidenotes | 1,679 |
+| Statements of the skopos: chosen, found by rule | 20, 27 |
 
 ## Word search and word studies
 
@@ -488,10 +544,15 @@ sources/          what we use and where it comes from (committed)
   taylor-1804/dialogues.json  where each dialogue lies in the OCR of vols. II-V, and its translator
   jowett-gutenberg/  Jowett's translations from Project Gutenberg, as received, and which is which
   proclus-1820/, archer-hind-1888/  Internet Archive OCR of the commentaries, as received, with provenance
+  burges-1854/, yonge-1853/, hermann-appendix/  Diogenes Laertius III, Albinus, the Anonymous Prolegomena, as received
+  structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos
 texts/            imported texts, one JSON file per work (committed)
   taylor-1804/vol1/
   taylor-1804/vol2/ ... vol5/  Taylor's OCR cleaned by rule, with the OCR kept beside it
   commentary/timaeus/  each commentary read into notes, with the OCR kept beside each
+  commentary/<dialogue>/  Taylor's Introductions to 24 more dialogues (tools/taylor_intros.py)
+  ancient/        the ancient introductions, by section, chapter or page (tools/ancient.py)
+  structure/      Archer-Hind's chapters, Jowett's sidenotes, the persons and scene (tools/structure.py read)
 db/               schema of the library and of your own database
   grammar/        which Smyth section is quoted for which grammatical category
 tools/            fetch, verify, import, build the database, serve the reader, Greek helpers,
@@ -499,9 +560,10 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   mywork.py (your translations, notes and word studies: the only code that writes user.sqlite),
                   search.py (the word search across Plato), jowett.py, taylor_ocr.py, align.py and
                   translations.py (the historical translations), commentary.py and commentary_db.py
-                  (reading and placing the commentaries), citations.py (the citation web)
+                  (reading and placing the commentaries), citations.py (the citation web),
+                  fetch_ancient.py, ancient.py, taylor_intros.py and structure.py (the whole, milestone 9)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
-                  commentary.js the commentaries, citations.js the citation web
+                  commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map
 tests/
 docs/             screenshots
 reports/          output of verify_sources.py and of the build (corpus.md), committed so results are reviewable

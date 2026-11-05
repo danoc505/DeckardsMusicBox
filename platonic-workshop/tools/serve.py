@@ -88,6 +88,11 @@ class Library:
         w["parts"] = self.rows("SELECT label, start_ref, end_ref, basis, source_id FROM division WHERE work_id = ? AND kind IN ('part', 'skopos') ORDER BY id", work_id)
         w["books"] = self.rows("SELECT kind, label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind IN ('book', 'letter') ORDER BY id", work_id)
         w["commentaries"] = self.commentaries(work_id)
+        # Milestone 9: the printed divisions of the whole, and the myths and images in it, for "where you are in the whole".
+        w["chapters"] = self.rows("SELECT label, start_ref, end_ref, author, precision, detail FROM division WHERE work_id = ? AND kind = 'chapter' ORDER BY seq", work_id)
+        w["sidenotes"] = self.rows("SELECT label, start_ref, end_ref, author, precision FROM division WHERE work_id = ? AND kind = 'sidenote' ORDER BY seq", work_id)
+        w["themes"] = self.rows("SELECT t.id, t.label, t.kind, p.n, p.start_ref, p.end_ref FROM theme_passage p JOIN theme t ON t.id = p.theme_id "
+                                "WHERE p.work_id = ? ORDER BY p.start_ref", work_id)
         w["counts"] = {
             "notes": self.one("SELECT count(*) n FROM note WHERE work_id = ?", work_id)["n"],
             "links_out": self.one("SELECT count(*) n FROM link WHERE from_work = ?", work_id)["n"],
@@ -102,6 +107,112 @@ class Library:
                                w["first_token"] or 0, w["last_token"] or -1)["n"],
         }
         return w
+
+    # ------------------------------------------------------------ milestone 9: the whole
+
+    def evidence(self, prefix):
+        """Every quotation offered for the claims whose owner starts with prefix, by owner."""
+        out = {}
+        for e in self.rows("SELECT owner, source_text, work_id, at, quote, found, cited_as FROM evidence WHERE owner = ? OR owner LIKE ? ORDER BY id",
+                           prefix, prefix + ":%"):
+            out.setdefault(e["owner"], []).append(e)
+        return out
+
+    def orders(self, work_id=None):
+        ev = self.evidence("order")
+        out = []
+        for o in self.rows("SELECT * FROM reading_order ORDER BY seq"):
+            o["frame"] = ev.get(f"order:{o['id']}", [])
+            o["items"] = self.rows("SELECT i.*, w.title, w.slug, w.imported FROM reading_order_item i LEFT JOIN work w ON w.id = i.work_id "
+                                   "WHERE order_id = ? ORDER BY n", o["id"])
+            for i in o["items"]:
+                i["evidence"] = ev.get(f"order:{o['id']}:{i['n']}", [])
+            if work_id and not any(i["work_id"] == work_id for i in o["items"]):
+                continue
+            out.append(o)
+        return out
+
+    def sequences(self, work_id=None):
+        ev = self.evidence("sequence")
+        out = []
+        for s in self.rows("SELECT * FROM sequence ORDER BY seq"):
+            s["works"] = json.loads(s["works"])
+            if work_id and work_id not in s["works"]:
+                continue
+            s["testimony"] = ev.get(f"sequence:{s['id']}", [])
+            s["steps"] = self.rows("SELECT st.*, w.title, w.slug FROM sequence_step st JOIN work w ON w.id = st.work_id WHERE sequence_id = ? ORDER BY n", s["id"])
+            for st in s["steps"]:
+                st["evidence"] = ev.get(f"sequence:{s['id']}:{st['n']}", [])
+            out.append(s)
+        return out
+
+    def themes(self, work_id=None):
+        out = []
+        groups = {g["id"]: g for g in self.rows("SELECT * FROM theme_group")}
+        for t in self.rows("SELECT * FROM theme ORDER BY seq"):
+            t["keywords"] = json.loads(t["keywords"])
+            t["group"] = groups.get(t["group_id"])
+            t["passages"] = self.rows("SELECT p.*, w.title, w.slug FROM theme_passage p JOIN work w ON w.id = p.work_id WHERE theme_id = ? ORDER BY n", t["id"])
+            if work_id and not any(p["work_id"] == work_id for p in t["passages"]):
+                continue
+            for p in t["passages"]:
+                p["named"] = self.rows("SELECT n.id, n.commentator, n.start_ref, n.work_id, tn.word FROM theme_named tn JOIN note n ON n.id = tn.note_id "
+                                       "WHERE tn.theme_id = ? AND tn.n = ? ORDER BY n.id", t["id"], p["n"])
+            t["links"] = self.rows("SELECT tl.n_a, tl.theme_b, tl.n_b, l.from_work, l.from_ref, l.to_work, l.to_ref, l.raw, l.certainty, "
+                                   "n.id AS note_id, n.commentator FROM theme_link tl JOIN link l ON l.id = tl.link_id JOIN note n ON n.id = l.note_id "
+                                   "WHERE tl.theme_a = ? ORDER BY l.id", t["id"])
+            out.append(t)
+        return out
+
+    def speakers(self):
+        """Who speaks in each dialogue, as the Perseus TEI marks the speeches (<said who>)."""
+        out = {}
+        for r in self.rows("SELECT d.work_id, d.label, count(*) AS speeches FROM division d WHERE kind = 'speech' GROUP BY d.work_id, d.label ORDER BY d.work_id, speeches DESC"):
+            out.setdefault(r["work_id"], []).append({"name": r["label"], "speeches": r["speeches"]})
+        return out
+
+    def whole(self, work_id):
+        w = self.one("SELECT id, title, slug, tetralogy, imported, abbr FROM work WHERE id = ?", work_id)
+        if not w:
+            return None
+        w["claims"] = self.rows("SELECT c.*, s.title AS source_title FROM claim c JOIN source s ON s.id = c.source_id WHERE work_id = ? ORDER BY c.kind, c.id", work_id)
+        w["chapters"] = self.rows("SELECT * FROM division WHERE work_id = ? AND kind = 'chapter' ORDER BY seq", work_id)
+        w["sidenotes"] = self.rows("SELECT label, start_ref, end_ref, precision, printed_at FROM division WHERE work_id = ? AND kind = 'sidenote' ORDER BY seq", work_id)
+        w["sidenote_basis"] = (self.one("SELECT basis FROM division WHERE work_id = ? AND kind = 'sidenote' LIMIT 1", work_id) or {}).get("basis")
+        w["parts"] = self.rows("SELECT label, start_ref, end_ref, basis, kind FROM division WHERE work_id = ? AND kind IN ('part', 'skopos', 'book', 'letter') ORDER BY id", work_id)
+        w["introductions"] = self.rows("SELECT c.id, c.label, c.title, c.printed, count(n.id) AS notes FROM commentary c JOIN note n ON n.commentary_id = c.id "
+                                       "WHERE c.work_id = ? AND n.kind = 'introduction' GROUP BY c.id ORDER BY c.id", work_id)
+        w["orders"] = self.orders(work_id)
+        w["sequences"] = self.sequences(work_id)
+        w["themes"] = self.themes(work_id)
+        w["speakers"] = self.speakers().get(work_id, [])
+        # The citation web between this dialogue and the others (milestone 8): notes on one citing the other.
+        q = ("SELECT w.id, w.title, w.slug, count(DISTINCT l.note_id) AS notes FROM link l JOIN work w ON w.id = l.{0} "
+             "WHERE l.{1} = ? AND l.{0} != ? AND l.kind = 'cf' AND l.certainty != 'unresolved' GROUP BY w.id ORDER BY notes DESC")
+        w["cites"] = self.rows(q.format("to_work", "from_work"), work_id, work_id)
+        w["cited_by"] = self.rows(q.format("from_work", "to_work"), work_id, work_id)
+        return w
+
+    def corpus(self):
+        works = self.rows("SELECT id, title, slug, tetralogy, imported, abbr, n_tokens FROM work ORDER BY id")
+        matrix = self.rows("SELECT from_work, to_work, count(DISTINCT note_id) AS notes FROM link WHERE kind = 'cf' AND certainty != 'unresolved' "
+                           "AND from_work != to_work GROUP BY from_work, to_work")
+        stats = self.one("SELECT value FROM build WHERE key = 'structure_stats'")
+        return {"works": works, "orders": self.orders(), "sequences": self.sequences(), "themes": self.themes(),
+                "speakers": self.speakers(), "citations": matrix,
+                "persons": self.rows("SELECT work_id, value, cited_as FROM claim WHERE kind = 'persons' ORDER BY work_id, id"),
+                "ancient": self.rows("SELECT * FROM ancient_text ORDER BY id"),
+                "stats": json.loads(stats["value"]) if stats else None}
+
+    def ancient(self, text_id, at=None):
+        t = self.one("SELECT * FROM ancient_text WHERE id = ?", text_id)
+        if not t:
+            return None
+        if at:
+            t["sections"] = self.rows("SELECT * FROM ancient_section WHERE text_id = ? AND n = ?", text_id, at)
+        else:
+            t["sections"] = self.rows("SELECT * FROM ancient_section WHERE text_id = ? ORDER BY seq", text_id)
+        return t
 
     # ------------------------------------------------------------ one Stephanus page
 
@@ -451,6 +562,14 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 2 and parts[0] == "work":
                     w = lib.work(parts[1])
                     return self.send_json(w) if w else self.not_found()
+                if len(parts) == 2 and parts[0] == "whole":
+                    w = lib.whole(parts[1])
+                    return self.send_json(w) if w else self.not_found()
+                if parts == ["corpus"]:
+                    return self.send_json(lib.corpus())
+                if len(parts) == 2 and parts[0] == "ancient":
+                    t = lib.ancient(parts[1], query.get("at") or None)
+                    return self.send_json(t) if t else self.not_found()
                 if len(parts) == 3 and parts[0] == "page" and parts[2].isdigit():
                     p = lib.page(parts[1], int(parts[2]))
                     return self.send_json(p) if p else self.not_found()

@@ -1,0 +1,68 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-minos",
+ "work": "tlg033",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Minos",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804)",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   8827,
+   8887
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Minos. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-minos.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 8836,
+   "text": "IL AW, considered according to its first fubfiftcnce in Deity, is justly defined by Plato to be a dijlrlhutton of intelle6i (v*u 5;avo/x)?). As it originates, therefore, from deity, and is thence participated by the human soul, it does not depend for its being among men on arbitrary will and mutual compact, but is truly an evolution of one of those eternal ideas or forms which the soul essentially contains. He, therefore, who diligently attends to what is said by Plato in this dialogue, in his Laws, and Republic, concerning law, will find that it is a true mode of governing, which directs the governed to the best end through proper media, establishing punishments for such as transgress, and rewards for those that are obedient to this mode. Hence the institutions of princes, when they are not true, and do not proceed to the best end in a right path, are by no means laws, but decrees and edicls: for a work is frequently denominated legitimate from law, just from being legitimate, and good, right and true from being just; and therefore law is necessarily good and true. It also follows that law properly so called is eternal and perfectly immutable: for that which is changed by times, places and opinions, is not a law, but an institute.",
+   "raw": "JL  AW,  confidered  according  to  its  firft  fubfiftcnce  in  Deity,  is  juftly  defined \nby  Plato  to  be  a  dijlrlhutton  of  intelle6i  (v*u  5;avo/x)?).  As  it  originates,  there- \nfore, from  deity,  and  is  thence  participated  by  the  human  foul,  it  does  not \ndepend  for  its  being  among  men  on  arbitrary  will  and  mutual  compact,  but \nis  truly  an  evolution  of  one  of  thofe  eternal  ideas  or  forms  which  the  foul \neflentially  contains.  He,  therefore,  who  diligently  attends  to  what  is  faid \nby  Plato  in  this  dialogue,  in  his  Laws,  and  Republic,  concerning  law,  will  find \nthat  it  is  a  true  mode  of  governing,  which  dire61s  the  governed  to  the  beft \nend  through  proper  media,  eflablifhing  punishments  for  fuch  as  tranfgrefs, \nand  rewards  for  thofe  that  are  obedient  to  this  mode.  Hence  the  inftitu- \ntions  of  princes,  when  they  are  not  true,  and  do  not  proceed  to  the  beft  end \nin  a  right  path,  are  by  no  means  laws,  but  decrees  and  edicls :  for  a  work \nis  frequently  denominated  legitimate  from  law,  juft  from  being  legitimate, \nand  good,  right  and  true  from  being  juft  ;  and  therefore  law  is  neceflarily \ngood  and  true.  It  alfo  follows  that  law  properly  fo  called  is  eternal  and \nperfectly  immutable  :  for  that  which  is  changed  by  times,  places  and  opi- \nnions, is  not  a  law,  but  an  inftitute. "
+  },
+  {
+   "id": "taylor1804-intro-minos.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null
+   ],
+   "line": 8854,
+   "text": "According to Plato, too, it appears that there are four species of laws. The first of these are Saturnian, or, in other words, subsist in that deity, who according to antient theologists is the summit of the intelledual order. These laws are mentioned by Plato in the Gorgias, where Socrates says, \" Tiiis was the law in the times of Saturn, and now also subsists in the Gods.\" The second are Jovian, and are indicated in the Laws, where the Athenian guest",
+   "raw": "According  to  Plato,  too,  it  appears  that  there  are  four  fpecies  of  laws.  The \nfirft  of  thefe  are  Saturnian,  or,  in  other  words,  fubfift  in  that  deity,  who  accord- \ning to  antient  theologifts  is  the  fummit  of  the  intelledual  order.  Thefe \nlaws  are  mentioned  by  Plato  in  the  Gorgias,  where  Socrates  fays,  \"  Tiiis  was \nthe  law  in  the  times  of  Saturn,  and  now  alfo  fubfifts  in  the  Gods.\"  The \nfecond  are  Jovian,  and  are  indicated  in  the  Laws,  where  the  Athenian  gueft "
+  },
+  {
+   "id": "taylor1804-intro-minos.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": null,
+   "pages": [
+    null,
+    178
+   ],
+   "line": 8861,
+   "text": "VOX*. IV. 2 A says says \"that Justice follows Jupiter, being the avenger of those who desert the divine law.\" The third are fatal, as we leara from the Timasus, where it is said that the Demiurgus difclofcd to souls the laws of Fate.\" And the fourth are human. Since law, therefore, has a divine origin, all the illustrious framers of laws with the greatest propriety referred the invention of them to Deity. Hence Zoroaster, when he delivered laws to the Badrians and Persians, ascribed the invention of them to Oromafis; Hermes Trifmegiflus the Egyptian legislator referred the invention of his laws to Mercury; Minos the Cretan lawgiver to Jupiter; Charondas the Carthaginian to Saturn; Lycurgus the Lacedaemonian to Apollo; Draco and Solon the Athenian legislators to Minerva; Pompilius the Roman lawgiver to ^geria; Zamolxis the Scythian to Vesta; and Plato, when he gave laws to the Magnesians and Sicilians, to Jupiter and Apollo.",
+   "raw": "VOX*.  IV.  2  A  fays \nfays  \"that  Juftice  follows  Jupiter,  being  the  avenger  of  thofe  who  defcrt \nthe  divine  law.\"  The  third  are  fatal,  as  we  leara  from  the  Timasus,  where \nit  is  faid  that  the  Demiurgus  **  difclofcd  to  fouls  the  laws  of  Fate.\"  And  the \nfourth  are  human.  Since  law,  therefore,  has  a  divine  origin,  all  the  illuflri- \nous  framers  of  laws  with  the  greateft  propriety  referred  the  invention  of \nthem  to  Deity.  Hence  Zoroafter,  when  he  delivered  laws  to  the  Badrians  and \nPerfians,  afcribcd  the  invention  of  them  to  Oromafis ;  Hermes  Trifmegiflus \nthe  Egyptian  legiflator  referred  the  invention  of  his  laws  to  Mercury  ;  Minos \nthe  Cretan  lawgiver  to  Jupiter ;  Charondas  the  Carthaginian  to  Saturn ; \nLycurgus  the  Lacedaemonian  to  Apollo  ;  Draco  and  Solon  the  Athenian \nlegiflators  to  Minerva ;  Pompilius  the  Roman  lawgiver  to  ^geria  ;  Za- \nmolxis  the  Scythian  to  Vefla ;  and  Plato,  when  he  gave  laws  to  the  Mag- \nnefians  and  Sicilians,  to  Jupiter  and  Apollo. "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 2,
+  "running heads removed": 4,
+  "words joined across lines": 7,
+  "paragraphs run on across a page": 1,
+  "note marks removed": 1,
+  "notes": 3
+ }
+}

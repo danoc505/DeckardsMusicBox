@@ -1,0 +1,191 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-gorgias",
+ "work": "tlg023",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Gorgias",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804), pp. 10-348",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   15877,
+   16074
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Gorgias. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-gorgias.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": 345,
+   "pages": [
+    345
+   ],
+   "line": 15883,
+   "text": "It is necessary in the fi\\i\\ place, says Olympiodorus ', to investigate the dramatic apparatus of the dialogue; in the second place, its scope; in the third place, the division of it; in the fourth place, the persons in it, and the analogy of the persons; and in the fifth place, (that which is investigated by many, though it does not deserve to be discussed, and was not doubted by men of greater antiquity,) on what account Plato introduces Gorgias here, who was very far from being contemporary with Socrates.",
+   "raw": "It  is  neccflary  in  the  fi\\i\\  place,  fays  Olympiodorus ',  to  inveftigate  the \ndramatic  apparatus  of  the  dialogue  ;  in  the  fecond  place,  its  fcope  ;  in  the \nthird  place,  the  divifion  of  it ;  in  the  fourth  place,  the  perfons  in  it,  and  the \nanalogy  of  the  perfons  ;  and  in  the  fifth  place,  (that  which  is  inveftigated  by \nmany,  though  it  docs  not  dcferve  to  be  difcufTed,  and  was  not  doubted  by  men \nof  greater  antiquity,)  on  what  account  Plato  introduces  Gorgias  here,  who \nwas  very  far  from  being  contemporary  with  Socrates. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null,
+    346
+   ],
+   "line": 15891,
+   "text": "The dramatic apparatus then is as follows: Gorgias, t1ie Leontine, came from the I.eontines in Sicily, as an ambassador to the Athenians, refpedinoa confederation, and the war against the Syracufians. He had also with him Polus, who delighted in rhetoric; and he dwelt in the house of Callicles, the public orator of the Athenians. This Callicles, too, was delighted with skilful rhetoricians, but made pleasure the end of life, and deceived the Athenians, always addressing them in the language of Demosthenes, What do you wish? What shall I write? In what can T gratify you?** Gorgias, therefore, displayed his art, and so captivated the Athenian people, that they called the days in which he exhibited fejlivals^ and his periods lam/is. Whence Socrates, perceiving the people thus deceived, and being able to extend o-god to all the youth, formed the design of saving the souls both of the Athenians and of Gorgias himself. Taking, therefore, with him Chasrepho the philosopher, who is mentioned by Aristophanes, they \\^cnt to the houle of Callicles, and there their conferences and investigations of theorems took place. But he went with Chierepho, and did not go alone, that he might show how scientific men condu<^ed themselves and discoursed. And thus much for the apparatus of the dialogue.",
+   "raw": "The  dramatic  apparatus  then  is  as  follows  :  Gorgias,  t1ie  Leontine,  came \nfrom  the  I.eontines  in  Sicily,  as  an  ambaflador  to  the  Athenians,  refpedino- \na  confederation,  and  the  war  againfl  the  Syracufians.  He  had  alfo  with  him \nPolus,  who  delighted  in  rhetoric  ;  and  he  dwelt  in  the  houfe  of  Callicles,  the \npublic  orator  of  the  Athenians.  This  Callicles,  too,  was  delighted  with  fkil- \nful  rhetoricians,  but  made  pleafure  the  end  of  life,  and  deceived  the  Athe- \nnians, always  addreffing  them  in  the  language  of  Demofthenes,  '*  What  do \nyou  wifh  ?  What  (hall  I  write  ?  In  what  can  T  gratify  you  ?**  Gorgias,  there- \nfore, difplaycd  his  art,  and  fo  captivated  the  Athenian  people,  that  they  called \nthe  days  in  which  he  exhibited  fejlivals^  and  his  periods  lam/is.  Whence \nSocrates,  perceiving  the  people  thus  deceived,  and  being  able  to  extend  o-ood \nto  all  the  youth,  formed  the  defign  of  faving  the  fouls  both  of  the  Athenians \nand  of  Gorgias  himfclf.  Taking,  therefore,  with  him  Chasrepho  the  philo- \nfopher,  who  is  mentioned  by  Ariflophanes,  they  \\^cnt  to  the  houle  of  Calli- \ncles, and  there  their  conferences  and  inveftigations  of  theorems  took  place. \nBut  he  went  with  Chierepho,  and  did  not  go  alone,  that  he  might  fhow  how \nfcientific  men  condu<^ed  themfelves  and  difcourfed.  And  thus  much  for  the \napparatus  of  the  dialogue. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 346,
+   "pages": [
+    346
+   ],
+   "line": 15917,
+   "text": "With refpeca to Its scope, it has appeared to be different to different persons. For some say that the deiign of Plato was to discourse concernincr rhetoric; and they inscribe it Gorgias, or concerning Rhetoric;** but improperly: for they characterize the whole from a part. Others again say, that the dialogue is concerning jufl:ice and injustice; showing that the just are happy, and the unjust unfortunate and miserable. Llkcwife, that by how much the more unjust a man is, by so much the more is he miserable; that in proportion as his injull:ice is extended by time, in such propor* tion is he more miserable; and that if it were immortal, he would be most miserable. These too receive the scope of the dialogue from a part, viz. from the arguments against Polus. Others say that its scope is to speak concerning the demiurgus. But these also collect the scope from a part; because in the fable in the latter part of this dialogue the demiurgus is mentioned. These, however, speak absurdly, and foreign from the purpose. We say, therefore, that its scope is to discourse conaernmg the princijiles which cmduB us to political felicity",
+   "raw": "With  refpeca  to  Its  fcope,  it  has  appeared  to  be  different  to  different  per- \nfons.  For  fome  fay  that  the  deiign  of  Plato  was  to  difcourfe  concernincr \nrhetoric;  and  they  infcrlbe  it  *'  Gorgias,  or  concerning  Rhetoric;**  but  im- \nproperly :  for  they  characterize  the  whole  from  a  part.  Others  again  fay, \nthat  the  dialogue  is  concerning  jufl:ice  and  injuflice  ;  fliowing  that  tlie  juft \nare  happy,  and  the  unjufl  unfortunate  and  miferable.  Llkcwife,  that  by \nhow  much  the  more  unjuft  a  man  is,  by  fo  much  the  more  is  he  miferable  ; \nthat  in  proportion  as  his  injull:ice  is  extended  by  time,  in  fuch  propor* \ntion  is  he  more  miferable ;  and  that  if  it  were  immortal,  he  would  be \nmoft  miferable.  Thefe  too  receive  the  fcope  of  the  dialogue  from  a  part, \nviz.  from  the  arguments  againft  Polus.  Others  fay  that  its  fcope  is  to  fpeak \nconcerning  the  demiurgus.  But  thefe  alfo  collect  the  fcope  from  a  part ;  be- \ncaufe  in  the  fable  in  the  latter  part  of  this  dialogue  the  demiurgus  is  men- \ntioned. Thefe,  however,  fpeak  abfurdly,  and  foreign  from  the  purpofe. \nWe  fay,  therefore,  that  its  fcope  is  to  difcourfe  conaernmg  the  princijiles  which \ncmduB  us  to  political  felicity  * "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 346,
+   "pages": [
+    346,
+    347
+   ],
+   "line": 15934,
+   "text": "Since, then, we have mentioned principles and a polity, let us speak concerning principles universally, and concerning political felicity, and also what the principles are of the political science. The principles, therefore, of every thing are six. Matter as with a carpenter wood. Form, the writing table, or something of this kind. That which makes as the carpenter himself. The liaradigniy that to which directing his phantasy, he made the table. The injirument, the saw perhaps, or the axe. And the endy that on accoiiiit of which it was made. The multitude, therefore, and rhetoricians, not looking to truth, say that the matter of the political science is the body which is prefer ved; the form luxury; the Jiroducing cause, rhttonc, the jiaradigniy a tyranny; the inflrumeni, persuasion; and the end, pleasure. And such are, their assertions. We however say that the matter is soul, and this not the rational, but that which consists of three parts: for it imitates a polity. And as in cities there are governors, soldiers, and mercenaries; so, in u?, reason is analogous to the governor; anger to the soldier, fubfiftin^^ as a i-nedium, and being obedient to reason, but commanding and ranking the mercenaries, that is desire. The matter, therefore, is the soul considered as divided into three parts. For the poHtical character wishes to be angry and to desire, with respect to such things as are proper, and when it is proper. Just as the lowell firing of a musical instrument accords with the highest, and emits the same found with it, though more acute. For thus desire is conjoined with reason. But the fonn is justice and temperance. The producing cause is a philosophic life. But the paradigm is the world. For the political philosopher arranges all things in imitation of the universe, which is replete with excellent order. For this universe is order (^Koa-ixog) according to Plato, and not disorder [ujcoa-ijiioc). Manners and discipline are the injlrument. And the end is good. It must, however, be observed, that good is twofold, one of which pertains to us in the present life, but the other we possess hereafter*. Political goody therefore, belongs to us in the present, but theoretic good will be our portion in another life. To Gorgias, therefore, the discourse is about x\\\\Q producing cause; to Polus, about the formal', and to Calliclcs, about the fnal. Nor is it wonderful if all appear to be in all. For in the producing cause the rest are found, and in the others all: for there is a certain communion among them, and they pervade through each other. But they derive their order from that which abounds.",
+   "raw": "Since,  then,  we  have  mentioned  principles  and  a  polity,  let  us  fpeak  con- \ncerning principles  univerfally,  and  concerning  political  felicity,  and  alfo \nwhat  the  principles  are  of  the  political  fcience.  The  principles,  therefore, \nof  every  thing  are  fix.  Matter^  as  with  a  carpenter  wood.  Form,  the  writing \ntable,  or  fomething  of  this  kind.  That  which  makes^  as  the  carpenter  him- \nfelf.  The liaradigniy  that  to  which  diredling  his  phantafy,  he  made  the  table. \nThe  injirument,  the  faw  perhaps,  or  the  axe.  And  the  endy  that  on  accoiiiit \nof  which  it  was  made.  The  multitude,  therefore,  and  rhetoricians,  not \nlooking  to  truth,  fay  that  the  matter  of  the  political  fciencc  is  the  body  which \nis  prefer  ved  ;  the  form^  luxury;  the  Jiroducing  caufe,  rhttonc,  the  jiaradigniy \na  tyranny  ;  the  inflrumeni,  perfuafion  ;  and  the  end,  pleafure.  And  fuch  are \n,  their  affertions.  We  however  fay  that  the  matter  is  foul,  and  this  not  the \nrational,  but  that  which  confifls  of  three  *  parts  :  for  it  imitates  a  polity. \nAnd  as  in   cities  there  are  governors,  foldiers,  and  mercenaries ;  fo,  in  u?, \nreafon  is  analogous  to  the  governor ;  anger  to  the  foldier,  fubfiftin^^  as  a  i-ne- \ndium,  and  being  obedient  to  reafon,  but  commanding  and  ranking  the  mer- \ncenaries, that  is  defire.  The  matter,  therefore,  is  the  foul  confidered  as \ndivided  into  three  parts.  For  the  poHtical  charader  wiflies  to  be  angry  and \nto  defire,  with  refped  to  fuch  things  as  are  proper,  and  when  it  is  proper. \nJuft  as  the  lowell  firing  of  a  mufical  inftrument  accords  with  the  highefl,  and \nemits  the  fame  found  with  it,  though  more  acute.  For  thus  defire  is  con- \njoined with  reafon.  But  the  fonn  is  juftice  and  temperance.  The  producing \ncaufe  is  a  philofophic  life.  But  the  paradigm  is  the  world.  For  the  political \nphilofopher  arranges  all  things  in  imitation  of  the  univerfe,  which  is  replete \nwith  excellent  order.  For  this  univerfe  is  order  (^Koa-ixog)  according  to  Plato, \nand  not  diforder  [ujcoa-ijiioc).  Manners  and  difcipline  are  the  injlrument.  And \nthe  end  is  good.  It  muft,  however,  be  obferved,  that  good  is  twofold,  one  of \nwhich  pertains  to  us  in  the  prefent  life,  but  the  other  we  poflefs  hereafter*. \nPolitical  goody  therefore,  belongs  to  us  in  the  prefent,  but  theoretic  good  will \nbe  our  portion  in  another  life.  To  Gorgias,  therefore,  the  difcourfe  is  about \nx\\\\Q  producing  caufe;  to  Polus,  about  the  formal',  and  to  Calliclcs,  about  the \nfnal.  Nor  is  it  wonderful  if  all  appear  to  be  in  all.  For  in  the  producing \ncaufe  the  reft  are  found,  and  in  the  others  all :  for  there  is  a  certain  commu- \nnion among  them,  and  they  pervade  through  each  other.  But  they  derive \ntheir  order  from  that  which  abounds. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.005",
+   "kind": "introduction",
+   "seq": 5,
+   "page": 347,
+   "pages": [
+    347,
+    348
+   ],
+   "line": 15978,
+   "text": "Hence, therefore, the divilion of the dialogue becomes apparent. For it is divided into three parts: into the discourse with Gorgias; into that with Polus; and into that with Callicles. It is necessary also to observe, that justice and temperance are peculiarly said to be the form of the political science. For it is necessary to know that all the virtues contribute to political felicity, but cfpecially these two. Hence Plato always makes mention of these, as being neglected by men. For they wish to know the other two, though not perfe6Hy, yet fiditioufly, and under a false appellation. Hence tiiey lay, Such a one is a prudent nian; he knows how to ^enrich himself. And in a fmilar manner with refpe^l: to fortitude; but they negle6tthe other two. 'LTieic is, however, occasion for these, since they proceed through all the parts of the fbnl. For as he who in the city performs his proper \\vork> and gives to every man that which is his due, is said to be just; in like manner jaftice rules in the soul, when reason, anger, and desire, respectively perform the office accommodated to each. If this be the case, temperance then fubfids in the soul, when each part does not desire that which is foreign to its nature.",
+   "raw": "Hence,  therefore,  the  divilion  of  the  dialogue  becomes  apparent.  For  it \nis  divided  into  three  parts:  into  the  difcourfe  with  Gorgias;  into  that  with \nPolus ;  and  into  that  with  Callicles.  It  is  neceffary  alfo  to  obferve,  that \njuftice  and  temperance  are  peculiarly  faid  to  be  the  form  of  the  political  fci- \nence.  For  it  is  neceffary  to  know  that  all  the  virtues  contribute  to  political \nfelicity,  but  cfpecially  thcfe  two.  Hence  Plato  always  makes  mention  of \nthefe,  as  being  negle6lcd  by  men.  For  they  wifh  to  know  the  other  two, \nthough  not  perfe6Hy,  yet  fiditioufly,  and  under  a  falfe  appellation.  Hence \ntiiey  lay,  Such  a  one  is  a  prudent  nian  ;  he  knows  how  to  ^enrich  himfelf. \nAnd  in  a  fmilar  manner  witli  refpe^l:  to  fortitude;  but  they  negle6tthe  other \ntwo.     'LTieic  is,  however,  occafion  for  thcfe,  fince  they  proceed  through  all \nthe  parts  of  the  fbnl.  For  as  he  who  in  the  city  performs  his  proper  \\vork> \nand  gives  to  every  man  that  which  is  his  due,  is  faid  to  be  jiift  ;  in  like  man- \nner jaftice  rules  in  the  foul,  when  reafon,  anger,  and  dcfire,  refpe61ively  per- \nform the  office  accommodated  to  each.  If  this  be  the  cafe,  temperance  then \nfubfids  in  the  foul,  when  each  part  does  not  defire  that  which  is  foreign  to \nits  nature. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.006",
+   "kind": "introduction",
+   "seq": 6,
+   "page": 348,
+   "pages": [
+    348
+   ],
+   "line": 16006,
+   "text": "In the next place, it is worth while to inquire into the number and analogy of the persons. Five persons, therefore, are introduced, viz. Socrates, Chaercpho, Gorgias, Polus, and Callicles. Of these, Socrates is analogous to that which is intelledual and scientific; Chaerepho to right opinion;,Gorgias to distorted opinion; for he was not entirely vanquiOied by injustice, but was dubious whether he should be persuaded or nor. But Polus is analogous to injustice, and to one who is alone ambitious; and Callicles is analogous to a swinish nature, and which is a lover of pleasure. Some, however, doubt on what account the orators are three, but the philosophers two; and why the number of the orators is indivisible \\ but that of the philosophers divisible. We say, however, that this is not true. For Socrates imitates the monad looking to she one. And divinity (gr the one) is simple, produced from nothing. Hence the hymn to him says, \" From whom all things emerge into light; but thy subsistence alone is not on account of any thing ^.*' Chaerepho also imitates the monad, but that which is material and inseparable from matter; but Socrates the separate monad. And as subordinate do not proceed to better, or better to subordinate natures, without a medium, on this account Chaerepho has a middle order; and consequently it is incumbent on him to transmit that which the extremes pofTefp.",
+   "raw": "In  the  next  place,  it  is  worth  while  to  inquire  into  the  number  and  ana- \nlogy of  the  pcrfons.  Five  perfons,  therefore,  are  introduced,  viz.  Socrates, \nChaercpho,  Gorgias,  Polus,  and  Callicles.  Of  tliefe,  Socrates  is  analogous \nto  that  which  is  intelledual  and  fcientific  ;  Chaerepho  to  right  opinion  ; \n,Gorgias  to  diftorted  opinion  ;  for  he  was  not  entirely  vanquiOied  by  injuftice, \nbut  was  dubious  whether  he  fhould  be  perfuaded  or  nor.  But  Polus  is  ana- \nlogous to  injuftice,  and  to  one  who  is  alone  ambitious;  and  Callicles  is  ana- \nlogous to  a  fwinifli  nature,  and  which  is  a  lover  of  pleafurc.  Some,  however, \ndoubt  on  what  account  the  orators  are  three,  but  the  philofophers  two  ;  and \nwhy  the  number  of  the  orators  is  indivifible  \\  but  that  of  the  philofophers \ndivifible.  We  fay,  however,  that  this  is  not  true.  For  Socrates  imitates \ntlie  monad^  looking  to  ihe  one.  And  divinity  (or  the  one)  is  fimple,  produced \nfrom  nothing.  Hence  the  hymn  to  him  fays,  \"  From  whom  all  things \nemerge  into  light ;  but  thy  fubfiftence  alone  is  not  on  account  of  any  thing  ^.*' \nChaerepho  alfo  imitates  the  monad,  but  that  which  is  material  and  infepa- \nrable  from  matter  ;  but  Socrates  the  feparate  monad.  And  as  fubordinate \ndo  not  proceed  to  better,  or  better  to  fubordinate  natures,  without  a  medium, \non  this  account  Chaerepho  has  a  middle  order ;  and  confequently  it  is  in- \ncumbent on  him  to  tranfmit  that  which  the  extremes  pofTefp. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.007",
+   "kind": "introduction",
+   "seq": 7,
+   "page": 348,
+   "pages": [
+    348,
+    10
+   ],
+   "line": 16026,
+   "text": "It now remains to inquire how Plato makes mention of Gorgias. I say, therefore, in the first place, that there is nothing absurd in a writer record-me unknown men, and introducing them as discoursing with each other. And, in the second place, we say that Socrates and Gorgias were contemporaries. For Socrates lived in the third year of the 77th Olympiad: and Empedocles the Pythagorean, the preceptor of Gorgias, associated with him. To which we may add, that Gorgias wrote a treatise concerning Nature, not inelegant, in the 84th Olympiad; so that this was twciUy-eight or:i few more years before Socrates. Besides, Plato, in the Theaetetus, says th?t Socrates, when a very young man, met with Parmenides, when he was very much advanced in years, and found him to be a niofl; profound man. But Parmenides was the preceptor of Empedocles, who was tlic preceptor of Gorgias. And Gorgias was very old: for, according to history, he died in the one-hundred-and-ninth year of his age. So that these two lived about the same time,",
+   "raw": "It  now  remains  to  inquire  how  Plato  makes  mention  of  Gorgias.  I  fay, \ntherefore,  in  the  firft  place,  that  there  is  nothing  abfurd  in  a  writer  record- \nm^  unknown  men,  and  introducing  them  as  difcourfing  with  each  other. \nAnd,  in  the  fecond  place,  we  fay  that  Socrates  and  Gorgias  were  contem- \nporaries. For  Socrates  lived  in  the  third  year  of  the  77th  Olympiad:  and \nEmpedocles  the  Pythagorean,  the  preceptor  of  Gorgias,  afTociated  with  him. \nTo  which  we  may  add,  that  Gorgias  wrote  a  treatife  concerning  Nature,  not \ninelegant,  in  the  84th  Olympiad  ;  fo  that  this  was  twciUy-eiglit  or  :i  few \nmore  years  before  Socrates.  Befidcs,  Plato,  in  the  Theaetetus,  fays  th?t \nSocrates,  when  a  very  young  man,  met  with  Parmenides,  when  he  was \nvery  much  advanced  in  years,  and  found  him  to  be  a  niofl;  profound  man. \nBut  Parmenidcs  was  the  preceptor  of  Empedoclcs,  who  was  tlic  preceptor  of \nGorgias.  And  Gorgias  was  very  old  :  for,  according  to  hiftory,  he  died  in \nthe  onc-hundred-and-ninth  year  of  his  age.  So  that  thefe  two  lived  about \nthe  fame  time, "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.008",
+   "kind": "introduction",
+   "seq": 8,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "line": 16055,
+   "text": "I shall only observe, in addition to what Olympiodorus has said, that Plato does not condemn all orators, but those only who study to persuade their hearers to embrace whatever they please, whether it be good or bad, false or true; such as were Lysias the Theban, Tisias, and Gorgias. But, in the Phaedrus, he prefers Pericles and Isocrates to all the other orators, because they combined eloquence with philosophy. He also adds, that a legitimate orator ought to underhand the reasons of things, the laws of manners, the powers of words, and the different dispositions of men; that he should know how to compose words adapted, as much as possible, to the genius of his hearers; and that he should not be so anxious that what he says may be plea{. ing to men, as that it may be acceptable to Divinity,",
+   "raw": "I  fhall  only  obferve,  in  addition  to  what  Olympiodorus  has  faid,  that  Plato \ndoes  not  condemn  all  orators,  but  thofe  only  who  fludy  to  perfuade  their \nhearers  to  embrace  whatever  they  pleafe,  whether  it  be  good  or  bad,  falfe  or \ntrue;  fuch  as  were  Lyfias  the  Theban,  Tifias,  and  Gorgias.  But,  in  the \nPhaedrus,  he  prefers  Pericles  and  Ifocrates  to  all  the  other  orators,  becaufe \nthey  combined  eloquence  with  philofophy.  He  alfo  adds,  that  a  legitimate \norator  ought  to  underhand  the  reafons  of  things,  the  laws  of  manners,  the \npowers  of  words,  and  the  different  difpofitions  of  men  ;  that  he  (hould  know \nhow  to  compofe  words  adapted,  as  much  as  poffible,  to  the  genius  of  his \nhearers ;  and  that  he  fhould  not  be  fo  anxious  that  what  he  fays  may  be  plea{-. \ning  to  men,  as  that  it  may  be  acceptable  to  Divinity, "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.f01",
+   "kind": "footnote",
+   "seq": 9,
+   "page": 345,
+   "line": 15907,
+   "on": "taylor1804-intro-gorgias.002",
+   "text": "In his MS, Scholia on this Dialogue, vor.. IV, 2 Y Bat",
+   "raw": "*  In  his  MS,  Scholia  on  this  Dialogue, \nvor..  IV,  2  Y  Bat "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.f02",
+   "kind": "footnote",
+   "seq": 10,
+   "page": 346,
+   "line": 15949,
+   "on": "taylor1804-intro-gorgias.004",
+   "text": "i. «. Of reafojf), anger, and desire.",
+   "raw": "*  i.  «.  Of  reafojf),  anger,  and  defire. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.f03",
+   "kind": "footnote",
+   "seq": 11,
+   "page": 347,
+   "line": 15990,
+   "on": "taylor1804-intro-gorgias.004",
+   "text": "lliongh a fcv ai; rihlc to cxcrclfi.' {he theoretic as well as the ^o/i/ica/ virtues in the present life, yet \\vc ran only iJoHirs the good of\" the former in perfe«!:\\ion hereafter. — For an accurate account of ihcfe virtues, see the Notes on the Pha'do.",
+   "raw": "'  lliongh  a  fcv  ai-;  rihlc  to  cxcrclfi.'  {he  theoretic  as  well  as  the  ^o/i/ica/ virtues  in  the  prefent \nlife,  yet  \\vc  ran  only  iJoHirs  the  good  of\"  the  former  in  perfe«!:\\ion  hereafter. — For  an  accurate  ac- \ncount of  ihcfe  virtues,  fee  the  Notes  on  the  Pha'do. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.f04",
+   "kind": "footnote",
+   "seq": 12,
+   "page": 348,
+   "line": 16034,
+   "on": "taylor1804-intro-gorgias.007",
+   "text": "For three, being an odd number, is indivifiblc.",
+   "raw": "'  For  three,  being  an  odd  number,  is  indivifiblc. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.f05",
+   "kind": "footnote",
+   "seq": 13,
+   "page": 348,
+   "line": 16036,
+   "on": "taylor1804-intro-gorgias.007",
+   "text": "Ihe^ monad is the united subsistence of separated multituilc; but the one is the summit of multitude.",
+   "raw": "•  Ihe^  monad  is  the  united  fubfiftence  of  feparated  multituilc;  but  the  one  is  the  fummit  of \nmultitude. "
+  },
+  {
+   "id": "taylor1804-intro-gorgias.f06",
+   "kind": "footnote",
+   "seq": 14,
+   "page": 348,
+   "line": 16039,
+   "on": "taylor1804-intro-gorgias.007",
+   "text": "3 El ev rravra 7rt(p^vr\\' ffu J\" ouhvof ouvina ixouvoi^",
+   "raw": "3  El  ov  rravra  7rt(p^vr\\'  ffu  J\"  ouhvof  ouvina  ixouvoi^ "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 4,
+  "running heads removed": 7,
+  "words joined across lines": 26,
+  "notes": 14,
+  "paragraphs run on across a page": 4,
+  "note marks removed": 4
+ }
+}

@@ -1,0 +1,184 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-ion",
+ "work": "tlg027",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Io",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804), pp. 439-443",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   18625,
+   18824
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Io. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-ion.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null,
+    440
+   ],
+   "line": 18634,
+   "text": "X HE general subject, says Mr, Sydeiihani, of this Dialogue, is Poetry; but various titles are found prefixed to the copies of it, assigned probably by the autients. Some style it a Dialogue \" conceniing the Iliad: while others, aiming to open the:\" ^je6t more fully and diftindly, entitle it, Of the Interpretation of the Poets:\" and others again, with intention to exprels the design or scope of it in the atle, have invented this, \" Concerning the Mark or Characteristic of a P t.\" But none of these titles, or infcriptions^ will be found adequate or proper. The first is too partial and deficient. For the Dialogue, now before us, concerns the Odyssey as much as the Iliad, and many other poets no less than Homer. As to the next title, the Interpretation or Exposition of the Poets, is but an occasional or accessory fubje6^, introduced only for the sake of some other? which is the principal. The last title is erroneous, and mistakes the main drift and end of this Dialogue, which is by no means so slight or unimportant, as merely to show that enthufiafmS or the poetic fury, is the characteristic of a true poet; but makes a part of the grand design of Plato in all his writings, that is, the teaching true wisdom: in order to which, every kind of wisdom, falsely so called, commonly taught in the age when he lived, was to be unlearnt. The teachers, or leaders of popular opinion among the Grecians of those days, were the sophists, the rhetoricians, and the poets; or rather, instead of these last, their ignorant and false interpreters. Men of liberal education were missed principally by the first of these: the second sort were the seducers of the populace, to whose passions the force of rhetoric chiefly is applied in commonwealths: but the minds of people of all ranks received a bad",
+   "raw": "X  HE  general  fubje6l,  fays  Mr,  Sydeiihani,  of  this  Dialogue,  is  Poetry; \nbut  various  tjtles  arc  found  prefixed  to  the  copies  of  it,  afligned  probably  by \nthe  autients.  Some  ftyle  it  a  Dialogue  \"  conceniing  the  Iliad  :  '*  while \nothers,  aiming  to  open  the  :\"  ^je6t  more  fully  and  diftindly,  entitle  it,  **  Of \nthe  Interpretation  of  the  Poeti  :\"  and  others  again,  with  intention  to  exprels \nthe  defign  or  fcope  of  it  in  the  atle,  have  invented  this,  \"  Concerning  the \nMark  or  Charaderiftic  of  a  P  t.\"  But  none  of  thefe  titles,  or  infcriptions^ \nwill  be  found  adequate  or  proper.  The  '  firft  is  too  partial  and  deficient. \nFor  the  Dialogue,  now  before  us,  concerns  the  OdyfTey  as  much  as  the  Iliad, \nand  many  other  poets  no  lefs  than  Homer.  As  to  the  next  title,  the  Inter- \npretation or  Expofition  of  the  Poets,  is  but  an  occafional  or  acceflbry  fubje6^, \nintroduced  only  for  the  fake  of  fome  other?  which  is  the  principal.  The  laft \ntitle  is  erroneous,  and  miftakes  the  main  drift  and  end  of  this  Dialogue, \nwhich  is  by  no  means  fo  flight  or  unimportant,  as  merely  to  fhow  that \nenthufiafmS  or  the  poetic  fury,  is  the  charaderiftic  of  a  true  poet ;  but \nmakes  a  part  of  the  grand  dcfign  of  Plato  in  all  his  writings,  that  is,  the \nteaching  true  wifdom  :  in  order  to  which,  every  kind  of  wifdom,  falfely  fo \ncalled,  commonly  taught  in  the  age  when  he  lived,  was  to  be  unlearnt.  The \nteachers,  or  leaders  of  popular  opinion  among  the  Grecians  of  thofe  days, \nwere  the  fophifls,  the  rhetoricians,  and  the  poets  ;  or  rather,  inftead  of  thefe \nlaft,  their  ignorant  and  falfe  interpreters.  Men  of  liberal  education  were \nmifled  principally  by  the  firft  of  thefe  :  the  fecond  fort  were  the  feducers  of \nthe  populace,  to  whofe  paflions  the  force  of  rhetoric  chiefly  is  applied  in \ncommonwealths :  but  the  minds  of  people  '    of  all  ranks  received  a  bad "
+  },
+  {
+   "id": "taylor1804-intro-ion.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": 440,
+   "pages": [
+    440,
+    441
+   ],
+   "line": 18676,
+   "text": "impression ^tid vetat P",
+   "raw": "impreflion \n^tid  vetat P "
+  },
+  {
+   "id": "taylor1804-intro-ion.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 441,
+   "pages": [
+    441
+   ],
+   "line": 18693,
+   "text": "What hinders, but that serious truth be spoke lu humour gay, with pleasantry and joke? impression from those of the last-mentioned kind. To prevent the ill influence of these, is the immediate design of the lo; and the way which the philosopher takes to lessen the credit of their poems is not by calling in question the inspiration of the poet, or the divinity of the Muse. Far from attempting this, he establishes the received hypothesis, for the foundation of his argument against the authority of their doctrine: inferring, from their inability to write without the impulse of the Muse, that they had no real knowledge of what they taught: whereas the principles of science, as he tells us in the Philebus, descend into the mind of man immediately from heaven; or, as he expresses it in the Epinomis, from God himself, without the intervention of any lower divinity. The true philosopher, therefore, who attends to this higher inspiration, he alone possessing that divinest science, the science of those principles, is able to teach in a scientific way. But Plato, of all the polite writers among the antients the most polite, makes not his attack upon the poets themselves dire611y: for, as the difafFeded to any government, so long as they retain their respects for it, strike at the sovereigns only in the persons of their ministers; in the same refpe^ful manner does the courtly Plato seem to spare those sacred persons, the anointed of the Muses, making free with the rhapsodists only, their interpreters. This he does in the person of lo, one of that number, who professed to interpret the icnfc of Homer; proving out of his own mouth, that he had no true knowledge of those matters, which he pretended to explain; and infinuating at the same time, that the poet no less wanted true knowledge in those very things, though the subjects of his own poem. For every thing that he says of the rhapsodists and of rhapsody, holds equally true of poets and of poetry.",
+   "raw": "What  hinders,  but  that  ferions  truth  be  fpoke \nlu  humour  gay,  with  pleafantry  and  joke  ? \nimpreflion  from  thofe  of  the  laft-mentioned  kind.  To  prevent  the  ill  influ- \nence of  thefe,  is  the  immediate  defign  of  the  lo ;  and  the  way  which  the \nphilofopher  takes  to  lefTen  the  credit  of  their  poems  is  not  by  calling  in \nqueftion  the  infpiration  of  the  poet,  or  the  divinity  of  the  Mufe.  Far  from \nattempting  this,  he  eftablifhes  the  received  hypothefis,  for  the  foundation  of \nhis  argument  againfl  the  authority  of  their  do6lrine  :  inferring,  from  their \ninability  to  write  without  the  impulfe  of  the  Mufe,  that  they  had  no  real \nknowledge  of  what  they  taught :  whereas  the  principles  of  fcience,  as  he  tells \nus  in  the  Philebus,  defcend  into  the  mind  of  man  immediately  from  heaven  ; \nor,  as  he  exprefles  it  in  the  Epinomis,  from  God  himfelf,  without  the  inter- \nvention of  any  lower  divinity.  The  true  philofopher,  therefore,  who \nattends  to  this  higher  infpiration,  he  alone  pofleffing  that  divineft  fcience, \nthe  fcience  of  thofe  principles,  is  able  to  teach  in  a  fcientific  way.  But \nPlato,  of  all  the  polite  writers  among  the  antients  the  moft  polite,  makes \nnot  his  attack  upon  the  poets  themfelves  dire611y  :  for,  as  the  difafFeded  to \nany  government,  fo  long  as  they  retain  their  refpedi  for  it,  ftrike  at  the \nfovereigns  only  in  the  perfons  of  their  minifters  ;  in  the  fame  refpe^ful \nmanner  does  the  courtly  Plato  feem  to  fpare  thofe  facred  perfons,  the  anointed \nof  the  Mufes,  making  free  with  the  rhapfodifts  only,  their  interpreters.  This \nhe  does  in  the  perfon  of  lo,  one  of  that  number,  who  profefled  to  interpret \nthe  icnfc  of  Homer ;  proving  out  of  his  own  mouth,  that  he  had  no  true \nknowledge  of  thofe  matters,  which  he  pretended  to  explain  ;  and  infinuating \nat  the  fame  time,  that  the  poet  no  lefs  wanted  true  knowledge  in  thofe  very \nthings,  though  the  fubjeds  of  his  own  poem.  For  every  thing  that  he  fays \nof  the  rhapfodifts  and  of  rhapfody,  holds  equally  true  of  poets  '  and  of  poetry. "
+  },
+  {
+   "id": "taylor1804-intro-ion.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 441,
+   "pages": [
+    441,
+    442,
+    443
+   ],
+   "line": 18743,
+   "text": "The The pursuit of this argument naturally leads to a twofold inquiry: one head or article of which regards the sciences, the other concerns the arts. By this partition does Plato divide his lo; throwing, however, here, as he does every where else, a graceful veil over his art of composition, and the method with which he frames his dialogues; in order to give them the appearance^of familiarity and ease, (6 becoming that kind of writing: in the same manner as he always takes care to conceal their scope or design; that, opening itself unexpe61:cdly at last, it may strike the mind with greater efficacy. Upon the article of science, Plato represents the poets writing through the inspiration of the Muses, of all things, whether human or divine; of morals politics, and military affairs; of history, and antiquities; of meteorology, and astronomy; in fine, of the whole universe; yet without any intimate acquaintance with the nature of those things, and without having had any other than a superficial view. Under the other article, that of art, Plato shows that the poets describe, and in description imitate, the operations and performances of many of the arts, though in the principles of those arts uninflru<fted and ignorant; as having fkiJl in one art only, that, through which they so describe and imitate, the art of poetry: while every other artist hath skill in some one other, his own proper, art; and to the true philosopher, as he tells us in his Dialogue called the Politician, belongs the knowledge of that art, in which are comprehended the principles of all the rest. Hence it follows, that of such poetical subjects as have any relation to the arts*, whether military or peaceful, whether impcratorial, liberal, or mechanical, the knowing in each art are respectively the only proper judges. Such is the design, and such the order of this Dialogue. As to its kind, it is numbered by the antients among the peirastic: but according to the scheme proposed in our lynopfis, the outward form or character of it is purely dramatic: and the genius of it is seen in this, that the argumentation is only probable; and in this, also, that the conclusion leaves the rhapsodist lo perplexed and silenced, bringing off Socrates in modest triumph over the embarrassment of his half yielding adversary *.",
+   "raw": "The \nThe  purfuit  of  this  argument  naturally  leads  to  a  twofold  inquiry :  one  head \nor  article  of  which  regards  the  fcienccs,  the  other  concerns  the  arts.  By  this \npartition  does  Plato  divide  his  lo ;  throwing,  however,  here,  as  he  does  every \nwhere  elfe,  a  graceful  veil  over  his  art  of  compofition,  and  the  method  with \nwhich  he  frames  his  dialogues  ;  in  order  to  give  them  the  appearance^of \nfamiliarity  and  eafe,  (6  becoming  that  kind  of  writing :  in  the  fame  manner \nas  he  always  takes  care  to  conceal  their  fcope  or  defign  ;  that,  opening  itfelf \nunexpe61:cdly  at  laft,  it  may  ftrike  the  mind  with  greater  efficacy.  Upon \nthe  article  of  fcience,  Plato  reprefents  the  poets  writing  through  the \ninfpiration  of  the  Mufes,  of  all  things,  whether  human  or  divine;  of  morals \npolitics,  and  military  affairs ;  of  hiftory,  and  antiquities ;  of  meteorology, \nand  aftronomy;  in  fine,  of  the  whole  univcrfe  ;  yet  without  any  intimate \nacquaintance  with  the  nature  of  thofe  things,  and  without  having  had  any \nother  than  a  fuperficial  view.  Under  the  other  article,  that  of  art,  Plato \n(hows  that  the  poets  dcfcribe,  and  in  defcription  imitate,  the  operations  and \nperformances  of  many  of  the  arts,  though  in  the  principles  of  thofe  arts \nuninflru<fted  and  ignorant ;  as  having  fkiJl  in  one  art  only,  that,  through \nwhich  they  fo  defcribc  and  imitate,  the  art  of  poetry:  while  every  other \nartift  hath  fkill  in  fome  one  other,  his  own  proper,  art ;  and  to  the  true \nphilofopher,  as  he  tells  us  in  his  Dialogue  called  the  Politician,  belongs  the \nknowledge  of  that  art,  in  which  are  comprehended  the  principles  of  all  the \nreft.  Hence  it  follows,  that  of  fuch  poetical  fubje<51s  as  have  any  relation  to \nthe  arts*,   whether   military  or   peaceful,   whether   impcratorial,    liberal,   or \nmechanical,  the  knowing  in  each  art  are  refpedively  the  only  proper  judges. \nSuch  is  the  defign,  and  fuch  the  order  of  this  Dialogue.  As  to  its  kind,  it \nis  numbered  by  the  antients  among  the  peiraftic :  but  according  to  the \nfcheme  propofed  in  our  lynopfis,  the  outward  form  or  charadter  of  it  is  purely \ndramatic  :  and  the  genius  of  it  is  feen  in  this,  that  the  argumentation  is  only \nprobable ;  and  in  this,  alfo,  that  the  conclufion  leaves  the  rhapfodift  lo  per- \nplexed and  filenced,  bringing  off  Socrates  in  modefl  triumph  over  the  em- \nbarrafTment  of  his  half  yielding  adverfary  *. "
+  },
+  {
+   "id": "taylor1804-intro-ion.f01",
+   "kind": "footnote",
+   "seq": 5,
+   "page": 439,
+   "line": 18648,
+   "on": "taylor1804-intro-ion.001",
+   "text": "\" Concerning the Iliad.\" This however appears to be the most antient, being the only one found in Laertius; and the others being too precise and particular to be of an earlier date. For the titles of all the profaic works of the antients, whether dialogues, tfiflcrtations, or methodical treatises, written before the age of Plutarch, were as general and as concise as possible, expressing the subject usually in one word. The title that we have cbofen appears not indeed in any of the copies of this Dialogue j but perhaps may be supported by the authority of Clemens of Alexandria, a writer little later than Laertius. For citing a paflTage out of the lo, he has these words, mpt f*tf %oii\\TikY\\i Tl\\ocrav — ypc.^ti, Slromat. I. vi. near the end. Though it must be owned not abfi lutely clear, whether he means it as the known title of the Dialogue, or as the fubje^ only of the passage ibere quoted.— S.",
+   "raw": "'  \"  Concerning  the  Iliad.\"  This  however  appears  to  be  the  moft  antient,  being  the  only  one \nfound  in  Laertius;  and  the  others  being  too  precife  and  particular  to  be  of  an  earlier  date.  For \nthe  titles  of  all  the  profaic  works  of  the  antients,  whether  dialogues,  tfiflcrtations,  or  methodical \ntreatifes,  written  before  the  age  of  Plutarch,  were  as  general  and  as  concife  as  poflible,  expreffing \nthe  fubjedl  ufually  in  one  word.  The  title  that  we  have  cbofen  appears  not  indeed  in  any  of  the \ncopies  of  this  Dialogue  j  but  perhaps  may  be  fupported  by  the  authority  of  Clemens  of  Alexandria, \na  writer  little  later  than  Laertius.  For  citing  a  paflTage  out  of  the  lo,  he  has  thefe  words,  mpt  f*tf \n%oii\\TikY\\i  Tl\\ocrav — ypc.^ti,  Slromat.  1.  vi.  near  the  end.  Though  it  muft  be  owned  not  abfi  lutely \nclear,  whether  he  means  it  as  the  known  title  of  the  Dialogue,  or  as  the  fubje^  only  of  the  paflage \nibere  quoted.— S. "
+  },
+  {
+   "id": "taylor1804-intro-ion.f02",
+   "kind": "footnote",
+   "seq": 6,
+   "page": 440,
+   "line": 18678,
+   "on": "taylor1804-intro-ion.002",
+   "text": "Yet only in this light was she lo considered by FIcinus, as appears from his Commentary on this Dialogue. And his reprerentalions of it have beeti blindly followed by all who have since his time written concerning it, as Janus Cornarius in his seventh Eclogue, Serranus in his Argument of the to, and Francifcus Patritius in his Diflertatjon de Ordine Dialogorum.. Nor mud we conceal from our readers the opposite opinion of a very ingenious friend, who supposes Plato to have no other view in this Dialogue, than to expose lo to ridicule, and to convince him of his own ignorance. Whatever, therefore, is said, on the subject of enthuiiafm in poetry, appears to him wholly ironical, and Socrates to be absolutely in jest, throughout the Dialogue. To this conje^ure we shall only say, in the words of Horace, which a reader of Plato ought always to have in mind,",
+   "raw": "*  Yet  only  in  this  light  was  ihe  lo  confidered  by  FIcinus,  as  appears  from  his  Commentary  on \nthis  Dialogue.  And  his  reprerentalions  of  it  have  beeti  blindly  followed  by  all  who  have  fince  his \ntime  written  concerning  it,  as  Janus  Cornarius  in  his  feventh  Eclogue,  Serranus  in  his  Argument \nof  the  to,  and  Francifcus  Patritius  in  his  Diflertatjon  de  Ordine  Dialogorum..  Nor  mud  we \nconceal  from  our  readers  the  oppofite  opinion  of  a  very  ingenious  friend,  who  fuppofes  Plato  to \nhave  no  other  view  in  this  Dialogue,  than  to  expofe  lo  to  ridicule,  and  to  convince  him  of  his  own \nignorance.  Whatever,  therefore,  is  faid,  on  the  fubje£l  of  enthuiiafm  in  poetry,  appears  to  him \nwholly  ironical,  and  Socrates  to  be  abfolutely  in  jeft,  throughout  the  Dialogue.  To  this  conje^ure \nwe  (hall  only  fay,  in  the  words  of  Horace,  which  a  reader  of  Plato  ought  always  to  have  in  mind, "
+  },
+  {
+   "id": "taylor1804-intro-ion.f03",
+   "kind": "footnote",
+   "seq": 7,
+   "page": 440,
+   "line": 18688,
+   "on": "taylor1804-intro-ion.002",
+   "text": "\" ■ Ridentem dicert Verum k% to the other opinion, that which \\% generally received, we contend not that it has no founda* tion, nor even at all dispute the truth of it; but deny only the importance of that truth to the lo For though the immediate and direct end of Tlato, in this Dialogue, was to prove that the wisdom, which appears in the writing* of the elder poets, especially in those of Homer, was not owing to science: yet another thing, which he had obliquely in his view, was the intimating to his readers, to what cause positively it was owing that so many profound truths were contained in those antient poems. The cause assigned by the philosopher is some universal and divine principle, operating in various ways: partly aHing only occasionally, in which refpeft he terms it,.agreeably to the language of those days, the inspiration of the muse j and partly with a continual and conCtant energy, being a divine genius, -but limited, and confined to certain subjects, operating differently in different persons j though in Homer, mod of all men, exerting its full force, and the mod according to its own nature, that is, universal and divine — S.",
+   "raw": "\"  ■  Ridentem  dicert  Verum \nk%  to  the  other  opinion,  that  which  \\%  generally  received,  we  contend  not  that  it  has  no  founda* \ntion,  nor  even  at  all  difpute  the  truth  of  it ;  but  deny  only  the  importance  of  that  truth  to  the \nlo  For  though  the  immediate  and  dircd  end  of  Tlato,  in  this  Dialogue,  was  to  prove  that  the \nwifdom,  which  appears  in  the  writing*  of  the  elder  poets,  efpecially  in  thofc  of  Homer,  was  not \nowing  to  fcience  :  yet  another  thing,  which  he  had  obliquely  in  his  view,  was  the  intimating  to \nhis  readers,  to  what  caufe  pofitively  it  was  owing  that  fo  many  profound  truths  were  contained  in \nthofe  antient  poems.  The  caufe  afligned  by  the  philofopher  is  fome  univerfal  and  divine  prin- \nciple, operating  in  various  ways :  partly  aHing  only  occafionally,  in  which  refpeft  he  terms  it, \n.agreeably  to  the  language  of  thofe  days,  the  infpiration  of  the  mufe  j  and  partly  with  a  continual \nand  conCtant  energy,  being  a  divine  genius,  -but  limited,  and  confined  to  certain  fubjedls,  operating \ndifferently  in  different  perfons  j  though  in  Homer,  mod  of  all  men,  exerting  its  full  force,  and  the \nmod  according  to  its  own  nature,  that  is,  univerfal  and  divine  — S. "
+  },
+  {
+   "id": "taylor1804-intro-ion.f04",
+   "kind": "footnote",
+   "seq": 8,
+   "page": 441,
+   "line": 18709,
+   "on": "taylor1804-intro-ion.003",
+   "text": "As soon as boys had been taught letters, they were introduced to the reading of the poets j dicir piinds were charged with she memory of shorter poems, and of many passages from the",
+   "raw": "*  As  foon  as  boys  had  been  taught  letters,  they  were  introduced  to  the  reading  of  the  poets  j \ndicir  piinds  were  charged  with  ihe  memory  of  fhorter  poems,   and  of  many  palfages  from  the "
+  },
+  {
+   "id": "taylor1804-intro-ion.f05",
+   "kind": "footnote",
+   "seq": 9,
+   "page": 441,
+   "line": 18745,
+   "on": "taylor1804-intro-ion.004",
+   "text": "longer; and they had masters appohited to explain, criticise, and comment upon what they had learnt. From the poets consequently did the youth imbibe principles of manners, and general opinions of things: their odes were as commonly sung as ballads among us; and their verses were cited, not only to grace conversation, but even to add weight to grave discourses. Justly therefore does Aridides the orator call them Komvirav Exmjvwv rpo^ea^ xai SiSaaxaXcw?, ** the common tutors and teachers of all Greece.** Ariftld. torn. iii. p. 22. ed. Center. — S-",
+   "raw": "longer;  and  they  had  mafters  appohited  to  explain,  criticife,  and  comment  upon  what  they  had \nlearnt.  From  the  poets  confequently  did  the  youth  imbibe  principles  of  manners,  and  general \nopinions  of  things:  their  odes  were  as  commonly  fung  as  ballads  among  us;  and  their  verfes \nwere  cited,  not  only  to  grace  converfation,  but  even  to  add  weight  to  grave  difcourfes.  Juftly \ntherefore  does  Aridides  the  orator  call  them  Komvirav  Exmjvwv  rpo^ea^  xai  SiSaaxaXcw?,  **  the  common \ntutors  and  teachers  of  all  Greece.**   Ariftld.  torn.  iii.  p.  22.  ed.  Canter. — S- "
+  },
+  {
+   "id": "taylor1804-intro-ion.f06",
+   "kind": "footnote",
+   "seq": 10,
+   "page": 441,
+   "line": 18752,
+   "on": "taylor1804-intro-ion.004",
+   "text": "n'his appears to have been so underllood by the poets themselves of those days. For what other",
+   "raw": "n'his  appears  to  have  been  fo  underllood  by  the  poets  themfelves  of  thofe  days.  For  what  other "
+  },
+  {
+   "id": "taylor1804-intro-ion.f07",
+   "kind": "footnote",
+   "seq": 11,
+   "page": 441,
+   "line": 18754,
+   "on": "taylor1804-intro-ion.004",
+   "text": "provocation Socrates could have given them than by some such talk as Plato in this Dialogue puts",
+   "raw": "provocation  Socrates  could  have  given  them  than  by  fome  fuch  talk  as  Plato  in  this  Dialogue  puts "
+  },
+  {
+   "id": "taylor1804-intro-ion.f08",
+   "kind": "footnote",
+   "seq": 12,
+   "page": 441,
+   "line": 18756,
+   "on": "taylor1804-intro-ion.004",
+   "text": "nto h\\'.i mouth is not easy to conceive. The enemies that Socrates had made himself by his free",
+   "raw": "nto  h\\'.i  mouth  is  not  eafy  to  conceive.    The  enemies  that  Socrates  had  made  himfelf  by  his  free- "
+  },
+  {
+   "id": "taylor1804-intro-ion.f09",
+   "kind": "footnote",
+   "seq": 13,
+   "page": 441,
+   "line": 18758,
+   "on": "taylor1804-intro-ion.004",
+   "text": "vol.. V. 3 L dem dem of fpeechj as we are informei.1 by himself in his Apology, reported to us by Plato, were of three sorts; the politicians, the rhelorii fans, and the poets. That the former sort refented his exposing their conceited io^iorancc, and vain prctcnfions to political science, is told us by Laerlius, b. ii. and is indeed abundantly evident from Plato's Meno. That Socrates treated the rhetoricians in the same manner, will appear very fiifricienlly in the Gorgias. Is it not then highly probable, bat the refoiXment of the poets was raised againll him by the same means; and that they well understood his attack upon the rhapsodists, a set of men too inconsiderable for any part of his principal notice to l)c intended againll ihemrelves? We should add to this argument the authority of Athenaeus, were it of any weight in what regards Plato. For he gives this as oneinflance of Plato's envious and nialii^nant spirit, which his own malignity against the divine philosopher attributes lo him, that in his lo he vilifies and abuses the poets. See Athen. Dcipnofoph. I. xi. p. 506, — S,",
+   "raw": "voi..  V.  3  L  dom \ndom  of  fpeechj  as  we  are  informei.1  by  himfclf  in  his  Apology,  reported  to  us  by  Plato,  were  of \nthree  forts  ;  the  politicians,  the  rhelorii  ians,  and  the  poets.  That  the  former  fort  refented  his \nexpofing  their  conceited  io^iorancc,  and  vain  prctcnfions  to  political  fcience,  is  told  us  by  Laerlius, \nb.  ii.  and  is  indeed  abundantly  evident  from  Plato's  Meno.  That  Socrates  treated  the  rhetoricians \nin  the  fame  manner,  will  appear  very  fiifricienlly  in  the  Gorgias.  Is  it  not  then  highly  probable, \n^bat  the  refoiXment  of  the  poets  was  raifed  againll  him  by  the  fame  means;  and  that  they  well \nunderftood  his  attack  upon  the  rhapfodifts,  a  fet  of  men  too  inconfiderable  for  any  part  of  his  prin- \ncipal notice  to  l)c  intended  againll  ihemrelves  ?  We  fhould  add  to  this  argument  the  authority  of \nAthenaeus,  were  it  of  any  weight  in  what  regards  Plato.  For  he  gives  this  as  oneinflance  of \nPlato's  envious  and  nialii^nant  fpirit,  which  his  own  malignity  againft  the  divine  philofopher \nattributes  lo  him,  that  in  his  lo  he  vilifies  and  abufes  the  poets.  See  Athen.  Dcipnofoph.  1.  xi. \np.  506, — S, "
+  },
+  {
+   "id": "taylor1804-intro-ion.f10",
+   "kind": "footnote",
+   "seq": 14,
+   "page": 443,
+   "line": 18814,
+   "on": "taylor1804-intro-ion.004",
+   "text": "See what has been already observed concerning the To, in the note at the beginning of the tenth book of the Republic, in which we have given, from Proclus, a copious and admirable account of the different species of poetry, and the nature of poetic fury» — T.",
+   "raw": "'  See  what  has  been  already  obferved  concerning  the  To,  in  the  note  at  the  beginning  of  the \ntenth  book  of  the  Republic,  in  which  we  have  given,  from  Proclus,  a  copious  and  admirable \naccount  of  the  different  fpecies  of  poetry,  and  the  nature  of  poetic  fury» — ^T. "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 5,
+  "running heads removed": 7,
+  "words joined across lines": 5,
+  "notes": 14,
+  "paragraphs run on across a page": 5,
+  "notes run on across a page": 2,
+  "note marks removed": 5
+ }
+}

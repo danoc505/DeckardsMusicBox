@@ -1,0 +1,196 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-phaedrus",
+ "work": "tlg012",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Phaedrus",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. III (London, 1804), pp. 285-288",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v3_djvu.txt",
+  "lines": [
+   13897,
+   14053
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Phaedrus. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-phaedrus.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": 285,
+   "pages": [
+    285
+   ],
+   "line": 13906,
+   "text": "&OME, says Hermeas ^, have endeavoured to show that this dialogue is concerning rhetoric, looking only to its beginning and end; others, that it is about the soul, since here especially Socrates demonstrates its ioimortality; and others, that it is about love, since the beginning and occasion of the dialogue originate from this. For Lysias had written an oration in order to prove that it is not proper to gratify a lover, but one who is not a lover; he being vehemently in love with Phiedrus, but pretending that he was not. Wishing, therefore, to withdraw him from other lovers, he vicioufly composed an oration, the design of which was to show that it is requisite rather to gratify one who is not a lover, than one who is; which gave occasion to Socrates to discourse concerning this intemperate love, together with temperate, divine, and enthusiastic love, because it is a love of this latter kind which should be embraced and followeJ. Others again assert that the dialogue is theological, on account of what is said in the middle of it. But, according to others, its subject is /^e good because Socrates says that the supercelestial place has never been celebrated according to its desert, and that an uncoloured and unfigured essence there fubtifls. And, lastly, others assert that it is concerning the beautiful itself. All these, therefore, form their opinion of the whole scope of the dialogue from a certain part of it. For it is evident that the discourse concerning the soul is assumed for the sake of something else, and also that concerning the first beauty: for Socrates ascends from other beautiful things to this, and to the",
+   "raw": "&OME,  fays  Hermeas  ^,  have  endeavoured  to  (how  that  this  dialogue  is \nconcerning  rhetoric,  looking  only  to  its  beginning  and  end  ;  others,  that  it \nis  about  the  foul,  fince  here  efpecially  Socrates  demonftrates  its  ioimortality  ; \nand  others,  that  it  is  about  love,  fince  the  beginning  and  occafion  of  the \ndialogue  originate  from  this.     For  Lyfias  had  written  an   oration  in   order \nto  prove  that  it  is  not  proper  to  gratify  a  lover,  but  one  who  is  not  a \nlover ;  he  being  vehemently  in  love  with  Phiedrus,  but  pretending  that  he \nwas  not.      Wifhing,  therefore,  to  withdraw  him   from   other  lovers,  he \nvicioufly  compofed  an  oration,  the  defign  of  which  was  to  fhow   that  it  is \nrequifite  rather  to  gratify  one  who  is  not  a  lover,  than  one  who  is ;  which \ngave  occafion  to  Socrates  to  difcourfe  concerning  this  intemperate  love, \ntogether  with  temperate,  divine,  and  enthufiaftic  love,   becaufe  it  is  a  love \nof  this  latter  kind  which  fhould  be  embraced  and  followeJ.     Others  again \nalTert  that  the  dialogue  is  theological,   on  account  of  what  is  faid  in  the \nmiddle  of  it.      But,   according   to  others,    its  fubjedt   is  /^e  good^  becaufe \nSocrates  fays  that  the  fuperceleflial  place  has  never  been  celebrated  accord- \ning to  its  defert,  and  that  an  uncoloured  and  unfigured  effence  there  fubtifls. \nAnd,  laftly,  others  afTert  that  it  is  concerning  the  beautiful  itfelf.     All  thefe, \ntherefore,   form   their  opinion   of  the   whole  fcope  of  the  dialogue  from  a \ncertain  part   of  it.     For  it  is  evident  that  the  difcourfe  concerning  the  foul \nis  afTumed  for  the  fake  of  fomething  elfe,   and  alfo  that  concerning  the  firfl \nbeauty :  for  Socrates  afccnds  from  other  beautiful  things  to  this,  and  to  the "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": null,
+   "pages": [
+    null,
+    286
+   ],
+   "line": 13929,
+   "text": "I In Scholiis MSS. in Ph«drum. fuperceleHIal place. It is also evident that the discourses about love are to be referred to the lover. It must not, therefore, be said that there are many fcopes; for it is necessary that all of them /hould be extended to one thing, that the discourse may be as it were one animal. In iliort, Socrates speaks concerning all-various beauty. Hence he begins from the apparent beauty in the form of Phaedrus, with which Lysias was enamoured, in consequence of falling off from the charafter of a true lover. But afterwards be proceeds to the beauty in discourses, of which Phaedrus is represented as a lover. From this he ascends to the beauty in soul, viz. to the virtues and sciences; and thence, in his recantation, to the mundane Gods. After ^\\'hich he ascends to the intelligible fountain itself of beauty, to the God of love, and to the beautiful itself; whence he again descends through the divisive art to the beauty in soul, and in the virtues and sciences; and afterwards again to the beauty in discourses, thus conjoining the end with the beginning. In short, the whole intention of the dialogue may be divided into three parts, corresponding to three lives: — into the intemperate love, which is seen in the oration of Lysias; into the temperate, which is seen in the fir/l discourse of Socrates; and, in the third place, into the divinely inspired, which is seen in the recantation, and in the lail discourse of Socrates. It may also be said that the lovers, the loves, and the objects of love, are analogous to these lives. Hence they do not much deviate from the design of the dialogue who assert that it is concerning love, since love is seen in a relation to the object of love; and it is necessary indeed not to be ignorant of kindred differences, since Plato himself does not deliver casual distinctions of love, and the object of love. However, it is evident that the leading scope of the dialogue is not concerning love; for neither does it discuss its essence, nor its power, but discourses concerning its energies in the world, and in souls. But if Plato any where makes love the leading scope of a dialogue, he discourses concerning its essence, power, and eiicrgy. Hence in The Banquet, where love is the leading object, he delivers its middle nature, and its order, calling it a mighty dccmon, as binding secondary to primary natures. But here, a discourse concerning the beautiful takes the lead, to which all things are elevated by love.",
+   "raw": "I  In  Scholiis  MSS.  in  Ph«drum. \nfuperceleHIal  place.  It  is  alfo  evident  that  the  difcourfes  about  love  are \nto  be  referred  to  the  lover.  It  muft  not,  therefore,  be  faid  that  there  are \nmany  fcopes ;  for  it  is  neceffary  that  all  of  them  /hould  be  extended  to  one \nthing,  that  the  difcourfe  may  be  as  it  were  one  animal.  In  iliort,  Socrates \nfpeaks  concerning  all-various  beauty.  Hence  he  begins  from  the  apparent \nbeauty  in  the  form  of  Phaedrus,  with  which  Lyfias  was  enamoured,  in  con- \nfequence  of  falling  off  from  the  charafter  of  a  true  lover.  But  afterwards \nbe  proceeds  to  the  beauty  in  difcourfes,  of  which  Phaedrus  is  reprefented  as \na  lover.  From  this  he  afcends  to  the  beauty  in  foul,  viz.  to  the  virtues  and \nfciences;  and  thence,  in  his  recantation,  to  the  mundane  Gods.  After \n^\\'hich  he  afcends  to  the  intelligible  fountain  itfelf  of  beauty,  to  the  God  of \nlove,  and  to  the  beautiful  itfelf;  whence  he  again  defcends  through  the \ndivifive  art  to  the  beauty  in  foul,  and  in  the  virtues  and  fciences;  and  after- \nwards again  to  the  beauty  in  difcourfes,  thus  conjoining  the  end  with  the \nbeginning.  In  fliort,  the  whole  intention  of  the  dialogue  may  be  divided  into \nthree  parts,  correfponding  to  three  lives : — into  the  intemperate  love,  which \nis  feen  in  the  oration  of  Lyfias ;  into  the  temperate,  which  is  feen  in  the \nfir/l  difcourfe  of  Socrates ;  and,  in  the  third  place,  into  the  divinely  infpired, \nwhich  is  feen  in  the  recantation,  and  in  the  lail  difcourfe  of  Socrates.  It \nmay  alfo  be  faid  that  the  lovers,  the  loves,  and  the  obje6ls  of  love,  are  ana- \nlogous to  theie  lives.  Hence  they  do  not  much  deviate  from  the  defign  of \nthe  dialogue  who  aflert  that  it  is  concerning  love,  fince  love  is  feen  in  a \nrelation  to  the  objed  of  love  ;  and  it  is  neceflary  indeed  not  to  be  ignorant \nof  kindred  differences,  fince  Plato  himfelf  does  not  deliver  cafual  diftin6lions \nof  love,  and  the  obje6l  of  love.  However,  it  is  evident  that  the  leading \nfcope  of  the  dialogue  is  not  concerning  love ;  for  neither  docs  it  difcufs  its \nelTence,  nor  its  power,  but  difcourfes  concerning  its  energies  in  the  world, \nand  in  fouls.  But  if  Plato  any  where  makes  love  the  leading  fcope  of  a \ndialogue,  he  difcourfes  concerning  its  effence,  power,  and  eiicrgy.  Hence \nin  The  Banquet,  where  love  is  the  leading  obje6l,  he  delivers  its  middle \nnature,  and  its  order,  calling  it  a  mighty  dccmon,  as  binding  fecondary  to \nprimary  natures.  But  here,  a  difcourfe  concerning  the  beautiful  takes  the \nlead,  to  which  all  things  are  elevated  by  love. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 286,
+   "pages": [
+    286
+   ],
+   "line": 13969,
+   "text": "And here it is necessary to observe, that the firii subsistence of t/ie beautlfuU",
+   "raw": "And  here  it  is  neceflary  to  obferve,  that  the  firii  fubfiflence  of  t/ie  beautlfuU "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 286,
+   "pages": [
+    286,
+    287
+   ],
+   "line": 13971,
+   "text": "the primary object of this dialogue, is in intelligible intellect, the extremity of the intelligible triad, where it subsists as an intelligible idea. It is this beauty which, according to Orpheus, when it arose, astonished the intellcdual Gods, and produced in them an admiration of their father Phanes: for thus the theologist sings concerning it;",
+   "raw": "the  primary  objed  of  this  dialogue,   is  in  intelligible  intelledt,   the  extremity \nof  the  intelligible  triad,  where  it  fubfifts  as  an  intelligible  idea.  It  is  this \nbeauty  which,  according  to  Orpheus,  when  it  arofe,  aftonifhed  the  in- \ntellcdual  Gods,  and  produced  in  them  an  admiration  of  their  father  Phanes  : \nfor  thus  the  theologift  fings  concerning  it ; "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.005",
+   "kind": "introduction",
+   "seq": 5,
+   "page": 287,
+   "pages": [
+    287
+   ],
+   "line": 13983,
+   "text": "Tw (xtv aTrecrriX^e xp°<^i a9avaroio ^avnros.",
+   "raw": "Tw  (xtv  aTrecrriX^e  xp°<^i  a9avaroio  ^avnros. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.006",
+   "kind": "introduction",
+   "seq": 6,
+   "page": 287,
+   "pages": [
+    287
+   ],
+   "line": 13985,
+   "text": "i. e. \" they wondered on beholding in aether an unexpected light, with which the body of the immortal Phanes glittered/* This beauty too, as we have observed in a note on the Parmenides, is a vital intelledual form, the source of symmetry to all thmgs.",
+   "raw": "i.  e.  \"  they  wondered  on  beholding  in  aether  an  unexpeded  light,  with \nwhich  the  body  of  the  immortal  Phanes  glittered/*  This  beauty  too,  as  we \nhave  obferved  in  a  note  on  the  Parmenides,  is  a  vital  intelledual  form,  the \nfource  of  fymmetry  '  to  all  thmgs. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.007",
+   "kind": "introduction",
+   "seq": 7,
+   "page": 287,
+   "pages": [
+    287
+   ],
+   "line": 13990,
+   "text": "With respect to the persons of the dialogue, they are Lylias, or rather the oration of Lysias, Phiedrus, and Socrates; Lysias and Phaedrus being, as we have said, lovers of each other, but Socrates being the curator of youth, and the providential infpedor of Phaedrus, elevating him from the apparent and external beauty in words, to the beauty in soul and intellect. As some however have accused the dialogue as inflated in its diction, on account of what is flild in the recantation, it is necessary to observe, that Socrates employs words adapted to the things themselves. For, as he discourses about obje<5is unapparent, and unknown to the many, he accordingly uses an elevated didtlon, and such as accords with an intelligible and divine essence.",
+   "raw": "With  refped  to  the  perfons  of  the  dialogue,  they  are  Lylias,  or  rather  the \noration  of  Lyfias,  Phiedrus,  and  Socrates ;  Lyfias  and  Phaedrus  being,  as  we \nhave  faid,  lovers  of  each  other,  but  Socrates  being  the  curator  of  youth,  and \nthe  providential  infpedor  of  Phaedrus,  elevating  him  from  the  apparent  and \nexternal  beauty  in  words,  to  the  beauty  in  foul  and  intelle6l.  As  fome \nhowever  have  accufed  '  the  dialogue  as  inflated  in  its  diclion,  on  account  of \nwliat  is  flild  in  the  recantation,  it  is  neceffary  to  obferve,  that  Socrates \nemploys  words  adapted  to  the  things  themfelves.  For,  as  he  difcourfes \nabout  obje<5is  unapparent,  and  unknown  to  the  many,  he  accordingly  ufes  an \nelevated  didtlon,  and  fuch  as  accords  with  an  intelligible  and  divine  eflence. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.008",
+   "kind": "introduction",
+   "seq": 8,
+   "page": 287,
+   "pages": [
+    287
+   ],
+   "line": 14001,
+   "text": "Indeed, if human nature in this its degraded condition is capable of receiving the inspirations of divinity, and if a part of the present dialogue was composed under such an influence, an ^accufation of this kind is certainly its grealeft commendation.",
+   "raw": "Indeed,  if  human  nature  in  this  its  degraded  condition  is  capable  of  receiv- \ning the  infpirations  of  divinity,  and  if  a  part  of  the  prefent  dialogue  was \ncompofed  under  fuch  an  influence,  an  ^accufation  of  this  kind  is  certainly \nits  grealeft  commendation. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.009",
+   "kind": "introduction",
+   "seq": 9,
+   "page": 287,
+   "pages": [
+    287,
+    288
+   ],
+   "line": 14006,
+   "text": "Hence it is justly observed by Proclus ^, \" that Plato in this dialogue beinoinfpired by the Nymphs, and exchanging human intelligence for fury, which is a thing far more excellent, delivers many arcane dogmas concerning the 288 INTRODUCTION TO T [I E P H D R U S.",
+   "raw": "Hence  it  is  juftly  obferved  by  Proclus  ^,  \"  that  Plato  in  this  dialogue  beino- \ninfpired  by  the  Nymphs,  and  exchanging  human  intelligence  for  fury,  which \nis  a  thing  far  more  excellent,  delivers  many  arcane  dogmas  concerning  the \n288  INTRODUCTION    TO    T  [I  E     P  H  ^  D  R  U  S. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.010",
+   "kind": "introduction",
+   "seq": 10,
+   "page": 288,
+   "pages": [
+    288
+   ],
+   "line": 14026,
+   "text": "intellectual Gods, and many concerning the liberated rulers of the universe, who elevate the multitude of mundane Gods to the intellicrible monads, separate from the wholes which this universe contains. And still more does he deliver about the mundane Gods themselves, celebrating their intelle6Hons and fabrications about the world, their unpolluted providence, their government about souls, and other particulars which Socrates discloses in this dialogue according to a deific energy.\"",
+   "raw": "intelledlual  Gods,  and  many  concerning  the  liberated  rulers  of  the  univerfe, \nwho  elevate  the  multitude  of  mundane  Gods  to  the  intellicrible  monads, \nfeparate  from  the  wholes  which  this  univerfe  contains.  And  ftill  more  does \nhe  deliver  about  the  mundane  Gods  themfelves,  celebrating  their  intelle6Hons \nand  fabrications  about  the  world,  their  unpolluted  providence,  their  govern- \nment about  fouls,  and  other  particulars  which  Socrates  difclofes  in  this  dia- \nlogue  according  to  a  delfic  energy.\" "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.011",
+   "kind": "introduction",
+   "seq": 11,
+   "page": 288,
+   "pages": [
+    288
+   ],
+   "line": 14034,
+   "text": "I only add, that though there are frequent alluiions in this dialogue to that unnatural vice which was so fashionable among the Greeks, yet the reader will find it severely censured in the course of the dialogue by our divine philosopher. There can be no reason to fear, therefore, that the ears of the modest will be fl^jocked by such allusions, since they are inserted with no other view than that they may be exploded as they deserve. But if, notwithstanding this, any one fhalV persist in reprobating certain parts of the dialogue as indecent, it may be fairly concluded, that such a one possesses the affectation of modesty without the reality; and that he is probably a bigot to some despicable and whining fe(St of religion, in which cant and grimace are the substitutes for genuine piety and worth.",
+   "raw": "1  only  add,  that  though  there  are  frequent  alluiions  in  this  dialogue  to  that \nunnatural  vice  which  was  fo  fafhionable  among  the  Greeks,  yet  the  reader \nwill  find  it  feverely  cenfured  in  the  courfe  of  the  dialogue  by  our  divine \nphilofopher.  There  can  be  no  reafon  to  fear,  therefore,  that  the  ears  of \nthe  modeft  will  be  fl^jocked  by  fuch  allufions,  fince  they  are  inferted  with  no \nother  view  than  that  they  may  be  exploded  as  they  deferve.  But  if,  not- \nwithftanding  this,  any  one  fhalV  perfift  in  reprobating  certain  parts  of  the \ndialogue  as  indecent,  it  may  be  fairly  concluded,  that  fuch  a  one  poflefles \nthe  afFe6lation  of  modefty  without  the  reality ;  and  that  he  is  probably  a \nbigot  to  fome  defpicable  and  whining  fe(St  of  religion,  in  which  cant  and \ngrimace  are  the  fubftitutes  for  genuine  piety  and  worth. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.f01",
+   "kind": "footnote",
+   "seq": 12,
+   "page": 287,
+   "line": 14010,
+   "on": "taylor1804-intro-phaedrus.006",
+   "text": "Symmetry, according to the most: accurate and philosophical definition of it, is the dominion of that which is naturally mare over that which is naturally /efs excellent. Hence symmetry then fubnfts in body, yvhcn form vanquiflies matier. Had Mr. Burke known and understood the above definition of beauty, he would not have given to the world such a crudity as his treatise On the Sublime and Beautiful.",
+   "raw": "»  Symmetry,  according  to  the  mofl:  accurate  and  philofophical  definition  of  it,  is  tlie  dominion \nof  that  which  is  naturally  mare  over  that  which  is  naturally  /efs  excellent.  Hence  fymmetry  then \nfubnfts  in  body,  yvhcn  form  vanquiflies  matier.  Had  Mr.  Burke  known  and  underftood  the  above \ndefinition  of  beauty,  he  would  not  have  given  to  the  world  fuch  a  crudity  as  his  treatife  On  the \nSublime  and  Beautiful. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.f02",
+   "kind": "footnote",
+   "seq": 13,
+   "page": 287,
+   "line": 14016,
+   "on": "taylor1804-intro-phaedrus.007",
+   "text": "Dicaiarchus, according to Cicero vi. a. ad Atticum, is said to have reprehended this dialogue as too vehement, because it breathes of she dithyrambic charadcr.",
+   "raw": "*  Dicaiarchus,  according  to  Cicero  vl.  a.  ad  Atticum,  is  faid  to  have  reprehended  this  dialogue \nas  too  vehement,  becaufe  it  breathes  of  ihe  dithyrambic  charadcr. "
+  },
+  {
+   "id": "taylor1804-intro-phaedrus.f03",
+   "kind": "footnote",
+   "seq": 14,
+   "page": 287,
+   "line": 14019,
+   "on": "taylor1804-intro-phaedrus.009",
+   "text": "3 In Plat. Theol. lib. I. p. 8.",
+   "raw": "3  In  Plat.  Theol.  lib.  1.  p.  8. "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 5,
+  "running heads removed": 5,
+  "words joined across lines": 10,
+  "paragraphs run on across a page": 3,
+  "notes": 14,
+  "note marks removed": 3
+ }
+}

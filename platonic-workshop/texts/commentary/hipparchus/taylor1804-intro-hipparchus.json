@@ -1,0 +1,56 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-hipparchus",
+ "work": "tlg015",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Hipparchus",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. V (London, 1804), pp. 356-356",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v5_djvu.txt",
+  "lines": [
+   15305,
+   15353
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Hipparchus. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-hipparchus.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null,
+    356
+   ],
+   "line": 15311,
+   "text": "IL n E design of the Hipparchus is to show that all men naturally desire oQod, since even those who wander from it through avarice, wander throuo^h a desire of obtainhig it; but they err in consequence of mistaking good, which is a mean for ultimate good. For good is two-fold, one being the end, the other subsisting for the sake of the end. Hence the possession of the former is called beatitude^ and of the latter gain. Hence too, gain is the acquisition of that good, which contributes to the possession of ultimate good But that which does not contribute to this, is neither useful, nor is the acquisition of it gain. The desire therefore of gain thus defined, and which is naturally inherent in all men, is laudable; but the false opinion is to be reprobated, which, while it is ignorant of the truly useful and lucrative, dillorts to things adverse the natural appetite of man. Plato latently teaches this, while he confutes the false definitions which are introduced in this Dialogue, concerning the desire of gain. But he employs this proposition, that all men desire good as manifefi:, in order to conclude that all men naturally desire gain, and that this natural desire is laudable. And this is tiie conckifion which Socrates after a manner diredly introduces by three modes of arguing, viz. by example, by induction, and by reasoning. But from the whole Dialogue we collect, that all men desire good; and this is its ultimate end. For its first end is to Show that all men are desirous of gain, and that this desire is not to be blamed when directed to gain according to its true definition.",
+   "raw": "JL  n  E  defign  of  the  Hipparchus  is  to  fliow  that  all  men  naturally  defirc \noQod,  fince  even  thofe  who  wander  from  it  through  avarice,  wander  throuo^h \na  dcfire  of  obtainhig  it;  but  they  err  in  confequence  of  miflaking  good, \nwhich  is  a  mean^  for  ultimate  good.  For  good  is  two-fold,  one  being  the  end, \ntlie  other  fubfifting  for  the  fake  of  the  end.  Hence  the  poffeflion  of  the \nformer  is  called  beatitude^  and  of  the  latter  gain.  Hence  too,  gain  is  the \nacquifition  of  that  good,  which  contributes  to  the  poffeflion  of  ultimate  good^ \nBut  that  which  does  not  contribute  to  this,  is  neither  ufeful,  nor  is  the \nacquifition  of  it  gain.  The  dcfire  therefore  of  gain  thus  defined,  and  which \nis  naturally  inherent  in  all  men,  is  laudable  ;  but  the  falfe  opinion  is  to  be \nreprobated,  which,  while  it  is  ignorant  of  the  truly  ufeful  and  lucrative, \ndillorts  to  things  adverfc  the  natural  appetite  of  man.  Plato  latently  teaches \nthis,  while  he  confutes  the  falfe  definitions  which  are  introduced  in  this \nDialogue,  concerning  the  defire  of  gain.  But  he  employs  this  propofition, \nthat  all  men  dcfire  good  as  manifefi:,  in  order  to  conclude  that  all  men  natu- \nrally defire  gain,  and  that  this  natural  defire  is  laudable.  And  this  is  tiie \nconckifion  which  Socrates  after  a  manner  diredly  introduces  by  three  modes \nof  arguing,  viz.  by  example,  by  indudlion,  and  by  reafoning.  But  from  the \nwhole  Dialogue  we  collcdl,  that  all  men  defire  good  ;  and  this  is  its  ultimate \nend.     For  its  firft  end  is  to  Ihow  that  all  men  are  defirous  of  gain,  and  that \nthis  defire  is  not  to  be  blamed  when  direded  to  gain  according  to  its  true \ndefinition. "
+  },
+  {
+   "id": "taylor1804-intro-hipparchus.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": 356,
+   "pages": [
+    356
+   ],
+   "line": 15340,
+   "text": "It appears from -^lian (ver. Hist. viii. 2.) that It was dubious with some of the antients, whether this Dialogue was in reality composed by Plato, If I may be allowed to give my own opinion, I do not find any thing, either in its manner or matter, for which its authenticity deserves to be called ia question.",
+   "raw": "It  appears  from  -^lian  (Var.  Hift.  viii.  2.)  that  It  was  dubious  with  fomc \nof  the  antients,  whether  this  Dialogue  was  in  reality  compofed  by  Plato, \nIf  I  may  be  allowed  to  give  my  own  opinion,  I  do  not  find  any  thing,  either \nin  its  manner  or  matter,  for  which  its  authenticity  defervcs  to  be  called  ia \nqueftion. "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 2,
+  "running heads removed": 4,
+  "words joined across lines": 1,
+  "paragraphs run on across a page": 1,
+  "note marks removed": 0,
+  "notes": 2
+ }
+}

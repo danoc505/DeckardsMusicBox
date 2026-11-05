@@ -1,0 +1,253 @@
+{
+ "_comment": "Dramatic sequences (milestone 9): dialogues that Plato's own text links in time or by an agreement to meet again. Each step quotes Burnet's Greek at the section that makes the link (checked by tools/structure.py against the library's text), and 'testimony' quotes an ancient or modern reader who groups the dialogues so. 'says' is the Workshop's one-line summary of the quoted words; the quotation is the evidence.",
+ "sequences": [
+  {
+   "id": "trial-and-death",
+   "label": "The trial and death of Socrates",
+   "works": [
+    "tlg006",
+    "tlg001",
+    "tlg002",
+    "tlg003",
+    "tlg004"
+   ],
+   "testimony": [
+    {
+     "source": "albinus-burges",
+     "quote": "the Euthyphron, as: in it the charge against Socrates is brought forward; the Apology, since it was necessary for him to defend himself; the Crito, on account of his staying in prison; and afterwards the Phedon, since in it Socrates meets with the end of life"
+    },
+    {
+     "source": "dl3-burges",
+     "quote": "as the fourth, (where) the Theztetus, Euthyphron, (and) Apology; as the fifth, (where) the Criton, Phzedon, (and) Epistles"
+    }
+   ],
+   "steps": [
+    {
+     "work": "tlg006",
+     "ref": "210d",
+     "says": "Socrates leaves to answer Meletus' indictment at the King's Porch.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg006",
+       "ref": "210d",
+       "quote": "εἰς τὴν τοῦ βασιλέως στοὰν ἐπὶ τὴν Μελήτου γραφὴν"
+      }
+     ]
+    },
+    {
+     "work": "tlg001",
+     "ref": "2a",
+     "says": "Euthyphro meets Socrates at the King's Porch, where the indictment is to be heard.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg001",
+       "ref": "2a",
+       "quote": "περὶ τὴν τοῦ βασιλέως στοάν"
+      },
+      {
+       "source": "plato",
+       "work": "tlg001",
+       "ref": "2b",
+       "quote": "ὀνομάζουσι μέντοι αὐτόν, ὡς ἐγᾦμαι, Μέλητον"
+      }
+     ]
+    },
+    {
+     "work": "tlg002",
+     "ref": "19b",
+     "says": "Socrates answers at his trial the indictment Meletus brought.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg002",
+       "ref": "19b",
+       "quote": "Μέλητός με ἐγράψατο τὴν γραφὴν ταύτην"
+      }
+     ]
+    },
+    {
+     "work": "tlg003",
+     "ref": "43c",
+     "says": "In prison, Crito brings word that the ship from Delos is coming.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg003",
+       "ref": "43c",
+       "quote": "τὸ πλοῖον ἀφῖκται ἐκ Δήλου"
+      }
+     ]
+    },
+    {
+     "work": "tlg004",
+     "ref": "58a",
+     "says": "Phaedo tells why Socrates died long after the trial: the ship sent to Delos.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg004",
+       "ref": "58a",
+       "quote": "τοῦ πλοίου ὃ εἰς Δῆλον Ἀθηναῖοι πέμπουσιν"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sophist-statesman",
+   "label": "Theaetetus, Sophist, Statesman",
+   "works": [
+    "tlg006",
+    "tlg007",
+    "tlg008"
+   ],
+   "testimony": [
+    {
+     "source": "dl3-burges",
+     "quote": "as the second, (where) the Sophist, Statesman"
+    }
+   ],
+   "steps": [
+    {
+     "work": "tlg006",
+     "ref": "210d",
+     "says": "Socrates asks Theodorus to meet him there again in the morning.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg006",
+       "ref": "210d",
+       "quote": "ἕωθεν δέ, ὦ Θεόδωρε, δεῦρο πάλιν ἀπαντῶμεν"
+      }
+     ]
+    },
+    {
+     "work": "tlg007",
+     "ref": "216a",
+     "says": "Theodorus comes 'by yesterday's agreement', bringing the Stranger from Elea.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg007",
+       "ref": "216a",
+       "quote": "κατὰ τὴν χθὲς ὁμολογίαν"
+      }
+     ]
+    },
+    {
+     "work": "tlg008",
+     "ref": "257a",
+     "says": "Socrates thanks Theodorus for Theaetetus and the Stranger; the statesman and the philosopher are still to come.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg008",
+       "ref": "257a",
+       "quote": "ἐπειδὰν τόν τε πολιτικὸν ἀπεργάσωνταί σοι καὶ τὸν φιλόσοφον"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "republic-timaeus-critias",
+   "label": "Republic, Timaeus, Critias",
+   "works": [
+    "tlg030",
+    "tlg031",
+    "tlg032"
+   ],
+   "testimony": [
+    {
+     "source": "dl3-burges",
+     "quote": "the one in which the Republic, Timzus, (and) Critias take the lead"
+    }
+   ],
+   "steps": [
+    {
+     "work": "tlg031",
+     "ref": "17a",
+     "says": "Socrates counts his guests of yesterday, his hosts today.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "17a",
+       "quote": "τῶν χθὲς μὲν δαιτυμόνων, τὰ νῦν δὲ ἑστιατόρων"
+      }
+     ]
+    },
+    {
+     "work": "tlg031",
+     "ref": "17c",
+     "says": "Yesterday's talk was about the best constitution, which he then sums up.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg031",
+       "ref": "17c",
+       "quote": "χθές που τῶν ὑπʼ ἐμοῦ ῥηθέντων λόγων περὶ πολιτείας ἦν τὸ κεφάλαιον"
+      }
+     ]
+    },
+    {
+     "work": "tlg032",
+     "ref": "106b",
+     "says": "Timaeus hands the next speech to Critias, as agreed.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg032",
+       "ref": "106b",
+       "quote": "παραδίδομεν κατὰ τὰς ὁμολογίας Κριτίᾳ τὸν ἑξῆς λόγον"
+      }
+     ]
+    },
+    {
+     "work": "tlg032",
+     "ref": "108a",
+     "says": "Hermocrates is to speak third, after Critias.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg032",
+       "ref": "108a",
+       "quote": "τρίτῳ δεδόσθω ταὐτὸν τοῦτο Ἑρμοκράτει"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "laws-epinomis",
+   "label": "Laws and Epinomis",
+   "works": [
+    "tlg034",
+    "tlg035"
+   ],
+   "testimony": [
+    {
+     "source": "dl3-burges",
+     "quote": "(and) Epinomis; as the fourth"
+    }
+   ],
+   "steps": [
+    {
+     "work": "tlg035",
+     "ref": "973a",
+     "says": "The three of the Laws, Clinias, the Stranger and Megillus, meet again as agreed.",
+     "evidence": [
+      {
+       "source": "plato",
+       "work": "tlg035",
+       "ref": "973a",
+       "quote": "πρὸς μὲν τὸ τῆς ὁμολογίας ἥκομεν ἅπαντες ὀρθῶς, ὦ ξένε, τρεῖς ὄντες, ἐγὼ καὶ σὺ καὶ Μέγιλλος ὅδε"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

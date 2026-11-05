@@ -1,0 +1,472 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-alcibiades-2",
+ "work": "tlg014",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Second Alcibiades",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. IV (London, 1804), pp. 511-586",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v4_djvu.txt",
+  "lines": [
+   27200,
+   27805
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Second Alcibiades. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-alcibiades-2.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null,
+    574
+   ],
+   "line": 27209,
+   "text": "X HE Second Alcibiades, which in the supposed tirtie of it is subsequent to the first of the same name, is on a subject which ranks among the most important to a rational being; for with it is connected piety, which is the summit of virtue. Hence, as all nations in the infinity of time past have believed in the exiftcncc of certain divine 'powers superior to man, who beneficently provide for all inferior natures, and defend them from evil; folikewifc they worshipped these powers by numerous religibus rites, of which prayer formed no inconsiderable part. The exceptions, indeed, to this general belief of mankind are so few that they do not deserve to be noticed. For we may say,, with the elegant Maximus Tyrius', that, \" if through the whole of time there have been two or three atheists, they were govelling and infenfate men, whose eyes wandered, whose ears were deceived, whose souls were mutilated, a race irrational, barren, and useless, resembling a timid lion, an ox without horns, a bird without wings.'* All others, as well ihofe engaged in public affairs, as philosophers who explored the hidden causes of things, most constantly believed that there were Gods, viz. one first ineffable source of all things, and a multitude of divine powers proceeding from, and united with, him; and always endeavoured to render these divine natures propitious, by facrificc and prayer. Hence, the Chalda^ans among the Assyrians, the Brahmins among the Indians, the Druids among the Gauls, the Magi among the Persians, and the tribe of priests among the Egyptians, constantly applied themselves to the worship of Divinity, and venerated and adored the Gods by various sacred ceremonies, and ardent and arduous prayers.",
+   "raw": "X  HE  Second  Alcibiades,  which  in  the  fuppofed  tirtie  of  it  is  fubfequent  to \nthe  firft  of  the  fame  name,  is  on  a  fubjed  which  ranks  among  the  moft  im- \nportant to  a  rational  being  ;  for  with  it  is  conneded  piety,  which  is  the  fum- \nmit  of  virtue.  Hence,  as  all  nations  in  the  infinity  of  time  paft  have  believed  in \nthe  exiftcncc  of  certain  divine 'powers  fuperior  to  man,  who  beneficently  pro- \nvide for  all  inferior  natures,  and  defend  them  from  evil ;  folikewifc  they  wor- \nfhipped  thefe  powers  by  numerous  religibus  rites,  of  which  prayer  formed  no \ninconfiderable  part.  The  exceptions,  indeed,  to  this  general  belief  of  man- \nkind are  fo  few  that  they  do  not  deferve  to  be  noticed.  For  we  may  fay,, \nwith  the  elegant  Maximus  Tyrius',  that,  \"  if  through  the  whole  of  time \nthere  have  been  two  or  three  atheifts,  they  were  govelling  and  infenfate  men, \nwhofe  eyes  wandered,  whofe  ears  were  deceived,  whofe  fouls  were  muti- \nlated, a  race  irrational,  barren,  and  ufelefs,  refembling  a  timid  lion,  an  ox \nwithout  horns,  a  bird  without  wings.'*  All  others,  as  well  ihofe  engaged  in \npublic  affairs,  as  philofophers  who  explored  the  hidden  caufes  of  things,  mofl \nconftantly  believed  that  there  were  Gods,  viz.  one  firfl  ineffable  fource  of  all \nthings,  and  a  multitude  of  divine  powers  proceeding  from,  and  united  with, \nhim  ;  and  always  endeavoured  to  render  thefe  divine  natures  propitious,  by \nfacrificc  and  prayer.  Hence,  the  Chalda^ans  among  the  AfTyrians,  the  Brah- \nmins among  the  Indians,  the  Druids  among  the  Gauls,  the  Magi  among  the \nPerfians,  and  the  tribe  of  priefts  among  the  Egyptians,  conftantly  applied \nthemfelves  to  the  worfhip  of  Divinity,  and  venerated  and  adored  the  Gods \nby  various  facred  ceremonies,  and  ardent  and  arduous  prayers. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": 574,
+   "pages": [
+    574
+   ],
+   "line": 27245,
+   "text": "As the leading design, therefore, of the following dialogue is to show the great importance -of prayer, I persuade myself, that I cannot do any thing more illuflrative of this design, or more beneficial to the reader, than to present him v ith the divinely luminous conceptions of Porphyry, Jamblichus, Proclus, Qnd Hierocles on prayer, together with what the pseudo Dionysius has stolen from the Platonic philosophers on this fubjea. As these observations never yet appeared in any modern language, and as they are not to be equalled in any other writer for t.bcir.pfi^ndity and sublimity, I trust no apology will be requisite for their length. Previous to their insertion, therefore, I shall only give the following definition of prayer, viz. that it is a certain force supernally imparted te the soul, elevating and <i:onjoining her to! Divinity, and which always unites in a becoming manner fecoiidary iwith! primary natures.",
+   "raw": "As  the  leading  defign,  therefore,  of  the  following  dialogue  is  to  fliow  the \ngreat  importance -of  prayer,  I  pcrfuade  myfelf,  that  I  cannot  do  any  thing \nmore  illuflrative  of  this  defign,  or  more  beneficial  to  the  reader,  than  to  pre- \nfent  him  v^  ith  the  divinely  luminous  conceptions  of  Porphyry,  Jamblichus, \nProclus,  Qnd  Hierocles  on  prayer,  together  with  what  the  pfeudo  Dionyfius \nhas  ftolen  from  the  Platonic  philofophers  on  this  fubjea.  As  thefe  obferva- \ntions  never  yet  appeared  in  any  modern  language,  and  as  they  are  not  to  be \nequalled  in  any  other  writer  for  t.bcir.pfi^ndity  and  fublimity,  I  truft  no \napology  will  be  requifite  for  their  length.  Previous  to  their  infertion,  there- \nfore, I  (hall  only  give  the  following  definition  of  prayer,  viz.  that  it  is  a \ncertain  force  fupernally  imparted  t6  the  foul,  elevating  and  <i:onjoining  her  to! \nDivinity,  and  which  always  unites  in  a  becoming  manner  fecoiidary  iwith! \nprimary  natures. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 574,
+   "pages": [
+    574,
+    575
+   ],
+   "line": 27259,
+   "text": "Porphyry then observes ', that prayer especially pertains to worthy meiv because it is a conjunction with a divine nature. But the similar loves to bo united to the fimiiar. And a worthy man is i«oll;fimilar to the Gods. Since those also that cultivate virtue are enclofcd in ^dy as in a prison, they ought to pray to the Gods that they may depart from hence. Besides, as we are like children torn from our parents, it is proper to pray that we may return to the Gods, as to eur true parents: and becaule those that do not think it rcquilite to pray, an-d convert themselves to more excellent natures, are like those that are deprived of their fathers and mothers. To vv^iich we may add, that as we are a part of the universe, it is fit that we should be in want of it, for a conversion to the whole imparts safety to every thing. Whether, th^r^for^, you possess virtue, it is proper that you should invoke that which causally comprehends* the whole of virtue. For that which is all-good will also be the cause to you of that good which it is proper for you to possess. Or whether you explore some corporeal good, there is a power in the world which coniiccledly contains every body. It is necessary, therefore, that the perfect should thence be derived to the parts of the universe. Thus far Porphyry, who was not without reafoii celebrated by posterior philosophers for his /.yOTrp.-TT)^ voYiij.aTcc, or conceptions adapted to sacred concerns.",
+   "raw": "Porphyry  then  obferves ',  that  prayer  efpecially  pertains  to  worthy  meiv \nbecaufe  it  is  a  conjundion  with  a  divine  nature.  But  the  (imilar  loves  to  bo \nunited  to  the  fimiiar.  And  a  worthy  man  is  i«oll;fimilar  to  the  Gods.  Since \nthofe  alfo  that  cultivate  virtue  are  enclofcd  in  ^dy  as  in  a  prifon,  they  ought \nto  pray  to  the  Gods  that  they  may  depart  from  hence.  Befides,  as  we  are \nlike  children  torn  from  our  parents,  it  is  proper  to  pray  that  wc  may  return \nto  the  Gods,  as  to  cur  true  parents :  and  becaule  thofe  that  do  not  think  it \nrcquilite  to  pray,  an-d  convert  themfelves  to  more  excellent  natures,  are  like \nthofe  that  arc  deprived  of  their  fathers  and  mothers.  To  vv^iich  we  may  add, \nthat  as  we  are  a  part  of  the  univerfe,  it  is  fit  that  we  fhould  be  in  want  of \nit-,  for  a  converfion  to  the  whole  imparts  fafety  to  every  thing.  Whether, \nth^r^for^,  you  poifefs  virtue,  it  is  proper  that  you  fliould  invoke  that  which \ncaufally  comprehends*  the  whole  of  virtue.  For  that  which  is  all-good  will \nalfo  be  the  caufe  to  you  of  that  good  which  it  is  proper  for  you  to  pofTefs. \nOr  whether  you  explore  fome  corporeal  good,  there  is  a  power  in  the  world \nwhich  coniiccledly  contains  every  body.  It  is  necefTary,  therefore,  that  the \nperfed  fliould  thence  be  derived  to  the  parts  of  the  univerfc.  Thus  far  Por- \nphyry, who  was  not  without  reafoii  celebrated  by  pofterior  philofophers  for \nhis  /.yOTrp.-TT)^  voYiij.aTcc,  or  conceptions  adapted  to  facred  concerns. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 575,
+   "pages": [
+    575
+   ],
+   "line": 27291,
+   "text": "Let us now attend to Jamblichus ', whom every genuine Platonist will acknowledge to have been jiiftly furnamed i^c divine.",
+   "raw": "Let  us  now  attend  to  Jamblichus  ',  whom  every  genuine  Platonift  will \nacknowledge  to  have  been  jiiftly  furnamed  i^c  divine. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.005",
+   "kind": "introduction",
+   "seq": 5,
+   "page": 575,
+   "pages": [
+    575,
+    579
+   ],
+   "line": 27294,
+   "text": "As prayers, through which sacred rites receive their perfect confummatioii and vigour, constitute a great part of sacrifice, and as they are of general utility to religion, and produce an indiflbluble communion between the Divinities and their priests, it is necessary that we should mention a few things concerning their various species and wonderful eiFe6l4. For prayer is of itself a thing worthy to be known, and gives greater perfection to the science concerning the God.. I say, therefore, that the frji species of prayer is collect five, producing a contact with Divinity, and fubiifting as the leader and light of knowledge. But \\\\\\Qfecondh the bond of consent and communion with the Gods, exciting them to a copious communication of their benefits prior to the energy of speech, and perfecting the whole of our operations previous to our Intclledual conceptions. But the third and most perfect species of prayer is the seal of ineffable union with the Divinities, in whom it ertablifhes all the power and authority of prayer: and thus causes the soul to repose in the Gods, as in a divine and never-failing port. But from these three terms, in which all the divine measures are contained, luppliant adoration not only conciliates to us the friendship of the Gods, but supernally extends to us three fruits being, as it were, three Hefperian apples of gold *. ThQ frji pertains to illumination; the second, to a communion of operation; but through the energy of the third y^c receive a Jicrfeci Jilenitude of divine f re. And sometimes, indeed, supplication precedes', like a forerunner, preparing the way before the sacrifice appears. But foitietimes it intercedes as a mediator: and sometimes accomjiHjhes the end of facrifcing. No operation, however, in sacred concerns can fucceeed without the intervention of prayer. Lastly, the continual eKercife of prayer uourifhes the vigour of our intcllea, and renders the receptacles of the soul far more capacious for the communications of the Gods. It likewise is the divine key which unfolds to men the penetralia of the Gods; accustoms us to the splendid rivers of supernal light; in a short time perfects our inmost recesses, and disposes them for the ineiFable embrace and cpntad of the Gods; and does not desist till it raises us to the summit of all. It likewise gradually and silently dr^vys upwards the manners of our soul, by diverting them of every thing foreign from a divine nature, and clothes us with the perfections of the Gods. Besides this, it produces an indissoluble communion and friendship with Divinity, nourishes a divine love, and en-flames the divine part of the soul. Whatever is of an opposing and contrary nature in the soul it expiates and purifies; expels whatever is prone to generation, and retains any thing of the dregs of mortality in its ethereal and splendid spirit; perfe^s a good hope and faith concerning the reception of divine light; and in one word, renders those by whom it is employed thd familiars and domestics of the Gods. If such, then, are the advantages of prayer, and such its connection with iacrifice, does it not appear from hence, that the end of sacrifice is a conjun^ion with the demiurgus of the world? And the benefit of prayer is of the same extent with the good which is conferred by the demiurgic causes on the race of mortals. Again, from hence the anagogic^ perfediive^ and replentjhing power of prayer appears; hkewife how it becomes efficacious and unific, and how it poflclTes a common bond imparted by the Gods. And in the third and last place, it may easily be conceived from hence how prayer and sacrifice mutually corroborate, and confer on each other a sacred and perfect power in divine concerns.",
+   "raw": "As  prayers,  through  which  facred  rites  receive  their  perfect  confummatioii \nand  vigour,  conftitute  a  great  part  of  facrifice,  and  as  they  are  of  general \nutility  to  religion,  and  produce  an  indiflbluble  communion  between  the  Di- \nvinities and  their  priefts,  it  is  ncceflary  that  we  fliould  mention  a  few  things \nconcerning  their  various  fpecies  and  wonderful  eiFe6l4.  For  prayer  is  of \nitfelf  a  thing  worthy  to  be  known,  and  gives  greater  perfedtion  to  the  fcience \nconcerning  the  God.-.  1  fay,  therefore,  that  the  frji  fpecies  of  prayer  is  collect \nfive,  producing  a  conta6l  with  Divinity,  and  fubiifting  as  the  leader  and  light \nof  knowledge.  But  \\\\\\Qfecondh  the  bond  of  confent  and  communion  with  the \nGods,  exciting  them  to  a  copious  communication  of  their  benefits  prior  to \nthe  energy  of  fpeech,  and  perfe6ling  the  whole  of  our  operations  previous  to \nour  Intclledual  conceptions.  But  the  third  and  mofl  perfect  fpecies  of  praver \nis  the  feal  of  ineffable  union  with  the  Divinities,  in  whom  it  ertablifhes  all  the \npower  and  authority  of  prayer  :  and  thus  caufes  the  foul  to  repofe  in  the \nGods,  as  in  a  divine  and  never-failing  port.  But  from  thefe  three  terms,  in \nwhich  all  the  divine  mcafures  arc  contained,  luppliant  adoration  not  only \nconciliates  to  us  the  friendship  of  the  Gods,  but  fupernally  extends  to  us \nthree  fruits  being,  as  it  were,  three  Hefperian  apples  of  gold  *.  ThQ  frji \npertains  to  illumination  ;  the  fccond,  to  a  communion  of  operation  ;  but  through \nthe  energy  of  the  third  y^c  receive  a  Jicrfeci  Jilenitude  of  divine  f  re.  And \nfometimcs,  indeed,  fupplication  precedes',  like  a  forerunner,  preparing  the \nway  before  the  facrifice  appears.  But  foitietimes  it  intercedes  as  a  mediator : \nand  fometimcs  accomjiHjhes  the  end  of  facrifcing.  No  operation,  however, \nin  facred  concerns  can  fucceeed  without  the  intervention  of  prayer.     Laftly, \nthe  continual  eKercife  of  prayer  uourifhes  the  vigour  of  our  intcllea,  and  ren- \nders the  receptacles  of  the  foul  far  more  capacious  for  the  communications  of \nthe  Gods.  It  likewife  is  the  divine  key  which  unfolds  to  men  the  penetralia  of \nthe  Gods;  accuftoms  us  to  the  fplendid  rivers  of  fupernal  light;  in  a  fhort  time \nperfe6ls  our  inmoft  receffes,  and  difpofes  them  for  the  ineiFable  embrace  and \ncpntad  of  the  Gods ;  and  does  not  defift  till  it  raifes  us  to  the  fummit  of  all.  It \nlikewife  gradually  and  filently  dr^vys  upwards  the  manners  of  our  foul,  by \ndiverting  them  of  every  thing  foreign  from  a  divine  nature,  and  clothes  us \nwith  the  perfedions  of  the  Gods.  Befides  this,  it  produces  an  indifToluble \ncommunion  and  friendfliip  with  Divinity,  nourishes  a  divine  love,  and  en- \nflames  the  divine  part  of  the  foul.  Whatever  is  of  an  oppofing  and  contrary \nnature  in  the  foul  it  expiates  and  purifies  ;  expels  whatever  is  prone  to  gene- \nration, and  retains  any  thing  of  the  dregs  of  mortality  in  its  ethereal  and \nfplendid  fpirit ;  perfe^s  a  good  hope  and  faith  concerning  the  reception  of \ndivine  light ;  and  in  one  word,  renders  thofe  by  whom  it  is  employed  thd \nfamiliars  and  domeftics  of  the  Gods.  If  fuch,  then,  arc  the  advantages  of \nprayer,  and  fuch  its  conne61ion  with  iacrifice,  does  it  not  appear  from  hence, \nthat  the  end  of  facrifice  is  a  conjun^ion  with  the  demiurgus  of  the  world  ? \nAnd  the  benefit  of  prayer  is  of  the  fame  extent  with  the  good  which  is  con- \nferred by  the  demiurgic  caufes  on  the  race  of  mortals.  Again,  from  hence \nthe  anagogic^  perfediive^  and  replentjhing  power  of  prayer  appears  ;  hkewife \nhow  it  becomes  efficacious  and  unific,  and  how  it  poflclTes  a  common  bond \nimparted  by  the  Gods.  And  in  the  third  and  laft  place,  it  may  eafily  be  con- \nceived from  hence  how  prayer  and  facrifice  mutually  corroborate,  and  confer \non  each  other  a  facred  and  perfe6l  power  in  divine  concerns. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.006",
+   "kind": "introduction",
+   "seq": 6,
+   "page": 579,
+   "pages": [
+    579
+   ],
+   "line": 27356,
+   "text": "The following translation (from p. 64) of Proclus on the Timaeus, containing the dodrine of Jamblichus on prayer, with the elucidations of Procjus, nrray be coufidered as an excellent commentary on the preceding observations.",
+   "raw": "The  following  tranflation  (from  p.  64)  of  Proclus  on  the  Timaeus,  con- \ntaining the  dodrine  of  Jamblichus  on  prayer,  with  the  elucidations  of  Pro- \ncjus,  nrray  be  coufidered  as  an  excellent  commentary  on  the  preceding  ob- \nfervations. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.007",
+   "kind": "introduction",
+   "seq": 7,
+   "page": 579,
+   "pages": [
+    579
+   ],
+   "line": 27361,
+   "text": "All beings are the progeny of the Gods, by whom they are produced with* out a medium, and in whom they are firmly established. For the progression of things which perpetually subsist: and cohere from permanei causes, is not alone perfected by a certain continuation, but immediately subsists from the Gods, from whence all things are generated, however distant they m^iy be from the Divinities: and this is no less true, even though asserted of matter",
+   "raw": "All  beings  are  the  progeny  of  the  Gods,  by  whom  they  are  produced  with* \nout  a  medium,  and  in  whom  they  are  firmly  eftablifhed.  For  the  progreflion \nof  things  which  perpetually  fubfift:  and  cohere  from  permanei  caufes,  is  not \nalone  perfedled  by  a  certain  continuation,  but  immediately  fubfifts  from  the \nGods,  from  whence  all  things  are  generated,  however  diftant  they  m^iy  be \nfrom  the  Divinities :  and  this  is  no  lefs  true,  even  though  alTerted  of  matter "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.008",
+   "kind": "introduction",
+   "seq": 8,
+   "page": 579,
+   "pages": [
+    579,
+    577,
+    578
+   ],
+   "line": 27368,
+   "text": "itself. kfelf. For a divine nature is not absent from any thing, but is equally present to all things. Hence, though you consider the last of beings, in these also you will find Divinity: for the one is every where; and in consequence of its absolute dominion, every thing receives its nature and coherence frorh the Gods, But as all things proceed, so likewise they are not separated from the Gods, but radically abide in them, as the causes and fuftainers of their exigence: for where can they recede, since the Gods primarily comprehend all things in their embrace? For whatever is placed as separate from the Gods has not any kind of subsistence. Jiut all beings are contained by the Gods, and reside in their natures after the manner of a circular compreheniion. Hence, by a wonderful mode of subsistence, all things proceed, and yet are not, nor indeed can be, separated from the Gods; (for all generated natures, when torn from their parents, immediately recur to the wide spreading immensity of non-being,) but they are after a manner ef^abliflied in the divine natures; and, in fine, they proceed in themselves, but abide in the Gods. But since in consequence of their progre/Tion it is requisite that they should be converted, and return, and imitate the egress and conversion of the Gods to their ineffable cause, that the natures, thus disposed, may again be contained by the Gods, and the first unities, according to a ielefiwgic^ or perfc<^ive triad, they receive from hence a certain secondary perfe<3ion, by which they may be able to convert themselves to the goodness of the Gods; that after they have rooted their principle in the Divinities, they may again, by converfion^ abide in them, and form as it were a circle, which originates from, and terminates in, the Gods, All things, therefore, both abide in, and convert themselves to, the Gods; receiving this power from the Divinities, together with twofold symbols according to essence: the one, that they may abide there;,but the other, that having proceeded, they may convert themselves: and this we may easily contemplate, not only in souls, but also in inanimate natures. For what else ingenerates in these a sympathy with other powers but the symbols which they are allotted by nature, some of which contract a familiarity with tJiis and some with that series of Gods? For nature supernally depending from the Gods, and being distributed from their orders, imprelfes also in bodies the symbols of her familiarity with the Divinities. In some, indeed, inserting solar symbols, but in others lunar, and in others again the occult chara(^ers of some other God. And these, indeed, VOL. iv. 4 E convert coiivert themselves to the Divinities: some as it were to the Gods simply, but others as to paticular Gods; nature thus perfecting her progeny according to different peculiarities of the Gods. The Demiurgus of the universe, therefore, by a much greater priority, impressed these symbols in souls, by which they might be able to abide in themselves, and again convert themselves to the sources of their being: through the symbol of unity, conferring on them stability; but through intellect affording them the power of conversion.",
+   "raw": "itfelf. \nkfelf.  For  a  divine  nature  is  not  abfent  from  any  thing,  but  is  equally  pre- \nfcnt  to  all  things.  Hence,  though  you  confider  the  laft  of  beings,  in  thefe \nalfo  you  will  find  Divinity  :  for  the  one  is  every  where  ;  and  in  confequence \nof  its  abfolute  dominion,  every  thing  receives  its  nature  and  coherence  frorh \nthe  Gods,  But  as  all  things  proceed,  fo  likewife  they  are  not  feparated  from \nthe  Gods,  but  radically  abide  in  them,  as  the  caufes  and  fuftainers  of  their \nexigence  :  for  where  can  they  recede,  fince  the  Gods  primarily  comprehend \nall  things  in  their  embrace  ?  For  whatever  is  placed  as  feparate  from  the \nGods  has  not  any  kind  of  fubfiftence.  Jiut  all  beings  are  contained  by  the \nGods,  and  refide  in  their  natures  after  the  manner  of  a  circular  comprehen- \niion.  Hence,  by  a  wonderful  mode  of  fubfiftence,  all  things  proceed,  and \nyet  are  not,  nor  indeed  can  be,  feparated  from  the  Gods ;  (for  all  generated \nnatures,  when  torn  from  their  parents,  immediately  recur  to  the  wide^ \nfpreading  immenfity  of  non-being,)  but  they  are  after  a  manner  ef^abliflied  in \nthe  divine  natures ;  and,  in  fine,  they  proceed  in  themfelves,  but  abide  in  the \nGods.  But  fince  in  confequence  of  their  progre/Tion  it  is  requifite  that  they \n(hould  be  converted,  and  return,  and  imitate  the  egrefs  and  converfion  of  the \nGods  to  their  ineffable  caufe,  that  the  natures,  thus  difpofed,  may  again  be \ncontained  by  the  Gods,  and  the  firfl  unities,  according  to  a  ielefiwgic^  or  per- \nfc<^ive  triad,  they  receive  from  hence  a  certain  fecondary  perfe<3ion,  by \nwhich  they  may  be  able  to  convert  themfelves  to  the  goodnefs  of  the  Gods ; \nthat  after  they  have  rooted  their  principle  in  the  Divinities,  they  may  again, \nby  converfion^  abide  in  them,  and  form  as  it  were  a  circle,  which  originates \nfrom,  and  terminates  in,  the  Gods,  All  things,  therefore,  both  abide  in,  and \nconvert  themfelves  to,  the  Gods ;  receiving  this  power  from  the  Divinities, \ntogether  with  twofold  fymbols  according  to  effence  :  the  one,  that  they  may \nabide  there  ;  ,but  the  other,  that  having  proceeded,  they  may  convert  them- \nfelves :  and  this  we  may  eafily  contemplate,  not  only  in  fouls,  but  alfo  in  in- \nanimate natures.  For  what  clfe  ingenerates  in  thefe  a  fvmpathy  with  other \npowers  but  the  fymbols  which  they  are  allotted  by  nature,  fome  of  which \ncontradl  a  familiarity  with  tJiis  and  fome  with  that  feries  of  Gods  ?  For  na- \nture fupernally  depending  from  the  Gods,  and  being  diftributed  from  their \norders,  imprelfes  alfo  in  bodies  the  fymbols  of  her  familiarity  with  tlie  Divi- \nnities. In  fome,  indeed,  inferting  folar  fymbols,  but  in  others  lunar,  and  in \nothers  again  the  occult  chara(^ers  of  fome  other  God.  And  thefe,  indeed, \nVOL.  iv.  4  E  convert \ncoiivert  themfelves  to  the  Divinities  :  fome  as  it  were  to  the  Gods  fimply, \nbut  others  as  to  paticular  Gods ;  nature  thus  perfeding  her  progeny  accord- \ning to  different  peculiarities  of  the  Gods.  The  Demiurgus  of  the  univerfe, \ntherefore,  by  a  much  greater  priority,  imprefTed  thefe  fymbols  in  fouls,  by \nwhich  they  might  be  able  to  abide  in  themfelves,  and  again  convert  them- \nfelves to  the  fources  of  their  being  :  through  the  fymbol  of  unity,  conferring \non  them  ftability ;  but  through  intelle6l  affording  them  the  power  of  con- \nverfion. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.009",
+   "kind": "introduction",
+   "seq": 9,
+   "page": 578,
+   "pages": [
+    578
+   ],
+   "line": 27422,
+   "text": "And to this converlion prayer is of the greatest: utility: for it conciliates the beneficence of the Gods through those ineffable symbols which the father of the universe has diffcminated in souls. It likewise unites those who pray with those to whom prayer is addressed; copulates the intellect of the Gods with the discourses of those who pray.; excites the will of those who perfectly comprehend good, and produces in us a firm persuasion, that they will abundantly impart to us the beneficence which they contain: and lastly, it establishes in the Gods whatever we possess.",
+   "raw": "And  to  this  converlion  prayer  is  of  the  greateft:  utility :  for  it  conciliates \nthe  beneficence  of  the  Gods  through  thofe  ineffable  fymbols  which  the  father \nof  the  univerfe  has  diffcminated  in  fouls.  It  likewife  unites  thofe  who  pray \nwith  thofe  to  whom  prayer  is  addreffed  ;  copulates  the  intelled  of  the  Gods \nwith  the  difcourfes  of  thofe  who  pray.;  excites  the  will  of  thofe  who  perfe6tly \ncomprehend  good,  and  produces  in  us  a  firm  perfuafion,  that  they  will  abun- \ndantly impart  to  us  the  beneficence  which  they  contain  :  and  laflly,  it  efta- \nblifhes  in  the  Gods  whatever  we  poffefs. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.010",
+   "kind": "introduction",
+   "seq": 10,
+   "page": 578,
+   "pages": [
+    578,
+    579
+   ],
+   "line": 27431,
+   "text": "But to a perfedand true prayer there is required, first, a knowledge of all the divine orders to which he who prays approaches: for neither will any one accede in a proper manner, unless he intimately beholds their distinguishing properties: and hence it is that the Oracle admoniflies, that ajiery intelleBion obtains the sir si order in f acred veneration But afterwards there is required a conformation of our life with that which is divine; and this accompanied with 2i\\\\ Jiurity^ chafiity^ difctjdine, and order. For thus while we present ourselves to the Gods, they will be provoked to beneficence; and our souls will be subjected to theirs, and will participate the excellences of a divine nature. In the third place, a certain contact is necessary, from whence, with the more exalted part of the soul, we touch the divine essence, and verge to a union with its ineffable nature. But there is yet further required an accession and inhefion, (for thus the Oracle calls it, while it says, the mortal adhering to fire will pojfefs a divine light,'') from whence we receive a greater and more illustrious part of the light proceeding from the Gods. In the last place, a union succeeds with the unity of the Gods, restoring and establishing unity to the soul, and causing our energy to become one with divine energy; (6 that in this case, we are no longer ourselves, but are ablbrbed, as it were, in the nature of the Gods; and residing in divine light, are entirely surrounded with its splendour. And this is, indeed, the best end of prayer, the conjunction of the soul's convcrfion with its permanency; establishing in unity whatever proceeds from the divine unities; and surrounding our light with the light of the Gods.",
+   "raw": "But  to  a  perfedand  true  prayer  there  is  required,  firft,  a  knowledge  of  all \nthe  divine  orders  to  which  he  who  prays  approaches  :  for  neither  will  any \none  accede  in  a  proper  manner,  unlefs  he  intimately  beholds  their  diflinguifh- \ning  properties  :  and  hence  it  is  that  the  Oracle '  admoniflies,  **  that  ajiery \nintelleBion  obtains  the  fir fi  order  in  f acred  veneration  ^^  But  afterwards  there \nis  required  a  conformation  of  our  life  with  that  which  is  divine  ;  and  this \naccompanied  with  2i\\\\  Jiurity^  chafiity^  difctjdine,  and  order.  For  thus  while \nwe  prefent  ourfelves  to  the  Gods,  they  will  be  provoked  to  beneficence  ;  and \nour  fouls  will  be  fubjeded  to  theirs,  and  will  participate  the  excellences  of \na  divine  nature.  In  the  third  place,  a  certain  contadt  is  neceffary,  from \nwhence,  with  the  more  exalted  part  of  the  foul,  we  touch  the  divine  effence, \nand  verge  to  a  union  with  its  ineffable  nature.  But  there  is  yet  further  re- \nquired an  acceffion  and  inhefion,  (for  thus  the  Oracle  calls  it,  while  it  fays, \n**  the  mortal  adhering  to  fire  will  pojfefs  a  divine  light,'')  from  whence  we  re- \nceive a  greater  and  more  illuflrious  part  of  the  light  proceeding  from  the \nGods.  In  the  laft  place,  a  union  fucceeds  with  the  unity  of  the  Gods,  re- \nftoring  and  eftablifhing  unity  to  the  foul,  and  caufing  our  energy  to  become \none  with  divine  energy  ;  (6  that  in  this  cafe,  we  are  no  longer  ourfelves,  but \nare  ablbrbed,  as  it  were,  in  the  nature  of  the  Gods;  and  refiding  in  divine \nlight,  are  entirely  furrounded  with  its  fplendour.  And  this  is,  indeed,  the \nbefl-  end  of  prayer,  the  conjundion  of  the  foul's  convcrfion  with  its  perma- \nnency ;  eflablifhing  in  unity  whatever  proceeds  from  the  divine  unities  ;  and \nfurrounding  our  light  with  the  light  of  the  Gods. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.011",
+   "kind": "introduction",
+   "seq": 11,
+   "page": 579,
+   "pages": [
+    579,
+    560
+   ],
+   "line": 27461,
+   "text": "Prayer, therefore, is of no small assistance to our souls in ascending to their native region: nor is he who possesses virtue superior to the want of that good which proceeds from prayer, but the very contrary takes place; since prayer is not only the cause of our ascent and reverfion, but with it is connected piety to the Gods, that is, the very summit of virtue. Nor, indeed, ought any other to pray than he who excels in goodness: (es the Athenian gueil: in Plato admonifhes us,) for to such a one, while enjoying by the exercise of prayer familiarity with the Gods, an efficacious and easy way is prepared for the enjoyment of a blessed life. But the contrary succeeds to the vicious: since it is not lawful for purity to be touched by impurity. It is iiecefTary, therefore, that he who generously enters on the exercise of prayer should render the Gods propitious to him; and should excite in himself divine conceptions, full of intelledual light: for the favour and benignity of' more exalted beings is the most efFedual incentive to their communication with our natures. And it is requisite, without intermiffion, to dwell in the veneration of Divinity: for, according to the poet, \" i/ie Gods are acciijlomed to be present with the mortal conjiantly em/iloyed in Jirayer,'^ It is like wise necessary to preserve a stable order of divine works, and to produce those virtues which purify the soul from the stains of generation, and elevate her to the regions of intellect, together with/^/V//, truth, and love: to preserve this triad and hope of good, this immutable perception of divine Ught, and feggragation from every other pursuit; that thus solitary, and free from material concerns, we may become united with the solitary unities of the Gods: since he who attempts by multitude to unite himself with unity, acts prepoflieroufly, and diflociates himself from Divinity, p'or as it is not lawful for any one to conjoin himself by that which is not, with that which is; so neither is it possible with multitude to be conjoined with unity. Such, then, are the confequcnces primarily apparent in prayer, viz. that its essence is the cause of aflbciating our souls with the Gods; and that on this account it unites and copulates all inferior with all superior beings. For, as the great Theodorus^ says, all th'mgs pray except the FIRST,",
+   "raw": "Prayer,  therefore,  is  of  no  fmall  afliftance  to  our  fouls  in  afcending  to  their \nnative  region  :  nor  is  he  who  pofFefTes  virtue  fuperior  to  the  want  of  that \ngood  which  proceeds   from  prayer,  but  the  very  contrary  takes  place;  fincc \nprayer  is  not  only  the  caufe  of  our  afcent  and  reverfion,  but  with  it  is  con- \nneded  piety  to  the  Gods,  that  is,  the  very  fummit  of  virtue.     Nor,  indeed, \nought  any  other  to  pray  than  he  who  excels  in  goodnefs  :  (as  the  Athenian \ngueil:  in  Plato  admonifhes  us,)  for  to  fuch  a  one,  while  enjoying  by  the  exer- \ncife  of  prayer  familiarity  with  the  Gods,  an  efficacious  and  eafy  way  is  pre- \npared  for  the  enjoyment  of  a  blefled  life.     But  the  contrary  fucceeds  to  the \nvicious  :  fince  it  is  not  lawful  for  purity  to  be  touched  by  impurity.     It  is \niiecefTary,  therefore,  that  he  who  generoufly  enters  on  the  exercife  of  prayer \nfhould  render  the  Gods   propitious  to  him;  and  fhould  excite  in   himfelf \ndivine  conceptions,  full  of  intelledual  light :  for  the  favour  and  benignity  of' \nmore  exalted  beings  is  the  moft  efFedual  incentive  to  their  communication \nwith  our  natures.     And  it  is  requifite,  without  intermiffion,  to  dwell  in  the \nveneration  of  Divinity  :  for,  according  to  the  poet,  \"  i/ie  Gods  are  acciijlomed \nto  be  prefent  with  the  mortal  conjiantly  em/iloyed  in  Jirayer,'^     It  is  like  wife \nneceffary  to  preferve  a  ftable  order  of  divine  works,  and  to  produce  thofe \nvirtues  which  purify  the  foul  from  the  flains  of  generation,  and  elevate  her  to \nthe  regions  of  intelled,  together  with/^/V//,  truth,  and  love :  to  preferve  this \ntriad  and  hope  of  good,  this  immutable  perception  of  divine  Ught,  and  feggra- \ngation   from  every  other  purfuit;  that  thus   folitary,  and  free  from  mate- \nrial concerns,  we  may  become  united  with  the  folitary  unities  of  the  Gods  : \nfince  he  who  attempts  by  multitude  to  unite  himfelf  with  unity,  a61s  prepoflie- \nroufly,  and  diflociates  himfelf  from  Divinity,    p'or  as  it  is  not  lawful  for  anv \none  to  conjoin  himfelf  by  tliat  which  is  not,  with  that  which  is;  fo  neither  is \nit  pofTible  with  multitude  to  be  conjoined  with  unity.     Such,  then,   are  the \nconfequcnces  primarily  apparent  in  prayer,  viz.  that  its  elTence  is  the  caufe \nof  aflbciating  our  fouls  with  the  Gods  ;  and  that  on  this  account  it  unites  and \ncopulates  all  inferior  with  all  fuperior  beings.     For,  as  the  great  Theodorus^ \nfays,  all  th'mgs pray ^  except  the  FIRST, "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.012",
+   "kind": "introduction",
+   "seq": 12,
+   "page": 560,
+   "pages": [
+    560
+   ],
+   "line": 27499,
+   "text": "But the perfection of prayer, beginning from more common goods, ends in divine conjunction, and gradually accuiloms the soul to divine light. And its efficacious and vigorous energy both replenishes us with good, and causes our concerns to be common with those of the Gods. We may also rationally suppose that the causes of prayer, so far as they are effe&ive, are the vigorous and efficacious powers of the Gods, converting and calling upwards the soul to the Gods themselves. But that, so far as they artjierfefllve^ they are the immaculate goods of the soul, from the reception of which, Ibuls are eftabliffied in the Gods. And again, that so far as they tuxq Jiaradigmatical, they are the primary fabricating causes of beings; proceeding from t/ie good, and conjoined with it by an ineffable union. But that so far as they ^x^fortnal^ or possess the proportion of forms, they render souls similar to the Gods, and give perfe6llon to the whole life of the soul. Lastly, so far as they are material^ or retain the proportion of matter, they are the marks or symbols conferred by the Demiurgus on the essences of souls, that they may be wakened to a reminiscence of the Gods who produced both them and whatever q\\{^ exists.",
+   "raw": "But  the  perfe6tion  of  prayer,  beginning  from  more  common  goods,  ends \nin  divine  conjundion,  and  gradually  accuiloms  the  foul  to  divine  light.  And \nits  efficacious  and  vigorous  energy  both  replenifhes  us  with  good,  and  caufes \nour  concerns  to  be  common  with  thofe  of  the  Gods.  We  may  alfo  rationally \nfuppofe  that  the  caufes  of  prayer,  fo  far  as  they  are  effe&ive,  are  the  vigorous \nand  efficacious  powers  of  the  Gods,  converting  and  calling  upwards  the  foul \nto  the  Gods  themfelves.  But  that,  fo  far  as  they  artjierfefllve^  they  are  the \nimmaculate  goods  of  the  foul,  from  the  reception  of  which,  Ibuls  are  efta- \nbliffied  in  the  Gods.  And  again,  that  fo  far  as  they  tuxq  Jiaradigmatical,  they \nare  the  primary  fabricating  caufes  of  beings ;  proceeding  from  t/ie  good,  and \nconjoined  with  it  by  an  ineffable  union.  But  that  fo  far  as  they  ^x^fortnal^ \nor  poffefs  the  proportion  of  forms,  they  render  fouls  fimilar  to  the  Gods,  and \ngive  perfe6llon  to  the  whole  life  of  the  foul.  Laftly,  fo  far  as  they  are  mate- \nrial^ or  retain  the  proportion  of  matter,  they  are  the  marks  or  fymbols  con- \nferred by  the  Demiurgus  on  the  effences  of  fouls,  that  they  may  be  wakened \nto  a  reminifcence  of  the  Gods  who  produced  both  them  and  whatever  q\\{^ \nexifls. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.013",
+   "kind": "introduction",
+   "seq": 13,
+   "page": 560,
+   "pages": [
+    560,
+    581
+   ],
+   "line": 27517,
+   "text": "But we may also describe the modes of prayer, which are various, according to the genera and species of the Gods, For of prayers, some TKrcfabricafive; others o{ a jiurifying nature \\ and others, lastly, are vivifc, I call those falricative which are offered for the sake of fhowers and winds. For the fabricative Gods \\^y\\\\j^io-o^yol) are also the causes of these: on which account, it is customary with the Athenians to pray to such Divinities for the sake of obtaining winds procuring Serenity of weather. But I call those prayers of a purifying nature which are instituted for the purpose of averting diseases originating from pestilence, and other contagious distempers: such as are written in our temples. And lastly, those prayers are vivifc with which we venerate the Gods who are the causes of vivification, on account of the origin and maturity of fruits\". Hence it is that prayers are of a perfective nature because they elevate us to these divine orders: and those who conlider such prayers in a different manner, do not properly apprehei^d in what their na« ture and efficacy consist:. But again, with refpecfl to the things for which we pray, those which regard the safety of the soul obtain the first place; thole which pertain to the liro[ier dfjioftion and Jlrength of the body the second; and those claim the last place which pertain to external concerns. And lastly, with respect to the distribution of the times in which we offer up prayers, it is either according to the seasons of the year, or the centres of the solar revolution; or we establish multiform prayers according to other suchlike conceptions*",
+   "raw": "But  we  may  alfo  defcribe  the  modes  of  prayer,  which  are  various,  accord- \ning to  the  genera  and  fpecies  of  the  Gods,  For  of  prayers,  fome  TKrcfabrica- \nfive;  others  o{ a  jiurifying nature \\  and  others,  laftly,  are  vivifc,  I  call  thofe \nfalricative  which  are  offered  for  the  fake  of  fhowers  and  winds.  For  the \nfabricative  Gods  \\^y\\\\j^io-o^yol)  are  alfo  the  caufes  of  thefe :  on  which  account,  it \nis  cuftomary  with  the  Athenians  to  pray  to  fuch  Divinities  for  the  iake  of \nobtaining  winds  procuring  Serenity  of  weather.  But  I  call  thofe  prayers  of \na  purifying  nature^  which  are  inflituted  for  the  purpofe  of  averting  difeafes \noriginating  from  peflilence,  and  other  contagious  diftempers:  fuch  as  arc \nwritten  in  our  temples.  And  laftly,  thofe  prayers  are  vivifc  with  which  wc \nvenerate  the  Gods  who  are  the  caufes  of  vivification,  on  account  of  the  origin \nand  maturity  of  fruits\".  Hence  it  is  that  prayers  are  of  a  perfedive  nature^ \nbecaufe  they  elevate  us  to  thefe  divine  orders :  and  thofe  who  conlider  fuch \nprayers  in  a  different  manner,  do  not  properly  apprehei^d  in  what  their  na« \nture  and  efficacy  confifl:.  But  again,  with  refpecfl  to  the  things  for  which \nwe  pray,  thofe  which  regard  the  fafety  of  the  foul  obtain  the  firfl  place; \nthole  which  pertain  to  the  liro[ier  dfjioftion  and  Jlrength  of  the  body^  the \nfecond  ;  and  thofe  claim  the  laft  place  which  pertain  to  external  concerns. \nAnd  laftly,  with  refped  to  the  diftribution  of  the  times  in  which  we  offer  up \nprayers,  it  is  either  according  to  the  feafons  of  the  year,  or  the  centres  of  the \nfblar  revolution  ;  or  we  eftablifh  multiform  prayers  according  to  other  fuch- \nlike  conceptions* "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.014",
+   "kind": "introduction",
+   "seq": 14,
+   "page": 581,
+   "pages": [
+    581
+   ],
+   "line": 27548,
+   "text": "With the above admirable passages the following extract from Jamblichus de Myst:. (<tQ, i. cap. 12. may be very properly conjoined. Its design is ta Show, that the Gods are not agitated by palllons, though they appear to be moved through the influence of prayer.",
+   "raw": "With  the  above  admirable  pafTages  the  following  extra6l  from  Jamblichus \nde  Myfl:.  (<tQ,  i.  cap.  12.  may  be  very  properly  conjoined.  Its  defign  is  ta \nIhow,  that  the  Gods  are  not  agitated  by  palllons,  though  they  appear  to  be \nmoved  through  the  influence  of  prayer. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.015",
+   "kind": "introduction",
+   "seq": 15,
+   "page": 581,
+   "pages": [
+    581,
+    511
+   ],
+   "line": 27553,
+   "text": "Prayers are not to be diredcd to the Gods as is the/ wtrt pa/Uve, and could be moved by supplications: for the divine irradiation which takes place through the exercise of prayer, operates spontaneously, and is far remote from all material attraction; fmce it becomes apparent through divine energy and perfection; and as much excels the voluntary motion of our nature, as the divine will of the good furpaHes our election. Through this volition, the Gods, who are perfedly benevolent and merciful, pour their light without any parsimony on the fupplicating prierts, whose souls they call upwards to their own divine natures; impart to them a union with themselves, and accustom their souls, even while bound in body, to separate themselves from its dark embrace, and to be led back by an ineffable energy to their eternal and intelligible original. Indeed it is evident that the safety of the soul depends on such divine operations. For while the soul contemplates divine visions, it acquires another life, employs a different energy, and may be considered, with the greeted: propriety, as no longer ranking in the order of man. For it often lays aside its own proper life, and changes it for the mofi: blessed energy of the Gods. 13ut if an ascent to the Gods, through the ministry of prayer, confers on the priests purity si om passion, freedom from the bonds of generation, and a union with a divine princi}>le, how can there be any thing passive in the efficacy of prayer? For invocation does not draw down the pure and impassive Gods to us who are passive and impure; but, on the contrary, renders us who are become through generation impure and palfive> immu:a\")le and pure* But neither do invocations conjoin, through passion, the priests with the Divinities, but afford an indissoluble communion of connection, through that friendiliip which binds all things in union and consent. Nor do invocations incline the intelleft of the Gods towards men, as the term seems to imply; but^according to the decilions of truth, they render the will of men properly disposed to receive the participations of the Gods; leading it upwards, and connecting it with the Divinities by the sweetest and most alluring persuasion. And on this account the sacred names of the Gods, and other divine symbols, from their anagogic nature, are able to connect invocations with the Gods themselves.",
+   "raw": "Prayers  are  not  to  be  diredcd  to  the  Gods^  as  i^  the/  wtrt  pa/Uve,  and \ncould  be  moved  by  fupplications :  for  the  divine  irradiation  which  takes  place \nthrough  the  exercife  of  prayer,  operates  fpontaneoufly,  and  is  far  remote  from \nall  material  attradion  ;  fmce  it  becomes  apparent  through  divine  energy  and \nperfection;  and  as  much  excels  the  voluntary  motion  of  our  nature,  as  the \ndivine  will  of  the  good  furpaHes  our  eledlion.  Through  this  volition,  the \nGods,  who  are  perfedly  benevolent  and  merciful,  pour  their  light  without \nany  parfimony  on  the  fupplicating  prierts,  whofe  fouls  they  call  upwards  to \ntheir  own  divine  natures ;  impart  to  them  a  union  with  themfelves,  and \naccuftom  their  fouls,  even  while  bound  in  body,  to  feparate  themfelves  from \nits  dark  embrace,  and  to  be  led  back  by  an  ineffable  energy  to  their  eternal \nand  intelligible  original.  Indeed  it  is  evident  that  the  fafety  of  the  foul  de- \npends on  fuch  divine  operations.  For  while  the  foul  contemplates  divine \nvifions,  it  acquires  another  life,  employs  a  different  energy,  and  may  be  con- \nfidered,  with  the  greated:  propriety,  as  no  longer  ranking  in  the  order  of  man. \nFor  it  often  lays  afide  its  own  proper  life,  and  changes  it  for  the  mofi:  bleffed \nenergy  of  the  Gods.  13ut  if  an  afccnt  to  the  Gods,  through  the  miniftry  of \nprayer,  confers  on  the  priefts  purity  fi  om  paffion,  freedom  from  the  bonds  of \ngeneration,  and  a  union  with  a  divine  princi}>le,  how  can  there  be  any  thing \npaffive  in  the  efficacy  of  prayer  ?  For  invocation  does  not  draw  down  the \npure  and  impaflive  Gods  to  us  who  are  paffive  and  impure  ;  but,  on  the  con- \ntrary, renders  us  who  are  become  through  generation  impure  and  palfive> \nimmu:a\")le  and  pure* \nBut  neither  do  invocations  conjoin,  through  pafTion,  the  priefls  with  the \nDivinities,  but  afford  an  indiffoluble  communion  of  conne6lion,  through  that \nfriendiliip  which  binds  all  things  in  union  and  confent.  Nor  do  invocations \nincline  the  intelleft  of  the  Gods  towards  men,  as  the  term  feems  to  imply ; \nbut^according  to  the  decilions  of  truth,  they  render  the  will  of  men  properly \ndifpofed  to  receive  the  participations  of  the  Gods  ;  leading  it  upwards,  and \nconneding  it  with  the  Divinities  by  the  fweeteft  and  moft  alluring  perfuafion. \nAnd  on  this  account  the  facred  names  of  the  Gods,  and  other  divine  fymbols, \nfrom  their  anagogic  nature,  are  able  to  connect  invocations  with  the  Gods \nthemfclves. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.016",
+   "kind": "introduction",
+   "seq": 16,
+   "page": 511,
+   "pages": [
+    511
+   ],
+   "line": 27593,
+   "text": "And in chap. 15 of the same section, he again admirably discourses on the same subject as follows:",
+   "raw": "And  in  chap.  15  of  the  fame  fedion,  he  again  admirably  difcourfes  on  the \nfame  fubjed  as  follows  : "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.017",
+   "kind": "introduction",
+   "seq": 17,
+   "page": 511,
+   "pages": [
+    511,
+    512
+   ],
+   "line": 27596,
+   "text": "That which in our nature is divine, intellectual, and one, or (es you may be willing to call it) intelligibk, is perfectly excited by prayer from its dormant state; and when excited, vehemently seeks that which is similar to itself, and becomes copulated to its own perfection. But if it should seem incredible that incorporeal natures can be capable of hearing sounds, and it is urged, that for this purpose the sense of hearing is requisite, that they may understand our supplications; such objedors are unacquainted with the excellency of primary causes, which coniifts in both knowing and comprehending in themselves at once the universality of things. The Gods, therefore, do not receive prayers in themselves through any corporeal powers or organs, but rather contain in themselves the effects of pious invocations; and especially of such as through sacred cultivation are consecrated and united to the Gods: for, in this case, a divine nature is evidently present with itself, and does jiot apprehend the conceptions of prayers as different from its own. Nor are supplications to be considered as foreign from the purity of intellect: but since the Gods excel us both in power, purity, and all other advantages, we shall ad in the most: opportune manner, by invoking them with the most vehement supplications. For a consciousness of our own nothingness, when we compare ourselves with the Gods, naturally leads us to the exercise of prayer. But through the benefits resulting from supplication we are in a short time brought back to the obje.d of supplication; acquire its similitude from intimate converse; and gradually obtain divine perfection, instead of our own imbecility and impt^rfedion. Indeed he who considers, that sacred prayers are sent to men from the Gods themselves; that they are certain symbols of the divhie natures; and that they are only known to the Gods, with whom in a certain respect they possess an equal power; I say, he who considers all this, cannot any longer believe that supplications are of a sensible nature and that they are not very justly esteemed intelledual and divine: and must acknowledge it to be impossible that any passion should belong to things the purity of which the most worthy manners of men cannot easily equal.",
+   "raw": "That  which  in  our  nature  is  divine,  intelle61ual,  and  one,  or  (as  you  may \nbe  willing  to  call  it)  intelligibk,  is  perfedtly  excited  by  prayer  from  its  dor- \nmant ftate ;  and  when  excited,  vehemently  feeks  that  which  is  fimilar  to \nitfelf,  and  becomes  copulated  to  its  own  perfedion.  But  if  it  fhould  feem \nincredible  that  incorporeal  natures  can  be  capable  of  hearing  founds,  and  it  is \nurged,  that  for  this  purpofe  the  fenfe  of  hearing  is  requifite,  that  they  may \nunderftand  our  fupplications ;  fuch  objedors  are  unacquainted  with  the  ex- \ncellency of  primary  cauies,  which  coniifts  in  both  knowing  and  compre- \nhending in  themfelves  at  once  the  univerfality  of  things.  The  Gods,  there- \nfore, do  not  receive  prayers  in  themfelves  through  any  corporeal  powers  or \norgans,  but  rather  contain  in  themfelves  the  efFeds  of  pious  invocations  ;  and \nefpecially  of  fuch  as  through  facred  cultivation  are  confecrated  and  united \nto  the  Gods  :  for,  in  this  cafe,  a  divine  nature  is  evidently  prefent  with  itfelf, \nand  does  jiot  apprehend  the  conceptions  of  prayers  as  different  from  its  own. \nNor  are  fupplications  to  be  confidered  as  foreign  from  the  purity  of  intelled  : \nbut  fince  the  Gods  excel  us  both  in  power,  purity,  and  all  other  advantages, \nwe  fliall  ad  in  the  mofl:  opportune  manner,  by  invoking  them  with  the  moft \nvehement  fupplications.  For  a  confcioufnefs  of  our  own  nothingnefs,  when  we \ncompare  ourfelves  with  the  Gods,  naturally  leads  us  to  the  exercife  of  prayer. \nBut  through  the  benefits  refulting  from  fupplication  we  are  in  a  fliort  time \nbrought  back  to  the  obje.d  of  fupplication  ;  acquire  its  fimilitude  from  inti- \nmate converfe  ;  and  gradually  obtain  divine  perfedion,  inflead  of  our  own \nimbecility  and  impt^rfedion. \nIndeed  he  who  confiders,  that  facred  prayers  are  fent  to  men  from  the \nGods  themfelves  ;  that  they  are  certain  fymbols  of  the  divhie  natures;  and  that \nthey  are  only  known  to  the  Gods,  with  whom  in  a  certain  refped  they  polfefs \nan  equal  power ;  I  fay,  he  who  confiders  all  this,  cannot  any  longer  believe \nthat  fupplications  are  of  a  fenfible  nature^  and  that  they  are  not  very  juftly \nefteemed  intelledual  and  divine :  and  muft  acknowledge  it  to  be  impoflible \nthat  any  paflion  fhould  belong  to  things  the  purity  of  which  the  moft  worthy \nmanners  of  men  cannot  eafily  equal. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.018",
+   "kind": "introduction",
+   "seq": 18,
+   "page": 512,
+   "pages": [
+    512
+   ],
+   "line": 27634,
+   "text": "Nor ought we to be disturbed by the objection which urges, that material things are frequently offered in supplications; and this as if the Gods possessed a sensitive and animal nature. For, indeed, if the offerings consisted solely of corporeal and composite powers, and such as are only accommodated to organical purposes, the objection would have some weight: but since they participate of incorporeal forms, certain proportions, and more simple measures; in this alone the correspondence and connection of offerings with the Gods ought to be regarded. For, whenever any affinity or similitude is present, whether greater or less, it is sufficient to the connection of which we are now discoursing: since there is nothing which approaches to a kindred alHance with the Gods, though in the smallest degree, to which the Gods are not immediately present and united. A connection, therefore, as much as is possible, subsists between prayers and the Gods: at the same time prayers do not regard the Divinities as if they were of a sensitive or animal nature; but they consider them as they are in reality^ and according to the divine forms which their essences contain.",
+   "raw": "Nor  ought  we  to  be  difturbed  by  the  objedion  which  urges,  that  material \nthings  are  frequently  offered  in  fupplications  ;  and  this  as  if  the  Gods  pof- \nfeffed  a  fenfitive  and  animal  nature.  For,  indeed,  if  the  offerings  confifted \nfolely  of  corporeal  and  compofite  powers,  and  fuch  as  are  only  accommo- \ndated to  organical  purpofes,  the  objedion  would  have  fomc  weight :  but \nfince  they  participate  of  incorporeal  forms,  certain  proportions,  and  more \nfimple  meafures  ;  in  this  alone  the  correfpondence  and  connection  of  offer- \nings with  the  Gods  ought  to  be  regarded.  For,  whenever  any  affinity  or \nfimilitude  is  prefent,  whether  greater  or  lefs,  it  is  fufficient  to  the  conne6lion \nof  which  we  are  now  difcourfing:  fince  there  is  nothing  which  approaches \nto  a  kindred  alHance  with  the  Gods,  though  in  the  fmalleft  degree,  to  which \nthe  Gods  are  not  immediately  prefent  and  united.  A  connection,  therefore, \nas  much  as  is  poffible,  fubfifts  between  prayers  and  the  Gods  :  at  the  fame \ntime  prayers  do  not  regard  the  Divinities  as  if  they  were  of  a  fenfitive  or \nanimal  nature ;  but  they  confider  them  as  they  are  in  reality^  and  according \nto  the  divine  forms  which  their  efTences  contain. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.019",
+   "kind": "introduction",
+   "seq": 19,
+   "page": 512,
+   "pages": [
+    512,
+    513,
+    515
+   ],
+   "line": 27651,
+   "text": "In ihc third place, let us attend to the admirable observations on prayer of Hierocles, who, though inferior in accuracy and sublimity of conception to Jambiichus and Proclus, yet, as Damascius well observes, (hi his Life of Ifidorus apud Phot.) he uncommonly excelled in his dianoetic part, and in a venerable and magnificent fluency of diction. The. following is a translation of his Comment on the Pvtha2;oric verse: -A^^' f^xiw fT* tpyov *84 T N T R O D U C T r O N T O",
+   "raw": "In  ihc  third  place,  let  us  attend  to  the  admirable  obfervations  on  prayer  of \nHierocles,  who,  though  inferior  in  accuracy  and  fublimity  of  conception  to \nJambiichus  and  Proclus,  yet,  as  Damafcius  well  obferves,  (hi  his  Life  of \nIfidorus  apud  Phot.)  he  uncommonly  excelled  in  his  dianoetic  part,  and  in  a \nvenerable  and  magnificent  fluency  of  didion.  The.  following  is  a  tranflation \nof  his  Comment  on  the  Pvtha2;oric  verfe  : \n-A^^'  f^xiw  fT*  tpyov \n*84  T  N  T  R  O  D  U  C  T  r  O  N    T  O "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.020",
+   "kind": "introduction",
+   "seq": 20,
+   "page": 515,
+   "pages": [
+    515,
+    585
+   ],
+   "line": 27671,
+   "text": "viz. the self-moved nature of the soul, and the co-operation of Divinity. For, though the election of things beautlfur is in our power, yet, as we possess our freedom of the will from Divinity, we are pcrfedly indigent of his cooperating with and perfecting the things which we have chosen. For our endeavour appears to be similar to a hand extended to the reception of things beautiful; but that which is imparted by Divinity is the supplier and the fountain of the gift of good. And the former, indeed, is naturally adapted to discover things beautiful; but the latter to unfold them to him by whom they are rightly explored. But prayer is the medium between two boundaries, viz. betweeti investigation by us, and that which is imparted by Divinity, properly adhering to the cause which leads us into exigence, and perfects us in w^U-being. For how can any one receive well-being unless Divinity imparls it? And how can Divinity, who is naturally adapted to give, giv« to him who does not a(k, though his impulses arise from the freedom of his will? That we may not, therefore, pray only in words, but may also corroborate this by deeds; and that we may not confide only in our own energy, but may also beseech Divinity to co-operate with our deeds, and may conjoin prayer to aflion, as form to matter; and, in short, that we may pray for what we do, and do that for which we pray, the verse conjoining these two, says, \" Betake yourself to the work, having implored the Gods to bring it to perfection.'* P^or neither is it proper aloj=ie to e-ngage with alacrity in beautiful actions, as if it were in our pow-er to perform them with rectitude, without the co-operation of Divinity; nor yet Iliould we be futibficd w ith the words of mere prayer while we contribute nothing to the acquisition of the things which we requeH:. For thus we shall either pursue atheidlcal virtue (ff I may be allowed so to speak) or unenergetic prayer; of which the former, being deprived of Divinity, takes away the essence of virtue; and the latter, being sluggish, diflblves the efficacy of prayer. For how can any thing be beautiful which is not performed according to the divine rule? And how is it possible that what is done according to this Hiould not entirely require the co-operation of Divinity to its fubfillence? For virtue is the image of Divinity in the rational soul; but every image requires its paradigm, in order to its generation, nor is that which it poflclfes fufficicnt, unless it looks to that from the fimllltude to which it possesses the beautiful. It is proper, therefore, that those should pray who hafleii to energetic virtue, and having prayed, that they should endeavour to possess it. It is like wise requisite that they should do this, looking to that which is divine and splendid, and should extend themselves to philosophy, adhering at the same time in a becoming manner to the first cause of good. For that tetractys *, the fountain of perennial nature, is not only the eternal cause of being to all things, but likewise of well-being, expanding proper good through the whole world, like undecaying and intellectual light. But the soul, when she properly adheres to this light, and purifies herself like an eye to acutnefs of vision, by an attention to things beautiful, is excited to prayer; and again, from the plenitude of prayer she extends her endeavours, conjoining actions to words, and by divine conferences giving stability to worthy deeds. And discovering some things, and being illuminated in others, she endeavours to effect what she prays for, and prays for that which she endeavours to effefl. And such indeed is the union of endeavour and prayer.",
+   "raw": "viz.  the  felf-moved  nature  of  the  foul,  and  the  co-operation  of  Divinity.  For, \nthough  the  eledion  of  things  beautlfur  is  in  our  power,  yet,  as  we  pofTcfs \nour  freedom  of  the  will  from  Divinity,  we  are  pcrfedly  indigent  of  his  co- \noperating with  and  perfeding  the  things  which  we  have  chofen.  For  our \nendeavour  appears  to  be  fimilar  to  a  hand  extended  to  the  reception  of  things \nbeautiful;  but  that  which  is  imparted  by  Divinity  is  the  fupplier  and  tlie \nfountain  of  the  gift  of  good.  And  the  former,  indeed,  is  naturally  adapted \nto  difcover  things  beautiful;  but  the  latter  to  unfold  them  to  him  by  whom \nthey  are  rightly  explored.  But  prayer  is  the  medium  between  two  bounda- \nries, viz.  betweeti  inveftigation  by  us,  and  that  which  is  imparted  by  Divi- \nnity, properly  adhering  to  the  caufe  which  leads  us  into  exigence,  and  per- \nfects us  in  w^U-being.  For  how  can  any  one  receive  well-being  unlefs \nDivinity  imparls  it  ?  And  how  can  Divinity,  who  is  naturally  adapted  to \ngive,  giv«  to  him  who  does  not  a(k,  though  his  impulfes  arife  from  the  free^- \ndom  of  his  will  ?  That  we  may  not,  therefore,  pray  only  in  words,  but  may \nalfo  corroborate  this  by  deeds  ;  and  that  we  may  not  confide  only  in  our  own \nenergy,  but  may  alfo  befeech  Divinity  to  co-operate  with  our  deeds,  and \nmay  conjoin  prayer  to  aflion,  as  form  to  matter ;  and,  in  (hort,  that  we  may \npray  for  what  we  do,  and  do  that  for  which  we  pray,  the  verfe  conjoining \nthefe  two,  fays,  \"  Betake  yourfelf  to  the  work,  having  implored  the  Gods  to \nbring  it  to  perfection.'*  P^or  neither  is  it  proper  aloj=ie  to  e-ngage  with  ala- \ncrity in  beautiful  adions,  as  if  it  were  in  our  pow-er  to  perform  them  with \nreditude,  without  the  co-operation  of  Divinity ;  nor  yet  Iliould  we  be  futibficd \nw  ith  the  words  of  mere  prayer  while  we  contribute  nothing  to  the  acquifition \nof  the  things  which  we  requeH:.  For  thus  we  fliall  either  purfue  atheidlcal \nvirtue  (if  1  may  be  allowed  fo  to  fpeak)  or  unenergetic  prayer;  of  which  the \nformer,  being  deprived  of  Divinity,  takes  away  the  effencc  of  virtue;  and \nthe  latter,  being  fluggifh,  diflblves  the  efficacy  of  prayer.  For  how  can  any \nthing  be  beautiful  which  is  not  performed  according  to  the  divine  rule?  And \nhow  is  it  pofTible  that  what  is  done  according  to  this  Hiould  not  entirely  re- \nquire the  co-operation  of  Divinity  to  its  fubfillence  ?  For  virtue  is  the  image \nof  Divinity  in  the  rational  foul ;  but  every  image  requires  its  paradigm,  in \norder  to  its  generation,  nor  is  that  which  it  poflclfes  fufficicnt,  unlefs  it  looks \nto  that  from  the  fimllltude  to  which  it  pofTefTes  the  beautiful.  It  is  proper, \ntherefore,  that  thofc  fliould  pray  who  hafleii  to  energetic  virtue,  and  having \nprayed,  that  they  fhould  endeavour  to  poflefs  it.  It  is  like  wife  requifite  that \nthey  fhould  do  this,  looking  to  that  which  is  divine  and  fplendid,  and  fhould \nextend  themfelves  to  philofophy,  adhering  at  the  fame  time  in  a  becoming \nmanner  to  the  firfl  caufe  of  good.  For  that  tetra<51ys  *,  the  fountain  of  pe- \nrennial nature,  is  not  only  the  eternal  caufe  of  being  to  all  things,  but  like- \nwife  of  well-being,  expanding  proper  good  through  the  whole  world,  like \nundecaying  and  intellectual  light.  But  the  foul,  when  fhe  properly  adheres \nto  this  light,  and  purifies  herfclf  like  an  eye  to  acutnefs  of  vifion,  by  an \nattention  to  things  beautiful,  is  excited  to  prayer  ;  and  again,  from  the  ple- \nnitude of  prayer  fhe  extends  her  endeavours,  conjoining  a61ions  to  words, \nand  by  divine  conferences  giving  ftability  to  worthy  deeds.  And  difcovering \nfome  things,  and  being  illuminated  in  others,  fhe  endeavours  to  effedt  what \nfhe  prays  for,  and  prays  for  that  which  fhe  endeavours  to  effefl.  And  fuch \nindeed  is  the  union  of  endeavour  and  prayer. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.021",
+   "kind": "introduction",
+   "seq": 21,
+   "page": 585,
+   "pages": [
+    585
+   ],
+   "line": 27729,
+   "text": "In the last place, the pleudo Dionysius has decorated his book On the Divine Names with the following admirable observations on prayer, fl:olen* from writers incomparably more sublime than any of the age in which he pretended to have lived.",
+   "raw": "In  the  lafl  place,  the  pleudo  Dionyfius  has  decorated  his  book  On  the \nDivine  Names  with  the  following  admirable  obfervations  on  prayer,  fl:olen* \nfrom  writers  incomparably  more  fublime  than  any  of  the  age  in  which  he \npretended  to  have  lived. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.022",
+   "kind": "introduction",
+   "seq": 22,
+   "page": 585,
+   "pages": [
+    585,
+    586
+   ],
+   "line": 27734,
+   "text": "Divinity is present to all things, but all things are not present to him; but when we invoke him with all-sacred prayers, an unclouded intellect, and an aptitude to divine union, then we also are present to him. For he is neither in place, that he may be absent from any thing, nor does he pass from one thing to another. But, indeed, to assert that he is in all things, falls far short of that infinity which Is above, and which comprehends, all things. Let us therefore extend ourlclves by prayer to the more sublime intuition of his divine and beneficent rays. Jest as if a chain, consisting of numerous lamps, Avere suspended from the summit of heaven, and extended to the earth. For if we ascended this chain, by always alternately stretching forth our hands, we should appear indeed to ourselves to drawn down the chain, thouo^h we fhoiild not in reality, it being present upwar.ls and downwards, but we should elevate ourselves to the more sublime splendours of the ahunJantlylu^-ninous ray?. Or, as if we ascended into a ship, and held by the ropes' extended to us from a certain rock, and which were given to us for our afTiIiance; we should not in this case draw the rock to us, but we in reality should move both ourselves and the Hiip to the rock. Just: as, on the contrary, if any one landing in a ship pushes against: a rock fixed in the sea, he indeed effects nothing in the firm and immovable rock, but causes himself to recede from it: and by how much the more he pushes againl!:, by {o much the more is he repelled from the' rock. Hence, prior to every undertaking, and especially that which is theological, it is necessary to begin from prayer, not as if drawing down that power which is every where present, and is at the same time no where, but as committing and uniting ourselves to it by divine recollections and invocations.",
+   "raw": "Divinity  is  prefent  to  all  things,  but  all  things  are  not  prefent  to  him  ;  but \nwhen  we  invoke  him  with  all-facred  prayers,  an  unclouded  intellect,  and  an \naptitude  to  divine  union,  then  we  alfo  are  prefent  to  him.  For  he  is  neither  in \nplace,  that  he  may  be  abfcnt  from  any  thing,  nor  does  he  pafs  from  one  thing \nto  another.  But,  indeed,  to  afTert  that  he  is  in  all  things,  falls  far  fhort  of \nthat  infinity  which  Is  above,  and  which  comprehends,  all  things.  Let  us \ntherefore  extend   ourlclves   by   prayer   to  the    more  fublime  intuition  of  his \ndivine  and  beneficent  rays.  Jaft  as  if  a  chain,  confifting  of  numerous  lamps, \nAvere  fufpended  from  the  fummit  of  heaven,  and  extended  to  the  earth.  For \nif  we  afccnded  this  chain,  by  always  alternately  flretching  forth  our  hands, \nwe  fhould  appear  indeed  to  ourfelves  to  drawn  down  the  chain,  thouo^h  we \nfhoiild  not  in  reality,  it  being  prefcnt  upwar.ls  and  downwards,  but  we \nfliould  elevate  onrfelves  to  the  more  fublime  fplendours  of  the  ahunJantly- \nlu^-ninous  ray?.  Or,  as  if  we  afcended  into  a  fliip,  and  held  by  the  ropes' \nextended  to  us  from  a  certain  rock,  and  which  were  given  to  us  for  our \nafTiIiance  ;  we  (hould  not  in  this  cafe  draw  the  rock  to  us,  but  we  in  reality \nfhould  move  both  ourfelves  and  the  Hiip  to  the  rock.  Jufl:  as,  on  the  con- \ntrary, if  any  one  landing  in  a  fhip  pufhes  againfl:  a  rock  fixed  in  the  fea,  he \nindeed  efFeds  nothing  in  the  firm  and  immovable  rock,  but  caufes  himfelf \nto  recede  from  it  :  and  by  how  much  the  more  he  puflies  againl!:,  by  {o  much \nthe  more  is  he  repelled  from  the' rock.  Hence,  prior  to  every  undertaking, \nand  efpecially  that  which  is  theological,  it  is  neccfTary  to  begin  from  prayer, \nnot  as  if  drawing  down  that  power  which  is  every  where  prcfent,  and  is  at \nthe  fame  time  no  where,  but  as  committing  and  uniting  ourfelves  to  it  by \ndivine  recolledions  and  invocations. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.023",
+   "kind": "introduction",
+   "seq": 23,
+   "page": 586,
+   "pages": [
+    586
+   ],
+   "line": 27778,
+   "text": "I Shall only add, that the antients appear very properly to have placed this dialogue in the class v\\hich they called maieutic: and, as Mr. Sydenham justly obfcrvcs, \" the outward form of it, from the beginning to the end, is dramatic; the caia/irojihe being a change of mind in Alcibiades, who resolves to follow the advice of Socrates, by forbearing to specify, in his addresses to Divinity, his wants and his wishes, till he shall have attained to a sense of his real indigence through the knowledge of his real good, the only right and proper object of pra)cr.'*",
+   "raw": "I  Ihall  only  add,  that  the  antients  appear  very  properly  to  have  placed  this \ndialogue  in  the  clafs  v\\hich  they  called  maieutic :  and,  as  Mr.  Sydenham \njuflly  obfcrvcs,  \"  the  outward  form  of  it,  from  the  beginning  to  the  end,  is \ndramatic  ;  the  caia/irojihe  being  a  change  of  mind  in  Alcibiades,  who  refolves \nto  follow  the  advice  of  Socrates,  by  forbearing  to  fpecify,  in  his  addrefles  to \nDivinity,  his  wants  and  his  wifhe^,  till  he  (hall  have  attained  to  a  fenfe  of  his \nreal  indigence  through  the  knowledge  of  his  real  good,  the  only  right  and \nproper  objecl  of  pra)cr.'* "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f01",
+   "kind": "footnote",
+   "seq": 24,
+   "page": 573,
+   "line": 27234,
+   "on": "taylor1804-intro-alcibiades-2.001",
+   "text": "In his Diflerlalion '* What God is according to Plato.\" See Reifke's edition^ p. 317.",
+   "raw": "'  In  his  Diflerlalion  '*  What  God  is  according  to  Plato.\"  See  Reifke's  edition^  p.  317. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f02",
+   "kind": "footnote",
+   "seq": 25,
+   "page": 574,
+   "line": 27274,
+   "on": "taylor1804-intro-alcibiades-2.003",
+   "text": "Vide Procl. in Tim. p. 64,^-T.",
+   "raw": "»  Vide  Procl.  in  Tim.  p.  64,^-T. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f03",
+   "kind": "footnote",
+   "seq": 26,
+   "page": 574,
+   "line": 27276,
+   "on": "taylor1804-intro-alcibiades-2.003",
+   "text": "The word used by Porphyry here is 7rfC£i>.r.(poi, which always fignlfics in Platonic writingg cau/al compreh'evjion \\ or the occult and indiftinft prior to the actual and separate fubfiflcnce of things. After this manner numbers subsist causally in the monad.— T.",
+   "raw": "*  The  word  ufed  by  Porphyry  here  is  7rfC£i>.r.(poi,  which  always  fignlfics  in  Platonic  writingg \ncau/al  compreh'evjion  \\  or  the  occult  and  indiftinft  prior  to  the  a6lua1  and  feparate  fubfiflcnce  of \nthings.     After  this  manner  numbers  fubfift  caufally  in  the  monad.— T. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f04",
+   "kind": "footnote",
+   "seq": 27,
+   "page": 575,
+   "line": 27319,
+   "on": "taylor1804-intro-alcibiades-2.005",
+   "text": "D(\" Myst. see. 5, cap. 16,— T,",
+   "raw": "^  D(\"  Myft.  fee.  5,  cap.  16,— T, "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f05",
+   "kind": "footnote",
+   "seq": 28,
+   "page": 575,
+   "line": 27321,
+   "on": "taylor1804-intro-alcibiades-2.005",
+   "text": "'i'lils parti(u];ir rcfpc(5\"tlng the (-//>/'/(,? of gold is a(kled from the version of Scutellius, who appears to have maue his trauflation of Jamblichus from a more perfciSt manuscript than that which was used by Gale. — T.",
+   "raw": "^  'i'lils  parti(u];ir  rcfpc(5\"tlng  the  (-//>/'/(,?  of  gold  is  a(kled  from  the  verfion  of  Scutellius,  who \nappears  to  have  maue  liis  trauflation  of  Jamblichus  from  a  more  perfciSt  manufcript  than  that \nwhich  was  ufed  by  Gale. — T. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f06",
+   "kind": "footnote",
+   "seq": 29,
+   "page": 578,
+   "line": 27449,
+   "on": "taylor1804-intro-alcibiades-2.010",
+   "text": "Viz. one of the Chalclsean Oracles.— T.",
+   "raw": "»  Viz.  one  of  the  Chalclsean  Oracles.— T. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f07",
+   "kind": "footnote",
+   "seq": 30,
+   "page": 560,
+   "line": 27532,
+   "on": "taylor1804-intro-alcibiades-2.011",
+   "text": "\\\\z. Theodorus Afinaeus, a disciple of Porphyry. — T. i. e. *^ Betake yoiirfclf lo the work, having implored the Gods to bring it to pcrfcdion.'*",
+   "raw": "'  \\\\z.  Theodorus  Afinaeus,  a  difciple  of  Porphyry. — T. \ni.  e.  *^  Betake  yoiirfclf  lo  the  work,  having  implored  the  Gods  to  bring  it  to  pcrfcdion.'* "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f08",
+   "kind": "footnote",
+   "seq": 31,
+   "page": 514,
+   "line": 27664,
+   "on": "taylor1804-intro-alcibiades-2.019",
+   "text": "The verse briefly dtfjribes all that contributes to tie acquisition of good,",
+   "raw": "The  verfe  briefly  dtfjribes  all  that  contributes  to  tie  acquifition  of  good, "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f09",
+   "kind": "footnote",
+   "seq": 32,
+   "page": 514,
+   "line": 27666,
+   "on": "taylor1804-intro-alcibiades-2.019",
+   "text": "viz.",
+   "raw": "viz. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f10",
+   "kind": "footnote",
+   "seq": 33,
+   "page": 515,
+   "line": 27705,
+   "on": "taylor1804-intro-alcibiades-2.020",
+   "text": "By things beautiful^ wish Platonic writers, every thing cxccllciit and good is included.— rT.",
+   "raw": "*  By  things  beautiful^  wiih  Platonic  writers,  every  thing  cxccllciit  and  good  is  included.— rT. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f11",
+   "kind": "footnote",
+   "seq": 34,
+   "page": 585,
+   "line": 27742,
+   "on": "taylor1804-intro-alcibiades-2.022",
+   "text": "This tetrcMys, which Is the same as the phanes of OrpheuSj and the om/to^wov, or animal ilfelf, <>f Phito, first fubfids at the extremity of the intelligible order, and is thence participated by Jupiur, the (abricalor of the uiiivcifc. Sv o the IiUrodri^lion to the Timaius. — ^1\\",
+   "raw": "*  This  tetrcMys,  which  Is  the  fame  as  the  phanes  of  OrpheuSj  and  the  om/to^wov,  or  animal  ilfelf, \n<>f  Phito,  flrft  fubfids  at  the  extremity  of  the  intelligible  order,  and  is  thence  participated  by  Ju- \npiur,  the  (abricalor  of  the  uiiivcifc.     Sv  o  the  IiUrodri^lion  to  the  Timaius. — ^1\\ "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f12",
+   "kind": "footnote",
+   "seq": 35,
+   "page": 585,
+   "line": 27746,
+   "on": "taylor1804-intro-alcibiades-2.022",
+   "text": "- Fabric ins, in the 4th vol. of his Bil)li()theca Graeca, has inconteflably proved that this Dionysius lived several hundred years after the time of St. Paul; and ()l)rcrvcs, that his woiks are, doubtless, com]K)fed from Platonic writings. In confirmation of this remark, it is necefTa/y to inform the learned reader, that the long discourse on Evil in the treatise of Dionysius, iti^i $Ei«v ovj//aTwv, appears to have been taken almost; verbatim from one of the lost writings: of Proclus On thcSubfifience of Evil, as will be at once evident by comparing it with the Excerpta from that work, preserved by Fabriciiis in Bibliolh. Gra-c. torn. viii. p.^oa.— T.",
+   "raw": "-  Fabric  ins,  in  the  4th  vol.  of  his  Bil)li()theca  Graeca,  has  inconteflably  proved  that  this \nDionyfius  lived  fevcral  hundred  years  after  the  time  of  St.  Paul;  and  ()l)rcrvcs,  that  his  woiks  are, \ndoubtlefs,  com]K)fed  from  Platonic  writings.  In  confirmation  of  this  remark,  it  is  necefTa/y  to \ninform  the  learned  reader,  that  the  long  difcourfe  on  Evil  in  the  treatife  of  Dionyfius,  iti^i  $Ei«v \novj//aTwv,  appears  to  have  been  taken  almofl;  verbatim  from  one  of  the  loft  writings:  of  Proclus  On \nthcSubfifience  of  Evil,  as  will  be  at  once  evident  by  comparing  it  with  the  Excerpta  from  that \nwork,  preferved  by  Fabriciiis  in  Bibliolh.  Gra-c.  torn.  viii.  p.^oa.— T. "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f13",
+   "kind": "footnote",
+   "seq": 36,
+   "page": 585,
+   "line": 27754,
+   "on": "taylor1804-intro-alcibiades-2.022",
+   "text": "VOL, IV. 4 F therefore",
+   "raw": "VOL,  IV.  4  F  therefore "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f14",
+   "kind": "footnote",
+   "seq": 37,
+   "page": 586,
+   "line": 27787,
+   "on": "taylor1804-intro-alcibiades-2.023",
+   "text": "This part is ftoleii from the Commentaries of Sim^^licius on Epi6letiis, as is evident from the following exirac'^l: Txvrm rr\\v r,fxuv tz i<7 Tpc(pY.v ttcoc avTcv (9»oy) wj auxov TTpoi r/ua; ^syo/^tV roiourov T",
+   "raw": "^  This  part  is  ftoleii  from  the  Commentaries  of  Sim^^licius  on  Epi6letiis,  as  is  evident  from  the \nfollowing  exirac'^l:   Txvrm  rr\\v  r,fxuv    tz i<7 Tpc(pY.v  ttcoc  avTcv  (9»oy)  wj  auxov  TTpoi  r/ua;  ^syo/^tV  roiourov  T "
+  },
+  {
+   "id": "taylor1804-intro-alcibiades-2.f15",
+   "kind": "footnote",
+   "seq": 38,
+   "page": 586,
+   "line": 27790,
+   "on": "taylor1804-intro-alcibiades-2.023",
+   "text": "in TTtJpet TTfoaayoi/Tii' KXi o\\' a7riipi:<v tou y.v.(xz\\cv ooiLD/jt^ ova uujoi 7rpoiru\\oci t»i TTSTfa, ax^a t>:v TTBTpav nar* cXjycv £7r' avTCii uvxr /xiTaaf.XE:cci ■:£, xai i^ETfiy-.j, seat fy%a£, xai ra 'tCixuTay avxhoyiva-i tjj Ha>u. p. 22 ], 8vo i. e. \" \\Vc rpcak of thi.^ oar convcrfion to Divinity, as if it was a convcrf.on of him to ii?; bcino iinTeiftecl in for.icw hfit ti.e same nianner n. those who, falk-ning a rope to a certain rock in the sea, and thawing bv)lh ihcmfclves and the boat to the rock by pulling it, appe;i;, liuougli the'.r i'nurance of this circumftanee, not to ap['roach themselves to the rock, but think llu.t the IOCS' gradually approaches to them. For repentance, fu])i.licalion, prayer, and iJiinj^s of this kintl, are analo^^ous to the rope.\"",
+   "raw": "in  TTtJpet  TTfoaayoi/Tii'  KXi  o\\'  a7riipi:<v  tou  y.v.(xz\\cv  ooiLD/jt^  ova  uujoi  7rpoiru\\oci  t»i  TTSTfa,  ax^a  t>:v  TTBTpav  nar* \ncXjycv  £7r'  avTCii  uvxr  /xiTaaf.XE:cci  ■:£,  xai  i^ETfiy-.j,  scat  fy%a£,  xai  ra  'tCixuTay  avxhoyiva-i  tjj  Ha>u.  p.  22  ], \n8vo  i.  e.  \"  \\Vc  rpcak  of  thi.^  oar  convcrfion  to  Divinity,  as  if  it  was  a  convcrf.on  of  him  to  ii? ; \nbcino-  iinTeiftecl  in  for.icw  hfit  ti.e  fame  nianner  n.-  thofe  who,  falk-ning  a  rope  to  a  certain  rock  in \nthe  fca,  and  thawing  bv)lh  ihcmfclves  and  the  boat  to  the  rock  by  pulling  it,  appe;i;-,  liuougli \nthe'.r  i'nurance  of  this  circumftanee,  not  to  ap['roach  themfelves  to  the  rock,  but  think  llu.t  the \nIOCS'  gradually  approaches  to  them.  For  repentance,  fu])i.licalion,  prayer,  and  iJiinj^s  of  this \nkintl,  are  analo^^ous  to  the  rope.\" "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 12,
+  "running heads removed": 14,
+  "words joined across lines": 72,
+  "notes": 38,
+  "paragraphs run on across a page": 14,
+  "notes run on across a page": 1,
+  "note marks removed": 5
+ }
+}

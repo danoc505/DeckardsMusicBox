@@ -1,0 +1,627 @@
+{
+ "schema": "platonic-workshop/persons-v1",
+ "works": {
+  "tlg001": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 3581,
+    "persons": "SOCRATES. EUTHYPHRO.",
+    "scene": "The Porch of the King Archon.",
+    "frame": [],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nSOCRATES. EUTHYPHRO.\n\nSCENE:—The Porch of the King Archon.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/euthyphro.json",
+    "line": 180,
+    "persons": "EUTHYPHRO, SOCRATES",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS   OF  THE  DIALOGUE, \nEUTHYPHRO,  SOCRATES. "
+   }
+  ],
+  "tlg003": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 6598,
+    "persons": "SOCRATES. CRITO.",
+    "scene": "The Prison of Socrates.",
+    "frame": [],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nSOCRATES. CRITO.\n\nSCENE:—The Prison of Socrates.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol4/crito.json",
+    "line": 10940,
+    "persons": "SOCRATES AND CRITO",
+    "scene": "Tbe Pri/on of SOCRA TES",
+    "frame": [],
+    "raw": "PERSONS    OF   THE   DIALOGUE. \nSOCRATES  AND  CRITO. \nSCENE  .-^Tbe  Pri/on  of  SOCRA  TES, "
+   }
+  ],
+  "tlg004": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 8784,
+    "persons": "PHAEDO, who is the narrator of the Dialogue to Echecrates of Phlius. SOCRATES. ATTENDANT OF THE PRISON. APOLLODORUS. SIMMIAS. CEBES. CRITO.",
+    "scene": "The Prison of Socrates.",
+    "frame": [
+     "PLACE OF THE NARRATION:—Phlius."
+    ],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nPHAEDO, _who is the narrator of the Dialogue to Echecrates of Phlius_.\nSOCRATES. ATTENDANT OF THE PRISON. APOLLODORUS. SIMMIAS. CEBES. CRITO.\n\nSCENE:—The Prison of Socrates.\n\nPLACE OF THE NARRATION:—Phlius.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol4/phaedo.json",
+    "line": 11817,
+    "persons": "ECHECRATES and PHJEDO",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS    OF    THE    DIALOGUE, \nECHECRATES  and  PHJEDO. "
+   }
+  ],
+  "tlg005": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1616,
+    "line": 2580,
+    "persons": "Socrates, Hermogenes, Cratylus.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Socrates, Hermogenes, Cratylus."
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/cratylus.json",
+    "line": 20939,
+    "persons": "HERMOGENES, CRATYLUS, SOCRATES",
+    "scene": null,
+    "frame": [],
+    "raw": "THE   PERSONS  OF  THE  DIALOGUE, \nHERMOGENES,  CRATYLUS,  SOCRATES. "
+   }
+  ],
+  "tlg006": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1726,
+    "line": 3097,
+    "persons": "Socrates, Theodorus, Theaetetus.",
+    "scene": null,
+    "frame": [
+     "Euclid and Terpsion meet in front of Euclid's house in Megara; they enter the house, and the dialogue is read to them by a servant."
+    ],
+    "raw": "PERSONS OF THE DIALOGUE: Socrates, Theodorus, Theaetetus.\n\nEuclid and Terpsion meet in front of Euclid's house in Megara; they\nenter the house, and the dialogue is read to them by a servant."
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol4/theaetetus.json",
+    "line": 232,
+    "persons": "EUCLID %",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS    OF   THE    DIALOGUE. \nEUCLID  % "
+   }
+  ],
+  "tlg007": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1735,
+    "line": 2108,
+    "persons": "Theodorus, Theaetetus, Socrates. An Eleatic Stranger, whom Theodorus and Theaetetus bring with them. The younger Socrates, who is a silent auditor.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Theodorus, Theaetetus, Socrates. An Eleatic\nStranger, whom Theodorus and Theaetetus bring with them. The younger\nSocrates, who is a silent auditor."
+   }
+  ],
+  "tlg008": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1738,
+    "line": 1478,
+    "persons": "Theodorus, Socrates, The Eleatic Stranger, The Younger Socrates.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Theodorus, Socrates, The Eleatic Stranger, The\nYounger Socrates."
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol4/statesman.json",
+    "line": 5081,
+    "persons": "SOCRATES, A GUEST, And SOCRATES Jun. Socrates",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS    OF   THE    DIALOGUE. \nSOCRATES, \nA  GUEST, \nAnd  SOCRATES  Jun. \nSocrates, "
+   }
+  ],
+  "tlg009": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1687,
+    "line": 1526,
+    "persons": "Cephalus, Adeimantus, Glaucon, Antiphon, Pythodorus, Socrates, Zeno, Parmenides, Aristoteles.",
+    "scene": null,
+    "frame": [
+     "Cephalus rehearses a dialogue which is supposed to have been narrated in his presence by Antiphon, the half-brother of Adeimantus and Glaucon, to certain Clazomenians."
+    ],
+    "raw": "PERSONS OF THE DIALOGUE: Cephalus, Adeimantus, Glaucon, Antiphon,\nPythodorus, Socrates, Zeno, Parmenides, Aristoteles.\n\nCephalus rehearses a dialogue which is supposed to have been narrated in\nhis presence by Antiphon, the half-brother of Adeimantus and Glaucon, to\ncertain Clazomenians."
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol3/parmenides.json",
+    "line": 1533,
+    "persons": "CEPHALUS, ADIMANTUS, ANTIPHON, PYTHODORUS, SOCRATES, ZENO, PARMENIDES",
+    "scene": "tbeCERAMICUS'",
+    "frame": [],
+    "raw": "PERSONS    OF   THE    DIALOGUE. \nCEPHALUS, \nADIMANTUS, \nANTIPHON, \nPYTHODORUS, \nSOCRATES, \nZENO, \nPARMENIDES. \nSCENE,  tbeCERAMICUS'. "
+   }
+  ],
+  "tlg010": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1744,
+    "line": 2024,
+    "persons": "Socrates, Protarchus, Philebus.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Socrates, Protarchus, Philebus."
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Sydenham (1804)",
+    "file": "texts/taylor-1804/vol4/philebus.json",
+    "line": 21639,
+    "persons": "SOCRATES, PROTARCHUS, PHILEBUS",
+    "scene": "The LYCEUM",
+    "frame": [],
+    "raw": "PERSONS    OF   THE    DIALOGUE. \nSOCRATES,  PROTARCHUS,  PHILEBUS. \nSCENE.— The  LYCEUM. "
+   }
+  ],
+  "tlg011": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1600,
+    "line": 951,
+    "persons": "Apollodorus, who repeats to his companion the dialogue which he had heard from Aristodemus, and had already once narrated to Glaucon. Phaedrus, Pausanias, Eryximachus, Aristophanes, Agathon, Socrates, Alcibiades, A Troop of Revellers.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Apollodorus, who repeats to his companion\nthe dialogue which he had heard from Aristodemus, and had already once\nnarrated to Glaucon. Phaedrus, Pausanias, Eryximachus, Aristophanes,\nAgathon, Socrates, Alcibiades, A Troop of Revellers.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Sydenham (1804)",
+    "file": "texts/taylor-1804/vol3/symposium.json",
+    "line": 21043,
+    "persons": "APOLLODORUS % FRIEND 3 OF APOLLODORUS, GLAUCOS ARISTODEMUS*, SOCRATES ^ PAUSANIAS, ARISTOPHANES, ERYXIMACHUS, PH^DRUS, DIOTIMA, ALCIBIADES",
+    "scene": "T, ^Principally within the City of ATHENS",
+    "frame": [],
+    "raw": "PERSONS'    OF   THE    DIALOGUE. \nAPOLLODORUS  % \nFRIEND  3  OF  APOLLODORUS, \nGLAUCOS \nARISTODEMUS*, \nSOCRATES ^ \nPAUSANIAS, \nARISTOPHANES, \nERYXIMACHUS, \nPH^DRUS, \nDIOTIMA, \nALCIBIADES. \nSCENE  T, ^Principally  within  the  City  of  ATHENS. "
+   }
+  ],
+  "tlg012": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1636,
+    "line": 1365,
+    "persons": "Socrates, Phaedrus.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Socrates, Phaedrus.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol3/phaedrus.json",
+    "line": 14053,
+    "persons": "SOCRATES AND PH^DRUS",
+    "scene": "THE BANKS OF THE ILISSUS",
+    "frame": [],
+    "raw": "PERSONS    OF   THE    DIALOGUE. \nSOCRATES    AND    PH^DRUS. \nSCENE.-^THE    BANKS    OF  THE    ILISSUS. "
+   }
+  ],
+  "tlg013": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 22176,
+    "persons": "ALCIBIADES, SOCRATES.",
+    "scene": null,
+    "frame": [],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nALCIBIADES, SOCRATES.\n"
+   }
+  ],
+  "tlg014": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 26188,
+    "persons": "SOCRATES and ALCIBIADES.",
+    "scene": null,
+    "frame": [],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nSOCRATES and ALCIBIADES.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Sydenham (1804)",
+    "file": "texts/taylor-1804/vol4/alcibiades-2.json",
+    "line": 27805,
+    "persons": "SOCRATES, ALCIBIADES",
+    "scene": "Tbc JVay to the TEMPLE of JUPITER'",
+    "frame": [],
+    "raw": "PERSONS    OF    THE    DIALOGUE, \nSOCRATES,  ALCIBIADES. \nSCENE.^Tbc  JVay  to  the  TEMPLE  of  JUPITER', "
+   }
+  ],
+  "tlg015": [
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/hipparchus.json",
+    "line": 15353,
+    "persons": "SOCRATES AND HIPPARCHUS",
+    "scene": null,
+    "frame": [],
+    "raw": "THE  PERSONS  OF  THE  DIALOGUE. \nSOCRATES    AND    HIPPARCHUS, "
+   }
+  ],
+  "tlg016": [
+   {
+    "source": "taylor-1804",
+    "label": "Sydenham (1804)",
+    "file": "texts/taylor-1804/vol5/lovers.json",
+    "line": 16041,
+    "persons": "THE PERSONS OF TIU: DIALOGUE, fiOCRATES, »MAN of LEARNING, MAN op EXERCISE",
+    "scene": "Tbi! SCHOOL of DIONYSIUS",
+    "frame": [],
+    "raw": "THE   PERSONS  OF  TIU:  DIALOGUE, \nfiOCRATES,    »MAN   of  LEARNING,  MAN  op  EXERCISE, \nSCENE. Tbi!  SCHOOL  of  DIONYSIUS. "
+   }
+  ],
+  "tlg017": [
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/theages.json",
+    "line": 7279,
+    "persons": "DEMODOCUS, SOCRATES, THEAGES",
+    "scene": null,
+    "frame": [],
+    "raw": "THE   PERSONS   OF  THE  DIALOGUE. \nDEMODOCUS,  SOCRATES,  THEAGES. "
+   }
+  ],
+  "tlg018": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1580,
+    "line": 1062,
+    "persons": "Socrates, who is the narrator, Charmides, Chaerephon, Critias.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Socrates, who is the narrator, Charmides,\nChaerephon, Critias.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/charmides.json",
+    "line": 10578,
+    "persons": "SOCRATES, II CRITIAS, and CHiEREPHO, II CHARMIDES^",
+    "scene": null,
+    "frame": [],
+    "raw": "THE   PERSONS  OF  THE  DIALOGUE.. \nSOCRATES,  II        CRITIAS,  and \nCHiEREPHO,  II        CHARMIDES^ "
+   }
+  ],
+  "tlg019": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1584,
+    "line": 213,
+    "persons": "Lysimachus, son of Aristides. Melesias, son of Thucydides. Their sons. Nicias, Laches, Socrates.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE:\n\n     Lysimachus, son of Aristides.\n     Melesias, son of Thucydides.\n     Their sons.\n     Nicias, Laches, Socrates."
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/laches.json",
+    "line": 8026,
+    "persons": "THE PERSONS OF I'HE DIALOGUE. LYSTMACHUS% 11 NICIAS3, MLLKSIAS, It LACHESV",
+    "scene": null,
+    "frame": [],
+    "raw": "THE    PERSONS   OF  I'HE   DIALOGUE. \nLYSTMACHUS%  11    NICIAS3, \nMLLKSIAS,  It    LACHESV "
+   }
+  ],
+  "tlg020": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1579,
+    "line": 323,
+    "persons": "Socrates, who is the narrator, Menexenus, Hippothales, Lysis, Ctesippus.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE:\n\nSocrates, who is the narrator, Menexenus, Hippothales, Lysis, Ctesippus.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/lysis.json",
+    "line": 9565,
+    "persons": "SOCRATES, ]| CTESIPPUS', HIPPOTHALES, II MENEXENUS, And LYSIS",
+    "scene": null,
+    "frame": [],
+    "raw": "rHE   PERSONS  OF  THE  DIALOGUE. \nSOCRATES,  ]|        CTESIPPUS', \nHIPPOTHALES,         II        MENEXENUS, \nAnd  LYSIS. "
+   }
+  ],
+  "tlg021": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1598,
+    "line": 497,
+    "persons": "Socrates, who is the narrator of the Dialogue. Crito, Cleinias, Euthydemus, Dionysodorus, Ctesippus.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Socrates, who is the narrator of the Dialogue.\nCrito, Cleinias, Euthydemus, Dionysodorus, Ctesippus.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/euthydemus.json",
+    "line": 13518,
+    "persons": "CRltO, SOCRATES, DIONYSODORUS, CLINIAS",
+    "scene": null,
+    "frame": [],
+    "raw": "THE   PERSONS  OF  THE  DIALOGUE. \nCRltO, \nSOCRATES, \nDIONYSODORUS, \nCLINIAS, "
+   }
+  ],
+  "tlg022": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1591,
+    "line": 505,
+    "persons": "Socrates, who is the narrator of the Dialogue to his Companion. Hippocrates, Alcibiades and Critias. Protagoras, Hippias and Prodicus (Sophists). Callias, a wealthy Athenian.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Socrates, who is the narrator of the Dialogue\nto his Companion. Hippocrates, Alcibiades and Critias. Protagoras,\nHippias and Prodicus (Sophists). Callias, a wealthy Athenian.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/protagoras.json",
+    "line": 4971,
+    "persons": "An ASSOCIATE, SOCRATES, HIPPOCRATES, ALCIBIADES, CALLIAS, CRITIAS, And HIPPIAS",
+    "scene": null,
+    "frame": [],
+    "raw": "THE   PERSONS  OF  THE  DIALOGUE. \nAn  ASSOCIATE, \nSOCRATES, \nHIPPOCRATES, \nALCIBIADES, \nCALLIAS, \nCRITIAS, \nAnd  HIPPIAS. "
+   }
+  ],
+  "tlg023": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 15021,
+    "persons": "CALLICLES. GORGIAS. SOCRATES. POLUS. CHAEREPHON.",
+    "scene": "The house of Callicles.",
+    "frame": [],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nCALLICLES. GORGIAS. SOCRATES. POLUS. CHAEREPHON.\n\nSCENE:—The house of Callicles.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol4/gorgias.json",
+    "line": 16074,
+    "persons": "CALLICLES, CHiEREPHO, And POLUS",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS    OF   THE    DIALOGUE. \nCALLICLES, \nCHiEREPHO, \nAnd  POLUS. "
+   }
+  ],
+  "tlg024": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 1008,
+    "persons": "MENO. A SLAVE OF MENO. SOCRATES. ANYTUS.",
+    "scene": null,
+    "frame": [],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nMENO. A SLAVE OF MENO. SOCRATES. ANYTUS.\n"
+   }
+  ],
+  "tlg025": [
+   {
+    "source": "taylor-1804",
+    "label": "Sydenham (1804)",
+    "file": "texts/taylor-1804/vol3/greater-hippias.json",
+    "line": 18107,
+    "persons": "SOCRATES AND HIPPIAS",
+    "scene": "THE LYCEUM",
+    "frame": [],
+    "raw": "PERSONS    OF    THE    DIALOGUE, \nSOCRATES     AND    HIPPIAS. \nSCENE',— THE    LYCEUM, "
+   }
+  ],
+  "tlg026": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 21002,
+    "persons": "EUDICUS, SOCRATES, HIPPIAS.",
+    "scene": null,
+    "frame": [],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nEUDICUS, SOCRATES, HIPPIAS.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Sydenham (1804)",
+    "file": "texts/taylor-1804/vol5/lesser-hippias.json",
+    "line": 11811,
+    "persons": "EUDICUS, SOCRATES, HIPPIAS",
+    "scene": null,
+    "frame": [],
+    "raw": "THE   PERSONS   OF  THE   DIALOGUE. \nEUDICUS,  SOCRATES,  HIPPIAS. "
+   }
+  ],
+  "tlg027": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1635,
+    "line": 150,
+    "persons": "Socrates, Ion.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Socrates, Ion."
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Sydenham (1804)",
+    "file": "texts/taylor-1804/vol5/ion.json",
+    "line": 18824,
+    "persons": "SOCRATES AND TO",
+    "scene": "ATHENS",
+    "frame": [],
+    "raw": "THE   PERSONS  OF  THE  DIALOGUE. \nSOCRATES  AND  TO. \nSCENE', ATHENS. "
+   }
+  ],
+  "tlg028": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 76464,
+    "line": 25336,
+    "persons": "SOCRATES and MENEXENUS.",
+    "scene": null,
+    "frame": [],
+    "raw": "_PERSONS OF THE DIALOGUE._\n\nSOCRATES and MENEXENUS.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/menexenus.json",
+    "line": 17579,
+    "persons": "SOCRATES AND MENEXENUS^",
+    "scene": null,
+    "frame": [],
+    "raw": "THE   PERSONS  OF  THE  DULOGUR. \nSOCRATES  AND  MENEXENUS^ "
+   }
+  ],
+  "tlg029": [
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol5/cleitophon.json",
+    "line": 18385,
+    "persons": "SOCRATES AND CLITOPHO",
+    "scene": null,
+    "frame": [],
+    "raw": "THE  PERSONS  OF  THE  DIALOGUE. \nSOCRATES  AND  CLITOPHO. "
+   }
+  ],
+  "tlg030": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 55201,
+    "line": 8561,
+    "persons": "Socrates, who is the narrator. Cephalus. Glaucon. Thrasymachus. Adeimantus. Cleitophon. Polemarchus. And others who are mute auditors.",
+    "scene": "The scene is laid in the house of Cephalus at the Piraeus; and the whole dialogue is narrated by Socrates the day after it actually took place to Timaeus, Hermocrates, Critias, and a nameless person, who are introduced in the Timaeus.",
+    "frame": [],
+    "raw": "                      _PERSONS OF THE DIALOGUE._\n\n     Socrates, _who is the narrator_.     Cephalus.\n     Glaucon.                             Thrasymachus.\n     Adeimantus.                          Cleitophon.\n     Polemarchus.\n\n                      _And others who are mute auditors._\n\nThe scene is laid in the house of Cephalus at the Piraeus; and the whole\ndialogue is narrated by Socrates the day after it actually took place to\nTimaeus, Hermocrates, Critias, and a nameless person, who are introduced\nin the Timaeus."
+   }
+  ],
+  "tlg031": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1572,
+    "line": 3954,
+    "persons": "Socrates, Critias, Timaeus, Hermocrates.",
+    "scene": null,
+    "frame": [],
+    "raw": "      PERSONS OF THE DIALOGUE: Socrates, Critias, Timaeus, Hermocrates.\n"
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol2/timaeus.json",
+    "line": 20347,
+    "persons": "SOCRATES, CRTTIAS, HERMOCRATES",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS    OF    THE    DIALOGUE. \nSOCRATES, \nCRTTIAS, \nHERMOCRATES. "
+   }
+  ],
+  "tlg032": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1571,
+    "line": 299,
+    "persons": "Critias, Hermocrates, Timaeus, Socrates.",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: Critias, Hermocrates, Timaeus, Socrates."
+   },
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol2/critias.json",
+    "line": 25219,
+    "persons": "TIMtEUS, SOCRATES, HERMOCRATES. TiMiEUS",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS    OF   THE    DIALOGUE, \nTIMtEUS, \nSOCRATES, \nHERMOCRATES. \nTiMiEUS. "
+   }
+  ],
+  "tlg033": [
+   {
+    "source": "taylor-1804",
+    "label": "Taylor (1804)",
+    "file": "texts/taylor-1804/vol4/minos.json",
+    "line": 8887,
+    "persons": "SOCRATES AKD MINOS",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS    OF   THE   DIALOGUE. \nSOCRATES  AKD  MINOS. "
+   }
+  ],
+  "tlg034": [
+   {
+    "source": "jowett-gutenberg",
+    "label": "Jowett",
+    "ebook": 1750,
+    "line": 8392,
+    "persons": "An Athenian Stranger, Cleinias (a Cretan), Megillus (a Lacedaemonian).",
+    "scene": null,
+    "frame": [],
+    "raw": "PERSONS OF THE DIALOGUE: An Athenian Stranger, Cleinias (a Cretan),\nMegillus (a Lacedaemonian).\n"
+   }
+  ]
+ }
+}

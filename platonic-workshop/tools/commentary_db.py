@@ -42,6 +42,10 @@ TEXTS = ROOT / "texts" / "commentary"
 
 # Which folder of texts/commentary/ holds which work.
 WORK_DIRS = {"tlg031": "timaeus"}
+# Milestone 9: Taylor's introductions to the other dialogues, one folder per dialogue (tools/taylor_intros.py).
+for _d in sorted((ROOT / "texts" / "commentary").glob("*/")):
+    for _f in sorted(_d.glob("*.json"))[:1]:
+        WORK_DIRS.setdefault(json.loads(_f.read_text(encoding="utf-8"))["work"], _d.name)
 
 SOURCE_OF = {"taylor-1804": "taylor-1804", "proclus-1820": "proclus-1820", "archer-hind-1888": "archer-hind-1888",
              "jowett-timaeus": "jowett-timaeus"}

@@ -2,7 +2,7 @@
 
 Written by `tools/build_db.py` (milestone 8, `tools/citations.py`). Every note in the library is read for references to passages of Plato; each reference is a link that names the note it was read from.
 
-**5,795 links**: 5,587 certain, 169 uncertain, 39 unresolved (the work is named but has no such page). 5,197 cite a passage, 598 name a dialogue without a page.
+**5,835 links**: 5,622 certain, 174 uncertain, 39 unresolved (the work is named but has no such page). 5,197 cite a passage, 638 name a dialogue without a page.
 
 ## By commentator
 
@@ -13,6 +13,7 @@ Written by `tools/build_db.py` (milestone 8, `tools/citations.py`). Every note i
 | Bury (Loeb, 1929) | 206 | 202 | 3 | 1 | 148 | 95 |
 | Proclus, tr. Taylor (1820) | 139 | 106 | 33 | 0 | 84 | 138 |
 | Taylor (1804), note | 135 | 112 | 23 | 0 | 111 | 135 |
+| Taylor, Introduction (1804) | 56 | 51 | 5 | 0 | 45 | 56 |
 | Jowett, Introduction and Analysis (1892) | 50 | 38 | 12 | 0 | 29 | 50 |
 | Sydenham (1804), note signed S. | 43 | 39 | 4 | 0 | 38 | 43 |
 | Archer-Hind, Introduction (1888) | 42 | 40 | 2 | 0 | 32 | 37 |
@@ -22,7 +23,6 @@ Written by `tools/build_db.py` (milestone 8, `tools/citations.py`). Every note i
 | Taylor, Additional Notes from Proclus (1804) | 21 | 18 | 3 | 0 | 8 | 21 |
 | Taylor or Sydenham (1804), unsigned note | 19 | 17 | 2 | 0 | 11 | 19 |
 | Taylor (1804), note signed T. | 17 | 16 | 1 | 0 | 12 | 17 |
-| Taylor, Introduction (1804) | 16 | 16 | 0 | 0 | 14 | 16 |
 | Taylor (1804), Additional Note from Proclus | 15 | 13 | 2 | 0 | 9 | 15 |
 | Lamb (Loeb, 1925) | 10 | 10 | 0 | 0 | 8 | 5 |
 | Fowler (Loeb, 1926) | 7 | 7 | 0 | 0 | 5 | 0 |
@@ -85,39 +85,39 @@ Taylor, Sydenham, Proclus and the introductions mostly name a dialogue ("as it i
 
 | Dialogue | Notes naming it | Certain | By |
 |---|---:|---:|---|
-| Republic | 134 | 134 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Bury (Loeb, 1926), Bury (Loeb, 1929), Jowett, Introduction and Analysis (1892), Lamb (Loeb, 1924), Lamb (Loeb, 1925), Proclus, tr. Taylor (1820), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
-| Laws | 64 | 0 | Jowett, Introduction and Analysis (1892), Lamb (Loeb, 1927), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804) |
-| Parmenides | 56 | 56 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Bury (Loeb, 1929), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
-| Phaedrus | 39 | 39 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804) |
-| Philebus | 38 | 38 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804) |
+| Republic | 139 | 139 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Bury (Loeb, 1926), Bury (Loeb, 1929), Jowett, Introduction and Analysis (1892), Lamb (Loeb, 1924), Lamb (Loeb, 1925), Proclus, tr. Taylor (1820), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
+| Laws | 67 | 0 | Jowett, Introduction and Analysis (1892), Lamb (Loeb, 1927), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
+| Parmenides | 62 | 62 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Bury (Loeb, 1929), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
+| Phaedrus | 44 | 44 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
+| Philebus | 40 | 40 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
+| Timaeus | 35 | 35 | Bury (Loeb, 1929), Lamb (Loeb, 1927), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note, Taylor, Introduction (1804) |
 | Phaedo | 33 | 33 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Bury (Loeb, 1929), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Introduction (1804) |
-| Timaeus | 33 | 33 | Bury (Loeb, 1929), Lamb (Loeb, 1927), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note |
-| Cratylus | 31 | 31 | Bury (Loeb, 1926), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
+| Cratylus | 32 | 32 | Bury (Loeb, 1926), Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
 | Statesman | 22 | 19 | Archer-Hind (1888), Jowett, Introduction and Analysis (1892), Lamb (Loeb, 1924), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor, Additional Notes from Proclus (1804) |
+| Gorgias | 22 | 22 | Bury (Loeb, 1929), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
 | Symposium | 21 | 5 | Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor (1804), note signed T. |
-| Gorgias | 17 | 17 | Bury (Loeb, 1929), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor, Additional Notes from Proclus (1804) |
+| Theaetetus | 15 | 15 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Jowett, Introduction and Analysis (1892), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note, Taylor, Introduction (1804) |
 | Sophist | 14 | 0 | Archer-Hind, Introduction (1888), Bury (Loeb, 1929), Jowett, Introduction and Analysis (1892), Shorey (Loeb, 1935-37) |
-| Theaetetus | 13 | 13 | Archer-Hind (1888), Archer-Hind, Introduction (1888), Jowett, Introduction and Analysis (1892), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor (1804), note signed T., Taylor or Sydenham (1804), unsigned note |
-| Protagoras | 12 | 12 | Jowett, Introduction and Analysis (1892), Lamb (Loeb, 1927), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note |
-| Apology | 7 | 0 | Bury (Loeb, 1929), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor or Sydenham (1804), unsigned note |
+| Protagoras | 13 | 13 | Jowett, Introduction and Analysis (1892), Lamb (Loeb, 1927), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor, Introduction (1804) |
+| Apology | 9 | 0 | Bury (Loeb, 1929), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Introduction (1804) |
+| Meno | 9 | 9 | Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor or Sydenham (1804), unsigned note, Taylor, Introduction (1804) |
 | Alcibiades 1 | 7 | 7 | Sydenham (1804), note signed S., Taylor (1804), note, Taylor (1804), note signed T., Taylor, Introduction (1804) |
-| Meno | 7 | 7 | Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S., Taylor (1804), Additional Note from Proclus, Taylor (1804), note, Taylor or Sydenham (1804), unsigned note |
 | Critias | 7 | 7 | Archer-Hind (1888), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37) |
 | Charmides | 6 | 6 | Jowett, Introduction and Analysis (1892), Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Sydenham (1804), note signed S. |
 | Greater Hippias | 6 | 6 | Sydenham (1804), note signed S., Taylor or Sydenham (1804), unsigned note |
 | Letters | 6 | 0 | Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Taylor (1804), note |
 | Euthyphro | 3 | 3 | Shorey (Loeb, 1935-37), Sydenham (1804), note signed S. |
+| Crito | 3 | 3 | Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37), Taylor, Introduction (1804) |
 | Laches | 3 | 3 | Shorey (Loeb, 1935-37), Sydenham (1804), note signed S. |
+| Euthydemus | 3 | 3 | Taylor (1804), note, Taylor, Introduction (1804) |
 | Lesser Hippias | 3 | 3 | Sydenham (1804), note signed S., Taylor or Sydenham (1804), unsigned note |
-| Crito | 2 | 2 | Proclus, tr. Taylor (1820), Shorey (Loeb, 1935-37) |
+| Epinomis | 3 | 3 | Proclus, tr. Taylor (1820), Taylor, Additional Notes from Proclus (1804), Taylor, Introduction (1804) |
 | Alcibiades 2 | 2 | 2 | Sydenham (1804), note signed S., Taylor (1804), note |
 | Theages | 2 | 2 | Sydenham (1804), note signed S., Taylor or Sydenham (1804), unsigned note |
 | Ion | 2 | 2 | Lamb (Loeb, 1927), Shorey (Loeb, 1935-37) |
 | Minos | 2 | 2 | Sydenham (1804), note signed S. |
-| Epinomis | 2 | 2 | Proclus, tr. Taylor (1820), Taylor, Additional Notes from Proclus (1804) |
 | Hipparchus | 1 | 1 | Shorey (Loeb, 1935-37) |
 | Lysis | 1 | 1 | Shorey (Loeb, 1935-37) |
-| Euthydemus | 1 | 1 | Taylor (1804), note |
 | Menexenus | 1 | 1 | Proclus, tr. Taylor (1820) |
 
 ## Between dialogues
@@ -167,7 +167,7 @@ How many links run from notes on one dialogue to another (certain links, the 30 
 
 A link is **uncertain** when the title was read through OCR, the page has no section of that letter (the link goes to the page), the page is not in the book named, or a bare reference follows another name (`Athenaeus XI 507 D`), so it may be another author's page. **Unresolved**: the work is named but has no such page; the words are kept, nothing is linked.
 
-## Every doubt (208)
+## Every doubt (213)
 
 | | Note by | At | Printed | Read as | Why |
 |---|---|---|---|---|---|
@@ -213,6 +213,7 @@ A link is **uncertain** when the title was read through OCR, the page has no sec
 | uncertain | Taylor (1804), note | Euthyphro 3b | the Apology | Apology  | “the Apology” may not mean the dialogue |
 | uncertain | Taylor (1804), note | Phaedo 61d | the Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Taylor (1804), note | Phaedo 69c | the Laws | Laws  | “the Laws” may not mean the dialogue |
+| uncertain | Taylor, Introduction (1804) | Phaedo 57a | the Apology | Apology  | “the Apology” may not mean the dialogue |
 | uncertain | Taylor (1804), note | Sophist 216d | the Apology | Apology  | “the Apology” may not mean the dialogue |
 | uncertain | Taylor (1804), note | Parmenides 130e | the Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Taylor (1804), note | Parmenides 132a | the Laws | Laws  | “the Laws” may not mean the dialogue |
@@ -236,6 +237,7 @@ A link is **uncertain** when the title was read through OCR, the page has no sec
 | uncertain | Sydenham (1804), note signed S. | Ion 532d | the Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Sydenham (1804), note signed S. | Ion 532e | his Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Sydenham (1804), note signed S. | Ion 542a | Plato's Banquet | Symposium  | “the Banquet” may not mean the dialogue |
+| uncertain | Taylor, Introduction (1804) | Ion 530a | his Apology | Apology  | “the Apology” may not mean the dialogue |
 | uncertain | Shorey (Loeb, 1935-37) | Republic 327b | Parm 449 B | Republic 449b | the Parmenides has no page 449; read as the note's own dialogue |
 | uncertain | Shorey (Loeb, 1935-37) | Republic 336a | Gorg 577 D | Republic 577d | the Gorgias has no page 577; read as the note's own dialogue |
 | uncertain | Shorey (Loeb, 1935-37) | Republic 341c | 419 E | Republic 419 | page 419 has no section e; linked to the page |
@@ -375,7 +377,10 @@ A link is **uncertain** when the title was read through OCR, the page has no sec
 | uncertain | Taylor, Additional Notes from Proclus (1804) | Timaeus 28b | the Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Taylor, Additional Notes from Proclus (1804) | Timaeus 28b | his Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Taylor, Additional Notes from Proclus (1804) | Timaeus 35b | the Laws | Laws  | “the Laws” may not mean the dialogue |
+| uncertain | Taylor, Introduction (1804) | Minos 313a | his Laws | Laws  | “the Laws” may not mean the dialogue |
+| uncertain | Taylor, Introduction (1804) | Minos 313a | the Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Lamb (Loeb, 1927) | Epinomis 980d | the Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Lamb (Loeb, 1927) | Epinomis 992b | Plato’s Laws | Laws  | “the Laws” may not mean the dialogue |
+| uncertain | Taylor, Introduction (1804) | Epinomis 973a | the Laws | Laws  | “the Laws” may not mean the dialogue |
 | uncertain | Bury (Loeb, 1929) | Letters 325b | the Apology | Apology  | “the Apology” may not mean the dialogue |
 | uncertain | Bury (Loeb, 1929) | Letters 360c | the Sophist | Sophist  | “the Sophist” may not mean the dialogue |

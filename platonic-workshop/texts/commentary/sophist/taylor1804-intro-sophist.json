@@ -1,0 +1,122 @@
+{
+ "schema": "platonic-workshop/commentary-v1",
+ "id": "taylor1804-intro-sophist",
+ "work": "tlg007",
+ "author": "Thomas Taylor",
+ "label": "Taylor, Introduction (1804)",
+ "title": "Introduction to the Sophista",
+ "printed": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. III (London, 1804), pp. 105-204",
+ "kind": "introduction",
+ "lang": "eng",
+ "source": {
+  "manifest_id": "taylor-1804",
+  "file": "sources/taylor-1804/Taylor_Sydenham_v3_djvu.txt",
+  "lines": [
+   9509,
+   9629
+  ]
+ },
+ "proof_status": "OCR cleaned by rule",
+ "anchoring": "An introduction to the whole dialogue: each paragraph is a note on the whole Sophista. Taylor's footnotes to it are kept with the paragraph they are printed under.",
+ "notes": [
+  {
+   "id": "taylor1804-intro-sophist.001",
+   "kind": "introduction",
+   "seq": 1,
+   "page": null,
+   "pages": [
+    null,
+    204
+   ],
+   "line": 9518,
+   "text": "IL HE following is the preface of Proclus to this dialogue, as preserved in the Greek Scholia on Plato, publilhed by Ruhnkenius. \" Plato not only calls a certain man a Sophist, but also Love *, Pluto, and Jupiter, and says that the sophistical art is all-beautiful; whence we may conjedure that the dialogue has a more noble scope than it appears to possess. For, according to the great Jamblichus, its scope is concerning the sublunary demiurgus; since this Divinity is the fabricator of images, and the purifier of souls, always separating them from contrary reasons, being a tranfmuter, and a mercenary hunter of rich young men. While he receives souls coming from on high replete with productive principles, he takes from them a reward, viz. the fabrication of animals, in such a way as is accommodated to the nature of mortals. This Deity gives himself to non-being, because he fabricates material beings, and embraces matter, — a thing which is truly false. At the same time, however, he looks to true being. He is also many-headed, hurling forth many essences and lives, through which he furnishes the variety of generation. The same power is like wise a magician, in consequence of alluring souls by natural reasons, so that they are with difficulty divulsed from generation. For I^ovc, also, and Nature, are called by some magicians, <oii account of the sympathy and antipathy in things which have a natural lubfiilence. Now, thejxfore, Plato wishes to inftru<St us in an alUvarious sophist. For a philosopher is a fophiH:, as imitating the celestial and also the fubhinary demiurgus; for the divisive art imitates the progression of things from the one, and the sublunary the celestial demiurgus; and on this account he is a sophist. A sophist also among men is so called, because he imitates great things: and hence Plato denoniinates the sophist many-headed. The Elean guest is analogous to the supercelestial and exempt father of the artificers of things, but his hearers to demiurgic intellections, one of thcfc being analogous to the intellection of Jupiter, and the other to angelic intelligenee, as being Mercurial and geometrical. And because fabrication proceeds from the itnperfed to the perfect, on this account the Elean guest first converses Avith Theodorus, and afterwards converts himlelf to Socrates in particular '.'* Thus far Proclus.",
+   "raw": "JL  HE  following  is  the  preface  of  Proclus  *  to  this  dialogue,  as  preferved  in \nthe  Greek  Scholia  on  Plato,  publilhed  by  Ruhnkenius.  \"  Plato  not  only  calls \na  certain  man  a  Sophift,  but  alfo  Love  *,  Pluto,  and  Jupiter,  and  fays  that  the \nfophiftical  art  is  all-beautiful;  whence  we  may  conjedure  that  the  dialogue  has \na  more  noble  fcope  than  it  appears  to  pofTefs.  For,  according  to  the  great \nJamblichus,  its  fcope  is  concerning  the  fublunary  demiurgus  ^  ;  fince  this \nDivinity  is  the  fabricator  of  images,  and  the  purifier  of  fouls,  always  fepa- \nrating  them  from  contrary  reafons,  being  a  tranfmuter,  and  a  mercenary \nhunter  of  rich  young  men.  While  he  receives  fouls  coming  from  on  high \nreplete  with  productive  principles,  he  takes  from  them  a  reward,  viz.  the \nfabrication  of  animals,  in  fuch  a  way  as  is  accommodated  to  the  nature  of \nmortals.  This  Deity  gives  himfelf  to  non-being,  becaufe  he  fabricates  ma- \nterial beings,  and  embraces  matter, — a  thing  which  is  truly  falfe.  At  the \nfame  time,  however,  he  looks  to  true  being.  He  is  alfo  many-headed,  hurl- \ning forth  many  efTences  and  lives,  through  which  he  furnifhes  the  variety  of \ngeneration.  The  fame  power  is  like  wife  a  magician,  in  confequence  of \nalluring  fouls  by  natural  reafons,  fo  that  they  are  with  difficulty  divulfed \nfrom  generation.   For  I^ovc,  alfo,  and  Nature,  are  called  by  fome  magicians, \n<oii  account  of  the  fympathy  and  antipathy  in  things  which  have  a  natural \nlubfiilence.  Now,  thejxfore,  Plato  wifhes  to  inftru<St  us  in  an  alUvarious \nfophift.  For  a  philofopher  is  a  fophiH:,  as  imitating  the  celeftial  and  alfo  the \nfubhinary  demiurgns  ;  for  the  divifive  art  imitates  the  progreflion  of  things \nfrom  the  one,  and  the  fublunary  the  celeftial  demiurgus  ;  and  on  this  account \nhe  is  a  fophift.  A  fophifl  alfo  among  men  is  fo  called,  becaufe  he  imitates \ngreat  things:  and  hence  Plato  denoniinates  the  fophift  many-headed.  The \nElean  gueft  is  analogous  to  the  fuperceleftial  and  exempt  father  of  the  arti- \nficers of  things,  but  his  hearers  to  demiurgic  intellections,  one  of  thcfc  being \nanalogous  to  the  intelledion  of  Jupiter,  and  the  other  to  angelic  intelligenee, \nas  being  Mercurial  and  geometrical.  And  becaufe  fabrication  proceeds  from \nthe  itnperfed  to  the  perfed,  on  this  account  the  Elean  gueft  firft  converfes \nAvith  Theodorus,  and  afterwards  converts  himlelf  to  Socrates  in  particular  '.'* \nThus  far  Proclus. "
+  },
+  {
+   "id": "taylor1804-intro-sophist.002",
+   "kind": "introduction",
+   "seq": 2,
+   "page": 204,
+   "pages": [
+    204,
+    105
+   ],
+   "line": 9564,
+   "text": "Plato in this dialogue presents us with six definitions of a sophist; but as definition cannot be obtamed without division, for the latter is the principle of the former, hence he divides the genus of the sophist by its proper differences, from which, in conjun6\\ion with genus, species is composed and defined. He also shows, conformably to what is delivered in the Parmenides, that deing is subordinate to t/ie one; and enumerates five genera of beings viz. ejfence, same and different, Jiermajiency and motion. He likewise teaches us that true essence belongs to incorporeal, and imaginable to corporeal natures; and is indignant with those who deny that there are forms superior to fcnfibles, and also with those who contend that all things are either alone permanentj or alone in motion. Besides all this, he disputes concerning science and opinion, true and false discourse, verb and noun, so far as they appear to pertain to the discussion of beuig. He hkewife observes, that the fophill is concealed from our view, because he is involved in the darkness of non-entity, and that a philosopher also is not easily discerned on account of the splendor of being with which he is surrounded: \" for the eyes of vulgar souls (says he) are unable to support the view of that which is divine.'*",
+   "raw": "Plato  in  this  dialogue  prefents  us  with  fix  definitions  of  a  fophift  ;  but  as \ndefinition  cannot  be  obtamed  without  divifion,  for  the  latter  is  the  principle \nof  the  former,  hence  he  divides  the  genus  of  the  fophift  by  its  proper  differ- \nences, from  which,  in  conjun6\\ion  with  genus,  fpecies  is  compofed  and  de- \nfined.  He  alfo  fhows,  conformably  to  what  is  delivered  in  the  Parmenides, \nthat  deing  is  fubordinate  to  t/ie  one  ;  and  enumerates  five  genera  of  beings  viz. \nejfence,  fame^  and  different,  Jiermajiency  and  motion.  He  likewife  teaches  us \nthat  true  eflence  belongs  to  incorporeal,  and  imaginable  to  corporeal  na- \ntures ;  and  is  indignant  with  thofe  who  deny  that  there  are  forms  fuperior \nto  fcnfibles,  and  alfo  with  thofe  who  contend  that  all  things  are  either  alone \npermanentj  or  alone  in  motion.  Befides  all  this,  he  difputes  concerning \nfcience  and  opinion,  true  and  falfc  difcourfe,  verb  and  noun,  fo  far  as  they \nappear  to  pertain  to  the  difcuffion  of  beuig.  He  hkewife  obferves,  that  the \nfophill  is  concealed  from  our  view,  becaufe  he  is  involved  in  the  darknefs  of \nnon-entity,  and  that  a  philofopher  alfo  is  not  eafily  difcerned  on  account  of \nthe  fplendor  of  being  with  which  he  is  furrounded :  \"  for  the  eyes  of  vul- \ngar fouls  (fays  he)  are  unable  to  fupport  the  view  of  that  which  is  divine.'* "
+  },
+  {
+   "id": "taylor1804-intro-sophist.003",
+   "kind": "introduction",
+   "seq": 3,
+   "page": 105,
+   "pages": [
+    105
+   ],
+   "line": 9608,
+   "text": "In order, liowever, to understand the most abstruse part of this dialogue, it is necessary to refer the reader to our copious Notes and Introduction to the Parmenides: for he whose mental eye has gained a glimpse of the ineffable light of fujterejjfential unity, will more easily perceive the fplendors of being,",
+   "raw": "In  order,  liowever,  to  underftand  the  mofl  abftrufe  part  of  this  dialogue,  it \nis  neceflary  to  refer  the  reader  to  our  copious  Notes  and  Introdudion  to  the \nParmenides :  for  he  whofe  mental  eye  has  gained  a  glimpfe  of  the  ineffable \nlight  of  fujterejjfential  unity,  will  more  eafily  perceive  the  fplendors  of  being, "
+  },
+  {
+   "id": "taylor1804-intro-sophist.004",
+   "kind": "introduction",
+   "seq": 4,
+   "page": 105,
+   "pages": [
+    105
+   ],
+   "line": 9613,
+   "text": "I only add, that Plato in this dialogue has given a most beautiful specimen of that part of his dialcdic called division; a branch of the master science in which he and the most illustrious of his disciples were eminently skilled, and by which they were enabled to discover all the connecting media in the vast series of being, and to ascend from that which is last in the universe to the ineffable principle of all things.",
+   "raw": "I  only  add,  that  Plato  in  this  dialogue  has  given  a  moft  beautiful  fpecimen \nof  that  part  of  his  dialcdic  ^  called  divifion ;  a  branch  of  the  mafter  fcience \nin  which  he  and  the  moft  illuftrious  of  his  difciples  were  eminently  (killed, \nand  by  which  they  were  enabled  to  difcover  all  the  conneding  media  in  the \nvaft  feries  of  being,  and  to  afcend  from  that  which  is  laft  in  the  univerfe  to \nthe  ineffable  principle  of  all  things. "
+  },
+  {
+   "id": "taylor1804-intro-sophist.f01",
+   "kind": "footnote",
+   "seq": 5,
+   "page": 203,
+   "line": 9537,
+   "on": "taylor1804-intro-sophist.001",
+   "text": "Ficinus, who has given a version of this preface, ascribes it to Proclus, and doubllefs from good authority.",
+   "raw": "»  Ficinus,  who  has  given  a  verfion  of  this  preface,  afcribes  it  to  Proclus,  and  doubllefs  from \ngood  authority. "
+  },
+  {
+   "id": "taylor1804-intro-sophist.f02",
+   "kind": "footnote",
+   "seq": 6,
+   "page": 203,
+   "line": 9540,
+   "on": "taylor1804-intro-sophist.001",
+   "text": "This word Is wanting in Ruhnkenius, and is fuppHed from the version of Ficinus.",
+   "raw": "*  This  word  Is  wanting  in  Ruhnkenius,  and  is  fuppHed  from  the  verfion  of  Ficinus. "
+  },
+  {
+   "id": "taylor1804-intro-sophist.f03",
+   "kind": "footnote",
+   "seq": 7,
+   "page": 203,
+   "line": 9542,
+   "on": "taylor1804-intro-sophist.001",
+   "text": "3 Viz. Pluto.",
+   "raw": "3   Viz.  Pluto. "
+  },
+  {
+   "id": "taylor1804-intro-sophist.f04",
+   "kind": "footnote",
+   "seq": 8,
+   "page": 204,
+   "line": 9569,
+   "on": "taylor1804-intro-sophist.002",
+   "text": "I give the original of this fragment of Proclus for the sake of the learned Platonlcal reader, who may not have these Greek Scholia in his possession: for, to a genuine Platonist, every thing written by Proclus mud be invaluable. 'On ooipio-rnv xaxei o IIxaTwv km toy.... (fupple ¥.pura) nai Toy Aj3»iv, xai TOY A(«, xai rfrayHo.'km Xeyei eivai rnv (To^icttikyiv tcx>^v' o9sv uTrovonfAZVy oti y^apupunpou a-xovrov tx^Tou b 3<aAoyoj. \"Ecrri yap kara rev fiByav la/A^Ai^ov a-xovoi vuv ^repi rou utto cteXuvjiv ^yifxtovpyou. 'Ouros yap ii^co>i07roiOfj xai xa^apTYii 4'i^x^Vi svavTiuv Xoywv acts %w^(^<uvj (X£TaS\\>jrixoiy xat veuv 7rhov7iuv tfXfji.i(r6oi $«cEVTTij, )\\fi/x^i i(7roofxo/>t£i'05 TTXvpm T^oyccv ocvu^tv lacrScg, axi (xi<t^cv >.ix,ix^oivuv Troip* auTUVy my ^aorroiov ti\\v xxrx Xoyov ruu^unTuv. 'Oyro? iuh^ircA tw /xn ovtj, tx ivv\\x $T,(jnovpyuVy xxi tow? aXr/fiwf •vj/fjij'of xtnrx' '{cfxtvo;, rviv v>>7iv. BxfTTfj h ftf to ovrtoi ev. 'Ouroi tjriv o TroXwxt^aAof, iro'Kha; cvtriag xai ^ccag '7rpo€t€xri' fievof, i' uv yiaraaxiua^ti t«v iroiXiT^iav rng yevf ctew^. 'O it auro; Kai you;, ug ^eXyuv rag 4't/;^af toi{ tpujiHOig PvoJ'Otj, ug va-XTToa-TTxa-TCcg «p^iiv uttj tng y£i/£(rfwf. Kai yap o ipug yotg, xxi h ^uini utto tivuv (xxyog Ki-iCknrxy J'ta ixg <T.v[j.nxhixg xxi avTiTrxdeixg twv fyati. Nwi/ ouu rou ttxvto^xttov ao<pijrnv ^ouXerxi Ji$x<rxiiv. Kai yap xxi b <pi7^oao^og o-o^kttjis, wf /x{ju,oy/A£vof TOf ri oupauiou Srii/.iovpycv xat rou ytytaiovpyov, Kat r] ^ia\\pirixr\\ (xifjtsirai tjjv ayro rou hog rxv ovruv Trpoo^ovy xai o ytviatovpyog toy oupaviov ^n/Aioupyov. 3<o xai co<picrr)gj xai avrog 3*£ o <TO<pia-rng avQponrog uv dia to ra (M£yaXa (xifxsKrOaiy (ro^tarng xa^eirai' c9tv xai rev ao^larnv TTQyjjxt^ahoy sipnxev. 'O s i^vog stg runov rev Trarpog ruv ^nfxioupyovruv voEia9u Inrepovpaviog xai i^npyi^ fitvog' bi?e axpoarai eig rag ^■nfA.iovpytxag vonasigy b (lev eig my rou Aiof, b h eig T)iv ayytXixiWy ug Kp/Aaixog xai y£u//.Erpixog Kai c^ei h ^vifuovpyia ex rou arehoug stg to reMioVj eta rovro Trp'^rov b Uvog ra Qeo^upa (xuyyinrar ura Ji* tTria-rpopng ru Jii« siege i^iu) Xuxparei, \\ For an ample account of tliis mailer science see the Introduction to the Parmenides.",
+   "raw": "»  I  give  the  original  of  this  fragment  of  Proclus  for  the  fake  of  the  learned  Platonlcal  reader, \nwho  may  not  have  thcfe  Greek  Scholia  in  his  pofTeflion  :  for,  to  a  genuine  Platonift,  every  thing \nwritten  by  Proclus  mud  be  invaluable.  'On  ooipio-rnv  xaxei  o  IIxaTwv  km  tov  .  .  .  .  (fupple  ¥.pura)  nai \nTov  Aj3»iv,  xai  TOV  A(«,  xai  rfrayHo.'km  Xeyei  eivai  rnv  (To^icttikyiv  tcx>^v'  o9sv  uTrovonfAZVy  otj  y^apupunpou  a-xo- \nvrov  tx^Tou  b  3<aAoyoj.  \"Ecrri  yap  kara  rov  fiByav  la/A^Ai^ov  a-xovoi  vuv  ^repi  rou  utto  cteXuvjiv  ^yifxtovpyou.  'Ouros \nyap  ii^co>i07roiOfj  xai  xa^apTYii  4'i^x^Vi  svavTiuv  Xoywv  a£i  %w^(^<uvj  (X£TaS\\>jrixoiy  xat  veuv  7rhov7iuv  tfXfji.i(r6oi  $«- \ncEVTTij,  )\\fi/x^i  i(7roofxo/>t£i'05  TTXvpm  T^oyccv  ocvu^tv  lacrScg,  axi  (xi<t^cv  >.ix,ix^oivuv  Troip*  auTUVy  mv  ^aorroiov  ti\\v \nxxrx  Xoyov  ruu^unTuv.  'Oyro?  iuh^ircA  tw  /xn  ovtj,  tx  ivv\\x  $T,(jnovpyuVy  xxi  tow?  aXr/fiwf  •vj/fjij'of  xtnrx' \n'{cfxtvo;-,  rviv  v>>7iv.  BxfTTfj  h  ftf  to  ovrtoi  ov.  'Ouroi  tjriv  o  TroXwxt^aAof,  iro'Kha;  cvtriag  xai  ^ccag  '7rpo€t€xri' \nfievof,  ^i'  uv  yiaraaxiua^ti  t«v  iroiXiT^iav  rng  yevf ctew^.  'O  jT  auro;  Kai  yon;,  ug  ^eXyuv  rag  4't/;^af  toi{  tpujiHOig \nPvoJ'Otj,  ug  ^va-XTToa-TTxa-TCcg  «p^iiv  uttj  tng  y£i/£(rfwf.  Kaj  yap  o  ipug  yotg,  xxi  h  ^uini  utto  tivuv  (xxyog \nKi-iCknrxy  J'ta  ixg  <T.v[j.nxhixg  xxi  avTiTrxdeixg  twv  fyati.  Nwi/  ouu  rou  ttxvto^xttov  ao<pijrnv  ^ouXerxi  Ji- \n$x<rxiiv.  Kai  yap  xxi  b  <pi7^oao^og  o-o^kttjis,  wf  /x{ju,oy/A£vof  TOf  ri  oupauiou  Srii/.iovpycv  xat  rou  ytytaiovpyov, \nKat  r]  ^ia\\pirixr\\  (xifjtsirai  tjjv  ayro  rou  hog  rxv  ovruv  Trpoo^ovy  xai  o  ytviatovpyog  tov  oupaviov  ^n/Aioupyov.  3<o  xai \nco<picrr)gj  xai  avrog  3*£  o  <TO<pia-rng  avQponrog  uv  dia  to  ra  (M£yaXa  (xifxsKrOaiy  (ro^tarng  xa^eirai'  c9tv  xai  rov  ao- \n^larnv  TTQyjjxt^ahoy  sipnxev.  'O  ^s  i^vog  stg  runov  rov  Trarpog  ruv  ^nfxioupyovruv  voEia9u  Inrepovpaviog  xai  i^npyi^ \nfitvog'  bi  ?e  axpoarai  eig  rag  ^■nfA.iovpytxag  vonasigy  b  (lev  eig  mv  rou  Aiof,  b  h  eig  T)iv  ayytXixiWy  ug  Kp/Aaixog  xai \ny£u//.Erpixog-  Kai  c^ei  h  ^vifuovpyia  ex  rou  arehoug  stg  to  reMioVj  ^ta  rovro  Trp'^rov  b  Uvog  ra  Qeo^upa  (xuy- \nyinrar  ura  Ji*  tTria-rpopng  ru  Jii«  (lege  i^iu)  Xuxparei, \n\\  For  an  ample  account  of  tliis  mailer  fcience  fee  the  Introduction  to  the  Parmenides. "
+  }
+ ],
+ "stats": {
+  "catchwords and signatures removed": 4,
+  "running heads removed": 5,
+  "words joined across lines": 7,
+  "notes": 8,
+  "paragraphs run on across a page": 2,
+  "notes run on across a page": 1,
+  "note marks removed": 3
+ }
+}

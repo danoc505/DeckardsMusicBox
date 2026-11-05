@@ -226,6 +226,45 @@
       "licence": "Public domain",
       "provenance": "Internet Archive 'djvu.txt' OCR of the University of California copy (scanned 2007), downloaded on 2026-11-05 by tools/fetch_commentaries.py and kept as received; fetched.json records the URL, time and sha256. Unproofread; both the Greek and the English are read well. Read into notes by tools/commentary.py (milestone 7).",
       "status": "local"
+    },
+    {
+      "id": "burges-1854",
+      "title": "The Works of Plato, vol. VI, translated by George Burges (London: Henry G. Bohn, 1854), OCR text: the Life of Plato by Diogenes Laertius and the Introduction of Albinus",
+      "kind": "local",
+      "path": "sources/burges-1854",
+      "urls": ["https://archive.org/details/worksofplatonewl06platiala"],
+      "layer": "ancient introduction",
+      "language": "eng",
+      "citation_scheme": "Diogenes Laertius by the section numbers printed in brackets, [57.]; Albinus by chapter, [1.] to [9.]",
+      "licence": "Public domain",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of California copy, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Unproofread. Read into texts/ancient/ by tools/ancient.py (milestone 9).",
+      "status": "local"
+    },
+    {
+      "id": "yonge-1853",
+      "title": "Diogenes Laertius, The Lives and Opinions of Eminent Philosophers, translated by C. D. Yonge (London: Henry G. Bohn, 1853), Project Gutenberg ebook 57342",
+      "kind": "local",
+      "path": "sources/yonge-1853",
+      "urls": ["https://www.gutenberg.org/ebooks/57342"],
+      "layer": "ancient introduction",
+      "language": "eng",
+      "citation_scheme": "Yonge's chapters of book III, I to LXXV",
+      "licence": "Public domain",
+      "provenance": "Project Gutenberg plain text, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Clean source text. Book III read into texts/ancient/ by tools/ancient.py (milestone 9).",
+      "status": "local"
+    },
+    {
+      "id": "hermann-appendix",
+      "title": "Platonis Dialogi secundum Thrasylli tetralogias dispositi, ed. C. F. Hermann, vol. VI (Leipzig: Teubner, 1887; Appendix Platonica), OCR text: the Greek of Albinus' Prologue and of the Anonymous Prolegomena",
+      "kind": "local",
+      "path": "sources/hermann-appendix",
+      "urls": ["https://archive.org/details/platonisdialogi06plat"],
+      "layer": "ancient introduction",
+      "language": "grc",
+      "citation_scheme": "Hermann's page numbers",
+      "licence": "Public domain",
+      "provenance": "Internet Archive 'djvu.txt' OCR, downloaded on 2026-11-05 by tools/fetch_ancient.py and kept as received; fetched.json records the URL, time and sha256. Unproofread Greek OCR. No public-domain English of the Prolegomena exists (Westerink's of 1962 is in copyright). Read into texts/ancient/ by tools/ancient.py (milestone 9).",
+      "status": "local"
     }
   ]
 }

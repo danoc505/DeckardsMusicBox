@@ -1,0 +1,18 @@
+{
+  "worksofplatonewl06platiala_djvu.txt": {
+    "url": "https://archive.org/download/worksofplatonewl06platiala/worksofplatonewl06platiala_djvu.txt",
+    "fetched_at": "2026-11-05T11:23:49+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1443334,
+    "sha256": "acd18398ef8d8a66930d2ccf7c829efa5e4c33e63613ecfa9de21249076a9919"
+  },
+  "worksofplatonewl06platiala_metadata.json": {
+    "url": "https://archive.org/metadata/worksofplatonewl06platiala/metadata",
+    "fetched_at": "2026-11-05T11:23:53+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2822,
+    "sha256": "68ffb958216c0f7236f1344d82d243280e8020dd1adc413f020df40eb51b7d72"
+  }
+}
