@@ -6,12 +6,9 @@ Written by `tools/build_db.py` (milestone 12, `tools/reconcile.py`) from `source
 
 Not found: none.
 
-
 Not checked (web page not fetched yet): none.
 
-
 Words not tagged in their passage: none.
-
 
 ## The methods
 

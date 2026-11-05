@@ -421,7 +421,7 @@ def write_report(db, stats, path=REPORT):
              f"and {stats.get('web quotations', 0)} on web pages as fetched and checked by `python3 tools/reconcile.py --web`, recorded in `sources/reconcile/web-checks.json`)."]
     for key, head in (("not found", "Not found"), ("not checked", "Not checked (web page not fetched yet)"), ("words not tagged", "Words not tagged in their passage")):
         items = stats.get(key) or []
-        lines += ["", f"{head}: none." if not items else f"{head}:", ""] + [f"- {x}" for x in items]
+        lines += ["", f"{head}: none."] if not items else ["", f"{head}:", ""] + [f"- {x}" for x in items]
     lines += ["", "## The methods", "", "Each method's account is written for the Workshop; its grounds are quotations of Plato or of the Platonists who use it.", "",
               "| Method | Named in the build prompt | Grounds (quotations) | Concepts it belongs with | Readings using it |", "|---|---|---:|---|---:|"]
     for mid, name, named, owner in q("SELECT id, name, named, owner FROM reconcile_method ORDER BY seq"):
