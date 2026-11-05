@@ -1,0 +1,46 @@
+/* The Workshop website on a touch screen (the iPad). Added after reader.css,
+   only on the website; the laptop reader is unchanged. */
+
+.pw-loading {
+  position: fixed; left: 50%; top: 40%; transform: translate(-50%, -50%); z-index: 100;
+  padding: 14px 22px; border-radius: 10px; background: var(--panel); color: var(--ink);
+  border: 1px solid var(--rule); box-shadow: 0 6px 24px rgba(0, 0, 0, .15); font: 16px var(--sans);
+  text-align: center; max-width: calc(100vw - 32px);
+}
+.pw-loading small { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; }
+
+/* Opened from the home screen: keep clear of the clock and the home bar. */
+.bar { padding-top: max(10px, env(safe-area-inset-top)); }
+body { padding-bottom: env(safe-area-inset-bottom); }
+
+@media (pointer: coarse) {
+  html { -webkit-text-size-adjust: 100%; }
+  * { -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 18%, transparent); }
+
+  /* Safari zooms into any box with text under 16px when you tap it. */
+  input, textarea, select { font-size: 16px !important; }
+
+  /* Fingers, not a mouse pointer: larger things to tap. */
+  input[type="checkbox"], input[type="radio"] { width: 20px; height: 20px; vertical-align: -4px; }
+  .layers { gap: 8px 16px; }
+  .layers label { padding: 6px 0; }
+  .search-btn, .chip, .mine-quick .chip { min-height: 36px; padding-top: 6px; padding-bottom: 6px; }
+  .link-btn { padding: 8px 2px; }
+  .jump button { min-width: 44px; min-height: 40px; }
+  .jump input { min-height: 40px; }
+  .toc .pages a, .toc .speeches li a { display: inline-block; min-height: 32px; padding-top: 4px; padding-bottom: 4px; }
+
+  /* A little more room between lines of Greek, so the right word is tapped. */
+  .grc { line-height: 1.85; }
+  .w { padding: 2px 0; }
+
+  /* There is no pointer to hover with: show the "write" buttons, and no stuck hover colours. */
+  .sec:not(:hover) .mine-row-empty .mine-add { opacity: .7; }
+  .w:hover:not(.sel):not(.hit):not(.cm):not(.cm-hl):not(.mine-a):not(.mine-hi) { background: none; }
+}
+
+/* On an upright iPad the bar would take a fifth of the screen if it stayed put:
+   let it scroll away (swipe the text to turn pages; scroll up for the bar). */
+@media (pointer: coarse) and (max-width: 900px) {
+  .bar { position: relative; }
+}

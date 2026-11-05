@@ -1,0 +1,56 @@
+# Publishes the Platonic Workshop as a website (for the iPad):
+# https://danoc505.github.io/DeckardsMusicBox/
+# Everything it builds from is in platonic-workshop/; see "On the iPad" in its README.
+name: Platonic Workshop website
+
+on:
+  push:
+    branches: [main]
+    paths: ["platonic-workshop/**", ".github/workflows/platonic-workshop-site.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: platonic-workshop-site
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: platonic-workshop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Keep the downloaded sources between runs
+        uses: actions/cache@v4
+        with:
+          path: platonic-workshop/data/raw
+          key: pw-sources-${{ hashFiles('platonic-workshop/sources/manifest.json', 'platonic-workshop/tools/fetch_sources.py') }}
+      - run: python3 tools/fetch_sources.py
+      - run: python3 tools/build_db.py
+      - run: python3 tools/build_site.py
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: platonic-workshop/data/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
