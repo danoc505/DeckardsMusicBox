@@ -51,14 +51,14 @@ class Migration(unittest.TestCase):
             mywork.ensure(path)
             mywork.ensure(path)  # a second run changes nothing
             db = sqlite3.connect(path)
-            self.assertEqual(db.execute("SELECT value FROM meta WHERE key = 'schema_version'").fetchone()[0], "3")
+            self.assertEqual(db.execute("SELECT value FROM meta WHERE key = 'schema_version'").fetchone()[0], "4")
             self.assertEqual(db.execute("SELECT body, rev, format, deleted_at, word_start FROM translation").fetchall(),
                              [("second version", 2, "markdown", None, None)])
             self.assertEqual(db.execute("SELECT rev, event, body FROM revision WHERE table_name = 'translation' ORDER BY rev").fetchall(),
                              [(1, "create", "first version"), (2, "edit", "second version")])
             self.assertEqual(db.execute("SELECT body, kind, rev FROM user_note").fetchall(), [("a note", "footnote", 1)])
             db.close()
-            backups = list((Path(tmp) / "backups").glob("user-*-before-schema-3.sqlite"))
+            backups = list((Path(tmp) / "backups").glob("user-*-before-schema-4.sqlite"))
             self.assertEqual(len(backups), 1)
             old = sqlite3.connect(backups[0])
             self.assertEqual(old.execute("SELECT body FROM translation").fetchall(), [("second version",)])

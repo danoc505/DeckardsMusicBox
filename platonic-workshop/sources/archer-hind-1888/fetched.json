@@ -1,0 +1,18 @@
+{
+  "timaeusofplato00platiala_djvu.txt": {
+    "url": "https://archive.org/download/timaeusofplato00platiala/timaeusofplato00platiala_djvu.txt",
+    "fetched_at": "2026-11-05T07:35:26+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1320013,
+    "sha256": "203c5d8768bd1c7b374a48b8601d2dd150014e5814cf6985032019163f8a21ef"
+  },
+  "timaeusofplato00platiala_metadata.json": {
+    "url": "https://archive.org/metadata/timaeusofplato00platiala/metadata",
+    "fetched_at": "2026-11-05T07:35:29+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2170,
+    "sha256": "1dcac98b95457d9e80ecdb762735d73b9854047155ae6d17a90ba59272f73e41"
+  }
+}

@@ -23,3 +23,15 @@ gets OCR'd from the archive.org scans.
 is anchored to, how the anchor was made (printed reference, alignment, or
 by hand), and its proofreading status (OCR as received, cleaned by rule,
 checked by you).
+
+## Status after milestone 7 (5 November 2026)
+
+| # | Source | Done |
+|---|---|---|
+| 1 | Taylor (1804), vol. 2 | Introduction (133 paragraphs with its footnotes) and the 7 Additional Notes from Proclus (with 48 footnotes) imported; his 85 footnotes to the translation came in with milestone 6. |
+| 2 | Bury's Loeb footnotes | In since milestone 2. |
+| 3 | Jowett, Introduction and Analysis | Imported as an introduction on the whole dialogue. Placing it by section of the argument waits for the structure layer (milestone 9). |
+| 4 | Archer-Hind (1888) | Imported from the Internet Archive (its OCR reads the Greek well, so distantreader.org was not needed). Notes keyed to the Greek words they quote. |
+| 5 | Proclus, tr. Taylor (1820) | Imported from the Internet Archive OCR; lemmata found in Taylor's 1804 translation. Diehl's Greek is still to come. |
+
+Figures: `reports/commentary_timaeus.md`.

@@ -1,6 +1,7 @@
-// Platonic Workshop reader (milestones 2 to 6). No libraries, no build step.
+// Platonic Workshop reader (milestones 2 to 7). No libraries, no build step.
 // Your translations and notes (milestone 4) are in mywork.js; the word search
-// across Plato and your word studies (milestone 5) in search.js.
+// across Plato and your word studies (milestone 5) in search.js; the
+// commentaries (milestone 7) in commentary.js.
 "use strict";
 
 // The work being read (a Perseus id, 'tlg031'). Changes when you open another dialogue.
@@ -166,7 +167,7 @@ function renderChunkGreek(chunk, tokens, idx) {
   for (const tok of tokens) {
     out += esc(t.slice(pos, tok.start));
     const mine = idx ? mineWordAttrs(tok.id, idx) : { cls: "", after: "" };
-    const cls = "w" + (tok.tagged ? "" : " untagged") + (state.selected === tok.id ? " sel" : "") + mine.cls;
+    const cls = "w" + (tok.tagged ? "" : " untagged") + (state.selected === tok.id ? " sel" : "") + mine.cls + commWordCls(tok.id);
     out += `<span class="${cls}" data-t="${tok.id}">${esc(t.slice(tok.start, tok.end))}</span>${mine.after}`;
     pos = tok.end;
   }
@@ -290,8 +291,10 @@ function renderPage() {
   const numbers = new Map(d.shownNotes.map((n, i) => [n.id, i + 1]));
   const lastPara = {};
   const idx = MINE.idx = mineIndex(d);
+  indexCommentary(d);
   let html = `<div class="page-head"><h1>${d.page}</h1><span>Stephanus page ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
   html += renderTransBar();
+  html += renderCommBar();
   if (!d.mine.length) html += `<p class="page-note mine-note">Your work: select Greek words to translate them or write a footnote, or use <em>Write on</em> under a section for the whole of it.</p>`;
   $("#main").style.setProperty("--n", eds.length);
   html += `<div class="cols-head"><span></span><span class="grc-h">Greek · ${esc(grcEd.label)}</span>${eds.map((e) =>
@@ -337,8 +340,9 @@ function renderApparatus(s, d, numbers) {
   if (notes.length) {
     const items = notes.map((n) => `<li id="note-${n.id}"><span class="n">${numbers.get(n.id)}</span>${n.body_html}
       <span class="meta"> · ${esc(n.commentator)} · anchored by ${esc(n.anchor_method)} · ${esc(n.proof_status)}</span></li>`).join("");
-    rows.push(`<div class="app-row app-notes"><div class="app-k">Commentary</div><div class="app-v"><ul class="notes">${items}</ul></div></div>`);
+    rows.push(`<div class="app-row app-notes"><div class="app-k">Notes</div><div class="app-v"><ul class="notes">${items}</ul></div></div>`);
   }
+  rows.push(renderCommentaryRow(s, d));
   const out = d.links_out.filter((l) => l.from_ref === s.ref);
   if (out.length) {
     const chips = out.map((l) => {
@@ -406,7 +410,7 @@ async function inspect(id) {
   let html = `<button class="insp-close" aria-label="Close" title="Close (Esc)">×</button>
     <div class="insp-form" lang="grc">${esc(t.form)}</div>
     <div class="insp-addr" title="CTS address of this word">${esc(t.address)}</div>`;
-  if (state.view === "read") html += renderMineForWord(id);
+  if (state.view === "read") html += renderMineForWord(id) + commForWord(id);
   if (t.tags.length) {
     const split = t.tags.length > 1;
     html += `<div class="box tagged"><h3>Tagged <span class="badge">machine</span></h3>`;

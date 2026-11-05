@@ -15,7 +15,7 @@
 --   * an upgrade of this schema copies the file to data/backups/ first and only
 --     adds columns (tools/mywork.py, migrate()).
 --
--- Schema version 3 (milestone 5) adds word_study. Version 2 (milestone 4) had
+-- Schema version 4 (milestone 7) adds proofreading. Version 3 (milestone 5) added word_study. Version 2 (milestone 4) had
 -- the other tables as they are. Version 1 had them without the
 -- anchor-to-words, format, rev, label and deleted_at columns on translation;
 -- tools/mywork.py adds them in place.
@@ -110,4 +110,19 @@ CREATE TABLE IF NOT EXISTS revision (
     saved_at    TEXT NOT NULL
 );
 
-INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '3');
+-- Your proofreading of the imported commentaries (milestone 7). One row per
+-- mark you make, only ever added: the newest row for a note is its status.
+-- The imported text in the library is never changed; a correction is kept
+-- here and shown in its place, with the text as imported one click away.
+CREATE TABLE IF NOT EXISTS proofreading (
+    id          INTEGER PRIMARY KEY,
+    note_key    TEXT NOT NULL,             -- note.note_key in the library, 'archerhind1888.0042'
+    status      TEXT NOT NULL,             -- checked | needs correction
+    corrected   TEXT,                      -- your corrected text of the note, if you gave one
+    comment     TEXT,
+    imported_sha TEXT,                     -- sha256 of the note's text as imported when you marked it
+    saved_at    TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS proofreading_key ON proofreading(note_key, id);
+
+INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '4');

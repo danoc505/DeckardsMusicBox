@@ -1,0 +1,34 @@
+{
+  "proclusontimaeus01procuoft_djvu.txt": {
+    "url": "https://archive.org/download/proclusontimaeus01procuoft/proclusontimaeus01procuoft_djvu.txt",
+    "fetched_at": "2026-11-05T07:35:05+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1338872,
+    "sha256": "732e1a076e2e4484b27059a36ef2810c2d4470c7f5f7ac37f88c6288a83c5eba"
+  },
+  "proclusontimaeus01procuoft_metadata.json": {
+    "url": "https://archive.org/metadata/proclusontimaeus01procuoft/metadata",
+    "fetched_at": "2026-11-05T07:35:14+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2285,
+    "sha256": "1f90b20bae508bcaa6e3934d2330cb6106c3049047ddc2a30cf2083061e99776"
+  },
+  "proclusontimaeus02procuoft_djvu.txt": {
+    "url": "https://archive.org/download/proclusontimaeus02procuoft/proclusontimaeus02procuoft_djvu.txt",
+    "fetched_at": "2026-11-05T07:35:18+00:00",
+    "http_status": 200,
+    "content_type": "text/plain; charset=utf-8",
+    "bytes": 1725841,
+    "sha256": "4356ddcd21a2d20624c4fce7649c4daf05b59b158fac28cd57a87864584d2c7a"
+  },
+  "proclusontimaeus02procuoft_metadata.json": {
+    "url": "https://archive.org/metadata/proclusontimaeus02procuoft/metadata",
+    "fetched_at": "2026-11-05T07:35:23+00:00",
+    "http_status": 200,
+    "content_type": "application/json",
+    "bytes": 2000,
+    "sha256": "433ee4068b2c46f5d2e54da6158608118fc29db9dcbf2c0279d86439441f7e28"
+  }
+}

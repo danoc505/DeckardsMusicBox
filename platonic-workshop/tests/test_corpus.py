@@ -67,18 +67,20 @@ class StudyMigration(unittest.TestCase):
             db = sqlite3.connect(path)
             schema_v2 = (ROOT / "db" / "user_schema.sql").read_text(encoding="utf-8")
             schema_v2 = schema_v2[:schema_v2.index("CREATE TABLE IF NOT EXISTS word_study")] + schema_v2[schema_v2.index("-- Every version of a translation"):]
-            db.executescript(schema_v2.replace("'schema_version', '3'", "'schema_version', '2'"))
+            schema_v2 = schema_v2[:schema_v2.index("-- Your proofreading")] + schema_v2[schema_v2.index("INSERT OR IGNORE INTO meta"):]
+            db.executescript(schema_v2.replace(f"'schema_version', '{mywork.SCHEMA_VERSION}'", "'schema_version', '2'"))
             db.execute("INSERT INTO translation (work_urn, start_ref, end_ref, body, rev, created_at, updated_at) VALUES ('u', '29e', '29e', 'mine', 1, 't', 't')")
             db.execute("INSERT INTO revision (table_name, row_id, rev, event, body, saved_at) VALUES ('translation', 1, 1, 'create', 'mine', 't')")
             db.commit()
             db.close()
             mywork.ensure(path)
             db = sqlite3.connect(path)
-            self.assertEqual(db.execute("SELECT value FROM meta WHERE key = 'schema_version'").fetchone()[0], "3")
+            self.assertEqual(db.execute("SELECT value FROM meta WHERE key = 'schema_version'").fetchone()[0], str(mywork.SCHEMA_VERSION))
             self.assertEqual(db.execute("SELECT count(*) FROM revision").fetchone()[0], 1)  # nothing re-numbered or added
             self.assertEqual(db.execute("SELECT count(*) FROM word_study").fetchone()[0], 0)
+            self.assertEqual(db.execute("SELECT count(*) FROM proofreading").fetchone()[0], 0)   # milestone 7
             db.close()
-            self.assertEqual(len(list((Path(tmp) / "backups").glob("user-*-before-schema-3.sqlite"))), 1)
+            self.assertEqual(len(list((Path(tmp) / "backups").glob(f"user-*-before-schema-{mywork.SCHEMA_VERSION}.sqlite"))), 1)
 
 
 @unittest.skipUnless(HAVE_DATA, "run tools/fetch_sources.py first")

@@ -8,7 +8,7 @@
 --   text        edition, chunk, token
 --   (tagging)   tag, morph              word-level evidence on the text layer
 --   structure   division
---   commentary  note
+--   commentary  commentary, note
 --   links       link
 -- Every row of every layer names the source it came from (source.id), and
 -- every derived row says how it was derived (a *_method column).
@@ -166,6 +166,25 @@ CREATE INDEX division_work ON division(work_id, kind);
 
 -- ------------------------------------------------------------ commentary
 
+-- Milestone 7. One printed commentary (or introduction) on a work, as read
+-- by tools/commentary.py into texts/commentary/<work>/<id>.json.
+CREATE TABLE commentary (
+    id          TEXT PRIMARY KEY,          -- 'archerhind1888'
+    source_id   TEXT NOT NULL REFERENCES source(id),
+    work_id     TEXT NOT NULL REFERENCES work(id),
+    author      TEXT NOT NULL,
+    label       TEXT NOT NULL,             -- 'Archer-Hind (1888)', also note.commentator
+    title       TEXT NOT NULL,
+    printed     TEXT NOT NULL,             -- the printed book
+    kind        TEXT NOT NULL,             -- notes | commentary | introduction
+    lang        TEXT NOT NULL,
+    proof_status TEXT NOT NULL,
+    anchoring   TEXT NOT NULL,             -- how its notes are placed, in a paragraph
+    file        TEXT NOT NULL,             -- the JSON it was read from
+    stats       TEXT,                      -- JSON: what the reading found
+    n_notes     INTEGER
+);
+
 -- One note of one commentator, anchored to a passage and optionally a word.
 CREATE TABLE note (
     id          INTEGER PRIMARY KEY,
@@ -183,9 +202,25 @@ CREATE TABLE note (
     printed_at  TEXT,                      -- volume and page in the printed edition
     anchor_method TEXT NOT NULL,           -- containing section | printed reference | alignment | by hand
     proof_status  TEXT NOT NULL,           -- clean source text | OCR as received | cleaned by rule | checked by Daniel
+    -- Milestone 7: the commentaries (tools/commentary_db.py). Empty for the
+    -- translators' footnotes of milestones 2 and 6.
+    commentary_id TEXT REFERENCES commentary(id),
+    note_key    TEXT,                      -- stable id from the commentary's JSON, 'archerhind1888.0042'; your proofreading points here
+    kind        TEXT,                      -- note | footnote | introduction (on the whole dialogue)
+    seq         INTEGER,                   -- order in the printed commentary
+    word_start  INTEGER,                   -- the Greek words the note is on: token.seq in start_ref ...
+    word_end_ref TEXT,                     -- ... to token.seq word_end in word_end_ref
+    word_end    INTEGER,
+    word_method TEXT,                      -- how the words were found
+    computed    INTEGER NOT NULL DEFAULT 0, -- 1 if the place is computed rather than printed (shown ≈)
+    anchor_detail TEXT,                    -- the evidence for the place, in a sentence
+    raw         TEXT,                      -- the OCR as received
+    parent_id   INTEGER REFERENCES note(id), -- a footnote's note
     FOREIGN KEY (work_id, start_ref) REFERENCES section(work_id, ref)
 );
 CREATE INDEX note_anchor ON note(work_id, start_ref);
+CREATE UNIQUE INDEX note_key ON note(note_key) WHERE note_key IS NOT NULL;
+CREATE INDEX note_commentary ON note(commentary_id, seq);
 
 -- ----------------------------------------------------------------- links
 

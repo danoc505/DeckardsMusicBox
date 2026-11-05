@@ -200,6 +200,32 @@
       "licence": "CC BY-SA 4.0",
       "provenance": "Open Greek and Latin, First Thousand Years of Greek.",
       "status": "planned"
+    },
+    {
+      "id": "proclus-1820",
+      "title": "The Commentaries of Proclus on the Timaeus of Plato, in five books, translated from the Greek by Thomas Taylor, 2 vols (London, 1820), OCR text",
+      "kind": "local",
+      "path": "sources/proclus-1820",
+      "urls": ["https://archive.org/details/proclusontimaeus01procuoft", "https://archive.org/details/proclusontimaeus02procuoft"],
+      "layer": "commentary",
+      "language": "eng",
+      "citation_scheme": "Volume and page of the 1820 edition; Proclus' lemmata quote the Timaeus in Taylor's translation, with no Stephanus numbers",
+      "licence": "Public domain",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of Toronto copy, downloaded on 2026-11-05 by tools/fetch_commentaries.py and kept as received; fetched.json records the URL, time and sha256 of each file. Unproofread; no long s; Greek words are poorly read. Read into notes by tools/commentary.py (milestone 7).",
+      "status": "local"
+    },
+    {
+      "id": "archer-hind-1888",
+      "title": "The Timaeus of Plato, edited with introduction and notes by R. D. Archer-Hind (London: Macmillan, 1888), OCR text",
+      "kind": "local",
+      "path": "sources/archer-hind-1888",
+      "urls": ["https://archive.org/details/timaeusofplato00platiala"],
+      "layer": "commentary",
+      "language": "eng+grc",
+      "citation_scheme": "Each note names the line of Archer-Hind's page of Greek and quotes the Greek words; the pages are headed with Stephanus references",
+      "licence": "Public domain",
+      "provenance": "Internet Archive 'djvu.txt' OCR of the University of California copy (scanned 2007), downloaded on 2026-11-05 by tools/fetch_commentaries.py and kept as received; fetched.json records the URL, time and sha256. Unproofread; both the Greek and the English are read well. Read into notes by tools/commentary.py (milestone 7).",
+      "status": "local"
     }
   ]
 }

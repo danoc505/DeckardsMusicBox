@@ -474,3 +474,39 @@ table.mini-counts tr.here td:first-child { font-weight: 700; color: var(--accent
   .kmeta { grid-column: 1; }
   select.work-title { max-width: 200px; }
 }
+
+/* ------------------------------------------------------------ commentaries (milestone 7) */
+.comm-bar { margin-top: 2px; }
+.w.cm { text-decoration: underline dotted var(--accent); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.w.cm-hl { background: var(--accent-soft); border-radius: 3px; box-shadow: 0 0 0 2px var(--accent-soft); }
+.cm-row .app-k { color: var(--accent); }
+.cm-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 18px; }
+.cm-group h4 { font: 600 12px var(--sans); margin: 0 0 4px; color: var(--accent); }
+.cm-group h4 .meta { font-weight: 400; color: var(--muted); }
+.cm-notes { list-style: none; margin: 0; padding: 0; }
+.cm-note { margin: 0 0 10px; padding: 0 0 8px; border-bottom: 1px dotted var(--rule); font-size: 14px; }
+.cm-note:last-child { border-bottom: 0; }
+.cm-note.flash { background: var(--accent-soft); border-radius: 4px; }
+.cm-head { margin-bottom: 2px; }
+.cm-lemma { font-weight: 600; }
+.cm-lemma[lang="grc"] { font-family: var(--greek); font-size: 15px; }
+.cm-lemma:not([lang="grc"]) { font-style: italic; font-weight: 400; }
+.cm-lemma.on-words { cursor: pointer; border-bottom: 1px dotted var(--accent); }
+.cm-where { font: 11px var(--sans); color: var(--muted); margin-left: 4px; }
+.cm-body p { margin: 0 0 6px; }
+.cm-body [lang="grc"], .cm-foot [lang="grc"], .cm-read [lang="grc"] { font-family: var(--greek); }
+.cm-body.corrected { border-left: 3px solid var(--mine); padding-left: 6px; }
+.cm-foot { margin: 4px 0; padding-left: 14px; font-size: 13px; }
+.cm-note .meta, .cm-read .meta { font: 11px var(--sans); color: var(--muted); }
+.cm-how { cursor: help; border-bottom: 1px dotted var(--faint); }
+.pf.yours { color: var(--mine); }
+.pf.warn { color: var(--warn); }
+.cm-box ul { margin: 4px 0 0; padding-left: 18px; }
+.cm-read { margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px dotted var(--rule); }
+.cm-read .chip { margin-right: 6px; }
+#proof-text { width: 100%; font: 14px var(--serif); box-sizing: border-box; }
+#proof-comment { width: 100%; box-sizing: border-box; }
+.pf-l { display: block; margin: 8px 0; font: 12px var(--sans); color: var(--muted); }
+.pf-actions { margin: 8px 0 12px; }
+.raw-pre { white-space: pre-wrap; font-size: 12px; max-height: 300px; overflow: auto; }
+details.raw-in summary { font: 11px var(--sans); color: var(--muted); cursor: pointer; }

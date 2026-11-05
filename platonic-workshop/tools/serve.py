@@ -34,6 +34,14 @@ ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
 
 
+# The columns of a commentary note sent to the reader (milestone 7).
+COMMENT_COLS = ("n.id, n.commentary_id, n.commentator, n.note_key, n.kind, n.seq, n.start_ref, n.end_ref, n.lemma_text, "
+                "n.word_start, n.word_end_ref, n.word_end, n.word_method, n.computed, n.anchor_method, n.anchor_detail, "
+                "n.printed_at, n.proof_status, n.parent_id, length(n.body) AS chars, n.body_html")
+LONG_NOTE = 2400      # characters: a note longer than this is sent as its opening (Proclus runs to pages)
+EXCERPT = 1400
+
+
 class Library:
     """Read-only queries the reader needs. One instance per request thread is
     cheap: sqlite connections open in microseconds."""
@@ -78,6 +86,7 @@ class Library:
         w["speeches"] = self.rows("SELECT label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind = 'speech' ORDER BY id", work_id)
         w["parts"] = self.rows("SELECT label, start_ref, end_ref, basis, source_id FROM division WHERE work_id = ? AND kind IN ('part', 'skopos') ORDER BY id", work_id)
         w["books"] = self.rows("SELECT kind, label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind IN ('book', 'letter') ORDER BY id", work_id)
+        w["commentaries"] = self.commentaries(work_id)
         w["counts"] = {
             "notes": self.one("SELECT count(*) n FROM note WHERE work_id = ?", work_id)["n"],
             "links_out": self.one("SELECT count(*) n FROM link WHERE from_work = ?", work_id)["n"],
@@ -119,7 +128,12 @@ class Library:
             work_id, *refs)
         notes = self.rows(
             f"SELECT id, commentator, start_ref, end_ref, edition_id, chunk_id, offset, body_html, printed_at, anchor_method, proof_status, source_id "
-            f"FROM note WHERE work_id = ? AND start_ref IN ({marks}) ORDER BY id", work_id, *refs)
+            f"FROM note WHERE work_id = ? AND start_ref IN ({marks}) AND commentary_id IS NULL ORDER BY id", work_id, *refs)
+        # Milestone 7: the commentaries on these sections (introductions are on the whole dialogue, see commentary()).
+        commentary = self.rows(
+            f"SELECT {COMMENT_COLS} FROM note n WHERE n.work_id = ? AND n.start_ref IN ({marks}) "
+            f"AND n.commentary_id IS NOT NULL AND n.kind != 'introduction' ORDER BY n.commentary_id, n.seq", work_id, *refs)
+        self.shorten(commentary)
         links_out = self.rows(
             f"SELECT l.id, l.from_ref, l.to_work, l.to_ref, l.raw, l.method, l.note_id, w.title AS to_title, w.imported AS to_imported "
             f"FROM link l JOIN work w ON w.id = l.to_work WHERE from_work = ? AND from_ref IN ({marks}) ORDER BY l.id", work_id, *refs)
@@ -139,9 +153,64 @@ class Library:
         i = all_pages.index(page)
         return {
             "work_id": work_id, "page": page, "sections": secs, "chunks": chunks, "tokens": tokens,
-            "notes": notes, "links_out": links_out, "links_in": links_in, "speeches": speeches, "mine": mine,
+            "notes": notes, "commentary": commentary, "links_out": links_out, "links_in": links_in, "speeches": speeches, "mine": mine,
             "prev": all_pages[i - 1] if i > 0 else None, "next": all_pages[i + 1] if i + 1 < len(all_pages) else None,
         }
+
+    # ------------------------------------------------------------ commentaries (milestone 7)
+
+    def shorten(self, notes):
+        """A long note is sent as its opening paragraphs; the rest on request (/api/note/<id>).
+        Your proofreading marks are added to each."""
+        for n in notes:
+            html = n.pop("body_html") or ""
+            if n["chars"] > LONG_NOTE:
+                paras = re.findall(r"<p>.*?</p>", html, re.S)
+                out, size = [], 0
+                for para in paras:
+                    if size and size + len(para) > EXCERPT:
+                        break
+                    out.append(para if len(para) <= EXCERPT * 2 else para[:EXCERPT].rsplit(" ", 1)[0] + " …</p>")
+                    size += len(para)
+                n["body_html"] = "".join(out)
+                n["long"] = True
+            else:
+                n["body_html"] = html
+        marks = self.mine.proof_marks([n["note_key"] for n in notes])
+        for n in notes:
+            n["proof"] = marks.get(n["note_key"])
+        return notes
+
+    def commentaries(self, work_id):
+        rows = self.rows("SELECT id, source_id, author, label, title, printed, kind, lang, proof_status, anchoring, file, stats, n_notes "
+                         "FROM commentary WHERE work_id = ? ORDER BY id", work_id)
+        for r in rows:
+            r["stats"] = json.loads(r["stats"] or "{}")
+            r["placed"] = self.rows(
+                "SELECT anchor_method, computed, word_method IS NOT NULL AS on_words, count(*) AS n FROM note "
+                "WHERE commentary_id = ? GROUP BY 1, 2, 3", r["id"])
+        return rows
+
+    def commentary(self, cid, after=0, limit=200):
+        """A commentary read straight through, in printed order."""
+        c = self.one("SELECT * FROM commentary WHERE id = ?", cid)
+        if not c:
+            return None
+        c["stats"] = json.loads(c["stats"] or "{}")
+        notes = self.rows(f"SELECT {COMMENT_COLS} FROM note n WHERE n.commentary_id = ? AND n.seq > ? "
+                          "ORDER BY n.kind = 'footnote', n.seq LIMIT ?", cid, after, limit)
+        c["notes"] = self.shorten(notes)
+        c["more"] = len(notes) == limit
+        return c
+
+    def note(self, note_id):
+        n = self.one(f"SELECT {COMMENT_COLS}, n.raw, n.body FROM note n WHERE n.id = ?", note_id)
+        if not n:
+            return None
+        n["proof"] = self.mine.proof_marks([n["note_key"]]).get(n["note_key"]) if n["note_key"] else None
+        n["proof_history"] = self.mine.proof_history(n["note_key"]) if n["note_key"] else []
+        n["footnotes"] = self.rows("SELECT id, note_key, body_html FROM note WHERE parent_id = ? ORDER BY seq", note_id)
+        return n
 
     def work_sections(self, work_id):
         return [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", work_id)]
@@ -306,6 +375,8 @@ class Handler(BaseHTTPRequestHandler):
             data = self.read_json()
             if method == "POST" and path == "/api/mine":
                 return self.send_json(mine.create(data), HTTPStatus.CREATED)
+            if method == "POST" and path == "/api/proof":
+                return self.send_json(mine.add_proof(data), HTTPStatus.CREATED)
             if method == "POST" and path == "/api/studies":
                 return self.send_json(mine.create_study(data), HTTPStatus.CREATED)
             m = re.fullmatch(r"/api/mine/(translation|note|study)/(\d+)(?:/(delete|restore))?", path)
@@ -371,6 +442,12 @@ class Handler(BaseHTTPRequestHandler):
                 if parts == ["studies"]:
                     rows = lib.mine.studies(include_deleted=query.get("deleted") == "1")
                     return self.send_json(rows)
+                if len(parts) == 2 and parts[0] == "commentary":
+                    c = lib.commentary(parts[1], after=int(query.get("after") or 0), limit=min(500, int(query.get("limit") or 200)))
+                    return self.send_json(c) if c else self.not_found()
+                if len(parts) == 2 and parts[0] == "note" and parts[1].isdigit():
+                    n = lib.note(int(parts[1]))
+                    return self.send_json(n) if n else self.not_found()
                 if parts == ["lexica"]:
                     return self.send_json(lib.lexica())
                 if len(parts) == 2 and parts[0] == "token" and parts[1].isdigit():

@@ -48,6 +48,7 @@ import grammar  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
 import translations  # noqa: E402
+import commentary_db  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -774,6 +775,16 @@ def build(works, db_path=None, progress=False):
             tr = ", ".join(f"{t['edition'].split('.')[1]} {t['method']}" for t in s["translations"]) or "no other translation"
             print(f"  {s['title']}: {s['sections']} sections, {s['tokens']} words, {s['tagged']} tagged, "
                   f"{s['notes']} notes; {tr} ({time.time() - t0:.0f}s)", flush=True)
+    # Milestone 7: the commentaries, for the works that have them (the Timaeus).
+    comm_stats = {w: commentary_db.build_commentaries(db, w) for w in works}
+    comm_stats = {w: s for w, s in comm_stats.items() if s}
+    db.execute("INSERT INTO build VALUES ('commentary_stats', ?)", (json.dumps(comm_stats, ensure_ascii=False),))
+    if "tlg031" in comm_stats:
+        commentary_db.write_report(db, "tlg031", comm_stats["tlg031"], REPORTS / "commentary_timaeus.md")
+    if progress and comm_stats:
+        for w, s in comm_stats.items():
+            for cid, c in s.items():
+                print(f"  commentary {cid}: " + ", ".join(f"{k} {v}" for k, v in c.items() if v and k != "label"), flush=True)
     build_search(db)
     lookup_stats = build_dictionaries(db)
     lookup_stats.update(build_grammar(db))

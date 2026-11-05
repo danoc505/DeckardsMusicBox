@@ -39,6 +39,7 @@
     <div class="inspector-empty">
       <p><strong>Click any Greek word</strong> for its lemma and parse, plain-English grammar notes from Smyth, and its entries in Middle Liddell and LSJ, with every other possible parse beside it.</p>
       <p><strong>Select Greek words</strong> (drag across them, or click one and Shift-click the last) to write your translation of them, a footnote, a note or an alternative rendering.</p>
+      <p>Under each section, <strong>every commentator</strong> on it. Point at a note to light up the Greek words it is on (dotted in the text); click a dotted word to see the notes on it.</p>
       <p>Click a section number (<span class="ref-sample">29e</span>) to copy its reference.</p>
       <p>Open another dialogue from the menu at the top left, or type a work and a reference in the box (<span class="ref-sample">Rep. 514a</span>). <strong>Search Plato</strong> finds a word in every dialogue.</p>
       <p class="keys">Keys: ← → pages, <kbd>g</kbd> go to reference, <kbd>/</kbd> search, <kbd>Esc</kbd> close.</p>
@@ -64,6 +65,18 @@
   <div id="mine-body"></div>
 </dialog>
 
+<dialog id="comm-dialog" class="wide">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2 id="comm-title"></h2>
+  <div id="comm-body"></div>
+</dialog>
+
+<dialog id="proof-dialog" class="wide">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2>Proofread this note</h2>
+  <div id="proof-body"></div>
+</dialog>
+
 <div id="sel-bar" class="sel-bar" hidden role="toolbar" aria-label="Write on the selected words">
   <span class="sel-what" id="sel-what"></span>
   <button type="button" data-sel-kind="translation">Translate</button>
@@ -76,5 +89,6 @@
 <script src="reader.js"></script>
 <script src="mywork.js"></script>
 <script src="search.js"></script>
+<script src="commentary.js"></script>
 </body>
 </html>

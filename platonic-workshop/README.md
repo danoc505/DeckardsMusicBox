@@ -65,7 +65,17 @@ side by side; where a placement is computed rather than printed it is marked ≈
 with how often the computation is right. See [Historical translations](#historical-translations)
 below and [`reports/alignment.md`](reports/alignment.md).
 
-Next is milestone 7: the commentary pipeline, proven on the Timaeus.
+**Milestone 7, the commentaries, proven on the Timaeus: done.** Under every section of the
+Timaeus, every commentator on it, side by side: Proclus' commentary in Taylor's translation (1820),
+Taylor's Additional Notes from Proclus (1804), Archer-Hind's notes (1888), and the Loeb notes as before.
+Each note is keyed to its Stephanus passage, and Archer-Hind's to the very Greek words he quotes
+(688 of 823 found word for word, 106 in part); point at a note and its words light up.
+The introductions (Taylor, Archer-Hind, Jowett, Proclus' preface) are read whole. Every note keeps the
+OCR as received and says how it was placed, ≈ where the place is computed; you can mark any note as
+checked or correct it, in your own database. See [The commentaries](#the-commentaries) below and
+[`reports/commentary_timaeus.md`](reports/commentary_timaeus.md).
+
+Next is milestone 8: the citation web.
 
 ## Running it
 
@@ -178,6 +188,34 @@ each one's translator, printing, proofreading status and how it is placed.
   where its section changes; otherwise it is shown whole where it begins, with → and its last section.
   Tested where the numbers are printed: Taylor's Republic and First Alcibiades 87% of sentences in the
   right section, 97% within one; Jowett's Republic 85% and 97%; Jowett's vol. II 95% on the right page.
+
+## The commentaries
+
+![Timaeus 29e with Proclus and Archer-Hind side by side under the section](docs/reader-m7.png)
+
+- **Under each section**, a column per commentator on it (tick which ones in the *Commentary* bar). A long
+  note (Proclus runs to pages) opens with its first paragraphs; *Read the whole note* brings the rest.
+- **On the words.** A note that quotes Greek is on those words: they are dotted in the text, light up when
+  you point at the note, and the word box lists *Commentary on this word*. Click a Greek lemma to find it.
+- **How each note is placed** is under it (hover for the evidence), and ≈ marks a computed place:
+
+| Commentary | Notes | How they are placed |
+|---|---:|---|
+| Archer-Hind (1888), from the Internet Archive OCR | 823 | He quotes the Greek at the head of each note (`4. εἰς γυναικὸς φύσιν]`). The words are found in Burnet's text: first the lemmata found at one place only and in the order of the notes, then each of the rest between those. 688 found word for word (accents ignored), on those words, not computed; 106 found in part (≈); 29 not found, placed with the note before (≈). Checked against his own page heads: 98% fall on the page he prints them on. |
+| Proclus, tr. Taylor (1820), from the Internet Archive OCR | 254 | Proclus quotes the dialogue a passage at a time in Taylor's translation. Each quotation is found in Taylor's 1804 translation, whose sections `tools/align.py` computed (milestone 6), so every place is ≈. Only quotations that follow one another in the dialogue are taken as lemmata. The preface on the scope of the dialogue is with the introductions. |
+| Taylor, Additional Notes from Proclus (1804) | 7, and 48 footnotes | Each names a page of Taylor's translation and quotes it; found there (≈). Two lemmata are too badly read to find and are placed with the note before. |
+| Introductions: Taylor (1804), Archer-Hind (1888), Jowett (1892) | 133, 172, 181 paragraphs | On the whole dialogue: *Introductions* in the Commentary bar. |
+
+- **Read a commentary straight through**: *About the commentaries*, then *Read it straight through*; each note
+  links to its passage.
+- **Proofreading.** *Proofread* under any note opens its text beside the OCR as received. Save it as
+  *checked*, or with your correction, or as *needing correction*. The library is never changed: your marks
+  are rows in `user.sqlite` (table `proofreading`, only ever added to), shown in place of the imported text
+  with the original one click away, and included in the exports. If a rebuild changes a note you marked,
+  the mark says so.
+- **Rebuilding.** `python3 tools/fetch_commentaries.py` downloads the OCR again (the copies in `sources/` are
+  committed); `python3 tools/commentary.py` reads the books into `texts/commentary/timaeus/` (committed,
+  reviewable); `tools/build_db.py` places the notes and writes the report.
 
 ## Word search and word studies
 
@@ -326,7 +364,7 @@ Stephanus section, and every row names its source:
 | Text | `edition`, `chunk`, `token` | Burnet's Greek and Bury's English, 364 sections each; 23,677 Greek words, each addressed by character position |
 | Word evidence | `tag`, `morph` | GLAUx lemma and parse for 23,670 words (99.97%), all machine-tagged; every Morpheus parse for 99.9% of words |
 | Structure | `division` | 76 Stephanus pages and 41 speeches. Parts of the argument and skopos: milestone 9 |
-| Commentary | `note` | Bury's 192 Loeb notes, anchored to the section they are printed in |
+| Commentary | `commentary`, `note` | Bury's 192 Loeb notes, anchored to the section they are printed in; from milestone 7 the commentaries, each note with its place, the Greek words it is on, and how they were found |
 | Links | `link` | 163 references read from those notes by pattern (101 within the Timaeus) |
 | Dictionaries | `lexicon`, `lex_entry`, `lemma_entry`, `abbreviation` | 4,000 LSJ and 3,209 Middle Liddell entries: every lemma GLAUx or Morpheus gives for a word of the text, and the entries those cross-refer to; LSJ's lists of abbreviations |
 | Grammar | `grammar_note`, `relation_label` | 32 notes from 31 sections of Smyth; 22 sentence-role definitions |
@@ -398,17 +436,21 @@ sources/          what we use and where it comes from (committed)
   taylor-1804-vol1-theosophylib/  corrected HTML of vol. I, kept as received, with provenance
   taylor-1804/dialogues.json  where each dialogue lies in the OCR of vols. II-V, and its translator
   jowett-gutenberg/  Jowett's translations from Project Gutenberg, as received, and which is which
+  proclus-1820/, archer-hind-1888/  Internet Archive OCR of the commentaries, as received, with provenance
 texts/            imported texts, one JSON file per work (committed)
   taylor-1804/vol1/
   taylor-1804/vol2/ ... vol5/  Taylor's OCR cleaned by rule, with the OCR kept beside it
+  commentary/timaeus/  each commentary read into notes, with the OCR kept beside each
 db/               schema of the library and of your own database
   grammar/        which Smyth section is quoted for which grammatical category
 tools/            fetch, verify, import, build the database, serve the reader, Greek helpers,
                   lexicon.py (dictionary entries, LSJ's abbreviations), grammar.py (Smyth, treebank labels),
                   mywork.py (your translations, notes and word studies: the only code that writes user.sqlite),
                   search.py (the word search across Plato), jowett.py, taylor_ocr.py, align.py and
-                  translations.py (the historical translations)
-reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search
+                  translations.py (the historical translations), commentary.py and commentary_db.py
+                  (reading and placing the commentaries)
+reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
+                  commentary.js the commentaries
 tests/
 docs/             screenshots
 reports/          output of verify_sources.py and of the build (corpus.md), committed so results are reviewable

@@ -366,11 +366,11 @@ def page_blocks(lines):
     return blocks
 
 
-def wide(block):
+def wide(block, width=NOTE_WIDTH):
     long_lines = [collapse(l) for l in block if len(collapse(l).split()) >= 5]
     if not long_lines:
         return False
-    return sum(len(l) >= NOTE_WIDTH for l in long_lines) * 2 > len(long_lines)
+    return sum(len(l) >= width for l in long_lines) * 2 > len(long_lines)
 
 
 def is_catchword(line, next_first):
@@ -443,8 +443,12 @@ def clean_work(d, corrector):
 
     paras, notes = [], []
     last_page = None
-    names = None
-    persons_done = False
+    # Prose (an introduction, the Additional Notes): no list of persons, no speakers.
+    prose = bool(d.get("prose"))
+    # The Additional Notes are set in smaller type than the dialogues, and their footnotes smaller still.
+    width = d.get("note_width", NOTE_WIDTH)
+    names = set() if prose else None
+    persons_done = prose
     pending_label = None
     for pi, page in enumerate(pages):
         body = [x for x in page]
@@ -479,8 +483,8 @@ def clean_work(d, corrector):
         for k in range(len(blocks)):
             texts = [x[1] for x in blocks[k]]
             if k > 0 or pi > 0:
-                if wide(texts) or (NOTE_START.match(collapse(texts[0])) and k > 0):
-                    if all(wide([x[1] for x in b]) or NOTE_START.match(collapse(b[0][1])) or len(b) <= 2 for b in blocks[k:]):
+                if wide(texts, width) or (NOTE_START.match(collapse(texts[0])) and k > 0):
+                    if all(wide([x[1] for x in b], width) or NOTE_START.match(collapse(b[0][1])) or len(b) <= 2 for b in blocks[k:]):
                         k_note = k
                         break
         text_blocks, note_blocks = blocks[:k_note], blocks[k_note:]
@@ -565,7 +569,7 @@ def clean_work(d, corrector):
     # that opens five or more paragraphs ('Guest.', 'Clin.') is also a speaker,
     # unless it is an ordinary word that can open a reply ('Yes.', 'True.').
     names = set(names or set())
-    for p in paras[:8]:
+    for p in ([] if prose else paras[:8]):
         names |= {w.lower() for w in re.findall(r"\b[A-Z]{3,}\b", p["text"]) if w not in ("THE", "AND", "PERSONS", "DIALOGUE", "SCENE", "OF")}
     opens = Counter()
     for p in paras:
@@ -573,7 +577,7 @@ def clean_work(d, corrector):
             m = LABEL.match(p["text"])
             if m and p["text"][m.end(1):m.end(1) + 1] == ".":
                 opens[re.sub(r"\s", "", m.group(1)).lower()] += 1
-    for lab, n in opens.items():
+    for lab, n in ([] if prose else opens.items()):
         if n >= 5 and lab not in NOT_SPEAKERS and len(lab) >= 2:
             names.add(lab)
     # Marks, letters.

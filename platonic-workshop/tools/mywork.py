@@ -19,6 +19,7 @@ switch if you would rather every translation covered whole sections.
 """
 import contextlib
 import datetime as dt
+import hashlib
 import json
 import shutil
 import sqlite3
@@ -26,7 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 USER_SCHEMA = ROOT / "db" / "user_schema.sql"
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 # What a translation is anchored to: "words" (any span you select) or
 # "sections" (selections are widened to whole Stephanus sections).
@@ -39,6 +40,7 @@ TABLES = {"translation": "translation", "note": "user_note"}
 ALL_TABLES = {**TABLES, "study": "word_study"}
 SEARCH_MODES = ("lemma", "form", "plain")
 NOTE_KINDS = ("footnote", "note", "alternative")
+PROOF_STATUSES = ("checked", "needs correction")
 FORMATS = ("markdown", "plain")
 MAX_BODY = 200_000
 
@@ -103,7 +105,8 @@ def ensure(path):
 
 def migrate(db, version=1):
     """Version 1 to 2: add columns, number the existing revisions. Version 2 to
-    3: nothing to change; the word_study table is created by the schema. Adds only."""
+    3 and 3 to 4: nothing to change; the word_study and proofreading tables are
+    created by the schema. Adds only."""
     with db:
         if version >= 2:
             db.execute("INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', ?)", (str(SCHEMA_VERSION),))
@@ -547,6 +550,66 @@ class MyWork:
             out.append((w, rs))
         return out
 
+    # -------------------------------------------------- proofreading (milestone 7)
+
+    def _imported(self, note_key):
+        r = self.lib.execute("SELECT body FROM note WHERE note_key = ?", (note_key,)).fetchone()
+        if not r:
+            raise NotFound(note_key)
+        return r[0]
+
+    def proof_marks(self, keys):
+        """{note key: your newest mark, with 'changed' if the imported text is not what you marked}."""
+        keys = [k for k in keys if k]
+        if not keys:
+            return {}
+        out = {}
+        with self.session() as db:
+            for i in range(0, len(keys), 500):
+                part = keys[i:i + 500]
+                rows = db.execute(
+                    f"SELECT p.* FROM proofreading p JOIN (SELECT note_key, max(id) AS id FROM proofreading "
+                    f"WHERE note_key IN ({','.join('?' * len(part))}) GROUP BY note_key) m ON m.id = p.id", part).fetchall()
+                out.update({r["note_key"]: dict(r) for r in rows})
+        for k, r in out.items():
+            try:
+                r["changed"] = r["imported_sha"] != hashlib.sha256(self._imported(k).encode("utf-8")).hexdigest()
+            except NotFound:
+                r["changed"] = True
+        return out
+
+    def proof_history(self, note_key):
+        with self.session() as db:
+            return [dict(r) for r in db.execute("SELECT * FROM proofreading WHERE note_key = ? ORDER BY id", (note_key,))]
+
+    def add_proof(self, data):
+        key = data.get("note_key")
+        if not isinstance(key, str) or not key:
+            raise Invalid("note_key is required")
+        body = self._imported(key)
+        status = data.get("status")
+        if status not in PROOF_STATUSES:
+            raise Invalid(f"status must be one of {', '.join(PROOF_STATUSES)}")
+        corrected = data.get("corrected")
+        if corrected is not None:
+            if not isinstance(corrected, str) or len(corrected) > MAX_BODY:
+                raise Invalid("corrected must be text")
+            corrected = corrected.replace("\r\n", "\n")
+            if corrected.strip() == body.strip() or not corrected.strip():
+                corrected = None
+        comment = data.get("comment")
+        if comment is not None and not isinstance(comment, str):
+            raise Invalid("comment must be text")
+        with self.session() as db:
+            db.execute("INSERT INTO proofreading (note_key, status, corrected, comment, imported_sha, saved_at) VALUES (?,?,?,?,?,?)",
+                       (key, status, corrected, (comment or "").strip() or None,
+                        hashlib.sha256(body.encode("utf-8")).hexdigest(), now()))
+        return self.proof_marks([key])[key]
+
+    def all_proofreading(self):
+        with self.session() as db:
+            return [dict(r) for r in db.execute("SELECT * FROM proofreading ORDER BY id")]
+
     def export_json(self):
         rows = self.all_rows(include_deleted=True)
         return {
@@ -556,6 +619,7 @@ class MyWork:
                      "Anchors: work URN, Stephanus sections, word numbers within the section (null = whole section), and the Greek words.",
             "works": [{"urn": w["urn"], "title": w["title"], "items": rs} for w, rs in self._sorted_by_work(rows)],
             "word_studies": [{**r, "revisions": self.history("study", r["id"])} for r in self.studies(include_deleted=True)],
+            "proofreading": self.all_proofreading(),
         }
 
     def export_markdown(self):
@@ -592,6 +656,16 @@ class MyWork:
                           f"revision {r['rev']}, {r['updated_at'][:10]}", ""]
                 if r["body"].strip():
                     lines += [prefix_footnotes(r["body"].rstrip(), f"s{r['id']}-"), ""]
+        corrections = [r for r in self.proof_marks(sorted({p["note_key"] for p in self.all_proofreading()})).values()
+                       if r["corrected"] or r["comment"]]
+        if corrections:
+            lines += ["## Your corrections to the commentaries", ""]
+            for r in sorted(corrections, key=lambda r: r["note_key"]):
+                lines += [f"### {r['note_key']} · {r['status']}, {r['saved_at'][:10]}", ""]
+                if r["comment"]:
+                    lines += [r["comment"], ""]
+                if r["corrected"]:
+                    lines += [r["corrected"].rstrip(), ""]
         return "\n".join(lines).rstrip() + "\n"
 
     def export_sqlite(self, dest):
