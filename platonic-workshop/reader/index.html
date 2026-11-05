@@ -33,7 +33,7 @@
   <main id="main" class="text" aria-live="polite"><p class="loading">Loading…</p></main>
   <aside class="inspector" id="inspector" aria-label="Word">
     <div class="inspector-empty">
-      <p><strong>Click any Greek word</strong> for its tagged lemma and parse, with every other possible parse beside it.</p>
+      <p><strong>Click any Greek word</strong> for its lemma and parse, plain-English grammar notes from Smyth, and its entries in Middle Liddell and LSJ, with every other possible parse beside it.</p>
       <p>Click a section number (<span class="ref-sample">29e</span>) to copy its reference.</p>
       <p class="keys">Keys: ← → pages, <kbd>g</kbd> go to reference, <kbd>Esc</kbd> close.</p>
     </div>
@@ -44,6 +44,12 @@
   <form method="dialog"><button class="close" aria-label="Close">×</button></form>
   <h2>Sources in this library</h2>
   <div id="about-body"></div>
+</dialog>
+
+<dialog id="entry-dialog" class="wide">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2 lang="grc" id="entry-title"></h2>
+  <div id="entry-body"></div>
 </dialog>
 
 <script src="reader.js"></script>

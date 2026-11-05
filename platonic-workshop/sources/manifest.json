@@ -1,5 +1,5 @@
 {
-  "_comment": "Every source the Workshop imports. tools/fetch_sources.py downloads the 'git' sources into data/raw/<id> at the pinned commit. 'local' sources are committed in this folder. Status values: verified (checked by tools/verify_sources.py), local (committed here), planned (not fetched yet).",
+  "_comment": "Every source the Workshop imports. tools/fetch_sources.py downloads the 'git' sources into data/raw/<id> at the pinned commit, and the 'http' sources at the pinned SHA-256. 'local' sources are committed in this folder. Status values: verified (checked by tools/verify_sources.py), local (committed here), planned (not fetched yet).",
   "sources": [
     {
       "id": "perseus-greek-plato",
@@ -85,6 +85,49 @@
       "citation_scheme": "<entryFree key='...'> in Beta Code",
       "licence": "CC BY-SA 3.0 US, with the request to offer Perseus any modifications",
       "provenance": "Perseus text 1999.04.0058, downloaded 2015 by B. Linskey, with small typo fixes.",
+      "status": "verified"
+    },
+    {
+      "id": "lsj-abbreviations",
+      "title": "Liddell, Scott and Jones, A Greek-English Lexicon (9th edition, 1940): front matter, with List I (Authors and Works) and List V (General List of Abbreviations), Perseus text 1999.04.0057",
+      "kind": "http",
+      "url": "http://www.perseus.tufts.edu/hopper/dltext?doc=Perseus%3Atext%3A1999.04.0057",
+      "stop_after": "</front>",
+      "file": "lsj-frontmatter.xml",
+      "sha256": "1f724d7580f98cd2c2ae573a971b009680795011db3dd69639de7eecc974880d",
+      "layer": "dictionary",
+      "language": "eng",
+      "citation_scheme": "<div1 n='1'> List I, <div1 n='5'> List V, one <item> per abbreviation",
+      "licence": "CC BY-SA (Perseus Digital Library availability statement in the LSJ files); LSJ 1940 front matter",
+      "provenance": "Perseus Digital Library's TEI of LSJ, downloaded from its dltext service, which serves the whole lexicon; only the opening <front> (preface, lists of abbreviations) is kept, about 0.4 MB. The GitHub copy of LSJ (source 'lsj') leaves the front matter out. Used to expand LSJ's abbreviations with LSJ's own wording; never paraphrased.",
+      "status": "verified"
+    },
+    {
+      "id": "smyth-grammar",
+      "title": "Herbert Weir Smyth, A Greek Grammar for Colleges (American Book Company, 1920), Perseus text 1999.04.0007",
+      "kind": "http",
+      "url": "http://www.perseus.tufts.edu/hopper/dltext?doc=Perseus%3Atext%3A1999.04.0007",
+      "file": "smyth.xml",
+      "sha256": "19ee6f953d5b69749605db48772fb5f05eab766d3f5ef59bf279a1ba04e7965f",
+      "layer": "grammar",
+      "language": "eng",
+      "citation_scheme": "Section numbers, <milestone unit='smythp' n='1923'>",
+      "licence": "The 1920 book is public domain; Perseus encoding, Perseus Digital Library terms (credit Perseus, offer corrections)",
+      "provenance": "Perseus Digital Library TEI P4 of Smyth's grammar, downloaded whole from its dltext service. The word box quotes the sections listed in sources/grammar/smyth-sections.json, as Smyth wrote them.",
+      "status": "verified"
+    },
+    {
+      "id": "agdt-guidelines",
+      "title": "Guidelines for the annotation of Ancient Greek in the Ancient Greek Dependency Treebank 2.0 (Celano and others), Perseus treebank_data",
+      "kind": "git",
+      "repo": "https://github.com/PerseusDL/treebank_data.git",
+      "commit": "bf4334f0af5e13d16b04c1cccd6237e683ac6f5f",
+      "paths": ["README.md", "AGDT2/guidelines/readme.md", "AGDT2/guidelines/Greek_guidelines.md"],
+      "layer": "grammar",
+      "language": "eng",
+      "citation_scheme": "Section 3 of the guidelines, one heading per syntactic label (PRED, SBJ, OBJ, ATR ...)",
+      "licence": "CC BY-SA 3.0 US (per the repository README)",
+      "provenance": "The annotation guidelines GLAUx says it follows for its sentence roles. The word box shows each label's definition as the guidelines give it, without the links to example trees.",
       "status": "verified"
     },
     {

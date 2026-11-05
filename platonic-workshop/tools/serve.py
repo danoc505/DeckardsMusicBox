@@ -22,6 +22,7 @@ from urllib.parse import unquote, urlparse
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_db  # noqa: E402
 import greek  # noqa: E402
+import lexicon  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
@@ -148,12 +149,67 @@ class Library:
             # The parse the tagger chose, if Morpheus lists it: same lemma, consistent features.
             m["matches_tag"] = m["same_lemma_as_tag"] and any(greek.morpheus_agrees(m["parse"], g["features"]) for g in tags)
         t["morph"] = morph
+        # Milestone 3: dictionary entries for the tagged lemma(s), and which of
+        # Morpheus's other lemmas have entries (looked up on demand by /api/lookup).
+        t["lookup"] = [self.lookup(l) for l in dict.fromkeys(g["lemma"] for g in tags if g["lemma"])]
+        have = {r["lemma"] for r in self.rows(
+            f"SELECT DISTINCT lemma FROM lemma_entry WHERE lemma IN ({','.join('?' * len(morph)) or 'NULL'})", *[m["lemma"] for m in morph])}
+        for m in morph:
+            m["has_entry"] = m["lemma"] in have
+        t["grammar"] = [self.grammar(g) for g in tags]
         t["sources"] = {s["id"]: s for s in self.rows(
-            "SELECT id, title, licence, provenance, commit_sha FROM source WHERE id IN ('glaux-plato', 'morpheus-analyses', 'perseus-greek-plato')")}
+            "SELECT id, title, licence, provenance, commit_sha FROM source WHERE id IN "
+            "('glaux-plato', 'morpheus-analyses', 'perseus-greek-plato', 'lsj', 'middle-liddell', 'lsj-abbreviations', 'smyth-grammar', 'agdt-guidelines')")}
         t["elsewhere_in_work"] = self.one(
             "SELECT count(*) n FROM token t2 JOIN tag g ON g.token_id = t2.id WHERE t2.edition_id = ? AND g.lemma IN (SELECT lemma FROM tag WHERE token_id = ?)",
             t["edition_id"], token_id)["n"]
         return t
+
+    # ------------------------------------------------------------ dictionaries and grammar
+
+    def lexica(self):
+        return self.rows("SELECT * FROM lexicon ORDER BY rowid")
+
+    def lookup(self, lemma):
+        """Every entry filed under a lemma, per dictionary, with how it was matched.
+        A word not in lemma_entry (typed, or a cross-reference) is matched the same way:
+        same Beta Code key, then the same letters and breathing, then letters only.
+        Matching is done per dictionary in the build; here, for words outside it, across both."""
+        lemma = greek.nfc(re.sub(r"\d", "", lemma or "")).strip()
+        rows = self.rows(
+            "SELECT le.lexicon_id, le.method, e.id, e.key, e.headword, e.src_id, e.html, e.n_abbr FROM lemma_entry le "
+            "JOIN lex_entry e ON e.id = le.entry_id WHERE le.lemma = ? ORDER BY le.lexicon_id, e.id", lemma)
+        if not rows and lemma and greek.is_greek(lemma):
+            keys = lexicon.lemma_keys(lemma)
+            for k, method in zip(keys, ("same-spelling", "capital-lowered")):
+                rows = self.rows("SELECT lexicon_id, ? AS method, id, key, headword, src_id, html, n_abbr FROM lex_entry WHERE match_key = ? ORDER BY id", method, k)
+                if rows:
+                    break
+            if not rows and keys:
+                rows = self.rows("SELECT lexicon_id, 'accent-differs' AS method, id, key, headword, src_id, html, n_abbr FROM lex_entry WHERE unaccented_key = ? ORDER BY id",
+                                 lexicon.unaccented_key(keys[0]))
+            if not rows and keys:
+                rows = self.rows("SELECT lexicon_id, 'letters-only' AS method, id, key, headword, src_id, html, n_abbr FROM lex_entry WHERE plain_key = ? ORDER BY id",
+                                 lexicon.accentless_key(keys[0]))
+        by = {lx["id"]: [] for lx in self.lexica()}
+        for r in rows:
+            by.setdefault(r.pop("lexicon_id"), []).append(r)
+        return {"lemma": lemma, "entries": by}
+
+    def grammar(self, tag):
+        """Smyth's notes for each category of one tag, and the sentence role's definition."""
+        notes = []
+        for cat, val in tag["features"]:
+            secs = self.rows("SELECT section, heading, rule_html, full_html, url, reason FROM grammar_note "
+                             "WHERE category = ? AND value = ? ORDER BY n", cat, val)
+            notes.append({"category": cat, "value": val, "smyth": secs})
+        role = None
+        rel = tag.get("relation") or ""
+        if rel:
+            base, _, suffix = rel.partition("_")
+            role = {"code": rel, "label": self.one("SELECT * FROM relation_label WHERE code = ?", base),
+                    "suffix": self.one("SELECT * FROM relation_label WHERE code = ?", "_" + suffix) if suffix else None}
+        return {"part": tag["part"], "lemma": tag["lemma"], "notes": notes, "role": role}
 
     def sources(self):
         return self.rows("SELECT * FROM source ORDER BY rowid")
@@ -164,7 +220,7 @@ class Library:
 
 class Handler(BaseHTTPRequestHandler):
     library = None
-    server_version = "PlatonicWorkshop/2"
+    server_version = "PlatonicWorkshop/3"
 
     def log_message(self, fmt, *args):
         if self.server.verbose:
@@ -199,6 +255,10 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 3 and parts[0] == "page" and parts[2].isdigit():
                     p = lib.page(parts[1], int(parts[2]))
                     return self.send_json(p) if p else self.not_found()
+                if len(parts) == 2 and parts[0] == "lookup":
+                    return self.send_json(lib.lookup(parts[1]))
+                if parts == ["lexica"]:
+                    return self.send_json(lib.lexica())
                 if len(parts) == 2 and parts[0] == "token" and parts[1].isdigit():
                     t = lib.token(int(parts[1]))
                     return self.send_json(t) if t else self.not_found()

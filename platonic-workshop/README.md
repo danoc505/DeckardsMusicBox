@@ -26,7 +26,13 @@ the first commentary, the references in those footnotes as links, and every
 word clickable for its tagged lemma and parse with all the other possible
 parses beside it. See [The reader](#the-reader) and [The database](#the-database) below.
 
-Next is milestone 3: word lookup (dictionary entries and plain-English grammar notes).
+**Milestone 3, word lookup: done.** Click a word for its tagged lemma and
+parse, plain-English grammar notes quoted from Smyth's *Greek Grammar*, the
+sentence role from the treebank guidelines, and its entries in Middle Liddell
+and LSJ, with LSJ's abbreviations expanded from LSJ's own lists. See
+[The word box](#the-word-box) below.
+
+Next is milestone 4: your translations and notes.
 
 ## Running it
 
@@ -34,8 +40,8 @@ Python 3.10 or later, standard library only. Nothing to install.
 
 ```sh
 cd platonic-workshop
-python3 tools/fetch_sources.py      # about 630 MB into data/ (not committed), 2 minutes
-python3 tools/build_db.py           # builds data/workshop.sqlite, about 10 seconds
+python3 tools/fetch_sources.py      # about 640 MB into data/ (not committed), 2 minutes
+python3 tools/build_db.py           # builds data/workshop.sqlite, about 30 seconds
 python3 tools/serve.py              # then open http://localhost:8800/
 ```
 
@@ -69,6 +75,51 @@ python3 tools/serve.py              # then open http://localhost:8800/
 Each layer can be switched off at the top; the choice is remembered in the browser.
 The server listens on 127.0.0.1 only.
 
+## The word box
+
+![The word box at Timaeus 29a: δημιουργός with Smyth's note on the nominative and LSJ's entry](docs/reader-m3.png)
+
+Click any Greek word. From the top:
+
+- **Tagged** (green, *machine*): GLAUx's lemma and parse, as in milestone 2.
+- **Grammar** (*quoted*): the parse said in a line (*verb: 3rd person singular aorist
+  indicative passive*), then one line per category Smyth has something to say about. Open a
+  line for the rule as Smyth states it (§1923: *The aorist expresses the mere occurrence of an
+  action in the past…*), the whole section on request, and a link to it on Perseus. The sentence
+  role (SBJ, ATR, AuxY…) opens to the definition in the treebank guidelines GLAUx follows.
+  Which Smyth section goes with which category is listed, with the reason for each, in
+  [`sources/grammar/smyth-sections.json`](sources/grammar/smyth-sections.json); change a
+  line there and rebuild. The words of every note are Smyth's or the guidelines'.
+- **Dictionary** (*printed*): Middle Liddell by default, LSJ one click away; the choice is
+  remembered. If the chosen dictionary has no entry and the other has, the other is shown and
+  the box says so. *Expand abbreviations* (on by default) swaps each abbreviation for LSJ's
+  own expansion: *Pl.* → *Plato*, *Ti.* → *Timaeus*, *metaph.* → *metaphorically,
+  metaphorical*, *c. gen.* → *cum genitive*. Hover any of them for the other form, and for an
+  author LSJ's epithet and date. An abbreviation LSJ's list gives two meanings for (*Ep.*:
+  Epic, or Epistula) is never swapped; hover shows both. LSJ's citations of the Timaeus are
+  outlined and jump to the passage (1,486 of them in the entries loaded); a cross-reference
+  (*v. ἔργον*) opens that entry. *Wide view* opens the entry in a large window.
+- **Every possible parse**: as before, but each lemma with an entry is a link to it.
+
+**How a lemma finds its entry.** The lemma and the dictionary key are compared in Beta Code
+without homonym numbers or vowel-length marks. If nothing matches, the same letters and
+breathing with a different accent are tried, then the bare letters; either is shown with a
+warning to check it is the same word (Middle Liddell misprints εἷς as εἵς, for example).
+Of the 2,534 lemmas tagged in the Timaeus, 2,470 have an LSJ entry and 2,263 a Middle Liddell
+entry. The rest are mostly names and words the dictionaries file under another headword
+(πρῶτος under πρότερος in Middle Liddell, ταύτῃ under οὗτος); the box says there is no entry
+and links to Logeion. Nothing is guessed and no definition is written.
+
+**How abbreviations are expanded.** LSJ's front matter is read from the Perseus TEI:
+List I (1,025 authors, 683 works), Lists II to IV (298 inscription, papyrus and periodical
+publications) and List V (506 general abbreviations). Inside a citation the author comes from
+List I and the title from that author's works; in running text, the longest run of words
+List V explains is marked. Eight single words are explained only inside a printed phrase
+(List V has *c. gen. pers. = cum genitivo personae* but no *c.*); they are recorded as such in
+the `abbreviation` table. Middle Liddell's own list of abbreviations is not digitised, so in its
+entries only grammatical abbreviations and the authors LSJ abbreviates the same way (*Hdt.*,
+*Ar.*) are expanded; *Plat.*, *Xen.* and the like are left as printed.
+
 ## The database
 
 Two SQLite files in `data/` (not committed):
@@ -93,6 +144,8 @@ Stephanus section, and every row names its source:
 | Structure | `division` | 76 Stephanus pages and 41 speeches. Parts of the argument and skopos: milestone 9 |
 | Commentary | `note` | Bury's 192 Loeb notes, anchored to the section they are printed in |
 | Links | `link` | 163 references read from those notes by pattern (101 within the Timaeus) |
+| Dictionaries | `lexicon`, `lex_entry`, `lemma_entry`, `abbreviation` | 4,000 LSJ and 3,209 Middle Liddell entries: every lemma GLAUx or Morpheus gives for a word of the text, and the entries those cross-refer to; LSJ's lists of abbreviations |
+| Grammar | `grammar_note`, `relation_label` | 32 notes from 31 sections of Smyth; 22 sentence-role definitions |
 
 The full schema, with a comment on every column, is [`db/schema.sql`](db/schema.sql)
 and [`db/user_schema.sql`](db/user_schema.sql).
@@ -122,6 +175,8 @@ skipped. References are recorded as printed, mistakes included: Bury's "Phaedo 2
 | Lemmas and grammar | GLAUx | Every word of Plato with a lemma, a parse and a Stephanus section. 99.5% of the Timaeus lines up word for word with the Perseus text. |
 | Every possible parse | Perseus Morpheus table | Covers 99.6% of the distinct word forms in the Timaeus; about half of them have more than one possible parse. |
 | Dictionaries | LSJ; Middle Liddell | Headwords found for 97.5% (LSJ) and 89.3% (Middle Liddell) of the Timaeus lemmas. Most misses are proper names and adverbs that the dictionaries list under another word. |
+| Abbreviations (milestone 3) | LSJ front matter, Perseus | Not in the GitHub copy of LSJ; downloaded from Perseus and pinned by SHA-256. |
+| Grammar (milestone 3) | Smyth (1920), Perseus; AGDT 2.0 guidelines | Smyth downloaded from Perseus and pinned by SHA-256; the guidelines from Perseus's treebank repository. |
 
 ### About the lemma data
 
@@ -138,7 +193,8 @@ gutenberg.org, archive.org, wikisource.org, sacred-texts.com, hathitrust.org and
 distantreader.org are blocked from the cloud environment, so sources there have
 to be uploaded or their domains allowed in the project settings. GitHub works,
 which covers Perseus, GLAUx, the lexica, First1KGreek and the GITenberg mirror
-of older Project Gutenberg books.
+of older Project Gutenberg books. (Network access was widened for milestone 3, which is how
+the Perseus website's downloads became reachable.)
 
 ## Layout
 
@@ -149,7 +205,9 @@ sources/          what we use and where it comes from (committed)
   TIMAEUS_PILOT.md
   taylor-1804/    OCR text, kept exactly as received
 db/               schema of the library and of your own database
-tools/            fetch, verify, build the database, serve the reader, Greek helpers
+  grammar/        which Smyth section is quoted for which grammatical category
+tools/            fetch, verify, build the database, serve the reader, Greek helpers,
+                  lexicon.py (dictionary entries, LSJ's abbreviations), grammar.py (Smyth, treebank labels)
 reader/           the reader (HTML, CSS, JavaScript; no libraries)
 tests/
 docs/             screenshots

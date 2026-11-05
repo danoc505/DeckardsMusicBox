@@ -3,8 +3,8 @@
 fetched sources, and create data/user.sqlite for your own work if it does not
 exist yet.
 
-    python3 tools/fetch_sources.py perseus-greek-plato glaux-plato morpheus-analyses
-    python3 tools/build_db.py              # Timaeus, about 30 seconds
+    python3 tools/fetch_sources.py
+    python3 tools/build_db.py              # Timaeus, about a minute
 
 The library is rebuilt from scratch every time (into a temporary file that
 replaces the old one only when the build succeeds). data/user.sqlite is
@@ -17,7 +17,13 @@ Milestone 2 imports the Timaeus:
   structure   Stephanus pages and the speeches (who is speaking, from the TEI)
   commentary  Bury's Loeb footnotes, anchored to the section they are printed in
   links       the Plato references in those footnotes, read by pattern
-Every rule used is in this file; nothing is guessed or generated.
+
+Milestone 3 adds the word lookup:
+  dictionaries Middle Liddell and LSJ entries for every lemma in the imported texts,
+              with LSJ's abbreviations marked with LSJ's own expansions (lexicon.py)
+  grammar     Smyth's sections for each grammatical category, and the treebank
+              guidelines' definitions of the sentence roles (grammar.py)
+Every rule used is in this file or those two; nothing is guessed or generated.
 """
 import argparse
 import difflib
@@ -28,11 +34,13 @@ import sqlite3
 import sys
 import time
 import xml.etree.ElementTree as ET
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import grammar  # noqa: E402
 import greek  # noqa: E402
+import lexicon  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -503,10 +511,140 @@ def build_work(db, work_id, sources):
     return stats
 
 
+# ---------------------------------------------------------------- dictionaries and grammar
+
+LSJ_DIR = RAW / "lsj" / "CTS_XML_TEI" / "perseus" / "pdllex" / "grc" / "lsj"
+LEXICA = [
+    # id, source, entry tag, files, label, printed, how abbreviations are expanded
+    ("middle-liddell", "middle-liddell", "entry", lambda: [RAW / "middle-liddell" / "Perseus_text_1999.04.0058.xml"],
+     "Middle Liddell (1889)", "H. G. Liddell and R. Scott, An Intermediate Greek-English Lexicon (Oxford, 1889)",
+     "Middle Liddell's own list of abbreviations is not digitised. Grammatical abbreviations (metaph., c. gen.) and "
+     "authors that LSJ abbreviates the same way (Hdt., Ar.) are expanded from LSJ's lists; the rest (Plat., Xen.) are left as printed."),
+    ("lsj", "lsj", "entryFree", lambda: sorted(LSJ_DIR.glob("grc.lsj.perseus-eng*.xml"), key=lambda p: int(re.search(r"eng(\d+)", p.name).group(1))),
+     "LSJ (1940)", "H. G. Liddell, R. Scott and H. S. Jones, A Greek-English Lexicon, 9th edition (Oxford, 1940)",
+     "Authors and works from LSJ's List I, everything else from its List V (General List of Abbreviations), as printed."),
+]
+
+
+def build_dictionaries(db):
+    """Entries for every lemma in the database (tagged and Morpheus), then for
+    the words those entries cross-refer to. Returns statistics."""
+    front_xml = (RAW / "lsj-abbreviations" / "lsj-frontmatter.xml").read_text(encoding="utf-8")
+    front = ET.fromstring(front_xml[front_xml.index("<front>"):])
+    abbr = lexicon.abbreviations(front)
+    for a, info in abbr["authors"].items():
+        detail = ", ".join(x for x in (info["epithet"], info["date"]) if x)
+        db.execute("INSERT INTO abbreviation (source_id, list, abbr, expansion, detail, basis) VALUES (?,?,?,?,?,?)",
+                   ("lsj-abbreviations", "I author", a, info["name"], detail, "as printed"))
+        for w, title in info["works"].items():
+            db.execute("INSERT INTO abbreviation (source_id, list, abbr, author_abbr, expansion, basis) VALUES (?,?,?,?,?,?)",
+                       ("lsj-abbreviations", "I work", w, a, title, "as printed"))
+    for p, (lst, full) in abbr["publications"].items():
+        db.execute("INSERT INTO abbreviation (source_id, list, abbr, expansion, basis) VALUES (?,?,?,?,?)",
+                   ("lsj-abbreviations", f"{lst} publication", p, full, "as printed"))
+    for g, exp in abbr["general"].items():
+        basis = abbr["derived"][g] if g in abbr["derived"] else "as printed"
+        db.execute("INSERT INTO abbreviation (source_id, list, abbr, expansion, basis) VALUES (?,?,?,?,?)",
+                   ("lsj-abbreviations", "V general", g, exp, "one word of a printed phrase: " + basis.split(" (from ")[1].rstrip(")") if basis != "as printed" else basis))
+
+    lemmas = {r[0] for r in db.execute("SELECT DISTINCT lemma FROM tag WHERE lemma != ''")}
+    lemmas |= {r[0] for r in db.execute("SELECT DISTINCT lemma FROM morph")}
+    # Morpheus lists word-endings (-τε, -ως) as lemmas of compounds; they have no entries.
+    lemmas = {greek.nfc(re.sub(r"\d", "", l)) for l in lemmas if l and greek.is_greek(l) and not l.startswith("-")}
+    stats = {"lemmas": len(lemmas), "abbreviations": {"authors": len(abbr["authors"]),
+             "works": sum(len(a["works"]) for a in abbr["authors"].values()), "general": len(abbr["general"]),
+             "general_derived": len(abbr["derived"]), "general_unparsed": len(abbr["unparsed"]),
+             "publications": len(abbr["publications"])}}
+    for lex_id, src, tag, files, label, printed, note in LEXICA:
+        db.execute("INSERT INTO lexicon VALUES (?,?,?,?,?)", (lex_id, src, label, printed, note))
+        renderer = lexicon.Renderer(lex_id, abbr)
+        stored = {}  # match_key -> [entry ids]
+        unaccented = defaultdict(list)
+        plain = defaultdict(list)
+
+        def load(wanted):
+            xrefs = set()
+            for key, el in lexicon.entries(files(), tag, wanted):
+                mk = lexicon.entry_key(key)
+                body = renderer.render(el)
+                n_ab = body.count('<abbr class="ab')
+                cur = db.execute("INSERT INTO lex_entry (lexicon_id, src_id, key, headword, match_key, unaccented_key, plain_key, html, n_abbr) VALUES (?,?,?,?,?,?,?,?,?)",
+                                 (lex_id, el.get("id"), key, lexicon.headword(mk), mk, lexicon.unaccented_key(key), lexicon.accentless_key(key), body, n_ab))
+                stored.setdefault(mk, []).append(cur.lastrowid)
+                unaccented[lexicon.unaccented_key(key)].append(cur.lastrowid)
+                plain[lexicon.accentless_key(key)].append(cur.lastrowid)
+                xrefs.update(re.findall(r'data-lemma="([^"]+)"', body))
+                el.clear()
+            return xrefs
+
+        wanted = set()
+        for l in lemmas:
+            for k in lexicon.lemma_keys(l):
+                wanted.add(k)
+                wanted.add(lexicon.accentless_key(k))
+        xrefs = load(wanted)
+        # Cross-references ('v. ἔργω'), one level: entries they point to that are not in yet.
+        extra = set()
+        for x in xrefs:
+            for k in lexicon.lemma_keys(x):
+                if k not in stored:
+                    extra.add(k)
+        if extra:
+            load(extra)
+        counts = Counter()
+        for l in sorted(lemmas | {greek.nfc(x) for x in xrefs if not x.startswith("-")}):
+            keys = lexicon.lemma_keys(l)
+            hit, method = [], None
+            for k, m in zip(keys, ("same-spelling", "capital-lowered")):
+                if k in stored:
+                    hit, method = stored[k], m
+                    break
+            if not hit and keys:
+                # Same letters and breathing, different accent (a misprint or variant accentuation);
+                # failing that, the same bare letters. Both are shown with a warning.
+                uk, pk = lexicon.unaccented_key(keys[0]), lexicon.accentless_key(keys[0])
+                if uk in unaccented:
+                    hit, method = unaccented[uk], "accent-differs"
+                elif pk in plain:
+                    hit, method = plain[pk], "letters-only"
+            for eid in hit:
+                db.execute("INSERT OR IGNORE INTO lemma_entry VALUES (?,?,?,?)", (l, lex_id, eid, method))
+            if l in lemmas:
+                counts[method or "none"] += 1
+        stats[lex_id] = {"entries": len({e for v in stored.values() for e in v}), "lemmas": dict(counts),
+                         "abbreviations_marked": renderer.stats["abbr_expanded"],
+                         "abbreviations_not_in_lists": renderer.stats["abbr_unknown"]}
+    return stats
+
+
+def build_grammar(db):
+    sections = grammar.section_map()["sections"]
+    wanted = {n for cat in sections.values() for vals in cat.values() for n, _ in vals}
+    smyth = grammar.smyth_sections(RAW / "smyth-grammar" / "smyth.xml", wanted)
+    missing = wanted - set(smyth)
+    if missing:
+        raise SystemExit(f"Smyth sections not found: {sorted(missing)}")
+    n_notes = 0
+    for cat, vals in sections.items():
+        for val, secs in vals.items():
+            for i, (n, reason) in enumerate(secs):
+                s = smyth[n]
+                db.execute("INSERT INTO grammar_note VALUES (?,?,?,?,?,?,?,?,?,?)",
+                           (cat, val, i, n, s["heading"], s["rule_html"], s["full_html"], s["url"], reason, "smyth-grammar"))
+                n_notes += 1
+    labels = grammar.agdt_labels(RAW / "agdt-guidelines" / "AGDT2" / "guidelines" / "Greek_guidelines.md")
+    for code, lab in labels.items():
+        definition = html.escape(lab["definition"])
+        definition = re.sub(r"\bSG (\d+)", lambda m: f'SG <a class="smyth" href="{grammar.SMYTH_URL.format(n=m.group(1))}" target="_blank" rel="noopener">{m.group(1)}</a>', definition)
+        db.execute("INSERT INTO relation_label VALUES (?,?,?,?)", (code, lab["name"], definition, "agdt-guidelines"))
+    return {"grammar_notes": n_notes, "smyth_sections": len(smyth), "relation_labels": len(labels)}
+
+
 def build(works, db_path=None):
     db_path = Path(db_path or DB_PATH)
     sources = load_sources()
-    require(["perseus-greek-plato", "glaux-plato", "morpheus-analyses"], sources)
+    require(["perseus-greek-plato", "glaux-plato", "morpheus-analyses", "lsj", "middle-liddell",
+             "lsj-abbreviations", "smyth-grammar", "agdt-guidelines"], sources)
     DATA.mkdir(exist_ok=True)
     tmp = db_path.with_suffix(".building")
     if tmp.exists():
@@ -515,13 +653,16 @@ def build(works, db_path=None):
     db.executescript(SCHEMA.read_text(encoding="utf-8"))
     for s in sources:
         db.execute("INSERT INTO source VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", (
-            s["id"], s["title"], s["kind"], s.get("repo"), s.get("commit"), s.get("fetched_sha"), s.get("path"),
+            s["id"], s["title"], s["kind"], s.get("repo") or s.get("url"), s.get("commit") or s.get("sha256"), s.get("fetched_sha"), s.get("path"),
             s.get("layer"), s.get("language"), s.get("licence"), s["provenance"], s.get("status")))
     for d in sorted(PERSEUS_DIR.glob("tlg0*")):
         cts = (d / "__cts__.xml").read_text(encoding="utf-8")
         db.execute("INSERT INTO work (id, urn, title) VALUES (?,?,?)",
                    (d.name, f"{PLATO_URN}.{d.name}", re.search(r"<ti:title[^>]*>([^<]+)", cts).group(1).strip()))
     all_stats = [build_work(db, w, sources) for w in works]
+    lookup_stats = build_dictionaries(db)
+    lookup_stats.update(build_grammar(db))
+    db.execute("INSERT INTO build VALUES ('lookup_stats', ?)", (json.dumps(lookup_stats, ensure_ascii=False),))
     db.execute("INSERT INTO build VALUES ('built_at', ?)", (time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),))
     db.execute("INSERT INTO build VALUES ('stats', ?)", (json.dumps(all_stats),))
     db.commit()
@@ -530,7 +671,7 @@ def build(works, db_path=None):
     if problems:
         raise SystemExit(f"foreign key problems: {problems[:5]}")
     tmp.replace(db_path)
-    return all_stats
+    return all_stats + [lookup_stats]
 
 
 def ensure_user_db(path=USER_DB_PATH):

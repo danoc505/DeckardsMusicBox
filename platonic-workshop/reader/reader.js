@@ -1,8 +1,8 @@
-// Platonic Workshop reader (milestone 2). No libraries, no build step.
+// Platonic Workshop reader (milestones 2 and 3). No libraries, no build step.
 "use strict";
 
 const WORK = "tlg031";
-const state = { work: null, page: null, data: null, selected: null, target: null };
+const state = { work: null, page: null, data: null, selected: null, target: null, token: null, dict: null, lexica: [] };
 const $ = (sel, el = document) => el.querySelector(sel);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const STEPH = /^(\d{1,3})([a-e])?$/;
@@ -239,25 +239,149 @@ async function inspect(id) {
   } else {
     html += `<div class="box none"><h3>Not tagged</h3>GLAUx has no word that lines up with this one${/^\[|\]$/.test(t.form) ? "" : " (often a word Burnet brackets as spurious, which GLAUx leaves out)"}. The parses below are still every possibility.</div>`;
   }
+  html += renderGrammar(t);
+  html += `<div class="box dict" id="dict"></div>`;
   if (t.morph.length) {
     html += `<div class="box alts"><h3>Every possible parse <span class="badge warn">rule-based</span></h3><ol>${t.morph.map((m) =>
-      `<li class="${m.matches_tag ? "agree" : ""}"><span class="l" lang="grc">${esc(m.lemma)}</span>${m.gloss ? ` <span class="g">${esc(m.gloss)}</span>` : ""}<br>${esc(m.parse)}${m.matches_tag ? ` <span class="agree-mark">· the tagger's choice</span>` : m.same_lemma_as_tag ? ` <span class="meta">· same lemma, other parse</span>` : ""}</li>`
-    ).join("")}</ol><p class="prov">From the Morpheus analyser's table (key <code>${esc(t.morph_key)}</code>). No statistics: these are all the forms this spelling can be.</p></div>`;
+      `<li class="${m.matches_tag ? "agree" : ""}">${m.has_entry ? `<a class="l lk" lang="grc" data-lemma="${esc(m.lemma)}" title="Show the dictionary entry for ${esc(m.lemma)}">${esc(m.lemma)}</a>` : `<span class="l" lang="grc">${esc(m.lemma)}</span>`}${m.gloss ? ` <span class="g">${esc(m.gloss)}</span>` : ""}<br>${esc(m.parse)}${m.matches_tag ? ` <span class="agree-mark">· the tagger's choice</span>` : m.same_lemma_as_tag ? ` <span class="meta">· same lemma, other parse</span>` : ""}</li>`
+    ).join("")}</ol><p class="prov">From the Morpheus analyser's table (key <code>${esc(t.morph_key)}</code>). No statistics: these are all the forms this spelling can be. Click a lemma for its dictionary entry.</p></div>`;
   } else {
     html += `<div class="box alts"><h3>Every possible parse</h3><p class="prov">Morpheus has no entry for this spelling.</p></div>`;
   }
-  html += `<details class="prov"><summary>Sources for this word</summary>
-    <p><strong>${esc(g.title)}</strong><br>${esc(g.provenance)}<br>Licence: ${esc(g.licence)} · commit <code>${esc(g.commit_sha.slice(0, 10))}</code></p>
-    <p><strong>${esc(mo.title)}</strong><br>${esc(mo.provenance)}<br>Licence: ${esc(mo.licence)} · commit <code>${esc(mo.commit_sha.slice(0, 10))}</code></p></details>
-    <p class="later">Dictionary entries (Middle Liddell, LSJ) and plain-English grammar notes arrive in milestone 3; every occurrence across Plato in milestone 5.</p>`;
+  html += `<details class="prov"><summary>Sources for this word</summary>${
+    ["glaux-plato", "morpheus-analyses", "middle-liddell", "lsj", "lsj-abbreviations", "smyth-grammar", "agdt-guidelines"].map((k) => t.sources[k]).filter(Boolean).map((s) =>
+      `<p><strong>${esc(s.title)}</strong><br>${esc(s.provenance)}<br>Licence: ${esc(s.licence)} · ${/^[0-9a-f]{64}$/.test(s.commit_sha) ? "sha256" : "commit"} <code>${esc(s.commit_sha.slice(0, 10))}</code></p>`).join("")
+  }</details>
+    <p class="later">Every occurrence of this word across Plato arrives in milestone 5.</p>`;
   box.innerHTML = html;
+  state.token = t;
+  const first = t.lookup[0];
+  if (first) showDict(first, true);
+  else $("#dict").innerHTML = `<h3>Dictionary</h3><p class="prov">No tagged lemma to look up. Click a lemma under <em>Every possible parse</em>.</p>`;
+}
+
+// ------------------------------------------------------------------ grammar notes
+
+// The order a reader says a parse in: person and number, then tense, mood, voice, then gender, case, degree.
+const SAY = ["person", "number", "tense", "mood", "voice", "gender", "case", "degree"];
+function sayParse(features) {
+  const f = Object.fromEntries(features);
+  const pos = f["part of speech"] || "";
+  const words = SAY.filter((k) => f[k]).map((k) => f[k]);
+  return (pos ? pos + (words.length ? ": " : "") : "") + words.join(" ");
+}
+
+function renderGrammar(t) {
+  if (!t.grammar.length) return "";
+  let html = `<div class="box grammar"><h3>Grammar <span class="badge quoted">quoted</span></h3>`;
+  for (const g of t.grammar) {
+    const tag = t.tags.find((x) => x.part === g.part);
+    if (t.grammar.length > 1) html += `<div class="g-part"><span lang="grc">${esc(tag.source_form)}</span></div>`;
+    html += `<p class="say">${esc(sayParse(tag.features))}</p><ul class="g-notes">`;
+    for (const n of g.notes) {
+      if (!n.smyth.length) continue;  // person, number, gender: the line above says them, and Smyth has no note to add
+      html += `<li><details><summary><b>${esc(n.value)}</b> <span class="meta">${esc(n.category)} · Smyth ${n.smyth.map((x) => "§" + esc(x.section)).join(", ")}</span></summary>${
+        n.smyth.map((x) => `<div class="smyth-note"><div class="rule">${x.rule_html}</div>${x.full_html.length > x.rule_html.length + 20 ? `<details class="more"><summary>The whole of §${esc(x.section)}</summary>${x.full_html}</details>` : ""}
+          <p class="prov">Smyth, <i>Greek Grammar</i> (1920) §${esc(x.section)}${x.heading ? `, under “${esc(x.heading)}”` : ""} · <a href="${esc(x.url)}" target="_blank" rel="noopener">on Perseus</a> · shown here as ${esc(x.reason)}.</p></div>`).join("")
+      }</details></li>`;
+    }
+    if (g.role) {
+      const r = g.role, lab = r.label;
+      html += `<li><details><summary><b>${esc(lab && lab.name ? lab.name : r.code)}</b> <span class="meta">role in sentence · ${esc(r.code)}</span></summary>${
+        lab ? `<p>${lab.definition_html}</p>` : `<p class="prov">The treebank guidelines do not describe the label ${esc(r.code)}; it is GLAUx's own.</p>`}${
+        r.suffix ? `<p>${r.suffix.definition_html}</p>` : ""}<p class="prov">Ancient Greek Dependency Treebank guidelines 2.0, the scheme GLAUx follows. The role was assigned by the same statistical tagger as the parse.</p></details></li>`;
+    }
+    html += `</ul>`;
+  }
+  return html + `<p class="prov">The parse is the tagger's; each explanation is Smyth's own words, or the treebank guidelines'. Click a line to open it.</p></div>`;
+}
+
+// ------------------------------------------------------------------ dictionary
+
+function prefs() {
+  try { return JSON.parse(localStorage.getItem("pw.dict") || "{}"); } catch (e) { return {}; }
+}
+function savePrefs(p) {
+  try { localStorage.setItem("pw.dict", JSON.stringify({ ...prefs(), ...p })); } catch (e) { /* private window */ }
+}
+
+const METHOD_NOTE = {
+  "same-spelling": "",
+  "capital-lowered": "Filed under the same word in lower case.",
+  "accent-differs": "No entry has exactly this spelling; this one has the same letters and breathing with a different accent. Check that it is the same word.",
+  "letters-only": "No entry has exactly this spelling; this one has the same letters with a different breathing or accent. Check that it is the same word.",
+};
+
+function showDict(data, isTagged, forceLex) {
+  const box = $("#dict");
+  if (!box) return;
+  const p = prefs();
+  // The dictionary chosen last (Middle Liddell at first); if it has no entry and the other does, the other.
+  const want = p.lex && data.entries[p.lex] ? p.lex : "middle-liddell";
+  const has = (id) => (data.entries[id] || []).length > 0;
+  const fallback = !has(want) && state.lexica.find((l) => has(l.id));
+  const lex = forceLex || (fallback ? fallback.id : want);
+  state.dict = { data, lex, isTagged };
+  const tabs = state.lexica.map((l) => {
+    const n = (data.entries[l.id] || []).length;
+    return `<button class="tab${l.id === lex ? " on" : ""}" data-lex="${esc(l.id)}" ${n ? "" : 'title="No entry"'}>${esc(l.label)}${n ? "" : " ·"}</button>`;
+  }).join("");
+  const entries = data.entries[lex] || [];
+  const switched = fallback && lex !== want ? `<p class="prov">${esc((state.lexica.find((l) => l.id === want) || {}).label)} has no entry under this word; showing ${esc(fallback.label)}.</p>` : "";
+  const lx = state.lexica.find((l) => l.id === lex) || {};
+  let body;
+  if (!entries.length) {
+    const other = state.lexica.find((l) => l.id !== lex && (data.entries[l.id] || []).length);
+    body = `<p class="none-msg">${esc(lx.label)} has no entry under <span lang="grc">${esc(data.lemma)}</span>.${other ? ` ${esc(other.label)} has.` : ""}
+      Dictionaries often file a word under a related headword (an adverb under its adjective, a deponent under its active form).</p>
+      <p class="prov">Look it up elsewhere: <a href="https://logeion.uchicago.edu/${encodeURIComponent(data.lemma)}" target="_blank" rel="noopener">Logeion</a>.</p>`;
+  } else {
+    body = entries.map((e) => {
+      const warn = METHOD_NOTE[e.method];
+      return `<article class="entry" data-entry="${e.id}">${warn ? `<p class="match-warn">${esc(warn)}</p>` : ""}${e.html}
+        <p class="prov">${esc(lx.label)}, entry <code>${esc(e.key)}</code>${e.src_id ? ` (${esc(e.src_id)})` : ""}.</p></article>`;
+    }).join("");
+  }
+  const expanded = p.expand !== false;
+  box.innerHTML = `<h3>Dictionary <span class="badge quoted">printed</span></h3>
+    <div class="dict-head"><span class="lemma" lang="grc">${esc(data.lemma)}</span>${isTagged ? ` <span class="meta">tagged lemma</span>` : state.token && state.token.lookup[0] ? ` <a class="back lk" data-lemma="${esc(state.token.lookup[0].lemma)}" data-tagged="1">back to the tagged lemma</a>` : ""}</div>
+    <div class="tabs">${tabs}</div>
+    <label class="ab-toggle"><input type="checkbox" id="ab-expand" ${expanded ? "checked" : ""}> Expand abbreviations</label>
+    ${switched}<div class="entries${expanded ? " expanded" : ""}">${body}</div>
+    <p class="prov">${esc(lx.printed || "")}. ${esc(lx.abbr_note || "")} ${entries.length ? `<button class="link-btn" id="dict-wide">Wide view</button>` : ""}</p>`;
+  applyAbbr(box.querySelector(".entries"), expanded);
+}
+
+function applyAbbr(container, expanded) {
+  container.classList.toggle("expanded", expanded);
+  container.querySelectorAll("abbr.ab:not(.amb)").forEach((a) => {
+    if (!a.dataset.o) a.dataset.o = a.textContent;
+    a.textContent = expanded ? a.dataset.x : a.dataset.o;
+    const detail = a.dataset.d ? ` (${a.dataset.d})` : "";
+    a.title = expanded ? `printed: ${a.dataset.o}${detail}` : a.dataset.x + detail;
+  });
+}
+
+async function lookupLemma(lemma, isTagged) {
+  const box = $("#dict");
+  if (!box) return;
+  box.classList.add("busy");
+  try {
+    const data = (state.token && state.token.lookup.find((l) => l.lemma === lemma)) || await api(`lookup/${encodeURIComponent(lemma)}`);
+    showDict(data, isTagged);
+    box.scrollIntoView({ block: "nearest" });
+  } catch (e) {
+    box.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  } finally {
+    box.classList.remove("busy");
+  }
 }
 
 function closeInspector() {
   state.selected = null;
   document.querySelectorAll(".w.sel").forEach((e) => e.classList.remove("sel"));
   document.body.classList.remove("inspecting");
-  $("#inspector").innerHTML = `<div class="inspector-empty"><p><strong>Click any Greek word</strong> for its tagged lemma and parse, with every other possible parse beside it.</p></div>`;
+  $("#inspector").innerHTML = `<div class="inspector-empty"><p><strong>Click any Greek word</strong> for its lemma, parse, grammar notes and dictionary entry.</p></div>`;
 }
 
 // ------------------------------------------------------------------ sources dialog
@@ -265,7 +389,9 @@ function closeInspector() {
 async function showSources() {
   const d = await api("sources");
   const stats = JSON.parse(d.build.stats || "[]")[0] || {};
-  $("#about-body").innerHTML = `<p class="meta">Library built ${esc(d.build.built_at)}. Timaeus: ${stats.sections} sections, ${stats.tokens} Greek words, ${stats.tagged} tagged, ${stats.notes} notes, ${stats.links} links.</p>` +
+  let look = {};
+  try { look = JSON.parse(d.build.lookup_stats || "{}"); } catch (e) { /* older build */ }
+  $("#about-body").innerHTML = `<p class="meta">Library built ${esc(d.build.built_at)}. Timaeus: ${stats.sections} sections, ${stats.tokens} Greek words, ${stats.tagged} tagged, ${stats.notes} notes, ${stats.links} links.${look.lsj ? ` Dictionaries: ${look.lsj.entries} LSJ and ${look["middle-liddell"].entries} Middle Liddell entries for ${look.lemmas} lemmas; ${look.grammar_notes} Smyth notes; ${look.relation_labels} sentence roles.` : ""}</p>` +
     d.sources.map((s) => `<div class="src"><h4>${esc(s.title)}</h4>
       <div>${esc(s.provenance)}</div>
       <div class="meta">Layer: ${esc(s.layer)} · Licence: ${esc(s.licence)} · Status: ${esc(s.status)}${s.repo ? ` · <code>${esc(s.repo)}</code> @ <code>${esc((s.fetched_sha || s.commit_sha || "").slice(0, 10))}</code>` : ""}${s.path ? ` · <code>${esc(s.path)}</code>` : ""}</div></div>`).join("");
@@ -278,6 +404,29 @@ document.addEventListener("click", (ev) => {
   const w = ev.target.closest(".w");
   if (w) { inspect(+w.dataset.t); return; }
   if (ev.target.closest(".insp-close")) { closeInspector(); return; }
+  const lk = ev.target.closest("[data-lemma]");
+  if (lk) {
+    ev.preventDefault();
+    if (lk.closest("#entry-dialog")) $("#entry-dialog").close();
+    lookupLemma(lk.dataset.lemma, !!lk.dataset.tagged);
+    return;
+  }
+  const tab = ev.target.closest("[data-lex]");
+  if (tab && state.dict) { savePrefs({ lex: tab.dataset.lex }); showDict(state.dict.data, state.dict.isTagged, tab.dataset.lex); return; }
+  const cite = ev.target.closest(".bibl.plato");
+  if (cite && cite.dataset.work === WORK && cite.dataset.ref) {
+    if (cite.closest("#entry-dialog")) $("#entry-dialog").close();
+    go(cite.dataset.ref);
+    return;
+  }
+  if (ev.target.closest("#dict-wide") && state.dict) {
+    const src = $("#dict .entries");
+    $("#entry-body").innerHTML = `<div class="entries">${src.innerHTML}</div>`;
+    $("#entry-title").textContent = state.dict.data.lemma;
+    applyAbbr($("#entry-body .entries"), src.classList.contains("expanded"));
+    $("#entry-dialog").showModal();
+    return;
+  }
   const ref = ev.target.closest(".ref");
   if (ref) {
     navigator.clipboard?.writeText(ref.dataset.copy).catch(() => {});
@@ -291,6 +440,13 @@ document.addEventListener("click", (ev) => {
   if (n) {
     const li = document.getElementById("note-" + n.dataset.note);
     if (li) { ev.preventDefault(); li.scrollIntoView({ block: "center" }); li.classList.add("flash"); setTimeout(() => li.classList.remove("flash"), 1200); }
+  }
+});
+
+document.addEventListener("change", (ev) => {
+  if (ev.target.id === "ab-expand") {
+    savePrefs({ expand: ev.target.checked });
+    applyAbbr($("#dict .entries"), ev.target.checked);
   }
 });
 
@@ -321,6 +477,7 @@ document.addEventListener("keydown", (ev) => {
     $("#main").innerHTML = `<p class="error">The library is not built yet. Run <code>python3 tools/build_db.py</code>, then reload.</p>`;
     return;
   }
+  try { state.lexica = await api("lexica"); } catch (e) { state.lexica = []; }
   const grc = state.work.editions.find((e) => e.lang === "grc");
   $("#work-title").textContent = state.work.title;
   $("#work-sub").textContent = `${grc.printed} · ${state.work.counts.notes} notes · ${state.work.counts.links_out} links`;
