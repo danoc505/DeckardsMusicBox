@@ -713,7 +713,7 @@ in `sources/dossiers/web-checks.json`, so the build itself needs no network) and
 | Diagrams | 17 |
 | Renderings compared, found | 54 / 54 |
 | Web pages, words found | 110 / 110 |
-| Notes naming a dossier (on it / elsewhere) | 145 / 769 |
+| Notes naming a dossier (on it / elsewhere) | 314 / 1,688 |
 | Words found only in a dossier's passage | 762 |
 | Shared phrases | 302 |
 
