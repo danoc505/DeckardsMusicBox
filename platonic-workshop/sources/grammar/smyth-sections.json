@@ -1,0 +1,50 @@
+{
+  "_comment": "Which sections of Smyth's Greek Grammar (1920) the word box quotes for each grammatical category of a tagged parse. The categories are those of the 9-position AGDT tag that GLAUx uses (tools/greek.py decode_postag). The text shown is always Smyth's own; this file only records which section was chosen and why. Chosen for the Workshop in November 2026; change any line and rebuild. Categories with no entry (singular, masculine, 3rd person ...) get no note.",
+  "sections": {
+    "part of speech": {
+      "adjective": [["1018", "Smyth's opening statement on the syntax of adjectives"]],
+      "adverb": [["1094", "the opening of Smyth's section on adverbs, with the two kinds"]],
+      "article": [["1099", "the opening of Smyth's chapter on the article"]],
+      "particle": [["2769", "the opening of Smyth's chapter on particles"]],
+      "conjunction": [["2770", "Smyth's list of the kinds of conjunction"]],
+      "preposition": [["1636", "the opening of Smyth's chapter on prepositions"]]
+    },
+    "number": {
+      "dual": [["999", "Smyth on the use of the dual"]]
+    },
+    "tense": {
+      "present": [["1875", "the present proper, the first use Smyth gives"]],
+      "imperfect": [["1889", "the imperfect proper"]],
+      "future": [["1910", "the opening of Smyth's section on the future"]],
+      "aorist": [["1923", "the opening of Smyth's section on the aorist indicative"]],
+      "perfect": [["1945", "the opening of Smyth's section on the perfect"]],
+      "pluperfect": [["1952", "the opening of Smyth's section on the pluperfect"]],
+      "future perfect": [["1955", "the opening of Smyth's section on the future perfect"]]
+    },
+    "mood": {
+      "indicative": [["1770", "the opening of Smyth's section on the indicative"]],
+      "subjunctive": [["1795", "Smyth's summary of the uses of the independent subjunctive"]],
+      "optative": [["1814", "the optative of wish, from which the mood takes its name"], ["1824", "the potential optative with ἄν"]],
+      "imperative": [["1835", "the opening of Smyth's section on the imperative"]],
+      "infinitive": [["1966", "the opening of Smyth's chapter on the infinitive"]],
+      "participle": [["2039", "the opening of Smyth's chapter on the participle"]]
+    },
+    "voice": {
+      "active": [["1703", "the opening of Smyth's section on the active voice"]],
+      "middle": [["1713", "the opening of Smyth's section on the middle voice"]],
+      "passive": [["1735", "the opening of Smyth's section on the passive voice"]],
+      "middle or passive": [["1735", "the passive, whose note a. explains that outside the future and aorist the same forms serve as middle and passive"]]
+    },
+    "case": {
+      "nominative": [["938", "Smyth on the nominative as the case of the subject"]],
+      "genitive": [["1289", "the opening of Smyth's chapter on the genitive"]],
+      "dative": [["1450", "the opening of Smyth's chapter on the dative"]],
+      "accusative": [["1551", "the opening of Smyth's chapter on the accusative"]],
+      "vocative": [["1283", "Smyth on the vocative"]]
+    },
+    "degree": {
+      "comparative": [["1066", "Smyth on the use of the comparative"]],
+      "superlative": [["1085", "Smyth on the use of the superlative"]]
+    }
+  }
+}

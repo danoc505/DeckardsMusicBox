@@ -1,0 +1,143 @@
+{
+ "taylor1804.general-introduction": {
+  "segments": 178,
+  "words": 34649,
+  "parts": {
+   "text": 178
+  },
+  "footnotes": 63,
+  "footnotes_signed": {
+   "unsigned": 63
+  },
+  "additional_notes": 0,
+  "additional_aligned": 0,
+  "additional_match_kinds": {},
+  "flagged_spans": 4,
+  "page_breaks": 102,
+  "problems": []
+ },
+ "taylor1804.platonic-terms": {
+  "segments": 74,
+  "words": 3665,
+  "parts": {
+   "text": 70,
+   "site": 4
+  },
+  "footnotes": 2,
+  "footnotes_signed": {
+   "unsigned": 2
+  },
+  "additional_notes": 0,
+  "additional_aligned": 0,
+  "additional_match_kinds": {},
+  "flagged_spans": 0,
+  "page_breaks": 0,
+  "problems": []
+ },
+ "taylor1804.olympiodorus-life": {
+  "segments": 26,
+  "words": 1959,
+  "parts": {
+   "text": 26
+  },
+  "footnotes": 8,
+  "footnotes_signed": {
+   "unsigned": 8
+  },
+  "additional_notes": 0,
+  "additional_aligned": 0,
+  "additional_match_kinds": {},
+  "flagged_spans": 0,
+  "page_breaks": 6,
+  "problems": []
+ },
+ "taylor1804.alcibiades-1": {
+  "segments": 998,
+  "words": 21981,
+  "parts": {
+   "site": 3,
+   "introduction": 8,
+   "translation": 985,
+   "additional-notes": 2
+  },
+  "footnotes": 121,
+  "footnotes_signed": {
+   "Taylor": 9,
+   "unsigned": 42,
+   "Sydenham": 70
+  },
+  "additional_notes": 19,
+  "additional_aligned": 19,
+  "additional_match_kinds": {
+   "exact": 18,
+   "first 8 words": 1
+  },
+  "flagged_spans": 0,
+  "page_breaks": 0,
+  "stephanus_sections": 162,
+  "stephanus_first_last": [
+   "103a",
+   "135e"
+  ],
+  "stephanus_sequence_breaks": [],
+  "translation_before_first_marker": 0,
+  "perseus": {
+   "greek_sections": 162,
+   "missing_in_taylor": [],
+   "not_in_greek": []
+  },
+  "problems": []
+ },
+ "taylor1804.republic": {
+  "segments": 2013,
+  "words": 151053,
+  "parts": {
+   "site": 3,
+   "introduction": 8,
+   "translation": 1809,
+   "introduction-books-2-3": 185,
+   "additional-notes": 8
+  },
+  "footnotes": 163,
+  "footnotes_signed": {
+   "unsigned": 163
+  },
+  "additional_notes": 10,
+  "additional_aligned": 9,
+  "additional_match_kinds": {
+   "exact": 5,
+   "in footnote": 1,
+   "exact; 55 places, nearest to the 1804 page": 1,
+   "first 6 words": 2,
+   "not found": 1
+  },
+  "flagged_spans": 0,
+  "page_breaks": 0,
+  "stephanus_sections": 1354,
+  "stephanus_first_last": [
+   "327a",
+   "621d"
+  ],
+  "stephanus_sequence_breaks": [
+   "354c -> 357a",
+   "383c -> 386a",
+   "417b -> 419a",
+   "445e -> 449a",
+   "480a -> 484a",
+   "511e -> 514a",
+   "541b -> 543a",
+   "560c -> 560e",
+   "569c -> 571a",
+   "592b -> 595a"
+  ],
+  "translation_before_first_marker": 0,
+  "perseus": {
+   "greek_sections": 1355,
+   "missing_in_taylor": [
+    "560d"
+   ],
+   "not_in_greek": []
+  },
+  "problems": []
+ }
+}

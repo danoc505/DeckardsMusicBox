@@ -1,0 +1,50 @@
+{
+  "_comment": "The theosophylib.com pages that make up vol. I of Taylor's 1804 Works of Plato, in the printed order. 'perseus' is the Perseus CTS work id for dialogues, used to check Stephanus coverage against Burnet's Greek. 'translator' is who made the English: see README.md for the evidence.",
+  "pages": [
+    {
+      "slug": "plato-intro",
+      "url": "https://theosophylib.com/tt/plato-intro/",
+      "work": "general-introduction",
+      "title": "General Introduction",
+      "author": "Thomas Taylor",
+      "translator": null,
+      "perseus": null
+    },
+    {
+      "slug": "explanation-of-certain-platonic-terms",
+      "url": "https://theosophylib.com/tt/explanation-of-certain-platonic-terms/",
+      "work": "platonic-terms",
+      "title": "Explanation of Certain Platonic Terms",
+      "author": "Thomas Taylor",
+      "translator": null,
+      "perseus": null
+    },
+    {
+      "slug": "the-life-of-plato-by-olympiodorus",
+      "url": "https://theosophylib.com/tt/the-life-of-plato-by-olympiodorus/",
+      "work": "olympiodorus-life",
+      "title": "The Life of Plato, by Olympiodorus",
+      "author": "Olympiodorus",
+      "translator": "Thomas Taylor",
+      "perseus": null
+    },
+    {
+      "slug": "the-first-alcibiades",
+      "url": "https://theosophylib.com/tt/the-first-alcibiades/",
+      "work": "alcibiades-1",
+      "title": "The First Alcibiades",
+      "author": "Plato",
+      "translator": "Floyer Sydenham, revised by Thomas Taylor",
+      "perseus": "tlg013"
+    },
+    {
+      "slug": "the-republic",
+      "url": "https://theosophylib.com/tt/the-republic/",
+      "work": "republic",
+      "title": "The Republic",
+      "author": "Plato",
+      "translator": "Thomas Taylor",
+      "perseus": "tlg030"
+    }
+  ]
+}

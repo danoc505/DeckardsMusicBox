@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Platonic Workshop</title>
+<link rel="stylesheet" href="reader.css">
+</head>
+<body>
+<header class="bar">
+  <div class="bar-title">
+    <span class="work-title" id="work-title">Timaeus</span>
+    <span class="work-sub" id="work-sub"></span>
+  </div>
+  <form class="jump" id="jump" autocomplete="off">
+    <button type="button" id="prev" title="Previous Stephanus page (←)" aria-label="Previous page">‹</button>
+    <label for="jump-ref" class="sr">Go to Stephanus reference</label>
+    <input id="jump-ref" placeholder="29e" spellcheck="false" inputmode="text" aria-label="Stephanus reference">
+    <button type="button" id="next" title="Next Stephanus page (→)" aria-label="Next page">›</button>
+  </form>
+  <nav class="layers" aria-label="Layers">
+    <label><input type="checkbox" data-layer="eng" checked> English</label>
+    <label><input type="checkbox" data-layer="notes" checked> Commentary</label>
+    <label><input type="checkbox" data-layer="links" checked> Links</label>
+    <label><input type="checkbox" data-layer="mine" checked> Your work</label>
+    <label><input type="checkbox" data-layer="untagged"> Mark untagged words</label>
+    <button type="button" id="about-btn" class="link-btn">Sources</button>
+  </nav>
+</header>
+
+<div class="shell">
+  <aside class="toc" id="toc" aria-label="Stephanus pages and speakers"></aside>
+  <main id="main" class="text" aria-live="polite"><p class="loading">Loading…</p></main>
+  <aside class="inspector" id="inspector" aria-label="Word">
+    <div class="inspector-empty">
+      <p><strong>Click any Greek word</strong> for its lemma and parse, plain-English grammar notes from Smyth, and its entries in Middle Liddell and LSJ, with every other possible parse beside it.</p>
+      <p>Click a section number (<span class="ref-sample">29e</span>) to copy its reference.</p>
+      <p class="keys">Keys: ← → pages, <kbd>g</kbd> go to reference, <kbd>Esc</kbd> close.</p>
+    </div>
+  </aside>
+</div>
+
+<dialog id="about">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2>Sources in this library</h2>
+  <div id="about-body"></div>
+</dialog>
+
+<dialog id="entry-dialog" class="wide">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2 lang="grc" id="entry-title"></h2>
+  <div id="entry-body"></div>
+</dialog>
+
+<script src="reader.js"></script>
+</body>
+</html>
