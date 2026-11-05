@@ -52,7 +52,8 @@ hand-checked treebanks (about 98.8% accurate for lemmas, 97.2% for parses).
 Only Euthyphro, Apology, Crito and Clitophon are hand-checked; the Timaeus is
 entirely machine-tagged. The Workshop will label this data as tagged, never
 present it as established, and show Morpheus's rule-based list of every
-possible parse beside it, so you can always see the alternatives.
+possible parse beside it, so you can always see the alternatives. Daniel
+approved using GLAUx on 5 November 2026.
 
 ### What this environment cannot reach
 
