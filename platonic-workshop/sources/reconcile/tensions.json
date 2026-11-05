@@ -1,0 +1,494 @@
+{
+ "about": "Tensions within Plato for the reconciliation worksheet (milestone 12). Each records two (or more) passages that seem to disagree; 'question' and 'nature' and each passage's 'says' and each reading's 'summary' are the Workshop's own plain-English words, marked so in the reader. Everything else is quoted: Burnet's Greek and an English translation of each passage, the commentators or scholars who document the tension ('documented', required), and the words each reading rests on. A reading is 'established' when its holder is quoted giving it, 'proposed' when it is the Workshop's suggestion. The build checks every quotation (tools/reconcile.py).",
+ "tensions": [
+  {
+   "id": "soul-simple-or-in-parts",
+   "title": "Is the soul simple, or made of parts?",
+   "category": "apparent contradiction",
+   "question": "The Phaedo argues that the soul is like what is uniform and cannot be broken up; the Republic divides it into three parts, and the Phaedrus pictures it as a charioteer with two horses. Which is the soul?",
+   "nature": "One dialogue calls the soul uniform (monoeidēs), the other finds three parts in it from the conflicts of desire. If the soul has parts, the Phaedo's argument that it cannot be dissolved seems to fail.",
+   "a": {"work": "tlg004", "start": "78b", "end": "80b", "quote_at": "80b", "greek": "τῷ μὲν θείῳ καὶ ἀθανάτῳ καὶ νοητῷ καὶ μονοειδεῖ καὶ ἀδιαλύτῳ",
+         "english": [{"by": "Jowett", "ref": "80b", "quote": "the soul is in the very likeness of the divine, and immortal, and intellectual, and uniform, and indissoluble, and unchangeable"}],
+         "says": "The soul is most like the divine, immortal, intelligible, uniform and indissoluble; the body most like the human, mortal, multiform and dissoluble.",
+         "words": [{"lemma": "μονοειδής", "why": "'uniform', 'of one form': the word the argument turns on"}, {"lemma": "ἀδιάλυτος", "why": "'indissoluble'"}]},
+   "b": {"work": "tlg030", "start": "436b", "end": "436c", "quote_at": "436b", "greek": "δῆλον ὅτι ταὐτὸν τἀναντία ποιεῖν ἢ πάσχειν κατὰ ταὐτόν γε καὶ πρὸς ταὐτὸν οὐκ ἐθελήσει ἅμα",
+         "english": [{"by": "Jowett", "ref": "436b", "quote": "The same thing clearly cannot act or be acted upon in the same part or in relation to the same thing at the same time, in contrary ways"}],
+         "says": "Because the same thing cannot do or suffer opposites in the same respect at once, the soul's conflicting desires show that it has distinct parts.",
+         "words": [{"lemma": "ἐναντίος", "why": "'contrary': the principle of opposites from which the parts are inferred"}]},
+   "more": [
+    {"work": "tlg030", "start": "611b", "end": "612a", "quote_at": "612a", "greek": "καὶ τότʼ ἄν τις ἴδοι αὐτῆς τὴν ἀληθῆ φύσιν, εἴτε πολυειδὴς εἴτε μονοειδής",
+     "english": [{"by": "Jowett", "ref": "612a", "quote": "then you would see her as she is, and know whether she have one shape only or many"}],
+     "says": "The Republic itself returns to the question: the soul as we see it now is like the sea-god Glaucus, encrusted and broken; its true nature would show whether it is of many forms or of one.",
+     "words": [{"lemma": "μονοειδής", "why": "the Phaedo's word, taken up again"}, {"lemma": "πολυειδής", "why": "'of many forms'"}]},
+    {"work": "tlg031", "start": "69c", "end": "69d", "quote_at": "69c", "greek": "ἄλλο τε εἶδος ἐν αὐτῷ ψυχῆς προσῳκοδόμουν τὸ θνητόν",
+     "english": [{"by": "Jowett", "ref": "69c", "quote": "constructed within the body a soul of another nature which was mortal"}],
+     "says": "In the Timaeus the young gods add to the immortal principle of the soul a mortal kind of soul, with the passions.",
+     "words": [{"lemma": "θνητός", "why": "'mortal': the kind of soul added"}]}
+   ],
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/ancient-soul/", "cite": "Hendrik Lorenz, 'Ancient Theories of Soul', Stanford Encyclopedia of Philosophy", "quote": "in the Phaedo , to exemplify a conflict between soul and body; in the Republic , to exemplify a conflict between two parts or aspects of the soul, reason and spirit."},
+    {"source": "note", "by": "Jowett and Campbell (1894)", "work": "tlg030", "ref": "611b", "quote": "as distinguished from that phenomenal nature of the soul which is known to us in experience, and has parts and opposing desires as in Book iv."}
+   ],
+   "concepts": ["soul", "immortality", "thymos", "appetite"],
+   "readings": [
+    {"method": "ontological-distinction", "status": "established", "by": "Plato himself (Republic X), with Jowett and Campbell and Adam",
+     "summary": "The soul in its true nature is one; the parts belong to the soul as it is in this life, joined to the body. The Phaedo speaks of the first, Republic IV of the second, and Republic X says so.",
+     "evidence": [
+      {"source": "plato", "work": "tlg030", "ref": "611b", "quote": "μήτε γε αὖ τῇ ἀληθεστάτῃ φύσει τοιοῦτον εἶναι ψυχήν, ὥστε πολλῆς ποικιλίας καὶ ἀνομοιότητός τε καὶ διαφορᾶς γέμειν αὐτὸ πρὸς αὑτό"},
+      {"source": "translation", "by": "Jowett", "work": "tlg030", "ref": "611b", "quote": "any more than we can believe the soul, in her truest nature, to be full of variety and difference and dissimilarity"},
+      {"source": "note", "by": "Adam (1902)", "work": "tlg030", "ref": "611d", "quote": "it shakes itself clear of the body and the lower parts of soul associated therewith, and appears in its true unity as pure λογιστικόν"}
+     ]},
+    {"method": "ontological-distinction", "status": "established", "by": "Archer-Hind, on the Timaeus",
+     "summary": "Only the rational part is the immortal soul; the other two parts are the 'mortal kind' of the Timaeus, added for life in a body. So the immortal soul of the Phaedo is the rational soul, and the parts of the Republic include what is mortal.",
+     "evidence": [
+      {"source": "note", "by": "Archer-Hind (1888)", "work": "tlg031", "ref": "69c", "quote": "The division into θεῖον and θνητὸν is obviously identical with the division into λογιστικὸν and ἄλογον in the Republic"}
+     ]},
+    {"method": "image-and-original", "status": "proposed", "by": "the Workshop",
+     "summary": "Read the encrusted Glaucus as an image: the soul we observe in conflict is an image of the soul as it is, and the parts are the barnacles and the broken limbs, not the god. The Phaedo describes the original; Republic IV describes the image as it appears.",
+     "evidence": [
+      {"source": "plato", "work": "tlg030", "ref": "611d", "quote": "οὕτω καὶ τὴν ψυχὴν ἡμεῖς θεώμεθα διακειμένην ὑπὸ μυρίων κακῶν"},
+      {"source": "translation", "by": "Jowett", "work": "tlg030", "ref": "611d", "quote": "And the soul which we behold is in a similar condition, disfigured by ten thousand ills."}
+     ]},
+    {"method": "developmental", "status": "proposed", "by": "the Workshop, recording the modern view",
+     "summary": "Plato held a simple soul when he wrote the Phaedo and came to the tripartite soul later. This explains the difference rather than reconciling it, and Republic X's own return to the question is the evidence against reading it so simply.",
+     "evidence": []}
+   ]
+  },
+  {
+   "id": "forms-made-by-god",
+   "title": "Are the Forms made, or eternal?",
+   "category": "apparent contradiction",
+   "question": "In Republic X God is the maker of the one true bed, the Form of bed. Elsewhere the Forms always are and never come to be, and in the Timaeus the maker looks to an eternal pattern. Can a Form be made?",
+   "nature": "If God makes the Form, the Form has a maker and comes to be; but the Forms are what always is and has no becoming.",
+   "a": {"work": "tlg030", "start": "597b", "end": "597d", "quote_at": "597b", "greek": "μία μὲν ἡ ἐν τῇ φύσει οὖσα, ἣν φαῖμεν ἄν, ὡς ἐγᾦμαι, θεὸν ἐργάσασθαι",
+         "english": [{"by": "Jowett", "ref": "597b", "quote": "here are three beds: one existing in nature, which is made by God, as I think that we may say--for no one else can be the maker?"}],
+         "says": "There are three beds: the one in nature, which God made; the carpenter's; and the painter's. God is the 'nature-maker' (phytourgos) of the bed.",
+         "words": [{"lemma": "φυτουργός", "why": "'planter', 'nature-maker': Plato's word for God as maker of the bed in nature"}, {"lemma": "κλίνη", "why": "'bed'"}]},
+   "b": {"work": "tlg031", "start": "27d", "end": "28a", "quote_at": "28a", "greek": "ὅτου μὲν οὖν ἂν ὁ δημιουργὸς πρὸς τὸ κατὰ ταὐτὰ ἔχον βλέπων ἀεί",
+         "english": [{"by": "Jowett", "ref": "28a", "quote": "The work of the creator, whenever he looks to the unchangeable and fashions the form and nature of his work after an unchangeable pattern, must necessarily be made fair and perfect"}],
+         "says": "What always is has no becoming; the maker of the world looks to what is always the same as his pattern.",
+         "words": [{"lemma": "δημιουργός", "why": "'craftsman', 'maker': the Timaeus' maker, who looks to the pattern rather than making it"}, {"lemma": "παράδειγμα", "why": "'pattern'"}]},
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato-rhetoric/", "cite": "Charles L. Griswold, 'Plato on Rhetoric and Poetry', Stanford Encyclopedia of Philosophy", "quote": "The Ideas too are said to be made , even though that is entirely inconsistent with the doctrine of Ideas as eternal expressed earlier in the Republic itself (and in all the other Platonic dialogues)."}
+   ],
+   "concepts": ["forms", "being", "becoming", "demiurge", "god"],
+   "readings": [
+    {"method": "dialectical-context", "status": "established", "by": "Proclus, as Shorey reports",
+     "summary": "The bed is an illustration chosen for an argument about imitation, not a statement of doctrine about Forms of artefacts; Proclus says it is not meant seriously, and the Platonists of the handbooks admit no Forms of things made by art.",
+     "evidence": [
+      {"source": "note", "by": "Shorey (Loeb, 1935-37)", "work": "tlg030", "ref": "597b", "quote": "Proclus says that this is not seriously meant"},
+      {"source": "alcinous-burges", "quote": "For it does not please the majority of Platonists (to admit) that there are Ideas of works of art, such as of a shield, or lyre"}
+     ]},
+    {"method": "symbolic", "status": "established", "by": "Alcinous; Jowett and Campbell",
+     "summary": "God 'makes' the Forms in the sense that they are his thoughts: eternal, and yet depending on him. 'Made' here means 'having its source in God', not 'coming to be in time'.",
+     "evidence": [
+      {"source": "alcinous-burges", "quote": "for Ideas are the notions of god eternal and perfect in themselves"},
+      {"source": "note", "by": "Jowett and Campbell (1894)", "work": "tlg030", "ref": "597b", "quote": "the real bed which is ideal, essential, in the nature of things, in the mind of God"}
+     ]},
+    {"method": "ontological-distinction", "status": "proposed", "by": "the Workshop, after Taurus",
+     "summary": "Taurus lists the senses of 'generated' and allows that what never began may still be called generated because it has its being from another. Read God's 'making' of the Form in that sense: the Form depends on a higher cause (the Good, Rep. 509b) without coming to be.",
+     "evidence": [
+      {"source": "taurus-gutenberg", "quote": "The world, likewise, may be said to be generated, because it derives its existence from something different from itself, viz. from God, by whom it is adorned."}
+     ]}
+   ]
+  },
+  {
+   "id": "world-made-or-everlasting",
+   "title": "Was the world made in time?",
+   "category": "apparent contradiction",
+   "question": "Timaeus says the world 'came to be' and was made by the Craftsman; yet time itself came into being with the heavens, and the Phaedrus says the source of motion, soul, is unbegotten. Did the world have a beginning?",
+   "nature": "A making that starts at some moment needs a time before the world, but time is made with the world. And the Timaeus makes the world's soul, while the Phaedrus calls soul ungenerated.",
+   "a": {"work": "tlg031", "start": "28b", "end": "28c", "quote_at": "28b", "greek": "πότερον ἦν ἀεί, γενέσεως ἀρχὴν ἔχων οὐδεμίαν, ἢ γέγονεν, ἀπʼ ἀρχῆς τινος ἀρξάμενος. γέγονεν",
+         "english": [{"by": "Jowett", "ref": "28b", "quote": "was the world, I say, always in existence and without beginning? or created, and had it a beginning? Created, I reply, being visible and tangible and having a body, and therefore sensible"}],
+         "says": "Was the world always, with no beginning of becoming, or did it come to be, starting from some beginning? It came to be, for it is visible and has a body.",
+         "words": [{"lemma": "γίγνομαι", "why": "'come to be': γέγονεν, 'it has come to be', the disputed word"}, {"lemma": "ἀρχή", "why": "'beginning', 'principle': both senses are at issue"}]},
+   "b": {"work": "tlg031", "start": "38b", "end": "38c", "quote_at": "38b", "greek": "χρόνος δʼ οὖν μετʼ οὐρανοῦ γέγονεν",
+         "english": [{"by": "Jowett", "ref": "38b", "quote": "Time, then, and the heaven came into being at the same instant"}],
+         "says": "Time came to be together with the heaven, as a moving image of eternity.",
+         "words": [{"lemma": "χρόνος", "why": "'time'"}, {"lemma": "οὐρανός", "why": "'heaven', the ordered world"}]},
+   "more": [
+    {"work": "tlg012", "start": "245c", "end": "245d", "quote_at": "245d", "greek": "ἀρχὴ δὲ ἀγένητον",
+     "english": [{"by": "Jowett", "ref": "245d", "quote": "Now, the beginning is unbegotten, for that which is begotten has a beginning"}],
+     "says": "Soul, as the self-moving source of motion, is unbegotten and indestructible.",
+     "words": [{"lemma": "ἀγένητος", "why": "'unbegotten', 'not come to be'"}]}
+   ],
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato-timaeus/", "cite": "Donald Zeyl and Barbara Sattler, 'Plato's Timaeus', Stanford Encyclopedia of Philosophy", "quote": "The question of how literally the creation story is to be interpreted remains an intriguing one that continues to interest (and divide) scholars to this day"},
+    {"source": "taurus-gutenberg", "quote": "In the investigation, whether according to Plato the world is unbegotten, philosophers differ in their opinions. For Aristotle asserts that Timæus says the world was generated"}
+   ],
+   "concepts": ["becoming", "demiurge", "time", "eternal", "soul"],
+   "readings": [
+    {"method": "didactic", "status": "established", "by": "Theophrastus and Taurus; Archer-Hind",
+     "summary": "The world is told as if it were made at a time 'for the sake of perspicuity': the order of the telling is the order of explanation. Archer-Hind: there is no question at all of a beginning in time.",
+     "evidence": [
+      {"source": "taurus-gutenberg", "quote": "At the same time, however, he asserts that Timæus perhaps supposed the world to be generated, for the sake of perspicuity."},
+      {"source": "note", "by": "Archer-Hind (1888)", "work": "tlg031", "ref": "28b", "quote": "It cannot be too carefully borne in mind that there is throughout no question whatsoever of the beginning of the universe in time."}
+     ]},
+    {"method": "ontological-distinction", "status": "established", "by": "Taurus; Proclus",
+     "summary": "'Generated' has several senses. The world is generated not as beginning in time but as always becoming and never being, and as having its existence from a cause. The Craftsman makes it 'at once', with an eternal sameness of activity.",
+     "evidence": [
+      {"source": "taurus-gutenberg", "quote": "The world also is said to be generated, because it always subsists in becoming to be, like Proteus changing into all-various forms"},
+      {"source": "note", "by": "Taylor, Additional Notes from Proclus (1804)", "work": "tlg031", "ref": "28b", "quote": "produces the whole world totally, collectively, or at once, and with an eternal sameness of energy"}
+     ]},
+    {"method": "likely-account", "status": "proposed", "by": "the Workshop",
+     "summary": "Timaeus warns that an account of what comes to be cannot be wholly consistent with itself. The tension between a beginning and the making of time is the kind of looseness the likely account allows, and is no reason to doubt the account of what always is.",
+     "evidence": [
+      {"source": "plato", "work": "tlg031", "ref": "29c", "quote": "μὴ δυνατοὶ γιγνώμεθα πάντῃ πάντως αὐτοὺς ἑαυτοῖς ὁμολογουμένους λόγους καὶ ἀπηκριβωμένους ἀποδοῦναι"}
+     ]}
+   ]
+  },
+  {
+   "id": "pleasure-and-good",
+   "title": "Is the pleasant the good?",
+   "category": "apparent contradiction",
+   "question": "In the Protagoras Socrates argues that things are good in so far as they are pleasant; in the Gorgias he proves against Callicles that the pleasant and the good are not the same. Does Socrates hold that pleasure is the good?",
+   "nature": "The same speaker affirms in one dialogue and refutes in another the identity of the pleasant and the good.",
+   "a": {"work": "tlg022", "start": "351b", "end": "358a", "quote_at": "358a", "greek": "ὁμολογεῖτε ἄρα, ἦν δʼ ἐγώ, τὸ μὲν ἡδὺ ἀγαθὸν εἶναι, τὸ δὲ ἀνιαρὸν κακόν",
+         "english": [{"by": "Jowett", "ref": "358a", "quote": "Then you agree, I said, that the pleasant is the good, and the painful evil."}],
+         "says": "Socrates leads Protagoras and the others to agree that the pleasant is good and the painful bad, and so that no one does wrong knowingly.",
+         "words": [{"lemma": "ἡδύς", "why": "'pleasant'"}, {"lemma": "ἀγαθός", "why": "'good'"}]},
+   "b": {"work": "tlg023", "start": "495a", "end": "500d", "quote_at": "497a", "greek": "ὥστε ἕτερον γίγνεται τὸ ἡδὺ τοῦ ἀγαθοῦ",
+         "english": [{"by": "Jowett", "ref": "497a", "quote": "and therefore the good is not the same as the pleasant?"}],
+         "says": "Against Callicles: since one can feel pleasure and pain at once, but not fare well and badly at once, the pleasant is other than the good.",
+         "words": [{"lemma": "ἡδύς", "why": "'pleasant'"}, {"lemma": "ἕτερος", "why": "'other', 'different'"}]},
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/socrates/", "cite": "Debra Nails and S. Sara Monoson, 'Socrates', Stanford Encyclopedia of Philosophy", "quote": "For example, Socrates in the Gorgias opposes, while in the Protagoras he supports, hedonism"},
+    {"source": "note", "by": "Jowett, Introduction (1892)", "work": "tlg022", "ref": "309a", "quote": "The Phaedo, the Gorgias, and the Philebus offer further corrections of the teaching of the Protagoras; in all of them the doctrine that virtue is pleasure, or that pleasure is the chief or only good, is distinctly renounced."}
+   ],
+   "concepts": ["the-good", "knowledge", "virtue"],
+   "readings": [
+    {"method": "dialectical-context", "status": "established", "by": "Paul Woodruff (Stanford Encyclopedia), among modern readers",
+     "summary": "In the Protagoras Socrates argues from the premise of 'the many' to show Protagoras that, even on that premise, virtue is knowledge (measurement); the hedonism is a premise of the argument, not his doctrine.",
+     "evidence": [
+      {"source": "web", "url": "https://plato.stanford.edu/entries/plato-ethics-shorter/", "cite": "Paul Woodruff, 'Plato's Shorter Ethical Works', Stanford Encyclopedia of Philosophy", "quote": "In view of other dialogues, however, it is likely that Socrates is using hedonism to build a trap for Protagoras."},
+      {"source": "plato", "work": "tlg022", "ref": "358a", "quote": "ταῦτα μὲν τοῖς πολλοῖς ἀποκεκριμένοι ἂν ἦμεν"}
+     ]},
+    {"method": "developmental", "status": "established", "by": "Jowett",
+     "summary": "Jowett: the Protagoras is an early dialogue whose doctrine the Phaedo, Gorgias and Philebus correct and renounce. An explanation, not a reconciliation.",
+     "evidence": [
+      {"source": "note", "by": "Jowett, Introduction (1892)", "work": "tlg022", "ref": "309a", "quote": "At a later stage of the Platonic philosophy we shall find that both the paradox and the solution of it appear to have been retracted."}
+     ]},
+    {"method": "ontological-distinction", "status": "proposed", "by": "the Workshop",
+     "summary": "The Protagoras measures pleasures over a whole life, the Gorgias separates pleasure from the good. Read together: what is truly good is also truly pleasant to the soul ordered by it, but the good is not defined by pleasure. The art of measurement in the Protagoras already looks past the pleasures measured.",
+     "evidence": []}
+   ]
+  },
+  {
+   "id": "poets-banished-or-inspired",
+   "title": "Are the poets to be banished, or are they inspired?",
+   "category": "apparent contradiction",
+   "question": "The Republic sends imitative poetry out of the city and speaks of an ancient quarrel between philosophy and poetry; the Phaedrus and the Ion say the poet is possessed by the Muses and divinely inspired. Is poetry divine or dangerous?",
+   "nature": "The same poetry is called an imitation of an imitation, far from the truth, and a divine madness that teaches posterity.",
+   "a": {"work": "tlg030", "start": "607b", "end": "607b", "greek": "παλαιὰ μέν τις διαφορὰ φιλοσοφίᾳ τε καὶ ποιητικῇ",
+         "english": [{"by": "Jowett", "ref": "607b", "quote": "there is an ancient quarrel between philosophy and poetry"}],
+         "says": "The argument was right to send poetry of this kind out of the city; there is an old quarrel between philosophy and poetry.",
+         "words": [{"lemma": "ποιητικός", "why": "'poetry', 'the poetic art'"}, {"lemma": "διαφορά", "why": "'difference', 'quarrel'"}]},
+   "b": {"work": "tlg012", "start": "245a", "end": "245a", "greek": "τρίτη δὲ ἀπὸ Μουσῶν κατοκωχή τε καὶ μανία",
+         "english": [{"by": "Jowett", "ref": "245a", "quote": "The third kind is the madness of those who are possessed by the Muses"}],
+         "says": "The third kind of divine madness is possession by the Muses; without it no poet, however skilled, will be admitted.",
+         "words": [{"lemma": "μανία", "why": "'madness': here a divine gift"}, {"lemma": "Μοῦσα", "why": "'Muse'"}]},
+   "more": [
+    {"work": "tlg027", "start": "534b", "end": "534b", "greek": "κοῦφον γὰρ χρῆμα ποιητής ἐστιν καὶ πτηνὸν καὶ ἱερόν",
+     "english": [{"by": "Jowett", "ref": "534b", "quote": "For the poet is a light and winged and holy thing"}],
+     "says": "The poet is light, winged and holy, and cannot compose until he is inspired and out of his senses.",
+     "words": [{"lemma": "ἔνθεος", "why": "'with a god within', 'inspired'"}, {"lemma": "ἱερός", "why": "'holy'"}]}
+   ],
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato-aesthetics/", "cite": "Nickolas Pappas, 'Plato's Aesthetics', Stanford Encyclopedia of Philosophy", "quote": "But the dialogues are far-ranging documents, and a reader discovers these core arguments among passages that argue to opposite effect, or deploying the vocabulary of mimêsis in contradictory ways."},
+    {"source": "note", "by": "Taylor (1804), note", "work": "tlg030", "ref": "595a", "quote": "perfectly reconciles the prince of philosophers with the first of poets"}
+   ],
+   "concepts": ["inspiration", "madness", "image-and-original", "soul"],
+   "readings": [
+    {"method": "ontological-distinction", "status": "established", "by": "Proclus, in Taylor's translation",
+     "summary": "There are three lives of the soul, and three kinds of poetry answering to them: the divinely inspired, the scientific, and the imitative, mixed with opinion and phantasy. The Phaedrus praises the first; the Republic banishes the third.",
+     "evidence": [
+      {"source": "note", "by": "Taylor (1804), note", "work": "tlg030", "ref": "595a", "quote": "As there are therefore these three forms of life in souls, the poetic division also supernally proceeds together with the multiform lives of the soul"},
+      {"source": "note", "by": "Taylor (1804), note", "work": "tlg030", "ref": "595a", "quote": "This then, in short, is a mania better than temperance, and is distinguished by a divine characteristic."}
+     ]},
+    {"method": "allegorical", "status": "established", "by": "Plato himself (Republic II); Porphyry",
+     "summary": "What the Republic excludes is the surface of the tales for those who cannot tell the under-meaning from the story. Read by one who can, the same poems carry a hidden sense, as Porphyry reads Homer's cave.",
+     "evidence": [
+      {"source": "plato", "work": "tlg030", "ref": "378d", "quote": "ὁ γὰρ νέος οὐχ οἷός τε κρίνειν ὅτι τε ὑπόνοια καὶ ὃ μή"},
+      {"source": "porphyry-gutenberg", "quote": "something allegorical must be indicated in it by the poet"}
+     ]}
+   ]
+  },
+  {
+   "id": "obey-or-disobey-the-city",
+   "title": "Must one always obey the city?",
+   "category": "apparent contradiction",
+   "question": "At his trial Socrates says he will obey the god rather than the Athenians and will not stop philosophising even if ordered to. In the Crito the Laws say a citizen must persuade the city or do what it commands. Did Socrates promise to disobey the laws he then refused to break?",
+   "nature": "Disobedience promised in the Apology; obedience required by the Laws whom Socrates accepts in the Crito.",
+   "a": {"work": "tlg002", "start": "29c", "end": "29d", "quote_at": "29d", "greek": "πείσομαι δὲ μᾶλλον τῷ θεῷ ἢ ὑμῖν",
+         "english": [{"by": "Jowett", "ref": "29d", "quote": "but I shall obey God rather than you"}],
+         "says": "If acquitted on condition that he stop philosophising, Socrates would obey the god rather than the jury, and would not stop.",
+         "words": [{"lemma": "πείθω", "why": "'persuade'; in the middle, 'obey': the same verb in both passages"}, {"lemma": "θεός", "why": "'god'"}]},
+   "b": {"work": "tlg003", "start": "51b", "end": "51c", "quote_at": "51b", "greek": "καὶ ἢ πείθειν ἢ ποιεῖν ἃ ἂν κελεύῃ",
+         "english": [{"by": "Jowett", "ref": "51b", "quote": "and either to be persuaded, or if not persuaded, to be obeyed?"}],
+         "says": "The Laws: one must revere one's country more than a father, and either persuade it or do what it commands, and suffer what it orders in silence.",
+         "words": [{"lemma": "πείθω", "why": "'persuade': 'persuade or obey'"}, {"lemma": "κελεύω", "why": "'command'"}]},
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato-ethics-shorter/", "cite": "Paul Woodruff, 'Plato's Shorter Ethical Works', Stanford Encyclopedia of Philosophy", "quote": "The conclusion of these personified laws—that one must obey the city in all things (51bc)—seems to conflict with a memorable text in the Apology , as Grote first pointed out; there Socrates promises to disobey the court if it should let him off on the condition that he give up his mission in Athens (29d)."}
+   ],
+   "concepts": ["justice", "law", "piety"],
+   "readings": [
+    {"method": "dialectical-context", "status": "proposed", "by": "the Workshop",
+     "summary": "The Laws offer a choice, 'persuade or obey', and the Apology is Socrates persuading: he argues openly before the court. What he refuses is to do wrong; what he accepts is to suffer the city's penalty. Disobeying an order to stop philosophising and staying to suffer death are both refusals to do injustice.",
+     "evidence": [
+      {"source": "plato", "work": "tlg003", "ref": "51c", "quote": "ἢ πείθειν αὐτὴν ᾗ τὸ δίκαιον πέφυκε"},
+      {"source": "translation", "by": "Jowett", "work": "tlg003", "ref": "51c", "quote": "or he must change their view of what is just"}
+     ]},
+    {"method": "ontological-distinction", "status": "proposed", "by": "the Workshop",
+     "summary": "The god's command and the city's are of different rank: the Laws themselves place one's country 'among the gods'. When the two conflict the higher is obeyed, but the city keeps its claim to be obeyed in what it may rightly command, and to be suffered when it punishes.",
+     "evidence": [
+      {"source": "plato", "work": "tlg003", "ref": "51b", "quote": "καὶ ἐν μείζονι μοίρᾳ καὶ παρὰ θεοῖς καὶ παρʼ ἀνθρώποις τοῖς νοῦν ἔχουσι"}
+     ]}
+   ]
+  },
+  {
+   "id": "best-city",
+   "title": "The Republic's city or the Laws' city?",
+   "category": "metaphysical distinction",
+   "question": "The Republic describes the best city, with philosopher-rulers and goods held in common; the Laws builds a different city of written laws, magistrates and private property. Which is Plato's city?",
+   "nature": "Two different constitutions, each presented as the one to aim at.",
+   "a": {"work": "tlg030", "start": "592a", "end": "592b", "quote_at": "592b", "greek": "ἐν οὐρανῷ ἴσως παράδειγμα ἀνάκειται τῷ βουλομένῳ ὁρᾶν",
+         "english": [{"by": "Jowett", "ref": "592b", "quote": "In heaven, I replied, there is laid up a pattern of it, methinks, which he who desires may behold, and beholding, may set his own house in order."}],
+         "says": "The city of the argument exists nowhere on earth; perhaps a pattern of it is laid up in heaven for whoever wishes to see it and to found himself by it.",
+         "words": [{"lemma": "παράδειγμα", "why": "'pattern', 'model'"}, {"lemma": "οὐρανός", "why": "'heaven'"}]},
+   "b": {"work": "tlg034", "start": "739a", "end": "739e", "quote_at": "739e", "greek": "εἴη τε ἂν γενομένη πως ἀθανασίας ἐγγύτατα καὶ ἡ μία δευτέρως",
+         "english": [{"by": "Jowett", "ref": "739e", "quote": "The state which we have now in hand, when created, will be nearest to immortality and the only one which takes the second place"}],
+         "says": "The best city is the one where friends have all things in common; one must look to it as the pattern. The city now being founded would be second.",
+         "words": [{"lemma": "παράδειγμα", "why": "'pattern': the same word, the Laws looking back to the first city"}, {"lemma": "δεύτερος", "why": "'second'"}]},
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato/", "cite": "Richard Kraut, 'Plato', Stanford Encyclopedia of Philosophy", "quote": "But it would be utterly implausible to suppose that these developmental questions need not be raised, on the grounds that Republic and Laws each has its own cast of characters, and that the two works therefore cannot come into contradiction with each other."}
+   ],
+   "concepts": ["city", "law", "image-and-original", "constitution"],
+   "readings": [
+    {"method": "image-and-original", "status": "established", "by": "Plato himself (Laws V)",
+     "summary": "The Laws calls its city second and keeps the first as its pattern: the city of the Laws is an image of the city of the Republic, made for men as they are. The two are not rival answers but pattern and copy.",
+     "evidence": [
+      {"source": "plato", "work": "tlg034", "ref": "739e", "quote": "διὸ δὴ παράδειγμά γε πολιτείας οὐκ ἄλλῃ χρὴ σκοπεῖν, ἀλλʼ ἐχομένους ταύτης τὴν ὅτι μάλιστα τοιαύτην ζητεῖν κατὰ δύναμιν"},
+      {"source": "translation", "by": "Jowett", "work": "tlg034", "ref": "739e", "quote": "and therefore to this we are to look for the pattern of the state, and to cling to this, and to seek with all our might for one which is like this"}
+     ]},
+    {"method": "ascent-and-return", "status": "proposed", "by": "the Workshop",
+     "summary": "The Republic climbs to the pattern; the Laws comes back down with it, as the philosopher returns to the cave, and gives it a form ordinary citizens can live in.",
+     "evidence": [
+      {"source": "plato", "work": "tlg030", "ref": "520c", "quote": "καταβατέον οὖν ἐν μέρει ἑκάστῳ εἰς τὴν τῶν ἄλλων συνοίκησιν"}
+     ]},
+    {"method": "developmental", "status": "proposed", "by": "the Workshop, recording the modern view",
+     "summary": "Plato in old age gave up the hope of philosopher-rulers and wrote a more practical constitution. Kraut insists the question of compatibility must still be asked.",
+     "evidence": []}
+   ]
+  },
+  {
+   "id": "forms-criticised",
+   "title": "Does the Parmenides refute the Forms?",
+   "category": "question in the dialogue",
+   "question": "In the Phaedo and the Republic Socrates explains things by their sharing in Forms. In the Parmenides the old Parmenides shows the young Socrates that the theory leads to an infinite regress of Forms. Is the theory refuted?",
+   "nature": "The account of participation that the middle dialogues rely on is attacked, and the attack is not answered in the dialogue.",
+   "a": {"work": "tlg004", "start": "100b", "end": "100c", "quote_at": "100c", "greek": "οὐδὲ δι’ ἓν ἄλλο καλὸν εἶναι ἢ διότι μετέχει ἐκείνου τοῦ καλοῦ",
+         "english": [{"by": "Jowett", "ref": "100c", "quote": "it can be beautiful only in so far as it partakes of absolute beauty"}],
+         "says": "If anything else is beautiful besides the Beautiful itself, it is beautiful for no other reason than that it shares in it.",
+         "words": [{"lemma": "μετέχω", "why": "'share in', 'partake of'"}, {"lemma": "καλός", "why": "'beautiful'"}]},
+   "b": {"work": "tlg009", "start": "132a", "end": "132b", "quote_at": "132b", "greek": "καὶ οὐκέτι δὴ ἓν ἕκαστόν σοι τῶν εἰδῶν ἔσται, ἀλλὰ ἄπειρα τὸ πλῆθος",
+         "english": [{"by": "Jowett", "ref": "132b", "quote": "and so each idea instead of being one will be infinitely multiplied"}],
+         "says": "If the large things and the Large itself are seen together, another Large appears over them all, and so on: each Form will be not one but infinitely many.",
+         "words": [{"lemma": "εἶδος", "why": "'form'"}, {"lemma": "ἄπειρος", "why": "'unlimited', 'infinite'"}]},
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato-parmenides/", "cite": "Samuel Rickless, 'Plato's Parmenides', Stanford Encyclopedia of Philosophy", "quote": "In the first part of the dialogue, Plato sets out reasons for thinking that, on either of these accounts of partaking, the theory of forms is internally inconsistent."},
+    {"source": "note", "by": "Shorey (Loeb, 1935-37)", "work": "tlg030", "ref": "597c", "quote": "The famous argument of the third man."}
+   ],
+   "concepts": ["forms", "participation", "one-and-many"],
+   "readings": [
+    {"method": "dialectical-context", "status": "established", "by": "Plato himself (Parmenides 135)",
+     "summary": "Parmenides does not conclude that there are no Forms: without them thought has nothing to rest on and discussion is destroyed. The young Socrates' trouble is that he defines the Forms before he has been trained; the objections are an exercise for him, and the training follows.",
+     "evidence": [
+      {"source": "translation", "by": "Jowett", "work": "tlg009", "ref": "135c", "quote": "he will have nothing on which his mind can rest; and so he will utterly destroy the power of reasoning"},
+      {"source": "plato", "work": "tlg009", "ref": "135c", "quote": "πρῲ γάρ, εἰπεῖν, πρὶν γυμνασθῆναι, ὦ Σώκρατες, ὁρίζεσθαι ἐπιχειρεῖς"}
+     ]},
+    {"method": "participation", "status": "established", "by": "Proclus, in Taylor's translation",
+     "summary": "Proclus denies that the Parmenides is a merely logical exercise: its hypotheses concern the principles of things, the first of them the One beyond all being. The objections refine how participation is to be understood, not whether it is.",
+     "evidence": [
+      {"source": "proclus-theology-gutenberg", "quote": "A confutation of those who assert that the Parmenides is a logical dialogue"},
+      {"source": "proclus-theology-gutenberg", "quote": "Plato through this celebrates the superessential principle of wholes, as ineffable, unknown, and above all being."}
+     ]}
+   ]
+  },
+  {
+   "id": "good-beyond-being",
+   "title": "Is the Good a Form, or beyond being?",
+   "category": "metaphysical distinction",
+   "question": "The Republic calls the Good an Idea (idea tou agathou), the greatest thing to be learned, seen last in the intelligible world. It also says the Good is not being at all, but beyond being in rank and power. Is the Good one of the Forms, or above them?",
+   "nature": "An Idea is a being, and the Good gives being to the Forms; yet the Good is called an Idea and an object of learning.",
+   "a": {"work": "tlg030", "start": "509b", "end": "509b", "greek": "οὐκ οὐσίας ὄντος τοῦ ἀγαθοῦ, ἀλλʼ ἔτι ἐπέκεινα τῆς οὐσίας πρεσβείᾳ καὶ δυνάμει ὑπερέχοντος",
+         "english": [{"by": "Jowett", "ref": "509b", "quote": "and yet the good is not essence, but far exceeds essence in dignity and power"}],
+         "says": "As the sun gives visible things their becoming without being becoming, the Good gives the known things their being, and is not being but beyond it.",
+         "words": [{"lemma": "οὐσία", "why": "'being', 'essence'"}, {"lemma": "ἐπέκεινα", "why": "'beyond'"}]},
+   "b": {"work": "tlg030", "start": "517b", "end": "517c", "quote_at": "517c", "greek": "ἀγαθοῦ ἰδέα καὶ μόγις ὁρᾶσθαι",
+         "english": [{"by": "Jowett", "ref": "517b", "quote": "my opinion is that in the world of knowledge the idea of good appears last of all"}],
+         "says": "In the intelligible world the Idea of the Good is seen last and with difficulty, and once seen it is inferred to be the cause of all that is right and beautiful.",
+         "words": [{"lemma": "ἰδέα", "why": "'idea', 'form'"}, {"lemma": "ἀγαθός", "why": "'good'"}]},
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato-ethics/", "cite": "Dorothea Frede, 'Plato's Ethics: An Overview', Stanford Encyclopedia of Philosophy", "quote": "A lot of ink has been spilt over the following passage in Republic book VI, 509b"}
+   ],
+   "concepts": ["the-good", "being", "forms", "sun", "one-and-many"],
+   "readings": [
+    {"method": "symbolic", "status": "established", "by": "Plotinus and Proclus",
+     "summary": "The Good of the Republic is the One of the first hypothesis of the Parmenides, above all being; it is called an 'Idea' and 'learned' because it is reached at the summit of the intelligible as the sun is seen at the end of the climb, and the sun is its symbol.",
+     "evidence": [
+      {"source": "web", "url": "https://plato.stanford.edu/entries/plotinus/", "cite": "Paul Kalligas, 'Plotinus', Stanford Encyclopedia of Philosophy", "quote": "We thus arrive at the identification of the absolute One as the logical origin of everything with the One described in the First Hypothesis of Plato’s Parmenides , and with the Form of the Good introduced in the sixth book of the Republic as what is “beyond being”."},
+      {"source": "proclus-theology-gutenberg", "quote": "Plato through this celebrates the superessential principle of wholes, as ineffable, unknown, and above all being."}
+     ]},
+    {"method": "ascent-and-return", "status": "proposed", "by": "the Workshop",
+     "summary": "The Good is named as an Idea from below, as the end of the ascent and of learning; it is named as beyond being from above, as the cause of being. Two directions of the same climb, not two doctrines.",
+     "evidence": [
+      {"source": "plato", "work": "tlg030", "ref": "517b", "quote": "τὴν δὲ ἄνω ἀνάβασιν καὶ θέαν τῶν ἄνω τὴν εἰς τὸν νοητὸν τόπον τῆς ψυχῆς ἄνοδον τιθεὶς οὐχ ἁμαρτήσῃ τῆς γʼ ἐμῆς ἐλπίδος"}
+     ]}
+   ]
+  },
+  {
+   "id": "cause-of-evil",
+   "title": "Does evil have a cause of its own?",
+   "category": "apparent contradiction",
+   "question": "The Republic says God is the cause only of good things, and the causes of evils must be sought elsewhere. The Theaetetus says evils can never pass away, since something must always be opposed to the good; and the Laws speaks of at least two souls moving the heavens, one doing good and one able to do the opposite. Is there a power of evil?",
+   "nature": "Evil is denied a divine cause, yet said to be necessary and given a soul as its cause.",
+   "a": {"work": "tlg030", "start": "379b", "end": "379c", "quote_at": "379c", "greek": "τῶν δὲ κακῶν ἄλλʼ ἄττα δεῖ ζητεῖν τὰ αἴτια, ἀλλʼ οὐ τὸν θεόν",
+         "english": [{"by": "Jowett", "ref": "379c", "quote": "of the evils the causes are to be sought elsewhere, and not in him"}],
+         "says": "God, being good, is the cause of good things only; the causes of evils must be sought elsewhere, not in God.",
+         "words": [{"lemma": "αἴτιος", "why": "'cause', 'responsible'"}, {"lemma": "κακός", "why": "'bad', 'evil'"}]},
+   "b": {"work": "tlg034", "start": "896d", "end": "896e", "quote_at": "896e", "greek": "τῆς τε εὐεργέτιδος καὶ τῆς τἀναντία δυναμένης ἐξεργάζεσθαι",
+         "english": [{"by": "Jowett", "ref": "896e", "quote": "we must not suppose that there are less than two--one the author of good, and the other of evil"}],
+         "says": "Soul is the cause of all things, good and bad; there are not fewer than two souls ordering the heavens, the beneficent and the one able to work the opposite.",
+         "words": [{"lemma": "ψυχή", "why": "'soul'"}, {"lemma": "ἐναντίος", "why": "'opposite'"}]},
+   "more": [
+    {"work": "tlg006", "start": "176a", "end": "176a", "greek": "ἀλλʼ οὔτʼ ἀπολέσθαι τὰ κακὰ δυνατόν, ὦ Θεόδωρε— ὑπεναντίον γάρ τι τῷ ἀγαθῷ ἀεὶ εἶναι ἀνάγκη",
+     "english": [{"by": "Jowett", "ref": "176a", "quote": "Evils, Theodorus, can never pass away; for there must always remain something which is antagonistic to good."}],
+     "says": "Evils can never pass away, for something opposed to the good must always be; they have no seat among the gods but haunt mortal nature and this region.",
+     "words": [{"lemma": "κακός", "why": "'evil'"}, {"lemma": "ὑπεναντίος", "why": "'opposed', 'contrary'"}]}
+   ],
+   "documented": [
+    {"source": "note", "by": "England (1921)", "work": "tlg034", "ref": "896d", "quote": "Here is introduced the question of the origin of evil."},
+    {"source": "note", "by": "Jowett, Introduction (1892)", "work": "tlg034", "ref": "624a", "quote": "even in the Tenth Book of the Laws he has admitted that there are two souls, a good and evil"}
+   ],
+   "concepts": ["evil-as-privation", "the-good", "god", "soul"],
+   "readings": [
+    {"method": "privation", "status": "established", "by": "Proclus, in Taylor's translation",
+     "summary": "Evil has no form or principle of its own; it is a falling away from the good, a deficiency of power. 'Something opposed to the good' must exist as long as there are lower things that fall short, but it is a lack, not a rival.",
+     "evidence": [
+      {"source": "proclus-theology-gutenberg", "quote": "For evil is nothing else than a greater or less declination, departure, defect and privation from the good itself, and which is good alone, in the same manner as darkness from the sun."},
+      {"source": "proclus-theology-gutenberg", "quote": "And that matter is neither good nor evil, but a thing necessary, and distant in the last degree from the good itself."}
+     ]},
+    {"method": "ontological-distinction", "status": "established", "by": "Taylor; England",
+     "summary": "The 'evil soul' of the Laws is not a second god: Taylor takes it as the natural life of the world considered apart from the governing rational soul; England notes that evil is confined to bodily existence and marked by mindlessness (anoia).",
+     "evidence": [
+      {"source": "note", "by": "Taylor (1804), note", "work": "tlg034", "ref": "896e", "quote": "Plato, by an evil soul, here means the nature or natural life suspended from the rational soul of the world"},
+      {"source": "note", "by": "England (1921)", "work": "tlg034", "ref": "896d", "quote": "This idea, that evil is confined to bodily existence, and our earth, is in agreement with all that is said about evil in the Laws."}
+     ]}
+   ]
+  },
+  {
+   "id": "body-prison-or-cosmos-god",
+   "title": "Is the bodily world a prison or a visible god?",
+   "category": "apparent contradiction",
+   "question": "The Phaedo calls the body a prison through which the soul must look, and philosophy a practice of dying; the Timaeus ends by calling the visible world a perceptible god, the greatest, best and most beautiful. Is the world of bodies something to escape or to honour?",
+   "nature": "The same bodily nature is a prison of the soul and the image of the intelligible, a god. The Gnostics whom Plotinus attacks took the first side alone.",
+   "a": {"work": "tlg004", "start": "82d", "end": "83a", "quote_at": "82e", "greek": "ἀναγκαζομένην δὲ ὥσπερ διὰ εἱργμοῦ διὰ τούτου σκοπεῖσθαι τὰ ὄντα",
+         "english": [{"by": "Jowett", "ref": "82e", "quote": "she could only view real existence through the bars of a prison, not in and through herself"}],
+         "says": "Philosophy finds the soul bound and glued to the body, forced to look at the things that are through it as through a prison.",
+         "words": [{"lemma": "εἱργμός", "why": "'prison', 'enclosure'"}, {"lemma": "σῶμα", "why": "'body'"}]},
+   "b": {"work": "tlg031", "start": "92c", "end": "92c", "greek": "εἰκὼν τοῦ νοητοῦ θεὸς αἰσθητός, μέγιστος καὶ ἄριστος κάλλιστός τε καὶ τελεώτατος",
+         "english": [{"by": "Jowett", "ref": "92c", "quote": "the sensible God who is the image of the intellectual, the greatest, best, fairest, most perfect"}],
+         "says": "The world, filled with living things mortal and immortal, is a visible living thing, an image of the intelligible, a perceptible god, greatest, best, most beautiful and most perfect.",
+         "words": [{"lemma": "εἰκών", "why": "'image'"}, {"lemma": "αἰσθητός", "why": "'perceptible by the senses'"}]},
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plotinus/", "cite": "Paul Kalligas, 'Plotinus', Stanford Encyclopedia of Philosophy", "quote": "This view brought Plotinus into direct confrontation with the views of his contemporary Gnostics, who held that the sensible world is the work of a foolish or even malevolent creator (II 9.4.2–26)"}
+   ],
+   "concepts": ["sensible-world", "image-and-original", "soul", "ascent"],
+   "readings": [
+    {"method": "image-and-original", "status": "established", "by": "Plotinus, Against the Gnostics (II.9), in Taylor's translation",
+     "summary": "The world is not evil because it is troubled; the mistake is to expect it to be the intelligible world itself rather than its image. As an image it lacks nothing an image can have. The soul's prison is its own attachment, not the cosmos.",
+     "evidence": [
+      {"source": "plotinus-taylor-1817", "quote": "conceiving it to be the same with that which is intelligible, and not the image of it. For what more beautiful image of it could have been generated ?"},
+      {"source": "plotinus-taylor-1817", "quote": "how is it possible not to assert that it is a perspicuous and beautiful statue of the intelligible Gods ?"}
+     ]},
+    {"method": "psychological", "status": "established", "by": "Plato himself (Phaedo 82e)",
+     "summary": "The Phaedo itself places the prison in desire: the bond is such that the prisoner helps to bind himself. Read so, the prison is a state of the soul, which the cosmos as the Timaeus describes does not share.",
+     "evidence": [
+      {"source": "plato", "work": "tlg004", "ref": "82e", "quote": "καὶ τοῦ εἱργμοῦ τὴν δεινότητα κατιδοῦσα ὅτι δι’ ἐπιθυμίας ἐστίν"},
+      {"source": "translation", "by": "Jowett", "work": "tlg004", "ref": "82e", "quote": "and by reason of lust had become the principal accomplice in her own captivity"}
+     ]},
+    {"method": "ascent-and-return", "status": "proposed", "by": "the Workshop",
+     "summary": "The Phaedo speaks for the soul turning away and upward; the Timaeus for the soul that, having seen the pattern, looks back on the copy and finds it beautiful. Both are stages of one way.",
+     "evidence": []}
+   ]
+  },
+  {
+   "id": "knowledge-and-true-opinion",
+   "title": "Is knowledge true opinion with an account?",
+   "category": "question in the dialogue",
+   "question": "The Meno says true opinions become knowledge when they are bound by working out the cause. The Theaetetus examines 'true opinion with an account' and ends by rejecting it. Did Plato define knowledge, or refute the definition?",
+   "nature": "A definition affirmed in one dialogue is tested and dismissed in another.",
+   "a": {"work": "tlg024", "start": "97e", "end": "98a", "quote_at": "98a", "greek": "ἕως ἄν τις αὐτὰς δήσῃ αἰτίας λογισμῷ",
+         "english": [{"by": "Jowett", "ref": "98a", "quote": "they are not of much value until they are fastened by the tie of the cause"}],
+         "says": "True opinions run away like the statues of Daedalus until they are tied down by reasoning out the cause; then they become knowledge, and abide.",
+         "words": [{"lemma": "αἰτία", "why": "'cause', 'reason why'"}, {"lemma": "λογισμός", "why": "'reckoning', 'working out'"}, {"lemma": "ἐπιστήμη", "why": "'knowledge'"}]},
+   "b": {"work": "tlg006", "start": "210a", "end": "210b", "quote_at": "210b", "greek": "δόξα ἀληθὴς οὔτε μετʼ ἀληθοῦς δόξης λόγος προσγιγνόμενος ἐπιστήμη ἂν εἴη",
+         "english": [{"by": "Jowett", "ref": "210a", "quote": "knowledge is neither sensation nor true opinion, nor yet definition and explanation accompanying and added to true opinion?"}],
+         "says": "Knowledge is neither perception, nor true opinion, nor an account added to true opinion; all the offspring were wind.",
+         "words": [{"lemma": "δόξα", "why": "'opinion', 'belief'"}, {"lemma": "λόγος", "why": "'account', 'explanation'"}]},
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato-theaetetus/", "cite": "Sophie-Grace Chappell and Francesco Verde, 'Plato on Knowledge in the Theaetetus', Stanford Encyclopedia of Philosophy", "quote": "There are a significant number of other passages where something very like Theaetetus’ claim ( D3 ) that knowledge is “true belief with an account” is not only discussed, but actually defended"}
+   ],
+   "concepts": ["knowledge", "opinion", "logos", "recollection"],
+   "readings": [
+    {"method": "dialectical-context", "status": "established", "by": "Plato himself (Theaetetus 210b)",
+     "summary": "The Theaetetus is a work of midwifery: it tests the offspring of a young mind and does not set out Plato's doctrine. What fails there is 'account' in the senses Theaetetus can give; the Meno's account is the working out of the cause, which is recollection.",
+     "evidence": [
+      {"source": "plato", "work": "tlg006", "ref": "210b", "quote": "οὐκοῦν ταῦτα μὲν πάντα ἡ μαιευτικὴ ἡμῖν τέχνη ἀνεμιαῖά φησι γεγενῆσθαι"},
+      {"source": "plato", "work": "tlg024", "ref": "98a", "quote": "τοῦτο δʼ ἐστίν, ὦ Μένων ἑταῖρε, ἀνάμνησις"}
+     ]},
+    {"method": "ontological-distinction", "status": "proposed", "by": "the Workshop",
+     "summary": "Knowledge differs from opinion by its object as well as by its account: in the Republic knowledge is of what is, opinion of what is between being and not being. Read so, no account added to an opinion about sensibles can make it knowledge, which is why the Theaetetus, which never brings in the Forms, cannot find it.",
+     "evidence": []}
+   ]
+  },
+  {
+   "id": "writing-and-the-dialogues",
+   "title": "Did Plato reject writing while writing?",
+   "category": "apparent contradiction",
+   "question": "The Phaedrus says written words are like paintings that cannot answer a question, and the Seventh Letter says there is and will be no treatise of Plato's on the things he is serious about. Yet Plato wrote the dialogues, and in the Laws the Athenian proposes his own discourse as the model text for schools.",
+   "nature": "Writing is called unable to teach, by an author whose writings have taught for two and a half thousand years, and who in the Laws recommends a written discourse.",
+   "a": {"work": "tlg012", "start": "275d", "end": "275e", "quote_at": "275d", "greek": "δεινὸν γάρ που, ὦ Φαῖδρε, τοῦτʼ ἔχει γραφή, καὶ ὡς ἀληθῶς ὅμοιον ζωγραφίᾳ",
+         "english": [{"by": "Jowett", "ref": "275d", "quote": "I cannot help feeling, Phaedrus, that writing is unfortunately like painting"}],
+         "says": "Writing is like painting: its creations stand as if alive, but asked a question they keep a solemn silence, and they cannot defend themselves.",
+         "words": [{"lemma": "γραφή", "why": "'writing'"}, {"lemma": "ζωγραφία", "why": "'painting'"}]},
+   "b": {"work": "tlg034", "start": "811c", "end": "811d", "quote_at": "811c", "greek": "ἔδοξαν δʼ οὖν μοι παντάπασι ποιήσει τινὶ προσομοίως εἰρῆσθαι",
+         "english": [{"by": "Jowett", "ref": "811d", "quote": "I cannot imagine any better pattern than this which the guardian of the law who is also the director of education can have."}],
+         "says": "The Athenian looks back on the day's discourse, which seems to him spoken not without inspiration and like a poem, and proposes it as the pattern for teachers to have the young learn.",
+         "words": [{"lemma": "παράδειγμα", "why": "'pattern': the discourse as the model text"}, {"lemma": "λόγος", "why": "'discourse'"}]},
+   "more": [
+    {"work": "tlg036", "start": "341c", "end": "341d", "quote_at": "341c", "greek": "οὔκουν ἐμόν γε περὶ αὐτῶν ἔστιν σύγγραμμα οὐδὲ μήποτε γένηται",
+     "english": [{"by": "Loeb", "ref": "341c", "quote": "There does not exist, nor will there ever exist, any treatise of mine dealing therewith."}],
+     "says": "There is no treatise of mine on these things, nor will there be; it cannot be put into words like other studies, but after long companionship it is kindled in the soul like a light from a leaping fire.",
+     "words": [{"lemma": "σύγγραμμα", "why": "'treatise', 'written work'"}, {"lemma": "ῥητός", "why": "'that can be said'"}]}
+   ],
+   "documented": [
+    {"source": "web", "url": "https://plato.stanford.edu/entries/plato/", "cite": "Richard Kraut, 'Plato', Stanford Encyclopedia of Philosophy", "quote": "As noted above, the authenticity of Plato’s letters is a matter of great controversy; and in any case, the author of the seventh letter declares his opposition to the writing of philosophical books."}
+   ],
+   "concepts": ["logos", "knowledge", "image-and-original", "memory"],
+   "readings": [
+    {"method": "image-and-original", "status": "established", "by": "Plato himself (Phaedrus 276); Kraut",
+     "summary": "The Phaedrus does not forbid writing: the written word is an image of the living word in the soul of one who knows, good as a reminder for those who already know. Kraut: the dialogues work best when conversation has sown the seeds of their arguments.",
+     "evidence": [
+      {"source": "web", "url": "https://plato.stanford.edu/entries/plato/", "cite": "Richard Kraut, 'Plato', Stanford Encyclopedia of Philosophy", "quote": "Plato’s writings, he implies in this passage from Phaedrus , will work best when conversational seeds have already been sown for the arguments they contain."},
+      {"source": "plato", "work": "tlg012", "ref": "275d", "quote": "τοῦ τὸν εἰδότα ὑπομνῆσαι περὶ ὧν ἂν ᾖ τὰ γεγραμμένα"}
+     ]},
+    {"method": "dialectical-context", "status": "established", "by": "Richard Kraut",
+     "summary": "A dialogue is not a treatise: Plato never speaks in his own voice, and the form leaves the reader to answer for himself, which is what the Phaedrus asks of living speech.",
+     "evidence": [
+      {"source": "web", "url": "https://plato.stanford.edu/entries/plato/", "cite": "Richard Kraut, 'Plato', Stanford Encyclopedia of Philosophy", "quote": "If preludes can educate a whole citizenry that is prepared to learn from them, then surely Plato thinks that other sorts of written texts—for example, his own dialogues—can also serve an educative function."}
+     ]}
+   ]
+  }
+ ]
+}

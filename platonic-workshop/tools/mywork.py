@@ -27,7 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 USER_SCHEMA = ROOT / "db" / "user_schema.sql"
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 
 # What a translation is anchored to: "words" (any span you select) or
 # "sections" (selections are widened to whole Stephanus sections).
@@ -37,7 +37,11 @@ DEFAULT_FORMAT = "markdown"
 
 TABLES = {"translation": "translation", "note": "user_note"}
 # Word studies (milestone 5) are kept like the texts above, but are not anchored to a passage.
-ALL_TABLES = {**TABLES, "study": "word_study"}
+ALL_TABLES = {**TABLES, "study": "word_study", "reconciliation": "reconciliation", "method": "user_method"}
+# A reconciliation worksheet (milestone 12): the fields you fill in, in the
+# order of the worksheet. Text fields are Markdown; passages and methods are lists.
+SHEET_TEXT = ("contradiction", "dictionary", "commentary", "interpretation", "rendering", "references")
+SHEET_STATUSES = ("working", "proposal")
 SEARCH_MODES = ("lemma", "form", "plain")
 NOTE_KINDS = ("footnote", "note", "alternative")
 PROOF_STATUSES = ("checked", "needs correction")
@@ -105,8 +109,8 @@ def ensure(path):
 
 def migrate(db, version=1):
     """Version 1 to 2: add columns, number the existing revisions. Version 2 to
-    3 and 3 to 4: nothing to change; the word_study and proofreading tables are
-    created by the schema. Adds only."""
+    3, 3 to 4 and 4 to 5: nothing to change; the word_study, proofreading and
+    reconciliation tables are created by the schema. Adds only."""
     with db:
         if version >= 2:
             db.execute("INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', ?)", (str(SCHEMA_VERSION),))
@@ -268,6 +272,10 @@ class MyWork:
                 raise NotFound(f"{public} {row_id}")
             if table == "word_study":
                 return self._study_row(r)
+            if table == "reconciliation":
+                return self._sheet_row(r)
+            if table == "user_method":
+                return self._method_row(r)
             r = dict(r)
             r["table"] = public
             if table == "translation":
@@ -384,6 +392,10 @@ class MyWork:
     def update(self, public, row_id, data):
         if public == "study":
             return self.update_study(row_id, data)
+        if public == "reconciliation":
+            return self.update_sheet(row_id, data)
+        if public == "method":
+            return self.update_method(row_id, data)
         body, label = self._body(data), self._label(data)
         kind = data.get("kind")
 
@@ -422,7 +434,7 @@ class MyWork:
                 if old["body"] != cur["body"]:
                     ch["body"] = old["body"]
                 if old["label"] != cur.get("label"):
-                    ch["title" if public == "study" else "label"] = old["label"]
+                    ch["title" if public in ("study", "reconciliation", "method") else "label"] = old["label"]
                 if public == "note" and old["kind"] and old["kind"] != cur["kind"]:
                     ch["kind"] = old["kind"]
             return ch or None
@@ -498,6 +510,160 @@ class MyWork:
                 ch["title"] = title
             return ch or None
         return self._change("study", row_id, data.get("base_rev"), "edit", apply)
+
+    # -------------------------------------------------- reconciliation worksheets (milestone 12)
+
+    def _sheet_fields(self, data):
+        """Check a worksheet sent by the reader; return (title, tension_id, body JSON)."""
+        title = data.get("title")
+        if not isinstance(title, str) or not title.strip():
+            raise Invalid("give the reconciliation a title")
+        tension = data.get("tension_id")
+        if tension is not None:
+            if not isinstance(tension, str) or not self.lib.execute("SELECT 1 FROM reconcile_tension WHERE id = ?", (tension,)).fetchone():
+                raise Invalid("unknown tension")
+        sheet = {}
+        passages = data.get("passages") or []
+        if not isinstance(passages, list) or len(passages) > 20:
+            raise Invalid("passages must be a list")
+        sheet["passages"] = []
+        for p in passages:
+            if not isinstance(p, dict):
+                raise Invalid("each passage is {work, start_ref, end_ref}")
+            w = self.work(p.get("work") or "")
+            a, b = p.get("start_ref"), p.get("end_ref") or p.get("start_ref")
+            order = self.section_order(w["id"])
+            if not a:
+                raise Invalid(f"give the first Stephanus section of the passage in the {w['title']}")
+            if a not in order or b not in order or order[a] > order[b]:
+                raise Invalid(f"the {w['title']} has no passage {a}–{b}")
+            sheet["passages"].append({"work": w["id"], "start_ref": a, "end_ref": b})
+        methods = data.get("methods") or []
+        if not isinstance(methods, list) or not all(isinstance(m, str) for m in methods):
+            raise Invalid("methods must be a list of method ids")
+        known = {r[0] for r in self.lib.execute("SELECT id FROM reconcile_method")}
+        with self.session() as db:
+            known |= {f"mine:{r[0]}" for r in db.execute("SELECT id FROM user_method")}
+        own = [m for m in methods if m not in known]
+        if own:
+            raise Invalid(f"unknown method {own[0]!r}")
+        sheet["methods"] = list(dict.fromkeys(methods))
+        for k in SHEET_TEXT:
+            v = data.get(k) or ""
+            if not isinstance(v, str) or len(v) > MAX_BODY:
+                raise Invalid(f"{k} must be text")
+            sheet[k] = v
+        status = data.get("status") or "working"
+        if status not in SHEET_STATUSES:
+            raise Invalid(f"status must be one of {SHEET_STATUSES}")
+        sheet["status"] = status
+        return title.strip()[:200], tension, json.dumps(sheet, ensure_ascii=False, sort_keys=True)
+
+    @staticmethod
+    def _sheet_row(r):
+        r = dict(r)
+        r["table"] = "reconciliation"
+        r["kind"] = "reconciliation"
+        r["label"] = r["title"]
+        r["sheet"] = json.loads(r["body"])
+        return r
+
+    def sheets(self, tension_id=None, include_deleted=False):
+        q = "SELECT * FROM reconciliation WHERE 1"
+        args = []
+        if not include_deleted:
+            q += " AND deleted_at IS NULL"
+        if tension_id:
+            q += " AND tension_id = ?"
+            args.append(tension_id)
+        with self.session() as db:
+            return [self._sheet_row(r) for r in db.execute(q + " ORDER BY updated_at DESC, id DESC", args)]
+
+    def create_sheet(self, data):
+        title, tension, body = self._sheet_fields(data)
+        t = now()
+        with self.session() as db:
+            cur = db.execute("INSERT INTO reconciliation (tension_id, title, body, rev, created_at, updated_at) VALUES (?,?,?,1,?,?)",
+                             (tension, title, body, t, t))
+            db.execute("INSERT INTO revision (table_name, row_id, rev, event, label, kind, body, saved_at) VALUES ('reconciliation',?,1,'create',?,NULL,?,?)",
+                       (cur.lastrowid, title, body, t))
+            return self.get("reconciliation", cur.lastrowid, db)
+
+    def update_sheet(self, row_id, data):
+        title, tension, body = self._sheet_fields(data)
+
+        def apply(cur, db):
+            if cur["deleted_at"]:
+                raise Invalid("restore it before editing")
+            ch = {}
+            if body != cur["body"]:
+                ch["body"] = body
+            if title != cur["title"]:
+                ch["title"] = title
+            if tension != cur["tension_id"]:
+                ch["tension_id"] = tension
+            return ch or None
+        return self._change("reconciliation", row_id, data.get("base_rev"), "edit", apply)
+
+    # -------------------------------------------------- your own interpretive methods (milestone 12)
+
+    def _method_fields(self, data):
+        title = data.get("title") or data.get("name")
+        if not isinstance(title, str) or not title.strip():
+            raise Invalid("give the method a name")
+        plain = data.get("plain") or ""
+        citation = data.get("citation") or ""
+        if not isinstance(plain, str) or not isinstance(citation, str) or len(plain) + len(citation) > MAX_BODY:
+            raise Invalid("the description and the citation must be text")
+        if not citation.strip():
+            raise Invalid("a method needs a citation: who uses or describes it, and where")
+        concepts = data.get("concepts") or []
+        if not isinstance(concepts, list):
+            raise Invalid("concepts must be a list")
+        known = {r[0] for r in self.lib.execute("SELECT id FROM concept")}
+        bad = [c for c in concepts if c not in known]
+        if bad:
+            raise Invalid(f"unknown concept {bad[0]!r}")
+        return title.strip()[:200], json.dumps({"plain": plain, "citation": citation, "concepts": list(dict.fromkeys(concepts))},
+                                               ensure_ascii=False, sort_keys=True)
+
+    @staticmethod
+    def _method_row(r):
+        r = dict(r)
+        r["table"] = "method"
+        r["kind"] = "method"
+        r["label"] = r["title"]
+        r["id_ref"] = f"mine:{r['id']}"
+        r.update(json.loads(r["body"]))
+        return r
+
+    def user_methods(self, include_deleted=False):
+        with self.session() as db:
+            q = "SELECT * FROM user_method" + ("" if include_deleted else " WHERE deleted_at IS NULL") + " ORDER BY title, id"
+            return [self._method_row(r) for r in db.execute(q)]
+
+    def create_method(self, data):
+        title, body = self._method_fields(data)
+        t = now()
+        with self.session() as db:
+            cur = db.execute("INSERT INTO user_method (title, body, rev, created_at, updated_at) VALUES (?,?,1,?,?)", (title, body, t, t))
+            db.execute("INSERT INTO revision (table_name, row_id, rev, event, label, kind, body, saved_at) VALUES ('user_method',?,1,'create',?,NULL,?,?)",
+                       (cur.lastrowid, title, body, t))
+            return self.get("method", cur.lastrowid, db)
+
+    def update_method(self, row_id, data):
+        title, body = self._method_fields(data)
+
+        def apply(cur, db):
+            if cur["deleted_at"]:
+                raise Invalid("restore it before editing")
+            ch = {}
+            if body != cur["body"]:
+                ch["body"] = body
+            if title != cur["title"]:
+                ch["title"] = title
+            return ch or None
+        return self._change("method", row_id, data.get("base_rev"), "edit", apply)
 
     def deleted(self):
         """Deleted rows, newest first, so they can be restored."""
@@ -620,6 +786,9 @@ class MyWork:
             "works": [{"urn": w["urn"], "title": w["title"], "items": rs} for w, rs in self._sorted_by_work(rows)],
             "word_studies": [{**r, "revisions": self.history("study", r["id"])} for r in self.studies(include_deleted=True)],
             "proofreading": self.all_proofreading(),
+            "reconciliations": [{**r, "revisions": [{**v, "sheet": json.loads(v["body"])} for v in self.history("reconciliation", r["id"])]}
+                                for r in self.sheets(include_deleted=True)],
+            "methods": [{**r, "revisions": self.history("method", r["id"])} for r in self.user_methods(include_deleted=True)],
         }
 
     def export_markdown(self):
@@ -656,6 +825,16 @@ class MyWork:
                           f"revision {r['rev']}, {r['updated_at'][:10]}", ""]
                 if r["body"].strip():
                     lines += [prefix_footnotes(r["body"].rstrip(), f"s{r['id']}-"), ""]
+        own_methods = self.user_methods()
+        if own_methods:
+            lines += ["## Your interpretive methods", ""]
+            for r in own_methods:
+                lines += [f"### {r['title']}", "", r["plain"].rstrip(), "", f"Citation: {r['citation'].strip()}", ""]
+        sheets = self.sheets()
+        if sheets:
+            lines += ["## Reconciliations", ""]
+            for r in sheets:
+                lines += sheet_markdown({**r, "_own_methods": {m["id_ref"]: m["title"] for m in own_methods}}, self.lib, prefix=f"r{r['id']}-")
         corrections = [r for r in self.proof_marks(sorted({p["note_key"] for p in self.all_proofreading()})).values()
                        if r["corrected"] or r["comment"]]
         if corrections:
@@ -676,6 +855,31 @@ class MyWork:
         finally:
             out.close()
             src.close()
+
+
+SHEET_HEADS = {"contradiction": "The contradiction", "dictionary": "Dictionary evidence", "commentary": "Commentary",
+               "interpretation": "Your interpretation", "rendering": "Your reconciled translation", "references": "References"}
+
+
+def sheet_markdown(r, lib, prefix="", level=3):
+    """One reconciliation worksheet as Markdown (the export and the reader's 'copy as Markdown')."""
+    sh = r["sheet"]
+    titles = {a: b for a, b in lib.execute("SELECT id, title FROM work")}
+    methods = {a: b for a, b in lib.execute("SELECT id, name FROM reconcile_method")}
+    methods.update(r.get("_own_methods") or {})
+    h = "#" * level
+    lines = [f"{h} {r['title']}", "",
+             f"{'Your proposal' if sh.get('status') == 'proposal' else 'Work in progress'} · revision {r['rev']}, {r['updated_at'][:10]}"
+             + (f" · on the tension “{r['tension_id']}”" if r.get("tension_id") else ""), ""]
+    if sh.get("passages"):
+        lines += ["Passages: " + "; ".join(f"{titles.get(p['work'], p['work'])} {p['start_ref']}" + (f"–{p['end_ref']}" if p["end_ref"] != p["start_ref"] else "")
+                                           for p in sh["passages"]), ""]
+    if sh.get("methods"):
+        lines += ["Methods: " + ", ".join(methods.get(m, m) for m in sh["methods"]), ""]
+    for k in SHEET_TEXT:
+        if (sh.get(k) or "").strip():
+            lines += [f"**{SHEET_HEADS[k]}**", "", prefix_footnotes(sh[k].rstrip(), prefix + k[0]) if prefix else sh[k].rstrip(), ""]
+    return lines
 
 
 def span_label(r):

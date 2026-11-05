@@ -347,6 +347,8 @@ function renderApparatus(s, d, numbers) {
   rows.push(renderLinksOut(s, d));
   rows.push(renderLinksIn(s, d));
   rows.push(renderMineRow(s, d));
+  // Milestone 12: the recorded tensions this section begins a passage of (reconcile.js).
+  if (typeof renderTensionRow === "function") rows.push(renderTensionRow(s));
   return rows.join("");
 }
 
@@ -656,7 +658,7 @@ $("#jump").addEventListener("submit", (ev) => {
 const goPage = (p) => goTo(WORK, null, p);
 $("#prev").addEventListener("click", () => state.data?.prev && goPage(state.data.prev));
 $("#next").addEventListener("click", () => state.data?.next && goPage(state.data.next));
-$("#about-btn").addEventListener("click", showSources);
+$("#about-btn")?.addEventListener("click", showSources);
 window.addEventListener("hashchange", () => route(false));
 document.addEventListener("keydown", (ev) => {
   if (ev.target.matches("input, textarea")) return;

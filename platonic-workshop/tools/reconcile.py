@@ -133,7 +133,11 @@ class Sources(concepts.Sources):
             cited = ev["cite"]
             if not page:
                 return None, ev["url"], cited, None
-            return bool(page["quotes"].get(ev["quote"])), ev["url"], cited, None
+            if ev["quote"] not in page["quotes"]:
+                return None, ev["url"], cited, None
+            names = [n.strip() for n in cited.split(", '")[0].split(" and ")]
+            ok = page["quotes"][ev["quote"]] and all(page.get("authors", {}).get(n, False) for n in names)
+            return ok, ev["url"], cited, None
         return super().check(ev)
 
 
@@ -184,15 +188,15 @@ def build(db):
     if len(set(method_ids)) != len(method_ids):
         raise SystemExit("reconcile: a method id is used twice")
     for k, m in enumerate(methods["methods"]):
+        owner = f"method:{m['id']}"
+        db.execute("INSERT INTO reconcile_method VALUES (?,?,?,?,?,?,?)",
+                   (m["id"], m["name"], m["plain"], int(bool(m.get("named_in_prompt"))), m.get("greek"), owner, k))
         for c in m["concepts"]:
             if c not in concept_ids:
                 raise SystemExit(f"reconcile: method {m['id']} names unknown concept {c!r}")
             db.execute("INSERT INTO reconcile_method_concept VALUES (?,?)", (m["id"], c))
-        owner = f"method:{m['id']}"
         for e in m["grounds"]:
             add(db, src, owner, e, stats)
-        db.execute("INSERT INTO reconcile_method VALUES (?,?,?,?,?,?,?)",
-                   (m["id"], m["name"], m["plain"], int(bool(m.get("named_in_prompt"))), m.get("greek"), owner, k))
         stats["methods"] += 1
     t = load("tensions.json")
     categories = {r[0] for r in db.execute("SELECT name FROM concept_category")}
@@ -335,19 +339,74 @@ def web_links():
     return out
 
 
+def web_cites():
+    """The authors named in each web cite ("A and B, 'Title', Publisher" gives A and B)."""
+    out = {}
+    for doc in (load("methods.json"), load("tensions.json")):
+        for x in _walk(doc):
+            if x.get("source") == "web" and x.get("cite"):
+                names = x["cite"].split(", '")[0]
+                out.setdefault(x["url"], set()).update(n.strip() for n in names.split(" and "))
+    return out
+
+
+def _walk(x):
+    if isinstance(x, dict):
+        yield x
+        for v in x.values():
+            yield from _walk(v)
+    elif isinstance(x, list):
+        for v in x:
+            yield from _walk(v)
+
+
+WEB_CACHE = ROOT / "data" / "web-cache"
+
+
+def _fetch(url, refresh=False):
+    """A plain fetch with a cache, used when tools/webcheck.py is not there."""
+    import urllib.request
+    WEB_CACHE.mkdir(parents=True, exist_ok=True)
+    f = WEB_CACHE / (hashlib.sha256(url.encode()).hexdigest()[:24] + ".html")
+    if f.exists() and not refresh:
+        return 200, f.read_text(encoding="utf-8")
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "PlatonicWorkshop/1.0 (personal study tool)"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            body = r.read().decode("utf-8", "replace")
+            f.write_text(body, encoding="utf-8")
+            return r.status, body
+    except Exception as e:
+        return getattr(e, "code", 0) or 0, ""
+
+
+def _page_text(body):
+    import html as _html
+    t = re.sub(r"(?is)<(script|style).*?</\1>", " ", body)
+    t = re.sub(r"(?s)<[^>]+>", " ", t)
+    return re.sub(r"\s+", " ", _html.unescape(t))
+
+
 def check_web(refresh=False):
     """Fetch each page quoted (cached in data/web-cache/ by tools/webcheck.py) and
     record, for each quotation, whether its words are on the page as fetched."""
-    import webcheck
+    try:
+        import webcheck                      # the dossiers' fetcher (milestone 11), when present
+        fetch, page_text = webcheck.fetch, webcheck.page_text
+    except ImportError:
+        fetch, page_text = _fetch, _page_text
     out = {}
     for url, quotes in sorted(web_links().items()):
-        status, body = webcheck.fetch(url, refresh=refresh)
-        text = norm_web(webcheck.page_text(body)) if body else ""
+        status, body = fetch(url, refresh=refresh)
+        text = norm_web(page_text(body)) if body else ""
+        authors = sorted(web_cites().get(url, ()))
         out[url] = {"checked": datetime.now(timezone.utc).replace(microsecond=0).isoformat(), "status": status,
                     "sha256": hashlib.sha256(body.encode("utf-8") if isinstance(body, str) else (body or b"")).hexdigest(),
-                    "quotes": {q: norm_web(q) in text for q in sorted(quotes)}}
-        bad = [q for q, ok in out[url]["quotes"].items() if not ok]
-        print(f"{status} {url}: {len(quotes) - len(bad)} of {len(quotes)} found" + "".join(f"\n    NOT FOUND «{q}»" for q in bad))
+                    "quotes": {q: norm_web(q) in text for q in sorted(quotes)},
+                    # the author named in each cite must appear on the page (SEP prints "Copyright © ... by <author>")
+                    "authors": {a: norm_web(a) in text for a in authors}}
+        bad = [q for q, ok in out[url]["quotes"].items() if not ok] + [f"author {a}" for a, ok in out[url]["authors"].items() if not ok]
+        print(f"{status} {url}: {len(quotes) + len(authors) - len(bad)} of {len(quotes) + len(authors)} found" + "".join(f"\n    NOT FOUND «{q}»" for q in bad))
     WEB_CHECKS.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
 

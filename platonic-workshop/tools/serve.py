@@ -26,9 +26,11 @@ from urllib.parse import parse_qs, unquote, urlparse
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_db  # noqa: E402
 import citations  # noqa: E402
+import find  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
 import mywork  # noqa: E402
+import reconcile  # noqa: E402
 import search  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -55,6 +57,7 @@ class Library:
         # Your work: its own connection per call, so writes from any request thread are safe.
         self.mine = mywork.MyWork(user_path, self.db)
         self.search = search.Search(self.db)
+        self.find = find.Find(self.db, self.mine)
 
     def rows(self, sql, *args, db=None):
         return [dict(r) for r in (db or self.db).execute(sql, args)]
@@ -96,6 +99,9 @@ class Library:
         # Milestone 10: the concept index's passages in this dialogue.
         w["concepts"] = self.rows("SELECT c.id, c.label, c.layer, p.n, p.start_ref, p.end_ref, p.read_by FROM concept_passage p "
                                   "JOIN concept c ON c.id = p.concept_id WHERE p.work_id = ? ORDER BY p.start_ref", work_id)
+        # Milestone 12: the recorded tensions with a passage in this dialogue.
+        w["tensions"] = self.rows("SELECT t.id, t.title, p.n, p.side, p.start_ref, p.end_ref FROM reconcile_passage p "
+                                  "JOIN reconcile_tension t ON t.id = p.tension_id WHERE p.work_id = ? ORDER BY t.seq, p.n", work_id)
         w["counts"] = {
             "notes": self.one("SELECT count(*) n FROM note WHERE work_id = ?", work_id)["n"],
             "links_out": self.one("SELECT count(*) n FROM link WHERE from_work = ?", work_id)["n"],
@@ -555,6 +561,107 @@ class Library:
                     "suffix": self.one("SELECT * FROM relation_label WHERE code = ?", "_" + suffix) if suffix else None}
         return {"part": tag["part"], "lemma": tag["lemma"], "notes": notes, "role": role}
 
+    # ------------------------------------------------------------ milestone 12: reconciliation
+
+    def methods(self):
+        ev = self.evidence("method")
+        out = self.rows("SELECT * FROM reconcile_method ORDER BY seq")
+        for m in out:
+            m["grounds"] = ev.get(m["owner"], [])
+            m["concepts"] = self.rows("SELECT c.id, c.label FROM reconcile_method_concept mc JOIN concept c ON c.id = mc.concept_id "
+                                      "WHERE mc.method_id = ? ORDER BY c.seq", m["id"])
+            m["used"] = self.rows("SELECT r.tension_id, t.title, r.status, r.by FROM reconcile_reading r JOIN reconcile_tension t ON t.id = r.tension_id "
+                                  "WHERE r.method_id = ? ORDER BY t.seq", m["id"])
+        return out
+
+    def reconciliations(self):
+        out = self.rows("SELECT * FROM reconcile_tension ORDER BY seq")
+        sheets = {}
+        for r in self.mine.sheets():
+            sheets.setdefault(r["tension_id"], []).append(r)
+        for t in out:
+            t["passages"] = self.rows("SELECT p.n, p.side, p.work_id, w.title, w.slug, p.start_ref, p.end_ref FROM reconcile_passage p "
+                                      "JOIN work w ON w.id = p.work_id WHERE p.tension_id = ? ORDER BY p.n", t["id"])
+            t["readings"] = self.rows("SELECT r.n, r.method_id, m.name, r.status, r.by FROM reconcile_reading r JOIN reconcile_method m ON m.id = r.method_id "
+                                      "WHERE r.tension_id = ? ORDER BY r.n", t["id"])
+            t["sheets"] = len(sheets.get(t["id"], []))
+        stats = self.one("SELECT value FROM build WHERE key = 'reconcile_stats'")
+        return {"tensions": out, "own_sheets": [self._sheet_summary(r) for r in sheets.get(None, [])],
+                "stats": json.loads(stats["value"]) if stats else None}
+
+    @staticmethod
+    def _sheet_summary(r):
+        return {k: r[k] for k in ("id", "title", "tension_id", "rev", "updated_at")} | {"status": r["sheet"].get("status"), "methods": r["sheet"].get("methods", [])}
+
+    def dictionary_evidence(self, lemma, work, refs):
+        """A word's senses in Middle Liddell and LSJ, and whether LSJ cites this very passage."""
+        out = []
+        for lx, html in self.db.execute("SELECT le.lexicon_id, e.html FROM lemma_entry le JOIN lex_entry e ON e.id = le.entry_id "
+                                        "WHERE le.lemma = ? ORDER BY le.lexicon_id, e.id", (lemma,)):
+            glosses = [re.sub(r"<[^>]+>", "", g).strip() for g in re.findall(r'<em class="tr">(.*?)</em>', html, re.S)]
+            here = sorted({r for w, r in re.findall(r'data-work="(tlg\d+)" data-ref="([^"]+)"', html) if w == work and r in refs})
+            out.append({"lexicon": lx, "glosses": list(dict.fromkeys(g for g in glosses if g))[:8], "cites_here": here})
+        return out
+
+    def reconciliation(self, tid):
+        t = self.one("SELECT * FROM reconcile_tension WHERE id = ?", tid)
+        if not t:
+            return None
+        ev = self.evidence(f"reconcile:{tid}")
+        t["documented"] = ev.get(t["owner"], [])
+        t["passages"] = self.rows("SELECT p.*, w.title, w.slug FROM reconcile_passage p JOIN work w ON w.id = p.work_id "
+                                  "WHERE p.tension_id = ? ORDER BY p.n", tid)
+        for p in t["passages"]:
+            p["evidence"] = ev.get(p["owner"], [])
+            refs = list(reconcile.span_refs(self.db, p["work_id"], p["start_ref"], p["end_ref"]))
+            p["refs"] = refs
+            p["words"] = self.rows("SELECT lemma, why, tagged FROM reconcile_word WHERE tension_id = ? AND n = ?", tid, p["n"])
+            for w in p["words"]:
+                w["dictionary"] = self.dictionary_evidence(w["lemma"], p["work_id"], set(refs))
+            marks = ",".join("?" * len(refs))
+            p["notes"] = self.rows(f"SELECT n.id, COALESCE(c.label, n.commentator) AS commentator, n.start_ref, n.kind, length(n.body) AS chars, "
+                                   f"substr(n.body, 1, 600) AS opening FROM note n LEFT JOIN commentary c ON c.id = n.commentary_id "
+                                   f"WHERE n.work_id = ? AND n.start_ref IN ({marks}) AND n.kind != 'introduction' ORDER BY n.start_ref, c.label, n.seq",
+                                   p["work_id"], *refs)
+            p["applicable"] = reconcile.applicable(self.db, p["work_id"], p["start_ref"])
+        t["cites"] = self.rows("SELECT x.from_n, x.to_n, x.note_id, COALESCE(c.label, n.commentator) AS commentator, n.work_id, n.start_ref, "
+                               "substr(n.body, 1, 600) AS opening FROM reconcile_cites x JOIN note n ON n.id = x.note_id "
+                               "LEFT JOIN commentary c ON c.id = n.commentary_id WHERE x.tension_id = ? ORDER BY x.from_n, x.to_n", tid)
+        t["concepts"] = self.rows("SELECT c.id, c.label, c.greek FROM reconcile_concept rc JOIN concept c ON c.id = rc.concept_id "
+                                  "WHERE rc.tension_id = ? ORDER BY c.seq", tid)
+        t["readings"] = self.rows("SELECT r.*, m.name AS method_name FROM reconcile_reading r JOIN reconcile_method m ON m.id = r.method_id "
+                                  "WHERE r.tension_id = ? ORDER BY r.n", tid)
+        for r in t["readings"]:
+            r["evidence"] = ev.get(r["owner"], [])
+        # The methods for this tension: those its readings use, and those its concepts retrieve (the methods database).
+        used = {r["method_id"] for r in t["readings"]}
+        t["methods"] = []
+        for m in self.rows("SELECT id, name, plain FROM reconcile_method ORDER BY seq"):
+            because = [f"used by a reading below ({r['status']}, {r['by']})" for r in t["readings"] if r["method_id"] == m["id"]]
+            because += [f"belongs with the concept {c['label']}, which this tension is about" for c in self.rows(
+                "SELECT c.label FROM reconcile_method_concept mc JOIN reconcile_concept rc ON rc.concept_id = mc.concept_id "
+                "JOIN concept c ON c.id = mc.concept_id WHERE mc.method_id = ? AND rc.tension_id = ? ORDER BY c.seq", m["id"], tid)]
+            m["because"] = because
+            m["retrieved"] = bool(because)
+            t["methods"].append(m)
+        concept_ids = {c["id"]: c["label"] for c in t["concepts"]}
+        t["my_methods"] = []
+        for m in self.mine.user_methods():
+            because = [f"you placed it with the concept {concept_ids[c]}, which this tension is about" for c in m["concepts"] if c in concept_ids]
+            t["my_methods"].append({**m, "because": because, "retrieved": bool(because)})
+        t["sheets"] = [self._sheet_summary(r) | {"sheet": r["sheet"]} for r in self.mine.sheets(tid)]
+        return t
+
+    def mine_all(self):
+        """Everything of yours, for the My Translations page: by work in Stephanus order, then the rest."""
+        works = [{"id": w["id"], "urn": w["urn"], "title": w["title"], "items": rs} for w, rs in self.mine._sorted_by_work(self.mine.all_rows())]
+        slugs = {r["id"]: r["slug"] for r in self.rows("SELECT id, slug FROM work")}
+        for w in works:
+            w["slug"] = slugs.get(w["id"])
+        return {"works": works, "studies": self.mine.studies(), "sheets": self.mine.sheets(), "methods": self.mine.user_methods(),
+                "deleted_sheets": [r for r in self.mine.sheets(include_deleted=True) if r["deleted_at"]],
+                "deleted_methods": [r for r in self.mine.user_methods(include_deleted=True) if r["deleted_at"]]}
+
     def sources(self):
         return self.rows("SELECT * FROM source ORDER BY rowid")
 
@@ -632,7 +739,11 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send_json(mine.add_proof(data), HTTPStatus.CREATED)
             if method == "POST" and path == "/api/studies":
                 return self.send_json(mine.create_study(data), HTTPStatus.CREATED)
-            m = re.fullmatch(r"/api/mine/(translation|note|study)/(\d+)(?:/(delete|restore))?", path)
+            if method == "POST" and path == "/api/sheets":
+                return self.send_json(mine.create_sheet(data), HTTPStatus.CREATED)
+            if method == "POST" and path == "/api/my-methods":
+                return self.send_json(mine.create_method(data), HTTPStatus.CREATED)
+            m = re.fullmatch(r"/api/mine/(translation|note|study|reconciliation|method)/(\d+)(?:/(delete|restore))?", path)
             if m:
                 table, row_id, action = m.group(1), int(m.group(2)), m.group(3)
                 if method == "PUT" and not action:
@@ -706,6 +817,23 @@ class Handler(BaseHTTPRequestHandler):
                                                                 exact_only=query.get("exact") == "1", terms=lst("terms")))
                     except (search.Invalid, ValueError) as e:
                         return self.send_json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
+                if parts == ["find"]:
+                    try:
+                        return self.send_json(lib.find.find(query.get("q", "")))
+                    except find.Invalid as e:
+                        return self.send_json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
+                if parts == ["reconcile"]:
+                    return self.send_json(lib.reconciliations())
+                if parts == ["methods"]:
+                    return self.send_json({"library": lib.methods(), "mine": lib.mine.user_methods()})
+                if len(parts) == 2 and parts[0] == "reconcile":
+                    t = lib.reconciliation(parts[1])
+                    return self.send_json(t) if t else self.not_found()
+                if len(parts) == 3 and parts[0] == "applicable":
+                    a = reconcile.applicable(lib.db, parts[1], parts[2])
+                    return self.send_json(a) if a else self.not_found()
+                if parts == ["sheets"]:
+                    return self.send_json(lib.mine.sheets(query.get("tension") or None, include_deleted=query.get("deleted") == "1"))
                 if parts == ["suggest"]:
                     return self.send_json(lib.search.suggest(query.get("q", "")))
                 if len(parts) == 2 and parts[0] == "elsewhere":
@@ -734,6 +862,8 @@ class Handler(BaseHTTPRequestHandler):
                 if parts == ["mine", "config"]:
                     return self.send_json({"span_units": mywork.SPAN_UNITS, "default_format": mywork.DEFAULT_FORMAT,
                                            "note_kinds": mywork.NOTE_KINDS, "formats": mywork.FORMATS})
+                if parts == ["mine", "all"]:
+                    return self.send_json(lib.mine_all())
                 if parts == ["mine", "deleted"]:
                     return self.send_json(lib.mine.deleted())
                 if len(parts) == 4 and parts[0] == "mine" and parts[3] == "history" and parts[2].isdigit():
