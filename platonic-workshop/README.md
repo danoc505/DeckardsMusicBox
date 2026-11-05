@@ -126,6 +126,22 @@ or by the Greek words it quotes, found in Burnet's text; where both are there, t
 feed the citation web, the dialogue pages and the concept index like the others. See
 [The commentaries across Plato](#the-commentaries-across-plato) below and [`reports/commentaries.md`](reports/commentaries.md).
 
+**Passage dossiers: done.** *Dossiers* (top right, or `#dossiers`) gathers 71 of Plato's famous passages,
+images, myths and arguments from 20 works, each one whole: the divided line, the cave, the sun, Er, the
+charioteer, the ladder of love, Aristophanes' halves, the slave and the doubled square, the second sailing,
+the world soul, the receptacle, the angler, the battle of gods and giants, the midwife, the wax tablet and the
+aviary, the gadfly, the unexamined life, the Euthyphro dilemma, the third man, the puppets, the Seventh
+Letter's spark and many more. Each dossier holds the Greek and every translation side by side, its stages with
+the words they rest on, a diagram drawn from the text's own words where one fits (17: the line, with a slider
+for the ratio, the cave, the spindle of Er, the lambda of the world soul, the Meno's squares, the angler's
+divisions, and tables), how each translator renders its key words, every note placed on it, every place Plato
+returns to it, the ancient readers, every note anywhere that cites or names it, the words found only there in
+Plato and the phrases it shares with other passages, the concepts and themes on it, open resources on the web
+(the Stanford and Internet Encyclopedias, Wikipedia, Perseus), your own work on it, and a Markdown study sheet.
+809 of 809 quotations found in the texts they name, and 110 of 110 web pages hold the words quoted from them
+(`tools/webcheck.py` fetches each page and looks). See [Passage dossiers](#passage-dossiers) below and
+[`reports/dossiers.md`](reports/dossiers.md).
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install.
@@ -649,6 +665,58 @@ the Perseus website's downloads became reachable.)
   committed, with `fetched.json`); `python3 tools/commentary_corpus.py` reads them into `texts/commentary/<dialogue>/`
   (committed); `tools/build_db.py` places the notes and writes the report.
 
+## Passage dossiers
+
+![The divided line as a dossier: its stages, each on the Greek it rests on, and the dossiers it is tied to](docs/reader-dossier-line.png)
+
+A dossier is one famous passage gathered whole. The hand-written part is small and checked: where the passage
+begins and ends, its stages, the places Plato returns to it, the dossiers it is tied to, the ancient readers
+who quote it, the key words whose renderings are compared, and the web pages that discuss it. Every one of
+these quotes the words it rests on, and the build looks for each in the text it names (Burnet's Greek at the
+section, the ancient texts, the notes, the translation at the section or the next). Everything else is
+gathered by rule from the library:
+
+- **Greek and translations**: every edition of the span side by side (Burnet, Jowett, the Loeb, Taylor or
+  Sydenham), choose which with the boxes.
+- **Drawn from the text**: a diagram whose every label is Plato's word at a section; point at a label for the
+  Greek, click to read it in place. The divided line has a slider for the ratio of its cut; however it is cut,
+  the two middle sections come out the same length.
+- **Key words, translator by translator**: how each translator renders the passage's key words.
+- **Notes on it**: every commentary note placed on the span (Proclus, Taylor, Archer-Hind and the rest).
+- **Where Plato returns to it**: echoes elsewhere in the dialogues, each with the Greek and why.
+- **Ancient and later readers**: Alcinous, Albinus, Diogenes Laertius and the others, where they quote it.
+- **Cited elsewhere** and **Named elsewhere**: notes anywhere in the library that cite a section of the span, or
+  name the passage by one of its words ("divided line", "Er", "Diotima"). The words are phrases chosen so that
+  a note naming them is about the passage; common words were taken out.
+- **Concepts, myths, divisions**: the concepts of the concept index and the myths and images of the whole that
+  fall on the span, the chapters (Archer-Hind) or sidenotes (Jowett), and the speakers.
+- **Its vocabulary**: GLAUx lemmas found only in this passage in all Plato, and those twenty times or more as
+  frequent here; and shared phrases, runs of three lemmas (two of them rare) found here and in at most four
+  other places.
+- **Open resources**: the Stanford and Internet Encyclopedias of Philosophy, Wikipedia and Perseus, each with
+  the words quoted from the page and the date it was last checked. Perseus pages are linked only where they hold
+  the passage's Greek (38 do not, the Phaedrus among them, and are not offered).
+- **Your work on it**: your translations and notes on the span.
+- **Export as Markdown**: the whole dossier as a study sheet, every quotation with where it is from.
+
+Each dialogue's table of contents lists the dossiers in it. The dossiers are in `sources/dossiers/`, one file per
+dialogue, listed in `index.json` with the groups and kinds. To add one, write it there, then run
+`python3 tools/webcheck.py` (fetches each web page it links to and records whether the quoted words are there,
+in `sources/dossiers/web-checks.json`, so the build itself needs no network) and `python3 tools/build_db.py`;
+[`reports/dossiers.md`](reports/dossiers.md) lists anything not found.
+
+| | |
+|---|---:|
+| Dossiers | 71 |
+| Works | 20 |
+| Quotations found / checked | 809 / 809 |
+| Diagrams | 17 |
+| Renderings compared, found | 54 / 54 |
+| Web pages, words found | 110 / 110 |
+| Notes naming a dossier (on it / elsewhere) | 145 / 769 |
+| Words found only in a dossier's passage | 762 |
+| Shared phrases | 302 |
+
 ## Layout
 
 ```
@@ -666,6 +734,7 @@ sources/          what we use and where it comes from (committed)
   jowett-campbell-1894/, lodge-1896/  Internet Archive OCR of the commentaries of milestone 11, as received
   structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos
   concepts/       the concept index of milestone 10 (concepts.json, sources.json)
+  dossiers/       the passage dossiers, one file per dialogue (index.json lists them), and web-checks.json
   taylor-plotinus-1817/, taylor-proclus-theology-1816/, taylor-iamblichus-1821/  Taylor's later Platonists, as received
 texts/            imported texts, one JSON file per work (committed)
   taylor-1804/vol1/
@@ -685,10 +754,11 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   (reading and placing the commentaries), citations.py (the citation web),
                   fetch_ancient.py, ancient.py, taylor_intros.py and structure.py (the whole, milestone 9),
                   scholia.py and concepts.py (the concept index, milestone 10),
-                  commentary_corpus.py (the commentaries across Plato, milestone 11)
+                  commentary_corpus.py (the commentaries across Plato, milestone 11),
+                  dossiers.py and webcheck.py (the passage dossiers and their web checks)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
                   commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,
-                  concepts.js the concept index, commentaries.js the list of every commentary
+                  concepts.js the concept index, commentaries.js the list of every commentary, dossiers.js the passage dossiers
 tests/
 docs/             screenshots
 reports/          output of verify_sources.py and of the build (corpus.md), committed so results are reviewable

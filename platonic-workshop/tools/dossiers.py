@@ -288,6 +288,9 @@ def build(db):
         if x["kind"] not in KINDS:
             raise SystemExit(f"{own}: kind {x['kind']!r}")
         p = x["passage"]
+        # The row first (the rows found by rule refer to it); its data is written when all is gathered.
+        db.execute("INSERT INTO dossier VALUES (?,?,?,?,?,?,?,?,?,?)",
+                   (did, x["label"], x.get("greek"), x["kind"], p["work"], p["start"], p["end"], x.get("group"), k, "{}"))
         if p["work"] not in ck.src.imported:
             stats["dossiers not in this build"] += 1
             continue
@@ -366,9 +369,7 @@ def build(db):
             "SELECT DISTINCT t.id, t.label, t.kind, tp.start_ref, tp.end_ref FROM theme_passage tp JOIN theme t ON t.id = tp.theme_id "
             "JOIN section a ON a.work_id = tp.work_id AND a.ref = tp.start_ref JOIN section b ON b.work_id = tp.work_id AND b.ref = tp.end_ref "
             "WHERE tp.work_id = ? AND a.seq <= ? AND b.seq >= ?", (p["work"], hi, lo))]
-        db.execute("INSERT INTO dossier VALUES (?,?,?,?,?,?,?,?,?,?)",
-                   (did, x["label"], x.get("greek"), x["kind"], p["work"], p["start"], p["end"], x.get("group"), k,
-                    json.dumps(x, ensure_ascii=False)))
+        db.execute("UPDATE dossier SET data = ? WHERE id = ?", (json.dumps(x, ensure_ascii=False), did))
         stats["dossiers"] += 1
     out = dict(stats)
     out["not found"] = stats.get("not found", [])
@@ -379,7 +380,7 @@ def build(db):
 def write_report(db, stats, path=REPORT):
     q = lambda sql, *a: db.execute(sql, a).fetchall()
     lines = ["# Passage dossiers: what the build found", "",
-             "Written by `tools/build_db.py` (`tools/dossiers.py`) from `sources/dossiers/dossiers.json`; every figure is counted from the library.", "",
+             "Written by `tools/build_db.py` (`tools/dossiers.py`) from `sources/dossiers/` (one file per dialogue, listed in `index.json`); every figure is counted from the library.", "",
              f"**{stats.get('dossiers', 0)} dossiers. {stats.get('quotations found', 0):,} of {stats.get('quotations', 0):,} quotations found** "
              "in the texts they are said to be in (Burnet's Greek at the section named, the ancient texts, the notes). "
              f"**{stats.get('renderings found', 0)} of {stats.get('renderings', 0)} renderings** found in the translation at the section named (or the next). "
