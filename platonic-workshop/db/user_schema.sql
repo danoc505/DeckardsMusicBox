@@ -15,9 +15,10 @@
 --   * an upgrade of this schema copies the file to data/backups/ first and only
 --     adds columns (tools/mywork.py, migrate()).
 --
--- Schema version 2 (milestone 4). Version 1 had the same three tables without
--- the anchor-to-words, format, rev, label and deleted_at columns on
--- translation; tools/mywork.py adds them in place.
+-- Schema version 3 (milestone 5) adds word_study. Version 2 (milestone 4) had
+-- the other tables as they are. Version 1 had them without the
+-- anchor-to-words, format, rev, label and deleted_at columns on translation;
+-- tools/mywork.py adds them in place.
 
 PRAGMA foreign_keys = ON;
 
@@ -75,11 +76,31 @@ CREATE TABLE IF NOT EXISTS user_note (
 );
 CREATE INDEX IF NOT EXISTS user_note_anchor ON user_note(work_urn, start_ref);
 
--- Every version of a translation or note, the first one included, in order.
+-- A saved word study (milestone 5): a search of all Plato kept with your
+-- name for it and your notes on what it shows. The search itself (query, by,
+-- works) is kept as you ran it; the counts are worked out again from the
+-- library each time it is opened, so they follow a rebuild. The title and the
+-- note keep every version in `revision`, like your other texts.
+CREATE TABLE IF NOT EXISTS word_study (
+    id          INTEGER PRIMARY KEY,
+    title       TEXT NOT NULL,
+    query       TEXT NOT NULL,             -- as typed: 'λόγος', 'lo/gos', 'λογ*'
+    by          TEXT NOT NULL,             -- lemma | form | plain (tools/search.py)
+    terms       TEXT,                      -- JSON list: only these of the matched lemmas or forms; NULL = all
+    works       TEXT,                      -- JSON list of work ids to search in; NULL = all of Plato
+    format      TEXT NOT NULL DEFAULT 'markdown',
+    body        TEXT NOT NULL DEFAULT '',  -- your note on the study
+    rev         INTEGER NOT NULL DEFAULT 1,
+    created_at  TEXT NOT NULL,
+    updated_at  TEXT NOT NULL,
+    deleted_at  TEXT
+);
+
+-- Every version of a translation, note or word study, the first one included, in order.
 -- Rows are only ever added.
 CREATE TABLE IF NOT EXISTS revision (
     id          INTEGER PRIMARY KEY,
-    table_name  TEXT NOT NULL,             -- translation | user_note
+    table_name  TEXT NOT NULL,             -- translation | user_note | word_study
     row_id      INTEGER NOT NULL,
     rev         INTEGER,                   -- 1, 2, 3 ... per row
     event       TEXT,                      -- create | edit | delete | restore
@@ -89,4 +110,4 @@ CREATE TABLE IF NOT EXISTS revision (
     saved_at    TEXT NOT NULL
 );
 
-INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '2');
+INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '3');

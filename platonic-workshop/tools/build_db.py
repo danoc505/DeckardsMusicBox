@@ -4,7 +4,8 @@ fetched sources, and create data/user.sqlite for your own work if it does not
 exist yet.
 
     python3 tools/fetch_sources.py
-    python3 tools/build_db.py              # Timaeus, about a minute
+    python3 tools/build_db.py              # all 36 works, a few minutes
+    python3 tools/build_db.py tlg031       # only the Timaeus, about 30 seconds
 
 The library is rebuilt from scratch every time (into a temporary file that
 replaces the old one only when the build succeeds). data/user.sqlite is
@@ -23,6 +24,11 @@ Milestone 3 adds the word lookup:
               with LSJ's abbreviations marked with LSJ's own expansions (lexicon.py)
   grammar     Smyth's sections for each grammatical category, and the treebank
               guidelines' definitions of the sentence roles (grammar.py)
+Milestone 5 imports every work of the Thrasyllan tetralogies (Perseus tlg001 to
+tlg036) the same way, and adds the word search:
+  structure   books (Republic, Laws) and letters (Letters) as divisions
+  search      counts of every lemma and every form per work (lemma_count,
+              form_count), so a search of all Plato answers at once
 Every rule used is in this file or those two; nothing is guessed or generated.
 """
 import argparse
@@ -55,8 +61,21 @@ STEPH = re.compile(r"^(\d+)([a-e])$")
 PLATO_URN = "urn:cts:greekLit:tlg0059"
 PERSEUS_DIR = RAW / "perseus-greek-plato" / "data" / "tlg0059"
 
-# Speaker names as the TEI gives them (Greek) -> the English used in the reader.
-SPEAKERS = {"Σωκράτης": "Socrates", "Τίμαιος": "Timaeus", "Κριτίας": "Critias", "Ἑρμοκράτης": "Hermocrates"}
+# Every work of the tetralogies, in Perseus (= Thrasyllus') order.
+ALL_WORKS = [f"tlg{n:03d}" for n in range(1, 37)]
+
+# LSJ's abbreviation of each work (List I, under Pl.), used in the reader's
+# jump box and in citations. tests/test_corpus.py checks every one against
+# LSJ's own list in the abbreviation table.
+WORK_ABBR = {
+    "tlg001": "Euthphr.", "tlg002": "Ap.", "tlg003": "Cri.", "tlg004": "Phd.", "tlg005": "Cra.",
+    "tlg006": "Tht.", "tlg007": "Sph.", "tlg008": "Plt.", "tlg009": "Prm.", "tlg010": "Phlb.",
+    "tlg011": "Smp.", "tlg012": "Phdr.", "tlg013": "Alc. 1", "tlg014": "Alc.2", "tlg015": "Hipparch.",
+    "tlg016": "Amat.", "tlg017": "Thg.", "tlg018": "Chrm.", "tlg019": "La.", "tlg020": "Ly.",
+    "tlg021": "Euthd.", "tlg022": "Prt.", "tlg023": "Grg.", "tlg024": "Men.", "tlg025": "Hp.Ma.",
+    "tlg026": "Hp.Mi.", "tlg027": "Ion", "tlg028": "Mx.", "tlg029": "Clit.", "tlg030": "R.",
+    "tlg031": "Ti.", "tlg032": "Criti.", "tlg033": "Min.", "tlg034": "Lg.", "tlg035": "Epin.", "tlg036": "Ep.",
+}
 
 # Titles of Plato's works as abbreviated in Bury's notes -> Perseus work id.
 # Only these are read as references to Plato; any other <title> is another author.
@@ -68,11 +87,19 @@ PLATO_TITLES = {
     "Polit": "tlg008", "Parm": "tlg009", "Critias": "tlg032", "Meno": "tlg024", "Epin": "tlg035",
     "Theages": "tlg017", "Charm": "tlg018", "Laches": "tlg019", "Euthyd": "tlg021", "Menex": "tlg028",
     "Apol": "tlg002", "Crito": "tlg003", "Euthyph": "tlg001", "Alc": "tlg013",
+    # Milestone 5: the titles the other Loeb translators use (Fowler, Lamb, Shorey).
+    "Protagoras": "tlg022", "Prot": "tlg022", "Philebus": "tlg010", "Theaetetus": "tlg006",
+    "Politicus": "tlg008", "Statesman": "tlg008", "Euthydem": "tlg021", "Euthydemus": "tlg021",
+    "Charmides": "tlg018", "Parmen": "tlg009", "Parmenides": "tlg009", "Euthyphro": "tlg001",
+    "Symposium": "tlg011", "Cratylus": "tlg005", "Crat": "tlg005", "Alc. I": "tlg013",
+    "Apology": "tlg002", "Hipp. Maj": "tlg025", "Hippias Major": "tlg025", "Hippias Minor": "tlg026",
+    "Menexenus": "tlg028", "Epinomis": "tlg035", "Hipparchus": "tlg015",
+    "Epist": "tlg036", "Epistle": "tlg036", "Epistles": "tlg036", "Letters": "tlg036",
 }
 # An author's name just before a <title> means the work is not Plato's ("Eurip. Ion").
-OTHER_AUTHOR = re.compile(r"(Eurip|Hom|Ovid|Emped|Aristot\w*|Aristoph|Hes|Hdt|Pind|Thuc|Xen)\.?\s*$")
+OTHER_AUTHOR = re.compile(r"(Eurip|Hom|Ovid|Emped|Aristot\w*|Aristoph|Hes|Hdt|Pind|Thuc|Xen|Isoc\w*|Cic|Plut|Lucian|Aeschin|Aesch|Dem|Lys|Diog\.? L|Soph)\.?\s*$")
 REF_LIST = re.compile(r"^\s*\.?\s*((?:(?:\d{1,3}|[A-E]\b)(?:\s*[A-E]\b)?(?:\s*\.?\s*(?:B\.C\.|ff?\.?))?\s*(?:,|and|;)?\s*)+)")
-BARE_TIM_REF = re.compile(r"\b(\d{2})\s?([A-E])\b(?:\s*(?:ff?\.)?\s*,\s*[A-E]\b)*")
+BARE_REF = re.compile(r"\b(\d{2,3})\s?([A-E])\b(?:\s*(?:ff?\.)?\s*,\s*[A-E]\b)*")
 
 
 def steph_key(ref):
@@ -105,8 +132,13 @@ def header_info(root):
         e = sd.find(path) if sd is not None else None
         return " ".join("".join(e.itertext()).split()) if e is not None else ""
 
+    editor = first(f".//{TEI}editor")
+    if not editor:
+        # Some Loeb files name the translator only in the title ('..., translated by Harold N. Fowler').
+        m = re.search(r"translated by (.+)$", first(f".//{TEI}monogr/{TEI}title"))
+        editor = m.group(1).strip() if m else ""
     return {
-        "editor": first(f".//{TEI}editor"),
+        "editor": editor,
         "title": first(f".//{TEI}monogr/{TEI}title"),
         "place": first(f".//{TEI}pubPlace"),
         "date": first(f".//{TEI}date"),
@@ -128,6 +160,7 @@ class Walker:
         self.speaker = None
         self.label = None
         self.open = None      # current chunk
+        self.parts = []       # [subtype, n, first section, last section]: books, letters
         self.walk(root.find(f".//{TEI}body"))
         for c in self.chunks:
             c["text"] = re.sub(r"\s+", " ", "".join(c.pop("parts"))).strip()
@@ -145,6 +178,9 @@ class Walker:
             return
         if self.open is None and not s.strip():
             return
+        if s.strip() and self.parts and self.parts[-1][2] is None and self.section:
+            # Text before the part's first milestone: it begins inside the section the last part ended in.
+            self.parts[-1][2] = self.parts[-1][3] = self.section
         c = self._chunk()
         if c is not None:
             c["parts"].append(s)
@@ -154,6 +190,10 @@ class Walker:
         if tag == "milestone":
             n = (el.get("n") or "").strip()
             if el.get("unit") == "section" and STEPH.match(n):
+                if self.parts and self.parts[-1][2] is None:
+                    self.parts[-1][2] = n
+                if self.parts:
+                    self.parts[-1][3] = n
                 if n != self.section:
                     self.section = n
                     self.order.append(n)
@@ -170,6 +210,8 @@ class Walker:
             return
         if tag in ("head", "bibl"):
             return
+        if tag == "div" and el.get("type") == "textpart" and el.get("subtype") in ("book", "letter"):
+            self.parts.append([el.get("subtype"), el.get("n"), None, None])
         prev_speaker = self.speaker
         if tag == "p":
             self.para += 1
@@ -215,20 +257,21 @@ def note_plain(el):
     return " ".join("".join(el.itertext()).split())
 
 
-def note_links(el, from_ref):
+def note_links(el, from_ref, work_id="tlg031", pages=(17, 92)):
     """Plato references in a note, read by pattern. Returns (to_work, to_ref, raw).
 
     A <title> naming a work of Plato is followed by Stephanus references
     ('Rep. 369 E ff., 374 E'); a bare 'page letter' with no title before it
-    ('cf. 31 B') is a reference within the Timaeus. Pages without a letter are
-    kept as the page ('Laws 676 ff.' -> 676)."""
+    ('cf. 31 B') is a reference within the note's own work, when the page is
+    one of that work's pages (`pages`, first and last). Pages without a letter
+    are kept as the page ('Laws 676 ff.' -> 676)."""
     segs = _segments(el)
     out = []
     pending = None  # Plato work id waiting for its references
     for idx, (kind, s) in enumerate(segs):
         if kind == "title":
             prev_text = "".join(t for k, t in segs[:idx] if k == "text")[-20:]
-            name = s.rstrip(". ")
+            name = s.rstrip(".,; ")
             pending = PLATO_TITLES.get(name) if not OTHER_AUTHOR.search(prev_text) else None
             if pending is None:
                 pending = "OTHER"
@@ -247,9 +290,9 @@ def note_links(el, from_ref):
             if m:
                 rest = rest[m.end():]
         pending = None
-        for m in BARE_TIM_REF.finditer(rest):
-            if 17 <= int(m.group(1)) <= 92:
-                out.extend(("tlg031", ref, raw) for ref, raw in _refs(m.group(0)))
+        for m in BARE_REF.finditer(rest):
+            if pages[0] <= int(m.group(1)) <= pages[1]:
+                out.extend((work_id, ref, raw) for ref, raw in _refs(m.group(0)))
     return out
 
 
@@ -341,8 +384,18 @@ def align(ours, theirs):
     return {i: v if isinstance(v[0], list) else ([v[0]], v[1]) for i, v in pairs.items()}
 
 
+_MORPHEUS = {}
+
+
 def morpheus_lines(keys):
-    """{beta_key: raw analyses} for the keys asked for."""
+    """{beta_key: raw analyses} for the keys asked for. The table (about 100 MB)
+    is read once per build and kept for the next work."""
+    if not _MORPHEUS:
+        _MORPHEUS.update(_morpheus_table())
+    return {k: _MORPHEUS[k] for k in keys if k in _MORPHEUS}
+
+
+def _morpheus_table():
     d = RAW / "morpheus-analyses"
     found = {}
     # The CLTK repository splits one file at an arbitrary byte; reading both
@@ -350,7 +403,7 @@ def morpheus_lines(keys):
     data = (d / "greek-analyses_1.txt").read_text(encoding="utf-8") + (d / "greek-analyses_2.txt").read_text(encoding="utf-8")
     for line in data.splitlines():
         form, _, rest = line.partition("\t")
-        if form in keys and rest:
+        if rest:
             found[form] = rest
     return found
 
@@ -372,6 +425,28 @@ def parse_morpheus(rest):
 # ---------------------------------------------------------------- build
 
 
+def speaker_names(g, e):
+    """The English name of each Greek speaker, read from the two Perseus files.
+    In every section where the Greek and the English have the same number of
+    changes of speaker, the speakers are paired in order and the pair counted;
+    each Greek name takes the English name it is paired with most often. A name
+    never paired keeps its Greek form."""
+    def by_section(w):
+        out = defaultdict(list)
+        for c in w.chunks:
+            seq = out[c["section"]]
+            if c["speaker"] and (not seq or seq[-1] != c["speaker"]):
+                seq.append(c["speaker"])
+        return out
+    gs, es = by_section(g), by_section(e)
+    pairs = defaultdict(Counter)
+    for ref, names in gs.items():
+        if len(names) == len(es.get(ref, ())):
+            for a, b in zip(names, es[ref]):
+                pairs[a][b] += 1
+    return {gname: c.most_common(1)[0][0] for gname, c in pairs.items()}
+
+
 def build_work(db, work_id, sources):
     num = work_id.replace("tlg", "")
     wdir = PERSEUS_DIR / work_id
@@ -387,6 +462,8 @@ def build_work(db, work_id, sources):
     e_root = ET.parse(eng_file).getroot()
     g = Walker(g_root)
     e = Walker(e_root)
+    speakers = speaker_names(g, e)
+    stats["speaker_names"] = speakers
 
     # Sections: the Greek order is the reference order.
     for i, ref in enumerate(g.order):
@@ -416,7 +493,7 @@ def build_work(db, work_id, sources):
                 raise SystemExit(f"{edition_id}: section {c['section']} is not in the Greek text")
             cur = db.execute(
                 "INSERT INTO chunk (edition_id, work_id, section_ref, seq, para, speaker, label, text) VALUES (?,?,?,?,?,?,?,?)",
-                (edition_id, work_id, c["section"], seq, c["para"], SPEAKERS.get(c["speaker"], c["speaker"]), c["label"], c["text"]))
+                (edition_id, work_id, c["section"], seq, c["para"], speakers.get(c["speaker"], c["speaker"]), c["label"], c["text"]))
             ids.append(cur.lastrowid)
         return ids
 
@@ -479,7 +556,7 @@ def build_work(db, work_id, sources):
                     "Stephanus milestones in the Perseus TEI"))
     speeches = []
     for c in g.chunks:
-        sp = SPEAKERS.get(c["speaker"], c["speaker"])
+        sp = speakers.get(c["speaker"], c["speaker"])
         if speeches and speeches[-1][0] == sp:
             speeches[-1][2] = c["section"]
         else:
@@ -489,6 +566,12 @@ def build_work(db, work_id, sources):
                    (work_id, "speech", sp or "(no speaker)", a, b, "perseus-greek-plato",
                     "consecutive <said who> in the Perseus TEI with the same speaker"))
     stats["speeches"] = len(speeches)
+    for subtype, n, a, b in g.parts:
+        if a and b:
+            db.execute("INSERT INTO division (work_id, kind, label, start_ref, end_ref, source_id, basis) VALUES (?,?,?,?,?,?,?)",
+                       (work_id, subtype, f"{'Book' if subtype == 'book' else 'Letter'} {n}", a, b, "perseus-greek-plato",
+                        f"<div subtype=\"{subtype}\"> in the Perseus TEI"))
+    stats["parts"] = len(g.parts)
 
     # Commentary layer: the Loeb footnotes in the English, and links read from them.
     n_notes = n_links = 0
@@ -503,7 +586,7 @@ def build_work(db, work_id, sources):
              nt["offset"], note_plain(el), note_html(el), f"Loeb vol. {eh['volume']}, {eh['date']}",
              "containing section", "clean source text"))
         n_notes += 1
-        for to_work, to_ref, raw in note_links(el, nt["section"]):
+        for to_work, to_ref, raw in note_links(el, nt["section"], work_id, (steph_key(g.order[0])[0], steph_key(g.order[-1])[0])):
             db.execute("INSERT INTO link (from_work, from_ref, to_work, to_ref, kind, note_id, source_id, raw, method) VALUES (?,?,?,?,?,?,?,?,?)",
                        (work_id, nt["section"], to_work, to_ref, "cf", cur.lastrowid, "perseus-english-plato", raw, "pattern"))
             n_links += 1
@@ -640,7 +723,25 @@ def build_grammar(db):
     return {"grammar_notes": n_notes, "smyth_sections": len(smyth), "relation_labels": len(labels)}
 
 
-def build(works, db_path=None):
+def slug(title):
+    """'Alcibiades 1' -> 'alcibiades-1': the work's name in the reader's address bar."""
+    return re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+
+
+def build_search(db):
+    """Token ranges per work, and the counts the word search reads (lemma_count, form_count)."""
+    db.create_function("plain", 1, lambda s: greek.strip_accents(re.sub(r"\d", "", s or "")).rstrip(greek.APOSTROPHES), deterministic=True)
+    db.execute("""UPDATE work SET first_token = r.lo, last_token = r.hi, n_tokens = r.n FROM
+                  (SELECT e.work_id, min(t.id) lo, max(t.id) hi, count(*) n FROM token t JOIN edition e ON e.id = t.edition_id
+                   WHERE e.lang = 'grc' GROUP BY e.work_id) r WHERE r.work_id = work.id""")
+    db.execute("""INSERT INTO lemma_count SELECT g.lemma, plain(g.lemma), e.work_id, count(DISTINCT g.token_id)
+                  FROM tag g JOIN token t ON t.id = g.token_id JOIN edition e ON e.id = t.edition_id
+                  WHERE g.lemma != '' GROUP BY g.lemma, e.work_id""")
+    db.execute("""INSERT INTO form_count SELECT t.form, t.plain, e.work_id, count(*)
+                  FROM token t JOIN edition e ON e.id = t.edition_id GROUP BY t.form, e.work_id""")
+
+
+def build(works, db_path=None, progress=False):
     db_path = Path(db_path or DB_PATH)
     sources = load_sources()
     require(["perseus-greek-plato", "glaux-plato", "morpheus-analyses", "lsj", "middle-liddell",
@@ -657,9 +758,20 @@ def build(works, db_path=None):
             s.get("layer"), s.get("language"), s.get("licence"), s["provenance"], s.get("status")))
     for d in sorted(PERSEUS_DIR.glob("tlg0*")):
         cts = (d / "__cts__.xml").read_text(encoding="utf-8")
-        db.execute("INSERT INTO work (id, urn, title) VALUES (?,?,?)",
-                   (d.name, f"{PLATO_URN}.{d.name}", re.search(r"<ti:title[^>]*>([^<]+)", cts).group(1).strip()))
-    all_stats = [build_work(db, w, sources) for w in works]
+        title = re.search(r"<ti:title[^>]*>([^<]+)", cts).group(1).strip()
+        n = int(d.name[3:])
+        db.execute("INSERT INTO work (id, urn, title, abbr, slug, tetralogy) VALUES (?,?,?,?,?,?)",
+                   (d.name, f"{PLATO_URN}.{d.name}", title, WORK_ABBR.get(d.name), slug(title),
+                    (n - 1) // 4 + 1 if n <= 36 else None))
+    all_stats = []
+    for w in works:
+        t0 = time.time()
+        all_stats.append(build_work(db, w, sources))
+        if progress:
+            s = all_stats[-1]
+            print(f"  {s['title']}: {s['sections']} sections, {s['tokens']} words, {s['tagged']} tagged, "
+                  f"{s['notes']} notes ({time.time() - t0:.0f}s)", flush=True)
+    build_search(db)
     lookup_stats = build_dictionaries(db)
     lookup_stats.update(build_grammar(db))
     db.execute("INSERT INTO build VALUES ('lookup_stats', ?)", (json.dumps(lookup_stats, ensure_ascii=False),))
@@ -681,15 +793,57 @@ def ensure_user_db(path=USER_DB_PATH):
     mywork.ensure(path)
 
 
+REPORTS = ROOT / "reports"
+
+
+def write_corpus_report(stats):
+    """reports/corpus.json and corpus.md: what the import of all 36 works found,
+    every figure counted from the build. Committed so the import is reviewable."""
+    srcs = {s["id"]: s for s in load_sources()}
+    keep = ("work", "title", "sections", "english_sections", "english_sections_missing", "tokens", "tagged",
+            "tagged_by_position", "tagged_split_word", "with_morpheus", "speeches", "parts", "notes", "links", "speaker_names")
+    rows = [{k: s.get(k) for k in keep} for s in stats]
+    total = {k: sum(r[k] for r in rows) for k in ("sections", "tokens", "tagged", "with_morpheus", "notes", "links")}
+    prov = {i: {"commit": srcs[i].get("fetched_sha") or srcs[i].get("commit"), "repo": srcs[i].get("repo")}
+            for i in ("perseus-greek-plato", "perseus-english-plato", "glaux-plato", "morpheus-analyses")}
+    (REPORTS / "corpus.json").write_text(json.dumps({"total": total, "sources": prov, "works": rows}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    pct = lambda a, b: f"{100 * a / b:.2f}%" if b else "-"
+    lines = ["# All of Plato: what the import found", "",
+             "Written by `tools/build_db.py` when it builds all 36 works; every figure is counted from the build.", "",
+             f"**{len(rows)} works, {total['sections']:,} Stephanus sections, {total['tokens']:,} Greek words.** "
+             f"GLAUx tags {total['tagged']:,} of them ({pct(total['tagged'], total['tokens'])}); Morpheus has every possible parse for "
+             f"{total['with_morpheus']:,} ({pct(total['with_morpheus'], total['tokens'])}). The Loeb translators' notes give "
+             f"{total['notes']:,} notes and {total['links']:,} references read from them.", "",
+             "Sources, as built:", ""]
+    lines += [f"- `{i}`: {p['repo']} @ `{(p['commit'] or '')[:10]}`" for i, p in prov.items()]
+    lines += ["", "| Work | Sections | English sections | Greek words | Tagged | Morpheus | Notes | Links | Speakers named |",
+              "|---|---:|---:|---:|---:|---:|---:|---:|---|"]
+    for r in rows:
+        missing = f" ({len(r['english_sections_missing'])} missing)" if r["english_sections_missing"] else ""
+        names = ", ".join(sorted(set(r["speaker_names"].values()))) or "none (narrated, or one speaker)"
+        lines.append(f"| {r['title']} (`{r['work']}`) | {r['sections']} | {r['english_sections']}{missing} | {r['tokens']:,} | "
+                     f"{pct(r['tagged'], r['tokens'])} | {pct(r['with_morpheus'], r['tokens'])} | {r['notes']} | {r['links']} | {names} |")
+    worst = sorted(rows, key=lambda r: (r["tagged"] - r["tokens"]) / r["tokens"])[:3]
+    lines += ["", "**Untagged words.** A word is left untagged when GLAUx's words cannot be lined up with ours with certainty "
+              "(see the README, *How GLAUx's tags are matched*); nothing is guessed. Most untagged, by share: "
+              + ", ".join(f"{r['title']} {pct(r['tokens'] - r['tagged'], r['tokens'])}" for r in worst) + ".", "",
+              "**Speakers.** The Greek text names speakers in Greek. The English name of each is read from the English file of the "
+              "same work: where a section has the same number of changes of speaker in both, the names are paired in order, "
+              "and each Greek name takes the English name it is paired with most often (`speaker_names` in build_db.py). "
+              "A name never paired that way keeps its Greek form.", ""]
+    (REPORTS / "corpus.md").write_text("\n".join(lines), encoding="utf-8")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("works", nargs="*", default=["tlg031"], help="Perseus work ids (default: tlg031, the Timaeus)")
+    ap.add_argument("works", nargs="*", default=ALL_WORKS, help="Perseus work ids (default: all 36, tlg001 to tlg036)")
     args = ap.parse_args()
     t = time.time()
-    stats = build(args.works)
+    stats = build(args.works, progress=True)
     ensure_user_db()
-    for s in stats:
-        print(json.dumps(s, ensure_ascii=False, indent=2))
+    print(json.dumps(stats[-1], ensure_ascii=False, indent=2))
+    if set(args.works) == set(ALL_WORKS):
+        write_corpus_report(stats[:-1])
     print(f"wrote {DB_PATH.relative_to(ROOT)} in {time.time() - t:.0f}s; your work is in {USER_DB_PATH.relative_to(ROOT)}")
 
 

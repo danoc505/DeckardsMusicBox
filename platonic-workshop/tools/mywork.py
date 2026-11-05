@@ -26,7 +26,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 USER_SCHEMA = ROOT / "db" / "user_schema.sql"
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 # What a translation is anchored to: "words" (any span you select) or
 # "sections" (selections are widened to whole Stephanus sections).
@@ -35,6 +35,9 @@ SPAN_UNITS = "words"
 DEFAULT_FORMAT = "markdown"
 
 TABLES = {"translation": "translation", "note": "user_note"}
+# Word studies (milestone 5) are kept like the texts above, but are not anchored to a passage.
+ALL_TABLES = {**TABLES, "study": "word_study"}
+SEARCH_MODES = ("lemma", "form", "plain")
 NOTE_KINDS = ("footnote", "note", "alternative")
 FORMATS = ("markdown", "plain")
 MAX_BODY = 200_000
@@ -89,7 +92,7 @@ def ensure(path):
             db.close()
             backup(path, f"before-schema-{SCHEMA_VERSION}")
             db = sqlite3.connect(path)
-            migrate(db)
+            migrate(db, version)
         db.executescript(USER_SCHEMA.read_text(encoding="utf-8"))
         db.execute("CREATE INDEX IF NOT EXISTS translation_anchor ON translation(work_urn, start_ref)")
         db.execute("CREATE INDEX IF NOT EXISTS revision_row ON revision(table_name, row_id)")
@@ -98,9 +101,13 @@ def ensure(path):
         db.close()
 
 
-def migrate(db):
-    """Version 1 to 2: add columns, number the existing revisions. Adds only."""
+def migrate(db, version=1):
+    """Version 1 to 2: add columns, number the existing revisions. Version 2 to
+    3: nothing to change; the word_study table is created by the schema. Adds only."""
     with db:
+        if version >= 2:
+            db.execute("INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', ?)", (str(SCHEMA_VERSION),))
+            return
         for table, cols in V2_COLUMNS.items():
             have = {r[1] for r in db.execute(f"PRAGMA table_info({table})")}
             for name, decl in cols:
@@ -256,6 +263,8 @@ class MyWork:
             r = db.execute(f"SELECT * FROM {table} WHERE id = ?", (row_id,)).fetchone()
             if not r:
                 raise NotFound(f"{public} {row_id}")
+            if table == "word_study":
+                return self._study_row(r)
             r = dict(r)
             r["table"] = public
             if table == "translation":
@@ -276,9 +285,9 @@ class MyWork:
     # -------------------------------------------------- writing
 
     def _table(self, public):
-        if public not in TABLES:
+        if public not in ALL_TABLES:
             raise Invalid(f"unknown kind of work {public!r}")
-        return TABLES[public]
+        return ALL_TABLES[public]
 
     @staticmethod
     def _body(data):
@@ -370,6 +379,8 @@ class MyWork:
             db.close()
 
     def update(self, public, row_id, data):
+        if public == "study":
+            return self.update_study(row_id, data)
         body, label = self._body(data), self._label(data)
         kind = data.get("kind")
 
@@ -408,11 +419,82 @@ class MyWork:
                 if old["body"] != cur["body"]:
                     ch["body"] = old["body"]
                 if old["label"] != cur.get("label"):
-                    ch["label"] = old["label"]
+                    ch["title" if public == "study" else "label"] = old["label"]
                 if public == "note" and old["kind"] and old["kind"] != cur["kind"]:
                     ch["kind"] = old["kind"]
             return ch or None
         return self._change(public, row_id, data.get("base_rev"), "restore", apply)
+
+    # -------------------------------------------------- word studies
+
+    @staticmethod
+    def _study_fields(data):
+        title = data.get("title")
+        if not isinstance(title, str) or not title.strip():
+            raise Invalid("give the study a title")
+        body = data.get("body") or ""
+        if not isinstance(body, str) or len(body) > MAX_BODY:
+            raise Invalid("the note is too long" if isinstance(body, str) else "the note must be text")
+        return title.strip()[:200], body
+
+    @staticmethod
+    def _id_list(v, name):
+        if v in (None, []):
+            return None
+        if not isinstance(v, list) or not all(isinstance(x, str) and 0 < len(x) <= 100 for x in v) or len(v) > 300:
+            raise Invalid(f"{name} must be a list of names")
+        return json.dumps(v, ensure_ascii=False)
+
+    def studies(self, include_deleted=False):
+        with self.session() as db:
+            q = "SELECT * FROM word_study" + ("" if include_deleted else " WHERE deleted_at IS NULL") + " ORDER BY updated_at DESC, id DESC"
+            return [self._study_row(r) for r in db.execute(q)]
+
+    @staticmethod
+    def _study_row(r):
+        r = dict(r)
+        r["table"] = "study"
+        r["kind"] = "study"
+        r["label"] = r["title"]
+        r["terms"] = json.loads(r["terms"]) if r["terms"] else None
+        r["works"] = json.loads(r["works"]) if r["works"] else None
+        return r
+
+    def create_study(self, data):
+        title, body = self._study_fields(data)
+        query = data.get("query")
+        if not isinstance(query, str) or not query.strip() or len(query) > 100:
+            raise Invalid("the study needs the word searched for")
+        by = data.get("by") or "lemma"
+        if by not in SEARCH_MODES:
+            raise Invalid(f"by must be one of {SEARCH_MODES}")
+        works = self._id_list(data.get("works"), "works")
+        if works:
+            known = {r[0] for r in self.lib.execute("SELECT id FROM work")}
+            if not set(json.loads(works)) <= known:
+                raise Invalid("unknown work in works")
+        terms = self._id_list(data.get("terms"), "terms")
+        t = now()
+        with self.session() as db:
+            cur = db.execute("INSERT INTO word_study (title, query, by, terms, works, format, body, rev, created_at, updated_at) VALUES (?,?,?,?,?,?,?,1,?,?)",
+                             (title, query.strip(), by, terms, works, DEFAULT_FORMAT, body, t, t))
+            db.execute("INSERT INTO revision (table_name, row_id, rev, event, label, kind, body, saved_at) VALUES ('word_study',?,1,'create',?,NULL,?,?)",
+                       (cur.lastrowid, title, body, t))
+            return self.get("study", cur.lastrowid, db)
+
+    def update_study(self, row_id, data):
+        title, body = self._study_fields(data)
+
+        def apply(cur, db):
+            if cur["deleted_at"]:
+                raise Invalid("restore it before editing")
+            ch = {}
+            if body != cur["body"]:
+                ch["body"] = body
+            if title != cur["title"]:
+                ch["title"] = title
+            return ch or None
+        return self._change("study", row_id, data.get("base_rev"), "edit", apply)
 
     def deleted(self):
         """Deleted rows, newest first, so they can be restored."""
@@ -473,6 +555,7 @@ class MyWork:
             "about": "Your translations and notes from the Platonic Workshop, with every revision. "
                      "Anchors: work URN, Stephanus sections, word numbers within the section (null = whole section), and the Greek words.",
             "works": [{"urn": w["urn"], "title": w["title"], "items": rs} for w, rs in self._sorted_by_work(rows)],
+            "word_studies": [{**r, "revisions": self.history("study", r["id"])} for r in self.studies(include_deleted=True)],
         }
 
     def export_markdown(self):
@@ -499,6 +582,16 @@ class MyWork:
                 else:
                     body = "\n".join(line + "  " for line in body.splitlines())
                 lines += [body, ""]
+        studies = self.studies()
+        if studies:
+            lines += ["## Word studies", ""]
+            for r in studies:
+                where = ", ".join(r["works"]) if r["works"] else "all of Plato"
+                lines += [f"### {r['title']}", "",
+                          f"Search: `{r['query']}` by {r['by']}{' (' + ', '.join(r['terms']) + ')' if r['terms'] else ''}, in {where} · "
+                          f"revision {r['rev']}, {r['updated_at'][:10]}", ""]
+                if r["body"].strip():
+                    lines += [prefix_footnotes(r["body"].rstrip(), f"s{r['id']}-"), ""]
         return "\n".join(lines).rstrip() + "\n"
 
     def export_sqlite(self, dest):

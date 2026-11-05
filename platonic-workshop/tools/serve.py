@@ -21,13 +21,14 @@ import sys
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_db  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
 import mywork  # noqa: E402
+import search  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
@@ -44,6 +45,7 @@ class Library:
         self.db.row_factory = sqlite3.Row
         # Your work: its own connection per call, so writes from any request thread are safe.
         self.mine = mywork.MyWork(user_path, self.db)
+        self.search = search.Search(self.db)
 
     def rows(self, sql, *args, db=None):
         return [dict(r) for r in (db or self.db).execute(sql, args)]
@@ -55,7 +57,9 @@ class Library:
     # ------------------------------------------------------------ works
 
     def works(self):
-        return self.rows("SELECT id, urn, title, imported FROM work ORDER BY id")
+        return self.rows("SELECT w.id, w.urn, w.title, w.imported, w.abbr, w.slug, w.tetralogy, w.n_tokens, "
+                         "(SELECT min(ref) FROM section s WHERE s.work_id = w.id AND s.seq = 0) AS first_ref "
+                         "FROM work w ORDER BY w.id")
 
     def work(self, work_id):
         w = self.one("SELECT * FROM work WHERE id = ?", work_id)
@@ -67,12 +71,15 @@ class Library:
         w["pages"] = self.rows("SELECT label, start_ref, end_ref FROM division WHERE work_id = ? AND kind = 'page' ORDER BY id", work_id)
         w["speeches"] = self.rows("SELECT label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind = 'speech' ORDER BY id", work_id)
         w["parts"] = self.rows("SELECT label, start_ref, end_ref, basis, source_id FROM division WHERE work_id = ? AND kind IN ('part', 'skopos') ORDER BY id", work_id)
+        w["books"] = self.rows("SELECT kind, label, start_ref, end_ref, basis FROM division WHERE work_id = ? AND kind IN ('book', 'letter') ORDER BY id", work_id)
         w["counts"] = {
             "notes": self.one("SELECT count(*) n FROM note WHERE work_id = ?", work_id)["n"],
             "links_out": self.one("SELECT count(*) n FROM link WHERE from_work = ?", work_id)["n"],
             "links_in": self.one("SELECT count(*) n FROM link WHERE to_work = ?", work_id)["n"],
-            "tokens": self.one("SELECT count(*) n FROM token t JOIN edition e ON e.id = t.edition_id WHERE e.work_id = ?", work_id)["n"],
-            "tagged": self.one("SELECT count(DISTINCT token_id) n FROM tag g JOIN token t ON t.id = g.token_id JOIN edition e ON e.id = t.edition_id WHERE e.work_id = ?", work_id)["n"],
+            "tokens": w["n_tokens"] or 0,
+            # Token ids of a work are one run, so this reads only the work's own rows of tag.
+            "tagged": self.one("SELECT count(DISTINCT token_id) n FROM tag WHERE token_id BETWEEN ? AND ?",
+                               w["first_token"] or 0, w["last_token"] or -1)["n"],
         }
         return w
 
@@ -91,7 +98,7 @@ class Library:
         tokens = self.rows(
             f"SELECT t.id, t.chunk_id, t.section_ref, t.seq, t.start, t.end, t.form, "
             f"(SELECT count(*) FROM tag g WHERE g.token_id = t.id) AS tagged FROM token t "
-            f"JOIN edition e ON e.id = t.edition_id WHERE e.work_id = ? AND t.section_ref IN ({marks}) ORDER BY t.id",
+            f"WHERE t.edition_id IN (SELECT id FROM edition WHERE work_id = ?) AND t.section_ref IN ({marks}) ORDER BY t.id",
             work_id, *refs)
         notes = self.rows(
             f"SELECT id, commentator, start_ref, end_ref, chunk_id, offset, body_html, printed_at, anchor_method, proof_status, source_id "
@@ -156,9 +163,11 @@ class Library:
         t["sources"] = {s["id"]: s for s in self.rows(
             "SELECT id, title, licence, provenance, commit_sha FROM source WHERE id IN "
             "('glaux-plato', 'morpheus-analyses', 'perseus-greek-plato', 'lsj', 'middle-liddell', 'lsj-abbreviations', 'smyth-grammar', 'agdt-guidelines')")}
-        t["elsewhere_in_work"] = self.one(
-            "SELECT count(*) n FROM token t2 JOIN tag g ON g.token_id = t2.id WHERE t2.edition_id = ? AND g.lemma IN (SELECT lemma FROM tag WHERE token_id = ?)",
-            t["edition_id"], token_id)["n"]
+        # Milestone 5: this word elsewhere in Plato, per work, for each tagged lemma.
+        t["elsewhere"] = [self.search.elsewhere(l) for l in dict.fromkeys(g["lemma"] for g in tags if g["lemma"])]
+        here = [c["n"] for e in t["elsewhere"][:1] for c in e["counts"] if c["work_id"] == t["work_id"]]
+        t["elsewhere_in_work"] = here[0] if here else 0
+        t["form_in_plato"] = self.one("SELECT coalesce(sum(n), 0) n FROM form_count WHERE form = ?", t["form"])["n"]
         return t
 
     # ------------------------------------------------------------ dictionaries and grammar
@@ -216,7 +225,7 @@ class Library:
 
 class Handler(BaseHTTPRequestHandler):
     library = None
-    server_version = "PlatonicWorkshop/4"
+    server_version = "PlatonicWorkshop/5"
 
     def log_message(self, fmt, *args):
         if self.server.verbose:
@@ -280,7 +289,9 @@ class Handler(BaseHTTPRequestHandler):
             data = self.read_json()
             if method == "POST" and path == "/api/mine":
                 return self.send_json(mine.create(data), HTTPStatus.CREATED)
-            m = re.fullmatch(r"/api/mine/(translation|note)/(\d+)(?:/(delete|restore))?", path)
+            if method == "POST" and path == "/api/studies":
+                return self.send_json(mine.create_study(data), HTTPStatus.CREATED)
+            m = re.fullmatch(r"/api/mine/(translation|note|study)/(\d+)(?:/(delete|restore))?", path)
             if m:
                 table, row_id, action = m.group(1), int(m.group(2)), m.group(3)
                 if method == "PUT" and not action:
@@ -308,7 +319,9 @@ class Handler(BaseHTTPRequestHandler):
         self.write("PUT")
 
     def do_GET(self):
-        path = unquote(urlparse(self.path).path)
+        url = urlparse(self.path)
+        path = unquote(url.path)
+        query = {k: v[-1] for k, v in parse_qs(url.query).items()}
         lib = self.library
         m = re.fullmatch(r"/api/(.*)", path)
         if m:
@@ -326,6 +339,21 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send_json(p) if p else self.not_found()
                 if len(parts) == 2 and parts[0] == "lookup":
                     return self.send_json(lib.lookup(parts[1]))
+                if parts == ["search"]:
+                    lst = lambda k: [x for x in query.get(k, "").split(",") if x] or None
+                    try:
+                        return self.send_json(lib.search.search(query.get("q", ""), query.get("by", "lemma"), works=lst("works"),
+                                                                after=int(query.get("after") or 0), limit=int(query.get("limit") or search.PAGE),
+                                                                exact_only=query.get("exact") == "1", terms=lst("terms")))
+                    except (search.Invalid, ValueError) as e:
+                        return self.send_json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
+                if parts == ["suggest"]:
+                    return self.send_json(lib.search.suggest(query.get("q", "")))
+                if len(parts) == 2 and parts[0] == "elsewhere":
+                    return self.send_json(lib.search.elsewhere(greek.nfc(parts[1])))
+                if parts == ["studies"]:
+                    rows = lib.mine.studies(include_deleted=query.get("deleted") == "1")
+                    return self.send_json(rows)
                 if parts == ["lexica"]:
                     return self.send_json(lib.lexica())
                 if len(parts) == 2 and parts[0] == "token" and parts[1].isdigit():

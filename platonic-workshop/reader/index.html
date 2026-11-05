@@ -9,13 +9,14 @@
 <body>
 <header class="bar">
   <div class="bar-title">
-    <span class="work-title" id="work-title">Timaeus</span>
+    <label for="work-select" class="sr">Dialogue</label>
+    <select class="work-title" id="work-select" title="Open another work"></select>
     <span class="work-sub" id="work-sub"></span>
   </div>
   <form class="jump" id="jump" autocomplete="off">
     <button type="button" id="prev" title="Previous Stephanus page (←)" aria-label="Previous page">‹</button>
     <label for="jump-ref" class="sr">Go to Stephanus reference</label>
-    <input id="jump-ref" placeholder="29e" spellcheck="false" inputmode="text" aria-label="Stephanus reference">
+    <input id="jump-ref" placeholder="29e" spellcheck="false" inputmode="text" aria-label="Stephanus reference, or a work and a reference (Rep. 514a)" title="A reference (29e, 52), or a work and a reference (Rep. 514a, Phdr. 246)">
     <button type="button" id="next" title="Next Stephanus page (→)" aria-label="Next page">›</button>
   </form>
   <nav class="layers" aria-label="Layers">
@@ -24,6 +25,7 @@
     <label><input type="checkbox" data-layer="links" checked> Links</label>
     <label><input type="checkbox" data-layer="mine" checked> Your work</label>
     <label><input type="checkbox" data-layer="untagged"> Mark untagged words</label>
+    <button type="button" id="search-btn" class="search-btn" title="Search a word across all of Plato (/)">Search Plato</button>
     <button type="button" id="mine-btn" class="link-btn" title="Export your translations and notes, or restore deleted ones">Export</button>
     <button type="button" id="about-btn" class="link-btn">Sources</button>
   </nav>
@@ -37,7 +39,8 @@
       <p><strong>Click any Greek word</strong> for its lemma and parse, plain-English grammar notes from Smyth, and its entries in Middle Liddell and LSJ, with every other possible parse beside it.</p>
       <p><strong>Select Greek words</strong> (drag across them, or click one and Shift-click the last) to write your translation of them, a footnote, a note or an alternative rendering.</p>
       <p>Click a section number (<span class="ref-sample">29e</span>) to copy its reference.</p>
-      <p class="keys">Keys: ← → pages, <kbd>g</kbd> go to reference, <kbd>Esc</kbd> close.</p>
+      <p>Open another dialogue from the menu at the top left, or type a work and a reference in the box (<span class="ref-sample">Rep. 514a</span>). <strong>Search Plato</strong> finds a word in every dialogue.</p>
+      <p class="keys">Keys: ← → pages, <kbd>g</kbd> go to reference, <kbd>/</kbd> search, <kbd>Esc</kbd> close.</p>
     </div>
   </aside>
 </div>
@@ -71,5 +74,6 @@
 
 <script src="reader.js"></script>
 <script src="mywork.js"></script>
+<script src="search.js"></script>
 </body>
 </html>

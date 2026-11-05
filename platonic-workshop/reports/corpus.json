@@ -1,0 +1,787 @@
+{
+ "total": {
+  "sections": 8552,
+  "tokens": 561505,
+  "tagged": 560675,
+  "with_morpheus": 560866,
+  "notes": 4387,
+  "links": 4841
+ },
+ "sources": {
+  "perseus-greek-plato": {
+   "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
+   "repo": "https://github.com/PerseusDL/canonical-greekLit.git"
+  },
+  "perseus-english-plato": {
+   "commit": "282e6f5a3ec12e6ca67e44cd4fa3487526e3b421",
+   "repo": "https://github.com/PerseusDL/canonical-greekLit.git"
+  },
+  "glaux-plato": {
+   "commit": "b077d8f6ff429a5c7245954bc16bb7d1d7948823",
+   "repo": "https://github.com/alekkeersmaekers/glaux.git"
+  },
+  "morpheus-analyses": {
+   "commit": "8b77ce0547275a1d17e7bce1e7d98e200a9ff511",
+   "repo": "https://github.com/cltk/greek_lexica_perseus.git"
+  }
+ },
+ "works": [
+  {
+   "work": "tlg001",
+   "title": "Euthyphro",
+   "sections": 70,
+   "english_sections": 70,
+   "english_sections_missing": [],
+   "tokens": 5179,
+   "tagged": 5093,
+   "tagged_by_position": 0,
+   "tagged_split_word": 28,
+   "with_morpheus": 5170,
+   "speeches": 232,
+   "parts": 0,
+   "notes": 2,
+   "links": 0,
+   "speaker_names": {
+    "Εὐθύφρων": "Euthyphro",
+    "Σωκράτης": "Socrates"
+   }
+  },
+  {
+   "work": "tlg002",
+   "title": "Apology",
+   "sections": 125,
+   "english_sections": 125,
+   "english_sections_missing": [],
+   "tokens": 8750,
+   "tagged": 8744,
+   "tagged_by_position": 2,
+   "tagged_split_word": 118,
+   "with_morpheus": 8739,
+   "speeches": 1,
+   "parts": 0,
+   "notes": 1,
+   "links": 0,
+   "speaker_names": {}
+  },
+  {
+   "work": "tlg003",
+   "title": "Crito",
+   "sections": 59,
+   "english_sections": 59,
+   "english_sections_missing": [],
+   "tokens": 4175,
+   "tagged": 4172,
+   "tagged_by_position": 0,
+   "tagged_split_word": 65,
+   "with_morpheus": 4166,
+   "speeches": 95,
+   "parts": 0,
+   "notes": 1,
+   "links": 0,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Κρίτων": "Crito"
+   }
+  },
+  {
+   "work": "tlg004",
+   "title": "Phaedo",
+   "sections": 303,
+   "english_sections": 303,
+   "english_sections_missing": [],
+   "tokens": 22356,
+   "tagged": 22269,
+   "tagged_by_position": 6,
+   "tagged_split_word": 148,
+   "with_morpheus": 22334,
+   "speeches": 34,
+   "parts": 0,
+   "notes": 1,
+   "links": 0,
+   "speaker_names": {
+    "Ἐχεκράτης": "Echecrates",
+    "Φαίδων": "Phaedo"
+   }
+  },
+  {
+   "work": "tlg005",
+   "title": "Cratylus",
+   "sections": 286,
+   "english_sections": 286,
+   "english_sections_missing": [],
+   "tokens": 18249,
+   "tagged": 18117,
+   "tagged_by_position": 2,
+   "tagged_split_word": 94,
+   "with_morpheus": 18176,
+   "speeches": 761,
+   "parts": 0,
+   "notes": 14,
+   "links": 1,
+   "speaker_names": {
+    "Ἑρμογένης": "Hermogenes",
+    "Κρατύλος": "Cratylus",
+    "Σωκράτης": "Socrates"
+   }
+  },
+  {
+   "work": "tlg006",
+   "title": "Theaetetus",
+   "sections": 343,
+   "english_sections": 343,
+   "english_sections_missing": [],
+   "tokens": 22521,
+   "tagged": 22485,
+   "tagged_by_position": 2,
+   "tagged_split_word": 223,
+   "with_morpheus": 22503,
+   "speeches": 1017,
+   "parts": 0,
+   "notes": 35,
+   "links": 1,
+   "speaker_names": {
+    "Εὐκλείδης": "Eucleides",
+    "Τερψσίων": "Terpsion",
+    "Σωκράτης": "Socrates",
+    "Θεόδωρος": "Theodorus",
+    "Θεαίτητος": "Theaetetus"
+   }
+  },
+  {
+   "work": "tlg007",
+   "title": "Sophist",
+   "sections": 262,
+   "english_sections": 262,
+   "english_sections_missing": [],
+   "tokens": 16032,
+   "tagged": 15992,
+   "tagged_by_position": 1,
+   "tagged_split_word": 109,
+   "with_morpheus": 16022,
+   "speeches": 1176,
+   "parts": 0,
+   "notes": 36,
+   "links": 1,
+   "speaker_names": {
+    "Θεόδωρος": "Theodorus",
+    "Σωκράτης": "Socrates",
+    "Ξένος": "Stranger",
+    "Θεαίτητος": "Theaetetus"
+   }
+  },
+  {
+   "work": "tlg008",
+   "title": "Statesman",
+   "sections": 272,
+   "english_sections": 272,
+   "english_sections_missing": [],
+   "tokens": 16977,
+   "tagged": 16953,
+   "tagged_by_position": 3,
+   "tagged_split_word": 121,
+   "with_morpheus": 16965,
+   "speeches": 891,
+   "parts": 0,
+   "notes": 33,
+   "links": 5,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Θεόδωρος": "Theodorus",
+    "Ξένος": "Stranger",
+    "Νεώτερος Σωκράτης": "Younger Socrates"
+   }
+  },
+  {
+   "work": "tlg009",
+   "title": "Parmenides",
+   "sections": 201,
+   "english_sections": 201,
+   "english_sections_missing": [],
+   "tokens": 15261,
+   "tagged": 15232,
+   "tagged_by_position": 40,
+   "tagged_split_word": 426,
+   "with_morpheus": 15259,
+   "speeches": 6,
+   "parts": 0,
+   "notes": 3,
+   "links": 0,
+   "speaker_names": {
+    "Κέφαλος": "Cephalos"
+   }
+  },
+  {
+   "work": "tlg010",
+   "title": "Philebus",
+   "sections": 282,
+   "english_sections": 282,
+   "english_sections_missing": [],
+   "tokens": 17718,
+   "tagged": 17659,
+   "tagged_by_position": 7,
+   "tagged_split_word": 145,
+   "with_morpheus": 17671,
+   "speeches": 1140,
+   "parts": 0,
+   "notes": 8,
+   "links": 1,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Πρώταρχος": "Protarchus",
+    "Φίληβος": "Philebus"
+   }
+  },
+  {
+   "work": "tlg011",
+   "title": "Symposium",
+   "sections": 257,
+   "english_sections": 256,
+   "english_sections_missing": [
+    "181b"
+   ],
+   "tokens": 17345,
+   "tagged": 17342,
+   "tagged_by_position": 3,
+   "tagged_split_word": 147,
+   "with_morpheus": 17329,
+   "speeches": 5,
+   "parts": 0,
+   "notes": 67,
+   "links": 2,
+   "speaker_names": {
+    "Ἀπολλόδωρος": "Apollodorus",
+    "Ἑταῖρος": "Companion"
+   }
+  },
+  {
+   "work": "tlg012",
+   "title": "Phaedrus",
+   "sections": 261,
+   "english_sections": 261,
+   "english_sections_missing": [],
+   "tokens": 16618,
+   "tagged": 16596,
+   "tagged_by_position": 0,
+   "tagged_split_word": 115,
+   "with_morpheus": 16587,
+   "speeches": 373,
+   "parts": 0,
+   "notes": 11,
+   "links": 0,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Φαῖδρος": "Phaedrus"
+   }
+  },
+  {
+   "work": "tlg013",
+   "title": "Alcibiades 1",
+   "sections": 162,
+   "english_sections": 162,
+   "english_sections_missing": [],
+   "tokens": 10272,
+   "tagged": 10257,
+   "tagged_by_position": 0,
+   "tagged_split_word": 90,
+   "with_morpheus": 10260,
+   "speeches": 903,
+   "parts": 0,
+   "notes": 36,
+   "links": 0,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Ἀλκιβιάδης": "Alcibiades"
+   }
+  },
+  {
+   "work": "tlg014",
+   "title": "Alcibiades 2",
+   "sections": 67,
+   "english_sections": 67,
+   "english_sections_missing": [],
+   "tokens": 4179,
+   "tagged": 4174,
+   "tagged_by_position": 0,
+   "tagged_split_word": 45,
+   "with_morpheus": 4179,
+   "speeches": 181,
+   "parts": 0,
+   "notes": 20,
+   "links": 0,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Ἀλκιβιάδης": "Alcibiades"
+   }
+  },
+  {
+   "work": "tlg015",
+   "title": "Hipparchus",
+   "sections": 37,
+   "english_sections": 37,
+   "english_sections_missing": [],
+   "tokens": 2240,
+   "tagged": 2239,
+   "tagged_by_position": 0,
+   "tagged_split_word": 16,
+   "with_morpheus": 2236,
+   "speeches": 161,
+   "parts": 0,
+   "notes": 5,
+   "links": 0,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Ἑταῖρος": "Friend"
+   }
+  },
+  {
+   "work": "tlg016",
+   "title": "Lovers",
+   "sections": 35,
+   "english_sections": 35,
+   "english_sections_missing": [],
+   "tokens": 2393,
+   "tagged": 2391,
+   "tagged_by_position": 0,
+   "tagged_split_word": 21,
+   "with_morpheus": 2393,
+   "speeches": 1,
+   "parts": 0,
+   "notes": 9,
+   "links": 0,
+   "speaker_names": {}
+  },
+  {
+   "work": "tlg017",
+   "title": "Theages",
+   "sections": 50,
+   "english_sections": 50,
+   "english_sections_missing": [],
+   "tokens": 3464,
+   "tagged": 3462,
+   "tagged_by_position": 0,
+   "tagged_split_word": 7,
+   "with_morpheus": 3451,
+   "speeches": 135,
+   "parts": 0,
+   "notes": 11,
+   "links": 3,
+   "speaker_names": {
+    "Δημόδοκος": "Demodocus",
+    "Σωκράτης": "Socrates",
+    "Θεάγης": "Theages"
+   }
+  },
+  {
+   "work": "tlg018",
+   "title": "Charmides",
+   "sections": 118,
+   "english_sections": 118,
+   "english_sections_missing": [],
+   "tokens": 8321,
+   "tagged": 8303,
+   "tagged_by_position": 2,
+   "tagged_split_word": 75,
+   "with_morpheus": 8312,
+   "speeches": 1,
+   "parts": 0,
+   "notes": 20,
+   "links": 0,
+   "speaker_names": {
+    "Σωκράτης": "Socrates"
+   }
+  },
+  {
+   "work": "tlg019",
+   "title": "Laches",
+   "sections": 115,
+   "english_sections": 115,
+   "english_sections_missing": [],
+   "tokens": 7683,
+   "tagged": 7661,
+   "tagged_by_position": 1,
+   "tagged_split_word": 53,
+   "with_morpheus": 7678,
+   "speeches": 254,
+   "parts": 0,
+   "notes": 17,
+   "links": 2,
+   "speaker_names": {
+    "Λυσίμαχος": "Lysimachus",
+    "Νικίας": "Nicias",
+    "Λάχης": "Laches",
+    "Παῖδες": "Sons of Lysimachus and Melesias",
+    "Σωκράτης": "Socrates",
+    "Μελησίας": "Melesias"
+   }
+  },
+  {
+   "work": "tlg020",
+   "title": "Lysis",
+   "sections": 99,
+   "english_sections": 99,
+   "english_sections_missing": [],
+   "tokens": 6954,
+   "tagged": 6944,
+   "tagged_by_position": 0,
+   "tagged_split_word": 114,
+   "with_morpheus": 6924,
+   "speeches": 467,
+   "parts": 0,
+   "notes": 14,
+   "links": 1,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Ἱπποθάλης": "Hippothales",
+    "Κτήσιππος": "Ctesippus",
+    "Λύσις": "Lysis",
+    "Μενέξενος": "Menexenus",
+    "Μενέξενος #Λύσις": "Lysis #Menexenus"
+   }
+  },
+  {
+   "work": "tlg021",
+   "title": "Euthydemus",
+   "sections": 182,
+   "english_sections": 182,
+   "english_sections_missing": [],
+   "tokens": 12479,
+   "tagged": 12454,
+   "tagged_by_position": 1,
+   "tagged_split_word": 87,
+   "with_morpheus": 12473,
+   "speeches": 1071,
+   "parts": 0,
+   "notes": 30,
+   "links": 0,
+   "speaker_names": {
+    "Κρίτων": "Crito",
+    "Σωκράτης": "Socrates",
+    "Εὐθύδημος": "Euthydemus",
+    "Εὐθύδημος #Διονυσόδωρος": "Euthydemus #Dionysodorus",
+    "Διονυσόδωρος": "Dionysodorus",
+    "Κλεινίας": "Cleinias",
+    "Κτήσιππος": "Ctesippus"
+   }
+  },
+  {
+   "work": "tlg022",
+   "title": "Protagoras",
+   "sections": 265,
+   "english_sections": 264,
+   "english_sections_missing": [
+    "332c"
+   ],
+   "tokens": 17535,
+   "tagged": 17516,
+   "tagged_by_position": 3,
+   "tagged_split_word": 140,
+   "with_morpheus": 17501,
+   "speeches": 482,
+   "parts": 0,
+   "notes": 37,
+   "links": 0,
+   "speaker_names": {
+    "Ἑταῖρος": "Friend",
+    "Σωκράτης": "Socrates",
+    "Ἱπποκράτης": "Hippocrates",
+    "Πρωταγόρας": "Protagoras",
+    "Καλλίας": "Callias",
+    "Ἀλκιβιάδης": "Alcibiades",
+    "Κριτίας": "Critias",
+    "Πρόδικος": "Prodicus",
+    "Ἱππίας": "Hippias"
+   }
+  },
+  {
+   "work": "tlg023",
+   "title": "Gorgias",
+   "sections": 404,
+   "english_sections": 404,
+   "english_sections_missing": [],
+   "tokens": 26276,
+   "tagged": 26242,
+   "tagged_by_position": 1,
+   "tagged_split_word": 196,
+   "with_morpheus": 26250,
+   "speeches": 1081,
+   "parts": 0,
+   "notes": 62,
+   "links": 3,
+   "speaker_names": {
+    "Καλλίκλης": "Callicles",
+    "Σωκράτης": "Socrates",
+    "Γοργίας": "Gorgias",
+    "Χαιρεφῶν": "Chaerephon",
+    "Πῶλος": "Polus"
+   }
+  },
+  {
+   "work": "tlg024",
+   "title": "Meno",
+   "sections": 151,
+   "english_sections": 151,
+   "english_sections_missing": [],
+   "tokens": 9703,
+   "tagged": 9690,
+   "tagged_by_position": 1,
+   "tagged_split_word": 103,
+   "with_morpheus": 9696,
+   "speeches": 566,
+   "parts": 0,
+   "notes": 31,
+   "links": 0,
+   "speaker_names": {
+    "Μένων": "Meno",
+    "Σωκράτης": "Socrates",
+    "Παῖς": "Meno's Boy",
+    "Ἄνυτος": "Anytus"
+   }
+  },
+  {
+   "work": "tlg025",
+   "title": "Greater Hippias",
+   "sections": 119,
+   "english_sections": 118,
+   "english_sections_missing": [
+    "302d"
+   ],
+   "tokens": 8454,
+   "tagged": 8447,
+   "tagged_by_position": 1,
+   "tagged_split_word": 45,
+   "with_morpheus": 8445,
+   "speeches": 357,
+   "parts": 0,
+   "notes": 13,
+   "links": 6,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Ἱππίας": "Hippias"
+   }
+  },
+  {
+   "work": "tlg026",
+   "title": "Lesser Hippias",
+   "sections": 67,
+   "english_sections": 67,
+   "english_sections_missing": [],
+   "tokens": 4183,
+   "tagged": 4181,
+   "tagged_by_position": 4,
+   "tagged_split_word": 18,
+   "with_morpheus": 4173,
+   "speeches": 229,
+   "parts": 0,
+   "notes": 2,
+   "links": 0,
+   "speaker_names": {
+    "Εὔδικος": "Eudicus",
+    "Σωκράτης": "Socrates",
+    "Ἱππίας": "Hippias"
+   }
+  },
+  {
+   "work": "tlg027",
+   "title": "Ion",
+   "sections": 61,
+   "english_sections": 60,
+   "english_sections_missing": [
+    "539d"
+   ],
+   "tokens": 3851,
+   "tagged": 3850,
+   "tagged_by_position": 0,
+   "tagged_split_word": 30,
+   "with_morpheus": 3842,
+   "speeches": 171,
+   "parts": 0,
+   "notes": 33,
+   "links": 3,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Ἴων": "Ion"
+   }
+  },
+  {
+   "work": "tlg028",
+   "title": "Menexenus",
+   "sections": 78,
+   "english_sections": 78,
+   "english_sections_missing": [],
+   "tokens": 4810,
+   "tagged": 4807,
+   "tagged_by_position": 0,
+   "tagged_split_word": 35,
+   "with_morpheus": 4807,
+   "speeches": 33,
+   "parts": 0,
+   "notes": 29,
+   "links": 0,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Μενέξενος": "Menexenus"
+   }
+  },
+  {
+   "work": "tlg029",
+   "title": "Cleitophon",
+   "sections": 21,
+   "english_sections": 21,
+   "english_sections_missing": [],
+   "tokens": 1551,
+   "tagged": 1550,
+   "tagged_by_position": 0,
+   "tagged_split_word": 18,
+   "with_morpheus": 1550,
+   "speeches": 4,
+   "parts": 0,
+   "notes": 3,
+   "links": 0,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Κλειτόφων": "Cleitophon"
+   }
+  },
+  {
+   "work": "tlg030",
+   "title": "Republic",
+   "sections": 1355,
+   "english_sections": 1355,
+   "english_sections_missing": [],
+   "tokens": 88262,
+   "tagged": 88199,
+   "tagged_by_position": 12,
+   "tagged_split_word": 733,
+   "with_morpheus": 88213,
+   "speeches": 1,
+   "parts": 10,
+   "notes": 2766,
+   "links": 4562,
+   "speaker_names": {
+    "Σωκράτης": "Socrates"
+   }
+  },
+  {
+   "work": "tlg031",
+   "title": "Timaeus",
+   "sections": 364,
+   "english_sections": 364,
+   "english_sections_missing": [],
+   "tokens": 23677,
+   "tagged": 23670,
+   "tagged_by_position": 0,
+   "tagged_split_word": 124,
+   "with_morpheus": 23644,
+   "speeches": 41,
+   "parts": 0,
+   "notes": 192,
+   "links": 163,
+   "speaker_names": {
+    "Τίμαιος": "Timaeus",
+    "Σωκράτης": "Socrates",
+    "Ἑρμοκράτης": "Hermocrates",
+    "Κριτίας": "Critias"
+   }
+  },
+  {
+   "work": "tlg032",
+   "title": "Critias",
+   "sections": 76,
+   "english_sections": 76,
+   "english_sections_missing": [],
+   "tokens": 4952,
+   "tagged": 4951,
+   "tagged_by_position": 0,
+   "tagged_split_word": 10,
+   "with_morpheus": 4943,
+   "speeches": 5,
+   "parts": 0,
+   "notes": 40,
+   "links": 31,
+   "speaker_names": {
+    "Τίμαιος": "Timaeus",
+    "Κριτίας": "Critias",
+    "Σωκράτης": "Socrates",
+    "Ἑρμοκράτης": "Hermocrates"
+   }
+  },
+  {
+   "work": "tlg033",
+   "title": "Minos",
+   "sections": 42,
+   "english_sections": 42,
+   "english_sections_missing": [],
+   "tokens": 2826,
+   "tagged": 2826,
+   "tagged_by_position": 0,
+   "tagged_split_word": 15,
+   "with_morpheus": 2819,
+   "speeches": 191,
+   "parts": 0,
+   "notes": 16,
+   "links": 7,
+   "speaker_names": {
+    "Σωκράτης": "Socrates",
+    "Ἑταῖρος": "Companion"
+   }
+  },
+  {
+   "work": "tlg034",
+   "title": "Laws",
+   "sections": 1591,
+   "english_sections": 1591,
+   "english_sections_missing": [],
+   "tokens": 102977,
+   "tagged": 102942,
+   "tagged_by_position": 13,
+   "tagged_split_word": 897,
+   "with_morpheus": 102901,
+   "speeches": 1794,
+   "parts": 12,
+   "notes": 549,
+   "links": 24,
+   "speaker_names": {
+    "Ἀθηναῖος": "Athenian",
+    "Κλεινίας": "Clinias",
+    "Μέγιλλος": "Megillus"
+   }
+  },
+  {
+   "work": "tlg035",
+   "title": "Epinomis",
+   "sections": 99,
+   "english_sections": 99,
+   "english_sections_missing": [],
+   "tokens": 6316,
+   "tagged": 6309,
+   "tagged_by_position": 0,
+   "tagged_split_word": 49,
+   "with_morpheus": 6314,
+   "speeches": 28,
+   "parts": 0,
+   "notes": 57,
+   "links": 21,
+   "speaker_names": {
+    "Κλεινίας": "Cleinias",
+    "Ἀθηναῖος": "Athenian"
+   }
+  },
+  {
+   "work": "tlg036",
+   "title": "Letters",
+   "sections": 273,
+   "english_sections": 273,
+   "english_sections_missing": [],
+   "tokens": 16966,
+   "tagged": 16956,
+   "tagged_by_position": 4,
+   "tagged_split_word": 153,
+   "with_morpheus": 16941,
+   "speeches": 1,
+   "parts": 13,
+   "notes": 183,
+   "links": 4,
+   "speaker_names": {}
+  }
+ ]
+}

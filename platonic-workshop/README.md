@@ -47,7 +47,18 @@ footnote, a note or an alternative rendering, in Markdown. Every version is
 kept, nothing is ever written over, and everything exports to Markdown, JSON or
 a copy of the database. See [Your translations and notes](#your-translations-and-notes) below.
 
-Next is milestone 5: all of Plato, and each word across the dialogues.
+**Milestone 5, all of Plato and each word across the dialogues: done.** All 36
+works of the tetralogies, from the Euthyphro to the Letters, imported the same
+way as the Timaeus: Burnet's Greek, the Loeb English and its notes, every word
+tagged and parsed, books and letters, speakers, and the references between
+dialogues followable. Search any word across Plato by dictionary form or exact
+form, see every occurrence in context and the counts per dialogue, see "this
+word elsewhere in Plato" from the word box, and keep a search as a word study
+with your notes. See [All of Plato](#all-of-plato) and [Word search and word studies](#word-search-and-word-studies)
+below, and [`reports/corpus.md`](reports/corpus.md) for what the import found, work by work.
+
+Next is milestone 6: the historical translations (Perseus, Jowett, Taylor and
+Sydenham) aligned by Stephanus section.
 
 ## Running it
 
@@ -56,7 +67,7 @@ Python 3.10 or later, standard library only. Nothing to install.
 ```sh
 cd platonic-workshop
 python3 tools/fetch_sources.py      # about 640 MB into data/ (not committed), 2 minutes
-python3 tools/build_db.py           # builds data/workshop.sqlite, about 30 seconds
+python3 tools/build_db.py           # builds data/workshop.sqlite, all 36 works, about a minute
 python3 tools/serve.py              # then open http://localhost:8800/
 ```
 
@@ -65,6 +76,7 @@ run `python3 tools/import_taylor_vol1.py` (seconds). `tools/fetch_theosophylib.p
 downloads the theosophylib.com pages again; it is not needed for the import, which works
 from the committed copies.
 
+`python3 tools/build_db.py tlg031` builds only the Timaeus (or any list of Perseus work ids).
 `tools/verify_sources.py` re-runs milestone 1's checks, and
 `python3 -m unittest discover -s tests -v` runs all the tests.
 
@@ -72,9 +84,12 @@ from the committed copies.
 
 ![The reader at Timaeus 29e, with a word selected](docs/reader-m2.png)
 
-- **Navigation.** Type a reference (`29e`, or a page, `52`) in the box at the top, use ‹ ›
-  or the arrow keys to turn Stephanus pages, or pick a page in the left column. The
-  address bar follows you (`http://localhost:8800/#29e`), so a reference can be bookmarked.
+- **Navigation.** Pick a dialogue from the menu at the top left (grouped by Thrasyllus'
+  tetralogies). Type a reference (`29e`, or a page, `52`) in the box at the top, or a work and a
+  reference (`Rep. 514a`, `Phdr. 246`, `laws 700`), use ‹ › or the arrow keys to turn Stephanus
+  pages, or pick a page in the left column. The address bar follows you
+  (`http://localhost:8800/#republic/514a`), so a place can be bookmarked; an address from
+  milestones 2 to 4 (`#29e`) still opens the Timaeus.
 - **Text.** Burnet's Greek on the left, Bury's Loeb English (1929) on the right, section
   by section. Words Burnet brackets as spurious keep his square brackets.
 - **Words.** Click any Greek word. The green box is GLAUx's single tagged choice of lemma and
@@ -85,9 +100,9 @@ from the committed copies.
   few words GLAUx has no match for.
 - **Commentary.** Bury's 192 footnotes, numbered in the English and printed under their section.
   Each says how it was anchored and its proofreading status.
-- **Links.** *Points to* lists the passages a note cites; *Cited from* lists the notes elsewhere in
-  the Timaeus that cite this passage. Links to other dialogues are shown but not yet followable:
-  the rest of Plato arrives in milestone 5.
+- **Links.** *Points to* lists the passages a note cites; *Cited from* lists the notes, in any
+  dialogue, that cite this passage. Every one opens the passage, in whichever dialogue it is.
+  So do the citations of Plato in LSJ's entries.
 - **Who is speaking.** The left column lists the speeches, from the speaker markup in the Perseus text.
 - **Your work.** Your translations and notes under each section, and the words they are on
   underlined in the Greek. See [below](#your-translations-and-notes).
@@ -95,6 +110,57 @@ from the committed copies.
 
 Each layer can be switched off at the top; the choice is remembered in the browser.
 The server listens on 127.0.0.1 only.
+
+## All of Plato
+
+![The Republic at 514a, the cave, with παιδείας selected and its count in each dialogue](docs/reader-m5.png)
+
+All 36 works of the Thrasyllan tetralogies are in the library, from the same pinned sources as the
+Timaeus, built the same way: 561,505 Greek words in 8,552 Stephanus sections, 99.85% of them tagged
+by GLAUx, 4,387 Loeb notes (Fowler, Lamb, Shorey and Bury) and 4,841 references read from them.
+[`reports/corpus.md`](reports/corpus.md) gives the figures for every work, written by the build itself.
+
+- **Books and letters.** The Republic and the Laws list their books in the left column, the Letters
+  each letter, from the book and letter divisions of the Perseus text.
+- **Speakers.** The Greek text names its speakers in Greek. Each is given the English name the
+  Loeb translation of the same work uses: where a section has the same number of changes of speaker
+  in both files, the names are paired in order, and each Greek name takes the English name it is
+  paired with most often. A name that never pairs keeps its Greek form. The pairs found are in the report.
+- **References between dialogues.** The note-reading rules of milestone 2 now know the titles the
+  other translators use (*Prot.*, *Politicus*, *Epist.*…), and a bare reference (`cf. 509 B`) is
+  read as the note's own dialogue when the page is one of that dialogue's pages. Shorey's notes on the
+  Republic alone give 4,562 references, 1,817 of them within the Republic and 585 to the Laws.
+- **Speed.** Each dialogue opens with one request for its outline; each Stephanus page is loaded on
+  its own. A page of the Laws comes back from the library in under 10 ms.
+
+## Word search and word studies
+
+![Search for ψυχή: counts in every dialogue, and a saved word study](docs/reader-m5-search.png)
+
+*Search Plato* at the top (or the <kbd>/</kbd> key) finds a word in all 36 works.
+
+- **By dictionary form** (the lemma): every word GLAUx tagged with that lemma, so λόγος finds λόγου,
+  λόγοις, λόγων. Marked *machine*, since the lemmas are the tagger's. A word GLAUx splits in two
+  (οὐδέ as οὐ + δέ) counts once for each part.
+- **By exact form**: the form as printed, accents included. **By any accent**: the letters only.
+- Type Greek, or Beta Code (`lo/gos`). End with `*` to search by beginning (`λογ*`): every lemma or
+  form found is listed with its count, and any can be left out. If no lemma has exactly the spelling
+  typed, the lemmas with the same letters are searched instead, and the page says so.
+- **Counts per dialogue**, as numbers and per 10,000 words of the dialogue, so the long works do not
+  hide where a word is densest. Click a dialogue to see only its occurrences.
+- **Every occurrence** in reading order, with the words around it, its lemma and parse, and its
+  reference. Click the word for the full word box; click the reference to read it in place, with the
+  word selected.
+- **Elsewhere in Plato.** The word box shows how often the word's lemma occurs in all of Plato and
+  in which dialogues most, and links to every occurrence of the lemma or of the exact form.
+- **Word studies.** *Save as a word study* keeps the search (word, kind of search, any dialogues
+  or forms chosen) with a title and your notes in Markdown. Studies are listed in the left column of
+  the search page. Like your translations, every version of the title and notes is kept, an edit
+  from a second tab is refused rather than lost, delete can be undone, and studies are in the
+  Markdown and JSON exports. The counts are worked out again each time a study is opened.
+
+The counts come from two tables the build fills (`lemma_count`, `form_count`), so a search of
+all of Plato answers at once; the code is [`tools/search.py`](tools/search.py).
 
 ## The word box
 
@@ -199,7 +265,7 @@ Two SQLite files in `data/` (not committed):
 | File | What | Written by |
 |---|---|---|
 | `workshop.sqlite` | The library: everything imported from the sources | `tools/build_db.py`, rebuilt from scratch every time |
-| `user.sqlite` | Your translations, notes and every revision of them | You, through the reader (`tools/mywork.py`). A rebuild only creates missing tables |
+| `user.sqlite` | Your translations, notes, word studies and every revision of them | You, through the reader (`tools/mywork.py`). A rebuild only creates missing tables |
 
 Your rows point into the library by CTS URN, Stephanus reference and word number within
 the section (`urn:cts:greekLit:tlg0059.tlg031`, `29e`, words 1 to 9) and keep the Greek
@@ -218,6 +284,10 @@ Stephanus section, and every row names its source:
 | Links | `link` | 163 references read from those notes by pattern (101 within the Timaeus) |
 | Dictionaries | `lexicon`, `lex_entry`, `lemma_entry`, `abbreviation` | 4,000 LSJ and 3,209 Middle Liddell entries: every lemma GLAUx or Morpheus gives for a word of the text, and the entries those cross-refer to; LSJ's lists of abbreviations |
 | Grammar | `grammar_note`, `relation_label` | 32 notes from 31 sections of Smyth; 22 sentence-role definitions |
+| Search (milestone 5) | `lemma_count`, `form_count` | How often each lemma and each printed form occurs in each work |
+
+Milestone 5 imports all 36 works the same way; the figures above are the Timaeus's, and
+[`reports/corpus.md`](reports/corpus.md) has every work's.
 
 The full schema, with a comment on every column, is [`db/schema.sql`](db/schema.sql)
 and [`db/user_schema.sql`](db/user_schema.sql).
@@ -231,8 +301,8 @@ one οὐδέ at 17b where the two tokenisations do not line up.
 
 **How links are read.** A `<title>` in a note naming a work of Plato, followed by Stephanus
 numbers (`Rep. 369 E ff., 374 E ff.`), gives one link per number; a letter on its own carries
-the page before it (`Laws 892 A, B`). A bare number and letter between 17 and 92 (`cf. 31 B`)
-is a reference within the Timaeus. Titles after another author's name (`Eurip. Ion`) are
+the page before it (`Laws 892 A, B`). A bare number and letter (`cf. 31 B`) is a reference
+within the note's own dialogue when the page is one of its pages (17 to 92 for the Timaeus). Titles after another author's name (`Eurip. Ion`) are
 skipped. References are recorded as printed, mistakes included: Bury's "Phaedo 244 A" at
 71e is surely the Phaedrus, and his misprint "Ref. 416 D" at 18b is not read at all.
 
@@ -286,11 +356,12 @@ db/               schema of the library and of your own database
   grammar/        which Smyth section is quoted for which grammatical category
 tools/            fetch, verify, import, build the database, serve the reader, Greek helpers,
                   lexicon.py (dictionary entries, LSJ's abbreviations), grammar.py (Smyth, treebank labels),
-                  mywork.py (your translations and notes: the only code that writes user.sqlite)
-reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor
+                  mywork.py (your translations, notes and word studies: the only code that writes user.sqlite),
+                  search.py (the word search across Plato)
+reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search
 tests/
 docs/             screenshots
-reports/          output of verify_sources.py (committed so results are reviewable)
+reports/          output of verify_sources.py and of the build (corpus.md), committed so results are reviewable
 data/raw/         downloaded sources (git-ignored)
 data/*.sqlite     the library and your work (git-ignored)
 data/backups/     copies of user.sqlite made before an upgrade (git-ignored)

@@ -1,9 +1,12 @@
-// Platonic Workshop reader (milestones 2 to 4). No libraries, no build step.
-// Your translations and notes (milestone 4) are in mywork.js.
+// Platonic Workshop reader (milestones 2 to 5). No libraries, no build step.
+// Your translations and notes (milestone 4) are in mywork.js; the word search
+// across Plato and your word studies (milestone 5) in search.js.
 "use strict";
 
-const WORK = "tlg031";
-const state = { work: null, page: null, data: null, selected: null, target: null, token: null, dict: null, lexica: [] };
+// The work being read (a Perseus id, 'tlg031'). Changes when you open another dialogue.
+let WORK = "tlg031";
+const DEFAULT_WORK = "tlg031";
+const state = { work: null, works: [], page: null, data: null, selected: null, target: null, token: null, dict: null, lexica: [], view: "read", pendingWord: null };
 const $ = (sel, el = document) => el.querySelector(sel);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const STEPH = /^(\d{1,3})([a-e])?$/;
@@ -44,20 +47,88 @@ function parseRef(s) {
   return { page: +m[1], ref: m[2] ? m[1] + m[2] : null };
 }
 
-function go(refOrPage, push = true) {
-  const p = parseRef(refOrPage);
-  if (!p || !state.work) return false;
-  const ok = p.ref ? state.work.sections.includes(p.ref) : state.work.sections.some((r) => parseInt(r) === p.page);
-  if (!ok) return false;
-  const hash = "#" + (p.ref || String(p.page));
+// A work named the way you might type it: its LSJ abbreviation (R., Ti., Alc. 1),
+// its address-bar name (republic), the start of its title (rep, tim), or its Perseus id.
+const squash = (s) => String(s || "").toLowerCase().replace(/[\s.]+/g, "");
+function findWork(name) {
+  const q = squash(name);
+  if (!q) return null;
+  const ws = state.works.filter((w) => w.imported);
+  return ws.find((w) => w.id === q || squash(w.abbr) === q || w.slug.replace(/-/g, "") === q)
+    || ws.find((w) => squash(w.title).startsWith(q) || w.slug.replace(/-/g, "").startsWith(q)) || null;
+}
+const workById = (id) => state.works.find((w) => w.id === id);
+const workAbbr = (id) => (workById(id) || {}).abbr || id;
+
+// 'Rep. 514a', 'Ti. 29e', 'phaedrus 246', or a reference in the work being read ('29e').
+function parsePlace(s) {
+  s = String(s || "").trim();
+  const m = /^(.*?)[\s/]*(\d{1,3}\s*[a-eA-E]?)$/.exec(s);
+  if (!m) { const w = findWork(s); return w ? { work: w, ref: null, page: null } : null; }
+  const p = parseRef(m[2]);
+  if (!p) return null;
+  const w = m[1].trim() ? findWork(m[1]) : workById(WORK);
+  return w ? { work: w, ...p } : null;
+}
+
+function placeHash(workId, ref) {
+  const w = workById(workId);
+  return "#" + (w ? w.slug : workId) + (ref ? "/" + ref : "");
+}
+
+async function openWork(workId) {
+  if (state.work && state.work.id === workId) return true;
+  const w = workById(workId);
+  if (!w || !w.imported) return false;
+  $("#main").innerHTML = `<p class="loading">Opening the ${esc(w.title)}…</p>`;
+  state.work = await api(`work/${workId}`);
+  WORK = workId;
+  state.page = null;
+  state.data = null;
+  closeInspector();
+  const grc = state.work.editions.find((e) => e.lang === "grc");
+  $("#work-sub").textContent = `${grc.printed} · ${state.work.counts.tokens.toLocaleString()} words · ${state.work.counts.notes} notes · ${state.work.counts.links_out} links`;
+  const sel = $("#work-select");
+  if (sel) sel.value = workId;
+  document.title = `${state.work.title} · Platonic Workshop`;
+  return true;
+}
+
+// Go to a place: '29e', 'Rep. 514a', or {work, ref, page}. Returns false if there is no such place.
+function go(place, push = true) {
+  const p = typeof place === "string" ? parsePlace(place) : place;
+  if (!p || !p.work) return false;
+  const w = p.work;
+  const first = w.first_ref ? parseRef(w.first_ref) : null;
+  const target = p.page ? p : first;
+  if (!target) return false;
+  goTo(w.id, target.ref, target.page, push);
+  return true;
+}
+
+async function goTo(workId, ref, page, push = true) {
+  try {
+    if (!(await openWork(workId))) return false;
+  } catch (e) {
+    $("#main").innerHTML = `<p class="error">Could not open the work: ${esc(e.message)}</p>`;
+    return false;
+  }
+  const ok = ref ? state.work.sections.includes(ref) : state.work.sections.some((r) => parseInt(r) === page);
+  if (!ok) {
+    $("#main").innerHTML = `<p class="error">The ${esc(state.work.title)} has no section ${esc(ref || page)}. It runs from ${esc(state.work.sections[0])} to ${esc(state.work.sections[state.work.sections.length - 1])}.</p>`;
+    return false;
+  }
+  const hash = placeHash(workId, ref || String(page));
   if (push && location.hash !== hash) history.pushState(null, "", hash);
-  state.target = p.ref;
-  loadPage(p.page);
+  state.view = "read";
+  document.body.classList.remove("searching");
+  state.target = ref;
+  loadPage(page);
   return true;
 }
 
 async function loadPage(page) {
-  if (state.page === page && state.data) { scrollToTarget(); return; }
+  if (state.page === page && state.data && state.data.work_id === WORK && $("#main .sec")) { scrollToTarget(); return; }
   $("#main").innerHTML = `<p class="loading">Loading page ${page}…</p>`;
   try {
     state.data = await api(`page/${WORK}/${page}`);
@@ -76,6 +147,12 @@ function scrollToTarget() {
   const el = id && document.getElementById("s-" + id);
   if (el) { el.classList.add("target"); el.scrollIntoView({ block: "start" }); }
   else window.scrollTo(0, 0);
+  if (state.pendingWord) {
+    const t = state.pendingWord;
+    state.pendingWord = null;
+    const w = document.querySelector(`.w[data-t="${t}"]`);
+    if (w) { w.scrollIntoView({ block: "center" }); inspect(t); }
+  }
   $("#jump-ref").value = id || String(state.page);
   $("#prev").disabled = !state.data.prev;
   $("#next").disabled = !state.data.next;
@@ -146,15 +223,15 @@ function renderPage() {
       <div class="app">${renderApparatus(s, d, numbers)}</div>
     </section>`;
   }
-  html += `<div class="pager">${d.prev ? `<a href="#${d.prev}">‹ page ${d.prev}</a>` : "<span></span>"}${d.next ? `<a href="#${d.next}">page ${d.next} ›</a>` : "<span></span>"}</div>`;
+  html += `<div class="pager">${d.prev ? `<a href="${placeHash(WORK, String(d.prev))}">‹ page ${d.prev}</a>` : "<span></span>"}${d.next ? `<a href="${placeHash(WORK, String(d.next))}">page ${d.next} ›</a>` : "<span></span>"}</div>`;
   $("#main").innerHTML = html;
 }
 
 function linkChip(to_work, to_ref, label, imported, title) {
-  if (to_work === WORK && imported) {
-    return `<a class="chip" href="#${esc(to_ref)}" title="${esc(title)}">${esc(label)}</a>`;
+  if (imported) {
+    return `<a class="chip${to_work === WORK ? "" : " other"}" href="${esc(placeHash(to_work, to_ref))}" title="${esc(title)}">${esc(label)}</a>`;
   }
-  return `<span class="chip off" title="${esc(title)} · not in the library yet (all of Plato arrives in milestone 5)">${esc(label)}</span>`;
+  return `<span class="chip off" title="${esc(title)} · this work is not in the library">${esc(label)}</span>`;
 }
 
 function renderApparatus(s, d, numbers) {
@@ -168,7 +245,7 @@ function renderApparatus(s, d, numbers) {
   const out = d.links_out.filter((l) => l.from_ref === s.ref);
   if (out.length) {
     const chips = out.map((l) => {
-      const label = l.to_work === WORK ? `Tim. ${l.to_ref}` : `${l.to_title} ${l.to_ref}`;
+      const label = l.to_work === WORK ? `${workAbbr(WORK)} ${l.to_ref}` : `${l.to_title} ${l.to_ref}`;
       return linkChip(l.to_work, l.to_ref, label, l.to_imported, `“${l.raw}” in note ${numbers.get(l.note_id) ?? ""}, read by ${l.method}`);
     }).join("");
     rows.push(`<div class="app-row app-links"><div class="app-k">Points to</div><div class="app-v chips">${chips}</div></div>`);
@@ -176,8 +253,8 @@ function renderApparatus(s, d, numbers) {
   const page = String(parseInt(s.ref));
   const inn = d.links_in.filter((l) => l.to_ref === s.ref || (l.to_ref === page && s.ref.endsWith("a")));
   if (inn.length) {
-    const chips = inn.map((l) => linkChip(l.from_work, l.from_ref, `${l.from_work === WORK ? "Tim." : l.from_title} ${l.from_ref}`, true,
-      `Bury's note at ${l.from_ref} cites “${l.raw}”`)).join("");
+    const chips = inn.map((l) => linkChip(l.from_work, l.from_ref, `${l.from_work === WORK ? workAbbr(WORK) : l.from_title} ${l.from_ref}`, true,
+      `The Loeb note at ${l.from_title} ${l.from_ref} cites “${l.raw}”`)).join("");
     rows.push(`<div class="app-row app-links"><div class="app-k">Cited from</div><div class="app-v chips">${chips}</div></div>`);
   }
   rows.push(renderMineRow(s, d));
@@ -187,7 +264,16 @@ function renderApparatus(s, d, numbers) {
 function renderToc() {
   const w = state.work;
   const pages = w.pages.map((p) => parseInt(p.start_ref));
-  let html = `<h3>Stephanus pages</h3><div class="pages">${pages.map((p) => `<a href="#${p}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
+  const seqOf = new Map(w.sections.map((r, i) => [r, i]));
+  const curRefs = state.data ? state.data.sections.map((s) => s.ref) : [];
+  let html = "";
+  if (w.books && w.books.length) {
+    html += `<h3>${w.books[0].kind === "letter" ? "Letters" : "Books"}</h3><ul class="books">${w.books.map((b) => {
+      const here = curRefs.some((r) => seqOf.get(r) >= seqOf.get(b.start_ref) && seqOf.get(r) <= seqOf.get(b.end_ref));
+      return `<li class="${here ? "here" : ""}"><a href="${esc(placeHash(WORK, b.start_ref))}" title="${esc(b.basis)}"><span>${esc(b.label)}</span><span>${esc(b.start_ref)}–${esc(b.end_ref)}</span></a></li>`;
+    }).join("")}</ul>`;
+  }
+  html += `<h3>Stephanus pages</h3><div class="pages">${pages.map((p) => `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
   // Speeches: collapse the opening exchanges into one line per long speech.
   const seq = new Map(w.sections.map((r, i) => [r, i]));
   const merged = [];
@@ -202,7 +288,7 @@ function renderToc() {
   html += `<h3>Who is speaking</h3><ul class="speeches">${merged.map((m) => {
     const here = cur.some((r) => seq.get(r) >= seq.get(m.start_ref) && seq.get(r) <= seq.get(m.end_ref));
     const label = m.labels.length > 2 ? "Dialogue" : m.labels.join(", ");
-    return `<li class="${here ? "here" : ""}"><a href="#${m.start_ref}"><span>${esc(label)}</span><span>${m.start_ref === m.end_ref ? m.start_ref : m.start_ref + "–" + m.end_ref}</span></a></li>`;
+    return `<li class="${here ? "here" : ""}"><a href="${esc(placeHash(WORK, m.start_ref))}"><span>${esc(label)}</span><span>${m.start_ref === m.end_ref ? m.start_ref : m.start_ref + "–" + m.end_ref}</span></a></li>`;
   }).join("")}</ul><p class="note">From the speaker markup in the Perseus text. The parts of the argument and the dialogue's skopos are added in milestone 9.</p>`;
   $("#toc").innerHTML = html;
 }
@@ -223,7 +309,7 @@ async function inspect(id) {
   let html = `<button class="insp-close" aria-label="Close" title="Close (Esc)">×</button>
     <div class="insp-form" lang="grc">${esc(t.form)}</div>
     <div class="insp-addr" title="CTS address of this word">${esc(t.address)}</div>`;
-  html += renderMineForWord(id);
+  if (state.view === "read") html += renderMineForWord(id);
   if (t.tags.length) {
     const split = t.tags.length > 1;
     html += `<div class="box tagged"><h3>Tagged <span class="badge">machine</span></h3>`;
@@ -234,10 +320,11 @@ async function inspect(id) {
     }
     const t0 = t.tags[0];
     html += `<p class="prov">GLAUx's single choice, made by a statistical tagger (${t0.analysis === "auto" ? "not hand-checked" : "hand-checked"}). Matched to this word by ${esc(t0.align_method)}.
-      ${t.elsewhere_in_work ? `This lemma is tagged ${t.elsewhere_in_work}× in the Timaeus.` : ""}</p></div>`;
+      ${t.elsewhere_in_work ? `This lemma is tagged ${t.elsewhere_in_work}× in the ${esc((workById(t.work_id) || {}).title)}.` : ""}</p></div>`;
   } else {
     html += `<div class="box none"><h3>Not tagged</h3>GLAUx has no word that lines up with this one${/^\[|\]$/.test(t.form) ? "" : " (often a word Burnet brackets as spurious, which GLAUx leaves out)"}. The parses below are still every possibility.</div>`;
   }
+  html += renderElsewhere(t);
   html += renderGrammar(t);
   html += `<div class="box dict" id="dict"></div>`;
   if (t.morph.length) {
@@ -250,8 +337,7 @@ async function inspect(id) {
   html += `<details class="prov"><summary>Sources for this word</summary>${
     ["glaux-plato", "morpheus-analyses", "middle-liddell", "lsj", "lsj-abbreviations", "smyth-grammar", "agdt-guidelines"].map((k) => t.sources[k]).filter(Boolean).map((s) =>
       `<p><strong>${esc(s.title)}</strong><br>${esc(s.provenance)}<br>Licence: ${esc(s.licence)} · ${/^[0-9a-f]{64}$/.test(s.commit_sha) ? "sha256" : "commit"} <code>${esc(s.commit_sha.slice(0, 10))}</code></p>`).join("")
-  }</details>
-    <p class="later">Every occurrence of this word across Plato arrives in milestone 5.</p>`;
+  }</details>`;
   box.innerHTML = html;
   state.token = t;
   const first = t.lookup[0];
@@ -389,10 +475,12 @@ function closeInspector() {
 
 async function showSources() {
   const d = await api("sources");
-  const stats = JSON.parse(d.build.stats || "[]")[0] || {};
+  const all = JSON.parse(d.build.stats || "[]");
+  const sum = (k) => all.reduce((n, s) => n + (s[k] || 0), 0);
+  const stats = { sections: sum("sections"), tokens: sum("tokens").toLocaleString(), tagged: sum("tagged").toLocaleString(), notes: sum("notes"), links: sum("links") };
   let look = {};
   try { look = JSON.parse(d.build.lookup_stats || "{}"); } catch (e) { /* older build */ }
-  $("#about-body").innerHTML = `<p class="meta">Library built ${esc(d.build.built_at)}. Timaeus: ${stats.sections} sections, ${stats.tokens} Greek words, ${stats.tagged} tagged, ${stats.notes} notes, ${stats.links} links.${look.lsj ? ` Dictionaries: ${look.lsj.entries} LSJ and ${look["middle-liddell"].entries} Middle Liddell entries for ${look.lemmas} lemmas; ${look.grammar_notes} Smyth notes; ${look.relation_labels} sentence roles.` : ""}</p>` +
+  $("#about-body").innerHTML = `<p class="meta">Library built ${esc(d.build.built_at)}. ${all.length} works: ${stats.sections} sections, ${stats.tokens} Greek words, ${stats.tagged} tagged, ${stats.notes} notes, ${stats.links} links.${look.lsj ? ` Dictionaries: ${look.lsj.entries} LSJ and ${look["middle-liddell"].entries} Middle Liddell entries for ${look.lemmas} lemmas; ${look.grammar_notes} Smyth notes; ${look.relation_labels} sentence roles.` : ""}</p>` +
     d.sources.map((s) => `<div class="src"><h4>${esc(s.title)}</h4>
       <div>${esc(s.provenance)}</div>
       <div class="meta">Layer: ${esc(s.layer)} · Licence: ${esc(s.licence)} · Status: ${esc(s.status)}${s.repo ? ` · <code>${esc(s.repo)}</code> @ <code>${esc((s.fetched_sha || s.commit_sha || "").slice(0, 10))}</code>` : ""}${s.path ? ` · <code>${esc(s.path)}</code>` : ""}</div></div>`).join("");
@@ -415,9 +503,10 @@ document.addEventListener("click", (ev) => {
   const tab = ev.target.closest("[data-lex]");
   if (tab && state.dict) { savePrefs({ lex: tab.dataset.lex }); showDict(state.dict.data, state.dict.isTagged, tab.dataset.lex); return; }
   const cite = ev.target.closest(".bibl.plato");
-  if (cite && cite.dataset.work === WORK && cite.dataset.ref) {
+  if (cite && cite.dataset.ref && workById(cite.dataset.work) && workById(cite.dataset.work).imported) {
     if (cite.closest("#entry-dialog")) $("#entry-dialog").close();
-    go(cite.dataset.ref);
+    const p = parseRef(cite.dataset.ref);
+    goTo(cite.dataset.work, p.ref, p.page);
     return;
   }
   if (ev.target.closest("#dict-wide") && state.dict) {
@@ -432,7 +521,7 @@ document.addEventListener("click", (ev) => {
   if (ref) {
     navigator.clipboard?.writeText(ref.dataset.copy).catch(() => {});
     const r = ref.closest(".sec").dataset.ref;
-    history.replaceState(null, "", "#" + r);
+    history.replaceState(null, "", placeHash(WORK, r));
     state.target = r;
     scrollToTarget();
     return;
@@ -458,30 +547,64 @@ $("#jump").addEventListener("submit", (ev) => {
   inp.classList.toggle("bad", !ok);
   if (ok) inp.blur();
 });
-$("#prev").addEventListener("click", () => state.data?.prev && go(state.data.prev));
-$("#next").addEventListener("click", () => state.data?.next && go(state.data.next));
+const goPage = (p) => goTo(WORK, null, p);
+$("#prev").addEventListener("click", () => state.data?.prev && goPage(state.data.prev));
+$("#next").addEventListener("click", () => state.data?.next && goPage(state.data.next));
 $("#about-btn").addEventListener("click", showSources);
-window.addEventListener("hashchange", () => go(location.hash.slice(1) || "17", false));
+window.addEventListener("hashchange", () => route(false));
 document.addEventListener("keydown", (ev) => {
   if (ev.target.matches("input, textarea")) return;
-  if (ev.key === "ArrowLeft" && state.data?.prev) go(state.data.prev);
-  else if (ev.key === "ArrowRight" && state.data?.next) go(state.data.next);
+  if (ev.key === "ArrowLeft" && state.view === "read" && state.data?.prev) goPage(state.data.prev);
+  else if (ev.key === "ArrowRight" && state.view === "read" && state.data?.next) goPage(state.data.next);
   else if (ev.key === "g") { ev.preventDefault(); $("#jump-ref").select(); }
+  else if (ev.key === "/") { ev.preventDefault(); openSearch(); }
   else if (ev.key === "Escape") closeInspector();
 });
+
+// The address bar: #timaeus/29e, #republic/514 (a page), #search?q=λόγος&by=lemma.
+// A bare #29e (milestones 2 to 4) is the Timaeus.
+function route(push) {
+  const raw = location.hash.slice(1);
+  if (raw.startsWith("search")) { showSearchFromHash(raw); return; }  // its parameters are decoded there
+  const h = decodeURIComponent(raw);
+  const slash = h.indexOf("/");
+  let p = null;
+  if (slash > 0) {
+    const w = state.works.find((x) => x.slug === h.slice(0, slash) || x.id === h.slice(0, slash));
+    const r = parseRef(h.slice(slash + 1));
+    if (w && r) p = { work: w, ...r };
+  } else if (h) {
+    const w = state.works.find((x) => x.slug === h);
+    p = w ? { work: w, ref: null, page: null } : (parseRef(h) ? { work: workById(WORK), ...parseRef(h) } : parsePlace(h));
+  }
+  if (!p || !go(p, push)) go({ work: workById(WORK), ref: null, page: null }, false);
+}
+
+function renderWorkSelect() {
+  const groups = new Map();
+  for (const w of state.works.filter((x) => x.imported)) {
+    const k = w.tetralogy || 0;
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(w);
+  }
+  const sel = $("#work-select");
+  sel.innerHTML = [...groups].map(([k, ws]) => `<optgroup label="${k ? "Tetralogy " + k : "Other"}">${ws.map((w) =>
+    `<option value="${w.id}">${esc(w.title)}</option>`).join("")}</optgroup>`).join("");
+  sel.value = WORK;
+  sel.addEventListener("change", () => { go({ work: workById(sel.value), ref: null, page: null }); sel.blur(); });
+}
 
 (async function start() {
   loadLayers();
   try {
-    state.work = await api(`work/${WORK}`);
+    state.works = await api("works");
+    if (!state.works.some((w) => w.imported)) throw new Error("empty");
   } catch (e) {
     $("#main").innerHTML = `<p class="error">The library is not built yet. Run <code>python3 tools/build_db.py</code>, then reload.</p>`;
     return;
   }
   try { state.lexica = await api("lexica"); } catch (e) { state.lexica = []; }
-  const grc = state.work.editions.find((e) => e.lang === "grc");
-  $("#work-title").textContent = state.work.title;
-  $("#work-sub").textContent = `${grc.printed} · ${state.work.counts.notes} notes · ${state.work.counts.links_out} links`;
-  document.title = `${state.work.title} · Platonic Workshop`;
-  if (!go(location.hash.slice(1) || "17", false)) go("17", false);
+  if (!workById(DEFAULT_WORK)?.imported) WORK = state.works.find((w) => w.imported).id;
+  renderWorkSelect();
+  route(false);
 })();

@@ -36,7 +36,13 @@ CREATE TABLE work (
     id          TEXT PRIMARY KEY,          -- Perseus work id, 'tlg031'
     urn         TEXT NOT NULL UNIQUE,      -- 'urn:cts:greekLit:tlg0059.tlg031'
     title       TEXT NOT NULL,             -- 'Timaeus'
-    imported    INTEGER NOT NULL DEFAULT 0 -- 1 if its text is in this database
+    imported    INTEGER NOT NULL DEFAULT 0, -- 1 if its text is in this database
+    abbr        TEXT,                      -- LSJ's abbreviation, 'Ti.' (build_db.WORK_ABBR)
+    slug        TEXT UNIQUE,               -- for the reader's address bar, 'timaeus'
+    tetralogy   INTEGER,                   -- Thrasyllus' tetralogy, 1 to 9 (Perseus order: four works each)
+    first_token INTEGER,                   -- token ids of the work's Greek run from first_token to last_token
+    last_token  INTEGER,
+    n_tokens    INTEGER
 );
 
 -- Every Stephanus section of an imported work, in reading order.
@@ -81,6 +87,7 @@ CREATE TABLE chunk (
     FOREIGN KEY (work_id, section_ref) REFERENCES section(work_id, ref)
 );
 CREATE INDEX chunk_section ON chunk(work_id, section_ref, edition_id);
+CREATE INDEX chunk_seq ON chunk(edition_id, seq);
 
 -- Greek words in reading order, by character offset into their chunk.
 -- Address: <section urn>@<form>[<n>] in CTS subreference style.
@@ -98,6 +105,7 @@ CREATE TABLE token (
 );
 CREATE INDEX token_section ON token(edition_id, section_ref);
 CREATE INDEX token_plain ON token(plain);
+CREATE INDEX token_form ON token(form);
 
 -- Tagged evidence for one token. GLAUx's single choice of lemma and parse,
 -- assigned by statistical taggers. Always shown labelled as tagged.
@@ -114,6 +122,7 @@ CREATE TABLE tag (
     align_method TEXT NOT NULL,            -- same-form | same-position | split-word (see build_db.py)
     PRIMARY KEY (token_id, source_id, part)
 );
+CREATE INDEX tag_lemma ON tag(lemma, token_id);
 
 -- Every possible parse of a form, from the rule-based Morpheus table.
 -- Only forms that occur in the imported texts are copied in.
@@ -185,6 +194,32 @@ CREATE TABLE link (
 );
 CREATE INDEX link_from ON link(from_work, from_ref);
 CREATE INDEX link_to ON link(to_work, to_ref);
+
+-- ---------------------------------------------------------------- search
+--
+-- Milestone 5. How often each lemma and each printed form occurs in each
+-- work, counted from token and tag at the end of the build, so the word
+-- search can give counts for all of Plato at once. `plain` is the same word
+-- without accents, breathings or capitals (greek.strip_accents), for searches
+-- that ignore them.
+
+CREATE TABLE lemma_count (
+    lemma       TEXT NOT NULL,             -- GLAUx's lemma, as tagged
+    plain       TEXT NOT NULL,
+    work_id     TEXT NOT NULL REFERENCES work(id),
+    n           INTEGER NOT NULL,          -- words tagged with this lemma (a split word counts once)
+    PRIMARY KEY (lemma, work_id)
+);
+CREATE INDEX lemma_count_plain ON lemma_count(plain);
+
+CREATE TABLE form_count (
+    form        TEXT NOT NULL,             -- token.form
+    plain       TEXT NOT NULL,             -- token.plain
+    work_id     TEXT NOT NULL REFERENCES work(id),
+    n           INTEGER NOT NULL,
+    PRIMARY KEY (form, work_id)
+);
+CREATE INDEX form_count_plain ON form_count(plain);
 
 -- Build record.
 CREATE TABLE build (

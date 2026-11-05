@@ -375,3 +375,84 @@ body.no-mine .mine-fn { display: none; }
 .deleted { padding-left: 18px; }
 #mine-dialog h3 { font: 600 12px var(--sans); text-transform: uppercase; letter-spacing: .05em; color: var(--mine); margin: 14px 0 6px; }
 #mine-dialog a { color: var(--mine); }
+
+/* ---------------------------------------------------------- milestone 5: all of Plato, word search, word studies */
+select.work-title {
+  font: 600 19px var(--serif); color: var(--ink); background: transparent; border: 1px solid transparent;
+  border-radius: 6px; padding: 1px 4px; max-width: 260px; cursor: pointer;
+}
+select.work-title:hover, select.work-title:focus { border-color: var(--faint); background: var(--paper); }
+.jump input { width: 110px; }
+.search-btn { font: 600 13px var(--sans); padding: 3px 10px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--accent); cursor: pointer; }
+body.searching .search-btn { background: var(--accent); color: var(--panel); }
+body.searching .jump button { visibility: hidden; }
+a.chip.other { border-style: solid; border-color: var(--accent-soft); }
+.books { list-style: none; margin: 0; padding: 0; }
+.books a { display: flex; justify-content: space-between; gap: 6px; color: inherit; text-decoration: none; padding: 1px 4px; border-radius: 4px; }
+.books li.here a { background: var(--accent-soft); color: var(--accent); }
+
+.search { max-width: 980px; }
+.search-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 6px 0 4px; font: 14px var(--sans); }
+.search-form input#sq {
+  font: 22px var(--greek); padding: 4px 10px; width: 260px; max-width: 100%;
+  border: 1px solid var(--faint); border-radius: 6px; background: var(--panel); color: var(--ink);
+}
+.search-form .by { display: flex; flex-wrap: wrap; gap: 4px 12px; color: var(--muted); }
+.search-form .by label { cursor: pointer; white-space: nowrap; }
+.res-head h2 { font: 600 26px var(--greek); margin: 18px 0 2px; }
+.res-head p { margin: 4px 0; font-family: var(--sans); font-size: 14px; }
+.search h3 { font: 600 12px var(--sans); text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin: 22px 0 6px; }
+.search h3 .meta { text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: 6px; }
+.terms { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; margin: 10px 0; }
+.chip.term { cursor: pointer; font-family: var(--greek); font-size: 15px; color: var(--muted); }
+.chip.term.on { color: var(--ink); border-color: var(--accent); background: var(--accent-soft); }
+.chip.term .n { font: 11px var(--sans); color: var(--muted); }
+table.counts { border-collapse: collapse; width: 100%; font: 13px var(--sans); }
+table.counts th { text-align: left; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--rule); padding: 3px 6px; }
+table.counts td { padding: 2px 6px; border-bottom: 1px solid var(--rule); }
+table.counts tbody tr { cursor: pointer; }
+table.counts tbody tr:hover { background: var(--accent-soft); }
+table.counts tr.on { background: var(--accent-soft); font-weight: 600; }
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.bar { width: 220px; min-width: 60px; }
+table.mini-counts td.bar { width: 80px; }
+td.bar span { display: block; height: 8px; border-radius: 4px; background: var(--accent); opacity: .7; }
+ol.kwic { list-style: none; margin: 0; padding: 0; }
+ol.kwic li {
+  display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 0 10px; align-items: baseline;
+  padding: 5px 0; border-bottom: 1px solid var(--rule);
+}
+.kref { font: 600 12px var(--sans); color: var(--accent); text-decoration: none; white-space: nowrap; }
+.kref:hover { text-decoration: underline; }
+.ctx { font: 17px/1.5 var(--greek); }
+.ctx .before, .ctx .after { color: var(--muted); }
+.ctx .w.hit { color: var(--ink); font-weight: 700; background: var(--accent-soft); border-radius: 3px; padding: 0 2px; cursor: pointer; }
+.kmeta { grid-column: 2; font: 12px var(--sans); color: var(--muted); }
+.kmeta [lang="grc"] { font: 14px var(--greek); color: var(--tag); }
+.studies { list-style: none; margin: 0; padding: 0; }
+.studies li { padding: 3px 4px; border-radius: 4px; margin-bottom: 2px; }
+.studies li.here { background: var(--mine-soft); }
+.studies a { color: var(--mine); text-decoration: none; font-weight: 600; }
+.back-read { color: var(--accent); text-decoration: none; }
+.study-head h2 { font: 600 20px var(--serif); margin: 4px 0 6px; }
+.study-head h2 .meta { font-weight: 400; margin-left: 6px; }
+.study-form { display: grid; gap: 8px; margin: 10px 0; font: 14px var(--sans); }
+.study-form input, .study-form textarea {
+  display: block; width: 100%; margin-top: 2px; font: 14px var(--sans); padding: 5px 8px;
+  border: 1px solid var(--faint); border-radius: 6px; background: var(--panel); color: var(--ink);
+}
+.study-form textarea { font: 15px/1.5 var(--serif); }
+.box.elsewhere { border: 1px solid var(--rule); }
+.box.elsewhere h3 { color: var(--accent); }
+.box.elsewhere p { margin: 0 0 6px; }
+table.mini-counts { width: 100%; border-collapse: collapse; font-size: 12px; margin: 0 0 6px; }
+table.mini-counts td { padding: 1px 4px; }
+table.mini-counts tr.here td:first-child { font-weight: 700; color: var(--accent); }
+@media (max-width: 1150px) {
+  body.searching .toc { display: block; position: static; height: auto; grid-column: 1 / -1; border-right: 0; border-bottom: 1px solid var(--rule); }
+}
+@media (max-width: 860px) {
+  ol.kwic li { grid-template-columns: minmax(0, 1fr); }
+  .kmeta { grid-column: 1; }
+  select.work-title { max-width: 200px; }
+}
