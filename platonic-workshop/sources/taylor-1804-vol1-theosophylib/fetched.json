@@ -1,0 +1,42 @@
+{
+  "plato-intro": {
+    "url": "https://theosophylib.com/tt/plato-intro/",
+    "fetched_at": "2026-11-05T02:27:17+00:00",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 389804,
+    "sha256": "4c6f2c8bbbf53577d2dc0146f4f6dfaba2a4283ac32d570f8e410c2d479f4964"
+  },
+  "explanation-of-certain-platonic-terms": {
+    "url": "https://theosophylib.com/tt/explanation-of-certain-platonic-terms/",
+    "fetched_at": "2026-11-05T02:27:27+00:00",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 152624,
+    "sha256": "0c1c05f5ab44a26935ee4e28be506a5a428ec0593a762a5689c25fbfc63e9472"
+  },
+  "the-life-of-plato-by-olympiodorus": {
+    "url": "https://theosophylib.com/tt/the-life-of-plato-by-olympiodorus/",
+    "fetched_at": "2026-11-05T02:27:38+00:00",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 143992,
+    "sha256": "3ac60720ca744a40b6417914d4d6f24035396b93f56cf67ecb8d4f67fdba7f6c"
+  },
+  "the-first-alcibiades": {
+    "url": "https://theosophylib.com/tt/the-first-alcibiades/",
+    "fetched_at": "2026-11-05T02:27:49+00:00",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 523565,
+    "sha256": "bc251ab06f834e56a6baca75163cf1991dd0987b97dcacfb35665c05550ad830"
+  },
+  "the-republic": {
+    "url": "https://theosophylib.com/tt/the-republic/",
+    "fetched_at": "2026-11-05T02:28:00+00:00",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 1274928,
+    "sha256": "a5433c4ba0286b1c03fdb46caaeffc7c329fb0fa41770ce0e66a58320bef3e3c"
+  }
+}

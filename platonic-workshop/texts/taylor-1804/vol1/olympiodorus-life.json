@@ -1,0 +1,513 @@
+{
+ "schema": "platonic-workshop/text-v1",
+ "id": "taylor1804.olympiodorus-life",
+ "title": "The Life of Plato, by Olympiodorus",
+ "author": "Olympiodorus",
+ "translator": "Thomas Taylor",
+ "edition": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, vol. I (London, 1804)",
+ "source": {
+  "manifest_id": "taylor-1804-vol1-theosophylib",
+  "file": "sources/taylor-1804-vol1-theosophylib/html/the-life-of-plato-by-olympiodorus.html",
+  "url": "https://theosophylib.com/tt/the-life-of-plato-by-olympiodorus/",
+  "fetched_at": "2026-11-05T02:27:38+00:00",
+  "sha256": "3ac60720ca744a40b6417914d4d6f24035396b93f56cf67ecb8d4f67fdba7f6c"
+ },
+ "segments": [
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0001",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "1",
+   "paragraph": 1,
+   "text": "Let us now speak of the race of the philosopher, not for the sake of relating many particulars concerning him, but rather with a view to the advantage and instruction of his readers; since he was by no means an obscure man, but one who attracted the attention of many. For it is said that the father of Plato was Aristo, the son of Aristocles, from who he refers his origin to Solon the legislator. Hence with primitive zeal he wrote twelve books of Laws, and eleven books on a Republic. But his mother was Perictione, who descended from Neleus the son of Codrus.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0002",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "1",
+   "paragraph": 2,
+   "text": "They say then that an Apolloniacal spectre had connexion with his mother Perictione, and that, appearing in the night to Aristo, it commanded him not to sleep with Perictione during the time of her pregnancy—which mandate Aristo obeyed.",
+   "page_breaks": [
+    {
+     "page": "2",
+     "at": 142
+    }
+   ],
+   "notes": [
+    {
+     "note": "taylor1804.olympiodorus-life.n001",
+     "at": 42
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0003",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "2",
+   "paragraph": 3,
+   "text": "While he was yet an infant, his parents are said to have placed him in Hymettus, being desirous, on his account, to sacrifice to the Gods of that mountain, viz. Pan, and the Nymphs, and the pastoral Apollo. In the mean time the bees, approaching as he lay, filled his mouth with honeycombs, as an omen that in future it might truly be said of him,",
+   "marks": [
+    {
+     "type": "italic",
+     "start": 156,
+     "end": 159
+    },
+    {
+     "type": "italic",
+     "start": 156,
+     "end": 159
+    },
+    {
+     "type": "italic",
+     "start": 159,
+     "end": 160
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0004",
+   "kind": "quotation",
+   "part": "text",
+   "page_1804": "2",
+   "paragraph": 4,
+   "text": "Words from his tongue than honey sweeter flowed.",
+   "notes": [
+    {
+     "note": "taylor1804.olympiodorus-life.n002",
+     "at": 48
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0005",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "2",
+   "paragraph": 5,
+   "text": "But Plato calls himself a fellow-servant with swans, as deriving his origin from Apollo; for according to the Greeks that bird is Apolloniacal.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0006",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "2",
+   "paragraph": 6,
+   "text": "When he was a young man, he first betook himself to Dionysius the grammarian for the purpose of acquiring common literature. Of this Dionysius he makes mention in his dialogue called The Lovers—that even Dionysius the school-master might not be passed over in silence by Plato. After him he employed the argive Aristo, as his instructor in gymnastic, from whom he is said to have derived the name of Plato; for prior to this he was called Aristocles, from his grandfather: but he was so called from having those parts of the body the breast and forehead broad in the extreme, as his statues every where evince. According to others, however, he was called Plato from the ample and expanded character of his style; just as they say Theophrastus was so called, from his divine eloquence, his first name being Tyrtamus.",
+   "page_breaks": [
+    {
+     "page": "3",
+     "at": 133
+    }
+   ],
+   "notes": [
+    {
+     "note": "taylor1804.olympiodorus-life.n003",
+     "at": 350
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0007",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "3",
+   "paragraph": 7,
+   "text": "For his preceptor in music Plato had Draco, the son of Damon; and of this master he makes mention in his Republic. For the Athenians instructed their children in these three arts, viz. grammar, music, and gymnastic—and this, as it seems, with great propriety. They taught them grammar, for the purpose of adorning their reason; music, that they might tame their anger; and gymnastic, that they might strengthen the weak tone of desire. Alcibiades also, in Plato, appears to have been instructed in these three disciplines; and hence Socrates says to him, “But you were unwilling to play on the pipe,” etc. He was also conversant with painters, from whom he learned the mixture of colours, of which he makes mention in the Timæus.",
+   "marks": [
+    {
+     "type": "italic",
+     "start": 180,
+     "end": 183
+    },
+    {
+     "type": "italic",
+     "start": 180,
+     "end": 183
+    },
+    {
+     "type": "italic",
+     "start": 183,
+     "end": 184
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0008",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "3",
+   "paragraph": 8,
+   "text": "After this he was instructed by the Tragedians, who at that time were celebrated as the preceptors of Greece: but he betook himself to these writers on account of the sententious and venerable nature of tragic composition, and the heroic sublimity of the subjects. He was likewise conversant with Dithyrambic writers, with a view to the honour of Bacchus, who was called by the Greeks the inspective guardian of generation: for the Dithyrambic measure is sacred to Bacchus, from whom also it derives its name; Bacchus being Dithyrambus, as proceeding into light from two avenues—the womb of Semele, and the thigh of Jupiter. For the ancients were accustomed to call effects by the names of their causes, as in the name Dithyrambus given to Bacchus. Hence Proclus observes:",
+   "page_breaks": [
+    {
+     "page": "4",
+     "at": 428
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0009",
+   "kind": "quotation",
+   "part": "text",
+   "page_1804": "4",
+   "paragraph": 9,
+   "text": "With their late offspring parents seem to mix.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0010",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "4",
+   "paragraph": 10,
+   "text": "But that Plato applied himself to Dithyrambics is evident from his Phædrus, which plainly breathes the Dithyrambic character, and is said to have been the first dialogue which Plato composed.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0011",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "4",
+   "paragraph": 11,
+   "text": "He was also much delighted with the comic Aristophanes and Sophron, from whom he learned the imitations of persons in dialogues. He is said to have been so much pleased with the writings of these men, that, on his death, they were found in his bed. Plato himself likewise composed the following epigram on Aristophanes:",
+   "notes": [
+    {
+     "note": "taylor1804.olympiodorus-life.n004",
+     "at": 67
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0012",
+   "kind": "quotation",
+   "part": "text",
+   "page_1804": "4",
+   "paragraph": 12,
+   "text": "The Graces, once intent to find\nA temple which might ne’er decay,\nThe soul of Aristophanes\nAt length discover’d in their way.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0013",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "4",
+   "paragraph": 13,
+   "text": "He reproves him, however, in a comic manner in his dialogue called The Banquet, in which he gives a specimen of his proficiency in comedy: for here Plato introduces him celebrating Love, and in the midst of his oration seized with a hiccup, so as to be unable to finish it. Plato also composed Tragic and Dithyrambic poems, and some other poetical pieces, all which he burned as soon as he began to associate with Socrates, at the same time repeating this verse:",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0014",
+   "kind": "quotation",
+   "part": "text",
+   "page_1804": "4",
+   "paragraph": 14,
+   "text": "Vulcan! draw near; ’tis Plato asks your aid.",
+   "notes": [
+    {
+     "note": "taylor1804.olympiodorus-life.n005",
+     "at": 44
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0015",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "5",
+   "paragraph": 15,
+   "text": "Anatolius the grammarian, once reciting this verse, very much pleased Vulcan, at that time the governor of the city. But he thus addressed him:",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0016",
+   "kind": "quotation",
+   "part": "text",
+   "page_1804": "5",
+   "paragraph": 16,
+   "text": "Vulcan! draw near; ’tis Pharos asks your aid.",
+   "notes": [
+    {
+     "note": "taylor1804.olympiodorus-life.n006",
+     "at": 30
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0017",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "5",
+   "paragraph": 17,
+   "text": "It is said, that when Socrates first intended to receive Plato as his disciple, he saw in a dream a swan without wings sitting on his bosom, which soon after obtaining wings flew into the air, and with the sweetness of its shrill voice allured all those that heard it. This was a manifest token of Plato’s future renown.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0018",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "5",
+   "paragraph": 18,
+   "text": "After the death of Socrates he had another preceptor, the Heraclitean Cratylus, upon whom he also composed a dialogue, which is inscribed Cratylus, or, Concerning the rectitude of names. After he had been sufficiently instructed by this master, he again went into Italy, where finding Archytas restoring a Pythagoric school, he again had a Pythagoric preceptor of this name; and hence it is that he makes mention of Archytas. But since it is requisite that a philosopher should desire to behold the works of nature, he also went into Sicily for the purpose of viewing the eruptions of fire in Mount Ætna, and not for the sake of the Sicilian table, as you, O noble Aristides, assert.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0019",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "5",
+   "paragraph": 19,
+   "text": "When he was in Syracuse with Dionysius the Great, who was a tyrant, he endeavoured to change the tyranny into an aristocracy; and it was for this purpose that he visited the tyrant. But Dionysius asking him whom among men he considered as happy? (for he thought that the philosopher, employing flattery, would speak of him,) Plato answered, Socrates. Again the tyrant asked him, What do you think is the business of a politician? Plato answered, To make the citizens better. He again asked him the third time, What, then, does it appear to you to be a small matter to decide rightly in judicial affairs? (for Dionysius was celebrated for deciding in such affairs with rectitude.) Plato answered boldly, It is a small matter, and the last part of good conduct; for those who judge rightly resemble such as repair lacerated garments. Again Dionysius asked him the fourth time, Must not he who is a tyrant be brave? Plato replied, He is of all men the most timid; for he even dreads the razors of his barbers, lest he should be destroyed by them. With these answers Dionysius was so indignant, that he ordered him to depart at sunrise.",
+   "page_breaks": [
+    {
+     "page": "6",
+     "at": 430
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0020",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "6",
+   "paragraph": 20,
+   "text": "The following was the cause of his second journey to Sicily. When, after the death of Dionysius the tyrant, his son succeeded to the throne, who by his mother’s side was the brother of Dion, with whom Plato became acquainted in his first journey, Plato again sailed to Sicily, at the solicitations of Dion, who told him it might now be hoped that through his exertions the tyranny might be changed into an aristocracy. However, as Dionysius had been told by some of his attendants that Plato designed to destroy him, and transfer the government to Dion, he ordered him to be taken into custody, and delivered to one Pollidis of Ægina, a Sicilian merchant, to be sold as a slave. But Pollidis taking Plato to Ægina found there the Libyan Anniceris, who was then on the point of sailing to Elis, for the purpose of contending with the four-yoked car. Anniceris gladly bought Plato of Pollidis, conceiving that he should thence procure for himself greater glory than by conquering in the race. Hence Aristides observes, that no one would have known Anniceris, if he had not bought Plato.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0021",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "6",
+   "paragraph": 21,
+   "text": "The following circumstance was the occasion of Plato’s third journey to Sicily. Dion, being proscribed by Dionysius, and deprived of his possessions, was at length cast into prison. He therefore wrote to Plato, that Dionysius had promised to liberate him, if Plato would again visit him. But Plato, that he might afford assistance to his associate, readily undertook this third voyage. And thus much for the journeys of the philosopher into Sicily.",
+   "page_breaks": [
+    {
+     "page": "7",
+     "at": 288
+    }
+   ],
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0022",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "7",
+   "paragraph": 22,
+   "text": "Plato likewise went into Egypt for the purpose of conversing with the priests of that country, and from them learned whatever pertains to sacred rites. Hence in his Gorgias he says, “Not by the dog, who is considered as a God by the Egyptians.” For animals among the Egyptians effect the same things as statues among the Greeks, as being symbols of the several deities to which they are dedicated. However, as he wished to converse with the Magi, but was prevented by the war which at that time broke out in Persia, he went to Phœnicia, and, meeting with the Magi of that country, he was instructed by them in magic. Hence, from his Timæus, he appears to have been skilful in divination; for he there speaks of the signs of the liver, of the viscera, and the like. These things, however, ought to have been mentioned prior to his journeys to Sicily.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0023",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "7",
+   "paragraph": 23,
+   "text": "When he return to Athens he established a school in the Academy, separating a part of this Gymnasium into a temple to the Muses. Here Timon the misanthrope associated with Plato alone. But Plato allured very many to philosophical discipline, preparing men and also women in a virile habit to be his auditors, and evincing that his philosophy deserved the greatest voluntary labour: for he avoided the Socratic irony, nor did he converse in the Forum and in workshops, nor endeavour to captivate young men by his discourses. Add too, that he did not adopt the venerable oath of the Pythagoreans, their custom of keeping their gates shut, and their ipse dixit, as he wished to conduct himself in a more political manner towards all men.",
+   "notes": [
+    {
+     "note": "taylor1804.olympiodorus-life.n007",
+     "at": 270
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0024",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "7",
+   "paragraph": 24,
+   "text": "When he was near his death, he appeared to himself in a dream to be changed into a swan, who, by passing from tree to tree, caused much labour to the fowlers. According to the Socratic Simmias, this dream signified that his meaning would be apprehended with difficulty by those who should be desirous to unfold it after his death. For interpreters resemble fowlers, in their endeavours to explain the conceptions of the ancients. But his meaning cannot be apprehended without great difficulty, because his writings, like those of Homer, are to be considered physically, ethically, theologically, and, in short, multifariously; for those two souls are said to have been generated all- harmonic: and hence the writings of both Homer and Plato demand an all-various consideration. Plato was sumptuously buried by the Athenians; and on his sepulchre they inscribed the following epitaph:",
+   "page_breaks": [
+    {
+     "page": "8",
+     "at": 136
+    }
+   ],
+   "notes": [
+    {
+     "note": "taylor1804.olympiodorus-life.n008",
+     "at": 806
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0025",
+   "kind": "quotation",
+   "part": "text",
+   "page_1804": "8",
+   "paragraph": 25,
+   "text": "From great Apollo Pæon sprung,\nAnd Plato too we find;\nThe saviour of the body one,\nThe other of the mind.",
+   "notes": []
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.text.p0026",
+   "kind": "paragraph",
+   "part": "text",
+   "page_1804": "8",
+   "paragraph": 26,
+   "text": "And thus much concerning the race of the philosopher.",
+   "notes": []
+  }
+ ],
+ "notes": [
+  {
+   "id": "taylor1804.olympiodorus-life.n001",
+   "type": "footnote",
+   "printed_number": "1",
+   "signed": null,
+   "text": "The like account of the divine origin of Plato is also given by Hesychius, Apuleius on the dogmas of Plato, and Plutarch in the eighth book of his Symposiacs. But however extraordinary this circumstance may appear, it is nothing more than one of those mythological relations in which heroes are said to have Gods for their fathers, or Goddesses for their mothers; and the true meaning of it is as follows:—According to the ancient theology, between those perpetual attendants of a divine nature called essential heroes, who are impassive and pure, and the bulk of human souls who descend to earth with passivity and impurity, it is necessary there should be an order of human souls who descend with impassivity and purity. For, as there is no vacuum either in incorporeal or corporeal natures, it is necessary that the last link of a superior order should coalesce with the summit of one proximately inferior. These souls were called by the ancients terrestrial heroes, on account of their high degree of proximity and alliance to such as are essentially heroes. Hercules, Theseus, Pythagoras, Plato, etc. were souls of this kind, who descended into mortality, both to benefit other souls, and in compliance with that necessity by which all natures inferior to the perpetual attendants of the Gods are at times obliged to descend.\n\nBut as, according to the arcana of ancient theology, every God beginning from on high produces his proper series as far as to the last of things, and this series comprehends many essences different from each other, such as Dæmonical, Heroical, Nymphical, and the like; the lowest powers of these orders have a great communion and physical sympathy with the human race, and contribute to the perfection of all their natural operations, and particularly to their procreations.\n\n“Hence,” says Proclus in Cratylum, “it often appears that heroes are generated from the mixture of these powers with mankind; for those that possess a certain prerogative above human nature are properly denominated heroes.”\n\nHe adds:\n\n“Not only a dæmoniacal genus of this kind sympathizes physically with men, but other kinds sympathize with other natures, as nymphs with trees, others with fountains, and others with stags or serpents.”\n\nSee more on this interesting subject in the Notes to my translation of Pausanias, vol. iii, p. 229, etc.\n\nEtwall, the editor of this Life, not being acquainted with the philosophical explanation of this MIRACULOUS CONCEPTION of Plato, pretends that this story originated from Plato being said to be born in the month Thargelion (with us, June), and on the very day in which Latona is reported to have brought forth Apollo and Diana.",
+   "marks": [
+    {
+     "type": "italic",
+     "start": 502,
+     "end": 511
+    },
+    {
+     "type": "italic",
+     "start": 950,
+     "end": 961
+    },
+    {
+     "type": "italic",
+     "start": 1043,
+     "end": 1054
+    },
+    {
+     "type": "italic",
+     "start": 1866,
+     "end": 1872
+    },
+    {
+     "type": "italic",
+     "start": 2023,
+     "end": 2029
+    }
+   ],
+   "anchors": [
+    {
+     "in": "taylor1804.olympiodorus-life.text.p0002",
+     "at": 42
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.n002",
+   "type": "footnote",
+   "printed_number": "2",
+   "signed": null,
+   "text": "Hom. Iliad lib. i ver. 249.",
+   "anchors": [
+    {
+     "in": "taylor1804.olympiodorus-life.text.p0004",
+     "at": 48
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.n003",
+   "type": "footnote",
+   "printed_number": "3",
+   "signed": null,
+   "text": "Some affirm that Plato so excelled in the gymnastic art, that he contended in the Pythian and Isthmian games. Pythia et Isthmia de lucta certavit. Apuleius de Dogmate Platonis.",
+   "marks": [
+    {
+     "type": "italic",
+     "start": 110,
+     "end": 145
+    }
+   ],
+   "anchors": [
+    {
+     "in": "taylor1804.olympiodorus-life.text.p0006",
+     "at": 350
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.n004",
+   "type": "footnote",
+   "printed_number": "4",
+   "signed": null,
+   "text": "This Sophron was a Syracusan, and contemporary with Euripides. He was an obscure writer; and his works, none of which are now extant, were in the Doric dialect.",
+   "anchors": [
+    {
+     "in": "taylor1804.olympiodorus-life.text.p0011",
+     "at": 67
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.n005",
+   "type": "footnote",
+   "printed_number": "5",
+   "signed": null,
+   "text": "According to the words of Homer, Iliad lib. xviii, ver. 392.",
+   "anchors": [
+    {
+     "in": "taylor1804.olympiodorus-life.text.p0014",
+     "at": 44
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.n006",
+   "type": "footnote",
+   "printed_number": "6",
+   "signed": null,
+   "text": "Pharos, as is well known, was a large tower near Alexandria, affording light to navigators in the night. Anatolius, therefore, in calling himself Pharos must have alluded to the etymology of his name. For Anatolius may be considered as being derived from ανατολη, the east, whence the light of the two great luminaries of heaven emerges, and φαρος may be said to be quasi φανος, because the light of torches appeared from it.",
+   "marks": [
+    {
+     "type": "italic",
+     "start": 146,
+     "end": 152
+    },
+    {
+     "type": "italic",
+     "start": 205,
+     "end": 214
+    }
+   ],
+   "anchors": [
+    {
+     "in": "taylor1804.olympiodorus-life.text.p0016",
+     "at": 30
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.n007",
+   "type": "footnote",
+   "printed_number": "7",
+   "signed": null,
+   "text": "Two women particularly in a virile habit are said to have been his auditors, Lathsbenia the Mantinensian, and Axiothia the Phliasensian.",
+   "anchors": [
+    {
+     "in": "taylor1804.olympiodorus-life.text.p0023",
+     "at": 270
+    }
+   ]
+  },
+  {
+   "id": "taylor1804.olympiodorus-life.n008",
+   "type": "footnote",
+   "printed_number": "8",
+   "signed": null,
+   "text": "Plato was born six years after Isocrates, in the 87th Olympiad, and 430 years before Christ. He also died on his birthday, after having lived exactly 81 years. Hence, says Seneca, the MAGI, who then happened to be at Athens, sacrificed to him on his decease as a being more than human, because he had consummated a most perfect number, which 9 nine times multiplied produces.\n\nNam hoc seis puto, Platoni diligentiæ suæ beneficio contigisse, quod natali suo decessit, et annum unum atque octogesimum implevit, sine ullâ deductione. Ideo MAGI, qui fortè Athenis erant, immolaverunt defuncto, amplioris suisse fortis, quam humanæ, rait quia consummâsset perfectissimum numerum, quem novem novies multiplicata componunt. Senec. Epist. 63.",
+   "anchors": [
+    {
+     "in": "taylor1804.olympiodorus-life.text.p0024",
+     "at": 806
+    }
+   ]
+  }
+ ]
+}

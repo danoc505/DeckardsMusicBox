@@ -20,6 +20,15 @@ downloaded and checked. See:
 - [`sources/TIMAEUS_PILOT.md`](sources/TIMAEUS_PILOT.md): the commentaries the pipeline will be proven on.
 - [`sources/taylor-1804/`](sources/taylor-1804/): the OCR text of Taylor and Sydenham's 1804 Works of Plato.
 
+**Taylor's volume I, imported.** The corrected text of the 1804 Works of
+Plato, vol. I, from theosophylib.com: the General Introduction, the
+Explanation of Platonic Terms, Olympiodorus' Life of Plato, the First
+Alcibiades and the Republic. Every translation segment carries its Stephanus
+section, and every footnote and Additional Note (Proclus) is a separate,
+linkable record placed at its section. See
+[`sources/taylor-1804-vol1-theosophylib/`](sources/taylor-1804-vol1-theosophylib/README.md)
+and [`reports/taylor_vol1.md`](reports/taylor_vol1.md).
+
 Next is milestone 2: the Timaeus reader and its database.
 
 ## Running it
@@ -30,8 +39,12 @@ Python 3.10 or later, standard library only.
 cd platonic-workshop
 python3 tools/fetch_sources.py      # about 630 MB into data/ (not committed), 2 minutes
 python3 tools/verify_sources.py     # writes reports/verification.md and .json, under a minute
+python3 tools/import_taylor_vol1.py  # rebuilds texts/taylor-1804/vol1/ from the saved pages, seconds
 python3 -m unittest discover -s tests -v
 ```
+
+`tools/fetch_theosophylib.py` downloads the theosophylib.com pages again; it
+is not needed for the import, which works from the committed copies.
 
 ## What milestone 1 found
 
@@ -58,8 +71,10 @@ approved using GLAUx on 5 November 2026.
 ### What this environment cannot reach
 
 gutenberg.org, archive.org, wikisource.org, sacred-texts.com, hathitrust.org and
-distantreader.org are blocked from the cloud environment, so sources there have
-to be uploaded or their domains allowed in the project settings. GitHub works,
+distantreader.org were blocked from the cloud environment used for milestone 1,
+so sources there had to be uploaded. The environment used on 5 November 2026
+for Taylor's volume I reaches theosophylib.com, gutenberg.org, archive.org,
+wikisource.org and sacred-texts.com (hathitrust.org still answers 403). GitHub works,
 which covers Perseus, GLAUx, the lexica, First1KGreek and the GITenberg mirror
 of older Project Gutenberg books.
 
@@ -71,7 +86,10 @@ sources/          what we use and where it comes from (committed)
   COMMENTARIES.md
   TIMAEUS_PILOT.md
   taylor-1804/    OCR text, kept exactly as received
-tools/            fetch, verify, Greek helpers
+  taylor-1804-vol1-theosophylib/  corrected HTML of vol. I, kept as received, with provenance
+texts/            imported texts, one JSON file per work (committed)
+  taylor-1804/vol1/
+tools/            fetch, verify, import, Greek helpers
 tests/
 reports/          output of verify_sources.py (committed so results are reviewable)
 data/raw/         downloaded sources (git-ignored)
