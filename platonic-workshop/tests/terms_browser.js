@@ -74,13 +74,17 @@ async function run(viewport, touch) {
   check(await p.isVisible("#pane-term .panel-page"), `${tag}: the concept index's page opens inside the panel`);
 
   // The switch: no underlines, and a tap on the word gives its grammar.
+  await p.click("#show-menu summary");   // the switches are in the Show menu
   await p.click('input[data-layer="terms"]');
+  await p.click("#show-menu summary");
   const line = await p.$eval('#main .w.tm', (w) => getComputedStyle(w).backgroundImage);
   check(line === "none", `${tag}: Key terms off takes the underlines away`);
   await p.click('#main .w.tm');
   await p.waitForSelector("#pane-word .insp-form");
   check(await p.isVisible("#pane-word .insp-form"), `${tag}: and a tap on the word opens its grammar`);
+  await p.click("#show-menu summary");
   await p.click('input[data-layer="terms"]');
+  await p.click("#show-menu summary");
 
   check(errors.length === 0, `${tag}: no errors in the page (${errors.join("; ")})`);
   await b.close();

@@ -44,3 +44,11 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 @media (pointer: coarse) and (max-width: 900px) {
   .bar { position: relative; }
 }
+
+/* The opening note's buttons (Close always; Reload when something went wrong). */
+.pw-loading-btns { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+.pw-loading-btns button {
+  font: 600 15px var(--sans); min-height: 40px; padding: 6px 16px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--faint); background: var(--paper); color: var(--ink);
+}
+.pw-loading-btns button[data-pw="reload"] { background: var(--accent); border-color: var(--accent); color: var(--panel); }
