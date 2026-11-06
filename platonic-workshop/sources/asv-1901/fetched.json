@@ -1,0 +1,11 @@
+{
+ "url": "https://ebible.org/Scriptures/eng-asv_vpl.zip",
+ "details": "https://ebible.org/Scriptures/details.php?id=eng-asv",
+ "fetched_at": "2026-11-06T14:52:44Z",
+ "zip_sha256": "6c41b8020cba9cf7041689f2356c55859e28023405537388be08bad93df2b050",
+ "file_in_zip": "eng-asv_vpl.txt",
+ "file_sha256": "8924ef74086d572425b1e335f531c7c529a561969e5c851e456b84c2ce6ad858",
+ "file_dated": "2026-10-30",
+ "kept": "eng-asv_vpl-nt.txt: the lines from 'MAT 1:1' to the end of the file (the New Testament), unchanged",
+ "kept_sha256": "d50368dc78bcb9cc973e8805189fa86d2bc9aece84055e62de051775763b4bd9"
+}

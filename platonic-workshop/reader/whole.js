@@ -130,7 +130,7 @@ function themeHtml(t, here) {
 function renderWholeToc(w) {
   const back = workById(w.id)?.imported ? `<p><a href="${esc(placeHash(w.id))}" class="back-read">‹ Read the ${esc(w.title)}</a></p>` : "";
   $("#toc").innerHTML = `${back}<p><a href="#corpus" class="back-read">The corpus map</a></p>
-    <h3>All the dialogues</h3><ul class="studies">${state.works.map((x) => `<li class="${x.id === w.id ? "here" : ""}"><a href="${esc(wholeHash(x.id))}">${esc(x.title)}</a></li>`).join("")}</ul>`;
+    <h3>All the dialogues</h3><ul class="studies">${state.works.filter(isPlato).map((x) => `<li class="${x.id === w.id ? "here" : ""}"><a href="${esc(wholeHash(x.id))}">${esc(x.title)}</a></li>`).join("")}</ul>`;
 }
 
 // ------------------------------------------------------------------ the corpus map

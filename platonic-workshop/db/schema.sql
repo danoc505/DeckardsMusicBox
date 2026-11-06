@@ -42,7 +42,8 @@ CREATE TABLE work (
     tetralogy   INTEGER,                   -- Thrasyllus' tetralogy, 1 to 9 (Perseus order: four works each)
     first_token INTEGER,                   -- token ids of the work's Greek run from first_token to last_token
     last_token  INTEGER,
-    n_tokens    INTEGER
+    n_tokens    INTEGER,
+    corpus      TEXT NOT NULL DEFAULT 'plato' -- plato | nt (milestone 23: the Greek New Testament, tools/nt.py)
 );
 
 -- Every Stephanus section of an imported work, in reading order.
@@ -772,3 +773,38 @@ CREATE TABLE term_hit (
 );
 CREATE INDEX term_hit_section ON term_hit(work_id, section_ref);
 CREATE INDEX term_hit_work ON term_hit(term_id, work_id);
+
+-- ------------------------------------------------------- milestone 23
+--
+-- The Greek New Testament (tools/nt.py): its 27 books are works of corpus 'nt',
+-- in section, edition, chunk, token and tag like Plato's. Its counts and key-term
+-- marks are kept here, apart from Plato's, so that every count of Plato stays Plato's.
+
+CREATE TABLE nt_lemma_count (
+    lemma       TEXT NOT NULL,             -- MorphGNT's lemma
+    plain       TEXT NOT NULL,
+    work_id     TEXT NOT NULL REFERENCES work(id),
+    n           INTEGER NOT NULL,
+    PRIMARY KEY (lemma, work_id)
+);
+CREATE INDEX nt_lemma_count_plain ON nt_lemma_count(plain);
+
+CREATE TABLE nt_form_count (
+    form        TEXT NOT NULL,
+    plain       TEXT NOT NULL,
+    work_id     TEXT NOT NULL REFERENCES work(id),
+    n           INTEGER NOT NULL,
+    PRIMARY KEY (form, work_id)
+);
+CREATE INDEX nt_form_count_plain ON nt_form_count(plain);
+
+CREATE TABLE nt_term_hit (
+    term_id     TEXT NOT NULL REFERENCES term(id),
+    token_id    INTEGER NOT NULL REFERENCES token(id),
+    work_id     TEXT NOT NULL,
+    section_ref TEXT NOT NULL,
+    form        TEXT NOT NULL,
+    PRIMARY KEY (term_id, token_id)
+);
+CREATE INDEX nt_term_hit_section ON nt_term_hit(work_id, section_ref);
+CREATE INDEX nt_term_hit_work ON nt_term_hit(term_id, work_id);

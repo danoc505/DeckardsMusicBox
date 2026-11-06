@@ -246,7 +246,7 @@ async function renderSheet() {
   document.title = `${s.title} · Worksheet · Platonic Workshop`;
   const retrieved = new Map((t ? t.methods : []).filter((m) => m.retrieved).map((m) => [m.id, m.because]));
   const lib = [...REC.methods.library].sort((a, b) => (retrieved.has(b.id) - retrieved.has(a.id)));
-  const workOpts = (sel) => state.works.filter((w) => w.imported).map((w) => `<option value="${w.id}" ${w.id === sel ? "selected" : ""}>${esc(w.title)}</option>`).join("");
+  const workOpts = (sel) => state.works.filter((w) => w.imported && isPlato(w)).map((w) => `<option value="${w.id}" ${w.id === sel ? "selected" : ""}>${esc(w.title)}</option>`).join("");
   let h = `<div class="search reconcile sheet"><p class="meta"><a href="#reconcile">Reconciliations</a>${t ? ` · <a href="#reconcile/${esc(t.id)}">${esc(t.title)}</a>` : ""}</p>
     <h2>Worksheet ${statusBadge("yours")}</h2>
     <p class="prov">Your reading is kept in <code>data/user.sqlite</code> with every version. It is one reading beside the others: the comparison page sets it next to the established and proposed readings.</p>

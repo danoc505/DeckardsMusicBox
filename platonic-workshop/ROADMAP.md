@@ -152,7 +152,7 @@ Three groups: the Greek New Testament first, since it fits the program as it is;
 the Neoplatonists, because no modern English versions of them exist; then what is missing from the tradition; then what no one
 could do before. The school and curriculum ideas are left out as beyond the scope.
 
-## Milestone 23: the Greek New Testament
+## Milestone 23: the Greek New Testament (done)
 
 - The Greek New Testament on the ancient shelf, by book, chapter and verse: the SBLGNT text with MorphGNT's lemma and parse for
   every word (both under licences that allow reuse; check and quote them), and the American Standard Version (1901, public domain)
@@ -160,6 +160,10 @@ could do before. The school and curriculum ideas are left out as beyond the scop
 - The tap-a-word box, search by dictionary form, and the Term tab work on it as on Plato; a term's panel can then show where a
   word of Plato's (λόγος, νοῦς, ψυχή) is used in the New Testament, labelled as a different corpus.
 - The Septuagint is milestone 34.
+- Done: the 27 books on their own shelf, SBLGNT with MorphGNT's tagging and the ASV beside it, the word box (with the same word
+  counted in Plato), the Concordance for either corpus, key terms underlined and listed in the Term tab under Plato's places,
+  your translations on a verse (`tools/nt.py`, `reports/nt.md`). Left out: Westcott and Hort (no tagged copy with a reuse licence
+  found) and the SBLGNT's variant readings.
 
 ## Milestone 24: modern English of Taylor's Introduction and the Life of Plato
 

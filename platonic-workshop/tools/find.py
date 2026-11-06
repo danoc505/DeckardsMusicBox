@@ -445,6 +445,8 @@ class Find:
             if work:
                 where += " AND e.work_id = ?"
                 args = [*args, work]
+            # Milestone 23: the New Testament is searched in the Concordance, by itself; here, Plato only.
+            where += " AND e.work_id IN (SELECT id FROM work WHERE corpus = 'plato')"
             join = "FROM tag g JOIN token t ON t.id = g.token_id JOIN edition e ON e.id = t.edition_id" if (pattern or mode == "lemma") else \
                    "FROM token t JOIN edition e ON e.id = t.edition_id LEFT JOIN tag g ON 0"
             counts = self.rows(f"SELECT e.work_id, count(DISTINCT t.id) AS n {join} WHERE {where} GROUP BY e.work_id ORDER BY n DESC", *args)

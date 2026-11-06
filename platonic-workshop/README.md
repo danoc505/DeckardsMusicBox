@@ -238,6 +238,22 @@ below and [`reports/terms.md`](reports/terms.md).
 
 ![? Help on the Republic, with the Workshop's words it uses](docs/reader-m16-help.png)
 
+**Milestone 23, the Greek New Testament: done.** The 27 books are on a shelf of their own in the Library (and in the book
+picker, after the dialogues), read in the same reader as Plato, a chapter a page and a verse a section (`#john/1:1`): the Greek
+of the SBL Greek New Testament (2010, CC BY 4.0) with MorphGNT's dictionary form and grammar for every one of its 137,554 words
+(CC BY-SA 3.0), and the American Standard Version (1901, public domain) beside it. Tap a word for the word box as in Plato: its
+grammar, Morpheus's every possible grammar, its entries in Middle Liddell and LSJ (a Koine spelling or a deponent is looked up
+under the headword the dictionaries use, γινώσκω under γιγνώσκω, and the box says so), how often it occurs in the New
+Testament, and how often in Plato, labelled as another corpus. A word of Plato's box shows the New Testament the same way. The
+Platonists' key terms are underlined there too, and a term's panel lists its places in the New Testament under its places in
+Plato. The Concordance searches either corpus, never both at once; your translations, notes and word studies work on a verse as
+on a Stephanus section. Every count of Plato is unchanged: the New Testament's counts and marks are kept in their own tables.
+`tools/nt.py`, [`sources/asv-1901/`](sources/asv-1901/README.md), [`reports/nt.md`](reports/nt.md), `tests/test_nt.py`.
+Not done: Westcott and Hort's Greek as a second text (optional in the roadmap; no tagged copy with a reuse licence was found to
+pin), and the SBLGNT's list of variant readings, whose marks (⸀ ⸂ ⸃) are therefore left out of the text shown.
+
+![John 1, with λόγος tapped and its Term tab open](docs/reader-m23-john.png)
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

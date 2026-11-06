@@ -24,7 +24,8 @@ async function loadOrder() {
 // The imported works in groups, in the chosen order: [{label, note, order, steps: [{work, role, n}]}].
 function workGroups(orderId) {
   const d = GUIDE.order;
-  const works = state.works.filter((w) => w.imported);
+  // The dialogues only: the New Testament has its own shelf (nt.js).
+  const works = state.works.filter((w) => w.imported && isPlato(w));
   const thrGroups = () => {
     const g = new Map();
     for (const w of works) {

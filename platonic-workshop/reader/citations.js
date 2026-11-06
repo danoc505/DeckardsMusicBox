@@ -139,7 +139,7 @@ async function showDiscussedFromHash(h) {
 
 function renderDiscussed() {
   const d = CITE.data;
-  const works = state.works.filter((w) => w.imported);
+  const works = state.works.filter((w) => w.imported && isPlato(w));
   const max = Math.max(1, ...d.rows.map((r) => r.citations));
   const t = d.totals || {};
   let html = `<div class="search discussed">
