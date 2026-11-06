@@ -139,7 +139,7 @@ async function showCommentary(cid, title, work, info) {
     for (const n of c.notes) {
       if (n.kind === "footnote") continue;
       const where = n.kind === "introduction" ? "" : `<a class="chip" href="${esc(placeHash(W, n.start_ref))}" data-close-comm>${esc(workAbbr(W))} ${esc(n.start_ref)}${n.end_ref !== n.start_ref ? "–" + esc(n.end_ref) : ""}</a> ${n.computed ? '<span class="approx">≈</span> ' : ""}`;
-      html += `<div class="cm-read" id="cm-${n.id}">${where}${n.lemma_text ? `<span class="cm-lemma"${/[Ͱ-Ͽἀ-῿]/.test(n.lemma_text) ? ' lang="grc"' : ""}>${esc(n.lemma_text)}</span>` : ""}${noteBody(n)}</div>`;
+      html += `<div class="cm-read" id="cm-${n.id}">${where}${n.lemma_text ? `<span class="cm-lemma"${/[Ͱ-Ͽἀ-῿]/.test(n.lemma_text) ? ' lang="grc"' : ""}>${esc(n.lemma_text)}</span>` : ""}${n.kind === "introduction" ? "" : enBtn(W, n.start_ref)}${noteBody(n)}</div>`;
       after = Math.max(after, n.seq);
     }
     if (!c.more) break;

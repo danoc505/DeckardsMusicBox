@@ -13,7 +13,7 @@ const grk = (s) => `<span lang="grc">${esc(s)}</span>`;
 // A quotation of Burnet's Greek with its place, for the hand-written parts of a dossier.
 function qPlato(work, ref, quote, ev) {
   const found = ev ? evFound(ev) : "";
-  return `<span class="dq" lang="grc">“${esc(quote)}”</span> <a class="cite" href="${esc(placeHash(work, ref))}">${esc(workTitle(work))} ${esc(ref)}</a> ${found}`;
+  return `<span class="dq" lang="grc">“${esc(quote)}”</span> <a class="cite" href="${esc(placeHash(work, ref))}">${esc(workTitle(work))} ${esc(ref)}</a> ${found}${enBtn(work, ref)}`;
 }
 
 async function showDossiers(path) {

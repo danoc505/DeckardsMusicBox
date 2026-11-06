@@ -582,7 +582,11 @@ svg.corpus-map .link:hover { stroke-opacity: 1; }
 svg.corpus-map .arrowhead { fill: var(--accent); }
 .overlay-list table.counts td { vertical-align: top; }
 .ancient-sec h4 { font: 600 13px var(--sans); margin: 10px 0 2px; }
-.ancient-sec[lang="grc"] p { font-family: var(--greek); }
+.ancient-sec[lang="grc"] p, .ancient-sec p[lang="grc"] { font-family: var(--greek); }
+/* Milestone 15: the English beside a Greek ancient text. */
+.ancient-sec.with-en .ancient-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ancient-en p { margin: 4px 0; }
+@media (max-width: 760px) { .ancient-sec.with-en .ancient-cols { grid-template-columns: 1fr; } }
 .ancient-sec pre { white-space: pre-wrap; font-size: 12px; color: var(--muted); }
 
 /* Milestone 10: the concept index */
@@ -828,3 +832,17 @@ table.voices { border-collapse: collapse; width: 100%; }
 table.voices th { text-align: left; font-weight: 600; padding: 6px 8px 6px 0; }
 table.voices td { padding: 4px; }
 table.voices select { max-width: 100%; font: inherit; }
+
+/* Milestone 15: tap any Greek word for its meaning; the English under a quotation. */
+.gloss-pop { position: fixed; z-index: 1000; background: var(--panel); color: var(--ink); border: 1px solid var(--rule, #ccc);
+  border-radius: 8px; box-shadow: 0 6px 24px rgba(0,0,0,.18); padding: 8px 12px 6px; font: 14px/1.4 var(--sans); max-height: 60vh; overflow: auto; }
+.gloss-pop p { margin: 4px 0; }
+.gloss-pop [lang="grc"] { font-family: var(--greek); font-size: 1.08em; }
+.gloss-mean { font-family: var(--serif, Georgia, serif); font-size: 15px; }
+.gloss-x { position: absolute; top: 2px; right: 6px; border: 0; background: none; font-size: 20px; line-height: 1; cursor: pointer; color: var(--muted); }
+.en-btn { font-size: .8em; margin-left: 4px; }
+.en-btn.open { font-weight: 600; }
+.en-quote { font-style: normal; font-family: var(--serif, Georgia, serif); font-size: 14px; border-left: 3px solid var(--rule, #ccc); padding: 2px 10px; margin: 6px 0; }
+.en-quote p { margin: 4px 0; }
+.speaker-en { font: 11px var(--sans); color: var(--muted); margin: 0 4px 0 2px; font-variant: small-caps; }
+[lang="grc"] { -webkit-tap-highlight-color: transparent; }

@@ -1,0 +1,11 @@
+{
+ "about": "Hermann's Greek of an ancient text beside the public-domain English of the same words, where one exists. For each Greek page, the sections or pages of the English that translate it, found by reading the first and last sentence (or definition) on the Greek page in the English. Burges' Definitions follow a slightly different order of the definitions in places, so a page's English may hold a definition or two from the neighbouring Greek page.",
+ "texts": {
+  "albinus-hermann": {"english": "albinus-burges", "unit": "§", "sections": {
+   "147": ["1", "2"], "148": ["2", "3", "4", "5"], "149": ["6", "7", "8"], "150": ["8", "9"], "151": ["9"]}},
+  "definitions-hermann": {"english": "definitions-burges", "unit": "p.", "sections": {
+   "70": ["123", "124"], "71": ["125", "126", "127"], "72": ["127", "128", "129"], "73": ["129", "130", "131"],
+   "74": ["131", "132", "133", "134"], "75": ["134", "135"], "76": ["135", "136", "137", "138"], "77": ["138", "139", "140"],
+   "78": ["140", "141"], "79": ["142", "143"], "80": ["143", "144"]}}
+ }
+}

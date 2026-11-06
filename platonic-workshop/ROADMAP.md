@@ -41,19 +41,26 @@ Each milestone is meant to be one working session. Start the next one by reading
 - Built as `reader/listen.js` and `sources/structure/people.json`. Not done, and not guessed: inside a narrated
   dialogue whose markup names only the narrator (Republic, Charmides and Lovers, told by Socrates; Phaedo; Parmenides) the speeches
   told by the narrator are read in one voice, since the text does not mark who says them. Giving them their own voices
-  would need the speeches marked by hand, with a source for each, and is noted below.
+  would need the speeches marked, with a source for each: milestone 22.
 
-## Milestone 15: English for every piece of Greek
+## Milestone 15: English for every piece of Greek (done)
 
-- Audit every view (reader, word box, concepts, dossiers, reconciliations, whole-dialogue pages, ancient texts,
-  commentary notes, Taylor's texts) for Greek shown without English: a script that walks the API output and lists
-  each Greek run over N letters with no English beside it. Commit the audit as a report.
-- Fix by source: where a public-domain translation exists, place it (Burges, Yonge, Taylor, the Loeb English);
-  where none does (Anonymous Prolegomena, scholia, Hermann's Albinus, Greek footnotes of Taylor and the commentators),
-  translate and label "Workshop translation". Keep the translations in committed JSON, keyed to the Greek, so the
-  tests can check every Greek run has its English.
-- **Tap any Greek word anywhere** (notes, LSJ, Taylor's footnotes, not only Burnet's text) for a short meaning:
-  the form looked up through GLAUx's forms and Morpheus, the first sense of Middle Liddell shown in a small popover.
+- **The audit** (`tools/greek_audit.py`, `reports/greek_audit.md`): every run of Greek the reader is sent, view by view and
+  field by field (about 1.9 million Greek words, counted each time a view shows them, in 136 fields), and how English is given for each, from
+  `sources/translations/coverage.json`. A test fails if a field showing Greek is not covered there.
+- **The Anonymous Prolegomena in English**, all 24 pages, beside Hermann's Greek: a Workshop translation, labelled, since
+  no public-domain English exists (`sources/translations/prolegomena-hermann.json`). Unreadable or corrupt places are
+  marked in brackets, not guessed.
+- **Albinus and the Definitions**: Burges' English (1854) beside Hermann's Greek, page by page (`sources/translations/paired.json`).
+- **Tap any Greek word anywhere** (a note, the scholia, Taylor's footnotes, a dictionary entry, a quotation): a small box with
+  its dictionary form (GLAUx, Morpheus and Morpheus' short English) and the English Middle Liddell (or LSJ) prints for it, named.
+  The build now copies the Morpheus analyses of about 23,000 forms outside Plato into the library (`tools/gloss.py`);
+  Hermann's ϑ is read as θ, and Greek printed without accents is matched by its letters and marked so.
+- **English under every quotation of Plato's Greek** away from the reader (concepts, dossiers, reconciliations, the whole,
+  LSJ's citations, the commentaries read straight through): an *English* button opens that section in each translation, the Loeb first.
+- **Speaker labels**: Burnet's ΣΩ., ΓΛ. have the speaker's English name beside them, not only on hover.
+- Left for later, and said so in the audit: the Greek scholia (milestone 21); Greek quoted inside English commentary notes
+  has the tap-a-word meaning but no translation of the whole quotation.
 
 ## Milestone 16: plain words and help everywhere (and an iPad audit)
 
@@ -106,10 +113,31 @@ Each milestone is meant to be one working session. Start the next one by reading
 - Follow the curriculum dialogue by dialogue: for each, its aim (skopos) in the Prolegomena's and Proclus' words,
   Taylor's Introduction to it, the famous passages in it, and where to go next. Remember where the reader is.
 
-## Ideas noted, not yet planned
+## Milestone 21: the Greek scholia in English
 
-- **Voices inside a narrated dialogue.** Mark who speaks each reported speech in the Republic and the other narrated
-  dialogues ("said he", "I replied"), from the text's own words, so that Glaucon and Thrasymachus get their voices there too.
+- The scholia to every dialogue (Hermann's Greek, 1853; about 44,000 Greek words of OCR) have no English translation in print.
+  Translate them for the Workshop, dialogue by dialogue in the Platonist order (Alcibiades I first), labelled "Workshop
+  translation" and kept in `sources/translations/scholia/<dialogue>.json`, keyed by the scholion's id and its first Greek words,
+  like the Prolegomena. Several sessions; a test checks every scholion of a finished dialogue has its English.
+- Mark the scans' unreadable places in brackets rather than guess, and note where a scholion quotes an author (Proclus, Olympiodorus).
+- Then the longer Greek quotations inside the English commentaries (Adam, England, Archer-Hind quote Proclus and others at length):
+  translate those of more than about twenty words, the same way, beginning with the dialogues read first.
+
+## Milestone 22: voices inside the narrated dialogues (asked for by Daniel)
+
+- In the narrated dialogues (Republic, Charmides and Lovers, told by Socrates; Phaedo, told by Phaedo; Parmenides, told by
+  Cephalus; also the Symposium, told by Apollodorus, and the Protagoras, Euthydemus and Lysis, told by Socrates) the markup names only the
+  narrator, so Listen reads Glaucon, Thrasymachus and Adeimantus in the narrator's voice. Mark who speaks each reported speech.
+- **From the text, not guessed.** Each attribution rests on the Greek's own words and is stored with them: the speaker named
+  at the speech (ὁ Γλαύκων ἔφη, ἔφη ὁ Θρασύμαχος), the narrator's own formulae (ἦν δ᾽ ἐγώ, ἔφην, εἶπον = the narrator), and the
+  ἦ δ᾽ ὅς / ἔφη of an exchange whose two speakers the text has named. Write the rules down, apply them by program over Burnet,
+  and keep the quotation each attribution rests on (`sources/structure/speakers-narrated.json`). Where the rules do not decide,
+  leave the speech with the narrator and list it in a report; a person can then mark it by hand, with the words that decide it.
+- Check the result against the speaker each English translation names in its own words ("said Glaucon"), and report every
+  disagreement. Then Listen gives each a voice from `people.json`, as in the acted dialogues; the narrator's own "said he" stays
+  in the narrator's voice.
+
+## Ideas noted, not yet planned
 
 - **Audio of the Greek.** A restored-pronunciation reading would have to come from a recording whose licence allows
   it; to research. Free human recordings of the English (LibriVox) could be offered beside the browser's speech.

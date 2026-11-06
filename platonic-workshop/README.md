@@ -196,6 +196,22 @@ tests in `tests/test_listen.py`, with a browser check in `tests/listen_browser.j
 
 ![Listening to the Euthyphro](docs/reader-m14-listen.png)
 
+**Milestone 15, English for every piece of Greek: done.** Tap any Greek word anywhere, not only in Burnet's text
+(a commentary note, the scholia, an ancient introduction, Taylor's footnotes, a dictionary entry, a quotation), for a
+small box with its dictionary form (GLAUx and Morpheus, with Morpheus' short English) and the English Middle Liddell
+(or LSJ) prints for it, named; `tools/gloss.py`. The Anonymous Prolegomena, which has no public-domain English, is
+translated whole for the Workshop and shown beside Hermann's Greek, labelled *Workshop translation*
+(`sources/translations/prolegomena-hermann.json`); Albinus and the Definitions have Burges' English (1854) beside the
+Greek (`sources/translations/paired.json`). Under a quotation of Plato's Greek away from the reader, *English* opens
+that section in each translation, the Loeb first; Burnet's speaker labels (ΣΩ.) have the speaker's English name
+beside them. `tools/greek_audit.py` walks everything the reader is sent and lists every run of Greek, field by field,
+with how its English is given ([`reports/greek_audit.md`](reports/greek_audit.md), from
+[`sources/translations/coverage.json`](sources/translations/coverage.json)); a test fails if Greek appears anywhere
+without an entry there. What is still untranslated is said there: the Greek scholia (milestone 21 of
+[`ROADMAP.md`](ROADMAP.md)). Tests in `tests/test_greek_english.py`.
+
+![Tap a Greek word: νυκτερίδων in the Prolegomena, beside the Workshop's English](docs/reader-m15-gloss.png)
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:
@@ -875,6 +891,8 @@ sources/          what we use and where it comes from (committed)
   reconcile/      the reconciliations of milestone 12: tensions.json, methods.json, sources.json, web-checks.json
   taylor-gutenberg/  Taylor's Proclus' Theology, Porphyry and Taurus from Project Gutenberg, as received
   dossiers/       the passage dossiers, one file per dialogue (index.json lists them), and web-checks.json
+  translations/   milestone 15: the Workshop's English of the Prolegomena, the printed English paired with
+                  Hermann's Greek, and coverage.json (how each kind of Greek in the reader gets its English)
   taylor-plotinus-1817/, taylor-proclus-theology-1816/, taylor-iamblichus-1821/  Taylor's later Platonists, as received
 texts/            imported texts, one JSON file per work (committed)
   taylor-1804/vol1/
@@ -895,7 +913,8 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   fetch_ancient.py, ancient.py, taylor_intros.py and structure.py (the whole, milestone 9),
                   scholia.py and concepts.py (the concept index, milestone 10),
                   commentary_corpus.py (the commentaries across Plato, milestone 11),
-                  reconcile.py and fetch_reconcile.py (the reconciliations, milestone 12), find.py (the search box)
+                  reconcile.py and fetch_reconcile.py (the reconciliations, milestone 12), find.py (the search box),
+                  gloss.py and greek_audit.py (the meaning of any Greek word, and the audit of milestone 15)
 workshop.py       one command: download, build if needed, serve
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
                   commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,
