@@ -54,3 +54,7 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # The site is about 130 MB in a thousand pieces since the New Testament (milestone 23);
+          # GitHub can take longer than the default ten minutes to put it live.
+          timeout: 1800000
