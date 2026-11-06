@@ -79,6 +79,10 @@ def build(out=OUT):
         if p.stat().st_size > 2_000_000:
             continue
         files[p.relative_to(ROOT).as_posix()] = p.read_text(encoding="utf-8")
+    # Taylor's prefatory texts the Library shelves (milestone 13), read whole by /api/taylor/<id>.
+    for p in sorted((ROOT / "texts" / "taylor-1804" / "vol1").glob("*.json")):
+        if p.stem in ("general-introduction", "platonic-terms", "olympiodorus-life"):
+            files[p.relative_to(ROOT).as_posix()] = p.read_text(encoding="utf-8")
     files["web/bridge.py"] = (ROOT / "web" / "bridge.py").read_text(encoding="utf-8")
     (out / "web" / "files.json").write_text(json.dumps(files, ensure_ascii=False), encoding="utf-8")
     # A compacted copy keeps each table's rows together, so a page of Plato is read from fewer pieces.

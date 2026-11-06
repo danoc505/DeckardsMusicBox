@@ -6,16 +6,18 @@
 
 const SHELL = { lastRead: null, find: null };
 const NAV = [
+  ["start", "Start here", "#start", "What this is, where to begin, and how to read a page"],
   ["library", "Library", "#library", "The dialogues, the passage dossiers, the commentaries, the corpus map and the sources"],
   ["read", "Reader", null, "Back to the passage you were reading"],
   ["dictionary", "Dictionary", "#dictionary", "Look up a Greek word in Middle Liddell and LSJ"],
   ["concordance", "Concordance", "#search", "Every place a Greek word occurs in Plato, by lemma, form or letters"],
-  ["concepts", "Concepts", "#concepts", "The concept index across the dialogues"],
+  ["concepts", "Concepts", "#concepts", "The great ideas across the dialogues, with what the later Platonists made of them"],
+  ["glossary", "Glossary", "#glossary", "Taylor's explanations of the Platonic terms"],
   ["reconcile", "Reconciliations", "#reconcile", "Passages that seem to disagree, and the ways of reconciling them"],
   ["mine", "My Translations", "#mine", "Everything you have written: translations, notes, word studies, worksheets"],
 ];
 const VIEW_CLASSES = ["searching", "discussing", "whole-view", "corpus-view", "concepts-view", "commentaries-view",
-  "dossiers-view", "reconcile-view", "find-view", "library-view", "dict-view", "mine-view"];
+  "dossiers-view", "reconcile-view", "find-view", "library-view", "dict-view", "mine-view", "guide-view"];
 
 function prefsGet(k, d) { try { return localStorage.getItem("pw." + k) ?? d; } catch (e) { return d; } }
 function prefsSet(k, v) { try { localStorage.setItem("pw." + k, v); } catch (e) { /* private window */ } }
@@ -31,6 +33,9 @@ function renderNav() {
 
 function currentNav() {
   const h = location.hash.slice(1);
+  if (h === "start") return "start";
+  if (h.startsWith("glossary")) return "glossary";
+  if (h.startsWith("taylor/")) return "library";
   if (h.startsWith("library") || h === "corpus" || h.startsWith("corpus?") || h === "commentaries" || h.startsWith("discussed") || h.startsWith("dossiers")) return "library";
   if (h.startsWith("dictionary")) return "dictionary";
   if (h.startsWith("search") || h.startsWith("renderings/")) return "concordance";
@@ -53,7 +58,7 @@ function markNav() {
     prefsSet("lastRead", location.hash);
   }
   const r = $('[data-nav="read"]');
-  if (r) r.href = SHELL.lastRead || prefsGet("lastRead", "") || "#timaeus/17a";
+  if (r) r.href = SHELL.lastRead || prefsGet("lastRead", "") || "#alcibiades-1";
 }
 window.addEventListener("hashchange", markNav);
 
@@ -66,6 +71,11 @@ route = function (push) {  // eslint-disable-line no-global-assign
   if (raw === "reconcile" || raw.startsWith("reconcile/")) { showReconcile(raw.slice(10)); return; }
   if (raw.startsWith("find")) { showFind(new URLSearchParams(raw.slice(5)).get("q") || ""); return; }
   if (raw === "library") { showLibrary(); return; }
+  if (raw === "start") { prefsSet("seenStart", "1"); showStart(); return; }
+  if (raw === "glossary" || raw.startsWith("glossary/")) { showGlossary(decodeURIComponent(raw.slice(9))); return; }
+  if (raw.startsWith("taylor/")) { showTaylorText(decodeURIComponent(raw.slice(7))); return; }
+  // A first visit, with no address and nothing read yet, opens Start here.
+  if (!raw && !prefsGet("seenStart", "") && !prefsGet("lastRead", "")) { history.replaceState(null, "", "#start"); markNav(); prefsSet("seenStart", "1"); showStart(); return; }
   if (raw === "dictionary" || raw.startsWith("dictionary/")) { showDictionaryPage(decodeURIComponent(raw.slice(11))); return; }
   if (raw === "mine") { showMinePage(); return; }
   _route(push);
@@ -147,25 +157,30 @@ async function showLibrary() {
   state.view = "library";
   setView("library-view");
   document.title = "Library · Platonic Workshop";
-  $("#toc").innerHTML = `<h3>Library</h3><ul class="books"><li><a href="#corpus"><span>Corpus map</span></a></li><li><a href="#commentaries"><span>Commentaries</span></a></li>
-    <li><a href="#dossiers"><span>Passage dossiers</span></a></li><li><a href="#discussed"><span>Most discussed passages</span></a></li><li><button type="button" class="link-btn" id="lib-sources">Sources</button></li></ul>`;
-  const groups = new Map();
-  for (const w of state.works) {
-    const k = w.tetralogy || 0;
-    if (!groups.has(k)) groups.set(k, []);
-    groups.get(k).push(w);
-  }
+  await loadOrder();
+  $("#toc").innerHTML = `<h3>Library</h3><ul class="books"><li><a href="#lib-dialogues" data-scroll="lib-dialogues"><span>The dialogues</span></a></li>
+    <li><a href="#lib-shelf" data-scroll="lib-shelf"><span>Guides to Plato</span></a></li><li><a href="#corpus"><span>Corpus map</span></a></li><li><a href="#commentaries"><span>Commentaries</span></a></li>
+    <li><a href="#dossiers"><span>Famous passages</span></a></li><li><a href="#discussed"><span>Most discussed passages</span></a></li><li><button type="button" class="link-btn" id="lib-sources">Sources</button></li></ul>`;
+  const d = GUIDE.order;
+  const o = d ? d.orders.find((x) => x.id === orderPref()) : null;
   let h = `<div class="search library"><h2>Library</h2>
-    <p class="prov">The 36 works of Plato in Thrasyllus' nine tetralogies, in Burnet's Greek with the English translations and the commentaries the library holds.
-      Open a dialogue to read it, or see it as a whole.</p>
-    <p><a class="btn" href="#corpus">Corpus map</a> <a class="btn" href="#dossiers">Passage dossiers</a> <a class="btn" href="#commentaries">Every commentary</a> <a class="btn" href="#discussed">The passages the notes cite most</a>
-      <button type="button" class="btn" id="lib-sources2">Sources and licences</button></p>
+    <p class="prov">The 36 works of Plato, in Burnet's Greek with the English translations and the commentaries the library holds. Open a dialogue to read it,
+      or <em>about it</em> for what the tradition says of it as a whole.</p>
+    <section id="lib-dialogues"><h3>The dialogues</h3>
+    ${orderPicker()}${o ? `<p class="meta">${esc(o.plain)} <a href="#start">More in Start here.</a></p>` : ""}
     <div class="lib-grid">`;
-  for (const [k, ws] of groups) {
-    h += `<section><h3>${k ? "Tetralogy " + k : "Other"}</h3><ul>${ws.map((w) => `<li>${w.imported ? `<a href="#${esc(w.slug)}"><b>${esc(w.title)}</b></a>` : `<b>${esc(w.title)}</b>`}
-      <span class="meta">${esc(w.abbr || "")}</span> · <a href="#${esc(w.slug)}/whole" class="meta">as a whole</a></li>`).join("")}</ul></section>`;
+  for (const g of workGroups()) {
+    h += `<section><h4>${esc(g.label)}</h4>${g.note ? `<p class="meta">${esc(g.note)}</p>` : ""}<ul${g.rest ? "" : ' class="numbered"'}>${g.steps.map((s) => {
+      const w = workById(s.work);
+      return `<li>${s.n ? `<span class="meta">${s.n}.</span> ` : ""}<a href="#${esc(w.slug)}"><b>${esc(w.title)}</b></a>${s.role ? ` <span class="meta">${esc(s.role)}</span>` : ""}
+        · <a href="#${esc(w.slug)}/whole" class="meta">about it</a></li>`;
+    }).join("")}</ul></section>`;
   }
-  $("#main").innerHTML = h + `</div></div>`;
+  h += `</div></section>
+    <section id="lib-shelf"><h3>Guides to Plato</h3><p class="meta">Introductions written by Platonists, ancient and modern, to read whole.</p>${shelfList()}</section>
+    <section><h3>More</h3><p><a class="btn" href="#corpus">Corpus map</a> <a class="btn" href="#dossiers">Famous passages</a> <a class="btn" href="#commentaries">Every commentary</a> <a class="btn" href="#discussed">The passages the notes cite most</a>
+      <button type="button" class="btn" id="lib-sources2">Sources and licences</button></p></section>`;
+  $("#main").innerHTML = h + `</div>`;
 }
 
 // ------------------------------------------------------------------ Dictionary

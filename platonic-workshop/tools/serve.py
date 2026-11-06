@@ -36,6 +36,51 @@ import search  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
+READING_ORDER = ROOT / "sources" / "structure" / "reading-order.json"
+TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
+# Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
+TAYLOR_TEXTS = {
+    "general-introduction": "Taylor's General Introduction to the Philosophy and Writings of Plato (1804): Platonism as the later Platonists taught it, "
+                            "the One, the gods, intellect, soul and nature, and how the dialogues are to be read.",
+    "platonic-terms": "Taylor's Explanation of Certain Platonic Terms: the words of the later Platonists his translations use, each explained.",
+    "olympiodorus-life": "Olympiodorus' Life of Plato (6th century), in Taylor's translation: the life as the last Platonist school in Alexandria told it.",
+}
+GLOSS_SRC = re.compile(r"\s*\[(?P<src>[^\]]+)\]\s*$")
+
+
+def glossary(d):
+    """Taylor's terms as entries: the headword, its Greek, the explanation, the book it is
+    explained in, and any quotation printed under it."""
+    legend = {}
+    for s in d["segments"]:
+        m = re.match(r"^\[(.+?)\]\s*:\s*(.+)$", s["text"])
+        if s["part"] == "site" and m:
+            legend[m.group(1)] = m.group(2)
+    out = []
+    for s in d["segments"]:
+        if s["part"] != "text":
+            continue
+        if s["kind"] == "term":
+            text = s["text"]
+            src = GLOSS_SRC.search(text)
+            if src:
+                text = text[:src.start()]
+            head = re.match(r"[^.,(]+", text).group().strip()
+            if ";" in head:   # 'On account of which; with reference to which; ...': Taylor's six causes
+                head = head.split(";")[0] + " (the six causes)"
+            out.append({"id": s["id"], "head": head, "text": text.strip(),
+                        "source": src.group("src") if src else None,
+                        "source_title": legend.get(src.group("src")) if src else None, "more": []})
+        elif s["kind"] == "paragraph" and re.fullmatch(r"\w+ \(see \w+\)", s["text"].strip()):
+            out.append({"id": s["id"], "head": s["text"].split(" (")[0], "text": s["text"].strip(), "see": s["text"].split("see ")[1].rstrip(")"),
+                        "source": None, "source_title": None, "more": []})
+        elif out and s["kind"] == "quotation":
+            out[-1]["more"].append(s["text"])
+        elif out and s["kind"] == "paragraph" and s["text"].startswith("["):
+            out[-1]["more_source"] = s["text"].strip("[] ")
+        elif out and s["kind"] == "paragraph" and not out[-1].get("see"):
+            out[-1]["more"].append(s["text"])
+    return out
 
 
 # The columns of a commentary note sent to the reader (milestone 7).
@@ -782,6 +827,26 @@ class Library:
     def sources(self):
         return self.rows("SELECT * FROM source ORDER BY rowid")
 
+    # ------------------------------------------------------------ milestone 13: the guide
+
+    def reading_order(self):
+        """The orders the dialogues can be listed in (sources/structure/reading-order.json),
+        each step with its quotations; the Iamblichean curriculum is the default."""
+        d = json.loads(READING_ORDER.read_text(encoding="utf-8"))
+        d["works"] = {w["id"]: {"title": w["title"], "slug": w["slug"], "imported": w["imported"], "tetralogy": w["tetralogy"]}
+                      for w in self.works()}
+        return d
+
+    def taylor(self, text_id):
+        """One of Taylor's prefatory texts of 1804 (texts/taylor-1804/vol1/), whole."""
+        if text_id not in TAYLOR_TEXTS:
+            return None
+        d = json.loads((TAYLOR_VOL1 / f"{text_id}.json").read_text(encoding="utf-8"))
+        d["about"] = TAYLOR_TEXTS[text_id]
+        if text_id == "platonic-terms":
+            d["glossary"] = glossary(d)
+        return d
+
     def build_info(self):
         return {r["key"]: r["value"] for r in self.rows("SELECT * FROM build")}
 
@@ -924,6 +989,11 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 3 and parts[0] == "dossier" and parts[2] == "md":
                     md = lib.dossier_markdown(parts[1])
                     return self.send_file(md.encode("utf-8"), "text/markdown; charset=utf-8", f"{parts[1]}.md") if md else self.not_found()
+                if parts == ["reading-order"]:
+                    return self.send_json(lib.reading_order())
+                if len(parts) == 2 and parts[0] == "taylor":
+                    t = lib.taylor(parts[1])
+                    return self.send_json(t) if t else self.not_found()
                 if parts == ["corpus"]:
                     return self.send_json(lib.corpus())
                 if len(parts) == 2 and parts[0] == "ancient":

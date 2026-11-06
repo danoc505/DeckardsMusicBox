@@ -767,3 +767,43 @@ svg.cave .sun { fill: #e9b949; }
 .dia-tree li.chosen > a { font-weight: 600; color: var(--accent); }
 .dia-split { display: grid; grid-template-columns: minmax(220px, 360px) 1fr; gap: 18px; align-items: start; }
 @media (max-width: 760px) { .dia-split { grid-template-columns: 1fr; } .doss-text { grid-template-columns: 1fr; } .doss-text .hd { display: none; } }
+
+/* Milestone 13: the guide (Start here, the glossary, Taylor's texts, the reading order) */
+.guide { max-width: 52rem; }
+.guide .lead { font-size: 1.08em; line-height: 1.55; }
+.guide section { margin-top: 1.6em; }
+.order-pick { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; margin: 6px 0 10px; }
+.order-pick select { font: inherit; padding: 4px 6px; max-width: 100%; }
+ol.path { list-style: none; padding-left: 0; }
+.path-group h4 { margin: 1em 0 .3em; }
+ol.path-steps { padding-left: 1.6em; }
+ol.path-steps > li { margin: .45em 0; }
+.path-head { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.path-role { color: var(--muted, #666); font-style: italic; }
+details.why-here summary { cursor: pointer; color: var(--accent); font-size: .92em; }
+blockquote.gq { margin: .5em 0 .5em .4em; padding: .3em .8em; border-left: 3px solid var(--accent-soft, #ccd); }
+blockquote.gq span[lang="grc"] { display: block; }
+blockquote.gq .gq-en { display: block; margin-top: .2em; }
+blockquote.gq cite { display: block; font-style: normal; font-size: .85em; margin-top: .2em; }
+blockquote.gq.modern { border-left-color: var(--warn); }
+.gq-tag { display: inline-block; font-size: .72em; padding: 1px 6px; border-radius: 9px; border: 1px solid currentColor; color: var(--muted, #666); vertical-align: middle; white-space: nowrap; }
+.gq-tag.own { color: var(--mine, #2a7); }
+.gq-tag.modern, .modern .gq-tag { color: var(--warn); }
+ul.howto li, dl.tools dd { line-height: 1.5; }
+ul.howto li { margin: .35em 0; }
+dl.tools dt { font-weight: 600; margin-top: .6em; }
+dl.tools dd { margin-left: 1.2em; }
+ul.shelf li { margin: .4em 0; }
+.letters a { display: inline-block; min-width: 1.6em; padding: 2px 3px; text-align: center; }
+.gl-filter input { font: inherit; padding: 6px 8px; width: min(22rem, 100%); }
+.gl-entry { margin: .5em 0 .9em; }
+.gl-entry p { margin: .2em 0; line-height: 1.5; }
+.gl-entry blockquote { margin: .3em 0 .3em 1em; font-size: .95em; }
+.gl-letter { border-bottom: 1px solid var(--rule, #ddd); }
+.taylor-text p, .taylor-text blockquote { line-height: 1.6; }
+.taylor-text pre.tt-table { white-space: pre-wrap; font-size: .85em; }
+.tt-notes { margin: -.3em 0 1em 1.2em; font-size: .9em; }
+.tt-note { margin: .25em 0; }
+.page-1804 { font-size: .75em; color: var(--muted, #666); }
+@media (max-width: 860px) { .path-head { flex-direction: column; gap: 2px; } }
+.lib-grid ul.numbered { list-style: none; padding-left: 4px; }

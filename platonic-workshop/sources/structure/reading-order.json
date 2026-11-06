@@ -1,0 +1,124 @@
+{
+ "_comment": "Milestone 13: the order the dialogues are listed in (the dialogue menu, the Library, Start here). The default is the Neoplatonic curriculum of Iamblichus, as the Anonymous Prolegomena (ch. 26) reports it; Albinus' order and Thrasyllus' tetralogies can be chosen instead. Every step quotes its source. 'quote' is the text as printed and is looked for in texts/ancient/ by tests/test_guide.py. 'english' under a Greek quote is the Workshop's own translation, made for this file (no public-domain English of the Prolegomena exists) and labelled so wherever it is shown. A 'modern' entry is a modern scholar's statement, quoted from the page named, and labelled as modern wherever it is shown.",
+ "default": "iamblichus",
+ "workshop_translation": "Translated for the Workshop (no public-domain English translation of the Prolegomena exists). Check it against the Greek beside it.",
+ "orders": [
+  {
+   "id": "iamblichus",
+   "label": "The Neoplatonic curriculum (Iamblichus)",
+   "short": "Iamblichus",
+   "by": "Iamblichus (c. 245-325), followed by Proclus and the later Platonist schools; reported by the Anonymous Prolegomena to Platonic Philosophy (6th century), ch. 26",
+   "plain": "The order the later Platonists taught Plato in: twelve dialogues, rising from knowing yourself (Alcibiades I), through the virtues, to the knowledge of things, of the gods and of the Good (Philebus), and last the two 'perfect' dialogues that hold the whole, the Timaeus on nature and the Parmenides on the divine.",
+   "frame": [
+    {"source": "prolegomena-hermann", "at": "219",
+     "quote": "λέγομεν δὲ ὃ ὃ θεῖος Ἰάμβλεχος ἐποίησεν αὐτὸς τοίνυν πάντας εἰς ιβ διήρει διαλόγους",
+     "english": "We shall say what the divine Iamblichus did. He divided the whole into twelve dialogues"},
+    {"source": "prolegomena-hermann", "at": "219",
+     "quote": "πάλιν δὲ τοὺς δώδεκα συνῇρει εἰς δύο",
+     "english": "and again he gathered the twelve into two [the Timaeus and the Parmenides]"}
+   ],
+   "groups": [
+    {
+     "label": "The first course: ten dialogues",
+     "steps": [
+      {"work": "tlg013", "role": "First: know yourself",
+       "evidence": [{"source": "prolegomena-hermann", "at": "219", "quote": "πρῶτον τοίνυν δεῖ τὸν Ἀλκιβιάδην πράττειν διότι ἐν αὐτῷ γινώσκομεν ἑαυτούς",
+                     "english": "First, then, one must study the Alcibiades, because in it we come to know ourselves"}]},
+      {"work": "tlg023", "role": "Political virtue",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "πρῶτον δεῖ ἀναγνῶναι τὸν Γοργίαν ὡς πολιτικὸν ὄντα",
+                     "english": "first [of the middle dialogues] one must read the Gorgias, as being political"}]},
+      {"work": "tlg004", "role": "Purifying virtue",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "δεύτερον δὲ τὸν Φαίδωνα ὡς καθαρτικόν",
+                     "english": "second, the Phaedo, as purificatory (for after the political life comes the purifying)"}]},
+      {"work": "tlg005", "role": "Knowing things: names",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "τέταρτον τὸν Κρατύλον ὡς περὶ ὀνομάτων διδάσκοντα",
+                     "english": "fourth, the Cratylus, as teaching about names"}]},
+      {"work": "tlg006", "role": "Knowing things: the things themselves",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "εἶτα τὸν Θεαίτητον ὡς περὶ πραγμάτων",
+                     "english": "then the Theaetetus, as being about things"}]},
+      {"work": "tlg007", "role": "Nature", "modern_placement": true,
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "εἶτα ἐρχόμεθα μετὰ τούτους εἰς τὸν περὶ φυσικῶν διδάσκοντα",
+                     "english": "then after these we come to the one teaching about natural things"},
+                    {"modern": true, "who": "John Dillon (2017)", "cited": "Dillon, 'Paideia Platonikê', Scholae 11.2 (2017), note 1",
+                     "url": "https://cyberleninka.ru/article/n/paideia-platonik-sohranyaet-li-pozdneplatonicheskaya-programma-obrazovaniya-svoyu-tsennost-v-sovremennom-mire",
+                     "quote": "even there a lacuna in the text omits the Sophist and the Statesman from the list. For their necessary inclusion, Westerink provides compelling arguments in his Introduction, pp. xxxvii-xxxviii."}]},
+      {"work": "tlg008", "role": "Nature", "modern_placement": true,
+       "evidence": [{"modern": true, "who": "John Dillon (2017)", "cited": "Dillon, 'Paideia Platonikê', Scholae 11.2 (2017)",
+                     "url": "https://cyberleninka.ru/article/n/paideia-platonik-sohranyaet-li-pozdneplatonicheskaya-programma-obrazovaniya-svoyu-tsennost-v-sovremennom-mire",
+                     "quote": "If the Sophist concerns the sublunary realm, then its sequel, the Statesman, in Iamblichus' view, concerns the heavenly demiurge, the ruler of the astral regions."}]},
+      {"work": "tlg012", "role": "The divine, seen in contemplation",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "ἐπὶ τὸν Φαῖδρον καὶ τὸ Συμπόσιον ὡς θεωρητικῶς καὶ περὶ θεολογικῶν διαλεγομένους",
+                     "english": "and so on to the Phaedrus and the Symposium, as discussing theological matters in a contemplative way"}]},
+      {"work": "tlg011", "role": "The divine, seen in contemplation",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "ἐπὶ τὸν Φαῖδρον καὶ τὸ Συμπόσιον ὡς θεωρητικῶς καὶ περὶ θεολογικῶν διαλεγομένους",
+                     "english": "and so on to the Phaedrus and the Symposium, as discussing theological matters in a contemplative way"}]},
+      {"work": "tlg010", "role": "Last: the Good",
+       "evidence": [{"source": "prolegomena-hermann", "at": "219", "quote": "ἔσχατον δὲ δεῖ τὸν Φίληβον",
+                     "english": "and last must come the Philebus"},
+                    {"source": "prolegomena-hermann", "at": "219", "quote": "ἐν αὐτῷ περὶ τοῦ ἀγαθοῦ διαλέγεται ὃ πάντων ἐπέκεινά ἐστιν",
+                     "english": "since in it he discusses the Good, which is beyond all things"}]}
+     ]
+    },
+    {
+     "label": "The two perfect dialogues",
+     "steps": [
+      {"work": "tlg031", "role": "The whole of nature",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "ἐπὶ τοὺς τελείους δεῖ ἐλθεῖν τὸν Τίμαιόν φημι καὶ τὸν Παρμενίδην",
+                     "english": "and so one must come to the perfect dialogues, I mean the Timaeus and the Parmenides"}]},
+      {"work": "tlg009", "role": "The whole of the divine",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "ἐπὶ τοὺς τελείους δεῖ ἐλθεῖν τὸν Τίμαιόν φημι καὶ τὸν Παρμενίδην",
+                     "english": "and so one must come to the perfect dialogues, I mean the Timaeus and the Parmenides"}]}
+     ]
+    },
+    {
+     "label": "Read by some as well: the Republic and the Laws",
+     "steps": [
+      {"work": "tlg030", "role": "The city without hypothesis",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "ἐπειδὴ δὲ καὶ τοὺς Νόμους καὶ τὰς Πολιτείας πράττειν ἀξιοῦσί τινες",
+                     "english": "But since some think the Laws and the Republic should be studied as well, it is worth stating their aim too"},
+                    {"source": "prolegomena-hermann", "at": "219", "quote": "ἐκβάλλει δὲ καὶ τὰς Πολιτείας διὰ τὸ πολλοὺς εἶναι λόγους καὶ μὴ διαλογικῶς γεγράφθαι",
+                     "english": "He [Proclus] leaves out the Republic too, because it is many books and not written as a dialogue"}]},
+      {"work": "tlg034", "role": "The city from a hypothesis",
+       "evidence": [{"source": "prolegomena-hermann", "at": "220", "quote": "ἐπειδὴ δὲ καὶ τοὺς Νόμους καὶ τὰς Πολιτείας πράττειν ἀξιοῦσί τινες",
+                     "english": "But since some think the Laws and the Republic should be studied as well, it is worth stating their aim too"}]}
+     ]
+    },
+    {
+     "label": "The other dialogues (in Thrasyllus' order)",
+     "rest": true,
+     "note": "The Prolegomena passes over the order of the rest; the Workshop lists them in Thrasyllus' order, the other ancient order.",
+     "evidence": [{"source": "prolegomena-hermann", "at": "219", "quote": "τούτων δὲ πάντων τὴν τάξιν μὴ πάνυ τι χρησιμεύουσαν",
+                   "english": "the order of all these, as not very useful [and too long for a short account], we pass over"}]
+    }
+   ]
+  },
+  {
+   "id": "albinus",
+   "label": "Albinus' order for beginners",
+   "short": "Albinus",
+   "by": "Albinus (2nd century AD), Prologue to Plato, chapters 5-6, in Burges' translation (1854)",
+   "plain": "A Middle Platonist's advice to a newcomer: begin with knowing yourself (Alcibiades I), then the soul (Phaedo), then the right life and the city (Republic), then the divine order of the world (Timaeus).",
+   "frame": [{"source": "albinus-burges", "quote": "let us state, in addition, from what dialogues persons must begin their entrance upon a discourse of Plato"}],
+   "groups": [
+    {"label": "Albinus' four",
+     "steps": [
+      {"work": "tlg013", "role": "Begin here", "evidence": [{"source": "albinus-burges", "quote": "will begin from the Alcibiades"}]},
+      {"work": "tlg004", "role": "Next", "evidence": [{"source": "albinus-burges", "quote": "must enter upon the Phedo next in order"}]},
+      {"work": "tlg030", "role": "Then", "evidence": [{"source": "albinus-burges", "quote": "After this it would be requisite to enter upon the Republic"}]},
+      {"work": "tlg031", "role": "Last", "evidence": [{"source": "albinus-burges", "quote": "we shall enter upon the Timaus"}]}
+     ]},
+    {"label": "The other dialogues (in Thrasyllus' order)", "rest": true,
+     "note": "Albinus names only these four; the Workshop lists the rest in Thrasyllus' order."}
+   ]
+  },
+  {
+   "id": "thrasyllus",
+   "label": "Thrasyllus' nine tetralogies",
+   "short": "Thrasyllus",
+   "by": "Thrasyllus (1st century AD), as Diogenes Laertius III 56-61 reports him; the order of every modern edition",
+   "plain": "The 36 works in nine groups of four, like the four plays a tragic poet entered at a festival. It is how the works were published and catalogued, not an order for learning.",
+   "frame": [{"source": "dl3-burges", "quote": "Thrasyllus says that Plato put forth his dialogues after the manner of the tragic tetralogy"}],
+   "tetralogies": true
+  }
+ ]
+}

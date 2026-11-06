@@ -728,6 +728,7 @@ function renderWorkSelect() {
   }
   try { state.lexica = await api("lexica"); } catch (e) { state.lexica = []; }
   if (!workById(DEFAULT_WORK)?.imported) WORK = state.works.find((w) => w.imported).id;
+  if (typeof loadOrder === "function") await loadOrder();   // the order of the dialogue menu (guide.js)
   renderWorkSelect();
   route(false);
 })();

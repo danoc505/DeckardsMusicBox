@@ -31,7 +31,7 @@ RAW = ROOT / "data" / "raw"
 HAVE_DATA = (RAW / "perseus-greek-plato" / ".fetched.json").exists() and (RAW / "glaux-plato" / ".fetched.json").exists()
 PROMPT_METHODS = ["allegorical", "ontological-distinction", "image-and-original", "participation", "privation",
                   "ascent-and-return", "psychological", "symbolic"]
-NAV = ["Library", "Reader", "Dictionary", "Concordance", "Concepts", "Reconciliations", "My Translations"]
+NAV = ["Start here", "Library", "Reader", "Dictionary", "Concordance", "Concepts", "Glossary", "Reconciliations", "My Translations"]
 
 
 def walk(x):
@@ -123,7 +123,7 @@ class Reader(unittest.TestCase):
     def test_primary_navigation_and_display_controls(self):
         shell = (ROOT / "reader" / "shell.js").read_text(encoding="utf-8")
         labels = re.findall(r'\["\w+", "([^"]+)", ', shell)
-        self.assertEqual(labels[:7], NAV)
+        self.assertEqual(labels[:len(NAV)], NAV)
         html = (ROOT / "reader" / "index.html").read_text(encoding="utf-8")
         for needle in ('id="theme-btn"', 'data-size="up"', 'data-size="down"', 'data-resize="toc"', 'data-resize="insp"', 'id="find-q"',
                        'src="reconcile.js"', 'src="shell.js"'):
