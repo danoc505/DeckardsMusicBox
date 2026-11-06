@@ -10,18 +10,38 @@
   let first = true;
 
   // A note on screen while the Workshop starts (about 10 seconds the first time).
+  // It goes as soon as the Workshop answers, and it can always be closed by hand:
+  // a message that the Workshop could not start is shown only if nothing has loaded,
+  // never over a page that did (a late hiccup in the background is only logged).
   const note = document.createElement("div");
   note.className = "pw-loading";
-  note.innerHTML = "Opening the Workshop…<small>The first time takes up to a minute. After that it opens quickly.</small>";
+  note.setAttribute("role", "status");
   const showNote = () => document.body && !note.isConnected && document.body.appendChild(note);
+  const hideNote = () => { note.remove(); clearTimeout(slow); };
+  function say(html, buttons) {
+    note.innerHTML = html + `<span class="pw-loading-btns">${buttons ? `<button type="button" data-pw="reload">Reload</button>` : ""}<button type="button" data-pw="close">Close</button></span>`;
+  }
+  say("Opening the Workshop…<small>The first time takes up to a minute. After that it opens quickly.</small>", false);
+  note.addEventListener("click", (ev) => {
+    const b = ev.target.closest && ev.target.closest("[data-pw]");
+    if (!b) return;
+    if (b.dataset.pw === "reload") location.reload();
+    else hideNote();
+  });
   document.addEventListener("DOMContentLoaded", () => { if (first) showNote(); });
+  // Still nothing after a minute and a half: say so, with a way to reload.
+  const slow = setTimeout(() => {
+    if (!first) return;
+    say("Still opening the Workshop…<small>This is taking longer than usual. A slow connection can do this; reloading often helps.</small>", true);
+    showNote();
+  }, 90000);
 
   worker.onmessage = (ev) => {
     const m = ev.data;
     const w = waiting.get(m.id);
     if (!w) return;
     waiting.delete(m.id);
-    if (first) { first = false; note.remove(); }
+    if (first) { first = false; hideNote(); }
     if (m.error) {
       console.error("Workshop:", m.error);
       return w.ok(new Response(JSON.stringify({ error: m.error }), { status: 500, headers: { "Content-Type": "application/json" } }));
@@ -29,9 +49,11 @@
     w.ok(new Response(m.status === 204 ? null : m.body, { status: m.status, headers: m.headers }));
   };
   worker.onerror = (e) => {
-    note.textContent = "The Workshop could not start. Check the internet connection and reload the page.";
+    if (e && e.preventDefault) e.preventDefault();
+    console.error("Workshop:", e && (e.message || e));
+    if (!first) return;   // the Workshop has already answered: the page works, say nothing
+    say("The Workshop could not start.<small>Check the internet connection, then reload the page.</small>", true);
     showNote();
-    console.error(e);
   };
 
   function ask(method, path, headers, body) {

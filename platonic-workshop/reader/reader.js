@@ -112,7 +112,9 @@ async function goTo(workId, ref, page, push = true) {
   try {
     if (!(await openWork(workId))) return false;
   } catch (e) {
-    $("#main").innerHTML = `<p class="error">Could not open the work: ${esc(e.message)}</p>`;
+    $("#main").innerHTML = `<div class="load-failed"><p class="error">The dialogue did not open (${esc(e.message)}). This is usually a dropped connection.</p>
+      <p><button type="button" class="btn" id="retry-work">Try again</button></p></div>`;
+    $("#retry-work").addEventListener("click", () => goTo(workId, ref, page, false));
     return false;
   }
   const ok = ref ? state.work.sections.includes(ref) : state.work.sections.some((r) => parseInt(r) === page);
@@ -129,18 +131,33 @@ async function goTo(workId, ref, page, push = true) {
   return true;
 }
 
+// Only the last page asked for is shown: a slower answer for a page left behind, or
+// its failure, never replaces it. A page that fails to load is tried once more by
+// itself, then says so with a Try again button (on the iPad a dropped connection is
+// usually back a moment later).
+let pageAsk = 0;
 async function loadPage(page) {
   if (state.page === page && state.data && state.data.work_id === WORK && $("#main .sec")) { scrollToTarget(); return; }
+  const ask = ++pageAsk;
   $("#main").innerHTML = `<p class="loading">Loading page ${page}…</p>`;
-  try {
-    state.data = await api(`page/${WORK}/${page}`);
-    state.page = page;
-    renderPage();
-    renderToc();
-    scrollToTarget();
-  } catch (e) {
-    $("#main").innerHTML = `<p class="error">Could not load page ${page}: ${esc(e.message)}</p>`;
+  let data = null, err = null;
+  for (let tries = 0; tries < 2 && !data; tries++) {
+    if (tries) await new Promise((ok) => setTimeout(ok, 1200));
+    if (ask !== pageAsk) return;
+    try { data = await api(`page/${WORK}/${page}`); } catch (e) { err = e; }
   }
+  if (ask !== pageAsk) return;
+  if (!data) {
+    $("#main").innerHTML = `<div class="load-failed"><p class="error">Page ${page} did not load (${esc(err && err.message)}). This is usually a dropped connection.</p>
+      <p><button type="button" class="btn" id="retry-page">Try again</button></p></div>`;
+    $("#retry-page").addEventListener("click", () => loadPage(page));
+    return;
+  }
+  state.data = data;
+  state.page = page;
+  renderPage();
+  renderToc();
+  scrollToTarget();
 }
 
 function scrollToTarget() {
@@ -749,7 +766,10 @@ function renderWorkSelect() {
     state.works = await api("works");
     if (!state.works.some((w) => w.imported)) throw new Error("empty");
   } catch (e) {
-    $("#main").innerHTML = `<p class="error">The library is not built yet. Run <code>python3 tools/build_db.py</code>, then reload.</p>`;
+    // On the website the library is always built: a failure there is the connection.
+    $("#main").innerHTML = document.querySelector('script[src$="standalone.js"]')
+      ? `<div class="load-failed"><p class="error">The library did not open. This is usually a dropped connection.</p><p><button type="button" class="btn" onclick="location.reload()">Try again</button></p></div>`
+      : `<p class="error">The library is not built yet. Run <code>python3 tools/build_db.py</code>, then reload.</p>`;
     return;
   }
   try { state.lexica = await api("lexica"); } catch (e) { state.lexica = []; }

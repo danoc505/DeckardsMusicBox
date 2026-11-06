@@ -270,6 +270,18 @@ that it opens quickly, and pages already read open without the internet.
 
 - Swipe left or right across the text to turn the Stephanus page. Tap a word for the word box;
   to take in several words, press and hold on the first and drag the handles.
+- **Reading** at the top left opens *Choose what to read*: every dialogue as a tile (each opens
+  where you last were in it), a box to find one by name, the translations shown beside the Greek,
+  and the translation read aloud. **Show** holds the switches for what the page shows, with
+  *Just the text* and *Everything*. The contents column and the side panel fold away with the tab
+  on their edge (the panel's *Hide* does the same), and come back with the same tab; a tap on a
+  Greek word or a key term opens the panel again.
+- **Voices** (beside Listen) chooses a voice and a pitch for each person, or one voice for
+  everyone, the speed, and which translation is read, at any time: picking a voice says a line of
+  that person's in it, and *Try* says it again. Reading aloud pauses while you try voices and
+  goes on when the window is closed. While reading, tap any paragraph of the translation being
+  read to go on from there. More voices come from Settings › Accessibility › Spoken Content ›
+  Voices on the iPad.
 - Your translations and notes are kept on the iPad itself, separately from the laptop's
   `data/user.sqlite`. *Export* saves them as Markdown, JSON or a copy of the database.
 - The website is the same reader answered by the same `tools/serve.py`, run inside the browser

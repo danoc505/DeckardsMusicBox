@@ -54,9 +54,30 @@ function speakerFromLabel(label, names) {
 const NOVELTY = new Set(["Albert", "Bad News", "Bahh", "Bells", "Boing", "Bubbles", "Cellos", "Deranged", "Good News",
   "Hysterical", "Jester", "Organ", "Pipe Organ", "Superstar", "Trinoids", "Whisper", "Wobble", "Zarvox"]);
 function englishVoices() {
-  const vs = (synth() ? synth().getVoices() : []).filter((v) => /^en([-_]|$)/i.test(v.lang) && !NOVELTY.has(v.name));
+  const seen = new Set();
+  const vs = (synth() ? synth().getVoices() || [] : []).filter((v) => /^en([-_]|$)/i.test(v.lang) && !NOVELTY.has(v.name.replace(/ \(.*\)$/, ""))
+    && !seen.has(v.voiceURI) && seen.add(v.voiceURI));
   // A stable order, so that the same person gets the same voice each time.
   return vs.sort((a, b) => (a.name + "|" + a.lang).localeCompare(b.name + "|" + b.lang));
+}
+// Safari and Chrome hand over their voices a moment after the page opens (getVoices() is
+// empty at first): wait for them, up to a few seconds, before saying there are none.
+function whenVoices(ms = 4000) {
+  if (!listenAvailable() || englishVoices().length) return Promise.resolve(englishVoices());
+  return new Promise((ok) => {
+    const t0 = Date.now();
+    const tick = () => {
+      if (englishVoices().length || Date.now() - t0 > ms) return ok(englishVoices());
+      setTimeout(tick, 150);
+    };
+    tick();
+  });
+}
+// The name a person sees for a voice: Apple's "Daniel (Enhanced)" kept, its language said plainly.
+const LANGS = { "en-GB": "British", "en-US": "American", "en-AU": "Australian", "en-IE": "Irish", "en-IN": "Indian", "en-ZA": "South African", "en-NZ": "New Zealand", "en-SC": "Scottish", "en-CA": "Canadian" };
+function voiceLabel(v) {
+  const lang = LANGS[String(v.lang).replace("_", "-")] || v.lang;
+  return `${v.name} · ${lang}`;
 }
 // When there are fewer voices than persons, the same voice is used again at another pitch and pace.
 const VARIANTS = [{ pitch: 1, rate: 1 }, { pitch: 0.8, rate: 0.95 }, { pitch: 1.2, rate: 1.05 }, { pitch: 0.65, rate: 0.92 }, { pitch: 1.35, rate: 1.08 }];
@@ -101,7 +122,12 @@ function castWork(persons) {
   return cast;
 }
 
+// "One voice for everyone": every person is read in the narrator's voice.
+function oneVoice() {
+  try { return localStorage.getItem("pw.listen.one") === "1"; } catch (e) { return false; }
+}
 function voiceFor(person) {
+  if (oneVoice() && person !== NARRATOR) return voiceFor(NARRATOR);
   const cast = loadCast();
   const voices = englishVoices();
   if (!cast[person] && voices.length && LISTEN.persons_here) Object.assign(cast, castWork([...new Set([...LISTEN.persons_here, person])]));
@@ -119,11 +145,53 @@ function speed() {
 
 // ------------------------------------------------------------------ what is read
 
-// The paragraphs of the page in the first English translation shown, from a section
+// Which translation is read aloud: the one chosen (by kind: loeb, taylor, jowett) if this
+// dialogue has it, else the first one shown. One chosen that is not shown is put on the page,
+// so that the paragraph being read can be seen.
+function listenKind() {
+  try { return localStorage.getItem("pw.listen.ed") || ""; } catch (e) { return ""; }
+}
+function listenEdition() {
+  if (!state.work) return null;
+  const want = listenKind();
+  return (want && englishEditions().find((e) => transKind(e) === want)) || shownEditions()[0] || null;
+}
+function chooseListenEdition(kind) {
+  try { localStorage.setItem("pw.listen.ed", kind); } catch (e) { /* private window */ }
+  const p = transPrefs();
+  if (state.work && englishEditions().some((e) => transKind(e) === kind) && !p[kind]) {
+    p[kind] = true;
+    try { localStorage.setItem("pw.trans", JSON.stringify(p)); } catch (e) { /* ignore */ }
+    if (state.data && state.view === "read") { renderPage(); }
+  }
+  if (document.body.classList.contains("no-eng")) {
+    const box = document.querySelector('[data-layer="eng"]');
+    if (box) { box.checked = true; box.dispatchEvent(new Event("change", { bubbles: true })); }
+  }
+  renderListenEd();
+  // Reading already: go on in the other translation from the section being read.
+  if (LISTEN.on) {
+    const u = LISTEN.queue[LISTEN.i];
+    LISTEN.queue = buildQueue(u ? u.ref : sectionInView(), false);
+    LISTEN.i = 0; LISTEN.part = 0;
+    prepareCast();
+    if (!LISTEN.paused) speakNow();
+  }
+}
+function renderListenEd() {
+  const sel = $("#listen-ed");
+  if (!sel || !state.work) return;
+  const eds = englishEditions();
+  const cur = listenEdition();
+  sel.innerHTML = eds.map((e) => `<option value="${esc(transKind(e))}" ${cur && cur.id === e.id ? "selected" : ""}>${esc(e.label)}</option>`).join("");
+  sel.closest("label").hidden = eds.length < 2;
+}
+
+// The paragraphs of the page in the translation read aloud, from a section
 // on: one unit per paragraph (a paragraph cut by a section number is read whole).
 function buildQueue(fromRef, carried) {
   const d = state.data, w = state.work;
-  const ed = shownEditions()[0];
+  const ed = listenEdition();
   if (!d || !ed) return [];
   LISTEN.edition = ed.id;
   LISTEN.page = state.page;
@@ -179,16 +247,33 @@ function sectionInView() {
 
 function listenAvailable() { return "speechSynthesis" in window && typeof SpeechSynthesisUtterance === "function"; }
 
+// Say an utterance now. What is being said is stopped first, but only if something is:
+// Safari can drop a new utterance spoken straight after a needless cancel(). The utterance
+// is kept, or Safari and Chrome may forget it and never say that it ended.
+function say(ut) {
+  const s = synth();
+  if (s.speaking || s.pending) s.cancel();
+  if (s.paused && s.resume) s.resume();
+  LISTEN.current = ut;
+  s.speak(ut);
+}
+function hush() {
+  const s = synth();
+  if (s && (s.speaking || s.pending || s.paused)) s.cancel();
+}
+
 function startListening() {
-  if (!listenAvailable()) { alert("This browser cannot read aloud. Safari on the iPad, and Edge or Chrome on Windows, can."); return; }
-  if (state.view !== "read" || !state.data) { alert("Open a dialogue to listen to it."); return; }
+  const tell = (m) => (typeof toast === "function" ? toast(m) : alert(m));
+  if (!listenAvailable()) { tell("This browser cannot read aloud. Safari on the iPad, and Edge or Chrome on Windows, can."); return; }
+  if (state.view !== "read" || !state.data) { tell("Open a dialogue to listen to it."); return; }
   LISTEN.queue = buildQueue(sectionInView(), false);
-  if (!LISTEN.queue.length) { alert("There is no English on this page to read."); return; }
+  if (!LISTEN.queue.length) { tell("There is no English on this page to read."); return; }
   prepareCast();
   LISTEN.on = true; LISTEN.paused = false; LISTEN.i = 0; LISTEN.part = 0;
   document.body.classList.add("listening");
   $("#listen-btn").textContent = "■ Stop";
   $("#listen-bar").hidden = false;
+  renderListenEd();
   speakNow(); // inside the tap: the iPad speaks only when a tap starts it
 }
 
@@ -203,7 +288,7 @@ function prepareCast() {
 function speakNow() {
   if (state.page !== LISTEN.page || state.view !== "read") return stopListening();
   const gen = ++LISTEN.gen;
-  synth().cancel();
+  LISTEN.trying = null;
   const u = LISTEN.queue[LISTEN.i];
   if (!u) return nextPage();
   listenHighlight(u);
@@ -215,7 +300,7 @@ function speakNow() {
   ut.onend = () => { if (gen === LISTEN.gen && LISTEN.on && !LISTEN.paused) advance(); };
   ut.onerror = (e) => { if (gen === LISTEN.gen && LISTEN.on && !LISTEN.paused && e.error !== "interrupted" && e.error !== "canceled") advance(); };
   showWho(u, v);
-  synth().speak(ut);
+  say(ut);
 }
 
 function advance() {
@@ -251,7 +336,7 @@ function skip(by) {
 function togglePause() {
   if (!LISTEN.on) return;
   LISTEN.paused = !LISTEN.paused;
-  if (LISTEN.paused) { LISTEN.gen++; synth().cancel(); } else speakNow();
+  if (LISTEN.paused) { LISTEN.gen++; hush(); } else speakNow();
   pauseLabel();
 }
 function pauseLabel() {
@@ -263,7 +348,7 @@ function pauseLabel() {
 
 function stopListening() {
   LISTEN.on = false; LISTEN.paused = false; LISTEN.gen++;
-  if (listenAvailable()) synth().cancel();
+  if (listenAvailable()) hush();
   document.querySelectorAll("#main .speaking").forEach((e) => e.classList.remove("speaking"));
   document.body.classList.remove("listening");
   $("#listen-btn").textContent = "▶ Listen";
@@ -292,49 +377,154 @@ function showWho(u, v) {
 
 // ------------------------------------------------------------------ choosing voices
 
-function showVoices() {
-  if (!state.work) return;
-  if (!LISTEN.persons_here) { LISTEN.queue = buildQueue(null, false); prepareCast(); }
-  const voices = englishVoices();
-  const cast = loadCast();
-  const body = $("#voices-body");
-  if (!voices.length) {
-    body.innerHTML = `<p>This device has no English voices to choose from yet. On the iPad they are in Settings, Accessibility, Spoken Content, Voices.</p>`;
-  } else {
-    body.innerHTML = `<p class="meta">Each person keeps one voice in every dialogue. Choose another and it is remembered on this device.
-      ${voices.length < LISTEN.persons_here.length ? `This device has ${voices.length} English voice${voices.length === 1 ? "" : "s"}, so some are used again, higher or lower.` : ""}</p>
-      <table class="voices"><tbody>${LISTEN.persons_here.map((p) => {
-        const a = cast[p] || {};
-        const opts = voices.map((v) => `<option value="${esc(v.voiceURI)}" ${v.voiceURI === a.uri ? "selected" : ""}>${esc(v.name)} (${esc(v.lang)})</option>`).join("");
-        const pitch = VARIANTS.map((x, i) => `<option value="${i}" ${i === (a.variant || 0) ? "selected" : ""}>${["Natural", "Lower", "Higher", "Lowest", "Highest"][i]}</option>`).join("");
-        return `<tr data-person="${esc(p)}"><th>${esc(p === NARRATOR ? "Narrator" : p)}</th>
-          <td><select data-voice aria-label="Voice of ${esc(p)}">${opts}</select></td>
-          <td><select data-variant aria-label="Pitch of ${esc(p)}">${pitch}</select></td>
-          <td><button type="button" data-try class="link-btn">Try</button></td></tr>`;
-      }).join("")}</tbody></table>
-      <p class="meta">Who speaks is taken from the speakers named in the text. Where a narrator tells the whole dialogue (the Republic, told by Socrates; the Phaedo, told by Phaedo), the speeches inside the story are read in the narrator's voice, because the text does not mark who says them.</p>`;
+// The voices can be chosen at any time, not only while reading: open from the Voices
+// button by Listen, or from the player. Picking a voice says a line in it at once; Try
+// says it again. A line the person really speaks on this page is used where there is one.
+const PITCH_NAMES = ["Natural", "Lower", "Higher", "Lowest", "Highest"];
+function personsForVoices() {
+  if (state.work && state.data && state.view === "read") {
+    if (!LISTEN.on || !LISTEN.persons_here) { LISTEN.queue = LISTEN.on ? LISTEN.queue : buildQueue(null, false); prepareCast(); }
+    return LISTEN.persons_here;
   }
-  $("#voices-dialog").showModal();
+  return [...new Set([NARRATOR, ...Object.keys(loadCast())])];
+}
+
+function sampleFor(person) {
+  const units = (LISTEN.on && LISTEN.queue.length ? LISTEN.queue : (state.data && state.view === "read" ? buildQueue(null, false) : []));
+  const u = units.find((x) => x.person === person && x.parts && x.parts[0] && x.parts[0].length > 20);
+  const name = person === NARRATOR ? "the narrator" : person.replace(/ \(.*\)$/, "");
+  if (!u) return `This is the voice of ${name}.`;
+  let line = u.parts[0];
+  if (line.length > 180) line = line.slice(0, 180).replace(/\s+\S*$/, "") + "…";
+  return line;
+}
+
+async function showVoices() {
+  const body = $("#voices-body");
+  const dlg = $("#voices-dialog");
+  if (!listenAvailable()) {
+    body.innerHTML = `<p>This browser cannot read aloud. Safari on the iPad, and Edge or Chrome on Windows, can.</p>`;
+    if (!dlg.open) dlg.showModal();
+    return;
+  }
+  if (!englishVoices().length) {
+    body.innerHTML = `<p class="loading">Finding the voices on this device…</p>`;
+    if (!dlg.open) dlg.showModal();
+    await whenVoices();
+  }
+  renderVoices();
+  if (!dlg.open) dlg.showModal();
+}
+
+function renderVoices() {
+  const body = $("#voices-body");
+  const voices = englishVoices();
+  const persons = personsForVoices();
+  const cast = castWork(persons);
+  const one = oneVoice();
+  const eds = state.work && state.view === "read" ? englishEditions() : [];
+  const cur = listenEdition();
+  const rates = [...document.querySelectorAll("#listen-rate option")].map((o) => [o.value, o.textContent]);
+  const top = `<div class="voices-top">
+    ${eds.length > 1 ? `<label>Read aloud <select data-listen-ed aria-label="Translation read aloud">${eds.map((e) => `<option value="${esc(transKind(e))}" ${cur && cur.id === e.id ? "selected" : ""}>${esc(e.label)}</option>`).join("")}</select></label>` : ""}
+    <label>Speed <select id="voices-rate" aria-label="Speed">${rates.map(([v, t]) => `<option value="${v}" ${+v === speed() ? "selected" : ""}>${esc(t)}</option>`).join("")}</select></label>
+    <label class="voices-one"><input type="checkbox" id="voices-one" ${one ? "checked" : ""}> One voice for everyone</label>
+  </div>`;
+  if (!voices.length) {
+    body.innerHTML = top + `<p>This device has not offered any English voices. On the iPad they are in Settings › Accessibility › Spoken Content › Voices › English: download one or two (the “Enhanced” ones sound best), then come back and open Voices again.</p>
+      <p><button type="button" class="btn" id="voices-again">Look again</button></p>`;
+    return;
+  }
+  const row = (p) => {
+    const a = cast[p] || {};
+    const opts = voices.map((v) => `<option value="${esc(v.voiceURI)}" ${v.voiceURI === a.uri ? "selected" : ""}>${esc(voiceLabel(v))}</option>`).join("");
+    const pitch = VARIANTS.map((x, i) => `<option value="${i}" ${i === (a.variant || 0) ? "selected" : ""}>${PITCH_NAMES[i]}</option>`).join("");
+    const label = p === NARRATOR ? (one ? "Everyone" : "Narrator") : p;
+    return `<tr data-person="${esc(p)}"${LISTEN.trying === p ? ' class="trying"' : ""}><th scope="row">${esc(label)}</th>
+      <td><select data-voice aria-label="Voice of ${esc(label)}">${opts}</select></td>
+      <td><select data-variant aria-label="Pitch of ${esc(label)}">${pitch}</select></td>
+      <td><button type="button" data-try class="btn try-btn" aria-label="Try the voice of ${esc(label)}">${LISTEN.trying === p ? "■ Stop" : "▶ Try"}</button></td></tr>`;
+  };
+  const shown = one ? [NARRATOR] : persons;
+  body.innerHTML = top + `<p class="meta">${one ? "Every person is read in this one voice." : "Each person keeps one voice in every dialogue."} Pick a voice and you hear it at once; it is remembered on this device.
+      ${!one && voices.length < persons.length ? `This device has ${voices.length} English voice${voices.length === 1 ? "" : "s"}, so some are used again, higher or lower.` : ""}</p>
+    <div class="voices-scroll"><table class="voices"><thead><tr><th>Who</th><th>Voice</th><th>Pitch</th><th></th></tr></thead><tbody>${shown.map(row).join("")}</tbody></table></div>
+    <p class="meta">More voices: on the iPad, Settings › Accessibility › Spoken Content › Voices › English (the “Enhanced” and “Premium” ones sound best).
+      <button type="button" class="link-btn" id="voices-reset">Give everyone new voices</button></p>
+    <p class="meta">Who speaks is taken from the speakers named in the text. Where a narrator tells the whole dialogue (the Republic, told by Socrates; the Phaedo, told by Phaedo), the speeches inside the story are read in the narrator's voice, because the text does not mark who says them.</p>`;
+}
+
+// Say a line in a person's voice. Reading aloud is paused meanwhile, and goes on when the
+// Voices window is closed.
+function tryVoice(p) {
+  if (LISTEN.trying === p) { LISTEN.trying = null; hush(); markTrying(); return; }
+  if (LISTEN.on && !LISTEN.paused) { LISTEN.paused = true; LISTEN.gen++; LISTEN.resumeAfterVoices = true; pauseLabel(); }
+  const v = voiceFor(p);
+  const ut = new SpeechSynthesisUtterance(sampleFor(p));
+  if (v.voice) { ut.voice = v.voice; ut.lang = v.voice.lang; } else ut.lang = "en-GB";
+  ut.pitch = v.pitch;
+  ut.rate = Math.min(2, v.rate * speed());
+  LISTEN.trying = p;
+  const done = () => { if (LISTEN.trying === p && LISTEN.current === ut) { LISTEN.trying = null; markTrying(); } };
+  ut.onend = done;
+  ut.onerror = done;
+  say(ut);
+  markTrying();
+}
+function markTrying() {
+  document.querySelectorAll("#voices-body tr[data-person]").forEach((tr) => {
+    const on = tr.dataset.person === LISTEN.trying;
+    tr.classList.toggle("trying", on);
+    const b = tr.querySelector("[data-try]");
+    if (b) b.textContent = on ? "■ Stop" : "▶ Try";
+  });
+}
+
+document.getElementById("voices-dialog")?.addEventListener("close", () => {
+  if (LISTEN.trying) { LISTEN.trying = null; hush(); }
+  if (LISTEN.resumeAfterVoices) {
+    LISTEN.resumeAfterVoices = false;
+    if (LISTEN.on && LISTEN.paused) { LISTEN.paused = false; pauseLabel(); speakNow(); }
+  }
+});
+
+function setSpeed(v) {
+  try { localStorage.setItem("pw.listen.rate", v); } catch (e) { /* ignore */ }
+  const r = $("#listen-rate");
+  if (r) r.value = String(speed());
+  if (LISTEN.on && !LISTEN.paused) speakNow();
 }
 
 document.addEventListener("change", (ev) => {
-  const row = ev.target.closest && ev.target.closest("#voices-body tr[data-person]");
+  const t = ev.target;
+  const row = t.closest && t.closest("#voices-body tr[data-person]");
   if (row) {
     const cast = loadCast();
     const sel = row.querySelector("[data-voice]");
-    cast[row.dataset.person] = { uri: sel.value, name: sel.selectedOptions[0].textContent, variant: +row.querySelector("[data-variant]").value };
+    const p = row.dataset.person;
+    cast[p] = { uri: sel.value, name: (englishVoices().find((v) => v.voiceURI === sel.value) || {}).name || sel.selectedOptions[0].textContent, variant: +row.querySelector("[data-variant]").value };
     saveCast(cast);
+    if (LISTEN.stand) delete LISTEN.stand[p];
+    // Hear it at once: in the reading if this person is speaking now, else in a line of theirs.
+    const u = LISTEN.on && !LISTEN.paused && LISTEN.queue[LISTEN.i];
+    if (u && (u.person === p || (oneVoice() && p === NARRATOR))) speakNow();
+    else tryVoice(p);
     return;
   }
-  if (ev.target.id === "listen-rate") {
-    try { localStorage.setItem("pw.listen.rate", ev.target.value); } catch (e) { /* ignore */ }
+  if (t.id === "listen-rate" || t.id === "voices-rate") { setSpeed(t.value); return; }
+  if (t.id === "voices-one") {
+    try { localStorage.setItem("pw.listen.one", t.checked ? "1" : "0"); } catch (e) { /* ignore */ }
+    renderVoices();
     if (LISTEN.on && !LISTEN.paused) speakNow();
+    return;
   }
+  if (t.matches && (t.matches("[data-listen-ed]") || t.id === "listen-ed")) { chooseListenEdition(t.value); if (t.matches("[data-listen-ed]")) renderVoices(); }
 });
 
 document.addEventListener("click", (ev) => {
   if (!ev.target.closest) return;
   if (ev.target.closest("#listen-btn")) { LISTEN.on ? stopListening() : startListening(); return; }
+  if (ev.target.closest("#voices-btn")) { showVoices(); return; }
   const b = ev.target.closest("[data-listen]");
   if (b) {
     const k = b.dataset.listen;
@@ -346,15 +536,18 @@ document.addEventListener("click", (ev) => {
     return;
   }
   const t = ev.target.closest("#voices-body [data-try]");
-  if (t) {
-    const p = t.closest("tr").dataset.person;
-    if (LISTEN.on && !LISTEN.paused) togglePause();
-    const v = voiceFor(p);
-    synth().cancel();
-    const ut = new SpeechSynthesisUtterance(p === NARRATOR ? "I am the narrator." : `I am ${p.replace(/ \(.*\)$/, "")}.`);
-    if (v.voice) { ut.voice = v.voice; ut.lang = v.voice.lang; }
-    ut.pitch = v.pitch; ut.rate = v.rate * speed();
-    synth().speak(ut);
+  if (t) { tryVoice(t.closest("tr").dataset.person); return; }
+  if (ev.target.closest("#voices-reset")) { saveCast({}); LISTEN.stand = null; renderVoices(); return; }
+  if (ev.target.closest("#voices-again")) { showVoices(); return; }
+  // While reading, a tap on a paragraph of the translation being read goes on from there.
+  if (LISTEN.on && !ev.target.closest("a, button, sup, .tm-en, input, select, label, summary, details.raw")) {
+    const para = ev.target.closest(`#main .eng p[data-c]`);
+    const sel = window.getSelection && window.getSelection();
+    if (para && (!sel || sel.isCollapsed)) {
+      const id = para.dataset.c;
+      const i = LISTEN.queue.findIndex((u) => u.ids.some((x) => String(x) === id));
+      if (i >= 0) { LISTEN.i = i; LISTEN.part = 0; if (LISTEN.paused) { LISTEN.paused = false; pauseLabel(); } speakNow(); }
+    }
   }
 });
 
@@ -371,8 +564,11 @@ document.addEventListener("keydown", (ev) => {
 (async function initListen() {
   const rate = $("#listen-rate");
   if (rate) rate.value = String(speed());
-  if (!listenAvailable()) { const b = $("#listen-btn"); if (b) b.hidden = true; return; }
+  if (!listenAvailable()) { const b = $("#listen-btn"); if (b) b.hidden = true; const v = $("#voices-btn"); if (v) v.hidden = true; return; }
   synth().getVoices(); // Chrome and Edge load their voices after the first ask
-  synth().addEventListener?.("voiceschanged", () => { if (LISTEN.persons_here) castWork(LISTEN.persons_here); });
+  synth().addEventListener?.("voiceschanged", () => {
+    if (LISTEN.persons_here) castWork(LISTEN.persons_here);
+    if ($("#voices-dialog")?.open && !LISTEN.trying) renderVoices();
+  });
   try { LISTEN.persons = await api("people"); } catch (e) { LISTEN.persons = {}; }
 })();

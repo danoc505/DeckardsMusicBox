@@ -90,6 +90,7 @@ async function start() {
 }
 
 const ready = start();
+ready.catch((e) => console.error("Workshop could not start:", e));
 
 self.onmessage = async (ev) => {
   const { id, method, path, headers, body } = ev.data;

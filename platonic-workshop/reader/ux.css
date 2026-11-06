@@ -1,0 +1,180 @@
+/* The Workshop made easier to use, above all on the iPad: a shorter bar over the text,
+   the Show menu, Choose what to read, side columns that fold away, the Voices window,
+   and notes that go by themselves. Loaded after reader.css (and the website's touch.css). */
+
+/* ---------------------------------------------------------- the bar: fewer rows */
+.bar-read { flex-wrap: wrap; gap: 6px 12px; }
+.bar-title { flex: 0 1 auto; min-width: 0; align-items: center; }
+.text-btn {
+  display: inline-flex; align-items: baseline; gap: 6px; max-width: 100%;
+  font: 600 19px var(--serif); color: var(--ink); background: var(--paper);
+  border: 1px solid var(--faint); border-radius: 8px; padding: 5px 12px; cursor: pointer; min-height: 40px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.text-btn:hover, .text-btn:focus-visible { border-color: var(--accent); outline: none; }
+.text-btn-k { font: 600 11px var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.text-btn [aria-hidden] { font-size: 13px; color: var(--accent); }
+.work-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+@media (max-width: 1365px) { .work-sub { display: none; } }
+.layers { align-items: center; gap: 6px; }
+.layers > .search-btn, .show-menu > summary { min-height: 36px; display: inline-flex; align-items: center; gap: 4px; }
+
+/* nav: one line that scrolls sideways rather than wrapping onto a second */
+@media (max-width: 1365px) {
+  .bar-top { flex-wrap: wrap; }
+  .find-form { flex: 1 1 200px; }
+  .bar, .bar-top, .bar-read { max-width: 100%; min-width: 0; }
+  nav.primary { min-width: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; max-width: 100%; flex: 1 1 400px; }
+  nav.primary::-webkit-scrollbar { display: none; }
+}
+
+/* ---------------------------------------------------------- the Show menu */
+.show-menu { position: relative; }
+.show-menu > summary { list-style: none; cursor: pointer; user-select: none; }
+.show-menu > summary::-webkit-details-marker { display: none; }
+.show-menu[open] > summary { background: var(--accent); color: var(--panel); }
+.show-pop {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 40; width: min(330px, calc(100vw - 24px));
+  background: var(--panel); color: var(--ink); border: 1px solid var(--rule); border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .18); padding: 8px 6px; font: 14px var(--sans);
+}
+.show-pop-h { display: flex; align-items: center; justify-content: space-between; padding: 2px 10px 6px; }
+.show-pop label { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: center; padding: 8px 10px; border-radius: 6px; cursor: pointer; white-space: normal; color: var(--ink); }
+.show-pop label:hover { background: var(--accent-soft); }
+.show-pop label small { grid-column: 2; color: var(--muted); font-size: 12px; }
+.show-pop input[type="checkbox"] { grid-row: span 2; width: 20px; height: 20px; margin: 0; accent-color: var(--accent); }
+.show-pop-foot { margin: 6px 10px 2px; padding-top: 8px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
+.show-pop-foot .link-btn { padding: 6px 0; }
+
+/* ---------------------------------------------------------- side columns that fold away */
+.side-tab {
+  display: none; position: fixed; top: calc(var(--bar-h, 54px) + (100vh - var(--bar-h, 54px)) / 2); transform: translateY(-50%);
+  z-index: 9; min-width: 26px; min-height: 64px; padding: 6px 4px; cursor: pointer;
+  font: 600 13px var(--sans); color: var(--accent); background: var(--panel);
+  border: 1px solid var(--faint); box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+}
+.side-tab:hover, .side-tab:focus-visible { background: var(--accent-soft); outline: none; }
+.side-tab-toc { left: calc(var(--toc-w, 170px) - 13px); border-radius: 8px; }
+.side-tab-insp { right: calc(var(--insp-w, 390px) - 13px); border-radius: 8px; }
+body.toc-hidden .side-tab-toc { left: 0; border-left: 0; border-radius: 0 8px 8px 0; writing-mode: vertical-rl; padding: 12px 6px; }
+body.panel-hidden .side-tab-insp { right: 0; border-right: 0; border-radius: 8px 0 0 8px; writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); padding: 12px 6px; }
+@media (min-width: 1151px) {
+  .side-tab-toc { display: block; }
+  body.toc-hidden .toc, body.toc-hidden .resizer-toc { display: none; }
+  body.toc-hidden .shell { grid-template-columns: minmax(0, 1fr) var(--insp-w, 390px); }
+  body.panel-hidden .shell { grid-template-columns: var(--toc-w, 170px) minmax(0, 1fr); }
+  body.toc-hidden.panel-hidden .shell,
+  body.toc-hidden:is(.reconcile-view, .find-view, .library-view, .dict-view, .mine-view) .shell { grid-template-columns: minmax(0, 1fr); }
+  body.panel-hidden:is(.reconcile-view, .find-view, .library-view, .dict-view, .mine-view):not(.toc-hidden) .shell { grid-template-columns: var(--toc-w, 170px) minmax(0, 1fr); }
+}
+@media (min-width: 861px) {
+  .side-tab-insp { display: block; }
+  body.panel-hidden .inspector, body.panel-hidden .resizer-insp { display: none; }
+  body:is(.reconcile-view, .find-view, .library-view, .dict-view, .mine-view) .side-tab-insp { display: none; }
+}
+@media (min-width: 861px) and (max-width: 1150px) {
+  .side-tab-insp { right: calc(var(--insp-w, 360px) - 13px); }
+  body.panel-hidden .shell { grid-template-columns: minmax(0, 1fr); }
+}
+/* Folded away, the text takes the room: keep the line of English a comfortable length. */
+body.toc-hidden.panel-hidden #main { padding-left: 44px; padding-right: 44px; }
+@media (max-width: 1150px) { body.panel-hidden #main { padding-right: 40px; } }
+
+.panel-hide {
+  margin-left: 4px; font: 600 12px var(--sans); padding: 6px 10px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--faint); background: var(--paper); color: var(--ink); min-height: 32px;
+}
+.panel-hide:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 860px) {
+  /* The panel is a sheet over the foot of the page here (it had come to sit under the bar,
+     over the very words tapped): a handle to see that it can go. */
+  .inspector { top: auto; bottom: 0; height: auto; max-height: 55vh; border-radius: 14px 14px 0 0; overflow-x: hidden; padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+  .inspector .panel-tabs { padding-top: 14px; }
+  .inspector .panel-tabs::before { content: ""; position: absolute; top: 5px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: var(--faint); }
+}
+/* The tabs, the ? and Hide on one line: the tabs scroll sideways if the panel is narrow. */
+.panel-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.panel-tabs::-webkit-scrollbar { display: none; }
+.panel-tabs { gap: 0; }
+.panel-tabs [data-pane] { white-space: nowrap; padding: 6px 6px; flex: none; }
+.panel-hide { flex: none; position: sticky; right: 0; box-shadow: -8px 0 8px var(--panel); }
+@media (pointer: coarse) {
+  .panel-tabs [data-pane] { padding: 10px 5px; }
+  .panel-hide { min-height: 36px; padding: 6px 10px; }
+}
+.panel-tabs .help-q + .panel-hide { margin-left: 2px; }
+
+/* ---------------------------------------------------------- Choose what to read */
+.text-dialog { max-width: min(860px, calc(100vw - 24px)); }
+.text-dialog h3 { font: 600 12px var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 8px; }
+.tp-tools { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.tp-tools input[type="search"] {
+  flex: 1 1 220px; font: 16px var(--sans); padding: 8px 12px; border: 1px solid var(--faint); border-radius: 8px; background: var(--paper); color: var(--ink);
+}
+.tp-tools .order-pick { font-size: 13px; color: var(--muted); }
+.tp-tools select { font: 14px var(--sans); }
+.tp-works { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.tp-work {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; cursor: pointer;
+  padding: 10px 12px; min-height: 64px; border-radius: 8px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink);
+}
+.tp-work:hover, .tp-work:focus-visible { border-color: var(--accent); outline: none; }
+.tp-work b { font: 600 16px var(--serif); }
+.tp-n { color: var(--muted); font: 13px var(--sans); }
+.tp-role { font: 12px var(--sans); color: var(--muted); }
+.tp-at { font: 600 11px var(--sans); color: var(--accent); margin-top: auto; padding-top: 2px; }
+.tp-work.here { border-color: var(--accent); background: var(--accent-soft); }
+.tp-page { border: 1px solid var(--rule); border-radius: 10px; padding: 2px 14px 12px; background: var(--paper); }
+.tp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.tp-chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; min-height: 42px; border-radius: 8px;
+  border: 1px solid var(--faint); background: var(--panel); cursor: pointer; font: 14px var(--sans);
+}
+.tp-chip small { color: var(--muted); font-size: 12px; }
+.tp-chip input { width: 20px; height: 20px; margin: 0; accent-color: var(--accent); }
+.tp-listen { display: inline-flex; gap: 8px; align-items: center; margin-top: 10px; font: 14px var(--sans); }
+.tp-listen select, .voices-top select { font: 15px var(--sans); min-height: 36px; }
+
+/* ---------------------------------------------------------- Voices */
+#voices-dialog { max-width: min(680px, calc(100vw - 24px)); }
+.voices-top { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 8px 0 10px; border-bottom: 1px solid var(--rule); margin-bottom: 8px; }
+.voices-top label { display: inline-flex; gap: 8px; align-items: center; }
+.voices-one input { width: 20px; height: 20px; accent-color: var(--accent); }
+.voices-scroll { max-height: 52vh; overflow-y: auto; }
+table.voices thead th { font: 600 11px var(--sans); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); text-align: left; padding: 4px; }
+table.voices tbody tr { border-top: 1px solid var(--rule); }
+table.voices tr.trying { background: var(--accent-soft); }
+table.voices select { min-height: 36px; font-size: 15px; max-width: 100%; }
+table.voices td:nth-child(2) { width: 50%; }
+.try-btn { white-space: nowrap; min-height: 36px; min-width: 76px; font-weight: 600; }
+@media (max-width: 600px) {
+  table.voices thead { display: none; }
+  table.voices tr { display: grid; grid-template-columns: 1fr auto; gap: 4px; padding: 6px 0; }
+  table.voices th { grid-column: 1 / -1; }
+  table.voices td:nth-child(2) { width: auto; }
+}
+
+/* the player: which translation is read */
+.listen-ed { display: inline-flex; align-items: center; gap: 4px; padding: 0 4px; }
+.listen-ed[hidden] { display: none; }
+.listen-ed select { font: inherit; min-height: 34px; max-width: 16ch; }
+body.listening #main .eng p[data-c] { cursor: pointer; }
+
+/* ---------------------------------------------------------- notes that go by themselves */
+.toast {
+  position: fixed; left: 50%; bottom: max(80px, calc(env(safe-area-inset-bottom) + 70px)); transform: translate(-50%, 20px);
+  z-index: 60; max-width: min(520px, calc(100vw - 32px)); padding: 10px 16px; border-radius: 10px;
+  background: var(--ink); color: var(--paper); font: 14px var(--sans); box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
+  opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s;
+}
+.toast.on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.load-failed { padding: 30px 0; font-family: var(--sans); }
+.load-failed .error { padding: 0 0 8px; }
+.load-failed .btn { font-size: 15px; min-height: 40px; padding: 6px 18px; }
+
+/* ---------------------------------------------------------- dialogs on the iPad */
+@media (pointer: coarse) {
+  dialog .close { min-width: 44px; min-height: 44px; font-size: 26px; }
+  .text-btn { min-height: 44px; }
+}
+dialog { max-height: calc(100vh - 32px); overflow-y: auto; }
