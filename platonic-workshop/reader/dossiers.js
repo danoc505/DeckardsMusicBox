@@ -123,7 +123,7 @@ function renderDossier() {
   h += dsec("cited", "Cited elsewhere", renderCited(d), "Notes anywhere in the library that cite a section of the passage, or one of its pages (the citation web).");
   h += dsec("named", "Named elsewhere", renderNamed(d), d.keywords ? `Found by rule: notes that use one of the words “${esc([...(d.keywords.en || []), ...(d.keywords.grc || [])].join("”, “"))}”. Read each: a word can be used of something else.` : "");
   h += dsec("context", "Concepts, myths and printed divisions", renderContext(d), "");
-  h += dsec("vocab", "Its vocabulary", renderVocab(d), "GLAUx's lemmas (machine-tagged). Words that occur only here in all of Plato, and words far more frequent here than in Plato as a whole.");
+  h += dsec("vocab", "Its vocabulary", renderVocab(d), "By dictionary form, as the GLAUx program marks them. Words that occur only here in all of Plato, and words far more frequent here than in Plato as a whole.");
   h += dsec("web", "Open resources", renderWeb(d), "Each page was fetched by <code>tools/webcheck.py</code> and the words quoted from it looked for on it; the date is when.");
   h += dsec("mine", "Your work on it", renderDossMine(d), "");
   $("#main").innerHTML = h + `</div>`;

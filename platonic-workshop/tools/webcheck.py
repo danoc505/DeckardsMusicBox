@@ -5,6 +5,7 @@ for the words the dossier quotes from it.
     python3 tools/webcheck.py              # check every link in the dossiers (sources/dossiers/)
     python3 tools/webcheck.py --only cave  # one dossier
     python3 tools/webcheck.py --show URL   # print a page's text (to choose a quotation)
+    python3 tools/webcheck.py --words      # the web pages the Workshop's own words rest on (milestone 16)
 
 Every link a dossier makes to a web page (the Stanford and Internet
 Encyclopedias of Philosophy, Wikipedia, Perseus, Wiktionary...) carries a
@@ -113,13 +114,46 @@ def check(only=None, refresh=False):
     return bad
 
 
+WORDS = ROOT / "sources" / "structure" / "workshop-words.json"
+WORDS_CHECKS = ROOT / "sources" / "structure" / "workshop-words-checks.json"
+
+
+def check_words(refresh=False):
+    """Milestone 16: the web pages quoted in sources/structure/workshop-words.json."""
+    d = json.loads(WORDS.read_text(encoding="utf-8"))
+    todo = {}
+    for w in d["words"]:
+        for s in w["sources"]:
+            if s.get("url"):
+                todo.setdefault(s["url"], set()).add(s["quote"])
+    pages, bad = {}, []
+    for url, quotes in sorted(todo.items()):
+        status, body = fetch(url, refresh)
+        text = norm(page_text(body)) if body else ""
+        pages[url] = {"checked": time.strftime("%Y-%m-%d"), "status": status,
+                      "sha256": hashlib.sha256(text.encode()).hexdigest() if text else None,
+                      "quotes": {q: (norm(q) in text) for q in sorted(quotes)}}
+        bad += [f"{url} [{status}]: «{q}»" for q, ok in pages[url]["quotes"].items() if not ok]
+        print(f"{status} {url}: {sum(pages[url]['quotes'].values())}/{len(quotes)}", flush=True)
+    out = {"about": "Written by tools/webcheck.py --words: for each web page the Workshop's own words quote "
+                    "(sources/structure/workshop-words.json), when it was fetched, the HTTP status, a SHA-256 of its text, "
+                    "and whether each quotation was found there.", "pages": pages}
+    WORDS_CHECKS.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    if bad:
+        print("\nNot found:\n" + "\n".join(bad))
+    return bad
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--only")
     ap.add_argument("--refresh", action="store_true", help="fetch again even if cached")
     ap.add_argument("--show", help="print the text of a page")
     ap.add_argument("--grep", help="with --show: only lines matching this (case-insensitive)")
+    ap.add_argument("--words", action="store_true", help="check the pages the Workshop's own words quote")
     a = ap.parse_args()
+    if a.words:
+        sys.exit(1 if check_words(a.refresh) else 0)
     if a.show:
         status, body = fetch(a.show, a.refresh)
         t = page_text(body)

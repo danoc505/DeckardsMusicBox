@@ -296,7 +296,7 @@ function renderPage() {
   const lastPara = {};
   const idx = MINE.idx = mineIndex(d);
   indexCommentary(d);
-  let html = `<div class="page-head"><h1>${d.page}</h1><span>Stephanus page ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
+  let html = `<div class="page-head"><h1>${d.page}</h1><span><span class="term" title="Stephanus numbers: the page and part of the page in the edition of Plato printed in 1578, used by every book on Plato">Stephanus page</span> ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
   html += renderTransBar();
   html += renderCommBar();
   if (!d.mine.length) html += `<p class="page-note mine-note">Your work: select Greek words to translate them or write a footnote, or use <em>Write on</em> under a section for the whole of it.</p>`;
@@ -321,7 +321,7 @@ function renderPage() {
       return `<div class="eng" lang="en" data-ed="${esc(e.id)}" data-label="${esc(e.label)}">${before}${body}</div>`;
     }).join("");
     html += `<section class="sec" id="s-${s.ref}" data-ref="${s.ref}">
-      <button class="ref" data-copy="${esc(s.urn)}" title="${esc(s.urn)} (click to copy)">${s.ref}</button>
+      <button class="ref" data-copy="${esc(s.urn)}" title="Section ${s.ref}: a Stephanus number, the page and part of the page in the 1578 edition. Tap to copy its full address (${esc(s.urn)})">${s.ref}</button>
       <div class="grc" lang="grc">${grc}</div>
       ${eng}
       <div class="app">${renderApparatus(s, d, numbers)}</div>
@@ -368,7 +368,7 @@ function renderToc() {
       return `<li class="${here ? "here" : ""}"><a href="${esc(placeHash(WORK, b.start_ref))}" title="${esc(b.basis)}"><span>${esc(b.label)}</span><span>${esc(b.start_ref)}–${esc(b.end_ref)}</span></a></li>`;
     }).join("")}</ul>`;
   }
-  html += `<h3>Stephanus pages</h3><div class="pages">${pages.map((p) => `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
+  html += `<h3 title="Stephanus pages: the pages of the 1578 edition of Plato, which every book on Plato uses">Pages</h3><div class="pages">${pages.map((p) => `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
   // Speeches: collapse the opening exchanges into one line per long speech.
   const seq = new Map(w.sections.map((r, i) => [r, i]));
   const merged = [];
@@ -405,32 +405,32 @@ async function inspect(id) {
   const g = t.sources["glaux-plato"], mo = t.sources["morpheus-analyses"];
   let html = `<button class="insp-close" aria-label="Close" title="Close (Esc)">×</button>
     <div class="insp-form" lang="grc">${esc(t.form)}</div>
-    <div class="insp-addr" title="CTS address of this word">${esc(t.address)}</div>`;
+    <div class="insp-addr" title="This word's address in the Perseus catalogue of texts (a CTS address)">${esc(t.address)}</div>`;
   if (state.view === "read") html += renderMineForWord(id) + commForWord(id);
   if (t.tags.length) {
     const split = t.tags.length > 1;
-    html += `<div class="box tagged"><h3>Tagged <span class="badge">machine</span></h3>`;
+    html += `<div class="box tagged"><h3><span title="Scholars: the lemma and parse">Dictionary form and grammar</span> <span class="badge" title="Chosen by a computer program (GLAUx), not checked by hand">machine</span></h3>`;
     for (const tag of t.tags) {
-      html += `<div><span class="lemma" lang="grc">${esc(tag.lemma)}</span>${split ? ` <span class="meta">(part ${tag.part + 1}: <span lang="grc">${esc(tag.source_form)}</span>)</span>` : ""}</div>
+      html += `<div><span class="lemma" lang="grc" title="Dictionary form (scholars: lemma)">${esc(tag.lemma)}</span>${split ? ` <span class="meta">(part ${tag.part + 1}: <span lang="grc">${esc(tag.source_form)}</span>)</span>` : ""}</div>
         <dl class="feat">${tag.features.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}
         ${tag.relation ? `<dt>role in sentence</dt><dd>${esc(tag.relation)}</dd>` : ""}</dl>`;
     }
     const t0 = t.tags[0];
-    html += `<p class="prov">GLAUx's single choice, made by a statistical tagger (${t0.analysis === "auto" ? "not hand-checked" : "hand-checked"}). Matched to this word by ${esc(t0.align_method)}.
-      ${t.elsewhere_in_work ? `This lemma is tagged ${t.elsewhere_in_work}× in the ${esc((workById(t.work_id) || {}).title)}.` : ""}</p></div>`;
+    html += `<p class="prov">The single choice of GLAUx, a computer program that marks every word's dictionary form and grammar (${t0.analysis === "auto" ? "not checked by hand" : "checked by hand"}). Matched to this word by ${esc(t0.align_method)}.
+      ${t.elsewhere_in_work ? `This dictionary form occurs ${t.elsewhere_in_work}× in the ${esc((workById(t.work_id) || {}).title)}.` : ""}</p></div>`;
   } else {
-    html += `<div class="box none"><h3>Not tagged</h3>GLAUx has no word that lines up with this one${/^\[|\]$/.test(t.form) ? "" : " (often a word Burnet brackets as spurious, which GLAUx leaves out)"}. The parses below are still every possibility.</div>`;
+    html += `<div class="box none"><h3 title="Scholars: not tagged">No grammar marked</h3>The GLAUx program has no word that lines up with this one${/^\[|\]$/.test(t.form) ? "" : " (often a word Burnet brackets as not Plato's, which GLAUx leaves out)"}. The list below still gives every grammar this spelling could have.</div>`;
   }
   html += renderElsewhere(t);
   html += renderConceptsForWord(t);
   html += renderGrammar(t);
   html += `<div class="box dict" id="dict"></div>`;
   if (t.morph.length) {
-    html += `<div class="box alts"><h3>Every possible parse <span class="badge warn">rule-based</span></h3><ol>${t.morph.map((m) =>
-      `<li class="${m.matches_tag ? "agree" : ""}">${m.has_entry ? `<a class="l lk" lang="grc" data-lemma="${esc(m.lemma)}" title="Show the dictionary entry for ${esc(m.lemma)}">${esc(m.lemma)}</a>` : `<span class="l" lang="grc">${esc(m.lemma)}</span>`}${m.gloss ? ` <span class="g">${esc(m.gloss)}</span>` : ""}<br>${esc(m.parse)}${m.matches_tag ? ` <span class="agree-mark">· the tagger's choice</span>` : m.same_lemma_as_tag ? ` <span class="meta">· same lemma, other parse</span>` : ""}</li>`
-    ).join("")}</ol><p class="prov">From the Morpheus analyser's table (key <code>${esc(t.morph_key)}</code>). No statistics: these are all the forms this spelling can be. Click a lemma for its dictionary entry.</p></div>`;
+    html += `<div class="box alts"><h3><span title="Scholars: every possible parse">Every possible grammar of this spelling</span> <span class="badge warn" title="Listed by fixed rules (the Morpheus program), not by a choice">rule-based</span></h3><ol>${t.morph.map((m) =>
+      `<li class="${m.matches_tag ? "agree" : ""}">${m.has_entry ? `<a class="l lk" lang="grc" data-lemma="${esc(m.lemma)}" title="The dictionary entry for ${esc(m.lemma)}">${esc(m.lemma)}</a>` : `<span class="l" lang="grc">${esc(m.lemma)}</span>`}${m.gloss ? ` <span class="g">${esc(m.gloss)}</span>` : ""}<br>${esc(m.parse)}${m.matches_tag ? ` <span class="agree-mark">· the tagger's choice</span>` : m.same_lemma_as_tag ? ` <span class="meta">· same lemma, other parse</span>` : ""}</li>`
+    ).join("")}</ol><p class="prov">From the table of the Morpheus program, which lists by rule every form a spelling can be (key <code>${esc(t.morph_key)}</code>). Tap a dictionary form for its entry.</p></div>`;
   } else {
-    html += `<div class="box alts"><h3>Every possible parse</h3><p class="prov">Morpheus has no entry for this spelling.</p></div>`;
+    html += `<div class="box alts"><h3 title="Scholars: every possible parse">Every possible grammar of this spelling</h3><p class="prov">The Morpheus program has no entry for this spelling.</p></div>`;
   }
   html += `<details class="prov"><summary>Sources for this word</summary>${
     ["glaux-plato", "morpheus-analyses", "middle-liddell", "lsj", "lsj-abbreviations", "smyth-grammar", "agdt-guidelines"].map((k) => t.sources[k]).filter(Boolean).map((s) =>
@@ -440,7 +440,7 @@ async function inspect(id) {
   state.token = t;
   const first = t.lookup[0];
   if (first) showDict(first, true);
-  else $("#dict").innerHTML = `<h3>Dictionary</h3><p class="prov">No tagged lemma to look up. Click a lemma under <em>Every possible parse</em>.</p>`;
+  else $("#dict").innerHTML = `<h3>Dictionary</h3><p class="prov">No dictionary form was chosen for this word. Tap one under <em>Every possible grammar</em>.</p>`;
 }
 
 // ------------------------------------------------------------------ grammar notes
@@ -470,13 +470,13 @@ function renderGrammar(t) {
     }
     if (g.role) {
       const r = g.role, lab = r.label;
-      html += `<li><details><summary><b>${esc(lab && lab.name ? lab.name : r.code)}</b> <span class="meta">role in sentence · ${esc(r.code)}</span></summary>${
+      html += `<li><details><summary><b>${esc(lab && lab.name ? lab.name : r.code)}</b> <span class="meta">role in the sentence · ${esc(r.code)}</span></summary>${
         lab ? `<p>${lab.definition_html}</p>` : `<p class="prov">The treebank guidelines do not describe the label ${esc(r.code)}; it is GLAUx's own.</p>`}${
-        r.suffix ? `<p>${r.suffix.definition_html}</p>` : ""}<p class="prov">Ancient Greek Dependency Treebank guidelines 2.0, the scheme GLAUx follows. The role was assigned by the same statistical tagger as the parse.</p></details></li>`;
+        r.suffix ? `<p>${r.suffix.definition_html}</p>` : ""}<p class="prov">Ancient Greek Dependency Treebank guidelines 2.0, the scheme GLAUx follows. The role was chosen by the same program as the grammar.</p></details></li>`;
     }
     html += `</ul>`;
   }
-  return html + `<p class="prov">The parse is the tagger's; each explanation is Smyth's own words, or the treebank guidelines'. Click a line to open it.</p></div>`;
+  return html + `<p class="prov">The grammar is the GLAUx program's choice; each explanation is in Smyth's own words, or the treebank guidelines'. Tap a line to open it.</p></div>`;
 }
 
 // ------------------------------------------------------------------ dictionary
@@ -527,7 +527,7 @@ function showDict(data, isTagged, forceLex) {
   }
   const expanded = p.expand !== false;
   box.innerHTML = `<h3>Dictionary <span class="badge quoted">printed</span></h3>
-    <div class="dict-head"><span class="lemma" lang="grc">${esc(data.lemma)}</span>${isTagged ? ` <span class="meta">tagged lemma</span>` : state.token && state.token.lookup[0] ? ` <a class="back lk" data-lemma="${esc(state.token.lookup[0].lemma)}" data-tagged="1">back to the tagged lemma</a>` : ""}</div>
+    <div class="dict-head"><span class="lemma" lang="grc">${esc(data.lemma)}</span>${isTagged ? ` <span class="meta" title="Scholars: the tagged lemma">the dictionary form chosen</span>` : state.token && state.token.lookup[0] ? ` <a class="back lk" data-lemma="${esc(state.token.lookup[0].lemma)}" data-tagged="1">back to the dictionary form chosen</a>` : ""}</div>
     <div class="tabs">${tabs}</div>
     <label class="ab-toggle"><input type="checkbox" id="ab-expand" ${expanded ? "checked" : ""}> Expand abbreviations</label>
     ${switched}<div class="entries${expanded ? " expanded" : ""}">${body}</div>
@@ -566,7 +566,7 @@ function closeInspector() {
   highlightSpan(null);
   document.querySelectorAll(".w.sel").forEach((e) => e.classList.remove("sel"));
   document.body.classList.remove("inspecting");
-  $("#inspector").innerHTML = `<div class="inspector-empty"><p><strong>Click any Greek word</strong> for its lemma, parse, grammar notes and dictionary entry.</p></div>`;
+  $("#inspector").innerHTML = `<div class="inspector-empty"><p><strong>Tap any Greek word</strong> for its dictionary form, its grammar in plain English and its dictionary entry.</p></div>`;
 }
 
 // ------------------------------------------------------------------ sources dialog

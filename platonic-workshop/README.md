@@ -212,6 +212,22 @@ without an entry there. What is still untranslated is said there: the Greek scho
 
 ![Tap a Greek word: νυκτερίδων in the Prolegomena, beside the Workshop's English](docs/reader-m15-gloss.png)
 
+**Milestone 16, plain words and help everywhere: done.** *? Help* at the top of every page, and a small ? beside every
+panel (the word box, the dictionary, the translations, the commentaries, the links, your work, the contents, Show, Listen),
+says in two sentences what it is for and what to tap, and names the Workshop's own words it uses. *Words used in the
+Workshop* (`#words`, linked from every ? and from the Glossary and Start here) explains 23 of them in plain English
+(Stephanus, Burnet, Loeb, Taylor, Jowett, LSJ, Middle Liddell, GLAUx, Morpheus, Smyth, Perseus, Beta Code, concordance,
+scholia, skopos, tetralogy, the Platonist order, commentary, OCR, ≈ and the rest), each explanation labelled as the
+Workshop's own and resting on quoted sources: a file in this folder, the source's own record in the manifest, or a web page
+that `tools/webcheck.py --words` fetches and checks (`sources/structure/workshop-words.json`, `-checks.json`). Jargon
+in the interface is renamed, with the scholar's name kept on hover: *dictionary form* (lemma), *grammar* (parse),
+*Show* (layers), *Words without grammar* (untagged words); Stephanus numbers are explained on hover where they appear.
+Every view was walked at iPad sizes (1024×768 and 768×1024, and the iPad Air's 1180×820 and 820×1180) with Playwright;
+below 1150px the left contents column, which was simply hidden, now opens from *☰ Contents* at the top left.
+Tests in `tests/test_help.py`.
+
+![? Help on the Republic, with the Workshop's words it uses](docs/reader-m16-help.png)
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:
@@ -886,7 +902,8 @@ sources/          what we use and where it comes from (committed)
   adam-1902/, england-1921/, burnet-1911/, bury-1909/, archer-hind-1883/, campbell-1883/, campbell-1867/,
   jowett-campbell-1894/, lodge-1896/  Internet Archive OCR of the commentaries of milestone 11, as received
   structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos;
-                  people.json: which speaker names are one person, for the voices of milestone 14
+                  people.json: which speaker names are one person, for the voices of milestone 14;
+                  workshop-words.json: the Workshop's own words in plain English and the help behind every ? (milestone 16)
   concepts/       the concept index of milestone 10 (concepts.json, sources.json)
   reconcile/      the reconciliations of milestone 12: tensions.json, methods.json, sources.json, web-checks.json
   taylor-gutenberg/  Taylor's Proclus' Theology, Porphyry and Taurus from Project Gutenberg, as received
@@ -914,12 +931,14 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   scholia.py and concepts.py (the concept index, milestone 10),
                   commentary_corpus.py (the commentaries across Plato, milestone 11),
                   reconcile.py and fetch_reconcile.py (the reconciliations, milestone 12), find.py (the search box),
-                  gloss.py and greek_audit.py (the meaning of any Greek word, and the audit of milestone 15)
+                  gloss.py and greek_audit.py (the meaning of any Greek word, and the audit of milestone 15),
+                  webcheck.py --words (the web pages the Workshop's own words quote, milestone 16)
 workshop.py       one command: download, build if needed, serve
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
                   commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,
                   concepts.js the concept index, commentaries.js the list of every commentary,
-                  reconcile.js the reconciliations and worksheets, shell.js the navigation, the search box, themes and panels
+                  reconcile.js the reconciliations and worksheets, shell.js the navigation, the search box, themes and panels,
+                  help.js the ? help, Words used in the Workshop and the Contents button (milestone 16)
                   dossiers.py and webcheck.py (the passage dossiers and their web checks)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
                   commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,

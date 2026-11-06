@@ -1,0 +1,271 @@
+{
+  "_comment": "Milestone 16: the Workshop's own words, and the help behind every '?'. 'words': each word the Workshop's pages use that a reader new to Plato may not know, with 'plain' (the Workshop's own explanation, labelled as such in the reader) and the sources it rests on, each with a quotation: 'file' (a file in this folder; tests/test_help.py looks for the quotation there, whitespace and the long s normalised), 'manifest' (the source's own record in sources/manifest.json, quoted from its title or provenance), or 'url' (a web page; tools/webcheck.py --words fetches it and records in sources/structure/workshop-words-checks.json whether the words are there). 'scholarly' is the name a scholar uses, kept in the reader's tooltips. 'help': for every view and panel, what it is for and what to tap, in two sentences, with the words it uses.",
+  "plain_label": "In plain words (the Workshop's own explanation)",
+  "words": [
+    {
+      "id": "stephanus",
+      "term": "Stephanus numbers",
+      "scholarly": "Stephanus pagination",
+      "plain": "The numbers and letters in the margin, such as 514a. They are the page (514) and the part of the page (a to e) in the edition of Plato printed in 1578, which every book on Plato still uses, so a passage can be found in any edition or translation.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Stephanus_pagination", "cited": "Wikipedia, Stephanus pagination",
+         "quote": "Stephanus pagination is a system of reference and organization used in modern editions and translations of Plato's works, based on the three-volume 1578 edition"},
+        {"url": "https://en.wikipedia.org/wiki/Stephanus_pagination", "cited": "Wikipedia, Stephanus pagination",
+         "quote": "unique coordinates for a passage can therefore be given with three pieces of information: the work's name, the (Stephanus) page number, and the letter denoting the passage"}
+      ]
+    },
+    {
+      "id": "section",
+      "term": "section",
+      "scholarly": "Stephanus section",
+      "plain": "One lettered part of a Stephanus page (514a, 514b…). The Workshop puts the Greek, every translation and every note on a passage together under its section.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Stephanus_pagination", "cited": "Wikipedia, Stephanus pagination",
+         "quote": "each such page and page number is further subdivided into lettered sections"}
+      ]
+    },
+    {
+      "id": "burnet",
+      "term": "Burnet",
+      "scholarly": "Burnet's Oxford Classical Text",
+      "plain": "John Burnet's edition of Plato's Greek (Oxford, 1900 to 1907). It is the Greek text shown on the left of every page.",
+      "sources": [
+        {"manifest": "perseus-greek-plato", "quote": "Burnet's Oxford Classical Text, 1900-1907"}
+      ]
+    },
+    {
+      "id": "loeb",
+      "term": "Loeb",
+      "scholarly": "Loeb Classical Library",
+      "plain": "A series of Greek and Latin books with the original on one page and a fairly literal English translation facing it. Its English of Plato (1914 to 1935) is the first translation shown beside the Greek.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Loeb_Classical_Library", "cited": "Wikipedia, Loeb Classical Library",
+         "quote": "with the original Greek or Latin text on the left-hand page and a fairly literal translation on the facing page"},
+        {"manifest": "perseus-english-plato", "quote": "the 1914-1935 Loeb translations are public domain in the US"}
+      ]
+    },
+    {
+      "id": "taylor",
+      "term": "Taylor",
+      "scholarly": "Thomas Taylor, The Works of Plato (1804)",
+      "plain": "Thomas Taylor's English translation of all of Plato (1804), with Floyer Sydenham's of nine dialogues. Taylor translated Plato as the later Platonists read him, and his notes quote them, above all Proclus.",
+      "sources": [
+        {"manifest": "taylor-1804", "quote": "The Works of Plato, translated by Floyer Sydenham and Thomas Taylor, 5 vols (London, 1804)"}
+      ]
+    },
+    {
+      "id": "jowett",
+      "term": "Jowett",
+      "scholarly": "Benjamin Jowett, The Dialogues of Plato",
+      "plain": "Benjamin Jowett's English translation of most of the dialogues (third edition, 1888 to 1892), with his introductions. It can be shown beside the others.",
+      "sources": [
+        {"manifest": "jowett-gutenberg", "quote": "the Republic (3rd edition, 1888, with Stephanus sections), the Dialogues vol. II (3rd edition, 1892, with Stephanus pages)"}
+      ]
+    },
+    {
+      "id": "lsj",
+      "term": "LSJ",
+      "scholarly": "Liddell, Scott and Jones, A Greek-English Lexicon",
+      "plain": "The great Greek-English dictionary, named after its makers Liddell, Scott and Jones (9th edition, 1940). Its entries are long and cite the passages a word is used in, Plato's among them.",
+      "sources": [
+        {"manifest": "lsj", "quote": "Liddell, Scott and Jones, A Greek-English Lexicon (9th edition, 1940)"}
+      ]
+    },
+    {
+      "id": "middle-liddell",
+      "term": "Middle Liddell",
+      "scholarly": "An Intermediate Greek-English Lexicon (1889)",
+      "plain": "The shorter Greek-English dictionary Liddell and Scott made for students (1889). Its entries are brief, so it is shown first.",
+      "sources": [
+        {"manifest": "middle-liddell", "quote": "Liddell and Scott, An Intermediate Greek-English Lexicon (1889)"}
+      ]
+    },
+    {
+      "id": "lemma",
+      "term": "dictionary form",
+      "scholarly": "lemma",
+      "plain": "The form a word is listed under in a dictionary: λόγος for λόγου and λόγοις, as 'break' for 'broke'. Scholars call it the lemma.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Lemma_(morphology)", "cited": "Wikipedia, Lemma (morphology)",
+         "quote": "is the canonical form, dictionary form, or citation form of a set of word forms"},
+        {"url": "https://en.wikipedia.org/wiki/Lemma_(morphology)", "cited": "Wikipedia, Lemma (morphology)",
+         "quote": "break is the lemma under which each form thereof is indexed"}
+      ]
+    },
+    {
+      "id": "parse",
+      "term": "grammar of a word",
+      "scholarly": "parse, morphological analysis",
+      "plain": "What form a word is in: its part of speech, and its case, number, tense, mood and so on. Scholars call naming these 'parsing' a word, and the result a parse.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Parsing", "cited": "Wikipedia, Parsing",
+         "quote": "The term parsing comes from Latin pars (orationis), meaning part (of speech)"},
+        {"manifest": "morpheus-analyses", "quote": "Used to show every grammatical possibility next to GLAUx's single tagged choice"}
+      ]
+    },
+    {
+      "id": "glaux",
+      "term": "GLAUx",
+      "scholarly": "The GLAUx corpus (Keersmaekers, 2021)",
+      "plain": "A collection of Greek texts in which a computer program has marked every word with its dictionary form and grammar. The Workshop uses its marking of Plato; it is right about 99 times in 100 for the dictionary form, and is shown as the program's choice, not as fact.",
+      "sources": [
+        {"manifest": "glaux-plato", "quote": "The Perseus Plato text annotated by trained statistical taggers (lemmas about 98.8% accurate, morphology about 97.2%)"},
+        {"manifest": "glaux-plato", "quote": "Shown in the Workshop as tagged data, never as established fact."}
+      ]
+    },
+    {
+      "id": "morpheus",
+      "term": "Morpheus",
+      "scholarly": "the Morpheus morphological analyser (Perseus)",
+      "plain": "A program that lists, by fixed rules, every dictionary form and grammar a Greek spelling could be. The Workshop shows its list beside GLAUx's single choice, so you can see the other possibilities.",
+      "sources": [
+        {"manifest": "morpheus-analyses", "quote": "generated by the Morpheus rule-based analyser (no statistics)"}
+      ]
+    },
+    {
+      "id": "smyth",
+      "term": "Smyth",
+      "scholarly": "H. W. Smyth, A Greek Grammar for Colleges (1920)",
+      "plain": "The standard English grammar of ancient Greek (1920). The word box quotes its explanation of each part of a word's grammar.",
+      "sources": [
+        {"manifest": "smyth-grammar", "quote": "Herbert Weir Smyth, A Greek Grammar for Colleges (American Book Company, 1920)"}
+      ]
+    },
+    {
+      "id": "perseus",
+      "term": "Perseus",
+      "scholarly": "the Perseus Digital Library",
+      "plain": "A free library of Greek and Latin texts at Tufts University. Most of the Workshop's Greek, English and dictionaries come from its files.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Perseus_Digital_Library", "cited": "Wikipedia, Perseus Digital Library",
+         "quote": "a free-access digital library founded by Gregory Crane in 1987 and hosted by the Department of Classical Studies of Tufts University"}
+      ]
+    },
+    {
+      "id": "beta-code",
+      "term": "Beta Code",
+      "scholarly": "Beta Code",
+      "plain": "A way of typing Greek with ordinary keyboard letters: lo/gos for λόγος. The search boxes accept it.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Beta_Code", "cited": "Wikipedia, Beta Code",
+         "quote": "Beta Code was a method of representing, using only ASCII characters, the characters, accents, and formatting found in ancient Greek texts"}
+      ]
+    },
+    {
+      "id": "concordance",
+      "term": "concordance",
+      "scholarly": "concordance",
+      "plain": "A list of every place a word is used, each with the words around it. The Workshop's concordance does this for any Greek word across all of Plato.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Concordance_(publishing)", "cited": "Wikipedia, Concordance (publishing)",
+         "quote": "listing every instance of each word with its immediate context"}
+      ]
+    },
+    {
+      "id": "scholia",
+      "term": "scholia",
+      "scholarly": "scholia (singular scholion)",
+      "plain": "Short notes written in the margins of the old manuscripts of Plato, by ancient and Byzantine readers. The Workshop has them in Greek, under the sections they are on; most have no English yet.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Scholia", "cited": "Wikipedia, Scholia",
+         "quote": "are grammatical, critical, or explanatory comments – original or copied from prior commentaries – which are inserted in the margin of the manuscript of ancient authors"},
+        {"manifest": "hermann-appendix", "quote": "the Scholia Platonica"}
+      ]
+    },
+    {
+      "id": "skopos",
+      "term": "skopos (aim)",
+      "scholarly": "σκοπός",
+      "plain": "The one aim of a dialogue, which the ancient Platonists sought first, so that every part of the dialogue is read in its light.",
+      "sources": [
+        {"file": "sources/translations/prolegomena-hermann.json", "cited": "Anonymous Prolegomena 21 (the Workshop's translation)",
+         "quote": "so that we say that the dialogue has one aim and not many"},
+        {"file": "sources/translations/prolegomena-hermann.json", "cited": "Anonymous Prolegomena 21 (the Workshop's translation)",
+         "quote": "by how many rules one must hunt for the aim (skopos) of each dialogue"}
+      ]
+    },
+    {
+      "id": "tetralogy",
+      "term": "tetralogy",
+      "scholarly": "the tetralogies of Thrasyllus",
+      "plain": "A set of four. An ancient editor, Thrasyllus, arranged Plato's works in nine sets of four, as the tragic poets put on plays in fours; modern editions still print them in that order.",
+      "sources": [
+        {"file": "sources/yonge-1853/pg57342.txt", "cited": "Diogenes Laertius III 56 to 57 (Yonge, 1853)",
+         "quote": "he published his dialogues as the dramatic poets published their tetralogies"},
+        {"file": "sources/yonge-1853/pg57342.txt", "cited": "Diogenes Laertius III 56 to 57 (Yonge, 1853)",
+         "quote": "And there are nine tetralogies, if we consider the Republic as occupying the place of one book, and the Laws of another."}
+      ]
+    },
+    {
+      "id": "curriculum",
+      "term": "the Platonist order (curriculum)",
+      "scholarly": "the Iamblichean curriculum",
+      "plain": "The order in which the later Platonists taught the dialogues, set by Iamblichus: twelve dialogues, from the First Alcibiades to the Parmenides. The Workshop lists the dialogues in this order.",
+      "sources": [
+        {"file": "sources/structure/reading-order.json", "cited": "Anonymous Prolegomena 26 (the Workshop's translation)",
+         "quote": "We shall say what the divine Iamblichus did. He divided the whole into twelve dialogues"}
+      ]
+    },
+    {
+      "id": "commentary",
+      "term": "commentary",
+      "scholarly": "commentary, lemma (of a note)",
+      "plain": "A book of notes on a text, each note headed by the words of the text it explains. The Workshop places every note under the section it is on.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Scholia", "cited": "Wikipedia, Scholia",
+         "quote": "This is indicated by the repetition of the lemma (\"headword\")"}
+      ]
+    },
+    {
+      "id": "ocr",
+      "term": "OCR",
+      "scholarly": "optical character recognition",
+      "plain": "Text read off a photograph of a printed page by a computer. Old books in the Workshop come this way, so letters are sometimes misread; the text is shown as received, and corrections are kept apart.",
+      "sources": [
+        {"url": "https://en.wikipedia.org/wiki/Optical_character_recognition", "cited": "Wikipedia, Optical character recognition",
+         "quote": "is the electronic or mechanical conversion of images of typed, handwritten or printed text into machine-encoded text"}
+      ]
+    },
+    {
+      "id": "approx",
+      "term": "≈ (placed by computation)",
+      "scholarly": "computed alignment",
+      "plain": "Where a translation or a note does not print the Stephanus number, the Workshop works out where it belongs by comparing it with the Loeb English, and marks the result ≈. Usually right, but not always.",
+      "sources": [
+        {"file": "reports/alignment.md", "cited": "reports/alignment.md",
+         "quote": "the computed placement (`tools/align.py`, against the Loeb English) can be checked"}
+      ]
+    }
+  ],
+  "help": {
+    "start": {"title": "Start here", "what": "What the Workshop is, where to begin, and how to read a page.", "tap": "Tap a dialogue's name to read it, or 'Why here?' for the ancient words that put it there.", "words": ["curriculum", "stephanus"]},
+    "library": {"title": "Library", "what": "Every dialogue of Plato, in the order the Platonists taught them, with the guides, commentaries and famous passages.", "tap": "Tap a dialogue to read it, or 'about it' for what the tradition says of it as a whole.", "words": ["curriculum", "tetralogy", "commentary"]},
+    "read": {"title": "Reader", "what": "Plato's Greek on the left, English translations beside it, and under each section the notes on it.", "tap": "Tap any Greek word for its meaning and grammar; turn pages with ‹ › or a swipe, and use Show to hide what you do not need.", "words": ["stephanus", "section", "burnet", "loeb", "taylor", "approx"]},
+    "whole": {"title": "As a whole", "what": "What is said of this dialogue as one thing: its people, its aim, its parts and its place among the others.", "tap": "Tap a quotation's source to read it in place.", "words": ["skopos", "tetralogy", "curriculum"]},
+    "corpus": {"title": "Corpus map", "what": "All 36 works on one page, with what links them.", "tap": "Choose what to show over the map; tap a work to open it.", "words": ["tetralogy"]},
+    "commentaries": {"title": "Commentaries", "what": "Every commentary and introduction in the library, dialogue by dialogue.", "tap": "Tap one to read it straight through; in the Reader its notes are under each section.", "words": ["commentary", "ocr", "approx"]},
+    "dossiers": {"title": "Famous passages", "what": "The best-known passages of Plato, each with its Greek, every translation, the notes and the later readers.", "tap": "Tap a passage to open its dossier.", "words": ["stephanus", "lemma"]},
+    "discussed": {"title": "Most discussed passages", "what": "The passages the commentators' notes cite most often.", "tap": "Tap a passage to read it with its notes.", "words": ["commentary", "stephanus"]},
+    "dictionary": {"title": "Dictionary", "what": "Look up a Greek word in the two Greek-English dictionaries.", "tap": "Type the word in Greek, or in Beta Code, and tap Look up.", "words": ["lsj", "middle-liddell", "lemma", "beta-code"]},
+    "concordance": {"title": "Concordance", "what": "Every place a Greek word is used in Plato, with the words around it and the count in each dialogue.", "tap": "Type a word and choose dictionary form (all its forms), exact form, or any accent.", "words": ["concordance", "lemma", "glaux", "beta-code"]},
+    "renderings": {"title": "How the translators render a word", "what": "One Greek word, passage by passage, as each translator puts it into English.", "tap": "Tap a passage to read it in place.", "words": ["lemma", "loeb", "taylor", "jowett"]},
+    "concepts": {"title": "Concepts", "what": "The great ideas of Platonism across the dialogues, with their definitions and what the later Platonists said of them.", "tap": "Tap a concept for its passages, readings and links to other concepts.", "words": ["lemma", "taylor"]},
+    "glossary": {"title": "Glossary", "what": "Taylor's explanations of the Platonic terms his translations use, A to Z.", "tap": "Type in the box to find a term, or tap a letter.", "words": ["taylor"]},
+    "words": {"title": "Words used in the Workshop", "what": "The Workshop's own words (Stephanus, LSJ, OCR and the rest) in plain English, each with the source it rests on.", "tap": "Tap a word's source to check it.", "words": []},
+    "taylor": {"title": "Guides to Plato", "what": "An introduction to Plato written by a Platonist, read whole.", "tap": "Use the contents to jump to a part.", "words": ["taylor", "ocr"]},
+    "reconcile": {"title": "Reconciliations", "what": "Places where Plato seems to say two things that cannot both be true, and the ways readers have reconciled them.", "tap": "Tap a tension for its passages and readings, or start a worksheet of your own.", "words": ["lemma", "lsj", "middle-liddell"]},
+    "find": {"title": "Search everything", "what": "One search across the Greek, the translations, the notes, the ancient texts and your own work.", "tap": "Type Greek or English words, a passage (Rep. 509b) or a name; every result says why it was found.", "words": ["lemma", "beta-code", "stephanus"]},
+    "mine": {"title": "My Translations", "what": "Everything you have written: translations, notes, word studies and worksheets, every version kept.", "tap": "Tap an item to go to its place; Export saves it all.", "words": []},
+    "word": {"title": "The word box", "what": "What a Greek word is: its dictionary form, its grammar explained in plain words, and its dictionary entries.", "tap": "Tap a line of the grammar to open the explanation, and a word under 'Every possible grammar' for its entry.", "words": ["lemma", "parse", "glaux", "morpheus", "smyth", "lsj", "middle-liddell"]},
+    "dict": {"title": "Dictionary entry", "what": "The word's entry as printed in Middle Liddell or LSJ.", "tap": "Switch dictionary with the tabs; 'Expand abbreviations' writes out the short forms.", "words": ["lsj", "middle-liddell", "lemma"]},
+    "gloss": {"title": "A Greek word's meaning", "what": "The dictionary form of the word you tapped and the English the dictionary gives for it.", "tap": "Tap 'The whole entry' to read the dictionary entry.", "words": ["lemma", "morpheus", "glaux", "middle-liddell"]},
+    "translations": {"title": "Translations", "what": "The English translations of this dialogue in the library.", "tap": "Tick a translation to show it beside the Greek; ≈ means its place is worked out, not printed.", "words": ["loeb", "taylor", "jowett", "approx"]},
+    "commentary": {"title": "Commentary", "what": "Every commentator's notes on this section, side by side.", "tap": "Point at or tap a note to light up the Greek words it is on; choose which commentaries to show above the text.", "words": ["commentary", "scholia", "ocr", "approx"]},
+    "links": {"title": "Cites and Cited by", "what": "The other passages of Plato this section's notes point to, and the notes elsewhere that point here.", "tap": "Tap a reference to go there.", "words": ["stephanus", "commentary"]},
+    "mywork": {"title": "Your work", "what": "Your own translations and notes on this section, kept on this device.", "tap": "Select Greek words, or tap Write on, to add one.", "words": []},
+    "contents": {"title": "Contents", "what": "The pages of this dialogue, its books, and who is speaking where.", "tap": "Tap a page number or a speaker to go there.", "words": ["stephanus"]},
+    "show": {"title": "Show", "what": "Choose what the page shows: the Greek, the English, the notes, the links and your work.", "tap": "Untick what you do not need; the choice is remembered.", "words": ["commentary", "glaux"]},
+    "listen": {"title": "Listen", "what": "Reads the English aloud from here, a voice for each person.", "tap": "Back and Next move a paragraph; Voices chooses each person's voice.", "words": []},
+    "select": {"title": "Writing on the Greek", "what": "Write your own translation, footnote, note or alternative on the words you selected.", "tap": "Tap the kind you want; it is kept with every version.", "words": []}
+  }
+}

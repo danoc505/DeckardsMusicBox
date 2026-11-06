@@ -153,7 +153,7 @@ function showIntroductions() {
   $("#about").querySelector("h2").textContent = `Introductions to the ${state.work.title}`;
   $("#about-body").innerHTML = `<p class="meta">Each is on the whole dialogue, so it is read here rather than at a passage.</p>` +
     intros.map((c) => `<div class="src"><h4><button type="button" class="link-btn" data-comm-read="${esc(c.id)}">${esc(c.label)}</button></h4><div>${esc(c.title)}. ${esc(c.printed)}</div><div class="meta">${c.n_notes} paragraphs · ${esc(c.proof_status)}</div></div>`).join("") +
-    (pre ? `<div class="src"><h4><button type="button" class="link-btn" data-comm-read="proclus1820" data-comm-title="Proclus, the preface and the whole commentary">Proclus, preface</button></h4><div>Proclus opens his commentary with the scope (skopos) of the dialogue, before the first lemma. It is the first item of the commentary read straight through.</div></div>` : "");
+    (pre ? `<div class="src"><h4><button type="button" class="link-btn" data-comm-read="proclus1820" data-comm-title="Proclus, the preface and the whole commentary">Proclus, preface</button></h4><div>Proclus opens his commentary with the scope (skopos) of the dialogue, before the first words of the text it comments on (its first lemma). It is the first item of the commentary read straight through.</div></div>` : "");
   $("#about").showModal();
 }
 

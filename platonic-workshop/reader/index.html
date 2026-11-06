@@ -9,6 +9,7 @@
 <body>
 <header class="bar">
   <div class="bar-top">
+    <button type="button" id="toc-btn" class="pref-btn toc-btn" aria-controls="toc" aria-expanded="false" title="The contents of this page: the pages of a dialogue and who speaks where, or the parts of this page">☰ Contents</button>
     <a class="brand" href="#library" title="The Platonic Workshop: the library">Platonic Workshop</a>
     <nav class="primary" id="primary-nav" aria-label="Main"></nav>
     <form class="find-form" id="find-form" role="search" autocomplete="off">
@@ -20,6 +21,7 @@
       <button type="button" class="pref-btn" data-size="down" title="Smaller text" aria-label="Smaller text">A−</button>
       <button type="button" class="pref-btn" data-size="reset" title="Text size: click to reset" aria-label="Reset text size"><span id="size-val">100%</span></button>
       <button type="button" class="pref-btn" data-size="up" title="Larger text" aria-label="Larger text">A+</button>
+      <button type="button" id="help-btn" class="pref-btn help-btn" title="What is this page for? (?)" aria-label="Help: what is this page for?">? Help</button>
     </div>
   </div>
   <div class="bar-read">
@@ -29,18 +31,19 @@
     <span class="work-sub" id="work-sub"></span>
   </div>
   <form class="jump" id="jump" autocomplete="off">
-    <button type="button" id="prev" title="Previous Stephanus page (←)" aria-label="Previous page">‹</button>
-    <label for="jump-ref" class="sr">Go to Stephanus reference</label>
-    <input id="jump-ref" placeholder="29e" spellcheck="false" inputmode="text" aria-label="Stephanus reference, or a work and a reference (Rep. 514a)" title="A reference (29e, 52), or a work and a reference (Rep. 514a, Phdr. 246)">
+    <button type="button" id="prev" title="Previous page (←)" aria-label="Previous page">‹</button>
+    <label for="jump-ref" class="sr">Go to a passage</label>
+    <input id="jump-ref" placeholder="29e" spellcheck="false" inputmode="text" aria-label="Go to a passage: a Stephanus number (29e), or a work and a number (Rep. 514a)" title="Go to a passage. The numbers in the margin (29e) are Stephanus numbers: the page and part of the page in the 1578 edition, used by every book on Plato. Type one (29e, 52), or a work and one (Rep. 514a, Phdr. 246).">
     <button type="button" id="next" title="Next Stephanus page (→)" aria-label="Next page">›</button>
   </form>
-  <nav class="layers" aria-label="Layers">
+  <nav class="layers" aria-label="Show">
+    <span class="layers-k" title="What the page shows (scholars: layers)">Show</span> <button type="button" class="help-q" data-help="show" aria-label="What do these do?" title="What do these do?">?</button>
     <label title="Burnet's Greek text"><input type="checkbox" data-layer="grc" checked> Greek</label>
     <label title="The English translations (choose which above the text)"><input type="checkbox" data-layer="eng" checked> English</label>
     <label title="The commentators' notes under each section"><input type="checkbox" data-layer="notes" checked> Commentary</label>
     <label title="What the notes cite, and the notes elsewhere that cite this section"><input type="checkbox" data-layer="links" checked> Links</label>
     <label title="Your translations and notes"><input type="checkbox" data-layer="mine" checked> Your work</label>
-    <label title="Mark the words GLAUx has not tagged"><input type="checkbox" data-layer="untagged"> Mark untagged words</label>
+    <label title="Mark the Greek words the GLAUx program could not give a dictionary form and grammar (untagged words)"><input type="checkbox" data-layer="untagged"> Words without grammar</label>
     <button type="button" id="listen-btn" class="search-btn listen-btn" title="Read the English aloud from here, a voice for each person (tap to start)">▶ Listen</button>
     <button type="button" id="whole-btn" class="search-btn" title="What is said of this dialogue as a whole: persons, scope, parts, its place among the others">As a whole</button>
   </nav>
@@ -48,17 +51,18 @@
 </header>
 
 <div class="shell">
+  <div class="toc-scrim" aria-hidden="true"></div>
   <div class="resizer resizer-toc" data-resize="toc" role="separator" aria-orientation="vertical" aria-label="Resize the contents panel" tabindex="0" title="Drag to resize (or arrow keys)"></div>
   <div class="resizer resizer-insp" data-resize="insp" role="separator" aria-orientation="vertical" aria-label="Resize the word panel" tabindex="0" title="Drag to resize (or arrow keys)"></div>
   <aside class="toc" id="toc" aria-label="Stephanus pages and speakers"></aside>
   <main id="main" class="text" aria-live="polite"><p class="loading">Loading…</p></main>
   <aside class="inspector" id="inspector" aria-label="Word">
     <div class="inspector-empty">
-      <p><strong>Click any Greek word</strong> for its lemma and parse, plain-English grammar notes from Smyth, and its entries in Middle Liddell and LSJ, with every other possible parse beside it.</p>
-      <p><strong>Select Greek words</strong> (drag across them, or click one and Shift-click the last) to write your translation of them, a footnote, a note or an alternative rendering.</p>
+      <p><strong>Tap any Greek word</strong> for its dictionary form and grammar, explained in plain English from Smyth's grammar, and its entries in the two Greek-English dictionaries (Middle Liddell and LSJ).</p>
+      <p><strong>Select Greek words</strong> (drag across them; on the iPad, press and hold the first) to write your translation of them, a footnote, a note or an alternative rendering.</p>
       <p>Under each section, <strong>every commentator</strong> on it. Point at a note to light up the Greek words it is on (dotted in the text); click a dotted word to see the notes on it.</p>
-      <p>Click a section number (<span class="ref-sample">29e</span>) to copy its reference.</p>
-      <p>Open another dialogue from the menu at the top left, or type a work and a reference in the box (<span class="ref-sample">Rep. 514a</span>). <strong>Search Plato</strong> finds a word in every dialogue.</p>
+      <p>The numbers in the margin (<span class="ref-sample">29e</span>) are <a href="#words/stephanus">Stephanus numbers</a>, used by every book on Plato; tap one to copy it.</p>
+      <p>Open another dialogue from the menu at the top left, or type a work and a reference in the box (<span class="ref-sample">Rep. 514a</span>). The <strong>? Help</strong> button at the top says what each page is for; <a href="#words">Words used in the Workshop</a> explains the names.</p>
       <p class="keys">Keys: ← → pages, <kbd>g</kbd> go to reference, <kbd>f</kbd> search everything, <kbd>/</kbd> concordance, <kbd>Esc</kbd> close.</p>
     </div>
   </aside>
@@ -102,7 +106,14 @@
   <span class="listen-who" id="listen-who" aria-live="polite"></span>
   <button type="button" data-listen="voices" title="Choose the voice of each person">Voices</button>
   <button type="button" data-listen="stop" title="Stop reading" aria-label="Stop">Stop</button>
+  <button type="button" class="help-q" data-help="listen" aria-label="What is this?" title="What is this?">?</button>
 </div>
+
+<dialog id="help-dialog" class="help-dialog">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2 id="help-title">Help</h2>
+  <div id="help-body"></div>
+</dialog>
 
 <dialog id="voices-dialog">
   <form method="dialog"><button class="close" aria-label="Close">×</button></form>
@@ -116,6 +127,7 @@
   <button type="button" data-sel-kind="footnote">Footnote</button>
   <button type="button" data-sel-kind="note">Note</button>
   <button type="button" data-sel-kind="alternative">Alternative</button>
+  <button type="button" class="help-q" data-help="select" aria-label="What is this?" title="What is this?">?</button>
   <button type="button" id="sel-close" aria-label="Cancel">×</button>
 </div>
 
@@ -133,5 +145,6 @@
 <script src="listen.js"></script>
 <script src="gloss.js"></script>
 <script src="shell.js"></script>
+<script src="help.js"></script>
 </body>
 </html>
