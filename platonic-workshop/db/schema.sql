@@ -808,3 +808,73 @@ CREATE TABLE nt_term_hit (
 );
 CREATE INDEX nt_term_hit_section ON nt_term_hit(work_id, section_ref);
 CREATE INDEX nt_term_hit_work ON nt_term_hit(term_id, work_id);
+
+-- ------------------------------------------------------------- milestone 25
+-- The rest of the Neoplatonists in Greek (tools/neoplatonists.py), read whole with their
+-- contents: First1KGreek's TEI, and Internet Archive scans shown as the OCR gives them.
+-- Kept apart from Plato's tables: nothing built from Plato reads them.
+
+CREATE TABLE neo_text (
+    id          TEXT PRIMARY KEY,          -- 'plotinus-enneads'
+    seq         INTEGER NOT NULL,          -- the shelf's order
+    grp         TEXT NOT NULL,             -- the Library's heading: Plotinus | Proclus | ...
+    author      TEXT NOT NULL,
+    title       TEXT NOT NULL,
+    greek       TEXT,                      -- the title in Greek
+    cite        TEXT NOT NULL,             -- 'Enn.', 'in Alc.'
+    kind        TEXT NOT NULL,             -- tei | ocr
+    source_ids  TEXT NOT NULL,             -- JSON list of manifest ids
+    edition     TEXT NOT NULL,             -- the printed edition
+    editor      TEXT,
+    year        INTEGER,
+    licence     TEXT,                      -- as the manifest quotes it
+    about       TEXT NOT NULL,             -- the Workshop's one paragraph on the text
+    unit_name   TEXT NOT NULL,             -- chapter | section | page
+    n_parts     INTEGER NOT NULL,
+    n_units     INTEGER NOT NULL,
+    words       INTEGER NOT NULL,
+    latin_units INTEGER NOT NULL,          -- scanned pages mostly in Latin (folded away)
+    proof_status TEXT NOT NULL
+);
+
+CREATE TABLE neo_part (                    -- the contents: a treatise, an essay, a book, or ten pages of a scan
+    text_id     TEXT NOT NULL REFERENCES neo_text(id),
+    seq         INTEGER NOT NULL,
+    label       TEXT NOT NULL,
+    first_unit  INTEGER NOT NULL,          -- neo_unit.seq
+    last_unit   INTEGER NOT NULL,
+    n_units     INTEGER NOT NULL,
+    words       INTEGER NOT NULL,
+    PRIMARY KEY (text_id, seq)
+);
+
+CREATE TABLE neo_unit (                    -- a citable unit (TEI) or a scanned page (OCR)
+    text_id     TEXT NOT NULL REFERENCES neo_text(id),
+    seq         INTEGER NOT NULL,
+    part_seq    INTEGER NOT NULL,
+    n           TEXT NOT NULL,             -- its address: 'I.6.9' (as cited), or '<source id>:<leaf>' for a scan
+    label       TEXT NOT NULL,             -- as shown: 'I.6.9', 'II p. 45', 'image 117'
+    page        INTEGER,                   -- a scan's printed page number, where found
+    page_how    TEXT,                      -- read | counted | NULL (named by its image)
+    lang        TEXT NOT NULL,             -- grc | lat (a scanned page mostly in Latin)
+    source_id   TEXT NOT NULL REFERENCES source(id),
+    leaf        INTEGER,                   -- a scan's page image, counted from 1
+    text        TEXT NOT NULL,             -- as received (a scan: its lines, specks hidden)
+    corrected   TEXT,                      -- with the corrections of neo_correction, where any apply
+    raw         TEXT,                      -- JSON [[line index, line]]: a scan's lines hidden as specks, so the page as received can be put back
+    hidden      INTEGER NOT NULL DEFAULT 0,-- lines hidden as specks
+    notes       TEXT,                      -- JSON: the edition's footnotes (apparatus), TEI only
+    margin      TEXT,                      -- JSON: marginal notes (folios, older pages), TEI only
+    words       INTEGER NOT NULL,
+    PRIMARY KEY (text_id, seq)
+);
+
+CREATE TABLE neo_correction (              -- sources/neoplatonists/corrections.json
+    text_id     TEXT NOT NULL REFERENCES neo_text(id),
+    unit_n      TEXT,                      -- one unit, or NULL for every unit of the text
+    ocr         TEXT NOT NULL,             -- as the OCR prints it
+    read        TEXT NOT NULL,             -- as the Workshop reads it
+    why         TEXT NOT NULL,
+    by          TEXT NOT NULL,
+    applied     INTEGER NOT NULL           -- words it changes in the corrected reading
+);

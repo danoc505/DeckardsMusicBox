@@ -1,5 +1,5 @@
 {
-  "_comment": "Every source the Workshop imports. tools/fetch_sources.py downloads the 'git' sources into data/raw/<id> at the pinned commit, and the 'http' sources at the pinned SHA-256. 'local' sources are committed in this folder. Status values: verified (checked by tools/verify_sources.py), local (committed here), planned (not fetched yet).",
+  "_comment": "Every source the Workshop imports. tools/fetch_sources.py downloads the 'git' sources into data/raw/<id> at the pinned commit, the 'http' sources at the pinned SHA-256, and the 'archive' sources (Internet Archive files) at the SHA-256 pinned for each file. 'local' sources are committed in this folder. Status values: verified (checked by tools/verify_sources.py), local (committed here), planned (not fetched yet).",
   "sources": [
     {
       "id": "perseus-greek-plato",
@@ -219,20 +219,22 @@
       "status": "local"
     },
     {
-      "id": "first1k-proclus-republic",
-      "title": "Proclus, In Platonis Rem Publicam commentarii (Kroll, 1899-1901), Greek, First1KGreek TEI",
+      "id": "first1k-neoplatonists",
+      "title": "The Neoplatonists in First1KGreek's TEI: Plotinus, Enneads (Volkmann, 1883-1884); Proclus, Commentary on the Republic (Kroll, 1899-1901); Iamblichus, On the Pythagorean Life (Nauck, 1884), Protrepticus (Pistelli, 1888), On General Mathematical Science (Festa, 1891), On Nicomachus' Introduction to Arithmetic (Pistelli, 1894), On the Mysteries (Parthey, 1857)",
       "kind": "git",
       "repo": "https://github.com/OpenGreekAndLatin/First1KGreek.git",
       "commit": "ed91552c52530c8f5a3ddf2dd767e899372a804c",
       "paths": [
-        "data/tlg4036"
+        "data/tlg2000",
+        "data/tlg4036",
+        "data/tlg2023"
       ],
-      "layer": "commentary",
+      "layer": "neoplatonist",
       "language": "grc",
-      "citation_scheme": "Kroll volume and page; needs a concordance to Stephanus",
-      "licence": "CC BY-SA 4.0",
-      "provenance": "Open Greek and Latin, First Thousand Years of Greek.",
-      "status": "planned"
+      "citation_scheme": "each file's own CTS citation (refsDecl): Plotinus Ennead.treatise.chapter; Iamblichus chapter and section, or page; Proclus on the Republic by Kroll's pages",
+      "licence": "CC BY-SA 4.0 (each file's <licence>: \"Available under a Creative Commons Attribution-ShareAlike 4.0 International License\"); the printed editions are in the public domain",
+      "provenance": "Open Greek and Latin, First Thousand Years of Greek (Leipzig, Tufts, Harvard and others): TEI files made from the public-domain printed editions, corrected OCR, with the edition named in each file's header. Commit of the First1KGreek repository already pinned for the planned Proclus source. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
     },
     {
       "id": "proclus-1820",
@@ -525,6 +527,286 @@
       "licence": "Public domain (eBible.org: \"American Standard Version (1901) ... Public Domain\")",
       "provenance": "eBible.org's eng-asv_vpl.txt, dated 2026-10-30, downloaded on 2026-11-06; the New Testament lines kept unchanged, fetched.json records the URL, time and sha256. Clean source text, no notes. Read into the library by tools/nt.py (milestone 23).",
       "status": "local"
+    },
+    {
+      "id": "ia-cousin-proclus-t2",
+      "title": "Proclus, Commentary on the First Alcibiades, part 1: Procli philosophi Platonici opera, ed. Victor Cousin, vol. II (Paris: J.-M. Eberhart, 1820), Greek with Cousin's Latin, Internet Archive OCR",
+      "kind": "archive",
+      "item": "cousin-proclii-philosophi-platonici-opera-gr-lat-v.-2-1820",
+      "repo": "https://archive.org/details/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-2-1820",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-2-1820/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.2%2C%201820_djvu.xml",
+          "sha256": "4273c3551cef8c77e8c99fad11aa3288c1309414a4d9152c17f17244d06ec60b",
+          "bytes": 6103710
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-2-1820/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.2%2C%201820_page_numbers.json",
+          "sha256": "06a13a3712d610f5ca7e7feedc3fe621c98e0469e288e5885004a7f2aaae2379",
+          "bytes": 70213
+        }
+      ],
+      "sha256": "4273c3551cef8c77e8c99fad11aa3288c1309414a4d9152c17f17244d06ec60b",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Cousin's printed page numbers",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-2-1820: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t2/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-cousin-proclus-t3",
+      "title": "Proclus, Commentary on the First Alcibiades, part 2: Procli philosophi Platonici opera, ed. Victor Cousin, vol. III (Paris, 1821), Greek with Cousin's Latin, Internet Archive OCR",
+      "kind": "archive",
+      "item": "cousin-proclii-philosophi-platonici-opera-gr-lat-v.-3-1820",
+      "repo": "https://archive.org/details/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-3-1820",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-3-1820/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.3%2C%201820_djvu.xml",
+          "sha256": "9212d1ad781235989570fef6e962666e138c1ceafda111096be88481848424db",
+          "bytes": 5225569
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-3-1820/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.3%2C%201820_page_numbers.json",
+          "sha256": "3955fc7532204213bd021b77f4f40f6cb9d643952e36a776b1319b91d3be3698",
+          "bytes": 57875
+        }
+      ],
+      "sha256": "9212d1ad781235989570fef6e962666e138c1ceafda111096be88481848424db",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Cousin's printed page numbers",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-3-1820: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t3/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-cousin-proclus-t4",
+      "title": "Proclus, Commentary on the Parmenides, books I-II: Procli philosophi Platonici opera, ed. Victor Cousin, vol. IV (Paris, 1821), Internet Archive OCR",
+      "kind": "archive",
+      "item": "cousin-proclii-philosophi-platonici-opera-gr-lat-v.-4-1821",
+      "repo": "https://archive.org/details/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-4-1821",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-4-1821/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.4%2C%201821_djvu.xml",
+          "sha256": "b890571833e44265b4163e66547e179c3e1ee84c9eaf2bb2b9edf7af92ce4cf5",
+          "bytes": 5725207
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-4-1821/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.4%2C%201821_page_numbers.json",
+          "sha256": "e88e3cc1ba83c8cd6867812c0c4c68be7a7193f8d6bc84a3648f4e8eb3277e78",
+          "bytes": 58025
+        }
+      ],
+      "sha256": "b890571833e44265b4163e66547e179c3e1ee84c9eaf2bb2b9edf7af92ce4cf5",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Cousin's printed page numbers",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-4-1821: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t4/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-cousin-proclus-t5",
+      "title": "Proclus, Commentary on the Parmenides, books III-V: Procli philosophi Platonici opera, ed. Victor Cousin, vol. V (Paris, 1823), Internet Archive OCR",
+      "kind": "archive",
+      "item": "cousin-proclii-philosophi-platonici-opera-gr-lat-v.-5-1823",
+      "repo": "https://archive.org/details/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-5-1823",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-5-1823/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.5%2C%201823_djvu.xml",
+          "sha256": "c18e4a9e3649b882c75de1aa6681d9ccabfca5e09fd61899a4906fcde27632ee",
+          "bytes": 9245622
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-5-1823/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.5%2C%201823_page_numbers.json",
+          "sha256": "f9892836a0920bf5ab2d5a597aa1c4f62ae4b79cbcaa42463aa24f344bc270bb",
+          "bytes": 84589
+        }
+      ],
+      "sha256": "c18e4a9e3649b882c75de1aa6681d9ccabfca5e09fd61899a4906fcde27632ee",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Cousin's printed page numbers",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-5-1823: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t5/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-cousin-proclus-t6",
+      "title": "Proclus, Commentary on the Parmenides, books VI-VII: Procli philosophi Platonici opera, ed. Victor Cousin, vol. VI (Paris, 1827), Internet Archive OCR",
+      "kind": "archive",
+      "item": "cousin-proclii-philosophi-platonici-opera-gr-lat-v.-6-1827",
+      "repo": "https://archive.org/details/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-6-1827",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-6-1827/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.6%2C%201827_djvu.xml",
+          "sha256": "2079e0ea6f0506ad5f4af35ce727c30b9e4474f015f1cdeff53c81228af93730",
+          "bytes": 8647185
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/cousin-proclii-philosophi-platonici-opera-gr-lat-v.-6-1827/Cousin%20-%20Proclii%20Philosophi%20Platonici%20opera%2C%20%5Bgr-lat%5D%2C%20v.6%2C%201827_page_numbers.json",
+          "sha256": "9310690fd15109c3fe847c7b3e585b737e4ccf7113d199bbae5d810b7a919e77",
+          "bytes": 75206
+        }
+      ],
+      "sha256": "2079e0ea6f0506ad5f4af35ce727c30b9e4474f015f1cdeff53c81228af93730",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Cousin's printed page numbers",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-6-1827: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t6/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-creuzer-initia-t2",
+      "title": "Olympiodorus, Commentary on the First Alcibiades: Initia philosophiae ac theologiae ex Platonicis fontibus ducta, ed. Friedrich Creuzer, part II (Frankfurt: H. L. Broenner, 1821), Internet Archive OCR",
+      "kind": "archive",
+      "item": "creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-2-1821",
+      "repo": "https://archive.org/details/creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-2-1821",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-2-1821/Creuzer%20-%20Initia%20philosophiae%20ac%20theologiae%20ex%20Platonicis%20fontibus%20ducta%2C%20%5Bgr-lat%5D%2C%20t.2%2C%201821_djvu.xml",
+          "sha256": "44432b4099c4e3c7141dfb5a9724f0024b83291f3df75d86db7f0dd02a8b15f9",
+          "bytes": 8839924
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-2-1821/Creuzer%20-%20Initia%20philosophiae%20ac%20theologiae%20ex%20Platonicis%20fontibus%20ducta%2C%20%5Bgr-lat%5D%2C%20t.2%2C%201821_page_numbers.json",
+          "sha256": "fb65564bbe99a782bbf8252d0913946014460b141757edfbc79242298b0346cc",
+          "bytes": 50973
+        }
+      ],
+      "sha256": "44432b4099c4e3c7141dfb5a9724f0024b83291f3df75d86db7f0dd02a8b15f9",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Creuzer's printed page numbers",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-2-1821: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-creuzer-initia-t2/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-creuzer-initia-t3",
+      "title": "Proclus, Elements of Theology: Initia philosophiae ac theologiae ex Platonicis fontibus ducta, ed. Friedrich Creuzer, part III (Frankfurt: H. L. Broenner, 1822), Greek with a Latin version on the facing pages, Internet Archive OCR",
+      "kind": "archive",
+      "item": "creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-3-1822",
+      "repo": "https://archive.org/details/creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-3-1822",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-3-1822/Creuzer%20-%20Initia%20philosophiae%20ac%20theologiae%20ex%20Platonicis%20fontibus%20ducta%2C%20%5Bgr-lat%5D%2C%20t.3%2C%201822_djvu.xml",
+          "sha256": "eb0127b365a1236dfaa07b5b60703d224526c199961794410e6c4a02bd841ba6",
+          "bytes": 13194240
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-3-1822/Creuzer%20-%20Initia%20philosophiae%20ac%20theologiae%20ex%20Platonicis%20fontibus%20ducta%2C%20%5Bgr-lat%5D%2C%20t.3%2C%201822_page_numbers.json",
+          "sha256": "984dc1f6d5c82270db5a703b9a5f58e6ee41ab2d971c56bdc2781ce8d714d524",
+          "bytes": 86592
+        }
+      ],
+      "sha256": "eb0127b365a1236dfaa07b5b60703d224526c199961794410e6c4a02bd841ba6",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Creuzer's printed page numbers; the propositions by number",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-3-1822: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-creuzer-initia-t3/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-pasquali-1908",
+      "title": "Proclus, Commentary on the Cratylus: Procli Diadochi in Platonis Cratylum commentaria, ed. Giorgio Pasquali (Leipzig: Teubner, 1908), Internet Archive OCR of a scan of the Teubner reprint",
+      "kind": "archive",
+      "item": "pasquali-in-platonis-cratylum-commentaria-gr-lat-1908",
+      "repo": "https://archive.org/details/pasquali-in-platonis-cratylum-commentaria-gr-lat-1908",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/pasquali-in-platonis-cratylum-commentaria-gr-lat-1908/Pasquali%20-%20In%20Platonis%20Cratylum%20commentaria%2C%20%5Bgr-lat%5D%2C%201908_djvu.xml",
+          "sha256": "7a7617ebfacc1a6562b2e5c3f39009051dfac37a91c803fc43a4555537bc7783",
+          "bytes": 4454310
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/pasquali-in-platonis-cratylum-commentaria-gr-lat-1908/Pasquali%20-%20In%20Platonis%20Cratylum%20commentaria%2C%20%5Bgr-lat%5D%2C%201908_page_numbers.json",
+          "sha256": "f8b25de3faa1ec7c632a34f6fd330a5e7085c9aba7c212df7d7047692d3c745c",
+          "bytes": 34200
+        }
+      ],
+      "sha256": "7a7617ebfacc1a6562b2e5c3f39009051dfac37a91c803fc43a4555537bc7783",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Pasquali's page and line",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item pasquali-in-platonis-cratylum-commentaria-gr-lat-1908: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-pasquali-1908/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-couvreur-1901",
+      "title": "Hermias, Scholia on the Phaedrus: Hermiae Alexandrini in Platonis Phaedrum scholia, ed. Paul Couvreur (Paris: E. Bouillon, 1901), Internet Archive OCR of the University of Toronto copy",
+      "kind": "archive",
+      "item": "hermiaealexandri00herm",
+      "repo": "https://archive.org/details/hermiaealexandri00herm",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/hermiaealexandri00herm/hermiaealexandri00herm_djvu.xml",
+          "sha256": "2eb4229023d30b2e8c12d9fb822f1439bff71b2f85ec9a9f422d6841cfafa0cd",
+          "bytes": 15797075
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/hermiaealexandri00herm/hermiaealexandri00herm_page_numbers.json",
+          "sha256": "661c50417134fbfa6386a7ab9d4ed33c29c9aef58cdaba4850df6a868335349a",
+          "bytes": 52670
+        }
+      ],
+      "sha256": "2eb4229023d30b2e8c12d9fb822f1439bff71b2f85ec9a9f422d6841cfafa0cd",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Couvreur's page and line",
+      "licence": "Public domain (printed in 1901, before 1930; the Internet Archive gives no other rights statement)",
+      "provenance": "Internet Archive item hermiaealexandri00herm: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-couvreur-1901/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
+    },
+    {
+      "id": "ia-kopp-1826",
+      "title": "Damascius, Problems and Solutions concerning First Principles: Damascii philosophi Platonici Quaestiones de primis principiis, ed. Joseph Kopp (Frankfurt: H. L. Broenner, 1826), Internet Archive OCR of the National Library of Naples copy (scanned by Google)",
+      "kind": "archive",
+      "item": "bub_gb_vSktvALnbHIC",
+      "repo": "https://archive.org/details/bub_gb_vSktvALnbHIC",
+      "files": [
+        {
+          "file": "djvu.xml",
+          "url": "https://archive.org/download/bub_gb_vSktvALnbHIC/bub_gb_vSktvALnbHIC_djvu.xml",
+          "sha256": "e8f89d77f7b041890dcf5079892b545e8b8f4e874551a800cb4e04b6241eea2b",
+          "bytes": 14080670
+        },
+        {
+          "file": "page_numbers.json",
+          "url": "https://archive.org/download/bub_gb_vSktvALnbHIC/bub_gb_vSktvALnbHIC_page_numbers.json",
+          "sha256": "d5583391fcfeb06d39b6696c86bedbae5965b1b4ea06ed7f161f348985a6e26f",
+          "bytes": 71704
+        }
+      ],
+      "sha256": "e8f89d77f7b041890dcf5079892b545e8b8f4e874551a800cb4e04b6241eea2b",
+      "layer": "neoplatonist",
+      "language": "grc",
+      "citation_scheme": "Kopp's printed page numbers",
+      "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
+      "provenance": "Internet Archive item bub_gb_vSktvALnbHIC: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-kopp-1826/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "status": "verified"
     }
   ]
 }

@@ -1,0 +1,203 @@
+{
+ "_about": "Corrections to the OCR of the scanned Neoplatonist texts (milestone 25), kept apart from the text, which is shown as received. Each: the text (tools/neoplatonists.py TEXTS), what the OCR prints (a whole word), what is read, and why; 'unit' limits it to one page ('<source id>:<leaf>'), otherwise it applies to every page of the text. The reader shows the corrections beside the page and a reading with them applied; the build counts how many words each changes (reports/neoplatonists.md). Add a correction here, never in the text.",
+ "corrections": [
+  {
+   "text": "hermias-phaedrus",
+   "ocr": "χαὶ",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "hermias-phaedrus",
+   "ocr": "xai",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "hermias-phaedrus",
+   "ocr": "xal",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "hermias-phaedrus",
+   "ocr": "χαί",
+   "read": "καί",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-alcibiades",
+   "ocr": "χαὶ",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-alcibiades",
+   "ocr": "xai",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-alcibiades",
+   "ocr": "xal",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-alcibiades",
+   "ocr": "χαί",
+   "read": "καί",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-parmenides",
+   "ocr": "χαὶ",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-parmenides",
+   "ocr": "xai",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-parmenides",
+   "ocr": "xal",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-parmenides",
+   "ocr": "χαί",
+   "read": "καί",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "olympiodorus-alcibiades",
+   "ocr": "χαὶ",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "olympiodorus-alcibiades",
+   "ocr": "xai",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "olympiodorus-alcibiades",
+   "ocr": "xal",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "olympiodorus-alcibiades",
+   "ocr": "χαί",
+   "read": "καί",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-elements",
+   "ocr": "χαὶ",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-elements",
+   "ocr": "xai",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-elements",
+   "ocr": "xal",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-elements",
+   "ocr": "χαί",
+   "read": "καί",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-cratylus",
+   "ocr": "χαὶ",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-cratylus",
+   "ocr": "xai",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-cratylus",
+   "ocr": "xal",
+   "read": "καὶ",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "proclus-cratylus",
+   "ocr": "χαί",
+   "read": "καί",
+   "why": "The OCR reads the printed κ of this type as χ (or the Latin x), and ι as l; καί is by far the commonest word of the Greek, and χαί, xai or xal is no Greek word."
+  },
+  {
+   "text": "damascius-principles",
+   "ocr": "χαί",
+   "read": "καί",
+   "why": "The OCR reads the printed κ of Kopp's type as χ; καί is by far the commonest word of the Greek, and χαί is no Greek word. (It also prints the accents the modern way, with an acute for every accent: that is left as it is.)"
+  },
+  {
+   "text": "proclus-alcibiades",
+   "ocr": "ἐςὶ",
+   "read": "ἐστὶ",
+   "why": "Cousin's type prints στ as a ligature, which the OCR reads as ς: ἐςὶ is ἐστὶ. No Greek word is spelt with ς inside it."
+  },
+  {
+   "text": "proclus-alcibiades",
+   "ocr": "ἔςι",
+   "read": "ἔστι",
+   "why": "Cousin's type prints στ as a ligature, which the OCR reads as ς: ἐςὶ is ἐστὶ. No Greek word is spelt with ς inside it."
+  },
+  {
+   "text": "proclus-alcibiades",
+   "ocr": "ἐςὶν",
+   "read": "ἐστὶν",
+   "why": "Cousin's type prints στ as a ligature, which the OCR reads as ς: ἐςὶ is ἐστὶ. No Greek word is spelt with ς inside it."
+  },
+  {
+   "text": "proclus-alcibiades",
+   "ocr": "ἔςιν",
+   "read": "ἔστιν",
+   "why": "Cousin's type prints στ as a ligature, which the OCR reads as ς: ἐςὶ is ἐστὶ. No Greek word is spelt with ς inside it."
+  },
+  {
+   "text": "proclus-parmenides",
+   "ocr": "ἐςὶ",
+   "read": "ἐστὶ",
+   "why": "Cousin's type prints στ as a ligature, which the OCR reads as ς: ἐςὶ is ἐστὶ. No Greek word is spelt with ς inside it."
+  },
+  {
+   "text": "proclus-parmenides",
+   "ocr": "ἔςι",
+   "read": "ἔστι",
+   "why": "Cousin's type prints στ as a ligature, which the OCR reads as ς: ἐςὶ is ἐστὶ. No Greek word is spelt with ς inside it."
+  },
+  {
+   "text": "proclus-parmenides",
+   "ocr": "ἐςὶν",
+   "read": "ἐστὶν",
+   "why": "Cousin's type prints στ as a ligature, which the OCR reads as ς: ἐςὶ is ἐστὶ. No Greek word is spelt with ς inside it."
+  },
+  {
+   "text": "proclus-parmenides",
+   "ocr": "ἔςιν",
+   "read": "ἔστιν",
+   "why": "Cousin's type prints στ as a ligature, which the OCR reads as ς: ἐςὶ is ἐστὶ. No Greek word is spelt with ς inside it."
+  }
+ ]
+}

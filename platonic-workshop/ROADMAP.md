@@ -180,12 +180,19 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Introduction (Proclus, Damascius, Simplicius) are modernised from Taylor's English, not translated afresh from the Greek;
   Taylor's footnotes are left as he printed them.
 
-## Milestone 25: the rest of the Neoplatonists
+## Milestone 25: the rest of the Neoplatonists (done)
 
 - Add the texts not yet in, in public-domain Greek editions, read whole with contents: the whole of Plotinus; Proclus on the
   Alcibiades, Republic, Parmenides and Cratylus, and the Elements of Theology; Iamblichus; Damascius; Hermias on the Phaedrus;
   Olympiodorus on the Alcibiades, Gorgias and Phaedo. Each edition named and its licence quoted; OCR shown as received,
   corrections kept separately.
+- Done: 14 texts, over a million Greek words, on a shelf of their own (`#neo/plotinus-enneads`): Plotinus, Proclus' Republic
+  and five works of Iamblichus from First1KGreek's TEI; Proclus on the Alcibiades, Parmenides and Cratylus, the Elements,
+  Damascius on the first principles, Hermias on the Phaedrus and Olympiodorus on the Alcibiades from public-domain scans,
+  OCR shown as received, page by page with the edition's page numbers and a link to the scan, corrections kept apart
+  (`tools/neoplatonists.py`, `reader/neo.js`, `reports/neoplatonists.md`). Left out, with the reasons on the shelf:
+  Olympiodorus on the Gorgias (no public-domain edition reachable) and on the Phaedo (no usable scan), Damascius' other
+  commentaries, and the Greek of Proclus on the Timaeus and the Theology.
 
 ## Milestone 26: the commentators' Greek beside Taylor's English
 

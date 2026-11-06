@@ -35,6 +35,7 @@ import mywork  # noqa: E402
 import reconcile  # noqa: E402
 import search  # noqa: E402
 import nt  # noqa: E402
+import neoplatonists  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
@@ -826,6 +827,54 @@ class Library:
                 "sources": self.rows("SELECT id, title, licence, provenance, repo, commit_sha FROM source WHERE id IN ('morphgnt-sblgnt', 'asv-1901')"),
                 "first": {r["work_id"]: r["ref"] for r in self.rows("SELECT work_id, ref FROM section WHERE seq = 0 AND work_id IN (SELECT id FROM work WHERE corpus = 'nt')")}}
 
+    # ------------------------------------------------------------ milestone 25: the rest of the Neoplatonists
+
+    def has_neo(self):
+        return bool(self.one("SELECT name FROM sqlite_master WHERE name = 'neo_text'"))
+
+    def neo(self):
+        """The Neoplatonists' shelf: every text with its edition, licence and contents, and what is not here."""
+        if not self.has_neo():
+            return {"texts": [], "stats": None}
+        texts = self.rows("SELECT * FROM neo_text ORDER BY seq")
+        parts = {}
+        for p in self.rows("SELECT text_id, seq, label, n_units, words FROM neo_part ORDER BY text_id, seq"):
+            parts.setdefault(p.pop("text_id"), []).append(p)
+        srcs = {r["id"]: r for r in self.rows("SELECT id, title, repo, commit_sha, licence, provenance FROM source WHERE layer = 'neoplatonist'")}
+        for t in texts:
+            t["parts"] = parts.get(t["id"], [])
+            t["sources"] = [srcs[i] for i in json.loads(t.pop("source_ids")) if i in srcs]
+            t["corrections"] = self.one("SELECT count(*) n FROM neo_correction WHERE text_id = ?", t["id"])["n"]
+        stats = self.one("SELECT value FROM build WHERE key = 'neo_stats'")
+        return {"texts": texts, "stats": json.loads(stats["value"]) if stats else None}
+
+    def neo_part(self, text_id, part):
+        """One part of a text (a treatise, an essay, ten pages of a scan), with its units, the corrections
+        that apply to them, and the parts before and after."""
+        if not self.has_neo():
+            return None
+        t = self.one("SELECT * FROM neo_text WHERE id = ?", text_id)
+        p = self.one("SELECT * FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part)
+        if not t or not p:
+            return None
+        t["source_ids"] = json.loads(t["source_ids"])
+        units = self.rows("SELECT u.*, s.repo FROM neo_unit u JOIN source s ON s.id = u.source_id WHERE u.text_id = ? AND u.part_seq = ? ORDER BY u.seq",
+                          text_id, part)
+        for u in units:
+            u["notes"] = json.loads(u["notes"]) if u["notes"] else []
+            u["margin"] = json.loads(u["margin"]) if u["margin"] else []
+            if t["kind"] == "ocr":
+                u["raw"] = neoplatonists.as_received(u["text"], u["raw"])
+                # The page image at the Internet Archive, to check the OCR against.
+                item = (u["repo"] or "").rsplit("/", 1)[-1]
+                u["scan"] = f"https://archive.org/details/{item}/page/n{u['leaf'] - 1}/mode/1up" if item and u["leaf"] else None
+            u.pop("repo", None)
+        corr = self.rows("SELECT unit_n, ocr, read, why, by, applied FROM neo_correction WHERE text_id = ? ORDER BY rowid", text_id)
+        n_parts = t["n_parts"]
+        return {"text": t, "part": p, "units": units, "corrections": corr,
+                "prev": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part - 1),
+                "next": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part + 1) if part + 1 < n_parts else None}
+
     def work_sections(self, work_id):
         return [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", work_id)]
 
@@ -1295,6 +1344,11 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send_json(lib.search.elsewhere(greek.nfc(parts[1]), corpus=query.get("corpus") or "plato"))
                 if parts == ["nt"]:
                     return self.send_json(lib.nt())
+                if parts == ["neo"]:
+                    return self.send_json(lib.neo())
+                if len(parts) == 3 and parts[0] == "neo" and parts[2].isdigit():
+                    d = lib.neo_part(parts[1], int(parts[2]))
+                    return self.send_json(d) if d else self.send_json({"error": "no such part"}, HTTPStatus.NOT_FOUND)
                 if parts == ["studies"]:
                     rows = lib.mine.studies(include_deleted=query.get("deleted") == "1")
                     return self.send_json(rows)

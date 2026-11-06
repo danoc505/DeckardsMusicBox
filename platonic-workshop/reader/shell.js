@@ -35,7 +35,7 @@ function currentNav() {
   const h = location.hash.slice(1);
   if (h === "start") return "start";
   if (h.startsWith("glossary") || h.startsWith("words")) return "glossary";
-  if (h.startsWith("taylor/")) return "library";
+  if (h.startsWith("taylor/") || h.startsWith("neo/")) return "library";
   if (h.startsWith("library") || h === "corpus" || h.startsWith("corpus?") || h === "commentaries" || h.startsWith("discussed") || h.startsWith("dossiers")) return "library";
   if (h.startsWith("dictionary")) return "dictionary";
   if (h.startsWith("search") || h.startsWith("renderings/")) return "concordance";
@@ -74,6 +74,7 @@ route = function (push) {  // eslint-disable-line no-global-assign
   if (raw === "start") { prefsSet("seenStart", "1"); showStart(); return; }
   if (raw === "glossary" || raw.startsWith("glossary/")) { showGlossary(decodeURIComponent(raw.slice(9))); return; }
   if (raw.startsWith("taylor/")) { showTaylorText(decodeURIComponent(raw.slice(7))); return; }
+  if (raw.startsWith("neo/") && typeof showNeo === "function") { showNeo(raw.slice(4)); return; }
   // A first visit, with no address and nothing read yet, opens Start here.
   if (!raw && !prefsGet("seenStart", "") && !prefsGet("lastRead", "")) { history.replaceState(null, "", "#start"); markNav(); prefsSet("seenStart", "1"); showStart(); return; }
   if (raw === "dictionary" || raw.startsWith("dictionary/")) { showDictionaryPage(decodeURIComponent(raw.slice(11))); return; }
@@ -160,8 +161,10 @@ async function showLibrary() {
   await loadOrder();
   if (typeof loadNT === "function") await loadNT();
   const ntOn = typeof ntShelf === "function" && ntWorks().length;
+  if (typeof loadNeo === "function") await loadNeo();
+  const neoHere = typeof neoShelf === "function" && neoOn();
   $("#toc").innerHTML = `<h3>Library</h3><ul class="books"><li><a href="#lib-dialogues" data-scroll="lib-dialogues"><span>The dialogues</span></a></li>
-    <li><a href="#lib-shelf" data-scroll="lib-shelf"><span>Guides to Plato</span></a></li>${ntOn ? `<li><a href="#lib-nt" data-scroll="lib-nt"><span>The Greek New Testament</span></a></li>` : ""}<li><a href="#corpus"><span>Corpus map</span></a></li><li><a href="#commentaries"><span>Commentaries</span></a></li>
+    <li><a href="#lib-shelf" data-scroll="lib-shelf"><span>Guides to Plato</span></a></li>${ntOn ? `<li><a href="#lib-nt" data-scroll="lib-nt"><span>The Greek New Testament</span></a></li>` : ""}${neoHere ? `<li><a href="#lib-neo" data-scroll="lib-neo"><span>The Neoplatonists</span></a></li>` : ""}<li><a href="#corpus"><span>Corpus map</span></a></li><li><a href="#commentaries"><span>Commentaries</span></a></li>
     <li><a href="#dossiers"><span>Famous passages</span></a></li><li><a href="#discussed"><span>Most discussed passages</span></a></li><li><button type="button" class="link-btn" id="lib-sources">Sources</button></li></ul>`;
   const d = GUIDE.order;
   const o = d ? d.orders.find((x) => x.id === orderPref()) : null;
@@ -180,6 +183,7 @@ async function showLibrary() {
   }
   h += `</div></section>
     <section id="lib-shelf"><h3>Guides to Plato</h3><p class="meta">Introductions written by Platonists, ancient and modern, to read whole.</p>${shelfList()}</section>
+    ${neoHere ? neoShelf() : ""}
     ${ntOn ? ntShelf() : ""}
     <section><h3>More</h3><p><a class="btn" href="#corpus">Corpus map</a> <a class="btn" href="#dossiers">Famous passages</a> <a class="btn" href="#commentaries">Every commentary</a> <a class="btn" href="#discussed">The passages the notes cite most</a>
       <button type="button" class="btn" id="lib-sources2">Sources and licences</button></p></section>`;
