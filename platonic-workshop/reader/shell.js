@@ -158,8 +158,10 @@ async function showLibrary() {
   setView("library-view");
   document.title = "Library · Platonic Workshop";
   await loadOrder();
+  if (typeof loadNT === "function") await loadNT();
+  const ntOn = typeof ntShelf === "function" && ntWorks().length;
   $("#toc").innerHTML = `<h3>Library</h3><ul class="books"><li><a href="#lib-dialogues" data-scroll="lib-dialogues"><span>The dialogues</span></a></li>
-    <li><a href="#lib-shelf" data-scroll="lib-shelf"><span>Guides to Plato</span></a></li><li><a href="#corpus"><span>Corpus map</span></a></li><li><a href="#commentaries"><span>Commentaries</span></a></li>
+    <li><a href="#lib-shelf" data-scroll="lib-shelf"><span>Guides to Plato</span></a></li>${ntOn ? `<li><a href="#lib-nt" data-scroll="lib-nt"><span>The Greek New Testament</span></a></li>` : ""}<li><a href="#corpus"><span>Corpus map</span></a></li><li><a href="#commentaries"><span>Commentaries</span></a></li>
     <li><a href="#dossiers"><span>Famous passages</span></a></li><li><a href="#discussed"><span>Most discussed passages</span></a></li><li><button type="button" class="link-btn" id="lib-sources">Sources</button></li></ul>`;
   const d = GUIDE.order;
   const o = d ? d.orders.find((x) => x.id === orderPref()) : null;
@@ -178,6 +180,7 @@ async function showLibrary() {
   }
   h += `</div></section>
     <section id="lib-shelf"><h3>Guides to Plato</h3><p class="meta">Introductions written by Platonists, ancient and modern, to read whole.</p>${shelfList()}</section>
+    ${ntOn ? ntShelf() : ""}
     <section><h3>More</h3><p><a class="btn" href="#corpus">Corpus map</a> <a class="btn" href="#dossiers">Famous passages</a> <a class="btn" href="#commentaries">Every commentary</a> <a class="btn" href="#discussed">The passages the notes cite most</a>
       <button type="button" class="btn" id="lib-sources2">Sources and licences</button></p></section>`;
   $("#main").innerHTML = h + `</div>`;

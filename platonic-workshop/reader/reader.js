@@ -12,6 +12,12 @@ const state = { work: null, works: [], page: null, data: null, selected: null, t
 const $ = (sel, el = document) => el.querySelector(sel);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const STEPH = /^(\d{1,3})([a-e])?$/;
+// Milestone 23: the New Testament is cited by chapter and verse ('3:16', or '3.16' as typed); a chapter is its page.
+const VERSE = /^(\d{1,3})[:.](\d{1,3})$/;
+const isNT = (w) => !!w && w.corpus === "nt";
+const isPlato = (w) => !!w && w.corpus !== "nt";
+// 'the Timaeus', but 'Matthew': the books of the New Testament take no article.
+const theTitle = (w) => (isNT(w) ? "" : "the ") + ((w && w.title) || "");
 
 async function api(path) {
   const r = await fetch("/api/" + path);
@@ -44,6 +50,8 @@ function applyLayer(k, on) {
 // ------------------------------------------------------------------ navigation
 
 function parseRef(s) {
+  const v = VERSE.exec(String(s).trim().replace(/\s+/g, ""));
+  if (v) return { page: +v[1], ref: +v[1] + ":" + +v[2] };
   const m = STEPH.exec(String(s).trim().toLowerCase().replace(/\s+/g, ""));
   if (!m) return null;
   return { page: +m[1], ref: m[2] ? m[1] + m[2] : null };
@@ -55,7 +63,9 @@ const squash = (s) => String(s || "").toLowerCase().replace(/[\s.]+/g, "");
 function findWork(name) {
   const q = squash(name);
   if (!q) return null;
-  const ws = state.works.filter((w) => w.imported);
+  // The works of the corpus being read come first: 'phil' is the Philebus in Plato, Philippians in the New Testament.
+  const cur = workById(WORK);
+  const ws = state.works.filter((w) => w.imported).sort((a, b) => (isNT(a) !== isNT(cur)) - (isNT(b) !== isNT(cur)));
   return ws.find((w) => w.id === q || squash(w.abbr) === q || w.slug.replace(/-/g, "") === q)
     || ws.find((w) => squash(w.title).startsWith(q) || w.slug.replace(/-/g, "").startsWith(q)) || null;
 }
@@ -65,7 +75,7 @@ const workAbbr = (id) => (workById(id) || {}).abbr || id;
 // 'Rep. 514a', 'Ti. 29e', 'phaedrus 246', or a reference in the work being read ('29e').
 function parsePlace(s) {
   s = String(s || "").trim();
-  const m = /^(.*?)[\s/]*(\d{1,3}\s*[a-eA-E]?)$/.exec(s);
+  const m = /^(.*?)[\s/]*(\d{1,3}\s*[:.]\s*\d{1,3}|\d{1,3}\s*[a-eA-E]?)$/.exec(s);
   if (!m) { const w = findWork(s); return w ? { work: w, ref: null, page: null } : null; }
   const p = parseRef(m[2]);
   if (!p) return null;
@@ -82,16 +92,21 @@ async function openWork(workId) {
   if (state.work && state.work.id === workId) return true;
   const w = workById(workId);
   if (!w || !w.imported) return false;
-  $("#main").innerHTML = `<p class="loading">Opening the ${esc(w.title)}…</p>`;
+  $("#main").innerHTML = `<p class="loading">Opening ${esc(theTitle(w))}…</p>`;
   state.work = await api(`work/${workId}`);
   WORK = workId;
   state.page = null;
   state.data = null;
   closeInspector(true);
   const grc = state.work.editions.find((e) => e.lang === "grc");
-  $("#work-sub").textContent = `${grc.printed} · ${state.work.counts.tokens.toLocaleString()} words · ${state.work.counts.notes} notes · ${state.work.counts.links_out} links`;
+  $("#work-sub").textContent = isNT(state.work)
+    ? `The Greek New Testament · ${grc.label} with MorphGNT · ${state.work.counts.tokens.toLocaleString()} words`
+    : `${grc.printed} · ${state.work.counts.tokens.toLocaleString()} words · ${state.work.counts.notes} notes · ${state.work.counts.links_out} links`;
   const sel = $("#work-select");
   if (sel) sel.value = workId;
+  // Milestone 23: the books of the New Testament have no page "as a whole".
+  const wb = $("#whole-btn");
+  if (wb) wb.style.display = isNT(state.work) ? "none" : "";
   document.title = `${state.work.title} · Platonic Workshop`;
   return true;
 }
@@ -112,14 +127,14 @@ async function goTo(workId, ref, page, push = true) {
   try {
     if (!(await openWork(workId))) return false;
   } catch (e) {
-    $("#main").innerHTML = `<div class="load-failed"><p class="error">The dialogue did not open (${esc(e.message)}). This is usually a dropped connection.</p>
+    $("#main").innerHTML = `<div class="load-failed"><p class="error">The ${isNT(workById(workId)) ? "book" : "dialogue"} did not open (${esc(e.message)}). This is usually a dropped connection.</p>
       <p><button type="button" class="btn" id="retry-work">Try again</button></p></div>`;
     $("#retry-work").addEventListener("click", () => goTo(workId, ref, page, false));
     return false;
   }
   const ok = ref ? state.work.sections.includes(ref) : state.work.sections.some((r) => parseInt(r) === page);
   if (!ok) {
-    $("#main").innerHTML = `<p class="error">The ${esc(state.work.title)} has no section ${esc(ref || page)}. It runs from ${esc(state.work.sections[0])} to ${esc(state.work.sections[state.work.sections.length - 1])}.</p>`;
+    $("#main").innerHTML = `<p class="error">${esc(theTitle(state.work).replace(/^t/, "T"))} has no ${isNT(state.work) ? (ref ? "verse" : "chapter") : "section"} ${esc(ref || page)}. It runs from ${esc(state.work.sections[0])} to ${esc(state.work.sections[state.work.sections.length - 1])}.</p>`;
     return false;
   }
   const hash = placeHash(workId, ref || String(page));
@@ -139,7 +154,7 @@ let pageAsk = 0;
 async function loadPage(page) {
   if (state.page === page && state.data && state.data.work_id === WORK && $("#main .sec")) { scrollToTarget(); return; }
   const ask = ++pageAsk;
-  $("#main").innerHTML = `<p class="loading">Loading page ${page}…</p>`;
+  $("#main").innerHTML = `<p class="loading">Loading ${isNT(state.work) ? "chapter" : "page"} ${page}…</p>`;
   let data = null, err = null;
   for (let tries = 0; tries < 2 && !data; tries++) {
     if (tries) await new Promise((ok) => setTimeout(ok, 1200));
@@ -148,7 +163,7 @@ async function loadPage(page) {
   }
   if (ask !== pageAsk) return;
   if (!data) {
-    $("#main").innerHTML = `<div class="load-failed"><p class="error">Page ${page} did not load (${esc(err && err.message)}). This is usually a dropped connection.</p>
+    $("#main").innerHTML = `<div class="load-failed"><p class="error">${isNT(state.work) ? "Chapter" : "Page"} ${page} did not load (${esc(err && err.message)}). This is usually a dropped connection.</p>
       <p><button type="button" class="btn" id="retry-page">Try again</button></p></div>`;
     $("#retry-page").addEventListener("click", () => loadPage(page));
     return;
@@ -316,7 +331,11 @@ function renderPage() {
   const lastPara = {};
   const idx = MINE.idx = mineIndex(d);
   indexCommentary(d);
-  let html = `<div class="page-head"><h1>${d.page}</h1><span><span class="term" title="Stephanus numbers: the page and part of the page in the edition of Plato printed in 1578, used by every book on Plato">Stephanus page</span> ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
+  const nt = isNT(w);
+  let html = nt
+    ? `<div class="page-head"><h1>${d.page}</h1><span>${esc(w.title)}, <span class="term" title="The chapters and verses every Bible uses (chapters from the 13th century, verses from 1551)">chapter</span> ${d.page}, verses ${esc(d.sections[0].ref.split(":")[1])}–${esc(d.sections[d.sections.length - 1].ref.split(":")[1])}</span></div>
+      ${d.page === 1 ? ntHead(w) : ""}`
+    : `<div class="page-head"><h1>${d.page}</h1><span><span class="term" title="Stephanus numbers: the page and part of the page in the edition of Plato printed in 1578, used by every book on Plato">Stephanus page</span> ${d.page}, sections ${esc(d.sections[0].ref)}–${esc(d.sections[d.sections.length - 1].ref)}</span></div>`;
   html += renderTransBar();
   html += renderCommBar();
   if (!d.mine.length) html += `<p class="page-note mine-note">Your work: select Greek words to translate them or write a footnote, or use <em>Write on</em> under a section for the whole of it.</p>`;
@@ -341,13 +360,14 @@ function renderPage() {
       return `<div class="eng" lang="en" data-ed="${esc(e.id)}" data-label="${esc(e.label)}">${before}${body}</div>`;
     }).join("");
     html += `<section class="sec" id="s-${s.ref}" data-ref="${s.ref}">
-      <button class="ref" data-copy="${esc(s.urn)}" title="Section ${s.ref}: a Stephanus number, the page and part of the page in the 1578 edition. Tap to copy its full address (${esc(s.urn)})">${s.ref}</button>
+      <button class="ref" data-copy="${esc(s.urn)}" title="${nt ? `${esc(w.title)} ${s.ref}: chapter ${s.ref.replace(":", ", verse ")}` : `Section ${s.ref}: a Stephanus number, the page and part of the page in the 1578 edition`}. Tap to copy its full address (${esc(s.urn)})">${s.ref}</button>
       <div class="grc" lang="grc">${grc}</div>
       ${eng}
       <div class="app">${renderApparatus(s, d, numbers)}</div>
     </section>`;
   });
-  html += `<div class="pager">${d.prev ? `<a href="${placeHash(WORK, String(d.prev))}">‹ page ${d.prev}</a>` : "<span></span>"}${d.next ? `<a href="${placeHash(WORK, String(d.next))}">page ${d.next} ›</a>` : "<span></span>"}</div>`;
+  const pg = nt ? "chapter" : "page";
+  html += `<div class="pager">${d.prev ? `<a href="${placeHash(WORK, String(d.prev))}">‹ ${pg} ${d.prev}</a>` : "<span></span>"}${d.next ? `<a href="${placeHash(WORK, String(d.next))}">${pg} ${d.next} ›</a>` : "<span></span>"}</div>`;
   $("#main").innerHTML = html;
   if (typeof panelAfterRender === "function") panelAfterRender();
 }
@@ -389,7 +409,7 @@ function renderToc() {
       return `<li class="${here ? "here" : ""}"><a href="${esc(placeHash(WORK, b.start_ref))}" title="${esc(b.basis)}"><span>${esc(b.label)}</span><span>${esc(b.start_ref)}–${esc(b.end_ref)}</span></a></li>`;
     }).join("")}</ul>`;
   }
-  html += `<h3 title="Stephanus pages: the pages of the 1578 edition of Plato, which every book on Plato uses">Pages</h3><div class="pages">${pages.map((p) => `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
+  html += isNT(w) ? `<h3 title="The chapters every Bible uses">Chapters</h3><div class="pages">` : `<h3 title="Stephanus pages: the pages of the 1578 edition of Plato, which every book on Plato uses">Pages</h3><div class="pages">${pages.map((p) => `<a href="${placeHash(WORK, String(p))}" class="${p === state.page ? "here" : ""}">${p}</a>`).join("")}</div>`;
   // Speeches: collapse the opening exchanges into one line per long speech.
   const seq = new Map(w.sections.map((r, i) => [r, i]));
   const merged = [];
@@ -401,6 +421,11 @@ function renderToc() {
     } else merged.push({ start_ref: s.start_ref, end_ref: s.end_ref, labels: [s.label] });
   }
   const cur = state.data ? state.data.sections.map((s) => s.ref) : [];
+  if (isNT(w)) {
+    html += renderTocNT(w);
+    $("#toc").innerHTML = html;
+    return;
+  }
   html += `<h3>Who is speaking</h3><ul class="speeches">${merged.map((m) => {
     const here = cur.some((r) => seq.get(r) >= seq.get(m.start_ref) && seq.get(r) <= seq.get(m.end_ref));
     const label = m.labels.length > 2 ? "Dialogue" : m.labels.join(", ");
@@ -434,15 +459,20 @@ async function inspect(id, pane = "word") {
   if (state.view === "read") html += renderMineForWord(id) + commForWord(id);
   if (t.tags.length) {
     const split = t.tags.length > 1;
-    html += `<div class="box tagged"><h3><span title="Scholars: the lemma and parse">Dictionary form and grammar</span> <span class="badge" title="Chosen by a computer program (GLAUx), not checked by hand">machine</span></h3>`;
+    html += t.tags[0].source_id === "morphgnt-sblgnt"
+      ? `<div class="box tagged"><h3><span title="Scholars: the lemma and parse">Dictionary form and grammar</span> <span class="badge quoted" title="From MorphGNT, edited by scholars over many years">edited</span></h3>`
+      : `<div class="box tagged"><h3><span title="Scholars: the lemma and parse">Dictionary form and grammar</span> <span class="badge" title="Chosen by a computer program (GLAUx), not checked by hand">machine</span></h3>`;
     for (const tag of t.tags) {
       html += `<div><span class="lemma" lang="grc" title="Dictionary form (scholars: lemma)">${esc(tag.lemma)}</span>${split ? ` <span class="meta">(part ${tag.part + 1}: <span lang="grc">${esc(tag.source_form)}</span>)</span>` : ""}</div>
         <dl class="feat">${tag.features.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}
         ${tag.relation ? `<dt>role in sentence</dt><dd>${esc(tag.relation)}</dd>` : ""}</dl>`;
     }
     const t0 = t.tags[0];
-    html += `<p class="prov">The single choice of GLAUx, a computer program that marks every word's dictionary form and grammar (${t0.analysis === "auto" ? "not checked by hand" : "checked by hand"}). Matched to this word by ${esc(t0.align_method)}.
-      ${t.elsewhere_in_work ? `This dictionary form occurs ${t.elsewhere_in_work}× in the ${esc((workById(t.work_id) || {}).title)}.` : ""}</p></div>`;
+    const here = t.elsewhere_in_work ? `This dictionary form occurs ${t.elsewhere_in_work}× in ${esc(theTitle(workById(t.work_id)))}.` : "";
+    html += t0.source_id === "morphgnt-sblgnt"
+      ? `<p class="prov">From MorphGNT, which gives every word of the Greek New Testament its dictionary form and grammar: begun as the CCAT analysis (University of Pennsylvania) and corrected by its editors since; its own code is <code>${esc(t0.source_word_id.split(" ").slice(1).join(" "))}</code>. ${here}</p></div>`
+      : `<p class="prov">The single choice of GLAUx, a computer program that marks every word's dictionary form and grammar (${t0.analysis === "auto" ? "not checked by hand" : "checked by hand"}). Matched to this word by ${esc(t0.align_method)}.
+      ${here}</p></div>`;
   } else {
     html += `<div class="box none"><h3 title="Scholars: not tagged">No grammar marked</h3>The GLAUx program has no word that lines up with this one${/^\[|\]$/.test(t.form) ? "" : " (often a word Burnet brackets as not Plato's, which GLAUx leaves out)"}. The list below still gives every grammar this spelling could have.</div>`;
   }
@@ -458,7 +488,7 @@ async function inspect(id, pane = "word") {
     html += `<div class="box alts"><h3 title="Scholars: every possible parse">Every possible grammar of this spelling</h3><p class="prov">The Morpheus program has no entry for this spelling.</p></div>`;
   }
   html += `<details class="prov"><summary>Sources for this word</summary>${
-    ["glaux-plato", "morpheus-analyses", "middle-liddell", "lsj", "lsj-abbreviations", "smyth-grammar", "agdt-guidelines"].map((k) => t.sources[k]).filter(Boolean).map((s) =>
+    [t.corpus === "nt" ? "morphgnt-sblgnt" : "glaux-plato", "morpheus-analyses", "middle-liddell", "lsj", "lsj-abbreviations", "smyth-grammar", t.corpus === "nt" ? null : "agdt-guidelines"].filter(Boolean).map((k) => t.sources[k]).filter(Boolean).map((s) =>
       `<p><strong>${esc(s.title)}</strong><br>${esc(s.provenance)}<br>Licence: ${esc(s.licence)} · ${/^[0-9a-f]{64}$/.test(s.commit_sha) ? "sha256" : "commit"} <code>${esc(s.commit_sha.slice(0, 10))}</code></p>`).join("")
   }</details>`;
   box.innerHTML = html;
@@ -545,7 +575,8 @@ function showDict(data, isTagged, forceLex) {
       <p class="prov">Look it up elsewhere: <a href="https://logeion.uchicago.edu/${encodeURIComponent(data.lemma)}" target="_blank" rel="noopener">Logeion</a>.</p>`;
   } else {
     body = entries.map((e) => {
-      const warn = METHOD_NOTE[e.method];
+      // Milestone 23: a word of the New Testament filed under another headword says which ('under γιγνώσκω: the Attic spelling of γινώσκω').
+      const warn = METHOD_NOTE[e.method] ?? (/^under /.test(e.method || "") ? `Filed ${e.method}.` : "");
       return `<article class="entry" data-entry="${e.id}">${warn ? `<p class="match-warn">${esc(warn)}</p>` : ""}${e.html}
         <p class="prov">${esc(lx.label)}, entry <code>${esc(e.key)}</code>${e.src_id ? ` (${esc(e.src_id)})` : ""}.</p></article>`;
     }).join("");
@@ -749,12 +780,12 @@ function route(push) {
 function renderWorkSelect() {
   const groups = new Map();
   for (const w of state.works.filter((x) => x.imported)) {
-    const k = w.tetralogy || 0;
+    const k = isNT(w) ? "nt" : w.tetralogy || 0;
     if (!groups.has(k)) groups.set(k, []);
     groups.get(k).push(w);
   }
   const sel = $("#work-select");
-  sel.innerHTML = [...groups].map(([k, ws]) => `<optgroup label="${k ? "Tetralogy " + k : "Other"}">${ws.map((w) =>
+  sel.innerHTML = [...groups].map(([k, ws]) => `<optgroup label="${k === "nt" ? "The Greek New Testament" : k ? "Tetralogy " + k : "Other"}">${ws.map((w) =>
     `<option value="${w.id}">${esc(w.title)}</option>`).join("")}</optgroup>`).join("");
   sel.value = WORK;
   sel.addEventListener("change", () => { go({ work: workById(sel.value), ref: null, page: null }); sel.blur(); });

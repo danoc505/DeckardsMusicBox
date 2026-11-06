@@ -34,6 +34,7 @@ import lexicon  # noqa: E402
 import mywork  # noqa: E402
 import reconcile  # noqa: E402
 import search  # noqa: E402
+import nt  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
@@ -123,7 +124,7 @@ class Library:
     # ------------------------------------------------------------ works
 
     def works(self):
-        return self.rows("SELECT w.id, w.urn, w.title, w.imported, w.abbr, w.slug, w.tetralogy, w.n_tokens, "
+        return self.rows("SELECT w.id, w.urn, w.title, w.imported, w.abbr, w.slug, w.tetralogy, w.n_tokens, w.corpus, "
                          "(SELECT min(ref) FROM section s WHERE s.work_id = w.id AND s.seq = 0) AS first_ref "
                          "FROM work w ORDER BY w.id")
 
@@ -260,7 +261,7 @@ class Library:
         return w
 
     def corpus(self):
-        works = self.rows("SELECT id, title, slug, tetralogy, imported, abbr, n_tokens FROM work ORDER BY id")
+        works = self.rows("SELECT id, title, slug, tetralogy, imported, abbr, n_tokens FROM work WHERE corpus = 'plato' ORDER BY id")
         matrix = self.rows("SELECT from_work, to_work, count(DISTINCT note_id) AS notes FROM link WHERE kind = 'cf' AND certainty != 'unresolved' "
                            "AND from_work != to_work GROUP BY from_work, to_work")
         stats = self.one("SELECT value FROM build WHERE key = 'structure_stats'")
@@ -600,7 +601,7 @@ class Library:
         all_pages = [r["page"] for r in self.rows("SELECT DISTINCT page FROM section WHERE work_id = ? ORDER BY page", work_id)]
         i = all_pages.index(page)
         return {
-            **self.page_terms(work_id, refs, chunks, seq),
+            **self.page_terms(work_id, refs, chunks, seq, self.corpus_of(work_id)),
             "work_id": work_id, "page": page, "sections": secs, "chunks": chunks, "tokens": tokens,
             "notes": notes, "commentary": commentary, "links_out": links_out, "links_in": links_in, "speeches": speeches, "mine": mine,
             "prev": all_pages[i - 1] if i > 0 else None, "next": all_pages[i + 1] if i + 1 < len(all_pages) else None,
@@ -608,13 +609,21 @@ class Library:
 
     # ------------------------------------------------------------ key terms (milestone 17)
 
-    def page_terms(self, work_id, refs, chunks, seq):
+    def corpus_of(self, work_id):
+        """'plato', or 'nt' for a book of the New Testament (milestone 23)."""
+        r = self.one("SELECT corpus FROM work WHERE id = ?", work_id)
+        return r["corpus"] if r else "plato"
+
+    def page_terms(self, work_id, refs, chunks, seq, corpus="plato"):
         """The words of a page marked as key terms, and for each English paragraph the terms the Greek
         beneath it has (in every section the paragraph spans), with each term's English forms; and
-        the fixed phrases, marked wherever they are printed."""
+        the fixed phrases, marked wherever they are printed. In the New Testament (milestone 23) the
+        marks are its own (nt_term_hit), and the fixed phrases are not marked: "the Good" there is
+        not Plato's."""
+        hit = "nt_term_hit" if corpus == "nt" else "term_hit"
         marks = ",".join("?" * len(refs))
         term_tokens = {}
-        for r in self.rows(f"SELECT h.token_id, h.term_id FROM term_hit h JOIN term t ON t.id = h.term_id "
+        for r in self.rows(f"SELECT h.token_id, h.term_id FROM {hit} h JOIN term t ON t.id = h.term_id "
                            f"WHERE t.key = 1 AND h.work_id = ? AND h.section_ref IN ({marks}) ORDER BY t.seq", work_id, *refs):
             term_tokens.setdefault(r["token_id"], []).append(r["term_id"])
         order = list(seq)
@@ -631,7 +640,7 @@ class Library:
         by_sec = {}
         need = sorted(need)
         if need:
-            for r in self.rows(f"SELECT DISTINCT h.section_ref, h.term_id FROM term_hit h JOIN term t ON t.id = h.term_id "
+            for r in self.rows(f"SELECT DISTINCT h.section_ref, h.term_id FROM {hit} h JOIN term t ON t.id = h.term_id "
                                f"WHERE t.key = 1 AND h.work_id = ? AND h.section_ref IN ({','.join('?' * len(need))})", work_id, *need):
                 by_sec.setdefault(r["section_ref"], set()).add(r["term_id"])
         chunk_terms = {}
@@ -648,7 +657,7 @@ class Library:
                 terms[r["term_id"]]["forms"].append(r["form"])
         phrases = [[r["form"], r["term_id"], r["label"]] for r in self.rows(
             "SELECT f.form, f.term_id, t.label FROM term_form f JOIN term t ON t.id = f.term_id WHERE f.kind = 'phrase' AND f.found = 1 AND t.key = 1 "
-            "ORDER BY length(f.form) DESC")]
+            "ORDER BY length(f.form) DESC")] if corpus == "plato" else []
         return {"term_tokens": term_tokens, "chunk_terms": chunk_terms, "terms": terms, "phrases": phrases}
 
     def terms(self):
@@ -703,7 +712,24 @@ class Library:
         lem = [x["lemma"] for x in t["lemmas"]]
         t["shares_word"] = self.rows(f"SELECT DISTINCT t.id, t.label, l.lemma FROM term_lemma l JOIN term t ON t.id = l.term_id "
                                      f"WHERE l.lemma IN ({','.join('?' * len(lem)) or 'NULL'}) AND t.id != ? ORDER BY t.seq", *lem, term_id)
+        t["nt"] = self.term_nt(term_id)
         return t
+
+    def term_nt(self, term_id):
+        """Milestone 23: where the term's words are marked in the Greek New Testament, a different
+        corpus, by book and verse, by MorphGNT's lemmas and the term's own rule."""
+        occ, words = {}, 0
+        for r in self.rows("SELECT h.work_id, h.section_ref, count(*) AS n FROM nt_term_hit h JOIN section s ON s.work_id = h.work_id AND s.ref = h.section_ref "
+                           "WHERE h.term_id = ? GROUP BY h.work_id, h.section_ref ORDER BY h.work_id, s.seq", term_id):
+            occ.setdefault(r["work_id"], []).append([r["section_ref"], r["n"]])
+            words += r["n"]
+        books = {r["id"]: r for r in self.rows("SELECT id, title, slug FROM work WHERE corpus = 'nt'")}
+        return {"words": words, "occurrences": occ,
+                "books": [{"work_id": w, "title": books[w]["title"], "slug": books[w]["slug"], "n": sum(n for _, n in refs)} for w, refs in occ.items()],
+                "forms_marked": self.rows("SELECT form, count(*) AS n FROM nt_term_hit WHERE term_id = ? GROUP BY form ORDER BY n DESC LIMIT 8", term_id),
+                "about": "The Greek New Testament (SBLGNT, 2010) is a different corpus from Plato: written four centuries later, in the common "
+                         "Greek (Koine), by other hands. A word is marked there by MorphGNT's dictionary form and the term's own rule, as in Plato; "
+                         "the same word need not mean the same thing."}
 
     # ------------------------------------------------------------ commentaries (milestone 7)
 
@@ -788,6 +814,16 @@ class Library:
     def cited(self, work_id, ref):
         return citations.citing_notes(self.db, work_id, ref)
 
+    def nt(self):
+        """Milestone 23: the Greek New Testament's shelf: its books by group, and what the build found."""
+        books = self.one("SELECT value FROM build WHERE key = 'nt_books'")
+        stats = self.one("SELECT value FROM build WHERE key = 'nt_stats'")
+        if not books:
+            return {"books": [], "stats": None, "sources": []}
+        return {"books": json.loads(books["value"]), "stats": json.loads(stats["value"]),
+                "sources": self.rows("SELECT id, title, licence, provenance, repo, commit_sha FROM source WHERE id IN ('morphgnt-sblgnt', 'asv-1901')"),
+                "first": {r["work_id"]: r["ref"] for r in self.rows("SELECT work_id, ref FROM section WHERE seq = 0 AND work_id IN (SELECT id FROM work WHERE corpus = 'nt')")}}
+
     def work_sections(self, work_id):
         return [r["ref"] for r in self.rows("SELECT ref FROM section WHERE work_id = ? ORDER BY seq", work_id)]
 
@@ -795,7 +831,7 @@ class Library:
 
     def token(self, token_id):
         t = self.one(
-            "SELECT t.*, e.work_id, s.urn AS section_urn FROM token t JOIN edition e ON e.id = t.edition_id "
+            "SELECT t.*, e.work_id, w.corpus, s.urn AS section_urn FROM token t JOIN edition e ON e.id = t.edition_id JOIN work w ON w.id = e.work_id "
             "JOIN section s ON s.work_id = e.work_id AND s.ref = t.section_ref WHERE t.id = ?", token_id)
         if not t:
             return None
@@ -806,6 +842,11 @@ class Library:
         tags = self.rows("SELECT * FROM tag WHERE token_id = ? ORDER BY source_id, part", token_id)
         for g in tags:
             g["features"] = greek.decode_postag(g["postag"])
+            if g["source_id"] == nt.SRC:
+                # MorphGNT names its pronouns more closely than the 9-letter tag can (relative, personal ...).
+                code = (g["source_word_id"] or "  ").split(" ")[1]
+                if code in nt.MORPHGNT_POS:
+                    g["features"] = [(k, nt.MORPHGNT_POS[code][1] if k == "part of speech" else v) for k, v in g["features"]]
         t["tags"] = tags
         tag_lemmas = {greek.strip_accents(re.sub(r"\d", "", g["lemma"] or "")) for g in tags}
         morph = self.rows("SELECT n, lemma, lemma_beta, gloss, parse FROM morph WHERE beta_key = ? ORDER BY n", t["morph_key"]) if t["morph_key"] else []
@@ -824,20 +865,31 @@ class Library:
         t["grammar"] = [self.grammar(g) for g in tags]
         t["sources"] = {s["id"]: s for s in self.rows(
             "SELECT id, title, licence, provenance, commit_sha FROM source WHERE id IN "
-            "('glaux-plato', 'morpheus-analyses', 'perseus-greek-plato', 'lsj', 'middle-liddell', 'lsj-abbreviations', 'smyth-grammar', 'agdt-guidelines')")}
+            "('glaux-plato', 'morpheus-analyses', 'perseus-greek-plato', 'lsj', 'middle-liddell', 'lsj-abbreviations', 'smyth-grammar', 'agdt-guidelines', "
+            "'morphgnt-sblgnt', 'asv-1901')")}
+        lemmas = list(dict.fromkeys(g["lemma"] for g in tags if g["lemma"]))
         # Milestone 5: this word elsewhere in Plato, per work, for each tagged lemma.
-        t["elsewhere"] = [self.search.elsewhere(l) for l in dict.fromkeys(g["lemma"] for g in tags if g["lemma"])]
-        here = [c["n"] for e in t["elsewhere"][:1] for c in e["counts"] if c["work_id"] == t["work_id"]]
+        # Milestone 23: and in the New Testament, a different corpus; a New Testament word is counted in its own corpus first.
+        if t["corpus"] == "nt":
+            t["elsewhere"] = [self.search.other_corpus(l, "plato") for l in lemmas]
+            t["elsewhere_nt"] = [self.search.elsewhere(l, "nt") for l in lemmas]
+            here = [c["n"] for e in t["elsewhere_nt"][:1] for c in e["counts"] if c["work_id"] == t["work_id"]]
+        else:
+            t["elsewhere"] = [self.search.elsewhere(l) for l in lemmas]
+            t["elsewhere_nt"] = [self.search.other_corpus(l, "nt") for l in lemmas]
+            here = [c["n"] for e in t["elsewhere"][:1] for c in e["counts"] if c["work_id"] == t["work_id"]]
         t["elsewhere_in_work"] = here[0] if here else 0
         # Milestone 10: concepts indexed under this word's lemma (the word, not this place, is indexed).
         lemmas = [g["lemma"] for g in tags if g["lemma"]]
         t["concepts"] = self.rows(f"SELECT DISTINCT c.id, c.label, c.layer, ct.lemma, ct.broad FROM concept_term ct JOIN concept c ON c.id = ct.concept_id "
                                   f"WHERE ct.lemma IN ({','.join('?' * len(lemmas)) or 'NULL'}) ORDER BY c.seq", *lemmas)
         # Milestone 17: the key terms this word is marked as, and the terms its lemma belongs to.
-        t["terms"] = self.rows(f"SELECT DISTINCT t.id, t.label, t.key, l.rule, EXISTS (SELECT 1 FROM term_hit h WHERE h.term_id = t.id AND h.token_id = ?) AS marked "
+        t["terms"] = self.rows(f"SELECT DISTINCT t.id, t.label, t.key, l.rule, EXISTS (SELECT 1 FROM {'nt_term_hit' if t['corpus'] == 'nt' else 'term_hit'} h WHERE h.term_id = t.id AND h.token_id = ?) AS marked "
                                f"FROM term_lemma l JOIN term t ON t.id = l.term_id WHERE l.lemma IN ({','.join('?' * len(lemmas)) or 'NULL'}) ORDER BY t.seq",
                                token_id, *lemmas)
         t["form_in_plato"] = self.one("SELECT coalesce(sum(n), 0) n FROM form_count WHERE form = ?", t["form"])["n"]
+        if t["corpus"] == "nt":
+            t["form_in_nt"] = self.one("SELECT coalesce(sum(n), 0) n FROM nt_form_count WHERE form = ?", t["form"])["n"]
         return t
 
     # ------------------------------------------------------------ dictionaries and grammar
@@ -1208,7 +1260,8 @@ class Handler(BaseHTTPRequestHandler):
                     try:
                         return self.send_json(lib.search.search(query.get("q", ""), query.get("by", "lemma"), works=lst("works"),
                                                                 after=int(query.get("after") or 0), limit=int(query.get("limit") or search.PAGE),
-                                                                exact_only=query.get("exact") == "1", terms=lst("terms")))
+                                                                exact_only=query.get("exact") == "1", terms=lst("terms"),
+                                                                corpus=query.get("corpus") or "plato"))
                     except (search.Invalid, ValueError) as e:
                         return self.send_json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
                 if parts == ["find"]:
@@ -1229,9 +1282,11 @@ class Handler(BaseHTTPRequestHandler):
                 if parts == ["sheets"]:
                     return self.send_json(lib.mine.sheets(query.get("tension") or None, include_deleted=query.get("deleted") == "1"))
                 if parts == ["suggest"]:
-                    return self.send_json(lib.search.suggest(query.get("q", "")))
+                    return self.send_json(lib.search.suggest(query.get("q", ""), corpus=query.get("corpus") or "plato"))
                 if len(parts) == 2 and parts[0] == "elsewhere":
-                    return self.send_json(lib.search.elsewhere(greek.nfc(parts[1])))
+                    return self.send_json(lib.search.elsewhere(greek.nfc(parts[1]), corpus=query.get("corpus") or "plato"))
+                if parts == ["nt"]:
+                    return self.send_json(lib.nt())
                 if parts == ["studies"]:
                     rows = lib.mine.studies(include_deleted=query.get("deleted") == "1")
                     return self.send_json(rows)

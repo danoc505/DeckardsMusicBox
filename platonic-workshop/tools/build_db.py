@@ -50,6 +50,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import grammar  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
+import nt  # noqa: E402
 import translations  # noqa: E402
 import commentary_db  # noqa: E402
 import citations  # noqa: E402
@@ -622,9 +623,10 @@ LEXICA = [
 ]
 
 
-def build_dictionaries(db):
-    """Entries for every lemma in the database (tagged and Morpheus), then for
-    the words those entries cross-refer to. Returns statistics."""
+def build_dictionaries(db, extra_lemmas=()):
+    """Entries for every lemma in the database (tagged and Morpheus), and the extra lemmas
+    (milestone 23: the New Testament's, imported after), then for the words those
+    entries cross-refer to. Returns statistics."""
     front_xml = (RAW / "lsj-abbreviations" / "lsj-frontmatter.xml").read_text(encoding="utf-8")
     front = ET.fromstring(front_xml[front_xml.index("<front>"):])
     abbr = lexicon.abbreviations(front)
@@ -645,6 +647,7 @@ def build_dictionaries(db):
 
     lemmas = {r[0] for r in db.execute("SELECT DISTINCT lemma FROM tag WHERE lemma != ''")}
     lemmas |= {r[0] for r in db.execute("SELECT DISTINCT lemma FROM morph")}
+    lemmas |= set(extra_lemmas)
     # Morpheus lists word-endings (-τε, -ως) as lemmas of compounds; they have no entries.
     lemmas = {greek.nfc(re.sub(r"\d", "", l)) for l in lemmas if l and greek.is_greek(l) and not l.startswith("-")}
     stats = {"lemmas": len(lemmas), "abbreviations": {"authors": len(abbr["authors"]),
@@ -754,9 +757,11 @@ def build_search(db):
                   FROM token t JOIN edition e ON e.id = t.edition_id GROUP BY t.form, e.work_id""")
 
 
-def build(works, db_path=None, progress=False):
+def build(works, db_path=None, progress=False, with_nt=None):
     db_path = Path(db_path or DB_PATH)
     sources = load_sources()
+    # Milestone 23: the New Testament is built with all of Plato (or when asked), and when its source is downloaded.
+    want_nt = (set(works) == set(ALL_WORKS) if with_nt is None else with_nt) and (nt.RAW / "61-Mt-morphgnt.txt").exists()
     require(["perseus-greek-plato", "glaux-plato", "morpheus-analyses", "lsj", "middle-liddell",
              "lsj-abbreviations", "smyth-grammar", "agdt-guidelines"], sources)
     DATA.mkdir(exist_ok=True)
@@ -821,7 +826,14 @@ def build(works, db_path=None, progress=False):
     db.execute("INSERT INTO build VALUES ('gloss_stats', ?)", (json.dumps(gloss_stats),))
     if progress:
         print(f"  tap any word: {gloss_stats}", flush=True)
-    lookup_stats = build_dictionaries(db)  # before the concept index, which reads LSJ's entries
+    # Milestone 23: the New Testament's lemmas, and Morpheus's for its forms, get their dictionary entries too
+    # (the books themselves are imported at the end, so that nothing built from Plato reads them).
+    nt_extra = set()
+    if want_nt:
+        nt_lemmas, nt_forms = nt.lemmas()
+        keys = {k for f in nt_forms for k in greek.lookup_keys(f)}
+        nt_extra = nt_lemmas | {greek.from_betacode(lemma) for rest in morpheus_lines(keys).values() for lemma, _, _ in parse_morpheus(rest)}
+    lookup_stats = build_dictionaries(db, nt_extra)  # before the concept index, which reads LSJ's entries
     lookup_stats.update(build_grammar(db))
     # Milestone 10: the concept index across the dialogues (after build_search and the dictionaries: it reads lemma_count and LSJ).
     concept_stats = concepts.build(db)
@@ -860,6 +872,12 @@ def build(works, db_path=None, progress=False):
         print("  reconciliation: " + ", ".join(f"{k} {v}" for k, v in rec_stats.items() if not isinstance(v, list))
               + f"; not found: {len(rec_stats['not found'])}, not checked: {len(rec_stats['not checked'])}", flush=True)
         print("  search index: " + ", ".join(f"{k} {v}" for k, v in find_stats.items()), flush=True)
+    # Milestone 23: the Greek New Testament, last.
+    if want_nt:
+        nt_stats = nt.build(db, morpheus_lines, parse_morpheus)
+        nt.write_report(nt_stats)
+        if progress:
+            print(f"  New Testament: {nt_stats['verses']} verses, {nt_stats['words']} words, {nt_stats['term_words']} marked as key terms", flush=True)
     db.execute("INSERT INTO build VALUES ('built_at', ?)", (time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),))
     db.execute("INSERT INTO build VALUES ('stats', ?)", (json.dumps(all_stats),))
     # Milestone 6: how often the computed placement of translations is right,

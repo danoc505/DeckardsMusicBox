@@ -28,7 +28,7 @@ function placesGet() {
   try { return JSON.parse(localStorage.getItem("pw.places") || "{}"); } catch (e) { return {}; }
 }
 function rememberPlace() {
-  const m = /^#([\w-]+)\/(\d{1,3}[a-e]?)$/.exec(location.hash);
+  const m = /^#([\w-]+)\/(\d{1,3}[a-e]?|\d{1,3}:\d{1,3})$/.exec(decodeURIComponent(location.hash));
   if (!m || typeof state === "undefined") return;
   const w = state.works.find((x) => x.slug === m[1] || x.id === m[1]);
   if (!w) return;
@@ -91,9 +91,9 @@ function renderTextPicker(filter = "") {
     const p = transPrefs();
     const layerOn = (k) => { const b = document.querySelector(`[data-layer="${k}"]`); return b ? b.checked : true; };
     const ed = typeof listenEdition === "function" ? listenEdition() : null;
-    page = `<section class="tp-page"><h3>On the page of the ${esc(state.work.title)}</h3>
+    page = `<section class="tp-page"><h3>On the page of ${esc(theTitle(state.work))}</h3>
       <div class="tp-chips">
-        <label class="tp-chip"><input type="checkbox" data-tp-layer="grc" ${layerOn("grc") ? "checked" : ""}> Greek <small>Burnet</small></label>
+        <label class="tp-chip"><input type="checkbox" data-tp-layer="grc" ${layerOn("grc") ? "checked" : ""}> Greek <small>${isNT(state.work) ? "SBLGNT" : "Burnet"}</small></label>
         ${eds.map((e) => `<label class="tp-chip"><input type="checkbox" data-trans="${esc(transKind(e))}" ${p[transKind(e)] ? "checked" : ""} ${layerOn("eng") ? "" : "disabled"}> ${esc(e.label)}${e.responsible ? ` <small>${esc(e.responsible)}</small>` : ""}</label>`).join("")}
       </div>
       ${eds.length > 1 && typeof listenKind === "function" ? `<label class="tp-listen">Read aloud <select data-listen-ed aria-label="Translation read aloud">${eds.map((e) => `<option value="${esc(transKind(e))}" ${ed && ed.id === e.id ? "selected" : ""}>${esc(e.label)}</option>`).join("")}</select></label>` : ""}
@@ -107,6 +107,7 @@ function renderTextPicker(filter = "") {
       <div class="tp-tools"><input type="search" id="tp-filter" placeholder="Find a dialogue" value="${esc(filter)}" aria-label="Find a dialogue" autocomplete="off" spellcheck="false">${typeof orderPicker === "function" ? orderPicker("tp-order") : ""}</div>
       ${list}
     </section>
+    ${typeof ntPicker === "function" ? ntPicker(filter) : ""}
     <p class="meta">Each dialogue opens where you last were in it. <a href="#library">The Library</a> has the guides to Plato and the commentaries too.</p>`;
   if (keep) { const f = $("#tp-filter"); f.focus(); f.setSelectionRange(f.value.length, f.value.length); }
 }

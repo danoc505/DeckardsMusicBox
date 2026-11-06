@@ -13,7 +13,11 @@ A query may be typed in Greek or in Beta Code (lo/gos). A trailing * searches
 by beginning (λογ*: every lemma or form whose letters start with λογ).
 
 Counts per work come from lemma_count and form_count (built with the library),
-so they are exact and immediate. Occurrences are returned in reading order,
+so they are exact and immediate.
+
+Milestone 23: the same search over the Greek New Testament, corpus='nt', with
+MorphGNT's lemmas and its own counts (nt_lemma_count, nt_form_count). The two
+corpora are never mixed in one answer. Occurrences are returned in reading order,
 work by work in Thrasyllus' order, a page at a time.
 """
 import re
@@ -49,19 +53,40 @@ def normalise(q):
     return q, star
 
 
+CORPORA = ("plato", "nt")
+
+
+def tables(corpus):
+    """The count tables of a corpus: (lemma counts, form counts)."""
+    if corpus not in CORPORA:
+        raise Invalid(f"corpus is one of {CORPORA}")
+    return ("lemma_count", "form_count") if corpus == "plato" else ("nt_lemma_count", "nt_form_count")
+
+
 class Search:
     def __init__(self, db):
         self.db = db  # read-only library connection (sqlite3.Row rows)
+        self._spans = {}
 
     def rows(self, sql, *args):
         return [dict(r) for r in self.db.execute(sql, args)]
 
-    def works(self):
-        return {r["id"]: r for r in self.rows("SELECT id, title, abbr, slug, n_tokens FROM work WHERE imported = 1 ORDER BY id")}
+    def works(self, corpus=None):
+        """The imported works, of one corpus or (corpus=None) of both."""
+        if corpus is None:
+            return {r["id"]: r for r in self.rows("SELECT id, title, abbr, slug, n_tokens, corpus FROM work WHERE imported = 1 ORDER BY id")}
+        return {r["id"]: r for r in self.rows("SELECT id, title, abbr, slug, n_tokens, corpus FROM work WHERE imported = 1 AND corpus = ? ORDER BY id", corpus)}
+
+    def span(self, corpus):
+        """The token ids of a corpus: one run, since each corpus is imported in one go."""
+        if corpus not in self._spans:
+            r = self.rows("SELECT min(first_token) AS lo, max(last_token) AS hi FROM work WHERE imported = 1 AND corpus = ?", corpus)[0]
+            self._spans[corpus] = (r["lo"] or 0, r["hi"] if r["hi"] is not None else -1)
+        return self._spans[corpus]
 
     # ------------------------------------------------------------ what a query means
 
-    def terms(self, q, by, exact_only=False):
+    def terms(self, q, by, exact_only=False, corpus="plato"):
         """The lemmas (by='lemma') or forms (by='form'/'plain') a query matches,
         each with its total in Plato. Also `near`: other lemmas with the same
         letters, offered when an exact lemma match was found."""
@@ -69,7 +94,8 @@ class Search:
             raise Invalid(f"search by one of {MODES}")
         word, star = normalise(q)
         p = plain(word)
-        table, col = ("lemma_count", "lemma") if by == "lemma" else ("form_count", "form")
+        lemma_t, form_t = tables(corpus)
+        table, col = (lemma_t, "lemma") if by == "lemma" else (form_t, "form")
         near = []
         if star:
             like = p.replace("%", "").replace("_", "") + "%"
@@ -77,7 +103,7 @@ class Search:
                               f"ORDER BY total DESC LIMIT ?", like, MAX_TERMS + 1)
             how = f"every {'lemma' if by == 'lemma' else 'form'} beginning {p}"
         elif by == "plain":
-            terms = self.rows("SELECT form AS term, plain, sum(n) AS total FROM form_count WHERE plain = ? GROUP BY form ORDER BY total DESC", p)
+            terms = self.rows(f"SELECT form AS term, plain, sum(n) AS total FROM {form_t} WHERE plain = ? GROUP BY form ORDER BY total DESC", p)
             how = f"every form spelt {p}, whatever its accents"
         else:
             terms = self.rows(f"SELECT {col} AS term, plain, sum(n) AS total FROM {table} WHERE {col} = ? GROUP BY {col}", word)
@@ -90,24 +116,26 @@ class Search:
             else:
                 near = [t for t in same_letters if t["term"] != word]
         truncated = len(terms) > MAX_TERMS
-        return {"query": q, "word": word, "plain": p, "by": by, "wildcard": star, "how": how,
+        return {"query": q, "word": word, "plain": p, "by": by, "wildcard": star, "how": how, "corpus": corpus,
                 "terms": terms[:MAX_TERMS], "truncated": truncated, "near": near}
 
     # ------------------------------------------------------------ counts and occurrences
 
-    def search(self, q, by="lemma", works=None, after=0, limit=PAGE, exact_only=False, terms=None):
+    def search(self, q, by="lemma", works=None, after=0, limit=PAGE, exact_only=False, terms=None, corpus="plato"):
         """Counts per work and one page of occurrences. `terms` narrows the
-        search to some of the matched lemmas or forms; `works` to some works."""
-        t = self.terms(q, by, exact_only)
+        search to some of the matched lemmas or forms; `works` to some works;
+        `corpus` says which: Plato's, or the New Testament's."""
+        t = self.terms(q, by, exact_only, corpus)
         chosen = [x["term"] for x in t["terms"]]
         if terms:
             chosen = [x for x in chosen if x in set(terms)]
-        all_works = self.works()
+        all_works = self.works(corpus)
         works = [w for w in (works or []) if w in all_works]
         out = {**t, "chosen": chosen, "works_filter": works, "counts": [], "total": 0, "hits": [], "next_after": None}
         if not chosen:
             return out
-        table, col = ("lemma_count", "lemma") if by == "lemma" else ("form_count", "form")
+        lemma_t, form_t = tables(corpus)
+        table, col = (lemma_t, "lemma") if by == "lemma" else (form_t, "form")
         marks = ",".join("?" * len(chosen))
         counts = self.rows(f"SELECT work_id, sum(n) AS n FROM {table} WHERE {col} IN ({marks}) GROUP BY work_id ORDER BY work_id", *chosen)
         for c in counts:
@@ -126,6 +154,9 @@ class Search:
             ranges = " AND (" + " OR ".join("token_id BETWEEN ? AND ?" for _ in spans) + ")"
             for s in spans:
                 args += [s["first_token"], s["last_token"]]
+        else:
+            ranges = " AND token_id BETWEEN ? AND ?"
+            args = list(self.span(corpus))
         if by == "lemma":
             ids = [r["token_id"] for r in self.rows(
                 f"SELECT DISTINCT token_id FROM tag WHERE lemma IN ({marks}) AND token_id > ?{ranges} ORDER BY token_id LIMIT ?",
@@ -184,21 +215,37 @@ class Search:
 
     # ------------------------------------------------------------ for the reader and the search box
 
-    def elsewhere(self, lemma):
-        """Per-work counts of one lemma, for the word box: 'this word elsewhere in Plato'."""
-        rows = self.rows("SELECT l.work_id, w.title, w.abbr, w.slug, l.n FROM lemma_count l JOIN work w ON w.id = l.work_id "
+    def elsewhere(self, lemma, corpus="plato"):
+        """Per-work counts of one lemma, for the word box: 'this word elsewhere in Plato'
+        (or, corpus='nt', in the New Testament)."""
+        rows = self.rows(f"SELECT l.work_id, w.title, w.abbr, w.slug, l.n FROM {tables(corpus)[0]} l JOIN work w ON w.id = l.work_id "
                          "WHERE l.lemma = ? ORDER BY l.n DESC, l.work_id", lemma)
-        return {"lemma": lemma, "total": sum(r["n"] for r in rows), "works": len(rows), "counts": rows}
+        return {"lemma": lemma, "corpus": corpus, "total": sum(r["n"] for r in rows), "works": len(rows), "counts": rows}
 
-    def suggest(self, q, limit=12):
+    def other_corpus(self, lemma, corpus):
+        """Milestone 23: the same dictionary form in the other corpus, matched by its spelling,
+        or failing that by its letters (GLAUx and MorphGNT may accent a lemma differently)."""
+        e = self.elsewhere(lemma, corpus)
+        if e["total"]:
+            e["matched"] = "same spelling"
+            return e
+        p = plain(lemma)
+        alt = self.rows(f"SELECT lemma, sum(n) AS n FROM {tables(corpus)[0]} WHERE plain = ? GROUP BY lemma ORDER BY n DESC", p)
+        if len(alt) == 1:
+            e = self.elsewhere(alt[0]["lemma"], corpus)
+            e["matched"] = f"same letters ({alt[0]['lemma']})"
+        return e
+
+    def suggest(self, q, limit=12, corpus="plato"):
         """Lemmas and forms whose letters begin with the query, most frequent first."""
         try:
             word, _ = normalise(q)
         except Invalid:
             return {"lemmas": [], "forms": []}
         like = plain(word).replace("%", "").replace("_", "") + "%"
-        lem = self.rows("SELECT lemma AS term, sum(n) AS total FROM lemma_count WHERE plain LIKE ? GROUP BY lemma ORDER BY total DESC LIMIT ?", like, limit)
-        frm = self.rows("SELECT form AS term, sum(n) AS total FROM form_count WHERE plain LIKE ? GROUP BY form ORDER BY total DESC LIMIT ?", like, limit)
+        lt, ft = tables(corpus)
+        lem = self.rows(f"SELECT lemma AS term, sum(n) AS total FROM {lt} WHERE plain LIKE ? GROUP BY lemma ORDER BY total DESC LIMIT ?", like, limit)
+        frm = self.rows(f"SELECT form AS term, sum(n) AS total FROM {ft} WHERE plain LIKE ? GROUP BY form ORDER BY total DESC LIMIT ?", like, limit)
         return {"lemmas": lem, "forms": frm}
 
 

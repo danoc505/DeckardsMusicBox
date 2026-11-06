@@ -245,6 +245,7 @@ function renderTerm(t) {
           <p class="meta">In the English, the words below are underlined only where the Greek of the same passage has the term; the phrases in quotation marks wherever they are printed so.</p>
           ${english.length || phrases.length ? `<ul class="term-forms">${[...english, ...phrases].map(formSrc).join("")}</ul>` : ""}</details>` : ""}
       </section>
+      ${typeof ntTermSection === "function" ? ntTermSection(t) : ""}
       ${passages.length ? `<section><h4 class="pane-h">Key passages</h4><ul class="concept-passages">${passages.map((p) => `<li><b>${esc(workTitle(p.work))}</b> ${refSpan(p.work, p.start, p.end)} ${esc(p.why)}
         <blockquote class="ev" lang="grc">“${esc(p.quote)}” ${p.found === false ? `<span class="doubt-mark">not found</span>` : ""}${enBtn(p.work, p.start)}</blockquote></li>`).join("")}</ul></section>` : ""}
       ${later.length ? `<section><h4 class="pane-h">What the Platonists say</h4>${later.map((x) => `<div class="claim"><p>${esc(x.says)}</p>${x.ev.map(conceptEv).join("")}</div>`).join("")}</section>` : ""}

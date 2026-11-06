@@ -492,6 +492,39 @@
       "licence": "Public domain (Gonzalez Lodge died in 1942; printed 1896)",
       "provenance": "Internet Archive 'djvu.txt' OCR of the University of Toronto copy, found by searching the Internet Archive catalogue and downloaded on 2026-11-05 by tools/commentary_corpus.py fetch, kept as received; fetched.json records the URL, time and sha256. Unproofread. Read into notes by tools/commentary_corpus.py (milestone 11).",
       "status": "local"
+    },
+    {
+      "id": "morphgnt-sblgnt",
+      "title": "The Greek New Testament: the SBL Greek New Testament (2010) with the MorphGNT dictionary form and grammar of every word (MorphGNT: SBLGNT Edition)",
+      "kind": "git",
+      "repo": "https://github.com/morphgnt/sblgnt.git",
+      "commit": "aaed91e57c8e4a8dc9a2383e129ca5e75fe6393d",
+      "paths": [
+        "*-morphgnt.txt",
+        "README.md"
+      ],
+      "layer": "text",
+      "language": "grc",
+      "citation_scheme": "book, chapter and verse: MorphGNT's first column, BBCCVV (010101 = Matthew 1:1)",
+      "licence": "Text: CC BY 4.0 (the SBLGNT End User License Agreement at https://sblgnt.com/license/ is the Creative Commons Attribution 4.0 International Public License; checked 2026-11-06). Dictionary forms and grammar: CC BY-SA 3.0 (MorphGNT's README: \"the morphological parsing and lemmatization is made available under a CC-BY-SA License\").",
+      "provenance": "Text: The SBL Greek New Testament, ed. Michael W. Holmes. Copyright 2010 Society of Biblical Literature and Logos Bible Software. Tagging: Tauber, J. K., ed. (2017) MorphGNT: SBLGNT Edition. Version 6.12 [Data set], https://github.com/morphgnt/sblgnt, DOI 10.5281/zenodo.376200; the parsing inherited from the CCAT tagging (University of Pennsylvania) and corrected since. Commit of 2024-01-21. Read into the library by tools/nt.py (milestone 23).",
+      "status": "verified"
+    },
+    {
+      "id": "asv-1901",
+      "title": "The American Standard Version of the Holy Bible (1901), New Testament, from eBible.org's verse-per-line file",
+      "kind": "local",
+      "path": "sources/asv-1901",
+      "urls": [
+        "https://ebible.org/Scriptures/details.php?id=eng-asv",
+        "https://ebible.org/Scriptures/eng-asv_vpl.zip"
+      ],
+      "layer": "translation",
+      "language": "eng",
+      "citation_scheme": "book, chapter and verse, as printed in each line ('JOH 1:1')",
+      "licence": "Public domain (eBible.org: \"American Standard Version (1901) ... Public Domain\")",
+      "provenance": "eBible.org's eng-asv_vpl.txt, dated 2026-10-30, downloaded on 2026-11-06; the New Testament lines kept unchanged, fetched.json records the URL, time and sha256. Clean source text, no notes. Read into the library by tools/nt.py (milestone 23).",
+      "status": "local"
     }
   ]
 }
