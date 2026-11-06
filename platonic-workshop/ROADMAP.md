@@ -25,7 +25,7 @@ Each milestone is meant to be one working session. Start the next one by reading
 - **Guides to Plato** shelf in the Library: Taylor's General Introduction and Olympiodorus' Life of Plato, read
   whole (`#taylor/general-introduction`), with Albinus, Diogenes Laertius and the Prolegomena.
 
-## Milestone 14: listen to the dialogues (approved by Daniel: "these dialogues are meant to be heard")
+## Milestone 14: listen to the dialogues (done; approved by Daniel: "these dialogues are meant to be heard")
 
 - A **Play** button in the reader reads the English aloud from the current position, with the browser's own speech
   (`speechSynthesis`: Safari on the iPad, Edge or Chrome on Windows), paragraph by paragraph (one utterance each),
@@ -38,6 +38,10 @@ Each milestone is meant to be one working session. Start the next one by reading
   characters, vary pitch and rate to keep them apart. Let the reader reassign a character's voice and remember it.
 - Which translation is read follows the one shown (the Loeb English by default).
 - Research notes from the audio thread: https://claude.ai/artifact/6NX2Qwzr3xFnnkyoj7DWWv
+- Built as `reader/listen.js` and `sources/structure/people.json`. Not done, and not guessed: inside a narrated
+  dialogue whose markup names only the narrator (Republic, Charmides and Lovers, told by Socrates; Phaedo; Parmenides) the speeches
+  told by the narrator are read in one voice, since the text does not mark who says them. Giving them their own voices
+  would need the speeches marked by hand, with a source for each, and is noted below.
 
 ## Milestone 15: English for every piece of Greek
 
@@ -103,6 +107,9 @@ Each milestone is meant to be one working session. Start the next one by reading
   Taylor's Introduction to it, the famous passages in it, and where to go next. Remember where the reader is.
 
 ## Ideas noted, not yet planned
+
+- **Voices inside a narrated dialogue.** Mark who speaks each reported speech in the Republic and the other narrated
+  dialogues ("said he", "I replied"), from the text's own words, so that Glaucon and Thrasymachus get their voices there too.
 
 - **Audio of the Greek.** A restored-pronunciation reading would have to come from a recording whose licence allows
   it; to research. Free human recordings of the English (LibriVox) could be offered beside the browser's speech.

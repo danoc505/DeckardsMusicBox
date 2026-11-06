@@ -1,0 +1,36 @@
+{
+  "about": "Who is speaking, for reading the dialogues aloud (milestone 14): each person keeps one voice in every dialogue. The speakers are those named in the Perseus markup of the Loeb English (build_db.py, speaker_names), one name per person. This file says only where the markup's names and the persons differ, and quotes the Loeb English for each; every other name is its own person, in every dialogue where it appears (Socrates, Alcibiades, the Athenian of the Laws and the Epinomis). Joint speakers ('Lysis #Menexenus') are read as one voice for the pair.",
+  "persons": [
+    {
+      "person": "Cephalus of Clazomenae",
+      "names": ["Cephalos", "Cephalus"],
+      "works": ["tlg009"],
+      "why": "The narrator of the Parmenides is named in both spellings in the markup; he is addressed as Cephalus and comes from Clazomenae.",
+      "evidence": [
+        {"work": "tlg009", "ref": "126a", "quote": "When we came from our home at Clazomenae to Athens"},
+        {"work": "tlg009", "ref": "126a", "quote": "Welcome, Cephalus"}
+      ]
+    },
+    {
+      "person": "Clinias of Crete",
+      "names": ["Clinias", "Cleinias"],
+      "works": ["tlg034", "tlg035"],
+      "why": "The Cretan of the Laws, spelled Clinias there and Cleinias in the Epinomis, where the same three meet again.",
+      "evidence": [
+        {"work": "tlg034", "ref": "624a", "quote": "We Cretans call Zeus our lawgiver"},
+        {"work": "tlg035", "ref": "973a", "quote": "we have come all three—you and I and Megillus here"}
+      ]
+    },
+    {
+      "person": "Cleinias, son of Axiochus",
+      "names": ["Cleinias"],
+      "works": ["tlg021"],
+      "why": "The youth of the Euthydemus is another man than the Cretan of the Laws.",
+      "evidence": [
+        {"work": "tlg021", "ref": "275a", "quote": "He is the son of Axiochus"}
+      ]
+    }
+  ],
+  "anonymous": ["Friend", "Companion"],
+  "anonymous_about": "Names that stand for an unnamed person (the Friend of the Hipparchus and of the Protagoras, the Companion of the Minos and of the Symposium): one voice in each dialogue, not shared between dialogues."
+}

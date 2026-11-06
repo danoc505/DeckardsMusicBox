@@ -180,6 +180,22 @@ begin and how to read a page. *Glossary* (`#glossary`) is Taylor's Explanation o
 Library's *Guides to Plato* shelf opens Taylor's General Introduction and Olympiodorus' Life of Plato to read whole
 (`#taylor/general-introduction`). The milestones after this one are planned in [`ROADMAP.md`](ROADMAP.md).
 
+**Milestone 14, listening to the dialogues: done.** *▶ Listen* in the reader reads the English aloud from the
+section in view, with the browser's own speech (Safari on the iPad, Edge or Chrome on Windows), paragraph by
+paragraph, highlighting the paragraph being read and turning the Stephanus pages as it goes; *Pause*, *Back*,
+*Next* and *Speed* are in the bar at the foot of the page. Each person has one voice, always the same, in every
+dialogue: Socrates keeps his from the Euthyphro to the Laws, and each other speaker is given a voice no one else in
+that dialogue has (or, when the device has few voices, the same voice higher or lower). A narrator's voice reads what
+no speaker is named for. *Voices* lets you choose another voice for anyone; the choice is remembered on the device.
+Who is speaking comes from the speaker markup of the Loeb English (or, for Taylor and Jowett, their printed labels,
+read as the same speakers); where the names and the persons differ (Cephalos and Cephalus are one man, the Cleinias of
+the Euthydemus is not the Cretan of the Laws), [`sources/structure/people.json`](sources/structure/people.json) says
+so and quotes the text. A dialogue told by a narrator (the Republic by Socrates, the Phaedo by Phaedo) is read in the
+narrator's voice throughout, because the text does not mark who says each speech inside the story. `reader/listen.js`;
+tests in `tests/test_listen.py`, with a browser check in `tests/listen_browser.js`.
+
+![Listening to the Euthyphro](docs/reader-m14-listen.png)
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:
@@ -853,7 +869,8 @@ sources/          what we use and where it comes from (committed)
   burges-1854/, yonge-1853/, hermann-appendix/  Diogenes Laertius III, Albinus, the Anonymous Prolegomena, as received
   adam-1902/, england-1921/, burnet-1911/, bury-1909/, archer-hind-1883/, campbell-1883/, campbell-1867/,
   jowett-campbell-1894/, lodge-1896/  Internet Archive OCR of the commentaries of milestone 11, as received
-  structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos
+  structure/      the claims of milestone 9: reading orders, sequences, myths and images, the skopos;
+                  people.json: which speaker names are one person, for the voices of milestone 14
   concepts/       the concept index of milestone 10 (concepts.json, sources.json)
   reconcile/      the reconciliations of milestone 12: tensions.json, methods.json, sources.json, web-checks.json
   taylor-gutenberg/  Taylor's Proclus' Theology, Porphyry and Taurus from Project Gutenberg, as received
