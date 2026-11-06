@@ -61,8 +61,8 @@ function renderConceptIndex() {
       ${stats ? `${(stats["quotations found"] || 0).toLocaleString()} of ${(stats.quotations || 0).toLocaleString()} quotations were found in the texts they are said to be in (<code>reports/concepts.md</code>).` : ""}</p>
     <p class="meta">${Object.entries(LAYER).map(([k, [, about]]) => `${layerBadge(k)} ${esc(about)}`).join("<br>")}</p>
     <form class="concept-filter" onsubmit="return false"><label>Find <input type="search" id="concept-q" value="${esc(CFILTER.q)}" placeholder="name, Greek or English"></label>
-      <label>Layer <select id="concept-layer"><option value="">all</option>${Object.entries(LAYER).map(([k, [n]]) => `<option value="${k}" ${CFILTER.layer === k ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></label></form>
-    <table class="counts concept-table"><thead><tr><th>Concept</th><th>Greek</th><th>Layer</th><th>Indexed under</th><th class="num">Definitions</th><th class="num">Passages</th><th class="num">Later readings</th><th class="num">Related</th></tr></thead><tbody>`;
+      <label title="Scholars: layer">Whose idea <select id="concept-layer"><option value="">all</option>${Object.entries(LAYER).map(([k, [n]]) => `<option value="${k}" ${CFILTER.layer === k ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></label></form>
+    <table class="counts concept-table"><thead><tr><th>Concept</th><th>Greek</th><th title="Whose idea it is: Plato's own, systematised later, a later doctrine, or defined in his school (scholars: layer)">Whose idea</th><th title="The Greek words it is indexed under, by dictionary form">Greek words</th><th class="num">Definitions</th><th class="num">Passages</th><th class="num">Later readings</th><th class="num">Related</th></tr></thead><tbody>`;
   const q = CFILTER.q.toLowerCase();
   const plainGk = (x) => (x || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   for (const c of concepts) {
@@ -143,7 +143,7 @@ function renderConcept() {
     <p class="prov"><b>The index's note</b> (the Workshop's own words, saying what is gathered here; not a definition): ${esc(c.note)}</p>`;
   h += `<section><h3>Indexed under</h3><p class="meta">Lexical evidence: the words, and where GLAUx tags them. A word in two places does not link the places.</p>
     ${c.terms.length ? c.terms.map(termHtml).join("") : ""}
-    ${c.untagged.length ? `<p class="meta">Not tagged anywhere in Plato (a later word, or one GLAUx files otherwise): <span lang="grc">${c.untagged.map(esc).join(", ")}</span>.</p>`
+    ${c.untagged.length ? `<p class="meta">Not found as a dictionary form anywhere in Plato (a later word, or one the GLAUx program files otherwise): <span lang="grc">${c.untagged.map(esc).join(", ")}</span>.</p>`
       : !c.terms.length ? `<p class="none-msg">No word of Plato's${c.greek ? ` (<span lang="grc">${esc(c.greek)}</span> is the later word)` : ""}.</p>` : ""}</section>`;
   if (c.definitions.length) h += `<section><h3>Definitions</h3>${c.definitions.map(citeHtml).join("")}</section>`;
   if (c.passages.length) h += `<section><h3>${c.layer === "later" ? "The passages it is read in" : "In Plato"}</h3><ul class="concept-passages">${c.passages.map((p) => passageHtml(p, c)).join("")}</ul></section>`;

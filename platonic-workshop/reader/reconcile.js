@@ -114,7 +114,7 @@ function wordHtml(w) {
   const dict = w.dictionary.map((d) => `<div class="dict-ev"><span class="meta">${esc(lx(d.lexicon))}:</span> ${d.glosses.map((g) => `<i>${esc(g)}</i>`).join("; ") || "<span class='meta'>no sense marked</span>"}
     ${d.cites_here.length ? `<span class="badge quoted" title="The dictionary cites this very passage for the word">cites ${esc(d.cites_here.join(", "))}</span>` : ""}</div>`).join("");
   return `<li><button type="button" class="link-btn" lang="grc" data-lookup="${esc(w.lemma)}" title="Open the dictionary entries">${esc(w.lemma)}</button> ${editorial(w.why)}
-    <span class="meta">· ${w.tagged ? `${w.tagged} word${w.tagged === 1 ? "" : "s"} of the passage tagged with it (GLAUx)` : "not tagged in the passage"}</span>${dict}</li>`;
+    <span class="meta">· ${w.tagged ? `${w.tagged} word${w.tagged === 1 ? "" : "s"} of the passage with this dictionary form (GLAUx)` : "not found in the passage"}</span>${dict}</li>`;
 }
 
 async function renderTension(id) {

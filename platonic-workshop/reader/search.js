@@ -94,7 +94,7 @@ function renderSearch(loading) {
         `<label><input type="radio" name="by" value="${k}" ${SEARCH.by === k ? "checked" : ""}> ${esc(v)}</label>`).join("")}</span>
       <button class="btn">Search Plato</button>
     </form>
-    <p class="prov">Greek, or Beta Code (<code>lo/gos</code>). <b>Dictionary form</b> finds every word tagged with that lemma
+    <p class="prov">Greek, or Beta Code (<code>lo/gos</code>). <b>Dictionary form</b> finds every form of the word
       (λόγος finds λόγου, λόγοις…); <b>exact form</b> the form as printed, accents included; <b>any accent</b> the letters only.
       End with <code>*</code> to search by beginning (<code>λογ*</code>).</p>`;
   if (loading) html += `<p class="loading">Searching all of Plato…</p>`;
@@ -119,20 +119,20 @@ function renderResult(r) {
     return html;
   }
   const label = r.by === "lemma" ? `<span class="badge">machine</span>` : `<span class="badge quoted">printed</span>`;
-  const what = r.chosen.length === 1 ? `<span lang="grc">${esc(r.chosen[0])}</span>` : `${r.chosen.length} ${r.by === "lemma" ? "lemmas" : "forms"}`;
+  const what = r.chosen.length === 1 ? `<span lang="grc">${esc(r.chosen[0])}</span>` : `${r.chosen.length} ${r.by === "lemma" ? "dictionary forms" : "forms"}`;
   const filtered = SEARCH.works.length ? ` · <b>${fmt(r.total_in_filter)}</b> in ${SEARCH.works.map((w) => esc(workAbbr(w))).join(", ")} <button class="link-btn" data-clear-works>show all works</button>` : "";
   html += `<div class="res-head"><h2>${what} ${label}</h2>
     <p><b>${fmt(r.total)}</b> times in ${r.counts.length} of 36 works${filtered}.
     <span class="meta">By ${esc(BY_LABEL[r.by])}: ${esc(r.how)}.</span></p>
-    ${r.by === "lemma" ? `<p class="prov">Lemmas are GLAUx's, assigned by a statistical tagger (about 98.8% right for lemmas); only the Euthyphro, Apology, Crito and Cleitophon are hand-checked. A word is counted once even when GLAUx splits it (οὐδέ as οὐ + δέ counts for both).</p>` : ""}
+    ${r.by === "lemma" ? `<p class="prov">Dictionary forms (lemmas) are those the GLAUx program chose (about 98.8% right); only the Euthyphro, Apology, Crito and Cleitophon are hand-checked. A word is counted once even when GLAUx splits it (οὐδέ as οὐ + δέ counts for both).</p>` : ""}
     ${study ? "" : `<p><button class="btn" id="save-study">Save as a word study</button></p><div id="study-new"></div>`}</div>`;
   if (r.terms.length > 1) {
     const on = new Set(r.chosen);
-    html += `<div class="terms"><span class="meta">${r.truncated ? `The ${r.terms.length} most frequent of more ` : ""}${r.by === "lemma" ? "Lemmas" : "Forms"} found (click to leave one out or bring it back):</span>
+    html += `<div class="terms"><span class="meta">${r.truncated ? `The ${r.terms.length} most frequent of more ` : ""}${r.by === "lemma" ? "Dictionary forms" : "Forms"} found (tap to leave one out or bring it back):</span>
       ${r.terms.map((t) => `<button class="chip term${on.has(t.term) ? " on" : ""}" data-term="${esc(t.term)}" lang="grc">${esc(t.term)} <span class="n">${fmt(t.total)}</span></button>`).join("")}</div>`;
   }
   if (r.near && r.near.length) {
-    html += `<p class="meta">Same letters, other ${r.by === "lemma" ? "lemmas" : "forms"}: ${r.near.map((t) =>
+    html += `<p class="meta">Same letters, other ${r.by === "lemma" ? "dictionary forms" : "forms"}: ${r.near.map((t) =>
       `<a class="lk" lang="grc" data-research-q="${esc(t.term)}">${esc(t.term)}</a> (${fmt(t.total)})`).join(", ")}</p>`;
   }
   const max = Math.max(...r.counts.map((c) => c.per_10k || 0), 1);
@@ -141,7 +141,7 @@ function renderResult(r) {
     ${r.counts.map((c) => `<tr class="${SEARCH.works.includes(c.work_id) ? "on" : ""}" data-filter-work="${c.work_id}">
       <td>${esc(c.title)} <span class="meta">${esc(c.abbr || "")}</span></td><td class="num">${fmt(c.n)}</td><td class="num">${c.per_10k}</td>
       <td class="bar"><span style="width:${Math.max(2, Math.round(100 * c.per_10k / max))}%"></span></td></tr>`).join("")}</tbody></table>`;
-  html += `<h3>Every occurrence <span class="meta">in reading order, work by work; click the word for its lemma, parse and dictionary entry, or the reference to read it in place</span></h3>
+  html += `<h3>Every occurrence <span class="meta">in reading order, work by work; tap the word for its dictionary form, grammar and dictionary entry, or the reference to read it in place</span></h3>
     <ol class="kwic" id="kwic">${SEARCH.hits.map(renderHit).join("")}</ol><div id="hits-foot">${hitsFoot()}</div>`;
   return html;
 }

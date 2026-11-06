@@ -10,9 +10,9 @@ const NAV = [
   ["library", "Library", "#library", "The dialogues, the passage dossiers, the commentaries, the corpus map and the sources"],
   ["read", "Reader", null, "Back to the passage you were reading"],
   ["dictionary", "Dictionary", "#dictionary", "Look up a Greek word in Middle Liddell and LSJ"],
-  ["concordance", "Concordance", "#search", "Every place a Greek word occurs in Plato, by lemma, form or letters"],
+  ["concordance", "Concordance", "#search", "Every place a Greek word occurs in Plato, by dictionary form, exact form or letters"],
   ["concepts", "Concepts", "#concepts", "The great ideas across the dialogues, with what the later Platonists made of them"],
-  ["glossary", "Glossary", "#glossary", "Taylor's explanations of the Platonic terms"],
+  ["glossary", "Glossary", "#glossary", "Taylor's explanations of the Platonic terms, and the Workshop's own words in plain English"],
   ["reconcile", "Reconciliations", "#reconcile", "Passages that seem to disagree, and the ways of reconciling them"],
   ["mine", "My Translations", "#mine", "Everything you have written: translations, notes, word studies, worksheets"],
 ];
@@ -34,7 +34,7 @@ function renderNav() {
 function currentNav() {
   const h = location.hash.slice(1);
   if (h === "start") return "start";
-  if (h.startsWith("glossary")) return "glossary";
+  if (h.startsWith("glossary") || h.startsWith("words")) return "glossary";
   if (h.startsWith("taylor/")) return "library";
   if (h.startsWith("library") || h === "corpus" || h.startsWith("corpus?") || h === "commentaries" || h.startsWith("discussed") || h.startsWith("dossiers")) return "library";
   if (h.startsWith("dictionary")) return "dictionary";
@@ -136,8 +136,8 @@ function findIntro() {
     English words (<a href="#find?q=${encodeURIComponent('"beyond being"')}">"beyond being"</a> in quotes for the exact phrase), a passage
     (<a href="#find?q=Rep.%20509b">Rep. 509b</a>), or a name (<a href="#find?q=Archer-Hind">Archer-Hind</a>). Narrow it with fields:</p>
     <table class="counts find-fields"><tbody>
-    <tr><td><code>lemma:λόγος case:gen</code></td><td>a Greek word by lemma, with a morphological filter (case, number, tense, mood, voice, person, gender, pos, degree)</td></tr>
-    <tr><td><code>form:λόγον</code> <code>plain:λογον</code></td><td>the exact form as printed, or the letters without accents</td></tr>
+    <tr><td><code>lemma:λόγος case:gen</code></td><td>a Greek word by its dictionary form (<a href="#words/lemma">lemma</a>), narrowed by its grammar (case, number, tense, mood, voice, person, gender, pos for part of speech, degree)</td></tr>
+    <tr><td><code>form:λόγον</code> <code>plain:λογον</code></td><td>the exact form as printed, or the same letters with any accent</td></tr>
     <tr><td><code>english:</code> <code>greek:</code> <code>note:</code> <code>ancient:</code></td><td>only that text: the translations, Burnet's Greek, the commentary notes, the ancient texts</td></tr>
     <tr><td><code>in:Tim</code> <code>work:Republic</code></td><td>only in one dialogue</td></tr>
     <tr><td><code>by:Taylor</code> <code>translator:Jowett</code></td><td>only notes by that commentator, or English by that translator</td></tr>
@@ -189,11 +189,11 @@ async function showDictionaryPage(word) {
   state.view = "dictionary";
   setView("dict-view");
   document.title = (word ? word + " · " : "") + "Dictionary · Platonic Workshop";
-  $("#toc").innerHTML = `<h3>Dictionary</h3><p class="meta">Middle Liddell (1889) and LSJ (1940), as printed. A word is matched by its dictionary form; a form as printed in the text is matched by its letters.</p>`;
+  $("#toc").innerHTML = `<h3>Dictionary</h3><p class="meta">The two Greek-English dictionaries, as printed: <a href="#words/middle-liddell">Middle Liddell</a> (1889, short entries) and <a href="#words/lsj">LSJ</a> (1940, full entries). A word is matched by its dictionary form; a form as printed in the text is matched by its letters.</p>`;
   $("#main").innerHTML = `<div class="search dictionary"><h2>Dictionary</h2>
     <form id="dict-form" class="dict-form"><label>Greek word or Beta Code <input id="dict-q" value="${esc(word)}" placeholder="λόγος or lo/gos" lang="grc" autocomplete="off"></label>
       <button class="btn" type="submit">Look up</button></form>
-    <div class="box" id="dict">${word ? `<p class="loading">Looking up ${esc(word)}…</p>` : `<p class="meta">Type a word. Click any Greek word in the Reader for its parse with the entries beside it.</p>`}</div>
+    <div class="box" id="dict">${word ? `<p class="loading">Looking up ${esc(word)}…</p>` : `<p class="meta">Type a word. In the Reader, tap any Greek word for its grammar with its entries beside it.</p>`}</div>
     <div id="dict-elsewhere"></div></div>`;
   if (!word) return;
   let w = word;
@@ -203,7 +203,7 @@ async function showDictionaryPage(word) {
   try {
     showDict(await api(`lookup/${encodeURIComponent(w)}`), false);
     const e = await api(`elsewhere/${encodeURIComponent(w)}`);
-    if (e.total) $("#dict-elsewhere").innerHTML = `<p class="meta">GLAUx tags ${e.total.toLocaleString()} words in ${e.works} works of Plato with the lemma <span lang="grc">${esc(e.lemma)}</span>: <a href="#search?q=${encodeURIComponent(e.lemma)}&by=lemma">every one, in the concordance</a>.</p>`;
+    if (e.total) $("#dict-elsewhere").innerHTML = `<p class="meta">${e.total.toLocaleString()} words in ${e.works} works of Plato have the dictionary form <span lang="grc">${esc(e.lemma)}</span> (as GLAUx marks them): <a href="#search?q=${encodeURIComponent(e.lemma)}&by=lemma">every one, in the concordance</a>.</p>`;
   } catch (e) { $("#dict").innerHTML = `<p class="error">${esc(e.message)}</p>`; }
 }
 

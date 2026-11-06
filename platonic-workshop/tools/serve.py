@@ -39,6 +39,10 @@ ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
 READING_ORDER = ROOT / "sources" / "structure" / "reading-order.json"
 PEOPLE = ROOT / "sources" / "structure" / "people.json"
+# Milestone 16: the Workshop's own words in plain English, and the help behind every "?".
+WORDS = ROOT / "sources" / "structure" / "workshop-words.json"
+WORDS_CHECKS = ROOT / "sources" / "structure" / "workshop-words-checks.json"
+MANIFEST = ROOT / "sources" / "manifest.json"
 TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"
@@ -899,6 +903,22 @@ class Library:
         each person keeps one voice in every dialogue, with the passage quoted for each."""
         return json.loads(PEOPLE.read_text(encoding="utf-8"))
 
+    def words(self):
+        """The Workshop's own words (sources/structure/workshop-words.json), each source with
+        what it is: a manifest source's title, a web page's last check, a file's path."""
+        d = json.loads(WORDS.read_text(encoding="utf-8"))
+        checks = json.loads(WORDS_CHECKS.read_text(encoding="utf-8"))["pages"] if WORDS_CHECKS.exists() else {}
+        man = {m["id"]: m for m in json.loads(MANIFEST.read_text(encoding="utf-8"))["sources"]}
+        for w in d["words"]:
+            for s in w["sources"]:
+                if s.get("manifest"):
+                    s["cited"] = man[s["manifest"]]["title"]
+                elif s.get("url"):
+                    c = checks.get(s["url"], {})
+                    s["checked"] = c.get("checked")
+                    s["found"] = c.get("quotes", {}).get(s["quote"])
+        return d
+
     def taylor(self, text_id):
         """One of Taylor's prefatory texts of 1804 (texts/taylor-1804/vol1/), whole."""
         if text_id not in TAYLOR_TEXTS:
@@ -1053,6 +1073,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send_file(md.encode("utf-8"), "text/markdown; charset=utf-8", f"{parts[1]}.md") if md else self.not_found()
                 if parts == ["people"]:
                     return self.send_json(lib.people())
+                if parts == ["words"]:
+                    return self.send_json(lib.words())
                 if parts == ["reading-order"]:
                     return self.send_json(lib.reading_order())
                 if len(parts) == 2 and parts[0] == "taylor":

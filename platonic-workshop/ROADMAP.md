@@ -62,15 +62,18 @@ Each milestone is meant to be one working session. Start the next one by reading
 - Left for later, and said so in the audit: the Greek scholia (milestone 21); Greek quoted inside English commentary notes
   has the tap-a-word meaning but no translation of the whole quotation.
 
-## Milestone 16: plain words and help everywhere (and an iPad audit)
+## Milestone 16: plain words and help everywhere, and an iPad audit (done)
 
-- Rename jargon in the interface (lemma: "dictionary form"; parse: "grammar"; layers: "show"; Stephanus: explained
-  once on hover) and keep the scholarly name in the tooltip.
-- A small "?" on every view and panel that says, in two sentences, what it is for and what to tap.
-- A glossary of the Workshop's own words (Stephanus, Burnet, Loeb, LSJ, Middle Liddell, GLAUx, Morpheus, skopos,
-  scholia, tetralogy, OCR, ≈ placements) linked from every "?".
-- Walk every view on an iPad-sized screen (Playwright, iPad landscape and portrait), fix what overflows or hides;
-  the left contents column is hidden below 1150px, so give it a button there.
+- **Plain names** in the interface, the scholar's name kept on hover: *dictionary form* (lemma), *grammar* (parse),
+  *Show* (layers), *Words without grammar* (untagged), *Whose idea* (a concept's layer); Stephanus numbers explained on hover.
+- **? Help** at the top of every page and a small ? beside every panel: two sentences on what it is for and what to tap,
+  with the Workshop's words it uses (`reader/help.js`; the texts in `sources/structure/workshop-words.json`, under `help`).
+- **Words used in the Workshop** (`#words`): 23 words in plain English, each labelled as the Workshop's explanation and
+  resting on quoted sources (a file here, the manifest, or a web page checked by `tools/webcheck.py --words`).
+- **iPad audit**: every view at 1024×768, 768×1024, 1180×820 and 820×1180 (Playwright, touch). One overflow (the concept
+  list, upright) fixed; below 1150px the contents column opens from *☰ Contents*.
+- Still left, and planned in milestone 21: whole translations of the longer Greek quotations inside the English commentaries
+  (each Greek word there can already be tapped for its meaning).
 
 ## Milestone 17: key terms linked in the text, opening beside it
 

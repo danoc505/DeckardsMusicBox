@@ -149,10 +149,14 @@ async function showStart() {
       <li><b>Tap any Greek word</b> to see what it means, its dictionary form, and its grammar, in plain words.</li>
       <li><b>Under each section</b> are the commentators' notes on it, and the other places that refer to it. Untick <em>Commentary</em> or <em>Links</em> to hide them.</li>
       <li><b>Select words</b> (press and drag) to write your own translation or note. It is kept on this device; <a href="#mine">My Translations</a> gathers it all.</li>
+      <li><b>Not sure what something is for?</b> Tap <b>? Help</b> at the top of any page, or a small <span class="help-q" aria-hidden="true">?</span> beside a panel, for two sentences on what it does.
+        On the iPad, <b>☰ Contents</b> at the top left opens the pages of the dialogue.</li>
+      <li><b>A name you do not know</b> (Burnet, Loeb, LSJ, GLAUx, OCR, ≈…) is explained in plain English in <a href="#words">Words used in the Workshop</a>.</li>
     </ul></section>
     <section id="start-tools"><h3>What else is here</h3>
     <dl class="tools">
       <dt><a href="#glossary">Glossary</a></dt><dd>Thomas Taylor's explanations of the Platonic words his translations use: Demiurgus, dianoia, hyparxis, the intelligible and the rest.</dd>
+      <dt><a href="#words">Words used in the Workshop</a></dt><dd>The names of the books and tools on these pages (Stephanus, Burnet, LSJ, scholia…) in plain English, each with its source.</dd>
       <dt><a href="#library">Library</a></dt><dd>Every dialogue, each with a page on the dialogue as a whole, and the books about Plato: Taylor's Introduction, the ancient lives and introductions, the commentaries.</dd>
       <dt><a href="#concepts">Concepts</a></dt><dd>The great ideas (the Good, the soul, the Forms, intellect…) with Plato's passages on each and what the later Platonists made of them.</dd>
       <dt><a href="#dossiers">Famous passages</a></dt><dd>The cave, the divided line, the charioteer, the ladder of love and seventy more, each gathered whole with every translation and note.</dd>
@@ -197,9 +201,11 @@ async function showGlossary(focus) {
   const letters = [...new Set(g.map((e) => e.head[0].toUpperCase()))];
   const intro = t.segments.find((s) => s.part === "text" && s.kind === "paragraph");
   $("#toc").innerHTML = `<h3>Glossary</h3><p class="letters">${letters.map((l) => `<a href="#gl-${l}" data-scroll="gl-${l}">${l}</a>`).join(" ")}</p>
-    <p class="meta">${g.length} entries. The books Taylor took them from are named under each.</p>`;
+    <p class="meta">${g.length} entries. The books Taylor took them from are named under each.</p>
+    <p class="meta">The Workshop's own words (Stephanus, LSJ, OCR…): <a href="#words">Words used in the Workshop</a>.</p>`;
   let h = `<div class="search guide glossary"><h2>Glossary of Platonic terms</h2>
     <p class="lead">${esc(t.about)}</p>
+    <p class="meta">Looking for a name the Workshop uses, such as Stephanus, Burnet or LSJ? See <a href="#words">Words used in the Workshop</a>.</p>
     <details><summary>Taylor's own preface to it</summary><p>${esc(intro ? intro.text : "")}</p></details>
     <p class="meta">From ${esc(t.edition)}, as compiled by <a href="${esc(t.source.url)}" target="_blank" rel="noopener">theosophylib.com</a>, which adds the entries
       Taylor gives in two later books. Taylor prints Greek without accents, as here; the English word at the head of each entry is his translation of it.</p>

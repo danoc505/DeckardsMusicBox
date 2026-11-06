@@ -1,0 +1,81 @@
+{
+ "about": "Written by tools/webcheck.py --words: for each web page the Workshop's own words quote (sources/structure/workshop-words.json), when it was fetched, the HTTP status, a SHA-256 of its text, and whether each quotation was found there.",
+ "pages": {
+  "https://en.wikipedia.org/wiki/Beta_Code": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "2465262086bb9eac149b0e7beabeba7f23f4881aaf7977718c6b930ec4b90bd8",
+   "quotes": {
+    "Beta Code was a method of representing, using only ASCII characters, the characters, accents, and formatting found in ancient Greek texts": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Concordance_(publishing)": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "389093cfa0513805154707a3b1a47a2fec707dde4d515ee55ba7307c198df7a9",
+   "quotes": {
+    "listing every instance of each word with its immediate context": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Lemma_(morphology)": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "cb25931b0e8c9b9f2b5cac0059872c0a65e86b786a15a238b033b914e193684c",
+   "quotes": {
+    "break is the lemma under which each form thereof is indexed": true,
+    "is the canonical form, dictionary form, or citation form of a set of word forms": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Loeb_Classical_Library": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "ce344f14b80ae912906d129a1cead2557e206e7bec60fce8b1063a51daf22b8f",
+   "quotes": {
+    "with the original Greek or Latin text on the left-hand page and a fairly literal translation on the facing page": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Optical_character_recognition": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "d8a3bb588d44dd4cd52b008e7501624ee4428941c52259a98d4c0a7b552896f5",
+   "quotes": {
+    "is the electronic or mechanical conversion of images of typed, handwritten or printed text into machine-encoded text": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Parsing": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "ea8ee347af9a3b96629444bf1e4ebd65dfaf89cdb654d56aef57819b586e72ad",
+   "quotes": {
+    "The term parsing comes from Latin pars (orationis), meaning part (of speech)": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Perseus_Digital_Library": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "dfb07c342142bb12d3aa58a3e1d2fc7c868d236cde45fb9b321352f53c78206b",
+   "quotes": {
+    "a free-access digital library founded by Gregory Crane in 1987 and hosted by the Department of Classical Studies of Tufts University": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Scholia": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "e462cdbd89c473d055b9ac093bf2d16bf195330b51f40af1b9ecbe5e8e8d3c5d",
+   "quotes": {
+    "This is indicated by the repetition of the lemma (\"headword\")": true,
+    "are grammatical, critical, or explanatory comments – original or copied from prior commentaries – which are inserted in the margin of the manuscript of ancient authors": true
+   }
+  },
+  "https://en.wikipedia.org/wiki/Stephanus_pagination": {
+   "checked": "2026-11-06",
+   "status": 200,
+   "sha256": "502158c840fd41915a7404d900e9296b90365926caa24b0009a9215aeb2f2f43",
+   "quotes": {
+    "Stephanus pagination is a system of reference and organization used in modern editions and translations of Plato's works, based on the three-volume 1578 edition": true,
+    "each such page and page number is further subdivided into lettered sections": true,
+    "unique coordinates for a passage can therefore be given with three pieces of information: the work's name, the (Stephanus) page number, and the letter denoting the passage": true
+   }
+  }
+ }
+}
