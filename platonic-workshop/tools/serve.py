@@ -37,6 +37,7 @@ import search  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 READER = ROOT / "reader"
 READING_ORDER = ROOT / "sources" / "structure" / "reading-order.json"
+PEOPLE = ROOT / "sources" / "structure" / "people.json"
 TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
 # Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
 TAYLOR_TEXTS = {
@@ -837,6 +838,13 @@ class Library:
                       for w in self.works()}
         return d
 
+    # ------------------------------------------------------------ milestone 14: listening
+
+    def people(self):
+        """Which speaker names are one person (sources/structure/people.json), so that
+        each person keeps one voice in every dialogue, with the passage quoted for each."""
+        return json.loads(PEOPLE.read_text(encoding="utf-8"))
+
     def taylor(self, text_id):
         """One of Taylor's prefatory texts of 1804 (texts/taylor-1804/vol1/), whole."""
         if text_id not in TAYLOR_TEXTS:
@@ -989,6 +997,8 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 3 and parts[0] == "dossier" and parts[2] == "md":
                     md = lib.dossier_markdown(parts[1])
                     return self.send_file(md.encode("utf-8"), "text/markdown; charset=utf-8", f"{parts[1]}.md") if md else self.not_found()
+                if parts == ["people"]:
+                    return self.send_json(lib.people())
                 if parts == ["reading-order"]:
                     return self.send_json(lib.reading_order())
                 if len(parts) == 2 and parts[0] == "taylor":

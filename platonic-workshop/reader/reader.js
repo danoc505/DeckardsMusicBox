@@ -1,7 +1,8 @@
 // Platonic Workshop reader (milestones 2 to 9). No libraries, no build step.
 // Your translations and notes (milestone 4) are in mywork.js; the word search
 // across Plato and your word studies (milestone 5) in search.js; the
-// commentaries (milestone 7) in commentary.js; the citation web (milestone 8) in citations.js; the dialogue and the corpus as a whole (milestone 9) in whole.js.
+// commentaries (milestone 7) in commentary.js; the citation web (milestone 8) in citations.js; the dialogue and the corpus as a whole (milestone 9) in whole.js;
+// listening to the English read aloud (milestone 14) in listen.js.
 "use strict";
 
 // The work being read (a Perseus id, 'tlg031'). Changes when you open another dialogue.
@@ -124,7 +125,7 @@ async function goTo(workId, ref, page, push = true) {
   state.view = "read";
   document.body.classList.remove("searching");
   state.target = ref;
-  loadPage(page);
+  await loadPage(page);
   return true;
 }
 
@@ -272,7 +273,7 @@ function renderTransChunk(c, d, numbers, cont) {
   const runs = !cont && c.end_ref && c.end_ref !== c.section_ref ? ` <span class="runs" title="This paragraph runs on to ${esc(c.end_ref)}">→ ${esc(c.end_ref)}</span>` : "";
   const who = ed && ed.responsible && ed.responsible.includes(" and ") && c.translator ? ` <span class="runs">(${esc(c.translator.split(" ").pop())})</span>` : "";
   const raw = c.raw ? `<details class="raw"><summary>OCR as received${c.printed_at ? ", " + esc(c.printed_at) : ""}</summary><pre>${esc(c.raw)}</pre></details>` : "";
-  return `<p>${pre}${mark}${speakerLabel(c)}${renderChunkEnglish(c, d.notes, numbers)}${runs}${who}</p>${raw}`;
+  return `<p data-c="${c.id}">${pre}${mark}${speakerLabel(c)}${renderChunkEnglish(c, d.notes, numbers)}${runs}${who}</p>${raw}`;
 }
 
 function renderPage() {
@@ -312,7 +313,7 @@ function renderPage() {
       const before = i === 0 ? d.chunks.filter((c) => c.continued && c.edition_id === e.id).map((c) => renderTransChunk(c, d, numbers, true)).join("") : "";
       const here = d.chunks.filter((c) => !c.continued && c.edition_id === e.id && c.section_ref === s.ref);
       const body = e.source_id === "perseus-english-plato"
-        ? here.map((c) => `<p${para(c, e.id)}>${speakerLabel(c)}${renderChunkEnglish(c, d.shownNotes, numbers)}</p>`).join("")
+        ? here.map((c) => `<p${para(c, e.id)} data-c="${c.id}">${speakerLabel(c)}${renderChunkEnglish(c, d.shownNotes, numbers)}</p>`).join("")
         : here.map((c) => renderTransChunk(c, { ...d, notes: d.shownNotes }, numbers, false)).join("");
       return `<div class="eng" lang="en" data-ed="${esc(e.id)}" data-label="${esc(e.label)}">${before}${body}</div>`;
     }).join("");

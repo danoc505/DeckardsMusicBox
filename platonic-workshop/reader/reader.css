@@ -807,3 +807,24 @@ ul.shelf li { margin: .4em 0; }
 .page-1804 { font-size: .75em; color: var(--muted, #666); }
 @media (max-width: 860px) { .path-head { flex-direction: column; gap: 2px; } }
 .lib-grid ul.numbered { list-style: none; padding-left: 4px; }
+
+/* Milestone 14: listening */
+.eng p.speaking { background: var(--accent-soft); box-shadow: -6px 0 0 var(--accent-soft), 6px 0 0 var(--accent-soft); border-radius: 3px; }
+body.listening #listen-btn { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.listen-bar {
+  position: fixed; z-index: 31; left: 50%; transform: translateX(-50%); bottom: max(12px, env(safe-area-inset-bottom));
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px;
+  padding: 6px 8px; border-radius: 10px; background: var(--ink); color: var(--paper);
+  font: 14px var(--sans); box-shadow: 0 4px 16px rgba(0, 0, 0, .3); max-width: calc(100vw - 16px);
+}
+.listen-bar[hidden] { display: none; }
+.listen-bar button { background: none; border: 0; color: var(--paper); padding: 8px 10px; min-height: 40px; border-radius: 6px; cursor: pointer; font: inherit; }
+.listen-bar button:hover, .listen-bar button:focus-visible { background: color-mix(in srgb, var(--paper) 20%, transparent); }
+.listen-bar select { font: inherit; min-height: 34px; }
+.listen-speed { display: inline-flex; align-items: center; gap: 4px; padding: 0 4px; }
+.listen-who { padding: 0 8px; opacity: .8; max-width: 22ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body.listening #main { padding-bottom: 90px; }
+table.voices { border-collapse: collapse; width: 100%; }
+table.voices th { text-align: left; font-weight: 600; padding: 6px 8px 6px 0; }
+table.voices td { padding: 4px; }
+table.voices select { max-width: 100%; font: inherit; }
