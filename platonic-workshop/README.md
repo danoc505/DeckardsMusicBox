@@ -275,6 +275,27 @@ rather than translated afresh from the Greek (that is milestone 27's work).
 
 ![The General Introduction in modern English, with Taylor's words beside](docs/reader-m24-modern.png)
 
+**Milestone 25, the rest of the Neoplatonists: done.** The Library has a shelf of the Neoplatonists' own writings, in Greek,
+read whole with contents: the whole of Plotinus (Volkmann, 1883-1884); Proclus on the First Alcibiades (Cousin, 1820-1821), the
+Republic (Kroll, 1899-1901), the Parmenides (Cousin, 1821-1827) and the Cratylus (Pasquali, 1908), and the Elements of Theology
+(Creuzer, 1822); five works of Iamblichus (On the Pythagorean Life, the Protrepticus, On General Mathematical Science, On
+Nicomachus' Arithmetic, On the Mysteries); Damascius on the first principles (Kopp, 1826); Hermias on the Phaedrus (Couvreur,
+1901); Olympiodorus on the First Alcibiades (Creuzer, 1821). Fourteen texts, over a million Greek words. Each names its edition
+and quotes its licence. Two kinds of text, labelled as such: First1KGreek's corrected TEI (CC BY-SA 4.0), read by the edition's
+own divisions with its notes and marginal numbers (Plotinus by Ennead, treatise and chapter, `I.6.9`; Kroll by volume and page);
+and the Internet Archive's OCR of public-domain scans, shown as received and not proofread, page by page with the edition's page
+numbers (read from the running heads, or counted between them, and marked so), a *See the scan* link on every page, the Latin
+pages of the editions folded, and lines that are only specks of the scan hidden but kept (*The OCR as received* shows every line).
+Corrections of common misreadings (χαὶ for καὶ, ἐςὶ for ἐστὶ) are kept apart in
+[`sources/neoplatonists/corrections.json`](sources/neoplatonists/corrections.json), listed beside each part with the reason, and
+applied only in the reading *With corrections*, where each changed word is marked; the text shown is never changed. Every Greek
+word can be tapped for its meaning, as everywhere. `tools/neoplatonists.py`, `reader/neo.js`,
+[`reports/neoplatonists.md`](reports/neoplatonists.md), `tests/test_neoplatonists.py`, `tests/neo_browser.js`. The scans
+(`archive` sources in the manifest) are pinned by sha256 and downloaded by `tools/fetch_sources.py`. Not here, with the reasons
+on the shelf and in the report: Olympiodorus on the Gorgias (the full editions, 1936 and 1970, are in copyright) and on the
+Phaedo (Norvin's 1913 edition was not found among the scans, and Finckh's 1847 OCR has no Greek letters); Damascius on the
+Parmenides, Phaedo and Philebus; the Greek of Proclus on the Timaeus and the Theology (their English is already here).
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

@@ -5,6 +5,11 @@ Each git source is fetched at its pinned commit with a sparse, blob-less clone,
 so only the listed paths are downloaded (the full Perseus repository is
 several gigabytes; the Plato folder is about 60 MB).
 
+Each archive source (milestone 25: an Internet Archive scan's OCR, with the place
+of every line on each page, and its reading of the page numbers) is a list of
+files, each downloaded with curl (the Archive's servers sometimes answer Python's
+urllib with 500) and checked against the SHA-256 pinned for it.
+
 Each http source (Perseus texts that are not on GitHub) is downloaded from its
 URL and must match the SHA-256 pinned in the manifest, so the file on disk is
 byte for byte the one the Workshop was built and checked against. Perseus
@@ -105,12 +110,45 @@ def fetch_http(src, attempts=6):
     }, indent=2))
 
 
+def fetch_archive(src, attempts=6):
+    dest = RAW / src["id"]
+    stamp = dest / ".fetched.json"
+    if stamp.exists() and json.loads(stamp.read_text())["commit"] == src["sha256"] and \
+            all((dest / f["file"]).exists() for f in src["files"]):
+        print(f"[skip] {src['id']} already at sha256 {src['sha256'][:10]}")
+        return
+    dest.mkdir(parents=True, exist_ok=True)
+    for f in src["files"]:
+        path = dest / f["file"]
+        if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == f["sha256"]:
+            continue
+        print(f"[fetch] {src['id']}/{f['file']} from {f['url']}")
+        for attempt in range(1, attempts + 1):
+            tmp = path.with_suffix(path.suffix + ".part")
+            subprocess.run(["curl", "-sSL", "--max-time", "900", "-o", str(tmp), f["url"]], check=False)
+            digest = hashlib.sha256(tmp.read_bytes()).hexdigest() if tmp.exists() else None
+            if digest == f["sha256"]:
+                tmp.replace(path)
+                break
+            print(f"  attempt {attempt}: sha256 {str(digest)[:10]}, expected {f['sha256'][:10]}; retrying")
+            time.sleep(2 ** attempt)
+        else:
+            sys.exit(f"{src['id']}: could not download {f['file']} matching the pinned sha256 after {attempts} attempts")
+    stamp.write_text(json.dumps({
+        "id": src["id"],
+        "url": src["repo"],
+        "commit": src["sha256"],
+        "files": {f["file"]: f["sha256"] for f in src["files"]},
+        "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }, indent=2))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("ids", nargs="*", help="source ids to fetch (default: all non-planned sources)")
     ap.add_argument("--all", action="store_true", help="also fetch sources marked 'planned'")
     args = ap.parse_args()
-    sources = [s for s in load_manifest() if s["kind"] in ("git", "http")]
+    sources = [s for s in load_manifest() if s["kind"] in ("git", "http", "archive")]
     if args.ids:
         unknown = set(args.ids) - {s["id"] for s in sources}
         if unknown:
@@ -123,6 +161,9 @@ def main():
     for src in sources:
         if src["kind"] == "http":
             fetch_http(src)
+            continue
+        if src["kind"] == "archive":
+            fetch_archive(src)
             continue
         key = (src["repo"], src["commit"])
         if key in done:

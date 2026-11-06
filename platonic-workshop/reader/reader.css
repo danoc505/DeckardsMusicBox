@@ -999,3 +999,30 @@ mark.mp-fl { background: var(--warn-soft); color: inherit; }
 .mod-secs li { margin: 3px 0; }
 .mod-marks { padding-left: 1.1em; font: 12.5px/1.4 var(--sans); }
 .mod-marks li { margin: 4px 0; }
+
+/* Milestone 25: the Neoplatonists, read whole (neo.js). */
+.neo-greek { font-family: var(--greek); font-size: 18px; margin: 0 0 .5em; }
+.neo-kind { display: inline-block; font: 11px var(--sans); padding: 0 6px; border-radius: 999px; border: 1px solid var(--faint); color: var(--muted); }
+.neo-kind.ocr { border-style: dashed; }
+.neo-sources li { margin: .2em 0; }
+.neo-contents li { margin: .15em 0; }
+.neo-toc li.on a { color: var(--accent); font-weight: 600; }
+.neo-modes { display: flex; flex-wrap: wrap; gap: 6px; margin: .5em 0; }
+.neo-modes .chip { cursor: pointer; }
+.neo-modes .chip.on { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.neo-nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 1em 0; }
+.neo-page { border-top: 1px solid var(--faint); padding: .5em 0 1em; }
+.neo-page-head { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; margin-bottom: .4em; }
+.neo-page-n { font: 600 12px var(--sans); color: var(--accent); }
+.neo-ocr { white-space: pre-line; font-family: var(--greek); font-size: 16px; line-height: 1.55; overflow-wrap: anywhere; }
+.neo-latin > summary { cursor: pointer; font: 13px var(--sans); color: var(--muted); }
+.neo-latin .neo-ocr { font-family: var(--serif, serif); color: var(--muted); }
+.neo-unit { margin: 0 0 1.2em; }
+.neo-unit-n { font: 600 12px var(--sans); color: var(--accent); margin: 0 0 .25em; }
+.neo-tei { white-space: pre-line; font-family: var(--greek); font-size: 17px; line-height: 1.6; }
+.neo-notes { margin: .3em 0 0; padding-left: 1.4em; }
+.neo-margin { margin: 0; }
+ins.neo-corr { text-decoration: none; background: var(--accent-soft); border-bottom: 1px dotted var(--accent); }
+.neo-not-here { margin: .5em 0; font-size: .95em; }
+.neo-not-here summary { cursor: pointer; }
+.neo-corrections { margin-top: 1.5em; }

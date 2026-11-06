@@ -44,7 +44,7 @@ def _forms(text):
 
 
 def collect_forms(db):
-    """Every Greek word shown outside Burnet's text: the notes, the ancient texts and Taylor's volume I."""
+    """Every Greek word shown outside Burnet's text: the notes, the ancient texts, Taylor's volume I and the Neoplatonists (milestone 25)."""
     forms = set()
     for (body,) in db.execute("SELECT body FROM note WHERE body GLOB '*[Ͱ-Ͽἀ-῿]*'"):
         forms |= _forms(body)
@@ -54,6 +54,10 @@ def collect_forms(db):
         forms |= _forms(text)
     for p in sorted(TAYLOR_VOL1.glob("*.json")):
         forms |= _forms(p.read_text(encoding="utf-8"))
+    # Milestone 25: the Neoplatonists' Greek, as shown and as corrected.
+    if db.execute("SELECT name FROM sqlite_master WHERE name = 'neo_unit'").fetchone():
+        for text, corrected in db.execute("SELECT text, corrected FROM neo_unit WHERE lang = 'grc'"):
+            forms |= _forms(text) | _forms(corrected)
     return forms
 
 

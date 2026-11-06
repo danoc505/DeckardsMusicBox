@@ -51,6 +51,7 @@ import grammar  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
 import nt  # noqa: E402
+import neoplatonists  # noqa: E402
 import translations  # noqa: E402
 import commentary_db  # noqa: E402
 import citations  # noqa: E402
@@ -762,6 +763,8 @@ def build(works, db_path=None, progress=False, with_nt=None):
     sources = load_sources()
     # Milestone 23: the New Testament is built with all of Plato (or when asked), and when its source is downloaded.
     want_nt = (set(works) == set(ALL_WORKS) if with_nt is None else with_nt) and (nt.RAW / "61-Mt-morphgnt.txt").exists()
+    # Milestone 25: the rest of the Neoplatonists, with all of Plato, when their sources are downloaded.
+    want_neo = set(works) == set(ALL_WORKS) and neoplatonists.available()
     require(["perseus-greek-plato", "glaux-plato", "morpheus-analyses", "lsj", "middle-liddell",
              "lsj-abbreviations", "smyth-grammar", "agdt-guidelines"], sources)
     DATA.mkdir(exist_ok=True)
@@ -820,6 +823,13 @@ def build(works, db_path=None, progress=False, with_nt=None):
         print("  structure: " + ", ".join(f"{k} {v}" for k, v in struct_stats.items() if k != "not found")
               + f"; not found: {len(struct_stats['not found'])}", flush=True)
     build_search(db)
+    # Milestone 25: the rest of the Neoplatonists, before the words outside Plato are collected, so that they can be tapped too.
+    if want_neo:
+        neo_stats = neoplatonists.build(db)
+        neoplatonists.write_report(neo_stats)
+        if progress:
+            print(f"  Neoplatonists: {len(neo_stats['texts'])} texts, {neo_stats['units']} units, {neo_stats['words']} words, "
+                  f"{neo_stats['corrected_words']} words corrected apart", flush=True)
     # Milestone 15: the Morpheus analyses of the Greek words outside Plato (notes, ancient texts, Taylor),
     # before the dictionaries, so that their lemmas get entries too.
     gloss_stats = gloss.build_forms(db, morpheus_lines, parse_morpheus, lambda: (morpheus_lines(set()), _MORPHEUS)[1])
