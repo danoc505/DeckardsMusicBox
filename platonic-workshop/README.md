@@ -170,6 +170,16 @@ Plato and the phrases it shares with other passages, the concepts and themes on 
 (`tools/webcheck.py` fetches each page and looks). See [Passage dossiers](#passage-dossiers) below and
 [`reports/dossiers.md`](reports/dossiers.md).
 
+**Milestone 13, the Platonist order and a guide for newcomers: done.** The dialogues are now listed as the later
+Platonists taught them: the curriculum of Iamblichus (Alcibiades I, Gorgias, Phaedo, Cratylus, Theaetetus, Sophist,
+Statesman, Phaedrus, Symposium, Philebus, then the Timaeus and Parmenides), quoted from the Anonymous Prolegomena with
+the Workshop's own translation, labelled as such; the Sophist and Statesman, lost from the Greek by a gap, are placed
+as Westerink placed them, quoted from Dillon (2017) and labelled as a modern editor's. Albinus' order or Thrasyllus'
+tetralogies can be chosen instead. *Start here* (`#start`, opened on a first visit) says what the Workshop is, where to
+begin and how to read a page. *Glossary* (`#glossary`) is Taylor's Explanation of Certain Platonic Terms, A to Z. The
+Library's *Guides to Plato* shelf opens Taylor's General Introduction and Olympiodorus' Life of Plato to read whole
+(`#taylor/general-introduction`). The milestones after this one are planned in [`ROADMAP.md`](ROADMAP.md).
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:
