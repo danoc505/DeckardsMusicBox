@@ -1026,3 +1026,13 @@ ins.neo-corr { text-decoration: none; background: var(--accent-soft); border-bot
 .neo-not-here { margin: .5em 0; font-size: .95em; }
 .neo-not-here summary { cursor: pointer; }
 .neo-corrections { margin-top: 1.5em; }
+/* Milestone 26: Taylor's English beside the Greek */
+.tg-ch { border-top: 1px solid var(--faint); padding: .6em 0 .8em; }
+.tg-ch > p { line-height: 1.55; }
+.tg-how { display: inline-block; font: 500 11px var(--sans); padding: 0 6px; margin-left: 4px; border-radius: 999px; border: 1px solid var(--faint); color: var(--muted); vertical-align: 1px; }
+.tg-how.tg-machine-matched, .tg-how.tg-not-placed, .tg-how.tg-no-Greek { border-style: dashed; }
+.tg-greek { border-left: 3px solid var(--accent-soft); padding: .2em 0 .2em .8em; margin: .3em 0 .6em; }
+.tg-gunit + .tg-gunit { margin-top: .6em; }
+.tg-back { margin: 0 0 .3em; }
+.neo-here { background: var(--accent-soft); }
+.tg-evidence summary { cursor: pointer; }

@@ -35,7 +35,7 @@ function currentNav() {
   const h = location.hash.slice(1);
   if (h === "start") return "start";
   if (h.startsWith("glossary") || h.startsWith("words")) return "glossary";
-  if (h.startsWith("taylor/") || h.startsWith("neo/")) return "library";
+  if (h.startsWith("taylor/") || h.startsWith("neo/") || h.startsWith("neo-en/")) return "library";
   if (h.startsWith("library") || h === "corpus" || h.startsWith("corpus?") || h === "commentaries" || h.startsWith("discussed") || h.startsWith("dossiers")) return "library";
   if (h.startsWith("dictionary")) return "dictionary";
   if (h.startsWith("search") || h.startsWith("renderings/")) return "concordance";
@@ -75,6 +75,7 @@ route = function (push) {  // eslint-disable-line no-global-assign
   if (raw === "glossary" || raw.startsWith("glossary/")) { showGlossary(decodeURIComponent(raw.slice(9))); return; }
   if (raw.startsWith("taylor/")) { showTaylorText(decodeURIComponent(raw.slice(7))); return; }
   if (raw.startsWith("neo/") && typeof showNeo === "function") { showNeo(raw.slice(4)); return; }
+  if (raw.startsWith("neo-en/") && typeof showTaylorGreek === "function") { showTaylorGreek(raw.slice(7)); return; }
   // A first visit, with no address and nothing read yet, opens Start here.
   if (!raw && !prefsGet("seenStart", "") && !prefsGet("lastRead", "")) { history.replaceState(null, "", "#start"); markNav(); prefsSet("seenStart", "1"); showStart(); return; }
   if (raw === "dictionary" || raw.startsWith("dictionary/")) { showDictionaryPage(decodeURIComponent(raw.slice(11))); return; }

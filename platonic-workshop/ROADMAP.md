@@ -194,10 +194,17 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   Olympiodorus on the Gorgias (no public-domain edition reachable) and on the Phaedo (no usable scan), Damascius' other
   commentaries, and the Greek of Proclus on the Timaeus and the Theology.
 
-## Milestone 26: the commentators' Greek beside Taylor's English
+## Milestone 26: the commentators' Greek beside Taylor's English (done)
 
 - Match Taylor's English (Proclus, Plotinus, Iamblichus) to the Greek of milestone 25, paragraph by paragraph, so the Greek of
   any passage is one tap from the English, with the tap-a-word box on it.
+- Done: Taylor's fifteen treatises of Plotinus (187 chapters) and On the Mysteries (140 chapters) matched by his chapter numbers,
+  which are the Greek editions', checked chapter by chapter by length; every paragraph carries its chapter's Greek, one tap away,
+  and the Greek links back. Proclus' Elements: 211 propositions, 86 placed in Creuzer's OCR (found by his printed numbers, or
+  machine-matched and checked by Taylor's terms), the other 125 shown with the pages they lie between, labelled
+  (`tools/taylor_greek.py`, `reports/taylor_greek.md`). Left out: Taylor's Proclus on the Timaeus and the Theology (no Greek on
+  the shelf), the Synesius extracts. Placing the rest of the Elements needs a cleaner Greek text (Dodds is in copyright) or a
+  proofread of Creuzer's OCR.
 
 ## Milestone 27: modern English of the Neoplatonists
 

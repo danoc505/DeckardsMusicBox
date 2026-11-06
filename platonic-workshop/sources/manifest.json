@@ -359,6 +359,24 @@
       "status": "local"
     },
     {
+      "id": "taylor-gutenberg",
+      "title": "Thomas Taylor's later Platonists from Project Gutenberg: Proclus, The Six Books on the Theology of Plato (1816), 2 vols, with Proclus' Elements of Theology in vol. 2; Select Works of Porphyry (1823); Ocellus Lucanus (1831)",
+      "kind": "local",
+      "path": "sources/taylor-gutenberg",
+      "urls": [
+        "https://www.gutenberg.org/ebooks/77393",
+        "https://www.gutenberg.org/ebooks/78800",
+        "https://www.gutenberg.org/ebooks/77014",
+        "https://www.gutenberg.org/ebooks/75391"
+      ],
+      "layer": "later platonist",
+      "language": "eng",
+      "citation_scheme": "Book and chapter; the Elements by proposition",
+      "licence": "Public domain (Project Gutenberg: \"This eBook is for the use of anyone anywhere in the United States and most other parts of the world at no cost and with almost no restrictions whatsoever\")",
+      "provenance": "Downloaded from gutenberg.org by tools/fetch_reconcile.py on 2026-11-05 (milestone 12) and kept as received; fetched.json records the URL, time and sha256 of each file. Project Gutenberg's transcriptions, proofread by its volunteers. The Elements of Theology (vol. 2) is matched to Creuzer's Greek in milestone 26 (tools/taylor_greek.py).",
+      "status": "local"
+    },
+    {
       "id": "adam-1902",
       "title": "The Republic of Plato, edited with critical notes, commentary and appendices by James Adam, 2 vols. (Cambridge: University Press, 1902), OCR text",
       "kind": "local",
