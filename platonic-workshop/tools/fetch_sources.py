@@ -8,7 +8,10 @@ several gigabytes; the Plato folder is about 60 MB).
 Each archive source (milestone 25: an Internet Archive scan's OCR, with the place
 of every line on each page, and its reading of the page numbers) is a list of
 files, each downloaded with curl (the Archive's servers sometimes answer Python's
-urllib with 500) and checked against the SHA-256 pinned for it.
+urllib with 500) and checked against the SHA-256 pinned for it. The OCR of the pages
+the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py
+--extract), because the Archive often refuses GitHub's servers; so these are fetched
+only when asked for, by id or with --archive, to check or remake that copy.
 
 Each http source (Perseus texts that are not on GitHub) is downloaded from its
 URL and must match the SHA-256 pinned in the manifest, so the file on disk is
@@ -20,6 +23,7 @@ matter is the start of the whole lexicon): reading stops after that marker.
     python3 tools/fetch_sources.py            # fetch everything not yet fetched
     python3 tools/fetch_sources.py lsj glaux-plato
     python3 tools/fetch_sources.py --all      # include 'planned' sources
+    python3 tools/fetch_sources.py --archive  # also the Internet Archive scans
 
 After a fetch, data/raw/<id>/.fetched.json records the commit (or the
 SHA-256) and the time.
@@ -147,6 +151,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("ids", nargs="*", help="source ids to fetch (default: all non-planned sources)")
     ap.add_argument("--all", action="store_true", help="also fetch sources marked 'planned'")
+    ap.add_argument("--archive", action="store_true", help="also fetch the Internet Archive scans (their OCR is committed)")
     args = ap.parse_args()
     sources = [s for s in load_manifest() if s["kind"] in ("git", "http", "archive")]
     if args.ids:
@@ -154,8 +159,11 @@ def main():
         if unknown:
             sys.exit(f"unknown source id(s): {', '.join(sorted(unknown))}")
         sources = [s for s in sources if s["id"] in args.ids]
-    elif not args.all:
-        sources = [s for s in sources if s["status"] != "planned"]
+    else:
+        if not args.all:
+            sources = [s for s in sources if s["status"] != "planned"]
+        if not (args.archive or args.all):
+            sources = [s for s in sources if s["kind"] != "archive"]
     # Sources sharing one repo and commit (Perseus Greek and English) share one checkout.
     done = {}
     for src in sources:

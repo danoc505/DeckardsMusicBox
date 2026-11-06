@@ -553,7 +553,7 @@
       "language": "grc",
       "citation_scheme": "Cousin's printed page numbers",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-2-1820: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t2/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-2-1820: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t2/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -581,7 +581,7 @@
       "language": "grc",
       "citation_scheme": "Cousin's printed page numbers",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-3-1820: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t3/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-3-1820: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t3/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -609,7 +609,7 @@
       "language": "grc",
       "citation_scheme": "Cousin's printed page numbers",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-4-1821: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t4/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-4-1821: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t4/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -637,7 +637,7 @@
       "language": "grc",
       "citation_scheme": "Cousin's printed page numbers",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-5-1823: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t5/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-5-1823: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t5/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -665,7 +665,7 @@
       "language": "grc",
       "citation_scheme": "Cousin's printed page numbers",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-6-1827: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t6/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item cousin-proclii-philosophi-platonici-opera-gr-lat-v.-6-1827: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-cousin-proclus-t6/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -693,7 +693,7 @@
       "language": "grc",
       "citation_scheme": "Creuzer's printed page numbers",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-2-1821: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-creuzer-initia-t2/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-2-1821: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-creuzer-initia-t2/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -721,7 +721,7 @@
       "language": "grc",
       "citation_scheme": "Creuzer's printed page numbers; the propositions by number",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-3-1822: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-creuzer-initia-t3/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item creuzer-initia-philosophiae-ac-theologiae-ex-platonicis-fontibus-ducta-gr-lat-t.-3-1822: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-creuzer-initia-t3/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -749,7 +749,7 @@
       "language": "grc",
       "citation_scheme": "Pasquali's page and line",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item pasquali-in-platonis-cratylum-commentaria-gr-lat-1908: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-pasquali-1908/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item pasquali-in-platonis-cratylum-commentaria-gr-lat-1908: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-pasquali-1908/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -777,7 +777,7 @@
       "language": "grc",
       "citation_scheme": "Couvreur's page and line",
       "licence": "Public domain (printed in 1901, before 1930; the Internet Archive gives no other rights statement)",
-      "provenance": "Internet Archive item hermiaealexandri00herm: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-couvreur-1901/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item hermiaealexandri00herm: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-couvreur-1901/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     },
     {
@@ -805,7 +805,7 @@
       "language": "grc",
       "citation_scheme": "Kopp's printed page numbers",
       "licence": "Public domain (the Internet Archive marks the scan with the Creative Commons Public Domain Mark 1.0: http://creativecommons.org/publicdomain/mark/1.0/)",
-      "provenance": "Internet Archive item bub_gb_vSktvALnbHIC: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-kopp-1826/. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
+      "provenance": "Internet Archive item bub_gb_vSktvALnbHIC: its OCR with the place of every line on each scanned page (_djvu.xml) and its reading of the printed page numbers (_page_numbers.json), downloaded on 2026-11-06 and pinned by sha256; kept as received in data/raw/ia-kopp-1826/. The OCR of the pages the Workshop reads is committed in sources/neoplatonists/ocr/ (tools/neoplatonists.py --extract), checked against this download. Unproofread OCR: shown as received, the Workshop's corrections kept apart in sources/neoplatonists/corrections.json. Read by tools/neoplatonists.py (milestone 25).",
       "status": "verified"
     }
   ]
