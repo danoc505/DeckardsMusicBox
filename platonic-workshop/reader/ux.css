@@ -23,7 +23,8 @@
 @media (max-width: 1365px) {
   .bar-top { flex-wrap: wrap; }
   .find-form { flex: 1 1 200px; }
-  nav.primary { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; max-width: 100%; flex: 1 1 400px; }
+  .bar, .bar-top, .bar-read { max-width: 100%; min-width: 0; }
+  nav.primary { min-width: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; max-width: 100%; flex: 1 1 400px; }
   nav.primary::-webkit-scrollbar { display: none; }
 }
 
@@ -85,7 +86,9 @@ body.toc-hidden.panel-hidden #main { padding-left: 44px; padding-right: 44px; }
 }
 .panel-hide:hover { border-color: var(--accent); color: var(--accent); }
 @media (max-width: 860px) {
-  /* The panel is a sheet over the foot of the page here: a handle to see that it can go. */
+  /* The panel is a sheet over the foot of the page here (it had come to sit under the bar,
+     over the very words tapped): a handle to see that it can go. */
+  .inspector { top: auto; bottom: 0; height: auto; max-height: 55vh; border-radius: 14px 14px 0 0; overflow-x: hidden; padding-bottom: max(24px, env(safe-area-inset-bottom)); }
   .inspector .panel-tabs { padding-top: 14px; }
   .inspector .panel-tabs::before { content: ""; position: absolute; top: 5px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: var(--faint); }
 }
