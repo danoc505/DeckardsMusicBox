@@ -9,7 +9,9 @@ quotation; nothing is guessed; a translation made for the Workshop is labelled a
 scholar's view is labelled as modern, beside the ancient Platonists'. Everything stays in `platonic-workshop/`.
 Merge to `main` when the tests pass; the website republishes itself.
 
-Each milestone is meant to be one working session. Start the next one by reading this file and the README.
+Each milestone is meant to be one working session, in its own thread. Start the next one by reading this file and the README.
+When a milestone is done and merged, its thread hands off to a new thread for the next milestone (as 14 to 18 have done),
+so that each thread starts small.
 
 ## Milestone 13: the Platonist order, Start here, Taylor's glossary and Introduction (done)
 
@@ -143,6 +145,85 @@ Each milestone is meant to be one working session. Start the next one by reading
 - Check the result against the speaker each English translation names in its own words ("said Glaucon"), and report every
   disagreement. Then Listen gives each a voice from `people.json`, as in the acted dialogues; the narrator's own "said he" stays
   in the narrator's voice.
+
+## Milestones 23 to 34 (planned November 2026, approved by Daniel)
+
+Three groups: the Greek New Testament first, since it fits the program as it is; then English of our own for the guides and
+the Neoplatonists, because no modern English versions of them exist; then what is missing from the tradition; then what no one
+could do before. The school and curriculum ideas are left out as beyond the scope.
+
+## Milestone 23: the Greek New Testament
+
+- The Greek New Testament on the ancient shelf, by book, chapter and verse: the SBLGNT text with MorphGNT's lemma and parse for
+  every word (both under licences that allow reuse; check and quote them), and the American Standard Version (1901, public domain)
+  beside it as the English. Westcott and Hort (1881) may be offered as a second Greek text.
+- The tap-a-word box, search by dictionary form, and the Term tab work on it as on Plato; a term's panel can then show where a
+  word of Plato's (λόγος, νοῦς, ψυχή) is used in the New Testament, labelled as a different corpus.
+- The Septuagint is milestone 34.
+
+## Milestone 24: modern English of Taylor's Introduction and the Life of Plato
+
+- No modern English versions exist, so make them: a plain modern rendering beside each paragraph of Taylor's General Introduction
+  and Olympiodorus' Life of Plato, keeping every idea, in short sentences; Taylor's own wording always one tap away. Olympiodorus
+  is made from the Greek, checked against Taylor.
+- A short summary at the head of each section for the gist. Key terms always rendered the same way and linked to the Term tab.
+- Labelled as the Workshop's own and machine-assisted; hard or disputed places flagged, with Taylor's words shown.
+- A button to mark a sentence that reads badly or seems wrong; the marks are kept for revision.
+
+## Milestone 25: the rest of the Neoplatonists
+
+- Add the texts not yet in, in public-domain Greek editions, read whole with contents: the whole of Plotinus; Proclus on the
+  Alcibiades, Republic, Parmenides and Cratylus, and the Elements of Theology; Iamblichus; Damascius; Hermias on the Phaedrus;
+  Olympiodorus on the Alcibiades, Gorgias and Phaedo. Each edition named and its licence quoted; OCR shown as received,
+  corrections kept separately.
+
+## Milestone 26: the commentators' Greek beside Taylor's English
+
+- Match Taylor's English (Proclus, Plotinus, Iamblichus) to the Greek of milestone 25, paragraph by paragraph, so the Greek of
+  any passage is one tap from the English, with the tap-a-word box on it.
+
+## Milestone 27: modern English of the Neoplatonists
+
+- As milestone 24, for Proclus, Plotinus, Iamblichus and the others: made from the Greek, checked against Taylor and any other
+  public-domain translation, so it does not inherit Taylor's oddities; where only Taylor's English exists, modernise his English.
+  Begin with the texts read first in the curriculum. Several sessions.
+
+## Milestone 28: the later readers
+
+- Ficino's Latin commentaries and translations, and the Byzantine and Arabic readers of Plato, in public-domain editions and
+  translations where they exist; each labelled with its tradition and date.
+
+## Milestone 29: the reverse map of the tradition
+
+- Find every place any Neoplatonist (and the later readers) quotes or alludes to each line of Plato: quotations by matching the
+  Greek, allusions by the commentators' own references, each kept with the words it rests on and marked as quotation or
+  allusion. Show them on the line in the reader, and a page of which passages the tradition used most and which it ignored.
+
+## Milestone 30: the structure of every dialogue
+
+- Building on milestone 19 (the middle): the twelfths and other proportions of each dialogue, counted in the Greek, and what
+  sits at each point, for all 36 dialogues side by side. Kennedy's theory quoted and labelled as modern, with its critics.
+
+## Milestone 31: each dialogue's aim, as Proclus read it
+
+- Building on milestone 20: every dialogue laid out by its aim (skopos) in the Prolegomena's and Proclus' words, its parts, and
+  the level of being it treats (in Taylor's and Proclus' words), all on one page, so the dialogues can be compared.
+
+## Milestone 32: the translators word by word
+
+- Align Taylor, Jowett and the Loeb with Burnet's Greek word by word, and show where each translator added, left out or bent a
+  word, with a summary per translator of what it shows about how he read Plato. The alignment is machine-made and labelled so.
+
+## Milestone 33: argument maps
+
+- Each argument laid out step by step, premises and conclusion, each step quoting Plato's words; linked to the places where
+  Proclus, Plotinus or the others defend or attack a step (from milestone 29). The steps are the Workshop's reading, labelled.
+
+## Milestone 34: the Septuagint
+
+- The Greek Old Testament (Swete, 1887 to 1894, public domain), read from the scans, with English (Brenton, 1844) beside it.
+  Harder than milestone 23: the good tagged digital texts cannot be reused, so the words are tagged by Morpheus and GLAUx-style
+  matching, and marked as machine-tagged.
 
 ## Ideas noted, not yet planned
 
