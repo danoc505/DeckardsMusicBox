@@ -98,6 +98,22 @@ class Rules(unittest.TestCase):
         self.assertTrue(any("Phaedo" in w for w, _ in neo.NOT_HERE))
 
 
+class CommittedOCR(unittest.TestCase):
+    def test_a_copy_of_every_scan_read(self):
+        for src in neo.scan_ranges():
+            pages = neo.scan_pages(src)          # refuses a copy of another download
+            self.assertTrue(any(pages), src)
+
+    @unittest.skipUnless(all((neo.RAW / s / "djvu.xml").exists() for s in neo.scan_ranges()), "python3 tools/fetch_sources.py --archive")
+    def test_the_copy_is_the_download(self):
+        import gzip
+        import hashlib
+        for src in neo.scan_ranges():
+            self.assertEqual(hashlib.sha256((neo.RAW / src / "djvu.xml").read_bytes()).hexdigest(), neo.manifest_sha(src))
+            got = json.loads(gzip.decompress((neo.OCR_COPY / f"{src}.json.gz").read_bytes()))
+            self.assertEqual(got, json.loads(json.dumps(neo.extract(src), ensure_ascii=False)), f"{src}: run tools/neoplatonists.py --extract")
+
+
 @unittest.skipUnless(neo.available(), "run python3 tools/fetch_sources.py first")
 class Editions(unittest.TestCase):
     @classmethod

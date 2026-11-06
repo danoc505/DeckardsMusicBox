@@ -291,7 +291,9 @@ Corrections of common misreadings (χαὶ for καὶ, ἐςὶ for ἐστὶ)
 applied only in the reading *With corrections*, where each changed word is marked; the text shown is never changed. Every Greek
 word can be tapped for its meaning, as everywhere. `tools/neoplatonists.py`, `reader/neo.js`,
 [`reports/neoplatonists.md`](reports/neoplatonists.md), `tests/test_neoplatonists.py`, `tests/neo_browser.js`. The scans
-(`archive` sources in the manifest) are pinned by sha256 and downloaded by `tools/fetch_sources.py`. Not here, with the reasons
+(`archive` sources in the manifest) are pinned by sha256; the OCR of the pages read is committed in
+`sources/neoplatonists/ocr/`, since the Internet Archive often refuses GitHub's servers, and
+`tools/fetch_sources.py --archive` then `tools/neoplatonists.py --extract` remake it from the downloads (a test checks the two agree). Not here, with the reasons
 on the shelf and in the report: Olympiodorus on the Gorgias (the full editions, 1936 and 1970, are in copyright) and on the
 Phaedo (Norvin's 1913 edition was not found among the scans, and Finckh's 1847 OCR has no Greek letters); Damascius on the
 Parmenides, Phaedo and Philebus; the Greek of Proclus on the Timaeus and the Theology (their English is already here).

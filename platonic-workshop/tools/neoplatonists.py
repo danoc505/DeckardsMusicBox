@@ -59,6 +59,7 @@ only.
     python3 tools/neoplatonists.py --check          # read every text and print what it holds
     python3 tools/neoplatonists.py --check hermias  # one text, with its pages
 """
+import gzip
 import json
 import re
 import sys
@@ -74,6 +75,9 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 F1K = RAW / "first1k-neoplatonists" / "data"
 CORRECTIONS = ROOT / "sources" / "neoplatonists" / "corrections.json"
+# The OCR of the scanned pages the texts use, copied from the Archive's _djvu.xml (python3 tools/neoplatonists.py --extract)
+# and committed, so the library builds without the Archive's servers, which often refuse GitHub's.
+OCR_COPY = ROOT / "sources" / "neoplatonists" / "ocr"
 REPORT = ROOT / "reports" / "neoplatonists.md"
 TEI_NS = "{http://www.tei-c.org/ns/1.0}"
 F1K_LICENCE = "CC BY-SA 4.0 (First1KGreek: \"Available under a Creative Commons Attribution-ShareAlike 4.0 International License\")"
@@ -350,6 +354,48 @@ def part_label(t, p, i):
 
 # ---------------------------------------------------------------- the scans
 
+def scan_ranges():
+    """{source id: set of leaves} the texts read."""
+    out = {}
+    for t in TEXTS:
+        for src, first, last in t.get("ranges", []):
+            out.setdefault(src, set()).update(range(first, last + 1))
+    return out
+
+
+def manifest_sha(src):
+    m = json.loads((ROOT / "sources" / "manifest.json").read_text(encoding="utf-8"))
+    return next(s["sha256"] for s in m["sources"] if s["id"] == src)
+
+
+def extract(src):
+    """The committed copy of a scan's OCR: the lines of every page a text reads, as djvu_pages reads them,
+    with the sha256 of the _djvu.xml they come from. Written by --extract from data/raw."""
+    pages = djvu_pages(RAW / src / "djvu.xml")
+    leaves = sorted(lf for lf in scan_ranges()[src] if lf <= len(pages))
+    return {"source": src, "djvu_sha256": manifest_sha(src), "n_pages": len(pages),
+            "pages": {str(lf): pages[lf - 1] for lf in leaves}}
+
+
+def write_extract(src):
+    OCR_COPY.mkdir(parents=True, exist_ok=True)
+    body = json.dumps(extract(src), ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode("utf-8")
+    with open(OCR_COPY / f"{src}.json.gz", "wb") as f:
+        with gzip.GzipFile(filename="", mode="wb", fileobj=f, mtime=0, compresslevel=9) as g:   # the same bytes every time
+            g.write(body)
+
+
+def scan_pages(src):
+    """[[line, ...] for each scanned page] from the committed copy (pages not read are empty)."""
+    d = json.loads(gzip.decompress((OCR_COPY / f"{src}.json.gz").read_bytes()).decode("utf-8"))
+    if d["djvu_sha256"] != manifest_sha(src):
+        raise SystemExit(f"neoplatonists: {src}: the committed OCR is of another download; run tools/neoplatonists.py --extract")
+    out = [[] for _ in range(d["n_pages"])]
+    for lf, lines in d["pages"].items():
+        out[int(lf) - 1] = lines
+    return out
+
+
 def djvu_pages(path):
     """[[line, ...] for each scanned page], from the Archive's _djvu.xml (its OBJECT, LINE and WORD elements)."""
     t = path.read_text(encoding="utf-8")
@@ -440,7 +486,7 @@ def number_pages(cands, window=12):
 def read_ocr(t, sources=None):
     units = []
     for vol_i, (src, first, last) in enumerate(t["ranges"]):
-        pages = djvu_pages(RAW / src / "djvu.xml")
+        pages = scan_pages(src)
         leaves = list(range(first, min(last, len(pages)) + 1))
         langs = {lf: ("grc" if greek_share(pages[lf - 1]) >= 1 / 3 else "lat") for lf in leaves}
         if t.get("facing"):
@@ -534,7 +580,7 @@ def read_all(only=None):
 
 def available():
     """True when the sources are downloaded (tools/fetch_sources.py)."""
-    return (F1K / "tlg2000").exists() and all((RAW / s / "djvu.xml").exists() for t in TEXTS if t["kind"] == "ocr" for s, _, _ in t["ranges"])
+    return (F1K / "tlg2000").exists() and all((OCR_COPY / f"{s}.json.gz").exists() for s in scan_ranges())
 
 
 def words(text):
@@ -628,6 +674,12 @@ def write_report(stats):
 
 
 def main():
+    if "--extract" in sys.argv:
+        # After tools/fetch_sources.py --archive: copy the OCR of the pages the texts read into sources/neoplatonists/ocr/.
+        for src in sorted(scan_ranges()):
+            write_extract(src)
+            print(f"wrote {(OCR_COPY / (src + '.json.gz')).relative_to(ROOT)} ({(OCR_COPY / (src + '.json.gz')).stat().st_size:,} bytes)")
+        return
     if "--check" in sys.argv:
         only = [a for a in sys.argv[1:] if not a.startswith("--")]
         only = [t["id"] for t in TEXTS if any(o in t["id"] for o in only)] or None
