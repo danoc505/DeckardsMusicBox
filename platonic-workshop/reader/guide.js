@@ -177,9 +177,9 @@ async function showStart() {
 // The Neoplatonist shelf: Taylor's prefatory texts and the ancient introductions.
 function shelfList() {
   return `<ul class="shelf">
-    <li><a href="#taylor/general-introduction"><b>Taylor's General Introduction</b></a> (1804) <span class="meta">Platonism as the later Platonists taught it; the place to start for the Neoplatonic reading.</span></li>
+    <li><a href="#taylor/general-introduction"><b>Taylor's General Introduction</b></a> (1804) <span class="meta">Platonism as the later Platonists taught it; the place to start for the Neoplatonic reading. In modern English, the Workshop's own, with Taylor's words beside.</span></li>
     <li><a href="#glossary"><b>Taylor's Platonic terms</b></a> <span class="meta">The glossary, A to Z.</span></li>
-    <li><a href="#taylor/olympiodorus-life"><b>Olympiodorus, Life of Plato</b></a> (6th century, Taylor's translation)</li>
+    <li><a href="#taylor/olympiodorus-life"><b>Olympiodorus, Life of Plato</b></a> (6th century) <span class="meta">In modern English from the Greek, the Workshop's own, with Taylor's translation beside.</span></li>
     <li><button type="button" class="link-btn" data-ancient="albinus-burges" data-at=""><b>Albinus, Prologue to Plato</b></button> (2nd century, Burges' translation) <span class="meta">How to begin reading Plato.</span></li>
     <li><button type="button" class="link-btn" data-ancient="dl3-burges" data-at=""><b>Diogenes Laertius, Life of Plato</b></button> (Book III, Burges' translation)</li>
     <li><button type="button" class="link-btn" data-ancient="prolegomena-hermann" data-at=""><b>Anonymous Prolegomena to Platonic Philosophy</b></button> (6th century) <span class="meta">Greek only: no free English translation exists. The reading-order passage is translated on this page.</span></li>
@@ -267,6 +267,8 @@ async function showTaylorText(id) {
   if (!t) {
     try { t = GUIDE.taylor[id] = await api(`taylor/${encodeURIComponent(id)}`); } catch (e) { $("#main").innerHTML = `<p class="error">Not found: ${esc(id)}</p>`; return; }
   }
+  // Milestone 24: a text with the Workshop's modern English opens in it, Taylor's words beside (modern.js).
+  if (t.modern && typeof showModernText === "function") { showModernText(id, t); return; }
   document.title = `${t.title} · Platonic Workshop`;
   const notes = new Map(t.notes.map((n) => [n.id, n]));
   const segs = t.segments.filter((s) => s.part !== "site");

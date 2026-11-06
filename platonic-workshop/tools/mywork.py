@@ -27,7 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 USER_SCHEMA = ROOT / "db" / "user_schema.sql"
-SCHEMA_VERSION = 5
+SCHEMA_VERSION = 6
 
 # What a translation is anchored to: "words" (any span you select) or
 # "sections" (selections are widened to whole Stephanus sections).
@@ -45,6 +45,9 @@ SHEET_STATUSES = ("working", "proposal")
 SEARCH_MODES = ("lemma", "form", "plain")
 NOTE_KINDS = ("footnote", "note", "alternative")
 PROOF_STATUSES = ("checked", "needs correction")
+# A mark on a sentence of a modern English version (milestone 24).
+MODERN_KINDS = ("reads badly", "seems wrong", "withdrawn")
+MODERN = ROOT / "sources" / "translations" / "modern"
 FORMATS = ("markdown", "plain")
 MAX_BODY = 200_000
 
@@ -109,8 +112,8 @@ def ensure(path):
 
 def migrate(db, version=1):
     """Version 1 to 2: add columns, number the existing revisions. Version 2 to
-    3, 3 to 4 and 4 to 5: nothing to change; the word_study, proofreading and
-    reconciliation tables are created by the schema. Adds only."""
+    3 and on to 6: nothing to change; the word_study, proofreading,
+    reconciliation and modern_mark tables are created by the schema. Adds only."""
     with db:
         if version >= 2:
             db.execute("INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', ?)", (str(SCHEMA_VERSION),))
@@ -772,6 +775,55 @@ class MyWork:
                         hashlib.sha256(body.encode("utf-8")).hexdigest(), now()))
         return self.proof_marks([key])[key]
 
+    # -------------------------------------------------- marks on the modern versions (milestone 24)
+
+    @staticmethod
+    def _modern(text_id):
+        if not isinstance(text_id, str) or not text_id.replace("-", "").isalnum():
+            raise Invalid("text is required")
+        p = MODERN / f"{text_id}.json"
+        if not p.exists():
+            raise NotFound(text_id)
+        return json.loads(p.read_text(encoding="utf-8"))
+
+    def modern_marks(self, text_id):
+        """Your newest mark on each sentence of one modern version, withdrawn ones left out,
+        with 'changed' where the sentence no longer reads as you marked it."""
+        d = self._modern(text_id)
+        now_text = {p["seg"]: p["modern"] for p in d["paragraphs"]}
+        with self.session() as db:
+            rows = db.execute("SELECT m.* FROM modern_mark m JOIN (SELECT para, sentence, max(id) AS id FROM modern_mark "
+                              "WHERE text_id = ? GROUP BY para, sentence) n ON n.id = m.id ORDER BY m.id", (text_id,)).fetchall()
+        out = []
+        for r in rows:
+            if r["kind"] == "withdrawn":
+                continue
+            out.append({**dict(r), "changed": r["sentence"] not in now_text.get(r["para"], "")})
+        return out
+
+    def add_modern_mark(self, data):
+        d = self._modern(data.get("text"))
+        para, sentence = data.get("para"), data.get("sentence")
+        paras = {p["seg"]: p["modern"] for p in d["paragraphs"]}
+        if para not in paras:
+            raise Invalid("para must be a paragraph of the modern version")
+        if not isinstance(sentence, str) or not sentence.strip() or sentence not in paras[para]:
+            raise Invalid("sentence must be a sentence of that paragraph, as it reads now")
+        kind = data.get("kind")
+        if kind not in MODERN_KINDS:
+            raise Invalid(f"kind must be one of {', '.join(MODERN_KINDS)}")
+        comment = data.get("comment")
+        if comment is not None and (not isinstance(comment, str) or len(comment) > 10_000):
+            raise Invalid("comment must be text")
+        with self.session() as db:
+            db.execute("INSERT INTO modern_mark (text_id, para, sentence, kind, comment, saved_at) VALUES (?,?,?,?,?,?)",
+                       (d["text"], para, sentence, kind, (comment or "").strip() or None, now()))
+        return {"text": d["text"], "marks": self.modern_marks(d["text"])}
+
+    def all_modern_marks(self):
+        with self.session() as db:
+            return [dict(r) for r in db.execute("SELECT * FROM modern_mark ORDER BY id")]
+
     def all_proofreading(self):
         with self.session() as db:
             return [dict(r) for r in db.execute("SELECT * FROM proofreading ORDER BY id")]
@@ -786,6 +838,7 @@ class MyWork:
             "works": [{"urn": w["urn"], "title": w["title"], "items": rs} for w, rs in self._sorted_by_work(rows)],
             "word_studies": [{**r, "revisions": self.history("study", r["id"])} for r in self.studies(include_deleted=True)],
             "proofreading": self.all_proofreading(),
+            "modern_marks": self.all_modern_marks(),
             "reconciliations": [{**r, "revisions": [{**v, "sheet": json.loads(v["body"])} for v in self.history("reconciliation", r["id"])]}
                                 for r in self.sheets(include_deleted=True)],
             "methods": [{**r, "revisions": self.history("method", r["id"])} for r in self.user_methods(include_deleted=True)],
@@ -845,6 +898,19 @@ class MyWork:
                     lines += [r["comment"], ""]
                 if r["corrected"]:
                     lines += [r["corrected"].rstrip(), ""]
+        marks = []
+        for text_id in sorted({r["text_id"] for r in self.all_modern_marks()}):
+            try:
+                marks += [(text_id, r) for r in self.modern_marks(text_id)]
+            except NotFound:
+                continue
+        if marks:
+            lines += ["## Sentences you marked in the modern English versions", ""]
+            for text_id, r in marks:
+                lines += [f"- **{r['kind']}** · {text_id} {r['para'].rsplit('.', 1)[-1]} · {r['saved_at'][:10]}"
+                          f"{' · revised since' if r['changed'] else ''}: {r['sentence']}"
+                          + (f"  \n  {r['comment']}" if r["comment"] else "")]
+            lines += [""]
         return "\n".join(lines).rstrip() + "\n"
 
     def export_sqlite(self, dest):

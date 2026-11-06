@@ -254,6 +254,27 @@ pin), and the SBLGNT's list of variant readings, whose marks (⸀ ⸂ ⸃) are t
 
 ![John 1, with λόγος tapped and its Term tab open](docs/reader-m23-john.png)
 
+**Milestone 24, modern English of Taylor's Introduction and the Life of Plato: done.** No modern English versions of these
+two texts exist, so the Workshop has made them. Every paragraph of Taylor's General Introduction (178) reads in plain modern
+English, every idea kept, the long sentences broken into short ones; Olympiodorus' Life of Plato is translated afresh from the
+Greek as Hermann printed it (with the opening paragraph Taylor leaves out) and checked against Taylor's translation, and the
+Greek of each paragraph is one tap away. Each section opens with a short summary. Taylor's own words are under every paragraph
+(*Taylor's words*), or beside it (*Side by side*). The key words are always rendered the same way (Taylor's *intellect* stays
+*intellect*, his *ideas* are *Forms*, his *unities* are *henads*, *Jupiter* is *Zeus*), and are underlined to open the Term
+tab. Both versions are labelled as the Workshop's own and machine-assisted: they were drafted with an AI model and no scholar
+has checked them yet. 59 flags mark hard or disputed places, with Taylor's words and the reason (Taylor's opinions stated as
+fact, his misquotations, where the Greek says something his English does not). *Mark a sentence*, under each paragraph, keeps
+a sentence that reads badly or seems wrong in your own database, with a comment, for revision; the marks are listed in the
+contents column and in the export of Your work. The master copies are plain text, to revise by hand:
+`sources/translations/modern/*.txt`; `tools/modern.py` checks them (every paragraph covered once, in order; every flag's words
+found in Taylor; the Greek found in Hermann, in order and all of it; the fixed renderings of
+`sources/translations/modern/terms.json`) and writes the JSON the reader shows and [`reports/modern.md`](reports/modern.md).
+`reader/modern.js`, `tests/test_modern.py`, `tests/modern_browser.js`. Left as Taylor printed them: his footnotes, and the
+quotations he translates inside the Introduction (Proclus, Damascius, Simplicius), which are modernised from his English
+rather than translated afresh from the Greek (that is milestone 27's work).
+
+![The General Introduction in modern English, with Taylor's words beside](docs/reader-m24-modern.png)
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

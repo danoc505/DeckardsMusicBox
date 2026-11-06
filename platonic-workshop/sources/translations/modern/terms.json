@@ -1,0 +1,500 @@
+{
+  "schema": "Milestone 24: the fixed modern renderings of Taylor's key words, used in every modern version the Workshop writes. 'taylor' lists Taylor's English forms (matched as whole words, ignoring case unless 'case' is true); 'modern' lists the modern forms that may stand for them (matched as the start of a word, so 'share' also matches 'shares' and 'sharing'). tools/modern.py checks every paragraph: where Taylor's paragraph has one of his forms, the modern paragraph must have one of the modern forms, unless the paragraph is listed under 'exceptions' with the reason. 'term' is the key term of the Term tab (sources/terms/terms.json or the concept index) that the modern words are linked to, and 'link' the modern words that are underlined (the first time in a paragraph).",
+  "terms": [
+    {
+      "taylor": [
+        "the one"
+      ],
+      "modern": [
+        "the One",
+        "One"
+      ],
+      "case": true,
+      "term": "the-one",
+      "link": [
+        "the One"
+      ],
+      "why": "τὸ ἕν, the first principle; capitalised as a name, as modern translators do"
+    },
+    {
+      "taylor": [
+        "the good"
+      ],
+      "modern": [
+        "Good",
+        "good"
+      ],
+      "term": "the-good",
+      "link": [
+        "the Good"
+      ],
+      "why": "τὸ ἀγαθόν; capitalised where it is the first principle"
+    },
+    {
+      "taylor": [
+        "intellect",
+        "intellects"
+      ],
+      "modern": [
+        "intellect"
+      ],
+      "term": "intellect",
+      "link": [
+        "intellect"
+      ],
+      "why": "νοῦς: kept as 'intellect', as Taylor and modern scholars have it, never 'mind'"
+    },
+    {
+      "taylor": [
+        "soul",
+        "souls"
+      ],
+      "modern": [
+        "soul"
+      ],
+      "term": "soul",
+      "link": [
+        "soul"
+      ],
+      "why": "ψυχή"
+    },
+    {
+      "taylor": [
+        "ideas",
+        "ideal"
+      ],
+      "modern": [
+        "Form",
+        "form",
+        "idea",
+        "pattern"
+      ],
+      "term": "forms",
+      "link": [
+        "Forms",
+        "Form"
+      ],
+      "why": "ἰδέαι, εἴδη: 'Forms', capitalised, where Taylor has 'ideas' in Plato's sense"
+    },
+    {
+      "taylor": [
+        "demiurgus",
+        "demiurgic",
+        "artificer",
+        "fabricator"
+      ],
+      "modern": [
+        "Craftsman",
+        "maker",
+        "mak",
+        "creat"
+      ],
+      "term": "demiurge",
+      "link": [
+        "Craftsman"
+      ],
+      "why": "δημιουργός: 'the Craftsman' where it names the maker of the world"
+    },
+    {
+      "taylor": [
+        "intelligible",
+        "intelligibles"
+      ],
+      "modern": [
+        "intelligible"
+      ],
+      "term": "intelligible-world",
+      "link": [
+        "intelligible"
+      ],
+      "why": "νοητός: kept as 'intelligible', what is grasped by intellect"
+    },
+    {
+      "taylor": [
+        "sensible",
+        "sensibles"
+      ],
+      "modern": [
+        "perceptible",
+        "perceived",
+        "perceive",
+        "senses",
+        "sense"
+      ],
+      "term": "sensible-world",
+      "link": [
+        "perceptible"
+      ],
+      "why": "αἰσθητός: 'perceptible', since 'sensible' now means 'reasonable'"
+    },
+    {
+      "taylor": [
+        "dianoia",
+        "dianoëtic",
+        "dianoetic"
+      ],
+      "modern": [
+        "discursive reason"
+      ],
+      "term": "dianoia",
+      "link": [
+        "discursive reason"
+      ],
+      "why": "διάνοια, reasoning step by step"
+    },
+    {
+      "taylor": [
+        "unities"
+      ],
+      "modern": [
+        "henad",
+        "unit",
+        "union",
+        "unity"
+      ],
+      "term": "henad",
+      "link": [
+        "henads",
+        "henad"
+      ],
+      "why": "ἑνάδες, the gods as unities; 'henads', the later Platonists' own word"
+    },
+    {
+      "taylor": [
+        "monad",
+        "monads"
+      ],
+      "modern": [
+        "monad"
+      ],
+      "term": "monad",
+      "link": [
+        "monad"
+      ],
+      "why": "μονάς"
+    },
+    {
+      "taylor": [
+        "hyparxis"
+      ],
+      "modern": [
+        "hyparxis"
+      ],
+      "term": "hyparxis",
+      "link": [
+        "hyparxis"
+      ],
+      "why": "ὕπαρξις, kept in Greek, as there is no English word for it"
+    },
+    {
+      "taylor": [
+        "superessential"
+      ],
+      "modern": [
+        "beyond being",
+        "above being"
+      ],
+      "term": "the-one",
+      "link": [],
+      "why": "ὑπερούσιος"
+    },
+    {
+      "taylor": [
+        "ineffable"
+      ],
+      "modern": [
+        "inexpressible",
+        "beyond words",
+        "cannot be spoken",
+        "expressible"
+      ],
+      "term": "the-one",
+      "link": [],
+      "why": "ἄρρητος"
+    },
+    {
+      "taylor": [
+        "participate",
+        "participates",
+        "participated",
+        "participation",
+        "participating",
+        "participant",
+        "participants",
+        "partakes",
+        "partake",
+        "partaking"
+      ],
+      "modern": [
+        "shar",
+        "share",
+        "receiv"
+      ],
+      "term": "participation",
+      "link": [],
+      "why": "μετέχειν, μέθεξις: 'share in', the plain English of the Greek"
+    },
+    {
+      "taylor": [
+        "imparticipable"
+      ],
+      "modern": [
+        "not shared",
+        "unshared"
+      ],
+      "term": "imparticipable",
+      "link": [
+        "not shared"
+      ],
+      "why": "ἀμέθεκτος"
+    },
+    {
+      "taylor": [
+        "progression",
+        "progressions"
+      ],
+      "modern": [
+        "procession",
+        "come forth",
+        "comes forth",
+        "coming-forth",
+        "coming forth",
+        "come out",
+        "comes out",
+        "coming out",
+        "goes forth",
+        "flow"
+      ],
+      "term": "emanation",
+      "link": [
+        "procession"
+      ],
+      "why": "πρόοδος: 'procession', as modern scholars of Proclus say"
+    },
+    {
+      "taylor": [
+        "reminiscence"
+      ],
+      "modern": [
+        "recollect"
+      ],
+      "term": "recollection",
+      "link": [
+        "recollection"
+      ],
+      "why": "ἀνάμνησις"
+    },
+    {
+      "taylor": [
+        "dæmon",
+        "dæmons",
+        "dæmoniacal",
+        "daemon",
+        "daemons"
+      ],
+      "modern": [
+        "daemon"
+      ],
+      "term": "daemons",
+      "link": [
+        "daemons",
+        "daemon"
+      ],
+      "why": "δαίμων: kept as 'daemon', not 'demon'"
+    },
+    {
+      "taylor": [
+        "prudence"
+      ],
+      "modern": [
+        "practical wisdom",
+        "wisdom",
+        "good sense"
+      ],
+      "term": "phronesis",
+      "link": [
+        "practical wisdom"
+      ],
+      "why": "φρόνησις"
+    },
+    {
+      "taylor": [
+        "dialectic"
+      ],
+      "modern": [
+        "dialectic"
+      ],
+      "term": "dialectic",
+      "link": [
+        "dialectic"
+      ],
+      "why": "διαλεκτική"
+    },
+    {
+      "taylor": [
+        "bound and infinity",
+        "bound and the infinite"
+      ],
+      "modern": [
+        "limit and the unlimited"
+      ],
+      "term": "limit-and-infinite",
+      "link": [
+        "limit and the unlimited"
+      ],
+      "why": "πέρας καὶ ἄπειρον"
+    },
+    {
+      "taylor": [
+        "Jupiter",
+        "Jove"
+      ],
+      "modern": [
+        "Zeus"
+      ],
+      "case": true,
+      "term": null,
+      "link": [],
+      "why": "Taylor uses the Latin names of the gods; the modern version uses the Greek ones"
+    },
+    {
+      "taylor": [
+        "Minerva"
+      ],
+      "modern": [
+        "Athena"
+      ],
+      "case": true,
+      "term": null,
+      "link": [],
+      "why": "the Greek name"
+    },
+    {
+      "taylor": [
+        "Juno"
+      ],
+      "modern": [
+        "Hera"
+      ],
+      "case": true,
+      "term": null,
+      "link": [],
+      "why": "the Greek name"
+    },
+    {
+      "taylor": [
+        "Vulcan"
+      ],
+      "modern": [
+        "Hephaestus"
+      ],
+      "case": true,
+      "term": null,
+      "link": [],
+      "why": "the Greek name"
+    },
+    {
+      "taylor": [
+        "Bacchus"
+      ],
+      "modern": [
+        "Dionysus"
+      ],
+      "case": true,
+      "term": null,
+      "link": [],
+      "why": "the Greek name"
+    },
+    {
+      "taylor": [
+        "Ulysses"
+      ],
+      "modern": [
+        "Odysseus"
+      ],
+      "case": true,
+      "term": null,
+      "link": [],
+      "why": "the Greek name"
+    }
+  ],
+  "extra_links": [
+    {
+      "term": "being",
+      "link": [
+        "true being",
+        "real being"
+      ]
+    },
+    {
+      "term": "becoming",
+      "link": [
+        "becoming"
+      ]
+    },
+    {
+      "term": "return",
+      "link": [
+        "return"
+      ]
+    },
+    {
+      "term": "eternal",
+      "link": [
+        "eternity"
+      ]
+    },
+    {
+      "term": "matter",
+      "link": [
+        "matter"
+      ]
+    },
+    {
+      "term": "likeness-to-god",
+      "link": [
+        "like God",
+        "likeness of God"
+      ]
+    },
+    {
+      "term": "world-soul",
+      "link": [
+        "soul of the world",
+        "world-soul"
+      ]
+    },
+    {
+      "term": "the-beautiful",
+      "link": [
+        "the Beautiful itself"
+      ]
+    },
+    {
+      "term": "opinion",
+      "link": [
+        "opinion"
+      ]
+    },
+    {
+      "term": "virtue",
+      "link": [
+        "virtues",
+        "virtue"
+      ]
+    }
+  ],
+  "exceptions": {
+    "general-introduction": {
+      "p0015:the one": "Taylor's 'the one prior to these three' is nature, the one power before growth, nourishment and reproduction; not the One",
+      "p0018:the one": "Taylor's 'the one' here means 'the first of two' ('the one ... the other'), not the One",
+      "p0096:the one": "Taylor's 'the one' here means 'the first of two' ('the one ... the other'), not the One",
+      "p0106:the one": "Taylor's 'the one' here means 'the first of two' ('the one ... the other'), not the One",
+      "p0117:the one": "Taylor's 'the one' here means 'the first of two' ('the one ... the other'), not the One",
+      "p0144:the one": "Taylor's 'the one' here means 'the first of two' ('the one ... the other'), not the One",
+      "p0028:Jupiter": "The Greek of these lines says 'God' (ho theos), which the modern version follows; Taylor's English has 'Jove'",
+      "p0080:progression": "'Progression' here is a movement forward that comes to an end, not the procession of beings",
+      "p0154:progression": "'The progressions of human understanding' are the steps by which we come to understand, not the procession of beings"
+    }
+  }
+}

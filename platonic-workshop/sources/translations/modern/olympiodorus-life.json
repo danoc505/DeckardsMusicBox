@@ -1,0 +1,436 @@
+{
+ "schema": "platonic-workshop/modern-v1",
+ "text": "olympiodorus-life",
+ "title": "The Life of Plato, by Olympiodorus, in modern English",
+ "by": "Workshop modern version",
+ "machine_assisted": true,
+ "label": "The Workshop's modern English, machine-assisted: drafted with an AI model (Claude) and not yet checked by a scholar. Taylor's own words are under every paragraph.",
+ "made_from": "greek",
+ "about": "A modern English version of Olympiodorus' Life of Plato (6th century), written for the Workshop, because none exists. It is translated from the Greek as Hermann printed it, and checked against Taylor's translation of 1804, paragraph by paragraph. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The opening paragraph, which Taylor leaves out, is translated too and marked as not in Taylor. The Greek of each paragraph is shown as the OCR gives it, page headings and misreadings included. The sections and their summaries are the Workshop's.",
+ "source": "sources/translations/modern/olympiodorus-life.txt",
+ "sections": [
+  {
+   "id": "birth",
+   "title": "Why we tell Plato's life, and his birth",
+   "summary": "Olympiodorus begins with why everyone is drawn to Plato, then tells of his family, descended from Solon and from the kings of Athens, the story that Apollo was his true father, and the bees that filled the baby's mouth with honey on Mount Hymettus.",
+   "first": "x0001"
+  },
+  {
+   "id": "schooling",
+   "title": "His teachers, and his poetry",
+   "summary": "Plato learned letters, music and wrestling, as Athenian boys did, and learned from painters, tragic poets, dithyrambic poets and the comic writers Aristophanes and Sophron. He wrote poetry himself but burned it when he met Socrates, and Socrates had dreamed of a swan the day before.",
+   "first": "p0006"
+  },
+  {
+   "id": "travels",
+   "title": "After Socrates: Italy, Sicily and the tyrants",
+   "summary": "After Socrates' death Plato studied with Cratylus and with the Pythagorean Archytas in Italy. He went to Sicily three times. Dionysius the elder threw him out for his blunt answers; Dionysius the younger had him sold as a slave, and Anniceris bought him free; the third time he went to help his friend Dion.",
+   "first": "p0018"
+  },
+  {
+   "id": "egypt-and-academy",
+   "title": "Egypt, the Academy, and his death",
+   "summary": "Olympiodorus adds that Plato learned sacred lore from the priests of Egypt and the Magi of Phoenicia. Back in Athens he founded his school in the Academy, open to men and to women, and more open than the Pythagoreans'. Before he died he dreamed he was a swan that the bird-catchers could not catch: a sign that his meaning would be hard to grasp. Athens gave him a grand burial.",
+   "first": "p0022"
+  }
+ ],
+ "paragraphs": [
+  {
+   "seg": "x0001",
+   "p": "x0001",
+   "modern": "Aristotle, at the start of his theology, says that \"all people by nature desire to know,\" and that the sign of it is our love of the senses. As I begin on the philosophy of Plato, I would say this with more reason: all people desire the philosophy of Plato. They all want to draw something useful from it, they are eager to be possessed by its streams, and they fill themselves with Plato's inspirations. There are four of these in him, in four dialogues. The first is in the Timaeus, where, taken over by a god, he plays the part of the Craftsman speaking to the heavenly beings about how things here are to be run; he calls them the young gods. That is why Iamblichus, in his commentary on the dialogue, wrote a section \"On the speech of Zeus.\" The second inspiration is in the Republic, where, taken over by the Muses, he plays the Muses telling how the city he founded will fall apart, where he says: \"for everything that has come to be, decay must follow.\" The third is in the Phaedrus, where Socrates, doing philosophy about Love under the plane tree, is taken over by the nymphs. The fourth is in the Theaetetus, where he is inspired in philosophy itself, playing the leading philosopher, that is, the contemplative one. For these reasons, then, everyone hurries to Plato's philosophy.",
+   "extra": true,
+   "before": "taylor1804.olympiodorus-life.text.p0001",
+   "notes": [
+    "Taylor leaves this opening out and begins with the next paragraph. Translated for the Workshop from Hermann's Greek."
+   ],
+   "greek": "Αριστοτέλης ἀρχόμενος τῆς ἑαυτοῦ ϑεολογίας μεθ πάντες ἄνϑρωποι εἰδέναι ὁ ὀρέγονται φύσει. σημεῖον δὲ ἡ τῶν αἰσϑήσεων ἀγάπησις\" ἐγὼ δὲ τῆς τοῦ Πλάτωνος φιλοσοφίας ἀρχόμενος φαίην ἂν τοῦτο μειξό νῶς. ὅτι πάντες ἄνϑρωποι τῆς Πλάτωνος φιλοσοφίας ὀφέγονται ἢ χρηστὸν παρ᾽ αὐτῆς ἅπαντες ἀρύσασϑαι βουλόμενοι; καὶ κάτοχοι τοῖς ταύτης νάμασιν εἶναι. σπουδάζοντες, καὶ τῶν Πλατωνικῶν ἐνθουσιασμῶν πλήρεις ἑαυτοὺς καταστήσαντες. τέσσαρες δέ εἰσιν οὗτοι παρ᾽ αὐτῷ ἐν τέτρασι διαλόγοις\" εἷς μὲν ἐν Τιμαίῳ. ὃν ἐνθουσιᾷ ϑεόληπτος γενόμενος καὶ ὑποκρινόμενος τὸν δημιουργὸν πρὸς τὰ οὐράνια δημηγοροῦντα περὶ τῆς τῶν τῇδε διοικήσεως. οὖς νέους ϑεοὺς καλεῖ: διὸ καὶ ὃ Ιάμβλιχος ὑπομνηματίξων τὸν διάλογον ἐπέγραψεν εἰς τὴν δημηγορίαν τοῦ Διός. δεύτερος ἐνϑουσιασμός. ἐστιν ἐν τῇ Πολιτείᾳ, ἔνϑα μουσόληπτος γεγονὼς ὑπεκρίϑη τὰς Μούσας διεξιούσας τὴν λύσιν τῆς ὑπ᾿ αὐτοῦ συστάσης πολιτείας ; ἔνϑα φησίν᾽ παντὶ γὰρ γενομένῳ καὶ φϑορὰ ἕπεται, ἐξ ἀνάγκης. τρίτος ἐνθουσιασμὸς ὁ 0 ἐν Φαίδρῳ. ἔνϑα ὑπὸ τὴν πλάτανον ὃ Σωκράτης φιλοσοφῶν περὶ τοῦ Ἔρωτος νυμφόληπτος ἐγένετο. τέταρτος ὃ ἐν Θεαιτήτῳ. ὅπου κατὰ φιλοσοφίαν ἐνεϑουσίασε, τὸν κορυφαῖον ὑποκρινόμενος φιλόσοφον. τουτέστι τὸν ϑεωρητικόν. τούτων τοίνυν ἕνεκεν πάντες τῇ τοῦ Πλάτωνος φιλοσοφίᾳ προστρεχουσι\""
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0001",
+   "p": "p0001",
+   "modern": "Come, then, let us tell of the philosopher's family. Not to show off how many stories we have heard, but so that those who come to him may gain something and learn. He was no Nobody, but a man to whom many people turned. Plato is said to have been the son of Ariston, son of Aristocles, and through his father he traced his family back to Solon the lawgiver. So, out of rivalry with his ancestor, he wrote the Laws in twelve books and the Republic in ten. His mother was Perictione, who came down from Neleus, son of Codrus.",
+   "flags": [
+    {
+     "taylor": "Hence with primitive zeal he wrote twelve books of Laws, and eleven books on a Republic",
+     "why": "Taylor has \"eleven books\"; the Greek, as the scan shows it, has a number that is hard to read, and the Republic has ten books."
+    },
+    {
+     "taylor": "since he was by no means an obscure man",
+     "why": "The Greek plays on Homer: Plato was \"no Nobody\" (Outis, the name Odysseus gave the Cyclops); Taylor's \"obscure man\" loses the joke."
+    }
+   ],
+   "greek": "φέρε δὲ καὶ τὸ γένος. εἴπωμὲν τοῦ φιλοσόφου, οὐ πολυκοΐας χάριν, ἀλλ᾽ ὠφελείας καὶ παιδεύσεως μᾶλλον τῶν προσιό ντῶν αὐτῷ᾽ οὐ γάρ τις οὗτος Οὔτις, ἀλλὰ μᾶλλον πολλῶν ἐπίστροφος ἤν ἀνϑρώπων. λέγεται γὰρ ὖ Πλάτων υἱὸς γενέσϑαι πατρὸς μὲν ᾿Δρίστωνος τοῦ ᾿Αριστοκλέους, ἀφ᾽ οὗ τὸ γένος εἰς Σόλωνα τὸν νομοϑέτην ἀνέφερεν\" διὸ καὶ κατὰ ζῆλον προγονικὸν Νόμους ἔγραψεν ἐν ιβ΄ βιβλίοις 47 ΒΙΟΣ ΠΙΑΤΩ ΝΟΣ. 191 καὶ ἡ Πολιτείας σύστασιν ἐν {α7’ μητρὸς δὲ προῆλϑε Περικτιόνης, ἥτις ἀπὸ Νηλέως τοῦ “Κόδρου κατήγετο."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0002",
+   "p": "p0002",
+   "modern": "They say that an apparition of Apollo lay with his mother Perictione. Then it appeared to Ariston in the night and told him not to sleep with Perictione until she had given birth. And he did so.",
+   "greek": "φασὶν οὖν, ὅτι φάσμα ᾿Ἵπολλωνιακὸν συνεγένετο τῇ μητρὶ αὐτοῦ τῇ Περικτιόνῃ; καὶ ἐν νυκτὶ φανὲν τῷ ᾿Δφίστωνι ἐκέλευσεν αὐτῷ «μὴ μιγνύναι τῇ Περικτιόνῃ μέχρι τοῦ χρόνου τῆς ἀποτέξεως᾽ ὃ δ᾽ οὕτω πεποίηκεν."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0003",
+   "p": "p0003",
+   "modern": "When Plato was born, his parents took the baby and laid him on Mount Hymettus, wanting to sacrifice for him to the gods there: Pan, the Nymphs, and Apollo the shepherd. As he lay there, bees came and filled his mouth with honeycomb, so that the line might come true of him:",
+   "greek": "καὶ γεννηϑέντα τὸν Πλάτωνα λαβόντες οἵ γονεῖς βρέφος ὄντα τεϑείκασιν ἐν τῷ Ὑμηττῷ, βουλόμενοι ὑ ὑπὲρ αὐτοῦ τοῖς ἐκεῖ ϑεοῖς Πανὶ καὶ Νύμφαις καὶ ᾿Δπόλλωνι νομέῳ ϑῦσαι. καὶ κειμένου αὐτοῦ μέλιτται προσελϑοῦσαι πεπληρώκασιν αὐτοῦ τὸ στόμα κηρίων μέλιτος, ἵνα ἀληϑὲς περὶ αὐτοῦ γένηται τὸ"
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0004",
+   "p": "p0004",
+   "modern": "\"from his tongue flowed speech sweeter than honey.\"\n(Homer, Iliad 1.249, said of Nestor.)",
+   "greek": "τοῦ καὶ ἀπὸ γλώσσης μέλιτος γλυκίων ῥέεν αὐδή."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0005",
+   "p": "p0005",
+   "modern": "And he calls himself, as his father's son, a \"fellow-servant of the swans,\" since he came from Apollo; for the swan is Apollo's bird.",
+   "flags": [
+    {
+     "taylor": "But Plato calls himself a fellow-servant with swans",
+     "why": "The phrase is from Phaedo 85b, where Socrates says it of himself; Olympiodorus applies it to Plato."
+    }
+   ],
+   "greek": "καλεῖ δ᾽ αὑτὸν πατρόϑεν καὶ τοῖς κύκνοις ὁμόδουλον, ὡς ἐξ ᾿Ἵπόλλωνος προελϑών᾽ ᾿Ἵπολλωνιακὸν γὰρ τὸ ὄρνεον. Π."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0006",
+   "p": "p0006",
+   "modern": "When he was old enough, he first went to Dionysius the schoolmaster to learn ordinary reading and writing. He mentions him in the Lovers, so that even Dionysius the teacher should not go without a mention by Plato. After him he had as his trainer in wrestling Ariston of Argos, who, they say, gave him the name Plato. Before that he was called Aristocles, after his grandfather. He got the name because two parts of his body were very broad (platys), his chest and his forehead, as his statues set up everywhere show. Others say he was not renamed for this, but for the broad, flowing, open character of his style; just as they say Theophrastus, who was first called Tyrtamus, was renamed for the divine quality (theion) of his speech.",
+   "flags": [
+    {
+     "taylor": "as his instructor in gymnastic",
+     "why": "The Greek says a trainer in wrestling (gymnastēs); Taylor's \"gymnastic\" is close enough."
+    }
+   ],
+   "greek": "Ἐν ἡλικίᾳ δὲ γενόμενος πρῶτον μὲν ἐφοίτησε Διονυσίῳ τῷ γραμματιστῇ πρὸς μάϑησιν κοινῶν γραμμάτων. οὐ “αὶ ἐν ᾿Εφασταῖς μέμνηται, ἵνα μηδὲ Διονύσιος ὃ ο διδάσκαλος ἄμοιρος εἴη τῆς παρὰ Πλάτωνι μνήμης. εἶτα μετ ἐκεῖνον ᾿γυμναστῇ μὲν ἐχρήσατο διδασκάλῳ ᾿Δφίστωνι τῷ ᾿᾿ργείῳ . ὑφ᾽ οὗ καὶ Πλάτων, ὥς φασι, μετωνομάσϑη; πρότερον ᾿Δφιστοκλῆς λεγόμενος τῷ τοῦ πάππου ὀνόματι\" ἐκλήϑη δ᾽ οὕτω διὰ τὸ δύο μόρια τοῦ σώματος ἔχειν -πλατύτατα, τό τε στέρνον καὶ τὸ ᾿ μέτωπον ὡς δηλοῦσι πανταχοῦ αἱ ἁ ἀνακείμεναι αὐτοῦ εἰκόνες οὕτω φαινόμεναι. ἄλλοι δέ φασι μὴ διὰ τοῦτο μετονομασϑῆναι αὐτόν, ἀλλὰ διὰ τὸ πλατὺ καὶ κεχυμένον καὶ ἀναπεπταμένον τοῦ ἀνακειμένου χαρακχτῆ009. καϑάπερ φασὶ καὶ Θεόφραστον οὕτω μετονομασϑῆναι διὰ τὸ ϑεῖον τῆς φράσεως, πρότερον Τύρταμον λεγόμενον. μουσικῆς"
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0007",
+   "p": "p0007",
+   "modern": "His teacher in music was Draco, the pupil of Damon, and he mentions him in the Republic. The boys at Athens were taught these three things, letters, music and wrestling, and not without reason. Letters, to put order into the reason in them; music, to tame their anger; and wrestling and exercise, to brace the slackness of their desire. Alcibiades, too, is shown in Plato as taught in these three; that is why Socrates says to him, \"but you would not play the pipe,\" and so on. He also went to painters, and learned from them how colours are mixed, which he mentions in the Timaeus.",
+   "flags": [
+    {
+     "taylor": "Draco, the son of Damon",
+     "why": "The Greek says the pupil (mathētēs) of Damon, not his son. Plato mentions Damon in the Republic (400b), not Draco."
+    }
+   ],
+   "greek": "δὲ διδάσκαλον ἔσχε ᾿Ζ΄ράκοντα τὸν “Ἰάμωνος μαϑητήν\" μέμνηται δὲ τούτου ἐν τῇ Πολιτείᾳ. τρία δὲ καὶ ταῦτα ἐπαιδεύοντο οἵ ᾿Αϑήνησι παῖδες, φημὶ δὲ γράμματα, μουσικήν; παλαίειν, οὐχ ἁπλῶς. ἀλλὰ γράμματα μὲν διὰ τὸ κοσμεῖν τὸν λόγον τὸν ἐν αὐτοῖς, μουσικὴν διὰ τὸ τυϑασσεύειν τὸν ϑυμόν, παλαίειν δὲ καὶ γυμνάξεσϑαι διὰ τὸ ἀναρρωννύναι τὸ τῆς ἐπιϑυμίας χαλαρόν. καὶ ὃ ᾿Αλκιβιάδης δὲ παρ᾽ αὐτῷ τὰ τρία ταῦτα “φαίνεται: παιδευϑείς\" διὸ καί φησι πρὸς αὐτὸν Σωκράτης\" αὐλεῖν δὲ οὐκ ἐβούλου, καὶ τὰ ἑξῆς. ἐφοίτησε δὲ καὶ παρα γραφεῦσι, παρ᾽ ὧν ὠφελήϑη τὴν μῖξιν 1 τῶν χρωμάτων, ὧν ἐν Τιμαίῳ μέμνηται. ΠῚ."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0008",
+   "p": "p0008",
+   "modern": "After this he was taught by the tragic poets, who were called the teachers of Greece. He went to them because of the wise sayings and dignity of tragedy, and the heroic quality of its subjects. He also took up dithyrambs, to honour Dionysus, who is called the overseer of becoming; for the dithyramb was sacred to him, and took its name from him. Dionysus is \"Dithyrambus\" because he came out through two doors (dyo thyrai): the womb of Semele and the thigh of Zeus. The ancients used to call effects by the names of their causes, as they do with Dionysus. That is why Proclus says of this:",
+   "greek": "Μετὰ ταῦτα δὲ καὶ παρὰ τοῖς τραγικοῖς ἐπαιδεύϑη. 192 ΟΑΛΥ̓ΜΠΙΟΔΏΩΡΟΥ 48 παιδευταῖς ὀνομαξομένοις εἶναι τῆς Ἕλλάδος' προσῆλϑε δὲ τούτοις διὰ τὸ ἀπὸ τῆς τραγικῆς. γνωμικπὸν καὶ σεμνὸν. καὶ τὸ ἡρωϊκὸν τῶν ὑποϑέσεων. καὶ τοῖς “διϑυράμβοις δὲ πρὸς τιμὴν τοῦ Διονύσου, ἐφόρου λεγομένου τῆς γενέσεως, ὡμίλησε\" τούτῳ γὰρ ὃ διϑύραμβος ἀνέκειτο. ἀφ οὗ καὶ τὸ ὄνομα εἶχεν. διϑύραμβος γὰρ ὃ “ιόνυσος ὡς ἐκ δύο ϑυρῶν ἐξελϑών, τῆς τε Σεμέλης καὶ τοῦ μηροῦ τοῦ Διός. εἰώϑεισαν γὰρ οἵ ἀρχαῖοι τὰ αἰτιατὰ ὁ ὀνομάξζειν τοῖς τῶν αἰτίων ὀνόμασι ; καϑάπερ καὶ τὸν Διόνυσον καλοῦσιν\" διὸ καὶ ὃ Πρόκλος περὶ τούτου φησίν ἡ"
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0009",
+   "p": "p0009",
+   "modern": "\"all the parents they saw, they called by their children's names.\"",
+   "flags": [
+    {
+     "taylor": "With their late offspring parents seem to mix",
+     "why": "The line is hard: the scan reads it with a word that is probably corrupt. The Workshop takes it to mean that parents are called by the names of their children, which fits the point being made; Taylor's line is a guess too."
+    }
+   ],
+   "greek": "ὅσσ᾽ εἶδον τεκέεσσιν ἐφημίξαντο. τοχεῦσιν."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0010",
+   "p": "p0010",
+   "modern": "That Plato practised dithyrambs is clear from the Phaedrus, a dialogue that breathes the spirit of the dithyramb throughout, since, they say, it was the first dialogue Plato wrote.",
+   "flags": [
+    {
+     "taylor": "is said to have been the first dialogue which Plato composed",
+     "why": "That the Phaedrus was Plato's first dialogue is an ancient story (also in Diogenes Laertius 3.38); modern scholars place it among his later middle works."
+    }
+   ],
+   "greek": "ὅτι δὲ τοὺς διϑυράμβους ὃ ο Πλάτων ἤσκητο; δῆλον ἑ ἐκ τοῦ Φαίὅρου τοῦ διαλόγου πάνυ πνέοντος τοῦ διϑυραμβώδους χαραχτῆςθ0ς ἅτε τοῦ Πλάτωνος τοῦτον πρῶτον γράψαντος διάλογον, ὡς λέγεται."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0011",
+   "p": "p0011",
+   "modern": "He also delighted greatly in Aristophanes the comic poet and in Sophron, and from them he learned how to imitate characters in his dialogues. He is said to have enjoyed them so much that when he died, Aristophanes and Sophron were found in his bed. He also wrote this epigram on Aristophanes himself:",
+   "greek": "ἔχαιρε δὲ πάνυ καὶ ᾿Δφιστοφάνει τῷ κωμικῷ καὶ Σώφρονι; τύαρ ὧν καὶ τὴν μίμησιν. τῶν πφοσώπων ἐν τοῖς διαλόγοις ὠφελήϑη: λέγεται δ᾽ οὕτως αὐτοῖς χαίρειν, ὥστε καὶ ἡνίκα, ἐτελεύτησεν εὑρεϑῆναι ἐν τῇ κλίνῃ αὐτοῦ “Δριστοφάνην καὶ Σώφρονα. καὶ ἐπίγραμμα δὲ τοιοῦτον εἰς ᾿Δριστοφάνην αὐτὸς πεποίηκεν\""
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0012",
+   "p": "p0012",
+   "modern": "The Graces, looking for a shrine that would never fall,\nfound the soul of Aristophanes.",
+   "greek": "αἵ Χάριτες τέμενός τι λαβεῖν ὃ ὅπερ οὔτι πεσεῖται ζητοῦσαι ψυχὴν εὗρον ᾿Δφιστοφάνους."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0013",
+   "p": "p0013",
+   "modern": "He made fun of him, though, in the Symposium, as one who had learned from comedy. He has him sing a hymn to Love, and then brings him in seized by hiccups halfway, unable to finish the hymn. He also wrote tragedies, dithyrambs and some other poems, and he burned them all once he had tasted Socrates' company, saying a line like this:",
+   "flags": [
+    {
+     "taylor": "in the midst of his oration seized with a hiccup",
+     "why": "In the Symposium (185c) Aristophanes has the hiccups before his speech, and so speaks out of turn; he is not stopped halfway."
+    }
+   ],
+   "greek": "ἐκωμῴδησε δ᾽ αὐτὸν ἐν τῷ Συμποσίῳ τῷ διαλόγῳ ὡς κωμῳδίαν ὠφεληϑείς \" καὶ γὰρ ποιήσας αὐτὸν ὑμνοῦντα τὸν Ἔρωτα εἰςἄγει αὐτὸν μεταξὺ λυγγὶ περιπεσόντα καὶ μὴ δυνάμενον πληρῶσαι τὸν ὕμνον. ἐποίησε δὲ καὶ τραγικὰ ποιήματα καὶ διϑυφαμβικὰ καὶ ἄλλα τινά; ἅπερ πάντα κατέκαυσε τῆς Σωκράτους πειραϑεὶς διατριβῆς, εἰπών τι τοιοῦτον ἔπος\""
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0014",
+   "p": "p0014",
+   "modern": "\"Hephaestus, come here; Plato has need of you.\"\n(A version of Iliad 18.392, with Plato's name put in.)",
+   "greek": "Ἥφαιστε, πρόμολ᾽ ὧδε, Πλάτων νύ τι σεῖο χατίζει."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0015",
+   "p": "p0015",
+   "modern": "[A schoolmaster called Anatolius once said this line here and greatly pleased Hephaestus, the governor then in charge of the city. He said it like this:",
+   "flags": [
+    {
+     "taylor": "Anatolius the grammarian, once reciting this verse, very much pleased Vulcan",
+     "why": "Hermann prints this story in square brackets as a later addition to the text. \"Hephaestus\" here is the name of a governor of Alexandria, and \"Pharos\" is Alexandria's island; Taylor's \"Vulcan\" hides the pun."
+    }
+   ],
+   "greek": "[γραμματικὸς δέ τις ᾿Δνατόλιος ἐνταῦϑα ποτε τὸ ἔπος εἰπὼν ηὐδοκί σεν εἰς Ἥφαιστον ἄρχοντα ἐπιστάντα τῇ πόλει, εἶπε δ᾽ αὐτὸν οὕτως\""
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0016",
+   "p": "p0016",
+   "modern": "\"Hephaestus, come here; Pharos has need of you.\"]",
+   "greek": "Ἥφαιστε, πρόμολ ὧδε: Φάρος νύ τι σεῖο χατίξει.] Ιν."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0017",
+   "p": "p0017",
+   "modern": "They say that when Socrates was about to take him on, he saw in a dream a swan without wings sitting on his knees. At once it grew wings, flew up into the air, and gave a clear cry that charmed everyone who heard it. This showed the fame the man was to have.",
+   "flags": [
+    {
+     "taylor": "sitting on his bosom",
+     "why": "The Greek has \"on his knees\" (en tois gonasin)."
+    }
+   ],
+   "greek": "Φασὶ δ᾽ ὅτι ἡνίκα. ὃ Σωκράτης ἤμελλε δέχεσϑαι, ὁ ὄναρ εἶδεν, ὅτι κύκνος ἄπτερος. ἐν τοῖς γόνασιν αὐτοῦ καϑῆστο καὶ παραχρῆμα πτεροφυήσας ἀνέπτη εἰς τὸν ἀέρα καὶ ἔκλαγξέ τι λιγυρόν, ὡς πάντας ϑέλξαι τοὺς ἀκούοντας\" τοῦτο δ᾽ ἐδήλου τὴν μέλλουσαν δόξαν τοῦ ἀνδρός."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0018",
+   "p": "p0018",
+   "modern": "After Socrates died, he took a teacher again, Cratylus the follower of Heraclitus, and wrote a dialogue named after him, with the title \"Cratylus, or On the correctness of names.\" After him he went again to Italy, and finding a school of Pythagoreans gathered there, he again had a teacher, the Pythagorean Archytas; that is why he mentions Archytas. And since a philosopher must love to see the works of nature, he went to Sicily too, to see the fiery craters of Etna, and not, my noble Aristides, for the sake of the Sicilian table, as you say.",
+   "flags": [
+    {
+     "taylor": "he again went into Italy",
+     "why": "The Greek also says \"again\"; but Olympiodorus has not told of a first visit, and the order of Plato's journeys is not certain."
+    }
+   ],
+   "greek": "μετὰ δὲ τὴν τελευτὴν Σωκράτους διδασκάλῳ πάλιν ἐχρήσατο Κρατύλῳ τῷ Ηρακλειτείῳ, εἰς ᾿ Σου ἈΞ ὅν Ἂς Σὺν 49 ΒΙΟΣ ΠΛΆΤΩΝΟΣ. 198 ὃν καὶ διάλογον. ὁμώνυμον ἐποίησεν, ἐπιγράψας Κρατύλος ἢ περὶ ὀρϑότητος ὀνομάτων. μετὰ τοῦτον δὲ πάλιν στέλλεται εἰς Ἰταλίαν καὶ διδασκαλεῖον εὑρὼν ἐκεῖ τῶν Πυϑαγορείων συνιστάμενον ᾿Αρχύταν πάλιν ἔσχε διδάσκαλον τὸν Πυϑαγόρειον νεή δὁμώνυμον ἔνϑα καὶ ᾿Δρχύτου μέμνηται. ἐπειδὴ δὲ δεῖ τὸν φιλόσοφον φιλοϑεάμονα, εἶναι τῶν τῆς φυσεῶς ἔργων, στέλλεται καὶ εἰς Σικελίαν ; ϑεασόμενος τοὺς πρατῆρας τοῦ πυρὸς τοὺς ἐν τῇ Ἅϊτνῃ 4 καὶ οὐ Σικελυνῆς τραπέξης χάριν. ὥ γενναῖε ᾿Δριστείδη, ὡς σὺ φῇς\" “γενόμενος ἡ δὲ ἢ"
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0019",
+   "p": "p0019",
+   "modern": "When he was in Syracuse with Dionysius the Great, who was a tyrant, he tried to change the tyranny into an aristocracy; that was why he had come to him. Dionysius asked him, \"Whom do you think happy among men?\", expecting that the philosopher would flatter him and name him. Plato answered, \"Socrates.\" He asked him again, \"What do you think is the work of a statesman?\" Plato answered, \"To make the citizens better.\" He asked him a third time, \"What, then? Do you think judging rightly a small thing?\" (for Dionysius had a name for judging rightly). Plato answered without holding back, \"A small thing indeed, and the last part of it. Those who judge rightly are like menders who sew up torn clothes.\" He asked him a fourth time, \"What? Is a tyrant not brave?\" \"He is the most cowardly of all,\" said Plato, \"since he is afraid even of the barber's razors, in case he is killed by them.\" Dionysius was angry at this, and ordered him to leave Syracuse while the sun was still above the earth. So Plato was driven out of Syracuse in disgrace.",
+   "flags": [
+    {
+     "taylor": "he ordered him to depart at sunrise",
+     "why": "The Greek says \"while the sun is above the earth,\" that is, before sunset that day. Taylor also leaves out the last sentence, that Plato was driven out in disgrace."
+    }
+   ],
+   "greek": "ἐν Συρακούσαις πρὸς Διονύσιον τὸν μέγαν τύραννον ὄντα ἐπειρᾶτο εἰς ἀριστοκρατείαν μεταβάλλειν τὴν τυραννίδα. δὲ ὃ καὶ πρὸς αὐτὸν ἁ ἀφῖπτο. καὶ τοῦ Ζιονυσίου ἐρομένου αὐτόν\" τίνα νομίξεις ἐ ἕν , ἀνθρώποις εὐδαίμονα εἶναι; ὡς δὴ νομίζων ὅτι περὶ αὐτοῦ φήσει ὃ φιλόσοφος κολακεύων αὐτόν ὃ δ᾽ ἀπεκρίνατο ὅτι “Σωκράτην. πάλιν ἐπανήρετο αὐτόν\" τί νομίξεις ἔργον ἀνδρὸς εἶναι πολιτικοῦ; ὃ δ᾽ ἀπεκρίνατο τὸ τοὺς πολίτας βελτίους ποιεῖν. τρίτον αὐτὸν ἐπανήρετο ε τί οὖν; τὸ ὀρϑῶς δικάζειν σμικρόν σοι δοκεῖς δόξαν γὰρ εἶχεν ὃ Διονύσιος ἐπὶ τῷ ὀρϑὼς δικάξειν\" ὃ δ᾽ ἀπεκρίνατο μηδὲν ὑποστειλάμενος\" σμικρὸν μὲν οὖν καὶ μέρος ἔσχατον\" ἀκεσταῖς γὰρ ἐοίκασιν οἵ ὀρϑῶς δικάξοντες: οἵτινες τὰ διερρωγότα ἢ ἱμάτια ἀνυφαίνουσιν. τέταρτον. αὐτὸν ἐπανήρετο\" τί; τύραννον εἶναι οὐκ ἀνδρεῖον; πάντων μὲν οὖν, ἔφη: δειλότατον. ὃ ὑπότε καὶ τὰ κουρευτικὰ μαχαιρίδια δέδοικε. μὴ διὰ τούτων ἀπόληταϊ. ἐπὶ τούτοις οὖν ὃ “Διονύσιος ἀγανακτήσας προεῖπεν αὐτῷ ἡλίου ὄντος ὑπὲρ γῆς ἐκ τῶν “Συρακουσῶν ἀπαλλάττεσϑαι. καὶ οὕτως ἀτίμως Πλάτων ἀπὸ τῶν Συρακουσῶν ἐδιώχϑη. Υ."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0020",
+   "p": "p0020",
+   "modern": "The reason for his second journey to Sicily was this. After the death of Dionysius the Great, the tyranny passed to Dionysius son of Dionysius, whose mother's brother was Dion, who had become Plato's companion on the first journey. Dion wrote to him that if he came now there was hope of changing the tyranny into an aristocracy. So he made the second journey. But Dionysius' bodyguards slandered him to Dionysius, saying that he was plotting to win the rule for Dion and overthrow Dionysius. So Dionysius seized him and handed him over to Pollis of Aegina, a merchant trading with Sicily, to be sold. Pollis took him to Aegina and found there Anniceris of Libya, who was about to sail to Elis to race a four-horse chariot. Meeting Pollis, Anniceris bought Plato from him, and so won a greater glory than any chariot victory. That is why Aristides says that no one would have known of Anniceris if he had not bought Plato.",
+   "flags": [
+    {
+     "taylor": "Pollidis of Ægina, a Sicilian merchant",
+     "why": "The Greek names him Pollis (Pollidi is the Greek dative), a man of Aegina trading with Sicily. Other ancient writers tell the slave story of Plato's first journey, under the elder Dionysius."
+    }
+   ],
+   "greek": "Τῆς δὲ δευτέρας ὁδοῦ τῆς εἰς Σικελίαν αἰτία αὕτη. μετὰ τὸν ϑάνατον Διονυσίου τοῦ μεγάλου διαδέχεται τὴν τυραννίδα Διονύσιος ὃ 0 Διονυσίου, μητρὸς ἀδελφὸν ἐ ἔχων τὸν Δίωνα, ὃς ἐκ πρώτης ὁδοῦ ὁμιλητὴς ἐγένετο Πλάτωνος. γράφει οὖν αὐτῷ ὃ Δίων, ὅτι ἐὰν παραγένῃ . νῦν ἐλπίς ἐστι μεταβαλεῖν τὴν τυραννίδα εἰς ἀριστοκρατείαν. διὰ τοῦτο τοίνυν τὴν δευτέραν δδὸν ποιησάμενος; καὶ . διαβληϑεὶς ὁ ὑπὸ τῶν δορυφόρων τοῦ 4ιονυσίου πρὸς αὐτόν, ὡς βουλεύεται τὴν ἀρχὴν περιποιῆσαι τῷ Δίωνι καὶ καταλῦσαι τὸν “Διονύσιον, κρατηϑεὶς ὑπ αὐτοῦ παρεδόϑη Πόλλιδι τῷ Αἰγινήτῃ ἐμπορευομένῳ εἰς Σικελίαν πρὸς πρᾶσιν\" ὃ δ᾽ ἀγαγὼν αὐτὸν εἰς Αἴγιναν εὗρεν ᾿Αννίκεριν ἐκεῖ τὸν “ίβυν Ρματο Υ͂Ι. 1904 ΟΛΥΜΠΙΟΔΦΡΟΥ 850 μέλλοντα πλεῖν ἐπὶ τὴν Ἦλιν ἐφ ᾧ τεϑρίππῳ ἀγωνίσασϑοαι. περιτυχὼν, οὖν τῷ Πόλλιδι ὠνεῖται παρ᾽ αὐτοῦ τὸν Πλάτωνα, κρείττω τὴν δόξαν ταύτην πάσης ἐν τεϑρίππῳ νίκης ἀγωνισάμενος\" περὶ οὐ καὶ ᾿Δφιστείδης φησὶν ἃ ὅτι οὐδεὶς ἐγίνωσκεν ᾿4ννίκεριν. εἰ μὴ ΤΙλάτωνα ἐπρίατο."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0021",
+   "p": "p0021",
+   "modern": "The reason for his third journey to Sicily was this. Dion had his property taken by Dionysius, was stripped of everything he had, and was thrown into prison. He wrote to Plato that Dionysius had promised to set him free if Plato would come to him once more. To help his friend, Plato readily took on the third journey too. So much for the philosopher's travels to Sicily.",
+   "flags": [
+    {
+     "taylor": "was at length cast into prison",
+     "why": "In Plato's Seventh Letter Dion is in exile, not in prison, when Plato makes his third journey; Olympiodorus' story differs."
+    }
+   ],
+   "greek": "τῆς δὲ τρίτης ὁδοῦ πάλιν ἀφορμὴ γέγονε τῆς εἰς Σικελίαν αὕτη. δημευϑεὶς ὃ Δίων ὑπὸ τοῦ Διονυσίου “καὶ ἀφαιρεϑεὶς τῶν ὄντων ἐν δεσμωτηρίῳ ἐβλήϑη\" γράφει οὖν τῷ Πλάτωνι, ὅτι ὑπέσχετο ὃ Διονύσιος ἀφεῖναν αὐτόν, εἰ Πλάτων αὖϑις ἀφίξεται πρὸς αὐτόν\" ὃ δὲ τῷ ἑταίρῳ βοηϑήσων ἑτοίμως ὑπέστη καὶ τὴν τρίτην ὁδόν. καὶ ταῦτα μὲν περὶ τῆς ἀποδημίας τοῦ φιλοσόφου τῆς εἰς Σικελίαν\""
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0022",
+   "p": "p0022",
+   "modern": "You should know that he also went to Egypt, to the priests there, and learned from them the priestly lore. That is why in the Gorgias he says, \"No, by the dog, the god of the Egyptians.\" What statues can do among the Greeks, animals do among the Egyptians: they are symbols of the god each is dedicated to. He wanted to meet the Magi too, but because a war had broken out in Persia at that time he could not reach them. So he went to Phoenicia, met Magi there, and took up their lore. That is why in the Timaeus he seems skilled in reading sacrifices, speaking of the signs of the liver and the entrails and things of that kind. But these things should have been told before the reasons for his journeys to Sicily.",
+   "flags": [
+    {
+     "taylor": "he was instructed by them in magic",
+     "why": "The Greek word (magikē) means the lore of the Magi, the Persian priests; the Workshop says \"lore\" because \"magic\" in modern English suggests tricks or sorcery."
+    }
+   ],
+   "greek": "ἰστέον δ᾽ ὅτι καὶ εἰς ΔἌἴγυπτον ἀπῆλϑε πρὸς τοὺς ἐκεῖ ἱ ἱερατικοὺς ἀνθρώπους καὶ ἔμαϑε παρ᾽ αὐτῶν τὴν ἱερατικήν\" δι ὃ καὶ ἐν τῷ Τοργίῳ φησίν. οὐ μὰ τὸν κύνα τὸν παρ᾽ Αἰγυπτίοις ϑεόν. ὃ γὰρ παρὰ τοῖς “Ἕλλησι δύναται τὰ ἀγάλματα, τοῦτο παρὰ τοῖς “Αἰγυπτίοις τὰ ζῶα, σύμβολα ὁ ὄντα ἑἕχάστου τῶν ϑεῶν ᾧ ἀνάκειται. βουλόμενος δὲ καὶ τοῖς μάγοις ἐντυχεῖν, διὰ τὸ κατ᾽ ἐχεῖνον τὸν καιρὸν ἐν Περσίδι συνεστάναι πόλεμον μὴ δυνηϑεὶς παρ' αὐτοὺς ἐλϑεῖν, ἃ ἀφίκετο εἰς τὴν Φοινίκην καὶ μάγοις ἐκεῖ ἐντυχὼν παρέλαβε τὴν μαγικήν\" δι δ᾽ καὶ ἐν τῷ Τιμαίῳ φαίνεται τῆς ϑυτινῆς ἔ ἔμπειρος ὦν, σημεῖά τε λέγων ἥπατος καὶ σπλάγχνων καὶ τοιαῦτα τινα. ΥἹΙ. ᾿Δλλὰ ταῦτα μὲν πρὸ τῶν αἰτίων τῶν εἰς Σικελίαν ἀφίξεῶν. ἔδει ῥηϑῆναι\""
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0023",
+   "p": "p0023",
+   "modern": "When he came back to Athens he founded a school in the Academy, marking off part of that gymnasium as a shrine to the Muses. There Timon the man-hater kept company with Plato alone. And he drew very many people to learning, both men and women, whom he prepared to hear him dressed as men, showing that his philosophy was worth more than any labour. For he had given up Socrates' irony, and his spending time in the market place and the workshops, and his catching young men with his talk. He had also given up the solemn pomp of the Pythagoreans, their keeping the doors shut and their \"He himself said it,\" and he made himself more open, as a citizen, to everyone.",
+   "flags": [
+    {
+     "taylor": "preparing men and also women in a virile habit to be his auditors",
+     "why": "The Greek can mean that he had the women come dressed as men. Diogenes Laertius (3.46) names two such women, Axiothea and Lastheneia."
+    }
+   ],
+   "greek": "ἀφικόμενος δ᾽ εἰς τὰς ᾿Αϑήνας διδασκαλεῖον ἐν τῇ ᾿Δκαδημίᾳ συνεστήσατο. μέρος τι “τούτου τοῦ γυμνασίου τέμενος ἀφορίσας ταῖς Μούσαις\" καὶ μόνῳ τῷ Πλάτωνι ἐνταῦὅϑγὰ Τίμων ὃ μισάνθρωπος συνῆν\" πολλοὺς δὲ πάνυ πρὸς μάϑησιν ἀφείλκετο καὶ ἄνδρας καὶ γυναῖκας ἀνδρείῳ σχήματι παρασκευάξζων ᾿ἀκροᾶσϑαι αὐτοῦ καὶ κρείττονα πάσης φιλοπονίας τὴν ἑαυτοῦ φιλοσοφίαν ἐπιδεικνύς. καὶ γὰρ καὶ τῆς Σωκρατικῆς εἰρωνείας ἀπήλλακτο καὶ τοῦ ἐν ἀγορᾷ καὶ ἐπὶ τῶν ἐργαστηρίων διατρίβειν καὶ τοὺς νέους ϑηρῶντα ποιεῖσϑαι τοὺς λόγους. ἀπήλλακτο δὲ καὶ τοῦ σεμνοῦ ὄγκου. τῶν Πυϑαγορείων, τοῦ ἀποκεκλεισμένας ἐ ἔχειν τὰς ϑύρας καὶ τοῦ αὐτὸς ἔφα πολιτικώτερον ἑαυτὸν παρέχων πρὸς ἅπαντας."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0024",
+   "p": "p0024",
+   "modern": "So he made many people his lovers and did good to very many. When he was about to die, he had a dream that he had become a swan, flying from tree to tree, and in this way giving the bird-catchers a great deal of trouble. Simmias the follower of Socrates judged that he would be impossible to catch for those after him who wanted to explain him. For interpreters, wanting to hunt down the thoughts of the ancients, are like bird-catchers. He is hard to catch because one can take his words in terms of nature, of ethics, of theology, and in short in many ways, as with Homer. For these two souls are said to have been born in tune with everything; and so both can be heard in every kind of way. When he died, the Athenians buried him at great cost, and wrote on his tomb:",
+   "flags": [
+    {
+     "taylor": "According to the Socratic Simmias",
+     "why": "The same dream, read by Simmias, is told in the Anonymous Prolegomena (1); there is no early evidence for it, and nothing is known of Simmias so late in life."
+    },
+    {
+     "taylor": "When he was near his death",
+     "why": "Taylor leaves out the first sentence, that Plato won many devoted followers and did good to very many."
+    }
+   ],
+   "greek": "πολλοὺς τοίνυν ἐραστὰς αὐτοῦ καταστήσας καὶ πλείστους ὠφελήσας. μέλλων τελευτᾷν ἐνύπνιον εἶδεν, ὡς κύκνος γενόμενος ἀπὸ δένδρου εἰς δέν᾿ ᾿ ᾿ ' ͵ 51 ΒΙΟΣΠΛΑΑΤΩΝΟΣ. 10ὅ ὅρον μετέρχεται ν᾽ καὶ ταύτῃ πόνον πλεῖστον παρεῖχε τοῖς ἰξευταῖς\" ὃ Σιμμίας ὃ Σωκρατικὸς ἔκρινεν. ὅτι ἄληπτος ἔσται τοῖς μετ᾽ αὐτὸν ἐξηγεῖσϑαι βουλομένοις αὐτόν ἰξευταῖς γὰρ ἐοίκασιν οἵ ἐξηγηταὶ τὰς ἐννοίας τῶν ἀρχαιῶν ϑηρᾶσϑαι βουλόμενοι, ὄληπτος δ᾽ ἐστὶν ἐπειδὴ καὶ φυσικῶς καὶ ἠϑικῶς καὶ ,ϑεολογιρῶς καὶ ἁπλῶς πολλαχῶς ἔ ἔστιν ἀκούειν τῶν αὐτοῦ, καϑάπερ καὶ τῶν Ὁ ἤρου. δύο γὰρ αὗται ψυχαὶ λέγονται γενέσϑαι παναρμόνιοι\" ᾿ δὲ ὃ “παντοδαπῶς ἔστιν ἀκούειν ἀμφοτέρων. ἀποϑανόντος δ᾽ αὐτοῦ πολυτελῶς αὐτὸν ἔϑαψαν οἵ ᾿Αϑηναῖοι καὶ ἐπέγραψαν ἐ ἕν τῷ τάφῳ αὐτοῦ\""
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0025",
+   "p": "p0025",
+   "modern": "Apollo fathered two, Asclepius and Plato:\nthe one to save the soul, the other the body.\n(That is, Plato heals the soul and Asclepius the body.)",
+   "flags": [
+    {
+     "taylor": "From great Apollo Pæon sprung",
+     "why": "The Greek names Asclepius, the god of healing, where Taylor has Paeon. Read strictly, \"the one ... the other\" follows the order of the names and would make Asclepius the healer of souls; the sense intended is plainly the reverse, as Taylor gives it."
+    }
+   ],
+   "greek": "τοὺς δύ᾽ ᾿Ζπόλλων φῦσ᾽ ᾿Δσκληπιὸν ἠδὲ “Πλάτωνα, τὸν μὲν ἵνα ψυχήν, τὸν δ᾽ ἵνα σῶμα (οι."
+  },
+  {
+   "seg": "taylor1804.olympiodorus-life.text.p0026",
+   "p": "p0026",
+   "modern": "So much for the philosopher's family.",
+   "greek": "καὶ ταῦτα μὲν περὶ τοῦ γένους τοῦ φιλοσόφου. 18"
+  }
+ ],
+ "links": [
+  {
+   "term": "the-one",
+   "forms": [
+    "the One"
+   ]
+  },
+  {
+   "term": "the-good",
+   "forms": [
+    "the Good"
+   ]
+  },
+  {
+   "term": "intellect",
+   "forms": [
+    "intellect"
+   ]
+  },
+  {
+   "term": "soul",
+   "forms": [
+    "soul"
+   ]
+  },
+  {
+   "term": "forms",
+   "forms": [
+    "Forms",
+    "Form"
+   ]
+  },
+  {
+   "term": "demiurge",
+   "forms": [
+    "Craftsman"
+   ]
+  },
+  {
+   "term": "intelligible-world",
+   "forms": [
+    "intelligible"
+   ]
+  },
+  {
+   "term": "sensible-world",
+   "forms": [
+    "perceptible"
+   ]
+  },
+  {
+   "term": "dianoia",
+   "forms": [
+    "discursive reason"
+   ]
+  },
+  {
+   "term": "henad",
+   "forms": [
+    "henads",
+    "henad"
+   ]
+  },
+  {
+   "term": "monad",
+   "forms": [
+    "monad"
+   ]
+  },
+  {
+   "term": "hyparxis",
+   "forms": [
+    "hyparxis"
+   ]
+  },
+  {
+   "term": "imparticipable",
+   "forms": [
+    "not shared"
+   ]
+  },
+  {
+   "term": "emanation",
+   "forms": [
+    "procession"
+   ]
+  },
+  {
+   "term": "recollection",
+   "forms": [
+    "recollection"
+   ]
+  },
+  {
+   "term": "daemons",
+   "forms": [
+    "daemons",
+    "daemon"
+   ]
+  },
+  {
+   "term": "phronesis",
+   "forms": [
+    "practical wisdom"
+   ]
+  },
+  {
+   "term": "dialectic",
+   "forms": [
+    "dialectic"
+   ]
+  },
+  {
+   "term": "limit-and-infinite",
+   "forms": [
+    "limit and the unlimited"
+   ]
+  }
+ ],
+ "greek_source": "Hermann, Platonis Dialogi vol. VI (Leipzig, 1887), pp. 190-195, as the archive.org OCR gives it"
+}

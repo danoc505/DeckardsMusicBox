@@ -17,7 +17,7 @@ const NAV = [
   ["mine", "My Translations", "#mine", "Everything you have written: translations, notes, word studies, worksheets"],
 ];
 const VIEW_CLASSES = ["searching", "discussing", "whole-view", "corpus-view", "concepts-view", "commentaries-view",
-  "dossiers-view", "reconcile-view", "find-view", "library-view", "dict-view", "mine-view", "guide-view"];
+  "dossiers-view", "reconcile-view", "find-view", "library-view", "dict-view", "mine-view", "guide-view", "modern-view"];
 
 function prefsGet(k, d) { try { return localStorage.getItem("pw." + k) ?? d; } catch (e) { return d; } }
 function prefsSet(k, v) { try { localStorage.setItem("pw." + k, v); } catch (e) { /* private window */ } }
