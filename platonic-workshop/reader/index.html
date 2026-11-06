@@ -43,6 +43,7 @@
     <label title="The commentators' notes under each section"><input type="checkbox" data-layer="notes" checked> Commentary</label>
     <label title="What the notes cite, and the notes elsewhere that cite this section"><input type="checkbox" data-layer="links" checked> Links</label>
     <label title="Your translations and notes"><input type="checkbox" data-layer="mine" checked> Your work</label>
+    <label title="Underline the key terms (the Good, intellect, soul, the One…): tap one for what it means and everywhere it is used"><input type="checkbox" data-layer="terms" checked> Key terms</label>
     <label title="Mark the Greek words the GLAUx program could not give a dictionary form and grammar (untagged words)"><input type="checkbox" data-layer="untagged"> Words without grammar</label>
     <button type="button" id="listen-btn" class="search-btn listen-btn" title="Read the English aloud from here, a voice for each person (tap to start)">▶ Listen</button>
     <button type="button" id="whole-btn" class="search-btn" title="What is said of this dialogue as a whole: persons, scope, parts, its place among the others">As a whole</button>
@@ -56,15 +57,30 @@
   <div class="resizer resizer-insp" data-resize="insp" role="separator" aria-orientation="vertical" aria-label="Resize the word panel" tabindex="0" title="Drag to resize (or arrow keys)"></div>
   <aside class="toc" id="toc" aria-label="Stephanus pages and speakers"></aside>
   <main id="main" class="text" aria-live="polite"><p class="loading">Loading…</p></main>
-  <aside class="inspector" id="inspector" aria-label="Word">
+  <aside class="inspector" id="inspector" aria-label="Side panel">
+    <div class="panel-tabs" id="panel-tabs" role="tablist" aria-label="What the side panel shows">
+      <button type="button" role="tab" data-pane="word" class="on" aria-selected="true" title="The Greek word you tapped: its dictionary form, grammar and dictionary entries">Word</button>
+      <button type="button" role="tab" data-pane="term" aria-selected="false" title="The key term you tapped (an underlined word): what it means, and everywhere it is used">Term</button>
+      <button type="button" role="tab" data-pane="notes" aria-selected="false" title="The commentators' notes on this section">Notes</button>
+      <button type="button" role="tab" data-pane="links" aria-selected="false" title="What this section's notes cite, and the notes elsewhere that cite it">Links</button>
+      <button type="button" role="tab" data-pane="mine" aria-selected="false" title="Your translations and notes on this section">Your work</button>
+      <button type="button" class="help-q" data-help="panel" aria-label="What is this panel?" title="What is this panel?">?</button>
+    </div>
+    <div class="pane" id="pane-word" role="tabpanel">
     <div class="inspector-empty">
       <p><strong>Tap any Greek word</strong> for its dictionary form and grammar, explained in plain English from Smyth's grammar, and its entries in the two Greek-English dictionaries (Middle Liddell and LSJ).</p>
       <p><strong>Select Greek words</strong> (drag across them; on the iPad, press and hold the first) to write your translation of them, a footnote, a note or an alternative rendering.</p>
+      <p><strong>Underlined words</strong> are key terms (the Good, intellect, soul, the One…): tap one for what it means and every place it is used, in the <em>Term</em> tab. <em>Key terms</em> above the text turns the underlines off.</p>
       <p>Under each section, <strong>every commentator</strong> on it. Point at a note to light up the Greek words it is on (dotted in the text); click a dotted word to see the notes on it.</p>
       <p>The numbers in the margin (<span class="ref-sample">29e</span>) are <a href="#words/stephanus">Stephanus numbers</a>, used by every book on Plato; tap one to copy it.</p>
       <p>Open another dialogue from the menu at the top left, or type a work and a reference in the box (<span class="ref-sample">Rep. 514a</span>). The <strong>? Help</strong> button at the top says what each page is for; <a href="#words">Words used in the Workshop</a> explains the names.</p>
       <p class="keys">Keys: ← → pages, <kbd>g</kbd> go to reference, <kbd>f</kbd> search everything, <kbd>/</kbd> concordance, <kbd>Esc</kbd> close.</p>
     </div>
+    </div>
+    <div class="pane" id="pane-term" role="tabpanel" hidden></div>
+    <div class="pane" id="pane-notes" role="tabpanel" hidden></div>
+    <div class="pane" id="pane-links" role="tabpanel" hidden></div>
+    <div class="pane" id="pane-mine" role="tabpanel" hidden></div>
   </aside>
 </div>
 
@@ -144,6 +160,7 @@
 <script src="guide.js"></script>
 <script src="listen.js"></script>
 <script src="gloss.js"></script>
+<script src="terms.js"></script>
 <script src="shell.js"></script>
 <script src="help.js"></script>
 </body>

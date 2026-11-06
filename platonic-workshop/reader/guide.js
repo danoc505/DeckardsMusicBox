@@ -203,6 +203,16 @@ async function showGlossary(focus) {
   $("#toc").innerHTML = `<h3>Glossary</h3><p class="letters">${letters.map((l) => `<a href="#gl-${l}" data-scroll="gl-${l}">${l}</a>`).join(" ")}</p>
     <p class="meta">${g.length} entries. The books Taylor took them from are named under each.</p>
     <p class="meta">The Workshop's own words (Stephanus, LSJ, OCR…): <a href="#words">Words used in the Workshop</a>.</p>`;
+  $("#main").innerHTML = glossaryHtml(t);
+  if (focus) document.getElementById("gl-" + focus)?.scrollIntoView({ block: "start" });
+  else window.scrollTo(0, 0);
+}
+
+// Taylor's glossary, as HTML: in place of the text (#glossary), or inside the side panel (terms.js).
+function glossaryHtml(t) {
+  const g = t.glossary;
+  const letters = [...new Set(g.map((e) => e.head[0].toUpperCase()))];
+  const intro = t.segments.find((s) => s.part === "text" && s.kind === "paragraph");
   let h = `<div class="search guide glossary"><h2>Glossary of Platonic terms</h2>
     <p class="lead">${esc(t.about)}</p>
     <p class="meta">Looking for a name the Workshop uses, such as Stephanus, Burnet or LSJ? See <a href="#words">Words used in the Workshop</a>.</p>
@@ -222,9 +232,7 @@ async function showGlossary(focus) {
       ${e.more.map((m) => `<blockquote>${esc(m)}</blockquote>`).join("")}
       ${e.source || e.more_source ? `<p class="meta">Taylor, ${esc(e.source_title || srcTitle(e.source || e.more_source, t))}</p>` : ""}</div>`;
   }
-  $("#main").innerHTML = h + `</div></div>`;
-  if (focus) document.getElementById("gl-" + focus)?.scrollIntoView({ block: "start" });
-  else window.scrollTo(0, 0);
+  return h + `</div></div>`;
 }
 
 function srcTitle(key, t) {

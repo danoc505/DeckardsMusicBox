@@ -235,6 +235,18 @@
         {"file": "reports/alignment.md", "cited": "reports/alignment.md",
          "quote": "the computed placement (`tools/align.py`, against the Loeb English) can be checked"}
       ]
+    },
+    {
+      "id": "key-term",
+      "term": "key term",
+      "scholarly": "technical term",
+      "plain": "A word of Plato and the Platonists that the Workshop underlines in the text, such as the Good, intellect, soul or the One, so that you can follow the idea into every dialogue. In the Greek a word is underlined when its dictionary form is the term's; in the English only where the Greek beneath has it, or where a fixed phrase such as \"the Good\" is printed so.",
+      "sources": [
+        {"file": "tools/terms.py", "cited": "tools/terms.py, which marks the terms",
+         "quote": "a word is marked when GLAUx's lemma for it is one of the term's lemmas"},
+        {"file": "sources/terms/terms.json", "cited": "sources/terms/terms.json, the term list",
+         "quote": "The words of Plato and the Platonists that the reader underlines"}
+      ]
     }
   ],
   "help": {
@@ -264,6 +276,8 @@
     "links": {"title": "Cites and Cited by", "what": "The other passages of Plato this section's notes point to, and the notes elsewhere that point here.", "tap": "Tap a reference to go there.", "words": ["stephanus", "commentary"]},
     "mywork": {"title": "Your work", "what": "Your own translations and notes on this section, kept on this device.", "tap": "Select Greek words, or tap Write on, to add one.", "words": []},
     "contents": {"title": "Contents", "what": "The pages of this dialogue, its books, and who is speaking where.", "tap": "Tap a page number or a speaker to go there.", "words": ["stephanus"]},
+    "panel": {"title": "The side panel", "what": "One place beside the text for everything about the passage you are reading: the word you tapped, the key term, the notes on this section, its links and your own work.", "tap": "Tap a tab at the top of the panel; Notes, Links and Your work follow the section you last tapped, with ‹ › to move between sections.", "words": ["key-term", "section", "commentary"]},
+    "term": {"title": "Key term", "what": "What an underlined word means, in Taylor's words and the Workshop's plain words, with every place in Plato it is used, listed in the order the dialogues are read, and what the Platonists say of it.", "tap": "Tap a dialogue to see its places, ‹ › to walk to the previous or next place from where you are, and a related term to open it here.", "words": ["key-term", "lemma", "taylor", "curriculum"]},
     "show": {"title": "Show", "what": "Choose what the page shows: the Greek, the English, the notes, the links and your work.", "tap": "Untick what you do not need; the choice is remembered.", "words": ["commentary", "glaux"]},
     "listen": {"title": "Listen", "what": "Reads the English aloud from here, a voice for each person.", "tap": "Back and Next move a paragraph; Voices chooses each person's voice.", "words": []},
     "select": {"title": "Writing on the Greek", "what": "Write your own translation, footnote, note or alternative on the words you selected.", "tap": "Tap the kind you want; it is kept with every version.", "words": []}

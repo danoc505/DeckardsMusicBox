@@ -75,19 +75,23 @@ Each milestone is meant to be one working session. Start the next one by reading
 - Still left, and planned in milestone 21: whole translations of the longer Greek quotations inside the English commentaries
   (each Greek word there can already be tapped for its meaning).
 
-## Milestone 17: key terms linked in the text, opening beside it
+## Milestone 17: key terms linked in the text, opening beside it (done)
 
-- A term list: Taylor's glossary terms, the concept index's terms, and the Neoplatonic vocabulary (the One, the
-  Good, intellect, soul, being, the Forms, the Demiurge, the intelligible, procession and return…), each with its
-  Greek lemmas and Taylor's English forms, in a committed JSON file with the source of each.
-- In Burnet's Greek: underline a word when its GLAUx lemma is a term's lemma (so ἀγαθόν in "the Good" is linked,
-  and "good" in English only through the Greek beneath it). In the English: underline only where the aligned Greek
-  section has that lemma, or a fixed phrase ("the Good", capitalised as printed). A switch turns the underlines off.
-- Tap a term: a **Term** tab in the side panel (beside the Word tab): Taylor's definition, a one-line plain meaning
-  (labelled as the Workshop's), every occurrence in Plato grouped by dialogue in the Platonist order, the key
-  passages, what the Platonists say of it. Nothing leaves the page being read.
-- Make the side panel one place with tabs: Word, Term, Notes, Links, Your work. The full pages (Concepts, Glossary,
-  Commentaries, Library) stay as they are and also open in the panel.
+- **The term list**: every concept of the concept index is a term (228), with `sources/terms/terms.json` adding the
+  Neoplatonic vocabulary (the One, the henads, bound and the infinite, life, nature), Taylor's English forms and the other
+  translators', fixed phrases ("the Good"), plain meanings labelled as the Workshop's, each form with a quotation the build
+  finds (198 of 198). `tools/terms.py`, `reports/terms.md`.
+- **Underlined in the text**: in Burnet's Greek where GLAUx's lemma is a term's (a very common word only as a name, neuter with
+  the article: τὸ ἕν, τὸ ὄν, not τῷ ὄντι "in reality", LSJ); in the English only where the Greek of the same section has the
+  term, or a fixed phrase as printed. 105 terms underlined (not those only the Definitions define, nor six topics of Alcinous'
+  physics), 28,077 words. *Key terms* under Show turns them off.
+- **The Term tab**: Taylor's explanation, the plain meaning, the definitions, every place in Plato by dialogue in the Platonist
+  order with ‹ › to walk through them from where you are, the key passages, what the Platonists say, related terms.
+- **The side panel is one place with tabs**: Word, Term, Notes, Links, Your work; the concept index's page and Taylor's
+  glossary also open in it. The full pages stay as they are.
+- Left for milestone 18, as planned: the same terms in the Neoplatonists' own texts (Taylor's English: "the One",
+  "intellect", "progression"), so that a term's panel shows Plato and every Neoplatonist together. The forms are already
+  in terms.json; procession, hyparxis, theurgy and the other later words have no word of Plato's to mark.
 
 ## Milestone 18: the Neoplatonists, linked and readable
 

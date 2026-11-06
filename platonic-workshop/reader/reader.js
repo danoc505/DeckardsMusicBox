@@ -2,7 +2,7 @@
 // Your translations and notes (milestone 4) are in mywork.js; the word search
 // across Plato and your word studies (milestone 5) in search.js; the
 // commentaries (milestone 7) in commentary.js; the citation web (milestone 8) in citations.js; the dialogue and the corpus as a whole (milestone 9) in whole.js;
-// listening to the English read aloud (milestone 14) in listen.js.
+// listening to the English read aloud (milestone 14) in listen.js; the key terms and the side panel's tabs (milestone 17) in terms.js.
 "use strict";
 
 // The work being read (a Perseus id, 'tlg031'). Changes when you open another dialogue.
@@ -21,7 +21,7 @@ async function api(path) {
 
 // ------------------------------------------------------------------ layers
 
-const LAYERS = { grc: "no-grc", eng: "no-eng", notes: "no-notes", links: "no-links", mine: "no-mine" };
+const LAYERS = { grc: "no-grc", eng: "no-eng", notes: "no-notes", links: "no-links", mine: "no-mine", terms: "no-terms" };
 function loadLayers() {
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem("pw.layers") || "{}"); } catch (e) { /* private window */ }
@@ -87,7 +87,7 @@ async function openWork(workId) {
   WORK = workId;
   state.page = null;
   state.data = null;
-  closeInspector();
+  closeInspector(true);
   const grc = state.work.editions.find((e) => e.lang === "grc");
   $("#work-sub").textContent = `${grc.printed} · ${state.work.counts.tokens.toLocaleString()} words · ${state.work.counts.notes} notes · ${state.work.counts.links_out} links`;
   const sel = $("#work-select");
@@ -169,7 +169,8 @@ function renderChunkGreek(chunk, tokens, idx) {
     out += esc(t.slice(pos, tok.start));
     const mine = idx ? mineWordAttrs(tok.id, idx) : { cls: "", after: "" };
     const cls = "w" + (tok.tagged ? "" : " untagged") + (state.selected === tok.id ? " sel" : "") + mine.cls + commWordCls(tok.id);
-    out += `<span class="${cls}" data-t="${tok.id}">${esc(t.slice(tok.start, tok.end))}</span>${mine.after}`;
+    const term = typeof termWordAttrs === "function" ? termWordAttrs(tok.id) : "";
+    out += `<span class="${cls}${term ? " tm" : ""}" data-t="${tok.id}"${term}>${esc(t.slice(tok.start, tok.end))}</span>${mine.after}`;
     pos = tok.end;
   }
   return out + esc(t.slice(pos));
@@ -177,14 +178,16 @@ function renderChunkGreek(chunk, tokens, idx) {
 
 function renderChunkEnglish(chunk, notes, numbers) {
   // Note markers are placed at the character offset where the TEI printed them.
+  // Milestone 17: the key terms are marked in the text between them (terms.js).
+  const mark = (s) => typeof markEnglish === "function" ? markEnglish(s, chunk.id) : esc(s);
   const here = notes.filter((n) => n.chunk_id === chunk.id).sort((a, b) => a.offset - b.offset);
   let out = "", pos = 0;
   for (const n of here) {
     const at = Math.min(n.offset ?? chunk.text.length, chunk.text.length);
-    out += esc(chunk.text.slice(pos, at)) + `<sup><a href="#note-${n.id}" data-note="${n.id}" title="${esc(n.commentator)}">${numbers.get(n.id)}</a></sup>`;
+    out += mark(chunk.text.slice(pos, at)) + `<sup><a href="#note-${n.id}" data-note="${n.id}" title="${esc(n.commentator)}">${numbers.get(n.id)}</a></sup>`;
     pos = at;
   }
-  return out + esc(chunk.text.slice(pos));
+  return out + mark(chunk.text.slice(pos));
 }
 
 function speakerLabel(c) {
@@ -329,6 +332,7 @@ function renderPage() {
   });
   html += `<div class="pager">${d.prev ? `<a href="${placeHash(WORK, String(d.prev))}">‹ page ${d.prev}</a>` : "<span></span>"}${d.next ? `<a href="${placeHash(WORK, String(d.next))}">page ${d.next} ›</a>` : "<span></span>"}</div>`;
   $("#main").innerHTML = html;
+  if (typeof panelAfterRender === "function") panelAfterRender();
 }
 
 function linkChip(to_work, to_ref, label, imported, title) {
@@ -392,12 +396,16 @@ function renderToc() {
 
 // ------------------------------------------------------------------ word inspector
 
-async function inspect(id) {
+// The word box, in the panel's Word tab (milestone 17: the panel has tabs; pane says which to show).
+async function inspect(id, pane = "word") {
   state.selected = id;
   document.querySelectorAll(".w.sel").forEach((e) => e.classList.remove("sel"));
   document.querySelectorAll(`.w[data-t="${id}"]`).forEach((e) => e.classList.add("sel"));
+  const w = document.querySelector(`#main .w[data-t="${id}"]`);
+  if (w && w.closest(".sec") && typeof PANEL !== "undefined") PANEL.ref = w.closest(".sec").dataset.ref;
+  if (typeof showPane === "function" && pane) showPane(pane);
   document.body.classList.add("inspecting");
-  const box = $("#inspector");
+  const box = $("#pane-word") || $("#inspector");
   box.innerHTML = `<p class="loading">…</p>`;
   let t;
   try { t = await api(`token/${id}`); } catch (e) { box.innerHTML = `<p class="error">${esc(e.message)}</p>`; return; }
@@ -560,13 +568,20 @@ async function lookupLemma(lemma, isTagged) {
   }
 }
 
-function closeInspector() {
+// Close the panel. soft (opening another dialogue): only the word goes; a term followed across the dialogues stays open.
+function closeInspector(soft) {
   state.selected = null;
+  const editing = MINE.editing;
   MINE.editing = null;
   highlightSpan(null);
   document.querySelectorAll(".w.sel").forEach((e) => e.classList.remove("sel"));
-  document.body.classList.remove("inspecting");
-  $("#inspector").innerHTML = `<div class="inspector-empty"><p><strong>Tap any Greek word</strong> for its dictionary form, its grammar in plain English and its dictionary entry.</p></div>`;
+  const pane = typeof PANEL !== "undefined" ? PANEL.pane : "word";
+  if (!(soft && pane === "term")) document.body.classList.remove("inspecting");
+  const word = $("#pane-word") || $("#inspector");
+  word.innerHTML = `<div class="inspector-empty"><p><strong>Tap any Greek word</strong> for its dictionary form, its grammar in plain English and its dictionary entry.
+    <strong>Underlined words</strong> are key terms: tap one for what it means and everywhere it is used (the <em>Term</em> tab).</p></div>`;
+  if (editing && typeof renderSectionPane === "function") renderSectionPane("mine");
+  if (!soft && typeof showPane === "function" && pane !== "word" && pane !== "term") showPane("word", false);
 }
 
 // ------------------------------------------------------------------ sources dialog
@@ -590,6 +605,13 @@ async function showSources() {
 
 document.addEventListener("click", (ev) => {
   const w = ev.target.closest(".w");
+  // Milestone 17: a word marked as a key term opens the Term tab; its grammar is ready in the Word tab.
+  if (w && w.dataset.term && typeof openTerm === "function" && termsOn() && !ev.shiftKey) {
+    const ids = w.dataset.term.split(" ");
+    inspect(+w.dataset.t, null);
+    openTerm(ids[0], { alsoIds: ids });
+    return;
+  }
   if (w) { inspect(+w.dataset.t); return; }
   if (ev.target.closest(".insp-close")) { closeInspector(); return; }
   if (ev.target.closest("#trans-about")) { showTransAbout(); return; }

@@ -1,0 +1,506 @@
+{
+  "schema": "Milestone 17: the key terms the reader underlines. Every concept of the concept index (sources/concepts) is a term already; this file adds the Neoplatonic vocabulary the index lacks, and for any term: a one-line plain meaning (the Workshop's own words), Taylor's English forms (and the other translators'), fixed English phrases, extra Greek words, passages and later readings. Each English form and phrase carries a quotation showing it used: source 'taylor-terms' (Taylor's Explanation of Certain Platonic Terms), 'taylor-introduction' (his General Introduction, 1804), a book of the concept index (plotinus-taylor-1817, proclus-theology-taylor-1816, iamblichus-taylor-1821), 'translation' (an English translation at a Stephanus section: edition, work, ref) or 'plato' (Burnet's Greek). tools/terms.py looks for every quotation, and for the form inside it. A lemma's rule: all (every word tagged with it is underlined), with-article (only neuter with the article, as a name: τὸ ἕν), none (listed, not underlined). key false: listed, opens from the word box, not underlined.",
+  "about": "The words of Plato and the Platonists that the reader underlines, so that an idea can be followed from the page being read into every dialogue and into the Platonists.",
+  "plain_label": "The Workshop's plain meaning",
+  "terms": [
+    {
+      "id": "the-one",
+      "label": "The One",
+      "greek": "τὸ ἕν",
+      "concept": "one-and-many",
+      "neoplatonic": true,
+      "plain": "The first cause of all things for the later Platonists, simpler than anything and beyond being itself; Taylor says it is what the Republic calls the good and the Parmenides calls the one.",
+      "lemmas": [{"lemma": "εἷς", "rule": "with-article", "why": "εἷς is mostly the number one; only τὸ ἕν, 'the one', used as a name, is marked"}],
+      "english": [
+        {"form": "the one", "source": "taylor-introduction", "quote": "whom in the Republic he calls the good, and in the Parmenides the one, is not only above soul and intellect, but is even superior to being itself"},
+        {"form": "the one", "source": "translation", "edition": "tlg009.perseus-eng2", "work": "tlg009", "ref": "137c", "quote": "if the one exists, the one cannot be many, can it?"}
+      ],
+      "phrases": [
+        {"phrase": "the One", "source": "translation", "edition": "tlg034.perseus-eng2", "work": "tlg034", "ref": "965b", "quote": "press towards the One"},
+        {"phrase": "the one itself", "source": "taylor-introduction", "quote": "the united is not the one itself, but that which is passive to it"}
+      ],
+      "passages": [
+        {"work": "tlg009", "start": "137c", "end": "137c", "quote": "εἰ ἕν ἐστιν", "why": "The first hypothesis of the Parmenides: if the one is, it cannot be many."},
+        {"work": "tlg010", "start": "15a", "end": "15a", "quote": "τὸ ἓν μὴ τῶν γιγνομένων τε καὶ ἀπολλυμένων", "why": "The Philebus: the unities that are not things which come to be and perish."}
+      ],
+      "later": [
+        {"source": "taylor-introduction", "quote": "the highest God, whom in the Republic he calls the good, and in the Parmenides the one", "says": "Taylor: the good of the Republic and the one of the Parmenides are the same highest God."}
+      ],
+      "related": ["the-good", "being", "henad", "one-and-many"]
+    },
+    {
+      "id": "one-and-many",
+      "plain": "How one thing can also be many, and many one: the question of the Parmenides and the Philebus, which for the later Platonists runs through every level of things.",
+      "lemmas": [{"lemma": "εἷς", "rule": "none", "why": "τὸ ἕν is marked as the One"}]
+    },
+    {
+      "id": "the-good",
+      "neoplatonic": true,
+      "plain": "The highest thing in the Republic, the cause of knowledge and truth and 'beyond being'; the later Platonists take it to be the One.",
+      "english": [
+        {"form": "good", "source": "taylor-introduction", "quote": "whom in the Republic he calls the good"},
+        {"form": "the good", "source": "translation", "edition": "tlg030.taylor1804", "work": "tlg030", "ref": "509b", "quote": "whilst the good itself is not essence, but beyond essence"}
+      ],
+      "phrases": [
+        {"phrase": "the Good", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "68e", "quote": "designed the Good in all"},
+        {"phrase": "idea of good", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "505a", "quote": "idea of good"},
+        {"phrase": "idea of the good", "source": "translation", "edition": "tlg030.taylor1804", "work": "tlg030", "ref": "534b", "quote": "separating the idea of the good from all others"},
+        {"phrase": "the good itself", "source": "taylor-introduction", "quote": "elevates those that use it, to the good itself, and the first unities"}
+      ],
+      "related": ["the-one", "the-beautiful", "truth", "being"]
+    },
+    {
+      "id": "the-beautiful",
+      "plain": "Beauty itself, one and unchanging, which all beautiful things share in; the goal of the ascent in Diotima's speech in the Symposium.",
+      "english": [
+        {"form": "beauty", "source": "translation", "edition": "tlg011.taylor1804", "work": "tlg011", "ref": "211b", "quote": "betaking himself to the ample sea of beauty"},
+        {"form": "beautiful", "source": "translation", "edition": "tlg031.taylor1804", "work": "tlg031", "ref": "29a", "quote": "if this world is beautiful, and its artificer good"}
+      ],
+      "phrases": [
+        {"phrase": "the beautiful itself", "source": "taylor-introduction", "quote": "he at length arrives at the beautiful itself"}
+      ],
+      "related": ["the-good", "eros", "ascent"]
+    },
+    {
+      "id": "truth",
+      "plain": "What is as it is said to be; for Plato the Good gives truth to what is known, as the sun gives light to what is seen.",
+      "english": [
+        {"form": "truth", "source": "taylor-terms", "quote": "Truth, αληθεια. Plato, following ancient theologists. considers truth multifariously."}
+      ]
+    },
+    {
+      "id": "being",
+      "neoplatonic": true,
+      "lemmas": [{"lemma": "εἰμί", "rule": "with-article", "except": ["τῷ ὄντι"], "why": "εἰμί is mostly 'is'; only τὸ ὄν, τὰ ὄντα, 'being' and 'the things that are', used as names, are marked, and not τῷ ὄντι, which LSJ gives as 'in reality, in fact'"}],
+      "plain": "What truly is, always the same and known by intellect, as against what comes to be and passes away; Taylor renders Plato's οὐσία 'essence'.",
+      "english": [
+        {"form": "being", "source": "translation", "edition": "tlg030.taylor1804", "work": "tlg030", "ref": "509b", "quote": "their being and essence are thence derived"},
+        {"form": "essence", "source": "translation", "edition": "tlg030.taylor1804", "work": "tlg030", "ref": "509b", "quote": "whilst the good itself is not essence, but beyond essence"},
+        {"form": "existence", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "509b", "quote": "their very existence and essence is derived to them from it"}
+      ],
+      "phrases": [
+        {"phrase": "being itself", "source": "taylor-introduction", "quote": "but is even superior to being itself"}
+      ],
+      "related": ["becoming", "the-good", "the-one", "life"]
+    },
+    {
+      "id": "becoming",
+      "plain": "What comes to be and passes away and never simply is: the world of the senses; Taylor's word is 'generation'.",
+      "english": [
+        {"form": "generation", "source": "taylor-terms", "quote": "Generation, γενεσις. An essence composite and multiform, and conjoined with time."},
+        {"form": "becoming", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "29e", "quote": "the supreme originating principle of Becoming and the Cosmos"}
+      ],
+      "phrases": [
+        {"phrase": "Becoming", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "29e", "quote": "constructed Becoming and the All"}
+      ],
+      "related": ["being", "sensible-world", "time"]
+    },
+    {
+      "id": "forms",
+      "neoplatonic": true,
+      "plain": "The unchanging realities that things are named after and share in (beauty itself, justice itself); Plato's εἶδος and ἰδέα, which Taylor renders 'form' and 'idea'.",
+      "english": [
+        {"form": "form", "source": "translation", "edition": "tlg001.taylor1804", "work": "tlg001", "ref": "6d", "quote": "but what that form itself is by which all holy things are"},
+        {"form": "idea", "source": "translation", "edition": "tlg001.taylor1804", "work": "tlg001", "ref": "6d", "quote": "things unholy are unholy by one idea"},
+        {"form": "ideas", "source": "taylor-introduction", "quote": "in each of these ideas subsist"}
+      ],
+      "phrases": [
+        {"phrase": "Form", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "52a", "quote": "is the self-identical Form, ungenerated and indestructible"}
+      ],
+      "related": ["participation", "image-and-original", "intelligible-world"]
+    },
+    {
+      "id": "intellect",
+      "neoplatonic": true,
+      "plain": "The highest power of the soul, which sees the truth directly and not by reasoning; for the later Platonists also a divine order above soul and below the One.",
+      "english": [
+        {"form": "intellect", "source": "taylor-terms", "quote": "Intellect. (nous) In the human soul is the summit of dianoia"},
+        {"form": "mind", "source": "translation", "edition": "tlg004.perseus-eng2", "work": "tlg004", "ref": "97c", "quote": "it is the mind that arranges and causes all things"},
+        {"form": "intelligence", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "511d", "quote": "you do not think they possess true intelligence about them"}
+      ],
+      "phrases": [
+        {"phrase": "Intellect", "source": "translation", "edition": "tlg010.taylor1804", "work": "tlg010", "ref": "22e", "quote": "that we must say it was prudent in Intellect not to contend for that prize"}
+      ],
+      "related": ["soul", "dianoia", "intelligible-world", "the-one"]
+    },
+    {
+      "id": "logos",
+      "plain": "Speech, reasoned account and reason itself; for the later Platonists also the forming principles (logoi) by which soul and nature shape things.",
+      "english": [
+        {"form": "reason", "source": "taylor-terms", "quote": "Reason, λογος. This word in Platonic writers signifies either that inward discursive energy called reasoning"},
+        {"form": "reasons", "source": "taylor-terms", "quote": "Reasons. (logoi) Productive principles or powers"},
+        {"form": "account", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "534b", "quote": "who is able to exact an account of the essence of each thing"}
+      ]
+    },
+    {
+      "id": "soul",
+      "neoplatonic": true,
+      "plain": "What gives life and moves itself; for the Platonists the level between intellect and body, in each living thing and in the world as a whole.",
+      "english": [
+        {"form": "soul", "source": "taylor-terms", "quote": "Psychical, ψυχικος. Pertaining to soul."}
+      ],
+      "phrases": [
+        {"phrase": "Soul", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "34b", "quote": "And in the midst thereof He set Soul"}
+      ],
+      "related": ["intellect", "world-soul", "immortality", "nature"]
+    },
+    {
+      "id": "demiurge",
+      "neoplatonic": true,
+      "plain": "The maker of the ordered world in the Timaeus, who, being good, made it as like himself as he could; Taylor calls him the Demiurgus, the artificer of the universe.",
+      "lemmas": [{"lemma": "ποιητής", "rule": "none", "why": "mostly 'poet'; the maker of the Timaeus is marked by δημιουργός"}],
+      "english": [
+        {"form": "artificer", "source": "taylor-terms", "quote": "Demiurgus, δημιουργος. Jupiter, the artificer of the universe."},
+        {"form": "demiurgus", "source": "taylor-terms", "quote": "Demiurgus, δημιουργος. Jupiter, the artificer of the universe."},
+        {"form": "constructor", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "29a", "quote": "its Constructor good"},
+        {"form": "craftsman", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "596b", "quote": "also in the habit of saying that the craftsman who produces either of them fixes"}
+      ],
+      "phrases": [
+        {"phrase": "Maker and Father", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "28c", "quote": "to discover the Maker and Father of this Universe"},
+        {"phrase": "father and maker", "source": "translation", "edition": "tlg031.jowett", "work": "tlg031", "ref": "28c", "quote": "the father and maker of all this universe is past finding out"}
+      ],
+      "related": ["the-good", "forms", "world-soul"]
+    },
+    {
+      "id": "intelligible-world",
+      "neoplatonic": true,
+      "plain": "What is known by intellect and not by the senses: the Forms, and for the later Platonists the highest order of being.",
+      "english": [
+        {"form": "intelligible", "source": "taylor-terms", "quote": "Intelligible, the, το νοητον. This word in Plato and Platonic writers has a various signification"},
+        {"form": "intelligibles", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "511d", "quote": "the things themselves are intelligibles"}
+      ],
+      "phrases": [
+        {"phrase": "the Intelligible", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "92c", "quote": "perceptible God made in the image of the Intelligible, most great and good and fair"}
+      ]
+    },
+    {
+      "id": "sensible-world",
+      "plain": "What is perceived by the senses: the visible world of things that come to be and pass away, an image of the intelligible.",
+      "english": [
+        {"form": "visible", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "509d", "quote": "surely apprehend the two types, the visible and the intelligible. I do. Represent"},
+        {"form": "sensible", "source": "translation", "edition": "tlg031.jowett", "work": "tlg031", "ref": "28c", "quote": "all sensible things are apprehended by opinion and sense"}
+      ]
+    },
+    {
+      "id": "participation",
+      "plain": "How a thing has a character by sharing in the Form of it: beautiful things are beautiful by sharing in beauty itself.",
+      "english": [
+        {"form": "partake", "source": "translation", "edition": "tlg011.perseus-eng2", "work": "tlg011", "ref": "211b", "quote": "all the multitude of beautiful things partake of it"},
+        {"form": "participate", "source": "taylor-introduction", "quote": "for thus it would be being, and participate of essence"},
+        {"form": "participation", "source": "taylor-introduction", "quote": "they possess the good according to participation"}
+      ],
+      "related": ["forms", "image-and-original"]
+    },
+    {
+      "id": "emanation",
+      "neoplatonic": true,
+      "plain": "The going out of all things from the One, each level from the one above it, while the cause stays as it was; Taylor's word is 'progression'. Plato has no word for it.",
+      "english": [
+        {"form": "progression", "source": "taylor-introduction", "quote": "imitating the progression of beings from the one, and their conversion to it again"},
+        {"form": "proceeds", "source": "taylor-introduction", "quote": "while it proceeds from, at the same time abides in, and returns to its leader"}
+      ],
+      "related": ["return", "the-one"]
+    },
+    {
+      "id": "return",
+      "neoplatonic": true,
+      "plain": "The turning back of each thing to the cause it came from, which completes procession; in Plato, the turning of the whole soul round toward the light (Republic VII).",
+      "english": [
+        {"form": "conversion", "source": "translation", "edition": "tlg030.taylor1804", "work": "tlg030", "ref": "518d", "quote": "would appear to be the art of his conversion"},
+        {"form": "conversion", "source": "taylor-introduction", "quote": "imitating the progression of beings from the one, and their conversion to it again"}
+      ],
+      "related": ["emanation", "ascent"]
+    },
+    {
+      "id": "knowledge",
+      "plain": "Firm understanding of what always is, which can give the reason why; Taylor's word for ἐπιστήμη is 'science'.",
+      "english": [
+        {"form": "science", "source": "taylor-terms", "quote": "Science. This word is sometimes defined by Plato to be that which assigns the causes of things"},
+        {"form": "knowledge", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "509b", "quote": "the objects of knowledge"}
+      ],
+      "related": ["opinion", "dianoia", "intellect"]
+    },
+    {
+      "id": "opinion",
+      "plain": "Belief about what can be otherwise: it can be true or false, and knows that a thing is but not why.",
+      "english": [
+        {"form": "opinion", "source": "taylor-terms", "quote": "Opinion. (doxa) Is the last of the gnostic powers of the rational soul"}
+      ],
+      "related": ["knowledge"]
+    },
+    {
+      "id": "dianoia",
+      "plain": "Thinking that reasons step by step from starting-points, as geometry does: in the divided line, the level below intellect.",
+      "english": [
+        {"form": "dianoia", "source": "taylor-terms", "quote": "Dianoia, διανοια, from whence dianoetic, the discursive energy of reason"},
+        {"form": "dianoetic", "source": "taylor-terms", "quote": "Dianoia, διανοια, from whence dianoetic, the discursive energy of reason"},
+        {"form": "understanding", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "511d", "quote": "you regard understanding as something intermediate between opinion and reason"}
+      ],
+      "related": ["intellect", "divided-line"]
+    },
+    {
+      "id": "virtue",
+      "plain": "The excellence of a thing, and of a soul above all; for the later Platonists a ladder of virtues by which the soul rises.",
+      "english": [
+        {"form": "virtue", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "518d", "quote": "the other so-called virtues of the soul"}
+      ]
+    },
+    {
+      "id": "justice",
+      "plain": "In the Republic, each part of the soul, and each class in the city, doing its own work.",
+      "english": [
+        {"form": "justice", "source": "translation", "edition": "tlg022.taylor1804", "work": "tlg022", "ref": "322c", "quote": "and ordered him to bring Shame and Justice to men, that these two might be"},
+        {"form": "just", "source": "translation", "edition": "tlg023.perseus-eng2", "work": "tlg023", "ref": "460c", "quote": "the just man must wish to do what is"}
+      ]
+    },
+    {
+      "id": "evil-as-privation",
+      "plain": "The Platonists' view that evil is not a thing in its own right but a lack or falling short of good."
+    },
+    {
+      "id": "image-and-original",
+      "plain": "The relation of a copy to its model: the world is an image made after an eternal pattern, as reflections are images of things.",
+      "english": [
+        {"form": "paradigm", "source": "taylor-terms", "quote": "Paradigm, παραδειγμα. A pattern, or that with reference to which a thing is made."},
+        {"form": "pattern", "source": "taylor-terms", "quote": "Paradigm, παραδειγμα. A pattern, or that with reference to which a thing is made."},
+        {"form": "image", "source": "translation", "edition": "tlg031.taylor1804", "work": "tlg031", "ref": "37d", "quote": "a certain movable image of eternity"},
+        {"form": "exemplar", "source": "translation", "edition": "tlg031.taylor1804", "work": "tlg031", "ref": "29a", "quote": "he looked towards an eternal exemplar in its fabrication"}
+      ]
+    },
+    {
+      "id": "ascent",
+      "plain": "The soul's rise from the things of sense to what truly is, as from the cave to the sun, or up Diotima's ladder of beauty."
+    },
+    {
+      "id": "recollection",
+      "plain": "The teaching that learning is remembering what the soul knew before birth.",
+      "english": [
+        {"form": "recollection", "source": "translation", "edition": "tlg004.perseus-eng2", "work": "tlg004", "ref": "72e", "quote": "our learning is nothing else than recollection"},
+        {"form": "reminiscence", "source": "translation", "edition": "tlg004.taylor1804", "work": "tlg004", "ref": "72e", "quote": "learning, with respect to us, is nothing else than reminiscence"}
+      ]
+    },
+    {
+      "id": "eternal",
+      "plain": "What is without time altogether, whole at once; Taylor distinguishes it from the perpetual, which lasts through all time.",
+      "english": [
+        {"form": "eternal", "source": "taylor-terms", "quote": "Eternal, the, το αιωνιον, that which has a never-ending subsistence, without any connection with time"},
+        {"form": "eternity", "source": "translation", "edition": "tlg031.taylor1804", "work": "tlg031", "ref": "37d", "quote": "a certain movable image of eternity"},
+        {"form": "perpetual", "source": "taylor-terms", "quote": "Perpetual, the, το αιδιον. That which subsists forever, but through a connection with time."}
+      ],
+      "phrases": [
+        {"phrase": "the Eternal", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "29a", "quote": "he fixed his gaze on the Eternal"}
+      ]
+    },
+    {
+      "id": "god",
+      "plain": "The gods, and the god of the dialogues; for the later Platonists a whole order of gods proceeding from the One."
+    },
+    {
+      "id": "the-divine",
+      "plain": "What belongs to the gods; Taylor: being joined to the One, as essence, life and intellect are when they are made divine.",
+      "english": [
+        {"form": "divine", "source": "taylor-terms", "quote": "Divine, the, το ϑειον, is being subsisting in conjunction with the one."}
+      ]
+    },
+    {
+      "id": "hyparxis",
+      "plain": "Taylor's word for the very first ground of a thing's being, 'the summit of essence'.",
+      "english": [
+        {"form": "hyparxis", "source": "taylor-terms", "quote": "Hyparxis, υπαρξις. The first principle or foundation, as it were, of the essence of a thing."}
+      ]
+    },
+    {
+      "id": "monad",
+      "plain": "A unit that holds a many within itself and gives rise to it: the head of each order of things.",
+      "english": [
+        {"form": "monad", "source": "taylor-terms", "quote": "Monad, μονας, in divine natures is that which contains distinct, but at the same time profoundly-united multitude"},
+        {"form": "monads", "source": "translation", "edition": "tlg010.taylor1804", "work": "tlg010", "ref": "15a", "quote": "whether such monads should be deemed to have true being"}
+      ]
+    },
+    {
+      "id": "imparticipable",
+      "plain": "A cause that stays above what shares in it and is not mixed into it, as imparticipable intellect is above every particular intellect."
+    },
+    {
+      "id": "henad",
+      "label": "Henads (unities)",
+      "greek": "ἑνάς",
+      "neoplatonic": true,
+      "plain": "A unity: the Philebus asks about such unities (man, ox, beauty, the good); for Proclus the gods themselves are the unities that come first after the One.",
+      "lemmas": ["ἑνάς"],
+      "english": [
+        {"form": "unities", "source": "translation", "edition": "tlg010.perseus-eng2", "work": "tlg010", "ref": "15a", "quote": "the intense interest in these and similar unities"},
+        {"form": "monads", "source": "translation", "edition": "tlg010.taylor1804", "work": "tlg010", "ref": "15a", "quote": "whether such monads should be deemed to have true being"},
+        {"form": "unities", "source": "taylor-introduction", "quote": "elevates those that use it, to the good itself, and the first unities"}
+      ],
+      "passages": [
+        {"work": "tlg010", "start": "15a", "end": "15b", "quote": "περὶ τούτων τῶν ἑνάδων", "why": "Socrates on the unities that are not things which come to be and perish: man, ox, the beautiful, the good."}
+      ],
+      "related": ["the-one", "monad", "god"]
+    },
+    {
+      "id": "limit-and-infinite",
+      "label": "Bound and the infinite",
+      "greek": "πέρας καὶ ἄπειρον",
+      "neoplatonic": true,
+      "plain": "The two principles of the Philebus from which all mixed things come; for the later Platonists the first pair after the One, from which being is mixed.",
+      "lemmas": ["πέρας", "ἄπειρος"],
+      "english": [
+        {"form": "bound", "source": "translation", "edition": "tlg010.taylor1804", "work": "tlg010", "ref": "16c", "quote": "have in themselves bound and infinity connatural"},
+        {"form": "infinity", "source": "translation", "edition": "tlg010.taylor1804", "work": "tlg010", "ref": "16c", "quote": "have in themselves bound and infinity connatural"},
+        {"form": "infinite", "source": "translation", "edition": "tlg010.perseus-eng2", "work": "tlg010", "ref": "16c", "quote": "have inherent in them the finite and the infinite"},
+        {"form": "finite", "source": "translation", "edition": "tlg010.perseus-eng2", "work": "tlg010", "ref": "16c", "quote": "have inherent in them the finite and the infinite"}
+      ],
+      "phrases": [
+        {"phrase": "bound and infinity", "source": "taylor-introduction", "quote": "the two first principles of things (bound and infinity)"}
+      ],
+      "passages": [
+        {"work": "tlg010", "start": "16c", "end": "16c", "quote": "πέρας δὲ καὶ ἀπειρίαν ἐν αὑτοῖς σύμφυτον ἐχόντων", "why": "The gift of the gods: all things are from one and many, and have limit and the unlimited in them."},
+        {"work": "tlg010", "start": "23c", "end": "23c", "quote": "τὸ μὲν ἄπειρον δεῖξαι τῶν ὄντων, τὸ δὲ πέρας", "why": "The four kinds of the Philebus begin with the unlimited and the limit."}
+      ],
+      "later": [
+        {"source": "taylor-introduction", "quote": "If also being is composed from the elements bound and infinity, as appears from the Philebus of Plato", "says": "Taylor: being is composed of bound and infinity, as the Philebus shows."}
+      ],
+      "related": ["the-one", "being"]
+    },
+    {
+      "id": "life",
+      "label": "Life",
+      "greek": "ζωή",
+      "neoplatonic": true,
+      "plain": "Life itself: for the later Platonists the middle of the triad being, life and intellect; the Sophist asks whether what perfectly is can be without life and soul and intellect.",
+      "lemmas": ["ζωή"],
+      "english": [
+        {"form": "life", "source": "translation", "edition": "tlg007.perseus-eng2", "work": "tlg007", "ref": "248e", "quote": "motion and life and soul and mind are really not present to absolute being"}
+      ],
+      "passages": [
+        {"work": "tlg007", "start": "248e", "end": "249a", "quote": "κίνησιν καὶ ζωὴν καὶ ψυχὴν καὶ φρόνησιν", "why": "The Eleatic Stranger: can we believe that motion, life, soul and wisdom are not present to what perfectly is?"}
+      ],
+      "later": [
+        {"source": "taylor-introduction", "quote": "we next see being, life, intellect, soul, nature and body depending", "says": "Taylor: below the One come being, life, intellect, soul, nature and body."}
+      ],
+      "related": ["being", "intellect", "soul"]
+    },
+    {
+      "id": "nature",
+      "label": "Nature",
+      "greek": "φύσις",
+      "neoplatonic": true,
+      "plain": "What a thing is by birth and growth, and the whole order of such things; for the later Platonists the level below soul that shapes bodies.",
+      "lemmas": ["φύσις"],
+      "english": [
+        {"form": "nature", "source": "translation", "edition": "tlg004.taylor1804", "work": "tlg004", "ref": "71e", "quote": "say that nature is defective and lame"}
+      ],
+      "later": [
+        {"source": "taylor-introduction", "quote": "we next see being, life, intellect, soul, nature and body depending", "says": "Taylor: nature comes after soul and before body."}
+      ],
+      "related": ["soul", "life"]
+    },
+    {
+      "id": "matter",
+      "plain": "The receptacle of the Timaeus, in which the images of the Forms come to be, 'the nurse of becoming'; later called matter.",
+      "english": [
+        {"form": "receptacle", "source": "translation", "edition": "tlg031.jowett", "work": "tlg031", "ref": "49a", "quote": "of being? We reply, that it is the receptacle, and in a manner the nurse, of"},
+        {"form": "recipient", "source": "translation", "edition": "tlg031.perseus-eng2", "work": "tlg031", "ref": "50d", "quote": "liken the Recipient to the Mother"}
+      ]
+    },
+    {
+      "id": "world-soul",
+      "plain": "The soul of the whole world, which the maker of the Timaeus set in its midst and stretched through it all."
+    },
+    {
+      "id": "daemons",
+      "plain": "Spirits between gods and men, as Love is in the Symposium, carrying prayers up and gifts down.",
+      "english": [
+        {"form": "daemon", "source": "translation", "edition": "tlg011.taylor1804", "work": "tlg011", "ref": "202e", "quote": "A great daemon replied"},
+        {"form": "spirit", "source": "translation", "edition": "tlg011.perseus-eng2", "work": "tlg011", "ref": "202e", "quote": "And what is that, Diotima? A great spirit, Socrates: for the whole of the"}
+      ]
+    },
+    {
+      "id": "eros",
+      "plain": "Love as the longing for what one lacks, the beautiful and the good, which can lead the soul upward.",
+      "english": [
+        {"form": "love", "source": "translation", "edition": "tlg011.perseus-eng2", "work": "tlg011", "ref": "177a", "quote": "their honor by the poets, the god of Love, so ancient and so great"}
+      ]
+    },
+    {
+      "id": "dialectic",
+      "plain": "The highest way of thinking in the Republic: reasoning by question and answer up to the first principle, without the senses.",
+      "english": [
+        {"form": "dialectic", "source": "translation", "edition": "tlg030.taylor1804", "work": "tlg030", "ref": "534b", "quote": "skilled in dialectic"},
+        {"form": "dialectics", "source": "translation", "edition": "tlg030.perseus-eng2", "work": "tlg030", "ref": "511b", "quote": "by the power of dialectics"}
+      ]
+    },
+    {
+      "id": "likeness-to-god",
+      "plain": "The goal of life for the Platonists after the Theaetetus: to become as like god as a human can, by becoming just and wise."
+    },
+    {
+      "id": "immortality",
+      "plain": "The soul's not dying: argued in the Phaedo, and in the Phaedrus from the soul's moving itself.",
+      "english": [
+        {"form": "immortal", "source": "translation", "edition": "tlg012.perseus-eng2", "work": "tlg012", "ref": "245c", "quote": "Every soul is immortal"}
+      ]
+    },
+    {
+      "id": "phronesis",
+      "plain": "Practical wisdom, seeing what is good to do; Taylor's word is 'prudence'.",
+      "english": [
+        {"form": "prudence", "source": "taylor-terms", "quote": "Prudence, φρονιησις. This word frequently means in Plato and Platonic writers"},
+        {"form": "wisdom", "source": "translation", "edition": "tlg004.perseus-eng2", "work": "tlg004", "ref": "69b", "quote": "are to be bought and sold, is in fact wisdom; and courage and self-restraint"}
+      ]
+    },
+    {
+      "id": "cause",
+      "plain": "That because of which a thing is; Taylor lists the Platonists' six kinds of cause (the end, the pattern, the maker, the instrument, the form, the matter).",
+      "english": [
+        {"form": "cause", "source": "translation", "edition": "tlg004.perseus-eng2", "work": "tlg004", "ref": "97c", "quote": "the mind should be the cause of all things"}
+      ]
+    },
+    {
+      "id": "divided-line",
+      "plain": "The Republic's image of a line cut into four: images, visible things, the objects of reasoning and the Forms, with the four states of mind that grasp them."
+    },
+    {
+      "id": "not-being",
+      "plain": "What is not: the Sophist shows that it is, in a way, as 'the other' than what is."
+    },
+    {
+      "id": "will-power-intellect",
+      "plain": "A triad the Greek scholia name in the divine: will, power and intellect.",
+      "lemmas": [
+        {"lemma": "βούλησις", "rule": "none", "why": "marked as Wish"},
+        {"lemma": "δύναμις", "rule": "none", "why": "marked as Power"},
+        {"lemma": "νόος", "rule": "none", "why": "marked as Intellect"}
+      ]
+    },
+    {
+      "id": "guest",
+      "plain": "Taylor's word for ξένος, the visitor or stranger of the Sophist, Statesman and Laws: one who receives or is received as a guest."
+    },
+    {
+      "id": "hearing",
+      "key": false
+    },
+    {
+      "id": "respiration",
+      "key": false
+    },
+    {
+      "id": "disease",
+      "key": false
+    },
+    {
+      "id": "heavy-and-light",
+      "key": false
+    },
+    {
+      "id": "voice",
+      "key": false
+    },
+    {
+      "id": "sight",
+      "key": false
+    }
+  ]
+}

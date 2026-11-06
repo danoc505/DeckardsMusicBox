@@ -600,10 +600,110 @@ class Library:
         all_pages = [r["page"] for r in self.rows("SELECT DISTINCT page FROM section WHERE work_id = ? ORDER BY page", work_id)]
         i = all_pages.index(page)
         return {
+            **self.page_terms(work_id, refs, chunks, seq),
             "work_id": work_id, "page": page, "sections": secs, "chunks": chunks, "tokens": tokens,
             "notes": notes, "commentary": commentary, "links_out": links_out, "links_in": links_in, "speeches": speeches, "mine": mine,
             "prev": all_pages[i - 1] if i > 0 else None, "next": all_pages[i + 1] if i + 1 < len(all_pages) else None,
         }
+
+    # ------------------------------------------------------------ key terms (milestone 17)
+
+    def page_terms(self, work_id, refs, chunks, seq):
+        """The words of a page marked as key terms, and for each English paragraph the terms the Greek
+        beneath it has (in every section the paragraph spans), with each term's English forms; and
+        the fixed phrases, marked wherever they are printed."""
+        marks = ",".join("?" * len(refs))
+        term_tokens = {}
+        for r in self.rows(f"SELECT h.token_id, h.term_id FROM term_hit h JOIN term t ON t.id = h.term_id "
+                           f"WHERE t.key = 1 AND h.work_id = ? AND h.section_ref IN ({marks}) ORDER BY t.seq", work_id, *refs):
+            term_tokens.setdefault(r["token_id"], []).append(r["term_id"])
+        order = list(seq)
+        spans, need = {}, set(refs)
+        for c in chunks:
+            if c["lang"] != "eng":
+                continue
+            a = seq.get(c["section_ref"])
+            b = seq.get(c["end_ref"] or c["section_ref"], a)
+            if a is None:
+                continue
+            spans[c["id"]] = order[a:b + 1]
+            need.update(spans[c["id"]])
+        by_sec = {}
+        need = sorted(need)
+        if need:
+            for r in self.rows(f"SELECT DISTINCT h.section_ref, h.term_id FROM term_hit h JOIN term t ON t.id = h.term_id "
+                               f"WHERE t.key = 1 AND h.work_id = ? AND h.section_ref IN ({','.join('?' * len(need))})", work_id, *need):
+                by_sec.setdefault(r["section_ref"], set()).add(r["term_id"])
+        chunk_terms = {}
+        for cid, secs in spans.items():
+            ts = set().union(*(by_sec.get(x, set()) for x in secs))
+            if ts:
+                chunk_terms[cid] = sorted(ts)
+        ids = sorted({t for ts in term_tokens.values() for t in ts} | {t for ts in chunk_terms.values() for t in ts})
+        terms = {r["id"]: {"label": r["label"], "greek": r["greek"], "forms": []} for r in self.rows(
+            f"SELECT id, label, greek FROM term WHERE id IN ({','.join('?' * len(ids)) or 'NULL'})", *ids)}
+        for r in self.rows(f"SELECT term_id, form FROM term_form WHERE kind = 'english' AND found = 1 AND term_id IN ({','.join('?' * len(ids)) or 'NULL'}) "
+                           "ORDER BY term_id, n", *ids):
+            if r["form"] not in terms[r["term_id"]]["forms"]:
+                terms[r["term_id"]]["forms"].append(r["form"])
+        phrases = [[r["form"], r["term_id"], r["label"]] for r in self.rows(
+            "SELECT f.form, f.term_id, t.label FROM term_form f JOIN term t ON t.id = f.term_id WHERE f.kind = 'phrase' AND f.found = 1 AND t.key = 1 "
+            "ORDER BY length(f.form) DESC")]
+        return {"term_tokens": term_tokens, "chunk_terms": chunk_terms, "terms": terms, "phrases": phrases}
+
+    def terms(self):
+        """Every term, with how many words of Plato are marked as it, for the Term tab's list."""
+        out = self.rows("SELECT t.id, t.label, t.greek, t.key, t.plain, t.origin, (SELECT count(*) FROM term_hit h WHERE h.term_id = t.id) AS n "
+                        "FROM term t ORDER BY t.label COLLATE NOCASE")
+        for t in out:
+            t["origin"] = json.loads(t["origin"])
+        stats = self.one("SELECT value FROM build WHERE key = 'term_stats'")
+        return {"terms": out, "stats": json.loads(stats["value"]) if stats else None}
+
+    def term(self, term_id):
+        """One term for the Term tab: Taylor's explanation, the Workshop's plain meaning, the
+        definitions and later readings of its concept, its passages, every place in Plato it is
+        marked (by dialogue and section), and the terms beside it."""
+        t = self.one("SELECT * FROM term WHERE id = ?", term_id)
+        if not t:
+            return None
+        for k in ("origin", "glossary", "related", "extra"):
+            t[k] = json.loads(t[k])
+        t["lemmas"] = self.rows("SELECT lemma, rule, why, (SELECT coalesce(sum(n), 0) FROM lemma_count c WHERE c.lemma = l.lemma) AS tagged "
+                                "FROM term_lemma l WHERE term_id = ? ORDER BY n", term_id)
+        t["forms"] = self.rows("SELECT kind, form, source_text, quote, found, cited_as, auto FROM term_form WHERE term_id = ? ORDER BY kind, n", term_id)
+        # Taylor's own explanation, from his Explanation of Certain Platonic Terms.
+        if t["glossary"]:
+            d = json.loads((TAYLOR_VOL1 / "platonic-terms.json").read_text(encoding="utf-8"))
+            entries = {e["id"]: e for e in glossary(d)}
+            t["taylor"] = [entries[i] for i in t["glossary"] if i in entries]
+        else:
+            t["taylor"] = []
+        c = self.concept(t["concept_id"]) if t["concept_id"] else None
+        if c:
+            t["concept"] = {k: c[k] for k in ("id", "label", "greek", "layer", "note", "origin", "definitions", "later", "passages")}
+            t["concept"]["definitions"] = [x for x in c["definitions"] if x["source_text"] != "taylor-terms"]
+            rel = [{"id": r["other_id"], "label": r["other_label"], "kind": r["kind"], "why": r["why"]} for r in c["related"]]
+            rel += [{"id": r["concept_id"], "label": r["label"], "kind": r["kind"] + " this", "why": r["why"]} for r in c["related_from"]]
+        else:
+            t["concept"] = None
+            rel = []
+        named = {r["id"]: r["label"] for r in self.rows(f"SELECT id, label FROM term WHERE id IN ({','.join('?' * len(t['related'])) or 'NULL'})", *t["related"])}
+        t["related_terms"] = [{"id": i, "label": named[i], "kind": None, "why": None} for i in t["related"] if i in named and i != term_id] + \
+            [r for r in rel if r["id"] not in t["related"] and r["id"] != term_id]
+        # Every marked word, by dialogue and section, sections in reading order.
+        occ = {}
+        for r in self.rows("SELECT h.work_id, h.section_ref, count(*) AS n FROM term_hit h JOIN section s ON s.work_id = h.work_id AND s.ref = h.section_ref "
+                           "WHERE h.term_id = ? GROUP BY h.work_id, h.section_ref ORDER BY h.work_id, s.seq", term_id):
+            occ.setdefault(r["work_id"], []).append([r["section_ref"], r["n"]])
+        t["occurrences"] = occ
+        t["words"] = sum(n for refs in occ.values() for _, n in refs)
+        t["forms_marked"] = self.rows("SELECT form, count(*) AS n FROM term_hit WHERE term_id = ? GROUP BY form ORDER BY n DESC LIMIT 12", term_id)
+        # Other terms that share a word with this one.
+        lem = [x["lemma"] for x in t["lemmas"]]
+        t["shares_word"] = self.rows(f"SELECT DISTINCT t.id, t.label, l.lemma FROM term_lemma l JOIN term t ON t.id = l.term_id "
+                                     f"WHERE l.lemma IN ({','.join('?' * len(lem)) or 'NULL'}) AND t.id != ? ORDER BY t.seq", *lem, term_id)
+        return t
 
     # ------------------------------------------------------------ commentaries (milestone 7)
 
@@ -733,6 +833,10 @@ class Library:
         lemmas = [g["lemma"] for g in tags if g["lemma"]]
         t["concepts"] = self.rows(f"SELECT DISTINCT c.id, c.label, c.layer, ct.lemma, ct.broad FROM concept_term ct JOIN concept c ON c.id = ct.concept_id "
                                   f"WHERE ct.lemma IN ({','.join('?' * len(lemmas)) or 'NULL'}) ORDER BY c.seq", *lemmas)
+        # Milestone 17: the key terms this word is marked as, and the terms its lemma belongs to.
+        t["terms"] = self.rows(f"SELECT DISTINCT t.id, t.label, t.key, l.rule, EXISTS (SELECT 1 FROM term_hit h WHERE h.term_id = t.id AND h.token_id = ?) AS marked "
+                               f"FROM term_lemma l JOIN term t ON t.id = l.term_id WHERE l.lemma IN ({','.join('?' * len(lemmas)) or 'NULL'}) ORDER BY t.seq",
+                               token_id, *lemmas)
         t["form_in_plato"] = self.one("SELECT coalesce(sum(n), 0) n FROM form_count WHERE form = ?", t["form"])["n"]
         return t
 
@@ -1060,6 +1164,11 @@ class Handler(BaseHTTPRequestHandler):
                                                          after=int(query.get("after") or 0), limit=int(query.get("limit") or 10)))
                 if parts == ["concepts"]:
                     return self.send_json(lib.concepts())
+                if parts == ["terms"]:
+                    return self.send_json(lib.terms())
+                if len(parts) == 2 and parts[0] == "term":
+                    t = lib.term(parts[1])
+                    return self.send_json(t) if t else self.not_found()
                 if len(parts) == 2 and parts[0] == "concept":
                     c = lib.concept(parts[1])
                     return self.send_json(c) if c else self.not_found()

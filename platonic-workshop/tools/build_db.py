@@ -55,6 +55,7 @@ import commentary_db  # noqa: E402
 import citations  # noqa: E402
 import structure  # noqa: E402
 import concepts  # noqa: E402
+import terms  # noqa: E402
 import gloss  # noqa: E402
 import find  # noqa: E402
 import reconcile  # noqa: E402
@@ -830,6 +831,14 @@ def build(works, db_path=None, progress=False):
     if progress:
         print("  concepts: " + ", ".join(f"{k} {v}" for k, v in concept_stats.items() if k not in ("not found", "terms not tagged"))
               + f"; not found: {len(concept_stats['not found'])}", flush=True)
+    # Milestone 17: the key terms underlined in the reader (after the concepts: every concept is a term).
+    term_stats = terms.build(db)
+    if set(works) == set(ALL_WORKS):
+        terms.write_report(db, term_stats)
+    db.execute("INSERT INTO build VALUES ('term_stats', ?)", (json.dumps(term_stats, ensure_ascii=False),))
+    if progress:
+        print("  key terms: " + ", ".join(f"{k} {v}" for k, v in term_stats.items() if k not in ("not found", "most marked", "key terms marked nowhere in Plato"))
+              + f"; not found: {len(term_stats.get('not found', []))}", flush=True)
     # Passage dossiers: the famous passages gathered whole (after the concepts: they read concept_passage).
     dossier_stats = dossiers.build(db)
     if set(works) == set(ALL_WORKS):

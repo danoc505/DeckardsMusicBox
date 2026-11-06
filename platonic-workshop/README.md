@@ -226,6 +226,16 @@ Every view was walked at iPad sizes (1024×768 and 768×1024, and the iPad Air's
 below 1150px the left contents column, which was simply hidden, now opens from *☰ Contents* at the top left.
 Tests in `tests/test_help.py`.
 
+**Milestone 17, key terms linked in the text, opening beside it: done.** The words of Plato and the Platonists (the Good,
+the One, intellect, soul, being, the Forms, the Demiurge, the intelligible, procession and return, and the rest) are
+underlined in the reader, in the Greek and the English. Tap one: the side panel's *Term* tab says what it is (Taylor's
+explanation, a one-line plain meaning labelled as the Workshop's, the definitions), lists every place in Plato it is used,
+dialogue by dialogue in the Platonist order, with ‹ › to walk to the previous or next place from where you are, and gives
+its key passages, what the Platonists say of it and the related terms. Nothing leaves the page being read: the side panel is
+now one place with tabs (*Word*, *Term*, *Notes*, *Links*, *Your work*), and the concept index's page and Taylor's glossary
+open inside it too. *Key terms* under *Show* turns the underlines off. See [Key terms in the text](#key-terms-in-the-text)
+below and [`reports/terms.md`](reports/terms.md).
+
 ![? Help on the Republic, with the Workshop's words it uses](docs/reader-m16-help.png)
 
 ## Running it
@@ -886,6 +896,37 @@ in `sources/dossiers/web-checks.json`, so the build itself needs no network) and
 | Words found only in a dossier's passage | 762 |
 | Shared phrases | 302 |
 
+## Key terms in the text
+
+- **The term list** is every concept of the concept index (228 terms in all: the index written by hand, the
+  *Definitions*, Taylor's Platonic terms, Alcinous, the scholia) with what [`sources/terms/terms.json`](sources/terms/terms.json)
+  adds: the Neoplatonic vocabulary the index lacked (the One, the henads, bound and the infinite, life, nature), Taylor's
+  English forms of each term and the other translators', fixed English phrases, a one-line plain meaning, and passages and
+  readings for the new terms. Every English form and phrase carries a quotation showing it used (Taylor's glossary, his
+  General Introduction, a translation at a Stephanus section), and the build looks for each: 198 of 198 found.
+- **In the Greek** a word is underlined when GLAUx's dictionary form for it is a term's (ἀγαθοῦ is the Good). For a very
+  common word, only where Plato uses it as a name, neuter with the article: τὸ ἕν (the One), τὸ ὄν and τὰ ὄντα (being), but
+  not τῷ ὄντι, which LSJ gives as "in reality". `tools/terms.py` says which rule each word has, and the Term tab repeats it.
+- **In the English** a word is underlined only where the Greek of the same section has the term (so "good" only above
+  ἀγαθός), or where a fixed phrase is printed as given, capitals and all ("the Good", "idea of good", "the beautiful itself").
+  For Taylor's and Jowett's translations, whose sections are computed (≈), the Greek of every section the paragraph spans counts.
+- **Which terms are underlined**: 105 of the 228, those gathered from anything but the *Definitions* alone, and those of
+  terms.json. A term only the *Definitions* define (day, bone, festival), and six topics of Alcinous' physics and of the
+  senses (hearing, sight, voice, respiration, disease, the heavy and the light), are in the list and open from the word box,
+  but are not underlined. 28,077 words of Plato are marked.
+- **The Term tab**: Taylor's explanation where he gives one; the plain meaning (or, without one, the first definition the
+  sources give); the definitions; every place, by dialogue in the order chosen in the Library (the Neoplatonic curriculum
+  by default), the current dialogue open, the sections on this page in bold, and ‹ › from where you are; which words are
+  marked and the quotations behind the English forms; the key passages with their Greek and an *English* button; what the
+  Platonists say; related terms, and terms that share a Greek word. *The whole entry in the concept index* and *Taylor's
+  whole glossary* open in the panel.
+- **The other tabs** follow the section you last tapped (or the first in view), with ‹ › between sections: *Notes* (the
+  translators' notes and the commentators), *Links* (Cites and Cited by), *Your work* (and the editor, when you write).
+  Everything also stays under each section in the text, as before.
+- `/api/term/<id>`, `/api/terms`, and the page's `term_tokens`, `chunk_terms`, `terms` and `phrases` (tools/serve.py).
+  Tables `term`, `term_lemma`, `term_form`, `term_hit` (db/schema.sql). Tests in `tests/test_terms.py`, with
+  `tests/terms_browser.js` in a real browser at the laptop's size and two iPad sizes.
+
 ## Layout
 
 ```
@@ -905,6 +946,7 @@ sources/          what we use and where it comes from (committed)
                   people.json: which speaker names are one person, for the voices of milestone 14;
                   workshop-words.json: the Workshop's own words in plain English and the help behind every ? (milestone 16)
   concepts/       the concept index of milestone 10 (concepts.json, sources.json)
+  terms/          the key terms of milestone 17 (terms.json): the Neoplatonic vocabulary, Taylor's English forms, plain meanings
   reconcile/      the reconciliations of milestone 12: tensions.json, methods.json, sources.json, web-checks.json
   taylor-gutenberg/  Taylor's Proclus' Theology, Porphyry and Taurus from Project Gutenberg, as received
   dossiers/       the passage dossiers, one file per dialogue (index.json lists them), and web-checks.json
@@ -932,13 +974,15 @@ tools/            fetch, verify, import, build the database, serve the reader, G
                   commentary_corpus.py (the commentaries across Plato, milestone 11),
                   reconcile.py and fetch_reconcile.py (the reconciliations, milestone 12), find.py (the search box),
                   gloss.py and greek_audit.py (the meaning of any Greek word, and the audit of milestone 15),
-                  webcheck.py --words (the web pages the Workshop's own words quote, milestone 16)
+                  webcheck.py --words (the web pages the Workshop's own words quote, milestone 16),
+                  terms.py (the key terms underlined in the reader, milestone 17)
 workshop.py       one command: download, build if needed, serve
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
                   commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,
                   concepts.js the concept index, commentaries.js the list of every commentary,
                   reconcile.js the reconciliations and worksheets, shell.js the navigation, the search box, themes and panels,
                   help.js the ? help, Words used in the Workshop and the Contents button (milestone 16)
+                  terms.js the key terms and the side panel's tabs (milestone 17)
                   dossiers.py and webcheck.py (the passage dossiers and their web checks)
 reader/           the reader (HTML, CSS, JavaScript; no libraries); mywork.js is the editor, search.js the search,
                   commentary.js the commentaries, citations.js the citation web, whole.js the whole and the corpus map,

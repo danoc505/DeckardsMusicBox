@@ -30,7 +30,7 @@ READER_JS = "".join(p.read_text(encoding="utf-8") for p in sorted((ROOT / "reade
 # The views of the Workshop (shell.js's routes and reader.js's) and the panels of a page.
 VIEWS = {"start", "library", "read", "whole", "corpus", "commentaries", "dossiers", "discussed", "dictionary", "concordance",
          "renderings", "concepts", "glossary", "words", "taylor", "reconcile", "find", "mine"}
-PANELS = {"word", "dict", "gloss", "translations", "commentary", "links", "mywork", "contents", "show", "listen", "select"}
+PANELS = {"word", "dict", "gloss", "translations", "commentary", "links", "mywork", "contents", "show", "listen", "select", "panel", "term"}
 
 
 def norm(s):
