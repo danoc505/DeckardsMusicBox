@@ -261,7 +261,7 @@ class Library:
         return w
 
     def corpus(self):
-        works = self.rows("SELECT id, title, slug, tetralogy, imported, abbr, n_tokens FROM work ORDER BY id")
+        works = self.rows("SELECT id, title, slug, tetralogy, imported, abbr, n_tokens FROM work WHERE corpus = 'plato' ORDER BY id")
         matrix = self.rows("SELECT from_work, to_work, count(DISTINCT note_id) AS notes FROM link WHERE kind = 'cf' AND certainty != 'unresolved' "
                            "AND from_work != to_work GROUP BY from_work, to_work")
         stats = self.one("SELECT value FROM build WHERE key = 'structure_stats'")

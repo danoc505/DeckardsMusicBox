@@ -598,10 +598,12 @@ class Find:
         if not terms or any(len(t) < 3 for t in terms):
             return None
         res = []
-        for w in self.rows("SELECT id, title, abbr, slug, imported FROM work ORDER BY id"):
+        for w in self.rows("SELECT id, title, abbr, slug, imported, corpus FROM work ORDER BY id"):
             if self._match(terms, ("", f"{w['title']} {w['abbr'] or ''} {w['id']}")):
+                nt = w["corpus"] == "nt"
                 res.append({"title": w["title"], "href": f"#{w['slug']}" if w["imported"] else f"#{w['slug']}/whole", "snippet": "",
-                            "why": f"a dialogue whose title or abbreviation ({w['abbr']}) matches"})
+                            "why": f"a book of the New Testament whose name or abbreviation ({w['abbr']}) matches" if nt
+                            else f"a dialogue whose title or abbreviation ({w['abbr']}) matches"})
         for c in self.rows("SELECT c.id, c.label, c.author, c.title, c.work_id, c.n_notes, w.slug, w.title AS wt FROM commentary c JOIN work w ON w.id = c.work_id ORDER BY c.author, c.work_id"):
             if self._match(terms, ("", f"{c['author']} {c['label']} {c['title']}")):
                 res.append({"title": f"{c['label']}: {c['title']}", "href": "#commentaries", "snippet": f"{c['n_notes'] or 0} notes on the {c['wt']}",
