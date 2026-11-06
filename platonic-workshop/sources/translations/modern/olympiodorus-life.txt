@@ -1,0 +1,144 @@
+@section birth | Why we tell Plato's life, and his birth
+Olympiodorus begins with why everyone is drawn to Plato, then tells of his family, descended from Solon and from the kings of Athens, the story that Apollo was his true father, and the bees that filled the baby's mouth with honey on Mount Hymettus.
+
+@extra x0001 before p0001
+@greek Αριστοτέλης ἀρχόμενος τῆς ἑαυτοῦ
+Aristotle, at the start of his theology, says that "all people by nature desire to know," and that the sign of it is our love of the senses. As I begin on the philosophy of Plato, I would say this with more reason: all people desire the philosophy of Plato. They all want to draw something useful from it, they are eager to be possessed by its streams, and they fill themselves with Plato's inspirations. There are four of these in him, in four dialogues. The first is in the Timaeus, where, taken over by a god, he plays the part of the Craftsman speaking to the heavenly beings about how things here are to be run; he calls them the young gods. That is why Iamblichus, in his commentary on the dialogue, wrote a section "On the speech of Zeus." The second inspiration is in the Republic, where, taken over by the Muses, he plays the Muses telling how the city he founded will fall apart, where he says: "for everything that has come to be, decay must follow." The third is in the Phaedrus, where Socrates, doing philosophy about Love under the plane tree, is taken over by the nymphs. The fourth is in the Theaetetus, where he is inspired in philosophy itself, playing the leading philosopher, that is, the contemplative one. For these reasons, then, everyone hurries to Plato's philosophy.
+!note Taylor leaves this opening out and begins with the next paragraph. Translated for the Workshop from Hermann's Greek.
+
+@p p0001
+@greek φέρε δὲ καὶ τὸ γένος
+Come, then, let us tell of the philosopher's family. Not to show off how many stories we have heard, but so that those who come to him may gain something and learn. He was no Nobody, but a man to whom many people turned. Plato is said to have been the son of Ariston, son of Aristocles, and through his father he traced his family back to Solon the lawgiver. So, out of rivalry with his ancestor, he wrote the Laws in twelve books and the Republic in ten. His mother was Perictione, who came down from Neleus, son of Codrus.
+!flag Hence with primitive zeal he wrote twelve books of Laws, and eleven books on a Republic | Taylor has "eleven books"; the Greek, as the scan shows it, has a number that is hard to read, and the Republic has ten books.
+!flag since he was by no means an obscure man | The Greek plays on Homer: Plato was "no Nobody" (Outis, the name Odysseus gave the Cyclops); Taylor's "obscure man" loses the joke.
+
+@p p0002
+@greek φασὶν οὖν, ὅτι φάσμα
+They say that an apparition of Apollo lay with his mother Perictione. Then it appeared to Ariston in the night and told him not to sleep with Perictione until she had given birth. And he did so.
+
+@p p0003
+@greek καὶ γεννηϑέντα τὸν Πλάτωνα
+When Plato was born, his parents took the baby and laid him on Mount Hymettus, wanting to sacrifice for him to the gods there: Pan, the Nymphs, and Apollo the shepherd. As he lay there, bees came and filled his mouth with honeycomb, so that the line might come true of him:
+
+@p p0004
+@greek τοῦ καὶ ἀπὸ γλώσσης
+"from his tongue flowed speech sweeter than honey."
+(Homer, Iliad 1.249, said of Nestor.)
+
+@p p0005
+@greek καλεῖ δ᾽ αὑτὸν πατρόϑεν
+And he calls himself, as his father's son, a "fellow-servant of the swans," since he came from Apollo; for the swan is Apollo's bird.
+!flag But Plato calls himself a fellow-servant with swans | The phrase is from Phaedo 85b, where Socrates says it of himself; Olympiodorus applies it to Plato.
+
+@section schooling | His teachers, and his poetry
+Plato learned letters, music and wrestling, as Athenian boys did, and learned from painters, tragic poets, dithyrambic poets and the comic writers Aristophanes and Sophron. He wrote poetry himself but burned it when he met Socrates, and Socrates had dreamed of a swan the day before.
+
+@p p0006
+@greek Ἐν ἡλικίᾳ δὲ γενόμενος
+When he was old enough, he first went to Dionysius the schoolmaster to learn ordinary reading and writing. He mentions him in the Lovers, so that even Dionysius the teacher should not go without a mention by Plato. After him he had as his trainer in wrestling Ariston of Argos, who, they say, gave him the name Plato. Before that he was called Aristocles, after his grandfather. He got the name because two parts of his body were very broad (platys), his chest and his forehead, as his statues set up everywhere show. Others say he was not renamed for this, but for the broad, flowing, open character of his style; just as they say Theophrastus, who was first called Tyrtamus, was renamed for the divine quality (theion) of his speech.
+!flag as his instructor in gymnastic | The Greek says a trainer in wrestling (gymnastēs); Taylor's "gymnastic" is close enough.
+
+@p p0007
+@greek δὲ διδάσκαλον ἔσχε
+His teacher in music was Draco, the pupil of Damon, and he mentions him in the Republic. The boys at Athens were taught these three things, letters, music and wrestling, and not without reason. Letters, to put order into the reason in them; music, to tame their anger; and wrestling and exercise, to brace the slackness of their desire. Alcibiades, too, is shown in Plato as taught in these three; that is why Socrates says to him, "but you would not play the pipe," and so on. He also went to painters, and learned from them how colours are mixed, which he mentions in the Timaeus.
+!flag Draco, the son of Damon | The Greek says the pupil (mathētēs) of Damon, not his son. Plato mentions Damon in the Republic (400b), not Draco.
+
+@p p0008
+@greek Μετὰ ταῦτα δὲ καὶ παρὰ τοῖς τραγικοῖς
+After this he was taught by the tragic poets, who were called the teachers of Greece. He went to them because of the wise sayings and dignity of tragedy, and the heroic quality of its subjects. He also took up dithyrambs, to honour Dionysus, who is called the overseer of becoming; for the dithyramb was sacred to him, and took its name from him. Dionysus is "Dithyrambus" because he came out through two doors (dyo thyrai): the womb of Semele and the thigh of Zeus. The ancients used to call effects by the names of their causes, as they do with Dionysus. That is why Proclus says of this:
+
+@p p0009
+@greek ὅσσ᾽ εἶδον τεκέεσσιν
+"all the parents they saw, they called by their children's names."
+!flag With their late offspring parents seem to mix | The line is hard: the scan reads it with a word that is probably corrupt. The Workshop takes it to mean that parents are called by the names of their children, which fits the point being made; Taylor's line is a guess too.
+
+@p p0010
+@greek ὅτι δὲ τοὺς διϑυράμβους
+That Plato practised dithyrambs is clear from the Phaedrus, a dialogue that breathes the spirit of the dithyramb throughout, since, they say, it was the first dialogue Plato wrote.
+!flag is said to have been the first dialogue which Plato composed | That the Phaedrus was Plato's first dialogue is an ancient story (also in Diogenes Laertius 3.38); modern scholars place it among his later middle works.
+
+@p p0011
+@greek ἔχαιρε δὲ πάνυ καὶ
+He also delighted greatly in Aristophanes the comic poet and in Sophron, and from them he learned how to imitate characters in his dialogues. He is said to have enjoyed them so much that when he died, Aristophanes and Sophron were found in his bed. He also wrote this epigram on Aristophanes himself:
+
+@p p0012
+@greek αἵ Χάριτες τέμενός
+The Graces, looking for a shrine that would never fall,
+found the soul of Aristophanes.
+
+@p p0013
+@greek ἐκωμῴδησε δ᾽ αὐτὸν
+He made fun of him, though, in the Symposium, as one who had learned from comedy. He has him sing a hymn to Love, and then brings him in seized by hiccups halfway, unable to finish the hymn. He also wrote tragedies, dithyrambs and some other poems, and he burned them all once he had tasted Socrates' company, saying a line like this:
+!flag in the midst of his oration seized with a hiccup | In the Symposium (185c) Aristophanes has the hiccups before his speech, and so speaks out of turn; he is not stopped halfway.
+
+@p p0014
+@greek Ἥφαιστε, πρόμολ᾽ ὧδε, Πλάτων
+"Hephaestus, come here; Plato has need of you."
+(A version of Iliad 18.392, with Plato's name put in.)
+
+@p p0015
+@greek [γραμματικὸς δέ τις
+[A schoolmaster called Anatolius once said this line here and greatly pleased Hephaestus, the governor then in charge of the city. He said it like this:
+!flag Anatolius the grammarian, once reciting this verse, very much pleased Vulcan | Hermann prints this story in square brackets as a later addition to the text. "Hephaestus" here is the name of a governor of Alexandria, and "Pharos" is Alexandria's island; Taylor's "Vulcan" hides the pun.
+
+@p p0016
+@greek Ἥφαιστε, πρόμολ ὧδε: Φάρος
+"Hephaestus, come here; Pharos has need of you."]
+
+@p p0017
+@greek Φασὶ δ᾽ ὅτι ἡνίκα
+They say that when Socrates was about to take him on, he saw in a dream a swan without wings sitting on his knees. At once it grew wings, flew up into the air, and gave a clear cry that charmed everyone who heard it. This showed the fame the man was to have.
+!flag sitting on his bosom | The Greek has "on his knees" (en tois gonasin).
+
+@section travels | After Socrates: Italy, Sicily and the tyrants
+After Socrates' death Plato studied with Cratylus and with the Pythagorean Archytas in Italy. He went to Sicily three times. Dionysius the elder threw him out for his blunt answers; Dionysius the younger had him sold as a slave, and Anniceris bought him free; the third time he went to help his friend Dion.
+
+@p p0018
+@greek μετὰ δὲ τὴν τελευτὴν
+After Socrates died, he took a teacher again, Cratylus the follower of Heraclitus, and wrote a dialogue named after him, with the title "Cratylus, or On the correctness of names." After him he went again to Italy, and finding a school of Pythagoreans gathered there, he again had a teacher, the Pythagorean Archytas; that is why he mentions Archytas. And since a philosopher must love to see the works of nature, he went to Sicily too, to see the fiery craters of Etna, and not, my noble Aristides, for the sake of the Sicilian table, as you say.
+!flag he again went into Italy | The Greek also says "again"; but Olympiodorus has not told of a first visit, and the order of Plato's journeys is not certain.
+
+@p p0019
+@greek ἐν Συρακούσαις πρὸς Διονύσιον
+When he was in Syracuse with Dionysius the Great, who was a tyrant, he tried to change the tyranny into an aristocracy; that was why he had come to him. Dionysius asked him, "Whom do you think happy among men?", expecting that the philosopher would flatter him and name him. Plato answered, "Socrates." He asked him again, "What do you think is the work of a statesman?" Plato answered, "To make the citizens better." He asked him a third time, "What, then? Do you think judging rightly a small thing?" (for Dionysius had a name for judging rightly). Plato answered without holding back, "A small thing indeed, and the last part of it. Those who judge rightly are like menders who sew up torn clothes." He asked him a fourth time, "What? Is a tyrant not brave?" "He is the most cowardly of all," said Plato, "since he is afraid even of the barber's razors, in case he is killed by them." Dionysius was angry at this, and ordered him to leave Syracuse while the sun was still above the earth. So Plato was driven out of Syracuse in disgrace.
+!flag he ordered him to depart at sunrise | The Greek says "while the sun is above the earth," that is, before sunset that day. Taylor also leaves out the last sentence, that Plato was driven out in disgrace.
+
+@p p0020
+@greek Τῆς δὲ δευτέρας ὁδοῦ
+The reason for his second journey to Sicily was this. After the death of Dionysius the Great, the tyranny passed to Dionysius son of Dionysius, whose mother's brother was Dion, who had become Plato's companion on the first journey. Dion wrote to him that if he came now there was hope of changing the tyranny into an aristocracy. So he made the second journey. But Dionysius' bodyguards slandered him to Dionysius, saying that he was plotting to win the rule for Dion and overthrow Dionysius. So Dionysius seized him and handed him over to Pollis of Aegina, a merchant trading with Sicily, to be sold. Pollis took him to Aegina and found there Anniceris of Libya, who was about to sail to Elis to race a four-horse chariot. Meeting Pollis, Anniceris bought Plato from him, and so won a greater glory than any chariot victory. That is why Aristides says that no one would have known of Anniceris if he had not bought Plato.
+!flag Pollidis of Ægina, a Sicilian merchant | The Greek names him Pollis (Pollidi is the Greek dative), a man of Aegina trading with Sicily. Other ancient writers tell the slave story of Plato's first journey, under the elder Dionysius.
+
+@p p0021
+@greek τῆς δὲ τρίτης ὁδοῦ πάλιν
+The reason for his third journey to Sicily was this. Dion had his property taken by Dionysius, was stripped of everything he had, and was thrown into prison. He wrote to Plato that Dionysius had promised to set him free if Plato would come to him once more. To help his friend, Plato readily took on the third journey too. So much for the philosopher's travels to Sicily.
+!flag was at length cast into prison | In Plato's Seventh Letter Dion is in exile, not in prison, when Plato makes his third journey; Olympiodorus' story differs.
+
+@section egypt-and-academy | Egypt, the Academy, and his death
+Olympiodorus adds that Plato learned sacred lore from the priests of Egypt and the Magi of Phoenicia. Back in Athens he founded his school in the Academy, open to men and to women, and more open than the Pythagoreans'. Before he died he dreamed he was a swan that the bird-catchers could not catch: a sign that his meaning would be hard to grasp. Athens gave him a grand burial.
+
+@p p0022
+@greek ἰστέον δ᾽ ὅτι
+You should know that he also went to Egypt, to the priests there, and learned from them the priestly lore. That is why in the Gorgias he says, "No, by the dog, the god of the Egyptians." What statues can do among the Greeks, animals do among the Egyptians: they are symbols of the god each is dedicated to. He wanted to meet the Magi too, but because a war had broken out in Persia at that time he could not reach them. So he went to Phoenicia, met Magi there, and took up their lore. That is why in the Timaeus he seems skilled in reading sacrifices, speaking of the signs of the liver and the entrails and things of that kind. But these things should have been told before the reasons for his journeys to Sicily.
+!flag he was instructed by them in magic | The Greek word (magikē) means the lore of the Magi, the Persian priests; the Workshop says "lore" because "magic" in modern English suggests tricks or sorcery.
+
+@p p0023
+@greek ἀφικόμενος δ᾽ εἰς τὰς
+When he came back to Athens he founded a school in the Academy, marking off part of that gymnasium as a shrine to the Muses. There Timon the man-hater kept company with Plato alone. And he drew very many people to learning, both men and women, whom he prepared to hear him dressed as men, showing that his philosophy was worth more than any labour. For he had given up Socrates' irony, and his spending time in the market place and the workshops, and his catching young men with his talk. He had also given up the solemn pomp of the Pythagoreans, their keeping the doors shut and their "He himself said it," and he made himself more open, as a citizen, to everyone.
+!flag preparing men and also women in a virile habit to be his auditors | The Greek can mean that he had the women come dressed as men. Diogenes Laertius (3.46) names two such women, Axiothea and Lastheneia.
+
+@p p0024
+@greek πολλοὺς τοίνυν
+So he made many people his lovers and did good to very many. When he was about to die, he had a dream that he had become a swan, flying from tree to tree, and in this way giving the bird-catchers a great deal of trouble. Simmias the follower of Socrates judged that he would be impossible to catch for those after him who wanted to explain him. For interpreters, wanting to hunt down the thoughts of the ancients, are like bird-catchers. He is hard to catch because one can take his words in terms of nature, of ethics, of theology, and in short in many ways, as with Homer. For these two souls are said to have been born in tune with everything; and so both can be heard in every kind of way. When he died, the Athenians buried him at great cost, and wrote on his tomb:
+!flag According to the Socratic Simmias | The same dream, read by Simmias, is told in the Anonymous Prolegomena (1); there is no early evidence for it, and nothing is known of Simmias so late in life.
+!flag When he was near his death | Taylor leaves out the first sentence, that Plato won many devoted followers and did good to very many.
+
+@p p0025
+@greek τοὺς δύ᾽
+Apollo fathered two, Asclepius and Plato:
+the one to save the soul, the other the body.
+(That is, Plato heals the soul and Asclepius the body.)
+!flag From great Apollo Pæon sprung | The Greek names Asclepius, the god of healing, where Taylor has Paeon. Read strictly, "the one ... the other" follows the order of the names and would make Asclepius the healer of souls; the sense intended is plainly the reverse, as Taylor gives it.
+
+@p p0026
+@greek καὶ ταῦτα μὲν περὶ τοῦ γένους
+So much for the philosopher's family.

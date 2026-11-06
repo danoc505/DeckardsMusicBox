@@ -950,3 +950,52 @@ ul.term-forms li { margin-bottom: 4px; }
 .panel-page .search { padding: 0; max-width: none; }
 .panel-page h2 { font-size: 20px; }
 .panel-page table { font-size: 13px; }
+
+/* ---------------------------------------------------------- milestone 24: modern English beside Taylor */
+.modern-text { container-type: inline-size; }
+.mod-label { border: 1px solid var(--rule); background: var(--panel); border-radius: 10px; padding: 10px 14px; margin: 0 0 18px; font: 14px/1.5 var(--sans); }
+.mod-label p { margin: 6px 0; }
+.mod-label summary { cursor: pointer; color: var(--accent); }
+.mod-badge, .mp-tag { display: inline-block; font: 600 11px/1.6 var(--sans); text-transform: uppercase; letter-spacing: .05em; padding: 1px 8px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); margin-left: 6px; vertical-align: 1px; }
+.mp-tag { margin: 0 6px 0 0; }
+.mod-modes { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.mod-modes .chip { min-height: 34px; cursor: pointer; }
+.mod-modes .chip.on { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.ms-h { margin: 30px 0 6px; font-family: var(--sans); }
+.ms-sum { background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin: 0 0 16px; font: 15px/1.5 var(--sans); }
+.ms-sum b { display: block; font: 600 11px var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 2px; }
+.mp { margin: 0 0 16px; }
+.modern-text .mp-text { margin: 0 0 2px; line-height: 1.65; }
+.mp-quote .mp-text { padding-left: 1em; border-left: 3px solid var(--rule); }
+.mp-tools { display: flex; gap: 16px; flex-wrap: wrap; font: 13px var(--sans); }
+.mp-tools .link-btn { min-height: 32px; }
+.mp-tay { display: none; margin: 6px 0 0; padding: 8px 12px; border-left: 3px solid var(--faint); background: var(--panel); border-radius: 0 8px 8px 0; font-size: .95em; }
+.mp-tay p, .mp-tay blockquote, .mp-tay pre { margin: 4px 0; }
+.mp.open .mp-tay, .mod-both .mp-tay { display: block; }
+.mod-both .mp-show { display: none; }
+.mp-tay-h { font: 600 11px var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+@container (min-width: 700px) {
+  .mod-both .mp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 22px; align-items: start; }
+  .mod-both .mp-tay { margin-top: 0; }
+}
+.mp-flag { font: 13.5px/1.45 var(--sans); background: var(--warn-soft); border-radius: 6px; padding: 6px 10px; margin: 6px 0 2px; }
+.mp-flag b { color: var(--warn); }
+.mp-flag .meta { margin-top: 2px; }
+mark.mp-fl { background: var(--warn-soft); color: inherit; }
+.mp-note { margin: 4px 0; }
+.mp-greek { margin: 6px 0 2px; }
+.mp-greek summary { cursor: pointer; font: 13px var(--sans); color: var(--accent); min-height: 28px; }
+.mp-greek p[lang="grc"] { font-family: var(--greek); font-size: 1.02em; line-height: 1.6; }
+.mp.marking .ms { cursor: pointer; border-bottom: 1px dashed var(--accent); }
+.mp.marking .ms:hover, .ms.ms-picked { background: var(--accent-soft); }
+.ms.ms-marked { text-decoration: underline wavy var(--warn); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.mp-markbox { font: 14px/1.45 var(--sans); border: 1px solid var(--faint); border-radius: 8px; padding: 8px 12px; margin: 6px 0; background: var(--panel); }
+.mk-q { font-family: var(--serif); font-style: italic; margin: 0 0 6px; }
+.mk-l { display: block; margin: 6px 0; }
+.mk-l input { display: block; width: 100%; box-sizing: border-box; font: 15px var(--sans); padding: 8px; margin-top: 4px; border: 1px solid var(--faint); border-radius: 6px; background: var(--paper); color: var(--ink); }
+.mk-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.mk-actions .chip { min-height: 34px; cursor: pointer; }
+.mod-secs { padding-left: 1.3em; margin: 4px 0 10px; font: 13px/1.45 var(--sans); }
+.mod-secs li { margin: 3px 0; }
+.mod-marks { padding-left: 1.1em; font: 12.5px/1.4 var(--sans); }
+.mod-marks li { margin: 4px 0; }

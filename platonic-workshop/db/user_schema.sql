@@ -15,7 +15,7 @@
 --   * an upgrade of this schema copies the file to data/backups/ first and only
 --     adds columns (tools/mywork.py, migrate()).
 --
--- Schema version 5 (milestone 12) adds reconciliation worksheets. Version 4 (milestone 7) added proofreading. Version 3 (milestone 5) added word_study. Version 2 (milestone 4) had
+-- Schema version 6 (milestone 24) adds marks on the modern English versions. Version 5 (milestone 12) added reconciliation worksheets. Version 4 (milestone 7) added proofreading. Version 3 (milestone 5) added word_study. Version 2 (milestone 4) had
 -- the other tables as they are. Version 1 had them without the
 -- anchor-to-words, format, rev, label and deleted_at columns on translation;
 -- tools/mywork.py adds them in place.
@@ -161,4 +161,20 @@ CREATE TABLE IF NOT EXISTS user_method (
     deleted_at  TEXT
 );
 
-INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '5');
+-- Your marks on the Workshop's modern English versions (milestone 24): a
+-- sentence that reads badly or seems wrong, kept for revision. One row per
+-- mark you make, only ever added: the newest row for a sentence is its mark,
+-- and 'withdrawn' takes a mark back. The sentence is kept as it read when you
+-- marked it, so a mark still makes sense after the version is revised.
+CREATE TABLE IF NOT EXISTS modern_mark (
+    id          INTEGER PRIMARY KEY,
+    text_id     TEXT NOT NULL,             -- 'general-introduction', 'olympiodorus-life'
+    para        TEXT NOT NULL,             -- Taylor's paragraph: 'taylor1804.general-introduction.text.p0042'
+    sentence    TEXT NOT NULL,             -- the sentence, as it read when you marked it
+    kind        TEXT NOT NULL,             -- reads badly | seems wrong | withdrawn
+    comment     TEXT,
+    saved_at    TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS modern_mark_text ON modern_mark(text_id, para, id);
+
+INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '6');

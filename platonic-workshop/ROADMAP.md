@@ -165,7 +165,7 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   your translations on a verse (`tools/nt.py`, `reports/nt.md`). Left out: Westcott and Hort (no tagged copy with a reuse licence
   found) and the SBLGNT's variant readings.
 
-## Milestone 24: modern English of Taylor's Introduction and the Life of Plato
+## Milestone 24: modern English of Taylor's Introduction and the Life of Plato (done)
 
 - No modern English versions exist, so make them: a plain modern rendering beside each paragraph of Taylor's General Introduction
   and Olympiodorus' Life of Plato, keeping every idea, in short sentences; Taylor's own wording always one tap away. Olympiodorus
@@ -173,6 +173,12 @@ could do before. The school and curriculum ideas are left out as beyond the scop
 - A short summary at the head of each section for the gist. Key terms always rendered the same way and linked to the Term tab.
 - Labelled as the Workshop's own and machine-assisted; hard or disputed places flagged, with Taylor's words shown.
 - A button to mark a sentence that reads badly or seems wrong; the marks are kept for revision.
+- Done: all 178 paragraphs of the Introduction and the 26 of the Life (with the opening Taylor leaves out, from Hermann's
+  Greek), 17 sections with summaries, the fixed renderings checked paragraph by paragraph, flags with Taylor's words, the
+  Greek of the Life beside each paragraph, Modern / Side by side, and Mark a sentence kept in your database
+  (`tools/modern.py`, `reader/modern.js`, `reports/modern.md`). Left for milestone 27: the quotations inside the
+  Introduction (Proclus, Damascius, Simplicius) are modernised from Taylor's English, not translated afresh from the Greek;
+  Taylor's footnotes are left as he printed them.
 
 ## Milestone 25: the rest of the Neoplatonists
 

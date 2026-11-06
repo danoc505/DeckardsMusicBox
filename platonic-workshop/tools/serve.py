@@ -45,6 +45,8 @@ WORDS = ROOT / "sources" / "structure" / "workshop-words.json"
 WORDS_CHECKS = ROOT / "sources" / "structure" / "workshop-words-checks.json"
 MANIFEST = ROOT / "sources" / "manifest.json"
 TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
+# Milestone 24: the Workshop's modern English of the Introduction and the Life, beside Taylor's (tools/modern.py).
+MODERN = ROOT / "sources" / "translations" / "modern"
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"
 # Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
@@ -1083,6 +1085,10 @@ class Library:
         d["about"] = TAYLOR_TEXTS[text_id]
         if text_id == "platonic-terms":
             d["glossary"] = glossary(d)
+        modern = MODERN / f"{text_id}.json"
+        if modern.exists():
+            d["modern"] = json.loads(modern.read_text(encoding="utf-8"))
+            d["modern_marks"] = self.mine.modern_marks(text_id)
         return d
 
     def build_info(self):
@@ -1163,6 +1169,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send_json(mine.create_sheet(data), HTTPStatus.CREATED)
             if method == "POST" and path == "/api/my-methods":
                 return self.send_json(mine.create_method(data), HTTPStatus.CREATED)
+            if method == "POST" and path == "/api/modern-marks":
+                return self.send_json(mine.add_modern_mark(data), HTTPStatus.CREATED)
             m = re.fullmatch(r"/api/mine/(translation|note|study|reconciliation|method)/(\d+)(?:/(delete|restore))?", path)
             if m:
                 table, row_id, action = m.group(1), int(m.group(2)), m.group(3)
