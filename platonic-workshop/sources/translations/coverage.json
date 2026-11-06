@@ -1,0 +1,347 @@
+{
+ "about": "How the reader gives English for each kind of Greek it shows (milestone 15). Keys are 'view field' as tools/greek_audit.py names them; a key ending in * covers every field it begins.",
+ "kinds": {
+  "beside": "A printed English translation of the same words is shown beside it",
+  "workshop": "The Workshop's own translation is shown beside it, labelled as such",
+  "passage": "It quotes a passage: the English under it opens that passage in each translation, or the ancient text with its English beside it",
+  "named": "An English name, label or explanation is printed with it",
+  "words": "Greek words discussed inside English (a commentator's or a dictionary's): each word taps for its dictionary meaning",
+  "pending": "Not translated yet: each word taps for its dictionary meaning meanwhile; a full translation is planned in ROADMAP.md"
+ },
+ "fields": {
+  "page chunks[].text": {
+   "how": "beside",
+   "note": "Burnet's Greek, with the translations of the same Stephanus page beside it in the reader"
+  },
+  "page tokens[].form": {
+   "how": "beside",
+   "note": "Burnet's words; each opens the word box"
+  },
+  "page chunks[].label": {
+   "how": "named",
+   "note": "The speaker's abbreviation in Burnet (ΣΩ.), with the speaker's English name printed beside it"
+  },
+  "page commentary[]*": {
+   "how": "beside",
+   "note": "A commentary note on the page: the passage it is on is shown with its English on the same page"
+  },
+  "page notes[]*": {
+   "how": "words",
+   "note": "Greek in a translator's footnote"
+  },
+  "page links_in[]*": {
+   "how": "words",
+   "note": "An excerpt of a note that cites the page"
+  },
+  "work chapters[]*": {
+   "how": "words"
+  },
+  "works*": {
+   "how": "named"
+  },
+  "ancient/prolegomena-hermann sections[].text": {
+   "how": "workshop",
+   "note": "The Workshop's translation of the whole Prolegomena (sources/translations/prolegomena-hermann.json)"
+  },
+  "ancient/albinus-hermann sections[].text": {
+   "how": "beside",
+   "note": "Burges' English (1854) of the same pages beside it (sources/translations/paired.json)"
+  },
+  "ancient/definitions-hermann sections[].text": {
+   "how": "beside",
+   "note": "Burges' English (1854) of the same definitions beside it (sources/translations/paired.json)"
+  },
+  "ancient/prolegomena-hermann title": {
+   "how": "named",
+   "note": "The Greek title with its English"
+  },
+  "ancient/albinus-hermann title": {
+   "how": "named",
+   "note": "The Greek title with its English"
+  },
+  "ancient/definitions-hermann title": {
+   "how": "named",
+   "note": "The Greek title with its English"
+  },
+  "ancient/albinus-burges sections[].text": {
+   "how": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  "ancient/alcinous-burges sections[].text": {
+   "how": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  "ancient/definitions-burges sections[].text": {
+   "how": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  "ancient/dl3-burges sections[].text": {
+   "how": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  "ancient/dl3-yonge sections[].text": {
+   "how": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  "ancient/albinus-hermann sections[].english*": {
+   "how": "words",
+   "note": "Greek words in Burges' footnotes"
+  },
+  "ancient/definitions-hermann sections[].english*": {
+   "how": "words",
+   "note": "Greek words in Burges' footnotes"
+  },
+  "commentary notes[].body_html": {
+   "how": "words",
+   "note": "Greek inside an English commentary note: the commentator quotes or discusses the Greek"
+  },
+  "commentary notes[].anchor_detail": {
+   "how": "words",
+   "note": "How the note was placed: the words it quotes"
+  },
+  "commentary notes[].lemma_text": {
+   "how": "passage",
+   "note": "The words of Plato the note is on: 'English' beside the place opens that section's translations"
+  },
+  "scholia*": {
+   "how": "pending",
+   "note": "The Greek scholia (Hermann, 1853): no English translation exists; a Workshop translation is planned (milestone 21 in ROADMAP.md)"
+  },
+  "commentaries*": {
+   "how": "named"
+  },
+  "taylor/general-introduction notes[].text": {
+   "how": "beside",
+   "note": "Taylor's footnote giving the Greek of a passage he translates in his text where the footnote mark stands"
+  },
+  "taylor/general-introduction segments[].text": {
+   "how": "words",
+   "note": "Greek words inside Taylor's English"
+  },
+  "taylor/platonic-terms*": {
+   "how": "words",
+   "note": "Greek words inside Taylor's English"
+  },
+  "taylor/olympiodorus-life*": {
+   "how": "words",
+   "note": "Greek words inside Taylor's English"
+  },
+  "concepts concepts[].greek": {
+   "how": "named",
+   "note": "The concept's Greek name beside its English name"
+  },
+  "concepts concepts[].note": {
+   "how": "named"
+  },
+  "concepts concepts[].terms[].lemma": {
+   "how": "words",
+   "note": "Plato's words for the concept: each taps for its meaning"
+  },
+  "concepts concepts[].untagged[]": {
+   "how": "words"
+  },
+  "concepts stats*": {
+   "how": "words"
+  },
+  "concepts words[].lemma": {
+   "how": "beside",
+   "note": "Words whose renderings are compared: each opens every translator's English of it"
+  },
+  "concept greek": {
+   "how": "named",
+   "note": "The concept's Greek name beside its English name"
+  },
+  "concept note": {
+   "how": "named"
+  },
+  "concept keywords*": {
+   "how": "named",
+   "note": "Search words for the concept, not shown as text"
+  },
+  "concept compared[]": {
+   "how": "beside",
+   "note": "Words whose renderings are compared: each opens every translator's English of it"
+  },
+  "concept definitions[].evidence[].quote": {
+   "how": "beside",
+   "note": "A definition in Hermann's Greek, with Burges' English of it beside it"
+  },
+  "concept later[].evidence[].quote": {
+   "how": "words",
+   "note": "A later Platonist's Greek quoted with the English reading it supports"
+  },
+  "concept later[].says": {
+   "how": "named"
+  },
+  "concept passages[].quote": {
+   "how": "passage"
+  },
+  "concept passages[].evidence[].quote": {
+   "how": "passage"
+  },
+  "concept passages[].named[]*": {
+   "how": "words",
+   "note": "An excerpt of a note that names the concept"
+  },
+  "concept related[].evidence[].quote": {
+   "how": "passage"
+  },
+  "concept terms[].lemma": {
+   "how": "words"
+  },
+  "concept terms[].lsj[].quote": {
+   "how": "passage",
+   "note": "LSJ's quotation of Plato, with LSJ's English sense above it and the passage's English under it"
+  },
+  "concept terms[].note": {
+   "how": "named"
+  },
+  "concept untagged[]": {
+   "how": "words"
+  },
+  "corpus orders[]*": {
+   "how": "passage"
+  },
+  "corpus sequences[]*": {
+   "how": "passage"
+  },
+  "corpus themes[]*": {
+   "how": "passage"
+  },
+  "whole orders[]*": {
+   "how": "passage"
+  },
+  "whole sequences[]*": {
+   "how": "passage"
+  },
+  "whole themes[]*": {
+   "how": "passage"
+  },
+  "reading-order orders[]*": {
+   "how": "workshop",
+   "note": "The Prolegomena's words on the order, with the Workshop's translation beside them"
+  },
+  "reading-order sequences[]*": {
+   "how": "passage"
+  },
+  "reading-order themes[]*": {
+   "how": "passage"
+  },
+  "corpus ancient[].title": {
+   "how": "named"
+  },
+  "whole claims[].quote": {
+   "how": "passage"
+  },
+  "whole chapters[]*": {
+   "how": "words"
+  },
+  "dossiers dossiers[].greek": {
+   "how": "named",
+   "note": "The passage's Greek name beside its English name"
+  },
+  "dossier greek": {
+   "how": "named",
+   "note": "The passage's Greek name beside its English name"
+  },
+  "dossier keywords*": {
+   "how": "named",
+   "note": "Search words, not shown as text"
+  },
+  "dossier editions[].chunks[].text": {
+   "how": "beside",
+   "note": "The Greek and the translations side by side, section by section"
+  },
+  "dossier editions[].chunks[].label": {
+   "how": "named",
+   "note": "The speaker's abbreviation, with the English name beside it"
+  },
+  "dossier passage.*": {
+   "how": "passage"
+  },
+  "dossier passage_evidence[]*": {
+   "how": "passage"
+  },
+  "dossier parts[]*": {
+   "how": "passage"
+  },
+  "dossier related[]*": {
+   "how": "passage"
+  },
+  "dossier echoes[]*": {
+   "how": "passage"
+  },
+  "dossier web[]*": {
+   "how": "passage"
+  },
+  "dossier renderings[]*": {
+   "how": "beside",
+   "note": "A key word or phrase, with each translator's English of it beside it"
+  },
+  "dossier diagram*": {
+   "how": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  "dossier divisions[]*": {
+   "how": "words"
+  },
+  "dossier cited_by[]*": {
+   "how": "words",
+   "note": "An excerpt of a note that cites the passage"
+  },
+  "dossier named[]*": {
+   "how": "words",
+   "note": "An excerpt of a note that names the passage"
+  },
+  "dossier notes[].body_html": {
+   "how": "words",
+   "note": "Greek inside an English commentary note"
+  },
+  "dossier notes[].anchor_detail": {
+   "how": "words"
+  },
+  "dossier notes[].lemma_text": {
+   "how": "passage"
+  },
+  "dossier shared[]*": {
+   "how": "words",
+   "note": "Words shared with another passage: each taps for its meaning"
+  },
+  "dossier vocab[]*": {
+   "how": "words",
+   "note": "The passage's vocabulary: each word taps for its meaning"
+  },
+  "reconcile*": {
+   "how": "named"
+  },
+  "reconciliation concepts[].greek": {
+   "how": "named"
+  },
+  "reconciliation passages[].evidence[].quote": {
+   "how": "passage"
+  },
+  "reconciliation readings[].evidence[].quote": {
+   "how": "passage"
+  },
+  "reconciliation passages[].words[]*": {
+   "how": "words"
+  },
+  "reconciliation passages[].notes[]*": {
+   "how": "words",
+   "note": "The opening of a note on the passage"
+  },
+  "reconciliation cites[]*": {
+   "how": "words",
+   "note": "The opening of a note that cites the passages"
+  },
+  "methods []*": {
+   "how": "passage"
+  },
+  "methods [].greek": {
+   "how": "named"
+  },
+  "people*": {
+   "how": "named"
+  }
+ }
+}

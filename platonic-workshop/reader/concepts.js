@@ -106,7 +106,7 @@ function lsjHtml(t) {
   const li = xs.map((x) => {
     const head = x.sense !== last ? `<li class="lsj-sense"><b>${esc(x.sense || "—")}</b> ${esc(x.gloss)}</li>` : "";
     last = x.sense;
-    return head + `<li><a href="${esc(placeHash(x.work_id, x.ref))}">${esc(x.title)} ${esc(x.ref)}</a>${x.quote ? ` <span lang="grc">${esc(x.quote)}</span> ${mark(x)}` : ""}</li>`;
+    return head + `<li><a href="${esc(placeHash(x.work_id, x.ref))}">${esc(x.title)} ${esc(x.ref)}</a>${x.quote ? ` <span lang="grc">${esc(x.quote)}</span> ${mark(x)}${enBtn(x.work_id, x.ref)}` : ""}</li>`;
   }).join("");
   return `<details><summary class="meta">LSJ cites ${xs.length} places of Plato for it (${quoted} quoted, ${exact} word for word in Burnet)</summary>
     <p class="prov">From LSJ's entry, as printed: its sense numbers, its English, the places it cites. Nothing added.</p><ul class="lsj-cites">${li}</ul></details>${full}`;

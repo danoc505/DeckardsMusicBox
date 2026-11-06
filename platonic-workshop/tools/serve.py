@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_db  # noqa: E402
 import citations  # noqa: E402
 import find  # noqa: E402
+import gloss  # noqa: E402
 import dossiers  # noqa: E402
 import greek  # noqa: E402
 import lexicon  # noqa: E402
@@ -39,6 +40,8 @@ READER = ROOT / "reader"
 READING_ORDER = ROOT / "sources" / "structure" / "reading-order.json"
 PEOPLE = ROOT / "sources" / "structure" / "people.json"
 TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
+# Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
+TRANSLATIONS = ROOT / "sources" / "translations"
 # Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
 TAYLOR_TEXTS = {
     "general-introduction": "Taylor's General Introduction to the Philosophy and Writings of Plato (1804): Platonism as the later Platonists taught it, "
@@ -478,7 +481,58 @@ class Library:
             t["sections"] = self.rows("SELECT * FROM ancient_section WHERE text_id = ? AND n = ?", text_id, at)
         else:
             t["sections"] = self.rows("SELECT * FROM ancient_section WHERE text_id = ? ORDER BY seq", text_id)
+        self.ancient_english(t)
         return t
+
+    def ancient_english(self, t):
+        """Milestone 15: the English for each section of a Greek text. The Workshop's own
+        translation (sources/translations/<id>.json), or the printed English of the same
+        words (sources/translations/paired.json), labelled with who made it."""
+        if t["lang"] != "grc":
+            return
+        own = TRANSLATIONS / f"{t['id']}.json"
+        if own.exists():
+            d = json.loads(own.read_text(encoding="utf-8"))
+            by_n = {s["n"]: s for s in d["sections"]}
+            t["english_about"] = {"by": d["by"], "about": d["about"]}
+            for s in t["sections"]:
+                e = by_n.get(s["n"])
+                if e:
+                    s["english"] = {"by": d["by"], "text": e["english"]}
+            return
+        pairs = json.loads((TRANSLATIONS / "paired.json").read_text(encoding="utf-8"))["texts"].get(t["id"])
+        if not pairs:
+            return
+        eng = self.one("SELECT * FROM ancient_text WHERE id = ?", pairs["english"])
+        by = f"{eng['translator']}'s English" if eng and eng["translator"] else "English"
+        t["english_about"] = {"by": by, "about": f"{eng['printed'] if eng else ''}. Each Greek page is shown with the part of the English that translates it."}
+        for s in t["sections"]:
+            ns = pairs["sections"].get(s["n"]) or []
+            parts = self.rows(f"SELECT n, text FROM ancient_section WHERE text_id = ? AND n IN ({','.join('?' * len(ns))}) ORDER BY seq",
+                              pairs["english"], *ns) if ns else []
+            if parts:
+                s["english"] = {"by": by, "text_id": pairs["english"], "unit": pairs["unit"], "parts": parts}
+
+    def english(self, work_id, ref):
+        """Milestone 15: the English of one Stephanus section in each translation, for a quotation
+        of Burnet's Greek shown away from the reader: the paragraphs that hold the section."""
+        sec = self.one("SELECT seq FROM section WHERE work_id = ? AND ref = ?", work_id, ref)
+        if not sec:
+            return {"work_id": work_id, "ref": ref, "editions": []}
+        rows = self.rows(
+            "SELECT e.id AS edition_id, e.label, e.source_id, c.translator, c.section_ref, c.end_ref, c.text, c.align_method FROM chunk c "
+            "JOIN edition e ON e.id = c.edition_id JOIN section a ON a.work_id = c.work_id AND a.ref = c.section_ref "
+            "LEFT JOIN section b ON b.work_id = c.work_id AND b.ref = c.end_ref "
+            "WHERE c.work_id = ? AND e.lang = 'eng' AND a.seq <= ? AND coalesce(b.seq, a.seq) >= ? ORDER BY e.id, c.seq",
+            work_id, sec["seq"], sec["seq"])
+        eds = {}
+        for r in rows:
+            e = eds.setdefault(r["edition_id"], {"edition_id": r["edition_id"], "label": r["label"], "source_id": r["source_id"],
+                                                 "translator": r["translator"], "computed": r["align_method"] not in (None, "printed"), "text": []})
+            e["text"].append(r["text"])
+        # The Loeb English first, as in the reader.
+        out = sorted(eds.values(), key=lambda e: (e["source_id"] != "perseus-english-plato", e["edition_id"]))
+        return {"work_id": work_id, "ref": ref, "editions": out}
 
     # ------------------------------------------------------------ one Stephanus page
 
@@ -1012,6 +1066,10 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 3 and parts[0] == "page" and parts[2].isdigit():
                     p = lib.page(parts[1], int(parts[2]))
                     return self.send_json(p) if p else self.not_found()
+                if len(parts) == 2 and parts[0] == "gloss":
+                    return self.send_json(gloss.gloss(lib, parts[1]))
+                if len(parts) == 3 and parts[0] == "english":
+                    return self.send_json(lib.english(parts[1], parts[2]))
                 if len(parts) == 2 and parts[0] == "lookup":
                     return self.send_json(lib.lookup(parts[1]))
                 if parts == ["search"]:

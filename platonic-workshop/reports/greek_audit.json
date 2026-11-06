@@ -1,0 +1,1304 @@
+{
+ "fields": [
+  {
+   "field": "ancient/albinus-burges sections[].text",
+   "runs": 16,
+   "words": 17,
+   "longest": 2,
+   "example": "περὶ τοῦτο",
+   "english": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  {
+   "field": "ancient/albinus-hermann sections[].english.parts[].text",
+   "runs": 22,
+   "words": 23,
+   "longest": 2,
+   "example": "περὶ τοῦτο",
+   "english": "words",
+   "note": "Greek words in Burges' footnotes"
+  },
+  {
+   "field": "ancient/albinus-hermann sections[].text",
+   "runs": 5,
+   "words": 1413,
+   "longest": 344,
+   "example": "ἰδεῖν, τίς ἐστιν ὃ φιλόσοφος, καὶ τίς αὐτοῦ ὴ ἐπιτήδευσις καὶ ἐπὶ ποίᾳ ὑποϑέσει ὃ παρ᾽ αὐτῷ λόγος προσάγεται, δεήσει τῷ ",
+   "english": "beside",
+   "note": "Burges' English (1854) of the same pages beside it (sources/translations/paired.json)"
+  },
+  {
+   "field": "ancient/albinus-hermann title",
+   "runs": 1,
+   "words": 2,
+   "longest": 2,
+   "example": "Ἀλβίνου εἰσαγωγή",
+   "english": "named",
+   "note": "The Greek title with its English"
+  },
+  {
+   "field": "ancient/alcinous-burges sections[].text",
+   "runs": 123,
+   "words": 223,
+   "longest": 11,
+   "example": "τῶν ἀκουστῶν ἐπὶ τὰ, ἀνήκοα εἰ μὴ ὠτὶ τοῦ νοῦ, ῥυθμούμενα",
+   "english": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  {
+   "field": "ancient/definitions-burges sections[].text",
+   "runs": 47,
+   "words": 146,
+   "longest": 16,
+   "example": "ὀρθὸν λόγον ἢ ἕξιν, ἀήττητον ἡδονῶν\" τὴν δὲ καρτερίαν, ἐπιστήμην ἢ ἕξιν ὧν ἐμμενητέον ἢ μὴ",
+   "english": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  {
+   "field": "ancient/definitions-hermann sections[].english.parts[].text",
+   "runs": 62,
+   "words": 177,
+   "longest": 16,
+   "example": "ὀρθὸν λόγον ἢ ἕξιν, ἀήττητον ἡδονῶν\" τὴν δὲ καρτερίαν, ἐπιστήμην ἢ ἕξιν ὧν ἐμμενητέον ἢ μὴ",
+   "english": "words",
+   "note": "Greek words in Burges' footnotes"
+  },
+  {
+   "field": "ancient/definitions-hermann sections[].text",
+   "runs": 11,
+   "words": 1804,
+   "longest": 233,
+   "example": "Ψυχὴ τὸ αὐτὸ ἑαυτὸ κινοῦν αἰτία κινήσεως ξωτικῆς ξώων. Ἅ) Ν 2 6 ΔΝ ΄ Ζυναμις τὸ καϑ' αὔτὸ ποιητικὸν. 2» [κι Α ’ Οψις ἕξι",
+   "english": "beside",
+   "note": "Burges' English (1854) of the same definitions beside it (sources/translations/paired.json)"
+  },
+  {
+   "field": "ancient/definitions-hermann title",
+   "runs": 1,
+   "words": 1,
+   "longest": 1,
+   "example": "Ὅροι",
+   "english": "named",
+   "note": "The Greek title with its English"
+  },
+  {
+   "field": "ancient/dl3-burges sections[].text",
+   "runs": 61,
+   "words": 140,
+   "longest": 25,
+   "example": "δὲ ὡς οὐδέτερα οὐδετέροις ἐναντία ἐστι, οἷον τὸ πένεσθαι τῷ πλουτεῖν\" οὐδέτερον γὰρ κατ᾽ αὐτὸ οὔτ᾽ ἀγαθὸν οὔτε κακόν\" ἐν",
+   "english": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  {
+   "field": "ancient/dl3-yonge sections[].text",
+   "runs": 18,
+   "words": 20,
+   "longest": 2,
+   "example": "εὖ πράττειν",
+   "english": "words",
+   "note": "Greek words in the English translator's text and footnotes"
+  },
+  {
+   "field": "ancient/prolegomena-hermann sections[].text",
+   "runs": 28,
+   "words": 9359,
+   "longest": 687,
+   "example": "ἐκφαίνειν, οὕτω καὶ τῆς μαιευτικῆς ἔργον τὸ ἐν βάϑει ὦ ὃν παιδίον ἐκφέρειν. ἐπεὶ οὖν οὕτως τοὺς ἐκείνου “λόγους. ἀνεγράψ",
+   "english": "workshop",
+   "note": "The Workshop's translation of the whole Prolegomena (sources/translations/prolegomena-hermann.json)"
+  },
+  {
+   "field": "ancient/prolegomena-hermann title",
+   "runs": 1,
+   "words": 4,
+   "longest": 4,
+   "example": "Προλεγόμενα τῆς Πλάτωνος φιλοσοφίας",
+   "english": "named",
+   "note": "The Greek title with its English"
+  },
+  {
+   "field": "commentary notes[].anchor_detail",
+   "runs": 20845,
+   "words": 53051,
+   "longest": 13,
+   "example": "ηκότες ἄνθρώποι, πλὴν ὀλίγοι τῶν πολλῶν κ.τ.λ. γῆς τε καὶ οὐρανοῦ'",
+   "english": "words",
+   "note": "How the note was placed: the words it quotes"
+  },
+  {
+   "field": "commentary notes[].body_html",
+   "runs": 60066,
+   "words": 145593,
+   "longest": 89,
+   "example": "τοῦτὸν γὰρ μόνον διαϊόντα καὶ κάοντα ἐπιτροπεύειν τὰ ὄντα. ἐπειδὰν οὖν τῳ λέγω αὐτὸ ἄσμενος ὡς καλόν τι ἀκηκοώς, καταγελ",
+   "english": "words",
+   "note": "Greek inside an English commentary note: the commentator quotes or discusses the Greek"
+  },
+  {
+   "field": "commentary notes[].lemma_text",
+   "runs": 11551,
+   "words": 29946,
+   "longest": 13,
+   "example": "ηκότες ἄνθρώποι, πλὴν ὀλίγοι τῶν πολλῶν κ.τ.λ. γῆς τε καὶ οὐρανοῦ",
+   "english": "passage",
+   "note": "The words of Plato the note is on: 'English' beside the place opens that section's translations"
+  },
+  {
+   "field": "concept compared[]",
+   "runs": 37,
+   "words": 37,
+   "longest": 1,
+   "example": "ἀγαθός",
+   "english": "beside",
+   "note": "Words whose renderings are compared: each opens every translator's English of it"
+  },
+  {
+   "field": "concept definitions[].evidence[].quote",
+   "runs": 211,
+   "words": 1103,
+   "longest": 15,
+   "example": "Τύχη φορὰ ἐξ ἀδήλου εἰς ἄδηλον, καὶ ἡ ἐκ τοῦ αὐτο-- μάτου αἰτία δαιμονίας πραξεως",
+   "english": "beside",
+   "note": "A definition in Hermann's Greek, with Burges' English of it beside it"
+  },
+  {
+   "field": "concept greek",
+   "runs": 206,
+   "words": 229,
+   "longest": 5,
+   "example": "τὸ νοητόν, ὁ νοητὸς τόπος",
+   "english": "named",
+   "note": "The concept's Greek name beside its English name"
+  },
+  {
+   "field": "concept keywords.grc[]",
+   "runs": 47,
+   "words": 53,
+   "longest": 3,
+   "example": "αυτο το καλον",
+   "english": "named",
+   "note": "Search words for the concept, not shown as text"
+  },
+  {
+   "field": "concept later[].evidence[].quote",
+   "runs": 25,
+   "words": 200,
+   "longest": 14,
+   "example": "τρία ταῦτά ἐστι περὶ τὰ ὄντα, ἃ ἄνωϑεν ἀρχόμενα μέχρι τῶν ἡμετέρων ἀφικνοῦνται ψυχῶν",
+   "english": "words",
+   "note": "A later Platonist's Greek quoted with the English reading it supports"
+  },
+  {
+   "field": "concept later[].says",
+   "runs": 2,
+   "words": 2,
+   "longest": 1,
+   "example": "πρόοδος",
+   "english": "named",
+   "note": ""
+  },
+  {
+   "field": "concept note",
+   "runs": 149,
+   "words": 149,
+   "longest": 1,
+   "example": "Ὅροι",
+   "english": "named",
+   "note": ""
+  },
+  {
+   "field": "concept passages[].evidence[].quote",
+   "runs": 87,
+   "words": 414,
+   "longest": 13,
+   "example": "τῶν δὲ κακῶν ἄλλʼ ἄττα δεῖ ζητεῖν τὰ αἴτια, ἀλλʼ οὐ τὸν θεόν",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "concept passages[].named[].excerpt",
+   "runs": 194,
+   "words": 503,
+   "longest": 36,
+   "example": "ῷ ὄντι » φησίν, ἀστρονομικὸς τὸν μὲν ὃ δρώμενον οὐρανὸν βλέπει\" τε καὶ ϑαυμάξει διὰ τῆς εὐτάκτου κινήσεως τὸν δημιουργόν",
+   "english": "words",
+   "note": "An excerpt of a note that names the concept"
+  },
+  {
+   "field": "concept passages[].named[].word",
+   "runs": 46,
+   "words": 47,
+   "longest": 2,
+   "example": "το ον",
+   "english": "words",
+   "note": "An excerpt of a note that names the concept"
+  },
+  {
+   "field": "concept passages[].quote",
+   "runs": 87,
+   "words": 414,
+   "longest": 13,
+   "example": "τῶν δὲ κακῶν ἄλλʼ ἄττα δεῖ ζητεῖν τὰ αἴτια, ἀλλʼ οὐ τὸν θεόν",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "concept related[].evidence[].quote",
+   "runs": 59,
+   "words": 338,
+   "longest": 13,
+   "example": "τί τὸ ὂν ἀεί, γένεσιν δὲ οὐκ ἔχον, καὶ τί τὸ γιγνόμενον μὲν",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "concept terms[].lemma",
+   "runs": 243,
+   "words": 243,
+   "longest": 1,
+   "example": "ἀγαθός",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "concept terms[].lsj[].quote",
+   "runs": 602,
+   "words": 2306,
+   "longest": 23,
+   "example": "ἢ βούλεσθε . . ἀπʼ ἐμαυτοῦ ἄρξωμαι καὶ τῆς ἐμαυτοῦ ὑ., περὶ τοῦ ἑνὸς αὐτοῦ ὑποθέμενος, εἴτε ἕν ἐστιν εἴτε μὴ ἕν, τί χρὴ ",
+   "english": "passage",
+   "note": "LSJ's quotation of Plato, with LSJ's English sense above it and the passage's English under it"
+  },
+  {
+   "field": "concept terms[].note",
+   "runs": 5,
+   "words": 8,
+   "longest": 2,
+   "example": "τὸ ἀγαθόν",
+   "english": "named",
+   "note": ""
+  },
+  {
+   "field": "concept untagged[]",
+   "runs": 10,
+   "words": 10,
+   "longest": 1,
+   "example": "ἑνιαῖος",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "concepts concepts[].greek",
+   "runs": 206,
+   "words": 229,
+   "longest": 5,
+   "example": "τὸ νοητόν, ὁ νοητὸς τόπος",
+   "english": "named",
+   "note": "The concept's Greek name beside its English name"
+  },
+  {
+   "field": "concepts concepts[].note",
+   "runs": 149,
+   "words": 149,
+   "longest": 1,
+   "example": "Ὅροι",
+   "english": "named",
+   "note": ""
+  },
+  {
+   "field": "concepts concepts[].terms[].lemma",
+   "runs": 243,
+   "words": 243,
+   "longest": 1,
+   "example": "ἀγαθός",
+   "english": "words",
+   "note": "Plato's words for the concept: each taps for its meaning"
+  },
+  {
+   "field": "concepts concepts[].untagged[]",
+   "runs": 10,
+   "words": 10,
+   "longest": 1,
+   "example": "ἑνιαῖος",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "concepts stats.words not in LSJ[]",
+   "runs": 1,
+   "words": 1,
+   "longest": 1,
+   "example": "δυσμάθεια",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "concepts words[].lemma",
+   "runs": 39,
+   "words": 39,
+   "longest": 1,
+   "example": "λόγος",
+   "english": "beside",
+   "note": "Words whose renderings are compared: each opens every translator's English of it"
+  },
+  {
+   "field": "corpus ancient[].title",
+   "runs": 3,
+   "words": 7,
+   "longest": 4,
+   "example": "Προλεγόμενα τῆς Πλάτωνος φιλοσοφίας",
+   "english": "named",
+   "note": ""
+  },
+  {
+   "field": "corpus orders[].frame[].quote",
+   "runs": 1,
+   "words": 14,
+   "longest": 14,
+   "example": "λέγομεν δὲ ὃ ὃ θεῖος Ἰάμβλεχος ἐποίησεν αὐτὸς τοίνυν πάντας εἰς ιβ διήρει διαλόγους",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "corpus orders[].items[].evidence[].quote",
+   "runs": 11,
+   "words": 93,
+   "longest": 12,
+   "example": "ἐπὶ τὸν Φαῖδρον καὶ τὸ Συμπόσιον ὡς θεωρητικῶς καὶ περὶ θεολογικῶν διαλεγομένους",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "corpus sequences[].steps[].evidence[].quote",
+   "runs": 14,
+   "words": 109,
+   "longest": 18,
+   "example": "πρὸς μὲν τὸ τῆς ὁμολογίας ἥκομεν ἅπαντες ὀρθῶς, ὦ ξένε, τρεῖς ὄντες, ἐγὼ καὶ σὺ καὶ Μέγιλλος ὅδε",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "corpus themes[].passages[].quote",
+   "runs": 25,
+   "words": 148,
+   "longest": 15,
+   "example": "τίς ἂν οὖν ἡμῖν, ἦν δʼ ἐγώ, μηχανὴ γένοιτο τῶν ψευδῶν τῶν ἐν δέοντι γιγνομένων",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier cited_by[].excerpt",
+   "runs": 6209,
+   "words": 16394,
+   "longest": 48,
+   "example": "ν, ἣν ἀνατιϑέασι Γλαύκῳ Σαμίῳ. ἀφ᾽ ἧς ἴσως καὶ ἥ παροιμία διεδόϑη. οὗτος δὲ καὶ σιδήρου κόλλησιν εὑρὲν, ὥς φησιν Ἡρόδοτο",
+   "english": "words",
+   "note": "An excerpt of a note that cites the passage"
+  },
+  {
+   "field": "dossier diagram.about",
+   "runs": 1,
+   "words": 1,
+   "longest": 1,
+   "example": "Λ",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.columns[].quote",
+   "runs": 4,
+   "words": 20,
+   "longest": 9,
+   "example": "ὁ μὲν τοίνυν αὐτοῖν ἐν τῇ καλλίονι στάσει ὢν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.cut.quote",
+   "runs": 1,
+   "words": 9,
+   "longest": 9,
+   "example": "πάλιν τέμνε ἑκάτερον τὸ τμῆμα ἀνὰ τὸν αὐτὸν λόγον",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.halves[].quote",
+   "runs": 2,
+   "words": 11,
+   "longest": 7,
+   "example": "τὸ μὲν νοητοῦ γένους τε καὶ τόπου",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.items[].quote",
+   "runs": 13,
+   "words": 79,
+   "longest": 10,
+   "example": "φῶς δὲ αὐτοῖς πυρὸς ἄνωθεν καὶ πόρρωθεν καόμενον ὄπισθεν αὐτῶν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.left[].quote",
+   "runs": 4,
+   "words": 21,
+   "longest": 7,
+   "example": "μίαν ἀφεῖλεν τὸ πρῶτον ἀπὸ παντὸς μοῖραν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.notes[].quote",
+   "runs": 3,
+   "words": 15,
+   "longest": 8,
+   "example": "ἡμιολίων δὲ διαστάσεων καὶ ἐπιτρίτων καὶ ἐπογδόων γενομένων",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.proportion.quote",
+   "runs": 1,
+   "words": 4,
+   "longest": 4,
+   "example": "τάξον αὐτὰ ἀνὰ λόγον",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.result.quote",
+   "runs": 1,
+   "words": 6,
+   "longest": 6,
+   "example": "ἡ νῦν ἀσπαλιευτικὴ ζητηθεῖσα ἐπίκλην γέγονεν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.right[].quote",
+   "runs": 4,
+   "words": 20,
+   "longest": 7,
+   "example": "μίαν ἀφεῖλεν τὸ πρῶτον ἀπὸ παντὸς μοῖραν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.rings[].colour.quote",
+   "runs": 8,
+   "words": 50,
+   "longest": 10,
+   "example": "τὸν δὲ τοῦ δευτέρου καὶ πέμπτου παραπλήσια ἀλλήλοις, ξανθότερα ἐκείνων",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.rings[].speed.quote",
+   "runs": 8,
+   "words": 43,
+   "longest": 7,
+   "example": "τὸν ἄτρακτον ὅλον μὲν τὴν αὐτὴν φοράν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.rings[].width.quote",
+   "runs": 8,
+   "words": 49,
+   "longest": 14,
+   "example": "τὸν μὲν οὖν πρῶτόν τε καὶ ἐξωτάτω σφόνδυλον πλατύτατον τὸν τοῦ χείλους κύκλον ἔχειν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].children[].children[].children[].children[].children[].children[].children[].children[].quote",
+   "runs": 2,
+   "words": 12,
+   "longest": 8,
+   "example": "κάτωθεν εἰς τοὐναντίον ἄνω ῥάβδοις καὶ καλάμοις ἀνασπώμενον",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].children[].children[].children[].children[].children[].children[].children[].quote",
+   "runs": 2,
+   "words": 3,
+   "longest": 2,
+   "example": "πᾶν ἀγκιστρευτικόν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].children[].children[].children[].children[].children[].children[].quote",
+   "runs": 2,
+   "words": 9,
+   "longest": 5,
+   "example": "ἑρκοθηρικὸν τῆς ἄγρας τὸ μέρος",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].children[].children[].children[].children[].children[].quote",
+   "runs": 2,
+   "words": 8,
+   "longest": 7,
+   "example": "τοῦ δὲ ἐνύδρου σχεδὸν τὸ σύνολον ἁλιευτική",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].children[].children[].children[].children[].quote",
+   "runs": 2,
+   "words": 5,
+   "longest": 4,
+   "example": "νευστικοῦ ζῴου πᾶν ἐνυγροθηρικόν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].children[].children[].children[].quote",
+   "runs": 2,
+   "words": 6,
+   "longest": 4,
+   "example": "τὸ μὲν ἀψύχου γένους",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].children[].children[].quote",
+   "runs": 2,
+   "words": 11,
+   "longest": 6,
+   "example": "τὸ δὲ κρυφαῖον αὐτῆς πᾶν θηρευτικόν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].children[].quote",
+   "runs": 2,
+   "words": 7,
+   "longest": 4,
+   "example": "ἑκόντων πρὸς ἑκόντας μεταβλητικὸν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.children[].quote",
+   "runs": 2,
+   "words": 9,
+   "longest": 5,
+   "example": "ποιητικὴν τοίνυν αὐτὰ συγκεφαλαιωσάμενοι προσείπωμεν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.root.quote",
+   "runs": 1,
+   "words": 7,
+   "longest": 7,
+   "example": "τῶν γε τεχνῶν πασῶν σχεδὸν εἴδη δύο",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.rows[].cells[].quote",
+   "runs": 55,
+   "words": 217,
+   "longest": 9,
+   "example": "τὸ μὲν τῆς πυραμίδος στερεὸν γεγονὸς εἶδος πυρὸς στοιχεῖον",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.sections[].quote",
+   "runs": 4,
+   "words": 26,
+   "longest": 9,
+   "example": "μὲν τὰς σκιάς, ἔπειτα τὰ ἐν τοῖς ὕδασι φαντάσματα",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.sections[].state",
+   "runs": 4,
+   "words": 4,
+   "longest": 1,
+   "example": "εἰκασία",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.sections[].state_quote",
+   "runs": 4,
+   "words": 21,
+   "longest": 8,
+   "example": "διάνοιαν δὲ καλεῖν μοι δοκεῖς τὴν τῶν γεωμετρικῶν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier diagram.steps[].quote",
+   "runs": 23,
+   "words": 148,
+   "longest": 12,
+   "example": "ἐπίπεδον ἄρʼ, ἔφην, ὡς ἔοικεν, τὸ εἴδωλον κατὰ τὸν τοῦ μήκους ἀριθμὸν",
+   "english": "named",
+   "note": "Plato's words under each part of a drawing, with the part's English label"
+  },
+  {
+   "field": "dossier divisions[].detail",
+   "runs": 1,
+   "words": 1,
+   "longest": 1,
+   "example": "λές",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "dossier echoes[].evidence.quote",
+   "runs": 88,
+   "words": 284,
+   "longest": 12,
+   "example": "ἀνακλίναντας τὴν τῆς ψυχῆς αὐγὴν εἰς αὐτὸ ἀποβλέψαι τὸ πᾶσι φῶς παρέχον",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier echoes[].quote",
+   "runs": 88,
+   "words": 284,
+   "longest": 12,
+   "example": "ἀνακλίναντας τὴν τῆς ψυχῆς αὐγὴν εἰς αὐτὸ ἀποβλέψαι τὸ πᾶσι φῶς παρέχον",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier echoes[].why",
+   "runs": 4,
+   "words": 4,
+   "longest": 1,
+   "example": "ἐπιστήμη",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier editions[].chunks[].label",
+   "runs": 1221,
+   "words": 1283,
+   "longest": 2,
+   "example": "ΝΕ. ΣΩ",
+   "english": "named",
+   "note": "The speaker's abbreviation, with the English name beside it"
+  },
+  {
+   "field": "dossier editions[].chunks[].text",
+   "runs": 2364,
+   "words": 77488,
+   "longest": 130,
+   "example": "καὶ μετὰ τοῦτο αὖθις τὰς κνήμας· καὶ ἐπανιὼν οὕτως ἡμῖν ἐπεδείκνυτο ὅτι ψύχοιτό τε καὶ πήγνυτο. καὶ αὐτὸς ἥπτετο καὶ εἶπ",
+   "english": "beside",
+   "note": "The Greek and the translations side by side, section by section"
+  },
+  {
+   "field": "dossier greek",
+   "runs": 71,
+   "words": 219,
+   "longest": 7,
+   "example": "οἱ νόμοι καὶ τὸ κοινὸν τῆς πόλεως",
+   "english": "named",
+   "note": "The passage's Greek name beside its English name"
+  },
+  {
+   "field": "dossier keywords.grc[]",
+   "runs": 41,
+   "words": 53,
+   "longest": 3,
+   "example": "επεκεινα της ουσιας",
+   "english": "named",
+   "note": "Search words, not shown as text"
+  },
+  {
+   "field": "dossier named[].excerpt",
+   "runs": 1670,
+   "words": 4810,
+   "longest": 62,
+   "example": "εἰ ὃ πᾶς χρόνος αἰῶνός ἐστι τοῦ παντὸς εἰκών\" λέγεται γὰρ καὶ ὃ αἰὼν πᾶς. τὸ μὲν οὖν παράδειγμα τὸν ἅπαντα αἰῶνά ἐστι; μ",
+   "english": "words",
+   "note": "An excerpt of a note that names the passage"
+  },
+  {
+   "field": "dossier named[].word",
+   "runs": 154,
+   "words": 181,
+   "longest": 3,
+   "example": "επεκεινα τησ ουσιασ",
+   "english": "words",
+   "note": "An excerpt of a note that names the passage"
+  },
+  {
+   "field": "dossier notes[].anchor_detail",
+   "runs": 4521,
+   "words": 11323,
+   "longest": 11,
+   "example": "ἂν κρίνω ἐρρωμενέστατον εἶναι, ἃ μὲν ἄν μοι δοκῇ τούτῳ συμ",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "dossier notes[].body_html",
+   "runs": 10548,
+   "words": 33912,
+   "longest": 165,
+   "example": "ἢ ἐπὶ τῶν μὴ ῥαδίως κατεργαζομένων; ῇ ἐπὶ τῶν πάνυ ἐπιμελῶς καὶ ἐντέχνως εἰργασμένων. Ἵππασος γάρ τις κατεσκεύασε χαλκοῦ",
+   "english": "words",
+   "note": "Greek inside an English commentary note"
+  },
+  {
+   "field": "dossier notes[].lemma_text",
+   "runs": 2477,
+   "words": 6326,
+   "longest": 11,
+   "example": "ἂν κρίνω ἐρρωμενέστατον εἶναι, ἃ μὲν ἄν μοι δοκῇ τούτῳ συμ",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier parts[].evidence.quote",
+   "runs": 312,
+   "words": 2031,
+   "longest": 21,
+   "example": "ἐν τῷ νοητῷ τόπῳ πρός τε νοῦν καὶ τὰ νοούμενα, τοῦτο τοῦτον ἐν τῷ ὁρατῷ πρός τε ὄψιν καὶ τὰ ὁρώμενα",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier parts[].quote",
+   "runs": 312,
+   "words": 2031,
+   "longest": 21,
+   "example": "ἐν τῷ νοητῷ τόπῳ πρός τε νοῦν καὶ τὰ νοούμενα, τοῦτο τοῦτον ἐν τῷ ὁρατῷ πρός τε ὄψιν καὶ τὰ ὁρώμενα",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier passage.end_quote",
+   "runs": 71,
+   "words": 401,
+   "longest": 12,
+   "example": "ἐπεὶ δὲ κατὰ νοῦν τῷ συνιστάντι πᾶσα ἡ τῆς ψυχῆς σύστασις ἐγεγένητο",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier passage.start_quote",
+   "runs": 71,
+   "words": 507,
+   "longest": 15,
+   "example": "τίς ἂν οὖν ἡμῖν, ἦν δʼ ἐγώ, μηχανὴ γένοιτο τῶν ψευδῶν τῶν ἐν δέοντι γιγνομένων",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier passage_evidence[].quote",
+   "runs": 142,
+   "words": 908,
+   "longest": 15,
+   "example": "τίς ἂν οὖν ἡμῖν, ἦν δʼ ἐγώ, μηχανὴ γένοιτο τῶν ψευδῶν τῶν ἐν δέοντι γιγνομένων",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier related[].evidence[].quote",
+   "runs": 76,
+   "words": 296,
+   "longest": 11,
+   "example": "τὸ δὲ τοῦ πυρὸς ἐν αὐτῇ φῶς τῇ τοῦ ἡλίου δυνάμει",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossier renderings[].evidence.quote",
+   "runs": 18,
+   "words": 46,
+   "longest": 5,
+   "example": "νόησιν μὲν ἐπὶ τῷ ἀνωτάτω",
+   "english": "beside",
+   "note": "A key word or phrase, with each translator's English of it beside it"
+  },
+  {
+   "field": "dossier renderings[].grc",
+   "runs": 18,
+   "words": 46,
+   "longest": 5,
+   "example": "νόησιν μὲν ἐπὶ τῷ ἀνωτάτω",
+   "english": "beside",
+   "note": "A key word or phrase, with each translator's English of it beside it"
+  },
+  {
+   "field": "dossier renderings[].term",
+   "runs": 18,
+   "words": 33,
+   "longest": 4,
+   "example": "ἀνὰ τὸν αὐτὸν λόγον",
+   "english": "beside",
+   "note": "A key word or phrase, with each translator's English of it beside it"
+  },
+  {
+   "field": "dossier shared[].elsewhere[].words",
+   "runs": 445,
+   "words": 1335,
+   "longest": 3,
+   "example": "τὸν νοητὸν τόπον",
+   "english": "words",
+   "note": "Words shared with another passage: each taps for its meaning"
+  },
+  {
+   "field": "dossier shared[].lemmas[]",
+   "runs": 906,
+   "words": 906,
+   "longest": 1,
+   "example": "ὁ",
+   "english": "words",
+   "note": "Words shared with another passage: each taps for its meaning"
+  },
+  {
+   "field": "dossier shared[].words",
+   "runs": 302,
+   "words": 906,
+   "longest": 3,
+   "example": "τῷ νοητῷ τόπῳ",
+   "english": "words",
+   "note": "Words shared with another passage: each taps for its meaning"
+  },
+  {
+   "field": "dossier vocab[].lemma",
+   "runs": 1326,
+   "words": 1327,
+   "longest": 2,
+   "example": "σι—ληνός",
+   "english": "words",
+   "note": "The passage's vocabulary: each word taps for its meaning"
+  },
+  {
+   "field": "dossier web[].quote",
+   "runs": 37,
+   "words": 242,
+   "longest": 15,
+   "example": "τίς ἂν οὖν ἡμῖν, ἦν δʼ ἐγώ, μηχανὴ γένοιτο τῶν ψευδῶν τῶν ἐν δέοντι γιγνομένων",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "dossiers dossiers[].greek",
+   "runs": 71,
+   "words": 219,
+   "longest": 7,
+   "example": "οἱ νόμοι καὶ τὸ κοινὸν τῆς πόλεως",
+   "english": "named",
+   "note": "The passage's Greek name beside its English name"
+  },
+  {
+   "field": "methods [].greek",
+   "runs": 4,
+   "words": 9,
+   "longest": 4,
+   "example": "εἰκὼς μῦθος, εἰκὼς λόγος",
+   "english": "named",
+   "note": ""
+  },
+  {
+   "field": "methods [].grounds[].quote",
+   "runs": 12,
+   "words": 138,
+   "longest": 17,
+   "example": "οἷον μέν ἐστι, πάντῃ πάντως θείας εἶναι καὶ μακρᾶς διηγήσεως, ᾧ δὲ ἔοικεν, ἀνθρωπίνης τε καὶ ἐλάττονος",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "page chunks[].label",
+   "runs": 12546,
+   "words": 12986,
+   "longest": 2,
+   "example": "ΝΕ. ΣΩ",
+   "english": "named",
+   "note": "The speaker's abbreviation in Burnet (ΣΩ.), with the speaker's English name printed beside it"
+  },
+  {
+   "field": "page chunks[].text",
+   "runs": 23587,
+   "words": 562122,
+   "longest": 177,
+   "example": "τινὶ νέων. πεζῶν δὴ μόνον θήρευσίς τε καὶ ἄγρα λοιπὴ τοῖς παρʼ ἡμῖν ἀθληταῖς, ὧν ἡ μὲν τῶν εὑδόντων αὖ κατὰ μέρη, νυκτερ",
+   "english": "beside",
+   "note": "Burnet's Greek, with the translations of the same Stephanus page beside it in the reader"
+  },
+  {
+   "field": "page commentary[].anchor_detail",
+   "runs": 22924,
+   "words": 57264,
+   "longest": 13,
+   "example": "ηκότες ἄνθρώποι, πλὴν ὀλίγοι τῶν πολλῶν κ.τ.λ. γῆς τε καὶ οὐρανοῦ'",
+   "english": "beside",
+   "note": "A commentary note on the page: the passage it is on is shown with its English on the same page"
+  },
+  {
+   "field": "page commentary[].body_html",
+   "runs": 62078,
+   "words": 188039,
+   "longest": 165,
+   "example": "ἢ ἐπὶ τῶν μὴ ῥαδίως κατεργαζομένων; ῇ ἐπὶ τῶν πάνυ ἐπιμελῶς καὶ ἐντέχνως εἰργασμένων. Ἵππασος γάρ τις κατεσκεύασε χαλκοῦ",
+   "english": "beside",
+   "note": "A commentary note on the page: the passage it is on is shown with its English on the same page"
+  },
+  {
+   "field": "page commentary[].lemma_text",
+   "runs": 12670,
+   "words": 32258,
+   "longest": 13,
+   "example": "ηκότες ἄνθρώποι, πλὴν ὀλίγοι τῶν πολλῶν κ.τ.λ. γῆς τε καὶ οὐρανοῦ",
+   "english": "beside",
+   "note": "A commentary note on the page: the passage it is on is shown with its English on the same page"
+  },
+  {
+   "field": "page links_in[].excerpt",
+   "runs": 20777,
+   "words": 52765,
+   "longest": 30,
+   "example": "αροιμία διεδόϑη. οὗτος δὲ καὶ σιδήρου κόλλησιν εὑρὲν, ὥς φησιν Ἡρόδοτος. Ὦ 5. ᾿ 109 Β. αὐτὴν δὲ τὴν γῆν] ἩὐΤΡν ἐκεῖνο, ὃ",
+   "english": "words",
+   "note": "An excerpt of a note that cites the page"
+  },
+  {
+   "field": "page notes[].body_html",
+   "runs": 2336,
+   "words": 6947,
+   "longest": 136,
+   "example": "Κλεωνυμος ὁ Αθηναιος, φοληκοος ενηρ των εν φιλοσοφιᾳ λογων, εταιρου τινος αντῳ τελευτησαντος, περιελγης γενομενος και αθ",
+   "english": "words",
+   "note": "Greek in a translator's footnote"
+  },
+  {
+   "field": "page tokens[].form",
+   "runs": 561505,
+   "words": 561505,
+   "longest": 1,
+   "example": "τί",
+   "english": "beside",
+   "note": "Burnet's words; each opens the word box"
+  },
+  {
+   "field": "reading-order orders[].frame[].quote",
+   "runs": 2,
+   "words": 21,
+   "longest": 14,
+   "example": "λέγομεν δὲ ὃ ὃ θεῖος Ἰάμβλεχος ἐποίησεν αὐτὸς τοίνυν πάντας εἰς ιβ διήρει διαλόγους",
+   "english": "workshop",
+   "note": "The Prolegomena's words on the order, with the Workshop's translation beside them"
+  },
+  {
+   "field": "reading-order orders[].groups[].evidence[].quote",
+   "runs": 1,
+   "words": 9,
+   "longest": 9,
+   "example": "τούτων δὲ πάντων τὴν τάξιν μὴ πάνυ τι χρησιμεύουσαν",
+   "english": "workshop",
+   "note": "The Prolegomena's words on the order, with the Workshop's translation beside them"
+  },
+  {
+   "field": "reading-order orders[].groups[].steps[].evidence[].quote",
+   "runs": 15,
+   "words": 144,
+   "longest": 14,
+   "example": "ἐκβάλλει δὲ καὶ τὰς Πολιτείας διὰ τὸ πολλοὺς εἶναι λόγους καὶ μὴ διαλογικῶς γεγράφθαι",
+   "english": "workshop",
+   "note": "The Prolegomena's words on the order, with the Workshop's translation beside them"
+  },
+  {
+   "field": "reconciliation cites[].opening",
+   "runs": 22,
+   "words": 99,
+   "longest": 52,
+   "example": "ὅταν δέ γε αὐτὴ καθ᾽ αὑτὴν σκοπῇ, ἐκεῖσε οἴχεται εἰς τὸ καθαρόν τε καὶ ἀεὶ ὃν καὶ ἀθάνατον καὶ ὡσαύτως ἔχον, καὶ ὡς συγγ",
+   "english": "words",
+   "note": "The opening of a note that cites the passages"
+  },
+  {
+   "field": "reconciliation concepts[].greek",
+   "runs": 52,
+   "words": 85,
+   "longest": 4,
+   "example": "τὸ ἕν, τὰ πολλά",
+   "english": "named",
+   "note": ""
+  },
+  {
+   "field": "reconciliation passages[].evidence[].quote",
+   "runs": 32,
+   "words": 332,
+   "longest": 16,
+   "example": "δῆλον ὅτι ταὐτὸν τἀναντία ποιεῖν ἢ πάσχειν κατὰ ταὐτόν γε καὶ πρὸς ταὐτὸν οὐκ ἐθελήσει ἅμα",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "reconciliation passages[].notes[].opening",
+   "runs": 806,
+   "words": 2673,
+   "longest": 104,
+   "example": "δηλονοτι μυστήρια. διττὰ ην τὰ ᾿ μυστήρια παρ ᾿4ϑηναίοις, καὶ τὰ μὲν μικρὰ ἐκαλεῖτο. ἃ ἅπερ, ἐν ἄστει ἐτέλουν, τὰ δὲ μεγ",
+   "english": "words",
+   "note": "The opening of a note on the passage"
+  },
+  {
+   "field": "reconciliation passages[].words[].lemma",
+   "runs": 62,
+   "words": 62,
+   "longest": 1,
+   "example": "μονοειδής",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "reconciliation passages[].words[].why",
+   "runs": 1,
+   "words": 1,
+   "longest": 1,
+   "example": "γέγονεν",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "reconciliation readings[].evidence[].quote",
+   "runs": 20,
+   "words": 187,
+   "longest": 23,
+   "example": "τὴν δὲ ἄνω ἀνάβασιν καὶ θέαν τῶν ἄνω τὴν εἰς τὸν νοητὸν τόπον τῆς ψυχῆς ἄνοδον τιθεὶς οὐχ ἁμαρτήσῃ τῆς γʼ ἐμῆς ἐλπίδος",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "scholia notes[].anchor_detail",
+   "runs": 2079,
+   "words": 4213,
+   "longest": 12,
+   "example": "πάνυ πολλοὶ οἵ τοὺς σώφρονας λέγοντες ἠλιϑίους. Β. Ε. ἐπεὶ πῶς ἂν'",
+   "english": "pending",
+   "note": "The Greek scholia (Hermann, 1853): no English translation exists; a Workshop translation is planned (milestone 21 in ROADMAP.md)"
+  },
+  {
+   "field": "scholia notes[].body_html",
+   "runs": 2296,
+   "words": 43807,
+   "longest": 219,
+   "example": "Ὁ ᾿Αϑηναῖος οὗτος ξένος πεποίηται ἐνταῦϑα εἰς τὴν Κρήτην ἀπιών, ἔστι δὲ Πλάτων, ὡς ἐκ τοῦδε φανερόν. αὐτὸς γὰρ ὃ ᾿Αϑηναῖ",
+   "english": "pending",
+   "note": "The Greek scholia (Hermann, 1853): no English translation exists; a Workshop translation is planned (milestone 21 in ROADMAP.md)"
+  },
+  {
+   "field": "scholia notes[].lemma_text",
+   "runs": 1119,
+   "words": 2312,
+   "longest": 12,
+   "example": "πάνυ πολλοὶ οἵ τοὺς σώφρονας λέγοντες ἠλιϑίους. Β. Ε. ἐπεὶ πῶς ἂν",
+   "english": "pending",
+   "note": "The Greek scholia (Hermann, 1853): no English translation exists; a Workshop translation is planned (milestone 21 in ROADMAP.md)"
+  },
+  {
+   "field": "taylor/general-introduction notes[].text",
+   "runs": 38,
+   "words": 655,
+   "longest": 128,
+   "example": "Αγε δη ουν, ειπερ ποτε, και νυν τας πολυειδις; αποσκευασωμεθα γνωσεις, και παν το ποικιλον της ζωης εξωρισωμεν αφ’ ημων,",
+   "english": "beside",
+   "note": "Taylor's footnote giving the Greek of a passage he translates in his text where the footnote mark stands"
+  },
+  {
+   "field": "taylor/general-introduction segments[].text",
+   "runs": 26,
+   "words": 147,
+   "longest": 27,
+   "example": "προεισι γαρ ο ϑειος αριθμος, ως φησιν ο Πυθαγορειος εις αυτον ομνος,\nΜοναδος εκ κευθμωνος ακηρατου εστ’ αν ικηται\nΤετραδ",
+   "english": "words",
+   "note": "Greek words inside Taylor's English"
+  },
+  {
+   "field": "taylor/olympiodorus-life notes[].text",
+   "runs": 3,
+   "words": 3,
+   "longest": 1,
+   "example": "ανατολη",
+   "english": "words",
+   "note": "Greek words inside Taylor's English"
+  },
+  {
+   "field": "taylor/platonic-terms glossary[].text",
+   "runs": 49,
+   "words": 74,
+   "longest": 12,
+   "example": "δι ο, προς ο, υφ’ ου, δι ου, καθ’ ο, εξ ου",
+   "english": "words",
+   "note": "Greek words inside Taylor's English"
+  },
+  {
+   "field": "taylor/platonic-terms segments[].text",
+   "runs": 49,
+   "words": 74,
+   "longest": 12,
+   "example": "δι ο, προς ο, υφ’ ου, δι ου, καθ’ ο, εξ ου",
+   "english": "words",
+   "note": "Greek words inside Taylor's English"
+  },
+  {
+   "field": "whole chapters[].basis",
+   "runs": 9,
+   "words": 10,
+   "longest": 2,
+   "example": "Ὁ--ϑβϑὶ",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "whole chapters[].detail",
+   "runs": 7,
+   "words": 14,
+   "longest": 4,
+   "example": "οἷαί τε καὶ ὅσαι",
+   "english": "words",
+   "note": ""
+  },
+  {
+   "field": "whole claims[].quote",
+   "runs": 24,
+   "words": 197,
+   "longest": 14,
+   "example": "τοὺς λέγοντας τρεῖς εἶναι τοὺς σκοποὺς τοῦ Φαίδωνος περὶ ἀθανασίας ψυχῆς καὶ περὶ εὐθανασίας",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "whole orders[].frame[].quote",
+   "runs": 10,
+   "words": 140,
+   "longest": 14,
+   "example": "λέγομεν δὲ ὃ ὃ θεῖος Ἰάμβλεχος ἐποίησεν αὐτὸς τοίνυν πάντας εἰς ιβ διήρει διαλόγους",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "whole orders[].items[].evidence[].quote",
+   "runs": 110,
+   "words": 930,
+   "longest": 12,
+   "example": "ἐπὶ τὸν Φαῖδρον καὶ τὸ Συμπόσιον ὡς θεωρητικῶς καὶ περὶ θεολογικῶν διαλεγομένους",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "whole sequences[].steps[].evidence[].quote",
+   "runs": 53,
+   "words": 385,
+   "longest": 18,
+   "example": "πρὸς μὲν τὸ τῆς ὁμολογίας ἥκομεν ἅπαντες ὀρθῶς, ὦ ξένε, τρεῖς ὄντες, ἐγὼ καὶ σὺ καὶ Μέγιλλος ὅδε",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "whole themes[].passages[].quote",
+   "runs": 27,
+   "words": 161,
+   "longest": 15,
+   "example": "τίς ἂν οὖν ἡμῖν, ἦν δʼ ἐγώ, μηχανὴ γένοιτο τῶν ψευδῶν τῶν ἐν δέοντι γιγνομένων",
+   "english": "passage",
+   "note": ""
+  },
+  {
+   "field": "work chapters[].detail",
+   "runs": 7,
+   "words": 14,
+   "longest": 4,
+   "example": "οἷαί τε καὶ ὅσαι",
+   "english": "words",
+   "note": ""
+  }
+ ],
+ "static": [
+  {
+   "file": "reader/search.js",
+   "line": 98,
+   "greek": "λόγος",
+   "words": 1
+  },
+  {
+   "file": "reader/search.js",
+   "line": 98,
+   "greek": "λόγου, λόγοις",
+   "words": 2
+  },
+  {
+   "file": "reader/search.js",
+   "line": 99,
+   "greek": "λογ",
+   "words": 1
+  },
+  {
+   "file": "reader/search.js",
+   "line": 127,
+   "greek": "οὐδέ",
+   "words": 1
+  },
+  {
+   "file": "reader/search.js",
+   "line": 127,
+   "greek": "οὐ",
+   "words": 1
+  },
+  {
+   "file": "reader/search.js",
+   "line": 127,
+   "greek": "δέ",
+   "words": 1
+  },
+  {
+   "file": "reader/shell.js",
+   "line": 135,
+   "greek": "ἐπέκεινα",
+   "words": 1
+  },
+  {
+   "file": "reader/shell.js",
+   "line": 139,
+   "greek": "λόγος",
+   "words": 1
+  },
+  {
+   "file": "reader/shell.js",
+   "line": 140,
+   "greek": "λόγον",
+   "words": 1
+  },
+  {
+   "file": "reader/shell.js",
+   "line": 140,
+   "greek": "λογον",
+   "words": 1
+  },
+  {
+   "file": "reader/shell.js",
+   "line": 150,
+   "greek": "ψυχή",
+   "words": 1
+  }
+ ],
+ "words_by_coverage": {
+  "words": 334625,
+  "beside": 1483852,
+  "named": 16508,
+  "workshop": 9533,
+  "passage": 49566,
+  "pending": 50332
+ }
+}

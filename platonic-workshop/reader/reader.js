@@ -188,7 +188,10 @@ function renderChunkEnglish(chunk, notes, numbers) {
 }
 
 function speakerLabel(c) {
-  return c.label ? `<span class="speaker" title="${esc(c.speaker || "")}">${esc(c.label)}</span>` : "";
+  if (!c.label) return "";
+  // Milestone 15: a Greek label (ΣΩ.) has the speaker's English name beside it, not only on hover.
+  const en = c.speaker && /[Ͱ-Ͽἀ-῿]/.test(c.label) ? `<span class="speaker-en" lang="en">${esc(c.speaker)}</span>` : "";
+  return `<span class="speaker" title="${esc(c.speaker || "")}">${esc(c.label)}</span>${en}`;
 }
 
 // ------------------------------------------------------------------ translations (milestone 6)

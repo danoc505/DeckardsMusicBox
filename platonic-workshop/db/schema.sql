@@ -147,6 +147,14 @@ CREATE TABLE morph (
     PRIMARY KEY (beta_key, n)
 );
 
+-- Milestone 15: each Greek form shown outside Burnet's text (notes, ancient texts,
+-- Taylor), with the Morpheus key it matched, for the meaning of a tapped word (tools/gloss.py).
+CREATE TABLE gloss_form (
+    form        TEXT PRIMARY KEY,          -- as printed (NFC), without elision mark
+    morph_key   TEXT,                      -- the Morpheus key it matched, if any (see morph)
+    method      TEXT                       -- same-form | letters-only (printed without accents: shown with a warning)
+);
+
 -- ------------------------------------------------------------- structure
 
 -- Divisions of a work: pages, speeches, and (from milestone 9) the parts of

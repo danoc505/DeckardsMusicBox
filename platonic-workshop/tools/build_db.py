@@ -55,6 +55,7 @@ import commentary_db  # noqa: E402
 import citations  # noqa: E402
 import structure  # noqa: E402
 import concepts  # noqa: E402
+import gloss  # noqa: E402
 import find  # noqa: E402
 import reconcile  # noqa: E402
 import dossiers  # noqa: E402
@@ -813,6 +814,12 @@ def build(works, db_path=None, progress=False):
         print("  structure: " + ", ".join(f"{k} {v}" for k, v in struct_stats.items() if k != "not found")
               + f"; not found: {len(struct_stats['not found'])}", flush=True)
     build_search(db)
+    # Milestone 15: the Morpheus analyses of the Greek words outside Plato (notes, ancient texts, Taylor),
+    # before the dictionaries, so that their lemmas get entries too.
+    gloss_stats = gloss.build_forms(db, morpheus_lines, parse_morpheus, lambda: (morpheus_lines(set()), _MORPHEUS)[1])
+    db.execute("INSERT INTO build VALUES ('gloss_stats', ?)", (json.dumps(gloss_stats),))
+    if progress:
+        print(f"  tap any word: {gloss_stats}", flush=True)
     lookup_stats = build_dictionaries(db)  # before the concept index, which reads LSJ's entries
     lookup_stats.update(build_grammar(db))
     # Milestone 10: the concept index across the dialogues (after build_search and the dictionaries: it reads lemma_count and LSJ).

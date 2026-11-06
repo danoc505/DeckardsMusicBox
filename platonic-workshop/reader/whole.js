@@ -12,7 +12,7 @@ const evFound = (e) => e.found === null ? `<span class="meta" title="This work i
 function evidenceHtml(e) {
   const lang = /[Ͱ-Ͽἀ-῿]/.test(e.quote) ? "grc" : "en";
   let where;
-  if (e.source_text === "plato") where = `<a href="${esc(placeHash(e.work_id, e.at))}">${esc(workTitle(e.work_id))} ${esc(e.at)}</a> (Burnet)`;
+  if (e.source_text === "plato") where = `<a href="${esc(placeHash(e.work_id, e.at))}">${esc(workTitle(e.work_id))} ${esc(e.at)}</a> (Burnet)${enBtn(e.work_id, e.at)}`;
   else where = `<button type="button" class="link-btn" data-ancient="${esc(e.source_text)}" data-at="${esc(e.at || "")}" title="Read the passage">${esc(e.cited_as)}</button>`;
   return `<blockquote class="ev" lang="${lang}">“${esc(e.quote)}” <span class="cite">${where} ${evFound(e)}</span></blockquote>`;
 }
@@ -277,9 +277,21 @@ async function openAncient(id, at) {
   try { t = await api(`ancient/${id}` + (at ? `?at=${encodeURIComponent(at)}` : "")); } catch (e) { body.innerHTML = `<p class="error">${esc(e.message)}</p>`; return; }
   const unit = { sections: "§", chapters: "ch.", pages: "p." }[t.numbering];
   $("#comm-title").textContent = `${t.cite}${at ? ` ${unit} ${at}` : ""}: ${t.title}`;
+  const ea = t.english_about;
   body.innerHTML = `<p class="meta">${esc(t.printed)}${t.translator ? `, translated by ${esc(t.translator)}` : ""} · ${esc(t.proof_status)}</p>` +
-    t.sections.map((s) => `<div class="ancient-sec" lang="${t.lang === "grc" ? "grc" : "en"}"><h4>${unit} ${esc(s.n)}${s.pages && t.numbering !== "pages" ? ` <span class="meta">p. ${esc(s.pages)}</span>` : ""}${s.number_read ? ` <span class="doubt-mark" title="The OCR prints ${esc(s.number_read)}: read as the next number due">?</span>` : ""}</h4>
-      <p>${esc(s.text)}</p>${s.raw ? `<details><summary class="meta">The OCR as received</summary><pre>${esc(s.raw)}</pre></details>` : ""}</div>`).join("");
+    (ea ? `<p class="prov">The English beside the Greek: <span class="gq-tag${ea.by === "Workshop translation" ? " own" : ""}">${esc(ea.by)}</span> ${esc(ea.about)}</p>` : "") +
+    t.sections.map((s) => `<div class="ancient-sec${s.english ? " with-en" : ""}"><h4>${unit} ${esc(s.n)}${s.pages && t.numbering !== "pages" ? ` <span class="meta">p. ${esc(s.pages)}</span>` : ""}${s.number_read ? ` <span class="doubt-mark" title="The OCR prints ${esc(s.number_read)}: read as the next number due">?</span>` : ""}</h4>
+      <div class="ancient-cols"><p lang="${t.lang === "grc" ? "grc" : "en"}">${esc(s.text)}</p>${ancientEnglish(s.english)}</div>
+      ${s.raw ? `<details><summary class="meta">The OCR as received</summary><pre>${esc(s.raw)}</pre></details>` : ""}</div>`).join("");
+}
+
+// Milestone 15: the English of one Greek section, labelled with who made it.
+function ancientEnglish(e) {
+  if (!e) return "";
+  const tag = `<span class="gq-tag${e.by === "Workshop translation" ? " own" : ""}">${esc(e.by)}</span>`;
+  if (e.text) return `<div class="ancient-en" lang="en">${tag}<p>${esc(e.text)}</p></div>`;
+  return `<div class="ancient-en" lang="en">${tag} <span class="meta">${esc(e.unit)} ${e.parts.map((p) => esc(p.n)).join(", ")}</span>
+    ${e.parts.map((p) => `<p>${esc(p.text)}</p>`).join("")}</div>`;
 }
 
 document.addEventListener("click", (ev) => {
