@@ -110,6 +110,7 @@ const PANEL_HELP = [
   ["#main .app-links .app-k", "links"],
   ["#main .mine-row .app-k", "mywork"],
   ["#inspector .insp-form", "word"],
+  ["#pane-term .term-h", "term"],
   ["#dict > h3", "dict"],
   ["#toc > h3", "contents"],
   [".gloss-body > p:first-child", "gloss"],

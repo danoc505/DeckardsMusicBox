@@ -273,8 +273,9 @@ function openEditor(ed) {
   const kinds = item ? (kind === "translation" ? ["translation"] : ["footnote", "note", "alternative"]) : ["translation", "footnote", "note", "alternative"];
   const fmt = item ? item.format : MINE.config.default_format;
   highlightSpan(span);
+  if (typeof showPane === "function") showPane("mine");
   $("#inspector").scrollTop = 0;
-  $("#inspector").innerHTML = `<button class="insp-close" aria-label="Close" title="Close (Esc)">×</button>
+  ($("#pane-mine") || $("#inspector")).innerHTML = `<button class="insp-close" aria-label="Close" title="Close (Esc)">×</button>
     <div class="editor">
       <h3 class="ed-h">${item ? "Edit" : "New"} · ${state.work.title} ${esc(spanLabel(span))}</h3>
       <blockquote class="ed-greek" lang="grc">${esc(words || "")}</blockquote>
@@ -368,7 +369,8 @@ function findItem(key) {
 
 async function showHistory(key) {
   const [table, id] = key.split("-");
-  const box = $("#inspector");
+  if (typeof showPane === "function") { MINE.editing = { history: key }; showPane("mine"); }
+  const box = $("#pane-mine") || $("#inspector");
   document.body.classList.add("inspecting");
   box.innerHTML = `<p class="loading">…</p>`;
   let h;
@@ -406,7 +408,7 @@ async function deleteItem() {
     const d = await send("POST", `mine/${it.table}/${it.id}/delete`, { base_rev: it.rev });
     clearDraft({ item: it });
     await refreshPage();
-    $("#inspector").innerHTML = `<button class="insp-close" aria-label="Close">×</button><div class="editor"><p class="ed-status">Deleted. <button class="btn" data-restore="${itemKey(d)}" data-base="${d.rev}">Undo</button></p></div>`;
+    ($("#pane-mine") || $("#inspector")).innerHTML = `<button class="insp-close" aria-label="Close">×</button><div class="editor"><p class="ed-status">Deleted. <button class="btn" data-restore="${itemKey(d)}" data-base="${d.rev}">Undo</button></p></div>`;
     MINE.editing = null;
   } catch (e) {
     edStatus(`Not deleted: ${esc(e.message)}`, "warn");

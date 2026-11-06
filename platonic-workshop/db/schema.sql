@@ -721,3 +721,54 @@ CREATE TABLE dossier_vocab (
     works       INTEGER NOT NULL,          -- in how many works
     kind        TEXT NOT NULL              -- 'only here', or how many times its rate in Plato ('35x')
 );
+
+-- ------------------------------------------------------------------ milestone 17: key terms in the text
+-- Every concept of the index as a term, with sources/terms/terms.json's additions (tools/terms.py).
+CREATE TABLE term (
+    id          TEXT PRIMARY KEY,          -- the concept's id ('the-good'), or terms.json's ('the-one')
+    label       TEXT NOT NULL,
+    greek       TEXT NOT NULL,
+    concept_id  TEXT REFERENCES concept(id),
+    key         INTEGER NOT NULL,          -- 1: underlined in the reader
+    plain       TEXT,                      -- a one-line plain meaning, the Workshop's own words
+    origin      TEXT NOT NULL,             -- JSON: where it was gathered from (the concept's origins, Neoplatonic vocabulary)
+    glossary    TEXT NOT NULL,             -- JSON: the segments of Taylor's Platonic terms that explain it
+    related     TEXT NOT NULL,             -- JSON: other terms terms.json names beside it
+    extra       TEXT NOT NULL,             -- JSON: terms.json's passages and later readings, each with whether its quotation was found
+    seq         INTEGER NOT NULL
+);
+-- The GLAUx lemmas a term is marked by, and the rule: all | with-article (neuter with the article: τὸ ἕν) | none.
+CREATE TABLE term_lemma (
+    term_id     TEXT NOT NULL REFERENCES term(id),
+    n           INTEGER NOT NULL,
+    lemma       TEXT NOT NULL,
+    rule        TEXT NOT NULL,
+    why         TEXT,
+    PRIMARY KEY (term_id, n)
+);
+CREATE INDEX term_lemma_lemma ON term_lemma(lemma);
+-- Taylor's English forms (marked only where the Greek beneath has the term) and fixed phrases (marked
+-- anywhere, as printed), each with the quotation that shows the form used.
+CREATE TABLE term_form (
+    term_id     TEXT NOT NULL REFERENCES term(id),
+    kind        TEXT NOT NULL,             -- english | phrase
+    n           INTEGER NOT NULL,
+    form        TEXT NOT NULL,
+    source_text TEXT NOT NULL,             -- taylor-terms, taylor-introduction, a book, translation, plato, note
+    quote       TEXT NOT NULL,
+    found       INTEGER,                   -- 1: the quotation is in the source, with the form in it; NULL: not checked
+    cited_as    TEXT,
+    auto        INTEGER NOT NULL,          -- 1: the term's own name, read from the definition the index quotes
+    PRIMARY KEY (term_id, kind, n)
+);
+-- Every word of Plato marked as a term.
+CREATE TABLE term_hit (
+    term_id     TEXT NOT NULL REFERENCES term(id),
+    token_id    INTEGER NOT NULL REFERENCES token(id),
+    work_id     TEXT NOT NULL,
+    section_ref TEXT NOT NULL,
+    form        TEXT NOT NULL,
+    PRIMARY KEY (term_id, token_id)
+);
+CREATE INDEX term_hit_section ON term_hit(work_id, section_ref);
+CREATE INDEX term_hit_work ON term_hit(term_id, work_id);

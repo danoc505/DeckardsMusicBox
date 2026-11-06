@@ -135,7 +135,11 @@ function passageHtml(p, c) {
 }
 
 function renderConcept() {
-  const c = CONCEPTS.one;
+  $("#main").innerHTML = conceptHtml(CONCEPTS.one);
+}
+
+// One concept's page, as HTML: in place of the text (#concepts/the-good), or inside the side panel (terms.js).
+function conceptHtml(c) {
   let h = `<div class="search concepts concept">
     <p class="meta"><a href="#concepts">‹ All concepts</a></p>
     <h2>${esc(c.label)} <span lang="grc" class="greek-name">${esc(c.greek)}</span></h2>
@@ -152,7 +156,7 @@ function renderConcept() {
     h += `<section><h3>Related concepts</h3>${c.related.map((r) => `<div class="claim"><p><span class="rel-cat">${esc(r.category)}</span> <b>${esc(r.kind)}</b> <a href="#concepts/${esc(r.other_id)}">${esc(r.other_label)}</a>: ${esc(r.why)}</p>${r.evidence.map(conceptEv).join("")}</div>`).join("")}
       ${c.related_from.length ? `<p class="meta">Stated from the other side (the words are on their pages): ${c.related_from.map((r) => `<a href="#concepts/${esc(r.concept_id)}">${esc(r.label)}</a> ${esc(r.kind)} this (${esc(r.category)})`).join("; ")}.</p>` : ""}</section>`;
   }
-  $("#main").innerHTML = h + `</div>`;
+  return h + `</div>`;
 }
 
 function renderConceptToc(id) {
@@ -161,10 +165,13 @@ function renderConceptToc(id) {
     <h3>Concepts</h3><ul class="studies">${list.map((c) => `<li class="${c.id === id ? "here" : ""}"><a href="#concepts/${esc(c.id)}">${esc(c.label)}</a></li>`).join("")}</ul>`;
 }
 
-// In the word inspector: the concepts indexed under this word's lemma.
+// In the word inspector: the key terms this word is marked as (milestone 17), and the concepts indexed under its lemma.
 function renderConceptsForWord(t) {
-  if (!t.concepts || !t.concepts.length) return "";
-  return `<div class="box concepts-box"><h3>In the concept index</h3><p>${t.concepts.map((c) => `<a href="#concepts/${esc(c.id)}">${esc(c.label)}</a>`).join(", ")}</p>
+  const marked = (t.terms || []).filter((x) => x.marked);
+  const terms = marked.length ? `<div class="box concepts-box"><h3>A key term here</h3><p>${marked.map((x) => `<button type="button" class="chip" data-term-open="${esc(x.id)}">${esc(x.label)}</button>`).join(" ")}</p>
+    <p class="prov">Underlined in the text. Tap for what it means and every place it is used (the Term tab).</p></div>` : "";
+  if (!t.concepts || !t.concepts.length) return terms;
+  return terms + `<div class="box concepts-box"><h3>In the concept index</h3><p>${t.concepts.map((c) => `<a href="#concepts/${esc(c.id)}" title="Opens in the Term tab">${esc(c.label)}</a>`).join(", ")}</p>
     <p class="prov">The index lists <span lang="grc">${esc(t.concepts[0].lemma)}</span> among the words of ${t.concepts.length > 1 ? "these concepts" : "this concept"}. That is the word, not this place: this occurrence may be the ordinary sense${t.concepts.some((c) => c.broad) ? " (most are)" : ""}.</p></div>`;
 }
 
