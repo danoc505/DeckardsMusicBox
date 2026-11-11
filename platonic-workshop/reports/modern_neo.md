@@ -347,6 +347,37 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | VI.9.10.p1 | but that he is the thing seen | The Greek says only that perhaps we should not even say "he will see"; "he is the thing seen" is Taylor's. |
 | VI.9.11.p1 | according to a perfection which derives its completion from all sensible natures | Taylor's long footnote (from Proclus, on the solitary life of the world) is printed into his text in the scan, straight after the treatise's last words. |
 
+## Proclus on the First Alcibiades in modern English
+
+- Made from: It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary.
+- Treatises: Prologue Proclus' introduction to the dialogue.
+- Sections: 10, each with a short title and a summary. The Greek: 23 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 437 line corrections by `tools/proofread.py`.
+- Paragraphs: 28, each with its Greek.
+- Words: 3,872 modern, 3,152 Greek, 1,395 in Taylor's English of the same pages (his Introduction).
+- Sentences (each can be marked in the reader): 117.
+- Flags (where Taylor and the Greek differ, or the Greek is hard): 15.
+- Problems found: 0.
+
+### Flags
+
+| Paragraph | Taylor's words | Why |
+|---|---|---|
+| Pr.1.p1 | of the whole theory of that philosopher | The Greek says "of all philosophical study, so to speak"; it is not Plato's theory alone. |
+| Pr.1.p1 | and this according to a subjection of essence | The Greek word (hyphesis) means a lowering, a falling off: perfection differs as being falls away from the first. Taylor's "subjection" means this, in an old sense. |
+| Pr.1.p2 | it is certainly necessary that perfection should be imparted to every thing according to the measures of essence | The Greek has "what is intellective in perfection" coming to each thing; Taylor leaves out the word. The modern version keeps it, and a note says it is hard. |
+| Pr.1.p2 | a cause more ancient and more characterized by unity | The Greek says "older and holier" (hagiōteras); "more characterized by unity" is Taylor's reading. |
+| Pr.1.p2 | For, how otherwise can things participate of deity and providence, and a distribution according to their desert? | The Greek says that, since gods and providence rule, things can be no other way than with the good given out to each as it deserves; things do not "participate of deity" here. |
+| Pr.1.p2 | but that the good, or the ineffable principle of things, which is more ancient than intellect | "Or the ineffable principle of things" is Taylor's; the Greek says only "the good, which is older than intellect". |
+| Pr.1.p2 | a distribution of inequality to things unequal, and of equality to things equal | The Greek has only the equality that gives unequal shares to unequal things; "and of equality to things equal" is Taylor's. |
+| Pr.1.p3 | but of the rational soul in time | The Greek says "of soul", not "the rational soul"; and "the good of soul" is "according to intellect", with no word for Taylor's "energy". |
+| Pr.2.p1 | such as intellectual natures, or to such as are divisible about bodies, viz. corporeal forms and qualities | The examples (intellectual natures; bodily forms and qualities) are Taylor's; the Greek names only the kinds of being. |
+| Pr.2.p2 | is to be considered according to the measures of subsistence and perfection | The Greek says that the perfection of these is seen "by the measures of their existence"; perfection is what is measured, not one of the measures. |
+| Pr.3.p1 | if they are uninitiated in the highest of the mysteries | The Greek says only "uninitiated and unperfected"; "in the highest of the mysteries" is Taylor's. |
+| Pr.3.p1 | as being uninitiated both in the lesser and greater mysteries | Again Taylor's gloss: the Greek has "being unperfected and uninitiated", with no lesser and greater mysteries. |
+| Pr.6.p1 | So that he will not err who establishes the care and knowledge of ourselves, as the end of the dialogue. | The Greek goes on to tell the end apart from the problem sought: the care of ourselves is the end, the good that comes from what is proved, while what the arguments seek is to know ourselves. Taylor stops before the distinction. |
+| Pr.6.p2 | and that which is called by rhetoricians the hypothesis, to matter | The Greek says "what some call the hypothesis" (para tisin); "by rhetoricians" is Taylor's. |
+| Pr.7.p1 | It likewise contains information with respect to many things which contribute to physiology | "Physiology" is Taylor's word for the study of nature (physiologia), not the science of the body. |
+
 ## The fixed renderings
 
 | Greek (without accents) | Modern | Term tab | Why |

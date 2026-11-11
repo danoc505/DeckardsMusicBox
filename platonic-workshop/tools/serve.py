@@ -50,7 +50,7 @@ TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
 # Milestone 24: the Workshop's modern English of the Introduction and the Life, beside Taylor's (tools/modern.py).
 MODERN = ROOT / "sources" / "translations" / "modern"
 # Milestone 27: the Workshop's modern English of the Neoplatonists, from the Greek (tools/modern_neo.py), by text id.
-MODERN_NEO = ("plotinus",)
+MODERN_NEO = ("plotinus", "proclus-alcibiades")
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"
 # Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
@@ -848,6 +848,11 @@ class Library:
             t["parts"] = parts.get(t["id"], [])
             t["sources"] = [srcs[i] for i in json.loads(t.pop("source_ids")) if i in srcs]
             t["corrections"] = self.one("SELECT count(*) n FROM neo_correction WHERE text_id = ?", t["id"])["n"]
+            mod = self.modern_neo_for(greek_text=t["id"])
+            if mod and mod.get("kind") == "proofread":
+                # Milestone 27: proofread and in modern English, so far.
+                t["modern"] = {"text": mod["text"], "title": mod["title"], "treatises": [{"id": x["id"], "title": x["title"]} for x in mod["treatises"]],
+                               "pages": len({pg["n"] for x in mod["paragraphs"] for pg in x.get("pages", [])})}
         stats = self.one("SELECT value FROM build WHERE key = 'neo_stats'")
         return {"texts": texts, "stats": json.loads(stats["value"]) if stats else None}
 
@@ -888,7 +893,16 @@ class Library:
                         here[us]["taylor"].append({"work": c["work_id"], "part": c["part_seq"], "seq": c["seq"], "label": c["label"], "how": c["match_how"]})
         # Milestone 27: the Workshop's modern English of a unit, where it has one.
         mod = self.modern_neo_for(greek_text=text_id)
-        if mod:
+        if mod and mod.get("kind") == "proofread":
+            # A scanned text proofread and translated page by page: each page links to the section it is in.
+            on = {}
+            for x in mod["paragraphs"]:
+                for pg in x.get("pages", []):
+                    on.setdefault(pg["n"], x["chapter"])
+            for u in units:
+                if u["n"] in on:
+                    u["modern_section"] = {"text": mod["text"], "id": on[u["n"]]}
+        elif mod:
             have = {c["id"] for c in mod["chapters"]}
             for u in units:
                 if u["label"] in have:
@@ -913,6 +927,29 @@ class Library:
             if (greek_text and d["greek_text"] == greek_text) or (taylor_work and d["taylor_work"] == taylor_work):
                 return d
         return None
+
+    def modern_neo(self, text_id):
+        """A modern version made from a proofread scan (milestone 27), whole, with your marks on it."""
+        if text_id not in MODERN_NEO:
+            return None
+        f = MODERN / f"{text_id}.json"
+        if not f.exists():
+            return None
+        d = json.loads(f.read_text(encoding="utf-8"))
+        if d.get("kind") != "proofread":
+            return None
+        d["marks"] = self.mine.modern_marks(text_id)
+        d["greek_info"] = self.one("SELECT id, author, title, edition, editor, year FROM neo_text WHERE id = ?", d["greek_text"])
+        # Where each page is in the Greek text's contents, and its image at the Internet Archive.
+        where = {}
+        if self.has_neo():
+            for u in self.rows("SELECT u.n, u.part_seq, u.leaf, s.repo FROM neo_unit u JOIN source s ON s.id = u.source_id WHERE u.text_id = ?", d["greek_text"]):
+                item = (u["repo"] or "").rsplit("/", 1)[-1]
+                where[u["n"]] = {"part": u["part_seq"], "scan": f"https://archive.org/details/{item}/page/n{u['leaf'] - 1}/mode/1up" if item and u["leaf"] else None}
+        for x in d["paragraphs"]:
+            for pg in x.get("pages", []):
+                pg.update(where.get(pg["n"], {}))
+        return d
 
     def taylor_works(self):
         """Taylor's three translations of the Neoplatonists, with their contents and the figures of the matching."""
@@ -1466,6 +1503,9 @@ class Handler(BaseHTTPRequestHandler):
                 if len(parts) == 3 and parts[0] == "neo" and parts[2].isdigit():
                     d = lib.neo_part(parts[1], int(parts[2]))
                     return self.send_json(d) if d else self.send_json({"error": "no such part"}, HTTPStatus.NOT_FOUND)
+                if len(parts) == 2 and parts[0] == "modern-neo":
+                    d = lib.modern_neo(parts[1])
+                    return self.send_json(d) if d else self.send_json({"error": "no such text"}, HTTPStatus.NOT_FOUND)
                 if parts == ["taylor-greek"]:
                     return self.send_json(lib.taylor_works())
                 if len(parts) == 3 and parts[0] == "taylor-greek" and parts[2].isdigit():

@@ -342,7 +342,17 @@ to revise by hand: `sources/translations/modern/plotinus.txt`; `tools/modern_neo
 once, in order; every paragraph's Greek found in its chapter, in order, so that all of it is covered; every flag's words found
 in Taylor's chapter; the fixed renderings of `sources/translations/modern/terms-greek.json`) and writes the JSON the reader
 shows and [`reports/modern_neo.md`](reports/modern_neo.md). `reader/neo.js`, `tests/test_modern_neo.py`,
-`tests/modern_neo_browser.js`. Next, in later sessions: Proclus and Olympiodorus on the First Alcibiades (the dialogue read first, whose Greek here is unproofread OCR), Iamblichus and the others.
+`tests/modern_neo_browser.js`.
+
+Proclus' prologue to the First Alcibiades (the dialogue read first) is in modern English too, at
+`#neo-modern/proclus-alcibiades`, made from Greek proofread first: Cousin's 23 pages of the prologue were proofread line by line
+from the page images into a master copy, `sources/neoplatonists/proofread/proclus-alcibiades.txt`, and `tools/proofread.py`
+writes each line the OCR misreads (or drops) as a correction in `sources/neoplatonists/corrections.json`, for that page only,
+checking that every page then reads as proofread. The OCR is still shown as received; *With corrections* reads the proofread
+page, and each page links to its section in modern English. The ten sections are checked against Taylor's Introduction to the
+dialogue, which is drawn from Proclus (*Taylor's words*, *Side by side*); each paragraph's Greek names its pages and their
+scans. `tests/test_proclus_alcibiades.py`, `tests/proclus_alcibiades_browser.js`. Next, in later sessions: the rest of Proclus
+and Olympiodorus on the First Alcibiades, proofread first in the same way, then Iamblichus and the others.
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 

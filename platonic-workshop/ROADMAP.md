@@ -218,9 +218,16 @@ could do before. The school and curriculum ideas are left out as beyond the scop
 - Session 2 done: the rest of Taylor's fifteen treatises of Plotinus, in Porphyry's order (II.4, II.9, III.6, III.7, IV.2,
   IV.3, IV.7, V.1, V.2, V.3, V.6, V.9, VI.9), added to the same file: 190 chapters and 329 flags in all, among them the places
   where Taylor's scan prints his footnotes into his text or loses lines (IV.3.21, IV.3.30, IV.7.8, V.3.8, V.9.3, VI.9.6), where
-  the full Greek is translated and the gap flagged. Next sessions, in this order: Proclus on the First Alcibiades and Olympiodorus on it (the dialogue read first; their Greek is unproofread OCR, so each
-  passage translated should first get its corrections in `sources/neoplatonists/corrections.json`), with Taylor's
-  Introduction and notes to the Alcibiades (drawn from Proclus) to check against; then On the Mysteries and the Elements, where
+  the full Greek is translated and the gap flagged.
+- Session 3 done: Proclus' prologue to the First Alcibiades (Cousin's vol. II pp. 2-46, 23 pages of Greek), proofread line by
+  line from the page images into a master copy (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), and the proofreading
+  written as 437 line corrections in `sources/neoplatonists/corrections.json` by `tools/proofread.py` (the OCR still shown as
+  received; *With corrections* reads the proofread page; lines the OCR dropped are restored). Then the prologue in modern English
+  from the proofread Greek, in ten sections, checked against Taylor's Introduction to the dialogue (15 flags; his paragraphs
+  2-6 and 8 are drawn from it), Plato's places noted and found in Burnet; `#neo-modern/proclus-alcibiades`, linked from each
+  scanned page. Next sessions, in this order: the rest of Proclus on the First Alcibiades (proofread first, in the same way;
+  Taylor's paragraph 7, on Socrates' love, comes from it) and Olympiodorus on it (Creuzer's OCR, proofread first), with
+  Taylor's Introduction and notes to the Alcibiades to check against; then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 
