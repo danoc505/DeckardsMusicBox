@@ -1,0 +1,33 @@
+{
+ "schema": "platonic-workshop/modern-greek-terms-v1",
+ "about": "Milestone 27: the key words of the Neoplatonists, rendered the same way in every modern version made from the Greek (tools/modern_neo.py). 'greek' is a pattern for the words of the Greek, matched whole, in small letters with the accents and breathings taken off; where a paragraph's Greek has one, its modern English must have one of the 'modern' forms (matched at the start of a word, in any case), unless the paragraph is listed under 'exceptions' with the reason. 'term' is the key term or concept of the Term tab, and 'link' the forms underlined to open it.",
+ "terms": [
+  {"greek": "νους|νου|νω|νουν", "modern": ["intellect"], "term": "intellect", "link": ["intellect"], "why": "nous: Taylor's 'intellect', kept, as in the Introduction"},
+  {"greek": "ψυχ(η|ης|ηι|ην|αι|ων|αις|ας)", "modern": ["soul"], "term": "soul", "link": ["soul"], "why": "psychē"},
+  {"greek": "αρετ\\w*", "modern": ["virtue"], "term": "virtue", "link": ["virtue", "virtues"], "why": "aretē: 'virtue', the word the Workshop uses throughout (excellence is its sense)"},
+  {"greek": "φρονησ\\w*|φρονειν", "modern": ["wisdom", "wise"], "term": "phronesis", "link": ["practical wisdom"], "why": "phronēsis: 'practical wisdom' where it is the virtue, 'wisdom' where Plato's words are quoted; Taylor's 'prudence'"},
+  {"greek": "σοφια\\w*|σοφιας|σοφιαν", "modern": ["wisdom", "wise"], "why": "sophia: 'wisdom'"},
+  {"greek": "ομοιω\\w*|ωμοιω\\w*|ομοιου\\w*|ομοιοι\\w*", "modern": ["like"], "term": "likeness-to-god", "link": ["like God", "likeness to God"], "why": "homoiōsis: 'becoming like', 'likeness'; Taylor's 'similitude', 'assimilated'"},
+  {"greek": "καθαρσ\\w*|κεκαθαρ\\w*|καθαιρ\\w*|καθηραμ\\w*|καθαρθ\\w*", "modern": ["purif"], "why": "katharsis: 'purification'"},
+  {"greek": "δικαιοσυν\\w*|αυτοδικαιοσυν\\w*", "modern": ["justice"], "term": "justice", "link": ["justice"], "why": "dikaiosynē"},
+  {"greek": "σωφροσυν\\w*|σωφρον\\w*", "modern": ["self-control"], "why": "sōphrosynē: 'self-control'; Taylor's 'temperance'"},
+  {"greek": "ανδρει\\w*|ανδριζ\\w*", "modern": ["courage", "brave"], "why": "andreia: 'courage'; Taylor's 'fortitude'"},
+  {"greek": "πολιτικ\\w*", "modern": ["civic"], "why": "politikē aretē: 'civic virtue'; Taylor's 'political'"},
+  {"greek": "διαλεκτικ\\w*", "modern": ["dialectic"], "term": "dialectic", "link": ["dialectic"], "why": "dialektikē"},
+  {"greek": "νοητ\\w*", "modern": ["intelligible"], "term": "intelligible-world", "link": ["intelligible"], "why": "noētos"},
+  {"greek": "επιστραφ\\w*|επιστρεφ\\w*|επεστραπ\\w*|επιστροφ\\w*|στροφη", "modern": ["turn"], "term": "return", "link": ["turning", "turned"], "why": "epistrophē: the soul's 'turning' back to what is above it"},
+  {"greek": "αναμιμνησκ\\w*", "modern": ["recollect"], "term": "recollection", "link": ["recollect"], "why": "anamnēsis"},
+  {"greek": "δαιμων", "modern": ["daemon"], "term": "daemons", "link": ["daemon"], "why": "daimōn, kept as 'daemon', as in the Introduction"},
+  {"greek": "παραδειγμ\\w*", "modern": ["pattern"], "term": "image-and-original", "link": ["pattern"], "why": "paradeigma: 'pattern'; Taylor's 'paradigm'"},
+  {"greek": "ερωτικ\\w*", "modern": ["lover"], "term": "eros", "link": ["lover"], "why": "erōtikos"},
+  {"greek": "μουσικ\\w*", "modern": ["musician", "musical"], "why": "mousikos"},
+  {"greek": "φιλοσοφ\\w*", "modern": ["philosoph"], "why": "philosophos, philosophia"}
+ ],
+ "extra_links": [
+  {"term": "world-soul", "link": ["soul of the world"]},
+  {"term": "the-good", "link": ["the Good"]},
+  {"term": "forms", "link": ["Forms"]},
+  {"term": "the-beautiful", "link": ["beauty"]}
+ ],
+ "exceptions": {}
+}

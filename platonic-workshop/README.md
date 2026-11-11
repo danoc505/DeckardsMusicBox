@@ -322,6 +322,29 @@ from Synesius in the Plotinus volume.
 
 ![Plotinus I.2.3 in Taylor's English, with Volkmann's Greek opened beneath it](docs/reader-m26-taylor-greek.png)
 
+**Milestone 27, modern English of the Neoplatonists: begun.** The Neoplatonists are being put into plain modern English, made
+from the Greek and not from Taylor, so that the modern version does not inherit his oddities; it is checked against Taylor's
+English of the same chapter, and where the two differ a flag quotes Taylor's words and says why (21 flags so far: his "rumor
+says these are divine", where the Greek says these *men*; his "immateriality", where Volkmann's Greek has "sameness"; questions
+he made statements). The first texts are the first read: Plotinus' first Ennead, which Porphyry set first, and of it the two
+treatises Taylor translated, **I.2 On the Virtues** and **I.3 On Dialectic**, all thirteen chapters. I.2 is where the later
+Platonists found the ranks of virtue, civic and then purifying, that their curriculum climbs (the Gorgias "as political", the
+Phaedo "as purificatory", Anon. Prol. 26). They open from the Library (under *Taylor's English beside the Greek*) in place of
+Taylor's English: each treatise and each chapter has a short title and a summary; every paragraph has its Greek one tap away
+(every word tappable), and every chapter Taylor's English (*Taylor's words*), or beside it (*Side by side*), or Taylor alone
+(*Taylor only*). The key words are always rendered the same way (νοῦς *intellect*, σωφροσύνη *self-control*, πολιτικὴ ἀρετή
+*civic virtue*, ἐπιστροφή *turning*), and are underlined to open the Term tab; Plato's words that Plotinus quotes are noted with
+their place, and a test finds them in Burnet's Greek. Labelled as the Workshop's own and machine-assisted, as in milestone 24,
+and *Mark a sentence* works the same way, the marks kept in your own database and in the export. The master copy is plain text,
+to revise by hand: `sources/translations/modern/plotinus.txt`; `tools/modern_neo.py` checks it (every chapter of each treatise
+once, in order; every paragraph's Greek found in its chapter, in order, so that all of it is covered; every flag's words found
+in Taylor's chapter; the fixed renderings of `sources/translations/modern/terms-greek.json`) and writes the JSON the reader
+shows and [`reports/modern_neo.md`](reports/modern_neo.md). `reader/neo.js`, `tests/test_modern_neo.py`,
+`tests/modern_neo_browser.js`. Next, in later sessions: the rest of Taylor's Plotinus in Porphyry's order, then Proclus and
+Olympiodorus on the First Alcibiades (the dialogue read first, whose Greek here is unproofread OCR), Iamblichus and the others.
+
+![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
+
 ## Running it
 
 Python 3.10 or later, standard library only. Nothing to install. One command does everything:

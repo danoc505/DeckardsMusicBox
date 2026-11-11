@@ -164,6 +164,7 @@ async function showModernText(id, t) {
   setView("modern-view");
   document.body.classList.add("guide-view");
   MODERN.t = t;
+  MODERN.toc = null;
   MODERN.marks = t.modern_marks || [];
   MODERN.mode = prefsGet("modernMode", "modern");
   if (!MODERN_MODES.some(([k]) => k === MODERN.mode)) MODERN.mode = "modern";
@@ -222,12 +223,13 @@ async function modernSave(block, kind) {
   modernStopMarking(block);
   const p = MODERN.t.modern.paragraphs.find((x) => x.seg === pick.seg);
   block.querySelector(".mp-text").innerHTML = modernParaHtml(p);
-  $("#toc").innerHTML = modernTocHtml();
+  if (MODERN.toc) MODERN.toc(); else $("#toc").innerHTML = modernTocHtml();
   if (typeof toast === "function") toast(kind === "withdrawn" ? "Your mark is taken back." : "Marked, and kept for revision.");
 }
 
 document.addEventListener("click", (ev) => {
-  if (state.view !== "taylor" || !MODERN.t || !document.body.classList.contains("modern-view")) return;
+  // The modern versions: milestone 24's (the modern view) and milestone 27's, in the Neoplatonists' reader (neo.js).
+  if (!MODERN.t || !ev.target.closest(".modern-text")) return;
   const t = ev.target;
   const mode = t.closest("[data-mod-mode]");
   if (mode) {
