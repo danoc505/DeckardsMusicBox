@@ -23,7 +23,8 @@
   {"greek": "μουσικ\\w*", "modern": ["musician", "musical"], "why": "mousikos"},
   {"greek": "φιλοσοφ\\w*", "modern": ["philosoph"], "why": "philosophos, philosophia"},
   {"greek": "υλη|υλης|υληι|υλην|υλαι|υλων", "modern": ["matter"], "term": "matter", "link": ["matter"], "why": "hylē: 'matter'"},
-  {"greek": "στερησ\\w*", "modern": ["privation", "deprived"], "term": "evil-as-privation", "link": ["privation"], "why": "sterēsis: 'privation'"}
+  {"greek": "στερησ\\w*", "modern": ["privation", "deprived"], "term": "evil-as-privation", "link": ["privation"], "why": "sterēsis: 'privation'"},
+  {"greek": "αιων\\w*", "modern": ["eternity", "eternal", "eternit"], "why": "aiōn: 'eternity'"}
  ],
  "extra_links": [
   {"term": "world-soul", "link": ["soul of the world"]},
