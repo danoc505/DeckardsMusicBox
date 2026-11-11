@@ -34,10 +34,10 @@ async function run(b, viewport, touch, first) {
   const head = await p.$eval(".tg-read", (e) => e.innerText);
   check(/Modern English, the Workshop's own/.test(head) && /machine-assisted/i.test(head) && /not yet checked by a scholar/.test(head), `${tag}: labelled as the Workshop's own and machine-assisted`);
   check(/proofread from the page images/.test(head), `${tag}: and as made from the proofread Greek`);
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 10 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 10, `${tag}: ten sections, each with its gist`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 17 && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 17, `${tag}: seventeen sections, each with its gist`);
   check(await p.$eval("#mp-Pr\\.1\\.p1 .mp-text", (e) => e.textContent.length > 100), `${tag}: the modern English of the first paragraph`);
   check(await p.$$eval(".tg-mod .mp-flag", (es) => es.length) >= 10, `${tag}: flags where Taylor and the Greek differ`);
-  check(/Your marks/.test(await p.$eval("#toc", (e) => e.textContent)) && await p.$$eval("#toc .mod-secs li", (es) => es.length) === 10, `${tag}: the contents column lists the sections`);
+  check(/Your marks/.test(await p.$eval("#toc", (e) => e.textContent)) && await p.$$eval("#toc .mod-secs li", (es) => es.length) === 17, `${tag}: the contents column lists the sections`);
   await wide("Proclus in modern English");
 
   // The Greek of a paragraph, with its pages and their scans.
@@ -48,14 +48,15 @@ async function run(b, viewport, touch, first) {
 
   // Taylor's Introduction, one tap away; none for a section he does not draw on.
   await p.click("#mc-Pr\\.1 [data-tg-tay]");
-  check(await p.$eval("#mc-Pr\\.1 .tg-tay-box", (e) => !e.hidden && /Taylor, Introduction/.test(e.textContent)), `${tag}: one tap shows Taylor's Introduction`);
+  check(await p.$eval("#mc-Pr\\.1 .tg-tay-box", (e) => !e.hidden && /Introduction, paragraph 2/.test(e.textContent)), `${tag}: one tap shows Taylor's Introduction`);
   check(await p.$$eval("#mc-Pr\\.9 [data-tg-tay]", (es) => es.length) === 0, `${tag}: no Taylor button where he draws nothing`);
 
   // Side by side.
   await p.click('[data-nm-mode="both"]');
   await p.waitForSelector(".mod-both .tg-tcol");
-  check(await p.$$eval(".tg-tcol", (es) => es.length) === 10, `${tag}: side by side, Taylor beside every section`);
-  check(/draws nothing/.test(await p.$eval("#mc-Pr\\.9 .tg-tcol", (e) => e.textContent)), `${tag}: saying where he draws nothing`);
+  check(await p.$$eval(".tg-tcol", (es) => es.length) === 17, `${tag}: side by side, Taylor beside every section`);
+  check(/draw nothing/.test(await p.$eval("#mc-Pr\\.9 .tg-tcol", (e) => e.textContent)), `${tag}: saying where he draws nothing`);
+  check(/Additional note on 103a/.test(await p.$eval("#mc-103a\\.1 .tg-tcol", (e) => e.textContent)), `${tag}: Taylor's note on the preface beside the first lemma`);
   if (viewport.width >= 1024) {
     const cols = await p.$eval("#mc-Pr\\.1 .tg-cols", (e) => [...e.children].map((c) => Math.round(c.getBoundingClientRect().left)));
     check(cols.length === 2 && cols[1] > cols[0] + 100, `${tag}: in two columns`);
@@ -80,6 +81,10 @@ async function run(b, viewport, touch, first) {
     await p.waitForSelector(".modern-text .tg-mod");
     check(await p.$$eval("#mp-Pr\\.2\\.p1 .ms-marked", (es) => es.length) === 1, `${tag}: the mark is kept`);
   }
+
+  // The first lemma: its section, with the pages of its Greek.
+  const lem = await p.$eval("#mp-103a\\.1\\.p1", (e) => e.textContent);
+  check(/Son of Cleinias, I think you wonder/.test(lem) && /II p\. 49/.test(lem), `${tag}: the first lemma, with its page`);
 
   // A section by its address.
   await p.goto(base + "#neo-modern/proclus-alcibiades/Pr.9");

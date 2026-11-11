@@ -225,9 +225,16 @@ could do before. The school and curriculum ideas are left out as beyond the scop
   received; *With corrections* reads the proofread page; lines the OCR dropped are restored). Then the prologue in modern English
   from the proofread Greek, in ten sections, checked against Taylor's Introduction to the dialogue (15 flags; his paragraphs
   2-6 and 8 are drawn from it), Plato's places noted and found in Burnet; `#neo-modern/proclus-alcibiades`, linked from each
-  scanned page. Next sessions, in this order: the rest of Proclus on the First Alcibiades (proofread first, in the same way;
-  Taylor's paragraph 7, on Socrates' love, comes from it) and Olympiodorus on it (Creuzer's OCR, proofread first), with
-  Taylor's Introduction and notes to the Alcibiades to check against; then On the Mysteries and the Elements, where
+  scanned page.
+- Session 4 done: Proclus' notes on the wording of the dialogue's first words (103a; Cousin's vol. II pp. 49-78, 16 pages of
+  Greek, the last down to the end of the notes on the wording), proofread in the same way (309 more line corrections, 746 in
+  all), and put into modern English in seven sections: what the preface shows, the three kinds of turning, why Socrates says
+  "I think", the young man's pride, "son of Cleinias", the father's name and love, and Socrates' three sciences, love first.
+  Checked against Taylor's first Additional Note (on the preface, 103a) and paragraph 7 of his Introduction (13 flags); the
+  Taylor box now names each paragraph or note it quotes (`taylor_notes_alcibiades` in `tools/modern_neo.py`). Next sessions,
+  in this order: the rest of Proclus on the First Alcibiades, from his account of love (Cousin II p. 78 on; Taylor's note on
+  the daemon at 103a and his Additional Notes 2-19 to check against), and Olympiodorus on it (Creuzer's OCR, proofread
+  first); then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check
   them against another public-domain translation, or label them so.
 

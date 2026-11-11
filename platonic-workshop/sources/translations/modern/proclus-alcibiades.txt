@@ -201,3 +201,146 @@ So that he may not, wholly ignorant of himself and of how he falls short of his 
 @greek Ὁ δὲ ἔννατος
 The ninth, in which he is shown not to know the way to take care of ourselves, makes plain that the most authoritative starting point of this knowledge too is to discern our being. For on this hangs the judging of the right care; or rather, it is marked out by this very knowledge. For everything that moves itself perfects itself by turning towards itself. Whoever has known himself has also grasped, within himself, the care of himself; whoever does not know himself is without knowledge of the way of care too. Last of all, the tenth, which shows that the human being has his existence in the soul, brings to light at once the form of our being, and gives us the most complete knowledge of the life that acts of itself, taking together in one proof both our existence and our perfection. If, then, we say that each of the arguments in the dialogue, and all of them together, lead us round to knowing ourselves, we should perhaps hit on Plato's meaning.
 !note The tenth argument is in the Alcibiades (129b-130e): the human being is the soul, so "Know yourself" bids us know the soul.
+
+@treatise 103a | On the opening words: what the preface shows
+Proclus comments on the dialogue's first words, "Son of Cleinias, I think you wonder that I, who was the first to love you, am the only one who does not leave you now the others have stopped." First he reads their wording. The preface is not there for show: it turns Alcibiades to himself, and through himself to Socrates' knowledge, as the whole dialogue will. Socrates says "I think" because he speaks of a changing thing, and because the young man is proud; he calls him by his father's name because the boy loves that name, because the father stands for the true father of souls, and because love comes from the Father. Of Socrates' three sciences, dialectic, midwifery and love, it is love that leads here.
+
+@ch 103a.1 | The preface serves the aim of the dialogue
+Plato's prefaces are neither ornament nor mere history: like the rites of a mystery, all their parts serve the one aim of the dialogue. Here the very first words show that aim, self-knowledge, by turning Alcibiades to himself and making him want to learn why Socrates alone still loves him.
+@taylor add001
+
+@p
+@greek Ὦ παῖ Κλεινίου
+"Son of Cleinias, I think you wonder that I, who was the first to love you, am the only one who does not leave you, now that the others have stopped."
+!note These are the dialogue's first words (Alcibiades I, 103a), set at the head of Proclus' comment on them.
+
+@p
+@greek Τὰ προοίμια τῶν Πλατωνικῶν
+The prefaces of Plato's dialogues are in tune with their aims as a whole. Plato has not contrived them to charm us as drama would, for that way of writing is far from the philosopher's greatness of mind; nor do they aim at history alone, as some have supposed, for it is neither credible nor at all possible that everything that was done or said should be taken over, one thing after another, for the single fulfilment of Plato's writings. Rather, as our teachers hold, and as we and others have noted in a measured way, these too hang from the purpose of the dialogues as a whole. Some of their parts are fitted to the present aim from the matters or the arguments they deal with; others make good what is lacking for the completion of the study in hand; and all together, as in a rite of initiation, lead up to the full completion of what is being sought.
+!note "As we and others have noted": so the manuscripts, as Cousin prints them; he suggests in a note that Proclus wrote "as we have noted elsewhere too" (κἂν ἄλλοις).
+!flag nor are they merely historical | The Greek adds why: it is neither credible nor possible that every deed and word should be taken over, one after another, for the completion of Plato's writings.
+!flag Every thing in the dialogues of Plato, in the same manner as in the mysteries, is referred to the whole perfection of the particulars which are investigated | The Greek first says how: some parts are fitted to the aim from the matters or arguments, others supply what is missing; then all together, "as in a rite" (teletē), lead up to the completion of what is sought.
+
+@p
+@greek Τοῦτο δὴ οὖν μοι δοκεῖ
+This, I think, is the teaching Plato puts before us in this dialogue too, and he shows well, by the very first approach of the conversation, the whole aim of the work. His aim, as we said, is to bring our nature to light, to take in, with the scientific arguments of the study that cannot be refuted, the whole being by which each of us is marked off, and to uncover, by the methods of demonstration, what that Delphic command "Know yourself" means. The preface itself turns the young man to himself and makes him examine the thoughts that lie within him; and with this turning to himself it leads him up to the high view of Socrates' knowledge as well. For to ask why Socrates alone of his lovers did not cease to love him, but began before the others and has not left him now that they have stopped, makes him a spectator of Socrates' whole life.
+!flag and represents him as exploring his own pre-subsisting conceptions | The Greek says he is made to examine "the thoughts that lie within him" (or, in another manuscript, "that underlie him"); "pre-subsisting" is Taylor's word here.
+
+@ch 103a.2 | Three kinds of turning
+Everything that turns, turns to what is worse, to itself, or to what is better. The turn to the worse is the fall of a soul that has lost its wings; the turns to itself and to the better are found in the gods too, as the Parmenides shows. So the end of the dialogue says that whoever turns to himself will see the divine; and the preface already turns Alcibiades to himself, and from himself to love of Socrates' knowledge.
+@taylor add001
+
+@p
+@greek Ἔστι μὲν οὖν τὰ εἴδη
+There are three kinds of turning. Everything that turns either turns to what is worse than itself, by falling away from its own perfection; or it is led up to what is better, by its own life and its activity according to nature; or it turns to itself, by a knowledge matched to itself and a middle kind of motion. The turning to the worse is the passion of a soul that has shed its wings and has come into forgetfulness both of itself and of what is before it. But the turning to itself and the turning to the better are not in souls alone: they are in the divine beings themselves, as Parmenides teaches us, when he sets out two kinds of turning and shows how the divine has turned to itself and is in itself, and how it turns to what is before it, insofar as it is held in another and united with the higher nature. That is why Socrates too, at the end of the dialogue, says that whoever has turned to himself and become a spectator of himself will from there see all that is divine as well: by the turning to himself, as by a step that leads upward, he will move across to the high view of the divine, and he will come back up to the turning towards what is better than himself.
+!note "Shed its wings" recalls the Phaedrus (246c, 248c), where a soul that loses its wings falls to earth. Proclus reads the "in itself" and "in another" of the Parmenides (145b-e) as two kinds of turning. The end of the dialogue: Alcibiades I 133c, where the soul that looks at what is divine in itself comes to know all that is divine.
+!flag is a passion of the soul whose wings suffer a defluxion | "Defluxion" is Taylor's word for the soul's shedding of its wings (pterorrhyēsis), as in the Phaedrus.
+!flag will by this mean behold the whole of a divine nature | The Greek has "all that is divine" (to theion hapan), the phrase of Alcibiades I 133c.
+
+@p
+@greek Ταῦτα τοίνυν καὶ ἐκ προοιμίων
+Showing this, then, from the preface on, the conversation leads Alcibiades round from a life carried outwards to the study of himself, and from the understanding of himself it calls him back to the love of Socrates' knowledge. For to long to learn the reason for what Socrates does is to become a lover of the knowledge that is already in him. This, then, is the first thing that Plato seems to me to show in the preface to those able to hear him.
+
+@ch 103a.3 | Why Socrates says "I think"
+A good man fits his knowledge to what he knows: intellect for what is intelligible, reasoning for the middle things, the senses for things sensed, conjecture for images, as the Republic divides them; the Timaeus says the same of accounts, and the Cratylus of names. Alcibiades' state of mind is a changing thing, so Socrates rightly says "I think": the word marks the changing object, not doubtful knowledge.
+@taylor add001
+
+@p
+@greek Δεύτερον δὲ ἕτερον ἐπὶ
+A second thing follows from this. A good man always brings to bear on each object of knowledge the knowledge matched to it. About things that can be otherwise and are carried now this way, now that, he does not claim a knowledge that is fixed, defined and unchanging; and about things that are necessary and always the same, he does not hold an opinion that is doubtful, undefined and unsteady. Rather, as Socrates himself divided them in the Republic, he looks at all intelligible things together by simple, single and intellective knowledge; he examines the middle accounts of the things that are by the scientific and reasoning power that unfolds the forms and puts them together; third from the truth, by perception, which touches its own objects through instruments, he judges all things sensed as is fitting; and lastly, by the power of conjecture, he knows the objects of conjecture, which are images of things sensed.
+!note The four powers are those of the divided line in the Republic (511d-e): intellect (noēsis), reasoning (dianoia), trust in the senses (pistis) and conjecture (eikasia).
+!flag a stable, definite and immutable knowledge of things contingent and mutable | Taylor's words. The Greek has "fixed (hestōsan), defined and unturning", where one manuscript, as Cousin notes, reads "disordered" for "unsteady" in the next clause.
+
+@p
+@greek Καὶ μὴν καὶ ὁ Τίμαιος
+And Timaeus too, dividing kinds of knowledge to match the things that are, bids us judge the things that are by intellection and reason, and by opinion and perception the things that are not but come to be and pass away. He says that the accounts of what truly is cannot be refuted and are fixed, while those of things not of that nature, but carried along in becoming, are likely and have a share of chance, as he says somewhere. For everywhere accounts imitate the things whose interpreters they are.
+!note Timaeus 27d-28a (what is grasped by intellection with reason, and what is opined by opinion with unreasoning perception) and 29b-c (accounts are akin to the things they interpret; those of what is lasting cannot be refuted, those of its likeness are likely). "A share of chance" recalls Timaeus 34c.
+
+@p
+@greek Τὸ δὲ τρίτον, ὅτι καὶ ὁ ἐν
+Third, the Socrates of the Cratylus says that the names given to eternal things lay hold more closely of the nature of the things, while those given to things that come to be and perish change in many ways and have much of convention in them, because the things beneath them are carried about unsteadily. If, then, kinds of knowledge differ for things that are always the same and for things that can be otherwise, and accounts have been given every sort of change, and some names suit some things and others others, what wonder is it that Socrates, speaking here about a nature that is unsteady and open to change, used "I think"? The word marks the knowable thing as easily turned; it does not convict Socrates' knowledge of being undefined, mixed with ignorance and open to dispute. For, as we said before, in matters of opinion and conjecture we must state our thoughts as people who conjecture; in what is intelligible and known by science, as people who know the truth, using arguments that cannot be refuted. It is not right, says Aristotle, to accept a geometer speaking persuasively, or an orator claiming to demonstrate. So neither a man who speaks of necessary things by conjecture, nor one who speaks of things conjectured as if they were fixed, would ever be a sensible interpreter of things. This is why Socrates had to add "I think".
+!note The Cratylus says that names are most likely to be rightly given to the things that always are (397b-c). Aristotle's words are in the Nicomachean Ethics (1.3, 1094b25-27): it is alike to accept probable reasoning from a mathematician and to demand demonstrations from an orator.
+!flag but that the names of things generated and corrupted are multiformly changed, and partake much of position | "Position" is Taylor's literal rendering of thesis: convention, names fixed by setting them down.
+!flag which signifies that the nature of the thing known is mutable | The Greek says the thing known is "easily turned" (eutrepton), with the reason Proclus gives after: we must speak of each kind of thing in the way that fits it, as Aristotle says. Taylor's note ends before this.
+
+@ch 103a.4 | "I think" and the young man's pride
+There is a reason in Alcibiades too: he is proud, and the proud resist. So Socrates comes at him carefully, conjecturing rather than insisting, to lull his pride into listening; and a modest manner is Socratic in any case, the more so as he is about to say he seems wonderful to the young man.
+@taylor none
+
+@p
+@greek Λέγοις δ’ ἂν ὅτι
+You might also say that Socrates is wary of the young man's character, which is ambitious; for everything of that kind is quick to resist and fond of quarrels. So that he may not provoke the young man to quarrel with him by pressing hard from the very start, Socrates approaches this youthful kind of life with care: he draws back a little in what he says about him, and moves the conversation forward as one who conjectures, not one who insists. For he must make his first approach in such a way that Alcibiades lends his ear, and, the ambition of his soul lulled to sleep, takes his share of the words that come from a mouth of self-control.
+
+@p
+@greek Τάχ’ ἂν δὲ ῥηθείη
+To what has been said one might add this: the modest manner, open to all and far from boasting, is Socratic. Since Socrates himself, speaking about himself, has said that he seems wonderful to the young man, both for his love and for his silence through all the time before, the "I think" is put in at the right moment, neither only for grace and elegance of speech, nor because Socrates' knowledge leaned either way. For one who says such things about himself should say them with reserve rather than with force.
+!note "Wonderful": the dialogue's next words (103a-b) say that Socrates thinks Alcibiades wonders at him, since for so many years he has not even spoken to him.
+
+@ch 103a.5 | "Son of Cleinias": the father's name
+Calling Alcibiades by his father's name suits him, for the proud like to be named from famous fathers, and the memory of a father urges to virtue. It is also a token, as the Pythagoreans used such things, of the soul's return to its true father; and it is Homer's way, who names each man from his father to honour him.
+@taylor none
+
+@p
+@greek Καὶ μὴν ἡ πρώτη τῶν λόγων
+The very first words of the conversation, calling the young man back by his father's name, are taken fittingly both for the person and for the matter. For the person: being ambitious, the name from his father sets him more at home, since Cleinias had become famous in the battle at Coronea, and those born of famous fathers like to be named from them rather than from themselves. The one name is common to many men; the other is their own special good. The memory of a father also gives enough of a push to the practice of virtue. It is not right to shame one's fathers' good name, nor to cling to their name and to the title taken from them while neglecting to be like them in virtue.
+!note Cleinias fell at the battle of Coronea in Boeotia (447 BC), as Plutarch's Life of Alcibiades (1) says; Proclus says only that he had become famous in it.
+
+@p
+@greek Ἔτι τοίνυν ἡ πρὸς τὸν πατέρα
+Further, to refer him to the father of the visible man, the one who was added from outside, his father by birth, is a token of the calling back of souls to their true father. Socrates uses these things too after the Pythagorean manner, thinking that they also help to save the soul. For those men practised what is shown in secret through tokens, and kept to the visible side of the tokens as an image of their power. Knowing this, as the Pythagoreans did, Socrates calls the young man by his father's name, thinking such a call a sign of the souls' being led round to their unseen causes.
+
+@p
+@greek Εἰ δὲ καὶ Ὁμηρικός
+And if this way of addressing someone is also Homer's, it would be fitting in this way too, carried down from of old by the common custom of the Greeks. For Homer too says that his hero spoke "naming each man from his father, honouring them all"; for this kind of address wins people over, attends to them, and shows kindliness.
+!note Homer's words are from the Iliad (10.68-69), Agamemnon's advice to Menelaus as he rouses the chiefs.
+!note "Kindliness": Cousin prints φιλοσοφροσύνης, which is not a Greek word; the sense needs φιλοφροσύνης, "friendliness", which is how the version reads it.
+
+@ch 103a.6 | The father's name and love
+The father's name suits a speech about love most of all: it shows the manly, wakeful, active side of true love, and all love comes from the intelligible Father, who sowed the bond of love in all things. So the lover's first move is to stir, through the father, the boy's kindliness towards him, and through that his fellowship with Socrates; for the inspired lover turns the beloved to himself and lifts him with himself to the intelligible beauty.
+@taylor none
+
+@p
+@greek Ἔτι δὴ λέγομεν ὅτι
+We say, further, that this suits speeches about love in particular, as the divine Iamblichus also says. The calling by the father's name shows the manliness of true love, its being awake and lifted out of matter, and its power to act. And, in general, it suits them because the whole order of love comes forth from the intelligible Father. "For in all things," the Oracles say, "the Father sowed the fire-laden bond of love," so that all things may be held together by the bonds of friendship that cannot be undone, as the Timaeus of Plato also says. That is why the meeting of lovers puts this before all else as the beginning of their closeness: the kindliness awakened in the beloved by his father's name. The memory of his father moves the young man to feel at home with him; and that moves him to fellowship with Socrates, which is what Socrates had set before himself, and why he begins the present conversation.
+!note The Oracles are the Chaldean Oracles, which Proclus quotes often. "Bonds that cannot be undone": the Timaeus (32c) says that the body of the world, bound by proportion, came to have friendship, so as to be indissoluble except by the one who bound it.
+
+@p
+@greek Δοκεῖ δέ μοι καὶ τὸ εἶδος
+The form of the words also seems to me most fitting for a study of love. To turn the beloved to oneself, to call him back and gather him, belongs to inspired lovers. For they have set themselves, quite simply, in a middle rank, between divine beauty and those who need their care; since they copy divine love, they gather the life of their beloved into themselves and join it to themselves, and they lead it up with themselves to the intelligible beauty, pouring into the beloved's soul, as the Socrates of the Phaedrus says, whatever they draw from there.
+!note The Phaedrus (253a): lovers who draw from Zeus, like Bacchants, pour it out on the soul of their beloved.
+
+@p
+@greek Εἰ τοίνυν ὁ ἐρωτικὸς
+If, then, the lover is possessed by love, he will turn those of good nature towards the good, as love itself does, and call them back. Socrates shows this by this first address: he wakes the beloved's spirit to hold to true beauty, stirs up in him wonder at the life of philosophy, and leads him round to the fulfilment of true love.
+
+@ch 103a.7 | Socrates' three sciences, love first
+Socrates had three sciences, dialectic, midwifery and love; all are at work in this dialogue, but love leads, from the first words to the end, as midwifery leads in the Theaetetus. Like the divine, which holds all goods at once and gives each what it can take, Socrates uses each science as the hearer needs: love leads to the beautiful, midwifery to wisdom, dialectic to the good; and the beautiful, the wise and the good are the divine, as the Phaedrus says.
+@taylor 7
+
+@p
+@greek Τοῦτο γὰρ δὴ τὸ εἶδος
+For this is the form of life that Socrates shows above all in this dialogue. He begins from it, and goes on perfecting the young man until he has made him a lover of Socrates' own care for him, which is the leading good of the art of love; and through all the chief parts, so to say, he always keeps what suits the life of love.
+!flag he proceeds perfecting the young man till he renders him a lover of his providential care | "Providential care" renders pronoia, Socrates' forethought for the boy; the modern version says "care for him".
+
+@p
+@greek Τριττῶν τοίνυν οὐσῶν
+There are three sciences to which Socrates is seen to bear witness in himself: dialectic, midwifery and the science of love. In this dialogue you will find the form of dialectic shown by the very things he does, and in many places you may take the mark of midwifery as it is carried along in his words; but above all, through the whole work, the works of the science of love prevail. When he plays the midwife, he keeps what suits the lover; and when he uses dialectic, he does not leave the special character of a lover's words. So in the Theaetetus he is a midwife, and is marked by this above all; that is why he goes only as far as purifying Theaetetus of his false opinions, and then lets him go, as one now able to tell the truth by himself, which is the work of midwifery, as he says himself in that dialogue. In the same way in this dialogue he shows first the science of love, and handles both dialectic and midwifery in the manner of love.
+!note Socrates' midwifery: Theaetetus 149a-151d, and its end (210b-d).
+!flag we shall find the form of the dialectic and the peculiarity of the maieutic science in this dialogue | The Greek says the form of dialectic is shown "by the very things he does", and the mark of midwifery "in many places" in his words.
+!flag and proceeds as far as to a purification of the same opinions of Theætetus | The Greek says a purifying of the false opinions of Theaetetus; Taylor's "the same opinions" is a slip, in his English or in the copy of it here.
+
+@p
+@greek Πανταχοῦ γὰρ ὁ Σωκράτης
+Everywhere Socrates brings words fitted to the persons before him. And just as, in the divine, all goods exist beforehand as one, and each being enjoys some of them, as far as its nature allows, so Socrates, holding all the sciences in himself, uses now one and now another, measuring his own activity to the fitness of those who receive it. One he leads up as a lover, by the science of love; another he stirs by midwifery to recollect the eternal accounts of the soul; another he leads round by the method of dialectic to the study of the things that are. And he joins different people to different things: some to the beautiful itself, some to the first wisdom, some to the good. For by the science of love we are led up to the beautiful; by midwifery each of us is shown wise in what he did not know, as he brings forth the accounts of the things that are within him; and by dialectic, as the Socrates of the Republic says, the ascent of those who love the sight of truth goes as far as the good. As each has been given fitness, so he is perfected by Socrates and led up to the divine, each by his own rank. All that is divine is beautiful, wise and good, as the Phaedrus says. To these, then, the soul is led up, and through these the soul is saved; for by these the soul's wings are fed and watered, and by what is ugly and bad and the like they waste and perish, as Socrates himself says there.
+!note "The eternal accounts of the soul" renders the Greek as printed (αἰδίων, a misprint for ἀϊδίων, "eternal"). Those who love the sight of truth: Republic 475e; the ascent by dialectic to the good: Republic 532a-b. The Phaedrus (246d-e): the divine is beautiful, wise, good, and by these the soul's wings are fed and grow; Proclus' text has "watered" where Plato's has "grow", as Cousin notes.
+!flag elevating one through the amatory science | Taylor's "amatory science" is "the science of love" (erōtikē) in the modern version, which keeps "lover" for the one who practises it.
+!flag by calling forth our latent reasons, we become wise in things of which we were ignorant | The Greek says each of us "is shown wise" in what he did not know, "bringing forth the accounts of the things that are within him".
+
+@p
+@greek Οὐκοῦν δι’ ἔρωτος μὲν
+So, through love, the perfection, in the work before us, of those with this nature, which Alcibiades had, and so seemed to Socrates worth loving, is joining with the divine beauty, and through it closeness to all that is divine. Socrates' midwifery and the works of dialectic, too, lead the young man's soul round to this end. For here, as we said, the lover's science is put forward, and the other kinds of science work with it towards this end. That is why both the opening of their meeting and its conclusion are full of the science of love, and everything in between gives very many signs of Socrates' activity set in this form.
+!note The conclusion: at the end of the dialogue (135d-e) Alcibiades says he will now begin to care for justice, and Socrates says his love will be like a stork's, cared for in turn by the one it hatched.
+
+@p
+@greek Ταῦτα μὲν οὖν τῆς περὶ τὴν λέξιν
+Let this be enough examination of what concerns the study of the wording. From here we turn to look into the matters themselves, and shall consider as much about love as suits the present discussion.
