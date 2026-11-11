@@ -86,6 +86,32 @@
     "II.9.17",
     "II.9.18"
    ]
+  },
+  {
+   "id": "III.6",
+   "title": "On the impassibility of things without body",
+   "summary": "How can the soul, which has no body, be free from affection, when it seems to feel pleasure and pain, fear and desire, and to change with virtue and vice? Plotinus answers that perception, memory and virtue are activities, not imprints; the feelings belong to the body or to the living compound, with soul as their cause; and purification is the soul's waking from images. Then matter: it too is untouched. It is not being but a phantom, a mirror in which images come and go and leave no trace, \"the receptacle and nurse\" of becoming, which takes on nothing and keeps nothing.",
+   "chapters": [
+    "III.6.1",
+    "III.6.2",
+    "III.6.3",
+    "III.6.4",
+    "III.6.5",
+    "III.6.6",
+    "III.6.7",
+    "III.6.8",
+    "III.6.9",
+    "III.6.10",
+    "III.6.11",
+    "III.6.12",
+    "III.6.13",
+    "III.6.14",
+    "III.6.15",
+    "III.6.16",
+    "III.6.17",
+    "III.6.18",
+    "III.6.19"
+   ]
   }
  ],
  "chapters": [
@@ -417,6 +443,139 @@
    "title": "Two men in one fine house",
    "summary": "They say their teaching makes people flee the body, and ours keeps the soul in it. It is like two men in a fine house: one finds fault with it and stays; the other praises the builder and waits calmly for the time to leave. We should live in our bodies as the world-soul lives in the whole, untroubled; and not grudge the stars their contemplation, as though they did not see because we do not see their souls.",
    "greek_unit": "2.9.18"
+  },
+  {
+   "id": "III.6.1",
+   "treatise": "III.6",
+   "title": "Can the soul be affected?",
+   "summary": "Perceptions are not affections but activities and judgments about them. But how is the soul unchanged, when vice, false opinions, pleasures, pains and desires seem to arise in it? If soul has no size and is to be imperishable, we must not give it such affections; we must think of them as \"affections without affection\", taken over from bodies by analogy.",
+   "greek_unit": "3.6.1"
+  },
+  {
+   "id": "III.6.2",
+   "treatise": "III.6",
+   "title": "Virtue and vice are not alterations",
+   "summary": "Virtue is a harmony of the soul's parts, vice a discord; but each part has its own virtue first. Ignorance is an absence; false opinion is like a false sight. Reason \"hears\" intellect as sight sees: the activity is no alteration. Memory too is a power woken, not a store of imprints. Cowardice, courage and licence are ways each part acts or fails to act, with no change in its substance.",
+   "greek_unit": "3.6.2"
+  },
+  {
+   "id": "III.6.3",
+   "treatise": "III.6",
+   "title": "Feelings belong to the body; their source is in soul",
+   "summary": "We cannot deny that pleasure, pain, fear and desire are real changes; but we must ask what changes. To say the soul blushes or turns pale would be absurd: the shame or fear begins in soul, the blood changes in the body. Soul's movements come from it, as life does, without alteration; memories and images are not stamped in it like wax.",
+   "greek_unit": "3.6.3"
+  },
+  {
+   "id": "III.6.4",
+   "treatise": "III.6",
+   "title": "The affective part is a form, like a harmony",
+   "summary": "The affective part is where feelings followed by pleasure and pain arise. Some follow opinion, some come before it. The image in soul starts the trouble, but the trembling and pallor are in the body. The affective part is a form in matter, rooted in the soul of growth; it moves the body as a harmony might move the strings, itself unmoved.",
+   "greek_unit": "3.6.4"
+  },
+  {
+   "id": "III.6.5",
+   "treatise": "III.6",
+   "title": "Then why purify the soul?",
+   "summary": "If the soul is not affected, why make it free from affection by philosophy? Because the image coming into it is followed by trouble; reason would remove the image, as waking ends a dream. Purification is to leave the soul alone, not looking to other things or holding alien opinions; for the lower part, it is waking from strange images and not leaning down.",
+   "greek_unit": "3.6.5"
+  },
+  {
+   "id": "III.6.6",
+   "treatise": "III.6",
+   "title": "Being, and the bodies that seem most real",
+   "summary": "Now matter. First, true being is not what most people think: it lacks nothing, is life and intellect, receives nothing, and is all things at once. Bodies and their substrate are not-being. Hard things seem most real because they strike us, but the heavier a thing, the more it falls short; perceiving is the sleep of the soul, and true waking is a rising from bodies.",
+   "greek_unit": "3.6.6"
+  },
+  {
+   "id": "III.6.7",
+   "treatise": "III.6",
+   "title": "Matter is a phantom, a mirror of images",
+   "summary": "Matter is incorporeal, but not soul, intellect, life, form or power: it is truly not-being, a phantom of bulk, invisible, seen when one does not look. What seems to be in it are images in an image, as in a mirror; they come and go and do nothing to it, as forms might pass through a void. So it stays unaffected.",
+   "greek_unit": "3.6.7"
+  },
+  {
+   "id": "III.6.8",
+   "treatise": "III.6",
+   "title": "What is affected must have opposites in it",
+   "summary": "What is affected must have qualities opposite to those that come upon it, as heat is altered by cold. When fire perishes, the fire perishes, not the matter; affection is the road to perishing, and matter cannot perish. But how can matter hold so many mingled qualities and not be affected with them?",
+   "greek_unit": "3.6.8"
+  },
+  {
+   "id": "III.6.9",
+   "treatise": "III.6",
+   "title": "Things can be present without affecting",
+   "summary": "One thing can be present in another in several ways: changing it, improving it without affecting it, or like a shape in wax, or light, which alters nothing. Mirrors are not affected by their images; matter is even less. Only opposites affect opposites; matter has no opposite in it, so it is like a house in which men fight, untouched by the blows.",
+   "greek_unit": "3.6.9"
+  },
+  {
+   "id": "III.6.10",
+   "treatise": "III.6",
+   "title": "If matter were altered, it would not stay matter",
+   "summary": "If matter were affected, it would keep something of the affection, and become qualified matter, and then many-shaped, no longer able to receive everything, and so perishable. What is altered must remain while it changes; so matter, whose being is to be matter, cannot be altered as matter, any more than a form can be altered in its substance.",
+   "greek_unit": "3.6.10"
+  },
+  {
+   "id": "III.6.11",
+   "treatise": "III.6",
+   "title": "How matter shares in form without being changed",
+   "summary": "Plato's words, \"the things that come in and go out are always imitations of the things that are\", point to the puzzle: not how forms come into matter, but how they are in it while it stays unaffected. Matter gains nothing and loses nothing. If it were truly made beautiful it would cease to be matter; it shares only in seeming, and so stays evil, unaffected even by the good.",
+   "greek_unit": "3.6.11"
+  },
+  {
+   "id": "III.6.12",
+   "treatise": "III.6",
+   "title": "Plato's figures: matter is not altered by shapes",
+   "summary": "Plato makes matter take on figures to show that it stays unaffected: if shapes cause the feelings of living bodies while matter has none, it is not altered by them. His words \"burnt\" and \"made wet\" are softened by \"receiving the forms of air and water\". Fire is not \"burnt\"; and what has no size cannot be divided.",
+   "greek_unit": "3.6.12"
+  },
+  {
+   "id": "III.6.13",
+   "treatise": "III.6",
+   "title": "Receptacle and nurse: matter keeps its nature",
+   "summary": "They say matter flees from form; but matter is held in stones and rocks. It \"flees\" by being always itself, having form as if it never had it. Plato's \"receptacle and nurse of all becoming\", the \"place\" and \"seat\" in which things appear and from which they go, keep it unaffected. What comes into it is an image into what is not true, like a reflection in an invisible mirror.",
+   "greek_unit": "3.6.13"
+  },
+  {
+   "id": "III.6.14",
+   "treatise": "III.6",
+   "title": "Poverty, begging at the door",
+   "summary": "Without matter, nothing would come to be, as there is no image without a mirror. Matter is the Poverty of Plato's myth: it begs, and takes whatever it is given, and is never filled; it lies with Resource, the wisdom of the image. What it seems to receive slides off it, like an echo, or like light on a burning-glass: it holds nothing and stays itself.",
+   "greek_unit": "3.6.14"
+  },
+  {
+   "id": "III.6.15",
+   "treatise": "III.6",
+   "title": "Images that do not mix",
+   "summary": "The fire caught in a burning-glass is outside the glass and touches it; the forms are \"outside\" matter by its otherness alone, not mixing with it, as opinions and images in the soul come and go without mixing. But the soul can push its images away; matter, weaker, has nothing of its own, cannot even say \"I am here\", and is found only by a deep reasoning.",
+   "greek_unit": "3.6.15"
+  },
+  {
+   "id": "III.6.16",
+   "treatise": "III.6",
+   "title": "Size comes and goes, and matter stays",
+   "summary": "A rational principle makes matter great by putting greatness round it; take the form away and the substrate is not great. The size of a horse goes with the horse; the size of fire with the fire. If the heaven and all in it ceased, all size would leave matter, which would remain as it was. Matter is all things by sharing, size among them.",
+   "greek_unit": "3.6.16"
+  },
+  {
+   "id": "III.6.17",
+   "treatise": "III.6",
+   "title": "The great runs out, and matter runs with it",
+   "summary": "Matter is not size itself. The great in intellect and soul wants to be great, and gives its imitators the power to stamp it on another; running out in imaging, it drags matter with it, so that it seems great, stretched but not filled. Each principle images its own size into matter, which stretches to all, lying in the middle between form and nothing.",
+   "greek_unit": "3.6.17"
+  },
+  {
+   "id": "III.6.18",
+   "treatise": "III.6",
+   "title": "Like a cloak that can be taken off",
+   "summary": "A thought of the great, with power to go outward, would meet a nature with no trace of form, and make it great as an image. Matter keeps its nature, wearing this greatness like a cloak it put on while running; take it off and it is as it was. Soul receives forms without bulk; matter, a shadow with no activity of its own, waits to suffer what the maker wills, and receives all things, but in parts.",
+   "greek_unit": "3.6.18"
+  },
+  {
+   "id": "III.6.19",
+   "treatise": "III.6",
+   "title": "The mother that does not beget",
+   "summary": "What comes into matter, its \"mother\", neither harms nor helps it; qualities affect one another, and living bodies are affected, but matter stays. \"Receptacle and nurse\" suit it better than \"mother\", for it begets nothing. So the ancient wise men, in their rites, showed Hermes with the organ of generation, and the Mother of all with sterile attendants: matter receives, but does not beget.",
+   "greek_unit": "3.6.19"
   }
  ],
  "paragraphs": [
@@ -1561,7 +1720,7 @@
   {
    "seg": "II.9.16.p3",
    "chapter": "II.9.16",
-   "modern": "Even to ask about these things is not the mark of a wise man, but of someone blind, with neither perception nor intellect, and far from seeing the intelligible world, since he does not see this one. For what musician would there be who, having seen the harmony in the intelligible, would not be moved when he hears the harmony in sounds we perceive? Who, skilled in geometry and numbers, would not be pleased when he sees with his eyes what is proportionate, in ratio and ordered? Even in paintings, those who see the works of art with their eyes do not see the same things alike; when they recognise in what they perceive an imitation of what lies in thought, they are as it were stirred, and come to a recollection of the truth. It is from this experience that loves are moved. Someone who sees beauty well imitated in a face is carried to that other. Will anyone be so sluggish in mind, and moved by nothing else, that seeing all the beauties in the world we perceive, all its proportion, and this great good order, and the form that shows itself in the stars, far off as they are, he will not think of it, and be seized with awe, at what they are and from what? Then he has neither understood these things nor seen those.",
+   "modern": "Even to ask about these things is not the mark of a wise man, but of someone blind, with neither perception nor intellect, and far from seeing the intelligible world, since he does not see this one. For what musician would there be who, having seen the harmony in the intelligible, would not be moved when he hears the harmony in sounds we perceive? Who, skilled in geometry and numbers, would not be pleased when he sees with his eyes what is proportionate, in ratio and ordered? Even in paintings, those who see the works of art with their eyes do not see the same things in a like way; when they recognise in what they perceive an imitation of what lies in thought, they are as it were stirred, and come to a recollection of the truth. It is from this experience that loves are moved. Someone who sees beauty well imitated in a face is carried to that other. Will anyone be so sluggish in mind, and moved by nothing else, that seeing all the beauties in the world we perceive, all its proportion, and this great good order, and the form that shows itself in the stars, far off as they are, he will not think of it, and be seized with awe, at what they are and from what? Then he has neither understood these things nor seen those.",
    "greek": "καὶ οὐδὲ τὸ ζητεῖν περὶ τούτων ἔμφρονος, ἀλλὰ τυφλοῦ τινος καὶ παντάπασιν οὔτε αἴσθησιν οὔτε νοῦν ἔχοντος καὶ πόρρω τοῦ τὸν νοητὸν κόσμον ἰδεῖν ὄντος, ὃς τοῦτον οὐ βλέπει. τίς γὰρ ἂν μουσικὸς ἀνὴρ εἴη, ὃς τὴν ἐν νοητῷ ἁρμονίαν ἰδὼν οὐ κινήσεται τῆς ἐν φθόγγοις αἰσθητοῖς ἀκούων; ἢ τίς γεωμετρίας καὶ ἀριθμῶν ἔμπειρος, ὃς τὸ σύμμετρον καὶ ἀνάλογον καὶ τεταγμένον ἰδὼν δἰ ὀμμάτων οὐχ ἡσθήσεται; εἴπερ οὐχ ὁμοίως τὰ αὐτὰ βλέπουσιν οὐδὲ ἐν ταῖς γραφαῖς οἱ δἰ ὀμμάτων τὰ τῆς τέχνης βλέποντες, ἀλλ’ ἐπιγιγνώσκοντες μίμημα ἐν τῷ αἰσθητῷ τοῦ ἐν νοήσει κειμένου οἷον θορυβοῦνται καὶ εἰς ἀνάμνησιν ἔρχονται τοῦ ἀληθοῦς: ἐξ οὗ δὴ πάθους καὶ κινοῦνται οἱ ἔρωτες. ἀλλ’ ὁ μὲν ἰδὼν κάλλος ἐν προσώπῳ εὖ μεμιμημένον φέρεται ἐκεῖ, ἀργὸς δέ τις οὕτως ἔσται τὴν γνώμην καὶ εἰς οὐδὲν ἄλλο κινήσεται, ὥστε ὁρῶν σύμπαντα μὲν τὰ ἐν αἰσθητῷ κάλλη, σύμπασαν δὲ συμμετρίαν καὶ τὴν μεγάλην εὐταξίαν ταύτην καὶ τὸ ἐμφαινόμενον ἐν τοῖς ἄστροις εἶδος καὶ πόρρωθεν οὖσιν οὐκ ἐντεῦθεν ἐνθυμηθήσεται, καὶ σέβας αὐτὸν λαμβάνει, οἷα ἀφ̓ οἵων; οὐκ ἄρα οὔτε ταῦτα κατενόησεν, οὔτε ἐκεῖνα εἶδεν.",
    "flags": [
     {
@@ -1646,6 +1805,518 @@
    "greek": "οὐδέ, εἰ μόνοι λέγοιεν θεωρεῖν δύνασθαι, πλέον ἂν θεωρεῖν αὐτοῖς γίγνοιτο, οὐδ’ ὅτι αὑτοῖς φασιν εἶναι ἐξελθεῖν ἀποθανοῦσι, τοῖς δὲ μή, ἀεὶ τὸν οὐρανὸν κοσμοῦσιν: ἀπειρίᾳ γὰρ ἂν τοῦ ἔξω ὅ τι ποτέ ἐστι τοῦτο ἂν λέγοιεν καὶ τοῦ ὃν τρόπον ψυχὴ παντὸς ἐπιμελεῖται ἡ ὅλη τοῦ ἀψύχου. ἔξεστιν οὖν καὶ μὴ φιλοσωματεῖν καὶ καθαροῖς γίνεσθαι καὶ τοῦ θανάτου καταφρονεῖν καὶ τὰ ἀμείνω εἰδέναι κἀκεῖνα διώκειν καὶ τοῖς ἄλλοις τοῖς δυναμένοις διώκειν καὶ διώκουσιν ἀεὶ μὴ φθονεῖν ὡς οὐ διώκουσι, μηδὲ ταὐτὸ πάσχειν τοῖς οἰομένοις τὰ ἄστρα μὴ θεῖν, ὅτι αὐτοῖς ἡ αἴσθησις ἑστάναι αὐτὰ λέγει. διὰ τοῦτο γὰρ καὶ αὐτοὶ οὐκ οἴονται τὰ ἔξω βλέπειν τὴν τῶν ἄστρων φύσιν, ὅτι οὐχ ὁρῶσι τὴν ψυχὴν αὐτῶν ἔξωθεν οὖσαν.",
    "notes": [
     "\"The whole soul cares for all that is soulless\" is from the Phaedrus (246b)."
+   ]
+  },
+  {
+   "seg": "III.6.1.p1",
+   "chapter": "III.6.1",
+   "modern": "We say that perceptions are not affections, but activities and judgments about affections. The affections happen in something else, in the body, say, of a certain kind; the judgment happens in the soul, and it is not an affection, for then another judgment would be needed, and we would go up and up without end. Even so we would still have a difficulty here: whether judgment, as judgment, has nothing of what it judges. If it had an imprint, it has been affected. We might also speak of the so-called imprints, and show that the way they come about is quite different from what is supposed, the same as with thoughts, which are activities too, able to know without being affected. In short, our argument and our aim is not to subject the soul to changes and alterations of the kind that bodies undergo when they are heated or chilled. We ought also to look at what is called its affective part, and ask whether we shall grant that this too is unchanging, or allow it alone to be affected. But that comes later; first we must look into the difficulties about the earlier ones.",
+   "greek": "Τὰς αἰσθήσεις οὐ πάθη λέγοντες εἶναι, ἐνεργείας δὲ περὶ τὰ παθήματα καὶ κρίσεις, τῶν μὲν παθῶν περὶ ἄλλο γινομένων, οἷον τὸ σῶμα φέρε τὸ τοιόνδε, τῆς δὲ κρίσεως περὶ τὴν ψυχὴν οὐ πάθους οὔσης — ἄλλην γὰρ αὖ ἔδει κρίσιν γίνεσθαι καὶ ἐπαναβαίνειν ἀεὶ εἰς ἄπειρον — εἴχομεν ἂν οὐδὲν ἧττον καὶ ἐνταῦθα ἀπορίαν, εἰ ἡ κρίσις ᾗ κρίσις οὐδὲν ἔχει τοῦ κρινομένου. ἤ, εἰ τύπον ἔχοι, πέπονθεν. ἦν δ’ ὅμως λέγειν καὶ περὶ τῶν καλουμένων τυπώσεων, ὡς ὁ τρόπος ὅλως ἕτερος ἢ ὡς ὑπείληπται, ὁποῖος καὶ ἐπὶ τῶν νοήσεων ἐνεργειῶν καὶ τούτων οὐσῶν γινώσκειν δ’ ἄνευ τοῦ παθεῖν τι δυναμένων: καὶ ὅλως ὁ λόγος ἡμῖν καὶ τὸ βούλημα μὴ ὑποβαλεῖν τροπαῖς καὶ ἀλλοιώσεσι τὴν ψυχὴν τοιαύταις, ὁποῖαι αἱ θερμάνσεις καὶ ψύξεις σωμάτων. καὶ τὸ παθητικὸν δὲ λεγόμενον αὐτῆς ἔδει ἰδεῖν καὶ ἐπισκέψασθαι, πότερα καὶ τοῦτο ἄτρεπτον δώσομεν, ἢ τούτῳ μόνῳ τὸ πάσχειν συγχωρήσομεν. ἀλλὰ τοῦτο μὲν ὕστερον, περὶ δὲ τῶν προτέρων τὰς ἀπορίας ἐπισκεπτέον."
+  },
+  {
+   "seg": "III.6.1.p2",
+   "chapter": "III.6.1",
+   "modern": "How is what comes before the affective part, and before perception, and in general any part of soul, unchanging, when vice comes to be in it, and false opinions, and ignorance? When it feels at home with things and estranged from them, takes pleasure and pain, is angry, envies, is jealous, desires, and in short is never at rest, but is moved and changed by each thing that comes upon it? If the soul is a body and has size, it is not easy, or rather it is wholly impossible, to show it free from affection and unchanging in any of the things said to happen to it. But if it is a substance without size, and imperishability must belong to it, we must take care not to give it such affections, lest we find we have made it perishable without noticing. And if its substance is a number, or a rational principle, as we say, how could an affection come to be in a number or a rational principle? We must rather think that what come upon it are \"unreasoning reasons\" and \"affections without affection\"; these words, carried over from bodies, must each be taken in the opposite sense, and by analogy: it has them without having them, and is affected without being affected. And we must look at how such things happen.",
+   "greek": "πῶς γὰρ ἄτρεπτον καὶ τὸ πρὸ τοῦ παθητικοῦ καὶ τὸ πρὸ αἰσθήσεως καὶ ὅλως ψυχῆς ὁτιοῦν κακίας περὶ αὐτὴν ἐγγινομένης καὶ δοξῶν ψευδῶν καὶ ἀγνοίας; οἰκειώσεις δὲ καὶ ἀλλοτριώσεις ἡδομένης καὶ λυπουμένης, ὀργιζομένης, φθονούσης, ζηλούσης, ἐπιθυμούσης, ὅλως οὐδαμῇ ἡσυχίαν ἀγούσης, ἀλλ’ ἐφ̓ ἑκάστῳ τῶν προσπιπτόντων κινουμένης καὶ μεταβαλλούσης. ἀλλ’ εἰ μὲν σῶμά ἐστιν ἡ ψυχὴ καὶ μέγεθος ἔχει, οὐ ῥᾴδιον, μᾶλλον δὲ ὅλως ἀδύνατον, ἀπαθῆ αὐτὴν καὶ ἄτρεπτον δεικνύναι ἐν ὁτῳοῦν τῶν λεγομένων γίνεσθαι περὶ αὐτήν: εἰ δέ ἐστιν οὐσία ἀμεγέθης καὶ δεῖ καὶ τὸ ἄφθαρτον αὐτῇ παρεῖναι, εὐλαβητέον αὐτῇ πάθη διδόναι τοιαῦτα, μὴ καὶ λάθωμεν αὐτὴν φθαρτὴν εἶναι διδόντες. καὶ δὴ εἴτε ἀριθμὸς εἴτε λόγος, ὥς φαμεν, ἡ οὐσία αὐτῆς, πῶς ἂν πάθος ἐγγένοιτο ἐν ἀριθμῷ ἢ λόγῳ; ἀλλὰ μᾶλλον λόγους ἀλόγους καὶ ἀπαθῆ πάθη δεῖ ἐπιγίγνεσθαι αὐτῇ οἴεσθαι, καὶ ταῦτα ἀπὸ τῶν σωμάτων μετενηνεγμένα ἀντικειμένως ληπτέον ἕκαστα καὶ κατ’ ἀναλογίαν, καὶ ἔχουσαν οὐκ ἔχειν καὶ πάσχουσαν οὐ πάσχειν. καὶ ὅστις ὁ τρόπος τῶν τοιούτων, ἐπισκεπτέον.",
+   "flags": [
+    {
+     "taylor": "so that the soul [after a manner] possessing these, does not [really] possess them",
+     "why": "Taylor's words in square brackets are his own; the Greek says only that the soul has them without having them."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.2.p1",
+   "chapter": "III.6.2",
+   "modern": "First we must speak of vice and virtue, and say what happens when vice is said to be present. For we say we must take away something, as if there were some evil in the soul, and put in virtue, and give it order, and make beauty in it in place of its former ugliness. If we say that virtue is a harmony and vice a lack of harmony, we would be saying what the ancients thought, and the argument would make no small gain towards what we are looking for. If virtue is the parts of the soul attuned to one another according to nature, and vice their not being attuned, nothing would come in from outside, but each part would come into the harmony as it is, and would not come into it in the discord while being of that kind. So it is with dancers who dance and sing together, even if they are not the same; and when one sings alone and the others do not, and when each sings by himself. For they must not only sing together, but each must sing his own part well, with a musical skill of his own. So in the soul too there is a harmony when each part does what belongs to it. But before this harmony there must be another virtue of each part, and a vice of each before their discord with one another.",
+   "greek": "πρῶτον δὲ περὶ κακίας καὶ ἀρετῆς λεκτέον, τί γίγνεται τότε, ὅταν κακία λέγηται παρεῖναι: καὶ γὰρ ἀφαιρεῖν δεῖν φαμεν ὡς ὄντος τινὸς ἐν αὐτῇ κακοῦ καὶ ἐνθεῖναι ἀρετὴν καὶ κοσμῆσαι καὶ κάλλος ἐμποιῆσαι ἀντὶ αἴσχους τοῦ πρόσθεν. ἆῤ οὖν λέγοντες ἀρετὴν ἁρμονίαν εἶναι, ἀναρμοστίαν δὲ τὴν κακίαν, λέγοιμεν ἂν δόξαν δοκοῦσαν τοῖς παλαιοῖς καί τι πρὸς τὸ ζητούμενον οὐ μικρὸν ὁ λόγος ἀνύσειεν; εἰ γὰρ συναρμοσθέντα μὲν κατὰ φύσιν τὰ μέρη τῆς ψυχῆς πρὸς ἄλληλα ἀρετή ἐστι, μὴ συναρμοσθέντα δὲ κακία, ἐπακτὸν οὐδὲν ἂν οὐδ’ ἑτέρωθεν γίγνοιτο, ἀλλ’ ἕκαστον ἥκοι ἂν οἷον ἐστὶν εἰς τὴν ἁρμογὴν καὶ οὐκ ἂν ἥκοι ἐν τῇ ἀναρμοστίᾳ τοιοῦτον ὄν, οἷον καὶ χορευταὶ χορεύοντες καὶ συνᾴδοντες ἀλλήλοις, εἰ καὶ μὴ οἱ αὐτοί εἰσι, καὶ μόνος τις ᾅδων τῶν ἄλλων μὴ ᾀδόντων, καὶ ἑκάστου καθ̓ ἑαυτὸν ᾅδοντος: οὐ γὰρ μόνον δεῖ συνᾴδειν, ἀλλὰ καὶ ἕκαστον καλῶς τὸ αὑτοῦ ᾅδοντα οἰκείᾳ μουσικῇ: ὥστε κἀκεῖ ἐπὶ τῆς ψυχῆς ἁρμονίαν εἶναι ἑκάστου μέρους τὸ αὐτῷ προσῆκον ποιοῦντος. δεῖ δὴ πρὸ τῆς ἁρμονίας αὐτῆς ἄλλην ἑκάστου εἶναι ἀρετήν, καὶ κακίαν δὲ ἑκάστου πρὸ τῆς πρὸς ἄλληλα ἀναρμοστίας.",
+   "flags": [
+    {
+     "taylor": "like dancers who in dancing do not accord with each other",
+     "why": "The Greek compares the soul to dancers who dance and sing together, even though they are different people; the \"not\" belongs to the discord, not to the dancers."
+    }
+   ],
+   "notes": [
+    "Virtue as a harmony of the parts of the soul is the view of the Republic (443c-e); the harmony theory of the soul itself is rejected in the Phaedo (85e-86d, 92a-95a)."
+   ]
+  },
+  {
+   "seg": "III.6.2.p2",
+   "chapter": "III.6.2",
+   "modern": "By the presence of what, then, is each part bad? Of vice. And good? Of virtue. In the reasoning part one might perhaps say that vice is ignorance, and ignorance as an absence, not the presence of something. But when false opinions are in it, which most of all make vice, how will he say that something does not come to be in it, and that this part does not become different? And is the spirited part not in one state when cowardly, and another when brave? And the desiring part, one when licentious, another when self-controlled? We shall say that when each is in virtue, it acts according to the substance it is, listening to reason: the reasoning part listening to intellect, the others to the reasoning part. To listen to reason is like seeing: the part is not shaped, but sees, and is in act when it sees. For sight is the same in substance whether it is in potency or in act; its act is not an alteration, but at once it comes to what it has its substance for, and it knows, and has known, without being affected. So the reasoning part stands towards intellect, and sees; and this is the power of thinking, not a seal stamped inside it. It has what it has seen, and again does not have it: it has it by knowing, it does not have it in that nothing from the sight is laid up in it, like a shape in wax.",
+   "greek": "τίνος οὖν παρόντος ἕκαστον μέρος κακόν; ἢ κακίας. καὶ ἀγαθὸν αὖ; ἢ ἀρετῆς. τῷ μὲν οὖν λογιστικῷ τάχ̓ ἄν τις λέγων ἄγνοιαν εἶναι τὴν κακίαν καὶ ἄγνοιαν τὴν κατὰ ἀπόφασιν οὐ παρουσίαν τινὸς ἂν λέγοι. ἀλλ’ ὅταν καὶ ψευδεῖς δόξαι ἐνῶσιν, ὃ δὴ μάλιστα τὴν κακίαν ποιεῖ, πῶς οὐκ ἐγγίνεσθαι φήσει καὶ ἀλλοῖον ταύτῃ τοῦτο τὸ μόριον γίνεσθαι; τὸ δὲ θυμοειδὲς οὐκ ἄλλως μὲν ἔχει δειλαῖνον, ἀνδρεῖον δὲ ὂν ἄλλως; τὸ δὲ ἐπιθυμοῦν ἀκόλαστον μὲν ὂν οὐκ ἄλλως, σωφρονοῦν δὲ ἄλλως; ἢ ὅταν μὲν ἐν ἀρετῇ ἕκαστον ᾖ, ἐνεργεῖν κατὰ τὴν οὐσίαν ᾗ ἐστιν ἕκαστον ἐπαίον λόγου φήσομεν καὶ τὸ μὲν λογιζόμενον παρὰ τοῦ νοῦ, τὰ δ’ ἄλλα παρὰ τούτου. τὸ δ’ ἐπαίειν λόγου ὥσπερ ὁρᾶν ἐστιν οὐ σχηματιζόμενον, ἀλλ’ ὁρῶν καὶ ἐνεργείᾳ ὄν, ὅτε ὁρᾷ. ὥσπερ γὰρ ἡ ὄψις καὶ δυνάμει οὖσα καὶ ἐνεργείᾳ ἡ αὐτὴ τῇ οὐσίᾳ, ἡ δὲ ἐνέργειά ἐστιν οὐκ ἀλλοίωσις, ἀλλ’ ἅμα προσῆλθε πρὸς ὃ ἔχει τὴν οὐσίαν καὶ ἔστιν εἰδυῖα καὶ ἔγνω ἀπαθῶς, καὶ τὸ λογιζόμενον οὕτω πρὸς τὸν νοῦν ἔχει καὶ ὁρᾷ καὶ ἡ δύναμις τοῦ νοεῖν τοῦτο, οὐ σφραγῖδος ἔνδον γενομένης, ἀλλ’ ἔχει ὃ εἶδε καὶ αὖ οὐκ ἔχει: ἔχει μὲν τῷ γινώσκειν, οὐκ ἔχει δὲ τῷ μὴ ἀποκεῖσθαί τι ἐκ τοῦ ὁράματος, ὥσπερ ἐν κηρῷ μορφήν.",
+   "flags": [
+    {
+     "taylor": "And is not the epithymetic 1 part likewise",
+     "why": "Taylor keeps the Greek word (epithymētikon): the part of the soul that desires."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.2.p3",
+   "chapter": "III.6.2",
+   "modern": "We must remember that memories too were said not to be things laid up in the soul, but the soul's waking its power so as to have even what it does not have. What, then? Was it not different before it remembered, and later, when it remembers? Do you want to call it different? Not altered, at least; unless one calls going from potency to act alteration. Nothing has been added: it does what it was by nature fitted to do. In general, the activities of things without matter come about without their being altered, or they would perish; rather, they remain. Being affected while acting belongs to things with matter. If what is without matter is affected, it has nothing by which to remain. So in seeing, when the sight is active, what is affected is the eye; and opinions are like sights.",
+   "greek": "μεμνῆσθαι δὲ δεῖ, ὅτι καὶ τὰς μνήμας οὐκ ἐναποκειμένων τινῶν ἐλέγετο εἶναι, ἀλλὰ τῆς ψυχῆς οὕτω τὴν δύναμιν ἐγειράσης, ὥστε καὶ ὃ μὴ ἔχει ἔχειν. τί οὖν; οὐκ ἄλλη ἦν πρὶν οὕτω μνημονεύειν καὶ ὕστερον, ὅτε μνημονεύει; ἢ βούλει ἄλλην; οὔκουν ἀλλοιωθεῖσά γε, πλὴν εἰ μή τις τὸ ἐκ δυνάμεως εἰς ἐνέργειαν ἐλθεῖν ἀλλοίωσιν λέγοι, ἀλλ’ ἔστιν οὐδὲν προσγενόμενον, ἀλλ’ ᾗπερ ἦν πεφυκυῖα τοῦτο ποιεῖ. ὅλως γὰρ αἱ ἐνέργειαι τῶν ἀύλων οὐ συναλλοιουμένων γίνονται: ἢ φθαρεῖεν ἄν: ἀλλὰ πολὺ μᾶλλον μενόντων, τὸ δὲ πάσχειν τὸ ἐνεργοῦν τοῦτο τῶν μεθ̓ ὕλης. εἰ δὲ ἄυλον ὂν πείσεται, οὐκ ἔχει ᾧ μένει: ὥσπερ ἐπὶ τῆς ὄψεως τῆς ὁράσεως ἐνεργούσης τὸ πάσχον ὁ ὀφθαλμός ἐστιν, αἱ δὲ δόξαι ὥσπερ ὁράματα.",
+   "notes": [
+    "Memory as a power woken, not an imprint stored, is argued in IV.6, On Perception and Memory."
+   ]
+  },
+  {
+   "seg": "III.6.2.p4",
+   "chapter": "III.6.2",
+   "modern": "How is the spirited part cowardly, and how brave? Cowardly, by not looking to reason, or by looking to reason that is bad, or by a lack of instruments, such as a want or weakness of its bodily weapons, or by being hindered in acting, or by not being moved, but only provoked, as it were. Brave, if the opposite. In none of these is there alteration or affection. The desiring part, when it acts alone, brings about what is called licentiousness. It does everything alone, and the others are not present, whose part it would be to rule when present and to show it the way; the part that sees would be doing something else, not wholly, but partly at leisure from seeing the others as far as it can. Perhaps for the most part what is called the vice of this part is a bad condition of the body, and its virtue the opposite; so that in neither case is anything added to the soul.",
+   "greek": "τὸ δὲ θυμοειδὲς πῶς δειλόν; πῶς δὲ καὶ ἀνδρεῖον; ἢ δειλὸν μὲν τῷ ἢ μὴ ὁρᾶν πρὸς τὸν λόγον ἢ πρὸς φαῦλον ὄντα τὸν λόγον ὁρᾶν ἢ ὀργάνων ἐλλείψει, οἷον ἀπορίᾳ ἢ σαθρότητι ὅπλων σωματικῶν, ἢ ἐνεργεῖν κωλυόμενον ἢ μὴ κινηθὲν ἀλλ’ οἷον ἐρεθισθέν: ἀνδρεῖον δέ, εἰ τὰ ἐναντία. ἐν οἷς οὐδεμία ἀλλοίωσις οὐδὲ πάθος. τὸ δὲ ἐπιθυμοῦν ἐνεργοῦν μὲν μόνον τὴν λεγομένην ἀκολασίαν παρέχεται: πάντα γὰρ μόνον πράττει καὶ οὐ πάρεστι τὰ ἄλλα, οἷς ἂν ἦν ἐν μέρει τὸ κρατεῖν παροῦσι καὶ δεικνύναι αὐτῷ, τὸ δ’ ὁρῶν ἦν ἂν ἄλλο πρᾶττον, οὐ πάντη ἀλλά που καὶ σχολάζον τῷ ὁρᾶν ὡς οἷόν τε τὰ ἄλλα. τάχα δὲ τὸ πολὺ καὶ σώματος καχεξία ἡ τούτου λεγομένη κακία, ἀρετὴ δὲ τἀναντία: ὥστ̓ οὐδεμία ἐφ̓ ἑκάτερα προσθήκη τῇ ψυχῇ"
+  },
+  {
+   "seg": "III.6.3.p1",
+   "chapter": "III.6.3",
+   "modern": "How about feeling at home and estranged? And how are pains, angers and pleasures, desires and fears not changes and affections present and moving in the soul? About these we must distinguish as follows. To say that alterations and strong perceptions of them do not happen would be to contradict what is plain. But granting them, we must ask what it is that changes. For we are in danger of supposing, when we say these things of the soul, something like saying the soul blushes, or turns pale, not reckoning that these affections come through soul but happen in the rest of the composite. Shame is in the soul when an opinion of something shameful arises in it; the body, which the soul as it were holds (not to be misled by words), being under the soul and not like something soulless, was changed in the blood, which is easily moved. As for what is called fear, its source is in the soul; the pallor is the blood withdrawing inward. Of pleasure, the spreading out comes to perception in the body; what is in the soul is no longer an affection. So with pain.",
+   "greek": "αἱ δ’ οἰκειώσεις καὶ ἀλλοτριώσεις πῶς; καὶ λῦπαι καὶ ὀργαὶ καὶ ἡδοναὶ ἐπιθυμίαι τε καὶ φόβοι πῶς οὐ τροπαὶ καὶ πάθη ἐνόντα καὶ κινούμενα; δεῖ δὴ καὶ περὶ τούτων ὧδε διαλαβεῖν. ὅτι γὰρ ἐγγίνονται ἀλλοιώσεις καὶ σφοδραὶ τούτων αἰσθήσεις μὴ λέγειν ἐναντία λέγοντός ἐστι τοῖς ἐναργέσιν. ἀλλὰ χρὴ συγχωροῦντας ζητεῖν ὅ τι ἐστὶ τὸ τρεπόμενον. κινδυνεύομεν γὰρ περὶ ψυχὴν ταῦτα λέγοντες ὅμοιόν τι ὑπολαμβάνειν, ὡς εἰ τὴν ψυχὴν λέγοιμεν ἐρυθριᾶν ἢ αὖ ἐν ὠχριάσει γίγνεσθαι, μὴ λογιζόμενοι, ὡς διὰ ψυχὴν μὲν ταῦτα τὰ πάθη, περὶ δὲ τὴν ἄλλην σύστασίν ἐστι γιγνόμενα. ἀλλ’ ἡ μὲν αἰσχύνη ἐν ψυχῇ δόξης αἰσχροῦ γενομένης τὸ δὲ σῶμα ἐκείνης τοῦτο οἷον σχούσης, ἵνα μὴ τοῖς ὀνόμασι πλανώμεθα, ἐπὶ τῇ ψυχῇ ὂν καὶ οὐ ταὐτὸν ἀψύχῳ ἐτράπη κατὰ τὸ αἷμα εὐκίνητον ὄν. τά τε τοῦ λεγομένου φόβου ἐν μὲν τῇ ψυχῇ ἡ ἀρχή, τὸ δ’ ὠχρὸν ἀναχωρήσαντος τοῦ αἵματος εἴσω. καὶ τῆς ἡδονῆς δὲ τὸ τῆς διαχύσεως τοῦτο καὶ εἰς αἴσθησιν ἧκον περὶ τὸ σῶμα, τὸ δὲ περὶ τὴν ψυχὴν οὐκέτι πάθος. καὶ τὸ τῆς λύπης ὡσαύτως.",
+   "flags": [
+    {
+     "taylor": "the body, (that we may not err in our conceptions) being as it were contained in the soul",
+     "why": "Taylor's words are near the Greek; the warning \"not to be misled by words\" belongs to the word \"holds\", that the soul \"holds\" the body."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.3.p2",
+   "chapter": "III.6.3",
+   "modern": "Again, desire: its source is in the soul and is hidden; what goes out from there, perception knows. For when we say the soul is moved in desires, reasonings and opinions, we do not mean that it does these things while being shaken, but that the movements come from it. When we call life a movement, we do not mean an alteration: the activity of each part according to nature is a life that does not leave itself. The heads of the matter are enough. If we grant that activities, lives and longings are not alterations, nor memories imprints sealed in, nor imaginings like stamps in wax, we must grant that in all that are called affections and movements the soul stays the same in its substrate and substance; and that virtue and vice do not come to be in it as black and white or hot and cold do in a body, but in the way that has been said, for both, and in general for all opposites.",
+   "greek": "ἐπεὶ καὶ τὸ τῆς ἐπιθυμίας ἐπὶ μὲν τῆς ψυχῆς τῆς ἀρχῆς οὔσης τοῦ ἐπιθυμεῖν λανθάνον ἐστίν, ἐκεῖθεν δὲ τὸ προελθὸν ἡ αἴσθησις ἔγνω. καὶ γὰρ ὅταν λέγωμεν κινεῖσθαι αὐτὴν ἐν ἐπιθυμίαις, ἐν λογισμοῖς, ἐν δόξαις, οὐ σαλευομένην αὐτὴν λέγομεν ταῦτα ποιεῖν, ἀλλ’ ἐξ αὐτῆς γινεσθαι τὰς κινήσεις. ἐπεὶ καὶ τὸ ζῆν κίνησιν λέγοντες οὐκ ἀλλοιοῦμεν, ἑκάστου δὲ μορίου ἡ ἐνέργεια ἡ κατὰ φύσιν ζωὴ οὐκ ἐξιστᾶσα. κεφάλαιον δὲ ἱκανόν: εἰ τὰς ἐνεργείας καὶ τὰς ζωὰς καὶ τὰς ὀρέξεις οὐκ ἀλλοιώσεις συγχωροῦμεν καὶ τὰς μνήμας οὐ τύπους ἐναποσφραγιζομένους οὐδὲ τὰς φαντασίας ὡς ἐν κηρῷ τυπώσεις, συγχωρητέον πανταχοῦ ἐν πᾶσι τοῖς λεγομένοις πάθεσι καὶ κινήσεσι τὴν ψυχὴν ὡσαύτως ἔχειν τῷ ὑποκειμένῳ καὶ τῇ οὐσίᾳ καὶ τὴν ἀρετὴν καὶ τὴν κακίαν μὴ ὡς τὸ μέλαν καὶ τὸ λευκὸν περὶ τὸ σῶμα γίγνεσθαι ἢ τὸ θερμὸν καὶ τὸ ψυχρόν, ἀλλ’ ὃν εἴρηται τρόπον ἐπ’ ἄμφω περὶ πάνθ̓ ὅλως τὰ ἐναντία γίγνεσθαι."
+  },
+  {
+   "seg": "III.6.4.p1",
+   "chapter": "III.6.4",
+   "modern": "We must look at what is called the affective part of the soul. In a way we have spoken of it already, when we spoke of all the affections that arise in the spirited and the desiring parts, and how each arises. But we must say more about it, first grasping what the affective part of the soul is said to be. It is said, of course, to be that in which the affections seem to arise; and these are the things that pleasure and pain follow. Of the affections, some arise on opinions, as when someone thinks he is going to die and is afraid, or thinks some good will come to him and is pleased: the opinion is in one place, and the affection is moved in another. Others go first, and of themselves, without choice, put the opinion into the part that is fitted to form opinions. That opinion leaves the opining part unchanged has been said. And fear, which is outside the opinion, comes again from above, from the opinion, giving a kind of understanding, as it were, to the part of the soul said to fear.",
+   "greek": "περὶ δὲ τοῦ λεγομένου παθητικοῦ τῆς ψυχῆς ἐπισκεπτέον. ἤδη μὲν οὖν εἴρηται τρόπον τινὰ καὶ περὶ τούτου ἐν οἷς περὶ τῶν παθῶν ἁπάντων ἐλέγετο τῶν περὶ τὸ θυμοειδὲς καὶ τὸ ἐπιθυμοῦν γιγνομένων ὅπως ἕκαστα: οὐ μὴν ἀλλ’ ἔτι λεκτέον περὶ αὐτοῦ πρῶτον λαβόντας, ὅ τι ποτὲ τὸ παθητικὸν τῆς ψυχῆς λέγεται εἶναι. λέγεται δὴ πάντως περὶ ὃ τὰ πάθη δοκεῖ συνίστασθαι: ταῦτα δέ ἐστιν οἷς ἕπεται ἡδονὴ καὶ λύπη. τῶν δὲ παθῶν τὰ μὲν ἐπὶ δόξαις συνίσταται, ὡς ὅταν δοξάσας τις μέλλειν τελευτᾶν ἴσχῃ φόβον, ἢ οἰηθεὶς ἀγαθὸν αὑτῷ τι ἔσεσθαι ἡσθῇ, τῆς μὲν δόξης ἐν ἄλλῳ, τοῦ δὲ πάθους κινηθέντος ἐν ἄλλῳ: τὰ δέ ἐστιν ὡς ἡγησάμενα αὐτὰ ἀπροαιρέτως ἐμποιεῖν ἐν τῷ πεφυκότι δοξάζειν τὴν δόξαν. ἡ μὲν δὴ δόξα ὅτι ἄτρεπτον ἐᾷ ἐπὶ τῷ δοξάζειν εἴρηται: ὁ δ’ ἐκτὸς τῆς δόξης φόβος ἐλθὼν ἄνωθεν αὖ ἀπὸ τῆς δόξης οἷον σύνεσίν τινα παρασχὼν τῷ λεγομένῳ τῆς ψυχῆς φοβεῖσθαι.",
+   "flags": [
+    {
+     "taylor": "Unexpected fear, however, when it accedes, will be found to originate from opinion",
+     "why": "The Greek says the fear is \"outside the opinion\", in another part, though it comes from the opinion above it; it does not say \"unexpected\"."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.4.p2",
+   "chapter": "III.6.4",
+   "modern": "What does this fearing do? It causes trouble and alarm, they say, at an expected evil. That the image is in the soul is clear to anyone: both the first, which we call opinion, and the one that comes from it, which is no longer opinion but, in the lower part, a dim sort of opinion and an image not judged, like the activity in what is called nature, by which it makes each thing, as they say, without imaging. What comes from these, the trouble we perceive, arises in the body: trembling, shaking, pallor, being unable to speak. These are not in the soul's part; or we shall say that it is bodily, if it was affected in this way. Nor would they still reach the body, if what sends them were no longer active in sending, held down by the affection and put outside itself.",
+   "greek": "τί ποτε ποιεῖ τοῦτο τὸ φοβεῖσθαι; ταραχὴν καὶ ἔκπληξίν, φασιν, ἐπὶ προσδοκωμένῳ κακῷ. ὅτι μὲν οὖν ἡ φαντασία ἐν ψυχῇ, ἥ τε πρώτη, ἣν δὴ καλοῦμεν δόξαν, ἥ τε ἀπὸ ταύτης οὐκέτι δόξα, ἀλλὰ περὶ τὸ κάτω ἀμυδρὰ οἷον δόξα καὶ ἀνεπίκριτος φαντασία, οἵα τῇ λεγομένῃ φύσει ἐνυπάρχει ἐνέργεια καθ̓ ἃ ποιεῖ ἕκαστον, ὥς φασιν, ἀφαντάστως, δῆλον ἄν τῳ γένοιτο. τὸ δ’ ἀπὸ τούτων ἤδη αἰσθητὴ ἡ ταραχὴ περὶ τὸ σῶμα γινομένη ὅ τε τρόμος καὶ ὁ σεισμὸς τοῦ σώματος καὶ τὸ ὠχρὸν καὶ ἡ ἀδυναμία τοῦ λέγειν. οὐ γὰρ δὴ ἐν τῷ ψυχικῷ μέρει ταῦτα: ἢ σωματικὸν φήσομεν αὐτὸ εἶναι, αὐτό γε εἴπερ ἦν παθὸν ταῦτα: οὐδ’ ἂν ἔτι εἰς τὸ σῶμα ταῦτα ἀφίκετο τοῦ πέμποντος οὐκέτι ἐνεργοῦντος τὸ πέμπειν διὰ τὸ κατέχεσθαι τῷ πάθει καὶ ἐξίστασθαι ἑαυτοῦ.",
+   "flags": [
+    {
+     "taylor": "For these effects are not in the psychical part ; since if they were, we should not say that they are corporeal",
+     "why": "The Greek says that if these were in the soul's part, we would have to call that part bodily; Taylor reverses it."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.4.p3",
+   "chapter": "III.6.4",
+   "modern": "This affective part of the soul is not a body, but a form; in matter, however, as are the desiring part and the parts of nourishment, growth and generation, which is the root and source of the desiring and affective form. No form should have trouble, or any affection, in it: it stays still, and its matter comes into the affection, when it does, by the presence of the form that moves it. The power of growth, when it makes things grow, does not itself grow, nor when it increases, increase; nor in general, when it moves, is it moved with the motion it causes; either it is not moved at all, or it is another kind of motion or activity. So the nature of the form must itself be an activity and act by its presence, as if a harmony moved the strings by itself. The affective part will be the cause of the affection, the movement coming from it either from the perceptual image or even without an image (we must look into whether this is when the opinion starts it from above), while it itself stays in the form of a harmony. The causes of the moving are like the musician; what is struck, through the affection, would be like the strings. For there too it is not the harmony that is affected, but the string; yet the string would not be moved musically, even if the musician wished, unless the harmony said so.",
+   "greek": "ἀλλ’ ἔστι μὲν τοῦτο τὸ τῆς ψυχῆς μέρος τὸ παθητικὸν οὐ σῶμα μέν, εἶδος δέ τι. ἐν ὕλῃ μέντοι καὶ τὸ ἐπιθυμοῦν καὶ τό γε θρεπτικόν τε καὶ αὐξητικὸν καὶ γεννητικόν, ὅ ἐστι ῥίζα καὶ ἀρχὴ τοῦ ἐπιθυμοῦντος καὶ παθητικοῦ εἴδους. εἴδει δὲ οὐδενὶ δεῖ παρεῖναι ταραχὴν ἢ ὅλως πάθος, ἀλλ’ ἑστηκέναι μὲν αὐτό, τὴν δὲ ὕλην αὐτοῦ ἐν τῷ πάθει γίγνεσθαι, ὅταν γίγνηται, ἐκείνου τῇ παρουσίᾳ τοῦ κινοῦντος. οὐ γὰρ δὴ τὸ φυτικόν, ὅταν φύῃ, φύεται, οὐδ’ ὅταν αὔξῃ, αὔξεται, οὐδ’ ὅλως, ὅταν κινῇ, κινεῖται ἐκείνην τὴν κίνησιν ἣν κινεῖ, ἀλλ’ ἢ οὐδ’ ὅλως, ἢ ἄλλος τρόπος κινήσεως ἢ ἐνεργείας. αὐτὴν μὲν οὖν δεῖ τὴν τοῦ εἴδους φύσιν ἐνέργειαν εἶναι καὶ τῇ παρουσίᾳ ποιεῖν, οἷον εἰ ἡ ἁρμονία ἐξ αὑτῆς τὰς χορδὰς ἐκίνει. ἔσται τοίνυν τὸ παθητικὸν πάθους μὲν αἴτιον ἢ παῤ αὐτοῦ γενομένου τοῦ κινήματος ἐκ τῆς φαντασίας τῆς αἰσθητικῆς ἢ καὶ ἄνευ φαντασίας: ἐπισκεπτέον δὲ τοῦτο, εἰ τῆς δόξης ἄνωθεν ἀρξάσης: αὐτὸ δὲ μένον ἐν ἁρμονίας εἴδει. τὰ δὲ αἴτια τοῦ κινῆσαι ἀνάλογον τῷ μουσικῷ: τὰ δὲ πληγέντα διὰ πάθους πρὸς τὰς χορδὰς ἂν τὸν λόγον ἔχοι. καὶ γὰρ κἀκεῖ οὐχ ἡ ἁρμονία πέπονθεν, ἀλλ’ ἡ χορδή: οὐ μὴν ἐκινήθη ἂν ἡ χορδὴ μουσικῶς, εἰ καὶ ὁ μουσικὸς ἐβούλετο, μὴ τῆς ἁρμονίας τοῦτο λεγούσης.",
+   "flags": [
+    {
+     "taylor": "It is requisite, how- mity it is conjoined with sense",
+     "why": "Taylor's chapter, as the scan gives it, has one of his footnotes printed into the text here, breaking the word \"however\" (\"See my Introduction to ... Aristotle's treatise On the Soul\"). It is Taylor's, not Plotinus'."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.5.p1",
+   "chapter": "III.6.5",
+   "modern": "Why, then, must we seek to make the soul free from affection by philosophy, if it is not affected in the first place? Because what comes into it in the so-called affective part, an image as it were, makes the affection that follows, the trouble, and joined to the trouble is the image of the evil expected. Reason thought it right to remove such an affection, as it is called, altogether, and not to let it come to be. While it comes to be the soul is not yet in a good state; when it does not, it is free from affection, since the cause of the affection no longer comes to be in it. It is as if someone wanting to remove the images of dreams were to bring the imagining soul to waking, saying that the dreams had made the affections, and calling the outside things, as if they were seen in a dream, affections of the soul.",
+   "greek": "τί οὖν χρὴ ζητεῖν ἀπαθῆ τὴν ψυχὴν ἐκ φιλοσοφίας ποιεῖν μηδὲ τὴν ἀρχὴν πάσχουσαν; ἢ ἐπειδὴ καὶ τὸ εἰς αὐτὴν ἐπὶ τοῦ λεγομένου παθητικοῦ οἷον φάντασμα τὸ ἐφεξῆς πάθημα ποιεῖ, τὴν ταραχήν, καὶ συνέζευκται τῇ ταραχῇ ἡ τοῦ προσδοκωμένου κακοῦ εἰκών, πάθος τὸ τοιοῦτον λεγόμενον ἠξίου ὁ λόγος ὅλως ἀφαιρεῖν καὶ μὴ ἐᾶν ἐγγίγνεσθαι ὡς γιγνομένου μὲν οὔπω τῆς ψυχῆς ἐχούσης εὖ, μὴ γιγνομένου δὲ ἀπαθῶς ἰσχούσης τοῦ αἰτίου τοῦ πάθους οὐκέτι ἐγγιγνομένου, οἷον εἴ τις τὰς τῶν ὀνειράτων φαντασίας ἀναιρεῖν ἐθέλων ἐν ἐγρηγόρσει τὴν ψυχὴν τὴν φανταζομένην ποιοῖ, εἰ τὰ πάθη λέγοι πεποιηκέναι τὰ ἔξωθεν οἷον ὁράματα παθήματα λέγων τῆς ψυχῆς εἶναι.",
+   "flags": [
+    {
+     "taylor": "or as if he should say that external spectacles produce the passions",
+     "why": "The Greek is hard. The Workshop takes it that the one who wakes the dreamer treats the dream images as having caused the soul's feelings; Taylor makes a second comparison of it."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.5.p2",
+   "chapter": "III.6.5",
+   "modern": "But what would the purification of the soul be, if it has not been stained at all? Or what is it to separate it from the body? Purification would be to leave it alone, not with others, or not looking to another, nor having alien opinions, whatever the way of opinions or affections is, as has been said; neither to see the images nor make affections from them. If it turns away from the lower things to the other side, how is this not purification? And separation too: of the soul that no longer comes to be in the body as if it belonged to it; it is like light in muddy water, which is untouched even so, though in the mud. The purification of the affective part is a waking from strange images and not seeing them; its separation is not leaning down much, and not imagining the things below. Separating it would also be taking away the things from which it is separated, when it is not on a spirit muddied by gluttony and a mass of impure flesh, but what it is in is thin, so that it may ride on it quietly.",
+   "greek": "ἀλλὰ τίς ἡ κάθαρσις ἂν τῆς ψυχῆς εἴη μηδαμῆ μεμολυσμένης ἢ τί τὸ χωρίζειν αὐτὴν ἀπὸ τοῦ σώματος; ἢ ἡ μὲν κάθαρσις ἂν εἴη καταλιπεῖν μόνην καὶ μὴ μετ’ ἄλλων ἢ μὴ πρὸς ἄλλο βλέπουσαν μηδ’ αὖ δόξας ἀλλοτρίας ἔχουσαν, ὅστις ὁ τρόπος τῶν δοξῶν, ἢ τῶν παθῶν, ὡς εἴρηται, μήτε ὁρᾶν τὰ εἴδωλα μήτε ἐξ αὐτῶν ἐργάζεσθαι πάθη. εἰ δὲ ἐπὶ θάτερα τῶν κάτω, πῶς οὐ κάθαρσις; καὶ χωρισμός γε πρὸς τῆς ψυχῆς τῆς μηκέτι ἐν σώματι γιγνομένης ὡς ἐκείνου εἶναι, καὶ τὸ ὥσπερ φῶς ἐν θολερῷ καίτοι ἀπαθὲς ὅμως καὶ ἐν θολερῷ. τοῦ δὴ παθητικοῦ ἡ μὲν κάθαρσις ἔγερσις ἐκ τῶν ἀτόπων εἰδώλων καὶ μὴ ὅρασις, τὸ δὲ χωρίζεσθαι τῇ μὴ πολλῇ νεύσει καὶ τῇ περὶ τὰ κάτω μὴ φαντασίᾳ. εἴη δ’ ἂν καὶ τὸ χωρίζειν αὐτὸ τὸ ἐκεῖνα ἀφαιρεῖν ὧν τοῦτο χωρίζεται, ὅταν μὴ ἐπὶ πνεύματος θολεροῦ ἐκ γαστριμαργίας καὶ πλήθους οὐ καθαρὸν ᾖ σαρκῶν, ἀλλ’ ᾖ ἰσχνὸν τὸ ἐν ᾧ, ὡς ἐπ’ αὐτοῦ ὀχεῖσθαι ἡσυχῇ.",
+   "flags": [
+    {
+     "taylor": "lest it should be suffocated in flesh",
+     "why": "The Greek says the separation is complete when the lower soul is not on a spirit muddied by gluttony and \"a mass of impure flesh\"; \"suffocated\" is Taylor's."
+    }
+   ],
+   "notes": [
+    "Purification and separation of the soul from the body are from the Phaedo (67c-d); the soul \"riding\" on its spirit (pneuma) as on a vehicle is a later Platonic idea, from the Timaeus (41e)."
+   ]
+  },
+  {
+   "seg": "III.6.6.p1",
+   "chapter": "III.6.6",
+   "modern": "It has been said that the intelligible substance, all of it ordered by form, must be thought free from affection. But since matter too is one of the things without body, though in another way, we must look at it as well, to see how it stands: whether it is affected, as is said, and changeable in every way, or whether it too must be thought free from affection, and what that freedom is. First, those who set out to speak of its nature must grasp that the nature of being, substance and existence is not as most people think. What is, what one could truly call being, is real being; and that is what is wholly being; and that is what falls short of being in nothing. Being completely, it needs nothing to keep it safe and in being; rather, it is the cause, for the other things that seem to be, of their seeming to be. If this is rightly said, it must be in life, and in perfect life; otherwise, falling short, it will not be being any more than not-being. And this is intellect, and wisdom in every way. So it is defined and bounded, and in its power there is nothing it is not, nothing of a size that would fall short; otherwise it would fail. So it is always, and always the same, and receives nothing, and nothing comes into it. If it received anything, it would receive something besides itself, and that would be not-being. But it must be being in every way, so it must come to being with everything from itself; it is all things together and all one.",
+   "greek": "τὴν μὲν δὴ οὐσίαν τὴν νοητὴν τὴν κατὰ τὸ εἶδος ἅπασαν τεταγμένην ὡς ἀπαθῆ δεῖ εἶναι δοκεῖν εἴρηται. ἐπεὶ δὲ καὶ ἡ ὕλη ἕν τι τῶν ἀσωμάτων, εἰ καὶ ἄλλον τρόπον, σκεπτέον καὶ περὶ ταύτης τίνα τρόπον ἔχει, πότερον παθητή, ὡς λέγεται, καὶ κατὰ πάντα τρεπτή, ἢ καὶ ταύτην δεῖ ἀπαθῆ εἶναι οἴεσθαι, καὶ τίς ὁ τρόπος τῆς ἀπαθείας. πρῶτον δὴ ληπτέον ἐπὶ τοῦτο στελλομένοις καὶ περὶ τῆς φύσεως αὐτῆς λέγουσιν ὁποία τις, ὡς ἡ τοῦ ὄντος φύσις καὶ ἡ οὐσία καὶ τὸ εἶναι οὐ ταύτῃ ἔχει, ὡς οἱ πολλοὶ νομίζουσιν. ἔστι γὰρ τὸ ὄν, ὃ καὶ κατὰ ἀλήθειαν ἄν τις εἴποι ὄν, ὄντως ὄν: τοῦτο δέ ἐστιν, ὃ πάντη ἐστὶν ὄν: τοῦτο δέ, ὃ μηδὲν ἀποστατεῖ τοῦ εἶναι. τελέως δὲ ὂν οὐδενὸς δεῖται, ἵνα σώζηται καὶ ᾖ, ἀλλὰ καὶ τοῖς ἄλλοις αἴτιον τοῖς δοκοῦσιν εἶναι τοῦ δοκεῖν εἶναι. εἰ δὲ ταῦτα ὀρθῶς λέγεται, ἀνάγκη αὐτὸ ἐν ζωῇ καὶ ἐν τελείᾳ ζωῇ εἶναι: ἢ ἐλλεῖπον οὐ μᾶλλον ὂν ἢ μὴ ὂν ἔσται. τοῦτο δὲ νοῦς καὶ πάντη φρόνησις. καὶ ὡρισμένον ἄρα καὶ πεπερασμένον καὶ τῇ δυνάμει οὐδὲν ὅ τι μὴ οὐδὲ τοσῇδε: ἐπιλείποι γὰρ ἄν. διὸ καὶ τὸ ἀεὶ καὶ τὸ ὡσαύτως καὶ τὸ ἄδεκτον παντὸς καὶ οὐδὲν εἰς αὐτό: εἰ γάρ τι δέχοιτο, παῤ αὑτὸ ἄν τι δέχοιτο: τοῦτο δὲ μὴ ὄν. δεῖ δ’ αὐτὸ πάντη ὂν εἶναι: ἥκειν οὖν δεῖ παῤ αὑτοῦ πάντα ἔχον εἰς τὸ εἶναι: καὶ ὁμοῦ πάντα καὶ ἓν πάντα.",
+   "flags": [
+    {
+     "taylor": "and nothing is there in capacity which does not also possess a mighty power",
+     "why": "The Greek is uncertain here; it seems to say that there is nothing in its power that it is not, nothing that would fall short. Taylor's \"a mighty power\" is a guess."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.6.p2",
+   "chapter": "III.6.6",
+   "modern": "If we define being by these marks (and we must, or intellect and life would not come from being, but would be brought to it from outside and come from not-being, and being would be without life and without intellect, while what is truly not-being would have them, as if they had to be in lesser things, after being; for what is before being supplies them to being, but does not itself need them), if being is of this kind, it must be neither a body nor the substrate of bodies; for these, being is to be not-being. How, someone will ask, is the nature of bodies not-being, and how is matter, on which they rest? Mountains and rocks and all the solid earth, and everything that resists, and that forces what it strikes with its blows, bear witness that they are real. And if someone asks: how are things that do not press or force, nor resist, nor are seen at all, soul and intellect, beings, and real beings? Even among bodies, what moves more and is less heavy is more being than earth, which stands still; and what is above that, more again; and fire is already fleeing the nature of body.",
+   "greek": "εἰ δὴ τούτοις ὁρίζομεν τὸ ὄν — δεῖ δέ, ἢ οὐκ ἂν ἐκ τοῦ ὄντος ἥκοι νοῦς καὶ ζωή, ἀλλὰ τῷ ὄντι ἐπακτὰ ταῦτα καὶ ἐξ οὐκ ὄντος ἔσται — καὶ τὸ μὲν ὂν ἄζων καὶ ἄνουν ἔσται, ὃ δὲ μὴ ὄν ἐστιν ἀληθῶς ταῦτα ἕξει, ὡς ἐν τοῖς χείροσι δέον ταῦτα εἶναι καὶ τοῖς ὑστέροις τοῦ ὄντος: τὸ γὰρ πρὸ τοῦ ὄντος χορηγὸν μὲν τούτων εἰς τὸ ὄν, οὐ δεόμενον δὲ αὐτὸ τούτων: εἰ οὖν τοιοῦτον τὸ ὄν, ἀνάγκη μήτε τι σῶμα αὐτὸ μήτε τὸ ὑποκείμενον τοῖς σώμασιν εἶναι, ἀλλ’ εἶναι τούτοις τὸ εἶναι τὸ μὴ οὖσιν εἶναι. καὶ πῶς ἡ τῶν σωμάτων φύσις μὴ οὖσα, πῶς δὲ ἡ ὕλη, ἐφ̓ ἧς ταῦτα; ὄρη καὶ πέτραι καὶ πᾶσα γῆ στερεὰ καὶ πάντα ἀντίτυπα καὶ ταῖς πληγαῖς βιαζόμενα τὰ πληττόμενα ὁμολογεῖ αὐτῶν τὴν οὐσίαν. εἰ οὖν τις λέγοι: πῶς δὲ τὰ μὴ θλίβοντα καὶ μὴ βιαζόμενα μηδὲ ἀντίτυπα μηδ’ ὅλως ὁρώμενα, ψυχὴ καὶ νοῦς, ὄντα καὶ ὄντως ὄντα; καὶ δὴ καὶ ἐπὶ τῶν σωμάτων μᾶλλον ὂν γῆς ἑστώσης τὸ μᾶλλον κινούμενον καὶ ἐμβριθὲς ἧττον, καὶ τούτου τὸ ἄνω: καὶ δὴ καὶ τὸ πῦρ φεῦγον ἤδη τὴν σώματος φύσιν.",
+   "flags": [
+    {
+     "taylor": "Indeed, things which are struck, confess that their essence subsists by compulsion",
+     "why": "The Greek says that solid things, which resist and force what they strike, \"bear witness to their substance\": they seem to prove that they are real; \"by compulsion\" is Taylor's."
+    },
+    {
+     "taylor": "we reply, that among bodies, earth is most stable, but that which is more moveable, is also less ponderous",
+     "why": "The Greek says that what moves more and is lighter is \"more being\" than earth, which stands still; Taylor leaves out the \"more being\", which is the point."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.6.p3",
+   "chapter": "III.6.6",
+   "modern": "I think that the more self-sufficient things disturb others less and give them less pain; the heavier and more earthy ones, which fall short and fall and cannot lift themselves, fall from weakness and deal blows by their downward rush and dullness. Dead bodies too are more unpleasant to fall against, and strike harder and do more harm; living ones, sharing in being as far as they share in it, are kinder to their neighbours. Motion, which is like a life in bodies and imitates life, is more in things that have less body; as if the falling away of being made what it leaves behind more body. And in what are called affections one could see that what is more body is more affected: earth more than the others, and the others by the same rule. The others come together into one again when they are divided, if nothing stops them; but earth, once cut, stays apart for ever. Like things worn out in their nature, which with a small blow stay as they were struck and perish, so what has become body most, having come nearest to not-being, is too weak to gather itself back into one. Heavy and violent blows on one another bring a fall; weak falling on weak is strong against it, and not-being against not-being.",
+   "greek": "ἀλλ’ οἶμαι, τὰ μὲν αὐταρκέστερα αὑτοῖς ἧττον ἐνοχλεῖ τὰ ἄλλα καὶ ἀλυπότερα τοῖς ἄλλοις, τὰ δὲ βαρύτερα καὶ γεωδέστερα, ὅσα ἐλλιπῆ καὶ πίπτοντα καὶ αἴρειν αὑτὰ οὐ δυνάμενα, ταῦτα πίπτοντα ὑπὸ ἀσθενείας τῇ καταφορᾷ καὶ νωθείᾳ πληγὰς ἔχει. ἐπεὶ καὶ τὰ νεκρὰ τῶν σωμάτων ἀηδέστερα προσπεσεῖν, καὶ τὸ σφόδρα τῆς πληγῆς καὶ τὸ βλάπτειν ἔχει: τὰ δὲ ἔμψυχα μετέχοντα τοῦ ὄντος, ὅσῳ τούτου μέτεστιν αὐτοῖς, εὐχαριτώτερα τοῖς πέλας. ἡ δὲ κίνησις, ὥσπερ τις ζωὴ οὖσα ἐν τοῖς σώμασι καὶ μίμησιν ἔχουσα ταύτης, μᾶλλόν ἐστι τοῖς ἧττον σώματος ἔχουσιν, ὡς τῆς ἀπολείψεως τοῦ ὄντος ὃ καταλείπει μᾶλλον τοῦτο σῶμα ποιούσης: καὶ ἐκ τῶν δὲ λεγομένων παθημάτων μᾶλλον ἄν τις ἴδοι τὸ μᾶλλον σῶμα μᾶλλον παθητὸν ὄν, γῆν ἢ τὰ ἄλλα, καὶ τὰ ἄλλα κατὰ τὸν αὐτὸν λόγον: τὰ μὲν γὰρ ἄλλα σύνεισι διαιρούμενα μὴ κωλύοντος μηδενὸς εἰς ἓν πάλιν, τμηθὲν δὲ γεηρὸν ἅπαν χωρὶς ἑκάτερον ἀεί: ὥσπερ γὰρ τὰ ἀπαγορεύοντα τῇ φύσει, ἃ δὴ μικρᾶς πληγῆς γενομένης οὕτως ἔχει ὥσπερ πέπληκται καὶ ἐφθάρη, οὕτω καὶ τὸ μάλιστα σῶμα γενόμενον ὡς μάλιστα εἰς τὸ μὴ ὂν ἧκον ἀναλαβεῖν αὑτὸ εἰς τὸ ἓν ἀσθενεῖ. πτῶμα οὖν αἱ βαρεῖαι καὶ σφοδραὶ πληγαὶ ποιοῦσιν εἰς ἄλληλα: ἀσθενὲς δὲ ἀσθενεῖ προσπῖπτον ἰσχυρόν ἐστι πρὸς ἐκεῖνο καὶ μὴ ὂν μὴ ὄντι."
+  },
+  {
+   "seg": "III.6.6.p4",
+   "chapter": "III.6.6",
+   "modern": "This is said against those who put the things that are in bodies, trusting the evidence of their pushes and the images of perception for the truth. Like people dreaming, they think real what they see, which is a dream. For perceiving belongs to the soul asleep: as much of soul as is in body sleeps. True waking is a true rising from body, not with body. Rising with body is a change from one sleep to another, as from one bed to another; the true rising is wholly away from bodies, which, being of the nature opposite to soul, have what is opposite to it in substance. Their coming to be, their flowing, and their perishing, which are not of the nature of being, bear witness to it.",
+   "greek": "ταῦτα μὲν οὖν εἴρηται πρὸς τοὺς ἐν τοῖς σώμασι τιθεμένους τὰ ὄντα τῇ τῶν ὠθισμῶν μαρτυρίᾳ καὶ τοῖς διὰ τῆς αἰσθήσεως φαντάσμασι πίστιν τῆς ἀληθείας λαμβάνοντας, οῖ παραπλήσιον τοῖς ὀνειρώττουσι ταῦτα ἐνεργῆ νομίζουσιν, ἃ ὁρῶσιν ἐνύπνια ὄντα. καὶ γὰρ τὸ τῆς αἰσθήσεως ψυχῆς ἐστιν εὑδούσης: ὅσον γὰρ ἐν σώματι ψυχῆς, τοῦτο εὕδει: ἡ δ’ ἀληθινὴ ἐγρήγορσις ἀληθινὴ ἀπὸ σώματος, οὐ μετὰ σώματος, ἀνάστασις. ἡ μὲν γὰρ μετὰ σώματος μετάστασίς ἐστιν ἐξ ἄλλου εἰς ἄλλον ὕπνον, οἷον ἐξ ἑτέρων δεμνίων: ἡ δ’ ἀληθὴς ὅλως ἀπὸ τῶν σωμάτων, ἃ τῆς φύσεως ὄντα τῆς ἐναντίας ψυχῇ τὸ ἐναντίον εἰς οὐσίαν ἔχει. μαρτυρεῖ δὲ καὶ ἡ γένεσις αὐτῶν καὶ ἡ ῥοὴ καὶ ἡ φθορὰ οὐ τῆς τοῦ ὄντος φύσεως οὖσα.",
+   "flags": [
+    {
+     "taylor": "For indeed a resurrection with body, is a transmigration from sleep to sleep, [and from dream to dream] like a man passing [in the dark] from bed to bed",
+     "why": "The Greek word (anastasis) is \"rising up\", which Christians used for the resurrection; Plotinus' point is that rising with the body only moves us from one sleep to another. The words in square brackets are Taylor's."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.7.p1",
+   "chapter": "III.6.7",
+   "modern": "We must return to the matter that underlies, and to what are said to be in it; from these it will be known that it is not, and that matter is free from affection. It is incorporeal, since body comes later and is composite, and matter with something else makes body. It got the same name, \"incorporeal\", because both being and matter are other than bodies. It is not soul, nor intellect, nor life, nor form, nor rational principle, nor limit, for it is unlimitedness; nor a power, for what does it make? Falling outside all these, it could not rightly take even the name of being; it might fairly be called not-being, and not as motion is not-being, or rest, but truly not-being: an image and phantom of bulk, a longing for existence; standing, but not at rest; invisible in itself, escaping whoever wants to see it, coming to be when one does not look, and not seen when one gazes at it; always showing opposites in itself, small and great, less and more, falling short and exceeding; an image that does not stay, and cannot flee either. It has not even the strength for that, since it has taken no strength from intellect, but has come to be in the lack of all being.",
+   "greek": "ἀλλ’ ἐπανιτέον ἐπί τε τὴν ὕλην τὴν ὑποκειμένην, καὶ τὰ ἐπὶ τῇ ὕλῃ εἶναι λεγόμενα, ἐξ ὧν τό τε μὴ εἶναι αὐτὴν καὶ τὸ τῆς ὕλης ἀπαθὲς γνωσθήσεται. ἔστι μὲν οὖν ἀσώματος, ἐπείπερ τὸ σῶμα ὕστερον καὶ σύνθετον καὶ αὐτὴ μετ’ ἄλλου ποιεῖ σῶμα. οὕτω γὰρ τοῦ ὀνόματος τετύχηκε τοῦ αὐτοῦ κατὰ τὸ ἀσώματον, ὅτι ἑκάτερον τό τε ὂν ἥ τε ὕλη ἕτερον τῶν σωμάτων. οὔτε δὲ ψυχὴ οὖσα οὔτε νοῦς οὔτε ζωὴ οὔτε εἶδος οὔτε λόγος οὔτε πέρας: ἀπειρία γάρ: οὔτε δύναμις: τί γὰρ καὶ ποιεῖ; ἀλλὰ ταῦτα ὑπερεκπεσοῦσα πάντα οὐδὲ τὴν τοῦ ὄντος προσηγορίαν ὀρθῶς ἂν δέχοιτο, μὴ ὂν δ’ ἂν εἰκότως λέγοιτο, καὶ οὐχ ὥσπερ κίνησις μὴ ὂν ἢ στάσις μὴ ὄν, ἀλλὰ ἀληθινῶς μὴ ὄν, εἴδωλον καὶ φάντασμα ὄγκου καὶ ὑποστάσεως ἔφεσις καὶ ἑστηκὸς οὐκ ἐν στάσει καὶ ἀόρατον καθ̓ αὑτὸ καὶ φεῦγον τὸν βουλόμενον ἰδεῖν, καὶ ὅταν τις μὴ ἴδῃ γιγνόμενον, ἀτενίσαντι δὲ οὐχ ὁρώμενον, καὶ τὰ ἐναντία ἀεὶ ἐφ̓ ἑαυτοῦ φανταζόμενον, μικρὸν καὶ μέγα καὶ ἧττον καὶ μᾶλλον, ἐλλεῖπόν τε καὶ ὑπερέχον, εἴδωλον οὐ μένον οὐδ’ αὖ φεύγειν δυνάμενον: οὐδὲ γὰρ οὐδὲ τοῦτο ἰσχύει ἅτε μὴ ἰσχὺν παρὰ νοῦ λαβόν, ἀλλ’ ἐν ἐλλείψει τοῦ ὄντος παντὸς γενόμενον.",
+   "notes": [
+    "Motion and rest are \"not-being\" in the sense of the Sophist (256d-e), as other than being; matter is not-being in another, truer sense."
+   ]
+  },
+  {
+   "seg": "III.6.7.p2",
+   "chapter": "III.6.7",
+   "modern": "So whatever it promises, it lies. If it seems great, it is small; if more, it is less; and its being, in imagination, is not being, like a game that runs away. So the things that seem to come to be in it are games, simply images in an image, as in a mirror what is set in one place appears in another. It seems to be filled, and is empty; it has nothing and seems to be everything. The imitations and images of the things that are, which come in and go out, come into a shapeless image, and are seen in it because it is shapeless. They seem to do something to it, but do nothing, for they are feeble and weak and have nothing to push against. Nor does matter push against them; they pass through it without cutting it, as through water, or as if someone sent shapes into what is called the void.",
+   "greek": "διὸ πᾶν ὃ ἂν ἐπαγγέλληται ψεύδεται, κἂν μέγα φαντασθῇ, μικρόν ἐστι, κἂν μᾶλλον, ἧττόν ἐστι, καὶ τὸ ὂν αὐτοῦ ἐν φαντάσει οὐκ ὄν ἐστιν, οἷον παίγνιον φεῦγον: ὅθεν καὶ τὰ ἐν αὐτῷ ἐγγίγνεσθαι δοκοῦντα παίγνια, εἴδωλα ἐν εἰδώλῳ ἀτεχνῶς, ὡς ἐν κατόπτρῳ τὸ ἀλλαχοῦ ἱδρυμένον, ἀλλαχοῦ φανταζόμενον: καὶ πιμπλάμενον, ὡς δοκεῖ, κενὸν καὶ ἔχον οὐδὲν καὶ δοκοῦν τὰ πάντα. τὰ δὲ εἰσιόντα καὶ ἐξιόντα τῶν ὄντων μιμήματα καὶ εἴδωλα εἰς εἴδωλον ἄμορφον καὶ διὰ τὸ ἄμορφον αὐτῆς ἐνορώμενα ποιεῖν μὲν δοκεῖ εἰς αὐτήν, ποιεῖ δὲ οὐδέν: ἀμενηνὰ γὰρ καὶ ἀσθενῆ καὶ ἀντερεῖδον οὐκ ἔχοντα: ἀλλ’ οὐδὲ ἐκείνης ἐχούσης δίεισιν οὐ τέμνοντα οἷον δἰ ὕδατος ἢ εἴ τις ἐν τῷ λεγομένῳ κενῷ μορφὰς οἷον εἰσπέμποι.",
+   "flags": [
+    {
+     "taylor": "like images in water",
+     "why": "The Greek says the images pass through matter without cutting it, \"as through water\"; \"images in water\" is Taylor's."
+    }
+   ],
+   "notes": [
+    "\"Images that come in and go out\" are Plato's words in the Timaeus (50c), quoted in chapter 11."
+   ]
+  },
+  {
+   "seg": "III.6.7.p3",
+   "chapter": "III.6.7",
+   "modern": "For again, if the things seen in it were such as the things from which they came into it, one might perhaps suppose that it was affected by them, granting them some power of their senders that had come into it. But as it is, the things that cast the images are one thing and the things seen in it are another, and from this too one can learn that its being affected is a lie, since what is seen in it is a lie and has no likeness to what made it. Being weak and a lie, and falling into a lie, as in a dream, or in water, or in a mirror, it has of necessity left matter unaffected; and yet in the things just named there is a likeness between what is seen in them and what looks into them.",
+   "greek": "καὶ γὰρ αὖ, εἰ μὲν τοιαῦτα ἦν τὰ ὁρώμενα, οἷα τὰ ἀφ̓ ὧν ἦλθεν εἰς αὐτήν, τάχ̓ ἄν τις διδοὺς αὐτοῖς δύναμίν τινα τῶν πεμψάντων εἰς αὐτὴν γενομένην πάσχειν ὑπ’ αὐτῶν ἂν ὑπέλαβε: νῦν δὲ ἄλλων μὲν ὄντων τῶν ἐμφανταζομένων, ἀλλοίων δὲ τῶν ἐνορωμένων, κἀκ τούτων μαθεῖν ἔστι τὸ τῆς πείσεως ψεῦδος ψεύδους ὄντος τοῦ ἐνορωμένου καὶ οὐδαμῇ ἔχοντος ὁμοιότητα πρὸς τὸ ποιῆσαν. ἀσθενὲς δὴ καὶ ψεῦδος ὂν καὶ εἰς ψεῦδος ἐμπῖπτον, οἷα ἐν ὀνείρῳ ἢ ὕδατι ἢ κατόπτρῳ, ἀπαθῆ αὐτὴν εἴασεν ἐξ ἀνάγκης εἶναι: καίτοι ἔν γε τοῖς προειρημένοις ὁμοίωσις τοῖς. ἐνορωμένοις ἐστὶ πρὸς τὰ ἐνορῶντα."
+  },
+  {
+   "seg": "III.6.8.p1",
+   "chapter": "III.6.8",
+   "modern": "In general, what is affected must be such as to be in the opposite powers and qualities to the things that come upon it and cause the affection. Alteration comes to the heat in a thing from what cools it, and to the wetness in it from what dries it, and we say the substrate has been altered when it has gone from hot to cold or from dry to wet. What is called the perishing of fire bears witness to this, when it changes into another element. We say the fire has perished, not the matter. So the affections are about that about which the perishing is too; for taking on an affection is the road to perishing, and the same thing perishes that is affected. But matter cannot perish: into what, and how?",
+   "greek": "ὅλως δὲ τὸ πάσχον δεῖ τοιοῦτον εἶναι οἷον εν ταῖς ἐναντίαις εἶναι δυνάμεσι καὶ ποιότησι τῶν ἐπεισιόντων καὶ τὸ πάσχειν ἐμποιούντων. τῷ γὰρ ἐνόντι θερμῷ ἡ ἀλλοίωσις παρὰ τοῦ ψύχοντος καὶ τῷ ἐνόντι ὑγρῷ ἡ ἀλλοίωσις παρὰ τοῦ ξηραίνοντος, καὶ ἠλλοιῶσθαι λέγομεν τὸ ὑποκείμενον, ὅταν ἐκ θερμοῦ ψυχρὸν ἢ ἐκ ξηροῦ ὑγρὸν γένηται. μαρτυρεῖ δὲ καὶ ἡ λεγομένη πυρὸς φθορὰ μεταβολῆς γενομένης εἰς στοιχεῖον ἄλλο: τὸ γὰρ πῦρ ἐφθάρη, φαμέν, οὐχ ἡ ὕλη: ὥστε καὶ τὰ πάθη περὶ τοῦτο, περὶ ὃ καὶ ἡ φθορα: ὁδὸς γὰρ εἰς φθορὰν ἡ παραδοχὴ τοῦ πάθους: καὶ τούτῳ τὸ φθείρεσθαι, ᾧ καὶ τὸ πάσχειν. τὴν δὲ ὕλην φθείρεσθαι οὐχ οἷόν τε: εἰς τί γὰρ καὶ πῶς;"
+  },
+  {
+   "seg": "III.6.8.p2",
+   "chapter": "III.6.8",
+   "modern": "How, then, can it take into itself heats and colds, countless qualities, without limit in a word, and be marked off by them, and have them as it were grown into it and mixed with one another (for each is not apart), itself caught in the middle of them, while the qualities are affected by one another in their mixing, and not be affected along with them? Unless one puts it wholly outside them. But everything in a substrate is present to the substrate in such a way as to give it something of its own.",
+   "greek": "πῶς οὖν λαβοῦσα ἐν αὑτῇ θερμότητας, ψυχρότητας, μυρίας καὶ ἀπείρους ὅλως ποιότητας καὶ ταύταις διαληφθεῖσα καὶ οἷον συμφύτους αὐτὰς ἔχουσα καὶ συγκεκραμένας ἀλλήλαις, οὐ γὰρ ἕκαστα χωρίς, αὐτὴ δὲ ἐν μέσῳ ἀποληφθεῖσα πασχουσῶν τῶν ποιοτήτων ἐν τῇ πρὸς ἀλλήλας ἀπ’ ἀλλήλων μίξει οὐχὶ συμπάσχει καὶ αὐτή; εἰ μὴ ἄρα ἔξω τις αὐτὴν θήσεται αὐτῶν παντάπασιν: ἐν ὑποκειμένῳ δὲ πᾶν οὕτω πάρεστι τῷ ὑποκειμένῳ, ὡς αὐτῷ τι παῤ αὑτοῦ διδόναι.",
+   "flags": [
+    {
+     "taylor": "But is not matter [it may be said] co-passive",
+     "why": "Taylor's words in square brackets are his own; the Greek asks the question in Plotinus' own voice."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.9.p1",
+   "chapter": "III.6.9",
+   "modern": "We must first grasp that one thing being present to another, and one thing being in another, does not happen in one way only. One way is to make the other worse or better by its presence, with a change, as is seen in bodies, at least those of living things. Another is to make it as it were better or worse without its being affected, as was said of the soul. Another is like bringing a shape to wax: there is no affection, so as to make the wax something else when the shape is there, nor any lack when it has gone. And light does not even alter the shape of what is lit. What does a stone that has become cold have from the cold, staying a stone? What would a line suffer from colour? Not even the surface, I think, but perhaps the body underneath. Yet what would it suffer from colour? One must not call being present, or putting a shape round, being affected. If someone said that mirrors, and transparent things in general, suffer nothing from the images seen in them, he would bring a not unlike example, a pattern (paradeigma) that fits. For the things in matter are images too, and matter is even less affected than mirrors.",
+   "greek": "ληπτέον δὴ τὸ παρεῖναι ἕτερον ἑτέρῳ καὶ τὸ εἶναι ἄλλο ἐν ἄλλῳ πρῶτον ὡς οὐ καθ̓ ἕνα τρόπον ὑπάρχει, ἀλλὰ τὸ μέν ἐστιν οἷον μετὰ τοῦ παρεῖναι ἢ χεῖρον ἢ βέλτιον ποιεῖν ἐκεῖνο μετὰ τοῦ τρέπειν, οἷον ἐπὶ τῶν σωμάτων ὁρᾶται ἐπί γε τῶν ζῴων, τὸ δ’ οἷον ποιεῖν βέλτιον ἢ χεῖρον ἄνευ τοῦ πάσχειν ἐκεῖνο, ὥσπερ ἐπὶ τῆς ψυχῆς ἐλέγετο, τὸ δ’ οἷον ὅταν τις σχῆμα κηρῷ προσαγάγῃ, ἔνθα οὔτε τι πάθος, ὡς ἄλλο τι ποιῆσαι τὸν κηρὸν εἶναι, ὅταν παρῇ τὸ σχῆμα, οὔτε τις ἔλλειψις ἐκείνῳ ἀπεληλυθότος ἐκείνου. τὸ δὲ δὴ φῶς οὐδὲ σχήματος ἀλλοίωσιν περὶ τὸ φωτιζόμενον ποιεῖ. ὁ δὲ δὴ λίθος ψυχρὸς γενόμενος τί παρὰ τῆς ψυχρότητος μένων λίθος ἔχει; τί δ’ ἂν γραμμὴ πάθοι ὑπὸ χρώματος; οὐδὲ δὴ τὸ ἐπίπεδον, οἶμαι, ἀλλὰ τὸ ὑποκείμενον ἴσως σῶμα. καίτοι ὑπὸ χρώματος τί ἂν πάθοι; οὐ γὰρ δεῖ τὸ παθεῖν λέγειν τὸ παρεῖναι οὐδὲ τὸ μορφὴν περιθεῖναι. εἰ δέ τις καὶ τὰ κάτοπτρα λέγοι καὶ ὅλως τὰ διαφανῆ ὑπὸ τῶν ἐνορωμένων εἰδώλων μηδὲν πάσχειν, οὐκ ἀνόμοιον ἂν τὸ παράδειγμα φέροι. εἴδωλα γὰρ καὶ τὰ ἐν τῇ ὕλῃ καὶ αὕτη ἔτι μᾶλλον ἀπαθέστερον ἢ τὰ κάτοπτρα.",
+   "flags": [
+    {
+     "taylor": "Nor does a stone, when it becomes cold, possess any thing besides frigidity",
+     "why": "The Greek asks \"what does a stone that has become cold have from the cold, while it stays a stone?\": nothing that makes it other than a stone."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.9.p2",
+   "chapter": "III.6.9",
+   "modern": "Heats and colds come to be in it, but they do not heat it; for to be heated and cooled is for a quality to lead the substrate from one quality to another. (We should look into whether cold is an absence and a privation.) When the qualities come together into it, most of them will not act on one another; rather, those that are opposed will. What would fragrance do to sweetness, or colour to shape, or a thing of one kind to a thing of another? From this one could most of all believe that one thing can be in another, or something different in something different, without harming by its presence the thing to which or in which it is present. As what is harmed is not harmed by just anything, so what changes and is affected would not be affected by just anything: the affection is of opposites by opposites, and other things are unchanged by others. So things in which there is no opposition would be affected by no opposite. So if anything is affected, it must be not matter but a compound, or in general many things together. What is alone, bare of the rest, and wholly simple, would be unaffected by all things, caught in the middle of all that act on one another. When people strike one another in the same house, the house is unaffected, and the air in it. Let the things on matter act on one another, as far as they are fitted to; matter itself will be much more unaffected than the qualities in it that are unaffected by one another because they are not opposites.",
+   "greek": "ἐγγίνονται μὲν δὴ ἐν αὐτῇ θερμότητες καὶ ψυχρότητες, ἀλλ’ οὐκ αὐτὴν θερμαίνουσαι: τὸ γὰρ θερμαίνεσθαί ἐστι καὶ τὸ ψύχεσθαι ποιότητος ἐξ ἄλλης εἰς ἄλλην τὸ ὑποκείμενον ἀγούσης. ἐπισκεπτέον δὲ περὶ τῆς ψυχρότητος μήποτε ἀπουσία καὶ στέρησις. συνελθοῦσαι δὲ εἰς αὐτὴν αἱ ποιότητες εἰς ἀλλήλας μὲν αἱ πολλαὶ αὐτῶν οὐ ποιήσουσι, μᾶλλον δὲ αἱ ἐναντίως ἔχουσαι. τί γὰρ ἂν εὐωδία γλυκύτητα ἐργάσαιτο ἢ χρῶμα σχῆμα ἢ τὸ ἐξ ἄλλου γένους ἄλλο; ὅθεν ἄν τις καὶ μάλιστα πιστεύσειεν, ὡς ἔστιν ἐν τῷ αὐτῷ εἶναι ἄλλο ἐν ἄλλῳ ἢ ἕτερον ἐν ἑτέρῳ ἄλυπον ὂν τῇ αὑτοῦ παρουσίᾳ ᾧ ἢ ἐν ᾧ πάρεστιν. ὥσπερ οὖν καὶ τὸ βλαπτόμενον οὐχ ὑπὸ τοῦ τυχόντος, οὕτως οὐδὲ τὸ τρεπόμενον καὶ πάσχον ὑφ̓ ὁτουοῦν ἂν πάθοι, ἀλλὰ τοῖς ἐναντίοις ὑπὸ τῶν ἐναντίων ἡ πεῖσις, τὰ δ’ ἄλλα ὑπ’ ἄλλων ἄτρεπτα. οἷς δὴ μηδεμία ἐναντιότης ὑπάρχει, ταῦτα ὑπ’ οὐδενὸς ἂν ἐναντίου πάθοι. ἀνάγκη τοίνυν, εἴ τι πάσχει, μὴ ὕλην, ἀλλά τι συναμφότερον ἢ ὅλως πολλὰ ὁμοῦ εἶναι. τὸ δὲ μόνον καὶ ἔρημον τῶν ἄλλων καὶ παντάπασιν ἁπλοῦν ἀπαθὲς ἂν εἴη πάντων καὶ ἐν μέσοις ἅπασιν ἀπειλημμένον τοῖς εἰς ἄλληλα ποιοῦσιν: οἷον ἐν οἴκῳ τῷ αὐτῷ ἀλλήλους παιόντων ὁ οἶκος ἀπαθὴς καὶ ὁ ἐν αὐτῷ ἀήρ. συνιόντα δὲ τὰ ἐπὶ τῆς ὕλης ἄλληλα ποιείτω, ὅσα ποιεῖν πέφυκεν, αὐτὴ δ’ ἀπαθὴς ἔσται πολὺ μᾶλλον, ἢ ὅσαι ποιότητες ἐν αὐτῇ τῷ μὴ ἐναντίαι εἶναι ἀπαθεῖς ὑπ’ ἀλλήλων εἰσίν.",
+   "flags": [
+    {
+     "taylor": "many of them act on each other, or rather are contrarily affected",
+     "why": "The Greek says that most of the qualities will not act on one another, only those that are opposed; Taylor reverses it."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.10.p1",
+   "chapter": "III.6.10",
+   "modern": "Then, if matter is affected, it must keep something from the affection: either the affection itself, or a different state from before the affection came into it. Then when another quality comes after that one, what receives it will no longer be matter, but qualified matter. And if this quality too went away, leaving something of itself behind by its acting, the substrate would become still more something else. Going on in this way, the substrate will be something other than matter, of many turns and many forms; so it would no longer be the receiver of all things, but a hindrance to the many that come to it. And matter will no longer remain, so it is not imperishable either. So if there must be matter, it must always be the same, as it was from the beginning; to say it is altered is not to keep it matter.",
+   "greek": "ἔπειτα, εἰ πάσχει ἡ ὕλη, δεῖ τι ἔχειν αὐτὴν ἐκ τοῦ πάθους ἢ αὐτὸ τὸ πάθος ἢ ἑτέρως διακεῖσθαι ἢ πρὶν εἰσελθεῖν εἰς αὐτὴν τὸ πάθος. ἐπιούσης τοίνυν ἄλλης μετ’ ἐκείνην ποιότητος οὐκέτι ὕλη ἔσται τὸ δεχόμενον, ἀλλὰ ποιὰ ὕλη. εἰ δὲ καὶ αὕτη ἡ ποιότης ἀποσταίη καταλιποῦσά τι αὑτῆς τῷ ποιῆσαι, ἄλλο ἂν ἔτι μᾶλλον γίνοιτο τὸ ὑποκείμενον. καὶ προιουσῶν τοῦτον τὸν τρόπον ἄλλο τι ἢ ὕλη ἔσται τὸ ὑποκείμενον, πολύτροπον δὲ καὶ πολυειδές: ὥστε οὐδ’ ἂν ἔτι πανδεχὲς γένοιτο ἐμπόδιον πολλοῖς τοῖς ἐπιοῦσι γινόμενον. ἥ τε ὕλη οὐκέτι μενεῖ: οὐδὲ ἄφθαρτος τοίνυν: ὥστε, εἰ δεῖ ὕλην εἶναι, ὥσπερ ἐξ ἀρχῆς ἦν, οὕτως ἀεὶ δεῖ αὐτὴν εἶναι τὴν αὐτήν: ὡς τό γε ἀλλοιοῦσθαι λέγειν οὐκ ἔστιν αὐτὴν ὕλην τηρούντων.",
+   "flags": [
+    {
+     "taylor": "So that if it is necessary that matter should be as it s Quality is that which imparts what is apparent in matter",
+     "why": "Taylor's chapter, as the scan gives it, has one of his notes printed into the middle of a word here (\"as it s[hould]\"). It is Taylor's, not Plotinus'."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.10.p2",
+   "chapter": "III.6.10",
+   "modern": "Then, if in general everything that is altered must stay in the same form and be altered in its attributes, not in itself; if what is altered must remain, and what remains of it is not what is affected; one of two things must be: either matter, being altered, leaves its own nature, or, not leaving it, is not altered. If someone says it is altered, but not as matter, first he will not be able to say in respect of what it will be altered; then he will admit that in this way too matter itself is not altered. As the other things, which are forms, cannot be altered in their substance, since their substance lies in this, so, since for matter to be is to be as matter, it cannot be altered in respect of being matter, but must remain. As there the form itself is unaltered, so here matter itself is unaltered.",
+   "greek": "ἔπειτα δέ, εἰ ὅλως τὸ ἀλλοιούμενον πᾶν δεῖ μένον ἐπὶ τοῦ αὐτοῦ εἴδους ἀλλοιοῦσθαι κατὰ συμβεβηκός, ἀλλ’ οὐ καθ̓ αὑτό: εἰ δὴ δεῖ μένειν τὸ ἀλλοιούμενον καὶ οὐ τὸ μένον ἐστὶν αὐτοῦ τὸ πάσχον, δυοῖν θάτερον ἀνάγκη, ἢ ἀλλοιουμένην τὴν ὕλην αὑτῆς ἐξίστασθαι, ἢ μὴ ἐξισταμένην αὑτῆς μὴ ἀλλοιοῦσθαι. εἰ δέ τις λέγοι μὴ καθ̓ ὅσον ὕλη ἀλλοιοῦσθαι, πρῶτον μὲν κατὰ τί ἀλλοιώσεται οὐχ ἕξει λέγειν, ἔπειτα ὁμολογήσει καὶ οὕτω τὴν ὕλην αὐτὴν μὴ ἀλλοιοῦσθαι. ὥσπερ γὰρ τοῖς ἄλλοις εἴδεσιν οὖσιν οὐκ ἔστιν ἀλλοιοῦσθαι κατὰ τὴν οὐσίαν τῆς οὐσίας αὐτοῖς ἐν τούτῳ οὔσης, οὕτως, ἐπειδὴ τὸ εἶναι τῇ ὕλῃ ἐστὶ τὸ εἶναι ᾗ ὕλη, οὐκ ἔστιν αὐτὴν ἀλλοιοῦσθαι καθ̓ ὅ τι ὕλη ἐστίν, ἀλλὰ μένειν, καὶ ὥσπερ ἐκεῖ ἀναλλοίωτον αὐτὸ τὸ εἶδος, οὕτω καὶ ἐνταῦθα ἀναλλοίωτον αὐτὴν τὴν ὕλην."
+  },
+  {
+   "seg": "III.6.11.p1",
+   "chapter": "III.6.11",
+   "modern": "That is why I think Plato too had this in mind and spoke rightly when he said \"the things that come in and go out are always imitations of the things that are\". He did not say \"come in and go out\" idly, but wanted us to understand, attending to the manner of the sharing. Perhaps the famous difficulty, how matter shares in the forms, is not what most of those before us thought, how they come into it, but rather how they are in it. It does seem truly wonderful that while they are present to it, it stays the same, unaffected by them, even though the things that come in are affected by one another. And also that the things coming in each push out the ones before, and that the affection is in the composite; and not in every composite, but in one that needs what comes or goes, one that is incomplete in its make-up when something is absent, and complete when it is present. But matter gets nothing more for its make-up when anything comes; for it does not become what it is when something comes, nor less when something goes, but remains what it was from the beginning.",
+   "greek": "ὅθεν δὴ καὶ τὸν Πλάτωνα οὕτω διανοούμενον ὀρθῶς εἰρηκέναι νομίζω ʽτὰ δὲ εἰσιόντα καὶ ἐξιόντα τῶν ὄντων ἀεὶ μιμήματἀ μὴ μάτην εἰσιέναι καὶ ἐξιέναι εἰρηκότα, ἀλλὰ βουλόμενον ἡμᾶς συνεῖναι ἐπιστήσαντας τῷ τρόπῳ τῆς μεταλήψεως, καὶ κινδυνεύει τὸ ἄπορον ἐκεῖνο τὸ ὅπως ἡ ὕλη τῶν εἰδῶν μεταλαμβάνει μὴ ἐκεῖνο εἶναι, ὃ οἱ πολλοὶ ᾠήθησαν τῶν πρὸ ἡμῶν, τὸ πῶς ἔρχεται εἰς αὐτήν, ἀλλὰ μᾶλλον τὸ πῶς ἔστιν ἐν αὐτῇ. ὄντως γὰρ θαυμαστὸν εἶναι δοκεῖ, πῶς τούτων παρόντων αὐτῇ μένει ἡ αὐτὴ ἀπαθὴς αὐτῶν οὖσα καὶ προσέτι αὐτῶν τῶν εἰσιόντων πασχόντων ὑπ’ ἀλλήλων. ἀλλὰ καὶ αὐτὰ τὰ εἰσιόντα ἐξωθεῖν τὰ πρότερα ἕκαστα καὶ εἶναι τὸ παθεῖν ἐν τῷ συνθέτῳ καὶ οὐδὲ ἐν παντὶ συνθέτῳ, ἀλλ’ ᾧ χρεία τοῦ προσελθόντος ἢ ἀπελθόντος καὶ ὃ ἐλλιπὲς μὲν τῇ συστάσει ἀπουσίᾳ τινός, τέλειον δὲ τῇ παρουσίᾳ. τῇ δὲ ὕλῃ οὔτε τι πλέον εἰς τὴν αὐτῆς σύστασιν προσελθόντος ὁτουοῦν: οὐ γὰρ γίνεταί τι ὃ ἔστι προσελθόντος, οὔτε ἔλαττον ἀπελθόντος: μένει γὰρ ὃ ἐξ ἀρχῆς ἦν.",
+   "flags": [
+    {
+     "taylor": "Whence, also, I think that the divine Plato, [in the Timseus]",
+     "why": "The Greek says only \"Plato\"; \"the divine\" and the square brackets are Taylor's."
+    },
+    {
+     "taylor": "According to Plato, however, the entering forms expel those which entered prior to them",
+     "why": "The Greek gives this as part of what is wonderful, not as Plato's teaching; \"According to Plato\" is Taylor's."
+    }
+   ],
+   "notes": [
+    "The quotation is from the Timaeus (50c)."
+   ]
+  },
+  {
+   "seg": "III.6.11.p2",
+   "chapter": "III.6.11",
+   "modern": "Things that need order and arrangement would need to be adorned; and the adornment could come without alteration, as with what we put round things. But if something were adorned so that the adornment grew into it, it would have to be altered: what was ugly before would become other, and the adorned thing would be beautiful instead of ugly. If, then, matter, being ugly, became beautiful, it is no longer what it was before by being ugly; so in being adorned in this way it will lose being matter, above all if it is not ugly by accident. If it is so ugly as to be ugliness, it could not share in adornment; and if so evil as to be evil, it could not share in good. So the sharing is not by its being affected, but in another way, as seeming. Perhaps in this way the difficulty might be solved, how, being evil, it could long for the good: it does not lose by sharing what it was. If what is called sharing is such that it stays the same, not altered, as we say, but always is what it is, it is no longer surprising how, being evil, it shares. For it does not leave itself; since it must share, it shares somehow, as long as it exists; but by being what it is, in a way of sharing that keeps it so, it is not harmed in its being by what gives in this way. And perhaps for this reason it is no less evil, because it always stays what it is. If it really shared and was really altered by the good, it would not be evil by nature. So if someone calls matter evil, he would speak truly if he called it unaffected by the good; and this is the same as being unaffected altogether.",
+   "greek": "τοῦ δὲ κεκοσμῆσθαι τοῖς μὲν κόσμου καὶ τάξεως δεομένοις εἴη ἂν χρεία καὶ ὁ κόσμος δὲ γένοιτο ἂν ἄνευ μεταλλοιώσεως, οἷον οἷς περιτίθεμεν: εἰ δὲ οὕτω τι κοσμηθείη ὡς σύμφυτον εἶναι, δεήσει ἀλλοιωθὲν ὃ πρότερον αἰσχρὸν ἦν καὶ ἕτερον γενόμενον ἐκεῖνο τὸ κεκοσμημένον οὕτω καλὸν ἐξ αἰσχροῦ εἶναι. εἰ τοίνυν αἰσχρὰ οὖσα ἡ ὕλη καλὴ ἐγένετο, ὃ ἦν πρότερον τῷ αἰσχρὰ εἶναι οὐκέτ̓ ἐστίν: ὥστε ἐν τῷ οὕτω κεκοσμῆσθαι ἀπολεῖ τὸ ὕλην εἶναι καὶ μάλιστα, εἰ μὴ κατὰ συμβεβηκὸς αἰσχρά: εἰ δ’ οὕτως αἰσχρὰ ὡς αἶσχος εἶναι, οὐδ’ ἂν μεταλάβοι κόσμου, καὶ εἰ οὕτω κακὴ ὡς κακὸν εἶναι, οὐδ’ ἂν μεταλάβοι ἀγαθοῦ: ὥστε οὐχ οὕτως ἡ μετάληψις ὡς οἷόν τι παθούσης, ἀλλ’ ἕτερος τρόπος οἷον δοκεῖν. ἴσως δὲ καὶ τοῦτον τὸν τρόπον λύοιτο ἂν τὸ ἄπορον, πῶς οὖσα κακὴ ἐφίοιτο ἂν τοῦ ἀγαθοῦ, ὡς μὴ μεταλήψει ἀπολλυμένης ὃ ἦν: εἰ γὰρ τοῦτον τὸν τρόπον ἡ λεγομένη μετάληψις, ὡς τὴν αὐτὴν μένειν μὴ ἀλλοιουμένην, ὡς λέγομεν, ἀλλ’ εἶναι ἀεὶ ὃ ἔστιν, οὐκέτι θαυμαστὸν γίνεται τὸ πῶς οὖσα κακὴ μεταλαμβάνει. οὐ γὰρ ἐξίσταται ἑαυτῆς, ἀλλ’ ὅτι μὲν ἀναγκαῖόν ἐστι μεταλαμβάνειν ἀμηγέπη μεταλαμβάνει ἕως ἂν ᾖ, τῷ δ’ εἶναι ὃ ἔστι τρόπῳ μεταλήψεως τηροῦντι αὐτὴν οὐ βλάπτεται εἰς τὸ εἶναι παρὰ τοῦ οὕτω διδόντος, καὶ κινδυνεύει διὰ τοῦτο οὐχ ἧττον εἶναι κακή, ὅτι ἀεὶ μένει τοῦτο ὃ ἔστι. μεταλαμβάνουσα γὰρ ὄντως καὶ ἀλλοιουμένη ὄντως ὑπὸ τοῦ ἀγαθοῦ οὐκ ἂν ἦν τὴν φύσιν κακή. ὥστε εἴ τις τὴν ὕλην λέγει κακήν, οὕτως ἂν ἀληθεύοι, εἰ τοῦ ἀγαθοῦ ἀπαθῆ λέγοι: τοῦτο δὲ ταὐτόν ἐστι τῷ ὅλως ἀπαθῆ εἶναι.",
+   "notes": [
+    "Matter as evil itself, and its longing for the good, are argued in I.8, On What Evils Are."
+   ]
+  },
+  {
+   "seg": "III.6.12.p1",
+   "chapter": "III.6.12",
+   "modern": "Plato, thinking this about matter, does not take sharing to be a form coming into a substrate and giving it shape, so that one composite comes about from things that change together, are as it were mixed together and affected together. He wants to show that he does not mean this, and how matter could have the forms while remaining unaffected, and he looks for a pattern of unaffected sharing; and since it is not easy to teach in another way what things, by their presence, most of all keep the substrate the same, he raises many difficulties, hastening to what he wants, and wishing besides to show the emptiness of existence in the things we perceive, and how large the room is for the merely likely. So he supposes that matter makes the feelings of living bodies by figures, while it has none of these feelings itself, and so shows that it stays, letting us infer that it is not affected or altered by the figures either.",
+   "greek": "ὁ δέ γε Πλάτων τοῦτο νοῶν περὶ αὐτῆς καὶ τὴν μετάληψιν οὐχ ὡς ἐν ὑποκειμένῳ εἴδους γενομένου καὶ μορφὴν διδόντος, ὥστε ἓν σύνθετον γενέσθαι συντραπέντων καὶ οἷον συγκραθέντων καὶ συμπαθόντων, τιθέμενος, ὅτι μὴ οὕτω λέγει παραστῆσαι βουλόμενος, καὶ πῶς ἂν αὐτὴ ἀπαθὴς μένουσα ἔχοι τὰ εἴδη, ἀπαθοῦς μεταλήψεως ζητῶν παράδειγμα, ἄλλον τρόπον οὐ ῥᾴδιον ὂν διδάξαι ἃ μάλιστα παρόντα σώζει τὸ ὑποκείμενον ταὐτὸν εἶναι, ὑπέστη πολλὰς ἀπορίας σπεύδων ἐφ̓ ὃ βούλεται καὶ προσέτι παραστῆσαι θέλων τὸ ἐν τοῖς αἰσθητοῖς κενὸν τῆς ὑποστάσεως καὶ τὴν χώραν τοῦ εἰκότος οὖσαν πολλήν. τὴν οὖν ὕλην σχήμασιν ὑποθέμενος τὰ πάθη ποιεῖν τοῖς ἐμψύχοις σώμασιν οὐδὲν αὐτὴν ἔχουσαν τούτων τῶν παθημάτων τὸ μένον αὐτῆς ταύτῃ ἐνδείκνυται διδοὺς συλλογίζεσθαι, ὡς οὐδὲ παρὰ τῶν σχημάτων ἔχει τὸ πάσχειν αὐτὴ καὶ ἀλλοιοῦσθαι.",
+   "notes": [
+    "In the Timaeus (53c-56c) the elements are made of geometrical figures, triangles and solids; the sensations of hot and cold, hard and soft, come from the shapes of their parts (61d-64a)."
+   ]
+  },
+  {
+   "seg": "III.6.12.p2",
+   "chapter": "III.6.12",
+   "modern": "For these bodies, which take one shape after another, one might perhaps say that alteration happens, calling the change of shape alteration by the same name. But matter has no shape or size: how could one call the presence of shape in any way alteration, even by the same name? If, then, someone said here \"colour by convention, and the rest by convention\", because the underlying nature has nothing as it is thought to have, he would not be out of keeping with the argument. But how does it have them, if even \"as shapes\" does not please? The supposition gives a hint, as far as can be, of its freedom from affection, and of the seeming presence of images that are not present.",
+   "greek": "τοῖς μὲν γὰρ σώμασι τούτοις ἐξ ἑτέρου σχήματος ἕτερον σχῆμα δεχομένοις τάχα ἄν τις ἀλλοίωσιν λέγοι γίγνεσθαι τὴν τοῦ σχήματος μεταβολὴν ὁμώνυμον τὴν ἀλλοίωσιν εἶναι λέγων: τῆς δὲ ὕλης οὐδὲν σχῆμα ἐχούσης οὐδὲ μέγεθος πῶς ἄν τις τὴν τοῦ σχήματος ὁπωσοῦν παρουσίαν ἀλλοίωσιν εἶναι κἂν ὁμωνύμως λέγοι; εἴ τις οὖν ἐνταῦθα τὸ ʽνόμῳ χροιὴ καὶ τὰ ἄλλα νόμᾠ λέγοι τῷ τὴν φύσιν τὴν ὑποκειμένην μηδὲν οὕτως ἔχειν, ὡς νομίζεται, οὐκ ἂν ἄτοπος εἴη τοῦ λόγου. ἀλλὰ πῶς ἔχει, εἰ μηδὲ τὸ ὡς σχήματα ἀρέσκει; ἀλλ’ ἔχει ἔνδειξιν ἡ ὑπόθεσις ὡς οἷόν τε τῆς ἀπαθείας καὶ τῆς οἷον εἰδώλων οὐ παρόντων δοκούσης παρουσίας.",
+   "notes": [
+    "\"Colour by convention\" is from Democritus (fragment 9 and 125, Diels-Kranz): only atoms and the void are real."
+   ]
+  },
+  {
+   "seg": "III.6.12.p3",
+   "chapter": "III.6.12",
+   "modern": "Or rather, we must say more first about its freedom from affection, teaching that we must not be carried away by the habits of words into thinking it is affected, when Plato says it is dried, burnt and made wet, but must keep in mind what follows: \"and receiving the forms of air and water\". \"Receiving the forms of air and water\" blunts \"burnt and made wet\", and shows by \"receiving forms\" that it is not itself shaped, but that the forms are in it as they came. And \"burnt\" is not said strictly, but rather \"becoming fire\"; for becoming fire and being burnt are not the same. Being burnt is by another, in which there is also being affected; but how could what is itself a part of fire be burnt? It would be as if someone said the statue had gone through the bronze, to say that fire had gone through matter and burnt it besides. Again, if what comes is a rational principle, how could it burn? Or if a shape? What is burnt is already from both. How, then, from both, unless one thing comes from both? Even if one thing came about, the two would not have their affections in each other, but act upon each other.",
+   "greek": "ἢ πρότερον ἔτι περὶ τῆς ἀπαθείας αὐτῆς λεκτέον διδάσκοντας ὡς οὐ χρὴ ταῖς συνηθείαις τῶν ὀνομάτων ἐπὶ τὸ πάσχειν αὐτὴν φέρεσθαι, οἷον ὅταν ξηραινομένην λέγῃ αὐτὴν καὶ πυρουμένην καὶ ὑγραινομένην, ἐνθυμουμένους καὶ τὰ ἑξῆς ʽκαὶ τὰς ἀέρος καὶ ὕδατος μορφὰς δεχομένην̓. τὸ γὰρ καὶ τὰς ἀέρος καὶ ὕδατος μορφὰς δεχομένην ἀπαμβλύνει μὲν τὸ πυρουμένην καὶ ὑγραινομένην, δηλοῖ τε ἐν τῷ μορφὰς δεχομένην οὐ τὸ μεμορφῶσθαι αὐτήν, ἀλλ’ εἶναι τὰς μορφὰς ὡς εἰσῆλθον, τό τε πυρουμένην οὐ κυρίως εἰρῆσθαι, ἀλλὰ μᾶλλον πῦρ γινομένην: οὐ γὰρ τὸ αὐτὸ πῦρ γίνεσθαι καὶ πυροῦσθαι: ὑπ’ ἄλλου μὲν γὰρ τὸ πυροῦσθαι, ἐν ᾧ καὶ τὸ πάσχειν: ὃ δ’ αὐτὸ μέρος ἐστὶ πυρὸς πῶς ἂν πυροῖτο; τοιοῦτον γὰρ ἂν εἴη, οἷον εἴ τις διὰ τοῦ χαλκοῦ τὸν ἀνδριάντα λέγοι πεφοιτηκέναι, εἰ τὸ πῦρ διὰ τῆς ὕλης λέγοι κεχωρηκέναι καὶ προσέτι πυρῶσαι. ἔτι, εἰ λόγος ὁ προσιών, πῶς ἂν πυρώσειεν; ἢ εἰ σχῆμα; ἀλλὰ τὸ πυρούμενον ὑπ’ ἀμφοῖν ἤδη. πῶς οὖν ὑπ’ ἀμφοῖν μὴ ἑνὸς ἐξ ἀμφοῖν γενομένου; ἤ, κἂν ἓν ᾖ γενόμενον, οὐκ ἐν ἀλλήλοις τὰ πάθη ἐχόντων, ἀλλὰ πρὸς ἄλληλα ποιούντων.",
+   "flags": [
+    {
+     "taylor": "Plato, therefore, teaches us that we ought to be led by usual appellations to the consideration of its passivity",
+     "why": "The Greek says we must NOT be carried by the usual words into thinking that matter is affected; Taylor leaves out the \"not\"."
+    }
+   ],
+   "notes": [
+    "\"Dried, burnt, made wet, receiving the forms of air and water\" is from the Timaeus (52d-e)."
+   ]
+  },
+  {
+   "seg": "III.6.12.p4",
+   "chapter": "III.6.12",
+   "modern": "Do both act, then, or does one keep the other from escaping? But when a body is divided, how is matter not divided too? And when the body has been affected by being divided, how has matter not been affected by the same affection? Or what prevents them by the same argument from saying it is destroyed: how, when the body is destroyed, is matter not destroyed? One must say further that it is a so-much that is divided, a size; and in what is not a size, the affections of size do not come to be; and in general in what is not a body the affections of body do not come to be. So those who make matter affected must grant that it is a body.",
+   "greek": "ἆῤ οὖν ἀμφοτέρων ποιούντων, ἢ θατέρου θάτερον παρέχοντος μὴ φυγεῖν; ἀλλ’ ὅταν διαιρεθῇ τι σῶμα, πῶς οὐ καὶ αὐτὴ διῄρηται; καὶ πεπονθότος ἐκείνου τῷ διῃρῆσθαι πῶς οὐ καὶ αὐτὴ τῷ αὐτῷ τούτῳ παθήματι πέπονθεν; ἢ τί κωλύει τῷ αὐτῷ λόγῳ τούτῳ καὶ φθεῖραι λέγοντας: πῶς φθαρέντος τοῦ σώματος οὐκ ἔφθαρται; ἔτι λεκτέον τοσόνδε γὰρ εἶναι καὶ μέγεθος εἶναι, τῷ δὲ μὴ μεγέθει οὐδὲ τὰ μεγέθους πάθη ἐγγίγνεσθαι καὶ ὅλως δὴ τῷ μὴ σώματι μηδὲ τὰ σώματος πάθη ἐγγίνεσθαι: ὥστε ὅσοι παθητὴν ποιοῦσι καὶ σῶμα συγχωρείτωσαν αὐτὴν εἶναι."
+  },
+  {
+   "seg": "III.6.13.p1",
+   "chapter": "III.6.13",
+   "modern": "They should also attend to this: how they say that matter flees from form. How could it flee from the stones and rocks that hold it? They will not say that it sometimes flees and sometimes does not. If it flees by its own will, why not always? If it stays by necessity, there is no time when it is not in some form. But we must look for the cause of each matter's not always having the same form, and more in the things that come in. How, then, is it said to flee? By its very nature, and always? What would this be but that, never leaving itself, it has form as if it never had it? Otherwise they will not have any use for what Plato says: \"the receptacle and nurse of all becoming\". If it is receptacle and nurse, and becoming is other than it, and what is altered is in becoming, it would be before becoming, and before alteration. The receptacle, and still more the nurse, keeps it what it is, unaffected; and so does \"in which each thing appears, coming to be, and from which it goes out again\", and that it is \"place\" and \"seat\". And what is said and examined, when he speaks of a place of forms, does not mean an affection about it, but seeks another way.",
+   "greek": "ἔτι δὲ κἀκεῖνο ἐπιστῆσαι αὐτοὺς προσήκει, πῶς λέγουσι φεύγειν αὐτὴν τὸ εἶδος: πῶς γὰρ ἂν λίθους καὶ πέτρας φύγοι τὰ περιλαβόντα αὐτήν; οὐ γὰρ δὴ ποτὲ μὲν φεύγειν, ποτὲ δὲ μὴ φεύγειν φήσουσιν. εἰ γὰρ βουλήσει αὑτῆς φεύγει, διὰ τί οὐκ ἀεί; εἰ δὲ ἀνάγκῃ μένει, οὐκ ἔστιν ὅτε οὐκ ἐν εἴδει τινί ἐστιν. ἀλλὰ τοῦ μὴ τὸ αὐτὸ εἶδος ἀεὶ ἴσχειν ἑκάστην ὕλην ζητητέον τὴν αἰτίαν, καὶ ἐν τοῖς εἰσιοῦσι μᾶλλον. πῶς οὖν λέγεται φεύγειν; ἢ τῇ αὐτῇ φύσει καὶ ἀεί; τοῦτο δὲ τί ἂν εἴη ἢ μηδέποτε αὑτῆς ἐξισταμένην οὕτως ἔχειν τὸ εἶδος ὡς μηδέποτε ἔχειν: ἢ ὅ τι χρήσονται τῷ ὑπ’ αὐτοῦ λεγομένῳ οὐχ ἕξουσιν. ʽἡ δὲ ὑποδοχὴ καὶ τιθήνη γενέσεως ἁπάσης.ʼ εἰ γὰρ ὑποδοχὴ καὶ τιθήνη, ἡ δὲ γένεσις ἄλλο αὐτῆς, τὸ δὲ ἀλλοιούμενον ἐν τῇ γενέσει, πρὸ γενέσεως οὖσα εἴη ἂν καὶ πρὸ ἀλλοιώσεως: ἡ δὲ ὑποδοχὴ καὶ ἔτι ἡ τιθήνη τηρεῖ ὃ ἔστιν ἀπαθῆ οὖσαν, καὶ τὸ ʽἐν ᾧ ἐγγινόμενον ἕκαστον φαντάζεται καὶ πάλιν ἐκεῖθεν ἔξεισἰ καὶ χώραν εἶναι καὶ ἕδραν. καὶ τὸ λεγόμενον δὲ καὶ εὐθυνόμενον ὡς τόπον εἰδῶν λέγοντος οὐ πάθος λέγει περὶ ἐκεῖνο, ἀλλὰ τρόπον ἕτερον ζητεῖ.",
+   "notes": [
+    "\"The receptacle and nurse of all becoming\" is from the Timaeus (49a); \"in which each thing appears ... and from which it goes out again\" (49e-50a); \"place\" and \"seat\" (52a-b). That matter \"flees\" form is the view Plotinus is answering."
+   ]
+  },
+  {
+   "seg": "III.6.13.p2",
+   "chapter": "III.6.13",
+   "modern": "What is this way? Since this nature must be none of the things that are, but must have fled from the whole substance of the things that are, and be wholly other (for they are rational principles, and are truly), it must, by this otherness, keep the safety it has been allotted: not only must it not receive the things that are, but even if there is some imitation of them, it must have no part in it so as to make it its own. So it would be wholly other. Otherwise, taking a form into its home and becoming something else with it, it lost its being other, and being the place of all things, and the receiver of everything. It must stay the same when things come in, and unaffected when they go out, so that something may always come into it and go out. What comes in, then, comes in as an image, and not true into what is not true. Truly, then? How, into what it is not lawful to share in truth, because it is a lie? Then it comes falsely into a lie, and it is much as in a mirror the images of the things seen in it are seen, as long as they look into it.",
+   "greek": "τίς οὖν οὗτος; ἐπειδὴ τὴν λεγομένην ταύτην φύσιν οὐδὲν δεῖ εἶναι τῶν ὄντων, ἀλλ’ ἅπασαν ἐκπεφευγέναι τὴν τῶν ὄντων οὐσίαν καὶ πάντη ἑτέραν — λόγοι γὰρ ἐκεῖνα καὶ ὄντως ὄντες — ἀνάγκη δὴ αὐτὴν τῷ ἑτέρῳ τούτῳ φυλάττουσαν αὑτῆς ἣν εἴληχε σωτηρίαν μὴ μόνον τῶν ὄντων ἄδεκτον εἶναι, ἀλλὰ καί, εἴ τι μίμημα αὐτῶν, καὶ τούτου ἄμοιρον εἰς οἰκείωσιν εἶναι. οὕτω γὰρ ἂν ἑτέρα πάντη: ἢ εἶδός τι εἰσοικισαμένη μετ’ ἐκείνου ἄλλο γενομένη ἀπώλεσε τὸ ἑτέρα εἶναι καὶ χώρα πάντων καὶ οὐδενὸς ὅτου οὐχ ὑποδοχή. ἀλλὰ δεῖ καὶ εἰσιόντων τὴν αὐτὴν μένειν καὶ ἐξιόντων ἀπαθῆ, ἵνα καὶ εἰσίῃ τι ἀεὶ εἰς αὐτὴν καὶ ἐξίῃ. εἴσεισι δὴ τὸ εἰσιὸν εἴδωλον ὂν καὶ εἰς οὐκ ἀληθινὸν οὐκ ἀληθές. ἆῤ οὖν ἀληθῶς; καὶ πῶς, ᾧ μηδαμῶς θέμις ἀληθείας μετέχειν διὰ τὸ ψεῦδος εἶναι; ἆῤ οὖν ψευδῶς εἰς ψεῦδος ἔρχεται καὶ παραπλήσιον γίνεται οἷον καὶ εἰς τὸ κάτοπτρον ἐνορᾶται τὰ εἴδωλα τῶν ἐνορωμένων καὶ ἕως ἐνορᾷ ἐκεῖνα;"
+  },
+  {
+   "seg": "III.6.13.p3",
+   "chapter": "III.6.13",
+   "modern": "For if here you took away the things that are, none of what is now seen in the world we perceive would appear for any time at all. The mirror here is itself seen, for it is itself a form; but matter, being no form, is not seen itself; otherwise it would have had to be seen by itself first. It suffers something like air lit up, which is invisible then too, because it was not seen even without being lit. So the things in mirrors are not believed to be, or less so, because what they are in is seen, and it stays, while they go away. But in matter, matter itself is not seen, neither with them nor without them. If the things that fill the mirrors could stay, and the mirrors themselves were not seen, no one would disbelieve that what is seen in them is real. If, then, there is something in mirrors, let the things we perceive be in matter in this way; if there is not, but it appears to be, there too we must say they appear in matter, making the existence of the things that are the cause of the appearing. The things that are always share in it truly; the things that are not, not truly, since they must not be as they would have been if they were and being were not.",
+   "greek": "καὶ γὰρ εἰ ἐνταῦθα ἀνέλοις τὰ ὄντα, οὐδὲν ἂν οὐδένα χρόνον φανείη τῶν νῦν ἐν αἰσθητῷ ὁρωμένων. τὸ μὲν οὖν κάτοπτρον ἐνταῦθα καὶ αὐτὸ ὁρᾶται: ἔστι γὰρ καὶ αὐτὸ εἶδός τι: ἐκεῖ δὲ οὐδὲν εἶδος ὂν αὐτὸ μὲν οὐχ ὁρᾶται: ἔδει γὰρ αὐτὸ πρότερον καθ̓ αὑτὸ ὁρᾶσθαι: ἀλλὰ τοιοῦτόν τι πάσχει, οἷον καὶ ὁ ἀὴρ φωτισθεὶς ἀφανής ἐστι καὶ τότε, ὅτι καὶ ἄνευ τοῦ φωτισθῆναι οὐχ ἑωρᾶτο. ταύτῃ οὖν τὰ μὲν ἐν τοῖς κατόπτροις οὐ πιστεύεται εἶναι ἢ ᾗττον, ὅτι ὁρᾶται τὸ ἐν ᾧ ἐστι καὶ μένει μὲν αὐτό, τὰ δὲ ἀπέρχεται: ἐν δὲ τῇ ὕλῃ οὐχ ὁρᾶται αὐτὴ οὔτε ἔχουσα οὔτε ἄνευ ἐκείνων. εἰ δέ γε ἦν μένειν τὰ ἀφ̓ ὧν πληροῦται τὰ κάτοπτρα καὶ αὐτὰ μὴ ἑωρᾶτο, οὐκ ἂν μὴ εἶναι ἀληθινὰ ἠπιστήθη τὰ ἐνορώμενα. εἰ μὲν οὖν ἔστι τι ἐν τοῖς κατόπτροις, καὶ ἐν τῇ ὕλῃ οὕτω τὰ αἰσθητὰ ἔστω: εἰ δὲ μὴ ἔστι, φαίνεται δὲ εἶναι, κἀκεῖ φατέον φαίνεσθαι ἐπὶ τῆς ὕλης αἰτιωμένους τῆς φαντάσεως τὴν τῶν ὄντων ὑπόστασιν, ἧς τὰ μὲν ὄντα ὄντως ἀεὶ μεταλαμβάνει, τὰ δὲ μὴ ὄντα μὴ ὄντως, ἐπείπερ οὐ δεῖ οὕτως ἔχειν αὐτὰ ὡς εἶχεν ἂν τοῦ ὄντος μὴ ὄντος, εἰ ἦν αὐτά.",
+   "flags": [
+    {
+     "taylor": "For with respect to matter, if you take away [real] beings",
+     "why": "The Greek says \"if here you take away the things that are\", the originals the images come from; \"with respect to matter\" and the square brackets are Taylor's."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.14.p1",
+   "chapter": "III.6.14",
+   "modern": "What then? If matter did not exist, would nothing have come to be? Not even an image, if there were no mirror or something of the kind. For what is fitted by nature to come to be in another would not come to be if that did not exist: this is the nature of an image, to be in another. If something went out from the things that are, it would be even without being in another. But since they stay, if they are to be imaged in something else, there must be something else that gives a seat to what has not come; and that, by its presence and its boldness, and its begging, as it were, and its poverty, forces itself, as it were, to receive, and is deceived by not receiving, so that the poverty may remain and always beg. For once it had come to exist, the myth makes it a beggar, showing its nature, that it is empty of good. The beggar does not ask for what the giver has, but is content with whatever he gets; so this too shows that what appears in it is other. Its name shows that it is not filled. And its lying with Resource shows that it lies not with being, nor with plenty, but with something clever: that is, with the wisdom of the image, its cleverness.",
+   "greek": "τί οὖν; μὴ οὔσης οὐδὲν ὑπέστη ἄν; ἢ οὐδὲ εἴδωλον κατόπτρου μὴ ὄντος ἤ τινος τοιούτου. τὸ γὰρ ἐν ἑτέρῳ πεφυκὸς γίνεσθαι ἐκείνου μὴ ὄντος οὐκ ἂν γένοιτο: τοῦτο γὰρ φύσις εἰκόνος τὸ ἐν ἑτέρῳ. εἰ μὲν γάρ τι ἀπῄει ἀπὸ τῶν ὄντων, καὶ ἄνευ τοῦ ἐν ἑτέρῳ ἦν ἄν. ἐπεὶ δὲ μένει ἐκεῖνα, εἰ ἐμφαντασθήσεται ἐν ἄλλῳ, δεῖ ἄλλο εἶναι ἕδραν καρέχον τῷ οὐκ ἐλθόντι, τῇ δ’ αὑτοῦ παρουσίᾳ καὶ τῇ τόλμῃ καὶ οἷον προσαιτήσει καὶ πενίᾳ οἷον βιασάμενον λαβεῖν καὶ ἀπατηθὲν τῇ οὐ λήψει, ἵνα μένῃ ἡ πενία καὶ ἀεὶ προσαιτῇ. ἐπεὶ γὰρ ἅπαξ ὑπέστη, ὁ μὲν μῦθος αὐτὴν ποιεῖ προσαιτοῦσαν ἐνδεικνύμενος αὐτῆς τὴν φύσιν, ὅτι ἀγαθοῦ ἔρημος. αἰτεῖ τε ὁ προσαιτῶν οὐχ ἃ ἔχει ὁ διδούς, ἀλλ’ ἀγαπᾷ ὅ τι ἂν λάβῃ: ὥστε καὶ τοῦτο ἐνδείκνυσθαι, ὡς ἕτερον τὸ ἐν αὐτῇ φανταζόμενον. τό τ̓ ὄνομα ὡς οὐ πληρουμένης. τὸ δὲ τῷ πόρῳ συγγίνεσθαι οὐ τῷ ὄντι δηλοῦντός ἐστι συγγίνεσθαι οὐδὲ τῷ κόρῳ, ἀλλά τινι πράγματι εὐμηχάνῳ: τοῦτο δέ ἐστι τῇ σοφίᾳ τοῦ φαντάσματος.",
+   "flags": [
+    {
+     "taylor": "What then* matter not existing, would nothing have a subsistence ? Nothing except beings",
+     "why": "The Greek answers \"not even an image, if there were no mirror\"; \"Nothing except beings\" is Taylor's own answer."
+    }
+   ],
+   "notes": [
+    "The myth is the birth of Eros in the Symposium (203b-c): Poverty (Penia), begging at the feast, lies with Resource (Poros) and bears Eros."
+   ]
+  },
+  {
+   "seg": "III.6.14.p2",
+   "chapter": "III.6.14",
+   "modern": "For since whatever is in any way outside being cannot wholly fail to share in it (for this is the nature of being, to make beings), while what is wholly not-being is unmixed with being, the thing is a wonder: how, not sharing, it shares, and how it has something, as it were, from being neighbours, though by its own nature it is unable, as it were, to stick. So what it would have taken slides off it, as from a nature foreign to it, like an echo from smooth, even places: because it does not stay, it is by this very fact imagined to be there and to come from there. If it had shared and received in the way someone supposes, what came would have sunk into it and been swallowed up. But as it is, it is plain that it was not swallowed, but matter stayed the same, receiving nothing, holding back the approach like a seat that pushes away, a receptacle of the things that come to the same place and mix there. It is like the smooth things people set facing the sun when they want to catch fire, some of them filling them with water, so that the flame, hindered by the opposite within, does not pass through but gathers outside. So it becomes the cause of becoming, and the things that gather in it gather in this way.",
+   "greek": "ἐπεὶ γὰρ οὐχ οἷόν τε τοῦ ὄντος πάντη μὴ μετέχειν ὅ τι περ ὁπωσοῦν ἔξω ὂν αὐτοῦ ἐστιν: αὕτη γὰρ τοῦ ὄντος φύσις τὸ ὄντα ποιεῖν: τὸ δὲ πάντη μὴ ὂν ἄμικτον τῷ ὄντι, θαῦμα τὸ χρῆμα γίνεται, πῶς μὴ μετέχον μετέχει, καὶ πῶς οἷον παρὰ τῆς γειτνιάσεως ἔχει τι καίπερ τῇ αὑτοῦ φύσει μὲν οἷον κολλᾶσθαι ἀδυνατοῦν. ἀπολισθαίνει οὖν ὡς ἂν ἀπὸ φύσεως ἀλλοτρίας ὃ ἔλαβεν ἄν, οἷον ἠχὼ ἀπὸ τόπων λείων καὶ ὁμαλῶν: ὅτι μὴ μένει, τούτῳ καὶ ἐφαντάσθη ἐκεῖ κἀκεῖθεν τὸ εἶναι. εἰ δ’ ἦν μετασχοῦσα καὶ οὕτω δεξαμένη, ὥσπερ τις ἀξιοῖ, καταποθὲν ἂν εἰς αὐτὴν τὸ προσελθὸν ἔδυ. νῦν δὲ φαίνεται, ὅτι μὴ κατεπόθη, ἀλλ’ ἔμεινεν ἡ αὐτὴ οὐδὲν δεξαμένη, ἀλλ’ ἐπισχοῦσα τὴν πρόσοδον ὡς ἕδρα ἀπωθουμένη καὶ τῶν εἰς τὸ αὐτὸ προσιόντων κἀκεῖ μιγνυμένων ὑποδοχή, οἷον ὅσα πρὸς ἥλιον πῦρ ζητοῦντες λαβεῖν ἱστᾶσι λεῖα, τὰ δὲ καὶ πληροῦντες ὕδατος, ἵνα μὴ διέλθῃ κωλυομένη ὑπὸ τοῦ ἔνδον ἐναντίου ἡ φλόξ, ἔξω δὲ συνίσταιτο. γίνεται οὖν αἰτία τῆς γενέσεως οὕτω καὶ τὰ ἐν αὐτῇ συνιστάμενα τοιοῦτον συνίσταται τρόπον.",
+   "flags": [
+    {
+     "taylor": "but impeding progression like some repercussive seat",
+     "why": "Taylor's words are near the Greek, a seat that \"pushes away\" what comes to it; the image is of a burning-glass, which gathers the fire outside itself."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.15.p1",
+   "chapter": "III.6.15",
+   "modern": "With the things that gather fire from the sun round themselves, since they take the kindling that happens round them from a fire we perceive, they too are things we perceive; so it is plain that what gathers is outside, next to them, near them, touching them, and that there are two boundaries. But the rational principle on matter is outside in another way. The otherness of nature is enough, needing no double boundary; much more, matter is foreign to every boundary by the otherness of its substance, and keeps itself unmixed by having no kinship at all. That is the cause of its staying by itself: neither does what comes in enjoy it, nor does it enjoy what comes in. Opinions and images in the soul are not blended, but each goes away again, being alone what it is, drawing nothing with it and leaving nothing behind, because it was not mixed; it is \"outside\", not because it lay on the soul, and what it is on is not seen as different, but reason says so.",
+   "greek": "ἐπὶ μὲν οὖν τῶν τὸ πῦρ ἐξ ἡλίου περὶ αὑτὰ συναγόντων ἅτε παρὰ αἰσθητοῦ πυρὸς λαμβανόντων τὴν περὶ αὐτὰ γιγνομένην ἔξαψιν τὸ αἰσθητοῖς εἶναι καὶ αὐτοῖς ὑπάρχει: διὸ καὶ φαίνεται, ὅτι ἔξω τὰ συνιστάμενα καὶ ἐφεξῆς καὶ πλησίον καὶ ἅπτεται καὶ πέρατα δύο: ὁ δ’ ἐπὶ τῆς ὕλης λόγος ἄλλον ἔχει τρόπον τὸ ἔξω. ἡ γὰρ ἑτερότης τῆς φύσεως ἀρκεῖ οὐδὲν πέρατος διπλοῦ δεομένη, ἀλλὰ πολὺ μᾶλλον παντὸς πέρατος ἀλλοτρία τῇ ἑτερότητι τῆς οὐσίας καὶ οὐδαμῇ συγγενείᾳ τὸ ἀμιγὲς ἔχουσα. καὶ τὸ αἴτιον τοῦ μένειν ἐφ̓ αὑτῆς τοῦτο, ὅτι οὔτε τὸ εἰσιὸν ἀπολαύει αὐτῆς, οὔτ’ αὐτὴ τοῦ εἰσιόντος, ἀλλ’ ὥσπερ αἱ δόξαι καὶ αἱ φαντασίαι ἐν ψυχῇ οὐ κέκρανται, ἀλλ’ ἄπεισι πάλιν ἑκάστη ὡς οὖσα ὃ ἔστι μόνη οὐδὲν ἐφέλκουσα οὐδὲ καταλείπουσα, ὅτι μὴ ἐμέμικτο, καὶ τὸ ἔξω ἔχει, οὐχ ὅτι ἐπέκειτο, καὶ τὸ ἐφ̓ ᾧ ἐστιν οὐχ ὁράσει ἕτερον, ἀλλ’ ὁ λόγος φησίν.",
+   "flags": [
+    {
+     "taylor": "But the productive principle in matter, has the external after a different manner",
+     "why": "Taylor's \"productive principle\" is his usual word for logos, the rational principle on matter; the point is that it is \"outside\" matter only by matter's otherness."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.15.p2",
+   "chapter": "III.6.15",
+   "modern": "Here, then, the image in the soul is like an image, though the soul is not by nature an image; and though it seems to lead many things, and lead them where it likes, the soul still uses it as matter, or something like matter. Yet it has not hidden the soul, which often pushes it away by its own activities; nor has it made the soul hidden, even if it came with all its force, or imagined as itself. For the soul has in itself activities and rational principles opposed to it, by which it pushes away what comes. But matter, being far weaker in power than soul, and having nothing of the things that are, neither true nor even a falsehood of its own, has nothing by which to appear, being an emptiness of everything. It becomes the cause for others of their appearing, but cannot say even this, \"I am here\". If ever a deep reasoning, starting from other things, should find it out, it would say that it is something left behind by all the things that are, and by those that later seemed to be, drawn into everything, and following, as it seems, and again not following.",
+   "greek": "ἐνταῦθα μὲν οὖν οἷον εἴδωλον ἡ φαντασία οὐκ εἰδώλου τὴν φύσιν οὔσης τῆς ψυχῆς, καίπερ πολλὰ δοκοῦσα ἄγειν καὶ ὅπῃ θέλει ἄγειν, χρῆται μὲν αὐτῇ οὐδὲν ἧττον ὡς εἶδος ὕλῃ ἢ ἀνάλογον, οὐ μέντοι ἔκρυψε ταῖς παῤ αὐτῆς ἐνεργείαις πολλάκις ἐξωθουμένη οὐδὲ ἐποίησεν αὐτὴν οὐδ’ εἰ μετὰ πάσης σπουδῆς ἔλθοι κεκρύφθαι καὶ τοιαύτην φαντάζεσθαι: ἔχει γὰρ ἐν αὑτῇ ἐνεργείας καὶ λόγους ἐναντίους, οἷς ἀπωθεῖται τὰ προσιόντα. ἡ δὲ — ἀσθενεστέρα γάρ ἐστιν ὡς πρὸς δύναμιν πολλῷ ψυχῆς καὶ ἔχει οὐδὲν τῶν ὄντων οὔτ’ ἀληθὲς οὔτ’ αὖ οἰκεῖον ψεῦδος — οὐκ ἔχει δἰ ὅτου φανῇ ἐρημία πάντων οὖσα, ἀλλὰ γίνεται μὲν αἰτία ἄλλοις τοῦ φαίνεσθαι, οὐ δύναται δὲ εἰπεῖν οὐδὲ τοῦτο, ὡς ἐγὼ ἐνταῦθα. ἀλλ’ εἴ ποτε ἐξεύροι αὐτὴν λόγος βαθύς τις ἐξ ἄλλων ὄντων, ὡς ἄρα ἐστί τι ἀπολελειμμένον πάντων τῶν ὄντων καὶ τῶν ὕστερον δοξάντων εἶναι, ἑλκόμενον εἰς πάντα καὶ ἀκολουθοῦν ὡς δόξαι καὶ αὖ οὐκ ἀκολουθοῦν.",
+   "flags": [
+    {
+     "taylor": "but is not able to say even this of itself, I am here, [though I am by no means visible.]",
+     "why": "Taylor's words in square brackets are his own; the Greek says only that matter cannot say even \"I am here\"."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.16.p1",
+   "chapter": "III.6.16",
+   "modern": "A rational principle came, and led it out as far as it wished, and made it great, putting the great round it from itself, though matter was not great, nor became so; for the great on it would have been a size. If someone takes away this form, the substrate is no longer great and no longer seems so. If what came to be great was a man and a horse, and with the horse the horse's greatness came on, when the horse goes, its greatness goes too. If someone says that the horse comes to be on a great bulk of a certain size, and the greatness stays, we shall say that what stays there is not the horse's greatness but the bulk's. But if this bulk is fire or earth, when the fire or earth goes, the greatness of fire or earth goes. So matter would not enjoy the shape, nor the size; otherwise it would not become something else from fire, but would stay fire and never become what is not fire.",
+   "greek": "καὶ μήν τις ἐλθὼν λόγος ἀγαγὼν εἰς ὅσον αὐτὸς ἤθελεν ἐποίησεν αὐτὴν μέγα παῤ αὑτοῦ τὸ μέγα περιθεὶς αὐτῇ οὐκ οὔσῃ, τοῦτο δὲ οὐδὲ γενομένῃ: τὸ γὰρ ἐπ’ αὐτῇ μέγα μέγεθος ἂν ἦν. ἐὰν οὖν τις τοῦτο ἀφέλῃ τὸ εἶδος, οὐκέτ̓ ἐστὶν οὐδὲ φαίνεται τὸ ὑποκείμενον μέγα, ἀλλ’ εἰ ἦν τὸ γενόμενον μέγα ἄνθρωπος καὶ ἵππος καὶ μετὰ τοῦ ἵππου τὸ μέγα τοῦ ἵππου ἐπελθόν, ἀπελθόντος τοῦ ἵππου καὶ τὸ μέγα αὐτοῦ ἀπέρχεται. εἰ δέ τις λέγοι, ὡς ὁ ἵππος ἐπὶ μεγάλου τινὸς ὄγκου καὶ τοσοῦδε γίνεται καὶ μένει τὸ μέγα, φήσομεν μὴ τὸ τοῦ ἵππου μέγα, ἀλλὰ τὸ τοῦ ὄγκου μέγα μένειν ἐκεῖ. εἰ μέντοι ὁ ὄγκος οὗτος πῦρ ἐστιν ἢ γῆ, ἀπελθόντος τοῦ πυρὸς ἢ τῆς γῆς τὸ τοῦ πυρὸς ἀπέρχεται ἢ τὸ τῆς γῆς μέγα οὐ τοίνυν οὐδὲ τοῦ σχήματος οὐδὲ τοῦ μεγέθους ἀπολαύσειεν ἄν: ἢ οὐκ ἐκ πυρὸς ἄλλο τι ἔσται, ἀλλὰ μένουσα πῦρ οὐ πῦρ γενήσεται.",
+   "flags": [
+    {
+     "taylor": "but remaining fire, it would not become fire",
+     "why": "The Greek says that if matter kept the size of fire, it would never pass from fire into something else, but would stay fire; Taylor's \"would not become fire\" loses the sense."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.16.p2",
+   "chapter": "III.6.16",
+   "modern": "For even now, having become so great that it seems as big as this universe, if the heaven and all within it ceased, all size would go from it with them, and plainly the other qualities with it, and it would be left as what it was, keeping none of the things that were about it before. Yet in things that have been affected by the presence of something, something is still left in what received it, when it has gone; but not in things that were not affected: as with air, when light is about it, and when it has gone. If someone wonders how what has no size will be great, let him wonder too how what has no heat will be hot. For being matter and being size are not the same for it, since there is size without matter, as there is shape without matter. If we keep matter as matter, it is all things by sharing; and size is one of all things. In bodies, which are composite, there is size with the rest, though not marked off, since size is contained in the rational principle of body. In matter, not even unmarked size is present, for it is not a body.",
+   "greek": "ἐπεὶ καὶ νῦν τοσαύτη γενομένη, ὡς δοκεῖν ὅσον τόδε τὸ πᾶν, εἰ παύσαιτο ὁ οὐρανὸς καὶ τὰ ἐντὸς πάντα, σὺν πᾶσι τούτοις καὶ τὸ μέγεθος πᾶν οἰχήσεται ἀπ’ αὐτῆς καὶ αἱ ἄλλαι δῆλον ὅτι ὁμοῦ ποιότητες, καὶ καταλειφθήσεται ὅπερ ἦν σώζουσα οὐδὲν τῶν πρότερον περὶ αὐτὴν οὕτως ὄντων. καίτοι ἐν οἷς ὑπάρχει τὸ πεπονθέναι παρουσίᾳ τινῶν καὶ ἀπελθόντων ἔστι τι ἔτι ἐν τοῖς λαβοῦσιν: ἐν δὲ τοῖς μὴ παθοῦσιν οὐκέτι, ὥσπερ ἐπὶ τοῦ ἀέρος φωτὸς περὶ αὐτὸν ὄντος καὶ ἀπελθόντος τούτου. ἐὰν δέ τις θαυμάζῃ, πῶς οὐκ ἔχον μέγεθος μέγα ἔσται, πῶς δὲ οὐκ ἔχον θερμότητα θερμὸν ἔσται: οὐ γὰρ δὴ τὸ αὐτὸ τὸ εἶναι αὐτῇ καὶ μεγέθει εἶναι, εἴπερ καὶ ἄυλον μέγεθός ἐστιν, ὥσπερ καὶ ἄυλον σχῆμα. καὶ εἰ τηροῦμεν τὴν ὕλην, μεταλήψει πάντα: ἓν δὲ τῶν πάντων καὶ τὸ μέγεθος. ἐν μὲν οὖν τοῖς σώμασι συνθέτοις οὖσίν ἐστι καὶ μέγεθος μετὰ τῶν ἄλλων, οὐ μὴν ἀφωρισμένον, ἐπειδὴ ἐν σώματος λόγῳ ἔγκειται καὶ μέγεθος: ἐν δὲ τῇ ὕλῃ οὐδὲ τὸ οὐκ ἀφωρισμένον: οὐ γὰρ σῶμα."
+  },
+  {
+   "seg": "III.6.17.p1",
+   "chapter": "III.6.17",
+   "modern": "Nor, again, will it be size itself. For size is a form, not a receiver; and size by itself is not size in this way, stretched out. But since what lies in intellect or soul wants to be great, it gave to the things that, as it were, wish to imitate it, by longing for it or moving towards it, the power to stamp their own affection on another. So the great, running in the going-out of imaging, made what is not great in matter run along with it into this greatness, and made it seem great by being stretched, though not filled. For this is the falsely great: when, by not having greatness, it is stretched out towards it in the stretching. All the things that are make their reflections in other things, and each of the makers was great as it was, and the whole was great in that way. So the greatness of each rational principle came together, of a horse, say, or of anything else, and greatness itself. Matter became great as a whole, lit up by greatness itself, and each part of it something great; and all things together appeared from the whole form to which the great belongs, and from each; and it was stretched out, as it were, towards everything and all things, forced to be in this form and in bulk, as far as the power made what is nothing to be all things.",
+   "greek": "οὐδ’ αὖ μέγεθος αὐτὸ ἔσται. εἶδος γὰρ τὸ μέγεθος, ἀλλ’ οὐ δεκτικόν: καὶ καθ̓ αὑτὸ δὲ τὸ μέγεθος, οὐχ οὕτω μέγεθος. ἀλλ ἐπεὶ βούλεται τὸ ἐν νῷ ἢ ἐν ψυχῇ κείμενον μέγα εἶναι, ἔδωκε τοῖς οἷον ἐθέλουσι μιμεῖσθαι ἐφέσει αὐτοῦ ἢ κινήσει τῇ πρὸς αὐτὸ τὸ αὑτῶν πάθος ἐνσημήνασθαι εἰς ἄλλο. τὸ οὖν μέγα ἐν προόδῳ φαντάσεως θέον εἰς αὐτὸ δὴ τοῦτο τὸ μέγα συνθεῖν ποιῆσαν τὸ μὴ μέγα τῆς ὕλης πεποίηκεν αὐτὸ τῇ παρατάσει οὐ πληρούμενον δοκεῖν εἶναι μέγα. τὸ γὰρ ψευδῶς μέγα τοῦτό ἐστιν. ὅταν τῷ μὴ ἔχειν τὸ μέγα εἶναι ἐκτεινόμενον πρὸς ἐκεῖνο παραταθῇ τῇ ἐκτάσει. ποιούντων γὰρ πάντων τῶν ὄντων εἰς τὰ ἄλλα τὴν αὑτῶν ἐνόπτρισιν ἕκαστόν τε τῶν ποιούντων ὡς αὐτὸ ἦν μέγα, τό τε πᾶν ἦν ἐκείνως μέγα. συνῄει οὖν τὸ ἑκάστου λόγου μέγα, οἷον ἵππου καὶ ὁτουοῦν ἄλλου, καὶ τὸ μέγα αὐτό: καὶ ἐγίνετο πᾶσα μὲν μέγα πρὸς αὐτὸ τὸ μέγα ἐλλαμπομένη καὶ ἑκάστη δὲ μοῖρα μέγα τι καὶ ὁμοῦ πάντα ἐφαίνετο ἐκ παντὸς τοῦ εἴδους, οὗ τὸ μέγα, καὶ ἐξ ἑκάστου, καὶ οἷον παρετέτατο καὶ πρὸς πᾶν καὶ πάντα ἐν εἴδει τούτῳ ἀναγκασθεῖσα εἶναι καὶ ἐν ὄγκῳ, ὅσον ἡ δύναμις πεποίηκε τὸ μηδὲν ὂν αὐτὸ πάντα εἶναι:",
+   "flags": [
+    {
+     "taylor": "If matter, likewise, cannot adapt to itself the imitations of beings,1 on this account also it is not magnitude",
+     "why": "The Greek says only that size by itself is not size in the way that stretched things are; Taylor's sentence about imitations of beings is not in Volkmann's text."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.17.p2",
+   "chapter": "III.6.17",
+   "modern": "So by its very appearing, the colour from what is not colour and the quality here from what is not quality got the same name as those, and so did the size from what is not size, or from what has only the name of size, these being seen between them and matter itself and the form itself. They appear, because they come from there; they lie, because what they appear in is not. Each thing is made great, drawn out by the power of the things seen in it, which make room for themselves; and matter is drawn to all of them without force, because it is matter for all. Each draws by the power it has, and it has it from there. What makes matter great, so that it seems great, comes from the imaging of the great, and this imaging is the greatness here. Matter, on which it is forced to run along, gives itself all together and everywhere; for it is matter of this and not of a this. What is nothing of itself can become even the opposite through another, and having become the opposite, is not that either; for then it would have stood still.",
+   "greek": "οἷον αὐτῷ τῷ φαίνεσθαι καὶ τὸ χρῶμα τὸ ἐξ οὐ χρώματος καὶ ἡ ποιότης ἡ ἐνταῦθα ἡ ἐξ οὐ ποιότητος ἔσχε τὴν ὁμωνυμίαν τὴν ἀπ’ ἐκείνων, καὶ τὸ μέγεθος τὸ ἐξ οὐ μεγέθους ἢ ὁμωνύμου μεταξὺ θεωρουμένων ἐκείνων καὶ αὐτῆς τῆς ὕλης καὶ τοῦ εἴδους αὐτοῦ. καὶ φαίνεται μέν, ὅτι ἐκεῖθεν, ψεύδεται δέ, ὅτι οὐκ ἔστι τὸ ἐν ᾧ φαίνεται. μεγεθύνεται δὴ ἕκαστα ἑλκόμενα τῇ δυνάμει τῶν ἐνορωμένων καὶ χώραν ἑαυτοῖς ποιούντων, ἕλκεται δὲ ἐπὶ πάντα οὐ βίᾳ τῷ ὕλη τὸ πᾶν εἶναι. ἕλκει δὲ ἕκαστον κατὰ τὴν αὑτοῦ δύναμιν ἣν ἔχει: ἔχει δὲ ἐκεῖθεν. καὶ τὸ μὲν ποιοῦν μέγα τὴν ὕλην ὡς δοκεῖν ἀπὸ τῆς ἐμφαντάσεως τοῦ μέγα καὶ τοῦτό ἐστι τὸ ἐμφαντασθέν, τὸ ἐνταῦθα μέγα: ἡ δὲ ὕλη, ἐφ̓ ἧς ἀναγκάζεται συνθεῖν, ὁμοῦ πᾶσα καὶ πανταχοῦ παρέχει ἑαυτήν: ὕλη γάρ ἐστι καὶ τούτου καὶ οὐ τουτί: ὃ δὲ μή ἐστί τι παῤ αὑτοῦ, δύναται γενέσθαι καὶ τὸ ἐναντίον δἰ ἄλλο καὶ γενόμενον τὸ ἐναντίον οὐδ’ ἐκεῖνό ἐστιν: ἔστη γὰρ ἄν."
+  },
+  {
+   "seg": "III.6.18.p1",
+   "chapter": "III.6.18",
+   "modern": "Someone who has a thought of the great, if his thought had the power not only to be in itself but to be carried, as it were, outward by its power, would meet a nature that is not in the thinker, with no form and no trace of the great, nor of anything else. What would he make with this power? Not a horse, nor an ox; others will make these. Since it comes from a great father, the other cannot contain the great, but will have it as an image. So for what has not had the good fortune to be great itself, it is left to appear great in what is its own, as far as it can. And this is not to fall short, not to be scattered over many places, to have its parts akin in itself, and to lack none. For the image of the great could not bear, being an image of the great, to be equal in a small bulk; but as far as it reached out in hope towards it, it came as near as it could, with what ran along with it, which could not be left behind; and it made great what is not great, nor even seemed so, and the great we see in bulk.",
+   "greek": "ὁ τοίνυν νόησιν μεγάλου ἔχων, εἰ αὐτοῦ ἡ νόησις δύναμιν ἔχοι μὴ μόνον ἐν αὑτῇ εἶναι, ἀλλὰ καὶ οἷον πρὸς τὸ ἔξω ὑπὸ δυνάμεως φέροιτο, λάβοι ἂν φύσιν οὐκ οὖσαν ἐν τῷ νοοῦντι, οὐδέ τι ἔχουσαν εἶδος οὐδέ τι ἴχνος τοῦ μεγάλου, ἀλλ’ οὐδὲ οὐδενός του ἄλλου. τί οὖν ἂν ποιήσειε ταύτῃ τῇ δυνάμει; οὐχ ἵππον, οὐ βοῦν: ταῦτα γὰρ ἄλλοι ποιήσουσιν. ἤ, ἐπειδὴ παρὰ μεγάλου πατρὸς ἔρχεται, οὐ δύναται τὸ ἄλλο χωρῆσαι τὸ μέγα, τοῦτο δὲ ἕξει ἐμφανταζόμενον. τῷ δὴ μὴ οὕτως εὐτυχήσαντι τοῦ μεγάλου ὡς αὐτὸ μέγα εἶναι ἐν τοῖς αὑτοῦ καθ̓ ὅσον οἷόν τε μεγάλῳ φαίνεσθαι λεῖπόν ἐστι. τοῦτο δέ ἐστι μὴ ἐλλείπειν καὶ τὸ μὴ ἐπὶ πολλὰ πολλαχοῦ καὶ ἐν αὑτῷ συγγενῆ ἔχειν τὰ μέρη καὶ ἀπολείπεσθαι μηδενός. οὐ δὴ γὰρ ἠνείχετο ἐν σμικρῷ ὄγκῳ ἴσον ἔτι τὸ τοῦ μεγάλου εἴδωλον εἶναι μεγάλου ὄν, ἀλλ’ ὅσον ἐφίετο τῆς ἐλπίδος ἐκείνου προσῆλθεν ὅσον οἷόν τε ἦν αὐτῷ μετὰ τοῦ συνθέοντος αὐτῷ ἀπολειφθῆναι δ’ οὐ δυναμένου καὶ πεποίηκε μέγα τε ἐκεῖνο τὸ μὴ μέγα μηδ’ οὕτω δόξαν καὶ τὸ ὁρώμενον ἐν ὄγκῳ μέγα.",
+   "flags": [
+    {
+     "taylor": "nothing else [besides matter] is able to receive this magnitude",
+     "why": "The Greek says that \"the other\", matter, cannot contain the great, but will have it only as an image; Taylor's bracket makes matter the only thing that can."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.18.p2",
+   "chapter": "III.6.18",
+   "modern": "Yet matter keeps its own nature, using this greatness like a garment, which it put on when it ran along with it, while it led it on its course. If the one who clothed it took it off, it stays again the same, as it was of itself, or as great as the form present makes it. For the soul, holding the forms of the things that are, being itself a form, has all things together; and since each form is together with itself, when it sees the forms of sensible things turning back to it, as it were, and coming to it, it will not bear to receive them with their multitude, but sees them with their bulk laid aside; for it cannot become anything other than what it is. But matter, having nothing to resist (for it has no activity), being a shadow, waits to suffer whatever the maker wills.",
+   "greek": "ἡ δ’ ὅμως φυλάττει τὴν αὑτῆς φύσιν ἀποχρωμένη τούτῳ τῷ μεγάλῳ οἷον ἀμφιέσματι, ὃ συνδραμοῦσα αὐτῷ ὅτε θέον αὐτὴν ἦγεν ἀμπέσχετο: ὃ εἰ ὁ ἀμφιέσας ἀφέλοιτο, μένει πάλιν ἡ αὐτή, οἵαπερ παῤ αὑτῆς ἦν, ἢ τοσαύτη, ὅσον ἂν τὸ παρὸν εἶδος αὐτὴν ποιῇ. ἡ μὲν γὰρ ψυχὴ τὰ τῶν ὄντων εἴδη ἔχουσα εἶδος οὖσα καὶ αὐτὴ ὁμοῦ πάντα ἔχει καὶ τοῦ εἴδους ἑκάστου ὁμοῦ ὄντος αὑτῷ τά τε τῶν αἰσθητῶν εἴδη οἷον ἀναστρέφοντα πρὸς αὑτὴν καὶ προσιόντα ὁρῶσα οὐκ ἀνέχεται μετὰ πλήθους δέχεσθαι, ἀλλ’ ἀποθέμενα τὸν ὄγκον ὁρᾷ: οὐ γὰρ δύναται ἄλλο τι ἢ ὃ ἔστι γενέσθαι. ἡ δὲ ὕλη οὐδὲν ἔχουσα τὸ ἀντικόπτον, οὐ γὰρ ἔχει ἐνέργειαν, οὖσα δὲ σκιά, ἀναμένει παθεῖν ὅ τι ἂν ἐθέλῃ τὸ ποιῆσον."
+  },
+  {
+   "seg": "III.6.18.p3",
+   "chapter": "III.6.18",
+   "modern": "What goes out from the rational principle there already has a trace of what is going to come to be; for the rational principle moving as in an imaging imagination, or the motion from it, is a division into parts; if it were one and the same, it would not have moved, but stays. And matter cannot house all things together, as the soul can, or it would be one of them. Yet it must receive all things, and receive them not without parts. So, being place for all, it must go to all, meet all, and suffice for every extension, because it is not itself caught in an extension, but lies open to what is to come. How, then, did one thing coming in not hinder the others, which could not be on top of one another? There was nothing first; if there was, it was the form of the universe; so all came together, but each in a part. For the matter of a living thing is divided along with the dividing of the living thing; otherwise nothing would have come to be besides the rational principle.",
+   "greek": "τό τε οὖν προιὸν ἐκ τοῦ ἐκεῖ λόγου ἤδη ἴχνος ἔχει τοῦ μέλλοντος γενήσεσθαι: οἷον γὰρ ἐν φαντασίᾳ εἰκονικῇ κινούμενος ὁ λόγος ἢ ἡ κίνησις ἡ ἀπὸ τούτου μερισμός ἐστιν: ἤ, εἰ ταὐτὸν εἴη ἕν, οὐδὲ ἐκινήθη, ἀλλὰ μένει: ἥ τε ὕλη πάντα ὁμοῦ ὥσπερ ἡ ψυχὴ οὐ δύναται εἰσοικίσασθαι: ἢ ἦν ἄν τι ἐκείνων: αὐτήν τε αὖ δεῖ τὰ πάντα δέξασθαι, μὴ ἀμερῶς δὲ δέξασθαι. δεῖ τοίνυν πᾶσι τόπον οὖσαν ἐπὶ πάντα αὐτὴν ἐλθεῖν καὶ πᾶσιν ἀπαντῆσαι καὶ πρὸς πᾶν διάστημα ἀρκέσαι, ὅτι μὴ κατείληπται διαστήματι αὐτή, ἀλλ’ ἦν ἐκκειμένη τῷ μέλλοντι. πῶς οὖν οὐκ εἰσελθὸν ἕν τι ἐκώλυσε τὰ ἄλλα, ἃ οὐχ οἷόν τε ἦν ἐπ’ ἀλλήλοις εἶναι; ἢ οὐκ ἦν οὐδὲν πρῶτον: εἰ δ’ ἄρα, τὸ τοῦ παντὸς εἶδος: ὥστε πάντα μὲν ἅμα, ἐν μέρει δὲ ἕκαστον: ζῴου γὰρ ὕλη μερισθεῖσα σὺν τῷ τοῦ ζῴου μερισμῷ: εἰ δὲ μή, οὐκ ἂν ἐγένετό τι παρὰ τὸν λόγον.",
+   "flags": [
+    {
+     "taylor": "It is because all things cannot enter together at the same time ; for if they could, there would not be any thing which is first",
+     "why": "The Greek answers \"there was nothing first; if there was, it was the form of the universe\", so that all came at once, each in its part; Taylor's reasoning is different."
+    }
+   ]
+  },
+  {
+   "seg": "III.6.19.p1",
+   "chapter": "III.6.19",
+   "modern": "The things that have come into matter, as into a mother, do it no wrong, and do it no good either. Their blows are not against it, but against one another, since powers act on their opposites, not on their substrates, unless one looks at the substrates as taken up with what comes on to them. Hot put an end to cold, black to white, or mixed together they made another quality out of themselves. So what is affected is the things mixed, and for them being affected is not being what they were. In living things too the affections are about the bodies, the alteration coming by the qualities and powers in them. When their make-up is broken up, or comes together, or is shifted against its natural make-up, the affections are in the bodies, and the knowledge of the stronger ones belongs to the souls; if not, they do not know them. But matter stays. It has suffered nothing when the cold went away and the heat came, for neither was its friend or its stranger.",
+   "greek": "τὰ μὲν δὴ εἰσελθόντα εἰς τὴν ὕλην ὥσπερ μητέρα ἀδικεῖ οὐδὲν οὐδ’ αὖ ὠφελεῖ. οὐδέ γε αἱ πληγαὶ αἱ τούτων πρὸς αὐτήν, πρὸς ἄλληλα δέ, ὅτι αἱ δυνάμεις πρὸς τὰ ἐναντία, οὐ πρὸς τὰ ὑποκείμενα, εἰ μή τις συνειλημμένα θεωροῖ τοῖς ἐπεισιοῦσι: θερμὸν γὰρ ἔπαυσε τὸ ψυχρὸν καὶ μέλαν τὸ λευκὸν ἢ συγκραθέντα ἄλλην ποιότητα ἐξ αὑτῶν ἐποίησε. τὰ παθόντα οὖν τὰ κραθέντα, τὸ δὲ παθεῖν αὐτοῖς τὸ μὴ εἶναι ὅπερ ἦσαν. καὶ ἐν τοῖς ἐμψύχοις δὲ αἱ μὲν πείσεις περὶ τὰ σώματα κατὰ τὰς ποιότητας καὶ τὰς δυνάμεις τὰς ἐνυπαρχούσας τῆς ἀλλοιώσεως γινομένης: λυομένων δὲ τῶν συστάσεων ἢ συνιουσῶν ἢ μετατιθεμένων παρὰ τὴν κατὰ φύσιν σύστασιν τὰ μὲν πάθη ἐν τοῖς σώμασι, ταῖς δὲ ψυχαῖς αἱ γνώσεις συνημμέναι τῶν σφοδροτέρων: εἰ δὲ μή, οὐ γινώσκουσιν. ἡ δὲ ὕλη μένει: οὐδὲν γὰρ ἀπελθόντος μὲν πέπονθε τοῦ ψυχροῦ, τοῦ δὲ θερμοῦ ἐπελθόντος: οὐ γὰρ ἦν οὔτε φίλον αὐτῇ οὔτε ἀλλότριον ὁποτερονοῦν.",
+   "notes": [
+    "Matter as \"mother\" is the Timaeus' word (50d, 51a), beside \"receptacle\" and \"nurse\"."
+   ]
+  },
+  {
+   "seg": "III.6.19.p2",
+   "chapter": "III.6.19",
+   "modern": "So \"receptacle and nurse\" are more its own; and \"mother\" only in the sense said, for it begets nothing. Those seem to call it mother who think that the mother stands to what is born in the place of matter, only receiving and giving nothing to the offspring, since whatever body the child has comes from food. But if the mother gives anything to what is born, it is not as matter, but because she is also form; for only form is fertile, and the other nature is barren. That, I think, is why the wise men of old, speaking in riddles in their mysteries and rites, make the ancient Hermes always have the organ of generation ready for work, showing that what begets the things in the world we perceive is the intelligible rational principle; and they show the barrenness of matter, which always stays the same, by the sterile ones about her. For they make a Mother of all, whom they call by this name, taking the principle as substrate and giving it this name to show what they mean; wishing to show, to those who want to grasp it more exactly and do not search on the surface, that it is not wholly like a mother. From afar, but as well as they could, they showed that it is barren, and not wholly female either: female so far as to receive, but no further, so far as to beget. For what came to her was neither female nor able to beget, but cut off from all power of begetting, which belongs only to what stays male.",
+   "greek": "ὥστε οἰκειότερον αὐτῇ ἡ ʽὑποδοχὴ καὶ τιθήνἠ: ἡ δὲ μήτηρ οἷον εἴρηται: οὐδὲν γὰρ αὕτη γεννᾷ. ἀλλ’ ἐοίκασι μητέρα αὐτὴν λέγειν ὅσοι καὶ τὴν μητέρα τάξιν ὕλης πρὸς τὰ γεννώμενα ἀξιοῦσιν ἔχειν, ὡς ὑποδεχομένης μόνον, οὐδὲν δὲ εἰς τὰ γεννώμενα διδούσης: ἐπεὶ καὶ ὅσον σῶμα τοῦ γινομένου ἐκ τῆς τροφῆς. εἰ δὲ δίδωσιν ἡ μήτηρ τι τῷ γεννωμένῳ, οὐ καθ̓ ὅσον ὕλη, ἀλλ’ ὅτι καὶ εἶδος: μόνον γὰρ τὸ εἶδος γόνιμον, ἡ δὲ ἑτέρα φύσις ἄγονος. ὅθεν, οἶμαι, καὶ οἱ πάλαι σοφοὶ μυστικῶς καὶ ἐν τελεταῖς αἰνιττόμενοι Ἑρμῆν μὲν ποιοῦσι τὸν ἀρχαῖον τὸ τῆς γενέσεως ὄργανον ἀεὶ ἔχοντα πρὸς ἐργασίαν τὸν γεννῶντα τὰ ἐν αἰσθήσει δηλοῦντες εἶναι τὸν νοητὸν λόγον, τὸ δὲ ἄγονον τῆς ὕλης μενούσης τὸ αὐτὸ ἀεὶ διὰ τῶν περὶ αὐτὴν ἀγόνων δηλοῦντες. μητέρα γὰρ πάντων ποιήσαντες, ἣν δὴ οὕτως ἐπιφημίζουσι τὴν κατὰ τὸ ὑποκείμενον ἀρχὴν λαβόντες καὶ ὄνομα τοῦτο θέμενοι, ἵνα δηλοῖεν ὃ βούλονται, τὸ πρὸς τὴν μητέρα οὐχ ὅμοιον πάντη ἐνδείκνυσθαι θέλοντες τοῖς ὅστις ὁ τρόπος βουλομένοις ἀκριβέστερον λαβεῖν καὶ μὴ ἐπιπολῆς ζητοῦσι πόρρωθεν μέν, ὅμως δὲ ὡς ἐδύναντο, ἐνεδείξαντο ὡς ἄγονός τε καὶ οὐδὲ πάντη θῆλυς, ἀλλὰ τοσοῦτον μὲν θῆλυς, ὅσον ὑποδέξασθαι, ὅσον δὲ γεννᾶν οὐκέτι, τῷ τὸ πρὸς αὐτὴν κεχωρηκὸς μήτε θῆλυ εἶναι, μήτε γεννᾶν δύνασθαι, ἀποτετμημένον δὲ πάσης τῆς τοῦ γεννᾶν δυνάμεως, ἣ μόνῳ ὑπάρχει τῷ μένοντι ἄρρενι.",
+   "flags": [
+    {
+     "taylor": "by the barren substances which were placed about it",
+     "why": "The Greek has \"the sterile ones about her\", the eunuch priests of the Mother of the gods; Taylor's \"barren substances\" misses that they are people."
+    }
+   ],
+   "notes": [
+    "The ithyphallic Hermes stood at doors and crossroads; the Mother of the gods (Cybele) was served by eunuch priests, the Galli, whom Plotinus means by \"the sterile ones about her\"."
    ]
   }
  ],

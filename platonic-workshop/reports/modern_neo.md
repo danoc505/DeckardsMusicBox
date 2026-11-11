@@ -5,17 +5,13 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 ## Plotinus in modern English
 
 - Made from: It is translated from the Greek of Volkmann's edition (Leipzig, 1883-1884), as First1KGreek gives it, chapter by chapter, and checked against Thomas Taylor's translation of 1817.
-- Treatises: I.2 On the virtues, I.3 On dialectic, II.4 On matter, II.9 Against the Gnostics.
-- Chapters: 47, every one of the treatises', each with a short title and a summary.
-- Paragraphs: 108, each with its Greek.
-- Words: 19,461 modern, 14,678 Greek, 28,650 in Taylor's English of the same chapters.
-- Sentences (each can be marked in the reader): 878.
-- Flags (where Taylor and the Greek differ, or the Greek is hard): 82.
-- Problems found: 1.
-
-### Problems
-
-- plotinus II.9.16.p3: the Greek has 'ομοιωσ', the modern version none of ['like']
+- Treatises: I.2 On the virtues, I.3 On dialectic, II.4 On matter, II.9 Against the Gnostics, III.6 On the impassibility of things without body.
+- Chapters: 66, every one of the treatises', each with a short title and a summary.
+- Paragraphs: 156, each with its Greek.
+- Words: 28,859 modern, 22,212 Greek, 40,494 in Taylor's English of the same chapters.
+- Sentences (each can be marked in the reader): 1,225.
+- Flags (where Taylor and the Greek differ, or the Greek is hard): 113.
+- Problems found: 0.
 
 ### Flags
 
@@ -103,6 +99,37 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | II.9.17.p3 | but if they despise what they before had acknowledged to be beautiful, and by which they were in a certain respect affected | The Greek says they are proud of despising what they first called beautiful, "being in a bad state" (kakōs diatethentes); Taylor's "by which they were in a certain respect affected" softens it. |
 | II.9.18.p1 | The former of these, however, is thought to be the wiser of the two | The Greek says that the one who finds fault "would think himself" wiser and readier to leave; Taylor's "is thought to be" makes it others' opinion. |
 | II.9.18.p2 | we shall hasten to be one and the same with them | The Greek says we would hasten "towards the same" goal as the world-soul and the stars, and the same things would be ours to see; not that we would become one with them. |
+| III.6.1.p2 | so that the soul [after a manner] possessing these, does not [really] possess them | Taylor's words in square brackets are his own; the Greek says only that the soul has them without having them. |
+| III.6.2.p1 | like dancers who in dancing do not accord with each other | The Greek compares the soul to dancers who dance and sing together, even though they are different people; the "not" belongs to the discord, not to the dancers. |
+| III.6.2.p2 | And is not the epithymetic 1 part likewise | Taylor keeps the Greek word (epithymētikon): the part of the soul that desires. |
+| III.6.3.p1 | the body, (that we may not err in our conceptions) being as it were contained in the soul | Taylor's words are near the Greek; the warning "not to be misled by words" belongs to the word "holds", that the soul "holds" the body. |
+| III.6.4.p1 | Unexpected fear, however, when it accedes, will be found to originate from opinion | The Greek says the fear is "outside the opinion", in another part, though it comes from the opinion above it; it does not say "unexpected". |
+| III.6.4.p2 | For these effects are not in the psychical part ; since if they were, we should not say that they are corporeal | The Greek says that if these were in the soul's part, we would have to call that part bodily; Taylor reverses it. |
+| III.6.4.p3 | It is requisite, how- mity it is conjoined with sense | Taylor's chapter, as the scan gives it, has one of his footnotes printed into the text here, breaking the word "however" ("See my Introduction to ... Aristotle's treatise On the Soul"). It is Taylor's, not Plotinus'. |
+| III.6.5.p1 | or as if he should say that external spectacles produce the passions | The Greek is hard. The Workshop takes it that the one who wakes the dreamer treats the dream images as having caused the soul's feelings; Taylor makes a second comparison of it. |
+| III.6.5.p2 | lest it should be suffocated in flesh | The Greek says the separation is complete when the lower soul is not on a spirit muddied by gluttony and "a mass of impure flesh"; "suffocated" is Taylor's. |
+| III.6.6.p1 | and nothing is there in capacity which does not also possess a mighty power | The Greek is uncertain here; it seems to say that there is nothing in its power that it is not, nothing that would fall short. Taylor's "a mighty power" is a guess. |
+| III.6.6.p2 | Indeed, things which are struck, confess that their essence subsists by compulsion | The Greek says that solid things, which resist and force what they strike, "bear witness to their substance": they seem to prove that they are real; "by compulsion" is Taylor's. |
+| III.6.6.p2 | we reply, that among bodies, earth is most stable, but that which is more moveable, is also less ponderous | The Greek says that what moves more and is lighter is "more being" than earth, which stands still; Taylor leaves out the "more being", which is the point. |
+| III.6.6.p4 | For indeed a resurrection with body, is a transmigration from sleep to sleep, [and from dream to dream] like a man passing [in the dark] from bed to bed | The Greek word (anastasis) is "rising up", which Christians used for the resurrection; Plotinus' point is that rising with the body only moves us from one sleep to another. The words in square brackets are Taylor's. |
+| III.6.7.p2 | like images in water | The Greek says the images pass through matter without cutting it, "as through water"; "images in water" is Taylor's. |
+| III.6.8.p2 | But is not matter [it may be said] co-passive | Taylor's words in square brackets are his own; the Greek asks the question in Plotinus' own voice. |
+| III.6.9.p1 | Nor does a stone, when it becomes cold, possess any thing besides frigidity | The Greek asks "what does a stone that has become cold have from the cold, while it stays a stone?": nothing that makes it other than a stone. |
+| III.6.9.p2 | many of them act on each other, or rather are contrarily affected | The Greek says that most of the qualities will not act on one another, only those that are opposed; Taylor reverses it. |
+| III.6.10.p1 | So that if it is necessary that matter should be as it s Quality is that which imparts what is apparent in matter | Taylor's chapter, as the scan gives it, has one of his notes printed into the middle of a word here ("as it s[hould]"). It is Taylor's, not Plotinus'. |
+| III.6.11.p1 | Whence, also, I think that the divine Plato, [in the Timseus] | The Greek says only "Plato"; "the divine" and the square brackets are Taylor's. |
+| III.6.11.p1 | According to Plato, however, the entering forms expel those which entered prior to them | The Greek gives this as part of what is wonderful, not as Plato's teaching; "According to Plato" is Taylor's. |
+| III.6.12.p3 | Plato, therefore, teaches us that we ought to be led by usual appellations to the consideration of its passivity | The Greek says we must NOT be carried by the usual words into thinking that matter is affected; Taylor leaves out the "not". |
+| III.6.13.p3 | For with respect to matter, if you take away [real] beings | The Greek says "if here you take away the things that are", the originals the images come from; "with respect to matter" and the square brackets are Taylor's. |
+| III.6.14.p1 | What then* matter not existing, would nothing have a subsistence ? Nothing except beings | The Greek answers "not even an image, if there were no mirror"; "Nothing except beings" is Taylor's own answer. |
+| III.6.14.p2 | but impeding progression like some repercussive seat | Taylor's words are near the Greek, a seat that "pushes away" what comes to it; the image is of a burning-glass, which gathers the fire outside itself. |
+| III.6.15.p1 | But the productive principle in matter, has the external after a different manner | Taylor's "productive principle" is his usual word for logos, the rational principle on matter; the point is that it is "outside" matter only by matter's otherness. |
+| III.6.15.p2 | but is not able to say even this of itself, I am here, [though I am by no means visible.] | Taylor's words in square brackets are his own; the Greek says only that matter cannot say even "I am here". |
+| III.6.16.p1 | but remaining fire, it would not become fire | The Greek says that if matter kept the size of fire, it would never pass from fire into something else, but would stay fire; Taylor's "would not become fire" loses the sense. |
+| III.6.17.p1 | If matter, likewise, cannot adapt to itself the imitations of beings,1 on this account also it is not magnitude | The Greek says only that size by itself is not size in the way that stretched things are; Taylor's sentence about imitations of beings is not in Volkmann's text. |
+| III.6.18.p1 | nothing else [besides matter] is able to receive this magnitude | The Greek says that "the other", matter, cannot contain the great, but will have it only as an image; Taylor's bracket makes matter the only thing that can. |
+| III.6.18.p3 | It is because all things cannot enter together at the same time ; for if they could, there would not be any thing which is first | The Greek answers "there was nothing first; if there was, it was the form of the universe", so that all came at once, each in its part; Taylor's reasoning is different. |
+| III.6.19.p2 | by the barren substances which were placed about it | The Greek has "the sterile ones about her", the eunuch priests of the Mother of the gods; Taylor's "barren substances" misses that they are people. |
 
 ## The fixed renderings
 
