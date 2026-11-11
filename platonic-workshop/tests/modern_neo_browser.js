@@ -28,7 +28,7 @@ async function run(b, viewport, touch, first) {
   await p.goto(base + "#library");
   await p.waitForSelector("#lib-taylor-greek");
   const shelf = await p.$eval("#lib-taylor-greek", (e) => e.innerText);
-  check(/modern English/.test(shelf) && /I\.2 On the virtues/.test(shelf) && /I\.3 On dialectic/.test(shelf), `${tag}: the Library lists the treatises in modern English`);
+  check(/modern English/.test(shelf) && /I\.2 On the virtues/.test(shelf) && /I\.3 On dialectic/.test(shelf) && /VI\.9 On the good, or the One/.test(shelf), `${tag}: the Library lists the treatises in modern English`);
   await p.click('#lib-taylor-greek a[href="#neo-en/taylor-plotinus/0"]');
   await p.waitForSelector(".tg-mod");
 
@@ -103,10 +103,15 @@ async function run(b, viewport, touch, first) {
   await p.goto(base + "#neo-en/taylor-plotinus/1");
   await p.waitForSelector(".tg-mod");
   check(await p.$eval(".tg-read h2", (e) => /Ennead I\.3/.test(e.textContent)) && await p.$$eval(".tg-mod", (es) => es.length) === 6, `${tag}: On Dialectic, six chapters`);
-  // A treatise not yet in modern English is Taylor's, as before.
-  await p.goto(base + "#neo-en/taylor-plotinus/2");
+  // The last of Taylor's Plotinus, VI.9, in modern English too: eleven chapters, though the scan runs
+  // Taylor's 7 and 8 together.
+  await p.goto(base + "#neo-en/taylor-plotinus/14");
+  await p.waitForSelector(".tg-mod");
+  check(await p.$eval(".tg-read h2", (e) => /Ennead VI\.9/.test(e.textContent)) && await p.$$eval(".tg-mod .ms-sum", (es) => es.length) === 11, `${tag}: On the good, eleven chapters`);
+  // A work with no modern English is Taylor's, as before.
+  await p.goto(base + "#neo-en/taylor-mysteries/0");
   await p.waitForSelector(".tg-ch");
-  check(await p.$$eval(".tg-mod", (es) => es.length) === 0 && await p.$$eval("[data-tg-mode]", (es) => es.length) === 0, `${tag}: a treatise not yet done shows Taylor alone`);
+  check(await p.$$eval(".tg-mod", (es) => es.length) === 0 && await p.$$eval("[data-tg-mode]", (es) => es.length) === 0, `${tag}: a work with no modern English shows Taylor alone`);
   check(errors.length === 0, `${tag}: no script errors (${errors.join("; ")})`);
   await p.close();
 }

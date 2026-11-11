@@ -214,9 +214,11 @@ could do before. The school and curriculum ideas are left out as beyond the scop
 - Session 1 done: Plotinus I.2 On the Virtues and I.3 On Dialectic, all 13 chapters, from Volkmann's Greek, checked against
   Taylor (21 flags), with treatise and chapter summaries, the Greek of every paragraph and Taylor's chapter a tap away, Modern /
   Side by side / Taylor only, Mark a sentence (`tools/modern_neo.py`, `sources/translations/modern/plotinus.txt`,
-  `reports/modern_neo.md`, `reader/neo.js`). Next sessions, in this order: the rest of Taylor's fifteen treatises of Plotinus,
-  in Porphyry's order (II.4, II.9, III.6, III.7, IV.2, IV.3, IV.7, V.1, V.2, V.3, V.6, V.9, VI.9), added to the same file;
-  then Proclus on the First Alcibiades and Olympiodorus on it (the dialogue read first; their Greek is unproofread OCR, so each
+  `reports/modern_neo.md`, `reader/neo.js`).
+- Session 2 done: the rest of Taylor's fifteen treatises of Plotinus, in Porphyry's order (II.4, II.9, III.6, III.7, IV.2,
+  IV.3, IV.7, V.1, V.2, V.3, V.6, V.9, VI.9), added to the same file: 190 chapters and 329 flags in all, among them the places
+  where Taylor's scan prints his footnotes into his text or loses lines (IV.3.21, IV.3.30, IV.7.8, V.3.8, V.9.3, VI.9.6), where
+  the full Greek is translated and the gap flagged. Next sessions, in this order: Proclus on the First Alcibiades and Olympiodorus on it (the dialogue read first; their Greek is unproofread OCR, so each
   passage translated should first get its corrections in `sources/neoplatonists/corrections.json`), with Taylor's
   Introduction and notes to the Alcibiades (drawn from Proclus) to check against; then On the Mysteries and the Elements, where
   Taylor's English exists; then Damascius and Hermias. Plotinus' other treatises have no Taylor to check against: check

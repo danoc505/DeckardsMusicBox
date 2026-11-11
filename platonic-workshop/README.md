@@ -322,12 +322,14 @@ from Synesius in the Plotinus volume.
 
 ![Plotinus I.2.3 in Taylor's English, with Volkmann's Greek opened beneath it](docs/reader-m26-taylor-greek.png)
 
-**Milestone 27, modern English of the Neoplatonists: begun.** The Neoplatonists are being put into plain modern English, made
+**Milestone 27, modern English of the Neoplatonists: Plotinus done.** The Neoplatonists are being put into plain modern English, made
 from the Greek and not from Taylor, so that the modern version does not inherit his oddities; it is checked against Taylor's
-English of the same chapter, and where the two differ a flag quotes Taylor's words and says why (21 flags so far: his "rumor
+English of the same chapter, and where the two differ a flag quotes Taylor's words and says why (329 flags in all: his "rumor
 says these are divine", where the Greek says these *men*; his "immateriality", where Volkmann's Greek has "sameness"; questions
-he made statements). The first texts are the first read: Plotinus' first Ennead, which Porphyry set first, and of it the two
-treatises Taylor translated, **I.2 On the Virtues** and **I.3 On Dialectic**, all thirteen chapters. I.2 is where the later
+he made statements; and the places where his scan prints a footnote into the middle of his text, or loses a line). Done so far:
+all fifteen treatises of Plotinus that Taylor translated, in Porphyry's order, 190 chapters, from **I.2 On the Virtues** and
+**I.3 On Dialectic**, the first read, to **III.7 On Eternity and Time**, **IV.3** on the soul, **V.1 On the Three
+Hypostases** and **VI.9 On the Good, or the One**, which ends the Enneads with "the flight of the alone to the alone". I.2 is where the later
 Platonists found the ranks of virtue, civic and then purifying, that their curriculum climbs (the Gorgias "as political", the
 Phaedo "as purificatory", Anon. Prol. 26). They open from the Library (under *Taylor's English beside the Greek*) in place of
 Taylor's English: each treatise and each chapter has a short title and a summary; every paragraph has its Greek one tap away
@@ -340,8 +342,7 @@ to revise by hand: `sources/translations/modern/plotinus.txt`; `tools/modern_neo
 once, in order; every paragraph's Greek found in its chapter, in order, so that all of it is covered; every flag's words found
 in Taylor's chapter; the fixed renderings of `sources/translations/modern/terms-greek.json`) and writes the JSON the reader
 shows and [`reports/modern_neo.md`](reports/modern_neo.md). `reader/neo.js`, `tests/test_modern_neo.py`,
-`tests/modern_neo_browser.js`. Next, in later sessions: the rest of Taylor's Plotinus in Porphyry's order, then Proclus and
-Olympiodorus on the First Alcibiades (the dialogue read first, whose Greek here is unproofread OCR), Iamblichus and the others.
+`tests/modern_neo_browser.js`. Next, in later sessions: Proclus and Olympiodorus on the First Alcibiades (the dialogue read first, whose Greek here is unproofread OCR), Iamblichus and the others.
 
 ![Plotinus I.2.3 in modern English, with Taylor's words beside](docs/reader-m27-modern-neo.png)
 

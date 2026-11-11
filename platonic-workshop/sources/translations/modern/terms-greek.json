@@ -21,7 +21,10 @@
   {"greek": "παραδειγμ\\w*", "modern": ["pattern"], "term": "image-and-original", "link": ["pattern"], "why": "paradeigma: 'pattern'; Taylor's 'paradigm'"},
   {"greek": "ερωτικ\\w*", "modern": ["lover"], "term": "eros", "link": ["lover"], "why": "erōtikos"},
   {"greek": "μουσικ\\w*", "modern": ["musician", "musical"], "why": "mousikos"},
-  {"greek": "φιλοσοφ\\w*", "modern": ["philosoph"], "why": "philosophos, philosophia"}
+  {"greek": "φιλοσοφ\\w*", "modern": ["philosoph"], "why": "philosophos, philosophia"},
+  {"greek": "υλη|υλης|υληι|υλην|υλαι|υλων", "modern": ["matter"], "term": "matter", "link": ["matter"], "why": "hylē: 'matter'"},
+  {"greek": "στερησ\\w*", "modern": ["privation", "deprived"], "term": "evil-as-privation", "link": ["privation"], "why": "sterēsis: 'privation'"},
+  {"greek": "αιων\\w*", "modern": ["eternity", "eternal", "eternit"], "why": "aiōn: 'eternity'"}
  ],
  "extra_links": [
   {"term": "world-soul", "link": ["soul of the world"]},
@@ -29,5 +32,9 @@
   {"term": "forms", "link": ["Forms"]},
   {"term": "the-beautiful", "link": ["beauty"]}
  ],
- "exceptions": {}
+ "exceptions": {
+  "plotinus": {
+   "II.4.4.p1:intellect": "τῷ νῷ here is 'in thought', 'in your mind', not intellect (the flag says so)"
+  }
+ }
 }
