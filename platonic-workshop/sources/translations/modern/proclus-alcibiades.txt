@@ -1,0 +1,203 @@
+# Proclus on the First Alcibiades in modern English (milestone 27): the Workshop's own, machine-assisted.
+# Made from Cousin's Greek (vol. II, Paris, 1820), proofread first from the page images
+# (sources/neoplatonists/proofread/proclus-alcibiades.txt), and checked against the Introduction to the First
+# Alcibiades in Taylor's Works of Plato (1804, vol. I), which Taylor drew from Proclus' commentary.
+# Checked and built by tools/modern_neo.py.
+#
+#   @treatise <id> | <title>         a part of the commentary, with its summary on the lines after
+#   @ch <id> | <short title>         a section (the Workshop's), with its gist on the lines after
+#   @taylor <n> <n> ...              the paragraphs of Taylor's Introduction drawn from this section (none: none)
+#   @p                               a paragraph of the modern version
+#   @greek <first words>             where the paragraph begins in the proofread Greek (every paragraph has one)
+#   !flag <Taylor's words> | <why>   a hard or disputed place, or where Taylor's English and the Greek differ;
+#                                    Taylor's words are found in the paragraphs of his Introduction named by @taylor
+#   !note <text>                     a note on the paragraph
+# Lines starting with # are comments.
+
+@treatise Prologue | Proclus' introduction to the dialogue
+Proclus opens his lectures on the dialogue the school read first. Every being has its own good, fitted to what it is, so we must know what we are before we can know our good: knowing ourselves is the starting point of all philosophy, as the Delphic "Know yourself" teaches. The First Alcibiades is where Plato makes this his aim, so it comes first. Proclus then sets out what the dialogue is for, how it answers to the parts of the universe, why Iamblichus put it first of the ten dialogues, and how it divides: not by its manner of speech, nor into ten arguments, but, with Iamblichus, into three parts, every argument leading to self-knowledge.
+
+@ch Pr.1 | Each being has its own good
+Every kind of being has its own perfection, matched to the rank of its being: the good is given out by a fitting equality, more to the higher, less to the lower. So the good of intellect is in eternity, that of soul in time, that of body in being as nature made it.
+@taylor 2 3
+
+@p
+@greek Τῶν Πλατωνικῶν διαλόγων
+We hold that the most authoritative and most secure starting point of Plato's dialogues, and, one may say, of all philosophical study, is to discern what our own being is. Once this is rightly laid down, we shall be able to learn far more exactly both the good that belongs to us and the evil that fights against it. For just as each of the things that are differs in its being, so too, by nature, it differs in its perfection: one perfection for some, another for others, as their being falls lower.
+!flag of the whole theory of that philosopher | The Greek says "of all philosophical study, so to speak"; it is not Plato's theory alone.
+!flag and this according to a subjection of essence | The Greek word (hyphesis) means a lowering, a falling off: perfection differs as being falls away from the first. Taylor's "subjection" means this, in an old sense.
+
+@p
+@greek Εἴτε γὰρ ἀπὸ τῆς αὐτῆς
+Suppose that being and the good come forth from the same hearth and the very first source, as Aristotle says. Then, surely, what is intellective in perfection must come to each thing by the measures of its being. Or suppose the good comes from one cause, older and holier, and being and existence come to things from another. Even so, as each thing shares in being more dimly or more clearly, so too it will share in the good: the things that are first, in a greater and more complete good; those set in the middle, in a second good, by their rank; and the last of the things that are, in the last. How else could things be, when gods and providence rule them, than with the good given out to each as it deserves? Intellect, surely, does not lead the things that are into order and give each the measure of being that fits it, while the good, which is older even than intellect, gives itself to things and channels its goods to them without order: giving the same goodness to things that differ in being, causes and their effects, say, or handing out to things that are the same in being the perfections of both the higher and the lower. For, as Timaeus says, it was not and is not right for the best to do anything but what is most beautiful and best proportioned. But what is best proportioned is not the same good for what is first and for what is second, nor, for things that are like one another, a perfection that differs in being. Rather, as the Athenian Stranger says, the most musical and best of all is the equality that gives unequal shares to unequal things: greater to the greater, less to the less.
+!note Timaeus' words are in the Timaeus (30a), which has only "the most beautiful"; "and best proportioned" is Proclus' own. The Athenian Stranger speaks of this equality in the Laws (book 6, 757b-c).
+!note "What is intellective in perfection" renders the Greek as printed (τὸ νοερὸν τῆς τελειότητος), as Cousin's Latin does ("id quod intellectuale est perfectionis"); the phrase is hard, and Taylor leaves it out.
+!flag it is certainly necessary that perfection should be imparted to every thing according to the measures of essence | The Greek has "what is intellective in perfection" coming to each thing; Taylor leaves out the word. The modern version keeps it, and a note says it is hard.
+!flag a cause more ancient and more characterized by unity | The Greek says "older and holier" (hagiōteras); "more characterized by unity" is Taylor's reading.
+!flag For, how otherwise can things participate of deity and providence, and a distribution according to their desert? | The Greek says that, since gods and providence rule, things can be no other way than with the good given out to each as it deserves; things do not "participate of deity" here.
+!flag but that the good, or the ineffable principle of things, which is more ancient than intellect | "Or the ineffable principle of things" is Taylor's; the Greek says only "the good, which is older than intellect".
+!flag a distribution of inequality to things unequal, and of equality to things equal | The Greek has only the equality that gives unequal shares to unequal things; "and of equality to things equal" is Taylor's.
+
+@p
+@greek Κατὰ ταύτην δὴ οὖν
+By this equality, then, the good too is different in different things, and the good in each thing is by nature matched to its nature. So the perfection of intellect is in eternity, and that of soul in time; the good of soul lies in living by intellect, and the good of body in being as nature made it. And again, the perfection of gods is one thing, that of angels and daemons another, and that of particular souls another. Whoever thinks that, where the being of these differs, their perfection is the same, misses the truth about the things that are. For, as Homer says, "never alike is the race" of gods and of men, nor of the kinds between them and the two extremes.
+!note Homer's words are from the Iliad (5.441), where Apollo warns Diomedes that the race of the immortal gods and that of men who walk the earth are never alike.
+!flag but of the rational soul in time | The Greek says "of soul", not "the rational soul"; and "the good of soul" is "according to intellect", with no word for Taylor's "energy".
+
+@ch Pr.2 | Know a thing's being before its good
+Perfection belongs to the being that shares in it, so in every rank we must know the being first: without parts or divided, eternal or in time, simple or composite. So the first principle of all philosophy is a pure knowledge of ourselves, held by reasoning from the cause.
+@taylor 4
+
+@p
+@greek Εἰ δὴ ταῦτα ὀρθῶς
+If this is rightly understood, then in every rank of the things that are we must know the being before the perfection. For perfection does not belong to itself; it belongs to the being that shares in it. So we must look first at the being: whether it is one of the beings without parts, or of those divided among bodies, or of those set in the middle; whether it is one of the eternal things, or of those that exist through all of time, or of those that come to be in some part of time; and whether it is one of the simple things, set up before all putting together, or of the composite things that are always held together by bonds that cannot be undone, or of those that can be broken up again into the things they were put together from. If we look at each thing in this way, we shall be able to understand its good as well, of whatever kind it is.
+!flag such as intellectual natures, or to such as are divisible about bodies, viz. corporeal forms and qualities | The examples (intellectual natures; bodily forms and qualities) are Taylor's; the Greek names only the kinds of being.
+
+@p
+@greek Δῆλον γὰρ αὖ ὅτι
+For again it is plain that, for those whose lot is a being without parts, the good is eternal; for those whose being is divided, the good too is by nature in time and in motion; and for those in between, perfection too is seen by the measures of their existence: it needs time, but the first time, which can measure the periods of things without body. So we may count this as the most authoritative starting point of all philosophy and of Plato's work, as we said: a pure, unalloyed knowledge of ourselves, marked out in the bounds of knowledge and firmly tied down by reasoning from the cause.
+!note "Tied down by reasoning from the cause" recalls the Meno (98a), where true opinions become knowledge when they are tied down by reasoning out the cause.
+!flag is to be considered according to the measures of subsistence and perfection | The Greek says that the perfection of these is seen "by the measures of their existence"; perfection is what is measured, not one of the measures.
+
+@ch Pr.3 | The Delphic "Know yourself"
+We must begin where the god at Delphi bids us. As the uninitiated were kept out of the inner shrine at Eleusis, "Know yourself" shows the way up to the divine: whoever knows himself can be joined to Apollo. Socrates too began philosophy from the inscription.
+@taylor 4
+
+@p
+@greek Καὶ πόθεν γὰρ ἄλλοθεν
+Where else should we begin our own purification and perfection, if not where the god at Delphi bade us? Those who went into the precinct of the goddesses at Eleusis found a notice telling them not to pass into the inner shrine if they were uninitiated and not yet perfected in the rites. In the same way, I think, the words KNOW YOURSELF, written up before the temple at Delphi, showed the way of being led up to the divine and the most effective road to purification. They all but say plainly, to those able to understand, that whoever has known himself, beginning from the hearth, can be joined to the god who reveals the whole truth and leads the life of purification; but whoever does not know who he is, being uninitiated and unperfected, is not fit to share in the providence of Apollo.
+!note "Beginning from the hearth" is a Greek saying for beginning at the very start, at home: here, from oneself.
+!flag if they are uninitiated in the highest of the mysteries | The Greek says only "uninitiated and unperfected"; "in the highest of the mysteries" is Taylor's.
+!flag as being uninitiated both in the lesser and greater mysteries | Again Taylor's gloss: the Greek has "being unperfected and uninitiated", with no lesser and greater mysteries.
+
+@p
+@greek Αὕτη τοίνυν ἔστω
+Let this, then, be the starting point of philosophy and of Plato's teaching: the knowledge of ourselves. For it is fitting, I think, that Apollo's companion should begin the perfecting of the imperfect from the very place where the god himself bids us begin. Socrates, too, who says he is a fellow servant of the swans, and who had the gift of prophecy from the god no less than they, is said to have begun his drive towards philosophy here, when he came on the Pythian inscription and took it to be a command of Apollo himself.
+!note The Workshop takes "Apollo's companion" to be Plato, whose teaching this is; the next sentence turns to Socrates.
+!note Socrates calls himself a fellow servant of the swans, sacred to Apollo, in the Phaedo (85b); he speaks of the Delphic inscription in the Phaedrus (229e).
+
+@ch Pr.4 | Why the First Alcibiades comes first
+No dialogue makes the study of our being its aim as this one does, so the reading of Plato begins here. Nothing is nearer to us than ourselves; we are all, like Alcibiades, ignorant of ourselves, and need the same help.
+@taylor 4
+
+@p
+@greek Ἐντεῦθεν τοίνυν καὶ ἡμῖν
+From here, then, we too must begin, following the god. And we must ask in which of the dialogues above all Plato has this as his aim, the study of our being, so that we may make it the very first starting point of Plato's writings too. Could we name any other before the Alcibiades, and the conversation of Socrates handed down in it? Where else shall we say that our being, what it is, is shown in this way? Where else are man and the nature of man looked into? Where is the Delphic inscription, whatever it means, fully tested? Or how could we look into anything else among the things there are, whether things that are or things that come to be, before these, when we have heard Socrates himself say: "It seems strange to me to look into other things while I do not know myself"? For nothing is nearer to us than ourselves. If we do not know what is nearest, what way is there to know what is further off, and what is by nature known through us?
+!note Socrates says this in the Phaedrus (229e-230a), where Plato's words are "it seems absurd to me" (geloion); Cousin prints "strange" (alloion), and the modern version follows the Greek shown.
+
+@p
+@greek Εἰ δὲ δὴ μὴ ταῦτα
+And if you consider not only that these things are worked out at length in this dialogue, but also that this is the first conversation Socrates begins with Alcibiades, and that it is he who says that the beginnings of perfection hang on the study of ourselves, you would no longer doubt that everyone eager to be perfected must begin here.
+
+@p
+@greek Καὶ γὰρ ἡμῶν ἕκαστος
+For each of us, and of other people too, more plainly or more dimly, is subject to the same troubles as the son of Clinias. We do not know ourselves, held down by the forgetfulness that comes with birth into this world, and knocked off course by the turmoil of the unreasoning forms of life. And we think we know many things we do not know, because of the rational principles that are in us by our being. And we need the same help, so that we may stand back from our excessive conceit and find the care that is right for us.
+
+@ch Pr.5 | The aim of the dialogue
+Others gave the dialogue other aims; Proclus answers that its aim is what is most complete in it and runs through all of it: knowing our being. Exhortation, refutation, midwifery, praise and blame are the means, without which it cannot be reached, as purifications come before the mysteries.
+@taylor none
+
+@p
+@greek Ἀλλ’ ὅτι μὲν προηγεῖσθαι
+That knowing oneself must come before every other inquiry, and before all philosophical study, so to speak, has now been said. But someone may reproach us for so readily setting this down as the aim of the Alcibiades, since many other famous interpreters have written accounts of it, some giving it one purpose, some another. All the same, I should be ashamed of myself if, instead of what is most complete in the dialogue, which needs the greater knowledge and is the bound that takes in all its problems, namely what shows our being, what it is, and runs through all its main heads, I made the things that come second, less complete and more particular, the aims of the work before us.
+
+@p
+@greek Οὔτε γὰρ ἐπὶ μόνον
+For we should not refer the dialogue's purpose to Alcibiades alone, as some have supposed: scientific study looks to what is common, and to what reaches to every like state. Nor should we put forward the instruments of dialectic, such as exhortation, midwifery or refutation, as the aims of the conversation; we should rather see to what end these too are directed. Nor should we leave the matters before us and carry the inquiry over to other beings, divine or daemonic, that have nothing to do with us (for the aim must be proper to the first foundation of philosophical study, since Socrates also says that he now approaches the young man for the first time). Nor, letting this aim go, should we contrive some other purpose for the dialogue, made up from outside it, when Socrates himself bears witness to this one.
+!note Midwifery is Socrates' art of helping another bring his thoughts to birth, as he describes it in the Theaetetus (149a-151d).
+
+@p
+@greek Εἰ γὰρ παντὸς ἄλλου
+If knowing ourselves must come before every other inquiry, what end of the first conversation could be more to the aim than to know ourselves? So exhortations and dissuasions, refutations and midwifery, praise and blame, count among the things without which the aim is not reached. Without them one cannot know oneself. We need exhortation towards what is really good, and dissuasion from what is really bad; midwifery to bring forth the reasons in us that are not twisted, and refutation to purify us of the double ignorance; praise to win over those being perfected, and blame to help them and cure them where they act badly.
+!note "Things without which" is Plato's way of naming what a cause needs but is not the cause, in the Phaedo (99b).
+!note The double ignorance is not knowing, and not knowing that one does not know; one of Taylor's footnotes explains it so.
+
+@p
+@greek Ὥσπερ οὖν ἐν ταῖς
+As in the mysteries purifications come first, with sprinklings and cleansings, which are exercises for what is done in secret and for sharing in the divine, so, I think, the philosophical rite of perfection purifies and prepares beforehand those who set out towards it for the knowledge of themselves and for seeing our being as it shows itself.
+
+@ch Pr.6 | What comes before the aim, what follows, and the dialogue as a universe
+Some things in the dialogue lead to its aim, others follow from it; the aim is to know ourselves, and the good it brings is to become like the divine. Each dialogue has what the universe has: here likeness to God answers to the Good, self-knowledge to intellect, the arguments to soul, the style to form, the persons and setting to matter.
+@taylor 6 8
+
+@p
+@greek Ὥστε σκοπὸς μὲν οὗτός
+So this, and no other, is the aim of the dialogue. Of the things shown in it, some come before this purpose and others follow it, like conclusions tied to this end. Before it come the putting away of the double ignorance, the exhortation, and the like; after it come the showing of what virtue and happiness are, the condemnation of the many arts as knowing neither themselves nor what is theirs, nor anything at all, and whatever else of this kind is built up together at the end of the dialogue. But the most final and most central thing in the whole conversation is the study of our being. Indeed, if someone says that the end of the dialogue is the care of ourselves and the knowledge of it, he puts it rightly; but let him note that this belongs to us as the end, as the good, from what is proved, while the problem sought, for whose sake all the arguments are made, is to know ourselves.
+!flag So that he will not err who establishes the care and knowledge of ourselves, as the end of the dialogue. | The Greek goes on to tell the end apart from the problem sought: the care of ourselves is the end, the good that comes from what is proved, while what the arguments seek is to know ourselves. Taylor stops before the distinction.
+
+@p
+@greek Ἄλλο γὰρ ἦν τὸν σκοπὸν
+For the aim of the dialogue, to know, was one thing; the good, the one that comes from such a purpose, was another. As we have said elsewhere about the dialogues, each must have what the universe has: in each, something is set as answering to the Good, something to intellect, something to soul, something to form, and something to the underlying nature itself. Let us say, then, that here being made like the divine through care of ourselves answers to the Good; knowing ourselves, to intellect; the many proofs that lead us to this, the conclusion and, so to speak, all the reasoning in the dialogue, to soul; the character of the style, the weaving together of figures and forms of speech, and whatever else belongs to the power of expression, to form; and to matter, the persons, the occasion, and what some call the setting (hypothesis).
+!note The first sentence is hard in the Greek. The Workshop reads it as the distinction just made: the aim is knowing ourselves, and the good is what that knowledge brings.
+!flag and that which is called by rhetoricians the hypothesis, to matter | The Greek says "what some call the hypothesis" (para tisin); "by rhetoricians" is Taylor's.
+
+@p
+@greek Ταῦτα μὲν οὖν ἐν παντὶ
+So much is in every dialogue. As for this one: the aim of this work is to know our being, and we are lovers of this knowledge so that we may reach our own perfection. And as among the causes themselves intellect hangs from the Good, so here what the dialogue seeks is yoked to the end of the conversation; and the end is what we have said.
+
+@ch Pr.7 | The beginning of all philosophy
+As knowing ourselves is the start of philosophy, this dialogue holds the seed of all of it: logic, ethics, the study of nature and of the divine. That is why Iamblichus set it first of the ten dialogues that hold Plato's whole philosophy.
+@taylor 5
+
+@p
+@greek Ταῦτα καὶ περὶ τῆς προθέσεως
+Let this be our account of the dialogue's purpose, now that we have shown first that one must begin one's own perfecting here, from a pure knowledge of oneself. This dialogue is the beginning of all philosophy, just as knowing ourselves is. That is why many logical theorems are scattered through it and handed down in it; many ethical ones, which help towards our whole inquiry into happiness, are cleared up; and many teachings that guide us towards the study of nature and the truth about the divine things themselves are sketched in outline. So, as it were, in this dialogue the common, single and whole outline of all philosophy is held, coming to light through our very first turning towards ourselves. And this, I think, is why the divine Iamblichus gives it the first place among the ten dialogues in which he thinks the whole philosophy of Plato is contained, the whole course of those dialogues being taken up beforehand in this one, as in a seed. Which the ten are, how they should be ordered, and how they are gathered up in the two that come after them, we have treated in its own place elsewhere.
+!note Iamblichus' ten dialogues, and the two after them, the Timaeus and the Parmenides, are the curriculum the Workshop's Library follows (the Anonymous Prolegomena, ch. 26).
+!flag It likewise contains information with respect to many things which contribute to physiology | "Physiology" is Taylor's word for the study of nature (physiologia), not the science of the body.
+
+@ch Pr.8 | How others divided the dialogue
+Some divided the dialogue by its manner of speech, into praise, refutation, exhortation and midwifery; others, more seriously, into ten arguments. Proclus praises the second, but finds both still busy with instruments rather than the matters themselves.
+@taylor none
+
+@p
+@greek Ἀλλ’ ἐπειδὴ καὶ ταῦτα
+Now that this too has been set out well enough, we must speak next of how the dialogue is divided. Some cut it by its manner of speaking, and have divided it into praise, refutation, exhortation and midwifery. The philosopher, they say, needs praise to win the young man over; refutation, to purify him of his excessive conceit; exhortation, to rouse him to share in virtue; dissuasion, to draw him away from becoming like the popular leaders, and from envy of those who have great power in the city; and midwifery, so that he may call him to the study of human nature and of the care that befits such a nature. They do say this when they divide the dialogue, but not as fully as could be done. For they spend their time on what is third from the truth, labour over the last things and lay hold of the instruments, but fall short of setting out the matters themselves.
+!note "Third from the truth" is Plato's phrase for the imitation of an imitation, in the Republic (book 10, 597e).
+
+@p
+@greek Ἕτεροι δὲ αὖ τούτων
+Others, more serious than these, let go of how the manner of speaking is divided, and go up to the reasoning and proving in the dialogue, and from there think fit to make the division. They count, first, an argument showing that Alcibiades does not know what is just; second, one declaring that the many are not good teachers of what is just; third, one concluding that, where there is question and answer, the one who speaks is the one who answers, not the one who asks; fourth, one in which it is shown that persuading many and persuading one are the work of the same knowledge; fifth, one reasoning that what is just is advantageous; sixth, another tied to it, which concludes that only the beautiful is good; seventh, one establishing that Alcibiades, in the double ignorance, does not know himself or the matters at hand; eighth, one proving that he has not even looked into who his real rivals are; ninth, one that shows him wholly ignorant of the way to take right care; and tenth, besides these, one in which our being is cleared up, with its three ways of being known and the kind of treatment that fits it.
+!note The three ways are whether a human being is the soul, the body, or the two together (Alcibiades 129e-130c).
+
+@p
+@greek Οὐκοῦν καὶ τοὺς ταῦτα
+We shall praise those who say this, then, as more refined than those before them and closer to the matters; but we shall not say that even they make the division as the matters require. They stand in the second rank, and have not wholly left off busying themselves with the instruments.
+
+@ch Pr.9 | Iamblichus' division into three parts
+The best division is Iamblichus', from the matters themselves: first, taking away the ignorance of reason; second, showing that natural gifts are not enough without complete virtue; third, recalling our true being and finding the right care. All the rest serves these three.
+@taylor none
+
+@p
+@greek Ἐκεῖνος δὴ οὖν ὁ τρόπος
+The way of dividing the dialogue that seems to me the most complete of all is the one the philosopher Iamblichus also approved. It starts from the matters themselves, gathers the whole plan of the work into three main heads, and refers to them both the methods of reasoning and the handling of the speech. For what comes second, and serves as an instrument, must always keep hold of the first and chief parts, and be handed down with its eye on them. How, then, do we say the dialogue is divided into its nearest and chief parts?
+
+@p
+@greek Πῶς δὲ ἄλλως ἢ
+How else than this? Its aim is to bring to light the being of the human being, and to turn each of us towards himself, away from the drive that looks outward and from busying ourselves with what is not ours. This must come about as we purify our reason from what stands in its way and cuts off its turning, and train what is without reason and call it back to the perfection that accords with reason. So one main head comes first: the one that takes away the ignorance of reason, and clears away the obstacles to knowledge that arise in reason through birth into this world, with many arguments of every kind. Second after it is set the part of the dialogue which establishes that one must not be content with natural advantages and fall short of the practices that belong to complete virtue. Third after these is the part that gives the recollection of our true being, and the finding of the right care, and brings the fitting end to the whole purpose of the discussion. These, then, are the three parts of this dialogue. All the rest is taken up for their sake and helps towards them, both the proofs and what belongs to the expression.
+
+@ch Pr.10 | Every argument leads to knowing ourselves
+Proclus goes through the ten arguments and shows that each leads to self-knowledge: from our ignorance of what is just, through the soul's self-motion and learning as recollection, to the last, which shows that the human being is the soul.
+@taylor none
+
+@p
+@greek Καὶ γὰρ τῶν συλλογισμῶν
+For each of the arguments will be seen to lead us up to this one end: the study of what we are, and the knowledge of ourselves. If you will look at each on its own and examine the force it has, you will find that all of them go back to this one starting point. The first, which shows the ignorance of what is just that we all have from youth, blames nothing other than our own lack of knowledge. For though we have the rational principles of these things in our being, we do not turn to ourselves, nor take up a clear, articulated knowledge of them. This is the cause of our conceit that we know, and of the refutations we run into because of that conceit.
+
+@p
+@greek Ὁ δὲ δεύτερος ἀτιμάζων
+The second, which dishonours the great crowd of people as no judge of what is just, draws us away from the whole multitude and from the life carried along by opinions, and leads each of us up to the one reason and the one knowledge, which exist in the soul itself by its being. The third, which shows that the one who answers is the one who speaks, makes plain the soul's power to move itself, shows that bringing forth reasons, and learning, are recollections, and does nothing but turn the one being perfected towards himself. The fourth, in which he concluded that persuading one and many belongs to the same knowledge, shows what the complete form of activity is, which does not stand outside itself but is turned back towards itself, as intellect is. For it fills everything that is less than itself, and is present alike to one and to many, neither divided among those that share in it nor altered by them, but staying one and the same in itself, and from itself perfecting the others. The fifth, after this, which proves that what is just is advantageous, places the advantage of each person in the soul, where justice also is, and persuades us to look for our being nowhere but in the soul, where the good also exists together with the just. For our advantage is not in one place and our existence in another.
+!note The soul as what moves itself is from the Phaedrus (245c-e); learning as recollection, from the Meno (81c-d) and the Phaedo (72e-73b).
+!note At "it fills everything that is less than itself", Cousin notes that both his manuscripts read differently; the modern version follows his printed text.
+
+@p
+@greek Ὁ δὲ ἕκτος, ὁ τὸ καλὸν
+The sixth, which brings the beautiful and the good together into one, draws the soul away from the beauties that appear, leads it up to the beauty that belongs to intellect, to reason and to knowledge, and prepares it to turn towards itself and see these things in itself, not in what lies outside it. The seventh, which purifies away, with the double ignorance, everything that blocks our knowing ourselves and keeps us from turning towards ourselves, shows, by driving out the excessive conceit, that the greatest of evils is this: not knowing ourselves. Along with it comes to light the greatest and most complete of goods, which has its existence in knowing ourselves. The eighth argument shows him who his real rivals are. And this too helps towards the whole aim, since we do not know ourselves, whether in the power of our soul, or of our body, or in what we have outside us.
+
+@p
+@greek Ἵν’ οὖν μὴ παντελῶς
+So that he may not, wholly ignorant of himself and of how he falls short of his rivals in everything, fail to notice that he has fallen into the greatest misfortunes, this argument too, I think, is necessary to the whole purpose of the dialogue.
+
+@p
+@greek Ὁ δὲ ἔννατος
+The ninth, in which he is shown not to know the way to take care of ourselves, makes plain that the most authoritative starting point of this knowledge too is to discern our being. For on this hangs the judging of the right care; or rather, it is marked out by this very knowledge. For everything that moves itself perfects itself by turning towards itself. Whoever has known himself has also grasped, within himself, the care of himself; whoever does not know himself is without knowledge of the way of care too. Last of all, the tenth, which shows that the human being has his existence in the soul, brings to light at once the form of our being, and gives us the most complete knowledge of the life that acts of itself, taking together in one proof both our existence and our perfection. If, then, we say that each of the arguments in the dialogue, and all of them together, lead us round to knowing ourselves, we should perhaps hit on Plato's meaning.
+!note The tenth argument is in the Alcibiades (129b-130e): the human being is the soul, so "Know yourself" bids us know the soul.
