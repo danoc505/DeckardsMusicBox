@@ -57,8 +57,11 @@ class Files(unittest.TestCase):
 
     def test_the_first_treatises_every_chapter_with_a_title_and_a_summary(self):
         d = load()
-        self.assertEqual([t["id"] for t in d["treatises"]], ["I.2", "I.3"])
-        self.assertEqual([c["id"] for c in d["chapters"]], [f"I.2.{n}" for n in range(1, 8)] + [f"I.3.{n}" for n in range(1, 7)])
+        # All of Taylor's Plotinus, in Porphyry's order, every chapter of each treatise.
+        counts = {"I.2": 7, "I.3": 6, "II.4": 16, "II.9": 18, "III.6": 19, "III.7": 13, "IV.2": 2, "IV.3": 32,
+                  "IV.7": 15, "V.1": 12, "V.2": 2, "V.3": 17, "V.6": 6, "V.9": 14, "VI.9": 11}
+        self.assertEqual([t["id"] for t in d["treatises"]], list(counts))
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"{t}.{n}" for t, k in counts.items() for n in range(1, k + 1)])
         for x in d["treatises"] + d["chapters"]:
             self.assertGreater(len(x["summary"].split()), 15, x["id"])
             self.assertLess(len(x["summary"].split()), 110, x["id"])
@@ -108,6 +111,11 @@ class Files(unittest.TestCase):
         self.assertNotIn("immateriality", p["I.2.7.p1"]["modern"])
         # I.2.4: the Greek asks a question, which Taylor makes a statement.
         self.assertTrue(p["I.2.4.p2"]["modern"].startswith("Did the soul not have these things already"))
+        # VI.9 ends the Enneads with "the flight of the alone to the alone".
+        self.assertTrue(p["VI.9.11.p1"]["modern"].endswith("a flight of the alone to the alone."))
+        # V.6.1: Taylor has "two things from one" where the Greek has one out of two.
+        self.assertIn("one out of two", p["V.6.1.p1"]["modern"])
+        self.assertTrue(any("two things from one" in f["taylor"] for f in p["V.6.1.p1"]["flags"]))
 
     def test_sentences_can_be_marked(self):
         tmp = tempfile.TemporaryDirectory()
@@ -209,13 +217,16 @@ class Server(unittest.TestCase):
         self.assertEqual(d["modern"]["marks"], [])
         self.assertEqual([c["modern"][0]["id"] for c in d["chapters"]], [f"I.2.{n}" for n in range(1, 8)])
         self.assertIn("Evils are here", d["chapters"][0]["modern"][0]["paragraphs"][0]["modern"])
-        # A treatise not yet in modern English has none.
-        self.assertIsNone(self.get("taylor-greek/taylor-plotinus/2")["modern"])
+        # Every treatise of Taylor's Plotinus has it now, in his order, not Porphyry's.
+        self.assertEqual(self.get("taylor-greek/taylor-plotinus/2")["modern"]["treatise"]["id"], "II.4")
+        self.assertEqual(self.get("taylor-greek/taylor-plotinus/14")["modern"]["treatise"]["id"], "VI.9")
+        # A work with no modern English has none.
         self.assertIsNone(self.get("taylor-greek/taylor-mysteries/0")["modern"])
 
     def test_the_library_and_the_greek_link_to_it(self):
         w = next(w for w in self.get("taylor-greek")["works"] if w["id"] == "taylor-plotinus")
-        self.assertEqual([(t["id"], t["seq"]) for t in w["modern"]["treatises"]], [("I.2", 0), ("I.3", 1)])
+        self.assertEqual([(t["id"], t["seq"]) for t in w["modern"]["treatises"]], [("I.2", 0), ("I.3", 1), ("II.4", 2), ("II.9", 3), ("III.6", 4), ("III.7", 5), ("IV.2", 9), ("IV.3", 10),
+                          ("IV.7", 6), ("V.1", 7), ("V.2", 11), ("V.3", 12), ("V.6", 13), ("V.9", 8), ("VI.9", 14)])
         units = self.get("neo/plotinus-enneads/1")["units"]
         self.assertTrue(all(u.get("modern") for u in units if u["label"].startswith("I.2.")))
 

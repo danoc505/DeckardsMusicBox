@@ -66,8 +66,8 @@ TEXTS = {
                  "Thomas Taylor's translation of 1817. Where the Greek says something Taylor's English does not, the modern "
                  "version follows the Greek, and a flag shows Taylor's words and the difference. Plato's words that Plotinus "
                  "quotes are noted with their place. The chapters are Volkmann's (Ficino's); the short titles and summaries "
-                 "are the Workshop's. So far: Ennead I.2, On the Virtues, and I.3, On Dialectic, the first of the treatises in "
-                 "Porphyry's order that Taylor translated.",
+                 "are the Workshop's. It covers all fifteen treatises that Taylor translated, in Porphyry's order, "
+                 "from I.2, On the Virtues, to VI.9, On the Good, or the One.",
     },
 }
 LINE = re.compile(r"^@(treatise|ch|p|greek)\b\s*(.*)$")
