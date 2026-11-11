@@ -1,6 +1,7 @@
-"""Tests for milestone 27, session 3: Proclus' prologue to the First Alcibiades, proofread from the page images
+"""Tests for milestone 27, sessions 3 and 4: Proclus on the First Alcibiades (the prologue, and his notes on the wording of the
+dialogue's opening words), proofread from the page images
 (tools/proofread.py, sources/neoplatonists/proofread/) and put into the Workshop's modern English, checked against
-Taylor's Introduction to the dialogue (tools/modern_neo.py), and shown in the reader (reader/neo.js, #neo-modern/).
+Taylor's Introduction and notes to the dialogue (tools/modern_neo.py), and shown in the reader (reader/neo.js, #neo-modern/).
 
     python3 -m unittest tests.test_proclus_alcibiades -v
 
@@ -39,6 +40,12 @@ PLATO = [
     ("Pr.4.p1", "tlg012", ["229e", "230a"], "Phaedrus (229e-230a)", "εμαυτον αγνοουντα", "αγνοουντα"),
     ("Pr.2.p2", "tlg024", ["98a"], "Meno (98a)", "τοισ τησ αιτιασ λογισμοισ", "αιτιασ λογισμω"),
     ("Pr.5.p3", "tlg004", ["99b"], "Phaedo (99b)", "ων ουκ ανευ", "ανευ ου"),
+    ("103a.1.p1", "tlg013", ["103a"], "Alcibiades I, 103a", "ω παι κλεινιου, οιμαι σε θαυμαζειν", "ω παι κλεινιου, οιμαι σε θαυμαζειν"),
+    ("103a.6.p2", "tlg012", ["253a"], "Phaedrus (253a)", "επαντλουντεσ", "επαντλουντεσ"),
+    ("103a.7.p3", "tlg012", ["246e"], "Phaedrus (246d-e)", "αισχρω δε και κακω και τοισ εναντιοισ φθινει τε και διολλυται",
+     "αισχρω δε και κακω και τοισ εναντιοισ φθινει τε και διολλυται"),
+    ("103a.3.p2", "tlg031", ["29b"], "29b-c", "ων υπαρχουσιν εξηγηται", "ωνπερ εισιν εξηγηται"),
+    ("103a.2.p1", "tlg013", ["133c"], "Alcibiades I 133c", "το θειον απαν", "παν το θειον"),
 ]
 
 
@@ -47,15 +54,16 @@ def load():
 
 
 class Proofreading(unittest.TestCase):
-    def test_the_pages_of_the_prologue_in_order(self):
+    def test_the_pages_in_order(self):
         pages = proofread.parse(TID)
-        self.assertEqual(len(pages), 23)
+        self.assertEqual(len(pages), 39)
         self.assertEqual(pages[0]["label"], "II p. 2")
-        self.assertEqual(pages[-1]["label"], "II p. 46")
+        self.assertEqual(pages[-1]["label"], "II p. 78")
         nums = [int(p["label"].rsplit(" ", 1)[1]) for p in pages]
-        self.assertEqual(nums, sorted(nums))
-        # Cousin prints two pages of Greek, then two of his Latin: the Greek runs on from page to page.
-        self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)])
+        # Cousin prints two pages of Greek, then two of his Latin: the Greek runs on from page to page (p. 47 and 48
+        # are Latin, and the first lemma starts p. 49).
+        self.assertEqual(nums, [2] + [n for k in range(5, 46, 4) for n in (k, k + 1)] + [n for k in range(49, 78, 4) for n in (k, k + 1)])
+        self.assertEqual(len({p["unit"] for p in pages}), len(pages))
 
     def test_the_rules_of_the_transcription(self):
         text = "\n".join(ln for p in proofread.parse(TID) for ln in p["lines"])
@@ -68,9 +76,11 @@ class Proofreading(unittest.TestCase):
     def test_the_greek_reads_on_across_the_pages(self):
         g = proofread.joined(TID)
         self.assertTrue(g.startswith("ΠΡΟΚΛΟΥ ΔΙΑΔΟΧΟΥ ΕΙΣ ΤΟΝ ΠΛΑΤΩΝΟΣ ΠΡΩΤΟΝ ΑΛΚΙΒΙΑΔΗΝ. Τῶν Πλατωνικῶν διαλόγων"))
-        self.assertTrue(g.endswith("τάχα ἂν τῆς τοῦ Πλάτωνος τυγχάνοιμεν διανοίας."))
+        self.assertIn("τάχα ἂν τῆς τοῦ Πλάτωνος τυγχάνοιμεν διανοίας. Ὦ παῖ Κλεινίου, οἶμαί σε θαυμάζειν", g)
+        self.assertTrue(g.endswith("περὶ ἔρωτος ὅσα προσήκει τοῖς παροῦσι λόγοις, θεωρήσωμεν."))
         # Words broken across two pages are joined: πρω-|τίστης (pp. 2 and 5), τελειό-|τητα (pp. 6 and 9).
-        for w in ("πρωτίστης", "τελειότητα τὴν αὐτὴν", "πρόγραμμα, μὴ χωρεῖν", "διαρθρώσεως, ἀλλὰ"):
+        for w in ("πρωτίστης", "τελειότητα τὴν αὐτὴν", "πρόγραμμα, μὴ χωρεῖν", "διαρθρώσεως, ἀλλὰ",
+                  "ἐλλειπόντων εἰς", "μεταστήσεσθαι", "ἀπέληξε τοῦ ἔρωτος", "εἴδωλα τυγχάνοντα", "προσρήσεως· τῆς δὲ", "χαρακτηρίζεται"):
             self.assertIn(w, g)
         self.assertNotIn("(*)", g)
 
@@ -119,9 +129,10 @@ class ModernEnglish(unittest.TestCase):
         self.assertIn("proofread from the page images", d["label"])
         self.assertEqual(d["greek_text"], TID)
 
-    def test_the_prologue_whole_in_ten_sections(self):
+    def test_the_prologue_and_the_first_lemma_in_order(self):
         d = load()
-        self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)])
+        self.assertEqual([t["id"] for t in d["treatises"]], ["Prologue", "103a"])
+        self.assertEqual([c["id"] for c in d["chapters"]], [f"Pr.{n}" for n in range(1, 11)] + [f"103a.{n}" for n in range(1, 8)])
         for c in d["treatises"] + d["chapters"]:
             self.assertGreater(len(c["summary"].split()), 15, c["id"])
         # The paragraphs hold all the proofread Greek, in order, after the title.
@@ -136,8 +147,8 @@ class ModernEnglish(unittest.TestCase):
         self.assertEqual(problems, [])
         self.assertEqual(load(), json.loads(json.dumps(d, ensure_ascii=False)), "run python3 tools/modern_neo.py")
 
-    def test_flags_quote_taylors_introduction(self):
-        tay = modern_neo.taylor_intro_alcibiades()
+    def test_flags_quote_taylors_introduction_and_notes(self):
+        tay = {k: t for k, (_, t) in modern_neo.taylor_alcibiades().items()}
         d = load()
         chs = {c["id"]: c for c in d["chapters"]}
         n = 0
@@ -146,10 +157,13 @@ class ModernEnglish(unittest.TestCase):
                 n += 1
                 here = " ".join(tay[x["n"]] for x in chs[p["chapter"]]["taylor"])
                 self.assertIn(modern_neo.norm(f["taylor"]), here, p["seg"])
-        self.assertGreaterEqual(n, 15)
-        # Taylor's paragraphs 2 to 6 and 8 are drawn from the prologue; 7 (Socrates' love) from later in the commentary.
+        self.assertGreaterEqual(n, 28)
+        # Taylor's paragraphs 2 to 6 and 8 are drawn from the prologue; 7 (Socrates' love) from his notes on the first
+        # words, and so is his first Additional Note (on the preface, 103a).
         used = {x["n"] for c in d["chapters"] for x in c["taylor"]}
-        self.assertEqual(used, {2, 3, 4, 5, 6, 8})
+        self.assertEqual(used, {2, 3, 4, 5, 6, 7, 8, "add001"})
+        labels = {x["n"]: x["label"] for c in d["chapters"] for x in c["taylor"]}
+        self.assertEqual((labels[7], labels["add001"]), ("Introduction, paragraph 7", "Additional note on 103a"))
 
     def test_it_follows_the_greek_where_taylor_differs(self):
         p = {x["seg"]: x for x in load()["paragraphs"]}
@@ -165,6 +179,23 @@ class ModernEnglish(unittest.TestCase):
         text = " ".join(x["modern"] for x in p.values()).lower()
         for old in ("energ", "essence", "subsist", "physiolog", "felicity"):
             self.assertNotIn(old, text)
+
+    def test_the_first_lemma_follows_the_greek(self):
+        p = {x["seg"]: x for x in load()["paragraphs"]}
+        # The lemma is a paragraph of its own: Plato's words, translated, with a note naming the place.
+        self.assertTrue(p["103a.1.p1"]["greek"].startswith("Ὦ παῖ Κλεινίου"))
+        self.assertTrue(p["103a.1.p1"]["greek"].endswith("ἀπαλλάττομαι·"))
+        self.assertTrue(any("103a" in n for n in p["103a.1.p1"]["notes"]))
+        # "I think" marks the changing thing known, not doubtful knowledge.
+        self.assertIn('used "I think"', p["103a.3.p3"]["modern"])
+        self.assertIn("εὔτρεπτον", p["103a.3.p3"]["greek"])
+        # The misprint Cousin prints is said so, and read as the sense needs.
+        self.assertIn("φιλοσοφροσύνης", p["103a.5.p3"]["greek"])
+        self.assertIn("kindliness", p["103a.5.p3"]["modern"])
+        self.assertTrue(any("misprint" in n or "not a Greek word" in n for n in p["103a.5.p3"]["notes"]))
+        # The three sciences, love first, as in Taylor's paragraph 7.
+        self.assertIn("dialectic, midwifery and the science of love", p["103a.7.p2"]["modern"])
+        self.assertIn("ἐρωτικῆς", p["103a.7.p2"]["greek"])
 
     def test_sentences_can_be_marked(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -230,7 +261,7 @@ class Server(unittest.TestCase):
 
     def test_the_shelf_and_the_scan_link_to_it(self):
         t = next(t for t in self.get("neo")["texts"] if t["id"] == TID)
-        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 23))
+        self.assertEqual((t["modern"]["text"], t["modern"]["pages"]), (TID, 39))
         part = self.get(f"neo/{TID}/0")
         u = next(u for u in part["units"] if u["label"] == "II p. 2")
         self.assertEqual(u["modern_section"], {"text": TID, "id": "Pr.1"})

@@ -349,13 +349,13 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 
 ## Proclus on the First Alcibiades in modern English
 
-- Made from: It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary.
-- Treatises: Prologue Proclus' introduction to the dialogue.
-- Sections: 10, each with a short title and a summary. The Greek: 23 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 437 line corrections by `tools/proofread.py`.
-- Paragraphs: 28, each with its Greek.
-- Words: 3,872 modern, 3,152 Greek, 1,395 in Taylor's English of the same pages (his Introduction).
-- Sentences (each can be marked in the reader): 117.
-- Flags (where Taylor and the Greek differ, or the Greek is hard): 15.
+- Made from: It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary.
+- Treatises: Prologue Proclus' introduction to the dialogue, 103a On the opening words: what the preface shows.
+- Sections: 17, each with a short title and a summary. The Greek: 39 pages proofread from the page images (`sources/neoplatonists/proofread/proclus-alcibiades.txt`), written into `sources/neoplatonists/corrections.json` as 746 line corrections by `tools/proofread.py`.
+- Paragraphs: 49, each with its Greek.
+- Words: 6,535 modern, 5,354 Greek, 2,687 in Taylor's English of the same pages (his Introduction).
+- Sentences (each can be marked in the reader): 197.
+- Flags (where Taylor and the Greek differ, or the Greek is hard): 28.
 - Problems found: 0.
 
 ### Flags
@@ -377,6 +377,19 @@ Written by `tools/modern_neo.py` from `sources/translations/modern/*.txt`. The W
 | Pr.6.p1 | So that he will not err who establishes the care and knowledge of ourselves, as the end of the dialogue. | The Greek goes on to tell the end apart from the problem sought: the care of ourselves is the end, the good that comes from what is proved, while what the arguments seek is to know ourselves. Taylor stops before the distinction. |
 | Pr.6.p2 | and that which is called by rhetoricians the hypothesis, to matter | The Greek says "what some call the hypothesis" (para tisin); "by rhetoricians" is Taylor's. |
 | Pr.7.p1 | It likewise contains information with respect to many things which contribute to physiology | "Physiology" is Taylor's word for the study of nature (physiologia), not the science of the body. |
+| 103a.1.p2 | nor are they merely historical | The Greek adds why: it is neither credible nor possible that every deed and word should be taken over, one after another, for the completion of Plato's writings. |
+| 103a.1.p2 | Every thing in the dialogues of Plato, in the same manner as in the mysteries, is referred to the whole perfection of the particulars which are investigated | The Greek first says how: some parts are fitted to the aim from the matters or arguments, others supply what is missing; then all together, "as in a rite" (teletē), lead up to the completion of what is sought. |
+| 103a.1.p3 | and represents him as exploring his own pre-subsisting conceptions | The Greek says he is made to examine "the thoughts that lie within him" (or, in another manuscript, "that underlie him"); "pre-subsisting" is Taylor's word here. |
+| 103a.2.p1 | is a passion of the soul whose wings suffer a defluxion | "Defluxion" is Taylor's word for the soul's shedding of its wings (pterorrhyēsis), as in the Phaedrus. |
+| 103a.2.p1 | will by this mean behold the whole of a divine nature | The Greek has "all that is divine" (to theion hapan), the phrase of Alcibiades I 133c. |
+| 103a.3.p1 | a stable, definite and immutable knowledge of things contingent and mutable | Taylor's words. The Greek has "fixed (hestōsan), defined and unturning", where one manuscript, as Cousin notes, reads "disordered" for "unsteady" in the next clause. |
+| 103a.3.p3 | but that the names of things generated and corrupted are multiformly changed, and partake much of position | "Position" is Taylor's literal rendering of thesis: convention, names fixed by setting them down. |
+| 103a.3.p3 | which signifies that the nature of the thing known is mutable | The Greek says the thing known is "easily turned" (eutrepton), with the reason Proclus gives after: we must speak of each kind of thing in the way that fits it, as Aristotle says. Taylor's note ends before this. |
+| 103a.7.p1 | he proceeds perfecting the young man till he renders him a lover of his providential care | "Providential care" renders pronoia, Socrates' forethought for the boy; the modern version says "care for him". |
+| 103a.7.p2 | we shall find the form of the dialectic and the peculiarity of the maieutic science in this dialogue | The Greek says the form of dialectic is shown "by the very things he does", and the mark of midwifery "in many places" in his words. |
+| 103a.7.p2 | and proceeds as far as to a purification of the same opinions of Theætetus | The Greek says a purifying of the false opinions of Theaetetus; Taylor's "the same opinions" is a slip, in his English or in the copy of it here. |
+| 103a.7.p3 | elevating one through the amatory science | Taylor's "amatory science" is "the science of love" (erōtikē) in the modern version, which keeps "lover" for the one who practises it. |
+| 103a.7.p3 | by calling forth our latent reasons, we become wise in things of which we were ignorant | The Greek says each of us "is shown wise" in what he did not know, "bringing forth the accounts of the things that are within him". |
 
 ## The fixed renderings
 

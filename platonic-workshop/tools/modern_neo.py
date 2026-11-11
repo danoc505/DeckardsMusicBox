@@ -77,11 +77,12 @@ TEXTS = {
         "kind": "proofread",
         "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the "
                  "Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against "
-                 "the Introduction to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. "
+                 "the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. "
                  "Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words "
-                 "and the difference. The sections, their short titles and summaries are the Workshop's. This first part is Proclus' prologue "
-                 "(Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided. "
-                 "One paragraph of Taylor's Introduction (on Socrates' love, and his three sciences) comes from later in the commentary.",
+                 "and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue "
+                 "(Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; "
+                 "and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says "
+                 "\"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them.",
     },
 }
 LINE = re.compile(r"^@(treatise|ch|p|greek|taylor)\b\s*(.*)$")
@@ -125,7 +126,7 @@ def parse(src):
             elif kind == "taylor":
                 if not chapters or cur is not chapters[-1]:
                     raise ValueError(f"line {n}: @taylor belongs right after its @ch")
-                cur["taylor"] = [] if rest.strip() == "none" else [int(x) for x in rest.split()]
+                cur["taylor"] = [] if rest.strip() == "none" else [int(x) if x.isdigit() else x for x in rest.split()]
             elif kind == "p":
                 if not chapters:
                     raise ValueError(f"line {n}: @p before the first @ch")
@@ -328,6 +329,28 @@ def taylor_intro_alcibiades():
     return out
 
 
+def taylor_notes_alcibiades():
+    """{note id: (label, text)} of Taylor's notes to the First Alcibiades (1804) that he drew from Proclus' commentary:
+    his Additional Notes ("add001"...) and the footnotes to the translation ("n009"...), by the short form of their id."""
+    d = json.loads(TAYLOR_ALC.read_text(encoding="utf-8"))
+    out = {}
+    for n in d["notes"]:
+        key = n["id"].rsplit(".", 1)[1]
+        at = next((a.get("stephanus") for a in n.get("anchors", []) if a.get("stephanus")), None)
+        if n["type"] == "additional":
+            out[key] = (f"Additional note on {at}" if at else "Additional note", norm(n["text"]))
+        elif n["type"] == "footnote" and n.get("section") == "Translation":
+            out[key] = (f"Footnote on {at}" if at else "Footnote", norm(n["text"]))
+    return out
+
+
+def taylor_alcibiades():
+    """{key: (label, text)}: the paragraphs of Taylor's Introduction (by number) and his notes (by id)."""
+    out = {k: (f"Introduction, paragraph {k}", t) for k, t in taylor_intro_alcibiades().items()}
+    out.update(taylor_notes_alcibiades())
+    return out
+
+
 def check_terms(text_id, paras, greek, terms, problems):
     known = modern.term_ids()
     exceptions = terms.get("exceptions", {}).get(text_id, {})
@@ -397,7 +420,8 @@ def build_proofread(text_id, terms=None):
         pages[p["seg"]] = [{"n": u, "label": lab} for (at, u, lab), nxt in zip(starts_at, starts_at[1:] + [(len(g), None, None)])
                            if at < j and nxt[0] > starts[k]]
     # Taylor's paragraphs, and the flags in them.
-    tay = taylor_intro_alcibiades()
+    tay_all = taylor_alcibiades()
+    tay = {k: t for k, (_, t) in tay_all.items()}
     by_ch = {c["id"]: c for c in chapters}
     if len(by_ch) != len(chapters):
         problems.append(f"{text_id}: two sections with the same id")
@@ -407,7 +431,7 @@ def build_proofread(text_id, terms=None):
             c["taylor"] = []
         for k in c["taylor"]:
             if k not in tay:
-                problems.append(f"{text_id} {c['id']}: Taylor's Introduction has no paragraph {k}")
+                problems.append(f"{text_id} {c['id']}: Taylor has no paragraph or note {k}")
         if not c["summary"] or not c["title"]:
             problems.append(f"{text_id} {c['id']}: a section needs a short title and a summary")
     for p in paras:
@@ -436,14 +460,14 @@ def build_proofread(text_id, terms=None):
         "made_from": "greek",
         "greek_text": meta["greek_text"],
         "taylor_work": meta["taylor_work"],
-        "taylor_source": "Thomas Taylor, Introduction to the First Alcibiades, in The Works of Plato, vol. I (London, 1804), from texts/taylor-1804/vol1/alcibiades-1.json",
+        "taylor_source": "Thomas Taylor, Introduction and notes to the First Alcibiades (drawn from Proclus), in The Works of Plato, vol. I (London, 1804), from texts/taylor-1804/vol1/alcibiades-1.json",
         "about": meta["about"],
         "source": f"sources/translations/modern/{text_id}.txt",
         "proofread": f"sources/neoplatonists/proofread/{meta['greek_text']}.txt",
         "treatises": [{"id": t["id"], "title": t["title"], "summary": t["summary"], "chapters": t["chapters"]} for t in treatises],
         "chapters": [{"id": c["id"], "treatise": c["treatise"], "title": c["title"], "summary": c["summary"],
                       "greek_unit": (pages.get(next((p["seg"] for p in paras if p["chapter"] == c["id"]), ""), [{}])[0]).get("n"),
-                      "taylor": [{"n": k, "text": tay[k]} for k in c["taylor"] if k in tay]} for c in chapters],
+                      "taylor": [{"n": k, "label": tay_all[k][0], "text": tay[k]} for k in c["taylor"] if k in tay]} for c in chapters],
         "paragraphs": [],
         "links": links,
     }

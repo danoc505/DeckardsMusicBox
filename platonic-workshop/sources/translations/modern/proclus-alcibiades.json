@@ -10,8 +10,8 @@
  "made_from": "greek",
  "greek_text": "proclus-alcibiades",
  "taylor_work": "taylor-1804-alcibiades-intro",
- "taylor_source": "Thomas Taylor, Introduction to the First Alcibiades, in The Works of Plato, vol. I (London, 1804), from texts/taylor-1804/vol1/alcibiades-1.json",
- "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. This first part is Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided. One paragraph of Taylor's Introduction (on Socrates' love, and his three sciences) comes from later in the commentary.",
+ "taylor_source": "Thomas Taylor, Introduction and notes to the First Alcibiades (drawn from Proclus), in The Works of Plato, vol. I (London, 1804), from texts/taylor-1804/vol1/alcibiades-1.json",
+ "about": "A modern English version of Proclus' commentary on the First Alcibiades, the dialogue the school read first, written for the Workshop. It is translated from the Greek of Cousin's edition (Paris, 1820), proofread first from the page images, and checked against the Introduction and notes to the First Alcibiades in Thomas Taylor's Works of Plato (1804), which Taylor drew from Proclus' commentary. Where the Greek says something Taylor's English does not, the modern version follows the Greek, and a flag shows Taylor's words and the difference. The sections, their short titles and summaries are the Workshop's. So far: Proclus' prologue (Cousin's pages 2 to 46): why knowing ourselves is the start of philosophy, the aim of the dialogue, and how it is divided; and his notes on the wording of the dialogue's opening words (pages 49 to 78): what the preface shows, why Socrates says \"I think\", why he calls Alcibiades by his father's name, and the three sciences of Socrates, love first among them.",
  "source": "sources/translations/modern/proclus-alcibiades.txt",
  "proofread": "sources/neoplatonists/proofread/proclus-alcibiades.txt",
  "treatises": [
@@ -31,6 +31,20 @@
     "Pr.9",
     "Pr.10"
    ]
+  },
+  {
+   "id": "103a",
+   "title": "On the opening words: what the preface shows",
+   "summary": "Proclus comments on the dialogue's first words, \"Son of Cleinias, I think you wonder that I, who was the first to love you, am the only one who does not leave you now the others have stopped.\" First he reads their wording. The preface is not there for show: it turns Alcibiades to himself, and through himself to Socrates' knowledge, as the whole dialogue will. Socrates says \"I think\" because he speaks of a changing thing, and because the young man is proud; he calls him by his father's name because the boy loves that name, because the father stands for the true father of souls, and because love comes from the Father. Of Socrates' three sciences, dialectic, midwifery and love, it is love that leads here.",
+   "chapters": [
+    "103a.1",
+    "103a.2",
+    "103a.3",
+    "103a.4",
+    "103a.5",
+    "103a.6",
+    "103a.7"
+   ]
   }
  ],
  "chapters": [
@@ -43,10 +57,12 @@
    "taylor": [
     {
      "n": 2,
+     "label": "Introduction, paragraph 2",
      "text": "The most peculiar and firm principle, says Proclus, of all the dialogues of Plato, and of the whole theory of that philosopher, is the knowledge of our own nature; for, this being properly established as an hypothesis, we shall be able accurately to learn the good which is adapted to us, and the evil which opposes this good. For, as the essences of things are different, so also are their proper perfections; and this according to a subjection of essence. For, whether being and the good proceed, as Aristotle says, from the same Vesta and first fountain, it is certainly necessary that perfection should be imparted to every thing according to the measures of essence; or whether good proceeds from a cause more ancient and more characterized by unity, but essence and being are imparted to things from another cause; still, as every thing participates of being more obscurely and more clearly, in the same degree must it participate of good; first beings, in a greater and more perfect manner; but those that rank in the middle orders, secondarily; and the last of things according to an ultimate subsistence. For, how otherwise can things participate of deity and providence, and a distribution according to their desert? For it must not be admitted that intellect can lead things into order, and impart to each a convenient measure, but that the good, or the ineffable principle of things, which is more ancient than intellect, should make its communications in a disordered manner; viz. that it should impart to causes and things caused the same portion of goodness, and distribute to the same things according to being the perfections of more primary and subordinate natures. For it neither was lawful, says Timæus, nor is, for the best of natures to effect any thing but that which is most beautiful and most commensurate. But the same good is not most commensurate to first and secondary natures; but, as the Athenian guest says, a distribution of inequality to things unequal, and of equality to things equal, of the greater to such as are greater, and of the lesser to such as are lesser, is of all things the most musical and the best."
     },
     {
      "n": 3,
+     "label": "Introduction, paragraph 3",
      "text": "According to this reasoning, therefore, good is different in different beings, and a certain good is naturally co-ordinated to the essence of every thing. Hence the perfection of intellect is in eternity, but of the rational soul in time: and the good of the rational soul consists in an energy according to intellect, but the good of body is in a subsistence according to nature; so that he who thinks that though the nature in these is different, yet the perfection is the same, has an erroneous conception of the truth of things."
     }
    ]
@@ -60,6 +76,7 @@
    "taylor": [
     {
      "n": 4,
+     "label": "Introduction, paragraph 4",
      "text": "According to every order of beings, therefore, essence ought to be known prior to perfection; for perfection is not of itself, but of essence, by which it is participated. Hence, with respect to the essence of a thing, we must first consider whether it belongs to impartible essences, such as intellectual natures, or to such as are divisible about bodies, viz. corporeal forms and qualities, or to such as subsist between these. Likewise, whether it ranks among eternal entities, or such as subsist according to the whole of time, or such as are generated in a certain part of time. Again, whether it is simple, and subsists prior to composition, or is indeed a composite, but is always in the act of being bound with indissoluble bonds, or may again be resolved into those things from which it is composed. For, by thus considering every thing, we shall be able to understand in what its good consists. For, again, it is evident that the good of those natures which are allotted an impartible essence is eternal, but that the good of partible natures is conversant with time and motion; and that the good of things subsisting between these is to be considered according to the measures of subsistence and perfection; viz. that such a nature is indeed indigent of time, but of first time, which is able to measure incorporeal periods. So that the pure and genuine knowledge of ourselves, circumscribed in scientific boundaries, must, as we have said, be considered as the most proper principle of all philosophy, and of the doctrine of Plato. For, where is it proper to begin, except from the purification and perfection of ourselves, and whence the Delphic god exhorts us to begin? For, as those who enter the Eleusinian grove are ordered by an inscription not to enter into the adyta of the temple, if they are uninitiated in the highest of the mysteries, so the inscription KNOW THYSELF, on the Delphic temple, manifests, as it appears to me, the mode of returning to a divine nature, and the most useful path to purification, all but perspicuously asserting to the intelligent, that he who knows himself beginning from the Vestal hearth may be able to be conjoined with that divinity who unfolds into light the whole of truth, and is the leader of a cathartic life; but that he who is ignorant of himself, as being uninitiated both in the lesser and greater mysteries, is unadapted to participate the providence of Apollo. Hence then let us also begin conformably to the mandate of the god, and let us investigate in which of his dialogues Plato especially makes the speculation of our essence his principal design, that from hence we may also make the commencement of the Platonic writing. Can we then adduce any other writing of Plato except the first Alcibiades, and the conference of Socrates which is delivered in this dialogue? Where else shall we say our essence is so unfolded? Where besides are man and the nature of man investigated? To which we may add, that it is Socrates who engages in this first conversation with Alcibiades, and that it is he who says that the beginning of perfection is suspended from the contemplation of ourselves. For we are ignorant of ourselves in consequence of being involved in oblivion produced by the realms of generation, and agitated by the tumult of the irrational forms of life. In the mean time, we think that we know many things of which we are ignorant, because we essentially possess innate reasons of things."
     }
    ]
@@ -73,6 +90,7 @@
    "taylor": [
     {
      "n": 4,
+     "label": "Introduction, paragraph 4",
      "text": "According to every order of beings, therefore, essence ought to be known prior to perfection; for perfection is not of itself, but of essence, by which it is participated. Hence, with respect to the essence of a thing, we must first consider whether it belongs to impartible essences, such as intellectual natures, or to such as are divisible about bodies, viz. corporeal forms and qualities, or to such as subsist between these. Likewise, whether it ranks among eternal entities, or such as subsist according to the whole of time, or such as are generated in a certain part of time. Again, whether it is simple, and subsists prior to composition, or is indeed a composite, but is always in the act of being bound with indissoluble bonds, or may again be resolved into those things from which it is composed. For, by thus considering every thing, we shall be able to understand in what its good consists. For, again, it is evident that the good of those natures which are allotted an impartible essence is eternal, but that the good of partible natures is conversant with time and motion; and that the good of things subsisting between these is to be considered according to the measures of subsistence and perfection; viz. that such a nature is indeed indigent of time, but of first time, which is able to measure incorporeal periods. So that the pure and genuine knowledge of ourselves, circumscribed in scientific boundaries, must, as we have said, be considered as the most proper principle of all philosophy, and of the doctrine of Plato. For, where is it proper to begin, except from the purification and perfection of ourselves, and whence the Delphic god exhorts us to begin? For, as those who enter the Eleusinian grove are ordered by an inscription not to enter into the adyta of the temple, if they are uninitiated in the highest of the mysteries, so the inscription KNOW THYSELF, on the Delphic temple, manifests, as it appears to me, the mode of returning to a divine nature, and the most useful path to purification, all but perspicuously asserting to the intelligent, that he who knows himself beginning from the Vestal hearth may be able to be conjoined with that divinity who unfolds into light the whole of truth, and is the leader of a cathartic life; but that he who is ignorant of himself, as being uninitiated both in the lesser and greater mysteries, is unadapted to participate the providence of Apollo. Hence then let us also begin conformably to the mandate of the god, and let us investigate in which of his dialogues Plato especially makes the speculation of our essence his principal design, that from hence we may also make the commencement of the Platonic writing. Can we then adduce any other writing of Plato except the first Alcibiades, and the conference of Socrates which is delivered in this dialogue? Where else shall we say our essence is so unfolded? Where besides are man and the nature of man investigated? To which we may add, that it is Socrates who engages in this first conversation with Alcibiades, and that it is he who says that the beginning of perfection is suspended from the contemplation of ourselves. For we are ignorant of ourselves in consequence of being involved in oblivion produced by the realms of generation, and agitated by the tumult of the irrational forms of life. In the mean time, we think that we know many things of which we are ignorant, because we essentially possess innate reasons of things."
     }
    ]
@@ -86,6 +104,7 @@
    "taylor": [
     {
      "n": 4,
+     "label": "Introduction, paragraph 4",
      "text": "According to every order of beings, therefore, essence ought to be known prior to perfection; for perfection is not of itself, but of essence, by which it is participated. Hence, with respect to the essence of a thing, we must first consider whether it belongs to impartible essences, such as intellectual natures, or to such as are divisible about bodies, viz. corporeal forms and qualities, or to such as subsist between these. Likewise, whether it ranks among eternal entities, or such as subsist according to the whole of time, or such as are generated in a certain part of time. Again, whether it is simple, and subsists prior to composition, or is indeed a composite, but is always in the act of being bound with indissoluble bonds, or may again be resolved into those things from which it is composed. For, by thus considering every thing, we shall be able to understand in what its good consists. For, again, it is evident that the good of those natures which are allotted an impartible essence is eternal, but that the good of partible natures is conversant with time and motion; and that the good of things subsisting between these is to be considered according to the measures of subsistence and perfection; viz. that such a nature is indeed indigent of time, but of first time, which is able to measure incorporeal periods. So that the pure and genuine knowledge of ourselves, circumscribed in scientific boundaries, must, as we have said, be considered as the most proper principle of all philosophy, and of the doctrine of Plato. For, where is it proper to begin, except from the purification and perfection of ourselves, and whence the Delphic god exhorts us to begin? For, as those who enter the Eleusinian grove are ordered by an inscription not to enter into the adyta of the temple, if they are uninitiated in the highest of the mysteries, so the inscription KNOW THYSELF, on the Delphic temple, manifests, as it appears to me, the mode of returning to a divine nature, and the most useful path to purification, all but perspicuously asserting to the intelligent, that he who knows himself beginning from the Vestal hearth may be able to be conjoined with that divinity who unfolds into light the whole of truth, and is the leader of a cathartic life; but that he who is ignorant of himself, as being uninitiated both in the lesser and greater mysteries, is unadapted to participate the providence of Apollo. Hence then let us also begin conformably to the mandate of the god, and let us investigate in which of his dialogues Plato especially makes the speculation of our essence his principal design, that from hence we may also make the commencement of the Platonic writing. Can we then adduce any other writing of Plato except the first Alcibiades, and the conference of Socrates which is delivered in this dialogue? Where else shall we say our essence is so unfolded? Where besides are man and the nature of man investigated? To which we may add, that it is Socrates who engages in this first conversation with Alcibiades, and that it is he who says that the beginning of perfection is suspended from the contemplation of ourselves. For we are ignorant of ourselves in consequence of being involved in oblivion produced by the realms of generation, and agitated by the tumult of the irrational forms of life. In the mean time, we think that we know many things of which we are ignorant, because we essentially possess innate reasons of things."
     }
    ]
@@ -107,10 +126,12 @@
    "taylor": [
     {
      "n": 6,
+     "label": "Introduction, paragraph 6",
      "text": "Of the particulars exhibited in this dialogue, some precede and others follow the principal design, which is the knowledge of ourselves. For the hypothesis of two-fold ignorance, exhortation, and the like precede; but the demonstration of virtue and felicity, and the rejection of the multitude of arts, as being ignorant of themselves, of things pertaining to themselves, and in short of all things,—and every thing else of this kind, have a consequent order. But the most perfect and leading design of the whole conversation is the speculation of our own essence. So that he will not err who establishes the care and knowledge of ourselves, as the end of the dialogue."
     },
     {
      "n": 8,
+     "label": "Introduction, paragraph 8",
      "text": "Lastly, it will be found by those who are deeply skilled in the philosophy of Plato, that each of his dialogues contains that which the universe contains. Hence, in every dialogue, one thing is analogous to the good, another to intellect, another to soul, another to form, and another to matter. In this dialogue therefore it must be said, that an assimilation to a divine nature is analogous to the good; the knowledge of ourselves to intellect; the multitude of the demonstrations leading us to the conclusion, and in short every thing syllogistic in the dialogue, to soul; the character of the diction, and whatever else pertains to the power of speech, to form; and the persons, the occasion, and that which is called by rhetoricians the hypothesis, to matter."
     }
    ]
@@ -124,6 +145,7 @@
    "taylor": [
     {
      "n": 5,
+     "label": "Introduction, paragraph 5",
      "text": "This dialogue therefore is the beginning of all philosophy, in the same manner as the knowledge of ourselves. Hence many logical and ethical theorems are scattered in it, together with such as contribute to the entire speculation of felicity. It likewise contains information with respect to many things which contribute to physiology, and to those dogmas which lead us to the truth concerning divine natures themselves. Hence too the divine Iamblichus assigned this dialogue the first rank, in the ten dialogues, in which he was of opinion the whole philosophy of Plato was contained."
     }
    ]
@@ -151,6 +173,86 @@
    "summary": "Proclus goes through the ten arguments and shows that each leads to self-knowledge: from our ignorance of what is just, through the soul's self-motion and learning as recollection, to the last, which shows that the human being is the soul.",
    "greek_unit": "ia-cousin-proclus-t2:65",
    "taylor": []
+  },
+  {
+   "id": "103a.1",
+   "treatise": "103a",
+   "title": "The preface serves the aim of the dialogue",
+   "summary": "Plato's prefaces are neither ornament nor mere history: like the rites of a mystery, all their parts serve the one aim of the dialogue. Here the very first words show that aim, self-knowledge, by turning Alcibiades to himself and making him want to learn why Socrates alone still loves him.",
+   "greek_unit": "ia-cousin-proclus-t2:76",
+   "taylor": [
+    {
+     "n": "add001",
+     "label": "Additional note on 103a",
+     "text": "The prefaces (τα μροοιμια) of Plato’s dialogues accord with the whole scope of them; and are neither devised by Plato for the sake of dramatic allurement, since this mode of writing is very remote from the magnitude of the philosopher’s conceptions, nor are they merely historical; but each is suspended from the design of the dialogue to which it belongs. Every thing in the dialogues of Plato, in the same manner as in the mysteries, is referred to the whole perfection of the particulars which are investigated. Agreeably to this, Plato in the very beginning of this dialogue appears to me to indicate in a beautiful manner the scope of the whole composition. For his design, as we have said, was to unfold our nature, and the whole essence according to which each of us is defined; and to unveil the Delphic mandate KNOW THYSELF through demonstrative methods. But the preface itself converts the young man to himself, and represents him as exploring his own pre-subsisting conceptions; and, at the same time that it converts him to himself, leads him to a survey, as from a watch-tower, of Socratic science. For an investigation of the cause through which Socrates alone, of all his lovers, does not change his love, but began to love him prior to others, and is not altered when the rest no longer love, evinces him to be a spectator of the whole life of Socrates. The forms of conversion therefore are triple. For every thing which is converted, is either converted to that which is worse than itself, through apostatizing from its proper perfection, or is led back to that which is better than itself, through its own life, and an energy according to nature, or it is converted to itself, according to a knowledge co-ordinate to itself, and a middle form of motion. A conversion indeed to that which is worse, is a passion of the soul whose wings suffer a defluxion, and that is now placed in oblivion both of herself, and of natures prior to herself. But a conversion both to itself and to a more excellent nature, takes place not in souls only, but in divine natures themselves, as Parmenides teaches us, when he establishes two species of conversion, and shows how a divine nature is converted to itself, and is in itself, and how it is converted to that which is prior to itself, so far as it is comprehended in another, and is united with a better nature. On this account Socrates at the end of this dialogue says, that he who is converted to and becomes a spectator of himself, will by this mean behold the whole of a divine nature, and through a conversion to himself will be led to an elevated survey of divinity, and to a conversion to that which is better than himself. These things, therefore, the preface indicates. For it leads Alcibiades from a life tending to externals to a survey of himself, and recalls him through a knowledge of himself to a love of Socratic science; since a desire to learn the cause of the conduct of Socrates is to become a lover of the pre-subsisting science which he contains. Again, Plato signifies in the preface, besides other things, that a worthy man will always employ his knowledge on objects properly co-ordinated to that knowledge; and that he will never attempt to possess a stable, definite and immutable knowledge of things contingent and mutable, nor a dubious, indefinite, and disordered apprehension of things necessary, and which always possess a sameness of subsistence. But, according to the distinction adopted by Socrates in the Republic, he will conjointly contemplate all intelligibles with simple, uniform, and intellectual knowledge; but will survey the middle reasons of things with a scientific and dianoëtic evolution and composition. Again, with the sensitive power which is the third from truth, he will touch upon proper objects of knowledge, through instruments of sense, distinguishing in a becoming manner every object of sense. And lastly, by an assimilative power he will apprehend the images of sensibles. And indeed Timæus, distinguishing cognitions analogously to the objects of knowledge, exhorts us to judge of true beings by intelligence in conjunction with reason; but such things as are not beings, but are perpetually conversant with generation and corruption, by opinion and sense. He also adds, that the reasons pertaining to true beings cannot be confuted, and are indubitable; but those which belong to things borne along in the rapid flux of generation, are conjectural and contingent. For every where reasons imitate the things of which they are the interpreters. In the third place, Socrates in the Cratylus says that the names of things eternal have a certain alliance with the things themselves; but that the names of things generated and corrupted are multiformly changed, and partake much of position, through the unstable lation of their subjects. If therefore the knowledge of things which subsist perpetually the same, differs from that of things contingent, and reasons are allotted an all-various mutation, and different names accord with different things, is it wonderful that Socrates, who is here discoursing concerning an unstable nature, should use the word οιμαι, I opine, or suppose? which signifies that the nature of the thing known is mutable, but does not accuse the knowledge of Socrates as indefinite, mingled with ignorance, and dubious."
+    }
+   ]
+  },
+  {
+   "id": "103a.2",
+   "treatise": "103a",
+   "title": "Three kinds of turning",
+   "summary": "Everything that turns, turns to what is worse, to itself, or to what is better. The turn to the worse is the fall of a soul that has lost its wings; the turns to itself and to the better are found in the gods too, as the Parmenides shows. So the end of the dialogue says that whoever turns to himself will see the divine; and the preface already turns Alcibiades to himself, and from himself to love of Socrates' knowledge.",
+   "greek_unit": "ia-cousin-proclus-t2:80",
+   "taylor": [
+    {
+     "n": "add001",
+     "label": "Additional note on 103a",
+     "text": "The prefaces (τα μροοιμια) of Plato’s dialogues accord with the whole scope of them; and are neither devised by Plato for the sake of dramatic allurement, since this mode of writing is very remote from the magnitude of the philosopher’s conceptions, nor are they merely historical; but each is suspended from the design of the dialogue to which it belongs. Every thing in the dialogues of Plato, in the same manner as in the mysteries, is referred to the whole perfection of the particulars which are investigated. Agreeably to this, Plato in the very beginning of this dialogue appears to me to indicate in a beautiful manner the scope of the whole composition. For his design, as we have said, was to unfold our nature, and the whole essence according to which each of us is defined; and to unveil the Delphic mandate KNOW THYSELF through demonstrative methods. But the preface itself converts the young man to himself, and represents him as exploring his own pre-subsisting conceptions; and, at the same time that it converts him to himself, leads him to a survey, as from a watch-tower, of Socratic science. For an investigation of the cause through which Socrates alone, of all his lovers, does not change his love, but began to love him prior to others, and is not altered when the rest no longer love, evinces him to be a spectator of the whole life of Socrates. The forms of conversion therefore are triple. For every thing which is converted, is either converted to that which is worse than itself, through apostatizing from its proper perfection, or is led back to that which is better than itself, through its own life, and an energy according to nature, or it is converted to itself, according to a knowledge co-ordinate to itself, and a middle form of motion. A conversion indeed to that which is worse, is a passion of the soul whose wings suffer a defluxion, and that is now placed in oblivion both of herself, and of natures prior to herself. But a conversion both to itself and to a more excellent nature, takes place not in souls only, but in divine natures themselves, as Parmenides teaches us, when he establishes two species of conversion, and shows how a divine nature is converted to itself, and is in itself, and how it is converted to that which is prior to itself, so far as it is comprehended in another, and is united with a better nature. On this account Socrates at the end of this dialogue says, that he who is converted to and becomes a spectator of himself, will by this mean behold the whole of a divine nature, and through a conversion to himself will be led to an elevated survey of divinity, and to a conversion to that which is better than himself. These things, therefore, the preface indicates. For it leads Alcibiades from a life tending to externals to a survey of himself, and recalls him through a knowledge of himself to a love of Socratic science; since a desire to learn the cause of the conduct of Socrates is to become a lover of the pre-subsisting science which he contains. Again, Plato signifies in the preface, besides other things, that a worthy man will always employ his knowledge on objects properly co-ordinated to that knowledge; and that he will never attempt to possess a stable, definite and immutable knowledge of things contingent and mutable, nor a dubious, indefinite, and disordered apprehension of things necessary, and which always possess a sameness of subsistence. But, according to the distinction adopted by Socrates in the Republic, he will conjointly contemplate all intelligibles with simple, uniform, and intellectual knowledge; but will survey the middle reasons of things with a scientific and dianoëtic evolution and composition. Again, with the sensitive power which is the third from truth, he will touch upon proper objects of knowledge, through instruments of sense, distinguishing in a becoming manner every object of sense. And lastly, by an assimilative power he will apprehend the images of sensibles. And indeed Timæus, distinguishing cognitions analogously to the objects of knowledge, exhorts us to judge of true beings by intelligence in conjunction with reason; but such things as are not beings, but are perpetually conversant with generation and corruption, by opinion and sense. He also adds, that the reasons pertaining to true beings cannot be confuted, and are indubitable; but those which belong to things borne along in the rapid flux of generation, are conjectural and contingent. For every where reasons imitate the things of which they are the interpreters. In the third place, Socrates in the Cratylus says that the names of things eternal have a certain alliance with the things themselves; but that the names of things generated and corrupted are multiformly changed, and partake much of position, through the unstable lation of their subjects. If therefore the knowledge of things which subsist perpetually the same, differs from that of things contingent, and reasons are allotted an all-various mutation, and different names accord with different things, is it wonderful that Socrates, who is here discoursing concerning an unstable nature, should use the word οιμαι, I opine, or suppose? which signifies that the nature of the thing known is mutable, but does not accuse the knowledge of Socrates as indefinite, mingled with ignorance, and dubious."
+    }
+   ]
+  },
+  {
+   "id": "103a.3",
+   "treatise": "103a",
+   "title": "Why Socrates says \"I think\"",
+   "summary": "A good man fits his knowledge to what he knows: intellect for what is intelligible, reasoning for the middle things, the senses for things sensed, conjecture for images, as the Republic divides them; the Timaeus says the same of accounts, and the Cratylus of names. Alcibiades' state of mind is a changing thing, so Socrates rightly says \"I think\": the word marks the changing object, not doubtful knowledge.",
+   "greek_unit": "ia-cousin-proclus-t2:84",
+   "taylor": [
+    {
+     "n": "add001",
+     "label": "Additional note on 103a",
+     "text": "The prefaces (τα μροοιμια) of Plato’s dialogues accord with the whole scope of them; and are neither devised by Plato for the sake of dramatic allurement, since this mode of writing is very remote from the magnitude of the philosopher’s conceptions, nor are they merely historical; but each is suspended from the design of the dialogue to which it belongs. Every thing in the dialogues of Plato, in the same manner as in the mysteries, is referred to the whole perfection of the particulars which are investigated. Agreeably to this, Plato in the very beginning of this dialogue appears to me to indicate in a beautiful manner the scope of the whole composition. For his design, as we have said, was to unfold our nature, and the whole essence according to which each of us is defined; and to unveil the Delphic mandate KNOW THYSELF through demonstrative methods. But the preface itself converts the young man to himself, and represents him as exploring his own pre-subsisting conceptions; and, at the same time that it converts him to himself, leads him to a survey, as from a watch-tower, of Socratic science. For an investigation of the cause through which Socrates alone, of all his lovers, does not change his love, but began to love him prior to others, and is not altered when the rest no longer love, evinces him to be a spectator of the whole life of Socrates. The forms of conversion therefore are triple. For every thing which is converted, is either converted to that which is worse than itself, through apostatizing from its proper perfection, or is led back to that which is better than itself, through its own life, and an energy according to nature, or it is converted to itself, according to a knowledge co-ordinate to itself, and a middle form of motion. A conversion indeed to that which is worse, is a passion of the soul whose wings suffer a defluxion, and that is now placed in oblivion both of herself, and of natures prior to herself. But a conversion both to itself and to a more excellent nature, takes place not in souls only, but in divine natures themselves, as Parmenides teaches us, when he establishes two species of conversion, and shows how a divine nature is converted to itself, and is in itself, and how it is converted to that which is prior to itself, so far as it is comprehended in another, and is united with a better nature. On this account Socrates at the end of this dialogue says, that he who is converted to and becomes a spectator of himself, will by this mean behold the whole of a divine nature, and through a conversion to himself will be led to an elevated survey of divinity, and to a conversion to that which is better than himself. These things, therefore, the preface indicates. For it leads Alcibiades from a life tending to externals to a survey of himself, and recalls him through a knowledge of himself to a love of Socratic science; since a desire to learn the cause of the conduct of Socrates is to become a lover of the pre-subsisting science which he contains. Again, Plato signifies in the preface, besides other things, that a worthy man will always employ his knowledge on objects properly co-ordinated to that knowledge; and that he will never attempt to possess a stable, definite and immutable knowledge of things contingent and mutable, nor a dubious, indefinite, and disordered apprehension of things necessary, and which always possess a sameness of subsistence. But, according to the distinction adopted by Socrates in the Republic, he will conjointly contemplate all intelligibles with simple, uniform, and intellectual knowledge; but will survey the middle reasons of things with a scientific and dianoëtic evolution and composition. Again, with the sensitive power which is the third from truth, he will touch upon proper objects of knowledge, through instruments of sense, distinguishing in a becoming manner every object of sense. And lastly, by an assimilative power he will apprehend the images of sensibles. And indeed Timæus, distinguishing cognitions analogously to the objects of knowledge, exhorts us to judge of true beings by intelligence in conjunction with reason; but such things as are not beings, but are perpetually conversant with generation and corruption, by opinion and sense. He also adds, that the reasons pertaining to true beings cannot be confuted, and are indubitable; but those which belong to things borne along in the rapid flux of generation, are conjectural and contingent. For every where reasons imitate the things of which they are the interpreters. In the third place, Socrates in the Cratylus says that the names of things eternal have a certain alliance with the things themselves; but that the names of things generated and corrupted are multiformly changed, and partake much of position, through the unstable lation of their subjects. If therefore the knowledge of things which subsist perpetually the same, differs from that of things contingent, and reasons are allotted an all-various mutation, and different names accord with different things, is it wonderful that Socrates, who is here discoursing concerning an unstable nature, should use the word οιμαι, I opine, or suppose? which signifies that the nature of the thing known is mutable, but does not accuse the knowledge of Socrates as indefinite, mingled with ignorance, and dubious."
+    }
+   ]
+  },
+  {
+   "id": "103a.4",
+   "treatise": "103a",
+   "title": "\"I think\" and the young man's pride",
+   "summary": "There is a reason in Alcibiades too: he is proud, and the proud resist. So Socrates comes at him carefully, conjecturing rather than insisting, to lull his pride into listening; and a modest manner is Socratic in any case, the more so as he is about to say he seems wonderful to the young man.",
+   "greek_unit": "ia-cousin-proclus-t2:89",
+   "taylor": []
+  },
+  {
+   "id": "103a.5",
+   "treatise": "103a",
+   "title": "\"Son of Cleinias\": the father's name",
+   "summary": "Calling Alcibiades by his father's name suits him, for the proud like to be named from famous fathers, and the memory of a father urges to virtue. It is also a token, as the Pythagoreans used such things, of the soul's return to its true father; and it is Homer's way, who names each man from his father to honour him.",
+   "greek_unit": "ia-cousin-proclus-t2:92",
+   "taylor": []
+  },
+  {
+   "id": "103a.6",
+   "treatise": "103a",
+   "title": "The father's name and love",
+   "summary": "The father's name suits a speech about love most of all: it shows the manly, wakeful, active side of true love, and all love comes from the intelligible Father, who sowed the bond of love in all things. So the lover's first move is to stir, through the father, the boy's kindliness towards him, and through that his fellowship with Socrates; for the inspired lover turns the beloved to himself and lifts him with himself to the intelligible beauty.",
+   "greek_unit": "ia-cousin-proclus-t2:96",
+   "taylor": []
+  },
+  {
+   "id": "103a.7",
+   "treatise": "103a",
+   "title": "Socrates' three sciences, love first",
+   "summary": "Socrates had three sciences, dialectic, midwifery and love; all are at work in this dialogue, but love leads, from the first words to the end, as midwifery leads in the Theaetetus. Like the divine, which holds all goods at once and gives each what it can take, Socrates uses each science as the hearer needs: love leads to the beautiful, midwifery to wisdom, dialectic to the good; and the beautiful, the wise and the good are the divine, as the Phaedrus says.",
+   "greek_unit": "ia-cousin-proclus-t2:97",
+   "taylor": [
+    {
+     "n": 7,
+     "label": "Introduction, paragraph 7",
+     "text": "Again, the amatory form of life is particularly indicated by Socrates in this dialogue. For the beginning is made from hence; and he proceeds perfecting the young man till he renders him a lover of his providential care, which is the leading good of the amatory art. And in short, through all the divisions of the dialogue, he always preserves that which is adapted to an amatory life. As there are three sciences, then, which Socrates appears to have testified that he possessed, viz. the dialectic, the maieutic, (i.e. obstetric,) and the amatory, we shall find the form of the dialectic and the peculiarity of the maieutic science in this dialogue, but the effects of the amatory science predominate in it. For, when Socrates is calling forth the conceptions of Alcibiades, he still acts conformably to the amatory character; and when he employs the dialectic science, he does not depart from the peculiarity of amatory arguments. Just as in the Theætetus he is maieutic, is principally characterized according to this, and proceeds as far as to a purification of the same opinions of Theætetus: but, having effected this, he dismisses him, as being now able of himself to know the truth, which is the business of the maieutic science, as he himself asserts in that dialogue. Thus also he first indicates the amatory science in this dialogue, with which both the dialectic and maieutic are mingled. For every where Socrates introduces discourses adapted to the subject persons. And as every kind of good pre-subsists in a divine nature, which is variously possessed by different beings according to the natural aptitude of each, in like manner Socrates, who comprehends all sciences in himself, employs a different science at different times, according to the aptitude of the recipients; elevating one through the amatory science; exciting another to the reminiscence of the eternal reasons of the soul through the maieutic science; and conducting another according to the dialectic method to the speculation of beings. Some too he conjoins to the beautiful itself, others to the first wisdom, and others to the good itself. For through the amatory science we are led to the beautiful; through the maieutic, by calling forth our latent reasons, we become wise in things of which we were ignorant; and through the dialectic science we ascend as far as to the good."
+    }
+   ]
   }
  ],
  "paragraphs": [
@@ -688,6 +790,421 @@
    ],
    "notes": [
     "The tenth argument is in the Alcibiades (129b-130e): the human being is the soul, so \"Know yourself\" bids us know the soul."
+   ]
+  },
+  {
+   "seg": "103a.1.p1",
+   "chapter": "103a.1",
+   "modern": "\"Son of Cleinias, I think you wonder that I, who was the first to love you, am the only one who does not leave you, now that the others have stopped.\"",
+   "greek": "Ὦ παῖ Κλεινίου, οἶμαί σε θαυμάζειν, ὅτι πρῶτος ἐραστής σου γενόμενος, τῶν ἄλλων πεπαυμένων, μόνος οὐκ ἀπαλλάττομαι·",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:76",
+     "label": "II p. 49"
+    }
+   ],
+   "notes": [
+    "These are the dialogue's first words (Alcibiades I, 103a), set at the head of Proclus' comment on them."
+   ]
+  },
+  {
+   "seg": "103a.1.p2",
+   "chapter": "103a.1",
+   "modern": "The prefaces of Plato's dialogues are in tune with their aims as a whole. Plato has not contrived them to charm us as drama would, for that way of writing is far from the philosopher's greatness of mind; nor do they aim at history alone, as some have supposed, for it is neither credible nor at all possible that everything that was done or said should be taken over, one thing after another, for the single fulfilment of Plato's writings. Rather, as our teachers hold, and as we and others have noted in a measured way, these too hang from the purpose of the dialogues as a whole. Some of their parts are fitted to the present aim from the matters or the arguments they deal with; others make good what is lacking for the completion of the study in hand; and all together, as in a rite of initiation, lead up to the full completion of what is being sought.",
+   "greek": "Τὰ προοίμια τῶν Πλατωνικῶν διαλόγων συνᾴδει πρὸς τοὺς ὅλους αὐτῶν σκοπούς· καὶ οὔτε δραματικῆς ἕνεκα ψυχαγωγίας μεμηχάνηται τῷ Πλάτωνι (πόῤῥω γάρ ἐστιν ὁ τρόπος οὗτος τῆς συγγραφῆς τῆς τοῦ φιλοσόφου μεγαλοφροσύνης,) οὔτε τῆς ἱστοριας στοχάζεται μόνης, ὥσπέρ τινες ὑπειλήφασιν· (οὔτε γὰρ πιθανόν ἐστιν, οὔθ’ ὅλως δυνατὸν ἅπαντα ἑξῆς ἀπὸ τῶν γεγονότων ἢ ῥηθέντων λαμβάνεσθαι πρὸς τὴν μίαν τῶν Πλατωνικῶν συγγραμμάτων τελείωσιν)· ἀλλ’ ὥσπερ καὶ τοῖς ἡμετέροις δοκεῖ καθηγεμόσι, καὶ ἡμῖν καὶ ἄλλοις μετρίως ὑπέμνηται, τῆς ὅλης τῶν διαλόγων ἐξήρτηται καὶ ταῦτα προθέσεως. Καὶ τὰ μὲν ἐκ τῶν ὑποκειμένων πραγμάτων ἢ λόγων συναρμόζεται πρὸς τὸν παρόντα σκοπόν· τὰ δὲ τελειοῦται τῶν ἐλλειπόντων εἰς τὴν τῆς προκειμένης θεωρίας συμπλήρωσιν· ὁμοῦ δὲ πάντα, καθάπερ ἐν τελετῇ, πρὸς τὴν ὅλην ἀνάγεται τῶν ζητουμένων τελείωσιν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:76",
+     "label": "II p. 49"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:77",
+     "label": "II p. 50"
+    }
+   ],
+   "flags": [
+    {
+     "taylor": "nor are they merely historical",
+     "why": "The Greek adds why: it is neither credible nor possible that every deed and word should be taken over, one after another, for the completion of Plato's writings."
+    },
+    {
+     "taylor": "Every thing in the dialogues of Plato, in the same manner as in the mysteries, is referred to the whole perfection of the particulars which are investigated",
+     "why": "The Greek first says how: some parts are fitted to the aim from the matters or arguments, others supply what is missing; then all together, \"as in a rite\" (teletē), lead up to the completion of what is sought."
+    }
+   ],
+   "notes": [
+    "\"As we and others have noted\": so the manuscripts, as Cousin prints them; he suggests in a note that Proclus wrote \"as we have noted elsewhere too\" (κἂν ἄλλοις)."
+   ]
+  },
+  {
+   "seg": "103a.1.p3",
+   "chapter": "103a.1",
+   "modern": "This, I think, is the teaching Plato puts before us in this dialogue too, and he shows well, by the very first approach of the conversation, the whole aim of the work. His aim, as we said, is to bring our nature to light, to take in, with the scientific arguments of the study that cannot be refuted, the whole being by which each of us is marked off, and to uncover, by the methods of demonstration, what that Delphic command \"Know yourself\" means. The preface itself turns the young man to himself and makes him examine the thoughts that lie within him; and with this turning to himself it leads him up to the high view of Socrates' knowledge as well. For to ask why Socrates alone of his lovers did not cease to love him, but began before the others and has not left him now that they have stopped, makes him a spectator of Socrates' whole life.",
+   "greek": "Τοῦτο δὴ οὖν μοι δοκεῖ καὶ ἐν τούτῳ τῷ διαλόγῳ προτείνειν ἡμῖν ὁ Πλάτων τὸ δόγμα, καὶ καλῶς ἐπιδεικνύναι δι’ αὐτῆς τῆς πρωτίστης ἐπιβολῆς τῶν λόγων τὸν σύμπαντα τοῦ γράμματος σκοπόν. Πρόκειται μὲν γὰρ αὐτῷ, καθάπερ εἴπομεν, τὴν φύσιν ἡμῶν ἐκφῆναι, καὶ τὴν οὐσίαν ὅλην, καθ’ ἣν ἕκαστος ἀφώρισται, τοῖς ἐπιστημονικοῖς καὶ ἀνελέγκτοις τῆς θεωρίας λόγοις περιλαβεῖν, καὶ τοῦτο ἐκεῖνο τὸ Δελφικὸν παράγγελμα, τὸ γνῶθι σαυτόν, ὅτι ποτέ ἐστιν, ἀποκαλύψαι διὰ τῶν ἀποδεικτικῶν μεθόδων. Αὐτὸ δὲ τὸ προοίμιον ἐπιστρέφει μὲν εἰς ἑαυτὸν τὸν νεόν, καὶ καθίστησιν ἐξεταστὴν τῶν ἐν αὐτῷ προκειμένων διανοημάτων· ἀνάγει δὲ αὐτὸν ὁμοῦ τῇ πρὸς ἑαυτὸν ἐπιστροφῇ καὶ εἰς τὴν τῆς Σωκρατικῆς ἐπιστήμης περιωπήν. Τὸ γὰρ ἐξετάζειν τὴν αἰτίαν δι’ ἣν ὁ Σωκράτης μόνος τῶν ἐραστῶν οὐκ ἀπέληξε τοῦ ἔρωτος, ἀλλὰ καὶ ἤρξατο πρὸ τῶν ἄλλων, καὶ πεπαυμένων ἐκείνων οὐκ ἀπαλλάττεται, θεατὴν αὐτὸν ἀποφαίνει τῆς ὅλης τοῦ Σωκράτους ζωῆς.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:77",
+     "label": "II p. 50"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:80",
+     "label": "II p. 53"
+    }
+   ],
+   "flags": [
+    {
+     "taylor": "and represents him as exploring his own pre-subsisting conceptions",
+     "why": "The Greek says he is made to examine \"the thoughts that lie within him\" (or, in another manuscript, \"that underlie him\"); \"pre-subsisting\" is Taylor's word here."
+    }
+   ]
+  },
+  {
+   "seg": "103a.2.p1",
+   "chapter": "103a.2",
+   "modern": "There are three kinds of turning. Everything that turns either turns to what is worse than itself, by falling away from its own perfection; or it is led up to what is better, by its own life and its activity according to nature; or it turns to itself, by a knowledge matched to itself and a middle kind of motion. The turning to the worse is the passion of a soul that has shed its wings and has come into forgetfulness both of itself and of what is before it. But the turning to itself and the turning to the better are not in souls alone: they are in the divine beings themselves, as Parmenides teaches us, when he sets out two kinds of turning and shows how the divine has turned to itself and is in itself, and how it turns to what is before it, insofar as it is held in another and united with the higher nature. That is why Socrates too, at the end of the dialogue, says that whoever has turned to himself and become a spectator of himself will from there see all that is divine as well: by the turning to himself, as by a step that leads upward, he will move across to the high view of the divine, and he will come back up to the turning towards what is better than himself.",
+   "greek": "Ἔστι μὲν οὖν τὰ εἴδη τῆς ἐπιστροφῆς τριττά. Πᾶν γὰρ τὸ ἐπιστρεφόμενον, ἢ πρὸς τὸ χεῖρον ἐπιστρέφει ἑαυτοῦ, διὰ τὴν ἀπόπτωσιν τῆς οἰκείας τελειότητος· ἢ πρὸς τὸ κρεῖττον ἀνάγεται διὰ τῆς ἑαυτοῦ ζωῆς, καὶ τῆς κατὰ φύσιν ἐνεργείας· ἢ πρὸς ἑαυτὸ ἐπιστρέφει, κατὰ τὴν σύστοιχον ἑαυτῷ γνῶσιν καὶ τὸ μέσον εἶδος τῆς κινήσεως. Ἀλλ’ ἡ μὲν πρὸς τὸ χεῖρον ἐπιστροφὴ, ψυχῆς ἐστι πάθος πτεροῤῥυησάσης, καὶ γενομένης ἐν λήθῃ καὶ ἑαυτῆς ἅμα καὶ τῶν πρὸ αὐτῆς· ἡ δὲ καὶ πρὸς ἑαυτὸ, καὶ πρὸς τὸ κρεῖττον οὐκ ἐν ψυχαῖς ἐστι μόναις, ἀλλὰ καὶ ἐν αὐτοῖς τοῖς θείοις, ὥσπερ ἡμᾶς ὁ Παρμενίδης ἀναδιδάσκει, διττὰ τὰ τῆς ἐπιστροφῆς εἴδη τιθέμενος, καὶ δεικνὺς ὅπως μὲν εἰς ἑαυτὸ τὸ θεῖον ἐπέστραπται καὶ ἐν ἑαυτῷ ἐστιν· ὅπως δὲ εἰς τὸ πρὸ ἑαυτοῦ, καθὸ δὴ καὶ ἐν ἄλλῳ περιέχεται καὶ συνήνωται πρὸς τὴν κρείττονα φύσιν· ὅθεν δὴ καὶ ὁ Σωκράτης ἐπὶ τέλει τοῦ διαλόγου τὸν εἰς ἑαυτὸν ἐπιστραφέντα καὶ ἑαυτοῦ γινόμενον θεωρὸν, ἐντεῦθεν καὶ τὸ θεῖον ἅπαν κατόψεσθαι φησί· καὶ διὰ τῆς πρὸς ἑαυτὸν ἐπιστροφῆς, ὥσπερ βαθμοῦ τινος ἀναγωγοῦ, μεταστήσεσθαι πρὸς τὴν τοῦ θείου περιωπήν, καὶ εἰς τὴν πρὸς τὸ κρεῖττον ἑαυτοῦ ἐπανάξειν στροφήν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:80",
+     "label": "II p. 53"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:81",
+     "label": "II p. 54"
+    }
+   ],
+   "flags": [
+    {
+     "taylor": "is a passion of the soul whose wings suffer a defluxion",
+     "why": "\"Defluxion\" is Taylor's word for the soul's shedding of its wings (pterorrhyēsis), as in the Phaedrus."
+    },
+    {
+     "taylor": "will by this mean behold the whole of a divine nature",
+     "why": "The Greek has \"all that is divine\" (to theion hapan), the phrase of Alcibiades I 133c."
+    }
+   ],
+   "notes": [
+    "\"Shed its wings\" recalls the Phaedrus (246c, 248c), where a soul that loses its wings falls to earth. Proclus reads the \"in itself\" and \"in another\" of the Parmenides (145b-e) as two kinds of turning. The end of the dialogue: Alcibiades I 133c, where the soul that looks at what is divine in itself comes to know all that is divine."
+   ]
+  },
+  {
+   "seg": "103a.2.p2",
+   "chapter": "103a.2",
+   "modern": "Showing this, then, from the preface on, the conversation leads Alcibiades round from a life carried outwards to the study of himself, and from the understanding of himself it calls him back to the love of Socrates' knowledge. For to long to learn the reason for what Socrates does is to become a lover of the knowledge that is already in him. This, then, is the first thing that Plato seems to me to show in the preface to those able to hear him.",
+   "greek": "Ταῦτα τοίνυν καὶ ἐκ προοιμίων ἐνδεικνύμενος ὁ λόγος ἀπὸ μὲν τῆς ἔξω φερομένης ζωῆς εἰς τὴν ἐπίσκεψιν τὴν ἑαυτοῦ περιάγει τὸν Ἀλκιβιάδην· ἀπὸ δὲ τῆς ἑαυτοῦ κατανοήσεως εἰς τὸν ἔρωτα τῆς Σωκρατικῆς ἐπιστήμης ἀνακαλεῖται. Τὸ γὰρ τὴν αἰτίαν ποθῆσαι μαθεῖν ὧν πράττει Σωκράτης, ἐραστήν ἐστι γενέσθαι τῆς ἐν αὐτῷ προυπαρχούσης ἐπιστήμης. Τοῦτο μὲν τοίνυν ἐκ τοῦ προοιμίου πρῶτον δοκεῖ μοι τοῖς κατακούειν αὐτοῦ δυναμένοις ὁ Πλάτων ἐνδείκνυσθαι.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:81",
+     "label": "II p. 54"
+    }
+   ]
+  },
+  {
+   "seg": "103a.3.p1",
+   "chapter": "103a.3",
+   "modern": "A second thing follows from this. A good man always brings to bear on each object of knowledge the knowledge matched to it. About things that can be otherwise and are carried now this way, now that, he does not claim a knowledge that is fixed, defined and unchanging; and about things that are necessary and always the same, he does not hold an opinion that is doubtful, undefined and unsteady. Rather, as Socrates himself divided them in the Republic, he looks at all intelligible things together by simple, single and intellective knowledge; he examines the middle accounts of the things that are by the scientific and reasoning power that unfolds the forms and puts them together; third from the truth, by perception, which touches its own objects through instruments, he judges all things sensed as is fitting; and lastly, by the power of conjecture, he knows the objects of conjecture, which are images of things sensed.",
+   "greek": "Δεύτερον δὲ ἕτερον ἐπὶ τούτῳ τοιόν δε· τὸν σπουδαῖον πανταχοῦ τοῖς ὑποκειμένοις γνωστοῖς καὶ τὰς γνώσεις συστοίχους προβάλλειν· καὶ μήτε περὶ τῶν ἐνδεχομένων καὶ ἄλλοτε ἄλλως φερομένων τὴν ἑστῶσαν καὶ ὡρισμένην καὶ ἄτρεπτον προειληφέναι γνῶσιν, μήτε περὶ τῶν ἀναγκαίων καὶ αἰεὶ ὡσαύτως ἐχόντων, ἀμφίβολον καὶ ἀόριστον καὶ ἄστατον ἔχειν ὑπόληψιν· ἀλλ’ ὥσπερ αὐτὸς ὁ Σωκράτης ἐν Πολιτείᾳ διέκρινε, τῇ μὲν ἁπλῇ καὶ μονοειδεῖ καὶ νοερᾷ γνώσει τὰ νοητὰ πάντα συζύγως θεωρεῖν· τῇ δὲ ἐπιστημονικῇ καὶ διανοητικῇ τῶν εἰδῶν ἀνελίξει καὶ συνθέσει τοὺς μέσους τῶν ὄντων λόγους ἐπισκοπεῖσθαι· τρίτῃ δὲ ἀπὸ τῆς ἀληθείας τῇ αἰσθήσει, δι’ ὀργάνων ἐφαπτομένῃ τῶν οἰκείων γνωστῶν, τὰ αἰσθητὰ πάντα διακρίνειν δεόντως· τῇ δὲ εἰκαστικῇ τὸ λοιπὸν δυνάμει, τὰ εἰκαστὰ τῶν αἰσθητῶν εἴδωλα τυγχάνοντα, γιγνώσκειν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:84",
+     "label": "II p. 57"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:85",
+     "label": "II p. 58"
+    }
+   ],
+   "flags": [
+    {
+     "taylor": "a stable, definite and immutable knowledge of things contingent and mutable",
+     "why": "Taylor's words. The Greek has \"fixed (hestōsan), defined and unturning\", where one manuscript, as Cousin notes, reads \"disordered\" for \"unsteady\" in the next clause."
+    }
+   ],
+   "notes": [
+    "The four powers are those of the divided line in the Republic (511d-e): intellect (noēsis), reasoning (dianoia), trust in the senses (pistis) and conjecture (eikasia)."
+   ]
+  },
+  {
+   "seg": "103a.3.p2",
+   "chapter": "103a.3",
+   "modern": "And Timaeus too, dividing kinds of knowledge to match the things that are, bids us judge the things that are by intellection and reason, and by opinion and perception the things that are not but come to be and pass away. He says that the accounts of what truly is cannot be refuted and are fixed, while those of things not of that nature, but carried along in becoming, are likely and have a share of chance, as he says somewhere. For everywhere accounts imitate the things whose interpreters they are.",
+   "greek": "Καὶ μὴν καὶ ὁ Τίμαιος ἀνάλογον τοῖς οὖσι τὰς γνώσεις διελόμενος, νοήσει μὲν ἡμᾶς καὶ λόγῳ παρακελεύεται τὰ ὄντα κρίνειν· δόξῃ δὲ καὶ αἰσθήσει τὰ μὴ ὄντα μὲν, γιγνόμενα δὲ καὶ ἀπολλύμενα· καὶ τῶν μὲν ὄντως ὄντων ἀνελέγκτους καὶ ἀραρότας εἶναι τοὺς λόγους· τῶν δὲ φύσιν οὐ τοιαύτην λαχόντων, ἀλλ’ ἐν γενέσει φερομένων εἰκαστικοὺς καὶ τοῦ προστυχόντος, ὡς αὐτός που λέγει μετειληχότας. Πανταχοῦ γὰρ οἱ λόγοι μιμηταὶ τῶν πραγμάτων εἰσὶν, ὧν ὑπάρχουσιν ἐξηγηταί.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:85",
+     "label": "II p. 58"
+    }
+   ],
+   "notes": [
+    "Timaeus 27d-28a (what is grasped by intellection with reason, and what is opined by opinion with unreasoning perception) and 29b-c (accounts are akin to the things they interpret; those of what is lasting cannot be refuted, those of its likeness are likely). \"A share of chance\" recalls Timaeus 34c."
+   ]
+  },
+  {
+   "seg": "103a.3.p3",
+   "chapter": "103a.3",
+   "modern": "Third, the Socrates of the Cratylus says that the names given to eternal things lay hold more closely of the nature of the things, while those given to things that come to be and perish change in many ways and have much of convention in them, because the things beneath them are carried about unsteadily. If, then, kinds of knowledge differ for things that are always the same and for things that can be otherwise, and accounts have been given every sort of change, and some names suit some things and others others, what wonder is it that Socrates, speaking here about a nature that is unsteady and open to change, used \"I think\"? The word marks the knowable thing as easily turned; it does not convict Socrates' knowledge of being undefined, mixed with ignorance and open to dispute. For, as we said before, in matters of opinion and conjecture we must state our thoughts as people who conjecture; in what is intelligible and known by science, as people who know the truth, using arguments that cannot be refuted. It is not right, says Aristotle, to accept a geometer speaking persuasively, or an orator claiming to demonstrate. So neither a man who speaks of necessary things by conjecture, nor one who speaks of things conjectured as if they were fixed, would ever be a sensible interpreter of things. This is why Socrates had to add \"I think\".",
+   "greek": "Τὸ δὲ τρίτον, ὅτι καὶ ὁ ἐν τῷ Κρατύλῳ Σωκράτης τὰ μὲν ἐπὶ τῶν ἀϊδίων εἶναι φησὶν ὀνόματα τῆς τῶν πραγμάτων φύσεως μᾶλλον ἐφαπτόμενα· τὰ δὲ ἐπὶ τῶν γιγνομένων καὶ φθειρομένων πολυειδῶς ἐξαλλαττόμενα καὶ πολὺ τοῦ θέσει μετέχοντα, διὰ τὴν τῶν ὑποκειμένων αὐτοῖς ἄστατον φοράν. Εἰ τοίνυν καὶ αἱ γνώσεις διαφέρουσι τῶν τε ἀεὶ καὶ ὡσαύτως ἐχόντων, καὶ τῶν ἐνδεχομένων, καὶ οἱ λόγοι παμπόλλην ἔλαχον ἐξαλλαγὴν, καὶ τὰ ὀνόματα τοῖς μὲν ἄλλα προσήκει, τοῖς δὲ ἄλλα· τί θαυμαστὸν εἰ καὶ ὁ Σωκράτης ἐνταῦθα περὶ φύσεως ἀστάτου διαλεγόμενος καὶ μεταβολὴν ἐπιδεχομένης, τῷ οἶμαι κατεχρήσατο σημαίνοντι τὴν τοῦ γνωστοῦ φύσιν εὔτρεπτον ὑπάρχουσαν, ἀλλ’ οὐ τὴν τοῦ Σωκράτους γνῶσιν ὡς ἀόριστον καὶ ἀγνοίᾳ συμμιγῆ καὶ ἀμφισβητήσιμον διελέγχοντι; Δεῖ γὰρ, ὡς προείπομεν, ἐν μὲν τοῖς δοξαστοῖς τῶν πραγμάτων καὶ εἰκαστοῖς, ὡς εἰκάζοντας λέγειν τὰς ἑαυτῶν ἐννοίας· ἐν δὲ τοῖς νοητοῖς καὶ ἐπιστημονικοῖς, ὡς εἰδότας τὸ ἀληθὲς ἀνελέγκτοις δή τισι χρῆσθαι τοῖς λόγοις. Οὐ θέμις γὰρ ἂν ἀποδέξαιτό, φησιν Ἀριστοτέλης, ἢ γεωμέτρου πιθανῶς λέγοντος, ἢ ῥήτορος ἀποδεικνύναι φάσκοντος. Ὥστε οὔτε ὁ περὶ τῶν ἀναγκαίων εἰκαστικῶς λέγων, οὔτε ὁ περὶ τῶν εἰκαστῶν ἀραρότως, ἔμφρων ἄν ποτε εἴη τῶν πραγμάτων ἐξηγητής. Ἔχει μὲν οὖν καὶ διὰ ταῦτα τῷ Σωκράτει τὸ οἶμαι τὴν προσθήκην ἀναγκαίαν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:85",
+     "label": "II p. 58"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:88",
+     "label": "II p. 61"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:89",
+     "label": "II p. 62"
+    }
+   ],
+   "flags": [
+    {
+     "taylor": "but that the names of things generated and corrupted are multiformly changed, and partake much of position",
+     "why": "\"Position\" is Taylor's literal rendering of thesis: convention, names fixed by setting them down."
+    },
+    {
+     "taylor": "which signifies that the nature of the thing known is mutable",
+     "why": "The Greek says the thing known is \"easily turned\" (eutrepton), with the reason Proclus gives after: we must speak of each kind of thing in the way that fits it, as Aristotle says. Taylor's note ends before this."
+    }
+   ],
+   "notes": [
+    "The Cratylus says that names are most likely to be rightly given to the things that always are (397b-c). Aristotle's words are in the Nicomachean Ethics (1.3, 1094b25-27): it is alike to accept probable reasoning from a mathematician and to demand demonstrations from an orator."
+   ]
+  },
+  {
+   "seg": "103a.4.p1",
+   "chapter": "103a.4",
+   "modern": "You might also say that Socrates is wary of the young man's character, which is ambitious; for everything of that kind is quick to resist and fond of quarrels. So that he may not provoke the young man to quarrel with him by pressing hard from the very start, Socrates approaches this youthful kind of life with care: he draws back a little in what he says about him, and moves the conversation forward as one who conjectures, not one who insists. For he must make his first approach in such a way that Alcibiades lends his ear, and, the ambition of his soul lulled to sleep, takes his share of the words that come from a mouth of self-control.",
+   "greek": "Λέγοις δ’ ἂν ὅτι καὶ τὸ ἦθος ὑφορᾶται τοῦ νεανίσκου φιλότιμον ὄν· ἅπαν γὰρ τὸ τοιοῦτο ἐνστατικόν ἐστι καὶ φιλόνεικον. Ἵν’ οὖν μὴ διατεινόμενος εὐθὺς ἐξ ἀρχῆς εἰς τὴν πρὸς ἑαυτὸν ἐκκαλέσηται φιλονεικίαν, τὸ νεαροπρεπὲς εἶδος τῆς ζωῆς, μετ’ εὐλαβείας αὐτῷ πρόσεισιν, ὑποστελλόμενός πως ἐν οἷς περὶ αὐτοῦ διαλέγεται, καὶ ὡς εἰκάζων, ἀλλ’ οὐ διισχυριζόμενος, προάγει τοὺς λόγους. Δεῖ γὰρ οὕτως αὐτῷ τὴν πρώτην προσβάλλειν, ὥσθ’ ὑποσχεῖν ἐκεῖνον τὴν ἀκοὴν, καὶ τὸ φιλότιμον κοιμήσαντα τῆς ψυχῆς μετασχεῖν τῶν ἀπὸ τοῦ σωφρονοῦντος στόματος προιόντων λόγων.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:89",
+     "label": "II p. 62"
+    }
+   ]
+  },
+  {
+   "seg": "103a.4.p2",
+   "chapter": "103a.4",
+   "modern": "To what has been said one might add this: the modest manner, open to all and far from boasting, is Socratic. Since Socrates himself, speaking about himself, has said that he seems wonderful to the young man, both for his love and for his silence through all the time before, the \"I think\" is put in at the right moment, neither only for grace and elegance of speech, nor because Socrates' knowledge leaned either way. For one who says such things about himself should say them with reserve rather than with force.",
+   "greek": "Τάχ’ ἂν δὲ ῥηθείη καὶ τοῦτο πρὸς τοῖς εἰρημένοις, ὅτι δὴ Σωκρατικόν ἐστι τὸ μέτριον ἦθος καὶ κοινὸν καὶ τὸ πόῤῥω τῆς ἀλαζονείας τεταγμένον. Ἐπειδὴ τοίνυν αὐτὸς ὑπὲρ ἑαυτοῦ πεποίηται λέγων ὁ Σωκράτης ὅτι δοκοίη θαυμαστὸς εἶναι τῷ νεανίσκῳ, καὶ τοῦ ἔρωτος ἕνεκα καὶ τῆς ἐν ἅπαντι τῷ πρόσθεν χρόνῳ σιωπῆς, τὸ οἶμαι κατὰ καιρὸν αὐτῷ παρεμβέβληται. καὶ οὔτε χάριτος ἕνεκα μόνης καὶ τῆς περὶ τὴν λέξιν εὐπρεπείας, οὔτε τῆς περὶ τὴν Σωκρατικὴν γνῶσιν ἀμφιβόλου ῥοπῆς· προσήκει γὰρ τῷ μεθ’ ἑαυτοῦ τοιαῦτα λέγοντι, μεθ’ ὑποστολῆς μᾶλλον ἢ διατεταμένως λέγειν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:89",
+     "label": "II p. 62"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:92",
+     "label": "II p. 65"
+    }
+   ],
+   "notes": [
+    "\"Wonderful\": the dialogue's next words (103a-b) say that Socrates thinks Alcibiades wonders at him, since for so many years he has not even spoken to him."
+   ]
+  },
+  {
+   "seg": "103a.5.p1",
+   "chapter": "103a.5",
+   "modern": "The very first words of the conversation, calling the young man back by his father's name, are taken fittingly both for the person and for the matter. For the person: being ambitious, the name from his father sets him more at home, since Cleinias had become famous in the battle at Coronea, and those born of famous fathers like to be named from them rather than from themselves. The one name is common to many men; the other is their own special good. The memory of a father also gives enough of a push to the practice of virtue. It is not right to shame one's fathers' good name, nor to cling to their name and to the title taken from them while neglecting to be like them in virtue.",
+   "greek": "Καὶ μὴν ἡ πρώτη τῶν λόγων ἀρχὴ πατρόθεν ἀνακαλοῦσα τὸν νεανίσκον, τῷ τε προσώπῳ καὶ τοῖς πράγμασιν οἰκείως παρείληπται. Τὸ μὲν γὰρ πρόσωπον, ἅτε φιλότιμον ὂν, ἡ ἀπὸ τοῦ πατρὸς κλῆσις οἰκεῖον αὐτῷ μᾶλλον καθίστησιν· ἔνδοξος γὰρ ὁ Κλεινίας ἐν τῇ περὶ Κορώνειαν ἐγεγόνει μάχῃ· φιλοῦσι δὲ οἱ πατέρων ἐνδόξων γεγονότες ἐκεῖθεν μᾶλλον ἢ ἀφ’ ἑαυτῶν ὀνομάζεσθαι. Τὸ μὲν γὰρ κοινόν ἐστι καὶ τῶν πολλῶν ἀνθρώπων· τὸ δὲ, ἐξαίρετον αὐτῶν ἀγαθόν. Ἔχει δὲ καὶ προτροπὴν ἱκανὴν εἰς τὴν τῆς ἀρετῆς ἐπιτήδευσιν ἡ μνήμη τοῦ πατρός. Οὐ γὰρ ἄξιον καταισχύνειν τὴν τῶν πατέρων δόξαν· οὐδὲ τοῦ μὲν ὀνόματος αὐτῶν ἀντέχεσθαι, καὶ τῆς ἀπ’ αὐτῶν προσρήσεως· τῆς δὲ κατὰ τὴν ἀρετὴν ὁμοιότητος ἀμελεῖν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:92",
+     "label": "II p. 65"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:93",
+     "label": "II p. 66"
+    }
+   ],
+   "notes": [
+    "Cleinias fell at the battle of Coronea in Boeotia (447 BC), as Plutarch's Life of Alcibiades (1) says; Proclus says only that he had become famous in it."
+   ]
+  },
+  {
+   "seg": "103a.5.p2",
+   "chapter": "103a.5",
+   "modern": "Further, to refer him to the father of the visible man, the one who was added from outside, his father by birth, is a token of the calling back of souls to their true father. Socrates uses these things too after the Pythagorean manner, thinking that they also help to save the soul. For those men practised what is shown in secret through tokens, and kept to the visible side of the tokens as an image of their power. Knowing this, as the Pythagoreans did, Socrates calls the young man by his father's name, thinking such a call a sign of the souls' being led round to their unseen causes.",
+   "greek": "Ἔτι τοίνυν ἡ πρὸς τὸν πατέρα τὸν τοῦ φαινομένου καὶ ἔξωθεν προστεθέντος ἀνθρώπου γεννητὴ ἀναφορὰ σύμβολόν ἐστι τῆς ἐπὶ τὸν ἀληθινὸν πατέρα τῶν ψυχῶν ἀνακλήσεως. Χρῆται δὴ καὶ τούτοις ὁ Σωκράτης κατὰ τὸ Πυθαγόρειον ἔθος, καὶ ταῦτα πρὸς τὴν τῆς ψυχῆς σωτηρίαν συντελεῖν οἰόμενος· ἐπεὶ καὶ οἱ ἄνδρες ἐκεῖνοι τά τε ἐν ἀποῤῥήτοις δηλούμενα διὰ τῶν συμβόλων ἐπετήδευον, καὶ τὸ φαινόμενον αὐτῶν, ὡς ἐκείνων τὴν δύναμιν ἀπεικονιζόμενον παρεφύλαττον. Τοῦτο δὴ οὖν καὶ ὁ Σωκράτης κατὰ τὰ αὐτὰ τοῖς Πυθαγορείοις εἰδὼς, πατρόθεν ἀνακαλεῖται τὸν νεανίσκον, σύνθημα τὴν τοιαύτην κλῆσιν οἰόμενος εἶναι τῆς ἐπὶ τὰς ἀφανεῖς αἰτίας τῶν ψυχῶν περιαγωγῆς.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:93",
+     "label": "II p. 66"
+    }
+   ]
+  },
+  {
+   "seg": "103a.5.p3",
+   "chapter": "103a.5",
+   "modern": "And if this way of addressing someone is also Homer's, it would be fitting in this way too, carried down from of old by the common custom of the Greeks. For Homer too says that his hero spoke \"naming each man from his father, honouring them all\"; for this kind of address wins people over, attends to them, and shows kindliness.",
+   "greek": "Εἰ δὲ καὶ Ὁμηρικός ἐστιν ὁ ζῆλος οὗτος τῆς προσρήσεως, ἔχοι ἂν καὶ ταύτῃ τὸ πρέπον, ἄνωθεν κατὰ τὴν κοινὴν τῶν Ἑλλήνων συνήθειαν προαγόμενος· πατρόθεν γάρ φησι καὶ ἐκεῖνος ὀνομάζων ἄνδρα ἕκαστον, πάντας κυδαίνων· οἰκειωτικὸν γὰρ καὶ θεραπευτικὸν καὶ φιλοσοφροσύνης ἐνδεικτικὸν ἐστὶ τοῦτο τῆς συνουσίας τὸ εἶδος.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:93",
+     "label": "II p. 66"
+    }
+   ],
+   "notes": [
+    "Homer's words are from the Iliad (10.68-69), Agamemnon's advice to Menelaus as he rouses the chiefs.",
+    "\"Kindliness\": Cousin prints φιλοσοφροσύνης, which is not a Greek word; the sense needs φιλοφροσύνης, \"friendliness\", which is how the version reads it."
+   ]
+  },
+  {
+   "seg": "103a.6.p1",
+   "chapter": "103a.6",
+   "modern": "We say, further, that this suits speeches about love in particular, as the divine Iamblichus also says. The calling by the father's name shows the manliness of true love, its being awake and lifted out of matter, and its power to act. And, in general, it suits them because the whole order of love comes forth from the intelligible Father. \"For in all things,\" the Oracles say, \"the Father sowed the fire-laden bond of love,\" so that all things may be held together by the bonds of friendship that cannot be undone, as the Timaeus of Plato also says. That is why the meeting of lovers puts this before all else as the beginning of their closeness: the kindliness awakened in the beloved by his father's name. The memory of his father moves the young man to feel at home with him; and that moves him to fellowship with Socrates, which is what Socrates had set before himself, and why he begins the present conversation.",
+   "greek": "Ἔτι δὴ λέγομεν ὅτι καὶ τοῖς περὶ τοῦ ἔρωτος λόγοις ἐστι τοῦτο διαφερόντως προσῆκον, ὥσπερ δή φησι καὶ ὁ θεῖος Ἰάμβλιχος. Τὸ γὰρ ἀῤῥενωπὸν τῆς ἀληθοῦς ἐρωτικῆς καὶ τὸ ἐγηγερμένον ἀπὸ τῆς ὕλης καὶ τὸ δραστήριον ἡ ἀπὸ τοῦ πατρὸς ἐνδείκνυται κλῆσις· καὶ ὅλως, ἐπειδὴ πᾶσα ἡ ἐρωτικὴ τάξις ἀπὸ τοῦ πατρὸς τοῦ νοητοῦ πρόεισιν. Πᾶσι γὰρ, ὡς τὰ λόγια φησὶν, ἐνέσπειρεν ὁ πατὴρ δεσμὸν πυριβριθῆ ἔρωτος· ἵνα συνέχηται τὰ πάντα τοῖς ἀλύτοις τῆς φιλίας δεσμοῖς, ὥς φησι καὶ ὁ παρὰ τῷ Πλάτωνι Τίμαιος. Διὰ δὴ τοῦτο καὶ ἡ ἐρωτικὴ συνουσία ταύτην ἀρχὴν προΐσταται τῆς οἰκειώσεως, τὴν ἀπὸ τοῦ πατρὸς ἐγειρομένην ἐν τῷ ἐρωμένῳ φιλοφροσύνην. Κινεῖ γὰρ ἡ μὲν τοῦ πατρὸς μνήμη τὴν ἐν τῷ νεανίσκῳ πρὸς αὐτὸν οἰκείωσιν· αὕτη δὲ τὴν πρὸς τὸν Σωκράτην κοινωνίαν· ὃ δὴ προκείμενον ἦν τῷ Σωκράτει, καὶ δι’ ὃ τὴν παροῦσαν καταπροβάλλεται συνουσίαν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:96",
+     "label": "II p. 69"
+    }
+   ],
+   "notes": [
+    "The Oracles are the Chaldean Oracles, which Proclus quotes often. \"Bonds that cannot be undone\": the Timaeus (32c) says that the body of the world, bound by proportion, came to have friendship, so as to be indissoluble except by the one who bound it."
+   ]
+  },
+  {
+   "seg": "103a.6.p2",
+   "chapter": "103a.6",
+   "modern": "The form of the words also seems to me most fitting for a study of love. To turn the beloved to oneself, to call him back and gather him, belongs to inspired lovers. For they have set themselves, quite simply, in a middle rank, between divine beauty and those who need their care; since they copy divine love, they gather the life of their beloved into themselves and join it to themselves, and they lead it up with themselves to the intelligible beauty, pouring into the beloved's soul, as the Socrates of the Phaedrus says, whatever they draw from there.",
+   "greek": "Δοκεῖ δέ μοι καὶ τὸ εἶδος τῶν λόγων πρεπωδέστατον εἶναι τῇ περὶ τοῦ ἔρωτος πραγματείᾳ· τὸ γὰρ εἰς ἑαυτὸν ἐπιστρέφειν τὸν ἐρώμενον καὶ ἀνακαλεῖσθαι καὶ συλλέγειν οἰκεῖον ἐστὶ τοῖς ἐνθέοις ἐρασταῖς. Μέσην γὰρ οὗτοι τάξιν ἀτεχνῶς ἐνστησάμενοι τοῦ τε θείου κάλλους καὶ τῶν δεομένων τῆς παρ’ αὐτῶν προνοίας, ἅτε δὴ τὸν ἔρωτα τὸν θεῖον ἀποτυπούμενοι, συνάγουσι μὲν εἰς ἑαυτοὺς τὴν τῶν ἐρωμένων ζωὴν καὶ συνάπτουσιν ἑαυτοῖς· ἀνάγουσι δὲ μεθ’ ἑαυτῶν ἐπὶ τὸ νοητὸν κάλλος, ἐπαντλοῦντες, ὥς φησιν ὁ ἐν τῷ Φαίδρῳ Σωκράτης, εἰς τὴν τούτων ψυχὴν ὅσα ἂν ἐκεῖθεν ἀρύτωνται.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:96",
+     "label": "II p. 69"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:97",
+     "label": "II p. 70"
+    }
+   ],
+   "notes": [
+    "The Phaedrus (253a): lovers who draw from Zeus, like Bacchants, pour it out on the soul of their beloved."
+   ]
+  },
+  {
+   "seg": "103a.6.p3",
+   "chapter": "103a.6",
+   "modern": "If, then, the lover is possessed by love, he will turn those of good nature towards the good, as love itself does, and call them back. Socrates shows this by this first address: he wakes the beloved's spirit to hold to true beauty, stirs up in him wonder at the life of philosophy, and leads him round to the fulfilment of true love.",
+   "greek": "Εἰ τοίνυν ὁ ἐρωτικὸς τῷ ἔρωτι κάτοχος ἐστὶν, ἐπιστρεπτικός τίς ἂν εἴη τῶν εὖ πεφυκότων εἰς τὸ ἀγαθὸν, ὥσπερ δὴ καὶ ὁ ἔρως, καὶ ἀνακλητικός· ὃ δὴ καὶ ὁ Σωκράτης ἐνδεικνύμενος διὰ τῆς πρώτης ταύτης κλήσεως, ἐγείρει μὲν τὸ φρόνημα τοῦ ἐρωμένου πρὸς τὴν τοῦ ἀληθινοῦ κάλλους ἀντοχὴν, ἀνακινεῖ δὲ τὸ ἐν αὐτῷ θαῦμα τῆς φιλοσόφου ζωῆς, περιάγει δὲ αὐτὸν εἰς τὴν τῆς ἀληθοῦς ἐρωτικῆς ἀποπλήρωσιν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:97",
+     "label": "II p. 70"
+    }
+   ]
+  },
+  {
+   "seg": "103a.7.p1",
+   "chapter": "103a.7",
+   "modern": "For this is the form of life that Socrates shows above all in this dialogue. He begins from it, and goes on perfecting the young man until he has made him a lover of Socrates' own care for him, which is the leading good of the art of love; and through all the chief parts, so to say, he always keeps what suits the life of love.",
+   "greek": "Τοῦτο γὰρ δὴ τὸ εἶδος τῆς ζωῆς ἐν τούτῳ τῷ διαλόγῳ διαφερόντως ὁ Σωκράτης ἐπιδείκνυται· καὶ γὰρ τὴν ἀρχὴν ἐντεῦθεν πεποίηται, καὶ μέχρι τοσούτου προελήλυθε τὸν νεανίσκον τελειῶν, ἕως ἐραστὴν αὐτὸν ἀπέφηνε τῆς ἑαυτοῦ προνοίας, ὃ δὴ τῆς ἐρωτικῆς ἐστὶ προηγούμενον ἀγαθόν· καὶ διὰ πάντων, ὡς εἰπεῖν, τῶν κεφαλαίων τὸ προσῆκον ἀεὶ διαφυλάττει τῇ ἐρωτικῇ ζωῇ.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:97",
+     "label": "II p. 70"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:100",
+     "label": "II p. 73"
+    }
+   ],
+   "flags": [
+    {
+     "taylor": "he proceeds perfecting the young man till he renders him a lover of his providential care",
+     "why": "\"Providential care\" renders pronoia, Socrates' forethought for the boy; the modern version says \"care for him\"."
+    }
+   ]
+  },
+  {
+   "seg": "103a.7.p2",
+   "chapter": "103a.7",
+   "modern": "There are three sciences to which Socrates is seen to bear witness in himself: dialectic, midwifery and the science of love. In this dialogue you will find the form of dialectic shown by the very things he does, and in many places you may take the mark of midwifery as it is carried along in his words; but above all, through the whole work, the works of the science of love prevail. When he plays the midwife, he keeps what suits the lover; and when he uses dialectic, he does not leave the special character of a lover's words. So in the Theaetetus he is a midwife, and is marked by this above all; that is why he goes only as far as purifying Theaetetus of his false opinions, and then lets him go, as one now able to tell the truth by himself, which is the work of midwifery, as he says himself in that dialogue. In the same way in this dialogue he shows first the science of love, and handles both dialectic and midwifery in the manner of love.",
+   "greek": "Τριττῶν τοίνυν οὐσῶν τούτων ἐπιστημῶν, ἃς ὁ Σωκράτης ἑαυτῷ φαίνεται μαρτυρῶν, τῆς διαλεκτικῆς, τῆς μαιευτικῆς, τῆς ἐρωτικῆς, εὕροις μὲν ἂν καὶ τῆς διαλεκτικῆς ἐν τῷδε τῷ διαλόγῳ τὸ εἶδος δι’ αὐτῶν τῶν ἔργων ἐπιδεικνύμενον· καὶ τῆς μαιευτικῆς πολλαχοῦ λάβοις ἂν τὴν ἰδιότητα τοῖς τοῦ Σωκράτους λόγοις ἐμφερομένην· διαφερόντως δὲ ἐν ἅπαντι τῷ συγγράμματι κρατεῖ τὰ τῆς ἐρωτικῆς ἐπιστήμης ἔργα. Καὶ γὰρ μαιευόμενος, φυλάττει τὸ τῷ ἐρωτικῷ προσῆκον· καὶ τῇ διαλεκτικῇ χρώμενος, οὐκ ἀφίσταται τῆς ἰδιότητος τῶν ἐρωτικῶν λόγων. Ὥσπερ καὶ ἐν Θεαιτήτῳ μαιευτικός ἐστι, καὶ κατὰ τοῦτο μάλιστα χαρακτηρίζεται, διὸ καὶ μέχρι τῆς καθάρσεως πρόεισι τῶν ψευδῶν δοξασμάτων τοῦ Θεαιτήτου· τὸ δὲ ἐντεῦθεν ἀφίησιν αὐτὸν ὡς παρ’ ἑαυτοῦ τὸ ἀληθὲς ἤδη διαγνῶναι δυνάμενον, ὃ δὴ τῆς μαιευτικῆς ἐστιν ἔργον, ὡς αὐτὸς ἐν ἐκείνοις φησίν· οὕτω δὴ τὴν ἐρωτικὴν ἐπιστήμην ἐν τούτῳ πρώτως ἐπιδείκνυσι, καὶ τό τε διαλεκτικὸν ὁμοῦ καὶ τὸ μαιευτικὸν ἐρωτικῶς μεταχειρίζεται.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:100",
+     "label": "II p. 73"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:101",
+     "label": "II p. 74"
+    }
+   ],
+   "flags": [
+    {
+     "taylor": "we shall find the form of the dialectic and the peculiarity of the maieutic science in this dialogue",
+     "why": "The Greek says the form of dialectic is shown \"by the very things he does\", and the mark of midwifery \"in many places\" in his words."
+    },
+    {
+     "taylor": "and proceeds as far as to a purification of the same opinions of Theætetus",
+     "why": "The Greek says a purifying of the false opinions of Theaetetus; Taylor's \"the same opinions\" is a slip, in his English or in the copy of it here."
+    }
+   ],
+   "notes": [
+    "Socrates' midwifery: Theaetetus 149a-151d, and its end (210b-d)."
+   ]
+  },
+  {
+   "seg": "103a.7.p3",
+   "chapter": "103a.7",
+   "modern": "Everywhere Socrates brings words fitted to the persons before him. And just as, in the divine, all goods exist beforehand as one, and each being enjoys some of them, as far as its nature allows, so Socrates, holding all the sciences in himself, uses now one and now another, measuring his own activity to the fitness of those who receive it. One he leads up as a lover, by the science of love; another he stirs by midwifery to recollect the eternal accounts of the soul; another he leads round by the method of dialectic to the study of the things that are. And he joins different people to different things: some to the beautiful itself, some to the first wisdom, some to the good. For by the science of love we are led up to the beautiful; by midwifery each of us is shown wise in what he did not know, as he brings forth the accounts of the things that are within him; and by dialectic, as the Socrates of the Republic says, the ascent of those who love the sight of truth goes as far as the good. As each has been given fitness, so he is perfected by Socrates and led up to the divine, each by his own rank. All that is divine is beautiful, wise and good, as the Phaedrus says. To these, then, the soul is led up, and through these the soul is saved; for by these the soul's wings are fed and watered, and by what is ugly and bad and the like they waste and perish, as Socrates himself says there.",
+   "greek": "Πανταχοῦ γὰρ ὁ Σωκράτης τοῖς ὑποκειμένοις προσώποις οἰκείως προσάγει τοὺς λόγους· καὶ ὥσπερ ἐν τῷ θείῳ πάντων ἑνοειδῶς προϋπαρχόντων τῶν ἀγαθῶν, ἄλλος ἄλλων ἀπολαύει, καθόσον ἕκαστος πέφυκεν· οὕτω δὴ καὶ ὁ Σωκράτης ἁπάσας ἐν ἑαυτῷ τὰς ἐπιστήμας περιέχων, ἄλλοτε ἄλλῃ χρῆται, πρὸς τὴν τῶν ὑποδεχομένων ἐπιτηδειότητα τὴν οἰκείαν ἐνέργειαν παραμετρῶν· καὶ τὸν μὲν διὰ τῆς ἐρωτικῆς ἀνάγει, τὸν δὲ διὰ τῆς μαιευτικῆς εἰς ἀνάμνησιν ἀνακινεῖ τῶν αἰδίων λόγων τῆς ψυχῆς· τὸν δὲ κατὰ τὴν διαλεκτικὴν μέθοδον εἰς τὴν τῶν ὄντων περιάγει θεωρίαν, συνάπτει δὲ ἄλλους ἄλλοις· τοὺς μὲν, τῷ αὐτοκάλῳ· τοὺς δὲ, τῇ πρωτίστῃ σοφίᾳ· τοὺς δὲ, τῷ ἀγαθῷ. Διὰ μὲν γὰρ τῆς ἐρωτικῆς πρὸς τὸ καλὸν ἀναγόμεθα· διὰ δὲ τῆς μαιευτικῆς σοφὸς ἕκαστος ἡμῶν ἀναφαίνεται περὶ ὧν ἐστιν ἀμαθὴς, τοὺς ἐν αὐτῷ προβάλλων περὶ τῶν ὄντων λόγους· διὰ δὲ τῆς διαλεκτικῆς, καὶ μέχρι τοῦ ἀγαθοῦ τὴν ἄνοδον εἶναι φησὶν ὁ ἐν τῇ Πολιτείᾳ Σωκράτης τοῖς φιλοθεάμοσι τῆς ἀληθείας. Ὡς οὖν ἕκαστος ἐπιτηδειότητος ἔλαχεν, οὕτω δὴ καὶ τελειοῦται παρὰ τοῦ Σωκράτους, καὶ ἀνάγεται πρὸς τὸ θεῖον κατὰ τὴν ἑαυτοῦ τάξιν. Τὸ θεῖον ἅπαν, καλὸν, σοφὸν, ἀγαθὸν, ὡς ἐν τῷ Φαίδρῳ λέγεται. Πρὸς ταῦτα τοίνυν ἡ ἀναγωγὴ, καὶ διὰ τούτων ἡ σωτηρία ταῖς ψυχαῖς· τρέφεται γὰρ τούτοις καὶ ἄρδεται τὸ τῆς ψυχῆς πτέρωμα, αἰσχρῷ δὲ καὶ κακῷ καὶ τοῖς ἐναντίοις φθίνει τε καὶ διόλλυται, καθάπερ ὁ Σωκράτης αὐτός φησιν ἐν ἐκείνοις.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:101",
+     "label": "II p. 74"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:104",
+     "label": "II p. 77"
+    }
+   ],
+   "flags": [
+    {
+     "taylor": "elevating one through the amatory science",
+     "why": "Taylor's \"amatory science\" is \"the science of love\" (erōtikē) in the modern version, which keeps \"lover\" for the one who practises it."
+    },
+    {
+     "taylor": "by calling forth our latent reasons, we become wise in things of which we were ignorant",
+     "why": "The Greek says each of us \"is shown wise\" in what he did not know, \"bringing forth the accounts of the things that are within him\"."
+    }
+   ],
+   "notes": [
+    "\"The eternal accounts of the soul\" renders the Greek as printed (αἰδίων, a misprint for ἀϊδίων, \"eternal\"). Those who love the sight of truth: Republic 475e; the ascent by dialectic to the good: Republic 532a-b. The Phaedrus (246d-e): the divine is beautiful, wise, good, and by these the soul's wings are fed and grow; Proclus' text has \"watered\" where Plato's has \"grow\", as Cousin notes."
+   ]
+  },
+  {
+   "seg": "103a.7.p4",
+   "chapter": "103a.7",
+   "modern": "So, through love, the perfection, in the work before us, of those with this nature, which Alcibiades had, and so seemed to Socrates worth loving, is joining with the divine beauty, and through it closeness to all that is divine. Socrates' midwifery and the works of dialectic, too, lead the young man's soul round to this end. For here, as we said, the lover's science is put forward, and the other kinds of science work with it towards this end. That is why both the opening of their meeting and its conclusion are full of the science of love, and everything in between gives very many signs of Socrates' activity set in this form.",
+   "greek": "Οὐκοῦν δι’ ἔρωτος μὲν ἡ τελείωσις ἐν τῷ προκειμένῳ συγγράμματι τοῖς ταύτην ἔχουσι τὴν φύσιν, ἣν δὴ καὶ ὁ Ἀλκιβιάδης λαχὼν, ἀξιέραστος ἔδοξεν εἶναι τῷ Σωκράτει· ἡ δὲ συναφὴ πρὸς τὸ θεῖον κάλλος, καὶ δι’ ἐκείνου πρὸς τὸ θεῖον ἅπαν οἰκειότης. Καὶ δὴ καὶ ἡ μαιεία τοῦ Σωκράτους καὶ τὰ τῆς διαλεκτικῆς ἔργα πρὸς τοῦτο περιάγει τὸ τέλος τὴν τοῦ νεανίσκου ψυχήν. Προβέβληται γὰρ, ὡς εἴπομεν, ἐνταῦθα τὸ ἐρωτικόν· συνεργεῖ δὲ τὰ λοιπὰ τῶν ἐπιστημῶν εἴδη τῷ τοιούτῳ τέλει. Διὸ καὶ τὰ προοίμια τῆς συνουσίας καὶ τὸ συμπέρασμα τῆς ἐρωτικῆς ἐστιν ἐπιστήμης ἀνάμεστα· καὶ πάντα τὰ μεταξὺ παμπόλλην ἔνδειξιν παρέχεται τῆς κατὰ τοῦτο τὸ εἶδος ἱσταμένης τοῦ Σωκράτους ἐνεργείας.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:104",
+     "label": "II p. 77"
+    },
+    {
+     "n": "ia-cousin-proclus-t2:105",
+     "label": "II p. 78"
+    }
+   ],
+   "notes": [
+    "The conclusion: at the end of the dialogue (135d-e) Alcibiades says he will now begin to care for justice, and Socrates says his love will be like a stork's, cared for in turn by the one it hatched."
+   ]
+  },
+  {
+   "seg": "103a.7.p5",
+   "chapter": "103a.7",
+   "modern": "Let this be enough examination of what concerns the study of the wording. From here we turn to look into the matters themselves, and shall consider as much about love as suits the present discussion.",
+   "greek": "Ταῦτα μὲν οὖν τῆς περὶ τὴν λέξιν θεωρίας ἀντεχόμενα μέχρι τούτων ἐξητάσθω· τὸ δὲ ἐντεῦθεν ἐπ’ αὐτὴν τὴν τῶν πραγμάτων τραπόμενοι ζήτησιν, περὶ ἔρωτος ὅσα προσήκει τοῖς παροῦσι λόγοις, θεωρήσωμεν.",
+   "pages": [
+    {
+     "n": "ia-cousin-proclus-t2:105",
+     "label": "II p. 78"
+    }
    ]
   }
  ],

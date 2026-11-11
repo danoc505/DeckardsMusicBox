@@ -528,7 +528,7 @@ neoTaylorLinks = function (u) {  // eslint-disable-line no-global-assign
 
 const NM = { data: new Map(), mode: null };
 const NM_MODES = [["modern", "Modern English", "The Workshop's modern English, with Taylor's words a tap away"],
-  ["both", "Side by side", "The modern English and Taylor's Introduction together, section by section"]];
+  ["both", "Side by side", "The modern English and Taylor's Introduction and notes together, section by section"]];
 
 function nmPara(p) {
   const pages = (p.pages || []).map((pg) => pg.part != null
@@ -539,9 +539,9 @@ function nmPara(p) {
 }
 
 function nmTaylor(d, c) {
-  if (!c.taylor.length) return `<p class="meta nm-none">Taylor's Introduction draws nothing from this section.</p>`;
-  return `<div class="tg-tay"><div class="mp-tay-h">Taylor, Introduction to the First Alcibiades (1804)</div>
-    ${c.taylor.map((x) => `<p>${esc(x.text)}</p>`).join("")}</div>`;
+  if (!c.taylor.length) return `<p class="meta nm-none">Taylor's Introduction and notes draw nothing from this section.</p>`;
+  return `<div class="tg-tay"><div class="mp-tay-h">Taylor, the First Alcibiades (1804), drawn from Proclus</div>
+    ${c.taylor.map((x) => `<p><span class="meta">${esc(x.label || `Introduction, paragraph ${x.n}`)}.</span> ${esc(x.text)}</p>`).join("")}</div>`;
 }
 
 function nmSection(d, c, mode) {
@@ -583,7 +583,7 @@ function renderNeoModern(d, sec) {
     ${d.treatises.map((t) => `<div class="ms-sum"><b>${esc(t.title)}, in short</b> ${esc(t.summary)}</div>`).join("")}
     <div class="mod-label" role="note"><b>Modern English, the Workshop's own</b>
       <span class="mod-badge" title="Drafted with an AI model and not yet checked by a scholar">machine-assisted</span>
-      <p>${esc(d.label)} Made from the Greek of ${esc(g.edition || "")}, checked against Taylor's Introduction to the dialogue (1804).
+      <p>${esc(d.label)} Made from the Greek of ${esc(g.edition || "")}, checked against Taylor's Introduction and notes to the dialogue (1804).
         Tap “Mark a sentence” under a paragraph if a sentence reads badly or seems wrong: your marks are kept for revision.</p>
       <details><summary>About this version</summary><p>${esc(d.about)}</p>
         <p class="meta">Master copy: <code>${esc(d.source)}</code>; the proofread Greek: <code>${esc(d.proofread)}</code>; the checks: <code>reports/modern_neo.md</code>.

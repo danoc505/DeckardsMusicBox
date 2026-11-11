@@ -35,6 +35,9 @@
  "exceptions": {
   "plotinus": {
    "II.4.4.p1:intellect": "τῷ νῷ here is 'in thought', 'in your mind', not intellect (the flag says so)"
+  },
+  "proclus-alcibiades": {
+   "103a.5.p3:philosoph": "Cousin prints φιλοσοφροσύνης, a misprint for φιλοφροσύνης, 'kindliness' (the note says so); it is not the word for philosophy"
   }
  }
 }
