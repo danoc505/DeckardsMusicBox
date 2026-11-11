@@ -61,6 +61,31 @@
     "II.4.15",
     "II.4.16"
    ]
+  },
+  {
+   "id": "II.9",
+   "title": "Against the Gnostics",
+   "summary": "Against those who say the maker of the world is evil and the world is bad: the Gnostics among Plotinus' own hearers. There are three principles and no more: the Good, intellect and soul. The world was not made by a soul that fell, nor by reasoning, but by soul's contemplation of what is above it; it is the best possible image of the intelligible world, and the stars have souls better than ours. The Gnostics borrow from Plato and spoil what they borrow, multiply beings, despise the gods, claim to be the only sons of God, offer magic for cures, and teach no virtue. The good person lives here calmly, as in a fine house built by another.",
+   "chapters": [
+    "II.9.1",
+    "II.9.2",
+    "II.9.3",
+    "II.9.4",
+    "II.9.5",
+    "II.9.6",
+    "II.9.7",
+    "II.9.8",
+    "II.9.9",
+    "II.9.10",
+    "II.9.11",
+    "II.9.12",
+    "II.9.13",
+    "II.9.14",
+    "II.9.15",
+    "II.9.16",
+    "II.9.17",
+    "II.9.18"
+   ]
   }
  ],
  "chapters": [
@@ -266,6 +291,132 @@
    "title": "Matter is poverty, and so evil",
    "summary": "Matter is not Otherness itself, but the part of Otherness opposed to the true beings, and so it is not-being and privation. Form coming to it does not destroy it, but brings it to what it is, as a seed sown or a female made pregnant. It is evil, not because it wants the good, but because it is poverty itself: of wisdom, virtue, beauty and form.",
    "greek_unit": "2.4.16"
+  },
+  {
+   "id": "II.9.1",
+   "treatise": "II.9",
+   "title": "Three principles, and no more",
+   "summary": "The Good is simple and first, the same as the One, with nothing above it. After it comes intellect, then soul: no fewer, since they differ, and no more. There is no intellect at rest beside one in motion, nor one that thinks beside one that thinks that it thinks, nor a rational principle between intellect and soul.",
+   "greek_unit": "2.9.1"
+  },
+  {
+   "id": "II.9.2",
+   "treatise": "II.9",
+   "title": "One intellect; and our soul in three parts",
+   "summary": "There is one intellect, always the same, imitating its father as far as it can. Part of our soul is always with the things there, part with the things here, and part between; the lower part can drag down the middle, but not the whole. The soul of the universe never fell: it orders the world without effort, by looking at what is above it.",
+   "greek_unit": "2.9.2"
+  },
+  {
+   "id": "II.9.3",
+   "treatise": "II.9",
+   "title": "Everything gives of itself: the world has no beginning",
+   "summary": "Lit always, soul always gives light to what follows, as a fire warms what is round it. Every principle must give of itself to another, or the Good would not be good, nor intellect intellect. So all things follow one another always: what is called \"made\" was always being made, and will not perish. Matter too is always lit.",
+   "greek_unit": "2.9.3"
+  },
+  {
+   "id": "II.9.4",
+   "treatise": "II.9",
+   "title": "The world-soul did not fall",
+   "summary": "If they say the soul made the world when it lost its wings, the soul of the universe suffers no such thing. If it erred, when, and why then? It made the world not by sinking, but by not sinking; a forgetful soul could not make, and one that remembers would go back. Nor is the world badly made because it has much that is hard; it is the best image of the intelligible that there could be.",
+   "greek_unit": "2.9.4"
+  },
+  {
+   "id": "II.9.5",
+   "treatise": "II.9",
+   "title": "They rank themselves above the stars",
+   "summary": "It is unreasonable for people who have bodies and passions to claim to touch the intelligible, and deny that the sun's soul is better than theirs, or that the heavens share in immortality. Their soul made of the elements cannot live. They hate the world and dream of a \"new earth\" as its pattern; but where would this pattern come from?",
+   "greek_unit": "2.9.5"
+  },
+  {
+   "id": "II.9.6",
+   "treatise": "II.9",
+   "title": "What is new in them is not true",
+   "summary": "Their \"sojourns\", \"antitypes\" and \"repentances\" are empty words to found a sect. What is true in them they took from Plato; what is new is false. They misread the Timaeus and multiply intelligible beings. They should take from the ancients what is well said, argue fairly where they differ, and not abuse the Greeks to win a name.",
+   "greek_unit": "2.9.6"
+  },
+  {
+   "id": "II.9.7",
+   "treatise": "II.9",
+   "title": "The world-soul is not bound as we are",
+   "summary": "The world never began and will not end. Our soul's union with the body is not best for it; but to judge the soul of the universe by ours is like blaming a whole city for its potters. We are bound by the body; the world-soul binds and is not bound, and orders its body without effort. What perishes is like a tortoise caught in a great dance.",
+   "greek_unit": "2.9.7"
+  },
+  {
+   "id": "II.9.8",
+   "treatise": "II.9",
+   "title": "The world is a clear image of the intelligible gods",
+   "summary": "To ask why soul made the world is to ask why soul exists: it assumes a beginning to what is eternal. The world shows the greatness of the intelligible, a clear and beautiful statue of the intelligible gods; it had to exist, since the intelligible acts both in itself and on another. The stars are gods with virtue; and if souls came here willingly, why blame the place?",
+   "greek_unit": "2.9.8"
+  },
+  {
+   "id": "II.9.9",
+   "treatise": "II.9",
+   "title": "Wealth, poverty and wrongdoing; the many gods",
+   "summary": "The good man does not seek equality in wealth or power. Wrongdoing comes from souls like children, not from intellect; and there are judgments and punishments here, and gods who watch. We should try to be as good as we can, but not think ourselves the only good ones: there are good daemons and gods, and the world-soul. God's greatness is shown in the many gods he makes. The Gnostics flatter fools: \"you are a son of God\".",
+   "greek_unit": "2.9.9"
+  },
+  {
+   "id": "II.9.10",
+   "treatise": "II.9",
+   "title": "Why Plotinus writes; the fall of Wisdom",
+   "summary": "Much more could be examined, but Plotinus writes for his own pupils, out of regard for friends still held by these views, not to persuade the Gnostics. He ends with the most absurd thing: their story that soul and a certain \"Wisdom\" sank down and lit up the darkness, and that from images of images came the maker of this world.",
+   "greek_unit": "2.9.10"
+  },
+  {
+   "id": "II.9.11",
+   "treatise": "II.9",
+   "title": "The image that made the world",
+   "summary": "If the soul did not come down but only lit the darkness, how did it sink? Why did it alone shine, and not the higher powers? Why did it wait for images to be born? An image of soul would need no matter. Is the image a substance or a \"thought\"? Either way, their story of a maker made of images falls apart.",
+   "greek_unit": "2.9.11"
+  },
+  {
+   "id": "II.9.12",
+   "treatise": "II.9",
+   "title": "How could an image remember, or plan?",
+   "summary": "Their image, just born, could not remember what it never saw; yet they, true souls, scarcely recollect. Nature does not make fire first and then the rest, but outlines the whole animal at once. Foreseeing the heavens and the zodiac is no work of an image. If the lighting of the darkness was natural, it was always; if not, evil was there before the world, and the cause goes back to the first.",
+   "greek_unit": "2.9.12"
+  },
+  {
+   "id": "II.9.13",
+   "treatise": "II.9",
+   "title": "Do not fear the spheres",
+   "summary": "Whoever blames the world does not know the order of first, second and third. The spheres are not terrors, as the Gnostics' tragedies make them, but bring good things; their bodies are fine and their souls finer. What they do are signs of things to come. Not all can be good; what is less good is not therefore evil, or there would be evil in the intelligible world too.",
+   "greek_unit": "2.9.13"
+  },
+  {
+   "id": "II.9.14",
+   "treatise": "II.9",
+   "title": "Magic, and diseases as daemons",
+   "summary": "They make the higher beings open to spells, as if words and hissings could charm what is incorporeal. They say diseases are daemons they can drive out; but diseases have bodily causes, and are cured by purging, bleeding and fasting. Our philosophy, by contrast, shows simplicity of character and pure thinking, with dignity, not arrogance.",
+   "greek_unit": "2.9.14"
+  },
+  {
+   "id": "II.9.15",
+   "treatise": "II.9",
+   "title": "They teach no virtue",
+   "summary": "Of the two schools of the end of life, pleasure and the beautiful, the Gnostics are worse than Epicurus: he removed providence, but they blame its lord, mock the laws and self-control, and leave only pleasure. They say nothing about virtue, what it is or how the soul is purified. \"Look to God\" helps nothing without being taught how; without true virtue, God is only a name.",
+   "greek_unit": "2.9.15"
+  },
+  {
+   "id": "II.9.16",
+   "treatise": "II.9",
+   "title": "To despise the world is not to be good",
+   "summary": "Despising the world and its gods does not make anyone good; one who loves the father loves his children too. They say God cares for them alone, but if he is absent from the world he is absent from them. The universe is ordered and wise; no musician or geometer is unmoved by the image of the intelligible he sees here, and whoever is unmoved by the beauty of the stars has not seen the beauty there.",
+   "greek_unit": "2.9.16"
+  },
+  {
+   "id": "II.9.17",
+   "treatise": "II.9",
+   "title": "The beauty of the world, inside and out",
+   "summary": "If they hate the body because Plato blamed it, they should take the body away in thought and see the intelligible sphere and the souls that give it size. The world-soul gives body all the beauty it can take, without jealousy. Despise the beauty of boys and women if you must, but not the beauty of the whole: the universe was never a child, and nothing bad can be added to it.",
+   "greek_unit": "2.9.17"
+  },
+  {
+   "id": "II.9.18",
+   "treatise": "II.9",
+   "title": "Two men in one fine house",
+   "summary": "They say their teaching makes people flee the body, and ours keeps the soul in it. It is like two men in a fine house: one finds fault with it and stays; the other praises the builder and waits calmly for the time to leave. We should live in our bodies as the world-soul lives in the whole, untroubled; and not grudge the stars their contemplation, as though they did not see because we do not see their souls.",
+   "greek_unit": "2.9.18"
   }
  ],
  "paragraphs": [
@@ -930,6 +1081,571 @@
    ],
    "notes": [
     "\"Beyond being\" is from the Republic (509b), where Plato says it of the Good."
+   ]
+  },
+  {
+   "seg": "II.9.1.p1",
+   "chapter": "II.9.1",
+   "modern": "Since we have seen that the nature of the Good is simple and first (for everything that is not first is not simple), and has nothing in itself, but is one thing, and that the nature of what is called the One is the same (for it is not something else and then one, nor this something else and then good), when we say \"the One\" and when we say \"the Good\" we must think it is the same nature, and call it one, not predicating anything of it, but making it plain to ourselves as far as we can. We call it first because it is the simplest; self-sufficient, because it is not made of many things, for then it would hang on the things it is made of; not in another, because everything in another also comes from another. If, then, it is not from another, nor in another, nor any kind of composite, there can be nothing above it. So we must not go to other principles, but put this first, then intellect after it, the first thinker, then soul after intellect. This is the order according to nature: to set neither more than these in the intelligible world, nor fewer. If fewer, they will say that soul and intellect are the same, or intellect and the first; but it has been shown in many places that they are different from one another.",
+   "greek": "Ἐπειδὴ τοίνυν ἐφάνη ἡμῖν ἡ τοῦ ἀγαθοῦ φύσις ἁπλῆ καὶ πρώτη, πᾶν γὰρ τὸ οὐ πρῶτον οὐχ ἁπλοῦν, καὶ οὐδὲν ἔχον ἐν ἑαυτῷ, ἀλλ’ ἕν τι, καὶ τοῦ ἑνὸς λεγομένου ἡ φύσις ἡ αὐτή: καὶ γὰρ αὕτη οὐκ ἄλλο, εἶτα ἕν, οὐδὲ τοῦτο ἄλλο, εἶτα ἀγαθόν: ὅταν λέγωμεν τὸ ἕν, καὶ ὅταν λέγωμεν τἀγαθόν, τὴν αὐτὴν δεῖ νομίζειν τὴν φύσιν καὶ μίαν λέγειν οὐ κατηγοροῦντας ἐκείνης οὐδέν, δηλοῦντας δὲ ἡμῖν αὐτοῖς ὡς οἷόν τε. καὶ τὸ πρῶτον δὲ οὕτως, ὅτι ἁπλούστατον, καὶ τὸ αὔταρκες, ὅτι οὐκ ἐκ πλειόνων: οὕτω γὰρ ἀναρτήσεται εἰς τὰ εξ ὧν: καὶ τὸ οὐκ ἐν ἄλλῳ, ὅτι πᾶν τὸ ἐν ἄλλῳ καὶ παῤ ἄλλου. εἰ οὖν μηδὲ παῤ ἄλλου μηδὲ ἐν ἄλλῳ μηδὲ σύνθεσις μηδεμία, ἀνάγκη μηδὲν ὑπὲρ αὐτὸ εἶναι. οὐ τοίνυν δεῖ ἐφ̓ ἑτέρας ἀρχὰς ἰέναι, ἀλλὰ τοῦτο προστησαμένους, εἶτα νοῦν μετ’ αὐτὸ καὶ τὸ νοοῦν πρώτως, εἶτα ψυχὴν μετὰ νοῦν: αὕτη γὰρ τάξις κατὰ φύσιν: μήτε πλείω τούτων τίθεσθαι ἐν τῷ νοητῷ, μήτε ἐλάττω. εἴτε γὰρ ἐλάττω, ἢ ψυχὴν καὶ νοῦν ταὐτὸν φήσουσιν, ἢ νοῦν καὶ τὸ πρῶτον: ἀλλ’ ὅτι ἕτερα ἀλλήλων, ἐδείχθη πολλαχῇ."
+  },
+  {
+   "seg": "II.9.1.p2",
+   "chapter": "II.9.1",
+   "modern": "It remains to look now at whether there are more than these three. What natures could there be besides them? No one could find a principle simpler than, or higher than, the principle of all things we have described. They will not say that there is one in potency and another in act: it is absurd, among things that are in act and without matter, to divide into potency and act and make more natures. Nor among the things after these: we must not imagine one intellect at a kind of rest and another as it were moving. What would the rest of intellect be, and what its motion and going forth? What would the idleness of one be, and what the work of the other? Intellect is as it is, always the same, set in a stable activity. Motion towards it and around it is already the work of soul; and a rational principle goes from it to soul and makes soul intelligent, without making some other nature between intellect and soul.",
+   "greek": "λοιπὸν δὴ ἐπισκέψασθαι ἐν τῷ παρόντι, εἰ πλείω τῶν τριῶν τούτων. τίνες ἂν οὖν εἶεν φύσεις παῤ αὐτάς; τῆς τε γὰρ λεχθείσης οὕτως ἔχειν ἀρχῆς πάντων οὐδεὶς ἂν εὕροι ἁπλουστέραν οὐδὲ ἐπαναβεβηκυῖαν ἡντινοῦν. οὐ γὰρ δὴ τὴν μὲν δυνάμει, τὴν δὲ ἐνεργείᾳ φήσουσι: γελοῖον γὰρ ἐν τοῖς ἐνεργείᾳ οὖσι καὶ ἀύλοις τὸ δυνάμει καὶ ἐνεργείᾳ διαιρουμένους φύσεις ποιεῖσθαι πλείους. ἀλλ’ οὐδ’ ἐν τοῖς μετὰ ταῦτα: οὐδ’ ἐπινοεῖν τὸν μέν τινα νοῦν ἐν ἡσυχίᾳ τινί, τὸν δὲ οἷον κινούμενον. τίς γὰρ ἂν ἡσυχία νοῦ καὶ τίς κίνησις καὶ προφορὰ ἂν εἴη ἢ τίς ἀργία καὶ τοῦ ἑτέρου τί ἔργον; ἔστι γὰρ ὡς ἔστι νοῦς ἀεὶ ὡσαύτως ἐνεργείᾳ κείμενος ἑστώσῃ: κίνησις δὲ πρὸς αὐτὸν καὶ περὶ αὐτὸν ψυχῆς ἤδη ἔργον καὶ λόγος ἀπ’ αὐτοῦ εἰς ψυχὴν ψυχὴν νοερὰν ποιῶν, οὐκ ἄλλην τινὰ μεταξὺ νοῦ καὶ ψυχῆς φύσιν.",
+   "flags": [
+    {
+     "taylor": "For they [the Gnostics] will not say 1 that there is one principle in capacity, but another in energy",
+     "why": "The Gnostics are not named in the Greek here; Taylor's square brackets say whom Plotinus means. \"Capacity\" and \"energy\" are Taylor's words for potency and act (dynamis, energeia)."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.1.p3",
+   "chapter": "II.9.1",
+   "modern": "Nor should we make several intellects because one thinks and another thinks that it thinks. Even if, among us, thinking is one thing and thinking that one thinks is another, still it is a single grasp, not unaware of its own activities. It would be absurd to suppose otherwise of the true intellect: the one that thinks that it thinks will be the very same as the one that was thinking. Otherwise one will only think, and the other will think that it thinks, but that it is another who thinks, not itself. If they say the difference is only in our way of conceiving it, first they will give up their many realities. Then we must ask whether our conception even has room to take an intellect that only thinks and is not aware that it thinks. If that happened to us, who always watch over our impulses and our thoughts, we would be charged with folly, if we were even moderately serious people.",
+   "greek": "οὐ μὴν οὐδὲ διὰ τοῦτο πλείους νοῦς ποιεῖν, εἰ ὁ μὲν νοεῖ, ὁ δὲ νοεῖ ὅτι νοεῖ. καὶ γὰρ εἰ ἄλλο τὸ ἐν τούτοις νοεῖν, ἄλλο δὲ τὸ νοεῖν ὅτι νοεῖ, ἀλλ’ οὖν μία προσβολὴ οὐκ ἀναίσθητος τῶν ἐνεργημάτων ἑαυτῆς: γελοῖον γὰρ ἐπὶ τοῦ ἀληθινοῦ νοῦ τοῦτο ὑπολαμβάνειν, ἀλλὰ πάντως γε ὁ αὐτὸς ἔσται τῷ ὅσπερ ἐνόει ὁ νοῶν ὅτι νοεῖ. εἰ δὲ. μή, ὁ μὲν ἔσται νοῶν μόνον, ὁ δὲ ὅτι νοεῖ νοῶν ἄλλου ὄντος, ἀλλ’ οὐκ αὐτοῦ τοῦ νενοηκότος. ἀλλ’ εἰ ἐπινοίᾳ φήσουσι, πρῶτον μὲν τῶν πλειόνων ὑποστάσεων ἀποστήσονται: ἔπειτα δεῖ σκοπεῖν, εἰ καὶ αἱ ἐπίνοιαι χώραν ἔχουσι λαβεῖν νοῦν νοοῦντα μόνον, μὴ παρακολουθοῦντα δὲ ἑαυτῷ ὅτι νοεῖ: ὃ καὶ ἐφ̓ ἡμῶν αὐτῶν εἰ γίγνοιτο τῶν ἀεὶ ἐπιστατούντων ταῖς ὁρμαῖς καὶ ταῖς διανοήσεσιν, εἰ καὶ μετρίως σπουδαῖοι εἶμεν, αἰτίαν ἂν ἀφροσύνης ἔχοιμεν.",
+   "flags": [
+    {
+     "taylor": "if we are moderately worthy, it becomes the cause to us of folly",
+     "why": "The Greek says that if this happened to us, who are at least moderately serious people, we would be charged with folly; Taylor's \"it becomes the cause to us of folly\" loses the charge."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.1.p4",
+   "chapter": "II.9.1",
+   "modern": "But when the true intellect thinks itself in its thoughts, and the intelligible, what it thinks, is not outside it but it is itself what it thinks, then necessarily in thinking it has itself and sees itself; and seeing itself it sees itself not unthinking, but thinking. So in thinking first it would have thinking that it thinks too, as one thing; and there it is not double even in conception. And if it is always thinking, which it is, what room is there for a conception that separates thinking from thinking that one thinks? If someone brought in a third conception besides the second, the one that thinks that it thinks that it thinks, the absurdity is still plainer. And why not go on so to infinity? As for the one who makes a rational principle come from intellect, and then from it another in soul, so that this is between soul and intellect, he will deprive soul of thinking, if it gets its rational principle not from intellect but from some other between. It will have an image of a rational principle, not a rational principle; and it will not know intellect at all, nor think at all.",
+   "greek": "ὅταν δὲ δὴ ὁ νοῦς ὁ ἀληθινὸς ἐν ταῖς νοήσεσιν αὑτὸν νοῇ καὶ μὴ ἔξωθεν ᾖ τὸ νοητὸν αὐτοῦ, ἀλλ’ αὐτὸς ᾖ καὶ τὸ νοητόν, ἐξ ἀνάγκης ἐν τῷ νοεῖν ἔχει ἑαυτὸν καὶ ὁρᾷ ἑαυτόν: ὁρῶν δὲ ἑαυτὸν οὐκ ἀνοηταίνοντα, ἀλλὰ νοοῦντα ὁρᾷ. ὥστε ἐν τῷ πρώτως νοεῖν ἔχοι ἂν καὶ τὸ νοεῖν ὅτι νοεῖ ὡς ἓν ὄν: καὶ οὐδὲ τῇ ἐπινοίᾳ ἐκεῖ διπλοῦν. εἰ δὲ καὶ ἀεὶ νοῶν εἴη, ὅπερ ἔστι, τίς χώρα τῇ ἐπινοίᾳ τῇ χωριζούσῃ τὸ νοεῖν ἀπὸ τοῦ νοεῖν ὅτι νοεῖ; εἰ δὲ δὴ καὶ ἑτέραν ἐπίνοιάν τις τρίτην ἐπεισάγοι ἐπὶ τῇ δευτέρᾳ τῇ λεγούσῃ νοεῖν ὅτι νοεῖ, τὴν λέγουσαν νοεῖν ὅτι νοεῖ ὅτι νοεῖ, ἔτι μᾶλλον καταφανὲς τὸ ἄτοπον. καὶ διὰ τί οὐκ εἰς ἄπειρον οὕτω; τὸν δὲ λόγον ὅταν τις ἀπὸ τοῦ νοῦ ποιῇ, εἶτα ἀπὸ τούτου γίνεσθαι ἐν ψυχῇ ἄλλον ἀπ’ αὐτοῦ τοῦ λόγου, ἵνα μεταξὺ ψυχῆς καὶ νοῦ ᾖ οὗτος, ἀποστερήσει τὴν ψυχὴν τοῦ νοεῖν, εἰ μὴ παρὰ τοῦ νοῦ κομιεῖται, ἀλλὰ παρὰ ἄλλου τοῦ μεταξὺ τὸν λόγον: καὶ εἴδωλον λόγου, ἀλλ’ οὐ λόγον ἕξει, καὶ ὅλως οὐκ εἰδήσει νοῦν οὐδ’ ὅλως νοήσει."
+  },
+  {
+   "seg": "II.9.2.p1",
+   "chapter": "II.9.2",
+   "modern": "So we must set neither more than these, nor superfluous conceptions among them, which they do not admit, but one intellect, the same, always in the same state, unswerving everywhere, imitating its father as far as it can. And of our soul, one part is always with the things there, one part with the things here, and one in the middle of these. Being one nature in several powers, sometimes the whole of it is carried along with the best of itself and of being; sometimes its worse part is dragged down and drags the middle part with it; for it was not lawful for it to drag the whole down. This happens to it because it did not stay in the most beautiful, where the soul that stayed, which is not a part, and of which we are no longer a part, gave the whole body of the world to have from it as much as it can have. This soul stays untroubled, governing not by reasoning, nor setting anything right, but ordering the world with a wonderful power by its contemplation of what comes before it. The more it is turned to that, the more beautiful and powerful it is; and having this from there, it gives it to what comes after it, and as it lights, it is always lit.",
+   "greek": "οὐ τοίνυν οὔτε πλείω τούτων οὔτε ἐπινοίας περιττὰς ἐν ἐκείνοις, ἃς οὐ δέχονται, θετέον, ἀλλ’ ἕνα νοῦν τὸν αὐτὸν ὡσαύτως ἔχοντα, ἀκλινῆ πανταχῇ, μιμούμενον τὸν πατέρα καθ̓ ὅσον οἷόν τε αὐτῷ. ψυχῆς δὲ ἡμῶν τὸ μὲν ἀεὶ πρὸς ἐκείνοις, τὸ δὲ πρὸς ταῦτα ἔχειν, τὸ δὲ ἐν μέσῳ τούτων: φύσεως γὰρ οὔσης μιᾶς ἐν δυνάμεσι πλείοσιν ὁτὲ μὲν τὴν πᾶσαν συμφέρεσθαι τῷ ἀρίστῳ αὐτῆς καὶ τοῦ ὄντος, ὁτὲ δὲ τὸ χεῖρον αὐτῆς καθελκυσθὲν συνεφελκύσασθαι τὸ μέσον: τὸ γὰρ πᾶν αὐτῆς οὐκ ἦν θέμις καθελκύσαι. καὶ τοῦτο συμβαίνει αὐτῇ τὸ πάθος, ὅτι μὴ ἔμεινεν ἐν τῷ καλλίστῳ, ὅπου ψυχὴ μείνασα, ἡ μὴ μέρος μηδὲ ἧς ἡμεῖς ἔτι μέρος, ἔδωκε τῷ παντὶ σώματι αὐτῷ τε ἔχειν ὅσον δύναται παῤ αὐτῆς ἔχειν, μένει τε ἀπραγμόνως αὐτὴ οὐκ ἐκ διανοίας διοικοῦσα οὐδέ τι διορθουμένη, ἀλλὰ τῇ εἰς τὸ πρὸ αὐτῆς θέᾳ κατακοσμοῦσα δυνάμει θαυμαστῇ. ὅσον γὰρ πρὸς αὐτῇ ἐστι, τόσῳ καλλίων καὶ δυνατωτέρα: κἀκεῖθεν ἔχουσα δίδωσι τῷ μετ’ αὐτὴν καὶ ὥσπερ ἐλλάμπουσα ἀεὶ ἀεὶ ἐλλάμπεται.",
+   "flags": [
+    {
+     "taylor": "For the more it looks to itself",
+     "why": "The Greek says \"the more it is towards that\", what comes before it (pros autēi, read by the editors as towards the intelligible); Taylor's \"looks to itself\" says the opposite."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.3.p1",
+   "chapter": "II.9.3",
+   "modern": "So it is always lit and has the light without break, and it gives it to what comes next; and these are always held together and watered by this light, and enjoy life as far as they can. It is as if a fire lay somewhere in the middle and warmed those who could be warmed. And yet fire is limited. But when powers that are not measured have not been removed from the things that are, how could they exist and nothing share in them? Each must give of its own to another as well, or the Good will not be good, or intellect not intellect, or soul not this, unless something lives secondarily after what lives first, as long as what is first exists. So all things must follow one another, and always; and the others are \"made\" in the sense that they come from others. So what are called made did not come to be at a time, but were always coming to be and will be; nor will they perish, except those things that have something to dissolve into. What has nothing to dissolve into will not perish either.",
+   "greek": "ἀεὶ οὖν ἐλλαμπομένη καὶ διηνεκὲς ἔχουσα τὸ φῶς δίδωσιν εἰς τὰ ἐφεξῆς, τὰ δὲ ἀεὶ συνέχεται καὶ ἄρδεται τούτῳ τῷ φωτὶ καὶ ἀπολαύει τοῦ ζῆν καθ̓ ὅσον δύναται: ὥσπερ εἰ πυρὸς ἐν μέσῳ που κειμένου ἀλεαίνοιντο οἷς οἷόν τε. καίτοι τὸ πῦρ ἐστιν ἐν μέτρῳ: ὅταν δὲ δυνάμεις μὴ μετρηθεῖσαι μὴ ἐκ τῶν ὄντων ὦσιν ἀνῃρημέναι, πῶς οἷόν τε εἶναι μέν, μηδὲν δὲ αὐτῶν μεταλαμβάνειν; ἀλλ’ ἀνάγκη ἕκαστον τὸ αὑτοῦ διδόναι καὶ ἄλλῳ, ἢ τὸ ἀγαθὸν οὐκ ἀγαθὸν ἔσται, ἢ ὁ νοῦς οὐ νοῦς, ἢ ἡ ψυχὴ μὴ τοῦτο, εἰ μή τι μετὰ τὸ πρώτως ζῶν ζῴη καὶ δευτέρως ἕως ἔστι τὸ πρώτως. ἀνάγκη τοίνυν ἐφεξῆς εἶναι πάντα ἀλλήλοις καὶ ἀεί, γενητὰ δὲ τὰ ἕτερα τῷ παῤ ἄλλων εἶναι. οὐ τοίνυν ἐγένετο, ἀλλ’ ἐγίνετο καὶ γενήσεται, ὅσα γενητὰ λέγεται: οὐδὲ φθαρήσεται, ἀλλ’ ἢ ὅσα ἔχει εἰς ἅ: ὃ δὲ μὴ ἔχει εἰς ὅ, οὐδὲ φθαρήσεται.",
+   "flags": [
+    {
+     "taylor": "and should be generated by other things, because they depend on others for their subsistence",
+     "why": "The Greek says only that the others are \"made\" (genēta) in that they come from others; Taylor's \"generated\" suggests a beginning in time, which Plotinus here denies."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.3.p2",
+   "chapter": "II.9.3",
+   "modern": "If someone says things dissolve into matter, why not matter as well? If he says matter too dissolves, what necessity was there, we shall ask, for it to come to be? If they say it had to follow, it has to now as well. And if matter is to be left alone, the divine things will not be everywhere, but in some fenced-off place, walled off, as it were. If that is impossible, matter will be lit.",
+   "greek": "εἰ δέ τις εἰς ὕλην λέγοι, διὰ τί οὐ καὶ τὴν ὕλην; εἰ δὲ καὶ τὴν ὕλην φήσει, τίς ἦν ἀνάγκη, φήσομεν, γενέσθαι; εἰ δὲ ἀναγκαῖον εἶναι φήσουσι παρακολουθεῖν, καὶ νῦν ἀνάγκη. εἰ δὲ μόνη καταλειφθήσεται, οὐ πανταχοῦ, ἀλλ’ ἔν τινι τόπῳ ἀφωρισμένῳ τὰ θεῖα ἔσται καὶ οἷον ἀποτετειχισμένα: εἰ δὲ οὐχ οἷόν τε, ἐλλαμφθήσεται."
+  },
+  {
+   "seg": "II.9.4.p1",
+   "chapter": "II.9.4",
+   "modern": "If they say that the soul made the world when it had, as it were, shed its wings, the soul of the universe does not suffer this. If they say it erred, let them say what caused the error. And when did it err? If from eternity, by their own account it remains in error. If it began at a time, why not before? We say that the soul that makes did not sink, but rather did not sink. If it sank, it was plainly because it had forgotten the things there. And if it forgot them, how does it make the world? From what does it make, if not from what it saw there? But if it makes remembering them, it did not sink at all; for even if it has them dimly, it would not sink further, so as not to see them dimly. If it had any memory at all, why would it not want to go back up? What would it have reckoned it would gain by making a world? To be honoured, they say, which is absurd, a notion carried over from the makers of statues here.",
+   "greek": "εἰ δὲ οἷον πτερορρυήσασαν τὴν ψυχὴν φήσουσι πεποιηκέναι, οὐχ ἡ τοῦ παντὸς τοῦτο πάσχει: εἰ δὲ σφαλεῖσαν αὐτοὶ φήσουσι, τοῦ σφάλματος λεγέτωσαν τὴν αἰτίαν. πότε δὲ ἐσφάλη; εἰ μὲν γὰρ ἐξ ἀιδίου, μένει κατὰ τὸν αὐτῶν λόγον ἐσφαλμένη: εἰ δὲ ἤρξατο, διὰ τί οὐ πρὸ τοῦ; ἡμεῖς δὲ οὐ νεῦσαί φαμεν τὴν ποιοῦσαν, ἀλλὰ μᾶλλον μὴ νεῦσαι. εἰ δὲ ἔνευσε, τῷ ἐπιλελῆσθαι δηλονότι τῶν ἐκεῖ: εἰ δὲ ἐπελάθετο, πῶς δημιουργεῖ; πόθεν γὰρ ποιεῖ ἢ ἐξ ὧν εἶδεν ἐκεῖ; εἰ δὲ ἐκείνων μεμνημένη ποιεῖ, οὐδὲ ὅλως ἔνευσεν. οὐδὲ γάρ, εἰ ἀμυδρῶς ἔχει, οὐ μᾶλλον νεύει ἐκεῖ, ἵνα μὴ ἀμυδρῶς ἴδῃ. διὰ τί γὰρ ἂν οὐκ ἐθέλησεν ἔχουσα ἡντινοῦν μνήμην ἐπανελθεῖν; τί γὰρ ἂν ἑαυτῇ καὶ ἐλογίζετο γενέσθαι ἐκ τοῦ κοσμοποιῆσαι; γελοῖον γὰρ τὸ ἵνα τιμῷτο, καὶ μεταφερόντων ἀπὸ τῶν ἀγαλματοποιῶν τῶν ἐνταῦθα.",
+   "flags": [
+    {
+     "taylor": "For it does not possess nor see them obscurely, if it is without this tendency",
+     "why": "The Greek says that even if the soul holds the things there dimly, it would not then sink further and see them more dimly still; Taylor's sentence says something else."
+    }
+   ],
+   "notes": [
+    "The shedding of the soul's wings is from the Phaedrus (246c, 248c)."
+   ]
+  },
+  {
+   "seg": "II.9.4.p2",
+   "chapter": "II.9.4",
+   "modern": "Again, if it made by reasoning, and making was not in its nature, and its power was not a making power, how would it have made this world? And when will it destroy it? If it repented, what is it waiting for? If not yet, it would not repent now, being used to it and grown fonder of it with time. If it is waiting for the individual souls, they ought by now no longer to come into birth, having long ago had a taste of the evils here in an earlier birth; so they would have stopped coming by now. Nor must we grant that the world has been badly made because there are many unpleasant things in it. That would be to claim too great a dignity for it, if they think it should be the same as the intelligible world, and not an image of it. What other image of it, more beautiful, could there have been? What other fire would be a better image of the fire there than the fire here? What other earth than this, after the earth there? What sphere more exact or more orderly in its motion, after the encircling of the intelligible world in itself? What other sun after that one, before this sun we see?",
+   "greek": "ἐπεὶ καὶ εἰ διανοίᾳ ἐποίει καὶ μὴ ἐν τῇ φύσει ἦν τὸ ποιεῖν καὶ ἡ δύναμις ἡ ποιοῦσα ἦν, πῶς ἂν κόσμον τόνδε ἐποίησε; πότε δὲ καὶ φθερεῖ αὐτόν; εἰ γὰρ μετέγνω, τί ἀναμένει; εἰ δὲ οὔπω, οὐκ ἂν μεταγνοίη ἔτι ἤδη εἰθισμένη καὶ τῷ χρόνῳ προσφιλεστέρα γενομένη. εἰ δὲ τὰς καθ̓ ἕκαστον ψυχὰς ἀναμένει, ἤδη ἔδει μηκέτι ἐλθεῖν εἰς γένεσιν πάλαι πειραθείσας ἐν τῇ προτέρᾳ γενέσει τῶν τῇδε κακῶν: ὥστε ἤδη ἂν ἐπέλιπον ἰοῦσαι. οὐδὲ τὸ κακῶς γεγονέναι τόνδε τὸν κόσμον δοτέον τῷ πολλὰ εἶναι ἐν αὐτῷ δυσχερῆ: τοῦτο γὰρ ἀξίωμα μεῖζόν ἐστι περιτιθέντων αὐτῷ, εἰ ἀξιοῦσι τὸν αὐτὸν εἶναι τῷ νοητῷ, ἀλλὰ μὴ εἰκόνα ἐκείνου. ἢ τίς ἂν ἐγένετο ἄλλη καλλίων εἰκὼν ἐκείνου; τί γὰρ ἄλλο πῦρ βελτίων εἰκὼν τοῦ ἐκεῖ πυρὸς παρὰ τὸ ἐνταῦθα πῦρ; ἢ τίς γῆ ἄλλη παρὰ ταύτην μετὰ τὴν ἐκεῖ γῆν; τίς δὲ σφαῖρα ἀκριβεστέρα ἢ εὐτακτοτέρα τῇ φορᾷ μετὰ τὴν ἐκεῖ τοῦ κόσμου τοῦ νοητοῦ περιοχὴν ἐν αὑτῷ; ἄλλος δὲ ἥλιος μετ’ ἐκεῖνον πρὸ τούτου τοῦ ὁρωμένου τίς;",
+   "flags": [
+    {
+     "taylor": "For this arises from forming too exalted an opinion of this sensible world",
+     "why": "Taylor's words are close; the Greek says that those who find fault claim too high a worth for the world, asking it to be the intelligible world and not its image."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.5.p1",
+   "chapter": "II.9.5",
+   "modern": "It is unreasonable that they, who have a body such as men have, and desires, pains and angers, should not despise the power that is in them, and yet say they may touch the intelligible; but that there is not, in the sun, a power more free from passion than this, more ordered and less subject to change, nor a wisdom better than ours, who were born only lately and are kept back by so many deceptions from coming to the truth. Nor is it reasonable to call their own soul immortal and divine, and that of the worst of men, but to say that the whole heaven and the stars there have no share in the immortal soul, though they are made of far finer and purer things. They see the order there, the good shape and the good arrangement, and they themselves above all find fault with the disorder here round the earth: as if the immortal soul had chosen the worse place on purpose, and left the better to the mortal soul.",
+   "greek": "ἀλλ’ ἄλογον αὐτοὺς μὲν σῶμα ἔχοντας, οἷον ἔχουσιν ἄνθρωποι, καὶ ἐπιθυμίας καὶ λύπας καὶ ὀργὰς τὴν παῤ αὐτοῖς δύναμιν μὴ ἀτιμάζειν, ἀλλ’ ἐφάπτεσθαι τοῦ νοητοῦ λέγειν ἐξεῖναι, μὴ εἶναι δὲ ἐν ἡλίῳ ταύτης ἀπαθεστέραν ἐν τάξει μᾶλλον καὶ οὐκ ἐν ἀλλοιώσει μᾶλλον οὖσαν, οὐδὲ φρόνησιν ἔχειν ἀμείνονα ἡμῶν τῶν ἄρτι γενομένων καὶ διὰ τοσούτων κωλυομένων τῶν ἀπατώντων ἐπὶ τὴν ἀλήθειαν ἐλθεῖν: οὐδὲ τὴν μὲν αὑτῶν ψυχὴν ἀθάνατον καὶ θείαν λέγειν καὶ τὴν τῶν φαυλοτάτων ἀνθρώπων, τὸν δὲ οὐρανὸν πάντα καὶ τὰ ἐκεῖ ἄστρα μὴ τῆς ἀθανάτου κεκοινωνηκέναι ἐκ πολλῷ καλλιόνων καὶ καθαρωτέρων ὄντα, ὁρῶντας ἐκεῖ μὲν τὸ τεταγμένον καὶ εὔσχημον καὶ εὔτακτον καὶ μάλιστα τὴν ἐνταῦθα περὶ γῆν ἀταξίαν αὐτοὺς αἰτιωμένους: ὥσπερ τῆς ἀθανάτου ψυχῆς τὸν χείρω τόπον ἐπίτηδες ἑλομένης, παραχωρῆσαι δὲ τοῦ βελτίονος τῇ θνητῇ ψυχῇ ἑλομένης."
+  },
+  {
+   "seg": "II.9.5.p2",
+   "chapter": "II.9.5",
+   "modern": "Unreasonable too is their bringing in of this other soul, which they put together from the elements. How could a compound of the elements have any life? Their mixture makes hot or cold or a blend, or dry or wet or a mixture of these. And how is soul the bond holding the four together, if it came after them and from them? And when they add to it perception and deliberation and a thousand other things, what can one say? They do not honour this making of the world, nor this earth, but say that a new earth has been made for them, to which they will go from here; and that this is the rational principle of the world. And yet why should they need to come to be in the pattern of a world they hate? And where does this pattern come from? By their account it comes from the maker of the pattern when he had already sunk towards the things here. If, then, the maker himself took great care to make another world after the intelligible world that he has (and why should he?), he made it either before this world or after. If before, why? So that souls might be on their guard. Then how is it that they were not, so that it was made in vain? If after, taking it from the world, stripping the form from matter, then the experience of the souls who had tried the world was enough to put them on guard. And if they claim to take the form of the world into souls, what is new in the doctrine?",
+   "greek": "ἄλογος δὲ καὶ ἡ παρεισαγωγὴ αὐτοῖς τῆς ἑτέρας ψυχῆς ταύτης, ἣν ἐκ τῶν στοιχείων συνιστᾶσι: πῶς γὰρ ἂν ζωὴν ἡντινοῦν ἔχοι ἡ ἐκ τῶν στοιχείων σύστασις; ἡ γὰρ τούτων κρᾶσις ἢ θερμὸν ἢ ψυχρὸν ἢ μικτὸν ποιεῖ, ἢ ξηρὸν ἢ ὑγρὸν ἢ μῖγμα ἐκ τούτων. πῶς δὲ συνοχὴ τῶν τεσσάρων ὑστέρα γενομένη ἐξ αὐτῶν; ὅταν δὲ προστιθῶσι καὶ ἀντίληψιν αὐτῇ καὶ βούλευσιν καὶ ἄλλα μυρία, τί ἄν τις εἶποι; ἀλλ’ οὐ τιμῶντες ταύτην τὴν δημιουργίαν οὐδὲ τήνδε τὴν γῆν καινὴν αὑτοῖς φασι γῆν γεγονέναι, εἰς ἣν δὴ ἐντεῦθεν ἀπελεύσονται: τοῦτο δὲ λόγον εἶναι κόσμου. καίτοι τί δεῖ αὐτοῖς γενέσθαι ἐν παραδείγματι κόσμου, ὃν μισοῦσι; πόθεν δὲ τὸ παράδειγμα τοῦτο; τοῦτο γὰρ κατ’ αὐτοὺς νενευκότος ἤδη πρὸς τὰ τῇδε τοῦ τὸ παράδειγμα πεποιηκότος. εἰ μὲν οὖν ἐν αὐτῷ τῷ ποιήσαντι πολλὴ φροντὶς τοῦ κόσμον μετὰ τὸν κόσμον τὸν νοητὸν ὃν ἔχει ἄλλον ποιῆσαι — καίτοι τί ἔδει; — ἢ πρὸ τοῦ κόσμου τοῦδε ἐποίησεν ἢ μετὰ τὸν κόσμον. καὶ εἰ μὲν πρὸ τοῦ κόσμου, ἵνα τί; ἵνα φυλάξωνται αἱ ψυχαί. πῶς οὖν οὐκ ἐφυλάξαντο, ὥστε μάτην ἐγένετο; εἰ δὲ μετὰ τὸν κόσμον ἐκ τοῦ κόσμου λαβὼν ἀποσυλήσας τῆς ὕλης τὸ εἶδος, ἤρκει ἡ πεῖρα ταῖς πειραθείσαις ψυχαῖς πρὸς τὸ φυλάξασθαι. εἰ δὲ ἐν ταῖς ψυχαῖς λαβεῖν ἀξιοῦσι τοῦ κόσμου τὸ εἶδος, τί τὸ καινὸν τοῦ λόγου;",
+   "flags": [
+    {
+     "taylor": "was it in order that souls might be saved",
+     "why": "The Greek verb (phylaxōntai) means that souls might be on their guard, warned by the pattern; Taylor's \"saved\" gives it a Christian sense the Greek does not have."
+    }
+   ],
+   "notes": [
+    "The \"new earth\" is the Gnostics' own, from Revelation 21:1; the \"other soul\" made of the elements is their lower soul."
+   ]
+  },
+  {
+   "seg": "II.9.6.p1",
+   "chapter": "II.9.6",
+   "modern": "What should one say of the other realities they bring in: \"sojourns\", \"antitypes\" and \"repentances\"? If they say these are affections of the soul, when it repents, and \"antitypes\" when it contemplates images of the things that are, as it were, and not yet the things themselves, these are the words of people talking emptily to found a sect of their own. Because they do not take hold of the old Greek teaching, they contrive these things; while the Greeks knew clearly, and said without bombast, that there are ascents out of the cave, going on little by little to a truer and truer sight. In short, some of their ideas are taken from Plato; and the others, all the novelties they bring in to set up a philosophy of their own, have been found outside the truth. The judgments, the rivers in Hades and the passings into other bodies come from there.",
+   "greek": "τὰς δὲ ἄλλας ὑποστάσεις τί χρὴ λέγειν ἃς εἰσάγουσι, παροικήσεις καὶ ἀντιτύπους καὶ μετανοίας; εἰ μὲν γὰρ ψυχῆς ταῦτα λέγουσι πάθη, ὅταν ἐν μετανοίᾳ ᾖ, καὶ ἀντιτύπους, ὅταν οἷον εἰκόνας τῶν ὄντων, ἀλλὰ μὴ αὐτά πω τὰ ὄντα θεωρῇ, κενολογούντων ἐστὶν εἰς σύστασιν τῆς ἰδίας αἱρέσεως: ὡς γὰρ τῆς ἀρχαίας Ἑλληνικῆς οὐχ ἁπτόμενοι ταῦτα σκευωροῦνται εἰδότων σαφῶς τῶν Ἑλλήνων καὶ ἀτύφως λεγόντων ἀναβάσεις ἐκ τοῦ σπηλαίου καὶ κατὰ βραχὺ εἰς θέαν ἀληθεστέραν μᾶλλον καὶ μᾶλλον προιούσας. ὅλως γὰρ αὐτοῖς τὰ μὲν παρὰ τοῦ Πλάτωνος εἴληπται, τὰ δέ, ὅσα καινοτομοῦσιν, ἵνα ἰδίαν φιλοσοφίαν θῶνται, ταῦτα ἔξω τῆς ἀληθείας εὕρηται. ἐπεὶ καὶ αἱ δίκαι καὶ οἱ ποταμοὶ οἱ ἐν ᾅδου καὶ αἱ μετενσωματώσεις ἐκεῖθεν.",
+   "flags": [
+    {
+     "taylor": "such as transmigrations, repercussions, and repentances",
+     "why": "The Greek words are Gnostic terms: paroikēseis \"sojourns\" (in the world as in a foreign land), antitypoi \"antitypes\" (copies), metanoiai \"repentances\". \"Transmigrations\" and \"repercussions\" are Taylor's guesses."
+    }
+   ],
+   "notes": [
+    "The ascents out of the cave are those of the Republic (514a-517a); the judgments of the dead, the rivers of Hades and the passing of souls into other bodies are in the myths of the Gorgias, the Phaedo and the Republic."
+   ]
+  },
+  {
+   "seg": "II.9.6.p2",
+   "chapter": "II.9.6",
+   "modern": "And making a plurality in the intelligible world, Being and intellect and a different Maker and soul, is taken from what is said in the Timaeus. Plato said: \"As intellect sees the Ideas present in the Living Being that truly is, how many and of what kind, so many the maker of the universe thought this world too should have.\" They did not understand, and took one intellect to be at rest, holding all beings in itself, another intellect besides it, contemplating them, and another that reasons; often, instead of the one that reasons, they have soul as the maker. And they think that this is the Maker according to Plato, falling far short of knowing who the Maker is. In general they falsify his account of how the world was made, and much else, and drag the man's views down to something worse, as if they had understood the intelligible nature, and he and the other blessed men had not. By naming a multitude of intelligibles they think they will seem to have found out the exact truth; but by the very multitude they bring the intelligible nature down into likeness with the sensible and lesser one. There one should aim at as small a number as possible, and give everything to what comes after the First, and be done with it: it is everything, the first intellect and substance, and all the other beautiful things after the first nature. The form of soul comes third.",
+   "greek": "καὶ ἐπὶ τῶν νοητῶν δὲ πλῆθος ποιῆσαι, τὸ ὂν καὶ τὸν νοῦν καὶ τὸν δημιουργὸν ἄλλον καὶ τὴν ψυχήν, ἐκ τῶν ἐν τῷ Τιμαίῳ λεχθέντων εἴληπται: εἰπόντος γὰρ αὐτοῦ ʽᾗπερ οὖν νοῦς ἐνούσας ἰδέας ἐν τῷ ὃ ἔστι ζῷον καθορᾷ, τοσαύτας καὶ τόδε ὁ ποιῶν τὸ πᾶν διενοήθη σχεῖν.ʼ οἱ δὲ οὐ συνέντες τὸν μὲν ἔλαβον ἐν ἡσυχίᾳ ἔχοντα ἐν αὑτῷ πάντα τὰ ὄντα, τὸν δὲ νοῦν ἕτερον παῤ αὐτὸν θεωροῦντα, τὸν δὲ διανοούμενον — πολλάκις δὲ αὐτοῖς ἀντὶ τοῦ διανοουμένου ψυχή ἐστιν ἡ δημιουργοῦσα — καὶ κατὰ Πλάτωνα τοῦτον οἴονται εἶναι τὸν δημιουργὸν ἀφεστηκότες τοῦ εἰδέναι τίς ὁ δημιουργός. καὶ ὅλως τὸν τρόπον τῆς δημιουργίας καὶ ἄλλα πολλὰ καταψεύδονται αὐτοῦ καὶ πρὸς τὸ χεῖρον ἕλκουσι τὰς δόξας τοῦ ἀνδρὸς ὡς αὐτοὶ μὲν τὴν νοητὴν φύσιν κατανενοηκότες, ἐκείνου δὲ καὶ τῶν ἄλλων τῶν μακαρίων ἀνδρῶν μή. καὶ πλῆθος νοητῶν ὀνομάζοντες τὸ ἀκριβὲς ἐξευρηκέναι δόξειν οἴονται αὐτῷ τῷ πλήθει τὴν νοητὴν φύσιν τῇ αἰσθητῇ καὶ ἐλάττονι εἰς ὁμοιότητα ἄγοντες, δέον ἐκεῖ τὸ ὡς ὅτι μάλιστα ὀλίγον εἰς ἀριθμὸν διώκειν καὶ τῷ μετὰ τὸ πρῶτον τὰ πάντα ἀποδιδόντας ἀπηλλάχθαι ἐκείνου τῶν πάντων ὄντος καὶ νοῦ τοῦ πρώτου καὶ οὐσίας καὶ ὅσα ἄλλα καλὰ μετὰ τὴν πρώτην φύσιν. ψυχῆς δὲ εἶδος τρίτον:",
+   "flags": [
+    {
+     "taylor": "understood by the discursive energy of reason",
+     "why": "The Greek verb (dienoēthē) here means simply that the maker \"thought\" or \"intended\"; the Gnostics made it a third, reasoning intellect, and Taylor's \"discursive energy\" leans their way."
+    }
+   ],
+   "notes": [
+    "The quotation is from the Timaeus (39e)."
+   ]
+  },
+  {
+   "seg": "II.9.6.p3",
+   "chapter": "II.9.6",
+   "modern": "One should trace the differences of souls in their affections or in their nature without disparaging the divine men in any way, but receiving what they say kindly, as from older teachers, and taking from them what they say well: the immortality of the soul, the intelligible world, the first god, that the soul must flee from its company with the body, the separation from it, the flight from becoming to being. These are laid down in Plato, and when they say them clearly in this way they do well. If they want to disagree on some things, no one grudges them that. But they should not set up their own views among their hearers by disparaging and abusing the Greeks. They should show that what seemed to them their own, against the views of the Greeks, is right on its own merits, setting out their views kindly and as philosophers. And where they disagree, they should do it fairly, looking to the truth, not hunting for a name by finding fault with men judged good long ago and not by poor judges, and saying that they are better than them.",
+   "greek": "διαφορὰς δὲ ψυχῶν ἐν πάθεσιν ἢ ἐν φύσει ἰχνεύειν μηδὲν τοὺς θείους ἄνδρας διασύροντας, ἀλλ’ εὐμενῶς δεχομένους τὰ ἐκείνων ὡς παλαιοτέρων καὶ ἃ καλῶς λέγουσι παῤ ἐκείνων λαμβάνοντας, ψυχῆς ἀθανασίαν, νοητὸν κόσμον, θεὸν τὸν πρῶτον, τὸ τὴν ψυχὴν δεῖν φεύγειν τὴν πρὸς τὸ σῶμα ὁμιλίαν, τὸν χωρισμὸν τὸν ἀπ’ αὐτοῦ, τὸ ἐκ γενέσεως φεύγειν εἰς οὐσίαν: ταῦτα γὰρ κείμενα παρὰ τῷ Πλάτωνι σαφῶς οὑτωσὶ λέγοντες καλῶς ποιοῦσιν. οἷς δὲ θέλουσι διαφωνεῖν φθόνος οὐδεὶς λεγόντων: οὐδ’ ἐν τῷ τοὺς Ἕλληνας διασύρειν καὶ ὑβρίζειν τὰ αὑτῶν ἐν συστάσει παρὰ τοῖς ἀκούουσι ποιεῖν, ἀλλ’ αὐτὰ παῤ αὐτῶν δεικνύναι ὀρθῶς ἔχοντα, ὅσα ἴδια αὐτοῖς ἔδοξε παρὰ τὴν ἐκείνων δόξαν λέγειν, εὐμενῶς καὶ φιλοσόφως αὐτὰς τὰς δόξας τιθέντας αὐτῶν καὶ οἷς ἐναντιοῦνται δικαίως, πρὸς τὸ ἀληθὲς βλέποντας, οὐ τὴν εὐδοκίμησιν θηρωμένους ἐκ τοῦ ἄνδρας κεκριμένους ἐκ παλαιοῦ οὐ παρὰ φαύλων ἀνδρῶν ἀγαθοὺς εἶναι ψέγειν, λέγοντας ἑαυτοὺς ἐκείνων ἀμείνους εἶναι.",
+   "notes": [
+    "The flight from the body and from becoming to being are from the Phaedo (64e-67d) and the Theaetetus (176a-b)."
+   ]
+  },
+  {
+   "seg": "II.9.6.p4",
+   "chapter": "II.9.6",
+   "modern": "For what the ancients said about the intelligible world is far better, and said with learning; and those who are not taken in by the deceit now running over people will easily see it. And what these people took from them later has had some additions that do not fit at all. Where they want to disagree, they bring in comings to be and perishings that are total, they find fault with this universe, they blame the soul's fellowship with the body, they find fault with the one who governs this universe, they make the Maker the same as soul, and give him the same affections as the souls in parts.",
+   "greek": "ἐπεὶ τά γε εἰρημένα τοῖς παλαιοῖς περὶ τῶν νοητῶν πολλῷ ἀμείνω καὶ πεπαιδευμένως εἴρηται καὶ τοῖς μὴ ἐξαπατωμένοις τὴν ἐπιθέουσαν εἰς ἀνθρώπους ἀπάτην ῥᾳδίως γνωσθήσεται, τά τε ὕστερον τούτοις παῤ ἐκείνων ληφθέντα, προσθήκας δέ τινας οὐδὲν προσηκούσας εἰληφότα, ἔν τε οἷς ἐναντιοῦσθαι θέλουσι γενέσεις καὶ φθορὰς εἰσάγοντες παντελεῖς καὶ μεμφόμενοι τῷδε τῷ παντὶ καὶ τὴν πρὸς τὸ σῶμα κοινωνίαν τῇ ψυχῇ αἰτιώμενοι καὶ τὸν διοικοῦντα τόδε τὸ πᾶν ψέγοντες καὶ εἰς ταὐτὸν ἄγοντες τὸν δημιουργὸν τῇ ψυχῇ καὶ τὰ αὐτὰ πάθη διδόντες, ἅπερ καὶ τοῖς ἐν μέρει.",
+   "flags": [
+    {
+     "taylor": "hence in their oppositions to them, they introduce manifold generations and corruptions",
+     "why": "The Greek says the Gnostics bring in \"total\" (panteleis) comings to be and perishings, of the whole world; not \"manifold\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.7.p1",
+   "chapter": "II.9.7",
+   "modern": "That this world neither began nor will cease, but always is, as long as those things are, has been said. That our soul's fellowship with the body is not the better thing for the soul was said before them. But to judge the soul of the universe by ours is like taking the tribe of potters or smiths in a well-governed city and blaming the whole city. We must grasp the differences in the way the soul of the whole governs: it is not in the same manner, nor bound. Besides the other differences, a thousand of which have been told elsewhere, we should have kept this in mind: that we are bound by the body, once the bond has been made. For the nature of the body, already bound in the whole soul, binds together whatever it embraces. But the soul of the universe would not be bound by what it binds; for it rules. So it is free from affection by them, while we are not their masters. As much of it as is turned to the divine above remains unmixed and unhindered; as much of it as gives life to the body takes nothing from it in return.",
+   "greek": "ὅτι μὲν οὖν οὔτε ἤρξατο οὔτε παύσεται, ἀλλ’ ἔστιν ἀεὶ καὶ ὅδε ὁ κόσμος, ἕως ἂν ἐκεῖνα ᾖ, εἴρηται. τὴν δὲ πρὸς τὸ σῶμα τῇ ψυχῇ κοινωνίαν τῇ ἡμετέρᾳ πρὸ αὐτῶν εἴρηται ὡς οὐκ ἄμεινον τῇ ψυχῇ: τὸ δὲ ἀπὸ τῆς ἡμετέρας καὶ τὴν τοῦ παντὸς λαμβάνειν ὅμοιον, ὡς εἴ τις τὸ τῶν χυτρέων ἢ χαλκέων λαβὼν γένος ἐν πόλει εὖ οἰκουμένῃ τὴν ἅπασαν ψέγοι. δεῖ δὲ τὰς διαφορὰς λαμβάνειν τὰς τῆς ὅλης ὅπως διοικεῖ, ὅτι μὴ ὁ αὐτὸς τρόπος μηδὲ ἐνδεδεμένη. πρὸς γὰρ αὖ ταῖς ἄλλαις διαφοραῖς, αἳ μυρίαι εἴρηνται ἐν ἄλλοις, κἀκεῖνο ἐνθυμεῖσθαι ἔδει, ὅτι ἡμεῖς μὲν ὑπὸ τοῦ σώματος δεδέμεθα ἤδη δεσμοῦ γεγενημένου. ἐν γὰρ τῇ πάσῃ ψυχῇ ἡ τοῦ αώματος φύσις δεδεμένη ἤδη συνδεῖ ὃ ἂν περιλάβῃ: σὐτὴ δὲ ἡ τοῦ παντὸς ψυχὴ οὐκ ἂν δέοιτο ὑπὸ τῶν ὑπ’ αὐτῆς δεδεμένων: ἄρχει γὰρ ἐκείνη. διὸ καὶ ἀπαθὴς πρὸς αὐτῶν, ἡμεῖς δὲ τούτων οὐ κύριοι: τὸ γὰρ ὅσον αὐτῆς πρὸς τὸ θεῖον τὸ ὑπεράνω ἀκέραιον μένει καὶ οὐκ ἐμποδίζεται, ὅσον δὲ αὐτῆς δίδωσι τῷ σώματι ζωὴν οὐδὲν παῤ αὐτοῦ προσλαμβάνει.",
+   "flags": [
+    {
+     "taylor": "That this world, therefore, never began, nor will ever cease to be",
+     "why": "This is the start of the Greek's chapter 7; Taylor runs chapters 6, 7 and 8 together as one."
+    }
+   ],
+   "notes": [
+    "\"Said before them\": the soul's fellowship with the body is not better for it, in the Phaedo (66b-67a) and elsewhere."
+   ]
+  },
+  {
+   "seg": "II.9.7.p2",
+   "chapter": "II.9.7",
+   "modern": "For in general what is in another necessarily receives that other's affection, but does not in turn give its own to the other, which has a life of its own. It is as if something were grafted on to another: when the stock suffers, the graft suffers with it; but if the graft withers, it leaves the stock to keep its own life. When the fire in you goes out, the whole fire does not go out; and even if the whole fire perished, the soul there would suffer nothing, only the structure of the body. And if there could be a world made of the other elements, the soul there would not care. For the world is not held together like each living thing. There, the soul runs over it, as it were, and bids it stay; here, the parts, as if trying to slip away into their own order, are bound by a second bond. There they have nowhere to flee to. So the soul need not hold them in from inside, nor press them in from outside; each stays where its nature wished from the beginning. If any of them moves according to its nature, the things for which this is not natural suffer, but they themselves move well, as parts of the whole. Some things perish, unable to bear the order of the whole: as if, when a great chorus moves in order, a tortoise caught in the middle of its path were trampled, unable to get out of the way of the dance. If it had placed itself in order with the dance, it would not have suffered from it either.",
+   "greek": "ὅλως γὰρ τὸ μὲν ἄλλου πάθημα τὸ ἐν αὐτῷ ἐξ ἀνάγκης δέχεται, αὐτὸ δ’ αὖ ἐκείνῳ οὐκέτι τὸ αὑτοῦ δίδωσιν οἰκείαν ζωὴν ἔχοντι: οἷον εἰ ἐγκεντρισθέν τι εἴη ἐν ἄλλῳ, παθόντος μὲν τοῦ ἐν ᾧ συμπέπονθεν, αὐτὸ δὲ ξηρανθὲν εἴασεν ἐκεῖνο τὴν αὐτοῦ ζωὴν ἔχειν. ἐπεὶ οὐδ’ ἀποσβεννυμένου τοῦ ἐν σοὶ πυρὸς τὸ ὅλον πῦρ ἀπέσβη: ἐπεὶ οὐδ’ εἰ τὸ πᾶν πῦρ ἀπόλοιτο, πάθοι ἄν τι ἡ ψυχὴ ἡ ἐκεῖ, ἀλλ’ ἡ τοῦ σώματος σύστασις, καὶ εἰ οἷόν τε εἴη διὰ τῶν λοιπῶν κόσμον τινὰ εἶναι, οὐδὲν ἂν μέλοι τῇ ψυχῇ τῇ ἐκεῖ. ἐπεὶ οὐδὲ ἡ σύστασις ὁμοίως τῷ παντὶ καὶ ζῴῳ ἑκάστῳ: ἀλλ’ ἐκεῖ οἷον ἐπιθεῖ κελεύσασα μένειν, ἐνταῦθα δὲ ὡς ὑπεκφεύγοντα εἰς τὴν τάξιν τὴν ἑαυτῶν δέδεται δεσμῷ δευτέρῳ: ἐκεῖ δὲ οὐκ ἔχει ὅποι φύγῃ. οὔτε οὖν ἐντὸς δεῖ κατέχειν οὔτε ἔξωθεν πιέζουσαν εἰς τὸ εἴσω ὠθεῖν, ἀλλ’ ὅπου ἠθέλησεν ἐξ ἀρχῆς αὐτῆς ἡ φύσις μένει. ἐὰν δέ πού τι αὐτῶν κατὰ φύσιν κινηθῇ, οἷς οὐκ ἔστι κατὰ φύσιν, ταῦτα πάσχει, αὐτὰ δὲ καλῶς φέρεται ὡς τοῦ ὅλου: τὰ δὲ φθείρεται οὐ δυνάμενα τὴν τοῦ ὅλου τάξιν φέρειν, οἷον εἰ χοροῦ μεγάλου ἐν τάξει φερομένου ἐν μέσῃ τῇ πορείᾳ αὐτοῦ χελώνη ληφθεῖσα πατοῖτο οὐ δυνηθεῖσα φυγεῖν τὴν τάξιν τοῦ χοροῦ: εἰ μέντοι μετ’ ἐκείνης τάξειεν ἑαυτήν, οὐδὲν ἂν ὑπὸ τούτου οὐδὲ αὐτὴ πάθοι.",
+   "flags": [
+    {
+     "taylor": "but the latter being decayed, should permit the former to have its own life",
+     "why": "The Greek says the graft, if it withers, leaves the stock its own life; Taylor reverses the two, making the stock decay."
+    },
+    {
+     "taylor": "And if in each of the remaining elements there should be a certain world",
+     "why": "The Greek says \"if there could be a world made of the remaining elements\"; not a world in each element."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.8.p1",
+   "chapter": "II.9.8",
+   "modern": "To ask why soul made a world is the same as to ask why soul exists and why the Maker made. First, this is the question of people who take the everlasting to have a beginning. Next, they think he became the cause of the making by turning from something to something and changing. So they must be taught, if they would bear it kindly, what the nature of these things is, so that they stop abusing what deserves honour, as they do so readily, where great reverence would be fitting. For one could not rightly find fault with the governing of the universe. First, it shows the greatness of the intelligible nature. If it has come into life in such a way that its life is not jumbled, like that of the smallest things in it, which its great life brings forth night and day, but is continuous, clear, great, and everywhere a life showing a wisdom beyond reckoning, how could one not call it a clear and beautiful statue of the intelligible gods? If, imitating, it is not that, this itself is natural: otherwise it would no longer be imitating. To say it imitates badly is false: nothing has been left out of what a beautiful image in nature could have.",
+   "greek": "τὸ δὲ διὰ τί ἐποίησε κόσμον ταὐτὸν τῷ διὰ τί ἔστι ψυχὴ καὶ διὰ τί ὁ δημιουργὸς ἐποίησεν. ὃ πρῶτον μὲν ἀρχὴν λαμβανόντων ἐστὶ τοῦ ἀεί: ἔπειτα οἴονται τραπέντα ἔκ τινος εἴς τι καὶ μεταβαλόντα αἴτιον τῆς δημιουργίας γεγονέναι. διδακτέον οὖν αὐτούς, εἰ εὐγνωμόνως ἀνέχοιντο, τίς ἡ φύσις τούτων, ὡς αὐτοὺς παύσασθαι τῆς εἰς τὰ τίμια λοιδορίας, ἣν εὐχερῶς ποιοῦνται ἀντὶ πολλῆς προσηκόντως ἂν γενομένης εὐλαβείας. ἐπεὶ οὐδὲ τοῦ παντὸς τὴν διοίκησιν ὀρθῶς ἄν τις μέμψαιτο πρῶτον μὲν ἐνδεικνυμένην τῆς νοητῆς φύσεως τὸ μέγεθος. εἰ γὰρ οὕτως εἰς τὸ ζῆν παρελήλυθεν, ὡς μὴ ζωὴν ἀδιάρθρωτον ἔχειν — ὁποῖα τὰ σμικρότερα τῶν ἐν αὐτῷ, ἃ τῇ πολλῇ ζωῇ τῇ ἐν αὐτῷ ἀεὶ νύκτωρ καὶ μεθ̓ ἡμέραν γεννᾶται — ἀλλ’ ἔστι συνεχὴς καὶ ἐναργὴς καὶ πολλὴ καὶ πανταχοῦ ζωὴ σοφίαν ἀμήχανον ἐνδεικνυμένη, πῶς οὐκ ἄν τις ἄγαλμα ἐναργὲς καὶ καλὸν τῶν νοητῶν θεῶν εἴποι; εἰ δὲ μιμούμενον μή ἐστιν ἐκεῖνο, αὐτὸ τοῦτο κατὰ φύσιν ἔχει: οὐ γὰρ ἦν ἂν ἔτι μιμούμενον. τὸ δὲ ἀνομοίως μεμιμῆσθαι ψεῦδος: οὐδὲν γὰρ παραλέλειπται ὧν οἷόν τε ἦν καλὴν εἰκόνα φυσικὴν ἔχειν.",
+   "flags": [
+    {
+     "taylor": "To enquire, however, why the world was made, is the same thing as to ask why soul is",
+     "why": "This is the start of the Greek's chapter 8, in Taylor's long chapter 6."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.8.p2",
+   "chapter": "II.9.8",
+   "modern": "It was necessary for the imitation to exist, and not from reasoning and contrivance. The intelligible could not be the last thing: its activity had to be double, one in itself and one towards another. So there had to be something after it; only that which is the weakest of all has nothing further below it. A wonderful power runs there, and so it worked. If there were another world better than this, which is it? But if there must be one, and there is no other, this is the one that keeps the likeness of that world. The whole earth is full of living things of every kind, and immortal ones, and everything up to the heaven is full of them. And the stars, those in the lower spheres and those in the highest, why are they not gods, moving in order and going round in their good arrangement? Why should they not have virtue? What prevents them from gaining it? The things that make people here bad are not there, nor the badness of the body, troubled and troubling. Why should they not understand, always at leisure, and take into their intellect God and the other intelligible gods? Will our wisdom be better than that of those there? Who, if he had not gone out of his mind, would bear this?",
+   "greek": "ἀναγκαῖον μὲν γὰρ ἦν εἶναι οὐκ ἐκ διανοίας καὶ ἐπιτεχνήσεως τὸ μίμημα: οὐ γὰρ οἷόν τε ἦν ἔσχατον τὸ νοητὸν εἶναι. εἶναι γὰρ αὐτοῦ ἐνέργειαν ἔδει διττήν, τὴν μὲν ἐν ἑαυτῷ, τὴν δὲ εἰς ἄλλο. ἔδει οὖν εἶναί τι μετ’ αὐτό: ἐκείνου γὰρ μόνου οὐδέν ἐστιν ἔτι πρὸς τὸ κάτω, ὃ τῶν πάντων ἀδυνατώτατόν ἐστι. δύναμις δὲ θαυμαστὴ ἐκεῖ θεῖ: ὥστε καὶ εἰργάσατο. εἰ μὲν δὴ ἄλλος κόσμος οὐκ ἔστι τούτου ἀμείνων, τίς οὗτος; εἰ δὲ ἀνάγκη εἷναι, ἄλλος δὲ οὐκ ἔστιν, οὗτός ἐστιν ὁ τὸ μίμημα ἀποσώζων ἐκείνου. γῆ μὲν δὴ πᾶσα ζῴων ποικίλων πλήρης καὶ ἀθανάτων καὶ μέχρις οὐρανοῦ μεστὰ πάντα: ἄστρα δὲ τά τε ἐν ταῖς ὑποκάτω σφαίραις τά τε ἐν τῷ ἀνωτάτω διὰ τί οὖ θεοὶ ἐν τάξει φερόμενα καὶ κόσμῳ περιιόντα; διὰ τί γὰρ οὐκ ἀρετὴν ἕξουσιν ἢ τί κώλυμα πρὸς κτῆσιν ἀρετῆς αὐτοῖς; οὐ γὰρ δὴ ταῦτά ἐστιν ἐκεῖ, ἅπερ τοὺς ἐνταῦθα ποιεῖ κακούς, οὐδ’ ἡ τοῦ σώματος κακία ἐνοχλουμένη καὶ ἐνοχλοῦσα. διὰ τί δὲ οὐ συνιᾶσιν ἐπὶ σχολῆς ἀεὶ καὶ ἐν νῷ λαμβάνουσι τὸν θεὸν καὶ τοὺς ἄλλους τοὺς νοητοὺς θεούς, ἀλλ’ ἡμῖν σοφία βελτίων ἔσται τῶν ἐκεῖ; ταῦτα τίς ἂν μὴ ἔκφρων γεγενημένος ἀνάσχοιτο;",
+   "flags": [
+    {
+     "taylor": "so that this power perpetually 1 fabricates",
+     "why": "Taylor adds \"perpetually\" from Ficino's Latin, as his footnote says; Volkmann's Greek says only \"and so it worked\"."
+    },
+    {
+     "taylor": "If, however, there is another [sensible] world better than this, what is it",
+     "why": "Volkmann's Greek has \"not\" here (οὐκ), which makes no sense in the question; Taylor, and the modern version, read it without the \"not\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.8.p3",
+   "chapter": "II.9.8",
+   "modern": "And if souls came here forced by the soul of the universe, how are the forced better? Among souls, what prevails is stronger. If they came willingly, why do you blame the world you came into willingly, which lets you leave if you do not like it? And if this universe is such that one can have wisdom in it and, while here, live by the things there, how does this not bear witness that it hangs on the things there?",
+   "greek": "ἐπεὶ καὶ αἱ ψυχαὶ εἰ μὲν βιασθεῖσαι ὑπὸ τῆς τοῦ παντὸς ψυχῆς ἦλθον, πῶς βελτίους αἱ βιασθεῖσαι; ἐν γὰρ ψυχαῖς τὸ κρατῆσαν κρεῖττον. εἰ δὲ ἑκοῦσαι, τί μέμφεσθε εἰς ὃν ἑκοῦσαι ἤλθετε διδόντος καὶ ἀπαλλάττεσθαι, εἴ τις μὴ ἀρέσκοιτο; εἰ δὲ δὴ καὶ τοιοῦτόν ἐστι τόδε τὸ πᾶν, ὡς ἐξεῖναι ἐν αὐτῷ καὶ σοφίαν ἔχειν καὶ ἐνταῦθα ὄντας βιοῦν κατ’ ἐκεῖνα, πῶς οὐ μαρτυρεῖ ἐξηρτῆσθαι τῶν ἐκεῖ;",
+   "notes": [
+    "\"Lets you leave\": Plotinus takes it that the world allows those who are not content to depart; the Phaedo (61c-62c) forbids suicide, and so does Plotinus elsewhere (I.9)."
+   ]
+  },
+  {
+   "seg": "II.9.9.p1",
+   "chapter": "II.9.9",
+   "modern": "If someone finds fault with wealth and poverty and the lack of equality in all such things, first, he does not know that the good man does not look for equality in these, nor thinks that those who have much have more, nor rulers more than private people, but leaves this kind of eagerness to others. He has learned that life here is double, one life for the good, another for most people. For the good it leads to the summit, upward. For those who are more merely human it is double again: one kind remembers virtue and shares in some good; the other is the base crowd, like workmen making necessities for the better sort. If someone kills, or is beaten by pleasures through weakness, what is surprising in there being faults, not in intellect, but in souls like boys who have not grown up? And if it is a training ground of winners and losers, how is it not well so? If someone wrongs you, what harm is it to the immortal? And if he kills you, you have what you want. If you already find fault with being a citizen, you are not compelled to be one. It is agreed that there are judgments and punishments here. How, then, can one rightly find fault with a city that gives each his due, where virtue is honoured and vice has its fitting dishonour, and where not only statues of the gods are, but the gods themselves look on from above? They, as is said, will easily escape blame from men, leading all things in order from beginning to end, giving each his fitting portion, in the changes of lives, following what was done before. Whoever does not know this is one of the rasher men, boorish about divine things.",
+   "greek": "πλούτους δὲ καὶ πενίας εἴ τις μέμφοιτο καὶ τὸ οὐκ ἴσον ἐν τοῖς τοιούτοις ἅπασι, πρῶτον μὲν ἀγνοεῖ, ὡς ὁ σπουδαῖος ἐν τούτοις τὸ ἴσον οὐ ζητεῖ, οὐδέ τι νομίζει τοὺς πολλὰ κεκτημένους πλέον ἔχειν, οὐδὲ τοὺς δυναστεύοντας τῶν ἰδιωτῶν, ἀλλὰ τὴν τοιαύτην σπουδὴν ἄλλους ἐᾷ ἔχειν, καὶ καταμεμάθηκεν ὡς διττὸς ὁ ἐνθάδε βίος, ὁ μὲν τοῖς σπουδαίοις, ὁ δὲ τοῖς πολλοῖς τῶν ἀνθρώπων, τοῖς μὲν σπουδαίοις πρὸς τὸ ἀκρότατον καὶ ἄνω, τοῖς δὲ ἀνθρωπικωτέροις διττὸς αὖ ὢν ὁ μὲν μεμνημένος ἀρετῆς μετίσχων ἀγαθοῦ τινος, ὁ δὲ φαῦλος ὄχλος οἷον χειροτέχνης τῶν πρὸς ἀνάγκην τοῖς ἐπιεικεστέροις. εἰ δὲ φονεύει τις ἢ ἡττᾶται τῶν ἡδονῶν ὑπὸ ἀδυναμίας, τί θαυμαστὸν καὶ ἁμαρτίας εἶναι οὐ νῷ, ἀλλὰ ψυχαῖς ὥσπερ παισὶν ἀνήβοις; εἰ δὲ γυμνάσιον εἴη νικώντων καὶ ἡττωμένων, πῶς οὐ καὶ ταύτῃ καλῶς ἔχει; εἰ δ’ ἀδικῇ, τί δεινὸν τῷ ἀθανάτῳ; καὶ εἰ φονεύῃ, ἔχεις ὃ θέλεις. εἰ δὲ ἤδη μέμφῃ πολιτεύεσθαι, ἀνάγκην οὐκ ἔχεις. ὁμολογεῖται δὲ καὶ δίκας εἶναι ἐνθάδε καὶ κολάσεις. πῶς οὖν ὀρθῶς ἔχει μέμφεσθαι πόλει διδούσῃ ἑκάστῳ τὴν ἀξίαν; οὗ καὶ ἀρετὴ τετίμηται, καὶ κακία τὴν προσήκουσαν ἀτιμίαν ἔχει, καὶ θεῶν οὐ μόνον ἀγάλματα, ἀλλὰ καὶ αὐτοὶ ἄνωθεν ἐφορῶντες, οἳ ῥηιδίως αἰτίας, φησίν, ἀποφεύξονται πρὸς ἀνθρώπων, πάντα ἄγοντες τάξει ἐξ ἀρχῆς εἰς τέλος μοῖραν ἑκάστῳ τὴν προσήκουσαν διδόντες κατὰ ἀμοιβὰς βίων τοῖς προυπηργμένοις ἀκόλουθον: ἣν ὁ ἀγνοῶν προπετέστερος ἀνθρώπων περὶ πραγμάτων θείων ἀγροικιζόμενος.",
+   "flags": [
+    {
+     "taylor": "And if you kill another [instead of being killed yourself,] you have what you wish",
+     "why": "The Greek says \"if he kills you, you have what you want\": death frees the soul from the world it blames. Taylor makes the man who is wronged the killer."
+    },
+    {
+     "taylor": "If, however, you still blame the administration of things, there is no necessity for you to continue any longer in life",
+     "why": "The Greek says \"if you find fault with being a citizen, you are not compelled to be one\": not \"to continue in life\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.9.p2",
+   "chapter": "II.9.9",
+   "modern": "One should try to become as good as one can, but not think that one alone can become best (for then one is not yet best). One should think that there are other men who are best, and also good daemons, and still more gods: those who are in this world and look to that, and above all the leader of this universe, the most blessed soul. From here one should go on to sing of the intelligible gods, and above all of the great king of the things there, showing his greatness above all in the multitude of the gods. Not to shrink the divine into one, but to show it as many as he himself has shown it, this is to know the power of God: when, remaining who he is, he makes many, all hanging on him, being through him and from him. And this world is through him and looks there, the whole of it and each of the gods, and it tells men his will as a prophet and gives them oracles of what is dear to the gods. If they are not what he is, this itself is natural.",
+   "greek": "ἀλλὰ χρὴ ὡς ἄριστον μὲν αὐτὸν πειρᾶσθαι γενέσθαι, μὴ μόνον δὲ αὑτὸν νομίζειν ἄριστον δύνασθαι γενέσθαι; οὕτω γὰρ οὔπω ἄριστος: ἀλλὰ καὶ ἀνθρώπους ἄλλους ἀρίστους, ἔτι καὶ δαίμονας ἀγαθοὺς εἶναι, πολὺ δὲ μᾶλλον θεοὺς τούς τε ἐν τῷδε ὄντας κἀκεῖ βλέποντας, πάντων δὲ μάλιστα τὸν ἡγεμόνα τοῦδε τοῦ παντός, ψυχὴν μακαριωτάτην: ἐντεῦθεν δὲ ἤδη καὶ τοὺς νοητοὺς ὑμνεῖν θεούς, ἐφ̓ ἅπασι δὲ ἤδη τὸν μέγαν τῶν ἐκεῖ βασιλέα καὶ ἐν τῷ πλήθει μάλιστα τῶν θεῶν τὸ μέγα αὐτοῦ ἐνδεικνυμένους: οὐ γὰρ τὸ συστεῖλαι εἰς ἕν, ἀλλὰ τὸ δεῖξαι πολὺ τὸ θεῖον, ὅσον ἔδειξεν αὐτός, τοῦτό ἐστι δύναμιν θεοῦ εἰδότων, ὅταν μένων ὃς ἔστι πολλοὺς ποιῇ πάντας εἰς αὐτὸν ἀνηρτημένους καὶ δἰ ἐκεῖνον καὶ παῤ ἐκείνου ὄντας. καὶ ὁ κόσμος δὲ ὅδε δἰ ἐκεῖνον ἔστι κἀκεῖ βλέπει καὶ πᾶς καὶ θεῶν ἕκαστος καὶ τὰ ἐκείνου προφητεύει ἀνθρώποις καὶ χρῶσιν ἃ ἐκείνοις φίλα. εἰ δὲ μὴ τοῦτό εἰσιν, ὃ ἐκεῖνός ἐστιν, αὐτὸ τοῦτο κατὰ φύσιν ἔχει.",
+   "notes": [
+    "\"The great king\" recalls the Second Letter of Plato (312e), \"around the king of all are all things\"."
+   ]
+  },
+  {
+   "seg": "II.9.9.p3",
+   "chapter": "II.9.9",
+   "modern": "If you want to look down on them, and think yourself grand, as not worse, first: the better a man is, the kinder he is to all, gods and men. Next, one should think oneself grand with measure, without boorishness, going up only as far as our nature can rise, and think that there is room beside God for others too, and not put oneself alone next to him, flying as in dreams, and so rob oneself of becoming a god, as far as a human soul can. It can as far as intellect leads; to go above intellect is already to fall outside it. Foolish men believe such talk when they suddenly hear: \"You will be better than everyone, not only men but gods too.\" There is much self-will among men. A man once humble and modest and ordinary, if he hears \"You are a son of God; the others you admired are not sons of God, nor are the things they honour, received from their fathers, divine; you are better even than the heaven, without any effort\", and then others join in the chorus, it is as if, among many who could not count, a man who could not count heard that he was a thousand cubits tall. What would he do but think himself a thousand cubits tall, and, hearing that the others were five cubits, imagine only that a thousand was a big number?",
+   "greek": "εἰ δ’ ὑπερορᾶν θέλεις καὶ σεμνύνεις σαυτὸν ὡς οὐ χείρων, πρῶτον μέν, ὅσῳ τις ἄριστος, πρὸς πάντας εὐμενῶς ἔχει καὶ πρὸς θεοὺς καὶ πρὸς ἀνθρώπους: ἔπειτα σεμνύνειν δεῖ εἰς μέτρον μετὰ οὐκ ἀγροικίας ἐπὶ τοσοῦτον ἰόντα, ἐφ̓ ὅσον ἡ φύσις δύναται ἡμῶν ἀνιέναι, τοῖς δ’ ἄλλοις νομίζειν εἶναι χώραν παρὰ τῷ θεῷ καὶ μὴ αὑτὸν μόνον μετ’ ἐκεῖνον τάξαντα ὥσπερ ὀνείρασι πέτεσθαι ἀποστεροῦντα ἑαυτὸν καθ̓ ὅσον ἐστὶ δυνατὸν ψυχῇ ἀνθρώπου θεῷ γενέσθαι: δύναται δὲ εἰς ὅσον νοῦς ἄγει: τὸ δὲ ὑπὲρ νοῦν ἤδη ἐστὶν ἔξω νοῦ πεσεῖν. πείθονται δὲ ἄνθρωποι ἀνόητοι τοῖς τοιούτοις τῶν λόγων ἐξαίφνης ἀκούοντες ὡς σὺ ἔσῃ βελτίων ἁπάντων οὐ μόνον ἀνθρώπων, ἀλλὰ καὶ θεῶν: πολλὴ γὰρ ἐν ἀνθρώποις ἡ αὐθάδεια, καὶ ὁ πρότερον ταπεινὸς καὶ μέτριος καὶ ἰδιώτης ἀνὴρ εἰ ἀκούσειε: σὺ εἶ θεοῦ παῖς, οἱ δ’ ἄλλοι, οὓς ἐθαύμαζες, οὐ θεῶν παῖδες οὐδὲ θεῖα ἃ τιμῶσιν ἐκ πατέρων λαβόντες, σὺ δὲ κρείττων καὶ τοῦ οὐρανοῦ οὐδὲν πονήσας εἶτα καὶ συνεπηχοῦσιν ἄλλοι. οἷον εἰ ἐν πλείστοις ἀριθμεῖν οὐκ εἰδόσιν ἀριθμεῖν οὐκ εἰδὼς πήχεων χιλίων εἶναι ἀκούοι, τί ἂν ἢ χιλιόπηχυς εἶναι νομίζοι, τοὺς δ’ ἄλλους πενταπήχεις εἰ πενταπήχεις εἶναι ἀκούοι, μόνον δὲ φαντάζοιτο ὡς τὰ χίλια ἀριθμὸς μέγας;",
+   "flags": [
+    {
+     "taylor": "For there is much arrogance among men [of the present time.]",
+     "why": "Taylor's words in square brackets are his own; the Greek speaks of men in general."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.9.p4",
+   "chapter": "II.9.9",
+   "modern": "Then again: God cares for you, they say; why does he neglect the whole world, in which they too are? If it is because he has no leisure to look at it, or it is not lawful for him, then when he looks down, at them, why does he not look outside and at the world in which they are? If he does not look outside, so as not to see the world, he does not see them either. \"But they have no need of him.\" Yet the world needs him, and knows its order, and those in it know how they are in it and how there; and among men, those who are dear to God bear calmly what comes to them from the world, if anything must come from the movement of all things. One must look not to what pleases each, but to the whole. Such a man honours each as they deserve, and always hastens to where all things that can hasten. There are many that hasten there: those that reach it are blessed, and the others have, as far as they can, the portion that fits them. He does not give the power to himself alone. For a man does not have a thing because he claims to have it; many say they have it knowing that they do not, and many think they have it when they do not, and think that they alone have what they alone do not have.",
+   "greek": "εἶτ̓ ἐπὶ τούτοις ὑμῶν προνοεῖ ὁ θεός, τοῦ δὲ κόσμου παντὸς ἐν ᾧ καὶ αὐτοὶ διὰ τί ἀμελεῖ; εἰ μὲν γάρ, ὅτι οὐ σχολὴ αὐτῷ πρὸς αὐτὸν βλέπειν οὐδὲ θέμις αὐτῷ, πρὸς τὸ κάτω καὶ πρὸς αὐτοὺς βλέπων διὰ τί: οὐκ ἔξω βλέπει καὶ πρὸς τὸν κόσμον δὲ βλέπει ἐν ᾧ εἰσιν; εἰ δὲ μὴ ἔξω, ἵνα μὴ τὸν κόσμον ἐφορᾷ, οὐδὲ αὐτοὺς βλέπει. ἀλλ’ οὐδὲν δέονται αὐτοῦ: ἀλλ’ ὁ κόσμος δεῖται καὶ οἶδε τὴν τάξιν αὑτοῦ καὶ οἱ ἐν αὐτῷ ὅπως ἐν αὐτῷ καὶ ὅπως ἐκεῖ, καὶ ἀνδρῶν οἳ ἂν θεῷ ὦσι φίλοι, πρᾴως μὲν τὰ παρὰ τοῦ κόσμου φέροντες, εἴ τι ἐκ τῆς τῶν πάντων φορᾶς ἀναγκαῖον αὐτοῖς συμβαίνει: οὐ γὰρ πρὸς τὸ ἑκάστῳ καταθύμιον, ἀλλὰ πρὸς τὸ πᾶν δεῖ βλέπειν: τιμῶν δὲ ἑκάστους κατ’ ἀξίαν, σπεύδων δ’ ἀεὶ οὗ πάντα σπεύδει τὰ δυνάμενα — πολλὰ δὲ ἔστι τὰ σπεύδοντα ἐκεῖ, καὶ τὰ μὲν τυγχάνοντα μακάρια, τὰ δὲ ὡς δυνατὸν ἔχει τὴν προσήκουσαν αὐτοῖς μοῖραν — οὐχ αὑτῷ μόνῳ διδοὺς τὸ δύνασθαι: οὐ γάρ, εἰ ἐπαγγέλλοιτο ἔχειν, ὃ λέγει τις ἔχει, ἀλλὰ πολλοὶ καὶ εἰδότες, ὅτι μὴ ἔχουσι, λέγουσιν ἔχειν καὶ οἴονται ἔχειν οὐκ ἔχοντες καὶ μόνοι ἔχειν, ὃ αὐτοὶ μόνοι οὐκ ἔχουσιν.",
+   "flags": [
+    {
+     "taylor": "Divinity, however, knows the order of the wrorld",
+     "why": "The Greek has an objection and an answer: \"But they have no need of him.\" \"Yet the world needs him, and knows its order.\" It is the world that knows its order, not God; Taylor makes it Divinity."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.10.p1",
+   "chapter": "II.9.10",
+   "modern": "There is much else, or rather everything, that one could examine, and have plenty to say, showing how each point stands. But a certain reticence holds us back with regard to some of our friends, who came upon this teaching before they became our friends, and, I do not know how, still keep to it. Yet they themselves do not hesitate to say what they say, wanting it to seem convincingly true, or perhaps believing that it really is so. But we have said these things speaking to our own pupils, not to them (for there would be no gain in trying to persuade them), so that our pupils should not be troubled by people who bring no proofs (how could they?) but only self-will. There is another way in which one might write in defence against those who dare to disparage what the ancient and divine men said well and in keeping with the truth.",
+   "greek": "πολλὰ μὲν οὖν καὶ ἄλλα, μᾶλλον δὲ πάντα ἄν τις ἐξετάζων ἀφθονίαν ἔχοι ἂν καθ̓ ἕκαστον λόγον δεικνὺς ὡς ἔχει. αἰδὼς γάρ τις ἡμᾶς ἔχει πρός τινας τῶν φίλων, οἳ τούτῳ τῷ λόγῳ ἐντυχόντες πρότερον ἢ ἡμῖν φίλοι γενέσθαι οὐκ οἶδ’ ὅπως ἐπ’ αὐτοῦ μένουσι. καίτοι αὐτοὶ οὐκ ὀκνοῦσι τὰ αὑτῶν ἐθέλοντες δοκεῖν εἶναι ἀληθῆ ἀξιοπίστως ἢ καὶ οἰόμενοι τὰ αὑτῶν οὕτως ἔχειν λέγειν ἃ δὴ λέγουσιν: ἀλλ’ ἡμεῖς πρὸς τοὺς γνωρίμους, οὐ πρὸς αὐτοὺς λέγοντες — πλέον γὰρ οὐδὲν ἂν γίγνοιτο πρὸς τὸ πείθειν αὐτούς — ἵνα μὴ πρὸς αὐτῶν ἐνοχλοῖντο οὐκ ἀποδείξεις κομιζόντων — πῶς γάρ; — ἀλλ’ ἀπαυθαδιζομένων, ταῦτα εἰρήκαμεν ἄλλου ὄντος τρόπου, καθ̓ ὃν ἄν τις γράφων ἠμύνατο τοὺς διασύρειν τὰ τῶν παλαιῶν καὶ θείων ἀνδρῶν καλῶς καὶ τῆς ἀληθείας ἐχομένως εἰρημένα τολμῶντας.",
+   "flags": [
+    {
+     "taylor": "We, indeed, are ashamed of certain of our friends,1 who before they were intimate with us were conversant with these opinions",
+     "why": "The Greek word (aidōs) is a respectful reticence: Plotinus holds back out of regard for friends; he is not \"ashamed\" of them."
+    },
+    {
+     "taylor": "and not to the many who are auditors of these men",
+     "why": "The Greek says \"speaking to our own pupils, not to them\", the Gnostics; Taylor's \"the many who are auditors of these men\" is not there."
+    }
+   ],
+   "notes": [
+    "The \"friends\" are Gnostics who came to Plotinus' school in Rome; Porphyry names some of their books in his Life of Plotinus (ch. 16)."
+   ]
+  },
+  {
+   "seg": "II.9.10.p2",
+   "chapter": "II.9.10",
+   "modern": "So let us leave examining in that way; for those who have grasped exactly what has now been said will also know how all the rest stands. But let me say one thing before leaving the subject, which goes beyond everything in absurdity, if absurdity is the word. They say that soul sank down, and a certain Wisdom, whether soul began it or Wisdom was the cause of soul's being so, or they mean both are the same. They say the other souls came down together, the members of Wisdom, and put on bodies, human bodies for instance. But the one for whose sake they came down, they say, did not come down in turn, did not sink, as it were, but only lit up the darkness; and then an image came into being from there in matter. Then they fashion an image of the image, somewhere here, through matter or materiality, or whatever they like to call it, saying one thing and then another, and using many other names to make what they say obscure. So they beget what they call the Maker, make him revolt from his mother, and draw the world from him down to the last of images; so that the one who wrote this might abuse it thoroughly.",
+   "greek": "ἐκείνως μὲν οὖν ἐατέον ἐξετάζειν: καὶ γὰρ τοῖς ταῦτα ἀκριβῶς λαβοῦσι τὰ νῦν εἰρημένα ἔσται καὶ περὶ τῶν ἄλλων ἁπάντων ὅπως ἔχει εἰδέναι: ἐκεῖνο δὲ εἰπόντα ἐατέον τὸν λόγον, ὃ δὴ καὶ πάντα ὑπερβέβληκεν ἀτοπίᾳ, εἰ δεῖ ἀτοπίαν τοῦτο λέγειν. ψυχὴν γὰρ εἰπόντες νεῦσαι κάτω καὶ σοφίαν τινά, εἴτε τῆς ψυχῆς ἀρξάσης, εἴτε τῇ τοιαύτῃ αἰτίας γενομένης σοφίας, εἴτε ἄμφω ταὐτὸν θέλοντες εἶναι, τὰς μὲν ἄλλας ψυχὰς συγκατεληλυθέναι λέγοντες καὶ μέλη τῆς σοφίας ταύτας μὲν ἐνδῦναι λέγουσι σώματα, οἷον τὰ τῶν ἀνθρώπων, ἧς δὲ χάριν καὶ αὐταὶ κατῆλθον, ἐκείνην λέγουσι πάλιν αὖ μὴ κατελθεῖν, οἷον μὴ νεῦσαι, ἀλλ’ ἐλλάμψαι μόνον τὸ σκότος, εἶτ̓ ἐκεῖθεν εἴδωλον ἐν τῇ ὕλῃ γεγονέναι. εἶτα τοῦ εἰδώλου εἴδωλον πλάσαντες ἐνταῦθά που δἰ ὕλης ἢ ὑλότητος ἢ ὅ τι ὀνομάζειν θέλουσι, τὸ μὲν ἄλλο, τὸ δὲ ἄλλο λέγοντες, καὶ πολλὰ ἄλλα ὀνόματα εἰπόντες οὗ λέγουσιν εἰς ἐπισκότησιν, τὸν λεγόμενον παῤ αὐτοῖς, δημιουργὸν γεννῶσι καὶ ἀποστάντα τῆς μητρὸς ποιήσαντες τὸν κόσμον παῤ αὐτοῦ ἄγουσιν ἐπ’ ἔσχατα εἰδώλων, ἵνα σφόδρα λοιδορήσηται ὁ τοῦτο γράψας.",
+   "notes": [
+    "\"Wisdom\" (Sophia) and the Maker who revolts from his mother are figures of Gnostic myth, as in the Apocryphon of John."
+   ]
+  },
+  {
+   "seg": "II.9.11.p1",
+   "chapter": "II.9.11",
+   "modern": "First, then, if the soul did not come down, but lit up the darkness, how could it rightly be said to have sunk? If something flowed from it like light, it is not fitting to say at once that it has sunk; unless the darkness lay somewhere below, and the soul went to it in place, and when it came near, lit it up. But if it lit it while staying by itself, doing nothing towards it, why did it alone light it up, and not the beings more powerful than it? If it was able to light it because it formed a reasoned plan of a world, why did it not make the world at the same time as lighting it, instead of waiting for the images to be born? Then too the plan of the world, the \"foreign earth\" as they call it, made by the greater powers, as they say themselves, did not bring its makers down to sinking. Then, how does matter, when lit, make images of soul, and not the nature of bodies? An image of soul would need no darkness or matter: once it came to be, if it does, it would follow its maker and be joined to it.",
+   "greek": "πρῶτον μὲν οὖν, εἰ μὴ κατῆλθεν, ἀλλ’ ἐνέλαμψε τὸ σκότος, πῶς ἂν ὀρθῶς λέγοιτο νενευκέναι; οὐ γάρ, εἴ τι παῤ αὐτῆς ἔρρευσεν οἷον φῶς, ἤδη νενευκέναι αὐτὴν λέγειν προσήκει: εἰ μή που τὸ μὲν ἔκειτό που ἐν τῷ κάτω, ἡ δὲ ἦλθε τοπικῶς πρὸς αὐτὸ καὶ ἐγγὺς γενομένη ἐνέλαμψεν. εἰ δ’ ἐφ̓ αὑτῆς μένουσα ἐνέλαμψε μηδὲν εἰς τοῦτο ἐργασαμένη, διὰ τί μόνη αὐτὴ ἐνέλαμψεν, ἀλλ’ οὐ τὰ δυνατώτερα αὐτῆς ἐν τοῖς οὖσιν; εἰ δὲ τῷ λογισμὸν λαβεῖν αὐτὴ κόσμου ἠδυνήθη ἐλλάμψαι ἐκ τοῦ λογισμοῦ, διὰ τί οὐχ ἅμα ἐλλάμψασα καὶ κόσμον ἐποίησεν, ἀλλ’ ἔμεινε τὴν τῶν εἰδώλων γένεσιν; ἔπειτα καὶ ὁ λογισμὸς ὁ τοῦ κόσμου, ἡ γῆ αὐτοῖς ἡ ξένη λεγομένη γενομένη ὑπὸ τῶν μειζόνων, ὡς λέγουσιν αὐτοί, οὐ κατήγαγεν εἰς νεῦσιν τοὺς ποιήσαντας. ἔπειτα πῶς ἡ ὕλη φωτισθεῖσα εἴδωλα ψυχικὰ ποιεῖ, ἀλλ’ οὐ σωμάτων φύσιν; ψυχῆς δὲ εἴδωλον οὐδὲν ἂν δέοιτο σκότους ἢ ὕλης, ἀλλὰ γενόμενον, εἰ γίνεται, παρακολουθοῖ ἂν τῷ ποιήσαντι καὶ συνηρτημένον ἔσται."
+  },
+  {
+   "seg": "II.9.11.p2",
+   "chapter": "II.9.11",
+   "modern": "Next, is this image a substance, or, as they say, a \"thought\"? If a substance, what is its difference from what it comes from? If it is another kind of soul, if that one is rational, perhaps this one is the soul of growth and generation. But if so, how could it still make the world to be honoured, and how could it make through arrogance and daring? In short, making through imagination, and still more through reasoning, is done away with. And why did it need to make the maker out of matter and an image? If it is a \"thought\", first they must show where the name comes from. Then, how does it exist, unless they give the thought the power to make? And how is a fiction a making? They say this was made first and that after, but they speak as if they could say what they please. Why fire first?",
+   "greek": "ἔπειτα πότερον οὐσία τοῦτο ἤ, ὥς φασιν, ἐννόημα; εἰ μὲν γὰρ οὐσία, τίς ἡ διαφορὰ πρὸς τὸ ἀφ̓ οὗ; εἰ δ’ ἄλλο εἶδος ψυχῆς, εἰ ἐκείνη λογική, τάχα ἂν φυτικὴ καὶ γεννητικὴ αὕτη: εἰ δὲ τοῦτο, πῶς ἂν ἔτι, ἵνα τιμῷτο, καὶ πῶς δἰ ἀλαζονείαν καὶ τόλμαν ἐποίει; καὶ ὅλως τὸ διὰ φαντασίας καὶ ἔτι μᾶλλον τὸ λογίζεσθαι ἀνῄρηται. τί δ’ ἔτι ἔδει ἐμποιεῖν ἐξ ὕλης καὶ εἰδώλου τὸν ποιήσαντα; εἰ δ’ ἐννόημα, πρῶτον τὸ ὄνομα ἐπισημαντέον ὅθεν: ἔπειτα πῶς ἐστιν, εἰ μὴ τῷ ἐννοήματι δώσει τὸ ποιεῖν; ἀλλὰ πρὸς τῷ πλάσματι πῶς ἡ ποίησις; ἢ ποιῆσαι τουτὶ μὲν πρῶτον, ἄλλο δὲ μετ’ ἐκεῖνο ἀλλ’ ὡς ἐπ’ ἐξουσίας λέγοντες. διὰ τί δὲ πρῶτον πῦρ;",
+   "flags": [
+    {
+     "taylor": "Again, whether is this illumination from a reasoning process, essence, or as they say, a conception",
+     "why": "The Greek asks whether \"this\", the image, is a substance or, as they say, a \"thought\" (ennoēma); \"this illumination from a reasoning process\" is Taylor's."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.12.p1",
+   "chapter": "II.9.12",
+   "modern": "And how does it set to work as soon as it is born? By memory of what it saw? But it did not exist at all, so that it might have seen, neither it nor the mother they give it. Then is it not surprising that they, who came here not as images of souls but as true souls, scarcely and with difficulty, one or two of them, are moved out of the world, and coming to recollection scarcely call back what they once saw; while this image, even if dimly, as they say, but just after it was born, thought of those things, or its mother did, a material image; and not only thought of them and took the idea of a world from that world, but learned what it should be made of? Where did it get the idea of making fire first, thinking this must come first? Why not something else? If it could make fire by thinking of fire, why, thinking of a world (for it must have thought of the whole first), did it not make a world all at once? For those things too were contained in the thought.",
+   "greek": "καὶ ἄρτι γενόμενον πῶς ἐπιχειρεῖ; ἢ μνήμῃ ὧν εἶδεν; ἀλλ’ ὅλως οὐκ ἦν, ἵνα ἂν καὶ εἶδεν, οὔτε αὐτὸς οὔτε ἡ μήτηρ, ἣν διδόασιν αὐτῷ. εἶτα πῶς οὐ θαυμαστὸν αὐτοὺς μὲν οὐκ εἴδωλα ψυχῶν ἐνθάδε ἐλθόντας, ἀλλ’ ἀληθινὰς ψυχάς, μόλις καὶ ἀγαπητῶς ἕνα ἢ δύο αὐτῶν ἐκ τοῦ κόσμου κινηθῆναι καὶ ἐλθόντας εἰς ἀνάμνησιν μόλις ἀναπόλησιν λαβεῖν ὧν ποτε εἶδον, τὸ δὲ εἴδωλον τοῦτο, εἰ καὶ ἀμυδρῶς, ὡς λέγουσιν, ἀλλ’ οὖν ἄρτι γενόμενον ἐνθυμηθῆναι ἐκεῖνα, ἢ καὶ τὴν μητέρα αὐτοῦ, εἴδωλον ὑλικόν, καὶ μὴ μόνον ἐνθυμηθῆναι ἐκεῖνα καὶ κόσμου λαβεῖν ἔννοιαν ἐκ κόσμου ἐκείνου, ἀλλὰ καὶ μαθεῖν ἐξ ὧν ἂν γένοιτο; πόθεν δὴ καὶ πρῶτον πῦρ ποιῆσαι οἰηθέντα δεῖν τοῦτο πρῶτον; διὰ τί γὰρ οὐκ ἄλλο; ἀλλ’ εἰ ἐδύνατο ποιεῖν ἐνθυμηθεὶς πῦρ, διὰ τί ἐνθυμηθεὶς κόσμον — πρῶτον γὰρ ἔδει ἐνθυμηθῆναι τὸ ὅλον — οὐ κόσμον ἀθρόως ἐποίει; ἐμπεριείχετο γὰρ κἀκεῖνα ἐν τῇ ἐνθυμήσει.",
+   "notes": [
+    "\"Scarcely recollect\" recalls the Phaedrus (250a), where few souls keep enough memory of what they saw."
+   ]
+  },
+  {
+   "seg": "II.9.12.p2",
+   "chapter": "II.9.12",
+   "modern": "It would have made in a way more like nature, not as the arts do, for the arts come after nature and the world. Even now, in the things born singly from natures, it is not first fire, then each of the others, then a kneading of them together, but an outline and sketch of the whole animal, stamped on the menstrual matter. Why, then, was matter not outlined there too with a sketch of the world, a sketch in which were earth and fire and the rest? But perhaps they would have made a world like this, using a truer soul; he did not know how to make it so. And yet to foresee the size of the heaven, or rather that it should be so great, and the slant of the zodiac, and the course of the bodies below it, and the earth to be as it is, so as to be able to say the causes for which they are so, is not the work of an image: it came wholly from a power that came from the best things. They admit this themselves, against their will.",
+   "greek": "φυσικώτερον γὰρ πάντως, ἀλλ’ οὐχ ὡς αἱ τέχναι ἐποίει: ὕστεραι γὰρ τῆς φύσεως καὶ τοῦ κόσμου αἱ τέχναι. ἐπεὶ καὶ νῦν καὶ τὰ κατὰ μέρος γινόμενα ὑπὸ τῶν φύσεων οὐ πρῶτον πῦρ, εἶθ̓ ἕκαστον, εἶτα φύρασις τούτων, ἀλλὰ περιβολὴ καὶ περιγραφὴ τυποῦσα ἐπὶ τοῖς καταμηνίοις παντὸς τοῦ ζῴου. διὰ τί οὖν οὐ κἀκεῖ ἡ ὕλη περιεγράφετο τύπῳ κόσμου, ἐν ᾧ τύπῳ καὶ γῆ καὶ πῦρ καὶ τὰ ἄλλα; ἀλλ’ ἴσως αὐτοὶ οὕτω κόσμον ἐποίησαν ἂν ὡς ἀληθεστέρᾳ ψυχῇ χρώμενοι, ἐκεῖνος δὲ οὕτως ἠγνόει ποιῆσαι. καίτοι προιδεῖν καὶ μέγεθος οὐρανοῦ, μᾶλλον δὲ τοσοῦτον εἶναι, καὶ λόξωσιν τῶν ζῳδίων καὶ τῶν ὑπ’ αὐτὸν τὴν φορὰν καὶ τὴν γῆν οὕτως, ὡς ἔχειν εἰπεῖν αἰτίας δἰ ἃς οὕτως, οὐκ εἰδώλου ἦν, ἀλλὰ πάντως ἀπὸ τῶν ἀρίστων τῆς δυνάμεως ἐλθούσης: ὃ καὶ αὐτοὶ ἄκοντες ὁμολογοῦσιν.",
+   "flags": [
+    {
+     "taylor": "and [the central position of] the earth",
+     "why": "Taylor's words in square brackets are his own; the Greek says only \"and the earth to be as it is\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.12.p3",
+   "chapter": "II.9.12",
+   "modern": "For the lighting of the darkness, if examined, will make them admit the true causes of the world. Why did it have to light it, unless it had to altogether? It was either by nature or against nature. If by nature, it was always so. If against nature, what is against nature will be in the things there, and evils will be before this world, and the world will not be the cause of evils, but the things there will be the cause for it; and evil will come to the soul not from here, but from soul to here. And the argument will carry the world back to the first things. And if so, matter too, from where it appeared. For the soul that sank, they say, saw and lit up the darkness that was already there. Where, then, did this come from? If they say the soul made it when it sank, there was plainly nowhere for it to sink to, nor was the darkness the cause of the sinking, but the nature of soul itself. And this is the same as necessities that went before; so the cause goes back to the first things.",
+   "greek": "ἡ γὰρ ἔλλαμψις ἡ εἰς τὸ σκότος ἐξετασθεῖσα ποιήσει ὁμολογεῖν τὰς ἀληθεῖς τοῦ κόσμου αἰτίας. τί γὰρ ἐλλάμπειν ἔδει, εἰ μὴ πάντως ἔδει; ἢ γὰρ κατὰ φύσιν ἢ παρὰ φύσιν ἀνάγκη. ἀλλ’ εἰ μὲν κατὰ φύσιν, ἀεὶ οὕτως: εἰ δὲ παρὰ φύσιν, καὶ ἐν τοῖς ἐκεῖ ἔσται τὸ παρὰ φύσιν, καὶ τὰ κακὰ πρὸ τοῦ κόσμου τοῦδε, καὶ οὐχ ὁ κόσμος αἴτιος τῶν κακῶν, ἀλλὰ τἀκεῖ τούτῳ, καὶ τῇ ψυχῇ οὐκ ἐντεῦθεν, ἀλλὰ παῤ αὐτῆς ἐνταῦθα: καὶ ἥξει ὁ λόγος ἀναφέρων τὸν κόσμον ἐπὶ τὰ πρῶτα. εἰ δὲ δή, καὶ ἡ ὕλη, ὅθεν ἐφάνη. ἡ γὰρ ψυχὴ ἡ νεύσασα ἤδη ὂν τὸ σκότος, φασίν, εἶδε καὶ κατέλαμψε. πόθεν οὖν τοῦτο; εἰ δ’ αὐτὴν φήσουσι ποιῆσαι νεύσασαν, οὐκ ἦν δηλονότι ὅπου ἂν ἔνευσεν, οὐδ’ αὖ τὸ σκότος αἴτιον τῆς νεύσεως, ἀλλ’ αὐτὴ ἡ ψυχῆς φύσις. τοῦτο δὲ ταὐτὸν ταῖς προηγησαμέναις ἀνάγκαις: ὥστε ἐπὶ τὰ πρῶτα ἡ αἰτία.",
+   "flags": [
+    {
+     "taylor": "But if matter also is the cause of evil, whence does it appear that it is so",
+     "why": "The Greek says that the argument will carry matter too back to the first things, \"from where it appeared\"; it does not ask whether matter is the cause of evil."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.13.p1",
+   "chapter": "II.9.13",
+   "modern": "So whoever blames the nature of the world does not know what he is doing, nor where his boldness is taking him. This is because they do not know the order of things in succession, of first, second and third, and so on down to the last; and that one must not abuse what is worse than the first, but give way gently to the nature of all things, and oneself run towards the first, putting an end to the tragic tale of the terrors they think are in the spheres of the world, which, in fact, \"make all things gentle\" for them. What do these have that is fearful, to frighten people without experience of argument, who have never heard a cultivated and harmonious knowledge? Even if their bodies are of fire, one must not fear them, since they are in proportion to the universe and to the earth; one should look to their souls, by which these people surely think themselves worthy of honour too. And yet their bodies too, which excel in size and beauty, act with and work together with the things that come about by nature, which could never fail to come about as long as the first things exist; and they fill out the universe and are great parts of it. If men are something honourable beside the other animals, much more are these, which are in the universe not to be tyrants but to give it order and arrangement.",
+   "greek": "ὁ ἄρα μεμφόμενος τῇ τοῦ κόσμου φύσει οὐκ οἶδεν ὅ τι ποιεῖ, οὐδ’ ὅποι τὸ θράσος αὐτοῦ τοῦτο χωρεῖ. τοῦτο δέ, ὅτι οὐκ ἴσασι τάξιν ἐφεξῆς πρώτων καὶ δευτέρων καὶ τρίτων καὶ ἀεὶ μέχρι τῶν ἐσχάτων, καὶ ὡς οὐ λοιδορητέον τοῖς χείροσι τῶν πρώτων, ἀλλὰ πρᾴως συγχωρητέον τῇ πάντων φύσει αὐτὸν θέοντα πρὸς τὰ πρῶτα παυσάμενον τῆς τραγῳδίας τῶν φοβερῶν, ὡς οἴονται, ἐν ταῖς τοῦ κόσμου σφαίραις, αἳ δὴ πάντα μείλιχα τεύχουσιν αὐτοῖς: τί γὰρ φοβερὸν ἔχουσιν αὗται, ὡς φοβοῦσι τοὺς ἀπείρους λόγων καὶ πεπαιδευμένης ἀνηκόους καὶ ἐμμελοῦς γνώσεως; οὐ γάρ, εἰ πύρινα τὰ σώματα αὐτῶν, φοβεῖσθαι δεῖ συμμέτρως πρὸς τὸ πᾶν καὶ πρὸς τὴν γῆν ἔχοντα, εἰς δὲ τὰς ψυχὰς αὐτῶν βλέπειν, αἷς καὶ αὐτοὶ δήπουθεν ἀξιοῦσι τίμιοι εἶναι. καίτοι καὶ τὰ σώματα αὐτῶν μεγέθει καὶ κάλλει διαφέροντα συμπράττοντα καὶ συνενεργοῦντα τοῖς κατὰ φύσιν γιγνομένοις, ἃ οὐκ ἂν οὐ γένοιτό ποτε ἔστ̓ ἂν ᾖ τὰ πρῶτα, συμπληροῦντα δὲ τὸ πᾶν καὶ μεγάλα μέρη ὄντα τοῦ παντός. εἰ δὲ ἄνθρωποι τίμιόν τι παῤ ἄλλα ζῷα, πολλῷ μᾶλλον ταῦτα οὐ τυραννίδος ἕνεκα ἐν τῷ παντὶ ὄντα, ἀλλὰ κόσμον καὶ τάξιν παρέχοντα.",
+   "flags": [
+    {
+     "taylor": "by whom they imagine themselves to be considered as beings of a very honourable nature",
+     "why": "The Greek says one should look at the souls of the stars, the souls by which the Gnostics themselves claim to be honourable; it is not that the stars think well of them."
+    },
+    {
+     "taylor": "For otherwise subordinate beings would not be generated, as long as the first of things subsist",
+     "why": "The Greek says the natural events the stars help to bring about \"could never fail to happen as long as the first things exist\"; Taylor's sentence says something else."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.13.p2",
+   "chapter": "II.9.13",
+   "modern": "What are said to come from them should be thought of as signs of what will be. What happens happens differently by fortunes, for the same things could not happen to everyone, and by the times of birth, by places very far apart, and by the dispositions of souls. Again, one must not demand that all be good, nor, because that is not possible, be quick to find fault, claiming again that these things should not differ from those there. Nor should one think evil anything other than what is lacking in wisdom, a lesser good, always tending to the smaller. It is as if one called nature evil because it is not perception, and the perceiving part evil because it is not reason. Otherwise they will have to say there are evils there too; for there soul is worse than intellect, and intellect less than another.",
+   "greek": "ἃ δὲ λέγεται γίνεσθαι παῤ αὐτῶν σημεῖα νομίζειν τῶν ἐσομένων εἶναι, γίνεσθαι δὲ τὰ γινόμενα διάφορα καὶ τύχαις — οὐ γὰρ οἷόν τε ἦν ταὐτὰ περὶ ἑκάστους συμβαίνειν — καὶ καιροῖς γενέσεων καὶ τόποις πλεῖστον ἀφεστηκόσι καὶ διαθέσεσι ψυχῶν. καὶ οὐκ ἀπαιτητέον πάλιν ἀγαθοὺς πάντας, οὐδ’ ὅτι μὴ τοῦτο δυνατόν, μέμφεσθαι προχείρως προσήκει πάλιν ἀξιοῦσι μηδὲν διαφέρειν ταῦτα ἐκείνων, τό τε κακὸν μὴ νομίζειν ἄλλο τι ἢ τὸ ἐνδεέστερον εἰς φρόνησιν καὶ ἔλαττον ἀγαθὸν καὶ ἀεὶ πρὸς τὸ σμικρότερον: οἷον εἴ τις τὴν φύσιν κακὸν λέγοι, ὅτι μὴ αἴσθησίς ἐστι, καὶ τὸ αἰσθητικόν, ὅτι μὴ λόγος. εἰ δὲ μή, κἀκεῖ τὰ κακὰ ἀναγκασθήσονται λέγειν εἶναι: καὶ γὰρ ἐκεῖ ψυχὴ χεῖρον νοῦ καὶ οὗτος ἄλλου ἔλαττον.",
+   "notes": [
+    "That the stars signify rather than cause is argued in II.3, Whether the Stars Are Causes."
+   ]
+  },
+  {
+   "seg": "II.9.14.p1",
+   "chapter": "II.9.14",
+   "modern": "Above all, they themselves make the things there not pure in another way too. When they write incantations, as if addressing them, not only to the soul but also to what is above it, what are they doing but saying that these yield to spells and charms and persuasions, and obey a word and are led by it, if one of us is more skilled in saying such things, in such a way: chants and cries and aspirations and hissings of the voice, and the other things written in their books to work magic there? If they do not mean this, how are incorporeal things moved by sounds? So by the very means by which they make their words seem grander, they have unknowingly taken away the grandeur of those beings.",
+   "greek": "μάλιστα δὲ αὐτοὶ καὶ ἄλλως ποιοῦσιν οὐκ ἀκήρατα τὰ ἐκεῖ. ὅταν γὰρ ἐπαοιδὰς γράφωσιν ὡς πρὸς ἐκεῖνα λέγοντες, οὐ μόνον τὴν ψυχήν, ἀλλὰ καὶ τὰ ἐπάνω, τί ποιοῦσιν ἢ γοητείας καὶ θέλξεις καὶ πείσεις λέγουσι καὶ λόγῳ ὑπακούειν καὶ ἄγεσθαι, εἴ τις ἡμῶν τεχνικώτερος εἰπεῖν ταδὶ καὶ οὑτωσὶ μέλη καὶ ἤχους καὶ προσπνεύσεις καὶ σιγμοὺς τῆς φωνῆς καὶ τὰ ἄλλα, ὅσα ἐκεῖ μαγεύειν γέγραπται. εἰ δὲ μὴ βούλονται τοῦτο λέγειν, ἀλλὰ πῶς φωναῖς τὰ ἀσώματα; ὥστε οἷς σεμνοτέρους αὑτῶν τοὺς λόγους ποιοῦσι φαίνεσθαι, τούτοις λελήθασιν αὑτοὺς τὸ σεμνὸν ἐκείνων ἀφαιρούμενοι.",
+   "flags": [
+    {
+     "taylor": "and utter them as to the stars",
+     "why": "The Greek says the incantations are addressed to \"them\", the things there, the higher beings, not to the stars."
+    },
+    {
+     "taylor": "but that sounds possess certain incorporeal powers",
+     "why": "The Greek asks \"how are incorporeal things moved by sounds?\"; Taylor turns the question into a claim about sounds."
+    }
+   ],
+   "notes": [
+    "Porphyry, Life of Plotinus (ch. 10), tells how an Egyptian rival tried to work magic against Plotinus, and how it turned back on him."
+   ]
+  },
+  {
+   "seg": "II.9.14.p2",
+   "chapter": "II.9.14",
+   "modern": "When they say they purify themselves of diseases, if they said they did so by self-control and an orderly way of life, they would be right, as the philosophers say. But as it is, they suppose the diseases are daemons, and claim they can drive them out by a word, and advertise this. They may seem grander to the many, who admire the powers of magicians; but they would not persuade sensible people that diseases do not have their causes in strain, or excess, or lack, or decay, and in general in changes that begin from outside or inside. Their cures show it too. The bowels move, or a drug is given, and the illness passes downward and out; blood is let; and lack too has cured. Or was the daemon starved, and the drug made it waste away? Sometimes it left all at once, or stayed inside. If it still stays, how is one not still ill, with it inside? If it has left, why? What has happened to it? Was it fed by the disease? Then the disease was something other than the daemon. Again, if it comes in when there is no cause, why is one not always ill? If when a cause has arisen, why is the daemon needed for the illness? The cause is enough to make the fever. It is absurd that as soon as the cause arises, the daemon, ready and waiting, should at once take up its place beside it.",
+   "greek": "καθαίρεσθαι δὲ νόσων λέγοντες αὑτοὺς λέγοντες μὲν ἂν σωφροσύνῃ καὶ κοσμίᾳ διαίτῃ ἔλεγον ἂν ὀρθῶς, καθάπερ οἱ φιλόσοφοι λέγουσι: νῦν δὲ ὑποστησάμενοι τὰς νόσους δαιμόνια εἶναι καὶ ταῦτα ἐξαιρεῖν λόγῳ φάσκοντες δύνασθαι καὶ ἐπαγγελλόμενοι σεμνότεροι μὲν ἂν εἶναι δόξαιεν παρὰ τοῖς πολλοῖς, οἳ τὰς παρὰ τοῖς μάγοις δυνάμεις θαυμάζουσι, τοὺς μέντοι εὖ φρονοῦντας οὐκ ἂν πείθοιεν, ὡς οὐχ αἱ νόσοι τὰς αἰτίας ἔχουσιν ἢ καμάτοις ἢ πλησμοναῖς ἢ ἐνδείαις ἢ σήψεσι καὶ ὅλως μεταβολαῖς ἢ ἔξωθεν τὴν ἀρχὴν ἢ ἔνδοθεν λαβούσαις. δηλοῦς δὲ καὶ αἱ θεραπεῖαι αὐτῶν. γαστρὸς γὰρ ῥυείσης ἢ φαρμάκου δοθέντος διεχώρησε κάτω εἰς τὸ ἔξω τὸ νόσημα καὶ αἵματος ἀφῃρημένου, καὶ ἔνδεια δὲ ἰάσατο, ἢ πεινήσαντος τοῦ δαιμονίου καὶ τοῦ φαρμάκου ποιήσαντος τήκεσθαι, ποτὲ δὲ ἀθρόως ἐξελθόντος, ἢ μένοντος ἔνδον. ἀλλ’ εἰ μὲν ἔτι μένοντος, πῶς ἔνδον ὄντος οὐ νοσεῖ ἔτι; εἰ δὲ ἐξελήλυθε, διὰ τί; τί γὰρ αὐτὸ πέπονθεν; ἢ ὅτι ἐτρέφετο ὑπὸ τῆς νόσου. ἦν ἄρα ἡ νόσος ἑτέρα οὖσα τοῦ δαίμονος. ἔπειτα, εἰ οὐδενὸς ὄντος αἰτίου εἴσεισι, διὰ τί οὐκ ἀεὶ νοσεῖ; εἰ δὲ γενομένου αἰτίου, τί δεῖ τοῦ δαίμονος πρὸς τὸ νοσεῖν; τὸ γὰρ αἴτιον τὸν πυρετὸν αὔταρκές ἐστιν ἐργάσασθαι. γελοῖον δὲ τὸ ἅμα τὸ αἴτιον γενέσθαι καὶ εὐθέως ὥσπερ παρυποστῆναι τῷ αἰτίῳ τὸ δαιμόνιον ἕτοιμον ὄν."
+  },
+  {
+   "seg": "II.9.14.p3",
+   "chapter": "II.9.14",
+   "modern": "But how and why they have said these things is clear; for this reason not least we have mentioned these daemons. The rest I leave to you to look into as you read, and to see this everywhere: that the kind of philosophy we follow, besides all its other goods, shows simplicity of character, together with a pure wisdom, and seeks what is dignified, not what is self-willed, with a boldness that goes with reason and much security, caution and great circumspection. Compare the rest with philosophy of this kind. What the others have is made up in every way opposite to it; it would not become us to say more about them.",
+   "greek": "ἀλλὰ γάρ, ὅπως καὶ ταῦτα εἴρηται αὐτοῖς καὶ ὅτου χάριν, δῆλον: τούτου γὰρ ἕνεκα οὐκ ἧττον καὶ τούτων τῶν δαιμονίων ἐμνήσθημεν. τὰ δ’ ἄλλα ὑμῖν καταλείπω ἀναγινώσκουσιν ἐπισκοπεῖσθαι καὶ θεωρεῖν ἐκεῖνο πανταχοῦ, ὡς τὸ μὲν παῤ ἡμῶν εἶδος φιλοσοφίας μεταδιωκόμενον πρὸς τοῖς ἄλλοις ἅπασιν ἀγαθοῖς καὶ τὴν ἁπλότητα τοῦ ἤθους μετὰ τοῦ φρονεῖν καθαρῶς ἐνδείκνυται, τὸ σεμνόν, οὐ τὸ αὔθαδες μεταδιώκουσαν, τὸ θαρραλέον μετὰ λόγου καὶ μετὰ ἀσφαλείας πολλῆς καὶ εὐλαβείας καὶ πλείστης περιωπῆς ἔχουσαν: τὰ δὲ ἄλλα τῷ τοιούτῳ παραβάλλειν. τὸ δὲ παρὰ τῶν ἄλλων ἐναντιώτατα κατεσκευάσθαι διὰ πάντων, οὐδὲν γὰρ ἂν πλέον περὶ αὐτῶν λέγειν ἡμῖν ἂν πρέποι.",
+   "flags": [
+    {
+     "taylor": "There are four lines more in this section in the original ; hut the meaning of them is so very obscure, that I have not attempted to translate them",
+     "why": "Taylor's own footnote: he leaves the last sentences of the chapter untranslated. The modern version gives them: compare the rest with this philosophy; the Gnostics' is the opposite in every way."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.15.p1",
+   "chapter": "II.9.15",
+   "modern": "But this above all we must not miss: what these doctrines do to the souls of those who hear them and are persuaded to despise the world and what is in it. There are two schools about attaining the end of life: one sets the pleasure of the body as the end, the other chooses the beautiful and virtue, and for these the longing hangs on God and leads to God (how, must be seen elsewhere). Epicurus, doing away with providence, urges us to pursue pleasure and its enjoyment, which is what was left. But this doctrine, still more headstrong, finds fault with the lord of providence and with providence itself, scorns all the laws here and the virtue found out over all time, and laughs at self-control, so that nothing beautiful may be seen to exist here. So it has done away with self-control and with the justice that is inborn in characters and perfected by reason and training, and in general with everything by which a man might become good. So they are left with pleasure, with what concerns themselves, with what is not shared with other people, and with mere use; unless someone is better by his own nature than these doctrines. For none of these things is beautiful to them, but something else, which they will pursue some day.",
+   "greek": "ἐκεῖνο δὲ μάλιστα δεῖ μὴ λανθάνειν ἡμᾶς, τί ποτε ποιοῦσιν οἱ λόγοι οὗτοι εἰς τὰς ψυχὰς τῶν ἀκουόντων καὶ τοῦ κόσμου καὶ τῶν ἐν αὐτῷ καταφρονεῖν πεισθέντων. δυεῖν γὰρ οὐσῶν αἱρέσεων τοῦ τυχεῖν τοῦ τέλους, μιᾶς μὲν τῆς ἡδονὴν: τὴν τοῦ σώματος τέλος τιθεμένης, ἑτέρας δὲ τῆς τὸ καλὸν καὶ τὴν ἀρετὴν αἱρουμένης, οἷς καὶ ἐκ θεοῦ καὶ εἰς θεὸν ἀνήρτηται ἡ ὄρεξις — πῶς δέ, ἐν ἄλλοις θεωρητέον — ὁ μὲν Ἐπίκουρος τὴν πρόνοιαν ἀναιρῶν τὴν ἡδονὴν καὶ τὸ ἥδεσθαι, ὅπερ ἦν λοιπόν, τοῦτο διώκειν παρακελεύεται: ὁ δὲ λόγος οὗτος ἔτι νεανικώτερον τὸν τῆς προνοίας κύριον καὶ αὐτὴν τὴν πρόνοιαν μεμψάμενος καὶ πάντας νόμους τοὺς ἐνταῦθα ἀτιμάσας καὶ τὴν ἀρετὴν τὴν ἐκ παντὸς τοῦ χρόνου ἀνηυρημένην τό τε σωφρονεῖν τοῦτο ἐν γέλωτι θέμενος, ἵνα μηδὲν καλὸν ἐνταῦθα δὴ ὀφθείη ὑπάρχον, ἀνεῖλε τὸ σωφρονεῖν καὶ τὴν ἐν τοῖς ἤθεσιν ἔμφυτον δικαιοσύνην τὴν τελειουμένην ἐκ λόγου καὶ ἀσκήσεως καὶ ὅλως καθ̓ ἃ σπουδαῖος ἄνθρωπος ἂν γένοιτο. ὥστε αὐτοῖς καταλείπεσθαι τὴν ἡδονὴν καὶ τὸ περὶ αὑτοὺς καὶ τὸ οὐ κοινὸν πρὸς ἄλλους ἀνθρώπους καὶ τὸ τῆς χρείας μόνον, εἰ μή τις τῇ φύσει τῇ αὑτοῦ κρείττων εἴη τῶν λόγων τούτων: τούτων γὰρ οὐδὲν αὐτοῖς καλόν, ἀλλὰ ἄλλο τι, ὅ ποτε μεταδιώξουσι.",
+   "flags": [
+    {
+     "taylor": "But the doctrine of the Gnostics, as still more juvenile than this",
+     "why": "The Greek word (neanikōteron) here means \"more headstrong\", more reckless, not \"more juvenile\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.15.p2",
+   "chapter": "II.9.15",
+   "modern": "And yet those who have already come to know should pursue it from here; and pursuing, they should first set these things right, as people who have come from a divine nature. For it belongs to that nature, which scorns the pleasure of the body, to understand the beautiful. Those who have no share in virtue would not be moved towards those things at all. This too bears witness against them: they have made no account of virtue, they have left out the subject altogether, and they say neither what it is, nor how many kinds there are, nor the many fine things seen about it in the writings of the ancients, nor from what it will come and be gained, nor how the soul is cared for and purified. For saying \"Look to God\" achieves nothing, unless one teaches how one is to look. What prevents a man, someone might ask, from looking, and abstaining from no pleasure, or being unable to control his anger, remembering the name \"God\" while held by all the passions and trying to rid himself of none of them? Virtue, going on to its end and coming to be in the soul with wisdom, shows God. Without true virtue, God spoken of is a name.",
+   "greek": "καίτοι ἐχρῆν τοὺς ἤδη ἐγνωκότας ἐντεῦθεν διώκειν, διώκοντας δὲ πρῶτα κατορθοῦν ταῦτα ἐκ θείας φύσεως ἥκοντας: ἐκείνης γὰρ τῆς φύσεως καλὸν ἐπαίειν τῆς τὴν ἡδονὴν τοῦ σώματος ἀτιμαζούσης. οἷς δὲ ἀρετῆς μὴ μέτεστιν, οὐκ ἂν εἶεν τὸ παράπαν κινηθέντες πρὸς ἐκεῖνα. μαρτυρεῖ δὲ αὐτοῖς καὶ τόδε τὸ μηδένα λόγον περὶ ἀρετῆς πεποιῆσθαι, ἐκλελοιπέναι δὲ παντάπασι τὸν περὶ τούτων λόγον, καὶ μήτε τί ἐστιν εἰπεῖν μήτε πόσα μήτε ὅσα τεθεώρηται πολλὰ καὶ καλὰ τοῖς τῶν παλαιῶν λόγοις, μήτε ἐξ ὧν περιέσται καὶ κτήσεται, μήτε ὡς θεραπεύεται ψυχὴ μήτε ὡς καθαίρεται. οὐ γὰρ δὴ τὸ εἰπεῖν ʽβλέπε πρὸς θεόν̓ προὔργου τι ἐργάζεται, ἐὰν μὴ καὶ πῶς βλέψει διδάξῃ. τί γὰρ κωλύει, εἴποι τις ἄν, βλέπειν καὶ μηδεμιᾶς ἀπέχεσθαι ἡδονῆς, ἢ ἀκρατῆ θυμοῦ εἶναι μεμνημένον μὲν ὀνόματος τοῦ θεός, συνεχόμενον δὲ ἅπασι πάθεσι, μηδὲν δὲ αὐτῶν πειρώμενον ἐξαιρεῖν; ἀρετὴ μὲν οὖν εἰς τέλος προιοῦσα καὶ ἐν ψυχῇ ἐγγενομένη μετὰ φρονήσεως θεὸν δείκνυσιν: ἄνευ δὲ ἀρετῆς ἀληθινῆς θεὸς λεγόμενος ὄνομά ἐστιν.",
+   "flags": [
+    {
+     "taylor": "though they ought to endeavour to correct those with whom they are well acquainted, applying themselves from a divine nature to human concerns",
+     "why": "The Greek says that those \"who have already come to know\" should first set right their life here, as people who have come from a divine nature; Taylor's \"those with whom they are well acquainted\" and \"to human concerns\" are not there."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.16.p1",
+   "chapter": "II.9.16",
+   "modern": "Nor, again, does one become good by despising the world, and the gods in it, and the other beautiful things. Every bad man might despise the gods even before; and one who was not bad before would, by despising them, have become bad by this very thing, even if he were not bad in everything else. And the honour they say they pay to the intelligible gods would be an honour without fellow-feeling. For whoever has love for anything also welcomes all that is akin to what he loves, and the children of the father he loves. Every soul is a child of that father. And there are souls in these, in the stars, intelligent and good, joined to the things there far more than ours. How could this world be cut off from that one? How could the gods in it? But this was said before. Now we say that, despising what is akin to those things, they do not know those things either, except in words.",
+   "greek": "οὐδ’ αὖ τῷ καταφρονῆσαι κόσμου καὶ θεῶν τῶν ἐν αὐτῷ καὶ τῶν ἄλλων καλῶν ἀγαθόν ἐστι γενέσθαι. καὶ γὰρ πᾶς κακὸς καὶ πρὸ τοῦ καταφρονήσειεν ἂν θεῶν, καὶ μὴ πρότερόν τις κακὸς καταφρονήσας, καὶ εἰ τὰ ἄλλα μὴ πάντα κακὸς εἴη, αὐτῷ τούτῳ ἂν γεγονὼς εἴη. καὶ γὰρ ἂν καὶ ἡ πρὸς τοὺς νοητοὺς λεγομένη αὐτοῖς τιμὴ ἀσυμπαθὴς ἂν γένοιτο: ὁ γὰρ τὸ φιλεῖν πρὸς ὁτιοῦν ἔχων καὶ τὸ συγγενὲς πᾶν οὗ φιλεῖ ἀσπάζεται καὶ τοὺς παῖδας ὧν τὸν πατέρα ἀγαπᾷ: ψυχὴ δὲ πᾶσα πατρὸς ἐκείνου. ψυχαὶ δὲ καὶ ἐν τούτοις καὶ νοεραὶ καὶ ἀγαθαὶ καὶ συναφεῖς τοῖς ἐκεῖ πολὺ μᾶλλον ἢ αἱ ἡμῶν: πῶς γὰρ ἂν ἀποτμηθεὶς ὅδε ὁ κόσμος ἐκείνου ἦν; πῶς δὲ οἱ ἐν αὐτῷ θεοί; ἀλλὰ ταῦτα μὲν καὶ πρότερον: νῦν δέ, ὅτι καὶ τῶν συγγενῶν ἐκείνοις καταφρονοῦντες μηδὲ ἐκεῖνα ἴσασιν, ἀλλ’ ἢ λόγῳ.",
+   "flags": [
+    {
+     "taylor": "and no one is completely bad till he does despise them",
+     "why": "The Greek says that one who was not bad before would become bad by this very act of despising the gods, even if he were not bad in anything else; Taylor's words say something different."
+    },
+    {
+     "taylor": "is utterly incongruous",
+     "why": "The Greek word (asympathēs) means \"without fellow-feeling\": an honour to the intelligible gods that does not feel for what is akin to them."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.16.p2",
+   "chapter": "II.9.16",
+   "modern": "And how is it pious to say that providence does not reach to things here, or to anything at all? And how is it consistent with what they say themselves? For they say it cares for them alone. Do they mean when they were there, or also while they are here? If there, how did they come? If here, how are they still here? And how is he himself not here? From where will he know that they are here? And how, that while here they have not forgotten him and become bad? If he knows those who have not become bad, he knows those who have too, so as to tell the one from the other. So he will be present to all and be in this world, in whatever way; so the world will share in him. If he is absent from the world, he will be absent from you too, and you would have nothing to say about him or about what comes after him. But whether some providence comes to you from there, or whatever you like, the world has it from there, and has not been left, and will not be. Providence is far more for the wholes than for the parts, and the sharing of that soul far more. The world's being shows it, and its being wise. For which of those who look down on it so foolishly is so ordered, or so wise, as the universe? To compare them is absurd, and full of strangeness; and anyone who compares them except for the sake of the argument would not be free of impiety.",
+   "greek": "ἐπεὶ καὶ τὸ πρόνοιαν μὴ διικνεῖσθαι εἰς τὰ τῇδε ἢ εἰς ὁτιοῦν, πῶς εὐσεβές; πῶς δὲ καὶ σύμφωνον ἑαυτοῖς λέγουσι; λέγουσι γὰρ αὑτῶν προνοεῖν αὖ μόνον. πότερα δὲ ἐκεῖ γενομένων ἢ καὶ ἐνθάδε ὄντων; εἰ μὲν γὰρ ἐκεῖ, πῶς ἦλθον; εἰ δὲ ἐνθάδε, πῶς ἔτι εἰσὶν ἐνθάδε; πῶς δὲ οὐ καὶ αὐτός ἐστιν ἐνθάδε; πόθεν γὰρ γνώσεται, ὅτι εἰσὶν ἐνθάδε; πῶς δέ, ὅτι ἐνθάδε ὄντες οὐκ ἐπελάθοντο αὐτοῦ καὶ ἐγένοντο κακοί; εἰ δὲ γινώσκει τοὺς μὴ γενομένους κακούς, καὶ τοὺς γενομένους γινώσκει, ἵνα διακρίνῃ ἀπ’ ἐκείνων αὐτούς. πᾶσιν οὖν παρέσται καὶ ἔσται ἐν τῷ κόσμῳ τῷδε, ὅστις ὁ τρόπος: ὥστε καὶ μεθέξει αὐτοῦ ὁ κόσμος. εἰ δὲ ἄπεστι τοῦ κόσμου, καὶ ὑμῶν ἀπέσται, καὶ οὐδ’ ἂν ἔχοιτέ τι λέγειν περὶ αὐτοῦ οὐδὲ τῶν μετ’ αὐτόν. ἀλλ’ εἴτε ὑμῖν πρόνοιά τις ἔρχεται ἐκεῖθεν, εἴτε ὅ τι βούλεσθε, ἀλλ’ ὅ γε κόσμος ἐκεῖθεν ἔχει καὶ οὐκ ἀπολέλειπται οὐδ’ ἀπολειφθήσεται. πολὺ γὰρ μᾶλλον τῶν ὅλων ἢ τῶν μερῶν ἡ πρόνοια καὶ ἡ μέθεξις κἀκείνης τῆς ψυχῆς πολὺ μᾶλλον: δηλοῖ δὲ καὶ τὸ εἶναι καὶ τὸ ἐμφρόνως εἶναι. τίς γὰρ οὕτω τεταγμένος ἢ ἔμφρων τῶν ὑπερφρονούντων ἀφρόνως, ὡς τὸ πᾶν; ἢ παραβάλλειν καὶ γελοῖον καὶ πολλὴν τὴν ἀτοπίαν ἔχει, καὶ ὅ γε μὴ τοῦ λόγου ἕνεκα παραβάλλων οὐκ ἔξω ἂν τοῦ ἀσεβεῖν γένοιτο,",
+   "flags": [
+    {
+     "taylor": "For xvho among those that are stupidly proud , is so orderly and wise as the universe",
+     "why": "The Greek plays on words: \"which of those who are so foolishly over-wise (hyperphronountes aphronōs) is as ordered and wise (emphrōn) as the universe?\""
+    }
+   ]
+  },
+  {
+   "seg": "II.9.16.p3",
+   "chapter": "II.9.16",
+   "modern": "Even to ask about these things is not the mark of a wise man, but of someone blind, with neither perception nor intellect, and far from seeing the intelligible world, since he does not see this one. For what musician would there be who, having seen the harmony in the intelligible, would not be moved when he hears the harmony in sounds we perceive? Who, skilled in geometry and numbers, would not be pleased when he sees with his eyes what is proportionate, in ratio and ordered? Even in paintings, those who see the works of art with their eyes do not see the same things alike; when they recognise in what they perceive an imitation of what lies in thought, they are as it were stirred, and come to a recollection of the truth. It is from this experience that loves are moved. Someone who sees beauty well imitated in a face is carried to that other. Will anyone be so sluggish in mind, and moved by nothing else, that seeing all the beauties in the world we perceive, all its proportion, and this great good order, and the form that shows itself in the stars, far off as they are, he will not think of it, and be seized with awe, at what they are and from what? Then he has neither understood these things nor seen those.",
+   "greek": "καὶ οὐδὲ τὸ ζητεῖν περὶ τούτων ἔμφρονος, ἀλλὰ τυφλοῦ τινος καὶ παντάπασιν οὔτε αἴσθησιν οὔτε νοῦν ἔχοντος καὶ πόρρω τοῦ τὸν νοητὸν κόσμον ἰδεῖν ὄντος, ὃς τοῦτον οὐ βλέπει. τίς γὰρ ἂν μουσικὸς ἀνὴρ εἴη, ὃς τὴν ἐν νοητῷ ἁρμονίαν ἰδὼν οὐ κινήσεται τῆς ἐν φθόγγοις αἰσθητοῖς ἀκούων; ἢ τίς γεωμετρίας καὶ ἀριθμῶν ἔμπειρος, ὃς τὸ σύμμετρον καὶ ἀνάλογον καὶ τεταγμένον ἰδὼν δἰ ὀμμάτων οὐχ ἡσθήσεται; εἴπερ οὐχ ὁμοίως τὰ αὐτὰ βλέπουσιν οὐδὲ ἐν ταῖς γραφαῖς οἱ δἰ ὀμμάτων τὰ τῆς τέχνης βλέποντες, ἀλλ’ ἐπιγιγνώσκοντες μίμημα ἐν τῷ αἰσθητῷ τοῦ ἐν νοήσει κειμένου οἷον θορυβοῦνται καὶ εἰς ἀνάμνησιν ἔρχονται τοῦ ἀληθοῦς: ἐξ οὗ δὴ πάθους καὶ κινοῦνται οἱ ἔρωτες. ἀλλ’ ὁ μὲν ἰδὼν κάλλος ἐν προσώπῳ εὖ μεμιμημένον φέρεται ἐκεῖ, ἀργὸς δέ τις οὕτως ἔσται τὴν γνώμην καὶ εἰς οὐδὲν ἄλλο κινήσεται, ὥστε ὁρῶν σύμπαντα μὲν τὰ ἐν αἰσθητῷ κάλλη, σύμπασαν δὲ συμμετρίαν καὶ τὴν μεγάλην εὐταξίαν ταύτην καὶ τὸ ἐμφαινόμενον ἐν τοῖς ἄστροις εἶδος καὶ πόρρωθεν οὖσιν οὐκ ἐντεῦθεν ἐνθυμηθήσεται, καὶ σέβας αὐτὸν λαμβάνει, οἷα ἀφ̓ οἵων; οὐκ ἄρα οὔτε ταῦτα κατενόησεν, οὔτε ἐκεῖνα εἶδεν.",
+   "flags": [
+    {
+     "taylor": "But the geometrician and arithmetician, knowing in the sensible object the imitation of that w hich subsists in intellection",
+     "why": "The Greek speaks here of those who look at paintings; recognising in the picture an imitation of what is in thought, they are stirred to recollection. Taylor gives this to the geometer and the arithmetician."
+    }
+   ],
+   "notes": [
+    "The beauty of a face that recalls true beauty is from the Phaedrus (251a)."
+   ]
+  },
+  {
+   "seg": "II.9.17.p1",
+   "chapter": "II.9.17",
+   "modern": "And yet, even if it occurred to them to hate the nature of the body, because they have heard Plato find much fault with the body for the hindrances it gives the soul, and call all bodily nature worse, they should have taken this away in thought and seen what remains: an intelligible sphere that holds the form that is on the world; souls in order, giving size without bodies, and leading the intelligible out into extension, so that what came to be might, by its size, as far as it could, be made equal to the partless pattern. For what is great there in power is great here in bulk. And whether they wanted to think of this sphere as moving, carried round by the power of a god who holds the beginning, middle and end of all of it, or as standing still, not yet governing anything else, it would be well, for a conception of the soul that governs this universe.",
+   "greek": "καίτοι, εἰ καὶ μισεῖν αὐτοῖς ἐπῄει τὴν τοῦ σώματος φύσιν, διότι ἀκηκόασι Πλάτωνος πολλὰ μεμψαμένου τῷ σώματι οἷα ἐμπόδια παρέχει τῇ ψυχῇ, καὶ πᾶσαν τὴν σωματικὴν φύσιν εἰπεῖν χείρονα, ἐχρῆν ταύτην περιελόντας τῇ διανοίᾳ ἰδεῖν τὸ λοιπόν, σφαῖραν νοητὴν τὸ ἐπὶ τῷ κόσμῳ εἶδος ἐμπεριέχουσαν, ψυχὰς ἐν τάξει, ἄνευ τῶν σωμάτων μέγεθος δούσας καὶ τὸ νοητὸν εἰς διάστασιν προαγαγούσας, ὡς τῷ μεγέθει τὸ γενόμενον τῷ ἀμερεῖ τῷ τοῦ παραδείγματος εἰς δύναμιν ἐξισωθῆναι: τὸ γὰρ ἐκεῖ μέγα ἐν δυνάμει ἐνταῦθα ἐν ὄγκῳ. καὶ εἴτε κινουμένην ταύτην τὴν σφαῖραν ἐβούλοντο νοεῖν περιαγομένην ὑπὸ θεοῦ δυνάμεως ἀρχὴν καὶ μέσα καὶ τέλος τῆς πάσης ἔχοντος, εἴτε ἑστῶσαν ὡς οὔπω καὶ ἄλλο τι διοικοῦσαν, καλῶς ἂν εἶχεν εἰς ἔννοιαν τῆς τόδε τὸ πᾶν ψυχῆς διοικούσης.",
+   "flags": [
+    {
+     "taylor": "souls in an orderly series without bodies, imparting magnitude according to the intelligible",
+     "why": "The Greek says the souls give size \"without bodies\", and lead the intelligible into extension; \"according to the intelligible\" is not there."
+    }
+   ],
+   "notes": [
+    "\"Beginning, middle and end\" is from the Laws (715e-716a), said of God."
+   ]
+  },
+  {
+   "seg": "II.9.17.p2",
+   "chapter": "II.9.17",
+   "modern": "Then, putting the body into it too, as it would suffer nothing, but give to another to have whatever each can receive, since jealousy is not lawful among the gods, they should think in this way about the world, granting to the soul of the world so much power that it has made the nature of body, which is not beautiful, share in beauty as far as it could be made beautiful. And this beauty itself moves souls that are divine. Unless they say that they themselves are not moved by it, and see no difference between ugly and beautiful bodies. But then they see none between ugly and beautiful ways of life, nor fine studies, nor, then, contemplations, nor, then, God. For these are because of the first things. If, then, not these, not those either; so these are beautiful after those.",
+   "greek": "ἐνθέντας δὲ ἤδη καὶ τὸ σῶμα αὐτῇ, ὡς οὐδὲν ἂν παθούσης, δούσης δὲ ἑτέρῳ, ὅτι μὴ θέμις φθόνον ἐν τοῖς θεοῖς εἶναι, ἔχειν, εἴ τι δύναται λαμβάνειν ἕκαστα, οὕτως αὐτοὺς διανοεῖσθαι κατὰ κόσμου τοσοῦτον διδόντας τῇ τοῦ κόσμου ψυχῇ δυνάμεως, ὅσῳ τὴν σώματος φύσιν οὐ καλὴν οὖσαν ἐποίησεν ὅσον ἦν αὐτῇ καλλύνεσθαι μετέχειν κάλλους: ὃ καὶ αὐτὸ τὰς ψυχὰς θείας οὔσας κινεῖ. εἰ μὴ ἄρα αὐτοὶ φαῖεν μὴ κινεῖσθαι, μηδὲ διαφόρως αἰσχρὰ καὶ καλὰ ὁρᾶν σώματα: ἀλλ’ οὕτως οὐδὲ αἰσχρὰ καὶ καλὰ ἐπιτηδεύματα οὐδὲ καλὰ μαθήματα: οὐδὲ θεωρίας τοίνυν: οὐδὲ θεὸν τοίνυν. καὶ γὰρ διὰ τὰ πρῶτα ταῦτα. εἰ οὖν μὴ ταῦτα, οὐδὲ ἐκεῖνα: μετ’ ἐκεῖνα τοίνυν ταῦτα καλά.",
+   "notes": [
+    "\"Jealousy is not lawful among the gods\" is from the Phaedrus (247a); compare the Timaeus (29e)."
+   ]
+  },
+  {
+   "seg": "II.9.17.p3",
+   "chapter": "II.9.17",
+   "modern": "But when they say they despise beauty here, they would do well to despise the beauty in boys and women, so as not to be overcome by licentiousness. Yet they should know that they would not be proud if they despised what is ugly; they are proud because they despise what they first called beautiful, being in a bad state. Next, that beauty is not the same in a part and in the whole, in each and in all. Then, that there are such beauties even in things we perceive and in partial beings, those of daemons for instance, that one admires the maker and believes they come from there; and from this one can say that the beauty there is beyond reckoning, not clinging to these, but going from these to those, and not abusing these. If their inner selves are beautiful too, one should say the inner and outer agree; if the inner are bad, that they have fallen short of the better.",
+   "greek": "ἀλλ’ ὅταν λέγωσι καταφρονεῖν τοῦ τῇδε κάλλους, καλῶς ἂν ποιοῖεν τοῦ ἐν παισὶ καὶ γυναιξὶ καταφρονοῦντες, ὡς μὴ εἰς ἀκολασίαν ἡττᾶσθαι. ἀλλ’ εἰδέναι δεῖ, ὅτι οὐκ ἂν σεμνύνοιντο, εἰ αἰσχροῦ καταφρονοῖεν, ἀλλ’ ὅτι καταφρονοῦσι πρότερον εἰπόντες καλὸν κακῶς διατεθέντες: ἔπειτα, ὅτι οὐ ταὐτὸν κάλλος ἐπὶ μέρει καὶ ὅλῳ καὶ πᾶσι καὶ παντί: εἶθ̓ ὅτι ἔστι τὰ τοιαῦτα κάλλη καὶ ἐν αἰσθητοῖς καὶ τοῖς ἐν μέρει, οἷα δαιμόνων, ὡς θαυμάσαι τὸν πεποιηκότα καὶ πιστεῦσαι, ὡς ἐκεῖθεν, καὶ ἐντεῦθεν ἀμήχανον τὸ ἐκεῖ κάλλος εἰπεῖν, οὐκ ἐχόμενον τούτων, ἀλλ’ ἀπὸ τούτων ἐπ’ ἐκεῖνα ἰόντα, μὴ λοιδορούμενον δὲ τούτοις: καὶ εἰ μὲν καὶ τὰ ἔνδον καλά, σύμφωνα ἀλλήλοις εἶναι λέγειν: εἰ δὲ τὰ ἔνδον φαῦλα, τοῖς βελτίοσιν ἠλαττῶσθαι.",
+   "flags": [
+    {
+     "taylor": "but if they despise what they before had acknowledged to be beautiful, and by which they were in a certain respect affected",
+     "why": "The Greek says they are proud of despising what they first called beautiful, \"being in a bad state\" (kakōs diatethentes); Taylor's \"by which they were in a certain respect affected\" softens it."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.17.p4",
+   "chapter": "II.9.17",
+   "modern": "Perhaps there is not even anything truly beautiful outside that is ugly inside; for everything beautiful outside is so because the inner has prevailed. Those who are called beautiful but are ugly inside have a false outer beauty too. If someone says he has seen people truly beautiful but ugly inside, I think he has not seen them, but thinks others are the beautiful ones; or if he has, their ugliness was acquired, since they were beautiful by nature, for here there are many hindrances to coming to fulfilment. But what hindrance was there for the universe, being beautiful, to be beautiful inside too? Again, those to whom nature did not give the complete from the beginning might perhaps not come to fulfilment, so that they can even become bad. But the universe was never a child, as being incomplete, nor did anything come to it as it went on, nor was anything added to its body. From where would it come? It had everything. Nor could one invent an addition to its soul. Even if one granted them this, it would not be anything bad.",
+   "greek": "μήποτε δὲ οὐδὲ ἔστιν ὄντως τι καλὸν ὂν τὰ ἔξω αἰσχρὸν εἶναι τὰ ἔνδον: οὐ γὰρ τὸ ἔξω πᾶν καλὸν κρατήσαντός ἐστι τοῦ ἔνδον. οἱ δὲ λεγόμενοι καλοὶ τἄνδον αἰσχροὶ ψεῦδος καὶ τὸ ἔξω κάλλος ἔχουσιν. εἰ δέ τις φήσει ἑωρακέναι καλοὺς ὄντως ὄντας, αἰσχροὺς δὲ τἄνδον, οἶμαι μὲν αὐτὸν μὴ ἑωρακέναι, ἀλλ’ ἄλλους εἶναι νομίζειν τοὺς καλούς: εἰ δ’ ἄρα, τὸ αἰσχρὸν αὐτοῖς ἐπίκτητον εἶναι καλοῖς τὴν φύσιν οὖσι: πολλὰ γὰρ ἐνθάδε τὰ κωλύματα εἶναι ἐλθεῖν εἰς τέλος. τῷ δὲ παντὶ καλῷ ὄντι τί ἐμπόδιον ἦν εἶναι καλῷ καὶ τἄνδον; καὶ μὴν οἷς μὴ τὸ τέλειον ἀπέδωκεν ἐξ ἀρχῆς ἡ φύσις, τούτοις τάχ̓ ἂν οὐκ ἐλθεῖν εἰς τέλος γένοιτο, ὥστε καὶ φαύλοις ἐνδέχεσθαι γενέσθαι, τῷ δὲ παντὶ οὐκ ἦν ποτε παιδὶ ὣς ἀτελεῖ εἶναι οὐδὲ προσεγίνετο αὐτῷ προιόντι τι καὶ προσετίθετο εἰς σῶμα. πόθεν γάρ; πάντα γὰρ εἶχεν. ἀλλ’ οὐδὲ εἰς ψυχὴν πλάσειεν ἄν τις. εἰ δ’ ἄρα τοῦτό τις αὐτοῖς χαρίσαιτο, ἀλλ’ οὐ κακόν τι."
+  },
+  {
+   "seg": "II.9.18.p1",
+   "chapter": "II.9.18",
+   "modern": "But perhaps they will say that their doctrines make people flee from the body, hating it from afar, and that ours hold the soul down to it. This would be like two people living in the same fine house. One finds fault with how it is built, and with its builder, and stays in it none the less. The other does not find fault, but says the builder made it with the greatest skill, and waits for the time to come when he will leave it, when he will no longer need a house. The first would think himself wiser and readier to leave, because he knows how to say that the walls are made of lifeless stones and timber and fall far short of a true dwelling. He does not know that he differs only in not bearing what is necessary, if indeed the other does not resent these things but quietly loves the beauty of the stones. We should stay in the houses, while we have bodies, that were built by a good sister soul, which has great power to make without toil.",
+   "greek": "ἀλλ’ ἴσως φήσουσιν ἐκείνους μὲν τοὺς λόγους φεύγειν τὸ σῶμα ποιεῖν πόρρωθεν μισοῦντας, τοὺς δὲ ἡμετέρους κατέχειν τὴν ψυχὴν πρὸς αὐτῷ. τοῦτο δὲ ὅμοιον ἂν εἴη, ὥσπερ ἂν εἰ δύο οἶκον καλὸν τὸν αὐτὸν οἰκούντων, τοῦ μὲν ψέγοντος τὴν κατασκευὴν καὶ τὸν ποιήσαντα καὶ μένοντος οὐχ ἧττον ἐν αὐτῷ, τοῦ δὲ μὴ ψέγοντος, ἀλλὰ τὸν ποιήσαντα τεχνικώτατα πεποιηκέναι λέγοντος, τὸν δὲ χρόνον ἀναμένοντος ἕως ἂν ἥκῃ, ἐν ᾧ ἀπαλλάξεται, οὗ μηκέτι οἴκου δεήσοιτο, ὁ δὲ σοφώτερος εἶναι οἴοιτο καὶ ἑτοιμότερος ἐξελθεῖν, ὅτι οἶδε λέγειν ἐκ λίθων ἀψύχων τοὺς τοίχους καὶ ξύλων συνεστάναι καὶ πολλοῦ δεῖν τῆς ἀληθινῆς οἰκήσεως, ἀγνοῶν ὅτι τῷ μὴ φέρειν τὰ ἀναγκαῖα διαφέρει, εἴπερ καὶ μὴ ποιεῖ ταῦτα δυσχεραίνων ἀλλ’ ἀγαπῶν ἡσυχῇ τὸ κάλλος τῶν λίθων. δεῖ δὲ μένειν μὲν ἐν οἴκοις σῶμα ἔχοντας κατασκευασθεῖσιν ὑπὸ ψυχῆς ἀδελφῆς ἀγαθῆς πολλὴν δύναμιν εἰς τὸ δημιουργεῖν ἀπόνως ἐχούσης.",
+   "flags": [
+    {
+     "taylor": "The former of these, however, is thought to be the wiser of the two",
+     "why": "The Greek says that the one who finds fault \"would think himself\" wiser and readier to leave; Taylor's \"is thought to be\" makes it others' opinion."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.18.p2",
+   "chapter": "II.9.18",
+   "modern": "Or do they think it right to call even the worst of men brothers, but scorn to call the sun and the beings in the heaven brothers, or the soul of the world, with their raving mouths? It is not lawful to join ourselves to them in kinship while we are bad; but when we have become good, and are not bodies but souls in bodies, able to live in them in a way as close as possible to the way the soul of the universe lives in the whole body. This is not to be struck, nor to give way to the pleasures and sights that fall on us from outside, nor to be troubled if something is hard. That soul is not struck, for there is nothing to strike it. We, being here, would by virtue push the blows away, making some smaller by greatness of mind, others not even blows, by our strength. Coming near to what cannot be struck, we would imitate the soul of the universe and of the stars; and coming close to likeness, we would hasten towards the same goal, and the same things would be ours to contemplate, since we too would be well prepared by nature and by care; but they have it from the beginning.",
+   "greek": "ἢ ἀδελφοὺς μὲν καὶ τοὺς φαυλοτάτους ἀξιοῦσι προσεννέπειν, ἥλιον δὲ καὶ τοὺς ἐν τῷ οὐρανῷ ἀπαξιοῦσιν ἀδελφοὺς λέγειν οὐδὲ τὴν κόσμου ψυχὴν στόματι μαινομένῳ; φαύλους μὲν οὖν ὄντας οὐ θεμιτὸν εἰς συγγένειαν συνάπτειν, ἀγαθοὺς δὲ γενομένους καὶ μὴ σώματα ὄντας, ἀλλὰ ψυχὰς ἐν σώμασι καὶ οὕτως οἰκεῖν δυναμένους ἐν αὐτοῖς, ὡς ἐγγυτάτω εἶναι οἰκήσεως ψυχῆς τοῦ παντὸς ἐν σώματι τῷ ὅλῳ. ἔστι δὲ τοῦτο τὸ μὴ κρούειν, μηδὲ ὑπακούειν τοῖς ἔξωθεν προσπίπτουσιν ἡδέσιν ἢ ὁρωμένοις, μηδ’ εἴ τι σκληρόν, ταράττεσθαι. ἐκείνη μὲν οὖν οὐ πλήττεται: οὐ γὰρ ἔχει ὑπὸ τοῦ: ἡμεῖς δὲ ἐνθάδε ὄντες ἀρετῇ τὰς πληγὰς ἀπωθοίμεθ̓ ἂν ἤδη ὑπὸ μεγέθους γνώμης τὰς μὲν ἐλάττους, τὰς δὲ οὐδὲ πληττούσας ὑπὸ ἰσχύος γενομένας. ἐγγὺς δὲ γενόμενοι τοῦ ἀπλήκτου μιμοίμεθ̓ ἂν τὴν τοῦ σύμπαντος ψυχὴν καὶ τὴν τῶν ἄστρων, εἰς ἐγγύτητα δὲ ὁμοιότητος ἐλθόντες σπεύδοιμεν ἂν πρὸς τὸ αὐτὸ καὶ τὰ αὐτὰ ἂν ἐν θέᾳ καὶ ἡμῖν εἴη ἅτε καλῶς καὶ αὐτοῖς παρεσκευασμένοις φύσεσι καὶ ἐπιμελείαις: τοῖς δὲ ἐξ ἀρχῆς ὑπάρχει.",
+   "flags": [
+    {
+     "taylor": "we shall hasten to be one and the same with them",
+     "why": "The Greek says we would hasten \"towards the same\" goal as the world-soul and the stars, and the same things would be ours to see; not that we would become one with them."
+    }
+   ]
+  },
+  {
+   "seg": "II.9.18.p3",
+   "chapter": "II.9.18",
+   "modern": "Nor, if they say they alone can contemplate, would they contemplate more; nor because they say that they can go out when they die, and the others cannot, who always adorn the heaven. They would say this from ignorance of what \"being outside\" is, and of the way the whole soul cares for all that is soulless. So it is possible not to love the body, to become pure, to despise death, to know the better things and pursue them, and not to grudge others who can pursue them and always do, as if they did not; and not to suffer the same as those who think the stars do not move, because their perception tells them that they stand still. For this is why they do not think the nature of the stars sees what is outside: because they do not see that their soul is outside.",
+   "greek": "οὐδέ, εἰ μόνοι λέγοιεν θεωρεῖν δύνασθαι, πλέον ἂν θεωρεῖν αὐτοῖς γίγνοιτο, οὐδ’ ὅτι αὑτοῖς φασιν εἶναι ἐξελθεῖν ἀποθανοῦσι, τοῖς δὲ μή, ἀεὶ τὸν οὐρανὸν κοσμοῦσιν: ἀπειρίᾳ γὰρ ἂν τοῦ ἔξω ὅ τι ποτέ ἐστι τοῦτο ἂν λέγοιεν καὶ τοῦ ὃν τρόπον ψυχὴ παντὸς ἐπιμελεῖται ἡ ὅλη τοῦ ἀψύχου. ἔξεστιν οὖν καὶ μὴ φιλοσωματεῖν καὶ καθαροῖς γίνεσθαι καὶ τοῦ θανάτου καταφρονεῖν καὶ τὰ ἀμείνω εἰδέναι κἀκεῖνα διώκειν καὶ τοῖς ἄλλοις τοῖς δυναμένοις διώκειν καὶ διώκουσιν ἀεὶ μὴ φθονεῖν ὡς οὐ διώκουσι, μηδὲ ταὐτὸ πάσχειν τοῖς οἰομένοις τὰ ἄστρα μὴ θεῖν, ὅτι αὐτοῖς ἡ αἴσθησις ἑστάναι αὐτὰ λέγει. διὰ τοῦτο γὰρ καὶ αὐτοὶ οὐκ οἴονται τὰ ἔξω βλέπειν τὴν τῶν ἄστρων φύσιν, ὅτι οὐχ ὁρῶσι τὴν ψυχὴν αὐτῶν ἔξωθεν οὖσαν.",
+   "notes": [
+    "\"The whole soul cares for all that is soulless\" is from the Phaedrus (246b)."
    ]
   }
  ],
