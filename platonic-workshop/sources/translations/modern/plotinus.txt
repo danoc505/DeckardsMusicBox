@@ -1,0 +1,196 @@
+# Plotinus in modern English (milestone 27): the Workshop's own, machine-assisted.
+# Made from Volkmann's Greek (First1KGreek's TEI), chapter by chapter, and checked against Taylor's
+# Select Works of Plotinus (1817). Checked and built by tools/modern_neo.py.
+#
+#   @treatise <Ennead.treatise> | <title>   a treatise, with its summary on the lines after
+#   @ch <chapter> | <short title>            a chapter of the Greek (I.2.1), with its gist on the lines after
+#   @p                                       a paragraph of the modern version
+#   @greek <first words>                     where the paragraph begins in the chapter's Greek
+#                                            (the first paragraph of a chapter begins with the chapter)
+#   !flag <Taylor's words> | <why>           a hard or disputed place, or where Taylor's English
+#                                            and the Greek differ; Taylor's words are found in his chapter
+#   !note <text>                             a note on the paragraph
+# Lines starting with # are comments.
+
+@treatise I.2 | On the virtues
+Plato says we should escape from this world by becoming like God, through virtue. But God has no need of virtues. Plotinus answers that we can become like something that does not itself have what makes us like it, as a house is like the plan of it. He then sets the virtues in two ranks: the civic virtues, which put measure into our desires and feelings, and the greater virtues, which purify the soul and turn it to intellect. The good person lives by the greater, and his aim is to live the life of the gods, not just the life of a good human being.
+
+@ch I.2.1 | Becoming like God: does God have virtues?
+We escape evil by becoming like God. But which god, and does he have the virtues? The world-soul, who has nothing to fear and nothing to desire, cannot have courage or self-control. Then we are made like what does not have virtue: as the house we see is like the house in the mind, which has no need of order.
+
+@p
+Evils are here, and they haunt this place by necessity, and the soul wants to escape evils. So we must escape from here. What, then, is the escape? "Becoming like God," Plato says. And this happens "if we become just and holy, with wisdom," and, in short, if we live in virtue. If, then, it is by virtue that we become like, are we made like someone who has virtue? And like which god? Is it the one who seems most of all to have these things, the soul of the world and the ruling power in it, which has a wonderful wisdom? It makes sense that we, being here, should become like this one. But first, it is open to question whether this one has all the virtues. Can it be self-controlled, or brave, when there is nothing it need fear, since nothing is outside it? And when nothing pleasant comes to it that it could desire when it is absent, so as to get it or seize it? But if it, too, reaches out towards the intelligible things that our souls reach for, then plainly our good order and our virtues also come to us from there.
+!note "Becoming like God" and "just and holy, with wisdom" are Plato's words in the Theaetetus (176a-b).
+!flag and to the intellect which is the leader in it | The Greek says only "the ruling power in it"; Taylor names it intellect, as the later Platonists did.
+
+@p
+@greek ἆῤ οὖν ἐκεῖνο ταύτας ἔχει
+Does that one have these virtues, then? It is surely not reasonable that it should have the virtues we call civic: practical wisdom, which belongs to the reasoning part; courage, which belongs to the spirited part; self-control, which lies in a kind of agreement and harmony of the desiring part with reason; and justice, which is each of these parts doing its own work, in ruling and being ruled. Then are we made like God not by the civic virtues, but by the greater ones that go by the same names? But if by others, are we not made like him at all by the civic ones? It would be unreasonable to say that we are not made like him by these in any way at all. At any rate tradition calls the people who have them godlike, and we must say that they have become like God in some way. But the likeness comes by the greater virtues. Either way, it follows that God has virtues, even if not virtues of this kind.
+!note The civic virtues and their parts of the soul are those of Plato's Republic (book 4, 441c-443b).
+!flag For rumor also says, that these are divine | The Greek says that tradition calls these men divine, that is, the people who have the civic virtues; Taylor makes it the virtues.
+
+@p
+@greek εἰ οὖν τις συγχωρεῖ
+Suppose, then, someone grants that we can be made like him, though we stand differently towards different virtues, and are not made like him by the civic ones. Then nothing stops us from becoming, by our own virtues, like one who has no virtue. How can this be? Like this. If something is warmed by the presence of heat, must the source of the heat also be warmed? And if something is hot by the presence of fire, must fire itself be warmed by the presence of fire? To the first, one might reply that there is heat in fire too, but heat that is part of its nature. So the argument, following the comparison, would make virtue something brought into the soul from outside, but natural to that from which the soul has it by imitation. To the argument from fire, one might reply that that one is virtue itself, and we hold it to be greater than virtue. But if what the soul shares in were the same as that from which it comes, we would have to speak in this way. As it is, the one is different from the other. The house we see is not the same as the intelligible house, though it has been made like it. The house we see shares in arrangement and order; but there, in the plan, there is no arrangement, no order, no proportion. In the same way we receive order, arrangement and agreement from there, and these belong to virtue here. But the things there have no need of agreement, order or arrangement, and so they have no need of virtue either. And we are none the less made like the things there by the presence of virtue. So much, then, to show that virtue need not be there because we are made like that world by virtue. But we must add persuasion to the argument, and not rest on force alone.
+!flag but that virtue in him is in reality greater than virtue [because it subsists causally.] | Taylor's words in square brackets are his own explanation, from the later Platonists; they are not in the Greek.
+
+@ch I.2.2 | Two kinds of likeness; the civic virtues
+Likeness is of two kinds: between two copies of one original, and between a copy and its original. The civic virtues give measure to our desires and feelings, and so carry a trace of the measure above; the soul, nearer to the divine than the body, can seem a god itself.
+
+@p
+First, then, we must take up the virtues by which we say we become like God. We want to find the one thing that, in us, is an imitation and is virtue, but there is a kind of original and is not virtue. Note that likeness is of two kinds. One kind requires something the same in the things that are alike: it holds between things made equally like each other from the same source. But where one thing is made like another, and that other comes first, does not stand in the same relation back to it, and is not called like it, likeness must be understood in another way. We do not require the same form in both, but rather a different one, since the likeness came about in this second way.
+
+@p
+@greek τί ποτε οὖν ἐστιν ἡ ἀρετὴ
+What, then, is virtue, both virtue as a whole and each virtue? The account will be clearer if we take each one, for in this way what they have in common, which makes them all virtues, will easily become plain. The civic virtues, which we spoke of above, really do give order to us and make us better, while we still remain and live here. They do it by setting bounds and measures to our desires, and to our passions in general, and by removing false opinions. They do it by what is altogether better, and by setting bounds, since what has measure stands outside the unmeasured and the unbounded. And the virtues themselves, being bounded, in so far as they are measures in the soul as in matter, have been made like the measure there, and hold a trace of the best that is there. What is wholly without measure is matter, and it is wholly unlike. But in so far as a thing shares in form, it is made like that which is without form. Things nearer share more. Soul is nearer than body and more akin, so it shares more: so much that, appearing as a god, it deceives us into thinking that this is all there is of God. That, then, is how these people are made like God.
+!flag and taking away false opinions from a more excellent nature | The Greek says the virtues remove false opinions "by what is altogether better", the means by which they work; it does not say "from a more excellent nature".
+!flag Perhaps, too, these measures are in soul as in matter | There is no "perhaps" in the Greek here: the virtues are measures in the soul as in matter.
+
+@ch I.2.3 | The greater virtues are purifications
+Plato calls the virtues purifications, so there are two kinds. The soul is bad when it is mixed up with the body; it is good when it thinks on its own, does not share the body's feelings, does not fear to leave it, and lets reason lead. This is likeness to God. But God is not in a state of virtue: virtue belongs to the soul, not to intellect or what is beyond it.
+
+@p
+But since Plato hints that the likeness is a different one, belonging to a greater virtue, we must speak of that. In doing so the being of civic virtue will also become clearer, and what the greater virtue is in its being, and in general that there is another virtue besides the civic. When Plato says that likeness to God is an escape from the things here, and does not call the virtues of civic life simply virtues but adds "civic", and elsewhere calls them all purifications, he plainly holds that virtues are of two kinds, and that the likeness does not come by the civic kind.
+!note "An escape from the things here" is from the Theaetetus (176a-b); the virtues as purifications are in the Phaedo (69b-c); the "civic" virtues are named so in the Republic (430c) and the Phaedo (82a).
+
+@p
+@greek πῶς οὖν λέγομεν ταύτας
+In what sense, then, do we call these virtues purifications? And how is it that, once purified, we are made like God most of all? It is like this. The soul is bad when it is mixed up with the body, shares its feelings, and agrees with it in all its opinions. So it would be good, and have virtue, if it did not share the body's opinions but acted alone, and that is to use intellect and to be wise; if it did not share the body's feelings, and that is to be self-controlled; if it did not fear being parted from the body, and that is to be brave; and if reason and intellect led, and the rest did not resist, and that would be justice. Someone who called this state of the soul, in which it thinks and is in this way free from passion, a likeness to God would not be wrong. For the divine is pure, and its activity is such that whatever imitates it has wisdom.
+
+@p
+@greek τί οὖν; οὐ κἀκεῖνο
+Well then, is not that one also in this state? No: it is not in a state at all; the state belongs to the soul. And the soul thinks in a different way. Of the beings there, one thinks in another way, and the other does not think at all. Then is "thinking" just the same word for two different things? Not at all. One thinks first, and the other thinks in a different way that comes from the first. As speech in the voice is an imitation of the speech in the soul, so the speech in the soul is an imitation of the speech in something else. So, as spoken speech is a copy of the speech in the soul, the speech in the soul, being its interpreter, is a copy of what comes before it. Virtue, then, belongs to the soul. It does not belong to intellect, nor to what is beyond intellect.
+!note The Workshop takes "one" and "the other" of the beings there to be intellect, which thinks in its own way, and the One, which does not think, as the last sentence of the chapter suggests.
+!flag is divided when compared with it | Taylor has "divided" twice here; Volkmann's Greek has μεμιμημένος, "imitated", and the modern version follows the Greek shown.
+
+@ch I.2.4 | Purification, turning, and the soul's own good
+Is virtue the purifying, or the having been purified? Purification only removes what is foreign; the soul's good is to be with what is akin to it, and it reaches it by turning. Its virtue is what comes from the turning: a seeing of the realities, whose imprints the soul held unlit and now lights up.
+
+@p
+We must ask whether purification is the same as this kind of virtue, or whether purification comes first and virtue follows. And does virtue lie in being purified, or in having been purified? Virtue in the process of being purified is less complete than virtue in having been purified, for having been purified is already a kind of goal. But having been purified is the removal of everything foreign, and the good is something other than that. Or, if the soul was good before the purification, is purification enough? Purification will be enough; but what is left will be the good, not the purification. And we must ask what it is that is left. Perhaps the nature that is left was not the good itself, or it would not have come to be in evil. Should we call it good-like, then? Yes, but not able to stay in what is truly good, for it is made so that it can go either way. Its good, then, is to be with what is akin to it, and its evil is to be with the opposite. So it must be with what is akin to it, once it is purified, and it will be with it by turning to it. Does it turn, then, after the purification? Rather, after the purification it has turned. Is this, then, its virtue? Rather, its virtue is what comes to be in it from the turning. What is that? A seeing, and an imprint of what is seen, set in it and at work, as sight is at work on what it sees.
+!flag if the soul was good prior to her impurity | The Greek says "before the purification", not "before her impurity".
+
+@p
+@greek οὐκ ἄρα εἶχεν αὐτὰ
+Did the soul not have these things already, then, and does it not recollect them? It had them, but not at work: they lay stored away, unlit. For them to be lit, and for the soul then to know that they are in it, it must come close to what gives light. And it had not the things themselves but imprints of them, so it must fit the imprint to the true things of which the imprints are imprints. Perhaps this is also why the soul is said to have them: intellect is not foreign to it, and least of all foreign when the soul looks towards it. If it does not, intellect is foreign even when it is present. So too our kinds of knowledge are foreign to us if we never act by them at all.
+!flag She did not, therefore, possess these, nor recollect them | The Greek is a question ("Did it not have them, then, and does it not recollect?"), which the next sentence answers; Taylor makes it a statement.
+!flag when it looks to the illuminating cause | The Greek says "when it looks towards it", that is, when the soul looks to intellect; "the illuminating cause" is Taylor's.
+
+@ch I.2.5 | How far purification goes
+The purified soul draws itself together away from the body. It takes bodily pleasures only as cures, bears pain calmly, removes anger and fear as far as it can, and desires nothing base. It wants to make its lower part pure too, so that this part respects reason, as a man respects a wise neighbour.
+
+@p
+We must say how far purification goes, for in this way it will be clear to what the likeness is, and with which god the soul becomes the same. The question is chiefly this: how the soul purifies anger and desire and all the rest, pain and its kin, and how far it can be separated from the body. From the body, perhaps, by drawing itself together, as it were, into its own place; and in any case by being free from passion. It makes the necessary pleasures and the perceptions of the senses only cures and reliefs from pain, so that it is not troubled. It takes away pains, and if it cannot, it bears them calmly and makes them smaller by not feeling with the body. It takes away anger as far as it can, entirely if possible; and if not, at least it does not join in the anger itself, but the involuntary movement belongs to something else, and is slight and weak. Fear it takes away entirely, for it will fear nothing; though here too there may be something involuntary, except where fear serves as a warning.
+
+@p
+@greek ἐπιθυμία δὲ ὅτι μὲν
+As for desire, plainly the soul will desire nothing base. It will not itself desire food and drink for relaxation, nor sex either. If it does at all, I think it will desire what nature needs, with nothing involuntary in it; and if there is something involuntary, it will go no further than a passing image in the mind. In short, the soul itself will be pure of all these things, and it will want to make the unreasoning part pure too, so that this part is not struck by them; or, if it is, not hard, but its blows will be few and quickly undone by the nearness of reason. It is as if a man lived next door to a wise man and gained from being his neighbour, either by becoming like him, or by being so in awe of him that he dared to do nothing the good man would not want.
+!flag And as to the desire of meats and drinks for the sake of a remission of pain | The Greek has "for relaxation" (anesis); "of pain" is Taylor's addition.
+
+@p
+@greek οὔκουν ἔσται μάχη
+So there will be no struggle. The presence of reason is enough. The worse part will respect it, so that the worse part itself will be vexed if it is moved at all, because it did not keep quiet when its master was there, and it will rebuke itself for its weakness.
+
+@ch I.2.6 | To be a god, not only without fault
+The aim is not to be free from fault but to be a god. In the purified person wisdom is the seeing of what intellect holds. Each virtue is twofold: in intellect it is not virtue but the pattern; in the soul it is virtue. The greater justice, self-control and courage are the soul's activity towards intellect, its turning inward, and its freedom from passion.
+
+@p
+None of these things is a sin; they are right conduct for a human being. But our aim is not to be free from sin; it is to be a god. If something of this kind still happens involuntarily, such a person would be a god and a daemon at once, a double being; or rather he would have with him another, who has a different virtue. If nothing of the kind happens, he is a god alone: a god of those who follow the first.
+!note "Those who follow" recalls the gods and daemons who follow Zeus in the Phaedrus (246e-247a).
+!flag but a correction of the man | The Greek word (katorthōsis) means right action, doing well; it is not "correction".
+
+@p
+@greek αὐτὸς μὲν γάρ ἐστιν
+For he himself is the one who came from there, and his own true self, if he became such as he was when he came, is there. Coming here, he was settled together with intellect, and he will make "this" like himself, as far as its power allows, so that, if possible, it is not struck at all, or at least does nothing that does not please its master.
+!flag But coming hither, he will associate with intellect ; and will assimilate this to himself | A hard sentence. Volkmann's Greek has "with intellect" (νῷ), as Taylor does; read so, it is not clear what "this" is that the man makes like himself. From what follows ("not struck", "its master") it seems to be the lower part he lives with here. The modern version keeps the Greek shown and marks "this".
+
+@p
+@greek τίς οὖν ἑκάστη
+What, then, is each virtue for such a man? Wisdom, both theoretical and practical, lies in contemplating what intellect holds; but intellect holds it by direct contact. Each of the two is double: one is in intellect, the other in soul. There it is not virtue; in the soul it is virtue. What is it there, then? Intellect's own activity, and what intellect is. Here, what comes from there and is in another is virtue. For justice itself, and each virtue itself, is not virtue, but a kind of pattern; what comes from it into the soul is virtue. Virtue is the virtue of someone; but each thing itself belongs to itself, and not to anything else.
+!flag But he will possess intellect by contact | The Greek says that intellect has what it holds by direct contact; it does not say that the man possesses intellect.
+
+@p
+@greek δικαιοσύνη δὲ εἴπερ οἰκειοπραγία
+If justice is doing one's own work, is it always found in a number of parts? Or is there one justice in a number of parts, when there are many parts, and another that is simply doing one's own work, even of a single thing? True justice itself, at any rate, is of one thing towards itself, in which there is not one part and another. So for the soul too, the greater justice is to act towards intellect; self-control is the turning inward towards intellect; and courage is freedom from passion, in likeness to that which the soul looks towards, which is by nature free from passion. In the soul, this freedom comes from virtue, so that it does not share the feelings of the worse partner it lives with.
+!flag Hence justice in the soul is to energize in a greater degree intellectually | The Greek says that the greater justice of the soul is its activity towards intellect; "greater" belongs to the justice, not to the activity.
+
+@ch I.2.7 | The virtues follow one another; the life of the gods
+The virtues go together in the soul, as their patterns do in intellect. Whoever has the greater virtues has the lesser ones in potential. The good person will use the lesser when circumstances call for them, but will live by the higher measures, and choose not the life of a good human being but the life of the gods.
+
+@p
+These virtues in the soul, then, follow one another, as, there in intellect, do the patterns that come before virtue. For there, thinking is knowledge and wisdom; being turned towards itself is self-control; doing its own work is its justice; and what is like courage is its sameness, its staying pure by itself. In the soul, then, the seeing directed towards intellect is wisdom, theoretical and practical: these are virtues of the soul, for the soul is not these things itself, as intellect is there. The other virtues follow in the same way. And with purification too: since all the virtues are purifications, in the sense of having been purified, the soul must have all of them, or none will be complete. Whoever has the greater virtues necessarily has the lesser ones too, in potential; but whoever has the lesser ones does not necessarily have the greater.
+!flag and that which is as it were fortitude is immateriality | Volkmann's Greek has ταυτότης, "sameness"; Taylor has "immateriality", which is not what the Greek shown says. The modern version follows the Greek.
+
+@p
+@greek ὁ μὲν δὴ προηγούμενος
+This, then, is the life that is the chief aim of the good man. Whether he has the lesser or the greater virtues in act, or in some other way, must be looked at virtue by virtue: practical wisdom, for example. If it is going to use other principles, how can the lesser one still remain, even if it is not at work? And what if one virtue by nature goes so far and another so far, and the one self-control sets measures to the passions, while the other takes them away altogether? The same holds for the other virtues, once practical wisdom has been moved. Or perhaps he will know them, and how much he will take from them; and perhaps at times, as circumstances call for it, he will act by some of them. But when he reaches higher principles and other measures, he will act by those. He will not, for example, place self-control in that measure, but will separate himself altogether, as far as he can. And he will not live the life of the good human being that civic virtue thinks right; he will leave it behind and choose another, the life of the gods. For his likeness is to be to them, and not to good human beings. Likeness to good human beings is the likeness of one image to another, each made like the same original. Likeness to the other is likeness to the pattern itself.
+!flag For if it uses the other virtues | The Greek says "if it is going to use other principles" (archai); Taylor has "the other virtues".
+
+@treatise I.3 | On dialectic
+What leads us up to the Good? Plato names three kinds of people who can be led up: the musician, the lover and the philosopher. Each starts from a different place, and Plotinus says how each is to be led. All of them must come at last to dialectic, which is not a tool for arguing but the highest part of philosophy: knowledge of what each thing is, which rests in the intelligible world and hands logic over to others. The lower virtues and wisdom grow together and complete each other.
+
+@ch I.3.1 | Who can be led up, and the musician
+The journey has two stages: up to the intelligible world, and then through it to its summit. Plato names three natures fit for the first: the musician, the lover and the philosopher. The musician, stirred by beautiful sounds, must be taught that what moved him was the harmony and beauty of the intelligible world.
+
+@p
+What art, method or practice leads us up to where we must go? Where we must go, to the Good and the first principle, let us take as agreed and as shown by many arguments. And indeed the arguments by which it was shown were themselves a kind of leading up.
+
+@p
+@greek τίνα δὲ δεῖ εἶναι
+What kind of man must he be who is to be led up? Surely the one who, as Plato says, has seen all things, or most things, and who "at his first birth entered into the seed of a man who will be a philosopher, or a musician, or a lover". The philosopher by nature, the musician and the lover are the ones to be led up. What, then, is the way? Is it one and the same for all of them, or is there one for each? For all of them the journey has two stages: one for those going up, and one for those who have arrived above. The first starts from the things below. The second is for those who are already in the intelligible world and have, as it were, set foot there: they must travel on until they reach the furthest point of the region, which is the end of the journey, when one stands on the summit of the intelligible. But let that wait. Let us first try to speak about the leading up.
+!note Plato's words are from the Phaedrus (248d): the soul that has seen most of the realities is born as a lover of wisdom, a lover of beauty, a musician or a lover.
+
+@p
+@greek πρῶτον δὴ διασταλτέον
+First, then, we must tell these men apart, beginning with the musician, and say what he is by nature. We must take him to be easily moved and excited by beauty, but less able to be moved from within himself; he is ready to respond to whatever strikes him, as it were. As timid people start at noises, so he starts at musical sounds and the beauty in them. He always flees what is out of tune and lacks unity in songs, and pursues what has good rhythm and good shape in rhythms. After these sounds and rhythms and shapes that we perceive, then, he must be led like this. We must separate the matter in which the proportions and ratios are found, and lead him to the beauty that is in them. He must be taught that what excited him was the intelligible harmony and the beauty in it, and beauty as a whole, not only one particular beauty. And the arguments of philosophy must be put into him, by which he is to be led to believe in what he has without knowing it. What these arguments are, we shall say later.
+!flag yet is not disposed to be moved from himself | The Greek says he is "less able to be moved from within himself", that is, he needs something outside to move him; Taylor's words come near this.
+
+@ch I.3.2 | The lover
+The lover remembers beauty but cannot grasp it apart from bodies. He must be led, as in Plato's Symposium, from one beautiful body to all of them, then to beautiful ways of life and laws, arts, sciences and virtues, and from the virtues up to intellect and being.
+
+@p
+The lover, whom the musician may turn into, and having turned may either stay as or go beyond, has a kind of memory of beauty. But he cannot grasp it on its own, apart from bodies; struck by the beautiful things he sees, he is excited about them. He must be taught, then, not to fall excited before one body, but must be led by reasoning to all bodies, and shown what is the same in all of them. He must be told that it is other than bodies and comes from elsewhere, and that it is found more in other things: he must be shown beautiful ways of life and beautiful laws (for this already accustoms him to what is lovable in things without body), and that there is beauty in the arts, in the kinds of knowledge and in the virtues. Then all these must be made one, and he must be taught how beauty comes to be in them. From the virtues he must now go up to intellect, to being; and there he must take the upward road.
+!note The ascent from one beautiful body to all of them, to ways of life and laws, and to the kinds of knowledge, is Diotima's in Plato's Symposium (210a-d).
+
+@ch I.3.3 | The philosopher
+The philosopher by nature is already winged and moving upward, and needs only to be shown the way: first mathematics, to train him in thinking of what has no body; then the completion of his virtues; then dialectic.
+
+@p
+The philosopher by nature is ready for it, winged, as it were, and does not need to be separated from bodies as these others do. He is already moving upward, and lacks only someone to show him the way. So he must be shown, and set free, since he wants it himself and has long been free by nature. He must be given mathematics, to accustom him to thinking of what has no body, and to believing in it; and he will take to it easily, since he loves learning. Being virtuous by nature, he must be led on to the completion of his virtues. And after mathematics he must be given the arguments of dialectic, and made, in short, a dialectician.
+
+@ch I.3.4 | What dialectic is
+Dialectic is the power to say of each thing what it is, how it differs from others and what it shares with them, and to do this by knowledge, not opinion. It works in the intelligible world, dividing and combining the Forms until it reaches the first principle; then it rests, and leaves logic to another art.
+
+@p
+What is dialectic, which must be handed on to the first two as well? It is the state of mind that can say, in reasoned speech, about each thing, what it is, how it differs from other things, and what it has in common with them; among which things it belongs, and where each of these stands; whether it is what it is; how many things there are that are, and again the things that are not, which are other than the things that are. It discusses the good and what is not good, the things that fall under the good and those that fall under its opposite, and what is eternal and what is not; and all of it by knowledge, of course, not by opinion.
+!note "The things that are not, which are other than the things that are" is the teaching of Plato's Sophist (257b-259b): what is not is not nothing, but what is other.
+
+@p
+@greek παύσασα δὲ τῆς περὶ τὸ αἰσθητὸν
+It stops wandering about the world we perceive and settles in the intelligible world, and does its work there. It lets falsehood go, and feeds the soul in what is called "the plain of truth". It uses Plato's method of division to tell the Forms apart, to find what each thing is, and to find the first kinds; it weaves together, by intellect, the things that come from these, until it has gone through the whole intelligible world; and then, the other way, it takes them apart again, until it comes back to the first principle. Then it is still, since it is at peace in so far as it is there; it no longer busies itself with many things, but has become one, and looks. What is called logic, about propositions and syllogisms, it hands over to another art, as it would the knowledge of how to write. Some of these things it thinks necessary, as coming before the art; but it judges them, as it judges everything else, and thinks some of them useful and others superfluous, belonging to the method that wants them.
+!note "The plain of truth" is from the Phaedrus (248b). Plato's method of division is shown in the Sophist and the Statesman; the "first kinds" are the greatest kinds of the Sophist (254b-255e).
+!flag and again, by an analytic process it arrives at that to which it had proceeded from the first | The Greek says that it takes things apart again "until it comes to the principle" (archē), the first principle; Taylor's words do not say this.
+
+@ch I.3.5 | Where dialectic gets its principles; dialectic and philosophy
+Intellect gives dialectic its principles. Dialectic is the most valuable part of philosophy, not a tool: it deals with real things, judges falsehood by the truth it holds, and leaves the fine points of propositions to another art.
+
+@p
+But where does this knowledge get its principles? Intellect gives clear principles, if a soul can receive them. Then dialectic puts together, weaves and divides what follows from them, until it arrives at complete intellect. For "it is", as Plato says, "the purest part of intellect and wisdom". Since it is the most valuable of the states of mind in us, it must be concerned with being and with what is most valuable: wisdom with being, and intellect with what is beyond being.
+!note Plato's words are from the Philebus (58d), where Burnet's text has "the pure" (τὸ καθαρὸν) part of intellect and wisdom; Plotinus, as Volkmann prints him, has "the purest". Volkmann's Greek, as First1KGreek gives it, prints "τὸ ἂν" where the sense needs τὸ ὄν, "being".
+
+@p
+@greek τί οὖν ἡ φιλοσοφία
+What, then, is philosophy? The most valuable thing. Are philosophy and dialectic the same? Rather, dialectic is the valuable part of philosophy. We must not think that it is a tool of the philosopher's. It is not bare theorems and rules: it deals with things, and has the things that are as its matter, so to speak. It does go to them by a method, but it holds the things together with the theorems. Falsehood and sophistry it knows only incidentally, when another has made them: it judges falsehood as something foreign, by the truths in itself, and knows, when someone presents it, that it goes against the rule of truth. So it does not know about the proposition as such (that would be like knowing letters); but knowing the truth, it knows what they call a proposition. And in general it knows the movements of the soul: what the soul affirms and what it denies, whether it denies what it affirmed or something else, and whether things are different or the same. It grasps whatever is put before it, as sense-perception grasps things, and leaves exact study of these matters to another art, which enjoys it.
+
+@ch I.3.6 | The other parts of philosophy, and the natural virtues
+Philosophy also studies nature and conduct, with help from dialectic. Practical wisdom reasons about the virtues as a whole; dialectic and wisdom serve it from above. The lower virtues are incomplete without wisdom, and wisdom cannot come without them: the two grow together.
+
+@p
+It is the valuable part, then, since philosophy has other parts too. It studies nature, taking help from dialectic, as the other arts make use of arithmetic, though philosophy draws on dialectic more closely. And it studies conduct in the same way, contemplating from there, and adding the habits and the exercises from which the habits come. The habits of reason hold what comes from there as already their own; for most of the moral habits come with matter. The other virtues apply reasoning to particular feelings and actions; but practical wisdom is a kind of reasoning above these, more concerned with the universal: whether the virtues go together, and whether to hold back now or later, or whether something else altogether is better. Dialectic and wisdom, more universally still and without matter, bring everything forward for practical wisdom to use.
+!flag The rational virtues also have habits, and what are now as peculiarities, which they derive from thence | A hard sentence in the Greek. The Workshop takes it to mean that the habits of reason hold what comes from dialectic as their own already, while most of the moral habits come with matter; Taylor's English is a guess too.
+
+@p
+@greek πότερα δὲ ἔστι τὰ κάτω
+Can the lower virtues exist without dialectic and wisdom? Yes, but incompletely, with something lacking. And can one be wise and a dialectician in this way without the lower ones? That could not happen: they must come first, or grow up together. Perhaps a person may have natural virtues, from which the complete virtues come when wisdom is added. Wisdom, then, comes after the natural virtues, and then completes one's character. Or rather, when the natural virtues are there, both grow together and are completed together; or one, coming first, completes the other. For natural virtue in general has an incomplete eye and an incomplete character, and the principles from which we have them both count for most in both.
+!flag But whether is it possible to know | The Greek asks whether the lower virtues can exist without dialectic and wisdom; "to know" is not in it.
+!flag It is possible, however, for a man to be thus wise and skilled in dialectic without a knowledge of these | The Greek is a question ("Is it possible to be wise and a dialectician without these?"), and the answer is no; Taylor makes it a statement.

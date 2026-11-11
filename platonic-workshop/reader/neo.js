@@ -227,7 +227,9 @@ function taylorGreekShelf() {
     <p class="meta">Thomas Taylor translated three of these texts. Read his English chapter by chapter, with the Greek of the edition above one tap away (and back from the Greek).
       Taylor's English is the OCR of his printed books (the Elements, Project Gutenberg's transcription), not proofread.</p>
     <ul>${tgWorks().map((w) => `<li><a href="#neo-en/${esc(w.id)}"><b>${esc(w.author)}, ${esc(w.title)}</b></a>
-      <span class="meta">Taylor, ${esc(String(w.year))}; ${w.n_chapters.toLocaleString()} ${esc(w.unit_name)}s, ${w.n_matched.toLocaleString()} with the Greek</span></li>`).join("")}</ul></section>`;
+      <span class="meta">Taylor, ${esc(String(w.year))}; ${w.n_chapters.toLocaleString()} ${esc(w.unit_name)}s, ${w.n_matched.toLocaleString()} with the Greek</span>
+      ${w.modern ? `<br><span class="meta">In modern English from the Greek, the Workshop's own:</span> ${w.modern.treatises.filter((t) => t.seq !== null).map((t) =>
+        `<a href="#neo-en/${esc(w.id)}/${t.seq}">${esc(t.id)} ${esc(t.title)}</a>`).join(", ")}` : ""}</li>`).join("")}</ul></section>`;
 }
 
 const _neoShelf = neoShelf;
@@ -378,3 +380,134 @@ document.addEventListener("click", (ev) => {
     });
   }
 });
+
+// ------------------------------------------------------------------ milestone 27: modern English of the Neoplatonists
+// The Workshop's own modern English, made from the Greek and checked against Taylor (tools/modern_neo.py), read
+// in place of Taylor's English where it exists: chapter by chapter, each with a short title and its gist, every
+// paragraph with its Greek one tap away and Taylor's English of the chapter one tap away (or side by side).
+// Labelled as the Workshop's own and machine-assisted; a flag shows where Taylor and the Greek differ. "Mark a
+// sentence" works as in milestone 24 (modern.js), and the marks are kept in your own database for revision.
+
+const TG_MODES = [["modern", "Modern English", "The Workshop's modern English, made from the Greek, with Taylor's words a tap away"],
+  ["both", "Side by side", "The modern English and Taylor's together, chapter by chapter"],
+  ["taylor", "Taylor only", "Taylor's English of 1817 as before, with the Greek a tap away"]];
+
+function tgModernPara(p) {
+  const flags = (p.flags || []).map((f) => `<div class="mp-flag"><b>⚑ Hard, or Taylor differs</b> ${esc(f.why)}
+      <div class="meta">Taylor's words: “${esc(f.taylor)}”</div></div>`).join("");
+  const notes = (p.notes || []).map((n) => `<p class="meta mp-note">${esc(n)}</p>`).join("");
+  return `<div class="mp" id="mp-${esc(p.seg)}" data-seg="${esc(p.seg)}"><div class="mp-mod">
+    <p class="mp-text">${modernParaHtml(p)}</p>${flags}${notes}
+    <div class="mp-tools"><button type="button" class="link-btn" data-mp-mark>Mark a sentence</button></div>
+    <div class="mp-markbox" hidden></div>
+    <details class="mp-greek"><summary>The Greek of this paragraph</summary><div class="neo-tei" lang="grc">${esc(p.greek)}</div></details></div></div>`;
+}
+
+function tgTaylorWords(w, d, c) {
+  return `<div class="tg-tay"><div class="mp-tay-h">Taylor, ${esc(String(w.year))}${c.page ? `, p. ${esc(String(c.page))}` : ""}</div>
+    ${c.paras.map((x) => `<p>${esc(x)}</p>`).join("")}
+    ${c.notes.length ? `<details class="meta"><summary>Taylor's notes (${c.notes.length})</summary><ol class="neo-notes">${c.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ol></details>` : ""}</div>`;
+}
+
+function tgModernChapter(w, d, c, mode) {
+  const open = TG.all;
+  const mods = c.modern.map((m) => `<h4 class="neo-unit-n" id="mc-${esc(m.id)}">${esc(m.id)}: ${esc(m.title)}</h4>
+      <div class="ms-sum"><b>In short</b> ${esc(m.summary)}</div>
+      ${m.paragraphs.map(tgModernPara).join("")}`).join("");
+  const tay = tgTaylorWords(w, d, c);
+  return `<section class="tg-ch tg-mod tg-mode-${mode}" id="tg-${c.seq}">
+    <p class="meta tg-mlab">${esc(c.label)} ${tgHow(c)}</p>
+    <div class="tg-cols"><div class="tg-mcol">${mods}</div>
+      ${mode === "both" ? `<div class="tg-tcol">${tay}</div>` : ""}</div>
+    <p class="mp-tools">${mode === "both" ? "" : `<button type="button" class="link-btn" data-tg-tay aria-expanded="false">Taylor's words</button>`}
+      <button type="button" class="link-btn" data-tg-greek="${c.seq}" aria-expanded="${open}">The Greek of the chapter</button></p>
+    ${mode === "both" ? "" : `<div class="tg-tay-box" hidden>${tay}</div>`}
+    <div class="tg-greek"${open ? "" : " hidden"}>${tgGreekBlock(w, d, c)}</div>
+  </section>`;
+}
+
+function tgModernToc(w, d, cur) {
+  const m = d.modern, marks = (MODERN.marks || []).filter((x) => d.chapters.some((c) => (c.modern || []).some((mc) => x.para.startsWith(mc.id + "."))));
+  const chs = d.chapters.flatMap((c) => c.modern || []);
+  return tgToc(w, cur).replace(/<ul class="books neo-toc">/, `<h4 class="pane-h">In modern English</h4>
+    <ol class="mod-secs">${chs.map((c) => `<li><a href="#mc-${esc(c.id)}" data-scroll="mc-${esc(c.id)}">${esc(c.id)}: ${esc(c.title)}</a></li>`).join("")}</ol>
+    <h4 class="pane-h">Your marks${marks.length ? ` (${marks.length})` : ""}</h4>
+    ${marks.length ? `<ul class="mod-marks">${marks.map((mk) => `<li><a href="#mp-${esc(mk.para)}" data-scroll="mp-${esc(mk.para)}"><b>${esc(mk.kind)}</b></a>${mk.changed ? ` <span class="meta">(revised since)</span>` : ""}: ${esc(mk.sentence.length > 90 ? mk.sentence.slice(0, 88) + "…" : mk.sentence)}</li>`).join("")}</ul>`
+      : `<p class="meta">None yet. If a sentence reads badly or seems wrong, tap “Mark a sentence” under its paragraph.</p>`}
+    <h4 class="pane-h">Taylor's parts</h4><ul class="books neo-toc">`);
+}
+
+const _renderTaylorGreekPart = renderTaylorGreekPart;
+renderTaylorGreekPart = function (w, d, chapter) {  // eslint-disable-line no-global-assign
+  TG.cur = { w, d, chapter };
+  if (!d.modern) { document.body.classList.remove("modern-text-on"); return _renderTaylorGreekPart(w, d, chapter); }
+  if (!TG.modeRead) { TG.modeRead = true; TG.mode = prefsGet("tgMode", "modern"); }
+  if (!TG_MODES.some(([k]) => k === TG.mode)) TG.mode = "modern";
+  MODERN.t = { modern: { ...d.modern, paragraphs: d.chapters.flatMap((c) => (c.modern || []).flatMap((m) => m.paragraphs)) } };
+  MODERN.marks = d.modern.marks || [];
+  MODERN.toc = () => { $("#toc").innerHTML = tgModernToc(w, d, d.part.seq); };
+  const modes = `<div class="mod-modes" role="group" aria-label="Which English">${TG_MODES.map(([k, l, title]) =>
+    `<button type="button" class="chip${k === TG.mode ? " on" : ""}" data-tg-mode="${k}" aria-pressed="${k === TG.mode}" title="${esc(title)}">${esc(l)}</button>`).join("")}</div>`;
+  if (TG.mode === "taylor") {
+    _renderTaylorGreekPart(w, d, chapter);
+    $("#main .tg-read h2").insertAdjacentHTML("afterend", `<div class="mod-label" role="note"><b>This treatise is also in modern English, the Workshop's own.</b>${modes}</div>`);
+    MODERN.toc();
+    return;
+  }
+  const m = d.modern, tr = m.treatise || {};
+  const nav = `<p class="neo-nav">${d.prev ? `<a class="btn" href="#neo-en/${esc(w.id)}/${d.prev.seq}">‹ ${esc(d.prev.label)}</a>` : ""}
+    <a class="btn" href="#neo-en/${esc(w.id)}">Contents</a>
+    ${d.next ? `<a class="btn" href="#neo-en/${esc(w.id)}/${d.next.seq}">${esc(d.next.label)} ›</a>` : ""}</p>`;
+  let h = `<div class="search guide neo-text neo-read tg-read modern-text mod-${TG.mode}"><p class="meta"><a href="#neo-en/${esc(w.id)}">${esc(w.author)}, ${esc(w.title)}</a>, in modern English beside Taylor's</p>
+    <h2>${esc(d.part.label)}</h2>
+    ${d.part.greek_label ? `<p class="neo-greek" lang="grc">${esc(d.part.greek_label)}</p>` : ""}
+    ${tr.summary ? `<div class="ms-sum"><b>The treatise in short</b> ${esc(tr.summary)}</div>` : ""}
+    <div class="mod-label" role="note"><b>Modern English, the Workshop's own</b>
+      <span class="mod-badge" title="Drafted with an AI model and not yet checked by a scholar">machine-assisted</span>
+      <p>${esc(m.label)} Made from the Greek of ${esc(d.greek_text.edition)}, checked against Taylor's translation (${esc(String(w.year))}).
+        Tap “Mark a sentence” under a paragraph if a sentence reads badly or seems wrong: your marks are kept for revision.</p>
+      <details><summary>About this version</summary><p>${esc(m.about)}</p>
+        <p class="meta">Master copy: <code>${esc(m.source)}</code>; the checks: <code>reports/modern_neo.md</code>. Taylor's English: ${esc(w.edition)}, ${esc(w.text_how)}.</p></details>
+      ${modes}</div>`;
+  h += nav;
+  for (const c of d.chapters) {
+    h += c.modern ? tgModernChapter(w, d, c, TG.mode)
+      : `<section class="tg-ch" id="tg-${c.seq}"><h4 class="neo-unit-n">${esc(c.label)} ${tgHow(c)}</h4>${c.paras.map((p) => `<p>${esc(p)}</p>`).join("")}
+         <p><button type="button" class="btn tg-btn" data-tg-greek="${c.seq}" aria-expanded="${TG.all}">Greek</button></p>
+         <div class="tg-greek"${TG.all ? "" : " hidden"}>${tgGreekBlock(w, d, c)}</div></section>`;
+  }
+  h += nav;
+  $("#main").innerHTML = h + `</div>`;
+  MODERN.toc();
+  if (typeof showPane === "function" && PANEL.pane !== "term") showPane("term", false);
+  if (!PANEL.list) api("terms").then((x) => { PANEL.list = x; }).catch(() => {});
+};
+
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-tg-mode]");
+  if (b && TG.cur) {
+    TG.mode = b.dataset.tgMode;
+    prefsSet("tgMode", TG.mode);
+    const y = window.scrollY;
+    renderTaylorGreekPart(TG.cur.w, TG.cur.d, TG.cur.chapter);
+    window.scrollTo(0, y);
+    return;
+  }
+  const t = ev.target.closest("[data-tg-tay]");
+  if (t) {
+    const box = t.closest(".tg-ch").querySelector(".tg-tay-box");
+    const open = box.hasAttribute("hidden");
+    box.toggleAttribute("hidden", !open);
+    t.setAttribute("aria-expanded", String(open));
+    t.textContent = open ? "Hide Taylor's words" : "Taylor's words";
+  }
+});
+
+// The Greek text links to the modern English of each chapter that has it.
+const _neoTaylorLinks = neoTaylorLinks;
+neoTaylorLinks = function (u) {  // eslint-disable-line no-global-assign
+  const h = _neoTaylorLinks(u);
+  if (!u.modern || !u.taylor || !u.taylor.length) return h;
+  const c = u.taylor[0];
+  return h + `<p class="tg-back meta">In modern English, the Workshop's own: <a href="#neo-en/${esc(c.work)}/${c.part}/${c.seq}">${esc(u.label)}</a></p>`;
+};

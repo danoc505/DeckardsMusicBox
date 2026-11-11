@@ -49,6 +49,8 @@ MANIFEST = ROOT / "sources" / "manifest.json"
 TAYLOR_VOL1 = ROOT / "texts" / "taylor-1804" / "vol1"
 # Milestone 24: the Workshop's modern English of the Introduction and the Life, beside Taylor's (tools/modern.py).
 MODERN = ROOT / "sources" / "translations" / "modern"
+# Milestone 27: the Workshop's modern English of the Neoplatonists, from the Greek (tools/modern_neo.py), by text id.
+MODERN_NEO = ("plotinus",)
 # Milestone 15: English for the Greek texts, the Workshop's own or a printed one paired with it.
 TRANSLATIONS = ROOT / "sources" / "translations"
 # Taylor's prefatory texts the Library shelves (milestone 13), with what each is, in a line.
@@ -884,6 +886,13 @@ class Library:
                 for us in useqs:
                     if us in here:
                         here[us]["taylor"].append({"work": c["work_id"], "part": c["part_seq"], "seq": c["seq"], "label": c["label"], "how": c["match_how"]})
+        # Milestone 27: the Workshop's modern English of a unit, where it has one.
+        mod = self.modern_neo_for(greek_text=text_id)
+        if mod:
+            have = {c["id"] for c in mod["chapters"]}
+            for u in units:
+                if u["label"] in have:
+                    u["modern"] = True
         return {"text": t, "part": p, "units": units, "corrections": corr,
                 "prev": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part - 1),
                 "next": self.one("SELECT seq, label FROM neo_part WHERE text_id = ? AND seq = ?", text_id, part + 1) if part + 1 < n_parts else None}
@@ -892,6 +901,18 @@ class Library:
 
     def has_taylor(self):
         return bool(self.one("SELECT name FROM sqlite_master WHERE name = 'taylor_chapter'"))
+
+    @staticmethod
+    def modern_neo_for(greek_text=None, taylor_work=None):
+        """The modern English (milestone 27) made from this Greek text, or checked against this translation of Taylor's."""
+        for tid in MODERN_NEO:
+            f = MODERN / f"{tid}.json"
+            if not f.exists():
+                continue
+            d = json.loads(f.read_text(encoding="utf-8"))
+            if (greek_text and d["greek_text"] == greek_text) or (taylor_work and d["taylor_work"] == taylor_work):
+                return d
+        return None
 
     def taylor_works(self):
         """Taylor's three translations of the Neoplatonists, with their contents and the figures of the matching."""
@@ -905,6 +926,12 @@ class Library:
             w["parts"] = parts.get(w["id"], [])
             w["source"] = self.one("SELECT id, title, repo, licence, provenance FROM source WHERE id = ?", w["source_id"])
             w["greek"] = self.one("SELECT id, title, edition, editor, year, kind FROM neo_text WHERE id = ?", w["greek_text"])
+            mod = self.modern_neo_for(taylor_work=w["id"])
+            if mod:
+                # Milestone 27: the parts with the Workshop's modern English (a part's label begins "Ennead I.2:").
+                w["modern"] = {"title": mod["title"], "treatises": [
+                    {"id": t["id"], "title": t["title"], "seq": next((p["seq"] for p in w["parts"] if p["label"].startswith(f"Ennead {t['id']}:")), None)}
+                    for t in mod["treatises"]]}
         stats = self.one("SELECT value FROM build WHERE key = 'taylor_greek_stats'")
         return {"works": works, "stats": json.loads(stats["value"]) if stats else None}
 
@@ -941,8 +968,27 @@ class Library:
             elif units:
                 c["greek"] = {"units": [{"label": u["label"], "part": u["part_seq"], "n": u["n"], "text": u["text"],
                                          "notes": json.loads(u["notes"]) if u["notes"] else []} for u in units]}
+        # Milestone 27: the Workshop's modern English of each chapter, made from the Greek, where there is one.
+        modern = None
+        mod = self.modern_neo_for(taylor_work=work_id)
+        if mod:
+            chs = {c["id"]: c for c in mod["chapters"]}
+            paras = {}
+            for x in mod["paragraphs"]:
+                paras.setdefault(x["chapter"], []).append(x)
+            for c in chapters:
+                labels = [u["label"] for u in ((c["greek"] or {}).get("units") or [])]
+                mine = [{**chs[lab], "paragraphs": paras.get(lab, [])} for lab in labels if lab in chs]
+                if mine:
+                    c["modern"] = mine
+            if any(c.get("modern") for c in chapters):
+                tre = {t["id"]: t for t in mod["treatises"]}
+                first = next(c["modern"][0] for c in chapters if c.get("modern"))
+                modern = {k: mod[k] for k in ("text", "title", "by", "machine_assisted", "label", "made_from", "about", "source", "links")}
+                modern["treatise"] = tre.get(first["treatise"])
+                modern["marks"] = self.mine.modern_marks(mod["text"])
         n_parts = w["n_parts"]
-        return {"work": w, "greek_text": g, "part": p, "chapters": chapters,
+        return {"work": w, "greek_text": g, "part": p, "chapters": chapters, "modern": modern,
                 "prev": self.one("SELECT seq, label FROM taylor_part WHERE work_id = ? AND seq = ?", work_id, part - 1),
                 "next": self.one("SELECT seq, label FROM taylor_part WHERE work_id = ? AND seq = ?", work_id, part + 1) if part + 1 < n_parts else None}
 

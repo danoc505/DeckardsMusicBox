@@ -16,7 +16,7 @@ async function run(b, viewport, touch) {
   const p = await b.newPage({ viewport, hasTouch: touch, isMobile: touch });
   const errors = [];
   p.on("pageerror", (e) => errors.push(String(e)));
-  await p.addInitScript(() => { try { localStorage.setItem("pw.seenStart", "1"); localStorage.removeItem("pw.tgAll"); } catch (e) { /* */ } });
+  await p.addInitScript(() => { try { localStorage.setItem("pw.seenStart", "1"); localStorage.removeItem("pw.tgAll"); localStorage.setItem("pw.tgMode", "taylor"); } catch (e) { /* */ } });
   const tag = `${viewport.width}×${viewport.height}`;
   const wide = async (what) => {
     const w = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);

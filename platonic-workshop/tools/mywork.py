@@ -907,7 +907,7 @@ class MyWork:
         if marks:
             lines += ["## Sentences you marked in the modern English versions", ""]
             for text_id, r in marks:
-                lines += [f"- **{r['kind']}** · {text_id} {r['para'].rsplit('.', 1)[-1]} · {r['saved_at'][:10]}"
+                lines += [f"- **{r['kind']}** · {text_id} {r['para'].rsplit('.', 1)[-1] if r['para'].startswith('taylor1804.') else r['para']} · {r['saved_at'][:10]}"
                           f"{' · revised since' if r['changed'] else ''}: {r['sentence']}"
                           + (f"  \n  {r['comment']}" if r["comment"] else "")]
             lines += [""]

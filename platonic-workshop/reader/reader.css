@@ -1036,3 +1036,16 @@ ins.neo-corr { text-decoration: none; background: var(--accent-soft); border-bot
 .tg-back { margin: 0 0 .3em; }
 .neo-here { background: var(--accent-soft); }
 .tg-evidence summary { cursor: pointer; }
+
+/* Milestone 27: the modern English of the Neoplatonists, beside Taylor's (neo.js). */
+.tg-mod .tg-mlab { margin: 0 0 .2em; }
+.tg-mod .neo-unit-n { margin-top: .4em; }
+.tg-tay { padding: 8px 12px; border-left: 3px solid var(--faint); background: var(--panel); border-radius: 0 8px 8px 0; font-size: .95em; }
+.tg-tay p { margin: 4px 0; line-height: 1.5; }
+.tg-tay-box { margin: 4px 0 8px; }
+.mp-greek .neo-tei { font-family: var(--greek); line-height: 1.6; margin: 4px 0; }
+@container (min-width: 700px) {
+  .mod-both .tg-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 22px; align-items: start; }
+}
+.mod-both .tg-tcol { margin-top: 8px; }
+.mod-both .tg-mod .mp { display: block; }
