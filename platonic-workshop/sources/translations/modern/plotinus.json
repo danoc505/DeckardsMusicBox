@@ -38,6 +38,29 @@
     "I.3.5",
     "I.3.6"
    ]
+  },
+  {
+   "id": "II.4",
+   "title": "On matter",
+   "summary": "Everyone who has thought about matter agrees that it is a substrate, a receiver of forms; they differ about what it is. Plotinus first argues that there is a matter in the intelligible world too: the depth beneath the forms there, unbounded until it turns to the One. He then turns to the matter of bodies. It is needed because the elements change into one another; it has no quality and no size, and is known only by a \"bastard reasoning\". It is not a quality, nor a privation added to something else: it is the unlimited itself, poverty itself, and so evil.",
+   "chapters": [
+    "II.4.1",
+    "II.4.2",
+    "II.4.3",
+    "II.4.4",
+    "II.4.5",
+    "II.4.6",
+    "II.4.7",
+    "II.4.8",
+    "II.4.9",
+    "II.4.10",
+    "II.4.11",
+    "II.4.12",
+    "II.4.13",
+    "II.4.14",
+    "II.4.15",
+    "II.4.16"
+   ]
   }
  ],
  "chapters": [
@@ -131,6 +154,118 @@
    "title": "The other parts of philosophy, and the natural virtues",
    "summary": "Philosophy also studies nature and conduct, with help from dialectic. Practical wisdom reasons about the virtues as a whole; dialectic and wisdom serve it from above. The lower virtues are incomplete without wisdom, and wisdom cannot come without them: the two grow together.",
    "greek_unit": "1.3.6"
+  },
+  {
+   "id": "II.4.1",
+   "treatise": "II.4",
+   "title": "What the schools say matter is",
+   "summary": "All agree that matter is a substrate and a receiver of forms, but not what it is. The Stoics, who hold that only bodies exist, make matter the one substance under the elements, a body without quality, and even make God matter in a certain state. Others call it incorporeal, and some posit a second matter in the intelligible world, under the forms there.",
+   "greek_unit": "2.4.1"
+  },
+  {
+   "id": "II.4.2",
+   "treatise": "II.4",
+   "title": "Objections to a matter in the intelligible world",
+   "summary": "If matter is unbounded and formless, it cannot be among the best things there; simple things need no matter; only things that come to be need it. And where would it come from? If it was made, something made it; if it is eternal, there are many first principles; and form added to it would make a body there.",
+   "greek_unit": "2.4.2"
+  },
+  {
+   "id": "II.4.3",
+   "treatise": "II.4",
+   "title": "The unbounded is not always to be despised",
+   "summary": "Not everything unbounded and shapeless is to be scorned, if it offers itself to what is better, as soul does to intellect. Composition there is not like that of bodies. The matter of things that come to be takes one form after another; the matter there has all forms at once, and so is never without form.",
+   "greek_unit": "2.4.3"
+  },
+  {
+   "id": "II.4.4",
+   "treatise": "II.4",
+   "title": "Why there must be matter there",
+   "summary": "If there are many Forms, they have something in common and something of their own; what is their own is their shape, and what is shaped is matter. The world here imitates that world, and this one is made of matter, so that one has matter too. Take away from intellect its variety, shapes and thoughts, and what is left before them is shapeless and unbounded.",
+   "greek_unit": "2.4.4"
+  },
+  {
+   "id": "II.4.5",
+   "treatise": "II.4",
+   "title": "The depth of each thing; the matter there",
+   "summary": "Intellect divides each thing till it reaches what is simple; the depth of each is matter, and so all matter is dark. The matter there has a defined and thinking life; the matter here becomes a defined but dead thing. The matter there comes from Otherness, the first motion, which is unbounded until it turns to the One and is lit by it.",
+   "greek_unit": "2.4.5"
+  },
+  {
+   "id": "II.4.6",
+   "treatise": "II.4",
+   "title": "Why bodies need a substrate",
+   "summary": "The elements change into one another, so something must remain under the change: what perishes is never wholly destroyed, and nothing comes from what wholly is not. Perishing, induction and analysis all show that bodies are composite, of matter and form. The elements are not form alone, nor first matter, so they are made of both.",
+   "greek_unit": "2.4.6"
+  },
+  {
+   "id": "II.4.7",
+   "treatise": "II.4",
+   "title": "Against Empedocles, Anaxagoras, the infinite and atoms",
+   "summary": "Empedocles' elements perish, so they are not matter. Anaxagoras' mixture, which has everything already, does away with the intellect he brings in. The infinite cannot be matter, whether as a thing by itself or as an attribute of a body. Atoms do not exist, since every body can be divided, and nothing continuous or living could be made of them.",
+   "greek_unit": "2.4.7"
+  },
+  {
+   "id": "II.4.8",
+   "treatise": "II.4",
+   "title": "Matter has no quality and no size",
+   "summary": "Matter is not a body, since a body has quality. Being the matter of all sensible things, it has none of their properties: no colour, heat, weight or shape, and no size either. It must be simple. The forming principle brings size with it, as it brings quality; for each kind the form fixes its size.",
+   "greek_unit": "2.4.8"
+  },
+  {
+   "id": "II.4.9",
+   "treatise": "II.4",
+   "title": "Quantity is a form",
+   "summary": "Not everything that exists has size: nothing incorporeal does, and matter is incorporeal. Quantity itself is not a quantity; what shares in it is. As what makes a thing white is not white, what makes a thing so big is not so big but the principle of size. It does not unroll matter into size; it gives it size it did not have.",
+   "greek_unit": "2.4.9"
+  },
+  {
+   "id": "II.4.10",
+   "treatise": "II.4",
+   "title": "How matter is thought: a bastard reasoning",
+   "summary": "How can we think what has no size and no quality? By a kind of unboundedness in the soul, as darkness is the eye's matter. The account of it is bounded, but the soul's grasp of it is not; so its image is \"bastard\", as Plato says. The soul thinks it dimly, by not thinking, and quickly puts form on it again, afraid of being outside the things that are.",
+   "greek_unit": "2.4.10"
+  },
+  {
+   "id": "II.4.11",
+   "treatise": "II.4",
+   "title": "Matter is not bulk, but has a phantom of bulk",
+   "summary": "Some say that if matter has no size it contributes nothing, and bodies need no matter. But a receiver need not have bulk: soul receives everything without it. Matter receives its forms in extension because it can receive extension. It has a phantom of bulk: great and small at once, running from one to the other, which is why some called it the void.",
+   "greek_unit": "2.4.11"
+  },
+  {
+   "id": "II.4.12",
+   "treatise": "II.4",
+   "title": "Matter is needed, and known by reasoning, not sense",
+   "summary": "Forms of bodies are in sizes, but about something sized, other than size; otherwise there would be only rational principles in soul, and no bodies. Actions need no matter, but bodies are composite. So matter is not an empty name. It is grasped by no sense, but by an empty reasoning, a bastard one; and it has no bodiliness either.",
+   "greek_unit": "2.4.12"
+  },
+  {
+   "id": "II.4.13",
+   "treatise": "II.4",
+   "title": "Matter is not a quality, not even a privation",
+   "summary": "If the substrate were a common quality, how could a quality be a substrate? Someone says matter is qualified by having no quality, as a blind man is qualified by blindness. But privation is not a quality; it is an absence, like silence. Matter's own character is just what it is: to be other than everything else, or rather \"others\".",
+   "greek_unit": "2.4.13"
+  },
+  {
+   "id": "II.4.14",
+   "treatise": "II.4",
+   "title": "Is matter privation?",
+   "summary": "Is matter privation, or is privation in matter? Some say they are one in substrate, two in account. Then each account must be given. If they are separate, they are two; if like the snub nose, or fire and heat, they are still not one. If privation is a not-being, still there are two accounts. But if to be matter is to be unbounded and without quality, how are there two?",
+   "greek_unit": "2.4.14"
+  },
+  {
+   "id": "II.4.15",
+   "treatise": "II.4",
+   "title": "Matter is the unbounded itself",
+   "summary": "The unbounded is not an attribute of matter: what orders is limit and principle, so what is ordered must be the unlimited, and an attribute must be a principle. So matter is the unlimited itself. In the intelligible world it is born of the One's infinite power; the matter here, an image fleeing from true being, is more truly unlimited.",
+   "greek_unit": "2.4.15"
+  },
+  {
+   "id": "II.4.16",
+   "treatise": "II.4",
+   "title": "Matter is poverty, and so evil",
+   "summary": "Matter is not Otherness itself, but the part of Otherness opposed to the true beings, and so it is not-being and privation. Form coming to it does not destroy it, but brings it to what it is, as a seed sown or a female made pregnant. It is evil, not because it wants the good, but because it is poverty itself: of wisdom, virtue, beauty and form.",
+   "greek_unit": "2.4.16"
   }
  ],
  "paragraphs": [
@@ -463,6 +598,339 @@
      "why": "The Greek is a question (\"Is it possible to be wise and a dialectician without these?\"), and the answer is no; Taylor makes it a statement."
     }
    ]
+  },
+  {
+   "seg": "II.4.1.p1",
+   "chapter": "II.4.1",
+   "modern": "Those who have come to think about the nature called matter all say the same thing about it up to a point: that it is a substrate, something underlying, and a receiver of forms. So far they go along together. But when they go on to ask what this underlying nature is, how it receives, and what it receives, they part ways. Some hold that only bodies are real, and that substance lies in them. They say that matter is one, that it underlies the elements, and that it is itself substance; everything else, the elements included, is a kind of affection of matter, matter in a certain state. They even dare to carry it up as far as the gods, and in the end they make God himself this matter in a certain state. They also give it body, calling it a body without quality, and they give it size. Others say it is incorporeal. And some of these say there is not just one matter: this one underlies bodies, they agree, and it is the matter the first group speaks of; but there is another, prior to it, in the intelligible world, which underlies the forms there and the incorporeal substances.",
+   "greek": "Τὴν λεγομένη ὕλην ὑποκείμενόν τι καὶ ὑποδοχὴν εἰδῶν λέγοντες εἶναι κοινόν τινα τοῦτον λόγον περὶ αὐτῆς πάντες λέγουσιν, ὅσοι εἰς ἔννοιαν ἦλθον τῆς τοιαύτης φύσεως, καὶ μέχρι τούτου τὴν αὐτὴν φέρονται: τίς δέ ἐστιν αὕτη ἡ ὑποκειμένη φύσις καὶ πῶς δεκτικὴ καὶ τίνων, τὸ ἐντεῦθεν ἤδη ζητήσαντες διέστησαν. καὶ οἱ μὲν σώματα μόνον τὰ ὄντα εἶναι θέμενοι καὶ τὴν οὐσίαν ἐν τούτοις μίαν τε τὴν ὕλην λέγουσι καὶ τοῖς στοιχείοις ὑποβεβλῆσθαι καὶ αὐτὴν εἶναι τὴν οὐσίαν, τὰ δ’ ἄλλα πάντα οἷον πάθη ταύτης καί πως ἔχουσαν αὐτὴν καὶ τὰ στοιχεῖα εἶναι. καὶ δὴ καὶ τολμῶσι καὶ μέχρι θεῶν αὐτὴν ἄγειν καὶ τέλος δὴ καὶ αὐτὸν τὸν θεὸν τὴν ὕλην ταύτην πως ἔχουσαν εἶναι. διδόασι δὲ καὶ σῶμα αὐτῇ ἄποιον αὐτὴν σῶμα λέγοντες καὶ μέγεθος δέ. οἱ δὲ ἀσώματον λέγουσι καὶ ταύτην οὐ μίαν τινὲς αὐτῶν, ἀλλὰ ταύτην μὲν τοῖς σώμασιν ὑποβεβλῆσθαι καὶ αὐτοί, περὶ ἧς οἱ πρότεροι λέγουσιν, ἑτέραν μέντοι προτέραν ἐν τοῖς νοητοῖς ὑποβεβλημένην τοῖς ἐκεῖ εἴδεσι καὶ ταῖς ἀσωμάτοις οὐσίαις.",
+   "flags": [
+    {
+     "taylor": "They, likewise, give a body to matter, calling it, body mid of quality",
+     "why": "Taylor's \"body mid of quality\" is the scan's misreading of \"body void of quality\"; the Greek has a body without quality (apoion sōma)."
+    }
+   ],
+   "notes": [
+    "The first group are the Stoics, for whom God is matter \"in a certain state\" and matter a \"body without quality\"."
+   ]
+  },
+  {
+   "seg": "II.4.2.p1",
+   "chapter": "II.4.2",
+   "modern": "So we must first ask about this other matter: whether it exists, what it is, and how it exists. If matter has to be something unbounded and shapeless, and there is nothing unbounded or shapeless among the beings there, which are the best of all, there would be no matter there. And if each thing there is simple, it would have no need of matter, of the kind from which, with something else, a composite is made. Things that come to be, and things that make one thing out of another, need matter; it was from these that the matter of sensible things was first conceived. Things that do not come to be do not need it. Again, where did it come from, and how did it come to exist? If it came to be, something made it. If it is eternal, there are several first principles, and the first things exist by chance. And if form comes to it, the composite will be a body, so that there will be body there too.",
+   "greek": "διὸ πρότερον ζητητέον περὶ ταύτης εἰ ἔστι, καὶ τίς οὖσα τυγχάνει, καὶ πῶς ἔστιν. εἰ δὴ ἀόριστόν τι καὶ ἄμορφον δεῖ τὸ τῆς ὕλης εἶναι, ἐν δὲ τοῖς ἐκεῖ ἀρίστοις οὖσιν οὐδὲν ἀόριστον οὐδὲ ἄμορφον, οὐδ’ ἂν ὕλη ἐκεῖ εἴη: καὶ εἰ ἁπλοῦν ἕκαστον, οὐδ’ ἂν δέοι ὕλης, ἵνα ἐξ αὐτῆς καὶ ἄλλου τὸ σύνθετον: καὶ γινομένοις μὲν ὕλης δεῖ καὶ ἐξ ἑτέρων ἕτερα ποιουμένοις, ἐφ̓ ὧν καὶ ἡ τῶν αἰσθητῶν ὕλη ἐνοήθη, μὴ γινομένοις δὲ οὔ. πόθεν δὲ ἐλήλυθε καὶ ὑπέστη; εἰ γὰρ ἐγένετο, καὶ ὑπό τινος: εἰ δὲ ἀίδιος, καὶ ἀρχαὶ πλείους καὶ κατὰ συντυχίαν τὰ πρῶτα. κἂν εἶδος δὲ προσέλθῃ, τὸ σύνθετον ἔσται σῶμα: ὥστε κἀκεῖ σῶμα.",
+   "flags": [
+    {
+     "taylor": "and first natures will have a casual subsistence",
+     "why": "\"Casual\" here means by chance (kata syntychian): if matter is eternal beside the first principles, the first things are together by accident."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.3.p1",
+   "chapter": "II.4.3",
+   "modern": "First, then, we must say that the unbounded is not to be despised everywhere, nor is something that is shapeless in its own concept, if it is going to offer itself to what is prior to it and to the best things. Soul is of this kind in relation to intellect and reason: it is shaped by them and led to a better form. In the intelligible world composition is of another kind, not like that of bodies. For rational principles are composite too, and by their activity they make the nature that is active towards form composite. And if it is active towards something else, and from something else, it is all the more so. The matter of things that come to be always takes one form after another; the matter of eternal things is always the same and has the same form. Perhaps the matter here is the reverse of the matter there. Here everything comes in turn, and only one thing at a time, so nothing stays, each thing pushing out the next; that is why it is never the same. There, it is all things at once, so it has nothing to change into: it has everything already. So the matter there is never shapeless; nor is the matter here, though each is formed in a different way. Whether it is eternal or has come to be will be clear once we have grasped what it is.",
+   "greek": "πρῶτον οὖν λεκτέον, ὡς οὐ πανταχοῦ τὸ ἀόριστον ἀτιμαστέον, οὐδὲ ὃ ἂν ἄμορφον ᾖ τῇ ἑαυτοῦ ἐπινοίᾳ, εἰ μέλλοι παρέχειν αὑτὸ τοῖς πρὸ αὐτοῦ καὶ τοῖς ἀρίστοις: οἷόν τι καὶ ψυχὴ πρὸς νοῦν καὶ λόγον πέφυκε μορφουμένη παρὰ τούτων καὶ εἰς εἶδος βέλτιον ἀγομένη: ἔν τε τοῖς νοητοῖς τὸ σύνθετον ἑτέρως, οὐχ ὡς τὰ σώματα: ἐπεὶ καὶ λόγοι σύνθετοι καὶ ἐνεργείᾳ δὲ σύνθετον ποιοῦσι τὴν ἐνεργοῦσαν εἰς εἶδος φύσιν. εἰ δὲ καὶ πρὸς ἄλλο, καὶ παῤ ἄλλου καὶ μᾶλλον. ἡ δὲ τῶν γινομένων ὕλη ἀεὶ ἄλλο καὶ ἄλλο εἶδος ἴσχει, τῶν δὲ ἀιδίων ἡ αὐτὴ ταὐτὸν ἀεί. τάχα δ’ ἀνάπαλιν ἡ ἐνταῦθα. ἐνταῦθα μὲν γὰρ παρὰ μέρος πάντα καὶ ἓν ἑκάστοτε. διὸ οὐδὲν ἐμμένει ἄλλου ἄλλο ἐξωθοῦντος: διὸ οὐ ταὐτὸν ἀεί, ἐκεῖ δ’ ἅμα πάντα: διὸ οὐκ ἔχει εἰς ὃ μεταβαλεῖ, ἤδη γὰρ ἔχει πάντα. οὐδέποτ̓ οὖν ἄμορφος οὐδὲ ἐκεῖ ἡ ἐκεῖ, ἐπεὶ οὐδ’ ἡ ἐνταῦθα, ἀλλ’ ἕτερον τρόπον ἑκατέρα. τὸ δὲ εἴτε ἀίδιος, εἴτε γενομένη, ἐπειδὰν ὅ τί ποτ̓ ἐστὶ λάβωμεν, δῆλον ἔσται.",
+   "flags": [
+    {
+     "taylor": "through nature which has an energy directed to form",
+     "why": "The Greek says the rational principles make composite \"the nature that is active towards form\"; Taylor's \"through nature\" makes nature the means."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.4.p1",
+   "chapter": "II.4.4",
+   "modern": "Let us assume for now that the Forms exist, for it has been shown elsewhere, and let the argument go on. If, then, the Forms are many, there must be something common to them, and also something of each one's own, by which one differs from another. This something of its own, the difference that sets it apart, is its own shape. But if there is shape, there is also what is shaped, the thing the difference is about. So there is also matter, which receives the shape, and always something underlying. Again, if there is an intelligible world there, and this world is an imitation of that, and this one is composite and made of matter, there must be matter there too. Or how will you call it a world, an ordered whole, without looking at its form? And how will you look at form without taking hold of that on which the form is? For that world is wholly without parts in every way, and yet in some way it has parts. If the parts are torn away from one another, the cutting and the tearing are an affection of matter, for it is matter that has been cut. But if, being many, it is undivided, then the many, being in one, are in a matter, as its shapes. Think of this one, which is many, as varied and of many shapes. Then before it was varied, it was shapeless. For if in your mind you take away the variety, the shapes, the rational principles and the thoughts, what comes before them is shapeless and unbounded, and none of the things on it or in it.",
+   "greek": "ὁ δὴ λόγος ἡμῖν ὑποθεμένοις τὸ νῦν εἶναι τὰ εἴδη — δέδεικται γὰρ ἐν ἄλλοις — προίτω. εἰ οὖν πολλὰ τὰ εἴδη, κοινὸν μέν τι ἐν αὐτοῖς ἀνάγκη εἶναι: καὶ δὴ καὶ ἴδιον, ᾧ διαφέρει ἄλλο ἄλλου. τοῦτο δὴ τὸ ἴδιον καὶ ἡ διαφορὰ ἡ χωρίζουσα ἡ οἰκεία ἐστὶ μορφή. εἰ δὲ μορφή, ἔστι καὶ τὸ μορφούμενον, περὶ ὃ ἡ διαφορά. ἔστιν ἄρα καὶ ὕλη ἡ τὴν μορφὴν δεχομένη καὶ ἀεί τι ὑποκείμενον. ἔτι εἰ κόσμος νοητὸς ἔστιν ἐκεῖ, μίμημα δὲ οὗτος ἐκείνου, οὗτος δὲ σύνθετος καὶ ἐξ ὕλης, κἀκεῖ δεῖ ὕλην εἶναι. ἢ πῶς προσερεῖς κόσμον μὴ εἰς εἶδος ἰδών; πῶς δὲ εἶδος μὴ ἐφ̓ ᾧ τὸ εἶδος λαβών; ἀμερὲς μὲν γὰρ παντελῶς πάντη αὐτό, μεριστὸν δὲ ὁπωσοῦν. καὶ εἰ μὲν διασπασθέντα ἀπ’ ἀλλήλων τὰ μέρη, ἡ τομὴ καὶ ἡ διάσπασις ὕλης ἐστὶ πάθος: αὕτη γὰρ ἡ τμηθεῖσα: εἰ δὲ πολλὰ ὂν ἀμέριστόν ἐστι, τὰ πολλὰ ἐν ἑνὶ ὄντα ἐν ὕλῃ ἐστὶ μορφαὶ αὐτοῦ ὄντα: τὸ γὰρ ἓν τοῦτο τὸ πολλὰ ὂν νόησον ποικίλον καὶ πολύμορφον. οὐκοῦν ἄμορφον αὐτὸ πρὸ τοῦ ποικίλον: εἰ γὰρ τῷ νῷ ἀφέλοις τὴν ποικιλίαν καὶ τὰς μορφὰς καὶ τοὺς λόγους καὶ τὰ νοήματα, τὸ πρὸ τούτων ἄμορφον καὶ ἀόριστον καὶ τούτων οὐδὲν τῶν ἐπ’ αὐτῷ καὶ ἐν αὐτῷ.",
+   "flags": [
+    {
+     "taylor": "Hence, if by intellect you take away its variety",
+     "why": "The Greek \"τῷ νῷ\" can mean \"in thought\" (in your mind) or \"from intellect\"; Taylor takes it as \"by intellect\". The modern version reads it as \"in your mind\", the usual sense."
+    }
+   ],
+   "notes": [
+    "\"Shown elsewhere\": in V.9, On Intellect, the Forms and Being, which Porphyry places later but Plotinus wrote earlier."
+   ]
+  },
+  {
+   "seg": "II.4.5.p1",
+   "chapter": "II.4.5",
+   "modern": "Someone may say that because the matter there always has these things, and has them all together, the two are one and there is no matter there. But then there will be no matter of bodies here either: it is never without shape, but is always a whole body, though a composite. Intellect finds out that it is double, for intellect divides until it comes to something simple that cannot be broken down further. As long as it can, it goes on into the thing's depth. And the depth of each thing is matter. That is why all matter is dark: the light is the rational principle, and intellect is a rational principle. So intellect, seeing the rational principle on each thing, takes what is beneath to be dark, as being below the light. So an eye, which is like light, turned towards the light and the colours, which are lights, says that what is beneath the colours is dark and material, \"hidden by the colours\".",
+   "greek": "εἰ δ’ ὅτι ἀεὶ ἔχει ταῦτα καὶ ὁμοῦ, ἓν ἄμφω καὶ οὐχ ὕλη ἐκεῖ, οὐδ’ ἐνταῦθα ἔσται τῶν σωμάτων ὕλη, οὐδέποτε γὰρ ἄνευ μορφῆς, ἀλλ’ ἀεὶ ὅλον σῶμα, σύνθετον μὴν ὅμως. καὶ νοῦς εὑρίσκει τὸ διττόν: οὗτος γὰρ διαιρεῖ, ἕως ἂν εἰς ἁπλοῦν ἥκῃ μηκέτι αὐτὸ ἀναλύεσθαι δυνάμενον: ἕως δὲ δύναται, χωρεῖ αὐτοῦ εἰς τὸ βάθος. τὸ δὲ βάθος ἑκάστου ἡ ὕλη: διὸ καὶ σκοτεινὴ πᾶσα, ὅτι τὸ φῶς λόγος καὶ ὁ νοῦς λόγος. διὸ τὸν ἐφ̓ ἑκάστου λόγον ὁρῶν τὸ κάτω ὡς ὑπὸ τὸ φῶς σκοτεινὸν ἡγεῖται, ὥσπερ ὀφθαλμὸς φωτοειδὴς ὢν πρὸς τὸ φῶς βαλὼν καὶ χρόας φῶτα ὄντα τὰ ὑπὸ τὰ χρώματα σκοτεινὰ καὶ ὑλικὰ εἶναι λέγει ʽκεκρυμμένα τοῖς χρώμασἰ.",
+   "flags": [
+    {
+     "taylor": "But so far as it is able, it proceeds into the profundity of body. say that matter is essence",
+     "why": "Taylor's chapter, as the scan gives it, leaves out a passage here: the Greek's \"the depth of each thing is matter\", the dark beneath the colours, and the two kinds of matter, before \"those who say that matter is substance\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.5.p2",
+   "chapter": "II.4.5",
+   "modern": "But the darkness in the intelligible world and the darkness in the sensible world are different. And the matter is different too, as much as the form laid on each is different. For the divine matter, when it receives what defines it, has a life that is defined and thinking. The other matter becomes something defined, but not living or thinking: a decorated corpse. And its shape is an image, so what underlies it is an image too. There the shape is true, and so is what underlies it. That is why those who say that matter is substance would have to be taken to speak rightly, if they were speaking of that matter. For what underlies there is substance; or rather, taken together with what is on it, and lit up as a whole, it is substance.",
+   "greek": "διάφορόν γε μὴν τὸ σκοτεινὸν τό τε ἐν τοῖς νοητοῖς τό τε ἐν τοῖς αἰσθητοῖς ὑπάρχει διάφορός τε ἡ ὕλη, ὅσον καὶ τὸ εἶδος τὸ ἐπικείμενον ἀμφοῖν διάφορον: ἡ μὲν γὰρ θεία λαβοῦσα τὸ ὡρισμένον αὐτὴ ζωὴν ὡρισμένην καὶ νοερὰν ἔχει, ἡ δὲ ὡρισμένον μέν τι γίνεται, οὐ μὴν ζῶν οὐδὲ νοοῦν, ἀλλὰ νεκρὸν κεκοσμημένον. καὶ ἡ μορφὴ δὲ εἴδωλον: ὥστε καὶ τὸ ὑποκείμενον εἴδωλον. ἐκεῖ δὲ ἡ μορφὴ ἀληθινόν: ὥστε καὶ τὸ ὑποκείμενον. διὸ καὶ τοὺς λέγοντας οὐσίαν τὴν ὕλην, εἰ περὶ ἐκείνης ἔλεγον, ὀρθῶς ἔδει ὑπολαμβάνειν λέγειν: τὸ γὰρ ὑποκείμενον ἐκεῖ οὐσία, μᾶλλον δὲ μετὰ τοῦ ἐπ’ αὐτῇ νοουμένη καὶ ὅλη οὖσα πεφωτισμένη οὐσία."
+  },
+  {
+   "seg": "II.4.5.p3",
+   "chapter": "II.4.5",
+   "modern": "Whether the intelligible matter is eternal must be asked in the same way as one would ask it of the Ideas. They have come to be, in that they have a source; they have not come to be, in that their source is not in time: they come from another always, not as always coming to be, like the world here, but as always being, like the world there. For the Otherness there, which makes matter, is eternal. It is the source of matter, it and the first motion; and that is why motion too was called Otherness, because motion and Otherness sprang out together. The motion and the Otherness that come from the First are unbounded, and they need the First in order to be bounded. They are bounded when they turn back to it. Before that, the other is unbounded too, and not yet good, but unlit by the First. For if the light comes from it, then what receives the light, before receiving it, does not have true light; it has light as something other than itself, since the light comes from another. So much, then, about matter in the intelligible world, laid bare here more fully than was needed.",
+   "greek": "πότερα δὲ ἀίδιος ἡ νοητὴ ὁμοίως ζητητέον, ὡς ἄν τις καὶ τὰς ἰδέας ζητοῖ: γεννητὰ μὲν γὰρ τῷ ἀρχὴν ἔχειν,ἀγέννητα δέ, ὅτι μὴ χρόνῳ τὴν ἀρχὴν ἔχει, ἀλλ’ ἀεὶ παῤ ἄλλου, οὐχ ὡς γινόμενα ἀεί, ὥσπερ ὁ ἐνταῦθα κόσμος, ἀλλὰ ὄντα ἀεί, ὥσπερ ὁ ἐκεῖ κόσμος. καὶ γὰρ ἡ ἑτερότης ἡ ἐκεῖ ἀεί, ἣ τὴν ὕλην ποιεῖ: ἀρχὴ γὰρ ὕλης αὕτη, ἡ κίνησις ἡ πρώτη: διὸ καὶ αὕτη ἑτερότης ἐλέγετο, ὅτι ὁμοῦ ἐξέφυσαν κίνησις καὶ ἑτερότης: ἀόριστον δὲ καὶ ἡ κίνησις καὶ ἡ ἑτερότης ἡ ἀπὸ τοῦ πρώτου, κἀκείνου πρὸς τὸ ὁρισθῆναι δεόμενα: ὁρίζεται δέ, ὅταν πρὸς αὐτὸ ἐπιστραφῇ: πρὶν δὲ ἀόριστον καὶ τὸ ἕτερον καὶ οὔπω ἀγαθόν, ἀλλ’ ἀφώτιστον ἐκείνου. εἰ γὰρ παῤ ἐκείνου τὸ φῶς, τὸ δεχόμενον τὸ φῶς, πρὶν δέξασθαι, φῶς οὐκ ἔχει ἀληθινόν, ἀλλὰ ἄλλο ὂν ἔχει, εἴπερ τὸ φῶς παῤ ἄλλου. καὶ περὶ μὲν τῆς ἐν τοῖς νοητοῖς ὕλης πλείω τῶν προσηκόντων παραγυμνωθέντα ταύτῃ.",
+   "flags": [
+    {
+     "taylor": "does not always possess it",
+     "why": "The Greek says that what receives the light \"does not have true light\" before it receives it; \"always\" is not there."
+    }
+   ],
+   "notes": [
+    "Motion and Otherness are two of the greatest kinds of Plato's Sophist (254d-255e)."
+   ]
+  },
+  {
+   "seg": "II.4.6.p1",
+   "chapter": "II.4.6",
+   "modern": "About the receiver of bodies, let this be said. That there must be something underlying bodies, other than the bodies themselves, is shown by the change of the elements into one another. For what changes is not wholly destroyed; otherwise some substance would perish into what is not. Nor has what comes to be come into being out of what wholly is not. There is a change of form from another form, and what has received the form of the new thing and thrown off the other remains. This is shown by perishing in general too, for perishing belongs to what is composite; and if so, each thing is of matter and form. Induction bears witness to it, by showing that what perishes is composite; and so does analysis: for example, if the bowl is resolved into gold, and the gold into water, then the water too, when it perishes, calls for something analogous. The elements must be either form, or first matter, or made of matter and form. But they cannot be form: how could they have bulk and size without matter? Nor are they first matter, for they perish. So they are made of matter and form. And the form is in the quality and shape; the matter is in the substrate, which is unbounded because it is not form.",
+   "greek": "περὶ δὲ τῆς τῶν σωμάτων ὑποδοχῆς ὧδε λεγέσθω. ὅτι μὲν οὖν δεῖ τι τοῖς σώμασιν ὑποκείμενον εἶναι ἄλλο ὂν παῤ αὐτά, ἥ τε εἰς ἄλληλα μεταβολὴ τῶν στοιχείων δηλοῖ. οὐ γὰρ παντελὴς τοῦ μεταβάλλοντος ἡ φθορά: ἢ ἔσται τις οὐσία εἰς τὸ μὴ ὂν ἀπολλυμένη: οὐδ’ αὖ τὸ γενόμενον ἐκ τοῦ παντελῶς μὴ ὄντος εἰς τὸ ὂν ἐλήλυθεν, ἀλλ’ ἔστιν εἴδους μεταβολὴ ἐξ εἴδους ἑτέρου. μένει δὲ τὸ δεξάμενον τὸ εἶδος τοῦ γενομένου καὶ ἀποβαλὸν θάτερον. τοῦτό τε οὖν δηλοῖ καὶ ὅλως ἡ φθορά: συνθέτου γάρ: εἰ δὲ τοῦτο, ἐξ ὕλης καὶ εἴδους ἕκαστον. ἥ τε ἐπαγωγὴ μαρτυρεῖ τὸ φθειρόμενον σύνθετον δεικνῦσα: καὶ ἡ ἀνάλυσις δέ: οἷον εἰ ἡ φιάλη εἰς τὸν χρυσόν, ὁ δὲ χρυσὸς εἰς ὕδωρ, καὶ τὸ ὕδωρ δὲ φθειρόμενον τὸ ἀνάλογον ἀπαιτεῖ. ἀνάγκη δὲ τὰ στοιχεῖα ἢ εἶδος εἶναι ἢ ὕλην πρώτην ἢ ἐξ ὕλης καὶ εἴδους. ἀλλ’ εἶδος μὲν οὐχ οἷόν τε: πῶς γὰρ ἄνευ ὕλης ἐν ὄγκῳ καὶ μεγέθει; ἀλλ’ οὐδ’ ὕλη ἡ πρώτη: φθείρεται γάρ. ἐξ ὕλης ἄρα καὶ εἴδους. καὶ τὸ μὲν εἶδος κατὰ τὸ ποιὸν καὶ τὴν μορφήν, ἡ δὲ κατὰ τὸ ὑποκείμενον ἀόριστον, ὅτι μὴ εἶδος.",
+   "flags": [
+    {
+     "taylor": "as if, for instance, a pot should be resolved into gold ; 1 but gold into water",
+     "why": "The Greek has a bowl (phialē); the gold resolved into water is an old view of metals, which Plotinus uses only as an example."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.7.p1",
+   "chapter": "II.4.7",
+   "modern": "Empedocles, who sets the elements in the place of matter, has their perishing as a witness against him. Anaxagoras makes the mixture matter, and says that it does not have a fitness for all things, but has all things already in act. So he does away with the intellect he brings in, since he does not make it the one that gives the shape and the form, nor make it prior to matter, but simultaneous with it. But to be simultaneous is impossible. For if the mixture shares in being, being comes first; and if both the mixture and being are, they will need a third thing besides them. If, then, the Maker must come first, why did the forms need to be in matter in tiny pieces, and then intellect, with endless toil, to separate them out, when it could have spread quality and shape over the whole of matter, since it has no quality? And how is \"everything in everything\" not impossible?",
+   "greek": "Ἐμπεδοκλῆς δὲ τὰ στοιχεῖα ἐν ὕλῃ θέμενος ἀντιμαρτυροῦσαν ἔχει τὴν φθορὰν αὐτῶν. Ἀναξαγόρας δὲ τὸ μῖγμα ὕλην ποιῶν, οὐκ ἐπιτηδειότητα πρὸς πάντα, ἀλλὰ πάντα ἐνεργείᾳ ἔχειν λέγων ὃν εἰσάγει νοῦν ἀναιρεῖ οὐκ αὐτὸν τὴν μορφὴν καὶ τὸ εἶδος διδόντα ποιῶν οὐδὲ πρότερον τῆς ὕλης ἀλλ’ ἅμα. ἀδύνατον δὲ τὸ ἅμα. εἰ γὰρ μετέχει τὸ μῖγμα τοῦ εἶναι, πρότερον τὸ ὄν: εἰ δὲ καὶ τοῦτο ὂν κἀκεῖνο ἄλλου ἐπ’ αὐτοῖς δεήσει τρίτου. εἰ οὖν πρότερον ἀνάγκη τὸν δημιουργὸν εἶναι, τί ἔδει τὰ εἴδη κατὰ σμικρὰ ἐν τῇ ὕλῃ εἶναι, εἶτα τὸν νοῦν διὰ πραγμάτων ἀνηνύτων διακρίνειν ἐξὸν ἀποίου οὔσης τὴν ποιότητα καὶ τὴν μορφὴν ἐπὶ πᾶσαν ἐκτεῖναι; τό τε πᾶν ἐν παντὶ εἶναι πῶς οὐκ ἀδύνατον;"
+  },
+  {
+   "seg": "II.4.7.p2",
+   "chapter": "II.4.7",
+   "modern": "As for the one who makes the infinite the substrate, let him say what this is. If it is infinite in the sense that it cannot be gone through, it is clear that there is no such thing among beings, neither as the infinite by itself, nor as belonging to another nature, as an attribute of some body. Not the infinite by itself, because a part of it would have to be infinite too; not as an attribute, because what it belongs to would not by itself be infinite, nor simple, nor matter. Nor will atoms hold the place of matter, since they do not exist at all: every body can be divided without end. Besides, the continuity and the fluidity of bodies could not exist, nor could anything exist without intellect and soul, which cannot be made of atoms. Nor can a nature other than atoms be made out of atoms; for no maker will make anything out of a matter that is not continuous. A thousand other things could be said against this view, and have been, so it is pointless to spend longer on it.",
+   "greek": "ὁ δὲ τὸ ἅπειρον ὑποθεὶς τί ποτε τοῦτο λεγέτω. καὶ εἰ οὕτως ἄπειρον, ὡς ἀδιεξίτητον, ὡς οὐκ ἔστι τοιοῦτόν τι ἐν τοῖς οὖσιν οὔτε αὐτοάπειρον οὔτε ἐπ’ ἄλλῃ φύσει ὡς συμβεβηκὸς σώματί τινι, τὸ μὲν αὐτοάπειρον, ὅτι καὶ τὸ μέρος αὐτοῦ ἐξ ἀνάγκης ἄπειρον, τὸ δὲ ὡς συμβεβηκός, ὅτι τὸ ᾧ συμβέβηκεν ἐκεῖνο οὐκ ἂν καθ̓ ἑαυτὸ ἄπειρον εἴη οὐδὲ ἁπλοῦν οὐδὲ ὕλη, ἐστὶ δῆλον. ἀλλ’ οὐδὲ αἱ ἄτομοι τάξιν ὕλης ἕξουσιν αἱ τὸ παράπαν οὐκ οὖσαι: τμητὸν γὰρ πᾶν σῶμα κατὰ τᾶν: καὶ τὸ συνεχὲς δὲ τῶν σωμάτων καὶ τὸ ὑγρὸν μὴ οἷόν τε ἄνευ νοῦ ἕκαστα καὶ ψυχῆς, ἣν ἀδύνατον ἐξ ἀτόμων εἶναι, ἄλλην τε φύσιν παρὰ τὰς ἀτόμους ἐκ τῶν ἀτόμων δημιουργεῖν οὐχ οἷόν τε: ἐπεὶ καὶ οὐδεὶς δημιουργὸς ποιήσει τι ἐξ οὐχ ὕλης συνεχοῦς. καὶ μυρία ἂν λέγοιτο πρὸς ταύτην τὴν ὑπόθεσιν καὶ εἴρηται: διὸ ἐνδιατρίβειν περιττὸν ἐν τούτοις.",
+   "flags": [
+    {
+     "taylor": "the demiurgus",
+     "why": "Taylor keeps the Greek word, the \"demiurge\" or craftsman of the world; the modern version calls him the Maker."
+    }
+   ],
+   "notes": [
+    "\"The one who makes the infinite the substrate\" is Anaximander; the atoms are those of Democritus and Epicurus."
+   ]
+  },
+  {
+   "seg": "II.4.8.p1",
+   "chapter": "II.4.8",
+   "modern": "What, then, is this matter, said to be one, continuous and without quality? That it is not a body, if it is without quality, is clear; otherwise it would have quality. We say it is the matter of all sensible things, not matter of some and form for others, as clay is matter for the potter but is not matter simply. Since we do not speak of it in that way, but of matter for all things, we should attach to it nothing of what is seen in sensible things. If so, besides the other qualities, such as colours, heat and cold, it has neither lightness nor weight, neither density nor rarity, and no shape either. Then it has no size: for to be size is one thing, and to be sized another; to be shape one thing, and to be shaped another. It must not be composite, but simple, one thing in its own nature, for in this way it is empty of all things.",
+   "greek": "τίς οὖν ἡ μία αὕτη καὶ συνεχὴς καὶ ἄποιος λεγομένη; καὶ ὅτι μὲν μὴ σῶμα, εἴπερ ἄποιος, δῆλον: ἢ ποιότητα ἕξει. λέγοντες δὲ πάντων αὐτὴν εἶναι τῶν αἰσθητῶν καὶ οὐ τινῶν μὲν ὕλην, πρὸς ἄλλα δὲ εἶδος οὖσαν: οἷον τὸν πηλὸν ὕλην τῷ κεραμεύοντι, ἁπλῶς δὲ οὐχ ὕλην: οὐ δὴ οὕτως, ἀλλὰ πρὸς πάντα λέγοντες, οὐδὲν ἂν αὐτῇ προσάπτοιμεν, ὅσα ἐπὶ τοῖς αἰσθητοῖς ὁρᾶται. εἰ δὴ τοῦτο, πρὸς ταῖς ἄλλαις ποιότησιν, οἷον χρώμασι καὶ θερμότησι καὶ ψυχρότησιν, οὐδὲ τὸ κοῦφον οὐδὲ τὸ βάρος, οὐ πυκνόν, οὐχ ἁραιόν, ἀλλ’ οὐδὲ σχῆμα. οὐ τοίνυν οὐδὲ μέγεθος: ἄλλο γὰρ τὸ μεγέθει, ἄλλο τὸ μεμεγεθυσμένῳ εἶναι, ἄλλο τὸ σχήματι, ἄλλο τὸ ἐσχηματισμένῳ. δεῖ δὲ αὐτὴν μὴ σύνθετον εἶναι, ἀλλὰ ἁπλοῦν καὶ ἕν τι τῇ αὑτῆς φύσει: οὕτω γὰρ πάντων ἔρημος.",
+   "flags": [
+    {
+     "taylor": "we must not attribute to the from this, and which is the nature of sensibles",
+     "why": "Taylor's chapter, as the scan gives it, has one of his long footnotes printed in the middle of the text here (\"matter is always truly the last sediment ... my translation of Aristotle's Physics\"). It is Taylor's, from the later Platonists, not Plotinus."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.8.p2",
+   "chapter": "II.4.8",
+   "modern": "And the one who gives it shape will give the shape as something other than matter, and size, and everything, as if bringing them from what is. Otherwise he would be a slave to its size and would make a thing not as big as he wants, but as big as matter wants; and to say that his will runs along with its size is a fiction. But if the maker comes before matter, matter will be in every way as the maker wants, easily led to everything, and so to size as well. If it had size, it would have to have shape too, so it would be even harder to work. So the form comes on to it, bringing everything with it; and every form has its size and its quantity, with the rational principle and under it. That is why in each kind the quantity is fixed together with the form: a man has one size, a bird another, and this kind of bird another again. It is no more remarkable to bring quantity to matter than to add quality to it; nor is quality a rational principle while quantity is not a form, since it is a measure and a number.",
+   "greek": "καὶ ὁ μορφὴν διδοὺς δώσει ἄλλην οὖσαν παῤ αὐτὴν καὶ μέγεθος καὶ πάντα ἐκ τῶν ὄντων οἷον προσφέρων: ἢ δουλεύσει τῷ μεγέθει αὐτῆς καὶ ποιήσει οὐχ ἡλίκον θέλει, ἀλλ’ ὅσον ἡ ὕλη βούλεται: τὸ δὲ συντροχάζειν τὴν βούλησιν τῷ μεγέθει αὐτῆς πλασματῶδες. εἰ δὲ καὶ πρότερον τῆς ὕλης τὸ ποιοῦν, ταύτῃ ἔσται ἡ ὕλη πάντη, ᾗ τὸ ποιοῦν θέλει, καὶ εὐάγωγος εἰς ἅπαντα: καὶ εἰς μέγεθος τοίνυν. μέγεθος δὲ εἰ ἔχει, ἀνάγκη καὶ σχῆμα ἔχειν: ὥστε ἔτι μᾶλλον δύσεργος ἔσται. ἔπεισι τοίνυν τὸ εἶδος αὐτῇ πάντα ἐπ’ αὐτῇ φέρον: τὸ δὲ εἶδος πᾶν καὶ μέγεθος ἔχει καὶ ὁπόσον ἂν ᾖ μετὰ τοῦ λόγου καὶ ὑπὸ τούτου. διὸ καὶ ἐπὶ τῶν γενῶν ἑκάστων μετὰ τοῦ εἴδους καὶ τὸ ποσὸν ὥρισται: ἄλλο γὰρ ἀνθρώπου καὶ ἄλλο ὄρνιθος καὶ ὄρνιθος τοιουτουί. οὐ θαυμαστότερον δὲ τὸ ποσὸν τῇ ὕλῃ ἄλλο ἐπάγειν τοῦ ποιὸν αὐτῇ προστιθέναι, οὐδὲ τὸ μὲν ποιὸν λόγος, τὸ δὲ ποσὸν οὐκ εἶδος καὶ μέτρον καὶ ἀριθμὸς ὄν.",
+   "flags": [
+    {
+     "taylor": "And it would be absurd to suppose, that the introduction of quantity to the matter of a certain bird, is any thing else than adding to it its proper quality",
+     "why": "The Greek says it is \"no more remarkable\" to bring quantity to matter than to add quality to it; Taylor makes it a different claim about one bird."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.9.p1",
+   "chapter": "II.4.9",
+   "modern": "How, then, can one think of something that exists but has no size? Everything that is not the same as quantity is of this kind; for being and quantity are not the same, and there are many other things besides quantity. In general, every incorporeal nature must be set down as without quantity, and matter too is incorporeal. Even quantity itself is not a quantity; what shares in it is. So it is clear from this as well that quantity is a form. As a thing became white by the presence of whiteness, but what made the white colour in an animal, and the other varied colours, was not a varied colour but, if you like, a varied rational principle, so what makes a thing so big is not itself so big, but magnitude itself, or the size, or the rational principle. Does magnitude, then, come and unroll matter into size? Not at all; for matter was not rolled up into a small space. It gave it a size that it did not have before, as it gave it a quality that it did not have before.",
+   "greek": "πῶς οὖν τις λήψεταί τι τῶν ὄντων, ὃ μὴ μέγεθος ἔχει; ἢ πᾶν ὅπερ μὴ ταὐτὸν τῷ ποσῷ: οὐ γὰρ δὴ τὸ ὂν καὶ τὸ ποσὸν ταὐτόν. πολλὰ δὲ καὶ ἄλλα ἕτερα τοῦ ποσοῦ. ὅλως δὲ πᾶσαν ἀσώματον φύσιν ἄποσον θετέον: ἀσώματος δὲ καὶ ἡ ὕλη. ἐπεὶ καὶ ἡ ποσότης αὐτὴ οὐ ποσόν, ἀλλὰ τὸ μετασχὸν αὐτῆς: ὥστε καὶ ἐκ τούτου δῆλον, ὅτι εἶδος ἡ ποσότης. ὡς οὖν ἐγίνετό τι λευκὸν παρουσίᾳ λευκότητος, τὸ δὲ πεποιηκὸς τὸ λευκὸν χρῶμα ἐν ζῴῳ καὶ τὰ ἄλλα δὲ χρώματα ποικίλα οὐκ ἦν ποικίλον χρῶμα, ἀλλὰ ποικίλος, εἰ βούλει, λόγος, οὕτω καὶ τὸ ποιοῦν τὸ τηλικόνδε οὐ τηλικόνδε, ἀλλ’ αὐτὸ τὸ πηλίκον ἢ ἡ πηλικότης ἢ ὁ λόγος τὸ ποιοῦν. προσελθοῦσα οὖν ἡ πηλικότης ἐξελίττει εἰς μέγεθος τὴν ὕλην; οὐδαμῶς: οὐδὲ γὰρ ἐν ὀλίγῳ συνεσπείρατο: ἀλλ’ ἔδωκε μέγεθος τὸ οὐ πρότερον ὄν, ὥσπερ καὶ ποιότητα τὴν οὐ πρότερον οὖσαν."
+  },
+  {
+   "seg": "II.4.10.p1",
+   "chapter": "II.4.10",
+   "modern": "How, then, shall I think of what has no size in matter? And how will you think of something without any quality at all? What is the thought, and what is the mind's grasp of it? It is unboundedness. For if like is known by like, the unbounded is known by the unbounded. An account of the unbounded can be bounded; but the grasp of it is unbounded. If each thing is known by reason and thought, here reason says what it says about matter, but what would like to be thinking is not thinking, but rather a kind of not-thinking. So the image of it would be bastard and not legitimate, made up of something not true and of the other reason. Perhaps that is what Plato was looking at when he said matter is grasped \"by a bastard reasoning\".",
+   "greek": "τί οὖν νοήσω ἀμέγεθες ἐν ὕλῃ; τί δὲ νοήσεις ἄποιον ὁπωσοῦν; καὶ τίς ἡ νόησις καὶ τῆς διανοίας ἡ ἐπιβολή; ἢ ἀοριστία: εἰ γὰρ τῷ ὁμοίῳ τὸ ὅμοιον, καὶ τῷ ἀορίστῳ τὸ ἀόριστον. λόγος μὲν οὖν γένοιτο ἂν περὶ τοῦ ἀορίστου ὡρισμένος, ἡ δὲ πρὸς αὐτὸ ἐπιβολὴ ἀόριστος. εἰ δ’ ἕκαστον λόγῳ καὶ νοήσει γινώσκεται — ἐνταῦθα δὲ ὁ μὲν λόγος λέγει, ἃ δὴ λέγει περὶ αὐτῆς, ἡ δὲ βουλομένη εἶναι νόησις οὐ νόησις, ἀλλ’ οἷον ἄνοια μᾶλλον — νόθον ἂν εἴη τὸ φάντασμα αὐτῆς καὶ οὐ γνήσιον, ἐκ θατέρου οὐκ ἀληθοῦς καὶ μετὰ τοῦ θατέρου λόγου συγκείμενον. καὶ τάχα εἰς τοῦτο βλέπων ὁ Πλάτων νόθῳ λογισμῷ εἶπε ληπτὴν εἶναι.",
+   "flags": [
+    {
+     "taylor": "and wishing to become intelligence, is not intelligence, but, as it were, a privation of intellect",
+     "why": "The Greek says that what \"would like to be\" thinking is not thinking, but rather a kind of thoughtlessness (anoia); Taylor's words are near this, but make reason the one that wishes."
+    }
+   ],
+   "notes": [
+    "\"Grasped by a bastard reasoning\" is from the Timaeus (52b), where Plato says it of the receptacle."
+   ]
+  },
+  {
+   "seg": "II.4.10.p2",
+   "chapter": "II.4.10",
+   "modern": "What, then, is the soul's unboundedness? Is it complete ignorance, an absence? Or is the unbounded found in something positive? As darkness is the eye's matter for every colour it cannot see, so the soul takes away whatever, in sensible things, is like light; and having nothing left that it can bound, it becomes like sight in the dark, at that moment the same, in a way, as what it as it were sees. Does it see, then? It sees as one sees shapelessness, colourlessness, lightlessness, and besides as one sees what has no size. If not, it will be giving it a form already. When the soul thinks nothing, is this not the same experience? No. When it thinks nothing, it says nothing, or rather it experiences nothing. But when it thinks matter, it has an experience like an imprint of the shapeless.",
+   "greek": "τίς οὖν ἡ ἀοριστία τῆς ψυχῆς; ἆρα παντελὴς ἄγνοια ὡς ἀπουσία; ἢ ἐν καταφάσει τινὶ τὸ ἀόριστον, καὶ οἷον ὀφθαλμῷ τὸ σκότος ὕλη ὂν παντὸς ἀοράτου χρώματος, οὕτως οὖν καὶ ψυχὴ ἀφελοῦσα ὅσα ἐπὶ τοῖς αἰσθητοῖς οἷον φῶς τὸ λοιπὸν οὐκέτι ἔχουσα ὁρίσαι ὁμοιοῦται τῇ ὄψει τῇ ἐν σκότῳ ταὐτόν πως γινομένῃ τότε τῷ ὃ οἷον ὁρᾷ. ἆῤ οὖν ὁρᾷ; ἢ οὕτως ὡς ἀσχημοσύνην καὶ ὡς ἄχροιαν καὶ ὡς ἀλαμπὲς καὶ προσέτι δὲ ὡς οὐκ ἔχον μέγεθος: εἰ δὲ μή, εἰδοποιήσει ἤδη. ὅταν οὖν μηδὲν νοῇ, οὐ ταὐτὸ τοῦτο περὶ ψυχὴν πάθος; ἢ οὔ, ἀλλ’ ὅταν μὲν μηδὲν νοῇ, λέγει μηδέν, μᾶλλον δὲ πάσχει οὐδέν: ὅταν δὲ τὴν ὕλην, οὕτω πάσχει πάθος οἷον τύπον τοῦ ἀμόρφου:",
+   "flags": [
+    {
+     "taylor": "Or does the indefinite consist in a certain negation 1 in conjunction with a certain affirmation",
+     "why": "The Greek asks only whether the unbounded lies \"in something positive\" (en kataphasei tini); \"a certain negation in conjunction with\" is Taylor's addition."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.10.p3",
+   "chapter": "II.4.10",
+   "modern": "For when it thinks things that have shape and size, it thinks them as composites, as coloured and in general as having quality. It thinks the whole, both together. The thought, or the perception, of what is on the thing is clear; that of the substrate, the shapeless, is dim, for it is not a form. So what the soul grasps in the whole composite, with what is on it, when it has taken these apart and separated them, what reason leaves behind, this it thinks dimly as dim and darkly as dark, and it thinks it by not thinking. And since matter itself has not stayed shapeless, but is shaped in things, the soul too at once puts the form of things on it, pained by the unbounded, as if in fear of being outside the things that are, and not bearing to stand long in what is not.",
+   "greek": "ἐπεὶ καὶ ὅταν τὰ μεμορφωμένα καὶ τὰ μεμεγεθυσμένα νοῇ, ὡς σύνθετα νοεῖ: ὡς γὰρ κεχρωσμένα καὶ ὅλως πεποιωμένα. τὸ ὅλον οὖν νοεῖ καὶ τὸ συνάμφω: καὶ ἐναργὴς μὲν ἡ νόησις ἢ ἡ αἴσθησις τῶν ἐπόντων, ἀμυδρὰ δὲ ἡ τοῦ ὑποκειμένου, τοῦ ἀμόρφου: οὐ γὰρ εἶδος. ὃ οὖν ἐν τῷ ὅλῳ καὶ συνθέτῳ λαμβάνει μετὰ τῶν ἐπόντων ἀναλύσασα ἐκεῖνα καὶ χωρίσασα, ὃ καταλείπει ὁ λόγος, τοῦτο νοεῖ ἀμυδρῶς ἀμυδρὸν καὶ σκοτεινῶς σκοτεινὸν καὶ νοεῖ οὐ νοοῦσα. καὶ ἐπειδὴ οὐκ ἔμεινεν οὐδ’ αὐτὴ ἡ ὕλη ἄμορφος, ἀλλ’ ἐν τοῖς πράγμασίν ἐστι μεμορφωμένη, καὶ ἡ ψυχὴ εὐθέως ἐπέβαλε τὸ εἶδος τῶν πραγμάτων αὐτῇ ἀλγοῦσα τῷ ἀορίστῳ, οἷον φόβῳ τοῦ ἔξω τῶν ὄντων εἶναι καὶ οὐκ ἀνεχομένη ἐν τῷ μὴ ὄντι ἐπιπολὺ ἑστάναι.",
+   "flags": [
+    {
+     "taylor": "and sees intellectually, not understanding",
+     "why": "The Greek has \"it thinks by not thinking\" (noei ou nousa); Taylor turns the first verb into \"sees\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.11.p1",
+   "chapter": "II.4.11",
+   "modern": "Is something else still needed, then, to make up bodies, besides size and all the qualities? Yes: what will receive them all. Not bulk, then? If bulk, it is surely size; but if it has no size, it has nowhere to receive them. And having no size, what would it contribute, if it contributes neither to form and quality, nor to extension and size, which seems to come to bodies from matter, wherever it is? In general, someone may say, just as actions, makings, times and motions are among the things that exist, though they have no matter underlying them, so the first bodies need not have matter either. Each would be wholly what it is, the more varied for its mixture, made up of several forms. So this matter without size would be an empty name.",
+   "greek": "καὶ ἔτι δεῖ τινος ἄλλου πρὸς σύστασιν σωμάτων μετὰ μέγεθος καὶ ποιότητας ἁπάσας; ἢ τοῦ ὑποδεξομένου πάντα. οὐκοῦν ὄγκου; εἰ δὲ ὄγκος, μέγεθος δήπου: εἰ δὲ ἀμέγεθες, οὐδ’ ὅπου δέξεται ἔχει. ἀμέγεθες δὲ ὂν τί ἂν συμβάλλοιτο, εἰ μήτε εἰς εἶδος καὶ τὸ ποιὸν μήτε εἰς τὴν διάστασιν καὶ τὸ μέγεθος, ὃ δὴ παρὰ τῆς ὕλης δοκεῖ, ὅπου ἂν ᾖ, ἔρχεσθαι εἰς τὰ σώματα; ὅλως δὲ ὥσπερ πράξεις καὶ ποιήσεις καὶ χρόνοι καὶ κινήσεις ὑποβολὴν ὕλης ἐν αὑτοῖς οὐκ ἔχοντα ἔστιν ἐν τοῖς οὖσιν, οὕτως οὐδὲ τὰ σώματα τὰ πρῶτα ἀνάγκη ὕλην ἔχειν, ἀλλ’ ὅλα ἕκαστα εἶναι ἅ ἐστι ποικιλώτερα ὄντα μίξει τῇ ἐκ πλειόνων εἰδῶν τὴν σύστασιν ἔχοντα: ὥστε τοῦτο τὸ ἀμέγεθες ὕλης ὄνομα κενὸν εἶναι."
+  },
+  {
+   "seg": "II.4.11.p2",
+   "chapter": "II.4.11",
+   "modern": "First, then, what receives a thing need not be a bulk, unless size is already present in it. Soul receives all things and holds them all together; if size were an attribute of it, it would hold each thing in size. Matter receives what it receives in extension because it is able to receive extension. So animals and plants, as they grow, have their quality drawn out beside the quantity, and if the quantity shrank the quality would shrink too. If someone demands, because in such things some size exists before, underlying what shapes it, that it should be so with matter as well, he is wrong. For there the matter is not matter simply, but the matter of this thing; matter simply must get size too from something else.",
+   "greek": "πρῶτον μὲν οὖν οὐκ ἀνάγκη τὸ ὑποδεχόμενον ὁτιοῦν: ὄγκον εἶναι, ἐὰν μὴ μέγεθος ἤδη αὐτῷ παρῇ: ἐπεὶ καὶ ἡ ψυχὴ πάντα δεχομένη ὁμοῦ ἔχει πάντα: εἰ δὲ μέγεθος αὐτῇ συμβεβηκὸς ἦν, ἔσχεν ἂν ἕκαστα ἐν μεγέθει. ἡ δὲ ὕλη διὰ τοῦτο ἐν διαστήματι ἃ δέχεται λαμβάνει, ὅτι διαστήματός ἐστι δεκτική: ὥσπερ καὶ τὰ ζῷα καὶ τὰ φυτὰ μετὰ τοῦ μεγεθύνεσθαι καὶ τὸ ποιὸν ἀντιπαραγόμενον ἴσχει τῷ ποσῷ καὶ συστελλομένου συσταλείη ἄν. εἰ δ’ ὅτι προυπάρχει τι μέγεθος ἐν τοῖς τοιούτοις ὑποκείμενον τῷ μορφοῦντι, κἀκεῖ ἀπαιτεῖ, οὐκ ὀρθῶς: ἐνταῦθα γὰρ ἡ ὕλη οὐχ ἡ ἁπλῶς ἀλλ’ ἡ τούτου: τὴν δ’ ἁπλῶς δεῖ καὶ τοῦτο παῤ ἄλλου ἔχειν."
+  },
+  {
+   "seg": "II.4.11.p3",
+   "chapter": "II.4.11",
+   "modern": "So what is to receive the form need not be bulk. It becomes bulk at the same time as it receives the rest of quality, and it has a phantom of bulk, as a first fitness for it, but an empty bulk. That is why some have said that matter is the same as the void. I say \"a phantom of bulk\" because the soul, too, having nothing to bound when it meets matter, pours itself out into unboundedness, unable to draw a line round it or to come to a point; for then it would be bounding it already. So matter must not be called large by itself, nor small, but large-and-small. In this way it is bulk, and in this way without size: it is the matter of bulk, and shrinking from the large to the small and from the small to the large, it runs through, as it were, a bulk. Its unboundedness is this kind of bulk, the receiving of size in it; in imagination, it is as was said. For of the other things without size, each is a form, defined, so there is no thought of bulk in them at all. But matter, being unbounded and not yet standing still of itself, carried towards every form, this way and that, and easily led in every direction, becomes many by being led to everything and by coming to be; and in this way it has taken on the nature of bulk.",
+   "greek": "οὐ τοίνυν δεῖ ὄγκον εἶναι τὸ δεξόμενον τὸ εἶδος, ἀλλ’ ὁμοῦ τῷ γενέσθαι ὄγκον καὶ τὴν ἄλλην ποιότητα δέχεσθαι καὶ φάντασμα μὲν ἔχειν ὄγκου εἰς ἐπιτηδειότητα τούτου ὥσπερ πρώτην, κενὸν δὲ ὄγκον. ὅθεν τινὲς ταὐτὸν τῷ κενῷ τὴν ὕλην εἰρήκασι. φάντασμα δὲ ὄγκου λέγω, ὅτι καὶ ἡ ψυχὴ οὐδὲν ἔχουσα ὁρίσαι, ὅταν τῇ ὕλῃ προσομιλῇ, εἰς ἀοριστίαν χεῖ ἑαυτὴν οὔτε περιγράφουσα οὔτε εἰς σημεῖον ἰέναι δυναμένη: ἤδη γὰρ ὁρίζει. διὸ οὔτε μέγα λεκτέον χωρὶς οὔτε σμικρὸν αὖ, ἀλλὰ μέγα καὶ σμικρόν: καὶ οὕτως ὄγκος καὶ ἀμέγεθες οὕτως, ὅτι ὕλη ὄγκου καὶ συστελλόμενον ἐκ τοῦ μεγάλου ἐπὶ τὸ σμικρὸν καὶ ἐκ τοῦ σμικροῦ ἐπὶ τὸ μέγα οἷον ὄγκον διατρέχει: καὶ ἡ ἀοριστία αὐτῆς ὁ τοιοῦτος ὄγκος, ὑποδοχὴ μεγέθους ἐν αὐτῇ: ἐν δὲ φαντασίᾳ ἐκείνως. καὶ γὰρ τῶν μὲν ἄλλων ἀμεγέθων ὅσα εἴδη ὥρισται ἕκαστον: ὥστε οὐδαμῇ ἔννοια ὄγκου: ἡ δὲ ἀόριστος οὖσα καὶ μήπω στᾶσα παῤ αὑτῆς ἐπὶ πᾶν εἶδος φερομένη δεῦρο κἀκεῖσε καὶ πάντη εὐάγωγος οὖσα πολλή τε γίνεται τῇ ἐπὶ πάντα ἀγωγῇ καὶ γενέσει καὶ ἔσχε τοῦτον τὸν τρόπον φύσιν ὄγκου.",
+   "flags": [
+    {
+     "taylor": "because, as being the first matter, it is an aptitude to the reception of it",
+     "why": "The Greek says matter has a phantom of bulk \"as a first fitness for it\"; it does not say \"as being the first matter\"."
+    }
+   ],
+   "notes": [
+    "\"The large-and-small\" is Plato's name for matter in the unwritten teaching, as Aristotle reports it (Physics I.4, 187a; Metaphysics I.6, 987b)."
+   ]
+  },
+  {
+   "seg": "II.4.12.p1",
+   "chapter": "II.4.12",
+   "modern": "So sizes contribute to bodies, for the forms of bodies are in sizes. But they would not have come to be about size, but about what is sized. If they were about size and not about matter, they would likewise be without size and without real existence; or they would be only rational principles, and these are in soul; and there would be no bodies. So here the many must be about some one thing, and this is sized, and it is other than size. Even now, things that are mixed come together because they have matter, and need nothing else for them to be about, since each of the things mixed comes bringing its own matter. Still, they need one thing that will receive them: a vessel, or a place. But place comes after matter and bodies, so bodies would need matter first. Nor, because makings and actions are without matter, are bodies so too. Bodies are composite; actions are not. Matter, when people act, gives them what underlies, remaining in them, but does not give itself to the acting, nor do those who act look for this. One action does not change into another, so that there would be matter for actions too; the one who acts changes from one action to another, so that he is the matter for his actions.",
+   "greek": "συμβάλλεται οὖν τὰ μεγέθη τοῖς σώμασι: τὰ γὰρ εἴδη τῶν σωμάτων ἐν μεγέθεσι. περὶ δὲ μέγεθος οὐκ ἂν ἐγένετο ταῦτα, ἀλλ’ ἢ περὶ τὸ μεμεγεθυσμένον: εἰ γὰρ περὶ μέγεθος, οὐ περὶ ὕλην, ὁμοίως ἂν ἀμεγέθη καὶ ἀνυπόστατα ἦν ἢ λόγοι μόνοι ἂν ἦσαν — οὗτοι δὲ περὶ ψυχήν — καὶ οὐκ ἂν ἦν σώματα. δεῖ οὖν ἐνταῦθα περὶ ἕν τι τὰ πολλά: τοῦτο δὲ μεμεγεθυσμένον: τοῦτο δὲ ἕτερον τοῦ μεγέθους. ἐπεὶ καὶ νῦν ὅσα μίγνυται τῷ ὕλην ἔχειν εἰς ταὐτὸν ἔρχεται καὶ οὐ δεῖται ἄλλου του περὶ ὅ, ὅτι ἕκαστον τῶν μιγνυμένων ἥκει φέρον τὴν αὑτοῦ ὕλην. δεῖται δ’ ὅμως καὶ ἑνός τινος τοῦ δεξομένου ἢ ἀγγείου ἢ τόπου: ὁ δὲ τόπος ὕστερος τῆς ὕλης καὶ τῶν σωμάτων, ὥστε πρότερον ἂν δέοιτο τὰ σώματα ὕλης. οὐδέ, ὅτι αἱ ποιήσεις καὶ αἱ πράξεις ἄυλοι, διὰ τοῦτο καὶ τὰ σώματα: σύνθετα γὰρ τὰ σώματα, αἱ δὲ πράξεις οὔ. καὶ τοῖς πράττουσιν ἡ ὕλη ὅταν πράττωσι τὸ ὑποκείμενον δίδωσι μένουσα ἐν αὐτοῖς, εἰς δὲ τὸ πράττειν οὐχ αὑτὴν δίδωσιν: οὐδὲ γὰρ οἱ πράττοντες τοῦτο ζητοῦσι. καὶ οὐ μεταβάλλει ἄλλη πρᾶξις εἰς ἄλλην, ἵνα ἂν ἦν καὶ αὐταῖς ὕλη, ἀλλ’ ὁ πράττων ἐπ’ ἄλλην μεταβάλλει πρᾶξιν ἐξ ἄλλης: ὥστε ὕλην αὐτὸν εἶναι ταῖς πράξεσιν.",
+   "flags": [
+    {
+     "taylor": "But forms are conversant with soul, and therefore are not bodies",
+     "why": "The Greek says that rational principles alone are in soul, and so there would be no bodies; Taylor makes \"forms\" the subject."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.12.p2",
+   "chapter": "II.4.12",
+   "modern": "Matter, then, is necessary both for quality and for size, and so for bodies. It is not an empty name: it is something underlying, even if it is invisible and without size. Otherwise, by the same argument, we shall say there are no qualities and no size either; for each of these, taken by itself alone, might be said to be nothing. But if these exist, though each exists dimly, much more would matter exist, even if it is not clear, since it is not grasped by the senses. Not by the eyes, for it is colourless; not by hearing, for it is no sound; it has no flavours, so neither nose nor tongue grasp it. By touch, then? No, for it is not a body either; touch is of body, since it is of the dense or rare, the soft or hard, the wet or dry, and none of these is in matter. It is grasped by reasoning, not reasoning from intellect, but empty; that is why it is bastard, as was said. Nor is bodiliness in it. If bodiliness is a rational principle, it is other than matter, and matter is something else. But if it has already made something and has been as it were mixed with it, it would plainly be a body, and no longer only matter.",
+   "greek": "ἔστι τοίνυν ἀναγκαῖον ἡ ὕλη καὶ τῇ ποιότητι καὶ τῷ μεγέθει: ὥστε καὶ τοῖς σώμασι: καὶ οὐ κενὸν ὄνομα, ἀλλ’ ἔστι τι ὑποκείμενον κἂν ἀόρατον κἂν ἀμέγεθες ὑπάρχῃ. ἢ οὕτως οὐδὲ τὰς ποιότητας φήσομεν οὐδὲ τὸ μέγεθος τῷ αὐτῷ λόγῳ: ἕκαστον γὰρ τῶν τοιούτων λέγοιτο ἂν οὐδὲν εἶναι ἐφ̓ ἑαυτοῦ μόνον λαμβανόμενον. εἰ δὲ ταῦτα ἔστι καίπερ ἀμυδρῶς ὂν ἕκαστον, πολὺ μᾶλλον ἂν εἴη ἡ ὕλη, κἂν μὴ ἐναργὴς ὑπάρχῃ αἱρετὴ οὖσα οὐ ταῖς αἰσθήσεσιν: οὔτε γὰρ ὄμμασιν, ἄχρους γάρ: οὔτε ἀκοῇ, οὐ γὰρ ψόφος: οὐδεὲ χυμοί, διὸ οὐδὲ ῥῖνες οὐδὲ γλῶσσα αἱροῦσιν. ἆῤ οὖν ἁφῇ; ἢ οὔ, ὅτι μηδὲ σῶμα: σώματος γὰρ ἡ ἁφή, ὅτι ἢ πυκνοῦ ἢ ἁραιοῦ, μαλακοῦ σκληροῦ, ὑγροῦ ξηροῦ: τούτων δὲ οὐδὲν περὶ τὴν ὕλην: ἀλλὰ λογισμῷ οὐκ ἐκ νοῦ, ἀλλὰ κενῷ: διὸ καὶ νόθος, ὡς εἴρηται. ἀλλ’ οὐδὲ σωματότης περὶ αὐτήν: εἰ μὲν γὰρ λόγος ἡ σωματότης, ἕτερος αὐτῆς: αὕτη οὖν ἄλλο: εἰ δ’ ἤδη ποιήσασα καὶ οἷον κραθεῖσα, σῶμα φανερῶς ἂν εἴη καὶ οὐχ ὕλη μόνον.",
+   "flags": [
+    {
+     "taylor": "for it has neither moisture, nor vapour",
+     "why": "The Greek says only that matter has no flavours (chymoi), so that neither nose nor tongue grasps it; \"vapour\" is Taylor's."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.13.p1",
+   "chapter": "II.4.13",
+   "modern": "If the substrate is a quality, common to each of the elements, first we must say what it is. Then, how will a quality be a substrate? How will a quality be seen in something without size, which has no matter and no size? Then, if the quality is defined, how is it matter? If it is something unbounded, it is not a quality but the substrate, the matter we are looking for. What, then, prevents it from being without quality, in that by its nature it shares in none of the others, and yet being qualified by this very fact, that it shares in none, having some character entirely its own and different from the others, a kind of privation of them? For one who is deprived is qualified: the blind man, for instance. If, then, there is a privation of these things about it, how is it not qualified? And if there is privation about it altogether, all the more, if privation is a quality.",
+   "greek": "εἰ δὲ ποιότης τὸ ὑποκείμενον κοινή τις οὖσα ἐν ἑκάστῳ τῶν στοιχείων, πρῶτον μὲν τίς αὕτη λεκτέον. ἔπειτα πῶς ποιότης ὑποκείμενον ἔσται; πῶς δὲ ἐν ἀμεγέθει ποιὸν θεωρηθήσεται μὴ ἔχον ὕλην μηδὲ μέγεθος; ἔπειτα εἰ μὲν ὡρισμένη ἡ ποιότης, πῶς ὕλη; εἰ δ’ ἀόριστόν τι, οὐ ποιότης, ἀλλὰ τὸ ὑποκείμενον καὶ ἡ ζητουμένη ὕλη. τί οὖν κωλύει ἄποιον μὲν εἶναι τῷ τῶν ἄλλων μηδεμιᾶς τῇ αὐτῆς φύσει μετέχειν, αὐτῷ δὲ τούτῳ τῷ μηδεμιᾶς μετέχειν ποιὰν εἶναι ἰδιότητα πάντως τινὰ ἔχουσαν καὶ τῶν ἄλλων διαφέρουσαν, οἷον στέρησίν τινα ἐκείνων; καὶ γὰρ ὁ ἐστερημένος ποιός: οἷον ὁ τυφλός. εἰ οὖν στέρησις τούτων περὶ αὐτήν, πῶς οὐ ποιά; εἰ δὲ καὶ ὅλως στέρησις περὶ αὐτήν, ἔτι μᾶλλον, εἴ γε δὴ καὶ στέρησις ποιόν τι.",
+   "notes": [
+    "Privation (sterēsis) is Aristotle's third principle of change, beside matter and form (Physics I.7)."
+   ]
+  },
+  {
+   "seg": "II.4.13.p2",
+   "chapter": "II.4.13",
+   "modern": "But the one who says this, what else does he do than make everything qualified and qualities? So quantity would be a quality, and substance too. If it is qualified, a quality is present to it. It is ridiculous to make what is other than the qualified, and not qualified, qualified. If it is qualified because it is other: if it is Otherness itself, even so it is not qualified, since quality itself is not qualified either; if it is only other, it is other not by itself but by Otherness, as it is the same by Sameness. Privation, then, is not a quality nor qualified, but an emptiness of quality or of something else, as silence is the absence of sound or of anything else. Privation is a taking away; the qualified is in something positive. The character of matter is not a shape, for its character is not to be qualified and not to have any form. It is absurd, then, to call it qualified because it is not qualified; it is like saying that, because it has no size, by that very fact it has size. Its character, then, is nothing other than what it is, and the character is not added to it. It lies rather in its relation to the others, in that it is other than them. The others are not only others, but each is something, as a form; matter could fittingly be called only other. Perhaps, rather, \"others\", so that you do not define it by the singular \"other\", but show its unboundedness by \"others\".",
+   "greek": "ὁ δὲ ταῦτα λέγων τί ἄλλο ἢ ποιὰ καὶ ποιότητας πάντα ποιεῖ; ὥστε καὶ ἡ ποσότης ποιότης ἂν εἴη καὶ ἡ οὐσία δέ. εἰ δὲ ποιόν, πρόσεστι ποιότης. γελοῖον δὲ τὸ ἕτερον τοῦ ποιοῦ καὶ μὴ ποιὸν ποιὸν ποιεῖν. εἰ δέ, ὅτι ἕτερον, ποιόν, εἰ μὲν αὐτοετερότης, οὐδ’ ὣς ποιόν: ἐπεὶ οὐδ’ ἡ ποιότης ποιά: εἰ δ’ ἕτερον μόνον, οὐχ ἑαυτῇ, ἀλλ’ ἑτερότητι ἕτερον καὶ ταυτότητι ταὐτόν. οὐδὲ δὴ ἡ στέρησις ποιότης οὐδὲ ποιόν, ἀλλ’ ἐρημία ποιότητος ἢ ἄλλου, ὡς ἡ ἀψοφία ψόφου ἢ ὁτουοῦν ἄλλου: ἄρσις γὰρ ἡ στέρησις, τὸ δὲ ποιὸν ἐν καταφάσει. ἥ τε ἰδιότης τῆς ὕλης οὐ μορφή: τὸ γὰρ μὴ ποιὰ εἶναι μηδ’ εἶδός τι ἔχειν: ἄτοπον δή, ὅτι μὴ ποιά, ποιὰν λέγειν καὶ ὅμοιον τῷ, ὅτι ἀμέγεθες, αὐτῷ τούτῳ μέγεθος ἔχειν. ἔστιν οὖν ἡ ἰδιότης αὐτῆς οὐκ ἄλλο τι ἢ ὅπερ ἔστι, καὶ οὐ πρόσκειται ἡ ἰδιότης, ἀλλὰ μᾶλλον ἐν σχέσει τῇ πρὸς τὰ ἄλλα, ὅτι ἄλλο αὐτῶν. καὶ τὰ μὲν ἄλλα οὐ μόνον ἄλλα, ἀλλὰ καί τι ἕκαστον ὡς εἶδος, αὕτη δὲ πρεπόντως ἂν λέγοιτο μόνον ἄλλο: τάχα δὲ ἄλλα, ἵνα μὴ τῷ ἄλλο ἑνικῶς ὁρίσῃς, ἀλλὰ τῷ ἄλλα τὸ ἀόριστον ἐνδείξῃ",
+   "flags": [
+    {
+     "taylor": "For privation is a negation",
+     "why": "The Greek word (arsis) means a taking away, a removal; Taylor's \"negation\" is near, but not the word."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.14.p1",
+   "chapter": "II.4.14",
+   "modern": "But we must ask this: is matter privation, or is privation about matter? Whoever says they are one in substrate but two in account ought to teach us the account to be given of each: an account of matter that will define it without attaching anything of privation, and an account of privation in the same way. For either neither is in the account of the other, or each in each, or only one in the other, whichever it is. If each is separate and neither calls for the other, they will be two, and matter will be other than privation, even if privation is an attribute of it. In the account of each, the other must not be seen even potentially. If they are like the snub nose and snubness, then too each is double, and they are two. If they are like fire and heat, heat being in fire but fire not taken in the heat, and matter is privation in the way fire is hot, privation will be as it were the form of matter, and the substrate something else, which must be the matter. So even in this way they are not one.",
+   "greek": "ἀλλ’ ἐκεῖνο ζητητέον, πότερα στέρησις, ἢ περὶ αὐτὴν ἡ στέρησις. ὁ τοίνυν λέγων ὑποκειμένῳ μὲν ἓν ἄμφω, λόγῳ δὲ δύο, δίκαιος ἦν διδάσκειν καὶ τὸν λόγον ἑκατέρου ὅντινα δεῖ ἀποδιδόναι, τῆς μὲν ὕλης ὃς ὁριεῖται αὐτὴν οὐδὲν προσαπτόμενος τῆς στερήσεως, τῆς τε αὖ στερήσεως ὡσαύτως. ἢ γὰρ οὐδέτερον ἐν οὐδετέρῳ τῷ λόγῳ ἢ ἑκάτερον ἐν ἑκατέρῳ ἢ θάτερον ἐν θατέρῳ μόνον ὁποτερονοῦν. εἰ μὲν οὖν ἑκάτερον χωρὶς καὶ οὐκ ἐπιζητεῖ οὐδέτερον, δύο ἔσται ἄμφω καὶ ἡ ὕλη ἕτερον στερήσεως, κἂν συμβεβήκῃ αὐτῇ ἡ στέρησις. δεῖ δὲ ἐν τῷ λόγῳ μηδὲ δυνάμει ἐνορᾶσθαι θάτερον. εἰ δ’ ὡς ἡ ῥὶς ἡ σιμὴ καὶ τὸ σιμόν, καὶ οὕτω διπλοῦν ἑκάτερον καὶ δύο. εἰ δὲ ὡς τὸ πῦρ καὶ ἡ θερμότης, ἐν μὲν τῷ πυρὶ τῆς θερμότητος οὔσης, ἐν δὲ τῇ θερμότητι οὐ λαμβανομένου τοῦ πυρός, καὶ ἡ ὕλη οὕτω στέρησις, ὡς τὸ πῦρ θερμόν, οἷον εἶδος αὐτῆς ἔσται ἡ στέρησις, τὸ δὲ ὑποκείμενον ἄλλο, ὃ δεῖ τὴν ὕλην εἶναι. καὶ οὐδ’ οὕτως ἕν.",
+   "notes": [
+    "The snub nose and the fire and heat are Aristotle's examples (Metaphysics VII.5, 1030b)."
+   ]
+  },
+  {
+   "seg": "II.4.14.p2",
+   "chapter": "II.4.14",
+   "modern": "Are they, then, one in substrate but two in account in this way: that privation does not signify that something is present, but that it is not, and privation is as it were a denial of the things that are, as if someone said \"not-being\"? For the denial adds nothing, but says that something is not. Is privation, then, \"not-being\" in this way? If it is not-being because it is not being, but some other being, there are still two accounts: one touches the substrate, the other shows privation's relation to the others. Or the account of matter is in relation to the others, and the account of the substrate is in relation to the others too; but the account of privation, if it shows matter's unboundedness, would perhaps touch matter itself. Still, in either way they are one in substrate, two in account. But if for matter to be unbounded, to be infinite and to be without quality are the same, how are there still two accounts?",
+   "greek": "ἆρα οὖν οὕτως ἓν τῷ ὑποκειμένῳ, δύο δὲ τῷ λόγῳ, τῆς στερήσεως οὐ σημαινούσης τι παρεῖναι, ἀλλὰ μὴ παρεῖναι, καὶ οἷον ἀπόφασις ἡ στέρησις τῶν ὄντων: ὥσπερ ἂν εἴ τις λέγοι οὐκ ὄν, οὐ γὰρ προστίθησιν ἡ ἀπόφασις, ἀλλά φησιν οὐκ εἶναι: καὶ οὕτω στέρησις ὡς οὐκ ὄν; εἰ μὲν οὖν οὐκ ὄν, ὅτι μὴ τὸ ὄν, ἀλλὰ ἄλλο ὄν τι, ἔτι δύο οἱ λόγοι, ὁ μὲν τοῦ ὑποκειμένου ἁπτόμενος, ὁ δὲ τῆς στερήσεως τὴν πρὸς τὰ ἄλλα σχέσιν δηλῶν. ἢ ὁ μὲν τῆς ὕλης πρὸς τὰ ἄλλα καὶ ὁ τοῦ ὑποκειμένου δὲ πρὸς τὰ ἄλλα, ὁ δὲ τῆς στερήσεως εἰ τὸ ἀόριστον αὐτῆς δηλοῖ, τάχα ἂν αὐτὸς αὐτῆς ἐφάπτοιτο: πλὴν ἕν γε ἑκατέρως τῷ ὑποκειμένῳ, λόγῳ δὲ δύο. εἰ μέντοι τῷ ἀορίστῳ εἶναι καὶ ἀπείρῳ εἶναι καὶ ἀποίῳ εἶναι τῇ ὕλῃ ταὐτόν, πῶς ἔτι δύο οἱ λόγοι;"
+  },
+  {
+   "seg": "II.4.15.p1",
+   "chapter": "II.4.15",
+   "modern": "We must ask again whether the infinite and the unbounded belong to another nature as attributes, and how, and whether privation is an attribute. Numbers and rational principles are outside infinity, for they are bounds and orders, and other things are ordered by them. What orders these is not the ordered nor order; what is ordered is other than what orders, and what orders is limit, bound and rational principle. So what is ordered and bounded must be the infinite. And matter is ordered, and so are the things that are not matter, by sharing in it or having the character of matter. So matter must be the infinite, but not infinite as an attribute, by the infinite belonging to it. First, what belongs to something must be a rational principle, and the infinite is not a rational principle. Then, to what will the infinite belong? To limit and the limited. But matter is not limited, nor limit. And the infinite, coming to the limited, would destroy its nature. So the infinite is not an attribute of matter: matter is the infinite.",
+   "greek": "πάλιν οὖν ζητητέον, εἰ κατὰ συμβεβηκὸς τὸ ἄπειρον καὶ τὸ ἀόριστον ἐπ ʼ ἄλλῃ φύσει καὶ πῶς συμβεβηκὸς καὶ εἰ στέρησις συμβέβηκεν. εἰ δὴ ὅσα μὲν ἀριθμοὶ καὶ λόγοι ἀπειρίας ἔξω — ὅροι γὰρ καὶ τάξεις καὶ τὸ τεταγμένον καὶ τοῖς ἄλλοις παρὰ τούτων, τάττει δὲ ταῦτα οὐ τὸ τεταγμένον οὐδὲ τάξις, ἀλλὰ ἄλλο τὸ ταττόμενον παρὰ τὸ τάττον, τάττει δὲ τὸ πέρας καὶ ὅρος καὶ λόγος — ἀνάγκη τὸ ταττόμενον καὶ ὁριζόμενον τὸ ἄπειρον εἶναι. τάττεται δὲ ἡ ὕλη καὶ ὅσα δὲ μὴ ὕλη τῷ μετέχειν ἢ ὕλης λόγον ἔχειν: ἀνάγκη τοίνυν τὴν ὕλην τὸ ἄπειρον εἶναι, οὐχ οὕτω δὲ ἄπειρον, ὡς κατὰ συμβεβηκὸς καὶ τῷ συμβεβηκέναι τὸ ἄπειρον αὐτῇ. πρῶτον μὲν γὰρ τὸ συμβαῖνόν τῳ δεῖ λόγον εἶναι: τὸ δὲ ἄπειρον οὐ λόγος: ἔπειτα τίνι ὄντι τὸ ἄπειρον συμβήσεται; πέρατι καὶ πεπερασμένῳ. ἀλλ’ οὐ πεπερασμένον οὐδὲ πέρας ἡ ὕλη. καὶ τὸ ἄπειρον δὲ προσελθὸν τῷ πεπερασμένῳ ἀπολεῖ αὐτοῦ τὴν φύσιν: οὐ τοίνυν συμβεβηκὸς τῇ ὕλῃ τὸ ἄπειρον: αὐτὴ τοίνυν τὸ ἄπειρον.",
+   "flags": [
+    {
+     "taylor": "For in the first place, that which happens to any thing ought to be formative ; but the infinite is not formative",
+     "why": "The Greek says that what belongs to a thing must be a rational principle (logos), and the infinite is not one; \"formative\" is Taylor's gloss."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.15.p2",
+   "chapter": "II.4.15",
+   "modern": "For in the intelligible world too matter is the infinite. It would be born from the infinity of the One, or its power, or its everlastingness: not that there is infinity in the One, but the One makes it. How, then, is it there and here? The infinite is double too. How do they differ? As original and image. Is this one, then, less infinite? No, more. The more an image has fled from true being, the more infinite it is; for infinity is greater in what is less bounded, since what is less in the good is more in the bad. So the infinite there, being more, is infinite as an image; the infinite here, being less, the more it has fled from true being and sunk into the nature of an image, is more truly infinite.",
+   "greek": "ἐπεὶ καὶ ἐν τοῖς νοητοῖς ἡ ὕλη τὸ ἄπειρον καὶ εἴη ἂν γεννηθὲν ἐκ τῆς τοῦ ἑνὸς ἀπειρίας ἢ δυνάμεως ἢ τοῦ ἀεί, οὐκ οὔσης ἐν ἐκείνῳ ἀπειρίας ἀλλὰ ποιοῦντος. πῶς οὖν ἐκεῖ καὶ ἐνταῦθα; ἢ διττὸν καὶ τὸ ἄπειρον. καὶ τί διαφέρει; ὡς ἀρχέτυπον καὶ εἴδωλον. ἐλαττόνως οὖν ἄπειρον τοῦτο; ἢ μᾶλλον: ὅσῳ γὰρ εἴδωλον πεφευγὸς τὸ εἶναι τὸ ἀληθές, μᾶλλον ἄπειρον. ἡ γὰρ ἀπειρία ἐν τῷ ἧττον ὁρισθέντι μᾶλλον: τὸ γὰρ ἧττον ἐν τῷ ἀγαθῷ μᾶλλον ἐν τῷ κακῷ. τὸ ἐκεῖ οὖν μᾶλλον ὂν εἴδωλόν πως ἄπειρον, τὸ δὲ ἐνταῦθα ἧττον ὄν, ὅσῳ πέφευγε τὸ εἶναι τὸ ἀληθές, εἰς δὲ εἰδώλου κατερρύη φύσιν, ἀληθεστέρως ἄπειρον.",
+   "flags": [
+    {
+     "taylor": "Hence the infinite which is in intelligible^, in consequence of having more of being, is but as an image [with respect to the infinity of matter.]",
+     "why": "Taylor's words in square brackets are his own; and his chapter, as the scan gives it, has another of his footnotes (from Proclus on the Timaeus) printed into the text after this."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.15.p3",
+   "chapter": "II.4.15",
+   "modern": "Is the infinite, then, the same as being infinite? Where there is a rational principle and matter, the two are different; where there is matter alone, they must be called the same, or, better, there is here no \"being infinite\" at all. For that would be a rational principle, and there is none in the infinite, if it is to be infinite. So matter must be called infinite of itself, by its opposition to the rational principle. As the rational principle is a rational principle without being anything else, so matter, opposed to it by its infinity, must be called infinite without being anything else.",
+   "greek": "τὸ αὐτὸ οὖν τὸ ἄπειρον καὶ τὸ ἀπείρῳ εἶναι; ἢ ὅπου λόγος καὶ ὕλη ἄλλο ἑκάτερον, ὅπου δὲ ὕλη μόνον ἢ ταὐτὸν λεκτέον ἢ ὅλως, ὃ καὶ βέλτιον, οὐκ εἶναι ἐνθάδε τὸ ἀπείρῳ εἶναι: λόγος γὰρ ἔσται, ὃς οὐκ ἔστιν ἐν τῷ ἀπείρῳ, ἵν’ ᾖ ἄπειρον. ἄπειρον μὲν δὴ παῤ αὑτῆς τὴν ὕλην λεκτέον ἀντιτάξει τῇ πρὸς τὸν λόγον. καὶ γάρ, ὥσπερ ὁ λόγος οὐκ ἄλλο τι ὤν ἐστι λόγος, οὕτω καὶ τὴν ὕλην ἀντιτεταγμένην τῷ λόγῳ κατὰ τὴν ἀπειρίαν οὐκ ἄλλο τι οὖσαν λεκτέον ἄπειρον."
+  },
+  {
+   "seg": "II.4.16.p1",
+   "chapter": "II.4.16",
+   "modern": "Is matter, then, the same as Otherness? No, but as a part of Otherness, the part opposed to the things that properly are, which are rational principles. That is why not-being too is in this way a something, and the same as privation, if privation is the opposite of the things that exist in a rational principle. Will privation not be destroyed, then, when what it is the privation of comes to it? Not at all. The receiver of a state is not a state but a privation; and the receiver of limit is not the limited nor the limit, but the infinite, in so far as it is infinite. How, then, will limit, when it comes, not destroy its nature, especially as it is not infinite as an attribute? If it were infinite in quantity, limit would do away with it. But as it is, it does not; on the contrary, it keeps it in being. For it brings what it is by nature to act and fulfilment, as with what is unsown when it is sown; and when the female conceives from the male, the female is not destroyed but becomes more female: that is, it becomes more what it is.",
+   "greek": "ἆῤ οὖν καὶ ἑτερότητι ταὐτόν; ἢ οὔ, ἀλλὰ μορίῳ ἑτερότητος ἀντιταττομένῳ πρὸς τὰ ὄντα κυρίως, ἃ δὴ λόγοι. διὸ καὶ τὸ μὴ ὂν οὕτως τι ὂν καὶ στερήσει ταὐτόν, εἰ ἡ στέρησις ἀντίθεσις πρὸς τὰ ἐν λόγῳ ὄντα. οὔκουν φθαρήσεται ἡ στέρησις προσελθόντος τοῦ οὗ στέρησις; οὐδαμῶς: ὑποδοχὴ γὰρ ἕξεως οὐχ ἕξις, ἀλλὰ στέρησις, καὶ πέρατος οὐ τὸ πεπερασμένον οὐδὲ τὸ πέρας, ἀλλὰ τὸ ἄπειρον καθ̓ ὅσον ἄπειρον. πῶς οὖν οὐκ ἀπολεῖ αὐτοῦ τὴν φύσιν προσελθὸν τὸ πέρας καὶ ταῦτα οὐ κατὰ συμβεβηκὸς ὄντος ἀπείρου; ἢ εἰ μὲν κατὰ τὸ ποσὸν ἄπειρον, ἀνῄρει ἄν: νῦν δὲ οὐχ οὕτως, ἀλλὰ τοὐναντίον σώζει αὐτὸ ἐν τῷ εἶναι: ὃ γὰρ πέφυκεν εἰς ἐνέργειαν καὶ τελείωσιν ἄγει, ὥσπερ τὸ ἄσπαρτον, ὅταν σπείρηται: καὶ ὅταν τὸ θῆλυ ἐκ τοῦ ἄρρενος κυῇ, οὐκ ἀπόλλυται τὸ θῆλυ, ἀλλὰ μᾶλλον θηλύνεται: τοῦτο δέ ἐστιν ὃ ἔστι μᾶλλον γίνεται.",
+   "flags": [
+    {
+     "taylor": "Perhaps it is not the same with difference simply considered,1 but with a part of difference",
+     "why": "Taylor's \"simply considered\" is his own; the Greek says only \"not the same, but a part of Otherness\"."
+    }
+   ]
+  },
+  {
+   "seg": "II.4.16.p2",
+   "chapter": "II.4.16",
+   "modern": "Is matter, then, evil, even when it shares in the good? Yes, because it needed it: it did not have it. What lacks something but has something else might perhaps be between good and evil, if it is evenly balanced between the two. But what has nothing, being in poverty, or rather being poverty, must be evil. For this is not poverty of wealth or of strength, but poverty of wisdom, poverty of virtue, of beauty, of shape, of form, of quality. How, then, is it not ugly? How is it not wholly shameful? How is it not wholly evil? The matter there is being, for what is before it is beyond being. Here, what is before it is being. So matter itself is not-being, being other than being, in addition to the beauty of being.",
+   "greek": "ἆῤ οὖν καὶ κακὸν ἡ ὕλη μεταλαμβάνουσα ἀγαθοῦ; ἢ διὰ τοῦτο, ὅτι ἐδεήθη: οὐ γὰρ εἶχε. καὶ γὰρ ὃ μὲν ἂν δέηταί τινος, τὸ δ’ ἔχῃ, μέσον ἂν ἴσως γίνοιτο ἀγαθοῦ καὶ κακοῦ, εἰ ἰσάζοι πως ἐπ’ ἄμφω: ὃ δ’ ἂν μηδὲν ἔχῃ ἅτε ἐν πενίᾳ ὄν, μᾶλλον δὲ πενία ὄν, ἀνάγκη κακὸν εἶναι. οὐ γὰρ πλούτου πενία τοῦτο οὐδὲ ἰσχύος, ἀλλὰ πενία μὲν φρονήσεως, πενία δὲ ἀρετῆς, κάλλους, μορφῆς, εἴδους, ποιοῦ. πῶς οὖν οὐ δυσειδές; πῶς δὲ οὐ πάντη αἰσχρόν; πῶς δὲ οὐ πάντη κακόν; ἐκείνη δὲ ἡ ὕλη ἡ ἐκεῖ ὄν: τὸ γὰρ πρὸ αὐτῆς ἐπέκεινα ὄντος. ἐνταῦθα δὲ τὸ πρὸ αὐτῆς ὄν. οὐκ ὂν ἄρα αὐτὴ ἕτερον ὂν πρὸς τῷ καλῷ τοῦ ὄντος.",
+   "flags": [
+    {
+     "taylor": "but it is the want of wisdom, and the want of virtue, of beauty, strength, morphe, form, and quality",
+     "why": "Taylor adds \"strength\" a second time to the list; the Greek has wisdom, virtue, beauty, shape, form and quality."
+    }
+   ],
+   "notes": [
+    "\"Beyond being\" is from the Republic (509b), where Plato says it of the Good."
+   ]
   }
  ],
  "links": [
@@ -545,6 +1013,18 @@
    "term": "eros",
    "forms": [
     "lover"
+   ]
+  },
+  {
+   "term": "matter",
+   "forms": [
+    "matter"
+   ]
+  },
+  {
+   "term": "evil-as-privation",
+   "forms": [
+    "privation"
    ]
   },
   {
